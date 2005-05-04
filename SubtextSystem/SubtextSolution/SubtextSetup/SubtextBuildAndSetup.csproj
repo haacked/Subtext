@@ -1,0 +1,186 @@
+<VisualStudioProject>
+    <CSHARP
+        ProjectType = "Local"
+        ProductVersion = "7.10.3077"
+        SchemaVersion = "2.0"
+        ProjectGuid = "{745B39B7-DE46-4070-8733-C53308721C58}"
+    >
+        <Build>
+            <Settings
+                ApplicationIcon = ""
+                AssemblyKeyContainerName = ""
+                AssemblyName = "Subtext.Setup"
+                AssemblyOriginatorKeyFile = ""
+                DefaultClientScript = "JScript"
+                DefaultHTMLPageLayout = "Grid"
+                DefaultTargetSchema = "IE50"
+                DelaySign = "false"
+                OutputType = "Library"
+                PreBuildEvent = ""
+                PostBuildEvent = ""
+                RootNamespace = "Subtext.Setup"
+                RunPostBuildEvent = "OnBuildSuccess"
+                StartupObject = ""
+            >
+                <Config
+                    Name = "Debug"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "DEBUG;TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "true"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "false"
+                    OutputPath = "bin\Debug\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+                <Config
+                    Name = "Release"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "false"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "true"
+                    OutputPath = "bin\Release\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+            </Settings>
+            <References>
+                <Reference
+                    Name = "System"
+                    AssemblyName = "System"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.dll"
+                />
+                <Reference
+                    Name = "System.Data"
+                    AssemblyName = "System.Data"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Data.dll"
+                />
+                <Reference
+                    Name = "System.XML"
+                    AssemblyName = "System.Xml"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
+                />
+            </References>
+        </Build>
+        <Files>
+            <Include>
+                <File
+                    RelPath = "AssembliesFragment.wxs"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "BuildMsi.bat"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Master.wxs"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ReadMe.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "sca.wixlib"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "scaexec.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "scasched.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "TallowCmd.bat"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "UIFragment.wxs"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "WebFilesFragment.wxs"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Binary\Banner.bmp"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Binary\Complete.ico"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Binary\Custom.ico"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Binary\Dialog.bmp"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Binary\Exclam.ico"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Binary\Info.ico"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Binary\InstallationScript.v1.0.sql"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Binary\License.rtf"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Binary\New.ico"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Binary\Remove.ico"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Binary\Repair.ico"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Binary\Typical.ico"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Binary\UninstallScript.v1.0.sql.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Binary\Up.ico"
+                    BuildAction = "Content"
+                />
+            </Include>
+        </Files>
+    </CSHARP>
+</VisualStudioProject>
+
