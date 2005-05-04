@@ -1,0 +1,56 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Framework", "Subtext.Framework\Subtext.Framework.csproj", "{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Common", "Subtext.Common\Subtext.Common.csproj", "{7594F3CF-85F9-4500-AFBD-5D370D9D57B4}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.Subtext", "UnitTests.Subtext\UnitTests.Subtext.csproj", "{16036AF0-ED24-4605-8919-90B40510BD68}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Web", "Subtext.Web\Subtext.Web.csproj", "{8C11B428-9C4A-46C3-B7F0-48215276BFA5}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubtextBuildAndSetup", "SubtextSetup\SubtextBuildAndSetup.csproj", "{745B39B7-DE46-4070-8733-C53308721C58}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Debug.ActiveCfg = Debug|.NET
+		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Debug.Build.0 = Debug|.NET
+		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Release.ActiveCfg = Release|.NET
+		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Release.Build.0 = Release|.NET
+		{7594F3CF-85F9-4500-AFBD-5D370D9D57B4}.Debug.ActiveCfg = Debug|.NET
+		{7594F3CF-85F9-4500-AFBD-5D370D9D57B4}.Debug.Build.0 = Debug|.NET
+		{7594F3CF-85F9-4500-AFBD-5D370D9D57B4}.Release.ActiveCfg = Release|.NET
+		{7594F3CF-85F9-4500-AFBD-5D370D9D57B4}.Release.Build.0 = Release|.NET
+		{16036AF0-ED24-4605-8919-90B40510BD68}.Debug.ActiveCfg = Debug|.NET
+		{16036AF0-ED24-4605-8919-90B40510BD68}.Debug.Build.0 = Debug|.NET
+		{16036AF0-ED24-4605-8919-90B40510BD68}.Release.ActiveCfg = Release|.NET
+		{16036AF0-ED24-4605-8919-90B40510BD68}.Release.Build.0 = Release|.NET
+		{8C11B428-9C4A-46C3-B7F0-48215276BFA5}.Debug.ActiveCfg = Debug|.NET
+		{8C11B428-9C4A-46C3-B7F0-48215276BFA5}.Debug.Build.0 = Debug|.NET
+		{8C11B428-9C4A-46C3-B7F0-48215276BFA5}.Release.ActiveCfg = Release|.NET
+		{8C11B428-9C4A-46C3-B7F0-48215276BFA5}.Release.Build.0 = Release|.NET
+		{745B39B7-DE46-4070-8733-C53308721C58}.Debug.ActiveCfg = Debug|.NET
+		{745B39B7-DE46-4070-8733-C53308721C58}.Release.ActiveCfg = Release|.NET
+		{745B39B7-DE46-4070-8733-C53308721C58}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(SolutionItems) = postSolution
+		License.txt = License.txt
+		TextLicense.txt = TextLicense.txt
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
