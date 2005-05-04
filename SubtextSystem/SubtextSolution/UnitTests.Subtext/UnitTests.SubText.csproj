@@ -1,0 +1,224 @@
+<VisualStudioProject>
+    <CSHARP
+        ProjectType = "Local"
+        ProductVersion = "7.10.3077"
+        SchemaVersion = "2.0"
+        ProjectGuid = "{16036AF0-ED24-4605-8919-90B40510BD68}"
+    >
+        <Build>
+            <Settings
+                ApplicationIcon = ""
+                AssemblyKeyContainerName = ""
+                AssemblyName = "UnitTests.Subtext"
+                AssemblyOriginatorKeyFile = ""
+                DefaultClientScript = "JScript"
+                DefaultHTMLPageLayout = "Grid"
+                DefaultTargetSchema = "IE50"
+                DelaySign = "false"
+                OutputType = "Library"
+                PreBuildEvent = ""
+                PostBuildEvent = ""
+                RootNamespace = "UnitTests.Subtext"
+                RunPostBuildEvent = "OnBuildSuccess"
+                StartupObject = ""
+            >
+                <Config
+                    Name = "Debug"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "DEBUG;TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "true"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "false"
+                    OutputPath = "bin\Debug\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+                <Config
+                    Name = "Release"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "false"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "true"
+                    OutputPath = "bin\Release\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+            </Settings>
+            <References>
+                <Reference
+                    Name = "System"
+                    AssemblyName = "System"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.dll"
+                />
+                <Reference
+                    Name = "System.Data"
+                    AssemblyName = "System.Data"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Data.dll"
+                />
+                <Reference
+                    Name = "System.XML"
+                    AssemblyName = "System.Xml"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
+                />
+                <Reference
+                    Name = "nunit.framework"
+                    AssemblyName = "nunit.framework"
+                    HintPath = "ExternalDependencies\nunit.framework.dll"
+                />
+            </References>
+        </Build>
+        <Files>
+            <Include>
+                <File
+                    RelPath = "AssemblyInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ExternalDependencies\mock-assembly.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\mock-assembly.dll.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nonamespace-assembly.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\notestfixtures-assembly.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.core.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.extensions.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.framework.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.framework.tests.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.framework.tests.dll.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.mocks.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.mocks.tests.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.mocks.tests.dll.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.testutilities.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.uikit.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.uikit.tests.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.uikit.tests.dll.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.util.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.util.tests.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit.util.tests.dll.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit-console.exe"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit-console.exe.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit-console.tests.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit-console.tests.dll.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit-console-runner.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit-gui.exe"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit-gui.exe.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit-gui.tests.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\nunit-gui-runner.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\NUnitTests.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "ExternalDependencies\NUnitTests.nunit"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "ExternalDependencies\timing-tests.dll"
+                    BuildAction = "Content"
+                />
+            </Include>
+        </Files>
+    </CSHARP>
+</VisualStudioProject>
+
