@@ -1,0 +1,60 @@
+<Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
+	<Fragment Id="AssembliesFragment">
+		<DirectoryRef Id="INSTALLLOCATION">
+			<Directory Id="directorySubTextWeb" Name="Subtext.Web">
+				<Directory Id="dirSubtextWebBin" Name="bin">
+					<Component Id="SubtextWebBinaries" Guid="B0CFCB0F-C195-4017-BB5B-33E2C3C8DF4A">
+						<File Id="Subtext.Web" 
+							Name="SbTxtWeb.dll" 
+							LongName="Subtext.Web.dll" 
+							DiskId="1" 
+							Vital="yes"
+							ReadOnly="yes"
+							src="..\Subtext.Web\bin\Subtext.Web.dll" />
+						
+						<File Id="Subtext.Common" 
+							Name="Common.dll" 
+							LongName="Subtext.Common.dll" 
+							DiskId="1" 
+							Vital="yes"
+							ReadOnly="yes"
+							src="..\Subtext.Web\bin\Subtext.Common.dll" />
+							
+						<File Id="Subtext.Framework" 
+							Name="Framewrk.dll" 
+							LongName="Subtext.Framework.dll" 
+							DiskId="1" 
+							Vital="yes"
+							ReadOnly="yes"
+							src="..\Subtext.Web\bin\Subtext.Framework.dll" />
+						
+						<File Id="CookComputing.XmlRpc" 
+							Name="XmlRpc.dll" 
+							LongName="CookComputing.XmlRpc.dll" 
+							DiskId="1" 
+							Vital="yes"
+							ReadOnly="yes"
+							src="..\Subtext.Web\bin\CookComputing.XmlRpc.dll" />
+							
+						<File Id="FreeTextBox" 
+							Name="TextBox.dll" 
+							LongName="FreeTextBox.dll" 
+							DiskId="1" 
+							Vital="yes"
+							ReadOnly="yes"
+							src="..\Subtext.Web\bin\FreeTextBox.dll" />
+						
+						<File Id="SgmlReaderDll" 
+							Name="Sgml.dll" 
+							LongName="SgmlReaderDll.dll" 
+							DiskId="1" 
+							Vital="yes"
+							ReadOnly="yes"
+							src="..\Subtext.Web\bin\SgmlReaderDll.dll" />
+							
+					</Component>
+				</Directory>
+			</Directory>
+		</DirectoryRef>
+	</Fragment>
+</Wix>

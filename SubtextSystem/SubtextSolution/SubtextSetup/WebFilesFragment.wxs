@@ -1,0 +1,605 @@
+<Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
+  <Fragment Id="WebFilesFragment">
+    <DirectoryRef Id="INSTALLLOCATION">
+      <Directory Id="dirSubtextWeb" Name="Subtext.Web">
+        <Component Id="component0" Guid="27e956ee-918c-4823-97a5-ba87b4fc67aa" DiskId="1">
+          <File Id="file0" Name="DEFAUL~1.ASP" LongName="default.aspx" src="..\Subtext.Web\default.aspx" />
+          <File Id="file1" Name="DTP~1.ASP" LongName="DTP.aspx" src="..\Subtext.Web\DTP.aspx" />
+          <File Id="file2" Name="ERROR~1.ASP" LongName="Error.aspx" src="..\Subtext.Web\Error.aspx" />
+          <File Id="file3" Name="FEED~1.ASP" LongName="Feed.aspx" src="..\Subtext.Web\Feed.aspx" />
+          <File Id="file4" Name="LOGIN~1.ASP" LongName="login.aspx" src="..\Subtext.Web\login.aspx" />
+          <File Id="file5" Name="LOGOUT~1.ASP" LongName="logout.aspx" src="..\Subtext.Web\logout.aspx" />
+          <File Id="file6" Name="MAINFE~1.ASP" LongName="MainFeed.aspx" src="..\Subtext.Web\MainFeed.aspx" />
+          <File Id="file7" Name="OPML~1.ASP" LongName="OPML.aspx" src="..\Subtext.Web\OPML.aspx" />
+          <File Id="file8" Name="QUEUE~1.ASP" LongName="Queue.aspx" src="..\Subtext.Web\Queue.aspx" />
+        </Component>
+        <Component Id="component1" Guid="244d5f2e-ce7d-4208-8bed-3d7eccedd7e5" DiskId="1">
+          <File Id="file9" Name="DEFAUL~1.HTM" LongName="default.html" src="..\Subtext.Web\default.html" />
+        </Component>
+        <Component Id="component2" Guid="ece2a7ba-7bec-4202-9bca-96bfa72f60f7" DiskId="1">
+          <File Id="file10" Name="favicon.ico" src="..\Subtext.Web\favicon.ico" />
+        </Component>
+        <Component Id="component3" Guid="04a6f180-809c-4a63-a973-b9f8156f054b" DiskId="1">
+          <File Id="file11" Name="blue.css" src="..\Subtext.Web\blue.css" />
+          <File Id="file12" Name="style.css" src="..\Subtext.Web\style.css" />
+        </Component>
+        <Component Id="component4" Guid="65126e75-83df-4dfa-a59e-cdf5cf2558a1" DiskId="1">
+          <File Id="file13" Name="ASPNET~1.TXT" LongName="AspNetWithoutWebProjects.txt" src="..\Subtext.Web\AspNetWithoutWebProjects.txt" />
+          <File Id="file14" Name="EMOTIC~1.TXT" LongName="emoticons.txt" src="..\Subtext.Web\emoticons.txt" />
+          <File Id="file15" Name="TRANSF~1.TXT" LongName="transform.txt" src="..\Subtext.Web\transform.txt" />
+        </Component>
+        <Component Id="component5" Guid="ddb989ab-9ef6-454a-b36f-5b8af9d70673" DiskId="1">
+          <File Id="file16" Name="WEB~1.CON" LongName="Web.config" src="..\Subtext.Web\Web.config" />
+        </Component>
+        <Directory Id="directory1" Name="Admin">
+          <Component Id="component6" Guid="386b9264-487e-4c59-a67c-95e238ba7bc8" DiskId="1">
+            <File Id="file17" Name="CONFIG~1.ASP" LongName="Configure.aspx" src="..\Subtext.Web\Admin\Configure.aspx" />
+            <File Id="file18" Name="CONFIR~1.ASP" LongName="Confirm.aspx" src="..\Subtext.Web\Admin\Confirm.aspx" />
+            <File Id="file19" Name="DEFAUL~1.ASP" LongName="default.aspx" src="..\Subtext.Web\Admin\default.aspx" />
+            <File Id="file20" Name="EDITAR~1.ASP" LongName="EditArticles.aspx" src="..\Subtext.Web\Admin\EditArticles.aspx" />
+            <File Id="file21" Name="EDITCA~1.ASP" LongName="EditCategories.aspx" src="..\Subtext.Web\Admin\EditCategories.aspx" />
+            <File Id="file22" Name="EDITGA~1.ASP" LongName="EditGalleries.aspx" src="..\Subtext.Web\Admin\EditGalleries.aspx" />
+            <File Id="file23" Name="EDITIM~1.ASP" LongName="EditImage.aspx" src="..\Subtext.Web\Admin\EditImage.aspx" />
+            <File Id="file24" Name="EDITKE~1.ASP" LongName="EditKeyWords.aspx" src="..\Subtext.Web\Admin\EditKeyWords.aspx" />
+            <File Id="file25" Name="EDITLI~1.ASP" LongName="EditLinks.aspx" src="..\Subtext.Web\Admin\EditLinks.aspx" />
+            <File Id="file26" Name="EDITPO~1.ASP" LongName="EditPosts.aspx" src="..\Subtext.Web\Admin\EditPosts.aspx" />
+            <File Id="file27" Name="ERROR~1.ASP" LongName="Error.aspx" src="..\Subtext.Web\Admin\Error.aspx" />
+            <File Id="file28" Name="EXPORT~1.ASP" LongName="Export.aspx" src="..\Subtext.Web\Admin\Export.aspx" />
+            <File Id="file29" Name="FEEDBA~1.ASP" LongName="Feedback.aspx" src="..\Subtext.Web\Admin\Feedback.aspx" />
+            <File Id="file30" Name="OPTION~1.ASP" LongName="Options.aspx" src="..\Subtext.Web\Admin\Options.aspx" />
+            <File Id="file31" Name="PASSWO~1.ASP" LongName="Password.aspx" src="..\Subtext.Web\Admin\Password.aspx" />
+            <File Id="file32" Name="PREFER~1.ASP" LongName="Preferences.aspx" src="..\Subtext.Web\Admin\Preferences.aspx" />
+            <File Id="file33" Name="REFERR~1.ASP" LongName="Referrers.aspx" src="..\Subtext.Web\Admin\Referrers.aspx" />
+            <File Id="file34" Name="STATIS~1.ASP" LongName="Statistics.aspx" src="..\Subtext.Web\Admin\Statistics.aspx" />
+            <File Id="file35" Name="STATSV~1.ASP" LongName="StatsView.aspx" src="..\Subtext.Web\Admin\StatsView.aspx" />
+            <File Id="file36" Name="TEST~1.ASP" LongName="Test.aspx" src="..\Subtext.Web\Admin\Test.aspx" />
+          </Component>
+          <Component Id="component7" Guid="31ad8e73-dc99-4feb-b8eb-cefa7a299e97" DiskId="1">
+            <File Id="file37" Name="license.txt" src="..\Subtext.Web\Admin\license.txt" />
+          </Component>
+          <Component Id="component8" Guid="6b6ce4d2-6a40-4a3c-a247-82f18a51cab4" DiskId="1">
+            <File Id="file38" Name="NAVIGA~1.CON" LongName="Navigation.config" src="..\Subtext.Web\Admin\Navigation.config" />
+            <File Id="file39" Name="SKINS~1.CON" LongName="Skins.config" src="..\Subtext.Web\Admin\Skins.config" />
+            <File Id="file40" Name="WEB~1.CON" LongName="Web.config" src="..\Subtext.Web\Admin\Web.config" />
+          </Component>
+          <Directory Id="directory2" Name="RESOUR~1" LongName="Resources">
+            <Component Id="component9" Guid="0a52b0fb-6b0f-4016-b74a-cac3c662e854" DiskId="1">
+              <File Id="file41" Name="PAGETE~1.ASC" LongName="PageTemplate.ascx" src="..\Subtext.Web\Admin\Resources\PageTemplate.ascx" />
+            </Component>
+            <Component Id="component10" Guid="4da9d368-4bdc-4856-a6ad-4edbc9e69c88" DiskId="1">
+              <File Id="file42" Name="admin.css" src="..\Subtext.Web\Admin\Resources\admin.css" />
+            </Component>
+            <Component Id="component11" Guid="248fe051-d83d-4bb3-9117-e87e30906838" DiskId="1">
+              <File Id="file43" Name="UICONT~1.JS" LongName="uicontrols.js" src="..\Subtext.Web\Admin\Resources\uicontrols.js" />
+            </Component>
+            <Component Id="component12" Guid="ae3da4b2-a16c-4d3a-87e2-ccb2842755a3" DiskId="1">
+              <File Id="file44" Name="bg_body.gif" src="..\Subtext.Web\Admin\Resources\bg_body.gif" />
+              <File Id="file45" Name="bg_tabs.gif" src="..\Subtext.Web\Admin\Resources\bg_tabs.gif" />
+              <File Id="file46" Name="HEADER~1.GIF" LongName="header_logo.gif" src="..\Subtext.Web\Admin\Resources\header_logo.gif" />
+              <File Id="file47" Name="ICO_CR~1.GIF" LongName="ico_critical.gif" src="..\Subtext.Web\Admin\Resources\ico_critical.gif" />
+              <File Id="file48" Name="ico_info.gif" src="..\Subtext.Web\Admin\Resources\ico_info.gif" />
+              <File Id="file49" Name="ICO_WA~1.GIF" LongName="ico_warning.gif" src="..\Subtext.Web\Admin\Resources\ico_warning.gif" />
+              <File Id="file50" Name="POWERE~1.GIF" LongName="poweredbydotnet.gif" src="..\Subtext.Web\Admin\Resources\poweredbydotnet.gif" />
+              <File Id="file51" Name="TOGGLE~1.GIF" LongName="toggle_gray_down.gif" src="..\Subtext.Web\Admin\Resources\toggle_gray_down.gif" />
+              <File Id="file52" Name="TOGGLE~2.GIF" LongName="toggle_gray_up.gif" src="..\Subtext.Web\Admin\Resources\toggle_gray_up.gif" />
+            </Component>
+            <Directory Id="directory3" Name="FTB">
+              <Component Id="component13" Guid="e9f7cdac-41a5-42c8-805b-2ac86c3f705a" DiskId="1">
+                <File Id="file53" Name="FOLDER~1.GIF" LongName="folder.big.gif" src="..\Subtext.Web\Admin\Resources\FTB\folder.big.gif" />
+                <File Id="file54" Name="FOLDER~2.GIF" LongName="folder.small.gif" src="..\Subtext.Web\Admin\Resources\FTB\folder.small.gif" />
+                <File Id="file55" Name="FOLDER~3.GIF" LongName="folder.up.gif" src="..\Subtext.Web\Admin\Resources\FTB\folder.up.gif" />
+              </Component>
+              <Directory Id="directory4" Name="dottext">
+                <Component Id="component14" Guid="b41187d5-5a41-4ae4-bf9f-ff803f5b4de2" DiskId="1">
+                  <File Id="file56" Name="bold.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\bold.gif" />
+                  <File Id="file57" Name="bullets.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\bullets.gif" />
+                  <File Id="file58" Name="copy.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\copy.gif" />
+                  <File Id="file59" Name="CREATE~1.GIF" LongName="createlink.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\createlink.gif" />
+                  <File Id="file60" Name="cut.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\cut.gif" />
+                  <File Id="file61" Name="delete.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\delete.gif" />
+                  <File Id="file62" Name="DELETE~1.GIF" LongName="deletetablecolumn.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\deletetablecolumn.gif" />
+                  <File Id="file63" Name="DELETE~2.GIF" LongName="deletetablerow.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\deletetablerow.gif" />
+                  <File Id="file64" Name="FONTBA~1.GIF" LongName="fontbackcolorpicker.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\fontbackcolorpicker.gif" />
+                  <File Id="file65" Name="FONTFO~1.GIF" LongName="fontforecolorpicker.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\fontforecolorpicker.gif" />
+                  <File Id="file66" Name="indent.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\indent.gif" />
+                  <File Id="file67" Name="INSERT~1.GIF" LongName="insertdate.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\insertdate.gif" />
+                  <File Id="file68" Name="INSERT~2.GIF" LongName="insertimage.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\insertimage.gif" />
+                  <File Id="file69" Name="INSERT~3.GIF" LongName="insertimagefromgallery.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\insertimagefromgallery.gif" />
+                  <File Id="file70" Name="INSERT~4.GIF" LongName="insertrule.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\insertrule.gif" />
+                  <File Id="file71" Name="IN7CC2~1.GIF" LongName="inserttable.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\inserttable.gif" />
+                  <File Id="file72" Name="IN845E~1.GIF" LongName="inserttablecolumn.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\inserttablecolumn.gif" />
+                  <File Id="file73" Name="IN906E~1.GIF" LongName="inserttablerow.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\inserttablerow.gif" />
+                  <File Id="file74" Name="IN8E6B~1.GIF" LongName="inserttime.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\inserttime.gif" />
+                  <File Id="file75" Name="italic.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\italic.gif" />
+                  <File Id="file76" Name="JUSTIF~1.GIF" LongName="justifycenter.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\justifycenter.gif" />
+                  <File Id="file77" Name="JUSTIF~2.GIF" LongName="justifyfull.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\justifyfull.gif" />
+                  <File Id="file78" Name="JUSTIF~3.GIF" LongName="justifyleft.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\justifyleft.gif" />
+                  <File Id="file79" Name="JUSTIF~4.GIF" LongName="justifyright.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\justifyright.gif" />
+                  <File Id="file80" Name="MODEDE~1.GIF" LongName="mode.design.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\mode.design.gif" />
+                  <File Id="file81" Name="MODEHT~1.GIF" LongName="mode.html.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\mode.html.gif" />
+                  <File Id="file82" Name="NUMBER~1.GIF" LongName="numberedlist.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\numberedlist.gif" />
+                  <File Id="file83" Name="outdent.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\outdent.gif" />
+                  <File Id="file84" Name="paste.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\paste.gif" />
+                  <File Id="file85" Name="print.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\print.gif" />
+                  <File Id="file86" Name="redo.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\redo.gif" />
+                  <File Id="file87" Name="REMOVE~1.GIF" LongName="removeformat.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\removeformat.gif" />
+                  <File Id="file88" Name="save.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\save.gif" />
+                  <File Id="file89" Name="SEPARA~1.GIF" LongName="separator.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\separator.gif" />
+                  <File Id="file90" Name="SPELLC~1.GIF" LongName="spellcheck.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\spellcheck.gif" />
+                  <File Id="file91" Name="STRIKE~1.GIF" LongName="strikethrough.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\strikethrough.gif" />
+                  <File Id="file92" Name="SUBSCR~1.GIF" LongName="subscript.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\subscript.gif" />
+                  <File Id="file93" Name="SUPERS~1.GIF" LongName="superscript.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\superscript.gif" />
+                  <File Id="file94" Name="TOOLBA~1.GIF" LongName="toolbar.end.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\toolbar.end.gif" />
+                  <File Id="file95" Name="TOOLBA~2.GIF" LongName="toolbar.start.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\toolbar.start.gif" />
+                  <File Id="file96" Name="TOOLBA~3.GIF" LongName="toolbarbutton.down.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\toolbarbutton.down.gif" />
+                  <File Id="file97" Name="TOOLBA~4.GIF" LongName="toolbarbutton.over.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\toolbarbutton.over.gif" />
+                  <File Id="file98" Name="UNDERL~1.GIF" LongName="underline.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\underline.gif" />
+                  <File Id="file99" Name="undo.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\undo.gif" />
+                  <File Id="file100" Name="unlink.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\unlink.gif" />
+                  <File Id="file101" Name="WORDCL~1.GIF" LongName="wordclean.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\wordclean.gif" />
+                  <File Id="file102" Name="WORDCO~1.GIF" LongName="wordcount.gif" src="..\Subtext.Web\Admin\Resources\FTB\dottext\wordcount.gif" />
+                </Component>
+              </Directory>
+            </Directory>
+          </Directory>
+          <Directory Id="directory5" Name="USERCO~1" LongName="UserControls">
+            <Component Id="component15" Guid="64e7444a-5d13-44d5-8835-d6df4504f0ba" DiskId="1">
+              <File Id="file103" Name="ENTRYE~1.ASC" LongName="EntryEditor.ascx" src="..\Subtext.Web\Admin\UserControls\EntryEditor.ascx" />
+            </Component>
+          </Directory>
+        </Directory>
+        <Directory Id="directory6" Name="Images">
+          <Component Id="component16" Guid="35e57b9c-84cf-497f-819f-e61ef2df2c49" DiskId="1">
+            <File Id="file104" Name="100X30~1.GIF" LongName="100x30_Logo.gif" src="..\Subtext.Web\Images\100x30_Logo.gif" />
+            <File Id="file105" Name="ADMINI~1.GIF" LongName="administration_icon.gif" src="..\Subtext.Web\Images\administration_icon.gif" />
+            <File Id="file106" Name="link.gif" src="..\Subtext.Web\Images\link.gif" />
+            <File Id="file107" Name="POWERE~1.GIF" LongName="PoweredByAsp.Net.gif" src="..\Subtext.Web\Images\PoweredByAsp.Net.gif" />
+          </Component>
+        </Directory>
+        <Directory Id="directory7" Name="INSTAL~1" LongName="Installation">
+          <Component Id="component17" Guid="b193dcd5-198a-484e-a2d1-c6c973304ba2" DiskId="1">
+            <File Id="file108" Name="UNINST~1.TXT" LongName="UninstallScript.v1.0.sql.txt" src="..\Subtext.Web\Installation\UninstallScript.v1.0.sql.txt" />
+          </Component>
+        </Directory>
+        <Directory Id="directory8" Name="Services">
+          <Component Id="component18" Guid="52d736fb-9202-49b9-a326-50cb0a10644e" DiskId="1">
+            <File Id="file109" Name="ASPNET~1.ASM" LongName="ASPNetWebLog.asmx" src="..\Subtext.Web\Services\ASPNetWebLog.asmx" />
+            <File Id="file110" Name="BLOGCO~1.ASM" LongName="BlogContent.asmx" src="..\Subtext.Web\Services\BlogContent.asmx" />
+            <File Id="file111" Name="SIMPLE~1.ASM" LongName="SimpleBlogService.asmx" src="..\Subtext.Web\Services\SimpleBlogService.asmx" />
+          </Component>
+        </Directory>
+        <Directory Id="directory9" Name="Skins">
+          <Directory Id="directory10" Name="ANOTHE~1" LongName="AnotherEon001">
+            <Component Id="component19" Guid="33d94ff2-65bb-4c1e-9622-a4630db8c7b6" DiskId="1">
+              <File Id="file112" Name="PAGETE~1.ASC" LongName="PageTemplate.ascx" src="..\Subtext.Web\Skins\AnotherEon001\PageTemplate.ascx" />
+            </Component>
+            <Component Id="component20" Guid="aa5d33dc-a769-4b0c-99a6-b660549bb1eb" DiskId="1">
+              <File Id="file113" Name="style.css" src="..\Subtext.Web\Skins\AnotherEon001\style.css" />
+            </Component>
+            <Component Id="component21" Guid="41c901e3-6bdc-4af2-851a-c00d1054e8a8" DiskId="1">
+              <File Id="file114" Name="License.txt" src="..\Subtext.Web\Skins\AnotherEon001\License.txt" />
+            </Component>
+            <Directory Id="directory11" Name="Controls">
+              <Component Id="component22" Guid="fb5aa1a9-485e-40c9-8c50-af4cf0c28e45" DiskId="1">
+                <File Id="file115" Name="ARCHIV~1.ASC" LongName="ArchiveCategory.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\ArchiveCategory.ascx" />
+                <File Id="file116" Name="ARCHIV~2.ASC" LongName="ArchiveDay.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\ArchiveDay.ascx" />
+                <File Id="file117" Name="ARCHIV~3.ASC" LongName="ArchiveLinks.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\ArchiveLinks.ascx" />
+                <File Id="file118" Name="ARCHIV~4.ASC" LongName="ArchiveMonth.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\ArchiveMonth.ascx" />
+                <File Id="file119" Name="BLOGST~1.ASC" LongName="BlogStats.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\BlogStats.ascx" />
+                <File Id="file120" Name="CATEGO~1.ASC" LongName="CategoryDisplay.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\CategoryDisplay.ascx" />
+                <File Id="file121" Name="CATEGO~2.ASC" LongName="CategoryEntryList.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\CategoryEntryList.ascx" />
+                <File Id="file122" Name="CATEGO~3.ASC" LongName="CategoryList.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\CategoryList.ascx" />
+                <File Id="file123" Name="COMMEN~1.ASC" LongName="Comments.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\Comments.ascx" />
+                <File Id="file124" Name="CONTAC~1.ASC" LongName="Contact.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\Contact.ascx" />
+                <File Id="file125" Name="DAY~1.ASC" LongName="Day.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\Day.ascx" />
+                <File Id="file126" Name="DAYCOL~1.ASC" LongName="DayCollection.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\DayCollection.ascx" />
+                <File Id="file127" Name="ENTRYL~1.ASC" LongName="EntryList.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\EntryList.ascx" />
+                <File Id="file128" Name="FOOTER~1.ASC" LongName="Footer.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\Footer.ascx" />
+                <File Id="file129" Name="GALLER~1.ASC" LongName="GalleryThumbNailViewer.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\GalleryThumbNailViewer.ascx" />
+                <File Id="file130" Name="HEADER~1.ASC" LongName="Header.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\Header.ascx" />
+                <File Id="file131" Name="HOMEPA~1.ASC" LongName="HomePage.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\HomePage.ascx" />
+                <File Id="file132" Name="LOGIN~1.ASC" LongName="Login.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\Login.ascx" />
+                <File Id="file133" Name="MONTHL~1.ASC" LongName="MonthListings.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\MonthListings.ascx" />
+                <File Id="file134" Name="MYLINK~1.ASC" LongName="MyLinks.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\MyLinks.ascx" />
+                <File Id="file135" Name="NEWS~1.ASC" LongName="News.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\News.ascx" />
+                <File Id="file136" Name="POSTCO~1.ASC" LongName="PostComment.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\PostComment.ascx" />
+                <File Id="file137" Name="RELATE~1.ASC" LongName="RelatedLinks.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\RelatedLinks.ascx" />
+                <File Id="file138" Name="SINGLE~1.ASC" LongName="SingleColumn.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\SingleColumn.ascx" />
+                <File Id="file139" Name="VIEWPI~1.ASC" LongName="ViewPicture.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\ViewPicture.ascx" />
+                <File Id="file140" Name="VIEWPO~1.ASC" LongName="ViewPost.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\ViewPost.ascx" />
+                <File Id="file141" Name="_HEADE~1.ASC" LongName="_Header.ascx" src="..\Subtext.Web\Skins\AnotherEon001\Controls\_Header.ascx" />
+              </Component>
+            </Directory>
+          </Directory>
+          <Directory Id="directory12" Name="blue">
+            <Component Id="component23" Guid="8e9e1d9b-2887-425e-ba5f-b2855fa02efe" DiskId="1">
+              <File Id="file142" Name="PAGETE~1.ASC" LongName="PageTemplate.ascx" src="..\Subtext.Web\Skins\blue\PageTemplate.ascx" />
+            </Component>
+            <Component Id="component24" Guid="cf2c5723-36ee-4282-bbda-15b5fa25184b" DiskId="1">
+              <File Id="file143" Name="Style.css" src="..\Subtext.Web\Skins\blue\Style.css" />
+            </Component>
+            <Directory Id="directory13" Name="Controls">
+              <Component Id="component25" Guid="c8ad4a31-2cf8-44c4-819a-2bfd5465a138" DiskId="1">
+                <File Id="file144" Name="ARCHIV~1.ASC" LongName="ArchiveCategory.ascx" src="..\Subtext.Web\Skins\blue\Controls\ArchiveCategory.ascx" />
+                <File Id="file145" Name="ARCHIV~2.ASC" LongName="ArchiveDay.ascx" src="..\Subtext.Web\Skins\blue\Controls\ArchiveDay.ascx" />
+                <File Id="file146" Name="ARCHIV~3.ASC" LongName="ArchiveLinks.ascx" src="..\Subtext.Web\Skins\blue\Controls\ArchiveLinks.ascx" />
+                <File Id="file147" Name="ARCHIV~4.ASC" LongName="ArchiveMonth.ascx" src="..\Subtext.Web\Skins\blue\Controls\ArchiveMonth.ascx" />
+                <File Id="file148" Name="BLOGST~1.ASC" LongName="BlogStats.ascx" src="..\Subtext.Web\Skins\blue\Controls\BlogStats.ascx" />
+                <File Id="file149" Name="CATEGO~1.ASC" LongName="CategoryDisplay.ascx" src="..\Subtext.Web\Skins\blue\Controls\CategoryDisplay.ascx" />
+                <File Id="file150" Name="CATEGO~2.ASC" LongName="CategoryEntryList.ascx" src="..\Subtext.Web\Skins\blue\Controls\CategoryEntryList.ascx" />
+                <File Id="file151" Name="CATEGO~3.ASC" LongName="CategoryList.ascx" src="..\Subtext.Web\Skins\blue\Controls\CategoryList.ascx" />
+                <File Id="file152" Name="COMMEN~1.ASC" LongName="Comments.ascx" src="..\Subtext.Web\Skins\blue\Controls\Comments.ascx" />
+                <File Id="file153" Name="CONTAC~1.ASC" LongName="Contact.ascx" src="..\Subtext.Web\Skins\blue\Controls\Contact.ascx" />
+                <File Id="file154" Name="DAY~1.ASC" LongName="Day.ascx" src="..\Subtext.Web\Skins\blue\Controls\Day.ascx" />
+                <File Id="file155" Name="DAYCOL~1.ASC" LongName="DayCollection.ascx" src="..\Subtext.Web\Skins\blue\Controls\DayCollection.ascx" />
+                <File Id="file156" Name="ENTRYL~1.ASC" LongName="EntryList.ascx" src="..\Subtext.Web\Skins\blue\Controls\EntryList.ascx" />
+                <File Id="file157" Name="FOOTER~1.ASC" LongName="Footer.ascx" src="..\Subtext.Web\Skins\blue\Controls\Footer.ascx" />
+                <File Id="file158" Name="GALLER~1.ASC" LongName="GalleryThumbNailViewer.ascx" src="..\Subtext.Web\Skins\blue\Controls\GalleryThumbNailViewer.ascx" />
+                <File Id="file159" Name="HEADER~1.ASC" LongName="Header.ascx" src="..\Subtext.Web\Skins\blue\Controls\Header.ascx" />
+                <File Id="file160" Name="HOMEPA~1.ASC" LongName="HomePage.ascx" src="..\Subtext.Web\Skins\blue\Controls\HomePage.ascx" />
+                <File Id="file161" Name="LOGIN~1.ASC" LongName="Login.ascx" src="..\Subtext.Web\Skins\blue\Controls\Login.ascx" />
+                <File Id="file162" Name="MONTHL~1.ASC" LongName="MonthListings.ascx" src="..\Subtext.Web\Skins\blue\Controls\MonthListings.ascx" />
+                <File Id="file163" Name="MYLINK~1.ASC" LongName="MyLinks.ascx" src="..\Subtext.Web\Skins\blue\Controls\MyLinks.ascx" />
+                <File Id="file164" Name="NEWS~1.ASC" LongName="News.ascx" src="..\Subtext.Web\Skins\blue\Controls\News.ascx" />
+                <File Id="file165" Name="POSTCO~1.ASC" LongName="PostComment.ascx" src="..\Subtext.Web\Skins\blue\Controls\PostComment.ascx" />
+                <File Id="file166" Name="RELATE~1.ASC" LongName="RelatedLinks.ascx" src="..\Subtext.Web\Skins\blue\Controls\RelatedLinks.ascx" />
+                <File Id="file167" Name="SINGLE~1.ASC" LongName="SingleColumn.ascx" src="..\Subtext.Web\Skins\blue\Controls\SingleColumn.ascx" />
+                <File Id="file168" Name="VIEWPI~1.ASC" LongName="ViewPicture.ascx" src="..\Subtext.Web\Skins\blue\Controls\ViewPicture.ascx" />
+                <File Id="file169" Name="VIEWPO~1.ASC" LongName="ViewPost.ascx" src="..\Subtext.Web\Skins\blue\Controls\ViewPost.ascx" />
+              </Component>
+            </Directory>
+          </Directory>
+          <Directory Id="directory14" Name="gertrude">
+            <Component Id="component26" Guid="50dc6888-be0c-4ddd-b7b9-d2f66b4b5720" DiskId="1">
+              <File Id="file170" Name="PAGETE~1.ASC" LongName="PageTemplate.ascx" src="..\Subtext.Web\Skins\gertrude\PageTemplate.ascx" />
+            </Component>
+            <Component Id="component27" Guid="03c7167d-5cdd-42be-9d6c-2b74b5d952c1" DiskId="1">
+              <File Id="file171" Name="blue.css" src="..\Subtext.Web\Skins\gertrude\blue.css" />
+              <File Id="file172" Name="green.css" src="..\Subtext.Web\Skins\gertrude\green.css" />
+              <File Id="file173" Name="red.css" src="..\Subtext.Web\Skins\gertrude\red.css" />
+              <File Id="file174" Name="style.css" src="..\Subtext.Web\Skins\gertrude\style.css" />
+            </Component>
+            <Directory Id="directory15" Name="Controls">
+              <Component Id="component28" Guid="88fc58cb-370d-4b0c-b92e-b9adff1d8036" DiskId="1">
+                <File Id="file175" Name="ARCHIV~1.ASC" LongName="ArchiveCategory.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\ArchiveCategory.ascx" />
+                <File Id="file176" Name="ARCHIV~2.ASC" LongName="ArchiveDay.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\ArchiveDay.ascx" />
+                <File Id="file177" Name="ARCHIV~3.ASC" LongName="ArchiveLinks.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\ArchiveLinks.ascx" />
+                <File Id="file178" Name="ARCHIV~4.ASC" LongName="ArchiveMonth.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\ArchiveMonth.ascx" />
+                <File Id="file179" Name="BLOGST~1.ASC" LongName="BlogStats.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\BlogStats.ascx" />
+                <File Id="file180" Name="CATEGO~1.ASC" LongName="CategoryDisplay.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\CategoryDisplay.ascx" />
+                <File Id="file181" Name="CATEGO~2.ASC" LongName="CategoryEntryList.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\CategoryEntryList.ascx" />
+                <File Id="file182" Name="CATEGO~3.ASC" LongName="CategoryList.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\CategoryList.ascx" />
+                <File Id="file183" Name="COMMEN~1.ASC" LongName="Comments.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\Comments.ascx" />
+                <File Id="file184" Name="CONTAC~1.ASC" LongName="Contact.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\Contact.ascx" />
+                <File Id="file185" Name="DAY~1.ASC" LongName="Day.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\Day.ascx" />
+                <File Id="file186" Name="DAYCOL~1.ASC" LongName="DayCollection.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\DayCollection.ascx" />
+                <File Id="file187" Name="ENTRYL~1.ASC" LongName="EntryList.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\EntryList.ascx" />
+                <File Id="file188" Name="FOOTER~1.ASC" LongName="Footer.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\Footer.ascx" />
+                <File Id="file189" Name="GALLER~1.ASC" LongName="GalleryThumbNailViewer.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\GalleryThumbNailViewer.ascx" />
+                <File Id="file190" Name="HEADER~1.ASC" LongName="Header.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\Header.ascx" />
+                <File Id="file191" Name="HOMEPA~1.ASC" LongName="HomePage.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\HomePage.ascx" />
+                <File Id="file192" Name="LOGIN~1.ASC" LongName="Login.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\Login.ascx" />
+                <File Id="file193" Name="MONTHL~1.ASC" LongName="MonthListings.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\MonthListings.ascx" />
+                <File Id="file194" Name="MYLINK~1.ASC" LongName="MyLinks.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\MyLinks.ascx" />
+                <File Id="file195" Name="NEWS~1.ASC" LongName="News.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\News.ascx" />
+                <File Id="file196" Name="POSTCO~1.ASC" LongName="PostComment.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\PostComment.ascx" />
+                <File Id="file197" Name="RELATE~1.ASC" LongName="RelatedLinks.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\RelatedLinks.ascx" />
+                <File Id="file198" Name="SINGLE~1.ASC" LongName="SingleColumn.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\SingleColumn.ascx" />
+                <File Id="file199" Name="VIEWPI~1.ASC" LongName="ViewPicture.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\ViewPicture.ascx" />
+                <File Id="file200" Name="VIEWPO~1.ASC" LongName="ViewPost.ascx" src="..\Subtext.Web\Skins\gertrude\Controls\ViewPost.ascx" />
+              </Component>
+            </Directory>
+          </Directory>
+          <Directory Id="directory16" Name="HAACKE~1" LongName="HaackedOrange">
+            <Component Id="component29" Guid="07565593-beef-4e07-a30e-9f8f651baec0" DiskId="1">
+              <File Id="file201" Name="PAGETE~1.ASC" LongName="PageTemplate.ascx" src="..\Subtext.Web\Skins\HaackedOrange\PageTemplate.ascx" />
+            </Component>
+            <Component Id="component30" Guid="04d983dd-005b-4c1e-8ae0-7c815865664b" DiskId="1">
+              <File Id="file202" Name="csharp.css" src="..\Subtext.Web\Skins\HaackedOrange\csharp.css" />
+              <File Id="file203" Name="style.css" src="..\Subtext.Web\Skins\HaackedOrange\style.css" />
+            </Component>
+            <Directory Id="directory17" Name="Controls">
+              <Component Id="component31" Guid="f5f40931-9e1a-4ba9-948f-a3edf188c307" DiskId="1">
+                <File Id="file204" Name="ARCHIV~1.ASC" LongName="ArchiveCategory.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\ArchiveCategory.ascx" />
+                <File Id="file205" Name="ARCHIV~2.ASC" LongName="ArchiveDay.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\ArchiveDay.ascx" />
+                <File Id="file206" Name="ARCHIV~3.ASC" LongName="ArchiveLinks.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\ArchiveLinks.ascx" />
+                <File Id="file207" Name="ARCHIV~4.ASC" LongName="ArchiveMonth.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\ArchiveMonth.ascx" />
+                <File Id="file208" Name="BLOGST~1.ASC" LongName="BlogStats.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\BlogStats.ascx" />
+                <File Id="file209" Name="CATEGO~1.ASC" LongName="CategoryDisplay.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\CategoryDisplay.ascx" />
+                <File Id="file210" Name="CATEGO~2.ASC" LongName="CategoryEntryList.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\CategoryEntryList.ascx" />
+                <File Id="file211" Name="CATEGO~3.ASC" LongName="CategoryList.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\CategoryList.ascx" />
+                <File Id="file212" Name="COMMEN~1.ASC" LongName="Comments.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\Comments.ascx" />
+                <File Id="file213" Name="CONTAC~1.ASC" LongName="Contact.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\Contact.ascx" />
+                <File Id="file214" Name="DAY~1.ASC" LongName="Day.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\Day.ascx" />
+                <File Id="file215" Name="DAYCOL~1.ASC" LongName="DayCollection.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\DayCollection.ascx" />
+                <File Id="file216" Name="ENTRYL~1.ASC" LongName="EntryList.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\EntryList.ascx" />
+                <File Id="file217" Name="FOOTER~1.ASC" LongName="Footer.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\Footer.ascx" />
+                <File Id="file218" Name="GALLER~1.ASC" LongName="GalleryThumbNailViewer.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\GalleryThumbNailViewer.ascx" />
+                <File Id="file219" Name="HEADER~1.ASC" LongName="Header.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\Header.ascx" />
+                <File Id="file220" Name="HOMEPA~1.ASC" LongName="HomePage.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\HomePage.ascx" />
+                <File Id="file221" Name="LOGIN~1.ASC" LongName="Login.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\Login.ascx" />
+                <File Id="file222" Name="MONTHL~1.ASC" LongName="MonthListings.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\MonthListings.ascx" />
+                <File Id="file223" Name="MYLINK~1.ASC" LongName="MyLinks.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\MyLinks.ascx" />
+                <File Id="file224" Name="NEWS~1.ASC" LongName="News.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\News.ascx" />
+                <File Id="file225" Name="POSTCO~1.ASC" LongName="PostComment.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\PostComment.ascx" />
+                <File Id="file226" Name="RELATE~1.ASC" LongName="RelatedLinks.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\RelatedLinks.ascx" />
+                <File Id="file227" Name="SINGLE~1.ASC" LongName="SingleColumn.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\SingleColumn.ascx" />
+                <File Id="file228" Name="VIEWPI~1.ASC" LongName="ViewPicture.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\ViewPicture.ascx" />
+                <File Id="file229" Name="VIEWPO~1.ASC" LongName="ViewPost.ascx" src="..\Subtext.Web\Skins\HaackedOrange\Controls\ViewPost.ascx" />
+              </Component>
+            </Directory>
+            <Directory Id="directory18" Name="Images">
+              <Component Id="component32" Guid="f1c82c5b-4244-482e-bf90-0ada695d6d3f" DiskId="1">
+                <File Id="file230" Name="bottom.gif" src="..\Subtext.Web\Skins\HaackedOrange\Images\bottom.gif" />
+                <File Id="file231" Name="LEFTBO~1.GIF" LongName="leftBorder.gif" src="..\Subtext.Web\Skins\HaackedOrange\Images\leftBorder.gif" />
+                <File Id="file232" Name="RIGHTB~1.GIF" LongName="rightBorder.gif" src="..\Subtext.Web\Skins\HaackedOrange\Images\rightBorder.gif" />
+                <File Id="file233" Name="RSS20I~1.GIF" LongName="rss20icon.gif" src="..\Subtext.Web\Skins\HaackedOrange\Images\rss20icon.gif" />
+              </Component>
+              <Component Id="component33" Guid="9e296051-5394-4d51-a9be-9f63394c46d1" DiskId="1">
+                <File Id="file234" Name="Header.jpg" src="..\Subtext.Web\Skins\HaackedOrange\Images\Header.jpg" />
+              </Component>
+            </Directory>
+          </Directory>
+          <Directory Id="directory19" Name="Hover">
+            <Component Id="component34" Guid="108c4b2b-2bc0-49ca-b460-1c01295d354d" DiskId="1">
+              <File Id="file235" Name="PAGETE~1.ASC" LongName="PageTemplate.ascx" src="..\Subtext.Web\Skins\Hover\PageTemplate.ascx" />
+            </Component>
+            <Component Id="component35" Guid="c11e02a3-4973-48c8-92d8-e0c8e954ac18" DiskId="1">
+              <File Id="file236" Name="style.css" src="..\Subtext.Web\Skins\Hover\style.css" />
+            </Component>
+            <Directory Id="directory20" Name="Controls">
+              <Component Id="component36" Guid="1a1bf7e3-aede-41ab-a0f4-61c7ab738fd9" DiskId="1">
+                <File Id="file237" Name="ARCHIV~1.ASC" LongName="ArchiveCategory.ascx" src="..\Subtext.Web\Skins\Hover\Controls\ArchiveCategory.ascx" />
+                <File Id="file238" Name="ARCHIV~2.ASC" LongName="ArchiveDay.ascx" src="..\Subtext.Web\Skins\Hover\Controls\ArchiveDay.ascx" />
+                <File Id="file239" Name="ARCHIV~3.ASC" LongName="ArchiveLinks.ascx" src="..\Subtext.Web\Skins\Hover\Controls\ArchiveLinks.ascx" />
+                <File Id="file240" Name="ARCHIV~4.ASC" LongName="ArchiveMonth.ascx" src="..\Subtext.Web\Skins\Hover\Controls\ArchiveMonth.ascx" />
+                <File Id="file241" Name="BLOGST~1.ASC" LongName="BlogStats.ascx" src="..\Subtext.Web\Skins\Hover\Controls\BlogStats.ascx" />
+                <File Id="file242" Name="CATEGO~1.ASC" LongName="CategoryDisplay.ascx" src="..\Subtext.Web\Skins\Hover\Controls\CategoryDisplay.ascx" />
+                <File Id="file243" Name="CATEGO~2.ASC" LongName="CategoryEntryList.ascx" src="..\Subtext.Web\Skins\Hover\Controls\CategoryEntryList.ascx" />
+                <File Id="file244" Name="CATEGO~3.ASC" LongName="CategoryList.ascx" src="..\Subtext.Web\Skins\Hover\Controls\CategoryList.ascx" />
+                <File Id="file245" Name="COMMEN~1.ASC" LongName="Comments.ascx" src="..\Subtext.Web\Skins\Hover\Controls\Comments.ascx" />
+                <File Id="file246" Name="CONTAC~1.ASC" LongName="Contact.ascx" src="..\Subtext.Web\Skins\Hover\Controls\Contact.ascx" />
+                <File Id="file247" Name="DAY~1.ASC" LongName="Day.ascx" src="..\Subtext.Web\Skins\Hover\Controls\Day.ascx" />
+                <File Id="file248" Name="DAYCOL~1.ASC" LongName="DayCollection.ascx" src="..\Subtext.Web\Skins\Hover\Controls\DayCollection.ascx" />
+                <File Id="file249" Name="ENTRYL~1.ASC" LongName="EntryList.ascx" src="..\Subtext.Web\Skins\Hover\Controls\EntryList.ascx" />
+                <File Id="file250" Name="FOOTER~1.ASC" LongName="Footer.ascx" src="..\Subtext.Web\Skins\Hover\Controls\Footer.ascx" />
+                <File Id="file251" Name="GALLER~1.ASC" LongName="GalleryThumbNailViewer.ascx" src="..\Subtext.Web\Skins\Hover\Controls\GalleryThumbNailViewer.ascx" />
+                <File Id="file252" Name="HEADER~1.ASC" LongName="Header.ascx" src="..\Subtext.Web\Skins\Hover\Controls\Header.ascx" />
+                <File Id="file253" Name="HOMEPA~1.ASC" LongName="HomePage.ascx" src="..\Subtext.Web\Skins\Hover\Controls\HomePage.ascx" />
+                <File Id="file254" Name="LOGIN~1.ASC" LongName="Login.ascx" src="..\Subtext.Web\Skins\Hover\Controls\Login.ascx" />
+                <File Id="file255" Name="MONTHL~1.ASC" LongName="MonthListings.ascx" src="..\Subtext.Web\Skins\Hover\Controls\MonthListings.ascx" />
+                <File Id="file256" Name="MYLINK~1.ASC" LongName="MyLinks.ascx" src="..\Subtext.Web\Skins\Hover\Controls\MyLinks.ascx" />
+                <File Id="file257" Name="NEWS~1.ASC" LongName="News.ascx" src="..\Subtext.Web\Skins\Hover\Controls\News.ascx" />
+                <File Id="file258" Name="POSTCO~1.ASC" LongName="PostComment.ascx" src="..\Subtext.Web\Skins\Hover\Controls\PostComment.ascx" />
+                <File Id="file259" Name="RELATE~1.ASC" LongName="RelatedLinks.ascx" src="..\Subtext.Web\Skins\Hover\Controls\RelatedLinks.ascx" />
+                <File Id="file260" Name="SINGLE~1.ASC" LongName="SingleColumn.ascx" src="..\Subtext.Web\Skins\Hover\Controls\SingleColumn.ascx" />
+                <File Id="file261" Name="VIEWPI~1.ASC" LongName="ViewPicture.ascx" src="..\Subtext.Web\Skins\Hover\Controls\ViewPicture.ascx" />
+                <File Id="file262" Name="VIEWPO~1.ASC" LongName="ViewPost.ascx" src="..\Subtext.Web\Skins\Hover\Controls\ViewPost.ascx" />
+              </Component>
+            </Directory>
+          </Directory>
+          <Directory Id="directory21" Name="Lighty">
+            <Component Id="component37" Guid="7bf7dd8a-6fe4-4e7c-9370-6e5630acbc03" DiskId="1">
+              <File Id="file263" Name="PAGETE~1.ASC" LongName="PageTemplate.ascx" src="..\Subtext.Web\Skins\Lighty\PageTemplate.ascx" />
+            </Component>
+            <Component Id="component38" Guid="1d1e26ad-5305-49e0-bbf8-ee797356e1c2" DiskId="1">
+              <File Id="file264" Name="style.css" src="..\Subtext.Web\Skins\Lighty\style.css" />
+            </Component>
+            <Directory Id="directory22" Name="Controls">
+              <Component Id="component39" Guid="5360f8a8-f085-438c-a6bc-d15b628bf256" DiskId="1">
+                <File Id="file265" Name="ARCHIV~1.ASC" LongName="ArchiveCategory.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\ArchiveCategory.ascx" />
+                <File Id="file266" Name="ARCHIV~2.ASC" LongName="ArchiveDay.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\ArchiveDay.ascx" />
+                <File Id="file267" Name="ARCHIV~3.ASC" LongName="ArchiveLinks.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\ArchiveLinks.ascx" />
+                <File Id="file268" Name="ARCHIV~4.ASC" LongName="ArchiveMonth.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\ArchiveMonth.ascx" />
+                <File Id="file269" Name="BLOGST~1.ASC" LongName="BlogStats.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\BlogStats.ascx" />
+                <File Id="file270" Name="CATEGO~1.ASC" LongName="CategoryDisplay.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\CategoryDisplay.ascx" />
+                <File Id="file271" Name="CATEGO~2.ASC" LongName="CategoryEntryList.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\CategoryEntryList.ascx" />
+                <File Id="file272" Name="CATEGO~3.ASC" LongName="CategoryList.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\CategoryList.ascx" />
+                <File Id="file273" Name="COMMEN~1.ASC" LongName="Comments.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\Comments.ascx" />
+                <File Id="file274" Name="CONTAC~1.ASC" LongName="Contact.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\Contact.ascx" />
+                <File Id="file275" Name="DAY~1.ASC" LongName="Day.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\Day.ascx" />
+                <File Id="file276" Name="DAYCOL~1.ASC" LongName="DayCollection.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\DayCollection.ascx" />
+                <File Id="file277" Name="ENTRYL~1.ASC" LongName="EntryList.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\EntryList.ascx" />
+                <File Id="file278" Name="FOOTER~1.ASC" LongName="Footer.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\Footer.ascx" />
+                <File Id="file279" Name="GALLER~1.ASC" LongName="GalleryThumbNailViewer.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\GalleryThumbNailViewer.ascx" />
+                <File Id="file280" Name="HEADER~1.ASC" LongName="Header.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\Header.ascx" />
+                <File Id="file281" Name="HOMEPA~1.ASC" LongName="HomePage.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\HomePage.ascx" />
+                <File Id="file282" Name="LOGIN~1.ASC" LongName="Login.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\Login.ascx" />
+                <File Id="file283" Name="MONTHL~1.ASC" LongName="MonthListings.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\MonthListings.ascx" />
+                <File Id="file284" Name="MYLINK~1.ASC" LongName="MyLinks.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\MyLinks.ascx" />
+                <File Id="file285" Name="NEWS~1.ASC" LongName="News.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\News.ascx" />
+                <File Id="file286" Name="POSTCO~1.ASC" LongName="PostComment.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\PostComment.ascx" />
+                <File Id="file287" Name="RELATE~1.ASC" LongName="RelatedLinks.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\RelatedLinks.ascx" />
+                <File Id="file288" Name="SINGLE~1.ASC" LongName="SingleColumn.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\SingleColumn.ascx" />
+                <File Id="file289" Name="VIEWPI~1.ASC" LongName="ViewPicture.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\ViewPicture.ascx" />
+                <File Id="file290" Name="VIEWPO~1.ASC" LongName="ViewPost.ascx" src="..\Subtext.Web\Skins\Lighty\Controls\ViewPost.ascx" />
+              </Component>
+            </Directory>
+            <Directory Id="directory23" Name="Images">
+              <Component Id="component40" Guid="e947a2b9-e93e-4d05-803c-e167e85fc08f" DiskId="1">
+                <File Id="file291" Name="DAY_FO~1.GIF" LongName="day_footer.gif" src="..\Subtext.Web\Skins\Lighty\Images\day_footer.gif" />
+                <File Id="file292" Name="DAY_HE~1.GIF" LongName="day_header.gif" src="..\Subtext.Web\Skins\Lighty\Images\day_header.gif" />
+                <File Id="file293" Name="header.gif" src="..\Subtext.Web\Skins\Lighty\Images\header.gif" />
+                <File Id="file294" Name="MAIN_B~1.GIF" LongName="main_background.gif" src="..\Subtext.Web\Skins\Lighty\Images\main_background.gif" />
+                <File Id="file295" Name="POST_F~1.GIF" LongName="post_footer.gif" src="..\Subtext.Web\Skins\Lighty\Images\post_footer.gif" />
+                <File Id="file296" Name="xml.gif" src="..\Subtext.Web\Skins\Lighty\Images\xml.gif" />
+              </Component>
+            </Directory>
+          </Directory>
+          <Directory Id="directory24" Name="Marvin2">
+            <Component Id="component41" Guid="71eb5ddb-67b6-4cc5-9920-3c3c466c4777" DiskId="1">
+              <File Id="file297" Name="PAGETE~1.ASC" LongName="PageTemplate.ascx" src="..\Subtext.Web\Skins\Marvin2\PageTemplate.ascx" />
+            </Component>
+            <Component Id="component42" Guid="c6cfa89c-f0d9-493d-85e1-99e5ab73dfbe" DiskId="1">
+              <File Id="file298" Name="blue.css" src="..\Subtext.Web\Skins\Marvin2\blue.css" />
+              <File Id="file299" Name="brown.css" src="..\Subtext.Web\Skins\Marvin2\brown.css" />
+              <File Id="file300" Name="green.css" src="..\Subtext.Web\Skins\Marvin2\green.css" />
+              <File Id="file301" Name="pink.css" src="..\Subtext.Web\Skins\Marvin2\pink.css" />
+              <File Id="file302" Name="red.css" src="..\Subtext.Web\Skins\Marvin2\red.css" />
+              <File Id="file303" Name="style.css" src="..\Subtext.Web\Skins\Marvin2\style.css" />
+              <File Id="file304" Name="vibrant.css" src="..\Subtext.Web\Skins\Marvin2\vibrant.css" />
+            </Component>
+            <Directory Id="directory25" Name="Controls">
+              <Component Id="component43" Guid="9ad9f770-0c13-41a6-b682-7996172e9414" DiskId="1">
+                <File Id="file305" Name="ARCHIV~1.ASC" LongName="ArchiveCategory.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\ArchiveCategory.ascx" />
+                <File Id="file306" Name="ARCHIV~2.ASC" LongName="ArchiveDay.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\ArchiveDay.ascx" />
+                <File Id="file307" Name="ARCHIV~3.ASC" LongName="ArchiveLinks.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\ArchiveLinks.ascx" />
+                <File Id="file308" Name="ARCHIV~4.ASC" LongName="ArchiveMonth.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\ArchiveMonth.ascx" />
+                <File Id="file309" Name="BLOGST~1.ASC" LongName="BlogStats.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\BlogStats.ascx" />
+                <File Id="file310" Name="CATEGO~1.ASC" LongName="CategoryDisplay.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\CategoryDisplay.ascx" />
+                <File Id="file311" Name="CATEGO~2.ASC" LongName="CategoryEntryList.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\CategoryEntryList.ascx" />
+                <File Id="file312" Name="CATEGO~3.ASC" LongName="CategoryList.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\CategoryList.ascx" />
+                <File Id="file313" Name="COMMEN~1.ASC" LongName="Comments.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\Comments.ascx" />
+                <File Id="file314" Name="CONTAC~1.ASC" LongName="Contact.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\Contact.ascx" />
+                <File Id="file315" Name="DAY~1.ASC" LongName="Day.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\Day.ascx" />
+                <File Id="file316" Name="DAYCOL~1.ASC" LongName="DayCollection.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\DayCollection.ascx" />
+                <File Id="file317" Name="ENTRYL~1.ASC" LongName="EntryList.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\EntryList.ascx" />
+                <File Id="file318" Name="FOOTER~1.ASC" LongName="Footer.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\Footer.ascx" />
+                <File Id="file319" Name="GALLER~1.ASC" LongName="GalleryThumbNailViewer.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\GalleryThumbNailViewer.ascx" />
+                <File Id="file320" Name="HEADER~1.ASC" LongName="Header.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\Header.ascx" />
+                <File Id="file321" Name="HOMEPA~1.ASC" LongName="HomePage.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\HomePage.ascx" />
+                <File Id="file322" Name="LOGIN~1.ASC" LongName="Login.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\Login.ascx" />
+                <File Id="file323" Name="MONTHL~1.ASC" LongName="MonthListings.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\MonthListings.ascx" />
+                <File Id="file324" Name="MYLINK~1.ASC" LongName="MyLinks.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\MyLinks.ascx" />
+                <File Id="file325" Name="NEWS~1.ASC" LongName="News.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\News.ascx" />
+                <File Id="file326" Name="POSTCO~1.ASC" LongName="PostComment.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\PostComment.ascx" />
+                <File Id="file327" Name="RELATE~1.ASC" LongName="RelatedLinks.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\RelatedLinks.ascx" />
+                <File Id="file328" Name="SINGLE~1.ASC" LongName="SingleColumn.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\SingleColumn.ascx" />
+                <File Id="file329" Name="VIEWPI~1.ASC" LongName="ViewPicture.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\ViewPicture.ascx" />
+                <File Id="file330" Name="VIEWPO~1.ASC" LongName="ViewPost.ascx" src="..\Subtext.Web\Skins\Marvin2\Controls\ViewPost.ascx" />
+              </Component>
+            </Directory>
+            <Directory Id="directory26" Name="Marvin3">
+              <Component Id="component44" Guid="55b24b45-2646-433c-bfc1-81c6ff77af04" DiskId="1">
+                <File Id="file331" Name="PAGETE~1.ASC" LongName="PageTemplate.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\PageTemplate.ascx" />
+              </Component>
+              <Component Id="component45" Guid="aa220f71-6c16-4357-ac4f-28fd446be265" DiskId="1">
+                <File Id="file332" Name="blue.css" src="..\Subtext.Web\Skins\Marvin2\Marvin3\blue.css" />
+                <File Id="file333" Name="brown.css" src="..\Subtext.Web\Skins\Marvin2\Marvin3\brown.css" />
+                <File Id="file334" Name="green.css" src="..\Subtext.Web\Skins\Marvin2\Marvin3\green.css" />
+                <File Id="file335" Name="pink.css" src="..\Subtext.Web\Skins\Marvin2\Marvin3\pink.css" />
+                <File Id="file336" Name="red.css" src="..\Subtext.Web\Skins\Marvin2\Marvin3\red.css" />
+                <File Id="file337" Name="style.css" src="..\Subtext.Web\Skins\Marvin2\Marvin3\style.css" />
+                <File Id="file338" Name="vibrant.css" src="..\Subtext.Web\Skins\Marvin2\Marvin3\vibrant.css" />
+              </Component>
+              <Directory Id="directory27" Name="Controls">
+                <Component Id="component46" Guid="a0601841-c369-456f-aba6-1ebff445c4d5" DiskId="1">
+                  <File Id="file339" Name="ARCHIV~1.ASC" LongName="ArchiveCategory.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\ArchiveCategory.ascx" />
+                  <File Id="file340" Name="ARCHIV~2.ASC" LongName="ArchiveDay.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\ArchiveDay.ascx" />
+                  <File Id="file341" Name="ARCHIV~3.ASC" LongName="ArchiveLinks.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\ArchiveLinks.ascx" />
+                  <File Id="file342" Name="ARCHIV~4.ASC" LongName="ArchiveMonth.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\ArchiveMonth.ascx" />
+                  <File Id="file343" Name="BLOGST~1.ASC" LongName="BlogStats.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\BlogStats.ascx" />
+                  <File Id="file344" Name="CATEGO~1.ASC" LongName="CategoryDisplay.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\CategoryDisplay.ascx" />
+                  <File Id="file345" Name="CATEGO~2.ASC" LongName="CategoryEntryList.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\CategoryEntryList.ascx" />
+                  <File Id="file346" Name="CATEGO~3.ASC" LongName="CategoryList.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\CategoryList.ascx" />
+                  <File Id="file347" Name="COMMEN~1.ASC" LongName="Comments.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\Comments.ascx" />
+                  <File Id="file348" Name="CONTAC~1.ASC" LongName="Contact.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\Contact.ascx" />
+                  <File Id="file349" Name="DAY~1.ASC" LongName="Day.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\Day.ascx" />
+                  <File Id="file350" Name="DAYCOL~1.ASC" LongName="DayCollection.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\DayCollection.ascx" />
+                  <File Id="file351" Name="ENTRYL~1.ASC" LongName="EntryList.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\EntryList.ascx" />
+                  <File Id="file352" Name="FOOTER~1.ASC" LongName="Footer.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\Footer.ascx" />
+                  <File Id="file353" Name="GALLER~1.ASC" LongName="GalleryThumbNailViewer.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\GalleryThumbNailViewer.ascx" />
+                  <File Id="file354" Name="HEADER~1.ASC" LongName="Header.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\Header.ascx" />
+                  <File Id="file355" Name="HOMEPA~1.ASC" LongName="HomePage.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\HomePage.ascx" />
+                  <File Id="file356" Name="LOGIN~1.ASC" LongName="Login.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\Login.ascx" />
+                  <File Id="file357" Name="MONTHL~1.ASC" LongName="MonthListings.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\MonthListings.ascx" />
+                  <File Id="file358" Name="MYLINK~1.ASC" LongName="MyLinks.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\MyLinks.ascx" />
+                  <File Id="file359" Name="NEWS~1.ASC" LongName="News.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\News.ascx" />
+                  <File Id="file360" Name="POSTCO~1.ASC" LongName="PostComment.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\PostComment.ascx" />
+                  <File Id="file361" Name="RELATE~1.ASC" LongName="RelatedLinks.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\RelatedLinks.ascx" />
+                  <File Id="file362" Name="SINGLE~1.ASC" LongName="SingleColumn.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\SingleColumn.ascx" />
+                  <File Id="file363" Name="VIEWPI~1.ASC" LongName="ViewPicture.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\ViewPicture.ascx" />
+                  <File Id="file364" Name="VIEWPO~1.ASC" LongName="ViewPost.ascx" src="..\Subtext.Web\Skins\Marvin2\Marvin3\Controls\ViewPost.ascx" />
+                </Component>
+              </Directory>
+            </Directory>
+          </Directory>
+          <Directory Id="directory28" Name="simple">
+            <Component Id="component47" Guid="c919f72b-6339-4b58-810c-a9f039830bd7" DiskId="1">
+              <File Id="file365" Name="PAGETE~1.ASC" LongName="PageTemplate.ascx" src="..\Subtext.Web\Skins\simple\PageTemplate.ascx" />
+            </Component>
+            <Component Id="component48" Guid="4dfa1518-ed8f-42cb-90dc-f6cb4736036c" DiskId="1">
+              <File Id="file366" Name="Style.css" src="..\Subtext.Web\Skins\simple\Style.css" />
+            </Component>
+            <Directory Id="directory29" Name="Controls">
+              <Component Id="component49" Guid="1087f962-2e68-4829-ad5b-c21a8a83930b" DiskId="1">
+                <File Id="file367" Name="ARCHIV~1.ASC" LongName="ArchiveCategory.ascx" src="..\Subtext.Web\Skins\simple\Controls\ArchiveCategory.ascx" />
+                <File Id="file368" Name="ARCHIV~2.ASC" LongName="ArchiveDay.ascx" src="..\Subtext.Web\Skins\simple\Controls\ArchiveDay.ascx" />
+                <File Id="file369" Name="ARCHIV~3.ASC" LongName="ArchiveLinks.ascx" src="..\Subtext.Web\Skins\simple\Controls\ArchiveLinks.ascx" />
+                <File Id="file370" Name="ARCHIV~4.ASC" LongName="ArchiveMonth.ascx" src="..\Subtext.Web\Skins\simple\Controls\ArchiveMonth.ascx" />
+                <File Id="file371" Name="BLOGST~1.ASC" LongName="BlogStats.ascx" src="..\Subtext.Web\Skins\simple\Controls\BlogStats.ascx" />
+                <File Id="file372" Name="CATEGO~1.ASC" LongName="CategoryDisplay.ascx" src="..\Subtext.Web\Skins\simple\Controls\CategoryDisplay.ascx" />
+                <File Id="file373" Name="CATEGO~2.ASC" LongName="CategoryEntryList.ascx" src="..\Subtext.Web\Skins\simple\Controls\CategoryEntryList.ascx" />
+                <File Id="file374" Name="CATEGO~3.ASC" LongName="CategoryList.ascx" src="..\Subtext.Web\Skins\simple\Controls\CategoryList.ascx" />
+                <File Id="file375" Name="COMMEN~1.ASC" LongName="Comments.ascx" src="..\Subtext.Web\Skins\simple\Controls\Comments.ascx" />
+                <File Id="file376" Name="CONTAC~1.ASC" LongName="Contact.ascx" src="..\Subtext.Web\Skins\simple\Controls\Contact.ascx" />
+                <File Id="file377" Name="DAY~1.ASC" LongName="Day.ascx" src="..\Subtext.Web\Skins\simple\Controls\Day.ascx" />
+                <File Id="file378" Name="DAYCOL~1.ASC" LongName="DayCollection.ascx" src="..\Subtext.Web\Skins\simple\Controls\DayCollection.ascx" />
+                <File Id="file379" Name="ENTRYL~1.ASC" LongName="EntryList.ascx" src="..\Subtext.Web\Skins\simple\Controls\EntryList.ascx" />
+                <File Id="file380" Name="FOOTER~1.ASC" LongName="Footer.ascx" src="..\Subtext.Web\Skins\simple\Controls\Footer.ascx" />
+                <File Id="file381" Name="GALLER~1.ASC" LongName="GalleryThumbNailViewer.ascx" src="..\Subtext.Web\Skins\simple\Controls\GalleryThumbNailViewer.ascx" />
+                <File Id="file382" Name="HEADER~1.ASC" LongName="Header.ascx" src="..\Subtext.Web\Skins\simple\Controls\Header.ascx" />
+                <File Id="file383" Name="HOMEPA~1.ASC" LongName="HomePage.ascx" src="..\Subtext.Web\Skins\simple\Controls\HomePage.ascx" />
+                <File Id="file384" Name="LOGIN~1.ASC" LongName="Login.ascx" src="..\Subtext.Web\Skins\simple\Controls\Login.ascx" />
+                <File Id="file385" Name="MONTHL~1.ASC" LongName="MonthListings.ascx" src="..\Subtext.Web\Skins\simple\Controls\MonthListings.ascx" />
+                <File Id="file386" Name="MYLINK~1.ASC" LongName="MyLinks.ascx" src="..\Subtext.Web\Skins\simple\Controls\MyLinks.ascx" />
+                <File Id="file387" Name="NEWS~1.ASC" LongName="News.ascx" src="..\Subtext.Web\Skins\simple\Controls\News.ascx" />
+                <File Id="file388" Name="POSTCO~1.ASC" LongName="PostComment.ascx" src="..\Subtext.Web\Skins\simple\Controls\PostComment.ascx" />
+                <File Id="file389" Name="RELATE~1.ASC" LongName="RelatedLinks.ascx" src="..\Subtext.Web\Skins\simple\Controls\RelatedLinks.ascx" />
+                <File Id="file390" Name="SINGLE~1.ASC" LongName="SingleColumn.ascx" src="..\Subtext.Web\Skins\simple\Controls\SingleColumn.ascx" />
+                <File Id="file391" Name="VIEWPI~1.ASC" LongName="ViewPicture.ascx" src="..\Subtext.Web\Skins\simple\Controls\ViewPicture.ascx" />
+                <File Id="file392" Name="VIEWPO~1.ASC" LongName="ViewPost.ascx" src="..\Subtext.Web\Skins\simple\Controls\ViewPost.ascx" />
+              </Component>
+            </Directory>
+          </Directory>
+          <Directory Id="directory30" Name="white">
+            <Component Id="component50" Guid="281277fb-5f77-43bc-94fa-db083793ac14" DiskId="1">
+              <File Id="file393" Name="PAGETE~1.ASC" LongName="PageTemplate.ascx" src="..\Subtext.Web\Skins\white\PageTemplate.ascx" />
+            </Component>
+            <Component Id="component51" Guid="4b5d7b4d-0880-4017-8f25-e900e70d9f9c" DiskId="1">
+              <File Id="file394" Name="Style.css" src="..\Subtext.Web\Skins\white\Style.css" />
+            </Component>
+            <Directory Id="directory31" Name="Controls">
+              <Component Id="component52" Guid="0811a968-2597-4ee5-92c5-47b384c4c55d" DiskId="1">
+                <File Id="file395" Name="ARCHIV~1.ASC" LongName="ArchiveCategory.ascx" src="..\Subtext.Web\Skins\white\Controls\ArchiveCategory.ascx" />
+                <File Id="file396" Name="ARCHIV~2.ASC" LongName="ArchiveDay.ascx" src="..\Subtext.Web\Skins\white\Controls\ArchiveDay.ascx" />
+                <File Id="file397" Name="ARCHIV~3.ASC" LongName="ArchiveLinks.ascx" src="..\Subtext.Web\Skins\white\Controls\ArchiveLinks.ascx" />
+                <File Id="file398" Name="ARCHIV~4.ASC" LongName="ArchiveMonth.ascx" src="..\Subtext.Web\Skins\white\Controls\ArchiveMonth.ascx" />
+                <File Id="file399" Name="BLOGST~1.ASC" LongName="BlogStats.ascx" src="..\Subtext.Web\Skins\white\Controls\BlogStats.ascx" />
+                <File Id="file400" Name="CATEGO~1.ASC" LongName="CategoryDisplay.ascx" src="..\Subtext.Web\Skins\white\Controls\CategoryDisplay.ascx" />
+                <File Id="file401" Name="CATEGO~2.ASC" LongName="CategoryEntryList.ascx" src="..\Subtext.Web\Skins\white\Controls\CategoryEntryList.ascx" />
+                <File Id="file402" Name="CATEGO~3.ASC" LongName="CategoryList.ascx" src="..\Subtext.Web\Skins\white\Controls\CategoryList.ascx" />
+                <File Id="file403" Name="COMMEN~1.ASC" LongName="Comments.ascx" src="..\Subtext.Web\Skins\white\Controls\Comments.ascx" />
+                <File Id="file404" Name="CONTAC~1.ASC" LongName="Contact.ascx" src="..\Subtext.Web\Skins\white\Controls\Contact.ascx" />
+                <File Id="file405" Name="DAY~1.ASC" LongName="Day.ascx" src="..\Subtext.Web\Skins\white\Controls\Day.ascx" />
+                <File Id="file406" Name="DAYCOL~1.ASC" LongName="DayCollection.ascx" src="..\Subtext.Web\Skins\white\Controls\DayCollection.ascx" />
+                <File Id="file407" Name="ENTRYL~1.ASC" LongName="EntryList.ascx" src="..\Subtext.Web\Skins\white\Controls\EntryList.ascx" />
+                <File Id="file408" Name="FOOTER~1.ASC" LongName="Footer.ascx" src="..\Subtext.Web\Skins\white\Controls\Footer.ascx" />
+                <File Id="file409" Name="GALLER~1.ASC" LongName="GalleryThumbNailViewer.ascx" src="..\Subtext.Web\Skins\white\Controls\GalleryThumbNailViewer.ascx" />
+                <File Id="file410" Name="HEADER~1.ASC" LongName="Header.ascx" src="..\Subtext.Web\Skins\white\Controls\Header.ascx" />
+                <File Id="file411" Name="HOMEPA~1.ASC" LongName="HomePage.ascx" src="..\Subtext.Web\Skins\white\Controls\HomePage.ascx" />
+                <File Id="file412" Name="LOGIN~1.ASC" LongName="Login.ascx" src="..\Subtext.Web\Skins\white\Controls\Login.ascx" />
+                <File Id="file413" Name="MONTHL~1.ASC" LongName="MonthListings.ascx" src="..\Subtext.Web\Skins\white\Controls\MonthListings.ascx" />
+                <File Id="file414" Name="MYLINK~1.ASC" LongName="MyLinks.ascx" src="..\Subtext.Web\Skins\white\Controls\MyLinks.ascx" />
+                <File Id="file415" Name="NEWS~1.ASC" LongName="News.ascx" src="..\Subtext.Web\Skins\white\Controls\News.ascx" />
+                <File Id="file416" Name="POSTCO~1.ASC" LongName="PostComment.ascx" src="..\Subtext.Web\Skins\white\Controls\PostComment.ascx" />
+                <File Id="file417" Name="RELATE~1.ASC" LongName="RelatedLinks.ascx" src="..\Subtext.Web\Skins\white\Controls\RelatedLinks.ascx" />
+                <File Id="file418" Name="SINGLE~1.ASC" LongName="SingleColumn.ascx" src="..\Subtext.Web\Skins\white\Controls\SingleColumn.ascx" />
+                <File Id="file419" Name="VIEWPI~1.ASC" LongName="ViewPicture.ascx" src="..\Subtext.Web\Skins\white\Controls\ViewPicture.ascx" />
+                <File Id="file420" Name="VIEWPO~1.ASC" LongName="ViewPost.ascx" src="..\Subtext.Web\Skins\white\Controls\ViewPost.ascx" />
+              </Component>
+            </Directory>
+          </Directory>
+        </Directory>
+        <Directory Id="directory32" Name="UI">
+          <Directory Id="directory33" Name="WEBCON~1" LongName="WebControls">
+            <Component Id="component53" Guid="ca819ee1-8deb-4f64-b838-a5d5c7cfaaab" DiskId="1">
+              <File Id="file421" Name="CONTEN~1.BMP" LongName="ContentRegion.bmp" src="..\Subtext.Web\UI\WebControls\ContentRegion.bmp" />
+              <File Id="file422" Name="MASTER~1.BMP" LongName="MasterPage.bmp" src="..\Subtext.Web\UI\WebControls\MasterPage.bmp" />
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+</Wix>
