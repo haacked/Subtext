@@ -20,7 +20,7 @@ namespace Subtext.Common.UrlManager
 		{
 			if(controls != null)
 			{
-				context.Items.Add("Subtext.Common.UrlManager.ControlContext",controls);
+				context.Items.Add("Subtext.Common.UrlManager.ControlContext", controls);
 			}
 		}
 

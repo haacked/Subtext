@@ -37,18 +37,11 @@ namespace Subtext.Common.UrlManager
 	};
 
 	/// <summary>
-	/// Summary description for HttpHandler.
+	/// Class used to match URLS to the controls that render the URL.
 	/// </summary>
 	public class HttpHandler
 	{
-		public HttpHandler()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
-		private readonly object HandlerLock = new object();
+		private readonly object handlerLock = new object();
 
 		private string _pattern;
 		[XmlAttribute("pattern")]
@@ -114,7 +107,7 @@ namespace Subtext.Common.UrlManager
 			{
 				if(this._httpHanlderType == null)
 				{
-					lock(HandlerLock)
+					lock(handlerLock)
 					{
 						if(this._httpHanlderType == null)
 						{
@@ -131,7 +124,7 @@ namespace Subtext.Common.UrlManager
 		{
 			if(constructor == null)
 			{
-				lock(HandlerLock)
+				lock(handlerLock)
 				{
 					if(constructor == null)
 					{
@@ -145,7 +138,8 @@ namespace Subtext.Common.UrlManager
 
 		private Regex _urlRegex;
 		//Will throw an exception without Ignore Attribute..err...
-		//Cache the Regex so that it does not have to be constantly recreated. This will also allow us to use Compiled expressions as well.
+		//Cache the Regex so that it does not have to be constantly recreated. 
+		//This will also allow us to use Compiled expressions as well.
 		[XmlIgnoreAttribute]
 		public Regex UrlRegex
 		{
@@ -155,12 +149,17 @@ namespace Subtext.Common.UrlManager
 			{
 				if(_urlRegex == null)
 				{
-					_urlRegex = new Regex(this.Pattern,RegexOptions.IgnoreCase|RegexOptions.Compiled);
+					_urlRegex = new Regex(this.Pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
 				}
 				return _urlRegex;
 			}
 		}
 
+		/// <summary>
+		/// Returns true if the regex matches the specified URL.
+		/// </summary>
+		/// <param name="url">URL.</param>
+		/// <returns></returns>
 		public bool IsMatch(string url)
 		{
 			return UrlRegex.IsMatch(url);

@@ -10,18 +10,20 @@
 	</HEAD>
 	<body id="AdminSection" runat="server">
 		<form id="frmMain" method="post" runat="server">
-			<table id="BodyTable" border="0" cellpadding="0" cellspacing="0" width="100%">
+			<table id="BodyTable" cellpadding="0" cellspacing="0" width="100%">
 				<tr>
-					<td id="Header" colspan="2">
+					<td>
+						<a href="http://sourceforge.net/projects/subtext/"><img id="HeaderLogo" align="right" src='<%= Utilities.ResourcePath + "resources/header_logo.gif" %>' height="100" width="121" border="0" /></a>
+					</td>
+					<td id="header">
 						<div id="SiteNav">
 							Logged in as <strong>
 								<asp:Literal Runat="server" ID="LoggedInUser" /></strong> (<asp:LinkButton id="LogoutLink" runat="server">logout</asp:LinkButton>) 
-							| <a href="http://scottwater.com/blog">.Text Site</a> | <a href="http://dottextwiki.scottwater.com">Help</a>
+							| <a href="http://sourceforge.net/projects/subtext/">Subtext Project Site</a>
 						</div>
 						<div id="BlogTitle">
 							<asp:HyperLink id="BlogTitleLink" runat="server" />
 						</div>
-						<a href="http://scottwater.com/blog"><img id="HeaderLogo" src='<%= Utilities.ResourcePath + "resources/header_logo.gif" %>' height="50" width="103" border = "0"></a>
 					</td>
 				</tr>
 				<tr>
@@ -74,8 +76,10 @@
 					<td id="Footer" colspan="2">
 						<div>
 							<a href="http://www.asp.net"><img id="PoweredBy" src='<%= Utilities.ResourcePath + "resources/poweredbydotnet.gif" %>' height="33" width="99"></a>
+							Copyright © <a href="http://haacked.com/blog">Phil Haack</a>, 2005. All 
+							rights reserved.<br/>
 							Copyright © <a href="http://scottwater.com/blog">Scott Watermasysk</a>, 2003. All 
-							rights reserved.
+							rights reserved. 
 						</div>
 					</td>
 				</tr>

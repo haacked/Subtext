@@ -66,6 +66,8 @@ namespace Subtext.Common.Config
 			}
 
 			BlogConfig config = Subtext.Framework.Configuration.Config.GetConfig(Host, Application);
+			config.Host = Host;
+			config.Application = Application;
 
 			BlogConfigurationSettings settings = Subtext.Framework.Configuration.Config.Settings;
 
