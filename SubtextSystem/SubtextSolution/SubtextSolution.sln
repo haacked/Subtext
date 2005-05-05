@@ -46,8 +46,9 @@ Global
 		{745B39B7-DE46-4070-8733-C53308721C58}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
+		CVSReadMe.txt = CVSReadMe.txt
 		License.txt = License.txt
-		TextLicense.txt = TextLicense.txt
+		SourceGuidelines.txt = SourceGuidelines.txt
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
