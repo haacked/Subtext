@@ -1,0 +1,190 @@
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Data.SqlClient;
+using System.IO;
+using System.Reflection;
+using System.Text.RegularExpressions;
+
+namespace Subtext.Web.Installation
+{
+	/// <summary>
+	/// Custom installer for the Subtext project.  Parts adapted from Stefan Prodan's 
+	/// article in http://www.codeguru.com/Csharp/.NET/net_security/encryption/article.php/c9601__2/
+	/// </summary>
+	[RunInstaller(true)]
+	public class SubtextInstaller : System.Configuration.Install.Installer
+	{
+		//default value, it will be overwritten by the installer
+		string _connectionString = "packet size=4096;integrated security=SSPI;" 
+			+ "data source=\"(local)\";persist security info=False;" 
+			+ "initial catalog=master";
+
+		/// <summary>
+		/// Gets the SQL script to execute by name.
+		/// </summary>
+		/// <param name="name">Name.</param>
+		/// <returns></returns>
+		private static string GetScript(string name)
+		{
+			Assembly assembly = Assembly.GetExecutingAssembly();
+			using(Stream stream = assembly.GetManifestResourceStream(typeof(SubtextInstaller), "Installation." + name))
+			using(StreamReader reader = new StreamReader(stream))
+			{
+				return reader.ReadToEnd();
+			}
+		}
+		
+		private static string GetLogin(string databaseServer, string userName, string userPass,string database)
+		{
+			return "server=" + databaseServer + ";database=" + database + ";User ID=" + userName + ";Password=" + userPass;
+		}
+
+		private static void ExecuteSql(SqlConnection connection)
+		{
+			string[] SqlLine;
+			Regex regex = new Regex("^GO",RegexOptions.IgnoreCase | RegexOptions.Multiline);
+
+			string txtSQL = GetScript("InstallationScript.v1.0.sql");
+			SqlLine = regex.Split(txtSQL);
+
+			using(SqlCommand cmd = connection.CreateCommand())
+			{
+				cmd.Connection = connection;
+
+				foreach(string line in SqlLine)
+				{
+					if(line.Length>0)
+					{
+						cmd.CommandText = line;
+						cmd.CommandType = CommandType.Text;
+						try
+						{
+							cmd.ExecuteNonQuery();
+						}
+						catch(SqlException)
+						{
+							//rollback
+							ExecuteDrop(connection);
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Installs the specified state saver.
+		/// </summary>
+		/// <param name="stateSaver">State saver.</param>
+		public override void Install(IDictionary stateSaver)
+		{
+			base.Install (stateSaver);
+
+			if(Context.Parameters["DatabaseServer"].Length > 0 
+				&&	Context.Parameters["UserName"].Length > 0 
+				&&	Context.Parameters["Password"].Length > 0
+				&&	Context.Parameters["Database"].Length > 0)
+			{
+				_connectionString = GetLogin(
+					Context.Parameters["DatabaseServer"],
+					Context.Parameters["UserName"],
+					Context.Parameters["Password"],
+					Context.Parameters["Database"]);
+
+				RijndaelCryptography rijndael = new RijndaelCryptography();
+				rijndael.GenKey();
+				rijndael.Encrypt(_connectionString);
+				
+				//save information in the state-saver IDictionary
+				//to be used in the Uninstall method
+				stateSaver.Add("key", rijndael.Key);
+				stateSaver.Add("IV", rijndael.IV);
+				stateSaver.Add("connectionString", rijndael.Encrypted);
+			}
+
+			using(SqlConnection connection = new SqlConnection(_connectionString))
+			{
+				connection.Open();
+				ExecuteSql(connection);
+				if(connection.State!=ConnectionState.Closed)connection.Close();
+			}
+		}
+
+		public override void Uninstall(IDictionary savedState)
+		{
+			base.Uninstall (savedState);
+
+			if(savedState.Contains("connectionString"))
+			{
+				RijndaelCryptography rijndael = new RijndaelCryptography();
+				rijndael.Key = (byte[])savedState["key"];
+				rijndael.IV = (byte[])savedState["IV"];
+				_connectionString = rijndael.Decrypt((byte[])savedState["connectionString"]);            
+			}
+
+			using(SqlConnection connection = new SqlConnection(_connectionString))
+			{
+				ExecuteDrop(connection);
+			}
+		}
+
+		private static void ExecuteDrop(SqlConnection connection)
+		{
+			if(connection.State != ConnectionState.Closed)
+				connection.Close();
+
+			
+			connection.Open();
+			using(SqlCommand cmd  = connection.CreateCommand())
+			{
+				cmd.Connection  = connection;
+				cmd.CommandText = GetScript("uninstall.txt");
+				cmd.CommandType = CommandType.Text;
+				cmd.ExecuteNonQuery();
+			}
+			connection.Close();
+		}
+
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		private System.ComponentModel.Container components = null;
+
+		public SubtextInstaller()
+		{
+			// This call is required by the Designer.
+			InitializeComponent();
+
+			// TODO: Add any initialization after the InitializeComponent call
+		}
+
+		/// <summary> 
+		/// Clean up any resources being used.
+		/// </summary>
+		protected override void Dispose( bool disposing )
+		{
+			if( disposing )
+			{
+				if(components != null)
+				{
+					components.Dispose();
+				}
+			}
+			base.Dispose( disposing );
+		}
+
+
+		#region Component Designer generated code
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
+			components = new System.ComponentModel.Container();
+		}
+		#endregion
+	}
+}

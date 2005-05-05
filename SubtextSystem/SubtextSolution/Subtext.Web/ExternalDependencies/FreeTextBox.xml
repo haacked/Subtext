@@ -1,0 +1,1148 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FreeTextBox</name>
+    </assembly>
+    <members>
+        <member name="T:FreeTextBoxControls.Common.PostProcessor">
+            <summary>
+            Handles HTML processing 
+            </summary>	
+        </member>
+        <member name="M:FreeTextBoxControls.Common.PostProcessor.HtmlSymbolsToHtmlCodes(System.String)">
+            <summary>
+            Converts Html Symbols to their respective Html Codes
+            </summary>	
+        </member>
+        <member name="M:FreeTextBoxControls.Common.PostProcessor.HtmlCodesToHtmlSymbols(System.String)">
+            <summary>
+            Converts Html Codes to Html Characters
+            </summary>	
+        </member>
+        <member name="M:FreeTextBoxControls.Common.PostProcessor.RemoveServerNameFromUrls(System.String,System.String)">
+            <summary>
+            Removes the local servername from A and IMG tags
+            </summary>
+        </member>
+        <member name="M:FreeTextBoxControls.Common.PostProcessor.RemoveScriptNameFromBookmarks(System.String,System.String,System.String,System.String)">
+            <summary>
+            Removes the scriptname from bookmarks (#mark).
+            </summary>
+        </member>
+        <member name="M:FreeTextBoxControls.Common.PostProcessor.ToString">
+            <summary>
+            Outputs a table of all available HMTL Characters
+            </summary>
+        </member>
+        <member name="T:FreeTextBoxControls.Common.ToolbarDropDownListItems">
+            <summary>
+            Collection for ToolbarDropDownList
+            </summary>
+        </member>
+        <member name="T:FreeTextBoxControls.Common.ToolbarItemsList">
+            <summary>
+            Collection of ToolbarItems for Toolbar
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.Common.ToolbarItemsList.Item(System.Int32)">
+            <summary>
+            The Items (ToolbarButton, ToolbarDropDownList, ToolbarSeparator) in the toolbar
+            </summary>
+        </member>
+        <member name="T:FreeTextBoxControls.Common.ToolbarList">
+            <summary>
+            Collection of Toolbars
+            </summary>
+        </member>
+        <member name="T:FreeTextBoxControls.AutoConfigure">
+            <summary>
+            Several predefined sets of buttons
+            </summary>
+        </member>
+        <member name="F:FreeTextBoxControls.AutoConfigure.Default">
+            <summary>
+            Uses the default string of buttons
+            </summary>		
+        </member>
+        <member name="F:FreeTextBoxControls.AutoConfigure.Minimal">
+            <summary>
+            Enables only a few buttons
+            </summary>		
+        </member>
+        <member name="F:FreeTextBoxControls.AutoConfigure.EnableAll">
+            <summary>
+            Enables all buttons and dropdowns
+            </summary>		
+        </member>
+        <member name="F:FreeTextBoxControls.AutoConfigure.Alternate">
+            <summary>
+            Any alternate layout that emphasizes the save button and color pickers
+            </summary>
+        </member>
+        <member name="T:FreeTextBoxControls.BreakMode">
+            <summary>
+            Determines what happens when the "enter" key is pressed in the editor
+            </summary>
+        </member>
+        <member name="F:FreeTextBoxControls.BreakMode.LineBreak">
+            <summary>
+            Enter key inserts &lt;br&gt;
+            </summary>
+        </member>
+        <member name="F:FreeTextBoxControls.BreakMode.ParagraphBreak">
+            <summary>
+            Enter key inserts new paragraph, Ctrl+Enter inserts &lt;br&gt;
+            </summary>
+        </member>
+        <member name="T:FreeTextBoxControls.ButtonTitleMode">
+            <summary>
+            Determines how or if titles are displayed on buttons
+            </summary>
+        </member>
+        <member name="F:FreeTextBoxControls.ButtonTitleMode.None">
+            <summary>
+            No button titles are displayed.  Overrides ToolbarButton.TitleVisible
+            </summary>
+        </member>
+        <member name="F:FreeTextBoxControls.ButtonTitleMode.Selective">
+            <summary>
+            Button Titles are only show if the buttons TitleVisible property is true
+            </summary>
+        </member>
+        <member name="F:FreeTextBoxControls.ButtonTitleMode.All">
+            <summary>
+            All button titles are shown
+            </summary>
+        </member>
+        <member name="T:FreeTextBoxControls.ButtonType">
+            <summary>
+            Determines how buttons are drawn
+            </summary>
+        </member>
+        <member name="F:FreeTextBoxControls.ButtonType.Image">
+            <summary>
+            Uses images for buttons.  Button borders and backcolors default to Office XP style
+            </summary>
+        </member>
+        <member name="F:FreeTextBoxControls.ButtonType.FormButton">
+            <summary>
+            Uses HTML &lt;input type="button"&gt; for ToolbarButtons
+            </summary>
+        </member>
+        <member name="T:FreeTextBoxControls.DownlevelMode">
+            <summary>
+            Determines what is displayed for Downlevel browsers
+            </summary>
+        </member>
+        <member name="F:FreeTextBoxControls.DownlevelMode.BasicEditor">
+            <summary>
+            A basic editor consisting of a normal TEXTAREA with a WYSISYG Div
+            </summary>		
+        </member>
+        <member name="F:FreeTextBoxControls.DownlevelMode.Document">
+            <summary>
+            Displays the HTML inline with no form control
+            </summary>		
+        </member>
+        <member name="F:FreeTextBoxControls.DownlevelMode.Message">
+            <summary>
+            Outputs a predefined message
+            </summary>
+        </member>
+        <member name="F:FreeTextBoxControls.DownlevelMode.TextArea">
+            <summary>
+            Outputs a standard HTML textarea
+            </summary>
+        </member>
+        <member name="T:FreeTextBoxControls.EditorMode">
+            <summary>
+            Determines which mode the editor is in
+            </summary>
+        </member>
+        <member name="F:FreeTextBoxControls.EditorMode.HtmlMode">
+            <summary>
+            HTML editing mode
+            </summary>		
+        </member>
+        <member name="F:FreeTextBoxControls.EditorMode.DesignMode">
+            <summary>
+            What you see is what you get design mode
+            </summary>		
+        </member>
+        <member name="T:FreeTextBoxControls.HtmlMode">
+            <summary>
+            Determines what type of interface is displayed for switching between HtmlMode and DesignMode
+            </summary>
+        </member>
+        <member name="F:FreeTextBoxControls.HtmlMode.Tabs">
+            <summary>
+            Default.  ASP.NET Web Matrix style tabs
+            </summary>		
+        </member>
+        <member name="F:FreeTextBoxControls.HtmlMode.Checkbox">
+            <summary>
+            An HTML checkbox is used for switching modes
+            </summary>		
+        </member>
+        <member name="T:FreeTextBoxControls.ScrollbarMode">
+            <summary>
+            Determines the style of the scroll bar.
+            </summary>
+        </member>
+        <member name="F:FreeTextBoxControls.ScrollbarMode.None">
+            <summary>
+            No styles are applied.  The default scroll bar is used.
+            </summary>
+        </member>
+        <member name="F:FreeTextBoxControls.ScrollbarMode.Style">
+            <summary>
+            Uses styles from the ScrollbarStyle object which defaults to a Visual Studio.NET style flat scrollbar.
+            </summary>
+        </member>
+        <member name="T:FreeTextBoxControls.ToolbarType">
+            <summary>
+            Determines how the toolbars and its buttons and dropdownlists are displayed
+            </summary>
+        </member>
+        <member name="F:FreeTextBoxControls.ToolbarType.OfficeXP">
+            <summary>
+            Sets images, borders and backcolors to Office XP style
+            </summary>
+        </member>
+        <member name="F:FreeTextBoxControls.ToolbarType.Office2000">
+            <summary>
+            Sets images, borders and backcolors to Office 2000 style
+            </summary>
+        </member>
+        <member name="F:FreeTextBoxControls.ToolbarType.Office2003">
+            <summary>
+            Sets images, borders and backcolors to Office 2003 style
+            </summary>
+        </member>
+        <member name="F:FreeTextBoxControls.ToolbarType.Custom">
+            <summary>
+            You must use this setting if you want custom colors. Otherwise the other settings will override your settings.
+            </summary>
+        </member>
+        <member name="T:FreeTextBoxControls.ScrollbarStyle">
+            <summary>
+            Contains all the style parameters for ToolbarButtons
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ScrollbarStyle.ThreeDLightColor">
+            <summary>
+            The color of the top and left edges of the scroll box and scroll arrows of a scroll bar.
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ScrollbarStyle.ArrowColor">
+            <summary>
+            The color of the arrow elements of a scroll arrow.
+            </summary>		
+        </member>
+        <member name="P:FreeTextBoxControls.ScrollbarStyle.BaseColor">
+            <summary>
+            The color of the main elements of a scroll bar, which include the scroll box, track, and scroll arrows
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ScrollbarStyle.DarkShadowColor">
+            <summary>
+            The color of the gutter of a scroll bar.
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ScrollbarStyle.FaceColor">
+            <summary>
+            The color of the scroll box and scroll arrows of a scroll bar.
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ScrollbarStyle.HighlightColor">
+            <summary>
+            The color of the top and left edges of the scroll box and scroll arrows of a scroll bar.
+            </summary>		
+        </member>
+        <member name="P:FreeTextBoxControls.ScrollbarStyle.ShadowColor">
+            <summary>
+            The color of the bottom and right edges of the scroll box and scroll arrows of a scroll bar.
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ScrollbarStyle.TrackColor">
+            <summary>
+            The color of the track.
+            </summary>	
+        </member>
+        <member name="T:FreeTextBoxControls.ToolbarButtonStyle">
+            <summary>
+            Contains all the style parameters for ToolbarButtons
+            </summary>
+        </member>
+        <member name="M:FreeTextBoxControls.ToolbarButtonStyle.#ctor">
+            <summary>
+            Empty constructor
+            </summary>			
+        </member>
+        <member name="M:FreeTextBoxControls.ToolbarButtonStyle.#ctor(System.Drawing.Color,System.Drawing.Color,System.Drawing.Color,System.Drawing.Color,System.Drawing.Color,System.Drawing.Color,System.Drawing.Color,System.Drawing.Color)">
+            <summary>
+            Constructor for colors only
+            </summary>
+        </member>
+        <member name="M:FreeTextBoxControls.ToolbarButtonStyle.#ctor(System.Drawing.Color,System.Drawing.Color,System.String,System.Drawing.Color,System.Drawing.Color,System.String,System.Drawing.Color,System.Drawing.Color)">
+            <summary>
+            Constructor with colors and images
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarButtonStyle.BorderColor">
+            <summary>
+            Sets BorderColorLight and BorderColorDark.
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarButtonStyle.BorderColorLight">
+            <summary>
+            The default light (top and left) border color of buttons.
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarButtonStyle.BorderColorDark">
+            <summary>
+            The default dark (right and bottom) border color of buttons.
+            </summary>		
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarButtonStyle.OverBackColor">
+            <summary>
+            The default onMouseOver back color of buttons.
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarButtonStyle.OverBorderColorLight">
+            <summary>
+            The default onMouseOver light (top and left) border color of buttons.
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarButtonStyle.OverBorderColorDark">
+            <summary>
+            The default onMouseOver dark (right and bottom) border color of buttons.
+            </summary>		
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarButtonStyle.OverBackgroundImage">
+            <summary>
+            The background image onMouseDown.
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarButtonStyle.DownBackColor">
+            <summary>
+            The default onMouseDown back color of buttons.
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarButtonStyle.DownBorderColorLight">
+            <summary>
+            The default onMouseDown light (top and left) border color of buttons onMouseDown.
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarButtonStyle.DownBorderColorDark">
+            <summary>
+            The default onMouseDown dark (right and bottom) border color of buttons onMouseDown.
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarButtonStyle.DownBackgroundImage">
+            <summary>
+            The background image onMouseDown.
+            </summary>
+        </member>
+        <member name="T:FreeTextBoxControls.ToolbarGenerator">
+            <summary>
+            Builds Toolbars and ToolbarItems from strings 
+            </summary>	
+        </member>
+        <member name="M:FreeTextBoxControls.ToolbarGenerator.ToolbarsFromString(System.String)">
+            <summary>
+            Generates Toolbars from ToolbarLayout string
+            </summary>
+        </member>
+        <member name="M:FreeTextBoxControls.ToolbarGenerator.ToolbarItemFromString(System.String)">
+            <summary>
+            Returns a ToolbarItem from it's string representation.  If an invalid string is given, a ToolbarSeparator is returned.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarGenerator.Default">
+            <summary>
+            Returns a Toolbars with the default configuration
+            </summary>			
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarGenerator.EnableAll">
+            <summary>
+            Returns a Toolbars with the all buttons and dropdowns enabled
+            </summary>			
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarGenerator.Alternate">
+            <summary>
+            Returns a Toolbars with an alternate configuration
+            </summary>			
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarGenerator.Minimal">
+            <summary>
+            Returns a Toolbars with only bold, italic, and underline
+            </summary>			
+        </member>
+        <member name="T:FreeTextBoxControls.Toolbar">
+            <summary>
+            A Toolbar for FreeTextBox
+            </summary>
+        </member>
+        <member name="F:FreeTextBoxControls.Toolbar.Items">
+            <summary>
+            The Items (ToolbarButton, ToolbarDropDownList, ToolbarSeparator) in the toolbar
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.Toolbar.Name">
+            <summary>
+            The name of the Toolbar
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.Toolbar.Visible">
+            <summary>
+            Whether the toolbar will be rendered visible
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.Toolbar.Moveable">
+            <summary>
+            Not Implimented
+            </summary>
+        </member>
+        <member name="T:FreeTextBoxControls.ToolbarButton">
+            <summary>
+            A button used in an Toolbar
+            </summary>
+        </member>
+        <member name="T:FreeTextBoxControls.ToolbarItem">
+            <summary>
+            Abstract class for all toolbar items
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItem.Title">
+            <summary>
+            The Title of the ToolbarItem
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItem.Name">
+            <summary>
+            The Name of the ToolbarItem
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItem.Visible">
+            <summary>
+            Whether the item is visible
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItem.CommandIdentifier">
+            <summary>
+            The MSHTML specific command identifier used for dynamic updating through the queryCommandState method
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItem.Function">
+            <summary>
+            The javascript function fired when the item's action is triggered
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItem.ScriptBlock">
+            <summary>
+            The JavaScript code for the function
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItem.ScriptBlockBasic">
+            <summary>
+            The JavaScript used for the simple editor for Netscape and IE4
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItem.Width">
+            <summary>
+            Button Width
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItem.Height">
+            <summary>
+            Button Height
+            </summary>
+        </member>
+        <member name="F:FreeTextBoxControls.ToolbarButton.ButtonTitleMode">
+            <summary>
+            Determines how the title of the button will be displayed
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarButton.TitleVisible">
+            <summary>
+            Determines whether a button's Title is shown
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarButton.Href">
+            <summary>
+            Used if a button does not execute a function
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarButton.Target">
+            <summary>
+            The target for Href property
+            </summary>
+        </member>
+        <member name="T:FreeTextBoxControls.ToolbarDropDownList">
+            <summary>
+            A DropDownList for a Toolbar
+            </summary>
+        </member>
+        <member name="F:FreeTextBoxControls.ToolbarDropDownList.Items">
+            <summary>
+            Collection of ToolbarListItems
+            </summary>
+        </member>
+        <member name="T:FreeTextBoxControls.ToolbarListItem">
+            <summary>
+            A DropDownList Item for a Toolbar
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarListItem.Name">
+            <summary>
+            The name displayed for the DropDown Item
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarListItem.Value">
+            <summary>
+            The value of the DropDown item
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarListItem.BackColor">
+            <summary>
+            The backcolor of the DropDown item
+            </summary>
+        </member>
+        <member name="T:FreeTextBoxControls.ToolbarItems">
+            <summary>
+            Contains all the built-in ToolbarButtons and ToolbarDropDownLists
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.ieSpellCheck">
+            <summary>
+            Returns a ToolbarButton with ieSpellCheck JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.Save">
+            <summary>
+            Returns a ToolbarButton with Save JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.Bold">
+            <summary>
+            Returns a ToolbarButton with Bold JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.Italic">
+            <summary>
+            Returns a ToolbarButton with Italic JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.Underline">
+            <summary>
+            Returns a ToolbarButton with Underline JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.Strikethrough">
+            <summary>
+            Returns a ToolbarButton with Strikethrough JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.Superscript">
+            <summary>
+            Returns a ToolbarButton with Superscript JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.Subscript">
+            <summary>
+            Returns a ToolbarButton with Subscript JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.RemoveFormat">
+            <summary>
+            Returns a ToolbarButton with RemoveFormat JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.FontForeColorPicker">
+            <summary>
+            Returns a ToolbarButton with FontForeColorPicker JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.FontBackColorPicker">
+            <summary>
+            Returns a ToolbarButton with FontBackColorPicker JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.JustifyLeft">
+            <summary>
+            Returns a ToolbarButton with JustifyLeft JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.JustifyRight">
+            <summary>
+            Returns a ToolbarButton with JustifyRight JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.JustifyCenter">
+            <summary>
+            Returns a ToolbarButton with JustifyCenter JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.JustifyFull">
+            <summary>
+            Returns a ToolbarButton with JustifyFull JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.BulletedList">
+            <summary>
+            Returns a ToolbarButton with BulletedList JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.NumberedList">
+            <summary>
+            Returns a ToolbarButton with NumberedList JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.Indent">
+            <summary>
+            Returns a ToolbarButton with Indent JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.Outdent">
+            <summary>
+            Returns a ToolbarButton with Outdent JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.Cut">
+            <summary>
+            Returns a ToolbarButton with Cut JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.Copy">
+            <summary>
+            Returns a ToolbarButton with Copy JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.Paste">
+            <summary>
+            Returns a ToolbarButton with Paste JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.Undo">
+            <summary>
+            Returns a ToolbarButton with Undo JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.Redo">
+            <summary>
+            Returns a ToolbarButton with Redo JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.Print">
+            <summary>
+            Returns a ToolbarButton with Print JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.ChangeCase">
+            <summary>
+            Returns a ToolbarButton with ChangeCase JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.Delete">
+            <summary>
+            Returns a ToolbarButton with Delete JavaScript functions builtin
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.CreateLink">
+            <summary>
+            Returns a ToolbarButton with CreateLink JavaScript functions builtin
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.Unlink">
+            <summary>
+            Returns a ToolbarButton with Unlink JavaScript functions builtin
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.InsertImage">
+            <summary>
+            Returns a ToolbarButton with InsertImage JavaScript functions builtin
+            </summary>			
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.InsertImageFromGallery">
+            <summary>
+            Returns a ToolbarButton with InsertImageFromGallery JavaScript functions builtin
+            </summary>			
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.InsertRule">
+            <summary>
+            Returns a ToolbarButton with InsertRule JavaScript functions builtin
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.InsertDate">
+            <summary>
+            Returns a ToolbarButton with InsertDate JavaScript functions builtin
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.InsertTime">
+            <summary>
+            Returns a ToolbarButton with InsertTime JavaScript functions builtin
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.WordCount">
+            <summary>
+            Returns a ToolbarButton with WordCount JavaScript functions builtin
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.WordClean">
+            <summary>
+            Returns a ToolbarButton with InsertImage JavaScript functions builtin
+            </summary>			
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.InsertTable">
+            <summary>
+            Returns a ToolbarButton with InsertTable JavaScript functions builtin
+            </summary>			
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.Separator">
+            <summary>
+            Returns a ToolbarSeparator
+            </summary>			
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.FontFacesMenu">
+            <summary>
+            Returns a ToolbarDropDownList with FontFacesMenu JavaScript functions builtin.  Items will be filled by FreeTextBox.FillEmptyDefaultDropDowns.
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.FontSizesMenu">
+            <summary>
+            Returns a ToolbarDropDownList with FontSizesMenu JavaScript functions builtin.  Items will be filled by FreeTextBox.FillEmptyDefaultDropDowns.
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.FontForeColorsMenu">
+            <summary>
+            Returns a ToolbarDropDownList with FontForeColorsMenu JavaScript functions builtin.  Items will be filled by FreeTextBox.FillEmptyDefaultDropDowns.
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.FontBackColorsMenu">
+            <summary>
+            Returns a ToolbarDropDownList with FontBackColorsMenu JavaScript functions builtin.  Items will be filled by FreeTextBox.FillEmptyDefaultDropDowns.
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.StyleMenu">
+            <summary>
+            Returns a ToolbarDropDownList with StyleMenu JavaScript functions builtin.  Items will be filled by FreeTextBox.FillEmptyDefaultDropDowns.
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.InsertHtmlMenu">
+            <summary>
+            Returns a ToolbarDropDownList with InsertHtmlMenu JavaScript functions builtin.  Items will be filled by FreeTextBox.FillEmptyDefaultDropDowns.
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.SymbolsMenu">
+            <summary>
+            Returns a ToolbarDropDownList with SymbolsMenu JavaScript functions builtin.  Items will be filled by FreeTextBox.FillEmptyDefaultDropDowns.
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.ToolbarItems.ParagraphMenu">
+            <summary>
+            Returns a ToolbarDropDownList with ParagraphMenu JavaScript functions builtin.  Items will be filled by FreeTextBox.FillEmptyDefaultDropDowns.
+            </summary>	
+        </member>
+        <member name="T:FreeTextBoxControls.ToolbarSeparator">
+            <summary>
+            Creates a separator bar in a Toolbar
+            </summary>
+        </member>
+        <member name="M:FreeTextBoxControls.ToolbarSeparator.#ctor">
+            <summary>
+            Empty Constructor
+            </summary>
+        </member>
+        <member name="T:FreeTextBoxControls.FreeTextBox">
+            <summary>
+            An HTML editor using MSHTML written for ASP.NET.
+            </summary>
+        </member>
+        <member name="M:FreeTextBoxControls.FreeTextBox.OnSaveClick(System.EventArgs)">
+            <summary>
+            Event for Save button
+            </summary>
+        </member>
+        <member name="F:FreeTextBoxControls.FreeTextBox.Toolbars">
+            <summary>
+            Collection of the toolbars
+            </summary>
+        </member>
+        <member name="E:FreeTextBoxControls.FreeTextBox.SaveClick">
+            <summary>
+            The event fired when a Save button is pressed.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.HtmlStrippedText">
+            <summary>
+            Returns the Text property stripped of HTML, using Regex &lt;(.|\n)+?&gt;
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.Text">
+            <summary>
+            Contains the HTML for the editor.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.RawText">
+            <summary>
+            Outputs what is stored in the hidden HMTL field before any post processing
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.HtmlEncodedText">
+            <summary>
+            Applies Server.HtmlEncode to Text.  Please note that Server.HtmlEncode does not recognize all HTML characters.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.DisablePaste">
+            <summary>
+            If true, does not allow pasting of text into FreeTextArea.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.RemoveServerNameFromUrls">
+            <summary>
+            If true, strips out the local server name from all A and IMG tags
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.RemoveScriptNameFromBookmarks">
+            <summary>
+            Removes the scriptname from bookmarks
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.EnableSsl">
+            <summary>
+            If true, sets IFRAME source so that SSL will work
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.ConvertHtmlSymbolsToHtmlCodes">
+            <summary>
+            If true, strips out all the base
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.AlertClientToChangesInDesignMode">
+            <summary>
+            When the user switches from Html to Design mode this will alert the user to possible changes or additions made by MSHTML.  Default false.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.EnableCurlyQuotes">
+            <summary>
+            Will insert curly quotes (using HTML codes &#8220; and &#8221;) in place of normal quotes.  Default true.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.FontFacesMenuTitle">
+            <summary>
+            The title for the font drop down.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.FontFacesMenuList">
+            <summary>
+            A list of fonts for the font drop down.
+            </summary>		
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.FontSizesMenuTitle">
+            <summary>
+            The title for the font sizes drop down.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.FontSizesMenuList">
+            <summary>
+            A list of fonts sizes the font sizes drop down.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.FontForeColorsMenuTitle">
+            <summary>
+            The title for the font fore colors drop down.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.FontForeColorsMenuList">
+            <summary>
+            A list of colors for the font fore colors drop down.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.FontForeColorsMenuNames">
+            <summary>
+            A list of color names for the font fore colors drop down.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.FontBackColorsMenuTitle">
+            <summary>
+            The title for the font back colors drop down.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.FontBackColorsMenuList">
+            <summary>
+            A list of colors for the font back colors drop down.
+            </summary>		
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.FontBackColorsMenuNames">
+            <summary>
+            A list of color names for the font back colors drop down.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.SymbolsMenuTitle">
+            <summary>
+            The title for the symbols drop down.
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.SymbolsMenuList">
+            <summary>
+            A list of HTML values for the symbols drop down.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.StyleMenuTitle">
+            <summary>
+            The title for the styles drop down.
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.StyleMenuNames">
+            <summary>
+            A list of style names for the style drop down.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.StyleMenuList">
+            <summary>
+            A list of styles for the style drop down.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.InsertHtmlMenuTitle">
+            <summary>
+            The title for the insert HTML drop down.
+            </summary>		
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.InsertHtmlMenuNames">
+            <summary>
+            A list of names for items in the insert HTML drop down.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.InsertHtmlMenuList">
+            <summary>
+            A list of HTML for the insert HTML drop down.
+            </summary>		
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.ParagraphMenuTitle">
+            <summary>
+            The title for the paragraph formatting drop down.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.ParagraphMenuNames">
+            <summary>
+            A list of paragraph names for the paragraph formatting drop down.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.ParagraphMenuList">
+            <summary>
+            A list of HTML values for the for the paragraph formatting drop down.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.AutoHideToolbar">
+            <summary>
+            Boolean value for whether the toolbars are hidden when the editor is in HTML mode.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.AllowHtmlMode">
+            <summary>
+            Boolean value for whether the editor can go into HTML mode.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.ShowStatusArea">
+            <summary>
+            Boolean value for whether the status area is shown when HtmlMode.Tabs is set.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.ToolbarBackColor">
+            <summary>
+            The back color of each toolbar.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.ToolbarBackGroundImage">
+            <summary>
+            Uses the file toolbar.background file from the current image directory.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.ButtonTitleMode">
+            <summary>
+            Determines how button titles are displayed
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.HtmlMode">
+            <summary>
+            Determines what type of interface is used for HtmlMode
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.BreakMode">
+            <summary>
+            Whether the editor uses Paragraph tags or Line Breaks when Enter is pressed.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.Width">
+            <summary>
+            The width of the editor.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.Height">
+            <summary>
+            The height of the editor including toolbars.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.BackColor">
+            <summary>
+            The back color of the entire editor area.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.GutterBackColor">
+            <summary>
+            The back color of the gutter of the tab area.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.EditorBorderColorLight">
+            <summary>
+            The light color of the border of the Editor window.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.EditorBorderColorDark">
+            <summary>
+            The dark color of the border of the Editor window.
+            </summary>		
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.GutterBorderColorLight">
+            <summary>
+            The light color of the border of the Editor window.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.GutterBorderColorDark">
+            <summary>
+            The dark color of the border of the Editor window.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.IsMshtmlEditorCapable">
+            <summary>
+            Boolean value for if the client supports FreeTextBox.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.IsBasicEditorCapable">
+            <summary>
+            Boolean value for the client's browser supports the Basic Editor
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.DownlevelMode">
+            <summary>
+            Determines what is displayed when a non-UpLevel browser tries to use the editor.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.DownlevelMessage">
+            <summary>
+            The message displayed if DownlevelMode is set to Message.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.DownlevelColumns">
+            <summary>
+            The columns of the textarea if DownlevelMode is set to TextArea
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.DownlevelRows">
+            <summary>
+            The rows of the textarea if DownlevelMode is set to TextArea
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.StartMode">
+            <summary>
+            The rows of the textarea if DownlevelMode is set to TextArea
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.DesignModeCss">
+            <summary>
+            The URL of the style sheet used in Design mode.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.HtmlModeCss">
+            <summary>
+            The URL of the style sheet used in HTML mode.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.HtmlModeDefaultsToMonoSpaceFont">
+            <summary>
+            The URL of the style sheet used in HTML mode.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.AutoConfigure">
+            <summary>
+            Autoconfigures the toolbar with a set of buttons.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.ToolbarLayout">
+            <summary>
+            A string of buttons used to create the toolbar. Use commas (,) to separate items.  A semicolon (;) will insert a separator and a pipe (|) will start a new Toolbar.  Possible values are ParagraphMenu, FontFacesMenu, FontSizesMenu, FontForeColorsMenu, FontForeColorPicker, FontBackColorsMenu, FontBackColorPicker, Bold, Italic, Underline, Strikethrough, Superscript, Subscript;InsertImageFromGallery, CreateLink, Unlink, RemoveFormat, JustifyLeft, JustifyRight, JustifyCenter, JustifyFull;BulletedList, NumberedList, Indent, Outdent, Cut, Copy, Paste, Delete;Undo, Redo, Print, Save, ieSpellCheck, StyleMenu, SymbolsMenu, InsertHtmlMenu, InsertRule, InsertDate, InsertTime, WordCount
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.ScrollbarMode">
+            <summary>
+            Determines whether Styles are applied to the scrollbar
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.ScrollbarStyle">
+            <summary>
+            Sets the style for the scrollbar
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.ToolbarType">
+            <summary>
+            Sets the style for how the toolbar is draw.
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.ButtonStyle">
+            <summary>
+            Style parameters for ToolbarButtons.  Is unused if ButtonType is set to FormButton.  If ToolbarType is manually set, these values may be overridden.  You should set ToolbarType to ToolbarType.Custom when customizing ButtonStyle
+            </summary>
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.ButtonType">
+            <summary>
+            Determines how buttons are displayed.  Image is the default type.
+            </summary>		
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.ButtonOverStyle">
+            <summary>
+            Boolean for whether buttons change style (borders and back color) onMouseOver.
+            </summary>		
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.ButtonOverImage">
+            <summary>
+            Boolean for whether buttons change images onMouseOver.
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.ButtonDownStyle">
+            <summary>
+            Boolean for whether buttons change style (borders and back color) onMouseDown.
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.ButtonDownImage">
+            <summary>
+            Boolean for whether buttons change images onMouseDown.
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.ButtonPath">
+            <summary>
+            The path to button images.  Defaults to String.Empty, but is set but ButtonStyle
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.ButtonFileExtention">
+            <summary>
+            The file type extention of buttons (gif,jpg,png)
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.HelperFilesPath">
+            <summary>
+            The path to helper files. Default is blank which will look in the current directory.  Automatically affixes a "/" if it's not included.
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.HelperFilesParameters">
+            <summary>
+            Parameters included with all helper scripts
+            </summary>	
+        </member>
+        <member name="P:FreeTextBoxControls.FreeTextBox.ImageGalleryPath">
+            <summary>
+            The path to for the InsertImageFromGallery Button.  Defaults to "images".  Use forward slashes "/" and do not all leading or trailing slashes.
+            </summary>	
+        </member>
+    </members>
+</doc>
