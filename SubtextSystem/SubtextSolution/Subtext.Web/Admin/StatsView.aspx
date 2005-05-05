@@ -1,5 +1,5 @@
 <%@ Page language="c#" Codebehind="StatsView.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.StatsView" %>
-<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web.Admin" %>
+<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <ANW:Page id="PageContainer" TabSectionID="Stats" runat="server">
 
 	<ANW:MessagePanel id=Messages runat="server" ErrorIconUrl="~/admin/resources/ico_critical.gif" ErrorCssClass="ErrorPanel" MessageIconUrl="~/admin/resources/ico_info.gif" MessageCssClass="MessagePanel" />

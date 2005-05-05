@@ -1,5 +1,5 @@
 <%@ Page language="c#" Codebehind="Error.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.Error" %>
-<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web.Admin" %>
+<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <ANW:Page id="PageContainer" runat="server">
 	<asp:Panel id="ErrorPanel" runat="server">
 		<p style="font-weight: bold; font-size: 150%;">Problem!</p>

@@ -1,4 +1,4 @@
-<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web.Admin" %>
+<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Page language="c#" Codebehind="EditImage.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.EditImage" %>
 <ANW:Page runat="server" id="PageContainer" TabSectionID="Galleries" CategoryType="ImageCollection">
 

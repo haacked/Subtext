@@ -1,5 +1,5 @@
 <%@ Page language="c#" Codebehind="Feedback.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.Feedback" %>
-<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web.Admin" %>
+<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <ANW:Page runat="server" id="PageContainer" TabSectionID="Feedback">
 
 	<ANW:MessagePanel id="Messages" runat="server" />

@@ -1,5 +1,5 @@
 <%@ Page language="c#" Codebehind="Options.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.Options" %>
-<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web.Admin" %>
+<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <ANW:Page id="PageContainer" TabSectionID="Options" runat="server">
 	<ANW:AdvancedPanel id="Results" runat="server" Collapsible="False" HeaderText="Options" HeaderCssClass="CollapsibleHeader"
 		DisplayHeader="true" BodyCssClass="Edit">

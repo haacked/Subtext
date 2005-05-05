@@ -1,4 +1,4 @@
-<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web.Admin" %>
+<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Page language="c#" Codebehind="Configure.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.Configure" %>
 <ANW:Page runat="server" id="PageContainer" TabSectionID="Options" CategoriesLabel="Other Items">
 	<ANW:MessagePanel id="Messages" runat="server"></ANW:MessagePanel>

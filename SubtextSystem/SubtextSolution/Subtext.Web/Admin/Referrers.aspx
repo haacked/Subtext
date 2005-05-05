@@ -1,4 +1,4 @@
-<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web.Admin" %>
+<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Page language="c#" Codebehind="Referrers.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.Referrers" %>
 <ANW:Page id="PageContainer" TabSectionID="Stats" runat="server">
 	<ANW:MessagePanel id="Messages" runat="server"></ANW:MessagePanel>
