@@ -35,7 +35,7 @@ a.img, a.img, a.img
 	border: none;
 }
 
-h1, h2 
+h1, h2, h3
 {
 	font-family: Georgia, "Times New Roman", Times, serif;
 	text-shadow: 0.2em 0.2em 0.1em #CCC;
@@ -49,6 +49,11 @@ h1
 h2
 {
 	font-size: 1.2em;
+}
+
+h3
+{
+	font-size: 1em;
 }
 
 h1 a:visited,
