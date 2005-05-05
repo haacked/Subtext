@@ -1,0 +1,167 @@
+body {
+	font-size : 0.7em;
+	font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+	margin : 0px;
+}
+
+a:visited,
+a:active,
+a:link {	
+	color : #066;
+}
+
+a:hover {	
+	color : #933;
+}
+
+h1 {	
+	margin : 0px;
+	padding-top : 5px;
+	font-size : 1.8em;
+}
+
+h1 a:visited,
+h1 a:active,
+h1 a:link,
+h1 a:hover {
+	color : #FFF;
+	margin-left : 10px;
+	margin-top : 10px;
+	text-decoration : none;
+}
+
+h2 {
+	margin-top : 10px;
+	font-size : 1em;
+}
+
+h5 
+{
+	margin: 0px;
+	padding: 0px;
+}
+
+#top {
+	padding : 0px;
+	background-color : #088;
+	color : #000;
+	border-bottom : 1px solid #FFF;
+	height : 40px;
+}
+
+#tagline {		
+	color : #FFF;
+	font-size : 1em;
+	margin : 0px;
+	background-color : #933;
+	padding : 5px;
+}
+
+p.date img {
+	vertical-align : middle;
+}
+
+p.date {
+	font-size : 1.5em;
+	font-weight : bold;	
+	margin-bottom : 0px;
+	padding : 2px 0px;
+	color : #933;
+}
+
+p.date span {
+	background-color : #FFF;
+	padding-right : 10px;
+}
+
+blockquote {
+	font-style : italic;
+}
+
+#leftmenu {
+	position : absolute;
+	left : 0px;
+	width : 180px;	
+	background-color : #DEE;
+	padding-bottom : 5px;
+}
+
+#leftmenu h3 {
+	font-size : 1em;
+	margin : 0px;
+	padding : 4px;
+	border-bottom : none;	
+}
+
+#leftmenu ul {
+	list-style : none;
+	margin : 0px;	
+	padding : 0px;
+	margin-left : 5px;
+	margin-bottom : 10px;
+}
+
+#leftmenu li {
+	display : inline;
+}
+
+#leftmenu a:active,
+#leftmenu a:visited,
+#leftmenu a:link {
+	display : block;
+	color : #000;
+	text-decoration : none;	
+	margin-right : 5px;
+	border : 1px solid #DEE;
+	padding : 2px;
+}
+
+#leftmenu a:hover {
+	background-color : #CEE;
+	border : 1px solid #999;	
+}
+
+#main {
+	margin-left : 200px;		
+	padding : 10px;	
+}
+
+#footer {
+	margin : 0px;	
+	padding-top : 5px;
+	text-align : center;
+	font-size : 0.7em;
+}
+
+input.text {
+	width : 300px;	
+}
+
+textarea {
+	width : 300px;
+	height : 200px;	
+}
+
+#comments h4 span {
+	color : #999;
+}
+
+#comments h4 {
+	margin : 0px;
+	font-size : 0.9em;
+}
+
+p {
+	margin : 10px 0px;
+}
+
+h3 {
+	font-size : 1.2em;
+	border-bottom : 1px solid #AAA;
+}
+
+#relatedlinks ul {
+	list-style : none;
+	margin-left : 10px;
+	padding : 0px;
+}
