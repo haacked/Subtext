@@ -1,5 +1,5 @@
 <%@ Page language="c#" Codebehind="Statistics.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.Statistics" %>
-<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web.Admin" %>
+<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <ANW:Page id="PageContainer" TabSectionID="Stats" runat="server">
 	<ANW:AdvancedPanel id="Results" runat="server" Collapsible="False" HeaderText="Statistics" HeaderCssClass="CollapsibleHeader"
 		DisplayHeader="true" BodyCssClass="Edit">

@@ -16,20 +16,22 @@ namespace Subtext.Framework
 		private Security(){}
 
 		/// <summary>
-		/// Check to see if the supplied credentials are valid for the current blog. If so, Set the user's FormsAuthentication Ticket
-		/// This method will handle passwords for both hashed and non-hashed configurations
+		/// Check to see if the supplied credentials are valid for the current blog. 
+		/// If so, Set the user's FormsAuthentication Ticket This method will handle 
+		/// passwords for both hashed and non-hashed configurations
 		/// </summary>
 		/// <param name="username">Supplied UserName</param>
 		/// <param name="password">Supplied Password</param>
 		/// <returns>bool indicating successful login</returns>
 		public static bool Authenticate(string username, string password)
 		{
-			return Authenticate(username,password,false);
+			return Authenticate(username, password, false);
 		}
 
 		/// <summary>
-		/// Check to see if the supplied credentials are valid for the current blog. If so, Set the user's FormsAuthentication Ticket
-		/// This method will handle passwords for both hashed and non-hashed configurations
+		/// Check to see if the supplied credentials are valid for the current blog. If so, 
+		/// Set the user's FormsAuthentication Ticket This method will handle passwords for 
+		/// both hashed and non-hashed configurations
 		/// </summary>
 		/// <param name="username">Supplied UserName</param>
 		/// <param name="password">Supplied Password</param>
@@ -38,9 +40,9 @@ namespace Subtext.Framework
 		public static bool Authenticate(string username, string password,bool persist)
 		{
 			//if we don't match username, don't bother with password
-			if(IsValidUser(username,password))
+			if(IsValidUser(username, password))
 			{
-					SetTicket(username,persist);
+					SetTicket(username, persist);
 					return true;
 			}
 			return false;
@@ -61,20 +63,21 @@ namespace Subtext.Framework
 		//From Forums Source Code
 		
 		/// <summary>
-		/// Get hashed/encrypted representation of the password. This is a one-way hash.
+		/// Get MD5 hashed/encrypted representation of the password and 
+		/// returns a Base64 encoded string of the hash.
+		/// This is a one-way hash.
 		/// </summary>
+		/// <remarks>
+		/// Passwords are case sensitive now. Before they weren't.
+		/// </remarks>
 		/// <param name="password">Supplied Password</param>
 		/// <returns>Encrypted (Hashed) value</returns>
 		public static string HashPassword(string password) 
 		{
-			// Force the string to lower case
-			//
-			password = password.ToLower();
-
 			Byte[] clearBytes = new UnicodeEncoding().GetBytes(password);
-			Byte[] hashedBytes = ((HashAlgorithm) CryptoConfig.CreateFromName("MD5")).ComputeHash(clearBytes);
-
-			return BitConverter.ToString(hashedBytes);
+			Byte[] hashedBytes = new MD5CryptoServiceProvider().ComputeHash(clearBytes);
+			
+			return Convert.ToBase64String(hashedBytes);
 		}
 
 		/// <summary>
@@ -85,7 +88,7 @@ namespace Subtext.Framework
 		/// <returns>bool value indicating if the user is valid.</returns>
 		public static bool IsValidUser(string username, string password)
 		{
-			if(string.Compare(username,Config.CurrentBlog().UserName,true)==0)
+			if(string.Compare(username, Config.CurrentBlog().UserName, true)==0)
 			{
 				return IsValidPassword(password);
 			}
@@ -93,8 +96,10 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
-		/// Check to see if the supplied password matches the password for the current blog. This method will check the BlogConfigurationSettings
-		/// to see if the password should be Encrypted/Hashed
+		/// Check to see if the supplied password matches the password 
+		/// for the current blog. This method will check the 
+		/// BlogConfigurationSettings to see if the password should be 
+		/// Encrypted/Hashed
 		/// </summary>
 		/// <param name="password">Supplied Password</param>
 		/// <returns>bool value indicating if the supplied password matches the current blog's password</returns>
@@ -104,7 +109,7 @@ namespace Subtext.Framework
 			{
 				password = HashPassword(password);
 			}
-			return string.Compare(password,Config.CurrentBlog().Password,false)==0;
+			return string.Compare(password, Config.CurrentBlog().Password, false)==0;
 		}
 
 		/// <summary>

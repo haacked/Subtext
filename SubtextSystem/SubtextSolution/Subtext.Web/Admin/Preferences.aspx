@@ -1,4 +1,4 @@
-<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web.Admin" %>
+<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Page language="c#" Codebehind="Preferences.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.EditPreferences" %>
 <ANW:Page runat="server" id="PageContainer" TabSectionID="Options" CategoriesLabel="Other Items">
 	<ANW:AdvancedPanel id="Edit" runat="server" DisplayHeader="True" HeaderText="Preferences" HeaderCssClass="CollapsibleHeader"

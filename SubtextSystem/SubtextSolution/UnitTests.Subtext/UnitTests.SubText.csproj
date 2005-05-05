@@ -84,6 +84,21 @@
                     AssemblyName = "nunit.framework"
                     HintPath = "ExternalDependencies\nunit.framework.dll"
                 />
+                <Reference
+                    Name = "Subtext.Common"
+                    Project = "{7594F3CF-85F9-4500-AFBD-5D370D9D57B4}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "Subtext.Framework"
+                    Project = "{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "Subtext.Web"
+                    Project = "{8C11B428-9C4A-46C3-B7F0-48215276BFA5}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
             </References>
         </Build>
         <Files>
@@ -216,6 +231,11 @@
                 <File
                     RelPath = "ExternalDependencies\timing-tests.dll"
                     BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Framework\SecurityTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
                 />
             </Include>
         </Files>

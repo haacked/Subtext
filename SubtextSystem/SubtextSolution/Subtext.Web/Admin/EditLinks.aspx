@@ -1,4 +1,4 @@
-<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web.Admin" %>
+<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Page language="c#" Codebehind="EditLinks.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.EditLinks" %>
 <ANW:Page runat="server" id="PageContainer" TabSectionID="Links" CategoryType="LinkCollection">
 	<ANW:MessagePanel id="Messages" runat="server"></ANW:MessagePanel>

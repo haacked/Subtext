@@ -1,4 +1,4 @@
-<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web.Admin" %>
+<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Page language="c#" Codebehind="Confirm.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.Confirm" %>
 <ANW:Page id="PageContainer" TabSectionID="Posts" runat="server">
 

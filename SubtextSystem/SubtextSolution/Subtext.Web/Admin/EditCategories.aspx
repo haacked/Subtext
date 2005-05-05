@@ -1,4 +1,4 @@
-<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web.Admin" %>
+<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Page language="c#" Codebehind="EditCategories.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.EditCategories" %>
 <ANW:Page id="PageContainer" runat="server" TabSectionID="Posts">
 

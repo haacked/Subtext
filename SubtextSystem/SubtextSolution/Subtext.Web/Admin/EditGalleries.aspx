@@ -1,5 +1,5 @@
 <%@ Page language="c#" Codebehind="EditGalleries.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.EditGalleries" %>
-<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web.Admin" %>
+<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <ANW:Page runat="server" id="PageContainer" TabSectionID="Galleries" CategoryType="ImageCollection"><ANW:MessagePanel id=Messages runat="server" ErrorIconUrl="~/admin/resources/ico_critical.gif" ErrorCssClass="ErrorPanel" MessageIconUrl="~/admin/resources/ico_info.gif" MessageCssClass="MessagePanel"></ANW:MessagePanel><ANW:AdvancedPanel id=Results runat="server" LinkStyle="Image" LinkImageCollapsed="~/admin/resources/toggle_gray_down.gif" LinkImage="~/admin/resources/toggle_gray_up.gif" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleHeader" HeaderText="Galleries" Collapsible="True"><asp:DataGrid id=dgrSelectionList runat="server" CssClass="Listing" GridLines="None" AutoGenerateColumns="False">
 			<AlternatingItemStyle CssClass="Alt"></AlternatingItemStyle>
 			<HeaderStyle CssClass="Header"></HeaderStyle>

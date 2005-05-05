@@ -1,5 +1,5 @@
 <%@ Import Namespace = "Subtext.Web.Admin" %>
-<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web.Admin" %>
+<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Control Language="c#" AutoEventWireup="false" Codebehind="PageTemplate.ascx.cs" Inherits="Subtext.Web.Admin.PageTemplate" targetSchema="http://schemas.microsoft.com/intellisense/ie5" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <HTML>
