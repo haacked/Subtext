@@ -1,0 +1,723 @@
+body {
+	background: #BBBBBB;
+	color: #333333;
+	margin: 8px;
+	padding: 0;
+}
+
+body, 
+td, 
+th, 
+h3 {
+	font-family: "trebuchet ms", "lucida grande", verdana, arial, geneva, lucida, sans-serif;
+	font-size: x-small;
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	font-size: small;
+}
+
+h1 {
+	font-size: 170%;
+	padding: 8px 12px;
+	margin-bottom: 0px;
+}
+
+h2 {
+	/*font-size: 125%;*/
+	margin: 0;
+	padding: 0;
+}
+
+html>body, 
+html>body td, 
+html>body th {
+	font-size: small;
+}
+
+div.LeftNavHeader {
+	background: #B6C9E7;
+	border-bottom: 1px solid #666666;
+	border-top: 1px solid #666666;
+	color: #333333;
+	font-size: 80%;
+	text-transform: uppercase;
+	font-weight: bold;
+	height: 17px;
+	margin-top: 23px;
+	padding-top: 3px;
+	text-align: center;
+	width: auto;
+}
+
+div.Pager  {
+	padding-bottom: 4px;
+	margin-bottom: 8px;
+	float: right;
+}
+
+div.Pager div {
+	float: left;
+	margin: 1px 2px 1px 2px;
+}
+
+div.Pager a:link, 
+div.Pager a:visited  {
+	font-weight: normal;
+	padding: 0px 2px 0px 2px;
+	margin: 1px 2px 1px 2px;
+	float: left;
+	display: block;
+	clear: none;
+}
+
+div.Pager a.Current:link, 
+div.Pager a.Current:visited  {
+	font-weight: bold;
+	border-top: 1px solid #BBBBBB;
+	border-bottom: 1px solid #BBBBBB;
+	margin: 0px 2px 0px 2px;
+}
+
+a:link, a:visited {
+	color: #002C99;
+	font-weight: bold;
+	text-decoration: none;
+	background: inherit;
+}
+
+a:hover {
+	color: #CC0066;
+	text-decoration: underline;
+	background-color: #F5F5F5;
+}
+
+a.Button:link,
+a.Button:visited {
+	display: block;
+	float: left;
+	padding: 2px 8px;
+	background: #6B86B3;
+	border: 1px solid #333333;
+	text-transform: uppercase;
+	margin-right: 8px;
+	color: #FFFFFF;
+	font-size: 95%;
+	font-weight: bold;
+	width: 70px;
+	text-align: center;
+}
+
+html>body a.Button {
+	width: auto;
+	min-width: 70px;
+}
+
+a.Button:hover {
+	color: #CC0066;
+	text-decoration: underline;
+	background: #FFFFFF;
+}
+
+a.Thumbnail {
+	float: left;
+	display: block;
+	margin: 12px 12px 12px 0px;
+	color: inherit;
+	background-color: #FFF;	
+	border: 1px solid #CCC;
+}
+
+a.Thumbnail:hover {
+	color: inherit;
+	background-color: #FFECF5;
+}
+
+a.Thumbnail IMG {
+	margin: 12px;
+	border: 1px solid #666;	
+}
+
+p.ThumbnailTitle {
+	font-size: 160%;
+	float: left;
+	padding-top: 48px;
+	margin-left: 13%;
+}
+
+p.ThumbnailTitle span {
+	font-size: 60%;
+}
+
+p.InlineSubtitle {
+	border-bottom: 1px solid #CCC;
+	font-size: 120%;
+	font-weight: bold;
+	text-transform: uppercase;
+	padding-top: 12px;
+}
+
+a.ButtonInline:link,
+a.ButtonInline:visited {
+	display: block;
+	clear: none;
+	padding: 2px 8px;
+	background: #6B86B3;
+	border: 1px solid #333333;
+	margin-right: 8px;
+	color: #FFFFFF;
+	font-size: 90%;
+	font-weight: bold;
+	width: 100px;
+	text-align: center;
+}
+
+html>body a.ButtonInline:link,
+html>body a.ButtonInline:visited {
+	float: left;
+	margin-left: 4px;
+}
+
+a.ButtonInline:hover {
+	color: #CC0066;
+	text-decoration: underline;
+	background: #FFFFFF;
+}
+
+br.Clear {
+	clear: both;
+}
+
+div#BlogTitle a:link, div#BlogTitle a:visited {
+	color: #6B86B3;
+	background: inherit;
+}
+
+div#BlogTitle a:hover, div#BlogTitle a:active {
+	color: #CC0066;
+	background: inherit;
+}
+
+div#LeftNav li {
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+
+div#LeftNav ul {
+	display: block;
+	list-style: none;
+	margin: 4px 4px 4px 0px;
+	overflow: hidden;
+	padding: 0;
+}
+
+div.Action {
+	color: #333333;
+	border-bottom: 1px dashed #AAAAAA;
+	margin-bottom: 8px;
+	padding: 8px 12px 0px 12px;
+	background: #EEEEEE;
+}
+
+div#Main div.Edit  {
+	color: #333333;
+	border-bottom: 1px solid #AAAAAA;
+	margin-bottom: 8px;
+	padding: 4px 12px;
+	background: #F5F5F5;
+}
+
+div.Dialog {
+	margin-left: auto;
+	margin-right: auto;
+	width: 300px;
+	border: 1px solid #AAAAAA;
+}
+
+div.DialogTitle {
+	font-size: 105%;
+	border-bottom: 1px dashed #AAAAAA;
+	font-weight: bold;
+	color: #333333;
+	width: auto;
+	padding: 2px 12px;
+	clear: left;
+	background: #E5E5E5;
+}
+
+div.DialogBody {
+	color: #333333;
+	background: #EEEEEE;
+	padding: 12px 12px 2px 12px;
+}
+
+div#Main div.Edit p  {
+	margin: 0px 0px 10px 0px;
+}
+
+div.Edit a.Toggle {
+	margin: 1px 0px;
+	float: right;
+}
+
+div.ImageList {
+	padding-left: 12px;
+	padding-bottom: 18%;
+}
+
+/*
+html>body div.ImageList {
+	margin-bottom: 36px;
+}
+
+*/
+div.ImageThumbnail {
+	float: left;
+	margin-top: 12px;
+	margin-right: 12px;
+	color: #333333;
+	background: #F5F5F5;
+	border: 1px solid #DDDDDD;
+	width: 144px;
+	height: 180px;
+	text-align: center;
+	vertical-align: bottom;
+	overflow: hidden;
+}
+
+div.ImageThumbnail IMG {
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+	border: 1px solid #666666;
+}
+
+div.ImageThumbnail div.ImageThumbnailImage {
+	margin-top: 12px;
+	margin-bottom: 8px;
+}
+
+div.ImageThumbnail div.ImageThumbnailTitle {
+	font-size: 83%;
+	margin: 0px 12px 8px 12px;
+}
+
+input,
+textarea {
+	padding: 2px; 
+	color: #000000;
+	font-family: "lucida grande", verdana, arial, geneva, lucida, sans-serif;
+	font-size: 95%;
+	width: auto;
+	background-color: #FFF;
+}
+
+select,
+option {
+	color: #000000;
+	font-family: "lucida grande", verdana, arial, geneva, lucida, sans-serif;
+	font-size: 95%;
+	width: auto;	
+	background-color: #FFF;
+}	
+
+input[type='checkbox'] {
+	border: 0;
+}
+
+textarea,
+input[type='text'] {
+	border: 1px solid #666666;
+}
+
+iframe {
+	border: 1px solid #666666;
+}
+
+div#Main div.Edit p.Label,
+label {
+	font-size: 85%;
+	font-weight: bold;
+	margin: 0px 0px 2px 0px;
+	color: #111111;
+}
+
+label {
+	color: #111111;
+	background: inherit;
+}
+
+label.Block {
+	margin-top: 8px;
+	display: block;
+	clear: both;
+}
+
+div.MessagePanel {
+	color: #333333;
+	background: #EEEEEE;
+	border: 1px dashed #CCCCCC;
+	padding: 12px;
+	font-weight: bold;
+}
+
+div.ErrorPanel {
+	color: #660033;
+	background: #FFFFCC;
+	border: 1px dashed #DBDB64;
+	padding: 12px;
+	font-weight: bold;
+}
+
+div.ErrorPanel IMG,
+div.MessagePanel IMG {
+	float: left;
+}
+
+div.ErrorPanel DIV,
+div.MessagePanel DIV {
+	margin-top: 8px;
+	margin-bottom: 8px;
+	margin-left: 44px;
+}
+
+div#Main div.Edit p.ValueLabel {
+	font-weight: bold;
+	color: #000000;
+	margin: 2px 0px 8px 0px;
+	background: inherit;
+}
+
+div#SiteNav {
+	font-size: 90%;
+	padding: 2px 8px;
+	text-align: right;
+}
+
+div, ul {
+	border: 0; /*border: 1px solid #3C0;*/
+}
+
+html>body div#SubNav {
+	padding-bottom: 5px;
+}
+
+img {
+	border: 0;
+	display: block;
+}
+
+img.Inline {
+	display: inline;
+}
+
+img#HeaderLogo {
+	display: inline;
+	margin: 10px 0 10px 139px;
+}
+
+img#PoweredBy {
+	float: right;
+}
+
+span.BreadcrumbLabel {
+	color: #666699;
+	background: inherit;
+}
+
+table#BodyTable {
+	color: #333333;
+	border: 1px solid #666666;
+	clear: left;
+	background: #FFFFFF;
+}
+
+table#Footer {
+	color: #333333;
+	border: 1px solid #666666;
+	margin-top: 8px;
+	background: #FFFFFF;
+}
+
+table#Footer td {
+	border-bottom: 1px solid #6B86B3;
+	padding: 4px 8px;
+}
+
+table.Listing {
+	border-bottom: 3px solid #6B86B3;
+	margin: 0px 0px 8px 0px;
+	width: 100%;
+}
+
+div.CollapsibleHeader {
+	color: #333333;
+	background: #E5EEF7;
+	border-bottom: 1px dashed #AAAAAA;
+	border-top: 1px solid #999999;
+	font-size: 120%;
+	font-weight: bold;
+	text-transform: uppercase;
+	width: auto;
+	padding: 2px 12px;
+	margin: 12px 0px 0px 0px;
+}
+
+div.CollapsibleTitle {
+	font-size: 105%;
+	background: #E5E5E5;
+	border-top: 1px solid #AAAAAA;
+	border-bottom: 1px dashed #AAAAAA;
+	font-weight: bold;
+	color: #333333;
+	width: auto;
+	padding: 2px 12px;
+	margin: 12px 0px 0px 0px;
+	clear: left;
+}
+
+div.CollapsibleHeader a:link, 
+div.CollapsibleHeader a:visited,
+div.CollapsibleTitle a:link, 
+div.CollapsibleTitle a:visited {
+	display: block;
+	font-size: 75%;
+	vertical-align: middle;
+	text-transform: none;
+	float: right;
+}
+
+div.CollapsibleHeader a:link, 
+div.CollapsibleHeader a:visited {
+	margin: 2px 0px;
+}
+
+div.CollapsibleTitle a:link, 
+div.CollapsibleTitle a:visited {
+	color: #FFFFFF;
+	margin: 2px 0px;
+	background: inherit;
+}
+
+div.CollapsibleHeader a:hover,
+div.CollapsibleTitle a:hover {
+	color: inherit;
+	background: inherit;
+}
+
+table.Listing td,
+{
+	border-bottom: 1px solid #E6E6E6;
+}
+
+table.Listing td, 
+table.Listing th,
+table.Listing caption, 
+h2 {
+	padding: 4px 12px 4px 12px;
+	text-align: left;
+}
+
+table.Listing tr {
+	color: inherit;
+	background: #F5F5F5;
+}
+
+table.Listing th,
+table.Listing td.Header,
+table.Listing tr.Header td {
+	font-weight: bold;
+	color: inherit;
+	border-bottom: 1px solid #6B86B3;
+	background: #FFFFFF;
+}
+
+table.Listing tr.Alt {
+	color: inherit;
+	background: #FFFFFF;
+}
+
+td {
+	margin: 0;
+	padding: 0;
+	vertical-align: top;
+}
+
+td div#LeftNavHeader {
+	background: #6B86B3;
+	border-bottom: 1px solid #666666;
+	border-top: 1px solid #666666;
+	color: #FFFFFF;
+	font-size: 80%;
+	text-transform: uppercase;
+	height: 17px;
+	margin-top: 23px;
+	padding-top: 4px;
+	text-align: center;
+	width: auto;
+	font-weight: bold;
+}
+
+td#Body {
+	border-left: 1px solid #333333;
+}
+
+td#Header {
+	border-top: 3px solid #6B86B3;
+}
+
+td.NavHeaderRow {
+	color: inherit;
+	background: url(bg_tabs.gif) #FFFFFF repeat-x;
+}
+
+td.NavLeftCell {
+	width: 160px;
+}
+
+tr {
+	margin: 0;
+	padding: 0;
+	vertical-align: top;
+}
+
+ul#TopNav 
+{
+	display: block;
+	height: 24px;
+	list-style: none;
+	margin: 0;
+	overflow: hidden;
+	padding: 0;
+	width: auto;
+}
+
+ul#TopNav a {
+	background: #CFE0F8;
+	border-left: 1px solid #949991;
+	border-right: 1px solid #949991;
+	border-top: 1px solid #949991;
+	color: #000000;
+	display: block;
+	font-weight: normal;
+	height: 17px;
+	margin: 0;
+	padding: 3px 11px;
+	text-align: center;
+	text-decoration: none;
+	width: 45px;
+}
+
+html>body ul#TopNav a {
+	width: auto;
+}
+
+#TopNav {
+	width: 590px;
+}
+
+html>body #TopNav {
+	min-width: 560px;
+}
+
+body#Posts a#TabPosts,
+body#Articles a#TabArticles,
+body#Feedback a#TabFeedback,
+body#Links a#TabLinks,
+body#Galleries a#TabGalleries,
+body#Stats a#TabStats,
+body#Options a#TabOptions{
+	background: #B6C9E7;
+	border-left: 1px solid #6F736D;
+	border-right: 1px solid #6F736D;
+	border-top: 1px solid #6F736D;
+	color: #000000;
+	position: relative;
+	text-decoration: none;
+	z-index: 200;
+}
+
+ul#TopNav a.Here:link, 
+ul#TopNav a.Here:visited, 
+ul#TopNav a.Here:hover, 
+ul#TopNav a.Here:active {
+	background: #B6C9E7;
+	border-left: 1px solid #6F736D;
+	border-right: 1px solid #6F736D;
+	border-top: 1px solid #6F736D;
+	color: #000000;
+	overflow: hidden;
+	position: relative;
+	text-decoration: none;
+	z-index: 200;
+}
+
+ul#TopNav a:hover, 
+ul#TopNav a:active {
+	border-left: 1px solid #6F736D;
+	border-right: 1px solid #6F736D;
+	border-top: 1px solid #6F736D;
+	color: #CC0066;
+	text-decoration: underline;
+	background: inherit;
+}
+
+ul#TopNav li {
+	display: block;
+	float: left;
+	font-size: 85%;
+	margin: 0;
+	padding-right: 2px;
+}
+
+#BlogTitle {
+	clear: none;
+	color: #333333;
+	float: right;
+	font-size: 170%;
+	font-weight: bold;
+	letter-spacing: -1px;
+	margin-right: 8px;
+	padding: 4px;
+	position: relative;
+	text-align: right;
+	top: 40px;
+	z-index: 10;
+	background: inherit;
+}
+
+#LeftNav {
+	font-size: 85%;
+	padding: 8px;
+}
+
+#Main {
+	padding: 20px;
+}
+
+#SubNav {
+	font-size: 85%;
+	background: #B6C9E7;
+	border-left: 1px solid #666666;
+	border-top: 1px solid #666666;
+	clear: none;
+	color: #000;
+	height: 13px;
+	margin: 0;
+	padding: 3px 8px 2px 8px;
+	position: relative;
+	top: -1px;
+	z-index: 100;
+}
+
+#SubNav A:link, 
+#SubNav A:visited,{
+	color: #001E6A;
+	background: inherit;	
+	/*font-weight: normal;*/
+}
+
+#SubNav A:hover {
+	color: inherit;
+	background: transparent;
+}

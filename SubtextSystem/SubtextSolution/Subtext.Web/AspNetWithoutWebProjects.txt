@@ -1,0 +1,2 @@
+SubtextWeb has been set up using the instructions 
+found in http://pluralsight.com/wiki/default.aspx/Fritz.AspNetWithoutWebProjects.
