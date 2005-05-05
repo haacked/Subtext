@@ -1115,10 +1115,6 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Skins\AnotherEon001\WS_FTP.LOG"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "Skins\AnotherEon001\Controls\_Header.ascx"
                     BuildAction = "Content"
                 />
@@ -1237,10 +1233,6 @@
                 <File
                     RelPath = "Skins\blue\Style.css"
                     BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\blue\WS_FTP.LOG"
-                    BuildAction = "None"
                 />
                 <File
                     RelPath = "Skins\blue\Controls\ArchiveCategory.ascx"
@@ -1372,10 +1364,6 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Skins\gertrude\WS_FTP.LOG"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "Skins\gertrude\Controls\ArchiveCategory.ascx"
                     BuildAction = "Content"
                 />
@@ -1495,10 +1483,6 @@
                 <File
                     RelPath = "Skins\HaackedOrange\style.css"
                     BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\HaackedOrange\WS_FTP.LOG"
-                    BuildAction = "None"
                 />
                 <File
                     RelPath = "Skins\HaackedOrange\Controls\ArchiveCategory.ascx"
@@ -1641,10 +1625,6 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Skins\Hover\WS_FTP.LOG"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "Skins\Hover\Controls\ArchiveCategory.ascx"
                     BuildAction = "Content"
                 />
@@ -1760,10 +1740,6 @@
                 <File
                     RelPath = "Skins\Lighty\style.css"
                     BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Lighty\WS_FTP.LOG"
-                    BuildAction = "None"
                 />
                 <File
                     RelPath = "Skins\Lighty\Controls\ArchiveCategory.ascx"
@@ -1932,10 +1908,6 @@
                 <File
                     RelPath = "Skins\Marvin2\vibrant.css"
                     BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\WS_FTP.LOG"
-                    BuildAction = "None"
                 />
                 <File
                     RelPath = "Skins\Marvin2\Controls\ArchiveCategory.ascx"
@@ -2200,10 +2172,6 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Skins\simple\WS_FTP.LOG"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "Skins\simple\Controls\ArchiveCategory.ascx"
                     BuildAction = "Content"
                 />
@@ -2319,10 +2287,6 @@
                 <File
                     RelPath = "Skins\white\Style.css"
                     BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\white\WS_FTP.LOG"
-                    BuildAction = "None"
                 />
                 <File
                     RelPath = "Skins\white\Controls\ArchiveCategory.ascx"
