@@ -1,0 +1,45 @@
+body {
+	background-color : #ADF;
+}
+
+h1 a:visited,
+h1 a:active,
+h1 a:link {
+	color : #ADF;
+}
+
+h1 a:hover {
+	color : #BEF;
+}
+
+a:visited,
+a:active,
+a:link {
+	color : #606;
+	font-weight : bold;
+}
+
+#top {
+	background-color : #909;
+	color : #ADF;
+	font-weight : bold;
+	border-bottom : 4px solid #303;
+}
+
+p.date {
+	border-bottom : 1px solid #C66;	
+}
+
+#main {
+	background-color : #FFF;
+	border-bottom : 4px solid #303;
+}
+
+#comments h4 span {
+	color : #999;
+}
+
+h3 {
+	border-bottom : 1px solid #AAA;
+}
+

@@ -1,0 +1,432 @@
+/*
+tip from mark pilgrim:
+http://diveintoaccessibility.org/day_26_using_relative_font_sizes.html
+*/
+
+p 
+{
+	font-size: 12px;
+	color: #000;
+	padding: 0;
+	margin-top: 0px;
+}
+
+/*/*/a{}
+body p 
+{
+	font-size: x-small;
+	voice-family: "\"}\"";
+	voice-family: inherit;
+	font-size: small;
+}
+html>body p 
+{
+	font-size: small;
+}
+/* */
+
+html, body 
+{
+	margin: 0;
+	padding: 0;
+	background-color: #fff;
+	color: #333;
+	font-family: verdana, arial, helvetica, sans-serif;
+}
+
+h1,h2,h3,h4
+{
+	text-decoration: none; 
+	color:#006bad; 
+	background-color: #fff; 
+}
+
+h1{	font-size:30px;}
+h2{	font-size:24px;}
+h3{	font-size:20px;}
+h4{	font-size:16px;}
+
+/* Start Layout and Page Formatting */
+
+.pagelayout
+{
+	background: #fff;
+	position: absolute;
+	top: 15px;
+	margin:5px 5px 5px 5px;
+	/*
+	left: 50%;	
+	margin-left: -375px;
+	margin-bottom: 25px;
+	width: 750px;
+	*/
+}
+
+.leftcolumn 
+{
+	width: 67%;
+	float: left;
+	margin-left: -1px;
+	padding: 10px;
+	text-align: left;
+}
+
+.rightcolumn 
+{
+	width: 220px;
+	float: right;
+	margin-right: -1px;
+	padding: 10px;
+	text-align: right;
+}
+
+.centercolumn 
+{
+	padding: 10px;
+	margin-left: 67%;
+}
+
+.imageFrame
+{
+	border: 0px;
+	text-align: center;
+}
+
+/* End Layout and Formatting */
+
+/* header section */
+.header 
+{
+	background-color: #fff;
+	color: #006;
+	margin-bottom: 5px;
+}
+
+
+a.headermaintitle:link, a.headermaintitle:visited, a.headermaintitle:hover 
+{
+	color: #006bad; 
+	font-size:24px; 
+	background-color: #fff
+}
+
+a.headersubtitle:link, a.headersubtitle:visited, a.headersubtitle:hover
+{
+	text-decoration: none; 
+	color: #006bad; 
+	font-size:18px; 
+	font-style: italic;
+	font-weight: normal;
+	background-color: #fff
+}
+
+
+
+/* end header section */
+
+
+.footer 
+{
+	width:100%;
+	background-color: #fff;
+	color: #006;
+	border-top: 1px solid #006;
+	font-size: 11px;
+	text-align: center;
+	padding: 2px 10px 0 0;
+	clear: both;
+}
+
+.spacer 
+{
+	clear: both;
+}
+
+
+.datetitle
+{
+	text-align: left;
+	padding-right: 2px; 
+	margin-top: 0; 
+	padding-left: 2px; 
+	font-weight: bold; 
+	font-size: 12px; 
+	background: #fff; 
+	margin-bottom: 1px; 
+	padding-bottom: 2px; 
+	color: #000; 
+	line-height: 14px; 
+	padding-top: 2px; 
+	border-bottom: #999 1px solid; 
+	letter-spacing: 0.2em; 
+	text-align: left
+}
+
+.listtitle
+{
+	padding-right: 2px; 
+	margin-top: 0; 
+	padding-left: 2px; 
+	font-weight: bold; 
+	font-size: 12px; 
+	background: #7ba5ce; 
+	margin-bottom: 1px; 
+	padding-bottom: 2px; 
+	color: #fff; 
+	line-height: 14px; 
+	padding-top: 2px; 
+	letter-spacing: 0.2em; 
+	text-align: left
+}
+
+.list
+{
+	border: 10px;
+	border-top: 0px;
+	margin-bottom: 15px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.postlist
+{
+	border: 0px;
+	border-top: 0px;
+	margin-bottom: 15px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.singlepost
+{
+	border: 0px;
+	background-color: #fff;
+	color: #006;
+	border-bottom: 1px solid #006;
+	margin-bottom: 15px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+
+.itemdesc 
+{
+	background-color: #fff;
+	color: #000;
+	font-size: 11px;
+	text-align: left;
+	padding-bottom: 5px;
+}
+
+.posttitle
+{	
+	padding: 5px 0px 5px 0px;
+}
+
+a.posttitle:link, a.posttitle:visited, a.posttitle:hover
+{
+
+	text-decoration: underline; 
+	color:#006bad; 
+	font-size:16px;
+	background-color: #fff; 
+	font-weight: bold;
+}
+
+.singleposttitle
+{
+
+	text-decoration: underline; 
+	color:#006bad; 
+	font-size:22px;
+	background-color: #fff; 
+	font-weight: bold;
+}
+ 
+a.singleposttitle:link, a.singleposttitle:visited, a.singleposttitle:hover   
+{
+
+	text-decoration: underline; 
+	color:#006bad; 
+	font-size:22px;
+	background-color: #fff; 
+	font-weight: bold;
+}
+
+a.itemdesc:link, a.itemdesc:active, a.itemdesc:visited
+{
+	text-decoration: none; 
+	color:#006bad; 
+	font-size:11px;
+	background-color: #fff;
+	font-weight: normal;
+}
+
+a.itemdesc:hover 
+{
+	text-decoration: underline;
+	background-color: #fff;
+	color:#006bad;
+}
+
+ul.entrylist {
+list-style: none;
+color: #000;
+font-size:12px;
+border: 0px
+border-top: 0px;
+margin-top: 0;
+margin-left:0px; /* for mozilla  */
+margin-right:0px; 
+padding-left: 0;
+padding-right: 0;
+/* border: 1px #aaaaaa dotted;*/
+}
+
+li.entrylistitem { 
+	padding: 5px 0px 5px 0px;
+	margin: 3px 0px 3px 0px;
+	text-align: left;
+} 
+
+a.entrylisttitle:link, a.entrylisttitle:visited, a.entrylisttitle:active, a.entrylisttitle:hover
+{
+	text-decoration: underline; 
+	color: #006bad; 
+	font-size:13px; 
+	font-weight:bold;
+	background-color: #fff
+}
+
+ul.list {
+list-style: none;
+color: #000;
+font-size:12px;
+border: 1px #aaaaaa dotted;
+border-top: 0px;
+margin-top: 0;
+margin-left:0px; /* for mozilla  */
+margin-right:0px; 
+padding-left: 0;
+padding-right: 0;
+/* border: 1px #aaaaaa dotted;*/
+
+}
+
+li.listitem { 
+	padding-left: 0;
+	padding-right: 0;
+	margin-left: 5px;
+	text-align: left;
+} 
+
+a.listitem, a.listitem:link, a.listitem:visited, a.listitem:active  
+{
+
+	text-decoration: none; 
+	color:#006bad; 
+	font-size:14px;
+	background-color: #fff;
+	font-weight: normal;
+}
+
+a.listitem:hover 
+{
+	background-color: #fff;
+	color:#006bad; 
+	text-decoration: underline; 
+}
+
+
+img 
+{
+	border: none;
+}
+
+div.seperator  
+{
+	background-color: #fff;
+	border-top: 1px solid #006bad;
+	padding: 0 0 0 0;
+	margin: 5px 0 0 0;
+	height:1px;
+	width:95%;
+}
+
+
+
+a:link, a:visited, a:active 
+{
+	font-weight: bold; 
+	color: #006bad;  
+	text-decoration: none
+}
+
+a:hover 
+{
+	background: #000; 
+	color: #fff
+}
+
+
+.commentform
+{
+	text-align:left;
+	
+}
+
+.moreinfotitle
+{
+
+	font-weight: bold; 
+	font-size: 16px; 
+	line-height: 14px; 
+	margin: 0 0 0 0;
+	padding:0 0 0 0;
+	/*border-bottom: #999 1px solid; */
+	
+}
+
+.moreinfo
+{
+	border: 0;
+	background-color: #fff;	
+	margin: 15px 0px 15px 0px;	
+}
+
+ul.morelist 
+{
+	list-style: none;
+	border: 0px;
+	border-top: 0px;
+	margin-top: 0;
+	margin-left:0px; /* for mozilla  */
+	margin-right:0px; 
+	padding-left: 0;
+	padding-right: 0;
+	/* border: 1px #aaaaaa dotted;*/
+}
+
+li.morelistitem { 
+	padding-left: 0;
+	padding-right: 0;
+	margin-left: 0px;
+	text-align: left;
+	font-size: 10px; 
+	
+} 
+
+
+a.printlink:link, a.printlink:visited  
+{
+
+	text-decoration: none; 
+	color:#006bad; 
+	background-color: #fff;
+	font-weight: normal;
+}
+
+a.printlink:hover 
+{
+	text-decoration: underline; 
+}

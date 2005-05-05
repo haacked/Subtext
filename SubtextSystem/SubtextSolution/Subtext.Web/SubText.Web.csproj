@@ -1,0 +1,2692 @@
+<VisualStudioProject>
+    <CSHARP
+        ProjectType = "Local"
+        ProductVersion = "7.10.3077"
+        SchemaVersion = "2.0"
+        ProjectGuid = "{8C11B428-9C4A-46C3-B7F0-48215276BFA5}"
+    >
+        <Build>
+            <Settings
+                ApplicationIcon = ""
+                AssemblyKeyContainerName = ""
+                AssemblyName = "Subtext.Web"
+                AssemblyOriginatorKeyFile = ""
+                DefaultClientScript = "JScript"
+                DefaultHTMLPageLayout = "Grid"
+                DefaultTargetSchema = "IE50"
+                DelaySign = "false"
+                OutputType = "Library"
+                PreBuildEvent = ""
+                PostBuildEvent = ""
+                RootNamespace = "Subtext.Web"
+                RunPostBuildEvent = "OnBuildSuccess"
+                StartupObject = ""
+            >
+                <Config
+                    Name = "Debug"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "DEBUG;TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "true"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "false"
+                    OutputPath = "bin\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+                <Config
+                    Name = "Release"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "false"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "true"
+                    OutputPath = "bin\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+            </Settings>
+            <References>
+                <Reference
+                    Name = "System"
+                    AssemblyName = "System"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.dll"
+                />
+                <Reference
+                    Name = "System.Data"
+                    AssemblyName = "System.Data"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Data.dll"
+                />
+                <Reference
+                    Name = "System.XML"
+                    AssemblyName = "System.Xml"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
+                />
+                <Reference
+                    Name = "System.Web"
+                    AssemblyName = "System.Web"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Web.dll"
+                />
+                <Reference
+                    Name = "System.Drawing"
+                    AssemblyName = "System.Drawing"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Drawing.dll"
+                />
+                <Reference
+                    Name = "System.Web.Services"
+                    AssemblyName = "System.Web.Services"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Web.Services.dll"
+                />
+                <Reference
+                    Name = "Subtext.Common"
+                    Project = "{7594F3CF-85F9-4500-AFBD-5D370D9D57B4}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "Subtext.Framework"
+                    Project = "{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "freetextbox"
+                    AssemblyName = "FreeTextBox"
+                    HintPath = "ExternalDependencies\freetextbox.dll"
+                />
+                <Reference
+                    Name = "System.Design"
+                    AssemblyName = "System.Design"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Design.dll"
+                />
+                <Reference
+                    Name = "System.Management"
+                    AssemblyName = "System.Management"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Management.dll"
+                />
+                <Reference
+                    Name = "System.Configuration.Install"
+                    AssemblyName = "System.Configuration.Install"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Configuration.Install.dll"
+                />
+            </References>
+        </Build>
+        <Files>
+            <Include>
+                <File
+                    RelPath = "AspNetWithoutWebProjects.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "AssemblyInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "blue.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "default.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "default.aspx.cs"
+                    DependentUpon = "default.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "default.aspx.resx"
+                    DependentUpon = "default.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "default.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "DTP.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "emoticons.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Error.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Error.aspx.cs"
+                    DependentUpon = "Error.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Error.aspx.resx"
+                    DependentUpon = "Error.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "favicon.ico"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Feed.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Global.asax"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Global.asax.cs"
+                    DependentUpon = "Global.asax"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Global.asax.resx"
+                    DependentUpon = "Global.asax.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "login.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "login.aspx.cs"
+                    DependentUpon = "login.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "login.aspx.resx"
+                    DependentUpon = "login.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "logout.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "logout.aspx.cs"
+                    DependentUpon = "logout.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "logout.aspx.resx"
+                    DependentUpon = "logout.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "MainFeed.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "MainFeed.aspx.cs"
+                    DependentUpon = "MainFeed.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "MainFeed.aspx.resx"
+                    DependentUpon = "MainFeed.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "OPML.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "OPML.aspx.cs"
+                    DependentUpon = "OPML.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "OPML.aspx.resx"
+                    DependentUpon = "OPML.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Queue.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Queue.aspx.cs"
+                    DependentUpon = "Queue.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Queue.aspx.resx"
+                    DependentUpon = "Queue.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "transform.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Web.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Admin\Configure.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Configure.aspx.cs"
+                    DependentUpon = "Configure.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\Configure.aspx.resx"
+                    DependentUpon = "Configure.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Admin\Confirm.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Confirm.aspx.cs"
+                    DependentUpon = "Confirm.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\Confirm.aspx.resx"
+                    DependentUpon = "Confirm.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Admin\default.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\default.aspx.cs"
+                    DependentUpon = "default.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\default.aspx.resx"
+                    DependentUpon = "default.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Admin\EditArticles.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\EditArticles.aspx.cs"
+                    DependentUpon = "EditArticles.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\EditArticles.aspx.resx"
+                    DependentUpon = "EditArticles.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Admin\EditCategories.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\EditCategories.aspx.cs"
+                    DependentUpon = "EditCategories.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\EditCategories.aspx.resx"
+                    DependentUpon = "EditCategories.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Admin\EditGalleries.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\EditGalleries.aspx.cs"
+                    DependentUpon = "EditGalleries.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\EditGalleries.aspx.resx"
+                    DependentUpon = "EditGalleries.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Admin\EditImage.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\EditImage.aspx.cs"
+                    DependentUpon = "EditImage.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\EditImage.aspx.resx"
+                    DependentUpon = "EditImage.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Admin\EditKeyWords.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\EditKeyWords.aspx.cs"
+                    DependentUpon = "EditKeyWords.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\EditKeyWords.aspx.resx"
+                    DependentUpon = "EditKeyWords.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Admin\EditLinks.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\EditLinks.aspx.cs"
+                    DependentUpon = "EditLinks.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\EditLinks.aspx.resx"
+                    DependentUpon = "EditLinks.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Admin\EditPosts.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\EditPosts.aspx.cs"
+                    DependentUpon = "EditPosts.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\EditPosts.aspx.resx"
+                    DependentUpon = "EditPosts.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Admin\Error.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Error.aspx.cs"
+                    DependentUpon = "Error.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\Error.aspx.resx"
+                    DependentUpon = "Error.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Admin\Export.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Export.aspx.cs"
+                    DependentUpon = "Export.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\Export.aspx.resx"
+                    DependentUpon = "Export.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Admin\Feedback.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Feedback.aspx.cs"
+                    DependentUpon = "Feedback.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\Feedback.aspx.resx"
+                    DependentUpon = "Feedback.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Admin\license.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Navigation.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Admin\Options.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Options.aspx.cs"
+                    DependentUpon = "Options.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\Options.aspx.resx"
+                    DependentUpon = "Options.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Admin\Password.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Password.aspx.cs"
+                    DependentUpon = "Password.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\Password.aspx.resx"
+                    DependentUpon = "Password.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Admin\Preferences.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Preferences.aspx.cs"
+                    DependentUpon = "Preferences.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\Preferences.aspx.resx"
+                    DependentUpon = "Preferences.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Admin\Referrers.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Referrers.aspx.cs"
+                    DependentUpon = "Referrers.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\Referrers.aspx.resx"
+                    DependentUpon = "Referrers.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Admin\Skins.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Admin\Statistics.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Statistics.aspx.cs"
+                    DependentUpon = "Statistics.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\Statistics.aspx.resx"
+                    DependentUpon = "Statistics.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Admin\StatsView.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\StatsView.aspx.cs"
+                    DependentUpon = "StatsView.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\StatsView.aspx.resx"
+                    DependentUpon = "StatsView.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Admin\Test.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Test.aspx.cs"
+                    DependentUpon = "Test.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\Test.aspx.resx"
+                    DependentUpon = "Test.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Admin\Web.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Admin\Resources\admin.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\bg_body.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\bg_tabs.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\header_logo.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\ico_critical.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\ico_info.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\ico_warning.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\PageTemplate.ascx.cs"
+                    DependentUpon = "PageTemplate.ascx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\Resources\PageTemplate.ascx.resx"
+                    DependentUpon = "PageTemplate.ascx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Admin\Resources\poweredbydotnet.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\toggle_gray_down.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\toggle_gray_up.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\uicontrols.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\folder.big.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\folder.small.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\folder.up.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\bold.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\bullets.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\copy.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\createlink.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\cut.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\delete.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\deletetablecolumn.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\deletetablerow.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\fontbackcolorpicker.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\fontforecolorpicker.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\indent.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\insertdate.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\insertimage.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\insertimagefromgallery.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\insertrule.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\inserttable.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\inserttablecolumn.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\inserttablerow.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\inserttime.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\italic.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\justifycenter.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\justifyfull.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\justifyleft.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\justifyright.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\mode.design.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\mode.html.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\numberedlist.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\outdent.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\paste.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\print.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\redo.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\removeformat.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\save.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\separator.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\spellcheck.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\strikethrough.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\subscript.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\superscript.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\toolbar.end.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\toolbar.start.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\toolbarbutton.down.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\toolbarbutton.over.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\underline.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\undo.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\unlink.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\wordclean.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\FTB\dottext\wordcount.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\UserControls\EntryEditor.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\UserControls\EntryEditor.ascx.cs"
+                    DependentUpon = "EntryEditor.ascx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\UserControls\EntryEditor.ascx.resx"
+                    DependentUpon = "EntryEditor.ascx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Admin\WebUI\AdminPage.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\WebUI\ConfirmationPage.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\WebUI\Utilities.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\WebUI\Components\ConfirmCommands.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\WebUI\Components\OpmlProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\WebUI\Components\PageLocation.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\WebUI\Components\Preferences.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\WebUI\Components\SiteMap.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\WebUI\Components\Collections\IOpmlItemCollection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\WebUI\Components\Collections\IPageLocationCollection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\WebUI\Components\Collections\OpmlItemCollection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\WebUI\Components\Collections\PageLocationCollection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\WebUI\Controls\AdvancedPanel.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\WebUI\Controls\BreadCrumbs.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\WebUI\Controls\ContentRegion.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\WebUI\Controls\HeaderBase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\WebUI\Controls\HeaderLink.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\WebUI\Controls\LinkList.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\WebUI\Controls\MessagePanel.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\WebUI\Controls\Page.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\WebUI\Controls\Pager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ExternalDependencies\freetextbox.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\FreeTextBox.xml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\100x30_Logo.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\administration_icon.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\link.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\PoweredByAsp.Net.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Installation\RijndaelCryptography.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Installation\SubtextInstaller.cs"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Installation\SubtextInstaller.resx"
+                    DependentUpon = "SubtextInstaller.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Modules\BlogServiceModule.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Modules\CookieDomainModule.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Services\ASPNetWebLog.asmx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Services\ASPNetWebLog.asmx.cs"
+                    DependentUpon = "ASPNetWebLog.asmx"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Services\ASPNetWebLog.asmx.resx"
+                    DependentUpon = "ASPNetWebLog.asmx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Services\Subtext.asmx.cs"
+                    DependentUpon = "ASPNetWebLog.asmx"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Services\BlogContent.asmx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Services\BlogContent.asmx.cs"
+                    DependentUpon = "BlogContent.asmx"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Services\BlogContent.asmx.resx"
+                    DependentUpon = "BlogContent.asmx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Services\Dottext.asmx.cs"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Services\Dottext.asmx.resx"
+                    DependentUpon = "Dottext.asmx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Services\SimpleBlogService.asmx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Services\SimpleBlogService.asmx.cs"
+                    DependentUpon = "SimpleBlogService.asmx"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Services\SimpleBlogService.asmx.resx"
+                    DependentUpon = "SimpleBlogService.asmx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Services\WS_FTP.LOG"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\License.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\WS_FTP.LOG"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\_Header.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\ArchiveCategory.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\ArchiveDay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\ArchiveLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\ArchiveMonth.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\BlogStats.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\CategoryDisplay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\CategoryEntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\CategoryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\Comments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\Contact.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\Day.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\DayCollection.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\EntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\Footer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\GalleryThumbNailViewer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\Header.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\HomePage.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\Login.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\MonthListings.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\MyLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\News.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\PostComment.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\RelatedLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\ViewPicture.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\Controls\WS_FTP.LOG"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Skins\blue\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\WS_FTP.LOG"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\ArchiveCategory.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\ArchiveDay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\ArchiveLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\ArchiveMonth.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\BlogStats.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\CategoryDisplay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\CategoryEntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\CategoryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\Comments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\Contact.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\Day.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\DayCollection.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\EntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\Footer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\GalleryThumbNailViewer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\Header.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\HomePage.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\Login.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\MonthListings.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\MyLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\News.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\PostComment.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\RelatedLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\ViewPicture.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\WS_FTP.LOG"
+                    BuildAction = "None"
+                />
+                <Folder RelPath = "Skins\blue\Images\" />
+                <File
+                    RelPath = "Skins\gertrude\blue.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\green.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\red.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\WS_FTP.LOG"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\ArchiveCategory.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\ArchiveDay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\ArchiveLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\ArchiveMonth.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\BlogStats.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\CategoryDisplay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\CategoryEntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\CategoryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\Comments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\Contact.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\Day.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\DayCollection.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\EntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\Footer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\GalleryThumbNailViewer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\Header.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\HomePage.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\Login.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\MonthListings.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\MyLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\News.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\PostComment.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\RelatedLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\ViewPicture.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\gertrude\Controls\WS_FTP.LOG"
+                    BuildAction = "None"
+                />
+                <Folder RelPath = "Skins\gertrude\Images\" />
+                <File
+                    RelPath = "Skins\HaackedOrange\csharp.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\WS_FTP.LOG"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\ArchiveCategory.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\ArchiveDay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\ArchiveLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\ArchiveMonth.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\BlogStats.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\CategoryDisplay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\CategoryEntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\CategoryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\Comments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\Contact.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\Day.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\DayCollection.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\EntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\Footer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\GalleryThumbNailViewer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\Header.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\HomePage.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\Login.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\MonthListings.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\MyLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\News.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\PostComment.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\RelatedLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\ViewPicture.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Controls\WS_FTP.LOG"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Images\bottom.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Images\Header.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Images\leftBorder.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Images\rightBorder.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Images\rss20icon.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\HaackedOrange\Images\WS_FTP.LOG"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Skins\Hover\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\WS_FTP.LOG"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\ArchiveCategory.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\ArchiveDay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\ArchiveLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\ArchiveMonth.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\BlogStats.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\CategoryDisplay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\CategoryEntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\CategoryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\Comments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\Contact.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\Day.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\DayCollection.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\EntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\Footer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\GalleryThumbNailViewer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\Header.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\HomePage.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\Login.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\MonthListings.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\MyLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\News.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\PostComment.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\RelatedLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\ViewPicture.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Hover\Controls\WS_FTP.LOG"
+                    BuildAction = "None"
+                />
+                <Folder RelPath = "Skins\Hover\Images\" />
+                <File
+                    RelPath = "Skins\Lighty\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\WS_FTP.LOG"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\ArchiveCategory.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\ArchiveDay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\ArchiveLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\ArchiveMonth.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\BlogStats.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\CategoryDisplay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\CategoryEntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\CategoryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\Comments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\Contact.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\Day.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\DayCollection.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\EntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\Footer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\GalleryThumbNailViewer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\Header.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\HomePage.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\Login.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\MonthListings.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\MyLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\News.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\PostComment.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\RelatedLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\ViewPicture.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\WS_FTP.LOG"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Images\day_footer.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Images\day_header.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Images\header.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Images\main_background.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Images\post_footer.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Images\WS_FTP.LOG"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Images\xml.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\blue.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\brown.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\green.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\pink.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\red.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\vibrant.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\WS_FTP.LOG"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\ArchiveCategory.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\ArchiveDay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\ArchiveLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\ArchiveMonth.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\BlogStats.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\CategoryDisplay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\CategoryEntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\CategoryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\Comments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\Contact.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\Day.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\DayCollection.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\EntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\Footer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\GalleryThumbNailViewer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\Header.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\HomePage.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\Login.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\MonthListings.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\MyLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\News.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\PostComment.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\RelatedLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\ViewPicture.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Controls\WS_FTP.LOG"
+                    BuildAction = "None"
+                />
+                <Folder RelPath = "Skins\Marvin2\Images\" />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\blue.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\brown.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\green.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\pink.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\red.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\vibrant.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\WS_FTP.LOG"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\ArchiveCategory.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\ArchiveDay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\ArchiveLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\ArchiveMonth.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\BlogStats.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\CategoryDisplay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\CategoryEntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\CategoryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\Comments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\Contact.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\Day.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\DayCollection.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\EntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\Footer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\GalleryThumbNailViewer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\Header.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\HomePage.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\Login.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\MonthListings.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\MyLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\News.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\PostComment.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\RelatedLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\ViewPicture.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\Marvin3\Controls\WS_FTP.LOG"
+                    BuildAction = "None"
+                />
+                <Folder RelPath = "Skins\Marvin2\Marvin3\Images\" />
+                <File
+                    RelPath = "Skins\simple\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\WS_FTP.LOG"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\ArchiveCategory.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\ArchiveDay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\ArchiveLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\ArchiveMonth.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\BlogStats.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\CategoryDisplay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\CategoryEntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\CategoryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\Comments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\Contact.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\Day.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\DayCollection.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\EntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\Footer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\GalleryThumbNailViewer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\Header.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\HomePage.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\Login.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\MonthListings.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\MyLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\News.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\PostComment.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\RelatedLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\ViewPicture.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\simple\Controls\WS_FTP.LOG"
+                    BuildAction = "None"
+                />
+                <Folder RelPath = "Skins\simple\Images\" />
+                <File
+                    RelPath = "Skins\white\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\WS_FTP.LOG"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\ArchiveCategory.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\ArchiveDay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\ArchiveLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\ArchiveMonth.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\BlogStats.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\CategoryDisplay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\CategoryEntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\CategoryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\Comments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\Contact.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\Day.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\DayCollection.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\EntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\Footer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\GalleryThumbNailViewer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\Header.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\HomePage.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\Login.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\MonthListings.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\MyLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\News.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\PostComment.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\RelatedLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\ViewPicture.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\white\Controls\WS_FTP.LOG"
+                    BuildAction = "None"
+                />
+                <Folder RelPath = "Skins\white\Images\" />
+                <File
+                    RelPath = "UI\Globals.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\UIData.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\UIText.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\ArchiveCategory.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\ArchiveDay.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\ArchiveLinks.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\ArchiveMonth.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\BaseControl.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\BlogStats.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\CachedColumnControl.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\CategoryDisplay.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\CategoryList.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\Comments.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\Contact.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\Day.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\DayCollection.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\EntryList.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\Footer.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\GalleryThumbNailViewer.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\Header.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\HomePage.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\Login.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\MonthList.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\MyLinks.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\News.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\PageTemplate.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\PostComment.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\SingleColumn.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\StoryList.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\ViewPicture.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\ViewPost.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Handlers\BaseBlogPageHandlerFactory.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Handlers\BlogExistingPageHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Handlers\BlogSecondaryCssHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Handlers\ErrorHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Handlers\PageHandlerFactory.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Handlers\PrintHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Handlers\RedirectHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Pages\DottextMasterViewStatelessPage.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Pages\SubtextMasterPage.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Skinning\CacheKey.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Skinning\SkinConfig.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Skinning\SkinItem.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Skinning\SkinPage.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Skinning\SkinTemplate.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Skinning\SkinTemplates.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\WebControls\ContentRegion.bmp"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "UI\WebControls\ContentRegion.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\WebControls\MasterPage.bmp"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "UI\WebControls\MasterPage.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\WebControls\WS_FTP.LOG"
+                    BuildAction = "None"
+                />
+            </Include>
+        </Files>
+    </CSHARP>
+</VisualStudioProject>
+
