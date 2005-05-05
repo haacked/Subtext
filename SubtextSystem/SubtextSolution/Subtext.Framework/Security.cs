@@ -65,7 +65,7 @@ namespace Subtext.Framework
 		/// </summary>
 		/// <param name="password">Supplied Password</param>
 		/// <returns>Encrypted (Hashed) value</returns>
-		public static string Encrypt(string password) 
+		public static string HashPassword(string password) 
 		{
 			// Force the string to lower case
 			//
@@ -102,7 +102,7 @@ namespace Subtext.Framework
 		{
 			if(Config.CurrentBlog().IsPasswordHashed)
 			{
-				password = Encrypt(password);
+				password = HashPassword(password);
 			}
 			return string.Compare(password,Config.CurrentBlog().Password,false)==0;
 		}
@@ -130,7 +130,7 @@ namespace Subtext.Framework
 			BlogConfig config = Config.CurrentBlog();
 			if(Config.CurrentBlog().IsPasswordHashed)
 			{
-				config.Password = Encrypt(password);
+				config.Password = HashPassword(password);
 			}
 			else
 			{
