@@ -28,10 +28,10 @@ namespace Subtext.Common.UrlManager
 {
 	/// <summary>
 	/// Class responisble for figuring out which Subtext page to load. 
-	/// By default will load an array of Subtext.UrlManager.HttpHanlder
+	/// By default will load an array of Subtext.UrlManager.HttpHandlder 
 	/// from the blog.config file. This contains a list of Regex patterns 
 	/// to match the current request to. It also allows caching of the 
-	/// Regex's and Types
+	/// Regex's and Types.
 	/// </summary>
 	public class UrlReWriteHandlerFactory:  IHttpHandlerFactory
 	{
@@ -43,13 +43,15 @@ namespace Subtext.Common.UrlManager
 		}
 
 		/// <summary>
-		/// Implementation of IHttpHandlerFactory. By default, it will load an array of HttpHanlder (Subtext.UrlManager.HttpHandler) from
-		/// the blog.config. This can be changed, by overrideing the GetHttpHandlers(HttpContext context) method. 
+		/// Implementation of IHttpHandlerFactory. By default, it will load an array 
+		/// of <see cref="HttpHandler"/>s from the blog.config. This can be changed, 
+		/// by overrideing the GetHttpHandlers(HttpContext context) method. 
 		/// </summary>
 		/// <param name="context">Current HttpContext</param>
 		/// <param name="requestType">Request Type (Passed along to other IHttpHandlerFactory's)</param>
 		/// <param name="url">The current requested url. (Passed along to other IHttpHandlerFactory's)</param>
-		/// <param name="path">The physical path of the current request. Is not gaurenteed to exist (Passed along to other IHttpHandlerFactory's)</param>
+		/// <param name="path">The physical path of the current request. Is not gaurenteed 
+		/// to exist (Passed along to other IHttpHandlerFactory's)</param>
 		/// <returns>
 		/// Returns an Instance of IHttpHandler either by loading an instance of IHttpHandler or by returning an other
 		/// IHttpHandlerFactory.GetHanlder(HttpContext context, string requestType, string url, string path) method
@@ -64,7 +66,7 @@ namespace Subtext.Common.UrlManager
 			{
 				int count = items.Length;
 
-				for(int i = 0; i<count; i++)
+				for(int i = 0; i < count; i++)
 				{
 					//We should use our own cached Regex. This should limit the number of Regex's created
 					//and allows us to take advantage of RegexOptons.Compiled 

@@ -120,7 +120,7 @@ namespace Subtext.Framework.Configuration
 		public string Host
 		{
 			get{return _host;}
-			set{_host = value.Replace("www.",string.Empty);}
+			set{_host = value.Replace("www.", string.Empty);}
 		}
 
 		//not sure if this should be a persisted value or not
@@ -243,7 +243,7 @@ namespace Subtext.Framework.Configuration
 			set{news = value;}
 		}
 
-		private string _author = ".Text WebLog";
+		private string _author = "Subtext Weblog";
 		public string Author
 		{
 			get{return _author;}
@@ -255,7 +255,10 @@ namespace Subtext.Framework.Configuration
 		private string fullyQualifiedUrl;
 		public string FullyQualifiedUrl
 		{
-			get{return fullyQualifiedUrl;}
+			get
+			{
+				return fullyQualifiedUrl;
+			}
 			set
 			{
 				if(value != null && value.StartsWith("http://"))

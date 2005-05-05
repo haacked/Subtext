@@ -30,9 +30,10 @@ using Subtext.Framework.Configuration;
 namespace Subtext.Web.UI.Handlers 
 {
 	/// <summary>
-	/// Most pages in WebUI do not exist and are loaded via Activator.CreateInstance(Page page). However, the admin pages
-	/// exist and must be parsed. When in BlogRequestType.Multiple the admin directory likely exists in a different 
-	/// directory than request. This Handler will edit the path property and reset it to the actual path.
+	/// Most pages in WebUI do not exist and are loaded via Activator.CreateInstance(Page page). 
+	/// However, the admin pages exist and must be parsed. When in BlogRequestType.Multiple the 
+	/// admin directory likely exists in a different directory than request. This Handler will 
+	/// edit the path property and reset it to the actual path.
 	/// </summary>
 	public class BlogExistingPageHandler :  IHttpHandlerFactory
 	{

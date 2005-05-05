@@ -32,7 +32,7 @@ namespace Subtext.Web.UI.Pages
 			string[] controls = Subtext.Common.UrlManager.HandlerConfiguration.GetControls(Context);
 			foreach(string control in controls)
 			{
-				Control c = LoadControl(string.Format(ControlLocation,skin,control));
+				Control c = LoadControl(string.Format(ControlLocation, skin,control));
 				c.ID = control;
 				CenterBodyControl.Controls.Add(c);
 			}
