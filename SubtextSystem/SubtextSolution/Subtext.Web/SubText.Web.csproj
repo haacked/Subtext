@@ -1013,21 +1013,6 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Installation\RijndaelCryptography.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Installation\SubtextInstaller.cs"
-                    SubType = "Component"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Installation\SubtextInstaller.resx"
-                    DependentUpon = "SubtextInstaller.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "Modules\BlogServiceModule.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
