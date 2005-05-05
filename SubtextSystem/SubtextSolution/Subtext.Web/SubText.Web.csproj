@@ -138,6 +138,22 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "BlogNotConfiguredError.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "BlogNotConfiguredError.aspx.cs"
+                    DependentUpon = "BlogNotConfiguredError.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "BlogNotConfiguredError.aspx.resx"
+                    DependentUpon = "BlogNotConfiguredError.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "blue.css"
                     BuildAction = "Content"
                 />
@@ -2485,10 +2501,6 @@
                     RelPath = "UI\WebControls\MasterPage.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "UI\WebControls\WS_FTP.LOG"
-                    BuildAction = "None"
                 />
             </Include>
         </Files>

@@ -73,18 +73,11 @@ namespace Subtext.Web.Pages
 		}
 		#endregion
 
-		private void btnLogin_Click(object sender, System.EventArgs e)
-		{
-
-		}
-
 		private void lbSendPassword_Click(object sender, System.EventArgs e)
 		{
-			
 			BlogConfig config = Config.CurrentBlog(Context);
 			if(string.Compare(tbUserName.Text,config.UserName,true) == 0)
 			{
-				BlogConfigurationSettings settings = Config.Settings;
 				string password = null;
 				if(config.IsPasswordHashed)
 				{
@@ -114,8 +107,7 @@ namespace Subtext.Web.Pages
 		private void lblLogin_Click(object sender, System.EventArgs e)
 		{
 			BlogConfig config = Config.CurrentBlog(Context);
-			if(Security.Authenticate(tbUserName.Text,tbPassword.Text,chkRemember.Checked))
-			//if(tbUserName.Text == config.UserName && tbPassword.Text == config.Password)
+			if(Security.Authenticate(tbUserName.Text, tbPassword.Text, chkRemember.Checked))
 			{
 				//FormsAuthentication.SetAuthCookie(config.BlogID.ToString(),chkRemember.Checked);
 				if(Request.QueryString["ReturnURL"] != null)

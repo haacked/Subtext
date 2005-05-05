@@ -37,7 +37,7 @@ namespace Subtext.Framework
 		/// <param name="password">Supplied Password</param>
 		/// <param name="persist">If valid, should we persist the login</param>
 		/// <returns>bool indicating successful login</returns>
-		public static bool Authenticate(string username, string password,bool persist)
+		public static bool Authenticate(string username, string password, bool persist)
 		{
 			//if we don't match username, don't bother with password
 			if(IsValidUser(username, password))
@@ -109,7 +109,7 @@ namespace Subtext.Framework
 			{
 				password = HashPassword(password);
 			}
-			return string.Compare(password, Config.CurrentBlog().Password, false)==0;
+			return string.Compare(password, Config.CurrentBlog().Password, false) == 0;
 		}
 
 		/// <summary>

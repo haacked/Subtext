@@ -147,8 +147,36 @@ namespace Subtext.Framework.Data
 
 		#region  Configuration
 
+		/// <summary>
+		/// Adds the initial blog configuration.  This is a convenience method for 
+		/// allowing a user with a freshly installed blog to immediately gain access 
+		/// to the admin section to edit the blog.
+		/// </summary>
+		/// <param name="userName">Name of the user.</param>
+		/// <param name="password">Password.</param>
+		/// <returns></returns>
+		bool AddInitialBlogConfiguration(string userName, string password);
+
+		/// <summary>
+		/// Updates the specified blog configuration.
+		/// </summary>
+		/// <param name="config">Config.</param>
+		/// <returns></returns>
 		bool UpdateConfigData(BlogConfig config);
+		
+		/// <summary>
+		/// Gets the config.
+		/// </summary>
+		/// <param name="hostname">Hostname.</param>
+		/// <param name="application">Application.</param>
+		/// <returns></returns>
 		BlogConfig GetConfig(string hostname, string application);
+		
+		/// <summary>
+		/// Gets the config. This has been depracated
+		/// </summary>
+		/// <param name="BlogID">Blog ID.</param>
+		/// <returns></returns>
 		BlogConfig GetConfig(int BlogID);
 
 

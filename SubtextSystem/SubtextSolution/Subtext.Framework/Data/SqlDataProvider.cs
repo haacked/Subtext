@@ -994,6 +994,29 @@ namespace Subtext.Framework.Data
 
 		#region Configuration
 
+		/// <summary>
+		/// Adds the initial blog configuration.  This is a convenience method for 
+		/// allowing a user with a freshly installed blog to immediately gain access 
+		/// to the admin section to edit the blog.
+		/// </summary>
+		/// <param name="userName">Name of the user.</param>
+		/// <param name="password">Password.</param>
+		/// <returns></returns>
+		public bool AddInitialBlogConfiguration(string userName, string password)
+		{
+			SqlParameter[] parameters = 
+			{
+				SqlHelper.MakeInParam("@UserName", SqlDbType.NVarChar, 50, userName)
+				, SqlHelper.MakeInParam("@Password", SqlDbType.NVarChar, 50, password)
+				, SqlHelper.MakeInParam("@Email", SqlDbType.NVarChar, 50, string.Empty)
+				, SqlHelper.MakeInParam("@Host", SqlDbType.NVarChar, 50, "")
+				, SqlHelper.MakeInParam("@Application", SqlDbType.NVarChar, 50, "")
+				, SqlHelper.MakeInParam("@IsHashed", SqlDbType.Bit, 1, Config.Settings.UseHashedPasswords)
+				
+			};
+			return NonQueryBool("blog_UTILITY_AddBlog", parameters);
+		}
+
 		public IDataReader GetConfig(string host, string application)
 		{
 					
@@ -1015,33 +1038,39 @@ namespace Subtext.Framework.Data
 			return GetReader("blog_GetConfigByBlogID",p);
 		}
 
+		/// <summary>
+		/// Updates the blog configuration in the SQL database 
+		/// using the "blog_UpdateConfig" stored proc.
+		/// </summary>
+		/// <param name="config">Config.</param>
+		/// <returns></returns>
 		public bool UpdateConfigData(BlogConfig config)
 		{
 				SqlParameter[] p = 
 					{
-						SqlHelper.MakeInParam("@UserName",SqlDbType.NVarChar,50,config.UserName),
-						SqlHelper.MakeInParam("@Password",SqlDbType.NVarChar,50,config.Password),
-						SqlHelper.MakeInParam("@Author",SqlDbType.NVarChar,100,config.Author),
-						SqlHelper.MakeInParam("@Email",SqlDbType.NVarChar,50,config.Email),
-						SqlHelper.MakeInParam("@Title",SqlDbType.NVarChar,100,config.Title),
-						SqlHelper.MakeInParam("@SubTitle",SqlDbType.NVarChar,250,config.SubTitle),
-						SqlHelper.MakeInParam("@Skin",SqlDbType.NVarChar,50,config.Skin.SkinName),
-						SqlHelper.MakeInParam("@Application",SqlDbType.NVarChar,50,config.CleanApplication),
-						SqlHelper.MakeInParam("@Host",SqlDbType.NVarChar,100,config.Host),
-						SqlHelper.MakeInParam("@TimeZone",SqlDbType.Int,4,config.TimeZone),
-						SqlHelper.MakeInParam("@Language",SqlDbType.NVarChar,10,config.Language),
-						SqlHelper.MakeInParam("@News",SqlDbType.Text,0,DataHelper.CheckNull(config.News)),
-						SqlHelper.MakeInParam("@ItemCount",SqlDbType.Int, 4,config.ItemCount),
-						SqlHelper.MakeInParam("@Flag",SqlDbType.Int, 4,(int)config.Flag),
-						SqlHelper.MakeInParam("@LastUpdated",SqlDbType.DateTime, 8,config.LastUpdated),
-						SqlHelper.MakeInParam("@SecondaryCss",SqlDbType.Text,0,DataHelper.CheckNull(config.Skin.SkinCssText)),
-						SqlHelper.MakeInParam("@SkinCssFile",SqlDbType.VarChar,100,DataHelper.CheckNull(config.Skin.SkinCssFile)),
-						SqlHelper.MakeInParam("@BlogID",SqlDbType.Int, 4,config.BlogID)
+						SqlHelper.MakeInParam("@UserName", SqlDbType.NVarChar, 50, config.UserName), 
+						SqlHelper.MakeInParam("@Password", SqlDbType.NVarChar, 50, config.Password), 
+						SqlHelper.MakeInParam("@Author", SqlDbType.NVarChar, 100, config.Author), 
+						SqlHelper.MakeInParam("@Email", SqlDbType.NVarChar, 50, config.Email), 
+						SqlHelper.MakeInParam("@Title", SqlDbType.NVarChar, 100, config.Title), 
+						SqlHelper.MakeInParam("@SubTitle", SqlDbType.NVarChar, 250, config.SubTitle), 
+						SqlHelper.MakeInParam("@Skin", SqlDbType.NVarChar, 50, config.Skin.SkinName), 
+						SqlHelper.MakeInParam("@Application", SqlDbType.NVarChar, 50, config.CleanApplication), 
+						SqlHelper.MakeInParam("@Host", SqlDbType.NVarChar, 100, config.Host), 
+						SqlHelper.MakeInParam("@TimeZone", SqlDbType.Int, 4, config.TimeZone), 
+						SqlHelper.MakeInParam("@Language", SqlDbType.NVarChar, 10, config.Language), 
+						SqlHelper.MakeInParam("@News", SqlDbType.Text, 0, DataHelper.CheckNull(config.News)), 
+						SqlHelper.MakeInParam("@ItemCount", SqlDbType.Int,  4, config.ItemCount), 
+						SqlHelper.MakeInParam("@Flag", SqlDbType.Int,  4, (int)config.Flag), 
+						SqlHelper.MakeInParam("@LastUpdated", SqlDbType.DateTime,  8, config.LastUpdated), 
+						SqlHelper.MakeInParam("@SecondaryCss", SqlDbType.Text, 0, DataHelper.CheckNull(config.Skin.SkinCssText)), 
+						SqlHelper.MakeInParam("@SkinCssFile", SqlDbType.VarChar, 100, DataHelper.CheckNull(config.Skin.SkinCssFile)), 
+						SqlHelper.MakeInParam("@BlogID", SqlDbType.Int,  4, config.BlogID)
 
 					};
 
 
-			return NonQueryBool("blog_UpdateConfig",p);
+			return NonQueryBool("blog_UpdateConfig", p);
 
 		}
 
@@ -1157,12 +1186,12 @@ namespace Subtext.Framework.Data
 
 		private int NonQueryInt(string sql, SqlParameter[] p)
 		{
-			return SqlHelper.ExecuteNonQuery(ConnectionString,CommandType.StoredProcedure,sql,p);
+			return SqlHelper.ExecuteNonQuery(ConnectionString,CommandType.StoredProcedure, sql, p);
 		}
 
 		private bool NonQueryBool(string sql, SqlParameter[] p)
 		{
-			return NonQueryInt(sql,p) > 0;
+			return NonQueryInt(sql, p) > 0;
 		}
 
 		#endregion

@@ -24,6 +24,7 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Web;
+using Subtext.Framework;
 
 namespace Subtext 
 {
@@ -42,7 +43,8 @@ namespace Subtext
 		}
 
 
-		private static readonly string ERROR_PAGE_LOCATION = "~/error.aspx";
+		private const string ERROR_PAGE_LOCATION = "~/error.aspx";
+		private const string BLOG_INITIAL_CONFIGURATION_PAGE = "~/BlogNotConfiguredError.aspx";
 
 		public Global()
 		{
@@ -107,6 +109,14 @@ namespace Subtext
 
 		protected void Application_Error(Object sender, EventArgs e)
 		{
+			if(Server.GetLastError() is HttpUnhandledException)
+			{
+				Exception exception = Server.GetLastError();
+				if(exception.InnerException is BlogDoesNotExistException)
+				{
+					Server.Transfer(BLOG_INITIAL_CONFIGURATION_PAGE, false);
+				}
+			}
 
 			// I don't know that Context can ever be null in the pipe, but we'll play it
 			// extra safe. If customErrors are off, we'll just let ASP.NET default happen.
