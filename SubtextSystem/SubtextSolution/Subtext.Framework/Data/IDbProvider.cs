@@ -108,6 +108,15 @@ namespace Subtext.Framework.Data
 		#endregion
 
 		#region Config
+		/// <summary>
+		/// Adds the initial blog configuration.  This is a convenience method for 
+		/// allowing a user with a freshly installed blog to immediately gain access 
+		/// to the admin section to edit the blog.
+		/// </summary>
+		/// <param name="userName">Name of the user.</param>
+		/// <param name="password">Password.</param>
+		/// <returns></returns>
+		bool AddInitialBlogConfiguration(string userName, string password);
 
 		IDataReader GetConfig(string host, string application);
 		IDataReader GetConfig(int BlogID);

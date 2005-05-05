@@ -27,6 +27,19 @@ namespace Subtext.Framework.Configuration
 			return ConfigProvider.Instance().GetConfig(context);
 		}
 
+		/// <summary>
+		/// Adds the initial blog configuration.  This is a convenience method for 
+		/// allowing a user with a freshly installed blog to immediately gain access 
+		/// to the admin section to edit the blog.
+		/// </summary>
+		/// <param name="userName">Name of the user.</param>
+		/// <param name="password">Password.</param>
+		/// <returns></returns>
+		public static bool AddInitialBlog(string userName, string password)
+		{
+			return DTOProvider.Instance().AddInitialBlogConfiguration(userName, password);
+		}
+
 		public static bool UpdateConfigData(BlogConfig config)
 		{
 			return DTOProvider.Instance().UpdateConfigData(config);

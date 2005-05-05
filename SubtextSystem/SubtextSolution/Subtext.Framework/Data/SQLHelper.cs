@@ -244,7 +244,7 @@ namespace Subtext.Framework.Data
 		public static int ExecuteNonQuery(string connectionString, CommandType commandType, string commandText)
 		{
 			//pass through the call providing null for the set of SqlParameters
-			return ExecuteNonQuery(connectionString, commandType, commandText, (SqlParameter[])null);
+			return ExecuteNonQuery(connectionString, commandType, commandText, null);
 		}
 
 		/// <summary>
@@ -286,7 +286,7 @@ namespace Subtext.Framework.Data
 		public static int ExecuteNonQuery(SqlConnection connection, CommandType commandType, string commandText)
 		{
 			//pass through the call providing null for the set of SqlParameters
-			return ExecuteNonQuery(connection, commandType, commandText, (SqlParameter[])null);
+			return ExecuteNonQuery(connection, commandType, commandText, null);
 		}
 
 		/// <summary>
@@ -306,7 +306,7 @@ namespace Subtext.Framework.Data
 		{	
 			//create a command and prepare it for execution
 			SqlCommand cmd = new SqlCommand();
-			PrepareCommand(cmd, connection, (SqlTransaction)null, commandType, commandText, commandParameters);
+			PrepareCommand(cmd, connection, null, commandType, commandText, commandParameters);
 			
 			//finally, execute the command.
 			int retval = cmd.ExecuteNonQuery();
@@ -331,7 +331,7 @@ namespace Subtext.Framework.Data
 		public static int ExecuteNonQuery(SqlTransaction transaction, CommandType commandType, string commandText)
 		{
 			//pass through the call providing null for the set of SqlParameters
-			return ExecuteNonQuery(transaction, commandType, commandText, (SqlParameter[])null);
+			return ExecuteNonQuery(transaction, commandType, commandText, null);
 		}
 
 		/// <summary>

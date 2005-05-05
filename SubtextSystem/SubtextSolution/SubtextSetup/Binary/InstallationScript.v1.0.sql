@@ -1165,22 +1165,29 @@ SET ANSI_NULLS ON
 GO
 
 
-
-
-CREATE             Proc blog_GetConfig
+/*
+Obtains the configuration for the blog.  Subtext 1.0 will only 
+support single user blogs, so these parameters are no longer 
+necessary.
+*/
+CREATE PROC blog_GetConfig
 (
-	@Host nvarchar(100),
-	@Application nvarchar(50)
+	@Host nvarchar(100) -- Depracated
+	, @Application nvarchar(50) -- Depracated
 )
 as
+/* Out with the old
 Select 	blog_Config.BlogID, UserName, [Password], Email, Title, SubTitle, Skin, Application, Host, 
 	Author, TimeZone, ItemCount, [Language], News, SecondaryCss, 
 	LastUpdated, PostCount, StoryCount, PingTrackCount, CommentCount, Flag, SkinCssFile From blog_Config
 
 Where Host = @Host and Application = @Application and Flag & 1 > 0
+*/
 
-
-
+-- In with the new
+Select TOP 1 blog_Config.BlogID, UserName, [Password], Email, Title, SubTitle, Skin, Application, Host, 
+	Author, TimeZone, ItemCount, [Language], News, SecondaryCss, 
+	LastUpdated, PostCount, StoryCount, PingTrackCount, CommentCount, Flag, SkinCssFile From blog_Config
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -3749,9 +3756,12 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-
-
-CREATE Proc blog_UTILITY_AddBlog
+/*
+Subtext 1.0 will only support single user blogs, thus this 
+proc will make sure there is only one blog in the system 
+and will fail to add a blog if one already exists.
+*/
+CREATE PROC blog_UTILITY_AddBlog
 (
 	@UserName nvarchar(50),
 	@Password nvarchar(50),
@@ -3763,15 +3773,50 @@ CREATE Proc blog_UTILITY_AddBlog
 
 as
 
-Declare @Flag int
-Set @Flag = 55
-if(@IsHashed = 1)
-Set @Flag = 63
+IF(NOT EXISTS (SELECT * FROM blog_config))
+BEGIN
+	Declare @Flag int
+	Set @Flag = 55
+	if(@IsHashed = 1)
+	Set @Flag = 63
 
-Insert blog_Config  (LastUpdated, UserName, Password, Email,     Title,       SubTitle,                     Skin, SkinCssFile,Application, Host, Author, TimeZone, Language, ItemCount, Flag)
-Values              (getdate(),@UserName, @Password, @Email, '.Text Blog', 'Another .Text Powered Blog', 'marvin2','blue.css',@Application, @Host,'Blog Author',-5,'en-US',10,@Flag)
+	INSERT blog_Config  
+	(
+		LastUpdated
+		, UserName
+		, Password
+		, Email
+		, Title
+		, SubTitle
+		, Skin
+		, SkinCssFile
+		, Application
+		, Host
+		, Author
+		, TimeZone
+		, [Language]
+		, ItemCount
+		, Flag
+	)
+	Values             
+	(
+		getdate()
+		, @UserName
+		, @Password
+		, @Email
+		, 'Subtext Blog'
+		, 'Another Subtext Powered Blog'
+		, 'marvin2'
+		, 'blue.css'
+		, @Application
+		, @Host
+		, 'Blog Author'
+		, -5
+		,'en-US'
+		, 10
+		, @Flag)
 
-
+END
 
 
 GO
@@ -3831,15 +3876,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-
-
-
-
-
-
-
-
-CREATE         Proc blog_UpdateConfig
+CREATE PROC blog_UpdateConfig
 (
 	@UserName nvarchar(50),
 	@Password nvarchar(50),
@@ -3863,24 +3900,25 @@ CREATE         Proc blog_UpdateConfig
 as
 Update blog_Config
 Set
-UserName  =    @UserName,     
-[Password]  =  @Password ,    
-Email	   =   @Email,        
-Title	   =   @Title ,       
-SubTitle   =   @SubTitle  ,   
-Skin	  =    @Skin   ,      
-Application =  @Application , 
-Host	  =    @Host  ,       
-Author	   =   @Author,
-Language = @Language,
-TimeZone   = @TimeZone,
-ItemCount = @ItemCount,
-News      = @News,
-LastUpdated = @LastUpdated,
-Flag = @Flag,
-SecondaryCss = @SecondaryCss,
-SkinCssFile = @SkinCssFile
-Where BlogID = @BlogID
+	UserName  =    @UserName,     
+	[Password]  =  @Password ,    
+	Email	   =   @Email,        
+	Title	   =   @Title ,       
+	SubTitle   =   @SubTitle  ,   
+	Skin	  =    @Skin   ,      
+	Application =  @Application , 
+	Host	  =    @Host  ,       
+	Author	   =   @Author,
+	[Language] = @Language,
+	TimeZone   = @TimeZone,
+	ItemCount = @ItemCount,
+	News      = @News,
+	LastUpdated = @LastUpdated,
+	Flag = @Flag,
+	SecondaryCss = @SecondaryCss,
+	SkinCssFile = @SkinCssFile
+Where 
+	BlogID = @BlogID
 
 
 

@@ -1,7 +1,7 @@
 <%@ Page language="c#" EnableViewState="False" Codebehind="Error.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Pages.Error" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <HTML>
-	<title>.Text - Error encountered</title>
+	<title>Subtext - Error encountered</title>
 	<style>
 		BODY { PADDING-RIGHT: 32px; PADDING-LEFT: 32px; FONT-SIZE: 13px; BACKGROUND: #eee; PADDING-BOTTOM: 32px; MARGIN-LEFT: auto; WIDTH: 80%; COLOR: #000; MARGIN-RIGHT: auto; PADDING-TOP: 32px; FONT-FAMILY: verdana, arial, sans-serif }
 		DIV { BORDER-RIGHT: #bbb 1px solid; PADDING-RIGHT: 32px; BORDER-TOP: #bbb 1px solid; PADDING-LEFT: 32px; BACKGROUND: #fff; PADDING-BOTTOM: 32px; BORDER-LEFT: #bbb 1px solid; PADDING-TOP: 32px; BORDER-BOTTOM: #bbb 1px solid }
@@ -13,9 +13,12 @@
 		A:hover { COLOR: #cc0066; BACKGROUND-COLOR: #f5f5f5; TEXT-DECORATION: underline }
 		</style>
 	<body>
+	<!-- 
+		//TODO: Make this page templated like the rest of the system.
+	-->
 		<form id="frmMain" method="post" runat="server">
 			<div>
-				<h1>.Text - Application Error!</h1>
+				<h1>Subtext - Application Error!</h1>
 				<h2>Details</h2>
 				<p><asp:Label id="ErrorMessageLabel" runat="server" /></p>
 				<p style="MARGIN-TOP: 24px"><asp:HyperLink id="HomeLink" runat="server">Return to site</asp:HyperLink></p>
