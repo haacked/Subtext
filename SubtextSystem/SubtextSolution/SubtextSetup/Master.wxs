@@ -35,11 +35,11 @@
                       </Component>
 					
 					<Component Id='CreateWebVirtualDir' Guid='4ED7B125-8B0F-4590-BA92-0DB932E95C76'>
-						<WebVirtualDir Id='TestWebVirtualDir' 
+						<WebVirtualDir Id='Website' 
 							Alias='Test' 
 							Directory='dirSubtextWeb'
 							WebSite='DefaultWebSite'>
-							<WebApplication Id='TestWebApplication' Name='Test' />
+							<WebApplication Id='SubtextWebApplication' Name='Subtext.Web' />
 						</WebVirtualDir>
 					</Component>
 				</Directory>

@@ -19,6 +19,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubtextBuildAndSetup", "Sub
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubtextConfigurationTool", "SubtextConfigurationTool\SubtextConfigurationTool.csproj", "{FD164E32-AE6A-46E5-AB0D-F3D6F97B4CAA}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -44,6 +48,10 @@ Global
 		{745B39B7-DE46-4070-8733-C53308721C58}.Debug.ActiveCfg = Debug|.NET
 		{745B39B7-DE46-4070-8733-C53308721C58}.Release.ActiveCfg = Release|.NET
 		{745B39B7-DE46-4070-8733-C53308721C58}.Release.Build.0 = Release|.NET
+		{FD164E32-AE6A-46E5-AB0D-F3D6F97B4CAA}.Debug.ActiveCfg = Debug|.NET
+		{FD164E32-AE6A-46E5-AB0D-F3D6F97B4CAA}.Debug.Build.0 = Debug|.NET
+		{FD164E32-AE6A-46E5-AB0D-F3D6F97B4CAA}.Release.ActiveCfg = Release|.NET
+		{FD164E32-AE6A-46E5-AB0D-F3D6F97B4CAA}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 		CVSReadMe.txt = CVSReadMe.txt
