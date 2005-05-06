@@ -468,7 +468,7 @@ CREATE TABLE [dbo].[blog_Referrals] (
 GO
 
 CREATE TABLE [dbo].[blog_URLs] (
-	[UrlID] [int] NOT NULL ,
+	[UrlID] [int] IDENTITY (0, 1) NOT NULL ,
 	[URL] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL 
 ) ON [PRIMARY]
 GO
@@ -546,6 +546,54 @@ GO
 SET ANSI_NULLS ON 
 GO
 
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+CREATE        Proc  DNW_Stats
+(
+	@Host nvarchar(100),
+	@GroupID int
+)
+as
+Select BlogID, Author, Application, Host, Title, PostCount, CommentCount, StoryCount, PingTrackCount, LastUpdated
+From blog_Config 
+where PostCount > 0 and blog_Config.Flag & 2 = 2 and Host = @Host and BlogGroup & @GroupID = @GroupID
+order by PostCount desc
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+CREATE  Proc DNW_Total_Stats
+(
+	@Host nvarchar(100),
+	@GroupID int
+)
+as
+Select Count(*) as [BlogCount], Sum(PostCount) as PostCount, Sum(CommentCount) as CommentCount, Sum(StoryCount) as StoryCount, Sum(PingTrackCount) as PingTrackCount 
+From blog_Config where blog_Config.Flag & 2 = 2 and Host = @Host and BlogGroup & @GroupID = @GroupID
+
+SET QUOTED_IDENTIFIER ON
+
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+
+
 SET QUOTED_IDENTIFIER ON 
 GO
 SET ANSI_NULLS ON 
@@ -564,68 +612,6 @@ as
 exec DNW_Stats @Host, @GroupID
 exec DNW_GetRecentPosts @Host, @GroupID
 exec DNW_Total_Stats @Host, @GroupID
-
-
-
-GO
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-
-
-
-
-
-
-
-
-
-CREATE        Proc  DNW_Stats
-(
-	@Host nvarchar(100),
-	@GroupID int
-)
-as
-Select BlogID, Author, Application, Host, Title, PostCount, CommentCount, StoryCount, PingTrackCount, LastUpdated
-From blog_Config 
-where PostCount > 0 and blog_Config.Flag & 2 = 2 and Host = @Host and BlogGroup & @GroupID = @GroupID
-order by PostCount desc
-
-
-
-
-GO
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-
-
-
-
-CREATE  Proc DNW_Total_Stats
-(
-	@Host nvarchar(100),
-	@GroupID int
-)
-as
-Select Count(*) as [BlogCount], Sum(PostCount) as PostCount, Sum(CommentCount) as CommentCount, Sum(StoryCount) as StoryCount, Sum(PingTrackCount) as PingTrackCount 
-From blog_Config where blog_Config.Flag & 2 = 2 and Host = @Host and BlogGroup & @GroupID = @GroupID
-
-SET QUOTED_IDENTIFIER ON
 
 
 
@@ -3155,6 +3141,106 @@ GO
 SET ANSI_NULLS ON 
 GO
 
+CREATE PROC blog_UpdateConfig
+(
+	@UserName nvarchar(50),
+	@Password nvarchar(50),
+	@Email nvarchar(50),
+	@Title nvarchar(100),
+	@SubTitle nvarchar(250),
+	@Skin nvarchar(50),
+	@Application nvarchar(50),
+	@Host nvarchar(100),
+	@Author nvarchar(100),
+	@Language nvarchar(10),
+	@TimeZone int,
+	@ItemCount int,
+	@News nText,
+	@LastUpdated datetime,
+	@SecondaryCss nText,
+	@SkinCssFile varchar(100),
+	@Flag int,
+	@BlogID int
+)
+as
+Update blog_Config
+Set
+	UserName  =    @UserName,     
+	[Password]  =  @Password ,    
+	Email	   =   @Email,        
+	Title	   =   @Title ,       
+	SubTitle   =   @SubTitle  ,   
+	Skin	  =    @Skin   ,      
+	Application =  @Application , 
+	Host	  =    @Host  ,       
+	Author	   =   @Author,
+	[Language] = @Language,
+	TimeZone   = @TimeZone,
+	ItemCount = @ItemCount,
+	News      = @News,
+	LastUpdated = @LastUpdated,
+	Flag = @Flag,
+	SecondaryCss = @SecondaryCss,
+	SkinCssFile = @SkinCssFile
+Where 
+	BlogID = @BlogID
+
+
+
+
+
+
+
+
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+
+
+
+
+
+
+
+Create Proc blog_UpdateConfigUpdateTime
+(
+	@BlogID int,
+	@LastUpdated datetime
+)
+as
+Update blog_Config
+Set LastUpdated = @LastUpdated
+where blogid = @blogid
+
+
+
+
+
+
+
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
 
 
 
@@ -3857,104 +3943,6 @@ SET
 WHERE   
 	blog_LinkCategories.CategoryID=@CategoryID and blog_LinkCategories.BlogID = @BlogID
 
-
-
-
-
-
-
-
-
-GO
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-CREATE PROC blog_UpdateConfig
-(
-	@UserName nvarchar(50),
-	@Password nvarchar(50),
-	@Email nvarchar(50),
-	@Title nvarchar(100),
-	@SubTitle nvarchar(250),
-	@Skin nvarchar(50),
-	@Application nvarchar(50),
-	@Host nvarchar(100),
-	@Author nvarchar(100),
-	@Language nvarchar(10),
-	@TimeZone int,
-	@ItemCount int,
-	@News nText,
-	@LastUpdated datetime,
-	@SecondaryCss nText,
-	@SkinCssFile varchar(100),
-	@Flag int,
-	@BlogID int
-)
-as
-Update blog_Config
-Set
-	UserName  =    @UserName,     
-	[Password]  =  @Password ,    
-	Email	   =   @Email,        
-	Title	   =   @Title ,       
-	SubTitle   =   @SubTitle  ,   
-	Skin	  =    @Skin   ,      
-	Application =  @Application , 
-	Host	  =    @Host  ,       
-	Author	   =   @Author,
-	[Language] = @Language,
-	TimeZone   = @TimeZone,
-	ItemCount = @ItemCount,
-	News      = @News,
-	LastUpdated = @LastUpdated,
-	Flag = @Flag,
-	SecondaryCss = @SecondaryCss,
-	SkinCssFile = @SkinCssFile
-Where 
-	BlogID = @BlogID
-
-
-
-
-
-
-
-
-
-GO
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-SET QUOTED_IDENTIFIER ON 
-GO
-SET ANSI_NULLS ON 
-GO
-
-
-
-
-
-
-
-
-Create Proc blog_UpdateConfigUpdateTime
-(
-	@BlogID int,
-	@LastUpdated datetime
-)
-as
-Update blog_Config
-Set LastUpdated = @LastUpdated
-where blogid = @blogid
 
 
 
