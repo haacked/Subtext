@@ -8,213 +8,214 @@
 			</Property>			
 			<Property Id="DefaultUIFont">DlgFont8</Property>
 			<Property Id="ErrorDialog">ErrorDlg</Property>
+			
 			<Dialog Id="AdminWelcomeDlg" Width="370" Height="270" Title="[ProductName] [Setup]" NoMinimize="yes">
 				<Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="[ButtonText_Next]">
-				<Publish Property="InstallMode" Value="Server Image">1</Publish>
-				<Publish Event="NewDialog" Value="AdminRegistrationDlg">1</Publish>
+					<Publish Property="InstallMode" Value="Server Image">1</Publish>
+					<Publish Event="NewDialog" Value="AdminRegistrationDlg">1</Publish>
 				</Control>
 				<Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="[ButtonText_Cancel]">
-				<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+					<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
 				</Control>
 				<Control Id="Bitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="234" TabSkip="no" Text="[DialogBitmap]" />
 				<Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Disabled="yes" Text="[ButtonText_Back]" />
 				<Control Id="Description" Type="Text" X="135" Y="70" Width="220" Height="30" Transparent="yes" NoPrefix="yes">
-				<Text>The [Wizard] will create a server image of [ProductName], at a specified network location. Click Next to continue or Cancel to exit the [Wizard].</Text>
+					<Text>The [Wizard] will create a server image of [ProductName], at a specified network location. Click Next to continue or Cancel to exit the [Wizard].</Text>
 				</Control>
 				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
 				<Control Id="Title" Type="Text" X="135" Y="20" Width="220" Height="60" Transparent="yes" NoPrefix="yes">
-				<Text>{\VerdanaBold13}Welcome to the [ProductName] [Wizard]</Text>
+					<Text>{\VerdanaBold13}Welcome to the [ProductName] [Wizard]</Text>
 				</Control>
 			</Dialog>
 
 			<Dialog Id="PrepareDlg" Width="370" Height="270" Title="[ProductName] [Setup]" Modeless="yes">
 				<Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Default="yes" Cancel="yes" Text="[ButtonText_Cancel]">
-				<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+					<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
 				</Control>
 				<Control Id="Bitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="234" TabSkip="no" Text="[DialogBitmap]" />
 				<Control Id="ActionText" Type="Text" X="135" Y="100" Width="220" Height="20" Transparent="yes" NoPrefix="yes">
-				<Subscribe Event="ActionText" Attribute="Text" />
+					<Subscribe Event="ActionText" Attribute="Text" />
 				</Control>
 				<Control Id="Description" Type="Text" X="135" Y="70" Width="220" Height="20" Transparent="yes" NoPrefix="yes">
-				<Text>Please wait while the [Wizard] prepares to guide you through the installation.</Text>
+					<Text>Please wait while the [Wizard] prepares to guide you through the installation.</Text>
 				</Control>
 				<Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Disabled="yes" TabSkip="yes" Text="[ButtonText_Next]" />
 				<Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Disabled="yes" TabSkip="yes" Text="[ButtonText_Back]" />
 				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
 				<Control Id="Title" Type="Text" X="135" Y="20" Width="220" Height="60" Transparent="yes" NoPrefix="yes">
-				<Text>{\VerdanaBold13}Welcome to the [ProductName] [Wizard]</Text>
+					<Text>{\VerdanaBold13}Welcome to the [ProductName] [Wizard]</Text>
 				</Control>
 				<Control Id="ActionData" Type="Text" X="135" Y="125" Width="220" Height="30" Transparent="yes" NoPrefix="yes">
-				<Subscribe Event="ActionData" Attribute="Text" />
+					<Subscribe Event="ActionData" Attribute="Text" />
 				</Control>
 			</Dialog>
 
 			<Dialog Id="ProgressDlg" Width="370" Height="270" Title="[ProductName] [Setup]" Modeless="yes">
 				<Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Default="yes" Cancel="yes" Text="[ButtonText_Cancel]">
-				<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+					<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
 				</Control>
 				<Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="[BannerBitmap]" />
 				<Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Disabled="yes" Text="[ButtonText_Back]" />
 				<Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Disabled="yes" Text="[ButtonText_Next]" />
 				<Control Id="ActionText" Type="Text" X="70" Y="100" Width="265" Height="10">
-				<Subscribe Event="ActionText" Attribute="Text" />
+					<Subscribe Event="ActionText" Attribute="Text" />
 				</Control>
 				<Control Id="Text" Type="Text" X="35" Y="65" Width="300" Height="20">
-				<Text>Please wait while the [Wizard] [Progress2] [ProductName]. This may take several minutes.</Text>
+					<Text>Please wait while the [Wizard] [Progress2] [ProductName]. This may take several minutes.</Text>
 				</Control>
 				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
 				<Control Id="Title" Type="Text" X="20" Y="15" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
-				<Text>[DlgTitleFont][Progress1] [ProductName]</Text>
+					<Text>[DlgTitleFont][Progress1] [ProductName]</Text>
 				</Control>
 				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
 				<Control Id="ProgressBar" Type="ProgressBar" X="35" Y="115" Width="300" Height="10" ProgressBlocks="yes" Text="Progress done">
-				<Subscribe Event="SetProgress" Attribute="Progress" />
+					<Subscribe Event="SetProgress" Attribute="Progress" />
 				</Control>
 				<Control Id="StatusLabel" Type="Text" X="35" Y="100" Width="35" Height="10" Text="Status:" />
 			</Dialog>
 
 			<Dialog Id="UserExit" Width="370" Height="270" Title="[ProductName] [Setup]" NoMinimize="yes">
 				<Control Id="Finish" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Cancel="yes" Text="[ButtonText_Finish]">
-				<Publish Event="EndDialog" Value="Exit">1</Publish>
+					<Publish Event="EndDialog" Value="Exit">1</Publish>
 				</Control>
 				<Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Disabled="yes" Text="[ButtonText_Cancel]" />
 				<Control Id="Bitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="234" TabSkip="no" Text="[DialogBitmap]" />
 				<Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Disabled="yes" Text="[ButtonText_Back]" />
 				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
 				<Control Id="Title" Type="Text" X="135" Y="20" Width="220" Height="60" Transparent="yes" NoPrefix="yes">
-				<Text>{\VerdanaBold13}[ProductName] [Wizard] was interrupted</Text>
+					<Text>{\VerdanaBold13}[ProductName] [Wizard] was interrupted</Text>
 				</Control>
 				<Control Id="Description1" Type="Text" X="135" Y="70" Width="220" Height="40" Transparent="yes" NoPrefix="yes">
-				<Text>[ProductName] setup was interrupted. Your system has not been modified. To install this program at a later time, please run the installation again.</Text>
+					<Text>[ProductName] setup was interrupted. Your system has not been modified. To install this program at a later time, please run the installation again.</Text>
 				</Control>
 				<Control Id="Description2" Type="Text" X="135" Y="115" Width="220" Height="20" Transparent="yes" NoPrefix="yes">
-				<Text>Click the Finish button to exit the [Wizard].</Text>
+					<Text>Click the Finish button to exit the [Wizard].</Text>
 				</Control>
 			</Dialog>
 
 			<Dialog Id="FatalError" Width="370" Height="270" Title="[ProductName] [Setup]" NoMinimize="yes">
 				<Control Id="Finish" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Cancel="yes" Text="[ButtonText_Finish]">
-				<Publish Event="EndDialog" Value="Exit">1</Publish>
+					<Publish Event="EndDialog" Value="Exit">1</Publish>
 				</Control>
 				<Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Disabled="yes" Text="[ButtonText_Cancel]" />
 				<Control Id="Bitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="234" TabSkip="no" Text="[DialogBitmap]" />
 				<Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Disabled="yes" Text="[ButtonText_Back]" />
 				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
 				<Control Id="Title" Type="Text" X="135" Y="20" Width="220" Height="60" Transparent="yes" NoPrefix="yes">
-				<Text>{\VerdanaBold13}[ProductName] [Wizard] ended prematurely</Text>
+					<Text>{\VerdanaBold13}[ProductName] [Wizard] ended prematurely</Text>
 				</Control>
 				<Control Id="Description1" Type="Text" X="135" Y="70" Width="220" Height="40" Transparent="yes" NoPrefix="yes">
-				<Text>[ProductName] setup ended prematurely because of an error. Your system has not been modified. To install this program at a later time, please run the installation again.</Text>
+					<Text>[ProductName] setup ended prematurely because of an error. Your system has not been modified. To install this program at a later time, please run the installation again.</Text>
 				</Control>
 				<Control Id="Description2" Type="Text" X="135" Y="115" Width="220" Height="20" Transparent="yes" NoPrefix="yes">
-				<Text>Click the Finish button to exit the [Wizard].</Text>
+					<Text>Click the Finish button to exit the [Wizard].</Text>
 				</Control>
 			</Dialog>
 
 			<Dialog Id="ExitDialog" Width="370" Height="270" Title="[ProductName] [Setup]" NoMinimize="yes">
 				<Control Id="Finish" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Cancel="yes" Text="[ButtonText_Finish]">
-				<Publish Event="EndDialog" Value="Return">1</Publish>
+					<Publish Event="EndDialog" Value="Return">1</Publish>
 				</Control>
 				<Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Disabled="yes" Text="[ButtonText_Cancel]" />
 				<Control Id="Bitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="234" TabSkip="no" Text="[DialogBitmap]" />
 				<Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Disabled="yes" Text="[ButtonText_Back]" />
 				<Control Id="Description" Type="Text" X="135" Y="70" Width="220" Height="20" Transparent="yes" NoPrefix="yes">
-				<Text>Click the Finish button to exit the [Wizard].</Text>
+					<Text>Click the Finish button to exit the [Wizard].</Text>
 				</Control>
 				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
 				<Control Id="Title" Type="Text" X="135" Y="20" Width="220" Height="60" Transparent="yes" NoPrefix="yes">
-				<Text>{\VerdanaBold13}Completing the [ProductName] [Wizard]</Text>
+					<Text>{\VerdanaBold13}Completing the [ProductName] [Wizard]</Text>
 				</Control>
 			</Dialog>
 
 			<Dialog Id="AdminBrowseDlg" Width="370" Height="270" Title="[ProductName] [Setup]" NoMinimize="yes">
 				<Control Id="PathEdit" Type="PathEdit" X="84" Y="202" Width="261" Height="17" Property="TARGETDIR" />
 				<Control Id="OK" Type="PushButton" X="304" Y="243" Width="56" Height="17" Default="yes" Text="[ButtonText_OK]">
-				<Publish Event="SetTargetPath" Value="TARGETDIR">1</Publish>
-				<Publish Event="EndDialog" Value="Return">1</Publish>
+					<Publish Event="SetTargetPath" Value="TARGETDIR">1</Publish>
+					<Publish Event="EndDialog" Value="Return">1</Publish>
 				</Control>
 				<Control Id="Cancel" Type="PushButton" X="240" Y="243" Width="56" Height="17" Cancel="yes" Text="[ButtonText_Cancel]">
-				<Publish Event="Reset" Value="0">1</Publish>
-				<Publish Event="EndDialog" Value="Return">1</Publish>
+					<Publish Event="Reset" Value="0">1</Publish>
+					<Publish Event="EndDialog" Value="Return">1</Publish>
 				</Control>
 				<Control Id="ComboLabel" Type="Text" X="25" Y="58" Width="44" Height="10" TabSkip="no" Text="&amp;Look in:" />
 				<Control Id="DirectoryCombo" Type="DirectoryCombo" X="70" Y="55" Width="220" Height="80" Property="TARGETDIR" Removable="yes" Fixed="yes" Remote="yes">
-				<Subscribe Event="IgnoreChange" Attribute="IgnoreChange" />
+					<Subscribe Event="IgnoreChange" Attribute="IgnoreChange" />
 				</Control>
 				<Control Id="Up" Type="PushButton" X="298" Y="55" Width="19" Height="19" ToolTip="Up One Level" Icon="yes" FixedSize="yes" IconSize="16" Text="Up">
-				<Publish Event="DirectoryListUp" Value="0">1</Publish>
+					<Publish Event="DirectoryListUp" Value="0">1</Publish>
 				</Control>
 				<Control Id="NewFolder" Type="PushButton" X="325" Y="55" Width="19" Height="19" ToolTip="Create A New Folder" Icon="yes" FixedSize="yes" IconSize="16" Text="New">
-				<Publish Event="DirectoryListNew" Value="0">1</Publish>
+					<Publish Event="DirectoryListNew" Value="0">1</Publish>
 				</Control>
 				<Control Id="DirectoryList" Type="DirectoryList" X="25" Y="83" Width="320" Height="110" Property="TARGETDIR" Sunken="yes" TabSkip="no" />
 				<Control Id="PathLabel" Type="Text" X="25" Y="205" Width="59" Height="10" TabSkip="no" Text="&amp;Folder name:" />
 				<Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="[BannerBitmap]" />
 				<Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes">
-				<Text>Browse to the destination folder</Text>
+					<Text>Browse to the destination folder</Text>
 				</Control>
 				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
 				<Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
-				<Text>[DlgTitleFont]Change current destination folder</Text>
+					<Text>[DlgTitleFont]Change current destination folder</Text>
 				</Control>
 				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
 			</Dialog>
 
 			<Dialog Id="AdminInstallPointDlg" Width="370" Height="270" Title="[ProductName] [Setup]" NoMinimize="yes">
 				<Control Id="Text" Type="Text" X="25" Y="80" Width="320" Height="10" TabSkip="no">
-				<Text>&amp;Enter a new network location or click Browse to browse to one.</Text>
+					<Text>&amp;Enter a new network location or click Browse to browse to one.</Text>
 				</Control>
 				<Control Id="PathEdit" Type="PathEdit" X="25" Y="93" Width="320" Height="18" Property="TARGETDIR" />
 				<Control Id="Browse" Type="PushButton" X="289" Y="119" Width="56" Height="17" Text="[ButtonText_Browse]">
-				<Publish Event="SpawnDialog" Value="AdminBrowseDlg">1</Publish>
+					<Publish Event="SpawnDialog" Value="AdminBrowseDlg">1</Publish>
 				</Control>
 				<Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="[ButtonText_Back]">
-				<Publish Event="NewDialog" Value="AdminRegistrationDlg">1</Publish>
+					<Publish Event="NewDialog" Value="AdminRegistrationDlg">1</Publish>
 				</Control>
 				<Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="[ButtonText_Next]">
-				<Publish Event="SetTargetPath" Value="TARGETDIR">1</Publish>
-				<Publish Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+					<Publish Event="SetTargetPath" Value="TARGETDIR">1</Publish>
+					<Publish Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
 				</Control>
 				<Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="[ButtonText_Cancel]">
-				<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+					<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
 				</Control>
 				<Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="[BannerBitmap]" />
 				<Control Id="Description" Type="Text" X="25" Y="20" Width="280" Height="20" Transparent="yes" NoPrefix="yes">
-				<Text>Please specify a network location for the server image of [ProductName] product</Text>
+					<Text>Please specify a network location for the server image of [ProductName] product</Text>
 				</Control>
 				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
 				<Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
-				<Text>[DlgTitleFont]Network Location</Text>
+					<Text>[DlgTitleFont]Network Location</Text>
 				</Control>
 				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
 			</Dialog>
 
 			<Dialog Id="AdminRegistrationDlg" Width="370" Height="270" Title="[ProductName] [Setup]" NoMinimize="yes">
 				<Control Id="OrganizationLabel" Type="Text" X="45" Y="71" Width="285" Height="30" TabSkip="no">
-				<Text>&amp;Please enter the name of your organization in the box below. This will be used as default company name for subsequent installations of [ProductName]:</Text>
+					<Text>&amp;Please enter the name of your organization in the box below. This will be used as default company name for subsequent installations of [ProductName]:</Text>
 				</Control>
 				<Control Id="OrganizationEdit" Type="Edit" X="45" Y="105" Width="220" Height="18" Property="COMPANYNAME" Text="{80}" />
 				<Control Id="CDKeyLabel" Type="Text" X="45" Y="130" Width="50" Height="10" TabSkip="no">
-				<Text>CD &amp;Key:</Text>
+					<Text>CD &amp;Key:</Text>
 				</Control>
 				<Control Id="CDKeyEdit" Type="MaskedEdit" X="45" Y="143" Width="250" Height="16" Property="PIDKEY" Text="[PIDTemplate]" />
 				<Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Image="yes" Text="[ButtonText_Back]">
-				<Publish Event="NewDialog" Value="AdminWelcomeDlg">1</Publish>
+					<Publish Event="NewDialog" Value="AdminWelcomeDlg">1</Publish>
 				</Control>
 				<Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="[ButtonText_Next]">
-				<Publish Event="ValidateProductID" Value="0">0</Publish>
-				<Publish Event="NewDialog" Value="AdminInstallPointDlg">ProductID</Publish>
+					<Publish Event="ValidateProductID" Value="0">0</Publish>
+					<Publish Event="NewDialog" Value="AdminInstallPointDlg">ProductID</Publish>
 				</Control>
 				<Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="[ButtonText_Cancel]">
-				<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+					<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
 				</Control>
 				<Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="[BannerBitmap]" />
 				<Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes">
-				<Text>Please enter your company information</Text>
+					<Text>Please enter your company information</Text>
 				</Control>
 				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
 				<Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
-				<Text>[DlgTitleFont]Company Information</Text>
+					<Text>[DlgTitleFont]Company Information</Text>
 				</Control>
 				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
 			</Dialog>
@@ -222,32 +223,32 @@
 			<Dialog Id="BrowseDlg" Width="370" Height="270" Title="[ProductName] [Setup]" NoMinimize="yes">
 				<Control Id="PathEdit" Type="PathEdit" X="84" Y="202" Width="261" Height="18" Property="_BrowseProperty" Indirect="yes" />
 				<Control Id="OK" Type="PushButton" X="304" Y="243" Width="56" Height="17" Default="yes" Text="[ButtonText_OK]">
-				<Publish Event="SetTargetPath" Value="[_BrowseProperty]">1</Publish>
-				<Publish Event="EndDialog" Value="Return">1</Publish>
+					<Publish Event="SetTargetPath" Value="[_BrowseProperty]">1</Publish>
+					<Publish Event="EndDialog" Value="Return">1</Publish>
 				</Control>
 				<Control Id="Cancel" Type="PushButton" X="240" Y="243" Width="56" Height="17" Cancel="yes" Text="[ButtonText_Cancel]">
-				<Publish Event="Reset" Value="0">1</Publish>
-				<Publish Event="EndDialog" Value="Return">1</Publish>
+					<Publish Event="Reset" Value="0">1</Publish>
+					<Publish Event="EndDialog" Value="Return">1</Publish>
 				</Control>
 				<Control Id="ComboLabel" Type="Text" X="25" Y="58" Width="44" Height="10" TabSkip="no" Text="&amp;Look in:" />
 				<Control Id="DirectoryCombo" Type="DirectoryCombo" X="70" Y="55" Width="220" Height="80" Property="_BrowseProperty" Indirect="yes" Fixed="yes" Remote="yes">
-				<Subscribe Event="IgnoreChange" Attribute="IgnoreChange" />
+					<Subscribe Event="IgnoreChange" Attribute="IgnoreChange" />
 				</Control>
 				<Control Id="Up" Type="PushButton" X="298" Y="55" Width="19" Height="19" ToolTip="Up One Level" Icon="yes" FixedSize="yes" IconSize="16" Text="Up">
-				<Publish Event="DirectoryListUp" Value="0">1</Publish>
+					<Publish Event="DirectoryListUp" Value="0">1</Publish>
 				</Control>
 				<Control Id="NewFolder" Type="PushButton" X="325" Y="55" Width="19" Height="19" ToolTip="Create A New Folder" Icon="yes" FixedSize="yes" IconSize="16" Text="New">
-				<Publish Event="DirectoryListNew" Value="0">1</Publish>
+					<Publish Event="DirectoryListNew" Value="0">1</Publish>
 				</Control>
 				<Control Id="DirectoryList" Type="DirectoryList" X="25" Y="83" Width="320" Height="110" Property="_BrowseProperty" Sunken="yes" Indirect="yes" TabSkip="no" />
 				<Control Id="PathLabel" Type="Text" X="25" Y="205" Width="59" Height="10" TabSkip="no" Text="&amp;Folder name:" />
 				<Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="[BannerBitmap]" />
 				<Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes">
-				<Text>Browse to the destination folder</Text>
+					<Text>Browse to the destination folder</Text>
 				</Control>
 				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
 				<Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
-				<Text>[DlgTitleFont]Change current destination folder</Text>
+					<Text>[DlgTitleFont]Change current destination folder</Text>
 				</Control>
 				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
 			</Dialog>
@@ -266,61 +267,101 @@
 			</Dialog>
 
 			<Dialog Id="CustomizeDlg" Width="370" Height="270" Title="[ProductName] [Setup]" NoMinimize="yes" TrackDiskSpace="yes">
-				<Control Id="Tree" Type="SelectionTree" X="25" Y="85" Width="175" Height="95" Property="_BrowseProperty" Sunken="yes" TabSkip="no" Text="Tree of selections" />
+				<!--
+					Feature Customization Tree 
+				-->
+				<Control Id="Tree" Type="SelectionTree" 
+					X="25" 
+					Y="85" 
+					Width="175" 
+					Height="95" 
+					Property="_BrowseProperty" 
+					Sunken="yes" 
+					TabSkip="no" 
+					Text="Tree of selections" 
+				/>
+
 				<Control Id="Browse" Type="PushButton" X="304" Y="200" Width="56" Height="17" Text="[ButtonText_Browse]">
-				<Publish Event="SelectionBrowse" Value="BrowseDlg">1</Publish>
-				<Condition Action="hide">Installed</Condition>
+					<Publish Event="SelectionBrowse" Value="BrowseDlg">1</Publish>
+					<Condition Action="hide">Installed</Condition>
 				</Control>
+				
 				<Control Id="Reset" Type="PushButton" X="42" Y="243" Width="56" Height="17" Text="[ButtonText_Reset]">
-				<Publish Event="Reset" Value="0">1</Publish>
-				<Subscribe Event="SelectionNoItems" Attribute="Enabled" />
+					<Publish Event="Reset" Value="0">1</Publish>
+					<Subscribe Event="SelectionNoItems" Attribute="Enabled" />
 				</Control>
+				
 				<Control Id="DiskCost" Type="PushButton" X="111" Y="243" Width="56" Height="17">
-				<Text>Disk &amp;Usage</Text>
-				<Publish Event="SpawnDialog" Value="DiskCostDlg">1</Publish>
-				<Subscribe Event="SelectionNoItems" Attribute="Enabled" />
+					<Text>Disk &amp;Usage</Text>
+					<Publish Event="SpawnDialog" Value="DiskCostDlg">1</Publish>
+					<Subscribe Event="SelectionNoItems" Attribute="Enabled" />
 				</Control>
+				
+				<!-- BACK Button -->
 				<Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="[ButtonText_Back]">
-				<Publish Event="NewDialog" Value="MaintenanceTypeDlg"><![CDATA[InstallMode = "Change"]]></Publish>
-				<Publish Event="NewDialog" Value="SetupTypeDlg"><![CDATA[InstallMode = "Custom"]]></Publish>
+					<Publish Event="NewDialog" Value="MaintenanceTypeDlg"><![CDATA[InstallMode = "Change"]]></Publish>
+					<Publish Event="NewDialog" Value="SetupTypeDlg"><![CDATA[InstallMode = "Custom"]]></Publish>
 				</Control>
-				<Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="[ButtonText_Next]">
-				<Publish Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
-				<Subscribe Event="SelectionNoItems" Attribute="Enabled" />
+				
+				<!-- NEXT Button (Collect Web Information) -->
+				<Control Id="NextWeb" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="[ButtonText_Next]">
+					<Condition Action="show"><![CDATA[($CreateWebSite = 3) OR ($CreateVirtualDirectory = 3)]]></Condition>
+					<Publish Event="NewDialog" Value="WebInformationDlg">1</Publish>
+					<Subscribe Event="SelectionNoItems" Attribute="Enabled" />
 				</Control>
+				
+				<!-- NEXT Button (BEGIN Verify Ready) -->
+				<Control Id="NextVerify" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="[ButtonText_Next]">
+					<Condition Action="show"><![CDATA[($CreateWebsite <> 3) AND ($CreateVirtualDirectory <> 3)]]></Condition>
+					<Publish Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+					<Subscribe Event="SelectionNoItems" Attribute="Enabled" />
+				</Control>
+				
+				<!-- CANCEL BUTTON -->
 				<Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="[ButtonText_Cancel]">
-				<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+					<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
 				</Control>
+				
 				<Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="[BannerBitmap]" />
+				
 				<Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes">
-				<Text>Select the way you want features to be installed.</Text>
+					<Text>Select the way you want features to be installed.</Text>
 				</Control>
+				
 				<Control Id="Text" Type="Text" X="25" Y="55" Width="320" Height="20">
-				<Text>Click on the icons in the tree below to change the way features will be installed.</Text>
+					<Text>Click on the icons in the tree below to change the way features will be installed.</Text>
 				</Control>
+				
 				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+				
 				<Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
-				<Text>[DlgTitleFont]Custom Setup</Text>
+					<Text>[DlgTitleFont]Custom Setup</Text>
 				</Control>
+				
 				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
+				
 				<Control Id="Box" Type="GroupBox" X="210" Y="81" Width="140" Height="98" />
+				
 				<Control Id="ItemDescription" Type="Text" X="215" Y="90" Width="131" Height="30">
-				<Text>Multiline description of the currently selected item.</Text>
-				<Subscribe Event="SelectionDescription" Attribute="Text" />
+					<Text>Multiline description of the currently selected item.</Text>
+					<Subscribe Event="SelectionDescription" Attribute="Text" />
 				</Control>
+				
 				<Control Id="ItemSize" Type="Text" X="215" Y="130" Width="131" Height="45">
-				<Text>The size of the currently selected item.</Text>
-				<Subscribe Event="SelectionSize" Attribute="Text" />
+					<Text>The size of the currently selected item.</Text>
+					<Subscribe Event="SelectionSize" Attribute="Text" />
 				</Control>
+				
 				<Control Id="Location" Type="Text" X="75" Y="200" Width="215" Height="20">
-				<Text>&lt;The selection's path&gt;</Text>
-				<Subscribe Event="SelectionPath" Attribute="Text" />
-				<Subscribe Event="SelectionPathOn" Attribute="Visible" />
-				<Condition Action="hide">Installed</Condition>
+					<Text>&lt;The selection's path&gt;</Text>
+					<Subscribe Event="SelectionPath" Attribute="Text" />
+					<Subscribe Event="SelectionPathOn" Attribute="Visible" />
+					<Condition Action="hide">Installed</Condition>
 				</Control>
+				
 				<Control Id="LocationLabel" Type="Text" X="25" Y="200" Width="50" Height="10" Text="Location:">
-				<Subscribe Event="SelectionPathOn" Attribute="Visible" />
-				<Condition Action="hide">Installed</Condition>
+					<Subscribe Event="SelectionPathOn" Attribute="Visible" />
+					<Condition Action="hide">Installed</Condition>
 				</Control>
 			</Dialog>
 
@@ -580,50 +621,50 @@
 				<Text>[DlgTitleFont]&amp;Typical</Text>
 				</Control>
 				<Control Id="TypicalButton" Type="PushButton" X="50" Y="65" Width="38" Height="38" ToolTip="Typical Installation" Default="yes" Icon="yes" FixedSize="yes" IconSize="32" Text="[InstallerIcon]">
-				<Publish Property="InstallMode" Value="Typical">1</Publish>
-				<Publish Event="SetInstallLevel" Value="3">1</Publish>
-				<Publish Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+					<Publish Property="InstallMode" Value="Typical">1</Publish>
+					<Publish Event="SetInstallLevel" Value="3">1</Publish>
+					<Publish Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
 				</Control>
 				<Control Id="CustomLabel" Type="Text" X="105" Y="118" Width="100" Height="10" TabSkip="no">
-				<Text>[DlgTitleFont]C&amp;ustom</Text>
+					<Text>[DlgTitleFont]C&amp;ustom</Text>
 				</Control>
 				<Control Id="CustomButton" Type="PushButton" X="50" Y="118" Width="38" Height="38" ToolTip="Custom Installation" Icon="yes" FixedSize="yes" IconSize="32" Text="[CustomSetupIcon]">
-				<Publish Property="InstallMode" Value="Custom">1</Publish>
-				<Publish Event="NewDialog" Value="CustomizeDlg">1</Publish>
+					<Publish Property="InstallMode" Value="Custom">1</Publish>
+					<Publish Event="NewDialog" Value="CustomizeDlg">1</Publish>
 				</Control>
 				<Control Id="CompleteLabel" Type="Text" X="105" Y="171" Width="100" Height="10" TabSkip="no">
-				<Text>[DlgTitleFont]C&amp;omplete</Text>
+					<Text>[DlgTitleFont]C&amp;omplete</Text>
 				</Control>
 				<Control Id="CompleteButton" Type="PushButton" X="50" Y="171" Width="38" Height="38" ToolTip="Complete Installation" Icon="yes" FixedSize="yes" IconSize="32" Text="[CompleteSetupIcon]">
-				<Publish Property="InstallMode" Value="Complete">1</Publish>
-				<Publish Event="SetInstallLevel" Value="1000">1</Publish>
-				<Publish Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+					<Publish Property="InstallMode" Value="Complete">1</Publish>
+					<Publish Event="SetInstallLevel" Value="1000">1</Publish>
+					<Publish Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
 				</Control>
 				<Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="[ButtonText_Back]">
-				<Publish Event="NewDialog" Value="LicenseAgreementDlg"><![CDATA[ShowUserRegistrationDlg <> 1]]></Publish>
-				<Publish Event="NewDialog" Value="UserRegistrationDlg">ShowUserRegistrationDlg = 1</Publish>
+					<Publish Event="NewDialog" Value="LicenseAgreementDlg"><![CDATA[ShowUserRegistrationDlg <> 1]]></Publish>
+					<Publish Event="NewDialog" Value="UserRegistrationDlg">ShowUserRegistrationDlg = 1</Publish>
 				</Control>
 				<Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Disabled="yes" Text="[ButtonText_Next]" />
 				<Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="[ButtonText_Cancel]">
-				<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+					<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
 				</Control>
 				<Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="[BannerBitmap]" />
 				<Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes">
-				<Text>Choose the setup type that best suits your needs</Text>
+					<Text>Choose the setup type that best suits your needs</Text>
 				</Control>
 				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
 				<Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
-				<Text>[DlgTitleFont]Choose Setup Type</Text>
+					<Text>[DlgTitleFont]Choose Setup Type</Text>
 				</Control>
 				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
 				<Control Id="CompleteText" Type="Text" X="105" Y="184" Width="230" Height="20">
-				<Text>All program features will be installed. (Requires most disk space)</Text>
+					<Text>All program features will be installed. (Requires most disk space)</Text>
 				</Control>
 				<Control Id="CustomText" Type="Text" X="105" Y="131" Width="230" Height="30">
-				<Text>Allows users to choose which program features will be installed and where they will be installed. Recommended for advanced users.</Text>
+					<Text>Allows users to choose which program features will be installed and where they will be installed. Recommended for advanced users.</Text>
 				</Control>
 				<Control Id="TypicalText" Type="Text" X="105" Y="78" Width="230" Height="20">
-				<Text>Installs the most common program features. Recommended for most users.</Text>
+					<Text>Installs the most common program features. Recommended for most users.</Text>
 				</Control>
 			</Dialog>
 
@@ -658,33 +699,97 @@
 				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
 			</Dialog>
 
-			<Dialog Id="VerifyReadyDlg" Width="370" Height="270" Title="[ProductName] [Setup]" NoMinimize="yes" TrackDiskSpace="yes">
-				<Control Id="Install" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="[ButtonText_Install]">
-				<Publish Event="EndDialog" Value="Return"><![CDATA[OutOfDiskSpace <> 1]]></Publish>
-				<Publish Event="SpawnDialog" Value="OutOfRbDiskDlg"><![CDATA[OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND (PROMPTROLLBACKCOST="P" OR NOT PROMPTROLLBACKCOST)]]></Publish>
-				<Publish Event="EndDialog" Value="Return"><![CDATA[OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"]]></Publish>
-				<Publish Event="EnableRollback" Value="False"><![CDATA[OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"]]></Publish>
-				<Publish Event="SpawnDialog" Value="OutOfDiskDlg"><![CDATA[(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")]]></Publish>
+			<Dialog Id="WebInformationDlg" Width="370" Height="270" Title="[ProductName] [Setup]" NoMinimize="yes">
+				
+				<!-- Web Virtual Dir Info -->
+				<Control Id="WebVirtDirLabel" Type="Text" X="45" Y="71" Width="285" Height="30" TabSkip="no">
+					<Text>&amp;The installer will setup a web application under the default website.  
+						Please choose an alias for the web application which will be displayed in IIS 
+						and serve as the virtual directory underneath the default website.
+					</Text>
+					<!-- This is shown if installing a virtual dir locally -->
+					<Condition Action="show"><![CDATA[$CreateVirtualDirectory = 3]]></Condition>
 				</Control>
-				<Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="[ButtonText_Cancel]">
-				<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+				
+				<!-- Web Site Info -->
+				<Control Id="WebsiteLabel" Type="Text" X="45" Y="71" Width="285" Height="30" TabSkip="no">
+					<Text>&amp;The installer will setup a website.  Please choose the description for the 
+						for the website which will be displayed in IIS.
+					</Text>
+					<!-- This is shown if installing a website locally -->
+					<Condition Action="show"><![CDATA[$CreateWebsite = 3]]></Condition>
 				</Control>
-				<Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="[BannerBitmap]" />
+				
+				<!-- Web Site/Application Name -->			
+				<Control Id="WebAlias" Type="Edit" X="45" Y="105" Width="220" Height="18" Property="WEBALIAS" Text="{80}Subtext.Web" />
+				
+				<!-- BACK Button -->
 				<Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="[ButtonText_Back]">
-				<Publish Event="NewDialog" Value="AdminInstallPointDlg"><![CDATA[InstallMode = "Server Image"]]></Publish>
-				<Publish Event="NewDialog" Value="CustomizeDlg"><![CDATA[InstallMode = "Custom" OR InstallMode = "Change"]]></Publish>
-				<Publish Event="NewDialog" Value="MaintenanceTypeDlg"><![CDATA[InstallMode = "Repair"]]></Publish>
-				<Publish Event="NewDialog" Value="SetupTypeDlg"><![CDATA[InstallMode = "Typical" OR InstallMode = "Complete"]]></Publish>
+					<Publish Event="NewDialog" Value="AdminInstallPointDlg"><![CDATA[InstallMode = "Server Image"]]></Publish>
+					<Publish Event="NewDialog" Value="CustomizeDlg"><![CDATA[InstallMode = "Custom" OR InstallMode = "Change"]]></Publish>
+					<Publish Event="NewDialog" Value="MaintenanceTypeDlg"><![CDATA[InstallMode = "Repair"]]></Publish>
+					<Publish Event="NewDialog" Value="SetupTypeDlg"><![CDATA[InstallMode = "Typical" OR InstallMode = "Complete"]]></Publish>
 				</Control>
+				
+				<!-- NEXT Button -->
+				<Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="[ButtonText_Next]">
+					<Publish Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+					<Subscribe Event="SelectionNoItems" Attribute="Enabled" />
+				</Control>
+				
+				<!-- CANCEL BUTTON -->
+				<Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="[ButtonText_Cancel]">
+					<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+				</Control>
+				
+				<Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="[BannerBitmap]" />
+			</Dialog>
+
+			<Dialog Id="VerifyReadyDlg" Width="370" Height="270" Title="[ProductName] [Setup]" NoMinimize="yes" TrackDiskSpace="yes">
+				<!-- INSTALL Button -->
+				<Control Id="Install" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="[ButtonText_Install]">
+					<Publish Event="EndDialog" Value="Return"><![CDATA[OutOfDiskSpace <> 1]]></Publish>
+					<Publish Event="SpawnDialog" Value="OutOfRbDiskDlg"><![CDATA[OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND (PROMPTROLLBACKCOST="P" OR NOT PROMPTROLLBACKCOST)]]></Publish>
+					<Publish Event="EndDialog" Value="Return"><![CDATA[OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"]]></Publish>
+					<Publish Event="EnableRollback" Value="False"><![CDATA[OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"]]></Publish>
+					<Publish Event="SpawnDialog" Value="OutOfDiskDlg"><![CDATA[(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")]]></Publish>
+				</Control>
+				
+				<!-- CANCEL Button -->
+				<Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="[ButtonText_Cancel]">
+					<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+				</Control>
+				
+				<Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="[BannerBitmap]" />
+				
+				<!-- BACK Button (Back to WebInfo Dialog) -->
+				<Control Id="BackWebInfo" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="[ButtonText_Back]">
+					<Condition Action="show"><![CDATA[($CreateWebsite = 3) OR ($CreateVirtualDirectory = 3)]]></Condition>
+					<Publish Event="NewDialog" Value="AdminInstallPointDlg"><![CDATA[InstallMode = "Server Image"]]></Publish>
+					<Publish Event="NewDialog" Value="CustomizeDlg"><![CDATA[InstallMode = "Custom" OR InstallMode = "Change"]]></Publish>
+					<Publish Event="NewDialog" Value="MaintenanceTypeDlg"><![CDATA[InstallMode = "Repair"]]></Publish>
+					<Publish Event="NewDialog" Value="SetupTypeDlg"><![CDATA[InstallMode = "Typical" OR InstallMode = "Complete"]]></Publish>
+				</Control>
+				
+				<!-- BACK Button (Back to Customize Features Dialog) -->
+				<Control Id="BackCustomize" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="[ButtonText_Back]">
+					<Condition Action="show"><![CDATA[($CreateWebsite <> 3) AND ($CreateVirtualDirectory <> 3)]]></Condition>
+					<Publish Event="NewDialog" Value="AdminInstallPointDlg"><![CDATA[InstallMode = "Server Image"]]></Publish>
+					<Publish Event="NewDialog" Value="CustomizeDlg"><![CDATA[InstallMode = "Custom" OR InstallMode = "Change"]]></Publish>
+					<Publish Event="NewDialog" Value="MaintenanceTypeDlg"><![CDATA[InstallMode = "Repair"]]></Publish>
+					<Publish Event="NewDialog" Value="SetupTypeDlg"><![CDATA[InstallMode = "Typical" OR InstallMode = "Complete"]]></Publish>
+				</Control>
+				
 				<Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes">
-				<Text>The [Wizard] is ready to begin the [InstallMode] installation</Text>
+					<Text>The [Wizard] is ready to begin the [InstallMode] installation</Text>
 				</Control>
+				
 				<Control Id="Text" Type="Text" X="25" Y="70" Width="320" Height="20">
-				<Text>Click Install to begin the installation. If you want to review or change any of your installation settings, click Back. Click Cancel to exit the wizard.</Text>
+					<Text>Click Install to begin the installation. If you want to review or change any of your installation settings, click Back. Click Cancel to exit the wizard.</Text>
 				</Control>
 				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
 				<Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
-				<Text>[DlgTitleFont]Ready to Install</Text>
+					<Text>[DlgTitleFont]Ready to Install</Text>
 				</Control>
 				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
 			</Dialog>

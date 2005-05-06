@@ -156,11 +156,6 @@
             <File Id="file107" Name="POWERE~1.GIF" LongName="PoweredByAsp.Net.gif" src="..\Subtext.Web\Images\PoweredByAsp.Net.gif" />
           </Component>
         </Directory>
-        <Directory Id="directory7" Name="INSTAL~1" LongName="Installation">
-          <Component Id="component17" Guid="b193dcd5-198a-484e-a2d1-c6c973304ba2" DiskId="1">
-            <File Id="file108" Name="UNINST~1.TXT" LongName="UninstallScript.v1.0.sql.txt" src="..\Subtext.Web\Installation\UninstallScript.v1.0.sql.txt" />
-          </Component>
-        </Directory>
         <Directory Id="directory8" Name="Services">
           <Component Id="component18" Guid="52d736fb-9202-49b9-a326-50cb0a10644e" DiskId="1">
             <File Id="file109" Name="ASPNET~1.ASM" LongName="ASPNetWebLog.asmx" src="..\Subtext.Web\Services\ASPNetWebLog.asmx" />
