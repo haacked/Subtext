@@ -48,7 +48,10 @@ namespace Subtext.Web.Admin.Pages
 //			}
 //			else if (!IsPostBack)
 //			{
+			if(!IsPostBack)
+			{
 				BindLocalUI();
+			}
 //			}
 			
 		}
@@ -104,6 +107,7 @@ namespace Subtext.Web.Admin.Pages
 			Preferences.AlwaysExpandAdvanced = alwaysExpand;
 
 			BlogConfig config  = Config.CurrentBlog(Context);
+			config.ItemCount = pageSize;
 			config.EnableComments = this.EnableComments.Checked;
 			Config.UpdateConfigData(config);
 
