@@ -124,6 +124,11 @@
                     AssemblyName = "System.Configuration.Install"
                     HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Configuration.Install.dll"
                 />
+                <Reference
+                    Name = "MetaBuilders.WebControls.DefaultButtons"
+                    AssemblyName = "MetaBuilders.WebControls.DefaultButtons"
+                    HintPath = "ExternalDependencies\MetaBuilders.WebControls.DefaultButtons.dll"
+                />
             </References>
         </Build>
         <Files>
@@ -1010,6 +1015,14 @@
                 />
                 <File
                     RelPath = "ExternalDependencies\FreeTextBox.xml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\MetaBuilders.WebControls.DefaultButtons.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\MetaBuilders.WebControls.DefaultButtons.xml"
                     BuildAction = "Content"
                 />
                 <File
