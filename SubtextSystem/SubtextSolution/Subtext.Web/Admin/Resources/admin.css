@@ -340,6 +340,7 @@ label {
 	font-weight: bold;
 	margin: 0px 0px 2px 0px;
 	color: #111111;
+	position: relative;
 }
 
 label {
@@ -404,7 +405,7 @@ html>body div#SubNav {
 
 img {
 	border: 0;
-	display: block;
+/*	display: block; */
 }
 
 img.Inline {
