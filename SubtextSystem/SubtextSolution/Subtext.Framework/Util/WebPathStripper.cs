@@ -62,9 +62,16 @@ namespace Subtext.Framework.Util
 			return url.Substring(start+10,stop-(start+10)).Replace(".aspx",string.Empty);			
 		}
 
+		/// <summary>
+		/// Removes the trailing RSS slash if there.
+		/// </summary>
+		/// <param name="url">URL.</param>
+		/// <returns></returns>
 		public static string RemoveRssSlash(string url)
 		{
-			return Regex.Replace(url,"/rss$",string.Empty);
+			if (url.EndsWith("/"))
+				url = url.Substring(0,url.Length - 1);
+			return Regex.Replace(url, "/rss$", string.Empty);
 		}
 
 		public static string GetReqeustedFileName(string uri)
