@@ -36,10 +36,6 @@ namespace Subtext.Framework.Configuration
 	{
 		private object urlLock = new object();
 
-		public BlogConfig()
-		{
-		}
-
 		private UrlFormats _UrlFormats = null;
 		public UrlFormats UrlFormats
 		{
