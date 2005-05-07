@@ -380,7 +380,7 @@ CREATE TABLE [dbo].[blog_Config] (
 GO
 
 CREATE TABLE [dbo].[blog_Content] (
-	[ID] [int] NOT NULL ,
+	[ID] [int] IDENTITY (1, 1) NOT NULL ,
 	[Title] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[DateAdded] [smalldatetime] NOT NULL ,
 	[SourceUrl] [nvarchar] (200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
@@ -400,6 +400,10 @@ CREATE TABLE [dbo].[blog_Content] (
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
+ALTER TABLE [dbo].[blog_Content] ADD 
+	CONSTRAINT [DF_blog_Content_FeedBackCount] DEFAULT (0) FOR [FeedBackCount]
+GO
+
 CREATE TABLE [dbo].[blog_EntryViewCount] (
 	[EntryID] [int] NOT NULL ,
 	[BlogID] [int] NOT NULL ,
@@ -411,7 +415,7 @@ CREATE TABLE [dbo].[blog_EntryViewCount] (
 GO
 
 CREATE TABLE [dbo].[blog_Images] (
-	[ImageID] [int] NOT NULL ,
+	[ImageID] [int] IDENTITY (1, 1) NOT NULL ,
 	[Title] [nvarchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[CategoryID] [int] NOT NULL ,
 	[Width] [int] NOT NULL ,
@@ -423,7 +427,7 @@ CREATE TABLE [dbo].[blog_Images] (
 GO
 
 CREATE TABLE [dbo].[blog_KeyWords] (
-	[KeyWordID] [int] NOT NULL ,
+	[KeyWordID] [int] IDENTITY (1, 1) NOT NULL ,
 	[Word] [nvarchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[Text] [nvarchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[ReplaceFirstTimeOnly] [bit] NOT NULL ,
@@ -436,7 +440,7 @@ CREATE TABLE [dbo].[blog_KeyWords] (
 GO
 
 CREATE TABLE [dbo].[blog_LinkCategories] (
-	[CategoryID] [int] NOT NULL ,
+	[CategoryID] [int] IDENTITY (1, 1) NOT NULL ,
 	[Title] [nvarchar] (150) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[Active] [bit] NOT NULL ,
 	[BlogID] [int] NOT NULL ,
@@ -446,7 +450,7 @@ CREATE TABLE [dbo].[blog_LinkCategories] (
 GO
 
 CREATE TABLE [dbo].[blog_Links] (
-	[LinkID] [int] NOT NULL ,
+	[LinkID] [int] IDENTITY (1, 1) NOT NULL ,
 	[Title] [nvarchar] (150) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
 	[Url] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
 	[Rss] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
@@ -468,7 +472,7 @@ CREATE TABLE [dbo].[blog_Referrals] (
 GO
 
 CREATE TABLE [dbo].[blog_URLs] (
-	[UrlID] [int] IDENTITY (0, 1) NOT NULL ,
+	[UrlID] [int] IDENTITY (1, 1) NOT NULL ,
 	[URL] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL 
 ) ON [PRIMARY]
 GO
@@ -3294,18 +3298,6 @@ Begin
 	Update blog_Content
 	Set FeedBackCount = FeedBackCount + 1 where [ID] = @ParentID
 End
-
-
-
-
-
-
-
-
-
-
-
-
 
 GO
 SET QUOTED_IDENTIFIER OFF 
