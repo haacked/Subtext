@@ -36,7 +36,7 @@ namespace Subtext.Web.Admin.UserControls
 
 	public class EntryEditor : System.Web.UI.UserControl
 	{
-		private const string FTB_RESOURCE_PATH = "/admin/resources/ftb/DotText/";
+//		private const string FTB_RESOURCE_PATH = "/admin/resources/ftb/DotText/";
 		private const string VSKEY_POSTID = "PostID";
 		private const string VSKEY_CATEGORYID = "CategoryID";
 		private const string VSKEY_CATEGORYTYPE = "CategoryType";
@@ -53,7 +53,7 @@ namespace Subtext.Web.Admin.UserControls
 		protected System.Web.UI.WebControls.HyperLink hlEntryLink;
 		protected System.Web.UI.WebControls.TextBox txbTitle;
 		protected System.Web.UI.WebControls.TextBox txbBody;
-		protected FreeTextBoxControls.FreeTextBox ftbBody;
+//		protected FreeTextBoxControls.FreeTextBox ftbBody;
 		protected System.Web.UI.WebControls.Button Post;
 		protected System.Web.UI.WebControls.TextBox txbExcerpt;
 		protected System.Web.UI.WebControls.TextBox txbTitleUrl;
@@ -75,7 +75,7 @@ namespace Subtext.Web.Admin.UserControls
 		protected System.Web.UI.WebControls.LinkButton lkbCancel;
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
 		protected System.Web.UI.WebControls.RequiredFieldValidator valtbBodyRequired;
-		protected System.Web.UI.WebControls.RequiredFieldValidator valftbBodyRequired;
+//		protected System.Web.UI.WebControls.RequiredFieldValidator valftbBodyRequired;
 		protected System.Web.UI.WebControls.RequiredFieldValidator valTitleRequired;
 		protected System.Web.UI.WebControls.LinkButton lkbNewPost;	
 		protected System.Web.UI.WebControls.TextBox txbEntryName;
@@ -179,7 +179,7 @@ namespace Subtext.Web.Admin.UserControls
 				BindCategoryList();
 				SetEditorMode();
 
-				ftbBody.ButtonPath =  Globals.WebPathCombine(Request.ApplicationPath,FTB_RESOURCE_PATH);
+//				ftbBody.ButtonPath =  Globals.WebPathCombine(Request.ApplicationPath,FTB_RESOURCE_PATH);
 			}			
 		}
 		
@@ -319,7 +319,7 @@ namespace Subtext.Web.Admin.UserControls
 			chkSyndicateDescriptionOnly.Checked = false;
 			chkIsAggregated.Checked = true;
 
-			ftbBody.Text = String.Empty;
+//			ftbBody.Text = String.Empty;
 			txbBody.Text = String.Empty;
 
 			for(int i =0; i < cklCategories.Items.Count;i++)
@@ -341,7 +341,8 @@ namespace Subtext.Web.Admin.UserControls
 					Entry entry = new Entry(EntryType);
 
 					entry.Title = txbTitle.Text;
-					entry.Body = Globals.StripRTB(Utilities.CheckIsIE55() ? ftbBody.Text : txbBody.Text,Request.Url.Host);
+					entry.Body = Globals.StripRTB(txbBody.Text,Request.Url.Host);
+//					entry.Body = Globals.StripRTB(Utilities.CheckIsIE55() ? ftbBody.Text : txbBody.Text,Request.Url.Host);
 					entry.IsActive = ckbPublished.Checked;
 					entry.SourceName = txbSourceName.Text;
 					entry.Author = Config.CurrentBlog().Author;
@@ -411,8 +412,8 @@ namespace Subtext.Web.Admin.UserControls
 	
 		private void SetEditorMode()
 		{
-			valftbBodyRequired.Visible = ftbBody.Visible = Utilities.CheckIsIE55();
-			valtbBodyRequired.Visible = txbBody.Visible = !ftbBody.Visible;
+//			valftbBodyRequired.Visible = ftbBody.Visible = Utilities.CheckIsIE55();
+//			valtbBodyRequired.Visible = txbBody.Visible = !ftbBody.Visible;
 
 			if(CategoryType == CategoryType.StoryCollection)
 			{
@@ -426,9 +427,9 @@ namespace Subtext.Web.Admin.UserControls
 
 		private void SetEditorText(string bodyValue)
 		{
-			if (Utilities.CheckIsIE55())
-				ftbBody.Text = bodyValue;
-			else
+//			if (Utilities.CheckIsIE55())
+//				ftbBody.Text = bodyValue;
+//			else
 				txbBody.Text = bodyValue;
 		}
 
