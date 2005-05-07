@@ -890,6 +890,3490 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Admin\Resources\TinyMCE\blank.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\tiny_mce.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\tiny_mce_popup.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\tiny_mce_src.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\langs\ar.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\langs\cs.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\langs\da.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\langs\de.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\langs\el.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\langs\en.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\langs\es.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\langs\fa.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\langs\fi.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\langs\fr.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\langs\fr_ca.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\langs\hu.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\langs\it.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\langs\ja.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\langs\ko.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\langs\nl.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\langs\no.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\langs\pl.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\langs\pt.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\langs\readme.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\langs\ru.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\langs\sv.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\langs\th.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\langs\zh_cn.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\readme.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advhr\editor_plugin.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advhr\editor_plugin_src.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advhr\readme.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advhr\rule.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advhr\images\advhr.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advhr\langs\cs.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advhr\langs\de.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advhr\langs\en.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advhr\langs\fa.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advhr\langs\fr.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advhr\langs\fr_ca.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advhr\langs\pl.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advhr\langs\sv.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advhr\langs\zh_cn.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advimage\editor_plugin.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advimage\editor_plugin_src.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advimage\image.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advimage\readme.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advimage\langs\cs.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advimage\langs\de.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advimage\langs\en.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advimage\langs\fa.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advimage\langs\fa_ca.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advimage\langs\fr.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advimage\langs\ko.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advimage\langs\pl.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advimage\langs\sv.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advimage\langs\zh_cn.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advlink\editor_plugin.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advlink\editor_plugin_src.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advlink\link.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advlink\readme.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advlink\langs\cs.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advlink\langs\de.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advlink\langs\en.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advlink\langs\fa.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advlink\langs\fr.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advlink\langs\fr_ca.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advlink\langs\ko.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advlink\langs\pl.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advlink\langs\sv.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\advlink\langs\zh_cn.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\contextmenu\contextmenu.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\contextmenu\editor_plugin.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\contextmenu\editor_plugin_src.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\contextmenu\images\spacer.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\editor_plugin.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\editor_plugin_src.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\emotions.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\readme.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\images\emotions.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\images\readme.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\images\smiley-cool.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\images\smiley-cry.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\images\smiley-embarassed.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\images\smiley-foot-in-mouth.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\images\smiley-frown.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\images\smiley-innocent.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\images\smiley-kiss.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\images\smiley-laughing.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\images\smiley-money-mouth.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\images\smiley-sealed.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\images\smiley-smile.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\images\smiley-surprised.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\images\smiley-tongue-out.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\images\smiley-undecided.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\images\smiley-wink.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\images\smiley-yell.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\langs\cs.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\langs\de.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\langs\el.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\langs\en.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\langs\fa.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\langs\fr.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\langs\fr_ca.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\langs\it.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\langs\ko.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\langs\pl.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\langs\sv.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\emotions\langs\zh_cn.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\flash\editor_plugin.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\flash\editor_plugin_src.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\flash\flash.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\flash\flash.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\flash\readme.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\flash\images\flash.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\flash\langs\cs.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\flash\langs\de.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\flash\langs\en.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\flash\langs\fa.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\flash\langs\fr.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\flash\langs\fr_ca.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\flash\langs\pl.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\flash\langs\sv.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\flash\langs\zh_cn.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\iespell\editor_plugin.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\iespell\editor_plugin_src.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\iespell\readme.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\iespell\images\iespell.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\iespell\langs\cs.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\iespell\langs\de.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\iespell\langs\el.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\iespell\langs\en.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\iespell\langs\fr.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\iespell\langs\fr_ca.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\iespell\langs\it.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\iespell\langs\ko.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\iespell\langs\pl.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\iespell\langs\sv.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\iespell\langs\zh_cn.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\insertdatetime\editor_plugin.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\insertdatetime\editor_plugin_src.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\insertdatetime\readme.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\insertdatetime\images\insertdate.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\insertdatetime\images\inserttime.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\insertdatetime\langs\cs.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\insertdatetime\langs\de.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\insertdatetime\langs\el.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\insertdatetime\langs\en.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\insertdatetime\langs\fa.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\insertdatetime\langs\fr.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\insertdatetime\langs\fr_ca.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\insertdatetime\langs\it.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\insertdatetime\langs\ko.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\insertdatetime\langs\pl.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\insertdatetime\langs\sv.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\insertdatetime\langs\zh_cn.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\preview\editor_plugin.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\preview\editor_plugin_src.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\preview\example.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\preview\readme.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\preview\images\preview.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\preview\langs\cs.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\preview\langs\de.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\preview\langs\el.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\preview\langs\en.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\preview\langs\fa.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\preview\langs\fr.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\preview\langs\fr_ca.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\preview\langs\it.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\preview\langs\ko.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\preview\langs\pl.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\preview\langs\pt.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\preview\langs\sv.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\preview\langs\zh_cn.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\print\editor_plugin.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\print\editor_plugin_src.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\print\readme.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\print\images\print.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\print\langs\de.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\print\langs\en.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\print\langs\fa.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\print\langs\fr.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\print\langs\fr_ca.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\print\langs\pl.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\print\langs\sv.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\print\langs\zh_cn.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\save\editor_plugin.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\save\editor_plugin_src.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\save\readme.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\save\images\save.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\save\langs\cs.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\save\langs\de.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\save\langs\en.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\save\langs\fa.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\save\langs\fr.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\save\langs\fr_ca.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\save\langs\pl.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\save\langs\zh_cn.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\searchreplace\editor_plugin.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\searchreplace\editor_plugin_src.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\searchreplace\readme.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\searchreplace\replace.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\searchreplace\search.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\searchreplace\images\replace.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\searchreplace\images\search.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\searchreplace\langs\de.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\searchreplace\langs\en.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\searchreplace\langs\fa.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\searchreplace\langs\fr.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\searchreplace\langs\fr_ca.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\searchreplace\langs\pl.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\searchreplace\langs\sv.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\searchreplace\langs\zh_cn.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\cell.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\editor_plugin.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\editor_plugin_src.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\readme.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\row.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\table.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\images\buttons.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\images\table.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\images\table_cell_props.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\images\table_delete_col.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\images\table_delete_row.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\images\table_insert_col_after.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\images\table_insert_col_before.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\images\table_insert_row_after.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\images\table_insert_row_before.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\images\table_row_props.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\langs\ar.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\langs\cs.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\langs\da.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\langs\de.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\langs\el.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\langs\en.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\langs\es.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\langs\fa.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\langs\fi.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\langs\fr.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\langs\fr_ca.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\langs\hu.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\langs\it.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\langs\ja.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\langs\ko.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\langs\nl.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\langs\no.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\langs\pl.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\langs\pt.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\langs\readme.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\langs\sv.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\langs\tw.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\table\langs\zh_cn.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\zoom\editor_plugin.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\zoom\editor_plugin_src.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\zoom\readme.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\zoom\langs\fa.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\zoom\langs\fr_ca.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\plugins\zoom\langs\pl.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\anchor.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\charmap.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\color_picker.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\editor_content.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\editor_popup.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\editor_template.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\editor_template_src.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\editor_ui.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\image.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\link.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\source_editor.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\cs\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\cs\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\cs\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\cs\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\cs\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\cs\insert_table_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\cs\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\cs\images\insert_image_window.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\cs\images\insert_link_window.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\cs\images\insert_table_window.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\de\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\de\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\de\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\de\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\de\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\de\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\de\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\de\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\en\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\en\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\en\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\en\insert_anchor_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\en\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\en\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\en\insert_table_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\en\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\en\images\insert_anchor_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\en\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\en\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\en\images\insert_table_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\es\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\es\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\es\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\es\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\es\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\es\insert_table_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\es\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\es\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\es\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\es\images\insert_table_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fi\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fi\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fi\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fi\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fi\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fi\insert_table_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fi\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fi\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fi\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fi\images\insert_table_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fr\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fr\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fr\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fr\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fr\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fr\insert_table_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fr\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fr\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fr\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fr\images\insert_table_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fr_ca\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fr_ca\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fr_ca\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fr_ca\insert_anchor_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fr_ca\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fr_ca\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fr_ca\insert_table_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fr_ca\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fr_ca\images\insert_anchor_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fr_ca\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fr_ca\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\fr_ca\images\insert_table_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\hu\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\hu\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\hu\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\hu\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\hu\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\hu\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\hu\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\hu\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\images\table.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\images\table_delete_col.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\images\table_delete_row.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\images\table_insert_col_after.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\images\table_insert_col_before.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\images\table_insert_row_after.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\images\table_insert_row_before.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\it\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\it\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\it\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\it\insert_anchor_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\it\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\it\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\it\insert_table_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\it\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\it\images\insert_anchor_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\it\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\it\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\it\images\insert_table_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\nl\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\nl\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\nl\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\nl\insert_anchor_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\nl\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\nl\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\nl\insert_specchar_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\nl\insert_table_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\nl\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\nl\images\html_source_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\nl\images\insert_anchor_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\nl\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\nl\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\nl\images\insert_specchar_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\nl\images\insert_table_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\pl\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\pl\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\pl\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\pl\insert_anchor_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\pl\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\pl\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\pl\insert_table_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\pl\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\pl\images\insert_anchor_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\pl\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\pl\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\pl\images\insert_table_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\sv\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\sv\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\sv\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\sv\insert_anchor_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\sv\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\sv\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\sv\insert_table_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\sv\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\sv\images\insert_anchor_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\sv\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\sv\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\sv\images\insert_table_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\zh_cn\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\zh_cn\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\zh_cn\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\zh_cn\insert_anchor_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\zh_cn\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\zh_cn\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\zh_cn\insert_table_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\zh_cn\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\zh_cn\images\insert_anchor_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\zh_cn\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\zh_cn\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\docs\zh_cn\images\insert_table_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\anchor.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\backcolor.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\bold.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\bold_de_se.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\bold_fr.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\bold_ru.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\browse.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\bullist.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\buttons.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\center.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\charmap.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\cleanup.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\code.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\copy.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\custom_1.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\cut.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\forecolor.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\full.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\help.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\hr.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\image.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\indent.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\italic.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\italic_de_se.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\italic_ru.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\left.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\link.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\numlist.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\outdent.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\paste.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\redo.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\removeformat.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\right.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\spacer.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\strikethrough.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\sub.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\sup.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\table.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\table_delete_col.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\table_delete_row.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\table_insert_col_after.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\table_insert_col_before.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\table_insert_row_after.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\table_insert_row_before.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\underline.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\underline_fr.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\underline_ru.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\undo.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\unlink.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\images\visualaid.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\langs\ar.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\langs\cs.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\langs\da.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\langs\de.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\langs\el.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\langs\en.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\langs\es.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\langs\fa.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\langs\fi.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\langs\fr.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\langs\fr_ca.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\langs\hu.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\langs\it.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\langs\ja.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\langs\ko.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\langs\nl.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\langs\no.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\langs\pl.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\langs\pt.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\langs\readme.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\langs\sv.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\langs\tw.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\advanced\langs\zh_cn.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\editor_content.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\editor_popup.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\editor_template.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\editor_template_src.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\editor_ui.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\image.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\link.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\cs\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\cs\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\cs\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\cs\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\cs\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\cs\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\cs\images\insert_image_window.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\cs\images\insert_link_window.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\de\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\de\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\de\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\de\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\de\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\de\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\de\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\de\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\en\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\en\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\en\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\en\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\en\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\en\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\en\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\en\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\es\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\es\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\es\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\es\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\es\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\es\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\es\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\es\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\fr\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\fr\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\fr\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\fr\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\fr\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\fr\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\fr\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\fr\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\fr_ca\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\fr_ca\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\fr_ca\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\fr_ca\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\fr_ca\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\fr_ca\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\fr_ca\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\fr_ca\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\hu\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\hu\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\hu\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\hu\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\hu\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\hu\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\hu\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\hu\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\it\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\it\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\it\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\it\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\it\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\it\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\it\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\it\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\pl\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\pl\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\pl\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\pl\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\pl\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\pl\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\pl\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\pl\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\sv\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\sv\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\sv\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\sv\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\sv\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\sv\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\sv\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\sv\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\zh_cn\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\zh_cn\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\zh_cn\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\zh_cn\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\zh_cn\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\zh_cn\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\zh_cn\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\docs\zh_cn\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\bold.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\bold_de_se.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\bold_fr.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\bold_ru.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\bullist.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\center.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\cleanup.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\copy.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\cut.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\full.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\help.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\image.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\indent.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\italic.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\italic_de_se.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\italic_ru.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\left.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\link.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\numlist.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\outdent.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\paste.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\redo.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\right.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\spacer.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\strikethrough.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\underline.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\underline_ru.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\undo.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\default\images\unlink.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\simple\editor_content.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\simple\editor_popup.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\simple\editor_template.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\simple\editor_template_src.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\simple\editor_ui.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\simple\images\bold.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\simple\images\bold_de_se.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\simple\images\bold_fr.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\simple\images\bold_ru.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\simple\images\bullist.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\simple\images\cleanup.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\simple\images\italic.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\simple\images\italic_de_se.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\simple\images\italic_ru.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\simple\images\numlist.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\simple\images\redo.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\simple\images\spacer.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\simple\images\strikethrough.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\simple\images\underline.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\simple\images\underline_ru.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\simple\images\undo.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\anchor.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\charmap.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\color_picker.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\editor_content.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\editor_popup.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\editor_template.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\editor_template_src.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\editor_ui.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\image.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\link.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\source_editor.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\cs\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\cs\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\cs\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\cs\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\cs\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\cs\insert_table_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\cs\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\cs\images\insert_image_window.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\cs\images\insert_link_window.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\cs\images\insert_table_window.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\de\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\de\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\de\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\de\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\de\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\de\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\de\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\de\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\en\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\en\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\en\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\en\insert_anchor_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\en\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\en\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\en\insert_table_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\en\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\en\images\insert_anchor_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\en\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\en\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\en\images\insert_table_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\es\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\es\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\es\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\es\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\es\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\es\insert_table_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\es\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\es\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\es\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\es\images\insert_table_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fi\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fi\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fi\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fi\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fi\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fi\insert_table_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fi\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fi\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fi\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fi\images\insert_table_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fr\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fr\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fr\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fr\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fr\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fr\insert_table_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fr\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fr\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fr\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fr\images\insert_table_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fr_ca\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fr_ca\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fr_ca\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fr_ca\insert_anchor_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fr_ca\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fr_ca\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fr_ca\insert_table_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fr_ca\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fr_ca\images\insert_anchor_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fr_ca\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fr_ca\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\fr_ca\images\insert_table_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\hu\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\hu\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\hu\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\hu\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\hu\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\hu\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\hu\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\hu\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\images\table.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\images\table_delete_col.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\images\table_delete_row.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\images\table_insert_col_after.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\images\table_insert_col_before.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\images\table_insert_row_after.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\images\table_insert_row_before.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\it\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\it\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\it\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\it\insert_anchor_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\it\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\it\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\it\insert_table_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\it\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\it\images\insert_anchor_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\it\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\it\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\it\images\insert_table_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\nl\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\nl\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\nl\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\nl\insert_anchor_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\nl\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\nl\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\nl\insert_specchar_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\nl\insert_table_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\nl\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\nl\images\html_source_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\nl\images\insert_anchor_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\nl\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\nl\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\nl\images\insert_specchar_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\nl\images\insert_table_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\pl\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\pl\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\pl\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\pl\insert_anchor_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\pl\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\pl\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\pl\insert_table_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\pl\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\pl\images\insert_anchor_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\pl\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\pl\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\pl\images\insert_table_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\sv\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\sv\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\sv\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\sv\insert_anchor_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\sv\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\sv\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\sv\insert_table_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\sv\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\sv\images\insert_anchor_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\sv\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\sv\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\sv\images\insert_table_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\zh_cn\about.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\zh_cn\common_buttons.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\zh_cn\index.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\zh_cn\insert_anchor_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\zh_cn\insert_image_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\zh_cn\insert_link_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\zh_cn\insert_table_button.htm"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\zh_cn\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\zh_cn\images\insert_anchor_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\zh_cn\images\insert_image_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\zh_cn\images\insert_link_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\docs\zh_cn\images\insert_table_window.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\anchor.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\backcolor.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\bold.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\bold_de_se.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\bold_fr.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\bold_ru.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\browse.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\bullist.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\buttons.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\center.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\charmap.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\cleanup.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\code.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\copy.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\custom_1.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\cut.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\forecolor.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\full.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\help.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\hr.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\image.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\indent.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\italic.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\italic_de_se.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\italic_ru.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\left.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\link.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\numlist.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\outdent.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\paste.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\redo.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\removeformat.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\right.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\spacer.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\strikethrough.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\sub.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\sup.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\table.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\table_delete_col.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\table_delete_row.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\table_insert_col_after.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\table_insert_col_before.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\table_insert_row_after.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\table_insert_row_before.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\underline.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\underline_fr.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\underline_ru.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\undo.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\unlink.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\images\visualaid.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\langs\ar.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\langs\cs.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\langs\da.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\langs\de.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\langs\el.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\langs\en.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\langs\es.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\langs\fa.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\langs\fi.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\langs\fr.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\langs\fr_ca.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\langs\hu.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\langs\it.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\langs\ja.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\langs\ko.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\langs\nl.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\langs\no.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\langs\pl.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\langs\pt.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\langs\readme.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\langs\sv.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\langs\tw.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\TinyMCE\themes\subtext\langs\zh_cn.js"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Admin\UserControls\EntryEditor.ascx"
                     BuildAction = "Content"
                 />
@@ -1113,10 +4597,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "Services\WS_FTP.LOG"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "Skins\AnotherEon001\License.txt"
                     BuildAction = "Content"
                 />
@@ -1237,10 +4717,6 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Skins\AnotherEon001\Controls\WS_FTP.LOG"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "Skins\blue\PageTemplate.ascx"
                     BuildAction = "Content"
                 />
@@ -1351,10 +4827,6 @@
                 <File
                     RelPath = "Skins\blue\Controls\ViewPost.ascx"
                     BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\blue\Controls\WS_FTP.LOG"
-                    BuildAction = "None"
                 />
                 <Folder RelPath = "Skins\blue\Images\" />
                 <File
@@ -1481,10 +4953,6 @@
                     RelPath = "Skins\gertrude\Controls\ViewPost.ascx"
                     BuildAction = "Content"
                 />
-                <File
-                    RelPath = "Skins\gertrude\Controls\WS_FTP.LOG"
-                    BuildAction = "None"
-                />
                 <Folder RelPath = "Skins\gertrude\Images\" />
                 <File
                     RelPath = "Skins\Hover\PageTemplate.ascx"
@@ -1598,10 +5066,6 @@
                     RelPath = "Skins\Hover\Controls\ViewPost.ascx"
                     BuildAction = "Content"
                 />
-                <File
-                    RelPath = "Skins\Hover\Controls\WS_FTP.LOG"
-                    BuildAction = "None"
-                />
                 <Folder RelPath = "Skins\Hover\Images\" />
                 <File
                     RelPath = "Skins\Lighty\PageTemplate.ascx"
@@ -1714,10 +5178,6 @@
                 <File
                     RelPath = "Skins\Lighty\Controls\ViewPost.ascx"
                     BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Lighty\Controls\WS_FTP.LOG"
-                    BuildAction = "None"
                 />
                 <File
                     RelPath = "Skins\Lighty\Images\day_footer.gif"
@@ -1882,10 +5342,6 @@
                 <File
                     RelPath = "Skins\Marvin2\Controls\ViewPost.ascx"
                     BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Controls\WS_FTP.LOG"
-                    BuildAction = "None"
                 />
                 <Folder RelPath = "Skins\Marvin2\Images\" />
                 <File
@@ -2145,10 +5601,6 @@
                     RelPath = "Skins\simple\Controls\ViewPost.ascx"
                     BuildAction = "Content"
                 />
-                <File
-                    RelPath = "Skins\simple\Controls\WS_FTP.LOG"
-                    BuildAction = "None"
-                />
                 <Folder RelPath = "Skins\simple\Images\" />
                 <File
                     RelPath = "Skins\white\PageTemplate.ascx"
@@ -2261,10 +5713,6 @@
                 <File
                     RelPath = "Skins\white\Controls\ViewPost.ascx"
                     BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\white\Controls\WS_FTP.LOG"
-                    BuildAction = "None"
                 />
                 <Folder RelPath = "Skins\white\Images\" />
                 <File

@@ -49,7 +49,7 @@ namespace Subtext.Web.Admin.WebUI
 		private const int NULL_CATEGORY = -1;
 
 		private const string SITEMAP_CONFIG_LOCATION = "~/admin/navigation.config";
-		private const string TITLE_PREFIX = ".Text Admin";
+		private const string TITLE_PREFIX = "SubText Admin";
 
 		private const string TEMPLATE_DEFAULT = "Admin.DefaultTemplate";
 		private const string TEMPLATE_DOWNLEVEL = "Admin.DownlevelTemplate";
