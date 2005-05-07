@@ -1,3 +1,4 @@
+<%@ Register tagprefix="mbdb" namespace="MetaBuilders.WebControls" Assembly="MetaBuilders.WebControls.DefaultButtons" %>
 <%@ Page language="c#" EnableViewState="False" Codebehind="login.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Pages.login" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <HTML>
@@ -16,12 +17,17 @@
 		INPUT.Textbox { PADDING-RIGHT: 2px; PADDING-LEFT: 2px; PADDING-BOTTOM: 2px; WIDTH: 200px; PADDING-TOP: 2px; FONT-FAMILY: verdana, arial, sans-serif }
 		A.Button:link { BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 12px; BORDER-TOP: #999 1px solid; DISPLAY: block; PADDING-LEFT: 12px; FONT-WEIGHT: bold; BACKGROUND: #904; FLOAT: left; PADDING-BOTTOM: 3px; BORDER-LEFT: #999 1px solid; COLOR: #fff; PADDING-TOP: 3px; BORDER-BOTTOM: #999 1px solid }
 		A.Button:visited { BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 12px; BORDER-TOP: #999 1px solid; DISPLAY: block; PADDING-LEFT: 12px; FONT-WEIGHT: bold; BACKGROUND: #904; FLOAT: left; PADDING-BOTTOM: 3px; BORDER-LEFT: #999 1px solid; COLOR: #fff; PADDING-TOP: 3px; BORDER-BOTTOM: #999 1px solid }
+		.LoginButton { BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 12px; BORDER-TOP: #999 1px solid; DISPLAY: block; PADDING-LEFT: 12px; FONT-WEIGHT: bold; BACKGROUND: #904; FLOAT: left; PADDING-BOTTOM: 3px; BORDER-LEFT: #999 1px solid; COLOR: #fff; PADDING-TOP: 3px; BORDER-BOTTOM: #999 1px solid }
+		.LoginButton:hover {Color: yellow;}
 		SPAN.ErrorMessage { DISPLAY: block; FONT-WEIGHT: bold; COLOR: #904 }
 		P.Small { MARGIN-TOP: 12px; FONT-SIZE: 85% }
 		</style>
 </HEAD>
 	<body>
 		<form method="post" runat="server" ID="frmLogin">
+			<mbdb:DefaultButtons runat="server" id="DefaultButtons1">
+				<mbdb:DefaultButtonSetting parent="tbPassword" button="btnLogin" />
+			</mbdb:DefaultButtons>
 			<div id="Main">
 				<div id="Heading">Please Sign In Below</div>
 				<label>Username <asp:RequiredFieldValidator ForeColor="#990044" ControlToValidate="tbUserName" Text="Please enter username"
@@ -29,7 +35,7 @@
 				<asp:TextBox id="tbUserName" runat="server" CssClass="Textbox" />
 				<label>Password</label>
 				<asp:TextBox id="tbPassword" TextMode="Password" runat="server" CssClass="Textbox" />
-				<asp:LinkButton id="lblLogin" runat="server" Text="Login" CssClass="Button" style="MARGIN-TOP: 8px" />
+				<asp:Button id="btnLogin" runat="server" Text="Login" CssClass="Button LoginButton" style="MARGIN-TOP: 8px" />
 				<p style="MARGIN: 4px 0px 0px 70px">
 					<asp:CheckBox id="chkRemember" runat="server" CssClass="LoginFloat" />Remember 
 					me?

@@ -37,7 +37,7 @@ namespace Subtext.Web.Pages
 		protected System.Web.UI.WebControls.TextBox tbUserName;
 		protected System.Web.UI.WebControls.TextBox tbPassword;
 		protected System.Web.UI.WebControls.CheckBox chkRemember;
-		protected System.Web.UI.WebControls.LinkButton lblLogin;
+		protected System.Web.UI.WebControls.Button btnLogin;
 		protected System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
 		protected System.Web.UI.HtmlControls.HtmlAnchor aspnetLink;
 		protected System.Web.UI.WebControls.LinkButton lbSendPassword;
@@ -66,7 +66,7 @@ namespace Subtext.Web.Pages
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.lblLogin.Click += new System.EventHandler(this.lblLogin_Click);
+			this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
 			this.lbSendPassword.Click += new System.EventHandler(this.lbSendPassword_Click);
 			this.Load += new System.EventHandler(this.Page_Load);
 
@@ -104,7 +104,7 @@ namespace Subtext.Web.Pages
 			}
 		}
 
-		private void lblLogin_Click(object sender, System.EventArgs e)
+		private void btnLogin_Click(object sender, System.EventArgs e)
 		{
 			BlogConfig config = Config.CurrentBlog(Context);
 			if(Security.Authenticate(tbUserName.Text, tbPassword.Text, chkRemember.Checked))
