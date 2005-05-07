@@ -254,8 +254,7 @@ namespace Subtext.Framework.Components
 			get
 			{
 				//TODO: Make this a configurable value.
-				const int DAYS_TILL_COMMENTS_CLOSED = 21;
-				return DateTime.Now > this.DateCreated.AddDays(DAYS_TILL_COMMENTS_CLOSED);
+				return DateTime.Now > this.DateCreated.AddDays(Configuration.BlogConfigurationSettings.Instance().DaysTillCommentsClose);
 			}
 		}
 

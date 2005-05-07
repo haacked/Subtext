@@ -63,7 +63,6 @@ namespace Subtext.Web.UI.Controls
 
 				Entry entry = Cacher.GetEntryFromRequest(Context, CacheTime.Short);	
 
-				//TODO: We should allow comments to close after a certain # of days.
 				if(CurrentBlog.EnableComments && entry != null && entry.AllowComments && !entry.CommentingClosed)
 				{
 					//Need to get this without a db hit?

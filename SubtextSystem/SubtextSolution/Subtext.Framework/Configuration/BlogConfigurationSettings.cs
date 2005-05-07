@@ -29,42 +29,32 @@ using Subtext.Framework.Providers;
 namespace Subtext.Framework.Configuration
 {
 	/// <summary>
-	/// Summary description for BlogConfigurationSettings.
+	/// Returns settings straight from Web.config.
 	/// </summary>
 	[Serializable]
 	public class BlogConfigurationSettings 
 	{
-		#region cnstr
-		public BlogConfigurationSettings()
-		{
-			
-				
-		}
-
-		#endregion
-
 		#region Static
-
-
+		/// <summary>
+		/// Returns a singleton instance of the settings.
+		/// </summary>
+		/// <returns></returns>
 		public static BlogConfigurationSettings Instance()
 		{
-			//return BlogConfigurationSettings.Instance(HttpContext.Current);
 			return ((BlogConfigurationSettings)ConfigurationSettings.GetConfig("BlogConfigurationSettings"));
 
 		}
 
+		/// <summary>
+		/// Returns a singleton instance of the settings.
+		/// </summary>
+		/// <param name="context">Context.</param>
+		/// <returns></returns>
 		public static BlogConfigurationSettings Instance(HttpContext context)
 		{
 			return Instance();
 		}
 
-		#endregion
-
-		#region Helper
-		private void ConfigException(string message)
-		{
-			throw new Exception(message);
-		}
 		#endregion
 
 		#region Properties 
@@ -141,12 +131,21 @@ namespace Subtext.Framework.Configuration
 			set{serverTimeZone = value;}
 		}
 
+		/// <summary>
+		/// Gets or sets the days till comments close on a post.  
+		/// The count starts when a post is created.
+		/// </summary>
+		/// <value></value>
+		public int DaysTillCommentsClose
+		{
+			//TODO: Move this to BlogConfig and the blog_config table.
+			get { return _daysTillCommentsClose; }
+			set { _daysTillCommentsClose = value; }
+		}
 
-
-
+		int _daysTillCommentsClose = 30;
 
 		#endregion
-
 
 		private BlogProviders _blogProviders;
 		public BlogProviders BlogProviders
