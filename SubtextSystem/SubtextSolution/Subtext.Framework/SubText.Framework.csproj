@@ -104,6 +104,16 @@
                     AssemblyName = "CookComputing.XmlRpc"
                     HintPath = "ExternalDependencies\CookComputing.XmlRpc.dll"
                 />
+                <Reference
+                    Name = "HttpCompressionModule"
+                    AssemblyName = "HttpCompressionModule"
+                    HintPath = "ExternalDependencies\HttpCompressionModule.dll"
+                />
+                <Reference
+                    Name = "SharpZipLib"
+                    AssemblyName = "SharpZipLib"
+                    HintPath = "ExternalDependencies\SharpZipLib.dll"
+                />
             </References>
         </Build>
         <Files>
@@ -427,7 +437,19 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "ExternalDependencies\HttpCompressionModule.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\HttpCompressionModule.xml"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "ExternalDependencies\SgmlReaderDll.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\SharpZipLib.dll"
                     BuildAction = "Content"
                 />
                 <File
@@ -522,6 +544,26 @@
                 />
                 <File
                     RelPath = "Syndication\CachedFeed.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syndication\Compression\SyndicationCompressionFilter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syndication\Compression\SyndicationCompressionHelper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syndication\Compression\SyndicationCompressionSectionHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syndication\Compression\SyndicationCompressionSettings.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
