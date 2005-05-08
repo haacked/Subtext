@@ -11,10 +11,6 @@ namespace Subtext.Framework.Syndication
 	/// </summary>
 	public abstract class BaseRssWriter : BaseSyndicationWriter
 	{
-		public BaseRssWriter():base()
-		{
-		}
-
 		private bool isBuilt = false;
 
 		protected override void Build()
@@ -139,9 +135,5 @@ namespace Subtext.Framework.Syndication
 				this.WriteEndElement();
 			}			
 		}
-
-
-
-
 	}
 }

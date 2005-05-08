@@ -102,6 +102,12 @@ namespace Subtext.Framework.Configuration
 		}
 
 		private bool _allowImages;
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to allow images.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if [allow images]; otherwise, <c>false</c>.
+		/// </value>
 		public bool AllowImages
 		{
 			get{return _allowImages;}
@@ -109,15 +115,24 @@ namespace Subtext.Framework.Configuration
 		}
 
 		private bool _useXHMTL = false;
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to use XHTML.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if using XHTML; otherwise, <c>false</c>.
+		/// </value>
 		public bool UseXHTML
 		{
 			get{return _useXHMTL;}
 			set{_useXHMTL = value;}
 		}
 
-
-
 		private int feedItemCount = 15;
+		/// <summary>
+		/// Gets or sets the default number of items to display 
+		/// for syndication feeds.
+		/// </summary>
+		/// <value></value>
 		public int ItemCount
 		{
 			get{return feedItemCount;}
@@ -125,6 +140,10 @@ namespace Subtext.Framework.Configuration
 		}
 
 		private int serverTimeZone = -5;
+		/// <summary>
+		/// Gets or sets the server time zone.
+		/// </summary>
+		/// <value></value>
 		public int ServerTimeZone
 		{
 			get{return serverTimeZone;}
@@ -145,6 +164,18 @@ namespace Subtext.Framework.Configuration
 
 		int _daysTillCommentsClose = 30;
 
+		private bool _useSyndicationCompression;
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to use syndication compression.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if using syndication compression; otherwise, <c>false</c>.
+		/// </value>
+		public bool UseSyndicationCompression
+		{
+			get{return this._useSyndicationCompression;}
+			set{this._useSyndicationCompression = value;}
+		}
 		#endregion
 
 		private BlogProviders _blogProviders;

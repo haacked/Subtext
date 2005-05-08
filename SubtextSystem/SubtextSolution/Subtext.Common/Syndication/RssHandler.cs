@@ -29,18 +29,24 @@ using DTCF = Subtext.Framework.Configuration;
 namespace Subtext.Common.Syndication
 {
 	/// <summary>
-	/// Summary description for RssHandler.
+	/// Class used to handle requests for an RSS feed.
 	/// </summary>
 	public class RssHandler : Subtext.Framework.Syndication.BaseSyndicationHandler
 	{
-		public RssHandler(){}
-
+		/// <summary>
+		/// Returns the cache key for the feed.
+		/// </summary>
+		/// <returns></returns>
 		protected override string CacheKey()
 		{
 			const string key = "IndividualMainFeed:BlogID{0}";
 			return string.Format(key,CurrentBlog.BlogID);
 		}
 
+		/// <summary>
+		/// Builds the RSS feed.
+		/// </summary>
+		/// <returns></returns>
 		protected override CachedFeed BuildFeed()
 		{
 			CachedFeed feed = new CachedFeed();
@@ -50,6 +56,10 @@ namespace Subtext.Common.Syndication
 			return feed;
 		}
 
+		/// <summary>
+		/// Caches the specified RSS feed.
+		/// </summary>
+		/// <param name="feed">Feed.</param>
 		protected override void Cache(CachedFeed feed)
 		{
 			Context.Cache.Insert(CacheKey(),feed,null,DateTime.Now.AddSeconds((double)Subtext.Common.Data.CacheTime.Medium),TimeSpan.Zero);
