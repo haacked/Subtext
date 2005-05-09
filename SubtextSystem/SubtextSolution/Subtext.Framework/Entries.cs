@@ -34,7 +34,7 @@ namespace Subtext.Framework
 	/// <summary>
 	/// Summary description for Entries.
 	/// </summary>
-	public class Entries
+	public sealed class Entries
 	{
 		private Entries()
 		{

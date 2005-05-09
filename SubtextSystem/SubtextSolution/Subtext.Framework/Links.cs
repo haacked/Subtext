@@ -30,7 +30,7 @@ namespace Subtext.Framework
 	/// <summary>
 	/// Summary description for Links.
 	/// </summary>
-	public class Links
+	public sealed class Links
 	{
 		private Links(){}
 
