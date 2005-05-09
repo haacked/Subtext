@@ -125,7 +125,7 @@ namespace Subtext.Web
 						writer.WriteStartElement("outline");
 
 						string title = (string)dr["Title"];
-						string htmlUrl = string.Format(baseUrl,(string)dr["Host"],(string)dr["Application"]);
+						string htmlUrl = string.Format(baseUrl, (string)dr["Host"], (string)dr["Application"]);
 						string xmlUrl= htmlUrl + "/rss.aspx";
 
 						writer.WriteAttributeString("title",title);

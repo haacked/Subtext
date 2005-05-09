@@ -30,13 +30,6 @@ namespace Subtext.Framework.Components
 	/// </summary>
 	public class CategoryEntry : Entry
 	{
-		public CategoryEntry()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
 		private string[] _categories;
 		public string[] Categories
 		{
