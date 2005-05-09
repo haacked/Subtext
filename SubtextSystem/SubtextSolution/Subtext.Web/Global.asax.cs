@@ -112,7 +112,7 @@ namespace Subtext
 		protected void Application_Error(Object sender, EventArgs e)
 		{
 			Exception exception = Server.GetLastError();
-			if(exception is HttpUnhandledException && Subtext.Framework.Security.UserIsConnectingLocally)
+			if(exception is HttpUnhandledException)
 			{
 				if(exception.InnerException is BlogDoesNotExistException)
 				{
