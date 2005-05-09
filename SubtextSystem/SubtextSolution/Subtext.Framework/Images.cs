@@ -33,8 +33,11 @@ using Subtext.Framework.Providers;
 
 namespace Subtext.Framework
 {
-	public class Images
+	public sealed class Images
 	{
+		//Static class.
+		private Images() {}
+
 		public static string LocalFilePath(HttpContext context)
 		{
 			return Config.CurrentBlog(context).ImageDirectory;
@@ -259,10 +262,6 @@ namespace Subtext.Framework
 			}
 		}
 		#endregion
-
-
-
-		
 	}
 }
 

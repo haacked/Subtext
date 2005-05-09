@@ -5,23 +5,28 @@ using Subtext.Framework.Providers;
 namespace Subtext.Framework
 {
 	/// <summary>
-	/// Summary description for Archives.
+	/// Static class used to get collections of archived posts 
+	/// (by month and year) from the data provider.
 	/// </summary>
-	public class Archives
+	public sealed class Archives
 	{
 		private Archives()
 		{
-			//
-			// TODO: Add constructor logic here
-			//
 		}
 
+		/// <summary>
+		/// Gets archived posts by month.
+		/// </summary>
+		/// <returns></returns>
 		public static ArchiveCountCollection GetPostsByMonthArchive()
 		{
-			
 			return DTOProvider.Instance().GetPostsByMonthArchive();
 		}
 
+		/// <summary>
+		/// Gets archived posts by year.
+		/// </summary>
+		/// <returns></returns>
 		public static ArchiveCountCollection GetPostsByYearArchive()
 		{
 			return DTOProvider.Instance().GetPostsByYearArchive();

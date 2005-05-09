@@ -46,8 +46,10 @@ namespace Subtext.Framework
 	/// <summary>
 	/// Summary description for VersionInfo.
 	/// </summary>
-	public class VersionInfo 
+	public sealed class VersionInfo 
 	{
+		private VersionInfo() {}
+
 		private static Version _version = null;
 
 		public static Version FrameworkVersion
