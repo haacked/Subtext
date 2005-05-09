@@ -8,8 +8,6 @@ namespace Subtext.Common.Syndication
 	/// </summary>
 	public class CategoryWriter : RssWriter
 	{
-
-
 		private LinkCategory _lc;
 		public LinkCategory Category
 		{
@@ -39,7 +37,7 @@ namespace Subtext.Common.Syndication
 			}
 			else
 			{
-				this.BuildChannel(Category.Title,Url,config.Author,Category.HasDescription ? Category.Description : Category.Title,config.Language);
+				this.BuildChannel(Category.Title, Url, config.Author, Category.HasDescription ? Category.Description :Category.Title,config.Language,config.Author,System.Configuration.ConfigurationSettings.AppSettings["CreativeCommonsLicense"]);
 			}
 		}
 

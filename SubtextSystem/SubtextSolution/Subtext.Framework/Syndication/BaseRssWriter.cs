@@ -29,12 +29,23 @@ namespace Subtext.Framework.Syndication
 		}
 
 
+		/// <summary>
+		/// Sets the namespaces used within the RSS feed.
+		/// </summary>
 		protected virtual void SetNamespaces()
 		{
 			this.WriteAttributeString("xmlns:dc","http://purl.org/dc/elements/1.1/");
 			this.WriteAttributeString("xmlns:trackback","http://madskills.com/public/xml/rss/module/trackback/");
 			this.WriteAttributeString("xmlns:wfw","http://wellformedweb.org/CommentAPI/");
 			this.WriteAttributeString("xmlns:slash","http://purl.org/rss/1.0/modules/slash/");
+			
+			// Copyright notice
+			this.WriteAttributeString("xmlns:copyright", "http://blogs.law.harvard.edu/tech/rss");
+			// Used to specify a license. Does not have to be a creative commons license.
+			// http://backend.userland.com/creativeCommonsRssModule
+			this.WriteAttributeString("xmlns:creativeCommons", "http://backend.userland.com/creativeCommonsRssModule");
+			// Similar to a favicon image.
+			this.WriteAttributeString("xmlns:image", "http://purl.org/rss/1.0/modules/image/");
 		}
 
 		protected virtual void StartDocument()
@@ -55,11 +66,10 @@ namespace Subtext.Framework.Syndication
 
 		protected virtual void WriteChannel()
 		{
-			
-			BuildChannel(config.Title,config.FullyQualifiedUrl,config.Author,config.SubTitle,config.Language);
+			BuildChannel(config.Title, config.FullyQualifiedUrl, config.Author, config.SubTitle, config.Language, config.Author, System.Configuration.ConfigurationSettings.AppSettings["CreativeCommonsLicense"]);
 		}
 
-		protected void BuildChannel(string title, string link, string author, string description, string lang)
+		protected void BuildChannel(string title, string link, string author, string description, string lang, string copyright, string cclicense)
 		{
 			this.WriteElementString("title",title);			
 			this.WriteElementString("link",link);
@@ -67,6 +77,37 @@ namespace Subtext.Framework.Syndication
 			this.WriteElementString("managingEditor",author);
 			this.WriteElementString("dc:language",lang);
 			this.WriteElementString("generator",VersionInfo.Version);
+
+			this.WriteElementString("copyright", copyright);
+			this.WriteElementString("creativeCommons:license", cclicense);
+			this.AddImageElement(title, link, description);
+		}
+
+		// <summary>
+		// Adds the image element to the rss feed.
+		// </summary>
+		// <param name="link">Link.</param>
+		// <param name="description">Description.</param>
+		protected void AddImageElement(string title, string link,
+			string description)
+		{
+			// Image Example
+			// <image>
+			//		<title>Joel On Software</title>
+			//		<url>http://www.joelonsoftware.com/RssJoelOnSoftware.jpg</url>
+			//		<link>http://www.joelonsoftware.com</link>
+			//		<width>144</width>
+			//		<height>25</height>
+			//		<description>Painless Software Management</description>
+			//	</image>
+			this.WriteStartElement("image");
+			this.WriteElementString("title",title);
+			this.WriteElementString("url", config.FullyQualifiedUrl + "RSS2Image.gif");
+			this.WriteElementString("link", link);
+			this.WriteElementString("width", "77");
+			this.WriteElementString("height", "60");
+			this.WriteElementString("description", description);
+			this.WriteEndElement();
 		}
 
 		protected void EndChannel()

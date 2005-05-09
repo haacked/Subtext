@@ -33,7 +33,6 @@ namespace Subtext.Common.Syndication
 	/// </summary>
 	public class CommentRssWriter : Subtext.Framework.Syndication.BaseRssWriter
 	{
-
 		private Entry CommentEntry = null;
 
 		
@@ -47,7 +46,7 @@ namespace Subtext.Common.Syndication
 
 		protected override void WriteChannel()
 		{
-			this.BuildChannel(CommentEntry.Title,CommentEntry.Link,CommentEntry.Author,CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body,config.Language);
+			this.BuildChannel(CommentEntry.Title, CommentEntry.Link, CommentEntry.Author, CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body,config.Language, config.Author, System.Configuration.ConfigurationSettings.AppSettings["CreativeCommonsLicense"]);
 		}
 
 	}
