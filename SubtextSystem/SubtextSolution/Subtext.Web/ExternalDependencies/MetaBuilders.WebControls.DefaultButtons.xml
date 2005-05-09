@@ -1,0 +1,258 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MetaBuilders.WebControls.DefaultButtons</name>
+    </assembly>
+    <members>
+        <member name="T:MetaBuilders.WebControls.DefaultButtons">
+            <summary>
+            Allows the developer to assign default buttons to per control on a web form.
+            </summary>
+            <remarks>
+            This is a non-visual control, using the IExtenderProvider to add properties to other controls.
+            With a designer, after the DefaultButtons control is added to the page,
+            input controls will have a new property named "DefaultButton", where the ID of a button should go.
+            Without a designer, a page developer can simply add DefaultButtonSetting tags inside the DefaultButtons tag.
+            </remarks>
+            <example>
+            Here is an example page using the DefaultButtons control.
+            <code><![CDATA[
+            <%@ Register tagprefix="mbdb" namespace="MetaBuilders.WebControls" Assembly="MetaBuilders.WebControls.DefaultButtons" %>
+            <script language="C#" runat="server">
+            	protected void Smack_Click( Object sender, EventArgs e ) {
+            		Button clicked = sender as Button;
+            		if ( clicked != null ) {
+            			Message.Text = clicked.ID + " was clicked";
+            		}
+            	}
+            </script>
+            <html><body><form id="Form1" runat="server" >
+            	<mbdb:DefaultButtons runat="server" id="DefaultButtons1" >
+            		<mbdb:DefaultButtonSetting parent="Text1" button="Smack1" />
+            		<mbdb:DefaultButtonSetting parent="Text2" button="Smack2" />
+            	</mbdb:DefaultButtons>
+            	
+            	Pressing Enter while in this textbox should click "Smack1"<br />
+            	<asp:TextBox id="Text1" runat="server" /><asp:Button id="Smack1" runat="server" Text="Smack1" onclick="Smack_Click" />
+            	<br />
+            	
+            	Pressing Enter while in this textbox should click "Smack2"<br />
+            	<asp:TextBox id="Text2" runat="server" /><asp:Button id="Smack2" runat="server" Text="Smack2" onclick="Smack_Click" />
+            	<br />
+            	
+            	<asp:Label runat="server" id="Message" EnableViewState="false" />
+            </form></body></html>
+            ]]></code>
+            </example>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtons.#ctor">
+            <summary>
+            Creates a new instance of the DefaultButtons control.
+            </summary>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtons.System#ComponentModel#IExtenderProvider#CanExtend(System.Object)">
+            <summary>
+            Defines the controls which can be extended.
+            </summary>
+            <remarks>
+            In general, the Page, the Form, and buttons cannot be extended.
+            </remarks>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtons.GetDefaultButton(System.Web.UI.Control)">
+            <summary>
+            gets the property value for the given control
+            </summary>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtons.SetDefaultButton(System.Web.UI.Control,System.String)">
+            <summary>
+            sets the property value for the given control
+            </summary>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtons.OnPreRender(System.EventArgs)">
+            <summary>
+            Overrides <see cref="M:System.Web.UI.Control.OnPreRender(System.EventArgs)"/>.
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtons.Render(System.Web.UI.HtmlTextWriter)">
+            <summary>
+            Overrides <see cref="M:System.Web.UI.Control.Render(System.Web.UI.HtmlTextWriter)"/>.
+            </summary>
+            <remarks>No rendering is done for this control.</remarks>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtons.ControlPropertiesValid">
+            <summary>
+            Examines the current properties to ensure their validity.
+            </summary>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtons.FindControlInContainers(System.String)">
+            <summary>
+            Finds the given control by id.
+            </summary>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtons.DetermineCausesValidation(System.Web.UI.Control)">
+            <summary>
+            Determines if the given default button causes validation
+            </summary>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtons.LoadViewState(System.Object)">
+            <summary>
+            Overrides <see cref="M:System.Web.UI.Control.LoadViewState(System.Object)"/>
+            </summary>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtons.SaveViewState">
+            <summary>
+            Overrides <see cref="M:System.Web.UI.Control.SaveViewState"/>
+            </summary>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtons.TrackViewState">
+            <summary>
+            Overrides <see cref="M:System.Web.UI.Control.TrackViewState"/>
+            </summary>
+        </member>
+        <member name="P:MetaBuilders.WebControls.DefaultButtons.Settings">
+            <summary>
+            Gets the collection of settings which map input controls to their default buttons.
+            </summary>
+        </member>
+        <member name="P:MetaBuilders.WebControls.DefaultButtons.Visible">
+            <summary>
+            Overrides <see cref="P:System.Web.UI.Control.Visible"/> to hide it.
+            </summary>
+        </member>
+        <member name="P:MetaBuilders.WebControls.DefaultButtons.PropertiesValid">
+            <summary>
+            Ensures that the current properties are valid.
+            </summary>
+        </member>
+        <member name="T:MetaBuilders.WebControls.DefaultButtonsDesigner">
+            <summary>
+            The designer for the DefaultButtons control.
+            </summary>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtonsDesigner.#ctor">
+            <summary>
+            Creates a new instance of the DefaultButtonsDesigner
+            </summary>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtonsDesigner.GetDesignTimeHtml">
+            <summary>
+            Overrides <see cref="M:System.Web.UI.Design.ControlDesigner.GetDesignTimeHtml"/>
+            </summary>
+        </member>
+        <member name="T:MetaBuilders.WebControls.DefaultButtonSetting">
+            <summary>
+            One mapping between a control and its default button.
+            </summary>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtonSetting.#ctor">
+            <summary>
+            Creates a new instance of the DefaultButtonSetting class.
+            </summary>
+        </member>
+        <member name="P:MetaBuilders.WebControls.DefaultButtonSetting.Parent">
+            <summary>
+            Gets or sets the parent input control in the relationship.
+            </summary>
+        </member>
+        <member name="P:MetaBuilders.WebControls.DefaultButtonSetting.Button">
+            <summary>
+            Gets or sets the default button in the relationship.
+            </summary>
+        </member>
+        <member name="P:MetaBuilders.WebControls.DefaultButtonSetting.ViewState">
+            <summary>
+            Gets the ViewState for this setting.
+            </summary>
+        </member>
+        <member name="T:MetaBuilders.WebControls.DefaultButtonSettingCollection">
+            <summary>
+            The collection of settings for the <see cref="P:MetaBuilders.WebControls.DefaultButtons.Settings"/> property.
+            </summary>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtonSettingCollection.Add(MetaBuilders.WebControls.DefaultButtonSetting)">
+            <summary>
+            Adds a setting to the collection
+            </summary>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtonSettingCollection.Clear">
+            <summary>
+            Clears the collection.
+            </summary>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtonSettingCollection.Contains(MetaBuilders.WebControls.DefaultButtonSetting)">
+            <summary>
+            Determines if the collection contains the given setting.
+            </summary>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtonSettingCollection.IndexOf(MetaBuilders.WebControls.DefaultButtonSetting)">
+            <summary>
+            Gets the index of the given setting.
+            </summary>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtonSettingCollection.Insert(System.Int32,MetaBuilders.WebControls.DefaultButtonSetting)">
+            <summary>
+            Adds the given setting to the collection at the given index
+            </summary>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtonSettingCollection.RemoveAt(System.Int32)">
+            <summary>
+            Removes the setting at the given setting
+            </summary>
+            <param name="index"></param>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtonSettingCollection.Remove(MetaBuilders.WebControls.DefaultButtonSetting)">
+            <summary>
+            Removes the given setting from the collection
+            </summary>
+            <param name="item"></param>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtonSettingCollection.GetEnumerator">
+            <summary>
+            The enumerator for this collection
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtonSettingCollection.CopyTo(System.Array,System.Int32)">
+            <summary>
+            copies the settings to an array
+            </summary>
+        </member>
+        <member name="P:MetaBuilders.WebControls.DefaultButtonSettingCollection.Item(System.Int32)">
+            <summary>
+            The indexer for this collection.
+            </summary>
+        </member>
+        <member name="P:MetaBuilders.WebControls.DefaultButtonSettingCollection.Count">
+            <summary>
+            Gets the number of settings in the collection.
+            </summary>
+        </member>
+        <member name="P:MetaBuilders.WebControls.DefaultButtonSettingCollection.IsSynchronized">
+            <summary>
+            returns false
+            </summary>
+        </member>
+        <member name="P:MetaBuilders.WebControls.DefaultButtonSettingCollection.SyncRoot">
+            <summary>
+            Gets the SyncRoot
+            </summary>
+        </member>
+        <member name="T:MetaBuilders.WebControls.DefaultButtonSettingControlBuilder">
+            <summary>
+            The builder for a <see cref="T:MetaBuilders.WebControls.DefaultButtonSetting"/>
+            </summary>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtonSettingControlBuilder.#ctor">
+            <summary>
+            Creates a new instance of the DefaultButtonSettingControlBuilder class.
+            </summary>
+        </member>
+        <member name="M:MetaBuilders.WebControls.DefaultButtonSettingControlBuilder.AllowWhitespaceLiterals">
+            <summary>
+            Overrides <see cref="M:System.Web.UI.ControlBuilder.AllowWhitespaceLiterals"/>
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

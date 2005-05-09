@@ -22,6 +22,7 @@
 #endregion
 
 using System;
+using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using System.Web;
 using Subtext.Framework;
@@ -45,6 +46,7 @@ namespace Subtext
 
 		private const string ERROR_PAGE_LOCATION = "~/error.aspx";
 		private const string BLOG_INITIAL_CONFIGURATION_PAGE = "~/BlogNotConfiguredError.aspx";
+		private const string BAD_CONNECTION_STRING_PAGE = "~/CheckYourConnectionString.aspx";
 
 		public Global()
 		{
@@ -109,12 +111,19 @@ namespace Subtext
 
 		protected void Application_Error(Object sender, EventArgs e)
 		{
-			if(Server.GetLastError() is HttpUnhandledException)
+			Exception exception = Server.GetLastError();
+			if(exception is HttpUnhandledException && Subtext.Framework.Security.UserIsConnectingLocally)
 			{
-				Exception exception = Server.GetLastError();
 				if(exception.InnerException is BlogDoesNotExistException)
 				{
 					Server.Transfer(BLOG_INITIAL_CONFIGURATION_PAGE, false);
+				}
+
+				//Sql Exception and request is for "localhost"
+				if(exception.InnerException is SqlException)
+				{
+					// Probably a bad connection string.
+					Server.Transfer(BAD_CONNECTION_STRING_PAGE);
 				}
 			}
 

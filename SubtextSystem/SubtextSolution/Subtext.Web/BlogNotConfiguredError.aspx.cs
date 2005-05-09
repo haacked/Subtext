@@ -27,8 +27,8 @@ namespace Subtext.Web
 		private void Page_Load(object sender, System.EventArgs e)
 		{
 			//We need to make sure that the form is ONLY displayed 
-			//when an actual error has happened.
-
+			//when an actual error has happened AND the user is a 
+			//local user.
 			bool blogConfigured = true;
 			try
 			{
@@ -39,7 +39,7 @@ namespace Subtext.Web
 				blogConfigured = false;
 			}
 
-			if(blogConfigured)
+			if(blogConfigured || Security.UserIsConnectingLocally)
 			{
 				// Ok, someone shouldn't be here. Redirect to the error page.
 				throw new SecurityException("That page is forbidden.");
