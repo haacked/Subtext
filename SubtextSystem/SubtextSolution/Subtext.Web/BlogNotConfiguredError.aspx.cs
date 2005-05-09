@@ -39,7 +39,7 @@ namespace Subtext.Web
 				blogConfigured = false;
 			}
 
-			if(blogConfigured || Security.UserIsConnectingLocally)
+			if(blogConfigured)
 			{
 				// Ok, someone shouldn't be here. Redirect to the error page.
 				throw new SecurityException("That page is forbidden.");
