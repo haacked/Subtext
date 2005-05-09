@@ -247,13 +247,30 @@ namespace Subtext.Framework.Data
 				entry.EntryName = (string)reader["EntryName"];
 			}
 
-			entry.FeedBackCount = (int)reader["FeedBackCount"];
-			entry.Body = (string)reader["Text"];
-			entry.Title =(string)reader["Title"];
+			if(reader["FeedBackCount"] != DBNull.Value)
+			{
+				entry.FeedBackCount = (int)reader["FeedBackCount"];
+			}
 
-			entry.PostConfig = (PostConfig)((int)reader["PostConfig"]);
+			if(reader["Text"] != DBNull.Value)
+			{
+				entry.Body = (string)reader["Text"];
+			}
 
-			entry.ParentID = (int)reader["ParentID"];
+			if(reader["Title"] != DBNull.Value)
+			{
+				entry.Title =(string)reader["Title"];
+			}
+
+			if(reader["PostConfig"] != DBNull.Value)
+			{
+				entry.PostConfig = (PostConfig)((int)reader["PostConfig"]);
+			}
+
+			if(reader["ParentID"] != DBNull.Value)
+			{
+				entry.ParentID = (int)reader["ParentID"];
+			}
 
 			SetUrlPattern(entry);
 
@@ -661,6 +678,7 @@ namespace Subtext.Framework.Data
 			string dt = null; //
 			ArchiveCount ac =null;// new ArchiveCount();
 			ArchiveCountCollection acc = new ArchiveCountCollection();
+			//TODO: Should this "en" be used?
 			CultureInfo en = new CultureInfo("en-US");
 			while(reader.Read())
 			{
