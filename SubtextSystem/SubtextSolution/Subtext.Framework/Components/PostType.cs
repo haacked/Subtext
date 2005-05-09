@@ -31,7 +31,7 @@ namespace Subtext.Framework.Components
 	public enum PostType
 	{
 		BlogPost = 1,
-		Story =2,
+		Story = 2,
 		Comment = 3,
 		PingTrack = 4,
 		Undeclared =5
