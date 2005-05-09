@@ -163,6 +163,22 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "CheckYourConnectionString.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "CheckYourConnectionString.aspx.cs"
+                    DependentUpon = "CheckYourConnectionString.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "CheckYourConnectionString.aspx.resx"
+                    DependentUpon = "CheckYourConnectionString.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "default.aspx"
                     BuildAction = "Content"
                 />

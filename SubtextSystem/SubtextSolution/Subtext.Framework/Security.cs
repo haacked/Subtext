@@ -4,6 +4,7 @@ using System.Text;
 using System.Web;
 using System.Web.Security;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Text;
 
 namespace Subtext.Framework
 {
@@ -175,6 +176,21 @@ namespace Subtext.Framework
 					catch{}
 				}
 				return null;
+			}
+		}
+
+		/// <summary>
+		/// If true, then the user is connecting to the blog via "localhost" 
+		/// on the same server as this is installed.  In other words, we're 
+		/// pretty sure the user is a developer.
+		/// </summary>
+		public static bool UserIsConnectingLocally
+		{
+			get
+			{
+				return StringHelper.AreEqualIgnoringCase(HttpContext.Current.Request.Url.Host, "localhost")
+					&& HttpContext.Current.Request.UserHostAddress == HttpContext.Current.Request.ServerVariables["LOCAL_ADDR"]
+					&& HttpContext.Current.Request.UserHostAddress == "127.0.0.1";
 			}
 		}
 
