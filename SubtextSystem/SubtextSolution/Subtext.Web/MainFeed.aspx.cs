@@ -25,6 +25,7 @@ using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.IO;
 using System.Xml;
 using Subtext.Framework.Configuration;
@@ -34,7 +35,7 @@ using Subtext.Framework.Syndication.Compression;
 namespace Subtext.Web
 {
 	/// <summary>
-	/// This class writes out an rss feed.
+	/// This class writes out an rss feed.  //TODO:IS THIS EVEN USED?
 	/// </summary>
 	public class RSSPage : System.Web.UI.Page
 	{
@@ -132,7 +133,7 @@ namespace Subtext.Web
 					DataRow dr = dt.Rows[i];
 
 					writer.WriteStartElement("item");
-					writer.WriteElementString("title",(string)dr["Title"]);
+					writer.WriteElementString("title", (string)dr["Title"]);
 
 					string baselink = string.Format(baseUrl,(string)dr["Host"],(string)dr["Application"]);
 					string link = string.Format(baselink + "archive/{0}/{1}.aspx",((DateTime)dr["DateAdded"]).ToString("yyyy/MM/dd"),dr["EntryName"]);
@@ -153,7 +154,12 @@ namespace Subtext.Web
 					writer.WriteElementString("wfw:comment",string.Format(baselink + "comments/{0}.aspx",dr["ID"]));
 					writer.WriteElementString("wfw:commentRss", string.Format(baselink + "comments/commentRss/{0}.aspx",dr["ID"]));
 					writer.WriteElementString("comments",link + "#comment");
-					writer.WriteElementString("slash:comments",dr["FeedBackCount"].ToString());
+					int feedbackCount = 0;
+					if(dr["FeedBackCount"] != DBNull.Value)
+					{
+						feedbackCount = (int)dr["FeedBackCount"];
+					}
+					writer.WriteElementString("slash:comments", feedbackCount.ToString(CultureInfo.InvariantCulture));
 					writer.WriteElementString("trackback:ping",string.Format(baselink + "services/trackbacks/{0}.aspx",dr["ID"]));
 
 

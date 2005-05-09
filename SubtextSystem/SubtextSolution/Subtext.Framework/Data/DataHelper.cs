@@ -35,44 +35,11 @@ using Subtext.Framework.Configuration;
 namespace Subtext.Framework.Data
 {
 	/// <summary>
-	/// Summary description for DataHelper.
+	/// Contains helper methods for getting blog entries from the database 
+	/// into objects such as <see cref="EntryDayCollection"/> and <see cref="EntryCollection"/>.
 	/// </summary>
 	public class DataHelper
 	{
-		public DataHelper()
-		{
-		}
-
-		#region Service Formattings
-//		public static void FormatDataSet(ref DataSet ds)
-//		{
-//			if(ds != null && ds.Tables[0] != null)
-//			{
-//				int offset = BlogTime.ServerToClientTimeZoneFactor;
-//				DataColumn dc = new DataColumn("Link",typeof(System.String));
-//				ds.Tables[0].Columns.Add(dc);
-//
-//				int count = ds.Tables[0].Rows.Count;
-//				for(int i = 0; i<count; i++)
-//				{
-//					switch((PostType)ds.Tables[0].Rows[i]["PostType"])
-//					{
-//						case PostType.BlogPost:
-//						case PostType.Story:
-//							ds.Tables[0].Rows[i]["Link"] = Config.CurrentBlog().UrlFormats.PostUrl( Globals.PostsUrl((int)ds.Tables[0].Rows[i]["ID"]);
-//							break;
-//						case PostType.Comment:
-//						case PostType.PingTrack:
-//							ds.Tables[0].Rows[i]["Link"] = Globals.PostsUrl((int)ds.Tables[0].Rows[i]["ParentID"]) + "#" + ds.Tables[0].Rows[i]["ID"].ToString();
-//							break;
-//					}
-//					ds.Tables[0].Rows[i]["dateadded"] = ((DateTime)ds.Tables[0].Rows[i]["dateadded"]).AddHours(offset);
-//					ds.Tables[0].Rows[i]["DateUpdated"] = ((DateTime)ds.Tables[0].Rows[i]["DateUpdated"]).AddHours(offset);
-//				}
-//			}
-//		}
-		#endregion
-
 		#region Statisitics
 
 		public static ViewStat LoadSingleViewStat(IDataReader reader)
@@ -219,7 +186,11 @@ namespace Subtext.Framework.Data
 				entry.Email = (string)reader["Email"];
 			}
 			entry.DateCreated = (DateTime)reader["DateAdded"];
-			entry.DateUpdated = (DateTime)reader["DateUpdated"];
+			
+			if(reader["DateUpdated"] != DBNull.Value)
+			{
+				entry.DateUpdated = (DateTime)reader["DateUpdated"];
+			}
 
 			entry.EntryID = (int)reader["ID"];
 
@@ -280,13 +251,23 @@ namespace Subtext.Framework.Data
 
 		public static Entry LoadSingleEntry(IDataReader reader)
 		{
-			return LoadSingleEntry(reader,true);
+			return LoadSingleEntry(reader, true);
 		}
 
-		public static Entry LoadSingleEntry(IDataReader reader, bool BuildLinnks)
+		public static Entry LoadSingleEntry(IDataReader reader, bool buildLinks)
 		{
 			Entry entry = new Entry((PostType)(int)reader["PostType"]);
+			LoadSingleEntry(reader, entry, buildLinks);
+			return entry;
+		}
 
+		public static void LoadSingleEntry(IDataReader reader, Entry entry)
+		{
+			LoadSingleEntry(reader, entry, true);
+		}
+
+		private static void LoadSingleEntry(IDataReader reader, Entry entry, bool buildLinks)
+		{
 			if(reader["Author"] != DBNull.Value)
 			{
 				entry.Author = (string)reader["Author"];
@@ -296,15 +277,18 @@ namespace Subtext.Framework.Data
 				entry.Email = (string)reader["Email"];
 			}
 			entry.DateCreated = (DateTime)reader["DateAdded"];
-			entry.DateUpdated = (DateTime)reader["DateUpdated"];
-
+			if(reader["DateUpdated"] != DBNull.Value)
+			{
+				entry.DateUpdated = (DateTime)reader["DateUpdated"];
+			}
+	
 			entry.EntryID = (int)reader["ID"];
-
+	
 			if(reader["TitleUrl"] != DBNull.Value)
 			{
 				entry.TitleUrl = (string)reader["TitleUrl"];
 			}
-			
+	
 			if(reader["SourceName"] != DBNull.Value)
 			{
 				entry.SourceName = (string)reader["SourceName"];
@@ -313,31 +297,45 @@ namespace Subtext.Framework.Data
 			{
 				entry.SourceUrl = (string)reader["SourceUrl"];
 			}
-
+	
 			if(reader["Description"] != DBNull.Value)
 			{
 				entry.Description = (string)reader["Description"];
 			}
-
+	
 			if(reader["EntryName"] != DBNull.Value)
 			{
 				entry.EntryName = (string)reader["EntryName"];
 			}
-
-			entry.FeedBackCount = (int)reader["FeedBackCount"];
-			entry.Body = (string)reader["Text"];
-			entry.Title =(string)reader["Title"];
-
-			entry.PostConfig = (PostConfig)((int)reader["PostConfig"]);
-
-			entry.ParentID = (int)reader["ParentID"];
-
-			if(BuildLinnks)
+	
+			if(reader["FeedBackCount"] != DBNull.Value)
+			{
+				entry.FeedBackCount = (int)reader["FeedBackCount"];
+			}
+			if(reader["Text"] != DBNull.Value)
+			{
+				entry.Body = (string)reader["Text"];
+			}
+	
+			if(reader["Title"] != DBNull.Value)
+			{
+				entry.Title =(string)reader["Title"];
+			}
+	
+			if(reader["PostConfig"] != DBNull.Value)
+			{
+				entry.PostConfig = (PostConfig)((int)reader["PostConfig"]);
+			}
+	
+			if(reader["ParentID"] != DBNull.Value)
+			{
+				entry.ParentID = (int)reader["ParentID"];
+			}
+	
+			if(buildLinks)
 			{
 				SetUrlPattern(entry);
 			}
-
-			return entry;
 		}
 
 		private static void SetUrlPattern(Entry entry)
@@ -373,9 +371,13 @@ namespace Subtext.Framework.Data
 				entry.Email = (string)dr["Email"];
 			}
 
-			
+			// Not null.
 			entry.DateCreated = (DateTime)dr["DateAdded"];
-			entry.DateUpdated = (DateTime)dr["DateUpdated"];
+			
+			if(dr["DateUpdated"] != DBNull.Value)
+			{
+				entry.DateUpdated = (DateTime)dr["DateUpdated"];
+			}
 			entry.EntryID = (int)dr["ID"];
 
 			if(dr["TitleUrl"] != DBNull.Value)
@@ -402,13 +404,28 @@ namespace Subtext.Framework.Data
 				entry.EntryName = (string)dr["EntryName"];
 			}
 
-			entry.FeedBackCount = (int)dr["FeedBackCount"];
-			entry.Body = (string)dr["Text"];
+			if(dr["FeedBackCount"] != DBNull.Value)
+			{
+				entry.FeedBackCount = (int)dr["FeedBackCount"];
+			}
+
+			if(dr["Text"] != DBNull.Value)
+			{
+				entry.Body = (string)dr["Text"];
+			}
+
+			// Title cannot be null.
 			entry.Title =(string)dr["Title"];
 
-			entry.PostConfig = (PostConfig)((int)dr["PostConfig"]);
+			if(dr["PostConfig"] != DBNull.Value)
+			{
+				entry.PostConfig = (PostConfig)((int)dr["PostConfig"]);
+			}
 
-			entry.ParentID = (int)dr["ParentID"];
+			if(dr["ParentID"] != DBNull.Value)
+			{
+				entry.ParentID = (int)dr["ParentID"];
+			}
 
 			SetUrlPattern(entry);
 			return entry;
@@ -429,7 +446,10 @@ namespace Subtext.Framework.Data
 
 			
 			entry.DateCreated = (DateTime)dr["DateAdded"];
-			entry.DateUpdated = (DateTime)dr["DateUpdated"];
+			if(dr["DateUpdated"] != DBNull.Value)
+			{
+				entry.DateUpdated = (DateTime)dr["DateUpdated"];
+			}
 			entry.EntryID = (int)dr["ID"];
 
 			if(dr["TitleUrl"] != DBNull.Value)
@@ -456,13 +476,28 @@ namespace Subtext.Framework.Data
 				entry.EntryName = (string)dr["EntryName"];
 			}
 
-			entry.FeedBackCount = (int)dr["FeedBackCount"];
-			entry.Body = (string)dr["Text"];
-			entry.Title =(string)dr["Title"];
+			if(dr["FeedBackCount"] != DBNull.Value)
+			{
+				entry.FeedBackCount = (int)dr["FeedBackCount"];
+			}
 
-			entry.PostConfig = (PostConfig)((int)dr["PostConfig"]);
+			if(dr["Text"] != DBNull.Value)
+			{
+				entry.Body = (string)dr["Text"];
+			}
 
-			entry.ParentID = (int)dr["ParentID"];
+			// Title cannot be null.
+			entry.Title = (string)dr["Title"];
+			
+			if(dr["PostConfig"] != DBNull.Value)
+			{
+				entry.PostConfig = (PostConfig)((int)dr["PostConfig"]);
+			}
+
+			if(dr["ParentID"] != DBNull.Value)
+			{
+				entry.ParentID = (int)dr["ParentID"];
+			}
 
 			SetUrlPattern(entry);
 
@@ -477,8 +512,8 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public static CategoryEntry LoadSingleCategoryEntry(IDataReader reader)
 		{
-			CategoryEntry entry = (CategoryEntry)LoadSingleEntry(reader); 
-			 
+			CategoryEntry entry = new CategoryEntry();
+			LoadSingleEntry(reader, entry);
 
 			reader.NextResult();
 
@@ -500,9 +535,8 @@ namespace Subtext.Framework.Data
 		public static CategoryEntry LoadSingleCategoryEntry(DataRow dr)
 		{
 			Entry entry = new CategoryEntry();
-			LoadSingleEntry(ref entry,dr);
-			
- 
+			LoadSingleEntry(ref entry, dr);
+
 			DataRow[] child = dr.GetChildRows("cats");
 			if(child != null && child.Length > 0)
 			{
@@ -534,7 +568,10 @@ namespace Subtext.Framework.Data
 			lc.CategoryID = (int)reader["CategoryID"];
 			lc.Title = (string)reader["Title"];
 			lc.IsActive = (bool)reader["Active"];
-			lc.CategoryType = (CategoryType)((byte)reader["CategoryType"]);
+			if(reader["CategoryType"] != DBNull.Value)
+			{
+				lc.CategoryType = (CategoryType)((byte)reader["CategoryType"]);
+			}
 			if(reader["Description"] != DBNull.Value)
 			{
 				lc.Description = (string)reader["Description"];
@@ -545,10 +582,19 @@ namespace Subtext.Framework.Data
 		public static LinkCategory LoadSingleLinkCategory(DataRow dr)
 		{
 			LinkCategory lc = new LinkCategory();
+			// CategoryID cannot be null.
 			lc.CategoryID = (int)dr["CategoryID"];
+
+			// Title cannot be null.
 			lc.Title = (string)dr["Title"];
+			
+			// Active cannot be null.
 			lc.IsActive = (bool)dr["Active"];
-			lc.CategoryType = (CategoryType)((byte)dr["CategoryType"]);
+
+			if(dr["CategoryType"] != DBNull.Value)
+			{
+				lc.CategoryType = (CategoryType)((byte)dr["CategoryType"]);
+			}
 			if(dr["Description"] != DBNull.Value)
 			{
 				lc.Description = (string)dr["Description"];
@@ -563,46 +609,82 @@ namespace Subtext.Framework.Data
 		public static Link LoadSingleLink(IDataReader reader)
 		{
 			Link link = new Link();
+			// Active cannot be null
 			link.IsActive = (bool)reader["Active"];
-			link.NewWindow = (bool)reader["NewWindow"];
+
+			if(reader["NewWindow"] != DBNull.Value)
+			{
+				link.NewWindow = (bool)reader["NewWindow"];
+			}
+
+			// LinkID cannot be null
 			link.LinkID = (int)reader["LinkID"];
+			
 			if(reader["Rss"] != DBNull.Value)
 			{
 				link.Rss = (string)reader["Rss"];
 			}
+			
 			if(reader["Url"] != DBNull.Value)
 			{
 				link.Url = (string)reader["Url"];
 			}
+			
 			if(reader["Title"] != DBNull.Value)
 			{
 				link.Title = (string)reader["Title"];
 			}
-			link.CategoryID = (int)reader["CategoryID"];
-			link.PostID = (int)reader["PostID"];
+
+			if(reader["CategoryID"] != DBNull.Value)
+			{
+				link.CategoryID = (int)reader["CategoryID"];
+			}
+			
+			if(reader["PostID"] != DBNull.Value)
+			{
+				link.PostID = (int)reader["PostID"];
+			}
 			return link;
 		}
 
 		public static Link LoadSingleLink(DataRow dr)
 		{
 			Link link = new Link();
+			// Active cannot be null
 			link.IsActive = (bool)dr["Active"];
-			link.NewWindow = (bool)dr["NewWindow"];
+			
+			if(dr["NewWindow"] != DBNull.Value)
+			{
+				link.NewWindow = (bool)dr["NewWindow"];
+			}
+
+			//LinkID cannot be null.
 			link.LinkID = (int)dr["LinkID"];
+			
 			if(dr["Rss"] != DBNull.Value)
 			{
 				link.Rss = (string)dr["Rss"];
 			}
+			
 			if(dr["Url"] != DBNull.Value)
 			{
 				link.Url = (string)dr["Url"];
 			}
+			
 			if(dr["Title"] != DBNull.Value)
 			{
 				link.Title = (string)dr["Title"];
 			}
-			link.CategoryID = (int)dr["CategoryID"];
-			link.PostID = (int)dr["PostID"];
+			
+			if(dr["CategoryID"] != DBNull.Value)
+			{
+				link.CategoryID = (int)dr["CategoryID"];
+			}
+			
+			if(dr["PostID"] != DBNull.Value)
+			{
+				link.PostID = (int)dr["PostID"];
+			}
 			return link;
 		}
 
@@ -678,12 +760,11 @@ namespace Subtext.Framework.Data
 			string dt = null; //
 			ArchiveCount ac =null;// new ArchiveCount();
 			ArchiveCountCollection acc = new ArchiveCountCollection();
-			//TODO: Should this "en" be used?
-			CultureInfo en = new CultureInfo("en-US");
+			
 			while(reader.Read())
 			{
 				ac = new ArchiveCount();
-				dt = string.Format(dateformat,(int)reader["Month"],(int)reader["Day"],(int)reader["Year"]);
+				dt = string.Format(CultureInfo.CurrentCulture, dateformat, (int)reader["Month"],(int)reader["Day"],(int)reader["Year"]);
 				ac.Date = DateTime.Parse(dt);
 				//ac.Date = DateTime.ParseExact(dt,"MM/dd/yyyy",en);
 
@@ -738,7 +819,10 @@ namespace Subtext.Framework.Data
 			kw.ReplaceFirstTimeOnly = (bool)reader["ReplaceFirstTimeOnly"];
 			kw.CaseSensitive = (bool)reader["CaseSensitive"];
 			kw.Text = (string)reader["Text"];
-			kw.Title = CheckNullString(reader["Title"]);
+			if(reader["Title"] != DBNull.Value)
+			{
+				kw.Title = CheckNullString(reader["Title"]);
+			}
 			kw.Url = (string)reader["Url"];
 			kw.Word = (string)reader["Word"];
 			return kw;

@@ -205,7 +205,7 @@ namespace Subtext.Framework.Data
 
 		public EntryCollection GetRecentPostsWithCategories(int ItemCount, bool ActiveOnly)
 		{
-			DataSet ds = DbProvider.Instance().GetRecentPostsWithCategories(ItemCount,ActiveOnly);
+			DataSet ds = DbProvider.Instance().GetRecentPostsWithCategories(ItemCount, ActiveOnly);
 			EntryCollection ec = new EntryCollection();
 			int count = ds.Tables[0].Rows.Count;
 			for(int i =0;i<count;i++)

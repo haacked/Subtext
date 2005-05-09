@@ -91,7 +91,7 @@ namespace Subtext.Framework.XmlRpc
 			BlogConfig config = Config.CurrentBlog();
 			if(ValidateUser(username,password,config.AllowServiceAccess))
 			{
-				CategoryEntry entry = Entries.GetCategoryEntry(Int32.Parse(postid),false);
+				CategoryEntry entry = Entries.GetCategoryEntry(Int32.Parse(postid), false);
 				if(entry != null)
 				{
 					entry.Author = config.Author;
@@ -155,9 +155,9 @@ namespace Subtext.Framework.XmlRpc
 			return null;
 		}
 
-		public Post[] getRecentPosts(string blogid,string username,string password,int numberOfPosts)
+		public Post[] getRecentPosts(string blogid, string username, string password, int numberOfPosts)
 		{
-			if(ValidateUser(username,password,Config.CurrentBlog().AllowServiceAccess))
+			if(ValidateUser(username, password, Config.CurrentBlog().AllowServiceAccess))
 			{
 				ArrayList al = new ArrayList();
 				EntryCollection ec = Entries.GetRecentPostsWithCategories(numberOfPosts,false);

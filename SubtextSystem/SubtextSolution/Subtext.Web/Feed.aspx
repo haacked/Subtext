@@ -99,7 +99,7 @@
     
     
                     writer.WriteStartElement("item");
-                    writer.WriteElementString("title",(string)dr["Title"]);
+                    writer.WriteElementString("title", (string)dr["Title"]);
     
                     string baselink = string.Format(baseUrl,(string)dr["Host"],(string)dr["Application"]);
                     string link = string.Format(baselink + "posts/{0}.aspx",dr["ID"].ToString());
