@@ -198,7 +198,7 @@ namespace Subtext.Framework
 
 		public static Entry GetEntry(int postID, bool ActiveOnly)
 		{
-			return DTOProvider.Instance().GetEntry(postID,ActiveOnly);
+			return DTOProvider.Instance().GetEntry(postID, ActiveOnly);
 		}
 
 		public static Entry GetEntry(string EntryName, bool ActiveOnly)
@@ -244,11 +244,23 @@ namespace Subtext.Framework
 
 		#region Update
 
+		/// <summary>
+		/// Updates the specified entry in the data provider.
+		/// </summary>
+		/// <param name="entry">Entry.</param>
+		/// <returns></returns>
 		public static bool Update(Entry entry)
 		{
-			return Update(entry,null);
+			return Update(entry, null);
 		}
 
+		/// <summary>
+		/// Updates the specified entry in the data provider 
+		/// and attaches the specified categories.
+		/// </summary>
+		/// <param name="entry">Entry.</param>
+		/// <param name="CategoryIDs">Category Ids this entry belongs to.</param>
+		/// <returns></returns>
 		public static bool Update(Entry entry, int[] CategoryIDs)
 		{
 			return DTOProvider.Instance().Update(entry,CategoryIDs);

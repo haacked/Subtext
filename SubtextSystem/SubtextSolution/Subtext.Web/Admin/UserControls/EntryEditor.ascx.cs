@@ -257,7 +257,10 @@ namespace Subtext.Web.Admin.UserControls
 			// Advanced Options
 			this.txbEntryName.Text = currentPost.EntryName;
 			this.txbExcerpt.Text = currentPost.Description;
-			this.txbTitleUrl.Text = currentPost.TitleUrl;
+			if(currentPost.HasTitleUrl)
+			{
+				this.txbTitleUrl.Text = currentPost.TitleUrl;
+			}
 			this.txbSourceUrl.Text = currentPost.SourceUrl;
 			this.txbSourceName.Text = currentPost.SourceName;
 	

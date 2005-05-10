@@ -23,6 +23,7 @@
 
 using System;
 using System.Web.UI.WebControls;
+using Subtext.Framework;
 using Subtext.Framework.Components;
 
 namespace Subtext.Web.UI.Controls
@@ -32,13 +33,6 @@ namespace Subtext.Web.UI.Controls
 	/// </summary>
 	public class Day : BaseControl
 	{
-		public Day()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
 		protected System.Web.UI.WebControls.Repeater DayList;
 		protected System.Web.UI.WebControls.HyperLink ImageLink;
 		protected System.Web.UI.WebControls.Literal  DateTitle;
@@ -59,12 +53,14 @@ namespace Subtext.Web.UI.Controls
 				Entry entry = (Entry)e.Item.DataItem;
 				if(entry != null)
 				{
-					HyperLink hl = (HyperLink)e.Item.FindControl("TitleUrl");
+					HyperLink hl = e.Item.FindControl("TitleUrl") as HyperLink;
 					if(hl != null)
 					{
 						hl.NavigateUrl = entry.TitleUrl;
 						hl.Text = entry.Title;
 					}
+
+					DisplayEditLink(entry, e);
 
 					Literal PostText = (Literal)e.Item.FindControl("PostText");
 					if(PostText != null)
@@ -91,6 +87,31 @@ namespace Subtext.Web.UI.Controls
 						}
 					}
 					
+				}
+			}
+		}
+
+		// If the user is an admin AND the the skin 
+		// contains an edit Hyperlink control, this 
+		// will display the edit control.
+		private void DisplayEditLink(Entry entry, RepeaterItemEventArgs e)
+		{
+			HyperLink editLink = e.Item.FindControl("editLink") as HyperLink;
+			if(editLink != null)
+			{
+				if(Security.IsAdmin)
+				{
+					editLink.Visible = true;
+					if(editLink.Text.Length == 0 && editLink.ImageUrl.Length == 0)
+					{
+						//We'll slap on our little pencil icon.
+						editLink.ImageUrl = "~/Images/edit.gif";
+						editLink.NavigateUrl = "~/Admin/EditPosts.aspx?PostID=" + entry.EntryID;
+					}
+				}
+				else
+				{
+					editLink.Visible = false;
 				}
 			}
 		}

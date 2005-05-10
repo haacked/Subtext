@@ -272,10 +272,12 @@ namespace Subtext.Framework.Data
 			{
 				entry.Author = (string)reader["Author"];
 			}
+
 			if(reader["Email"] != DBNull.Value)
 			{
 				entry.Email = (string)reader["Email"];
 			}
+
 			entry.DateCreated = (DateTime)reader["DateAdded"];
 			if(reader["DateUpdated"] != DBNull.Value)
 			{
@@ -293,6 +295,7 @@ namespace Subtext.Framework.Data
 			{
 				entry.SourceName = (string)reader["SourceName"];
 			}
+
 			if(reader["SourceUrl"] != DBNull.Value)
 			{
 				entry.SourceUrl = (string)reader["SourceUrl"];
@@ -312,6 +315,7 @@ namespace Subtext.Framework.Data
 			{
 				entry.FeedBackCount = (int)reader["FeedBackCount"];
 			}
+
 			if(reader["Text"] != DBNull.Value)
 			{
 				entry.Body = (string)reader["Text"];

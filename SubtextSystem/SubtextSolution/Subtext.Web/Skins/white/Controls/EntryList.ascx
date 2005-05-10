@@ -8,7 +8,7 @@
 	</HeaderTemplate>
 	<ItemTemplate>
 		<li class = "entrylistitem">
-			<asp:HyperLink  CssClass="entrylisttitle" Runat="server" ID="TitleUrl" />
+			<asp:HyperLink  Runat="server" ID="editLink" /><asp:HyperLink  CssClass="entrylisttitle" Runat="server" ID="TitleUrl" />
 			<asp:Literal ID = "PostText" Runat = "server" />
 			<div class="itemdesc">		
 				<asp:Literal ID = "PostDesc" Runat = "server" />

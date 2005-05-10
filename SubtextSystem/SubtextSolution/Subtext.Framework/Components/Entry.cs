@@ -85,6 +85,15 @@ namespace Subtext.Framework.Components
 			}
 		}
 
+		/// <summary>
+		/// Gets a value indicating whether this entry 
+		/// has an actual Title URL that's different from 
+		/// the Link (meaning the user overrode the title 
+		/// url).
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if [has title URL]; otherwise, <c>false</c>.
+		/// </value>
 		public bool HasTitleUrl
 		{
 			get
@@ -136,16 +145,25 @@ namespace Subtext.Framework.Components
 		}
 
 		private string _titleurl;
+		/// <summary>
+		/// Gets or sets the URL the Title of an entry will 
+		/// link to.
+		/// </summary>
+		/// <value></value>
 		public string TitleUrl
 		{
-			get{
+			get
+			{
 				if(_titleurl == null)
 				{
-					_titleurl = this.Link;
+					return _link;
 				}
 				return _titleurl;
 			}
-			set{_titleurl = value;}
+			set
+			{
+				_titleurl = value;
+			}
 		}
 
 		private string _body;
@@ -261,8 +279,14 @@ namespace Subtext.Framework.Components
 		private string _link;
 		public virtual string Link
 		{
-			get{ return _link;}
-			set{ _link = value;}
+			get
+			{
+				return _link;
+			}
+			set
+			{
+				_link = value;
+			}
 		}
 
 		private int _feedBackCount = 0;
