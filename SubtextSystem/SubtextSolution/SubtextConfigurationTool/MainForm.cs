@@ -404,7 +404,7 @@ namespace SubtextConfigurationTool
 			this.editor.ConnectionString.Server = this.txtServer.Text;
 			this.editor.ConnectionString.Database = this.txtDatabase.Text;
 			
-			if(this.editor.ConnectionString.TrustedConnection)
+			if(!this.editor.ConnectionString.TrustedConnection)
 			{
 				this.editor.ConnectionString.UserID = this.txtUser.Text;
 				this.editor.ConnectionString.Password = this.txtPassword.Text;
