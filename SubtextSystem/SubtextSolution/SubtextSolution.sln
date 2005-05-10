@@ -54,6 +54,7 @@ Global
 		{FD164E32-AE6A-46E5-AB0D-F3D6F97B4CAA}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
+		Subtext.Web\AspNetWithoutWebProjects.txt = Subtext.Web\AspNetWithoutWebProjects.txt
 		CVSReadMe.txt = CVSReadMe.txt
 		License.txt = License.txt
 		SourceGuidelines.txt = SourceGuidelines.txt
