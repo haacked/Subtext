@@ -24,34 +24,45 @@
 using System;
 using System.Web.UI;
 using Subtext.Common.Data;
+using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Tracking;
 
 namespace Subtext.Web.UI.Controls
 {
 	/// <summary>
-	///		Summary description for ViewStory.
+	///	Control used to view a single blog post.
 	/// </summary>
 	public class ViewPost : BaseControl
 	{
+		protected System.Web.UI.WebControls.HyperLink editLink;
 		protected System.Web.UI.WebControls.HyperLink TitleUrl;
 		protected System.Web.UI.WebControls.Literal Body;
 		protected System.Web.UI.WebControls.Literal PostDescription;
 		protected System.Web.UI.WebControls.Literal PingBack;
 		protected System.Web.UI.WebControls.Literal TrackBack;
 
+		/// <summary>
+		/// Loads the entry specified by the URL.  If the user is an 
+		/// admin and the skin supports it, will also display an edit 
+		/// link that navigates to the admin section and allows the 
+		/// admin to edit the post.
+		/// </summary>
+		/// <param name="e"></param>
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad (e);
 			
 			//Get the entry
-			Entry entry = Cacher.GetEntryFromRequest(Context,CacheTime.Short);			
+			Entry entry = Cacher.GetEntryFromRequest(Context, CacheTime.Short);			
 			
 			//if found
 			if(entry != null)
 			{
+				DisplayEditLink(entry);
+
 				//Track this entry
-				EntryTracker.Track(Context,entry.EntryID,CurrentBlog.BlogID);
+				EntryTracker.Track(Context,entry.EntryID, CurrentBlog.BlogID);
 
 				//Set the page title
 				Globals.SetTitle(entry.Title,Context);
@@ -72,6 +83,30 @@ namespace Subtext.Web.UI.Controls
 				//No post? Deleted? Help :)
 				this.Controls.Clear();
 				this.Controls.Add(new LiteralControl("<p><strong>The entry could not be found or has been removed</strong></p>"));
+			}
+		}
+
+		// If the user is an admin AND the the skin 
+		// contains an edit Hyperlink control, this 
+		// will display the edit control.
+		private void DisplayEditLink(Entry entry)
+		{
+			if(editLink != null)
+			{
+				if(Security.IsAdmin)
+				{
+					editLink.Visible = true;
+					if(editLink.Text.Length == 0 && editLink.ImageUrl.Length == 0)
+					{
+						//We'll slap on our little pencil icon.
+						editLink.ImageUrl = "~/Images/edit.gif";
+						editLink.NavigateUrl = "~/Admin/EditPosts.aspx?PostID=" + entry.EntryID;
+					}
+				}
+				else
+				{
+					editLink.Visible = false;
+				}
 			}
 		}
 

@@ -384,7 +384,10 @@ namespace Subtext.Web.Admin.WebUI
 		protected void Logout(object sender, System.EventArgs e)
 		{
 			HttpContext.Current.Response.Cookies.Clear();
-			HttpContext.Current.Session.Abandon();
+			if(HttpContext.Current.Session != null)
+			{
+				HttpContext.Current.Session.Abandon();
+			}
 			System.Web.Security.FormsAuthentication.SignOut();
 			Context.Response.Redirect(Config.CurrentBlog().FullyQualifiedUrl);
 		}
