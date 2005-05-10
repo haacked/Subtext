@@ -5365,6 +5365,142 @@
                 />
                 <Folder RelPath = "Skins\Marvin2\Images\" />
                 <File
+                    RelPath = "Skins\Marvin3\blue.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\brown.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\green.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\pink.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\red.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\vibrant.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\ArchiveCategory.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\ArchiveDay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\ArchiveLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\ArchiveMonth.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\BlogStats.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\CategoryDisplay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\CategoryEntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\CategoryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\Comments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\Contact.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\Day.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\DayCollection.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\EntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\Footer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\GalleryThumbNailViewer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\Header.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\HomePage.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\Login.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\MonthListings.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\MyLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\News.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\PostComment.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\RelatedLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\ViewPicture.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\simple\PageTemplate.ascx"
                     BuildAction = "Content"
                 />

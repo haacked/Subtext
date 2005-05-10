@@ -237,7 +237,7 @@ namespace Subtext.Framework
 
 		public static int Create(Entry entry, int[] CategoryIDs)
 		{
-			return DTOProvider.Instance().Create(entry,CategoryIDs);
+			return DTOProvider.Instance().Create(entry, CategoryIDs);
 		}
 
 		#endregion

@@ -159,7 +159,6 @@ namespace Subtext.Framework.XmlRpc
 		{
 			if(ValidateUser(username, password, Config.CurrentBlog().AllowServiceAccess))
 			{
-				ArrayList al = new ArrayList();
 				EntryCollection ec = Entries.GetRecentPostsWithCategories(numberOfPosts,false);
 				//int i = 0;
 				int count = ec.Count;
@@ -215,7 +214,7 @@ namespace Subtext.Framework.XmlRpc
 			throw new XmlRpcFaultException(0,"User does not exist");
 		}
 
-		public  string newPost(string blogid, string username, string password, Post post, bool publish)
+		public string newPost(string blogid, string username, string password, Post post, bool publish)
 		{
 			BlogConfig config = Config.CurrentBlog();
 			if(ValidateUser(username,password,config.AllowServiceAccess))
