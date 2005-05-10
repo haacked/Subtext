@@ -36,9 +36,7 @@ namespace Subtext.Web.Admin.UserControls
 
 	public class EntryEditor : System.Web.UI.UserControl
 	{
-//		private const string FTB_RESOURCE_PATH = "/admin/resources/ftb/DotText/";
 		private const string VSKEY_POSTID = "PostID";
-		private const string VSKEY_CATEGORYID = "CategoryID";
 		private const string VSKEY_CATEGORYTYPE = "CategoryType";
 
 		private int _filterCategoryID = Constants.NULL_CATEGORYID;
@@ -53,7 +51,6 @@ namespace Subtext.Web.Admin.UserControls
 		protected System.Web.UI.WebControls.HyperLink hlEntryLink;
 		protected System.Web.UI.WebControls.TextBox txbTitle;
 		protected System.Web.UI.WebControls.TextBox txbBody;
-//		protected FreeTextBoxControls.FreeTextBox ftbBody;
 		protected System.Web.UI.WebControls.Button Post;
 		protected System.Web.UI.WebControls.TextBox txbExcerpt;
 		protected System.Web.UI.WebControls.TextBox txbTitleUrl;
@@ -75,13 +72,10 @@ namespace Subtext.Web.Admin.UserControls
 		protected System.Web.UI.WebControls.LinkButton lkbCancel;
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
 		protected System.Web.UI.WebControls.RequiredFieldValidator valtbBodyRequired;
-//		protected System.Web.UI.WebControls.RequiredFieldValidator valftbBodyRequired;
 		protected System.Web.UI.WebControls.RequiredFieldValidator valTitleRequired;
 		protected System.Web.UI.WebControls.LinkButton lkbNewPost;	
 		protected System.Web.UI.WebControls.TextBox txbEntryName;
-	
 
-	
 		#region Accessors
 		// REFACTOR: are all of these still relevant when done?
 		public PostType EntryType
@@ -100,18 +94,6 @@ namespace Subtext.Web.Admin.UserControls
 					return Constants.NULL_POSTID;
 			}
 			set { ViewState[VSKEY_POSTID] = value; }
-		}
-
-		private int CategoryID
-		{
-			get
-			{
-				if(ViewState[VSKEY_CATEGORYID] != null)
-					return (int)ViewState[VSKEY_CATEGORYID];
-				else
-					return Constants.NULL_CATEGORYID;
-			}
-			set { ViewState[VSKEY_CATEGORYID] = value; }
 		}
 
 		public CategoryType CategoryType
@@ -179,7 +161,24 @@ namespace Subtext.Web.Admin.UserControls
 				BindCategoryList();
 				SetEditorMode();
 
-//				ftbBody.ButtonPath =  Globals.WebPathCombine(Request.ApplicationPath,FTB_RESOURCE_PATH);
+				string postIdText = Request.QueryString["PostId"];
+				int postId = int.MinValue;
+				if(postIdText != null && postIdText.Length > 0)
+				{
+					try
+					{
+						postId = int.Parse(postIdText);
+					}
+					catch(System.FormatException)
+					{
+						//Swallow it. Gulp!
+					}
+				}
+				if(postId > int.MinValue)
+				{
+					this.PostID = postId;
+					BindPostEdit();
+				}
 			}			
 		}
 		
@@ -223,10 +222,14 @@ namespace Subtext.Web.Admin.UserControls
 
 		private void BindPostEdit()
 		{
-
 			SetConfirmation();
 			
 			Entry currentPost = Entries.GetEntry(PostID, false);
+			if(currentPost == null)
+			{
+				Response.Redirect("EditPosts.aspx");
+				return;
+			}
 		
 			Results.Collapsed = true;
 			Edit.Visible = true;
@@ -235,8 +238,6 @@ namespace Subtext.Web.Admin.UserControls
 			txbExcerpt.Text = currentPost.Description;
 			txbSourceUrl.Text = currentPost.SourceUrl;
 			txbSourceName.Text = currentPost.SourceName;
-
-			
 
 			hlEntryLink.NavigateUrl = currentPost.Link;
 			hlEntryLink.Text = currentPost.Link;
@@ -248,9 +249,7 @@ namespace Subtext.Web.Admin.UserControls
 			chkMainSyndication.Checked             = currentPost.IncludeInMainSyndication;  
 			chkSyndicateDescriptionOnly.Checked    = currentPost.SyndicateDescriptionOnly ; 
 			chkIsAggregated.Checked                = currentPost.IsAggregated;
-
-
-			
+	
 			SetEditorText(currentPost.Body);
 
 			ckbPublished.Checked = currentPost.IsActive;
@@ -319,7 +318,6 @@ namespace Subtext.Web.Admin.UserControls
 			chkSyndicateDescriptionOnly.Checked = false;
 			chkIsAggregated.Checked = true;
 
-//			ftbBody.Text = String.Empty;
 			txbBody.Text = String.Empty;
 
 			for(int i =0; i < cklCategories.Items.Count;i++)
@@ -341,8 +339,7 @@ namespace Subtext.Web.Admin.UserControls
 					Entry entry = new Entry(EntryType);
 
 					entry.Title = txbTitle.Text;
-					entry.Body = Globals.StripRTB(txbBody.Text,Request.Url.Host);
-//					entry.Body = Globals.StripRTB(Utilities.CheckIsIE55() ? ftbBody.Text : txbBody.Text,Request.Url.Host);
+					entry.Body = Globals.StripRTB(txbBody.Text, Request.Url.Host);
 					entry.IsActive = ckbPublished.Checked;
 					entry.SourceName = txbSourceName.Text;
 					entry.Author = Config.CurrentBlog().Author;
@@ -407,30 +404,24 @@ namespace Subtext.Web.Admin.UserControls
 				{
 					Results.Collapsible = false;
 				}
+				Response.Redirect("EditPosts.aspx");
 			}
 		}
 	
 		private void SetEditorMode()
 		{
-//			valftbBodyRequired.Visible = ftbBody.Visible = Utilities.CheckIsIE55();
-//			valtbBodyRequired.Visible = txbBody.Visible = !ftbBody.Visible;
-
 			if(CategoryType == CategoryType.StoryCollection)
 			{
 				this.chkDisplayHomePage.Visible = false;
 				this.chkIsAggregated.Visible = false;
-				this.chkMainSyndication.Visible =false;
+				this.chkMainSyndication.Visible = false;
 				this.chkSyndicateDescriptionOnly.Visible = false;
-				
 			}
 		}
 
 		private void SetEditorText(string bodyValue)
 		{
-//			if (Utilities.CheckIsIE55())
-//				ftbBody.Text = bodyValue;
-//			else
-				txbBody.Text = bodyValue;
+			txbBody.Text = bodyValue;
 		}
 
 		private void ConfirmDelete(int postID)
@@ -485,7 +476,7 @@ namespace Subtext.Web.Admin.UserControls
 					break;
 				default:
 					break;
-			}			
+			}
 		}
 
 		private void lkbCancel_Click(object sender, System.EventArgs e)
@@ -496,11 +487,6 @@ namespace Subtext.Web.Admin.UserControls
 		private void lkbPost_Click(object sender, System.EventArgs e)
 		{
 			UpdatePost();
-		}
-
-		private void lkbNewPost_Click(object sender, System.EventArgs e)
-		{
-			ResetPostEdit(true);
 		}
 	}
 }

@@ -4534,6 +4534,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Images\edit.gif"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Images\link.gif"
                     BuildAction = "Content"
                 />
@@ -5360,151 +5364,6 @@
                     BuildAction = "Content"
                 />
                 <Folder RelPath = "Skins\Marvin2\Images\" />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\blue.css"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\brown.css"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\green.css"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\PageTemplate.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\pink.css"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\red.css"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\style.css"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\vibrant.css"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\WS_FTP.LOG"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\ArchiveCategory.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\ArchiveDay.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\ArchiveLinks.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\ArchiveMonth.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\BlogStats.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\CategoryDisplay.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\CategoryEntryList.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\CategoryList.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\Comments.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\Contact.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\Day.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\DayCollection.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\EntryList.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\Footer.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\GalleryThumbNailViewer.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\Header.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\HomePage.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\Login.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\MonthListings.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\MyLinks.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\News.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\PostComment.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\RelatedLinks.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\SingleColumn.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\ViewPicture.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\ViewPost.ascx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Skins\Marvin2\Marvin3\Controls\WS_FTP.LOG"
-                    BuildAction = "None"
-                />
-                <Folder RelPath = "Skins\Marvin2\Marvin3\Images\" />
                 <File
                     RelPath = "Skins\simple\PageTemplate.ascx"
                     BuildAction = "Content"

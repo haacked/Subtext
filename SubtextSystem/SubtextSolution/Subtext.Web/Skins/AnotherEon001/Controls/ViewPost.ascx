@@ -1,7 +1,7 @@
 <%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.ViewPost" %>
 	<div class="post">
 		<h2>
-			<asp:HyperLink Runat="server" ID="TitleUrl" />
+			<asp:HyperLink Runat="server" ID="editLink" /><asp:HyperLink Runat="server" ID="TitleUrl" />
 		</h2>
 		<asp:Literal id="Body"  runat="server" />
 		<p class="postfoot">

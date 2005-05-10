@@ -1,7 +1,7 @@
 <%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.ViewPost" %>
 <div class = "singlepost">
 	<div class = "posttitle">
-		<asp:HyperLink  CssClass="singleposttitle" Runat="server" ID="TitleUrl" />
+		<asp:HyperLink Runat="server" ID="editLink" /><asp:HyperLink  CssClass="singleposttitle" Runat="server" ID="TitleUrl" />
 	</div>
 	<asp:Literal id="Body"  runat="server" />
 	<div class = "itemdesc">

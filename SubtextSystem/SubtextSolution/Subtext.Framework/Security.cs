@@ -159,7 +159,7 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				return string.Compare(GetCurrentUserName,Config.CurrentBlog().UserName,true) == 0;
+				return string.Compare(GetCurrentUserName, Config.CurrentBlog().UserName, true) == 0;
 			}
 		}
 
