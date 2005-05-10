@@ -219,6 +219,9 @@ namespace Subtext.Web.Admin
 		internal const string RES_SUCCESSEDIT = "Updated successfully.";
 		internal const string RES_FAILUREEDIT = "Post operation failed.";
 		internal const string RES_EXCEPTION = "{0} The error message related to this problem was as follows: {1}";
+
+		internal const string RES_SUCCESSCATEGORYUPDATE = "Categories updated successfully.";
+		internal const string RES_FAILURECATEGORYUPDATE = "Category Update failed.";
 	}
 }
 

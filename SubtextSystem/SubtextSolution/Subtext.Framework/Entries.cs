@@ -265,6 +265,14 @@ namespace Subtext.Framework
 
 		#endregion
 
+		/// <summary>
+		/// Inserts a comment for the specified entry.
+		/// </summary>
+		/// <remarks>
+		/// If it's not the admin posting the comment, an email is sent 
+		/// to the Admin with the contents of the comment.
+		/// </remarks>
+		/// <param name="entry">Entry.</param>
 		public static void InsertComment(Entry entry)
 		{
 			// what follows relies on context, so guard
@@ -279,11 +287,8 @@ namespace Subtext.Framework
 			entry.IsActive = true;
 			entry.DateCreated = entry.DateUpdated = BlogTime.CurrentBloggerTime;
 			
-			
-
 			if (null == entry.SourceName || String.Empty == entry.SourceName)
 				entry.SourceName = "N/A";
-
 
 			// insert comment into backend, save the returned entryid for permalink anchor below
 			int entryID = Entries.Create(entry);
@@ -293,7 +298,6 @@ namespace Subtext.Framework
 			{
 				try
 				{
-					
 					string blogTitle = Config.CurrentBlog().Title;
 
 					// create and format an email to the site admin with comment details
@@ -315,7 +319,10 @@ namespace Subtext.Framework
 					
 					im.Send(To,From,Subject,Body);
 				}
-				catch{}
+				catch
+				{
+					//Log this...
+				}
 			}
 		}
 		
