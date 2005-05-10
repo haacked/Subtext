@@ -57,6 +57,7 @@ Global
 		Subtext.Web\AspNetWithoutWebProjects.txt = Subtext.Web\AspNetWithoutWebProjects.txt
 		CVSReadMe.txt = CVSReadMe.txt
 		License.txt = License.txt
+		SubtextSetup\Migration_Notes.txt = SubtextSetup\Migration_Notes.txt
 		SourceGuidelines.txt = SourceGuidelines.txt
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

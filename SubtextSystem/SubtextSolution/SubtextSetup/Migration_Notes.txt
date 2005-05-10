@@ -1,0 +1,3 @@
+blog_config - Changed format of Password.  Still backwards compatible though.
+			- Application and Host columns are ignored... for now.
+blog_Links	- PostID column should have values of -1 converted to NULL
