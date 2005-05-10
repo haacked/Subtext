@@ -96,6 +96,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Migration_Notes.txt"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "ReadMe.txt"
                     BuildAction = "Content"
                 />
