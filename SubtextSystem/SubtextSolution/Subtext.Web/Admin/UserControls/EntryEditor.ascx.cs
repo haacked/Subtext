@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
@@ -44,6 +45,7 @@ namespace Subtext.Web.Admin.UserControls
 		private PostType _entryType = PostType.BlogPost;
 		private bool _isListHidden = false;
 
+		#region Declared Controls
 		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
 		protected System.Web.UI.WebControls.Repeater rprSelectionList;
 		protected System.Web.UI.HtmlControls.HtmlGenericControl NoMessagesLabel;
@@ -69,12 +71,14 @@ namespace Subtext.Web.Admin.UserControls
 		protected System.Web.UI.WebControls.TextBox txbSourceName;
 		protected System.Web.UI.WebControls.TextBox txbSourceUrl;
 		protected System.Web.UI.WebControls.LinkButton lkbPost;
+		protected System.Web.UI.WebControls.LinkButton lkUpdateCategories;
 		protected System.Web.UI.WebControls.LinkButton lkbCancel;
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
 		protected System.Web.UI.WebControls.RequiredFieldValidator valtbBodyRequired;
 		protected System.Web.UI.WebControls.RequiredFieldValidator valTitleRequired;
 		protected System.Web.UI.WebControls.LinkButton lkbNewPost;	
 		protected System.Web.UI.WebControls.TextBox txbEntryName;
+		#endregion
 
 		#region Accessors
 		// REFACTOR: are all of these still relevant when done?
@@ -219,6 +223,7 @@ namespace Subtext.Web.Admin.UserControls
 			confirmPage.Message = "You will lose any unsaved content";
 
 			this.lkbPost.Attributes.Add("OnClick",ConfirmationPage.ByPassFuncationName);
+			this.lkUpdateCategories.Attributes.Add("OnClick",ConfirmationPage.ByPassFuncationName);
 			this.lkbCancel.Attributes.Add("OnClick",ConfirmationPage.ByPassFuncationName);
 		}
 
@@ -235,6 +240,7 @@ namespace Subtext.Web.Admin.UserControls
 		
 			Results.Collapsed = true;
 			Edit.Visible = true;
+			this.lkUpdateCategories.Visible = true;
 			txbTitle.Text = currentPost.Title;
 
 			hlEntryLink.NavigateUrl = currentPost.Link;
@@ -307,6 +313,8 @@ namespace Subtext.Web.Admin.UserControls
 			Results.Collapsed = showEdit;
 			Edit.Visible = showEdit;
 			
+			this.lkUpdateCategories.Visible = false;
+
 			hlEntryLink.NavigateUrl = String.Empty;
 			hlEntryLink.Attributes.Clear();
 			hlEntryLink.Visible = false;
@@ -375,30 +383,7 @@ namespace Subtext.Web.Admin.UserControls
 						PostID = Entries.Create(entry);
 					}
 
-					if (PostID > 0)
-					{
-						//LinkCollection lc = new LinkCollection();
-						ArrayList al = new ArrayList();
-						int count = cklCategories.Items.Count;
-						
-						for (int i =0; i<count;i++)
-						{
-							if (cklCategories.Items[i].Selected)
-							{
-								al.Add(Int32.Parse(cklCategories.Items[i].Value));
-							}
-						}
-						
-						int[] Categories = (int[])al.ToArray(typeof(int));
-						Entries.SetEntryCategoryList(PostID,Categories);
-					
-						BindList();
-						this.Messages.ShowMessage(successMessage);
-						this.ResetPostEdit(false);
-					}
-					else
-						this.Messages.ShowError(Constants.RES_FAILUREEDIT 
-							+ " There was a baseline problem posting your entry.");
+					UpdateCategories();
 				}
 				catch(Exception ex)
 				{
@@ -409,9 +394,56 @@ namespace Subtext.Web.Admin.UserControls
 				{
 					Results.Collapsible = false;
 				}
-				Response.Redirect("EditPosts.aspx");
+				this.Messages.ShowMessage(successMessage);
 			}
 		}
+
+		private void UpdateCategories()
+		{ 
+			if(Page.IsValid)
+			{
+				string successMessage = Constants.RES_SUCCESSCATEGORYUPDATE;
+
+				try
+				{
+					if (PostID > 0)
+					{
+						successMessage = Constants.RES_SUCCESSCATEGORYUPDATE;
+						ArrayList al = new ArrayList();
+
+						foreach(ListItem item in cklCategories.Items)
+						{
+							if(item.Selected)
+							{
+								al.Add(int.Parse(item.Value));
+							}
+						}					
+
+						int[] Categories = (int[])al.ToArray(typeof(int));
+						Entries.SetEntryCategoryList(PostID,Categories);
+
+						BindList();
+						this.Messages.ShowMessage(successMessage);
+						this.ResetPostEdit(false);
+					}
+					else
+					{
+						this.Messages.ShowError(Constants.RES_FAILURECATEGORYUPDATE
+							+ " There was a baseline problem updating the post categories.");  
+					}
+				}
+				catch(Exception ex)
+				{
+					this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION,
+						Constants.RES_FAILUREEDIT, ex.Message));
+				}
+				finally
+				{
+					Results.Collapsible = false;
+				}
+			}
+		}
+
 	
 		private void SetEditorMode()
 		{
@@ -462,6 +494,7 @@ namespace Subtext.Web.Admin.UserControls
 		{    			
 			this.rprSelectionList.ItemCommand += new System.Web.UI.WebControls.RepeaterCommandEventHandler(this.rprSelectionList_ItemCommand);
 			this.lkbPost.Click += new System.EventHandler(this.lkbPost_Click);
+			this.lkUpdateCategories.Click += new EventHandler(lkUpdateCategories_Click);
 			this.lkbCancel.Click += new System.EventHandler(this.lkbCancel_Click);
 			this.Load += new System.EventHandler(this.Page_Load);
 
@@ -492,6 +525,11 @@ namespace Subtext.Web.Admin.UserControls
 		private void lkbPost_Click(object sender, System.EventArgs e)
 		{
 			UpdatePost();
+		}
+
+		private void lkUpdateCategories_Click(object sender, EventArgs e)
+		{
+			UpdateCategories();
 		}
 	}
 }

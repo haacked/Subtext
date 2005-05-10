@@ -124,6 +124,7 @@
 		<p><asp:CheckBoxList id="cklCategories" runat="server" RepeatColumns="5" RepeatDirection="Horizontal"></asp:CheckBoxList></p>
 		<div>
 			<asp:LinkButton id="lkbPost" runat="server" CssClass="Button" Text="Post"></asp:LinkButton>
+			<asp:LinkButton id="lkUpdateCategories" runat="server" Width="160" CssClass="Button" Text="<nobr>Update Categories Only</nobr>"></asp:LinkButton>
 			<asp:LinkButton id="lkbCancel" runat="server" CssClass="Button" Text="Cancel" CausesValidation="False">Cancel</asp:LinkButton><br>
 			&nbsp;
 		</div>

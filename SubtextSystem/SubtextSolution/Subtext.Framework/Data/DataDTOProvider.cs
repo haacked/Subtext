@@ -603,7 +603,7 @@ namespace Subtext.Framework.Data
 
 		public PagedLinkCollection GetPagedLinks(int categoryTypeID, int pageIndex, int pageSize, bool sortDescending)
 		{
-			IDataReader reader = DbProvider.Instance().GetPagedLinks(categoryTypeID,pageIndex,pageSize,sortDescending);
+			IDataReader reader = DbProvider.Instance().GetPagedLinks(categoryTypeID, pageIndex, pageSize, sortDescending);
 			try
 			{
 				PagedLinkCollection plc = new PagedLinkCollection();
