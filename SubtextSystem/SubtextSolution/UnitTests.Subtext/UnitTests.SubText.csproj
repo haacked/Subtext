@@ -99,6 +99,11 @@
                     Project = "{8C11B428-9C4A-46C3-B7F0-48215276BFA5}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "System.Web"
+                    AssemblyName = "System.Web"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Web.dll"
+                />
             </References>
         </Build>
         <Files>
@@ -108,6 +113,17 @@
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
+                <File
+                    RelPath = "UnitTestConfigProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UnitTestHelper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <Folder RelPath = "bin\Debug\" />
                 <File
                     RelPath = "ExternalDependencies\mock-assembly.dll"
                     BuildAction = "Content"
@@ -236,6 +252,10 @@
                     RelPath = "Framework\SecurityTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Resources\App.config"
+                    BuildAction = "EmbeddedResource"
                 />
             </Include>
         </Files>

@@ -1,0 +1,39 @@
+h1 a:visited,
+h1 a:active,
+h1 a:link {
+	color : #000;
+}
+
+h1 a:hover {
+	color : #C00;
+	text-decoration : none;
+}
+
+a:visited,
+a:active,
+a:link {
+	color : #C00;
+}
+
+#top {
+	background-color : #FDA;
+	color : #000;
+	border-bottom : 4px solid #C00;
+}
+
+p.date {
+	border-bottom : 1px solid #AAA;	
+}
+
+#main {
+	background-color : #EEE;
+	border-bottom : 4px solid #C00;
+}
+
+#comments h4 span {
+	color : #999;
+}
+
+h3 {
+	border-bottom : 1px solid #AAA;
+}
