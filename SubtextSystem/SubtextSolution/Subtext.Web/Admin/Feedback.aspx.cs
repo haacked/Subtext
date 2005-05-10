@@ -89,7 +89,7 @@ namespace Subtext.Web.Admin.Pages
 			{
 				return entry.Body;
 			}
-			return string.Format("{0}<br /><a target=\"_blank\" title=\"view: {1}\"  href=\"{2}\">Pingback/TrackBack</a>",entry.Body,entry.Title,entry.TitleUrl);
+			return string.Format("{0}<br /><a target=\"_blank\" title=\"view: {1}\"  href=\"{2}\">Pingback/TrackBack</a>", entry.Body,entry.Title, entry.TitleUrl);
 		}
 
 		private void BindList()

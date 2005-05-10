@@ -344,7 +344,7 @@ namespace Subtext.Framework.Data
 
 		public Entry GetEntry(int postID, bool ActiveOnly)
 		{
-			IDataReader reader = DbProvider.Instance().GetEntry(postID,ActiveOnly);
+			IDataReader reader = DbProvider.Instance().GetEntry(postID, ActiveOnly);
 			try
 			{
 				Entry entry = null;

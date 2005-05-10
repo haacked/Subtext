@@ -23,6 +23,7 @@
 
 using System;
 using System.Web.UI.WebControls;
+using Subtext.Framework;
 using Subtext.Framework.Components;
 
 namespace Subtext.Web.UI.Controls
@@ -32,19 +33,10 @@ namespace Subtext.Web.UI.Controls
 	/// </summary>
 	public class EntryList : BaseControl
 	{
-		public EntryList()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
 		protected System.Web.UI.WebControls.Repeater Entries;
 		protected System.Web.UI.WebControls.Literal EntryCollectionTitle;
 		protected System.Web.UI.WebControls.Literal EntryCollectionDescription;
 		protected System.Web.UI.WebControls.HyperLink EntryCollectionReadMoreLink;
-
-
 
 		const string postdescWithComments = "posted @ <a href=\"{0}\" title = \"permalink\">{1}</a> | <a href=\"{2}#FeedBack\" title = \"comments, pingbacks, trackbacks\">Feedback ({3})</a>";
 		const string postdescWithNoComments = "posted @ <a href=\"{0}\" title = \"permalink\">{1}</a>";
@@ -55,12 +47,14 @@ namespace Subtext.Web.UI.Controls
 				Entry entry = (Entry)e.Item.DataItem;
 				if(entry != null)
 				{
-					HyperLink title = (HyperLink)e.Item.FindControl("TitleUrl");
+					HyperLink title = e.Item.FindControl("TitleUrl") as HyperLink;
 					if(title != null)
 					{
 						title.Text = entry.Title;
 						title.NavigateUrl = entry.Link;
 					}
+
+					DisplayEditLink(entry, e);
 
 					Literal PostText = (Literal)e.Item.FindControl("PostText");
 
@@ -98,6 +92,31 @@ namespace Subtext.Web.UI.Controls
 						}
 					}
 
+				}
+			}
+		}
+
+		// If the user is an admin AND the the skin 
+		// contains an edit Hyperlink control, this 
+		// will display the edit control.
+		private void DisplayEditLink(Entry entry, RepeaterItemEventArgs e)
+		{
+			HyperLink editLink = e.Item.FindControl("editLink") as HyperLink;
+			if(editLink != null)
+			{
+				if(Security.IsAdmin)
+				{
+					editLink.Visible = true;
+					if(editLink.Text.Length == 0 && editLink.ImageUrl.Length == 0)
+					{
+						//We'll slap on our little pencil icon.
+						editLink.ImageUrl = "~/Images/edit.gif";
+						editLink.NavigateUrl = "~/Admin/EditPosts.aspx?PostID=" + entry.EntryID;
+					}
+				}
+				else
+				{
+					editLink.Visible = false;
 				}
 			}
 		}
