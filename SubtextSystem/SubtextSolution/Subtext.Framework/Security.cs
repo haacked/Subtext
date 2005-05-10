@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
@@ -89,7 +90,7 @@ namespace Subtext.Framework
 		/// <returns>bool value indicating if the user is valid.</returns>
 		public static bool IsValidUser(string username, string password)
 		{
-			if(string.Compare(username, Config.CurrentBlog().UserName, true)==0)
+			if(string.Compare(username, Config.CurrentBlog().UserName, true) == 0)
 			{
 				return IsValidPassword(password);
 			}
@@ -110,7 +111,24 @@ namespace Subtext.Framework
 			{
 				password = HashPassword(password);
 			}
-			return string.Compare(password, Config.CurrentBlog().Password, false) == 0;
+			string storedPassword = Config.CurrentBlog().Password;
+			
+			if(storedPassword.IndexOf('-') > 0)
+			{
+				// NOTE: This is necessary because I want to change how 
+				// we store the password.  Mayb changing the password 
+				// storage is dumb.  Let me know. -Phil
+				//	This is an old password created from BitConverter 
+				// string.  Converting to a Base64 hash.
+				string[] hashBytesStrings = storedPassword.Split('-');
+				byte[] hashedBytes = new byte[hashBytesStrings.Length];
+				for(int i = 0; i < hashBytesStrings.Length; i++)
+				{
+					hashedBytes[i] = byte.Parse(hashBytesStrings[i].ToString(), NumberStyles.HexNumber);
+					storedPassword = Convert.ToBase64String(hashedBytes);
+				}
+			}
+			return string.Compare(password, storedPassword, false) == 0;
 		}
 
 		/// <summary>
