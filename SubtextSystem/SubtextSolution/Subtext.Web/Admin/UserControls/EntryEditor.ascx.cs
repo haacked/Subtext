@@ -154,13 +154,15 @@ namespace Subtext.Web.Admin.UserControls
 				Results.Collapsible = false;
 
 				if (Constants.NULL_CATEGORYID != _filterCategoryID)
-					ResultsPager.UrlFormat += String.Format("&{0}={1}",
-						Keys.QRYSTR_CATEGORYID, _filterCategoryID);
+				{
+					ResultsPager.UrlFormat += String.Format("&{0}={1}", Keys.QRYSTR_CATEGORYID, _filterCategoryID);
+				}
 				
 				BindList();
 				BindCategoryList();
 				SetEditorMode();
 
+				// We now allow direct links to edit a post.
 				string postIdText = Request.QueryString["PostId"];
 				int postId = int.MinValue;
 				if(postIdText != null && postIdText.Length > 0)
@@ -235,10 +237,6 @@ namespace Subtext.Web.Admin.UserControls
 			Edit.Visible = true;
 			txbTitle.Text = currentPost.Title;
 
-			txbExcerpt.Text = currentPost.Description;
-			txbSourceUrl.Text = currentPost.SourceUrl;
-			txbSourceName.Text = currentPost.SourceName;
-
 			hlEntryLink.NavigateUrl = currentPost.Link;
 			hlEntryLink.Text = currentPost.Link;
 			hlEntryLink.Attributes.Add("title", "view: " + currentPost.Title);
@@ -249,6 +247,13 @@ namespace Subtext.Web.Admin.UserControls
 			chkMainSyndication.Checked             = currentPost.IncludeInMainSyndication;  
 			chkSyndicateDescriptionOnly.Checked    = currentPost.SyndicateDescriptionOnly ; 
 			chkIsAggregated.Checked                = currentPost.IsAggregated;
+
+			// Advanced Options
+			this.txbEntryName.Text = currentPost.EntryName;
+			this.txbExcerpt.Text = currentPost.Description;
+			this.txbTitleUrl.Text = currentPost.TitleUrl;
+			this.txbSourceUrl.Text = currentPost.SourceUrl;
+			this.txbSourceName.Text = currentPost.SourceName;
 	
 			SetEditorText(currentPost.Body);
 
