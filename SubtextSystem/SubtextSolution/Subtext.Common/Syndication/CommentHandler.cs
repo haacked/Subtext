@@ -26,6 +26,8 @@ using System.Web;
 using System.Xml;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Format;
+using Subtext.Framework.Text;
 using Subtext.Framework.Util;
 
 namespace Subtext.Common.Syndication
@@ -66,9 +68,9 @@ namespace Subtext.Common.Syndication
 				entry.Body = doc.SelectSingleNode("//item/description").InnerText;
 			
 				entry.Title = doc.SelectSingleNode("//item/title").InnerText;
-				entry.TitleUrl = Globals.CheckForUrl(doc.SelectSingleNode("//item/link").InnerText);
+				entry.TitleUrl = HtmlHelper.CheckForUrl(doc.SelectSingleNode("//item/link").InnerText);
 
-				entry.ParentID = Globals.GetPostIDFromUrl(Request.Path);
+				entry.ParentID = UrlFormats.GetPostIDFromUrl(Request.Path);
 
 				Entries.InsertComment(entry);
 			}

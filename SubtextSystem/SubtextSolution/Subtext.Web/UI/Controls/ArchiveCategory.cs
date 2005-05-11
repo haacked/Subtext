@@ -2,6 +2,7 @@ using System;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Format;
 using Subtext.Framework.Util;
 
 #region Disclaimer/Info
@@ -43,7 +44,7 @@ namespace Subtext.Web.UI.Controls
 		{
 			base.OnLoad (e);
 
-			int catID = Subtext.Framework.Util.Globals.GetPostIDFromUrl(Request.Path);
+			int catID = UrlFormats.GetPostIDFromUrl(Request.Path);
 
 			string s = WebPathStripper.GetReqeustedFileName(Request.Path);
 

@@ -3,6 +3,7 @@ using System.Web;
 using System.Web.UI;
 using Subtext.Common.Data;
 using Subtext.Framework.Components;
+using Subtext.Framework.Text;
 
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,7 +45,6 @@ namespace Subtext.Web.UI.Controls
 		protected System.Web.UI.WebControls.Label Message;
 		protected System.Web.UI.WebControls.CheckBox chkRemember;
 		
-
 
 		protected override void OnLoad(EventArgs e)
 		{
@@ -113,7 +113,7 @@ namespace Subtext.Web.UI.Controls
 					
 					Entry entry = new Entry(PostType.Comment);
 					entry.Author = tbName.Text;
-					entry.TitleUrl =  Framework.Util.Globals.CheckForUrl(tbUrl.Text);
+					entry.TitleUrl =  HtmlHelper.CheckForUrl(tbUrl.Text);
 					entry.Body = tbComment.Text;
 					entry.Title = tbTitle.Text;
 					entry.ParentID = currentEntry.EntryID;

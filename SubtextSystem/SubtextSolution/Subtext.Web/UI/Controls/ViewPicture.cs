@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Format;
 
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,7 +50,7 @@ namespace Subtext.Web.UI.Controls
 
 			if(Context != null)
 			{
-				int imageID = Framework.Util.Globals.GetPostIDFromUrl(Request.Path);
+				int imageID = UrlFormats.GetPostIDFromUrl(Request.Path);
 				Subtext.Framework.Components.Image _image = Images.GetSingleImage(imageID,true);
 				_baseImagePath = Images.HttpGalleryFilePath(Context,_image.CategoryID);
 

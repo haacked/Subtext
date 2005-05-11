@@ -45,6 +45,7 @@ using System.Web;
 using System.Xml;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Text;
 using Subtext.Framework.Util;
 
 namespace Subtext.Framework.Tracking
@@ -61,13 +62,6 @@ namespace Subtext.Framework.Tracking
 		public void ProcessRequest(HttpContext context)
 		{
 			context.Response.ContentType="text/xml" ;
-
-//			if ( context.Request.QueryString["postid"] == null )
-//			{
-//				trackbackResponse (context, 1, "PostID missing" ) ;
-//			}
-
-			
 
 			int postId = 0 ;
 			try 
@@ -165,7 +159,7 @@ namespace Subtext.Framework.Tracking
 		private string safeParam(HttpContext context,string pName)
 		{
 			if ( context.Request.Form[pName] != null )
-				return Globals.SafeFormat(context.Request.Form[pName]);
+				return HtmlHelper.SafeFormat(context.Request.Form[pName]);
 			return  string.Empty;
 		}
 	}

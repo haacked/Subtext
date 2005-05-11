@@ -27,6 +27,7 @@ using System.Web;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Format;
 
 namespace Subtext.Web.UI
 {
@@ -44,8 +45,7 @@ namespace Subtext.Web.UI
 
 		public void ProcessRequest(HttpContext context)
 		{
-
-			int PostID = Subtext.Framework.Util.Globals.GetPostIDFromUrl(context.Request.Path);
+			int PostID = UrlFormats.GetPostIDFromUrl(context.Request.Path);
 			if(PostID > -1)
 			{
 				Entry entry = Entries.GetEntry(PostID,true);

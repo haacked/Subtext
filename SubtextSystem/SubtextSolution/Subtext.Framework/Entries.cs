@@ -28,6 +28,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Email;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Util;
+using Subtext.Framework.Text;
 
 namespace Subtext.Framework
 {
@@ -290,10 +291,10 @@ namespace Subtext.Framework
 			// what follows relies on context, so guard
 			if (null == HttpContext.Current) return;
 
-			entry.Author = Globals.SafeFormat(entry.Author);
-			entry.TitleUrl =  Globals.SafeFormat(entry.TitleUrl);
-			entry.Body = Globals.SafeFormatWithUrl(entry.Body);
-			entry.Title = Globals.SafeFormat(entry.Title);
+			entry.Author = HtmlHelper.SafeFormat(entry.Author);
+			entry.TitleUrl =  HtmlHelper.SafeFormat(entry.TitleUrl);
+			entry.Body = HtmlHelper.SafeFormatWithUrl(entry.Body);
+			entry.Title = HtmlHelper.SafeFormat(entry.Title);
 			//entry.SourceUrl = Globals.PostsUrl(entry.ParentID);
 			entry.IsXHMTL = false;
 			entry.IsActive = true;

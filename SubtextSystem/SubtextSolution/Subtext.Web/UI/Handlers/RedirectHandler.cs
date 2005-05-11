@@ -37,7 +37,7 @@ namespace Subtext.Web.UI.Handlers
 			{
 				UrlFormats formats = Config.CurrentBlog(context).UrlFormats;
 
-				string dateString = Subtext.Framework.Util.Globals.GetReqeustedFileName(uri);
+				string dateString = UrlFormats.GetRequestedFileName(uri);
 				if(dateString.Length == 8)
 				{
 					DateTime dt = DateTime.ParseExact(dateString,"MMddyyyy",new CultureInfo("en-US"));

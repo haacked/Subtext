@@ -32,7 +32,8 @@ using Subtext.Framework.Util;
 namespace Subtext.Framework
 {
 	/// <summary>
-	/// Summary description for Stats.
+	/// Class used for managing stats. Provides facilities for queing stats. 
+	/// This is used for trackbacks and pingbacks.
 	/// </summary>
 	public sealed class Stats
 	{
@@ -41,6 +42,9 @@ namespace Subtext.Framework
 		static EntryViewCollection queuedStatsList = null;
 		static int queuedAllowCount;
 
+		/// <summary>
+		/// Static Constructor.
+		/// </summary>
 		static Stats()
 		{
 			if(Config.Settings.Tracking.QueueStats)
@@ -51,6 +55,12 @@ namespace Subtext.Framework
 			}
 		}
 
+		/// <summary>
+		/// Clears the queue of statistics.  If save is specified, then 
+		/// stats are saved to an <see cref="EntryView"/>
+		/// </summary>
+		/// <param name="save">Save.</param>
+		/// <returns></returns>
 		public static bool ClearQueue(bool save)
 		{
 			lock(queuedStatsList.SyncRoot)
@@ -58,7 +68,7 @@ namespace Subtext.Framework
 				if(save)
 				{
 					EntryView[] eva = new EntryView[queuedStatsList.Count];
-					queuedStatsList.CopyTo(eva,0);
+					queuedStatsList.CopyTo(eva, 0);
 
 					ClearTrackEntryQueue(new EntryViewCollection(eva));
 					
@@ -68,6 +78,11 @@ namespace Subtext.Framework
 			return true;
 		}
 
+		/// <summary>
+		/// Adds <see cref="EntryView"/> instance to the stats queue.
+		/// </summary>
+		/// <param name="ev">Ev.</param>
+		/// <returns></returns>
 		public static bool AddQuedStats(EntryView ev)
 		{
 			//Check for the limit
@@ -139,16 +154,32 @@ namespace Subtext.Framework
 		#endregion
 		
 
+		/// <summary>
+		/// Calls out to the data provider to track the specified 
+		/// <see cref="EntryView"/> instance.
+		/// </summary>
+		/// <param name="ev">Ev.</param>
+		/// <returns></returns>
 		public static bool TrackEntry(EntryView ev)
 		{
 			return DTOProvider.Instance().TrackEntry(ev);
 		}
 
+		/// <summary>
+		/// Calls out to the data provider to track the specified 
+		/// <see cref="EntryViewCollection"/> instance.
+		/// </summary>
+		/// <param name="evc">Evc.</param>
+		/// <returns></returns>
 		public static bool TrackEntry(EntryViewCollection evc)
 		{
 			return DTOProvider.Instance().TrackEntry(evc);
 		}
 
+		/// <summary>
+		/// Performs the notification, wether it be a pingback or trackback.
+		/// </summary>
+		/// <param name="entry">Entry.</param>
 		public static void Notify(Entry entry)
 		{
 			StringCollection links = TrackHelpers.GetLinks(entry.Body);
@@ -172,7 +203,7 @@ namespace Subtext.Framework
 				PingBackNotificatinProxy pbnp = new PingBackNotificatinProxy();
 				TrackBackNotificationProxy tbnp = new TrackBackNotificationProxy();
 
-				for(int i = 0; i<count; i++)
+				for(int i = 0; i < count; i++)
 				{
 					try
 					{
@@ -180,23 +211,18 @@ namespace Subtext.Framework
 						string pageText = BlogRequest.GetPageText(link);
 						if(pageText != null)
 						{
-
 							pbnp.Ping(pageText,entry.Link,link);
 							tbnp.TrackBackPing(pageText,link,entry.Title,entry.Link,blogname,description);
 						}
 					}
 					catch
 					{
+						//TODO: Log it...
 						//Do nothing, just eat it :(
 					}
 				}
 			}
 		}
-
-
-
-
-
 	}
 }
 

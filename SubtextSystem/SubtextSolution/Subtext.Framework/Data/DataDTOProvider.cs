@@ -4,6 +4,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Text;
 using Subtext.Framework.Tracking;
 using Subtext.Framework.Util;
 
@@ -449,9 +450,7 @@ namespace Subtext.Framework.Data
 			if(!FormatEntry(ref entry,true))
 			{
 				throw new BlogFailedPostException("Failed post exception");
-			}
-
-			
+			}		
 
 			if(entry is CategoryEntry)
 			{
@@ -561,30 +560,29 @@ namespace Subtext.Framework.Data
 
 			//e.Body = Transform.EmoticonTransforms(e.Body);
 
-			if(Globals.HasIllegalContent(e.Body))
+			if(Text.HtmlHelper.HasIllegalContent(e.Body))
 			{
 				return false;
 			}
 
-			if(Globals.HasIllegalContent(e.Title))
+			if(Text.HtmlHelper.HasIllegalContent(e.Title))
 			{
 				return false;
 			}
 
-			if(Globals.HasIllegalContent(e.Description))
+			if(Text.HtmlHelper.HasIllegalContent(e.Description))
 			{
 				return false;
 			}
 
-			if(Globals.HasIllegalContent(e.TitleUrl))
+			if(Text.HtmlHelper.HasIllegalContent(e.TitleUrl))
 			{
 				return false;
 			}
-
 
 			if(Config.Settings.UseXHTML)
 			{
-				if(!Globals.IsValidXHTML(ref e))
+				if(!HtmlHelper.ConvertHtmlToXHtml(ref e))
 				{
 					return false;
 				}

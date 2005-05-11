@@ -203,7 +203,6 @@ namespace Subtext.Web.Admin.Pages
 					config.Skin.SkinCssFile = null;
 				}
 
-				//config.ExtendedProperties = ext;
 				
 				Config.UpdateConfigData(config);
 

@@ -1,6 +1,7 @@
 using System;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Format;
 
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,10 +42,9 @@ namespace Subtext.Web.UI.Controls
 			base.OnLoad (e);
 			if(Context != null)
 			{
-
-				DateTime dt = Framework.Util.Globals.DateFromUrl(Request.Path);
+				DateTime dt = UrlFormats.DateFromUrl(Request.Path);
 				MonthListings.DescriptionOnly = true;
-				MonthListings.EntryListItems = Entries.GetPostsByDayRange(dt,dt.AddMonths(1),PostType.BlogPost,true);
+				MonthListings.EntryListItems = Entries.GetPostsByDayRange(dt, dt.AddMonths(1), PostType.BlogPost, true);
 				MonthListings.EntryListTitle = dt.ToString("y");
 
 			}

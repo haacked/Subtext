@@ -3,6 +3,7 @@ using System.Web.UI.WebControls;
 using Subtext.Common.Data;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Text;
 
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -93,7 +94,7 @@ namespace Subtext.Web.UI.Controls
 					{
 						if(entry.HasTitleUrl)
 						{
-							namelink.NavigateUrl = Framework.Util.Globals.CheckForUrl(entry.TitleUrl);
+							namelink.NavigateUrl = HtmlHelper.CheckForUrl(entry.TitleUrl);
 						}
 						if(entry.PostType == PostType.Comment)
 						{

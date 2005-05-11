@@ -7,19 +7,10 @@ using Subtext.Framework.Util;
 namespace Subtext.Framework.Providers
 {
 	/// <summary>
-	/// Summary description for BaseProvider.
+	/// Abstract base class for all providers.
 	/// </summary>
 	public abstract class BaseProvider
 	{
-		public BaseProvider()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
-		//public abstract object Instance();
-
 		private string _type;
 
 		[XmlAttribute("type")]
@@ -29,22 +20,45 @@ namespace Subtext.Framework.Providers
 			set	{ _type = value;	}
 		}
 
+		/// <summary>
+		/// Returns an instance of this provider.
+		/// </summary>
+		/// <returns></returns>
 		public object Instance()
 		{
 			return Activator.CreateInstance(System.Type.GetType(this.ProviderType));
 		}
 
+		/// <summary>
+		/// Saves the specified object into the <see cref="BlogCache"/> 
+		/// using the current <see cref="HttpContext"/>.
+		/// </summary>
+		/// <remarks>
+		/// The object is saved with a cache dependency on its assembly.
+		/// </remarks>
+		/// <param name="cacheKey">Cache key.</param>
+		/// <param name="obj">Obj.</param>
 		public static void SaveCache(string cacheKey, object obj)
 		{
-			SaveCache(cacheKey,obj,HttpContext.Current);
-
+			SaveCache(cacheKey, obj, HttpContext.Current);
 		}
+
+		/// <summary>
+		/// Saves the specified object into the <see cref="BlogCache"/> 
+		/// using the specified <see cref="HttpContext"/>.
+		/// </summary>
+		/// <remarks>
+		/// The object is saved with a cache dependency on its assembly.
+		/// </remarks>
+		/// <param name="cacheKey">Cache key.</param>
+		/// <param name="obj">Obj.</param>
+		/// <param name="context">Context.</param>
 		public static void SaveCache(string cacheKey, object obj, HttpContext context)
 		{
 			if(cacheKey != null && obj != null)
 			{
 				CacheDependency cacheDependency = new CacheDependency(obj.GetType().Assembly.Location);
-				BlogCache.Cache(context).Insert(cacheKey,obj,cacheDependency);
+				BlogCache.Cache(context).Insert(cacheKey, obj, cacheDependency);
 			}
 		}
 	}
