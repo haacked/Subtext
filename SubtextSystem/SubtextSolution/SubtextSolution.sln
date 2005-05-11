@@ -23,6 +23,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubtextConfigurationTool", 
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Extensibility", "Subtext.Extensibility\Subtext.Extensibility.csproj", "{13018F20-F796-4FFE-9290-83D0E661C0A1}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -52,6 +56,10 @@ Global
 		{FD164E32-AE6A-46E5-AB0D-F3D6F97B4CAA}.Debug.Build.0 = Debug|.NET
 		{FD164E32-AE6A-46E5-AB0D-F3D6F97B4CAA}.Release.ActiveCfg = Release|.NET
 		{FD164E32-AE6A-46E5-AB0D-F3D6F97B4CAA}.Release.Build.0 = Release|.NET
+		{13018F20-F796-4FFE-9290-83D0E661C0A1}.Debug.ActiveCfg = Debug|.NET
+		{13018F20-F796-4FFE-9290-83D0E661C0A1}.Debug.Build.0 = Debug|.NET
+		{13018F20-F796-4FFE-9290-83D0E661C0A1}.Release.ActiveCfg = Release|.NET
+		{13018F20-F796-4FFE-9290-83D0E661C0A1}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 		Subtext.Web\AspNetWithoutWebProjects.txt = Subtext.Web\AspNetWithoutWebProjects.txt
