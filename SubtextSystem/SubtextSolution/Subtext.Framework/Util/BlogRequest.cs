@@ -45,7 +45,7 @@ using System.Text;
 
 namespace Subtext.Framework.Util
 {
-	public  class BlogRequest 
+	public class BlogRequest 
 	{
 		private const int defaultTimeout_ = 60000;
 		private static string referer_ = @"http://Subtext.com/Services/default.htm";

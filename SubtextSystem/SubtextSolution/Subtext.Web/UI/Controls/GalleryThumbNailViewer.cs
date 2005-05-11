@@ -2,6 +2,7 @@ using System;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Format;
 
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,7 +48,7 @@ namespace Subtext.Web.UI.Controls
 			// Put user code to initialize the page here
 			if(Context != null)
 			{
-				int catID = Framework.Util.Globals.GetPostIDFromUrl(Request.Path);
+				int catID = UrlFormats.GetPostIDFromUrl(Request.Path);
 				_baseImagePath = Images.HttpGalleryFilePath(Context,catID);
 
 				ImageCollection ic = Images.GetImagesByCategoryID(catID,true);

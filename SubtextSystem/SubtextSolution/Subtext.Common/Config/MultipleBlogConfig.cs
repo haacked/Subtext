@@ -2,6 +2,7 @@ using System;
 using System.Text.RegularExpressions;
 using System.Web;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Format;
 using Subtext.Framework.Util;
 
 namespace Subtext.Common.Config
@@ -26,7 +27,7 @@ namespace Subtext.Common.Config
 			{
 				string app = context.Request.ApplicationPath.ToLower();
 				//BlogConfig was not found in the context. It could be in the current cache.
-				string mCacheKey = cacheKey +  Globals.GetBlogAppFromRequest(context.Request.RawUrl.ToLower(), app);
+				string mCacheKey = cacheKey +  UrlFormats.GetBlogAppFromRequest(context.Request.RawUrl.ToLower(), app);
 
 				//check the cache.
 				config = (BlogConfig)context.Cache[mCacheKey];
@@ -41,7 +42,7 @@ namespace Subtext.Common.Config
 						Host = GetCurrentHost(context.Request);
 					}
 
-					string appFromRequest = Globals.GetBlogAppFromRequest(context.Request.RawUrl.ToLower(), app);
+					string appFromRequest = UrlFormats.GetBlogAppFromRequest(context.Request.RawUrl.ToLower(), app);
 
 					config = Subtext.Framework.Configuration.Config.GetConfig(Host, appFromRequest);
 

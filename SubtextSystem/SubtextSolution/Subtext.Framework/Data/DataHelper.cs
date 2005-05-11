@@ -748,9 +748,6 @@ namespace Subtext.Framework.Data
 				config.Skin.SkinCssText = (string)reader["SecondaryCss"];
 			}
 
-			//Wait till v2.0
-			//config.ExtendedProperties = new ExtendedProperties((byte[])reader["NVC"]);
-
 			return config;
 		}
 

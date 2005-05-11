@@ -5,17 +5,21 @@ using System.Xml.Serialization;
 namespace Subtext.Framework.Util
 {
 	/// <summary>
-	/// Summary description for SerializationHelper.
+	/// Class with methods for saving and loading objects as 
+	/// serialized instances.
 	/// </summary>
-	public class SerializationHelper
+	public sealed class SerializationHelper
 	{
 		private SerializationHelper()
 		{
-			//
-			// TODO: Add constructor logic here
-			//
 		}
 
+		/// <summary>
+		/// Loads the specified type.
+		/// </summary>
+		/// <param name="type">Type.</param>
+		/// <param name="filename">Filename.</param>
+		/// <returns></returns>
 		public static object Load(Type type, string filename)
 		{
 			FileStream fs = null;
@@ -38,6 +42,12 @@ namespace Subtext.Framework.Util
 		}
 
 
+		/// <summary>
+		/// Saves the specified object at the specified location 
+		/// as a serialized file.
+		/// </summary>
+		/// <param name="obj">Obj.</param>
+		/// <param name="filename">Filename.</param>
 		public static void Save(object obj, string filename)
 		{
 			FileStream fs = null;

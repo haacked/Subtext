@@ -225,10 +225,6 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Feed.aspx"
-                    BuildAction = "Content"
-                />
-                <File
                     RelPath = "Global.asax"
                     BuildAction = "Content"
                 />
@@ -271,51 +267,6 @@
                 <File
                     RelPath = "logout.aspx.resx"
                     DependentUpon = "logout.aspx.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "MainFeed.aspx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "MainFeed.aspx.cs"
-                    DependentUpon = "MainFeed.aspx"
-                    SubType = "ASPXCodeBehind"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "MainFeed.aspx.resx"
-                    DependentUpon = "MainFeed.aspx.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "OPML.aspx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "OPML.aspx.cs"
-                    DependentUpon = "OPML.aspx"
-                    SubType = "ASPXCodeBehind"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OPML.aspx.resx"
-                    DependentUpon = "OPML.aspx.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Queue.aspx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Queue.aspx.cs"
-                    DependentUpon = "Queue.aspx"
-                    SubType = "ASPXCodeBehind"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Queue.aspx.resx"
-                    DependentUpon = "Queue.aspx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -576,6 +527,21 @@
                 <File
                     RelPath = "Admin\Preferences.aspx.resx"
                     DependentUpon = "Preferences.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Admin\Queue.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Queue.aspx.cs"
+                    DependentUpon = "Queue.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\Queue.aspx.resx"
+                    DependentUpon = "Queue.aspx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File

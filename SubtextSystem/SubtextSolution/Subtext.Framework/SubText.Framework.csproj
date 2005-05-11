@@ -373,11 +373,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Configuration\ExtendedProperties.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Configuration\IConfig.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -528,6 +523,10 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Resources\InstallationVersions.xml"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Syndication\BaseAtomWriter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -569,6 +568,11 @@
                 />
                 <File
                     RelPath = "Syndication\Compression\SyndicationCompressionSettings.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Text\HtmlHelper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -646,11 +650,6 @@
                     RelPath = "Tracking\WeblogsNotificatinProxy.resx"
                     DependentUpon = "WeblogsNotificatinProxy.cs"
                     BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Util\BinarySerializer.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Util\BlogCache.cs"

@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Format;
 using Subtext.Framework.Util;
 
 namespace Subtext.Framework.Tracking
@@ -82,7 +83,7 @@ namespace Subtext.Framework.Tracking
 
 		private static string GetReferral(HttpRequest Request)
 		{
-			string url = Globals.GetUriReferrerSafe(Request);
+			string url = UrlFormats.GetUriReferrerSafe(Request);
 			if(url != null)
 			{
 				url = url.ToLower().Replace("www.",string.Empty);

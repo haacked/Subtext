@@ -43,6 +43,8 @@
 using System;
 using CookComputing.XmlRpc;
 using Subtext.Framework.Components;
+using Subtext.Framework.Format;
+using Subtext.Framework.Text;
 using Subtext.Framework.Util;
 
 namespace Subtext.Framework.Tracking
@@ -60,7 +62,7 @@ namespace Subtext.Framework.Tracking
 			string 	pageTitle 	= "" ;
   		
 			// GetPostIDFromUrl returns the postID
-			postId = Globals.GetPostIDFromUrl(targetURI);
+			postId = UrlFormats.GetPostIDFromUrl(targetURI);
 			if ( postId == -1 )
 				throw new XmlRpcFaultException(33, "You did not link to a permalink");
   			  		
@@ -72,9 +74,9 @@ namespace Subtext.Framework.Tracking
 
 			Entry entry = new Entry(PostType.PingTrack);
 			entry.ParentID = postId;
-			entry.Title = Globals.SafeFormat(pageTitle);
-			entry.TitleUrl = Globals.SafeFormat(sourceURI);
-			entry.Body = Globals.SafeFormat(pageTitle);
+			entry.Title = HtmlHelper.SafeFormat(pageTitle);
+			entry.TitleUrl = HtmlHelper.SafeFormat(sourceURI);
+			entry.Body = HtmlHelper.SafeFormat(pageTitle);
 			entry.DateCreated = entry.DateUpdated = DateTime.Now;
 			entry.IsActive = true;
 			Entries.Create(entry);

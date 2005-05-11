@@ -34,11 +34,6 @@ namespace Subtext.Framework.Syndication
 	/// </summary>
 	public class BaseAtomWriter : BaseSyndicationWriter
 	{
-		public BaseAtomWriter():base()
-		{
-		
-		}
-
 		#region TimeHelpers
 		//Maybe move to globals/util?
 		private string TimeZone(int tz)

@@ -5,6 +5,7 @@ using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Text;
 using Subtext.Framework.Util;
 using Subtext.Web.Admin.Pages;
 
@@ -355,7 +356,7 @@ namespace Subtext.Web.Admin.UserControls
 					Entry entry = new Entry(EntryType);
 
 					entry.Title = txbTitle.Text;
-					entry.Body = Globals.StripRTB(txbBody.Text, Request.Url.Host);
+					entry.Body = HtmlHelper.StripRTB(txbBody.Text, Request.Url.Host);
 					entry.IsActive = ckbPublished.Checked;
 					entry.SourceName = txbSourceName.Text;
 					entry.Author = Config.CurrentBlog().Author;

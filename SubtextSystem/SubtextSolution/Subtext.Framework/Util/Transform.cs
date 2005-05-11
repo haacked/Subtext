@@ -13,16 +13,8 @@ namespace Subtext.Framework.Util
 	/// </summary>
 	public class Transform
 	{
-		public Transform()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
 		public static string EmoticonTransforms (string formattedPost) 
 		{
-
 			// Load the emoticon transform table
 			//
 			ArrayList emoticonTxTable = LoadTransformFile("emoticons.txt");
@@ -30,25 +22,14 @@ namespace Subtext.Framework.Util
 			// Do the transforms
 			//
 			return PerformUserTransforms(formattedPost, emoticonTxTable);
-
 		}
 
 		static string PerformUserTransforms(string stringToTransform, ArrayList userDefinedTransforms) 
 		{
 			int iLoop = 0;	
 			string host = "http://" + Config.CurrentBlog().Host;
-//			if(Config.Settings.BlogRequestType == BlogRequestType.Multiple)
-//			{
-//				host += HttpContext.Current.Request.ApplicationPath;
-//			}
-//			else
-//			{
-//				host += "/" + Config.CurrentBlog().CleanApplication;
-//			}
-
 			while (iLoop < userDefinedTransforms.Count) 
 			{		
-		        
 				// Special work for anchors
 				stringToTransform = Regex.Replace(stringToTransform, userDefinedTransforms[iLoop].ToString(), string.Format(userDefinedTransforms[iLoop+1].ToString(),host), RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
 

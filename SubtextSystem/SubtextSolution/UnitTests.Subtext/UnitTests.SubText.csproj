@@ -254,6 +254,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Framework\Text\HtmlHelperTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <Folder RelPath = "Framework\Util\" />
+                <File
                     RelPath = "Resources\App.config"
                     BuildAction = "EmbeddedResource"
                 />

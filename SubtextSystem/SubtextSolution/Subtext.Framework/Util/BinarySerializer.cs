@@ -1,24 +1,27 @@
 using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Util
 {
 	/// <summary>
-	/// Summary description for BinarySerializer.
+	/// Contains methods for binary serialization and deserialization 
+	/// of objects.
 	/// </summary>
-	public class BinarySerializer
+	public sealed class BinarySerializer
 	{
 		private BinarySerializer()
 		{
-			//
-			// TODO: Add constructor logic here
-			//
 		}
 
+		/// <summary>
+		/// Serializes the specified value (and its object graph) 
+		/// into an in-memory byte array which is returned.
+		/// </summary>
+		/// <param name="value">Value.</param>
 		public static byte[] Serialize(object value) 
 		{
-
 			BinaryFormatter binaryFormatter = new BinaryFormatter();
 			MemoryStream ms = new MemoryStream();
 			byte[] b;
@@ -40,9 +43,13 @@ namespace Subtext.Framework.Util
 			return b;
 		}
 
+		/// <summary>
+		/// Deserializers the specified serialized extended attributes.
+		/// </summary>
+		/// <param name="serializedExtendedAttributes">Serialized extended attributes.</param>
+		/// <returns></returns>
 		public static object Deserializer(byte[] serializedExtendedAttributes) 
 		{
-
 			if (serializedExtendedAttributes.Length == 0)
 			{
 				return null;

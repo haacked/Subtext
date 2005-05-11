@@ -2,6 +2,7 @@ using System;
 using System.Web;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Format;
 using Subtext.Framework.Util;
 
 namespace Subtext.Framework.Tracking
@@ -38,7 +39,7 @@ namespace Subtext.Framework.Tracking
 			}
 			else
 			{
-				int EntryID = Globals.GetPostIDFromUrl(context.Request.Path);
+				int EntryID = UrlFormats.GetPostIDFromUrl(context.Request.Path);
 
 				//Do we have an EntryID? 
 				//Should TrackEntry check to see if the EntryID exists?

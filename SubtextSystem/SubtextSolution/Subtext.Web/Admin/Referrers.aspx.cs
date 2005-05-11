@@ -26,6 +26,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Text;
 using Subtext.Framework.Util;
 
 namespace Subtext.Web.Admin.Pages
@@ -263,7 +264,7 @@ namespace Subtext.Web.Admin.Pages
 				Entry entry = new Entry(PostType.PingTrack);
 				entry.Title = txbTitle.Text;
 				entry.Body = txbBody.Text.Trim().Length > 0 ? txbBody.Text.Trim() : txbTitle.Text;
-				entry.TitleUrl = Globals.CheckForUrl(txbUrl.Text);
+				entry.TitleUrl = HtmlHelper.CheckForUrl(txbUrl.Text);
 				entry.DateCreated = entry.DateUpdated = BlogTime.CurrentBloggerTime;
 				entry.ParentID = EntryID;
 
