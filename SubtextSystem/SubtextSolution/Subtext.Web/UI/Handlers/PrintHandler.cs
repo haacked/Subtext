@@ -32,17 +32,12 @@ using Subtext.Framework.Format;
 namespace Subtext.Web.UI
 {
 	/// <summary>
-	/// Summary description for RssHandler.
+	/// Class that implements <see cref="IHttpHandler"/> to render a 
+	/// page for printing purposes.  Not currently in use.
 	/// </summary>
 	public class PrintHandler : IHttpHandler
 	{
-		public PrintHandler()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
+		//TODO: Test and find a way to integrate this class.
 		public void ProcessRequest(HttpContext context)
 		{
 			int PostID = UrlFormats.GetPostIDFromUrl(context.Request.Path);
@@ -78,8 +73,6 @@ namespace Subtext.Web.UI
 			}
 		}
 	
-	
-
 		public bool IsReusable
 		{
 			get { return true; }

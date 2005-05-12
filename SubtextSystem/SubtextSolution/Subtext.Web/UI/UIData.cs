@@ -10,13 +10,6 @@ namespace Subtext.Web.UI
 	/// </summary>
 	public class UIData
 	{
-		public UIData()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
 		public static LinkCategory Links(CategoryType catType, UrlFormats formats)
 		{
 			switch(catType)
