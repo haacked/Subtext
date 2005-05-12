@@ -9,7 +9,6 @@
 		<title><asp:Literal ID="pageTitle" Runat="server" /></title>
 		<link id="MainStyle" type="text/css" rel="stylesheet" runat="Server" />
 		<link id="SecondaryCss" type="text/css" rel="stylesheet" runat="Server" />
-		<link id="csharpstyle" type="text/css" rel="stylesheet" href="/skins/HaackedOrange/csharp.css" />
 		<link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" runat="Server" />
 	</head>
 	<body>
