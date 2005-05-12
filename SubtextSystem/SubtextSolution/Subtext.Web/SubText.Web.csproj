@@ -270,6 +270,11 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "NamespaceDocumentation.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "style.css"
                     BuildAction = "Content"
                 />
@@ -5853,22 +5858,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "UI\Handlers\BlogExistingPageHandler.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "UI\Handlers\BlogSecondaryCssHandler.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "UI\Handlers\ErrorHandler.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "UI\Handlers\PageHandlerFactory.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -5880,11 +5870,6 @@
                 <File
                     RelPath = "UI\Handlers\RedirectHandler.cs"
                     SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "UI\Pages\DottextMasterViewStatelessPage.cs"
-                    SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"
                 />
                 <File

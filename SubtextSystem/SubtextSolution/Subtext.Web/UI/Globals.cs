@@ -7,20 +7,26 @@ namespace Subtext.Web.UI
 	/// <summary>
 	/// Summary description for Globals.
 	/// </summary>
-	public class Globals
+	public sealed class Globals
 	{
 		private Globals()
 		{
-			//
-			// TODO: Add constructor logic here
-			//
 		}
 
+		/// <summary>
+		/// Returns the current skin for the current context.
+		/// </summary>
+		/// <returns></returns>
 		public static string Skin()
 		{
 			return Skin(HttpContext.Current);
 		}
 
+		/// <summary>
+		/// Returns the current skin for the specified context.
+		/// </summary>
+		/// <param name="context">Context.</param>
+		/// <returns></returns>
 		public static string Skin(HttpContext context)
 		{
 			if(Config.CurrentBlog(context).Skin.SkinName == null)
@@ -49,7 +55,12 @@ namespace Subtext.Web.UI
 			return title;
 		}
 
-		//Allow the title to be set from anywhere in the request
+
+		/// <summary>
+		/// Allows the page title to be set anywhere within the request.
+		/// </summary>
+		/// <param name="title">Title.</param>
+		/// <param name="context">Context.</param>
 		public static void SetTitle(string title, HttpContext context)
 		{
 			context.Items[BlogPageTitle] = title;

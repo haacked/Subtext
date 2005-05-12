@@ -6,11 +6,10 @@ namespace Subtext.Web.UI
 	/// <summary>
 	/// Summary description for UIText.
 	/// </summary>
-	public class UIText
+	public sealed class UIText
 	{
 		private UIText()
 		{
-			
 		}
 
 		public static string PostCollection

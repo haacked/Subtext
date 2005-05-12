@@ -53,35 +53,37 @@ namespace Subtext.Common.UrlManager
 		/// <param name="path">The physical path of the current request. Is not gaurenteed 
 		/// to exist (Passed along to other IHttpHandlerFactory's)</param>
 		/// <returns>
-		/// Returns an Instance of IHttpHandler either by loading an instance of IHttpHandler or by returning an other
-		/// IHttpHandlerFactory.GetHanlder(HttpContext context, string requestType, string url, string path) method
+		/// Returns an Instance of IHttpHandler either by loading an instance of IHttpHandler 
+		/// or by returning an other 
+		/// IHttpHandlerFactory.GetHandlder(HttpContext context, string requestType, string url, string path) method
 		/// </returns>
 		public virtual IHttpHandler GetHandler(HttpContext context, string requestType, string url, string path)
 		{
-			//Get the Handlers to process. By defualt, we grab them from the blog.config
+			//Get the Handlers to process. By default, we grab them from the blog.config
 			HttpHandler[] items = GetHttpHandlers(context);
 			
 			//Do we have any?
 			if(items != null)
 			{
-				int count = items.Length;
-
-				for(int i = 0; i < count; i++)
+				foreach(HttpHandler handler in items)
 				{
 					//We should use our own cached Regex. This should limit the number of Regex's created
 					//and allows us to take advantage of RegexOptons.Compiled 
-					if(items[i].IsMatch(context.Request.Path))
+					if(handler.IsMatch(context.Request.Path))
 					{
-						switch(items[i].HandlerType)
+						switch(handler.HandlerType)
 						{
 							case HandlerType.Page:
-								return ProccessHandlerTypePage(items[i],context,requestType,url);
+								return ProccessHandlerTypePage(handler, context, requestType,url);
+							
 							case HandlerType.Direct:
-								HandlerConfiguration.SetControls(context,items[i].BlogControls);
-								return (IHttpHandler)items[i].Instance();
+								HandlerConfiguration.SetControls(context, handler.BlogControls);
+								return (IHttpHandler)handler.Instance();
+							
 							case HandlerType.Factory:
-							//Pass a long the request to a custom IHttpHandlerFactory
-								return ((IHttpHandlerFactory)items[i].Instance()).GetHandler(context,requestType,url,path);
+								//Pass a long the request to a custom IHttpHandlerFactory
+								return ((IHttpHandlerFactory)handler.Instance()).GetHandler(context, requestType, url, path);
+							
 							default:
 								throw new Exception("Invalid HandlerType: Unknown");
 						}
@@ -89,7 +91,7 @@ namespace Subtext.Common.UrlManager
 				}
 			}
 			//If we do not find the page, just let ASP.NET take over
-			return PageHandlerFactory.GetHandler(context,requestType,url, path);
+			return PageHandlerFactory.GetHandler(context, requestType, url, path);
 		}
 
 
@@ -100,11 +102,15 @@ namespace Subtext.Common.UrlManager
 			{
 				pagepath = HandlerConfiguration.Instance().FullPageLocation;
 			}
-			HandlerConfiguration.SetControls(context,item.BlogControls);
-			return PageParser.GetCompiledPageInstance(url,pagepath,context);
+			HandlerConfiguration.SetControls(context, item.BlogControls);
+			return PageParser.GetCompiledPageInstance(url, pagepath, context);
 		}
 
 
+		/// <summary>
+		/// Releases the handler.
+		/// </summary>
+		/// <param name="handler">Handler.</param>
 		public virtual void ReleaseHandler(IHttpHandler handler) 
 		{
 

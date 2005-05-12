@@ -46,31 +46,16 @@ namespace Subtext.Web.UI.Controls
 
 		protected LinkCategoryCollection GetArchiveCategories()
 		{
-			//string key = this.ControlCacheKey;
-//
-//			LinkCategoryCollection lcc = (LinkCategoryCollection)Cache[key];
-//			if(lcc == null)
-//			{
-				LinkCategoryCollection lcc = new LinkCategoryCollection();
+			LinkCategoryCollection lcc = new LinkCategoryCollection();
 
-				string fqu = CurrentBlog.FullyQualifiedUrl;
-				lcc.Add(UIData.Links(CategoryType.StoryCollection,CurrentBlog.UrlFormats));			
-				lcc.Add(UIData.ArchiveMonth(CurrentBlog.UrlFormats));
-				lcc.Add(UIData.Links(CategoryType.PostCollection,CurrentBlog.UrlFormats));
-				lcc.Add(UIData.Links(CategoryType.ImageCollection,CurrentBlog.UrlFormats));
-				lcc.AddRange(Links.GetActiveCategories());
-//				Cacher.CacherCache(key,Context,lcc,CacheTime.Medium);
-//			}
-
+			string fqu = CurrentBlog.FullyQualifiedUrl;
+			lcc.Add(UIData.Links(CategoryType.StoryCollection,CurrentBlog.UrlFormats));			
+			lcc.Add(UIData.ArchiveMonth(CurrentBlog.UrlFormats));
+			lcc.Add(UIData.Links(CategoryType.PostCollection,CurrentBlog.UrlFormats));
+			lcc.Add(UIData.Links(CategoryType.ImageCollection,CurrentBlog.UrlFormats));
+			lcc.AddRange(Links.GetActiveCategories());
 			return lcc;
 		}
-
-
-
-
-	
-
-		
 	}
 }
 

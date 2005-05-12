@@ -28,18 +28,14 @@ using Subtext.Framework.Configuration;
 namespace Subtext.Web.UI.Handlers
 {
 	/// <summary>
-	/// Summary description for BlogSecondaryCssHandler.
+	/// HTTP Handler for rendering a CSS stylesheet.
 	/// </summary>
 	public class BlogSecondaryCssHandler : IHttpHandler
 	{
-		public BlogSecondaryCssHandler()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-		#region IHttpHandler Members
-
+		/// <summary>
+		/// Processes the request.
+		/// </summary>
+		/// <param name="context">Context.</param>
 		public void ProcessRequest(HttpContext context)
 		{
 			context.Response.ContentEncoding = System.Text.Encoding.UTF8;
@@ -47,16 +43,22 @@ namespace Subtext.Web.UI.Handlers
 			context.Response.Write(Config.CurrentBlog(context).Skin.SkinCssText);
 		}
 
+		/// <summary>
+		/// Gets a value indicating whether this handler is reusable.
+		/// </summary>
+		/// <remarks>
+		/// This handler is not reusable.
+		/// </remarks>
+		/// <value>
+		/// 	<c>true</c> if is reusable; otherwise, <c>false</c>.
+		/// </value>
 		public bool IsReusable
 		{
 			get
 			{
-				// TODO:  Add BlogSecondaryCssHandler.IsReusable getter implementation
 				return false;
 			}
 		}
-
-		#endregion
 	}
 }
 

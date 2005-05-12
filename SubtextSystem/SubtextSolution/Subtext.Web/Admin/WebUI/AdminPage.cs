@@ -129,7 +129,7 @@ namespace Subtext.Web.Admin.Pages
 			{
 				return (null != Session[Keys.SESSION_COOKIETEST]);
 			}
-			catch (HttpException) // if we're coming in via ErrorHandler, session is unavailable
+			catch (HttpException)
 			{
 				return false;
 			}
@@ -142,7 +142,7 @@ namespace Subtext.Web.Admin.Pages
 				Session[Keys.SESSION_COOKIETEST] = CookieSupportType.Testing;
 				Response.Cookies.Add(new HttpCookie(TESTCOOKIE_NAME, DateTime.Now.ToString()));
 			}
-			catch (HttpException) // if we're coming in via ErrorHandler, session is unavailable
+			catch (HttpException)
 			{
 				return;
 			}

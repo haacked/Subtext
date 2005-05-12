@@ -45,13 +45,10 @@ namespace Subtext.Web.Admin.Pages
 				{
 					ErrorMessageLabel.Text = ex.InnerException.Message;
 				}
-					// if not, we may have come via WebUI.ErrorHandler
-				else if (null != (Exception)Context.Items["PendingException"])
-				{
-					ErrorMessageLabel.Text = ((Exception)Context.Items["PendingException"]).Message;
-				}
 				else
+				{
 					ErrorMessageLabel.Text = "No error message available.";
+				}
 			}
 		}
 

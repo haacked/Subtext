@@ -27,31 +27,39 @@ using System.Web;
 namespace Subtext.Web.UI.Pages 
 {
 	/// <summary>
-	/// Summary description for BaseBlogPageHandlerFactory.
+	/// Abstract base factory class for creating blog page handlers.
 	/// </summary>
 	public abstract class BaseBlogPageHandlerFactory :  IHttpHandlerFactory
 	{
-		public BaseBlogPageHandlerFactory()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
+		/// <summary>
+		/// Gets the page type.
+		/// </summary>
+		/// <value></value>
 		public abstract Type PageType
 		{
 			get;
 		}
 		
-
+		/// <summary>
+		/// Creates and returns the handler based on the specifed 
+		/// HttpContext, request type, url, and path.
+		/// </summary>
+		/// <param name="context">Context.</param>
+		/// <param name="requestType">Request type.</param>
+		/// <param name="url">URL.</param>
+		/// <param name="path">Path.</param>
+		/// <returns></returns>
 		public virtual IHttpHandler GetHandler(HttpContext context, string requestType, string url, string path)
 		{
-			return (IHttpHandler)Activator.CreateInstance(PageType);//, 564, null, args, null);
+			return (IHttpHandler)Activator.CreateInstance(PageType);
 		}
 
+		/// <summary>
+		/// Releases the handler. Currently does nothing.
+		/// </summary>
+		/// <param name="handler">Handler.</param>
 		public virtual void ReleaseHandler(IHttpHandler handler) 
 		{
-			
 		}
 	}
 }

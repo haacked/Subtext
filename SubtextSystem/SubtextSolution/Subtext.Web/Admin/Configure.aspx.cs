@@ -22,14 +22,11 @@
 #endregion
 
 using System;
-using System.IO;
 using System.Web.Caching;
 using System.Web.UI.WebControls;
 using System.Xml;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-//using Subtext.Web.UI;
-//using Subtext.Web.UI.Skinning;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -57,12 +54,6 @@ namespace Subtext.Web.Admin.Pages
 		protected Subtext.Web.Admin.WebUI.Page PageContainer;
 	
 		#region Accessors
-		private int CategoryID
-		{
-			get { return (int)ViewState["CategoryID"]; }
-			set { ViewState["CategoryID"] = value; }
-		}
-
 		public CategoryType CategoryType
 		{
 			get { return (CategoryType)ViewState["CategoryType"]; }
@@ -107,12 +98,6 @@ namespace Subtext.Web.Admin.Pages
 				txbSecondaryCss.Text = config.Skin.SkinCssText;
 			}
 
-			string path = Server.MapPath("~/skins");
-			int len = path.Length + 1;
-			FileInfo fi = new FileInfo(path);
-			
-
-
 			XmlDocument doc = (XmlDocument)Cache["SkinsDoc"];
 			if(doc == null)
 			{
@@ -130,11 +115,10 @@ namespace Subtext.Web.Admin.Pages
 				string css = node.Attributes["SecondaryCss"] != null ? "-" + node.Attributes["SecondaryCss"].Value : string.Empty;
 				string name = node.Attributes["Skin"].Value +  css;
 				//string id = node.Attributes["SkinID"].Value;
-				ddlSkin.Items.Add(new ListItem(name,name));
+				ddlSkin.Items.Add(new ListItem(name, name));
 
 			}
 		
-
 			try
 			{
 					ddlSkin.Items.FindByValue(config.Skin.SkinID).Selected = true;
