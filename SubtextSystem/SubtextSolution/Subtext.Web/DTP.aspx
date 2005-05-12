@@ -1,4 +1,4 @@
-<%@ Page language="c#" Codebehind="DTP.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.UI.Pages.SubtextMasterPage" %>
+<%@ Page language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Pages.SubtextMasterPage" %>
 <%@ Register TagPrefix="DT" Namespace="Subtext.Web.UI.WebControls" Assembly="Subtext.Web" %>
 <!--StartFragment -->
 <!DOCTYPE html 
