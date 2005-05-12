@@ -24,6 +24,7 @@
 using System;
 using System.Configuration;
 using System.Web;
+using System.Xml.Serialization;
 using Subtext.Framework.Providers;
 
 namespace Subtext.Framework.Configuration
@@ -114,17 +115,21 @@ namespace Subtext.Framework.Configuration
 			set{_allowImages = value;}
 		}
 
-		private bool _useXHMTL = false;
 		/// <summary>
-		/// Gets or sets a value indicating whether or not to use XHTML.
+		/// Gets a value indicating whether or not to use XHTML.  This is 
+		/// dependent on the DocTypeDeclaration chosen.
 		/// </summary>
 		/// <value>
 		/// 	<c>true</c> if using XHTML; otherwise, <c>false</c>.
 		/// </value>
+		[XmlIgnore]
 		public bool UseXHTML
 		{
-			get{return _useXHMTL;}
-			set{_useXHMTL = value;}
+			get
+			{
+				return this.DocTypeDeclaration != null 
+					&& (this.DocTypeDeclaration.IndexOf("http://www.w3.org/TR/xhtml1/DTD/xhtml1-") > 0);
+			}
 		}
 
 		private int feedItemCount = 15;
@@ -184,6 +189,19 @@ namespace Subtext.Framework.Configuration
 			get {return this._blogProviders;}
 			set {this._blogProviders = value;}
 		}
+
+		/// <summary>
+		/// Gets or sets the doc type declaration to use 
+		/// at the top of each page.
+		/// </summary>
+		/// <value></value>
+		public string DocTypeDeclaration
+		{
+			get { return _docTypeDeclaration; }
+			set { _docTypeDeclaration = value; }
+		}
+
+		string _docTypeDeclaration;
 
 	}
 }
