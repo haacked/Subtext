@@ -1,0 +1,821 @@
+using System;
+using System.Diagnostics;
+
+using log4net;
+using log4net.Core;
+
+namespace Subtext.Framework.Logging
+{
+	/// <summary>
+	/// Provides logging for the Subtext framework. This class is typically instantiated as a <c>private static readonly</c> member
+	///  of a class in order to handle logging inside of the class. This class is a specialized wrapper for the log4net framework.
+	/// </summary>
+	/// <para>
+	/// The class provides methods to log messages at the following levels:
+	/// </para>
+	/// <remarks>
+	/// <list type="definition">
+	///	<item>
+	///	<term>DEBUG</term>
+	///	<description>
+	///	The <see cref="M:Subtext.Framework.Logging.Log.Debug(System.Object)"/> and 
+	///	<see cref="M:Subtext.Framework.Logging.Log.DebugFormat(System.String,System.Object[])"/> methods log messages
+	///	at the <c>DEBUG</c> level. That is the level with that name defined in the log4net
+	///	repositories. The <see cref="P:Subtext.Framework.Logging.Log.IsDebugEnabled"/>
+	///	property tests if this level is enabled for logging.
+	///	</description>
+	///	</item>
+	///	<item>
+	///	<term>INFO</term>
+	///	<description>
+	///	The <see cref="M:Subtext.Framework.Logging.Log.Info(System.Object)"/> and 
+	///	<see cref="M:Subtext.Framework.Logging.Log.InfoFormat(System.String,System.Object[])"/> methods log messages
+	///	at the <c>INFO</c> level. That is the level with that name defined in the log4net
+	///	repositories. The <see cref="P:Subtext.Framework.Logging.Log.IsInfoEnabled"/>
+	///	property tests if this level is enabled for logging.
+	///	</description>
+	///	</item>
+	///	<item>
+	///	<term>WARN</term>
+	///	<description>
+	///	The <see cref="M:Subtext.Framework.Logging.Log.Warn(System.Object)"/> and 
+	///	<see cref="M:Subtext.Framework.Logging.Log.WarnFormat(System.String,System.Object[])"/> methods log messages
+	///	at the <c>WARN</c> level. That is the level with that name defined in the log4net
+	///	repositories. The <see cref="P:Subtext.Framework.Logging.Log.IsWarnEnabled"/>
+	///	property tests if this level is enabled for logging.
+	///	</description>
+	///	</item>
+	///	<item>
+	///	<term>ERROR</term>
+	///	<description>
+	///	The <see cref="M:Subtext.Framework.Logging.Log.Error(System.Object)"/> and 
+	///	<see cref="M:Subtext.Framework.Logging.Log.ErrorFormat(System.String,System.Object[])"/> methods log messages
+	///	at the <c>ERROR</c> level. That is the level with that name defined in the log4net
+	///	repositories. The <see cref="P:Subtext.Framework.Logging.Log.IsErrorEnabled"/>
+	///	property tests if this level is enabled for logging.
+	///	</description>
+	///	</item>
+	///	<item>
+	///	<term>FATAL</term>
+	///	<description>
+	///	The <see cref="M:Subtext.Framework.Logging.Log.Fatal(System.Object)"/> and 
+	///	<see cref="M:Subtext.Framework.Logging.Log.FatalFormat(System.String,System.Object[])"/> methods log messages
+	///	at the <c>FATAL</c> level. That is the level with that name defined in the log4net
+	///	repositories. The <see cref="P:Subtext.Framework.Logging.Log.IsFatalEnabled"/>
+	///	property tests if this level is enabled for logging.
+	///	</description>
+	///	</item>
+	///	</list>
+	/// </remarks>
+	/// <example>
+	/// An example of using the Log class
+	/// <code lang="C#">
+	/// public class Subtext.Framework.Wigdetry
+	/// {
+	///		<b>private static readonly Log __log = new Log();</b>
+	///		...
+	///		public void DoSomething()
+	///		{
+	///			try
+	///			{
+	///			}
+	///			catch(Exception e)
+	///			{
+	///				<b>__log.Error("Something was not done", e);</b>
+	///			}
+	///		}
+	/// }
+	/// </code>
+	/// </example>
+	public class Log : ILog
+	{
+		private static readonly ILog __nullLog = new NullLog();
+		private readonly ILog _log;
+
+		/// <summary>
+		/// Default constructor. Uses <see cref="T:System.Diagnostics.StackFrame"/> to discover the class it is being called from 
+		/// and automatically establishes log name as the <see cref="P:System.Type.FullName"/> of the class type.
+		/// </summary>
+		public Log()
+			:this(GetCallerType())
+		{
+		}
+
+		/// <summary>
+		/// Instantiates a log using the <see cref="P:System.Type.FullName"/> of the suppled type of the class as the name.
+		/// </summary>
+		/// <param name="type"><see cref="T:System.Type"/> of the class to create a log for</param>
+		public Log(Type type)
+		{
+			_log = CreateInnerLogger(type);
+		}
+
+		private ILog CreateInnerLogger(Type type)
+		{
+			ILog log = LogManager.GetLogger(type);
+			return log != null ? log : __nullLog;
+		}
+
+		private static Type GetCallerType()
+		{
+			return new StackFrame(2, false).GetMethod().DeclaringType;
+		}
+
+		#region ILog Members
+
+		/// <summary>
+		/// Checks if the log is enabled for the <c>ERROR</c> level.
+		/// </summary>
+		/// <value>
+		/// <c>true</c> if this log is enabled for the <c>ERROR</c> events, <c>false</c> otherwise
+		/// </value>
+		/// <remarks>
+		/// <para>
+		/// This function is intended to lessen the computational cost of disabled log debug statements.
+		/// </para>
+		/// </remarks>
+		public bool IsErrorEnabled
+		{
+			get
+			{
+				return _log.IsErrorEnabled;
+			}
+		}
+
+		/// <summary>
+		/// Checks if the log is enabled for the <c>FATAL</c> level.
+		/// </summary>
+		/// <value>
+		/// <c>true</c> if this log is enabled for the <c>FATAL</c> events, <c>false</c> otherwise
+		/// </value>
+		/// <remarks>
+		/// <para>
+		/// This function is intended to lessen the computational cost of disabled log debug statements.
+		/// </para>
+		/// </remarks>
+		public bool IsFatalEnabled
+		{
+			get
+			{
+				return _log.IsFatalEnabled;
+			}
+		}
+
+		/// <summary>
+		/// Checks if the log is enabled for the <c>WARN</c> level.
+		/// </summary>
+		/// <value>
+		/// <c>true</c> if this log is enabled for the <c>WARN</c> events, <c>false</c> otherwise
+		/// </value>
+		/// <remarks>
+		/// <para>
+		/// This function is intended to lessen the computational cost of disabled log debug statements.
+		/// </para>
+		/// </remarks>
+		public bool IsWarnEnabled
+		{
+			get
+			{
+				return _log.IsWarnEnabled;
+			}
+		}
+
+		/// <summary>
+		/// Checks if the log is enabled for the <c>INFO</c> level.
+		/// </summary>
+		/// <value>
+		/// <c>true</c> if this log is enabled for the <c>INFO</c> events, <c>false</c> otherwise
+		/// </value>
+		/// <remarks>
+		/// <para>
+		/// This function is intended to lessen the computational cost of disabled log debug statements.
+		/// </para>
+		/// </remarks>
+		public bool IsInfoEnabled
+		{
+			get
+			{
+				return _log.IsInfoEnabled;
+			}
+		}
+
+		/// <summary>
+		/// Checks if the log is enabled for the <c>DEBUG</c> level.
+		/// </summary>
+		/// <value>
+		/// <c>true</c> if this log is enabled for the <c>DEBUG</c> events, <c>false</c> otherwise
+		/// </value>
+		/// <remarks>
+		/// <para>
+		/// This function is intended to lessen the computational cost of disabled log debug statements.
+		/// </para>
+		/// </remarks>
+		public bool IsDebugEnabled
+		{
+			get
+			{
+				return _log.IsDebugEnabled;
+			}
+		}
+
+		/// <summary>
+		/// Logs a message with the <c>ERROR</c> level.
+		/// </summary>
+		/// <param name="provider">An <see cref="T:System.IFormatProvider"/> that supplies culture-specific formatting information</param>
+		/// <param name="format">A <see cref="T:System.String"/> containing zero or more format items</param>
+		/// <param name="args">An <see cref="T:System.Array"/> containing zero or more objects to format</param>
+		/// <remarks>
+		/// <para>
+		/// The message is formatted using the <c>String.Format</c> method. 
+		/// See <see cref="M:System.String.Format(System.String,System.Object)"/> for details of the syntax 
+		/// of the format string and the behavior of the formatting.
+		/// </para>
+		/// <para>
+		/// This method does not take an <see cref="T:System.Exception"/> object to include in the log event. 
+		/// To pass an <see cref="T:System.Exception"/> use
+		/// one of the <see cref="M:Subtext.Framework.Logging.Log.Error(System.Object)"/> methods instead.
+		/// </para>
+		/// </remarks>
+		public void ErrorFormat(IFormatProvider provider, string format, params object[] args)
+		{
+			_log.ErrorFormat(provider, format, args);
+		}
+
+		/// <summary>
+		/// Logs a message with the <c>ERROR</c> level.
+		/// </summary>
+		/// <param name="format">A <see cref="T:System.String"/> containing zero or more format items</param>
+		/// <param name="args">An <see cref="T:System.Array"/> containing zero or more objects to format</param>
+		/// <remarks>
+		/// <para>
+		/// The message is formatted using the <c>String.Format</c> method. 
+		/// See <see cref="M:System.String.Format(System.String,System.Object)"/> for details of the syntax 
+		/// of the format string and the behavior of the formatting.
+		/// </para>
+		/// <para>
+		/// This method does not take an <see cref="T:System.Exception"/> object to include in the log event. 
+		/// To pass an <see cref="T:System.Exception"/> use
+		/// one of the <see cref="M:Subtext.Framework.Logging.Log.Error(System.Object)"/> methods instead.
+		/// </para>
+		/// </remarks>
+		public void ErrorFormat(string format, params object[] args)
+		{
+			_log.ErrorFormat(format, args);
+		}
+
+		/// <summary>
+		/// Logs a message object with the <c>INFO</c> level.
+		/// </summary>
+		/// <param name="message">The message object to log</param>
+		/// <param name="exception">The exception to log, including its stack trace</param>
+		/// <remarks>
+		/// <para>
+		///  This method first checks if this logger is <c>INFO</c> enabled. If so, 
+		///  it converts the message object (passed as parameter) to a string 
+		///  by invoking the appropriate <see cref="T:log4net.ObjectRenderer.IObjectRenderer"/>. 
+		///  It then proceeds to call all the registered appenders in this logger and also 
+		///  higher in the hierarchy depending on the value of the additivity flag.
+		/// </para>
+		/// </remarks>
+		public void Info(object message, Exception exception)
+		{
+			_log.Info(message, exception);
+		}
+
+		/// <summary>
+		/// Logs a message object with the <c>INFO</c> level.
+		/// </summary>
+		/// <param name="message">The message object to log</param>
+		/// <remarks>
+		/// <para>
+		///  This method first checks if this logger is <c>INFO</c> enabled. If so, 
+		///  it converts the message object (passed as parameter) to a string 
+		///  by invoking the appropriate <see cref="T:log4net.ObjectRenderer.IObjectRenderer"/>. 
+		///  It then proceeds to call all the registered appenders in this logger and also 
+		///  higher in the hierarchy depending on the value of the additivity flag.
+		/// </para>
+		/// <para>
+		/// <b>WARNING</b> Note that passing an <see cref="T:System.Exception"/> to this method 
+		/// will print the name of the <see cref="T:System.Exception"/> but no stack trace. 
+		/// To print a stack trace use the <see cref="M:Subtext.Framework.Logging.Log.Info(System.Object,System.Exception)"/> form 
+		/// instead.
+		/// </para>
+		/// </remarks>
+		public void Info(object message)
+		{
+			_log.Info(message);
+		}
+
+		/// <summary>
+		/// Logs a message object with the <c>DEBUG</c> level.
+		/// </summary>
+		/// <param name="message">The message object to log</param>
+		/// <param name="exception">The exception to log, including its stack trace</param>
+		/// <remarks>
+		/// <para>
+		///  This method first checks if this logger is <c>DEBUG</c> enabled. If so, 
+		///  it converts the message object (passed as parameter) to a string 
+		///  by invoking the appropriate <see cref="T:log4net.ObjectRenderer.IObjectRenderer"/>. 
+		///  It then proceeds to call all the registered appenders in this logger and also 
+		///  higher in the hierarchy depending on the value of the additivity flag.
+		/// </para>
+		/// </remarks>
+		public void Debug(object message, Exception exception)
+		{
+			_log.Debug(message, exception);
+		}
+
+		/// <summary>
+		/// Logs a message object with the <c>DEBUG</c> level.
+		/// </summary>
+		/// <param name="message">The message object to log</param>
+		/// <remarks>
+		/// <para>
+		///  This method first checks if this logger is <c>DEBUG</c> enabled. If so, 
+		///  it converts the message object (passed as parameter) to a string 
+		///  by invoking the appropriate <see cref="T:log4net.ObjectRenderer.IObjectRenderer"/>. 
+		///  It then proceeds to call all the registered appenders in this logger and also 
+		///  higher in the hierarchy depending on the value of the additivity flag.
+		/// </para>
+		/// <para>
+		/// <b>WARNING</b> Note that passing an <see cref="T:System.Exception"/> to this method 
+		/// will print the name of the <see cref="T:System.Exception"/> but no stack trace. 
+		/// To print a stack trace use the <see cref="M:Subtext.Framework.Logging.Log.Debug(System.Object,System.Exception)"/> form 
+		/// instead.
+		/// </para>
+		/// </remarks>
+		public void Debug(object message)
+		{
+			_log.Debug(message);
+		}
+
+		/// <summary>
+		/// Logs a message object with the <c>WARN</c> level.
+		/// </summary>
+		/// <param name="message">The message object to log</param>
+		/// <param name="exception">The exception to log, including its stack trace</param>
+		/// <remarks>
+		/// <para>
+		///  This method first checks if this logger is <c>WARN</c> enabled. If so, 
+		///  it converts the message object (passed as parameter) to a string 
+		///  by invoking the appropriate <see cref="T:log4net.ObjectRenderer.IObjectRenderer"/>. 
+		///  It then proceeds to call all the registered appenders in this logger and also 
+		///  higher in the hierarchy depending on the value of the additivity flag.
+		/// </para>
+		/// </remarks>
+		public void Warn(object message, Exception exception)
+		{
+			_log.Warn(message, exception);
+		}
+
+		/// <summary>
+		/// Logs a message object with the <c>WARN</c> level.
+		/// </summary>
+		/// <param name="message">The message object to log</param>
+		/// <remarks>
+		/// <para>
+		///  This method first checks if this logger is <c>WARN</c> enabled. If so, 
+		///  it converts the message object (passed as parameter) to a string 
+		///  by invoking the appropriate <see cref="T:log4net.ObjectRenderer.IObjectRenderer"/>. 
+		///  It then proceeds to call all the registered appenders in this logger and also 
+		///  higher in the hierarchy depending on the value of the additivity flag.
+		/// </para>
+		/// <para>
+		/// <b>WARNING</b> Note that passing an <see cref="T:System.Exception"/> to this method 
+		/// will print the name of the <see cref="T:System.Exception"/> but no stack trace. 
+		/// To print a stack trace use the <see cref="M:Subtext.Framework.Logging.Log.Warn(System.Object,System.Exception)"/> form 
+		/// instead.
+		/// </para>
+		/// </remarks>
+		public void Warn(object message)
+		{
+			_log.Warn(message);
+		}
+
+		/// <summary>
+		/// Logs a message with the <c>WARN</c> level.
+		/// </summary>
+		/// <param name="provider">An <see cref="T:System.IFormatProvider"/> that supplies culture-specific formatting information</param>
+		/// <param name="format">A <see cref="T:System.String"/> containing zero or more format items</param>
+		/// <param name="args">An <see cref="T:System.Array"/> containing zero or more objects to format</param>
+		/// <remarks>
+		/// <para>
+		/// The message is formatted using the <c>String.Format</c> method. 
+		/// See <see cref="M:System.String.Format(System.String,System.Object)"/> for details of the syntax 
+		/// of the format string and the behavior of the formatting.
+		/// </para>
+		/// <para>
+		/// This method does not take an <see cref="T:System.Exception"/> object to include in the log event. 
+		/// To pass an <see cref="T:System.Exception"/> use
+		/// one of the <see cref="M:Subtext.Framework.Logging.Log.Warn(System.Object)"/> methods instead.
+		/// </para>
+		/// </remarks>
+		public void WarnFormat(IFormatProvider provider, string format, params object[] args)
+		{
+			_log.WarnFormat(provider, format, args);
+		}
+
+		/// <summary>
+		/// Logs a message with the <c>WARN</c> level.
+		/// </summary>
+		/// <param name="format">A <see cref="T:System.String"/> containing zero or more format items</param>
+		/// <param name="args">An <see cref="T:System.Array"/> containing zero or more objects to format</param>
+		/// <remarks>
+		/// <para>
+		/// The message is formatted using the <c>String.Format</c> method. 
+		/// See <see cref="M:System.String.Format(System.String,System.Object)"/> for details of the syntax 
+		/// of the format string and the behavior of the formatting.
+		/// </para>
+		/// <para>
+		/// This method does not take an <see cref="T:System.Exception"/> object to include in the log event. 
+		/// To pass an <see cref="T:System.Exception"/> use
+		/// one of the <see cref="M:Subtext.Framework.Logging.Log.Warn(System.Object)"/> methods instead.
+		/// </para>
+		/// </remarks>
+		public void WarnFormat(string format, params object[] args)
+		{
+			_log.WarnFormat(format, args);
+		}
+
+		/// <summary>
+		/// Logs a message object with the <c>FATAL</c> level.
+		/// </summary>
+		/// <param name="message">The message object to log</param>
+		/// <param name="exception">The exception to log, including its stack trace</param>
+		/// <remarks>
+		/// <para>
+		///  This method first checks if this logger is <c>FATAL</c> enabled. If so, 
+		///  it converts the message object (passed as parameter) to a string 
+		///  by invoking the appropriate <see cref="T:log4net.ObjectRenderer.IObjectRenderer"/>. 
+		///  It then proceeds to call all the registered appenders in this logger and also 
+		///  higher in the hierarchy depending on the value of the additivity flag.
+		/// </para>
+		/// </remarks>
+		public void Fatal(object message, Exception exception)
+		{
+			_log.Fatal(message, exception);
+		}
+
+		/// <summary>
+		/// Logs a message object with the <c>FATAL</c> level.
+		/// </summary>
+		/// <param name="message">The message object to log</param>
+		/// <remarks>
+		/// <para>
+		///  This method first checks if this logger is <c>FATAL</c> enabled. If so, 
+		///  it converts the message object (passed as parameter) to a string 
+		///  by invoking the appropriate <see cref="T:log4net.ObjectRenderer.IObjectRenderer"/>. 
+		///  It then proceeds to call all the registered appenders in this logger and also 
+		///  higher in the hierarchy depending on the value of the additivity flag.
+		/// </para>
+		/// <para>
+		/// <b>WARNING</b> Note that passing an <see cref="T:System.Exception"/> to this method 
+		/// will print the name of the <see cref="T:System.Exception"/> but no stack trace. 
+		/// To print a stack trace use the <see cref="M:Subtext.Framework.Logging.Log.Fatal(System.Object,System.Exception)"/> form 
+		/// instead.
+		/// </para>
+		/// </remarks>
+		public void Fatal(object message)
+		{
+			_log.Fatal(message);
+		}
+
+		/// <summary>
+		/// Logs a message object with the <c>ERROR</c> level.
+		/// </summary>
+		/// <param name="message">The message object to log</param>
+		/// <param name="exception">The exception to log, including its stack trace</param>
+		/// <remarks>
+		/// <para>
+		///  This method first checks if this logger is <c>ERROR</c> enabled. If so, 
+		///  it converts the message object (passed as parameter) to a string 
+		///  by invoking the appropriate <see cref="T:log4net.ObjectRenderer.IObjectRenderer"/>. 
+		///  It then proceeds to call all the registered appenders in this logger and also 
+		///  higher in the hierarchy depending on the value of the additivity flag.
+		/// </para>
+		/// </remarks>
+		public void Error(object message, Exception exception)
+		{
+			_log.Error(message, exception);
+		}
+
+		/// <summary>
+		/// Logs a message object with the <c>ERROR</c> level.
+		/// </summary>
+		/// <param name="message">The message object to log</param>
+		/// <remarks>
+		/// <para>
+		///  This method first checks if this logger is <c>ERROR</c> enabled. If so, 
+		///  it converts the message object (passed as parameter) to a string 
+		///  by invoking the appropriate <see cref="T:log4net.ObjectRenderer.IObjectRenderer"/>. 
+		///  It then proceeds to call all the registered appenders in this logger and also 
+		///  higher in the hierarchy depending on the value of the additivity flag.
+		/// </para>
+		/// <para>
+		/// <b>WARNING</b> Note that passing an <see cref="T:System.Exception"/> to this method 
+		/// will print the name of the <see cref="T:System.Exception"/> but no stack trace. 
+		/// To print a stack trace use the <see cref="M:Subtext.Framework.Logging.Log.Error(System.Object,System.Exception)"/> form 
+		/// instead.
+		/// </para>
+		/// </remarks>
+		public void Error(object message)
+		{
+			_log.Error(message);
+		}
+
+		/// <summary>
+		/// Logs a message with the <c>INFO</c> level.
+		/// </summary>
+		/// <param name="provider">An <see cref="T:System.IFormatProvider"/> that supplies culture-specific formatting information</param>
+		/// <param name="format">A <see cref="T:System.String"/> containing zero or more format items</param>
+		/// <param name="args">An <see cref="T:System.Array"/> containing zero or more objects to format</param>
+		/// <remarks>
+		/// <para>
+		/// The message is formatted using the <c>String.Format</c> method. 
+		/// See <see cref="M:System.String.Format(System.String,System.Object)"/> for details of the syntax 
+		/// of the format string and the behavior of the formatting.
+		/// </para>
+		/// <para>
+		/// This method does not take an <see cref="T:System.Exception"/> object to include in the log event. 
+		/// To pass an <see cref="T:System.Exception"/> use
+		/// one of the <see cref="M:Subtext.Framework.Logging.Log.Info(System.Object)"/> methods instead.
+		/// </para>
+		/// </remarks>
+		public void InfoFormat(IFormatProvider provider, string format, params object[] args)
+		{
+			_log.InfoFormat(provider, format, args);
+		}
+
+		/// <summary>
+		/// Logs a message with the <c>INFO</c> level.
+		/// </summary>
+		/// <param name="provider">An <see cref="T:System.IFormatProvider"/> that supplies culture-specific formatting information</param>
+		/// <param name="format">A <see cref="T:System.String"/> containing zero or more format items</param>
+		/// <param name="args">An <see cref="T:System.Array"/> containing zero or more objects to format</param>
+		/// <remarks>
+		/// <para>
+		/// The message is formatted using the <c>String.Format</c> method. 
+		/// of the format string and the behavior of the formatting.
+		/// </para>
+		/// <para>
+		/// This method does not take an <see cref="T:System.Exception"/> object to include in the log event. 
+		/// To pass an <see cref="T:System.Exception"/> use
+		/// one of the <see cref="M:Subtext.Framework.Logging.Log.Info(System.Object)"/> methods instead.
+		/// </para>
+		/// </remarks>
+		public void InfoFormat(string format, params object[] args)
+		{
+			_log.InfoFormat(format, args);
+		}
+
+		/// <summary>
+		/// Logs a message with the <c>FATAL</c> level.
+		/// </summary>
+		/// <param name="provider">An <see cref="T:System.IFormatProvider"/> that supplies culture-specific formatting information</param>
+		/// <param name="format">A <see cref="T:System.String"/> containing zero or more format items</param>
+		/// <param name="args">An <see cref="T:System.Array"/> containing zero or more objects to format</param>
+		/// <remarks>
+		/// <para>
+		/// The message is formatted using the <c>String.Format</c> method. 
+		/// See <see cref="M:System.String.Format(System.String,System.Object)"/> for details of the syntax 
+		/// of the format string and the behavior of the formatting.
+		/// </para>
+		/// <para>
+		/// This method does not take an <see cref="T:System.Exception"/> object to include in the log event. 
+		/// To pass an <see cref="T:System.Exception"/> use
+		/// one of the <see cref="M:Subtext.Framework.Logging.Log.Fatal(System.Object)"/> methods instead.
+		/// </para>
+		/// </remarks>
+		public void FatalFormat(IFormatProvider provider, string format, params object[] args)
+		{
+			_log.FatalFormat(provider, format, args);
+		}
+
+		/// <summary>
+		/// Logs a message with the <c>FATAL</c> level.
+		/// </summary>
+		/// <param name="provider">An <see cref="T:System.IFormatProvider"/> that supplies culture-specific formatting information</param>
+		/// <param name="format">A <see cref="T:System.String"/> containing zero or more format items</param>
+		/// <param name="args">An <see cref="T:System.Array"/> containing zero or more objects to format</param>
+		/// <remarks>
+		/// <para>
+		/// The message is formatted using the <c>String.Format</c> method. 
+		/// of the format string and the behavior of the formatting.
+		/// </para>
+		/// <para>
+		/// This method does not take an <see cref="T:System.Exception"/> object to include in the log event. 
+		/// To pass an <see cref="T:System.Exception"/> use
+		/// one of the <see cref="M:Subtext.Framework.Logging.Log.Fatal(System.Object)"/> methods instead.
+		/// </para>
+		/// </remarks>
+		public void FatalFormat(string format, params object[] args)
+		{
+			_log.FatalFormat(format, args);
+		}
+
+		/// <summary>
+		/// Logs a message with the <c>DEBUG</c> level.
+		/// </summary>
+		/// <param name="provider">An <see cref="T:System.IFormatProvider"/> that supplies culture-specific formatting information</param>
+		/// <param name="format">A <see cref="T:System.String"/> containing zero or more format items</param>
+		/// <param name="args">An <see cref="T:System.Array"/> containing zero or more objects to format</param>
+		/// <remarks>
+		/// <para>
+		/// The message is formatted using the <c>String.Format</c> method. 
+		/// See <see cref="M:System.String.Format(System.String,System.Object)"/> for details of the syntax 
+		/// of the format string and the behavior of the formatting.
+		/// </para>
+		/// <para>
+		/// This method does not take an <see cref="T:System.Exception"/> object to include in the log event. 
+		/// To pass an <see cref="T:System.Exception"/> use
+		/// one of the <see cref="M:Subtext.Framework.Logging.Log.Debug(System.Object)"/> methods instead.
+		/// </para>
+		/// </remarks>
+		public void DebugFormat(IFormatProvider provider, string format, params object[] args)
+		{
+			_log.DebugFormat(provider, format, args);
+		}
+
+		/// <summary>
+		/// Logs a message with the <c>DEBUG</c> level.
+		/// </summary>
+		/// <param name="provider">An <see cref="T:System.IFormatProvider"/> that supplies culture-specific formatting information</param>
+		/// <param name="format">A <see cref="T:System.String"/> containing zero or more format items</param>
+		/// <param name="args">An <see cref="T:System.Array"/> containing zero or more objects to format</param>
+		/// <remarks>
+		/// <para>
+		/// The message is formatted using the <c>String.Format</c> method. 
+		/// See <see cref="M:System.String.Format(System.String,System.Object)"/> for details of the syntax 
+		/// of the format string and the behavior of the formatting.
+		/// </para>
+		/// <para>
+		/// This method does not take an <see cref="T:System.Exception"/> object to include in the log event. 
+		/// To pass an <see cref="T:System.Exception"/> use
+		/// one of the <see cref="M:Subtext.Framework.Logging.Log.Debug(System.Object)"/> methods instead.
+		/// </para>
+		/// </remarks>
+		public void DebugFormat(string format, params object[] args)
+		{
+			_log.DebugFormat(format, args);
+		}
+
+		#endregion
+
+		#region ILoggerWrapper Members
+
+		ILogger ILoggerWrapper.Logger
+		{
+			get
+			{
+				return _log.Logger;
+			}
+		}
+
+		#endregion
+
+		#region private class NulLog : ILog
+
+		private class NullLog : ILog
+		{
+			#region ILog Members
+
+			public void ErrorFormat(IFormatProvider provider, string format, params object[] args)
+			{
+			}
+
+			void log4net.ILog.ErrorFormat(string format, params object[] args)
+			{
+			}
+
+			public void Info(object message, Exception exception)
+			{
+			}
+
+			void log4net.ILog.Info(object message)
+			{
+			}
+
+			public void Debug(object message, Exception exception)
+			{
+			}
+
+			void log4net.ILog.Debug(object message)
+			{
+			}
+
+			public bool IsErrorEnabled
+			{
+				get
+				{
+					return false;
+				}
+			}
+
+			public bool IsFatalEnabled
+			{
+				get
+				{
+					return false;
+				}
+			}
+
+			public bool IsWarnEnabled
+			{
+				get
+				{
+					return false;
+				}
+			}
+
+			public void Warn(object message, Exception exception)
+			{
+			}
+
+			void log4net.ILog.Warn(object message)
+			{
+			}
+
+			public bool IsInfoEnabled
+			{
+				get
+				{
+					return false;
+				}
+			}
+
+			public bool IsDebugEnabled
+			{
+				get
+				{
+					return false;
+				}
+			}
+
+			public void WarnFormat(IFormatProvider provider, string format, params object[] args)
+			{
+			}
+
+			void log4net.ILog.WarnFormat(string format, params object[] args)
+			{
+			}
+
+			public void Fatal(object message, Exception exception)
+			{
+			}
+
+			void log4net.ILog.Fatal(object message)
+			{
+			}
+
+			public void Error(object message, Exception exception)
+			{
+			}
+
+			void log4net.ILog.Error(object message)
+			{
+			}
+
+			public void InfoFormat(IFormatProvider provider, string format, params object[] args)
+			{
+			}
+
+			void log4net.ILog.InfoFormat(string format, params object[] args)
+			{
+			}
+
+			public void FatalFormat(IFormatProvider provider, string format, params object[] args)
+			{
+			}
+
+			void log4net.ILog.FatalFormat(string format, params object[] args)
+			{
+			}
+
+			public void DebugFormat(IFormatProvider provider, string format, params object[] args)
+			{
+			}
+
+			void log4net.ILog.DebugFormat(string format, params object[] args)
+			{
+			}
+
+			#endregion
+
+			#region ILoggerWrapper Members
+
+			public ILogger Logger
+			{
+				get
+				{
+					return null;
+				}
+			}
+
+			#endregion
+
+		}
+
+
+		#endregion
+	}
+}

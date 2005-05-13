@@ -125,6 +125,24 @@
             Summary description for IBlogID.
             </summary>
         </member>
+        <member name="P:Subtext.Framework.Components.Entry.HasTitleUrl">
+            <summary>
+            Gets a value indicating whether this entry 
+            has an actual Title URL that's different from 
+            the Link (meaning the user overrode the title 
+            url).
+            </summary>
+            <value>
+            	<c>true</c> if [has title URL]; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.Components.Entry.TitleUrl">
+            <summary>
+            Gets or sets the URL the Title of an entry will 
+            link to.
+            </summary>
+            <value></value>
+        </member>
         <member name="P:Subtext.Framework.Components.Entry.CommentingClosed">
             <summary>
             True if comments have been closed. Otherwise false.  Comments are closed 
@@ -1120,7 +1138,8 @@
         </member>
         <member name="P:Subtext.Framework.Configuration.BlogConfigurationSettings.UseXHTML">
             <summary>
-            Gets or sets a value indicating whether or not to use XHTML.
+            Gets a value indicating whether or not to use XHTML.  This is 
+            dependent on the DocTypeDeclaration chosen.
             </summary>
             <value>
             	<c>true</c> if using XHTML; otherwise, <c>false</c>.
@@ -1154,6 +1173,13 @@
             	<c>true</c> if using syndication compression; otherwise, <c>false</c>.
             </value>
         </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfigurationSettings.DocTypeDeclaration">
+            <summary>
+            Gets or sets the doc type declaration to use 
+            at the top of each page.
+            </summary>
+            <value></value>
+        </member>
         <member name="T:Subtext.Framework.Configuration.Config">
             <summary>
             Summary description for Config.
@@ -1168,11 +1194,6 @@
             <param name="userName">Name of the user.</param>
             <param name="password">Password.</param>
             <returns></returns>
-        </member>
-        <member name="T:Subtext.Framework.Configuration.ExtendedProperties">
-            <summary>
-            Summary description for ExtendedProperties.
-            </summary>
         </member>
         <member name="T:Subtext.Framework.Configuration.IConfig">
             <summary>
@@ -1287,7 +1308,8 @@
         </member>
         <member name="T:Subtext.Framework.Data.DataHelper">
             <summary>
-            Summary description for DataHelper.
+            Contains helper methods for getting blog entries from the database 
+            into objects such as <see cref="T:Subtext.Framework.Components.EntryDayCollection"/> and <see cref="T:Subtext.Framework.Components.EntryCollection"/>.
             </summary>
         </member>
         <member name="M:Subtext.Framework.Data.DataHelper.LoadSingleCategoryEntry(System.Data.IDataReader)">
@@ -1935,10 +1957,528 @@
             Default Implemenation of UrlFormats
             </summary>
         </member>
+        <member name="M:Subtext.Framework.Format.UrlFormats.DateFromUrl(System.String)">
+            <summary>
+            Returns a <see cref="T:System.DateTime"/> instance parsed from the url.
+            </summary>
+            <param name="url">URL.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Format.UrlFormats.DateFromUrl(System.String,System.String)">
+            <summary>
+            Returns a <see cref="T:System.DateTime"/> instance parsed from the url 
+            at the startfrom position.
+            </summary>
+            <param name="url">URL.</param>
+            <param name="startfrom">Startfrom.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Format.UrlFormats.GetBlogAppFromRequest(System.String,System.String)">
+            <summary>
+            Gets the blog app from request.
+            </summary>
+            <param name="path">Path.</param>
+            <param name="app">App.</param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Subtext.Framework.Format.UrlFormats.GetUriReferrerSafe(System.Web.HttpRequest)" -->
+        <member name="T:Subtext.Framework.Logging.Log">
+            <summary>
+            Provides logging for the Subtext framework. This class is typically instantiated as a <c>private static readonly</c> member
+             of a class in order to handle logging inside of the class. This class is a specialized wrapper for the log4net framework.
+            </summary>
+        </member>
+        <member name="M:Subtext.Framework.Logging.Log.#ctor">
+            <summary>
+            Default constructor. Uses <see cref="T:System.Diagnostics.StackFrame"/> to discover the class it is being called from 
+            and automatically establishes log name as the <see cref="P:System.Type.FullName"/> of the class type.
+            </summary>
+        </member>
+        <member name="M:Subtext.Framework.Logging.Log.#ctor(System.Type)">
+            <summary>
+            Instantiates a log using the <see cref="P:System.Type.FullName"/> of the suppled type of the class as the name.
+            </summary>
+            <param name="type"><see cref="T:System.Type"/> of the class to create a log for</param>
+        </member>
+        <member name="M:Subtext.Framework.Logging.Log.ErrorFormat(System.IFormatProvider,System.String,System.Object[])">
+            <summary>
+            Logs a message with the <c>ERROR</c> level.
+            </summary>
+            <param name="provider">An <see cref="T:System.IFormatProvider"/> that supplies culture-specific formatting information</param>
+            <param name="format">A <see cref="T:System.String"/> containing zero or more format items</param>
+            <param name="args">An <see cref="T:System.Array"/> containing zero or more objects to format</param>
+            <remarks>
+            <para>
+            The message is formatted using the <c>String.Format</c> method. 
+            See <see cref="M:System.String.Format(System.String,System.Object)"/> for details of the syntax 
+            of the format string and the behavior of the formatting.
+            </para>
+            <para>
+            This method does not take an <see cref="T:System.Exception"/> object to include in the log event. 
+            To pass an <see cref="T:System.Exception"/> use
+            one of the <see cref="M:Subtext.Framework.Logging.Log.Error(System.Object)"/> methods instead.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Subtext.Framework.Logging.Log.ErrorFormat(System.String,System.Object[])">
+            <summary>
+            Logs a message with the <c>ERROR</c> level.
+            </summary>
+            <param name="format">A <see cref="T:System.String"/> containing zero or more format items</param>
+            <param name="args">An <see cref="T:System.Array"/> containing zero or more objects to format</param>
+            <remarks>
+            <para>
+            The message is formatted using the <c>String.Format</c> method. 
+            See <see cref="M:System.String.Format(System.String,System.Object)"/> for details of the syntax 
+            of the format string and the behavior of the formatting.
+            </para>
+            <para>
+            This method does not take an <see cref="T:System.Exception"/> object to include in the log event. 
+            To pass an <see cref="T:System.Exception"/> use
+            one of the <see cref="M:Subtext.Framework.Logging.Log.Error(System.Object)"/> methods instead.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Subtext.Framework.Logging.Log.Info(System.Object,System.Exception)">
+            <summary>
+            Logs a message object with the <c>INFO</c> level.
+            </summary>
+            <param name="message">The message object to log</param>
+            <param name="exception">The exception to log, including its stack trace</param>
+            <remarks>
+            <para>
+             This method first checks if this logger is <c>INFO</c> enabled. If so, 
+             it converts the message object (passed as parameter) to a string 
+             by invoking the appropriate <see cref="T:log4net.ObjectRenderer.IObjectRenderer"/>. 
+             It then proceeds to call all the registered appenders in this logger and also 
+             higher in the hierarchy depending on the value of the additivity flag.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Subtext.Framework.Logging.Log.Info(System.Object)">
+            <summary>
+            Logs a message object with the <c>INFO</c> level.
+            </summary>
+            <param name="message">The message object to log</param>
+            <remarks>
+            <para>
+             This method first checks if this logger is <c>INFO</c> enabled. If so, 
+             it converts the message object (passed as parameter) to a string 
+             by invoking the appropriate <see cref="T:log4net.ObjectRenderer.IObjectRenderer"/>. 
+             It then proceeds to call all the registered appenders in this logger and also 
+             higher in the hierarchy depending on the value of the additivity flag.
+            </para>
+            <para>
+            <b>WARNING</b> Note that passing an <see cref="T:System.Exception"/> to this method 
+            will print the name of the <see cref="T:System.Exception"/> but no stack trace. 
+            To print a stack trace use the <see cref="M:Subtext.Framework.Logging.Log.Info(System.Object,System.Exception)"/> form 
+            instead.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Subtext.Framework.Logging.Log.Debug(System.Object,System.Exception)">
+            <summary>
+            Logs a message object with the <c>DEBUG</c> level.
+            </summary>
+            <param name="message">The message object to log</param>
+            <param name="exception">The exception to log, including its stack trace</param>
+            <remarks>
+            <para>
+             This method first checks if this logger is <c>DEBUG</c> enabled. If so, 
+             it converts the message object (passed as parameter) to a string 
+             by invoking the appropriate <see cref="T:log4net.ObjectRenderer.IObjectRenderer"/>. 
+             It then proceeds to call all the registered appenders in this logger and also 
+             higher in the hierarchy depending on the value of the additivity flag.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Subtext.Framework.Logging.Log.Debug(System.Object)">
+            <summary>
+            Logs a message object with the <c>DEBUG</c> level.
+            </summary>
+            <param name="message">The message object to log</param>
+            <remarks>
+            <para>
+             This method first checks if this logger is <c>DEBUG</c> enabled. If so, 
+             it converts the message object (passed as parameter) to a string 
+             by invoking the appropriate <see cref="T:log4net.ObjectRenderer.IObjectRenderer"/>. 
+             It then proceeds to call all the registered appenders in this logger and also 
+             higher in the hierarchy depending on the value of the additivity flag.
+            </para>
+            <para>
+            <b>WARNING</b> Note that passing an <see cref="T:System.Exception"/> to this method 
+            will print the name of the <see cref="T:System.Exception"/> but no stack trace. 
+            To print a stack trace use the <see cref="M:Subtext.Framework.Logging.Log.Debug(System.Object,System.Exception)"/> form 
+            instead.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Subtext.Framework.Logging.Log.Warn(System.Object,System.Exception)">
+            <summary>
+            Logs a message object with the <c>WARN</c> level.
+            </summary>
+            <param name="message">The message object to log</param>
+            <param name="exception">The exception to log, including its stack trace</param>
+            <remarks>
+            <para>
+             This method first checks if this logger is <c>WARN</c> enabled. If so, 
+             it converts the message object (passed as parameter) to a string 
+             by invoking the appropriate <see cref="T:log4net.ObjectRenderer.IObjectRenderer"/>. 
+             It then proceeds to call all the registered appenders in this logger and also 
+             higher in the hierarchy depending on the value of the additivity flag.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Subtext.Framework.Logging.Log.Warn(System.Object)">
+            <summary>
+            Logs a message object with the <c>WARN</c> level.
+            </summary>
+            <param name="message">The message object to log</param>
+            <remarks>
+            <para>
+             This method first checks if this logger is <c>WARN</c> enabled. If so, 
+             it converts the message object (passed as parameter) to a string 
+             by invoking the appropriate <see cref="T:log4net.ObjectRenderer.IObjectRenderer"/>. 
+             It then proceeds to call all the registered appenders in this logger and also 
+             higher in the hierarchy depending on the value of the additivity flag.
+            </para>
+            <para>
+            <b>WARNING</b> Note that passing an <see cref="T:System.Exception"/> to this method 
+            will print the name of the <see cref="T:System.Exception"/> but no stack trace. 
+            To print a stack trace use the <see cref="M:Subtext.Framework.Logging.Log.Warn(System.Object,System.Exception)"/> form 
+            instead.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Subtext.Framework.Logging.Log.WarnFormat(System.IFormatProvider,System.String,System.Object[])">
+            <summary>
+            Logs a message with the <c>WARN</c> level.
+            </summary>
+            <param name="provider">An <see cref="T:System.IFormatProvider"/> that supplies culture-specific formatting information</param>
+            <param name="format">A <see cref="T:System.String"/> containing zero or more format items</param>
+            <param name="args">An <see cref="T:System.Array"/> containing zero or more objects to format</param>
+            <remarks>
+            <para>
+            The message is formatted using the <c>String.Format</c> method. 
+            See <see cref="M:System.String.Format(System.String,System.Object)"/> for details of the syntax 
+            of the format string and the behavior of the formatting.
+            </para>
+            <para>
+            This method does not take an <see cref="T:System.Exception"/> object to include in the log event. 
+            To pass an <see cref="T:System.Exception"/> use
+            one of the <see cref="M:Subtext.Framework.Logging.Log.Warn(System.Object)"/> methods instead.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Subtext.Framework.Logging.Log.WarnFormat(System.String,System.Object[])">
+            <summary>
+            Logs a message with the <c>WARN</c> level.
+            </summary>
+            <param name="format">A <see cref="T:System.String"/> containing zero or more format items</param>
+            <param name="args">An <see cref="T:System.Array"/> containing zero or more objects to format</param>
+            <remarks>
+            <para>
+            The message is formatted using the <c>String.Format</c> method. 
+            See <see cref="M:System.String.Format(System.String,System.Object)"/> for details of the syntax 
+            of the format string and the behavior of the formatting.
+            </para>
+            <para>
+            This method does not take an <see cref="T:System.Exception"/> object to include in the log event. 
+            To pass an <see cref="T:System.Exception"/> use
+            one of the <see cref="M:Subtext.Framework.Logging.Log.Warn(System.Object)"/> methods instead.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Subtext.Framework.Logging.Log.Fatal(System.Object,System.Exception)">
+            <summary>
+            Logs a message object with the <c>FATAL</c> level.
+            </summary>
+            <param name="message">The message object to log</param>
+            <param name="exception">The exception to log, including its stack trace</param>
+            <remarks>
+            <para>
+             This method first checks if this logger is <c>FATAL</c> enabled. If so, 
+             it converts the message object (passed as parameter) to a string 
+             by invoking the appropriate <see cref="T:log4net.ObjectRenderer.IObjectRenderer"/>. 
+             It then proceeds to call all the registered appenders in this logger and also 
+             higher in the hierarchy depending on the value of the additivity flag.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Subtext.Framework.Logging.Log.Fatal(System.Object)">
+            <summary>
+            Logs a message object with the <c>FATAL</c> level.
+            </summary>
+            <param name="message">The message object to log</param>
+            <remarks>
+            <para>
+             This method first checks if this logger is <c>FATAL</c> enabled. If so, 
+             it converts the message object (passed as parameter) to a string 
+             by invoking the appropriate <see cref="T:log4net.ObjectRenderer.IObjectRenderer"/>. 
+             It then proceeds to call all the registered appenders in this logger and also 
+             higher in the hierarchy depending on the value of the additivity flag.
+            </para>
+            <para>
+            <b>WARNING</b> Note that passing an <see cref="T:System.Exception"/> to this method 
+            will print the name of the <see cref="T:System.Exception"/> but no stack trace. 
+            To print a stack trace use the <see cref="M:Subtext.Framework.Logging.Log.Fatal(System.Object,System.Exception)"/> form 
+            instead.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Subtext.Framework.Logging.Log.Error(System.Object,System.Exception)">
+            <summary>
+            Logs a message object with the <c>ERROR</c> level.
+            </summary>
+            <param name="message">The message object to log</param>
+            <param name="exception">The exception to log, including its stack trace</param>
+            <remarks>
+            <para>
+             This method first checks if this logger is <c>ERROR</c> enabled. If so, 
+             it converts the message object (passed as parameter) to a string 
+             by invoking the appropriate <see cref="T:log4net.ObjectRenderer.IObjectRenderer"/>. 
+             It then proceeds to call all the registered appenders in this logger and also 
+             higher in the hierarchy depending on the value of the additivity flag.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Subtext.Framework.Logging.Log.Error(System.Object)">
+            <summary>
+            Logs a message object with the <c>ERROR</c> level.
+            </summary>
+            <param name="message">The message object to log</param>
+            <remarks>
+            <para>
+             This method first checks if this logger is <c>ERROR</c> enabled. If so, 
+             it converts the message object (passed as parameter) to a string 
+             by invoking the appropriate <see cref="T:log4net.ObjectRenderer.IObjectRenderer"/>. 
+             It then proceeds to call all the registered appenders in this logger and also 
+             higher in the hierarchy depending on the value of the additivity flag.
+            </para>
+            <para>
+            <b>WARNING</b> Note that passing an <see cref="T:System.Exception"/> to this method 
+            will print the name of the <see cref="T:System.Exception"/> but no stack trace. 
+            To print a stack trace use the <see cref="M:Subtext.Framework.Logging.Log.Error(System.Object,System.Exception)"/> form 
+            instead.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Subtext.Framework.Logging.Log.InfoFormat(System.IFormatProvider,System.String,System.Object[])">
+            <summary>
+            Logs a message with the <c>INFO</c> level.
+            </summary>
+            <param name="provider">An <see cref="T:System.IFormatProvider"/> that supplies culture-specific formatting information</param>
+            <param name="format">A <see cref="T:System.String"/> containing zero or more format items</param>
+            <param name="args">An <see cref="T:System.Array"/> containing zero or more objects to format</param>
+            <remarks>
+            <para>
+            The message is formatted using the <c>String.Format</c> method. 
+            See <see cref="M:System.String.Format(System.String,System.Object)"/> for details of the syntax 
+            of the format string and the behavior of the formatting.
+            </para>
+            <para>
+            This method does not take an <see cref="T:System.Exception"/> object to include in the log event. 
+            To pass an <see cref="T:System.Exception"/> use
+            one of the <see cref="M:Subtext.Framework.Logging.Log.Info(System.Object)"/> methods instead.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Subtext.Framework.Logging.Log.InfoFormat(System.String,System.Object[])">
+            <summary>
+            Logs a message with the <c>INFO</c> level.
+            </summary>
+            <param name="provider">An <see cref="T:System.IFormatProvider"/> that supplies culture-specific formatting information</param>
+            <param name="format">A <see cref="T:System.String"/> containing zero or more format items</param>
+            <param name="args">An <see cref="T:System.Array"/> containing zero or more objects to format</param>
+            <remarks>
+            <para>
+            The message is formatted using the <c>String.Format</c> method. 
+            of the format string and the behavior of the formatting.
+            </para>
+            <para>
+            This method does not take an <see cref="T:System.Exception"/> object to include in the log event. 
+            To pass an <see cref="T:System.Exception"/> use
+            one of the <see cref="M:Subtext.Framework.Logging.Log.Info(System.Object)"/> methods instead.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Subtext.Framework.Logging.Log.FatalFormat(System.IFormatProvider,System.String,System.Object[])">
+            <summary>
+            Logs a message with the <c>FATAL</c> level.
+            </summary>
+            <param name="provider">An <see cref="T:System.IFormatProvider"/> that supplies culture-specific formatting information</param>
+            <param name="format">A <see cref="T:System.String"/> containing zero or more format items</param>
+            <param name="args">An <see cref="T:System.Array"/> containing zero or more objects to format</param>
+            <remarks>
+            <para>
+            The message is formatted using the <c>String.Format</c> method. 
+            See <see cref="M:System.String.Format(System.String,System.Object)"/> for details of the syntax 
+            of the format string and the behavior of the formatting.
+            </para>
+            <para>
+            This method does not take an <see cref="T:System.Exception"/> object to include in the log event. 
+            To pass an <see cref="T:System.Exception"/> use
+            one of the <see cref="M:Subtext.Framework.Logging.Log.Fatal(System.Object)"/> methods instead.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Subtext.Framework.Logging.Log.FatalFormat(System.String,System.Object[])">
+            <summary>
+            Logs a message with the <c>FATAL</c> level.
+            </summary>
+            <param name="provider">An <see cref="T:System.IFormatProvider"/> that supplies culture-specific formatting information</param>
+            <param name="format">A <see cref="T:System.String"/> containing zero or more format items</param>
+            <param name="args">An <see cref="T:System.Array"/> containing zero or more objects to format</param>
+            <remarks>
+            <para>
+            The message is formatted using the <c>String.Format</c> method. 
+            of the format string and the behavior of the formatting.
+            </para>
+            <para>
+            This method does not take an <see cref="T:System.Exception"/> object to include in the log event. 
+            To pass an <see cref="T:System.Exception"/> use
+            one of the <see cref="M:Subtext.Framework.Logging.Log.Fatal(System.Object)"/> methods instead.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Subtext.Framework.Logging.Log.DebugFormat(System.IFormatProvider,System.String,System.Object[])">
+            <summary>
+            Logs a message with the <c>DEBUG</c> level.
+            </summary>
+            <param name="provider">An <see cref="T:System.IFormatProvider"/> that supplies culture-specific formatting information</param>
+            <param name="format">A <see cref="T:System.String"/> containing zero or more format items</param>
+            <param name="args">An <see cref="T:System.Array"/> containing zero or more objects to format</param>
+            <remarks>
+            <para>
+            The message is formatted using the <c>String.Format</c> method. 
+            See <see cref="M:System.String.Format(System.String,System.Object)"/> for details of the syntax 
+            of the format string and the behavior of the formatting.
+            </para>
+            <para>
+            This method does not take an <see cref="T:System.Exception"/> object to include in the log event. 
+            To pass an <see cref="T:System.Exception"/> use
+            one of the <see cref="M:Subtext.Framework.Logging.Log.Debug(System.Object)"/> methods instead.
+            </para>
+            </remarks>
+        </member>
+        <member name="M:Subtext.Framework.Logging.Log.DebugFormat(System.String,System.Object[])">
+            <summary>
+            Logs a message with the <c>DEBUG</c> level.
+            </summary>
+            <param name="provider">An <see cref="T:System.IFormatProvider"/> that supplies culture-specific formatting information</param>
+            <param name="format">A <see cref="T:System.String"/> containing zero or more format items</param>
+            <param name="args">An <see cref="T:System.Array"/> containing zero or more objects to format</param>
+            <remarks>
+            <para>
+            The message is formatted using the <c>String.Format</c> method. 
+            See <see cref="M:System.String.Format(System.String,System.Object)"/> for details of the syntax 
+            of the format string and the behavior of the formatting.
+            </para>
+            <para>
+            This method does not take an <see cref="T:System.Exception"/> object to include in the log event. 
+            To pass an <see cref="T:System.Exception"/> use
+            one of the <see cref="M:Subtext.Framework.Logging.Log.Debug(System.Object)"/> methods instead.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Subtext.Framework.Logging.Log.IsErrorEnabled">
+            <summary>
+            Checks if the log is enabled for the <c>ERROR</c> level.
+            </summary>
+            <value>
+            <c>true</c> if this log is enabled for the <c>ERROR</c> events, <c>false</c> otherwise
+            </value>
+            <remarks>
+            <para>
+            This function is intended to lessen the computational cost of disabled log debug statements.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Subtext.Framework.Logging.Log.IsFatalEnabled">
+            <summary>
+            Checks if the log is enabled for the <c>FATAL</c> level.
+            </summary>
+            <value>
+            <c>true</c> if this log is enabled for the <c>FATAL</c> events, <c>false</c> otherwise
+            </value>
+            <remarks>
+            <para>
+            This function is intended to lessen the computational cost of disabled log debug statements.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Subtext.Framework.Logging.Log.IsWarnEnabled">
+            <summary>
+            Checks if the log is enabled for the <c>WARN</c> level.
+            </summary>
+            <value>
+            <c>true</c> if this log is enabled for the <c>WARN</c> events, <c>false</c> otherwise
+            </value>
+            <remarks>
+            <para>
+            This function is intended to lessen the computational cost of disabled log debug statements.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Subtext.Framework.Logging.Log.IsInfoEnabled">
+            <summary>
+            Checks if the log is enabled for the <c>INFO</c> level.
+            </summary>
+            <value>
+            <c>true</c> if this log is enabled for the <c>INFO</c> events, <c>false</c> otherwise
+            </value>
+            <remarks>
+            <para>
+            This function is intended to lessen the computational cost of disabled log debug statements.
+            </para>
+            </remarks>
+        </member>
+        <member name="P:Subtext.Framework.Logging.Log.IsDebugEnabled">
+            <summary>
+            Checks if the log is enabled for the <c>DEBUG</c> level.
+            </summary>
+            <value>
+            <c>true</c> if this log is enabled for the <c>DEBUG</c> events, <c>false</c> otherwise
+            </value>
+            <remarks>
+            <para>
+            This function is intended to lessen the computational cost of disabled log debug statements.
+            </para>
+            </remarks>
+        </member>
         <member name="T:Subtext.Framework.Providers.BaseProvider">
             <summary>
-            Summary description for BaseProvider.
+            Abstract base class for all providers.
             </summary>
+        </member>
+        <member name="M:Subtext.Framework.Providers.BaseProvider.Instance">
+            <summary>
+            Returns an instance of this provider.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Providers.BaseProvider.SaveCache(System.String,System.Object)">
+            <summary>
+            Saves the specified object into the <see cref="T:Subtext.Framework.Util.BlogCache"/> 
+            using the current <see cref="T:System.Web.HttpContext"/>.
+            </summary>
+            <remarks>
+            The object is saved with a cache dependency on its assembly.
+            </remarks>
+            <param name="cacheKey">Cache key.</param>
+            <param name="obj">Obj.</param>
+        </member>
+        <member name="M:Subtext.Framework.Providers.BaseProvider.SaveCache(System.String,System.Object,System.Web.HttpContext)">
+            <summary>
+            Saves the specified object into the <see cref="T:Subtext.Framework.Util.BlogCache"/> 
+            using the specified <see cref="T:System.Web.HttpContext"/>.
+            </summary>
+            <remarks>
+            The object is saved with a cache dependency on its assembly.
+            </remarks>
+            <param name="cacheKey">Cache key.</param>
+            <param name="obj">Obj.</param>
+            <param name="context">Context.</param>
         </member>
         <member name="T:Subtext.Framework.Providers.BlogProviders">
             <summary>
@@ -2015,6 +2555,11 @@
             Summary description for BaseRssWriter.
             </summary>
         </member>
+        <member name="M:Subtext.Framework.Syndication.BaseRssWriter.SetNamespaces">
+            <summary>
+            Sets the namespaces used within the RSS feed.
+            </summary>
+        </member>
         <member name="T:Subtext.Framework.Syndication.BaseSyndicationHandler">
             <summary>
             Summary description for BaseSyndicationHandler.
@@ -2086,6 +2631,51 @@
             </summary>
             <param name="CurrentEtag">Etag header sent with Response (If-None-Match)</param>
             <param name="CurrentLastModifiedDate">LastModified Data header sent with Response (If-Modified-Since)</param>
+            <returns></returns>
+        </member>
+        <member name="T:Subtext.Framework.Text.HtmlHelper">
+            <summary>
+            Static class used for parseing, formatting, and validating HTML.
+            </summary>
+        </member>
+        <member name="M:Subtext.Framework.Text.HtmlHelper.ConvertHtmlToXHtml(Subtext.Framework.Components.Entry@)">
+            <summary>
+            Converts the entry body into XHTML compliant text. 
+            Returns false if it encounters a problem in doing so.
+            </summary>
+            <param name="entry">Entry.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Text.HtmlHelper.HasIllegalContent(System.String)">
+            <summary>
+            Tests the specified string looking for illegal characters 
+            or html tags.
+            </summary>
+            <param name="s">S.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Text.HtmlHelper.EnableUrls(System.String)">
+            <summary>
+            Wraps an anchor tag around urls.
+            </summary>
+            <param name="text">Text.</param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Subtext.Framework.Text.HtmlHelper.SafeFormatWithUrl(System.String)" -->
+        <!-- Badly formed XML comment ignored for member "M:Subtext.Framework.Text.HtmlHelper.SafeFormat(System.String)" -->
+        <member name="M:Subtext.Framework.Text.HtmlHelper.StripRTB(System.String,System.String)">
+            <summary>
+            Strips the RTB, whatever that is.
+            </summary>
+            <param name="text">Text.</param>
+            <param name="host">Host.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Text.HtmlHelper.CheckForUrl(System.String)">
+            <summary>
+            Checks the text and prepends "http://" if it doesn't have it already.
+            </summary>
+            <param name="text">Text.</param>
             <returns></returns>
         </member>
         <member name="T:Subtext.Framework.Text.StringHelper">
@@ -2443,11 +3033,6 @@
             Summary description for WeblogsNotificatinProxy.
             </summary>
         </member>
-        <member name="T:Subtext.Framework.Util.BinarySerializer">
-            <summary>
-            Summary description for BinarySerializer.
-            </summary>
-        </member>
         <member name="T:Subtext.Framework.Util.BlogCache">
             <summary>
             Allows caching in application in applications hosted inside and out of IIS
@@ -2455,24 +3040,65 @@
         </member>
         <member name="T:Subtext.Framework.Util.BlogTime">
             <summary>
-            Summary description for BlogTime.
+            Class used to convert server time to blogger time and back.
             </summary>
+        </member>
+        <member name="M:Subtext.Framework.Util.BlogTime.ConvertToBloggerTime(System.DateTime,System.Int32)">
+            <summary>
+            Converts the specified <see cref="T:System.DateTime"/> to 
+            the blogger's time zone.
+            </summary>
+            <param name="dt">Dt.</param>
+            <param name="ClientTimeZone">Client time zone.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Util.BlogTime.ConvertToServerTime(System.DateTime,System.Int32)">
+            <summary>
+            Converts the specified <see cref="T:System.DateTime"/> ot the server's time zone.
+            </summary>
+            <param name="dt">Dt.</param>
+            <param name="ClientTimeZone">Client time zone.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Util.BlogTime.FromClientToServerFactor(System.Int32,System.Int32)">
+            <summary>
+            Gets the client to server factor.
+            </summary>
+            <param name="Client">Client.</param>
+            <param name="Server">Server.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Util.BlogTime.FromServerToClientFactor(System.Int32,System.Int32)">
+            <summary>
+            Gets the server to client factor.
+            </summary>
+            <param name="Client">Client.</param>
+            <param name="Server">Server.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Subtext.Framework.Util.BlogTime.CurrentBloggerTime">
+            <summary>
+            Gets the current blogger time.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Util.BlogTime.ClientToServerTimeZoneFactor">
+            <summary>
+            Gets the client to server time zone factor.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Util.BlogTime.ServerToClientTimeZoneFactor">
+            <summary>
+            Gets the server to client time zone factor.
+            </summary>
+            <value></value>
         </member>
         <member name="T:Subtext.Framework.Util.Globals">
             <summary>
-            Summary description for Globals.
+            Static methods with nowhere to go.  Let's get rid of this.
             </summary>
         </member>
-        <member name="M:Subtext.Framework.Util.Globals.GetBlogAppFromRequest(System.String,System.String)">
-            <summary>
-            Gets the blog app from request.
-            </summary>
-            <param name="path">Path.</param>
-            <param name="app">App.</param>
-            <returns></returns>
-        </member>
-        <!-- Badly formed XML comment ignored for member "M:Subtext.Framework.Util.Globals.GetUriReferrerSafe(System.Web.HttpRequest)" -->
-        <!-- Badly formed XML comment ignored for member "M:Subtext.Framework.Util.Globals.SafeFormat(System.String)" -->
         <member name="M:Subtext.Framework.Util.KeyWords.ReplaceFormat(System.String,System.String,System.String)">
             <summary>
             Preforms a forward scan and replace for a given pattern. Replaces all finds and preforms a case sensitive search
@@ -2601,8 +3227,25 @@
         </member>
         <member name="T:Subtext.Framework.Util.SerializationHelper">
             <summary>
-            Summary description for SerializationHelper.
+            Class with methods for saving and loading objects as 
+            serialized instances.
             </summary>
+        </member>
+        <member name="M:Subtext.Framework.Util.SerializationHelper.Load(System.Type,System.String)">
+            <summary>
+            Loads the specified type.
+            </summary>
+            <param name="type">Type.</param>
+            <param name="filename">Filename.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Util.SerializationHelper.Save(System.Object,System.String)">
+            <summary>
+            Saves the specified object at the specified location 
+            as a serialized file.
+            </summary>
+            <param name="obj">Obj.</param>
+            <param name="filename">Filename.</param>
         </member>
         <!-- Badly formed XML comment ignored for member "T:Subtext.Framework.Util.Transform" -->
         <member name="T:Subtext.Framework.Util.WebPathStripper">
@@ -2677,6 +3320,32 @@
             </summary>
             <param name="ParentId">Parent (EntryID) of the collection</param>
             <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Entries.Update(Subtext.Framework.Components.Entry)">
+            <summary>
+            Updates the specified entry in the data provider.
+            </summary>
+            <param name="entry">Entry.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Entries.Update(Subtext.Framework.Components.Entry,System.Int32[])">
+            <summary>
+            Updates the specified entry in the data provider 
+            and attaches the specified categories.
+            </summary>
+            <param name="entry">Entry.</param>
+            <param name="CategoryIDs">Category Ids this entry belongs to.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Entries.InsertComment(Subtext.Framework.Components.Entry)">
+            <summary>
+            Inserts a comment for the specified entry.
+            </summary>
+            <remarks>
+            If it's not the admin posting the comment, an email is sent 
+            to the Admin with the contents of the comment.
+            </remarks>
+            <param name="entry">Entry.</param>
         </member>
         <member name="T:Subtext.Framework.BlogDoesNotExistException">
             <summary>
@@ -2771,10 +3440,60 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="P:Subtext.Framework.Security.UserIsConnectingLocally">
+            <summary>
+            If true, then the user is connecting to the blog via "localhost" 
+            on the same server as this is installed.  In other words, we're 
+            pretty sure the user is a developer.
+            </summary>
+        </member>
         <member name="T:Subtext.Framework.Stats">
             <summary>
-            Summary description for Stats.
+            Class used for managing stats. Provides facilities for queing stats. 
+            This is used for trackbacks and pingbacks.
             </summary>
+        </member>
+        <member name="M:Subtext.Framework.Stats.#cctor">
+            <summary>
+            Static Constructor.
+            </summary>
+        </member>
+        <member name="M:Subtext.Framework.Stats.ClearQueue(System.Boolean)">
+            <summary>
+            Clears the queue of statistics.  If save is specified, then 
+            stats are saved to an <see cref="T:Subtext.Framework.Components.EntryView"/>
+            </summary>
+            <param name="save">Save.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Stats.AddQuedStats(Subtext.Framework.Components.EntryView)">
+            <summary>
+            Adds <see cref="T:Subtext.Framework.Components.EntryView"/> instance to the stats queue.
+            </summary>
+            <param name="ev">Ev.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Stats.TrackEntry(Subtext.Framework.Components.EntryView)">
+            <summary>
+            Calls out to the data provider to track the specified 
+            <see cref="T:Subtext.Framework.Components.EntryView"/> instance.
+            </summary>
+            <param name="ev">Ev.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Stats.TrackEntry(Subtext.Framework.Components.EntryViewCollection)">
+            <summary>
+            Calls out to the data provider to track the specified 
+            <see cref="T:Subtext.Framework.Components.EntryViewCollection"/> instance.
+            </summary>
+            <param name="evc">Evc.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Stats.Notify(Subtext.Framework.Components.Entry)">
+            <summary>
+            Performs the notification, wether it be a pingback or trackback.
+            </summary>
+            <param name="entry">Entry.</param>
         </member>
         <member name="T:Subtext.Framework.VersionInfo">
             <summary>
