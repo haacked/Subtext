@@ -31,7 +31,6 @@ namespace Subtext.Web.UI.Controls
 	/// <summary>
 	///		Summary description for Header.
 	/// </summary>
-	//[PartialCachingAttribute(300,null,null,"Scott")]
 	public class Header : BaseControl
 	{
 		protected System.Web.UI.WebControls.HyperLink HeaderTitle;
