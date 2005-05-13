@@ -55,3 +55,6 @@ using System.Reflection;
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyFile("")]
 [assembly: AssemblyKeyName("")]
+
+// log4net configurator (to read from Web.config)
+[assembly: log4net.Config.XmlConfigurator()]
