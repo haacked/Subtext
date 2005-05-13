@@ -129,6 +129,11 @@
                     AssemblyName = "MetaBuilders.WebControls.DefaultButtons"
                     HintPath = "ExternalDependencies\MetaBuilders.WebControls.DefaultButtons.dll"
                 />
+                <Reference
+                    Name = "log4net"
+                    AssemblyName = "log4net"
+                    HintPath = "..\Subtext.Framework\ExternalDependencies\log4net.dll"
+                />
             </References>
         </Build>
         <Files>
