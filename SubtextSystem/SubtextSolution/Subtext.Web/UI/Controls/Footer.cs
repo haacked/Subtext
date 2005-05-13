@@ -25,17 +25,20 @@ using System;
 
 namespace Subtext.Web.UI.Controls
 {
-	using System;
-
-
 	/// <summary>
-	///		Summary description for Header.
+	///	Footer control, displayed at the bottom of most skins. 
+	///	Contains a <see cref="System.Web.UI.WebControls.Literal;"/> 
+	///	control which displays the author name.
 	/// </summary>
 	public  class Footer : BaseControl
 	{
 		protected System.Web.UI.WebControls.Literal FooterText;
 
 		
+		/// <summary>
+		/// Sets the FooterText.Text property to the CurrentBlog.Author
+		/// </summary>
+		/// <param name="e">E.</param>
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad (e);
