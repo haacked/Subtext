@@ -199,10 +199,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "default.html"
-                    BuildAction = "Content"
-                />
-                <File
                     RelPath = "DTP.aspx"
                     BuildAction = "Content"
                 />
@@ -4522,6 +4518,14 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Images\shadow.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\shadowAlpha.png"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Modules\BlogServiceModule.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -4950,6 +4954,134 @@
                     BuildAction = "Content"
                 />
                 <Folder RelPath = "Skins\gertrude\Images\" />
+                <File
+                    RelPath = "Skins\Haackify\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\ArchiveCategory.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\ArchiveDay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\ArchiveLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\ArchiveMonth.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\BlogStats.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\CategoryDisplay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\CategoryEntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\CategoryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\Comments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\Contact.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\Day.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\DayCollection.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\EntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\Footer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\GalleryThumbNailViewer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\Header.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\HomePage.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\Login.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\MonthListings.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\MyLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\News.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\PostComment.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\RelatedLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\ViewPicture.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Images\bottom.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Images\Header.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Images\rss20icon.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Images\sidesbg.jpg"
+                    BuildAction = "Content"
+                />
                 <File
                     RelPath = "Skins\Hover\PageTemplate.ascx"
                     BuildAction = "Content"
