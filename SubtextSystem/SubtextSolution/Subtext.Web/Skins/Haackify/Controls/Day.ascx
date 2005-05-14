@@ -5,7 +5,7 @@
 			<asp:Repeater runat="Server" Runat="server" ID="DayList" OnItemCreated="PostCreated">
 				<ItemTemplate>
 					<div class="blogpost">
-						<h2><span class="title"><asp:HyperLink Runat="server" ID="TitleUrl" /></span></h2>
+						<h2><asp:HyperLink Runat="server" ID="editLink" /><span class="title"><asp:HyperLink Runat="server" ID="TitleUrl" /></span></h2>
 						<asp:Literal  runat="server" ID="PostText" />
 						<p class="postfooter">
 							<asp:Literal ID = "PostDesc" Runat = "server" />

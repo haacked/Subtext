@@ -264,7 +264,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static bool Update(Entry entry, int[] CategoryIDs)
 		{
-			return DTOProvider.Instance().Update(entry,CategoryIDs);
+			return DTOProvider.Instance().Update(entry, CategoryIDs);
 		}
 
 		#endregion
