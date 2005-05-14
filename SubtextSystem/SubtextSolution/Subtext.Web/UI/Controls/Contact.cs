@@ -56,7 +56,7 @@ namespace Subtext.Web.UI.Controls
 			if(Page.IsValid)
 			{
 				IMailProvider email = EmailProvider.Instance();
-				BlogConfig config = Config.CurrentBlog(Context);
+				BlogConfig config = Config.CurrentBlog;
 				string To = config.Email;
 				string From = tbEmail.Text;
 				

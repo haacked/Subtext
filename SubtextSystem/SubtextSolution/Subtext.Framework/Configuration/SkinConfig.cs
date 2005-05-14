@@ -8,13 +8,6 @@ namespace Subtext.Framework.Configuration
 	[Serializable]
 	public class SkinConfig
 	{
-		public SkinConfig()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
 		private string _skinName;
 		public string SkinName
 		{

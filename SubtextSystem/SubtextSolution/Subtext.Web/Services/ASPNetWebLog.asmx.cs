@@ -155,11 +155,11 @@ namespace Subtext.Web.Services
 					
 					if(entry.Author == null)
 					{
-						entry.Author = Config.CurrentBlog(Context).Author;
+						entry.Author = Config.CurrentBlog.Author;
 					}
 					if(entry.Email == null)
 					{
-						entry.Email = Config.CurrentBlog(Context).Email;
+						entry.Email = Config.CurrentBlog.Email;
 					}
 					entry.DateCreated.AddHours(BlogTime.ServerToClientTimeZoneFactor);
 
@@ -183,11 +183,11 @@ namespace Subtext.Web.Services
 				{
 					if(entry.Author == null)
 					{
-						entry.Author = Config.CurrentBlog(Context).Author;
+						entry.Author = Config.CurrentBlog.Author;
 					}
 					if(entry.Email == null)
 					{
-						entry.Email = Config.CurrentBlog(Context).Email;
+						entry.Email = Config.CurrentBlog.Email;
 					}
 					entry.DateUpdated.AddHours(BlogTime.ServerToClientTimeZoneFactor);
 					Entries.Update(entry,Categories);

@@ -107,7 +107,7 @@ namespace Subtext.Framework.Syndication
 
 			if(Feed != null)
 			{
-				if(Config.Settings.UseSyndicationCompression && this.AcceptEncoding != null)
+				if(Config.CurrentBlog.UseSyndicationCompression && this.AcceptEncoding != null)
 				{
 					// We're GZip Encoding!
 					SyndicationCompressionFilter filter = SyndicationCompressionHelper.GetFilterForScheme(this.AcceptEncoding, Context.Response.Filter);
@@ -140,7 +140,7 @@ namespace Subtext.Framework.Syndication
 		/// <param name="context">Context.</param>
 		public void ProcessRequest(HttpContext context)
 		{
-			CurrentBlog = Config.CurrentBlog(context);
+			CurrentBlog = Config.CurrentBlog;
 			Context = context;
 
 			ProcessFeed();

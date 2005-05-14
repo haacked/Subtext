@@ -42,7 +42,7 @@ namespace Subtext.Framework.Data
 		{
 			get
 			{
-				return  SqlHelper.MakeInParam("@BlogID",SqlDbType.Int,4,Config.CurrentBlog().BlogID);
+				return  SqlHelper.MakeInParam("@BlogID",SqlDbType.Int,4,Config.CurrentBlog.BlogID);
 			}
 		}
 
@@ -391,7 +391,6 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
 				BlogIDParam
 			};
-			EntryCollection ec = new EntryCollection();
 			DataSet ds = SqlHelper.ExecuteDataset(ConnectionString,CommandType.StoredProcedure,"blog_GetRecentEntriesWithCategoryTitles",p);
 			DataRelation dr = new DataRelation("cats",ds.Tables[0].Columns["ID"],ds.Tables[1].Columns["PostID"],false);
 			ds.Relations.Add(dr);
@@ -758,13 +757,12 @@ namespace Subtext.Framework.Data
 
 		public IDataReader GetLinkCollectionByPostID(int PostID)
 		{
-			LinkCollection lc = new LinkCollection();
 			SqlParameter[] p =
 			{
 				SqlHelper.MakeInParam("@PostID",SqlDbType.Int,4,PostID),
 				BlogIDParam
 			};
-			return GetReader("blog_GetLinkCollectionByPostID",p);
+			return GetReader("blog_GetLinkCollectionByPostID", p);
 		}
 
 
@@ -783,29 +781,26 @@ namespace Subtext.Framework.Data
 			SqlConnection conn = new SqlConnection(ConnectionString);
 			conn.Open();
 
-			//
 			//DeleteCategoriesByPostID(PostID,conn);
 			//we should use the iter_charlist_to_table function instead
 			if(count > 0)
 			{
 				string sql = "blog_InsertLink";
-				for(int i = 0; i< count; i++)
+				
+				Link link = lc[0];
+				SqlParameter[] p = 
 				{
-					Link link = lc[i];
-					SqlParameter[] p = 
-					{
-						SqlHelper.MakeInParam("@Title",SqlDbType.NVarChar,150,DataHelper.CheckNull(link.Title)),
-						SqlHelper.MakeInParam("@Url",SqlDbType.NVarChar,255,DataHelper.CheckNull(link.Url)),
-						SqlHelper.MakeInParam("@Rss",SqlDbType.NVarChar,255,DataHelper.CheckNull(link.Rss)),
-						SqlHelper.MakeInParam("@Active",SqlDbType.Bit,1,link.IsActive),
-						SqlHelper.MakeInParam("@NewWindow",SqlDbType.Bit,1,link.NewWindow),
-						SqlHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,link.CategoryID),
-						SqlHelper.MakeInParam("@PostID",SqlDbType.Int,4,link.PostID),
-						BlogIDParam,
-						SqlHelper.MakeOutParam("@LinkID",SqlDbType.Int,4)
-					};
-					return NonQueryBool(sql,p);
-				}
+					SqlHelper.MakeInParam("@Title", SqlDbType.NVarChar, 150, DataHelper.CheckNull(link.Title)), 
+					SqlHelper.MakeInParam("@Url", SqlDbType.NVarChar, 255, DataHelper.CheckNull(link.Url)), 
+					SqlHelper.MakeInParam("@Rss", SqlDbType.NVarChar, 255, DataHelper.CheckNull(link.Rss)), 
+					SqlHelper.MakeInParam("@Active", SqlDbType.Bit, 1, link.IsActive), 
+					SqlHelper.MakeInParam("@NewWindow", SqlDbType.Bit, 1, link.NewWindow), 
+					SqlHelper.MakeInParam("@CategoryID", SqlDbType.Int, 4, link.CategoryID), 
+					SqlHelper.MakeInParam("@PostID", SqlDbType.Int, 4, link.PostID), 
+					BlogIDParam, 
+					SqlHelper.MakeOutParam("@LinkID", SqlDbType.Int, 4)
+				};
+				return NonQueryBool(sql,p);
                }
 			conn.Close();
 			return false;
@@ -870,7 +865,6 @@ namespace Subtext.Framework.Data
 
 		public IDataReader GetCategories(CategoryType catType, bool ActiveOnly)
 		{
-			LinkCategoryCollection lc = new LinkCategoryCollection();
 			SqlParameter[] p ={SqlHelper.MakeInParam("@CategoryType",SqlDbType.TinyInt,1,catType),
 							  SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
 								  BlogIDParam};
@@ -1048,6 +1042,7 @@ namespace Subtext.Framework.Data
 		{
 				SqlParameter[] p = 
 					{
+						SqlHelper.MakeInParam("@BlogID", SqlDbType.Int,  4, config.BlogID),
 						SqlHelper.MakeInParam("@UserName", SqlDbType.NVarChar, 50, config.UserName), 
 						SqlHelper.MakeInParam("@Password", SqlDbType.NVarChar, 50, config.Password), 
 						SqlHelper.MakeInParam("@Author", SqlDbType.NVarChar, 100, config.Author), 
@@ -1065,8 +1060,7 @@ namespace Subtext.Framework.Data
 						SqlHelper.MakeInParam("@LastUpdated", SqlDbType.DateTime,  8, config.LastUpdated), 
 						SqlHelper.MakeInParam("@SecondaryCss", SqlDbType.Text, 0, DataHelper.CheckNull(config.Skin.SkinCssText)), 
 						SqlHelper.MakeInParam("@SkinCssFile", SqlDbType.VarChar, 100, DataHelper.CheckNull(config.Skin.SkinCssFile)), 
-						SqlHelper.MakeInParam("@BlogID", SqlDbType.Int,  4, config.BlogID)
-
+						SqlHelper.MakeInParam("@LicenseUrl", SqlDbType.NVarChar, 64, config.LicenseUrl)
 					};
 
 

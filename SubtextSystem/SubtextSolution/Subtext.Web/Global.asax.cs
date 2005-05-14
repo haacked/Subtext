@@ -36,7 +36,7 @@ namespace Subtext
 		{
 			if(custom == "Blogger")
 			{
-				return Subtext.Framework.Configuration.Config.CurrentBlog(context).Application;
+				return Subtext.Framework.Configuration.Config.CurrentBlog.Application;
 			}
 
 			return base.GetVaryByCustomString(context,custom);
@@ -91,7 +91,7 @@ namespace Subtext
 						{
 							userInfo = context.User.Identity.Name;
 							userInfo += "<br>Is Admin: " + Subtext.Framework.Security.IsAdmin.ToString();
-							userInfo += "<br>BlogID: " + Subtext.Framework.Configuration.Config.CurrentBlog(context).BlogID.ToString();
+							userInfo += "<br>BlogID: " + Subtext.Framework.Configuration.Config.CurrentBlog.BlogID.ToString();
 						}
 
 					}

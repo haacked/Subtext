@@ -87,7 +87,7 @@ namespace Subtext.Framework.Tracking
 			if(url != null)
 			{
 				url = url.ToLower().Replace("www.",string.Empty);
-				string fqu = Config.CurrentBlog().FullyQualifiedUrl.ToLower().Replace("www.",string.Empty);
+				string fqu = Config.CurrentBlog.FullyQualifiedUrl.ToLower().Replace("www.",string.Empty);
 				if(Regex.IsMatch(url,fqu,RegexOptions.IgnoreCase))
 				{
 					return null;

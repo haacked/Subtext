@@ -359,8 +359,8 @@ namespace Subtext.Web.Admin.UserControls
 					entry.Body = HtmlHelper.StripRTB(txbBody.Text, Request.Url.Host);
 					entry.IsActive = ckbPublished.Checked;
 					entry.SourceName = txbSourceName.Text;
-					entry.Author = Config.CurrentBlog().Author;
-					entry.Email = Config.CurrentBlog().Email;
+					entry.Author = Config.CurrentBlog.Author;
+					entry.Email = Config.CurrentBlog.Email;
 					entry.SourceUrl = txbSourceUrl.Text;
 					entry.Description = txbExcerpt.Text;
 					entry.TitleUrl = txbTitleUrl.Text;
@@ -372,7 +372,7 @@ namespace Subtext.Web.Admin.UserControls
 					entry.IsAggregated = chkIsAggregated.Checked;
 					entry.EntryName = txbEntryName.Text;
 
-					entry.BlogID = Config.CurrentBlog().BlogID;
+					entry.BlogID = Config.CurrentBlog.BlogID;
 				
 					if (PostID > 0)
 					{

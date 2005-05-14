@@ -122,7 +122,7 @@ namespace Subtext.Web.UI.Controls
 				if(bpd != null)
 				{
 					//ImageLink.NavigateUrl = Subtext.Framework.Util.Globals.ArchiveUrl(bpd.BlogDay,"MMddyyyy");// bpd.Link;
-					ImageLink.NavigateUrl = Subtext.Framework.Configuration.Config.CurrentBlog(Context).UrlFormats.DayUrl(bpd.BlogDay);
+					ImageLink.NavigateUrl = Subtext.Framework.Configuration.Config.CurrentBlog.UrlFormats.DayUrl(bpd.BlogDay);
 					DateTitle.Text = bpd.BlogDay.ToLongDateString();
 					DayList.DataSource = bpd;
 					DayList.DataBind();

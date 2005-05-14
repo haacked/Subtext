@@ -48,7 +48,7 @@ namespace Subtext.Web.UI.Controls
 
 			string s = WebPathStripper.GetReqeustedFileName(Request.Path);
 
-			Days.Days = Entries.GetPostsByCategoryID(Config.CurrentBlog(Context).ItemCount,catID);
+			Days.Days = Entries.GetPostsByCategoryID(Config.CurrentBlog.ItemCount,catID);
 
 		}
 	}

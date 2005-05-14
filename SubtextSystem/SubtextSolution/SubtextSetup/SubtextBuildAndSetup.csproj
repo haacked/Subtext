@@ -172,6 +172,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Binary\StoredProcedures.sql"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Binary\Typical.ico"
                     BuildAction = "Content"
                 />

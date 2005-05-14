@@ -354,8 +354,8 @@ namespace Subtext.Web.Admin.WebUI
 
 			_body.ID = _tabSectionID;
 			_blogTitle.Target = String.Empty;
-			_blogTitle.NavigateUrl = Config.CurrentBlog().FullyQualifiedUrl;
-			_blogTitle.Text = Config.CurrentBlog().Title;
+			_blogTitle.NavigateUrl = Config.CurrentBlog.FullyQualifiedUrl;
+			_blogTitle.Text = Config.CurrentBlog.Title;
 		}
 
 		public void AddToActions(LinkButton lkb)
@@ -389,7 +389,7 @@ namespace Subtext.Web.Admin.WebUI
 				HttpContext.Current.Session.Abandon();
 			}
 			System.Web.Security.FormsAuthentication.SignOut();
-			Context.Response.Redirect(Config.CurrentBlog().FullyQualifiedUrl);
+			Context.Response.Redirect(Config.CurrentBlog.FullyQualifiedUrl);
 		}
 
 		protected override void Render(HtmlTextWriter writer)

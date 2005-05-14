@@ -26,6 +26,9 @@ using System.Web.UI;
 
 namespace Subtext.Web.Admin.WebUI
 {
+	/// <summary>
+	/// Renders a link tag for CSS.
+	/// </summary>
 	public class HeaderLink : Control
 	{		
 		private string _rel;

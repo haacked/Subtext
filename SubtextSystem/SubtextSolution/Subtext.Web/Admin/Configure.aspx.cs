@@ -76,7 +76,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindForm()
 		{
-			BlogConfig config = Config.CurrentBlog(Context);
+			BlogConfig config = Config.CurrentBlog;
 			txbTitle.Text = config.Title;
 			txbSubtitle.Text = config.SubTitle;
 			txbAuthor.Text = config.Author;
@@ -145,7 +145,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			try
 			{
-				BlogConfig config = Config.CurrentBlog(Context);
+				BlogConfig config = Config.CurrentBlog;
 				config.Title = txbTitle.Text;
 				config.SubTitle = txbSubtitle.Text;
 				config.Author = txbAuthor.Text;
@@ -156,9 +156,9 @@ namespace Subtext.Web.Admin.Pages
 				#endif
 
 				config.TimeZone = Int32.Parse(ddlTimezone.SelectedItem.Value);
-				config.Application = Config.CurrentBlog().Application;
-				config.Host = Config.CurrentBlog().Host;
-				config.BlogID = Config.CurrentBlog().BlogID;
+				config.Application = Config.CurrentBlog.Application;
+				config.Host = Config.CurrentBlog.Host;
+				config.BlogID = Config.CurrentBlog.BlogID;
 
 				config.ItemCount = Int32.Parse(ddlItemCount.SelectedItem.Value);
 				config.Language = ddlLangLocale.SelectedItem.Value;

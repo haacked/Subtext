@@ -70,7 +70,7 @@ namespace Subtext.Web.Admin
 		private void Page_Load(object sender, System.EventArgs e)
 		{
 			GalleryTab.Visible = Config.Settings.AllowImages;
-			LoggedInUser.Text = Config.CurrentBlog().Author;
+			LoggedInUser.Text = Config.CurrentBlog.Author;
 		}
 
 		#region Web Form Designer generated code

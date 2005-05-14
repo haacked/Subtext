@@ -64,7 +64,7 @@ namespace Subtext.Web.UI.Controls
 
 				OriginalImage.NavigateUrl = _baseImagePath + _image.OriginalFile;
 
-				ReturnUrl.NavigateUrl = Config.CurrentBlog(Context).UrlFormats.GalleryUrl(null,_image.CategoryID);
+				ReturnUrl.NavigateUrl = Config.CurrentBlog.UrlFormats.GalleryUrl(null,_image.CategoryID);
 			}
 		}
 
@@ -80,7 +80,7 @@ namespace Subtext.Web.UI.Controls
 					{
 						
 						ThumbNailImage.ImageUrl = _baseImagePath + "t_" + _image.File;
-						ThumbNailImage.NavigateUrl = Subtext.Framework.Configuration.Config.CurrentBlog().UrlFormats.ImageUrl(null,_image.ImageID);
+						ThumbNailImage.NavigateUrl = Subtext.Framework.Configuration.Config.CurrentBlog.UrlFormats.ImageUrl(null,_image.ImageID);
 						ThumbNailImage.ToolTip = _image.Title;
 
 					}

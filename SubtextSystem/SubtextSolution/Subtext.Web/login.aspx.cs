@@ -75,7 +75,7 @@ namespace Subtext.Web.Pages
 
 		private void lbSendPassword_Click(object sender, System.EventArgs e)
 		{
-			BlogConfig config = Config.CurrentBlog(Context);
+			BlogConfig config = Config.CurrentBlog;
 			if(string.Compare(tbUserName.Text,config.UserName,true) == 0)
 			{
 				string password = null;
@@ -106,7 +106,7 @@ namespace Subtext.Web.Pages
 
 		private void btnLogin_Click(object sender, System.EventArgs e)
 		{
-			BlogConfig config = Config.CurrentBlog(Context);
+			BlogConfig config = Config.CurrentBlog;
 			if(Security.Authenticate(tbUserName.Text, tbPassword.Text, chkRemember.Checked))
 			{
 				//FormsAuthentication.SetAuthCookie(config.BlogID.ToString(),chkRemember.Checked);

@@ -347,15 +347,15 @@ namespace Subtext.Framework.Data
 			switch(entry.PostType)
 			{
 				case PostType.BlogPost:
-					entry.Link = Config.CurrentBlog().UrlFormats.EntryUrl(entry);
+					entry.Link = Config.CurrentBlog.UrlFormats.EntryUrl(entry);
 					break;
 				case PostType.Story:
-					entry.Link = Config.CurrentBlog().UrlFormats.ArticleUrl(entry);
+					entry.Link = Config.CurrentBlog.UrlFormats.ArticleUrl(entry);
 					break;
 
 				case PostType.Comment:
 				case PostType.PingTrack:
-					entry.Link = Config.CurrentBlog().UrlFormats.CommentUrl(entry);
+					entry.Link = Config.CurrentBlog.UrlFormats.CommentUrl(entry);
 					break;
 			}
 		}
@@ -746,6 +746,11 @@ namespace Subtext.Framework.Data
 			if(reader["SecondaryCss"] != DBNull.Value)
 			{
 				config.Skin.SkinCssText = (string)reader["SecondaryCss"];
+			}
+
+			if(reader["LicenseUrl"] != DBNull.Value)
+			{
+				config.LicenseUrl = (string)reader["LicenseUrl"];
 			}
 
 			return config;

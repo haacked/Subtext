@@ -35,7 +35,7 @@ namespace Subtext.Web.UI.Handlers
 			//Handle Archives
 			if(Regex.IsMatch(uri,"/archive/",RegexOptions.IgnoreCase))
 			{
-				UrlFormats formats = Config.CurrentBlog(context).UrlFormats;
+				UrlFormats formats = Config.CurrentBlog.UrlFormats;
 
 				string dateString = UrlFormats.GetRequestedFileName(uri);
 				if(dateString.Length == 8)

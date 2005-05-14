@@ -54,7 +54,7 @@ namespace Subtext.Framework.Util
 		{
 			get
 			{
-				return FromClientToServerFactor(Config.CurrentBlog().TimeZone,Config.Settings.ServerTimeZone);
+				return FromClientToServerFactor(Config.CurrentBlog.TimeZone,Config.Settings.ServerTimeZone);
 			}
 		}
 
@@ -88,7 +88,7 @@ namespace Subtext.Framework.Util
 		{
 			get
 			{
-				return FromServerToClientFactor(Config.CurrentBlog().TimeZone, Config.Settings.ServerTimeZone);
+				return FromServerToClientFactor(Config.CurrentBlog.TimeZone, Config.Settings.ServerTimeZone);
 			}
 		}
 	}

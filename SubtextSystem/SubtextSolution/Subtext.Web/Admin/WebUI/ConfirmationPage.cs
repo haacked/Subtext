@@ -10,11 +10,6 @@ namespace Subtext.Web.Admin.Pages
 	/// </summary>
 	public class ConfirmationPage : AdminPage
 	{
-		public ConfirmationPage()
-		{
-
-		}
-
 		private bool _IsInEdit = false;
 		public bool IsInEdit
 		{

@@ -234,7 +234,7 @@ namespace Subtext.Web.Admin.Pages
 				link.IsActive = ckbIsActive.Checked;
 				link.CategoryID = Convert.ToInt32(ddlCategories.SelectedItem.Value);
 				link.NewWindow = chkNewWindow.Checked;
-				link.LinkID = Config.CurrentBlog().BlogID;
+				link.LinkID = Config.CurrentBlog.BlogID;
 				
 				if (LinkID > 0)
 				{

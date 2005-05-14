@@ -600,6 +600,22 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "Admin\Syndication.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Syndication.aspx.cs"
+                    DependentUpon = "Syndication.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\Syndication.aspx.resx"
+                    DependentUpon = "Syndication.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Admin\Test.aspx"
                     BuildAction = "Content"
                 />
@@ -878,8 +894,12 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Admin\Resources\Scripts\helptip.css"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "Admin\Resources\Scripts\helptip.js"
-                    BuildAction = "Content"
+                    BuildAction = "None"
                 />
                 <File
                     RelPath = "Admin\Resources\TinyMCE\blank.htm"
@@ -4482,6 +4502,11 @@
                 />
                 <File
                     RelPath = "Admin\WebUI\Controls\Pager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\WebUI\Controls\ScriptTag.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

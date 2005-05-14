@@ -70,7 +70,7 @@ namespace Subtext.Web.Modules
 		{
 			return	( 
 				Config.Settings.AllowServiceAccess &&
-						(context.Request.RequestType == "GET" || Config.CurrentBlog(context).AllowServiceAccess)
+						(context.Request.RequestType == "GET" || Config.CurrentBlog.AllowServiceAccess)
 					);
 
 		}

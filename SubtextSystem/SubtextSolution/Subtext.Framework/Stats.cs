@@ -190,7 +190,7 @@ namespace Subtext.Framework
 
 
 				string description = null;
-				string blogname = Config.CurrentBlog().Title;
+				string blogname = Config.CurrentBlog.Title;
 				if(entry.HasDescription)
 				{
 					description = entry.Description;

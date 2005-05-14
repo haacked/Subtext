@@ -46,7 +46,7 @@ namespace Subtext.Common.Syndication
 
 		protected override void WriteChannel()
 		{
-			this.BuildChannel(CommentEntry.Title, CommentEntry.Link, CommentEntry.Author, CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body,config.Language, config.Author, System.Configuration.ConfigurationSettings.AppSettings["CreativeCommonsLicense"]);
+			this.BuildChannel(CommentEntry.Title, CommentEntry.Link, CommentEntry.Author, CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body,config.Language, config.Author, Subtext.Framework.Configuration.Config.CurrentBlog.LicenseUrl);
 		}
 
 	}

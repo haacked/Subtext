@@ -76,7 +76,7 @@ namespace Subtext.Web.UI.Controls
 			{
 				Response.Redirect(Request.Path);
 			}
-				////			BlogConfig config = Config.CurrentBlog();
+				////			BlogConfig config = Config.CurrentBlog;
 				//			if(tbUserName.Text == config.UserName && tbPassword.Text == config.Password)
 				//			{
 				//				FormsAuthentication.SetAuthCookie(config.BlogID.ToString(),RememberMe.Checked);
