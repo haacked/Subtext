@@ -45,7 +45,7 @@ namespace Subtext.Web.Admin.UserControls
 		private int _resultsPageNumber = 1;
 		private PostType _entryType = PostType.BlogPost;
 		private bool _isListHidden = false;
-
+		
 		#region Declared Controls
 		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
 		protected System.Web.UI.WebControls.Repeater rprSelectionList;
@@ -175,6 +175,8 @@ namespace Subtext.Web.Admin.UserControls
 					try
 					{
 						postId = int.Parse(postIdText);
+						//Ok, we came from outside the admin tool.
+						ReturnToOriginalPost = true;
 					}
 					catch(System.FormatException)
 					{
@@ -187,6 +189,22 @@ namespace Subtext.Web.Admin.UserControls
 					BindPostEdit();
 				}
 			}			
+		}
+
+		//This is true if we came from a pencil edit link while viewing the post 
+		//from outside the admin tool.
+		private bool ReturnToOriginalPost
+		{
+			get
+			{
+				if(ViewState["ReturnToOriginalPost"] != null)
+					return (bool)ViewState["ReturnToOriginalPost"];
+				return false;
+			}
+			set
+			{
+				ViewState["ReturnToOriginalPost"] = value;
+			}
 		}
 		
 		private void BindList()
@@ -342,7 +360,19 @@ namespace Subtext.Web.Admin.UserControls
 
 			Advanced.Collapsed = !Preferences.AlwaysExpandAdvanced;
 
-			SetEditorMode();
+			if(!ReturnToOriginalPost)
+			{
+				SetEditorMode();
+			}
+			else
+			{
+				// We came from outside the post, let's go there.
+				Entry updatedEntry = Entries.GetEntry(PostID, true);
+				if(updatedEntry != null)
+				{
+					Response.Redirect(updatedEntry.Link);
+				}
+			}
 		}
 	
 		private void UpdatePost()
@@ -380,6 +410,17 @@ namespace Subtext.Web.Admin.UserControls
 						entry.DateUpdated = BlogTime.CurrentBloggerTime;
 						entry.EntryID = PostID;
 						Entries.Update(entry);
+
+						if(ReturnToOriginalPost)
+						{
+							// We came from outside the post, let's go there.
+							Entry updatedEntry = Entries.GetEntry(PostID, true);
+							if(updatedEntry != null)
+							{
+								Response.Redirect(updatedEntry.Link);
+								return;
+							}
+						}
 					}
 					else
 					{
@@ -523,6 +564,17 @@ namespace Subtext.Web.Admin.UserControls
 
 		private void lkbCancel_Click(object sender, System.EventArgs e)
 		{
+			if(PostID > -1 && ReturnToOriginalPost)
+			{
+				// We came from outside the post, let's go there.
+				Entry updatedEntry = Entries.GetEntry(PostID, true);
+				if(updatedEntry != null)
+				{
+					Response.Redirect(updatedEntry.Link);
+					return;
+				}
+			}
+
 			ResetPostEdit(false);
 		}
 
