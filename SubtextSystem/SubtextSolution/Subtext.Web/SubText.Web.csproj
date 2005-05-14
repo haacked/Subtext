@@ -878,6 +878,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Admin\Resources\Scripts\helptip.js"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Admin\Resources\TinyMCE\blank.htm"
                     BuildAction = "Content"
                 />

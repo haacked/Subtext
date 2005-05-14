@@ -183,6 +183,10 @@
                     RelPath = "Binary\Up.ico"
                     BuildAction = "Content"
                 />
+                <File
+                    RelPath = "Binary\UpgradeDotText095Script.sql"
+                    BuildAction = "Content"
+                />
             </Include>
         </Files>
     </CSHARP>
