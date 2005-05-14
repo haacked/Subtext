@@ -20,9 +20,9 @@
   <CustomDictionaries SearchFxCopDir="True" SearchUserProfile="True" SearchProjectDir="True" />
  </ProjectOptions>
  <Targets>
-  <Target Name="C:\Projects\SubtextSystem\SubtextSolution\Subtext.Web\bin\Subtext.Common.dll" Analyze="True" AnalyzeAllChildren="True" />
-  <Target Name="C:\Projects\SubtextSystem\SubtextSolution\Subtext.Web\bin\Subtext.Framework.dll" Analyze="True" AnalyzeAllChildren="True" />
-  <Target Name="C:\Projects\SubtextSystem\SubtextSolution\Subtext.Web\bin\Subtext.Web.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name=".\Subtext.Web\bin\Subtext.Common.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name=".\Subtext.Web\bin\Subtext.Framework.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name=".\Subtext.Web\bin\Subtext.Web.dll" Analyze="True" AnalyzeAllChildren="True" />
  </Targets>
  <Rules>
   <RuleFiles>
@@ -86,6 +86,15 @@
      </Message>
     </Messages>
    </Namespace>
+   <Namespace Name="Subtext.Framework.Logging">
+    <Messages>
+     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2005-05-14 00:40:24Z">
+      <Issue>
+       <Item>Subtext.Framework.Logging</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
    <Namespace Name="Subtext.Framework.Syndication.Compression">
     <Messages>
      <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2005-05-11 21:34:27Z">
@@ -123,6 +132,15 @@
      </Message>
     </Messages>
    </Namespace>
+   <Namespace Name="Subtext.Web">
+    <Messages>
+     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2005-05-14 00:40:24Z">
+      <Issue>
+       <Item>Subtext.Web</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
    <Namespace Name="Subtext.Web.Admin.UserControls">
     <Messages>
      <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2005-05-11 21:34:27Z">
@@ -146,6 +164,15 @@
      <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2005-05-11 21:34:27Z">
       <Issue>
        <Item>Subtext.Web.Pages</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
+   <Namespace Name="Subtext.Web.UI">
+    <Messages>
+     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2005-05-14 00:40:24Z">
+      <Issue>
+       <Item>Subtext.Web.UI</Item>
       </Issue>
      </Message>
     </Messages>
@@ -179,7 +206,7 @@
    </Namespace>
   </Namespaces>
   <Targets>
-   <Target Name="C:\Projects\SubtextSystem\SubtextSolution\Subtext.Web\bin\Subtext.Common.dll">
+   <Target Name=".\Subtext.Web\bin\Subtext.Common.dll">
     <Modules>
      <Module Name="subtext.common.dll">
       <Messages>
@@ -190,16 +217,6 @@
        </Message>
        <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Created="2005-05-11 21:34:27Z">
         <Issue Name="NoStrongName">
-         <Item>Subtext.Common</Item>
-        </Issue>
-       </Message>
-       <Message TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014" Created="2005-05-11 21:34:27Z">
-        <Issue Name="NoAttr">
-         <Item>Subtext.Common</Item>
-        </Issue>
-       </Message>
-       <Message TypeName="MarkAssembliesWithComVisible" Category="Microsoft.Design" CheckId="CA1017" Created="2005-05-11 21:34:27Z">
-        <Issue Name="NoAttribute" Level="CriticalError">
          <Item>Subtext.Common</Item>
         </Issue>
        </Message>
@@ -788,25 +805,7 @@
            </Member>
           </Members>
          </Type>
-         <Type Name="AtomWriter">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Common.Syndication.AtomWriter</Item>
-             <Item> System.Xml.XmlTextWriter, System.Xml.XmlWriter</Item>
-            </Issue>
-           </Message>
-          </Messages>
-         </Type>
          <Type Name="CategoryWriter">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Common.Syndication.CategoryWriter</Item>
-             <Item> System.Xml.XmlTextWriter, System.Xml.XmlWriter</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor(Subtext.Framework.Components.EntryCollection,Subtext.Framework.Components.LinkCategory,System.String)">
             <Messages>
@@ -835,20 +834,6 @@
           </Members>
          </Type>
          <Type Name="CommentRssWriter">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Common.Syndication.CommentRssWriter</Item>
-             <Item> System.Xml.XmlTextWriter, System.Xml.XmlWriter</Item>
-            </Issue>
-           </Message>
-           <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-            <Issue Name="Type">
-             <Item>Rss</Item>
-             <Item>CommentRssWriter</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor(Subtext.Framework.Components.EntryCollection,Subtext.Framework.Components.Entry)">
             <Messages>
@@ -865,13 +850,6 @@
           </Members>
          </Type>
          <Type Name="EntryCollectionHandler">
-          <Messages>
-           <Message TypeName="AbstractTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1012" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>EntryCollectionHandler</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="GetFeedEntries():Subtext.Framework.Components.EntryCollection">
             <Messages>
@@ -896,14 +874,6 @@
           </Members>
          </Type>
          <Type Name="RssCategoryHandler">
-          <Messages>
-           <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-            <Issue Name="Type">
-             <Item>Rss</Item>
-             <Item>RssCategoryHandler</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor()">
             <Messages>
@@ -944,14 +914,6 @@
           </Members>
          </Type>
          <Type Name="RssCommentHandler">
-          <Messages>
-           <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-            <Issue Name="Type">
-             <Item>Rss</Item>
-             <Item>RssCommentHandler</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor()">
             <Messages>
@@ -1003,14 +965,6 @@
           </Members>
          </Type>
          <Type Name="RssHandler">
-          <Messages>
-           <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-            <Issue Name="Type">
-             <Item>Rss</Item>
-             <Item>RssHandler</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="CacheKey():System.String">
             <Messages>
@@ -1024,22 +978,6 @@
             </Messages>
            </Member>
           </Members>
-         </Type>
-         <Type Name="RssWriter">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Common.Syndication.RssWriter</Item>
-             <Item> System.Xml.XmlTextWriter, System.Xml.XmlWriter</Item>
-            </Issue>
-           </Message>
-           <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-            <Issue Name="Type">
-             <Item>Rss</Item>
-             <Item>RssWriter</Item>
-            </Issue>
-           </Message>
-          </Messages>
          </Type>
         </Types>
        </Namespace>
@@ -1370,7 +1308,7 @@
      </Module>
     </Modules>
    </Target>
-   <Target Name="C:\Projects\SubtextSystem\SubtextSolution\Subtext.Web\bin\Subtext.Framework.dll">
+   <Target Name=".\Subtext.Web\bin\Subtext.Framework.dll">
     <Modules>
      <Module Name="subtext.framework.dll">
       <Messages>
@@ -1381,16 +1319,6 @@
        </Message>
        <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Created="2005-05-11 21:34:27Z">
         <Issue Name="NoStrongName">
-         <Item>Subtext.Framework</Item>
-        </Issue>
-       </Message>
-       <Message TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014" Created="2005-05-11 21:34:27Z">
-        <Issue Name="NoAttr">
-         <Item>Subtext.Framework</Item>
-        </Issue>
-       </Message>
-       <Message TypeName="MarkAssembliesWithComVisible" Category="Microsoft.Design" CheckId="CA1017" Created="2005-05-11 21:34:27Z">
-        <Issue Name="NoAttribute" Level="CriticalError">
          <Item>Subtext.Framework</Item>
         </Issue>
        </Message>
@@ -3214,11 +3142,6 @@
            </Member>
            <Member Name="TrackPage(Subtext.Framework.Components.PageType,System.Int32,System.String):System.Void">
             <Messages>
-             <Message Id="0#" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2005-05-11 21:34:27Z">
-              <Issue Name="Parameter">
-               <Item>PageType</Item>
-              </Issue>
-             </Message>
              <Message Id="1#" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2005-05-11 21:34:27Z">
               <Issue Name="Parameter">
                <Item>PostID</Item>
@@ -3234,22 +3157,6 @@
                <Item>ID</Item>
                <Item>PostID</Item>
                <Item>Id</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="TrackPages(Subtext.Framework.Components.Referrer[]):System.Void">
-            <Messages>
-             <Message Id="0#_feferrers" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-              <Issue Name="Parameter">
-               <Item>BlogDataProvider.TrackPages(Referrer[]):Void</Item>
-               <Item>_feferrers</Item>
-               <Item>_feferrers</Item>
-              </Issue>
-             </Message>
-             <Message Id="0#" TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Created="2005-05-11 21:34:27Z">
-              <Issue Name="Parameter">
-               <Item>_feferrers</Item>
               </Issue>
              </Message>
             </Messages>
@@ -3294,16 +3201,6 @@
             </Messages>
            </Member>
           </Members>
-         </Type>
-         <Type Name="BlogUser">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Framework.Components.BlogUser</Item>
-             <Item> System.Web.Services.Protocols.SoapHeader</Item>
-            </Issue>
-           </Message>
-          </Messages>
          </Type>
          <Type Name="CategoryEntry">
           <Members>
@@ -3445,30 +3342,6 @@ Entry.set_PostType(PostType):Void</Item>
             </Issue>
            </Message>
           </Messages>
-         </Type>
-         <Type Name="EntryStatsView">
-          <Members>
-           <Member Name="AggCount">
-            <Messages>
-             <Message Id="Agg" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-              <Issue Name="Member">
-               <Item>Agg</Item>
-               <Item>AggCount</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="AggLastUpdated">
-            <Messages>
-             <Message Id="Agg" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-              <Issue Name="Member">
-               <Item>Agg</Item>
-               <Item>AggLastUpdated</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
          </Type>
          <Type Name="EntryView">
           <Members>
@@ -3672,16 +3545,6 @@ Entry.set_PostType(PostType):Void</Item>
              </Message>
             </Messages>
            </Member>
-           <Member Name="HasRss">
-            <Messages>
-             <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-              <Issue Name="Member">
-               <Item>Rss</Item>
-               <Item>HasRss</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="LinkID">
             <Messages>
              <Message TypeName="ShortAcronymsShouldBeUppercase" Category="Microsoft.Naming" CheckId="CA1706" Created="2005-05-11 21:34:27Z">
@@ -3696,16 +3559,6 @@ Entry.set_PostType(PostType):Void</Item>
              <Message TypeName="ShortAcronymsShouldBeUppercase" Category="Microsoft.Naming" CheckId="CA1706" Created="2005-05-11 21:34:27Z">
               <Issue Name="MemberId">
                <Item>Link.PostID:Int32</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="Rss">
-            <Messages>
-             <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-              <Issue Name="Member">
-               <Item>Rss</Item>
-               <Item>Rss</Item>
               </Issue>
              </Message>
             </Messages>
@@ -3798,18 +3651,6 @@ Entry.set_PostType(PostType):Void</Item>
             </Issue>
            </Message>
           </Messages>
-          <Members>
-           <Member Name="AggView">
-            <Messages>
-             <Message Id="Agg" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-              <Issue Name="Member">
-               <Item>Agg</Item>
-               <Item>AggView</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
          </Type>
          <Type Name="PostConfig">
           <Messages>
@@ -3955,18 +3796,6 @@ Entry.set_PostType(PostType):Void</Item>
          </Type>
          <Type Name="BlogConfigurationSettings">
           <Members>
-           <Member Name=".ctor()">
-            <Messages>
-             <Message TypeName="DoNotInitializeUnnecessarily" Category="Microsoft.Performance" CheckId="CA1805" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>BlogConfigurationSettings..ctor()</Item>
-               <Item>_useXHMTL</Item>
-               <Item>boolean</Item>
-               <Item>false</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="Instance(System.Web.HttpContext):Subtext.Framework.Configuration.BlogConfigurationSettings">
             <Messages>
              <Message Id="context" TypeName="AvoidUnusedParameters" Category="Microsoft.Performance" CheckId="CA1801" Created="2005-05-11 21:34:27Z" FixCategory="Breaking">
@@ -4057,13 +3886,6 @@ Entry.set_PostType(PostType):Void</Item>
           </Messages>
          </Type>
          <Type Name="IConfig">
-          <Messages>
-           <Message TypeName="AvoidOverloadsInComVisibleInterfaces" Category="Microsoft.Interoperability" CheckId="CA1402" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Framework.Configuration.IConfig</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="BlogID">
             <Messages>
@@ -4086,16 +3908,6 @@ Entry.set_PostType(PostType):Void</Item>
            </Message>
           </Messages>
           <Members>
-           <Member Name="EnableAggBugs">
-            <Messages>
-             <Message Id="Agg" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-              <Issue Name="Member">
-               <Item>Agg</Item>
-               <Item>EnableAggBugs</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="PingWeblogs">
             <Messages>
              <Message Id="Weblogs" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
@@ -4863,11 +4675,6 @@ Entry.set_PostType(PostType):Void</Item>
          </Type>
          <Type Name="IDbProvider">
           <Messages>
-           <Message TypeName="AvoidOverloadsInComVisibleInterfaces" Category="Microsoft.Interoperability" CheckId="CA1402" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Framework.Data.IDbProvider</Item>
-            </Issue>
-           </Message>
            <Message TypeName="ShortAcronymsShouldBeUppercase" Category="Microsoft.Naming" CheckId="CA1706" Created="2005-05-11 21:34:27Z">
             <Issue Name="Type">
              <Item>Db</Item>
@@ -5633,11 +5440,6 @@ Entry.set_PostType(PostType):Void</Item>
          </Type>
          <Type Name="IDTOProvider">
           <Messages>
-           <Message TypeName="AvoidOverloadsInComVisibleInterfaces" Category="Microsoft.Interoperability" CheckId="CA1402" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Framework.Data.IDTOProvider</Item>
-            </Issue>
-           </Message>
            <Message TypeName="LongAcronymsShouldBePascalCased" Category="Microsoft.Naming" CheckId="CA1705" Created="2005-05-11 21:34:27Z">
             <Issue Name="Type">
              <Item>IDTOProvider</Item>
@@ -6424,16 +6226,6 @@ Entry.set_PostType(PostType):Void</Item>
            </Member>
           </Members>
          </Type>
-         <Type Name="IProccessEntry">
-          <Messages>
-           <Message Id="Proccess" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-            <Issue Name="Type">
-             <Item>Proccess</Item>
-             <Item>IProccessEntry</Item>
-            </Issue>
-           </Message>
-          </Messages>
-         </Type>
          <Type Name="SqlDataProvider">
           <Members>
            <Member Name="DeleteKeyWord(System.Int32):System.Boolean">
@@ -7022,12 +6814,6 @@ Entry.set_PostType(PostType):Void</Item>
                <Item>EntryID</Item>
               </Issue>
              </Message>
-             <Message Id="Agg" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-              <Issue Name="Member">
-               <Item>Agg</Item>
-               <Item>AggBugkUrl</Item>
-              </Issue>
-             </Message>
              <Message Id="Bugk" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
               <Issue Name="Member">
                <Item>Bugk</Item>
@@ -7101,12 +6887,6 @@ Entry.set_PostType(PostType):Void</Item>
                <Item>EntryID</Item>
               </Issue>
              </Message>
-             <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-              <Issue Name="Member">
-               <Item>Rss</Item>
-               <Item>CommentRssUrl</Item>
-              </Issue>
-             </Message>
              <Message Id="0#" TypeName="ShortAcronymsShouldBeUppercase" Category="Microsoft.Naming" CheckId="CA1706" Created="2005-05-11 21:34:27Z">
               <Issue Name="ParameterId">
                <Item>ID</Item>
@@ -7166,6 +6946,59 @@ Entry.set_PostType(PostType):Void</Item>
              <Message TypeName="UriReturnValuesShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1055" Created="2005-05-11 21:34:27Z">
               <Issue>
                <Item>UrlFormats.CommentUrl(Entry, Entry):String</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="DateFromUrl(System.String):System.DateTime">
+            <Messages>
+             <Message Id="System.Exception.#ctor(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2005-05-14 00:40:24Z">
+              <Issue>
+               <Item>UrlFormats.DateFromUrl(String):DateTime</Item>
+               <Item>1</Item>
+               <Item>Exception..ctor(String)</Item>
+               <Item>Invalid Date Format</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201" Created="2005-05-14 00:40:24Z">
+              <Issue Name="TooGeneric">
+               <Item>UrlFormats.DateFromUrl(String):DateTime</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+             <Message Id="0#" TypeName="UriParametersShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1054" Created="2005-05-14 00:40:24Z">
+              <Issue>
+               <Item>url</Item>
+               <Item>UrlFormats.DateFromUrl(String):DateTime</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="DateFromUrl(System.String,System.String):System.DateTime">
+            <Messages>
+             <Message Id="1#startfrom" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-14 00:40:24Z">
+              <Issue Name="Parameter">
+               <Item>UrlFormats.DateFromUrl(String, String):DateTime</Item>
+               <Item>startfrom</Item>
+               <Item>startfrom</Item>
+              </Issue>
+             </Message>
+             <Message Id="System.String.ToLower" TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304" Created="2005-05-14 00:40:24Z">
+              <Issue>
+               <Item>UrlFormats.DateFromUrl(String, String):DateTime</Item>
+               <Item>System.String.ToLower</Item>
+               <Item>System.String.ToLower(System.Globalization.CultureInfo)</Item>
+              </Issue>
+              <Issue>
+               <Item>UrlFormats.DateFromUrl(String, String):DateTime</Item>
+               <Item>System.String.ToLower</Item>
+               <Item>System.String.ToLower(System.Globalization.CultureInfo)</Item>
+              </Issue>
+             </Message>
+             <Message Id="0#" TypeName="UriParametersShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1054" Created="2005-05-14 00:40:24Z">
+              <Issue>
+               <Item>url</Item>
+               <Item>UrlFormats.DateFromUrl(String, String):DateTime</Item>
               </Issue>
              </Message>
             </Messages>
@@ -7235,6 +7068,61 @@ Entry.set_PostType(PostType):Void</Item>
              <Message TypeName="UriReturnValuesShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1055" Created="2005-05-11 21:34:27Z">
               <Issue>
                <Item>UrlFormats.GalleryUrl(String, Int32):String</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="GetPostIDFromUrl(System.String):System.Int32">
+            <Messages>
+             <Message Id="System.ArgumentException.#ctor(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2005-05-14 00:40:24Z">
+              <Issue>
+               <Item>UrlFormats.GetPostIDFromUrl(String):Int32</Item>
+               <Item>1</Item>
+               <Item>ArgumentException..ctor(String)</Item>
+               <Item>Invalid Post ID.</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="ShortAcronymsShouldBeUppercase" Category="Microsoft.Naming" CheckId="CA1706" Created="2005-05-14 00:40:24Z">
+              <Issue Name="MemberId">
+               <Item>UrlFormats.GetPostIDFromUrl(String):Int32</Item>
+              </Issue>
+             </Message>
+             <Message Id="System.Int32.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2005-05-14 00:40:24Z">
+              <Issue>
+               <Item>UrlFormats.GetPostIDFromUrl(String):Int32</Item>
+               <Item>System.Int32.Parse(System.String)</Item>
+               <Item>System.Int32.Parse(System.String,System.IFormatProvider)</Item>
+              </Issue>
+             </Message>
+             <Message Id="0#" TypeName="UriParametersShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1054" Created="2005-05-14 00:40:24Z">
+              <Issue>
+               <Item>uri</Item>
+               <Item>UrlFormats.GetPostIDFromUrl(String):Int32</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="GetRequestedFileName(System.String):System.String">
+            <Messages>
+             <Message Id="0#" TypeName="UriParametersShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1054" Created="2005-05-14 00:40:24Z">
+              <Issue>
+               <Item>uri</Item>
+               <Item>UrlFormats.GetRequestedFileName(String):String</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="GetUriReferrerSafe(System.Web.HttpRequest):System.String">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2005-05-14 00:40:24Z">
+              <Issue>
+               <Item>UrlFormats.GetUriReferrerSafe(HttpRequest):String</Item>
+               <Item>System.Object</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="UriReturnValuesShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1055" Created="2005-05-14 00:40:24Z">
+              <Issue>
+               <Item>UrlFormats.GetUriReferrerSafe(HttpRequest):String</Item>
               </Issue>
              </Message>
             </Messages>
@@ -7349,16 +7237,40 @@ Entry.set_PostType(PostType):Void</Item>
          </Type>
         </Types>
        </Namespace>
+       <Namespace Name="Subtext.Framework.Logging">
+        <Types>
+         <Type Name="Log">
+          <Members>
+           <Member Name="CreateInnerLogger(System.Type):log4net.ILog">
+            <Messages>
+             <Message Id="this" TypeName="AvoidUnusedParameters" Category="Microsoft.Performance" CheckId="CA1801" Created="2005-05-14 00:40:24Z" FixCategory="NonBreaking">
+              <Issue Name="MarkAsStatic">
+               <Item>Log.CreateInnerLogger(Type):ILog</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="log4net.Core.ILoggerWrapper.Logger">
+            <Accessors>
+             <Accessor Name="log4net.Core.ILoggerWrapper.get_Logger():log4net.Core.ILogger">
+              <Messages>
+               <Message TypeName="InterfaceMethodsShouldBeCallableByChildTypes" Category="Microsoft.Design" CheckId="CA1033" Created="2005-05-14 00:40:24Z">
+                <Issue>
+                 <Item>Log</Item>
+                 <Item>ILoggerWrapper.get_Logger():ILogger</Item>
+                </Issue>
+               </Message>
+              </Messages>
+             </Accessor>
+            </Accessors>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
        <Namespace Name="Subtext.Framework.Providers">
         <Types>
          <Type Name="BaseProvider">
-          <Messages>
-           <Message TypeName="AbstractTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1012" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>BaseProvider</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="Instance():System.Object">
             <Messages>
@@ -7652,14 +7564,6 @@ Entry.set_PostType(PostType):Void</Item>
        <Namespace Name="Subtext.Framework.Syndication">
         <Types>
          <Type Name="BaseAtomWriter">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Framework.Syndication.BaseAtomWriter</Item>
-             <Item> System.Xml.XmlTextWriter, System.Xml.XmlWriter</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor()">
             <Messages>
@@ -7773,20 +7677,6 @@ Entry.set_PostType(PostType):Void</Item>
           </Members>
          </Type>
          <Type Name="BaseRssWriter">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Framework.Syndication.BaseRssWriter</Item>
-             <Item> System.Xml.XmlTextWriter, System.Xml.XmlWriter</Item>
-            </Issue>
-           </Message>
-           <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-            <Issue Name="Type">
-             <Item>Rss</Item>
-             <Item>BaseRssWriter</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor()">
             <Messages>
@@ -7918,19 +7808,6 @@ Entry.set_PostType(PostType):Void</Item>
           </Members>
          </Type>
          <Type Name="BaseSyndicationWriter">
-          <Messages>
-           <Message TypeName="AbstractTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1012" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>BaseSyndicationWriter</Item>
-            </Issue>
-           </Message>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Framework.Syndication.BaseSyndicationWriter</Item>
-             <Item> System.Xml.XmlTextWriter, System.Xml.XmlWriter</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor()">
             <Messages>
@@ -7948,15 +7825,15 @@ Entry.set_PostType(PostType):Void</Item>
              <Message TypeName="DoNotInitializeUnnecessarily" Category="Microsoft.Performance" CheckId="CA1805" Created="2005-05-11 21:34:27Z">
               <Issue>
                <Item>BaseSyndicationWriter..ctor(StringWriter)</Item>
-               <Item>_sw</Item>
-               <Item>reference type</Item>
-               <Item>null</Item>
-              </Issue>
-              <Issue>
-               <Item>BaseSyndicationWriter..ctor(StringWriter)</Item>
                <Item>_useAggBugs</Item>
                <Item>boolean</Item>
                <Item>false</Item>
+              </Issue>
+              <Issue>
+               <Item>BaseSyndicationWriter..ctor(StringWriter)</Item>
+               <Item>writer</Item>
+               <Item>reference type</Item>
+               <Item>null</Item>
               </Issue>
              </Message>
             </Messages>
@@ -7979,29 +7856,11 @@ Entry.set_PostType(PostType):Void</Item>
              </Message>
             </Messages>
            </Member>
-           <Member Name="UseAggBugs">
-            <Messages>
-             <Message Id="Agg" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-              <Issue Name="Member">
-               <Item>Agg</Item>
-               <Item>UseAggBugs</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
           </Members>
          </Type>
          <Type Name="CachedFeed">
           <Members>
            <Member Name="Etag">
-            <Messages>
-             <Message Id="Etag" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-              <Issue Name="Member">
-               <Item>Etag</Item>
-               <Item>Etag</Item>
-              </Issue>
-             </Message>
-            </Messages>
             <Accessors>
              <Accessor Name="get_Etag():System.String">
               <Messages>
@@ -8026,13 +7885,6 @@ Entry.set_PostType(PostType):Void</Item>
              <Message Id="1#" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2005-05-11 21:34:27Z">
               <Issue Name="Parameter">
                <Item>CurrentLastModifiedDate</Item>
-              </Issue>
-             </Message>
-             <Message Id="0#Etag" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-              <Issue Name="Parameter">
-               <Item>CachedFeed.IsCacheOK(String, String):Boolean</Item>
-               <Item>Etag</Item>
-               <Item>CurrentEtag</Item>
               </Issue>
              </Message>
              <Message Id="System.DateTime.ToString(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2005-05-11 21:34:27Z">
@@ -8148,6 +8000,72 @@ Entry.set_PostType(PostType):Void</Item>
        </Namespace>
        <Namespace Name="Subtext.Framework.Text">
         <Types>
+         <Type Name="HtmlHelper">
+          <Members>
+           <Member Name="CheckForUrl(System.String):System.String">
+            <Messages>
+             <Message TypeName="UriReturnValuesShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1055" Created="2005-05-14 00:40:24Z">
+              <Issue>
+               <Item>HtmlHelper.CheckForUrl(String):String</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="ConvertHtmlToXHtml(Subtext.Framework.Components.Entry&amp;):System.Boolean">
+            <Messages>
+             <Message TypeName="CatchNonClsCompliantExceptionsInGeneralHandlers" Category="Microsoft.Security" CheckId="CA2102" Created="2005-05-14 00:40:24Z">
+              <Issue>
+               <Item>HtmlHelper.ConvertHtmlToXHtml(Entry&amp;):Boolean</Item>
+              </Issue>
+             </Message>
+             <Message Id="0#" TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045" Created="2005-05-14 00:40:24Z">
+              <Issue Level="CriticalWarning">
+               <Item>entry</Item>
+              </Issue>
+             </Message>
+             <Message Id="System.IO.StringWriter.#ctor" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2005-05-14 00:40:24Z">
+              <Issue>
+               <Item>HtmlHelper.ConvertHtmlToXHtml(Entry&amp;):Boolean</Item>
+               <Item>System.IO.StringWriter.#ctor</Item>
+               <Item>System.IO.StringWriter.#ctor(System.IFormatProvider)</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="SafeFormat(System.String):System.String">
+            <Messages>
+             <Message Id="0#" TypeName="AvoidTypeNamesInParameters" Category="Microsoft.Naming" CheckId="CA1720" Created="2005-05-14 00:40:24Z">
+              <Issue>
+               <Item>stringToTransform</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="SafeFormatWithUrl(System.String):System.String">
+            <Messages>
+             <Message Id="0#" TypeName="AvoidTypeNamesInParameters" Category="Microsoft.Naming" CheckId="CA1720" Created="2005-05-14 00:40:24Z">
+              <Issue>
+               <Item>stringToTransform</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="UriReturnValuesShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1055" Created="2005-05-14 00:40:24Z">
+              <Issue>
+               <Item>HtmlHelper.SafeFormatWithUrl(String):String</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="StripRTB(System.String,System.String):System.String">
+            <Messages>
+             <Message TypeName="LongAcronymsShouldBePascalCased" Category="Microsoft.Naming" CheckId="CA1705" Created="2005-05-14 00:40:24Z">
+              <Issue Name="Member">
+               <Item>HtmlHelper.StripRTB(String, String):String</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
          <Type Name="StringHelper">
           <Members>
            <Member Name="EndsWith(System.String,System.String,System.Boolean):System.Boolean">
@@ -8543,14 +8461,6 @@ Entry.set_PostType(PostType):Void</Item>
        <Namespace Name="Subtext.Framework.Tracking">
         <Types>
          <Type Name="AggBugHandler">
-          <Messages>
-           <Message Id="Agg" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-            <Issue Name="Type">
-             <Item>Agg</Item>
-             <Item>AggBugHandler</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".cctor()">
             <Messages>
@@ -8766,12 +8676,6 @@ Entry.set_PostType(PostType):Void</Item>
          </Type>
          <Type Name="PingBackNotificatinProxy">
           <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Framework.Tracking.PingBackNotificatinProxy</Item>
-             <Item> System.Web.Services.Protocols.WebClientProtocol, System.ComponentModel.Component</Item>
-            </Issue>
-           </Message>
            <Message Id="Notificatin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
             <Issue Name="Type">
              <Item>Notificatin</Item>
@@ -9039,12 +8943,6 @@ Entry.set_PostType(PostType):Void</Item>
           <Members>
            <Member Name="AggBugImage(System.String):System.String">
             <Messages>
-             <Message Id="Agg" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-              <Issue Name="Member">
-               <Item>Agg</Item>
-               <Item>AggBugImage</Item>
-              </Issue>
-             </Message>
              <Message Id="System.String.Format(System.String,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2005-05-11 21:34:27Z">
               <Issue>
                <Item>TrackingUrls.AggBugImage(String):String</Item>
@@ -9118,12 +9016,6 @@ Entry.set_PostType(PostType):Void</Item>
          </Type>
          <Type Name="WeblogsNotificatinProxy">
           <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Framework.Tracking.WeblogsNotificatinProxy</Item>
-             <Item> System.Web.Services.Protocols.WebClientProtocol, System.ComponentModel.Component</Item>
-            </Issue>
-           </Message>
            <Message Id="Notificatin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
             <Issue Name="Type">
              <Item>Notificatin</Item>
@@ -9265,13 +9157,6 @@ Entry.set_PostType(PostType):Void</Item>
           </Members>
          </Type>
          <Type Name="BlogTime">
-          <Messages>
-           <Message TypeName="StaticHolderTypesShouldBeSealed" Category="Microsoft.Design" CheckId="CA1052" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>BlogTime</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="ConvertToBloggerTime(System.DateTime,System.Int32):System.DateTime">
             <Messages>
@@ -9422,11 +9307,6 @@ Entry.set_PostType(PostType):Void</Item>
              <Item>Globals</Item>
             </Issue>
            </Message>
-           <Message TypeName="StaticHolderTypesShouldBeSealed" Category="Microsoft.Design" CheckId="CA1052" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Globals</Item>
-            </Issue>
-           </Message>
           </Messages>
           <Members>
            <Member Name="AllowedItemCount(System.Int32):System.Int32">
@@ -9434,75 +9314,6 @@ Entry.set_PostType(PostType):Void</Item>
              <Message Id="0#" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2005-05-11 21:34:27Z">
               <Issue Name="Parameter">
                <Item>ItemCount</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="CheckForUrl(System.String):System.String">
-            <Messages>
-             <Message Id="System.String.ToLower" TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>Globals.CheckForUrl(String):String</Item>
-               <Item>System.String.ToLower</Item>
-               <Item>System.String.ToLower(System.Globalization.CultureInfo)</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="UriReturnValuesShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1055" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>Globals.CheckForUrl(String):String</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="DateFromUrl(System.String):System.DateTime">
-            <Messages>
-             <Message Id="System.Exception.#ctor(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>Globals.DateFromUrl(String):DateTime</Item>
-               <Item>1</Item>
-               <Item>Exception..ctor(String)</Item>
-               <Item>Invalid Date Format</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201" Created="2005-05-11 21:34:27Z">
-              <Issue Name="TooGeneric">
-               <Item>Globals.DateFromUrl(String):DateTime</Item>
-               <Item>System.Exception</Item>
-              </Issue>
-             </Message>
-             <Message Id="0#" TypeName="UriParametersShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1054" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>url</Item>
-               <Item>Globals.DateFromUrl(String):DateTime</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="DateFromUrl(System.String,System.String):System.DateTime">
-            <Messages>
-             <Message Id="1#startfrom" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-              <Issue Name="Parameter">
-               <Item>Globals.DateFromUrl(String, String):DateTime</Item>
-               <Item>startfrom</Item>
-               <Item>startfrom</Item>
-              </Issue>
-             </Message>
-             <Message Id="System.String.ToLower" TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>Globals.DateFromUrl(String, String):DateTime</Item>
-               <Item>System.String.ToLower</Item>
-               <Item>System.String.ToLower(System.Globalization.CultureInfo)</Item>
-              </Issue>
-              <Issue>
-               <Item>Globals.DateFromUrl(String, String):DateTime</Item>
-               <Item>System.String.ToLower</Item>
-               <Item>System.String.ToLower(System.Globalization.CultureInfo)</Item>
-              </Issue>
-             </Message>
-             <Message Id="0#" TypeName="UriParametersShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1054" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>url</Item>
-               <Item>Globals.DateFromUrl(String, String):DateTime</Item>
               </Issue>
              </Message>
             </Messages>
@@ -9539,67 +9350,6 @@ Entry.set_PostType(PostType):Void</Item>
              </Message>
             </Messages>
            </Member>
-           <Member Name="GetPostIDFromUrl(System.String):System.Int32">
-            <Messages>
-             <Message Id="System.ArgumentException.#ctor(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>Globals.GetPostIDFromUrl(String):Int32</Item>
-               <Item>1</Item>
-               <Item>ArgumentException..ctor(String)</Item>
-               <Item>Invalid Post ID.</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="ShortAcronymsShouldBeUppercase" Category="Microsoft.Naming" CheckId="CA1706" Created="2005-05-11 21:34:27Z">
-              <Issue Name="MemberId">
-               <Item>Globals.GetPostIDFromUrl(String):Int32</Item>
-              </Issue>
-             </Message>
-             <Message Id="System.Int32.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>Globals.GetPostIDFromUrl(String):Int32</Item>
-               <Item>System.Int32.Parse(System.String)</Item>
-               <Item>System.Int32.Parse(System.String,System.IFormatProvider)</Item>
-              </Issue>
-             </Message>
-             <Message Id="0#" TypeName="UriParametersShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1054" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>uri</Item>
-               <Item>Globals.GetPostIDFromUrl(String):Int32</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="GetReqeustedFileName(System.String):System.String">
-            <Messages>
-             <Message Id="Reqeusted" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-              <Issue Name="Member">
-               <Item>Reqeusted</Item>
-               <Item>GetReqeustedFileName</Item>
-              </Issue>
-             </Message>
-             <Message Id="0#" TypeName="UriParametersShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1054" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>uri</Item>
-               <Item>Globals.GetReqeustedFileName(String):String</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="GetUriReferrerSafe(System.Web.HttpRequest):System.String">
-            <Messages>
-             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>Globals.GetUriReferrerSafe(HttpRequest):String</Item>
-               <Item>System.Object</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="UriReturnValuesShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1055" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>Globals.GetUriReferrerSafe(HttpRequest):String</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="GetUserIpAddress(System.Web.HttpContext):System.String">
             <Messages>
              <Message TypeName="ShortAcronymsShouldBeUppercase" Category="Microsoft.Naming" CheckId="CA1706" Created="2005-05-11 21:34:27Z">
@@ -9613,72 +9363,6 @@ Entry.set_PostType(PostType):Void</Item>
                <Item>op_Equality</Item>
                <Item>String.Empty</Item>
                <Item>Globals.GetUserIpAddress(HttpContext):String</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="IsValidXHTML(Subtext.Framework.Components.Entry&amp;):System.Boolean">
-            <Messages>
-             <Message TypeName="CatchNonClsCompliantExceptionsInGeneralHandlers" Category="Microsoft.Security" CheckId="CA2102" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>Globals.IsValidXHTML(Entry&amp;):Boolean</Item>
-              </Issue>
-             </Message>
-             <Message Id="0#" TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045" Created="2005-05-11 21:34:27Z">
-              <Issue Level="CriticalWarning">
-               <Item>entry</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="LongAcronymsShouldBePascalCased" Category="Microsoft.Naming" CheckId="CA1705" Created="2005-05-11 21:34:27Z">
-              <Issue Name="Member">
-               <Item>Globals.IsValidXHTML(Entry&amp;):Boolean</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>Globals.IsValidXHTML(Entry&amp;):Boolean</Item>
-              </Issue>
-              <Issue>
-               <Item>Globals.IsValidXHTML(Entry&amp;):Boolean</Item>
-              </Issue>
-             </Message>
-             <Message Id="System.IO.StringWriter.#ctor" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>Globals.IsValidXHTML(Entry&amp;):Boolean</Item>
-               <Item>System.IO.StringWriter.#ctor</Item>
-               <Item>System.IO.StringWriter.#ctor(System.IFormatProvider)</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="SafeFormat(System.String):System.String">
-            <Messages>
-             <Message Id="0#" TypeName="AvoidTypeNamesInParameters" Category="Microsoft.Naming" CheckId="CA1720" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>stringToTransform</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="SafeFormatWithUrl(System.String):System.String">
-            <Messages>
-             <Message Id="0#" TypeName="AvoidTypeNamesInParameters" Category="Microsoft.Naming" CheckId="CA1720" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>stringToTransform</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="UriReturnValuesShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1055" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>Globals.SafeFormatWithUrl(String):String</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="StripRTB(System.String,System.String):System.String">
-            <Messages>
-             <Message TypeName="LongAcronymsShouldBePascalCased" Category="Microsoft.Naming" CheckId="CA1705" Created="2005-05-11 21:34:27Z">
-              <Issue Name="Member">
-               <Item>Globals.StripRTB(String, String):String</Item>
               </Issue>
              </Message>
             </Messages>
@@ -9959,13 +9643,6 @@ Entry.set_PostType(PostType):Void</Item>
           </Members>
          </Type>
          <Type Name="SerializationHelper">
-          <Messages>
-           <Message TypeName="StaticHolderTypesShouldBeSealed" Category="Microsoft.Design" CheckId="CA1052" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>SerializationHelper</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="Load(System.Type,System.String):System.Object">
             <Messages>
@@ -10033,12 +9710,6 @@ Entry.set_PostType(PostType):Void</Item>
              <Message Id="Categry" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
               <Issue Name="Member">
                <Item>Categry</Item>
-               <Item>GetCategryFromRss</Item>
-              </Issue>
-             </Message>
-             <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-              <Issue Name="Member">
-               <Item>Rss</Item>
                <Item>GetCategryFromRss</Item>
               </Issue>
              </Message>
@@ -10122,12 +9793,6 @@ Entry.set_PostType(PostType):Void</Item>
            </Member>
            <Member Name="RemoveRssSlash(System.String):System.String">
             <Messages>
-             <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-              <Issue Name="Member">
-               <Item>Rss</Item>
-               <Item>RemoveRssSlash</Item>
-              </Issue>
-             </Message>
              <Message Id="0#" TypeName="UriParametersShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1054" Created="2005-05-11 21:34:27Z">
               <Issue>
                <Item>url</Item>
@@ -10300,12 +9965,6 @@ Entry.set_PostType(PostType):Void</Item>
             <Messages>
              <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2005-05-11 21:34:27Z">
               <Issue>
-               <Item>rssUrl</Item>
-              </Issue>
-             </Message>
-             <Message Id="rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-              <Issue Name="Member">
-               <Item>rss</Item>
                <Item>rssUrl</Item>
               </Issue>
              </Message>
@@ -11020,7 +10679,7 @@ Entry.set_PostType(PostType):Void</Item>
      </Module>
     </Modules>
    </Target>
-   <Target Name="C:\Projects\SubtextSystem\SubtextSolution\Subtext.Web\bin\Subtext.Web.dll">
+   <Target Name=".\Subtext.Web\bin\Subtext.Web.dll">
     <Modules>
      <Module Name="subtext.web.dll">
       <Messages>
@@ -11034,29 +10693,11 @@ Entry.set_PostType(PostType):Void</Item>
          <Item>Subtext.Web</Item>
         </Issue>
        </Message>
-       <Message TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014" Created="2005-05-11 21:34:27Z">
-        <Issue Name="NoAttr">
-         <Item>Subtext.Web</Item>
-        </Issue>
-       </Message>
-       <Message TypeName="MarkAssembliesWithComVisible" Category="Microsoft.Design" CheckId="CA1017" Created="2005-05-11 21:34:27Z">
-        <Issue Name="NoAttribute" Level="CriticalError">
-         <Item>Subtext.Web</Item>
-        </Issue>
-       </Message>
       </Messages>
       <Namespaces>
        <Namespace Name="Subtext">
         <Types>
          <Type Name="Global">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Global</Item>
-             <Item> System.Web.HttpApplication</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="Application_EndRequest(System.Object,System.EventArgs):System.Void">
             <Messages>
@@ -11090,12 +10731,6 @@ Entry.set_PostType(PostType):Void</Item>
         <Types>
          <Type Name="_default">
           <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web._default</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
            <Message TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2005-05-11 21:34:27Z">
             <Issue Name="Type">
              <Item>_default</Item>
@@ -11236,16 +10871,6 @@ Entry.set_PostType(PostType):Void</Item>
              </Message>
             </Messages>
            </Member>
-           <Member Name="RssLink">
-            <Messages>
-             <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-              <Issue Name="Member">
-               <Item>Rss</Item>
-               <Item>RssLink</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="SetStyle():System.Void">
             <Messages>
              <Message Id="System.String.Format(System.String,System.Object,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2005-05-11 21:34:27Z">
@@ -11265,14 +10890,6 @@ Entry.set_PostType(PostType):Void</Item>
           </Members>
          </Type>
          <Type Name="BlogNotConfiguredError">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.BlogNotConfiguredError</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="btnSave">
             <Messages>
@@ -11373,14 +10990,6 @@ Entry.set_PostType(PostType):Void</Item>
           </Members>
          </Type>
          <Type Name="CheckYourConnectionString">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.CheckYourConnectionString</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="lblErrorMessage">
             <Messages>
@@ -11404,87 +11013,8 @@ Entry.set_PostType(PostType):Void</Item>
            </Member>
           </Members>
          </Type>
-         <Type Name="OPML">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.OPML</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-           <Message TypeName="LongAcronymsShouldBePascalCased" Category="Microsoft.Naming" CheckId="CA1705" Created="2005-05-11 21:34:27Z">
-            <Issue Name="Type">
-             <Item>OPML</Item>
-            </Issue>
-           </Message>
-          </Messages>
-          <Members>
-           <Member Name="Page_Load(System.Object,System.EventArgs):System.Void">
-            <Messages>
-             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>OPML.Page_Load(Object, EventArgs):Void</Item>
-               <Item>System.Object</Item>
-              </Issue>
-             </Message>
-             <Message Id="System.Int32.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>OPML.Page_Load(Object, EventArgs):Void</Item>
-               <Item>System.Int32.Parse(System.String)</Item>
-               <Item>System.Int32.Parse(System.String,System.IFormatProvider)</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="OPML+Opml">
-          <Messages>
-           <Message TypeName="AvoidUninstantiatedInternalClasses" Category="Microsoft.Performance" CheckId="CA1812" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.OPML+Opml</Item>
-            </Issue>
-           </Message>
-          </Messages>
-          <Members>
-           <Member Name="Write(System.Data.DataTable,System.String):System.String">
-            <Messages>
-             <Message TypeName="CatchNonClsCompliantExceptionsInGeneralHandlers" Category="Microsoft.Security" CheckId="CA2102" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>Opml.Write(DataTable, String):String</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>Opml.Write(DataTable, String):String</Item>
-              </Issue>
-             </Message>
-             <Message Id="System.IO.StringWriter.#ctor" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>Opml.Write(DataTable, String):String</Item>
-               <Item>System.IO.StringWriter.#ctor</Item>
-               <Item>System.IO.StringWriter.#ctor(System.IFormatProvider)</Item>
-              </Issue>
-             </Message>
-             <Message Id="System.String.Format(System.String,System.Object,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>Opml.Write(DataTable, String):String</Item>
-               <Item>System.String.Format(System.String,System.Object,System.Object)</Item>
-               <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
          <Type Name="Queue">
           <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Queue</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
            <Message TypeName="IdentifiersShouldNotHaveIncorrectSuffix" Category="Microsoft.Naming" CheckId="CA1711" Created="2005-05-11 21:34:27Z">
             <Issue>
              <Item>Subtext.Web.Queue</Item>
@@ -11505,139 +11035,6 @@ Entry.set_PostType(PostType):Void</Item>
                <Item>Queue.Page_Load(Object, EventArgs):Void</Item>
                <Item>System.Int32.ToString</Item>
                <Item>System.Int32.ToString(System.IFormatProvider)</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="RSSPage">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.RSSPage</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-           <Message TypeName="LongAcronymsShouldBePascalCased" Category="Microsoft.Naming" CheckId="CA1705" Created="2005-05-11 21:34:27Z">
-            <Issue Name="Type">
-             <Item>RSSPage</Item>
-            </Issue>
-           </Message>
-          </Messages>
-          <Members>
-           <Member Name="GetRSS(System.Data.DataTable,System.String):System.String">
-            <Messages>
-             <Message Id="System.Data.DataRow.get_Item(System.String)" TypeName="AvoidCallsThatBoxValueTypes" Category="Microsoft.Performance" CheckId="CA1808" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>RSSPage.GetRSS(DataTable, String):String</Item>
-               <Item>DataRow.get_Item(String):Object</Item>
-               <Item>Boolean</Item>
-              </Issue>
-              <Issue>
-               <Item>RSSPage.GetRSS(DataTable, String):String</Item>
-               <Item>DataRow.get_Item(String):Object</Item>
-               <Item>DateTime</Item>
-              </Issue>
-              <Issue>
-               <Item>RSSPage.GetRSS(DataTable, String):String</Item>
-               <Item>DataRow.get_Item(String):Object</Item>
-               <Item>DateTime</Item>
-              </Issue>
-              <Issue>
-               <Item>RSSPage.GetRSS(DataTable, String):String</Item>
-               <Item>DataRow.get_Item(String):Object</Item>
-               <Item>Int32</Item>
-              </Issue>
-              <Issue>
-               <Item>RSSPage.GetRSS(DataTable, String):String</Item>
-               <Item>DataRow.get_Item(String):Object</Item>
-               <Item>Int32</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="CatchNonClsCompliantExceptionsInGeneralHandlers" Category="Microsoft.Security" CheckId="CA2102" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>RSSPage.GetRSS(DataTable, String):String</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>RSSPage.GetRSS(DataTable, String):String</Item>
-              </Issue>
-             </Message>
-             <Message Id="System.DateTime.ToString(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>RSSPage.GetRSS(DataTable, String):String</Item>
-               <Item>System.DateTime.ToString(System.String)</Item>
-               <Item>System.DateTime.ToString(System.String,System.IFormatProvider)</Item>
-              </Issue>
-              <Issue>
-               <Item>RSSPage.GetRSS(DataTable, String):String</Item>
-               <Item>System.DateTime.ToString(System.String)</Item>
-               <Item>System.DateTime.ToString(System.String,System.IFormatProvider)</Item>
-              </Issue>
-             </Message>
-             <Message Id="System.IO.StringWriter.#ctor" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>RSSPage.GetRSS(DataTable, String):String</Item>
-               <Item>System.IO.StringWriter.#ctor</Item>
-               <Item>System.IO.StringWriter.#ctor(System.IFormatProvider)</Item>
-              </Issue>
-             </Message>
-             <Message Id="System.String.Format(System.String,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>RSSPage.GetRSS(DataTable, String):String</Item>
-               <Item>System.String.Format(System.String,System.Object)</Item>
-               <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
-              </Issue>
-              <Issue>
-               <Item>RSSPage.GetRSS(DataTable, String):String</Item>
-               <Item>System.String.Format(System.String,System.Object)</Item>
-               <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
-              </Issue>
-              <Issue>
-               <Item>RSSPage.GetRSS(DataTable, String):String</Item>
-               <Item>System.String.Format(System.String,System.Object)</Item>
-               <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
-              </Issue>
-              <Issue>
-               <Item>RSSPage.GetRSS(DataTable, String):String</Item>
-               <Item>System.String.Format(System.String,System.Object)</Item>
-               <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
-              </Issue>
-             </Message>
-             <Message Id="System.String.Format(System.String,System.Object,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>RSSPage.GetRSS(DataTable, String):String</Item>
-               <Item>System.String.Format(System.String,System.Object,System.Object)</Item>
-               <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
-              </Issue>
-              <Issue>
-               <Item>RSSPage.GetRSS(DataTable, String):String</Item>
-               <Item>System.String.Format(System.String,System.Object,System.Object)</Item>
-               <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
-              </Issue>
-              <Issue>
-               <Item>RSSPage.GetRSS(DataTable, String):String</Item>
-               <Item>System.String.Format(System.String,System.Object,System.Object)</Item>
-               <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="Page_Load(System.Object,System.EventArgs):System.Void">
-            <Messages>
-             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>RSSPage.Page_Load(Object, EventArgs):Void</Item>
-               <Item>System.Object</Item>
-              </Issue>
-             </Message>
-             <Message Id="System.Int32.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>RSSPage.Page_Load(Object, EventArgs):Void</Item>
-               <Item>System.Int32.Parse(System.String)</Item>
-               <Item>System.Int32.Parse(System.String,System.IFormatProvider)</Item>
               </Issue>
              </Message>
             </Messages>
@@ -12065,24 +11462,12 @@ Entry.set_PostType(PostType):Void</Item>
           </Members>
          </Type>
          <Type Name="DeleteTitledTargetCommand">
-          <Messages>
-           <Message TypeName="AbstractTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1012" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>DeleteTitledTargetCommand</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
-           <Member Name="_itemTitle">
+           <Member Name="itemTitle">
             <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2005-05-11 21:34:27Z">
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2005-05-14 01:47:45Z">
               <Issue>
-               <Item>_itemTitle</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Created="2005-05-11 21:34:27Z">
-              <Issue Name="Member">
-               <Item>_itemTitle</Item>
+               <Item>itemTitle</Item>
               </Issue>
              </Message>
             </Messages>
@@ -13329,14 +12714,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
           </Members>
          </Type>
          <Type Name="PageTemplate">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.PageTemplate</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="BreadCrumbs">
             <Messages>
@@ -13497,14 +12874,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
           </Members>
          </Type>
          <Type Name="Test">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.Test</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="btnSubmit">
             <Messages>
@@ -13623,14 +12992,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
        <Namespace Name="Subtext.Web.Admin.Pages">
         <Types>
          <Type Name="AdminPage">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.Pages.AdminPage</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="AreCookiesAllowed():System.Boolean">
             <Messages>
@@ -13706,14 +13067,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
           </Members>
          </Type>
          <Type Name="Configure">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.Pages.Configure</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="BindForm():System.Void">
             <Messages>
@@ -13725,20 +13078,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
               <Issue>
                <Item>Configure.BindForm():Void</Item>
                <Item>System.Object</Item>
-              </Issue>
-             </Message>
-             <Message Id="fi" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>Configure.BindForm():Void</Item>
-               <Item>fi</Item>
-               <Item>System.IO.FileInfo</Item>
-              </Issue>
-             </Message>
-             <Message Id="len" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>Configure.BindForm():Void</Item>
-               <Item>len</Item>
-               <Item>System.Int32</Item>
               </Issue>
              </Message>
              <Message Id="System.Int32.ToString" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2005-05-11 21:34:27Z">
@@ -13806,35 +13145,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
               </Issue>
              </Message>
             </Messages>
-           </Member>
-           <Member Name="CategoryID">
-            <Accessors>
-             <Accessor Name="get_CategoryID():System.Int32">
-              <Messages>
-               <Message Id="System.Web.UI.StateBag.get_Item(System.String)" TypeName="AvoidCallsThatBoxValueTypes" Category="Microsoft.Performance" CheckId="CA1808" Created="2005-05-11 21:34:27Z">
-                <Issue>
-                 <Item>Configure.get_CategoryID():Int32</Item>
-                 <Item>StateBag.get_Item(String):Object</Item>
-                 <Item>Int32</Item>
-                </Issue>
-               </Message>
-               <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Created="2005-05-11 21:34:27Z">
-                <Issue>
-                 <Item>Configure.get_CategoryID():Int32</Item>
-                </Issue>
-               </Message>
-              </Messages>
-             </Accessor>
-             <Accessor Name="set_CategoryID(System.Int32):System.Void">
-              <Messages>
-               <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Created="2005-05-11 21:34:27Z">
-                <Issue>
-                 <Item>Configure.set_CategoryID(Int32):Void</Item>
-                </Issue>
-               </Message>
-              </Messages>
-             </Accessor>
-            </Accessors>
            </Member>
            <Member Name="CategoryType">
             <Accessors>
@@ -13990,14 +13300,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
           </Members>
          </Type>
          <Type Name="Confirm">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.Pages.Confirm</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="Command">
             <Accessors>
@@ -14074,14 +13376,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
           </Members>
          </Type>
          <Type Name="ConfirmationPage">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.Pages.ConfirmationPage</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor()">
             <Messages>
@@ -14144,14 +13438,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
           </Members>
          </Type>
          <Type Name="EditArticles">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.Pages.EditArticles</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="BindLocalUI():System.Void">
             <Messages>
@@ -14183,14 +13469,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
           </Members>
          </Type>
          <Type Name="EditCategories">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.Pages.EditCategories</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="_categoryType">
             <Accessors>
@@ -14359,14 +13637,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
           </Members>
          </Type>
          <Type Name="EditGalleries">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.Pages.EditGalleries</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="_isListHidden">
             <Messages>
@@ -14758,14 +14028,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
           </Members>
          </Type>
          <Type Name="EditImage">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.Pages.EditImage</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="_galleryTitle">
             <Messages>
@@ -15137,12 +14399,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
              <Item>Keywords</Item>
             </Issue>
            </Message>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.Pages.EditKeyWords</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
           </Messages>
           <Members>
            <Member Name=".ctor()">
@@ -15410,14 +14666,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
           </Members>
          </Type>
          <Type Name="EditLinks">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.Pages.EditLinks</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor()">
             <Messages>
@@ -15749,12 +14997,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
            </Member>
            <Member Name="txbRss">
             <Messages>
-             <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
-              <Issue Name="Member">
-               <Item>Rss</Item>
-               <Item>txbRss</Item>
-              </Issue>
-             </Message>
              <Message Id="txb" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
               <Issue Name="Member">
                <Item>txb</Item>
@@ -15823,14 +15065,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
           </Members>
          </Type>
          <Type Name="EditPosts">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.Pages.EditPosts</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="BindLocalUI():System.Void">
             <Messages>
@@ -15862,14 +15096,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
           </Members>
          </Type>
          <Type Name="EditPreferences">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.Pages.EditPreferences</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="BindLocalUI():System.Void">
             <Messages>
@@ -15947,12 +15173,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
          </Type>
          <Type Name="Error">
           <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.Pages.Error</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
            <Message TypeName="IdentifiersShouldNotMatchKeywords" Category="Microsoft.Naming" CheckId="CA1716" Created="2005-05-11 21:34:27Z">
             <Issue Name="Type">
              <Item>Error</Item>
@@ -15962,14 +15182,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
           </Messages>
          </Type>
          <Type Name="Export">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.Pages.Export</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="ExportLinksToOpml():System.Void">
             <Messages>
@@ -15995,14 +15207,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
           </Members>
          </Type>
          <Type Name="Feedback">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.Pages.Feedback</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor()">
             <Messages>
@@ -16083,23 +15287,9 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
              <Item>Homepage</Item>
             </Issue>
            </Message>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.Pages.HomePageDefault</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
           </Messages>
          </Type>
          <Type Name="Options">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.Pages.Options</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="BindLocalUI():System.Void">
             <Messages>
@@ -16134,14 +15324,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
           </Members>
          </Type>
          <Type Name="Password">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.Pages.Password</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="btnSave">
             <Messages>
@@ -16232,14 +15414,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
           </Members>
          </Type>
          <Type Name="Referrers">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.Pages.Referrers</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor()">
             <Messages>
@@ -16498,14 +15672,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
           </Members>
          </Type>
          <Type Name="Statistics">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.Pages.Statistics</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="BindLocalUI():System.Void">
             <Messages>
@@ -16528,14 +15694,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
           </Members>
          </Type>
          <Type Name="StatsView">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.Pages.StatsView</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor()">
             <Messages>
@@ -16601,14 +15759,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
        <Namespace Name="Subtext.Web.Admin.UserControls">
         <Types>
          <Type Name="EntryEditor">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.UserControls.EntryEditor</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor()">
             <Messages>
@@ -17076,14 +16226,6 @@ PageLocationCollection.set_Capacity(Int32):Void</Item>
        <Namespace Name="Subtext.Web.Admin.WebUI">
         <Types>
          <Type Name="AdvancedPanel">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.WebUI.AdvancedPanel</Item>
-             <Item> System.Web.UI.WebControls.Panel, System.Web.UI.WebControls.WebControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor()">
             <Messages>
@@ -17417,12 +16559,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
              <Item>Breadcrumbs</Item>
             </Issue>
            </Message>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.WebUI.BreadCrumbs</Item>
-             <Item> System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
           </Messages>
           <Members>
            <Member Name=".ctor()">
@@ -17730,14 +16866,6 @@ Control.CreateControlCollection():ControlCollection</Item>
           </Members>
          </Type>
          <Type Name="HeaderBase">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.WebUI.HeaderBase</Item>
-             <Item> System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="Render(System.Web.UI.HtmlTextWriter):System.Void">
             <Messages>
@@ -17753,14 +16881,6 @@ Control.CreateControlCollection():ControlCollection</Item>
           </Members>
          </Type>
          <Type Name="HeaderLink">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.WebUI.HeaderLink</Item>
-             <Item> System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="Rel">
             <Messages>
@@ -17852,25 +16972,7 @@ LinkControlCollection.AddRange(WebControl[]):Void</Item>
            </Member>
           </Members>
          </Type>
-         <Type Name="LinkList">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.WebUI.LinkList</Item>
-             <Item> System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
-         </Type>
          <Type Name="MessagePanel">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.WebUI.MessagePanel</Item>
-             <Item> System.Web.UI.WebControls.Panel, System.Web.UI.WebControls.WebControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor()">
             <Messages>
@@ -17924,14 +17026,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
           </Members>
          </Type>
          <Type Name="Page">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.WebUI.Page</Item>
-             <Item> System.Web.UI.HtmlControls.HtmlContainerControl, System.Web.UI.HtmlControls.HtmlControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor()">
             <Messages>
@@ -18170,14 +17264,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
           </Members>
          </Type>
          <Type Name="Pager">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.WebUI.Pager</Item>
-             <Item> System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor()">
             <Messages>
@@ -18708,14 +17794,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
           </Members>
          </Type>
          <Type Name="PagerDesigner">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.WebUI.PagerDesigner</Item>
-             <Item> System.Web.UI.Design.ControlDesigner, System.Web.UI.Design.HtmlControlDesigner, System.ComponentModel.Design.ComponentDesigner</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="Initialize(System.ComponentModel.IComponent):System.Void">
             <Messages>
@@ -18739,12 +17817,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
              <Item>class</Item>
              <Item>PlaceHolder</Item>
              <Item>Placeholder</Item>
-            </Issue>
-           </Message>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Admin.WebUI.PlaceHolder</Item>
-             <Item> System.Web.UI.WebControls.Panel, System.Web.UI.WebControls.WebControl, System.Web.UI.Control</Item>
             </Issue>
            </Message>
           </Messages>
@@ -18853,12 +17925,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
         <Types>
          <Type Name="Error">
           <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Pages.Error</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
            <Message TypeName="IdentifiersShouldNotMatchKeywords" Category="Microsoft.Naming" CheckId="CA1716" Created="2005-05-11 21:34:27Z">
             <Issue Name="Type">
              <Item>Error</Item>
@@ -18881,12 +17947,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
          </Type>
          <Type Name="login">
           <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Pages.login</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
            <Message TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2005-05-11 21:34:27Z">
             <Issue Name="Type">
              <Item>login</Item>
@@ -19002,12 +18062,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
          </Type>
          <Type Name="logout">
           <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Pages.logout</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
            <Message TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2005-05-11 21:34:27Z">
             <Issue Name="Type">
              <Item>logout</Item>
@@ -19032,12 +18086,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
         <Types>
          <Type Name="ASPNetWebLogApi">
           <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Services.ASPNetWebLogApi</Item>
-             <Item> System.Web.Services.WebService, System.ComponentModel.MarshalByValueComponent</Item>
-            </Issue>
-           </Message>
            <Message TypeName="LongAcronymsShouldBePascalCased" Category="Microsoft.Naming" CheckId="CA1705" Created="2005-05-11 21:34:27Z">
             <Issue Name="Type">
              <Item>ASPNetWebLogApi</Item>
@@ -19336,14 +18384,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
           </Members>
          </Type>
          <Type Name="BlogContent">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Services.BlogContent</Item>
-             <Item> System.Web.Services.WebService, System.ComponentModel.MarshalByValueComponent</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor()">
             <Messages>
@@ -19401,12 +18441,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
          </Type>
          <Type Name="Dottext">
           <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Services.Dottext</Item>
-             <Item> System.Web.Services.WebService, System.ComponentModel.MarshalByValueComponent</Item>
-            </Issue>
-           </Message>
            <Message Id="Dottext" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
             <Issue Name="Type">
              <Item>Dottext</Item>
@@ -19431,12 +18465,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
          </Type>
          <Type Name="SBS">
           <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Services.SBS</Item>
-             <Item> System.Web.Services.WebService, System.ComponentModel.MarshalByValueComponent</Item>
-            </Issue>
-           </Message>
            <Message TypeName="LongAcronymsShouldBePascalCased" Category="Microsoft.Naming" CheckId="CA1705" Created="2005-05-11 21:34:27Z">
             <Issue Name="Type">
              <Item>SBS</Item>
@@ -19547,16 +18575,10 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
          </Type>
          <Type Name="Subtext">
           <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.Services.Subtext</Item>
-             <Item> System.Web.Services.WebService, System.ComponentModel.MarshalByValueComponent</Item>
-            </Issue>
-           </Message>
            <Message TypeName="TypeNamesShouldNotMatchNamespaces" Category="Microsoft.Naming" CheckId="CA1724" Created="2005-05-11 21:34:27Z">
             <Issue>
              <Item>Subtext</Item>
-             <Item>Subtext.Common.Config</Item>
+             <Item>Subtext.Framework.Syndication</Item>
             </Issue>
            </Message>
           </Messages>
@@ -19579,38 +18601,11 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
        </Namespace>
        <Namespace Name="Subtext.Web.UI">
         <Types>
-         <Type Name="ErrorHandler">
-          <Members>
-           <Member Name="ProcessRequest(System.Web.HttpContext):System.Void">
-            <Messages>
-             <Message Id="System.Exception.#ctor(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>ErrorHandler.ProcessRequest(HttpContext):Void</Item>
-               <Item>1</Item>
-               <Item>Exception..ctor(String)</Item>
-               <Item>Error processing that file request.</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201" Created="2005-05-11 21:34:27Z">
-              <Issue Name="TooGeneric">
-               <Item>ErrorHandler.ProcessRequest(HttpContext):Void</Item>
-               <Item>System.Exception</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
          <Type Name="Globals">
           <Messages>
            <Message Id="Globals" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2005-05-11 21:34:27Z">
             <Issue Name="Type">
              <Item>Globals</Item>
-             <Item>Globals</Item>
-            </Issue>
-           </Message>
-           <Message TypeName="StaticHolderTypesShouldBeSealed" Category="Microsoft.Design" CheckId="CA1052" Created="2005-05-11 21:34:27Z">
-            <Issue>
              <Item>Globals</Item>
             </Issue>
            </Message>
@@ -19676,28 +18671,11 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
            </Member>
           </Members>
          </Type>
-         <Type Name="UIText">
-          <Messages>
-           <Message TypeName="StaticHolderTypesShouldBeSealed" Category="Microsoft.Design" CheckId="CA1052" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>UIText</Item>
-            </Issue>
-           </Message>
-          </Messages>
-         </Type>
         </Types>
        </Namespace>
        <Namespace Name="Subtext.Web.UI.Controls">
         <Types>
          <Type Name="ArchiveCategory">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.ArchiveCategory</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="OnLoad(System.EventArgs):System.Void">
             <Messages>
@@ -19713,14 +18691,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
           </Members>
          </Type>
          <Type Name="ArchiveDay">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.ArchiveDay</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="OnLoad(System.EventArgs):System.Void">
             <Messages>
@@ -19743,14 +18713,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
           </Members>
          </Type>
          <Type Name="ArchiveLinks">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.ArchiveLinks</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="GetArchiveCategories():Subtext.Framework.Components.LinkCategoryCollection">
             <Messages>
@@ -19764,14 +18726,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
           </Members>
          </Type>
          <Type Name="ArchiveMonth">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.ArchiveMonth</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="OnLoad(System.EventArgs):System.Void">
             <Messages>
@@ -19806,14 +18760,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
           </Members>
          </Type>
          <Type Name="BaseControl">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.BaseControl</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor()">
             <Messages>
@@ -19845,14 +18791,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
           </Members>
          </Type>
          <Type Name="BlogStats">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.BlogStats</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="OnLoad(System.EventArgs):System.Void">
             <Messages>
@@ -19883,14 +18821,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
           </Members>
          </Type>
          <Type Name="CachedColumnControl">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.CachedColumnControl</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="Render(System.Web.UI.HtmlTextWriter):System.Void">
             <Messages>
@@ -19905,25 +18835,7 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
            </Member>
           </Members>
          </Type>
-         <Type Name="CategoryDisplay">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.CategoryDisplay</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
-         </Type>
          <Type Name="CategoryEntryList">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.CategoryEntryList</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="OnLoad(System.EventArgs):System.Void">
             <Messages>
@@ -19951,14 +18863,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
           </Members>
          </Type>
          <Type Name="CategoryList">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.CategoryList</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="LinkCategories">
             <Messages>
@@ -19983,14 +18887,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
           </Members>
          </Type>
          <Type Name="Comments">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.Comments</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="Anchor(System.Int32):System.String">
             <Messages>
@@ -20121,14 +19017,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
           </Members>
          </Type>
          <Type Name="Contact">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.Contact</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="btnSend">
             <Messages>
@@ -20251,14 +19139,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
           </Members>
          </Type>
          <Type Name="Day">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.Day</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="CurrentDay">
             <Messages>
@@ -20312,12 +19192,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
          </Type>
          <Type Name="DayCollection">
           <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.DayCollection</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
            <Message TypeName="IdentifiersShouldNotHaveIncorrectSuffix" Category="Microsoft.Naming" CheckId="CA1711" Created="2005-05-11 21:34:27Z">
             <Issue>
              <Item>Subtext.Web.UI.Controls.DayCollection</Item>
@@ -20343,14 +19217,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
           </Members>
          </Type>
          <Type Name="EntryList">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.EntryList</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="DisplayEditLink(Subtext.Framework.Components.Entry,System.Web.UI.WebControls.RepeaterItemEventArgs):System.Void">
             <Messages>
@@ -20426,16 +19292,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
            </Member>
           </Members>
          </Type>
-         <Type Name="Footer">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.Footer</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
-         </Type>
          <Type Name="GalleryThumbNailViewer">
           <Messages>
            <Message Id="ThumbNail" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2005-05-11 21:34:27Z">
@@ -20444,12 +19300,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
              <Item>class</Item>
              <Item>GalleryThumbNailViewer</Item>
              <Item>Thumbnail</Item>
-            </Issue>
-           </Message>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.GalleryThumbNailViewer</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
             </Issue>
            </Message>
           </Messages>
@@ -20492,14 +19342,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
           </Members>
          </Type>
          <Type Name="Header">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.Header</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="HeaderSubTitle">
             <Messages>
@@ -20525,12 +19367,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
              <Item>Homepage</Item>
             </Issue>
            </Message>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.HomePage</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
           </Messages>
           <Members>
            <Member Name="HomePageDays">
@@ -20548,14 +19384,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
           </Members>
          </Type>
          <Type Name="Login">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.Login</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="btnLogin">
             <Messages>
@@ -20602,14 +19430,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
           </Members>
          </Type>
          <Type Name="MonthList">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.MonthList</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="OnLoad(System.EventArgs):System.Void">
             <Messages>
@@ -20625,14 +19445,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
           </Members>
          </Type>
          <Type Name="MyLinks">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.MyLinks</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="OnLoad(System.EventArgs):System.Void">
             <Messages>
@@ -20685,25 +19497,7 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
            </Member>
           </Members>
          </Type>
-         <Type Name="News">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.News</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
-         </Type>
          <Type Name="PageTemplate">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.PageTemplate</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="AddBody(System.Web.UI.Control):System.Void">
             <Messages>
@@ -20719,14 +19513,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
           </Members>
          </Type>
          <Type Name="PostComment">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.PostComment</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="btnSubmit">
             <Messages>
@@ -20828,14 +19614,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
           </Members>
          </Type>
          <Type Name="SingleColumn">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.SingleColumn</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="GetArchiveCategories():Subtext.Framework.Components.LinkCategoryCollection">
             <Messages>
@@ -20856,14 +19634,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
           </Members>
          </Type>
          <Type Name="ViewPicture">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.ViewPicture</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor()">
             <Messages>
@@ -20880,14 +19650,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
           </Members>
          </Type>
          <Type Name="ViewPost">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Controls.ViewPost</Item>
-             <Item> System.Web.UI.UserControl, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="OnLoad(System.EventArgs):System.Void">
             <Messages>
@@ -20906,53 +19668,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
        </Namespace>
        <Namespace Name="Subtext.Web.UI.Handlers">
         <Types>
-         <Type Name="BlogExistingPageHandler">
-          <Members>
-           <Member Name="GetHandler(System.Web.HttpContext,System.String,System.String,System.String):System.Web.IHttpHandler">
-            <Messages>
-             <Message Id="path" TypeName="AvoidUnnecessaryStringCreation" Category="Microsoft.Performance" CheckId="CA1807" Created="2005-05-11 21:34:27Z">
-              <Issue Name="DuplicateStringCreation">
-               <Item>String.ToLower():String</Item>
-               <Item>'path', a parameter, </Item>
-              </Issue>
-             </Message>
-             <Message Id="url" TypeName="AvoidUnnecessaryStringCreation" Category="Microsoft.Performance" CheckId="CA1807" Created="2005-05-11 21:34:27Z">
-              <Issue Name="DuplicateStringCreation">
-               <Item>String.ToLower():String</Item>
-               <Item>'url', a parameter, </Item>
-              </Issue>
-             </Message>
-             <Message Id="System.String.ToLower" TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>BlogExistingPageHandler.GetHandler(HttpContext, String, String, String):IHttpHandler</Item>
-               <Item>System.String.ToLower</Item>
-               <Item>System.String.ToLower(System.Globalization.CultureInfo)</Item>
-              </Issue>
-              <Issue>
-               <Item>BlogExistingPageHandler.GetHandler(HttpContext, String, String, String):IHttpHandler</Item>
-               <Item>System.String.ToLower</Item>
-               <Item>System.String.ToLower(System.Globalization.CultureInfo)</Item>
-              </Issue>
-              <Issue>
-               <Item>BlogExistingPageHandler.GetHandler(HttpContext, String, String, String):IHttpHandler</Item>
-               <Item>System.String.ToLower</Item>
-               <Item>System.String.ToLower(System.Globalization.CultureInfo)</Item>
-              </Issue>
-              <Issue>
-               <Item>BlogExistingPageHandler.GetHandler(HttpContext, String, String, String):IHttpHandler</Item>
-               <Item>System.String.ToLower</Item>
-               <Item>System.String.ToLower(System.Globalization.CultureInfo)</Item>
-              </Issue>
-              <Issue>
-               <Item>BlogExistingPageHandler.GetHandler(HttpContext, String, String, String):IHttpHandler</Item>
-               <Item>System.String.ToLower</Item>
-               <Item>System.String.ToLower(System.Globalization.CultureInfo)</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
          <Type Name="RedirectHandler">
           <Members>
            <Member Name="ProcessRequest(System.Web.HttpContext):System.Void">
@@ -20973,13 +19688,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
        <Namespace Name="Subtext.Web.UI.Pages">
         <Types>
          <Type Name="BaseBlogPageHandlerFactory">
-          <Messages>
-           <Message TypeName="AbstractTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1012" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>BaseBlogPageHandlerFactory</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="GetHandler(System.Web.HttpContext,System.String,System.String,System.String):System.Web.IHttpHandler">
             <Messages>
@@ -20993,30 +19701,7 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
            </Member>
           </Members>
          </Type>
-         <Type Name="PageHandlerFactory">
-          <Members>
-           <Member Name="GetHandler(System.Web.HttpContext,System.String,System.String,System.String):System.Web.IHttpHandler">
-            <Messages>
-             <Message Id="System.String.ToLower" TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304" Created="2005-05-11 21:34:27Z">
-              <Issue>
-               <Item>PageHandlerFactory.GetHandler(HttpContext, String, String, String):IHttpHandler</Item>
-               <Item>System.String.ToLower</Item>
-               <Item>System.String.ToLower(System.Globalization.CultureInfo)</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
          <Type Name="SubtextMasterPage">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Pages.SubtextMasterPage</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="InitializeBlogPage():System.Void">
             <Messages>
@@ -21038,27 +19723,14 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
              </Message>
             </Messages>
            </Member>
-          </Members>
-         </Type>
-         <Type Name="ViewStatelessPage">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.Pages.ViewStatelessPage</Item>
-             <Item> System.Web.UI.Page, System.Web.UI.TemplateControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
-          <Members>
-           <Member Name=".ctor()">
+           <Member Name="SpecifyDocType():System.Void">
             <Messages>
-             <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Created="2005-05-11 21:34:27Z">
+             <Message Id="System.Web.UI.WebControls.Literal.set_Text(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2005-05-14 00:40:24Z">
               <Issue>
-               <Item>ViewStatelessPage..ctor()</Item>
-               <Item>
-
-ViewStatelessPage..ctor()
-Control.set_EnableViewState(Boolean):Void</Item>
+               <Item>SubtextMasterPage.SpecifyDocType():Void</Item>
+               <Item>1</Item>
+               <Item>Literal.set_Text(String):Void</Item>
+               <Item>&lt;?xml version="1.0" encoding="UTF-8"?&gt;___</Item>
               </Issue>
              </Message>
             </Messages>
@@ -21299,14 +19971,6 @@ Control.set_EnableViewState(Boolean):Void</Item>
        <Namespace Name="Subtext.Web.UI.WebControls">
         <Types>
          <Type Name="ContentRegion">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.WebControls.ContentRegion</Item>
-             <Item> System.Web.UI.WebControls.Panel, System.Web.UI.WebControls.WebControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor()">
             <Messages>
@@ -21354,14 +20018,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
           </Members>
          </Type>
          <Type Name="MasterPage">
-          <Messages>
-           <Message TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405" Created="2005-05-11 21:34:27Z">
-            <Issue>
-             <Item>Subtext.Web.UI.WebControls.MasterPage</Item>
-             <Item> System.Web.UI.HtmlControls.HtmlContainerControl, System.Web.UI.HtmlControls.HtmlControl, System.Web.UI.Control</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor()">
             <Messages>
@@ -21449,16 +20105,6 @@ Control.get_ViewStateIgnoresCase():Boolean</Item>
    </Target>
   </Targets>
   <Rules>
-   <Rule TypeName="AbstractTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1012">
-    <Name>Abstract types should not have constructors</Name>
-    <Description>Public constructors for abstract types do not make sense because you cannot create instances of abstract types.</Description>
-    <Resolution Name="Default">Change the accessibility of all public constructors in '{0}' to protected.</Resolution>
-    <Owner />
-    <Url>http://www.gotdotnet.com/team/fxcop/docs/rules.aspx?version=1.312&amp;&amp;url=/Design/AbstractTypesShouldNotHaveConstructors.html</Url>
-    <Email>askfxcop@microsoft.com</Email>
-    <MessageLevel Certainty="99">CriticalWarning</MessageLevel>
-    <File Name="DesignRules.dll" Version="1.312.0.0" />
-   </Rule>
    <Rule TypeName="AssembliesShouldDeclareMinimumSecurity" Category="Microsoft.Usage" CheckId="CA2209">
     <Name>Assemblies should declare minimum security</Name>
     <Description>Permission requests prevent security exceptions from being thrown after code in an assembly has already begun executing. With permission requests, the assembly does not load if it has insufficient permissions. This rule will fire if you have specified a permission request incorrectly, or incompletely. If you have specified requests but FxCop reports a violation for this rule, use the PermView.exe tool to view the security permissions in the assembly. An unenforceable permission appears as an empty permission set. Whidbey customers can use PermCalc.exe which gives even more detailed information. You should add attributes specifying what permissions your assembly will demand, might demand, and what permissions it does not want granted.  For example, the following attribute indicates that an assembly will, at minimum, require read access to the USERNAME environment variable: [assembly:EnvironmentPermissionAttribute(SecurityAction.RequestMinimum,
@@ -21509,16 +20155,6 @@ Read="USERNAME")]. To specify permissions that the assembly might demand, use Se
     <Email>askfxcop@microsoft.com</Email>
     <MessageLevel Certainty="50">Warning</MessageLevel>
     <File Name="DesignRules.dll" Version="1.312.0.0" />
-   </Rule>
-   <Rule TypeName="AvoidOverloadsInComVisibleInterfaces" Category="Microsoft.Interoperability" CheckId="CA1402">
-    <Name>Avoid overloads in ComVisible interfaces</Name>
-    <Description>Interfaces that are visible to COM should not define overloads, as they will be renamed and cannot be implemented by VB6 clients. COM interfaces cannot contain overloaded methods. I.</Description>
-    <Resolution Name="Default">ComVisible(true) interface '{0}' defines overloaded methods. Give each method a unique name or make the type ComVisible(false).</Resolution>
-    <Owner />
-    <Url>http://www.gotdotnet.com/team/fxcop/docs/rules.aspx?version=1.312&amp;&amp;url=/Interoperability/AvoidOverloadsInComVisibleInterfaces.html</Url>
-    <Email>askfxcop@microsoft.com</Email>
-    <MessageLevel Certainty="90">CriticalWarning</MessageLevel>
-    <File Name="InteroperabilityRules.dll" Version="1.312.0.0" />
    </Rule>
    <Rule TypeName="AvoidTypeNamesInParameters" Category="Microsoft.Naming" CheckId="CA1720">
     <Name>Avoid type names in parameters</Name>
@@ -21603,16 +20239,6 @@ Read="USERNAME")]. To specify permissions that the assembly might demand, use Se
     <Email>askfxcop@microsoft.com</Email>
     <MessageLevel Certainty="80">Error</MessageLevel>
     <File Name="NamingRules.dll" Version="1.312.0.0" />
-   </Rule>
-   <Rule TypeName="ComVisibleTypeBaseTypesShouldBeComVisible" Category="Microsoft.Interoperability" CheckId="CA1405">
-    <Name>Com visible type base types should be ComVisible</Name>
-    <Description>COM visible types that might be accessed from Microsoft Visual Basic 6 clients should not expose methods with long arguments.</Description>
-    <Resolution Name="Default">'{0}' is marked ComVisible(true) but has the following ComVisible(false) types in its object hierarchy: {1}</Resolution>
-    <Owner />
-    <Url>http://www.gotdotnet.com/team/fxcop/docs/rules.aspx?version=1.312&amp;&amp;url=/Interoperability/ComVisibleTypeBaseTypesShouldBeComVisible.html</Url>
-    <Email>askfxcop@microsoft.com</Email>
-    <MessageLevel Certainty="90">Error</MessageLevel>
-    <File Name="InteroperabilityRules.dll" Version="1.312.0.0" />
    </Rule>
    <Rule TypeName="ConsiderPassingBaseTypesAsParameters" Category="Microsoft.Design" CheckId="CA1011">
     <Name>Consider passing base types as parameters</Name>
@@ -21935,26 +20561,6 @@ Read="USERNAME")]. To specify permissions that the assembly might demand, use Se
     <Email>askfxcop@microsoft.com</Email>
     <MessageLevel Certainty="95">Error</MessageLevel>
     <File Name="UsageRules.dll" Version="1.312.0.0" />
-   </Rule>
-   <Rule TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014">
-    <Name>Mark assemblies with CLSCompliant</Name>
-    <Description>Assemblies should explicitly state their Cls compliance using the CLSCompliant attribute. An assembly without this attribute is not CLS-compliant. Assemblies, modules, and types can be CLS-compliant even if some parts of the assembly, module, or type are not CLS-compliant. The following rules apply: 1) If the element is marked CLSCompliant, any noncompliant members must have the CLSCompliant attribute present with its argument set to false. 2) A comparable CLS-compliant alternative member must be supplied for each member that is not CLS-compliant.</Description>
-    <Resolution Name="NoAttr">'{0}' should be marked with CLSCompliantAttribute and its value should be true.</Resolution>
-    <Owner />
-    <Url>http://www.gotdotnet.com/team/fxcop/docs/rules.aspx?version=1.312&amp;&amp;url=/Design/MarkAssembliesWithClsCompliant.html</Url>
-    <Email>askfxcop@microsoft.com</Email>
-    <MessageLevel Certainty="99">Error</MessageLevel>
-    <File Name="DesignRules.dll" Version="1.312.0.0" />
-   </Rule>
-   <Rule TypeName="MarkAssembliesWithComVisible" Category="Microsoft.Design" CheckId="CA1017">
-    <Name>Mark assemblies with ComVisible</Name>
-    <Description>The ComVisible attribute indicates whether COM clients can use the library. Good design dictates that developers explicitly indicate COM visibility. The default value for this attribute is 'true'. However, the best design is to mark the assembly ComVisible false, and then marking types, interfaces, and individual members as ComVisible true, as appropriate. For more information, see the Design Guidelines section titled Exposing Functionality to COM.</Description>
-    <Resolution Name="NoAttribute">Explicitly mark '{0}' with the ComVisible attribute.</Resolution>
-    <Owner />
-    <Url>http://www.gotdotnet.com/team/fxcop/docs/rules.aspx?version=1.312&amp;&amp;url=/Design/MarkAssembliesWithComVisible.html</Url>
-    <Email>askfxcop@microsoft.com</Email>
-    <MessageLevel Certainty="99">CriticalError, Error</MessageLevel>
-    <File Name="DesignRules.dll" Version="1.312.0.0" />
    </Rule>
    <Rule TypeName="MarkISerializableTypesWithSerializable" Category="Microsoft.Usage" CheckId="CA2237">
     <Name>Mark ISerializable types with serializable</Name>

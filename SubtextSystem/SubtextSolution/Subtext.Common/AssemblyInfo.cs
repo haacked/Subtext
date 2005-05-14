@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using System.Runtime.InteropServices;
 //
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -12,7 +13,10 @@ using System.Reflection;
 [assembly: AssemblyProduct("Subtext")]
 [assembly: AssemblyCopyright("2005")]
 [assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]		
+[assembly: AssemblyCulture("")]
+
+[assembly: CLSCompliant(false)]
+[assembly: ComVisible(false)]
 	
 
 //
