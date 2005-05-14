@@ -28,7 +28,9 @@ using Subtext.Framework.Configuration;
 namespace Subtext.Web.UI.Handlers
 {
 	/// <summary>
-	/// HTTP Handler for rendering a CSS stylesheet.
+	/// HTTP Handler for rendering a CSS stylesheet.  
+	/// This renders the CSS markup stored in the Secondary CSS field within 
+	/// the admin options for a blog configuration.
 	/// </summary>
 	public class BlogSecondaryCssHandler : IHttpHandler
 	{
