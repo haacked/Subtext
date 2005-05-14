@@ -25,7 +25,7 @@ namespace Subtext.Web.UI.Pages
 
 		private void InitializeBlogPage()
 		{
-			CurrentBlog = Config.CurrentBlog(Context);
+			CurrentBlog = Config.CurrentBlog;
 			string skin = Globals.Skin(Context);
 
 			SpecifyDocType();

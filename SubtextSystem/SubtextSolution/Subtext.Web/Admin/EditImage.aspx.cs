@@ -157,7 +157,7 @@ namespace Subtext.Web.Admin.Pages
 			if (imageObject is Subtext.Framework.Components.Image)
 			{
 				Subtext.Framework.Components.Image image = (Subtext.Framework.Components.Image)imageObject;
-				return Subtext.Framework.Configuration.Config.CurrentBlog().UrlFormats.ImageUrl(null,image.ImageID);
+				return Subtext.Framework.Configuration.Config.CurrentBlog.UrlFormats.ImageUrl(null,image.ImageID);
 			}
 			else
 				return String.Empty;

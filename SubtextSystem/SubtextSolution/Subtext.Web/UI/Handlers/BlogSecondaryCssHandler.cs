@@ -42,7 +42,7 @@ namespace Subtext.Web.UI.Handlers
 		{
 			context.Response.ContentEncoding = System.Text.Encoding.UTF8;
 			context.Response.ContentType = "text/css";
-			context.Response.Write(Config.CurrentBlog(context).Skin.SkinCssText);
+			context.Response.Write(Config.CurrentBlog.Skin.SkinCssText);
 		}
 
 		/// <summary>

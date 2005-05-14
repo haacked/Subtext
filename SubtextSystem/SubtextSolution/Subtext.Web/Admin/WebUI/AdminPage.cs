@@ -36,16 +36,14 @@ namespace Subtext.Web.Admin.Pages
 		NotAllowed
 	}
 
+	/// <summary>
+	/// Base Pag class for all pages in the admin tool.
+	/// </summary>
 	public class AdminPage : System.Web.UI.Page
 	{		
 		private const string TESTCOOKIE_NAME = "TestCookie";
 
 		private ConfirmCommand _command;
-
-		public AdminPage()
-		{
-			//
-		}
 
 		internal CookieSupportType CookieSupport
 		{
@@ -63,17 +61,8 @@ namespace Subtext.Web.Admin.Pages
 		{
 			if(!ValidateUser)
 			{
-				Response.Redirect(Config.CurrentBlog().FullyQualifiedUrl + "Login.aspx?ReturnUrl=" + Request.Path);
+				Response.Redirect(Config.CurrentBlog.FullyQualifiedUrl + "Login.aspx?ReturnUrl=" + Request.Path);
 			}
-
-// GC: removed, if a user wants to come in with IE3 and take their lumps...
-//
-//			if(!IsUpLevel)
-//			{
-//				Page.Controls.Clear();
-//				Page.Response.Write("You must be using an uplevel browser to use the Management Console.");
-//				Page.Response.End();
-//			}
 
 			// REFACTOR: we really need a singleton indicator per session or run this initial 
 			// dummy run in OnSessionStart. But we'll add the overhead for now. We can look at
@@ -83,20 +72,11 @@ namespace Subtext.Web.Admin.Pages
 			base.OnLoad(e);
 		}
 
-
 		private bool ValidateUser
 		{
 			get
 			{
 				return Security.IsAdmin;
-			}
-		}
-
-		private bool IsUpLevel
-		{
-			get
-			{
-				return Convert.ToBoolean(Page.Request.Browser["css2"]);
 			}
 		}
 

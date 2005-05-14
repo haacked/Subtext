@@ -185,7 +185,7 @@ namespace Subtext.Framework.Data
 		public EntryCollection GetFeedBack(Entry ParentEntry)
 		{
 			IDataReader reader = DbProvider.Instance().GetFeedBack(ParentEntry.EntryID);
-			UrlFormats formats = Config.CurrentBlog().UrlFormats;
+			UrlFormats formats = Config.CurrentBlog.UrlFormats;
 			try
 			{
 				EntryCollection ec = new EntryCollection();
@@ -468,13 +468,13 @@ namespace Subtext.Framework.Data
 
 			if(entry.EntryID > -1 && Config.Settings.Tracking.UseTrackingServices)
 			{
-				entry.Link = Subtext.Framework.Configuration.Config.CurrentBlog().UrlFormats.EntryUrl(entry);
+				entry.Link = Subtext.Framework.Configuration.Config.CurrentBlog.UrlFormats.EntryUrl(entry);
 				NotificationServices.Run(entry);
 			}
 
 			if(entry.EntryID > -1)
 			{
-				Config.CurrentBlog().LastUpdated = entry.DateCreated;
+				Config.CurrentBlog.LastUpdated = entry.DateCreated;
 			}
 
 			return entry.EntryID;
@@ -520,16 +520,16 @@ namespace Subtext.Framework.Data
 			{
 				if(entry.PostType == PostType.BlogPost)
 				{
-					entry.Link = Config.CurrentBlog().UrlFormats.EntryUrl(entry);
+					entry.Link = Config.CurrentBlog.UrlFormats.EntryUrl(entry);
 				}
 				else
 				{
-					entry.Link = Config.CurrentBlog().UrlFormats.ArticleUrl(entry);
+					entry.Link = Config.CurrentBlog.UrlFormats.ArticleUrl(entry);
 				}
 
 				if(entry.EntryID > -1)
 				{
-					Config.CurrentBlog().LastUpdated = entry.DateUpdated;
+					Config.CurrentBlog.LastUpdated = entry.DateUpdated;
 				}
 
 				NotificationServices.Run(entry);

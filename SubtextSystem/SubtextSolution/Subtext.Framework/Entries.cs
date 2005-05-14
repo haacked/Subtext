@@ -311,12 +311,12 @@ namespace Subtext.Framework
 			{
 				try
 				{
-					string blogTitle = Config.CurrentBlog().Title;
+					string blogTitle = Config.CurrentBlog.Title;
 
 					// create and format an email to the site admin with comment details
 					IMailProvider im = EmailProvider.Instance();
 
-					string To = Config.CurrentBlog().Email;
+					string To = Config.CurrentBlog.Email;
 					string From = Config.Settings.BlogProviders.EmailProvider.AdminEmail;
 					string Subject = String.Format("Comment: {0} (via {1})", entry.Title, blogTitle);
 					string Body = String.Format("Comments from {0}:\r\n\r\nSender: {1}\r\nUrl: {2}\r\nIP Address: {3}\r\n=====================================\r\n\r\n{4}\r\n\r\n{5}\r\n\r\nSource: {6}#{7}", 

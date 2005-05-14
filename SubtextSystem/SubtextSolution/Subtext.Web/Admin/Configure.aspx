@@ -1,20 +1,20 @@
 <%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Page language="c#" Codebehind="Configure.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.Configure" %>
-<ANW:Page runat="server" id="PageContainer" TabSectionID="Options" CategoriesLabel="Other Items">
+<ANW:Page runat="server" id="PageContainer" TabSectionID="Options" Categorieslabel="Other Items">
 	<ANW:MessagePanel id="Messages" runat="server"></ANW:MessagePanel>
 	<ANW:AdvancedPanel id="Edit" runat="server" Collapsible="False" HeaderText="Configure" HeaderCssClass="CollapsibleHeader"
 		BodyCssClass="Edit" DisplayHeader="true">
-		<LABEL class="Block">Title</LABEL>
+		<label class="Block">Title</label>
 		<asp:TextBox id="txbTitle" runat="server" width="400"></asp:TextBox>
-		<LABEL class="Block">Subtitle</LABEL>
+		<label class="Block">Subtitle</label>
 		<asp:TextBox id="txbSubtitle" runat="server" width="400"></asp:TextBox>
-		<LABEL class="Block">Username</LABEL>
+		<label class="Block">Username</label>
 		<asp:TextBox id="txbUser" runat="server" width="400"></asp:TextBox>
-		<LABEL class="Block">Owner's Display Name</LABEL>
+		<label class="Block">Owner's Display Name</label>
 		<asp:TextBox id="txbAuthor" runat="server" width="400"></asp:TextBox>
-		<LABEL class="Block">Owner's Email</LABEL>
+		<label class="Block">Owner's Email</label>
 		<asp:TextBox id="txbAuthorEmail" runat="server" width="400"></asp:TextBox>
-		<LABEL class="Block">Timezone</LABEL>
+		<label class="Block">Timezone</label>
 		<asp:DropDownList id="ddlTimezone" runat="server">
 			<asp:ListItem Text="Hawaii (GMT -10)" Value="-10" />
 			<asp:ListItem Text="Alaska (GMT -9)" Value="-9" />
@@ -36,7 +36,7 @@
 			<asp:ListItem Text="Pacific Rim Time (GMT +11)" Value="11" />
 			<asp:ListItem Text="New Zealand Time (GMT +12)" Value="12" />
 		</asp:DropDownList>
-		<LABEL class="Block">Language/Locale</LABEL>
+		<label class="Block">Language/Locale</label>
 		<asp:DropDownList id="ddlLangLocale" runat="server">
 			<asp:ListItem Text="Afrikaans" Value="af" />
 			<asp:ListItem Text="Afrikaans - South Africa" Value="af-ZA" />
@@ -240,20 +240,21 @@
 			<asp:ListItem Text="Vietnamese" Value="vi" />
 			<asp:ListItem Text="Vietnamese - Vietnam" Value="vi-VN" />
 		</asp:DropDownList>
-		<LABEL class="Block">Default Number of Feed/Homepage 
-Items</LABEL>
+		<label class="Block">Default Number of Feed/Homepage 
+Items</label>
 		<asp:DropDownList id="ddlItemCount" runat="server"></asp:DropDownList>
-		<LABEL class="Block">Display Skin</LABEL>
+		<label class="Block">Display Skin</label>
 		<asp:DropDownList id="ddlSkin" runat="server"></asp:DropDownList>
-		<LABEL class="Block">Custom CSS Selectors</LABEL>
+		<label class="Block"><a class="helpLink" onclick="showHelpTip(event, 'You can enter custom CSS within this block.  Be careful as the tool will not validate the CSS.  This CSS will be included (as a proper link) within every page of your blog.'); return false"
+					href="?">Custom CSS</a></label>
 		<asp:TextBox id="txbSecondaryCss" runat="server" width="400" height="160" TextMode="MultiLine"></asp:TextBox>
-		<LABEL class="Block">Static News/Announcement</LABEL>
+		<label class="Block">Static News/Announcement</label>
 		<asp:TextBox id="txbNews" runat="server" width="400" height="160" TextMode="MultiLine"></asp:TextBox>
-		<P class="ValueLabel" style="MARGIN-TOP: 12px">Allow Web Service Access
-			<asp:CheckBox id="ckbAllowServiceAccess" runat="server"></asp:CheckBox></P>
-		<DIV style="MARGIN-TOP: 8px">
-			<asp:linkbutton id="lkbPost" runat="server" CssClass="Button" Text="Save"></asp:linkbutton><BR>
+		<p class="Valuelabel" style="MARGIN-TOP: 12px">Allow Web Service Access
+			<asp:CheckBox id="ckbAllowServiceAccess" runat="server"></asp:CheckBox></p>
+		<div style="MARGIN-TOP: 8px">
+			<asp:linkbutton id="lkbPost" runat="server" CssClass="Button" Text="Save"></asp:linkbutton><br />
 			&nbsp;
-		</DIV>
+		</div>
 	</ANW:AdvancedPanel>
 </ANW:Page>

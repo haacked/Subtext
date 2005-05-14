@@ -57,14 +57,14 @@ namespace Subtext.Web.UI.Controls
 
 		protected override void OnInit(EventArgs e)
 		{
-			_config = Config.CurrentBlog(Context);
+			_config = Config.CurrentBlog;
 			base.OnInit (e);
 		}
 
 
 //		protected override void OnLoad(EventArgs e)
 //		{
-//			_config = Config.CurrentBlog(Context);
+//			_config = Config.CurrentBlog;
 //			base.OnLoad(e);
 //		}
 

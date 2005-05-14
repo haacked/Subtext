@@ -51,7 +51,7 @@ namespace Subtext.Framework.XmlRpc
 		#region BlogApi Members
 		public BlogInfo[] getUsersBlogs(string appKey,string username,string password)
 		{
-			BlogConfig config = Config.CurrentBlog();
+			BlogConfig config = Config.CurrentBlog;
 			if(ValidateUser(username,password,config.AllowServiceAccess))
 			{
 				BlogInfo[] bi = new BlogInfo[1];
@@ -67,7 +67,7 @@ namespace Subtext.Framework.XmlRpc
 
 		public bool deletePost(string appKey,string postid,string username,string password,[XmlRpcParameter(Description="Where applicable, this specifies whether the blog should be republished after the post has been deleted.")] bool publish)
 		{
-			if(ValidateUser(username,password,Config.CurrentBlog().AllowServiceAccess))
+			if(ValidateUser(username,password,Config.CurrentBlog.AllowServiceAccess))
 			{
 				try
 				{
@@ -88,7 +88,7 @@ namespace Subtext.Framework.XmlRpc
 
 		public bool editPost(string postid,	string username,string password,Post post,bool publish)
 		{
-			BlogConfig config = Config.CurrentBlog();
+			BlogConfig config = Config.CurrentBlog;
 			if(ValidateUser(username,password,config.AllowServiceAccess))
 			{
 				CategoryEntry entry = Entries.GetCategoryEntry(Int32.Parse(postid), false);
@@ -118,7 +118,7 @@ namespace Subtext.Framework.XmlRpc
 
 		public Post getPost(string postid,string username,string password)
 		{
-			BlogConfig config = Config.CurrentBlog();
+			BlogConfig config = Config.CurrentBlog;
 			if(ValidateUser(username,password,config.AllowServiceAccess))
 			{
 				CategoryEntry entry = Entries.GetCategoryEntry(Int32.Parse(postid),false);
@@ -157,7 +157,7 @@ namespace Subtext.Framework.XmlRpc
 
 		public Post[] getRecentPosts(string blogid, string username, string password, int numberOfPosts)
 		{
-			if(ValidateUser(username, password, Config.CurrentBlog().AllowServiceAccess))
+			if(ValidateUser(username, password, Config.CurrentBlog.AllowServiceAccess))
 			{
 				EntryCollection ec = Entries.GetRecentPostsWithCategories(numberOfPosts,false);
 				//int i = 0;
@@ -188,7 +188,7 @@ namespace Subtext.Framework.XmlRpc
 
 		public CategoryInfo[] getCategories(string blogid,string username,string password)
 		{
-			BlogConfig config = Config.CurrentBlog();
+			BlogConfig config = Config.CurrentBlog;
 			if(ValidateUser(username,password,config.AllowServiceAccess))
 			{
 				LinkCategoryCollection lcc = Links.GetCategories(CategoryType.PostCollection,false);
@@ -216,7 +216,7 @@ namespace Subtext.Framework.XmlRpc
 
 		public string newPost(string blogid, string username, string password, Post post, bool publish)
 		{
-			BlogConfig config = Config.CurrentBlog();
+			BlogConfig config = Config.CurrentBlog;
 			if(ValidateUser(username,password,config.AllowServiceAccess))
 			{
 				CategoryEntry entry = new CategoryEntry();
@@ -313,7 +313,7 @@ namespace Subtext.Framework.XmlRpc
 			 Description="Gets a list of active categories for a given blog as an array of MT category struct.")]
 		public MtCategory[] GetCategoryList(string blogid, string username, string password)
 		{
-			if(ValidateUser(username,password,Config.CurrentBlog().AllowServiceAccess))
+			if(ValidateUser(username,password,Config.CurrentBlog.AllowServiceAccess))
 			{
 				LinkCategoryCollection lcc = Links.GetCategories(CategoryType.PostCollection,false);
 				if(lcc == null)
@@ -338,7 +338,7 @@ namespace Subtext.Framework.XmlRpc
 		public bool SetPostCategories(string postid, string username, string password,
 			MtCategory[] categories)
 		{
-			if(ValidateUser(username,password,Config.CurrentBlog().AllowServiceAccess))
+			if(ValidateUser(username,password,Config.CurrentBlog.AllowServiceAccess))
 			{			
 				if (categories != null && categories.Length > 0)
 				{
@@ -367,7 +367,7 @@ namespace Subtext.Framework.XmlRpc
 			 Description="Sets the categories for a given post.")]
 		public MtCategory[] GetPostCategories(string postid, string username, string password)
 		{
-			if(ValidateUser(username,password,Config.CurrentBlog().AllowServiceAccess))
+			if(ValidateUser(username,password,Config.CurrentBlog.AllowServiceAccess))
 			{
 				int postID = Int32.Parse(postid);
 				LinkCollection postCategories = Links.GetLinkCollectionByPostID(postID);

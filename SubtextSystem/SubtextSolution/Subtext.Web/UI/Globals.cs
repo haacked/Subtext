@@ -29,11 +29,11 @@ namespace Subtext.Web.UI
 		/// <returns></returns>
 		public static string Skin(HttpContext context)
 		{
-			if(Config.CurrentBlog(context).Skin.SkinName == null)
+			if(Config.CurrentBlog.Skin.SkinName == null)
 			{
-				Config.CurrentBlog(context).Skin.SkinName = "marvin2";
+				Config.CurrentBlog.Skin.SkinName = "marvin2";
 			}
-			return Config.CurrentBlog(context).Skin.SkinName;
+			return Config.CurrentBlog.Skin.SkinName;
 		}
 
 
@@ -50,7 +50,7 @@ namespace Subtext.Web.UI
 			string title = (string)context.Items[BlogPageTitle];
 			if(title == null)
 			{
-				title = Config.CurrentBlog(context).Title;
+				title = Config.CurrentBlog.Title;
 			}
 			return title;
 		}

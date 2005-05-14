@@ -23,6 +23,7 @@
 
 using System;
 using System.Xml.Serialization;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Components
 {
@@ -32,6 +33,9 @@ namespace Subtext.Framework.Components
 	[Serializable]
 	public class Entry : IBlogIdentifier
 	{
+		/// <summary>
+		/// Creates a new <see cref="Entry"/> instance.
+		/// </summary>
 		public Entry()
 		{
 		}
@@ -272,7 +276,7 @@ namespace Subtext.Framework.Components
 			get
 			{
 				//TODO: Make this a configurable value.
-				return DateTime.Now > this.DateCreated.AddDays(Configuration.BlogConfigurationSettings.Instance().DaysTillCommentsClose);
+				return DateTime.Now > this.DateCreated.AddDays(Config.Settings.DaysTillCommentsClose);
 			}
 		}
 

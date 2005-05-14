@@ -7,10 +7,6 @@ namespace Subtext.Framework.Components
 	/// </summary>
 	public interface IBlogIdentifier
 	{
-		int BlogID
-		{
-			get;
-			set;
-		}
+		int BlogID {get; set;}	
 	}
 }

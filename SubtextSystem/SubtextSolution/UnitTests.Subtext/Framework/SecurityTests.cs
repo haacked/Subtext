@@ -24,12 +24,12 @@ namespace UnitTests.Subtext.Framework
 			string hashedPassword = "Bc5M0y93wXmtXNxwW6IJVA==";
 			Assert.AreEqual(hashedPassword, Security.HashPassword(password));
 		
-			Config.CurrentBlog().IsPasswordHashed = true;
-			Config.CurrentBlog().Password = hashedPassword;
+			Config.CurrentBlog.IsPasswordHashed = true;
+			Config.CurrentBlog.Password = hashedPassword;
 			Assert.IsTrue(Security.IsValidPassword(password));
 
-			Config.CurrentBlog().IsPasswordHashed = false;
-			Config.CurrentBlog().Password = password;
+			Config.CurrentBlog.IsPasswordHashed = false;
+			Config.CurrentBlog.Password = password;
 			Assert.IsTrue(Security.IsValidPassword(password));
 		}
 
@@ -57,8 +57,8 @@ namespace UnitTests.Subtext.Framework
 			Byte[] hashedBytes = new MD5CryptoServiceProvider().ComputeHash(clearBytes);
 			string bitConvertedPassword = BitConverter.ToString(hashedBytes);
 		
-			Config.CurrentBlog().IsPasswordHashed = true;
-			Config.CurrentBlog().Password = bitConvertedPassword;
+			Config.CurrentBlog.IsPasswordHashed = true;
+			Config.CurrentBlog.Password = bitConvertedPassword;
 			
 			Assert.IsTrue(Security.IsValidPassword(password));
 		}

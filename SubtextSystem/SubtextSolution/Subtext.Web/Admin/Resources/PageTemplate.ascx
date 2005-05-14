@@ -1,13 +1,16 @@
 <%@ Import Namespace = "Subtext.Web.Admin" %>
 <%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Control Language="c#" AutoEventWireup="false" Codebehind="PageTemplate.ascx.cs" Inherits="Subtext.Web.Admin.PageTemplate" targetSchema="http://schemas.microsoft.com/intellisense/ie5" %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<HTML>
-	<HEAD>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
 		<title>
-			<ANW:PlaceHolder id="PageTitle" runat="server">.Text - Manage</ANW:PlaceHolder></title>
+			<ANW:PlaceHolder id="PageTitle" runat="server">.Text - Manage</ANW:PlaceHolder>
+		</title>
+		<ANW:ScriptTag id="HelptipJs" type="text/javascript" src="resources/Scripts/helptip.js" runat="server" />
+		<ANW:HeaderLink id="HelptipCss" rel="stylesheet" href="resources/scripts/helptip.css" linkType="text/css" runat="server" />
 		<ANW:HeaderLink id="Css1" rel="stylesheet" href="resources/admin.css" linkType="text/css" runat="server" />
-	</HEAD>
+	</head>
 	<body id="AdminSection" runat="server">
 		<form id="frmMain" method="post" runat="server">
 			<table id="BodyTable" cellpadding="0" cellspacing="0" width="100%">
@@ -86,4 +89,4 @@
 			</table>
 		</form>
 	</body>
-</HTML>
+</html>

@@ -80,7 +80,7 @@ namespace Subtext.Web.Admin.Pages
 			const string failureMessage = "Your password can not be updated";
 			if(Page.IsValid)
 			{
-				BlogConfig config = Config.CurrentBlog();
+				BlogConfig config = Config.CurrentBlog;
 				bool useHash = Config.Settings.UseHashedPasswords;
 				
 				if(Security.IsValidPassword(tbCurrent.Text))

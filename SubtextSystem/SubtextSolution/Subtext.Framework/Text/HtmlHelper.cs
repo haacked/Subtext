@@ -30,7 +30,7 @@ namespace Subtext.Framework.Text
 			try
 			{
 				SgmlReader reader = new SgmlReader();
-				reader.SetBaseUri(Config.CurrentBlog().FullyQualifiedUrl);
+				reader.SetBaseUri(Config.CurrentBlog.FullyQualifiedUrl);
 				reader.DocType = "HTML";
 				reader.InputStream = new StringReader("<bloghelper>" + entry.Body + "</bloghelper>");
 				StringWriter writer = new StringWriter();
@@ -118,7 +118,7 @@ namespace Subtext.Framework.Text
 		{
 			stringToTransform = HttpContext.Current.Server.HtmlEncode(stringToTransform);
 			string brTag = "<br />";
-			if(!BlogConfigurationSettings.Instance().UseXHTML)
+			if(!Config.Settings.UseXHTML)
 			{
 				brTag = "<br>";
 			}

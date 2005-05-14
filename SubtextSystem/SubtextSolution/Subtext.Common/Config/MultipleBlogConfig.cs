@@ -46,9 +46,6 @@ namespace Subtext.Common.Config
 
 					config = Subtext.Framework.Configuration.Config.GetConfig(Host, appFromRequest);
 
-					//kind of hacky. Not sure if this value should be persisted in the db or not
-					config.IsVirtual = true;
-
 					BlogConfigurationSettings settings = Subtext.Framework.Configuration.Config.Settings;
 
 					string appPath = Globals.FormatApplicationPath(string.Format("{0}/{1}",context.Request.ApplicationPath, appFromRequest));

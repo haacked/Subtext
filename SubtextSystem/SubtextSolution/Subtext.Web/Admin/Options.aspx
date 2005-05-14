@@ -3,9 +3,12 @@
 <ANW:Page id="PageContainer" TabSectionID="Options" runat="server">
 	<ANW:AdvancedPanel id="Results" runat="server" Collapsible="False" HeaderText="Options" HeaderCssClass="CollapsibleHeader"
 		DisplayHeader="true" BodyCssClass="Edit">
-		<br>
+		<br />
 		<p>
 			<a href="Configure.aspx">Configure</a>: Manage your blog.
+		</p>
+		<p>
+			<a href="Syndication.aspx">Syndication</a>: Manage your RSS (or ATOM) Feed.
 		</p>
 		<p>
 			<a href="EditKeyWords.aspx">Key Words</a>: Auto transform specific words/patterns to links.

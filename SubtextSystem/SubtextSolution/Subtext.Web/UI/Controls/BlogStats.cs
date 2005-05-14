@@ -45,7 +45,7 @@ namespace Subtext.Web.UI.Controls
 			base.OnLoad (e);
 			if(Context != null)
 			{
-				BlogConfig config = Config.CurrentBlog(Context);
+				BlogConfig config = Config.CurrentBlog;
 				PostCount.Text = config.PostCount.ToString();
 				StoryCount.Text = config.StoryCount.ToString();
 				CommentCount.Text = config.CommentCount.ToString();

@@ -90,7 +90,7 @@ namespace Subtext.Common.Data
 
 		private static int BlogID(HttpContext context)
 		{
-			return Framework.Configuration.Config.CurrentBlog(context).BlogID;
+			return Framework.Configuration.Config.CurrentBlog.BlogID;
 		}
 
 		public static void CacherCache(string cacheKey, HttpContext context, object obj, CacheTime ct)

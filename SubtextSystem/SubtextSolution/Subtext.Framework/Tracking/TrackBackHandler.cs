@@ -120,7 +120,7 @@ namespace Subtext.Framework.Tracking
 				w.WriteAttributeString("version", "0.91") ;
 				w.WriteStartElement("channel") ;
 				w.WriteElementString("title", entry.Title ) ;
-				w.WriteElementString("link", Config.CurrentBlog(context).UrlFormats.TrackBackUrl(postId));
+				w.WriteElementString("link", Config.CurrentBlog.UrlFormats.TrackBackUrl(postId));
 				w.WriteElementString("description", "" ) ;
 				w.WriteElementString("language", "en-us" ) ;
 

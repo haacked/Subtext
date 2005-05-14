@@ -40,22 +40,22 @@ namespace Subtext.Framework
 
 		public static string LocalFilePath(HttpContext context)
 		{
-			return Config.CurrentBlog(context).ImageDirectory;
+			return Config.CurrentBlog.ImageDirectory;
 		}
 
 		public static string LocalGalleryFilePath(HttpContext context, int categoryid)
 		{
-			return string.Format("{0}\\{1}\\",Config.CurrentBlog(context).ImageDirectory,categoryid);
+			return string.Format("{0}\\{1}\\",Config.CurrentBlog.ImageDirectory,categoryid);
 		}
 
 		public static string HttpGalleryFilePath(HttpContext context, int categoryid)
 		{
-			return string.Format("{0}{1}/",Config.CurrentBlog(context).ImagePath,categoryid);
+			return string.Format("{0}{1}/",Config.CurrentBlog.ImagePath,categoryid);
 		}
 
 		public static string HttpFilePath(HttpContext context)
 		{
-			return Config.CurrentBlog(context).ImagePath;
+			return Config.CurrentBlog.ImagePath;
 		}
 
 		public static byte[] GetFileStream(HttpPostedFile objFile)

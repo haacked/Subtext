@@ -40,8 +40,8 @@ namespace Subtext.Web.Pages
 			{				
 				try
 				{				
-					if (null != Config.CurrentBlog(Context))
-						HomeLink.NavigateUrl = Config.CurrentBlog(Context).FullyQualifiedUrl;
+					if (null != Config.CurrentBlog)
+						HomeLink.NavigateUrl = Config.CurrentBlog.FullyQualifiedUrl;
 				}
 				catch
 				{

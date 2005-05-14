@@ -67,7 +67,7 @@ namespace Subtext.Web.Admin.Pages
 			ddlExpandAdvanced.SelectedIndex = -1;
 			ddlExpandAdvanced.Items.FindByValue(Preferences.AlwaysExpandAdvanced ? "true" : "false").Selected = true;
 
-			this.EnableComments.Checked = Config.CurrentBlog(Context).EnableComments;
+			this.EnableComments.Checked = Config.CurrentBlog.EnableComments;
 
 		}
 
@@ -106,7 +106,7 @@ namespace Subtext.Web.Admin.Pages
 			bool alwaysExpand = Boolean.Parse(ddlExpandAdvanced.SelectedItem.Value);
 			Preferences.AlwaysExpandAdvanced = alwaysExpand;
 
-			BlogConfig config  = Config.CurrentBlog(Context);
+			BlogConfig config  = Config.CurrentBlog;
 			config.ItemCount = pageSize;
 			config.EnableComments = this.EnableComments.Checked;
 			Config.UpdateConfigData(config);

@@ -41,9 +41,13 @@ namespace Subtext.Framework.Syndication
 			
 			// Copyright notice
 			this.WriteAttributeString("xmlns:copyright", "http://blogs.law.harvard.edu/tech/rss");
-			// Used to specify a license. Does not have to be a creative commons license.
-			// http://backend.userland.com/creativeCommonsRssModule
-			this.WriteAttributeString("xmlns:creativeCommons", "http://backend.userland.com/creativeCommonsRssModule");
+			
+			if(Config.CurrentBlog.LicenseUrl != null && Config.CurrentBlog.LicenseUrl.Length > 0)
+			{
+				// Used to specify a license. Does not have to be a creative commons license.
+				// see http://backend.userland.com/creativeCommonsRssModule
+				this.WriteAttributeString("xmlns:creativeCommons", "http://backend.userland.com/creativeCommonsRssModule");
+			}
 			// Similar to a favicon image.
 			this.WriteAttributeString("xmlns:image", "http://purl.org/rss/1.0/modules/image/");
 		}
@@ -66,7 +70,7 @@ namespace Subtext.Framework.Syndication
 
 		protected virtual void WriteChannel()
 		{
-			BuildChannel(config.Title, config.FullyQualifiedUrl, config.Author, config.SubTitle, config.Language, config.Author, System.Configuration.ConfigurationSettings.AppSettings["CreativeCommonsLicense"]);
+			BuildChannel(config.Title, config.FullyQualifiedUrl, config.Author, config.SubTitle, config.Language, config.Author, Config.CurrentBlog.LicenseUrl);
 		}
 
 		protected void BuildChannel(string title, string link, string author, string description, string lang, string copyright, string cclicense)
@@ -79,7 +83,10 @@ namespace Subtext.Framework.Syndication
 			this.WriteElementString("generator",VersionInfo.Version);
 
 			this.WriteElementString("copyright", copyright);
-			this.WriteElementString("creativeCommons:license", cclicense);
+			if(cclicense != null && cclicense.Length > 0)
+			{
+				this.WriteElementString("creativeCommons:license", cclicense);
+			}
 			this.AddImageElement(title, link, description);
 		}
 

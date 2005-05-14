@@ -90,7 +90,7 @@ namespace Subtext.Framework
 		/// <returns>bool value indicating if the user is valid.</returns>
 		public static bool IsValidUser(string username, string password)
 		{
-			if(string.Compare(username, Config.CurrentBlog().UserName, true) == 0)
+			if(string.Compare(username, Config.CurrentBlog.UserName, true) == 0)
 			{
 				return IsValidPassword(password);
 			}
@@ -107,11 +107,11 @@ namespace Subtext.Framework
 		/// <returns>bool value indicating if the supplied password matches the current blog's password</returns>
 		public static bool IsValidPassword(string password)
 		{
-			if(Config.CurrentBlog().IsPasswordHashed)
+			if(Config.CurrentBlog.IsPasswordHashed)
 			{
 				password = HashPassword(password);
 			}
-			string storedPassword = Config.CurrentBlog().Password;
+			string storedPassword = Config.CurrentBlog.Password;
 			
 			if(storedPassword.IndexOf('-') > 0)
 			{
@@ -151,8 +151,8 @@ namespace Subtext.Framework
 		/// <param name="password">Supplied Password</param>
 		public static void UpdatePassword(string password)
 		{
-			BlogConfig config = Config.CurrentBlog();
-			if(Config.CurrentBlog().IsPasswordHashed)
+			BlogConfig config = Config.CurrentBlog;
+			if(Config.CurrentBlog.IsPasswordHashed)
 			{
 				config.Password = HashPassword(password);
 			}
@@ -177,7 +177,7 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				return string.Compare(GetCurrentUserName, Config.CurrentBlog().UserName, true) == 0;
+				return string.Compare(GetCurrentUserName, Config.CurrentBlog.UserName, true) == 0;
 			}
 		}
 

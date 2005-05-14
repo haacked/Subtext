@@ -6,25 +6,66 @@ using Subtext.Framework.Providers;
 namespace Subtext.Framework.Configuration
 {
 	/// <summary>
-	/// Summary description for Config.
+	/// Static helper class used to access various configuration 
+	/// settings.
 	/// </summary>
-	public class Config
+	public sealed class Config
 	{
-		public Config()
+		private Config() {}
+
+		/// <summary>
+		/// Returns an instance of <see cref="BlogConfigurationSettings"/> which 
+		/// are configured within web.config as a custom config section.
+		/// </summary>
+		/// <value></value>
+		public static BlogConfigurationSettings Settings
 		{
-			//
-			// TODO: Add constructor logic here
-			//
+			get
+			{
+				return ((BlogConfigurationSettings)ConfigurationSettings.GetConfig("BlogConfigurationSettings"));
+			}
 		}
 
-		public static BlogConfig CurrentBlog()
+		/// <summary>
+		/// Returns a <see cref="BlogConfig"/> instance containing 
+		/// the configuration settings for the current blog.
+		/// </summary>
+		/// <remarks>
+		/// Until Subtext supports multiple blogs again (if ever), 
+		/// this will always return the same instance.
+		/// </remarks>
+		/// <returns></returns>
+		public static BlogConfig CurrentBlog
 		{
-			return CurrentBlog(HttpContext.Current);
+			get
+			{
+				return ConfigProvider.Instance().GetConfig(HttpContext.Current);
+			}
 		}
 
-		public static BlogConfig CurrentBlog(HttpContext context)
+		/// <summary>
+		/// Returns a <see cref="BlogConfig"/> instance containing 
+		/// the configuration settings for the blog specified by the 
+		/// Hostname and Application.
+		/// </summary>
+		/// <remarks>
+		/// Until Subtext supports multiple blogs again (if ever), 
+		/// this will always return the same instance.
+		/// </remarks>
+		/// <param name="hostname">Hostname.</param>
+		/// <param name="application">Application.</param>
+		/// <returns></returns>
+		public static BlogConfig GetConfig(string hostname, string application)
 		{
-			return ConfigProvider.Instance().GetConfig(context);
+			BlogConfig result = DTOProvider.Instance().GetConfig(hostname, application);
+			if(result == null)
+			{
+				throw new BlogDoesNotExistException(
+					String.Format("A blog matching the location you requested was not found. Host = [{0}], Application = [{1}]",
+					hostname, 
+					application));
+			}
+			return result;
 		}
 
 		/// <summary>
@@ -40,35 +81,15 @@ namespace Subtext.Framework.Configuration
 			return DTOProvider.Instance().AddInitialBlogConfiguration(userName, password);
 		}
 
+		/// <summary>
+		/// Updates the database with the configuration data within 
+		/// the specified <see cref="BlogConfig"/> instance.
+		/// </summary>
+		/// <param name="config">Config.</param>
+		/// <returns></returns>
 		public static bool UpdateConfigData(BlogConfig config)
 		{
 			return DTOProvider.Instance().UpdateConfigData(config);
-		}
-
-		public static BlogConfigurationSettings Settings
-		{
-			get
-			{
-				return ((BlogConfigurationSettings)ConfigurationSettings.GetConfig("BlogConfigurationSettings"));
-			}
-		}
-
-		public static BlogConfig GetConfig(int BlogID)
-		{
-			return  DTOProvider.Instance().GetConfig(BlogID);
-		}
-
-		public static BlogConfig GetConfig(string hostname, string application)
-		{
-			BlogConfig result = DTOProvider.Instance().GetConfig(hostname, application);
-			if(result == null)
-			{
-				throw new BlogDoesNotExistException(
-					String.Format("A blog matching the location you requested was not found. Host = [{0}], Application = [{1}]",
-					hostname, 
-					application));
-			}
-			return result;
 		}
 	}
 }

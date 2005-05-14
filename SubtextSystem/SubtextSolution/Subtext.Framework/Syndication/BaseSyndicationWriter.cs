@@ -18,7 +18,7 @@ namespace Subtext.Framework.Syndication
         protected BaseSyndicationWriter(StringWriter sw): base(sw)
         {
             writer = sw;
-            config = Config.CurrentBlog();
+            config = Config.CurrentBlog;
         }
 
         protected BaseSyndicationWriter(): this(new StringWriter())

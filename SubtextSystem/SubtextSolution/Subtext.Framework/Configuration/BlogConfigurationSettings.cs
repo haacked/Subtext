@@ -22,8 +22,6 @@
 #endregion
 
 using System;
-using System.Configuration;
-using System.Web;
 using System.Xml.Serialization;
 using Subtext.Framework.Providers;
 
@@ -35,31 +33,6 @@ namespace Subtext.Framework.Configuration
 	[Serializable]
 	public class BlogConfigurationSettings 
 	{
-		#region Static
-		/// <summary>
-		/// Returns a singleton instance of the settings.
-		/// </summary>
-		/// <returns></returns>
-		public static BlogConfigurationSettings Instance()
-		{
-			return ((BlogConfigurationSettings)ConfigurationSettings.GetConfig("BlogConfigurationSettings"));
-
-		}
-
-		/// <summary>
-		/// Returns a singleton instance of the settings.
-		/// </summary>
-		/// <param name="context">Context.</param>
-		/// <returns></returns>
-		public static BlogConfigurationSettings Instance(HttpContext context)
-		{
-			return Instance();
-		}
-
-		#endregion
-
-		#region Properties 
-
 		private Tracking _tracking;
 		public Tracking Tracking
 		{
@@ -168,20 +141,6 @@ namespace Subtext.Framework.Configuration
 		}
 
 		int _daysTillCommentsClose = 30;
-
-		private bool _useSyndicationCompression;
-		/// <summary>
-		/// Gets or sets a value indicating whether or not to use syndication compression.
-		/// </summary>
-		/// <value>
-		/// 	<c>true</c> if using syndication compression; otherwise, <c>false</c>.
-		/// </value>
-		public bool UseSyndicationCompression
-		{
-			get{return this._useSyndicationCompression;}
-			set{this._useSyndicationCompression = value;}
-		}
-		#endregion
 
 		private BlogProviders _blogProviders;
 		public BlogProviders BlogProviders
