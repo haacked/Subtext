@@ -32,7 +32,7 @@ namespace Subtext.Common.Syndication
 	/// </summary>
 	public abstract class EntryCollectionHandler : Subtext.Framework.Syndication.BaseSyndicationHandler
 	{
-		public EntryCollectionHandler()
+	    protected EntryCollectionHandler()
 		{
 			//
 			// TODO: Add constructor logic here

@@ -200,7 +200,7 @@ namespace Subtext.Web.Admin
 	[Serializable]
 	public abstract class DeleteTitledTargetCommand : DeleteTargetCommand
 	{
-		protected string _itemTitle;
+		protected string itemTitle;
 
 		protected DeleteTitledTargetCommand() 
 		{
@@ -211,11 +211,11 @@ namespace Subtext.Web.Admin
 			_cancelFailureMessage = "Could not cancel deletion of {0} \"{1}\". Details: {2}";		
 		}
 
-		public DeleteTitledTargetCommand(int targetID, string itemTitle)
+		protected DeleteTitledTargetCommand(int targetID, string itemTitle)
 			: this()
 		{	
 			_targetID = targetID;
-			_itemTitle = itemTitle;
+		    this.itemTitle = itemTitle;
 		}
 
 		public override string PromptMessage
@@ -223,7 +223,7 @@ namespace Subtext.Web.Admin
 			get 
 			{
 				if (!Utilities.IsNullorEmpty(_promptMessage))
-					return FormatMessage(_promptMessage, _targetName, _itemTitle); 
+					return FormatMessage(_promptMessage, _targetName, itemTitle); 
 				else
 					return base.PromptMessage;				
 			}
@@ -233,7 +233,7 @@ namespace Subtext.Web.Admin
 		public override string Cancel()
 		{
 			_autoRedirect = true;
-			return FormatMessage(CancelSuccessMessage, _targetName, _itemTitle);
+			return FormatMessage(CancelSuccessMessage, _targetName, itemTitle);
 		}
 	}
 	#endregion
@@ -300,7 +300,7 @@ namespace Subtext.Web.Admin
 		{	
 			_targetName = "Category";
 			_targetID = categoryID;
-			_itemTitle = categoryTitle;
+		    itemTitle = categoryTitle;
 		}
 
 		public override string Execute()
@@ -308,11 +308,11 @@ namespace Subtext.Web.Admin
 			try
 			{
 				Links.DeleteLinkCategory(_targetID);
-				return FormatMessage(ExecuteSuccessMessage, _targetName, _itemTitle);
+				return FormatMessage(ExecuteSuccessMessage, _targetName, itemTitle);
 			}
 			catch (Exception ex)
 			{
-				return FormatMessage(ExecuteFailureMessage, _targetName, _itemTitle, ex.Message);
+				return FormatMessage(ExecuteFailureMessage, _targetName, itemTitle, ex.Message);
 			}
 		}
 	}
@@ -327,7 +327,7 @@ namespace Subtext.Web.Admin
 		public DeleteGalleryCommand(int galleryID, string galleryTitle)
 		{	
 			_targetID = galleryID;
-			_itemTitle = galleryTitle;
+		    itemTitle = galleryTitle;
 		}
 
 		public override string Execute()
@@ -352,7 +352,7 @@ namespace Subtext.Web.Admin
 
 				// finally, delete the gallery (category) itself from the data provider
 				Links.DeleteLinkCategory(_targetID);
-				return FormatMessage(ExecuteSuccessMessage, _targetName, _itemTitle);
+				return FormatMessage(ExecuteSuccessMessage, _targetName, itemTitle);
 			}
 			catch (Exception ex)
 			{
@@ -371,7 +371,7 @@ namespace Subtext.Web.Admin
 			_autoRedirect = true;
 			_targetName = "KeyWord";
 			_targetID = keyWordID;
-			_itemTitle = word;
+		    itemTitle = word;
 		}
 
 		public override string Execute()
@@ -379,11 +379,11 @@ namespace Subtext.Web.Admin
 			try
 			{
 				KeyWords.DeleteKeyWord(_targetID);
-				return FormatMessage(ExecuteSuccessMessage, _targetName, _itemTitle);
+				return FormatMessage(ExecuteSuccessMessage, _targetName, itemTitle);
 			}
 			catch (Exception ex)
 			{
-				return FormatMessage(ExecuteFailureMessage, _targetName, _itemTitle, ex.Message);
+				return FormatMessage(ExecuteFailureMessage, _targetName, itemTitle, ex.Message);
 			}
 		}
 	}
@@ -400,7 +400,7 @@ namespace Subtext.Web.Admin
 			_autoRedirect = true;
 			_targetName = "Link";
 			_targetID = linkID;
-			_itemTitle = linkTitle;
+		    itemTitle = linkTitle;
 		}
 
 		public override string Execute()
@@ -408,11 +408,11 @@ namespace Subtext.Web.Admin
 			try
 			{
 				Links.DeleteLink(_targetID);
-				return FormatMessage(ExecuteSuccessMessage, _targetName, _itemTitle);
+				return FormatMessage(ExecuteSuccessMessage, _targetName, itemTitle);
 			}
 			catch (Exception ex)
 			{
-				return FormatMessage(ExecuteFailureMessage, _targetName, _itemTitle, ex.Message);
+				return FormatMessage(ExecuteFailureMessage, _targetName, itemTitle, ex.Message);
 			}
 		}
 	}
@@ -426,14 +426,14 @@ namespace Subtext.Web.Admin
 		{	
 			_targetName = "Image";
 			_targetID = imageID;
-			_itemTitle = "Image " + imageID.ToString();
+		    itemTitle = "Image " + imageID.ToString();
 		}
 
 		public DeleteImageCommand(int imageID, string imageTitle)
 		{	
 			_targetName = "Image";
 			_targetID = imageID;
-			_itemTitle = imageTitle;
+		    itemTitle = imageTitle;
 		}
 
 		public override string Execute()
@@ -458,7 +458,7 @@ namespace Subtext.Web.Admin
 					DeleteFile(galleryFolder, currentImage.ThumbNailFile);
 				}
 
-				return FormatMessage(ExecuteSuccessMessage, _targetName, _itemTitle);
+				return FormatMessage(ExecuteSuccessMessage, _targetName, itemTitle);
 			}
 			catch (Exception ex)
 			{

@@ -131,8 +131,8 @@ namespace Subtext.Framework.Text
 			if(length < 0)
 				throw new ArgumentOutOfRangeException("length", length, "Length must not be negative.");
 			
-			if(str == "" || length == 0)
-				return "";
+			if(str.Length == 0 || length == 0)
+				return String.Empty;
 
 			if(length >= str.Length)
 				return str;

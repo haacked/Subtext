@@ -131,8 +131,8 @@ namespace Subtext.Framework.Components
 
 		#region Stats
 
-		public abstract void TrackPage(PageType PageType ,int PostID, string Referral);
-		public abstract void TrackPages(Referrer[] _feferrers);
+		public abstract void TrackPage(PageType pageType, int PostID, string Referral);
+		public abstract void TrackPages(Referrer[] referrers);
 
 		#endregion
 
