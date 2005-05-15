@@ -45,6 +45,9 @@ namespace Subtext.Web.Admin
 		protected HeaderBase Base1;
 		protected Literal LoggedInUser;
 		protected System.Web.UI.HtmlControls.HtmlGenericControl GalleryTab;
+		protected Subtext.Web.Admin.WebUI.ScriptTag HelptipJs;
+		protected Subtext.Web.Admin.WebUI.ScriptTag AdminJs;
+		protected Subtext.Web.Admin.WebUI.HeaderLink HelptipCss;
 
 		#region Accessors
 

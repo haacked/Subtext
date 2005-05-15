@@ -894,6 +894,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Admin\Resources\Scripts\Admin.js"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Admin\Resources\Scripts\helptip.css"
                     BuildAction = "None"
                 />

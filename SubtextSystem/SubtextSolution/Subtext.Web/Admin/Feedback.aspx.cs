@@ -22,48 +22,29 @@
 #endregion
 
 using System;
+using System.Collections;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 
 namespace Subtext.Web.Admin.Pages
 {
+	/// <summary>
+	/// Displays comments posted to the blog and allows the 
+	/// admin to delete comments.
+	/// </summary>
 	public class Feedback : AdminPage
 	{
 		private int _resultsPageNumber = 1;
 		private bool _isListHidden = false;
 		protected System.Web.UI.WebControls.Repeater rprSelectionList;
+		protected System.Web.UI.WebControls.LinkButton btnDelete;
 		protected Subtext.Web.Admin.WebUI.Pager ResultsPager;
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Results;
 		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
 		protected Subtext.Web.Admin.WebUI.Page PageContainer;
 	
-		#region Accessors
-//		private int CategoryID
-//		{
-//			get
-//			{
-//				if(ViewState["CategoryID"] != null)
-//					return (int)ViewState["CategoryID"];
-//				else
-//					// REFACTOR: const
-//					return -1;
-//			}
-//			set { ViewState["CategoryID"] = value; }
-//		}
-//
-//		public CategoryType CategoryType
-//		{
-//			get
-//			{
-//				if(ViewState["CategoryType"] != null)
-//					return (CategoryType)ViewState["CategoryType"];
-//				else
-//					throw new Exception("CategoryType was not set");
-//			}
-//			set { ViewState["CategoryType"] = value; }
-//		}
-		
-		#endregion
 
 		private void Page_Load(object sender, System.EventArgs e)
 		{
@@ -80,8 +61,6 @@ namespace Subtext.Web.Admin.Pages
 			}			
 		}
 
-		//Bug: http://www.gotdotnet.com/Community/Workspaces/BugDetails.aspx?bugid=3418
-		//Fixed. - Scott
 		protected string GetBody(object dataItem)
 		{
 			Entry entry = (Entry)dataItem;
@@ -104,7 +83,11 @@ namespace Subtext.Web.Admin.Pages
 			}
 			else
 			{
-				// TODO: no existing items handling. add label and indicate no existing items. pop open edit.
+				//No Comments To Show..
+				Literal noComments = new Literal();
+				noComments.Text = "<em>There are no comments to display.</em>";
+				Results.Controls.Add(noComments);
+				this.btnDelete.Visible = false;
 			}
 		}
 
@@ -116,21 +99,9 @@ namespace Subtext.Web.Admin.Pages
 				return String.Empty;
 		}
 
-		private void rprSelectionList_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
-		{				
-			switch (e.CommandName.ToLower()) 
-			{
-				case "delete" :
-					ConfirmDeleteComment(Convert.ToInt32(e.CommandArgument));
-					break;
-				default:
-					break;
-			}			
-		}
-
-		private void ConfirmDeleteComment(int feedbackID)
+		private void ConfirmDeleteComment(int[] feedbackIDs)
 		{
-			this.Command = new DeleteCommentCommand(feedbackID);
+			this.Command = new DeleteCommentsCommand(feedbackIDs);
 			this.Command.RedirectUrl = Request.Url.ToString();
 			Server.Transfer(Constants.URL_CONFIRM);
 		}
@@ -151,11 +122,57 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.rprSelectionList.ItemCommand += new System.Web.UI.WebControls.RepeaterCommandEventHandler(this.rprSelectionList_ItemCommand);
+			this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
 			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion
+
+		private void btnDelete_Click(object sender, System.EventArgs e)
+		{
+			ArrayList itemsToDelete = new ArrayList();
+			
+			foreach(RepeaterItem item in this.rprSelectionList.Items)
+			{
+				// Get the checkbox from the item or the alternating item.
+				CheckBox deleteCheck = item.FindControl("chkDelete") as CheckBox;
+				if(deleteCheck == null)
+				{
+					deleteCheck = item.FindControl("chkDeleteAlt") as CheckBox;
+				}
+
+				if(deleteCheck != null && deleteCheck.Checked)
+				{
+					// Get the EntryId from the item or the alternating item.
+					HtmlInputHidden entryId = item.FindControl("EntryID") as HtmlInputHidden;
+					if(entryId == null)
+					{
+						entryId = item.FindControl("EntryIDAlt") as HtmlInputHidden;
+					}
+					
+					//Now add the item to the list of items to delete.
+					if(entryId != null && entryId.Value != null && entryId.Value.Length > 0)
+					{
+						try
+						{
+							itemsToDelete.Add(int.Parse(entryId.Value));
+						}
+						catch(System.FormatException)
+						{
+							//Swallow this one.
+						}
+					}
+				}
+			}
+			
+			if(itemsToDelete.Count == 0)
+			{
+				Messages.ShowMessage("Nothing was selected to be deleted.", true);
+				return;
+			}
+
+			ConfirmDeleteComment((int[])itemsToDelete.ToArray(typeof(int)));
+		}
 	}
 }
 

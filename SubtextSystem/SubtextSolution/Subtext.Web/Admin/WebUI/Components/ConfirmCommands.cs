@@ -26,6 +26,7 @@ using System.IO;
 using System.Web;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Text;
 using Subtext.Framework.Util;
 
 namespace Subtext.Web.Admin
@@ -133,6 +134,12 @@ namespace Subtext.Web.Admin
 			return FormatMessage(message, null);
 		}
 
+		/// <summary>
+		/// Formats the message.
+		/// </summary>
+		/// <param name="format">Format.</param>
+		/// <param name="args">Args.</param>
+		/// <returns></returns>
 		public virtual string FormatMessage(string format, params object[] args)
 		{
 			try
@@ -143,6 +150,30 @@ namespace Subtext.Web.Admin
 			{
 				return format;
 			}
+		}
+
+		/// <summary>
+		/// Simply concatenates an array of integers for display as text 
+		/// using commas.  ex... "1, 2, 3"
+		/// </summary>
+		/// <param name="integers">Integers.</param>
+		/// <returns></returns>
+		protected string GetDisplayTextFromIntArray(int[] integers)
+		{
+			if(integers.Length == 0)
+				return string.Empty;
+
+			if(integers.Length == 2)
+			{
+				return integers[0] + " and " + integers[1];
+			}
+
+			string display = string.Empty;
+			foreach(int integer in integers)
+			{
+				display += integer + ", ";
+			}
+			return StringHelper.Left(display, display.Length - 2);
 		}
 
 		public abstract string Cancel();
@@ -166,14 +197,12 @@ namespace Subtext.Web.Admin
 			_cancelFailureMessage = "Could not cancel deletion of {0} {1}. Details: {2}";		
 		}
 		
-		protected DeleteTargetCommand(int targetID)
-			: this()
+		protected DeleteTargetCommand(int targetID) : this()
 		{
 			_targetID = targetID;
 		}
 
-		protected DeleteTargetCommand(string targetName, int targetID)
-			: this()
+		protected DeleteTargetCommand(string targetName, int targetID) : this()
 		{
 			_targetName = targetName;
 			_targetID = targetID;
@@ -196,6 +225,80 @@ namespace Subtext.Web.Admin
 	}
 	#endregion
 
+	#region DeleteTargetsCommand		
+	/// <summary>
+	/// Represents a command for deleting multiple targets.
+	/// </summary>
+	[Serializable]
+	public abstract class DeleteTargetsCommand : ConfirmCommand
+	{
+		protected int[] _targetIDs;
+		protected string _targetName = "Items";
+
+		/// <summary>
+		/// Creates a new <see cref="DeleteTargetsCommand"/> instance.
+		/// </summary>
+		protected DeleteTargetsCommand() 
+		{
+			_promptMessage = "Are you sure you want to delete {0} {1}?";
+			_executeSuccessMessage = "{0} {1} were deleted.";
+			_executeFailureMessage = "{0} {1} could not be deleted. Details: {2}";
+			_cancelSuccessMessage = "{0} {1} will not be deleted.";
+			_cancelFailureMessage = "Could not cancel deletion of {0} {1}. Details: {2}";		
+		}
+		
+		/// <summary>
+		/// Creates a new <see cref="DeleteTargetsCommand"/> instance.
+		/// </summary>
+		/// <param name="targetIDs">Target ID.</param>
+		protected DeleteTargetsCommand(int[] targetIDs) : this()
+		{
+			_targetIDs = targetIDs;
+
+			if(_targetIDs.Length == 1)
+			{
+				_targetName = "Item";
+				_executeSuccessMessage = "{0} {1} was deleted.";
+			}
+		}
+
+		/// <summary>
+		/// Deletes the target command.
+		/// </summary>
+		/// <param name="targetName">Name of the target.</param>
+		/// <param name="targetIDs">Target ID.</param>
+		protected DeleteTargetsCommand(string targetName, int[] targetIDs) : this(targetIDs)
+		{
+			_targetName = targetName;
+		}
+
+		/// <summary>
+		/// Gets or sets the prompt message.
+		/// </summary>
+		/// <value></value>
+		public override string PromptMessage
+		{
+			get 
+			{
+				string ids = GetDisplayTextFromIntArray(_targetIDs);
+
+				return FormatMessage(base.PromptMessage, _targetName, ids); 
+			}
+			set { _promptMessage = value; }
+		}
+
+		/// <summary>
+		/// Cancels the command.
+		/// </summary>
+		/// <returns></returns>
+		public override string Cancel()
+		{
+			_autoRedirect = true;
+			return FormatMessage(CancelSuccessMessage, _targetName, _targetIDs);
+		}
+	}
+	#endregion
+
 	#region DeleteTitledTargetCommand		
 	[Serializable]
 	public abstract class DeleteTitledTargetCommand : DeleteTargetCommand
@@ -211,8 +314,7 @@ namespace Subtext.Web.Admin
 			_cancelFailureMessage = "Could not cancel deletion of {0} \"{1}\". Details: {2}";		
 		}
 
-		protected DeleteTitledTargetCommand(int targetID, string itemTitle)
-			: this()
+		protected DeleteTitledTargetCommand(int targetID, string itemTitle) : this()
 		{	
 			_targetID = targetID;
 		    this.itemTitle = itemTitle;
@@ -271,12 +373,20 @@ namespace Subtext.Web.Admin
 	[Serializable]
 	public class DeleteCommentCommand : DeleteTargetCommand
 	{
+		/// <summary>
+		/// Creates a new <see cref="DeleteCommentCommand"/> instance.
+		/// </summary>
+		/// <param name="postID">Post ID.</param>
 		public DeleteCommentCommand(int postID)
 		{
 			_targetName = "Feedback item";
 			_targetID = postID;
 		}
 
+		/// <summary>
+		/// Executes this instance.
+		/// </summary>
+		/// <returns></returns>
 		public override string Execute()
 		{
 			try
@@ -287,6 +397,54 @@ namespace Subtext.Web.Admin
 			catch (Exception ex)
 			{
 				return FormatMessage(ExecuteFailureMessage, _targetName, _targetID, ex.Message);
+			}
+		}
+	}
+	#endregion
+
+	#region DeleteComments
+	/// <summary>
+	/// Command to delete multiple comments.
+	/// </summary>
+	[Serializable]
+	public class DeleteCommentsCommand : DeleteTargetsCommand
+	{
+		/// <summary>
+		/// Creates a new <see cref="DeleteCommentsCommand"/> instance.
+		/// </summary>
+		/// <param name="postIDs">Post IDs.</param>
+		public DeleteCommentsCommand(int[] postIDs) : base(postIDs)
+		{
+			if(postIDs.Length > 1)
+			{
+				_targetName = "Feedback items";
+			}
+			else
+			{
+				_targetName = "Feedback item";
+			}
+			_targetIDs = postIDs;
+		}
+
+		/// <summary>
+		/// Executes this command.
+		/// </summary>
+		/// <returns></returns>
+		public override string Execute()
+		{
+			string ids = GetDisplayTextFromIntArray(_targetIDs);
+			try
+			{
+				foreach(int targetId in _targetIDs)
+				{
+					Entries.Delete(targetId);
+				}
+				
+				return FormatMessage(ExecuteSuccessMessage, _targetName, ids);
+			}
+			catch (Exception ex)
+			{
+				return FormatMessage(ExecuteFailureMessage, _targetName, ids, ex.Message);
 			}
 		}
 	}
@@ -388,8 +546,6 @@ namespace Subtext.Web.Admin
 		}
 	}
 	#endregion
-
-
 
 	#region DeleteLinkCommand		
 	[Serializable]
