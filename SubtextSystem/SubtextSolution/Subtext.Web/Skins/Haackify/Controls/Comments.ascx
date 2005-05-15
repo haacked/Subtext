@@ -6,9 +6,9 @@
 	<asp:Repeater id="CommentList" runat="server" OnItemCreated="CommentsCreated" OnItemCommand="RemoveComment_ItemCommand">
 		<ItemTemplate>
 			<div class="blogpost">
-				<h1><span class="title"><asp:Literal Runat = "server" ID = "Title" /></span>
+				<h2><span class="title"><asp:Literal Runat = "server" ID = "Title" /></span>
 					<span class="adminLink"><asp:LinkButton Runat="server" ID="EditLink" CausesValidation="False" /></span>
-				</h1>
+				</h2>
 				<asp:Literal id = "PostText" Runat = "server" />
 				<div class="postfoot">
 					<asp:Literal id = "PostDate" Runat = "server" /> | <asp:HyperLink Target="_blank" Runat="server" ID="NameLink" />

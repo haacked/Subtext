@@ -92,9 +92,27 @@ a:hover {
 }
 
 a.Button:link,
-a.Button:visited {
+a.Button:visited 
+{
 	display: block;
 	float: left;
+	padding: 2px 8px;
+	background: #6B86B3;
+	border: 1px solid #333333;
+	text-transform: uppercase;
+	margin-right: 8px;
+	color: #FFFFFF;
+	font-size: 95%;
+	font-weight: bold;
+	width: 70px;
+	text-align: center;
+}
+
+a.RightButton:link,
+a.RightButton:visited 
+{
+	display: block;
+	float: right;
 	padding: 2px 8px;
 	background: #6B86B3;
 	border: 1px solid #333333;
