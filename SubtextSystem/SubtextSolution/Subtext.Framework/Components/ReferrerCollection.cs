@@ -30,7 +30,7 @@ namespace Subtext.Framework.Components
 	/// Represents a collection of <see cref="Referrer">Referrer</see> Components.
 	/// </summary>
 	[Serializable]
-	public class ReferrerCollection: CollectionBase
+	public class ReferrerCollection : CollectionBase
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ReferrerCollection">ReferrerCollection</see> class.

@@ -8,17 +8,11 @@ namespace Subtext.Framework.Components
 	[Serializable]
 	public class ViewStat : IBlogIdentifier
 	{
-
-
 		private string _pageTitle;
 		private int _viewCount;
 		private DateTime _viewDate;
 		private PageType _pageType = PageType.NotSpecified;
 
-
-		public ViewStat()
-		{
-		}
 
 		public string PageTitle
 		{

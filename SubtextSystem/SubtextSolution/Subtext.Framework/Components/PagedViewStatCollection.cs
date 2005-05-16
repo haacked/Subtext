@@ -7,13 +7,6 @@ namespace Subtext.Framework.Components
 	/// </summary>
 	public class PagedViewStatCollection : ViewStatCollection, IPagedResults
 	{
-		public PagedViewStatCollection()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
 		private int _maxItems;
 		public int MaxItems
 		{

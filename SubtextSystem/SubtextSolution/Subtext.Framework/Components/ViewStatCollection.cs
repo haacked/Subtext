@@ -30,7 +30,7 @@ namespace Subtext.Framework.Components
 	/// Represents a collection of <see cref="ViewStat">ViewStat</see> Components.
 	/// </summary>
 	[Serializable]
-	public class ViewStatCollection: CollectionBase
+	public class ViewStatCollection : CollectionBase
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ViewStatCollection">ViewStatCollection</see> class.
@@ -146,12 +146,15 @@ namespace Subtext.Framework.Components
 			private	IEnumerable _temp;
 			
 			/// <summary>
-			/// Initializes a new instance of the <see cref="BlogPostDayEnumerator">BlogPostDayEnumerator</see> class referencing the specified <see cref="ViewStatCollection">ViewStatCollection</see> object.
+			/// Initializes a new instance of the 
+			/// <see cref="BlogPostDayEnumerator">BlogPostDayEnumerator</see> class referencing the 
+			/// specified <see cref="ViewStatCollection">ViewStatCollection</see> object.
 			/// </summary>
-			/// <param name="mappings">The <see cref="ViewStatCollection">ViewStatCollection</see> to enumerate.</param>
+			/// <param name="mappings">The <see cref="ViewStatCollection">ViewStatCollection</see> 
+			/// to enumerate.</param>
 			public BlogPostDayEnumerator(ViewStatCollection mappings)
 			{
-				_temp =	((IEnumerable)(mappings));
+				_temp =	mappings;
 				_enumerator = _temp.GetEnumerator();
 			}
 			

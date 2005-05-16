@@ -30,14 +30,11 @@ using Subtext.Framework.Configuration;
 namespace Subtext.Framework.Data
 {
 	/// <summary>
-	/// Summary description for WebSqlDAL.
+	/// Provider for using a SQL Server as the back-end data storage 
+	/// for Subtext.
 	/// </summary>
 	public class SqlDataProvider : IDbProvider
 	{
-		public SqlDataProvider()
-		{
-		}
-
 		private SqlParameter BlogIDParam
 		{
 			get
@@ -48,6 +45,10 @@ namespace Subtext.Framework.Data
 
 
 		private string _connectionString;
+		/// <summary>
+		/// Gets or sets the connection string.
+		/// </summary>
+		/// <value></value>
 		public string ConnectionString
 		{
 			get {return this._connectionString;}
