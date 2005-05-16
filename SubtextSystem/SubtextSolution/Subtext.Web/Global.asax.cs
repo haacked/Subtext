@@ -26,12 +26,12 @@ using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using System.Web;
 using Subtext.Framework;
+using Subtext.Framework.Data;
 
 namespace Subtext 
 {
 	public class Global : System.Web.HttpApplication
 	{
-
 		public override string GetVaryByCustomString(HttpContext context, string custom)
 		{
 			if(custom == "Blogger")
@@ -40,9 +40,7 @@ namespace Subtext
 			}
 
 			return base.GetVaryByCustomString(context,custom);
-
 		}
-
 
 		private const string ERROR_PAGE_LOCATION = "~/error.aspx";
 		private const string BLOG_INITIAL_CONFIGURATION_PAGE = "~/BlogNotConfiguredError.aspx";
@@ -120,11 +118,42 @@ namespace Subtext
 				}
 
 				//Sql Exception and request is for "localhost"
-				if(exception.InnerException is SqlException)
+				SqlException sqlExc = exception.InnerException as SqlException;
+				if(sqlExc != null &&
+					(
+						sqlExc.Number == (int)SqlErrorMessages.LoginFailsCannotOpenDatabase
+						|| sqlExc.Number == (int)SqlErrorMessages.LoginFailed
+						|| sqlExc.Number == (int)SqlErrorMessages.LoginFailedInvalidUserOfTrustedConnection
+						|| sqlExc.Number == (int)SqlErrorMessages.LoginFailedNotAssociatedWithTrustedConnection
+						|| sqlExc.Number == (int)SqlErrorMessages.LoginFailedUserNameInvalid
+						|| (sqlExc.Number == (int)SqlErrorMessages.CouldNotFindStoredProcedure && sqlExc.Message.IndexOf("'blog_GetConfig'") > 0)
+					)
+				)
 				{
 					// Probably a bad connection string.
 					Server.Transfer(BAD_CONNECTION_STRING_PAGE);
+					return;
 				}
+
+				if(exception.InnerException is InvalidOperationException && exception.InnerException.Message.IndexOf("ConnectionString") >= 0)
+				{
+					// Probably a missing connection string.
+					Server.Transfer(BAD_CONNECTION_STRING_PAGE);
+					return;
+				}
+
+				if(exception.InnerException is ArgumentException 
+					&& (
+							exception.InnerException.Message.IndexOf("Keyword not supported") >= 0
+						||	exception.InnerException.Message.IndexOf("Invalid value for key") >= 0
+					)
+				)
+				{
+					// Probably a malformed connection string.
+					Server.Transfer(BAD_CONNECTION_STRING_PAGE);
+					return;
+				}
+
 			}
 
 			// I don't know that Context can ever be null in the pipe, but we'll play it

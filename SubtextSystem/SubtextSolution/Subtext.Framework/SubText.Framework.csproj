@@ -423,6 +423,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Data\SqlErrorMessages.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Data\SQLHelper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

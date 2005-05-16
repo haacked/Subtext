@@ -20,8 +20,9 @@ namespace Subtext.Web.Admin.Pages
 		protected Subtext.Web.Admin.WebUI.Page PageContainer;
 
 		private void Page_Load(object sender, System.EventArgs e)
-		{
-		
+		{	
+			//TODO: implement "blog_GetPageableViewStats"
+
 //			if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
 //				_resultsPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
 //
@@ -31,7 +32,6 @@ namespace Subtext.Web.Admin.Pages
 //
 //			BindLocalUI();
 //			BindList();
-
 		}
 
 		public string CheckHiddenStyle()
@@ -104,8 +104,6 @@ namespace Subtext.Web.Admin.Pages
 		{
 			PagedViewStatCollection stats = Stats.GetPagedViewStats(_resultsPageNumber, ResultsPager.PageSize, DateTime.Now.AddMonths(-1), DateTime.Now);
 
-
-			
 			if (stats.Count > 0)
 			{
 				ResultsPager.ItemCount = stats.MaxItems;

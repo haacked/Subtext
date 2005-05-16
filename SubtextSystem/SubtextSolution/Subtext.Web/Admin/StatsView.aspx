@@ -3,7 +3,7 @@
 <ANW:Page id="PageContainer" TabSectionID="Stats" runat="server">
 
 	<ANW:MessagePanel id=Messages runat="server" ErrorIconUrl="~/admin/resources/ico_critical.gif" ErrorCssClass="ErrorPanel" MessageIconUrl="~/admin/resources/ico_info.gif" MessageCssClass="MessagePanel" />
-	Coming Soon!
+	Coming Soon
 	<ANW:AdvancedPanel id="Results" runat="server" Collapsible="False" HeaderText="View Stats" HeaderCssClass="CollapsibleHeader" DisplayHeader="true" Visible = "False">
 		<ASP:Repeater id="rprSelectionList" runat="server" >
 			<HeaderTemplate>

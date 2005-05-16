@@ -7,13 +7,6 @@ namespace Subtext.Framework.Components
 	/// </summary>
 	public class PagedReferrerCollection : ReferrerCollection, IPagedResults
 	{
-		public PagedReferrerCollection()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
 		private int _maxItems;
 		public int MaxItems
 		{
