@@ -187,7 +187,7 @@ namespace Subtext.Framework.Syndication
 				);		
 				this.WriteEndElement();
 
-			if(AllowComments && config.EnableComments && entry.AllowComments)
+			if(AllowComments && config.EnableComments && entry.AllowComments && !entry.CommentingClosed)
 			{
 				//optional for CommentApi Post location
 				this.WriteElementString("wfw:comment",uformat.CommentApiUrl(entry.EntryID));

@@ -37,13 +37,6 @@ namespace Subtext.Common.Syndication
 	/// </summary>
 	public class RssCategoryHandler : EntryCollectionHandler
 	{
-		public RssCategoryHandler()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
 		protected LinkCategory Category = null;
 		protected EntryCollection Posts = null;
 

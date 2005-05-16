@@ -128,20 +128,6 @@ namespace Subtext.Framework.Configuration
 			set{serverTimeZone = value;}
 		}
 
-		/// <summary>
-		/// Gets or sets the days till comments close on a post.  
-		/// The count starts when a post is created.
-		/// </summary>
-		/// <value></value>
-		public int DaysTillCommentsClose
-		{
-			//TODO: Move this to BlogConfig and the blog_config table.
-			get { return _daysTillCommentsClose; }
-			set { _daysTillCommentsClose = value; }
-		}
-
-		int _daysTillCommentsClose = 30;
-
 		private BlogProviders _blogProviders;
 		public BlogProviders BlogProviders
 		{

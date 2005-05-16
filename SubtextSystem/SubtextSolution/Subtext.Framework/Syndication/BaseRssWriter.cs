@@ -147,18 +147,18 @@ namespace Subtext.Framework.Syndication
 			//core Should we set the 
 			this.WriteElementString("guid",entry.Link);
 
-			if(AllowComments && config.EnableComments && entry.AllowComments)
+			if(AllowComments && config.EnableComments && entry.AllowComments && !entry.CommentingClosed)
 			{
 				//optional for CommentApi Post location
-				this.WriteElementString("wfw:comment",uformat.CommentApiUrl(entry.EntryID));
+				this.WriteElementString("wfw:comment", uformat.CommentApiUrl(entry.EntryID));
 				//optional url for comments
-				this.WriteElementString("comments",entry.Link + "#Feedback");
+				this.WriteElementString("comments", entry.Link + "#Feedback");
 				//optional comment count
-				this.WriteElementString("slash:comments",entry.FeedBackCount.ToString());
+				this.WriteElementString("slash:comments", entry.FeedBackCount.ToString());
 				//optional commentRss feed location
 				this.WriteElementString("wfw:commentRss", uformat.CommentRssUrl(entry.EntryID));
 				//optional trackback location
-				this.WriteElementString("trackback:ping",uformat.TrackBackUrl(entry.EntryID));
+				this.WriteElementString("trackback:ping", uformat.TrackBackUrl(entry.EntryID));
 				//core 
 			}
 

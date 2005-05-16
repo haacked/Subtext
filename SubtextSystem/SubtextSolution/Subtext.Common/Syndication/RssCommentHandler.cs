@@ -36,13 +36,6 @@ namespace Subtext.Common.Syndication
 	/// </summary>
 	public class RssCommentHandler : EntryCollectionHandler
 	{
-		public RssCommentHandler()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
 		protected Entry ParentEntry = null;
 		protected EntryCollection Comments = null;
 

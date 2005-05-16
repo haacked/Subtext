@@ -9,4 +9,5 @@ When migrating, run the Upgrade script, then the StoredProcedures.sql script.
 blog_config - Changed format of Password.  Still backwards compatible though.
 			- Application and Host columns are ignored... for now.
 			- Added a LicenseUrl column.
+			- Added a DaysTillCommentsClose column.
 blog_Links	- PostID column should have values of -1 converted to NULL
