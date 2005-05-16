@@ -47,10 +47,12 @@ namespace Subtext.Web.Admin.Pages
 		protected System.Web.UI.WebControls.DropDownList ddlTimezone;
 		protected System.Web.UI.WebControls.DropDownList ddlLangLocale;
 		protected System.Web.UI.WebControls.CheckBox ckbAllowServiceAccess;
+		protected System.Web.UI.WebControls.CheckBox chkEnableComments;
 		protected System.Web.UI.WebControls.TextBox txbNews;
 		protected System.Web.UI.WebControls.TextBox txbUser;
 		protected System.Web.UI.WebControls.TextBox txbSecondaryCss;
 		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
+		protected System.Web.UI.WebControls.TextBox txtDaysTillCommentsClosed;
 		protected Subtext.Web.Admin.WebUI.Page PageContainer;
 	
 		#region Accessors
@@ -84,6 +86,11 @@ namespace Subtext.Web.Admin.Pages
 			txbUser.Text = config.UserName;
 			txbNews.Text = config.News;
 			ckbAllowServiceAccess.Checked = config.AllowServiceAccess;
+			chkEnableComments.Checked = config.EnableComments;
+			if(config.DaysTillCommentsClose < int.MaxValue && config.DaysTillCommentsClose >= 0)
+			{
+				txtDaysTillCommentsClosed.Text = config.DaysTillCommentsClose.ToString();
+			}
 			ddlTimezone.Items.FindByValue(config.TimeZone.ToString()).Selected = true;
 
 			try
@@ -116,12 +123,11 @@ namespace Subtext.Web.Admin.Pages
 				string name = node.Attributes["Skin"].Value +  css;
 				//string id = node.Attributes["SkinID"].Value;
 				ddlSkin.Items.Add(new ListItem(name, name));
-
 			}
 		
 			try
 			{
-					ddlSkin.Items.FindByValue(config.Skin.SkinID).Selected = true;
+				ddlSkin.Items.FindByValue(config.Skin.SkinID).Selected = true;
 			}
 			catch
 			{
@@ -163,6 +169,16 @@ namespace Subtext.Web.Admin.Pages
 				config.ItemCount = Int32.Parse(ddlItemCount.SelectedItem.Value);
 				config.Language = ddlLangLocale.SelectedItem.Value;
 				
+				config.EnableComments = chkEnableComments.Checked;
+				if(txtDaysTillCommentsClosed.Text.Length > 0)
+				{
+					config.DaysTillCommentsClose = ValidateInteger("Days Till Comments Close", txtDaysTillCommentsClosed.Text, 0, int.MaxValue);
+				}
+				else
+				{
+					config.DaysTillCommentsClose = int.MaxValue;
+				}
+
 				config.AllowServiceAccess = ckbAllowServiceAccess.Checked;
 
 				config.Skin.SkinCssText = txbSecondaryCss.Text.Trim();
@@ -195,6 +211,27 @@ namespace Subtext.Web.Admin.Pages
 			catch(Exception ex)
 			{
 				this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, RES_FAILURE, ex.Message));
+			}
+		}
+
+		int ValidateInteger(string fieldName, string value, int minAllowedValue, int maxAllowedValue)
+		{
+			try
+			{
+				int theNumber = int.Parse(value);
+				if(theNumber < minAllowedValue)
+				{
+					throw new ArgumentException("\"" + fieldName + "\" should be larger than or equal to " + minAllowedValue, fieldName);
+				}
+				if(theNumber > maxAllowedValue)
+				{
+					throw new ArgumentException("\"" + fieldName + "\" should be less than or equal to " + maxAllowedValue, fieldName);
+				}
+				return theNumber;
+			}
+			catch(System.FormatException)
+			{
+				throw new ArgumentException("Please enter a valid positive number for the field \"" + fieldName + "\"", fieldName);
 			}
 		}
 

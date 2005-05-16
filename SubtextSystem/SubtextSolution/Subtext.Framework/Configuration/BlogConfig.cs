@@ -231,6 +231,20 @@ namespace Subtext.Framework.Configuration
 		}
 
 		/// <summary>
+		/// Gets or sets the days till comments close on a post.  
+		/// The count starts when a post is created.
+		/// </summary>
+		/// <value></value>
+		public int DaysTillCommentsClose
+		{
+			get { return _daysTillCommentsClose; }
+			set { _daysTillCommentsClose = value; }
+		}
+
+		int _daysTillCommentsClose = int.MaxValue;
+
+
+		/// <summary>
 		/// Gets or sets a value indicating whether this blog is active.
 		/// </summary>
 		/// <value>

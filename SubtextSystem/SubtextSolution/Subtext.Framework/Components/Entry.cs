@@ -275,8 +275,10 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				//TODO: Make this a configurable value.
-				return DateTime.Now > this.DateCreated.AddDays(Config.Settings.DaysTillCommentsClose);
+				if(Config.CurrentBlog.DaysTillCommentsClose == int.MaxValue)
+					return false;
+
+				return DateTime.Now > this.DateCreated.AddDays(Config.CurrentBlog.DaysTillCommentsClose);
 			}
 		}
 

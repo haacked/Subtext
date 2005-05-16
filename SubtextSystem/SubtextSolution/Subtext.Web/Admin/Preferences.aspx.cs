@@ -34,14 +34,13 @@ namespace Subtext.Web.Admin.Pages
 		protected System.Web.UI.WebControls.LinkButton lkbUpdate;
 		protected System.Web.UI.WebControls.LinkButton lkbCancel;
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
-		protected System.Web.UI.WebControls.CheckBox EnableComments;
 		protected Subtext.Web.Admin.WebUI.Page PageContainer;
 	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
 //			if (!AreCookiesAllowed())
 //			{
-//				// TODO -- display an errormsg indicating cookies are required
+//				//TODO: -- display an errormsg indicating cookies are required
 //				// with a link to FinishCookieTest on the off chance this is the
 //				// first page accessed and cookies are in fact on.
 //				Controls.Add(new LiteralControl("Cookies NOT ALLOWED"));
@@ -66,9 +65,6 @@ namespace Subtext.Web.Admin.Pages
 
 			ddlExpandAdvanced.SelectedIndex = -1;
 			ddlExpandAdvanced.Items.FindByValue(Preferences.AlwaysExpandAdvanced ? "true" : "false").Selected = true;
-
-			this.EnableComments.Checked = Config.CurrentBlog.EnableComments;
-
 		}
 
 		#region Web Form Designer generated code
@@ -108,7 +104,6 @@ namespace Subtext.Web.Admin.Pages
 
 			BlogConfig config  = Config.CurrentBlog;
 			config.ItemCount = pageSize;
-			config.EnableComments = this.EnableComments.Checked;
 			Config.UpdateConfigData(config);
 
 

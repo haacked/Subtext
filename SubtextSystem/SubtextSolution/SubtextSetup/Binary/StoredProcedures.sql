@@ -971,6 +971,7 @@ SELECT TOP 1
 	, Flag
 	, SkinCssFile 
 	, LicenseUrl
+	, DaysTillCommentsClose
 FROM blog_Config
 
 GO
@@ -986,8 +987,6 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON 
 GO
-
-
 
 CREATE PROC blog_GetEntriesByDayRange
 (
@@ -3682,6 +3681,7 @@ CREATE PROC blog_UpdateConfig
 	, @Flag int
 	, @BlogID int
 	, @LicenseUrl nvarchar(64)
+	, @DaysTillCommentsClose int = NULL
 )
 AS
 Update blog_Config
@@ -3704,6 +3704,7 @@ Set
 	, SecondaryCss = @SecondaryCss
 	, SkinCssFile = @SkinCssFile
 	, LicenseUrl = @LicenseUrl
+	, DaysTillCommentsClose = @DaysTillCommentsClose
 WHERE BlogID = @BlogID
 
 GO

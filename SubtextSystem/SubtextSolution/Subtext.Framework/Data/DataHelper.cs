@@ -753,6 +753,15 @@ namespace Subtext.Framework.Data
 				config.LicenseUrl = (string)reader["LicenseUrl"];
 			}
 
+			if(reader["DaysTillCommentsClose"] != DBNull.Value)
+			{
+				config.DaysTillCommentsClose = (int)reader["DaysTillCommentsClose"];
+			}
+			else
+			{
+				config.DaysTillCommentsClose = int.MaxValue;
+			}
+
 			return config;
 		}
 
