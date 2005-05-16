@@ -116,7 +116,8 @@ CREATE TABLE [dbo].[blog_Config] (
 	[Flag] [int] NULL ,
 	[SkinCssFile] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
 	[BlogGroup] [int] NULL ,
-	[LicenseUrl] [nvarchar] (64) COLLATE SQL_Latin1_General_CP1_CI_AS NULL 
+	[LicenseUrl] [nvarchar] (64) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+	[DaysTillCommentsClose] [int] NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
