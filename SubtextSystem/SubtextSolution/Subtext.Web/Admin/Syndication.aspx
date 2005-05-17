@@ -11,21 +11,23 @@
 			</label>
 			<asp:CheckBox id="chkEnableSyndication" runat="server"></asp:CheckBox>
 		</p>
-		
-		<p class="ValueLabel"><label for="chkUseSyndicationCompression">
-			<a class="helpLink" onclick="showHelpTip(event, 'If checked, your feeds will be compressed for clients that indicate they are able to receive compressed feeds.  This could reduce your bandwidth usage. If you encounter problems with your feed, try turning this off.'); return false"
-					href="?">Enable Compression</a>
-			</label>
-			<asp:CheckBox id="chkUseSyndicationCompression" runat="server"></asp:CheckBox>
-		</p>
-		
-		<label class="Block"><a class="helpLink" onclick="showHelpTip(event, 'If specifed, indicates that your RSS feed is available under a license using the creativeCommons:license element. This can be used to display any license. For more information, read the <a href=\'http://backend.userland.com/creativeCommonsRssModule\'>spec here</a>.'); return false"
-					href="?">License Url</a></label>
-		<asp:TextBox id="txtLicenseUrl" runat="server" width="400"></asp:TextBox>
+		<div id="otherSettings">
+			<p class="ValueLabel"><label for="chkUseSyndicationCompression">
+				<a class="helpLink" onclick="showHelpTip(event, 'If checked, your feeds will be compressed for clients that indicate they are able to receive compressed feeds.  This could reduce your bandwidth usage. If you encounter problems with your feed, try turning this off.'); return false"
+						href="?">Enable Compression</a>
+				</label>
+				<asp:CheckBox id="chkUseSyndicationCompression" runat="server"></asp:CheckBox>
+			</p>
+			
+			<label class="Block"><a class="helpLink" onclick="showHelpTip(event, 'If specifed, indicates that your RSS feed is available under a license using the creativeCommons:license element. This can be used to display any license. For more information, read the <a href=\'http://backend.userland.com/creativeCommonsRssModule\'>spec here</a>.'); return false"
+						href="?">License Url</a></label>
+			<asp:TextBox id="txtLicenseUrl" runat="server" width="400"></asp:TextBox>
+		</div>
 		
 		<div style="MARGIN-TOP: 8px">
 			<asp:linkbutton id="lkbPost" runat="server" Text="Save" CssClass="Button"></asp:linkbutton><br />
 			&nbsp;
 		</div>
+		
 	</ANW:AdvancedPanel>
 </ANW:Page>
