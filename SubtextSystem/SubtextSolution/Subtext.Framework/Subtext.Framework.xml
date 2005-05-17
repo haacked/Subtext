@@ -125,6 +125,11 @@
             Summary description for IBlogID.
             </summary>
         </member>
+        <member name="M:Subtext.Framework.Components.Entry.#ctor">
+            <summary>
+            Creates a new <see cref="T:Subtext.Framework.Components.Entry"/> instance.
+            </summary>
+        </member>
         <member name="P:Subtext.Framework.Components.Entry.HasTitleUrl">
             <summary>
             Gets a value indicating whether this entry 
@@ -1060,9 +1065,12 @@
         </member>
         <member name="M:Subtext.Framework.Components.ViewStatCollection.BlogPostDayEnumerator.#ctor(Subtext.Framework.Components.ViewStatCollection)">
             <summary>
-            Initializes a new instance of the <see cref="T:Subtext.Framework.Components.ViewStatCollection.BlogPostDayEnumerator">BlogPostDayEnumerator</see> class referencing the specified <see cref="T:Subtext.Framework.Components.ViewStatCollection">ViewStatCollection</see> object.
+            Initializes a new instance of the 
+            <see cref="T:Subtext.Framework.Components.ViewStatCollection.BlogPostDayEnumerator">BlogPostDayEnumerator</see> class referencing the 
+            specified <see cref="T:Subtext.Framework.Components.ViewStatCollection">ViewStatCollection</see> object.
             </summary>
-            <param name="mappings">The <see cref="T:Subtext.Framework.Components.ViewStatCollection">ViewStatCollection</see> to enumerate.</param>
+            <param name="mappings">The <see cref="T:Subtext.Framework.Components.ViewStatCollection">ViewStatCollection</see> 
+            to enumerate.</param>
         </member>
         <member name="M:Subtext.Framework.Components.ViewStatCollection.BlogPostDayEnumerator.MoveNext">
             <summary>
@@ -1107,26 +1115,266 @@
         </member>
         <member name="T:Subtext.Framework.Configuration.BlogConfig">
             <summary>
-            Summary description for Configuration.
+            Contains configuration information about a blog.  
+            This data is loaded from the blog_config table.
             </summary>
+        </member>
+        <member name="M:Subtext.Framework.Configuration.BlogConfig.FlagSetter(Subtext.Framework.Configuration.ConfigurationFlag,System.Boolean)">
+            <summary>
+            Adds or removes a <see cref="T:Subtext.Framework.Configuration.ConfigurationFlag"/> to the 
+            flags set for this blog via bitmask operations.
+            </summary>
+            <param name="cf">Cf.</param>
+            <param name="select">Select.</param>
+        </member>
+        <member name="M:Subtext.Framework.Configuration.BlogConfig.FlagPropertyCheck(Subtext.Framework.Configuration.ConfigurationFlag)">
+            <summary>
+            Checks to see if the specified <see cref="T:Subtext.Framework.Configuration.ConfigurationFlag"/> 
+            matches a flag set for this blog.
+            </summary>
+            <param name="cf">Cf.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.UrlFormats">
+            <summary>
+            Class used to encapsulate URL formats for 
+            various sections of the blog.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.ImageDirectory">
+            <summary>
+            Gets or sets the image directory path.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.ImagePath">
+            <summary>
+            Gets or sets the path to the image directory.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.LastUpdated">
+            <summary>
+            Gets or sets the date that the blog's configuration 
+            was last updated.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.BlogID">
+            <summary>
+            Gets or sets the ID of the blog.  This is the 
+            primary key in the blog_config table.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.TimeZone">
+            <summary>
+            Gets or sets the time zone.  0 = GMT. -8 = PST.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.ItemCount">
+            <summary>
+            Gets or sets the count of posts displayed on the front page 
+            of the blog.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.Language">
+            <summary>
+            Gets or sets the language the blog is in..
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.Email">
+            <summary>
+            Gets or sets the email of the blog owner.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.Host">
+            <summary>
+            Gets or sets the host for the blog.  For 
+            example, www.haacked.com might be a host.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.AllowServiceAccess">
+            <summary>
+            Gets or sets a value indicating whether this site can 
+            be accessed via MetaBlogAPI, XML Web Services, etc..
+            </summary>
+            <value>
+            	<c>true</c> if the blog allow service access; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.IsPasswordHashed">
+            <summary>
+            Gets or sets a value indicating whether passwords are 
+            stored in the database as cleartext or hashed.  If true, 
+            passwords are hashed before storage.
+            </summary>
+            <value>
+            	<c>true</c> if passwords are hashed; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.UseSyndicationCompression">
+            <summary>
+            Gets or sets a value indicating whether syndicated feeds (such as 
+            RSS or ATOM) are compressed.
+            </summary>
+            <value>
+            	<c>true</c> if using compression, otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.IsAggregated">
+            <summary>
+            Gets or sets a value indicating whether this blog 
+            contains some sort of feed (such as RSS or ATOM).
+            </summary>
+            <value>
+            	<c>true</c> if it is aggregated; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.EnableComments">
+            <summary>
+            Gets or sets a value indicating whether comments are enabled.
+            </summary>
+            <value>
+            	<c>true</c> if comments are enabled, otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.DaysTillCommentsClose">
+            <summary>
+            Gets or sets the days till comments close on a post.  
+            The count starts when a post is created.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.IsActive">
+            <summary>
+            Gets or sets a value indicating whether this blog is active.
+            </summary>
+            <value>
+            	<c>true</c> if it is active; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.Application">
+            <summary>
+            Gets or sets the application.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.Password">
+            <summary>
+            Gets or sets the password.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.UserName">
+            <summary>
+            Gets or sets the user name for the owner of the blog.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.Title">
+            <summary>
+            Gets or sets the title of the blog.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.SubTitle">
+            <summary>
+            Gets or sets the sub title of the blog.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.Skin">
+            <summary>
+            Gets or sets the <see cref="T:Subtext.Framework.Configuration.SkinConfig"/> instance 
+            which contains information about the specified skin.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.HasNews">
+            <summary>
+            Gets a value indicating whether the blog has news. 
+            News can be entered in the Admin section.
+            </summary>
+            <value>
+            	<c>true</c> if the blog has news; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.News">
+            <summary>
+            Gets or sets the news.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.Author">
+            <summary>
+            Gets or sets the author of the blog.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.LicenseUrl">
+            <summary>
+            Gets or sets the license URL.  This is used to 
+            Used to specify a license within a syndicated feed. 
+            Does not have to be a creative commons license. 
+            <see href="http://backend.userland.com/creativeCommonsRssModule" />
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.FullyQualifiedUrl">
+            <summary>
+            Gets or sets the fully qualified URL for 
+            the blog.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.Flag">
+            <summary>
+            Gets or sets the flags pertaining to this blog.  
+            This is a bitmask of <see cref="T:Subtext.Framework.Configuration.ConfigurationFlag"/>s.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.CleanApplication">
+            <summary>
+            Returns the Application string without any dashes.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.PostCount">
+            <summary>
+            Gets or sets the total number of posts.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.CommentCount">
+            <summary>
+            Gets or sets the comment count.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.StoryCount">
+            <summary>
+            Gets or sets the story count.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.BlogConfig.PingTrackCount">
+            <summary>
+            Gets or sets the ping track count.
+            </summary>
+            <value></value>
         </member>
         <member name="T:Subtext.Framework.Configuration.BlogConfigurationSettings">
             <summary>
             Returns settings straight from Web.config.
             </summary>
-        </member>
-        <member name="M:Subtext.Framework.Configuration.BlogConfigurationSettings.Instance">
-            <summary>
-            Returns a singleton instance of the settings.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Subtext.Framework.Configuration.BlogConfigurationSettings.Instance(System.Web.HttpContext)">
-            <summary>
-            Returns a singleton instance of the settings.
-            </summary>
-            <param name="context">Context.</param>
-            <returns></returns>
         </member>
         <member name="P:Subtext.Framework.Configuration.BlogConfigurationSettings.AllowImages">
             <summary>
@@ -1158,21 +1406,6 @@
             </summary>
             <value></value>
         </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfigurationSettings.DaysTillCommentsClose">
-            <summary>
-            Gets or sets the days till comments close on a post.  
-            The count starts when a post is created.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfigurationSettings.UseSyndicationCompression">
-            <summary>
-            Gets or sets a value indicating whether or not to use syndication compression.
-            </summary>
-            <value>
-            	<c>true</c> if using syndication compression; otherwise, <c>false</c>.
-            </value>
-        </member>
         <member name="P:Subtext.Framework.Configuration.BlogConfigurationSettings.DocTypeDeclaration">
             <summary>
             Gets or sets the doc type declaration to use 
@@ -1182,8 +1415,23 @@
         </member>
         <member name="T:Subtext.Framework.Configuration.Config">
             <summary>
-            Summary description for Config.
+            Static helper class used to access various configuration 
+            settings.
             </summary>
+        </member>
+        <member name="M:Subtext.Framework.Configuration.Config.GetConfig(System.String,System.String)">
+            <summary>
+            Returns a <see cref="T:Subtext.Framework.Configuration.BlogConfig"/> instance containing 
+            the configuration settings for the blog specified by the 
+            Hostname and Application.
+            </summary>
+            <remarks>
+            Until Subtext supports multiple blogs again (if ever), 
+            this will always return the same instance.
+            </remarks>
+            <param name="hostname">Hostname.</param>
+            <param name="application">Application.</param>
+            <returns></returns>
         </member>
         <member name="M:Subtext.Framework.Configuration.Config.AddInitialBlog(System.String,System.String)">
             <summary>
@@ -1194,6 +1442,57 @@
             <param name="userName">Name of the user.</param>
             <param name="password">Password.</param>
             <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Configuration.Config.UpdateConfigData(Subtext.Framework.Configuration.BlogConfig)">
+            <summary>
+            Updates the database with the configuration data within 
+            the specified <see cref="T:Subtext.Framework.Configuration.BlogConfig"/> instance.
+            </summary>
+            <param name="config">Config.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.Config.Settings">
+            <summary>
+            Returns an instance of <see cref="T:Subtext.Framework.Configuration.BlogConfigurationSettings"/> which 
+            are configured within web.config as a custom config section.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.Config.CurrentBlog">
+            <summary>
+            Returns a <see cref="T:Subtext.Framework.Configuration.BlogConfig"/> instance containing 
+            the configuration settings for the current blog.
+            </summary>
+            <remarks>
+            Until Subtext supports multiple blogs again (if ever), 
+            this will always return the same instance.
+            </remarks>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:Subtext.Framework.Configuration.ConfigurationFlag" -->
+        <member name="F:Subtext.Framework.Configuration.ConfigurationFlag.Empty">
+            <summary>Nothing is set</summary>
+        </member>
+        <member name="F:Subtext.Framework.Configuration.ConfigurationFlag.IsActive">
+            <summary>The Blog is Active</summary>
+        </member>
+        <member name="F:Subtext.Framework.Configuration.ConfigurationFlag.IsAggregated">
+            <summary>The Blog has a syndicated feed (RSS or ATOM)</summary>
+        </member>
+        <member name="F:Subtext.Framework.Configuration.ConfigurationFlag.EnableServiceAccess">
+            <summary>The Blog can be accessed via XML over HTTP APIs</summary>
+        </member>
+        <member name="F:Subtext.Framework.Configuration.ConfigurationFlag.IsPasswordHashed">
+            <summary>Whether or not the password is hashed.</summary>
+        </member>
+        <member name="F:Subtext.Framework.Configuration.ConfigurationFlag.EnableComments">
+            <summary>Whether or not Comments are enabled.</summary>
+        </member>
+        <member name="F:Subtext.Framework.Configuration.ConfigurationFlag.PublishAsNew">
+            <summary>Not sure.</summary>
+        </member>
+        <member name="F:Subtext.Framework.Configuration.ConfigurationFlag.CompressSyndicatedFeed">
+            <summary>The Blog compresses its syndicated feeds.</summary>
         </member>
         <member name="T:Subtext.Framework.Configuration.IConfig">
             <summary>
@@ -1335,14 +1634,15 @@
             <param name="password">Password.</param>
             <returns></returns>
         </member>
-        <member name="T:Subtext.Framework.Data.IProccessEntry">
+        <member name="T:Subtext.Framework.Data.IProcessEntry">
             <summary>
             Summary description for IProccessEntry.
             </summary>
         </member>
         <member name="T:Subtext.Framework.Data.SqlDataProvider">
             <summary>
-            Summary description for WebSqlDAL.
+            Provider for using a SQL Server as the back-end data storage 
+            for Subtext.
             </summary>
         </member>
         <member name="M:Subtext.Framework.Data.SqlDataProvider.AddInitialBlogConfiguration(System.String,System.String)">
@@ -1362,6 +1662,56 @@
             </summary>
             <param name="config">Config.</param>
             <returns></returns>
+        </member>
+        <member name="P:Subtext.Framework.Data.SqlDataProvider.ConnectionString">
+            <summary>
+            Gets or sets the connection string.
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Subtext.Framework.Data.SqlErrorMessages">
+            <summary>
+            Provides constants for the common SQL messages as 
+            listed in master.dbo.sysmessages.
+            </summary>
+        </member>
+        <member name="F:Subtext.Framework.Data.SqlErrorMessages.SpecifiedSqlServerNotFound">
+            <summary>
+            Specified SQL server not found:
+            </summary>
+        </member>
+        <member name="F:Subtext.Framework.Data.SqlErrorMessages.CouldNotFindStoredProcedure">
+            <summary>
+            Could not find the stored procedure.
+            </summary>
+        </member>
+        <member name="F:Subtext.Framework.Data.SqlErrorMessages.LoginFailsCannotOpenDatabase">
+            <summary>
+            Cannot open database requested in login '%.*ls'. Login fails.
+            </summary>
+        </member>
+        <member name="F:Subtext.Framework.Data.SqlErrorMessages.LoginFailedInvalidUserOfTrustedConnection">
+            <summary>
+            Login failed for user '%ls'. Reason: Not defined as a valid user 
+            of a trusted SQL Server connection.
+            </summary>
+        </member>
+        <member name="F:Subtext.Framework.Data.SqlErrorMessages.LoginFailedNotAssociatedWithTrustedConnection">
+            <summary>
+            Login failed for user '%ls'. Reason: Not associated with a 
+            trusted SQL Server connection.
+            </summary>
+        </member>
+        <member name="F:Subtext.Framework.Data.SqlErrorMessages.LoginFailed">
+            <summary>
+            Login failed for user '%ls'.
+            </summary>
+        </member>
+        <member name="F:Subtext.Framework.Data.SqlErrorMessages.LoginFailedUserNameInvalid">
+            <summary>
+            Login failed for user '%ls'. Reason: User name contains a 
+            mapping character or is longer than 30 characters.
+            </summary>
         </member>
         <member name="T:Subtext.Framework.Data.SqlHelper">
             <summary>
@@ -1987,6 +2337,83 @@
             Provides logging for the Subtext framework. This class is typically instantiated as a <c>private static readonly</c> member
              of a class in order to handle logging inside of the class. This class is a specialized wrapper for the log4net framework.
             </summary>
+            <para>
+            The class provides methods to log messages at the following levels:
+            </para>
+            <remarks>
+            <list type="definition">
+            <item>
+            <term>DEBUG</term>
+            <description>
+            The <see cref="M:Subtext.Framework.Logging.Log.Debug(System.Object)"/> and 
+            <see cref="M:Subtext.Framework.Logging.Log.DebugFormat(System.String,System.Object[])"/> methods log messages
+            at the <c>DEBUG</c> level. That is the level with that name defined in the log4net
+            repositories. The <see cref="P:Subtext.Framework.Logging.Log.IsDebugEnabled"/>
+            property tests if this level is enabled for logging.
+            </description>
+            </item>
+            <item>
+            <term>INFO</term>
+            <description>
+            The <see cref="M:Subtext.Framework.Logging.Log.Info(System.Object)"/> and 
+            <see cref="M:Subtext.Framework.Logging.Log.InfoFormat(System.String,System.Object[])"/> methods log messages
+            at the <c>INFO</c> level. That is the level with that name defined in the log4net
+            repositories. The <see cref="P:Subtext.Framework.Logging.Log.IsInfoEnabled"/>
+            property tests if this level is enabled for logging.
+            </description>
+            </item>
+            <item>
+            <term>WARN</term>
+            <description>
+            The <see cref="M:Subtext.Framework.Logging.Log.Warn(System.Object)"/> and 
+            <see cref="M:Subtext.Framework.Logging.Log.WarnFormat(System.String,System.Object[])"/> methods log messages
+            at the <c>WARN</c> level. That is the level with that name defined in the log4net
+            repositories. The <see cref="P:Subtext.Framework.Logging.Log.IsWarnEnabled"/>
+            property tests if this level is enabled for logging.
+            </description>
+            </item>
+            <item>
+            <term>ERROR</term>
+            <description>
+            The <see cref="M:Subtext.Framework.Logging.Log.Error(System.Object)"/> and 
+            <see cref="M:Subtext.Framework.Logging.Log.ErrorFormat(System.String,System.Object[])"/> methods log messages
+            at the <c>ERROR</c> level. That is the level with that name defined in the log4net
+            repositories. The <see cref="P:Subtext.Framework.Logging.Log.IsErrorEnabled"/>
+            property tests if this level is enabled for logging.
+            </description>
+            </item>
+            <item>
+            <term>FATAL</term>
+            <description>
+            The <see cref="M:Subtext.Framework.Logging.Log.Fatal(System.Object)"/> and 
+            <see cref="M:Subtext.Framework.Logging.Log.FatalFormat(System.String,System.Object[])"/> methods log messages
+            at the <c>FATAL</c> level. That is the level with that name defined in the log4net
+            repositories. The <see cref="P:Subtext.Framework.Logging.Log.IsFatalEnabled"/>
+            property tests if this level is enabled for logging.
+            </description>
+            </item>
+            </list>
+            </remarks>
+            <example>
+            An example of using the Log class
+            <code lang="C#">
+            public class Subtext.Framework.Wigdetry
+            {
+            	<b>private static readonly Log __log = new Log();</b>
+            	...
+            	public void DoSomething()
+            	{
+            		try
+            		{
+            		}
+            		catch(Exception e)
+            		{
+            			<b>__log.Error("Something was not done", e);</b>
+            		}
+            	}
+            }
+            </code>
+            </example>
         </member>
         <member name="M:Subtext.Framework.Logging.Log.#ctor">
             <summary>
@@ -2550,24 +2977,123 @@
             Summary description for BaseSyndicationWriter.
             </summary>
         </member>
+        <member name="M:Subtext.Framework.Syndication.BaseSyndicationWriter.#ctor(System.IO.StringWriter)">
+            <summary>
+            Creates a new <see cref="T:Subtext.Framework.Syndication.BaseSyndicationWriter"/> instance.
+            </summary>
+            <param name="sw">Sw.</param>
+        </member>
+        <member name="M:Subtext.Framework.Syndication.BaseSyndicationWriter.#ctor(System.Int32)">
+            <summary>
+            Creates a new <see cref="T:Subtext.Framework.Syndication.BaseSyndicationWriter"/> instance.
+            </summary>
+            <param name="lastViewedFeedItem"></param>
+        </member>
+        <member name="M:Subtext.Framework.Syndication.BaseSyndicationWriter.#ctor(System.IO.StringWriter,System.Int32)">
+            <summary>
+            Creates a new <see cref="T:Subtext.Framework.Syndication.BaseSyndicationWriter"/> instance.
+            </summary>
+            <param name="sw">Sw.</param>
+            <param name="lastViewedFeedItem">Last viewed feed item.</param>
+        </member>
+        <member name="M:Subtext.Framework.Syndication.BaseSyndicationWriter.ToString">
+            <summary>
+            Returns the XML
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Subtext.Framework.Syndication.BaseSyndicationWriter.StringWriter">
+            <summary>
+            Gets the string writer.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Syndication.BaseSyndicationWriter.Xml">
+            <summary>
+            Gets the XML.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Syndication.BaseSyndicationWriter.ClientHasAllFeedItems">
+            <summary>
+            Gets a value indicating whether [client has all feed items].
+            </summary>
+            <value>
+            	<c>true</c> if [client has all feed items]; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.Syndication.BaseSyndicationWriter.LatestFeedItemId">
+            <summary>
+            Gets the latest feed item id that will be returned to 
+            the client.  This will be placed in the ETag.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Syndication.BaseSyndicationWriter.LastViewedFeedItemId">
+            <summary>
+            Gets the id of last viewed feed item according 
+            to the client request.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:Subtext.Framework.Syndication.BaseAtomWriter.#ctor(System.Int32)">
+            <summary>
+            Bases the syndication writer.
+            </summary>
+            <param name="lastViewedFeedItem">Last viewed feed item.</param>
+        </member>
+        <member name="M:Subtext.Framework.Syndication.BaseAtomWriter.Build(System.Int32)">
+            <summary>
+            Builds the specified last id viewed.
+            </summary>
+            <param name="lastIdViewed">Last id viewed.</param>
+        </member>
         <member name="T:Subtext.Framework.Syndication.BaseRssWriter">
             <summary>
-            Summary description for BaseRssWriter.
+            Abstract base class used to write RSS feeds.
             </summary>
+        </member>
+        <member name="M:Subtext.Framework.Syndication.BaseRssWriter.#ctor(System.Int32)">
+            <summary>
+            Creates a new <see cref="T:Subtext.Framework.Syndication.BaseRssWriter"/> instance.
+            </summary>
+            <param name="lastViewedFeedItem">Last viewed feed item.</param>
+        </member>
+        <member name="M:Subtext.Framework.Syndication.BaseRssWriter.Build">
+            <summary>
+            Builds the RSS feed.
+            </summary>
+        </member>
+        <member name="M:Subtext.Framework.Syndication.BaseRssWriter.Build(System.Int32)">
+            <summary>
+            Builds the specified last id viewed.
+            </summary>
+            <param name="lastIdViewed">Last id viewed.</param>
         </member>
         <member name="M:Subtext.Framework.Syndication.BaseRssWriter.SetNamespaces">
             <summary>
             Sets the namespaces used within the RSS feed.
             </summary>
         </member>
+        <member name="M:Subtext.Framework.Syndication.BaseRssWriter.EntryXml(Subtext.Framework.Components.Entry,Subtext.Framework.Configuration.BlogConfigurationSettings,Subtext.Framework.Format.UrlFormats)">
+            <summary>
+            Writes the XML for a single entry.
+            </summary>
+            <param name="entry">Entry.</param>
+            <param name="settings">Settings.</param>
+            <param name="uformat">Uformat.</param>
+        </member>
         <member name="T:Subtext.Framework.Syndication.BaseSyndicationHandler">
             <summary>
-            Summary description for BaseSyndicationHandler.
+            Abstract base class used to respond to requests for 
+            syndicated feeds such as RSS and ATOM.
             </summary>
         </member>
         <member name="M:Subtext.Framework.Syndication.BaseSyndicationHandler.IsLocalCacheOK">
             <summary>
-            Returns whether or not the local cache is OK.
+            Compares the requesting clients <see cref="P:Subtext.Framework.Syndication.BaseSyndicationHandler.LastModifiedHeader"/> against 
+            the date the feed was last updated.  If the feed hasn't been updated, then 
+            it sends a 304 HTTP header indicating such.
             </summary>
             <returns></returns>
         </member>
@@ -2580,6 +3106,12 @@
         <member name="M:Subtext.Framework.Syndication.BaseSyndicationHandler.Send304">
             <summary>
             Send the HTTP status code 304 to the response this instance.
+            </summary>
+        </member>
+        <member name="M:Subtext.Framework.Syndication.BaseSyndicationHandler.ProcessFeed">
+            <summary>
+            Processs the feed. Responds to the incoming request with the 
+            contents of the feed.
             </summary>
         </member>
         <member name="M:Subtext.Framework.Syndication.BaseSyndicationHandler.WriteFeed">
@@ -2595,9 +3127,34 @@
         </member>
         <member name="P:Subtext.Framework.Syndication.BaseSyndicationHandler.LastModifiedHeader">
             <summary>
-            Gets the last modified header.
+            Returns the "If-Modified-Since" HTTP header.  This indicates 
+            the last time the client requested data and is used to 
+            determine whether new data is to be sent.
             </summary>
             <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Syndication.BaseSyndicationHandler.IfNonMatchHeader">
+            <summary>
+            Returns the "If-None-Match" HTTP header.  This is used to indicate 
+            a conditional GET and is used to implement RFC3229 with feeds 
+            <see href="http://bobwyman.pubsub.com/main/2004/09/using_rfc3229_w.html"/>.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Syndication.BaseSyndicationHandler.LastFeedItemReceived">
+            <summary>
+            Gets the ID of the last feed item received by the client. 
+            This is used to determine whether the client is up to date 
+            or whether the client is ready to receive new feed items. 
+            We will then send just the difference.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Syndication.BaseSyndicationHandler.SyndicationWriter">
+            <summary>
+            Gets the syndication writer.
+            </summary>
+            <returns></returns>
         </member>
         <member name="P:Subtext.Framework.Syndication.BaseSyndicationHandler.IsReusable">
             <summary>
@@ -2617,21 +3174,60 @@
             </remarks>
             <value></value>
         </member>
+        <member name="P:Subtext.Framework.Syndication.BaseSyndicationHandler.AcceptsGzipCompression">
+            <summary>
+            Gets a value indicating whether the client accepts gzip compression.
+            </summary>
+            <value>
+            	<c>true</c> if accepts gzip compression; otherwise, <c>false</c>.
+            </value>
+        </member>
         <member name="T:Subtext.Framework.Syndication.CachedFeed">
             <summary>
-            The CachedFeed is a cacheable container for our rss feed(s). Instead of requesting the cache data, processing it,
-            and creating an XML document on each request, we will store the actually Rss document as a cached string.
-            
+            <p>
+            The CachedFeed is a cacheable container for our rss feed(s). Instead of 
+            requesting the cache data, processing it, and creating an XML document 
+            on each request, we will store the actual Rss document as a cached string.
             Generally, it will be returned to the client by calling Response.Write(feed.Xml)
+            </p>
             </summary>
         </member>
-        <member name="M:Subtext.Framework.Syndication.CachedFeed.IsCacheOK(System.String,System.String)">
+        <member name="P:Subtext.Framework.Syndication.CachedFeed.LastModified">
             <summary>
-            Checks to see if the Requesting client has the most recent version of the feed
+            Gets or sets the date this feed was last modified.
             </summary>
-            <param name="CurrentEtag">Etag header sent with Response (If-None-Match)</param>
-            <param name="CurrentLastModifiedDate">LastModified Data header sent with Response (If-Modified-Since)</param>
-            <returns></returns>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Syndication.CachedFeed.ClientHasAllFeedItems">
+            <summary>
+            Gets or sets a value indicating whether client has all feed items. 
+            This is according to RFC3229 with feeds 
+            <see href="http://bobwyman.pubsub.com/main/2004/09/using_rfc3229_w.html"/>.
+            </summary>
+            <value>
+            	<c>true</c> if the client has all feed items; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.Syndication.CachedFeed.LatestFeedItemId">
+            <summary>
+            Gets or sets the latest feed item id. This is the id of the latest feed 
+            item that will be sent to the client.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Syndication.CachedFeed.Etag">
+            <summary>
+            Provides the current value of the entity tag for the requested 
+            variant (<see href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.19"/>). 
+            In our case, it should be the ID of the last feed item sent.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Syndication.CachedFeed.Xml">
+            <summary>
+            Gets or sets the contents of the feed.
+            </summary>
+            <value></value>
         </member>
         <member name="T:Subtext.Framework.Text.HtmlHelper">
             <summary>
@@ -3356,6 +3952,40 @@
         <member name="T:Subtext.Framework.Links">
             <summary>
             Summary description for Links.
+            </summary>
+        </member>
+        <member name="T:Subtext.Framework.NamespaceDoc">
+            <summary>
+            Contains the primary framework classes used by 
+            the Subtext blogging engine.
+            </summary>
+        </member>
+        <member name="T:Subtext.Framework.Configuration.NamespaceDoc">
+            <summary>
+            <p>
+            Contains classes used to read various configuration data 
+            for Subtext.  Configuration data is generally stored in two places, 
+            Web.config or the blog_config table.</p>
+            <p>
+            Either way, the class to use when accessing any configuration setting 
+            is the <see cref="T:Subtext.Framework.Configuration.Config"/> class.  
+            </p>
+            <p>
+            The <see cref="P:Subtext.Framework.Configuration.Config.Settings"/> returns an instance of <see cref="T:Subtext.Framework.Configuration.BlogConfigurationSettings"/> 
+            which contains settings configured in a custom section of Web.config (see the &lt;BlogConfigurationSettings&gt; 
+            tag in Web.config).
+            </p>
+            <p>
+            The <see cref="P:Subtext.Framework.Configuration.Config.CurrentBlog"/> method returns an instance of <see cref="T:Subtext.Framework.Configuration.BlogConfig"/> 
+            contains settings stored in the blog_config table.  This can be used to save settings to 
+            the configuration as well.
+            </p>
+            </summary>
+        </member>
+        <member name="T:Subtext.Framework.Components.NamespaceDoc">
+            <summary>
+            Contains the primary business layer classes such as <see cref="T:Subtext.Framework.Components.Entry"/>, 
+            <see cref="T:Subtext.Framework.Components.Image"/>, <see cref="T:Subtext.Framework.Components.KeyWord"/>.
             </summary>
         </member>
         <member name="T:Subtext.Framework.Security">
