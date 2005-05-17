@@ -31,7 +31,11 @@ namespace Subtext.Common.Syndication
 	/// </summary>
 	public class RssWriter : Subtext.Framework.Syndication.BaseRssWriter
 	{
-		public RssWriter(EntryCollection entries):base()
+		/// <summary>
+		/// Creates a new <see cref="RssWriter"/> instance.
+		/// </summary>
+		/// <param name="entries">Entries.</param>
+		public RssWriter(EntryCollection entries, int lastViewedFeedItem) : base(lastViewedFeedItem)
 		{
 			this.Entries = entries;
 			this.UseAggBugs = true;

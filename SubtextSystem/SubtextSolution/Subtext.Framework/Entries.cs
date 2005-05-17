@@ -114,7 +114,7 @@ namespace Subtext.Framework
 
 		public static EntryCollection GetMainSyndicationEntries(int ItemCount)
 		{
-			return GetConditionalEntries(ItemCount,PostType.BlogPost,PostConfig.IncludeInMainSyndication|PostConfig.IsActive);
+			return GetConditionalEntries(ItemCount, PostType.BlogPost, PostConfig.IncludeInMainSyndication | PostConfig.IsActive);
 		}
 
 		public static EntryCollection GetMainSyndicationEntries(DateTime dt)

@@ -38,6 +38,7 @@ namespace Subtext.Common.Syndication
 	{
 		protected Entry ParentEntry = null;
 		protected EntryCollection Comments = null;
+		EntryCollection comments = null;
 
 		protected override EntryCollection GetFeedEntries()
 		{
@@ -57,16 +58,16 @@ namespace Subtext.Common.Syndication
 
 		protected override CachedFeed BuildFeed()
 		{
-			CachedFeed feed =null;
+			CachedFeed feed = null;
 
-			EntryCollection comments = GetFeedEntries();
+			comments = GetFeedEntries();
 
 			if(comments != null && comments.Count > 0)
 			{
 				feed = new CachedFeed();
 				CommentRssWriter crw = new CommentRssWriter(comments,ParentEntry);
 				feed.LastModified = this.ConvertLastUpdatedDate(comments[comments.Count-1].DateCreated);
-				feed.Xml = crw.GetXml;
+				feed.Xml = crw.Xml;
 			}
 			return feed;
 		}
@@ -86,6 +87,13 @@ namespace Subtext.Common.Syndication
 			return false;			
 		}
 
+		protected override BaseSyndicationWriter SyndicationWriter
+		{
+			get
+			{
+				return new CommentRssWriter(comments, ParentEntry);
+			}
+		}
 	}
 }
 

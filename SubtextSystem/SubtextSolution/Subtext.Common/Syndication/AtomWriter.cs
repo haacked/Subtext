@@ -31,7 +31,12 @@ namespace Subtext.Common.Syndication
 	/// </summary>
 	public class AtomWriter : Subtext.Framework.Syndication.BaseAtomWriter
 	{
-		public AtomWriter(EntryCollection entries):base()
+		/// <summary>
+		/// Creates a new <see cref="AtomWriter"/> instance.
+		/// </summary>
+		/// <param name="entries">Entries.</param>
+		/// <param name="lastViewedFeedItem">Last viewed feed item.</param>
+		public AtomWriter(EntryCollection entries, int lastViewedFeedItem) : base(lastViewedFeedItem)
 		{
 			this.Entries = entries;
 			this.UseAggBugs = true;

@@ -39,6 +39,7 @@ namespace Subtext.Common.Syndication
 	{
 		protected LinkCategory Category = null;
 		protected EntryCollection Posts = null;
+		EntryCollection posts = null;
 
 		protected override EntryCollection GetFeedEntries()
 		{
@@ -60,17 +61,26 @@ namespace Subtext.Common.Syndication
 		{
 			CachedFeed feed =null;
 
-			EntryCollection posts = GetFeedEntries();
+			posts = GetFeedEntries();
 
 			if(posts != null && posts.Count > 0)
 			{
 				feed = new CachedFeed();
 				CategoryWriter cw = new CategoryWriter(posts,Category,WebPathStripper.RemoveRssSlash(Context.Request.Url.ToString()));
 				feed.LastModified = this.ConvertLastUpdatedDate(posts[0].DateCreated);
-				feed.Xml = cw.GetXml;
+				feed.Xml = cw.Xml;
 			}
 			return feed;
 		}
+
+		protected override BaseSyndicationWriter SyndicationWriter
+		{
+			get
+			{
+				return new CategoryWriter(posts, Category,WebPathStripper.RemoveRssSlash(Context.Request.Url.ToString()));
+			}
+		}
+
 
 	}
 }

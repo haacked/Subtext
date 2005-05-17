@@ -57,7 +57,7 @@ namespace Subtext.Common.Syndication
 			return false;			
 		}
 
-		protected override string CacheKey()
+		protected override string CacheKey(int lastViewedId)
 		{
 			return null;
 		}

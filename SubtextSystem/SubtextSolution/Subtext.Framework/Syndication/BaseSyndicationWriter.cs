@@ -11,21 +11,44 @@ namespace Subtext.Framework.Syndication
     /// </summary>
     public abstract class BaseSyndicationWriter : XmlTextWriter
     {
-
         private StringWriter writer  = null;
         protected BlogConfig config;
+		int lastViewedFeedItemId = int.MinValue;
+		protected int latestFeedItemId = int.MinValue;
+		protected bool clientHasAllFeedItems = false;
 
-        protected BaseSyndicationWriter(StringWriter sw): base(sw)
-        {
-            writer = sw;
-            config = Config.CurrentBlog;
+		/// <summary>
+		/// Creates a new <see cref="BaseSyndicationWriter"/> instance.
+		/// </summary>
+		/// <param name="sw">Sw.</param>
+        protected BaseSyndicationWriter(StringWriter sw) : this(sw, int.MinValue)
+        {   
         }
 
-        protected BaseSyndicationWriter(): this(new StringWriter())
+		/// <summary>
+		/// Creates a new <see cref="BaseSyndicationWriter"/> instance.
+		/// </summary>
+		/// <param name="lastViewedFeedItem"></param>
+        protected BaseSyndicationWriter(int lastViewedFeedItem) : this(new StringWriter(), lastViewedFeedItem)
         {
-			
-        }
+		}
 
+		/// <summary>
+		/// Creates a new <see cref="BaseSyndicationWriter"/> instance.
+		/// </summary>
+		/// <param name="sw">Sw.</param>
+		/// <param name="lastViewedFeedItem">Last viewed feed item.</param>
+		protected BaseSyndicationWriter(StringWriter sw, int lastViewedFeedItem) : base(sw)
+		{
+			lastViewedFeedItemId = lastViewedFeedItem;	
+			writer = sw;
+			config = Config.CurrentBlog;
+		}
+
+		/// <summary>
+		/// Gets the string writer.
+		/// </summary>
+		/// <value></value>
         public StringWriter StringWriter
         {
             get
@@ -35,17 +58,65 @@ namespace Subtext.Framework.Syndication
             }
         }
 
-        public string GetXml
+		/// <summary>
+		/// Gets the XML.
+		/// </summary>
+		/// <value></value>
+        public string Xml
         {
-            get{return this.StringWriter.ToString();}
+            get
+			{
+				return this.StringWriter.ToString();
+			}
         }
 
+		/// <summary>
+		/// Returns the XML
+		/// </summary>
+		/// <returns></returns>
         public override string ToString()
         {
-            return GetXml;
+            return Xml;
         }
 
-        private bool _useAggBugs = false;
+		/// <summary>
+		/// Gets a value indicating whether [client has all feed items].
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if [client has all feed items]; otherwise, <c>false</c>.
+		/// </value>
+		public bool ClientHasAllFeedItems
+		{
+			get
+			{
+				return clientHasAllFeedItems;
+			}
+		}
+
+		/// <summary>
+		/// Gets the latest feed item id that will be returned to 
+		/// the client.  This will be placed in the ETag.
+		/// </summary>
+		/// <value></value>
+		public int LatestFeedItemId
+		{
+			get
+			{
+				return this.latestFeedItemId;
+			}
+		}
+
+		/// <summary>
+		/// Gets the id of last viewed feed item according 
+		/// to the client request.
+		/// </summary>
+		/// <value></value>
+    	public int LastViewedFeedItemId
+    	{
+    		get { return this.lastViewedFeedItemId; }
+    	}
+
+    	private bool _useAggBugs = false;
         public bool UseAggBugs
         {
             get {return this._useAggBugs;}
@@ -67,5 +138,6 @@ namespace Subtext.Framework.Syndication
         }
 
         protected abstract void Build();
+		protected abstract void Build(int lastIdViewed);
     }
 }

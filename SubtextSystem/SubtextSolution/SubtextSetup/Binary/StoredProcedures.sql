@@ -873,7 +873,7 @@ FROM blog_Content
 WHERE	blog_Content.PostType=@PostType 
 	AND blog_Content.BlogID = @BlogID
 	AND blog_Content.PostConfig & @PostConfig = @PostConfig
-ORDER BY blog_Content.[dateadded] DESC
+ORDER BY blog_Content.[ID] DESC
 
 
 GO
@@ -924,7 +924,7 @@ WHERE	blog_Content.PostType=@PostType
 	AND blog_Content.BlogID = @BlogID
 	AND blog_Content.PostConfig & @PostConfig = @PostConfig 
 	AND blog_Content.DateUpdated > @DateUpdated
-ORDER BY blog_Content.[dateadded] DESC
+ORDER BY blog_Content.[ID] DESC
 
 
 GO

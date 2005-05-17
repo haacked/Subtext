@@ -92,8 +92,14 @@ namespace Subtext.Framework.Configuration
 		/// <value></value>
 		public DateTime LastUpdated
 		{
-			get{return _lastupdated;}
-			set{_lastupdated = value;}
+			get
+			{
+				return _lastupdated;
+			}
+			set
+			{
+				_lastupdated = value;
+			}
 		}
 
 		private int _blogID = -1;
