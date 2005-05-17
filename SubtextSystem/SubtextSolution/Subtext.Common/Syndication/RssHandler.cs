@@ -33,27 +33,16 @@ namespace Subtext.Common.Syndication
 	/// </summary>
 	public class RssHandler : Subtext.Framework.Syndication.BaseSyndicationHandler
 	{
+		BaseSyndicationWriter writer = null;
+
 		/// <summary>
 		/// Returns the cache key for the feed.
 		/// </summary>
 		/// <returns></returns>
-		protected override string CacheKey()
+		protected override string CacheKey(int lastViewedId)
 		{
-			const string key = "IndividualMainFeed:BlogID{0}";
-			return string.Format(key,CurrentBlog.BlogID);
-		}
-
-		/// <summary>
-		/// Builds the RSS feed.
-		/// </summary>
-		/// <returns></returns>
-		protected override CachedFeed BuildFeed()
-		{
-			CachedFeed feed = new CachedFeed();
-			feed.LastModified = this.ConvertLastUpdatedDate(CurrentBlog.LastUpdated);
-			RssWriter writer = new RssWriter(Entries.GetMainSyndicationEntries(CurrentBlog.ItemCount));
-			feed.Xml = writer.GetXml;
-			return feed;
+			const string key = "IndividualMainFeed;BlogID:{0};LastViewed:{1}";
+			return string.Format(key, CurrentBlog.BlogID, lastViewedId);
 		}
 
 		/// <summary>
@@ -62,7 +51,23 @@ namespace Subtext.Common.Syndication
 		/// <param name="feed">Feed.</param>
 		protected override void Cache(CachedFeed feed)
 		{
-			Context.Cache.Insert(CacheKey(),feed,null,DateTime.Now.AddSeconds((double)Subtext.Common.Data.CacheTime.Medium),TimeSpan.Zero);
+			Context.Cache.Insert(CacheKey(this.SyndicationWriter.LatestFeedItemId), feed, null, DateTime.Now.AddSeconds((double)Subtext.Common.Data.CacheTime.Medium), TimeSpan.Zero);
+		}
+
+		/// <summary>
+		/// Gets the syndication writer.
+		/// </summary>
+		/// <returns></returns>
+		protected override BaseSyndicationWriter SyndicationWriter
+		{
+			get
+			{
+				if(writer == null)
+				{
+					writer = new RssWriter(Entries.GetMainSyndicationEntries(CurrentBlog.ItemCount), this.LastFeedItemReceived);
+				}
+				return writer;
+			}
 		}
 	}
 }

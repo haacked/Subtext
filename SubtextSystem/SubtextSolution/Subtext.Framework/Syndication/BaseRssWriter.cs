@@ -7,13 +7,33 @@ using Subtext.Framework.Tracking;
 namespace Subtext.Framework.Syndication
 {
 	/// <summary>
-	/// Summary description for BaseRssWriter.
+	/// Abstract base class used to write RSS feeds.
 	/// </summary>
 	public abstract class BaseRssWriter : BaseSyndicationWriter
 	{
 		private bool isBuilt = false;
 
+		/// <summary>
+		/// Creates a new <see cref="BaseRssWriter"/> instance.
+		/// </summary>
+		/// <param name="lastViewedFeedItem">Last viewed feed item.</param>
+		protected BaseRssWriter(int lastViewedFeedItem) : base(lastViewedFeedItem)
+		{
+		}
+
+		/// <summary>
+		/// Builds the RSS feed.
+		/// </summary>
 		protected override void Build()
+		{
+			Build(this.LastViewedFeedItemId);
+		}
+
+		/// <summary>
+		/// Builds the specified last id viewed.
+		/// </summary>
+		/// <param name="lastIdViewed">Last id viewed.</param>
+		protected override void Build(int lastIdViewed)
 		{
 			if(!isBuilt)
 			{
@@ -21,23 +41,22 @@ namespace Subtext.Framework.Syndication
 				SetNamespaces();
 				StartChannel();
 				WriteChannel();
-				WalkEntries();
+				WriteEntries();
 				EndChannel();
 				EndDocument();
 				isBuilt = true;
-			}
+			}		
 		}
-
 
 		/// <summary>
 		/// Sets the namespaces used within the RSS feed.
 		/// </summary>
 		protected virtual void SetNamespaces()
 		{
-			this.WriteAttributeString("xmlns:dc","http://purl.org/dc/elements/1.1/");
-			this.WriteAttributeString("xmlns:trackback","http://madskills.com/public/xml/rss/module/trackback/");
-			this.WriteAttributeString("xmlns:wfw","http://wellformedweb.org/CommentAPI/");
-			this.WriteAttributeString("xmlns:slash","http://purl.org/rss/1.0/modules/slash/");
+			this.WriteAttributeString("xmlns:dc", "http://purl.org/dc/elements/1.1/");
+			this.WriteAttributeString("xmlns:trackback", "http://madskills.com/public/xml/rss/module/trackback/");
+			this.WriteAttributeString("xmlns:wfw", "http://wellformedweb.org/CommentAPI/");
+			this.WriteAttributeString("xmlns:slash", "http://purl.org/rss/1.0/modules/slash/");
 			
 			// Copyright notice
 			this.WriteAttributeString("xmlns:copyright", "http://blogs.law.harvard.edu/tech/rss");
@@ -122,30 +141,57 @@ namespace Subtext.Framework.Syndication
 			this.WriteEndElement();
 		}
 
-		private void WalkEntries()
+		private void WriteEntries()
 		{
-			//IUrlFormat format = UrlFormat.Instance();
 			BlogConfigurationSettings settings = Config.Settings;
+			this.clientHasAllFeedItems = true;
+			this.latestFeedItemId = this.LastViewedFeedItemId;
+			
 			foreach(Entry entry in this.Entries)
 			{
+				if(entry.EntryID <= LastViewedFeedItemId)
+				{
+					// Since Entries are ordered by ID descending, as soon 
+					// as we encounter one that is smaller than or equal to 
+					// one the client has already seen, we're done as we 
+					// know the client already has the rest of the items in 
+					// the collection.
+					return;
+				}
+
+				// If we're here, we know that entry.EntryId is larger than 
+				// the LastViewedFeedItemId.  Thus we can send it.
 				this.WriteStartElement("item");
-
-				EntryXml(entry,settings,config.UrlFormats);
-
+				EntryXml(entry, settings, config.UrlFormats);
 				this.WriteEndElement();
+				if(entry.EntryID > base.latestFeedItemId)
+				{
+					base.latestFeedItemId = entry.EntryID;
+				}
+
+				this.clientHasAllFeedItems = false;
 			}
 		}
 
+		/// <summary>
+		/// Writes the XML for a single entry.
+		/// </summary>
+		/// <param name="entry">Entry.</param>
+		/// <param name="settings">Settings.</param>
+		/// <param name="uformat">Uformat.</param>
 		protected virtual void EntryXml(Entry entry, BlogConfigurationSettings settings, UrlFormats uformat)
 		{
 			this.WriteElementString("dc:creator",entry.Author);
+			
 			//core
-			this.WriteElementString("title",entry.Title);
+			this.WriteElementString("title", entry.Title);
+			
 			//core
-			this.WriteElementString("link",entry.Link);
-			this.WriteElementString("pubDate",entry.DateCreated.ToString("r"));
+			this.WriteElementString("link", entry.Link);
+			this.WriteElementString("pubDate", entry.DateCreated.ToString("r"));
+			
 			//core Should we set the 
-			this.WriteElementString("guid",entry.Link);
+			this.WriteElementString("guid", entry.Link);
 
 			if(AllowComments && config.EnableComments && entry.AllowComments && !entry.CommentingClosed)
 			{
@@ -163,16 +209,15 @@ namespace Subtext.Framework.Syndication
 			}
 
 			this.WriteElementString
-				(
+			(
 				"description", //Tag
 				string.Format
-				(
-				"{0}{1}", //tag def
-				entry.SyndicateDescriptionOnly ? entry.Description : entry.Body,  //use desc or full post
-				(UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(uformat.AggBugkUrl(entry.EntryID)) : null //use aggbugs
+					(
+					"{0}{1}", //tag def
+					entry.SyndicateDescriptionOnly ? entry.Description : entry.Body,  //use desc or full post
+					(UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(uformat.AggBugkUrl(entry.EntryID)) : null //use aggbugs
 				)
-				);
-					
+			);
 					
 			//optional
 			if(settings.UseXHTML && entry.IsXHMTL)

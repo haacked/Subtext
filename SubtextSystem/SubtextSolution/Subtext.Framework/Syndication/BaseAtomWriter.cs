@@ -63,14 +63,34 @@ namespace Subtext.Framework.Syndication
 
 		private bool isBuilt = false;
 
+		/// <summary>
+		/// Bases the syndication writer.
+		/// </summary>
+		/// <param name="lastViewedFeedItem">Last viewed feed item.</param>
+		protected BaseAtomWriter(int lastViewedFeedItem) : base(lastViewedFeedItem)
+		{
+		}
+
 		protected override void Build()
+		{
+			if(!isBuilt)
+			{
+				Build(this.LastViewedFeedItemId);
+			}
+		}
+
+		/// <summary>
+		/// Builds the specified last id viewed.
+		/// </summary>
+		/// <param name="lastIdViewed">Last id viewed.</param>
+		protected override void Build(int lastIdViewed)
 		{
 			if(!isBuilt)
 			{
 				StartDocument();
 				SetNamespaces();
 				WriteChannel();
-				WalkEntries();
+				WriteEntries();
 				EndDocument();
 				isBuilt = true;
 			}
@@ -127,26 +147,33 @@ namespace Subtext.Framework.Syndication
 
 			this.WriteStartElement("generator");
 				this.WriteAttributeString("url","http://scottwater.com/blog");
-				this.WriteAttributeString("version",VersionInfo.Version);
+				this.WriteAttributeString("version", VersionInfo.Version);
 				this.WriteString(".Text");
 			this.WriteEndElement();
 
 			this.WriteElementString("modified",W3UTCZ(config.LastUpdated));
 		}
 
-		private void WalkEntries()
+		private void WriteEntries()
 		{
-			//IUrlFormat format = UrlFormat.Instance();
 			BlogConfigurationSettings settings = Config.Settings;
 
 			string timezone = TimeZone(config.TimeZone);
+			this.clientHasAllFeedItems = true;
+			this.latestFeedItemId = this.LastViewedFeedItemId;
 			foreach(Entry entry in this.Entries)
 			{
-				this.WriteStartElement("entry");
-
-				EntryXml(entry,settings,config.UrlFormats,timezone);
-
-				this.WriteEndElement();
+				if(entry.EntryID > LastViewedFeedItemId)
+				{
+					this.WriteStartElement("entry");
+					EntryXml(entry, settings, config.UrlFormats, timezone);
+					this.WriteEndElement();
+					this.clientHasAllFeedItems = false;
+					if(entry.EntryID > base.latestFeedItemId)
+					{
+						base.latestFeedItemId = entry.EntryID;
+					}
+				}
 			}
 		}
 

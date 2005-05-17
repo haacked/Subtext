@@ -22,8 +22,8 @@ namespace Subtext.Common.Syndication
 			set {this._url = value;}
 		}
 
-
-		public CategoryWriter(EntryCollection ec, LinkCategory lc, string Url):base(ec)
+		//TODO: implement lastViewedId
+		public CategoryWriter(EntryCollection ec, LinkCategory lc, string Url) : base(ec, int.MinValue)
 		{
 			this.Category = lc;
 			this.Url = Url;

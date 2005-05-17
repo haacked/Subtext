@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Web;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Syndication.Compression;
@@ -7,16 +8,21 @@ using Subtext.Framework.Util;
 namespace Subtext.Framework.Syndication
 {
 	/// <summary>
-	/// Summary description for BaseSyndicationHandler.
+	/// Abstract base class used to respond to requests for 
+	/// syndicated feeds such as RSS and ATOM.
 	/// </summary>
 	public abstract class BaseSyndicationHandler : System.Web.IHttpHandler
 	{
+		const int HTTP_IM_USED = 226;
+
 		protected BlogConfig CurrentBlog = null;
 		protected HttpContext Context = null;
 		protected CachedFeed Feed = null;
 
 		/// <summary>
-		/// Gets the last modified header.
+		/// Returns the "If-Modified-Since" HTTP header.  This indicates 
+		/// the last time the client requested data and is used to 
+		/// determine whether new data is to be sent.
 		/// </summary>
 		/// <value></value>
 		protected string LastModifiedHeader
@@ -28,7 +34,49 @@ namespace Subtext.Framework.Syndication
 		}
 
 		/// <summary>
-		/// Returns whether or not the local cache is OK.
+		/// Returns the "If-None-Match" HTTP header.  This is used to indicate 
+		/// a conditional GET and is used to implement RFC3229 with feeds 
+		/// <see href="http://bobwyman.pubsub.com/main/2004/09/using_rfc3229_w.html"/>.
+		/// </summary>
+		/// <value></value>
+		protected string IfNonMatchHeader
+		{
+			get
+			{
+				return Context.Request.Headers["If-None-Match"] as string;	
+			}
+		}
+
+		/// <summary>
+		/// Gets the ID of the last feed item received by the client. 
+		/// This is used to determine whether the client is up to date 
+		/// or whether the client is ready to receive new feed items. 
+		/// We will then send just the difference.
+		/// </summary>
+		/// <value></value>
+		protected int LastFeedItemReceived
+		{
+			get
+			{
+				if(IfNonMatchHeader != null && IfNonMatchHeader.Length > 0)
+				{
+					try
+					{
+						return int.Parse(IfNonMatchHeader);
+					}
+					catch(System.FormatException)
+					{
+						//Swallow it.
+					}
+				}
+				return int.MinValue;
+			}
+		}
+
+		/// <summary>
+		/// Compares the requesting clients <see cref="LastModifiedHeader"/> against 
+		/// the date the feed was last updated.  If the feed hasn't been updated, then 
+		/// it sends a 304 HTTP header indicating such.
 		/// </summary>
 		/// <returns></returns>
 		protected virtual bool IsLocalCacheOK()
@@ -39,7 +87,11 @@ namespace Subtext.Framework.Syndication
 				try
 				{
 					DateTime feedDT = DateTime.Parse(dt);
-					return DateTime.Compare(feedDT,ConvertLastUpdatedDate(CurrentBlog.LastUpdated)) == 0;
+					DateTime lastUpdated = ConvertLastUpdatedDate(CurrentBlog.LastUpdated); 
+					TimeSpan ts = feedDT - lastUpdated;
+					
+					//We need to allow some margin of error.
+					return Math.Abs(ts.TotalMilliseconds) <= 500;
 				}
 				catch{}
 			}
@@ -52,7 +104,7 @@ namespace Subtext.Framework.Syndication
 		/// <returns></returns>
 		protected virtual bool IsHttpCacheOK()
 		{
-			Feed = Context.Cache[this.CacheKey()] as CachedFeed;
+			Feed = Context.Cache[this.CacheKey(this.LastFeedItemReceived)] as CachedFeed;
 			if(Feed == null)
 			{
 				return false;
@@ -70,33 +122,59 @@ namespace Subtext.Framework.Syndication
 
 		protected DateTime ConvertLastUpdatedDate(DateTime dt)
 		{
-			return BlogTime.ConvertToServerTime(dt,CurrentBlog.TimeZone);
+			return BlogTime.ConvertToServerTime(dt, CurrentBlog.TimeZone);
 		}
 
+		/// <summary>
+		/// Processs the feed. Responds to the incoming request with the 
+		/// contents of the feed.
+		/// </summary>
 		protected virtual void ProcessFeed()
 		{
 			if(IsLocalCacheOK())
 			{
 				Send304();
+				return;
 			}
-			else
+			
+			if(!IsHttpCacheOK())
 			{
-				if(!IsHttpCacheOK())
+				Feed = BuildFeed();
+				if(Feed != null)
 				{
-					Feed = BuildFeed();
-					if(Feed != null)
+					if(Feed.ClientHasAllFeedItems)
 					{
-						Cache(Feed);
+						Send304();
+						return;
 					}
+					Cache(Feed);
 				}
-
-				WriteFeed();
 			}
+
+			WriteFeed();
 		}
 
-		protected abstract CachedFeed BuildFeed();
-		protected abstract string CacheKey();
+		protected abstract string CacheKey(int lastViewedId);
 		protected abstract void Cache(CachedFeed feed);
+		
+		/// <summary>
+		/// Gets the syndication writer.
+		/// </summary>
+		/// <returns></returns>
+		protected abstract BaseSyndicationWriter SyndicationWriter{ get; }
+
+		protected virtual CachedFeed BuildFeed()
+		{
+			CachedFeed feed = new CachedFeed();
+			feed.LastModified = this.ConvertLastUpdatedDate(CurrentBlog.LastUpdated);
+			BaseSyndicationWriter writer = SyndicationWriter;
+			feed.Xml = writer.Xml;
+			feed.ClientHasAllFeedItems = writer.ClientHasAllFeedItems;
+			feed.Etag = writer.LatestFeedItemId.ToString(CultureInfo.InvariantCulture);
+			feed.LatestFeedItemId = writer.LatestFeedItemId;
+
+			return feed;
+		}
 
 		/// <summary>
 		/// Writes the feed to the response.
@@ -107,7 +185,7 @@ namespace Subtext.Framework.Syndication
 
 			if(Feed != null)
 			{
-				if(Config.CurrentBlog.UseSyndicationCompression && this.AcceptEncoding != null)
+				if(Config.CurrentBlog.UseSyndicationCompression && this.AcceptsGzipCompression)
 				{
 					// We're GZip Encoding!
 					SyndicationCompressionFilter filter = SyndicationCompressionHelper.GetFilterForScheme(this.AcceptEncoding, Context.Response.Filter);
@@ -129,10 +207,19 @@ namespace Subtext.Framework.Syndication
 				Context.Response.Cache.SetCacheability(HttpCacheability.Public);
 				Context.Response.Cache.SetLastModified(Feed.LastModified);
 				Context.Response.Cache.SetETag(Feed.Etag);
+				if(AcceptsGzipCompression)
+				{
+					Context.Response.AddHeader("IM", "feed, gzip");
+				}
+				else
+				{
+					Context.Response.AddHeader("IM", "feed");
+				}
+				Context.Response.StatusCode = HTTP_IM_USED; //IM Used
+
 				Context.Response.Write(Feed.Xml);
 			}
 		}
-
 
 		/// <summary>
 		/// Processs the request and sends the feed to the response.
@@ -144,7 +231,6 @@ namespace Subtext.Framework.Syndication
 			Context = context;
 
 			ProcessFeed();
-
 		}
 
 		/// <summary>
@@ -173,7 +259,38 @@ namespace Subtext.Framework.Syndication
 		{
 			get
 			{
-				return Context.Request.Headers["Accept-Encoding"];
+				string header = Context.Request.Headers["Accept-Encoding"];
+				if(header != null)
+					return header;
+				else
+					return string.Empty;
+			}
+		}
+
+		protected string AcceptIMHeader
+		{
+			get
+			{
+				string header = Context.Request.Headers["A-IM"];
+				if(header != null)
+					return header;
+				else
+					return string.Empty;
+			}
+		}
+
+		/// <summary>
+		/// Gets a value indicating whether the client accepts gzip compression.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if accepts gzip compression; otherwise, <c>false</c>.
+		/// </value>
+		protected bool AcceptsGzipCompression
+		{
+			get
+			{
+				return AcceptEncoding.IndexOf("gzip") >= 0 || 
+					AcceptIMHeader.IndexOf("gzip") >= 0;
 			}
 		}
 	}

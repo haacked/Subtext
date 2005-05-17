@@ -35,8 +35,12 @@ namespace Subtext.Common.Syndication
 	{
 		private Entry CommentEntry = null;
 
-		
-		public CommentRssWriter(EntryCollection ec, Entry ce):base()
+		/// <summary>
+		/// Creates a new <see cref="CommentRssWriter"/> instance.
+		/// </summary>
+		/// <param name="ec">Ec.</param>
+		/// <param name="ce">Ce.</param>
+		public CommentRssWriter(EntryCollection ec, Entry ce) : base(int.MinValue)
 		{
 			this.Entries = ec;
 			this.CommentEntry = ce;
