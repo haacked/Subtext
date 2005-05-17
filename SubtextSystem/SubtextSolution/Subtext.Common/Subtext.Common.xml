@@ -149,10 +149,23 @@
             Summary description for RssHandler.
             </summary>
         </member>
+        <member name="P:Subtext.Common.Syndication.AtomHandler.SyndicationWriter">
+            <summary>
+            Gets the syndication writer.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Subtext.Common.Syndication.AtomWriter">
             <summary>
             Generates RSS
             </summary>
+        </member>
+        <member name="M:Subtext.Common.Syndication.AtomWriter.#ctor(Subtext.Framework.Components.EntryCollection,System.Int32)">
+            <summary>
+            Creates a new <see cref="T:Subtext.Common.Syndication.AtomWriter"/> instance.
+            </summary>
+            <param name="entries">Entries.</param>
+            <param name="lastViewedFeedItem">Last viewed feed item.</param>
         </member>
         <member name="T:Subtext.Common.Syndication.CategoryWriter">
             <summary>
@@ -164,6 +177,12 @@
             Generates RSS
             </summary>
         </member>
+        <member name="M:Subtext.Common.Syndication.RssWriter.#ctor(Subtext.Framework.Components.EntryCollection,System.Int32)">
+            <summary>
+            Creates a new <see cref="T:Subtext.Common.Syndication.RssWriter"/> instance.
+            </summary>
+            <param name="entries">Entries.</param>
+        </member>
         <member name="T:Subtext.Common.Syndication.CommentHandler">
             <summary>
             Implementation of http://wellformedweb.org/story/9
@@ -174,6 +193,13 @@
             <summary>
             Generates CommentRssWriter 
             </summary>
+        </member>
+        <member name="M:Subtext.Common.Syndication.CommentRssWriter.#ctor(Subtext.Framework.Components.EntryCollection,Subtext.Framework.Components.Entry)">
+            <summary>
+            Creates a new <see cref="T:Subtext.Common.Syndication.CommentRssWriter"/> instance.
+            </summary>
+            <param name="ec">Ec.</param>
+            <param name="ce">Ce.</param>
         </member>
         <member name="T:Subtext.Common.Syndication.EntryCollectionHandler">
             <summary>
@@ -198,15 +224,9 @@
             Class used to handle requests for an RSS feed.
             </summary>
         </member>
-        <member name="M:Subtext.Common.Syndication.RssHandler.CacheKey">
+        <member name="M:Subtext.Common.Syndication.RssHandler.CacheKey(System.Int32)">
             <summary>
             Returns the cache key for the feed.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Subtext.Common.Syndication.RssHandler.BuildFeed">
-            <summary>
-            Builds the RSS feed.
             </summary>
             <returns></returns>
         </member>
@@ -215,6 +235,12 @@
             Caches the specified RSS feed.
             </summary>
             <param name="feed">Feed.</param>
+        </member>
+        <member name="P:Subtext.Common.Syndication.RssHandler.SyndicationWriter">
+            <summary>
+            Gets the syndication writer.
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Subtext.Common.UrlManager.BlogStaticFileHandler">
             <summary>
@@ -309,7 +335,8 @@
         </member>
         <member name="T:Subtext.Common.UrlManager.HttpForbiddenHandler">
             <summary>
-            System.Web.HttpForbiddenHandler is not accessible. This just simulates System.Web.HttpForbiddenHandler.
+            System.Web.HttpForbiddenHandler is not accessible.  
+            This just simulates System.Web.HttpForbiddenHandler.
             </summary>
         </member>
         <member name="T:Subtext.Common.UrlManager.HttpHandler">
@@ -352,9 +379,16 @@
             <param name="path">The physical path of the current request. Is not gaurenteed 
             to exist (Passed along to other IHttpHandlerFactory's)</param>
             <returns>
-            Returns an Instance of IHttpHandler either by loading an instance of IHttpHandler or by returning an other
-            IHttpHandlerFactory.GetHanlder(HttpContext context, string requestType, string url, string path) method
+            Returns an Instance of IHttpHandler either by loading an instance of IHttpHandler 
+            or by returning an other 
+            IHttpHandlerFactory.GetHandlder(HttpContext context, string requestType, string url, string path) method
             </returns>
+        </member>
+        <member name="M:Subtext.Common.UrlManager.UrlReWriteHandlerFactory.ReleaseHandler(System.Web.IHttpHandler)">
+            <summary>
+            Releases the handler.
+            </summary>
+            <param name="handler">Handler.</param>
         </member>
     </members>
 </doc>

@@ -1652,6 +1652,119 @@
             </value>
             <remarks>Please refer to <see cref="P:System.Collections.ArrayList.SyncRoot"/> for details.</remarks>
         </member>
+        <member name="M:Subtext.Web.Admin.ConfirmCommand.FormatMessage(System.String,System.Object[])">
+            <summary>
+            Formats the message.
+            </summary>
+            <param name="format">Format.</param>
+            <param name="args">Args.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Web.Admin.ConfirmCommand.GetDisplayTextFromIntArray(System.Int32[])">
+            <summary>
+            Simply concatenates an array of integers for display as text 
+            using commas.  ex... "1, 2, 3"
+            </summary>
+            <param name="integers">Integers.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Subtext.Web.Admin.DeleteTargetsCommand">
+            <summary>
+            Represents a command for deleting multiple targets.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.DeleteTargetsCommand.#ctor">
+            <summary>
+            Creates a new <see cref="T:Subtext.Web.Admin.DeleteTargetsCommand"/> instance.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.DeleteTargetsCommand.#ctor(System.Int32[])">
+            <summary>
+            Creates a new <see cref="T:Subtext.Web.Admin.DeleteTargetsCommand"/> instance.
+            </summary>
+            <param name="targetIDs">Target ID.</param>
+        </member>
+        <member name="M:Subtext.Web.Admin.DeleteTargetsCommand.#ctor(System.String,System.Int32[])">
+            <summary>
+            Deletes the target command.
+            </summary>
+            <param name="targetName">Name of the target.</param>
+            <param name="targetIDs">Target ID.</param>
+        </member>
+        <member name="M:Subtext.Web.Admin.DeleteTargetsCommand.Cancel">
+            <summary>
+            Cancels the command.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Subtext.Web.Admin.DeleteTargetsCommand.PromptMessage">
+            <summary>
+            Gets or sets the prompt message.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:Subtext.Web.Admin.DeleteCommentCommand.#ctor(System.Int32)">
+            <summary>
+            Creates a new <see cref="T:Subtext.Web.Admin.DeleteCommentCommand"/> instance.
+            </summary>
+            <param name="postID">Post ID.</param>
+        </member>
+        <member name="M:Subtext.Web.Admin.DeleteCommentCommand.Execute">
+            <summary>
+            Executes this instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Subtext.Web.Admin.DeleteCommentsCommand">
+            <summary>
+            Command to delete multiple comments.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.DeleteCommentsCommand.#ctor(System.Int32[])">
+            <summary>
+            Creates a new <see cref="T:Subtext.Web.Admin.DeleteCommentsCommand"/> instance.
+            </summary>
+            <param name="postIDs">Post IDs.</param>
+        </member>
+        <member name="M:Subtext.Web.Admin.DeleteCommentsCommand.Execute">
+            <summary>
+            Executes this command.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Subtext.Web.Admin.WebUI.HeaderLink">
+            <summary>
+            Renders a link tag for CSS.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Admin.WebUI.ScriptTag">
+            <summary>
+            Renders a script tag.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.WebUI.ScriptTag.Render(System.Web.UI.HtmlTextWriter)">
+            <summary>
+            Renders a &lt;script&gt; tag.
+            </summary>
+            <param name="output">Output.</param>
+        </member>
+        <member name="P:Subtext.Web.Admin.WebUI.ScriptTag.Src">
+            <summary>
+            Gets or sets the SRC of the script.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Web.Admin.WebUI.ScriptTag.Type">
+            <summary>
+            Gets or sets the type of the script.
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Subtext.Web.Admin.Pages.AdminPage">
+            <summary>
+            Base Pag class for all pages in the admin tool.
+            </summary>
+        </member>
         <member name="T:Subtext.Web.Admin.Pages.ConfirmationPage">
             <summary>
             Will cause the user to confirm navigating away from the current page. This behavior can be overriden.
@@ -1734,6 +1847,12 @@
             the contents of this method with the code editor.
             </summary>
         </member>
+        <member name="T:Subtext.Web.Admin.Pages.Feedback">
+            <summary>
+            Displays comments posted to the blog and allows the 
+            admin to delete comments.
+            </summary>
+        </member>
         <member name="M:Subtext.Web.Admin.Pages.Feedback.InitializeComponent">
             <summary>
             Required method for Designer support - do not modify
@@ -1763,6 +1882,17 @@
             the contents of this method with the code editor.
             </summary>
         </member>
+        <member name="T:Subtext.Web.Queue">
+            <summary>
+            Summary description for Queue.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Queue.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
         <member name="M:Subtext.Web.Admin.Pages.Referrers.InitializeComponent">
             <summary>
             Required method for Designer support - do not modify
@@ -1781,6 +1911,17 @@
             </summary>
         </member>
         <member name="M:Subtext.Web.Admin.Pages.StatsView.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Admin.Syndication">
+            <summary>
+            Admin Page used to set syndication settings.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Syndication.InitializeComponent">
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
@@ -1950,8 +2091,16 @@
         </member>
         <member name="T:Subtext.Web.UI.Controls.Footer">
             <summary>
-            	Summary description for Header.
+            Footer control, displayed at the bottom of most skins. 
+            Contains a <see cref="!:System.Web.UI.WebControls.Literal;"/> 
+            control which displays the author name.
             </summary>
+        </member>
+        <member name="M:Subtext.Web.UI.Controls.Footer.OnLoad(System.EventArgs)">
+            <summary>
+            Sets the FooterText.Text property to the CurrentBlog.Author
+            </summary>
+            <param name="e">E.</param>
         </member>
         <member name="T:Subtext.Web.UI.Controls.GalleryThumbNailViewer">
             <summary>
@@ -2012,37 +2161,74 @@
         </member>
         <member name="T:Subtext.Web.UI.Controls.ViewPost">
             <summary>
-            	Summary description for ViewStory.
+            Control used to view a single blog post.
             </summary>
+        </member>
+        <member name="M:Subtext.Web.UI.Controls.ViewPost.OnLoad(System.EventArgs)">
+            <summary>
+            Loads the entry specified by the URL.  If the user is an 
+            admin and the skin supports it, will also display an edit 
+            link that navigates to the admin section and allows the 
+            admin to edit the post.
+            </summary>
+            <param name="e"></param>
         </member>
         <member name="T:Subtext.Web.UI.Pages.BaseBlogPageHandlerFactory">
             <summary>
-            Summary description for BaseBlogPageHandlerFactory.
+            Abstract base factory class for creating blog page handlers.
             </summary>
         </member>
-        <member name="T:Subtext.Web.UI.Handlers.BlogExistingPageHandler">
+        <member name="M:Subtext.Web.UI.Pages.BaseBlogPageHandlerFactory.GetHandler(System.Web.HttpContext,System.String,System.String,System.String)">
             <summary>
-            Most pages in WebUI do not exist and are loaded via Activator.CreateInstance(Page page). 
-            However, the admin pages exist and must be parsed. When in BlogRequestType.Multiple the 
-            admin directory likely exists in a different directory than request. This Handler will 
-            edit the path property and reset it to the actual path.
+            Creates and returns the handler based on the specifed 
+            HttpContext, request type, url, and path.
             </summary>
+            <param name="context">Context.</param>
+            <param name="requestType">Request type.</param>
+            <param name="url">URL.</param>
+            <param name="path">Path.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Web.UI.Pages.BaseBlogPageHandlerFactory.ReleaseHandler(System.Web.IHttpHandler)">
+            <summary>
+            Releases the handler. Currently does nothing.
+            </summary>
+            <param name="handler">Handler.</param>
+        </member>
+        <member name="P:Subtext.Web.UI.Pages.BaseBlogPageHandlerFactory.PageType">
+            <summary>
+            Gets the page type.
+            </summary>
+            <value></value>
         </member>
         <member name="T:Subtext.Web.UI.Handlers.BlogSecondaryCssHandler">
             <summary>
-            Summary description for BlogSecondaryCssHandler.
+            HTTP Handler for rendering a CSS stylesheet.  
+            This renders the CSS markup stored in the Secondary CSS field within 
+            the admin options for a blog configuration.
             </summary>
         </member>
-        <member name="T:Subtext.Web.UI.Pages.PageHandlerFactory">
+        <member name="M:Subtext.Web.UI.Handlers.BlogSecondaryCssHandler.ProcessRequest(System.Web.HttpContext)">
             <summary>
-            System.Web.UI.PageHandlerFactory is internal. We need the option to load our own classes with this for the virtual mapping.
-            With the virtual mapping default documents will not be loaded. if no page is found, we will use attempt to load default.aspx in the current
-            directory
+            Processes the request.
             </summary>
+            <param name="context">Context.</param>
+        </member>
+        <member name="P:Subtext.Web.UI.Handlers.BlogSecondaryCssHandler.IsReusable">
+            <summary>
+            Gets a value indicating whether this handler is reusable.
+            </summary>
+            <remarks>
+            This handler is not reusable.
+            </remarks>
+            <value>
+            	<c>true</c> if is reusable; otherwise, <c>false</c>.
+            </value>
         </member>
         <member name="T:Subtext.Web.UI.PrintHandler">
             <summary>
-            Summary description for RssHandler.
+            Class that implements <see cref="T:System.Web.IHttpHandler"/> to render a 
+            page for printing purposes.  Not currently in use.
             </summary>
         </member>
         <member name="T:Subtext.Web.UI.Handlers.RedirectHandler">
@@ -2050,15 +2236,40 @@
             Summary description for RedirectHandler.
             </summary>
         </member>
-        <member name="T:Subtext.Web.UI.Pages.ViewStatelessPage">
-            <summary>
-            Summary description for DottextMasterViewStatelessPage.
-            </summary>
-        </member>
         <member name="T:Subtext.Web.UI.Pages.SubtextMasterPage">
             <summary>
-            Summary description for DottextMasterPage.
+            This serves as the master page for every page within the 
+            site (except for the admin section.  This page contains 
+            a PlaceHolder in which the PageTemplate.ascx control within 
+            each skin is loaded.
             </summary>
+        </member>
+        <member name="M:Subtext.Web.UI.Pages.SubtextMasterPage.OnPreRender(System.EventArgs)">
+            <summary>
+            Before rendering, turns off ViewState again (why? not sure),  
+            applies skins and stylesheet references, and sets the page title.
+            </summary>
+            <param name="e">E.</param>
+        </member>
+        <member name="M:Subtext.Web.UI.Pages.SubtextMasterPage.OnInit(System.EventArgs)">
+            <summary>
+            Initializes this blog page, applying skins and whatnot.
+            </summary>
+            <param name="e">E.</param>
+        </member>
+        <member name="M:Subtext.Web.UI.Pages.SubtextMasterPage.LoadPageStateFromPersistenceMedium">
+            <summary>
+            Loads the page state from persistence medium.  In this case 
+            this returns null as we are not using ViewState.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Web.UI.Pages.SubtextMasterPage.SavePageStateToPersistenceMedium(System.Object)">
+            <summary>
+            Saves the page state to persistence medium.  In this case 
+            this does nothing as we are not using ViewState.
+            </summary>
+            <param name="viewState">State of the view.</param>
         </member>
         <member name="T:Subtext.Web.UI.Skinning.CacheKey">
             <summary>
@@ -2112,6 +2323,19 @@
             Summary description for Globals.
             </summary>
         </member>
+        <member name="M:Subtext.Web.UI.Globals.Skin">
+            <summary>
+            Returns the current skin for the current context.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Web.UI.Globals.Skin(System.Web.HttpContext)">
+            <summary>
+            Returns the current skin for the specified context.
+            </summary>
+            <param name="context">Context.</param>
+            <returns></returns>
+        </member>
         <member name="M:Subtext.Web.UI.Globals.CurrentTitle(System.Web.HttpContext)">
             <summary>
             This method will be called during PreRender. If no title was set via
@@ -2119,6 +2343,13 @@
             </summary>
             <param name="context"></param>
             <returns></returns>
+        </member>
+        <member name="M:Subtext.Web.UI.Globals.SetTitle(System.String,System.Web.HttpContext)">
+            <summary>
+            Allows the page title to be set anywhere within the request.
+            </summary>
+            <param name="title">Title.</param>
+            <param name="context">Context.</param>
         </member>
         <member name="T:Subtext.Web.UI.UIData">
             <summary>
@@ -2140,6 +2371,19 @@
             </remarks>
         </member>
         <member name="M:Subtext.Web.BlogNotConfiguredError.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.CheckYourConnectionString">
+            <summary>
+            This page presents useful information to users connecting 
+            to the blog via "localhost".  In otherwords, on a local 
+            installation.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.CheckYourConnectionString.InitializeComponent">
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
@@ -2185,49 +2429,6 @@
             </summary>
         </member>
         <member name="M:Subtext.Web.Pages.logout.InitializeComponent">
-            <summary>
-            Required method for Designer support - do not modify
-            the contents of this method with the code editor.
-            </summary>
-        </member>
-        <member name="T:Subtext.Web.RSSPage">
-            <summary>
-            This class writes out an rss feed.
-            </summary>
-        </member>
-        <member name="M:Subtext.Web.RSSPage.InitializeComponent">
-            <summary>
-            Required method for Designer support - do not modify
-            the contents of this method with the code editor.
-            </summary>
-        </member>
-        <member name="P:Subtext.Web.RSSPage.AcceptEncoding">
-            <summary>
-            Returns the "Accept-Encoding" value from the HTTP Request header. 
-            This is a list of encodings that may be sent to the browser.
-            </summary>
-            <remarks>
-            Specifically we're looking for gzip.
-            </remarks>
-            <value></value>
-        </member>
-        <member name="T:Subtext.Web.OPML">
-            <summary>
-            Summary description for OPML.
-            </summary>
-        </member>
-        <member name="M:Subtext.Web.OPML.InitializeComponent">
-            <summary>
-            Required method for Designer support - do not modify
-            the contents of this method with the code editor.
-            </summary>
-        </member>
-        <member name="T:Subtext.Web.Queue">
-            <summary>
-            Summary description for Queue.
-            </summary>
-        </member>
-        <member name="M:Subtext.Web.Queue.InitializeComponent">
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
