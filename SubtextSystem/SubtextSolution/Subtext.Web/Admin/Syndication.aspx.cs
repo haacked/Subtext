@@ -1,13 +1,4 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Web;
-using System.Web.SessionState;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.HtmlControls;
 using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Admin
@@ -35,6 +26,7 @@ namespace Subtext.Web.Admin
 			{
 				PopulateForm();
 			}
+			ManageHiddenSettings();
 		}
 		
 		private void PopulateForm()
@@ -42,8 +34,21 @@ namespace Subtext.Web.Admin
 			BlogConfig config = Config.CurrentBlog;
 			
 			this.chkEnableSyndication.Checked = config.IsAggregated;
+			
 			this.chkUseSyndicationCompression.Checked = config.UseSyndicationCompression;
 			this.txtLicenseUrl.Text = config.LicenseUrl;
+		}
+
+		private void ManageHiddenSettings()
+		{
+			this.chkEnableSyndication.Attributes["onclick"] = "toggleHideOnCheckbox(this, 'otherSettings');";
+	
+			string startupScript = "<script language=\"javascript\">"
+				+  Environment.NewLine + "var checkbox = document.getElementById('" + this.chkEnableSyndication.ClientID + "');"
+				+  Environment.NewLine + " toggleHideOnCheckbox(checkbox, 'otherSettings');"
+				+  Environment.NewLine +  "</script>";
+	
+			Page.RegisterStartupScript("startupScript", startupScript);
 		}
 
 		private void SaveSettings()
