@@ -385,7 +385,7 @@ GO
 
 
 --Found at: http://www.algonet.se/~sommar/arrays-in-sql.html
-CREATE FUNCTION iter_charlist_to_table
+CREATE FUNCTION [dbo].[iter_charlist_to_table]
 (
 	@list      ntext
 	, @delimiter nchar(1) = N','
