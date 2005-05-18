@@ -451,7 +451,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_DeleteCategory
+CREATE PROC [dbo].[blog_DeleteCategory]
 (
 	@CategoryID int,
 	@BlogID int
@@ -476,7 +476,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_DeleteImage
+CREATE PROC [dbo].[blog_DeleteImage]
 (
 	@BlogID int,
 	@ImageID int
@@ -503,7 +503,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_DeleteImageCategory
+CREATE PROC [dbo].[blog_DeleteImageCategory]
 (
 	@CategoryID int,
 	@BlogID int
@@ -529,7 +529,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_DeleteKeyWord
+CREATE PROC [dbo].[blog_DeleteKeyWord]
 (
 	@KeyWordID int,
 	@BlogID int
@@ -555,7 +555,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_DeleteLink
+CREATE PROC [dbo].[blog_DeleteLink]
 (
 	@LinkID int,
 	@BlogID int
@@ -579,7 +579,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_DeleteLinksByPostID
+CREATE PROC [dbo].[blog_DeleteLinksByPostID]
 (
 	@PostID int,
 	@BlogID int
@@ -608,7 +608,7 @@ GO
 /*
 Deletes a record from blog_content, whether it be a post, a comment, etc..
 */
-CREATE PROC blog_DeletePost
+CREATE PROC [dbo].[blog_DeletePost]
 (
 	@ID int,
 	@BlogID int
@@ -660,7 +660,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetActiveCategoriesWithLinkCollection
+CREATE PROC [dbo].[blog_GetActiveCategoriesWithLinkCollection]
 (
 	@BlogID int
 )
@@ -714,7 +714,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetAllCategories
+CREATE PROC [dbo].[blog_GetAllCategories]
 (
 	@BlogID int
 	, @IsActive bit
@@ -747,7 +747,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC blog_GetBlogKeyWords
+CREATE PROC [dbo].blog_GetBlogKeyWords
 (
 	@BlogID int
 )
@@ -775,7 +775,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetCategory
+CREATE PROC [dbo].blog_GetCategory
 (
 	@CategoryID int,
 	@IsActive bit,
@@ -809,7 +809,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetCategoryByName 
+CREATE PROC [dbo].blog_GetCategoryByName 
 (
 	@CategoryName nvarchar(150),
 	@IsActive bit,
@@ -842,7 +842,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetConditionalEntries
+CREATE PROC [dbo].blog_GetConditionalEntries
 (
 	@ItemCount int 
 	, @PostType int
@@ -891,7 +891,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetConditionalEntriesByDateUpdated
+CREATE PROC [dbo].blog_GetConditionalEntriesByDateUpdated
 (
 	@DateUpdated datetime
 	, @ItemCount int
@@ -941,7 +941,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC blog_GetConfig
+CREATE PROC [dbo].blog_GetConfig
 (
 	@Host nvarchar(100) -- Depracated
 	, @Application nvarchar(50) -- Depracated
@@ -988,7 +988,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC blog_GetEntriesByDayRange
+CREATE PROC [dbo].blog_GetEntriesByDayRange
 (
 	@StartDate datetime,
 	@StopDate datetime,
@@ -1041,7 +1041,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetEntryCollectionByDateUpdated
+CREATE PROC [dbo].blog_GetEntryCollectionByDateUpdated
 (
 	@ItemCount int,
 	@IsActive bit,
@@ -1091,7 +1091,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetEntryWithCategoryTitles
+CREATE PROC [dbo].blog_GetEntryWithCategoryTitles
 (
 	@PostID int
 	, @IsActive bit
@@ -1145,7 +1145,7 @@ GO
 
 
 
-CREATE PROC blog_GetEntryWithCategoryTitlesByEntryName
+CREATE PROC [dbo].blog_GetEntryWithCategoryTitlesByEntryName
 (
 	@EntryName nvarchar(150)
 	, @IsActive bit
@@ -1201,7 +1201,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetFeedBack 
+CREATE PROC [dbo].blog_GetFeedBack 
 (
 	@ParentID int
 	, @BlogID int
@@ -1246,7 +1246,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetImageCategory
+CREATE PROC [dbo].blog_GetImageCategory
 (
 	@CategoryID int
 	, @IsActive bit
@@ -1284,7 +1284,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetKeyWord
+CREATE PROC [dbo].blog_GetKeyWord
 (
 	@KeyWordID int
 	, @BlogID int
@@ -1314,7 +1314,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetLinkCollectionByPostID
+CREATE PROC [dbo].blog_GetLinkCollectionByPostID
 (
 	@PostID int,
 	@BlogID int
@@ -1352,7 +1352,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetLinksByActiveCategoryID
+CREATE PROC [dbo].blog_GetLinksByActiveCategoryID
 (
 	@CategoryID int
 	, @BlogID int
@@ -1388,7 +1388,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetLinksByCategoryID
+CREATE PROC [dbo].blog_GetLinksByCategoryID
 (
 	@CategoryID int
 	, @BlogID int
@@ -1428,7 +1428,7 @@ GO
 I think this proc gets a page of blog posts 
 within the admin section.
 */
-CREATE PROC blog_GetPageableEntries
+CREATE PROC [dbo].blog_GetPageableEntries
 (
 	@BlogID int
 	, @PageIndex int
@@ -1523,7 +1523,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetPageableEntriesByCategoryID
+CREATE PROC [dbo].blog_GetPageableEntriesByCategoryID
 (
 	@BlogID int
 	, @CategoryID int
@@ -1629,7 +1629,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetPageableFeedback 
+CREATE PROC [dbo].blog_GetPageableFeedback 
 (
 	@BlogID int
 	, @PageIndex int
@@ -1718,7 +1718,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetPageableKeyWords
+CREATE PROC [dbo].blog_GetPageableKeyWords
 (
 	@BlogID int
 	, @PageIndex int
@@ -1798,7 +1798,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetPageableLinks
+CREATE PROC [dbo].blog_GetPageableLinks
 (
 	@BlogID int
 	, @PageIndex int
@@ -1880,7 +1880,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetPageableLinksByCategoryID
+CREATE PROC [dbo].blog_GetPageableLinksByCategoryID
 (
 	@BlogID int
 	, @CategoryID int
@@ -1969,7 +1969,7 @@ GO
 
 --SELECT Top 5 * FROM blog_Referrals ORDER BY LastUpdated DESC
 
-CREATE PROC blog_GetPageableReferrers
+CREATE PROC [dbo].blog_GetPageableReferrers
 (
 	@BlogID INT
 	, @PageIndex INT
@@ -2035,7 +2035,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetPageableReferrersByEntryID 
+CREATE PROC [dbo].blog_GetPageableReferrersByEntryID 
 (
 	@BlogID INT,
 	@EntryID int,
@@ -2105,7 +2105,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetPostsByCategoryID
+CREATE PROC [dbo].blog_GetPostsByCategoryID
 (
 	@ItemCount int
 	, @CategoryID int
@@ -2154,7 +2154,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetPostsByCategoryIDByDateUpdated
+CREATE PROC [dbo].blog_GetPostsByCategoryIDByDateUpdated
 (
 	@ItemCount int
 	, @CategoryID int
@@ -2206,7 +2206,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetPostsByCategoryName -- 15,72,0
+CREATE PROC [dbo].blog_GetPostsByCategoryName -- 15,72,0
 (
 	@ItemCount int,
 	@CategoryName nvarchar(150),
@@ -2256,7 +2256,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetPostsByCategoryNameByDateUpdated
+CREATE PROC [dbo].blog_GetPostsByCategoryNameByDateUpdated
 (
 	@ItemCount int
 	, @CategoryName nvarchar(150)
@@ -2308,7 +2308,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetPostsByDayRange
+CREATE PROC [dbo].blog_GetPostsByDayRange
 (
 	@StartDate datetime,
 	@StopDate datetime,
@@ -2358,7 +2358,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetPostsByMonth
+CREATE PROC [dbo].blog_GetPostsByMonth
 (
 	@Month int
 	, @Year int
@@ -2406,7 +2406,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetPostsByMonthArchive 
+CREATE PROC [dbo].blog_GetPostsByMonthArchive 
 (
 	@BlogID int
 )
@@ -2435,7 +2435,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetPostsByYearArchive 
+CREATE PROC [dbo].blog_GetPostsByYearArchive 
 (
 	@BlogID int
 )
@@ -2461,7 +2461,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetRecentEntries
+CREATE PROC [dbo].blog_GetRecentEntries
 (
 	@ItemCount int
 	, @IsActive bit
@@ -2508,7 +2508,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetRecentEntriesByDateUpdated
+CREATE PROC [dbo].blog_GetRecentEntriesByDateUpdated
 (
 	@ItemCount int
 	, @IsActive bit 
@@ -2559,7 +2559,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetRecentEntriesWithCategoryTitles
+CREATE PROC [dbo].blog_GetRecentEntriesWithCategoryTitles
 (
 	@ItemCount int,
 	@IsActive bit,
@@ -2626,7 +2626,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetSingleDay
+CREATE PROC [dbo].blog_GetSingleDay
 (
 	@Date datetime
 	,@BlogID int
@@ -2674,7 +2674,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetSingleEntry
+CREATE PROC [dbo].blog_GetSingleEntry
 (
 	@ID int
 	, @IsActive bit
@@ -2720,7 +2720,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetSingleEntryByName
+CREATE PROC [dbo].blog_GetSingleEntryByName
 (
 	@EntryName nvarchar(150)
 	, @IsActive bit
@@ -2766,7 +2766,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetSingleImage
+CREATE PROC [dbo].blog_GetSingleImage
 (
 	@ImageID int
 	, @IsActive bit
@@ -2801,7 +2801,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetSingleLink
+CREATE PROC [dbo].blog_GetSingleLink
 (
 	@LinkID int
 	, @BlogID int
@@ -2834,7 +2834,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_GetUrlID
+CREATE PROC [dbo].blog_GetUrlID
 (
 	@Url nvarchar(255)
 	, @UrlID int output
@@ -2866,7 +2866,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_InsertCategory
+CREATE PROC [dbo].blog_InsertCategory
 (
 	@Title nvarchar(150)
 	, @Active bit
@@ -2910,7 +2910,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_InsertEntry
+CREATE PROC [dbo].blog_InsertEntry
 (
 	@Title nvarchar(255)
 	, @TitleUrl nvarchar(255)
@@ -3010,7 +3010,7 @@ GO
 
 
 
-CREATE PROC blog_InsertEntryViewCount-- 1, 0, 1
+CREATE PROC [dbo].blog_InsertEntryViewCount-- 1, 0, 1
 (
 	@EntryID int,
 	@BlogID int,
@@ -3079,7 +3079,7 @@ GO
 
 
 
-CREATE PROC blog_InsertImage
+CREATE PROC [dbo].blog_InsertImage
 (
 	@Title nvarchar(250),
 	@CategoryID int,
@@ -3122,7 +3122,7 @@ GO
 
 
 
-CREATE PROC blog_InsertKeyWord
+CREATE PROC [dbo].blog_InsertKeyWord
 (
 	@Word nvarchar(100),
 	@Text nvarchar(100),
@@ -3167,7 +3167,7 @@ GO
 
 
 
-CREATE PROC blog_InsertLink
+CREATE PROC [dbo].blog_InsertLink
 (
 	@Title nvarchar(150),
 	@Url nvarchar(255),
@@ -3208,7 +3208,7 @@ GO
 
 
 
-CREATE PROC blog_InsertLinkCategoryList
+CREATE PROC [dbo].blog_InsertLinkCategoryList
 (
 	@CategoryList nvarchar(4000)
 	, @PostID int
@@ -3251,7 +3251,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_InsertPingTrackEntry
+CREATE PROC [dbo].blog_InsertPingTrackEntry
 (
 	@Title nvarchar(255)
 	, @TitleUrl nvarchar(255)
@@ -3341,7 +3341,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_InsertPostCategoryByName
+CREATE PROC [dbo].blog_InsertPostCategoryByName
 (
 	@Title nvarchar(150)
 	, @PostID int
@@ -3379,7 +3379,7 @@ GO
 
 
 
-CREATE PROC blog_InsertReferral
+CREATE PROC [dbo].blog_InsertReferral
 (
 	@EntryID int,
 	@BlogID int,
@@ -3430,7 +3430,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_InsertViewStats
+CREATE PROC [dbo].blog_InsertViewStats
 (
 	@BlogID int,
 	@PageType tinyint,
@@ -3478,7 +3478,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_StatsSummary
+CREATE PROC [dbo].blog_StatsSummary
 (
 	@BlogID int
 )
@@ -3510,7 +3510,7 @@ GO
 
 
 
-CREATE PROC blog_TrackEntry
+CREATE PROC [dbo].blog_TrackEntry
 (
 	@EntryID int,
 	@BlogID int,
@@ -3552,7 +3552,7 @@ Subtext 1.0 will only support single user blogs, thus this
 proc will make sure there is only one blog in the system 
 AND will fail to add a blog if one already exists.
 */
-CREATE PROC blog_UTILITY_AddBlog
+CREATE PROC [dbo].blog_UTILITY_AddBlog
 (
 	@UserName nvarchar(50),
 	@Password nvarchar(50),
@@ -3625,7 +3625,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_UpdateCategory
+CREATE PROC [dbo].blog_UpdateCategory
 (
 	@CategoryID int,
 	@Title nvarchar(150),
@@ -3660,7 +3660,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC blog_UpdateConfig
+CREATE PROC [dbo].blog_UpdateConfig
 (
 	@UserName nvarchar(50)
 	, @Password nvarchar(50)
@@ -3680,7 +3680,7 @@ CREATE PROC blog_UpdateConfig
 	, @SkinCssFile varchar(100)
 	, @Flag int
 	, @BlogID int
-	, @LicenseUrl nvarchar(64)
+	, @LicenseUrl nvarchar(64) = NULL
 	, @DaysTillCommentsClose int = NULL
 )
 AS
@@ -3722,7 +3722,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_UpdateConfigUpdateTime
+CREATE PROC [dbo].blog_UpdateConfigUpdateTime
 (
 	@BlogID int,
 	@LastUpdated datetime
@@ -3748,7 +3748,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_UpdateEntry
+CREATE PROC [dbo].blog_UpdateEntry
 (
 	@ID int
 	, @Title nvarchar(255)
@@ -3815,7 +3815,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_UpdateImage
+CREATE PROC [dbo].blog_UpdateImage
 (
 	@Title nvarchar(250),
 	@CategoryID int,
@@ -3855,7 +3855,7 @@ GO
 
 
 
-CREATE PROC blog_UpdateKeyWord
+CREATE PROC [dbo].blog_UpdateKeyWord
 (
 	@KeyWordID int,
 	@Word nvarchar(100),
@@ -3898,7 +3898,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC blog_UpdateLink
+CREATE PROC [dbo].blog_UpdateLink
 (
 	@LinkID int,
 	@Title nvarchar(150),
@@ -3940,7 +3940,7 @@ GO
 
 
 
-CREATE PROC blog_Utility_GetUnHashedPasswords
+CREATE PROC [dbo].blog_Utility_GetUnHashedPasswords
 AS
 
 SELECT BlogID, Password FROM blog_COnfig WHERE Flag & 8 = 0
@@ -3965,7 +3965,7 @@ GO
 
 
 
-CREATE PROC blog_Utility_UpdateToHashedPassword
+CREATE PROC [dbo].blog_Utility_UpdateToHashedPassword
 (
 	@Password nvarchar(100),
 	@BlogID int
