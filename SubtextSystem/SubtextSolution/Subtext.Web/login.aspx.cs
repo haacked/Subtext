@@ -25,6 +25,7 @@ using System;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Email;
+using Subtext.Framework.Text;
 
 namespace Subtext.Web.Pages
 {
@@ -40,6 +41,7 @@ namespace Subtext.Web.Pages
 		protected System.Web.UI.WebControls.Button btnLogin;
 		protected System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
 		protected System.Web.UI.HtmlControls.HtmlAnchor aspnetLink;
+		protected MetaBuilders.WebControls.DefaultButtons DefaultButtons1;
 		protected System.Web.UI.WebControls.LinkButton lbSendPassword;
 	
 		private void Page_Load(object sender, System.EventArgs e)
@@ -76,7 +78,8 @@ namespace Subtext.Web.Pages
 		private void lbSendPassword_Click(object sender, System.EventArgs e)
 		{
 			BlogConfig config = Config.CurrentBlog;
-			if(string.Compare(tbUserName.Text,config.UserName,true) == 0)
+			
+			if(StringHelper.AreEqualIgnoringCase(tbUserName.Text, config.UserName))
 			{
 				string password = null;
 				if(config.IsPasswordHashed)
@@ -106,6 +109,23 @@ namespace Subtext.Web.Pages
 
 		private void btnLogin_Click(object sender, System.EventArgs e)
 		{
+			//TODO: THis is a temporary haack for the host admin.
+			if(StringHelper.AreEqualIgnoringCase(tbUserName.Text, "HostAdmin"))
+			{
+				if(StringHelper.AreEqualIgnoringCase(tbPassword.Text, "password"))
+				{
+					System.Web.Security.FormsAuthentication.SetAuthCookie("HostAdmin", chkRemember.Checked);
+					if(Request.QueryString["ReturnURL"] != null)
+					{
+						Response.Redirect(Request.QueryString["ReturnURL"]);
+					}
+					else
+					{
+						Response.Redirect("~/HostAdmin/default.aspx");
+					}
+				}
+			}
+
 			BlogConfig config = Config.CurrentBlog;
 			if(Security.Authenticate(tbUserName.Text, tbPassword.Text, chkRemember.Checked))
 			{
