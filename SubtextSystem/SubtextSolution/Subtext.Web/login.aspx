@@ -1,8 +1,8 @@
-<%@ Register tagprefix="mbdb" namespace="MetaBuilders.WebControls" Assembly="MetaBuilders.WebControls.DefaultButtons" %>
 <%@ Page language="c#" EnableViewState="False" Codebehind="login.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Pages.login" %>
+<%@ Register tagprefix="mbdb" namespace="MetaBuilders.WebControls" Assembly="MetaBuilders.WebControls.DefaultButtons" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <HTML>
-  <HEAD>
+	<HEAD>
 		<title>.Text - Login</title>
 		<style>
 		BODY { PADDING-RIGHT: 32px; MARGIN-TOP: 100px; PADDING-LEFT: 32px; FONT-SIZE: 13px; BACKGROUND: #eee; PADDING-BOTTOM: 32px; MARGIN-LEFT: auto; WIDTH: 270px; COLOR: #000; MARGIN-RIGHT: auto; PADDING-TOP: 32px; FONT-FAMILY: verdana, arial, sans-serif }
@@ -18,11 +18,11 @@
 		A.Button:link { BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 12px; BORDER-TOP: #999 1px solid; DISPLAY: block; PADDING-LEFT: 12px; FONT-WEIGHT: bold; BACKGROUND: #904; FLOAT: left; PADDING-BOTTOM: 3px; BORDER-LEFT: #999 1px solid; COLOR: #fff; PADDING-TOP: 3px; BORDER-BOTTOM: #999 1px solid }
 		A.Button:visited { BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 12px; BORDER-TOP: #999 1px solid; DISPLAY: block; PADDING-LEFT: 12px; FONT-WEIGHT: bold; BACKGROUND: #904; FLOAT: left; PADDING-BOTTOM: 3px; BORDER-LEFT: #999 1px solid; COLOR: #fff; PADDING-TOP: 3px; BORDER-BOTTOM: #999 1px solid }
 		.LoginButton { BORDER-RIGHT: #999 1px solid; PADDING-RIGHT: 12px; BORDER-TOP: #999 1px solid; DISPLAY: block; PADDING-LEFT: 12px; FONT-WEIGHT: bold; BACKGROUND: #904; FLOAT: left; PADDING-BOTTOM: 3px; BORDER-LEFT: #999 1px solid; COLOR: #fff; PADDING-TOP: 3px; BORDER-BOTTOM: #999 1px solid }
-		.LoginButton:hover {Color: yellow;}
+		.LoginButton:hover { COLOR: yellow }
 		SPAN.ErrorMessage { DISPLAY: block; FONT-WEIGHT: bold; COLOR: #904 }
 		P.Small { MARGIN-TOP: 12px; FONT-SIZE: 85% }
 		</style>
-</HEAD>
+	</HEAD>
 	<body>
 		<form method="post" runat="server" ID="frmLogin">
 			<mbdb:DefaultButtons runat="server" id="DefaultButtons1">
@@ -45,8 +45,9 @@
 				<p class="Small">
 					Forget your password?
 					<br>
-					<a visible = "false" id = "aspnetLink" runat = "server" href = "http://asp.net/Forums/User/EmailForgottenPassword.aspx?tabindex=1">Email me my password</a>
-					<asp:LinkButton id="lbSendPassword" runat="server" visible = "true">Email me my password</asp:LinkButton>.
+					<a visible="false" id="aspnetLink" runat="server" href="http://asp.net/Forums/User/EmailForgottenPassword.aspx?tabindex=1">
+						Email me my password</a>
+					<asp:LinkButton id="lbSendPassword" runat="server" visible="true">Email me my password</asp:LinkButton>.
 				</p>
 			</div>
 		</form>

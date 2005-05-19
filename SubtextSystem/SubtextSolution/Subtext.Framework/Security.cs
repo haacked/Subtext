@@ -173,15 +173,22 @@ namespace Subtext.Framework
 			return Guid.NewGuid().ToString().Substring(0,8);
 		}
 
+		/// <summary>
+		/// Gets a value indicating whether the current 
+		/// user is the admin for the current blog.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if [is admin]; otherwise, <c>false</c>.
+		/// </value>
 		public static bool IsAdmin
 		{
 			get
 			{
-				return string.Compare(GetCurrentUserName, Config.CurrentBlog.UserName, true) == 0;
+				return string.Compare(CurrentUserName, Config.CurrentBlog.UserName, true) == 0;
 			}
 		}
 
-		public static string GetCurrentUserName
+		public static string CurrentUserName
 		{
 			get
 			{
