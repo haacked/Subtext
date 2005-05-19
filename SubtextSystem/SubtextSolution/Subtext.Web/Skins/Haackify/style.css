@@ -387,7 +387,7 @@ img
 
 /********* Image Drop Shadow **********/
 
-.dropshadow2
+.dropshadow
 {
 	float:left;
 	clear:left;
@@ -395,7 +395,6 @@ img
 	background: url(/Subtext.Web/Images/shadow.gif) no-repeat bottom right;
 	margin: 10px 0 10px 10px !important;
 	margin: 10px 0 10px 5px;
-	width: 500px;
 	padding: 0px;
 }
 .innerbox
