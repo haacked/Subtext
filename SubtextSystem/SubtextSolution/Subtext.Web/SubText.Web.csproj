@@ -4530,7 +4530,7 @@
                     RelPath = "ExternalDependencies\MetaBuilders.WebControls.DefaultButtons.xml"
                     BuildAction = "Content"
                 />
-                <Folder RelPath = "HostAdmin\Controls\" />
+                <Folder RelPath = "HostAdmin\" />
                 <File
                     RelPath = "Images\100x30_Logo.gif"
                     BuildAction = "Content"
