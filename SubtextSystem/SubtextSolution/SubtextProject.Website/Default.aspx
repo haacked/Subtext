@@ -1,6 +1,6 @@
 <%@ Page %>
-<%@ Register TagPrefix="MP" Namespace="SubtextProject.Website" Assembly="SubtextProject.Website" %>
-<MP:SubtextMasterPage id="MPContainer" runat="server">
+<%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
+<MP:MasterPage id="MPContainer" runat="server">
 	<MP:ContentRegion id="MPTitle" runat="server">Subtext - Home</MP:ContentRegion>
 	<MP:ContentRegion id="MPSideBar" runat="server"></MP:ContentRegion>
 	<blockquote>
@@ -28,4 +28,4 @@
 	<a href="http://www.opensource.org/licenses/bsd-license.php">BSD license</a>.  It is a fork 
 	of the popular .TEXT blogging platform.
 	</p>
-</MP:SubtextMasterPage>
+</MP:MasterPage>

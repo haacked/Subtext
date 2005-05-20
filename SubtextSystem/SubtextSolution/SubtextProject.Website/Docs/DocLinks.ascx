@@ -1,5 +1,5 @@
 <%@ Control %>
-<%@ Register TagPrefix="SP" Namespace="SubtextProject.Website.Controls" Assembly="SubtextProject.Website" %>
+<%@ Register TagPrefix="SP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <h2>Docs</h2>
 <ul>
 	<SP:MenuItem href="~/Docs/" parentpath="~/Docs/" title="Introduction" runat="server">Introduction</SP:MenuItem>

@@ -19,8 +19,11 @@ function ToggleCheckAll(checkbox)
 // checkboxes to the specified value.
 function SetAllCheckboxes(form, checked)
 {
-	for(int i = 0; i < form.elements.length; i++)
+	for(var i = 0; i < form.elements.length; i++)
 	{
-		form.elements[i].checked = checked;
+		if(form.elements[i].type == 'checkbox')
+		{
+			form.elements[i].checked = checked;
+		}
 	}
 }

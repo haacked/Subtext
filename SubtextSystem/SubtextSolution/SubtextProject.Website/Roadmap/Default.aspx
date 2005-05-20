@@ -1,6 +1,6 @@
 <%@ Page %>
-<%@ Register TagPrefix="MP" Namespace="SubtextProject.Website" Assembly="SubtextProject.Website" %>
-<MP:SubtextMasterPage id="MPContainer" runat="server">
+<%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
+<MP:MasterPage id="MPContainer" runat="server">
 	<MP:ContentRegion id="MPTitle" runat="server">Subtext - Roadmap</MP:ContentRegion>
 	<MP:ContentRegion id="MPSideBar" runat="server">
 		<h2>RoadMap</h2>
@@ -152,4 +152,4 @@
 		</li>
 	</ul>
 
-</MP:SubtextMasterPage>
+</MP:MasterPage>

@@ -4530,7 +4530,22 @@
                     RelPath = "ExternalDependencies\MetaBuilders.WebControls.DefaultButtons.xml"
                     BuildAction = "Content"
                 />
-                <Folder RelPath = "HostAdmin\" />
+                <File
+                    RelPath = "HostAdmin\Default.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "HostAdmin\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "HostAdmin\Web.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "HostAdmin\style\Style.css"
+                    BuildAction = "Content"
+                />
                 <File
                     RelPath = "Images\100x30_Logo.gif"
                     BuildAction = "Content"

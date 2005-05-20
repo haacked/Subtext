@@ -86,7 +86,7 @@
                 />
                 <Reference
                     Name = "System.XML"
-                    AssemblyName = "System.XML"
+                    AssemblyName = "System.Xml"
                     HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
                 <Reference
@@ -95,19 +95,14 @@
                     HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Design.dll"
                 />
                 <Reference
-                    Name = "WilsonMasterPages"
-                    AssemblyName = "WilsonMasterPages"
-                    HintPath = "ExternalDependencies\WilsonMasterPages.dll"
+                    Name = "Subtext.Web.Controls"
+                    Project = "{2278427B-8BAD-4CE9-B15A-FD1131753D64}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
         </Build>
         <Files>
             <Include>
-                <File
-                    RelPath = "ContentRegion.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
                 <File
                     RelPath = "Default.aspx"
                     BuildAction = "Content"
@@ -116,11 +111,6 @@
                     RelPath = "PageTemplate.ascx"
                     SubType = "UserControl"
                     BuildAction = "Content"
-                />
-                <File
-                    RelPath = "SubtextMasterPage.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Web.config"
@@ -148,11 +138,6 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Controls\MenuItem.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Docs\Default.aspx"
                     BuildAction = "Content"
                 />
@@ -169,10 +154,7 @@
                     RelPath = "Docs\Installation\Default.aspx"
                     BuildAction = "Content"
                 />
-                <File
-                    RelPath = "ExternalDependencies\WilsonMasterPages.dll"
-                    BuildAction = "Content"
-                />
+                <Folder RelPath = "ExternalDependencies\" />
                 <File
                     RelPath = "images\100x30_Logo.gif"
                     BuildAction = "Content"

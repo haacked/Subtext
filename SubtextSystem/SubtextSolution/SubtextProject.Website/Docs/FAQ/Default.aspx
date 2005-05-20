@@ -1,7 +1,7 @@
 <%@ Page %>
-<%@ Register TagPrefix="MP" Namespace="SubtextProject.Website" Assembly="SubtextProject.Website" %>
+<%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <%@ Register TagPrefix="MP" TagName="DocLinks" Src="~/Docs/DocLinks.ascx" %>
-<MP:SubtextMasterPage id="MPContainer" runat="server">
+<MP:MasterPage id="MPContainer" runat="server">
 	<MP:ContentRegion id="MPTitle" runat="server">Subtext - Docs - FAQ</MP:ContentRegion>
 	<MP:ContentRegion id="MPSideBar" runat="server">
 		<MP:DocLinks id="AboutLinks" runat="server" />
@@ -21,4 +21,4 @@
 	</dl>
 
 <dt>What is WordPress?</dt>
-</MP:SubtextMasterPage>
+</MP:MasterPage>
