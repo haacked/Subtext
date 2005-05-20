@@ -64,7 +64,6 @@ namespace Subtext.Web.Admin.WebUI
 		private const string CONTROL_TITLE = "PageTitle";
 		private const string CONTROL_BREADCRUMBS = "BreadCrumbs";
 		
-		private const string TAB_CONFIGURE = "Configure";
 		private const string QRYSTR_CATEGORYFILTER = "catid";
 
 		private string _defaultTemplateFile;
@@ -238,7 +237,9 @@ namespace Subtext.Web.Admin.WebUI
 
 			Control categories = _template.FindControl(CONTROL_CATEGORIES);
 			if (categories == null || !(categories is LinkList)) 
-				throw new Exception("Cannot find template control: " + CONTROL_CATEGORIES);
+			{
+				//throw new Exception("Cannot find template control: " + CONTROL_CATEGORIES);
+			}
 			else
 				_categories = (LinkList)categories;
 
@@ -340,15 +341,19 @@ namespace Subtext.Web.Admin.WebUI
 				else
 				{
 					linkUrl = Page.Request.Url.LocalPath;
-					_categories.Items.Add("All Categories", linkUrl);
+					if(_categories != null)
+						_categories.Items.Add("All Categories", linkUrl);
 				}
 
 				// get all the categories for this type, and then add filtering links for each
 				LinkCategoryCollection cats = Links.GetCategories((CategoryType)_catType,false);
 				foreach (LinkCategory current in cats)
 				{
-					_categories.Items.Add(current.Title, String.Format("{0}?{1}={2}",
-						linkUrl, QRYSTR_CATEGORYFILTER, current.CategoryID));
+					if(_categories != null)
+					{
+						_categories.Items.Add(current.Title, String.Format("{0}?{1}={2}",
+							linkUrl, QRYSTR_CATEGORYFILTER, current.CategoryID));
+					}
 				}
 			}			
 

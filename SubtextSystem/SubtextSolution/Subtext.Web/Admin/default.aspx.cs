@@ -30,7 +30,6 @@ namespace Subtext.Web.Admin.Pages
 	/// </summary>
 	public class HomePageDefault : AdminPage
 	{
-	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
 			Response.Redirect("EditPosts.aspx");

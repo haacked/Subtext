@@ -31,6 +31,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubtextProject.Website", "S
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Web.Controls", "Subtext.Web.Controls\Subtext.Web.Controls.csproj", "{2278427B-8BAD-4CE9-B15A-FD1131753D64}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -68,6 +72,10 @@ Global
 		{BF01C757-8928-4307-ABC1-16E6571BE36A}.Debug.Build.0 = Debug|.NET
 		{BF01C757-8928-4307-ABC1-16E6571BE36A}.Release.ActiveCfg = Release|.NET
 		{BF01C757-8928-4307-ABC1-16E6571BE36A}.Release.Build.0 = Release|.NET
+		{2278427B-8BAD-4CE9-B15A-FD1131753D64}.Debug.ActiveCfg = Debug|.NET
+		{2278427B-8BAD-4CE9-B15A-FD1131753D64}.Debug.Build.0 = Debug|.NET
+		{2278427B-8BAD-4CE9-B15A-FD1131753D64}.Release.ActiveCfg = Release|.NET
+		{2278427B-8BAD-4CE9-B15A-FD1131753D64}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 		Subtext.Web\AspNetWithoutWebProjects.txt = Subtext.Web\AspNetWithoutWebProjects.txt
