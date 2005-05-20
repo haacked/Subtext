@@ -184,10 +184,31 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				return string.Compare(CurrentUserName, Config.CurrentBlog.UserName, true) == 0;
+				//TODO: Eventually just check for admin role.
+				return IsInRole("Admins") || string.Compare(CurrentUserName, Config.CurrentBlog.UserName, true) == 0;
 			}
 		}
 
+		/// <summary>
+		/// Gets a value indicating whether the current user is a 
+		/// Host Admin for the entire installation.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if [is host admin]; otherwise, <c>false</c>.
+		/// </value>
+		public static bool IsHostAdmin
+		{
+			get
+			{
+				//TODO: Remove the second check.
+				return IsInRole("HostAdmins") || string.Compare(CurrentUserName, "HostAdmin", true) == 0;
+			}
+		}
+
+		/// <summary>
+		/// Gets the name of the current user.
+		/// </summary>
+		/// <value></value>
 		public static string CurrentUserName
 		{
 			get
@@ -202,6 +223,18 @@ namespace Subtext.Framework
 				}
 				return null;
 			}
+		}
+
+		/// <summary>
+		/// Returns true if the user is in the specified role.
+		/// It's a wrapper to calling the IsInRole method of 
+		/// IPrincipal.
+		/// </summary>
+		/// <param name="role">Role.</param>
+		/// <returns></returns>
+		public static bool IsInRole(string role)
+		{
+			return HttpContext.Current.User.IsInRole(role);
 		}
 
 		/// <summary>

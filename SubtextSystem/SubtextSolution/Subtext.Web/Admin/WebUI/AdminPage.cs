@@ -37,7 +37,7 @@ namespace Subtext.Web.Admin.Pages
 	}
 
 	/// <summary>
-	/// Base Pag class for all pages in the admin tool.
+	/// Base Page class for all pages in the admin tool.
 	/// </summary>
 	public class AdminPage : System.Web.UI.Page
 	{		
@@ -76,7 +76,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			get
 			{
-				return Security.IsAdmin;
+				return Security.IsAdmin || Security.IsHostAdmin;
 			}
 		}
 
