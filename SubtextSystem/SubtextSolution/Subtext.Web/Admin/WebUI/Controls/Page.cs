@@ -37,6 +37,8 @@ using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Admin.WebUI
 {
+	//TODO: Refactor this class to inherit from Subtext.Web.Controls.MasterPage
+
 	// TODO: abstract out categories and actions (links) into their own controls. Switch on tab type 
 	// add appropriate actions.
 	[

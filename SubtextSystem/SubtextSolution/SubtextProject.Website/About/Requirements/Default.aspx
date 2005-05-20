@@ -1,7 +1,7 @@
 <%@ Page %>
-<%@ Register TagPrefix="MP" Namespace="SubtextProject.Website" Assembly="SubtextProject.Website" %>
+<%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <%@ Register TagPrefix="MP" TagName="AboutLinks" Src="~/About/AboutLinks.ascx" %>
-<MP:SubtextMasterPage id="MPContainer" runat="server">
+<MP:MasterPage id="MPContainer" runat="server">
 	<MP:ContentRegion id="MPTitle" runat="server">Subtext - About - Requirements</MP:ContentRegion>
 	<MP:ContentRegion id="MPSideBar" runat="server">
 		<MP:AboutLinks id="AboutLinks" runat="server" />
@@ -18,4 +18,4 @@
 	<p>
 	And of course it should be running IIS 4.0 or later.
 	</p>
-</MP:SubtextMasterPage>
+</MP:MasterPage>
