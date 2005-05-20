@@ -148,17 +148,7 @@ namespace Subtext.Web.Controls
 
 		string ConvertToAppPath(string path)
 		{
-			string reference = path;
-			if(reference.Substring(0, 2) == "~/")
-			{
-				string appPath = Context.Request.ApplicationPath;
-				if(appPath.EndsWith("/"))
-				{
-					appPath = StringHelper.Left(appPath, appPath.Length - 1);
-				}
-				return appPath + reference.Substring(1);
-			}
-			return path;
+			return ControlHelper.ExpandTildePath(path);
 		}
 
 		/// <summary>

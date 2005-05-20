@@ -76,7 +76,7 @@
                 />
                 <Reference
                     Name = "System.XML"
-                    AssemblyName = "System.XML"
+                    AssemblyName = "System.Xml"
                     HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
                 <Reference
@@ -99,7 +99,17 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "CollapsiblePanel.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ContentRegion.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ControlHelper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -114,9 +124,23 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ScriptHelper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ScriptTag.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "StringHelper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Resources\CollapsiblePanel.js"
+                    BuildAction = "EmbeddedResource"
                 />
             </Include>
         </Files>
