@@ -15,21 +15,21 @@ namespace Subtext.Web.Controls
 	/// </summary>
 	public class MasterPage : HtmlContainerControl
 	{
-		private ArrayList contents;
+		private ArrayList _contents;
 		private string defaultContent;
-		private ContentRegion defaults;
-		private Control template;
-		private string templateFile;
+		private ContentRegion _defaults;
+		private Control _template;
+		private string _templateFile;
 
 		/// <summary>
 		/// Creates a new <see cref="MasterPage"/> instance.
 		/// </summary>
 		public MasterPage()
 		{
-			this.template = null;
-			this.defaults = new ContentRegion();
-			this.contents = new ArrayList();
-			this.templateFile = ConfigurationSettings.AppSettings["Wilson.MasterPages.TemplateFile"];
+			this._template = null;
+			this._defaults = new ContentRegion();
+			this._contents = new ArrayList();
+			this._templateFile = ConfigurationSettings.AppSettings["Wilson.MasterPages.TemplateFile"];
 			this.defaultContent = ConfigurationSettings.AppSettings["Wilson.MasterPages.DefaultContent"];
 			if (this.defaultContent == null)
 			{
@@ -63,11 +63,11 @@ namespace Subtext.Web.Controls
 		{
 			get
 			{
-				return this.templateFile;
+				return this._templateFile;
 			}
 			set
 			{
-				this.templateFile = value;
+				this._templateFile = value;
 			}
 		}
 
@@ -95,63 +95,62 @@ namespace Subtext.Web.Controls
 		{		
 			if (obj is ContentRegion)
 			{
-				this.contents.Add(obj);
+				this._contents.Add(obj);
 			}
 			else
 			{
-				this.defaults.Controls.Add((Control) obj);
+				this._defaults.Controls.Add((Control) obj);
 			}
 		}
 
 		private void BuildContents()
 		{
-			if (this.defaults.HasControls())
+			if (this._defaults.HasControls())
 			{
-				this.defaults.ID = this.defaultContent;
-				this.contents.Add(this.defaults);
+				this._defaults.ID = this.defaultContent;
+				this._contents.Add(this._defaults);
 			}
 
-			foreach (ContentRegion region in this.contents)
+			foreach (ContentRegion contentRegion in this._contents)
 			{
-				Control control1 = this.FindControl(region.ID);
-				if ((control1 == null) || !(control1 is ContentRegion))
+				Control region = this.FindControl(contentRegion.ID);
+				if ((region == null) || !(region is ContentRegion))
 				{
-					throw new Exception("ContentRegion with ID '" + region.ID + "' must be Defined");
+					throw new Exception("ContentRegion with ID '" + contentRegion.ID + "' must be Defined");
 				}
-				control1.Controls.Clear();
-				int controlCount = region.Controls.Count;
+				region.Controls.Clear();
+				int controlCount = contentRegion.Controls.Count;
 				for (int i = 0; i < controlCount; i++)
 				{
-					Control control2 = region.Controls[0];
-					region.Controls.Remove(control2);
-
-					CorrectReferences(control2);
-					control1.Controls.Add(control2);
+					Control control = contentRegion.Controls[0];
+					contentRegion.Controls.Remove(control);
+					region.Controls.Add(control);
+					CorrectReferences(control); //TODO: Make sure this is appropriately placed.
 				}
 			}
 		}
 
 		private void BuildMasterPage()
 		{
-			if (this.templateFile == "")
+			if (this._templateFile == "")
 			{
 				throw new Exception("TemplateFile Property for MasterPage must be Defined");
 			}
-			this.template = this.Page.LoadControl(this.templateFile);
-			this.template.ID = this.ID + "_Template";
-			int controlCount = this.template.Controls.Count;
+			this._template = this.Page.LoadControl(this._templateFile);
+			this._template.ID = this.ID + "_Template";
+			int controlCount = this._template.Controls.Count;
 			
 			for (int i = 0; i < controlCount; i++)
 			{
-				Control control1 = this.template.Controls[0];
-				this.template.Controls.Remove(control1);
+				Control control1 = this._template.Controls[0];
+				this._template.Controls.Remove(control1);
 				if (control1.Visible)
 				{
 					CorrectReferences(control1);
 					this.Controls.Add(control1);
 				}
 			}
-			this.Controls.AddAt(0, this.template);
+			this.Controls.AddAt(0, this._template);
 		}
 
 		/// <summary>
