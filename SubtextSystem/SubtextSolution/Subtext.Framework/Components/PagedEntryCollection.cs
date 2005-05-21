@@ -30,14 +30,11 @@ namespace Subtext.Framework.Components
 	/// </summary>
 	public class PagedEntryCollection : EntryCollection, IPagedResults
 	{
-		public PagedEntryCollection()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
 		private int _maxItems;
+		/// <summary>
+		/// Gets or sets the max items this can contain.
+		/// </summary>
+		/// <value></value>
 		public int MaxItems
 		{
 			get {return this._maxItems;}
@@ -45,4 +42,3 @@ namespace Subtext.Framework.Components
 		}
 	}
 }
-

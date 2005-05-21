@@ -4585,6 +4585,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Images\icn_delete.gif"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Images\link.gif"
                     BuildAction = "Content"
                 />

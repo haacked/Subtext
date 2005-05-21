@@ -23,7 +23,7 @@ namespace Subtext.Web.Controls
 		/// <param name="writer">Writer.</param>
 		protected override void Render(System.Web.UI.HtmlTextWriter writer)
 		{
-			string format = "<script src=\"{0}\" language=\"{1}\"{2} />";	
+			string format = "<script src=\"{0}\" language=\"{1}\"{2}></script>";	
 
 			string idText = string.Empty;
 			if(IsAttributeDefined("id"))

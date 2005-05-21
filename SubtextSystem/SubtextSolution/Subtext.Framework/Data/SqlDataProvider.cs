@@ -39,10 +39,9 @@ namespace Subtext.Framework.Data
 		{
 			get
 			{
-				return  SqlHelper.MakeInParam("@BlogID",SqlDbType.Int,4,Config.CurrentBlog.BlogID);
+				return  SqlHelper.MakeInParam("@BlogID", SqlDbType.Int, 4, Config.CurrentBlog.BlogID);
 			}
 		}
-
 
 		private string _connectionString;
 		/// <summary>
@@ -202,6 +201,48 @@ namespace Subtext.Framework.Data
 
 		#region Admin 
 
+		/// <summary>
+		/// Returns a list of all the blogs within the specified range.
+		/// </summary>
+		/// <param name="pageIndex">Page index.</param>
+		/// <param name="pageSize">Size of the page.</param>
+		/// <param name="sortDescending">Sort descending.</param>
+		/// <returns></returns>
+		public IDataReader GetPagedBlogs(int pageIndex, int pageSize, bool sortDescending)
+		{
+			string sql = "blog_GetPageableBlogs";
+
+			SqlConnection conn = new SqlConnection(ConnectionString);
+			SqlCommand command = new SqlCommand(sql, conn);
+			
+			command.CommandType = CommandType.StoredProcedure;
+			command.Parameters.Add(SqlHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex));
+			command.Parameters.Add(SqlHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize));
+			command.Parameters.Add(SqlHelper.MakeInParam("@SortDesc", SqlDbType.Bit, 1, sortDescending));
+
+			conn.Open();
+			return command.ExecuteReader(CommandBehavior.CloseConnection);
+		}
+
+		/// <summary>
+		/// Gets the blog by id.
+		/// </summary>
+		/// <param name="blogId">Blog id.</param>
+		/// <returns></returns>
+		public IDataReader GetBlogById(int blogId)
+		{
+			string sql = "blog_GetBlogById";
+
+			SqlConnection conn = new SqlConnection(ConnectionString);
+			SqlCommand command = new SqlCommand(sql, conn);
+			
+			command.CommandType = CommandType.StoredProcedure;
+			command.Parameters.Add(SqlHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, blogId));
+
+			conn.Open();
+			return command.ExecuteReader(CommandBehavior.CloseConnection);
+		}
+
 		public IDataReader GetPagedLinks(int CategoryID, int pageIndex, int pageSize, bool sortDescending)
 		{
 			bool useCategory = CategoryID > -1;
@@ -304,9 +345,7 @@ namespace Subtext.Framework.Data
 
 		}
 
-
-		#endregion
-		
+		#endregion	
 
 		#region Get Blog Data
 
@@ -997,7 +1036,7 @@ namespace Subtext.Framework.Data
 		/// <param name="userName">Name of the user.</param>
 		/// <param name="password">Password.</param>
 		/// <returns></returns>
-		public bool AddInitialBlogConfiguration(string userName, string password)
+		public bool AddBlogConfiguration(string userName, string password, string host, string application)
 		{
 			SqlParameter[] parameters = 
 			{

@@ -76,9 +76,9 @@ namespace Subtext.Framework.Configuration
 		/// <param name="userName">Name of the user.</param>
 		/// <param name="password">Password.</param>
 		/// <returns></returns>
-		public static bool AddInitialBlog(string userName, string password)
+		public static bool AddBlogConfiguration(string userName, string password, string host, string application)
 		{
-			return DTOProvider.Instance().AddInitialBlogConfiguration(userName, password);
+			return DTOProvider.Instance().AddBlogConfiguration(userName, password, host, application);
 		}
 
 		/// <summary>

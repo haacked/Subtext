@@ -5,10 +5,16 @@ using Subtext.Framework.Configuration;
 namespace Subtext.Framework.Data
 {
 	/// <summary>
-	/// Summary description for IDTOProvider.
+	/// Provides the base interface any Data Provider must 
+	/// implement.
 	/// </summary>
 	public interface IDTOProvider
 	{
+		#region Blogs
+		BlogConfigCollection GetPagedBlogs(int pageIndex, int pageSize, bool sortDescending);
+		BlogConfig GetBlogById(int blogId);
+		#endregion
+		
 		#region Entries
 
 		#region Paged Posts
@@ -155,7 +161,7 @@ namespace Subtext.Framework.Data
 		/// <param name="userName">Name of the user.</param>
 		/// <param name="password">Password.</param>
 		/// <returns></returns>
-		bool AddInitialBlogConfiguration(string userName, string password);
+		bool AddBlogConfiguration(string userName, string password, string host, string application);
 
 		/// <summary>
 		/// Updates the specified blog configuration.

@@ -7,9 +7,11 @@
 		<title><MP:ContentRegion id="MPTitle" runat="server" /></title>
 		<link rel="stylesheet" type="text/css" href="~/HostAdmin/style/Style.css" runat="server" ID="Link1" />
 		<link rel="stylesheet" type="text/css" href="~/Admin/Resources/scripts/helptip.css" runat="server" ID="Link2" />
-		<MP:ScriptTag language="javascript" src="~/Admin/Resources/scripts/helptip.js" runat="server" />
+		<MP:ScriptTag language="javascript" src="~/Admin/Resources/scripts/helptip.js" runat="server" id="script0" />
 	</head>
 	<body>
+		<form id="frmMain" method="post" runat="server">
+		
 		<div id="main">
 			<div id="logo"><h1><MP:ContentRegion id="MPSectionTitle" runat="server" /></h1></div>
 			
@@ -28,6 +30,8 @@
 			
 		</div> <!-- #main -->
 		<div id="bottom"></div> <!-- #bottom -->
+		
+		</form>
 	</body>
 <!-- 
 	With thanks to Paul Wilson for the MasterPages system.

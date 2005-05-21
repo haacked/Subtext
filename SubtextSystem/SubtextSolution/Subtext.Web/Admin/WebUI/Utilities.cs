@@ -202,6 +202,7 @@ namespace Subtext.Web.Admin
 
 		internal const CategoryType DEFAULT_CATEGORYTYPE = CategoryType.PostCollection;
 	
+		internal const int NULL_INTEGER = int.MinValue;
 		internal const int NULL_CATEGORYID = -1;
 		internal const int NULL_POSTID = -1;
 		internal const int NULL_LINKID = -1;

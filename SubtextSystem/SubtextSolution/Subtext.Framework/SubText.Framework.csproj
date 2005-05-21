@@ -188,6 +188,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Components\BlogConfigCollection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Components\BlogUser.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
