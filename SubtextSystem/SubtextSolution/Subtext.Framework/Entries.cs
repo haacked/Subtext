@@ -33,7 +33,8 @@ using Subtext.Framework.Text;
 namespace Subtext.Framework
 {
 	/// <summary>
-	/// Summary description for Entries.
+	/// Static class used to get entries (blog posts, comments, etc...) 
+	/// from the data store.
 	/// </summary>
 	public sealed class Entries
 	{

@@ -30,7 +30,7 @@ namespace Subtext.Framework.Components
 	/// Represents a collection of <see cref="Entry">Entry</see> Components.
 	/// </summary>
 	[Serializable]
-	public class EntryCollection: CollectionBase
+	public class EntryCollection : CollectionBase
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EntryCollection">EntryCollection</see> class.
@@ -151,7 +151,7 @@ namespace Subtext.Framework.Components
 			/// <param name="mappings">The <see cref="EntryCollection">EntryCollection</see> to enumerate.</param>
 			public BlogPostDayEnumerator(EntryCollection mappings)
 			{
-				_temp =	((IEnumerable)(mappings));
+				_temp = mappings;
 				_enumerator = _temp.GetEnumerator();
 			}
 			

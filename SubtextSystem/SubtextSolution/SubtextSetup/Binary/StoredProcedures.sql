@@ -1,3 +1,11 @@
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetPageableBlogs]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [dbo].[blog_GetPageableBlogs]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetBlogById]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [dbo].[blog_GetBlogById]
+GO
+
 if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[DNW_GetRecentPosts]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[DNW_GetRecentPosts]
 GO
@@ -3962,9 +3970,6 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-
-
-
 CREATE PROC [dbo].blog_Utility_UpdateToHashedPassword
 (
 	@Password nvarchar(100),
@@ -3990,3 +3995,139 @@ GO
 GRANT  EXECUTE  ON [dbo].[blog_Utility_UpdateToHashedPassword]  TO [public]
 GO
 
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/*
+Returns a page of blogs within blog_config table
+*/
+CREATE PROC [dbo].[blog_GetPageableBlogs]
+(
+	@PageIndex int
+	, @PageSize int
+	, @SortDesc bit
+)
+AS
+
+DECLARE @PageLowerBound int
+DECLARE @PageUpperBound int
+
+SET @PageLowerBound = @PageSize * @PageIndex - @PageSize
+SET @PageUpperBound = @PageLowerBound + @PageSize + 1
+
+CREATE TABLE #TempPagedBlogIDs 
+(
+	TempID int IDENTITY (1, 1) NOT NULL,
+	BlogID int NOT NULL
+)	
+
+IF NOT (@SortDesc = 1)
+BEGIN
+	INSERT INTO #TempPagedBlogIDs (BlogID)
+	SELECT	[BlogID] 
+	FROM 	blog_config
+	ORDER BY [BlogID]
+END
+ELSE
+BEGIN
+	INSERT INTO #TempPagedBlogIDs (BlogID)
+	SELECT	[BlogID] 
+	FROM 	blog_config
+	ORDER BY [BlogID] DESC
+END
+
+SELECT	blog.BlogID 
+		, blog.UserName
+		, blog.[Password]
+		, blog.Email
+		, blog.Title
+		, blog.SubTitle
+		, blog.Skin
+		, blog.Application
+		, blog.Host
+		, blog.Author
+		, blog.TimeZone
+		, blog.ItemCount
+		, blog.[Language]
+		, blog.News
+		, blog.SecondaryCss
+		, blog.LastUpdated
+		, blog.PostCount
+		, blog.StoryCount
+		, blog.PingTrackCount
+		, blog.CommentCount
+		, blog.IsAggregated
+		, blog.Flag
+		, blog.SkinCssFile 
+		, blog.BlogGroup
+		, blog.LicenseUrl
+		, blog.DaysTillCommentsClose
+		
+FROM  	blog_config blog
+    	INNER JOIN #TempPagedBlogIDs tmp ON (blog.[BlogID] = tmp.BlogID)
+WHERE 	tmp.TempID > @PageLowerBound 
+	AND tmp.TempID < @PageUpperBound
+ORDER BY tmp.TempID
+ 
+DROP TABLE #TempPagedBlogIDs
+
+
+SELECT COUNT([BlogID]) AS TotalRecords
+FROM 	blog_config
+GO
+
+
+GRANT  EXECUTE  ON [dbo].[blog_GetPageableBlogs]  TO [public]
+GO
+
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/*
+Returns a single blog within the blog_config table by id.
+*/
+CREATE PROC [dbo].[blog_GetBlogById]
+(
+	@BlogId int
+)
+AS
+
+SELECT	blog.BlogID 
+		, blog.UserName
+		, blog.[Password]
+		, blog.Email
+		, blog.Title
+		, blog.SubTitle
+		, blog.Skin
+		, blog.Application
+		, blog.Host
+		, blog.Author
+		, blog.TimeZone
+		, blog.ItemCount
+		, blog.[Language]
+		, blog.News
+		, blog.SecondaryCss
+		, blog.LastUpdated
+		, blog.PostCount
+		, blog.StoryCount
+		, blog.PingTrackCount
+		, blog.CommentCount
+		, blog.IsAggregated
+		, blog.Flag
+		, blog.SkinCssFile 
+		, blog.BlogGroup
+		, blog.LicenseUrl
+		, blog.DaysTillCommentsClose
+		
+FROM  	blog_config blog
+WHERE	blog.BlogId = @BlogId
+GO
+
+
+GRANT  EXECUTE  ON [dbo].[blog_GetBlogById]  TO [public]
+GO

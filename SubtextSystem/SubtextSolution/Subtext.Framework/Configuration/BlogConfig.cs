@@ -38,6 +38,49 @@ namespace Subtext.Framework.Configuration
 		private object urlLock = new object();
 
 		private UrlFormats _UrlFormats = null;
+
+		/// <summary>
+		/// Returns a <see cref="BlogConfigCollection"/> containing the <see cref="BlogConfig"/> 
+		/// instances within the specified range.
+		/// </summary>
+		/// <param name="pageIndex">Page index.</param>
+		/// <param name="pageSize">Size of the page.</param>
+		/// <param name="sortDescending">Sort descending.</param>
+		/// <returns></returns>
+		public static BlogConfigCollection GetBlogs(int pageIndex, int pageSize, bool sortDescending)
+		{
+			return DTOProvider.Instance().GetPagedBlogs(pageIndex, pageSize, sortDescending);
+		}
+
+		/// <summary>
+		/// Returns a <see cref="BlogConfigCollection"/> containing ACTIVE the <see cref="BlogConfig"/> 
+		/// instances within the specified range.
+		/// </summary>
+		/// <param name="pageIndex">Page index.</param>
+		/// <param name="pageSize">Size of the page.</param>
+		/// <param name="sortDescending">Sort descending.</param>
+		/// <returns></returns>
+		public static BlogConfigCollection GetActiveBlogs(int pageIndex, int pageSize, bool sortDescending)
+		{
+			BlogConfigCollection blogs = DTOProvider.Instance().GetPagedBlogs(pageIndex, pageSize, sortDescending);
+			for(int i = blogs.Count - 1; i > -1; i--)
+			{
+				if(!blogs[i].IsActive)
+					blogs.RemoveAt(i);
+			}
+			return blogs;
+		}
+
+		/// <summary>
+		/// Gets the blog by id.
+		/// </summary>
+		/// <param name="blogId">Blog id.</param>
+		/// <returns></returns>
+		public static BlogConfig GetBlogById(int blogId)
+		{
+			return DTOProvider.Instance().GetBlogById(blogId);
+		}
+
 		/// <summary>
 		/// Class used to encapsulate URL formats for 
 		/// various sections of the blog.
@@ -83,7 +126,6 @@ namespace Subtext.Framework.Configuration
 			set{_imagePath = value;}
 		}
 		
-
 		private DateTime _lastupdated;
 		/// <summary>
 		/// Gets or sets the date that the blog's configuration 

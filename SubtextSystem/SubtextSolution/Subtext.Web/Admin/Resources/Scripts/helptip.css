@@ -30,9 +30,14 @@ a.helpLink:hover {
 	z-index:	10000;
 }
 
-
 .help-tooltip a,
-.help-tooltip a:hover {
+.help-tooltip a:hover 
+{
 	color:		blue !important;
 	background:	none;
+}
+
+.help-tooltip p
+{
+	text-align: left;
 }

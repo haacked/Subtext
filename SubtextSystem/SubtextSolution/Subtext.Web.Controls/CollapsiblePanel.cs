@@ -315,7 +315,10 @@ namespace Subtext.Web.Controls
 			}
 			else
 			{
-				CssClass = _bodyCssClass;
+				if(_bodyCssClass != null)
+				{
+					CssClass = _bodyCssClass;
+				}
 			}
 		}
 

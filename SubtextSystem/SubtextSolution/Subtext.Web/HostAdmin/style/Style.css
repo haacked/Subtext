@@ -1,3 +1,88 @@
+/******* Styles from Admin.css ****/
+table.Listing tr.Alt 
+{
+	color: inherit;
+	background: #FFFFFF;
+}
+
+div.Pager  
+{
+	padding-bottom: 4px;
+	margin-bottom: 8px;
+	float: right;
+}
+
+div.Pager div 
+{
+	float: left;
+	margin: 1px 2px 1px 2px;
+}
+
+div.Pager a:link, 
+div.Pager a:visited  
+{
+	font-weight: normal;
+	padding: 0px 2px 0px 2px;
+	margin: 1px 2px 1px 2px;
+	float: left;
+	display: block;
+	clear: none;
+}
+
+p.Label,
+label 
+{
+	font-size: 85%;
+	font-weight: bold;
+	margin: 0px 0px 2px 0px;
+	color: #111111;
+	position: relative;
+}
+
+label 
+{
+	color: #111111;
+	background: inherit;
+}
+
+label.Block 
+{
+	margin-top: 8px;
+	display: block;
+	clear: both;
+}
+
+div.MessagePanel {
+	color: #333333;
+	background: #EEEEEE;
+	border: 1px dashed #CCCCCC;
+	padding: 12px;
+	font-weight: bold;
+}
+
+div.ErrorPanel 
+{
+	color: #660033;
+	background: #FFFFCC;
+	border: 1px dashed #DBDB64;
+	padding: 12px;
+	font-weight: bold;
+}
+
+div.ErrorPanel IMG,
+div.MessagePanel IMG 
+{
+	float: left;
+}
+
+div.ErrorPanel DIV,
+div.MessagePanel DIV 
+{
+	margin-top: 8px;
+	margin-bottom: 8px;
+	margin-left: 44px;
+}
+
 /******* Generic Styles ****/
 body 
 {
@@ -134,10 +219,25 @@ textarea
 	width: 100%;
 }
 
-.button
+a.button, input.button, .button
 {
+	/*
+	font: 1em Georgia, "Times New Roman", Times, serif;
+	color: #FFFFFF;
+	border: 1px solid #333333;
+	background-color: #666666;
+	padding: 1px 4px 1px 4px;
+	*/
+}
+
+a.button:hover, input.button:hover, .button
+{
+	/*
 	border: 1px solid #AAAAAA;
-	background-color: #CCD4E0;
+	color: #000000;
+	background-color: #e9e9e9;
+	text-decoration: underline;
+	cursor: hand;*/
 }
 
 input, textarea
@@ -329,13 +429,13 @@ img
 =================================*/
 #sidebar
 {
-	float: right;
+	float: left;
 	min-height: 500px;
-	padding-left: 10px;
-	width: 170px;
+	padding: 10px;
+	width: 160px;
 	color: White;
 	background-color: #FFFFFF;
-	margin-right: 12px;
+	margin-left: 12px;
 }
 
 #sidebar ul

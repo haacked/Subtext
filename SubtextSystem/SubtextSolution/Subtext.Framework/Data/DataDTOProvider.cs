@@ -14,10 +14,57 @@ namespace Subtext.Framework.Data
 	/// Summary description for DataDTOProvider.
 	/// </summary>
 	public class DataDTOProvider : Subtext.Framework.Data.IDTOProvider
-	{
-		public DataDTOProvider()
+	{	
+		#region Blogs
+		/// <summary>
+		/// Gets a pageable <see cref="BlogConfigCollection"/> of <see cref="BlogConfig"/> instances.
+		/// </summary>
+		/// <param name="pageIndex">Page index.</param>
+		/// <param name="pageSize">Size of the page.</param>
+		/// <param name="sortDescending">Sort descending.</param>
+		/// <returns></returns>
+		public BlogConfigCollection GetPagedBlogs(int pageIndex, int pageSize, bool sortDescending)
 		{
-		}		
+			IDataReader reader = DbProvider.Instance().GetPagedBlogs(pageIndex, pageSize, sortDescending);
+			try
+			{
+				BlogConfigCollection pec = new BlogConfigCollection();
+				while(reader.Read())
+				{
+					pec.Add(DataHelper.LoadConfigData(reader));
+				}
+				reader.NextResult();
+				pec.MaxItems = DataHelper.GetMaxItems(reader);
+				return pec;
+				
+			}
+			finally
+			{
+				reader.Close();
+			}
+		}
+
+		/// <summary>
+		/// Gets the blog by id.
+		/// </summary>
+		/// <param name="blogId">Blog id.</param>
+		/// <returns></returns>
+		public BlogConfig GetBlogById(int blogId)
+		{
+			using(IDataReader reader = DbProvider.Instance().GetBlogById(blogId))
+			{
+				BlogConfigCollection pec = new BlogConfigCollection();
+				if(reader.Read())
+				{
+					BlogConfig config = DataHelper.LoadConfigData(reader);
+					reader.Close();
+					return config;
+				}
+				reader.Close();
+			}
+			return null;
+		}
+		#endregion
 
 		#region Entries
 
@@ -25,7 +72,6 @@ namespace Subtext.Framework.Data
 
 		public PagedEntryCollection GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize, bool sortDescending)
 		{
-			
 			IDataReader reader = DbProvider.Instance().GetPagedEntries(postType,categoryID,pageIndex,pageSize,sortDescending);
 			try
 			{
@@ -881,9 +927,9 @@ namespace Subtext.Framework.Data
 		/// <param name="userName">Name of the user.</param>
 		/// <param name="password">Password.</param>
 		/// <returns></returns>
-		public bool AddInitialBlogConfiguration(string userName, string password)
+		public bool AddBlogConfiguration(string userName, string password, string host, string application)
 		{
-			return DbProvider.Instance().AddInitialBlogConfiguration(userName, password);
+			return DbProvider.Instance().AddBlogConfiguration(userName, password, host, application);
 		}
 		
 		public bool UpdateConfigData(BlogConfig config)

@@ -84,7 +84,7 @@ namespace Subtext.Web
 				
 				// Create the blog_config record using default values 
 				// and the specified user info.
-				if(Config.AddInitialBlog(userName, hashedPassword))
+				if(Config.AddBlogConfiguration(userName, hashedPassword, Request.Url.Host, Request.ApplicationPath))
 				{
 					if(Security.Authenticate(userName, password, !persist))
 					{

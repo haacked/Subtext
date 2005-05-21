@@ -18,7 +18,6 @@ namespace Subtext.Framework.Data
 		}
 
 		#region Get Blog Data
-
 		IDataReader GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc);
 		IDataReader GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc, DateTime DateUpdated);
 
@@ -116,7 +115,7 @@ namespace Subtext.Framework.Data
 		/// <param name="userName">Name of the user.</param>
 		/// <param name="password">Password.</param>
 		/// <returns></returns>
-		bool AddInitialBlogConfiguration(string userName, string password);
+		bool AddBlogConfiguration(string userName, string password, string host, string application);
 
 		IDataReader GetConfig(string host, string application);
 		IDataReader GetConfig(int BlogID);
@@ -162,6 +161,20 @@ namespace Subtext.Framework.Data
 
 		#region Admin
 
+		/// <summary>
+		/// Returns a list of all the blogs within the specified range.
+		/// </summary>
+		/// <param name="pageIndex">Page index.</param>
+		/// <param name="pageSize">Size of the page.</param>
+		/// <param name="sortDescending">Sort descending.</param>
+		/// <returns></returns>
+		IDataReader GetPagedBlogs(int pageIndex, int pageSize, bool sortDescending);
+		/// <summary>
+		/// Gets the blog by id.
+		/// </summary>
+		/// <param name="blogId">Blog id.</param>
+		/// <returns></returns>
+		IDataReader GetBlogById(int blogId);
 		IDataReader GetPagedLinks(int CategoryID, int pageIndex, int pageSize, bool sortDescending);
 		IDataReader GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize, bool sortDescending);
 		IDataReader GetPagedFeedback(int pageIndex, int pageSize, bool sortDescending);
