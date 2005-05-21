@@ -38,7 +38,7 @@ namespace Subtext.Web.Controls
 
 		bool IsAttributeDefined(string name)
 		{
-			return	(this.Attributes[name] != null && this.Attributes[name].Length > 0);		
+			return ControlHelper.IsAttributeDefined(this, name);
 		}
 
 		/// <summary>

@@ -52,7 +52,8 @@ label.Block
 	clear: both;
 }
 
-div.MessagePanel {
+div.MessagePanel 
+{
 	color: #333333;
 	background: #EEEEEE;
 	border: 1px dashed #CCCCCC;
@@ -91,6 +92,12 @@ body
 	background-color: #DDDDDD;
 	min-width: 794px;
 	color: #444444;
+}
+
+a.helpLink img
+{
+	padding-top: 10px;
+	padding-right:25px;
 }
 
 .clear 
@@ -193,7 +200,7 @@ blockquote
 
 input.text 
 {
-	width : 300px;	
+	width : 300px;
 }
 
 textarea 

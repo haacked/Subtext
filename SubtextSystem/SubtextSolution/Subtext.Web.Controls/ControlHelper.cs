@@ -1,5 +1,7 @@
 using System;
 using System.Web;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
 
 namespace Subtext.Web.Controls
 {
@@ -30,6 +32,30 @@ namespace Subtext.Web.Controls
 				return appPath + reference.Substring(1);
 			}
 			return path;
+		}
+
+		/// <summary>
+		/// Returns true if the specified attribute is defined 
+		/// on the control.
+		/// </summary>
+		/// <param name="control">Control.</param>
+		/// <param name="name">Name.</param>
+		/// <returns></returns>
+		public static bool IsAttributeDefined(HtmlControl control, string name)
+		{
+			return control.Attributes[name] != null && control.Attributes[name].Length > 0;
+		}
+
+		/// <summary>
+		/// Returns true if the specified attribute is defined 
+		/// on the control.
+		/// </summary>
+		/// <param name="control">Control.</param>
+		/// <param name="name">Name.</param>
+		/// <returns></returns>
+		public static bool IsAttributeDefined(WebControl control, string name)
+		{
+			return control.Attributes[name] != null && control.Attributes[name].Length > 0;
 		}
 	}
 }
