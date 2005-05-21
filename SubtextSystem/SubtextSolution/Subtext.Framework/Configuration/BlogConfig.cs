@@ -59,16 +59,32 @@ namespace Subtext.Framework.Configuration
 		/// <param name="pageIndex">Page index.</param>
 		/// <param name="pageSize">Size of the page.</param>
 		/// <param name="sortDescending">Sort descending.</param>
+		/// <param name="totalBlogs">Indicates the total number of blogs</param>
 		/// <returns></returns>
-		public static BlogConfigCollection GetActiveBlogs(int pageIndex, int pageSize, bool sortDescending)
+		public static BlogConfigCollection GetActiveBlogs(int pageIndex, int pageSize, bool sortDescending, out int totalBlogs)
 		{
 			BlogConfigCollection blogs = DTOProvider.Instance().GetPagedBlogs(pageIndex, pageSize, sortDescending);
+			totalBlogs = blogs.Count;
 			for(int i = blogs.Count - 1; i > -1; i--)
 			{
 				if(!blogs[i].IsActive)
 					blogs.RemoveAt(i);
 			}
 			return blogs;
+		}
+
+		/// <summary>
+		/// Returns a <see cref="BlogConfigCollection"/> containing ACTIVE the <see cref="BlogConfig"/> 
+		/// instances within the specified range.
+		/// </summary>
+		/// <param name="pageIndex">Page index.</param>
+		/// <param name="pageSize">Size of the page.</param>
+		/// <param name="sortDescending">Sort descending.</param>
+		/// <returns></returns>
+		public static BlogConfigCollection GetActiveBlogs(int pageIndex, int pageSize, bool sortDescending)
+		{
+			int totalCount;
+			return GetActiveBlogs(pageIndex, pageSize, sortDescending, out totalCount);
 		}
 
 		/// <summary>

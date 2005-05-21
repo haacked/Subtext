@@ -14,7 +14,7 @@
 		
 		<div id="main">
 			<div id="logo"><h1><MP:ContentRegion id="MPSectionTitle" runat="server" /></h1></div>
-			
+						
 			<ul id="menu">
 				<MP:MenuItem href="~/HostAdmin/"	title="Manage the blogs installed on this server" runat="server" ID="Menuitem1">Installed Blogs</MP:MenuItem>
 			</ul><!-- #menu -->

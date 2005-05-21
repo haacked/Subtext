@@ -17,8 +17,8 @@ namespace Subtext.Web.HostAdmin.UserControls
 	/// </summary>
 	public class BlogsEditor : System.Web.UI.UserControl
 	{
-		private const string VSKEY_BLOGID = "VS_BLOGID";
-		private int _resultsPageNumber = 1;
+		const string VSKEY_BLOGID = "VS_BLOGID";
+		int _resultsPageNumber = 1;
 
 		#region Declared Controls
 		protected System.Web.UI.WebControls.Repeater rprBlogsList;
@@ -36,11 +36,24 @@ namespace Subtext.Web.HostAdmin.UserControls
 		protected System.Web.UI.WebControls.TextBox txtUsername;
 		protected System.Web.UI.WebControls.TextBox txtPassword;
 		protected System.Web.UI.WebControls.TextBox txtPasswordConfirm;
+		protected System.Web.UI.WebControls.RequiredFieldValidator vldHostRequired;
+		protected System.Web.UI.WebControls.RequiredFieldValidator vldApplicationRequired;
+		protected System.Web.UI.HtmlControls.HtmlTableRow passwordRow;
+		protected System.Web.UI.HtmlControls.HtmlTableRow passwordRowConfirm;
+		protected System.Web.UI.HtmlControls.HtmlImage Img1;
+		protected System.Web.UI.HtmlControls.HtmlImage Img2;
+		protected System.Web.UI.HtmlControls.HtmlInputHidden virtualDirectory;
+		protected Subtext.Web.Controls.HelpToolTip hostDomainHelpTip;
+		protected Subtext.Web.Controls.HelpToolTip applicationHelpTip;
+		protected Subtext.Web.Controls.HelpToolTip helpBlogEditor;
+		protected System.Web.UI.HtmlControls.HtmlImage Img3;
+		protected Subtext.Web.Controls.HelpToolTip Helptooltip1;
 		protected System.Web.UI.WebControls.Button btnAddNewBlog = new System.Web.UI.WebControls.Button();
 		#endregion
 
 		private void Page_Load(object sender, System.EventArgs e)
 		{
+			this.btnAddNewBlog.Click += new EventHandler(btnAddNewBlog_Click);
 			ContentRegion sideBar = Page.FindControl("MPSideBar") as ContentRegion;
 			if(sideBar != null)
 			{
@@ -70,13 +83,15 @@ namespace Subtext.Web.HostAdmin.UserControls
 
 			BlogConfigCollection blogs = null; 
 			
+			int totalBlogs;
 			if(this.chkShowInactive.Checked)
 			{
 				blogs = BlogConfig.GetBlogs(_resultsPageNumber, resultsPager.PageSize, false);	
+				totalBlogs = blogs.Count;
 			}
 			else
 			{
-				blogs = BlogConfig.GetActiveBlogs(_resultsPageNumber, resultsPager.PageSize, false);
+				blogs = BlogConfig.GetActiveBlogs(_resultsPageNumber, resultsPager.PageSize, false, out totalBlogs);			
 			}
 
 			if (blogs.Count > 0)
@@ -92,6 +107,8 @@ namespace Subtext.Web.HostAdmin.UserControls
 				this.resultsPager.Visible = false;
 				this.lblNoMessages.Visible = true;	
 			}
+
+			CurrentBlogCount = totalBlogs;
 		}
 
 		void BindEdit()
@@ -99,12 +116,13 @@ namespace Subtext.Web.HostAdmin.UserControls
 			this.pnlResults.Visible = false;
 			this.pnlEdit.Visible = true;
 			
+			BindEditHelp();
+
 			BlogConfig blog;
 			if(BlogId != Constants.NULL_INTEGER)
 			{
 				blog = BlogConfig.GetBlogById(BlogId);
-
-				lblTitle.Text = blog.Title;
+				this.lblTitle.Text = blog.Title;
 				this.txtApplication.Text = blog.Application;
 				this.txtHost.Text = blog.Host;
 				this.txtUsername.Text = blog.UserName;
@@ -112,7 +130,62 @@ namespace Subtext.Web.HostAdmin.UserControls
 			else
 			{
 				blog = new BlogConfig();
+				this.lblTitle.Text = string.Empty;
+				this.txtApplication.Text = string.Empty;
+				this.txtHost.Text = string.Empty;
+				this.txtUsername.Text = string.Empty;
 			}
+
+			string onChangeScript = string.Format("onPreviewChanged('{0}', '{1}', '{2}');", this.txtHost.ClientID, this.txtApplication.ClientID, this.virtualDirectory.ClientID);
+
+			if(!Page.IsStartupScriptRegistered("SetUrlPreview"))
+			{
+				string startupScript = "<script type=\"text/javascript\">" 
+					+ Environment.NewLine 
+					+ onChangeScript 
+					+ Environment.NewLine 
+					+ "</script>";
+				Page.RegisterStartupScript("SetUrlPreview", startupScript);
+			}
+
+			this.txtApplication.Attributes["onkeyup"] = onChangeScript;
+			this.txtHost.Attributes["onkeyup"] = onChangeScript;
+
+			this.virtualDirectory.Value = Request.ApplicationPath.Replace("/", string.Empty);
+		}
+
+		// Contains the various help strings
+		void BindEditHelp()
+		{
+			#region Help Tool Tip Text
+			this.helpBlogEditor.HelpText = "<p>Use this page to manage the blogs installed on this server.</p>";
+
+			this.hostDomainHelpTip.HelpText = "<p><strong>Host Domain</strong> is the domain name for this blog. "
+				+ "If you never plan on setting up another blog on this server, then you do not have " 
+				+ "to worry about this setting.  However, if you decide to add another blog at a later "
+				+ "time, it&#8217;s important to update this setting for your initial blog.</p>"
+				+ "<p>For example, if you are hosting this blog at http://www.example.com/, the Host Domain "
+				+ "would be &#8220;www.example.com&#8221;.</p><p>If you are trying to set this up on your " 
+				+ "own machine for testing purposes (i.e. it&#8217;s not publicly viewable, you might try " 
+				+ "&#8220;localhost&#8221; for the host domain.</p>" 
+				+ "<p><strong>Important:</strong>If you are setting up multiple blogs on the same server, "
+				+ "multiple blogs may have the same Host Domain name if they don&#8217;t also have the same " 
+				+ "Application name.  However, two blogs with different Host Domains may have the same Application "
+				+ "name (though that&#8217;s not recommended)."
+				+ "</p><p>Also, if there are multiple blogs with the same Host Domain Name, they must all "
+				+ "have a non-empty Application name defined.  For more detailed coverage " 
+				+ ", please visit [//TODO: Enter URL HERE]."
+				+ "</p>";
+
+			this.applicationHelpTip.HelpText = "<p>"
+				+ "Leave the application blank unless you are hosting multiple blogs on the "
+				+ "same server.</p>"
+				+ "<p>The Application is a &#8220;subdirectory&#8221; that will correspond "
+				+ "to this blog.</p><p>For example, if you enter &#8220;MyBlog&#8221; " 
+				+ "(sans quotes of course) for the application, then the root URL to your blog "
+				+ "would be <em>http://[HOSTDOMAIN]/MyBlog/</em>"
+				+ "</p>";
+			#endregion
 		}
 
 		/// <summary>
@@ -129,6 +202,23 @@ namespace Subtext.Web.HostAdmin.UserControls
 					return Constants.NULL_INTEGER;
 			}
 			set { ViewState[VSKEY_BLOGID] = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the number of blogs 
+		/// currently in the system.
+		/// </summary>
+		/// <value></value>
+		public int CurrentBlogCount
+		{
+			get
+			{
+				if(ViewState["VS_CurrentBlogCount"] != null)
+					return (int)ViewState["VS_CurrentBlogCount"];
+				else
+					return Constants.NULL_INTEGER;
+			}
+			set { ViewState["VS_CurrentBlogCount"] = value; }
 		}
 
 		bool CreatingBlog
@@ -156,7 +246,6 @@ namespace Subtext.Web.HostAdmin.UserControls
 		private void InitializeComponent()
 		{
 			this.chkShowInactive.CheckedChanged += new System.EventHandler(this.chkShowInactive_CheckedChanged);
-			this.btnAddNewBlog.Click += new EventHandler(btnAddNewBlog_Click);
 			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
 			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
 			this.Load += new System.EventHandler(this.Page_Load);
@@ -171,6 +260,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
 		private void btnAddNewBlog_Click(object sender, EventArgs e)
 		{
+			this.BlogId = Constants.NULL_INTEGER;
 			BindEdit();
 		}
 
@@ -223,6 +313,11 @@ namespace Subtext.Web.HostAdmin.UserControls
 				{
 					this.messagePanel.ShowError("Darn! An unexpected error occurred.  Not sure what happened. Sorry.");
 				}
+				BindList();
+			}
+			else
+			{
+				BindEdit();
 			}
 		}
 
