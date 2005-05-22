@@ -119,6 +119,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "UnitTestDTOProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "UnitTestHelper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -250,6 +255,11 @@
                 />
                 <File
                     RelPath = "Framework\SecurityTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Framework\Configuration\BlogCreationTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

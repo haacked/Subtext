@@ -1,6 +1,7 @@
 using System;
 using System.Configuration;
 using System.Web;
+using Subtext.Framework.Exceptions;
 using Subtext.Framework.Providers;
 
 namespace Subtext.Framework.Configuration
@@ -57,15 +58,7 @@ namespace Subtext.Framework.Configuration
 		/// <returns></returns>
 		public static BlogConfig GetConfig(string hostname, string application)
 		{
-			BlogConfig result = DTOProvider.Instance().GetConfig(hostname, application);
-			if(result == null)
-			{
-				throw new BlogDoesNotExistException(
-					String.Format("A blog matching the location you requested was not found. Host = [{0}], Application = [{1}]",
-					hostname, 
-					application));
-			}
-			return result;
+			return DTOProvider.Instance().GetConfig(hostname, application);
 		}
 
 		/// <summary>
@@ -78,6 +71,22 @@ namespace Subtext.Framework.Configuration
 		/// <returns></returns>
 		public static bool AddBlogConfiguration(string userName, string password, string host, string application)
 		{
+			//Check for duplicate
+			BlogConfig config = Subtext.Framework.Configuration.Config.GetConfig(host, application);
+			if(config != null)
+			{
+				//we found a duplicate!
+				throw new BlogDuplicationException(config);
+			}
+
+			//Check to see if we're going to end up hiding another blog.
+			config = Subtext.Framework.Configuration.Config.GetConfig(host, string.Empty);
+			if(config != null)
+			{
+				//We found a blog that would be hidden by this one.
+				throw new BlogHiddenException(config);
+			}
+
 			return DTOProvider.Instance().AddBlogConfiguration(userName, password, host, application);
 		}
 
@@ -89,6 +98,21 @@ namespace Subtext.Framework.Configuration
 		/// <returns></returns>
 		public static bool UpdateConfigData(BlogConfig config)
 		{
+			//Check for duplicate
+			BlogConfig potentialDuplicate = Subtext.Framework.Configuration.Config.GetConfig(config.Host, config.Application);
+			if(potentialDuplicate != null && !potentialDuplicate.Equals(config))
+			{
+				//we found a duplicate!
+				throw new BlogDuplicationException(potentialDuplicate);
+			}
+
+			//Check to see if we're going to end up hiding another blog.
+			BlogConfig potentialHidden = Subtext.Framework.Configuration.Config.GetConfig(config.Host, string.Empty);
+			if(potentialHidden != null && !potentialHidden.Equals(config))
+			{
+				//We found a blog that would be hidden by this one.
+				throw new BlogHiddenException(potentialHidden);
+			}
 			return DTOProvider.Instance().UpdateConfigData(config);
 		}
 	}

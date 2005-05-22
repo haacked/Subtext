@@ -9,11 +9,5 @@ namespace Subtext.Framework.Providers
 	[XmlRoot("DTOProvider")]
 	public class DTOProviderConfiguration : BaseProvider
 	{
-		public DTOProviderConfiguration()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
 	}
 }

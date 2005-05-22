@@ -448,6 +448,21 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Exceptions\BaseSubtextException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Exceptions\BlogDuplicationException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Exceptions\BlogHiddenException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ExternalDependencies\CookComputing.XmlRpc.dll"
                     BuildAction = "Content"
                 />

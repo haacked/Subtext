@@ -1,5 +1,6 @@
 using System;
 using System.Web;
+using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Threading;
 
@@ -66,6 +67,12 @@ namespace Subtext.Common.Config
 			}
 
 			BlogConfig config = Subtext.Framework.Configuration.Config.GetConfig(Host, Application);
+			if(config == null)
+			{
+				throw new BlogDoesNotExistException(String.Format("A blog matching the location you requested was not found. Host = [{0}], Application = [{1}]",
+					Host, 
+					Application));
+			}
 			config.Host = Host;
 			config.Application = Application;
 

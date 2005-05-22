@@ -29,15 +29,8 @@ namespace Subtext.Web
 			//We need to make sure that the form is ONLY displayed 
 			//when an actual error has happened AND the user is a 
 			//local user.
-			bool blogConfigured = true;
-			try
-			{
-				Config.GetConfig("", "");
-			}
-			catch(BlogDoesNotExistException)
-			{
-				blogConfigured = false;
-			}
+			
+			bool blogConfigured = (Config.GetConfig("", "") != null);
 
 			if(blogConfigured)
 			{

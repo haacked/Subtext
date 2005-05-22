@@ -592,6 +592,29 @@ namespace Subtext.Framework.Configuration
 		{
 			return (this.Flag & cf) == cf;
 		}
+
+		/// <summary>
+		/// Returns true if the two instances are equal
+		/// </summary>
+		/// <param name="obj">Obj.</param>
+		/// <returns></returns>
+		public override bool Equals(object obj)
+		{
+			if(obj == null || GetType() != obj.GetType())
+				return false;
+
+			return ((BlogConfig)obj).BlogID == this.BlogID;
+		}
+
+		/// <summary>
+		/// Serves as the hash function for the type <see cref="BlogConfig" />, 
+		/// suitable for use in hashing functions.
+		/// </summary>
+		/// <returns></returns>
+		public override int GetHashCode()
+		{
+			return this.Host.GetHashCode() ^ this.Application.GetHashCode();
+		}
 	}
 }
 

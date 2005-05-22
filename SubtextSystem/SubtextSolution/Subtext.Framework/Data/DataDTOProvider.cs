@@ -53,7 +53,6 @@ namespace Subtext.Framework.Data
 		{
 			using(IDataReader reader = DbProvider.Instance().GetBlogById(blogId))
 			{
-				BlogConfigCollection pec = new BlogConfigCollection();
 				if(reader.Read())
 				{
 					BlogConfig config = DataHelper.LoadConfigData(reader);

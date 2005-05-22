@@ -8,13 +8,6 @@ namespace Subtext.Framework.Providers
 	[Serializable]
 	public class BlogProviders
 	{
-		public BlogProviders()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
 		private EmailProviderConfiguration _emailProvider;
 		public EmailProviderConfiguration EmailProvider
 		{
