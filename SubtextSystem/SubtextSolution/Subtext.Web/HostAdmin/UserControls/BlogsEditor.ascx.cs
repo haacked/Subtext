@@ -45,8 +45,8 @@ namespace Subtext.Web.HostAdmin.UserControls
 		protected System.Web.UI.HtmlControls.HtmlInputHidden virtualDirectory;
 		protected Subtext.Web.Controls.HelpToolTip hostDomainHelpTip;
 		protected Subtext.Web.Controls.HelpToolTip applicationHelpTip;
-		protected Subtext.Web.Controls.HelpToolTip helpBlogEditor;
 		protected System.Web.UI.HtmlControls.HtmlImage Img3;
+		protected Subtext.Web.Controls.HelpToolTip blogEditorHelp;
 		protected Subtext.Web.Controls.HelpToolTip Helptooltip1;
 		protected System.Web.UI.WebControls.Button btnAddNewBlog = new System.Web.UI.WebControls.Button();
 		#endregion
@@ -158,7 +158,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 		void BindEditHelp()
 		{
 			#region Help Tool Tip Text
-			this.helpBlogEditor.HelpText = "<p>Use this page to manage the blogs installed on this server.</p>";
+			this.blogEditorHelp.HelpText = "<p>Use this page to manage the blogs installed on this server.</p>";
 
 			this.hostDomainHelpTip.HelpText = "<p><strong>Host Domain</strong> is the domain name for this blog. "
 				+ "If you never plan on setting up another blog on this server, then you do not have " 
