@@ -2,6 +2,10 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetPa
 drop procedure [dbo].[blog_GetPageableBlogs]
 GO
 
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetBlogsByHost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [dbo].[blog_GetBlogsByHost]
+GO
+
 if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetBlogById]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[blog_GetBlogById]
 GO
@@ -3259,7 +3263,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_InsertPingTrackEntry
+CREATE PROC [dbo].[blog_InsertPingTrackEntry]
 (
 	@Title nvarchar(255)
 	, @TitleUrl nvarchar(255)
@@ -3349,7 +3353,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_InsertPostCategoryByName
+CREATE PROC [dbo].[blog_InsertPostCategoryByName]
 (
 	@Title nvarchar(150)
 	, @PostID int
@@ -3387,7 +3391,7 @@ GO
 
 
 
-CREATE PROC [dbo].blog_InsertReferral
+CREATE PROC [dbo].[blog_InsertReferral]
 (
 	@EntryID int,
 	@BlogID int,
@@ -3438,7 +3442,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_InsertViewStats
+CREATE PROC [dbo].[blog_InsertViewStats]
 (
 	@BlogID int,
 	@PageType tinyint,
@@ -3518,7 +3522,7 @@ GO
 
 
 
-CREATE PROC [dbo].blog_TrackEntry
+CREATE PROC [dbo].[blog_TrackEntry]
 (
 	@EntryID int,
 	@BlogID int,
@@ -3560,7 +3564,7 @@ Subtext 1.0 will only support single user blogs, thus this
 proc will make sure there is only one blog in the system 
 AND will fail to add a blog if one already exists.
 */
-CREATE PROC [dbo].blog_UTILITY_AddBlog
+CREATE PROC [dbo].[blog_UTILITY_AddBlog]
 (
 	@UserName nvarchar(50),
 	@Password nvarchar(50),
@@ -3633,7 +3637,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_UpdateCategory
+CREATE PROC [dbo].[blog_UpdateCategory]
 (
 	@CategoryID int,
 	@Title nvarchar(150),
@@ -3668,7 +3672,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].blog_UpdateConfig
+CREATE PROC [dbo].[blog_UpdateConfig]
 (
 	@UserName nvarchar(50)
 	, @Password nvarchar(50)
@@ -3730,7 +3734,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_UpdateConfigUpdateTime
+CREATE PROC [dbo].[blog_UpdateConfigUpdateTime]
 (
 	@BlogID int,
 	@LastUpdated datetime
@@ -3756,7 +3760,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_UpdateEntry
+CREATE PROC [dbo].[blog_UpdateEntry]
 (
 	@ID int
 	, @Title nvarchar(255)
@@ -3823,7 +3827,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_UpdateImage
+CREATE PROC [dbo].[blog_UpdateImage]
 (
 	@Title nvarchar(250),
 	@CategoryID int,
@@ -3863,7 +3867,7 @@ GO
 
 
 
-CREATE PROC [dbo].blog_UpdateKeyWord
+CREATE PROC [dbo].[blog_UpdateKeyWord]
 (
 	@KeyWordID int,
 	@Word nvarchar(100),
@@ -3906,7 +3910,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_UpdateLink
+CREATE PROC [dbo].[blog_UpdateLink]
 (
 	@LinkID int,
 	@Title nvarchar(150),
@@ -3948,7 +3952,7 @@ GO
 
 
 
-CREATE PROC [dbo].blog_Utility_GetUnHashedPasswords
+CREATE PROC [dbo].[blog_Utility_GetUnHashedPasswords]
 AS
 
 SELECT BlogID, Password FROM blog_COnfig WHERE Flag & 8 = 0
@@ -3970,7 +3974,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].blog_Utility_UpdateToHashedPassword
+CREATE PROC [dbo].[blog_Utility_UpdateToHashedPassword]
 (
 	@Password nvarchar(100),
 	@BlogID int
@@ -4131,3 +4135,53 @@ GO
 
 GRANT  EXECUTE  ON [dbo].[blog_GetBlogById]  TO [public]
 GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/*
+Returns a single blog within the blog_config table by id.
+*/
+CREATE PROC [dbo].[blog_GetBlogsByHost]
+(
+	@Host nvarchar(100)
+)
+AS
+
+SELECT	blog.BlogID 
+		, blog.UserName
+		, blog.[Password]
+		, blog.Email
+		, blog.Title
+		, blog.SubTitle
+		, blog.Skin
+		, blog.Application
+		, blog.Host
+		, blog.Author
+		, blog.TimeZone
+		, blog.ItemCount
+		, blog.[Language]
+		, blog.News
+		, blog.SecondaryCss
+		, blog.LastUpdated
+		, blog.PostCount
+		, blog.StoryCount
+		, blog.PingTrackCount
+		, blog.CommentCount
+		, blog.IsAggregated
+		, blog.Flag
+		, blog.SkinCssFile 
+		, blog.BlogGroup
+		, blog.LicenseUrl
+		, blog.DaysTillCommentsClose
+		
+FROM  	blog_config blog
+WHERE	blog.Host = @Host
+GO
+
+
+GRANT  EXECUTE  ON [dbo].[blog_GetBlogsByHost]  TO [public]
+GO
+

@@ -169,12 +169,23 @@ namespace Subtext.Framework.Data
 		/// <param name="sortDescending">Sort descending.</param>
 		/// <returns></returns>
 		IDataReader GetPagedBlogs(int pageIndex, int pageSize, bool sortDescending);
+		
 		/// <summary>
 		/// Gets the blog by id.
 		/// </summary>
 		/// <param name="blogId">Blog id.</param>
 		/// <returns></returns>
 		IDataReader GetBlogById(int blogId);
+		
+		/// <summary>
+		/// Returns an instance of <see cref="IDataReader"/> used to 
+		/// iterate through a result set containing blog_config rows 
+		/// with the specified host.
+		/// </summary>
+		/// <param name="host">Host.</param>
+		/// <returns></returns>
+		IDataReader GetBlogsByHost(string host);
+		
 		IDataReader GetPagedLinks(int CategoryID, int pageIndex, int pageSize, bool sortDescending);
 		IDataReader GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize, bool sortDescending);
 		IDataReader GetPagedFeedback(int pageIndex, int pageSize, bool sortDescending);

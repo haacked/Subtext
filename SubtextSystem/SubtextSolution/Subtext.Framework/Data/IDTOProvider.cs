@@ -11,8 +11,29 @@ namespace Subtext.Framework.Data
 	public interface IDTOProvider
 	{
 		#region Blogs
+		/// <summary>
+		/// Gets a pageable <see cref="BlogConfigCollection"/> of <see cref="BlogConfig"/> instances.
+		/// </summary>
+		/// <param name="pageIndex">Page index.</param>
+		/// <param name="pageSize">Size of the page.</param>
+		/// <param name="sortDescending">Sort descending.</param>
+		/// <returns></returns>
 		BlogConfigCollection GetPagedBlogs(int pageIndex, int pageSize, bool sortDescending);
+		
+		/// <summary>
+		/// Gets the blog by id.
+		/// </summary>
+		/// <param name="blogId">Blog id.</param>
+		/// <returns></returns>
 		BlogConfig GetBlogById(int blogId);
+		
+		/// <summary>
+		/// Returns <see cref="BlogConfigCollection"/> with the blogs that 
+		/// have the specified host.
+		/// </summary>
+		/// <param name="host">Host.</param>
+		/// <returns></returns>
+		BlogConfigCollection GetBlogsByHost(string host);
 		#endregion
 		
 		#region Entries

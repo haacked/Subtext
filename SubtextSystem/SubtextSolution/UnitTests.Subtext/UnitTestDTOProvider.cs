@@ -54,6 +54,19 @@ namespace UnitTests.Subtext
 			return _blogById;
 		}
 
+		public BlogConfigCollection GetBlogsByHost(string host)
+		{
+			BlogConfigCollection blogsWithHost = new BlogConfigCollection();
+			foreach(BlogConfig config in _pagedBlogs)
+			{
+				if(StringHelper.AreEqualIgnoringCase(config.Host, host))
+				{
+					blogsWithHost.Add(config);
+				}
+			}
+			return blogsWithHost;
+		}
+
 		public PagedEntryCollection GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize, bool sortDescending)
 		{
 			throw new NotImplementedException();

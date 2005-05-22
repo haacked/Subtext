@@ -53,6 +53,17 @@ namespace Subtext.Framework.Configuration
 		}
 
 		/// <summary>
+		/// Returns a <see cref="BlogConfigCollection"/> containing the <see cref="BlogConfig"/> 
+		/// instances that have the specified hostname.
+		/// </summary>
+		/// <param name="host">host.</param>
+		/// <returns></returns>
+		public static BlogConfigCollection GetBlogsByHost(string host)
+		{
+			return DTOProvider.Instance().GetBlogsByHost(host);
+		}
+
+		/// <summary>
 		/// Returns a <see cref="BlogConfigCollection"/> containing ACTIVE the <see cref="BlogConfig"/> 
 		/// instances within the specified range.
 		/// </summary>

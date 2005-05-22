@@ -1,6 +1,7 @@
 using System;
 using System.Configuration;
 using System.Web;
+using Subtext.Framework.Components;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Providers;
 
@@ -72,19 +73,30 @@ namespace Subtext.Framework.Configuration
 		public static bool AddBlogConfiguration(string userName, string password, string host, string application)
 		{
 			//Check for duplicate
-			BlogConfig config = Subtext.Framework.Configuration.Config.GetConfig(host, application);
-			if(config != null)
+			BlogConfig potentialDuplicate = Subtext.Framework.Configuration.Config.GetConfig(host, application);
+			if(potentialDuplicate != null)
 			{
 				//we found a duplicate!
-				throw new BlogDuplicationException(config);
+				throw new BlogDuplicationException(potentialDuplicate);
 			}
 
 			//Check to see if we're going to end up hiding another blog.
-			config = Subtext.Framework.Configuration.Config.GetConfig(host, string.Empty);
-			if(config != null)
+			BlogConfig potentialHidden = Subtext.Framework.Configuration.Config.GetConfig(host, string.Empty);
+			if(potentialHidden != null)
 			{
 				//We found a blog that would be hidden by this one.
-				throw new BlogHiddenException(config);
+				throw new BlogHiddenException(potentialHidden);
+			}
+			
+			if(application == null || application.Length == 0 || application == "/")
+			{
+				//Check to see if this blog requires an Application value
+				//This would occur if another blog has the same host already.
+				BlogConfigCollection blogsWithHost = BlogConfig.GetBlogsByHost(host);
+				if(blogsWithHost.Count > 0)
+				{
+					throw new BlogRequiresApplicationException(blogsWithHost.Count);
+				}
 			}
 
 			return DTOProvider.Instance().AddBlogConfiguration(userName, password, host, application);
@@ -113,6 +125,21 @@ namespace Subtext.Framework.Configuration
 				//We found a blog that would be hidden by this one.
 				throw new BlogHiddenException(potentialHidden);
 			}
+
+			if(config.Application == null || config.Application.Length == 0 || config.Application == "/")
+			{
+				//Check to see if this blog requires an Application value
+				//This would occur if another blog has the same host already.
+				BlogConfigCollection blogsWithHost = BlogConfig.GetBlogsByHost(config.Host);
+				if(blogsWithHost.Count > 0)
+				{
+					if(blogsWithHost.Count > 1 || !blogsWithHost[0].Equals(config))
+					{
+						throw new BlogRequiresApplicationException(blogsWithHost.Count);
+					}
+				}
+			}
+
 			return DTOProvider.Instance().UpdateConfigData(config);
 		}
 	}
