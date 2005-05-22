@@ -3,7 +3,7 @@
 <%@ Register TagPrefix="SP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <ANW:MessagePanel id="messagePanel" runat="server"></ANW:MessagePanel>
 <ANW:AdvancedPanel id="pnlResults" runat="server">
-	<asp:CheckBox id="chkShowInactive" AutoPostBack="True" Text="Show Inactive Blogs" Runat="server"></asp:CheckBox>
+	<asp:CheckBox id="chkShowInactive" Runat="server" Text="Show Inactive Blogs" AutoPostBack="True"></asp:CheckBox>
 	<asp:Repeater id="rprBlogsList" Runat="server" OnItemCommand="rprBlogsList_ItemCommand">
 		<HeaderTemplate>
 			<table class="Listing" cellSpacing="0" cellPadding="4" border="0">
@@ -79,17 +79,17 @@
 		</FooterTemplate>
 	</asp:Repeater>
 	<P id="lblNoMessages" runat="server" visible="false">No entries found.</P>
-	<ANW:Pager id="resultsPager" runat="server" CssClass="Pager" UrlFormat="Default.aspx?pg={0}"
-		LinkFormatActive='<a href="{0}" class="Current">{1}</a>' PrefixText="<div>Goto page</div>"
-		UseSpacer="False"></ANW:Pager>
+	<ANW:Pager id="resultsPager" runat="server" UseSpacer="False" PrefixText="<div>Goto page</div>"
+		LinkFormatActive='<a href="{0}" class="Current">{1}</a>' UrlFormat="Default.aspx?pg={0}"
+		CssClass="Pager"></ANW:Pager>
 </ANW:AdvancedPanel>
 <ANW:AdvancedPanel id="pnlEdit" runat="server">
-	<SP:HelpToolTip id="helpBlogEditor" runat="server">
+	<SP:HelpToolTip id="blogEditorHelp" runat="server">
 		<IMG id="Img3" src="~/images/ms_help.gif" align="right" runat="server"></SP:HelpToolTip>
 	<TABLE border="0">
 		<TR>
 			<TD colSpan="2">
-				<script type="text/javascript">
+				<SCRIPT type="text/javascript">
 					function replace( str, from, to ) 
 					{
 						var idx = str.indexOf( from );
@@ -152,9 +152,10 @@
 						
 						urlPreview.innerHTML = preview;
 					}
-				</script>
+				</SCRIPT>
 				<STRONG>
-					<SP:HelpToolTip id="Helptooltip1" runat="server" HelpText="Based on what you’ve entered below, this shows what the url to this blog will look like. <em>(Requires Javascript to be enabled)</em>">Url Preview</SP:HelpToolTip>:</STRONG>
+					<SP:HelpToolTip id="Helptooltip1" runat="server" HelpText="Based on what you’ve entered below, this shows what the url to this blog will look like. <em>(Requires Javascript to be enabled)</em>">Url 
+      Preview</SP:HelpToolTip>:</STRONG>
 				<DIV class="MessagePanel" id="urlPreview">http://
 				</DIV>
 			</TD>
@@ -169,8 +170,7 @@
 					<SP:HelpToolTip id="hostDomainHelpTip" runat="server">
 						<STRONG>Host Domain</STRONG></SP:HelpToolTip>:</LABEL></TD>
 			<TD>
-				<asp:TextBox id="txtHost" Runat="server"></asp:TextBox>
-				<input type="hidden" id="virtualDirectory" runat="server" />
+				<asp:TextBox id="txtHost" Runat="server"></asp:TextBox><INPUT id="virtualDirectory" type="hidden" runat="server">
 			</TD>
 		</TR>
 		<TR>
@@ -197,8 +197,8 @@
 		</TR>
 		<TR>
 			<TD colSpan="2">
-				<asp:Button id="btnCancel" Text="Cancel" Runat="server" CssClass="button"></asp:Button>
-				<asp:Button id="btnSave" Text="Save" Runat="server" CssClass="button"></asp:Button></TD>
+				<asp:Button id="btnCancel" Runat="server" Text="Cancel" CssClass="button"></asp:Button>
+				<asp:Button id="btnSave" Runat="server" Text="Save" CssClass="button"></asp:Button></TD>
 		</TR>
 	</TABLE>
 </ANW:AdvancedPanel>
