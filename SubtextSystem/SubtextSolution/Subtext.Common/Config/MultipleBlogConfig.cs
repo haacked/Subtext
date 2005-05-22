@@ -1,6 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Web;
+using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Util;
@@ -45,6 +46,12 @@ namespace Subtext.Common.Config
 					string appFromRequest = UrlFormats.GetBlogAppFromRequest(context.Request.RawUrl.ToLower(), app);
 
 					config = Subtext.Framework.Configuration.Config.GetConfig(Host, appFromRequest);
+					if(config == null)
+					{
+						throw new BlogDoesNotExistException(String.Format("A blog matching the location you requested was not found. Host = [{0}], Application = [{1}]",
+							Host, 
+							appFromRequest));
+					}
 
 					BlogConfigurationSettings settings = Subtext.Framework.Configuration.Config.Settings;
 

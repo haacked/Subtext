@@ -7,8 +7,7 @@ namespace Subtext.Framework.Providers
 	/// <summary>
 	/// Summary description for DTOProvider.
 	/// </summary>
-
-	public class DTOProvider
+	public sealed class DTOProvider
 	{
 		private DTOProvider(){}
 
