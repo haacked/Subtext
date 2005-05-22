@@ -63,6 +63,33 @@ namespace Subtext.Framework.Data
 			}
 			return null;
 		}
+
+		/// <summary>
+		/// Returns <see cref="BlogConfigCollection"/> with the blogs that 
+		/// have the specified host.
+		/// </summary>
+		/// <param name="host">Host.</param>
+		/// <returns></returns>
+		public BlogConfigCollection GetBlogsByHost(string host)
+		{
+			IDataReader reader = DbProvider.Instance().GetBlogsByHost(host);
+			try
+			{
+				BlogConfigCollection pec = new BlogConfigCollection();
+				while(reader.Read())
+				{
+					pec.Add(DataHelper.LoadConfigData(reader));
+				}
+				reader.NextResult();
+				pec.MaxItems = DataHelper.GetMaxItems(reader);
+				return pec;
+				
+			}
+			finally
+			{
+				reader.Close();
+			}
+		}
 		#endregion
 
 		#region Entries

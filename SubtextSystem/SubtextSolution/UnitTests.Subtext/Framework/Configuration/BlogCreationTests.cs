@@ -14,6 +14,31 @@ namespace UnitTests.Subtext.Framework.Configuration
 	public class BlogCreationTests
 	{
 		/// <summary>
+		/// If a blog already exists with a domain name and application, one 
+		/// cannot create a blog with the same domain name and no application.
+		/// </summary>
+		[Test, ExpectedException(typeof(BlogRequiresApplicationException))]
+		public void CreatingBlogWithDuplicateHostNameRequiresApplicationName()
+		{
+			Config.AddBlogConfiguration("username", "password", "LocaLhost", "MyBlog1");
+			Config.AddBlogConfiguration("username", "password", "LocaLhost", string.Empty);
+		}
+
+		/// <summary>
+		/// Make sure adding two distinct blogs doesn't raise an exception.
+		/// </summary>
+		[Test]
+		public void AddingDistinctBlogsIsFine()
+		{
+			Config.AddBlogConfiguration("username", "password", "www.example.com", string.Empty);
+			Config.AddBlogConfiguration("username", "password", "www2.example.com", string.Empty);
+			Config.AddBlogConfiguration("username", "password", "example.org", string.Empty);
+			Config.AddBlogConfiguration("username", "password", "localhost", "Blog1");
+			Config.AddBlogConfiguration("username", "password", "localhost", "Blog2");
+			Config.AddBlogConfiguration("username", "password", "localhost", "Blog3");
+		}
+
+		/// <summary>
 		/// Ensures that one cannot create a blog with a duplicate host 
 		/// as another blog when both have no application specified.
 		/// </summary>
@@ -108,6 +133,22 @@ namespace UnitTests.Subtext.Framework.Configuration
 			BlogConfig config = Config.GetConfig("www.mydomain.com", string.Empty);
 			config.Host = "mydomain.com";
 			config.Application = "MyBlog";
+			Config.UpdateConfigData(config);
+		}
+
+		/// <summary>
+		/// If a blog already exists with a domain name and application, one 
+		/// cannot modify another blog to have the same domain name, but with no application.
+		/// </summary>
+		[Test, ExpectedException(typeof(BlogRequiresApplicationException))]
+		public void UpdatingBlogWithDuplicateHostNameRequiresApplicationName()
+		{
+			Config.AddBlogConfiguration("username", "password", "LocaLhost", "MyBlog1");
+			Config.AddBlogConfiguration("username", "password", "example.com", string.Empty);
+
+			BlogConfig config = Config.GetConfig("www.example.com", string.Empty);
+			config.Host = "localhost";
+			config.Application = string.Empty;
 			Config.UpdateConfigData(config);
 		}
 

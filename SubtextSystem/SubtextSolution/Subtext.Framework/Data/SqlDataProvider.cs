@@ -243,6 +243,27 @@ namespace Subtext.Framework.Data
 			return command.ExecuteReader(CommandBehavior.CloseConnection);
 		}
 
+		/// <summary>
+		/// Returns an instance of <see cref="IDataReader"/> used to 
+		/// iterate through a result set containing blog_config rows 
+		/// with the specified host.
+		/// </summary>
+		/// <param name="host">Host.</param>
+		/// <returns></returns>
+		public IDataReader GetBlogsByHost(string host)
+		{
+			string sql = "blog_GetBlogsByHost";
+
+			SqlConnection conn = new SqlConnection(ConnectionString);
+			SqlCommand command = new SqlCommand(sql, conn);
+			
+			command.CommandType = CommandType.StoredProcedure;
+			command.Parameters.Add(SqlHelper.MakeInParam("@host", SqlDbType.NVarChar, 100, host));
+
+			conn.Open();
+			return command.ExecuteReader(CommandBehavior.CloseConnection);
+		}
+
 		public IDataReader GetPagedLinks(int CategoryID, int pageIndex, int pageSize, bool sortDescending)
 		{
 			bool useCategory = CategoryID > -1;
