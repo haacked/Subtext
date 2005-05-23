@@ -20,8 +20,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[Test, ExpectedException(typeof(BlogRequiresApplicationException))]
 		public void CreatingBlogWithDuplicateHostNameRequiresApplicationName()
 		{
-			Config.AddBlogConfiguration("username", "password", "LocaLhost", "MyBlog1");
-			Config.AddBlogConfiguration("username", "password", "LocaLhost", string.Empty);
+			Config.AddBlogConfiguration("", "username", "password", "LocaLhost", "MyBlog1");
+			Config.AddBlogConfiguration("", "username", "password", "LocaLhost", string.Empty);
 		}
 
 		/// <summary>
@@ -30,12 +30,12 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[Test]
 		public void AddingDistinctBlogsIsFine()
 		{
-			Config.AddBlogConfiguration("username", "password", "www.example.com", string.Empty);
-			Config.AddBlogConfiguration("username", "password", "www2.example.com", string.Empty);
-			Config.AddBlogConfiguration("username", "password", "example.org", string.Empty);
-			Config.AddBlogConfiguration("username", "password", "localhost", "Blog1");
-			Config.AddBlogConfiguration("username", "password", "localhost", "Blog2");
-			Config.AddBlogConfiguration("username", "password", "localhost", "Blog3");
+			Config.AddBlogConfiguration("title", "username", "password", "www.example.com", string.Empty);
+			Config.AddBlogConfiguration("title", "username", "password", "www2.example.com", string.Empty);
+			Config.AddBlogConfiguration("title", "username", "password", "example.org", string.Empty);
+			Config.AddBlogConfiguration("title", "username", "password", "localhost", "Blog1");
+			Config.AddBlogConfiguration("title", "username", "password", "localhost", "Blog2");
+			Config.AddBlogConfiguration("title", "username", "password", "localhost", "Blog3");
 		}
 
 		/// <summary>
@@ -45,8 +45,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[Test, ExpectedException(typeof(BlogDuplicationException))]
 		public void CreateBlogCannotCreateOneWithDuplicateHostAndNoApplication()
 		{
-			Config.AddBlogConfiguration("username", "password", "LocaLhost", string.Empty);
-			Config.AddBlogConfiguration("username2", "password2", "localhost", string.Empty);
+			Config.AddBlogConfiguration("title", "username", "password", "LocaLhost", string.Empty);
+			Config.AddBlogConfiguration("title", "username2", "password2", "localhost", string.Empty);
 		}
 
 		/// <summary>
@@ -56,8 +56,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[Test, ExpectedException(typeof(BlogDuplicationException))]
 		public void CreateBlogCannotCreateOneWithDuplicateHostAndApplication()
 		{
-			Config.AddBlogConfiguration("username", "password", "localhost", "MyBlog");
-			Config.AddBlogConfiguration("username2", "password2", "Localhost", "MyBlog");
+			Config.AddBlogConfiguration("title", "username", "password", "localhost", "MyBlog");
+			Config.AddBlogConfiguration("title", "username2", "password2", "Localhost", "MyBlog");
 		}
 
 		/// <summary>
@@ -67,8 +67,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[Test, ExpectedException(typeof(BlogDuplicationException))]
 		public void UpdateBlogCannotConflictWithDuplicateHostAndApplication()
 		{
-			Config.AddBlogConfiguration("username", "password", "localhost", "MyBlog");
-			Config.AddBlogConfiguration("username2", "password2", "example.com", "MyBlog");
+			Config.AddBlogConfiguration("title", "username", "password", "localhost", "MyBlog");
+			Config.AddBlogConfiguration("title", "username2", "password2", "example.com", "MyBlog");
 			BlogConfig config = Config.GetConfig("example.com", "MyBlog");
 			config.Host = "localhost";
 			
@@ -82,8 +82,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[Test, ExpectedException(typeof(BlogDuplicationException))]
 		public void UpdateBlogCannotConflictWithDuplicateHost()
 		{
-			Config.AddBlogConfiguration("username", "password", "localhost", string.Empty);
-			Config.AddBlogConfiguration("username2", "password2", "example.com", string.Empty);
+			Config.AddBlogConfiguration("title", "username", "password", "localhost", string.Empty);
+			Config.AddBlogConfiguration("title", "username2", "password2", "example.com", string.Empty);
 			BlogConfig config = Config.GetConfig("example.com", string.Empty);
 			config.Host = "localhost";
 			
@@ -107,8 +107,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[Test, ExpectedException(typeof(BlogHiddenException))]
 		public void CreateBlogCannotHideAnotherBlog()
 		{
-			Config.AddBlogConfiguration("username", "password", "www.example.com", string.Empty);
-			Config.AddBlogConfiguration("username", "password", "Example.com", "MyBlog");
+			Config.AddBlogConfiguration("title", "username", "password", "www.example.com", string.Empty);
+			Config.AddBlogConfiguration("title", "username", "password", "Example.com", "MyBlog");
 		}
 
 		/// <summary>
@@ -128,7 +128,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[Test]
 		public void UpdatingBlogCannotHideAnotherBlog()
 		{
-			Config.AddBlogConfiguration("username", "password", "www.mydomain.com", string.Empty);
+			Config.AddBlogConfiguration("title", "username", "password", "www.mydomain.com", string.Empty);
 			
 			BlogConfig config = Config.GetConfig("www.mydomain.com", string.Empty);
 			config.Host = "mydomain.com";
@@ -143,8 +143,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[Test, ExpectedException(typeof(BlogRequiresApplicationException))]
 		public void UpdatingBlogWithDuplicateHostNameRequiresApplicationName()
 		{
-			Config.AddBlogConfiguration("username", "password", "LocaLhost", "MyBlog1");
-			Config.AddBlogConfiguration("username", "password", "example.com", string.Empty);
+			Config.AddBlogConfiguration("title", "username", "password", "LocaLhost", "MyBlog1");
+			Config.AddBlogConfiguration("title", "username", "password", "example.com", string.Empty);
 
 			BlogConfig config = Config.GetConfig("www.example.com", string.Empty);
 			config.Host = "localhost";
@@ -159,7 +159,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[Test]
 		public void UpdatingBlogIsFine()
 		{
-			Config.AddBlogConfiguration("username", "password", "www.example.com", string.Empty);
+			Config.AddBlogConfiguration("title", "username", "password", "www.example.com", string.Empty);
 			BlogConfig config = Config.GetConfig("www.EXAMPLE.com", string.Empty);
 			config.BlogID = 1;			
 			Assert.IsTrue(Config.UpdateConfigData(config), "Updating blog config should return true.");
@@ -172,7 +172,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[Test, ExpectedException(typeof(InvalidApplicationNameException))]
 		public void CannotCreateBlogWithApplicationNameBin()
 		{
-			Config.AddBlogConfiguration("blah", "blah", "localhost", "bin");
+			Config.AddBlogConfiguration("title", "blah", "blah", "localhost", "bin");
 		}
 
 		/// <summary>
@@ -181,7 +181,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[Test, ExpectedException(typeof(InvalidApplicationNameException))]
 		public void CannotRenameBlogToHaveApplicationNameBin()
 		{
-			Config.AddBlogConfiguration("blah", "blah", "localhost", "Anything");
+			Config.AddBlogConfiguration("title", "blah", "blah", "localhost", "Anything");
 			BlogConfig config = Config.GetConfig("localhost", "Anything");
 			config.Application = "bin";
 
@@ -194,7 +194,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[Test, ExpectedException(typeof(InvalidApplicationNameException))]
 		public void CannotCreateBlogWithApplicationNameArchive()
 		{
-			Config.AddBlogConfiguration("blah", "blah", "localhost", "archive");
+			Config.AddBlogConfiguration("title", "blah", "blah", "localhost", "archive");
 			BlogConfig config = Config.GetConfig("localhost", "archive");
 			config.Application = "archive";
 
@@ -207,7 +207,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[Test, ExpectedException(typeof(InvalidApplicationNameException))]
 		public void CannotCreateBlogWithApplicationNameEndingWithDot()
 		{
-			Config.AddBlogConfiguration("blah", "blah", "localhost", "archive.");
+			Config.AddBlogConfiguration("title", "blah", "blah", "localhost", "archive.");
 		}
 
 		/// <summary>
@@ -216,7 +216,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[Test, ExpectedException(typeof(InvalidApplicationNameException))]
 		public void CannotCreateBlogWithApplicationNameStartingWithDot()
 		{
-			Config.AddBlogConfiguration("blah", "blah", "localhost", ".archive");
+			Config.AddBlogConfiguration("title", "blah", "blah", "localhost", ".archive");
 		}
 
 		/// <summary>
@@ -225,7 +225,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[Test, ExpectedException(typeof(InvalidApplicationNameException))]
 		public void CannotCreateBlogWithApplicationNameWithInvalidCharacters()
 		{
-			Config.AddBlogConfiguration("blah", "blah", "localhost", "My!Blog");
+			Config.AddBlogConfiguration("title", "blah", "blah", "localhost", "My!Blog");
 		}
 		#endregion
 

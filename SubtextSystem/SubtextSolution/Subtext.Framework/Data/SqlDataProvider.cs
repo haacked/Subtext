@@ -1057,11 +1057,12 @@ namespace Subtext.Framework.Data
 		/// <param name="userName">Name of the user.</param>
 		/// <param name="password">Password.</param>
 		/// <returns></returns>
-		public bool AddBlogConfiguration(string userName, string password, string host, string application)
+		public bool AddBlogConfiguration(string title, string userName, string password, string host, string application)
 		{
 			SqlParameter[] parameters = 
 			{
-				SqlHelper.MakeInParam("@UserName", SqlDbType.NVarChar, 50, userName)
+				SqlHelper.MakeInParam("@Title", SqlDbType.NVarChar, 100, userName)
+				, SqlHelper.MakeInParam("@UserName", SqlDbType.NVarChar, 50, userName)
 				, SqlHelper.MakeInParam("@Password", SqlDbType.NVarChar, 50, password)
 				, SqlHelper.MakeInParam("@Email", SqlDbType.NVarChar, 50, string.Empty)
 				, SqlHelper.MakeInParam("@Host", SqlDbType.NVarChar, 50, "")

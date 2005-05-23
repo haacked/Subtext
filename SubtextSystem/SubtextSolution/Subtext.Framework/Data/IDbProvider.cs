@@ -112,10 +112,13 @@ namespace Subtext.Framework.Data
 		/// allowing a user with a freshly installed blog to immediately gain access 
 		/// to the admin section to edit the blog.
 		/// </summary>
+		/// <param name="title"></param>
+		/// <param name="host"></param>
+		/// <param name="application"></param>
 		/// <param name="userName">Name of the user.</param>
 		/// <param name="password">Password.</param>
 		/// <returns></returns>
-		bool AddBlogConfiguration(string userName, string password, string host, string application);
+		bool AddBlogConfiguration(string title, string userName, string password, string host, string application);
 
 		/// <summary>
 		/// Returns a <see cref="IDataReader"/> instance containing 

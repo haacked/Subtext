@@ -66,6 +66,7 @@ namespace Subtext.Web
 			if(Page.IsValid)
 			{
 				bool persist = true;
+				string title = "A Subtext Blog";
 				string userName = txtUserName.Text;
 				string password = txtPassword.Text;
 				string hashedPassword = string.Empty;
@@ -77,7 +78,7 @@ namespace Subtext.Web
 				
 				// Create the blog_config record using default values 
 				// and the specified user info.
-				if(Config.AddBlogConfiguration(userName, hashedPassword, Request.Url.Host, Request.ApplicationPath))
+				if(Config.AddBlogConfiguration(title, userName, hashedPassword, Request.Url.Host, Request.ApplicationPath))
 				{
 					if(Security.Authenticate(userName, password, !persist))
 					{

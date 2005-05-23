@@ -950,12 +950,15 @@ namespace Subtext.Framework.Data
 		/// allowing a user with a freshly installed blog to immediately gain access 
 		/// to the admin section to edit the blog.
 		/// </summary>
+		/// <param name="title"></param>
+		/// <param name="host"></param>
+		/// <param name="application"></param>
 		/// <param name="userName">Name of the user.</param>
 		/// <param name="password">Password.</param>
 		/// <returns></returns>
-		public bool AddBlogConfiguration(string userName, string password, string host, string application)
+		public bool AddBlogConfiguration(string title, string userName, string password, string host, string application)
 		{
-			return DbProvider.Instance().AddBlogConfiguration(userName, password, host, application);
+			return DbProvider.Instance().AddBlogConfiguration(title, userName, password, host, application);
 		}
 		
 		public bool UpdateConfigData(BlogConfig config)

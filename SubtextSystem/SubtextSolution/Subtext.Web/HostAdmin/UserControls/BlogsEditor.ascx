@@ -48,9 +48,6 @@
 		<AlternatingItemTemplate>
 			<tr class="Alt">
 				<td>
-					<%# DataBinder.Eval(Container.DataItem, "BlogID") %>
-				</td>
-				<td>
 					<%# DataBinder.Eval(Container.DataItem, "Title") %>
 				</td>
 				<td>
@@ -168,12 +165,14 @@ Preview</SP:HelpToolTip>:</STRONG>
 			<TD><LABEL for="lblTitle">Title:</LABEL></TD>
 			<TD>
 				<asp:label id="lblTitle" Runat="server"></asp:label>
-				<asp:TextBox id="txtTitle" Runat="server" MaxLength="100"></asp:TextBox></TD>
+				<asp:TextBox id="txtTitle" Runat="server" MaxLength="100"></asp:TextBox>
+			</TD>
 		</TR>
 		<TR valign="top">
 			<TD><LABEL for="txtHost">
 					<SP:HelpToolTip id="hostDomainHelpTip" runat="server">
-						<STRONG>Host Domain</STRONG></SP:HelpToolTip>:</LABEL></TD>
+						<STRONG>Host Domain</STRONG></SP:HelpToolTip>:</LABEL>
+			</TD>
 			<TD>
 				<asp:TextBox id="txtHost" Runat="server" MaxLength="100"></asp:TextBox><INPUT id="virtualDirectory" type="hidden" runat="server">
 			</TD>
@@ -181,32 +180,39 @@ Preview</SP:HelpToolTip>:</STRONG>
 		<TR valign="top">
 			<TD>
 				<SP:HelpToolTip id="applicationHelpTip" runat="server">
-					<STRONG>Application</STRONG></SP:HelpToolTip>:</TD>
+					<STRONG>Application</STRONG></SP:HelpToolTip>:
+				</TD>
 			<TD>
-				<asp:TextBox id="txtApplication" Runat="server" MaxLength="50"></asp:TextBox></TD>
+				<asp:TextBox id="txtApplication" Runat="server" MaxLength="50"></asp:TextBox>
+			</TD>
 		</TR>
 		<TR valign="top">
 			<TD><LABEL for="txtUsername">
-					<SP:HelpToolTip id="helpUsername" runat="server" HelpText="This will be the user who is the administrator of this blog.">User 
-      Name:</SP:HelpToolTip></LABEL></TD>
+				<SP:HelpToolTip id="helpUsername" runat="server" HelpText="This will be the user who is the administrator of this blog.">User 
+				Name:</SP:HelpToolTip></LABEL>
+			</TD>
 			<TD>
 				<asp:TextBox id="txtUsername" Runat="server" MaxLength="50"></asp:TextBox></TD>
 		</TR>
 		<TR id="passwordRow" runat="server" valign="top">
 			<TD><LABEL for="txtPassword">
-					<SP:HelpToolTip id="helpPassword" runat="server" HelpText="When editing an existing blog, you can leave this blank if you do not wish to change the password.">Password:</SP:HelpToolTip></LABEL></TD>
+					<SP:HelpToolTip id="helpPassword" runat="server" HelpText="When editing an existing blog, you can leave this blank if you do not wish to change the password.">Password:</SP:HelpToolTip></LABEL>
+			</TD>
 			<TD>
-				<asp:TextBox id="txtPassword" Runat="server" MaxLength="50" TextMode="Password"></asp:TextBox></TD>
+				<asp:TextBox id="txtPassword" Runat="server" MaxLength="50" TextMode="Password"></asp:TextBox>
+			</TD>
 		</TR>
 		<TR id="passwordRowConfirm" runat="server" valign="top">
 			<TD><LABEL for="txtPasswordConfirm">Confirm Password:</LABEL></TD>
 			<TD>
-				<asp:TextBox id="txtPasswordConfirm" Runat="server" MaxLength="50" TextMode="Password"></asp:TextBox></TD>
+				<asp:TextBox id="txtPasswordConfirm" Runat="server" MaxLength="50" TextMode="Password"></asp:TextBox>
+			</TD>
 		</TR>
 		<TR valign="top">
 			<TD colSpan="2">
 				<asp:Button id="btnCancel" Text="Cancel" Runat="server" CssClass="button"></asp:Button>
-				<asp:Button id="btnSave" Text="Save" Runat="server" CssClass="button"></asp:Button></TD>
+				<asp:Button id="btnSave" Text="Save" Runat="server" CssClass="button"></asp:Button>
+			</TD>
 		</TR>
 	</TABLE>
 </ANW:AdvancedPanel>

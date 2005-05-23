@@ -3607,6 +3607,7 @@ AND will fail to add a blog if one already exists.
 */
 CREATE PROC [dbo].[blog_UTILITY_AddBlog]
 (
+	@Title nvarchar(100), 
 	@UserName nvarchar(50),
 	@Password nvarchar(50),
 	@Email nvarchar(50),
@@ -3649,7 +3650,7 @@ Values
 	, @UserName
 	, @Password
 	, @Email
-	, 'Subtext Blog'
+	, @Title
 	, 'Another Subtext Powered Blog'
 	, 'marvin2'
 	, 'blue.css'
