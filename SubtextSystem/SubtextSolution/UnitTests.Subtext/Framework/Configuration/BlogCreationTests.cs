@@ -165,6 +165,70 @@ namespace UnitTests.Subtext.Framework.Configuration
 			Assert.IsTrue(Config.UpdateConfigData(config), "Updating blog config should return true.");
 		}
 
+		#region Invalid Application Name Tests... There's a bunch...
+		/// <summary>
+		/// Tests that creating a blog with a reserved keyword (bin) is not allowed.
+		/// </summary>
+		[Test, ExpectedException(typeof(InvalidApplicationNameException))]
+		public void CannotCreateBlogWithApplicationNameBin()
+		{
+			Config.AddBlogConfiguration("blah", "blah", "localhost", "bin");
+		}
+
+		/// <summary>
+		/// Tests that modifying a blog with a reserved keyword (bin) is not allowed.
+		/// </summary>
+		[Test, ExpectedException(typeof(InvalidApplicationNameException))]
+		public void CannotRenameBlogToHaveApplicationNameBin()
+		{
+			Config.AddBlogConfiguration("blah", "blah", "localhost", "Anything");
+			BlogConfig config = Config.GetConfig("localhost", "Anything");
+			config.Application = "bin";
+
+			Config.UpdateConfigData(config);
+		}
+
+		/// <summary>
+		/// Tests that creating a blog with a reserved keyword (archive) is not allowed.
+		/// </summary>
+		[Test, ExpectedException(typeof(InvalidApplicationNameException))]
+		public void CannotCreateBlogWithApplicationNameArchive()
+		{
+			Config.AddBlogConfiguration("blah", "blah", "localhost", "archive");
+			BlogConfig config = Config.GetConfig("localhost", "archive");
+			config.Application = "archive";
+
+			Config.UpdateConfigData(config);
+		}
+
+		/// <summary>
+		/// Tests that creating a blog that ends with . is not allowed
+		/// </summary>
+		[Test, ExpectedException(typeof(InvalidApplicationNameException))]
+		public void CannotCreateBlogWithApplicationNameEndingWithDot()
+		{
+			Config.AddBlogConfiguration("blah", "blah", "localhost", "archive.");
+		}
+
+		/// <summary>
+		/// Tests that creating a blog that starts with . is not allowed
+		/// </summary>
+		[Test, ExpectedException(typeof(InvalidApplicationNameException))]
+		public void CannotCreateBlogWithApplicationNameStartingWithDot()
+		{
+			Config.AddBlogConfiguration("blah", "blah", "localhost", ".archive");
+		}
+
+		/// <summary>
+		/// Tests that creating a blog that contains invalid characters is not allowed.
+		/// </summary>
+		[Test, ExpectedException(typeof(InvalidApplicationNameException))]
+		public void CannotCreateBlogWithApplicationNameWithInvalidCharacters()
+		{
+			Config.AddBlogConfiguration("blah", "blah", "localhost", "My!Blog");
+		}
+		#endregion
+
 		[SetUp]
 		public void SetUp()
 		{

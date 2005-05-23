@@ -350,16 +350,6 @@ namespace UnitTests.Subtext
 		/// <returns></returns>
 		public BlogConfig GetConfig(string hostname, string application)
 		{
-			//TODO: This next bit should go away.
-			if(!application.StartsWith("/"))
-			{
-				application = "/" + application;
-			}
-			if(!application.EndsWith("/"))
-			{
-				application = application + "/";
-			}
-
 			hostname = hostname.Replace("www.", string.Empty);
 
 			foreach(BlogConfig config in this._pagedBlogs)

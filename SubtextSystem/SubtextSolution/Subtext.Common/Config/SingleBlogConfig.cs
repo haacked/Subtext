@@ -74,17 +74,18 @@ namespace Subtext.Common.Config
 					Application));
 			}
 			config.Host = Host;
-			config.Application = Application;
+			// The replace is for legacy reasons.
+			config.Application = Application.Replace("/", string.Empty);
 
 			BlogConfigurationSettings settings = Subtext.Framework.Configuration.Config.Settings;
 
 			if(settings.UseWWW)
 			{
-				config.FullyQualifiedUrl = "http://www." + config.Host + config.Application;
+				config.FullyQualifiedUrl = "http://www." + config.Host + "/" + config.Application;
 			}
 			else
 			{
-				config.FullyQualifiedUrl = "http://" + config.Host + config.Application;
+				config.FullyQualifiedUrl = "http://" + config.Host + "/" + config.Application;
 			}
 
 			config.ImageDirectory = context.Server.MapPath("~/images");

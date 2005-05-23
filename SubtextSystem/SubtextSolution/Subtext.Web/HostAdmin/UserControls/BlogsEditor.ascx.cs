@@ -50,6 +50,8 @@ namespace Subtext.Web.HostAdmin.UserControls
 		protected System.Web.UI.HtmlControls.HtmlImage Img3;
 		protected Subtext.Web.Controls.HelpToolTip blogEditorHelp;
 		protected Subtext.Web.Controls.HelpToolTip Helptooltip1;
+		protected Subtext.Web.Controls.HelpToolTip helpUsername;
+		protected Subtext.Web.Controls.HelpToolTip helpPassword;
 		protected System.Web.UI.WebControls.Button btnAddNewBlog = new System.Web.UI.WebControls.Button();
 		#endregion
 
@@ -138,22 +140,23 @@ namespace Subtext.Web.HostAdmin.UserControls
 				blog = new BlogConfig();
 			}
 
-			string onChangeScript = string.Format("onPreviewChanged('{0}', '{1}', '{2}');", this.txtHost.ClientID, this.txtApplication.ClientID, this.virtualDirectory.ClientID);
+			string onChangeScript = string.Format("onPreviewChanged('{0}', '{1}', '{2}', false);", this.txtHost.ClientID, this.txtApplication.ClientID, this.virtualDirectory.ClientID);
+			string onBlurScript = string.Format("onPreviewChanged('{0}', '{1}', '{2}', true);", this.txtHost.ClientID, this.txtApplication.ClientID, this.virtualDirectory.ClientID);
 
 			if(!Page.IsStartupScriptRegistered("SetUrlPreview"))
 			{
 				string startupScript = "<script type=\"text/javascript\">" 
 					+ Environment.NewLine 
-					+ onChangeScript 
+					+ onBlurScript 
 					+ Environment.NewLine 
 					+ "</script>";
 				Page.RegisterStartupScript("SetUrlPreview", startupScript);
 			}
 
 			this.txtApplication.Attributes["onkeyup"] = onChangeScript;
-			this.txtApplication.Attributes["onblur"] = onChangeScript;
+			this.txtApplication.Attributes["onblur"] = onBlurScript;
 			this.txtHost.Attributes["onkeyup"] = onChangeScript;
-			this.txtHost.Attributes["onblur"] = onChangeScript;
+			this.txtHost.Attributes["onblur"] = onBlurScript;
 
 			this.virtualDirectory.Value = Request.ApplicationPath.Replace("/", string.Empty);
 		}

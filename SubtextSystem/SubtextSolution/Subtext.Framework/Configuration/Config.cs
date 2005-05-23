@@ -5,6 +5,7 @@ using System.Web;
 using Subtext.Framework.Components;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Configuration
 {
@@ -104,7 +105,9 @@ namespace Subtext.Framework.Configuration
 				throw new BlogHiddenException(potentialHidden);
 			}
 			
-			if(application == null || application.Length == 0 || application == "/")
+			application = application.Replace("/", string.Empty);
+
+			if(application == null || application.Length == 0)
 			{
 				//Check to see if this blog requires an Application value
 				//This would occur if another blog has the same host already.
@@ -114,21 +117,34 @@ namespace Subtext.Framework.Configuration
 					throw new BlogRequiresApplicationException(blogsWithHost.Count);
 				}
 			}
-
-			if(DTOProvider.Instance().AddBlogConfiguration(userName, password, host, application))
+			else
 			{
-				if(application.Length > 0 && HttpContext.Current != null)
+				if(!IsValidApplicationName(application))
 				{
-					return CreateApplicationStub(application);
+					throw new InvalidApplicationNameException(application);
 				}
 			}
-			return false;
+
+			if(application.Length > 0 && HttpContext.Current != null)
+			{
+				if(!CreateApplicationStub(application))
+				{
+					return false;
+				}
+			}
+
+			return (DTOProvider.Instance().AddBlogConfiguration(userName, password, host, application));
 		}
 
 		private static bool CreateApplicationStub(string application)
 		{
-			string applicationPhysicalPath = HttpContext.Current.Server.MapPath(HttpContext.Current.Request.ApplicationPath);
-			string blogDirectoryPath = Path.Combine(applicationPhysicalPath, application);
+			if(!IsValidApplicationName(application))
+			{
+				throw new InvalidApplicationNameException(application);
+			}
+
+			string blogDirectoryPath = GetBlogPhysicalPath(application);
+
 			if(!Directory.Exists(blogDirectoryPath))
 			{
 				try
@@ -146,6 +162,12 @@ namespace Subtext.Framework.Configuration
 				}
 			}
 			return true;
+		}
+
+		static string GetBlogPhysicalPath(string application)
+		{
+			string applicationPhysicalPath = HttpContext.Current.Server.MapPath(HttpContext.Current.Request.ApplicationPath);
+			return Path.Combine(applicationPhysicalPath, application);
 		}
 
 		/// <summary>
@@ -172,7 +194,9 @@ namespace Subtext.Framework.Configuration
 				throw new BlogHiddenException(potentialHidden);
 			}
 
-			if(config.Application == null || config.Application.Length == 0 || config.Application == "/")
+			string application = config.Application == null ? string.Empty : config.Application.Replace("/", string.Empty);
+
+			if(application.Length == 0)
 			{
 				//Check to see if this blog requires an Application value
 				//This would occur if another blog has the same host already.
@@ -185,8 +209,50 @@ namespace Subtext.Framework.Configuration
 					}
 				}
 			}
+			else
+			{
+				if(!IsValidApplicationName(application))
+				{
+					throw new InvalidApplicationNameException(application);
+				}
+			}
+			
+			if(config.Application.Length > 0 && HttpContext.Current != null)
+			{
+				// You're going to hate this, but we just create a new stub 
+				// We won't delete the old one because IIS will have a lock 
+				// on it. It's just a harmless empty stub.
+				if(!CreateApplicationStub(config.Application))
+				{
+					return false;
+				}
+			}
 
 			return DTOProvider.Instance().UpdateConfigData(config);
+		}
+
+		//TODO: Is this the right place to put this list?
+		private static string[] _invalidApplications = {"Admin", "bin", "ExternalDependencies", "HostAdmin", "Images", "Modules", "Services", "Skins", "UI", "Category", "Archive", "Archives", "Comments", "Articles", "Posts", "Story", "Stories", "Gallery" };
+
+		static bool IsValidApplicationName(string application)
+		{
+			if(application.StartsWith(".") || application.EndsWith("."))
+				return false;
+
+			string invalidChars = @"/\\ @!#$%;^&*()?+|""=\'<>;";
+
+			foreach(char c in invalidChars)
+			{
+				if(application.IndexOf(c) > -1)
+					return false;
+			}
+
+			foreach(string invalidApp in _invalidApplications)
+			{
+				if(StringHelper.AreEqualIgnoringCase(invalidApp, application))
+					return false;
+			}
+			return true;
 		}
 	}
 }

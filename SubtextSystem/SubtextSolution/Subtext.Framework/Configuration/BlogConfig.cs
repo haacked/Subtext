@@ -341,17 +341,10 @@ namespace Subtext.Framework.Configuration
 			get{return _application;}
 			set
 			{
+				if(value != null)
+					value = value.Replace("/", string.Empty); //For legacy data.
 				_application = value;
-				if(!_application.StartsWith("/"))
-				{
-					_application = "/" + _application;
-				}
-				if(!_application.EndsWith("/"))
-				{
-					_application = _application + "/";
-				}
 			}
-
 		}
 
 		private string _password;

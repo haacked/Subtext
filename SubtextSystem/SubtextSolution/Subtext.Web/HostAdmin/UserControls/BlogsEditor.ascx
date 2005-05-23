@@ -1,9 +1,9 @@
-<%@ Control Language="c#" AutoEventWireup="false" Codebehind="BlogsEditor.ascx.cs" Inherits="Subtext.Web.HostAdmin.UserControls.BlogsEditor" TargetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
-<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Register TagPrefix="SP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
+<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
+<%@ Control Language="c#" AutoEventWireup="false" Codebehind="BlogsEditor.ascx.cs" Inherits="Subtext.Web.HostAdmin.UserControls.BlogsEditor" TargetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
 <ANW:MessagePanel id="messagePanel" runat="server"></ANW:MessagePanel>
 <ANW:AdvancedPanel id="pnlResults" runat="server">
-	<asp:CheckBox id="chkShowInactive" Runat="server" Text="Show Inactive Blogs" AutoPostBack="True"></asp:CheckBox>
+	<asp:CheckBox id="chkShowInactive" AutoPostBack="True" Text="Show Inactive Blogs" Runat="server"></asp:CheckBox>
 	<asp:Repeater id="rprBlogsList" Runat="server" OnItemCommand="rprBlogsList_ItemCommand">
 		<HeaderTemplate>
 			<table class="Listing" cellSpacing="0" cellPadding="4" border="0">
@@ -79,16 +79,14 @@
 		</FooterTemplate>
 	</asp:Repeater>
 	<P id="lblNoMessages" runat="server" visible="false">No entries found.</P>
-	<ANW:Pager id="resultsPager" runat="server" UseSpacer="False" PrefixText="<div>Goto page</div>"
-		LinkFormatActive='<a href="{0}" class="Current">{1}</a>' UrlFormat="Default.aspx?pg={0}"
-		CssClass="Pager"></ANW:Pager>
+	<ANW:Pager id="resultsPager" runat="server" CssClass="Pager" UrlFormat="Default.aspx?pg={0}"
+		LinkFormatActive='<a href="{0}" class="Current">{1}</a>' PrefixText="<div>Goto page</div>"
+		UseSpacer="False"></ANW:Pager>
 </ANW:AdvancedPanel>
-
 <ANW:AdvancedPanel id="pnlEdit" runat="server">
 	<SP:HelpToolTip id="blogEditorHelp" runat="server">
 		<IMG id="Img3" src="~/images/ms_help.gif" align="right" runat="server"></SP:HelpToolTip>
-	
-		<SCRIPT type="text/javascript">
+	<SCRIPT type="text/javascript">
 			function replace( str, from, to ) 
 			{
 				var idx = str.indexOf( from );
@@ -115,7 +113,7 @@
 				return str;
 			}
 							
-			function onPreviewChanged(txtHostId, txtApplicationId, virtualDirectoryId)
+			function onPreviewChanged(txtHostId, txtApplicationId, virtualDirectoryId, isBlur)
 			{
 				var host = document.getElementById(txtHostId);
 				var application = document.getElementById(txtApplicationId);
@@ -135,6 +133,14 @@
 				{
 					appText = removeInvalidCharacters(application.value);
 					appText = replace(appText, ':', '');
+					if(appText.substring(0, 1) == '.')
+						appText = appText.substring(1, appText.length);
+						
+					if(isBlur && appText.substring(appText.length - 1, appText.length) == '.')
+					{
+						appText = appText.substring(0, appText.length - 1);
+					}
+					
 					application.value = appText;
 					application.style.color = '#000099';
 					appText = '<span style="color:#000099;">' + appText + '</span>';
@@ -151,53 +157,56 @@
 				
 				urlPreview.innerHTML = preview;
 			}
-		</SCRIPT>
-		<STRONG><SP:HelpToolTip id="Helptooltip1" runat="server" HelpText="Based on what you’ve entered below, this shows what the url to this blog will look like. <em>(Requires Javascript to be enabled)</em>">Url Preview</SP:HelpToolTip>:</STRONG>
-				
-		<DIV class="MessagePanel" id="urlPreview">http://
-		</DIV>
+	</SCRIPT>
+	<STRONG>
+		<SP:HelpToolTip id="Helptooltip1" runat="server" HelpText="Based on what you’ve entered below, this shows what the url to this blog will look like. <em>(Requires Javascript to be enabled)</em>">Url 
+Preview</SP:HelpToolTip>:</STRONG>
+	<DIV class="MessagePanel" id="urlPreview">http://
+	</DIV>
 	<TABLE border="0">
-		<TR>
+		<TR valign="top">
 			<TD><LABEL for="lblTitle">Title:</LABEL></TD>
 			<TD>
 				<asp:label id="lblTitle" Runat="server"></asp:label>
-				<asp:TextBox ID="txtTitle" MaxLength="100" Runat="server"></asp:TextBox>
-			</TD>
+				<asp:TextBox id="txtTitle" Runat="server" MaxLength="100"></asp:TextBox></TD>
 		</TR>
-		<TR>
+		<TR valign="top">
 			<TD><LABEL for="txtHost">
 					<SP:HelpToolTip id="hostDomainHelpTip" runat="server">
 						<STRONG>Host Domain</STRONG></SP:HelpToolTip>:</LABEL></TD>
 			<TD>
-				<asp:TextBox id="txtHost" MaxLength="100" Runat="server"></asp:TextBox><INPUT id="virtualDirectory" type="hidden" runat="server">
+				<asp:TextBox id="txtHost" Runat="server" MaxLength="100"></asp:TextBox><INPUT id="virtualDirectory" type="hidden" runat="server">
 			</TD>
 		</TR>
-		<TR>
+		<TR valign="top">
 			<TD>
 				<SP:HelpToolTip id="applicationHelpTip" runat="server">
 					<STRONG>Application</STRONG></SP:HelpToolTip>:</TD>
 			<TD>
-				<asp:TextBox id="txtApplication" MaxLength="50" Runat="server"></asp:TextBox></TD>
+				<asp:TextBox id="txtApplication" Runat="server" MaxLength="50"></asp:TextBox></TD>
 		</TR>
-		<TR>
-			<TD><LABEL for="txtUsername"><SP:HelpToolTip id="helpUsername" runat="server" HelpText="This will be the user who is the administrator of this blog.">User Name:</SP:HelpToolTip></LABEL></TD>
+		<TR valign="top">
+			<TD><LABEL for="txtUsername">
+					<SP:HelpToolTip id="helpUsername" runat="server" HelpText="This will be the user who is the administrator of this blog.">User 
+      Name:</SP:HelpToolTip></LABEL></TD>
 			<TD>
-				<asp:TextBox id="txtUsername" MaxLength="50" Runat="server"></asp:TextBox></TD>
+				<asp:TextBox id="txtUsername" Runat="server" MaxLength="50"></asp:TextBox></TD>
 		</TR>
-		<TR id="passwordRow" runat="server">
-			<TD><LABEL for="txtPassword"><SP:HelpToolTip id="helpPassword" HelpText="When editing an existing blog, you can leave this blank if you do not wish to change the password." runat="server">Password:</SP:HelpToolTip></LABEL></TD>
+		<TR id="passwordRow" runat="server" valign="top">
+			<TD><LABEL for="txtPassword">
+					<SP:HelpToolTip id="helpPassword" runat="server" HelpText="When editing an existing blog, you can leave this blank if you do not wish to change the password.">Password:</SP:HelpToolTip></LABEL></TD>
 			<TD>
-				<asp:TextBox id="txtPassword" TextMode="Password" MaxLength="50" Runat="server"></asp:TextBox></TD>
+				<asp:TextBox id="txtPassword" Runat="server" MaxLength="50" TextMode="Password"></asp:TextBox></TD>
 		</TR>
-		<TR id="passwordRowConfirm" runat="server">
+		<TR id="passwordRowConfirm" runat="server" valign="top">
 			<TD><LABEL for="txtPasswordConfirm">Confirm Password:</LABEL></TD>
 			<TD>
-				<asp:TextBox id="txtPasswordConfirm" TextMode="Password" MaxLength="50" Runat="server"></asp:TextBox></TD>
+				<asp:TextBox id="txtPasswordConfirm" Runat="server" MaxLength="50" TextMode="Password"></asp:TextBox></TD>
 		</TR>
-		<TR>
+		<TR valign="top">
 			<TD colSpan="2">
-				<asp:Button id="btnCancel" Runat="server" Text="Cancel" CssClass="button"></asp:Button>
-				<asp:Button id="btnSave" Runat="server" Text="Save" CssClass="button"></asp:Button></TD>
+				<asp:Button id="btnCancel" Text="Cancel" Runat="server" CssClass="button"></asp:Button>
+				<asp:Button id="btnSave" Text="Save" Runat="server" CssClass="button"></asp:Button></TD>
 		</TR>
 	</TABLE>
 </ANW:AdvancedPanel>
