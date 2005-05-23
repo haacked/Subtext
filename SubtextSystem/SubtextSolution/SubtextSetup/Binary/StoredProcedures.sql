@@ -954,41 +954,78 @@ SET ANSI_NULLS ON
 GO
 /*
 Returns the blog that matches the given host/application combination.
+
+@Strict -- If 0, then we return the one and only blog if there's one and only blog.
 */
 CREATE PROC [dbo].blog_GetConfig
 (
 	@Host nvarchar(100)
 	, @Application nvarchar(50)
+	, @Strict bit = 1 
 )
 AS
-SELECT TOP 1 
-	blog_Config.BlogID
-	, UserName
-	, [Password]
-	, Email
-	, Title
-	, SubTitle
-	, Skin
-	, Application
-	, Host
-	, Author
-	, TimeZone
-	, ItemCount
-	, [Language]
-	, News
-	, SecondaryCss
-	, LastUpdated
-	, PostCount
-	, StoryCount
-	, PingTrackCount
-	, CommentCount
-	, Flag
-	, SkinCssFile 
-	, LicenseUrl
-	, DaysTillCommentsClose
-FROM blog_Config
-WHERE	Host = @Host
-	AND Application = @Application
+
+IF (@Strict = 0) AND (1 = (SELECT COUNT(1) FROM blog_config))
+BEGIN
+	-- Return the one and only record
+	SELECT
+		blog_Config.BlogID
+		, UserName
+		, [Password]
+		, Email
+		, Title
+		, SubTitle
+		, Skin
+		, Application
+		, Host
+		, Author
+		, TimeZone
+		, ItemCount
+		, [Language]
+		, News
+		, SecondaryCss
+		, LastUpdated
+		, PostCount
+		, StoryCount
+		, PingTrackCount
+		, CommentCount
+		, Flag
+		, SkinCssFile 
+		, LicenseUrl
+		, DaysTillCommentsClose
+	FROM blog_Config
+END
+ELSE
+BEGIN
+	SELECT
+		blog_Config.BlogID
+		, UserName
+		, [Password]
+		, Email
+		, Title
+		, SubTitle
+		, Skin
+		, Application
+		, Host
+		, Author
+		, TimeZone
+		, ItemCount
+		, [Language]
+		, News
+		, SecondaryCss
+		, LastUpdated
+		, PostCount
+		, StoryCount
+		, PingTrackCount
+		, CommentCount
+		, Flag
+		, SkinCssFile 
+		, LicenseUrl
+		, DaysTillCommentsClose
+	FROM blog_Config
+	WHERE	Host = @Host
+		AND Application = @Application
+END
 
 GO
 SET QUOTED_IDENTIFIER OFF 
