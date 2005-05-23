@@ -1,5 +1,6 @@
 using System;
 using System.Configuration;
+using System.IO;
 using System.Web;
 using Subtext.Framework.Components;
 using Subtext.Framework.Exceptions;
@@ -99,7 +100,37 @@ namespace Subtext.Framework.Configuration
 				}
 			}
 
-			return DTOProvider.Instance().AddBlogConfiguration(userName, password, host, application);
+			if(DTOProvider.Instance().AddBlogConfiguration(userName, password, host, application))
+			{
+				if(application.Length > 0 && HttpContext.Current != null)
+				{
+					return CreateApplicationStub(application);
+				}
+			}
+			return false;
+		}
+
+		private static bool CreateApplicationStub(string application)
+		{
+			string applicationPhysicalPath = HttpContext.Current.Server.MapPath(HttpContext.Current.Request.ApplicationPath);
+			string blogDirectoryPath = Path.Combine(applicationPhysicalPath, application);
+			if(!Directory.Exists(blogDirectoryPath))
+			{
+				try
+				{
+					Directory.CreateDirectory(blogDirectoryPath);
+					using(StreamWriter writer = File.CreateText(Path.Combine(blogDirectoryPath, "Default.aspx")))
+					{
+						writer.Close(); //Empty stub file.
+					}
+					return true;
+				}
+				catch(System.IO.IOException exception)
+				{
+					throw new BlogApplicationDirectoryCreateException(exception);
+				}
+			}
+			return true;
 		}
 
 		/// <summary>

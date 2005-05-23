@@ -448,7 +448,17 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Exceptions\BaseBlogConfigurationException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Exceptions\BaseSubtextException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Exceptions\BlogApplicationDirectoryCreateException.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

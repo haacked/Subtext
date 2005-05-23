@@ -952,11 +952,13 @@ SET QUOTED_IDENTIFIER OFF
 GO
 SET ANSI_NULLS ON 
 GO
-
+/*
+Returns the blog that matches the given host/application combination.
+*/
 CREATE PROC [dbo].blog_GetConfig
 (
-	@Host nvarchar(100) -- Depracated
-	, @Application nvarchar(50) -- Depracated
+	@Host nvarchar(100)
+	, @Application nvarchar(50)
 )
 AS
 SELECT TOP 1 
@@ -985,6 +987,8 @@ SELECT TOP 1
 	, LicenseUrl
 	, DaysTillCommentsClose
 FROM blog_Config
+WHERE	Host = @Host
+	AND Application = @Application
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -3576,51 +3580,51 @@ CREATE PROC [dbo].[blog_UTILITY_AddBlog]
 
 AS
 
-IF(NOT EXISTS (SELECT * FROM blog_config))
-BEGIN
-	DECLARE @Flag int
-	Set @Flag = 55
-	if(@IsHashed = 1)
+DECLARE @Flag int
+Set @Flag = 55
+if(@IsHashed = 1)
 	Set @Flag = 63
 
-	INSERT blog_Config  
-	(
-		LastUpdated
-		, UserName
-		, Password
-		, Email
-		, Title
-		, SubTitle
-		, Skin
-		, SkinCssFile
-		, Application
-		, Host
-		, Author
-		, TimeZone
-		, [Language]
-		, ItemCount
-		, Flag
-	)
-	Values             
-	(
-		getdate()
-		, @UserName
-		, @Password
-		, @Email
-		, 'Subtext Blog'
-		, 'Another Subtext Powered Blog'
-		, 'marvin2'
-		, 'blue.css'
-		, @Application
-		, @Host
-		, 'Blog Author'
-		, -5
-		,'en-US'
-		, 10
-		, @Flag)
+IF NOT EXISTS(SELECT * FROM blog_config WHERE Host = @Host AND Application = @Application)
+BEGIN
 
+INSERT blog_Config  
+(
+	LastUpdated
+	, UserName
+	, Password
+	, Email
+	, Title
+	, SubTitle
+	, Skin
+	, SkinCssFile
+	, Application
+	, Host
+	, Author
+	, TimeZone
+	, [Language]
+	, ItemCount
+	, Flag
+)
+Values             
+(
+	getdate()
+	, @UserName
+	, @Password
+	, @Email
+	, 'Subtext Blog'
+	, 'Another Subtext Powered Blog'
+	, 'marvin2'
+	, 'blue.css'
+	, @Application
+	, @Host
+	, 'Blog Author'
+	, -5
+	,'en-US'
+	, 10
+	, @Flag
+)
 END
-
 
 GO
 SET QUOTED_IDENTIFIER OFF 
