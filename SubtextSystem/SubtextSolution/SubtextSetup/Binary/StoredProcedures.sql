@@ -4179,6 +4179,9 @@ SELECT	blog.BlogID
 		
 FROM  	blog_config blog
 WHERE	blog.Host = @Host
+
+SELECT COUNT([BlogID]) AS TotalRecords
+FROM 	blog_config
 GO
 
 
