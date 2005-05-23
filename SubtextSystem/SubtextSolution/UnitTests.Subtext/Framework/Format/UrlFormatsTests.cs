@@ -41,13 +41,8 @@ namespace UnitTests.Subtext.Framework.Format
 
 			Assert.AreEqual(string.Empty, UrlFormats.GetBlogAppFromRequest(rawUrl, app));
 
-			rawUrl = "/subtext.web/myBLOG";
+			rawUrl = "/subtext.web/myBLOG/";
 			app = "/Subtext.Web";
-
-			Assert.AreEqual("myBLOG", UrlFormats.GetBlogAppFromRequest(rawUrl, app));
-
-			rawUrl = "/subtext.web/myBLOG";
-			app = "/Subtext.Web/";
 
 			Assert.AreEqual("myBLOG", UrlFormats.GetBlogAppFromRequest(rawUrl, app));
 		}

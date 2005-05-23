@@ -963,9 +963,36 @@ namespace Subtext.Framework.Data
 			return DbProvider.Instance().UpdateConfigData(config);
 		}
 
+		/// <summary>
+		/// Returns a <see cref="BlogConfig"/> instance containing 
+		/// the configuration settings for the blog specified by the 
+		/// Hostname and Application.
+		/// </summary>
+		/// <param name="hostname">Hostname.</param>
+		/// <param name="application">Application.</param>
+		/// <returns></returns>
 		public BlogConfig GetConfig(string hostname, string application)
 		{
-			IDataReader reader = DbProvider.Instance().GetConfig(hostname, application);
+			return GetConfig(hostname, application, true);
+		}
+
+		/// <summary>
+		/// Returns a <see cref="BlogConfig"/> instance containing 
+		/// the configuration settings for the blog specified by the 
+		/// Hostname and Application.
+		/// </summary>
+		/// <remarks>
+		/// Until Subtext supports multiple blogs again (if ever), 
+		/// this will always return the same instance.
+		/// </remarks>
+		/// <param name="hostname">Hostname.</param>
+		/// <param name="application">Application.</param>
+		/// <param name="strict">If false, then this will return a blog record if 
+		/// there is only one blog record, regardless if the application and hostname match.</param>
+		/// <returns></returns>
+		public BlogConfig GetConfig(string hostname, string application, bool strict)
+		{
+			IDataReader reader = DbProvider.Instance().GetConfig(hostname, application, strict);
 			try
 			{
 				BlogConfig config = null;
@@ -980,7 +1007,6 @@ namespace Subtext.Framework.Data
 			{
 				reader.Close();
 			}
-
 		}
 		
 		public BlogConfig GetConfig(int BlogID)

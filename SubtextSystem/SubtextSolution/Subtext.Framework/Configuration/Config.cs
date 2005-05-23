@@ -51,16 +51,31 @@ namespace Subtext.Framework.Configuration
 		/// the configuration settings for the blog specified by the 
 		/// Hostname and Application.
 		/// </summary>
+		/// <param name="hostname">Hostname.</param>
+		/// <param name="application">Application.</param>
+		/// <returns></returns>
+		public static BlogConfig GetConfig(string hostname, string application)
+		{
+			return GetConfig(hostname, application, true);
+		}
+
+		/// <summary>
+		/// Returns a <see cref="BlogConfig"/> instance containing 
+		/// the configuration settings for the blog specified by the 
+		/// Hostname and Application.
+		/// </summary>
 		/// <remarks>
 		/// Until Subtext supports multiple blogs again (if ever), 
 		/// this will always return the same instance.
 		/// </remarks>
 		/// <param name="hostname">Hostname.</param>
 		/// <param name="application">Application.</param>
+		/// <param name="strict">If false, then this will return a blog record if 
+		/// there is only one blog record, regardless if the application and hostname match.</param>
 		/// <returns></returns>
-		public static BlogConfig GetConfig(string hostname, string application)
+		public static BlogConfig GetConfig(string hostname, string application, bool strict)
 		{
-			return DTOProvider.Instance().GetConfig(hostname, application);
+			return DTOProvider.Instance().GetConfig(hostname, application, strict);
 		}
 
 		/// <summary>
