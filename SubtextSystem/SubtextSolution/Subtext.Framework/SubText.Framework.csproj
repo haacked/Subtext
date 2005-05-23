@@ -478,6 +478,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Exceptions\InvalidApplicationNameException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ExternalDependencies\CookComputing.XmlRpc.dll"
                     BuildAction = "Content"
                 />
