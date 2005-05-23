@@ -87,7 +87,7 @@ namespace Subtext.Framework.Configuration
 		/// <param name="userName">Name of the user.</param>
 		/// <param name="password">Password.</param>
 		/// <returns></returns>
-		public static bool AddBlogConfiguration(string userName, string password, string host, string application)
+		public static bool AddBlogConfiguration(string title, string userName, string password, string host, string application)
 		{
 			//Check for duplicate
 			BlogConfig potentialDuplicate = Subtext.Framework.Configuration.Config.GetConfig(host, application);
@@ -133,7 +133,7 @@ namespace Subtext.Framework.Configuration
 				}
 			}
 
-			return (DTOProvider.Instance().AddBlogConfiguration(userName, password, host, application));
+			return (DTOProvider.Instance().AddBlogConfiguration(title, userName, password, host, application));
 		}
 
 		private static bool CreateApplicationStub(string application)

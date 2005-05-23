@@ -320,9 +320,10 @@ namespace UnitTests.Subtext
 		/// <param name="userName">Name of the user.</param>
 		/// <param name="password">Password.</param>
 		/// <returns></returns>
-		public bool AddBlogConfiguration(string userName, string password, string host, string application)
+		public bool AddBlogConfiguration(string title, string userName, string password, string host, string application)
 		{
 			BlogConfig blogConfig = new BlogConfig();
+			blogConfig.Title = title;
 			blogConfig.BlogID = _nextBlogId++;
 			blogConfig.UserName = userName;
 			blogConfig.Password = password;
