@@ -192,12 +192,30 @@ namespace Subtext.Framework.Data
 		bool UpdateConfigData(BlogConfig config);
 		
 		/// <summary>
-		/// Gets the config.
+		/// Returns a <see cref="BlogConfig"/> instance containing 
+		/// the configuration settings for the blog specified by the 
+		/// Hostname and Application.
 		/// </summary>
 		/// <param name="hostname">Hostname.</param>
 		/// <param name="application">Application.</param>
 		/// <returns></returns>
 		BlogConfig GetConfig(string hostname, string application);
+
+		/// <summary>
+		/// Returns a <see cref="BlogConfig"/> instance containing 
+		/// the configuration settings for the blog specified by the 
+		/// Hostname and Application.
+		/// </summary>
+		/// <remarks>
+		/// Until Subtext supports multiple blogs again (if ever), 
+		/// this will always return the same instance.
+		/// </remarks>
+		/// <param name="hostname">Hostname.</param>
+		/// <param name="application">Application.</param>
+		/// <param name="strict">If false, then this will return a blog record if 
+		/// there is only one blog record, regardless if the application and hostname match.</param>
+		/// <returns></returns>
+		BlogConfig GetConfig(string hostname, string application, bool strict);
 		
 		/// <summary>
 		/// Gets the config. This has been depracated

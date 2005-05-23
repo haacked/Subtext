@@ -371,6 +371,11 @@ namespace UnitTests.Subtext
 			return null;
 		}
 
+		public BlogConfig GetConfig(string hostname, string application, bool strict)
+		{
+			return GetConfig(hostname, application);
+		}
+
 		/// <summary>
 		/// Gets the config. This has been depracated
 		/// </summary>

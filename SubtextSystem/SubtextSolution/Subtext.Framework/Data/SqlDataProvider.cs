@@ -1072,13 +1072,45 @@ namespace Subtext.Framework.Data
 			return NonQueryBool("blog_UTILITY_AddBlog", parameters);
 		}
 
+		/// <summary>
+		/// Returns a <see cref="IDataReader"/> instance containing 
+		/// the configuration settings for the blog specified by the 
+		/// Hostname and Application.
+		/// </summary>
+		/// <param name="host">Hostname.</param>
+		/// <param name="application">Application.</param>
+		/// <returns></returns>
 		public IDataReader GetConfig(string host, string application)
 		{
-					
 			SqlParameter[] p = 
 			{
 				SqlHelper.MakeInParam("@Host", SqlDbType.NVarChar, 100, host),
 				SqlHelper.MakeInParam("@Application", SqlDbType.NVarChar, 50, application)
+			};
+			return GetReader("blog_GetConfig", p);
+		}
+
+		/// <summary>
+		/// Returns a <see cref="IDataReader"/> instance containing 
+		/// the configuration settings for the blog specified by the 
+		/// Hostname and Application.
+		/// </summary>
+		/// <remarks>
+		/// Until Subtext supports multiple blogs again (if ever), 
+		/// this will always return the same instance.
+		/// </remarks>
+		/// <param name="host">Hostname.</param>
+		/// <param name="application">Application.</param>
+		/// <param name="strict">If false, then this will return a blog record if 
+		/// there is only one blog record, regardless if the application and hostname match.</param>
+		/// <returns></returns>
+		public IDataReader GetConfig(string host, string application, bool strict)
+		{
+			SqlParameter[] p = 
+			{
+				SqlHelper.MakeInParam("@Host", SqlDbType.NVarChar, 100, host)
+				,SqlHelper.MakeInParam("@Application", SqlDbType.NVarChar, 50, application)
+				,SqlHelper.MakeInParam("@Strict", SqlDbType.Bit, 1, strict)
 			};
 			return GetReader("blog_GetConfig", p);
 		}
