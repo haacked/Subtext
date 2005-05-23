@@ -22,13 +22,16 @@ namespace Subtext.Common.Config
 		/// <returns></returns>
 		public override BlogConfig GetConfig(HttpContext context)
 		{
-			//First check the context for an existing BlogConfig. This saves us the trouble of having to figure out which blog we are at.
+			//TODO: Handle the single blog situation.
+
+			// First check the context for an existing BlogConfig. This saves us the trouble
+			// of having to figure out which blog we are at.
 			BlogConfig config = (BlogConfig)context.Items[cacheKey];
 			if(config == null)
 			{
-				string app = context.Request.ApplicationPath.ToLower();
+				string app = UrlFormats.GetBlogAppFromRequest(context.Request.RawUrl.ToLower(), context.Request.ApplicationPath);
 				//BlogConfig was not found in the context. It could be in the current cache.
-				string mCacheKey = cacheKey +  UrlFormats.GetBlogAppFromRequest(context.Request.RawUrl.ToLower(), app);
+				string mCacheKey = cacheKey + app;
 
 				//check the cache.
 				config = (BlogConfig)context.Cache[mCacheKey];
@@ -43,19 +46,15 @@ namespace Subtext.Common.Config
 						Host = GetCurrentHost(context.Request);
 					}
 
-					string appFromRequest = UrlFormats.GetBlogAppFromRequest(context.Request.RawUrl.ToLower(), app);
-
-					config = Subtext.Framework.Configuration.Config.GetConfig(Host, appFromRequest);
+					config = Subtext.Framework.Configuration.Config.GetConfig(Host, app);
 					if(config == null)
 					{
-						throw new BlogDoesNotExistException(String.Format("A blog matching the location you requested was not found. Host = [{0}], Application = [{1}]",
-							Host, 
-							appFromRequest));
+						throw new BlogDoesNotExistException(String.Format("A blog matching the location you requested was not found. Host = [{0}], Application = [{1}]", Host, app));
 					}
 
 					BlogConfigurationSettings settings = Subtext.Framework.Configuration.Config.Settings;
 
-					string appPath = Globals.FormatApplicationPath(string.Format("{0}/{1}",context.Request.ApplicationPath, appFromRequest));
+					string appPath = Globals.FormatApplicationPath(string.Format("{0}/{1}", context.Request.ApplicationPath, app));
 
 					string formattedHost = GetFormattedHost(Host,settings.UseWWW);
 
@@ -67,9 +66,9 @@ namespace Subtext.Common.Config
 						app += "/";
 					}
 
-					string virtualPath = string.Format("/images/{0}/{1}/",Regex.Replace(Host,@"\:|\.","_"),appFromRequest);
+					string virtualPath = string.Format("/images/{0}/{1}/", Regex.Replace(Host,@"\:|\.","_"), app);
 
-					config.ImagePath = string.Format("{0}{1}{2}",formattedHost,app,virtualPath);
+					config.ImagePath = string.Format("{0}{1}{2}", formattedHost, app, virtualPath);
 					config.ImageDirectory = context.Server.MapPath("~" + virtualPath);
 
 					CacheConfig(context.Cache,config,mCacheKey);
@@ -77,7 +76,7 @@ namespace Subtext.Common.Config
 				}
 				else
 				{
-					context.Items.Add(cacheKey,config);
+					context.Items.Add(cacheKey, config);
 				}
 			}
 			return config;

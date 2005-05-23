@@ -264,6 +264,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Framework\Configuration\SingleBlogConfigTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Framework\Format\UrlFormatsTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Framework\Syndication\RssWriterTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

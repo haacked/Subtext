@@ -14,7 +14,7 @@ namespace Subtext.Framework.Exceptions
 	/// a new blog with the host name "example.com" and an empty application 
 	/// name will result in this exception being thrown.
 	/// </remarks>
-	public class BlogRequiresApplicationException : BaseSubtextException
+	public class BlogRequiresApplicationException : BaseBlogConfigurationException
 	{
 		int _blogsWithSameHostCount;
 		int _blogId = int.MinValue;

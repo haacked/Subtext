@@ -18,7 +18,7 @@ namespace Subtext.Framework.Exceptions
 	/// The URL to the example.com with no application becomes the aggregate blog.
 	/// </p>
 	/// </remarks>
-	public class BlogHiddenException : BaseSubtextException
+	public class BlogHiddenException : BaseBlogConfigurationException
 	{
 		/// <summary>
 		/// Creates a new <see cref="BlogHiddenException"/> instance.

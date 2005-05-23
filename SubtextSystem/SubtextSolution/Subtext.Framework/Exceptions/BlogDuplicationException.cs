@@ -7,7 +7,7 @@ namespace Subtext.Framework.Exceptions
 	/// Exception thrown when trying to add a blog that 
 	/// duplicates another blog in both host and application.
 	/// </summary>
-	public class BlogDuplicationException : BaseSubtextException
+	public class BlogDuplicationException : BaseBlogConfigurationException
 	{
 		/// <summary>
 		/// Creates a new <see cref="BlogDuplicationException"/> instance.

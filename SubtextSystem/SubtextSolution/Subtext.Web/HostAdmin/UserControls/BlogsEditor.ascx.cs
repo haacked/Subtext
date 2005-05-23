@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Exceptions;
 using Subtext.Web.Admin;
 using Subtext.Web.Controls;
 using Keys = Subtext.Web.Admin.Keys;
@@ -33,6 +34,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 		protected System.Web.UI.WebControls.Label lblTitle;
 		protected System.Web.UI.WebControls.Button btnCancel;
 		protected System.Web.UI.WebControls.Button btnSave;
+		protected System.Web.UI.WebControls.TextBox txtTitle;
 		protected System.Web.UI.WebControls.TextBox txtUsername;
 		protected System.Web.UI.WebControls.TextBox txtPassword;
 		protected System.Web.UI.WebControls.TextBox txtPasswordConfirm;
@@ -119,21 +121,21 @@ namespace Subtext.Web.HostAdmin.UserControls
 			BindEditHelp();
 
 			BlogConfig blog;
-			if(BlogId != Constants.NULL_INTEGER)
+			if(!CreatingBlog)
 			{
+				this.lblTitle.Visible = true;
+				this.txtTitle.Visible = false;
 				blog = BlogConfig.GetBlogById(BlogId);
 				this.lblTitle.Text = blog.Title;
 				this.txtApplication.Text = blog.Application;
 				this.txtHost.Text = blog.Host;
 				this.txtUsername.Text = blog.UserName;
 			}
-			else
+			else //Creating a blog
 			{
+				this.lblTitle.Visible = false;
+				this.txtTitle.Visible = true;
 				blog = new BlogConfig();
-				this.lblTitle.Text = string.Empty;
-				this.txtApplication.Text = string.Empty;
-				this.txtHost.Text = string.Empty;
-				this.txtUsername.Text = string.Empty;
 			}
 
 			string onChangeScript = string.Format("onPreviewChanged('{0}', '{1}', '{2}');", this.txtHost.ClientID, this.txtApplication.ClientID, this.virtualDirectory.ClientID);
@@ -149,7 +151,9 @@ namespace Subtext.Web.HostAdmin.UserControls
 			}
 
 			this.txtApplication.Attributes["onkeyup"] = onChangeScript;
+			this.txtApplication.Attributes["onblur"] = onChangeScript;
 			this.txtHost.Attributes["onkeyup"] = onChangeScript;
+			this.txtHost.Attributes["onblur"] = onChangeScript;
 
 			this.virtualDirectory.Value = Request.ApplicationPath.Replace("/", string.Empty);
 		}
@@ -261,6 +265,11 @@ namespace Subtext.Web.HostAdmin.UserControls
 		private void btnAddNewBlog_Click(object sender, EventArgs e)
 		{
 			this.BlogId = Constants.NULL_INTEGER;
+			this.txtTitle.Text = string.Empty;
+			this.lblTitle.Text = string.Empty;
+			this.txtApplication.Text = string.Empty;
+			this.txtHost.Text = string.Empty;
+			this.txtUsername.Text = string.Empty;
 			BindEdit();
 		}
 
@@ -292,32 +301,64 @@ namespace Subtext.Web.HostAdmin.UserControls
 		{
 			if(PageIsValid)
 			{
-				BlogConfig blog;
-				if(BlogId != Constants.NULL_INTEGER)
+				try
 				{
-					blog = BlogConfig.GetBlogById(BlogId);
+					if(BlogId != Constants.NULL_INTEGER)
+					{
+						SaveBlogEdits();
+					}
+					else
+					{
+						SaveNewBlog();
+					}		
+					BindList();
+					return;
 				}
-				else
+				catch(BaseBlogConfigurationException e)
 				{
-					blog = new BlogConfig();
+					this.messagePanel.ShowError(e.Message);
 				}
-			
-				blog.Host = this.txtHost.Text;
-				blog.Application = this.txtApplication.Text;
-			
-				if(Config.UpdateConfigData(blog))
-				{
-					this.messagePanel.ShowMessage("Blog Saved.");
-				}
-				else
-				{
-					this.messagePanel.ShowError("Darn! An unexpected error occurred.  Not sure what happened. Sorry.");
-				}
-				BindList();
+			}
+			BindEdit();
+		}
+
+		// Saves a new blog.  Any exceptions are propagated up to the caller.
+		void SaveNewBlog()
+		{
+			if(Config.AddBlogConfiguration(this.txtUsername.Text, this.txtPassword.Text, this.txtHost.Text, this.txtApplication.Text))
+			{
+				this.messagePanel.ShowMessage("Blog Created.");
 			}
 			else
 			{
-				BindEdit();
+				this.messagePanel.ShowError("Darn! An unexpected error occurred.  Not sure what happened. Sorry.");
+			}		
+		}
+
+		// Saves changes to a blog.  Any exceptions are propagated up to the caller.
+		void SaveBlogEdits()
+		{
+			BlogConfig blog = BlogConfig.GetBlogById(BlogId);
+			
+			if(blog == null)
+				throw new ArgumentNullException("Blog Being Edited", "Ok, somehow the blog you were editing is now null.  This is very odd.");
+			
+			blog.Host = this.txtHost.Text;
+			blog.Application = this.txtApplication.Text;
+			blog.UserName = this.txtUsername.Text;
+
+			if(this.txtPassword.Text.Length > 0)
+			{
+				blog.Password = this.txtPassword.Text;
+			}
+			
+			if(Config.UpdateConfigData(blog))
+			{
+				this.messagePanel.ShowMessage("Blog Saved.");
+			}
+			else
+			{
+				this.messagePanel.ShowError("Darn! An unexpected error occurred.  Not sure what happened. Sorry.");
 			}
 		}
 
@@ -327,22 +368,31 @@ namespace Subtext.Web.HostAdmin.UserControls
 			{
 				bool isValidSoFar = true;
 
-				if(CreatingBlog && IsTextBoxEmpty(this.txtPassword))
+				if(CreatingBlog)
 				{
-					isValidSoFar = false;
-					this.messagePanel.ShowError("When creating a blog, specifying a valid password is required.  Pick a good one.");
+					if(IsTextBoxEmpty(this.txtPassword))
+					{
+						isValidSoFar = false;
+						this.messagePanel.ShowError("A  password is required when creating a blog.  Pick a good one.<br />", true);
+					}
+					isValidSoFar = isValidSoFar && ValidateRequiredField(this.txtTitle, "Title");
 				}
 
 				if(this.txtPassword.Text != this.txtPasswordConfirm.Text)
 				{
 					isValidSoFar = false;
-					this.messagePanel.ShowError("Oh dear. The Password and the Password Confirmation do not match.");	
+					this.messagePanel.ShowError("The Password and Confirmation do not match.  Try retyping your password in both fields.<br />", false);	
 				}
 
+				// Use of single & is intentional to stop short cirtuited evaluation.
 				return isValidSoFar 
-					&& ValidateRequiredField(this.txtApplication, "Application") 
-					&& ValidateRequiredField(this.txtHost, "Host Domain") 
-					&& ValidateRequiredField(this.txtUsername, "Username");
+					& ValidateRequiredField(this.txtHost, "Host Domain") 
+					& ValidateRequiredField(this.txtUsername, "Username")
+					& ValidateFieldLength(this.txtHost, "Host Domain", 100)
+					& ValidateFieldLength(this.txtApplication, "Application", 50)
+					& ValidateFieldLength(this.txtUsername, "Username", 50)
+					& ValidateFieldLength(this.txtPassword, "Password", 50)
+					& ValidateFieldLength(this.txtTitle, "Title", 100);
 			}
 		}
 		
@@ -355,12 +405,21 @@ namespace Subtext.Web.HostAdmin.UserControls
 		{
 			if(IsTextBoxEmpty(textbox))
 			{
-				this.messagePanel.ShowError("Please do not leave " + fieldName + " empty.");
+				this.messagePanel.ShowError("Emptiness is quite Zen. Still, please enter a value for " + fieldName + ".<br />", false);
 				return false;
 			}
 			return true;
 		}
 
+		bool ValidateFieldLength(TextBox textbox, string fieldName, int maxLength)
+		{
+			if(textbox.Text.Length > maxLength)
+			{
+				this.messagePanel.ShowError("Brevity is rewarded.  " + fieldName + " may only have " + maxLength + " characters.<br />", false);
+				return false;
+			}
+			return true;
+		}
 
 		protected string ToggleActiveString(bool active)
 		{
@@ -378,11 +437,11 @@ namespace Subtext.Web.HostAdmin.UserControls
 			{
 				if(blog.IsActive)
 				{
-					this.messagePanel.ShowMessage("Blog Activated.");
+					this.messagePanel.ShowMessage("Blog Activated and ready to go.");
 				}
 				else
 				{
-					this.messagePanel.ShowMessage("Blog Inactivated.");
+					this.messagePanel.ShowMessage("Blog Inactivated and sent to a retirement community.");
 				}
 			}
 			else
@@ -394,7 +453,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
 		private void btnCancel_Click(object sender, System.EventArgs e)
 		{
-			this.messagePanel.ShowMessage("Blog Update Cancelled.");
+			this.messagePanel.ShowMessage("Blog Update Cancelled. Nothing to see here.");
 			BindList();
 		}
 	}

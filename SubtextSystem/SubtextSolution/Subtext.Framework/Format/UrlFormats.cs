@@ -1,9 +1,9 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Web;
 using Subtext.Framework.Components;
-using Subtext.Framework.Util;
 
 namespace Subtext.Framework.Format
 {
@@ -171,31 +171,44 @@ namespace Subtext.Framework.Format
 		}
 
 		/// <summary>
-		/// Gets the blog app from request.
+		/// Parses out the application name from the requested URL.  It simply searches 
+		/// for the first "folder" after the host and Request.ApplicationPath.
 		/// </summary>
+		/// <remarks>
+		/// <p>
+		/// For example, if a blog is hosted at the virtual directory http://localhost/Subtext.Web/ and 
+		/// request is made for http://localhost/Subtext.Web/, the application name is "" (empty string). 
+		/// Howver, a request for http://localhost/Subtext.Web/MyBlog/ would return "MyBlog" as the 
+		/// application.
+		/// </p>
+		/// <p>
+		/// Likewise, if a blog is hosted at http://localhost/, a request for http://localhost/MyBlog/ 
+		/// would return "MyBlog" as the application name.
+		/// </p>
+		/// </remarks>
 		/// <param name="path">Path.</param>
 		/// <param name="app">App.</param>
 		/// <returns></returns>
 		public static string GetBlogAppFromRequest(string path, string app)
 		{
-			if(!app.StartsWith("/"))
+			string urlPatternFormat = "{0}/(?<app>.*?)/";
+
+			//Remove any / from App.
+			string cleanApp = "/" + app.Replace("/", string.Empty);
+			string appRegex = Regex.Escape(cleanApp);
+
+			string urlRegexPattern = string.Format(urlPatternFormat, appRegex);
+			
+			Regex urlRegex = new Regex(urlRegexPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+			Match match = urlRegex.Match(path);
+			if(match.Success)
 			{
-				app = "/" + app;
+				return match.Groups["app"].Value;
 			}
-			if(!app.EndsWith("/"))
+			else
 			{
-				app += "/";
+				return string.Empty;
 			}
-			if(path.StartsWith(app))
-			{
-				path = path.Remove(0, app.Length);
-			}
-			int lastSlash = path.IndexOf("/");
-			if(lastSlash > -1)
-			{
-				path = path.Remove(lastSlash, path.Length - lastSlash);
-			}
-			return path;
 		}
 
 		/// <summary>

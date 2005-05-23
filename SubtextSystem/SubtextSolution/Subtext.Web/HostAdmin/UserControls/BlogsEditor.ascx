@@ -83,94 +83,93 @@
 		LinkFormatActive='<a href="{0}" class="Current">{1}</a>' UrlFormat="Default.aspx?pg={0}"
 		CssClass="Pager"></ANW:Pager>
 </ANW:AdvancedPanel>
+
 <ANW:AdvancedPanel id="pnlEdit" runat="server">
 	<SP:HelpToolTip id="blogEditorHelp" runat="server">
 		<IMG id="Img3" src="~/images/ms_help.gif" align="right" runat="server"></SP:HelpToolTip>
+	
+		<SCRIPT type="text/javascript">
+			function replace( str, from, to ) 
+			{
+				var idx = str.indexOf( from );
+
+				while ( idx > -1 ) 
+				{
+					str = str.replace( from, to );
+					idx = str.indexOf( from );
+				}
+
+				return str;
+			}
+			
+			var badCharacters = '/\\ @!#$%;^&*()?+|"=\'<>;';
+			
+			function removeInvalidCharacters(str)
+			{
+				var count = badCharacters.length;
+				for(var i = 0; i < count; i++)
+				{
+					var badChar = badCharacters.substring(i, i + 1);
+					str = replace(str, badChar, '');
+				}
+				return str;
+			}
+							
+			function onPreviewChanged(txtHostId, txtApplicationId, virtualDirectoryId)
+			{
+				var host = document.getElementById(txtHostId);
+				var application = document.getElementById(txtApplicationId);
+				var urlPreview = document.getElementById('urlPreview');
+				var virtDirField = document.getElementById(virtualDirectoryId);
+				
+				var hostText = 'not specified';
+				if(host && host.value != '')
+				{
+					hostText = removeInvalidCharacters(host.value);
+					host.value = hostText;
+					host.style.color = '#990000';
+				}
+				
+				var appText = '';
+				if(application && application.value != '')
+				{
+					appText = removeInvalidCharacters(application.value);
+					appText = replace(appText, ':', '');
+					application.value = appText;
+					application.style.color = '#000099';
+					appText = '<span style="color:#000099;">' + appText + '</span>';
+					appText += '/';
+				}
+				
+				var virtDirText = '';
+				if(virtDirField && virtDirField.value != '')
+				{
+					virtDirText = '/' + virtDirField.value;
+				}
+			
+				var preview = 'http://<span style="color:#990000">' + hostText + '</span>' + virtDirText + '/' + appText;
+				
+				urlPreview.innerHTML = preview;
+			}
+		</SCRIPT>
+		<STRONG><SP:HelpToolTip id="Helptooltip1" runat="server" HelpText="Based on what you’ve entered below, this shows what the url to this blog will look like. <em>(Requires Javascript to be enabled)</em>">Url Preview</SP:HelpToolTip>:</STRONG>
+				
+		<DIV class="MessagePanel" id="urlPreview">http://
+		</DIV>
 	<TABLE border="0">
-		<TR>
-			<TD colSpan="2">
-				<SCRIPT type="text/javascript">
-					function replace( str, from, to ) 
-					{
-						var idx = str.indexOf( from );
-
-						while ( idx > -1 ) 
-						{
-							str = str.replace( from, to );
-							idx = str.indexOf( from );
-						}
-
-						return str;
-					}
-					
-					var badCharacters = '/\\ @!#$%;^&*()?+|"=\'<>;';
-					
-					function removeInvalidCharacters(str)
-					{
-						var count = badCharacters.length;
-						for(var i = 0; i < count; i++)
-						{
-							var badChar = badCharacters.substring(i, i + 1);
-							str = replace(str, badChar, '');
-						}
-						return str;
-					}
-									
-					function onPreviewChanged(txtHostId, txtApplicationId, virtualDirectoryId)
-					{
-						var host = document.getElementById(txtHostId);
-						var application = document.getElementById(txtApplicationId);
-						var urlPreview = document.getElementById('urlPreview');
-						var virtDirField = document.getElementById(virtualDirectoryId);
-						
-						var hostText = 'not specified';
-						if(host && host.value != '')
-						{
-							hostText = removeInvalidCharacters(host.value);
-							host.value = hostText;
-							host.style.color = '#990000';
-						}
-						
-						var appText = '';
-						if(application && application.value != '')
-						{
-							appText = removeInvalidCharacters(application.value);
-							appText = replace(appText, ':', '');
-							application.value = appText;
-							application.style.color = '#000099';
-							appText = '<span style="color:#000099;">' + appText + '</span>';
-							appText += '/';
-						}
-						
-						var virtDirText = '';
-						if(virtDirField && virtDirField.value != '')
-						{
-							virtDirText = '/' + virtDirField.value;
-						}
-					
-						var preview = 'http://<span style="color:#990000">' + hostText + '</span>' + virtDirText + '/' + appText;
-						
-						urlPreview.innerHTML = preview;
-					}
-				</SCRIPT>
-				<STRONG>
-					<SP:HelpToolTip id="Helptooltip1" runat="server" HelpText="Based on what you’ve entered below, this shows what the url to this blog will look like. <em>(Requires Javascript to be enabled)</em>">Url 
-      Preview</SP:HelpToolTip>:</STRONG>
-				<DIV class="MessagePanel" id="urlPreview">http://
-				</DIV>
-			</TD>
-		</TR>
 		<TR>
 			<TD><LABEL for="lblTitle">Title:</LABEL></TD>
 			<TD>
-				<asp:label id="lblTitle" Runat="server"></asp:label></TD>
+				<asp:label id="lblTitle" Runat="server"></asp:label>
+				<asp:TextBox ID="txtTitle" MaxLength="100" Runat="server"></asp:TextBox>
+			</TD>
 		</TR>
 		<TR>
 			<TD><LABEL for="txtHost">
 					<SP:HelpToolTip id="hostDomainHelpTip" runat="server">
 						<STRONG>Host Domain</STRONG></SP:HelpToolTip>:</LABEL></TD>
 			<TD>
-				<asp:TextBox id="txtHost" Runat="server"></asp:TextBox><INPUT id="virtualDirectory" type="hidden" runat="server">
+				<asp:TextBox id="txtHost" MaxLength="100" Runat="server"></asp:TextBox><INPUT id="virtualDirectory" type="hidden" runat="server">
 			</TD>
 		</TR>
 		<TR>
@@ -178,22 +177,22 @@
 				<SP:HelpToolTip id="applicationHelpTip" runat="server">
 					<STRONG>Application</STRONG></SP:HelpToolTip>:</TD>
 			<TD>
-				<asp:TextBox id="txtApplication" Runat="server"></asp:TextBox></TD>
+				<asp:TextBox id="txtApplication" MaxLength="50" Runat="server"></asp:TextBox></TD>
 		</TR>
 		<TR>
-			<TD><LABEL for="txtUsername">User Name:</LABEL></TD>
+			<TD><LABEL for="txtUsername"><SP:HelpToolTip id="helpUsername" runat="server" HelpText="This will be the user who is the administrator of this blog.">User Name:</SP:HelpToolTip></LABEL></TD>
 			<TD>
-				<asp:TextBox id="txtUsername" Runat="server"></asp:TextBox></TD>
+				<asp:TextBox id="txtUsername" MaxLength="50" Runat="server"></asp:TextBox></TD>
 		</TR>
 		<TR id="passwordRow" runat="server">
-			<TD><LABEL for="txtPassword">Password:</LABEL></TD>
+			<TD><LABEL for="txtPassword"><SP:HelpToolTip id="helpPassword" HelpText="When editing an existing blog, you can leave this blank if you do not wish to change the password." runat="server">Password:</SP:HelpToolTip></LABEL></TD>
 			<TD>
-				<asp:TextBox id="txtPassword" Runat="server"></asp:TextBox></TD>
+				<asp:TextBox id="txtPassword" TextMode="Password" MaxLength="50" Runat="server"></asp:TextBox></TD>
 		</TR>
 		<TR id="passwordRowConfirm" runat="server">
 			<TD><LABEL for="txtPasswordConfirm">Confirm Password:</LABEL></TD>
 			<TD>
-				<asp:TextBox id="txtPasswordConfirm" Runat="server"></asp:TextBox></TD>
+				<asp:TextBox id="txtPasswordConfirm" TextMode="Password" MaxLength="50" Runat="server"></asp:TextBox></TD>
 		</TR>
 		<TR>
 			<TD colSpan="2">
