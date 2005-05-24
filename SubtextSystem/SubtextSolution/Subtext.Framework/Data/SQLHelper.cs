@@ -70,33 +70,6 @@ namespace Subtext.Framework.Data
 		}
 
 		/// <summary>
-		/// This method assigns an array of values to an array of SqlParameters.
-		/// </summary>
-		/// <param name="commandParameters">array of SqlParameters to be assigned values</param>
-		/// <param name="parameterValues">array of Components holding the values to be assigned</param>
-		private static void AssignParameterValues(SqlParameter[] commandParameters, object[] parameterValues)
-		{
-			if ((commandParameters == null) || (parameterValues == null)) 
-			{
-				//do nothing if we get no data
-				return;
-			}
-
-			// we must have the same number of values as we pave parameters to put them in
-			if (commandParameters.Length != parameterValues.Length)
-			{
-				throw new ArgumentException("Parameter count does not match Parameter Value count.");
-			}
-
-			//iterate through the SqlParameters, assigning the values from the corresponding position in the 
-			//value array
-			for (int i = 0, j = commandParameters.Length; i < j; i++)
-			{
-				commandParameters[i].Value = parameterValues[i];
-			}
-		}
-
-		/// <summary>
 		/// This method opens (if necessary) and assigns a connection, transaction, command type and parameters 
 		/// to the provided command.
 		/// </summary>
@@ -383,7 +356,7 @@ namespace Subtext.Framework.Data
 		public static DataSet ExecuteDataset(string connectionString, CommandType commandType, string commandText)
 		{
 			//pass through the call providing null for the set of SqlParameters
-			return ExecuteDataset(connectionString, commandType, commandText, (SqlParameter[])null);
+			return ExecuteDataset(connectionString, commandType, commandText, null);
 		}
 
 		/// <summary>
@@ -427,7 +400,7 @@ namespace Subtext.Framework.Data
 		public static DataSet ExecuteDataset(SqlConnection connection, CommandType commandType, string commandText)
 		{
 			//pass through the call providing null for the set of SqlParameters
-			return ExecuteDataset(connection, commandType, commandText, (SqlParameter[])null);
+			return ExecuteDataset(connection, commandType, commandText, null);
 		}
 		
 		/// <summary>
@@ -447,7 +420,7 @@ namespace Subtext.Framework.Data
 		{
 			//create a command and prepare it for execution
 			SqlCommand cmd = new SqlCommand();
-			PrepareCommand(cmd, connection, (SqlTransaction)null, commandType, commandText, commandParameters);
+			PrepareCommand(cmd, connection, null, commandType, commandText, commandParameters);
 			
 			//create the DataAdapter & DataSet
 			SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -478,7 +451,7 @@ namespace Subtext.Framework.Data
 		public static DataSet ExecuteDataset(SqlTransaction transaction, CommandType commandType, string commandText)
 		{
 			//pass through the call providing null for the set of SqlParameters
-			return ExecuteDataset(transaction, commandType, commandText, (SqlParameter[])null);
+			return ExecuteDataset(transaction, commandType, commandText, null);
 		}
 		
 		/// <summary>
@@ -535,7 +508,7 @@ namespace Subtext.Framework.Data
 		public static DataTable ExecuteDataTable(string connectionString, CommandType commandType, string commandText)
 		{
 			//pass through the call providing null for the set of SqlParameters
-			return ExecuteDataTable(connectionString, commandType, commandText, (SqlParameter[])null);
+			return ExecuteDataTable(connectionString, commandType, commandText, null);
 		}
 
 		/// <summary>
@@ -579,7 +552,7 @@ namespace Subtext.Framework.Data
 		public static DataTable ExecuteDataTable(SqlConnection connection, CommandType commandType, string commandText)
 		{
 			//pass through the call providing null for the set of SqlParameters
-			return ExecuteDataTable(connection, commandType, commandText, (SqlParameter[])null);
+			return ExecuteDataTable(connection, commandType, commandText, null);
 		}
 		
 		/// <summary>
@@ -599,7 +572,7 @@ namespace Subtext.Framework.Data
 		{
 			//create a command and prepare it for execution
 			SqlCommand cmd = new SqlCommand();
-			PrepareCommand(cmd, connection, (SqlTransaction)null, commandType, commandText, commandParameters);
+			PrepareCommand(cmd, connection, null, commandType, commandText, commandParameters);
 			
 			//create the DataAdapter & DataTable
 			SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -630,7 +603,7 @@ namespace Subtext.Framework.Data
 		public static DataTable ExecuteDataTable(SqlTransaction transaction, CommandType commandType, string commandText)
 		{
 			//pass through the call providing null for the set of SqlParameters
-			return ExecuteDataTable(transaction, commandType, commandText, (SqlParameter[])null);
+			return ExecuteDataTable(transaction, commandType, commandText, null);
 		}
 		
 		/// <summary>
@@ -739,7 +712,7 @@ namespace Subtext.Framework.Data
 		public static SqlDataReader ExecuteReader(string connectionString, CommandType commandType, string commandText)
 		{
 			//pass through the call providing null for the set of SqlParameters
-			return ExecuteReader(connectionString, commandType, commandText, (SqlParameter[])null);
+			return ExecuteReader(connectionString, commandType, commandText, null);
 		}
 
 		/// <summary>
@@ -788,7 +761,7 @@ namespace Subtext.Framework.Data
 		public static SqlDataReader ExecuteReader(SqlConnection connection, CommandType commandType, string commandText)
 		{
 			//pass through the call providing null for the set of SqlParameters
-			return ExecuteReader(connection, commandType, commandText, (SqlParameter[])null);
+			return ExecuteReader(connection, commandType, commandText, null);
 		}
 
 		/// <summary>
@@ -807,7 +780,7 @@ namespace Subtext.Framework.Data
 		public static SqlDataReader ExecuteReader(SqlConnection connection, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
 		{
 			//pass through the call to the private overload using a null transaction value and an externally owned connection
-			return ExecuteReader(connection, (SqlTransaction)null, commandType, commandText, commandParameters, SqlConnectionOwnership.External);
+			return ExecuteReader(connection, null, commandType, commandText, commandParameters, SqlConnectionOwnership.External);
 		}
 
 	
@@ -825,7 +798,7 @@ namespace Subtext.Framework.Data
 		public static SqlDataReader ExecuteReader(SqlTransaction transaction, CommandType commandType, string commandText)
 		{
 			//pass through the call providing null for the set of SqlParameters
-			return ExecuteReader(transaction, commandType, commandText, (SqlParameter[])null);
+			return ExecuteReader(transaction, commandType, commandText, null);
 		}
 
 		/// <summary>
@@ -866,7 +839,7 @@ namespace Subtext.Framework.Data
 		public static object ExecuteScalar(string connectionString, CommandType commandType, string commandText)
 		{
 			//pass through the call providing null for the set of SqlParameters
-			return ExecuteScalar(connectionString, commandType, commandText, (SqlParameter[])null);
+			return ExecuteScalar(connectionString, commandType, commandText, null);
 		}
 
 		/// <summary>
@@ -908,7 +881,7 @@ namespace Subtext.Framework.Data
 		public static object ExecuteScalar(SqlConnection connection, CommandType commandType, string commandText)
 		{
 			//pass through the call providing null for the set of SqlParameters
-			return ExecuteScalar(connection, commandType, commandText, (SqlParameter[])null);
+			return ExecuteScalar(connection, commandType, commandText, null);
 		}
 
 		/// <summary>
@@ -928,7 +901,7 @@ namespace Subtext.Framework.Data
 		{
 			//create a command and prepare it for execution
 			SqlCommand cmd = new SqlCommand();
-			PrepareCommand(cmd, connection, (SqlTransaction)null, commandType, commandText, commandParameters);
+			PrepareCommand(cmd, connection, null, commandType, commandText, commandParameters);
 			
 			//execute the command & return the results
 			object retval = cmd.ExecuteScalar();
@@ -953,7 +926,7 @@ namespace Subtext.Framework.Data
 		public static object ExecuteScalar(SqlTransaction transaction, CommandType commandType, string commandText)
 		{
 			//pass through the call providing null for the set of SqlParameters
-			return ExecuteScalar(transaction, commandType, commandText, (SqlParameter[])null);
+			return ExecuteScalar(transaction, commandType, commandText, null);
 		}
 
 		/// <summary>
@@ -1002,7 +975,7 @@ namespace Subtext.Framework.Data
 		public static XmlReader ExecuteXmlReader(SqlConnection connection, CommandType commandType, string commandText)
 		{
 			//pass through the call providing null for the set of SqlParameters
-			return ExecuteXmlReader(connection, commandType, commandText, (SqlParameter[])null);
+			return ExecuteXmlReader(connection, commandType, commandText, null);
 		}
 
 		/// <summary>
@@ -1022,7 +995,7 @@ namespace Subtext.Framework.Data
 		{
 			//create a command and prepare it for execution
 			SqlCommand cmd = new SqlCommand();
-			PrepareCommand(cmd, connection, (SqlTransaction)null, commandType, commandText, commandParameters);
+			PrepareCommand(cmd, connection, null, commandType, commandText, commandParameters);
 			
 			//create the DataAdapter & DataSet
 			XmlReader retval = cmd.ExecuteXmlReader();
@@ -1048,7 +1021,7 @@ namespace Subtext.Framework.Data
 		public static XmlReader ExecuteXmlReader(SqlTransaction transaction, CommandType commandType, string commandText)
 		{
 			//pass through the call providing null for the set of SqlParameters
-			return ExecuteXmlReader(transaction, commandType, commandText, (SqlParameter[])null);
+			return ExecuteXmlReader(transaction, commandType, commandText, null);
 		}
 
 		/// <summary>
