@@ -1,4 +1,5 @@
 using System;
+using Subtext.Extensibility;
 using Subtext.Framework.Components;
 
 namespace Subtext.Framework.Data

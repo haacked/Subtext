@@ -1,8 +1,8 @@
 using System;
 using System.Web.UI.WebControls;
+using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Email;
 using Subtext.Framework.Providers;
 
 #region Disclaimer/Info

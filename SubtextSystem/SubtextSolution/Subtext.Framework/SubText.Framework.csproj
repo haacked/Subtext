@@ -119,6 +119,11 @@
                     AssemblyName = "log4net"
                     HintPath = "ExternalDependencies\log4net.dll"
                 />
+                <Reference
+                    Name = "Subtext.Extensibility"
+                    Project = "{13018F20-F796-4FFE-9290-83D0E661C0A1}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
             </References>
         </Build>
         <Files>
@@ -253,22 +258,12 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Components\IBlogIdentifier.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Components\Image.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Components\ImageCollection.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Components\IMail.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -334,16 +329,6 @@
                 />
                 <File
                     RelPath = "Components\PageType.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Components\PostConfig.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Components\PostType.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -418,11 +403,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Data\IProccessEntry.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Data\SqlDataProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -434,11 +414,6 @@
                 />
                 <File
                     RelPath = "Data\SQLHelper.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Email\IMailProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -558,11 +533,6 @@
                 />
                 <File
                     RelPath = "Providers\EmailProviderConfiguration.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Providers\IBlogProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

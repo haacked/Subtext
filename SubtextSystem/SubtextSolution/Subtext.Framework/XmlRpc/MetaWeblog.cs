@@ -24,6 +24,7 @@
 using System;
 using System.Collections;
 using CookComputing.XmlRpc;
+using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Util;

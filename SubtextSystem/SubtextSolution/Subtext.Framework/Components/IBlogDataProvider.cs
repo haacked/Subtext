@@ -23,7 +23,7 @@
 
 using System;
 using System.Data;
-using Subtext.Framework.Configuration;
+using Subtext.Extensibility;
 
 namespace Subtext.Framework.Components
 {

@@ -151,7 +151,7 @@ namespace Subtext.Framework.Components
 			/// <param name="mappings">The <see cref="ReferrerCollection">ReferrerCollection</see> to enumerate.</param>
 			public BlogPostDayEnumerator(ReferrerCollection mappings)
 			{
-				_temp =	((IEnumerable)(mappings));
+				_temp =	mappings;
 				_enumerator = _temp.GetEnumerator();
 			}
 			

@@ -23,39 +23,18 @@
 
 using System;
 
-namespace Subtext.Framework.Components
+namespace Subtext.Extensibility
 {
 	/// <summary>
-	/// Summary description for IMail.
+	/// Summary description for PageType.
 	/// </summary>
-	public interface IMail
+	public enum PostType
 	{
-		string To
-		{
-			get;
-			set;
-		}
-
-		string From
-		{
-			get;
-			set;
-		}
-
-		string Subject
-		{
-			get;
-			set;
-		}
-
-		string Body
-		{
-			get;
-			set;
-		}
-
-		bool Send();
+		BlogPost = 1,
+		Story = 2,
+		Comment = 3,
+		PingTrack = 4,
+		Undeclared =5
 	}
-
 }
 

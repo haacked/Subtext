@@ -2,6 +2,7 @@ using System;
 using System.Web;
 using System.Web.UI;
 using Subtext.Common.Data;
+using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Text;
 

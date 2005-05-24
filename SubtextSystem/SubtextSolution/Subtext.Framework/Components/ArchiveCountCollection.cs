@@ -161,7 +161,7 @@ namespace Subtext.Framework.Components
 			/// <param name="mappings">The <see cref="ArchiveCountCollection">ArchiveCountCollection</see> to enumerate.</param>
 			public ArchiveCountCollectionEnumerator(ArchiveCountCollection mappings)
 			{
-				_temp =	((IEnumerable)(mappings));
+				_temp =	mappings;
 				_enumerator = _temp.GetEnumerator();
 			}
 			

@@ -1,6 +1,7 @@
 using System;
 using NUnit.Framework;
 using Subtext.Common.Syndication;
+using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;

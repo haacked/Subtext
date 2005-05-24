@@ -8,6 +8,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
 using Subtext.Web.Admin.Pages;
+using Subtext.Extensibility;
 
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////

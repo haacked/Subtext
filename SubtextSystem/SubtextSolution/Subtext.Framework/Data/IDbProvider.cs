@@ -1,11 +1,12 @@
 using System;
 using System.Data;
+using Subtext.Extensibility;
 using Subtext.Framework.Components;
 
 namespace Subtext.Framework.Data
 {
 	/// <summary>
-	/// Summary description for IBlogDataProvider.
+	/// Interface for database providers to implement.
 	/// </summary>
 	public interface IDbProvider
 	{

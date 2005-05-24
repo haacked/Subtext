@@ -25,6 +25,7 @@ using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Web.Services;
+using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;

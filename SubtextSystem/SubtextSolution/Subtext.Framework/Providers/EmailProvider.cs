@@ -1,6 +1,6 @@
 using System;
+using Subtext.Extensibility.Providers;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Email;
 
 namespace Subtext.Framework.Providers
 {

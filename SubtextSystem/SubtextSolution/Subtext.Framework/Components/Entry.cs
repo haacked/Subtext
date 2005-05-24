@@ -23,6 +23,7 @@
 
 using System;
 using System.Xml.Serialization;
+using Subtext.Extensibility;
 using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Components

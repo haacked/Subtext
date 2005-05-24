@@ -25,6 +25,7 @@ using System;
 using System.Collections;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 
