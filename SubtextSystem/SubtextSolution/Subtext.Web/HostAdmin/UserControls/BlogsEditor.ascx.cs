@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.Web.UI.WebControls;
+using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;

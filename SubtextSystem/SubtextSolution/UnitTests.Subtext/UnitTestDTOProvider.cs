@@ -1,6 +1,6 @@
 using System;
+using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Text;
 

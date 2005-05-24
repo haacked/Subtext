@@ -1,5 +1,6 @@
 using System;
 using System.Web;
+using Subtext.Framework;
 using Subtext.Framework.Configuration;
 
 namespace UnitTests.Subtext

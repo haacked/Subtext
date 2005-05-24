@@ -134,6 +134,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "BlogInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Entries.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -364,11 +369,6 @@
                 />
                 <File
                     RelPath = "Configuration\BlogConfigurationSettings.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Configuration\BlogInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
