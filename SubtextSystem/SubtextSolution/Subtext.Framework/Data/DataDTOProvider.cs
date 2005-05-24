@@ -961,9 +961,9 @@ namespace Subtext.Framework.Data
 			return DbProvider.Instance().AddBlogConfiguration(title, userName, password, host, application);
 		}
 		
-		public bool UpdateConfigData(BlogInfo info)
+		public bool UpdateBlog(BlogInfo info)
 		{
-			return DbProvider.Instance().UpdateConfigData(info);
+			return DbProvider.Instance().UpdateBlog(info);
 		}
 
 		/// <summary>

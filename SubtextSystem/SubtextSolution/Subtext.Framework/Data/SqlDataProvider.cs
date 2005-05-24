@@ -1132,7 +1132,7 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="info">Config.</param>
 		/// <returns></returns>
-		public bool UpdateConfigData(BlogInfo info)
+		public bool UpdateBlog(BlogInfo info)
 		{
 			object daysTillCommentsClose = null;
 			if(info.DaysTillCommentsClose > -1 && info.DaysTillCommentsClose < int.MaxValue)

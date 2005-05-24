@@ -366,7 +366,7 @@ namespace UnitTests.Subtext
 		/// </summary>
 		/// <param name="info">Config.</param>
 		/// <returns></returns>
-		public bool UpdateConfigData(BlogInfo info)
+		public bool UpdateBlog(BlogInfo info)
 		{
 			return true;
 		}
