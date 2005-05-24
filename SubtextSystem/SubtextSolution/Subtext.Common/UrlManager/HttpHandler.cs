@@ -33,7 +33,8 @@ namespace Subtext.Common.UrlManager
 	{
 		Direct,
 		Factory,
-		Page
+		Page,
+		Directory,
 	};
 
 	/// <summary>
@@ -60,6 +61,21 @@ namespace Subtext.Common.UrlManager
 		}
 
 		private string _PageLocation;
+		/// <summary>
+		/// <p>Gets or sets the page location.  This is the location 
+		/// of the page used when the handler type is <see cref="HandlerType.Page"/>. 
+		/// </p>
+		/// <p>
+		/// The format for the page location should be a path relative to 
+		/// the ApplicationPath (no beginning slash).
+		/// </p>
+		/// </summary>
+		/// <example>
+		/// If Subtext is installed in a virtual directory name "Subtext.Web" and 
+		/// the virtual path to the page is "/Subtext.Web/SomeDirectory/MyPage.aspx", 
+		/// the PageLocation should be "SomeDirectory/MyPage.aspx".
+		/// </example>
+		/// <value></value>
 		[XmlAttribute("pageLocation")]
 		public string PageLocation
 		{
@@ -67,7 +83,42 @@ namespace Subtext.Common.UrlManager
 			set {this._PageLocation = value;}
 		}
 
+		/// <summary>
+		/// <p>Gets or sets the actual directory location.  This is the location 
+		/// of the directory used to find the actual file when the handler type 
+		/// is <see cref="HandlerType.Page"/>. 
+		/// </p>
+		/// <p>
+		/// The format for the directory location should be a path relative to 
+		/// the ApplicationPath (no beginning slash).
+		/// </p>
+		/// </summary>
+		/// <example>
+		/// <p>If Subtext is installed in a virtual directory name "Subtext.Web" and 
+		/// the virtual path to the directory is "/Subtext.Web/Admin/", 
+		/// the PageLocation should be "Admin".
+		/// </p>
+		/// <p>
+		/// Thus requests for http://host/Subtext.Web/MyBlog/Admin/SomePage.aspx 
+		/// will be handled by http://host/Subtext.Web/Admin/SomePage.aspx
+		/// </p>
+		/// </example>
+		/// <value></value>
+		[XmlAttribute("directoryLocation")]
+		public string DirectoryLocation
+		{
+			get {return this._directoryLocation;}
+			set {this._directoryLocation = value;}
+		}
+		string _directoryLocation = string.Empty;
+
 		private string _fullPageLocation;
+
+		/// <summary>
+		/// Gets the full physical path to the page specified 
+		/// by <see cref="PageLocation"/>.
+		/// </summary>
+		/// <value></value>
 		public string FullPageLocation
 		{
 			get 

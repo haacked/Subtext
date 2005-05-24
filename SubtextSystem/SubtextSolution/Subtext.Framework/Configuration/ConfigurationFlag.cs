@@ -4,7 +4,7 @@ namespace Subtext.Framework.Configuration
 {
 	/// <summary>
 	/// <p>Bitmask enumeration used to specify the several properties in one 
-	/// value in the database.</p>
+	/// value within the database.</p>
 	/// </list>
 	/// </summary>
 	[Flags()]

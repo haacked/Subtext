@@ -28,7 +28,8 @@ using Subtext.Framework.Providers;
 namespace Subtext.Framework.Configuration
 {
 	/// <summary>
-	/// Returns settings straight from Web.config.
+	/// Contains various configuration settings stored in the 
+	/// web.config file.
 	/// </summary>
 	[Serializable]
 	public class BlogConfigurationSettings 

@@ -4,16 +4,17 @@ using System.Xml.Serialization;
 namespace Subtext.Framework.Providers
 {
 	/// <summary>
-	/// Summary description for DbProvider.
+	/// Contains configuration information for the database provider.  
+	/// Simply a Connection string.
 	/// </summary>
 	[XmlRoot("DbProvider")]
 	public class DbProviderConfiguration : BaseProvider 
 	{
-		public DbProviderConfiguration()
-		{
-		}
-
 		private string _connectionString;
+		/// <summary>
+		/// Gets or sets the connection string.
+		/// </summary>
+		/// <value></value>
 		[XmlAttribute("connectionString")]
 		public string ConnectionString
 		{

@@ -1,5 +1,6 @@
 using System;
 using NUnit.Framework;
+using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Providers;
@@ -13,6 +14,46 @@ namespace UnitTests.Subtext.Framework.Configuration
 	[TestFixture]
 	public class BlogCreationTests
 	{
+		/// <summary>
+		/// Ensures that creating a blog will hash the password 
+		/// if UseHashedPassword is set in web.config (as it should be).
+		/// </summary>
+		[Test]
+		public void CreatingBlogHashesPassword()
+		{
+			string password = "MyPassword";
+			string hashedPassword = Security.HashPassword(password);
+            
+			Config.AddBlogConfiguration("", "username", password, "LocaLhost", "MyBlog1");
+			BlogConfig config = Config.GetConfig("localhost", "MyBlog1");
+
+			Config.Settings.UseHashedPasswords = true;
+			Assert.IsTrue(Config.Settings.UseHashedPasswords, "This test is voided because we're not hashing passwords");
+			Assert.AreEqual(hashedPassword, config.Password, "The password wasn't hashed.");
+		}
+
+		/// <summary>
+		/// Ensures that creating a blog will hash the password 
+		/// if UseHashedPassword is set in web.config (as it should be).
+		/// </summary>
+		[Test]
+		public void ModifyingBlogHashesPassword()
+		{
+			string password = "My Password";
+			string hashedPassword = Security.HashPassword(password);
+            
+			Config.AddBlogConfiguration("", "username", "something", "LocaLhost", "MyBlog1");
+			BlogConfig config = Config.GetConfig("localhost", "MyBlog1");
+			Config.Settings.UseHashedPasswords = true;
+			
+			config.Password = password;
+			Assert.AreEqual(password, config.Password, "Passwords aren't hashed till they're saved. Otherwise loading a config would hash the hash.");
+		
+			Config.UpdateConfigData(config);
+
+			Assert.AreEqual(hashedPassword, config.Password, "The password wasn't hashed.");
+		}
+
 		/// <summary>
 		/// If a blog already exists with a domain name and application, one 
 		/// cannot create a blog with the same domain name and no application.
@@ -163,6 +204,20 @@ namespace UnitTests.Subtext.Framework.Configuration
 			BlogConfig config = Config.GetConfig("www.EXAMPLE.com", string.Empty);
 			config.BlogID = 1;			
 			Assert.IsTrue(Config.UpdateConfigData(config), "Updating blog config should return true.");
+		}
+
+		/// <summary>
+		/// Makes sure that every invalid character is checked 
+		/// within the application name.
+		/// </summary>
+		[Test]
+		public void EnsureInvalidCharactersMayNotBeUsedInApplicationName()
+		{
+			string[] badNames = {".name", "a{b", "a}b", "a[e", "a]e", "a/e",@"a\e", "a@e", "a!e", "a#e", "a$e", "a'e", "a%", ":e", "a^", "ae&", "*ae", "a(e", "a)e", "a?e", "+a", "e|", "a\"", "e=", "a'", "e<", "a>e", "a;", ",e", "a e"};
+			foreach(string badName in badNames)
+			{
+				Assert.IsFalse(Config.IsValidApplicationName(badName), badName + " is not a valid app name.");
+			}
 		}
 
 		#region Invalid Application Name Tests... There's a bunch...

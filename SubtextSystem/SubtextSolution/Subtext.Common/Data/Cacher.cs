@@ -29,7 +29,7 @@ namespace Subtext.Common.Data
 		private static readonly string ActiveLCCKey = "ActiveLinkCategoryCollection:Blog{0}";
 		public static LinkCategoryCollection GetActiveCategories(CacheTime ct, HttpContext context)
 		{
-			string key = string.Format(ActiveLCCKey,BlogID(context));
+			string key = string.Format(ActiveLCCKey,BlogID());
 			LinkCategoryCollection categories = (LinkCategoryCollection)context.Cache[key];
 			if(categories == null)
 			{
@@ -49,7 +49,7 @@ namespace Subtext.Common.Data
 		private static readonly string EntryMonthKey = "EntryMonth:Date{0}Blog{1}";
 		public static EntryCollection GetMonth(DateTime dt, CacheTime ct, HttpContext context)
 		{
-			string key = string.Format(EntryMonthKey,dt.ToString("yyyyMM"),BlogID(context));
+			string key = string.Format(EntryMonthKey,dt.ToString("yyyyMM"),BlogID());
 			EntryCollection month = (EntryCollection)context.Cache[key];
 			if(month == null)
 			{
@@ -70,7 +70,7 @@ namespace Subtext.Common.Data
 		private static readonly string EntryDayKey = "EntryDay:Date{0}Blog{1}";
 		public static EntryDay GetDay(DateTime dt, CacheTime ct, HttpContext context)
 		{
-			string key = string.Format(EntryDayKey,dt.ToString("yyyyMMdd"),BlogID(context));
+			string key = string.Format(EntryDayKey,dt.ToString("yyyyMMdd"),BlogID());
 			EntryDay day = (EntryDay)context.Cache[key];
 			if(day == null)
 			{
@@ -88,7 +88,7 @@ namespace Subtext.Common.Data
 		
 		#region Helpers
 
-		private static int BlogID(HttpContext context)
+		private static int BlogID()
 		{
 			return Framework.Configuration.Config.CurrentBlog.BlogID;
 		}
@@ -123,7 +123,7 @@ namespace Subtext.Common.Data
 		private static readonly string ECKey="EC:Count{0}Category{1}BlogID{2}";
 		public static EntryCollection GetEntriesByCategory(int count, CacheTime ct, HttpContext context, int categoryID)
 		{
-			string key = string.Format(ECKey,count,categoryID,BlogID(context));
+			string key = string.Format(ECKey,count,categoryID,BlogID());
 			EntryCollection ec = (EntryCollection)context.Cache[key];
 			if(ec == null)
 			{
@@ -140,7 +140,7 @@ namespace Subtext.Common.Data
 		private static readonly string ECNameKey="EC:Count{0}CategoryName{1}BlogID{2}";
 		public static EntryCollection GetEntriesByCategory(int count, CacheTime ct, HttpContext context, string CategoryName)
 		{
-			string key = string.Format(ECNameKey,count,CategoryName,BlogID(context));
+			string key = string.Format(ECNameKey,count,CategoryName,BlogID());
 			EntryCollection ec = (EntryCollection)context.Cache[key];
 			if(ec == null)
 			{
@@ -178,7 +178,7 @@ namespace Subtext.Common.Data
 
 		public static LinkCategory SingleCategory(CacheTime ct, HttpContext context,int CategoryID)
 		{
-			string key = string.Format(LCKey,CategoryID,BlogID(context));
+			string key = string.Format(LCKey,CategoryID,BlogID());
 			LinkCategory lc = (LinkCategory)context.Cache[key];
 			if(lc == null)
 			{
@@ -190,7 +190,7 @@ namespace Subtext.Common.Data
 
 		public static LinkCategory SingleCategory(CacheTime ct, HttpContext context, string CategoryName)
 		{
-			string key = string.Format(LCKey,CategoryName,BlogID(context));
+			string key = string.Format(LCKey,CategoryName,BlogID());
 			LinkCategory lc = (LinkCategory)context.Cache[key];
 			if(lc == null)
 			{
@@ -223,7 +223,7 @@ namespace Subtext.Common.Data
 
 		public static Entry SingleEntry(string EntryName, CacheTime ct, HttpContext context)
 		{
-			int BID  =  BlogID(context);
+			int BID  =  BlogID();
 			string key = string.Format(EntryKeyName,EntryName,BID);
 			
 			Entry entry = (Entry)context.Cache[key];
@@ -247,7 +247,7 @@ namespace Subtext.Common.Data
 
 		public static Entry SingleEntry(int EntryID, CacheTime ct, HttpContext context)
 		{
-			string key = string.Format(EntryKeyID,EntryID,BlogID(context));
+			string key = string.Format(EntryKeyID,EntryID,BlogID());
 			
 			Entry entry = (Entry)context.Cache[key];
 			if(entry == null)
@@ -266,14 +266,14 @@ namespace Subtext.Common.Data
 
 		public static void ClearCommentCache(int EntryID, HttpContext context)
 		{
-			string key = string.Format(ParentCommentEntryKey,EntryID,BlogID(context));
+			string key = string.Format(ParentCommentEntryKey,EntryID,BlogID());
 			context.Cache.Remove(key);
 		}
 			
 		private static readonly string ParentCommentEntryKey = "ParentEntry:Comments:EntryID{0}:BlogID{1}";
 		public static EntryCollection GetComments(Entry ParentEntry, CacheTime ct, HttpContext context)
 		{
-			string key = string.Format(ParentCommentEntryKey,ParentEntry.EntryID,BlogID(context));
+			string key = string.Format(ParentCommentEntryKey,ParentEntry.EntryID,BlogID());
 			
 			EntryCollection comments = (EntryCollection)context.Cache[key];
 			if(comments == null)
@@ -290,7 +290,7 @@ namespace Subtext.Common.Data
 		private static readonly string ParentCommentEntryID = "ParentEntry:Comments:EntryID{0}:BlogID{1}";
 		public static EntryCollection GetComments(int EntryID, CacheTime ct, HttpContext context)
 		{
-			string key = string.Format(ParentCommentEntryID,EntryID,BlogID(context));
+			string key = string.Format(ParentCommentEntryID,EntryID, BlogID());
 			
 			EntryCollection comments = (EntryCollection)context.Cache[key];
 			if(comments == null)

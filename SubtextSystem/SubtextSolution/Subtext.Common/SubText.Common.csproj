@@ -103,21 +103,6 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Config\BaseBlogConfig.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Config\MultipleBlogConfig.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Config\SingleBlogConfig.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Data\Cacher.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -178,17 +163,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "UrlManager\BlogStaticFileHandler.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "UrlManager\HandlerConfiguration.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "UrlManager\HttpForbiddenHandler.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

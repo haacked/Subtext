@@ -8,7 +8,7 @@ namespace Subtext.Framework.Providers
 	/// <summary>
 	/// Summary description for UrlFormatProvider.
 	/// </summary>
-	public class UrlFormatProvider
+	public sealed class UrlFormatProvider
 	{
 		private UrlFormatProvider()
 		{

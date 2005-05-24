@@ -4609,6 +4609,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Images\xml.gif"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Modules\BlogServiceModule.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

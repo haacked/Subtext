@@ -16,6 +16,9 @@ namespace UnitTests.Subtext
 		BlogConfig _blogById = null;
 		BlogConfigCollection _pagedBlogs = new BlogConfigCollection();
 
+		static int _nextLinkCategoryId = 1;
+		LinkCategoryCollection _linkCategories = new LinkCategoryCollection();
+
 		/// <summary>
 		/// Sets the blog to be returned by a call to GetBlogById().
 		/// </summary>
@@ -239,7 +242,15 @@ namespace UnitTests.Subtext
 
 		public LinkCategoryCollection GetCategories(CategoryType catType, bool ActiveOnly)
 		{
-			throw new NotImplementedException();
+			LinkCategoryCollection linkCategoryCollection = new LinkCategoryCollection();
+
+			foreach(LinkCategory lc in _linkCategories)
+			{
+				if (lc.CategoryType == catType & (lc.IsActive || !ActiveOnly))
+					linkCategoryCollection.Add(lc);
+			}
+
+			return linkCategoryCollection;		
 		}
 
 		public LinkCategoryCollection GetActiveCategories()
@@ -269,12 +280,29 @@ namespace UnitTests.Subtext
 
 		public bool UpdateLinkCategory(LinkCategory lc)
 		{
-			throw new NotImplementedException();
+			foreach(LinkCategory category in _linkCategories)
+				if (category.CategoryID == lc.CategoryID & 
+					category.BlogID == lc.BlogID)
+				{
+					category.Title = lc.Title;
+					category.Description = lc.Description;
+					category.CategoryType = lc.CategoryType;
+					category.IsActive = lc.IsActive;
+					return true;
+				}
+			return false;
 		}
 
 		public int CreateLinkCategory(LinkCategory lc)
 		{
-			throw new NotImplementedException();
+			LinkCategory linkCategory = new LinkCategory();
+			linkCategory.BlogID = lc.BlogID;
+			linkCategory.Title = lc.Title;
+			linkCategory.Description = lc.Description;
+			linkCategory.CategoryType = lc.CategoryType;
+			linkCategory.CategoryID = _nextLinkCategoryId++;
+			_linkCategories.Add(linkCategory);
+			return linkCategory.CategoryID;
 		}
 
 		public bool DeleteLinkCategory(int CategoryID)

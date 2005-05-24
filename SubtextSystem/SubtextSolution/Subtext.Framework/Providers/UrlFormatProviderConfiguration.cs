@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace Subtext.Framework.Providers
 {
 	/// <summary>
-	/// Summary description for UrlFormatProvider.
+	/// Configuration class for the UrlFormatProvider.
 	/// </summary>
 	[XmlRoot("UrlFormatProvider")]
 	public class UrlFormatProviderConfiguration : BaseProvider

@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace Subtext.Framework.Providers
 {
 	/// <summary>
-	/// Summary description for DTOProvider.
+	/// Configuration setting for the DTOProvider.
 	/// </summary>
 	[XmlRoot("DTOProvider")]
 	public class DTOProviderConfiguration : BaseProvider

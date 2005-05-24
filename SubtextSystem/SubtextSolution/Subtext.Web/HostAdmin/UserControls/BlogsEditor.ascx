@@ -22,7 +22,7 @@
 		<ItemTemplate>
 			<tr>
 				<td>
-					<%# DataBinder.Eval(Container.DataItem, "Title") %>
+					<a href="<%# DataBinder.Eval(Container.DataItem, "BlogRootUrl") %>"><%# DataBinder.Eval(Container.DataItem, "Title") %></a>
 				</td>
 				<td>
 					<strong>
@@ -48,7 +48,7 @@
 		<AlternatingItemTemplate>
 			<tr class="Alt">
 				<td>
-					<%# DataBinder.Eval(Container.DataItem, "Title") %>
+					<a href="<%# DataBinder.Eval(Container.DataItem, "BlogRootUrl") %>"><%# DataBinder.Eval(Container.DataItem, "Title") %></a>
 				</td>
 				<td>
 					<strong>
@@ -97,7 +97,7 @@
 				return str;
 			}
 			
-			var badCharacters = '/\\ @!#$%;^&*()?+|"=\'<>;';
+			var badCharacters = '{}[]/\\ @!#$%;^&*()?+|"=\'<>;,';
 			
 			function removeInvalidCharacters(str)
 			{
