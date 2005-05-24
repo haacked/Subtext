@@ -30,12 +30,5 @@ namespace Subtext.Framework.Providers
 			get {return this._dbProvider;}
 			set {this._dbProvider = value;}
 		}
-
-		private UrlFormatProviderConfiguration _urlFormatProvider;
-		public UrlFormatProviderConfiguration UrlFormatProvider
-		{
-			get {return this._urlFormatProvider;}
-			set {this._urlFormatProvider = value;}
-		}
 	}
 }
