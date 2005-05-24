@@ -51,7 +51,7 @@ namespace Subtext.Framework.XmlRpc
 		#region BlogApi Members
 		public BlogInfo[] getUsersBlogs(string appKey,string username,string password)
 		{
-			Configuration.BlogInfo info = Config.CurrentBlog;
+			Framework.BlogInfo info = Config.CurrentBlog;
 			if(ValidateUser(username,password,info.AllowServiceAccess))
 			{
 				BlogInfo[] bi = new BlogInfo[1];
@@ -88,7 +88,7 @@ namespace Subtext.Framework.XmlRpc
 
 		public bool editPost(string postid,	string username,string password,Post post,bool publish)
 		{
-			Configuration.BlogInfo info = Config.CurrentBlog;
+			Framework.BlogInfo info = Config.CurrentBlog;
 			if(ValidateUser(username,password,info.AllowServiceAccess))
 			{
 				CategoryEntry entry = Entries.GetCategoryEntry(Int32.Parse(postid), false);
@@ -118,7 +118,7 @@ namespace Subtext.Framework.XmlRpc
 
 		public Post getPost(string postid,string username,string password)
 		{
-			Configuration.BlogInfo info = Config.CurrentBlog;
+			Framework.BlogInfo info = Config.CurrentBlog;
 			if(ValidateUser(username,password,info.AllowServiceAccess))
 			{
 				CategoryEntry entry = Entries.GetCategoryEntry(Int32.Parse(postid),false);
@@ -188,7 +188,7 @@ namespace Subtext.Framework.XmlRpc
 
 		public CategoryInfo[] getCategories(string blogid,string username,string password)
 		{
-			Configuration.BlogInfo info = Config.CurrentBlog;
+			Framework.BlogInfo info = Config.CurrentBlog;
 			if(ValidateUser(username,password,info.AllowServiceAccess))
 			{
 				LinkCategoryCollection lcc = Links.GetCategories(CategoryType.PostCollection,false);
@@ -216,7 +216,7 @@ namespace Subtext.Framework.XmlRpc
 
 		public string newPost(string blogid, string username, string password, Post post, bool publish)
 		{
-			Configuration.BlogInfo info = Config.CurrentBlog;
+			Framework.BlogInfo info = Config.CurrentBlog;
 			if(ValidateUser(username,password,info.AllowServiceAccess))
 			{
 				CategoryEntry entry = new CategoryEntry();

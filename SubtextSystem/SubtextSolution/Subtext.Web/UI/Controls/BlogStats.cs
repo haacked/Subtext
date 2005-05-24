@@ -1,4 +1,5 @@
 using System;
+using Subtext.Framework;
 using Subtext.Framework.Configuration;
 
 #region Disclaimer/Info

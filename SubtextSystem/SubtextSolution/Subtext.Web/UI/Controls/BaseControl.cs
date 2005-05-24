@@ -22,6 +22,7 @@
 #endregion
 
 using System;
+using Subtext.Framework;
 using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.UI.Controls
