@@ -568,9 +568,7 @@ namespace Subtext.Framework.Data
 
 		public static LinkCategory LoadSingleLinkCategory(IDataReader reader)
 		{
-			LinkCategory lc = new LinkCategory();
-			lc.CategoryID = (int)reader["CategoryID"];
-			lc.Title = (string)reader["Title"];
+			LinkCategory lc = new LinkCategory((int)reader["CategoryID"], (string)reader["Title"]);
 			lc.IsActive = (bool)reader["Active"];
 			if(reader["CategoryType"] != DBNull.Value)
 			{
@@ -585,12 +583,7 @@ namespace Subtext.Framework.Data
 
 		public static LinkCategory LoadSingleLinkCategory(DataRow dr)
 		{
-			LinkCategory lc = new LinkCategory();
-			// CategoryID cannot be null.
-			lc.CategoryID = (int)dr["CategoryID"];
-
-			// Title cannot be null.
-			lc.Title = (string)dr["Title"];
+			LinkCategory lc = new LinkCategory((int)dr["CategoryID"], (string)dr["Title"]);
 			
 			// Active cannot be null.
 			lc.IsActive = (bool)dr["Active"];

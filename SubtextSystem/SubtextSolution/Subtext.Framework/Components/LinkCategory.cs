@@ -30,13 +30,23 @@ namespace Subtext.Framework.Components
 	/// Summary description for LinkCategory.
 	/// </summary>
 	[Serializable]
-	public class LinkCategory : IBlogIdentifier
+	public class LinkCategory
 	{
+		/// <summary>
+		/// Creates a new <see cref="LinkCategory"/> instance.
+		/// </summary>
 		public LinkCategory()
+		{}
+
+		/// <summary>
+		/// Creates a new <see cref="LinkCategory"/> instance.
+		/// </summary>
+		/// <param name="catID">Cat ID.</param>
+		/// <param name="title">Title.</param>
+		public LinkCategory(int catID, string title)
 		{
-			//
-			// TODO: Add constructor logic here
-			//
+			Title = title;
+			CategoryID = catID;
 		}
 
 		private int _blogID;
@@ -44,12 +54,6 @@ namespace Subtext.Framework.Components
 		{
 			get {return this._blogID;}
 			set {this._blogID = value;}
-		}
-
-		public LinkCategory(int catID, string title)
-		{
-			Title = title;
-			CategoryID = catID;
 		}
 
 		private string _sorttext;

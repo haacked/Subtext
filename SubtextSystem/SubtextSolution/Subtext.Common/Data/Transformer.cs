@@ -31,7 +31,7 @@ namespace Subtext.Common.Data
 				lc.Title = Title;
 				lc.Links = new LinkCollection();
 				Link link = null;
-				for(int i = 0; i<count; i++)
+				for(int i = 0; i < count; i++)
 				{
 					link = new Link();
 					

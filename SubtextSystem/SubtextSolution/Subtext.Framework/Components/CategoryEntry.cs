@@ -30,6 +30,12 @@ namespace Subtext.Framework.Components
 	/// </summary>
 	public class CategoryEntry : Entry
 	{
+		/// <summary>
+		/// Creates a new <see cref="CategoryEntry"/> instance.
+		/// </summary>
+		public CategoryEntry() : base(PostType.Undeclared)
+		{}
+
 		private string[] _categories;
 		public string[] Categories
 		{

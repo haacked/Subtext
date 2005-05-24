@@ -31,15 +31,12 @@ namespace Subtext.Framework.Components
 	/// Summary description for Entry.
 	/// </summary>
 	[Serializable]
-	public class Entry : IBlogIdentifier
+	public class Entry
 	{
 		/// <summary>
 		/// Creates a new <see cref="Entry"/> instance.
 		/// </summary>
-		public Entry()
-		{
-		}
-
+		/// <param name="ptype">Ptype.</param>
 		public Entry(PostType ptype)
 		{
 			this.PostType = ptype;
