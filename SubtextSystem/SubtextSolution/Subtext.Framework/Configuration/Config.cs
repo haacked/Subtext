@@ -255,7 +255,7 @@ namespace Subtext.Framework.Configuration
 				info.Password = Security.HashPassword(info.Password);
 			}
 
-			return DTOProvider.Instance().UpdateConfigData(info);
+			return DTOProvider.Instance().UpdateBlog(info);
 		}
 
 		//TODO: Is this the right place to put this list?

@@ -1,6 +1,5 @@
 using System;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Data
 {
@@ -192,7 +191,7 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="info">Config.</param>
 		/// <returns></returns>
-		bool UpdateConfigData(BlogInfo info);
+		bool UpdateBlog(BlogInfo info);
 		
 		/// <summary>
 		/// Returns a <see cref="BlogInfo"/> instance containing 

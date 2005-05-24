@@ -1,7 +1,6 @@
 using System;
 using System.Data;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Data
 {
@@ -155,7 +154,7 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		IDataReader GetBlogInfo(int blogId);
 
-		bool UpdateConfigData(BlogInfo info);
+		bool UpdateBlog(BlogInfo info);
 
 		#endregion
 
