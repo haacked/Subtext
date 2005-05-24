@@ -151,17 +151,17 @@ namespace Subtext.Framework
 		/// <param name="password">Supplied Password</param>
 		public static void UpdatePassword(string password)
 		{
-			BlogConfig config = Config.CurrentBlog;
+			BlogInfo info = Config.CurrentBlog;
 			if(Config.CurrentBlog.IsPasswordHashed)
 			{
-				config.Password = HashPassword(password);
+				info.Password = HashPassword(password);
 			}
 			else
 			{
-				config.Password = password;
+				info.Password = password;
 			}
 			//Save new password.
-			Config.UpdateConfigData(config);
+			Config.UpdateConfigData(info);
 		}
 
 		/// <summary>

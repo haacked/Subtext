@@ -13,8 +13,8 @@ namespace UnitTests.Subtext
 	public class UnitTestDTOProvider : IDTOProvider
 	{
 		static int _nextBlogId = 1;
-		BlogConfig _blogById = null;
-		BlogConfigCollection _pagedBlogs = new BlogConfigCollection();
+		BlogInfo _blogById = null;
+		BlogInfoCollection _pagedBlogs = new BlogInfoCollection();
 
 		static int _nextLinkCategoryId = 1;
 		LinkCategoryCollection _linkCategories = new LinkCategoryCollection();
@@ -23,17 +23,17 @@ namespace UnitTests.Subtext
 		/// Sets the blog to be returned by a call to GetBlogById().
 		/// </summary>
 		/// <param name="blog">Blog.</param>
-		public void SetBlogById(BlogConfig blog)
+		public void SetBlogById(BlogInfo blog)
 		{
 			_blogById = blog;
 		}
 
 		/// <summary>
-		/// Sets the <see cref="BlogConfigCollection"/> instance that will 
+		/// Sets the <see cref="BlogInfoCollection"/> instance that will 
 		/// be returned by a call to GetPagedBlogs().
 		/// </summary>
 		/// <param name="blogs">Blogs.</param>
-		public void SetPagedBlogs(BlogConfigCollection blogs)
+		public void SetPagedBlogs(BlogInfoCollection blogs)
 		{
 			_pagedBlogs = blogs;
 		}
@@ -47,20 +47,20 @@ namespace UnitTests.Subtext
 		}
 
 		#region IDTOProvider Implementation
-		public BlogConfigCollection GetPagedBlogs(int pageIndex, int pageSize, bool sortDescending)
+		public BlogInfoCollection GetPagedBlogs(int pageIndex, int pageSize, bool sortDescending)
 		{
 			return _pagedBlogs;
 		}
 
-		public BlogConfig GetBlogById(int blogId)
+		public BlogInfo GetBlogById(int blogId)
 		{
 			return _blogById;
 		}
 
-		public BlogConfigCollection GetBlogsByHost(string host)
+		public BlogInfoCollection GetBlogsByHost(string host)
 		{
-			BlogConfigCollection blogsWithHost = new BlogConfigCollection();
-			foreach(BlogConfig config in _pagedBlogs)
+			BlogInfoCollection blogsWithHost = new BlogInfoCollection();
+			foreach(BlogInfo config in _pagedBlogs)
 			{
 				if(StringHelper.AreEqualIgnoringCase(config.Host, host))
 				{
@@ -348,25 +348,25 @@ namespace UnitTests.Subtext
 		/// <param name="userName">Name of the user.</param>
 		/// <param name="password">Password.</param>
 		/// <returns></returns>
-		public bool AddBlogConfiguration(string title, string userName, string password, string host, string application)
+		public bool CreateBlog(string title, string userName, string password, string host, string application)
 		{
-			BlogConfig blogConfig = new BlogConfig();
-			blogConfig.Title = title;
-			blogConfig.BlogID = _nextBlogId++;
-			blogConfig.UserName = userName;
-			blogConfig.Password = password;
-			blogConfig.Host = host;
-			blogConfig.Application = application;
-			_pagedBlogs.Add(blogConfig);
+			BlogInfo blogInfo = new BlogInfo();
+			blogInfo.Title = title;
+			blogInfo.BlogID = _nextBlogId++;
+			blogInfo.UserName = userName;
+			blogInfo.Password = password;
+			blogInfo.Host = host;
+			blogInfo.Application = application;
+			_pagedBlogs.Add(blogInfo);
 			return true;
 		}
 
 		/// <summary>
 		/// Updates the specified blog configuration.
 		/// </summary>
-		/// <param name="config">Config.</param>
+		/// <param name="info">Config.</param>
 		/// <returns></returns>
-		public bool UpdateConfigData(BlogConfig config)
+		public bool UpdateConfigData(BlogInfo info)
 		{
 			return true;
 		}
@@ -377,11 +377,11 @@ namespace UnitTests.Subtext
 		/// <param name="hostname">Hostname.</param>
 		/// <param name="application">Application.</param>
 		/// <returns></returns>
-		public BlogConfig GetConfig(string hostname, string application)
+		public BlogInfo GetBlogInfo(string hostname, string application)
 		{
 			hostname = hostname.Replace("www.", string.Empty);
 
-			foreach(BlogConfig config in this._pagedBlogs)
+			foreach(BlogInfo config in this._pagedBlogs)
 			{
 				if(StringHelper.AreEqualIgnoringCase(config.Host, hostname) 
 					&& StringHelper.AreEqualIgnoringCase(config.Application, application))
@@ -390,9 +390,9 @@ namespace UnitTests.Subtext
 			return null;
 		}
 
-		public BlogConfig GetConfig(string hostname, string application, bool strict)
+		public BlogInfo GetBlogInfo(string hostname, string application, bool strict)
 		{
-			return GetConfig(hostname, application);
+			return GetBlogInfo(hostname, application);
 		}
 
 		/// <summary>
@@ -400,7 +400,7 @@ namespace UnitTests.Subtext
 		/// </summary>
 		/// <param name="BlogID">Blog ID.</param>
 		/// <returns></returns>
-		public BlogConfig GetConfig(int BlogID)
+		public BlogInfo GetBlogInfo(int BlogID)
 		{
 			throw new NotImplementedException();
 		}

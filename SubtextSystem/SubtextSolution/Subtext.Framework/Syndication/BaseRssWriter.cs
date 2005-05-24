@@ -89,7 +89,7 @@ namespace Subtext.Framework.Syndication
 
 		protected virtual void WriteChannel()
 		{
-			BuildChannel(config.Title, config.FullyQualifiedUrl, config.Author, config.SubTitle, config.Language, config.Author, Config.CurrentBlog.LicenseUrl);
+			BuildChannel(info.Title, info.FullyQualifiedUrl, info.Author, info.SubTitle, info.Language, info.Author, Config.CurrentBlog.LicenseUrl);
 		}
 
 		protected void BuildChannel(string title, string link, string author, string description, string lang, string copyright, string cclicense)
@@ -128,7 +128,7 @@ namespace Subtext.Framework.Syndication
 			//	</image>
 			this.WriteStartElement("image");
 			this.WriteElementString("title",title);
-			this.WriteElementString("url", config.FullyQualifiedUrl + "RSS2Image.gif");
+			this.WriteElementString("url", info.FullyQualifiedUrl + "RSS2Image.gif");
 			this.WriteElementString("link", link);
 			this.WriteElementString("width", "77");
 			this.WriteElementString("height", "60");
@@ -162,7 +162,7 @@ namespace Subtext.Framework.Syndication
 				// If we're here, we know that entry.EntryId is larger than 
 				// the LastViewedFeedItemId.  Thus we can send it.
 				this.WriteStartElement("item");
-				EntryXml(entry, settings, config.UrlFormats);
+				EntryXml(entry, settings, info.UrlFormats);
 				this.WriteEndElement();
 				if(entry.EntryID > base.latestFeedItemId)
 				{
@@ -193,7 +193,7 @@ namespace Subtext.Framework.Syndication
 			//core Should we set the 
 			this.WriteElementString("guid", entry.Link);
 
-			if(AllowComments && config.EnableComments && entry.AllowComments && !entry.CommentingClosed)
+			if(AllowComments && info.EnableComments && entry.AllowComments && !entry.CommentingClosed)
 			{
 				//optional for CommentApi Post location
 				this.WriteElementString("wfw:comment", uformat.CommentApiUrl(entry.EntryID));

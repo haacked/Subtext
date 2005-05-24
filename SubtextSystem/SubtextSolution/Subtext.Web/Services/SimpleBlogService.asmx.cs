@@ -75,7 +75,7 @@ namespace Subtext.Web.Services
 
 		private void CheckUser(string username, string password)
 		{
-			BlogConfig config = Config.CurrentBlog;
+			BlogInfo info = Config.CurrentBlog;
 			
 			if(!Security.IsValidUser(username,password))
 			{
@@ -92,7 +92,7 @@ namespace Subtext.Web.Services
 		[WebMethod(MessageName="InsertCategoryPostWithUrl",Description="Insert a Post with Categories",EnableSession=false)]
 		public int InsertCategoryPost(string username, string password, DateTime postdate, string title, string body, string url, string[] categories)
 		{
-				BlogConfig config = Config.CurrentBlog;
+			BlogInfo info = Config.CurrentBlog;
 				CheckUser(username,password);
 			CategoryEntry entry = new CategoryEntry();
 				entry.PostType = PostType.BlogPost;
@@ -107,8 +107,8 @@ namespace Subtext.Web.Services
 				entry.IncludeInMainSyndication = true;
 				entry.IsAggregated = true;
 				entry.SyndicateDescriptionOnly = false;
-				entry.Author = config.Author;
-				entry.Email = config.Email;
+				entry.Author = info.Author;
+				entry.Email = info.Email;
 				entry.Categories = categories;
 				return Entries.Create(entry);			
 		}
@@ -123,7 +123,7 @@ namespace Subtext.Web.Services
 		public int InsertPost(string username, string password, DateTime postdate, string title, string body, string url)
 		{
 			CheckUser(username,password);
-			BlogConfig config = Config.CurrentBlog;
+			BlogInfo info = Config.CurrentBlog;
 			Entry entry = new Entry(PostType.BlogPost);
 			entry.Title = title;
 			entry.Body = body;
@@ -135,8 +135,8 @@ namespace Subtext.Web.Services
 			entry.IncludeInMainSyndication = true;
 			entry.IsAggregated = true;
 			entry.SyndicateDescriptionOnly = false;
-			entry.Author = config.Author;
-			entry.Email = config.Email;
+			entry.Author = info.Author;
+			entry.Email = info.Email;
 			return Entries.Create(entry);			
 
 		}

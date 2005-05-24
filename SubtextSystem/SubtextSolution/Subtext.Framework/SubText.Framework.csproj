@@ -188,7 +188,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Components\BlogConfigCollection.cs"
+                    RelPath = "Components\BlogInfoCollection.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -363,12 +363,12 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Configuration\BlogConfig.cs"
+                    RelPath = "Configuration\BlogConfigurationSettings.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Configuration\BlogConfigurationSettings.cs"
+                    RelPath = "Configuration\BlogInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -393,7 +393,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Configuration\UrlBasedConfigProvider.cs"
+                    RelPath = "Configuration\UrlBasedBlogInfoProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -31,12 +31,12 @@ namespace Subtext.Web.Admin
 		
 		private void PopulateForm()
 		{
-			BlogConfig config = Config.CurrentBlog;
+			BlogInfo info = Config.CurrentBlog;
 			
-			this.chkEnableSyndication.Checked = config.IsAggregated;
+			this.chkEnableSyndication.Checked = info.IsAggregated;
 			
-			this.chkUseSyndicationCompression.Checked = config.UseSyndicationCompression;
-			this.txtLicenseUrl.Text = config.LicenseUrl;
+			this.chkUseSyndicationCompression.Checked = info.UseSyndicationCompression;
+			this.txtLicenseUrl.Text = info.LicenseUrl;
 		}
 
 		private void ManageHiddenSettings()
@@ -66,13 +66,13 @@ namespace Subtext.Web.Admin
 
 		private void UpdateConfiguration()
 		{
-			BlogConfig config = Config.CurrentBlog;
+			BlogInfo info = Config.CurrentBlog;
 			
-			config.IsAggregated = this.chkEnableSyndication.Checked;
-			config.UseSyndicationCompression = this.chkUseSyndicationCompression.Checked;
-			config.LicenseUrl = this.txtLicenseUrl.Text;
+			info.IsAggregated = this.chkEnableSyndication.Checked;
+			info.UseSyndicationCompression = this.chkUseSyndicationCompression.Checked;
+			info.LicenseUrl = this.txtLicenseUrl.Text;
 
-			Config.UpdateConfigData(config);
+			Config.UpdateConfigData(info);
 		}
 
 		#region Web Form Designer generated code

@@ -12,28 +12,28 @@ namespace Subtext.Framework.Data
 	{
 		#region Blogs
 		/// <summary>
-		/// Gets a pageable <see cref="BlogConfigCollection"/> of <see cref="BlogConfig"/> instances.
+		/// Gets a pageable <see cref="BlogInfoCollection"/> of <see cref="BlogInfo"/> instances.
 		/// </summary>
 		/// <param name="pageIndex">Page index.</param>
 		/// <param name="pageSize">Size of the page.</param>
 		/// <param name="sortDescending">Sort descending.</param>
 		/// <returns></returns>
-		BlogConfigCollection GetPagedBlogs(int pageIndex, int pageSize, bool sortDescending);
+		BlogInfoCollection GetPagedBlogs(int pageIndex, int pageSize, bool sortDescending);
 		
 		/// <summary>
 		/// Gets the blog by id.
 		/// </summary>
 		/// <param name="blogId">Blog id.</param>
 		/// <returns></returns>
-		BlogConfig GetBlogById(int blogId);
+		BlogInfo GetBlogById(int blogId);
 		
 		/// <summary>
-		/// Returns <see cref="BlogConfigCollection"/> with the blogs that 
+		/// Returns <see cref="BlogInfoCollection"/> with the blogs that 
 		/// have the specified host.
 		/// </summary>
 		/// <param name="host">Host.</param>
 		/// <returns></returns>
-		BlogConfigCollection GetBlogsByHost(string host);
+		BlogInfoCollection GetBlogsByHost(string host);
 		#endregion
 		
 		#region Entries
@@ -185,27 +185,27 @@ namespace Subtext.Framework.Data
 		/// <param name="host"></param>
 		/// <param name="application"></param>
 		/// <returns></returns>
-		bool AddBlogConfiguration(string title, string userName, string password, string host, string application);
+		bool CreateBlog(string title, string userName, string password, string host, string application);
 
 		/// <summary>
 		/// Updates the specified blog configuration.
 		/// </summary>
-		/// <param name="config">Config.</param>
+		/// <param name="info">Config.</param>
 		/// <returns></returns>
-		bool UpdateConfigData(BlogConfig config);
+		bool UpdateConfigData(BlogInfo info);
 		
 		/// <summary>
-		/// Returns a <see cref="BlogConfig"/> instance containing 
+		/// Returns a <see cref="BlogInfo"/> instance containing 
 		/// the configuration settings for the blog specified by the 
 		/// Hostname and Application.
 		/// </summary>
 		/// <param name="hostname">Hostname.</param>
 		/// <param name="application">Application.</param>
 		/// <returns></returns>
-		BlogConfig GetConfig(string hostname, string application);
+		BlogInfo GetBlogInfo(string hostname, string application);
 
 		/// <summary>
-		/// Returns a <see cref="BlogConfig"/> instance containing 
+		/// Returns a <see cref="BlogInfo"/> instance containing 
 		/// the configuration settings for the blog specified by the 
 		/// Hostname and Application.
 		/// </summary>
@@ -218,14 +218,14 @@ namespace Subtext.Framework.Data
 		/// <param name="strict">If false, then this will return a blog record if 
 		/// there is only one blog record, regardless if the application and hostname match.</param>
 		/// <returns></returns>
-		BlogConfig GetConfig(string hostname, string application, bool strict);
+		BlogInfo GetBlogInfo(string hostname, string application, bool strict);
 		
 		/// <summary>
 		/// Gets the config. This has been depracated
 		/// </summary>
 		/// <param name="BlogID">Blog ID.</param>
 		/// <returns></returns>
-		BlogConfig GetConfig(int BlogID);
+		BlogInfo GetBlogInfo(int BlogID);
 
 
 		#endregion

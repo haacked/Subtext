@@ -103,7 +103,7 @@ namespace Subtext.Framework.Syndication
 			this.WriteAttributeString("xmlns:wfw","http://wellformedweb.org/CommentAPI/");
 			this.WriteAttributeString("xmlns:slash","http://purl.org/rss/1.0/modules/slash/");
 			this.WriteAttributeString("xmlns","http://purl.org/atom/ns#");
-			this.WriteAttributeString("xml:lang",config.Language);
+			this.WriteAttributeString("xml:lang",info.Language);
 		}
 
 		protected virtual void StartDocument()
@@ -120,7 +120,7 @@ namespace Subtext.Framework.Syndication
 		protected virtual void WriteChannel()
 		{
 			
-			BuildChannel(config.Title,config.FullyQualifiedUrl,config.SubTitle);
+			BuildChannel(info.Title,info.FullyQualifiedUrl,info.SubTitle);
 		}
 
 		protected void BuildChannel(string title, string link, string description)
@@ -141,8 +141,8 @@ namespace Subtext.Framework.Syndication
 			this.WriteElementString("id",link);
 
 			this.WriteStartElement("author");
-				this.WriteElementString("name",config.Author);
-				this.WriteElementString("url",config.FullyQualifiedUrl);
+				this.WriteElementString("name",info.Author);
+				this.WriteElementString("url",info.FullyQualifiedUrl);
 			this.WriteEndElement();
 
 			this.WriteStartElement("generator");
@@ -151,14 +151,14 @@ namespace Subtext.Framework.Syndication
 				this.WriteString(".Text");
 			this.WriteEndElement();
 
-			this.WriteElementString("modified",W3UTCZ(config.LastUpdated));
+			this.WriteElementString("modified",W3UTCZ(info.LastUpdated));
 		}
 
 		private void WriteEntries()
 		{
 			BlogConfigurationSettings settings = Config.Settings;
 
-			string timezone = TimeZone(config.TimeZone);
+			string timezone = TimeZone(info.TimeZone);
 			this.clientHasAllFeedItems = true;
 			this.latestFeedItemId = this.LastViewedFeedItemId;
 			foreach(Entry entry in this.Entries)
@@ -166,7 +166,7 @@ namespace Subtext.Framework.Syndication
 				if(entry.EntryID > LastViewedFeedItemId)
 				{
 					this.WriteStartElement("entry");
-					EntryXml(entry, settings, config.UrlFormats, timezone);
+					EntryXml(entry, settings, info.UrlFormats, timezone);
 					this.WriteEndElement();
 					this.clientHasAllFeedItems = false;
 					if(entry.EntryID > base.latestFeedItemId)
@@ -190,7 +190,7 @@ namespace Subtext.Framework.Syndication
 				this.WriteElementString("id",entry.Link);
 
 				this.WriteElementString("created",W3UTCZ(entry.DateCreated));
-				this.WriteElementString("issued",W3UTC(entry.DateCreated.AddHours((-1) * config.TimeZone),timezone));
+				this.WriteElementString("issued",W3UTC(entry.DateCreated.AddHours((-1) * info.TimeZone),timezone));
 				this.WriteElementString("modified",W3UTCZ(entry.DateUpdated));
 
 				if(entry.HasDescription)
@@ -214,7 +214,7 @@ namespace Subtext.Framework.Syndication
 				);		
 				this.WriteEndElement();
 
-			if(AllowComments && config.EnableComments && entry.AllowComments && !entry.CommentingClosed)
+			if(AllowComments && info.EnableComments && entry.AllowComments && !entry.CommentingClosed)
 			{
 				//optional for CommentApi Post location
 				this.WriteElementString("wfw:comment",uformat.CommentApiUrl(entry.EntryID));

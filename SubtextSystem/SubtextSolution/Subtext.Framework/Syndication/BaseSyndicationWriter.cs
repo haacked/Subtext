@@ -12,7 +12,7 @@ namespace Subtext.Framework.Syndication
     public abstract class BaseSyndicationWriter : XmlTextWriter
     {
         private StringWriter writer  = null;
-        protected BlogConfig config;
+        protected BlogInfo info;
 		int lastViewedFeedItemId = int.MinValue;
 		protected int latestFeedItemId = int.MinValue;
 		protected bool clientHasAllFeedItems = false;
@@ -42,7 +42,7 @@ namespace Subtext.Framework.Syndication
 		{
 			lastViewedFeedItemId = lastViewedFeedItem;	
 			writer = sw;
-			config = Config.CurrentBlog;
+			info = Config.CurrentBlog;
 		}
 
 		/// <summary>

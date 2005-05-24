@@ -71,7 +71,7 @@ namespace UnitTests.Subtext.Framework
 		LinkCategory CreateCategory(string title, string description, CategoryType categoryType, bool isActive)
 		{
 			LinkCategory linkCategory = new LinkCategory();
-			linkCategory.BlogID = Config.GetConfig("www.subtext.com", "myBlog").BlogID;
+			linkCategory.BlogID = Config.GetBlogInfo("www.subtext.com", "myBlog").BlogID;
 			linkCategory.Title = title;
 			linkCategory.Description = description;
 			linkCategory.CategoryType = categoryType;
@@ -91,7 +91,7 @@ namespace UnitTests.Subtext.Framework
 			//Create a test Blog
 			UnitTestDTOProvider dtoProvider = (UnitTestDTOProvider)DTOProvider.Instance();
 			dtoProvider.ClearBlogs();
-			dtoProvider.AddBlogConfiguration("title", "smarcuccio", "mypassword", "www.subtext.com", "myBlog");
+			dtoProvider.CreateBlog("title", "smarcuccio", "mypassword", "www.subtext.com", "myBlog");
 		}
 
 		[TearDown]

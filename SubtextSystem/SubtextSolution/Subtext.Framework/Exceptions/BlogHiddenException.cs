@@ -25,7 +25,7 @@ namespace Subtext.Framework.Exceptions
 		/// </summary>
 		/// <param name="hidden">Hidden.</param>
 		/// <param name="blogId"></param>
-		public BlogHiddenException(BlogConfig hidden, int blogId) : base()
+		public BlogHiddenException(BlogInfo hidden, int blogId) : base()
 		{
 			_hiddenBlog = hidden;
 			_blogId = blogId;
@@ -35,7 +35,7 @@ namespace Subtext.Framework.Exceptions
 		/// Creates a new <see cref="BlogHiddenException"/> instance.
 		/// </summary>
 		/// <param name="hidden">Hidden.</param>
-		public BlogHiddenException(BlogConfig hidden) : this(hidden, int.MinValue)
+		public BlogHiddenException(BlogInfo hidden) : this(hidden, int.MinValue)
 		{
 			
 		}
@@ -44,7 +44,7 @@ namespace Subtext.Framework.Exceptions
 		/// Gets the hidden blog.
 		/// </summary>
 		/// <value></value>
-		public BlogConfig HiddenBlog
+		public BlogInfo HiddenBlog
 		{
 			get
 			{
@@ -52,7 +52,7 @@ namespace Subtext.Framework.Exceptions
 			}
 		}
 
-		BlogConfig _hiddenBlog;
+		BlogInfo _hiddenBlog;
 
 		/// <summary>
 		/// Gets the blog id.
