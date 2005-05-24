@@ -567,16 +567,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Providers\UrlFormatProvider.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Providers\UrlFormatProviderConfiguration.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Resources\InstallationVersions.xml"
                     BuildAction = "EmbeddedResource"
                 />
