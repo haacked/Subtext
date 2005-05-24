@@ -24,6 +24,7 @@
 using System;
 using System.Data;
 using System.Globalization;
+using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 

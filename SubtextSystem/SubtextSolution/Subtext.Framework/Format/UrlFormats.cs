@@ -14,6 +14,10 @@ namespace Subtext.Framework.Format
 	{
 		protected string fullyQualifiedUrl = null;
 
+		/// <summary>
+		/// Creates a new <see cref="UrlFormats"/> instance.
+		/// </summary>
+		/// <param name="fullyQualifiedUrl">Fully qualified URL.</param>
 		public UrlFormats(string fullyQualifiedUrl)
 		{
 			this.fullyQualifiedUrl = fullyQualifiedUrl;

@@ -192,7 +192,7 @@ namespace Subtext.Framework.Components
 			/// <param name="mappings">The <see cref="LinkCategoryCollection">LinkCategoryCollection</see> to enumerate.</param>
 			public LinkCategoryCollectionEnumerator(LinkCategoryCollection mappings)
 			{
-				_temp =	((IEnumerable)(mappings));
+				_temp =	mappings;
 				_enumerator = _temp.GetEnumerator();
 			}
 			

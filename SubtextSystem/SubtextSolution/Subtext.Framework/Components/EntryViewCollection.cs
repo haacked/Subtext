@@ -169,7 +169,7 @@ namespace Subtext.Framework.Components
 			/// <param name="mappings">The <see cref="EntryViewCollection">EntryViewCollection</see> to enumerate.</param>
 			public EntryViewCollectionEnumerator(EntryViewCollection mappings)
 			{
-				_temp =	((IEnumerable)(mappings));
+				_temp =	mappings;
 				_enumerator = _temp.GetEnumerator();
 			}
 			

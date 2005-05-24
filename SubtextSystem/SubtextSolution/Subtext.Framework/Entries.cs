@@ -23,9 +23,10 @@
 
 using System;
 using System.Web;
+using Subtext.Extensibility;
+using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Email;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Util;
 using Subtext.Framework.Text;

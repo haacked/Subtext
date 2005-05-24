@@ -23,6 +23,7 @@
 
 using System;
 using System.Collections;
+using Subtext.Framework.Components;
 
 namespace Subtext.Framework.Components
 {
@@ -176,7 +177,7 @@ namespace Subtext.Framework.Components
 			/// <param name="mappings">The <see cref="ImageCollection">ImageCollection</see> to enumerate.</param>
 			public ImageCollectionEnumerator(ImageCollection mappings)
 			{
-				_temp =	((IEnumerable)(mappings));
+				_temp =	mappings;
 				_enumerator = _temp.GetEnumerator();
 			}
 			

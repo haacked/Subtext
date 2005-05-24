@@ -161,7 +161,7 @@ namespace Subtext.Framework.Components
 			/// <param name="mappings">The <see cref="KeyWordCollection">KeyWordCollection</see> to enumerate.</param>
 			public KeyWordCollectionEnumerator(KeyWordCollection mappings)
 			{
-				_temp =	((IEnumerable)(mappings));
+				_temp =	mappings;
 				_enumerator = _temp.GetEnumerator();
 			}
 			

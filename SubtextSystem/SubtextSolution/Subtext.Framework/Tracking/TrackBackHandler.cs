@@ -43,6 +43,7 @@
 using System;
 using System.Web;
 using System.Xml;
+using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;

@@ -144,6 +144,11 @@
                     AssemblyName = "System.Windows.Forms"
                     HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Windows.Forms.dll"
                 />
+                <Reference
+                    Name = "Subtext.Extensibility"
+                    Project = "{13018F20-F796-4FFE-9290-83D0E661C0A1}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
             </References>
         </Build>
         <Files>

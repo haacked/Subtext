@@ -22,9 +22,9 @@
 #endregion
 
 using System;
+using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Email;
 using Subtext.Framework.Text;
 
 namespace Subtext.Web.Pages

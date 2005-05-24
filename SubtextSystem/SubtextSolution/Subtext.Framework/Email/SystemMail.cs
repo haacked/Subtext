@@ -23,6 +23,7 @@
 
 using System;
 using System.Web.Mail;
+using Subtext.Extensibility.Providers;
 
 namespace Subtext.Framework.Email
 {
