@@ -30,15 +30,8 @@ namespace Subtext.Framework.Components
 	/// Summary description for Link.
 	/// </summary>
 	[Serializable]
-	public class Image : IBlogIdentifier
+	public class Image
 	{
-		public Image()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
 		private int _blogID;
 		public int BlogID
 		{

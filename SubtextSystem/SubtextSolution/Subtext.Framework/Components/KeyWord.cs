@@ -7,15 +7,8 @@ namespace Subtext.Framework.Components
 	/// Summary description for KeyWord.
 	/// </summary>
 	[Serializable]
-	public class KeyWord : IBlogIdentifier
+	public class KeyWord
 	{
-		public KeyWord()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
 		private string _word;
 		/// <summary>
 		/// The word or words to look for. Could also be short hand. ie, ScottW would end up <a href = "http://scottwater.com/blog">Scott Watermasysk</a>

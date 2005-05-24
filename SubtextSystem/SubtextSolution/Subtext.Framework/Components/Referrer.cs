@@ -6,18 +6,13 @@ namespace Subtext.Framework.Components
 	/// Summary description for Referrer.
 	/// </summary>
 	[Serializable]
-	public class Referrer : IBlogIdentifier
+	public class Referrer
 	{
-
 		private string _referrerURL;
 		private int _entryID;
 		private string _postTitle;
 		private DateTime _lastreferDate;
 		private int _count;
-
-		public Referrer()
-		{
-		}
 
 		public string ReferrerURL
 		{

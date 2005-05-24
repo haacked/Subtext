@@ -7,11 +7,11 @@ namespace Subtext.Framework.Components
 	/// </summary>
 	public class EntryStatsView : Entry
 	{
-		public EntryStatsView()
+		/// <summary>
+		/// Creates a new <see cref="EntryStatsView"/> instance.
+		/// </summary>
+		public EntryStatsView() : base(PostType.Undeclared)
 		{
-			//
-			// TODO: Add constructor logic here
-			//
 		}
 
 		private int _webCount;

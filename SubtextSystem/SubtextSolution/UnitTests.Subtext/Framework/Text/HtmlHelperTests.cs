@@ -37,7 +37,7 @@ namespace UnitTests.Subtext.Framework.Text
 		public void ConvertHtmlToXHtmlLeavesValidMarkupAlone()
 		{
 			Config.CurrentBlog.FullyQualifiedUrl = "http://localhost/";
-			Entry entry = new Entry();
+			Entry entry = new Entry(PostType.BlogPost);
 			entry.Body = "This is some text";
 			Assert.IsTrue(HtmlHelper.ConvertHtmlToXHtml(ref entry));
 			Assert.AreEqual("This is some text", entry.Body);
@@ -50,7 +50,7 @@ namespace UnitTests.Subtext.Framework.Text
 		public void ConvertHtmlToXHtmlCorrectsInvalidMarkup()
 		{
 			Config.CurrentBlog.FullyQualifiedUrl = "http://localhost/";
-			Entry entry = new Entry();
+			Entry entry = new Entry(PostType.BlogPost);
 			entry.Body = "This <br><br>is bad <p> XHTML.";
 			Assert.IsTrue(HtmlHelper.ConvertHtmlToXHtml(ref entry));
 			Assert.AreEqual("This <br /><br />is bad <p> XHTML.</p>", entry.Body);

@@ -6,7 +6,7 @@ namespace Subtext.Framework.Components
 	/// Summary description for ViewStat.
 	/// </summary>
 	[Serializable]
-	public class ViewStat : IBlogIdentifier
+	public class ViewStat
 	{
 		private string _pageTitle;
 		private int _viewCount;
