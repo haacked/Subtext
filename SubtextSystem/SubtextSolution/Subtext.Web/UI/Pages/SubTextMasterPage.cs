@@ -19,7 +19,7 @@ namespace Subtext.Web.UI.Pages
 		protected System.Web.UI.HtmlControls.HtmlGenericControl RSSLink;
 		protected System.Web.UI.WebControls.PlaceHolder CenterBodyControl;
 		
-		protected BlogConfig CurrentBlog;
+		protected BlogInfo CurrentBlog;
 		protected const string TemplateLocation = "~/Skins/{0}/{1}";
 		protected const string ControlLocation = "~/Skins/{0}/Controls/{1}";
 

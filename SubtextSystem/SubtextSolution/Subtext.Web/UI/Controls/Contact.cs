@@ -56,18 +56,18 @@ namespace Subtext.Web.UI.Controls
 			if(Page.IsValid)
 			{
 				IMailProvider email = EmailProvider.Instance();
-				BlogConfig config = Config.CurrentBlog;
-				string To = config.Email;
+				BlogInfo info = Config.CurrentBlog;
+				string To = info.Email;
 				string From = tbEmail.Text;
 				
 				string Subject = String.Format("{0} (via {1})", tbSubject.Text, 
-					config.Title);
+				                               info.Title);
 
 				string sendersIpAddress = Framework.Util.Globals.GetUserIpAddress(Context);
 
 				// \n by itself has issues with qmail (unix via openSmtp), \r\n should work on unix + wintel
 				string Body = String.Format("Mail from {0}:\r\n\r\nSender: {1}\r\nEmail: {2}\r\nIP Address: {3}\r\n=====================================\r\n{4}", 
-					config.Title,
+				                            info.Title,
 					tbName.Text,
 					tbEmail.Text,
 					sendersIpAddress,

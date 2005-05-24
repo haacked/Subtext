@@ -38,8 +38,8 @@ namespace Subtext.Web.UI.Controls
 			
 		}
 
-		private BlogConfig _config = null;
-		protected BlogConfig CurrentBlog
+		private BlogInfo _config = null;
+		protected BlogInfo CurrentBlog
 		{
 			get
 			{

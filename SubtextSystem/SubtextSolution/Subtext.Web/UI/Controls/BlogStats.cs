@@ -45,11 +45,11 @@ namespace Subtext.Web.UI.Controls
 			base.OnLoad (e);
 			if(Context != null)
 			{
-				BlogConfig config = Config.CurrentBlog;
-				PostCount.Text = config.PostCount.ToString();
-				StoryCount.Text = config.StoryCount.ToString();
-				CommentCount.Text = config.CommentCount.ToString();
-				PingTrackCount.Text = config.PingTrackCount.ToString();
+				BlogInfo info = Config.CurrentBlog;
+				PostCount.Text = info.PostCount.ToString();
+				StoryCount.Text = info.StoryCount.ToString();
+				CommentCount.Text = info.CommentCount.ToString();
+				PingTrackCount.Text = info.PingTrackCount.ToString();
 			}
 		}
 	}

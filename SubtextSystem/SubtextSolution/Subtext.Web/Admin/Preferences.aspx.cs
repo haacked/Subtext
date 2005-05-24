@@ -102,9 +102,9 @@ namespace Subtext.Web.Admin.Pages
 			bool alwaysExpand = Boolean.Parse(ddlExpandAdvanced.SelectedItem.Value);
 			Preferences.AlwaysExpandAdvanced = alwaysExpand;
 
-			BlogConfig config  = Config.CurrentBlog;
-			config.ItemCount = pageSize;
-			Config.UpdateConfigData(config);
+			BlogInfo info  = Config.CurrentBlog;
+			info.ItemCount = pageSize;
+			Config.UpdateConfigData(info);
 
 
 //			BindLocalUI();

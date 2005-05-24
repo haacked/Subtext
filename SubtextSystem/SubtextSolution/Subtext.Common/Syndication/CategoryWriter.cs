@@ -37,7 +37,7 @@ namespace Subtext.Common.Syndication
 			}
 			else
 			{
-				this.BuildChannel(Category.Title,  Url,  config.Author,  Category.HasDescription ? Category.Description : Category.Title, config.Language, config.Author, Subtext.Framework.Configuration.Config.CurrentBlog.LicenseUrl);
+				this.BuildChannel(Category.Title,  Url,  info.Author,  Category.HasDescription ? Category.Description : Category.Title, info.Language, info.Author, Subtext.Framework.Configuration.Config.CurrentBlog.LicenseUrl);
 			}
 		}
 

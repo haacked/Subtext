@@ -17,18 +17,18 @@ namespace Subtext.Framework.Data
 	{	
 		#region Blogs
 		/// <summary>
-		/// Gets a pageable <see cref="BlogConfigCollection"/> of <see cref="BlogConfig"/> instances.
+		/// Gets a pageable <see cref="BlogInfoCollection"/> of <see cref="BlogInfo"/> instances.
 		/// </summary>
 		/// <param name="pageIndex">Page index.</param>
 		/// <param name="pageSize">Size of the page.</param>
 		/// <param name="sortDescending">Sort descending.</param>
 		/// <returns></returns>
-		public BlogConfigCollection GetPagedBlogs(int pageIndex, int pageSize, bool sortDescending)
+		public BlogInfoCollection GetPagedBlogs(int pageIndex, int pageSize, bool sortDescending)
 		{
 			IDataReader reader = DbProvider.Instance().GetPagedBlogs(pageIndex, pageSize, sortDescending);
 			try
 			{
-				BlogConfigCollection pec = new BlogConfigCollection();
+				BlogInfoCollection pec = new BlogInfoCollection();
 				while(reader.Read())
 				{
 					pec.Add(DataHelper.LoadConfigData(reader));
@@ -49,15 +49,15 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="blogId">Blog id.</param>
 		/// <returns></returns>
-		public BlogConfig GetBlogById(int blogId)
+		public BlogInfo GetBlogById(int blogId)
 		{
 			using(IDataReader reader = DbProvider.Instance().GetBlogById(blogId))
 			{
 				if(reader.Read())
 				{
-					BlogConfig config = DataHelper.LoadConfigData(reader);
+					BlogInfo info = DataHelper.LoadConfigData(reader);
 					reader.Close();
-					return config;
+					return info;
 				}
 				reader.Close();
 			}
@@ -65,17 +65,17 @@ namespace Subtext.Framework.Data
 		}
 
 		/// <summary>
-		/// Returns <see cref="BlogConfigCollection"/> with the blogs that 
+		/// Returns <see cref="BlogInfoCollection"/> with the blogs that 
 		/// have the specified host.
 		/// </summary>
 		/// <param name="host">Host.</param>
 		/// <returns></returns>
-		public BlogConfigCollection GetBlogsByHost(string host)
+		public BlogInfoCollection GetBlogsByHost(string host)
 		{
 			IDataReader reader = DbProvider.Instance().GetBlogsByHost(host);
 			try
 			{
-				BlogConfigCollection pec = new BlogConfigCollection();
+				BlogInfoCollection pec = new BlogInfoCollection();
 				while(reader.Read())
 				{
 					pec.Add(DataHelper.LoadConfigData(reader));
@@ -956,31 +956,31 @@ namespace Subtext.Framework.Data
 		/// <param name="userName">Name of the user.</param>
 		/// <param name="password">Password.</param>
 		/// <returns></returns>
-		public bool AddBlogConfiguration(string title, string userName, string password, string host, string application)
+		public bool CreateBlog(string title, string userName, string password, string host, string application)
 		{
 			return DbProvider.Instance().AddBlogConfiguration(title, userName, password, host, application);
 		}
 		
-		public bool UpdateConfigData(BlogConfig config)
+		public bool UpdateConfigData(BlogInfo info)
 		{
-			return DbProvider.Instance().UpdateConfigData(config);
+			return DbProvider.Instance().UpdateConfigData(info);
 		}
 
 		/// <summary>
-		/// Returns a <see cref="BlogConfig"/> instance containing 
+		/// Returns a <see cref="BlogInfo"/> instance containing 
 		/// the configuration settings for the blog specified by the 
 		/// Hostname and Application.
 		/// </summary>
 		/// <param name="hostname">Hostname.</param>
 		/// <param name="application">Application.</param>
 		/// <returns></returns>
-		public BlogConfig GetConfig(string hostname, string application)
+		public BlogInfo GetBlogInfo(string hostname, string application)
 		{
-			return GetConfig(hostname, application, true);
+			return GetBlogInfo(hostname, application, true);
 		}
 
 		/// <summary>
-		/// Returns a <see cref="BlogConfig"/> instance containing 
+		/// Returns a <see cref="BlogInfo"/> instance containing 
 		/// the configuration settings for the blog specified by the 
 		/// Hostname and Application.
 		/// </summary>
@@ -993,18 +993,18 @@ namespace Subtext.Framework.Data
 		/// <param name="strict">If false, then this will return a blog record if 
 		/// there is only one blog record, regardless if the application and hostname match.</param>
 		/// <returns></returns>
-		public BlogConfig GetConfig(string hostname, string application, bool strict)
+		public BlogInfo GetBlogInfo(string hostname, string application, bool strict)
 		{
-			IDataReader reader = DbProvider.Instance().GetConfig(hostname, application, strict);
+			IDataReader reader = DbProvider.Instance().GetBlogInfo(hostname, application, strict);
 			try
 			{
-				BlogConfig config = null;
+				BlogInfo info = null;
 				while(reader.Read())
 				{
-					config = DataHelper.LoadConfigData(reader);
+					info = DataHelper.LoadConfigData(reader);
 					break;
 				}
-				return config;
+				return info;
 			}
 			finally
 			{
@@ -1012,7 +1012,7 @@ namespace Subtext.Framework.Data
 			}
 		}
 		
-		public BlogConfig GetConfig(int BlogID)
+		public BlogInfo GetBlogInfo(int BlogID)
 		{
 			return null;
 		}

@@ -77,27 +77,27 @@ namespace Subtext.Web.Pages
 
 		private void lbSendPassword_Click(object sender, System.EventArgs e)
 		{
-			BlogConfig config = Config.CurrentBlog;
+			BlogInfo info = Config.CurrentBlog;
 			
-			if(StringHelper.AreEqualIgnoringCase(tbUserName.Text, config.UserName))
+			if(StringHelper.AreEqualIgnoringCase(tbUserName.Text, info.UserName))
 			{
 				string password = null;
-				if(config.IsPasswordHashed)
+				if(info.IsPasswordHashed)
 				{
 					password = Security.ResetPassword();
 				}
 				else
 				{
-					password = config.Password;
+					password = info.Password;
 				}
 
 				string message = "Here is your blog login information:\nUserName: {0}\nPassword: {1}\n\nPlease disregard this message if you did not request it.";
 				IMailProvider mail = Subtext.Framework.Providers.EmailProvider.Instance();
 			
-				string To = config.Email;
+				string To = info.Email;
 				string From = mail.AdminEmail;
 				string Subject = "Login Credentials";
-				string Body = string.Format(message,config.UserName,password);
+				string Body = string.Format(message,info.UserName,password);
 				mail.Send(To,From,Subject,Body);
 				Message.Text = "Login Credentials Sent<br>";
 			}
@@ -126,7 +126,7 @@ namespace Subtext.Web.Pages
 				}
 			}
 
-			BlogConfig config = Config.CurrentBlog;
+			BlogInfo info = Config.CurrentBlog;
 			if(Security.Authenticate(tbUserName.Text, tbPassword.Text, chkRemember.Checked))
 			{
 				//FormsAuthentication.SetAuthCookie(config.BlogID.ToString(),chkRemember.Checked);
@@ -136,7 +136,7 @@ namespace Subtext.Web.Pages
 				}
 				else
 				{
-					Response.Redirect(config.FullyQualifiedUrl + "admin/default.aspx");
+					Response.Redirect(info.FullyQualifiedUrl + "admin/default.aspx");
 				}
 			}
 			else

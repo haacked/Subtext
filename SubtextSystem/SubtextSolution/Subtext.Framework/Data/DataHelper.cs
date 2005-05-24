@@ -696,73 +696,73 @@ namespace Subtext.Framework.Data
 
 		#region Config
 
-		public static BlogConfig LoadConfigData(IDataReader reader)
+		public static BlogInfo LoadConfigData(IDataReader reader)
 		{
-			BlogConfig config = new BlogConfig();
-			config.Author = (string)reader["Author"];
-			config.BlogID = (int)reader["BlogID"];
-			config.Email = (string)reader["Email"];
-			config.Password = (string)reader["Password"];
+			BlogInfo info = new BlogInfo();
+			info.Author = (string)reader["Author"];
+			info.BlogID = (int)reader["BlogID"];
+			info.Email = (string)reader["Email"];
+			info.Password = (string)reader["Password"];
 
-			config.SubTitle = (string)reader["SubTitle"];
-			config.Title = (string)reader["Title"];
-			config.UserName = (string)reader["UserName"];
-			config.TimeZone = (int)reader["TimeZone"];
-			config.ItemCount = (int)reader["ItemCount"];
-			config.Language = (string)reader["Language"];
+			info.SubTitle = (string)reader["SubTitle"];
+			info.Title = (string)reader["Title"];
+			info.UserName = (string)reader["UserName"];
+			info.TimeZone = (int)reader["TimeZone"];
+			info.ItemCount = (int)reader["ItemCount"];
+			info.Language = (string)reader["Language"];
 			
 
-			config.PostCount = (int)reader["PostCount"];
-			config.CommentCount = (int)reader["CommentCount"];
-			config.StoryCount = (int)reader["StoryCount"];
-			config.PingTrackCount = (int)reader["PingTrackCount"];
+			info.PostCount = (int)reader["PostCount"];
+			info.CommentCount = (int)reader["CommentCount"];
+			info.StoryCount = (int)reader["StoryCount"];
+			info.PingTrackCount = (int)reader["PingTrackCount"];
 
 			if(reader["News"] != DBNull.Value)
 			{
-				config.News = (string)reader["News"];
+				info.News = (string)reader["News"];
 			}
 
 			if(reader["LastUpdated"] != DBNull.Value)
 			{
-				config.LastUpdated = (DateTime)reader["LastUpdated"];
+				info.LastUpdated = (DateTime)reader["LastUpdated"];
 			}
 			else
 			{
-				config.LastUpdated = new DateTime(2003,1,1);
+				info.LastUpdated = new DateTime(2003,1,1);
 			}
-			config.Host = (string)reader["Host"];
-			config.Application = (string)reader["Application"];
+			info.Host = (string)reader["Host"];
+			info.Application = (string)reader["Application"];
 
-			config.Flag = (ConfigurationFlag)((int)reader["Flag"]);
+			info.Flag = (ConfigurationFlag)((int)reader["Flag"]);
 
-			config.Skin = new SkinConfig();
-			config.Skin.SkinName = (string)reader["Skin"];
+			info.Skin = new SkinConfig();
+			info.Skin.SkinName = (string)reader["Skin"];
 
 			if(reader["SkinCssFile"] != DBNull.Value)
 			{
-				config.Skin.SkinCssFile = (string)reader["SkinCssFile"];
+				info.Skin.SkinCssFile = (string)reader["SkinCssFile"];
 			}
 		
 			if(reader["SecondaryCss"] != DBNull.Value)
 			{
-				config.Skin.SkinCssText = (string)reader["SecondaryCss"];
+				info.Skin.SkinCssText = (string)reader["SecondaryCss"];
 			}
 
 			if(reader["LicenseUrl"] != DBNull.Value)
 			{
-				config.LicenseUrl = (string)reader["LicenseUrl"];
+				info.LicenseUrl = (string)reader["LicenseUrl"];
 			}
 
 			if(reader["DaysTillCommentsClose"] != DBNull.Value)
 			{
-				config.DaysTillCommentsClose = (int)reader["DaysTillCommentsClose"];
+				info.DaysTillCommentsClose = (int)reader["DaysTillCommentsClose"];
 			}
 			else
 			{
-				config.DaysTillCommentsClose = int.MaxValue;
+				info.DaysTillCommentsClose = int.MaxValue;
 			}
 
-			return config;
+			return info;
 		}
 
 		#endregion

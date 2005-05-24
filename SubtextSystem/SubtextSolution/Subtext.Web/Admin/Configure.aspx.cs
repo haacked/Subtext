@@ -78,31 +78,31 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindForm()
 		{
-			BlogConfig config = Config.CurrentBlog;
-			txbTitle.Text = config.Title;
-			txbSubtitle.Text = config.SubTitle;
-			txbAuthor.Text = config.Author;
-			txbAuthorEmail.Text = config.Email;
-			txbUser.Text = config.UserName;
-			txbNews.Text = config.News;
-			ckbAllowServiceAccess.Checked = config.AllowServiceAccess;
-			chkEnableComments.Checked = config.EnableComments;
-			if(config.DaysTillCommentsClose < int.MaxValue && config.DaysTillCommentsClose >= 0)
+			BlogInfo info = Config.CurrentBlog;
+			txbTitle.Text = info.Title;
+			txbSubtitle.Text = info.SubTitle;
+			txbAuthor.Text = info.Author;
+			txbAuthorEmail.Text = info.Email;
+			txbUser.Text = info.UserName;
+			txbNews.Text = info.News;
+			ckbAllowServiceAccess.Checked = info.AllowServiceAccess;
+			chkEnableComments.Checked = info.EnableComments;
+			if(info.DaysTillCommentsClose < int.MaxValue && info.DaysTillCommentsClose >= 0)
 			{
-				txtDaysTillCommentsClosed.Text = config.DaysTillCommentsClose.ToString();
+				txtDaysTillCommentsClosed.Text = info.DaysTillCommentsClose.ToString();
 			}
-			ddlTimezone.Items.FindByValue(config.TimeZone.ToString()).Selected = true;
+			ddlTimezone.Items.FindByValue(info.TimeZone.ToString()).Selected = true;
 
 			try
 			{
-				ddlLangLocale.Items.FindByValue(config.Language).Selected = true;
+				ddlLangLocale.Items.FindByValue(info.Language).Selected = true;
 			}
 			catch{}
 			
 			
-			if(config.Skin.HasSecondaryText)
+			if(info.Skin.HasSecondaryText)
 			{
-				txbSecondaryCss.Text = config.Skin.SkinCssText;
+				txbSecondaryCss.Text = info.Skin.SkinCssText;
 			}
 
 			XmlDocument doc = (XmlDocument)Cache["SkinsDoc"];
@@ -127,7 +127,7 @@ namespace Subtext.Web.Admin.Pages
 		
 			try
 			{
-				ddlSkin.Items.FindByValue(config.Skin.SkinID).Selected = true;
+				ddlSkin.Items.FindByValue(info.Skin.SkinID).Selected = true;
 			}
 			catch
 			{
@@ -140,9 +140,9 @@ namespace Subtext.Web.Admin.Pages
 				ddlItemCount.Items.Add(new ListItem(i.ToString(), i.ToString()));
 			}
 
-			if (config.ItemCount <= count)
+			if (info.ItemCount <= count)
 			{
-				ddlItemCount.Items.FindByValue(config.ItemCount.ToString()).Selected = true;
+				ddlItemCount.Items.FindByValue(info.ItemCount.ToString()).Selected = true;
 			}
 
 		}
@@ -151,60 +151,60 @@ namespace Subtext.Web.Admin.Pages
 		{
 			try
 			{
-				BlogConfig config = Config.CurrentBlog;
-				config.Title = txbTitle.Text;
-				config.SubTitle = txbSubtitle.Text;
-				config.Author = txbAuthor.Text;
-				config.Email = txbAuthorEmail.Text;
+				BlogInfo info = Config.CurrentBlog;
+				info.Title = txbTitle.Text;
+				info.SubTitle = txbSubtitle.Text;
+				info.Author = txbAuthor.Text;
+				info.Email = txbAuthorEmail.Text;
 
 				#if WANRelease
-					config.UserName = txbUser.Text;
+				info.UserName = txbUser.Text;
 				#endif
 
-				config.TimeZone = Int32.Parse(ddlTimezone.SelectedItem.Value);
-				config.Application = Config.CurrentBlog.Application;
-				config.Host = Config.CurrentBlog.Host;
-				config.BlogID = Config.CurrentBlog.BlogID;
+				info.TimeZone = Int32.Parse(ddlTimezone.SelectedItem.Value);
+				info.Application = Config.CurrentBlog.Application;
+				info.Host = Config.CurrentBlog.Host;
+				info.BlogID = Config.CurrentBlog.BlogID;
 
-				config.ItemCount = Int32.Parse(ddlItemCount.SelectedItem.Value);
-				config.Language = ddlLangLocale.SelectedItem.Value;
+				info.ItemCount = Int32.Parse(ddlItemCount.SelectedItem.Value);
+				info.Language = ddlLangLocale.SelectedItem.Value;
 				
-				config.EnableComments = chkEnableComments.Checked;
+				info.EnableComments = chkEnableComments.Checked;
 				if(txtDaysTillCommentsClosed.Text.Length > 0)
 				{
-					config.DaysTillCommentsClose = ValidateInteger("Days Till Comments Close", txtDaysTillCommentsClosed.Text, 0, int.MaxValue);
+					info.DaysTillCommentsClose = ValidateInteger("Days Till Comments Close", txtDaysTillCommentsClosed.Text, 0, int.MaxValue);
 				}
 				else
 				{
-					config.DaysTillCommentsClose = int.MaxValue;
+					info.DaysTillCommentsClose = int.MaxValue;
 				}
 
-				config.AllowServiceAccess = ckbAllowServiceAccess.Checked;
+				info.AllowServiceAccess = ckbAllowServiceAccess.Checked;
 
-				config.Skin.SkinCssText = txbSecondaryCss.Text.Trim();
+				info.Skin.SkinCssText = txbSecondaryCss.Text.Trim();
 			
 				
 				string news = txbNews.Text.Trim();
-				config.News = news.Length == 0 ? null : news;
+				info.News = news.Length == 0 ? null : news;
 
 
 				string[] skins = ddlSkin.SelectedItem.Text.Split('-');
 
 				//Need to add logic for a skin name that might include "-"
-				config.Skin.SkinName = skins[0].Trim();
+				info.Skin.SkinName = skins[0].Trim();
 				
 
 				if(skins.Length > 1)
 				{
-					config.Skin.SkinCssFile = skins[skins.Length-1].Trim();
+					info.Skin.SkinCssFile = skins[skins.Length-1].Trim();
 				}
 				else
 				{
-					config.Skin.SkinCssFile = null;
+					info.Skin.SkinCssFile = null;
 				}
 
 				
-				Config.UpdateConfigData(config);
+				Config.UpdateConfigData(info);
 
 				this.Messages.ShowMessage(RES_SUCCESS);
 			}

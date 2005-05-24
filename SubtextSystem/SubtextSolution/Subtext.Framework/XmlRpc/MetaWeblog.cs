@@ -51,14 +51,14 @@ namespace Subtext.Framework.XmlRpc
 		#region BlogApi Members
 		public BlogInfo[] getUsersBlogs(string appKey,string username,string password)
 		{
-			BlogConfig config = Config.CurrentBlog;
-			if(ValidateUser(username,password,config.AllowServiceAccess))
+			Configuration.BlogInfo info = Config.CurrentBlog;
+			if(ValidateUser(username,password,info.AllowServiceAccess))
 			{
 				BlogInfo[] bi = new BlogInfo[1];
 				BlogInfo b = new BlogInfo();
-				b.blogid = config.BlogID.ToString();
-				b.blogName = config.Title;
-				b.url = config.FullyQualifiedUrl;
+				b.blogid = info.BlogID.ToString();
+				b.blogName = info.Title;
+				b.url = info.FullyQualifiedUrl;
 				bi[0]=b;
 				return bi;
 			}	
@@ -88,14 +88,14 @@ namespace Subtext.Framework.XmlRpc
 
 		public bool editPost(string postid,	string username,string password,Post post,bool publish)
 		{
-			BlogConfig config = Config.CurrentBlog;
-			if(ValidateUser(username,password,config.AllowServiceAccess))
+			Configuration.BlogInfo info = Config.CurrentBlog;
+			if(ValidateUser(username,password,info.AllowServiceAccess))
 			{
 				CategoryEntry entry = Entries.GetCategoryEntry(Int32.Parse(postid), false);
 				if(entry != null)
 				{
-					entry.Author = config.Author;
-					entry.Email = config.Email;
+					entry.Author = info.Author;
+					entry.Email = info.Email;
 					entry.Body = post.description;
 					entry.Title = post.title;
 					entry.TitleUrl = post.link;
@@ -118,8 +118,8 @@ namespace Subtext.Framework.XmlRpc
 
 		public Post getPost(string postid,string username,string password)
 		{
-			BlogConfig config = Config.CurrentBlog;
-			if(ValidateUser(username,password,config.AllowServiceAccess))
+			Configuration.BlogInfo info = Config.CurrentBlog;
+			if(ValidateUser(username,password,info.AllowServiceAccess))
 			{
 				CategoryEntry entry = Entries.GetCategoryEntry(Int32.Parse(postid),false);
 				Post post = new Post();
@@ -188,8 +188,8 @@ namespace Subtext.Framework.XmlRpc
 
 		public CategoryInfo[] getCategories(string blogid,string username,string password)
 		{
-			BlogConfig config = Config.CurrentBlog;
-			if(ValidateUser(username,password,config.AllowServiceAccess))
+			Configuration.BlogInfo info = Config.CurrentBlog;
+			if(ValidateUser(username,password,info.AllowServiceAccess))
 			{
 				LinkCategoryCollection lcc = Links.GetCategories(CategoryType.PostCollection,false);
 				if(lcc == null)
@@ -203,8 +203,8 @@ namespace Subtext.Framework.XmlRpc
 					_category = new CategoryInfo();
 					_category.categoryid = lcc[i].CategoryID.ToString();
 					_category.title = lcc[i].Title;
-					_category.htmlUrl = config.FullyQualifiedUrl + "Category/" + lcc[i].CategoryID.ToString() + ".aspx";
-					_category.rssUrl = config.FullyQualifiedUrl + "rss.aspx?catid=" + lcc[i].CategoryID.ToString();
+					_category.htmlUrl = info.FullyQualifiedUrl + "Category/" + lcc[i].CategoryID.ToString() + ".aspx";
+					_category.rssUrl = info.FullyQualifiedUrl + "rss.aspx?catid=" + lcc[i].CategoryID.ToString();
 					_category.description = lcc[i].Title;
 					
 					categories[i] = _category;
@@ -216,12 +216,12 @@ namespace Subtext.Framework.XmlRpc
 
 		public string newPost(string blogid, string username, string password, Post post, bool publish)
 		{
-			BlogConfig config = Config.CurrentBlog;
-			if(ValidateUser(username,password,config.AllowServiceAccess))
+			Configuration.BlogInfo info = Config.CurrentBlog;
+			if(ValidateUser(username,password,info.AllowServiceAccess))
 			{
 				CategoryEntry entry = new CategoryEntry();
-				entry.Author = config.Author;
-				entry.Email = config.Email;
+				entry.Author = info.Author;
+				entry.Email = info.Email;
 				entry.Body = post.description;
 				entry.Title = post.title;
 				entry.TitleUrl = post.link;

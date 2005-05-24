@@ -42,9 +42,6 @@ namespace Subtext.Framework.Components
 
 		public abstract	EntryCollection GetRecentPostsWithCategories(int ItemCount, bool ActiveOnly);
 
-//		public abstract EntryCollection GetAllStoreis(bool ActiveOnly);
-//		public abstract EntryCollection GetAllStoreis(bool ActiveOnly, DateTime UpdatedSince);
-
 		public abstract EntryCollection GetPostCollectionByMonth(int month, int year);
 		public abstract EntryCollection GetEntriesByDateRangle(DateTime start, DateTime stop, PostType postType, bool ActiveOnly);
 
@@ -60,7 +57,7 @@ namespace Subtext.Framework.Components
 		public abstract DataSet RawEntriesByCategoryID(int ItemCount, int CategoryID, bool ActiveOnly);
 
 	
-		public abstract BlogConfig GetConfig(string host, string application);
+		public abstract BlogInfo GetBlogInfo(string host, string application);
 		
 		//Update/Add/Remove
 		public abstract bool UpdateEntry(Entry _entry);
@@ -69,7 +66,7 @@ namespace Subtext.Framework.Components
 		public abstract int InsertEntry(Entry _entry);
 		public abstract int InsertPingTrackEntry(Entry entry);
 		public abstract int InsertCategoryEntry(CategoryEntry ce);
-		public abstract void UpdateConfigData(BlogConfig config);
+		public abstract void UpdateConfigData(BlogInfo info);
 		//public abstract void RemoveComment(int CommentID);
 
 		#endregion

@@ -7,9 +7,9 @@ namespace UnitTests.Subtext
 	/// <summary>
 	/// Summary description for UnitTestConfigProvider.
 	/// </summary>
-	public class UnitTestConfigProvider : UrlBasedConfigProvider
+	public class UnitTestConfigProvider : UrlBasedBlogInfoProvider
 	{
-		static BlogConfig _config = new BlogConfig();
+		static BlogInfo _config = new BlogInfo();
 
 		/// <summary>
 		/// Gets a dummy config object for the purpose of unit testing.
@@ -20,7 +20,7 @@ namespace UnitTests.Subtext
 		/// </remarks>
 		/// <param name="context">Context.</param>
 		/// <returns></returns>
-		public override BlogConfig GetConfig(HttpContext context)
+		public override BlogInfo GetBlogInfo(HttpContext context)
 		{
 			return _config;	
 		}

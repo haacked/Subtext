@@ -30,7 +30,7 @@ namespace Subtext.Web
 			//when an actual error has happened AND the user is a 
 			//local user.
 			
-			bool blogConfigured = (Config.GetConfig("", "") != null);
+			bool blogConfigured = (Config.GetBlogInfo("", "") != null);
 
 			if(blogConfigured)
 			{
@@ -78,7 +78,7 @@ namespace Subtext.Web
 				
 				// Create the blog_config record using default values 
 				// and the specified user info.
-				if(Config.AddBlogConfiguration(title, userName, hashedPassword, Request.Url.Host, Request.ApplicationPath))
+				if(Config.CreateBlog(title, userName, hashedPassword, Request.Url.Host, Request.ApplicationPath))
 				{
 					if(Security.Authenticate(userName, password, !persist))
 					{

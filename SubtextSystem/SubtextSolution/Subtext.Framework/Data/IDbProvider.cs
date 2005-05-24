@@ -128,7 +128,7 @@ namespace Subtext.Framework.Data
 		/// <param name="host">Hostname.</param>
 		/// <param name="application">Application.</param>
 		/// <returns></returns>
-		IDataReader GetConfig(string host, string application);
+		IDataReader GetBlogInfo(string host, string application);
 		
 		/// <summary>
 		/// Returns a <see cref="IDataReader"/> instance containing 
@@ -144,10 +144,18 @@ namespace Subtext.Framework.Data
 		/// <param name="strict">If false, then this will return a blog record if 
 		/// there is only one blog record, regardless if the application and hostname match.</param>
 		/// <returns></returns>
-		IDataReader GetConfig(string host, string application, bool strict);
-		IDataReader GetConfig(int BlogID);
+		IDataReader GetBlogInfo(string host, string application, bool strict);
+		
+		/// <summary>
+		/// Returns a <see cref="IDataReader"/> instance containing 
+		/// the configuration settings for the blog specified by the 
+		/// blog id.
+		/// </summary>
+		/// <param name="blogId">The unique identifier for the blog to retrieve.</param>
+		/// <returns></returns>
+		IDataReader GetBlogInfo(int blogId);
 
-		bool UpdateConfigData(BlogConfig config);
+		bool UpdateConfigData(BlogInfo info);
 
 		#endregion
 

@@ -85,17 +85,17 @@ namespace Subtext.Web.HostAdmin.UserControls
 			this.pnlResults.Visible = true;
 			this.pnlEdit.Visible = false;
 
-			BlogConfigCollection blogs = null; 
+			BlogInfoCollection blogs = null; 
 			
 			int totalBlogs;
 			if(this.chkShowInactive.Checked)
 			{
-				blogs = BlogConfig.GetBlogs(_resultsPageNumber, resultsPager.PageSize, false);	
+				blogs = BlogInfo.GetBlogs(_resultsPageNumber, resultsPager.PageSize, false);	
 				totalBlogs = blogs.Count;
 			}
 			else
 			{
-				blogs = BlogConfig.GetActiveBlogs(_resultsPageNumber, resultsPager.PageSize, false, out totalBlogs);			
+				blogs = BlogInfo.GetActiveBlogs(_resultsPageNumber, resultsPager.PageSize, false, out totalBlogs);			
 			}
 
 			if (blogs.Count > 0)
@@ -122,12 +122,12 @@ namespace Subtext.Web.HostAdmin.UserControls
 			
 			BindEditHelp();
 
-			BlogConfig blog;
+			BlogInfo blog;
 			if(!CreatingBlog)
 			{
 				this.lblTitle.Visible = true;
 				this.txtTitle.Visible = false;
-				blog = BlogConfig.GetBlogById(BlogId);
+				blog = BlogInfo.GetBlogById(BlogId);
 				this.lblTitle.Text = blog.Title;
 				this.txtApplication.Text = blog.Application;
 				this.txtHost.Text = blog.Host;
@@ -137,7 +137,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 			{
 				this.lblTitle.Visible = false;
 				this.txtTitle.Visible = true;
-				blog = new BlogConfig();
+				blog = new BlogInfo();
 			}
 
 			string onChangeScript = string.Format("onPreviewChanged('{0}', '{1}', '{2}', false);", this.txtHost.ClientID, this.txtApplication.ClientID, this.virtualDirectory.ClientID);
@@ -328,7 +328,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 		// Saves a new blog.  Any exceptions are propagated up to the caller.
 		void SaveNewBlog()
 		{
-			if(Config.AddBlogConfiguration(this.txtTitle.Text, this.txtUsername.Text, this.txtPassword.Text, this.txtHost.Text, this.txtApplication.Text))
+			if(Config.CreateBlog(this.txtTitle.Text, this.txtUsername.Text, this.txtPassword.Text, this.txtHost.Text, this.txtApplication.Text))
 			{
 				this.messagePanel.ShowMessage("Blog Created.");
 			}
@@ -341,7 +341,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 		// Saves changes to a blog.  Any exceptions are propagated up to the caller.
 		void SaveBlogEdits()
 		{
-			BlogConfig blog = BlogConfig.GetBlogById(BlogId);
+			BlogInfo blog = BlogInfo.GetBlogById(BlogId);
 			
 			if(blog == null)
 				throw new ArgumentNullException("Blog Being Edited", "Ok, somehow the blog you were editing is now null.  This is very odd.");
@@ -434,7 +434,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
 		void ToggleActive()
 		{
-			BlogConfig blog = BlogConfig.GetBlogById(BlogId);
+			BlogInfo blog = BlogInfo.GetBlogById(BlogId);
 			blog.IsActive = !blog.IsActive;
 			if(Config.UpdateConfigData(blog))
 			{

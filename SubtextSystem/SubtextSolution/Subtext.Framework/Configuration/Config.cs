@@ -15,7 +15,7 @@ namespace Subtext.Framework.Configuration
 	/// </summary>
 	public sealed class Config
 	{
-		static UrlBasedConfigProvider _configProvider = null;
+		static UrlBasedBlogInfoProvider _configProvider = null;
 		private Config() {}
 
 		/// <summary>
@@ -32,15 +32,15 @@ namespace Subtext.Framework.Configuration
 		}
 
 		/// <summary>
-		/// Returns a <see cref="BlogConfig"/> instance containing 
+		/// Returns a <see cref="BlogInfo"/> instance containing 
 		/// the configuration settings for the current blog.
 		/// </summary>
 		/// <returns></returns>
-		public static BlogConfig CurrentBlog
+		public static BlogInfo CurrentBlog
 		{
 			get
 			{
-				return ConfigurationProvider.GetConfig(HttpContext.Current);
+				return ConfigurationProvider.GetBlogInfo(HttpContext.Current);
 			}
 		}
 
@@ -48,13 +48,13 @@ namespace Subtext.Framework.Configuration
 		/// Gets or sets the configuration provider.
 		/// </summary>
 		/// <value></value>
-		public static UrlBasedConfigProvider ConfigurationProvider
+		public static UrlBasedBlogInfoProvider ConfigurationProvider
 		{
 			get
 			{
 				if(_configProvider == null)
 				{
-					_configProvider = UrlBasedConfigProvider.Instance;
+					_configProvider = UrlBasedBlogInfoProvider.Instance;
 				}
 				return _configProvider;
 			}
@@ -65,20 +65,20 @@ namespace Subtext.Framework.Configuration
 		}
 
 		/// <summary>
-		/// Returns a <see cref="BlogConfig"/> instance containing 
+		/// Returns a <see cref="BlogInfo"/> instance containing 
 		/// the configuration settings for the blog specified by the 
 		/// Hostname and Application.
 		/// </summary>
 		/// <param name="hostname">Hostname.</param>
 		/// <param name="application">Application.</param>
 		/// <returns></returns>
-		public static BlogConfig GetConfig(string hostname, string application)
+		public static BlogInfo GetBlogInfo(string hostname, string application)
 		{
-			return GetConfig(hostname, application, true);
+			return GetBlogInfo(hostname, application, true);
 		}
 
 		/// <summary>
-		/// Returns a <see cref="BlogConfig"/> instance containing 
+		/// Returns a <see cref="BlogInfo"/> instance containing 
 		/// the configuration settings for the blog specified by the 
 		/// Hostname and Application.
 		/// </summary>
@@ -91,23 +91,23 @@ namespace Subtext.Framework.Configuration
 		/// <param name="strict">If false, then this will return a blog record if 
 		/// there is only one blog record, regardless if the application and hostname match.</param>
 		/// <returns></returns>
-		public static BlogConfig GetConfig(string hostname, string application, bool strict)
+		public static BlogInfo GetBlogInfo(string hostname, string application, bool strict)
 		{
-			return DTOProvider.Instance().GetConfig(hostname, application, strict);
+			return DTOProvider.Instance().GetBlogInfo(hostname, application, strict);
 		}
 
 		/// <summary>
-		/// Adds the initial blog configuration.  This is a convenience method for 
+		/// Creates an initial blog.  This is a convenience method for 
 		/// allowing a user with a freshly installed blog to immediately gain access 
 		/// to the admin section to edit the blog.
 		/// </summary>
 		/// <param name="userName">Name of the user.</param>
 		/// <param name="password">Password.</param>
 		/// <returns></returns>
-		public static bool AddBlogConfiguration(string title, string userName, string password, string host, string application)
+		public static bool CreateBlog(string title, string userName, string password, string host, string application)
 		{
 			//Check for duplicate
-			BlogConfig potentialDuplicate = Subtext.Framework.Configuration.Config.GetConfig(host, application);
+			BlogInfo potentialDuplicate = Subtext.Framework.Configuration.Config.GetBlogInfo(host, application);
 			if(potentialDuplicate != null)
 			{
 				//we found a duplicate!
@@ -115,7 +115,7 @@ namespace Subtext.Framework.Configuration
 			}
 
 			//Check to see if we're going to end up hiding another blog.
-			BlogConfig potentialHidden = Subtext.Framework.Configuration.Config.GetConfig(host, string.Empty);
+			BlogInfo potentialHidden = Subtext.Framework.Configuration.Config.GetBlogInfo(host, string.Empty);
 			if(potentialHidden != null)
 			{
 				//We found a blog that would be hidden by this one.
@@ -128,7 +128,7 @@ namespace Subtext.Framework.Configuration
 			{
 				//Check to see if this blog requires an Application value
 				//This would occur if another blog has the same host already.
-				BlogConfigCollection blogsWithHost = BlogConfig.GetBlogsByHost(host);
+				BlogInfoCollection blogsWithHost = BlogInfo.GetBlogsByHost(host);
 				if(blogsWithHost.Count > 0)
 				{
 					throw new BlogRequiresApplicationException(blogsWithHost.Count);
@@ -155,7 +155,7 @@ namespace Subtext.Framework.Configuration
 				password = Security.HashPassword(password);
 			}
 
-			return (DTOProvider.Instance().AddBlogConfiguration(title, userName, password, host, application));
+			return (DTOProvider.Instance().CreateBlog(title, userName, password, host, application));
 		}
 
 		private static bool CreateApplicationStub(string application)
@@ -194,38 +194,38 @@ namespace Subtext.Framework.Configuration
 
 		/// <summary>
 		/// Updates the database with the configuration data within 
-		/// the specified <see cref="BlogConfig"/> instance.
+		/// the specified <see cref="BlogInfo"/> instance.
 		/// </summary>
-		/// <param name="config">Config.</param>
+		/// <param name="info">Config.</param>
 		/// <returns></returns>
-		public static bool UpdateConfigData(BlogConfig config)
+		public static bool UpdateConfigData(BlogInfo info)
 		{
 			//Check for duplicate
-			BlogConfig potentialDuplicate = Subtext.Framework.Configuration.Config.GetConfig(config.Host, config.Application);
-			if(potentialDuplicate != null && !potentialDuplicate.Equals(config))
+			BlogInfo potentialDuplicate = Subtext.Framework.Configuration.Config.GetBlogInfo(info.Host, info.Application);
+			if(potentialDuplicate != null && !potentialDuplicate.Equals(info))
 			{
 				//we found a duplicate!
 				throw new BlogDuplicationException(potentialDuplicate);
 			}
 
 			//Check to see if we're going to end up hiding another blog.
-			BlogConfig potentialHidden = Subtext.Framework.Configuration.Config.GetConfig(config.Host, string.Empty);
-			if(potentialHidden != null && !potentialHidden.Equals(config))
+			BlogInfo potentialHidden = Subtext.Framework.Configuration.Config.GetBlogInfo(info.Host, string.Empty);
+			if(potentialHidden != null && !potentialHidden.Equals(info))
 			{
 				//We found a blog that would be hidden by this one.
 				throw new BlogHiddenException(potentialHidden);
 			}
 
-			string application = config.Application == null ? string.Empty : config.Application.Replace("/", string.Empty);
+			string application = info.Application == null ? string.Empty : info.Application.Replace("/", string.Empty);
 
 			if(application.Length == 0)
 			{
 				//Check to see if this blog requires an Application value
 				//This would occur if another blog has the same host already.
-				BlogConfigCollection blogsWithHost = BlogConfig.GetBlogsByHost(config.Host);
+				BlogInfoCollection blogsWithHost = BlogInfo.GetBlogsByHost(info.Host);
 				if(blogsWithHost.Count > 0)
 				{
-					if(blogsWithHost.Count > 1 || !blogsWithHost[0].Equals(config))
+					if(blogsWithHost.Count > 1 || !blogsWithHost[0].Equals(info))
 					{
 						throw new BlogRequiresApplicationException(blogsWithHost.Count);
 					}
@@ -239,12 +239,12 @@ namespace Subtext.Framework.Configuration
 				}
 			}
 			
-			if(config.Application.Length > 0 && HttpContext.Current != null)
+			if(info.Application.Length > 0 && HttpContext.Current != null)
 			{
 				// You're going to hate this, but we just create a new stub 
 				// We won't delete the old one because IIS will have a lock 
 				// on it. It's just a harmless empty stub.
-				if(!CreateApplicationStub(config.Application))
+				if(!CreateApplicationStub(info.Application))
 				{
 					return false;
 				}
@@ -252,10 +252,10 @@ namespace Subtext.Framework.Configuration
 
 			if(Config.Settings.UseHashedPasswords)
 			{
-				config.Password = Security.HashPassword(config.Password);
+				info.Password = Security.HashPassword(info.Password);
 			}
 
-			return DTOProvider.Instance().UpdateConfigData(config);
+			return DTOProvider.Instance().UpdateConfigData(info);
 		}
 
 		//TODO: Is this the right place to put this list?
