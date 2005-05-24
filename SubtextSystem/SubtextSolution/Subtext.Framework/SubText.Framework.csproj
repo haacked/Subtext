@@ -383,17 +383,17 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Configuration\IConfig.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Configuration\SkinConfig.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Configuration\Tracking.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Configuration\UrlBasedConfigProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -523,11 +523,6 @@
                 />
                 <File
                     RelPath = "Providers\BlogProviders.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Providers\ConfigProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -66,6 +66,8 @@ namespace UnitTests.Subtext.Framework
 		[SetUp]
 		public void SetUp()
 		{
+			Config.ConfigurationProvider = new UnitTestConfigProvider();
+
 			//This file needs to be there already.
 			UnitTestHelper.UnpackEmbeddedResource("App.config", "UnitTests.Subtext.dll.config");
 			

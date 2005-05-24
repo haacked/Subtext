@@ -70,7 +70,7 @@ namespace Subtext.Framework
 
 		public static LinkCategoryCollection GetCategories(CategoryType catType, bool ActiveOnly)
 		{
-			return DTOProvider.Instance().GetCategories(catType,ActiveOnly);
+			return DTOProvider.Instance().GetCategories(catType, ActiveOnly);
 		}
 
 		public static LinkCategoryCollection GetActiveCategories()

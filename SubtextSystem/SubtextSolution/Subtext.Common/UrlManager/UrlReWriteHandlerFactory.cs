@@ -23,6 +23,7 @@
 using System;
 using System.Web;
 using System.Web.UI;
+using Subtext.Framework.Text;
 
 namespace Subtext.Common.UrlManager
 {
@@ -33,7 +34,7 @@ namespace Subtext.Common.UrlManager
 	/// to match the current request to. It also allows caching of the 
 	/// Regex's and Types.
 	/// </summary>
-	public class UrlReWriteHandlerFactory:  IHttpHandlerFactory
+	public class UrlReWriteHandlerFactory :  IHttpHandlerFactory
 	{
 		public UrlReWriteHandlerFactory(){} //Nothing to do in the cnstr
 		
@@ -50,12 +51,13 @@ namespace Subtext.Common.UrlManager
 		/// <param name="context">Current HttpContext</param>
 		/// <param name="requestType">Request Type (Passed along to other IHttpHandlerFactory's)</param>
 		/// <param name="url">The current requested url. (Passed along to other IHttpHandlerFactory's)</param>
-		/// <param name="path">The physical path of the current request. Is not gaurenteed 
+		/// <param name="path">The physical path of the current request. Is not guaranteed 
 		/// to exist (Passed along to other IHttpHandlerFactory's)</param>
 		/// <returns>
 		/// Returns an Instance of IHttpHandler either by loading an instance of IHttpHandler 
 		/// or by returning an other 
-		/// IHttpHandlerFactory.GetHandlder(HttpContext context, string requestType, string url, string path) method
+		/// IHttpHandlerFactory.GetHandlder(HttpContext context, string requestType, string url, string path) 
+		/// method
 		/// </returns>
 		public virtual IHttpHandler GetHandler(HttpContext context, string requestType, string url, string path)
 		{
@@ -74,7 +76,7 @@ namespace Subtext.Common.UrlManager
 						switch(handler.HandlerType)
 						{
 							case HandlerType.Page:
-								return ProccessHandlerTypePage(handler, context, requestType,url);
+								return ProccessHandlerTypePage(handler, context, url);
 							
 							case HandlerType.Direct:
 								HandlerConfiguration.SetControls(context, handler.BlogControls);
@@ -84,18 +86,22 @@ namespace Subtext.Common.UrlManager
 								//Pass a long the request to a custom IHttpHandlerFactory
 								return ((IHttpHandlerFactory)handler.Instance()).GetHandler(context, requestType, url, path);
 							
+							case HandlerType.Directory:
+								return ProcessHandlerTypeDirectory(handler, context, url);
+
 							default:
 								throw new Exception("Invalid HandlerType: Unknown");
 						}
 					}
 				}
 			}
+			
 			//If we do not find the page, just let ASP.NET take over
 			return PageHandlerFactory.GetHandler(context, requestType, url, path);
 		}
 
 
-		private IHttpHandler ProccessHandlerTypePage(HttpHandler item, HttpContext context, string requestType, string url)
+		private IHttpHandler ProccessHandlerTypePage(HttpHandler item, HttpContext context, string url)
 		{
 			string pagepath = item.FullPageLocation;
 			if(pagepath == null)
@@ -104,6 +110,15 @@ namespace Subtext.Common.UrlManager
 			}
 			HandlerConfiguration.SetControls(context, item.BlogControls);
 			return PageParser.GetCompiledPageInstance(url, pagepath, context);
+		}
+
+		private IHttpHandler ProcessHandlerTypeDirectory(HttpHandler item, HttpContext context, string url)
+		{
+			bool caseSensitive = true;
+			string directory = item.DirectoryLocation;
+			string requestPath = StringHelper.RightAfter(url, directory, !caseSensitive);
+			string physicalPath = HttpContext.Current.Server.MapPath("~/" + directory + "/" + requestPath);
+			return PageParser.GetCompiledPageInstance(url, physicalPath, context);
 		}
 
 

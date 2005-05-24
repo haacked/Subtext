@@ -22,6 +22,8 @@
 #endregion
 
 using System;
+using System.Web;
+using System.Xml.Serialization;
 using Subtext.Framework.Components;
 using Subtext.Framework.Format;
 using Subtext.Framework.Providers;
@@ -236,8 +238,14 @@ namespace Subtext.Framework.Configuration
 		/// <value></value>
 		public string Host
 		{
-			get{return _host;}
-			set{_host = value.Replace("www.", string.Empty);}
+			get
+			{
+				return _host;
+			}
+			set
+			{
+				_host = value.Replace("www.", string.Empty);
+			}
 		}
 
 		/// <summary>
@@ -496,6 +504,34 @@ namespace Subtext.Framework.Configuration
 				}
 			}
 		}
+
+		/// <summary>
+		/// Gets the root URL for this blog.
+		/// </summary>
+		/// <value></value>
+		[XmlIgnore]
+		public string BlogRootUrl
+		{
+			get
+			{
+				if(_rootUrl == null)
+				{
+					_rootUrl = "http://" + this.Host + "/";
+					string appPath = HttpContext.Current.Request.ApplicationPath.Replace("/", "");
+					if(appPath.Length > 0)
+					{
+						_rootUrl += appPath + "/";
+					}
+					if(this.Application.Length > 0)
+					{
+						_rootUrl += this.Application + "/";
+					}
+					
+				}
+				return _rootUrl;
+			}
+		}
+		string _rootUrl = null;
 
 		private ConfigurationFlag _flag = ConfigurationFlag.Empty;
 		/// <summary>

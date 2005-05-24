@@ -7,7 +7,7 @@ namespace Subtext.Framework.Providers
 	/// <summary>
 	/// ConfigProvider loads the Singleton Instance of IDbProvider
 	/// </summary>
-	public class DbProvider
+	public sealed class DbProvider
 	{
 		private DbProvider()
 		{

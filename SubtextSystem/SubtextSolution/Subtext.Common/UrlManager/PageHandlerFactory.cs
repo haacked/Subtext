@@ -30,9 +30,10 @@ using System.Web.UI;
 namespace Subtext.Common.UrlManager 
 {
 	/// <summary>
-	/// System.Web.UI.PageHandlerFactory is internal. We need the option to load our own classes with this for the virtual mapping.
-	/// With the virtual mapping default documents will not be loaded. if no page is found, we will use attempt to load default.aspx in the current
-	/// directory
+	/// System.Web.UI.PageHandlerFactory is internal. We need the option to load our own 
+	/// classes with this for the virtual mapping.  With the virtual mapping default 
+	/// documents will not be loaded. if no page is found, we will use attempt to load 
+	/// default.aspx in the current directory
 	/// </summary>
 	public class PageHandlerFactory 
 	{

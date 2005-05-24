@@ -1,6 +1,5 @@
 using System;
 using System.Web;
-using Subtext.Common.Config;
 using Subtext.Framework.Configuration;
 
 namespace UnitTests.Subtext
@@ -8,7 +7,7 @@ namespace UnitTests.Subtext
 	/// <summary>
 	/// Summary description for UnitTestConfigProvider.
 	/// </summary>
-	public class UnitTestConfigProvider : BaseBlogConfig
+	public class UnitTestConfigProvider : UrlBasedConfigProvider
 	{
 		static BlogConfig _config = new BlogConfig();
 

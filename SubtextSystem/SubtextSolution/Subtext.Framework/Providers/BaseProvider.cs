@@ -13,6 +13,10 @@ namespace Subtext.Framework.Providers
 	{
 		private string _type;
 
+		/// <summary>
+		/// Gets or sets the provider type.
+		/// </summary>
+		/// <value></value>
 		[XmlAttribute("type")]
 		public string ProviderType
 		{

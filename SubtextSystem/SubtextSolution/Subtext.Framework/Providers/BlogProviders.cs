@@ -3,7 +3,9 @@ using System;
 namespace Subtext.Framework.Providers
 {
 	/// <summary>
-	/// Summary description for BlogProviders.
+	/// Class used to access the various provider configuration classes 
+	/// configured within web.config within the &lt;BlogProviders&gt; 
+	/// section.
 	/// </summary>
 	[Serializable]
 	public class BlogProviders
@@ -27,13 +29,6 @@ namespace Subtext.Framework.Providers
 		{
 			get {return this._dbProvider;}
 			set {this._dbProvider = value;}
-		}
-
-		private ConfigProviderConfiguration _configProvider;
-		public ConfigProviderConfiguration ConfigProvider
-		{
-			get {return this._configProvider;}
-			set {this._configProvider = value;}
 		}
 
 		private UrlFormatProviderConfiguration _urlFormatProvider;

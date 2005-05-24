@@ -15,6 +15,7 @@ namespace Subtext.Framework.Configuration
 	/// </summary>
 	public sealed class Config
 	{
+		static UrlBasedConfigProvider _configProvider = null;
 		private Config() {}
 
 		/// <summary>
@@ -34,16 +35,32 @@ namespace Subtext.Framework.Configuration
 		/// Returns a <see cref="BlogConfig"/> instance containing 
 		/// the configuration settings for the current blog.
 		/// </summary>
-		/// <remarks>
-		/// Until Subtext supports multiple blogs again (if ever), 
-		/// this will always return the same instance.
-		/// </remarks>
 		/// <returns></returns>
 		public static BlogConfig CurrentBlog
 		{
 			get
 			{
-				return ConfigProvider.Instance().GetConfig(HttpContext.Current);
+				return ConfigurationProvider.GetConfig(HttpContext.Current);
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the configuration provider.
+		/// </summary>
+		/// <value></value>
+		public static UrlBasedConfigProvider ConfigurationProvider
+		{
+			get
+			{
+				if(_configProvider == null)
+				{
+					_configProvider = UrlBasedConfigProvider.Instance;
+				}
+				return _configProvider;
+			}
+			set
+			{
+				_configProvider = value;
 			}
 		}
 
@@ -131,6 +148,11 @@ namespace Subtext.Framework.Configuration
 				{
 					return false;
 				}
+			}
+
+			if(Config.Settings.UseHashedPasswords)
+			{
+				password = Security.HashPassword(password);
 			}
 
 			return (DTOProvider.Instance().AddBlogConfiguration(title, userName, password, host, application));
@@ -228,18 +250,31 @@ namespace Subtext.Framework.Configuration
 				}
 			}
 
+			if(Config.Settings.UseHashedPasswords)
+			{
+				config.Password = Security.HashPassword(config.Password);
+			}
+
 			return DTOProvider.Instance().UpdateConfigData(config);
 		}
 
 		//TODO: Is this the right place to put this list?
 		private static string[] _invalidApplications = {"Admin", "bin", "ExternalDependencies", "HostAdmin", "Images", "Modules", "Services", "Skins", "UI", "Category", "Archive", "Archives", "Comments", "Articles", "Posts", "Story", "Stories", "Gallery" };
 
-		static bool IsValidApplicationName(string application)
+		/// <summary>
+		/// Returns true if the specified application name has a 
+		/// valid format. It may not start, nor end with ".".  It 
+		/// may not contain any of the following invalid characters 
+		/// {}[]/\ @!#$%:^&*()?+|"='<>;,
+		/// </summary>
+		/// <param name="application">Application.</param>
+		/// <returns></returns>
+		public static bool IsValidApplicationName(string application)
 		{
 			if(application.StartsWith(".") || application.EndsWith("."))
 				return false;
 
-			string invalidChars = @"/\\ @!#$%;^&*()?+|""=\'<>;";
+			string invalidChars = @"{}[]/\ @!#$%:^&*()?+|""='<>;,";
 
 			foreach(char c in invalidChars)
 			{

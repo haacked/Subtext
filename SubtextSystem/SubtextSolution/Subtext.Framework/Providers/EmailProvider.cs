@@ -7,7 +7,7 @@ namespace Subtext.Framework.Providers
 	/// <summary>
 	/// Summary description for EmailProvider.
 	/// </summary>
-	public class EmailProvider
+	public sealed class EmailProvider
 	{
 		private EmailProvider(){}
 
