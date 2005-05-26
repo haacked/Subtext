@@ -8,6 +8,6 @@ namespace Subtext.Extensibility.Plugins
 	/// </summary>
 	public interface IPlugin
 	{
-		
+		IImplementationInfo Info {get;}
 	}
 }
