@@ -1,0 +1,408 @@
+body
+{
+	margin: 0px;
+	padding: 0px;
+	font-family: Georgia, Serif;
+}
+
+form
+{
+	margin: 0px;
+}
+
+a
+{
+	text-decoration: none;
+}
+
+a:hover
+{
+	text-decoration: underline;
+}
+
+dd
+{
+	margin: 0px;
+}
+
+/* table.Layout */
+
+	table.Layout
+	{
+		border-collapse: collapse;
+		width: 100%;
+	}
+	
+	table.Layout td
+	{
+		vertical-align: top;
+	}
+	
+	table.Layout td.c1
+	{
+		background: #393925 url(Images/NavigationBackground.gif) repeat-y right top;
+		width: 8%;
+		text-align: right;
+		border-right: 1px solid #C2C1B0;
+	}
+	
+	table.Layout td.c2 div.Shim
+	{
+		width: 500px;
+	}
+	
+	table.Layout td.c2
+	{
+		background: url(Images/PostBottomBackground.gif) repeat-x left bottom;
+	}
+	
+	table.Layout td.c3
+	{
+		width: 20%;
+		border-left: 1px solid #C2C1B0;
+		background: #393925;
+	}
+
+/* /table.Layout */
+
+/* dl.Navigation */
+
+	table.Layout td.c1 dl.Navigation
+	{
+		margin: 0px;
+	}
+	
+	table.Layout td.c1 dl.Navigation dt
+	{
+		position: absolute;
+		left: -1000px;		
+	}
+	
+	table.Layout td.c1 dl.Navigation dd ul
+	{
+		padding: 0px;
+		margin: 0px;
+		width: 33px;
+		padding: 0px;
+		list-style: none;
+		float: right;
+	}
+	
+	table.Layout td.c1 dl.Navigation dd a
+	{
+		display: block;
+		width: 33px;
+		height: 0px;
+		padding: 0px;
+		overflow: hidden;
+		position: relative;
+		background-repeat: no-repeat;
+		background-position: 1px top;
+	}
+	
+	table.Layout td.c1 dl.Navigation dd a.Home
+	{
+		padding-top: 105px;
+		background-image: url(Images/NavigationHome.gif);
+	}
+
+	table.Layout td.c1 dl.Navigation dd a.Contact
+	{
+		padding-top: 80px;
+		background-image: url(Images/NavigationContact.gif);
+	}
+	
+	table.Layout td.c1 dl.Navigation dd a.Syndication
+	{
+		padding-top: 117px;
+		background-image: url(Images/NavigationSyndication.gif);
+	}
+
+	table.Layout td.c1 dl.Navigation dd a.Admin
+	{
+		padding-top: 70px;
+		background-image: url(Images/NavigationAdmin.gif);
+	}
+
+	table.Layout td.c1 dl.Navigation dd a.Login
+	{
+		padding-top: 70px;
+		background-image: url(Images/NavigationLogin.gif);
+	}
+
+/* /dl.Navigation */
+
+/* div#Header */
+
+	div#Header
+	{
+		background: #FFF url(Images/HeaderBackground.gif) repeat-x;
+		border-bottom: 1px solid #EBEBE6;
+		padding: 40px 4% 0px 4%;
+		height: 65px;
+	}
+
+	div#Header h1
+	{
+		line-height: 0.6em;
+		margin: 0px;
+		padding: 0px;
+	}
+
+	div#Header h1 a
+	{
+		font-weight: bold;
+		font-size: 0.6em;
+		color: #9F1414;
+	}
+	
+	div#Header div.Subtitle
+	{
+		font-size: 0.7em;
+		padding: 5px 0px 0px 0px;
+	}
+
+/* /div#Header */
+/* div#Content */
+
+	div#Content
+	{
+		line-height: 1.35em;
+	}
+	
+	/* dl.BlogStats */
+	
+	dl.BlogStats 
+	{
+		display: none;
+	}
+	
+	/* /dl.BlogStats */
+
+	/* dl.Day */
+	
+		dl.Day
+		{
+		}
+		
+		dl.Day dt
+		{
+			padding: 0px 4% 0px 4%;
+			height: 0px;
+		}
+		
+		dl.Day > dt
+		{
+			padding: 0px;
+			margin: 0px 4% 0px 4%;
+			height: auto;
+		}
+	
+		dl.Day dt a
+		{
+			font-size: 0.7em;
+			color: #7A794D;
+		}
+		
+		dl.Day dd
+		{
+			margin: 0px;
+		}
+		
+		/* dl.Post */
+		
+			dl.Day dl.Post
+			{
+				background: url(Images/PostBottomBackground.gif) repeat-x left bottom;
+			}
+		
+			dl.Post
+			{
+				padding: 10px 4% 20px 4%;
+				height: 0px;
+			}
+		
+			dd > dl.Post
+			{
+				height: auto;
+			}
+		
+			dl.Post dt
+			{
+				height: auto;
+				font-size: 1em;
+				padding: 0px;
+				margin: 0px;
+			}
+		
+			dl.Post dt a
+			{
+				color: #FF7F0A;
+				font-family: "Lucida Sans Unicode", Lucida Grande, Sans-Serif;
+				font-size: 1.3em;
+				letter-spacing: -1px;
+				font-weight: bold;
+			}
+			
+			dl.Post dd
+			{
+				margin: 0px;
+			}
+		
+			dl.Post dd a
+			{
+				font-weight: bold;
+				color: #9F1414;
+			}
+			
+			/* dd.Text */
+			
+				dl.Post dd.Text
+				{
+					color: #393925;
+				}
+				
+				dl.Post dd.Text h4
+				{
+					color: #FF7F0A;
+					font-family: "Lucida Sans Unicode", Lucida Grande, Sans-Serif;
+					margin: 0px;
+					padding: 0.5em 0px 0px 0px;
+				}
+				
+				dl.Post dd.Text blockquote
+				{
+					margin: 0px 0px 0px 0.1em;
+					padding: 0px 0px 0px 0.9em;
+					font-style: italic;
+					border-left: solid 0.5em #E4E4DB;
+					color: #000;
+				}
+				
+				dl.Post dd.Text ul
+				{
+					list-style: none;
+					padding: 0px;
+					margin: 0px;
+				}
+				
+				dl.Post dd.Text li
+				{
+					padding: 0px 0px 0.4em 11px;
+					background: url(Images/ClusterBullet.gif) no-repeat 3px 9px;
+				}
+				
+			/* /dd.Text */
+			
+			dl.Post dd.Info
+			{
+				font-size: 0.7em;
+				color: #7A794D;
+			}
+			
+		/* /dl.Post */
+	
+	/* /dl.Day/
+
+/* /div#Content */
+
+/* div#Footer */
+
+	div#Footer
+	{
+		text-align: right;
+		padding: 10px 4% 10px 4%;
+		color: #7A794D;
+		font-size: 0.7em;
+	}
+	
+	div#Footer a
+	{
+		font-weight: bold;
+		color: #7A794D;
+	}
+
+/* /div#Footer */
+	
+/* table.Layout td.c3 */
+
+	table.Layout td.c3 dl
+	{
+		margin: 0px;
+		border-top: 1px solid #6D6C45;
+		background: url(Images/ClusterBackground.gif) no-repeat;
+		height: 105px;
+		min-height: 105px;
+		color: #C2C1B0;
+		font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-serif;
+		font-size: 0.7em;
+	}
+	
+	table.Layout td.c3 > dl
+	{
+		height: auto;
+	}
+	
+	table.Layout td.c3 dd
+	{
+		padding: 10px 10px 10px 13px;
+	}
+	
+	/* dl.News */
+		
+		table.Layout td.c3 dl.News dt
+		{
+			position: absolute;
+			left: -1000px;
+		}
+
+	/* /dl.News */
+	
+	dl.Archive dt, dl.Categories dt
+	{
+		height: 0px;
+		overflow: hidden;
+		margin: 11px 0px 0px 13px;
+		background-repeat: no-repeat;
+	}
+	
+	dl.Archive ul, dl.Categories ul
+	{
+		list-style: none;
+		margin: 0px;
+		padding: 0px;
+	}
+	
+	dl.Archive a, dl.Categories a
+	{
+		color: #C2C1B0;
+		display: block;
+		position: relative;
+		padding: 0px 0px 0px 11px;
+		background: url(Images/ClusterBullet.gif) no-repeat left 6px;
+	}
+	
+	/* dl.Archive */
+		
+		dl.Archive dt
+		{
+			width: 53px;
+			padding: 12px 0px 0px 0px;
+			background-image: url(Images/ClusterArchive.gif);
+		}
+	
+	/* /dl.Archive */
+	
+	/* dl.Categories */
+		
+		dl.Categories dt
+		{
+			width: 76px;
+			padding: 14px 0px 0px 0px;
+			background-image: url(Images/ClusterCategories.gif);
+		}
+	
+	/* /dl.Categories */
+	
+	
+/* /table.Layout td.c3 */
