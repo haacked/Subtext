@@ -1,7 +1,9 @@
 using System;
+using System.Web;
 using System.Web.UI;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Web.UI.Skinning;
 
 namespace Subtext.Web.UI.Pages
 {
@@ -13,12 +15,14 @@ namespace Subtext.Web.UI.Pages
 	/// </summary>
 	public class SubtextMasterPage : System.Web.UI.Page
 	{
+		private static readonly ScriptElementCollectionRenderer __scriptRenderer = new ScriptElementCollectionRenderer();
 		protected System.Web.UI.WebControls.Literal pageTitle;
 		protected System.Web.UI.WebControls.Literal docTypeDeclaration;
 		protected System.Web.UI.HtmlControls.HtmlGenericControl MainStyle;
 		protected System.Web.UI.HtmlControls.HtmlGenericControl SecondaryCss;
 		protected System.Web.UI.HtmlControls.HtmlGenericControl RSSLink;
 		protected System.Web.UI.WebControls.PlaceHolder CenterBodyControl;
+		protected System.Web.UI.WebControls.Literal scripts;
 		
 		protected BlogInfo CurrentBlog;
 		protected const string TemplateLocation = "~/Skins/{0}/{1}";
@@ -58,6 +62,12 @@ namespace Subtext.Web.UI.Pages
 
 			}
 			RSSLink.Attributes.Add("href", CurrentBlog.FullyQualifiedUrl + "rss.aspx");
+
+			// if specified, add script elements
+			if (scripts != null)
+			{
+				scripts.Text = __scriptRenderer.RenderScriptElementCollection(Context, skin);
+			}
 		}
 
 		//	Renders the DocType tag and specifies an xmlns for the HTML 
@@ -69,10 +79,12 @@ namespace Subtext.Web.UI.Pages
 				docTypeDeclaration.Text = string.Empty;
 				if(Config.Settings.DocTypeDeclaration != null && Config.Settings.DocTypeDeclaration.Length > 0)
 				{
-					if(Config.Settings.UseXHTML)
-					{
-						docTypeDeclaration.Text = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine;
-					}
+
+					// DG: Removed as this forces IE to go into the Quirks mode
+//					if(Config.Settings.UseXHTML)
+//					{
+//						docTypeDeclaration.Text = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine;
+//					}
 					docTypeDeclaration.Text += "<" + Config.Settings.DocTypeDeclaration + ">" + Environment.NewLine;
 					docTypeDeclaration.Text += "<html";
 					
@@ -124,6 +136,52 @@ namespace Subtext.Web.UI.Pages
 		/// </summary>
 		/// <param name="viewState">State of the view.</param>
 		protected override void SavePageStateToPersistenceMedium(object viewState){}
+
+		#region private class ScriptElementCollectionRenderer
+
+		/// <summary>
+		/// Provides rendering facilities for script elements in the head element of the page
+		/// </summary>
+		private class ScriptElementCollectionRenderer
+		{
+			private string RenderScriptAttribute(string attributeName, string attributeValue)
+			{
+                return attributeValue != null ? " " + attributeName + "=\"" + attributeValue + "\"" : String.Empty;
+			}
+
+			private string RenderScriptElement(string skinPath, Script script)
+			{
+				return "<script" + 
+					RenderScriptAttribute("type", script.Type) + 
+					RenderScriptAttribute("src", skinPath + script.Src) + 
+					"></script>\n";
+			}
+
+			private string CreateSkinPath(HttpContext httpContext, string skinName)
+			{
+				string applicationPath = httpContext.Request.ApplicationPath;
+				return (applicationPath == "/" ? String.Empty : applicationPath) + "/Skins/" + skinName + "/";
+			}
+
+			public string RenderScriptElementCollection(HttpContext httpContext, string skinName)
+			{
+				string result = String.Empty;
+
+				SkinTemplates skinTemplates = SkinTemplates.Instance(httpContext);
+				SkinTemplate skinTemplate = skinTemplates.GetTemplate(skinName);
+				if (skinTemplate != null && skinTemplate.Scripts != null)
+				{
+					string skinPath = CreateSkinPath(httpContext, skinName);
+					foreach(Script script in skinTemplate.Scripts)
+					{
+						result += RenderScriptElement(skinPath, script);
+					}
+				}
+				return result;
+			}
+		}
+
+		#endregion
 
 	}
 }

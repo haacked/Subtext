@@ -87,7 +87,7 @@ namespace Subtext.Framework.Logging
 	/// }
 	/// </code>
 	/// </example>
-	public class Log : ILog
+	public class Log
 	{
 		private static readonly ILog __nullLog = new NullLog();
 		private readonly ILog _log;
@@ -120,8 +120,6 @@ namespace Subtext.Framework.Logging
 		{
 			return new StackFrame(2, false).GetMethod().DeclaringType;
 		}
-
-		#region ILog Members
 
 		/// <summary>
 		/// Checks if the log is enabled for the <c>ERROR</c> level.
@@ -319,7 +317,11 @@ namespace Subtext.Framework.Logging
 		///  It then proceeds to call all the registered appenders in this logger and also 
 		///  higher in the hierarchy depending on the value of the additivity flag.
 		/// </para>
+		/// <para>
+		/// This method is compiled to nothing if DEBUG compilation constant is not set (production build).
+		/// </para>
 		/// </remarks>
+		[Conditional("DEBUG")]
 		public void Debug(object message, Exception exception)
 		{
 			_log.Debug(message, exception);
@@ -343,7 +345,11 @@ namespace Subtext.Framework.Logging
 		/// To print a stack trace use the <see cref="M:Subtext.Framework.Logging.Log.Debug(System.Object,System.Exception)"/> form 
 		/// instead.
 		/// </para>
+		/// <para>
+		/// This method is compiled to nothing if DEBUG compilation constant is not set (production build).
+		/// </para>
 		/// </remarks>
+		[Conditional("DEBUG")]
 		public void Debug(object message)
 		{
 			_log.Debug(message);
@@ -630,7 +636,11 @@ namespace Subtext.Framework.Logging
 		/// To pass an <see cref="T:System.Exception"/> use
 		/// one of the <see cref="M:Subtext.Framework.Logging.Log.Debug(System.Object)"/> methods instead.
 		/// </para>
+		/// <para>
+		/// This method is compiled to nothing if DEBUG compilation constant is not set (production build).
+		/// </para>
 		/// </remarks>
+		[Conditional("DEBUG")]
 		public void DebugFormat(IFormatProvider provider, string format, params object[] args)
 		{
 			_log.DebugFormat(provider, format, args);
@@ -658,20 +668,6 @@ namespace Subtext.Framework.Logging
 		{
 			_log.DebugFormat(format, args);
 		}
-
-		#endregion
-
-		#region ILoggerWrapper Members
-
-		ILogger ILoggerWrapper.Logger
-		{
-			get
-			{
-				return _log.Logger;
-			}
-		}
-
-		#endregion
 
 		#region private class NulLog : ILog
 
