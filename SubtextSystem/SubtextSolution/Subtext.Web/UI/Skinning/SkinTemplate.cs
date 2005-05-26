@@ -68,6 +68,23 @@ namespace Subtext.Web.UI.Skinning
 			set {this._skinID = value;}
 		}
 
+		private Script[] _scripts;
+		/// <summary>
+		/// Collection of <code>script</code> elements, declared for the skin.
+		/// </summary>
+		[XmlArray("Scripts")]
+		public Script[] Scripts
+		{
+			get
+			{
+				return _scripts;
+			}
+			set
+			{
+				_scripts = value;
+			}
+		}
+
 		
 	}
 }

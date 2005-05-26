@@ -45,7 +45,7 @@ namespace Subtext.Web.UI.Skinning
 			SkinTemplates st = (SkinTemplates)context.Cache["SkinTemplates"];
 			if(st == null)
 			{
-				string filename = context.Server.MapPath("~/Skins/Skins.config");
+				string filename = context.Server.MapPath("~/Admin/Skins.config");
 				st = (SkinTemplates)SerializationHelper.Load(typeof(SkinTemplates),filename);
 				if(st != null)
 				{
