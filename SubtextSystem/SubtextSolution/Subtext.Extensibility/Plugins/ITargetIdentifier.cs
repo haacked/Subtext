@@ -5,8 +5,7 @@ namespace Subtext.Extensibility.Plugins
 	/// <summary>
 	/// Summary description for ITargetIdentifier.
 	/// </summary>
-	public interface ITargetIdentifier
+	public interface ITargetIdentifier : IModuleIdentifier
 	{
-		string Name {get;}
 	}
 }

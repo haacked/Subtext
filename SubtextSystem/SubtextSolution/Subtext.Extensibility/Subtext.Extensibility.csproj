@@ -114,6 +114,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Plugins\IModuleIdentifier.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Plugins\IPlugin.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -125,6 +130,16 @@
                 />
                 <File
                     RelPath = "Plugins\IPluginFactory.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Plugins\IPluginIdentifier.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Plugins\IPluginIdentifierCollection.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

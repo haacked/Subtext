@@ -8,14 +8,9 @@ namespace Subtext.Extensibility.Plugins
 	public interface IImplementationInfo
 	{
 		/// <summary>
-		/// Name of the module
+		/// Name of the implementation
 		/// </summary>
 		string Name {get;}
-
-		/// <summary>
-		/// All targets for which this implementation is intended
-		/// </summary>
-		ITargetIdentifierCollection Targets {get;}
 
 		/// <summary>
 		/// Name of the author

@@ -7,6 +7,7 @@ namespace Subtext.Extensibility.Plugins
 	/// </summary>
 	public interface IPluginFactory : IPlugin
 	{
-		IPlugin CreatePluginInstance(ITargetIdentifier targetId, IPluginContext context);
+		IPluginIdentifierCollection PluginIdentifiers {get;}
+		IPlugin CreatePluginInstance(IPluginIdentifier pluginId, IPluginContext context);
 	}
 }
