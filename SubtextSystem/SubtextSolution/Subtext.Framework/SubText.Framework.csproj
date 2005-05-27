@@ -487,9 +487,23 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Logging\IConfigurationDeclaration.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Logging\IConfigurationFactory.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Logging\Log.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Logging\LoggingConfigurationExample.xml"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "Providers\BaseProvider.cs"

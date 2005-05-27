@@ -81,7 +81,7 @@ namespace Subtext.Framework.Logging
 	///			}
 	///			catch(Exception e)
 	///			{
-	///				<b>__log.Error("Something was not done", e);</b>
+	///				<b>__log.Error("Something had gone terribly wrong", e);</b>
 	///			}
 	///		}
 	/// }
