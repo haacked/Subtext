@@ -130,7 +130,7 @@ namespace Subtext.Framework.Configuration
 			BlogInfo info = (BlogInfo)context.Items[cacheKey];
 			if(info == null)
 			{
-				string app = UrlFormats.GetBlogAppFromRequest(context.Request.RawUrl.ToLower(), context.Request.ApplicationPath);
+				string app = UrlFormats.GetBlogApplicationNameFromRequest(context.Request.RawUrl.ToLower(), context.Request.ApplicationPath);
 				//BlogConfig was not found in the context. It could be in the current cache.
 				string mCacheKey = cacheKey + app;
 
@@ -147,7 +147,8 @@ namespace Subtext.Framework.Configuration
 						Host = GetCurrentHost(context.Request);
 					}
 
-					info = Subtext.Framework.Configuration.Config.GetBlogInfo(Host, app);
+					bool strict = true; //strict implies 
+					info = Subtext.Framework.Configuration.Config.GetBlogInfo(Host, app, !strict);
 					if(info == null)
 					{
 						throw new BlogDoesNotExistException(String.Format("A blog matching the location you requested was not found. Host = [{0}], Application = [{1}]", Host, app));

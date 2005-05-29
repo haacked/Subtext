@@ -193,7 +193,7 @@ namespace Subtext.Framework.Format
 		/// <param name="path">Path.</param>
 		/// <param name="app">App.</param>
 		/// <returns></returns>
-		public static string GetBlogAppFromRequest(string path, string app)
+		public static string GetBlogApplicationNameFromRequest(string path, string app)
 		{
 			string urlPatternFormat = "{0}/(?<app>.*?)/";
 

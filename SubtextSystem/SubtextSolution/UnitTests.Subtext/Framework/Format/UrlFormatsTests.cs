@@ -19,32 +19,32 @@ namespace UnitTests.Subtext.Framework.Format
 			string rawUrl = "/Subtext.Web/MyBlog/default.aspx";
 			string app = "/Subtext.Web";
 
-			Assert.AreEqual("MyBlog", UrlFormats.GetBlogAppFromRequest(rawUrl, app));
+			Assert.AreEqual("MyBlog", UrlFormats.GetBlogApplicationNameFromRequest(rawUrl, app));
 		
 			rawUrl = "/subtext.web/MyBlog/default.aspx";
 			app = "/Subtext.Web";
 
-			Assert.AreEqual("MyBlog", UrlFormats.GetBlogAppFromRequest(rawUrl, app));
+			Assert.AreEqual("MyBlog", UrlFormats.GetBlogApplicationNameFromRequest(rawUrl, app));
 
 			rawUrl = "/subtext.web/MyBlog/default.aspx";
 			app = "Subtext.Web";
 
-			Assert.AreEqual("MyBlog", UrlFormats.GetBlogAppFromRequest(rawUrl, app));
+			Assert.AreEqual("MyBlog", UrlFormats.GetBlogApplicationNameFromRequest(rawUrl, app));
 
 			rawUrl = "/subtext.web/default.aspx";
 			app = "/Subtext.Web";
 
-			Assert.AreEqual(string.Empty, UrlFormats.GetBlogAppFromRequest(rawUrl, app));
+			Assert.AreEqual(string.Empty, UrlFormats.GetBlogApplicationNameFromRequest(rawUrl, app));
 
 			rawUrl = "/subtext.web";
 			app = "/Subtext.Web";
 
-			Assert.AreEqual(string.Empty, UrlFormats.GetBlogAppFromRequest(rawUrl, app));
+			Assert.AreEqual(string.Empty, UrlFormats.GetBlogApplicationNameFromRequest(rawUrl, app));
 
 			rawUrl = "/subtext.web/myBLOG/";
 			app = "/Subtext.Web";
 
-			Assert.AreEqual("myBLOG", UrlFormats.GetBlogAppFromRequest(rawUrl, app));
+			Assert.AreEqual("myBLOG", UrlFormats.GetBlogApplicationNameFromRequest(rawUrl, app));
 		}
 	}
 }
