@@ -368,32 +368,6 @@ GO
 GRANT  EXECUTE  ON [dbo].[DNW_GetRecentPosts]  TO [public]
 GO
 
-SET QUOTED_IDENTIFIER ON 
-GO
-SET ANSI_NULLS ON 
-GO
-
-
-CREATE PROC DNW_HomePageData
-(
-	@Host nvarchar(100),
-	@GroupID int
-)
-AS 
-EXEC DNW_Stats @Host, @GroupID
-EXEC DNW_GetRecentPosts @Host, @GroupID
-EXEC DNW_Total_Stats @Host, @GroupID
-
-
-GO
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-GRANT  EXECUTE  ON [dbo].[DNW_HomePageData]  TO [public]
-GO
-
 SET QUOTED_IDENTIFIER OFF 
 GO
 SET ANSI_NULLS ON 
@@ -2957,104 +2931,6 @@ GO
 GRANT  EXECUTE  ON [dbo].[blog_InsertCategory]  TO [public]
 GO
 
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-
-CREATE PROC [dbo].blog_InsertEntry
-(
-	@Title nvarchar(255)
-	, @TitleUrl nvarchar(255)
-	, @Text ntext
-	, @SourceUrl nvarchar(200)
-	, @PostType int
-	, @Author nvarchar(50)
-	, @Email nvarchar(50)
-	, @SourceName nvarchar(200)
-	, @Description nvarchar(500)
-	, @BlogID int
-	, @DateAdded datetime
-	, @ParentID int
-	, @PostConfig int
-	, @EntryName nvarchar(150)
-	, @ID int output
-)
-AS
-
-IF(@EntryName IS NOT NULL)
-BEGIN
-	IF EXISTS(SELECT EntryName FROM blog_Content WHERE BlogID = @BlogID AND EntryName = @EntryName)
-	BEGIN
-		RAISERROR('The EntryName you entry is already in use with in this Blog. Please pick a unique EntryName.', 11, 1) 
-		RETURN 1
-	END
-END
-IF(LTRIM(RTRIM(@Description)) = '')
-SET @Description = NULL
-
-INSERT INTO blog_Content 
-(
-	Title
-	, TitleUrl
-	, [Text]
-	, SourceUrl
-	, PostType
-	, Author
-	, Email
-	, DateAdded
-	, DateUpdated
-	, SourceName
-	, [Description]
-	, PostConfig
-	, ParentID
-	, BlogID
-	, EntryName 
-)
-VALUES 
-(
-	@Title
-	, @TitleUrl
-	, @Text
-	, @SourceUrl
-	, @PostType
-	, @Author
-	, @Email
-	, @DateAdded
-	, @DateAdded
-	, @SourceName
-	, @Description
-	, @PostConfig
-	, @ParentID
-	, @BlogID
-	, @EntryName
-)
-SELECT @ID = SCOPE_IDENTITY()
--- PostType
---	1 = BlogPost
---	2 = Story
-if(@PostType = 1 or @PostType = 2)
-BEGIN
-	EXEC blog_UpdateConfigUpdateTime @blogID, @DateAdded
-END
-ELSE IF(@PostType = 3) -- Comment
-BEGIN
-	UPDATE blog_Content
-	Set FeedBackCount = ISNULL(FeedBackCount, 0) + 1 WHERE [ID] = @ParentID
-END
-
-
-
-GO
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-GRANT  EXECUTE  ON [dbo].[blog_InsertEntry]  TO [public]
-GO
-
 SET QUOTED_IDENTIFIER ON 
 GO
 SET ANSI_NULLS ON 
@@ -4230,3 +4106,127 @@ GO
 GRANT  EXECUTE  ON [dbo].[blog_GetBlogsByHost]  TO [public]
 GO
 
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+
+CREATE PROC DNW_HomePageData
+(
+	@Host nvarchar(100),
+	@GroupID int
+)
+AS 
+EXEC DNW_Stats @Host, @GroupID
+EXEC DNW_GetRecentPosts @Host, @GroupID
+EXEC DNW_Total_Stats @Host, @GroupID
+
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+GRANT  EXECUTE  ON [dbo].[DNW_HomePageData]  TO [public]
+GO
+
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+
+CREATE PROC [dbo].blog_InsertEntry
+(
+	@Title nvarchar(255)
+	, @TitleUrl nvarchar(255)
+	, @Text ntext
+	, @SourceUrl nvarchar(200)
+	, @PostType int
+	, @Author nvarchar(50)
+	, @Email nvarchar(50)
+	, @SourceName nvarchar(200)
+	, @Description nvarchar(500)
+	, @BlogID int
+	, @DateAdded datetime
+	, @ParentID int
+	, @PostConfig int
+	, @EntryName nvarchar(150)
+	, @ID int output
+)
+AS
+
+IF(@EntryName IS NOT NULL)
+BEGIN
+	IF EXISTS(SELECT EntryName FROM blog_Content WHERE BlogID = @BlogID AND EntryName = @EntryName)
+	BEGIN
+		RAISERROR('The EntryName you entry is already in use with in this Blog. Please pick a unique EntryName.', 11, 1) 
+		RETURN 1
+	END
+END
+IF(LTRIM(RTRIM(@Description)) = '')
+SET @Description = NULL
+
+INSERT INTO blog_Content 
+(
+	Title
+	, TitleUrl
+	, [Text]
+	, SourceUrl
+	, PostType
+	, Author
+	, Email
+	, DateAdded
+	, DateUpdated
+	, SourceName
+	, [Description]
+	, PostConfig
+	, ParentID
+	, BlogID
+	, EntryName 
+)
+VALUES 
+(
+	@Title
+	, @TitleUrl
+	, @Text
+	, @SourceUrl
+	, @PostType
+	, @Author
+	, @Email
+	, @DateAdded
+	, @DateAdded
+	, @SourceName
+	, @Description
+	, @PostConfig
+	, @ParentID
+	, @BlogID
+	, @EntryName
+)
+SELECT @ID = SCOPE_IDENTITY()
+-- PostType
+--	1 = BlogPost
+--	2 = Story
+if(@PostType = 1 or @PostType = 2)
+BEGIN
+	EXEC blog_UpdateConfigUpdateTime @blogID, @DateAdded
+END
+ELSE IF(@PostType = 3) -- Comment
+BEGIN
+	UPDATE blog_Content
+	Set FeedBackCount = ISNULL(FeedBackCount, 0) + 1 WHERE [ID] = @ParentID
+END
+
+
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+GRANT  EXECUTE  ON [dbo].[blog_InsertEntry]  TO [public]
+GO
