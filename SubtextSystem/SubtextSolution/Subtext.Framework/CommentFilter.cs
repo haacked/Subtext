@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Web;
 using System.Web.Caching;
 using Subtext.Framework.Components;
@@ -25,16 +26,21 @@ namespace Subtext.Framework
 		{
 			if(!SourceFrequencyIsValid(entry))
 				throw new Subtext.Framework.Exceptions.CommentFrequencyException();
+
+			if(!Config.CurrentBlog.EnableDuplicateComments && IsDuplicateComment(entry))
+				throw new Subtext.Framework.Exceptions.CommentDuplicateException();
 		}
 
 		// Returns true if the source of the entry is not 
 		// posting too many.
 		static bool SourceFrequencyIsValid(Entry entry)
 		{
+			if(Config.CurrentBlog.CommentDelayInMinutes <= 0)
+				return true;
+
 			Cache cache = HttpContext.Current.Cache;
 			object lastComment = cache.Get(FILTER_CACHE_KEY + entry.SourceName);
 			
-
 			if(lastComment != null)
 			{
 				//Comment was made too frequently.
@@ -44,6 +50,53 @@ namespace Subtext.Framework
 			//Add to cache.
             cache.Insert(FILTER_CACHE_KEY + entry.SourceName, string.Empty, null, DateTime.Now.AddMinutes(Config.CurrentBlog.CommentDelayInMinutes), TimeSpan.Zero);
 			return true;
+		}
+
+		// Returns true if this entry is a duplicate.
+		static bool IsDuplicateComment(Entry entry)
+		{
+			const int RECENT_ENTRY_CAPACITY = 10;
+
+			// Check the cache for the last 10 comments
+			// Chances are, if a spam attack is occurring, then 
+			// this entry will be a duplicate of a recent entry.
+			// This checks in memory before going to the database (or other persistent store).
+			Cache cache = HttpContext.Current.Cache;
+			Queue recentComments = cache[FILTER_CACHE_KEY + ".RECENT_COMMENTS"] as Queue;
+			if(recentComments != null)
+			{
+				if(QueueContainsChecksumHash(recentComments, entry))
+					return true;
+			}
+			else
+			{
+				recentComments = new Queue(RECENT_ENTRY_CAPACITY);	
+				cache[FILTER_CACHE_KEY + ".RECENT_COMMENTS"] = recentComments;
+			}
+
+			// Check the database
+			Entry duplicate = Entries.GetCommentByChecksumHash(entry.ContentChecksumHash);
+			if(duplicate != null)
+				return true;
+
+			//Ok, this is not a duplicate... Update recent comments.
+            if(recentComments.Count == RECENT_ENTRY_CAPACITY)
+				recentComments.Dequeue();
+
+			recentComments.Enqueue(entry.ContentChecksumHash);
+			return false;
+		}
+
+		private static bool QueueContainsChecksumHash(Queue recentComments, Entry entry)
+		{
+			foreach(string contentChecksumHash in recentComments)
+			{
+				if(entry.ContentChecksumHash == contentChecksumHash)
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 }

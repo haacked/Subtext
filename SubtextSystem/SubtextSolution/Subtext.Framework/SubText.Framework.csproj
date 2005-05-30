@@ -468,6 +468,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Exceptions\CommentDuplicateException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Exceptions\CommentFrequencyException.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

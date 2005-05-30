@@ -217,43 +217,19 @@ namespace Subtext.Framework.Data
 		public EntryCollection GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc)
 		{
 			IDataReader reader = DbProvider.Instance().GetConditionalEntries(ItemCount,pt,pc);
-			try
-			{
-				EntryCollection ec = DataHelper.LoadEntryCollection(reader);
-				return ec;
-			}
-			finally
-			{
-				reader.Close();
-			}
+			return LoadEntryCollectionFromDataReader(reader);
 		}
 
 		public EntryCollection GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc, DateTime DateUpdated)
 		{
 			IDataReader reader = DbProvider.Instance().GetConditionalEntries(ItemCount,pt,pc,DateUpdated);
-			try
-			{
-				EntryCollection ec = DataHelper.LoadEntryCollection(reader);
-				return ec;
-			}
-			finally
-			{
-				reader.Close();
-			}
+			return LoadEntryCollectionFromDataReader(reader);
 		}
 
 		public EntryCollection GetFeedBack(int ParrentID)
 		{
 			IDataReader reader = DbProvider.Instance().GetFeedBack(ParrentID);
-			try
-			{
-				EntryCollection ec = DataHelper.LoadEntryCollection(reader);
-				return ec;
-			}
-			finally
-			{
-				reader.Close();
-			}
+			return LoadEntryCollectionFromDataReader(reader);
 		}
 
 		public EntryCollection GetFeedBack(Entry ParentEntry)
@@ -295,43 +271,19 @@ namespace Subtext.Framework.Data
 		public EntryCollection GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetRecentPosts(ItemCount,postType,ActiveOnly);
-			try
-			{
-				EntryCollection ec = DataHelper.LoadEntryCollection(reader);
-				return ec;
-			}
-			finally
-			{
-				reader.Close();
-			}
+			return LoadEntryCollectionFromDataReader(reader);
 		}
 
 		public EntryCollection GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly, DateTime DateUpdated)
 		{
 			IDataReader reader = DbProvider.Instance().GetRecentPosts(ItemCount,postType,ActiveOnly,DateUpdated);
-			try
-			{
-				EntryCollection ec = DataHelper.LoadEntryCollection(reader);
-				return ec;
-			}
-			finally
-			{
-				reader.Close();
-			}
+			return LoadEntryCollectionFromDataReader(reader);
 		}
 
 		public EntryCollection GetPostCollectionByMonth(int month, int year)
 		{
 			IDataReader reader = DbProvider.Instance().GetPostCollectionByMonth(month,year);
-			try
-			{
-				EntryCollection ec = DataHelper.LoadEntryCollection(reader);
-				return ec;
-			}
-			finally
-			{
-				reader.Close();
-			}
+			return LoadEntryCollectionFromDataReader(reader);
 		}
 
 		public EntryCollection GetPostsByDayRange(DateTime start, DateTime stop, PostType postType, bool ActiveOnly)
@@ -360,48 +312,29 @@ namespace Subtext.Framework.Data
 		public EntryCollection GetEntriesByCategory(int ItemCount, string categoryName, bool ActiveOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetEntriesByCategory(ItemCount,categoryName,ActiveOnly);
-			try
-			{
-				EntryCollection ec = DataHelper.LoadEntryCollection(reader);
-				return ec;
-			}
-			finally
-			{
-				reader.Close();
-			}
+			return LoadEntryCollectionFromDataReader(reader);
 		}
 
 		public EntryCollection GetEntriesByCategory(int ItemCount, string categoryName, DateTime DateUpdated, bool ActiveOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetEntriesByCategory(ItemCount,categoryName,DateUpdated,ActiveOnly);
-			try
-			{
-				EntryCollection ec = DataHelper.LoadEntryCollection(reader);
-				return ec;
-			}
-			finally
-			{
-				reader.Close();
-			}
+			return LoadEntryCollectionFromDataReader(reader);
 		}
 
 		public EntryCollection GetEntriesByCategory(int ItemCount, int catID, bool ActiveOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetEntriesByCategory(ItemCount,catID,ActiveOnly);
-			try
-			{
-				EntryCollection ec = DataHelper.LoadEntryCollection(reader);
-				return ec;
-			}
-			finally
-			{
-				reader.Close();
-			}
+			return LoadEntryCollectionFromDataReader(reader);
 		}
 
 		public EntryCollection GetEntriesByCategory(int ItemCount, int catID, DateTime DateUpdated, bool ActiveOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetEntriesByCategory(ItemCount,catID,DateUpdated,ActiveOnly);
+			return LoadEntryCollectionFromDataReader(reader);
+		}
+
+		EntryCollection LoadEntryCollectionFromDataReader(IDataReader reader)
+		{
 			try
 			{
 				EntryCollection ec = DataHelper.LoadEntryCollection(reader);
@@ -416,16 +349,13 @@ namespace Subtext.Framework.Data
 		#endregion
 
 		#region Single Entry
-
-		public Entry GetEntry(int postID, bool ActiveOnly)
+		Entry LoadEntryFromReader(IDataReader reader)
 		{
-			IDataReader reader = DbProvider.Instance().GetEntry(postID, ActiveOnly);
 			try
 			{
 				Entry entry = null;
 				while(reader.Read())
 				{
-				
 					entry = DataHelper.LoadSingleEntry(reader);
 					break;
 				}
@@ -437,24 +367,29 @@ namespace Subtext.Framework.Data
 			}
 		}
 
+		/// <summary>
+		/// Searches the data store for the first comment with a 
+		/// matching checksum hash.
+		/// </summary>
+		/// <param name="checksumHash">Checksum hash.</param>
+		/// <returns></returns>
+		public Entry GetCommentByChecksumHash(string checksumHash)
+		{
+			IDataReader reader = DbProvider.Instance().GetCommentByChecksumHash(checksumHash);
+			return LoadEntryFromReader(reader);
+		}
+
+		public Entry GetEntry(int postID, bool ActiveOnly)
+		{
+			IDataReader reader = DbProvider.Instance().GetEntry(postID, ActiveOnly);
+			return LoadEntryFromReader(reader);
+		}
+
 
 		public Entry GetEntry(string EntryName, bool ActiveOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetEntry(EntryName,ActiveOnly);
-			try
-			{
-				Entry entry = null;
-				while(reader.Read())
-				{
-					entry = DataHelper.LoadSingleEntry(reader);
-					break;
-				}
-				return entry;
-			}
-			finally
-			{
-				reader.Close();
-			}
+			return LoadEntryFromReader(reader);
 		}
 
 		public CategoryEntry GetCategoryEntry(int postid, bool ActiveOnly)

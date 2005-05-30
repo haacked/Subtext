@@ -331,6 +331,11 @@ namespace Subtext.Framework.Data
 			{
 				entry.PostConfig = (PostConfig)((int)reader["PostConfig"]);
 			}
+
+			if(reader["ContentChecksumHash"] != DBNull.Value)
+			{
+				entry.ContentChecksumHash = (string)reader["ContentChecksumHash"];
+			}
 	
 			if(reader["ParentID"] != DBNull.Value)
 			{

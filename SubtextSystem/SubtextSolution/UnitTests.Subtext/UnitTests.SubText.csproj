@@ -288,7 +288,6 @@
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
-                <Folder RelPath = "Framework\Util\" />
                 <File
                     RelPath = "Resources\App.config"
                     BuildAction = "EmbeddedResource"

@@ -171,6 +171,11 @@ namespace UnitTests.Subtext
 			throw new NotImplementedException();
 		}
 
+		public Entry GetCommentByChecksumHash(string checksumHash)
+		{
+			throw new NotImplementedException();
+		}
+
 		public Entry GetEntry(int postID, bool ActiveOnly)
 		{
 			throw new NotImplementedException();
