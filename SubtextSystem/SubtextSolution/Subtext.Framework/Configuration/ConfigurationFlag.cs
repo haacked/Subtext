@@ -26,5 +26,7 @@ namespace Subtext.Framework.Configuration
 		PublishAsNew = 32,
 		/// <summary>The Blog compresses its syndicated feeds.</summary>
 		CompressSyndicatedFeed = 64,
+		/// <summary>Whether or not duplicate comments are allowed.</summary>
+		EnableDuplicateComments = 128,
 	};
 }

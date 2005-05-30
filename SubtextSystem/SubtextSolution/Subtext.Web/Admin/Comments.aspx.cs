@@ -21,6 +21,7 @@ namespace Subtext.Web.Admin
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
 		protected Subtext.Web.Controls.HelpToolTip HelpToolTip1;
 		protected Subtext.Web.Controls.HelpToolTip HelpToolTip2;
+		protected Subtext.Web.Controls.HelpToolTip Helptooltip3;
 		protected Subtext.Web.Admin.WebUI.Page PageContainer;
 
 		private void Page_Load(object sender, System.EventArgs e)
@@ -152,6 +153,7 @@ namespace Subtext.Web.Admin
 		{
 			this.lkbPost.Click += new System.EventHandler(this.lkbPost_Click);
 			this.Load += new System.EventHandler(this.Page_Load);
+
 		}
 		#endregion
 

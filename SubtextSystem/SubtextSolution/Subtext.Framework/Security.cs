@@ -251,6 +251,5 @@ namespace Subtext.Framework
 					&& HttpContext.Current.Request.UserHostAddress == "127.0.0.1";
 			}
 		}
-
 	}
 }

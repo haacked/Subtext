@@ -1,3 +1,7 @@
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetCommentByChecksumHash]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [dbo].[blog_GetCommentByChecksumHash]
+GO
+
 if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetPageableBlogs]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[blog_GetPageableBlogs]
 GO
@@ -322,8 +326,6 @@ SET QUOTED_IDENTIFIER OFF
 GO
 SET ANSI_NULLS ON 
 GO
-
-
 
 CREATE PROC DNW_GetRecentPosts  -- 'localhost', 1
 	@Host nvarchar(100)
@@ -828,7 +830,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetConditionalEntries
+CREATE PROC [dbo].[blog_GetConditionalEntries]
 (
 	@ItemCount int 
 	, @PostType int
@@ -855,6 +857,7 @@ SELECT blog_Content.BlogID
 	, blog_Content.ParentID
 	, Blog_Content.PostConfig
 	, blog_Content.EntryName 
+	, blog_Content.ContentChecksumHash
 FROM blog_Content
 WHERE	blog_Content.PostType=@PostType 
 	AND blog_Content.BlogID = @BlogID
@@ -877,7 +880,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetConditionalEntriesByDateUpdated
+CREATE PROC [dbo].[blog_GetConditionalEntriesByDateUpdated]
 (
 	@DateUpdated datetime
 	, @ItemCount int
@@ -904,7 +907,8 @@ SELECT	blog_Content.BlogID
 	, blog_Content.FeedBackCount
 	, blog_Content.ParentID
 	, Blog_Content.PostConfig
-	, blog_Content.ENtryName 
+	, blog_Content.EntryName 
+	, blog_Content.ContentChecksumHash
 FROM blog_Content
 WHERE	blog_Content.PostType=@PostType 
 	AND blog_Content.BlogID = @BlogID
@@ -1017,7 +1021,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].blog_GetEntriesByDayRange
+CREATE PROC [dbo].[blog_GetEntriesByDayRange]
 (
 	@StartDate datetime,
 	@StopDate datetime,
@@ -1043,6 +1047,7 @@ SELECT	blog_Content.BlogID
 	, blog_Content.ParentID
 	, blog_Content.PostConfig
 	, blog_Content.EntryName 
+	, blog_Content.ContentChecksumHash
 FROM blog_Content
 WHERE 
 	(
@@ -1070,7 +1075,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetEntryCollectionByDateUpdated
+CREATE PROC [dbo].[blog_GetEntryCollectionByDateUpdated]
 (
 	@ItemCount int,
 	@IsActive bit,
@@ -1097,6 +1102,7 @@ SELECT blog_Content.BlogID
 	, blog_Content.ParentID
 	, blog_Content.PostConfig
 	, blog_Content.EntryName 
+	, blog_Content.ContentChecksumHash
 FROM blog_Content
 WHERE 
 	blog_Content.PostType=@PostType 
@@ -1120,7 +1126,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetEntryWithCategoryTitles
+CREATE PROC [dbo].[blog_GetEntryWithCategoryTitles]
 (
 	@PostID int
 	, @IsActive bit
@@ -1145,6 +1151,7 @@ SELECT	blog_Content.BlogID
 		, blog_Content.PostConfig
 		, blog_Content.EntryName
 		, blog_Content.ParentID 
+		, blog_Content.ContentChecksumHash
 FROM blog_Content
 WHERE	blog_Content.[ID] = @PostID 
 	AND  blog_Content.BlogID = @BlogID 
@@ -1174,7 +1181,7 @@ GO
 
 
 
-CREATE PROC [dbo].blog_GetEntryWithCategoryTitlesByEntryName
+CREATE PROC [dbo].[blog_GetEntryWithCategoryTitlesByEntryName]
 (
 	@EntryName nvarchar(150)
 	, @IsActive bit
@@ -1201,6 +1208,7 @@ SELECT	blog_Content.BlogID
 		, blog_Content.PostConfig
 		, blog_Content.EntryName
 		, blog_Content.ParentID 
+		, blog_Content.ContentChecksumHash
 FROM blog_Content
 WHERE	blog_Content.EntryName = @EntryName 
 	AND  blog_Content.BlogID = @BlogID 
@@ -1230,7 +1238,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetFeedBack 
+CREATE PROC [dbo].[blog_GetFeedBack]
 (
 	@ParentID int
 	, @BlogID int
@@ -1255,6 +1263,7 @@ SELECT	blog_Content.BlogID
 		, blog_Content.PostConfig
 		, blog_Content.EntryName
 		, blog_Content.ParentID 
+		, blog_Content.ContentChecksumHash
 FROM blog_Content
 WHERE blog_Content.BlogID = @BlogID AND blog_Content.PostConfig & 1 = 1 AND blog_Content.ParentID = @ParentID
 ORDER BY [ID]
@@ -1275,7 +1284,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetImageCategory
+CREATE PROC [dbo].[blog_GetImageCategory]
 (
 	@CategoryID int
 	, @IsActive bit
@@ -1457,7 +1466,7 @@ GO
 I think this proc gets a page of blog posts 
 within the admin section.
 */
-CREATE PROC [dbo].blog_GetPageableEntries
+CREATE PROC [dbo].[blog_GetPageableEntries]
 (
 	@BlogID int
 	, @PageIndex int
@@ -1515,6 +1524,7 @@ SELECT	content.BlogID
 		, content.ParentID
 		, content.PostConfig
 		, content.EntryName
+		, content.ContentChecksumHash
 		, vc.WebCount
 		, vc.AggCount
 		, vc.WebLastUpdated
@@ -1552,7 +1562,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetPageableEntriesByCategoryID
+CREATE PROC [dbo].[blog_GetPageableEntriesByCategoryID]
 (
 	@BlogID int
 	, @CategoryID int
@@ -1619,6 +1629,7 @@ SELECT	content.BlogID
 		, content.ParentID
 		, content.PostConfig
 		, content.EntryName
+		, blog_Content.ContentChecksumHash
 		, vc.WebCount
 		, vc.AggCount
 		, vc.WebLastUpdated
@@ -1658,7 +1669,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetPageableFeedback 
+CREATE PROC [dbo].[blog_GetPageableFeedback]
 (
 	@BlogID int
 	, @PageIndex int
@@ -1717,6 +1728,7 @@ SELECT	content.BlogID
 		, content.ParentID
 		, content.PostConfig
 		, content.EntryName
+		, content.ContentChecksumHash
 FROM  	blog_Content content
     INNER JOIN #TempPagedEntryIDs tmp ON (content.[ID] = tmp.EntryID)
 WHERE 	content.BlogID = @BlogID 
@@ -2134,7 +2146,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetPostsByCategoryID
+CREATE PROC [dbo].[blog_GetPostsByCategoryID]
 (
 	@ItemCount int
 	, @CategoryID int
@@ -2160,6 +2172,7 @@ SELECT	blog_Content.BlogID
 	, blog_Content.ParentID
 	, blog_Content.PostConfig
 	, blog_Content.EntryName 
+	, blog_Content.ContentChecksumHash
 FROM blog_Content WITH (NOLOCK)
 	INNER JOIN blog_Links WITH (NOLOCK) ON blog_Content.ID = ISNULL(blog_Links.PostID, -1)
 	INNER JOIN blog_LinkCategories WITH (NOLOCK) ON blog_Links.CategoryID = blog_LinkCategories.CategoryID
@@ -2183,7 +2196,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetPostsByCategoryIDByDateUpdated
+CREATE PROC [dbo].[blog_GetPostsByCategoryIDByDateUpdated]
 (
 	@ItemCount int
 	, @CategoryID int
@@ -2210,6 +2223,7 @@ SELECT	blog_Content.BlogID
 	, blog_Content.ParentID
 	, blog_Content.PostConfig
 	, blog_Content.EntryName 
+	, blog_Content.ContentChecksumHash
 FROM blog_Content
 	INNER JOIN blog_Links ON blog_Content.ID = ISNULL(blog_Links.PostID, -1)
 	INNER JOIN blog_LinkCategories ON blog_Links.CategoryID = blog_LinkCategories.CategoryID
@@ -2235,7 +2249,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetPostsByCategoryName -- 15,72,0
+CREATE PROC [dbo].[blog_GetPostsByCategoryName]
 (
 	@ItemCount int,
 	@CategoryName nvarchar(150),
@@ -2261,6 +2275,7 @@ SELECT	blog_Content.BlogID
 		, blog_Content.ParentID
 		, blog_Content.PostConfig
 		, blog_Content.EntryName 
+		, blog_Content.ContentChecksumHash
 FROM blog_Content
 	INNER JOIN blog_Links ON blog_Content.ID = ISNULL(blog_Links.PostID, -1)
 	INNER JOIN blog_LinkCategories ON blog_Links.CategoryID = blog_LinkCategories.CategoryID
@@ -2285,7 +2300,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetPostsByCategoryNameByDateUpdated
+CREATE PROC [dbo].[blog_GetPostsByCategoryNameByDateUpdated]
 (
 	@ItemCount int
 	, @CategoryName nvarchar(150)
@@ -2312,6 +2327,7 @@ SELECT	blog_Content.BlogID
 		, blog_Content.ParentID
 		, blog_Content.PostConfig
 		, blog_Content.EntryName 
+		, blog_Content.ContentChecksumHash
 FROM blog_Content
 	INNER JOIN blog_Links ON blog_Content.ID = ISNULL(blog_Links.PostID, -1)
 	INNER JOIN blog_LinkCategories ON blog_Links.CategoryID = blog_LinkCategories.CategoryID
@@ -2337,7 +2353,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetPostsByDayRange
+CREATE PROC [dbo].[blog_GetPostsByDayRange]
 (
 	@StartDate datetime,
 	@StopDate datetime,
@@ -2361,6 +2377,7 @@ SELECT	blog_Content.BlogID
 		, blog_Content.ParentID
 		, blog_Content.PostConfig
 		, blog_Content.EntryName 
+		, blog_Content.ContentChecksumHash
 FROM blog_Content
 WHERE 
 	(
@@ -2387,7 +2404,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetPostsByMonth
+CREATE PROC [dbo].[blog_GetPostsByMonth]
 (
 	@Month int
 	, @Year int
@@ -2411,6 +2428,7 @@ SELECT	blog_Content.BlogID
 	, blog_Content.ParentID
 	, blog_Content.PostConfig
 	, blog_Content.EntryName 
+	, blog_Content.ContentChecksumHash
 FROM blog_Content
 WHERE	blog_Content.PostType=1 
 	AND blog_Content.BlogID = @BlogID 
@@ -2435,7 +2453,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetPostsByMonthArchive 
+CREATE PROC [dbo].[blog_GetPostsByMonthArchive]
 (
 	@BlogID int
 )
@@ -2490,7 +2508,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetRecentEntries
+CREATE PROC [dbo].[blog_GetRecentEntries]
 (
 	@ItemCount int
 	, @IsActive bit
@@ -2516,6 +2534,7 @@ SELECT	blog_Content.BlogID
 	, blog_Content.ParentID
 	, Blog_Content.PostConfig
 	, blog_Content.EntryName 
+	, blog_Content.ContentChecksumHash
 FROM blog_Content
 WHERE	blog_Content.PostType=@PostType 
 	AND blog_Content.BlogID = @BlogID 
@@ -2537,7 +2556,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetRecentEntriesByDateUpdated
+CREATE PROC [dbo].[blog_GetRecentEntriesByDateUpdated]
 (
 	@ItemCount int
 	, @IsActive bit 
@@ -2564,6 +2583,7 @@ SELECT	blog_Content.BlogID
 	, blog_Content.ParentID
 	, Blog_Content.PostConfig
 	, blog_Content.EntryName 
+	, blog_Content.ContentChecksumHash
 FROM blog_Content
 WHERE 
 	blog_Content.PostType=@PostType 
@@ -2588,7 +2608,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetRecentEntriesWithCategoryTitles
+CREATE PROC [dbo].[blog_GetRecentEntriesWithCategoryTitles]
 (
 	@ItemCount int,
 	@IsActive bit,
@@ -2626,6 +2646,7 @@ SELECT	blog_Content.BlogID
 	, blog_Content.ParentID
 	, Blog_Content.PostConfig
 	, blog_Content.EntryName 
+	, blog_Content.ContentChecksumHash
 FROM blog_Content, #IDs
 WHERE blog_Content.[ID] = #IDs.PostID
 ORDER BY TempID ASC
@@ -2655,7 +2676,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetSingleDay
+CREATE PROC [dbo].[blog_GetSingleDay]
 (
 	@Date datetime
 	,@BlogID int
@@ -2678,6 +2699,7 @@ SELECT	blog_Content.BlogID
 	, blog_Content.ParentID
 	, Blog_Content.PostConfig
 	, blog_Content.EntryName 
+	, blog_Content.ContentChecksumHash
 FROM blog_Content
 WHERE Year(blog_Content.DateAdded) = Year(@Date) 
 	AND Month(blog_Content.DateAdded) = Month(@Date)
@@ -2703,7 +2725,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetSingleEntry
+CREATE PROC [dbo].[blog_GetSingleEntry]
 (
 	@ID int
 	, @IsActive bit
@@ -2727,6 +2749,7 @@ SELECT	blog_Content.BlogID
 	, blog_Content.ParentID
 	, Blog_Content.PostConfig
 	, blog_Content.EntryName 
+	, blog_Content.ContentChecksumHash
 FROM blog_Content
 WHERE blog_Content.[ID] = @ID 
 	AND blog_Content.BlogID = @BlogID 
@@ -2749,7 +2772,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetSingleEntryByName
+CREATE PROC [dbo].[blog_GetSingleEntryByName]
 (
 	@EntryName nvarchar(150)
 	, @IsActive bit
@@ -2773,6 +2796,7 @@ SELECT	blog_Content.BlogID
 	, blog_Content.ParentID
 	, Blog_Content.PostConfig
 	, blog_Content.EntryName 
+	, blog_Content.ContentChecksumHash
 FROM blog_Content
 WHERE blog_Content.[EntryName] = @EntryName 
 	AND blog_Content.BlogID = @BlogID 
@@ -2795,7 +2819,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetSingleImage
+CREATE PROC [dbo].[blog_GetSingleImage]
 (
 	@ImageID int
 	, @IsActive bit
@@ -2830,7 +2854,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetSingleLink
+CREATE PROC [dbo].[blog_GetSingleLink]
 (
 	@LinkID int
 	, @BlogID int
@@ -2863,7 +2887,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetUrlID
+CREATE PROC [dbo].[blog_GetUrlID]
 (
 	@Url nvarchar(255)
 	, @UrlID int output
@@ -3198,6 +3222,7 @@ CREATE PROC [dbo].[blog_InsertPingTrackEntry]
 	, @ParentID int
 	, @PostConfig int
 	, @EntryName nvarchar(150)
+	, @ContentChecksumHash varchar(32)
 	, @ID int output
 )
 AS
@@ -3226,6 +3251,7 @@ INSERT INTO blog_Content
 	,DateUpdated
 	, SourceName
 	, [Description]
+	, ContentChecksumHash
 	, ParentID
 	, BlogID
 )
@@ -3243,6 +3269,7 @@ VALUES
 	, @DateAdded
 	, @SourceName
 	, @Description
+	, @ContentChecksumHash
 	, @ParentID
 	, @BlogID
 )
@@ -3698,6 +3725,7 @@ CREATE PROC [dbo].[blog_UpdateEntry]
 	, @PostConfig int
 	, @ParentID int
 	, @EntryName nvarchar(150)
+	, @ContentChecksumHash varchar(32)
 	, @BlogID int
 )
 AS
@@ -3728,11 +3756,10 @@ SET
 	, blog_Content.ParentID = @ParentID
 	, blog_Content.SourceName = @SourceName
 	, blog_Content.EntryName = @EntryName
+	, blog_Content.ContentChecksumHash = @ContentChecksumHash
 WHERE 	
 	blog_Content.[ID]=@ID AND blog_Content.BlogID = @BlogID
 EXEC blog_UpdateConfigUpdateTime @blogID, @DateUpdated
-
-
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -3747,7 +3774,6 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON 
 GO
-
 
 CREATE PROC [dbo].[blog_UpdateImage]
 (
@@ -4162,6 +4188,7 @@ CREATE PROC [dbo].blog_InsertEntry
 	, @ParentID int
 	, @PostConfig int
 	, @EntryName nvarchar(150)
+	, @ContentChecksumHash varchar(32)
 	, @ID int output
 )
 AS
@@ -4194,6 +4221,7 @@ INSERT INTO blog_Content
 	, ParentID
 	, BlogID
 	, EntryName 
+	, ContentChecksumHash
 )
 VALUES 
 (
@@ -4212,6 +4240,7 @@ VALUES
 	, @ParentID
 	, @BlogID
 	, @EntryName
+	, @ContentChecksumHash
 )
 SELECT @ID = SCOPE_IDENTITY()
 -- PostType
@@ -4236,4 +4265,52 @@ SET ANSI_NULLS ON
 GO
 
 GRANT  EXECUTE  ON [dbo].[blog_InsertEntry]  TO [public]
+GO
+
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/*
+Retrieves a comment (or pingback) that has the specified 
+ContentChecksumHash.
+*/
+CREATE PROC [dbo].[blog_GetCommentByChecksumHash]
+(
+	@ContentChecksumHash VARCHAR(32)
+	,@BlogId int
+)
+AS
+SELECT TOP 1 BlogID
+	, [ID]
+	, Title
+	, DateAdded
+	, [Text]
+	, [Description]
+	, SourceUrl
+	, PostType
+	, Author
+	, Email
+	, SourceName
+	, DateUpdated
+	, TitleUrl
+	, FeedBackCount
+	, ParentID
+	, PostConfig
+	, EntryName 
+	, ContentChecksumHash
+FROM blog_Content
+WHERE 
+	ContentChecksumHash = @ContentChecksumHash 
+	AND BlogId = @BlogID
+	AND (PostType = 3 OR PostType = 4) -- Comment or PingBack
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+GRANT  EXECUTE  ON [dbo].[blog_GetCommentByChecksumHash]  TO [public]
 GO

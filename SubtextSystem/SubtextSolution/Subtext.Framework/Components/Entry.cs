@@ -169,10 +169,22 @@ namespace Subtext.Framework.Components
 		}
 
 		private string _body;
+		/// <summary>
+		/// Gets or sets the body of the Entry.  This is the 
+		/// main content of the entry.
+		/// </summary>
+		/// <value></value>
 		public virtual string Body
 		{
-			get{return _body;}
-			set{_body = value;}
+			get
+			{
+				return _body;
+			}
+			set
+			{
+				_body = value;
+				this._contentChecksumHash = string.Empty;
+			}
 		}
 
 		private string _sourceurl;
@@ -293,6 +305,26 @@ namespace Subtext.Framework.Components
 			}
 		}
 
+		/// <summary>
+		/// This is a checksum of the entry text combined with 
+		/// a hash of the text like so "####.HASH". 
+		/// </summary>
+		/// <value></value>
+		public string ContentChecksumHash
+		{
+			get
+			{
+				if(_contentChecksumHash.Length == 0)
+				{
+					_contentChecksumHash = CalculateChecksum(this.Body) + "." + Security.HashPassword(this.Body);
+				}
+				return _contentChecksumHash;
+			}
+			set { _contentChecksumHash = value; }
+		}
+
+		string _contentChecksumHash = string.Empty;
+
 		private int _feedBackCount = 0;
 		public int FeedBackCount
 		{
@@ -324,6 +356,24 @@ namespace Subtext.Framework.Components
 				this.PostConfig = PostConfig & ~ep;
 			}
 		}
+
+		/// <summary>
+		/// Calculates a simple checksum of the specified text.  
+		/// This is used for comment filtering purposes. 
+		/// Once deployed, this algorithm shouldn't change.
+		/// </summary>
+		/// <param name="text">Text.</param>
+		/// <returns></returns>
+		public static int CalculateChecksum(string text)
+		{
+			int checksum = 0;
+			foreach(char c in text)
+			{
+				checksum += (int)c;
+			}
+			return checksum;
+		}
+
 	}
 }
 

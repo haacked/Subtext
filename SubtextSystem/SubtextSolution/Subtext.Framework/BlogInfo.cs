@@ -318,6 +318,24 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
+		/// Gets or sets a value indicating whether duplicate comments are enabled.  
+		/// If not, duplicate comments are not allowed.
+		/// </summary>
+		/// <remarks>
+		/// This may cause a problem with "me too!" comments.  
+		/// If that is an issue, we can tweak this to only check 
+		/// comments that are larger than a certain size.
+		/// </remarks>
+		/// <value>
+		/// 	<c>true</c> if comments are enabled, otherwise, <c>false</c>.
+		/// </value>
+		public bool EnableDuplicateComments
+		{
+			get{return FlagPropertyCheck(ConfigurationFlag.EnableDuplicateComments);}
+			set{FlagSetter(ConfigurationFlag.EnableDuplicateComments, value);}
+		}
+
+		/// <summary>
 		/// Gets or sets the days till comments close on a post.  
 		/// The count starts when a post is created.
 		/// </summary>

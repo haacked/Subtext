@@ -61,9 +61,9 @@ BEGIN
 END
 
 /*
-Adds the DaysTillCommentsClose column which specifies the number of 
-days comments are allowed to be posted to an individual post.  Afterwards, 
-comments are not allowed.
+Adds the CommentDelayInMinutes column which, if specified, determines 
+the number of minutes that must elapse between posts from the same 
+IP address.
 */
 IF NOT EXISTS 
 (
@@ -87,5 +87,54 @@ BEGIN
 	BEGIN TRANSACTION
 	ALTER TABLE dbo.blog_Config ADD
 		CommentDelayInMinutes INT NULL
+	COMMIT
+END
+
+/*
+Adds the ContentChecksumHash column to the blog_content table. 
+This is used as a fast way to check for duplicate content.
+*/
+IF NOT EXISTS 
+(
+	SELECT * FROM SysObjects O INNER JOIN SysColumns C ON O.ID=C.ID
+	WHERE ObjectProperty(O.ID,'IsUserTable')=1
+	AND O.Name = 'blog_content'
+	AND C.Name = 'ContentChecksumHash'
+) 
+BEGIN
+	PRINT 'Adding Column ContentChecksumHash to Table blog_content'
+	BEGIN TRANSACTION
+	SET QUOTED_IDENTIFIER ON
+	SET TRANSACTION ISOLATION LEVEL SERIALIZABLE
+	SET ARITHABORT ON
+	SET NUMERIC_ROUNDABORT OFF
+	SET CONCAT_NULL_YIELDS_NULL ON
+	SET ANSI_NULLS ON
+	SET ANSI_PADDING ON
+	SET ANSI_WARNINGS ON
+	COMMIT
+	BEGIN TRANSACTION
+	ALTER TABLE dbo.blog_content ADD
+		ContentChecksumHash VARCHAR(32) NULL
+	COMMIT
+
+	/* Non Clustered index on this new column */
+	PRINT 'Adding Non Clustered Index to Column ContentChecksumHash of Table blog_content'
+	BEGIN TRANSACTION
+	SET QUOTED_IDENTIFIER ON
+	SET TRANSACTION ISOLATION LEVEL SERIALIZABLE
+	SET ARITHABORT ON
+	SET NUMERIC_ROUNDABORT OFF
+	SET CONCAT_NULL_YIELDS_NULL ON
+	SET ANSI_NULLS ON
+	SET ANSI_PADDING ON
+	SET ANSI_WARNINGS ON
+	COMMIT
+	BEGIN TRANSACTION
+	CREATE NONCLUSTERED INDEX IX_blog_Content__ContentChecksumHash ON dbo.blog_Content
+		(
+		ContentChecksumHash
+		) ON [PRIMARY]
+	GO
 	COMMIT
 END

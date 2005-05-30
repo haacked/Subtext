@@ -22,7 +22,6 @@
 #endregion
 
 using System;
-using System.Globalization;
 using System.Web;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Providers;
@@ -196,6 +195,17 @@ namespace Subtext.Framework
 
 		#region Single Entry
 
+		/// <summary>
+		/// Searches the data store for the first comment with a 
+		/// matching checksum hash.
+		/// </summary>
+		/// <param name="checksumHash">Checksum hash.</param>
+		/// <returns></returns>
+		public static Entry GetCommentByChecksumHash(string checksumHash)
+		{
+			return DTOProvider.Instance().GetCommentByChecksumHash(checksumHash);
+		}
+		
 		public static Entry GetEntry(int postID, bool ActiveOnly)
 		{
 			return DTOProvider.Instance().GetEntry(postID, ActiveOnly);

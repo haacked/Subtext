@@ -78,6 +78,13 @@ namespace Subtext.Framework.Data
 
 		#region Single Entry
 
+		/// <summary>
+		/// Searches the data store for the first comment with a 
+		/// matching checksum hash.
+		/// </summary>
+		/// <param name="checksumHash">Checksum hash.</param>
+		/// <returns></returns>
+		Entry GetCommentByChecksumHash(string checksumHash);
 		Entry GetEntry(int postID, bool ActiveOnly);
 		Entry GetEntry(string EntryName, bool ActiveOnly);
 		CategoryEntry GetCategoryEntry(int postid, bool ActiveOnly);

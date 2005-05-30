@@ -519,6 +519,21 @@ namespace Subtext.Framework.Data
 			return GetReader("blog_GetSingleEntryByName",p);
 		}
 
+		/// <summary>
+		/// Searches the data store for the first comment with a 
+		/// matching checksum hash.
+		/// </summary>
+		/// <param name="checksumHash">Checksum hash.</param>
+		/// <returns></returns>
+		public IDataReader GetCommentByChecksumHash(string checksumHash)
+		{
+			SqlParameter[] p =
+			{
+				SqlHelper.MakeInParam("@ContentChecksumHash", SqlDbType.VarChar, 32, checksumHash),
+				BlogIDParam
+			};
+			return GetReader("blog_GetCommentByChecksumHash", p);
+		}
 
 		public IDataReader GetEntry(int postID, bool ActiveOnly)
 		{
@@ -743,6 +758,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, entry.PostConfig), 
 				SqlHelper.MakeInParam("@ParentID", SqlDbType.Int, 4, entry.ParentID), 
 				SqlHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, DataHelper.CheckNull(entry.EntryName)), 
+				SqlHelper.MakeInParam("@ContentChecksumHash", SqlDbType.VarChar, 32, DataHelper.CheckNull(entry.ContentChecksumHash)), 
 				BlogIDParam,
 				SqlHelper.MakeOutParam("@ID",SqlDbType.Int,4)
 				
@@ -772,6 +788,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, entry.PostConfig), 
 				SqlHelper.MakeInParam("@ParentID", SqlDbType.Int, 4, entry.ParentID), 
 				SqlHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, DataHelper.CheckNull(entry.EntryName)), 
+				SqlHelper.MakeInParam("@ContentChecksumHash", SqlDbType.VarChar, 32, DataHelper.CheckNull(entry.ContentChecksumHash)), 
 				BlogIDParam
 			};
 			return NonQueryBool("blog_UpdateEntry", p);
@@ -784,22 +801,22 @@ namespace Subtext.Framework.Data
 			{
 				SqlParameter[] p =
 				{
-					SqlHelper.MakeInParam("@Title", SqlDbType.NVarChar,255,entry.Title),
-					SqlHelper.MakeInParam("@TitleUrl", SqlDbType.NVarChar,255,DataHelper.CheckNull(entry.TitleUrl)),
-					SqlHelper.MakeInParam("@Text",SqlDbType.Text,0,entry.Body),
-					SqlHelper.MakeInParam("@SourceUrl",SqlDbType.NVarChar,200,DataHelper.CheckNull(entry.SourceUrl)),
-					SqlHelper.MakeInParam("@PostType",SqlDbType.Int,4,entry.PostType),
-					SqlHelper.MakeInParam("@Author",SqlDbType.NVarChar,50,DataHelper.CheckNull(entry.Author)),
-					SqlHelper.MakeInParam("@Email",SqlDbType.NVarChar,50,DataHelper.CheckNull(entry.Email)),
-					SqlHelper.MakeInParam("@Description",SqlDbType.NVarChar,500,DataHelper.CheckNull(entry.Description)),
-					SqlHelper.MakeInParam("@SourceName",SqlDbType.NVarChar,200,DataHelper.CheckNull(entry.SourceName)),
-					SqlHelper.MakeInParam("@DateAdded",SqlDbType.DateTime,8,entry.DateCreated),
-					SqlHelper.MakeInParam("@PostConfig",SqlDbType.Int,4,entry.PostConfig),
-					SqlHelper.MakeInParam("@ParentID",SqlDbType.Int,4,entry.ParentID),
-					SqlHelper.MakeInParam("@EntryName",SqlDbType.NVarChar,150,DataHelper.CheckNull(entry.EntryName)),
-					BlogIDParam,
-					SqlHelper.MakeOutParam("@ID",SqlDbType.Int,4)
-					
+					SqlHelper.MakeInParam("@Title",  SqlDbType.NVarChar, 255, entry.Title), 
+					SqlHelper.MakeInParam("@TitleUrl",  SqlDbType.NVarChar, 255, DataHelper.CheckNull(entry.TitleUrl)), 
+					SqlHelper.MakeInParam("@Text", SqlDbType.Text, 0, entry.Body), 
+					SqlHelper.MakeInParam("@SourceUrl", SqlDbType.NVarChar, 200, DataHelper.CheckNull(entry.SourceUrl)), 
+					SqlHelper.MakeInParam("@PostType", SqlDbType.Int, 4, entry.PostType), 
+					SqlHelper.MakeInParam("@Author", SqlDbType.NVarChar, 50, DataHelper.CheckNull(entry.Author)), 
+					SqlHelper.MakeInParam("@Email", SqlDbType.NVarChar, 50, DataHelper.CheckNull(entry.Email)), 
+					SqlHelper.MakeInParam("@Description", SqlDbType.NVarChar, 500, DataHelper.CheckNull(entry.Description)), 
+					SqlHelper.MakeInParam("@SourceName", SqlDbType.NVarChar, 200, DataHelper.CheckNull(entry.SourceName)), 
+					SqlHelper.MakeInParam("@DateAdded", SqlDbType.DateTime, 8, entry.DateCreated), 
+					SqlHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, entry.PostConfig), 
+					SqlHelper.MakeInParam("@ContentChecksumHash", SqlDbType.VarChar, 32, entry.ContentChecksumHash), 
+					SqlHelper.MakeInParam("@ParentID", SqlDbType.Int, 4, entry.ParentID), 
+					SqlHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, DataHelper.CheckNull(entry.EntryName)), 
+					BlogIDParam, 
+					SqlHelper.MakeOutParam("@ID", SqlDbType.Int, 4)
 				};
 
 					NonQueryInt("blog_InsertPingTrackEntry",p);

@@ -139,9 +139,28 @@ CREATE TABLE [dbo].[blog_Content] (
 	[ParentID] [int] NULL ,
 	[FeedBackCount] [int] NULL ,
 	[PostConfig] [int] NULL ,
-	[EntryName] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL 
+	[EntryName] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+	[ContentChecksumHash] [varchar] (32) COLLATE SQL_Latin1_General_CP1_CI_AS NULL 
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
+
+BEGIN TRANSACTION
+SET QUOTED_IDENTIFIER ON
+SET TRANSACTION ISOLATION LEVEL SERIALIZABLE
+SET ARITHABORT ON
+SET NUMERIC_ROUNDABORT OFF
+SET CONCAT_NULL_YIELDS_NULL ON
+SET ANSI_NULLS ON
+SET ANSI_PADDING ON
+SET ANSI_WARNINGS ON
+COMMIT
+BEGIN TRANSACTION
+CREATE NONCLUSTERED INDEX IX_blog_Content__ContentChecksumHash ON dbo.blog_Content
+	(
+	ContentChecksumHash
+	) ON [PRIMARY]
+GO
+COMMIT
 
 CREATE TABLE [dbo].[blog_EntryViewCount] (
 	[EntryID] [int] NOT NULL ,

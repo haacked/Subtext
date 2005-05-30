@@ -46,6 +46,13 @@ namespace Subtext.Framework.Data
 		IDataReader GetEntriesByCategory(int ItemCount, int catID, bool ActiveOnly);
 		IDataReader GetEntriesByCategory(int ItemCount, int catID, DateTime DateUpdated, bool ActiveOnly);
 		
+		/// <summary>
+		/// Searches the data store for the first comment with a 
+		/// matching checksum hash.
+		/// </summary>
+		/// <param name="checksumHash">Checksum hash.</param>
+		/// <returns></returns>
+		IDataReader GetCommentByChecksumHash(string checksumHash);
 		IDataReader GetEntry(int postID, bool ActiveOnly);
 		IDataReader GetEntry(string EntryName, bool ActiveOnly);
 		IDataReader GetCategoryEntry(int postID, bool ActiveOnly);
