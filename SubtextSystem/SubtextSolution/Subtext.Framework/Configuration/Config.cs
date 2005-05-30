@@ -1,6 +1,5 @@
 using System;
 using System.Configuration;
-using System.IO;
 using System.Web;
 using Subtext.Framework.Components;
 using Subtext.Framework.Exceptions;
@@ -142,54 +141,7 @@ namespace Subtext.Framework.Configuration
 				}
 			}
 
-			if(application.Length > 0 && HttpContext.Current != null)
-			{
-				if(!CreateApplicationStub(application))
-				{
-					return false;
-				}
-			}
-
-			if(Config.Settings.UseHashedPasswords)
-			{
-				password = Security.HashPassword(password);
-			}
-
 			return (DTOProvider.Instance().CreateBlog(title, userName, password, host, application));
-		}
-
-		private static bool CreateApplicationStub(string application)
-		{
-			if(!IsValidApplicationName(application))
-			{
-				throw new InvalidApplicationNameException(application);
-			}
-
-			string blogDirectoryPath = GetBlogPhysicalPath(application);
-
-			if(!Directory.Exists(blogDirectoryPath))
-			{
-				try
-				{
-					Directory.CreateDirectory(blogDirectoryPath);
-					using(StreamWriter writer = File.CreateText(Path.Combine(blogDirectoryPath, "Default.aspx")))
-					{
-						writer.Close(); //Empty stub file.
-					}
-					return true;
-				}
-				catch(System.IO.IOException exception)
-				{
-					throw new BlogApplicationDirectoryCreateException(exception);
-				}
-			}
-			return true;
-		}
-
-		static string GetBlogPhysicalPath(string application)
-		{
-			string applicationPhysicalPath = HttpContext.Current.Server.MapPath(HttpContext.Current.Request.ApplicationPath);
-			return Path.Combine(applicationPhysicalPath, application);
 		}
 
 		/// <summary>
@@ -239,21 +191,12 @@ namespace Subtext.Framework.Configuration
 				}
 			}
 			
-			if(info.Application.Length > 0 && HttpContext.Current != null)
-			{
-				// You're going to hate this, but we just create a new stub 
-				// We won't delete the old one because IIS will have a lock 
-				// on it. It's just a harmless empty stub.
-				if(!CreateApplicationStub(info.Application))
-				{
-					return false;
-				}
-			}
-
 			if(Config.Settings.UseHashedPasswords)
 			{
 				info.Password = Security.HashPassword(info.Password);
 			}
+			info.IsPasswordHashed = Config.Settings.UseHashedPasswords;
+			info.AllowServiceAccess = Config.Settings.AllowServiceAccess;
 
 			return DTOProvider.Instance().UpdateBlog(info);
 		}

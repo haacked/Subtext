@@ -48,12 +48,12 @@ namespace Subtext.Web.Admin.Pages
 		protected System.Web.UI.WebControls.DropDownList ddlTimezone;
 		protected System.Web.UI.WebControls.DropDownList ddlLangLocale;
 		protected System.Web.UI.WebControls.CheckBox ckbAllowServiceAccess;
-		protected System.Web.UI.WebControls.CheckBox chkEnableComments;
 		protected System.Web.UI.WebControls.TextBox txbNews;
 		protected System.Web.UI.WebControls.TextBox txbUser;
 		protected System.Web.UI.WebControls.TextBox txbSecondaryCss;
 		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
-		protected System.Web.UI.WebControls.TextBox txtDaysTillCommentsClosed;
+		protected Subtext.Web.Controls.HelpToolTip HelpToolTip1;
+		protected Subtext.Web.Controls.HelpToolTip HelpToolTip2;
 		protected Subtext.Web.Admin.WebUI.Page PageContainer;
 	
 		#region Accessors
@@ -87,11 +87,6 @@ namespace Subtext.Web.Admin.Pages
 			txbUser.Text = info.UserName;
 			txbNews.Text = info.News;
 			ckbAllowServiceAccess.Checked = info.AllowServiceAccess;
-			chkEnableComments.Checked = info.EnableComments;
-			if(info.DaysTillCommentsClose < int.MaxValue && info.DaysTillCommentsClose >= 0)
-			{
-				txtDaysTillCommentsClosed.Text = info.DaysTillCommentsClose.ToString();
-			}
 			ddlTimezone.Items.FindByValue(info.TimeZone.ToString()).Selected = true;
 
 			try
@@ -170,16 +165,6 @@ namespace Subtext.Web.Admin.Pages
 				info.ItemCount = Int32.Parse(ddlItemCount.SelectedItem.Value);
 				info.Language = ddlLangLocale.SelectedItem.Value;
 				
-				info.EnableComments = chkEnableComments.Checked;
-				if(txtDaysTillCommentsClosed.Text.Length > 0)
-				{
-					info.DaysTillCommentsClose = ValidateInteger("Days Till Comments Close", txtDaysTillCommentsClosed.Text, 0, int.MaxValue);
-				}
-				else
-				{
-					info.DaysTillCommentsClose = int.MaxValue;
-				}
-
 				info.AllowServiceAccess = ckbAllowServiceAccess.Checked;
 
 				info.Skin.SkinCssText = txbSecondaryCss.Text.Trim();
@@ -214,28 +199,6 @@ namespace Subtext.Web.Admin.Pages
 				this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, RES_FAILURE, ex.Message));
 			}
 		}
-
-		int ValidateInteger(string fieldName, string value, int minAllowedValue, int maxAllowedValue)
-		{
-			try
-			{
-				int theNumber = int.Parse(value);
-				if(theNumber < minAllowedValue)
-				{
-					throw new ArgumentException("\"" + fieldName + "\" should be larger than or equal to " + minAllowedValue, fieldName);
-				}
-				if(theNumber > maxAllowedValue)
-				{
-					throw new ArgumentException("\"" + fieldName + "\" should be less than or equal to " + maxAllowedValue, fieldName);
-				}
-				return theNumber;
-			}
-			catch(System.FormatException)
-			{
-				throw new ArgumentException("Please enter a valid positive number for the field \"" + fieldName + "\"", fieldName);
-			}
-		}
-
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
 		{

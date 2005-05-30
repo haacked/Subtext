@@ -25,8 +25,8 @@ using System;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using System.Web;
-using Subtext.Framework;
 using Subtext.Framework.Data;
+using Subtext.Framework.Exceptions;
 
 namespace Subtext 
 {

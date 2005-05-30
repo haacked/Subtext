@@ -967,6 +967,7 @@ BEGIN
 		, SkinCssFile 
 		, LicenseUrl
 		, DaysTillCommentsClose
+		, CommentDelayInMinutes
 	FROM blog_Config
 END
 ELSE
@@ -996,6 +997,7 @@ BEGIN
 		, SkinCssFile 
 		, LicenseUrl
 		, DaysTillCommentsClose
+		, CommentDelayInMinutes
 	FROM blog_Config
 	WHERE	Host = @Host
 		AND Application = @Application
@@ -3612,6 +3614,7 @@ CREATE PROC [dbo].[blog_UpdateConfig]
 	, @BlogID int
 	, @LicenseUrl nvarchar(64) = NULL
 	, @DaysTillCommentsClose int = NULL
+	, @CommentDelayInMinutes int = NULL
 )
 AS
 Update blog_Config
@@ -3635,6 +3638,7 @@ Set
 	, SkinCssFile = @SkinCssFile
 	, LicenseUrl = @LicenseUrl
 	, DaysTillCommentsClose = @DaysTillCommentsClose
+	, CommentDelayInMinutes = @CommentDelayInMinutes
 WHERE BlogID = @BlogID
 
 GO
@@ -3986,6 +3990,7 @@ SELECT	blog.BlogID
 		, blog.BlogGroup
 		, blog.LicenseUrl
 		, blog.DaysTillCommentsClose
+		, blog.CommentDelayInMinutes
 		
 FROM  	blog_config blog
     	INNER JOIN #TempPagedBlogIDs tmp ON (blog.[BlogID] = tmp.BlogID)
@@ -4045,6 +4050,7 @@ SELECT	blog.BlogID
 		, blog.BlogGroup
 		, blog.LicenseUrl
 		, blog.DaysTillCommentsClose
+		, blog.CommentDelayInMinutes
 		
 FROM  	blog_config blog
 WHERE	blog.BlogId = @BlogId
@@ -4094,6 +4100,7 @@ SELECT	blog.BlogID
 		, blog.BlogGroup
 		, blog.LicenseUrl
 		, blog.DaysTillCommentsClose
+		, blog.CommentDelayInMinutes
 		
 FROM  	blog_config blog
 WHERE	blog.Host = @Host

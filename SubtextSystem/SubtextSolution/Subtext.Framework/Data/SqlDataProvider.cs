@@ -1066,8 +1066,8 @@ namespace Subtext.Framework.Data
 				, SqlHelper.MakeInParam("@UserName", SqlDbType.NVarChar, 50, userName)
 				, SqlHelper.MakeInParam("@Password", SqlDbType.NVarChar, 50, password)
 				, SqlHelper.MakeInParam("@Email", SqlDbType.NVarChar, 50, string.Empty)
-				, SqlHelper.MakeInParam("@Host", SqlDbType.NVarChar, 50, "")
-				, SqlHelper.MakeInParam("@Application", SqlDbType.NVarChar, 50, "")
+				, SqlHelper.MakeInParam("@Host", SqlDbType.NVarChar, 50, host)
+				, SqlHelper.MakeInParam("@Application", SqlDbType.NVarChar, 50, application)
 				, SqlHelper.MakeInParam("@IsHashed", SqlDbType.Bit, 1, Config.Settings.UseHashedPasswords)
 				
 			};
@@ -1141,28 +1141,35 @@ namespace Subtext.Framework.Data
 				daysTillCommentsClose = info.DaysTillCommentsClose;
 			}
 
+			object commentDelayInMinutes = null;
+			if(info.CommentDelayInMinutes > 0 && info.CommentDelayInMinutes < int.MaxValue)
+			{
+				commentDelayInMinutes = info.CommentDelayInMinutes;
+			}
+
 			SqlParameter[] p = 
 				{
-					SqlHelper.MakeInParam("@BlogID", SqlDbType.Int,  4, info.BlogID),
-					SqlHelper.MakeInParam("@UserName", SqlDbType.NVarChar, 50, info.UserName), 
-					SqlHelper.MakeInParam("@Password", SqlDbType.NVarChar, 50, info.Password), 
-					SqlHelper.MakeInParam("@Author", SqlDbType.NVarChar, 100, info.Author), 
-					SqlHelper.MakeInParam("@Email", SqlDbType.NVarChar, 50, info.Email), 
-					SqlHelper.MakeInParam("@Title", SqlDbType.NVarChar, 100, info.Title), 
-					SqlHelper.MakeInParam("@SubTitle", SqlDbType.NVarChar, 250, info.SubTitle), 
-					SqlHelper.MakeInParam("@Skin", SqlDbType.NVarChar, 50, info.Skin.SkinName), 
-					SqlHelper.MakeInParam("@Application", SqlDbType.NVarChar, 50, info.CleanApplication), 
-					SqlHelper.MakeInParam("@Host", SqlDbType.NVarChar, 100, info.Host), 
-					SqlHelper.MakeInParam("@TimeZone", SqlDbType.Int, 4, info.TimeZone), 
-					SqlHelper.MakeInParam("@Language", SqlDbType.NVarChar, 10, info.Language), 
-					SqlHelper.MakeInParam("@News", SqlDbType.Text, 0, DataHelper.CheckNull(info.News)), 
-					SqlHelper.MakeInParam("@ItemCount", SqlDbType.Int,  4, info.ItemCount), 
-					SqlHelper.MakeInParam("@Flag", SqlDbType.Int,  4, (int)info.Flag), 
-					SqlHelper.MakeInParam("@LastUpdated", SqlDbType.DateTime,  8, info.LastUpdated), 
-					SqlHelper.MakeInParam("@SecondaryCss", SqlDbType.Text, 0, DataHelper.CheckNull(info.Skin.SkinCssText)), 
-					SqlHelper.MakeInParam("@SkinCssFile", SqlDbType.VarChar, 100, DataHelper.CheckNull(info.Skin.SkinCssFile)), 
-					SqlHelper.MakeInParam("@LicenseUrl", SqlDbType.NVarChar, 64, info.LicenseUrl),
-					SqlHelper.MakeInParam("@DaysTillCommentsClose", SqlDbType.Int, 4, daysTillCommentsClose)
+					SqlHelper.MakeInParam("@BlogID", SqlDbType.Int,  4, info.BlogID)
+					,SqlHelper.MakeInParam("@UserName", SqlDbType.NVarChar, 50, info.UserName) 
+					,SqlHelper.MakeInParam("@Password", SqlDbType.NVarChar, 50, info.Password) 
+					,SqlHelper.MakeInParam("@Author", SqlDbType.NVarChar, 100, info.Author) 
+					,SqlHelper.MakeInParam("@Email", SqlDbType.NVarChar, 50, info.Email) 
+					,SqlHelper.MakeInParam("@Title", SqlDbType.NVarChar, 100, info.Title) 
+					,SqlHelper.MakeInParam("@SubTitle", SqlDbType.NVarChar, 250, info.SubTitle) 
+					,SqlHelper.MakeInParam("@Skin", SqlDbType.NVarChar, 50, info.Skin.SkinName) 
+					,SqlHelper.MakeInParam("@Application", SqlDbType.NVarChar, 50, info.CleanApplication) 
+					,SqlHelper.MakeInParam("@Host", SqlDbType.NVarChar, 100, info.Host) 
+					,SqlHelper.MakeInParam("@TimeZone", SqlDbType.Int, 4, info.TimeZone) 
+					,SqlHelper.MakeInParam("@Language", SqlDbType.NVarChar, 10, info.Language) 
+					,SqlHelper.MakeInParam("@News", SqlDbType.Text, 0, DataHelper.CheckNull(info.News)) 
+					,SqlHelper.MakeInParam("@ItemCount", SqlDbType.Int,  4, info.ItemCount) 
+					,SqlHelper.MakeInParam("@Flag", SqlDbType.Int,  4, (int)info.Flag) 
+					,SqlHelper.MakeInParam("@LastUpdated", SqlDbType.DateTime,  8, info.LastUpdated) 
+					,SqlHelper.MakeInParam("@SecondaryCss", SqlDbType.Text, 0, DataHelper.CheckNull(info.Skin.SkinCssText)) 
+					,SqlHelper.MakeInParam("@SkinCssFile", SqlDbType.VarChar, 100, DataHelper.CheckNull(info.Skin.SkinCssFile)) 
+					,SqlHelper.MakeInParam("@LicenseUrl", SqlDbType.NVarChar, 64, info.LicenseUrl)
+					,SqlHelper.MakeInParam("@DaysTillCommentsClose", SqlDbType.Int, 4, daysTillCommentsClose)
+					,SqlHelper.MakeInParam("@CommentDelayInMinutes", SqlDbType.Int, 4, commentDelayInMinutes)
 				};
 
 

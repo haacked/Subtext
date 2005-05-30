@@ -2,6 +2,9 @@ using System;
 using System.Security;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Exceptions;
+using Subtext.Framework.Format;
+using Subtext.Web.Controls;
 
 namespace Subtext.Web
 {
@@ -14,6 +17,7 @@ namespace Subtext.Web
 	/// </remarks>
 	public class BlogNotConfiguredError : System.Web.UI.Page
 	{
+		bool _anyBlogsExist = false;
 		protected System.Web.UI.WebControls.TextBox txtUserName;
 		protected System.Web.UI.WebControls.TextBox txtPassword;
 		protected System.Web.UI.WebControls.TextBox txtConfirmPassword;
@@ -23,6 +27,8 @@ namespace Subtext.Web
 		protected System.Web.UI.WebControls.RequiredFieldValidator vldConfirmPasswordRequired;
 		protected System.Web.UI.WebControls.CompareValidator vldComparePasswords;
 		protected System.Web.UI.WebControls.Button btnSave;
+		protected System.Web.UI.WebControls.Literal ltlMessage;
+		protected System.Web.UI.HtmlControls.HtmlTable tblConfigForm;
 	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
@@ -30,12 +36,57 @@ namespace Subtext.Web
 			//when an actual error has happened AND the user is a 
 			//local user.
 			
-			bool blogConfigured = (Config.GetBlogInfo("", "") != null);
+			bool blogConfigured = true;
+			BlogInfo info = null;
+			try
+			{
+				info = Config.CurrentBlog;
+			}
+			catch(BlogDoesNotExistException exception)
+			{
+				blogConfigured = false;
+				_anyBlogsExist = exception.AnyBlogsExist;
+			}
 
-			if(blogConfigured)
+			if(blogConfigured || info != null)
 			{
 				// Ok, someone shouldn't be here. Redirect to the error page.
 				throw new SecurityException("That page is forbidden.");
+			}
+
+			if(_anyBlogsExist)
+			{
+				ltlMessage.Text = 
+					"<p>" 
+					+ "Welcome!  The Subtext Blogging Engine has been properly installed, " 
+					+ "but the blog you&#8217;ve requested cannot be found."
+					+ "</p>"
+					+ "<p>"
+					+ "Several blogs have been created on this system, but either the "
+					+ "blog you are requesting hasn&#8217;t yet been created, " 
+					+ "or the requesting URL does not match an existing blog." 
+					+ "</p><p>"
+					+ "If you are the Host Admin, visit the <a href=\"" + ControlHelper.ExpandTildePath("~/HostAdmin/") + "\">Host Admin</a> " 
+					+ "Tool to view existing blogs and if necessary, correct settings."
+					+ "</p>";
+				tblConfigForm.Visible = false;
+			}
+			else
+			{
+				tblConfigForm.Visible = true;
+				ltlMessage.Text = 
+					"<p>" 
+					+ "Welcome!  The Subtext Blogging Engine has been properly installed, " 
+					+ "but there are currently no blogs created on this system."
+					+ "</p>"
+					+ "<p>" 
+					+ "To get you started quickly, just specify an "
+					+ "administrative username and password below and I&#8217;ll create your blog and "
+					+ "send you to the admin section where you can finish updating settings for your blog." 
+					+ "</p>"
+					+ "<p>"
+					+ "For future reference, use the <a href=\"" + ControlHelper.ExpandTildePath("~/HostAdmin/") + "\">Host Admin</a> tool to create a blog."
+					+ "</p>" ;
 			}
 		}
 
@@ -78,11 +129,15 @@ namespace Subtext.Web
 				
 				// Create the blog_config record using default values 
 				// and the specified user info.
-				if(Config.CreateBlog(title, userName, hashedPassword, Request.Url.Host, Request.ApplicationPath))
+				if(Config.CreateBlog(title, userName, hashedPassword, Request.Url.Host, UrlFormats.GetBlogApplicationNameFromRequest(Request.RawUrl, Request.ApplicationPath)))
 				{
 					if(Security.Authenticate(userName, password, !persist))
 					{
 						Response.Redirect("~/Admin/Configure.aspx");
+					}
+					else
+					{
+						throw new InvalidOperationException("Could not authenticate user we just created. That's really bad.");
 					}
 				}
 				else

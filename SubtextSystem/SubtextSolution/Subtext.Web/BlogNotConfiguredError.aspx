@@ -22,17 +22,9 @@
 			<div>
 				<h1>Subtext - Your Blog Has Not Been Configured Yet</h1>
 				<h2>But I Can Help You</h2>
+				<asp:Literal ID="ltlMessage" Runat="server" />
 				<p>
-					Welcome! The Subtext Blogging Engine has been installed, but has not been 
-					properly configured just yet.
-				</p>
-				<p>
-					If you'd like me to automatically configure Subtext, just specify an 
-					administrative username and password below and I'll send you to the admin 
-					section where you can finish configuring your blog.
-				</p>
-				<p>
-					<table border="0">
+					<table border="0" id="tblConfigForm" runat="server">
 						<tr>
 							<td colspan="3">
 								<asp:ValidationSummary id="vldSummary" runat="server"></asp:ValidationSummary>
