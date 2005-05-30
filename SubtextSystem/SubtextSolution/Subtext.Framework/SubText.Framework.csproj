@@ -144,6 +144,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "CommentFilter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Entries.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -428,12 +433,22 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Exceptions\BaseCommentException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Exceptions\BaseSubtextException.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Exceptions\BlogApplicationDirectoryCreateException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Exceptions\BlogDoesNotExistException.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -449,6 +464,11 @@
                 />
                 <File
                     RelPath = "Exceptions\BlogRequiresApplicationException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Exceptions\CommentFrequencyException.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -330,6 +330,24 @@ namespace Subtext.Framework
 
 		int _daysTillCommentsClose = int.MaxValue;
 
+		/// <summary>
+		/// Gets or sets the delay in minutes, between any two successive comments from 
+		/// the same IP address.  This helps prevents comment bombing attacks.
+		/// </summary>
+		/// <value></value>
+		public int CommentDelayInMinutes
+		{
+			get
+			{
+				if(_commentDelayInMinutes < 0 || _commentDelayInMinutes == int.MaxValue)
+					return 0;
+				else
+					return _commentDelayInMinutes;
+			}
+			set { _commentDelayInMinutes = value; }
+		}
+
+		int _commentDelayInMinutes;
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this blog is active.

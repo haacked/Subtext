@@ -150,7 +150,7 @@
 					virtDirText = '/' + virtDirField.value;
 				}
 			
-				var preview = 'http://<span style="color:#990000">' + hostText + '</span>' + virtDirText + '/' + appText;
+				var preview = 'http://<span style="color:#990000">' + hostText + '</span>' + virtDirText + '/' + appText + 'default.aspx';
 				
 				urlPreview.innerHTML = preview;
 			}

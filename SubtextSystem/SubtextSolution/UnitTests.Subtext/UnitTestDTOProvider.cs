@@ -355,7 +355,7 @@ namespace UnitTests.Subtext
 			blogInfo.Title = title;
 			blogInfo.BlogID = _nextBlogId++;
 			blogInfo.UserName = userName;
-			blogInfo.Password = password;
+			blogInfo.Password = Security.HashPassword(password);
 			blogInfo.Host = host;
 			blogInfo.Application = application;
 			_pagedBlogs.Add(blogInfo);

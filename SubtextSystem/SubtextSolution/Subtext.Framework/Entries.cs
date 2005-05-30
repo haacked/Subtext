@@ -22,6 +22,7 @@
 #endregion
 
 using System;
+using System.Globalization;
 using System.Web;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Providers;
@@ -39,10 +40,6 @@ namespace Subtext.Framework
 	/// </summary>
 	public sealed class Entries
 	{
-		private Entries()
-		{
-		}
-
 		#region Paged Posts
 
 		/// <summary>
@@ -297,7 +294,6 @@ namespace Subtext.Framework
 			entry.TitleUrl =  HtmlHelper.SafeFormat(entry.TitleUrl);
 			entry.Body = HtmlHelper.SafeFormatWithUrl(entry.Body);
 			entry.Title = HtmlHelper.SafeFormat(entry.Title);
-			//entry.SourceUrl = Globals.PostsUrl(entry.ParentID);
 			entry.IsXHMTL = false;
 			entry.IsActive = true;
 			entry.DateCreated = entry.DateUpdated = BlogTime.CurrentBloggerTime;
@@ -305,6 +301,8 @@ namespace Subtext.Framework
 			if (null == entry.SourceName || String.Empty == entry.SourceName)
 				entry.SourceName = "N/A";
 
+			CommentFilter.FilterComment(entry);
+			
 			// insert comment into backend, save the returned entryid for permalink anchor below
 			int entryID = Entries.Create(entry);
 
@@ -331,12 +329,12 @@ namespace Subtext.Framework
 						entry.Body.Replace("<br>", "\n"), 
 						entry.SourceUrl,
 						entryID);			
-					
+				
 					im.Send(To,From,Subject,Body);
 				}
 				catch
 				{
-					//Log this...
+					//TODO: Log this.
 				}
 			}
 		}

@@ -11,6 +11,9 @@
 			<a href="Syndication.aspx">Syndication</a>: Manage your RSS (or ATOM) Feed.
 		</p>
 		<p>
+			<a href="Comments.aspx">Comments</a>: Manage comment settings.
+		</p>
+		<p>
 			<a href="EditKeyWords.aspx">Key Words</a>: Auto transform specific words/patterns to links.
 		</p>
 		<p>

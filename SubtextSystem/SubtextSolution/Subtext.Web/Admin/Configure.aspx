@@ -1,21 +1,21 @@
-<%@ Page language="c#" Codebehind="Configure.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.Configure" %>
-<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Register TagPrefix="SP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
+<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
+<%@ Page language="c#" Codebehind="Configure.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.Configure" %>
 <ANW:Page runat="server" id="PageContainer" TabSectionID="Options" Categorieslabel="Other Items">
 	<ANW:MessagePanel id="Messages" runat="server"></ANW:MessagePanel>
-	<ANW:AdvancedPanel id="Edit" runat="server" DisplayHeader="true" BodyCssClass="Edit" HeaderCssClass="CollapsibleHeader"
-		HeaderText="Configure" Collapsible="False">
-		<label class="Block">Title</label>
+	<ANW:AdvancedPanel id="Edit" runat="server" Collapsible="False" HeaderText="Configure" HeaderCssClass="CollapsibleHeader"
+		BodyCssClass="Edit" DisplayHeader="true">
+		<LABEL class="Block">Title</LABEL>
 		<asp:TextBox id="txbTitle" runat="server" width="400"></asp:TextBox>
-		<label class="Block">Subtitle</label>
+		<LABEL class="Block">Subtitle</LABEL>
 		<asp:TextBox id="txbSubtitle" runat="server" width="400"></asp:TextBox>
-		<label class="Block">Username</label>
+		<LABEL class="Block">Username</LABEL>
 		<asp:TextBox id="txbUser" runat="server" width="400"></asp:TextBox>
-		<label class="Block">Owner's Display Name</label>
+		<LABEL class="Block">Owner's Display Name</LABEL>
 		<asp:TextBox id="txbAuthor" runat="server" width="400"></asp:TextBox>
-		<label class="Block">Owner's Email</label>
+		<LABEL class="Block">Owner's Email</LABEL>
 		<asp:TextBox id="txbAuthorEmail" runat="server" width="400"></asp:TextBox>
-		<label class="Block">Timezone</label>
+		<LABEL class="Block">Timezone</LABEL>
 		<asp:DropDownList id="ddlTimezone" runat="server">
 			<asp:ListItem Text="Hawaii (GMT -10)" Value="-10" />
 			<asp:ListItem Text="Alaska (GMT -9)" Value="-9" />
@@ -37,7 +37,7 @@
 			<asp:ListItem Text="Pacific Rim Time (GMT +11)" Value="11" />
 			<asp:ListItem Text="New Zealand Time (GMT +12)" Value="12" />
 		</asp:DropDownList>
-		<label class="Block">Language/Locale</label>
+		<LABEL class="Block">Language/Locale</LABEL>
 		<asp:DropDownList id="ddlLangLocale" runat="server">
 			<asp:ListItem Text="Afrikaans" Value="af" />
 			<asp:ListItem Text="Afrikaans - South Africa" Value="af-ZA" />
@@ -241,24 +241,20 @@
 			<asp:ListItem Text="Vietnamese" Value="vi" />
 			<asp:ListItem Text="Vietnamese - Vietnam" Value="vi-VN" />
 		</asp:DropDownList>
-		<label class="Block">Default Number of Feed/Homepage 
-Items</label>
+		<LABEL class="Block">Default Number of Feed/Homepage 
+Items</LABEL>
 		<asp:DropDownList id="ddlItemCount" runat="server"></asp:DropDownList>
-		<label class="Block">Display Skin</label>
+		<LABEL class="Block">Display Skin</LABEL>
 		<asp:DropDownList id="ddlSkin" runat="server"></asp:DropDownList>
-		<label class="Block">
-			<SP:HelpToolTip HelpText="You can enter custom CSS within this block.  Be careful as the tool will not validate the CSS.  This CSS will be included (as a proper link) within every page of your blog." runat="server">Custom CSS</SP:HelpToolTip></label>
-		<asp:TextBox id="txbSecondaryCss" runat="server" width="400" TextMode="MultiLine" height="160"></asp:TextBox>
-		<label class="Block">Static News/Announcement</label>
-		<asp:TextBox id="txbNews" runat="server" width="400" TextMode="MultiLine" height="160"></asp:TextBox>
+		<LABEL class="Block">
+			<SP:HelpToolTip id="HelpToolTip1" runat="server" HelpText="You can enter custom CSS within this block.  Be careful as the tool will not validate the CSS.  This CSS will be included (as a proper link) within every page of your blog.">Custom 
+CSS</SP:HelpToolTip>
+		</LABEL>
+		<asp:TextBox id="txbSecondaryCss" runat="server" width="400" height="160" TextMode="MultiLine"></asp:TextBox>
+		<LABEL class="Block">Static News/Announcement</LABEL>
+		<asp:TextBox id="txbNews" runat="server" width="400" height="160" TextMode="MultiLine"></asp:TextBox>
 		<P class="Valuelabel" style="MARGIN-TOP: 12px">Allow Web Service Access
 			<asp:CheckBox id="ckbAllowServiceAccess" runat="server"></asp:CheckBox></P>
-		<P style="MARGIN-TOP: 8px">
-			<asp:CheckBox id="chkEnableComments" runat="Server" TextAlign="Left" Text="Enable Comments"></asp:CheckBox>&nbsp;
-		</P>
-		<label class="Block"><SP:HelpToolTip HelpText="If Comments are enabled, this setting allows you to specify whether comments will be disallowed on a post after a certain number of days.  For example, you may wish to have comments close on an item after 30 days." runat="server">Number of Days To Wait Before Comments Are Closed</SP:HelpToolTip> 
-			(leave blank if comments never close)</label>
-		<asp:TextBox id="txtDaysTillCommentsClosed" runat="server" Columns="2"></asp:TextBox>
 		<DIV style="MARGIN-TOP: 8px">
 			<asp:linkbutton id="lkbPost" runat="server" Text="Save" CssClass="Button"></asp:linkbutton><BR>
 			&nbsp;

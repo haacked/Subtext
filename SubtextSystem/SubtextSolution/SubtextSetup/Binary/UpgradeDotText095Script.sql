@@ -59,3 +59,33 @@ BEGIN
 		DaysTillCommentsClose INT NULL
 	COMMIT
 END
+
+/*
+Adds the DaysTillCommentsClose column which specifies the number of 
+days comments are allowed to be posted to an individual post.  Afterwards, 
+comments are not allowed.
+*/
+IF NOT EXISTS 
+(
+	SELECT * FROM SysObjects O INNER JOIN SysColumns C ON O.ID=C.ID
+	WHERE ObjectProperty(O.ID,'IsUserTable')=1
+	AND O.Name = 'blog_Config'
+	AND C.Name = 'CommentDelayInMinutes'
+) 
+BEGIN
+	PRINT 'Adding Column CommentDelayInMinutes to Table blog_config'
+	BEGIN TRANSACTION
+	SET QUOTED_IDENTIFIER ON
+	SET TRANSACTION ISOLATION LEVEL SERIALIZABLE
+	SET ARITHABORT ON
+	SET NUMERIC_ROUNDABORT OFF
+	SET CONCAT_NULL_YIELDS_NULL ON
+	SET ANSI_NULLS ON
+	SET ANSI_PADDING ON
+	SET ANSI_WARNINGS ON
+	COMMIT
+	BEGIN TRANSACTION
+	ALTER TABLE dbo.blog_Config ADD
+		CommentDelayInMinutes INT NULL
+	COMMIT
+END

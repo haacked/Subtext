@@ -2,16 +2,6 @@ using System;
 
 namespace Subtext.Framework
 {
-	/// <summary>
-	/// Exception thrown when a blog does not exist.  This is 
-	/// indicative of not having created a blog_config record.
-	/// </summary>
-	public class BlogDoesNotExistException : ApplicationException 
-	{
-		public BlogDoesNotExistException(String s) : base(s) {}
-		public BlogDoesNotExistException(String s, Exception inner) : base(s, inner) {}
-	}
-
 	public class IllegalPostCharactersException : ApplicationException 
 	{
 		public IllegalPostCharactersException(String s) : base(s) {}

@@ -756,6 +756,15 @@ namespace Subtext.Framework.Data
 				info.DaysTillCommentsClose = int.MaxValue;
 			}
 
+			if(reader["CommentDelayInMinutes"] != DBNull.Value)
+			{
+				info.CommentDelayInMinutes = (int)reader["CommentDelayInMinutes"];
+			}
+			else
+			{
+				info.CommentDelayInMinutes = int.MinValue;
+			}
+
 			return info;
 		}
 

@@ -298,6 +298,22 @@
                     BuildAction = "None"
                 />
                 <File
+                    RelPath = "Admin\Comments.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Comments.aspx.cs"
+                    DependentUpon = "Comments.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\Comments.aspx.resx"
+                    DependentUpon = "Comments.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Admin\Configure.aspx"
                     BuildAction = "Content"
                 />

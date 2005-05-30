@@ -4,6 +4,7 @@ using System.Web.UI;
 using Subtext.Common.Data;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
+using Subtext.Framework.Exceptions;
 using Subtext.Framework.Text;
 
 #region Disclaimer/Info
@@ -109,9 +110,8 @@ namespace Subtext.Web.UI.Controls
 			{
 				try
 				{
-
 					Entry currentEntry =  Cacher.GetEntryFromRequest(Context,CacheTime.Short);	
-					
+				
 					Entry entry = new Entry(PostType.Comment);
 					entry.Author = tbName.Text;
 					entry.TitleUrl =  HtmlHelper.CheckForUrl(tbUrl.Text);
@@ -132,12 +132,13 @@ namespace Subtext.Web.UI.Controls
 						user.Expires = DateTime.Now.AddDays(30);
 						Response.Cookies.Add(user);
 					}
-					
+				
 					Response.Redirect(string.Format("{0}?Pending=true",Request.Path));
-					//BindComments();
-					
 				}
-				catch{}
+				catch(BaseCommentException exception)
+				{
+					Message.Text = exception.Message;
+				}
 			}
 		}
 	}

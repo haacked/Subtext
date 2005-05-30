@@ -4,6 +4,7 @@ using System.Web;
 using System.Web.Caching;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
@@ -130,7 +131,7 @@ namespace Subtext.Framework.Configuration
 			BlogInfo info = (BlogInfo)context.Items[cacheKey];
 			if(info == null)
 			{
-				string app = UrlFormats.GetBlogApplicationNameFromRequest(context.Request.RawUrl.ToLower(), context.Request.ApplicationPath);
+				string app = UrlFormats.GetBlogApplicationNameFromRequest(context.Request.RawUrl, context.Request.ApplicationPath);
 				//BlogConfig was not found in the context. It could be in the current cache.
 				string mCacheKey = cacheKey + app;
 
@@ -151,7 +152,11 @@ namespace Subtext.Framework.Configuration
 					info = Subtext.Framework.Configuration.Config.GetBlogInfo(Host, app, !strict);
 					if(info == null)
 					{
-						throw new BlogDoesNotExistException(String.Format("A blog matching the location you requested was not found. Host = [{0}], Application = [{1}]", Host, app));
+						int totalBlogs;
+						BlogInfo.GetActiveBlogs(1, 10, true, out totalBlogs);
+						bool anyBlogsExist = totalBlogs > 0;
+
+						throw new BlogDoesNotExistException(Host, app, anyBlogsExist);
 					}
 
 					BlogConfigurationSettings settings = Subtext.Framework.Configuration.Config.Settings;
