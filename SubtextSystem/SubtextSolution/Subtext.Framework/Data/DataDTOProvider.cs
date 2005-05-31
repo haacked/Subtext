@@ -1133,7 +1133,7 @@ namespace Subtext.Framework.Data
 		/// <summary>
 		/// Initializes the specified provider.
 		/// </summary>
-		/// <param name="name">Firendly Name of the provider.</param>
+		/// <param name="name">Friendly Name of the provider.</param>
 		/// <param name="configValue">Config value.</param>
 		public override void Initialize(string name, NameValueCollection configValue)
 		{

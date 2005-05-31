@@ -1,15 +1,15 @@
 using System;
 using Subtext.Extensibility.Providers;
 
-namespace Subtext.Framework.Providers
+namespace Subtext.Extensibility.Providers
 {
 	/// <summary>
-	/// Configuration section handler for the <see cref="DTOProvider"/>.  Most of 
+	/// Configuration section handler for the <see cref="EmailProvider"/>.  Most of 
 	/// the implementation is in the base <see cref="ProviderSectionHandler"/> 
 	/// class.  This merely follows the factory pattern in providing a method 
 	/// to create a proper <see cref="ProviderConfiguration"/> instance.
 	/// </summary>
-	public class DTOProviderSectionHandler : ProviderSectionHandler
+	public class EmailProviderSectionHandler : ProviderSectionHandler
 	{
 		/// <summary>
 		/// Creates the provider configuration instance.
@@ -17,7 +17,7 @@ namespace Subtext.Framework.Providers
 		/// <returns></returns>
 		public override ProviderConfiguration CreateProviderConfigurationInstance()
 		{
-			return new DTOConfiguration();
+			return new EmailProviderConfiguration();
 		}
 	}
 }

@@ -4,7 +4,7 @@ using Subtext.Extensibility.Providers;
 namespace Subtext.Framework.Providers
 {
 	/// <summary>
-	/// Summary description for DTOConfiguration.
+	/// Summary description for <see cref="DTOConfiguration"/>.
 	/// </summary>
 	public class DTOConfiguration : ProviderConfiguration
 	{

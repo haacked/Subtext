@@ -169,7 +169,17 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Providers\IMailProvider.cs"
+                    RelPath = "Providers\EmailProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Providers\EmailProviderConfiguration.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Providers\EmailProviderSectionHandler.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

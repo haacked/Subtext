@@ -27,6 +27,7 @@ using System.Data.SqlClient;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Framework.Data
 {
@@ -34,7 +35,7 @@ namespace Subtext.Framework.Data
 	/// Provider for using a SQL Server as the back-end data storage 
 	/// for Subtext.
 	/// </summary>
-	public class SqlDataProvider : IDbProvider
+	public class SqlDataProvider : DbProvider
 	{
 		private SqlParameter BlogIDParam
 		{
@@ -44,21 +45,10 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		private string _connectionString;
-		/// <summary>
-		/// Gets or sets the connection string.
-		/// </summary>
-		/// <value></value>
-		public string ConnectionString
-		{
-			get {return this._connectionString;}
-			set {this._connectionString = value;}
-		}
-
-
+		#region DbProvider Methods
 		#region Statistics
 
-		public bool TrackEntry(EntryViewCollection evc)
+		public override bool TrackEntry(EntryViewCollection evc)
 		{
 			if(evc != null)
 			{
@@ -115,7 +105,7 @@ namespace Subtext.Framework.Data
 			return false;
 		}
 
-		public bool TrackEntry(EntryView ev)
+		public override bool TrackEntry(EntryView ev)
 		{
 			//blog_TrackEntry
 			SqlParameter[] p =	
@@ -132,7 +122,7 @@ namespace Subtext.Framework.Data
 
 		#region Images
 
-		public IDataReader GetImagesByCategoryID(int catID, bool ActiveOnly)
+		public override IDataReader GetImagesByCategoryID(int catID, bool ActiveOnly)
 		{
 			SqlParameter[] p =
 			{
@@ -144,7 +134,7 @@ namespace Subtext.Framework.Data
 			return GetReader("blog_GetImageCategory",p);
 		}
 
-		public IDataReader GetSingleImage(int imageID, bool ActiveOnly)
+		public override IDataReader GetSingleImage(int imageID, bool ActiveOnly)
 		{
 			SqlParameter[] p =
 			{
@@ -155,7 +145,7 @@ namespace Subtext.Framework.Data
 			return GetReader("blog_GetSingleImage",p);
 		}
 
-		public int InsertImage(Image _image)
+		public override int InsertImage(Image _image)
 		{
 			SqlParameter[] p = 
 			{
@@ -172,7 +162,7 @@ namespace Subtext.Framework.Data
 			return (int)p[7].Value;
 		}
 
-		public bool UpdateImage(Image _image)
+		public override bool UpdateImage(Image _image)
 		{
 			SqlParameter[] p = 
 			{
@@ -188,7 +178,7 @@ namespace Subtext.Framework.Data
 			return NonQueryBool("blog_UpdateImage",p);
 		}
 
-		public bool DeleteImage(int imageID)
+		public override bool DeleteImage(int imageID)
 		{
 			SqlParameter[] p = 
 			{
@@ -209,7 +199,7 @@ namespace Subtext.Framework.Data
 		/// <param name="pageSize">Size of the page.</param>
 		/// <param name="sortDescending">Sort descending.</param>
 		/// <returns></returns>
-		public IDataReader GetPagedBlogs(int pageIndex, int pageSize, bool sortDescending)
+		public override IDataReader GetPagedBlogs(int pageIndex, int pageSize, bool sortDescending)
 		{
 			string sql = "blog_GetPageableBlogs";
 
@@ -230,7 +220,7 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="blogId">Blog id.</param>
 		/// <returns></returns>
-		public IDataReader GetBlogById(int blogId)
+		public override IDataReader GetBlogById(int blogId)
 		{
 			string sql = "blog_GetBlogById";
 
@@ -251,7 +241,7 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="host">Host.</param>
 		/// <returns></returns>
-		public IDataReader GetBlogsByHost(string host)
+		public override IDataReader GetBlogsByHost(string host)
 		{
 			string sql = "blog_GetBlogsByHost";
 
@@ -265,7 +255,7 @@ namespace Subtext.Framework.Data
 			return command.ExecuteReader(CommandBehavior.CloseConnection);
 		}
 
-		public IDataReader GetPagedLinks(int CategoryID, int pageIndex, int pageSize, bool sortDescending)
+		public override IDataReader GetPagedLinks(int CategoryID, int pageIndex, int pageSize, bool sortDescending)
 		{
 			bool useCategory = CategoryID > -1;
 			string sql = useCategory ? "blog_GetPageableLinksByCategoryID" : "blog_GetPageableLinks";
@@ -288,7 +278,7 @@ namespace Subtext.Framework.Data
 			return command.ExecuteReader(CommandBehavior.CloseConnection);
 			
 		}
-		public IDataReader GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize, bool sortDescending)
+		public override IDataReader GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize, bool sortDescending)
 		{
 			// default setup is for unfiltered pageable results
 			bool useCategoryID = categoryID > -1;
@@ -314,7 +304,7 @@ namespace Subtext.Framework.Data
 		}
 
 		
-		public IDataReader GetPagedViewStats(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate)
+		public override IDataReader GetPagedViewStats(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate)
 		{
 			SqlParameter[] p =
 			{
@@ -327,7 +317,7 @@ namespace Subtext.Framework.Data
 			return GetReader("blog_GetPageableViewStats",p);
 		}
 
-		public IDataReader GetPagedReferrers(int pageIndex, int pageSize)
+		public override IDataReader GetPagedReferrers(int pageIndex, int pageSize)
 		{
 			SqlParameter[] p =
 			{
@@ -339,7 +329,7 @@ namespace Subtext.Framework.Data
 
 		}
 
-		public IDataReader GetPagedReferrers(int pageIndex, int pageSize, int EntryID)
+		public override IDataReader GetPagedReferrers(int pageIndex, int pageSize, int EntryID)
 		{
 			SqlParameter[] p =
 			{
@@ -354,7 +344,7 @@ namespace Subtext.Framework.Data
 		}
 		
 			//Did not really experiment why, but sqlhelper does not seem to like the output parameter after the reader
-		public IDataReader GetPagedFeedback(int pageIndex, int pageSize, bool sortDescending)
+		public override IDataReader GetPagedFeedback(int pageIndex, int pageSize, bool sortDescending)
 		{
 			SqlParameter[] p =
 			{
@@ -373,7 +363,7 @@ namespace Subtext.Framework.Data
 
 		
 		
-		public IDataReader GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc)
+		public override IDataReader GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc)
 		{
 			SqlParameter[] p =
 			{
@@ -386,7 +376,7 @@ namespace Subtext.Framework.Data
 			return GetReader("blog_GetConditionalEntries",p);
 		}
 		
-		public IDataReader GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc, DateTime DateUpdated)
+		public override IDataReader GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc, DateTime DateUpdated)
 		{
 			SqlParameter[] p =
 			{
@@ -400,39 +390,7 @@ namespace Subtext.Framework.Data
 			return GetReader("blog_GetConditionalEntriesByDateUpdated",p);
 		}
 			
-
-		public IDataReader GetHomePageEntries(int ItemCount)
-		{
-			SqlParameter[] p =
-			{
-				SqlHelper.MakeInParam("@ItemCount",SqlDbType.Int,4,ItemCount),
-				BlogIDParam
-			};
-			return GetReader("blog_GetHomePageEntries",p);
-		}
-
-		
-		public IDataReader GetMainSyndicationEntries(int ItemCount)
-		{
-			SqlParameter[] p =
-			{
-				SqlHelper.MakeInParam("@ItemCount",SqlDbType.Int,4,ItemCount),
-				BlogIDParam
-			};
-			return GetReader("blog_GetMainSyndicationEntries",p);
-		}
-
-		public IDataReader GetMainSyndicationEntriesByDateUpdated(DateTime DateUpdated)
-		{
-			SqlParameter[] p =
-			{
-				SqlHelper.MakeInParam("@DateUpdated",SqlDbType.DateTime,8,DateUpdated),
-				BlogIDParam
-			};
-			return GetReader("blog_GetMainSyndicationEntriesByDateUpdated",p);
-		}
-
-		public IDataReader GetEntriesByDateRangle(DateTime start, DateTime stop, PostType postType, bool ActiveOnly)
+		public override IDataReader GetEntriesByDateRangle(DateTime start, DateTime stop, PostType postType, bool ActiveOnly)
 		{
 			SqlParameter[] p =	
 			{
@@ -445,7 +403,7 @@ namespace Subtext.Framework.Data
 			return GetReader("blog_GetEntriesByDayRange",p);
 		}
 
-		public DataSet GetRecentPostsWithCategories(int ItemCount, bool ActiveOnly)
+		public override DataSet GetRecentPostsWithCategories(int ItemCount, bool ActiveOnly)
 		{
 			SqlParameter[] p =
 			{
@@ -459,7 +417,7 @@ namespace Subtext.Framework.Data
 			return ds;
 		}
 
-		public IDataReader GetCategoryEntry(int postID, bool ActiveOnly)
+		public override IDataReader GetCategoryEntry(int postID, bool ActiveOnly)
 		{
 			SqlParameter[] p =
 			{
@@ -471,7 +429,7 @@ namespace Subtext.Framework.Data
 			
 		}
 
-			 public IDataReader GetCategoryEntry(string EntryName, bool ActiveOnly)
+			 public override IDataReader GetCategoryEntry(string EntryName, bool ActiveOnly)
 			 {
 				 SqlParameter[] p =
 			{
@@ -483,7 +441,7 @@ namespace Subtext.Framework.Data
 			
 			 }
 
-		public IDataReader GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly)
+		public override IDataReader GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly)
 		{
 			SqlParameter[] p =
 			{
@@ -495,7 +453,7 @@ namespace Subtext.Framework.Data
 			return GetReader("blog_GetRecentEntries",p);
 		}
 
-		public IDataReader GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly, DateTime DateUpdated)
+		public override IDataReader GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly, DateTime DateUpdated)
 		{
 			SqlParameter[] p =
 			{
@@ -508,7 +466,7 @@ namespace Subtext.Framework.Data
 			return GetReader("blog_GetRecentEntriesByDateUpdated",p);
 		}
 
-		public IDataReader GetEntry(string entryName, bool ActiveOnly)
+		public override IDataReader GetEntry(string entryName, bool ActiveOnly)
 		{
 			SqlParameter[] p =
 			{
@@ -525,7 +483,7 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="checksumHash">Checksum hash.</param>
 		/// <returns></returns>
-		public IDataReader GetCommentByChecksumHash(string checksumHash)
+		public override IDataReader GetCommentByChecksumHash(string checksumHash)
 		{
 			SqlParameter[] p =
 			{
@@ -535,7 +493,7 @@ namespace Subtext.Framework.Data
 			return GetReader("blog_GetCommentByChecksumHash", p);
 		}
 
-		public IDataReader GetEntry(int postID, bool ActiveOnly)
+		public override IDataReader GetEntry(int postID, bool ActiveOnly)
 		{
 			SqlParameter[] p =
 			{
@@ -546,7 +504,7 @@ namespace Subtext.Framework.Data
 			return GetReader("blog_GetSingleEntry" ,p);
 		}
 
-		public IDataReader GetSingleDay(DateTime dt)
+		public override IDataReader GetSingleDay(DateTime dt)
 		{
 			SqlParameter[] p =
 			{
@@ -556,7 +514,7 @@ namespace Subtext.Framework.Data
 			return GetReader("blog_GetSingleDay",p);
 		}
 
-		public IDataReader GetEntriesByCategory(int ItemCount, int catID, bool ActiveOnly)
+		public override IDataReader GetEntriesByCategory(int ItemCount, int catID, bool ActiveOnly)
 		{
 			SqlParameter[] p =
 			{
@@ -569,7 +527,7 @@ namespace Subtext.Framework.Data
 	
 		}
 
-		public IDataReader GetEntriesByCategory(int ItemCount, string CategoryName, bool ActiveOnly)
+		public override IDataReader GetEntriesByCategory(int ItemCount, string CategoryName, bool ActiveOnly)
 		{
 			SqlParameter[] p =
 			{
@@ -582,7 +540,7 @@ namespace Subtext.Framework.Data
 	
 		}
 
-		public IDataReader GetEntriesByCategory(int ItemCount, int catID, DateTime DateUpdated, bool ActiveOnly)
+		public override IDataReader GetEntriesByCategory(int ItemCount, int catID, DateTime DateUpdated, bool ActiveOnly)
 		{
 			SqlParameter[] p =
 			{
@@ -595,7 +553,7 @@ namespace Subtext.Framework.Data
 			return GetReader("blog_GetPostsByCategoryIDByDateUpdated",p);
 		}
 
-		public IDataReader GetEntriesByCategory(int ItemCount, string CategoryName, DateTime DateUpdated, bool ActiveOnly)
+		public override IDataReader GetEntriesByCategory(int ItemCount, string CategoryName, DateTime DateUpdated, bool ActiveOnly)
 		{
 			SqlParameter[] p =
 			{
@@ -608,7 +566,7 @@ namespace Subtext.Framework.Data
 			return GetReader("blog_GetPostsByCategoryIDByDateUpdated",p);
 		}
 
-		public IDataReader GetPostsByCategoryID(int ItemCount, int catID)
+		public override IDataReader GetPostsByCategoryID(int ItemCount, int catID)
 		{
 			SqlParameter[] p =
 			{
@@ -619,7 +577,7 @@ namespace Subtext.Framework.Data
 		}
 
 		//Should power both EntryCollection and EntryDayCollection
-		public IDataReader GetPostCollectionByMonth(int month, int year)
+		public override IDataReader GetPostCollectionByMonth(int month, int year)
 		{
 			SqlParameter[] p =
 			{
@@ -630,7 +588,7 @@ namespace Subtext.Framework.Data
 		}
 
 //		//Should power both EntryCollection and EntryDayCollection
-//		public IDataReader GetPostsByMonth(int month, int year)
+//		public override IDataReader GetPostsByMonth(int month, int year)
 //		{
 //			SqlParameter[] p =
 //			{
@@ -640,7 +598,7 @@ namespace Subtext.Framework.Data
 //			return GetReader("blog_GetPostsByMonth",p);
 //		}
 
-		public IDataReader GetRecentDayPosts(int ItemCount, bool ActiveOnly)
+		public override IDataReader GetRecentDayPosts(int ItemCount, bool ActiveOnly)
 		{
 			SqlParameter[] p =
 			{
@@ -655,7 +613,7 @@ namespace Subtext.Framework.Data
 
 		#region Update Blog Data
 
-		public bool DeleteEntry(int PostID)
+		public override bool DeleteEntry(int PostID)
 		{
 			SqlParameter[] p =
 			{
@@ -665,7 +623,7 @@ namespace Subtext.Framework.Data
 			return NonQueryBool("blog_DeletePost",p);
 		}
 
-		public int InsertCategoryEntry(CategoryEntry ce)
+		public override int InsertCategoryEntry(CategoryEntry ce)
 		{
 			int PostID = InsertEntry(ce);
 			if(PostID > -1 && ce.Categories != null && ce.Categories.Length > 0)
@@ -694,7 +652,7 @@ namespace Subtext.Framework.Data
 		}
 
 		//use interate functions
-		public bool UpdateCategoryEntry(CategoryEntry ce)
+		public override bool UpdateCategoryEntry(CategoryEntry ce)
 		{
 			bool result = UpdateEntry(ce);
 			if(ce.Categories != null && ce.Categories.Length > 0)
@@ -716,7 +674,7 @@ namespace Subtext.Framework.Data
 			return result;
 		}
 
-		public bool SetEntryCategoryList(int PostID, int[] Categories)
+		public override bool SetEntryCategoryList(int PostID, int[] Categories)
 		{
 			if(Categories == null || Categories.Length == 0)
 			{
@@ -741,7 +699,7 @@ namespace Subtext.Framework.Data
 		}
 
 		//maps to blog_InsertBlog
-		public int InsertEntry(Entry entry)
+		public override int InsertEntry(Entry entry)
 		{
 			SqlParameter[] p =
 			{
@@ -770,7 +728,7 @@ namespace Subtext.Framework.Data
 
 		
 
-		public bool UpdateEntry(Entry entry)
+		public override bool UpdateEntry(Entry entry)
 		{
 			SqlParameter[] p =
 			{
@@ -795,7 +753,7 @@ namespace Subtext.Framework.Data
 		}
 
 		//Not that efficent, but maybe we should just iterage over feedback items?
-		public int InsertPingTrackEntry(Entry entry)
+		public override int InsertPingTrackEntry(Entry entry)
 		{			
 			if(entry.PostType == PostType.PingTrack)
 			{
@@ -834,7 +792,7 @@ namespace Subtext.Framework.Data
 
 		#region Links
 
-		public IDataReader GetLinkCollectionByPostID(int PostID)
+		public override IDataReader GetLinkCollectionByPostID(int PostID)
 		{
 			SqlParameter[] p =
 			{
@@ -850,7 +808,7 @@ namespace Subtext.Framework.Data
 //			SqlHelper.ExecuteNonQuery(conn,CommandType.StoredProcedure,"blog_DeleteLinksByPostID",SqlHelper.MakeInParam("@PostID",SqlDbType.Int,4,postID),BlogIDParam);
 //		}
 		
-		public bool AddEntryToCategories(int PostID, LinkCollection lc)
+		public override bool AddEntryToCategories(int PostID, LinkCollection lc)
 		{
 			int count = 0;
 			if(lc != null)
@@ -885,7 +843,7 @@ namespace Subtext.Framework.Data
 			return false;
 		}
 
-		public bool DeleteLink(int LinkID)
+		public override bool DeleteLink(int LinkID)
 		{
 			SqlParameter[] p = 
 			{
@@ -896,7 +854,7 @@ namespace Subtext.Framework.Data
 
 		}
 
-		public IDataReader GetSingleLink(int linkID)
+		public override IDataReader GetSingleLink(int linkID)
 		{
 			SqlParameter[] p = 
 			{
@@ -906,7 +864,7 @@ namespace Subtext.Framework.Data
 			return GetReader("blog_GetSingleLink",p);
 		}
 
-		public int InsertLink(Link link)
+		public override int InsertLink(Link link)
 		{
 			SqlParameter[] p = 
 			{
@@ -925,7 +883,7 @@ namespace Subtext.Framework.Data
 
 		}
 
-		public bool UpdateLink(Link link)
+		public override bool UpdateLink(Link link)
 		{
 			SqlParameter[] p = 
 			{
@@ -942,7 +900,7 @@ namespace Subtext.Framework.Data
 		}
 
 
-		public IDataReader GetCategories(CategoryType catType, bool ActiveOnly)
+		public override IDataReader GetCategories(CategoryType catType, bool ActiveOnly)
 		{
 			SqlParameter[] p ={SqlHelper.MakeInParam("@CategoryType",SqlDbType.TinyInt,1,catType),
 							  SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
@@ -951,7 +909,7 @@ namespace Subtext.Framework.Data
 		}
 
 		//maps to blog_GetActiveCategoriesWithLinkCollection
-		public DataSet GetActiveCategories()
+		public override DataSet GetActiveCategories()
 		{
 			SqlParameter[] p ={BlogIDParam};
 			DataSet ds = SqlHelper.ExecuteDataset(ConnectionString,CommandType.StoredProcedure,"blog_GetActiveCategoriesWithLinkCollection",p);
@@ -963,7 +921,7 @@ namespace Subtext.Framework.Data
 		}
 
 		//maps to blog_GetLinksByCategoryID
-		public IDataReader GetLinksByCategoryID(int catID, bool ActiveOnly)
+		public override IDataReader GetLinksByCategoryID(int catID, bool ActiveOnly)
 		{
 			string sql = ActiveOnly ? "blog_GetLinksByActiveCategoryID" : "blog_GetLinksByCategoryID";
 			SqlParameter[] p = 
@@ -980,7 +938,7 @@ namespace Subtext.Framework.Data
 		#region Categories
 
 
-		public bool DeleteCategory(int CatID)
+		public override bool DeleteCategory(int CatID)
 		{
 			SqlParameter[] p = 
 			{
@@ -992,7 +950,7 @@ namespace Subtext.Framework.Data
 		}
 
 		//maps to blog_GetCategory
-		public IDataReader GetLinkCategory(int catID, bool IsActive)
+		public override IDataReader GetLinkCategory(int catID, bool IsActive)
 		{
 			SqlParameter[] p = 
 			{
@@ -1004,7 +962,7 @@ namespace Subtext.Framework.Data
 		}
 		
 
-		public IDataReader GetLinkCategory(string categoryName, bool IsActive)
+		public override IDataReader GetLinkCategory(string categoryName, bool IsActive)
 		{
 			SqlParameter[] p = 
 			{
@@ -1015,7 +973,7 @@ namespace Subtext.Framework.Data
 			return GetReader("blog_GetCategoryByName",p);
 		}
 
-		public bool UpdateCategory(LinkCategory lc)
+		public override bool UpdateCategory(LinkCategory lc)
 		{
 			SqlParameter[] p =
 			{
@@ -1031,7 +989,7 @@ namespace Subtext.Framework.Data
 		}
 
 		//maps to blog_LinkCategory
-		public int InsertCategory(LinkCategory lc)
+		public override int InsertCategory(LinkCategory lc)
 		{
 			SqlParameter[] p =
 			{
@@ -1053,7 +1011,7 @@ namespace Subtext.Framework.Data
 
 		//we could pass ParentID with the rest of the sprocs
 		//one interface for entry data?
-		public IDataReader GetFeedBack(int PostID)
+		public override IDataReader GetFeedBack(int PostID)
 		{
 			SqlParameter[] p =
 			{
@@ -1075,7 +1033,7 @@ namespace Subtext.Framework.Data
 		/// <param name="userName">Name of the user.</param>
 		/// <param name="password">Password.</param>
 		/// <returns></returns>
-		public bool AddBlogConfiguration(string title, string userName, string password, string host, string application)
+		public override bool AddBlogConfiguration(string title, string userName, string password, string host, string application)
 		{
 			SqlParameter[] parameters = 
 			{
@@ -1099,7 +1057,7 @@ namespace Subtext.Framework.Data
 		/// <param name="host">Hostname.</param>
 		/// <param name="application">Application.</param>
 		/// <returns></returns>
-		public IDataReader GetBlogInfo(string host, string application)
+		public override IDataReader GetBlogInfo(string host, string application)
 		{
 			SqlParameter[] p = 
 			{
@@ -1123,7 +1081,7 @@ namespace Subtext.Framework.Data
 		/// <param name="strict">If false, then this will return a blog record if 
 		/// there is only one blog record, regardless if the application and hostname match.</param>
 		/// <returns></returns>
-		public IDataReader GetBlogInfo(string host, string application, bool strict)
+		public override IDataReader GetBlogInfo(string host, string application, bool strict)
 		{
 			SqlParameter[] p = 
 			{
@@ -1135,7 +1093,7 @@ namespace Subtext.Framework.Data
 		}
 
 		
-		public IDataReader GetBlogInfo(int BlogID)
+		public override IDataReader GetBlogInfo(int BlogID)
 		{
 			SqlParameter[] p = 
 			{
@@ -1150,7 +1108,7 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="info">Config.</param>
 		/// <returns></returns>
-		public bool UpdateBlog(BlogInfo info)
+		public override bool UpdateBlog(BlogInfo info)
 		{
 			object daysTillCommentsClose = null;
 			if(info.DaysTillCommentsClose > -1 && info.DaysTillCommentsClose < int.MaxValue)
@@ -1198,13 +1156,13 @@ namespace Subtext.Framework.Data
 
 		#region Archives
 
-		public IDataReader GetPostsByMonthArchive()
+		public override IDataReader GetPostsByMonthArchive()
 		{
 			SqlParameter[] p = {BlogIDParam};
 			return GetReader("blog_GetPostsByMonthArchive",p);
 		}
 
-		public IDataReader GetPostsByYearArchive()
+		public override IDataReader GetPostsByYearArchive()
 		{
 			SqlParameter[] p = {BlogIDParam};
 			return GetReader("blog_GetPostsByYearArchive",p);
@@ -1214,7 +1172,7 @@ namespace Subtext.Framework.Data
 
 		#region KeyWords
 
-		public IDataReader GetKeyWord(int KeyWordID)
+		public override IDataReader GetKeyWord(int KeyWordID)
 		{
 			SqlParameter[] p =
 			{
@@ -1224,7 +1182,7 @@ namespace Subtext.Framework.Data
 			return GetReader("blog_GetKeyWord",p);
 		}
 
-		public bool DeleteKeyWord(int KeyWordID)
+		public override bool DeleteKeyWord(int KeyWordID)
 		{
 			SqlParameter[] p =
 			{
@@ -1236,7 +1194,7 @@ namespace Subtext.Framework.Data
 
 
 
-		public int InsertKeyWord(KeyWord kw)
+		public override int InsertKeyWord(KeyWord kw)
 		{
 			SqlParameter[] p =
 			{
@@ -1254,7 +1212,7 @@ namespace Subtext.Framework.Data
 			return (int)p[8].Value;
 		}
 
-		public bool UpdateKeyWord(KeyWord kw)
+		public override bool UpdateKeyWord(KeyWord kw)
 		{
 			SqlParameter[] p =
 			{
@@ -1273,7 +1231,7 @@ namespace Subtext.Framework.Data
 
 
 
-		public IDataReader GetKeyWords()
+		public override IDataReader GetKeyWords()
 		{
 			SqlParameter[] p =
 			{
@@ -1282,7 +1240,7 @@ namespace Subtext.Framework.Data
 			return GetReader("blog_GetBlogKeyWords",p);
 		}
 
-		public IDataReader GetPagedKeyWords(int pageIndex, int pageSize,bool sortDescending)
+		public override IDataReader GetPagedKeyWords(int pageIndex, int pageSize,bool sortDescending)
 		{
 			SqlParameter[] p = 
 			{
@@ -1315,7 +1273,7 @@ namespace Subtext.Framework.Data
 		}
 
 		#endregion
-
+		#endregion
 	}
 }
 

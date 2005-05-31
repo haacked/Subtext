@@ -16,7 +16,7 @@ namespace Subtext.Extensibility.Providers
 		/// <summary>
 		/// Initializes the specified provider.
 		/// </summary>
-		/// <param name="name">Firendly Name of the provider.</param>
+		/// <param name="name">Friendly Name of the provider.</param>
 		/// <param name="configValue">Config value.</param>
 		public abstract void Initialize(string name, NameValueCollection configValue);
 

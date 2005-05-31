@@ -2,17 +2,18 @@ using System;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
-using Subtext.Framework.Data;
 
 namespace Subtext.Framework.Providers
 {
 	/// <summary>
-	/// Summary description for DTOProvider.
+	/// Provides a Data Object Source for interacting with Subtext Data.  One example 
+	/// is a DataDTOProvider, which stores Subtext data in a database (which itself is 
+	/// provided via the <see cref="DbProvider"/> class).
 	/// </summary>
 	public abstract class DTOProvider : ProviderBase
 	{	
 		/// <summary>
-		/// Returns the configured instance of a DTOProvider.
+		/// Returns the configured concrete instance of a <see cref="DTOProvider"/>.
 		/// </summary>
 		/// <returns></returns>
 		public static DTOProvider Instance()
