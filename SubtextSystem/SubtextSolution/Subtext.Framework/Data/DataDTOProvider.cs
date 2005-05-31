@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Specialized;
 using System.Data;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
@@ -15,8 +16,10 @@ namespace Subtext.Framework.Data
 	/// <summary>
 	/// Summary description for DataDTOProvider.
 	/// </summary>
-	public class DataDTOProvider : Subtext.Framework.Data.IDTOProvider
+	public class DataDTOProvider : DTOProvider
 	{	
+		string _name;
+
 		#region Blogs
 		/// <summary>
 		/// Gets a pageable <see cref="BlogInfoCollection"/> of <see cref="BlogInfo"/> instances.
@@ -25,7 +28,7 @@ namespace Subtext.Framework.Data
 		/// <param name="pageSize">Size of the page.</param>
 		/// <param name="sortDescending">Sort descending.</param>
 		/// <returns></returns>
-		public BlogInfoCollection GetPagedBlogs(int pageIndex, int pageSize, bool sortDescending)
+		public override BlogInfoCollection GetPagedBlogs(int pageIndex, int pageSize, bool sortDescending)
 		{
 			IDataReader reader = DbProvider.Instance().GetPagedBlogs(pageIndex, pageSize, sortDescending);
 			try
@@ -51,7 +54,7 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="blogId">Blog id.</param>
 		/// <returns></returns>
-		public BlogInfo GetBlogById(int blogId)
+		public override BlogInfo GetBlogById(int blogId)
 		{
 			using(IDataReader reader = DbProvider.Instance().GetBlogById(blogId))
 			{
@@ -72,7 +75,7 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="host">Host.</param>
 		/// <returns></returns>
-		public BlogInfoCollection GetBlogsByHost(string host)
+		public override BlogInfoCollection GetBlogsByHost(string host)
 		{
 			IDataReader reader = DbProvider.Instance().GetBlogsByHost(host);
 			try
@@ -98,7 +101,7 @@ namespace Subtext.Framework.Data
 
 		#region Paged Posts
 
-		public PagedEntryCollection GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize, bool sortDescending)
+		public override PagedEntryCollection GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize, bool sortDescending)
 		{
 			IDataReader reader = DbProvider.Instance().GetPagedEntries(postType,categoryID,pageIndex,pageSize,sortDescending);
 			try
@@ -119,7 +122,7 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public PagedEntryCollection GetPagedFeedback(int pageIndex, int pageSize, bool sortDescending)
+		public override PagedEntryCollection GetPagedFeedback(int pageIndex, int pageSize, bool sortDescending)
 		{
 			IDataReader reader = DbProvider.Instance().GetPagedFeedback(pageIndex,pageSize,sortDescending);
 			PagedEntryCollection pec = new PagedEntryCollection();
@@ -136,7 +139,7 @@ namespace Subtext.Framework.Data
 
 		#region EntryDays
 
-		public EntryDay GetSingleDay(DateTime dt)
+		public override EntryDay GetSingleDay(DateTime dt)
 		{
 			IDataReader reader = DbProvider.Instance().GetSingleDay(dt);
 			try
@@ -154,7 +157,7 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public EntryDayCollection GetConditionalEntries(int ItemCount, PostConfig pc)
+		public override EntryDayCollection GetConditionalEntries(int ItemCount, PostConfig pc)
 		{
 			IDataReader reader = DbProvider.Instance().GetConditionalEntries(ItemCount,PostType.BlogPost,pc);
 			try
@@ -168,7 +171,7 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public EntryDayCollection GetRecentDayPosts(int ItemCount, bool ActiveOnly)
+		public override EntryDayCollection GetRecentDayPosts(int ItemCount, bool ActiveOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetRecentDayPosts(ItemCount,ActiveOnly);
 			try
@@ -182,7 +185,7 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public EntryDayCollection GetPostsByMonth(int month, int year)
+		public override EntryDayCollection GetPostsByMonth(int month, int year)
 		{
 			IDataReader reader = DbProvider.Instance().GetPostCollectionByMonth(month,year);
 			try
@@ -196,7 +199,7 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public EntryDayCollection GetPostsByCategoryID(int ItemCount, int catID)
+		public override EntryDayCollection GetPostsByCategoryID(int ItemCount, int catID)
 		{
 			IDataReader reader = DbProvider.Instance().GetPostsByCategoryID(ItemCount,catID);
 			try
@@ -214,25 +217,25 @@ namespace Subtext.Framework.Data
 
 		#region EntryCollections
 
-		public EntryCollection GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc)
+		public override EntryCollection GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc)
 		{
 			IDataReader reader = DbProvider.Instance().GetConditionalEntries(ItemCount,pt,pc);
 			return LoadEntryCollectionFromDataReader(reader);
 		}
 
-		public EntryCollection GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc, DateTime DateUpdated)
+		public override EntryCollection GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc, DateTime DateUpdated)
 		{
 			IDataReader reader = DbProvider.Instance().GetConditionalEntries(ItemCount,pt,pc,DateUpdated);
 			return LoadEntryCollectionFromDataReader(reader);
 		}
 
-		public EntryCollection GetFeedBack(int ParrentID)
+		public override EntryCollection GetFeedBack(int ParrentID)
 		{
 			IDataReader reader = DbProvider.Instance().GetFeedBack(ParrentID);
 			return LoadEntryCollectionFromDataReader(reader);
 		}
 
-		public EntryCollection GetFeedBack(Entry ParentEntry)
+		public override EntryCollection GetFeedBack(Entry ParentEntry)
 		{
 			IDataReader reader = DbProvider.Instance().GetFeedBack(ParentEntry.EntryID);
 			UrlFormats formats = Config.CurrentBlog.UrlFormats;
@@ -254,7 +257,7 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public EntryCollection GetRecentPostsWithCategories(int ItemCount, bool ActiveOnly)
+		public override EntryCollection GetRecentPostsWithCategories(int ItemCount, bool ActiveOnly)
 		{
 			DataSet ds = DbProvider.Instance().GetRecentPostsWithCategories(ItemCount, ActiveOnly);
 			EntryCollection ec = new EntryCollection();
@@ -268,25 +271,25 @@ namespace Subtext.Framework.Data
 			return ec;
 		}
 
-		public EntryCollection GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly)
+		public override EntryCollection GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetRecentPosts(ItemCount,postType,ActiveOnly);
 			return LoadEntryCollectionFromDataReader(reader);
 		}
 
-		public EntryCollection GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly, DateTime DateUpdated)
+		public override EntryCollection GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly, DateTime DateUpdated)
 		{
 			IDataReader reader = DbProvider.Instance().GetRecentPosts(ItemCount,postType,ActiveOnly,DateUpdated);
 			return LoadEntryCollectionFromDataReader(reader);
 		}
 
-		public EntryCollection GetPostCollectionByMonth(int month, int year)
+		public override EntryCollection GetPostCollectionByMonth(int month, int year)
 		{
 			IDataReader reader = DbProvider.Instance().GetPostCollectionByMonth(month,year);
 			return LoadEntryCollectionFromDataReader(reader);
 		}
 
-		public EntryCollection GetPostsByDayRange(DateTime start, DateTime stop, PostType postType, bool ActiveOnly)
+		public override EntryCollection GetPostsByDayRange(DateTime start, DateTime stop, PostType postType, bool ActiveOnly)
 		{
 			IDataReader reader = null;
 			if(stop > start)
@@ -309,25 +312,25 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public EntryCollection GetEntriesByCategory(int ItemCount, string categoryName, bool ActiveOnly)
+		public override EntryCollection GetEntriesByCategory(int ItemCount, string categoryName, bool ActiveOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetEntriesByCategory(ItemCount,categoryName,ActiveOnly);
 			return LoadEntryCollectionFromDataReader(reader);
 		}
 
-		public EntryCollection GetEntriesByCategory(int ItemCount, string categoryName, DateTime DateUpdated, bool ActiveOnly)
+		public override EntryCollection GetEntriesByCategory(int ItemCount, string categoryName, DateTime DateUpdated, bool ActiveOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetEntriesByCategory(ItemCount,categoryName,DateUpdated,ActiveOnly);
 			return LoadEntryCollectionFromDataReader(reader);
 		}
 
-		public EntryCollection GetEntriesByCategory(int ItemCount, int catID, bool ActiveOnly)
+		public override EntryCollection GetEntriesByCategory(int ItemCount, int catID, bool ActiveOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetEntriesByCategory(ItemCount,catID,ActiveOnly);
 			return LoadEntryCollectionFromDataReader(reader);
 		}
 
-		public EntryCollection GetEntriesByCategory(int ItemCount, int catID, DateTime DateUpdated, bool ActiveOnly)
+		public override EntryCollection GetEntriesByCategory(int ItemCount, int catID, DateTime DateUpdated, bool ActiveOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetEntriesByCategory(ItemCount,catID,DateUpdated,ActiveOnly);
 			return LoadEntryCollectionFromDataReader(reader);
@@ -373,26 +376,26 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="checksumHash">Checksum hash.</param>
 		/// <returns></returns>
-		public Entry GetCommentByChecksumHash(string checksumHash)
+		public override Entry GetCommentByChecksumHash(string checksumHash)
 		{
 			IDataReader reader = DbProvider.Instance().GetCommentByChecksumHash(checksumHash);
 			return LoadEntryFromReader(reader);
 		}
 
-		public Entry GetEntry(int postID, bool ActiveOnly)
+		public override Entry GetEntry(int postID, bool ActiveOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetEntry(postID, ActiveOnly);
 			return LoadEntryFromReader(reader);
 		}
 
 
-		public Entry GetEntry(string EntryName, bool ActiveOnly)
+		public override Entry GetEntry(string EntryName, bool ActiveOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetEntry(EntryName,ActiveOnly);
 			return LoadEntryFromReader(reader);
 		}
 
-		public CategoryEntry GetCategoryEntry(int postid, bool ActiveOnly)
+		public override CategoryEntry GetCategoryEntry(int postid, bool ActiveOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetCategoryEntry(postid,ActiveOnly);
 			try
@@ -411,7 +414,7 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public CategoryEntry GetCategoryEntry(string EntryName, bool ActiveOnly)
+		public override CategoryEntry GetCategoryEntry(string EntryName, bool ActiveOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetCategoryEntry(EntryName,ActiveOnly);
 			try
@@ -435,7 +438,7 @@ namespace Subtext.Framework.Data
 
 		#region Delete
 
-		public bool Delete(int PostID)
+		public override bool Delete(int PostID)
 		{
 			return DbProvider.Instance().DeleteEntry(PostID);
 		}
@@ -444,12 +447,12 @@ namespace Subtext.Framework.Data
 
 		#region Create Entry
 
-		public int Create(Entry entry)
+		public override int Create(Entry entry)
 		{
 			return Create(entry,null);
 		}
 
-		public int Create(Entry entry, int[] CategoryIDs)
+		public override int Create(Entry entry, int[] CategoryIDs)
 		{
 			if(entry.PostType == PostType.PingTrack)
 			{
@@ -493,12 +496,12 @@ namespace Subtext.Framework.Data
 
 		#region Update
 
-		public bool Update(Entry entry)
+		public override bool Update(Entry entry)
 		{
 			return Update(entry,null);
 		}
 
-		public bool Update(Entry entry, int[] CategoryIDs)
+		public override bool Update(Entry entry, int[] CategoryIDs)
 		{
 			if(!FormatEntry(ref entry,false))
 			{
@@ -550,7 +553,7 @@ namespace Subtext.Framework.Data
 
 		#region SetCategoriesList
 
-		public bool SetEntryCategoryList(int EntryID, int[] Categories)
+		public override bool SetEntryCategoryList(int EntryID, int[] Categories)
 		{
 			return DbProvider.Instance().SetEntryCategoryList(EntryID,Categories);
 		}
@@ -608,7 +611,7 @@ namespace Subtext.Framework.Data
 
 		#region Paged Links
 
-		public PagedLinkCollection GetPagedLinks(int categoryTypeID, int pageIndex, int pageSize, bool sortDescending)
+		public override PagedLinkCollection GetPagedLinks(int categoryTypeID, int pageIndex, int pageSize, bool sortDescending)
 		{
 			IDataReader reader = DbProvider.Instance().GetPagedLinks(categoryTypeID, pageIndex, pageSize, sortDescending);
 			try
@@ -633,7 +636,7 @@ namespace Subtext.Framework.Data
 
 		#region LinkCollection
 
-		public LinkCollection GetLinkCollectionByPostID(int PostID)
+		public override LinkCollection GetLinkCollectionByPostID(int PostID)
 		{
 			IDataReader reader = DbProvider.Instance().GetLinkCollectionByPostID(PostID);
 			try
@@ -651,7 +654,7 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public LinkCollection GetLinksByCategoryID(int catID, bool ActiveOnly)
+		public override LinkCollection GetLinksByCategoryID(int catID, bool ActiveOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetLinksByCategoryID(catID,ActiveOnly);
 			LinkCollection lc = new LinkCollection();
@@ -673,7 +676,7 @@ namespace Subtext.Framework.Data
 
 		#region Single Link
 
-		public Link GetSingleLink(int linkID)
+		public override Link GetSingleLink(int linkID)
 		{
 			IDataReader reader = DbProvider.Instance().GetSingleLink(linkID);
 			try
@@ -696,7 +699,7 @@ namespace Subtext.Framework.Data
 
 		#region LinkCategoryCollection
 
-		public LinkCategoryCollection GetCategories(CategoryType catType, bool ActiveOnly)
+		public override LinkCategoryCollection GetCategories(CategoryType catType, bool ActiveOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetCategories(catType,ActiveOnly);
 			LinkCategoryCollection lcc = new LinkCategoryCollection();
@@ -714,7 +717,7 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public LinkCategoryCollection GetActiveCategories()
+		public override LinkCategoryCollection GetActiveCategories()
 		{
 			DataSet ds = DbProvider.Instance().GetActiveCategories();
 			LinkCategoryCollection lcc = new LinkCategoryCollection();
@@ -735,7 +738,7 @@ namespace Subtext.Framework.Data
 
 		#region LinkCategory
 
-		public LinkCategory GetLinkCategory(int CategoryID, bool IsActive)
+		public override LinkCategory GetLinkCategory(int CategoryID, bool IsActive)
 		{
 			IDataReader reader = DbProvider.Instance().GetLinkCategory(CategoryID,IsActive);
 			
@@ -751,7 +754,7 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public LinkCategory GetLinkCategory(string categoryName,bool IsActive)
+		public override LinkCategory GetLinkCategory(string categoryName,bool IsActive)
 		{
 			IDataReader reader = DbProvider.Instance().GetLinkCategory(categoryName,IsActive);
 			
@@ -771,32 +774,32 @@ namespace Subtext.Framework.Data
 
 		#region Edit Links/Categories
 
-		public bool UpdateLink(Link link)
+		public override bool UpdateLink(Link link)
 		{
 			return DbProvider.Instance().UpdateLink(link);
 		}
 
-		public int CreateLink(Link link)
+		public override int CreateLink(Link link)
 		{
 			return DbProvider.Instance().InsertLink(link);
 		}
 
-		public bool UpdateLinkCategory(LinkCategory lc)
+		public override bool UpdateLinkCategory(LinkCategory lc)
 		{
 			return DbProvider.Instance().UpdateCategory(lc);
 		}
 		
-		public int CreateLinkCategory(LinkCategory lc)
+		public override int CreateLinkCategory(LinkCategory lc)
 		{
 			return DbProvider.Instance().InsertCategory(lc);
 		}
 
-		public bool DeleteLinkCategory(int CategoryID)
+		public override bool DeleteLinkCategory(int CategoryID)
 		{
 			return DbProvider.Instance().DeleteCategory(CategoryID);
 		}
 
-		public bool DeleteLink(int LinkID)
+		public override bool DeleteLink(int LinkID)
 		{
 			return DbProvider.Instance().DeleteLink(LinkID);
 		}
@@ -807,7 +810,7 @@ namespace Subtext.Framework.Data
 
 		#region Stats
 
-		public PagedViewStatCollection GetPagedViewStats(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate)
+		public override PagedViewStatCollection GetPagedViewStats(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate)
 		{
 
 			IDataReader reader = DbProvider.Instance().GetPagedViewStats(pageIndex,pageSize,beginDate,endDate);
@@ -828,7 +831,7 @@ namespace Subtext.Framework.Data
 			}	
 		}
 
-		public PagedReferrerCollection GetPagedReferrers(int pageIndex, int pageSize)
+		public override PagedReferrerCollection GetPagedReferrers(int pageIndex, int pageSize)
 		{
 			IDataReader reader = DbProvider.Instance().GetPagedReferrers(pageIndex,pageSize);
 			try
@@ -848,7 +851,7 @@ namespace Subtext.Framework.Data
 			}	
 		}
 
-		public PagedReferrerCollection GetPagedReferrers(int pageIndex, int pageSize, int EntryID)
+		public override PagedReferrerCollection GetPagedReferrers(int pageIndex, int pageSize, int EntryID)
 		{
 			IDataReader reader = DbProvider.Instance().GetPagedReferrers(pageIndex,pageSize,EntryID);
 			try
@@ -868,12 +871,12 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public bool TrackEntry(EntryView ev)
+		public override bool TrackEntry(EntryView ev)
 		{
 			return DbProvider.Instance().TrackEntry(ev);
 		}
 
-		public bool TrackEntry(EntryViewCollection evc)
+		public override bool TrackEntry(EntryViewCollection evc)
 		{
 			return DbProvider.Instance().TrackEntry(evc);
 		}
@@ -893,12 +896,12 @@ namespace Subtext.Framework.Data
 		/// <param name="userName">Name of the user.</param>
 		/// <param name="password">Password.</param>
 		/// <returns></returns>
-		public bool CreateBlog(string title, string userName, string password, string host, string application)
+		public override bool CreateBlog(string title, string userName, string password, string host, string application)
 		{
 			return DbProvider.Instance().AddBlogConfiguration(title, userName, password, host, application);
 		}
 		
-		public bool UpdateBlog(BlogInfo info)
+		public override bool UpdateBlog(BlogInfo info)
 		{
 			return DbProvider.Instance().UpdateBlog(info);
 		}
@@ -911,7 +914,7 @@ namespace Subtext.Framework.Data
 		/// <param name="hostname">Hostname.</param>
 		/// <param name="application">Application.</param>
 		/// <returns></returns>
-		public BlogInfo GetBlogInfo(string hostname, string application)
+		public override BlogInfo GetBlogInfo(string hostname, string application)
 		{
 			return GetBlogInfo(hostname, application, true);
 		}
@@ -930,7 +933,7 @@ namespace Subtext.Framework.Data
 		/// <param name="strict">If false, then this will return a blog record if 
 		/// there is only one blog record, regardless if the application and hostname match.</param>
 		/// <returns></returns>
-		public BlogInfo GetBlogInfo(string hostname, string application, bool strict)
+		public override BlogInfo GetBlogInfo(string hostname, string application, bool strict)
 		{
 			IDataReader reader = DbProvider.Instance().GetBlogInfo(hostname, application, strict);
 			try
@@ -949,7 +952,7 @@ namespace Subtext.Framework.Data
 			}
 		}
 		
-		public BlogInfo GetBlogInfo(int BlogID)
+		public override BlogInfo GetBlogInfo(int BlogID)
 		{
 			return null;
 		}
@@ -959,7 +962,7 @@ namespace Subtext.Framework.Data
 
 		#region KeyWords
 
-		public KeyWord GetKeyWord(int KeyWordID)
+		public override KeyWord GetKeyWord(int KeyWordID)
 		{
 			IDataReader reader = DbProvider.Instance().GetKeyWord(KeyWordID);
 			try
@@ -978,7 +981,7 @@ namespace Subtext.Framework.Data
 			}
 		}
 		
-		public KeyWordCollection GetKeyWords()
+		public override KeyWordCollection GetKeyWords()
 		{
 			IDataReader reader = DbProvider.Instance().GetKeyWords();
 			try
@@ -996,7 +999,7 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public PagedKeyWordCollection GetPagedKeyWords(int pageIndex, int pageSize,bool sortDescending)
+		public override PagedKeyWordCollection GetPagedKeyWords(int pageIndex, int pageSize,bool sortDescending)
 		{
 			IDataReader reader = DbProvider.Instance().GetPagedKeyWords(pageIndex,pageSize,sortDescending);
 			try
@@ -1017,17 +1020,17 @@ namespace Subtext.Framework.Data
 			}
 		}
 		
-		public bool UpdateKeyWord(KeyWord kw)
+		public override bool UpdateKeyWord(KeyWord kw)
 		{
 			return DbProvider.Instance().UpdateKeyWord(kw);
 		}
 
-		public int InsertKeyWord(KeyWord kw)
+		public override int InsertKeyWord(KeyWord kw)
 		{
 			return DbProvider.Instance().InsertKeyWord(kw);
 		}
 
-		public bool DeleteKeyWord(int KeyWordID)
+		public override bool DeleteKeyWord(int KeyWordID)
 		{
 			return DbProvider.Instance().DeleteKeyWord(KeyWordID);
 		}
@@ -1036,7 +1039,7 @@ namespace Subtext.Framework.Data
 
 		#region Images
 
-		public ImageCollection GetImagesByCategoryID(int catID, bool ActiveOnly)
+		public override ImageCollection GetImagesByCategoryID(int catID, bool ActiveOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetImagesByCategoryID(catID,ActiveOnly);
 			try
@@ -1060,7 +1063,7 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public Image GetSingleImage(int imageID, bool ActiveOnly)
+		public override Image GetSingleImage(int imageID, bool ActiveOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetSingleImage(imageID,ActiveOnly);
 			try
@@ -1078,17 +1081,17 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public int InsertImage(Subtext.Framework.Components.Image _image)
+		public override int InsertImage(Subtext.Framework.Components.Image _image)
 		{
 			return DbProvider.Instance().InsertImage(_image);
 		}
 
-		public bool UpdateImage(Subtext.Framework.Components.Image _image)
+		public override bool UpdateImage(Subtext.Framework.Components.Image _image)
 		{
 			return DbProvider.Instance().UpdateImage(_image);
 		}
 
-		public bool DeleteImage(int ImageID)
+		public override bool DeleteImage(int ImageID)
 		{
 			return DbProvider.Instance().DeleteImage(ImageID);
 		}
@@ -1097,7 +1100,7 @@ namespace Subtext.Framework.Data
 
 		#region Archives
 
-		public ArchiveCountCollection GetPostsByMonthArchive()
+		public override ArchiveCountCollection GetPostsByMonthArchive()
 		{
 			IDataReader reader = DbProvider.Instance().GetPostsByMonthArchive();
 			try
@@ -1111,7 +1114,7 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public ArchiveCountCollection GetPostsByYearArchive()
+		public override ArchiveCountCollection GetPostsByYearArchive()
 		{
 			IDataReader reader = DbProvider.Instance().GetPostsByYearArchive();
 			try
@@ -1126,6 +1129,27 @@ namespace Subtext.Framework.Data
 		}
 
 		#endregion
-		
+
+		/// <summary>
+		/// Initializes the specified provider.
+		/// </summary>
+		/// <param name="name">Firendly Name of the provider.</param>
+		/// <param name="configValue">Config value.</param>
+		public override void Initialize(string name, NameValueCollection configValue)
+		{
+			_name = name;
+		}
+
+		/// <summary>
+		/// Returns the friendly name of the provider when the provider is initialized.
+		/// </summary>
+		/// <value></value>
+		public override string Name
+		{
+			get
+			{
+				return _name;
+			}
+		}
 	}
 }

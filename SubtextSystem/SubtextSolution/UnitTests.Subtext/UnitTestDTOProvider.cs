@@ -1,18 +1,20 @@
 using System;
+using System.Collections.Specialized;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Data;
+using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 
 namespace UnitTests.Subtext
 {
 	/// <summary>
-	/// Implements the <see cref="IDTOProvider" /> interface specifically for the purpose 
+	/// Implements the <see cref="DTOProvider" /> interface specifically for the purpose 
 	/// of unit testing.
 	/// </summary>
-	public class UnitTestDTOProvider : IDTOProvider
+	public class UnitTestDTOProvider : DTOProvider
 	{
+		string _name;
 		static int _nextBlogId = 1;
 		BlogInfo _blogById = null;
 		BlogInfoCollection _pagedBlogs = new BlogInfoCollection();
@@ -48,17 +50,17 @@ namespace UnitTests.Subtext
 		}
 
 		#region IDTOProvider Implementation
-		public BlogInfoCollection GetPagedBlogs(int pageIndex, int pageSize, bool sortDescending)
+		public override BlogInfoCollection GetPagedBlogs(int pageIndex, int pageSize, bool sortDescending)
 		{
 			return _pagedBlogs;
 		}
 
-		public BlogInfo GetBlogById(int blogId)
+		public override BlogInfo GetBlogById(int blogId)
 		{
 			return _blogById;
 		}
 
-		public BlogInfoCollection GetBlogsByHost(string host)
+		public override BlogInfoCollection GetBlogsByHost(string host)
 		{
 			BlogInfoCollection blogsWithHost = new BlogInfoCollection();
 			foreach(BlogInfo config in _pagedBlogs)
@@ -71,182 +73,182 @@ namespace UnitTests.Subtext
 			return blogsWithHost;
 		}
 
-		public PagedEntryCollection GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize, bool sortDescending)
+		public override PagedEntryCollection GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize, bool sortDescending)
 		{
 			throw new NotImplementedException();
 		}
 
-		public PagedEntryCollection GetPagedFeedback(int pageIndex, int pageSize, bool sortDescending)
+		public override PagedEntryCollection GetPagedFeedback(int pageIndex, int pageSize, bool sortDescending)
 		{
 			throw new NotImplementedException();
 		}
 
-		public EntryDay GetSingleDay(DateTime dt)
+		public override EntryDay GetSingleDay(DateTime dt)
 		{
 			throw new NotImplementedException();
 		}
 
-		public EntryDayCollection GetRecentDayPosts(int ItemCount, bool ActiveOnly)
+		public override EntryDayCollection GetRecentDayPosts(int ItemCount, bool ActiveOnly)
 		{
 			throw new NotImplementedException();
 		}
 
-		public EntryDayCollection GetPostsByMonth(int month, int year)
+		public override EntryDayCollection GetPostsByMonth(int month, int year)
 		{
 			throw new NotImplementedException();
 		}
 
-		public EntryDayCollection GetPostsByCategoryID(int ItemCount, int catID)
+		public override EntryDayCollection GetPostsByCategoryID(int ItemCount, int catID)
 		{
 			throw new NotImplementedException();
 		}
 
-		public EntryDayCollection GetConditionalEntries(int ItemCount, PostConfig pc)
+		public override EntryDayCollection GetConditionalEntries(int ItemCount, PostConfig pc)
 		{
 			throw new NotImplementedException();
 		}
 
-		public EntryCollection GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc)
+		public override EntryCollection GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc)
 		{
 			throw new NotImplementedException();
 		}
 
-		public EntryCollection GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc, DateTime DateUpdated)
+		public override EntryCollection GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc, DateTime DateUpdated)
 		{
 			throw new NotImplementedException();
 		}
 
-		public EntryCollection GetFeedBack(int ParrentID)
+		public override EntryCollection GetFeedBack(int ParrentID)
 		{
 			throw new NotImplementedException();
 		}
 
-		public EntryCollection GetFeedBack(Entry ParentEntry)
+		public override EntryCollection GetFeedBack(Entry ParentEntry)
 		{
 			throw new NotImplementedException();
 		}
 
-		public EntryCollection GetRecentPostsWithCategories(int ItemCount, bool ActiveOnly)
+		public override EntryCollection GetRecentPostsWithCategories(int ItemCount, bool ActiveOnly)
 		{
 			throw new NotImplementedException();
 		}
 
-		public EntryCollection GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly)
+		public override EntryCollection GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly)
 		{
 			throw new NotImplementedException();
 		}
 
-		public EntryCollection GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly, DateTime DateUpdated)
+		public override EntryCollection GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly, DateTime DateUpdated)
 		{
 			throw new NotImplementedException();
 		}
 
-		public EntryCollection GetPostCollectionByMonth(int month, int year)
+		public override EntryCollection GetPostCollectionByMonth(int month, int year)
 		{
 			throw new NotImplementedException();
 		}
 
-		public EntryCollection GetPostsByDayRange(DateTime start, DateTime stop, PostType postType, bool ActiveOnly)
+		public override EntryCollection GetPostsByDayRange(DateTime start, DateTime stop, PostType postType, bool ActiveOnly)
 		{
 			throw new NotImplementedException();
 		}
 
-		public EntryCollection GetEntriesByCategory(int ItemCount, int catID, bool ActiveOnly)
+		public override EntryCollection GetEntriesByCategory(int ItemCount, int catID, bool ActiveOnly)
 		{
 			throw new NotImplementedException();
 		}
 
-		public EntryCollection GetEntriesByCategory(int ItemCount, int catID, DateTime DateUpdated, bool ActiveOnly)
+		public override EntryCollection GetEntriesByCategory(int ItemCount, int catID, DateTime DateUpdated, bool ActiveOnly)
 		{
 			throw new NotImplementedException();
 		}
 
-		public EntryCollection GetEntriesByCategory(int ItemCount, string categoryName, bool ActiveOnly)
+		public override EntryCollection GetEntriesByCategory(int ItemCount, string categoryName, bool ActiveOnly)
 		{
 			throw new NotImplementedException();
 		}
 
-		public EntryCollection GetEntriesByCategory(int ItemCount, string categoryName, DateTime DateUpdated, bool ActiveOnly)
+		public override EntryCollection GetEntriesByCategory(int ItemCount, string categoryName, DateTime DateUpdated, bool ActiveOnly)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Entry GetCommentByChecksumHash(string checksumHash)
+		public override Entry GetCommentByChecksumHash(string checksumHash)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Entry GetEntry(int postID, bool ActiveOnly)
+		public override Entry GetEntry(int postID, bool ActiveOnly)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Entry GetEntry(string EntryName, bool ActiveOnly)
+		public override Entry GetEntry(string EntryName, bool ActiveOnly)
 		{
 			throw new NotImplementedException();
 		}
 
-		public CategoryEntry GetCategoryEntry(int postid, bool ActiveOnly)
+		public override CategoryEntry GetCategoryEntry(int postid, bool ActiveOnly)
 		{
 			throw new NotImplementedException();
 		}
 
-		public CategoryEntry GetCategoryEntry(string EntryName, bool ActiveOnly)
+		public override CategoryEntry GetCategoryEntry(string EntryName, bool ActiveOnly)
 		{
 			throw new NotImplementedException();
 		}
 
-		public bool Delete(int PostID)
+		public override bool Delete(int PostID)
 		{
 			throw new NotImplementedException();
 		}
 
-		public int Create(Entry entry)
+		public override int Create(Entry entry)
 		{
 			throw new NotImplementedException();
 		}
 
-		public int Create(Entry entry, int[] CategoryIDs)
+		public override int Create(Entry entry, int[] CategoryIDs)
 		{
 			throw new NotImplementedException();
 		}
 
-		public bool Update(Entry entry)
+		public override bool Update(Entry entry)
 		{
 			throw new NotImplementedException();
 		}
 
-		public bool Update(Entry entry, int[] CategoryIDs)
+		public override bool Update(Entry entry, int[] CategoryIDs)
 		{
 			throw new NotImplementedException();
 		}
 
-		public bool SetEntryCategoryList(int EntryID, int[] Categories)
+		public override bool SetEntryCategoryList(int EntryID, int[] Categories)
 		{
 			throw new NotImplementedException();
 		}
 
-		public PagedLinkCollection GetPagedLinks(int categoryTypeID, int pageIndex, int pageSize, bool sortDescending)
+		public override PagedLinkCollection GetPagedLinks(int categoryTypeID, int pageIndex, int pageSize, bool sortDescending)
 		{
 			throw new NotImplementedException();
 		}
 
-		public LinkCollection GetLinkCollectionByPostID(int PostID)
+		public override LinkCollection GetLinkCollectionByPostID(int PostID)
 		{
 			throw new NotImplementedException();
 		}
 
-		public LinkCollection GetLinksByCategoryID(int catID, bool ActiveOnly)
+		public override LinkCollection GetLinksByCategoryID(int catID, bool ActiveOnly)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Link GetSingleLink(int linkID)
+		public override Link GetSingleLink(int linkID)
 		{
 			throw new NotImplementedException();
 		}
 
-		public LinkCategoryCollection GetCategories(CategoryType catType, bool ActiveOnly)
+		public override LinkCategoryCollection GetCategories(CategoryType catType, bool ActiveOnly)
 		{
 			LinkCategoryCollection linkCategoryCollection = new LinkCategoryCollection();
 
@@ -259,32 +261,32 @@ namespace UnitTests.Subtext
 			return linkCategoryCollection;		
 		}
 
-		public LinkCategoryCollection GetActiveCategories()
+		public override LinkCategoryCollection GetActiveCategories()
 		{
 			throw new NotImplementedException();
 		}
 
-		public LinkCategory GetLinkCategory(int CategoryID, bool IsActive)
+		public override LinkCategory GetLinkCategory(int CategoryID, bool IsActive)
 		{
 			throw new NotImplementedException();
 		}
 
-		public LinkCategory GetLinkCategory(string categoryName, bool IsActive)
+		public override LinkCategory GetLinkCategory(string categoryName, bool IsActive)
 		{
 			throw new NotImplementedException();
 		}
 
-		public bool UpdateLink(Link link)
+		public override bool UpdateLink(Link link)
 		{
 			throw new NotImplementedException();
 		}
 
-		public int CreateLink(Link link)
+		public override int CreateLink(Link link)
 		{
 			throw new NotImplementedException();
 		}
 
-		public bool UpdateLinkCategory(LinkCategory lc)
+		public override bool UpdateLinkCategory(LinkCategory lc)
 		{
 			foreach(LinkCategory category in _linkCategories)
 				if (category.CategoryID == lc.CategoryID & 
@@ -299,7 +301,7 @@ namespace UnitTests.Subtext
 			return false;
 		}
 
-		public int CreateLinkCategory(LinkCategory lc)
+		public override int CreateLinkCategory(LinkCategory lc)
 		{
 			LinkCategory linkCategory = new LinkCategory();
 			linkCategory.BlogID = lc.BlogID;
@@ -311,37 +313,37 @@ namespace UnitTests.Subtext
 			return linkCategory.CategoryID;
 		}
 
-		public bool DeleteLinkCategory(int CategoryID)
+		public override bool DeleteLinkCategory(int CategoryID)
 		{
 			throw new NotImplementedException();
 		}
 
-		public bool DeleteLink(int LinkID)
+		public override bool DeleteLink(int LinkID)
 		{
 			throw new NotImplementedException();
 		}
 
-		public PagedViewStatCollection GetPagedViewStats(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate)
+		public override PagedViewStatCollection GetPagedViewStats(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate)
 		{
 			throw new NotImplementedException();
 		}
 
-		public PagedReferrerCollection GetPagedReferrers(int pageIndex, int pageSize)
+		public override PagedReferrerCollection GetPagedReferrers(int pageIndex, int pageSize)
 		{
 			throw new NotImplementedException();
 		}
 
-		public PagedReferrerCollection GetPagedReferrers(int pageIndex, int pageSize, int EntryID)
+		public override PagedReferrerCollection GetPagedReferrers(int pageIndex, int pageSize, int EntryID)
 		{
 			throw new NotImplementedException();
 		}
 
-		public bool TrackEntry(EntryView ev)
+		public override bool TrackEntry(EntryView ev)
 		{
 			throw new NotImplementedException();
 		}
 
-		public bool TrackEntry(EntryViewCollection evc)
+		public override bool TrackEntry(EntryViewCollection evc)
 		{
 			throw new NotImplementedException();
 		}
@@ -354,7 +356,7 @@ namespace UnitTests.Subtext
 		/// <param name="userName">Name of the user.</param>
 		/// <param name="password">Password.</param>
 		/// <returns></returns>
-		public bool CreateBlog(string title, string userName, string password, string host, string application)
+		public override bool CreateBlog(string title, string userName, string password, string host, string application)
 		{
 			BlogInfo blogInfo = new BlogInfo();
 			blogInfo.Title = title;
@@ -372,7 +374,7 @@ namespace UnitTests.Subtext
 		/// </summary>
 		/// <param name="info">Config.</param>
 		/// <returns></returns>
-		public bool UpdateBlog(BlogInfo info)
+		public override bool UpdateBlog(BlogInfo info)
 		{
 			return true;
 		}
@@ -383,7 +385,7 @@ namespace UnitTests.Subtext
 		/// <param name="hostname">Hostname.</param>
 		/// <param name="application">Application.</param>
 		/// <returns></returns>
-		public BlogInfo GetBlogInfo(string hostname, string application)
+		public override BlogInfo GetBlogInfo(string hostname, string application)
 		{
 			hostname = hostname.Replace("www.", string.Empty);
 
@@ -396,7 +398,7 @@ namespace UnitTests.Subtext
 			return null;
 		}
 
-		public BlogInfo GetBlogInfo(string hostname, string application, bool strict)
+		public override BlogInfo GetBlogInfo(string hostname, string application, bool strict)
 		{
 			return GetBlogInfo(hostname, application);
 		}
@@ -406,75 +408,94 @@ namespace UnitTests.Subtext
 		/// </summary>
 		/// <param name="BlogID">Blog ID.</param>
 		/// <returns></returns>
-		public BlogInfo GetBlogInfo(int BlogID)
+		public override BlogInfo GetBlogInfo(int BlogID)
 		{
 			throw new NotImplementedException();
 		}
 
-		public KeyWord GetKeyWord(int KeyWordID)
+		public override KeyWord GetKeyWord(int KeyWordID)
 		{
 			throw new NotImplementedException();
 		}
 
-		public KeyWordCollection GetKeyWords()
+		public override KeyWordCollection GetKeyWords()
 		{
 			throw new NotImplementedException();
 		}
 
-		public PagedKeyWordCollection GetPagedKeyWords(int pageIndex, int pageSize, bool sortDescending)
+		public override PagedKeyWordCollection GetPagedKeyWords(int pageIndex, int pageSize, bool sortDescending)
 		{
 			throw new NotImplementedException();
 		}
 
-		public bool UpdateKeyWord(KeyWord kw)
+		public override bool UpdateKeyWord(KeyWord kw)
 		{
 			throw new NotImplementedException();
 		}
 
-		public int InsertKeyWord(KeyWord kw)
+		public override int InsertKeyWord(KeyWord kw)
 		{
 			throw new NotImplementedException();
 		}
 
-		public bool DeleteKeyWord(int KeyWordID)
+		public override bool DeleteKeyWord(int KeyWordID)
 		{
 			throw new NotImplementedException();
 		}
 
-		public ImageCollection GetImagesByCategoryID(int catID, bool ActiveOnly)
+		public override ImageCollection GetImagesByCategoryID(int catID, bool ActiveOnly)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Image GetSingleImage(int imageID, bool ActiveOnly)
+		public override Image GetSingleImage(int imageID, bool ActiveOnly)
 		{
 			throw new NotImplementedException();
 		}
 
-		public int InsertImage(Image _image)
+		public override int InsertImage(Image _image)
 		{
 			throw new NotImplementedException();
 		}
 
-		public bool UpdateImage(Image _image)
+		public override bool UpdateImage(Image _image)
 		{
 			throw new NotImplementedException();
 		}
 
-		public bool DeleteImage(int ImageID)
+		public override bool DeleteImage(int ImageID)
 		{
 			throw new NotImplementedException();
 		}
 
-		public ArchiveCountCollection GetPostsByYearArchive()
+		public override ArchiveCountCollection GetPostsByYearArchive()
 		{
 			throw new NotImplementedException();
 		}
 
-		public ArchiveCountCollection GetPostsByMonthArchive()
+		public override ArchiveCountCollection GetPostsByMonthArchive()
 		{
 			throw new NotImplementedException();
 		}
 		#endregion
+
+		/// <summary>
+		/// Initializes the specified provider.
+		/// </summary>
+		/// <param name="name">Firendly Name of the provider.</param>
+		/// <param name="configValue">Config value.</param>
+		public override void Initialize(string name, NameValueCollection configValue)
+		{
+			_name = name;
+		}
+
+		/// <summary>
+		/// Returns the friendly name of the provider when the provider is initialized.
+		/// </summary>
+		/// <value></value>
+		public override string Name
+		{
+			get { return _name ; }
+		}
 	}
 }

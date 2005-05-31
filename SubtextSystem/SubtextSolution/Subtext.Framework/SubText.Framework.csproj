@@ -403,11 +403,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Data\IDTOProvider.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Data\SqlDataProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -556,12 +551,17 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Providers\DTOConfiguration.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Providers\DTOProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Providers\DTOProviderConfiguration.cs"
+                    RelPath = "Providers\DTOProviderSectionHandler.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
