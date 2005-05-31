@@ -8,7 +8,7 @@ using Subtext.Framework.Data;
 namespace Subtext.Framework.Providers
 {
 	/// <summary>
-	/// If the <see cref="DataDTOProvider"/> is used to supply data objects to 
+	/// If the <see cref="DataObjectProvider"/> is used to supply data objects to 
 	/// Subtext, then this provider is used to configure the underlying database 
 	/// used. One example of a class that implements this provider is the <see cref="SqlDataProvider"/>.
 	/// </summary>

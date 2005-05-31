@@ -38,7 +38,7 @@ namespace Subtext.Framework
 
 		public static PagedLinkCollection GetPagedLinks(int categoryTypeID, int pageIndex, int pageSize, bool sortDescending)
 		{
-			return DTOProvider.Instance().GetPagedLinks(categoryTypeID,pageIndex,pageSize,sortDescending);
+			return ObjectProvider.Instance().GetPagedLinks(categoryTypeID,pageIndex,pageSize,sortDescending);
 		}
 
 		#endregion
@@ -47,12 +47,12 @@ namespace Subtext.Framework
 
 		public static LinkCollection GetLinkCollectionByPostID(int PostID)
 		{
-			return DTOProvider.Instance().GetLinkCollectionByPostID(PostID);
+			return ObjectProvider.Instance().GetLinkCollectionByPostID(PostID);
 		}
 
 		public static LinkCollection GetLinksByCategoryID(int catID, bool ActiveOnly)
 		{
-			return DTOProvider.Instance().GetLinksByCategoryID(catID,ActiveOnly);
+			return ObjectProvider.Instance().GetLinksByCategoryID(catID,ActiveOnly);
 		}
 
 		#endregion
@@ -61,7 +61,7 @@ namespace Subtext.Framework
 
 		public static Link GetSingleLink(int linkID)
 		{
-			return DTOProvider.Instance().GetSingleLink(linkID);
+			return ObjectProvider.Instance().GetSingleLink(linkID);
 		}
 
 		#endregion
@@ -70,12 +70,12 @@ namespace Subtext.Framework
 
 		public static LinkCategoryCollection GetCategories(CategoryType catType, bool ActiveOnly)
 		{
-			return DTOProvider.Instance().GetCategories(catType, ActiveOnly);
+			return ObjectProvider.Instance().GetCategories(catType, ActiveOnly);
 		}
 
 		public static LinkCategoryCollection GetActiveCategories()
 		{
-			return DTOProvider.Instance().GetActiveCategories();
+			return ObjectProvider.Instance().GetActiveCategories();
 		}
 
 		#endregion
@@ -84,12 +84,12 @@ namespace Subtext.Framework
 
 		public static LinkCategory GetLinkCategory(int CategoryID, bool IsActive)
 		{
-			return DTOProvider.Instance().GetLinkCategory(CategoryID,IsActive);
+			return ObjectProvider.Instance().GetLinkCategory(CategoryID,IsActive);
 		}
 
 		public static LinkCategory GetLinkCategory(string CategoryName, bool IsActive)
 		{
-			return DTOProvider.Instance().GetLinkCategory(CategoryName,IsActive);
+			return ObjectProvider.Instance().GetLinkCategory(CategoryName,IsActive);
 		}
 
 		#endregion
@@ -98,32 +98,32 @@ namespace Subtext.Framework
 
 		public static bool UpdateLink(Link link)
 		{
-			return DTOProvider.Instance().UpdateLink(link);
+			return ObjectProvider.Instance().UpdateLink(link);
 		}
 
 		public static int CreateLink(Link link)
 		{
-			return DTOProvider.Instance().CreateLink(link);
+			return ObjectProvider.Instance().CreateLink(link);
 		}
 
 		public static bool UpdateLinkCategory(LinkCategory lc)
 		{
-			return DTOProvider.Instance().UpdateLinkCategory(lc);
+			return ObjectProvider.Instance().UpdateLinkCategory(lc);
 		}
 		
 		public static int CreateLinkCategory(LinkCategory lc)
 		{
-			return DTOProvider.Instance().CreateLinkCategory(lc);
+			return ObjectProvider.Instance().CreateLinkCategory(lc);
 		}
 
 		public static bool DeleteLinkCategory(int CategoryID)
 		{
-			return DTOProvider.Instance().DeleteLinkCategory(CategoryID);
+			return ObjectProvider.Instance().DeleteLinkCategory(CategoryID);
 		}
 
 		public static bool DeleteLink(int LinkID)
 		{
-			return DTOProvider.Instance().DeleteLink(LinkID);
+			return ObjectProvider.Instance().DeleteLink(LinkID);
 		}
 
 		#endregion

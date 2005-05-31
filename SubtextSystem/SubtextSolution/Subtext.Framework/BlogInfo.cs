@@ -36,7 +36,7 @@ namespace Subtext.Framework
 	/// <summary>
 	/// Represents an instance of a blog.  This was formerly known as the BlogConfig class. 
 	/// We are attempting to distinguish this from settings stored in web.config. This class 
-	/// is persisted via a <see cref="IDTOProvider"/>.
+	/// is persisted via a <see cref="IObjectProvider"/>.
 	/// </summary>
 	[Serializable]
 	public class BlogInfo
@@ -55,7 +55,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static BlogInfoCollection GetBlogs(int pageIndex, int pageSize, bool sortDescending)
 		{
-			return DTOProvider.Instance().GetPagedBlogs(pageIndex, pageSize, sortDescending);
+			return ObjectProvider.Instance().GetPagedBlogs(pageIndex, pageSize, sortDescending);
 		}
 
 		/// <summary>
@@ -66,7 +66,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static BlogInfoCollection GetBlogsByHost(string host)
 		{
-			return DTOProvider.Instance().GetBlogsByHost(host);
+			return ObjectProvider.Instance().GetBlogsByHost(host);
 		}
 
 		/// <summary>
@@ -80,7 +80,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static BlogInfoCollection GetActiveBlogs(int pageIndex, int pageSize, bool sortDescending, out int totalBlogs)
 		{
-			BlogInfoCollection blogs = DTOProvider.Instance().GetPagedBlogs(pageIndex, pageSize, sortDescending);
+			BlogInfoCollection blogs = ObjectProvider.Instance().GetPagedBlogs(pageIndex, pageSize, sortDescending);
 			totalBlogs = blogs.Count;
 			for(int i = blogs.Count - 1; i > -1; i--)
 			{
@@ -111,7 +111,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static BlogInfo GetBlogById(int blogId)
 		{
-			return DTOProvider.Instance().GetBlogById(blogId);
+			return ObjectProvider.Instance().GetBlogById(blogId);
 		}
 
 		/// <summary>

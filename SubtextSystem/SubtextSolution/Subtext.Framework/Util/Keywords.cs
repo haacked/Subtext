@@ -200,32 +200,32 @@ namespace Subtext.Framework.Util
 
 		public static KeyWord GetKeyWord(int KeyWordID)
 		{
-			return DTOProvider.Instance().GetKeyWord(KeyWordID);
+			return ObjectProvider.Instance().GetKeyWord(KeyWordID);
 		}
 
 		public static KeyWordCollection GetKeyWords()
 		{
-			return DTOProvider.Instance().GetKeyWords();
+			return ObjectProvider.Instance().GetKeyWords();
 		}
 
 		public static PagedKeyWordCollection GetPagedKeyWords(int pageIndex, int pageSize,bool sortDescending)
 		{
-			return DTOProvider.Instance().GetPagedKeyWords(pageIndex,pageSize,sortDescending);
+			return ObjectProvider.Instance().GetPagedKeyWords(pageIndex,pageSize,sortDescending);
 		}
 
 		public static void UpdateKeyWord(KeyWord kw)
 		{
-			DTOProvider.Instance().UpdateKeyWord(kw);
+			ObjectProvider.Instance().UpdateKeyWord(kw);
 		}
 
 		public static int InsertKeyWord(KeyWord kw)
 		{
-			return DTOProvider.Instance().InsertKeyWord(kw);
+			return ObjectProvider.Instance().InsertKeyWord(kw);
 		}
 
 		public static bool DeleteKeyWord(int KeyWordID)
 		{
-			return DTOProvider.Instance().DeleteKeyWord(KeyWordID);
+			return ObjectProvider.Instance().DeleteKeyWord(KeyWordID);
 		}
 
 		#endregion

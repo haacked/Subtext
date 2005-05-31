@@ -293,8 +293,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 			//Confirm app settings
 			Assert.AreEqual("~/Admin/Resources/PageTemplate.ascx", System.Configuration.ConfigurationSettings.AppSettings["Admin.DefaultTemplate"]) ;
 
-			UnitTestDTOProvider dtoProvider = (UnitTestDTOProvider)DTOProvider.Instance();
-			dtoProvider.ClearBlogs();
+			UnitTestObjectProvider objectProvider = (UnitTestObjectProvider)ObjectProvider.Instance();
+			objectProvider.ClearBlogs();
 		}
 
 		[TearDown]

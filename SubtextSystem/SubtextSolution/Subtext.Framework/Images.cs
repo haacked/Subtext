@@ -216,12 +216,12 @@ namespace Subtext.Framework
 
 		public static ImageCollection GetImagesByCategoryID(int catID, bool ActiveOnly)
 		{
-			return DTOProvider.Instance().GetImagesByCategoryID(catID,ActiveOnly);
+			return ObjectProvider.Instance().GetImagesByCategoryID(catID,ActiveOnly);
 		}
 
 		public static Subtext.Framework.Components.Image GetSingleImage(int imageID, bool ActiveOnly)
 		{
-			return DTOProvider.Instance().GetSingleImage(imageID,ActiveOnly);
+			return ObjectProvider.Instance().GetSingleImage(imageID,ActiveOnly);
 		}
 
 		public static int InsertImage(Subtext.Framework.Components.Image _image,byte[] Buffer)
@@ -229,14 +229,14 @@ namespace Subtext.Framework
 			if(SaveImage(Buffer,_image.OriginalFilePath))
 			{
 				MakeAlbumImages(ref _image);
-				return DTOProvider.Instance().InsertImage(_image);
+				return ObjectProvider.Instance().InsertImage(_image);
 			}
 			return -1;
 		}
 
 		public static bool UpdateImage(Subtext.Framework.Components.Image _image)
 		{
-			return DTOProvider.Instance().UpdateImage(_image);
+			return ObjectProvider.Instance().UpdateImage(_image);
 		}
 
 		// added
@@ -251,7 +251,7 @@ namespace Subtext.Framework
 
 		public static void DeleteImage(Subtext.Framework.Components.Image _image)
 		{
-			DTOProvider.Instance().DeleteImage(_image.ImageID);
+			ObjectProvider.Instance().DeleteImage(_image.ImageID);
 		}
 
 		public static void TryDeleteFile(string file)

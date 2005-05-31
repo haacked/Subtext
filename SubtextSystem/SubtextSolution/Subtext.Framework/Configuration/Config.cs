@@ -92,7 +92,7 @@ namespace Subtext.Framework.Configuration
 		/// <returns></returns>
 		public static BlogInfo GetBlogInfo(string hostname, string application, bool strict)
 		{
-			return DTOProvider.Instance().GetBlogInfo(hostname, application, strict);
+			return ObjectProvider.Instance().GetBlogInfo(hostname, application, strict);
 		}
 
 		/// <summary>
@@ -141,7 +141,7 @@ namespace Subtext.Framework.Configuration
 				}
 			}
 
-			return (DTOProvider.Instance().CreateBlog(title, userName, password, host, application));
+			return (ObjectProvider.Instance().CreateBlog(title, userName, password, host, application));
 		}
 
 		/// <summary>
@@ -198,7 +198,7 @@ namespace Subtext.Framework.Configuration
 			info.IsPasswordHashed = Config.Settings.UseHashedPasswords;
 			info.AllowServiceAccess = Config.Settings.AllowServiceAccess;
 
-			return DTOProvider.Instance().UpdateBlog(info);
+			return ObjectProvider.Instance().UpdateBlog(info);
 		}
 
 		//TODO: Is this the right place to put this list?

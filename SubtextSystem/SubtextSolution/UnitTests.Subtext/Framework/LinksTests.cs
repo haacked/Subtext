@@ -89,9 +89,9 @@ namespace UnitTests.Subtext.Framework
 			Assert.AreEqual("~/Admin/Resources/PageTemplate.ascx", System.Configuration.ConfigurationSettings.AppSettings["Admin.DefaultTemplate"]) ;
 
 			//Create a test Blog
-			UnitTestDTOProvider dtoProvider = (UnitTestDTOProvider)DTOProvider.Instance();
-			dtoProvider.ClearBlogs();
-			dtoProvider.CreateBlog("title", "smarcuccio", "mypassword", "www.subtext.com", "myBlog");
+			UnitTestObjectProvider objectProvider = (UnitTestObjectProvider)ObjectProvider.Instance();
+			objectProvider.ClearBlogs();
+			objectProvider.CreateBlog("title", "smarcuccio", "mypassword", "www.subtext.com", "myBlog");
 		}
 
 		[TearDown]

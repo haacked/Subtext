@@ -124,12 +124,12 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "UnitTestDTOProvider.cs"
+                    RelPath = "UnitTestHelper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "UnitTestHelper.cs"
+                    RelPath = "UnitTestObjectProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
