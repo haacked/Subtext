@@ -92,7 +92,7 @@ namespace Subtext.Web.Pages
 				}
 
 				string message = "Here is your blog login information:\nUserName: {0}\nPassword: {1}\n\nPlease disregard this message if you did not request it.";
-				IMailProvider mail = Subtext.Framework.Providers.EmailProvider.Instance();
+				EmailProvider mail = Subtext.Extensibility.Providers.EmailProvider.Instance();
 			
 				string To = info.Email;
 				string From = mail.AdminEmail;

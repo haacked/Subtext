@@ -3,7 +3,6 @@ using System.Web.UI.WebControls;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Providers;
 
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,7 +55,7 @@ namespace Subtext.Web.UI.Controls
 		{
 			if(Page.IsValid)
 			{
-				IMailProvider email = EmailProvider.Instance();
+				EmailProvider email = EmailProvider.Instance();
 				BlogInfo info = Config.CurrentBlog;
 				string To = info.Email;
 				string From = tbEmail.Text;

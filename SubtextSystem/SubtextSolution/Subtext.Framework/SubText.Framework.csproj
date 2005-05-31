@@ -398,11 +398,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Data\IDbProvider.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Data\SqlDataProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -418,7 +413,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Email\SystemMail.cs"
+                    RelPath = "Email\SystemMailProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -531,11 +526,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Providers\BlogProviders.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Providers\ConfigProviderConfiguration.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -551,6 +541,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Providers\DbProviderSectionHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Providers\DTOConfiguration.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -562,16 +557,6 @@
                 />
                 <File
                     RelPath = "Providers\DTOProviderSectionHandler.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Providers\EmailProvider.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Providers\EmailProviderConfiguration.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

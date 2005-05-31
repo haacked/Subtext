@@ -117,24 +117,4 @@ BEGIN
 	ALTER TABLE dbo.blog_content ADD
 		ContentChecksumHash VARCHAR(32) NULL
 	COMMIT
-
-	/* Non Clustered index on this new column */
-	PRINT 'Adding Non Clustered Index to Column ContentChecksumHash of Table blog_content'
-	BEGIN TRANSACTION
-	SET QUOTED_IDENTIFIER ON
-	SET TRANSACTION ISOLATION LEVEL SERIALIZABLE
-	SET ARITHABORT ON
-	SET NUMERIC_ROUNDABORT OFF
-	SET CONCAT_NULL_YIELDS_NULL ON
-	SET ANSI_NULLS ON
-	SET ANSI_PADDING ON
-	SET ANSI_WARNINGS ON
-	COMMIT
-	BEGIN TRANSACTION
-	CREATE NONCLUSTERED INDEX IX_blog_Content__ContentChecksumHash ON dbo.blog_Content
-		(
-		ContentChecksumHash
-		) ON [PRIMARY]
-	GO
-	COMMIT
 END

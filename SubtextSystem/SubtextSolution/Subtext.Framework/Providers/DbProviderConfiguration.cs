@@ -1,26 +1,12 @@
 using System;
-using System.Xml.Serialization;
+using Subtext.Extensibility.Providers;
 
 namespace Subtext.Framework.Providers
 {
 	/// <summary>
-	/// Contains configuration information for the database provider.  
-	/// Simply a Connection string.
+	/// Provider configuration instance for the <see cref="DbProvider"/>.
 	/// </summary>
-	[XmlRoot("DbProvider")]
-	public class DbProviderConfiguration : BaseProvider 
+	public class DbProviderConfiguration : ProviderConfiguration
 	{
-		private string _connectionString;
-		/// <summary>
-		/// Gets or sets the connection string.
-		/// </summary>
-		/// <value></value>
-		[XmlAttribute("connectionString")]
-		public string ConnectionString
-		{
-			get {return this._connectionString;}
-			set {this._connectionString = value;}
-		}
-
 	}
 }

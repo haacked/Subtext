@@ -16,12 +16,5 @@ namespace Subtext.Framework.Providers
 			get {return this._emailProvider;}
 			set {this._emailProvider = value;}
 		}
-
-		private DbProviderConfiguration _dbProvider;
-		public DbProviderConfiguration DbProvider
-		{
-			get {return this._dbProvider;}
-			set {this._dbProvider = value;}
-		}
 	}
 }

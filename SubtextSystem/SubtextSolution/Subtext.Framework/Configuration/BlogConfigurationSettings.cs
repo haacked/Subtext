@@ -23,7 +23,6 @@
 
 using System;
 using System.Xml.Serialization;
-using Subtext.Framework.Providers;
 
 namespace Subtext.Framework.Configuration
 {
@@ -127,13 +126,6 @@ namespace Subtext.Framework.Configuration
 		{
 			get{return serverTimeZone;}
 			set{serverTimeZone = value;}
-		}
-
-		private BlogProviders _blogProviders;
-		public BlogProviders BlogProviders
-		{
-			get {return this._blogProviders;}
-			set {this._blogProviders = value;}
 		}
 
 		/// <summary>
