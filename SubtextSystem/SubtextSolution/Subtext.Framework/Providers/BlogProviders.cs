@@ -17,13 +17,6 @@ namespace Subtext.Framework.Providers
 			set {this._emailProvider = value;}
 		}
 
-		private DTOProviderConfiguration _dTOProvider;
-		public DTOProviderConfiguration DTOProvider
-		{
-			get {return this._dTOProvider;}
-			set {this._dTOProvider = value;}
-		}
-
 		private DbProviderConfiguration _dbProvider;
 		public DbProviderConfiguration DbProvider
 		{
