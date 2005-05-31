@@ -388,7 +388,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Data\DataDTOProvider.cs"
+                    RelPath = "Data\DatabaseObjectProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -521,16 +521,6 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Providers\BaseProvider.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Providers\ConfigProviderConfiguration.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Providers\DbProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -546,17 +536,17 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Providers\DTOConfiguration.cs"
+                    RelPath = "Providers\ObjectProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Providers\DTOProvider.cs"
+                    RelPath = "Providers\ObjectProviderConfiguration.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Providers\DTOProviderSectionHandler.cs"
+                    RelPath = "Providers\ObjectProviderSectionHandler.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

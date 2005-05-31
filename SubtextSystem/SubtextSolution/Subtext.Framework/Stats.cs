@@ -138,17 +138,17 @@ namespace Subtext.Framework
 
 		public static PagedViewStatCollection GetPagedViewStats(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate)
 		{
-			return DTOProvider.Instance().GetPagedViewStats(pageIndex, pageSize, beginDate, endDate);
+			return ObjectProvider.Instance().GetPagedViewStats(pageIndex, pageSize, beginDate, endDate);
 		}
 
 		public static PagedReferrerCollection GetPagedReferrers(int pageIndex, int pageSize)
 		{
-			return DTOProvider.Instance().GetPagedReferrers(pageIndex, pageSize);
+			return ObjectProvider.Instance().GetPagedReferrers(pageIndex, pageSize);
 		}
 
 		public static PagedReferrerCollection GetPagedReferrers(int pageIndex, int pageSize, int EntryID)
 		{
-			return DTOProvider.Instance().GetPagedReferrers(pageIndex, pageSize, EntryID);
+			return ObjectProvider.Instance().GetPagedReferrers(pageIndex, pageSize, EntryID);
 		}
 
 		#endregion
@@ -162,7 +162,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static bool TrackEntry(EntryView ev)
 		{
-			return DTOProvider.Instance().TrackEntry(ev);
+			return ObjectProvider.Instance().TrackEntry(ev);
 		}
 
 		/// <summary>
@@ -173,7 +173,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static bool TrackEntry(EntryViewCollection evc)
 		{
-			return DTOProvider.Instance().TrackEntry(evc);
+			return ObjectProvider.Instance().TrackEntry(evc);
 		}
 
 		/// <summary>

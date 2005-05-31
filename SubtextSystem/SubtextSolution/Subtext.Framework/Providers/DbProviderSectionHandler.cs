@@ -12,9 +12,9 @@ namespace Subtext.Framework.Providers
 	public class DbProviderSectionHandler : ProviderSectionHandler
 	{
 		/// <summary>
-		/// Creates the provider configuration instance.
+		/// Creates an <see cref="DbProviderConfiguration"/> instance which 
+		/// is populated by this section handler.
 		/// </summary>
-		/// <returns></returns>
 		public override ProviderConfiguration CreateProviderConfigurationInstance()
 		{
 			return new DbProviderConfiguration();

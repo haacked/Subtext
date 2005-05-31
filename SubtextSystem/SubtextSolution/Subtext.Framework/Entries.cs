@@ -52,13 +52,13 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static PagedEntryCollection GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize, bool sortDescending)
 		{
-			return DTOProvider.Instance().GetPagedEntries(postType,categoryID,pageIndex,pageSize,sortDescending);
+			return ObjectProvider.Instance().GetPagedEntries(postType,categoryID,pageIndex,pageSize,sortDescending);
 		}
 
 
 		public static PagedEntryCollection GetPagedFeedback(int pageIndex, int pageSize, bool sortDescending)
 		{
-			return DTOProvider.Instance().GetPagedFeedback(pageIndex,pageSize,sortDescending);
+			return ObjectProvider.Instance().GetPagedFeedback(pageIndex,pageSize,sortDescending);
 		}
 
 
@@ -68,7 +68,7 @@ namespace Subtext.Framework
 
 		public static EntryDay GetSingleDay(DateTime dt)
 		{
-			return DTOProvider.Instance().GetSingleDay(dt);
+			return ObjectProvider.Instance().GetSingleDay(dt);
 
 		}
 
@@ -79,7 +79,7 @@ namespace Subtext.Framework
 
 		public static EntryDayCollection GetConditionalEntries(int ItemCount, PostConfig pc)
 		{
-			return DTOProvider.Instance().GetConditionalEntries(ItemCount,pc);
+			return ObjectProvider.Instance().GetConditionalEntries(ItemCount,pc);
 		}
 
 		/// <summary>
@@ -90,18 +90,18 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static EntryDayCollection GetRecentDayPosts(int ItemCount, bool ActiveOnly)
 		{
-			return DTOProvider.Instance().GetRecentDayPosts(ItemCount,ActiveOnly);
+			return ObjectProvider.Instance().GetRecentDayPosts(ItemCount,ActiveOnly);
 
 		}
 
 		public static EntryDayCollection GetPostsByMonth(int month, int year)
 		{
-			return DTOProvider.Instance().GetPostsByMonth(month,year);
+			return ObjectProvider.Instance().GetPostsByMonth(month,year);
 		}
 
 		public static EntryDayCollection GetPostsByCategoryID(int ItemCount, int catID)
 		{
-			return DTOProvider.Instance().GetPostsByCategoryID(ItemCount,catID);
+			return ObjectProvider.Instance().GetPostsByCategoryID(ItemCount,catID);
 		}
 
 		#endregion
@@ -123,12 +123,12 @@ namespace Subtext.Framework
 
 		public static EntryCollection GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc)
 		{
-			return DTOProvider.Instance().GetConditionalEntries(ItemCount,pt,pc);
+			return ObjectProvider.Instance().GetConditionalEntries(ItemCount,pt,pc);
 		}
 
 		public static EntryCollection GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc, DateTime DateUpdated)
 		{
-			return DTOProvider.Instance().GetConditionalEntries(ItemCount,pt,pc, DateUpdated);
+			return ObjectProvider.Instance().GetConditionalEntries(ItemCount,pt,pc, DateUpdated);
 		}
 
 		/// <summary>
@@ -138,57 +138,57 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static EntryCollection GetFeedBack(int ParentId)
 		{
-			return DTOProvider.Instance().GetFeedBack(ParentId);
+			return ObjectProvider.Instance().GetFeedBack(ParentId);
 		}
 
 		public static EntryCollection GetFeedBack(Entry ParentEntry)
 		{
-			return DTOProvider.Instance().GetFeedBack(ParentEntry);
+			return ObjectProvider.Instance().GetFeedBack(ParentEntry);
 		}
 
 		public static EntryCollection GetRecentPostsWithCategories(int ItemCount, bool ActiveOnly)
 		{
-			return DTOProvider.Instance().GetRecentPostsWithCategories(ItemCount,ActiveOnly);
+			return ObjectProvider.Instance().GetRecentPostsWithCategories(ItemCount,ActiveOnly);
 		}
 
 		public static EntryCollection GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly)
 		{
-			return DTOProvider.Instance().GetRecentPosts(ItemCount,postType,ActiveOnly);
+			return ObjectProvider.Instance().GetRecentPosts(ItemCount,postType,ActiveOnly);
 		}
 
 		public static EntryCollection GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly, DateTime DateUpdated)
 		{
-			return DTOProvider.Instance().GetRecentPosts(ItemCount,postType,ActiveOnly,DateUpdated);
+			return ObjectProvider.Instance().GetRecentPosts(ItemCount,postType,ActiveOnly,DateUpdated);
 		}
 
 		public static EntryCollection GetPostCollectionByMonth(int month, int year)
 		{
-			return DTOProvider.Instance().GetPostCollectionByMonth(month,year);
+			return ObjectProvider.Instance().GetPostCollectionByMonth(month,year);
 		}
 
 		public static EntryCollection GetPostsByDayRange(DateTime start, DateTime stop, PostType postType, bool ActiveOnly)
 		{
-			return  DTOProvider.Instance().GetPostsByDayRange(start,stop,postType,ActiveOnly);
+			return  ObjectProvider.Instance().GetPostsByDayRange(start,stop,postType,ActiveOnly);
 		}
 
 		public static EntryCollection GetEntriesByCategory(int ItemCount,int catID,bool ActiveOnly)
 		{
-			return DTOProvider.Instance().GetEntriesByCategory(ItemCount,catID,ActiveOnly);
+			return ObjectProvider.Instance().GetEntriesByCategory(ItemCount,catID,ActiveOnly);
 		}
 
 		public static EntryCollection GetEntriesByCategory(int ItemCount,int catID, DateTime DateUpdated,bool ActiveOnly)
 		{
-			return DTOProvider.Instance().GetEntriesByCategory(ItemCount,catID,DateUpdated,ActiveOnly);
+			return ObjectProvider.Instance().GetEntriesByCategory(ItemCount,catID,DateUpdated,ActiveOnly);
 		}
 
 		public static EntryCollection GetEntriesByCategory(int ItemCount,string categoryName,bool ActiveOnly)
 		{
-			return DTOProvider.Instance().GetEntriesByCategory(ItemCount,categoryName,ActiveOnly);
+			return ObjectProvider.Instance().GetEntriesByCategory(ItemCount,categoryName,ActiveOnly);
 		}
 
 		public static EntryCollection GetEntriesByCategory(int ItemCount,string categoryName, DateTime DateUpdated,bool ActiveOnly)
 		{
-			return DTOProvider.Instance().GetEntriesByCategory(ItemCount,categoryName,DateUpdated,ActiveOnly);
+			return ObjectProvider.Instance().GetEntriesByCategory(ItemCount,categoryName,DateUpdated,ActiveOnly);
 		}
 
 		#endregion
@@ -203,28 +203,28 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static Entry GetCommentByChecksumHash(string checksumHash)
 		{
-			return DTOProvider.Instance().GetCommentByChecksumHash(checksumHash);
+			return ObjectProvider.Instance().GetCommentByChecksumHash(checksumHash);
 		}
 		
 		public static Entry GetEntry(int postID, bool ActiveOnly)
 		{
-			return DTOProvider.Instance().GetEntry(postID, ActiveOnly);
+			return ObjectProvider.Instance().GetEntry(postID, ActiveOnly);
 		}
 
 		public static Entry GetEntry(string EntryName, bool ActiveOnly)
 		{
-			return DTOProvider.Instance().GetEntry(EntryName,ActiveOnly);
+			return ObjectProvider.Instance().GetEntry(EntryName,ActiveOnly);
 		}
 
 
 		public static CategoryEntry GetCategoryEntry(int postid, bool ActiveOnly)
 		{
-			return DTOProvider.Instance().GetCategoryEntry(postid,ActiveOnly);
+			return ObjectProvider.Instance().GetCategoryEntry(postid,ActiveOnly);
 		}
 
 		public static CategoryEntry GetCategoryEntry(string EntryName, bool ActiveOnly)
 		{
-			return DTOProvider.Instance().GetCategoryEntry(EntryName,ActiveOnly);
+			return ObjectProvider.Instance().GetCategoryEntry(EntryName,ActiveOnly);
 		}
 
 		#endregion
@@ -233,7 +233,7 @@ namespace Subtext.Framework
 	
 		public static bool Delete(int PostID)
 		{
-			return DTOProvider.Instance().Delete(PostID);
+			return ObjectProvider.Instance().Delete(PostID);
 		}
 
 		#endregion
@@ -247,7 +247,7 @@ namespace Subtext.Framework
 
 		public static int Create(Entry entry, int[] CategoryIDs)
 		{
-			return DTOProvider.Instance().Create(entry, CategoryIDs);
+			return ObjectProvider.Instance().Create(entry, CategoryIDs);
 		}
 
 		#endregion
@@ -273,7 +273,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static bool Update(Entry entry, int[] CategoryIDs)
 		{
-			return DTOProvider.Instance().Update(entry, CategoryIDs);
+			return ObjectProvider.Instance().Update(entry, CategoryIDs);
 		}
 
 		#endregion
@@ -282,7 +282,7 @@ namespace Subtext.Framework
 
 		public static bool SetEntryCategoryList(int EntryID, int[] Categories)
 		{
-			return DTOProvider.Instance().SetEntryCategoryList(EntryID,Categories);
+			return ObjectProvider.Instance().SetEntryCategoryList(EntryID,Categories);
 		}
 
 		#endregion

@@ -20,7 +20,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static ArchiveCountCollection GetPostsByMonthArchive()
 		{
-			return DTOProvider.Instance().GetPostsByMonthArchive();
+			return ObjectProvider.Instance().GetPostsByMonthArchive();
 		}
 
 		/// <summary>
@@ -29,7 +29,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static ArchiveCountCollection GetPostsByYearArchive()
 		{
-			return DTOProvider.Instance().GetPostsByYearArchive();
+			return ObjectProvider.Instance().GetPostsByYearArchive();
 		}
 	}
 }
