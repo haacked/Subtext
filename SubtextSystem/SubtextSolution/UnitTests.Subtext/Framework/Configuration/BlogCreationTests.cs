@@ -24,8 +24,9 @@ namespace UnitTests.Subtext.Framework.Configuration
 			string password = "MyPassword";
 			string hashedPassword = Security.HashPassword(password);
             
-			Config.CreateBlog("", "username", password, "LocaLhost", "MyBlog1");
+			Assert.IsTrue(Config.CreateBlog("", "username", password, "LocaLhost", "MyBlog1"));
 			BlogInfo info = Config.GetBlogInfo("localhost", "MyBlog1");
+			Assert.IsNotNull(info, "We tried to get blog at localhost/MyBlog1 but it was null");
 
 			Config.Settings.UseHashedPasswords = true;
 			Assert.IsTrue(Config.Settings.UseHashedPasswords, "This test is voided because we're not hashing passwords");

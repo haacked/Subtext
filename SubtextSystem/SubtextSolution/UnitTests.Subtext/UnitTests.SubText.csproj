@@ -109,6 +109,11 @@
                     Project = "{13018F20-F796-4FFE-9290-83D0E661C0A1}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "nunit.core"
+                    AssemblyName = "nunit.core"
+                    HintPath = "ExternalDependencies\nunit.core.dll"
+                />
             </References>
         </Build>
         <Files>
@@ -133,7 +138,6 @@
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
-                <Folder RelPath = "bin\Debug\" />
                 <File
                     RelPath = "ExternalDependencies\mock-assembly.dll"
                     BuildAction = "Content"
