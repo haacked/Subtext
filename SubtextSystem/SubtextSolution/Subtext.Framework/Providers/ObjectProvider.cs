@@ -11,7 +11,7 @@ namespace Subtext.Framework.Providers
 	/// provided via the <see cref="DbProvider"/> class).
 	/// </summary>
 	public abstract class ObjectProvider : ProviderBase
-	{	
+	{
 		/// <summary>
 		/// Returns the configured concrete instance of a <see cref="ObjectProvider"/>.
 		/// </summary>
