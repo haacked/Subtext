@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.Reflection;
@@ -13,6 +14,8 @@ namespace Subtext.Extensibility.Providers
 	/// </summary>
 	public abstract class ProviderBase 
 	{
+		static Hashtable _providers = new Hashtable();
+
 		/// <summary>
 		/// Initializes the specified provider.
 		/// </summary>
@@ -32,6 +35,17 @@ namespace Subtext.Extensibility.Providers
 		/// <returns></returns>
 		protected static ProviderBase Instance(string sectionName) 
 		{
+			//In the original configuration, the Cache is used to cache 
+			//constructor info.  Not sure why we can't just store a 
+			//static instance of the fully loaded provider.
+			ProviderBase storedProvider = _providers[sectionName] as ProviderBase;
+			
+			//This check is now thread safe.
+			if(storedProvider != null)
+			{
+				return storedProvider;
+			}
+
 			// Use the cache because the reflection used later is expensive
 			Cache cache = HttpRuntime.Cache;
 			Type type = null;
@@ -67,6 +81,14 @@ namespace Subtext.Extensibility.Providers
 			ConstructorInfo constructor = cache[cacheKey] as ConstructorInfo;
 			ProviderBase provider = (ProviderBase)(constructor.Invoke(new object[] {}));
 			provider.Initialize(providerInfo.Name, providerInfo.Attributes);
+			
+			// It's possible that at this point, another thread has already 
+			// added the correct provider to this hashtable.  That we might be 
+			// overwriting that instance is not a big problem as a provider doesn't 
+			// have changing state and this one will be essentially a copy of the 
+			// existing one.  Also, it's a rare thing to occur.  So we don't lock 
+			// for maximum throughput.
+			_providers[sectionName] = provider;
 			return provider;
 		}
 	}

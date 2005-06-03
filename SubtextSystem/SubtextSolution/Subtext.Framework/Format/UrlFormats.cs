@@ -131,32 +131,6 @@ namespace Subtext.Framework.Format
 			}
 		}
 
-		/// <summary>
-		/// Returns a <see cref="DateTime"/> instance parsed from the url 
-		/// at the startfrom position.
-		/// </summary>
-		/// <param name="url">URL.</param>
-		/// <param name="startfrom">Startfrom.</param>
-		/// <returns></returns>
-		public static DateTime DateFromUrl(string url, string startfrom)
-		{
-			CultureInfo en = new CultureInfo("en-US");
-			string date = url.Substring(url.ToLower().IndexOf(startfrom.ToLower()) + startfrom.Length);
-			if(date.Length == 11)
-			{
-				return DateTime.ParseExact(date,"/yyyy/MM/dd",en);
-			}
-			if(date.Length == 8)
-			{
-				return DateTime.ParseExact(date,"/yyyy/MM",en);
-			}
-			if(date.Length == 5)
-			{
-				return DateTime.ParseExact(date,"/yyyy",en);
-			}
-			return DateTime.Now;
-		}
-
 		public static string GetRequestedFileName(string uri)
 		{
 			return Path.GetFileNameWithoutExtension(uri);

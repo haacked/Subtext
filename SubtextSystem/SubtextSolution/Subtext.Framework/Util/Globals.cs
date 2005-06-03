@@ -101,23 +101,6 @@ namespace Subtext.Framework.Util
 			return app;
 		}
 
-		public static string DateString(DateTime dt, Char c)
-		{
-			switch(c)
-			{
-				case 'm':
-				case 'M':
-					return dt.ToString("yyyy/MM");
-				case 'd':
-				case 'D':
-					return dt.ToString("yyyy/MM/dd");
-				case 'y':
-				case 'Y':
-					return dt.ToString("yyyy");
-				default:
-					return string.Empty;
-			}
-		}
 
 			#endregion
 
@@ -139,13 +122,6 @@ namespace Subtext.Framework.Util
 		}
 
 		#endregion
-
-
-
-
-
-
-		
 	}
 }
 
