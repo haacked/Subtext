@@ -141,6 +141,9 @@ namespace Subtext.Framework.Configuration
 				}
 			}
 
+			if(Config.Settings.UseHashedPasswords)
+				password = Security.HashPassword(password);
+
 			return (ObjectProvider.Instance().CreateBlog(title, userName, password, host, application));
 		}
 

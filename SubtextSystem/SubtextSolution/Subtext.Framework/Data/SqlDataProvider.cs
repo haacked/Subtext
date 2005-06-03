@@ -147,6 +147,7 @@ namespace Subtext.Framework.Data
 
 		public override int InsertImage(Image _image)
 		{
+			SqlParameter outParam = SqlHelper.MakeOutParam("@ImageID", SqlDbType.Int, 4);
 			SqlParameter[] p = 
 			{
 				SqlHelper.MakeInParam("@Title",SqlDbType.NVarChar,250,_image.Title),
@@ -156,10 +157,10 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@File",SqlDbType.NVarChar,50,_image.File),
 				SqlHelper.MakeInParam("@Active",SqlDbType.Bit,1,_image.IsActive),
 				BlogIDParam,
-				SqlHelper.MakeOutParam("@ImageID",SqlDbType.Int,4)
+				outParam
 			};
 			NonQueryInt("blog_InsertImage",p);
-			return (int)p[7].Value;
+			return (int)outParam.Value;
 		}
 
 		public override bool UpdateImage(Image _image)
@@ -701,6 +702,7 @@ namespace Subtext.Framework.Data
 		//maps to blog_InsertBlog
 		public override int InsertEntry(Entry entry)
 		{
+			SqlParameter outIdParam = SqlHelper.MakeOutParam("@ID", SqlDbType.Int, 4);
 			SqlParameter[] p =
 			{
 				SqlHelper.MakeInParam("@Title",  SqlDbType.NVarChar, 255, entry.Title), 
@@ -718,12 +720,12 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, DataHelper.CheckNull(entry.EntryName)), 
 				SqlHelper.MakeInParam("@ContentChecksumHash", SqlDbType.VarChar, 32, DataHelper.CheckNull(entry.ContentChecksumHash)), 
 				BlogIDParam,
-				SqlHelper.MakeOutParam("@ID",SqlDbType.Int,4)
+				outIdParam
 				
 			};
 
 			NonQueryInt("blog_InsertEntry",p);
-			return (int)p[14].Value;
+			return (int)outIdParam.Value;
 		}
 
 		
@@ -754,9 +756,10 @@ namespace Subtext.Framework.Data
 
 		//Not that efficent, but maybe we should just iterage over feedback items?
 		public override int InsertPingTrackEntry(Entry entry)
-		{			
+		{
 			if(entry.PostType == PostType.PingTrack)
 			{
+				SqlParameter outParam = SqlHelper.MakeOutParam("@ID", SqlDbType.Int, 4);
 				SqlParameter[] p =
 				{
 					SqlHelper.MakeInParam("@Title",  SqlDbType.NVarChar, 255, entry.Title), 
@@ -774,11 +777,11 @@ namespace Subtext.Framework.Data
 					SqlHelper.MakeInParam("@ParentID", SqlDbType.Int, 4, entry.ParentID), 
 					SqlHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, DataHelper.CheckNull(entry.EntryName)), 
 					BlogIDParam, 
-					SqlHelper.MakeOutParam("@ID", SqlDbType.Int, 4)
+					outParam
 				};
 
 					NonQueryInt("blog_InsertPingTrackEntry",p);
-					return (int)p[13].Value;
+					return (int)outParam.Value;
 			}
 			else
 			{
@@ -802,12 +805,12 @@ namespace Subtext.Framework.Data
 			return GetReader("blog_GetLinkCollectionByPostID", p);
 		}
 
-
-//		private void DeleteCategoriesByPostID(int postID, SqlConnection conn)
-//		{
-//			SqlHelper.ExecuteNonQuery(conn,CommandType.StoredProcedure,"blog_DeleteLinksByPostID",SqlHelper.MakeInParam("@PostID",SqlDbType.Int,4,postID),BlogIDParam);
-//		}
-		
+		/// <summary>
+		/// Adds the entry to categories specified in the <see cref="LinkCollection"/>.
+		/// </summary>
+		/// <param name="PostID">Post ID.</param>
+		/// <param name="lc">Lc.</param>
+		/// <returns></returns>
 		public override bool AddEntryToCategories(int PostID, LinkCollection lc)
 		{
 			int count = 0;
@@ -866,6 +869,7 @@ namespace Subtext.Framework.Data
 
 		public override int InsertLink(Link link)
 		{
+			SqlParameter outParam = SqlHelper.MakeOutParam("@LinkID",SqlDbType.Int,4);
 			SqlParameter[] p = 
 			{
 				SqlHelper.MakeInParam("@Title",SqlDbType.NVarChar,150,link.Title),
@@ -876,10 +880,10 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,link.CategoryID),
 				SqlHelper.MakeInParam("@PostID",SqlDbType.Int,4,link.PostID),
 				BlogIDParam,
-				SqlHelper.MakeOutParam("@LinkID",SqlDbType.Int,4)
+				outParam
 			};
 			NonQueryInt("blog_InsertLink",p);
-			return (int)p[8].Value;
+			return (int)outParam.Value;
 
 		}
 
@@ -991,6 +995,7 @@ namespace Subtext.Framework.Data
 		//maps to blog_LinkCategory
 		public override int InsertCategory(LinkCategory lc)
 		{
+			SqlParameter outParam = SqlHelper.MakeOutParam("@CategoryID",SqlDbType.Int,4);
 			SqlParameter[] p =
 			{
 
@@ -999,10 +1004,10 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@CategoryType",SqlDbType.TinyInt,1,lc.CategoryType),
 				SqlHelper.MakeInParam("@Description",SqlDbType.NVarChar,1000,DataHelper.CheckNull(lc.Description)),
 				BlogIDParam,
-				SqlHelper.MakeOutParam("@CategoryID",SqlDbType.Int,4)
+				outParam
 			};
 			NonQueryInt("blog_InsertCategory",p);
-			return (int)p[5].Value;
+			return (int)outParam.Value;
 		}
 
 		#endregion
@@ -1196,6 +1201,7 @@ namespace Subtext.Framework.Data
 
 		public override int InsertKeyWord(KeyWord kw)
 		{
+			SqlParameter outParam = SqlHelper.MakeOutParam("@KeyWordID",SqlDbType.Int,4);
 			SqlParameter[] p =
 			{
 				SqlHelper.MakeInParam("@Word",SqlDbType.NVarChar,100,kw.Word),
@@ -1206,10 +1212,10 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@Url",SqlDbType.NVarChar,255,kw.Url),
 				SqlHelper.MakeInParam("@Title",SqlDbType.NVarChar,100,kw.Title),
 				BlogIDParam,
-				SqlHelper.MakeOutParam("@KeyWordID",SqlDbType.Int,4)
+				outParam
 			};
 			NonQueryInt("blog_InsertKeyWord",p);
-			return (int)p[8].Value;
+			return (int)outParam.Value;
 		}
 
 		public override bool UpdateKeyWord(KeyWord kw)
