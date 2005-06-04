@@ -147,6 +147,14 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Docs\Developer\Default.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Docs\Developer\Changes\Default.aspx"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Docs\FAQ\Default.aspx"
                     BuildAction = "Content"
                 />

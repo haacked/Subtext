@@ -19,6 +19,4 @@
 	<dt>What is Subtext?</dt>
 	<dd>Subtext is a personal blog publishing engine that has evolved from .TEXT.</dd>
 	</dl>
-
-<dt>What is WordPress?</dt>
 </MP:MasterPage>
