@@ -79,7 +79,7 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				return string.Format("Subtext Version {0}", FrameworkVersion);
+				return string.Format(System.Globalization.CultureInfo.InvariantCulture, "Subtext Version {0}", FrameworkVersion);
 			}
 		}
 
@@ -92,7 +92,7 @@ namespace Subtext.Framework
 		{ 
 			get
 			{
-				return string.Format("{0} - {1}",Version,HomePage);
+				return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} - {1}",Version,HomePage);
 			} 
 		}
 		

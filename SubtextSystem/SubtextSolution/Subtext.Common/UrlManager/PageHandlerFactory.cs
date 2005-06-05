@@ -48,7 +48,7 @@ namespace Subtext.Common.UrlManager
 		{
 			StackWalk.Assert();
 
-			if(!path.ToLower().EndsWith(".aspx"))
+			if(!path.ToLower(System.Globalization.CultureInfo.InvariantCulture).EndsWith(".aspx"))
 			{
 				path = System.IO.Path.Combine(path,"default.aspx");
 			}

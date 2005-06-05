@@ -63,7 +63,7 @@ namespace Subtext.Web.UI.Controls
 						if(entry.HasDescription)
 						{
 						
-							PostText.Text = string.Format("<p>{0}</p>",entry.Description);
+							PostText.Text = string.Format(System.Globalization.CultureInfo.InvariantCulture, "<p>{0}</p>",entry.Description);
 						}
 					}
 					else

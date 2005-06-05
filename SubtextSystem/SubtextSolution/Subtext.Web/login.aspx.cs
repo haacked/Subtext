@@ -129,7 +129,6 @@ namespace Subtext.Web.Pages
 			BlogInfo info = Config.CurrentBlog;
 			if(Security.Authenticate(tbUserName.Text, tbPassword.Text, chkRemember.Checked))
 			{
-				//FormsAuthentication.SetAuthCookie(config.BlogID.ToString(),chkRemember.Checked);
 				if(Request.QueryString["ReturnURL"] != null)
 				{
 					Response.Redirect(Request.QueryString["ReturnURL"]);

@@ -132,7 +132,7 @@ namespace Subtext.Web.Controls
 
 		private void BuildMasterPage()
 		{
-			if (this._templateFile == "")
+			if (this._templateFile.Length == 0)
 			{
 				throw new Exception("TemplateFile Property for MasterPage must be Defined");
 			}

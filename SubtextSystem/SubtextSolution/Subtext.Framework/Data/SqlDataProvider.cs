@@ -24,6 +24,7 @@
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
@@ -685,7 +686,7 @@ namespace Subtext.Framework.Data
 			string[] cats = new string[Categories.Length];
 			for(int i = 0; i<Categories.Length;i++)
 			{
-				cats[i] = Categories[i].ToString();
+				cats[i] = Categories[i].ToString(CultureInfo.InvariantCulture);
 			}
 			string catList = string.Join(",",cats);
 

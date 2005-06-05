@@ -29,7 +29,7 @@ namespace Subtext.Web.Admin.Pages
 	{	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-			string command = Request.QueryString["command"].ToLower();
+			string command = Request.QueryString["command"].ToLower(System.Globalization.CultureInfo.InvariantCulture);
 
 			switch (command) 
 			{

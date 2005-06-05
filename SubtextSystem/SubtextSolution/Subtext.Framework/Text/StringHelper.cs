@@ -180,7 +180,7 @@ namespace Subtext.Framework.Text
 			if(caseSensitive)
 				searchIndex = str.IndexOf(searchString, 0);
 			else
-				searchIndex = str.ToUpper().IndexOf(searchString.ToUpper(), 0);
+				searchIndex = str.ToUpper(CultureInfo.InvariantCulture).IndexOf(searchString.ToUpper(CultureInfo.InvariantCulture), 0);
 			
 			if(searchIndex < 0)
 				return str;
@@ -227,7 +227,7 @@ namespace Subtext.Framework.Text
 			if(caseSensitive)
 				searchIndex = str.IndexOf(searchString, 0);
 			else
-				searchIndex = str.ToUpper().IndexOf(searchString.ToUpper(), 0);
+				searchIndex = str.ToUpper(CultureInfo.InvariantCulture).IndexOf(searchString.ToUpper(CultureInfo.InvariantCulture), 0);
 
 			if(searchIndex < 0)
 				return str;
@@ -289,5 +289,19 @@ namespace Subtext.Framework.Text
 			return AreEqual(suffixSizedString, suffix, true);
 		}
 
+		/// <summary>
+		/// Returns the index of the first string within the second.
+		/// </summary>
+		/// <param name="container">Container.</param>
+		/// <param name="contained">Contained.</param>
+		/// <param name="caseSensitive">Case sensitive.</param>
+		/// <returns></returns>
+		public static int IndexOf(string container, string contained, bool caseSensitive)
+		{
+			if(caseSensitive)
+				return container.IndexOf(contained);
+			else
+				return container.ToUpper(CultureInfo.InvariantCulture).IndexOf(contained.ToUpper(CultureInfo.InvariantCulture));
+		}
 	}
 }

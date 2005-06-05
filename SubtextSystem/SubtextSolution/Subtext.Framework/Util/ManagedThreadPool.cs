@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Globalization;
 using System.Threading;
 
 #region Credits
@@ -147,7 +148,7 @@ namespace Subtext.Framework.Util
 				_workerThreads.Add(newThread);
 
 				// Configure the new thread and start it
-				newThread.Name = "ManagedPoolThread #" + i.ToString();
+				newThread.Name = "ManagedPoolThread #" + i.ToString(CultureInfo.InvariantCulture);
 				newThread.IsBackground = true;
 				newThread.Start();
 			}

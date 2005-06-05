@@ -45,12 +45,12 @@ namespace Subtext.Framework
 
 		public static string LocalGalleryFilePath(HttpContext context, int categoryid)
 		{
-			return string.Format("{0}\\{1}\\",Config.CurrentBlog.ImageDirectory,categoryid);
+			return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}\\{1}\\",Config.CurrentBlog.ImageDirectory,categoryid);
 		}
 
 		public static string HttpGalleryFilePath(HttpContext context, int categoryid)
 		{
-			return string.Format("{0}{1}/",Config.CurrentBlog.ImagePath,categoryid);
+			return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}/",Config.CurrentBlog.ImagePath,categoryid);
 		}
 
 		public static string HttpFilePath(HttpContext context)
@@ -163,7 +163,7 @@ namespace Subtext.Framework
 		public static ImageFormat GetFormat(string name)
 		{
 			string ext = name.Substring(name.LastIndexOf(".") + 1);
-			switch(ext.ToLower())
+			switch(ext.ToLower(System.Globalization.CultureInfo.InvariantCulture))
 			{
 				case "jpg":
 				case "jpeg":

@@ -24,7 +24,7 @@ namespace Subtext.Framework.Util
 
 		public static DateTime GetDateFromRequest(string uri, string archiveText)
 		{
-			uri = uri.ToLower();
+			uri = uri.ToLower(System.Globalization.CultureInfo.InvariantCulture);
 			uri = CleanStartDateString(uri,archiveText);
 			uri = CleanEndDateString(uri);
 			return DateTime.ParseExact(uri,dateFormats,new CultureInfo("en-US"),DateTimeStyles.None);
@@ -56,7 +56,7 @@ namespace Subtext.Framework.Util
 		/// <returns></returns>
 		public static string GetCategryFromRss(string url)
 		{
-			url = url.ToLower();
+			url = url.ToLower(System.Globalization.CultureInfo.InvariantCulture);
 			int start = url.IndexOf("/category/");
 			int stop = url.IndexOf("/rss");
 			return url.Substring(start+10,stop-(start+10)).Replace(".aspx",string.Empty);			

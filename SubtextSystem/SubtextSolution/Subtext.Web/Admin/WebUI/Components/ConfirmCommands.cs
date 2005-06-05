@@ -22,6 +22,7 @@
 #endregion
 
 using System;
+using System.Globalization;
 using System.IO;
 using System.Web;
 using Subtext.Framework;
@@ -144,7 +145,7 @@ namespace Subtext.Web.Admin
 		{
 			try
 			{
-				return String.Format(format, args); 
+				return string.Format(System.Globalization.CultureInfo.InvariantCulture, format, args); 
 			}
 			catch (ArgumentNullException)
 			{
@@ -582,7 +583,7 @@ namespace Subtext.Web.Admin
 		{	
 			_targetName = "Image";
 			_targetID = imageID;
-		    itemTitle = "Image " + imageID.ToString();
+		    itemTitle = "Image " + imageID.ToString(CultureInfo.InvariantCulture);
 		}
 
 		public DeleteImageCommand(int imageID, string imageTitle)

@@ -22,6 +22,7 @@
 #endregion
 
 using System;
+using System.Globalization;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 
@@ -59,7 +60,7 @@ namespace Subtext.Web.Admin.Pages
 		private void BindLocalUI()
 		{
 			ddlPageSize.SelectedIndex = -1;
-			ddlPageSize.Items.FindByValue(Preferences.ListingItemCount.ToString()).Selected = true;
+			ddlPageSize.Items.FindByValue(Preferences.ListingItemCount.ToString(CultureInfo.InvariantCulture)).Selected = true;
 
 			ddlPublished.SelectedIndex = -1;
 			ddlPublished.Items.FindByValue(Preferences.AlwaysCreateIsActive ? "true" : "false").Selected = true;

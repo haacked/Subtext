@@ -39,7 +39,7 @@ namespace Subtext.Web.Admin.WebUI
 
 		protected override void Render(HtmlTextWriter output)
 		{	
-			output.Write(String.Format("<link href=\"{1}\" rel=\"{0}\" type=\"{2}\" title=\"{3}\" media=\"{4}\" />", 
+			output.Write(string.Format(System.Globalization.CultureInfo.InvariantCulture, "<link href=\"{1}\" rel=\"{0}\" type=\"{2}\" title=\"{3}\" media=\"{4}\" />", 
 				_rel, Href, _linkType, _title, _media));
 		}
 

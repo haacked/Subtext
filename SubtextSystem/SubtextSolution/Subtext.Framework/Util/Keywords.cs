@@ -1,8 +1,8 @@
 using System;
-using System.Globalization;
 using System.Text;
 using Subtext.Framework.Components;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Util
 {
@@ -19,7 +19,7 @@ namespace Subtext.Framework.Util
 
 		public static string Replace(string source, string oldValue, string newValue, bool onlyFirstMatch, bool CaseSensitive)
 		{
-			return Scan(source, oldValue, newValue, false, onlyFirstMatch,CaseSensitive);
+			return Scan(source, oldValue, newValue, false, onlyFirstMatch, CaseSensitive);
 		}
 
 		/// <summary>
@@ -35,7 +35,8 @@ namespace Subtext.Framework.Util
 		}
 
 		/// <summary>
-		/// Preforms a forward scan and replace for a given pattern. Can specify only to match first fine and if the pattern is CaseSensitive
+		/// Preforms a forward scan and replace for a given pattern. 
+		/// Can specify only to match first fine and if the pattern is CaseSensitive
 		/// </summary>
 		/// <param name="source">Text to search</param>
 		/// <param name="oldValue">Pattern to search for</param>
@@ -92,8 +93,9 @@ namespace Subtext.Framework.Util
 								{
 									// peek a head the next target length chunk + 1 boundary char
 									matchTarget = source.Substring(i + tagstack.Length, oldValue.Length);
-									//Do we want a case insesitive comparison?
-									if(string.Compare(matchTarget,oldValue,!CaseSensitive) == 0)
+									
+									//TODO: Do we want a case insensitive comparison in all cases?
+									if(StringHelper.AreEqual(matchTarget, oldValue, !CaseSensitive))
 									//if (matchTarget == oldValue)
 									{
 										int index= tagstack.Length - i;
@@ -284,8 +286,7 @@ namespace Subtext.Framework.Util
 
 		public bool Holds(string value, bool ignoreCase)
 		{
-			return (0 == String.Compare(value, this.ToString(), ignoreCase, 
-			                            CultureInfo.InvariantCulture));					
+			return StringHelper.AreEqual(value, this.ToString(), ignoreCase);
 		}
 
 		public override string ToString()

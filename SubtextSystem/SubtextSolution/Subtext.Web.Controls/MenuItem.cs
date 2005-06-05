@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Web.UI.HtmlControls;
 
 namespace Subtext.Web.Controls
@@ -22,7 +23,7 @@ namespace Subtext.Web.Controls
 			string hrefString = string.Empty;
 			if(IsOnThisMenusPage && HighlightCssClass.Length > 0)
 			{
-				cssClass = string.Format(" class=\"{0}\"", HighlightCssClass);
+				cssClass = string.Format(CultureInfo.InvariantCulture, " class=\"{0}\"", HighlightCssClass);
 			}
 			else
 			{
@@ -33,7 +34,7 @@ namespace Subtext.Web.Controls
 			if(IsAttributeDefined("id"))
 				idText = " id=\"" + Attributes["id"] + "\"";
 
-			writer.Write(string.Format(format, cssClass, idText, hrefString, Title, Text));
+			writer.Write(string.Format(System.Globalization.CultureInfo.InvariantCulture, format, cssClass, idText, hrefString, Title, Text));
 		}
 
 		bool IsAttributeDefined(string name)

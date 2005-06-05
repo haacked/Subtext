@@ -70,13 +70,13 @@ namespace Subtext.Web.UI.Skinning
 				_ht = new Hashtable();
 				for(int i = 0; i<Templates.Length; i++)
 				{
-					_ht.Add(Templates[i].SkinID.ToLower(),Templates[i]);
+					_ht.Add(Templates[i].SkinID.ToLower(System.Globalization.CultureInfo.InvariantCulture),Templates[i]);
 				}
 			}
 
-			if(_ht.Contains(id.ToLower()))
+			if(_ht.Contains(id.ToLower(System.Globalization.CultureInfo.InvariantCulture)))
 			{
-				return (SkinTemplate)_ht[id.ToLower()];
+				return (SkinTemplate)_ht[id.ToLower(System.Globalization.CultureInfo.InvariantCulture)];
 			}
 			return null;
 

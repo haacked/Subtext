@@ -22,6 +22,7 @@
 #endregion
 
 using System;
+using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
@@ -126,7 +127,7 @@ namespace Subtext.Web.Admin.Pages
 				Results.Collapsible = false;
 
 				if (Constants.NULL_CATEGORYID != _filterCategoryID)
-					ResultsPager.UrlFormat += String.Format("&{0}={1}", Keys.QRYSTR_CATEGORYID, 
+					ResultsPager.UrlFormat += string.Format(System.Globalization.CultureInfo.InvariantCulture, "&{0}={1}", Keys.QRYSTR_CATEGORYID, 
 						_filterCategoryID);
 				
 				BindList();
@@ -180,7 +181,7 @@ namespace Subtext.Web.Admin.Pages
 //			ImportExport.Visible = false;
 			Edit.Visible = true;
 
-			lblEntryID.Text = currentLink.LinkID.ToString();
+			lblEntryID.Text = currentLink.LinkID.ToString(CultureInfo.InvariantCulture);
 			txbTitle.Text = currentLink.Title;
 			txbUrl.Text = currentLink.Url;
 			txbRss.Text = currentLink.Rss;
@@ -189,13 +190,13 @@ namespace Subtext.Web.Admin.Pages
 			ckbIsActive.Checked = currentLink.IsActive;
 
 			BindLinkCategories();
-			ddlCategories.Items.FindByValue(currentLink.CategoryID.ToString()).Selected = true;
+			ddlCategories.Items.FindByValue(currentLink.CategoryID.ToString(CultureInfo.InvariantCulture)).Selected = true;
 
 			Control container = Page.FindControl("PageContainer");
 			if (null != container && container is Subtext.Web.Admin.WebUI.Page)
 			{	
 				Subtext.Web.Admin.WebUI.Page page = (Subtext.Web.Admin.WebUI.Page)container;
-				string title = String.Format("Editing Link \"{0}\"", currentLink.Title);
+				string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Editing Link \"{0}\"", currentLink.Title);
 
 				page.BreadCrumbs.AddLastItem(title);
 				page.Title = title;
@@ -355,7 +356,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void rprSelectionList_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
 		{
-			switch (e.CommandName.ToLower()) 
+			switch (e.CommandName.ToLower(System.Globalization.CultureInfo.InvariantCulture)) 
 			{
 				case "edit" :
 					LinkID = Convert.ToInt32(e.CommandArgument);

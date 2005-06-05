@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -36,7 +37,6 @@ namespace Subtext.Web.UI.Controls
 	/// </summary>
 	public  class MonthList : BaseControl
 	{
-
 		protected Subtext.Web.UI.Controls.EntryList MonthListings;
 		protected override void OnLoad(EventArgs e)
 		{
@@ -46,7 +46,7 @@ namespace Subtext.Web.UI.Controls
 				DateTime dt = UrlFormats.DateFromUrl(Request.Path);
 				MonthListings.DescriptionOnly = true;
 				MonthListings.EntryListItems = Entries.GetPostsByDayRange(dt, dt.AddMonths(1), PostType.BlogPost, true);
-				MonthListings.EntryListTitle = dt.ToString("y");
+				MonthListings.EntryListTitle = dt.ToString("y", CultureInfo.CurrentCulture);
 
 			}
 		}

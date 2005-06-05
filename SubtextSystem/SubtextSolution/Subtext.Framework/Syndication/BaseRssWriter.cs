@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
@@ -200,7 +201,7 @@ namespace Subtext.Framework.Syndication
 				//optional url for comments
 				this.WriteElementString("comments", entry.Link + "#Feedback");
 				//optional comment count
-				this.WriteElementString("slash:comments", entry.FeedBackCount.ToString());
+				this.WriteElementString("slash:comments", entry.FeedBackCount.ToString(CultureInfo.InvariantCulture));
 				//optional commentRss feed location
 				this.WriteElementString("wfw:commentRss", uformat.CommentRssUrl(entry.EntryID));
 				//optional trackback location

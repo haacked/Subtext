@@ -35,7 +35,7 @@ namespace Subtext.Framework.Format
 
 		public virtual string EntryUrl(Entry entry)
 		{
-			return GetUrl("archive/" + entry.DateCreated.ToString("yyyy/MM/dd") + "/{0}.aspx", entry.HasEntryName ? entry.EntryName : entry.EntryID.ToString());
+			return GetUrl("archive/" + entry.DateCreated.ToString("yyyy/MM/dd") + "/{0}.aspx", entry.HasEntryName ? entry.EntryName : entry.EntryID.ToString(CultureInfo.InvariantCulture));
 		}
 
 		public virtual string ImageUrl(string category, int ImageID)
@@ -45,13 +45,13 @@ namespace Subtext.Framework.Format
 
 		public virtual string YearUrl(DateTime dt)
 		{
-			return GetUrl("archive/{0}.aspx",dt.ToString("yyyy"));
+			return GetUrl("archive/{0}.aspx",dt.ToString("yyyy", CultureInfo.InvariantCulture));
 		}
 
 		public virtual string DayUrl(DateTime dt)
 		{
 			//return GetUrl("archive/{0}/{1}/{2}.aspx",dt.Year,dt.Month,dt.Day);
-			return GetUrl("archive/{0}.aspx",dt.ToString("yyyy/MM/dd"));
+			return GetUrl("archive/{0}.aspx",dt.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture));
 		}
 
 		public virtual string GalleryUrl(string category, int GalleryID)
@@ -72,7 +72,7 @@ namespace Subtext.Framework.Format
 
 		public virtual string MonthUrl(DateTime dt)
 		{
-			return GetUrl("archive/{0}.aspx",dt.ToString("yyyy/MM"));
+			return GetUrl("archive/{0}.aspx",dt.ToString("yyyy/MM", CultureInfo.InvariantCulture));
 		}
 
 		public virtual string CommentRssUrl(int EntryID)
@@ -82,13 +82,13 @@ namespace Subtext.Framework.Format
 
 		public virtual string CommentUrl(Entry ParentEntry, Entry ChildEntry)
 		{
-			return string.Format("{0}#{1}",ParentEntry.Link,ChildEntry.EntryID);
+			return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}#{1}",ParentEntry.Link,ChildEntry.EntryID);
 			//return PostUrl(dt,EntryID) + "#FeedBack";
 		}
 
 		public virtual string CommentUrl(Entry entry)
 		{
-			return 	GetUrl("archive/" + entry.DateCreated.ToString("yyyy/MM/dd") + "/{0}.aspx#{1}", entry.HasEntryName ? entry.EntryName : entry.ParentID.ToString(),entry.EntryID);
+			return 	GetUrl("archive/" + entry.DateCreated.ToString("yyyy/MM/dd") + "/{0}.aspx#{1}", entry.HasEntryName ? entry.EntryName : entry.ParentID.ToString(CultureInfo.InvariantCulture), entry.EntryID);
 		}
 
 		public virtual string CommentApiUrl(int EntryID)

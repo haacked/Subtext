@@ -40,7 +40,7 @@ namespace Subtext.Web.Admin.WebUI
 
 		protected override void Render(HtmlTextWriter output)
 		{	
-			output.Write(String.Format("<base href=\"{0}{1}/\" />", AppPath, RelativePath));
+			output.Write(string.Format(System.Globalization.CultureInfo.InvariantCulture, "<base href=\"{0}{1}/\" />", AppPath, RelativePath));
 		}
 
 		public string RelativePath

@@ -29,6 +29,7 @@ using System.Text;
 using System.Web;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
+using Subtext.Framework.Text;
 using Subtext.Framework.Util;
 
 namespace Subtext.Web.Admin
@@ -41,8 +42,6 @@ namespace Subtext.Web.Admin
 		{
 			get
 			{
-//				System.Diagnostics.Debug.WriteLine("AppPath: " + HttpContext.Current.Request.ApplicationPath);
-//				
 				return Globals.WebPathCombine(HttpContext.Current.Request.ApplicationPath,  "/admin/");
 			}
 		}
@@ -58,8 +57,9 @@ namespace Subtext.Web.Admin
 					string relativePath = path.Substring(1, path.Length - 1);				
 					string appPath = System.Web.HttpContext.Current.Request.ApplicationPath;
 
-					if (relativePath.ToLower().StartsWith(ADMIN_DEFAULT))
-					{						
+					bool caseSensitive = true;
+					if(StringHelper.StartsWith(relativePath, ADMIN_DEFAULT, !caseSensitive))
+					{
 						relativePath = relativePath.Replace(ADMIN_DEFAULT, 
 							"admin");
 					}
@@ -67,7 +67,7 @@ namespace Subtext.Web.Admin
 					if (relativePath.StartsWith("/"))
 						relativePath = relativePath.Substring(1, relativePath.Length - 1);
 
-					return String.Format("{0}{1}{2}", appPath, appPath.EndsWith("/") ? "" : "/",
+					return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}{2}", appPath, appPath.EndsWith("/") ? "" : "/",
 						relativePath);
 				}
 				else
@@ -105,7 +105,7 @@ namespace Subtext.Web.Admin
 
 		internal static string GetClientScriptInclude(string filename)
 		{
-			return String.Format("<script language=\"JavaScript\" src=\"{0}\"></script>", filename);
+			return string.Format(System.Globalization.CultureInfo.InvariantCulture, "<script language=\"JavaScript\" src=\"{0}\"></script>", filename);
 		}
 
 		internal static bool CheckIsIE55()

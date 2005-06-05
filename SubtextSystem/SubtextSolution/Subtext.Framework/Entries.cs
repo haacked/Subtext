@@ -328,8 +328,8 @@ namespace Subtext.Framework
 
 					string To = Config.CurrentBlog.Email;
 					string From = im.AdminEmail;
-					string Subject = String.Format("Comment: {0} (via {1})", entry.Title, blogTitle);
-					string Body = String.Format("Comments from {0}:\r\n\r\nSender: {1}\r\nUrl: {2}\r\nIP Address: {3}\r\n=====================================\r\n\r\n{4}\r\n\r\n{5}\r\n\r\nSource: {6}#{7}", 
+					string Subject = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Comment: {0} (via {1})", entry.Title, blogTitle);
+					string Body = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Comments from {0}:\r\n\r\nSender: {1}\r\nUrl: {2}\r\nIP Address: {3}\r\n=====================================\r\n\r\n{4}\r\n\r\n{5}\r\n\r\nSource: {6}#{7}", 
 						blogTitle,
 						entry.Author,
 						entry.TitleUrl,

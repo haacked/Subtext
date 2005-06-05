@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Web.UI.WebControls;
 using Subtext.Common.Data;
 using Subtext.Extensibility;
@@ -71,7 +72,7 @@ namespace Subtext.Web.UI.Controls
 		{
 				int feedbackItem = Int32.Parse(e.CommandName);
 			Entries.Delete(feedbackItem);
-				Response.Redirect(string.Format("{0}?Pending=true",Request.Path));
+				Response.Redirect(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?Pending=true",Request.Path));
 		}
 
 		protected void CommentsCreated(object sender,  RepeaterItemEventArgs e)
@@ -86,7 +87,7 @@ namespace Subtext.Web.UI.Controls
 					{
 						// we should probably change skin format to dynamically wire up to 
 						// skin located title and permalinks at some point
-						title.Text = String.Format("{2}&nbsp;{0}{1}", Anchor(entry.EntryID), 
+						title.Text = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{2}&nbsp;{0}{1}", Anchor(entry.EntryID), 
 							entry.Title, Link(entry.Title, entry.Link));
 					}
 
@@ -126,11 +127,11 @@ namespace Subtext.Web.UI.Controls
 							if(editlink != null)
 							{
 								//editlink.CommandName = "Remove";
-								editlink.Text = "Remove Comment " + entry.EntryID.ToString();
-								editlink.CommandName = entry.EntryID.ToString();
-								editlink.Attributes.Add("onclick","return confirm(\"Are you sure you want to delete comment " + entry.EntryID.ToString() + "?\");");
+								editlink.Text = "Remove Comment " + entry.EntryID.ToString(CultureInfo.InvariantCulture);
+								editlink.CommandName = entry.EntryID.ToString(CultureInfo.InvariantCulture);
+								editlink.Attributes.Add("onclick","return confirm(\"Are you sure you want to delete comment " + entry.EntryID.ToString(CultureInfo.InvariantCulture) + "?\");");
 								editlink.Visible = true;
-								editlink.CommandArgument = entry.EntryID.ToString();
+								editlink.CommandArgument = entry.EntryID.ToString(CultureInfo.InvariantCulture);
 
 							}
 							else

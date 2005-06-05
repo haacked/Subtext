@@ -103,7 +103,7 @@ namespace Subtext.Web.UI.Controls
 						{
 							RssLink.NavigateUrl = link.Rss;
 							RssLink.Visible = true;
-							RssLink.ToolTip = string.Format("Subscribe to {0}",link.Title);
+							RssLink.ToolTip = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Subscribe to {0}",link.Title);
 						}
 					}
 				}

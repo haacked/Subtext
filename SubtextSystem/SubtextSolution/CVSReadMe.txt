@@ -1,3 +1,7 @@
+
+For more information on how to use CVS with SourceForge projects, 
+please read http://haacked.com/archive/2005/05/12/3178.aspx
+
 Source Control Rules
 =========================
 

@@ -23,6 +23,7 @@
 
 using System;
 using System.Collections;
+using System.Globalization;
 using CookComputing.XmlRpc;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
@@ -57,7 +58,7 @@ namespace Subtext.Framework.XmlRpc
 			{
 				BlogInfo[] bi = new BlogInfo[1];
 				BlogInfo b = new BlogInfo();
-				b.blogid = info.BlogID.ToString();
+				b.blogid = info.BlogID.ToString(CultureInfo.InvariantCulture);
 				b.blogName = info.Title;
 				b.url = info.FullyQualifiedUrl;
 				bi[0]=b;
@@ -173,8 +174,8 @@ namespace Subtext.Framework.XmlRpc
 					post.link = entry.TitleUrl;
 					post.permalink = entry.Link;
 					post.title = entry.Title;
-					post.postid = entry.EntryID.ToString();
-					post.userid = entry.Body.GetHashCode().ToString();
+					post.postid = entry.EntryID.ToString(CultureInfo.InvariantCulture);
+					post.userid = entry.Body.GetHashCode().ToString(CultureInfo.InvariantCulture);
 					if(entry.Categories != null && entry.Categories.Length > 0)
 					{
 						post.categories = entry.Categories;
@@ -202,10 +203,10 @@ namespace Subtext.Framework.XmlRpc
 				for(int i=0; i<lcc.Count; i++)
 				{
 					_category = new CategoryInfo();
-					_category.categoryid = lcc[i].CategoryID.ToString();
+					_category.categoryid = lcc[i].CategoryID.ToString(CultureInfo.InvariantCulture);
 					_category.title = lcc[i].Title;
-					_category.htmlUrl = info.FullyQualifiedUrl + "Category/" + lcc[i].CategoryID.ToString() + ".aspx";
-					_category.rssUrl = info.FullyQualifiedUrl + "rss.aspx?catid=" + lcc[i].CategoryID.ToString();
+					_category.htmlUrl = info.FullyQualifiedUrl + "Category/" + lcc[i].CategoryID.ToString(CultureInfo.InvariantCulture) + ".aspx";
+					_category.rssUrl = info.FullyQualifiedUrl + "rss.aspx?catid=" + lcc[i].CategoryID.ToString(CultureInfo.InvariantCulture);
 					_category.description = lcc[i].Title;
 					
 					categories[i] = _category;
@@ -255,7 +256,7 @@ namespace Subtext.Framework.XmlRpc
 				{
 					throw new XmlRpcFaultException(0,"The post could not be added");
 				}
-				return postID.ToString();
+				return postID.ToString(CultureInfo.InvariantCulture);
 			}
 			throw new XmlRpcFaultException(0,"User does not exist");
 		}
@@ -326,7 +327,7 @@ namespace Subtext.Framework.XmlRpc
 				MtCategory _category;
 				for(int i=0; i<lcc.Count; i++)
 				{
-					_category = new MtCategory(lcc[i].CategoryID.ToString(), lcc[i].Title);				
+					_category = new MtCategory(lcc[i].CategoryID.ToString(CultureInfo.InvariantCulture), lcc[i].Title);				
 					categories[i] = _category;
 				}
 				return categories;
@@ -386,7 +387,7 @@ namespace Subtext.Framework.XmlRpc
 					MtCategory _category;
 					for (int i = 0; i < postCategories.Count; i++)
 					{						
-						_category = new MtCategory(postCategories[i].CategoryID.ToString(), 
+						_category = new MtCategory(postCategories[i].CategoryID.ToString(CultureInfo.InvariantCulture), 
 							(string)catLookup[postCategories[i].CategoryID]);				
 
 						categories[i] = _category;

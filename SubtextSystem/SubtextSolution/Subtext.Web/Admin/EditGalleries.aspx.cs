@@ -119,7 +119,7 @@ namespace Subtext.Web.Admin.Pages
 			ImageCollection imageList = Images.GetImagesByCategoryID(galleryID, false);
 
 			plhImageHeader.Controls.Clear();
-			string galleryTitle = String.Format("{0} - {1} images", selectedGallery.Title, imageList.Count);
+			string galleryTitle = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} - {1} images", selectedGallery.Title, imageList.Count);
 			plhImageHeader.Controls.Add(new LiteralControl(galleryTitle));
 
 			rprImages.DataSource = imageList;
@@ -131,7 +131,7 @@ namespace Subtext.Web.Admin.Pages
 			if (null != container && container is Subtext.Web.Admin.WebUI.Page)
 			{	
 				Subtext.Web.Admin.WebUI.Page page = (Subtext.Web.Admin.WebUI.Page)container;
-				string title = String.Format("Viewing Gallery \"{0}\"", selectedGallery.Title);
+				string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Viewing Gallery \"{0}\"", selectedGallery.Title);
 
 				page.BreadCrumbs.AddLastItem(title);
 				page.Title = title;
@@ -169,7 +169,7 @@ namespace Subtext.Web.Admin.Pages
 			if (imageObject is Subtext.Framework.Components.Image)
 			{
 				Subtext.Framework.Components.Image image = (Subtext.Framework.Components.Image)imageObject;
-				return String.Format("{0}{1}", Images.HttpGalleryFilePath(Context, image.CategoryID), 
+				return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}", Images.HttpGalleryFilePath(Context, image.CategoryID), 
 					image.ThumbNailFile);
 			}
 			else
@@ -220,12 +220,12 @@ namespace Subtext.Web.Admin.Pages
 				if (category.CategoryID > 0)
 				{
 					Links.UpdateLinkCategory(category);
-					Messages.ShowMessage(String.Format("Category \"{0}\" was updated.", category.Title));
+					Messages.ShowMessage(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Category \"{0}\" was updated.", category.Title));
 				}
 				else
 				{
 					category.CategoryID = Links.CreateLinkCategory(category);
-					Messages.ShowMessage(String.Format("Category \"{0}\" was added.", category.Title));
+					Messages.ShowMessage(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Category \"{0}\" was added.", category.Title));
 				}					
 			}
 			catch(Exception ex)
@@ -318,7 +318,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void dgrSelectionList_ItemCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
 		{
-			switch (e.CommandName.ToLower()) 
+			switch (e.CommandName.ToLower(System.Globalization.CultureInfo.InvariantCulture)) 
 			{
 				case "view" :
 					int galleryID = Convert.ToInt32(e.CommandArgument);
@@ -397,7 +397,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void rprImages_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
 		{
-			switch (e.CommandName.ToLower()) 
+			switch (e.CommandName.ToLower(System.Globalization.CultureInfo.InvariantCulture)) 
 			{
 				case "deleteimage" :
 					ConfirmDeleteImage(Convert.ToInt32(e.CommandArgument));

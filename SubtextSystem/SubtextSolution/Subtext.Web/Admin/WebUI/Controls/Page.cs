@@ -145,7 +145,7 @@ namespace Subtext.Web.Admin.WebUI
 			get 
 			{
 				if (_title.Length > 0)
-					return String.Format("{0} : {1}", TITLE_PREFIX, _title);
+					return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} : {1}", TITLE_PREFIX, _title);
 				else
 					return TITLE_PREFIX;
 			}
@@ -353,7 +353,7 @@ namespace Subtext.Web.Admin.WebUI
 				{
 					if(_categories != null)
 					{
-						_categories.Items.Add(current.Title, String.Format("{0}?{1}={2}",
+						_categories.Items.Add(current.Title, string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?{1}={2}",
 							linkUrl, QRYSTR_CATEGORYFILTER, current.CategoryID));
 					}
 				}

@@ -22,6 +22,7 @@
 #endregion
 
 using System;
+using System.Globalization;
 using System.Web;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
@@ -120,7 +121,7 @@ namespace Subtext.Web.Admin.Pages
 			try
 			{			
 				Session[Keys.SESSION_COOKIETEST] = CookieSupportType.Testing;
-				Response.Cookies.Add(new HttpCookie(TESTCOOKIE_NAME, DateTime.Now.ToString()));
+				Response.Cookies.Add(new HttpCookie(TESTCOOKIE_NAME, DateTime.Now.ToString(CultureInfo.InvariantCulture)));
 			}
 			catch (HttpException)
 			{

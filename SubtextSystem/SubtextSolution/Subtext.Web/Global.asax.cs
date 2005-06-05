@@ -23,6 +23,7 @@
 
 using System;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Web;
 using Subtext.Framework.Data;
@@ -88,8 +89,8 @@ namespace Subtext
 						if(context.Request.IsAuthenticated)
 						{
 							userInfo = context.User.Identity.Name;
-							userInfo += "<br>Is Admin: " + Subtext.Framework.Security.IsAdmin.ToString();
-							userInfo += "<br>BlogID: " + Subtext.Framework.Configuration.Config.CurrentBlog.BlogID.ToString();
+							userInfo += "<br>Is Admin: " + Subtext.Framework.Security.IsAdmin.ToString(CultureInfo.InvariantCulture);
+							userInfo += "<br>BlogID: " + Subtext.Framework.Configuration.Config.CurrentBlog.BlogID.ToString(CultureInfo.InvariantCulture);
 						}
 
 					}

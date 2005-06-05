@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Web;
 using System.Web.Caching;
 using Subtext.Framework;
@@ -49,7 +50,7 @@ namespace Subtext.Common.Data
 		private static readonly string EntryMonthKey = "EntryMonth:Date{0}Blog{1}";
 		public static EntryCollection GetMonth(DateTime dt, CacheTime ct, HttpContext context)
 		{
-			string key = string.Format(EntryMonthKey,dt.ToString("yyyyMM"),BlogID());
+			string key = string.Format(EntryMonthKey,dt.ToString("yyyyMM", CultureInfo.InvariantCulture), BlogID());
 			EntryCollection month = (EntryCollection)context.Cache[key];
 			if(month == null)
 			{
@@ -70,7 +71,7 @@ namespace Subtext.Common.Data
 		private static readonly string EntryDayKey = "EntryDay:Date{0}Blog{1}";
 		public static EntryDay GetDay(DateTime dt, CacheTime ct, HttpContext context)
 		{
-			string key = string.Format(EntryDayKey,dt.ToString("yyyyMMdd"),BlogID());
+			string key = string.Format(EntryDayKey, dt.ToString("yyyyMMdd", CultureInfo.InvariantCulture),BlogID());
 			EntryDay day = (EntryDay)context.Cache[key];
 			if(day == null)
 			{

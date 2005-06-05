@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 
@@ -47,10 +48,10 @@ namespace Subtext.Web.UI.Controls
 			if(Context != null)
 			{
 				BlogInfo info = Config.CurrentBlog;
-				PostCount.Text = info.PostCount.ToString();
-				StoryCount.Text = info.StoryCount.ToString();
-				CommentCount.Text = info.CommentCount.ToString();
-				PingTrackCount.Text = info.PingTrackCount.ToString();
+				PostCount.Text = info.PostCount.ToString(CultureInfo.InvariantCulture);
+				StoryCount.Text = info.StoryCount.ToString(CultureInfo.InvariantCulture);
+				CommentCount.Text = info.CommentCount.ToString(CultureInfo.InvariantCulture);
+				PingTrackCount.Text = info.PingTrackCount.ToString(CultureInfo.InvariantCulture);
 			}
 		}
 	}

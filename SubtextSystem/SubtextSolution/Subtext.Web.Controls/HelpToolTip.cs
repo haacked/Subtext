@@ -23,7 +23,7 @@ namespace Subtext.Web.Controls
 			string format = @"<a class=""helpLink"" onclick=""showHelpTip(event, '{0}'); return false;"" href=""?"">";
 			string helpText = HelpText.Replace("'", "''");
 
-			writer.Write(string.Format(format, helpText));
+			writer.Write(string.Format(System.Globalization.CultureInfo.InvariantCulture, format, helpText));
 			this.RenderChildren(writer);
 			writer.Write("</a>");
 		}

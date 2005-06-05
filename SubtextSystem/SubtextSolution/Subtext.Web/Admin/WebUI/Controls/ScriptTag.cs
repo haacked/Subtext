@@ -16,7 +16,7 @@ namespace Subtext.Web.Admin.WebUI
 		{	
 			output.Write
 			(
-				String.Format("<script src=\"{0}\" type=\"{1}\"></script>", 
+				string.Format(System.Globalization.CultureInfo.InvariantCulture, "<script src=\"{0}\" type=\"{1}\"></script>", 
 				_src, _type));
 		}
 

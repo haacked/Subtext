@@ -21,7 +21,7 @@ namespace Subtext.Web.UI
 				case CategoryType.StoryCollection:
 					return Transformer.BuildLinks(UIText.ArticleCollection,CategoryType.StoryCollection,formats);
 				default:
-					throw new ApplicationException(string.Format("Invalid CategoryType: {0} via Subtext.Web.UI.UIData.Links",catType));
+					throw new ApplicationException(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Invalid CategoryType: {0} via Subtext.Web.UI.UIData.Links",catType));
 			}
 		}
 

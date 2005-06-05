@@ -58,7 +58,7 @@ namespace Subtext.Web.Admin
 			{ 		
 				if (null != HttpContext.Current.Request.Cookies[COOKIES_EXPAND_ADVANCED])
 				{
-					return HttpContext.Current.Request.Cookies[COOKIES_EXPAND_ADVANCED].Value.ToLower() == "true" ? true : false;
+					return HttpContext.Current.Request.Cookies[COOKIES_EXPAND_ADVANCED].Value.ToLower(System.Globalization.CultureInfo.InvariantCulture) == "true" ? true : false;
 				}
 				else
 					return Constants.ALWAYS_EXPAND_DEFAULT;
@@ -75,7 +75,7 @@ namespace Subtext.Web.Admin
 			{ 		
 				if (null != HttpContext.Current.Request.Cookies[COOKIES_CREATE_ISACTIVE])
 				{
-					return HttpContext.Current.Request.Cookies[COOKIES_CREATE_ISACTIVE].Value.ToLower() == "true" ? true : false;
+					return HttpContext.Current.Request.Cookies[COOKIES_CREATE_ISACTIVE].Value.ToLower(System.Globalization.CultureInfo.InvariantCulture) == "true" ? true : false;
 				}
 				else
 					return Constants.CREATE_ISACTIVE_DEFAULT;

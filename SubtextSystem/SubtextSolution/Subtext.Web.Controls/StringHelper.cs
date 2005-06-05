@@ -180,7 +180,7 @@ namespace Subtext.Web.Controls
 			if(caseSensitive)
 				searchIndex = str.IndexOf(searchString, 0);
 			else
-				searchIndex = str.ToUpper().IndexOf(searchString.ToUpper(), 0);
+				searchIndex = str.ToUpper(CultureInfo.InvariantCulture).IndexOf(searchString.ToUpper(CultureInfo.InvariantCulture), 0);
 			
 			if(searchIndex < 0)
 				return str;
@@ -227,7 +227,7 @@ namespace Subtext.Web.Controls
 			if(caseSensitive)
 				searchIndex = str.IndexOf(searchString, 0);
 			else
-				searchIndex = str.ToUpper().IndexOf(searchString.ToUpper(), 0);
+				searchIndex = str.ToUpper(CultureInfo.InvariantCulture).IndexOf(searchString.ToUpper(CultureInfo.InvariantCulture), 0);
 
 			if(searchIndex < 0)
 				return str;

@@ -146,7 +146,7 @@ namespace Subtext.Web.Admin.Pages
 			if (null != container && container is Subtext.Web.Admin.WebUI.Page)
 			{	
 				Subtext.Web.Admin.WebUI.Page page = (Subtext.Web.Admin.WebUI.Page)container;
-				string title = String.Format("Editing KeyWord \"{0}\"", kw.Title);
+				string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Editing KeyWord \"{0}\"", kw.Title);
 
 				page.BreadCrumbs.AddLastItem(title);
 				page.Title = title;
@@ -265,7 +265,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void rprSelectionList_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
 		{
-			switch (e.CommandName.ToLower()) 
+			switch (e.CommandName.ToLower(System.Globalization.CultureInfo.InvariantCulture)) 
 			{
 				case "edit" :
 					KeyWordID = Convert.ToInt32(e.CommandArgument);

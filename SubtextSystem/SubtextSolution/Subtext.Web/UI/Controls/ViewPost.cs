@@ -71,7 +71,7 @@ namespace Subtext.Web.UI.Controls
 				TitleUrl.Text = entry.Title;
 				TitleUrl.NavigateUrl = entry.TitleUrl;
 				Body.Text = entry.Body;
-				PostDescription.Text = string.Format("{0} {1}",entry.DateCreated.ToLongDateString(),entry.DateCreated.ToShortTimeString());
+				PostDescription.Text = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} {1}",entry.DateCreated.ToLongDateString(),entry.DateCreated.ToShortTimeString());
 				
 				//Set Pingback/Trackback 
 				PingBack.Text = TrackHelpers.PingPackTag;
