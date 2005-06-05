@@ -94,7 +94,7 @@ namespace Subtext.Framework.Components
 
 		private void ProcessFormat()
 		{
-			_format = string.Format("<a {0} href=\"{1}\" {2}>{3}</a>",this.Title != null ? "title=\"" + Title + "\"" : string.Empty,Url,this.OpenInNewWindow ? "target=\"_blank\"" : string.Empty, Text);
+			_format = string.Format(System.Globalization.CultureInfo.InvariantCulture, "<a {0} href=\"{1}\" {2}>{3}</a>",this.Title != null ? "title=\"" + Title + "\"" : string.Empty,Url,this.OpenInNewWindow ? "target=\"_blank\"" : string.Empty, Text);
 		}
 	}
 }

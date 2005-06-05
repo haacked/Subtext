@@ -90,7 +90,7 @@ namespace Subtext.Framework
 		/// <returns>bool value indicating if the user is valid.</returns>
 		public static bool IsValidUser(string username, string password)
 		{
-			if(string.Compare(username, Config.CurrentBlog.UserName, true) == 0)
+			if(StringHelper.AreEqualIgnoringCase(username, Config.CurrentBlog.UserName))
 			{
 				return IsValidPassword(password);
 			}
@@ -124,11 +124,13 @@ namespace Subtext.Framework
 				byte[] hashedBytes = new byte[hashBytesStrings.Length];
 				for(int i = 0; i < hashBytesStrings.Length; i++)
 				{
-					hashedBytes[i] = byte.Parse(hashBytesStrings[i].ToString(), NumberStyles.HexNumber);
+					hashedBytes[i] = byte.Parse(hashBytesStrings[i].ToString(CultureInfo.InvariantCulture), NumberStyles.HexNumber);
 					storedPassword = Convert.ToBase64String(hashedBytes);
 				}
 			}
-			return string.Compare(password, storedPassword, false) == 0;
+			
+			const bool ignoreCase = true;
+			return StringHelper.AreEqual(password, storedPassword, !ignoreCase);
 		}
 
 		/// <summary>
@@ -184,8 +186,8 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				//TODO: Eventually just check for admin role.
-				return IsInRole("Admins") || string.Compare(CurrentUserName, Config.CurrentBlog.UserName, true) == 0;
+				//TODO: Eventually just check for admin role.				
+				return IsInRole("Admins") || StringHelper.AreEqualIgnoringCase(CurrentUserName, Config.CurrentBlog.UserName);
 			}
 		}
 
@@ -200,8 +202,8 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				//TODO: Remove the second check.
-				return IsInRole("HostAdmins") || string.Compare(CurrentUserName, "HostAdmin", true) == 0;
+				//TODO: Remove the second check when we have better security model.
+				return IsInRole("HostAdmins") || StringHelper.AreEqualIgnoringCase(CurrentUserName, "HostAdmin");
 			}
 		}
 

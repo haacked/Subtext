@@ -25,6 +25,7 @@ using System;
 using System.IO;
 using System.Web;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Text;
 
 namespace Subtext.Web.Modules
 {
@@ -33,14 +34,6 @@ namespace Subtext.Web.Modules
 	/// </summary>
 	public class BlogServiceModule : IHttpModule
 	{
-		public BlogServiceModule()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
-
 		void IHttpModule.Init(HttpApplication context) 
 		{
 			context.BeginRequest += new EventHandler(this.ReWriteServicePath);
@@ -50,7 +43,10 @@ namespace Subtext.Web.Modules
 		void ReWriteServicePath(object sender, EventArgs e)
 		{
 			HttpContext context  = ((HttpApplication)sender).Context;
-			if(context.Request.Path.ToLower().IndexOf("services") > 0 && context.Request.Path.ToLower().IndexOf(".asmx") > 0)
+			bool caseSensitive = true;
+			
+			if(StringHelper.IndexOf(context.Request.Path, "services", !caseSensitive) > 0 
+				&& StringHelper.IndexOf(context.Request.Path, ".asmx", !caseSensitive) > 0)
 			{
 				if(AlllowService(context))
 

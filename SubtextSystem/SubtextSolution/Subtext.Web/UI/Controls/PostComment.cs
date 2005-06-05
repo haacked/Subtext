@@ -133,7 +133,7 @@ namespace Subtext.Web.UI.Controls
 						Response.Cookies.Add(user);
 					}
 				
-					Response.Redirect(string.Format("{0}?Pending=true",Request.Path));
+					Response.Redirect(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?Pending=true",Request.Path));
 				}
 				catch(BaseCommentException exception)
 				{

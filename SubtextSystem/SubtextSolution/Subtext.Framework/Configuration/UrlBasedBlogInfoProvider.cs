@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Caching;
@@ -161,7 +162,7 @@ namespace Subtext.Framework.Configuration
 
 					BlogConfigurationSettings settings = Subtext.Framework.Configuration.Config.Settings;
 
-					string appPath = Globals.FormatApplicationPath(string.Format("{0}/{1}", context.Request.ApplicationPath, app));
+					string appPath = Globals.FormatApplicationPath(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}/{1}", context.Request.ApplicationPath, app));
 
 					string formattedHost = GetFormattedHost(Host,settings.UseWWW);
 
@@ -173,9 +174,9 @@ namespace Subtext.Framework.Configuration
 						app += "/";
 					}
 
-					string virtualPath = string.Format("/images/{0}/{1}/", Regex.Replace(Host,@"\:|\.","_"), app);
+					string virtualPath = string.Format(System.Globalization.CultureInfo.InvariantCulture, "/images/{0}/{1}/", Regex.Replace(Host,@"\:|\.","_"), app);
 
-					info.ImagePath = string.Format("{0}{1}{2}", formattedHost, app, virtualPath);
+					info.ImagePath = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}{2}", formattedHost, app, virtualPath);
 					info.ImageDirectory = context.Server.MapPath("~" + virtualPath);
 
 					CacheConfig(context.Cache,info,mCacheKey);
@@ -200,7 +201,7 @@ namespace Subtext.Framework.Configuration
 			string host = Request.Url.Host;
 			if(!Request.Url.IsDefaultPort)
 			{
-				host  += ":" + Request.Url.Port.ToString();
+				host  += ":" + Request.Url.Port.ToString(CultureInfo.InvariantCulture);
 			}
 
 			if(StringHelper.StartsWith(host, "www.", true))

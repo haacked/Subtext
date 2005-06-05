@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Web.UI.HtmlControls;
 
 namespace Subtext.Web.Controls
@@ -29,7 +30,8 @@ namespace Subtext.Web.Controls
 			if(IsAttributeDefined("id"))
 				idText = " id=\"" + Attributes["id"] + "\"";
 
-			writer.Write(string.Format(format, Src, Language, idText));
+
+			writer.Write(string.Format(CultureInfo.InvariantCulture, format, Src, Language, idText));
 		}
 
 		/// <summary>

@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Format;
@@ -75,7 +76,7 @@ namespace Subtext.Common.Data
 			{
 				Link link = new Link();
 				link.NewWindow = false;
-				link.Title = ac.Date.ToString("y") + " (" + ac.Count.ToString() + ")";
+				link.Title = ac.Date.ToString("y") + " (" + ac.Count.ToString(CultureInfo.InvariantCulture) + ")";
 				link.Url = formats.MonthUrl(ac.Date);
 				link.NewWindow = false;
 				link.IsActive = true;

@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Web;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
@@ -57,7 +58,7 @@ namespace Subtext.Framework.Tracking
 				//We will check the Mod date on future requests so that we don't double count with in
 				//a 12 hour stretch.
 				context.Response.ContentType = "image/gif";
-				context.Response.AppendHeader("Content-Length",_bytes.Length.ToString());
+				context.Response.AppendHeader("Content-Length",_bytes.Length.ToString(CultureInfo.InvariantCulture));
 				context.Response.Cache.SetLastModified(DateTime.Now);
 				context.Response.Cache.SetCacheability(HttpCacheability.Public);
 				context.Response.BinaryWrite(_bytes);

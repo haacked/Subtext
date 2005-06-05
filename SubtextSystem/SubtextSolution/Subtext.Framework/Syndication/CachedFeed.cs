@@ -22,6 +22,7 @@
 #endregion
 
 using System;
+using System.Globalization;
 
 namespace Subtext.Framework.Syndication
 {
@@ -104,7 +105,7 @@ namespace Subtext.Framework.Syndication
 				{
 					// if we did not set the etag, just use the 
 					// LastModified Date
-					etag = this.LastModified.ToString();
+					etag = this.LastModified.ToString(CultureInfo.InvariantCulture);
 				}
 				return etag;
 			}

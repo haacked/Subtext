@@ -24,6 +24,7 @@
 #undef Diagnostic
 
 using System;
+using System.Globalization;
 using System.Web.UI;
 
 namespace Subtext.Web.Admin.WebUI
@@ -266,7 +267,7 @@ namespace Subtext.Web.Admin.WebUI
 		
 		protected string RenderLink(int pageid, bool isCurrent)
 		{
-			return RenderLink(pageid, pageid.ToString(), isCurrent);
+			return RenderLink(pageid, pageid.ToString(CultureInfo.InvariantCulture), isCurrent);
 		}
 
 		protected string RenderLink(int linkIndex, string display)

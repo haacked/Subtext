@@ -40,6 +40,7 @@
 #endregion
 using System;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
@@ -63,7 +64,7 @@ namespace Subtext.Framework.Tracking
 		{
 			get
 			{
-				return string.Format("<link rel=\"pingback\" href=\"{0}Services/Pingback.aspx\" />", Config.CurrentBlog.FullyQualifiedUrl);
+				return string.Format(System.Globalization.CultureInfo.InvariantCulture, "<link rel=\"pingback\" href=\"{0}Services/Pingback.aspx\" />", Config.CurrentBlog.FullyQualifiedUrl);
 			}
 		}
 
@@ -82,7 +83,7 @@ namespace Subtext.Framework.Tracking
 							"trackback:ping=\"{3}services/trackbacks/{4}.aspx\" />" + nl + 
 							"</rdf:RDF>" + nl + 
 							"-->" + nl;
-			return string.Format(tag,entry.Link,entry.Link,entry.Title,Config.CurrentBlog.FullyQualifiedUrl,entry.EntryID.ToString());
+			return string.Format(tag,entry.Link,entry.Link,entry.Title,Config.CurrentBlog.FullyQualifiedUrl,entry.EntryID.ToString(CultureInfo.InvariantCulture));
 
 		}
 

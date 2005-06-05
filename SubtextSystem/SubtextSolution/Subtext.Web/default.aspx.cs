@@ -25,6 +25,7 @@ using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Data;
@@ -69,9 +70,8 @@ namespace Subtext.Web
 		}
 
 		protected string GetEntryUrl(string host, string app, string entryName, DateTime dt)
-		{
-			
-			return string.Format("{0}archive/{1}/{2}.aspx",GetFullUrl(host,app),dt.ToString("yyyy/MM/dd"),entryName);
+		{			
+			return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}archive/{1}/{2}.aspx",GetFullUrl(host,app), dt.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture),entryName);
 		}
 
 		private void SetStyle()
@@ -89,7 +89,7 @@ namespace Subtext.Web
 			if(appPath == null)
 			{
 				appPath = Request.ApplicationPath;
-				if(!appPath.ToLower().EndsWith("/"))
+				if(!appPath.ToLower(System.Globalization.CultureInfo.InvariantCulture).EndsWith("/"))
 				{
 					appPath += "/";
 				}
@@ -150,7 +150,7 @@ namespace Subtext.Web
 		protected string FormatDate(string date)
 		{
 			DateTime dt = DateTime.Parse(date);
-			return dt.ToString("MMddyyyy");
+			return dt.ToString("MMddyyyy", CultureInfo.InvariantCulture);
 		}
 
 

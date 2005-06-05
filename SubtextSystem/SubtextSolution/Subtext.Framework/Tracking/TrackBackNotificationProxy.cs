@@ -69,7 +69,7 @@ namespace Subtext.Framework.Tracking
 			string trackBackItem = GetTrackBackText(pageText,url,link);
 			if(trackBackItem != null)
 			{
-				if(!trackBackItem.ToLower().StartsWith("http://"))
+				if(!trackBackItem.ToLower(System.Globalization.CultureInfo.InvariantCulture).StartsWith("http://"))
 				{
 					trackBackItem = "http://" + trackBackItem;
 				}

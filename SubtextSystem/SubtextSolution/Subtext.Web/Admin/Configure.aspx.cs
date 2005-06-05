@@ -22,6 +22,7 @@
 #endregion
 
 using System;
+using System.Globalization;
 using System.Web.Caching;
 using System.Web.UI.WebControls;
 using System.Xml;
@@ -87,7 +88,7 @@ namespace Subtext.Web.Admin.Pages
 			txbUser.Text = info.UserName;
 			txbNews.Text = info.News;
 			ckbAllowServiceAccess.Checked = info.AllowServiceAccess;
-			ddlTimezone.Items.FindByValue(info.TimeZone.ToString()).Selected = true;
+			ddlTimezone.Items.FindByValue(info.TimeZone.ToString(CultureInfo.InvariantCulture)).Selected = true;
 
 			try
 			{
@@ -133,12 +134,12 @@ namespace Subtext.Web.Admin.Pages
 			int count = Config.Settings.ItemCount;
 			for (int i = 1; i <=count; i++)
 			{
-				ddlItemCount.Items.Add(new ListItem(i.ToString(), i.ToString()));
+				ddlItemCount.Items.Add(new ListItem(i.ToString(CultureInfo.InvariantCulture), i.ToString(CultureInfo.InvariantCulture)));
 			}
 
 			if (info.ItemCount <= count)
 			{
-				ddlItemCount.Items.FindByValue(info.ItemCount.ToString()).Selected = true;
+				ddlItemCount.Items.FindByValue(info.ItemCount.ToString(CultureInfo.InvariantCulture)).Selected = true;
 			}
 
 		}

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
@@ -161,7 +162,7 @@ namespace Subtext.Web.Admin.UserControls
 
 				if (Constants.NULL_CATEGORYID != _filterCategoryID)
 				{
-					ResultsPager.UrlFormat += String.Format("&{0}={1}", Keys.QRYSTR_CATEGORYID, _filterCategoryID);
+					ResultsPager.UrlFormat += string.Format(System.Globalization.CultureInfo.InvariantCulture, "&{0}={1}", Keys.QRYSTR_CATEGORYID, _filterCategoryID);
 				}
 				
 				BindList();
@@ -296,7 +297,7 @@ namespace Subtext.Web.Admin.UserControls
 			{
 				for (int i = 0; i < postCategories.Count; i++)
 				{
-					cklCategories.Items.FindByValue(postCategories[i].CategoryID.ToString()).Selected = true;
+					cklCategories.Items.FindByValue(postCategories[i].CategoryID.ToString(CultureInfo.InvariantCulture)).Selected = true;
 				}
 			}
 
@@ -308,7 +309,7 @@ namespace Subtext.Web.Admin.UserControls
 			if (null != container && container is Subtext.Web.Admin.WebUI.Page)
 			{	
 				Subtext.Web.Admin.WebUI.Page page = (Subtext.Web.Admin.WebUI.Page)container;
-				string title = String.Format("Editing {0} \"{1}\"", 
+				string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Editing {0} \"{1}\"", 
 					CategoryType == CategoryType.StoryCollection ? "Article" : "Post", currentPost.Title);
 
 				page.BreadCrumbs.AddLastItem(title);
@@ -549,7 +550,7 @@ namespace Subtext.Web.Admin.UserControls
 
 		private void rprSelectionList_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
 		{				
-			switch (e.CommandName.ToLower()) 
+			switch (e.CommandName.ToLower(System.Globalization.CultureInfo.InvariantCulture)) 
 			{
 				case "edit" :
 					PostID = Convert.ToInt32(e.CommandArgument);

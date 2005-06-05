@@ -41,6 +41,7 @@
  ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 using System;
+using System.Globalization;
 using System.Web;
 using System.Xml;
 using Subtext.Extensibility;
@@ -146,7 +147,7 @@ namespace Subtext.Framework.Tracking
 			d.AppendChild(root) ;
 			XmlElement er = d.CreateElement("error") ;
 			root.AppendChild(er) ;
-			er.AppendChild(d.CreateTextNode(errNum.ToString())) ;
+			er.AppendChild(d.CreateTextNode(errNum.ToString(CultureInfo.InvariantCulture))) ;
 			if ( errText != "" )
 			{
 				XmlElement msg = d.CreateElement("message") ;

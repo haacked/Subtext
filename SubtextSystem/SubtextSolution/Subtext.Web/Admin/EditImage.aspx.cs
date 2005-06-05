@@ -22,6 +22,7 @@
 #endregion
 
 using System;
+using System.Globalization;
 using System.Web.UI;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -105,7 +106,7 @@ namespace Subtext.Web.Admin.Pages
 
 					Page.DataBind();
 
-					ddlGalleries.Items.FindByValue(_image.CategoryID.ToString()).Selected = true;
+					ddlGalleries.Items.FindByValue(_image.CategoryID.ToString(CultureInfo.InvariantCulture)).Selected = true;
 					// HACK: we're disabling this until we do something with/around the provider
 					// that will let us actually move the files too.
 					ddlGalleries.Enabled = false;
@@ -116,7 +117,7 @@ namespace Subtext.Web.Admin.Pages
 					if (null != container && container is Subtext.Web.Admin.WebUI.Page)
 					{	
 						Subtext.Web.Admin.WebUI.Page page = (Subtext.Web.Admin.WebUI.Page)container;
-						string title = String.Format("Editing Image \"{0}\"", _image.Title);
+						string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Editing Image \"{0}\"", _image.Title);
 
 						page.BreadCrumbs.AddLastItem(title);
 						page.Title = title;
@@ -145,7 +146,7 @@ namespace Subtext.Web.Admin.Pages
 			if (imageObject is Subtext.Framework.Components.Image)
 			{
 				Subtext.Framework.Components.Image image = (Subtext.Framework.Components.Image)imageObject;
-				return String.Format("{0}{1}", Images.HttpGalleryFilePath(Context, image.CategoryID), 
+				return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}", Images.HttpGalleryFilePath(Context, image.CategoryID), 
 					image.ThumbNailFile);
 			}
 			else
@@ -165,7 +166,7 @@ namespace Subtext.Web.Admin.Pages
 
 		protected string GetImageGalleryUrl()
 		{
-			return String.Format("{0}?{1}={2}", Constants.URL_EDITGALLERIES, 
+			return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?{1}={2}", Constants.URL_EDITGALLERIES, 
 				Keys.QRYSTR_CATEGORYID, Image.CategoryID);
 		}
 

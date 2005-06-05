@@ -29,7 +29,7 @@ namespace Subtext.Web.Admin.Pages
 			//If we are in edit mode, register the script
 			if(IsInEdit)
 			{
-				Page.RegisterClientScriptBlock("ConfirmationBeforeLeaving",string.Format("{0}{1}{2}",scriptStart,Message,scriptEnd));
+				Page.RegisterClientScriptBlock("ConfirmationBeforeLeaving",string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}{2}",scriptStart,Message,scriptEnd));
 			}
 			base.OnPreRender (e);
 		}

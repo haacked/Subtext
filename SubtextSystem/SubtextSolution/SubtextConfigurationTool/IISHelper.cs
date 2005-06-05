@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.DirectoryServices;
+using System.Globalization;
 
 namespace SubtextConfigurationTool
 {
@@ -55,7 +56,7 @@ namespace SubtextConfigurationTool
 				}
 				string parentPath = GetPhysicalPath(parent);
 				string TrimmedName = dir.Path.Substring(dir.Path.LastIndexOf(@"/")+1);
-				return string.Format(@"{0}\{1}",
+				return string.Format(CultureInfo.InvariantCulture, @"{0}\{1}",
 					parentPath,TrimmedName);
 			}
 		}	 

@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using Subtext.Common.Data;
 using Subtext.Framework.Util;
 
@@ -45,7 +46,7 @@ namespace Subtext.Web.UI.Controls
 				//DateTime dt = Globals.DateFromUrl(Request.Path);
 				DateTime dt = WebPathStripper.GetDateFromRequest(Request.Path,"archive");
 				SingleDay.CurrentDay = Cacher.GetDay(dt,CacheTime.Short,Context);
-				Subtext.Web.UI.Globals.SetTitle(string.Format("{0} - {1} Entries",CurrentBlog.Title,dt.ToString("D")),Context);
+				Subtext.Web.UI.Globals.SetTitle(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} - {1} Entries",CurrentBlog.Title,dt.ToString("D", CultureInfo.CurrentCulture)),Context);
 
 			}
 		}

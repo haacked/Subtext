@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -333,7 +334,7 @@ namespace Subtext.Web.Controls
 			if (_displayHeader && Collapsible)
 			{
 				_collapseLink.Attributes.Add("onclick", 
-					String.Format("ToggleVisible('{0}','{1}','{2}','{3}'); return false;", _contents.ClientID, 
+					String.Format(CultureInfo.InvariantCulture, "ToggleVisible('{0}','{1}','{2}','{3}'); return false;", _contents.ClientID, 
 					_image != null ? _image.ClientID : String.Empty, ControlHelper.ExpandTildePath(LinkImage), 
 					ControlHelper.ExpandTildePath(LinkImageCollapsed)));
 

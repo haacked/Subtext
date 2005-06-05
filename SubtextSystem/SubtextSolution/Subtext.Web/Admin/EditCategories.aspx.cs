@@ -116,12 +116,12 @@ namespace Subtext.Web.Admin.Pages
 				if (category.CategoryID > 0)
 				{
 					Links.UpdateLinkCategory(category);
-					this.Messages.ShowMessage(String.Format("Category \"{0}\" was updated.", category.Title));
+					this.Messages.ShowMessage(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Category \"{0}\" was updated.", category.Title));
 				}
 				else
 				{
 					category.CategoryID = Links.CreateLinkCategory(category);
-					this.Messages.ShowMessage(String.Format("Category \"{0}\" was added.", category.Title));
+					this.Messages.ShowMessage(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Category \"{0}\" was added.", category.Title));
 				}					
 			}
 			catch(Exception ex)

@@ -25,6 +25,7 @@
 
 using System;
 using System.Drawing;
+using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -35,7 +36,7 @@ namespace Subtext.Web.Admin.WebUI
 	{
 		public PlaceHolder() {
 			base.BackColor = Color.WhiteSmoke;
-			base.Width = new Unit("100%");
+			base.Width = new Unit("100%", CultureInfo.InvariantCulture);
 		}
 
 		public override void RenderBeginTag(System.Web.UI.HtmlTextWriter writer) {}

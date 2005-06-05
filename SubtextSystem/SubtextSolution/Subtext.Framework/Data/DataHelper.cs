@@ -805,7 +805,7 @@ namespace Subtext.Framework.Data
 			int count = (int)reader["Count"];
 			DateTime dt = new DateTime((int)reader["Year"],(int)reader["Month"],1);
 			link.NewWindow = false;
-			link.Title = dt.ToString("y") + " (" + count.ToString() + ")";
+			link.Title = dt.ToString("y", CultureInfo.InvariantCulture) + " (" + count.ToString(CultureInfo.InvariantCulture) + ")";
 			//link.Url = Globals.ArchiveUrl(dt,"MMyyyy");
 			link.NewWindow = false;
 			link.IsActive = true;

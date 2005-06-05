@@ -66,9 +66,9 @@ namespace Subtext.Web.UI.Skinning
 				LoadPages();
 			}
 
-			if(blogpages.Contains(name.ToLower()))
+			if(blogpages.Contains(name.ToLower(System.Globalization.CultureInfo.InvariantCulture)))
 			{
-				return (SkinPage)blogpages[name.ToLower()];
+				return (SkinPage)blogpages[name.ToLower(System.Globalization.CultureInfo.InvariantCulture)];
 			}
 			else
 			{
@@ -84,7 +84,7 @@ namespace Subtext.Web.UI.Skinning
 				int count = Pages.Length;
 				for(int i = 0; i<count;i++)
 				{
-					blogpages.Add(Pages[i].Name.ToLower(),Pages[i]);
+					blogpages.Add(Pages[i].Name.ToLower(System.Globalization.CultureInfo.InvariantCulture),Pages[i]);
 				}
 			}
 		}
@@ -103,7 +103,7 @@ namespace Subtext.Web.UI.Skinning
 			}
 			catch
 			{
-				throw new BlogSkinException(string.Format("The Skin {0} could not be found in the SkinTemplates file",skin));
+				throw new BlogSkinException(string.Format(System.Globalization.CultureInfo.InvariantCulture, "The Skin {0} could not be found in the SkinTemplates file",skin));
 			}
 		}
 

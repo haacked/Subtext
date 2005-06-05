@@ -67,12 +67,12 @@ namespace Subtext.Web.UI.Controls
 						
 					if(count != 0 && ec != null && ec.Count == 10) //crappy. If the category has 10 entries, we will show the full archive link?
 					{
-						EntryStoryList.EntryListReadMoreText = string.Format("Full {0} Archive",lc.Title);
-						EntryStoryList.EntryListReadMoreUrl = string.Format("{0}?Show=All",Request.Path);
+						EntryStoryList.EntryListReadMoreText = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Full {0} Archive",lc.Title);
+						EntryStoryList.EntryListReadMoreUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?Show=All",Request.Path);
 
 					}
 
-					Subtext.Web.UI.Globals.SetTitle(string.Format("{0} - {1}",CurrentBlog.Title,lc.Title),Context);
+					Subtext.Web.UI.Globals.SetTitle(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} - {1}",CurrentBlog.Title,lc.Title),Context);
 				}
 
 			}

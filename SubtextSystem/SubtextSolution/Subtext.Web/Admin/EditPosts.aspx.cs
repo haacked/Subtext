@@ -44,7 +44,7 @@ namespace Subtext.Web.Admin.Pages
 			PageContainer.AddToActions(lkbNewPost);
 
 			HyperLink lnkEditCategories = Utilities.CreateHyperLink("Edit Categories", 
-				String.Format("{0}?{1}={2}", Constants.URL_EDITCATEGORIES, Keys.QRYSTR_CATEGORYID, 
+				string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?{1}={2}", Constants.URL_EDITCATEGORIES, Keys.QRYSTR_CATEGORYID, 
 				(int)PageContainer.CategoryType));
 			PageContainer.AddToActions(lnkEditCategories);
 		}

@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 
 namespace Subtext.Web
 {
@@ -12,8 +13,8 @@ namespace Subtext.Web
 	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-			Literal1.Text = Subtext.Framework.Util.ManagedThreadPool.ActiveThreads.ToString();
-			Literal2.Text = Subtext.Framework.Util.ManagedThreadPool.WaitingCallbacks.ToString();
+			Literal1.Text = Subtext.Framework.Util.ManagedThreadPool.ActiveThreads.ToString(CultureInfo.InvariantCulture);
+			Literal2.Text = Subtext.Framework.Util.ManagedThreadPool.WaitingCallbacks.ToString(CultureInfo.InvariantCulture);
 			
 		}
 

@@ -25,7 +25,7 @@ namespace Subtext.Framework.Syndication.Compression
 			bool foundDeflate = false;
 			bool foundGZip = false;
 
-			schemes = schemes.ToLower();
+			schemes = schemes.ToLower(System.Globalization.CultureInfo.InvariantCulture);
 			settings = SyndicationCompressionSettings.GetSettings();
 
 			if(schemes.IndexOf("deflate") >= 0)

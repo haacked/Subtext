@@ -22,6 +22,7 @@
 #endregion
 
 using System;
+using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility;
@@ -107,7 +108,7 @@ namespace Subtext.Web.Admin.Pages
 			}
 			else
 			{
-				SetReferalDesc("Entry",_entryID.ToString());
+				SetReferalDesc("Entry", _entryID.ToString(CultureInfo.InvariantCulture));
 			}
 
 		}
@@ -123,7 +124,7 @@ namespace Subtext.Web.Admin.Pages
 			}
 			else
 			{
-				ResultsPager.UrlFormat += String.Format("&{0}={1}", "EntryID", 
+				ResultsPager.UrlFormat += string.Format(System.Globalization.CultureInfo.InvariantCulture, "&{0}={1}", "EntryID", 
 					_entryID);
 				referrers = Stats.GetPagedReferrers(_resultsPageNumber, ResultsPager.PageSize, _entryID);
 			}
@@ -143,7 +144,7 @@ namespace Subtext.Web.Admin.Pages
 			if (null != container && container is Subtext.Web.Admin.WebUI.Page)
 			{	
 				Subtext.Web.Admin.WebUI.Page page = (Subtext.Web.Admin.WebUI.Page)container;
-				string bctitle= string.Format("Viewing {0}:{1}", selection,title);
+				string bctitle= string.Format(System.Globalization.CultureInfo.InvariantCulture, "Viewing {0}:{1}", selection,title);
 
 				page.BreadCrumbs.AddLastItem(bctitle);
 				page.Title = bctitle;
@@ -215,11 +216,11 @@ namespace Subtext.Web.Admin.Pages
 
 		private void rprSelectionList_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
 		{
-			switch (e.CommandName.ToLower()) 
+			switch (e.CommandName.ToLower(System.Globalization.CultureInfo.InvariantCulture)) 
 			{
 				case "create" :
 					object[] args = e.CommandArgument.ToString().Split('|');
-					EntryID = Int32.Parse(args[0].ToString());
+					EntryID = Int32.Parse(args[0].ToString(), CultureInfo.InvariantCulture);
 					txbUrl.Text = args[1].ToString();
 					this.Edit.Visible = true;
 					this.Results.Collapsible = true;
