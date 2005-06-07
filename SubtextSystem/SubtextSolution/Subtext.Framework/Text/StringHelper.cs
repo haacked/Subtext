@@ -142,12 +142,12 @@ namespace Subtext.Framework.Text
 
 		/// <summary>
 		/// Returns a string containing every character within a string after the 
-		/// first occurrence of another string.
+		/// first occurrence of another string.  If the string is not found, the 
+		/// whole string is returned.
 		/// </summary>
 		/// <param name="str">Required. String expression from which the rightmost characters are returned.</param>
 		/// <param name="searchString">The string where the end of it marks the 
-		/// characters to return.  If the string is not found, the whole string is 
-		/// returned.</param>
+		/// characters to return.</param>
 		/// <returns></returns>
 		/// <exception cref="NullReferenceException">Thrown if str or searchstring is null.</exception>
 		public static string RightAfter(string str, string searchString)

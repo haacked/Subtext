@@ -26,9 +26,9 @@ using System.Web;
 using System.Xml.Serialization;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Data;
 using Subtext.Framework.Format;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Text;
 using Subtext.Framework.Threading;
 
 namespace Subtext.Framework
@@ -44,6 +44,17 @@ namespace Subtext.Framework
 		private object urlLock = new object();
 
 		private UrlFormats _urlFormats = null;
+
+		/// <summary>
+		/// Removes the preceding "www." on a host name.
+		/// </summary>
+		/// <param name="host">Host.</param>
+		/// <returns></returns>
+		public static string NormalizeHostName(string host)
+		{
+			const bool caseSensitive = true;
+			return StringHelper.RightAfter(host, "www.", !caseSensitive);
+		}
 
 		/// <summary>
 		/// Returns a <see cref="BlogInfoCollection"/> containing the <see cref="BlogInfo"/> 
@@ -248,7 +259,7 @@ namespace Subtext.Framework
 			}
 			set
 			{
-				_host = value.Replace("www.", string.Empty);
+				_host = NormalizeHostName(value);
 			}
 		}
 

@@ -1,9 +1,9 @@
 using System;
+using System.Web;
 using NUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework
 {
@@ -13,14 +13,18 @@ namespace UnitTests.Subtext.Framework
 	[TestFixture]
 	public class LinksTests
 	{
+		string _hostName = string.Empty;
 		public LinksTests() {}
 
 		/// <summary>
 		/// Ensures CreateLinkCategory assigns unique CatIDs
 		/// </summary>
 		[Test]
+		[Rollback]
 		public void CreateLinkCategoryAssignsUniqueCatIDs()
 		{
+			Config.CreateBlog("title", "smarcuccio", "mypassword", _hostName, "myBlog");
+
 			// Create some categories
 			CreateSomeLinkCategories();
 			LinkCategoryCollection linkCategoryCollection = Links.GetCategories(CategoryType.LinkCollection, false);
@@ -35,8 +39,11 @@ namespace UnitTests.Subtext.Framework
 		/// Ensure UpdateLInkCategory updates the correct link category
 		/// </summary>
 		[Test]
+		[Rollback]
 		public void UpdateLinkCategoryIsFine()
 		{
+			Config.CreateBlog("title", "smarcuccio", "mypassword", _hostName, "myBlog");
+
 			// Create the categories
 			CreateSomeLinkCategories();
 
@@ -71,32 +78,43 @@ namespace UnitTests.Subtext.Framework
 		LinkCategory CreateCategory(string title, string description, CategoryType categoryType, bool isActive)
 		{
 			LinkCategory linkCategory = new LinkCategory();
-			linkCategory.BlogID = Config.GetBlogInfo("www.subtext.com", "myBlog").BlogID;
+			linkCategory.BlogID = Config.GetBlogInfo(_hostName, "myBlog").BlogID;
 			linkCategory.Title = title;
 			linkCategory.Description = description;
 			linkCategory.CategoryType = categoryType;
 			linkCategory.IsActive = isActive;
 			return linkCategory;
 		}
-		
-		[SetUp]
-		public void SetUp()
+
+		/// <summary>
+		/// Sets the up test fixture.  This is called once for 
+		/// this test fixture before all the tests run.  It 
+		/// essentially copies the App.config file to the 
+		/// run directory.
+		/// </summary>
+		[TestFixtureSetUp]
+		public void SetUpTestFixture()
 		{
-			//This file needs to be there already.
 			UnitTestHelper.UnpackEmbeddedResource("App.config", "UnitTests.Subtext.dll.config");
 			
 			//Confirm app settings
 			Assert.AreEqual("~/Admin/Resources/PageTemplate.ascx", System.Configuration.ConfigurationSettings.AppSettings["Admin.DefaultTemplate"]) ;
-
-			//Create a test Blog
-			UnitTestObjectProvider objectProvider = (UnitTestObjectProvider)ObjectProvider.Instance();
-			objectProvider.ClearBlogs();
-			objectProvider.CreateBlog("title", "smarcuccio", "mypassword", "www.subtext.com", "myBlog");
+		}
+		
+		/// <summary>
+		/// Called before each unit test.
+		/// </summary>
+		[SetUp]
+		public void SetUp()
+		{
+			_hostName = UnitTestHelper.GenerateUniqueHost();
+			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog");
 		}
 
 		[TearDown]
 		public void TearDown()
 		{
+			HttpContext.Current = null;
 		}
 	}
 }

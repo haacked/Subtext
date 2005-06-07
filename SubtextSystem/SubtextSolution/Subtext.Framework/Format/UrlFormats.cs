@@ -169,6 +169,12 @@ namespace Subtext.Framework.Format
 		/// <returns></returns>
 		public static string GetBlogApplicationNameFromRequest(string path, string app)
 		{
+			if(path == null)
+				throw new ArgumentNullException("path", "The path cannot be null.");
+
+			if(app == null)
+				throw new ArgumentNullException("app", "The app should not be null.");
+
 			string urlPatternFormat = "{0}/(?<app>.*?)/";
 
 			//Remove any / from App.

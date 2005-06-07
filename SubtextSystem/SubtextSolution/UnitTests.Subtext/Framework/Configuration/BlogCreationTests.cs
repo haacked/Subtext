@@ -1,9 +1,9 @@
 using System;
+using System.Globalization;
 using NUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
-using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Framework.Configuration
 {
@@ -14,19 +14,22 @@ namespace UnitTests.Subtext.Framework.Configuration
 	[TestFixture]
 	public class BlogCreationTests
 	{
+		string _hostName;
+
 		/// <summary>
 		/// Ensures that creating a blog will hash the password 
 		/// if UseHashedPassword is set in web.config (as it should be).
 		/// </summary>
 		[Test]
+		[Rollback]
 		public void CreatingBlogHashesPassword()
 		{
 			string password = "MyPassword";
 			string hashedPassword = Security.HashPassword(password);
             
-			Assert.IsTrue(Config.CreateBlog("", "username", password, "LocaLhost", "MyBlog1"));
-			BlogInfo info = Config.GetBlogInfo("localhost", "MyBlog1");
-			Assert.IsNotNull(info, "We tried to get blog at localhost/MyBlog1 but it was null");
+			Assert.IsTrue(Config.CreateBlog("", "username", password, _hostName, "MyBlog1"));
+			BlogInfo info = Config.GetBlogInfo(_hostName, "MyBlog1");
+			Assert.IsNotNull(info, "We tried to get blog at " + _hostName + "/MyBlog1 but it was null");
 
 			Config.Settings.UseHashedPasswords = true;
 			Assert.IsTrue(Config.Settings.UseHashedPasswords, "This test is voided because we're not hashing passwords");
@@ -38,13 +41,14 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// if UseHashedPassword is set in web.config (as it should be).
 		/// </summary>
 		[Test]
+		[Rollback]
 		public void ModifyingBlogHashesPassword()
 		{
 			string password = "My Password";
 			string hashedPassword = Security.HashPassword(password);
             
-			Config.CreateBlog("", "username", "something", "LocaLhost", "MyBlog1");
-			BlogInfo info = Config.GetBlogInfo("localhost", "MyBlog1");
+			Config.CreateBlog("", "username", "something", _hostName, "MyBlog1");
+			BlogInfo info = Config.GetBlogInfo(_hostName.ToUpper(CultureInfo.InvariantCulture), "MyBlog1");
 			Config.Settings.UseHashedPasswords = true;
 			
 			info.Password = password;
@@ -59,60 +63,70 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// If a blog already exists with a domain name and application, one 
 		/// cannot create a blog with the same domain name and no application.
 		/// </summary>
-		[Test, ExpectedException(typeof(BlogRequiresApplicationException))]
+		[Test]
+		[ExpectedException(typeof(BlogRequiresApplicationException))]
+		[Rollback]
 		public void CreatingBlogWithDuplicateHostNameRequiresApplicationName()
 		{
-			Config.CreateBlog("", "username", "password", "LocaLhost", "MyBlog1");
-			Config.CreateBlog("", "username", "password", "LocaLhost", string.Empty);
+			Config.CreateBlog("", "username", "password", _hostName, "MyBlog1");
+			Config.CreateBlog("", "username", "password", _hostName, string.Empty);
 		}
 
 		/// <summary>
 		/// Make sure adding two distinct blogs doesn't raise an exception.
 		/// </summary>
 		[Test]
+		[Rollback]
 		public void AddingDistinctBlogsIsFine()
 		{
-			Config.CreateBlog("title", "username", "password", "www.example.com", string.Empty);
-			Config.CreateBlog("title", "username", "password", "www2.example.com", string.Empty);
-			Config.CreateBlog("title", "username", "password", "example.org", string.Empty);
-			Config.CreateBlog("title", "username", "password", "localhost", "Blog1");
-			Config.CreateBlog("title", "username", "password", "localhost", "Blog2");
-			Config.CreateBlog("title", "username", "password", "localhost", "Blog3");
+			Config.CreateBlog("title", "username", "password", UnitTestHelper.GenerateUniqueHost(), string.Empty);
+			Config.CreateBlog("title", "username", "password", "www2." + UnitTestHelper.GenerateUniqueHost(), string.Empty);
+			Config.CreateBlog("title", "username", "password", UnitTestHelper.GenerateUniqueHost(), string.Empty);
+			Config.CreateBlog("title", "username", "password", _hostName, "Blog1");
+			Config.CreateBlog("title", "username", "password", _hostName, "Blog2");
+			Config.CreateBlog("title", "username", "password", _hostName, "Blog3");
 		}
 
 		/// <summary>
 		/// Ensures that one cannot create a blog with a duplicate host 
 		/// as another blog when both have no application specified.
 		/// </summary>
-		[Test, ExpectedException(typeof(BlogDuplicationException))]
+		[Test]
+		[Rollback]
+		[ExpectedException(typeof(BlogDuplicationException))]
 		public void CreateBlogCannotCreateOneWithDuplicateHostAndNoApplication()
 		{
-			Config.CreateBlog("title", "username", "password", "LocaLhost", string.Empty);
-			Config.CreateBlog("title", "username2", "password2", "localhost", string.Empty);
+			Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
+			Config.CreateBlog("title", "username2", "password2", _hostName, string.Empty);
 		}
 
 		/// <summary>
 		/// Ensures that one cannot create a blog with a duplicate application and host 
 		/// as another blog.
 		/// </summary>
-		[Test, ExpectedException(typeof(BlogDuplicationException))]
+		[Test]
+		[Rollback]
+		[ExpectedException(typeof(BlogDuplicationException))]
 		public void CreateBlogCannotCreateOneWithDuplicateHostAndApplication()
 		{
-			Config.CreateBlog("title", "username", "password", "localhost", "MyBlog");
-			Config.CreateBlog("title", "username2", "password2", "Localhost", "MyBlog");
+			Config.CreateBlog("title", "username", "password", _hostName, "MyBlog");
+			Config.CreateBlog("title", "username2", "password2", _hostName, "MyBlog");
 		}
 
 		/// <summary>
 		/// Ensures that one cannot update a blog to have a duplicate application and host 
 		/// as another blog.
 		/// </summary>
-		[Test, ExpectedException(typeof(BlogDuplicationException))]
+		[Test]
+		[Rollback]
+		[ExpectedException(typeof(BlogDuplicationException))]
 		public void UpdateBlogCannotConflictWithDuplicateHostAndApplication()
 		{
-			Config.CreateBlog("title", "username", "password", "localhost", "MyBlog");
-			Config.CreateBlog("title", "username2", "password2", "example.com", "MyBlog");
-			BlogInfo info = Config.GetBlogInfo("example.com", "MyBlog");
-			info.Host = "localhost";
+			string secondHost = UnitTestHelper.GenerateUniqueHost();
+			Config.CreateBlog("title", "username", "password", _hostName, "MyBlog");
+			Config.CreateBlog("title", "username2", "password2", secondHost, "MyBlog");
+			BlogInfo info = Config.GetBlogInfo(secondHost, "MyBlog");
+			info.Host = _hostName;
 			
 			Config.UpdateConfigData(info);
 		}
@@ -121,13 +135,16 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// Ensures that one update a blog to have a duplicate host 
 		/// as another blog when both have no application specified.
 		/// </summary>
-		[Test, ExpectedException(typeof(BlogDuplicationException))]
+		[Test]
+		[Rollback]
+		[ExpectedException(typeof(BlogDuplicationException))]
 		public void UpdateBlogCannotConflictWithDuplicateHost()
 		{
-			Config.CreateBlog("title", "username", "password", "localhost", string.Empty);
-			Config.CreateBlog("title", "username2", "password2", "example.com", string.Empty);
-			BlogInfo info = Config.GetBlogInfo("example.com", string.Empty);
-			info.Host = "localhost";
+			string anotherHost = UnitTestHelper.GenerateUniqueHost();
+			Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
+			Config.CreateBlog("title", "username2", "password2", anotherHost, string.Empty);
+			BlogInfo info = Config.GetBlogInfo(anotherHost, string.Empty);
+			info.Host = _hostName;
 			
 			Config.UpdateConfigData(info);
 		}
@@ -146,11 +163,13 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// The URL to the example.com with no application becomes the aggregate blog.
 		/// </p>
 		/// </remarks>
-		[Test, ExpectedException(typeof(BlogHiddenException))]
+		[Test]
+		[Rollback]
+		[ExpectedException(typeof(BlogHiddenException))]
 		public void CreateBlogCannotHideAnotherBlog()
 		{
-			Config.CreateBlog("title", "username", "password", "www.example.com", string.Empty);
-			Config.CreateBlog("title", "username", "password", "Example.com", "MyBlog");
+			Config.CreateBlog("title", "username", "password", "www." + _hostName, string.Empty);
+			Config.CreateBlog("title", "username", "password", _hostName, "MyBlog");
 		}
 
 		/// <summary>
@@ -168,6 +187,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// </p>
 		/// </remarks>
 		[Test]
+		[Rollback]
 		public void UpdatingBlogCannotHideAnotherBlog()
 		{
 			Config.CreateBlog("title", "username", "password", "www.mydomain.com", string.Empty);
@@ -182,14 +202,17 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// If a blog already exists with a domain name and application, one 
 		/// cannot modify another blog to have the same domain name, but with no application.
 		/// </summary>
-		[Test, ExpectedException(typeof(BlogRequiresApplicationException))]
+		[Test]
+		[Rollback]
+		[ExpectedException(typeof(BlogRequiresApplicationException))]
 		public void UpdatingBlogWithDuplicateHostNameRequiresApplicationName()
 		{
-			Config.CreateBlog("title", "username", "password", "LocaLhost", "MyBlog1");
-			Config.CreateBlog("title", "username", "password", "example.com", string.Empty);
+			string anotherHost = UnitTestHelper.GenerateUniqueHost();
+			Config.CreateBlog("title", "username", "password", _hostName, "MyBlog1");
+			Config.CreateBlog("title", "username", "password", anotherHost, string.Empty);
 
-			BlogInfo info = Config.GetBlogInfo("www.example.com", string.Empty);
-			info.Host = "localhost";
+			BlogInfo info = Config.GetBlogInfo(anotherHost, string.Empty);
+			info.Host = _hostName;
 			info.Application = string.Empty;
 			Config.UpdateConfigData(info);
 		}
@@ -199,11 +222,12 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// include the blog being edited.
 		/// </summary>
 		[Test]
+		[Rollback]
 		public void UpdatingBlogIsFine()
 		{
-			Config.CreateBlog("title", "username", "password", "www.example.com", string.Empty);
-			BlogInfo info = Config.GetBlogInfo("www.EXAMPLE.com", string.Empty);
-			info.BlogID = 1;			
+			Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
+			BlogInfo info = Config.GetBlogInfo(_hostName.ToUpper(CultureInfo.InvariantCulture), string.Empty);
+			info.Author = "Phil";
 			Assert.IsTrue(Config.UpdateConfigData(info), "Updating blog config should return true.");
 		}
 
@@ -228,17 +252,19 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[Test, ExpectedException(typeof(InvalidApplicationNameException))]
 		public void CannotCreateBlogWithApplicationNameBin()
 		{
-			Config.CreateBlog("title", "blah", "blah", "localhost", "bin");
+			Config.CreateBlog("title", "blah", "blah", _hostName, "bin");
 		}
 
 		/// <summary>
 		/// Tests that modifying a blog with a reserved keyword (bin) is not allowed.
 		/// </summary>
-		[Test, ExpectedException(typeof(InvalidApplicationNameException))]
+		[Test]
+		[ExpectedException(typeof(InvalidApplicationNameException))]
+		[Rollback]
 		public void CannotRenameBlogToHaveApplicationNameBin()
 		{
-			Config.CreateBlog("title", "blah", "blah", "localhost", "Anything");
-			BlogInfo info = Config.GetBlogInfo("localhost", "Anything");
+			Config.CreateBlog("title", "blah", "blah", _hostName, "Anything");
+			BlogInfo info = Config.GetBlogInfo(_hostName, "Anything");
 			info.Application = "bin";
 
 			Config.UpdateConfigData(info);
@@ -247,11 +273,13 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// <summary>
 		/// Tests that creating a blog with a reserved keyword (archive) is not allowed.
 		/// </summary>
-		[Test, ExpectedException(typeof(InvalidApplicationNameException))]
+		[Test]
+		[ExpectedException(typeof(InvalidApplicationNameException))]
+		[Rollback]
 		public void CannotCreateBlogWithApplicationNameArchive()
 		{
-			Config.CreateBlog("title", "blah", "blah", "localhost", "archive");
-			BlogInfo info = Config.GetBlogInfo("localhost", "archive");
+			Config.CreateBlog("title", "blah", "blah", _hostName, "archive");
+			BlogInfo info = Config.GetBlogInfo(_hostName, "archive");
 			info.Application = "archive";
 
 			Config.UpdateConfigData(info);
@@ -260,42 +288,56 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// <summary>
 		/// Tests that creating a blog that ends with . is not allowed
 		/// </summary>
-		[Test, ExpectedException(typeof(InvalidApplicationNameException))]
+		[Test]
+		[ExpectedException(typeof(InvalidApplicationNameException))]
+		[Rollback]
 		public void CannotCreateBlogWithApplicationNameEndingWithDot()
 		{
-			Config.CreateBlog("title", "blah", "blah", "localhost", "archive.");
+			Config.CreateBlog("title", "blah", "blah", _hostName, "archive.");
 		}
 
 		/// <summary>
 		/// Tests that creating a blog that starts with . is not allowed
 		/// </summary>
 		[Test, ExpectedException(typeof(InvalidApplicationNameException))]
+		[Rollback]
 		public void CannotCreateBlogWithApplicationNameStartingWithDot()
 		{
-			Config.CreateBlog("title", "blah", "blah", "localhost", ".archive");
+			Config.CreateBlog("title", "blah", "blah", _hostName, ".archive");
 		}
 
 		/// <summary>
 		/// Tests that creating a blog that contains invalid characters is not allowed.
 		/// </summary>
-		[Test, ExpectedException(typeof(InvalidApplicationNameException))]
+		[Test]
+		[ExpectedException(typeof(InvalidApplicationNameException))]
+		[Rollback]
 		public void CannotCreateBlogWithApplicationNameWithInvalidCharacters()
 		{
-			Config.CreateBlog("title", "blah", "blah", "localhost", "My!Blog");
+			Config.CreateBlog("title", "blah", "blah", _hostName, "My!Blog");
 		}
 		#endregion
 
-		[SetUp]
-		public void SetUp()
+		/// <summary>
+		/// Sets the up test fixture.  This is called once for 
+		/// this test fixture before all the tests run.  It 
+		/// essentially copies the App.config file to the 
+		/// run directory.
+		/// </summary>
+		[TestFixtureSetUp]
+		public void SetUpTestFixture()
 		{
-			//This file needs to be there already.
 			UnitTestHelper.UnpackEmbeddedResource("App.config", "UnitTests.Subtext.dll.config");
 			
 			//Confirm app settings
 			Assert.AreEqual("~/Admin/Resources/PageTemplate.ascx", System.Configuration.ConfigurationSettings.AppSettings["Admin.DefaultTemplate"]) ;
-
-			UnitTestObjectProvider objectProvider = (UnitTestObjectProvider)ObjectProvider.Instance();
-			objectProvider.ClearBlogs();
+		}
+		
+		[SetUp]
+		public void SetUp()
+		{
+			_hostName = UnitTestHelper.GenerateUniqueHost();
+			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog");
 		}
 
 		[TearDown]

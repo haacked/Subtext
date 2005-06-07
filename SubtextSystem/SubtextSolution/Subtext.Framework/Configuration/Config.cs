@@ -68,12 +68,12 @@ namespace Subtext.Framework.Configuration
 		/// the configuration settings for the blog specified by the 
 		/// Hostname and Application.
 		/// </summary>
-		/// <param name="hostname">Hostname.</param>
+		/// <param name="hostName">Hostname.</param>
 		/// <param name="application">Application.</param>
 		/// <returns></returns>
-		public static BlogInfo GetBlogInfo(string hostname, string application)
+		public static BlogInfo GetBlogInfo(string hostName, string application)
 		{
-			return GetBlogInfo(hostname, application, true);
+			return GetBlogInfo(hostName, application, true);
 		}
 
 		/// <summary>
@@ -85,14 +85,15 @@ namespace Subtext.Framework.Configuration
 		/// Until Subtext supports multiple blogs again (if ever), 
 		/// this will always return the same instance.
 		/// </remarks>
-		/// <param name="hostname">Hostname.</param>
+		/// <param name="hostName">Hostname.</param>
 		/// <param name="application">Application.</param>
 		/// <param name="strict">If false, then this will return a blog record if 
 		/// there is only one blog record, regardless if the application and hostname match.</param>
 		/// <returns></returns>
-		public static BlogInfo GetBlogInfo(string hostname, string application, bool strict)
+		public static BlogInfo GetBlogInfo(string hostName, string application, bool strict)
 		{
-			return ObjectProvider.Instance().GetBlogInfo(hostname, application, strict);
+			hostName = BlogInfo.NormalizeHostName(hostName);
+			return ObjectProvider.Instance().GetBlogInfo(hostName, application, strict);
 		}
 
 		/// <summary>
@@ -105,6 +106,11 @@ namespace Subtext.Framework.Configuration
 		/// <returns></returns>
 		public static bool CreateBlog(string title, string userName, string password, string host, string application)
 		{
+			if(application != null && application.StartsWith("."))
+				throw new InvalidApplicationNameException(application);
+
+			host = BlogInfo.NormalizeHostName(host);
+
 			//Check for duplicate
 			BlogInfo potentialDuplicate = Subtext.Framework.Configuration.Config.GetBlogInfo(host, application);
 			if(potentialDuplicate != null)

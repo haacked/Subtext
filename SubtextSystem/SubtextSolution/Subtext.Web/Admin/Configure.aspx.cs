@@ -106,7 +106,7 @@ namespace Subtext.Web.Admin.Pages
 			if(doc == null)
 			{
 				doc = new XmlDocument();
-				string filename = Server.MapPath("~/Admin/Skins.config");
+				string filename = Request.MapPath("~/Admin/Skins.config");
 				doc.Load(filename);
 				CacheDependency dep = new CacheDependency(filename);
 				Cache.Insert("SkinsDoc",doc,dep);				
