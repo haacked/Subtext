@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Web;
 
 namespace UnitTests.Subtext
 {
@@ -60,6 +61,28 @@ namespace UnitTests.Subtext
 		{
 			Assembly assembly = Assembly.GetExecutingAssembly();
 			return assembly.GetManifestResourceStream("UnitTests.Subtext.Resources." + resourceName);
+		}
+
+		/// <summary>
+		/// Generates a valid unique hostname (without preceding "www.").
+		/// </summary>
+		/// <returns></returns>
+		public static string GenerateUniqueHost()
+		{
+			return Guid.NewGuid().ToString().Replace("-", "") + ".com";
+		}
+
+		/// <summary>
+		/// Sets the HTTP context with a valid request for the blog specified 
+		/// by the host and application.
+		/// </summary>
+		/// <param name="host">Host.</param>
+		/// <param name="application">Application.</param>
+		public static void SetHttpContextWithBlogRequest(string host, string application)
+		{
+			SimulatedHttpRequest workerRequest = new SimulatedHttpRequest("/", @"c:\projects\SubtextSystem\Subtext.Web\", "/" + application.Replace("/", string.Empty) + "/default.aspx", string.Empty, null, host);
+			HttpContext.Current = new HttpContext(workerRequest);
+			Console.WriteLine(HttpContext.Current.Request.Url);
 		}
 	}
 }

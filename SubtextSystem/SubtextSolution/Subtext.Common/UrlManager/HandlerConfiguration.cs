@@ -67,7 +67,7 @@ namespace Subtext.Common.UrlManager
 			get {
 				if(this._fullPageLocation == null)
 				{
-					this._fullPageLocation = HttpContext.Current.Server.MapPath("~/" + DefaultPageLocation);
+					this._fullPageLocation = HttpContext.Current.Request.MapPath("~/" + DefaultPageLocation);
 				}
 				return this._fullPageLocation;
 			}

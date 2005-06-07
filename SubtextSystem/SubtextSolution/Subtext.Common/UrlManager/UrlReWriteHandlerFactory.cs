@@ -117,7 +117,7 @@ namespace Subtext.Common.UrlManager
 			bool caseSensitive = true;
 			string directory = item.DirectoryLocation;
 			string requestPath = StringHelper.RightAfter(url, directory, !caseSensitive);
-			string physicalPath = HttpContext.Current.Server.MapPath("~/" + directory + "/" + requestPath);
+			string physicalPath = HttpContext.Current.Request.MapPath("~/" + directory + "/" + requestPath);
 			return PageParser.GetCompiledPageInstance(url, physicalPath, context);
 		}
 

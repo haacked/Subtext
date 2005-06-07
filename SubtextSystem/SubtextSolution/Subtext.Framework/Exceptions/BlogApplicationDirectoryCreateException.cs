@@ -39,7 +39,7 @@ namespace Subtext.Framework.Exceptions
 				return "For various technical reasons, in order to create this blog with its dynamic URL, "
 					+ "Subtext needs write access to create a folder in the application root. "
 					+ "Please give the ASPNET user (or Network Services for IIS 6.0) write permissions to the "
-					+ "following folder: <em>" + HttpContext.Current.Server.MapPath(HttpContext.Current.Request.ApplicationPath) + "</em>";
+					+ "following folder: <em>" + HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath) + "</em>";
 			}
 		}
 

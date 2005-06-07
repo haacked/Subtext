@@ -78,7 +78,7 @@ namespace Subtext.Web.Admin
 		// Change to ConfigHandler?
 		public static void LoadConfiguration(string filePath)
 		{
-			string filepath = HttpContext.Current.Server.MapPath(filePath);
+			string filepath = HttpContext.Current.Request.MapPath(filePath);
 
 			XmlDocument doc = new XmlDocument();
 			doc.Load(filepath);

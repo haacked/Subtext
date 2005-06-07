@@ -84,15 +84,16 @@ namespace Subtext.Framework.Configuration
 			set {this._cacheTime = value;}
 		}
 
-		private string _host;
 		/// <summary>
 		/// Gets or sets the host.
 		/// </summary>
 		/// <value></value>
 		public string Host
 		{
-			get {return this._host;}
-			set {this._host = value;}
+			get
+			{
+				return this.GetCurrentHost(HttpContext.Current.Request);
+			}
 		}
 
 		private string _application;
@@ -141,14 +142,6 @@ namespace Subtext.Framework.Configuration
 				if(info == null)
 				{
 					//Not found in the cache
-
-					if(Host == null)
-					{
-						// for example: haacked.com
-						//				localhost
-						Host = GetCurrentHost(context.Request);
-					}
-
 					bool strict = true; //strict implies 
 					info = Subtext.Framework.Configuration.Config.GetBlogInfo(Host, app, !strict);
 					if(info == null)
@@ -177,10 +170,17 @@ namespace Subtext.Framework.Configuration
 					string virtualPath = string.Format(System.Globalization.CultureInfo.InvariantCulture, "/images/{0}/{1}/", Regex.Replace(Host,@"\:|\.","_"), app);
 
 					info.ImagePath = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}{2}", formattedHost, app, virtualPath);
-					info.ImageDirectory = context.Server.MapPath("~" + virtualPath);
+					try
+					{
+						info.ImageDirectory = context.Request.MapPath("~" + virtualPath);
+					}
+					catch(NullReferenceException)
+					{
+						//TODO: log it.
+					}
 
-					CacheConfig(context.Cache,info,mCacheKey);
-					context.Items.Add(cacheKey,info);
+					CacheConfig(context.Cache, info, mCacheKey);
+					context.Items.Add(cacheKey, info);
 				}
 				else
 				{
