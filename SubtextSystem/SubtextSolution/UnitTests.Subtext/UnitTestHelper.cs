@@ -80,9 +80,20 @@ namespace UnitTests.Subtext
 		/// <param name="application">Application.</param>
 		public static void SetHttpContextWithBlogRequest(string host, string application)
 		{
-			SimulatedHttpRequest workerRequest = new SimulatedHttpRequest("/", @"c:\projects\SubtextSystem\Subtext.Web\", "/" + application.Replace("/", string.Empty) + "/default.aspx", string.Empty, null, host);
+			string appVirtualDir = "/";
+			string appPhysicalDir = @"c:\projects\SubtextSystem\Subtext.Web\";
+			string page = application.Replace("/", string.Empty) + "/default.aspx";
+			string query = string.Empty;
+			TextWriter output = null;
+
+			SimulatedHttpRequest workerRequest = new SimulatedHttpRequest(appVirtualDir, appPhysicalDir, page, query, output, host);
 			HttpContext.Current = new HttpContext(workerRequest);
-			Console.WriteLine(HttpContext.Current.Request.Url);
+			Console.WriteLine("Request.FilePath: " + HttpContext.Current.Request.FilePath);
+			Console.WriteLine("Request.Path: " + HttpContext.Current.Request.Path);
+			Console.WriteLine("Request.RawUrl: " + HttpContext.Current.Request.RawUrl);
+			Console.WriteLine("Request.Url: " + HttpContext.Current.Request.Url);
+			Console.WriteLine("Request.ApplicationPath: " + HttpContext.Current.Request.ApplicationPath);
+			Console.WriteLine("Request.PhysicalPath: " + HttpContext.Current.Request.PhysicalPath);
 		}
 	}
 }

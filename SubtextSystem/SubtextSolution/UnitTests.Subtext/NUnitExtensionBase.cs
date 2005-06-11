@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using NUnit.Core;
 using NUnit.Framework;
+using UnitTests;
 using TestCase = NUnit.Core.TestCase;
 
 // Code generously made available by Roy Osherove and modified for Subtext use.
@@ -14,6 +15,9 @@ namespace NUnit.Extensions.Royo
 		void AfterTestRun(TestCaseResult testResult,TemplateTestCase testCase);
 	}
 
+	/// <summary>
+	/// Abstract base class for custom NUnit attributes.
+	/// </summary>
 	[AttributeUsage(AttributeTargets.Method, AllowMultiple=false)]
 	[TestBuilder(typeof(CustomTestAttributeBase.CustomTestBuilder))]
 	public abstract class CustomTestAttributeBase : Attribute, ICustomTestCaseEventsListener
@@ -52,7 +56,6 @@ namespace NUnit.Extensions.Royo
 		private CustomTestAttributeBase customTestImplementor = null;
 		private Type expectedException = null;
 		private string expectedMessage = null;
-
 
 		public override void doRun(TestCaseResult testResult)
 		{
@@ -108,7 +111,9 @@ namespace NUnit.Extensions.Royo
 
 		private void Initialize( MethodInfo method )
 		{
-			Attribute attribute = GetAttribute(method, typeof(ExpectedExceptionAttribute), false);
+			Attribute attribute = GetAttribute(method, typeof(RollbackAttribute), false);
+			if(attribute == null)
+				attribute = GetAttribute(method, typeof(ExpectedExceptionAttribute), false);
 
 			if ( attribute == null )
 				return;
