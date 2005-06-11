@@ -175,10 +175,13 @@ namespace Subtext.Framework.Format
 			if(app == null)
 				throw new ArgumentNullException("app", "The app should not be null.");
 
+			// The {0} represents a potential virtual directory
 			string urlPatternFormat = "{0}/(?<app>.*?)/";
 
 			//Remove any / from App.
 			string cleanApp = "/" + app.Replace("/", string.Empty);
+			if(cleanApp == "/")
+				cleanApp = string.Empty;
 			string appRegex = Regex.Escape(cleanApp);
 
 			string urlRegexPattern = string.Format(urlPatternFormat, appRegex);
