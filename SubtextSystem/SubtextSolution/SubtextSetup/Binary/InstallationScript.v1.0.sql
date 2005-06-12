@@ -1,3 +1,7 @@
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_Host]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [dbo].[blog_Host]
+GO
+
 if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[FK_blog_Content_blog_Config]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
 ALTER TABLE [dbo].[blog_Content] DROP CONSTRAINT FK_blog_Content_blog_Config
 GO
@@ -476,5 +480,15 @@ GO
 SET QUOTED_IDENTIFIER OFF 
 GO
 SET ANSI_NULLS ON 
+GO
+
+
+CREATE TABLE [dbo].[blog_Host] (
+	[HostUserName] [nvarchar] (64) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[Password] [nvarchar] (64) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[Salt] [nvarchar] (32) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[DateCreated] [datetime] NOT NULL ,
+	[CurrentVersion] [varchar] (16) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL 
+) ON [PRIMARY]
 GO
 
