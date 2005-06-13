@@ -1264,9 +1264,14 @@ namespace Subtext.Framework.Data
 
 		#region Helpers
 
+		private IDataReader GetReader(string sql)
+		{
+			return SqlHelper.ExecuteReader(ConnectionString,CommandType.StoredProcedure, sql);
+		}
+
 		private IDataReader GetReader(string sql, SqlParameter[] p)
 		{
-			return SqlHelper.ExecuteReader(ConnectionString,CommandType.StoredProcedure,sql,p);
+			return SqlHelper.ExecuteReader(ConnectionString,CommandType.StoredProcedure, sql, p);
 		}
 
 		private int NonQueryInt(string sql, SqlParameter[] p)
@@ -1280,6 +1285,35 @@ namespace Subtext.Framework.Data
 		}
 
 		#endregion
+
+		#region Host Data
+
+		#endregion Host Data
+		/// <summary>
+		/// Returns the data for the Host.
+		/// </summary>
+		public override IDataReader GetHost()
+		{
+			return GetReader("blog_GetHost");
+		}
+
+		/// <summary>
+		/// Updates the <see cref="HostInfo"/> instance.  If the host record is not in the 
+		/// database, one is created. There should only be one host record.
+		/// </summary>
+		/// <param name="host">The host information.</param>
+		public override bool UpdateHost(HostInfo host)
+		{
+			SqlParameter[] p = 
+			{
+				SqlHelper.MakeInParam("@HostUserName", SqlDbType.NVarChar,  64, host.HostUserName)
+				, SqlHelper.MakeInParam("@Password", SqlDbType.NVarChar,  32, host.Password)
+				, SqlHelper.MakeInParam("@Salt", SqlDbType.NVarChar,  32, host.Salt)
+			};
+
+			return NonQueryBool("blog_UpdateHost", p);
+		}
+
 		#endregion
 	}
 }

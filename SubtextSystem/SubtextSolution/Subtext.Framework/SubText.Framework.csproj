@@ -159,6 +159,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "HostInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Images.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -464,6 +469,11 @@
                 />
                 <File
                     RelPath = "Exceptions\CommentFrequencyException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Exceptions\HostNotConfiguredException.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

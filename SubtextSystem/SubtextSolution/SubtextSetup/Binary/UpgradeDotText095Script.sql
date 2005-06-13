@@ -122,16 +122,13 @@ END
 /*
 Add the blog_Host table.
 */
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_Host]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [dbo].[blog_Host]
-GO
-
+if NOT exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_Host]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
 CREATE TABLE [dbo].[blog_Host] (
 	[HostUserName] [nvarchar] (64) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[Password] [nvarchar] (64) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[Salt] [nvarchar] (32) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
-	[DateCreated] [datetime] NOT NULL ,
-	[CurrentVersion] [varchar] (16) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL 
+	[DateCreated] [datetime] NOT NULL
 ) ON [PRIMARY]
-GO
+END
 

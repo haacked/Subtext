@@ -83,6 +83,45 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
+		/// Get MD5 hashed/encrypted representation of the password and a 
+		/// salt value combined in the proper manner.  
+		/// Returns a Base64 encoded string of the hash.
+		/// This is a one-way hash.
+		/// </summary>
+		/// <remarks>
+		/// Passwords are case sensitive now. Before they weren't.
+		/// </remarks>
+		/// <param name="password">Supplied Password</param>
+		/// <returns>Encrypted (Hashed) value</returns>
+		public static string HashPassword(string password, string salt)
+		{
+			string preHash = CombinePasswordAndSalt(password, salt);
+			return HashPassword(preHash);
+		}
+
+		/// <summary>
+		/// Creates a random salt value.
+		/// </summary>
+		/// <returns></returns>
+		public static string CreateRandomSalt()
+		{
+			return Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+		}
+
+		/// <summary>
+		/// Returns a string with a password and salt combined.
+		/// </summary>
+		/// <param name="password">Password.</param>
+		/// <param name="salt">Salt.</param>
+		/// <returns></returns>
+		public static string CombinePasswordAndSalt(string password, string salt)
+		{
+			//TODO: return salt + "." + password;
+			//We're not ready to do this yet till we do it to the blog_content table too.
+			return password;
+		}
+
+		/// <summary>
 		/// Validates if the supplied credentials match the current blog
 		/// </summary>
 		/// <param name="username">Supplied Username</param>

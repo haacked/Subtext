@@ -39,8 +39,10 @@ namespace Subtext.Framework.Data
 	/// Contains helper methods for getting blog entries from the database 
 	/// into objects such as <see cref="EntryDayCollection"/> and <see cref="EntryCollection"/>.
 	/// </summary>
-	public class DataHelper
+	public sealed class DataHelper
 	{
+		private DataHelper() {}
+
 		#region Statisitics
 
 		public static ViewStat LoadSingleViewStat(IDataReader reader)
@@ -885,6 +887,21 @@ namespace Subtext.Framework.Data
 			return null;
 		}
 
+		#endregion
+
+		#region Host
+		/// <summary>
+		/// Loads the host from the data reader.
+		/// </summary>
+		/// <param name="reader">Reader.</param>
+		/// <returns></returns>
+		public static void LoadHost(IDataReader reader, HostInfo info)
+		{
+			info.HostUserName = (string)reader["HostUserName"];
+			info.Password = (string)reader["Password"];
+			info.Salt = (string)reader["Salt"];
+			info.DateCreated = (DateTime)reader["DateCreated"];
+		}
 		#endregion
 	}
 }

@@ -109,10 +109,13 @@ namespace Subtext.Web.Pages
 
 		private void btnLogin_Click(object sender, System.EventArgs e)
 		{
-			//TODO: THis is a temporary haack for the host admin.
-			if(StringHelper.AreEqualIgnoringCase(tbUserName.Text, "HostAdmin"))
+			// Authenticate HostAdmin...
+			if(StringHelper.AreEqualIgnoringCase(tbUserName.Text, HostInfo.Instance.HostUserName))
 			{
-				if(StringHelper.AreEqualIgnoringCase(tbPassword.Text, "password"))
+				string password = tbPassword.Text;
+				if(Config.Settings.UseHashedPasswords)
+					password = Security.HashPassword(HostInfo.Instance.Password, HostInfo.Instance.Salt);
+				if(StringHelper.AreEqualIgnoringCase(tbPassword.Text, password))
 				{
 					System.Web.Security.FormsAuthentication.SetAuthCookie("HostAdmin", chkRemember.Checked);
 					if(Request.QueryString["ReturnURL"] != null)

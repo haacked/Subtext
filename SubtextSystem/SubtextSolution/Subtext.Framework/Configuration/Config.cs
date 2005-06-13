@@ -103,8 +103,26 @@ namespace Subtext.Framework.Configuration
 		/// </summary>
 		/// <param name="userName">Name of the user.</param>
 		/// <param name="password">Password.</param>
+		/// <param name="application"></param>
+		/// <param name="host"></param>
 		/// <returns></returns>
 		public static bool CreateBlog(string title, string userName, string password, string host, string application)
+		{
+			return CreateBlog(title, userName, password, host, application);
+		}
+
+		/// <summary>
+		/// Creates an initial blog.  This is a convenience method for 
+		/// allowing a user with a freshly installed blog to immediately gain access 
+		/// to the admin section to edit the blog.
+		/// </summary>
+		/// <param name="userName">Name of the user.</param>
+		/// <param name="password">Password.</param>
+		/// <param name="application"></param>
+		/// <param name="host"></param>
+		/// <param name="passwordAlreadyHashed">If true, the password has already been hashed.</param>
+		/// <returns></returns>
+		public static bool CreateBlog(string title, string userName, string password, string host, string application, bool passwordAlreadyHashed)
 		{
 			if(application != null && application.StartsWith("."))
 				throw new InvalidApplicationNameException(application);
@@ -147,7 +165,7 @@ namespace Subtext.Framework.Configuration
 				}
 			}
 
-			if(Config.Settings.UseHashedPasswords)
+			if(!passwordAlreadyHashed && Config.Settings.UseHashedPasswords)
 				password = Security.HashPassword(password);
 
 			return (ObjectProvider.Instance().CreateBlog(title, userName, password, host, application));
@@ -211,7 +229,7 @@ namespace Subtext.Framework.Configuration
 		}
 
 		//TODO: Is this the right place to put this list?
-		private static string[] _invalidApplications = {"Admin", "bin", "ExternalDependencies", "HostAdmin", "Images", "Modules", "Services", "Skins", "UI", "Category", "Archive", "Archives", "Comments", "Articles", "Posts", "Story", "Stories", "Gallery" };
+		private static string[] _invalidApplications = {"Admin", "bin", "ExternalDependencies", "HostAdmin", "Images", "Install", "Modules", "Services", "Skins", "UI", "Category", "Archive", "Archives", "Comments", "Articles", "Posts", "Story", "Stories", "Gallery" };
 
 		/// <summary>
 		/// Returns true if the specified application name has a 
