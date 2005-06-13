@@ -154,11 +154,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "UnitTestObjectProvider.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "ExternalDependencies\mock-assembly.dll"
                     BuildAction = "Content"
                 />

@@ -1,6 +1,7 @@
 using System;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Providers;
+using Subtext.Framework;
 using Subtext.Framework.Components;
 
 namespace Subtext.Framework.Providers
@@ -22,6 +23,21 @@ namespace Subtext.Framework.Providers
 		}
 
 		#region ObjectProvider Specific methods
+		#region Host
+
+		#endregion Host
+		/// <summary>
+		/// Returns the <see cref="HostInfo"/> for the Subtext installation.
+		/// </summary>
+		/// <returns>A <see cref="HostInfo"/> instance.</returns>
+		public abstract HostInfo LoadHostInfo(HostInfo info);
+
+		/// <summary>
+		/// Updates the <see cref="HostInfo"/> instance.  If the host record is not in the 
+		/// database, one is created. There should only be one host record.
+		/// </summary>
+		/// <param name="hostInfo">The host information.</param>
+		public abstract bool UpdateHost(HostInfo hostInfo);
 		#region Blogs
 		/// <summary>
 		/// Gets a pageable <see cref="BlogInfoCollection"/> of <see cref="BlogInfo"/> instances.

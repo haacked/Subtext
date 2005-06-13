@@ -22,6 +22,38 @@ namespace Subtext.Framework.Data
 	{	
 		string _name;
 
+		#region Host
+		/// <summary>
+		/// Returns the <see cref="HostInfo"/> for the Subtext installation.
+		/// </summary>
+		/// <returns>A <see cref="HostInfo"/> instance.</returns>
+		public override HostInfo LoadHostInfo(HostInfo hostInfo)
+		{
+			using(IDataReader reader = DbProvider.Instance().GetHost())
+			{
+				if(reader.Read())
+				{
+					DataHelper.LoadHost(reader, hostInfo);
+					reader.Close();
+					return hostInfo;
+				}
+				reader.Close();
+			}
+			return null;
+		}
+
+		/// <summary>
+		/// Updates the <see cref="HostInfo"/> instance.  If the host record is not in the 
+		/// database, one is created. There should only be one host record.
+		/// </summary>
+		/// <param name="host">The host information.</param>
+		public override bool UpdateHost(HostInfo host)
+		{
+			return DbProvider.Instance().UpdateHost(host);
+		}
+
+		#endregion Host
+
 		#region Blogs
 		/// <summary>
 		/// Gets a pageable <see cref="BlogInfoCollection"/> of <see cref="BlogInfo"/> instances.

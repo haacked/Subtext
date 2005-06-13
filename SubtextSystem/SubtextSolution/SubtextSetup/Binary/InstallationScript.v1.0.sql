@@ -485,7 +485,7 @@ GO
 
 CREATE TABLE [dbo].[blog_Host] (
 	[HostUserName] [nvarchar] (64) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
-	[Password] [nvarchar] (64) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[Password] [nvarchar] (32) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[Salt] [nvarchar] (32) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[DateCreated] [datetime] NOT NULL ,
 	[CurrentVersion] [varchar] (16) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL 

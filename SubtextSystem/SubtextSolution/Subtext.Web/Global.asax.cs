@@ -26,8 +26,10 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Web;
+using Subtext.Framework;
 using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
+using Subtext.Framework.Text;
 
 namespace Subtext 
 {
@@ -44,7 +46,7 @@ namespace Subtext
 		}
 
 		private const string ERROR_PAGE_LOCATION = "~/error.aspx";
-		private const string BLOG_INITIAL_CONFIGURATION_PAGE = "~/BlogNotConfiguredError.aspx";
+		private const string BLOG_INITIAL_CONFIGURATION_PAGE = "~/Install/Step03_CreateBlog.aspx";
 		private const string BAD_CONNECTION_STRING_PAGE = "~/CheckYourConnectionString.aspx";
 
 		public Global()
@@ -62,10 +64,20 @@ namespace Subtext
 			
 		}
 		
-	
+		/// <summary>
+		/// Method called during at the beginning of each request.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		protected void Application_BeginRequest(Object sender, EventArgs e)
 		{
+			string appPath = Request.ApplicationPath;
+			if(appPath.EndsWith("/"))
+				appPath.Remove(appPath.Length - 1, 1);
+			string installPath = appPath + "/Install/";
 
+			if(HostInfo.Instance == null && StringHelper.IndexOf(Request.Path, installPath, false) < 0)
+				Response.Redirect("~/Install/");
 		}
 
 		protected void Application_EndRequest(Object sender, EventArgs e)
@@ -115,7 +127,7 @@ namespace Subtext
 			{
 				if(exception.InnerException is BlogDoesNotExistException)
 				{
-					Server.Transfer(BLOG_INITIAL_CONFIGURATION_PAGE, false);
+					Response.Redirect(BLOG_INITIAL_CONFIGURATION_PAGE);
 				}
 
 				//Sql Exception and request is for "localhost"

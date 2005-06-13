@@ -1,3 +1,11 @@
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetHost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [dbo].[blog_GetHost]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_UpdateHost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [dbo].[blog_UpdateHost]
+GO
+
 if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetCommentByChecksumHash]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[blog_GetCommentByChecksumHash]
 GO
@@ -4313,4 +4321,78 @@ SET ANSI_NULLS ON
 GO
 
 GRANT  EXECUTE  ON [dbo].[blog_GetCommentByChecksumHash]  TO [public]
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/*
+Retrieves the Host Information. There should only be 
+one record.
+*/
+CREATE PROC [dbo].[blog_GetHost]
+AS
+SELECT 
+	[HostUserName]
+	, [Password]
+	, [Salt]
+	, [DateCreated]
+FROM blog_Host
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+GRANT  EXECUTE  ON [dbo].[blog_GetHost]  TO [public]
+GO
+
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/*
+Updates the Host information.
+*/
+CREATE PROC [dbo].[blog_UpdateHost]
+	@HostUserName NVARCHAR(64)
+	, @Password NVARCHAR(32)
+	, @Salt NVARCHAR(32)
+AS
+IF EXISTS(SELECT * FROM blog_Host)
+BEGIN
+	UPDATE blog_Host 
+		SET [HostUserName] = @HostUserName
+			, [Password] = @Password
+			, [Salt] = @Salt
+END
+ELSE
+BEGIN
+	INSERT blog_Host
+	(
+		[HostUserName]
+		,[Password]
+		,[Salt]
+		,[DateCreated]
+	)
+	VALUES
+	(
+		@HostUserName
+		,@Password
+		,@Salt
+		,getdate()
+	)
+END
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+GRANT  EXECUTE  ON [dbo].[blog_UpdateHost]  TO [public]
 GO

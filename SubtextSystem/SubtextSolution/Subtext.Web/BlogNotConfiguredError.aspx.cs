@@ -120,7 +120,13 @@ namespace Subtext.Web
 				string title = "A Subtext Blog";
 				string userName = txtUserName.Text;
 				string password = txtPassword.Text;
-							
+				
+				// Let's create the host admin...
+				if(HostInfo.Instance == null)
+				{
+					
+				}
+
 				// Create the blog_config record using default values 
 				// and the specified user info.
 				if(Config.CreateBlog(title, userName, password, Request.Url.Host, UrlFormats.GetBlogApplicationNameFromRequest(Request.RawUrl, Request.ApplicationPath)))

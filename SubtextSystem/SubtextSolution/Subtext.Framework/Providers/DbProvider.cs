@@ -60,6 +60,19 @@ namespace Subtext.Framework.Providers
 		}
 
 		#region DbProvider specific methods
+		#region Host Data
+		/// <summary>
+		/// Returns the data for the Host.
+		/// </summary>
+		public abstract IDataReader GetHost();
+
+		/// <summary>
+		/// Updates the <see cref="HostInfo"/> instance.  If the host record is not in the 
+		/// database, one is created. There should only be one host record.
+		/// </summary>
+		/// <param name="host">The host information.</param>
+		public abstract bool UpdateHost(HostInfo host);
+		#endregion Host Data
 		#region Get Blog Data
 		public abstract IDataReader GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc);
 		public abstract IDataReader GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc, DateTime DateUpdated);
