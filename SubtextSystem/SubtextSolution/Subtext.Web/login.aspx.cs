@@ -78,10 +78,12 @@ namespace Subtext.Web.Pages
 		private void lbSendPassword_Click(object sender, System.EventArgs e)
 		{
 			BlogInfo info = Config.CurrentBlog;
+			bool messageSent = false;
+			string password = null;
 			
+			//Try reseting the blog admin.
 			if(StringHelper.AreEqualIgnoringCase(tbUserName.Text, info.UserName))
 			{
-				string password = null;
 				if(info.IsPasswordHashed)
 				{
 					password = Security.ResetPassword();
@@ -100,11 +102,30 @@ namespace Subtext.Web.Pages
 				string Body = string.Format(message,info.UserName,password);
 				mail.Send(To,From,Subject,Body);
 				Message.Text = "Login Credentials Sent<br>";
+				messageSent = true;
 			}
-			else
+			
+			if(StringHelper.AreEqualIgnoringCase(tbUserName.Text, HostInfo.Instance.HostUserName))
 			{
-				Message.Text = "I don't know you";
+				if(Config.Settings.UseHashedPasswords)
+					password = Security.ResetHostAdminPassword();		
+				else
+					password = HostInfo.Instance.Password;
+
+				string message = "Here is your Host Admin Login information:\nUserName: {0}\nPassword: {1}\n\nPlease disregard this message if you did not request it.";
+				EmailProvider mail = Subtext.Extensibility.Providers.EmailProvider.Instance();
+			
+				string To = info.Email;
+				string From = mail.AdminEmail;
+				string Subject = "Subtext Host Admin Login Credentials";
+				string Body = string.Format(message, HostInfo.Instance.HostUserName, password);
+				mail.Send(To, From, Subject, Body);
+				Message.Text = "Login Credentials Sent<br>";
+				messageSent = true;
 			}
+			
+			if(!messageSent)
+				Message.Text = "I don't know you";		
 		}
 
 		private void btnLogin_Click(object sender, System.EventArgs e)
@@ -114,8 +135,8 @@ namespace Subtext.Web.Pages
 			{
 				string password = tbPassword.Text;
 				if(Config.Settings.UseHashedPasswords)
-					password = Security.HashPassword(HostInfo.Instance.Password, HostInfo.Instance.Salt);
-				if(StringHelper.AreEqualIgnoringCase(tbPassword.Text, password))
+					password = Security.HashPassword(tbPassword.Text, HostInfo.Instance.Salt);
+				if(StringHelper.AreEqualIgnoringCase(HostInfo.Instance.Password, password))
 				{
 					System.Web.Security.FormsAuthentication.SetAuthCookie("HostAdmin", chkRemember.Checked);
 					if(Request.QueryString["ReturnURL"] != null)

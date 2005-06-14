@@ -1,5 +1,4 @@
 using System;
-using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Exceptions
 {
@@ -14,6 +13,7 @@ namespace Subtext.Framework.Exceptions
 	/// a new blog with the host name "example.com" and an empty application 
 	/// name will result in this exception being thrown.
 	/// </remarks>
+	[Serializable]
 	public class BlogRequiresApplicationException : BaseBlogConfigurationException
 	{
 		int _blogsWithSameHostCount;
@@ -37,6 +37,24 @@ namespace Subtext.Framework.Exceptions
 		/// <param name="blogsWithSameHostCount">The number of blogs with this host name.</param>
 		public BlogRequiresApplicationException(int blogsWithSameHostCount) : this(blogsWithSameHostCount, int.MinValue)
 		{
+		}
+
+		/// <summary>
+		/// Gets the blogs with same host count.
+		/// </summary>
+		/// <value></value>
+		public int BlogsWithSameHostCount
+		{
+			get { return _blogsWithSameHostCount; }
+		}
+
+		/// <summary>
+		/// Gets the blog id.
+		/// </summary>
+		/// <value></value>
+		public int BlogId
+		{
+			get { return _blogId; }
 		}
 
 		/// <summary>

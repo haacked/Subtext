@@ -1,5 +1,7 @@
 using System;
+using System.Data.SqlClient;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Exceptions;
 using Subtext.Framework.Providers;
 
 namespace Subtext.Framework
@@ -10,7 +12,7 @@ namespace Subtext.Framework
 	/// </summary>
 	public sealed class HostInfo
 	{
-		static HostInfo _instance = ObjectProvider.Instance().LoadHostInfo(new HostInfo());
+		static HostInfo _instance = LoadHost(true);
 		private HostInfo() {}
 
 		/// <summary>
@@ -22,7 +24,59 @@ namespace Subtext.Framework
 		{
 			get
 			{
+				if(_instance == null)
+				{
+					throw new HostDataDoesNotExistException();
+				}
 				return _instance;
+			}
+		}
+
+		/// <summary>
+		/// Gets a value indicating whether the HostInfo table exists.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if host info table exists; otherwise, <c>false</c>.
+		/// </value>
+		public static bool HostInfoTableExists
+		{
+			get
+			{
+				try
+				{
+					LoadHost(false);
+					return true;
+				}
+				catch(HostDataDoesNotExistException)
+				{
+					return false;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Loads the host from the Object Provider.  This is provided 
+		/// for those cases when we really need to hit the db.
+		/// </summary>
+		/// <param name="suppressException">If true, won't throw an exception.</param>
+		/// <returns></returns>
+		public static HostInfo LoadHost(bool suppressException)
+		{
+			try
+			{
+				return ObjectProvider.Instance().LoadHostInfo(new HostInfo());
+			}
+			catch(SqlException e)
+			{
+				if(e.Message.IndexOf("Invalid object name 'blog_Host'") >= 0)
+				{
+					if(suppressException)
+						return null;
+					else
+						throw new HostDataDoesNotExistException();
+				}
+				else
+					throw;
 			}
 		}
 
@@ -33,7 +87,12 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static bool UpdateHost(HostInfo host)
 		{
-			return ObjectProvider.Instance().UpdateHost(host);
+			if(ObjectProvider.Instance().UpdateHost(host))
+			{
+				_instance = host;
+				return true;
+			}
+			return false;
 		}
 
 		/// <summary>

@@ -4565,6 +4565,11 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "HostAdmin\PageTemplate.ascx.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "HostAdmin\Web.config"
                     BuildAction = "None"
                 />
@@ -4648,6 +4653,22 @@
                     RelPath = "Install\InstallationBase.cs"
                     SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Install\InstallationComplete.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Install\InstallationComplete.aspx.cs"
+                    DependentUpon = "InstallationComplete.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Install\InstallationComplete.aspx.resx"
+                    DependentUpon = "InstallationComplete.aspx.cs"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "Install\PageTemplate.ascx"

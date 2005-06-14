@@ -6,6 +6,7 @@ namespace Subtext.Framework.Exceptions
 	/// <summary>
 	/// Exception thrown when comments are posted too frequently.
 	/// </summary>
+	[Serializable]
 	public class CommentFrequencyException : BaseCommentException
 	{
 		/// <summary>

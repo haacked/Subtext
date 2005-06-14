@@ -187,7 +187,8 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
-		/// Updates the current users password to the supplied value. Handles hashing (or not hashing of the password)
+		/// Updates the current users password to the supplied value. 
+		/// Handles hashing (or not hashing of the password)
 		/// </summary>
 		/// <param name="password">Supplied Password</param>
 		public static void UpdatePassword(string password)
@@ -203,6 +204,27 @@ namespace Subtext.Framework
 			}
 			//Save new password.
 			Config.UpdateConfigData(info);
+		}
+
+		public static void UpdateHostAdminPassword(string password)
+		{
+			HostInfo hostInfo = HostInfo.Instance;
+			if(Config.Settings.UseHashedPasswords)
+			{
+				hostInfo.Password = Security.HashPassword(password, HostInfo.Instance.Salt);
+			}
+			else
+			{
+				hostInfo.Password = password;
+			}
+			HostInfo.UpdateHost(hostInfo);
+		}
+
+		public static string ResetHostAdminPassword()
+		{
+			string password = RandomPassword();
+			UpdateHostAdminPassword(password);
+			return password;
 		}
 
 		/// <summary>

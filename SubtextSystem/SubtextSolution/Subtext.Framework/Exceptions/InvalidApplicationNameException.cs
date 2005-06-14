@@ -5,6 +5,7 @@ namespace Subtext.Framework.Exceptions
 	/// <summary>
 	/// Exception thrown when creating an application
 	/// </summary>
+	[Serializable]
 	public class InvalidApplicationNameException : BaseBlogConfigurationException
 	{
 		string _application;

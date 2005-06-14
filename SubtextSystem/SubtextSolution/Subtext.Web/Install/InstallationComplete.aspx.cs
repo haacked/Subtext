@@ -1,16 +1,11 @@
 using System;
-using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Install
 {
 	/// <summary>
-	/// Page used to create an initial configuration for the blog.
+	/// Summary description for InstallationComplete.
 	/// </summary>
-	/// <remarks>
-	/// This page will ONLY be displayed if there are no 
-	/// blog configurations within the database.
-	/// </remarks>
-	public class Default : System.Web.UI.Page
+	public class InstallationComplete : InstallationBase
 	{
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
@@ -18,10 +13,7 @@ namespace Subtext.Web.Install
 	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-			if(Config.InstallationComplete)
-			{
-				Response.Redirect("InstallationComplete.aspx");
-			}
+			// Put user code to initialize the page here
 		}
 
 		#region Web Form Designer generated code

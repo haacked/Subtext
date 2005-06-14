@@ -7,6 +7,7 @@ namespace Subtext.Framework.Exceptions
 	/// Exception thrown when creating a blog (or updating a blog) and the 
 	/// application directory cannot be created.
 	/// </summary>
+	[Serializable]
 	public class BlogApplicationDirectoryCreateException : BaseBlogConfigurationException
 	{
 		/// <summary>

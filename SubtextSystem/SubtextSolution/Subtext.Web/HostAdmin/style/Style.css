@@ -361,6 +361,20 @@ img
 	border: solid 1px #FFFFFF;
 }
 
+#loginStatus
+{
+	float:right;
+	font-size: .7em;
+}
+
+#hostAdminName
+{
+	font-weight: bold;
+}
+#logoutLink
+{
+	font-weight: bold;
+}
 /********** Content Styling ************/
 .blogpost
 {
