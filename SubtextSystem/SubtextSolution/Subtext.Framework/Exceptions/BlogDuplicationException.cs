@@ -1,5 +1,4 @@
 using System;
-using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Exceptions
 {
@@ -7,6 +6,7 @@ namespace Subtext.Framework.Exceptions
 	/// Exception thrown when trying to add a blog that 
 	/// duplicates another blog in both host and application.
 	/// </summary>
+	[Serializable]
 	public class BlogDuplicationException : BaseBlogConfigurationException
 	{
 		/// <summary>

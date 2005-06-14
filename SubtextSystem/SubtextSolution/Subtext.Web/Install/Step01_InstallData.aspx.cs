@@ -15,11 +15,15 @@ namespace Subtext.Web.Install
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
 		protected Subtext.Web.Controls.ContentRegion Content;
+		protected System.Web.UI.WebControls.CheckBox chkStoredProcs;
+		protected System.Web.UI.WebControls.RadioButton radUpgrade;
+		protected System.Web.UI.WebControls.RadioButton radInstallFresh;
 		protected Subtext.Web.Controls.MasterPage MPContainer;
 	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
 			ltlMessage.Text = string.Empty;
+			
 		}
 
 		#region Web Form Designer generated code
@@ -39,6 +43,7 @@ namespace Subtext.Web.Install
 		private void InitializeComponent()
 		{    
 			this.Load += new System.EventHandler(this.Page_Load);
+
 		}
 		#endregion
 	}

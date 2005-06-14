@@ -1,5 +1,4 @@
 using System;
-using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Exceptions
 {
@@ -18,6 +17,7 @@ namespace Subtext.Framework.Exceptions
 	/// The URL to the example.com with no application becomes the aggregate blog.
 	/// </p>
 	/// </remarks>
+	[Serializable]
 	public class BlogHiddenException : BaseBlogConfigurationException
 	{
 		/// <summary>

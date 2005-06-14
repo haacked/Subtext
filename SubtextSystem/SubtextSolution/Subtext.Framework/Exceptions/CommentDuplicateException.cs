@@ -5,6 +5,7 @@ namespace Subtext.Framework.Exceptions
 	/// <summary>
 	/// Exception thrown when a duplicate comment occurs, but duplicates are not allowed.
 	/// </summary>
+	[Serializable]
 	public class CommentDuplicateException : BaseCommentException
 	{
 		/// <summary>

@@ -1,6 +1,7 @@
 using System;
 using System.Security;
 using Subtext.Framework;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Install
 {
@@ -40,16 +41,31 @@ namespace Subtext.Web.Install
 			}
 
 			tblConfigForm.Visible = true;
-			ltlMessage.Text = 
-				"<p>" 
-				+ "Welcome!  This is the first step towards successfully configuring " 
-				+ "Subtext. "
-				+ "</p>"
-				+ "<p>" 
-				+ "To get you started quickly, just specify a username and password "
-				+ "for the special Host Administrator account. " 
-				+ "This account can create blogs in this system. "
-				+ "</p>";
+			if(Config.BlogCount == 0)
+			{
+				ltlMessage.Text = 
+					"<p>" 
+					+ "Welcome!  In this step, you will set up a Host Administrative account. "
+					+ "This account has permission to create and manage blogs. "
+					+ "</p>"
+					+ "<p>" 
+					+ "To get you started quickly, just specify a username and password "
+					+ "for the special Host Administrator account. " 
+					+ "</p>";
+			}
+			else
+			{
+				ltlMessage.Text = 
+					"<p>" 
+					+ "Welcome!  It appears that you have existing blogs, but no Host Admin account set up. "
+					+ "We can remedy that situation quickly."
+					+ "</p>"
+					+ "<p>" 
+					+ "Just specify a username and password "
+					+ "for the special Host Administrator account. " 
+					+ "This account can create blogs in this system. "
+					+ "</p>";
+			}
 		}
 
 		#region Web Form Designer generated code
@@ -84,8 +100,14 @@ namespace Subtext.Web.Install
 				// Create the HostInfo record.
 				if(HostInfo.CreateHost(userName, password))
 				{
-					//TODO: Use a controller here to determine where to go next...
-					Response.Redirect("Step03_CreateBlog.aspx");
+					if(Config.BlogCount == 0)
+					{
+						Response.Redirect("Step03_CreateBlog.aspx");
+					}
+					else
+					{
+						Response.Redirect("InstallationComplete.aspx");
+					}
 				}
 				else
 				{

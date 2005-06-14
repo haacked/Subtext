@@ -76,8 +76,16 @@ namespace Subtext
 				appPath.Remove(appPath.Length - 1, 1);
 			string installPath = appPath + "/Install/";
 
-			if(HostInfo.Instance == null && StringHelper.IndexOf(Request.Path, installPath, false) < 0)
-				Response.Redirect("~/Install/");
+			try
+			{
+				if(HostInfo.Instance == null && StringHelper.IndexOf(Request.Path, installPath, false) < 0)
+					Response.Redirect("~/Install/");
+			}
+			catch(HostDataDoesNotExistException)
+			{
+				if(StringHelper.IndexOf(Request.Path, installPath, false) < 0)
+					Response.Redirect("~/Install/");
+			}
 		}
 
 		protected void Application_EndRequest(Object sender, EventArgs e)

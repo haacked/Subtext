@@ -473,6 +473,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Exceptions\HostDataDoesNotExistException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Exceptions\HostNotConfiguredException.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

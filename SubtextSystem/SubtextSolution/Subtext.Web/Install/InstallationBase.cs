@@ -1,5 +1,7 @@
 using System;
 using Subtext.Framework;
+using Subtext.Framework.Configuration;
+using Subtext.Framework.Exceptions;
 using Subtext.Framework.Text;
 
 namespace Subtext.Web.Install
@@ -16,8 +18,22 @@ namespace Subtext.Web.Install
 		protected override void OnLoad(EventArgs e)
 		{
 			//TODO: Handle controller logic here.
-			if(HostInfo.Instance == null)
+			
+			HostInfo info = null;
+			if(!HostInfo.HostInfoTableExists)
+				EnsureInstallStep("Step01_InstallData.aspx");
+			else	
+				info = HostInfo.LoadHost(true);
+
+			if(info == null)
 				EnsureInstallStep("Step02_ConfigureHost.aspx");
+
+			if(info != null && Config.BlogCount == 0)
+				EnsureInstallStep("Step03_CreateBlog.aspx");
+
+			if(Config.InstallationComplete)
+				EnsureInstallStep("InstallationComplete.aspx");
+			
 			base.OnLoad (e);
 		}
 
@@ -30,6 +46,5 @@ namespace Subtext.Web.Install
 				Response.Redirect(page);
 			}
 		}
-
 	}
 }
