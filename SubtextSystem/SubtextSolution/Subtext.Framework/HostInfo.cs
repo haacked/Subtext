@@ -13,6 +13,8 @@ namespace Subtext.Framework
 	public sealed class HostInfo
 	{
 		static HostInfo _instance = LoadHost(true);
+		static string _tempUnhashedPassword = string.Empty;
+		
 		private HostInfo() {}
 
 		/// <summary>
@@ -26,7 +28,7 @@ namespace Subtext.Framework
 			{
 				if(_instance == null)
 				{
-					throw new HostDataDoesNotExistException();
+					_instance = LoadHost(false);
 				}
 				return _instance;
 			}
@@ -101,8 +103,10 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static bool CreateHost(string hostUserName, string hostPassword)
 		{
-			if(HostInfo.Instance != null)
+			if(HostInfo.Instance != null && HostInfo.LoadHost(true) == null)
 				throw new InvalidOperationException("Cannot create a Host record.  One already exists.");
+
+			_tempUnhashedPassword = hostPassword;
 
 			HostInfo host = new HostInfo();
 			host.HostUserName = hostUserName;

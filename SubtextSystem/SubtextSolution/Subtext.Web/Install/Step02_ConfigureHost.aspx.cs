@@ -34,12 +34,6 @@ namespace Subtext.Web.Install
 		{
 			//We need to make sure that the form is ONLY displayed 
 			//if there really is no Host record.
-			if(HostInfo.Instance != null)
-			{
-				// Ok, someone shouldn't be here. Redirect to the error page.
-				throw new SecurityException("That page is forbidden.");
-			}
-
 			tblConfigForm.Visible = true;
 			if(Config.BlogCount == 0)
 			{

@@ -71,15 +71,9 @@ namespace Subtext.Web.Install
 			const bool passwordAlreadyHashed = true;
 			if(Config.CreateBlog("TEMPORARY BLOG NAME", HostInfo.Instance.HostUserName, HostInfo.Instance.Password, Request.Url.Host, string.Empty, passwordAlreadyHashed))
 			{
-				const bool persist = true;
-				if(Security.Authenticate(HostInfo.Instance.HostUserName, HostInfo.Instance.Password, !persist))
-				{
-					Response.Redirect("~/Admin/Configure.aspx");
-				}
-				else
-				{
-					throw new InvalidOperationException("Could not authenticate user we just created. That's really bad.");
-				}
+				//We probably should have creating the blog authenticate the user 
+				//automatically so this redirect doesn't require a login.
+				Response.Redirect("~/Admin/Configure.aspx");
 			}
 			else
 			{
