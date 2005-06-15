@@ -1,1 +1,0 @@
-tallow -nologo -d ..\Subtext.Web -cr -df *.aspx -df *.ascx -df *.html -df *.ico -df *.css -df *.txt -df *.js -df *.asmx -df *.gif -df *.png -df *.jpg -df *.bmp -df *.config > WebFilesFragment.wxs

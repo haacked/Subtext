@@ -1,2 +1,0 @@
-candle Master.wxs WebFilesFragment.wxs UIFragment.wxs AssembliesFragment.wxs
-light -out bin\SubtextSetup.msi Master.wixobj WebFilesFragment.wixobj sca.wixlib UIFragment.wixobj AssembliesFragment.wixobj
