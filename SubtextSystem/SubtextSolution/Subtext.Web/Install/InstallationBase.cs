@@ -1,4 +1,5 @@
 using System;
+using System.Web;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
@@ -55,14 +56,12 @@ namespace Subtext.Web.Install
 			if(pages.Length == 0)
 				return;
 
-			const bool caseSensitive = true;
-
 			bool isInRightPlace = false;
 			foreach(string page in pages)
 			{
 				if(page != null && page.Length > 0)
 				{
-					if(StringHelper.IndexOf(Request.Path, page, !caseSensitive) >= 0)
+					if(IsOnPage(page))
 					{		
 						isInRightPlace = true;
 						return;
@@ -72,6 +71,37 @@ namespace Subtext.Web.Install
 			}
 			if(!isInRightPlace)
 				Response.Redirect(pages[0], true);
+		}
+
+		/// <summary>
+		/// Gets the next step URL.
+		/// </summary>
+		/// <value></value>
+		public static string NextStepUrl
+		{
+			get
+			{
+				for(int i = 0; i < _wizardPages.Length; i++)
+				{
+					if(IsOnPage(_wizardPages[i]) && i < _wizardPages.Length - 1)
+						return _wizardPages[i+1];
+				}
+				return "InstallationComplete.aspx";
+			}
+		}
+
+		static string[] _wizardPages =
+			{
+				"Step01_GatherInstallData.aspx"
+				, "Step02_InstallData.aspx"
+				, "Step03_ConfigureHost.aspx"
+				, "Step04_CreateBlog.aspx"
+			};
+
+		static bool IsOnPage(string page)
+		{
+			bool caseSensitive = true;
+			return StringHelper.IndexOf(HttpContext.Current.Request.Path, page, !caseSensitive) >= 0;
 		}
 	}
 }

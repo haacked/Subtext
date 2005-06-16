@@ -47,6 +47,15 @@ namespace Subtext.Extensibility.Providers
 		public abstract void ProvideInstallationInformation(NameValueCollection information);
 
 		/// <summary>
+		/// Validates the installation information provided by the user.  
+		/// Returns a NameValueCollection of any fields that are incorrect 
+		/// with an explanation of why it is incorrect.
+		/// </summary>
+		/// <param name="information">Information.</param>
+		/// <returns></returns>
+		public abstract NameValueCollection ValidateInstallationInformation(NameValueCollection information);
+
+		/// <summary>
 		/// Gets the installation status.
 		/// </summary>
 		/// <returns></returns>

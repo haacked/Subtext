@@ -1,13 +1,14 @@
-<%@ Page language="c#" Codebehind="Default.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Install.Default" %>
 <%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
+<%@ Page language="c#" Codebehind="Default.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Install.Default" %>
 <MP:MasterPage id="MPContainer" TemplateFile="~/Install/PageTemplate.ascx" runat="server">
 	<MP:ContentRegion id="MPTitle" runat="server">Subtext Installation: Welcome</MP:ContentRegion>
 	<MP:ContentRegion id="MPSubTitle" runat="server">Welcome</MP:ContentRegion>
 	<P>Welcome to the Subtext Installation Wizard.
 	</P>
-	<P>Here are the following steps you will take...
+	<P>Here are the following steps you will take...</P>
 		<OL>
-			<li>Gather Installation Information</li>
+			<LI>
+			Gather Installation Information
 			<LI>
 			Install the database
 			<LI>
@@ -16,8 +17,6 @@
 				Create a Blog
 			</LI>
 		</OL>
-	<P></P>
-	<P>
-		<A href="Step01_GatherInstallData.aspx">Off to step 1</A>.
-	</P>
+	<P><asp:HyperLink id="lnkNextStep" runat="server">Off to Step 1</asp:HyperLink></P>
 </MP:MasterPage>
+

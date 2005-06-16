@@ -14,15 +14,15 @@ Installation</MP:ContentRegion>
 			Create a Blog
 		</LI>
 	</OL>
-	<asp:Literal id="ltlMessage" Runat="server"></asp:Literal>
-	<P>This step allows you to install a fresh Subtext database or upgrade an existing 
-		installation.
+	<P>
+		Thanks for the information provided in the last step.  
+		You are now ready to install the Subtext database.
 	</P>
+	<p><asp:Literal id="installationStateMessage" Runat="server"></asp:Literal></p>
+	<p>
+		<asp:CheckBox id="chkFullInstallation" runat="Server" Text="Full Install" />
+	</p>
 	<P>
-		<asp:RadioButton id="radUpgrade" runat="server" GroupName="InstallOption" Text="Upgrade .TEXT 0.95"></asp:RadioButton><BR>
-		<asp:RadioButton id="radInstallFresh" runat="server" GroupName="InstallOption" Text="Install Subtext"></asp:RadioButton></P>
-	<P>
-		<asp:CheckBox id="chkStoredProcs" runat="server" Checked="True" Text="Stored Procedures"></asp:CheckBox></P>
-	<P><A href="Step03_ConfigureHost.aspx">Go to step 3</A>.
+		<asp:Button id="btnInstall" runat="server" Text="Install Now!"></asp:Button>
 	</P>
 </MP:MasterPage>

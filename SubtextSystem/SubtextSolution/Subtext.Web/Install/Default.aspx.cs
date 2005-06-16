@@ -1,7 +1,6 @@
 using System;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
-using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Install
 {
@@ -16,6 +15,7 @@ namespace Subtext.Web.Install
 	{
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
+		protected System.Web.UI.WebControls.HyperLink lnkNextStep;
 		protected Subtext.Web.Controls.MasterPage MPContainer;
 	
 		private void Page_Load(object sender, System.EventArgs e)
@@ -24,6 +24,8 @@ namespace Subtext.Web.Install
 			{
 				Response.Redirect("InstallationComplete.aspx");
 			}
+
+			lnkNextStep.NavigateUrl = InstallationBase.NextStepUrl;
 		}
 
 		#region Web Form Designer generated code
