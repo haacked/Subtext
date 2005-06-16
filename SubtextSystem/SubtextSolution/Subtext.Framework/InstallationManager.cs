@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Specialized;
 using System.Web;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Exceptions;
@@ -70,6 +71,36 @@ namespace Subtext.Framework
 		public static InstallationState GetInstallationState()
 		{
 			return InstallationProvider.Instance().GetInstallationStatus();
+		}
+
+		/// <summary>
+		/// Gets the installation questions.
+		/// </summary>
+		/// <returns></returns>
+		public static NameValueCollection GetInstallationQuestions()
+		{
+			return InstallationProvider.Instance().QueryInstallationInformation();	
+		}
+
+		/// <summary>
+		/// Validates the installation information provided by the user.  
+		/// Returns a NameValueCollection of any fields that are incorrect 
+		/// with an explanation of why it is incorrect.
+		/// </summary>
+		/// <param name="answers">Information.</param>
+		/// <returns></returns>
+		public static NameValueCollection ValidateInstallationAnswers(NameValueCollection answers)
+		{
+			return InstallationProvider.Instance().ValidateInstallationInformation(answers);
+		}
+
+		/// <summary>
+		/// Sets the installation question answers.
+		/// </summary>
+		/// <param name="answers">Answers.</param>
+		public static void SetInstallationQuestionAnswers(NameValueCollection answers)
+		{
+			InstallationProvider.Instance().ProvideInstallationInformation(answers);
 		}
 	}
 }

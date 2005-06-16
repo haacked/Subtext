@@ -34,7 +34,7 @@ h1
 	font-SIZE: 150%; 
 	padding-bottom: 36px; 
 	margin: 0px; 
-	color: #904; 
+	color: #000999; 
 	padding-top: 0px; 
 	font-family: "trebuchet ms", ""lucida grande"", verdana, arial, sans-serif 
 }
@@ -80,4 +80,26 @@ a:hover
 	color: #cc0066; 
 	background-color: #f5f5f5; 
 	text-decoration: underline 
+}
+
+.footnote
+{
+	font-size: .8em;
+}
+
+#installationQuestionTable
+{
+	border-top: solid 1px #BBBBBB;
+	border-right: solid 1px #BBBBBB;
+}
+
+#installationQuestionTable TD, #installationQuestionTable TH
+{
+	border-left: solid 1px #BBBBBB;
+	border-bottom: solid 1px #BBBBBB;
+}
+
+.error
+{
+	color: Red;
 }

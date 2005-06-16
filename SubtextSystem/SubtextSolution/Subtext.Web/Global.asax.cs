@@ -60,7 +60,7 @@ namespace Subtext
 			if(DbProvider.Instance() != null)
 			{
 				NameValueCollection info = new NameValueCollection();
-				info["Admin Connection String"] = DbProvider.Instance().ConnectionString;
+				info["Default Connection String"] = DbProvider.Instance().ConnectionString;
 				InstallationProvider.Instance().ProvideInstallationInformation(info);
 			}
 		}

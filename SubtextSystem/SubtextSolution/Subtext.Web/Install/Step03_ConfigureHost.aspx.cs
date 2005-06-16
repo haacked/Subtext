@@ -1,5 +1,4 @@
 using System;
-using System.Security;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 
@@ -96,7 +95,7 @@ namespace Subtext.Web.Install
 				{
 					if(Config.BlogCount == 0)
 					{
-						Response.Redirect("Step03_CreateBlog.aspx");
+						Response.Redirect("Step04_CreateBlog.aspx");
 					}
 					else
 					{

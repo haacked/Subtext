@@ -1,28 +1,36 @@
-<%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <%@ Page language="c#" Codebehind="Step01_GatherInstallData.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Install.Step01_GatherInstallData" %>
+<%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <MP:MasterPage id="MPContainer" TemplateFile="~/Install/PageTemplate.ascx" runat="server">
-	<MP:ContentRegion id="MPTitle" runat="server">Subtext Installation: Step 1 - Gather Installation Data</MP:ContentRegion>
-	<MP:ContentRegion id="MPSubTitle" runat="server">Step 1 - Data Installation</MP:ContentRegion>
+	<MP:ContentRegion id="MPTitle" runat="server">Subtext Installation: Step 1 - Gather Installation Data 
+</MP:ContentRegion>
+	<MP:ContentRegion id="MPSubTitle" runat="server">Step 1 - Data 
+Installation </MP:ContentRegion>
 	<OL>
-		<li><strong>Gather Installation Information</strong></li>
 		<LI>
-			Install the database
+			<STRONG>Gather Installation Information</STRONG>
+		<LI>
+		Install the database
 		<LI>
 		Configure the Host Admin
 		<LI>
 			Create a Blog
 		</LI>
 	</OL>
-	<asp:Literal id="ltlMessage" Runat="server"></asp:Literal>
+	<p class="error"><asp:Literal id="ltlErrorMessage" Runat="server"></asp:Literal></p>
+	<P>Welcome to the Subtext Installation Wizard!
+	</P>
+	<P>In order to install the Subtext database*, we need to gather a bit of 
+		information from you.
+	</P>
+	<P>Please fill in the following fields.</P>
 	<P>
-		In order to install Subtext, we need to gather a bit of information 
-		from you.
+		<TABLE id="installationQuestionTable" runat="server">
+		</TABLE>
 	</P>
 	<P>
-		<asp:RadioButton id="radUpgrade" runat="server" GroupName="InstallOption" Text="Upgrade .TEXT 0.95"></asp:RadioButton><BR>
-		<asp:RadioButton id="radInstallFresh" runat="server" GroupName="InstallOption" Text="Install Subtext"></asp:RadioButton></P>
-	<P>
-		<asp:CheckBox id="chkStoredProcs" runat="server" Checked="True" Text="Stored Procedures"></asp:CheckBox></P>
-	<P><A href="Step02_InstallData.aspx">Go to step 2</A>.
+		<asp:Button id="btnSave" runat="server" text="Go to Step 2"></asp:Button></P>
+	<P class="footnote">* Please note that the current version of Subtext only supports 
+		Microsoft SQL Server 2000 and above. Future versions of Subtext may add support 
+		for other databases and file system storage.
 	</P>
 </MP:MasterPage>
