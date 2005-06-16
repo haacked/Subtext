@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Threading;
 
 namespace Subtext.Framework
 {
@@ -12,8 +13,8 @@ namespace Subtext.Framework
 	/// </summary>
 	public sealed class HostInfo
 	{
+		static object _synchBlock = new object();
 		static HostInfo _instance = LoadHost(true);
-		static string _tempUnhashedPassword = string.Empty;
 		
 		private HostInfo() {}
 
@@ -28,7 +29,11 @@ namespace Subtext.Framework
 			{
 				if(_instance == null)
 				{
-					_instance = LoadHost(false);
+					using(TimedLock.Lock(_synchBlock))
+					{
+						if(_instance == null)
+							_instance = LoadHost(false);
+					}
 				}
 				return _instance;
 			}
@@ -105,8 +110,6 @@ namespace Subtext.Framework
 		{
 			if(HostInfo.Instance != null && HostInfo.LoadHost(true) == null)
 				throw new InvalidOperationException("Cannot create a Host record.  One already exists.");
-
-			_tempUnhashedPassword = hostPassword;
 
 			HostInfo host = new HostInfo();
 			host.HostUserName = hostUserName;

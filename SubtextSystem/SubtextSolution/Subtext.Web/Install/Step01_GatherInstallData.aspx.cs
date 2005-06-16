@@ -1,7 +1,4 @@
 using System;
-using Subtext.Extensibility.Providers;
-using Subtext.Framework;
-using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Install
 {
@@ -12,18 +9,21 @@ namespace Subtext.Web.Install
 	/// This page will ONLY be displayed if there are no 
 	/// blog configurations within the database.
 	/// </remarks>
-	public class Default : System.Web.UI.Page
+	public class Step01_GatherInstallData : InstallationBase
 	{
+		protected System.Web.UI.WebControls.Literal ltlMessage;
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
+		protected Subtext.Web.Controls.ContentRegion Content;
+		protected System.Web.UI.WebControls.CheckBox chkStoredProcs;
+		protected System.Web.UI.WebControls.RadioButton radUpgrade;
+		protected System.Web.UI.WebControls.RadioButton radInstallFresh;
 		protected Subtext.Web.Controls.MasterPage MPContainer;
 	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-			if(InstallationManager.GetInstallationState() == InstallationState.Complete)
-			{
-				Response.Redirect("InstallationComplete.aspx");
-			}
+			ltlMessage.Text = string.Empty;
+			
 		}
 
 		#region Web Form Designer generated code

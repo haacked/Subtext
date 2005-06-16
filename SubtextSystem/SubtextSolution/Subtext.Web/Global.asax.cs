@@ -22,14 +22,15 @@
 #endregion
 
 using System;
+using System.Collections.Specialized;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Web;
+using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Data;
-using Subtext.Framework.Exceptions;
-using Subtext.Framework.Text;
+using Subtext.Framework.Providers;
 
 namespace Subtext 
 {
@@ -46,7 +47,6 @@ namespace Subtext
 		}
 
 		private const string ERROR_PAGE_LOCATION = "~/error.aspx";
-		private const string BLOG_INITIAL_CONFIGURATION_PAGE = "~/Install/Step03_CreateBlog.aspx";
 		private const string BAD_CONNECTION_STRING_PAGE = "~/CheckYourConnectionString.aspx";
 
 		public Global()
@@ -56,7 +56,13 @@ namespace Subtext
 		
 		protected void Application_Start(Object sender, EventArgs e)
 		{
-
+			//TODO: This is a special case for SQL.  Can we remove this?
+			if(DbProvider.Instance() != null)
+			{
+				NameValueCollection info = new NameValueCollection();
+				info["Admin Connection String"] = DbProvider.Instance().ConnectionString;
+				InstallationProvider.Instance().ProvideInstallationInformation(info);
+			}
 		}
  
 		protected void Session_Start(Object sender, EventArgs e)
@@ -71,21 +77,6 @@ namespace Subtext
 		/// <param name="e"></param>
 		protected void Application_BeginRequest(Object sender, EventArgs e)
 		{
-			string appPath = Request.ApplicationPath;
-			if(appPath.EndsWith("/"))
-				appPath.Remove(appPath.Length - 1, 1);
-			string installPath = appPath + "/Install/";
-
-			try
-			{
-				if(HostInfo.Instance == null && StringHelper.IndexOf(Request.Path, installPath, false) < 0)
-					Response.Redirect("~/Install/");
-			}
-			catch(HostDataDoesNotExistException)
-			{
-				if(StringHelper.IndexOf(Request.Path, installPath, false) < 0)
-					Response.Redirect("~/Install/");
-			}
 		}
 
 		protected void Application_EndRequest(Object sender, EventArgs e)
@@ -133,9 +124,16 @@ namespace Subtext
 			Exception exception = Server.GetLastError();
 			if(exception is HttpUnhandledException)
 			{
-				if(exception.InnerException is BlogDoesNotExistException)
+				if(exception.InnerException == null)
 				{
-					Response.Redirect(BLOG_INITIAL_CONFIGURATION_PAGE);
+					Server.Transfer(ERROR_PAGE_LOCATION, false);
+					return;
+				}
+
+				if(InstallationManager.IsInstallationActionRequired(exception.InnerException)
+					&& !InstallationManager.IsInInstallDirectory())
+				{
+					Response.Redirect("~/Install/");
 				}
 
 				//Sql Exception and request is for "localhost"
