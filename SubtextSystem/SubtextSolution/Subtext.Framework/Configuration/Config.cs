@@ -47,20 +47,6 @@ namespace Subtext.Framework.Configuration
 		}
 
 		/// <summary>
-		/// Gets a value indicating whether the installation of Subtext is complete.
-		/// </summary>
-		/// <value>
-		/// 	<c>true</c> if installation complete; otherwise, <c>false</c>.
-		/// </value>
-		public static bool InstallationComplete
-		{
-			get
-			{
-				return (HostInfo.LoadHost(true) != null && Config.BlogCount > 0);	
-			}
-		}
-
-		/// <summary>
 		/// Gets the blog count.
 		/// </summary>
 		/// <value></value>
@@ -148,7 +134,7 @@ namespace Subtext.Framework.Configuration
 		/// <returns></returns>
 		public static bool CreateBlog(string title, string userName, string password, string host, string application)
 		{
-			return CreateBlog(title, userName, password, host, application);
+			return CreateBlog(title, userName, password, host, application, false);
 		}
 
 		/// <summary>

@@ -74,7 +74,7 @@ namespace Subtext.Extensibility.Providers
 				} 
 				catch (Exception e) 
 				{
-					throw new Exception("Unable to load provider", e);
+					throw new Exception("Unable to load provider type '" + providerInfo.Type + "'", e);
 				}
 			}
 

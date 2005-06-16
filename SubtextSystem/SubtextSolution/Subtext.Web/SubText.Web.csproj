@@ -144,6 +144,11 @@
                     Project = "{13018F20-F796-4FFE-9290-83D0E661C0A1}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "Subtext.Installation"
+                    Project = "{745B39B7-DE46-4070-8733-C53308721C58}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
             </References>
         </Build>
         <Files>
@@ -4676,51 +4681,67 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Install\Step01_InstallData.aspx"
+                    RelPath = "Install\Step01_GatherInstallData.aspx"
                     SubType = "Form"
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Install\Step01_InstallData.aspx.cs"
-                    DependentUpon = "Step01_InstallData.aspx"
+                    RelPath = "Install\Step01_GatherInstallData.aspx.cs"
+                    DependentUpon = "Step01_GatherInstallData.aspx"
                     SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Install\Step01_InstallData.aspx.resx"
-                    DependentUpon = "Step01_InstallData.aspx.cs"
+                    RelPath = "Install\Step01_GatherInstallData.aspx.resx"
+                    DependentUpon = "Step01_GatherInstallData.aspx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "Install\Step02_ConfigureHost.aspx"
+                    RelPath = "Install\Step02_InstallData.aspx"
                     SubType = "Form"
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Install\Step02_ConfigureHost.aspx.cs"
-                    DependentUpon = "Step02_ConfigureHost.aspx"
+                    RelPath = "Install\Step02_InstallData.aspx.cs"
+                    DependentUpon = "Step02_InstallData.aspx"
                     SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Install\Step02_ConfigureHost.aspx.resx"
-                    DependentUpon = "Step02_ConfigureHost.aspx.cs"
+                    RelPath = "Install\Step02_InstallData.aspx.resx"
+                    DependentUpon = "Step02_InstallData.aspx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "Install\Step03_CreateBlog.aspx"
+                    RelPath = "Install\Step03_ConfigureHost.aspx"
                     SubType = "Form"
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Install\Step03_CreateBlog.aspx.cs"
-                    DependentUpon = "Step03_CreateBlog.aspx"
+                    RelPath = "Install\Step03_ConfigureHost.aspx.cs"
+                    DependentUpon = "Step03_ConfigureHost.aspx"
                     SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Install\Step03_CreateBlog.aspx.resx"
-                    DependentUpon = "Step03_CreateBlog.aspx.cs"
+                    RelPath = "Install\Step03_ConfigureHost.aspx.resx"
+                    DependentUpon = "Step03_ConfigureHost.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Install\Step04_CreateBlog.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Install\Step04_CreateBlog.aspx.cs"
+                    DependentUpon = "Step04_CreateBlog.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Install\Step04_CreateBlog.aspx.resx"
+                    DependentUpon = "Step04_CreateBlog.aspx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File

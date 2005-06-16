@@ -7,6 +7,7 @@
 	</P>
 	<P>Here are the following steps you will take...
 		<OL>
+			<li>Gather Installation Information</li>
 			<LI>
 			Install the database
 			<LI>
@@ -17,6 +18,6 @@
 		</OL>
 	<P></P>
 	<P>
-		<A href="Step01_InstallData.aspx">Off to step 1</A>.
+		<A href="Step01_GatherInstallData.aspx">Off to step 1</A>.
 	</P>
 </MP:MasterPage>

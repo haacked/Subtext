@@ -119,6 +119,11 @@
                     AssemblyName = "System.EnterpriseServices"
                     HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.EnterpriseServices.dll"
                 />
+                <Reference
+                    Name = "Subtext.Installation"
+                    Project = "{745B39B7-DE46-4070-8733-C53308721C58}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
             </References>
         </Build>
         <Files>
@@ -304,6 +309,16 @@
                 />
                 <File
                     RelPath = "Framework\Text\HtmlHelperTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Installation\InstallationManagerTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Installation\SqlInstallationProviderTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

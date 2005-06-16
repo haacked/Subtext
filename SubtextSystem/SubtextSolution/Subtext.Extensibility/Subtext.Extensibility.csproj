@@ -184,6 +184,21 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Providers\InstallationProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Providers\InstallationProviderConfiguration.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Providers\InstallationProviderSectionHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Providers\ProviderBase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
