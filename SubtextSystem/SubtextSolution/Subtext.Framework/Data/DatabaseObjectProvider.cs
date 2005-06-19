@@ -604,7 +604,8 @@ namespace Subtext.Framework.Data
 				KeyWords.Format(ref e);
 			}
 
-			//e.Body = Transform.EmoticonTransforms(e.Body);
+			//TODO: Make this a configuration option.
+			e.Body = Transform.EmoticonTransforms(e.Body);
 
 			if(Text.HtmlHelper.HasIllegalContent(e.Body))
 			{
