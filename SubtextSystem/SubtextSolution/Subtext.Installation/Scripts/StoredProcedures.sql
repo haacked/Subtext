@@ -335,7 +335,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC DNW_GetRecentPosts  -- 'localhost', 1
+CREATE PROC [dbo].[DNW_GetRecentPosts]
 	@Host nvarchar(100)
 	, @GroupID int
 
@@ -384,7 +384,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC DNW_Stats
+CREATE PROC [dbo].[DNW_Stats]
 (
 	@Host nvarchar(100),
 	@GroupID int
@@ -420,7 +420,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC DNW_Total_Stats
+CREATE PROC [dbo].[DNW_Total_Stats]
 (
 	@Host nvarchar(100),
 	@GroupID int
@@ -4153,7 +4153,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC DNW_HomePageData
+CREATE PROC [dbo].[DNW_HomePageData]
 (
 	@Host nvarchar(100),
 	@GroupID int

@@ -89,6 +89,26 @@
         <Files>
             <Include>
                 <File
+                    RelPath = "AssemblyInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Script.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ScriptCollection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ScriptHelper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "SqlHelper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -97,6 +117,14 @@
                     RelPath = "SqlInstallationProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Scripts\DropStoredProcedures.txt"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Scripts\DropTables.sql"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "Scripts\InstallationScript.v1.0.sql"

@@ -7,12 +7,12 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly: AssemblyTitle("Subtext.Framework")]
-[assembly: AssemblyDescription("Contains the core business logic for Subtext.")]
+[assembly: AssemblyTitle("Subtext.Installation")]
+[assembly: AssemblyDescription("Contains classes used to install Subtext")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCompany("Subtext")]
+[assembly: AssemblyProduct("Subtext")]
+[assembly: AssemblyCopyright("(c) 2005 Subtext")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -30,7 +30,7 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
 
-[assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("1.0.0.0")]
 
 //
 // In order to sign your assembly you must specify a key to use. Refer to the 
@@ -60,6 +60,3 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyFile("")]
 [assembly: AssemblyKeyName("")]
-
-// log4net configurator (to read from Web.config)
-[assembly: log4net.Config.XmlConfigurator()]

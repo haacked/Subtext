@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Specialized;
 using System.Data;
+using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using Subtext.Extensibility.Providers;
 
@@ -103,7 +104,7 @@ namespace Subtext.Installation
 				SqlHelper.ExecuteNonQuery(connectionString, CommandType.Text, testDropSql);
 				return true;
 			}
-			catch(Exception e)
+			catch(Exception)
 			{
 				return false;
 			}
@@ -152,9 +153,13 @@ namespace Subtext.Installation
 		/// </returns>
 		public override bool IsInstallationException(Exception exception)
 		{
-			Regex regex = new Regex("Invalid object name '.*?'", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+			Regex tableRegex = new Regex("Invalid object name '.*?'", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-			if(exception is System.Data.SqlClient.SqlException && regex.IsMatch(exception.Message))
+			if(exception is System.Data.SqlClient.SqlException && tableRegex.IsMatch(exception.Message))
+				return true;
+
+			Regex spRegex = new Regex("'Could not find stored procedure '.*?'", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+			if(exception is System.Data.SqlClient.SqlException && spRegex.IsMatch(exception.Message))
 				return true;
 
 			return false;
@@ -166,7 +171,28 @@ namespace Subtext.Installation
 		/// <returns></returns>
 		public override bool Upgrade()
 		{
-			throw new NotImplementedException();
+			using(SqlConnection connection = new SqlConnection(this._adminConnectionString))
+			{
+				connection.Open();
+				using(SqlTransaction transaction = connection.BeginTransaction())
+				{
+					//TODO: Calculate the script name.
+					try
+					{
+						bool result = ScriptHelper.ExecuteScript("UpgradeDotText095Script.sql", transaction);
+						if(result)
+							transaction.Commit();
+						else
+							transaction.Rollback();
+						return result;
+					}
+					catch(Exception)
+					{
+						transaction.Rollback();
+						return false;
+					}
+				}
+			}
 		}
 
 		/// <summary>
@@ -175,7 +201,33 @@ namespace Subtext.Installation
 		/// <returns></returns>
 		public override bool Install()
 		{
-			throw new NotImplementedException();
+			using(SqlConnection connection = new SqlConnection(this._adminConnectionString))
+			{
+				connection.Open();
+				using(SqlTransaction transaction = connection.BeginTransaction())
+				{
+					try
+					{
+						//TODO: Calculate the script name.
+						if(ScriptHelper.ExecuteScript("InstallationScript.v1.0.sql", transaction))
+						{
+							bool result = ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction);
+							if(result)
+								transaction.Commit();
+							else
+								transaction.Rollback();
+							return result;
+						}
+						transaction.Rollback();
+						return false;
+					}
+					catch(SqlException)
+					{
+						transaction.Rollback();
+						throw;
+					}
+				}
+			}
 		}
 
 		/// <summary>

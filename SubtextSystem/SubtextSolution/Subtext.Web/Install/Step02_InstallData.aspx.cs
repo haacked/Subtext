@@ -13,6 +13,7 @@ namespace Subtext.Web.Install
 	/// </remarks>
 	public class Step02_InstallData : InstallationBase
 	{
+		InstallationState _state = InstallationState.None;
 		protected System.Web.UI.WebControls.Literal installationStateMessage;
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
@@ -26,8 +27,8 @@ namespace Subtext.Web.Install
 	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-			InstallationState state = InstallationManager.GetInstallationState();
-			switch(state)
+			_state = InstallationManager.GetInstallationState();
+			switch(_state)
 			{
 				case InstallationState.NeedsInstallation:
 					installationStateMessage.Text = "It appears that you are in need of a full " 
@@ -79,7 +80,34 @@ namespace Subtext.Web.Install
 
 		private void btnInstall_Click(object sender, EventArgs e)
 		{
-			//TODO: Actually run the install.
+			if(chkFullInstallation.Checked)
+			{
+				InstallationProvider.Instance().Install();
+				Response.Redirect(NextStepUrl);
+				return;
+			}
+
+			switch(_state)
+			{
+				case InstallationState.NeedsInstallation:
+					if(!InstallationProvider.Instance().Install())
+					{
+						installationStateMessage.Text = "Uh oh. Something went wrong with the installation.";
+						return;
+					}
+					break;
+				case InstallationState.NeedsUpgrade:
+					if(!InstallationProvider.Instance().Upgrade())
+					{
+						installationStateMessage.Text = "Uh oh. Something went wrong with the upgrade.";
+						return;
+					}
+					break;
+				default:
+					installationStateMessage.Text = "Hmmm, your installation is in an unknown state. ";
+					break;
+			}
+
 			Response.Redirect(NextStepUrl);
 		}
 	}
