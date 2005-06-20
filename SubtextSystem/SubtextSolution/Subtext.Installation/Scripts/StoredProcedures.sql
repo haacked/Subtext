@@ -1,333 +1,333 @@
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetHost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetHost]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetHost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetHost]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_UpdateHost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_UpdateHost]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_UpdateHost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_UpdateHost]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetCommentByChecksumHash]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetCommentByChecksumHash]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetCommentByChecksumHash]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetCommentByChecksumHash]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetPageableBlogs]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetPageableBlogs]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetPageableBlogs]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetPageableBlogs]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetBlogsByHost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetBlogsByHost]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetBlogsByHost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetBlogsByHost]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetBlogById]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetBlogById]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetBlogById]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetBlogById]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[DNW_GetRecentPosts]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[DNW_GetRecentPosts]
+if exists (select * from dbo.sysobjects where id = object_id(N'[DNW_GetRecentPosts]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [DNW_GetRecentPosts]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[DNW_HomePageData]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[DNW_HomePageData]
+if exists (select * from dbo.sysobjects where id = object_id(N'[DNW_HomePageData]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [DNW_HomePageData]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[DNW_Stats]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[DNW_Stats]
+if exists (select * from dbo.sysobjects where id = object_id(N'[DNW_Stats]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [DNW_Stats]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[DNW_Total_Stats]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[DNW_Total_Stats]
+if exists (select * from dbo.sysobjects where id = object_id(N'[DNW_Total_Stats]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [DNW_Total_Stats]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_DeleteCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_DeleteCategory]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_DeleteCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_DeleteCategory]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_DeleteImage]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_DeleteImage]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_DeleteImage]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_DeleteImage]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_DeleteImageCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_DeleteImageCategory]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_DeleteImageCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_DeleteImageCategory]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_DeleteKeyWord]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_DeleteKeyWord]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_DeleteKeyWord]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_DeleteKeyWord]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_DeleteLink]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_DeleteLink]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_DeleteLink]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_DeleteLink]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_DeleteLinksByPostID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_DeleteLinksByPostID]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_DeleteLinksByPostID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_DeleteLinksByPostID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_DeletePost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_DeletePost]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_DeletePost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_DeletePost]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetActiveCategoriesWithLinkCollection]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetActiveCategoriesWithLinkCollection]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetActiveCategoriesWithLinkCollection]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetActiveCategoriesWithLinkCollection]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetAllCategories]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetAllCategories]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetAllCategories]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetAllCategories]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetBlogKeyWords]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetBlogKeyWords]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetBlogKeyWords]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetBlogKeyWords]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetCategory]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetCategory]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetCategoryByName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetCategoryByName]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetCategoryByName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetCategoryByName]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetConditionalEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetConditionalEntries]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetConditionalEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetConditionalEntries]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetConditionalEntriesByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetConditionalEntriesByDateUpdated]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetConditionalEntriesByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetConditionalEntriesByDateUpdated]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetConfig]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetConfig]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetConfig]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetConfig]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetEntriesByDayRange]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetEntriesByDayRange]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetEntriesByDayRange]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetEntriesByDayRange]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetEntryCollectionByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetEntryCollectionByDateUpdated]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetEntryCollectionByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetEntryCollectionByDateUpdated]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetEntryWithCategoryTitles]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetEntryWithCategoryTitles]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetEntryWithCategoryTitles]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetEntryWithCategoryTitles]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetEntryWithCategoryTitlesByEntryName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetEntryWithCategoryTitlesByEntryName]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetEntryWithCategoryTitlesByEntryName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetEntryWithCategoryTitlesByEntryName]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetFeedBack]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetFeedBack]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetFeedBack]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetFeedBack]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetImageCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetImageCategory]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetImageCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetImageCategory]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetKeyWord]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetKeyWord]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetKeyWord]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetKeyWord]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetLinkCollectionByPostID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetLinkCollectionByPostID]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetLinkCollectionByPostID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetLinkCollectionByPostID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetLinksByActiveCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetLinksByActiveCategoryID]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetLinksByActiveCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetLinksByActiveCategoryID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetLinksByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetLinksByCategoryID]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetLinksByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetLinksByCategoryID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetPageableEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetPageableEntries]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetPageableEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetPageableEntries]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetPageableEntriesByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetPageableEntriesByCategoryID]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetPageableEntriesByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetPageableEntriesByCategoryID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetPageableFeedback]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetPageableFeedback]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetPageableFeedback]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetPageableFeedback]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetPageableKeyWords]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetPageableKeyWords]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetPageableKeyWords]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetPageableKeyWords]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetPageableLinks]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetPageableLinks]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetPageableLinks]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetPageableLinks]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetPageableLinksByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetPageableLinksByCategoryID]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetPageableLinksByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetPageableLinksByCategoryID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetPageableReferrers]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetPageableReferrers]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetPageableReferrers]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetPageableReferrers]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetPageableReferrersByEntryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetPageableReferrersByEntryID]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetPageableReferrersByEntryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetPageableReferrersByEntryID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetPostsByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetPostsByCategoryID]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetPostsByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetPostsByCategoryID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetPostsByCategoryIDByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetPostsByCategoryIDByDateUpdated]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetPostsByCategoryIDByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetPostsByCategoryIDByDateUpdated]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetPostsByCategoryName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetPostsByCategoryName]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetPostsByCategoryName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetPostsByCategoryName]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetPostsByCategoryNameByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetPostsByCategoryNameByDateUpdated]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetPostsByCategoryNameByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetPostsByCategoryNameByDateUpdated]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetPostsByDayRange]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetPostsByDayRange]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetPostsByDayRange]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetPostsByDayRange]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetPostsByMonth]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetPostsByMonth]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetPostsByMonth]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetPostsByMonth]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetPostsByMonthArchive]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetPostsByMonthArchive]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetPostsByMonthArchive]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetPostsByMonthArchive]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetPostsByYearArchive]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetPostsByYearArchive]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetPostsByYearArchive]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetPostsByYearArchive]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetRecentEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetRecentEntries]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetRecentEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetRecentEntries]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetRecentEntriesByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetRecentEntriesByDateUpdated]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetRecentEntriesByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetRecentEntriesByDateUpdated]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetRecentEntriesWithCategoryTitles]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetRecentEntriesWithCategoryTitles]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetRecentEntriesWithCategoryTitles]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetRecentEntriesWithCategoryTitles]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetSingleDay]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetSingleDay]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetSingleDay]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetSingleDay]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetSingleEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetSingleEntry]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetSingleEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetSingleEntry]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetSingleEntryByName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetSingleEntryByName]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetSingleEntryByName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetSingleEntryByName]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetSingleImage]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetSingleImage]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetSingleImage]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetSingleImage]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetSingleLink]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetSingleLink]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetSingleLink]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetSingleLink]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_GetUrlID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_GetUrlID]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_GetUrlID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_GetUrlID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_InsertCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_InsertCategory]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_InsertCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_InsertCategory]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_InsertEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_InsertEntry]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_InsertEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_InsertEntry]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_InsertEntryViewCount]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_InsertEntryViewCount]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_InsertEntryViewCount]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_InsertEntryViewCount]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_InsertImage]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_InsertImage]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_InsertImage]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_InsertImage]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_InsertKeyWord]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_InsertKeyWord]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_InsertKeyWord]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_InsertKeyWord]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_InsertLink]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_InsertLink]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_InsertLink]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_InsertLink]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_InsertLinkCategoryList]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_InsertLinkCategoryList]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_InsertLinkCategoryList]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_InsertLinkCategoryList]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_InsertPingTrackEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_InsertPingTrackEntry]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_InsertPingTrackEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_InsertPingTrackEntry]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_InsertPostCategoryByName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_InsertPostCategoryByName]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_InsertPostCategoryByName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_InsertPostCategoryByName]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_InsertReferral]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_InsertReferral]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_InsertReferral]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_InsertReferral]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_InsertViewStats]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_InsertViewStats]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_InsertViewStats]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_InsertViewStats]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_StatsSummary]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_StatsSummary]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_StatsSummary]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_StatsSummary]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_TrackEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_TrackEntry]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_TrackEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_TrackEntry]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_UTILITY_AddBlog]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_UTILITY_AddBlog]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_UTILITY_AddBlog]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_UTILITY_AddBlog]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_UpdateCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_UpdateCategory]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_UpdateCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_UpdateCategory]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_UpdateConfig]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_UpdateConfig]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_UpdateConfig]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_UpdateConfig]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_UpdateConfigUpdateTime]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_UpdateConfigUpdateTime]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_UpdateConfigUpdateTime]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_UpdateConfigUpdateTime]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_UpdateEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_UpdateEntry]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_UpdateEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_UpdateEntry]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_UpdateImage]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_UpdateImage]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_UpdateImage]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_UpdateImage]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_UpdateKeyWord]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_UpdateKeyWord]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_UpdateKeyWord]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_UpdateKeyWord]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_UpdateLink]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_UpdateLink]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_UpdateLink]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_UpdateLink]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_Utility_GetUnHashedPasswords]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_Utility_GetUnHashedPasswords]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_Utility_GetUnHashedPasswords]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_Utility_GetUnHashedPasswords]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_Utility_UpdateToHashedPassword]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[blog_Utility_UpdateToHashedPassword]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_Utility_UpdateToHashedPassword]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [blog_Utility_UpdateToHashedPassword]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -335,7 +335,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[DNW_GetRecentPosts]
+CREATE PROC [DNW_GetRecentPosts]
 	@Host nvarchar(100)
 	, @GroupID int
 
@@ -375,7 +375,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[DNW_GetRecentPosts]  TO [public]
+GRANT  EXECUTE  ON [DNW_GetRecentPosts]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -384,7 +384,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[DNW_Stats]
+CREATE PROC [DNW_Stats]
 (
 	@Host nvarchar(100),
 	@GroupID int
@@ -411,7 +411,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[DNW_Stats]  TO [public]
+GRANT  EXECUTE  ON [DNW_Stats]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -420,7 +420,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[DNW_Total_Stats]
+CREATE PROC [DNW_Total_Stats]
 (
 	@Host nvarchar(100),
 	@GroupID int
@@ -438,7 +438,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[DNW_Total_Stats]  TO [public]
+GRANT  EXECUTE  ON [DNW_Total_Stats]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -447,7 +447,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_DeleteCategory]
+CREATE PROC [blog_DeleteCategory]
 (
 	@CategoryID int,
 	@BlogID int
@@ -463,7 +463,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_DeleteCategory]  TO [public]
+GRANT  EXECUTE  ON [blog_DeleteCategory]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -472,7 +472,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_DeleteImage]
+CREATE PROC [blog_DeleteImage]
 (
 	@BlogID int,
 	@ImageID int
@@ -490,7 +490,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_DeleteImage]  TO [public]
+GRANT  EXECUTE  ON [blog_DeleteImage]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -499,7 +499,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_DeleteImageCategory]
+CREATE PROC [blog_DeleteImageCategory]
 (
 	@CategoryID int,
 	@BlogID int
@@ -516,7 +516,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_DeleteImageCategory]  TO [public]
+GRANT  EXECUTE  ON [blog_DeleteImageCategory]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -525,7 +525,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_DeleteKeyWord]
+CREATE PROC [blog_DeleteKeyWord]
 (
 	@KeyWordID int,
 	@BlogID int
@@ -542,7 +542,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_DeleteKeyWord]  TO [public]
+GRANT  EXECUTE  ON [blog_DeleteKeyWord]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -551,7 +551,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_DeleteLink]
+CREATE PROC [blog_DeleteLink]
 (
 	@LinkID int,
 	@BlogID int
@@ -566,7 +566,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_DeleteLink]  TO [public]
+GRANT  EXECUTE  ON [blog_DeleteLink]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -575,7 +575,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_DeleteLinksByPostID]
+CREATE PROC [blog_DeleteLinksByPostID]
 (
 	@PostID int,
 	@BlogID int
@@ -592,7 +592,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_DeleteLinksByPostID]  TO [public]
+GRANT  EXECUTE  ON [blog_DeleteLinksByPostID]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -604,7 +604,7 @@ GO
 /*
 Deletes a record from blog_content, whether it be a post, a comment, etc..
 */
-CREATE PROC [dbo].[blog_DeletePost]
+CREATE PROC [blog_DeletePost]
 (
 	@ID int,
 	@BlogID int
@@ -647,7 +647,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_DeletePost]  TO [public]
+GRANT  EXECUTE  ON [blog_DeletePost]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -656,7 +656,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetActiveCategoriesWithLinkCollection]
+CREATE PROC [blog_GetActiveCategoriesWithLinkCollection]
 (
 	@BlogID int
 )
@@ -701,7 +701,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetActiveCategoriesWithLinkCollection]  TO [public]
+GRANT  EXECUTE  ON [blog_GetActiveCategoriesWithLinkCollection]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -710,7 +710,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetAllCategories]
+CREATE PROC [blog_GetAllCategories]
 (
 	@BlogID int
 	, @IsActive bit
@@ -735,7 +735,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetAllCategories]  TO [public]
+GRANT  EXECUTE  ON [blog_GetAllCategories]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -743,7 +743,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].blog_GetBlogKeyWords
+CREATE PROC blog_GetBlogKeyWords
 (
 	@BlogID int
 )
@@ -762,7 +762,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetBlogKeyWords]  TO [public]
+GRANT  EXECUTE  ON [blog_GetBlogKeyWords]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -771,7 +771,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetCategory
+CREATE PROC blog_GetCategory
 (
 	@CategoryID int,
 	@IsActive bit,
@@ -796,7 +796,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetCategory]  TO [public]
+GRANT  EXECUTE  ON [blog_GetCategory]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -805,7 +805,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetCategoryByName 
+CREATE PROC blog_GetCategoryByName 
 (
 	@CategoryName nvarchar(150),
 	@IsActive bit,
@@ -829,7 +829,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetCategoryByName]  TO [public]
+GRANT  EXECUTE  ON [blog_GetCategoryByName]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -838,7 +838,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetConditionalEntries]
+CREATE PROC [blog_GetConditionalEntries]
 (
 	@ItemCount int 
 	, @PostType int
@@ -879,7 +879,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetConditionalEntries]  TO [public]
+GRANT  EXECUTE  ON [blog_GetConditionalEntries]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -888,7 +888,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetConditionalEntriesByDateUpdated]
+CREATE PROC [blog_GetConditionalEntriesByDateUpdated]
 (
 	@DateUpdated datetime
 	, @ItemCount int
@@ -931,7 +931,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetConditionalEntriesByDateUpdated]  TO [public]
+GRANT  EXECUTE  ON [blog_GetConditionalEntriesByDateUpdated]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -943,7 +943,7 @@ Returns the blog that matches the given host/application combination.
 
 @Strict -- If 0, then we return the one and only blog if there's one and only blog.
 */
-CREATE PROC [dbo].blog_GetConfig
+CREATE PROC blog_GetConfig
 (
 	@Host nvarchar(100)
 	, @Application nvarchar(50)
@@ -985,7 +985,7 @@ END
 ELSE
 BEGIN
 	SELECT
-		blog_Config.BlogID
+		BlogID
 		, UserName
 		, [Password]
 		, Email
@@ -1010,7 +1010,7 @@ BEGIN
 		, LicenseUrl
 		, DaysTillCommentsClose
 		, CommentDelayInMinutes
-	FROM blog_Config
+	FROM [blog_Config]
 	WHERE	Host = @Host
 		AND Application = @Application
 END
@@ -1021,7 +1021,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetConfig]  TO [public]
+GRANT  EXECUTE  ON [blog_GetConfig]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1029,7 +1029,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[blog_GetEntriesByDayRange]
+CREATE PROC [blog_GetEntriesByDayRange]
 (
 	@StartDate datetime,
 	@StopDate datetime,
@@ -1074,7 +1074,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetEntriesByDayRange]  TO [public]
+GRANT  EXECUTE  ON [blog_GetEntriesByDayRange]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1083,7 +1083,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetEntryCollectionByDateUpdated]
+CREATE PROC [blog_GetEntryCollectionByDateUpdated]
 (
 	@ItemCount int,
 	@IsActive bit,
@@ -1125,7 +1125,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetEntryCollectionByDateUpdated]  TO [public]
+GRANT  EXECUTE  ON [blog_GetEntryCollectionByDateUpdated]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -1134,7 +1134,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetEntryWithCategoryTitles]
+CREATE PROC [blog_GetEntryWithCategoryTitles]
 (
 	@PostID int
 	, @IsActive bit
@@ -1179,7 +1179,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetEntryWithCategoryTitles]  TO [public]
+GRANT  EXECUTE  ON [blog_GetEntryWithCategoryTitles]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -1189,7 +1189,7 @@ GO
 
 
 
-CREATE PROC [dbo].[blog_GetEntryWithCategoryTitlesByEntryName]
+CREATE PROC [blog_GetEntryWithCategoryTitlesByEntryName]
 (
 	@EntryName nvarchar(150)
 	, @IsActive bit
@@ -1237,7 +1237,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetEntryWithCategoryTitlesByEntryName]  TO [public]
+GRANT  EXECUTE  ON [blog_GetEntryWithCategoryTitlesByEntryName]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1246,7 +1246,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetFeedBack]
+CREATE PROC [blog_GetFeedBack]
 (
 	@ParentID int
 	, @BlogID int
@@ -1283,7 +1283,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetFeedBack]  TO [public]
+GRANT  EXECUTE  ON [blog_GetFeedBack]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1292,7 +1292,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetImageCategory]
+CREATE PROC [blog_GetImageCategory]
 (
 	@CategoryID int
 	, @IsActive bit
@@ -1321,7 +1321,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetImageCategory]  TO [public]
+GRANT  EXECUTE  ON [blog_GetImageCategory]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -1330,7 +1330,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetKeyWord
+CREATE PROC blog_GetKeyWord
 (
 	@KeyWordID int
 	, @BlogID int
@@ -1351,7 +1351,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetKeyWord]  TO [public]
+GRANT  EXECUTE  ON [blog_GetKeyWord]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1360,7 +1360,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetLinkCollectionByPostID
+CREATE PROC blog_GetLinkCollectionByPostID
 (
 	@PostID int,
 	@BlogID int
@@ -1389,7 +1389,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetLinkCollectionByPostID]  TO [public]
+GRANT  EXECUTE  ON [blog_GetLinkCollectionByPostID]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1398,7 +1398,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetLinksByActiveCategoryID
+CREATE PROC blog_GetLinksByActiveCategoryID
 (
 	@CategoryID int
 	, @BlogID int
@@ -1425,7 +1425,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetLinksByActiveCategoryID]  TO [public]
+GRANT  EXECUTE  ON [blog_GetLinksByActiveCategoryID]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1434,7 +1434,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetLinksByCategoryID
+CREATE PROC blog_GetLinksByCategoryID
 (
 	@CategoryID int
 	, @BlogID int
@@ -1461,7 +1461,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetLinksByCategoryID]  TO [public]
+GRANT  EXECUTE  ON [blog_GetLinksByCategoryID]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1474,7 +1474,7 @@ GO
 I think this proc gets a page of blog posts 
 within the admin section.
 */
-CREATE PROC [dbo].[blog_GetPageableEntries]
+CREATE PROC [blog_GetPageableEntries]
 (
 	@BlogID int
 	, @PageIndex int
@@ -1561,7 +1561,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetPageableEntries]  TO [public]
+GRANT  EXECUTE  ON [blog_GetPageableEntries]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1570,7 +1570,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetPageableEntriesByCategoryID]
+CREATE PROC [blog_GetPageableEntriesByCategoryID]
 (
 	@BlogID int
 	, @CategoryID int
@@ -1668,7 +1668,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetPageableEntriesByCategoryID]  TO [public]
+GRANT  EXECUTE  ON [blog_GetPageableEntriesByCategoryID]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1677,7 +1677,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetPageableFeedback]
+CREATE PROC [blog_GetPageableFeedback]
 (
 	@BlogID int
 	, @PageIndex int
@@ -1758,7 +1758,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetPageableFeedback]  TO [public]
+GRANT  EXECUTE  ON [blog_GetPageableFeedback]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1767,7 +1767,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetPageableKeyWords
+CREATE PROC blog_GetPageableKeyWords
 (
 	@BlogID int
 	, @PageIndex int
@@ -1838,7 +1838,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetPageableKeyWords]  TO [public]
+GRANT  EXECUTE  ON [blog_GetPageableKeyWords]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1847,7 +1847,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetPageableLinks
+CREATE PROC blog_GetPageableLinks
 (
 	@BlogID int
 	, @PageIndex int
@@ -1920,7 +1920,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetPageableLinks]  TO [public]
+GRANT  EXECUTE  ON [blog_GetPageableLinks]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1929,7 +1929,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetPageableLinksByCategoryID
+CREATE PROC blog_GetPageableLinksByCategoryID
 (
 	@BlogID int
 	, @CategoryID int
@@ -2007,7 +2007,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetPageableLinksByCategoryID]  TO [public]
+GRANT  EXECUTE  ON [blog_GetPageableLinksByCategoryID]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -2018,7 +2018,7 @@ GO
 
 --SELECT Top 5 * FROM blog_Referrals ORDER BY LastUpdated DESC
 
-CREATE PROC [dbo].blog_GetPageableReferrers
+CREATE PROC blog_GetPageableReferrers
 (
 	@BlogID INT
 	, @PageIndex INT
@@ -2075,7 +2075,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetPageableReferrers]  TO [public]
+GRANT  EXECUTE  ON [blog_GetPageableReferrers]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -2084,7 +2084,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetPageableReferrersByEntryID 
+CREATE PROC blog_GetPageableReferrersByEntryID 
 (
 	@BlogID INT,
 	@EntryID int,
@@ -2145,7 +2145,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetPageableReferrersByEntryID]  TO [public]
+GRANT  EXECUTE  ON [blog_GetPageableReferrersByEntryID]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -2154,7 +2154,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetPostsByCategoryID]
+CREATE PROC [blog_GetPostsByCategoryID]
 (
 	@ItemCount int
 	, @CategoryID int
@@ -2195,7 +2195,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetPostsByCategoryID]  TO [public]
+GRANT  EXECUTE  ON [blog_GetPostsByCategoryID]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -2204,7 +2204,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetPostsByCategoryIDByDateUpdated]
+CREATE PROC [blog_GetPostsByCategoryIDByDateUpdated]
 (
 	@ItemCount int
 	, @CategoryID int
@@ -2248,7 +2248,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetPostsByCategoryIDByDateUpdated]  TO [public]
+GRANT  EXECUTE  ON [blog_GetPostsByCategoryIDByDateUpdated]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -2257,7 +2257,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetPostsByCategoryName]
+CREATE PROC [blog_GetPostsByCategoryName]
 (
 	@ItemCount int,
 	@CategoryName nvarchar(150),
@@ -2299,7 +2299,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetPostsByCategoryName]  TO [public]
+GRANT  EXECUTE  ON [blog_GetPostsByCategoryName]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -2308,7 +2308,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetPostsByCategoryNameByDateUpdated]
+CREATE PROC [blog_GetPostsByCategoryNameByDateUpdated]
 (
 	@ItemCount int
 	, @CategoryName nvarchar(150)
@@ -2352,7 +2352,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetPostsByCategoryNameByDateUpdated]  TO [public]
+GRANT  EXECUTE  ON [blog_GetPostsByCategoryNameByDateUpdated]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2361,7 +2361,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetPostsByDayRange]
+CREATE PROC [blog_GetPostsByDayRange]
 (
 	@StartDate datetime,
 	@StopDate datetime,
@@ -2403,7 +2403,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetPostsByDayRange]  TO [public]
+GRANT  EXECUTE  ON [blog_GetPostsByDayRange]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2412,7 +2412,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetPostsByMonth]
+CREATE PROC [blog_GetPostsByMonth]
 (
 	@Month int
 	, @Year int
@@ -2452,7 +2452,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetPostsByMonth]  TO [public]
+GRANT  EXECUTE  ON [blog_GetPostsByMonth]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2461,7 +2461,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetPostsByMonthArchive]
+CREATE PROC [blog_GetPostsByMonthArchive]
 (
 	@BlogID int
 )
@@ -2481,7 +2481,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetPostsByMonthArchive]  TO [public]
+GRANT  EXECUTE  ON [blog_GetPostsByMonthArchive]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2490,7 +2490,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_GetPostsByYearArchive 
+CREATE PROC blog_GetPostsByYearArchive 
 (
 	@BlogID int
 )
@@ -2507,7 +2507,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetPostsByYearArchive]  TO [public]
+GRANT  EXECUTE  ON [blog_GetPostsByYearArchive]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2516,7 +2516,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetRecentEntries]
+CREATE PROC [blog_GetRecentEntries]
 (
 	@ItemCount int
 	, @IsActive bit
@@ -2555,7 +2555,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetRecentEntries]  TO [public]
+GRANT  EXECUTE  ON [blog_GetRecentEntries]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2564,7 +2564,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetRecentEntriesByDateUpdated]
+CREATE PROC [blog_GetRecentEntriesByDateUpdated]
 (
 	@ItemCount int
 	, @IsActive bit 
@@ -2607,7 +2607,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetRecentEntriesByDateUpdated]  TO [public]
+GRANT  EXECUTE  ON [blog_GetRecentEntriesByDateUpdated]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -2616,7 +2616,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetRecentEntriesWithCategoryTitles]
+CREATE PROC [blog_GetRecentEntriesWithCategoryTitles]
 (
 	@ItemCount int,
 	@IsActive bit,
@@ -2675,7 +2675,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetRecentEntriesWithCategoryTitles]  TO [public]
+GRANT  EXECUTE  ON [blog_GetRecentEntriesWithCategoryTitles]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2684,7 +2684,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetSingleDay]
+CREATE PROC [blog_GetSingleDay]
 (
 	@Date datetime
 	,@BlogID int
@@ -2724,7 +2724,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetSingleDay]  TO [public]
+GRANT  EXECUTE  ON [blog_GetSingleDay]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2733,7 +2733,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetSingleEntry]
+CREATE PROC [blog_GetSingleEntry]
 (
 	@ID int
 	, @IsActive bit
@@ -2771,7 +2771,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetSingleEntry]  TO [public]
+GRANT  EXECUTE  ON [blog_GetSingleEntry]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -2780,7 +2780,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetSingleEntryByName]
+CREATE PROC [blog_GetSingleEntryByName]
 (
 	@EntryName nvarchar(150)
 	, @IsActive bit
@@ -2818,7 +2818,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetSingleEntryByName]  TO [public]
+GRANT  EXECUTE  ON [blog_GetSingleEntryByName]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2827,7 +2827,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetSingleImage]
+CREATE PROC [blog_GetSingleImage]
 (
 	@ImageID int
 	, @IsActive bit
@@ -2853,7 +2853,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetSingleImage]  TO [public]
+GRANT  EXECUTE  ON [blog_GetSingleImage]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2862,7 +2862,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetSingleLink]
+CREATE PROC [blog_GetSingleLink]
 (
 	@LinkID int
 	, @BlogID int
@@ -2886,7 +2886,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetSingleLink]  TO [public]
+GRANT  EXECUTE  ON [blog_GetSingleLink]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2895,7 +2895,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_GetUrlID]
+CREATE PROC [blog_GetUrlID]
 (
 	@Url nvarchar(255)
 	, @UrlID int output
@@ -2918,7 +2918,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetUrlID]  TO [public]
+GRANT  EXECUTE  ON [blog_GetUrlID]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2927,7 +2927,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_InsertCategory
+CREATE PROC blog_InsertCategory
 (
 	@Title nvarchar(150)
 	, @Active bit
@@ -2962,7 +2962,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_InsertCategory]  TO [public]
+GRANT  EXECUTE  ON [blog_InsertCategory]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2973,7 +2973,7 @@ GO
 
 
 
-CREATE PROC [dbo].blog_InsertEntryViewCount-- 1, 0, 1
+CREATE PROC blog_InsertEntryViewCount-- 1, 0, 1
 (
 	@EntryID int,
 	@BlogID int,
@@ -3026,7 +3026,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_InsertEntryViewCount]  TO [public]
+GRANT  EXECUTE  ON [blog_InsertEntryViewCount]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3042,7 +3042,7 @@ GO
 
 
 
-CREATE PROC [dbo].blog_InsertImage
+CREATE PROC blog_InsertImage
 (
 	@Title nvarchar(250),
 	@CategoryID int,
@@ -3072,7 +3072,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_InsertImage]  TO [public]
+GRANT  EXECUTE  ON [blog_InsertImage]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -3085,7 +3085,7 @@ GO
 
 
 
-CREATE PROC [dbo].blog_InsertKeyWord
+CREATE PROC blog_InsertKeyWord
 (
 	@Word nvarchar(100),
 	@Text nvarchar(100),
@@ -3114,7 +3114,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_InsertKeyWord]  TO [public]
+GRANT  EXECUTE  ON [blog_InsertKeyWord]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3130,7 +3130,7 @@ GO
 
 
 
-CREATE PROC [dbo].blog_InsertLink
+CREATE PROC blog_InsertLink
 (
 	@Title nvarchar(150),
 	@Url nvarchar(255),
@@ -3160,7 +3160,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_InsertLink]  TO [public]
+GRANT  EXECUTE  ON [blog_InsertLink]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3171,7 +3171,7 @@ GO
 
 
 
-CREATE PROC [dbo].blog_InsertLinkCategoryList
+CREATE PROC blog_InsertLinkCategoryList
 (
 	@CategoryList nvarchar(4000)
 	, @PostID int
@@ -3205,7 +3205,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_InsertLinkCategoryList]  TO [public]
+GRANT  EXECUTE  ON [blog_InsertLinkCategoryList]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -3214,7 +3214,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_InsertPingTrackEntry]
+CREATE PROC [blog_InsertPingTrackEntry]
 (
 	@Title nvarchar(255)
 	, @TitleUrl nvarchar(255)
@@ -3298,7 +3298,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_InsertPingTrackEntry]  TO [public]
+GRANT  EXECUTE  ON [blog_InsertPingTrackEntry]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3307,7 +3307,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_InsertPostCategoryByName]
+CREATE PROC [blog_InsertPostCategoryByName]
 (
 	@Title nvarchar(150)
 	, @PostID int
@@ -3334,7 +3334,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_InsertPostCategoryByName]  TO [public]
+GRANT  EXECUTE  ON [blog_InsertPostCategoryByName]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3345,7 +3345,7 @@ GO
 
 
 
-CREATE PROC [dbo].[blog_InsertReferral]
+CREATE PROC [blog_InsertReferral]
 (
 	@EntryID int,
 	@BlogID int,
@@ -3387,7 +3387,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_InsertReferral]  TO [public]
+GRANT  EXECUTE  ON [blog_InsertReferral]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3396,7 +3396,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_InsertViewStats]
+CREATE PROC [blog_InsertViewStats]
 (
 	@BlogID int,
 	@PageType tinyint,
@@ -3435,7 +3435,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_InsertViewStats]  TO [public]
+GRANT  EXECUTE  ON [blog_InsertViewStats]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3444,7 +3444,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_StatsSummary
+CREATE PROC blog_StatsSummary
 (
 	@BlogID int
 )
@@ -3466,7 +3466,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_StatsSummary]  TO [public]
+GRANT  EXECUTE  ON [blog_StatsSummary]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3476,7 +3476,7 @@ GO
 
 
 
-CREATE PROC [dbo].[blog_TrackEntry]
+CREATE PROC [blog_TrackEntry]
 (
 	@EntryID int,
 	@BlogID int,
@@ -3503,7 +3503,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_TrackEntry]  TO [public]
+GRANT  EXECUTE  ON [blog_TrackEntry]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3518,7 +3518,7 @@ Subtext 1.0 will only support single user blogs, thus this
 proc will make sure there is only one blog in the system 
 AND will fail to add a blog if one already exists.
 */
-CREATE PROC [dbo].[blog_UTILITY_AddBlog]
+CREATE PROC [blog_UTILITY_AddBlog]
 (
 	@Title nvarchar(100), 
 	@UserName nvarchar(50),
@@ -3583,7 +3583,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_UTILITY_AddBlog]  TO [public]
+GRANT  EXECUTE  ON [blog_UTILITY_AddBlog]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3592,7 +3592,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_UpdateCategory]
+CREATE PROC [blog_UpdateCategory]
 (
 	@CategoryID int,
 	@Title nvarchar(150),
@@ -3619,7 +3619,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_UpdateCategory]  TO [public]
+GRANT  EXECUTE  ON [blog_UpdateCategory]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -3627,7 +3627,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[blog_UpdateConfig]
+CREATE PROC [blog_UpdateConfig]
 (
 	@UserName nvarchar(50)
 	, @Password nvarchar(50)
@@ -3682,7 +3682,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_UpdateConfig]  TO [public]
+GRANT  EXECUTE  ON [blog_UpdateConfig]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3691,7 +3691,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_UpdateConfigUpdateTime]
+CREATE PROC [blog_UpdateConfigUpdateTime]
 (
 	@BlogID int,
 	@LastUpdated datetime
@@ -3708,7 +3708,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_UpdateConfigUpdateTime]  TO [public]
+GRANT  EXECUTE  ON [blog_UpdateConfigUpdateTime]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -3717,7 +3717,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_UpdateEntry]
+CREATE PROC [blog_UpdateEntry]
 (
 	@ID int
 	, @Title nvarchar(255)
@@ -3775,7 +3775,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_UpdateEntry]  TO [public]
+GRANT  EXECUTE  ON [blog_UpdateEntry]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3783,7 +3783,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[blog_UpdateImage]
+CREATE PROC [blog_UpdateImage]
 (
 	@Title nvarchar(250),
 	@CategoryID int,
@@ -3813,7 +3813,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_UpdateImage]  TO [public]
+GRANT  EXECUTE  ON [blog_UpdateImage]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -3823,7 +3823,7 @@ GO
 
 
 
-CREATE PROC [dbo].[blog_UpdateKeyWord]
+CREATE PROC [blog_UpdateKeyWord]
 (
 	@KeyWordID int,
 	@Word nvarchar(100),
@@ -3857,7 +3857,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_UpdateKeyWord]  TO [public]
+GRANT  EXECUTE  ON [blog_UpdateKeyWord]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3866,7 +3866,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[blog_UpdateLink]
+CREATE PROC [blog_UpdateLink]
 (
 	@LinkID int,
 	@Title nvarchar(150),
@@ -3897,7 +3897,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_UpdateLink]  TO [public]
+GRANT  EXECUTE  ON [blog_UpdateLink]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3908,7 +3908,7 @@ GO
 
 
 
-CREATE PROC [dbo].[blog_Utility_GetUnHashedPasswords]
+CREATE PROC [blog_Utility_GetUnHashedPasswords]
 AS
 
 SELECT BlogID, Password FROM blog_COnfig WHERE Flag & 8 = 0
@@ -3922,7 +3922,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_Utility_GetUnHashedPasswords]  TO [public]
+GRANT  EXECUTE  ON [blog_Utility_GetUnHashedPasswords]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3930,7 +3930,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[blog_Utility_UpdateToHashedPassword]
+CREATE PROC [blog_Utility_UpdateToHashedPassword]
 (
 	@Password nvarchar(100),
 	@BlogID int
@@ -3952,7 +3952,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_Utility_UpdateToHashedPassword]  TO [public]
+GRANT  EXECUTE  ON [blog_Utility_UpdateToHashedPassword]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3963,7 +3963,7 @@ GO
 /*
 Returns a page of blogs within blog_config table
 */
-CREATE PROC [dbo].[blog_GetPageableBlogs]
+CREATE PROC [blog_GetPageableBlogs]
 (
 	@PageIndex int
 	, @PageSize int
@@ -4040,7 +4040,7 @@ FROM 	blog_config
 GO
 
 
-GRANT  EXECUTE  ON [dbo].[blog_GetPageableBlogs]  TO [public]
+GRANT  EXECUTE  ON [blog_GetPageableBlogs]  TO [public]
 GO
 
 
@@ -4052,7 +4052,7 @@ GO
 /*
 Returns a single blog within the blog_config table by id.
 */
-CREATE PROC [dbo].[blog_GetBlogById]
+CREATE PROC [blog_GetBlogById]
 (
 	@BlogId int
 )
@@ -4091,7 +4091,7 @@ WHERE	blog.BlogId = @BlogId
 GO
 
 
-GRANT  EXECUTE  ON [dbo].[blog_GetBlogById]  TO [public]
+GRANT  EXECUTE  ON [blog_GetBlogById]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -4102,7 +4102,7 @@ GO
 /*
 Returns a single blog within the blog_config table by id.
 */
-CREATE PROC [dbo].[blog_GetBlogsByHost]
+CREATE PROC [blog_GetBlogsByHost]
 (
 	@Host nvarchar(100)
 )
@@ -4144,7 +4144,7 @@ FROM 	blog_config
 GO
 
 
-GRANT  EXECUTE  ON [dbo].[blog_GetBlogsByHost]  TO [public]
+GRANT  EXECUTE  ON [blog_GetBlogsByHost]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -4153,7 +4153,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[DNW_HomePageData]
+CREATE PROC [DNW_HomePageData]
 (
 	@Host nvarchar(100),
 	@GroupID int
@@ -4170,7 +4170,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[DNW_HomePageData]  TO [public]
+GRANT  EXECUTE  ON [DNW_HomePageData]  TO [public]
 GO
 
 
@@ -4180,7 +4180,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].blog_InsertEntry
+CREATE PROC blog_InsertEntry
 (
 	@Title nvarchar(255)
 	, @TitleUrl nvarchar(255)
@@ -4272,7 +4272,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_InsertEntry]  TO [public]
+GRANT  EXECUTE  ON [blog_InsertEntry]  TO [public]
 GO
 
 
@@ -4285,7 +4285,7 @@ GO
 Retrieves a comment (or pingback) that has the specified 
 ContentChecksumHash.
 */
-CREATE PROC [dbo].[blog_GetCommentByChecksumHash]
+CREATE PROC [blog_GetCommentByChecksumHash]
 (
 	@ContentChecksumHash VARCHAR(32)
 	,@BlogId int
@@ -4320,7 +4320,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetCommentByChecksumHash]  TO [public]
+GRANT  EXECUTE  ON [blog_GetCommentByChecksumHash]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -4332,7 +4332,7 @@ GO
 Retrieves the Host Information. There should only be 
 one record.
 */
-CREATE PROC [dbo].[blog_GetHost]
+CREATE PROC [blog_GetHost]
 AS
 SELECT 
 	[HostUserName]
@@ -4347,7 +4347,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_GetHost]  TO [public]
+GRANT  EXECUTE  ON [blog_GetHost]  TO [public]
 GO
 
 
@@ -4359,7 +4359,7 @@ GO
 /*
 Updates the Host information.
 */
-CREATE PROC [dbo].[blog_UpdateHost]
+CREATE PROC [blog_UpdateHost]
 	@HostUserName NVARCHAR(64)
 	, @Password NVARCHAR(32)
 	, @Salt NVARCHAR(32)
@@ -4394,5 +4394,5 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[blog_UpdateHost]  TO [public]
+GRANT  EXECUTE  ON [blog_UpdateHost]  TO [public]
 GO
