@@ -361,7 +361,7 @@ namespace Subtext.Web.Admin.WebUI
 
 			_body.ID = _tabSectionID;
 			_blogTitle.Target = String.Empty;
-			_blogTitle.NavigateUrl = Config.CurrentBlog.FullyQualifiedUrl;
+			_blogTitle.NavigateUrl = Config.CurrentBlog.RootUrl;
 			_blogTitle.Text = Config.CurrentBlog.Title;
 		}
 
@@ -396,7 +396,7 @@ namespace Subtext.Web.Admin.WebUI
 				HttpContext.Current.Session.Abandon();
 			}
 			System.Web.Security.FormsAuthentication.SignOut();
-			Context.Response.Redirect(Config.CurrentBlog.FullyQualifiedUrl);
+			Context.Response.Redirect(Config.CurrentBlog.RootUrl);
 		}
 
 		protected override void Render(HtmlTextWriter writer)

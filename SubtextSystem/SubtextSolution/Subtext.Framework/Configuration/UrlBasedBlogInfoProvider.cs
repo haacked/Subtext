@@ -8,7 +8,6 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
 using Subtext.Framework.Text;
-using Subtext.Framework.Util;
 
 namespace Subtext.Framework.Configuration
 {
@@ -155,12 +154,7 @@ namespace Subtext.Framework.Configuration
 
 					BlogConfigurationSettings settings = Subtext.Framework.Configuration.Config.Settings;
 
-					string appPath = Globals.FormatApplicationPath(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}/{1}", context.Request.ApplicationPath, app));
-
 					string formattedHost = GetFormattedHost(Host,settings.UseWWW);
-
-					info.FullyQualifiedUrl = formattedHost + appPath;
-
 
 					if(!app.EndsWith("/"))
 					{

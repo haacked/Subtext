@@ -62,7 +62,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			if(!ValidateUser)
 			{
-				Response.Redirect(Config.CurrentBlog.FullyQualifiedUrl + "Login.aspx?ReturnUrl=" + Request.Path);
+				Response.Redirect(Config.CurrentBlog.RootUrl + "Login.aspx?ReturnUrl=" + Request.Path);
 			}
 
 			// REFACTOR: we really need a singleton indicator per session or run this initial 

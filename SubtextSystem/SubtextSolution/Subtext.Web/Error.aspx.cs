@@ -41,7 +41,7 @@ namespace Subtext.Web.Pages
 				try
 				{				
 					if (null != Config.CurrentBlog)
-						HomeLink.NavigateUrl = Config.CurrentBlog.FullyQualifiedUrl;
+						HomeLink.NavigateUrl = Config.CurrentBlog.RootUrl;
 				}
 				catch
 				{

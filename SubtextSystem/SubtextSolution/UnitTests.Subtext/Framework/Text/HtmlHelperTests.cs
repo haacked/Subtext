@@ -14,6 +14,8 @@ namespace UnitTests.Subtext.Framework.Text
 	[TestFixture]
 	public class HtmlHelperTests
 	{
+		string _hostName = System.Guid.NewGuid().ToString().Replace("-", string.Empty) + ".com";
+
 		/// <summary>
 		/// Tests that EnableUrls formats urls with anchor tags.
 		/// </summary>
@@ -35,9 +37,11 @@ namespace UnitTests.Subtext.Framework.Text
 		/// Makes sure that IsValidXHTML recognizes valid markup.
 		/// </summary>
 		[Test]
+		[Rollback]
 		public void ConvertHtmlToXHtmlLeavesValidMarkupAlone()
 		{
-			Config.CurrentBlog.FullyQualifiedUrl = "http://localhost/";
+			Assert.IsTrue(Config.CreateBlog(string.Empty, string.Empty, "password", _hostName, string.Empty));
+
 			Entry entry = new Entry(PostType.BlogPost);
 			entry.Body = "This is some text";
 			Assert.IsTrue(HtmlHelper.ConvertHtmlToXHtml(ref entry));
@@ -48,9 +52,11 @@ namespace UnitTests.Subtext.Framework.Text
 		/// Makes sure that IsValidXHTML recognizes invalid markup.
 		/// </summary>
 		[Test]
+		[Rollback]
 		public void ConvertHtmlToXHtmlCorrectsInvalidMarkup()
 		{
-			Config.CurrentBlog.FullyQualifiedUrl = "http://localhost/";
+			Assert.IsTrue(Config.CreateBlog(string.Empty, string.Empty, "password", _hostName, string.Empty));
+
 			Entry entry = new Entry(PostType.BlogPost);
 			entry.Body = "This <br><br>is bad <p> XHTML.";
 			Assert.IsTrue(HtmlHelper.ConvertHtmlToXHtml(ref entry));
@@ -116,7 +122,8 @@ namespace UnitTests.Subtext.Framework.Text
 		[SetUp]
 		public void SetUp()
 		{
-			Config.ConfigurationProvider = new UnitTestConfigProvider();		
+			string _hostName = System.Guid.NewGuid().ToString().Replace("-", string.Empty);
+			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, string.Empty);
 		}
 
 		[TearDown]

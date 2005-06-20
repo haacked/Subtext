@@ -140,7 +140,7 @@ namespace Subtext.Framework
 					{
 						if(_urlFormats == null)
 						{
-							_urlFormats = new UrlFormats(this.FullyQualifiedUrl);
+							_urlFormats = new UrlFormats(this.RootUrl);
 						}
 					}
 				}
@@ -397,11 +397,15 @@ namespace Subtext.Framework
 		/// <value></value>
 		public string Application
 		{
-			get{return _application;}
+			get
+			{
+				return _application;
+			}
 			set
 			{
 				if(value != null)
 					value = value.Replace("/", string.Empty); //For legacy data.
+				
 				_application = value;
 			}
 		}
@@ -527,41 +531,12 @@ namespace Subtext.Framework
 
 		string _licenseUrl;
 
-		private string fullyQualifiedUrl;
-		/// <summary>
-		/// Gets or sets the fully qualified URL for 
-		/// the blog.
-		/// </summary>
-		/// <value></value>
-		public string FullyQualifiedUrl
-		{
-			get
-			{
-				return fullyQualifiedUrl;
-			}
-			set
-			{
-				if(value != null && value.StartsWith("http://"))
-				{
-					fullyQualifiedUrl = value;
-				}
-				else
-				{
-					fullyQualifiedUrl = "http://" + value;
-				}
-				if(!fullyQualifiedUrl.EndsWith("/"))
-				{
-					fullyQualifiedUrl += "/";
-				}
-			}
-		}
-
 		/// <summary>
 		/// Gets the root URL for this blog.
 		/// </summary>
 		/// <value></value>
 		[XmlIgnore]
-		public string BlogRootUrl
+		public string RootUrl
 		{
 			get
 			{
@@ -573,6 +548,7 @@ namespace Subtext.Framework
 					{
 						_rootUrl += appPath + "/";
 					}
+					
 					if(this.Application.Length > 0)
 					{
 						_rootUrl += this.Application + "/";

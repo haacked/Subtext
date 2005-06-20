@@ -80,14 +80,44 @@ namespace UnitTests.Subtext
 		/// <param name="application">Application.</param>
 		public static void SetHttpContextWithBlogRequest(string host, string application)
 		{
-			string appVirtualDir = "/";
-			string appPhysicalDir = @"c:\projects\SubtextSystem\Subtext.Web\";
-			string page = application.Replace("/", string.Empty) + "/default.aspx";
+			SetHttpContextWithBlogRequest(host, application, string.Empty);
+		}
+
+		/// <summary>
+		/// Sets the HTTP context with a valid request for the blog specified 
+		/// by the host and application hosted in a virtual directory.
+		/// </summary>
+		/// <param name="host">Host.</param>
+		/// <param name="application">Application.</param>
+		/// <param name="virtualDir"></param>
+		public static void SetHttpContextWithBlogRequest(string host, string application, string virtualDir)
+		{
+			virtualDir = virtualDir.Replace(@"\", string.Empty).Replace("/", string.Empty);
+			application = application.Replace(@"\", string.Empty).Replace("/", string.Empty);
+
+			string appPhysicalDir = @"c:\projects\SubtextSystem\";			
+			if(virtualDir.Length == 0)
+			{
+				virtualDir = "/";
+			}
+			else
+			{
+				appPhysicalDir += virtualDir + @"\";
+				virtualDir = "/" + virtualDir;
+			}
+
+			if(application.Length > 0)
+			{
+				application = "/" + application;
+			}
+
+			string page = virtualDir + application + "/default.aspx";
 			string query = string.Empty;
 			TextWriter output = null;
 
-			SimulatedHttpRequest workerRequest = new SimulatedHttpRequest(appVirtualDir, appPhysicalDir, page, query, output, host);
+			SimulatedHttpRequest workerRequest = new SimulatedHttpRequest(virtualDir, appPhysicalDir, page, query, output, host);
 			HttpContext.Current = new HttpContext(workerRequest);
+
 			Console.WriteLine("Request.FilePath: " + HttpContext.Current.Request.FilePath);
 			Console.WriteLine("Request.Path: " + HttpContext.Current.Request.Path);
 			Console.WriteLine("Request.RawUrl: " + HttpContext.Current.Request.RawUrl);

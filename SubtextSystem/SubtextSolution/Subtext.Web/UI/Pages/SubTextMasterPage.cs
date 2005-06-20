@@ -53,7 +53,7 @@ namespace Subtext.Web.UI.Pages
 			}
 			else if(CurrentBlog.Skin.HasSecondaryText)
 			{
-				SecondaryCss.Attributes.Add("href", CurrentBlog.FullyQualifiedUrl  + "customcss.aspx");
+				SecondaryCss.Attributes.Add("href", CurrentBlog.RootUrl  + "customcss.aspx");
 			}
 			else
 			{
@@ -61,7 +61,7 @@ namespace Subtext.Web.UI.Pages
 				SecondaryCss.Visible = false;
 
 			}
-			RSSLink.Attributes.Add("href", CurrentBlog.FullyQualifiedUrl + "rss.aspx");
+			RSSLink.Attributes.Add("href", CurrentBlog.RootUrl + "rss.aspx");
 
 			// if specified, add script elements
 			if (scripts != null)
