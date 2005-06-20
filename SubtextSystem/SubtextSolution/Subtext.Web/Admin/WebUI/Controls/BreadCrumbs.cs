@@ -212,7 +212,7 @@ namespace Subtext.Web.Admin.WebUI
 			{
 				if( this._fullyQualifiedBaseUrl == null)
 				{
-					this._fullyQualifiedBaseUrl = Config.CurrentBlog.FullyQualifiedUrl + "admin/";
+					this._fullyQualifiedBaseUrl = Config.CurrentBlog.RootUrl + "admin/";
 
 				}
 				return this._fullyQualifiedBaseUrl;

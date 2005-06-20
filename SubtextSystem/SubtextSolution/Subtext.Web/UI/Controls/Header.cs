@@ -43,7 +43,7 @@ namespace Subtext.Web.UI.Controls
 		{
 			base.OnLoad (e);
 		
-			HeaderTitle.NavigateUrl = CurrentBlog.FullyQualifiedUrl;
+			HeaderTitle.NavigateUrl = CurrentBlog.RootUrl;
 			HeaderTitle.Text = CurrentBlog.Title;
 			HeaderSubTitle.Text = CurrentBlog.SubTitle;
 		}

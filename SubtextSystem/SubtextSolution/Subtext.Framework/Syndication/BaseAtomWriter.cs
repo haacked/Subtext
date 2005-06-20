@@ -120,7 +120,7 @@ namespace Subtext.Framework.Syndication
 		protected virtual void WriteChannel()
 		{
 			
-			BuildChannel(info.Title,info.FullyQualifiedUrl,info.SubTitle);
+			BuildChannel(info.Title,info.RootUrl,info.SubTitle);
 		}
 
 		protected void BuildChannel(string title, string link, string description)
@@ -142,7 +142,7 @@ namespace Subtext.Framework.Syndication
 
 			this.WriteStartElement("author");
 				this.WriteElementString("name",info.Author);
-				this.WriteElementString("url",info.FullyQualifiedUrl);
+				this.WriteElementString("url",info.RootUrl);
 			this.WriteEndElement();
 
 			this.WriteStartElement("generator");

@@ -90,7 +90,7 @@ namespace Subtext.Framework.Syndication
 
 		protected virtual void WriteChannel()
 		{
-			BuildChannel(info.Title, info.FullyQualifiedUrl, info.Author, info.SubTitle, info.Language, info.Author, Config.CurrentBlog.LicenseUrl);
+			BuildChannel(info.Title, info.RootUrl, info.Author, info.SubTitle, info.Language, info.Author, Config.CurrentBlog.LicenseUrl);
 		}
 
 		protected void BuildChannel(string title, string link, string author, string description, string lang, string copyright, string cclicense)
@@ -129,7 +129,7 @@ namespace Subtext.Framework.Syndication
 			//	</image>
 			this.WriteStartElement("image");
 			this.WriteElementString("title",title);
-			this.WriteElementString("url", info.FullyQualifiedUrl + "RSS2Image.gif");
+			this.WriteElementString("url", info.RootUrl + "RSS2Image.gif");
 			this.WriteElementString("link", link);
 			this.WriteElementString("width", "77");
 			this.WriteElementString("height", "60");

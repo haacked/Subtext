@@ -13,7 +13,7 @@ namespace Subtext.Installation
 	public class SqlInstallationProvider : InstallationProvider
 	{
 		string _name = string.Empty;
-		const string TableExistsSql = "SELECT COUNT(1) FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[{0}]') and OBJECTPROPERTY(id, N'IsUserTable') = 1";
+		const string TableExistsSql = "SELECT COUNT(1) FROM dbo.sysobjects WHERE id = object_id(N'[{0}]') and OBJECTPROPERTY(id, N'IsUserTable') = 1";
 		string _adminConnectionString = string.Empty;
 		string _defaultConnectionString = string.Empty;
 
@@ -98,9 +98,9 @@ namespace Subtext.Installation
 			try
 			{
 				string tableName = "blog_" + System.Guid.NewGuid().ToString();
-				string testCreateSql = "CREATE TABLE [dbo].[" + tableName + "] ([TestColumn] [int] NULL)";
+				string testCreateSql = "CREATE TABLE [" + tableName + "] ([TestColumn] [int] NULL)";
 				SqlHelper.ExecuteNonQuery(connectionString, CommandType.Text, testCreateSql);
-				string testDropSql = "DROP TABLE [dbo].[" + tableName + "]";
+				string testDropSql = "DROP TABLE [" + tableName + "]";
 				SqlHelper.ExecuteNonQuery(connectionString, CommandType.Text, testDropSql);
 				return true;
 			}

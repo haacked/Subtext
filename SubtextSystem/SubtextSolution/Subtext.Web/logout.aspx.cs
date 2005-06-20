@@ -38,7 +38,7 @@ namespace Subtext.Web.Pages
 			
 			HttpContext.Current.Response.Cookies.Clear();
 			System.Web.Security.FormsAuthentication.SignOut();
-			Response.Redirect(Config.CurrentBlog.FullyQualifiedUrl);
+			Response.Redirect(Config.CurrentBlog.RootUrl);
 		}
 
 		#region Web Form Designer generated code

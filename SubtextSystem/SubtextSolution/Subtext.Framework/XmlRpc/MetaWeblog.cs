@@ -60,7 +60,7 @@ namespace Subtext.Framework.XmlRpc
 				BlogInfo b = new BlogInfo();
 				b.blogid = info.BlogID.ToString(CultureInfo.InvariantCulture);
 				b.blogName = info.Title;
-				b.url = info.FullyQualifiedUrl;
+				b.url = info.RootUrl;
 				bi[0]=b;
 				return bi;
 			}	
@@ -205,8 +205,8 @@ namespace Subtext.Framework.XmlRpc
 					_category = new CategoryInfo();
 					_category.categoryid = lcc[i].CategoryID.ToString(CultureInfo.InvariantCulture);
 					_category.title = lcc[i].Title;
-					_category.htmlUrl = info.FullyQualifiedUrl + "Category/" + lcc[i].CategoryID.ToString(CultureInfo.InvariantCulture) + ".aspx";
-					_category.rssUrl = info.FullyQualifiedUrl + "rss.aspx?catid=" + lcc[i].CategoryID.ToString(CultureInfo.InvariantCulture);
+					_category.htmlUrl = info.RootUrl + "Category/" + lcc[i].CategoryID.ToString(CultureInfo.InvariantCulture) + ".aspx";
+					_category.rssUrl = info.RootUrl + "rss.aspx?catid=" + lcc[i].CategoryID.ToString(CultureInfo.InvariantCulture);
 					_category.description = lcc[i].Title;
 					
 					categories[i] = _category;

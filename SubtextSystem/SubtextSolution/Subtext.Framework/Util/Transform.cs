@@ -27,7 +27,7 @@ namespace Subtext.Framework.Util
 		static string PerformUserTransforms(string stringToTransform, ArrayList userDefinedTransforms) 
 		{
 			int iLoop = 0;	
-			string host = Config.CurrentBlog.BlogRootUrl;
+			string host = Config.CurrentBlog.RootUrl;
 			while (iLoop < userDefinedTransforms.Count) 
 			{		
 				// Special work for anchors

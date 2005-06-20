@@ -48,7 +48,7 @@ namespace Subtext.Web.UI.Controls
 		{
 			LinkCategoryCollection lcc = new LinkCategoryCollection();
 
-			string fqu = CurrentBlog.FullyQualifiedUrl;
+			string fqu = CurrentBlog.RootUrl;
 			lcc.Add(UIData.Links(CategoryType.StoryCollection,CurrentBlog.UrlFormats));			
 			lcc.Add(UIData.ArchiveMonth(CurrentBlog.UrlFormats));
 			lcc.Add(UIData.Links(CategoryType.PostCollection,CurrentBlog.UrlFormats));

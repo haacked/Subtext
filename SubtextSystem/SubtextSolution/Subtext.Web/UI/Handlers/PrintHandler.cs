@@ -48,7 +48,7 @@ namespace Subtext.Web.UI
 				{
 					StringBuilder sb = new StringBuilder();
 					sb.Append("<html><head><title>" + entry.Title + "</title>");
-					sb.Append("<link rel=\"stylesheet\" href=\"" + Config.CurrentBlog.FullyQualifiedUrl + "Skins/" + Globals.Skin(context) + "/style.css\" type=\"text/css\" /></head><body>");
+					sb.Append("<link rel=\"stylesheet\" href=\"" + Config.CurrentBlog.RootUrl + "Skins/" + Globals.Skin(context) + "/style.css\" type=\"text/css\" /></head><body>");
 					sb.Append("<h1>" + entry.Title + "</h1>");
 					sb.Append("by: " + entry.Author + "<br />");
 					sb.Append("posted on: " + entry.DateCreated.ToString("f") + "<br />");

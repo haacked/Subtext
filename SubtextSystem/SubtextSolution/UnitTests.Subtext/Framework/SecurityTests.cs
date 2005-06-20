@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
+using System.Web;
 using NUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
@@ -78,6 +79,7 @@ namespace UnitTests.Subtext.Framework
 		[TearDown]
 		public void TearDown()
 		{
+			Config.ConfigurationProvider = null;
 		}
 	}
 }

@@ -30,7 +30,7 @@ namespace Subtext.Framework.Text
 			try
 			{
 				SgmlReader reader = new SgmlReader();
-				reader.SetBaseUri(Config.CurrentBlog.FullyQualifiedUrl);
+				reader.SetBaseUri(Config.CurrentBlog.RootUrl);
 				reader.DocType = "HTML";
 				reader.InputStream = new StringReader("<bloghelper>" + entry.Body + "</bloghelper>");
 				StringWriter writer = new StringWriter();
@@ -51,8 +51,9 @@ namespace Subtext.Framework.Text
 				entry.IsXHMTL = false;
 				throw;
 			}
-			catch(Exception)
+			catch(Exception e)
 			{
+				Console.WriteLine(e.Message);
 				entry.IsXHMTL = false;
 				throw;
 			}

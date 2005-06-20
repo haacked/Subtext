@@ -159,7 +159,7 @@ namespace Subtext.Web.Pages
 				}
 				else
 				{
-					Response.Redirect(info.FullyQualifiedUrl + "admin/default.aspx");
+					Response.Redirect(info.RootUrl + "admin/default.aspx");
 				}
 			}
 			else
