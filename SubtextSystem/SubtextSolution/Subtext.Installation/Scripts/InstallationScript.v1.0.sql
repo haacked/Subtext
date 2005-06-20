@@ -1,100 +1,100 @@
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_Host]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [dbo].[blog_Host]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_Host]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [blog_Host]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[FK_blog_Content_blog_Config]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
-ALTER TABLE [dbo].[blog_Content] DROP CONSTRAINT FK_blog_Content_blog_Config
+if exists (select * from dbo.sysobjects where id = object_id(N'[FK_blog_Content_blog_Config]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
+ALTER TABLE [blog_Content] DROP CONSTRAINT FK_blog_Content_blog_Config
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[FK_blog_EntryViewCount_blog_Config]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
-ALTER TABLE [dbo].[blog_EntryViewCount] DROP CONSTRAINT FK_blog_EntryViewCount_blog_Config
+if exists (select * from dbo.sysobjects where id = object_id(N'[FK_blog_EntryViewCount_blog_Config]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
+ALTER TABLE [blog_EntryViewCount] DROP CONSTRAINT FK_blog_EntryViewCount_blog_Config
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[FK_blog_Images_blog_Config]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
-ALTER TABLE [dbo].[blog_Images] DROP CONSTRAINT FK_blog_Images_blog_Config
+if exists (select * from dbo.sysobjects where id = object_id(N'[FK_blog_Images_blog_Config]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
+ALTER TABLE [blog_Images] DROP CONSTRAINT FK_blog_Images_blog_Config
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[FK_blog_KeyWords_blog_Config]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
-ALTER TABLE [dbo].[blog_KeyWords] DROP CONSTRAINT FK_blog_KeyWords_blog_Config
+if exists (select * from dbo.sysobjects where id = object_id(N'[FK_blog_KeyWords_blog_Config]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
+ALTER TABLE [blog_KeyWords] DROP CONSTRAINT FK_blog_KeyWords_blog_Config
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[FK_blog_LinkCategories_blog_Config]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
-ALTER TABLE [dbo].[blog_LinkCategories] DROP CONSTRAINT FK_blog_LinkCategories_blog_Config
+if exists (select * from dbo.sysobjects where id = object_id(N'[FK_blog_LinkCategories_blog_Config]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
+ALTER TABLE [blog_LinkCategories] DROP CONSTRAINT FK_blog_LinkCategories_blog_Config
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[FK_blog_Links_blog_Config]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
-ALTER TABLE [dbo].[blog_Links] DROP CONSTRAINT FK_blog_Links_blog_Config
+if exists (select * from dbo.sysobjects where id = object_id(N'[FK_blog_Links_blog_Config]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
+ALTER TABLE [blog_Links] DROP CONSTRAINT FK_blog_Links_blog_Config
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[FK_blog_Referrals_blog_Config]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
-ALTER TABLE [dbo].[blog_Referrals] DROP CONSTRAINT FK_blog_Referrals_blog_Config
+if exists (select * from dbo.sysobjects where id = object_id(N'[FK_blog_Referrals_blog_Config]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
+ALTER TABLE [blog_Referrals] DROP CONSTRAINT FK_blog_Referrals_blog_Config
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[FK_blog_Links_blog_Content]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
-ALTER TABLE [dbo].[blog_Links] DROP CONSTRAINT FK_blog_Links_blog_Content
+if exists (select * from dbo.sysobjects where id = object_id(N'[FK_blog_Links_blog_Content]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
+ALTER TABLE [blog_Links] DROP CONSTRAINT FK_blog_Links_blog_Content
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[FK_blog_Images_blog_LinkCategories]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
-ALTER TABLE [dbo].[blog_Images] DROP CONSTRAINT FK_blog_Images_blog_LinkCategories
+if exists (select * from dbo.sysobjects where id = object_id(N'[FK_blog_Images_blog_LinkCategories]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
+ALTER TABLE [blog_Images] DROP CONSTRAINT FK_blog_Images_blog_LinkCategories
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[FK_blog_Links_blog_LinkCategories]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
-ALTER TABLE [dbo].[blog_Links] DROP CONSTRAINT FK_blog_Links_blog_LinkCategories
+if exists (select * from dbo.sysobjects where id = object_id(N'[FK_blog_Links_blog_LinkCategories]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
+ALTER TABLE [blog_Links] DROP CONSTRAINT FK_blog_Links_blog_LinkCategories
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[FK_blog_Referrals_blog_URLs]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
-ALTER TABLE [dbo].[blog_Referrals] DROP CONSTRAINT FK_blog_Referrals_blog_URLs
+if exists (select * from dbo.sysobjects where id = object_id(N'[FK_blog_Referrals_blog_URLs]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
+ALTER TABLE [blog_Referrals] DROP CONSTRAINT FK_blog_Referrals_blog_URLs
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_Content_Trigger]') and OBJECTPROPERTY(id, N'IsTrigger') = 1)
-drop trigger [dbo].[blog_Content_Trigger]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_Content_Trigger]') and OBJECTPROPERTY(id, N'IsTrigger') = 1)
+drop trigger [blog_Content_Trigger]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[iter_charlist_to_table]') and xtype in (N'FN', N'IF', N'TF'))
-drop function [dbo].[iter_charlist_to_table]
+if exists (select * from dbo.sysobjects where id = object_id(N'[iter_charlist_to_table]') and xtype in (N'FN', N'IF', N'TF'))
+drop function [iter_charlist_to_table]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_Config]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [dbo].[blog_Config]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_Config]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [blog_Config]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_Content]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [dbo].[blog_Content]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_Content]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [blog_Content]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_EntryViewCount]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [dbo].[blog_EntryViewCount]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_EntryViewCount]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [blog_EntryViewCount]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_Images]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [dbo].[blog_Images]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_Images]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [blog_Images]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_KeyWords]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [dbo].[blog_KeyWords]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_KeyWords]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [blog_KeyWords]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_LinkCategories]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [dbo].[blog_LinkCategories]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_LinkCategories]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [blog_LinkCategories]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_Links]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [dbo].[blog_Links]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_Links]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [blog_Links]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_Referrals]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [dbo].[blog_Referrals]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_Referrals]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [blog_Referrals]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_URLs]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [dbo].[blog_URLs]
+if exists (select * from dbo.sysobjects where id = object_id(N'[blog_URLs]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [blog_URLs]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[spamPostCount]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [dbo].[spamPostCount]
+if exists (select * from dbo.sysobjects where id = object_id(N'[spamPostCount]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [spamPostCount]
 GO
 
-CREATE TABLE [dbo].[blog_Config] (
+CREATE TABLE [blog_Config] (
 	[BlogID] [int] IDENTITY (0, 1) NOT NULL ,
 	[UserName] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[Password] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
@@ -126,7 +126,7 @@ CREATE TABLE [dbo].[blog_Config] (
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-CREATE TABLE [dbo].[blog_Content] (
+CREATE TABLE [blog_Content] (
 	[ID] [int] IDENTITY (1, 1) NOT NULL ,
 	[Title] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[DateAdded] [smalldatetime] NOT NULL ,
@@ -148,7 +148,7 @@ CREATE TABLE [dbo].[blog_Content] (
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-CREATE TABLE [dbo].[blog_EntryViewCount] (
+CREATE TABLE [blog_EntryViewCount] (
 	[EntryID] [int] NOT NULL ,
 	[BlogID] [int] NOT NULL ,
 	[WebCount] [int] NOT NULL ,
@@ -158,7 +158,7 @@ CREATE TABLE [dbo].[blog_EntryViewCount] (
 ) ON [PRIMARY]
 GO
 
-CREATE TABLE [dbo].[blog_Images] (
+CREATE TABLE [blog_Images] (
 	[ImageID] [int] IDENTITY (1, 1) NOT NULL ,
 	[Title] [nvarchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[CategoryID] [int] NOT NULL ,
@@ -170,7 +170,7 @@ CREATE TABLE [dbo].[blog_Images] (
 ) ON [PRIMARY]
 GO
 
-CREATE TABLE [dbo].[blog_KeyWords] (
+CREATE TABLE [blog_KeyWords] (
 	[KeyWordID] [int] IDENTITY (1, 1) NOT NULL ,
 	[Word] [nvarchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[Text] [nvarchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
@@ -183,7 +183,7 @@ CREATE TABLE [dbo].[blog_KeyWords] (
 ) ON [PRIMARY]
 GO
 
-CREATE TABLE [dbo].[blog_LinkCategories] (
+CREATE TABLE [blog_LinkCategories] (
 	[CategoryID] [int] IDENTITY (1, 1) NOT NULL ,
 	[Title] [nvarchar] (150) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[Active] [bit] NOT NULL ,
@@ -193,7 +193,7 @@ CREATE TABLE [dbo].[blog_LinkCategories] (
 ) ON [PRIMARY]
 GO
 
-CREATE TABLE [dbo].[blog_Links] (
+CREATE TABLE [blog_Links] (
 	[LinkID] [int] IDENTITY (1, 1) NOT NULL ,
 	[Title] [nvarchar] (150) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
 	[Url] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
@@ -206,7 +206,7 @@ CREATE TABLE [dbo].[blog_Links] (
 ) ON [PRIMARY]
 GO
 
-CREATE TABLE [dbo].[blog_Referrals] (
+CREATE TABLE [blog_Referrals] (
 	[EntryID] [int] NOT NULL ,
 	[BlogID] [int] NOT NULL ,
 	[UrlID] [int] NOT NULL ,
@@ -215,67 +215,67 @@ CREATE TABLE [dbo].[blog_Referrals] (
 ) ON [PRIMARY]
 GO
 
-CREATE TABLE [dbo].[blog_URLs] (
+CREATE TABLE [blog_URLs] (
 	[UrlID] [int] IDENTITY (1, 1) NOT NULL ,
 	[URL] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL 
 ) ON [PRIMARY]
 GO
 
-CREATE TABLE [dbo].[spamPostCount] (
+CREATE TABLE [spamPostCount] (
 	[theCount] [int] NULL 
 ) ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[blog_Config] WITH NOCHECK ADD 
+ALTER TABLE [blog_Config] WITH NOCHECK ADD 
 	CONSTRAINT [PK_blog_Config] PRIMARY KEY  CLUSTERED 
 	(
 		[BlogID]
 	)  ON [PRIMARY] 
 GO
 
-ALTER TABLE [dbo].[blog_Content] WITH NOCHECK ADD 
+ALTER TABLE [blog_Content] WITH NOCHECK ADD 
 	CONSTRAINT [PK_blog_Content] PRIMARY KEY  CLUSTERED 
 	(
 		[ID]
 	)  ON [PRIMARY] 
 GO
 
-ALTER TABLE [dbo].[blog_Images] WITH NOCHECK ADD 
+ALTER TABLE [blog_Images] WITH NOCHECK ADD 
 	CONSTRAINT [PK_blog_Images] PRIMARY KEY  CLUSTERED 
 	(
 		[ImageID]
 	)  ON [PRIMARY] 
 GO
 
-ALTER TABLE [dbo].[blog_KeyWords] WITH NOCHECK ADD 
+ALTER TABLE [blog_KeyWords] WITH NOCHECK ADD 
 	CONSTRAINT [PK_blog_KeyWords] PRIMARY KEY  CLUSTERED 
 	(
 		[KeyWordID]
 	)  ON [PRIMARY] 
 GO
 
-ALTER TABLE [dbo].[blog_LinkCategories] WITH NOCHECK ADD 
+ALTER TABLE [blog_LinkCategories] WITH NOCHECK ADD 
 	CONSTRAINT [PK_blog_LinkCategories] PRIMARY KEY  CLUSTERED 
 	(
 		[CategoryID]
 	)  ON [PRIMARY] 
 GO
 
-ALTER TABLE [dbo].[blog_Links] WITH NOCHECK ADD 
+ALTER TABLE [blog_Links] WITH NOCHECK ADD 
 	CONSTRAINT [PK_blog_Links] PRIMARY KEY  CLUSTERED 
 	(
 		[LinkID]
 	)  ON [PRIMARY] 
 GO
 
-ALTER TABLE [dbo].[blog_URLs] WITH NOCHECK ADD 
+ALTER TABLE [blog_URLs] WITH NOCHECK ADD 
 	CONSTRAINT [PK_blog_URLs] PRIMARY KEY  CLUSTERED 
 	(
 		[UrlID]
 	)  ON [PRIMARY] 
 GO
 
-ALTER TABLE [dbo].[blog_Config] WITH NOCHECK ADD 
+ALTER TABLE [blog_Config] WITH NOCHECK ADD 
 	CONSTRAINT [DF_blog_Config_TimeZone] DEFAULT (0) FOR [TimeZone],
 	CONSTRAINT [DF__blog_Conf__IsAct__047AA831] DEFAULT (1) FOR [IsActive],
 	CONSTRAINT [DF_Blog_Config_Language] DEFAULT ('en-US') FOR [Language],
@@ -292,92 +292,92 @@ ALTER TABLE [dbo].[blog_Config] WITH NOCHECK ADD
 	)  ON [PRIMARY] 
 GO
 
- CREATE  UNIQUE  INDEX [IX_blog_Config_HostApplication] ON [dbo].[blog_Config]([BlogID], [Host], [Application]) WITH  FILLFACTOR = 90 ON [PRIMARY]
+ CREATE  UNIQUE  INDEX [IX_blog_Config_HostApplication] ON [blog_Config]([BlogID], [Host], [Application]) WITH  FILLFACTOR = 90 ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[blog_Content] ADD 
+ALTER TABLE [blog_Content] ADD 
 	CONSTRAINT [FK_blog_Content_blog_Config] FOREIGN KEY 
 	(
 		[BlogID]
-	) REFERENCES [dbo].[blog_Config] (
+	) REFERENCES [blog_Config] (
 		[BlogID]
 	)
 GO
 
-ALTER TABLE [dbo].[blog_EntryViewCount] ADD 
+ALTER TABLE [blog_EntryViewCount] ADD 
 	CONSTRAINT [FK_blog_EntryViewCount_blog_Config] FOREIGN KEY 
 	(
 		[BlogID]
-	) REFERENCES [dbo].[blog_Config] (
+	) REFERENCES [blog_Config] (
 		[BlogID]
 	)
 GO
 
-ALTER TABLE [dbo].[blog_Images] ADD 
+ALTER TABLE [blog_Images] ADD 
 	CONSTRAINT [FK_blog_Images_blog_Config] FOREIGN KEY 
 	(
 		[BlogID]
-	) REFERENCES [dbo].[blog_Config] (
+	) REFERENCES [blog_Config] (
 		[BlogID]
 	),
 	CONSTRAINT [FK_blog_Images_blog_LinkCategories] FOREIGN KEY 
 	(
 		[CategoryID]
-	) REFERENCES [dbo].[blog_LinkCategories] (
+	) REFERENCES [blog_LinkCategories] (
 		[CategoryID]
 	)
 GO
 
-ALTER TABLE [dbo].[blog_KeyWords] ADD 
+ALTER TABLE [blog_KeyWords] ADD 
 	CONSTRAINT [FK_blog_KeyWords_blog_Config] FOREIGN KEY 
 	(
 		[BlogID]
-	) REFERENCES [dbo].[blog_Config] (
+	) REFERENCES [blog_Config] (
 		[BlogID]
 	)
 GO
 
-ALTER TABLE [dbo].[blog_LinkCategories] ADD 
+ALTER TABLE [blog_LinkCategories] ADD 
 	CONSTRAINT [FK_blog_LinkCategories_blog_Config] FOREIGN KEY 
 	(
 		[BlogID]
-	) REFERENCES [dbo].[blog_Config] (
+	) REFERENCES [blog_Config] (
 		[BlogID]
 	)
 GO
 
-ALTER TABLE [dbo].[blog_Links] ADD 
+ALTER TABLE [blog_Links] ADD 
 	CONSTRAINT [FK_blog_Links_blog_Config] FOREIGN KEY 
 	(
 		[BlogID]
-	) REFERENCES [dbo].[blog_Config] (
+	) REFERENCES [blog_Config] (
 		[BlogID]
 	),
 	CONSTRAINT [FK_blog_Links_blog_Content] FOREIGN KEY 
 	(
 		[PostID]
-	) REFERENCES [dbo].[blog_Content] (
+	) REFERENCES [blog_Content] (
 		[ID]
 	),
 	CONSTRAINT [FK_blog_Links_blog_LinkCategories] FOREIGN KEY 
 	(
 		[CategoryID]
-	) REFERENCES [dbo].[blog_LinkCategories] (
+	) REFERENCES [blog_LinkCategories] (
 		[CategoryID]
 	)
 GO
 
-ALTER TABLE [dbo].[blog_Referrals] ADD 
+ALTER TABLE [blog_Referrals] ADD 
 	CONSTRAINT [FK_blog_Referrals_blog_Config] FOREIGN KEY 
 	(
 		[BlogID]
-	) REFERENCES [dbo].[blog_Config] (
+	) REFERENCES [blog_Config] (
 		[BlogID]
 	),
 	CONSTRAINT [FK_blog_Referrals_blog_URLs] FOREIGN KEY 
 	(
 		[UrlID]
-	) REFERENCES [dbo].[blog_URLs] (
+	) REFERENCES [blog_URLs] (
 		[UrlID]
 	)
 GO
@@ -391,7 +391,7 @@ GO
 
 
 --Found at: http://www.algonet.se/~sommar/arrays-in-sql.html
-CREATE FUNCTION [dbo].[iter_charlist_to_table]
+CREATE FUNCTION [iter_charlist_to_table]
 (
 	@list      ntext
 	, @delimiter nchar(1) = N','
@@ -483,7 +483,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE TABLE [dbo].[blog_Host] (
+CREATE TABLE [blog_Host] (
 	[HostUserName] [nvarchar] (64) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[Password] [nvarchar] (64) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[Salt] [nvarchar] (32) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,

@@ -24,7 +24,7 @@ BEGIN
 	SET ANSI_WARNINGS ON
 	COMMIT
 	BEGIN TRANSACTION
-	ALTER TABLE dbo.blog_Config ADD
+	ALTER TABLE [blog_Config] ADD
 		LicenseUrl nvarchar(64) NULL
 	COMMIT
 END
@@ -55,8 +55,8 @@ BEGIN
 	SET ANSI_WARNINGS ON
 	COMMIT
 	BEGIN TRANSACTION
-	ALTER TABLE dbo.blog_Config ADD
-		DaysTillCommentsClose INT NULL
+	ALTER TABLE [blog_Config] ADD
+		[DaysTillCommentsClose] INT NULL
 	COMMIT
 END
 
@@ -85,8 +85,8 @@ BEGIN
 	SET ANSI_WARNINGS ON
 	COMMIT
 	BEGIN TRANSACTION
-	ALTER TABLE dbo.blog_Config ADD
-		CommentDelayInMinutes INT NULL
+	ALTER TABLE [blog_Config] ADD
+		[CommentDelayInMinutes] INT NULL
 	COMMIT
 END
 
@@ -114,7 +114,7 @@ BEGIN
 	SET ANSI_WARNINGS ON
 	COMMIT
 	BEGIN TRANSACTION
-	ALTER TABLE dbo.blog_content ADD
+	ALTER TABLE [blog_content] ADD
 		ContentChecksumHash VARCHAR(32) NULL
 	COMMIT
 END
@@ -122,9 +122,9 @@ END
 /*
 Add the blog_Host table.
 */
-if NOT exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[blog_Host]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+if NOT exists (select * from dbo.sysobjects where id = object_id(N'[blog_Host]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
 BEGIN
-CREATE TABLE [dbo].[blog_Host] (
+CREATE TABLE [blog_Host] (
 	[HostUserName] [nvarchar] (64) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[Password] [nvarchar] (64) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[Salt] [nvarchar] (32) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
