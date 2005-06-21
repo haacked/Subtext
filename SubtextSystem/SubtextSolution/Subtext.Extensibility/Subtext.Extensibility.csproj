@@ -111,6 +111,7 @@
                 <File
                     RelPath = "SolutionInfo.cs"
                     Link = "..\SolutionInfo.cs"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
