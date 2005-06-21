@@ -95,6 +95,8 @@ namespace UnitTests.Subtext
 			virtualDir = virtualDir.Replace(@"\", string.Empty).Replace("/", string.Empty);
 			application = application.Replace(@"\", string.Empty).Replace("/", string.Empty);
 
+			string page = string.Empty;
+
 			string appPhysicalDir = @"c:\projects\SubtextSystem\";			
 			if(virtualDir.Length == 0)
 			{
@@ -108,16 +110,25 @@ namespace UnitTests.Subtext
 
 			if(application.Length > 0)
 			{
+				if(page.Length > 0)
+					page += "/";
+				page += application;
 				application = "/" + application;
 			}
 
-			string page = virtualDir + application + "/default.aspx";
+			page += "/default.aspx";
+
 			string query = string.Empty;
 			TextWriter output = null;
 
 			SimulatedHttpRequest workerRequest = new SimulatedHttpRequest(virtualDir, appPhysicalDir, page, query, output, host);
 			HttpContext.Current = new HttpContext(workerRequest);
 
+			Console.WriteLine("host: " + host);
+			Console.WriteLine("page: " + page);
+			Console.WriteLine("virtualDir: " + virtualDir);
+			Console.WriteLine("appPhysicalDir: " + appPhysicalDir);
+			Console.WriteLine("Request.Url.Host: " + HttpContext.Current.Request.Url.Host);
 			Console.WriteLine("Request.FilePath: " + HttpContext.Current.Request.FilePath);
 			Console.WriteLine("Request.Path: " + HttpContext.Current.Request.Path);
 			Console.WriteLine("Request.RawUrl: " + HttpContext.Current.Request.RawUrl);

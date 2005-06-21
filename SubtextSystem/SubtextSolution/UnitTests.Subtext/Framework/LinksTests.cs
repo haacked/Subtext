@@ -13,7 +13,7 @@ namespace UnitTests.Subtext.Framework
 	[TestFixture]
 	public class LinksTests
 	{
-		string _hostName = string.Empty;
+		string _hostName = System.Guid.NewGuid().ToString().Replace("-", string.Empty) + ".com";
 		public LinksTests() {}
 
 		/// <summary>
@@ -23,7 +23,7 @@ namespace UnitTests.Subtext.Framework
 		[Rollback]
 		public void CreateLinkCategoryAssignsUniqueCatIDs()
 		{
-			Config.CreateBlog("title", "smarcuccio", "mypassword", _hostName, "myBlog");
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, "MyBlog"));
 
 			// Create some categories
 			CreateSomeLinkCategories();
@@ -42,7 +42,7 @@ namespace UnitTests.Subtext.Framework
 		[Rollback]
 		public void UpdateLinkCategoryIsFine()
 		{
-			Config.CreateBlog("title", "smarcuccio", "mypassword", _hostName, "myBlog");
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, "MyBlog"));
 
 			// Create the categories
 			CreateSomeLinkCategories();
@@ -78,7 +78,7 @@ namespace UnitTests.Subtext.Framework
 		LinkCategory CreateCategory(string title, string description, CategoryType categoryType, bool isActive)
 		{
 			LinkCategory linkCategory = new LinkCategory();
-			linkCategory.BlogID = Config.GetBlogInfo(_hostName, "myBlog").BlogID;
+			linkCategory.BlogID = Config.CurrentBlog.BlogID;
 			linkCategory.Title = title;
 			linkCategory.Description = description;
 			linkCategory.CategoryType = categoryType;
@@ -107,8 +107,7 @@ namespace UnitTests.Subtext.Framework
 		[SetUp]
 		public void SetUp()
 		{
-			_hostName = UnitTestHelper.GenerateUniqueHost();
-			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog");
+			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog", "Subtext.Web");
 		}
 
 		[TearDown]
