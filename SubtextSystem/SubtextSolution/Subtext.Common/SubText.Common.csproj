@@ -108,6 +108,11 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "SolutionInfo.cs"
+                    Link = "..\SolutionInfo.cs"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Data\Cacher.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

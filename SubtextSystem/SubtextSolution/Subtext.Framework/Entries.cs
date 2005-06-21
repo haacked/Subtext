@@ -247,6 +247,9 @@ namespace Subtext.Framework
 
 		public static int Create(Entry entry, int[] CategoryIDs)
 		{
+			if(entry.PostType == PostType.Comment 
+				|| entry.PostType == PostType.PingTrack)
+				CommentFilter.FilterComment(entry);
 			return ObjectProvider.Instance().Create(entry, CategoryIDs);
 		}
 
@@ -311,8 +314,6 @@ namespace Subtext.Framework
 			if (null == entry.SourceName || String.Empty == entry.SourceName)
 				entry.SourceName = "N/A";
 
-			CommentFilter.FilterComment(entry);
-			
 			// insert comment into backend, save the returned entryid for permalink anchor below
 			int entryID = Entries.Create(entry);
 

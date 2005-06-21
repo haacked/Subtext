@@ -291,6 +291,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "SolutionInfo.cs"
+                    Link = "..\SolutionInfo.cs"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "style.css"
                     BuildAction = "Content"
                 />
