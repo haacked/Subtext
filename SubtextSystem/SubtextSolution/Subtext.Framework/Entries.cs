@@ -240,11 +240,22 @@ namespace Subtext.Framework
 
 		#region Create
 
+		/// <summary>
+		/// Creates the specified entry and returns its ID.
+		/// </summary>
+		/// <param name="entry">Entry.</param>
+		/// <returns></returns>
 		public static int Create(Entry entry)
 		{
 			return Create(entry, null);
 		}
 
+		/// <summary>
+		/// Creates the specified entry and returns its ID.
+		/// </summary>
+		/// <param name="entry">Entry.</param>
+		/// <param name="CategoryIDs">The ids of the categories this entry belongs to.</param>
+		/// <returns></returns>
 		public static int Create(Entry entry, int[] CategoryIDs)
 		{
 			if(entry.PostType == PostType.Comment 

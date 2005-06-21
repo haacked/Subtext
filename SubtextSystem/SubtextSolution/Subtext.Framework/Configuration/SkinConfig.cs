@@ -45,8 +45,7 @@ namespace Subtext.Framework.Configuration
 			}
 		}
 
-		//Subject to change. Do not rely on this for anything
-		[System.Obsolete("This property is just a temporary placed holder. Very likely to go away in the next version",false)]
+		//TODO: Subject to change. Do not rely on this for anything
 		public string SkinID
 		{
 			get

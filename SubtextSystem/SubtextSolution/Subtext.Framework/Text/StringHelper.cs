@@ -303,5 +303,18 @@ namespace Subtext.Framework.Text
 			else
 				return container.ToUpper(CultureInfo.InvariantCulture).IndexOf(contained.ToUpper(CultureInfo.InvariantCulture));
 		}
+
+		/// <summary>
+		/// Returns true if the the specified container string contains the 
+		/// contained string.
+		/// </summary>
+		/// <param name="container">Container.</param>
+		/// <param name="contained">Contained.</param>
+		/// <param name="caseSensitive">Case sensitive.</param>
+		/// <returns></returns>
+		public static bool Contains(string container, string contained, bool caseSensitive)
+		{
+			return StringHelper.IndexOf(container, contained, !caseSensitive) >= 0;
+		}
 	}
 }

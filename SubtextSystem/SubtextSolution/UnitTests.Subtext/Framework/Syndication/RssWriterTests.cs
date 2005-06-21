@@ -110,14 +110,24 @@ namespace UnitTests.Subtext.Framework.Syndication
 			return entry;
 		}
 
-		[SetUp]
-		public void SetUp()
+		/// <summary>
+		/// Sets the up test fixture.  This is called once for 
+		/// this test fixture before all the tests run.  It 
+		/// essentially copies the App.config file to the 
+		/// run directory.
+		/// </summary>
+		[TestFixtureSetUp]
+		public void SetUpTestFixture()
 		{
-			//This file needs to be there already.
 			UnitTestHelper.UnpackEmbeddedResource("App.config", "UnitTests.Subtext.dll.config");
 			
 			//Confirm app settings
 			Assert.AreEqual("~/Admin/Resources/PageTemplate.ascx", System.Configuration.ConfigurationSettings.AppSettings["Admin.DefaultTemplate"]) ;
+		}
+
+		[SetUp]
+		public void SetUp()
+		{
 		}
 
 		[TearDown]

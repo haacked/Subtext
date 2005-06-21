@@ -81,7 +81,6 @@ namespace Subtext.Web.Pages
 			bool messageSent = false;
 			string password = null;
 			
-			//Try reseting the blog admin.
 			if(StringHelper.AreEqualIgnoringCase(tbUserName.Text, info.UserName))
 			{
 				if(info.IsPasswordHashed)
@@ -130,7 +129,36 @@ namespace Subtext.Web.Pages
 
 		private void btnLogin_Click(object sender, System.EventArgs e)
 		{
-			// Authenticate HostAdmin...
+			string returnUrl = Request.QueryString["ReturnURL"];
+			const bool caseSensitive = true;
+			if(returnUrl != null && StringHelper.Contains(returnUrl, "HostAdmin", !caseSensitive))
+			{
+				AuthenticateHostAdmin();
+			}
+			else
+			{
+
+				BlogInfo info = Config.CurrentBlog;
+				if(Security.Authenticate(tbUserName.Text, tbPassword.Text, chkRemember.Checked))
+				{
+					if(returnUrl != null)
+					{
+						Response.Redirect(returnUrl);
+					}
+					else
+					{
+						Response.Redirect(info.RootUrl + "admin/default.aspx");
+					}
+				}
+				else
+				{
+					Message.Text = "That's not it<br>";
+				}
+			}
+		}
+
+		private void AuthenticateHostAdmin()
+		{
 			if(StringHelper.AreEqualIgnoringCase(tbUserName.Text, HostInfo.Instance.HostUserName))
 			{
 				string password = tbPassword.Text;
@@ -148,23 +176,6 @@ namespace Subtext.Web.Pages
 						Response.Redirect("~/HostAdmin/default.aspx");
 					}
 				}
-			}
-
-			BlogInfo info = Config.CurrentBlog;
-			if(Security.Authenticate(tbUserName.Text, tbPassword.Text, chkRemember.Checked))
-			{
-				if(Request.QueryString["ReturnURL"] != null)
-				{
-					Response.Redirect(Request.QueryString["ReturnURL"]);
-				}
-				else
-				{
-					Response.Redirect(info.RootUrl + "admin/default.aspx");
-				}
-			}
-			else
-			{
-				Message.Text = "That's not it<br>";
 			}
 		}
 	}

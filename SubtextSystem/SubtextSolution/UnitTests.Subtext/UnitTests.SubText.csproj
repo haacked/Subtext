@@ -39,7 +39,7 @@
                     OutputPath = "bin\Debug\"
                     RegisterForComInterop = "false"
                     RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
+                    TreatWarningsAsErrors = "true"
                     WarningLevel = "4"
                 />
                 <Config
@@ -289,6 +289,11 @@
                 />
                 <File
                     RelPath = "Framework\SecurityTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Framework\Components\EntryTests\EntryFilterTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
