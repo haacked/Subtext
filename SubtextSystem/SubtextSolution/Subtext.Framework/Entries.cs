@@ -242,7 +242,7 @@ namespace Subtext.Framework
 
 		public static int Create(Entry entry)
 		{
-			return Create(entry,null);
+			return Create(entry, null);
 		}
 
 		public static int Create(Entry entry, int[] CategoryIDs)

@@ -230,8 +230,16 @@ namespace Subtext.Framework.XmlRpc
 				entry.IsAggregated = true;
 				entry.SyndicateDescriptionOnly = false;
 
-			
-				int postID = Entries.Create(entry);
+	
+				int postID = -1;
+				try
+				{
+					postID = Entries.Create(entry);
+				}
+				catch(Exception e)
+				{
+					throw new XmlRpcFaultException(0, e.Message + " " + e.StackTrace);
+				}
 				if(postID < 0)
 				{
 					throw new XmlRpcFaultException(0,"The post could not be added");

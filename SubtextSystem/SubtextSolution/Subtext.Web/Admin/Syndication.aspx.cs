@@ -19,6 +19,9 @@ namespace Subtext.Web.Admin
 		protected System.Web.UI.WebControls.TextBox txtLicenseUrl;
 		protected System.Web.UI.WebControls.LinkButton lkbPost;
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
+		protected Subtext.Web.Controls.HelpToolTip HelpToolTip1;
+		protected Subtext.Web.Controls.HelpToolTip HelpToolTip2;
+		protected Subtext.Web.Controls.HelpToolTip HelpToolTip3;
 		protected Subtext.Web.Admin.WebUI.Page PageContainer;
 	
 		private void Page_Load(object sender, System.EventArgs e)
