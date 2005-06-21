@@ -7,8 +7,8 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly: AssemblyTitle("")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Subtext.Extensibility")]
+[assembly: AssemblyDescription("Contains base providers and interfaces referenced to extend Subtext.")]
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]

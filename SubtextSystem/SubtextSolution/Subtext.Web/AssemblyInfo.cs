@@ -30,7 +30,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 //
 [assembly: AssemblyTitle("Subtext.Web")]
-[assembly: AssemblyDescription("Default Subtext Web Implementation")]
+[assembly: AssemblyDescription("Default Subtext ASP.NET Implementation.")]
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]	

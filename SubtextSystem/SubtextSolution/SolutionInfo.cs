@@ -5,8 +5,10 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCompany("Subtext")]
 [assembly: AssemblyProduct("Subtext Blog Engine")]
 [assembly: AssemblyCopyright("Copyright (c) 2005 Subtext Project Team")]
-[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyVersion("0.9.9.*")]
 
+[assembly: AssemblyInformationalVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
 
 //
 // In order to sign your assembly you must specify a key to use. Refer to the 
