@@ -40,21 +40,19 @@ namespace Subtext.Framework.XmlRpc
 	/// </summary>
 	public class MetaWeblog : XmlRpcService, Subtext.Framework.XmlRpc.IMetaWeblog
 	{
-		public MetaWeblog()
+		private bool ValidateUser(string username, string password, bool allowServiceAccess)
 		{
-			
-		}
+			if(!Config.Settings.AllowServiceAccess || !allowServiceAccess)
+				throw new XmlRpcFaultException(0, "Web Service Access is not enabled.");
 
-		private bool ValidateUser(string username, string password, bool AllowServiceAccess)
-		{
-			return (Config.Settings.AllowServiceAccess && AllowServiceAccess && Security.IsValidUser(username,password));
+			return (Security.IsValidUser(username, password));
 		}
 
 		#region BlogApi Members
-		public BlogInfo[] getUsersBlogs(string appKey,string username,string password)
+		public BlogInfo[] getUsersBlogs(string appKey, string username, string password)
 		{
 			Framework.BlogInfo info = Config.CurrentBlog;
-			if(ValidateUser(username,password,info.AllowServiceAccess))
+			if(ValidateUser(username, password, info.AllowServiceAccess))
 			{
 				BlogInfo[] bi = new BlogInfo[1];
 				BlogInfo b = new BlogInfo();
@@ -63,8 +61,8 @@ namespace Subtext.Framework.XmlRpc
 				b.url = info.RootUrl;
 				bi[0]=b;
 				return bi;
-			}	
-			throw new XmlRpcFaultException(0,"User does not exist");
+			}
+			throw new XmlRpcFaultException(0, "User does not exist.");
 		}
 
 		public bool deletePost(string appKey,string postid,string username,string password,[XmlRpcParameter(Description="Where applicable, this specifies whether the blog should be republished after the post has been deleted.")] bool publish)
@@ -82,7 +80,7 @@ namespace Subtext.Framework.XmlRpc
 				}
 			}
 
-			throw new XmlRpcFaultException(0,"User does not exist");
+			throw new XmlRpcFaultException(0, "User does not exist");
 			
 		}
 
@@ -115,7 +113,7 @@ namespace Subtext.Framework.XmlRpc
 				}
 				return false;
 			}
-			throw new XmlRpcFaultException(0,"User does not exist");
+			throw new XmlRpcFaultException(0, "User does not exist");
 		}
 
 		public Post getPost(string postid,string username,string password)
@@ -135,26 +133,8 @@ namespace Subtext.Framework.XmlRpc
 
 				return post;
 			}
-			throw new XmlRpcFaultException(0,"User does not exist");
+			throw new XmlRpcFaultException(0, "User does not exist");
 
-		}
-
-		private string[] GetCategories(int postID)
-		{
-			LinkCollection lc = Links.GetLinkCollectionByPostID(postID);
-			if(lc != null)
-			{
-				ArrayList al = new ArrayList();
-				foreach(Link l in lc)
-				{
-					al.Add(l.Title);
-				}
-				if(al.Count > 0)
-				{
-					return (string[])al.ToArray(typeof(string));
-				}
-			}
-			return null;
 		}
 
 		public Post[] getRecentPosts(string blogid, string username, string password, int numberOfPosts)
@@ -185,7 +165,7 @@ namespace Subtext.Framework.XmlRpc
 				return posts;
 			}
 		
-			throw new XmlRpcFaultException(0,"User does not exist");
+			throw new XmlRpcFaultException(0, "User does not exist");
 		}
 
 		public CategoryInfo[] getCategories(string blogid,string username,string password)
@@ -213,7 +193,7 @@ namespace Subtext.Framework.XmlRpc
 				}
 				return categories;
 			}
-			throw new XmlRpcFaultException(0,"User does not exist");
+			throw new XmlRpcFaultException(0, "User does not exist");
 		}
 
 		public string newPost(string blogid, string username, string password, Post post, bool publish)
@@ -258,7 +238,7 @@ namespace Subtext.Framework.XmlRpc
 				}
 				return postID.ToString(CultureInfo.InvariantCulture);
 			}
-			throw new XmlRpcFaultException(0,"User does not exist");
+			throw new XmlRpcFaultException(0, "User does not exist");
 		}
 
 		#region w.bloggar workarounds/nominal MT support - HACKS
@@ -332,7 +312,7 @@ namespace Subtext.Framework.XmlRpc
 				}
 				return categories;
 			}
-			throw new XmlRpcFaultException(0,"User does not exist");
+			throw new XmlRpcFaultException(0, "User does not exist");
 		}
 
 		[XmlRpcMethod("mt.setPostCategories",
@@ -362,7 +342,7 @@ namespace Subtext.Framework.XmlRpc
 				
 				return true;
 			}
-			throw new XmlRpcFaultException(0,"User does not exist");
+			throw new XmlRpcFaultException(0, "User does not exist");
 		}		
 
 		[XmlRpcMethod("mt.getPostCategories",
@@ -396,7 +376,7 @@ namespace Subtext.Framework.XmlRpc
 				
 				return categories;
 			}
-			throw new XmlRpcFaultException(0,"User does not exist");			
+			throw new XmlRpcFaultException(0, "User does not exist");			
 		}
 		#endregion
 
