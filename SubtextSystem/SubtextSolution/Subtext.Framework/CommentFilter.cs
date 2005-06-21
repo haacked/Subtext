@@ -21,6 +21,16 @@ namespace Subtext.Framework
 		/// Filters the comment. Throws an exception should the comment not be allowed. 
 		/// Otherwise returns true.  This interface may be changed.
 		/// </summary>
+		/// <remarks>
+		/// <p>
+		/// The first filter examines whether comments are coming in too quickly 
+		/// from the same SourceUrl.  Looks at the <see cref="BlogInfo.CommentDelayInMinutes"/>.
+		/// </p>
+		/// <p>
+		/// The second filter checks for duplicate comments. It only looks at the body 
+		/// of the comment.
+		/// </p>
+		/// </remarks>
 		/// <param name="entry">Entry.</param>
 		public static void FilterComment(Entry entry)
 		{
