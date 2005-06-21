@@ -4264,8 +4264,6 @@ BEGIN
 	Set FeedBackCount = ISNULL(FeedBackCount, 0) + 1 WHERE [ID] = @ParentID
 END
 
-
-
 GO
 SET QUOTED_IDENTIFIER OFF 
 GO
