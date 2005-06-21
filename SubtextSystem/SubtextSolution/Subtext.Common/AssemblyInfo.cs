@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 //
 [assembly: AssemblyTitle("Subtext.Common")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Some Common code.")]
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
