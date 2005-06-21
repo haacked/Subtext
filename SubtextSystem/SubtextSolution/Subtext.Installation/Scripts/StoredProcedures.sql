@@ -2124,8 +2124,9 @@ SELECT	u.URL
 	, c.Title
 	, c.EntryName
 	, [EntryId] = @EntryID
-	, LastUpdated
-	[Count]
+	, [Count]
+	, r.LastUpdated
+	
 FROM 	blog_Content c
 	, #tempblog_Referrals r
 	, blog_URLs u
