@@ -46,29 +46,34 @@ using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Format;
 using Subtext.Framework.Text;
-using Subtext.Framework.Util;
 
 namespace Subtext.Framework.Tracking
 {
 	/// <summary>
-	/// Summary description for PingBackService.
+	/// Service used to receive pingbacks from remote clients.
 	/// </summary>
 	public class PingBackService : XmlRpcService
 	{
+		/// <summary>
+		/// Method called by a remote client to ping this server.
+		/// </summary>
+		/// <param name="sourceURI">Source URI.</param>
+		/// <param name="targetURI">Target URI.</param>
+		/// <returns></returns>
 		[XmlRpcMethod("pingback.ping", Description="Pingback server implementation")] 
 		public string pingBack(string sourceURI, string targetURI)
 		{
-		
 			int 	postId 		= 0 ;
 			string 	pageTitle 	= "" ;
   		
 			// GetPostIDFromUrl returns the postID
 			postId = UrlFormats.GetPostIDFromUrl(targetURI);
+			
 			if ( postId == -1 )
 				throw new XmlRpcFaultException(33, "You did not link to a permalink");
   			  		
 			// does the sourceURI actually contain the permalink ?
-			if ( ! Verifier.SourceContainsTarget(sourceURI, targetURI, out pageTitle) )
+			if ( !Verifier.SourceContainsTarget(sourceURI, targetURI, out pageTitle) )
 				throw new XmlRpcFaultException(17, "Not a valid link.") ;		
   			
 			//PTR = Pingback - TrackBack - Referral
@@ -80,12 +85,11 @@ namespace Subtext.Framework.Tracking
 			entry.Body = HtmlHelper.SafeFormat(pageTitle);
 			entry.DateCreated = entry.DateUpdated = DateTime.Now;
 			entry.IsActive = true;
+
 			Entries.Create(entry);
   		
 			return "thanks for the pingback on " + sourceURI ;
 		}
-  
-
 	}
 }
 

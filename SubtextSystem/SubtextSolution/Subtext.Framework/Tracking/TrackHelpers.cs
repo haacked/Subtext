@@ -48,16 +48,12 @@ using Subtext.Framework.Configuration;
 namespace Subtext.Framework.Tracking
 {
 	/// <summary>
-	/// Summary description for TrackHelpers.
+	/// Contains static helper methods for dealing with Trackbacks and PingBacks.
 	/// </summary>
-	public class TrackHelpers
+	public sealed class TrackHelpers
 	{
 		private TrackHelpers()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
+		{}
 
 		//Text to insert into a file with pinkback service location
 		public static string PingPackTag
@@ -115,4 +111,3 @@ namespace Subtext.Framework.Tracking
 		}
 	}
 }
-

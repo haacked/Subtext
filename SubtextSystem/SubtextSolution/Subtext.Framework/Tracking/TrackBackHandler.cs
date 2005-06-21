@@ -105,6 +105,7 @@ namespace Subtext.Framework.Tracking
 				entry.IsActive = true;
 				
 				entry.DateCreated = entry.DateUpdated = DateTime.Now;
+
 				Entries.Create(entry);
 			}
 			else
