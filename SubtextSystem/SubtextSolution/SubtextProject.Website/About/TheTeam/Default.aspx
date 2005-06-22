@@ -40,9 +40,16 @@
 	
 	<h2>Want to Join the Team?</h2>
 	<p>
-		The easiest way is to start 
+		The easiest way to help out is to <a href="~/About/ViewTheCode/" runat="server">
+		download the source code</a> and start 
 		<a href="http://haacked.com/archive/2005/06/18/5153.aspx">submitting patches</a> 
 		via <a href="http://sourceforge.net/projects/subtext/">SourceForge</a>. 
-		If we like what you&#8217;re doing, we&#8217;ll give you write access.
+	</p>
+	<p>
+		We especially can use help with documentation.  In fact, this very site you are 
+		reading is in the CVS repository.
+	</p>
+	<p>
+		If we like what you&#8217;re contributions, we&#8217;ll give you write access.
 	</p>
 </MP:MasterPage>

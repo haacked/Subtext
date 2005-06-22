@@ -41,9 +41,14 @@ h1, h2, h3, h4
 	text-shadow: 0.2em 0.2em 0.1em #CCC;
 }
 
-h3.version
+h3
 {
 	color: #0033AA;
+}
+
+dt
+{
+	font-weight: bold;
 }
 
 .maintitle
