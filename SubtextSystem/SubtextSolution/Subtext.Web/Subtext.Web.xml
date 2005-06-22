@@ -1,0 +1,2633 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Subtext.Web</name>
+    </assembly>
+    <members>
+        <member name="M:Subtext.Web.Admin.UserControls.EntryEditor.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Admin.IOpmlItemCollection">
+            <summary>
+            Defines size, enumerators, and synchronization methods for strongly
+            typed collections of <see cref="T:Subtext.Web.Admin.OpmlItem"/> elements.
+            </summary>
+            <remarks>
+            <b>IOpmlItemCollection</b> provides an <see cref="T:System.Collections.ICollection"/> 
+            that is strongly typed for <see cref="T:Subtext.Web.Admin.OpmlItem"/> elements.
+            </remarks>    
+        </member>
+        <member name="M:Subtext.Web.Admin.IOpmlItemCollection.CopyTo(Subtext.Web.Admin.OpmlItem[],System.Int32)">
+            <summary>
+            Copies the entire <see cref="T:Subtext.Web.Admin.IOpmlItemCollection"/> to a one-dimensional <see cref="T:System.Array"/>
+            of <see cref="T:Subtext.Web.Admin.OpmlItem"/> elements, starting at the specified index of the target array.
+            </summary>
+            <param name="array">The one-dimensional <see cref="T:System.Array"/> that is the destination of the
+            <see cref="T:Subtext.Web.Admin.OpmlItem"/> elements copied from the <see cref="T:Subtext.Web.Admin.IOpmlItemCollection"/>. 
+            The <b>Array</b> must have zero-based indexing.</param>
+            <param name="arrayIndex">The zero-based index in <paramref name="array"/> 
+            at which copying begins.</param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="array"/> is a null reference.</exception>    
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <paramref name="arrayIndex"/> is less than zero.</exception>    
+            <exception cref="T:System.ArgumentException"><para>
+            <paramref name="arrayIndex"/> is equal to or greater than the length of <paramref name="array"/>.
+            </para><para>-or-</para><para>
+            The number of elements in the source <see cref="T:Subtext.Web.Admin.IOpmlItemCollection"/> is greater 
+            than the available space from <paramref name="arrayIndex"/> to the end of the destination 
+            <paramref name="array"/>.</para></exception>
+            <remarks>Please refer to <see cref="M:System.Collections.ICollection.CopyTo(System.Array,System.Int32)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.IOpmlItemCollection.GetEnumerator">
+            <summary>
+            Returns an <see cref="T:Subtext.Web.Admin.IOpmlItemEnumerator"/> that can
+            iterate through the <see cref="T:Subtext.Web.Admin.IOpmlItemCollection"/>.
+            </summary>
+            <returns>An <see cref="T:Subtext.Web.Admin.IOpmlItemEnumerator"/> 
+            for the entire <see cref="T:Subtext.Web.Admin.IOpmlItemCollection"/>.</returns>
+            <remarks>Please refer to <see cref="M:System.Collections.IEnumerable.GetEnumerator"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.IOpmlItemCollection.Count">
+            <summary>
+            Gets the number of elements contained in the 
+            <see cref="T:Subtext.Web.Admin.IOpmlItemCollection"/>.
+            </summary>
+            <value>The number of elements contained in the 
+            <see cref="T:Subtext.Web.Admin.IOpmlItemCollection"/>.</value>
+            <remarks>Please refer to <see cref="P:System.Collections.ICollection.Count"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.IOpmlItemCollection.IsSynchronized">
+            <summary>
+            Gets a value indicating whether access to the 
+            <see cref="T:Subtext.Web.Admin.IOpmlItemCollection"/> is synchronized (thread-safe).
+            </summary>
+            <value><c>true</c> if access to the <see cref="T:Subtext.Web.Admin.IOpmlItemCollection"/> is 
+            synchronized (thread-safe); otherwise, <c>false</c>. The default is <c>false</c>.</value>
+            <remarks>Please refer to <see cref="P:System.Collections.ICollection.IsSynchronized"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.IOpmlItemCollection.SyncRoot">
+            <summary>
+            Gets an object that can be used to synchronize access 
+            to the <see cref="T:Subtext.Web.Admin.IOpmlItemCollection"/>.
+            </summary>
+            <value>An object that can be used to synchronize access 
+            to the <see cref="T:Subtext.Web.Admin.IOpmlItemCollection"/>.</value>
+            <remarks>Please refer to <see cref="P:System.Collections.ICollection.SyncRoot"/> for details.</remarks>
+        </member>
+        <member name="T:Subtext.Web.Admin.IOpmlItemList">
+            <summary>
+            Represents a strongly typed collection of <see cref="T:Subtext.Web.Admin.OpmlItem"/> 
+            objects that can be individually accessed by index.
+            </summary>
+            <remarks>
+            <b>IOpmlItemList</b> provides an <see cref="T:System.Collections.IList"/>
+            that is strongly typed for <see cref="T:Subtext.Web.Admin.OpmlItem"/> elements.
+            </remarks>    
+        </member>
+        <member name="M:Subtext.Web.Admin.IOpmlItemList.Add(Subtext.Web.Admin.OpmlItem)">
+            <summary>
+            Adds a <see cref="T:Subtext.Web.Admin.OpmlItem"/> to the end 
+            of the <see cref="T:Subtext.Web.Admin.IOpmlItemList"/>.
+            </summary>
+            <param name="value">The <see cref="T:Subtext.Web.Admin.OpmlItem"/> object 
+            to be added to the end of the <see cref="T:Subtext.Web.Admin.IOpmlItemList"/>.
+            This argument can be a null reference.
+            </param>    
+            <returns>The <see cref="T:Subtext.Web.Admin.IOpmlItemList"/> index at which
+            the <paramref name="value"/> has been added.</returns>
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.IOpmlItemList"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>IOpmlItemList</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.IList.Add(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.IOpmlItemList.Clear">
+            <summary>
+            Removes all elements from the <see cref="T:Subtext.Web.Admin.IOpmlItemList"/>.
+            </summary>
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.IOpmlItemList"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>IOpmlItemList</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.IList.Clear"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.IOpmlItemList.Contains(Subtext.Web.Admin.OpmlItem)">
+            <summary>
+            Determines whether the <see cref="T:Subtext.Web.Admin.IOpmlItemList"/>
+            contains the specified <see cref="T:Subtext.Web.Admin.OpmlItem"/> element.
+            </summary>
+            <param name="value">The <see cref="T:Subtext.Web.Admin.OpmlItem"/> object
+            to locate in the <see cref="T:Subtext.Web.Admin.IOpmlItemList"/>.
+            This argument can be a null reference.
+            </param>    
+            <returns><c>true</c> if <paramref name="value"/> is found in the 
+            <see cref="T:Subtext.Web.Admin.IOpmlItemList"/>; otherwise, <c>false</c>.</returns>
+            <remarks>Please refer to <see cref="M:System.Collections.IList.Contains(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.IOpmlItemList.IndexOf(Subtext.Web.Admin.OpmlItem)">
+            <summary>
+            Returns the zero-based index of the first occurrence of the specified 
+            <see cref="T:Subtext.Web.Admin.OpmlItem"/> in the <see cref="T:Subtext.Web.Admin.IOpmlItemList"/>.
+            </summary>
+            <param name="value">The <see cref="T:Subtext.Web.Admin.OpmlItem"/> object 
+            to locate in the <see cref="T:Subtext.Web.Admin.IOpmlItemList"/>.
+            This argument can be a null reference.
+            </param>    
+            <returns>
+            The zero-based index of the first occurrence of <paramref name="value"/> 
+            in the <see cref="T:Subtext.Web.Admin.IOpmlItemList"/>, if found; otherwise, -1.
+            </returns>
+            <remarks>Please refer to <see cref="M:System.Collections.IList.IndexOf(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.IOpmlItemList.Insert(System.Int32,Subtext.Web.Admin.OpmlItem)">
+            <summary>
+            Inserts a <see cref="T:Subtext.Web.Admin.OpmlItem"/> element into the 
+            <see cref="T:Subtext.Web.Admin.IOpmlItemList"/> at the specified index.
+            </summary>
+            <param name="index">The zero-based index at which 
+            <paramref name="value"/> should be inserted.</param>
+            <param name="value">The <see cref="T:Subtext.Web.Admin.OpmlItem"/> object
+            to insert into the <see cref="T:Subtext.Web.Admin.IOpmlItemList"/>.
+            This argument can be a null reference.
+            </param>    
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para><paramref name="index"/> is less than zero.</para>
+            <para>-or-</para>
+            <para><paramref name="index"/> is greater than 
+            <see cref="P:Subtext.Web.Admin.IOpmlItemCollection.Count"/>.</para>
+            </exception>
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.IOpmlItemList"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>IOpmlItemList</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.IList.Insert(System.Int32,System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.IOpmlItemList.Remove(Subtext.Web.Admin.OpmlItem)">
+            <summary>
+            Removes the first occurrence of the specified <see cref="T:Subtext.Web.Admin.OpmlItem"/>
+            from the <see cref="T:Subtext.Web.Admin.IOpmlItemList"/>.
+            </summary>
+            <param name="value">The <see cref="T:Subtext.Web.Admin.OpmlItem"/> object
+            to remove from the <see cref="T:Subtext.Web.Admin.IOpmlItemList"/>.
+            This argument can be a null reference.
+            </param>    
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.IOpmlItemList"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>IOpmlItemList</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.IList.Remove(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.IOpmlItemList.RemoveAt(System.Int32)">
+            <summary>
+            Removes the element at the specified index of the 
+            <see cref="T:Subtext.Web.Admin.IOpmlItemList"/>.
+            </summary>
+            <param name="index">The zero-based index of the element to remove.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para><paramref name="index"/> is less than zero.</para>
+            <para>-or-</para>
+            <para><paramref name="index"/> is equal to or greater than 
+            <see cref="P:Subtext.Web.Admin.IOpmlItemCollection.Count"/>.</para>
+            </exception>
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.IOpmlItemList"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>IOpmlItemList</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.IList.RemoveAt(System.Int32)"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.IOpmlItemList.IsFixedSize">
+            <summary>
+            Gets a value indicating whether the <see cref="T:Subtext.Web.Admin.IOpmlItemList"/> has a fixed size.
+            </summary>
+            <value><c>true</c> if the <see cref="T:Subtext.Web.Admin.IOpmlItemList"/> has a fixed size;
+            otherwise, <c>false</c>. The default is <c>false</c>.</value>
+            <remarks>Please refer to <see cref="P:System.Collections.IList.IsFixedSize"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.IOpmlItemList.IsReadOnly">
+            <summary>
+            Gets a value indicating whether the <see cref="T:Subtext.Web.Admin.IOpmlItemList"/> is read-only.
+            </summary>
+            <value><c>true</c> if the <see cref="T:Subtext.Web.Admin.IOpmlItemList"/> is read-only;
+            otherwise, <c>false</c>. The default is <c>false</c>.</value>
+            <remarks>Please refer to <see cref="P:System.Collections.IList.IsReadOnly"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.IOpmlItemList.Item(System.Int32)">
+            <summary>
+            Gets or sets the <see cref="T:Subtext.Web.Admin.OpmlItem"/> element at the specified index.
+            </summary>
+            <param name="index">The zero-based index of the 
+            <see cref="T:Subtext.Web.Admin.OpmlItem"/> element to get or set.</param>
+            <value>
+            The <see cref="T:Subtext.Web.Admin.OpmlItem"/> element at the specified <paramref name="index"/>.
+            </value>    
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para><paramref name="index"/> is less than zero.</para>
+            <para>-or-</para>
+            <para><paramref name="index"/> is equal to or greater than 
+            <see cref="P:Subtext.Web.Admin.IOpmlItemCollection.Count"/>.</para>
+            </exception>
+            <exception cref="T:System.NotSupportedException">
+            The property is set and the <see cref="T:Subtext.Web.Admin.IOpmlItemList"/> is read-only.</exception>
+            <remarks>Please refer to <see cref="P:System.Collections.IList.Item(System.Int32)"/> for details.</remarks>
+        </member>
+        <member name="T:Subtext.Web.Admin.IOpmlItemEnumerator">
+            <summary>
+            Supports type-safe iteration over a collection that 
+            contains <see cref="T:Subtext.Web.Admin.OpmlItem"/> elements.
+            </summary>
+            <remarks>
+            <b>IOpmlItemEnumerator</b> provides an <see cref="T:System.Collections.IEnumerator"/> 
+            that is strongly typed for <see cref="T:Subtext.Web.Admin.OpmlItem"/> elements.
+            </remarks>    
+        </member>
+        <member name="M:Subtext.Web.Admin.IOpmlItemEnumerator.MoveNext">
+            <summary>
+            Advances the enumerator to the next element of the collection.
+            </summary>
+            <returns><c>true</c> if the enumerator was successfully advanced to the next element; 
+            <c>false</c> if the enumerator has passed the end of the collection.</returns>
+            <exception cref="T:System.InvalidOperationException">
+            The collection was modified after the enumerator was created.</exception>
+            <remarks>Please refer to <see cref="M:System.Collections.IEnumerator.MoveNext"/> for details.</remarks>    
+        </member>
+        <member name="M:Subtext.Web.Admin.IOpmlItemEnumerator.Reset">
+            <summary>
+            Sets the enumerator to its initial position, 
+            which is before the first element in the collection.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">
+            The collection was modified after the enumerator was created.</exception>
+            <remarks>Please refer to <see cref="M:System.Collections.IEnumerator.Reset"/> for details.</remarks>    
+        </member>
+        <member name="P:Subtext.Web.Admin.IOpmlItemEnumerator.Current">
+            <summary>
+            Gets the current <see cref="T:Subtext.Web.Admin.OpmlItem"/> element in the collection.
+            </summary>
+            <value>The current <see cref="T:Subtext.Web.Admin.OpmlItem"/> element in the collection.</value>
+            <exception cref="T:System.InvalidOperationException">The enumerator is positioned 
+            before the first element of the collection or after the last element.</exception>    
+            <remarks>Please refer to <see cref="P:System.Collections.IEnumerator.Current"/> for details.</remarks>    
+        </member>
+        <member name="T:Subtext.Web.Admin.IPageLocationCollection">
+            <summary>
+            Defines size, enumerators, and synchronization methods for strongly
+            typed collections of <see cref="T:Subtext.Web.Admin.PageLocation"/> elements.
+            </summary>
+            <remarks>
+            <b>IPageLocationCollection</b> provides an <see cref="T:System.Collections.ICollection"/> 
+            that is strongly typed for <see cref="T:Subtext.Web.Admin.PageLocation"/> elements.
+            </remarks>    
+        </member>
+        <member name="M:Subtext.Web.Admin.IPageLocationCollection.CopyTo(Subtext.Web.Admin.PageLocation[],System.Int32)">
+            <summary>
+            Copies the entire <see cref="T:Subtext.Web.Admin.IPageLocationCollection"/> to a one-dimensional <see cref="T:System.Array"/>
+            of <see cref="T:Subtext.Web.Admin.PageLocation"/> elements, starting at the specified index of the target array.
+            </summary>
+            <param name="array">The one-dimensional <see cref="T:System.Array"/> that is the destination of the
+            <see cref="T:Subtext.Web.Admin.PageLocation"/> elements copied from the <see cref="T:Subtext.Web.Admin.IPageLocationCollection"/>. 
+            The <b>Array</b> must have zero-based indexing.</param>
+            <param name="arrayIndex">The zero-based index in <paramref name="array"/> 
+            at which copying begins.</param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="array"/> is a null reference.</exception>    
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <paramref name="arrayIndex"/> is less than zero.</exception>    
+            <exception cref="T:System.ArgumentException"><para>
+            <paramref name="arrayIndex"/> is equal to or greater than the length of <paramref name="array"/>.
+            </para><para>-or-</para><para>
+            The number of elements in the source <see cref="T:Subtext.Web.Admin.IPageLocationCollection"/> is greater 
+            than the available space from <paramref name="arrayIndex"/> to the end of the destination 
+            <paramref name="array"/>.</para></exception>
+            <remarks>Please refer to <see cref="M:System.Collections.ICollection.CopyTo(System.Array,System.Int32)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.IPageLocationCollection.GetEnumerator">
+            <summary>
+            Returns an <see cref="T:Subtext.Web.Admin.IPageLocationEnumerator"/> that can
+            iterate through the <see cref="T:Subtext.Web.Admin.IPageLocationCollection"/>.
+            </summary>
+            <returns>An <see cref="T:Subtext.Web.Admin.IPageLocationEnumerator"/> 
+            for the entire <see cref="T:Subtext.Web.Admin.IPageLocationCollection"/>.</returns>
+            <remarks>Please refer to <see cref="M:System.Collections.IEnumerable.GetEnumerator"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.IPageLocationCollection.Count">
+            <summary>
+            Gets the number of elements contained in the 
+            <see cref="T:Subtext.Web.Admin.IPageLocationCollection"/>.
+            </summary>
+            <value>The number of elements contained in the 
+            <see cref="T:Subtext.Web.Admin.IPageLocationCollection"/>.</value>
+            <remarks>Please refer to <see cref="P:System.Collections.ICollection.Count"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.IPageLocationCollection.IsSynchronized">
+            <summary>
+            Gets a value indicating whether access to the 
+            <see cref="T:Subtext.Web.Admin.IPageLocationCollection"/> is synchronized (thread-safe).
+            </summary>
+            <value><c>true</c> if access to the <see cref="T:Subtext.Web.Admin.IPageLocationCollection"/> is 
+            synchronized (thread-safe); otherwise, <c>false</c>. The default is <c>false</c>.</value>
+            <remarks>Please refer to <see cref="P:System.Collections.ICollection.IsSynchronized"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.IPageLocationCollection.SyncRoot">
+            <summary>
+            Gets an object that can be used to synchronize access 
+            to the <see cref="T:Subtext.Web.Admin.IPageLocationCollection"/>.
+            </summary>
+            <value>An object that can be used to synchronize access 
+            to the <see cref="T:Subtext.Web.Admin.IPageLocationCollection"/>.</value>
+            <remarks>Please refer to <see cref="P:System.Collections.ICollection.SyncRoot"/> for details.</remarks>
+        </member>
+        <member name="T:Subtext.Web.Admin.IPageLocationList">
+            <summary>
+            Represents a strongly typed collection of <see cref="T:Subtext.Web.Admin.PageLocation"/> 
+            objects that can be individually accessed by index.
+            </summary>
+            <remarks>
+            <b>IPageLocationList</b> provides an <see cref="T:System.Collections.IList"/>
+            that is strongly typed for <see cref="T:Subtext.Web.Admin.PageLocation"/> elements.
+            </remarks>    
+        </member>
+        <member name="M:Subtext.Web.Admin.IPageLocationList.Add(Subtext.Web.Admin.PageLocation)">
+            <summary>
+            Adds a <see cref="T:Subtext.Web.Admin.PageLocation"/> to the end 
+            of the <see cref="T:Subtext.Web.Admin.IPageLocationList"/>.
+            </summary>
+            <param name="value">The <see cref="T:Subtext.Web.Admin.PageLocation"/> object 
+            to be added to the end of the <see cref="T:Subtext.Web.Admin.IPageLocationList"/>.
+            This argument can be a null reference.
+            </param>    
+            <returns>The <see cref="T:Subtext.Web.Admin.IPageLocationList"/> index at which
+            the <paramref name="value"/> has been added.</returns>
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.IPageLocationList"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>IPageLocationList</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.IList.Add(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.IPageLocationList.Clear">
+            <summary>
+            Removes all elements from the <see cref="T:Subtext.Web.Admin.IPageLocationList"/>.
+            </summary>
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.IPageLocationList"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>IPageLocationList</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.IList.Clear"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.IPageLocationList.Contains(Subtext.Web.Admin.PageLocation)">
+            <summary>
+            Determines whether the <see cref="T:Subtext.Web.Admin.IPageLocationList"/>
+            contains the specified <see cref="T:Subtext.Web.Admin.PageLocation"/> element.
+            </summary>
+            <param name="value">The <see cref="T:Subtext.Web.Admin.PageLocation"/> object
+            to locate in the <see cref="T:Subtext.Web.Admin.IPageLocationList"/>.
+            This argument can be a null reference.
+            </param>    
+            <returns><c>true</c> if <paramref name="value"/> is found in the 
+            <see cref="T:Subtext.Web.Admin.IPageLocationList"/>; otherwise, <c>false</c>.</returns>
+            <remarks>Please refer to <see cref="M:System.Collections.IList.Contains(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.IPageLocationList.IndexOf(Subtext.Web.Admin.PageLocation)">
+            <summary>
+            Returns the zero-based index of the first occurrence of the specified 
+            <see cref="T:Subtext.Web.Admin.PageLocation"/> in the <see cref="T:Subtext.Web.Admin.IPageLocationList"/>.
+            </summary>
+            <param name="value">The <see cref="T:Subtext.Web.Admin.PageLocation"/> object 
+            to locate in the <see cref="T:Subtext.Web.Admin.IPageLocationList"/>.
+            This argument can be a null reference.
+            </param>    
+            <returns>
+            The zero-based index of the first occurrence of <paramref name="value"/> 
+            in the <see cref="T:Subtext.Web.Admin.IPageLocationList"/>, if found; otherwise, -1.
+            </returns>
+            <remarks>Please refer to <see cref="M:System.Collections.IList.IndexOf(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.IPageLocationList.Insert(System.Int32,Subtext.Web.Admin.PageLocation)">
+            <summary>
+            Inserts a <see cref="T:Subtext.Web.Admin.PageLocation"/> element into the 
+            <see cref="T:Subtext.Web.Admin.IPageLocationList"/> at the specified index.
+            </summary>
+            <param name="index">The zero-based index at which 
+            <paramref name="value"/> should be inserted.</param>
+            <param name="value">The <see cref="T:Subtext.Web.Admin.PageLocation"/> object
+            to insert into the <see cref="T:Subtext.Web.Admin.IPageLocationList"/>.
+            This argument can be a null reference.
+            </param>    
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para><paramref name="index"/> is less than zero.</para>
+            <para>-or-</para>
+            <para><paramref name="index"/> is greater than 
+            <see cref="P:Subtext.Web.Admin.IPageLocationCollection.Count"/>.</para>
+            </exception>
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.IPageLocationList"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>IPageLocationList</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.IList.Insert(System.Int32,System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.IPageLocationList.Remove(Subtext.Web.Admin.PageLocation)">
+            <summary>
+            Removes the first occurrence of the specified <see cref="T:Subtext.Web.Admin.PageLocation"/>
+            from the <see cref="T:Subtext.Web.Admin.IPageLocationList"/>.
+            </summary>
+            <param name="value">The <see cref="T:Subtext.Web.Admin.PageLocation"/> object
+            to remove from the <see cref="T:Subtext.Web.Admin.IPageLocationList"/>.
+            This argument can be a null reference.
+            </param>    
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.IPageLocationList"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>IPageLocationList</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.IList.Remove(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.IPageLocationList.RemoveAt(System.Int32)">
+            <summary>
+            Removes the element at the specified index of the 
+            <see cref="T:Subtext.Web.Admin.IPageLocationList"/>.
+            </summary>
+            <param name="index">The zero-based index of the element to remove.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para><paramref name="index"/> is less than zero.</para>
+            <para>-or-</para>
+            <para><paramref name="index"/> is equal to or greater than 
+            <see cref="P:Subtext.Web.Admin.IPageLocationCollection.Count"/>.</para>
+            </exception>
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.IPageLocationList"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>IPageLocationList</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.IList.RemoveAt(System.Int32)"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.IPageLocationList.IsFixedSize">
+            <summary>
+            Gets a value indicating whether the <see cref="T:Subtext.Web.Admin.IPageLocationList"/> has a fixed size.
+            </summary>
+            <value><c>true</c> if the <see cref="T:Subtext.Web.Admin.IPageLocationList"/> has a fixed size;
+            otherwise, <c>false</c>. The default is <c>false</c>.</value>
+            <remarks>Please refer to <see cref="P:System.Collections.IList.IsFixedSize"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.IPageLocationList.IsReadOnly">
+            <summary>
+            Gets a value indicating whether the <see cref="T:Subtext.Web.Admin.IPageLocationList"/> is read-only.
+            </summary>
+            <value><c>true</c> if the <see cref="T:Subtext.Web.Admin.IPageLocationList"/> is read-only;
+            otherwise, <c>false</c>. The default is <c>false</c>.</value>
+            <remarks>Please refer to <see cref="P:System.Collections.IList.IsReadOnly"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.IPageLocationList.Item(System.Int32)">
+            <summary>
+            Gets or sets the <see cref="T:Subtext.Web.Admin.PageLocation"/> element at the specified index.
+            </summary>
+            <param name="index">The zero-based index of the 
+            <see cref="T:Subtext.Web.Admin.PageLocation"/> element to get or set.</param>
+            <value>
+            The <see cref="T:Subtext.Web.Admin.PageLocation"/> element at the specified <paramref name="index"/>.
+            </value>    
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para><paramref name="index"/> is less than zero.</para>
+            <para>-or-</para>
+            <para><paramref name="index"/> is equal to or greater than 
+            <see cref="P:Subtext.Web.Admin.IPageLocationCollection.Count"/>.</para>
+            </exception>
+            <exception cref="T:System.NotSupportedException">
+            The property is set and the <see cref="T:Subtext.Web.Admin.IPageLocationList"/> is read-only.</exception>
+            <remarks>Please refer to <see cref="P:System.Collections.IList.Item(System.Int32)"/> for details.</remarks>
+        </member>
+        <member name="T:Subtext.Web.Admin.IPageLocationEnumerator">
+            <summary>
+            Supports type-safe iteration over a collection that 
+            contains <see cref="T:Subtext.Web.Admin.PageLocation"/> elements.
+            </summary>
+            <remarks>
+            <b>IPageLocationEnumerator</b> provides an <see cref="T:System.Collections.IEnumerator"/> 
+            that is strongly typed for <see cref="T:Subtext.Web.Admin.PageLocation"/> elements.
+            </remarks>    
+        </member>
+        <member name="M:Subtext.Web.Admin.IPageLocationEnumerator.MoveNext">
+            <summary>
+            Advances the enumerator to the next element of the collection.
+            </summary>
+            <returns><c>true</c> if the enumerator was successfully advanced to the next element; 
+            <c>false</c> if the enumerator has passed the end of the collection.</returns>
+            <exception cref="T:System.InvalidOperationException">
+            The collection was modified after the enumerator was created.</exception>
+            <remarks>Please refer to <see cref="M:System.Collections.IEnumerator.MoveNext"/> for details.</remarks>    
+        </member>
+        <member name="M:Subtext.Web.Admin.IPageLocationEnumerator.Reset">
+            <summary>
+            Sets the enumerator to its initial position, 
+            which is before the first element in the collection.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">
+            The collection was modified after the enumerator was created.</exception>
+            <remarks>Please refer to <see cref="M:System.Collections.IEnumerator.Reset"/> for details.</remarks>    
+        </member>
+        <member name="P:Subtext.Web.Admin.IPageLocationEnumerator.Current">
+            <summary>
+            Gets the current <see cref="T:Subtext.Web.Admin.PageLocation"/> element in the collection.
+            </summary>
+            <value>The current <see cref="T:Subtext.Web.Admin.PageLocation"/> element in the collection.</value>
+            <exception cref="T:System.InvalidOperationException">The enumerator is positioned 
+            before the first element of the collection or after the last element.</exception>    
+            <remarks>Please refer to <see cref="P:System.Collections.IEnumerator.Current"/> for details.</remarks>    
+        </member>
+        <member name="T:Subtext.Web.Admin.OpmlItemCollection">
+            <summary>
+            Implements a strongly typed collection of <see cref="T:Subtext.Web.Admin.OpmlItem"/> elements.
+            </summary>
+            <remarks>
+            <b>OpmlItemCollection</b> provides an <see cref="T:System.Collections.ArrayList"/> 
+            that is strongly typed for <see cref="T:Subtext.Web.Admin.OpmlItem"/> elements.
+            </remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.#ctor">
+            <overloads>
+            Initializes a new instance of the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> class.
+            </overloads>
+            <summary>
+            Initializes a new instance of the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> class
+            that is empty and has the default initial capacity.
+            </summary>
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.#ctor"/> for details.</remarks>    
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> class
+            that is empty and has the specified initial capacity.
+            </summary>
+            <param name="capacity">The number of elements that the new 
+            <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> is initially capable of storing.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <paramref name="capacity"/> is less than zero.</exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.#ctor(System.Int32)"/> for details.</remarks>    
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.#ctor(Subtext.Web.Admin.OpmlItemCollection)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> class
+            that contains elements copied from the specified collection and
+            that has the same initial capacity as the number of elements copied.
+            </summary>
+            <param name="collection">The <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> 
+            whose elements are copied to the new collection.</param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="collection"/> is a null reference.</exception>        
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.#ctor(System.Collections.ICollection)"/> for details.</remarks>    
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.#ctor(Subtext.Web.Admin.OpmlItem[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> class
+            that contains elements copied from the specified <see cref="T:Subtext.Web.Admin.OpmlItem"/>
+            array and that has the same initial capacity as the number of elements copied.
+            </summary>
+            <param name="array">An <see cref="T:System.Array"/> of <see cref="T:Subtext.Web.Admin.OpmlItem"/> 
+            elements that are copied to the new collection.</param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="array"/> is a null reference.</exception>        
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.#ctor(System.Collections.ICollection)"/> for details.</remarks>    
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.Add(Subtext.Web.Admin.OpmlItem)">
+            <summary>
+            Adds a <see cref="T:Subtext.Web.Admin.OpmlItem"/> to the end of the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            </summary>
+            <param name="value">The <see cref="T:Subtext.Web.Admin.OpmlItem"/> object 
+            to be added to the end of the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            This argument can be a null reference.
+            </param>    
+            <returns>The <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> index at which the 
+            <paramref name="value"/> has been added.</returns>
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>OpmlItemCollection</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.Add(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.System#Collections#IList#Add(System.Object)">
+            <summary>
+            Adds an <see cref="T:System.Object"/> to the end of the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            </summary>
+            <param name="value">
+            The object to be added to the end of the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            This argument must be compatible with <see cref="T:Subtext.Web.Admin.OpmlItem"/>.
+            This argument can be a null reference.
+            </param>    
+            <returns>The <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> index at which the 
+            <paramref name="value"/> has been added.</returns>
+            <exception cref="T:System.InvalidCastException"><paramref name="value"/> 
+            is not compatible with <see cref="T:Subtext.Web.Admin.OpmlItem"/>.</exception>    
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>OpmlItemCollection</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.Add(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.AddRange(Subtext.Web.Admin.OpmlItemCollection)">
+            <overloads>
+            Adds a range of elements to the end of the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            </overloads>
+            <summary>
+            Adds the elements of another collection to the end of the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            </summary>
+            <param name="collection">The <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> whose elements 
+            should be added to the end of the current collection.</param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="collection"/> is a null reference.</exception>    
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>OpmlItemCollection</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.AddRange(System.Collections.ICollection)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.AddRange(Subtext.Web.Admin.OpmlItem[])">
+            <summary>
+            Adds the elements of a <see cref="T:Subtext.Web.Admin.OpmlItem"/> array 
+            to the end of the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            </summary>
+            <param name="array">An <see cref="T:System.Array"/> of <see cref="T:Subtext.Web.Admin.OpmlItem"/> elements
+            that should be added to the end of the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.</param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="array"/> is a null reference.</exception>    
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>OpmlItemCollection</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.AddRange(System.Collections.ICollection)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.BinarySearch(Subtext.Web.Admin.OpmlItem)">
+            <summary>
+            Searches the entire sorted <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> for an 
+            <see cref="T:Subtext.Web.Admin.OpmlItem"/> element using the default comparer 
+            and returns the zero-based index of the element.
+            </summary>
+            <param name="value">The <see cref="T:Subtext.Web.Admin.OpmlItem"/> object
+            to locate in the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            This argument can be a null reference.
+            </param>    
+            <returns>The zero-based index of <paramref name="value"/> in the sorted 
+            <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>, if <paramref name="value"/> is found; 
+            otherwise, a negative number, which is the bitwise complement of the index 
+            of the next element that is larger than <paramref name="value"/> or, if there 
+            is no larger element, the bitwise complement of <see cref="P:Subtext.Web.Admin.OpmlItemCollection.Count"/>.</returns>
+            <exception cref="T:System.InvalidOperationException">
+            Neither <paramref name="value"/> nor the elements of the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> 
+            implement the <see cref="T:System.IComparable"/> interface.</exception>
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.BinarySearch(System.Int32,System.Int32,System.Object,System.Collections.IComparer)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.Clear">
+            <summary>
+            Removes all elements from the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            </summary>
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>OpmlItemCollection</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.Clear"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.Clone">
+            <summary>
+            Creates a shallow copy of the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            </summary>
+            <returns>A shallow copy of the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.</returns>
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.Clone"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.Contains(Subtext.Web.Admin.OpmlItem)">
+            <summary>
+            Determines whether the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>
+            contains the specified <see cref="T:Subtext.Web.Admin.OpmlItem"/> element.
+            </summary>
+            <param name="value">The <see cref="T:Subtext.Web.Admin.OpmlItem"/> object
+            to locate in the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            This argument can be a null reference.
+            </param>    
+            <returns><c>true</c> if <paramref name="value"/> is found in the 
+            <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>; otherwise, <c>false</c>.</returns>
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.Contains(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.System#Collections#IList#Contains(System.Object)">
+            <summary>
+            Determines whether the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> contains the specified element.
+            </summary>
+            <param name="value">The object to locate in the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            This argument must be compatible with <see cref="T:Subtext.Web.Admin.OpmlItem"/>.
+            This argument can be a null reference.
+            </param>    
+            <returns><c>true</c> if <paramref name="value"/> is found in the 
+            <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>; otherwise, <c>false</c>.</returns>
+            <exception cref="T:System.InvalidCastException"><paramref name="value"/> 
+            is not compatible with <see cref="T:Subtext.Web.Admin.OpmlItem"/>.</exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.Contains(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.CopyTo(Subtext.Web.Admin.OpmlItem[])">
+            <overloads>
+            Copies the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> or a portion of it to a one-dimensional array.
+            </overloads>
+            <summary>
+            Copies the entire <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> to a one-dimensional <see cref="T:System.Array"/>
+            of <see cref="T:Subtext.Web.Admin.OpmlItem"/> elements, starting at the beginning of the target array.
+            </summary>
+            <param name="array">The one-dimensional <see cref="T:System.Array"/> that is the destination of the
+            <see cref="T:Subtext.Web.Admin.OpmlItem"/> elements copied from the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            The <b>Array</b> must have zero-based indexing.</param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="array"/> is a null reference.</exception>    
+            <exception cref="T:System.ArgumentException">
+            The number of elements in the source <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> is greater 
+            than the available space in the destination <paramref name="array"/>.</exception>
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.CopyTo(System.Array)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.CopyTo(Subtext.Web.Admin.OpmlItem[],System.Int32)">
+            <summary>
+            Copies the entire <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> to a one-dimensional <see cref="T:System.Array"/>
+            of <see cref="T:Subtext.Web.Admin.OpmlItem"/> elements, starting at the specified index of the target array.
+            </summary>
+            <param name="array">The one-dimensional <see cref="T:System.Array"/> that is the destination of the
+            <see cref="T:Subtext.Web.Admin.OpmlItem"/> elements copied from the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            The <b>Array</b> must have zero-based indexing.</param>
+            <param name="arrayIndex">The zero-based index in <paramref name="array"/> 
+            at which copying begins.</param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="array"/> is a null reference.</exception>    
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <paramref name="arrayIndex"/> is less than zero.</exception>    
+            <exception cref="T:System.ArgumentException"><para>
+            <paramref name="arrayIndex"/> is equal to or greater than the length of <paramref name="array"/>.
+            </para><para>-or-</para><para>
+            The number of elements in the source <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> is greater than the
+            available space from <paramref name="arrayIndex"/> to the end of the destination 
+            <paramref name="array"/>.</para></exception>
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.CopyTo(System.Array)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.System#Collections#ICollection#CopyTo(System.Array,System.Int32)">
+            <summary>
+            Copies the entire <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> to a one-dimensional <see cref="T:System.Array"/>,
+            starting at the specified index of the target array.
+            </summary>
+            <param name="array">The one-dimensional <see cref="T:System.Array"/> that is the destination of the
+            <see cref="T:Subtext.Web.Admin.OpmlItem"/> elements copied from the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            The <b>Array</b> must have zero-based indexing.</param>
+            <param name="arrayIndex">The zero-based index in <paramref name="array"/> 
+            at which copying begins.</param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="array"/> is a null reference.</exception>    
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <paramref name="arrayIndex"/> is less than zero.</exception>    
+            <exception cref="T:System.ArgumentException"><para>
+            <paramref name="array"/> is multidimensional.    
+            </para><para>-or-</para><para>
+            <paramref name="arrayIndex"/> is equal to or greater than the length of <paramref name="array"/>.
+            </para><para>-or-</para><para>
+            The number of elements in the source <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> is greater than the
+            available space from <paramref name="arrayIndex"/> to the end of the destination 
+            <paramref name="array"/>.</para></exception>
+            <exception cref="T:System.InvalidCastException">
+            The <see cref="T:Subtext.Web.Admin.OpmlItem"/> type cannot be cast automatically 
+            to the type of the destination <paramref name="array"/>.</exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.CopyTo(System.Array)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.GetEnumerator">
+            <summary>
+            Returns an <see cref="T:Subtext.Web.Admin.IOpmlItemEnumerator"/> that can
+            iterate through the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            </summary>
+            <returns>An <see cref="T:Subtext.Web.Admin.IOpmlItemEnumerator"/> 
+            for the entire <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.</returns>
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.GetEnumerator"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns an <see cref="T:System.Collections.IEnumerator"/> that can
+            iterate through the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            </summary>
+            <returns>An <see cref="T:System.Collections.IEnumerator"/>
+            for the entire <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.</returns>
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.GetEnumerator"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.IndexOf(Subtext.Web.Admin.OpmlItem)">
+            <summary>
+            Returns the zero-based index of the first occurrence of the specified 
+            <see cref="T:Subtext.Web.Admin.OpmlItem"/> in the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            </summary>
+            <param name="value">The <see cref="T:Subtext.Web.Admin.OpmlItem"/> object 
+            to locate in the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            This argument can be a null reference.
+            </param>    
+            <returns>
+            The zero-based index of the first occurrence of <paramref name="value"/> 
+            in the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>, if found; otherwise, -1.
+            </returns>
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.IndexOf(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.System#Collections#IList#IndexOf(System.Object)">
+            <summary>
+            Returns the zero-based index of the first occurrence of the specified 
+            <see cref="T:System.Object"/> in the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            </summary>
+            <param name="value">The object to locate in the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            This argument must be compatible with <see cref="T:Subtext.Web.Admin.OpmlItem"/>.
+            This argument can be a null reference.
+            </param>    
+            <returns>
+            The zero-based index of the first occurrence of <paramref name="value"/> 
+            in the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>, if found; otherwise, -1.
+            </returns>
+            <exception cref="T:System.InvalidCastException"><paramref name="value"/>
+            is not compatible with <see cref="T:Subtext.Web.Admin.OpmlItem"/>.</exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.IndexOf(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.Insert(System.Int32,Subtext.Web.Admin.OpmlItem)">
+            <summary>
+            Inserts a <see cref="T:Subtext.Web.Admin.OpmlItem"/> element into the 
+            <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> at the specified index.
+            </summary>
+            <param name="index">The zero-based index at which <paramref name="value"/> 
+            should be inserted.</param>
+            <param name="value">The <see cref="T:Subtext.Web.Admin.OpmlItem"/> object
+            to insert into the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            This argument can be a null reference.
+            </param>    
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para><paramref name="index"/> is less than zero.</para>
+            <para>-or-</para>
+            <para><paramref name="index"/> is greater than <see cref="P:Subtext.Web.Admin.OpmlItemCollection.Count"/>.</para>
+            </exception>
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>OpmlItemCollection</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.Insert(System.Int32,System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.System#Collections#IList#Insert(System.Int32,System.Object)">
+            <summary>
+            Inserts an element into the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> at the specified index.
+            </summary>
+            <param name="index">The zero-based index at which <paramref name="value"/> 
+            should be inserted.</param>
+            <param name="value">The object to insert into the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            This argument must be compatible with <see cref="T:Subtext.Web.Admin.OpmlItem"/>.
+            This argument can be a null reference.
+            </param>    
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para><paramref name="index"/> is less than zero.</para>
+            <para>-or-</para>
+            <para><paramref name="index"/> is greater than <see cref="P:Subtext.Web.Admin.OpmlItemCollection.Count"/>.</para>
+            </exception>
+            <exception cref="T:System.InvalidCastException"><paramref name="value"/>
+            is not compatible with <see cref="T:Subtext.Web.Admin.OpmlItem"/>.</exception>    
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>OpmlItemCollection</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.Insert(System.Int32,System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.ReadOnly(Subtext.Web.Admin.OpmlItemCollection)">
+            <summary>
+            Returns a read-only wrapper for the specified <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            </summary>
+            <param name="collection">The <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> to wrap.</param>    
+            <returns>A read-only wrapper around <paramref name="collection"/>.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="collection"/> is a null reference.</exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.ReadOnly(System.Collections.IList)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.Remove(Subtext.Web.Admin.OpmlItem)">
+            <summary>
+            Removes the first occurrence of the specified <see cref="T:Subtext.Web.Admin.OpmlItem"/>
+            from the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            </summary>
+            <param name="value">The <see cref="T:Subtext.Web.Admin.OpmlItem"/> object
+            to remove from the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            This argument can be a null reference.
+            </param>    
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>OpmlItemCollection</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.Remove(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.System#Collections#IList#Remove(System.Object)">
+            <summary>
+            Removes the first occurrence of the specified <see cref="T:System.Object"/>
+            from the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            </summary>
+            <param name="value">The object to remove from the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            This argument must be compatible with <see cref="T:Subtext.Web.Admin.OpmlItem"/>.
+            This argument can be a null reference.
+            </param>    
+            <exception cref="T:System.InvalidCastException"><paramref name="value"/>
+            is not compatible with <see cref="T:Subtext.Web.Admin.OpmlItem"/>.</exception>    
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>OpmlItemCollection</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.Remove(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.RemoveAt(System.Int32)">
+            <summary>
+            Removes the element at the specified index of the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            </summary>
+            <param name="index">The zero-based index of the element to remove.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para><paramref name="index"/> is less than zero.</para>
+            <para>-or-</para>
+            <para><paramref name="index"/> is equal to or greater than <see cref="P:Subtext.Web.Admin.OpmlItemCollection.Count"/>.</para>
+            </exception>
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>OpmlItemCollection</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.RemoveAt(System.Int32)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.RemoveRange(System.Int32,System.Int32)">
+            <summary>
+            Removes a range of elements from the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            </summary>
+            <param name="index">The zero-based starting index of the range
+            of elements to remove.</param>
+            <param name="count">The number of elements to remove.</param>
+            <exception cref="T:System.ArgumentException">
+            <paramref name="index"/> and <paramref name="count"/> do not denote a
+            valid range of elements in the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para><paramref name="index"/> is less than zero.</para>
+            <para>-or-</para>
+            <para><paramref name="count"/> is less than zero.</para>
+            </exception>
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>OpmlItemCollection</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.RemoveRange(System.Int32,System.Int32)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.Sort">
+            <summary>
+            Sorts the elements in the entire <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>
+            using the <see cref="T:System.IComparable"/> implementation of each element.
+            </summary>
+            <exception cref="T:System.NotSupportedException">
+            The <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> is read-only.</exception>
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.Sort"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.Synchronized(Subtext.Web.Admin.OpmlItemCollection)">
+            <summary>
+            Returns a synchronized (thread-safe) wrapper 
+            for the specified <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            </summary>
+            <param name="collection">The <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> to synchronize.</param>    
+            <returns>
+            A synchronized (thread-safe) wrapper around <paramref name="collection"/>.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="collection"/> is a null reference.</exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.Synchronized(System.Collections.IList)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.ToArray">
+            <summary>
+            Copies the elements of the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> to a new
+            <see cref="T:System.Array"/> of <see cref="T:Subtext.Web.Admin.OpmlItem"/> elements.
+            </summary>
+            <returns>A one-dimensional <see cref="T:System.Array"/> of <see cref="T:Subtext.Web.Admin.OpmlItem"/> 
+            elements containing copies of the elements of the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.</returns>
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.ToArray"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.OpmlItemCollection.TrimToSize">
+            <summary>
+            Sets the capacity to the actual number of elements in the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            </summary>
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>OpmlItemCollection</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.TrimToSize"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.OpmlItemCollection.Capacity">
+            <summary>
+            Gets or sets the capacity of the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            </summary>
+            <value>The number of elements that the 
+            <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> can contain.</value>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <b>Capacity</b> is set to a value that is less than <see cref="P:Subtext.Web.Admin.OpmlItemCollection.Count"/>.</exception>
+            <remarks>Please refer to <see cref="P:System.Collections.ArrayList.Capacity"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.OpmlItemCollection.Count">
+            <summary>
+            Gets the number of elements contained in the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            </summary>
+            <value>
+            The number of elements contained in the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            </value>
+            <remarks>Please refer to <see cref="P:System.Collections.ArrayList.Count"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.OpmlItemCollection.IsFixedSize">
+            <summary>
+            Gets a value indicating whether the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> has a fixed size.
+            </summary>
+            <value><c>true</c> if the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> has a fixed size;
+            otherwise, <c>false</c>. The default is <c>false</c>.</value>
+            <remarks>Please refer to <see cref="P:System.Collections.ArrayList.IsFixedSize"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.OpmlItemCollection.IsReadOnly">
+            <summary>
+            Gets a value indicating whether the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> is read-only.
+            </summary>
+            <value><c>true</c> if the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> is read-only;
+            otherwise, <c>false</c>. The default is <c>false</c>.</value>
+            <remarks>Please refer to <see cref="P:System.Collections.ArrayList.IsReadOnly"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.OpmlItemCollection.IsSynchronized">
+            <summary>
+            Gets a value indicating whether access to the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> 
+            is synchronized (thread-safe).
+            </summary>
+            <value><c>true</c> if access to the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> is 
+            synchronized (thread-safe); otherwise, <c>false</c>. The default is <c>false</c>.</value>
+            <remarks>Please refer to <see cref="P:System.Collections.ArrayList.IsSynchronized"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.OpmlItemCollection.Item(System.Int32)">
+            <summary>
+            Gets or sets the <see cref="T:Subtext.Web.Admin.OpmlItem"/> element at the specified index.
+            </summary>
+            <param name="index">The zero-based index of the 
+            <see cref="T:Subtext.Web.Admin.OpmlItem"/> element to get or set.</param>
+            <value>
+            The <see cref="T:Subtext.Web.Admin.OpmlItem"/> element at the specified <paramref name="index"/>.
+            </value>    
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para><paramref name="index"/> is less than zero.</para>
+            <para>-or-</para>
+            <para><paramref name="index"/> is equal to or greater than <see cref="P:Subtext.Web.Admin.OpmlItemCollection.Count"/>.</para>
+            </exception>
+            <exception cref="T:System.NotSupportedException">
+            The property is set and the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> is read-only.</exception>
+            <remarks>Please refer to <see cref="P:System.Collections.ArrayList.Item(System.Int32)"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.OpmlItemCollection.System#Collections#IList#Item(System.Int32)">
+            <summary>
+            Gets or sets the element at the specified index.
+            </summary>
+            <param name="index">The zero-based index of the element to get or set.</param>
+            <value>
+            The element at the specified <paramref name="index"/>. When the property
+            is set, this value must be compatible with <see cref="T:Subtext.Web.Admin.OpmlItem"/>.
+            </value>    
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para><paramref name="index"/> is less than zero.</para>
+            <para>-or-</para>
+            <para><paramref name="index"/> is equal to or greater than <see cref="P:Subtext.Web.Admin.OpmlItemCollection.Count"/>.</para>
+            </exception>
+            <exception cref="T:System.InvalidCastException">The property is set to a value
+            that is not compatible with <see cref="T:Subtext.Web.Admin.OpmlItem"/>.</exception>
+            <exception cref="T:System.NotSupportedException">
+            The property is set and the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/> is read-only.</exception>
+            <remarks>Please refer to <see cref="P:System.Collections.ArrayList.Item(System.Int32)"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.OpmlItemCollection.SyncRoot">
+            <summary>
+            Gets an object that can be used to synchronize 
+            access to the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            </summary>
+            <value>An object that can be used to synchronize 
+            access to the <see cref="T:Subtext.Web.Admin.OpmlItemCollection"/>.
+            </value>
+            <remarks>Please refer to <see cref="P:System.Collections.ArrayList.SyncRoot"/> for details.</remarks>
+        </member>
+        <member name="T:Subtext.Web.Admin.PageLocationCollection">
+            <summary>
+            Implements a strongly typed collection of <see cref="T:Subtext.Web.Admin.PageLocation"/> elements.
+            </summary>
+            <remarks>
+            <b>PageLocationCollection</b> provides an <see cref="T:System.Collections.ArrayList"/> 
+            that is strongly typed for <see cref="T:Subtext.Web.Admin.PageLocation"/> elements.
+            </remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.#ctor">
+            <overloads>
+            Initializes a new instance of the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> class.
+            </overloads>
+            <summary>
+            Initializes a new instance of the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> class
+            that is empty and has the default initial capacity.
+            </summary>
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.#ctor"/> for details.</remarks>    
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> class
+            that is empty and has the specified initial capacity.
+            </summary>
+            <param name="capacity">The number of elements that the new 
+            <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> is initially capable of storing.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <paramref name="capacity"/> is less than zero.</exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.#ctor(System.Int32)"/> for details.</remarks>    
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.#ctor(Subtext.Web.Admin.PageLocationCollection)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> class
+            that contains elements copied from the specified collection and
+            that has the same initial capacity as the number of elements copied.
+            </summary>
+            <param name="collection">The <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> 
+            whose elements are copied to the new collection.</param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="collection"/> is a null reference.</exception>        
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.#ctor(System.Collections.ICollection)"/> for details.</remarks>    
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.#ctor(Subtext.Web.Admin.PageLocation[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> class
+            that contains elements copied from the specified <see cref="T:Subtext.Web.Admin.PageLocation"/>
+            array and that has the same initial capacity as the number of elements copied.
+            </summary>
+            <param name="array">An <see cref="T:System.Array"/> of <see cref="T:Subtext.Web.Admin.PageLocation"/> 
+            elements that are copied to the new collection.</param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="array"/> is a null reference.</exception>        
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.#ctor(System.Collections.ICollection)"/> for details.</remarks>    
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.Add(Subtext.Web.Admin.PageLocation)">
+            <summary>
+            Adds a <see cref="T:Subtext.Web.Admin.PageLocation"/> to the end of the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            </summary>
+            <param name="value">The <see cref="T:Subtext.Web.Admin.PageLocation"/> object 
+            to be added to the end of the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            This argument can be a null reference.
+            </param>    
+            <returns>The <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> index at which the 
+            <paramref name="value"/> has been added.</returns>
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>PageLocationCollection</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.Add(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.System#Collections#IList#Add(System.Object)">
+            <summary>
+            Adds an <see cref="T:System.Object"/> to the end of the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            </summary>
+            <param name="value">
+            The object to be added to the end of the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            This argument must be compatible with <see cref="T:Subtext.Web.Admin.PageLocation"/>.
+            This argument can be a null reference.
+            </param>    
+            <returns>The <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> index at which the 
+            <paramref name="value"/> has been added.</returns>
+            <exception cref="T:System.InvalidCastException"><paramref name="value"/> 
+            is not compatible with <see cref="T:Subtext.Web.Admin.PageLocation"/>.</exception>    
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>PageLocationCollection</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.Add(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.AddRange(Subtext.Web.Admin.PageLocationCollection)">
+            <overloads>
+            Adds a range of elements to the end of the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            </overloads>
+            <summary>
+            Adds the elements of another collection to the end of the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            </summary>
+            <param name="collection">The <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> whose elements 
+            should be added to the end of the current collection.</param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="collection"/> is a null reference.</exception>    
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>PageLocationCollection</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.AddRange(System.Collections.ICollection)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.AddRange(Subtext.Web.Admin.PageLocation[])">
+            <summary>
+            Adds the elements of a <see cref="T:Subtext.Web.Admin.PageLocation"/> array 
+            to the end of the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            </summary>
+            <param name="array">An <see cref="T:System.Array"/> of <see cref="T:Subtext.Web.Admin.PageLocation"/> elements
+            that should be added to the end of the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.</param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="array"/> is a null reference.</exception>    
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>PageLocationCollection</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.AddRange(System.Collections.ICollection)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.BinarySearch(Subtext.Web.Admin.PageLocation)">
+            <summary>
+            Searches the entire sorted <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> for an 
+            <see cref="T:Subtext.Web.Admin.PageLocation"/> element using the default comparer 
+            and returns the zero-based index of the element.
+            </summary>
+            <param name="value">The <see cref="T:Subtext.Web.Admin.PageLocation"/> object
+            to locate in the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            This argument can be a null reference.
+            </param>    
+            <returns>The zero-based index of <paramref name="value"/> in the sorted 
+            <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>, if <paramref name="value"/> is found; 
+            otherwise, a negative number, which is the bitwise complement of the index 
+            of the next element that is larger than <paramref name="value"/> or, if there 
+            is no larger element, the bitwise complement of <see cref="P:Subtext.Web.Admin.PageLocationCollection.Count"/>.</returns>
+            <exception cref="T:System.InvalidOperationException">
+            Neither <paramref name="value"/> nor the elements of the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> 
+            implement the <see cref="T:System.IComparable"/> interface.</exception>
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.BinarySearch(System.Int32,System.Int32,System.Object,System.Collections.IComparer)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.Clear">
+            <summary>
+            Removes all elements from the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            </summary>
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>PageLocationCollection</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.Clear"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.Clone">
+            <summary>
+            Creates a shallow copy of the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            </summary>
+            <returns>A shallow copy of the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.</returns>
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.Clone"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.Contains(Subtext.Web.Admin.PageLocation)">
+            <summary>
+            Determines whether the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>
+            contains the specified <see cref="T:Subtext.Web.Admin.PageLocation"/> element.
+            </summary>
+            <param name="value">The <see cref="T:Subtext.Web.Admin.PageLocation"/> object
+            to locate in the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            This argument can be a null reference.
+            </param>    
+            <returns><c>true</c> if <paramref name="value"/> is found in the 
+            <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>; otherwise, <c>false</c>.</returns>
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.Contains(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.System#Collections#IList#Contains(System.Object)">
+            <summary>
+            Determines whether the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> contains the specified element.
+            </summary>
+            <param name="value">The object to locate in the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            This argument must be compatible with <see cref="T:Subtext.Web.Admin.PageLocation"/>.
+            This argument can be a null reference.
+            </param>    
+            <returns><c>true</c> if <paramref name="value"/> is found in the 
+            <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>; otherwise, <c>false</c>.</returns>
+            <exception cref="T:System.InvalidCastException"><paramref name="value"/> 
+            is not compatible with <see cref="T:Subtext.Web.Admin.PageLocation"/>.</exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.Contains(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.CopyTo(Subtext.Web.Admin.PageLocation[])">
+            <overloads>
+            Copies the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> or a portion of it to a one-dimensional array.
+            </overloads>
+            <summary>
+            Copies the entire <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> to a one-dimensional <see cref="T:System.Array"/>
+            of <see cref="T:Subtext.Web.Admin.PageLocation"/> elements, starting at the beginning of the target array.
+            </summary>
+            <param name="array">The one-dimensional <see cref="T:System.Array"/> that is the destination of the
+            <see cref="T:Subtext.Web.Admin.PageLocation"/> elements copied from the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            The <b>Array</b> must have zero-based indexing.</param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="array"/> is a null reference.</exception>    
+            <exception cref="T:System.ArgumentException">
+            The number of elements in the source <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> is greater 
+            than the available space in the destination <paramref name="array"/>.</exception>
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.CopyTo(System.Array)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.CopyTo(Subtext.Web.Admin.PageLocation[],System.Int32)">
+            <summary>
+            Copies the entire <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> to a one-dimensional <see cref="T:System.Array"/>
+            of <see cref="T:Subtext.Web.Admin.PageLocation"/> elements, starting at the specified index of the target array.
+            </summary>
+            <param name="array">The one-dimensional <see cref="T:System.Array"/> that is the destination of the
+            <see cref="T:Subtext.Web.Admin.PageLocation"/> elements copied from the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            The <b>Array</b> must have zero-based indexing.</param>
+            <param name="arrayIndex">The zero-based index in <paramref name="array"/> 
+            at which copying begins.</param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="array"/> is a null reference.</exception>    
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <paramref name="arrayIndex"/> is less than zero.</exception>    
+            <exception cref="T:System.ArgumentException"><para>
+            <paramref name="arrayIndex"/> is equal to or greater than the length of <paramref name="array"/>.
+            </para><para>-or-</para><para>
+            The number of elements in the source <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> is greater than the
+            available space from <paramref name="arrayIndex"/> to the end of the destination 
+            <paramref name="array"/>.</para></exception>
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.CopyTo(System.Array)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.System#Collections#ICollection#CopyTo(System.Array,System.Int32)">
+            <summary>
+            Copies the entire <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> to a one-dimensional <see cref="T:System.Array"/>,
+            starting at the specified index of the target array.
+            </summary>
+            <param name="array">The one-dimensional <see cref="T:System.Array"/> that is the destination of the
+            <see cref="T:Subtext.Web.Admin.PageLocation"/> elements copied from the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            The <b>Array</b> must have zero-based indexing.</param>
+            <param name="arrayIndex">The zero-based index in <paramref name="array"/> 
+            at which copying begins.</param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="array"/> is a null reference.</exception>    
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <paramref name="arrayIndex"/> is less than zero.</exception>    
+            <exception cref="T:System.ArgumentException"><para>
+            <paramref name="array"/> is multidimensional.    
+            </para><para>-or-</para><para>
+            <paramref name="arrayIndex"/> is equal to or greater than the length of <paramref name="array"/>.
+            </para><para>-or-</para><para>
+            The number of elements in the source <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> is greater than the
+            available space from <paramref name="arrayIndex"/> to the end of the destination 
+            <paramref name="array"/>.</para></exception>
+            <exception cref="T:System.InvalidCastException">
+            The <see cref="T:Subtext.Web.Admin.PageLocation"/> type cannot be cast automatically 
+            to the type of the destination <paramref name="array"/>.</exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.CopyTo(System.Array)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.GetEnumerator">
+            <summary>
+            Returns an <see cref="T:Subtext.Web.Admin.IPageLocationEnumerator"/> that can
+            iterate through the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            </summary>
+            <returns>An <see cref="T:Subtext.Web.Admin.IPageLocationEnumerator"/> 
+            for the entire <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.</returns>
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.GetEnumerator"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns an <see cref="T:System.Collections.IEnumerator"/> that can
+            iterate through the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            </summary>
+            <returns>An <see cref="T:System.Collections.IEnumerator"/>
+            for the entire <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.</returns>
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.GetEnumerator"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.IndexOf(Subtext.Web.Admin.PageLocation)">
+            <summary>
+            Returns the zero-based index of the first occurrence of the specified 
+            <see cref="T:Subtext.Web.Admin.PageLocation"/> in the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            </summary>
+            <param name="value">The <see cref="T:Subtext.Web.Admin.PageLocation"/> object 
+            to locate in the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            This argument can be a null reference.
+            </param>    
+            <returns>
+            The zero-based index of the first occurrence of <paramref name="value"/> 
+            in the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>, if found; otherwise, -1.
+            </returns>
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.IndexOf(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.System#Collections#IList#IndexOf(System.Object)">
+            <summary>
+            Returns the zero-based index of the first occurrence of the specified 
+            <see cref="T:System.Object"/> in the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            </summary>
+            <param name="value">The object to locate in the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            This argument must be compatible with <see cref="T:Subtext.Web.Admin.PageLocation"/>.
+            This argument can be a null reference.
+            </param>    
+            <returns>
+            The zero-based index of the first occurrence of <paramref name="value"/> 
+            in the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>, if found; otherwise, -1.
+            </returns>
+            <exception cref="T:System.InvalidCastException"><paramref name="value"/>
+            is not compatible with <see cref="T:Subtext.Web.Admin.PageLocation"/>.</exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.IndexOf(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.Insert(System.Int32,Subtext.Web.Admin.PageLocation)">
+            <summary>
+            Inserts a <see cref="T:Subtext.Web.Admin.PageLocation"/> element into the 
+            <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> at the specified index.
+            </summary>
+            <param name="index">The zero-based index at which <paramref name="value"/> 
+            should be inserted.</param>
+            <param name="value">The <see cref="T:Subtext.Web.Admin.PageLocation"/> object
+            to insert into the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            This argument can be a null reference.
+            </param>    
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para><paramref name="index"/> is less than zero.</para>
+            <para>-or-</para>
+            <para><paramref name="index"/> is greater than <see cref="P:Subtext.Web.Admin.PageLocationCollection.Count"/>.</para>
+            </exception>
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>PageLocationCollection</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.Insert(System.Int32,System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.System#Collections#IList#Insert(System.Int32,System.Object)">
+            <summary>
+            Inserts an element into the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> at the specified index.
+            </summary>
+            <param name="index">The zero-based index at which <paramref name="value"/> 
+            should be inserted.</param>
+            <param name="value">The object to insert into the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            This argument must be compatible with <see cref="T:Subtext.Web.Admin.PageLocation"/>.
+            This argument can be a null reference.
+            </param>    
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para><paramref name="index"/> is less than zero.</para>
+            <para>-or-</para>
+            <para><paramref name="index"/> is greater than <see cref="P:Subtext.Web.Admin.PageLocationCollection.Count"/>.</para>
+            </exception>
+            <exception cref="T:System.InvalidCastException"><paramref name="value"/>
+            is not compatible with <see cref="T:Subtext.Web.Admin.PageLocation"/>.</exception>    
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>PageLocationCollection</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.Insert(System.Int32,System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.ReadOnly(Subtext.Web.Admin.PageLocationCollection)">
+            <summary>
+            Returns a read-only wrapper for the specified <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            </summary>
+            <param name="collection">The <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> to wrap.</param>    
+            <returns>A read-only wrapper around <paramref name="collection"/>.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="collection"/> is a null reference.</exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.ReadOnly(System.Collections.IList)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.Remove(Subtext.Web.Admin.PageLocation)">
+            <summary>
+            Removes the first occurrence of the specified <see cref="T:Subtext.Web.Admin.PageLocation"/>
+            from the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            </summary>
+            <param name="value">The <see cref="T:Subtext.Web.Admin.PageLocation"/> object
+            to remove from the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            This argument can be a null reference.
+            </param>    
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>PageLocationCollection</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.Remove(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.System#Collections#IList#Remove(System.Object)">
+            <summary>
+            Removes the first occurrence of the specified <see cref="T:System.Object"/>
+            from the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            </summary>
+            <param name="value">The object to remove from the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            This argument must be compatible with <see cref="T:Subtext.Web.Admin.PageLocation"/>.
+            This argument can be a null reference.
+            </param>    
+            <exception cref="T:System.InvalidCastException"><paramref name="value"/>
+            is not compatible with <see cref="T:Subtext.Web.Admin.PageLocation"/>.</exception>    
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>PageLocationCollection</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.Remove(System.Object)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.RemoveAt(System.Int32)">
+            <summary>
+            Removes the element at the specified index of the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            </summary>
+            <param name="index">The zero-based index of the element to remove.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para><paramref name="index"/> is less than zero.</para>
+            <para>-or-</para>
+            <para><paramref name="index"/> is equal to or greater than <see cref="P:Subtext.Web.Admin.PageLocationCollection.Count"/>.</para>
+            </exception>
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>PageLocationCollection</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.RemoveAt(System.Int32)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.RemoveRange(System.Int32,System.Int32)">
+            <summary>
+            Removes a range of elements from the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            </summary>
+            <param name="index">The zero-based starting index of the range
+            of elements to remove.</param>
+            <param name="count">The number of elements to remove.</param>
+            <exception cref="T:System.ArgumentException">
+            <paramref name="index"/> and <paramref name="count"/> do not denote a
+            valid range of elements in the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para><paramref name="index"/> is less than zero.</para>
+            <para>-or-</para>
+            <para><paramref name="count"/> is less than zero.</para>
+            </exception>
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>PageLocationCollection</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.RemoveRange(System.Int32,System.Int32)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.Sort">
+            <summary>
+            Sorts the elements in the entire <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>
+            using the <see cref="T:System.IComparable"/> implementation of each element.
+            </summary>
+            <exception cref="T:System.NotSupportedException">
+            The <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> is read-only.</exception>
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.Sort"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.Synchronized(Subtext.Web.Admin.PageLocationCollection)">
+            <summary>
+            Returns a synchronized (thread-safe) wrapper 
+            for the specified <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            </summary>
+            <param name="collection">The <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> to synchronize.</param>    
+            <returns>
+            A synchronized (thread-safe) wrapper around <paramref name="collection"/>.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="collection"/> is a null reference.</exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.Synchronized(System.Collections.IList)"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.ToArray">
+            <summary>
+            Copies the elements of the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> to a new
+            <see cref="T:System.Array"/> of <see cref="T:Subtext.Web.Admin.PageLocation"/> elements.
+            </summary>
+            <returns>A one-dimensional <see cref="T:System.Array"/> of <see cref="T:Subtext.Web.Admin.PageLocation"/> 
+            elements containing copies of the elements of the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.</returns>
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.ToArray"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.PageLocationCollection.TrimToSize">
+            <summary>
+            Sets the capacity to the actual number of elements in the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            </summary>
+            <exception cref="T:System.NotSupportedException">
+            <para>The <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> is read-only.</para>
+            <para>-or-</para>
+            <para>The <b>PageLocationCollection</b> has a fixed size.</para></exception>    
+            <remarks>Please refer to <see cref="M:System.Collections.ArrayList.TrimToSize"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.PageLocationCollection.Capacity">
+            <summary>
+            Gets or sets the capacity of the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            </summary>
+            <value>The number of elements that the 
+            <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> can contain.</value>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <b>Capacity</b> is set to a value that is less than <see cref="P:Subtext.Web.Admin.PageLocationCollection.Count"/>.</exception>
+            <remarks>Please refer to <see cref="P:System.Collections.ArrayList.Capacity"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.PageLocationCollection.Count">
+            <summary>
+            Gets the number of elements contained in the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            </summary>
+            <value>
+            The number of elements contained in the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            </value>
+            <remarks>Please refer to <see cref="P:System.Collections.ArrayList.Count"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.PageLocationCollection.IsFixedSize">
+            <summary>
+            Gets a value indicating whether the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> has a fixed size.
+            </summary>
+            <value><c>true</c> if the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> has a fixed size;
+            otherwise, <c>false</c>. The default is <c>false</c>.</value>
+            <remarks>Please refer to <see cref="P:System.Collections.ArrayList.IsFixedSize"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.PageLocationCollection.IsReadOnly">
+            <summary>
+            Gets a value indicating whether the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> is read-only.
+            </summary>
+            <value><c>true</c> if the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> is read-only;
+            otherwise, <c>false</c>. The default is <c>false</c>.</value>
+            <remarks>Please refer to <see cref="P:System.Collections.ArrayList.IsReadOnly"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.PageLocationCollection.IsSynchronized">
+            <summary>
+            Gets a value indicating whether access to the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> 
+            is synchronized (thread-safe).
+            </summary>
+            <value><c>true</c> if access to the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> is 
+            synchronized (thread-safe); otherwise, <c>false</c>. The default is <c>false</c>.</value>
+            <remarks>Please refer to <see cref="P:System.Collections.ArrayList.IsSynchronized"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.PageLocationCollection.Item(System.Int32)">
+            <summary>
+            Gets or sets the <see cref="T:Subtext.Web.Admin.PageLocation"/> element at the specified index.
+            </summary>
+            <param name="index">The zero-based index of the 
+            <see cref="T:Subtext.Web.Admin.PageLocation"/> element to get or set.</param>
+            <value>
+            The <see cref="T:Subtext.Web.Admin.PageLocation"/> element at the specified <paramref name="index"/>.
+            </value>    
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para><paramref name="index"/> is less than zero.</para>
+            <para>-or-</para>
+            <para><paramref name="index"/> is equal to or greater than <see cref="P:Subtext.Web.Admin.PageLocationCollection.Count"/>.</para>
+            </exception>
+            <exception cref="T:System.NotSupportedException">
+            The property is set and the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> is read-only.</exception>
+            <remarks>Please refer to <see cref="P:System.Collections.ArrayList.Item(System.Int32)"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.PageLocationCollection.System#Collections#IList#Item(System.Int32)">
+            <summary>
+            Gets or sets the element at the specified index.
+            </summary>
+            <param name="index">The zero-based index of the element to get or set.</param>
+            <value>
+            The element at the specified <paramref name="index"/>. When the property
+            is set, this value must be compatible with <see cref="T:Subtext.Web.Admin.PageLocation"/>.
+            </value>    
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <para><paramref name="index"/> is less than zero.</para>
+            <para>-or-</para>
+            <para><paramref name="index"/> is equal to or greater than <see cref="P:Subtext.Web.Admin.PageLocationCollection.Count"/>.</para>
+            </exception>
+            <exception cref="T:System.InvalidCastException">The property is set to a value
+            that is not compatible with <see cref="T:Subtext.Web.Admin.PageLocation"/>.</exception>
+            <exception cref="T:System.NotSupportedException">
+            The property is set and the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/> is read-only.</exception>
+            <remarks>Please refer to <see cref="P:System.Collections.ArrayList.Item(System.Int32)"/> for details.</remarks>
+        </member>
+        <member name="P:Subtext.Web.Admin.PageLocationCollection.SyncRoot">
+            <summary>
+            Gets an object that can be used to synchronize 
+            access to the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            </summary>
+            <value>An object that can be used to synchronize 
+            access to the <see cref="T:Subtext.Web.Admin.PageLocationCollection"/>.
+            </value>
+            <remarks>Please refer to <see cref="P:System.Collections.ArrayList.SyncRoot"/> for details.</remarks>
+        </member>
+        <member name="M:Subtext.Web.Admin.ConfirmCommand.FormatMessage(System.String,System.Object[])">
+            <summary>
+            Formats the message.
+            </summary>
+            <param name="format">Format.</param>
+            <param name="args">Args.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Web.Admin.ConfirmCommand.GetDisplayTextFromIntArray(System.Int32[])">
+            <summary>
+            Simply concatenates an array of integers for display as text 
+            using commas.  ex... "1, 2, 3"
+            </summary>
+            <param name="integers">Integers.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Subtext.Web.Admin.DeleteTargetsCommand">
+            <summary>
+            Represents a command for deleting multiple targets.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.DeleteTargetsCommand.#ctor">
+            <summary>
+            Creates a new <see cref="T:Subtext.Web.Admin.DeleteTargetsCommand"/> instance.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.DeleteTargetsCommand.#ctor(System.Int32[])">
+            <summary>
+            Creates a new <see cref="T:Subtext.Web.Admin.DeleteTargetsCommand"/> instance.
+            </summary>
+            <param name="targetIDs">Target ID.</param>
+        </member>
+        <member name="M:Subtext.Web.Admin.DeleteTargetsCommand.#ctor(System.String,System.Int32[])">
+            <summary>
+            Deletes the target command.
+            </summary>
+            <param name="targetName">Name of the target.</param>
+            <param name="targetIDs">Target ID.</param>
+        </member>
+        <member name="M:Subtext.Web.Admin.DeleteTargetsCommand.Cancel">
+            <summary>
+            Cancels the command.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Subtext.Web.Admin.DeleteTargetsCommand.PromptMessage">
+            <summary>
+            Gets or sets the prompt message.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:Subtext.Web.Admin.DeleteCommentCommand.#ctor(System.Int32)">
+            <summary>
+            Creates a new <see cref="T:Subtext.Web.Admin.DeleteCommentCommand"/> instance.
+            </summary>
+            <param name="postID">Post ID.</param>
+        </member>
+        <member name="M:Subtext.Web.Admin.DeleteCommentCommand.Execute">
+            <summary>
+            Executes this instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Subtext.Web.Admin.DeleteCommentsCommand">
+            <summary>
+            Command to delete multiple comments.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.DeleteCommentsCommand.#ctor(System.Int32[])">
+            <summary>
+            Creates a new <see cref="T:Subtext.Web.Admin.DeleteCommentsCommand"/> instance.
+            </summary>
+            <param name="postIDs">Post IDs.</param>
+        </member>
+        <member name="M:Subtext.Web.Admin.DeleteCommentsCommand.Execute">
+            <summary>
+            Executes this command.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Web.Admin.WebUI.AdvancedPanel.#ctor">
+            <summary>
+            Creates a new <see cref="T:Subtext.Web.Admin.WebUI.AdvancedPanel"/> instance and 
+            sets some initial properties specific to the admin tool.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Admin.WebUI.HeaderLink">
+            <summary>
+            Renders a link tag for CSS.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Admin.WebUI.ScriptTag">
+            <summary>
+            Renders a script tag.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.WebUI.ScriptTag.Render(System.Web.UI.HtmlTextWriter)">
+            <summary>
+            Renders a &lt;script&gt; tag.
+            </summary>
+            <param name="output">Output.</param>
+        </member>
+        <member name="P:Subtext.Web.Admin.WebUI.ScriptTag.Src">
+            <summary>
+            Gets or sets the SRC of the script.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Web.Admin.WebUI.ScriptTag.Type">
+            <summary>
+            Gets or sets the type of the script.
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Subtext.Web.Admin.Pages.AdminPage">
+            <summary>
+            Base Page class for all pages in the admin tool.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Admin.Pages.ConfirmationPage">
+            <summary>
+            Will cause the user to confirm navigating away from the current page. This behavior can be overriden.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Admin.Comments">
+            <summary>
+            Summary description for Comments.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Comments.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Pages.Configure.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Pages.Confirm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Admin.Pages.HomePageDefault">
+            <summary>
+            Summary description for _default.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Pages.HomePageDefault.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Pages.EditArticles.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Pages.EditCategories.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Pages.EditGalleries.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Pages.EditImage.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Pages.EditKeyWords.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Pages.EditLinks.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Pages.EditPosts.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Pages.Error.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Pages.Export.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Admin.Pages.Feedback">
+            <summary>
+            Displays comments posted to the blog and allows the 
+            admin to delete comments.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Pages.Feedback.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Pages.Options.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Admin.Pages.Password">
+            <summary>
+            Summary description for Password.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Pages.Password.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Pages.EditPreferences.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Queue">
+            <summary>
+            Summary description for Queue.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Queue.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Pages.Referrers.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Pages.Statistics.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Admin.Pages.StatsView">
+            <summary>
+            Summary description for StatsViews.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Pages.StatsView.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Admin.Syndication">
+            <summary>
+            Admin Page used to set syndication settings.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Syndication.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Admin.Test">
+            <summary>
+            Summary description for Test.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Test.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.HostAdmin.UserControls.BlogsEditor">
+            <summary>
+            User control used to create, edit and delete blogs.  
+            This only provides a few options for editing blogs. 
+            For the full options, one should visit the individual 
+            blog's admin tool.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.HostAdmin.UserControls.BlogsEditor.InitializeComponent">
+            <summary>
+            	Required method for Designer support - do not modify
+            	the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:Subtext.Web.HostAdmin.UserControls.BlogsEditor.BlogId">
+            <summary>
+            Gets or sets the blog id.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Web.HostAdmin.UserControls.BlogsEditor.CurrentBlogCount">
+            <summary>
+            Gets or sets the number of blogs 
+            currently in the system.
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Subtext.Web.HostAdmin.PageTemplate">
+            <summary>
+            Summary description for PageTemplate.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.HostAdmin.PageTemplate.#ctor">
+            <summary>
+            Creates a new <see cref="T:Subtext.Web.HostAdmin.PageTemplate"/> instance.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Install.Default">
+            <summary>
+            Page used to create an initial configuration for the blog.
+            </summary>
+            <remarks>
+            This page will ONLY be displayed if there are no 
+            blog configurations within the database.
+            </remarks>
+        </member>
+        <member name="M:Subtext.Web.Install.Default.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Install.InstallationBase">
+            <summary>
+            Summary description for InstallationBase.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Install.InstallationBase.OnLoad(System.EventArgs)">
+            <summary>
+            Ons the load.
+            </summary>
+            <param name="e">E.</param>
+        </member>
+        <member name="P:Subtext.Web.Install.InstallationBase.NextStepUrl">
+            <summary>
+            Gets the next step URL.
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Subtext.Web.Install.InstallationComplete">
+            <summary>
+            Summary description for InstallationComplete.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Install.InstallationComplete.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Install.Step01_GatherInstallData">
+            <summary>
+            Page used to create an initial configuration for the blog.
+            </summary>
+            <remarks>
+            This page will ONLY be displayed if there are no 
+            blog configurations within the database.
+            </remarks>
+        </member>
+        <member name="M:Subtext.Web.Install.Step01_GatherInstallData.DataBind">
+            <summary>
+            Binds the data to the form controls.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Install.Step01_GatherInstallData.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Install.Step02_InstallData">
+            <summary>
+            Page used to create an initial configuration for the blog.
+            </summary>
+            <remarks>
+            This page will ONLY be displayed if there are no 
+            blog configurations within the database.
+            </remarks>
+        </member>
+        <member name="M:Subtext.Web.Install.Step02_InstallData.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Install.Step03_ConfigureHost">
+            <summary>
+            Page used to create an initial configuration for the blog.
+            </summary>
+            <remarks>
+            This page will ONLY be displayed if there are no 
+            blog configurations within the database.
+            </remarks>
+        </member>
+        <member name="M:Subtext.Web.Install.Step03_ConfigureHost.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Install.Step04_CreateBlog">
+            <summary>
+            Page used to create an initial configuration for the blog.
+            </summary>
+            <remarks>
+            This page will ONLY be displayed if there are no 
+            blog configurations within the database.
+            </remarks>
+        </member>
+        <member name="M:Subtext.Web.Install.Step04_CreateBlog.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Modules.BlogServiceModule">
+            <summary>
+            Summary description for BlogServiceModule.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Services.ASPNetWebLogApi">
+            <summary>
+            Summary description for Subtext.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Services.ASPNetWebLogApi.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Services.ASPNetWebLogApi.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Services.Subtext">
+            <summary>
+            Summary description for Subtext.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Services.Subtext.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Services.Subtext.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Services.BlogContent">
+            <summary>
+            Summary description for BlogContent.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Services.BlogContent.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Services.BlogContent.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Services.Dottext">
+            <summary>
+            Summary description for Subtext.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Services.Dottext.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Services.Dottext.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Services.SBS">
+            <summary>
+            Summary description for SimpleBlogService.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Services.SBS.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Services.SBS.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Controls.ArchiveCategory">
+            <summary>
+            	Summary description for ArchiveMonth.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Controls.BaseControl">
+            <summary>
+            Summary description for BaseControl.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Controls.ArchiveDay">
+            <summary>
+            	Summary description for ArchiveDay.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Controls.ArchiveLinks">
+            <summary>
+            	Summary description for CategoryDisplayByColumn.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Controls.CachedColumnControl">
+            <summary>
+            Summary description for CachedColumnControl.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Subtext.Web.UI.Controls.ArchiveLinks.InitializeComponent" -->
+        <member name="T:Subtext.Web.UI.Controls.ArchiveMonth">
+            <summary>
+            	Summary description for ArchiveMonth.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Controls.BlogStats">
+            <summary>
+            	Summary description for Header.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Controls.CategoryDisplay">
+            <summary>
+            	Summary description for CategoryDisplayByColumn.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Controls.CategoryList">
+            <summary>
+            	Summary description for CategoryDisplayByColumn.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Controls.Comments">
+            <summary>
+            	Summary description for Comments.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Controls.Day">
+            <summary>
+            Summary description for LastSevenDaysControl.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Controls.DayCollection">
+            <summary>
+            Summary description for LastSevenDaysControl.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Controls.EntryList">
+            <summary>
+            Summary description for LastSevenDaysControl.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Controls.Footer">
+            <summary>
+            Footer control, displayed at the bottom of most skins. 
+            Contains a <see cref="!:System.Web.UI.WebControls.Literal;"/> 
+            control which displays the author name.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.UI.Controls.Footer.OnLoad(System.EventArgs)">
+            <summary>
+            Sets the FooterText.Text property to the CurrentBlog.Author
+            </summary>
+            <param name="e">E.</param>
+        </member>
+        <member name="T:Subtext.Web.UI.Controls.GalleryThumbNailViewer">
+            <summary>
+            	Summary description for GalleryThumbNailViewer.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Controls.Header">
+            <summary>
+            	Summary description for Header.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Controls.Login">
+            <summary>
+            	Summary description for Login.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Subtext.Web.UI.Controls.Login.InitializeComponent" -->
+        <member name="T:Subtext.Web.UI.Controls.MonthList">
+            <summary>
+            	Summary description for ArchiveDay.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Controls.MyLinks">
+            <summary>
+            	Summary description for Header.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Controls.News">
+            <summary>
+            	Summary description for Header.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Controls.PageTemplate">
+            <summary>
+            Summary description for PageTemplate.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Controls.PostComment">
+            <summary>
+            	Summary description for Comments.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Subtext.Web.UI.Controls.PostComment.InitializeComponent" -->
+        <member name="T:Subtext.Web.UI.Controls.SingleColumn">
+            <summary>
+            	Summary description for CategoryDisplayByColumn.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Controls.CategoryEntryList">
+            <summary>
+            	Summary description for ArchiveDay.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Controls.ViewPicture">
+            <summary>
+            	Summary description for GalleryThumbNailViewer.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Controls.ViewPost">
+            <summary>
+            Control used to view a single blog post.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.UI.Controls.ViewPost.OnLoad(System.EventArgs)">
+            <summary>
+            Loads the entry specified by the URL.  If the user is an 
+            admin and the skin supports it, will also display an edit 
+            link that navigates to the admin section and allows the 
+            admin to edit the post.
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="T:Subtext.Web.UI.Pages.BaseBlogPageHandlerFactory">
+            <summary>
+            Abstract base factory class for creating blog page handlers.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.UI.Pages.BaseBlogPageHandlerFactory.GetHandler(System.Web.HttpContext,System.String,System.String,System.String)">
+            <summary>
+            Creates and returns the handler based on the specifed 
+            HttpContext, request type, url, and path.
+            </summary>
+            <param name="context">Context.</param>
+            <param name="requestType">Request type.</param>
+            <param name="url">URL.</param>
+            <param name="path">Path.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Web.UI.Pages.BaseBlogPageHandlerFactory.ReleaseHandler(System.Web.IHttpHandler)">
+            <summary>
+            Releases the handler. Currently does nothing.
+            </summary>
+            <param name="handler">Handler.</param>
+        </member>
+        <member name="P:Subtext.Web.UI.Pages.BaseBlogPageHandlerFactory.PageType">
+            <summary>
+            Gets the page type.
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Subtext.Web.UI.Handlers.BlogSecondaryCssHandler">
+            <summary>
+            HTTP Handler for rendering a CSS stylesheet.  
+            This renders the CSS markup stored in the Secondary CSS field within 
+            the admin options for a blog configuration.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.UI.Handlers.BlogSecondaryCssHandler.ProcessRequest(System.Web.HttpContext)">
+            <summary>
+            Processes the request.
+            </summary>
+            <param name="context">Context.</param>
+        </member>
+        <member name="P:Subtext.Web.UI.Handlers.BlogSecondaryCssHandler.IsReusable">
+            <summary>
+            Gets a value indicating whether this handler is reusable.
+            </summary>
+            <remarks>
+            This handler is not reusable.
+            </remarks>
+            <value>
+            	<c>true</c> if is reusable; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="T:Subtext.Web.UI.PrintHandler">
+            <summary>
+            Class that implements <see cref="T:System.Web.IHttpHandler"/> to render a 
+            page for printing purposes.  Not currently in use.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Handlers.RedirectHandler">
+            <summary>
+            Summary description for RedirectHandler.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Pages.SubtextMasterPage">
+            <summary>
+            This serves as the master page for every page within the 
+            site (except for the admin section.  This page contains 
+            a PlaceHolder in which the PageTemplate.ascx control within 
+            each skin is loaded.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.UI.Pages.SubtextMasterPage.OnPreRender(System.EventArgs)">
+            <summary>
+            Before rendering, turns off ViewState again (why? not sure),  
+            applies skins and stylesheet references, and sets the page title.
+            </summary>
+            <param name="e">E.</param>
+        </member>
+        <member name="M:Subtext.Web.UI.Pages.SubtextMasterPage.OnInit(System.EventArgs)">
+            <summary>
+            Initializes this blog page, applying skins and whatnot.
+            </summary>
+            <param name="e">E.</param>
+        </member>
+        <member name="M:Subtext.Web.UI.Pages.SubtextMasterPage.LoadPageStateFromPersistenceMedium">
+            <summary>
+            Loads the page state from persistence medium.  In this case 
+            this returns null as we are not using ViewState.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Web.UI.Pages.SubtextMasterPage.SavePageStateToPersistenceMedium(System.Object)">
+            <summary>
+            Saves the page state to persistence medium.  In this case 
+            this does nothing as we are not using ViewState.
+            </summary>
+            <param name="viewState">State of the view.</param>
+        </member>
+        <member name="T:Subtext.Web.UI.Pages.SubtextMasterPage.ScriptElementCollectionRenderer">
+            <summary>
+            Provides rendering facilities for script elements in the head element of the page
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Skinning.CacheKey">
+            <summary>
+            Summary description for CacheKey.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Skinning.Script">
+            <summary>
+            Declaration of a <code>script</code> element in the skin. Supports the capability to specify script includes in the 
+            <code>head</code> element of the page.
+            </summary>
+        </member>
+        <member name="P:Subtext.Web.UI.Skinning.Script.Type">
+            <summary>
+            Script type. Default value <code>text/javascript</code>
+            </summary>
+        </member>
+        <member name="P:Subtext.Web.UI.Skinning.Script.Src">
+            <summary>
+            Location of the script. Specified as relative to the skin directory
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Skinning.SkinConfig">
+            <summary>
+            Summary description for SkinConfig.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Skinning.SkinItem">
+            <summary>
+            Summary description for SkinItem.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Skinning.SkinPage">
+            <summary>
+            Summary description for SkinPage.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Skinning.SkinTemplate">
+            <summary>
+            Summary description for SkinTemplate.
+            </summary>
+        </member>
+        <member name="P:Subtext.Web.UI.Skinning.SkinTemplate.Scripts">
+            <summary>
+            Collection of <code>script</code> elements, declared for the skin.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Skinning.SkinTemplates">
+            <summary>
+            Summary description for SkinTemplates.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.WebControls.MasterPage">
+            <summary>
+            <p>Serves as the master template for the Subtext site.</p>
+            <p>
+            The MasterPage controls (MasterPage and ContentRegion) are almost entirely based off 
+            of Paul Wilson's excellent demo found
+            here: http://authors.aspalliance.com/paulwilson/Articles/?id=14
+            Very MINOR changes were made here. Thanks Paul.
+            </p>
+            </summary>
+        </member>
+        <member name="P:Subtext.Web.UI.WebControls.MasterPage.TemplateFile">
+            <summary>
+            Gets or sets the template file from the Skins directory.
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Subtext.Web.UI.Globals">
+            <summary>
+            Summary description for Globals.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.UI.Globals.Skin">
+            <summary>
+            Returns the current skin for the current context.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Web.UI.Globals.Skin(System.Web.HttpContext)">
+            <summary>
+            Returns the current skin for the specified context.
+            </summary>
+            <param name="context">Context.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Web.UI.Globals.CurrentTitle(System.Web.HttpContext)">
+            <summary>
+            This method will be called during PreRender. If no title was set via
+            SetTitle(title, context), then we will default to the blog title
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Web.UI.Globals.SetTitle(System.String,System.Web.HttpContext)">
+            <summary>
+            Allows the page title to be set anywhere within the request.
+            </summary>
+            <param name="title">Title.</param>
+            <param name="context">Context.</param>
+        </member>
+        <member name="T:Subtext.Web.UI.UIData">
+            <summary>
+            Summary description for UIData.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.UIText">
+            <summary>
+            Summary description for UIText.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.BlogNotConfiguredError">
+            <summary>
+            Page used to create an initial configuration for the blog.
+            </summary>
+            <remarks>
+            This page will ONLY be displayed if there are no 
+            blog configurations within the database.
+            </remarks>
+        </member>
+        <member name="M:Subtext.Web.BlogNotConfiguredError.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.CheckYourConnectionString">
+            <summary>
+            This page presents useful information to users connecting 
+            to the blog via "localhost".  In otherwords, on a local 
+            installation.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.CheckYourConnectionString.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web._default">
+            <summary>
+            Summary description for _default.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web._default.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Pages.Error.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Subtext.Global.Application_BeginRequest(System.Object,System.EventArgs)">
+            <summary>
+            Method called during at the beginning of each request.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Subtext.Global.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Pages.login">
+            <summary>
+            Summary description for login.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Pages.login.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Pages.logout">
+            <summary>
+            Summary description for login.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Pages.logout.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+    </members>
+</doc>

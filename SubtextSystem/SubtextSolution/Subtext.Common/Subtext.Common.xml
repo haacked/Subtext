@@ -4,118 +4,6 @@
         <name>Subtext.Common</name>
     </assembly>
     <members>
-        <member name="T:Subtext.Common.Config.BaseBlogConfig">
-            <summary>
-            Abstract base class used to implement a blog configuration class.  
-            This is implemented by <see cref="T:Subtext.Common.Config.MultipleBlogConfig"/> and <see cref="T:Subtext.Common.Config.SingleBlogConfig"/>.
-            </summary>
-        </member>
-        <member name="M:Subtext.Common.Config.BaseBlogConfig.GetFormattedHost(System.String,System.Boolean)">
-            <summary>
-            Returns the host formatted correctly with "http://" and "www." 
-            if specified.
-            </summary>
-            <param name="host">Host.</param>
-            <param name="useWWW">Use WWW.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Subtext.Common.Config.BaseBlogConfig.GetCurrentHost(System.Web.HttpRequest)">
-            <summary>
-            Gets the current host, stripping off the initial "www." if 
-            found.
-            </summary>
-            <param name="Request">Request.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Subtext.Common.Config.BaseBlogConfig.CacheConfig(System.Web.Caching.Cache,Subtext.Framework.Configuration.BlogConfig,System.String)">
-            <summary>
-            Stores the blog configuration in the cache using the specified cache key.
-            </summary>
-            <remarks>
-            The config is stored with a high <see cref="T:System.Web.Caching.CacheItemPriority"/>.
-            No callback is registered for the removal of the blog item.
-            </remarks>
-            <param name="cache">Cache.</param>
-            <param name="config">Config.</param>
-            <param name="cacheKEY">Cache KEY.</param>
-        </member>
-        <member name="M:Subtext.Common.Config.BaseBlogConfig.GetConfig">
-            <summary>
-            Gets the blog configuration based on the current http context.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Subtext.Common.Config.BaseBlogConfig.GetConfig(System.Web.HttpContext)">
-            <summary>
-            Gets the configuration based on the specified <see cref="T:System.Web.HttpContext"/>. 
-            Must be implemented by configuration handlers.
-            </summary>
-            <param name="context">Context.</param>
-            <returns></returns>
-        </member>
-        <member name="P:Subtext.Common.Config.BaseBlogConfig.BlogID">
-            <summary>
-            Gets or sets the blog ID.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Common.Config.BaseBlogConfig.CacheTime">
-            <summary>
-            Gets or sets the cache time.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Common.Config.BaseBlogConfig.Host">
-            <summary>
-            Gets or sets the host.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Common.Config.BaseBlogConfig.Application">
-            <summary>
-            Gets or sets the application.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Common.Config.BaseBlogConfig.ImageDirectory">
-            <summary>
-            Gets or sets the image directory.
-            </summary>
-            <value></value>
-        </member>
-        <member name="T:Subtext.Common.Config.MultipleBlogConfig">
-            <summary>
-            A sample implementation of a class that implements IConfig 
-            for a multiple blog system
-            </summary>
-        </member>
-        <member name="M:Subtext.Common.Config.MultipleBlogConfig.GetConfig(System.Web.HttpContext)">
-            <summary>
-            Override abstract GetConfig() (also part of IConfig). Returns a BlogConfig 
-            instance for the current blog. The object first checks the context for an 
-            existing object. It will next check the cache.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:Subtext.Common.Config.SingleBlogConfig">
-            <summary>
-            A sample implementation of IConfig. This class will return the BlogConfig 
-            found at the current host/application, or the one found by configuring the 
-            Providers Host and Application values.
-            </summary>
-        </member>
-        <member name="M:Subtext.Common.Config.SingleBlogConfig.GetConfig(System.Web.HttpContext)">
-            <summary>
-            Gets the configuration based on the specified <see cref="T:System.Web.HttpContext"/>. 
-            Must be implemented by configuration handlers.
-            </summary>
-            <remarks>
-            Will look for the configuration in the cache first using the 
-            key "BlogConfig-".
-            </remarks>
-            <param name="context">Context.</param>
-            <returns></returns>
-        </member>
         <member name="T:Subtext.Common.Data.Cacher">
             <summary>
             Summary description for Cacher.
@@ -242,53 +130,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Subtext.Common.UrlManager.BlogStaticFileHandler">
-            <summary>
-            Replacement static file handler class. Overcomes the "24-hour cache" bug
-            in ASP.NET's default static file handler implementation.
-            </summary>
-        </member>
-        <member name="M:Subtext.Common.UrlManager.BlogStaticFileHandler.#cctor">
-            <summary>
-            Static constructor that fills the string dictionary with
-            the known MIME types.
-            </summary>
-        </member>
-        <member name="M:Subtext.Common.UrlManager.BlogStaticFileHandler.System#Web#IHttpHandler#ProcessRequest(System.Web.HttpContext)">
-            <summary>
-            (IHttpHandler.ProcessRequest)
-            </summary>
-            <param name="ctxt">HTTP context for the request</param>
-        </member>
-        <member name="M:Subtext.Common.UrlManager.BlogStaticFileHandler._FileIsOkayToServe(System.IO.FileInfo,System.String)">
-            <summary>
-            Verifies that the file is okay to serve.
-            </summary>
-            <param name="fi">Information about the file</param>
-            <param name="filename">The filename</param>
-            <returns>Returns true if the file is okay; false otherwise</returns>
-        </member>
-        <member name="M:Subtext.Common.UrlManager.BlogStaticFileHandler._GetFileInfo(System.String)">
-            <summary>
-            Returns a populated FileInfo structure for a file, throwing HTTP exceptions
-            in response to missing files or security problems.
-            </summary>
-            <param name="filename">The filename</param>
-            <returns>A populated FileInfo structure</returns>
-        </member>
-        <member name="M:Subtext.Common.UrlManager.BlogStaticFileHandler._GetMimeMapping(System.String)">
-            <summary>
-            Gets the MIME type for the given filename
-            </summary>
-            <param name="filename">The filename</param>
-            <returns>Returns the mime type for the file; if unknown, return
-            application/octet-stream (default binary data format in MIME)</returns>
-        </member>
-        <member name="P:Subtext.Common.UrlManager.BlogStaticFileHandler.System#Web#IHttpHandler#IsReusable">
-            <summary>
-            (IHttpHandler.IsReusable)
-            </summary>
-        </member>
         <member name="T:Subtext.Common.UrlManager.HandlerConfiguration">
             <summary>
             Configuration class for the HandlerConfiguration section of 
@@ -333,12 +174,6 @@
             </summary>
             <value></value>
         </member>
-        <member name="T:Subtext.Common.UrlManager.HttpForbiddenHandler">
-            <summary>
-            System.Web.HttpForbiddenHandler is not accessible.  
-            This just simulates System.Web.HttpForbiddenHandler.
-            </summary>
-        </member>
         <member name="T:Subtext.Common.UrlManager.HttpHandler">
             <summary>
             Class used to match URLS to the controls that render the URL.
@@ -351,11 +186,59 @@
             <param name="url">URL.</param>
             <returns></returns>
         </member>
+        <member name="P:Subtext.Common.UrlManager.HttpHandler.PageLocation">
+            <summary>
+            <p>Gets or sets the page location.  This is the location 
+            of the page used when the handler type is <see cref="!:HandlerType.Page"/>. 
+            </p>
+            <p>
+            The format for the page location should be a path relative to 
+            the ApplicationPath (no beginning slash).
+            </p>
+            </summary>
+            <example>
+            If Subtext is installed in a virtual directory name "Subtext.Web" and 
+            the virtual path to the page is "/Subtext.Web/SomeDirectory/MyPage.aspx", 
+            the PageLocation should be "SomeDirectory/MyPage.aspx".
+            </example>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Common.UrlManager.HttpHandler.DirectoryLocation">
+            <summary>
+            <p>Gets or sets the actual directory location.  This is the location 
+            of the directory used to find the actual file when the handler type 
+            is <see cref="!:HandlerType.Page"/>. 
+            </p>
+            <p>
+            The format for the directory location should be a path relative to 
+            the ApplicationPath (no beginning slash).
+            </p>
+            </summary>
+            <example>
+            <p>If Subtext is installed in a virtual directory name "Subtext.Web" and 
+            the virtual path to the directory is "/Subtext.Web/Admin/", 
+            the PageLocation should be "Admin".
+            </p>
+            <p>
+            Thus requests for http://host/Subtext.Web/MyBlog/Admin/SomePage.aspx 
+            will be handled by http://host/Subtext.Web/Admin/SomePage.aspx
+            </p>
+            </example>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Common.UrlManager.HttpHandler.FullPageLocation">
+            <summary>
+            Gets the full physical path to the page specified 
+            by <see cref="P:Subtext.Common.UrlManager.HttpHandler.PageLocation"/>.
+            </summary>
+            <value></value>
+        </member>
         <member name="T:Subtext.Common.UrlManager.PageHandlerFactory">
             <summary>
-            System.Web.UI.PageHandlerFactory is internal. We need the option to load our own classes with this for the virtual mapping.
-            With the virtual mapping default documents will not be loaded. if no page is found, we will use attempt to load default.aspx in the current
-            directory
+            System.Web.UI.PageHandlerFactory is internal. We need the option to load our own 
+            classes with this for the virtual mapping.  With the virtual mapping default 
+            documents will not be loaded. if no page is found, we will use attempt to load 
+            default.aspx in the current directory
             </summary>
         </member>
         <member name="T:Subtext.Common.UrlManager.UrlReWriteHandlerFactory">
@@ -376,12 +259,13 @@
             <param name="context">Current HttpContext</param>
             <param name="requestType">Request Type (Passed along to other IHttpHandlerFactory's)</param>
             <param name="url">The current requested url. (Passed along to other IHttpHandlerFactory's)</param>
-            <param name="path">The physical path of the current request. Is not gaurenteed 
+            <param name="path">The physical path of the current request. Is not guaranteed 
             to exist (Passed along to other IHttpHandlerFactory's)</param>
             <returns>
             Returns an Instance of IHttpHandler either by loading an instance of IHttpHandler 
             or by returning an other 
-            IHttpHandlerFactory.GetHandlder(HttpContext context, string requestType, string url, string path) method
+            IHttpHandlerFactory.GetHandlder(HttpContext context, string requestType, string url, string path) 
+            method
             </returns>
         </member>
         <member name="M:Subtext.Common.UrlManager.UrlReWriteHandlerFactory.ReleaseHandler(System.Web.IHttpHandler)">

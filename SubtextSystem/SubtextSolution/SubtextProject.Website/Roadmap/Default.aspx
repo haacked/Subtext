@@ -17,136 +17,193 @@
 	<li>Provides a prioritization of features</li>
 	</ul>
 	<p>
-	This document is a work in progress and feedback is welcome.
+		This document is a work in progress and is constantly changing. 
+		Feedback is welcome.
 	</p>
 	<h3>Administrative Road Map</h3>
 	<ol>
-	<li>Documenting existing source code and features. (priority: high)</li>
-	<li>Fill specific project roles (patch manager, forum manager, etc...) (priority: high)</li>
-	<li>Set up a website and Wiki for Subtext (unfortunately subtext.com is taken). (priority: med)</li>
-	<li>Set up an automated build process (NAnt) (priority: low)</li>
+		<li>Documenting existing source code and features. (priority: high)</li>
+		<li>Fill specific project roles (patch manager, forum manager, etc...) (priority: high)</li>
+		<li>Set up an automated build process (NAnt) (priority: low)</li>
 	</ol>
-	<h3>Upcoming Releases</h3>
+	<h3 class="version">Version 1.0 - Code named &#8220;Nautilus&#8221;</h3>
 	<p>
-	As we flesh out the roadmap, we&#8217;ll divide it into sections based on 
-	planned future individual releases.  For now, this document will 
-	simply list goals and features planned for the near and far future.
+		<strong>Estimated release - October 1, 2005</strong>.
 	</p>
-	<h3>Gotta Have It Features Immediately (priority 1)</h3>
 	<p>
-	These features will directly support the principles of the Subtext project.  
-	<em><span style="color:red">UPDATE:</span> We are rethinking the single vs 
-	multiple blog support. More details later.</em>
-	One important "feature" that must be discussed is the dropping of the 
-	"multiple blogs on one installation" feature.  In order to maintain 
-	Subtext&#8217;s goals of simplicity and it&#8217;s focus on the hobbyist 
-	and individual blogger, it makes sense to focus on the scenario where users 
-	are using Subtext to create a single blog.  This will distinguish Subtext 
-	from Community Server which is geared towards corporations and groups that 
-	wish to host multiple blogs.  Please provide feedback on this decision.
+		Nautilus is focused on usability, its dashing good looks, 
+		and simple deployment.
 	</p>
+	<p>
+		Entries marked with <span class="implemented">*</span> have been 
+		implemented in CVS, though they may require testing and fixes.
+	</p>
+	<ol>
+		<li><strong>Web Based Installer</strong> - Supports clean install and future upgrades.</li>
+		<li><strong>.TEXT 0.95 Import Tool</strong></li>
+		<li>
+			<strong>Table and Stored Procedures Prefix</strong> - Allows users to specify 
+			a prefix for all tables and stored procedures within the web.config file.  This is 
+			especially useful for those on shared hosting providers.  It prevents overwriting existing 
+			tables with the same name.
+		</li>
+		<li>
+			<span class="implemented">*</span><strong>Simplified Configuration</strong> - There is one 
+			and only one web.config file.
+		</li>
+		<li><span class="implemented">*</span><strong>Host Admin Tool</strong> - Create and manage multiple blogs via an easy to use interface.</li>
+		<li><strong>Inline Admin Documentation</strong> - This includes tooltips within the admin section.</li>
+		<li>
+			<span class="implemented">*</span><strong>Edit Link Control</strong>
+			 - Skins can provide a direct link to edit an item when an admin is logged in.
+		</li>
+		<li>
+			<span class="implemented">*</span><strong>Multiple Comment Deletion</strong> 
+			- UI enhancement to delete multiple comments at a time, rather than one at a time.
+		</li>
+		<li>
+			<span class="implemented">*</span><strong>RSS GZIP Compression</strong> 
+			- For RSS Aggregators that support it, feeds can be compressed to save on bandwidth.
+		</li>
+		<li>
+			<span class="implemented">*</span><strong>RFC3229 Delta Encoding</strong> 
+			- Saves bandwidth. For more information, read Bob Wyman&#8217;s 
+			<a href="http://bobwyman.pubsub.com/main/2004/09/using_rfc3229_w.html">post on the subject</a>.
+		</li>
+		<li>
+			<span class="implemented">*</span><strong>Comments disabled after N days</strong> 
+			- You can automatically disable comments on a post after a specified number of days.
+		</li>
+		<li>
+			<span class="implemented">*</span><strong>Comment Throttling</strong> 
+			- You can specify a required delay between posts from the same source.  
+			This makes Subtext more robust against massive comment spam attacks.
+		</li>
+		<li>
+			<span class="implemented">*</span><strong>Duplicate Comment Blocking</strong> 
+			- Comment Spammers often use bots that simply spam the same message over 
+			and over again.  You can have subtext block comments that are exact duplicates.
+		</li>
+		<li>
+			<strong>MT BlackList</strong>
+		</li>
+		<li>
+			<strong>Granular Control Over Comments/Trackbacks/Pingbacks</strong> - 
+			Users will be able to specify which of these features they want on or off.
+		</li>
+		<li>
+			<strong>Logging Console</strong> - Inspired by DotNetNuke&#8217;s implementation, 
+			this allows users to view and clear the log and choose logging levels.
+		</li>
+		<li>
+			<strong>Simple Keyword Comment Filter</strong> - This will be replaced with a 
+			more full fledged implementation later.
+		</li>
+		<li>
+			<span class="implemented">*</span><strong>Replace/Upgrade FreeTextBox.dll</strong>
+		</li>
+		<li><strong>Improved Documentation</strong> - Want all around better documentation.</li>
+		<li><strong>Great New Skins</strong></li>
+		<li><strong>BUG FIX: MetaBlogApi</strong> - You can edit query and edit old posts 
+		in w.bloggar.</li>
+	</ol>
+	
+	<h3>Version 1.1 - Code named &#8220;Daedelus&#8221;</h3>
+	<p>
+		<strong>Estimated release - March, 2005</strong>.
+	</p>
+	<p>
+		Daedelus takes an inward look and fixes up the plumbing a bit, 
+		providing an extensibility (plug-in) model.
+	</p>
+	<ol>
+		<li>
+			<strong>ASP.NET 2.0</strong>
+		</li>
+		<li>
+			<strong>Code refactorings</strong> - Focus on simplifying the existing 
+			providers (especially the ObjectProvider) so that other providers can 
+			easily be built.
+		</li>
+		<li>
+			<strong>Plug-in Framework</strong>
+		</li>
+		<li>
+			<strong>Improved user management</strong> - Membership provider.
+		</li>
+		<li>
+			<strong>Comment Moderation and Whitelisting</strong>
+		</li>
+		<li>
+			<strong>Comment Filters Refactored to Plug-ins</strong>
+		</li>
+		<li>
+			<strong>Skin Gallery</strong>
+		</li>
+		<li>
+			<strong>Skin Upload tool</strong>
+		</li>
+	</ol>
+	
+	<h3>Version 1.2 - Code named &#8220;Daedelus&#8221;</h3>
+	<ol>
+		<li><strong>Improved XHTML (and other standards) Support</strong></li>
+		<li><strong>Localization and Internationalization</strong></li>
+		<li><strong>Admin UI (look and feel) overhaul</strong></li>
+		<li><strong>Improved Skin Architecture</strong></li>
+		<li><strong>Simple Comment Filtering Rules Plugin</strong>
+			Currently, haacked.com uses a simple trigger that filters out comments 
+			with a certain number of links.  This exceedingly simple filter does 
+			remarkably well.  To fight comment spam, we should start with a few 
+			simple (and configurable) rules for filtering comment spam.  We can 
+			add more complex rules later.
+		</li>
+	</ol>
+	
+	<h3>Version 2.0 - Code named &#8220;Red October&#8221;</h3>
+	<ol>
+		<li><strong>Texturize</strong> - Used to convert ASCII into 
+		typographically correct XHTML entities.  For example, replacing 
+		"Quotes" with nicer &#8220;Quotes&#8221;.
+		</li>
+		<li>
+			<strong>REST Architectural</strong> - There are several places where 
+			having a RESTful architecture could benefit Subtext.  We don&#8217;t 
+			plan to use REST as a golden hammer, merely use it where it makes sense.
+		</li>
+		<li>
+			<strong>Implement AJAX.NET</strong> - There are several places that 
+			an AJAX implementation could make Subtext more usable.
+		</li>
+		<li>
+			<b>Friendly Url Support</b>: Currently, Subtext allows the user to 
+			specify a friendly URL in the &#8220;Entry Name&#8221; field when 
+			creating a post in the admin section.  We want to create a way for 
+			users to allow the system to automatically create these friendly 
+			URLs.  Also want to have some means for friendly URL creation 
+			when posting via the MetaBlogAPI.
+		</li>
+	</ol>
+	
+	<h3>Features way down the road</h3>
 	<ul>
-		<li>
-		<b>Installer for local setup</b>: We&#8217;ve started an installer using 
-		the WiX toolkit.  Initially, this will be an MSI package that will install 
-		both a website and the database when run locally.  Eventually, it will have 
-		to be able to upgrade an existing installation.
-		</li>
-		<li>
-		<b>Simplified configuration (single blog)</b>: By removing the multiple 
-		blogs feature, configuration can be simplified immensely.
-		</li>
-		<li>
-		<b>Configuration utility</b>: Upon first installing Subtext, the 
-		configuration utility will be an easy to use WinForms app used to 
-		set the connection string (and certain other settings if any) within 
-		the web.config file.  This utility can be run at any time to tweak 
-		web.config settings without having to muck around the XML by hand.
-		</li>
-		<li>
-		<b>Kick ass documentation</b>: Can&#8217;t stress this enough.  
-		We&#8217;ll use NDoc to generate code and API documentation.  As for 
-		user documentation, we&#8217;ll have both a project site and a wiki.
-		</li>
-		<li>
-		<b>Comments Automatically Expire</b>: This is currently hard-coded 
-		into Subtext and needs to be made configurable.  Allow the user to have 
-		comments turned off after a configurable number of days. Existing comments 
-		will still be displayed, but no new comments will be allowed.
-		</li>
-	</ul>
-	<h3>Gotta Have It, But Just not yet (priority 1.5)</h3>
-	<ul>
-		<li><b>Friendly Urls</b>: Currently, Subtext creates permalinks 
-		that look like <a href="http://haacked.com/archive/2005/05/04/2953.aspx" target="_blank">http://haacked.com/archive/2005/05/04/2953.aspx</a>.  
-		In a future version, we want the permalink to have a more human readable URL.  
-		For example, this might be converted to 
-		http://haacked.com/archive/2005/05/04/AnnouncingSubtext.aspx.
-		</li>
-		<li>
-		<b>Improved Usability</b>: One of my pet peeves about .TEXT is how 
-		hard it is to edit a really old post.  You have to page through the 
-		data grid of posts till you find it.  Instead, a simple option is to 
-		create a new admin token that skin creators can place in their skin 
-		where a post is rendered.  When a user is logged in as an admin, the 
-		token is displayed as an icon with a link that the admin can click to 
-		edit that post.  Thus, to edit an old post, simply make sure you&#8217;re 
-		logged in as an admin and leverage Google to find the post, and then 
-		click on the admin token.
-		</li>
-		<li>
-		<b>Replace/Upgrade FreeTextBox.dll</b>: Hopefully with something 
-		that won&#8217;t mangle HTML.
-		</li>
-		<li><b>Comment Moderation</b>: This is merely one tool in the constant 
-		battle to fight comment spam.  Allows users to turn on and off comment 
-		moderation.</li>
-		<li><b>Simple Comment Filtering Rules</b>
-		Currently, haacked.com uses a simple trigger that filters out comments 
-		with a certain number of links.  This exceedingly simple filter does 
-		remarkably well.  To fight comment spam, we should start with a few 
-		simple (and configurable) rules for filtering comment spam.  We can 
-		add more complex rules later.
-		</li>
-	</ul>
-	<h3>Important, But Maybe Next Release Features (priority 2)</h3>
-	<ul>
-		<li><b>Membership <a href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnaspnet/html/asp02182004.asp" target="_blank">Provider Model</a> 
-		implementation</b>: This will be a very simple system that allows a blog 
-		owner to create accounts with certain roles (reader, author, admin).  Thus 
-		a blog can have multiple authors for a single blog.
-		</li>
-		<li><b>New CSS based Templates</b>: These will be templates that 
-		can be "skinned" purely via CSS (ala 
-		<a href="http://www.csszengarden.com/">CSS Zen Garden</a>).  We&#8217;ll 
-		provide a tool for a blog owner to edit and switch CSS for this particular template.
-		</li>
-		<li><b>XHTML compliance</b>: Both transitional and strict.</li>
-		<li>
-		<b>Comment Filtering Rules Engine</b>: This will be similar to the Junk 
-		Mail rules engine in Outlook.  We&#8217;ll provide a web based interface 
-		for creating filtering rule used to combat comment spam.
-		</li>
-	</ul>
-	<h3>Features to dream about (priority we&#8217;re dreaming)</h3>
-	<ul>
-		<li><b>A Spell Checker</b>: For all those bad spelers out there.</li>
-		<li><b>Migration utility</b>: We&#8217;re not so arrogant as to 
+		<li><strong>A Spell Checker</strong>: For all those bad spelers out there.</li>
+		<li><strong>Migration utility for other systems</strong>: We&#8217;re not so arrogant as to 
 		believe you&#8217;ll never use another blogging engine again.  
 		If you do, we want to help you migrate your permalinks and posts 
 		to it.</li>
-		<li><b>MySql Provider</b>: because not everyone wants to pay for 
+		<li><strong>MySql Provider</strong>: because not everyone wants to pay for 
 		SQL Server hosting and some people want to honor their license 
 		agreement for MSDN Universal. ;)
 		</li>
-		<li><b>Mono support</b>: This may be way down the road, but 
+		<li><strong>Mono support</strong>: This may be way down the road, but 
 		supporting Mono would be a nice way to introduce the Linux 
 		crowd to the beauty of ASP.NET and Subtext.  Besides, we&#8217;ll 
 		finally get props from the Slashdot crowd for our 
 		<a href="http://www.urbandictionary.com/define.php?term=1337" target="_blank">1337</a> sk1llz.
 		</li>
 		<li>
-		<b>Intelligent comment filtering</b>: Whether it be via Bayes filtering 
+		<strong>Intelligent comment filtering</strong>: Whether it be via Bayes filtering 
 		or some other means, but a more autonomous method of spam filtering is 
 		called for.
 		</li>

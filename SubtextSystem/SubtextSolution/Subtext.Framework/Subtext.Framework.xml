@@ -105,6 +105,126 @@
             Gets the current element in the collection.
             </summary>
         </member>
+        <member name="T:Subtext.Framework.Components.BlogInfoCollection">
+            <summary>
+            Represents a collection of <see cref="T:Subtext.Framework.BlogInfo">BlogInfo</see> Components.
+            </summary>
+        </member>
+        <member name="T:Subtext.Framework.Components.IPagedResults">
+            <summary>
+            Summary description for IPagedResults.
+            </summary>
+        </member>
+        <member name="M:Subtext.Framework.Components.BlogInfoCollection.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Subtext.Framework.Components.BlogInfoCollection">BlogInfoCollection</see> 
+            class.
+            </summary>
+        </member>
+        <member name="M:Subtext.Framework.Components.BlogInfoCollection.#ctor(Subtext.Framework.BlogInfo[])">
+            <summary>
+            Initializes a new instance of the 
+            <see cref="T:Subtext.Framework.Components.BlogInfoCollection">BlogInfoCollection</see> class containing the 
+            specified array of <see cref="T:Subtext.Framework.BlogInfo">BlogInfo</see> Components.
+            </summary>
+            <param name="value">An array of <see cref="T:Subtext.Framework.BlogInfo">BlogInfo</see> Components with which to initialize the collection. </param>
+        </member>
+        <member name="M:Subtext.Framework.Components.BlogInfoCollection.AddRange(Subtext.Framework.BlogInfo[])">
+            <summary>
+            Copies the elements of the specified <see cref="T:Subtext.Framework.BlogInfo">BlogInfo</see> 
+            array to the end of the collection.
+            </summary>
+            <param name="value">An array of type <see cref="T:Subtext.Framework.BlogInfo">BlogInfo</see> 
+            containing the Components to add to the collection.</param>
+        </member>
+        <member name="M:Subtext.Framework.Components.BlogInfoCollection.AddRange(Subtext.Framework.Components.BlogInfoCollection)">
+            <summary>
+            Adds the contents of another <see cref="T:Subtext.Framework.Components.BlogInfoCollection">BlogInfoCollection</see> 
+            to the end of the collection.
+            </summary>
+            <param name="value">A <see cref="T:Subtext.Framework.Components.BlogInfoCollection">BlogInfoCollection</see> containing 
+            the Components to add to the collection. </param>
+        </member>
+        <member name="M:Subtext.Framework.Components.BlogInfoCollection.Contains(Subtext.Framework.BlogInfo)">
+            <summary>
+            Gets a value indicating whether the collection contains the specified 
+            <see cref="T:Subtext.Framework.Components.BlogInfoCollection">BlogInfoCollection</see>.
+            </summary>
+            <param name="value">The <see cref="T:Subtext.Framework.Components.BlogInfoCollection">BlogInfoCollection</see> 
+            to search for in the collection.</param>
+            <returns><b>true</b> if the collection contains the specified object; otherwise, 
+            <b>false</b>.</returns>
+        </member>
+        <member name="M:Subtext.Framework.Components.BlogInfoCollection.CopyTo(Subtext.Framework.BlogInfo[],System.Int32)">
+            <summary>
+            Copies the collection Components to a one-dimensional 
+            <see cref="T:System.Array">Array</see> instance beginning 
+            at the specified index.
+            </summary>
+            <param name="array">The one-dimensional <see cref="T:System.Array">Array</see> 
+            that is the destination of the values copied from the collection.</param>
+            <param name="index">The index of the array at which to begin inserting.</param>
+        </member>
+        <member name="M:Subtext.Framework.Components.BlogInfoCollection.IndexOf(Subtext.Framework.BlogInfo)">
+            <summary>
+            Gets the index in the collection of the specified 
+            <see cref="T:Subtext.Framework.Components.BlogInfoCollection">BlogInfoCollection</see>, if it exists in the collection.
+            </summary>
+            <param name="value">The <see cref="T:Subtext.Framework.Components.BlogInfoCollection">BlogInfoCollection</see> 
+            to locate in the collection.</param>
+            <returns>The index in the collection of the specified object, if found; otherwise, -1.</returns>
+        </member>
+        <member name="M:Subtext.Framework.Components.BlogInfoCollection.GetEnumerator">
+            <summary>
+            Returns an enumerator that can iterate through the 
+            <see cref="T:Subtext.Framework.Components.BlogInfoCollection">BlogInfoCollection</see> instance.
+            </summary>
+            <returns>An <see cref="T:Subtext.Framework.Components.BlogInfoCollection.BlogInfoEnumerator">BlogInfoEnumerator</see> for the 
+            <see cref="T:Subtext.Framework.Components.BlogInfoCollection">BlogInfoCollection</see> instance.</returns>
+        </member>
+        <member name="P:Subtext.Framework.Components.BlogInfoCollection.MaxItems">
+            <summary>
+            Gets or sets the max items this can contain.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Components.BlogInfoCollection.Item(System.Int32)">
+            <summary>
+            Gets the <see cref="T:Subtext.Framework.Components.BlogInfoCollection">BlogInfoCollection</see> at 
+            the specified index in the collection.
+            <para>
+            In C#, this property is the indexer for the 
+            <see cref="T:Subtext.Framework.Components.BlogInfoCollection">BlogInfoCollection</see> class.
+            </para>
+            </summary>
+        </member>
+        <member name="T:Subtext.Framework.Components.BlogInfoCollection.BlogInfoEnumerator">
+            <summary>
+            Supports a simple iteration over a <see cref="T:Subtext.Framework.Components.BlogInfoCollection">BlogInfoCollection</see>.
+            </summary>
+        </member>
+        <member name="M:Subtext.Framework.Components.BlogInfoCollection.BlogInfoEnumerator.#ctor(Subtext.Framework.Components.BlogInfoCollection)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Subtext.Framework.Components.BlogInfoCollection.BlogInfoEnumerator">BlogPostDayEnumerator</see> class referencing the specified <see cref="T:Subtext.Framework.Components.BlogInfoCollection">BlogInfoCollection</see> object.
+            </summary>
+            <param name="mappings">The <see cref="T:Subtext.Framework.Components.BlogInfoCollection">BlogInfoCollection</see> to enumerate.</param>
+        </member>
+        <member name="M:Subtext.Framework.Components.BlogInfoCollection.BlogInfoEnumerator.MoveNext">
+            <summary>
+            Advances the enumerator to the next element of the collection.
+            </summary>
+            <returns><b>true</b> if the enumerator was successfully advanced to the next element; <b>false</b> if the enumerator has passed the end of the collection.</returns>
+        </member>
+        <member name="M:Subtext.Framework.Components.BlogInfoCollection.BlogInfoEnumerator.Reset">
+            <summary>
+            Sets the enumerator to its initial position, which is before the first element in the collection.
+            </summary>
+        </member>
+        <member name="P:Subtext.Framework.Components.BlogInfoCollection.BlogInfoEnumerator.Current">
+            <summary>
+            Gets the current element in the collection.
+            </summary>
+        </member>
         <member name="T:Subtext.Framework.Components.BlogUser">
             <summary>
             Summary description for BlogUser.
@@ -120,15 +240,20 @@
             Summary description for Entry.
             </summary>
         </member>
-        <member name="T:Subtext.Framework.Components.IBlogIdentifier">
-            <summary>
-            Summary description for IBlogID.
-            </summary>
-        </member>
-        <member name="M:Subtext.Framework.Components.Entry.#ctor">
+        <member name="M:Subtext.Framework.Components.Entry.#ctor(Subtext.Extensibility.PostType)">
             <summary>
             Creates a new <see cref="T:Subtext.Framework.Components.Entry"/> instance.
             </summary>
+            <param name="ptype">Ptype.</param>
+        </member>
+        <member name="M:Subtext.Framework.Components.Entry.CalculateChecksum(System.String)">
+            <summary>
+            Calculates a simple checksum of the specified text.  
+            This is used for comment filtering purposes. 
+            Once deployed, this algorithm shouldn't change.
+            </summary>
+            <param name="text">Text.</param>
+            <returns></returns>
         </member>
         <member name="P:Subtext.Framework.Components.Entry.HasTitleUrl">
             <summary>
@@ -148,10 +273,29 @@
             </summary>
             <value></value>
         </member>
+        <member name="P:Subtext.Framework.Components.Entry.Body">
+            <summary>
+            Gets or sets the body of the Entry.  This is the 
+            main content of the entry.
+            </summary>
+            <value></value>
+        </member>
         <member name="P:Subtext.Framework.Components.Entry.CommentingClosed">
             <summary>
             True if comments have been closed. Otherwise false.  Comments are closed 
             after a certain number of days.
+            </summary>
+        </member>
+        <member name="P:Subtext.Framework.Components.Entry.ContentChecksumHash">
+            <summary>
+            This is a checksum of the entry text combined with 
+            a hash of the text like so "####.HASH". 
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:Subtext.Framework.Components.CategoryEntry.#ctor">
+            <summary>
+            Creates a new <see cref="T:Subtext.Framework.Components.CategoryEntry"/> instance.
             </summary>
         </member>
         <member name="T:Subtext.Framework.Components.EntryCollection">
@@ -353,6 +497,11 @@
         <member name="T:Subtext.Framework.Components.EntryStatsView">
             <summary>
             Summary description for EntryStatsView.
+            </summary>
+        </member>
+        <member name="M:Subtext.Framework.Components.EntryStatsView.#ctor">
+            <summary>
+            Creates a new <see cref="T:Subtext.Framework.Components.EntryStatsView"/> instance.
             </summary>
         </member>
         <member name="T:Subtext.Framework.Components.EntryView">
@@ -557,16 +706,6 @@
             Gets the current element in the collection.
             </summary>
         </member>
-        <member name="T:Subtext.Framework.Components.IMail">
-            <summary>
-            Summary description for IMail.
-            </summary>
-        </member>
-        <member name="T:Subtext.Framework.Components.IPagedResults">
-            <summary>
-            Summary description for IPagedResults.
-            </summary>
-        </member>
         <member name="T:Subtext.Framework.Components.KeyWord">
             <summary>
             Summary description for KeyWord.
@@ -687,6 +826,18 @@
             <summary>
             Summary description for LinkCategory.
             </summary>
+        </member>
+        <member name="M:Subtext.Framework.Components.LinkCategory.#ctor">
+            <summary>
+            Creates a new <see cref="T:Subtext.Framework.Components.LinkCategory"/> instance.
+            </summary>
+        </member>
+        <member name="M:Subtext.Framework.Components.LinkCategory.#ctor(System.Int32,System.String)">
+            <summary>
+            Creates a new <see cref="T:Subtext.Framework.Components.LinkCategory"/> instance.
+            </summary>
+            <param name="catID">Cat ID.</param>
+            <param name="title">Title.</param>
         </member>
         <member name="T:Subtext.Framework.Components.LinkCategoryCollection">
             <summary>
@@ -884,6 +1035,12 @@
             <summary>
             Summary description for PagedEntryCollection.
             </summary>
+        </member>
+        <member name="P:Subtext.Framework.Components.PagedEntryCollection.MaxItems">
+            <summary>
+            Gets or sets the max items this can contain.
+            </summary>
+            <value></value>
         </member>
         <member name="T:Subtext.Framework.Components.PagedKeyWordCollection">
             <summary>
@@ -1093,16 +1250,6 @@
             Summary description for PageType.
             </summary>
         </member>
-        <member name="T:Subtext.Framework.Components.PostConfig">
-            <summary>
-            Summary description for PostConfig.
-            </summary>
-        </member>
-        <member name="T:Subtext.Framework.Components.PostType">
-            <summary>
-            Summary description for PageType.
-            </summary>
-        </member>
         <member name="T:Subtext.Framework.Components.Referrer">
             <summary>
             Summary description for Referrer.
@@ -1113,267 +1260,10 @@
             Summary description for ViewStat.
             </summary>
         </member>
-        <member name="T:Subtext.Framework.Configuration.BlogConfig">
-            <summary>
-            Contains configuration information about a blog.  
-            This data is loaded from the blog_config table.
-            </summary>
-        </member>
-        <member name="M:Subtext.Framework.Configuration.BlogConfig.FlagSetter(Subtext.Framework.Configuration.ConfigurationFlag,System.Boolean)">
-            <summary>
-            Adds or removes a <see cref="T:Subtext.Framework.Configuration.ConfigurationFlag"/> to the 
-            flags set for this blog via bitmask operations.
-            </summary>
-            <param name="cf">Cf.</param>
-            <param name="select">Select.</param>
-        </member>
-        <member name="M:Subtext.Framework.Configuration.BlogConfig.FlagPropertyCheck(Subtext.Framework.Configuration.ConfigurationFlag)">
-            <summary>
-            Checks to see if the specified <see cref="T:Subtext.Framework.Configuration.ConfigurationFlag"/> 
-            matches a flag set for this blog.
-            </summary>
-            <param name="cf">Cf.</param>
-            <returns></returns>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.UrlFormats">
-            <summary>
-            Class used to encapsulate URL formats for 
-            various sections of the blog.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.ImageDirectory">
-            <summary>
-            Gets or sets the image directory path.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.ImagePath">
-            <summary>
-            Gets or sets the path to the image directory.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.LastUpdated">
-            <summary>
-            Gets or sets the date that the blog's configuration 
-            was last updated.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.BlogID">
-            <summary>
-            Gets or sets the ID of the blog.  This is the 
-            primary key in the blog_config table.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.TimeZone">
-            <summary>
-            Gets or sets the time zone.  0 = GMT. -8 = PST.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.ItemCount">
-            <summary>
-            Gets or sets the count of posts displayed on the front page 
-            of the blog.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.Language">
-            <summary>
-            Gets or sets the language the blog is in..
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.Email">
-            <summary>
-            Gets or sets the email of the blog owner.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.Host">
-            <summary>
-            Gets or sets the host for the blog.  For 
-            example, www.haacked.com might be a host.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.AllowServiceAccess">
-            <summary>
-            Gets or sets a value indicating whether this site can 
-            be accessed via MetaBlogAPI, XML Web Services, etc..
-            </summary>
-            <value>
-            	<c>true</c> if the blog allow service access; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.IsPasswordHashed">
-            <summary>
-            Gets or sets a value indicating whether passwords are 
-            stored in the database as cleartext or hashed.  If true, 
-            passwords are hashed before storage.
-            </summary>
-            <value>
-            	<c>true</c> if passwords are hashed; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.UseSyndicationCompression">
-            <summary>
-            Gets or sets a value indicating whether syndicated feeds (such as 
-            RSS or ATOM) are compressed.
-            </summary>
-            <value>
-            	<c>true</c> if using compression, otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.IsAggregated">
-            <summary>
-            Gets or sets a value indicating whether this blog 
-            contains some sort of feed (such as RSS or ATOM).
-            </summary>
-            <value>
-            	<c>true</c> if it is aggregated; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.EnableComments">
-            <summary>
-            Gets or sets a value indicating whether comments are enabled.
-            </summary>
-            <value>
-            	<c>true</c> if comments are enabled, otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.DaysTillCommentsClose">
-            <summary>
-            Gets or sets the days till comments close on a post.  
-            The count starts when a post is created.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.IsActive">
-            <summary>
-            Gets or sets a value indicating whether this blog is active.
-            </summary>
-            <value>
-            	<c>true</c> if it is active; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.Application">
-            <summary>
-            Gets or sets the application.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.Password">
-            <summary>
-            Gets or sets the password.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.UserName">
-            <summary>
-            Gets or sets the user name for the owner of the blog.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.Title">
-            <summary>
-            Gets or sets the title of the blog.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.SubTitle">
-            <summary>
-            Gets or sets the sub title of the blog.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.Skin">
-            <summary>
-            Gets or sets the <see cref="T:Subtext.Framework.Configuration.SkinConfig"/> instance 
-            which contains information about the specified skin.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.HasNews">
-            <summary>
-            Gets a value indicating whether the blog has news. 
-            News can be entered in the Admin section.
-            </summary>
-            <value>
-            	<c>true</c> if the blog has news; otherwise, <c>false</c>.
-            </value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.News">
-            <summary>
-            Gets or sets the news.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.Author">
-            <summary>
-            Gets or sets the author of the blog.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.LicenseUrl">
-            <summary>
-            Gets or sets the license URL.  This is used to 
-            Used to specify a license within a syndicated feed. 
-            Does not have to be a creative commons license. 
-            <see href="http://backend.userland.com/creativeCommonsRssModule" />
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.FullyQualifiedUrl">
-            <summary>
-            Gets or sets the fully qualified URL for 
-            the blog.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.Flag">
-            <summary>
-            Gets or sets the flags pertaining to this blog.  
-            This is a bitmask of <see cref="T:Subtext.Framework.Configuration.ConfigurationFlag"/>s.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.CleanApplication">
-            <summary>
-            Returns the Application string without any dashes.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.PostCount">
-            <summary>
-            Gets or sets the total number of posts.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.CommentCount">
-            <summary>
-            Gets or sets the comment count.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.StoryCount">
-            <summary>
-            Gets or sets the story count.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.BlogConfig.PingTrackCount">
-            <summary>
-            Gets or sets the ping track count.
-            </summary>
-            <value></value>
-        </member>
         <member name="T:Subtext.Framework.Configuration.BlogConfigurationSettings">
             <summary>
-            Returns settings straight from Web.config.
+            Contains various configuration settings stored in the 
+            web.config file.
             </summary>
         </member>
         <member name="P:Subtext.Framework.Configuration.BlogConfigurationSettings.AllowImages">
@@ -1419,9 +1309,19 @@
             settings.
             </summary>
         </member>
-        <member name="M:Subtext.Framework.Configuration.Config.GetConfig(System.String,System.String)">
+        <member name="M:Subtext.Framework.Configuration.Config.GetBlogInfo(System.String,System.String)">
             <summary>
-            Returns a <see cref="T:Subtext.Framework.Configuration.BlogConfig"/> instance containing 
+            Returns a <see cref="T:Subtext.Framework.BlogInfo"/> instance containing 
+            the configuration settings for the blog specified by the 
+            Hostname and Application.
+            </summary>
+            <param name="hostName">Hostname.</param>
+            <param name="application">Application.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Configuration.Config.GetBlogInfo(System.String,System.String,System.Boolean)">
+            <summary>
+            Returns a <see cref="T:Subtext.Framework.BlogInfo"/> instance containing 
             the configuration settings for the blog specified by the 
             Hostname and Application.
             </summary>
@@ -1429,28 +1329,46 @@
             Until Subtext supports multiple blogs again (if ever), 
             this will always return the same instance.
             </remarks>
-            <param name="hostname">Hostname.</param>
+            <param name="hostName">Hostname.</param>
             <param name="application">Application.</param>
+            <param name="strict">If false, then this will return a blog record if 
+            there is only one blog record, regardless if the application and hostname match.</param>
             <returns></returns>
         </member>
-        <member name="M:Subtext.Framework.Configuration.Config.AddInitialBlog(System.String,System.String)">
+        <member name="M:Subtext.Framework.Configuration.Config.CreateBlog(System.String,System.String,System.String,System.String,System.String)">
             <summary>
-            Adds the initial blog configuration.  This is a convenience method for 
+            Creates an initial blog.  This is a convenience method for 
             allowing a user with a freshly installed blog to immediately gain access 
             to the admin section to edit the blog.
             </summary>
             <param name="userName">Name of the user.</param>
             <param name="password">Password.</param>
+            <param name="application"></param>
+            <param name="host"></param>
             <returns></returns>
         </member>
-        <member name="M:Subtext.Framework.Configuration.Config.UpdateConfigData(Subtext.Framework.Configuration.BlogConfig)">
+        <member name="M:Subtext.Framework.Configuration.Config.CreateBlog(System.String,System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Creates an initial blog.  This is a convenience method for 
+            allowing a user with a freshly installed blog to immediately gain access 
+            to the admin section to edit the blog.
+            </summary>
+            <param name="userName">Name of the user.</param>
+            <param name="password">Password.</param>
+            <param name="application"></param>
+            <param name="host"></param>
+            <param name="passwordAlreadyHashed">If true, the password has already been hashed.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Configuration.Config.UpdateConfigData(Subtext.Framework.BlogInfo)">
             <summary>
             Updates the database with the configuration data within 
-            the specified <see cref="T:Subtext.Framework.Configuration.BlogConfig"/> instance.
+            the specified <see cref="T:Subtext.Framework.BlogInfo"/> instance.
             </summary>
-            <param name="config">Config.</param>
+            <param name="info">Config.</param>
             <returns></returns>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:Subtext.Framework.Configuration.Config.IsValidApplicationName(System.String)" -->
         <member name="P:Subtext.Framework.Configuration.Config.Settings">
             <summary>
             Returns an instance of <see cref="T:Subtext.Framework.Configuration.BlogConfigurationSettings"/> which 
@@ -1460,14 +1378,22 @@
         </member>
         <member name="P:Subtext.Framework.Configuration.Config.CurrentBlog">
             <summary>
-            Returns a <see cref="T:Subtext.Framework.Configuration.BlogConfig"/> instance containing 
+            Returns a <see cref="T:Subtext.Framework.BlogInfo"/> instance containing 
             the configuration settings for the current blog.
             </summary>
-            <remarks>
-            Until Subtext supports multiple blogs again (if ever), 
-            this will always return the same instance.
-            </remarks>
             <returns></returns>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.Config.BlogCount">
+            <summary>
+            Gets the blog count.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.Config.ConfigurationProvider">
+            <summary>
+            Gets or sets the configuration provider.
+            </summary>
+            <value></value>
         </member>
         <!-- Badly formed XML comment ignored for member "T:Subtext.Framework.Configuration.ConfigurationFlag" -->
         <member name="F:Subtext.Framework.Configuration.ConfigurationFlag.Empty">
@@ -1494,54 +1420,8 @@
         <member name="F:Subtext.Framework.Configuration.ConfigurationFlag.CompressSyndicatedFeed">
             <summary>The Blog compresses its syndicated feeds.</summary>
         </member>
-        <member name="T:Subtext.Framework.Configuration.IConfig">
-            <summary>
-            Interface definition for Blog configuration classes.
-            </summary>
-        </member>
-        <member name="M:Subtext.Framework.Configuration.IConfig.GetConfig">
-            <summary>
-            Gets the blog configuration based on the current http context.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Subtext.Framework.Configuration.IConfig.GetConfig(System.Web.HttpContext)">
-            <summary>
-            Gets the configuration based on the specified <see cref="T:System.Web.HttpContext"/>. 
-            Must be implemented by configuration handlers.
-            </summary>
-            <param name="context">Context.</param>
-            <returns></returns>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.IConfig.BlogID">
-            <summary>
-            Gets or sets the blog ID.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.IConfig.CacheTime">
-            <summary>
-            Gets or sets the cache time.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.IConfig.Host">
-            <summary>
-            Gets or sets the host.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.IConfig.Application">
-            <summary>
-            Gets or sets the application.
-            </summary>
-            <value></value>
-        </member>
-        <member name="P:Subtext.Framework.Configuration.IConfig.ImageDirectory">
-            <summary>
-            Gets or sets the image directory.
-            </summary>
-            <value></value>
+        <member name="F:Subtext.Framework.Configuration.ConfigurationFlag.EnableDuplicateComments">
+            <summary>Whether or not duplicate comments are allowed.</summary>
         </member>
         <member name="T:Subtext.Framework.Configuration.SkinConfig">
             <summary>
@@ -1550,60 +1430,376 @@
         </member>
         <member name="T:Subtext.Framework.Configuration.Tracking">
             <summary>
-            Summary description for Tracking.
+            Class used to manage the settings for various tracking systems 
+            such as TrackBacks, PingBacks and Weblogs Pings.
             </summary>
         </member>
-        <member name="T:Subtext.Framework.Data.DataDTOProvider">
+        <member name="P:Subtext.Framework.Configuration.Tracking.UseTrackingServices">
             <summary>
-            Summary description for DataDTOProvider.
+            Gets a value indicating whether tracking services 
+            are being used such as Weblogs Ping, Pingbacks, and Trackbacks.
             </summary>
+            <value>
+            	<c>true</c> if using tracking services; otherwise, <c>false</c>.
+            </value>
         </member>
-        <member name="T:Subtext.Framework.Data.IDTOProvider">
+        <member name="P:Subtext.Framework.Configuration.Tracking.QueueStatsCount">
             <summary>
-            Summary description for IDTOProvider.
+            Gets or sets the queue stats count. This is the number of 
+            tracking operations that are currently in the queue.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.Tracking.QueueStats">
+            <summary>
+            Gets or sets a value indicating whether or not to queue stats. 
+            This simply indicates whether trackbacks and pings are queued 
+            to occur asynchronously or immediately.
+            </summary>
+            <value>
+            	<c>true</c> if queueing stats asynchronously; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.Tracking.EnableTrackBacks">
+            <summary>
+            Gets or sets a value indicating whether trackbaks are enabled.
+            </summary>
+            <value>
+            	<c>true</c> if track backs are enabled; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.Tracking.EnablePingBacks">
+            <summary>
+            Gets or sets a value indicating whether ping backs are enabled.
+            </summary>
+            <value>
+            	<c>true</c> if ping backs are enabled; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.Tracking.PingWeblogs">
+            <summary>
+            Gets or sets a value indicating whether to ping weblogs.
+            </summary>
+            <value>
+            	<c>true</c> if weblogs are pinged; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.Tracking.EnableWebStats">
+            <summary>
+            Gets or sets a value indicating whether to enable web stats in general.
+            </summary>
+            <value>
+            	<c>true</c> if web stats are enabled; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.Tracking.EnableAggBugs">
+            <summary>
+            Gets or sets a value indicating whether aggregator bugs are enabled. 
+            These are 1pixel images used to track the number of users who 
+            read a particular entry in an aggregator.
+            </summary>
+            <value>
+            	<c>true</c> if agg bugs are enabled; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="T:Subtext.Framework.Configuration.UrlBasedBlogInfoProvider">
+            <summary>
+            Provides a <see cref="T:Subtext.Framework.BlogInfo"/> instance based on the URL.
             </summary>
         </member>
-        <member name="M:Subtext.Framework.Data.IDTOProvider.AddInitialBlogConfiguration(System.String,System.String)">
+        <member name="M:Subtext.Framework.Configuration.UrlBasedBlogInfoProvider.GetFormattedHost(System.String,System.Boolean)">
+            <summary>
+            Returns the host formatted correctly with "http://" and "www." 
+            if specified.
+            </summary>
+            <param name="host">Host.</param>
+            <param name="useWWW">Use WWW.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Configuration.UrlBasedBlogInfoProvider.GetBlogInfo">
+            <summary>
+            Gets the blog configuration based on the current http context.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Configuration.UrlBasedBlogInfoProvider.GetBlogInfo(System.Web.HttpContext)">
+            <summary>
+            Returns a <see cref="T:Subtext.Framework.BlogInfo"/> instance for the current blog. 
+            The object first checks the context for an existing object. 
+            It will next check the cache.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Configuration.UrlBasedBlogInfoProvider.GetCurrentHost(System.Web.HttpRequest)">
+            <summary>
+            Gets the current host, stripping off the initial "www." if 
+            found.
+            </summary>
+            <param name="Request">Request.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Configuration.UrlBasedBlogInfoProvider.CacheConfig(System.Web.Caching.Cache,Subtext.Framework.BlogInfo,System.String)">
+            <summary>
+            Stores the blog configuration in the cache using the specified cache key.
+            </summary>
+            <remarks>
+            The config is stored with a high <see cref="T:System.Web.Caching.CacheItemPriority"/>.
+            No callback is registered for the removal of the blog item.
+            </remarks>
+            <param name="cache">Cache.</param>
+            <param name="info">Config.</param>
+            <param name="cacheKEY">Cache KEY.</param>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.UrlBasedBlogInfoProvider.Instance">
+            <summary>
+            Returns a singleton instance of the UrlConfigProvider.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.UrlBasedBlogInfoProvider.BlogID">
+            <summary>
+            Gets or sets the blog ID.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.UrlBasedBlogInfoProvider.CacheTime">
+            <summary>
+            Gets or sets the cache time.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.UrlBasedBlogInfoProvider.Host">
+            <summary>
+            Gets or sets the host.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.UrlBasedBlogInfoProvider.Application">
+            <summary>
+            Gets or sets the application.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Configuration.UrlBasedBlogInfoProvider.ImageDirectory">
+            <summary>
+            Gets or sets the image directory.
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Subtext.Framework.Data.DatabaseObjectProvider">
+            <summary>
+            Concrete implementation of <see cref="T:Subtext.Framework.Providers.ObjectProvider"/>. This 
+            provides objects persisted to a database.  The specific database 
+            is configured via a <see cref="T:Subtext.Framework.Providers.DbProvider"/>.
+            </summary>
+        </member>
+        <member name="T:Subtext.Framework.Providers.ObjectProvider">
+            <summary>
+            Provides a Data Object Source for interacting with Subtext Data.  One example 
+            is a DataObjectProvider, which stores Subtext data in a database (which itself is 
+            provided via the <see cref="T:Subtext.Framework.Providers.DbProvider"/> class).
+            </summary>
+        </member>
+        <member name="M:Subtext.Framework.Providers.ObjectProvider.Instance">
+            <summary>
+            Returns the configured concrete instance of a <see cref="T:Subtext.Framework.Providers.ObjectProvider"/>.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Providers.ObjectProvider.LoadHostInfo(Subtext.Framework.HostInfo)">
+            <summary>
+            Returns the <see cref="T:Subtext.Framework.HostInfo"/> for the Subtext installation.
+            </summary>
+            <returns>A <see cref="T:Subtext.Framework.HostInfo"/> instance.</returns>
+        </member>
+        <member name="M:Subtext.Framework.Providers.ObjectProvider.UpdateHost(Subtext.Framework.HostInfo)">
+            <summary>
+            Updates the <see cref="T:Subtext.Framework.HostInfo"/> instance.  If the host record is not in the 
+            database, one is created. There should only be one host record.
+            </summary>
+            <param name="hostInfo">The host information.</param>
+        </member>
+        <member name="M:Subtext.Framework.Providers.ObjectProvider.GetPagedBlogs(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Gets a pageable <see cref="T:Subtext.Framework.Components.BlogInfoCollection"/> of <see cref="T:Subtext.Framework.BlogInfo"/> instances.
+            </summary>
+            <param name="pageIndex">Page index.</param>
+            <param name="pageSize">Size of the page.</param>
+            <param name="sortDescending">Sort descending.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Providers.ObjectProvider.GetBlogById(System.Int32)">
+            <summary>
+            Gets the blog by id.
+            </summary>
+            <param name="blogId">Blog id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Providers.ObjectProvider.GetBlogsByHost(System.String)">
+            <summary>
+            Returns <see cref="T:Subtext.Framework.Components.BlogInfoCollection"/> with the blogs that 
+            have the specified host.
+            </summary>
+            <param name="host">Host.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Providers.ObjectProvider.GetCommentByChecksumHash(System.String)">
+            <summary>
+            Searches the data store for the first comment with a 
+            matching checksum hash.
+            </summary>
+            <param name="checksumHash">Checksum hash.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Providers.ObjectProvider.CreateBlog(System.String,System.String,System.String,System.String,System.String)">
             <summary>
             Adds the initial blog configuration.  This is a convenience method for 
             allowing a user with a freshly installed blog to immediately gain access 
             to the admin section to edit the blog.
             </summary>
+            <param name="title"></param>
             <param name="userName">Name of the user.</param>
             <param name="password">Password.</param>
+            <param name="host"></param>
+            <param name="application"></param>
             <returns></returns>
         </member>
-        <member name="M:Subtext.Framework.Data.IDTOProvider.UpdateConfigData(Subtext.Framework.Configuration.BlogConfig)">
+        <member name="M:Subtext.Framework.Providers.ObjectProvider.UpdateBlog(Subtext.Framework.BlogInfo)">
             <summary>
             Updates the specified blog configuration.
             </summary>
-            <param name="config">Config.</param>
+            <param name="info">Config.</param>
             <returns></returns>
         </member>
-        <member name="M:Subtext.Framework.Data.IDTOProvider.GetConfig(System.String,System.String)">
+        <member name="M:Subtext.Framework.Providers.ObjectProvider.GetBlogInfo(System.String,System.String)">
             <summary>
-            Gets the config.
+            Returns a <see cref="T:Subtext.Framework.BlogInfo"/> instance containing 
+            the configuration settings for the blog specified by the 
+            Hostname and Application.
             </summary>
             <param name="hostname">Hostname.</param>
             <param name="application">Application.</param>
             <returns></returns>
         </member>
-        <member name="M:Subtext.Framework.Data.IDTOProvider.GetConfig(System.Int32)">
+        <member name="M:Subtext.Framework.Providers.ObjectProvider.GetBlogInfo(System.String,System.String,System.Boolean)">
+            <summary>
+            Returns a <see cref="T:Subtext.Framework.BlogInfo"/> instance containing 
+            the configuration settings for the blog specified by the 
+            Hostname and Application.
+            </summary>
+            <remarks>
+            Until Subtext supports multiple blogs again (if ever), 
+            this will always return the same instance.
+            </remarks>
+            <param name="hostname">Hostname.</param>
+            <param name="application">Application.</param>
+            <param name="strict">If false, then this will return a blog record if 
+            there is only one blog record, regardless if the application and hostname match.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Providers.ObjectProvider.GetBlogInfo(System.Int32)">
             <summary>
             Gets the config. This has been depracated
             </summary>
             <param name="BlogID">Blog ID.</param>
             <returns></returns>
         </member>
-        <member name="M:Subtext.Framework.Data.DataDTOProvider.AddInitialBlogConfiguration(System.String,System.String)">
+        <member name="M:Subtext.Framework.Data.DatabaseObjectProvider.LoadHostInfo(Subtext.Framework.HostInfo)">
+            <summary>
+            Returns the <see cref="T:Subtext.Framework.HostInfo"/> for the Subtext installation.
+            </summary>
+            <returns>A <see cref="T:Subtext.Framework.HostInfo"/> instance.</returns>
+        </member>
+        <member name="M:Subtext.Framework.Data.DatabaseObjectProvider.UpdateHost(Subtext.Framework.HostInfo)">
+            <summary>
+            Updates the <see cref="T:Subtext.Framework.HostInfo"/> instance.  If the host record is not in the 
+            database, one is created. There should only be one host record.
+            </summary>
+            <param name="host">The host information.</param>
+        </member>
+        <member name="M:Subtext.Framework.Data.DatabaseObjectProvider.GetPagedBlogs(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Gets a pageable <see cref="T:Subtext.Framework.Components.BlogInfoCollection"/> of <see cref="T:Subtext.Framework.BlogInfo"/> instances.
+            </summary>
+            <param name="pageIndex">Page index.</param>
+            <param name="pageSize">Size of the page.</param>
+            <param name="sortDescending">Sort descending.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Data.DatabaseObjectProvider.GetBlogById(System.Int32)">
+            <summary>
+            Gets the blog by id.
+            </summary>
+            <param name="blogId">Blog id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Data.DatabaseObjectProvider.GetBlogsByHost(System.String)">
+            <summary>
+            Returns <see cref="T:Subtext.Framework.Components.BlogInfoCollection"/> with the blogs that 
+            have the specified host.
+            </summary>
+            <param name="host">Host.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Data.DatabaseObjectProvider.GetCommentByChecksumHash(System.String)">
+            <summary>
+            Searches the data store for the first comment with a 
+            matching checksum hash.
+            </summary>
+            <param name="checksumHash">Checksum hash.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Data.DatabaseObjectProvider.CreateBlog(System.String,System.String,System.String,System.String,System.String)">
             <summary>
             Adds the initial blog configuration.  This is a convenience method for 
             allowing a user with a freshly installed blog to immediately gain access 
             to the admin section to edit the blog.
             </summary>
+            <param name="title"></param>
+            <param name="host"></param>
+            <param name="application"></param>
             <param name="userName">Name of the user.</param>
             <param name="password">Password.</param>
             <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Data.DatabaseObjectProvider.GetBlogInfo(System.String,System.String)">
+            <summary>
+            Returns a <see cref="T:Subtext.Framework.BlogInfo"/> instance containing 
+            the configuration settings for the blog specified by the 
+            Hostname and Application.
+            </summary>
+            <param name="hostname">Hostname.</param>
+            <param name="application">Application.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Data.DatabaseObjectProvider.GetBlogInfo(System.String,System.String,System.Boolean)">
+            <summary>
+            Returns a <see cref="T:Subtext.Framework.BlogInfo"/> instance containing 
+            the configuration settings for the blog specified by the 
+            Hostname and Application.
+            </summary>
+            <remarks>
+            Until Subtext supports multiple blogs again (if ever), 
+            this will always return the same instance.
+            </remarks>
+            <param name="hostname">Hostname.</param>
+            <param name="application">Application.</param>
+            <param name="strict">If false, then this will return a blog record if 
+            there is only one blog record, regardless if the application and hostname match.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Data.DatabaseObjectProvider.Initialize(System.String,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Initializes the specified provider.
+            </summary>
+            <param name="name">Friendly Name of the provider.</param>
+            <param name="configValue">Config value.</param>
+        </member>
+        <member name="P:Subtext.Framework.Data.DatabaseObjectProvider.Name">
+            <summary>
+            Returns the friendly name of the provider when the provider is initialized.
+            </summary>
+            <value></value>
         </member>
         <member name="T:Subtext.Framework.Data.DataHelper">
             <summary>
@@ -1619,25 +1815,12 @@
             <param name="reader"></param>
             <returns></returns>
         </member>
-        <member name="T:Subtext.Framework.Data.IDbProvider">
+        <member name="M:Subtext.Framework.Data.DataHelper.LoadHost(System.Data.IDataReader,Subtext.Framework.HostInfo)">
             <summary>
-            Summary description for IBlogDataProvider.
+            Loads the host from the data reader.
             </summary>
-        </member>
-        <member name="M:Subtext.Framework.Data.IDbProvider.AddInitialBlogConfiguration(System.String,System.String)">
-            <summary>
-            Adds the initial blog configuration.  This is a convenience method for 
-            allowing a user with a freshly installed blog to immediately gain access 
-            to the admin section to edit the blog.
-            </summary>
-            <param name="userName">Name of the user.</param>
-            <param name="password">Password.</param>
+            <param name="reader">Reader.</param>
             <returns></returns>
-        </member>
-        <member name="T:Subtext.Framework.Data.IProcessEntry">
-            <summary>
-            Summary description for IProccessEntry.
-            </summary>
         </member>
         <member name="T:Subtext.Framework.Data.SqlDataProvider">
             <summary>
@@ -1645,7 +1828,173 @@
             for Subtext.
             </summary>
         </member>
-        <member name="M:Subtext.Framework.Data.SqlDataProvider.AddInitialBlogConfiguration(System.String,System.String)">
+        <member name="T:Subtext.Framework.Providers.DbProvider">
+            <summary>
+            If the <see cref="T:Subtext.Framework.Data.DatabaseObjectProvider"/> is used to supply data objects to 
+            Subtext, then this provider is used to configure the underlying database 
+            used. One example of a class that implements this provider is the <see cref="T:Subtext.Framework.Data.SqlDataProvider"/>.
+            </summary>
+        </member>
+        <member name="M:Subtext.Framework.Providers.DbProvider.Instance">
+            <summary>
+            Returns the configured concrete instance of a <see cref="T:Subtext.Framework.Providers.DbProvider"/>.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Providers.DbProvider.Initialize(System.String,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Initializes this provider, setting the connection string.
+            </summary>
+            <param name="name">Friendly Name of the provider.</param>
+            <param name="configValue">Config value.</param>
+        </member>
+        <member name="M:Subtext.Framework.Providers.DbProvider.GetHost">
+            <summary>
+            Returns the data for the Host.
+            </summary>
+        </member>
+        <member name="M:Subtext.Framework.Providers.DbProvider.UpdateHost(Subtext.Framework.HostInfo)">
+            <summary>
+            Updates the <see cref="T:Subtext.Framework.HostInfo"/> instance.  If the host record is not in the 
+            database, one is created. There should only be one host record.
+            </summary>
+            <param name="host">The host information.</param>
+        </member>
+        <member name="M:Subtext.Framework.Providers.DbProvider.GetCommentByChecksumHash(System.String)">
+            <summary>
+            Searches the data store for the first comment with a 
+            matching checksum hash.
+            </summary>
+            <param name="checksumHash">Checksum hash.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Providers.DbProvider.AddBlogConfiguration(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Adds the initial blog configuration.  This is a convenience method for 
+            allowing a user with a freshly installed blog to immediately gain access 
+            to the admin section to edit the blog.
+            </summary>
+            <param name="title"></param>
+            <param name="host"></param>
+            <param name="application"></param>
+            <param name="userName">Name of the user.</param>
+            <param name="password">Password.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Providers.DbProvider.GetBlogInfo(System.String,System.String)">
+            <summary>
+            Returns a <see cref="T:System.Data.IDataReader"/> instance containing 
+            the configuration settings for the blog specified by the 
+            Hostname and Application.
+            </summary>
+            <param name="host">Hostname.</param>
+            <param name="application">Application.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Providers.DbProvider.GetBlogInfo(System.String,System.String,System.Boolean)">
+            <summary>
+            Returns a <see cref="T:System.Data.IDataReader"/> instance containing 
+            the configuration settings for the blog specified by the 
+            Hostname and Application.
+            </summary>
+            <remarks>
+            Until Subtext supports multiple blogs again (if ever), 
+            this will always return the same instance.
+            </remarks>
+            <param name="host">Hostname.</param>
+            <param name="application">Application.</param>
+            <param name="strict">If false, then this will return a blog record if 
+            there is only one blog record, regardless if the application and hostname match.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Providers.DbProvider.GetBlogInfo(System.Int32)">
+            <summary>
+            Returns a <see cref="T:System.Data.IDataReader"/> instance containing 
+            the configuration settings for the blog specified by the 
+            blog id.
+            </summary>
+            <param name="blogId">The unique identifier for the blog to retrieve.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Providers.DbProvider.GetPagedBlogs(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Returns a list of all the blogs within the specified range.
+            </summary>
+            <param name="pageIndex">Page index.</param>
+            <param name="pageSize">Size of the page.</param>
+            <param name="sortDescending">Sort descending.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Providers.DbProvider.GetBlogById(System.Int32)">
+            <summary>
+            Gets the blog by id.
+            </summary>
+            <param name="blogId">Blog id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Providers.DbProvider.GetBlogsByHost(System.String)">
+            <summary>
+            Returns an instance of <see cref="T:System.Data.IDataReader"/> used to 
+            iterate through a result set containing blog_config rows 
+            with the specified host.
+            </summary>
+            <param name="host">Host.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Subtext.Framework.Providers.DbProvider.Name">
+            <summary>
+            Returns the friendly name of the provider when the provider is initialized.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Providers.DbProvider.ConnectionString">
+            <summary>
+            Gets or sets the connection string.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:Subtext.Framework.Data.SqlDataProvider.GetPagedBlogs(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Returns a list of all the blogs within the specified range.
+            </summary>
+            <param name="pageIndex">Page index.</param>
+            <param name="pageSize">Size of the page.</param>
+            <param name="sortDescending">Sort descending.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Data.SqlDataProvider.GetBlogById(System.Int32)">
+            <summary>
+            Gets the blog by id.
+            </summary>
+            <param name="blogId">Blog id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Data.SqlDataProvider.GetBlogsByHost(System.String)">
+            <summary>
+            Returns an instance of <see cref="T:System.Data.IDataReader"/> used to 
+            iterate through a result set containing blog_config rows 
+            with the specified host.
+            </summary>
+            <param name="host">Host.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Data.SqlDataProvider.GetCommentByChecksumHash(System.String)">
+            <summary>
+            Searches the data store for the first comment with a 
+            matching checksum hash.
+            </summary>
+            <param name="checksumHash">Checksum hash.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Data.SqlDataProvider.AddEntryToCategories(System.Int32,Subtext.Framework.Components.LinkCollection)">
+            <summary>
+            Adds the entry to categories specified in the <see cref="T:Subtext.Framework.Components.LinkCollection"/>.
+            </summary>
+            <param name="PostID">Post ID.</param>
+            <param name="lc">Lc.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Data.SqlDataProvider.AddBlogConfiguration(System.String,System.String,System.String,System.String,System.String)">
             <summary>
             Adds the initial blog configuration.  This is a convenience method for 
             allowing a user with a freshly installed blog to immediately gain access 
@@ -1655,19 +2004,51 @@
             <param name="password">Password.</param>
             <returns></returns>
         </member>
-        <member name="M:Subtext.Framework.Data.SqlDataProvider.UpdateConfigData(Subtext.Framework.Configuration.BlogConfig)">
+        <member name="M:Subtext.Framework.Data.SqlDataProvider.GetBlogInfo(System.String,System.String)">
+            <summary>
+            Returns a <see cref="T:System.Data.IDataReader"/> instance containing 
+            the configuration settings for the blog specified by the 
+            Hostname and Application.
+            </summary>
+            <param name="host">Hostname.</param>
+            <param name="application">Application.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Data.SqlDataProvider.GetBlogInfo(System.String,System.String,System.Boolean)">
+            <summary>
+            Returns a <see cref="T:System.Data.IDataReader"/> instance containing 
+            the configuration settings for the blog specified by the 
+            Hostname and Application.
+            </summary>
+            <remarks>
+            Until Subtext supports multiple blogs again (if ever), 
+            this will always return the same instance.
+            </remarks>
+            <param name="host">Hostname.</param>
+            <param name="application">Application.</param>
+            <param name="strict">If false, then this will return a blog record if 
+            there is only one blog record, regardless if the application and hostname match.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Data.SqlDataProvider.UpdateBlog(Subtext.Framework.BlogInfo)">
             <summary>
             Updates the blog configuration in the SQL database 
             using the "blog_UpdateConfig" stored proc.
             </summary>
-            <param name="config">Config.</param>
+            <param name="info">Config.</param>
             <returns></returns>
         </member>
-        <member name="P:Subtext.Framework.Data.SqlDataProvider.ConnectionString">
+        <member name="M:Subtext.Framework.Data.SqlDataProvider.GetHost">
             <summary>
-            Gets or sets the connection string.
+            Returns the data for the Host.
             </summary>
-            <value></value>
+        </member>
+        <member name="M:Subtext.Framework.Data.SqlDataProvider.UpdateHost(Subtext.Framework.HostInfo)">
+            <summary>
+            Updates the <see cref="T:Subtext.Framework.HostInfo"/> instance.  If the host record is not in the 
+            database, one is created. There should only be one host record.
+            </summary>
+            <param name="host">The host information.</param>
         </member>
         <member name="T:Subtext.Framework.Data.SqlErrorMessages">
             <summary>
@@ -1732,13 +2113,6 @@
             </summary>
             <param name="command">The command to which the parameters will be added</param>
             <param name="commandParameters">an array of SqlParameters tho be added to command</param>
-        </member>
-        <member name="M:Subtext.Framework.Data.SqlHelper.AssignParameterValues(System.Data.SqlClient.SqlParameter[],System.Object[])">
-            <summary>
-            This method assigns an array of values to an array of SqlParameters.
-            </summary>
-            <param name="commandParameters">array of SqlParameters to be assigned values</param>
-            <param name="parameterValues">array of Components holding the values to be assigned</param>
         </member>
         <member name="M:Subtext.Framework.Data.SqlHelper.PrepareCommand(System.Data.SqlClient.SqlCommand,System.Data.SqlClient.SqlConnection,System.Data.SqlClient.SqlTransaction,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
             <summary>
@@ -2292,20 +2666,380 @@
         <member name="F:Subtext.Framework.Data.SqlHelper.SqlConnectionOwnership.External">
             <summary>Connection is owned and managed by the caller</summary>
         </member>
-        <member name="T:Subtext.Framework.Email.IMailProvider">
+        <member name="T:Subtext.Framework.Email.SystemMailProvider">
             <summary>
-            Summary description for IMailProvider.
+            Default implementation of the <see cref="T:Subtext.Extensibility.Providers.EmailProvider"/>
             </summary>
         </member>
-        <member name="T:Subtext.Framework.Email.SystemMail">
+        <member name="M:Subtext.Framework.Email.SystemMailProvider.Initialize(System.String,System.Collections.Specialized.NameValueCollection)">
             <summary>
-            Default implementation of the IMailProvider
+            Initializes the specified provider.
             </summary>
+            <param name="name">Friendly Name of the provider.</param>
+            <param name="configValue">Config value.</param>
+        </member>
+        <member name="P:Subtext.Framework.Email.SystemMailProvider.Name">
+            <summary>
+            Returns the friendly name of the provider when the provider is initialized.
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Subtext.Framework.Exceptions.BaseBlogConfigurationException">
+            <summary>
+            Base exception class for blog configuration errors.
+            </summary>
+        </member>
+        <member name="T:Subtext.Framework.Exceptions.BaseSubtextException">
+            <summary>
+            Summary description for BaseSubtextException.
+            </summary>
+        </member>
+        <member name="M:Subtext.Framework.Exceptions.BaseSubtextException.#ctor">
+            <summary>
+            Creates a new <see cref="T:Subtext.Framework.Exceptions.BaseSubtextException"/> instance.
+            </summary>
+        </member>
+        <member name="M:Subtext.Framework.Exceptions.BaseSubtextException.#ctor(System.Exception)">
+            <summary>
+            Creates a new <see cref="T:Subtext.Framework.Exceptions.BaseSubtextException"/> instance.
+            </summary>
+            <param name="innerException">Inner exception.</param>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.BaseSubtextException.MessageResourceKey">
+            <summary>
+            Returns a resource key for the message.  This is used to 
+            look up the message in the correct language within a 
+            resource file (when we get around to I8N).
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:Subtext.Framework.Exceptions.BaseBlogConfigurationException.#ctor">
+            <summary>
+            Creates a new <see cref="T:Subtext.Framework.Exceptions.BaseBlogConfigurationException"/> instance.
+            </summary>
+        </member>
+        <member name="M:Subtext.Framework.Exceptions.BaseBlogConfigurationException.#ctor(System.Exception)">
+            <summary>
+            Creates a new <see cref="T:Subtext.Framework.Exceptions.BaseBlogConfigurationException"/> instance.
+            </summary>
+            <param name="innerException">Inner exception.</param>
+        </member>
+        <member name="T:Subtext.Framework.Exceptions.BaseCommentException">
+            <summary>
+            Base exception class for comment errors.
+            </summary>
+        </member>
+        <member name="T:Subtext.Framework.Exceptions.BlogApplicationDirectoryCreateException">
+            <summary>
+            Exception thrown when creating a blog (or updating a blog) and the 
+            application directory cannot be created.
+            </summary>
+        </member>
+        <member name="M:Subtext.Framework.Exceptions.BlogApplicationDirectoryCreateException.#ctor(System.Exception)">
+            <summary>
+            Creates a new <see cref="T:Subtext.Framework.Exceptions.BlogApplicationDirectoryCreateException"/> instance.
+            </summary>
+            <param name="innerException">Inner exception.</param>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.BlogApplicationDirectoryCreateException.MessageResourceKey">
+            <summary>
+            Gets the message resource key.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.BlogApplicationDirectoryCreateException.Message">
+            <summary>
+            Gets the message.
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Subtext.Framework.Exceptions.BlogDoesNotExistException">
+            <summary>
+            Exception thrown when a blog does not exist.  This is 
+            indicative of not having created a blog_config record.
+            </summary>
+        </member>
+        <member name="M:Subtext.Framework.Exceptions.BlogDoesNotExistException.#ctor(System.String,System.String,System.Boolean)">
+            <summary>
+            Creates a new <see cref="T:Subtext.Framework.Exceptions.BlogDoesNotExistException"/> instance.
+            </summary>
+            <param name="host"></param>
+            <param name="app"></param>
+            <param name="anyBlogsExist">Any blogs exist.</param>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.BlogDoesNotExistException.MessageResourceKey">
+            <summary>
+            Gets the message resource key.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.BlogDoesNotExistException.AnyBlogsExist">
+            <summary>
+            Returns true if any blogs exist in the system.
+            </summary>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.BlogDoesNotExistException.Host">
+            <summary>
+            Gets the requested blog host.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.BlogDoesNotExistException.ApplicationName">
+            <summary>
+            Gets the name of the application.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.BlogDoesNotExistException.Message">
+            <summary>
+            Gets the message.
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Subtext.Framework.Exceptions.BlogDuplicationException">
+            <summary>
+            Exception thrown when trying to add a blog that 
+            duplicates another blog in both host and application.
+            </summary>
+        </member>
+        <member name="M:Subtext.Framework.Exceptions.BlogDuplicationException.#ctor(Subtext.Framework.BlogInfo)">
+            <summary>
+            Creates a new <see cref="T:Subtext.Framework.Exceptions.BlogDuplicationException"/> instance.
+            </summary>
+            <param name="duplicate">Duplicate.</param>
+        </member>
+        <member name="M:Subtext.Framework.Exceptions.BlogDuplicationException.#ctor(Subtext.Framework.BlogInfo,System.Int32)">
+            <summary>
+            Creates a new <see cref="T:Subtext.Framework.Exceptions.BlogDuplicationException"/> instance.
+            </summary>
+            <param name="duplicate">Duplicate.</param>
+            <param name="blogId">Blog id of the blog we were updating.  If this is .</param>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.BlogDuplicationException.Message">
+            <summary>
+            Gets the message.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.BlogDuplicationException.MessageResourceKey">
+            <summary>
+            Gets the message resource key.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.BlogDuplicationException.DuplicateBlog">
+            <summary>
+            Gets the duplicate blog.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.BlogDuplicationException.BlogId">
+            <summary>
+            Id of the blog being updated that caused this exception.  This 
+            would be populated if updating a blog to have the same host and 
+            application as another blog.  Otherwise this is equal to int.MinValue.
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Subtext.Framework.Exceptions.BlogHiddenException">
+            <summary>
+            Exception thrown when creating or updating a blog that would cause 
+            another blog to be hidden.  This should be a rare occurrence, but 
+            entirely possible with multiple blogs.
+            </summary>
+            <remarks>
+            <p>This exception occurs when adding a blog with the same hostname as another blog, 
+            but the original blog does not have an application name defined.</p>  
+            <p>For example, if there exists a blog with the host "www.example.com" with no 
+            application defined, and the admin adds another blog with the host "www.example.com" 
+            and application as "MyBlog", this creates a multiple blog situation in the example.com 
+            domain.  In that situation, each example.com blog MUST have an application name defined. 
+            The URL to the example.com with no application becomes the aggregate blog.
+            </p>
+            </remarks>
+        </member>
+        <member name="M:Subtext.Framework.Exceptions.BlogHiddenException.#ctor(Subtext.Framework.BlogInfo,System.Int32)">
+            <summary>
+            Creates a new <see cref="T:Subtext.Framework.Exceptions.BlogHiddenException"/> instance.
+            </summary>
+            <param name="hidden">Hidden.</param>
+            <param name="blogId"></param>
+        </member>
+        <member name="M:Subtext.Framework.Exceptions.BlogHiddenException.#ctor(Subtext.Framework.BlogInfo)">
+            <summary>
+            Creates a new <see cref="T:Subtext.Framework.Exceptions.BlogHiddenException"/> instance.
+            </summary>
+            <param name="hidden">Hidden.</param>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.BlogHiddenException.HiddenBlog">
+            <summary>
+            Gets the hidden blog.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.BlogHiddenException.BlogId">
+            <summary>
+            Gets the blog id.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.BlogHiddenException.Message">
+            <summary>
+            Gets the message.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.BlogHiddenException.MessageResourceKey">
+            <summary>
+            Gets the message resource key.
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Subtext.Framework.Exceptions.BlogRequiresApplicationException">
+            <summary>
+            Exception thrown when creating a new blog, or changing an existing 
+            blog, without an Application value specified, when another blog 
+            with the same Host name exists.
+            </summary>
+            <remarks>
+            An example of this case is where a system has a blog with the host 
+            "example.com" and the application name "MyBlog".  Attempting to create 
+            a new blog with the host name "example.com" and an empty application 
+            name will result in this exception being thrown.
+            </remarks>
+        </member>
+        <member name="M:Subtext.Framework.Exceptions.BlogRequiresApplicationException.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Creates a new <see cref="T:Subtext.Framework.Exceptions.BlogRequiresApplicationException"/> instance.
+            </summary>
+            <param name="blogsWithSameHostCount">The number of blogs with this 
+            host name (not counting the blog being modified).</param>
+            <param name="blogId">The blog that is being modified and is conflicting with a pre-existing blog.</param>
+        </member>
+        <member name="M:Subtext.Framework.Exceptions.BlogRequiresApplicationException.#ctor(System.Int32)">
+            <summary>
+            Creates a new <see cref="T:Subtext.Framework.Exceptions.BlogRequiresApplicationException"/> instance.
+            </summary>
+            <param name="blogsWithSameHostCount">The number of blogs with this host name.</param>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.BlogRequiresApplicationException.BlogsWithSameHostCount">
+            <summary>
+            Gets the blogs with same host count.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.BlogRequiresApplicationException.BlogId">
+            <summary>
+            Gets the blog id.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.BlogRequiresApplicationException.MessageResourceKey">
+            <summary>
+            Gets the message resource key.
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Subtext.Framework.Exceptions.CommentDuplicateException">
+            <summary>
+            Exception thrown when a duplicate comment occurs, but duplicates are not allowed.
+            </summary>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.CommentDuplicateException.MessageResourceKey">
+            <summary>
+            Gets the message resource key.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.CommentDuplicateException.Message">
+            <summary>
+            Gets the message.
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Subtext.Framework.Exceptions.CommentFrequencyException">
+            <summary>
+            Exception thrown when comments are posted too frequently.
+            </summary>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.CommentFrequencyException.MessageResourceKey">
+            <summary>
+            Gets the message resource key.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.CommentFrequencyException.Message">
+            <summary>
+            Gets the message.
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Subtext.Framework.Exceptions.HostDataDoesNotExistException">
+            <summary>
+            Exception thrown when the HostInfo table (or other backing store 
+            depending on the data provider) does not exist.
+            </summary>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.HostDataDoesNotExistException.Message">
+            <summary>
+            Gets the message.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.HostDataDoesNotExistException.MessageResourceKey">
+            <summary>
+            Returns a resource key for the message.  This is used to 
+            look up the message in the correct language within a 
+            resource file (when we get around to I8N).
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Subtext.Framework.Exceptions.HostNotConfiguredException">
+            <summary>
+            Summary description for HostNotConfiguredException.
+            </summary>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.HostNotConfiguredException.MessageResourceKey">
+            <summary>
+            Returns a resource key for the message.  This is used to 
+            look up the message in the correct language within a 
+            resource file (when we get around to I8N).
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Subtext.Framework.Exceptions.InvalidApplicationNameException">
+            <summary>
+            Exception thrown when creating an application
+            </summary>
+        </member>
+        <member name="M:Subtext.Framework.Exceptions.InvalidApplicationNameException.#ctor(System.String)">
+            <summary>
+            Creates a new <see cref="T:Subtext.Framework.Exceptions.InvalidApplicationNameException"/> instance.
+            </summary>
+            <param name="application">Application.</param>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.InvalidApplicationNameException.MessageResourceKey">
+            <summary>
+            Gets the message resource key.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.Exceptions.InvalidApplicationNameException.Message">
+            <summary>
+            Gets the message.
+            </summary>
+            <value></value>
         </member>
         <member name="T:Subtext.Framework.Format.UrlFormats">
             <summary>
             Default Implemenation of UrlFormats
             </summary>
+        </member>
+        <member name="M:Subtext.Framework.Format.UrlFormats.#ctor(System.String)">
+            <summary>
+            Creates a new <see cref="T:Subtext.Framework.Format.UrlFormats"/> instance.
+            </summary>
+            <param name="fullyQualifiedUrl">Fully qualified URL.</param>
         </member>
         <member name="M:Subtext.Framework.Format.UrlFormats.DateFromUrl(System.String)">
             <summary>
@@ -2314,24 +3048,38 @@
             <param name="url">URL.</param>
             <returns></returns>
         </member>
-        <member name="M:Subtext.Framework.Format.UrlFormats.DateFromUrl(System.String,System.String)">
+        <member name="M:Subtext.Framework.Format.UrlFormats.GetBlogApplicationNameFromRequest(System.String,System.String)">
             <summary>
-            Returns a <see cref="T:System.DateTime"/> instance parsed from the url 
-            at the startfrom position.
+            Parses out the application name from the requested URL.  It simply searches 
+            for the first "folder" after the host and Request.ApplicationPath.
             </summary>
-            <param name="url">URL.</param>
-            <param name="startfrom">Startfrom.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Subtext.Framework.Format.UrlFormats.GetBlogAppFromRequest(System.String,System.String)">
-            <summary>
-            Gets the blog app from request.
-            </summary>
+            <remarks>
+            <p>
+            For example, if a blog is hosted at the virtual directory http://localhost/Subtext.Web/ and 
+            request is made for http://localhost/Subtext.Web/, the application name is "" (empty string). 
+            Howver, a request for http://localhost/Subtext.Web/MyBlog/ would return "MyBlog" as the 
+            application.
+            </p>
+            <p>
+            Likewise, if a blog is hosted at http://localhost/, a request for http://localhost/MyBlog/ 
+            would return "MyBlog" as the application name.
+            </p>
+            </remarks>
             <param name="path">Path.</param>
             <param name="app">App.</param>
             <returns></returns>
         </member>
         <!-- Badly formed XML comment ignored for member "M:Subtext.Framework.Format.UrlFormats.GetUriReferrerSafe(System.Web.HttpRequest)" -->
+        <member name="T:Subtext.Framework.Logging.IConfigurationDeclaration">
+            <summary>
+            Represents logging configuration settings
+            </summary>
+        </member>
+        <member name="T:Subtext.Framework.Logging.IConfigurationFactory">
+            <summary>
+            Creates an XML element, containg configuration for the log4net repository
+            </summary>
+        </member>
         <member name="T:Subtext.Framework.Logging.Log">
             <summary>
             Provides logging for the Subtext framework. This class is typically instantiated as a <c>private static readonly</c> member
@@ -2408,7 +3156,7 @@
             		}
             		catch(Exception e)
             		{
-            			<b>__log.Error("Something was not done", e);</b>
+            			<b>__log.Error("Something had gone terribly wrong", e);</b>
             		}
             	}
             }
@@ -2517,6 +3265,9 @@
              It then proceeds to call all the registered appenders in this logger and also 
              higher in the hierarchy depending on the value of the additivity flag.
             </para>
+            <para>
+            This method is compiled to nothing if DEBUG compilation constant is not set (production build).
+            </para>
             </remarks>
         </member>
         <member name="M:Subtext.Framework.Logging.Log.Debug(System.Object)">
@@ -2537,6 +3288,9 @@
             will print the name of the <see cref="T:System.Exception"/> but no stack trace. 
             To print a stack trace use the <see cref="M:Subtext.Framework.Logging.Log.Debug(System.Object,System.Exception)"/> form 
             instead.
+            </para>
+            <para>
+            This method is compiled to nothing if DEBUG compilation constant is not set (production build).
             </para>
             </remarks>
         </member>
@@ -2786,6 +3540,9 @@
             To pass an <see cref="T:System.Exception"/> use
             one of the <see cref="M:Subtext.Framework.Logging.Log.Debug(System.Object)"/> methods instead.
             </para>
+            <para>
+            This method is compiled to nothing if DEBUG compilation constant is not set (production build).
+            </para>
             </remarks>
         </member>
         <member name="M:Subtext.Framework.Logging.Log.DebugFormat(System.String,System.Object[])">
@@ -2873,99 +3630,44 @@
             </para>
             </remarks>
         </member>
-        <member name="T:Subtext.Framework.Providers.BaseProvider">
-            <summary>
-            Abstract base class for all providers.
-            </summary>
-        </member>
-        <member name="M:Subtext.Framework.Providers.BaseProvider.Instance">
-            <summary>
-            Returns an instance of this provider.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Subtext.Framework.Providers.BaseProvider.SaveCache(System.String,System.Object)">
-            <summary>
-            Saves the specified object into the <see cref="T:Subtext.Framework.Util.BlogCache"/> 
-            using the current <see cref="T:System.Web.HttpContext"/>.
-            </summary>
-            <remarks>
-            The object is saved with a cache dependency on its assembly.
-            </remarks>
-            <param name="cacheKey">Cache key.</param>
-            <param name="obj">Obj.</param>
-        </member>
-        <member name="M:Subtext.Framework.Providers.BaseProvider.SaveCache(System.String,System.Object,System.Web.HttpContext)">
-            <summary>
-            Saves the specified object into the <see cref="T:Subtext.Framework.Util.BlogCache"/> 
-            using the specified <see cref="T:System.Web.HttpContext"/>.
-            </summary>
-            <remarks>
-            The object is saved with a cache dependency on its assembly.
-            </remarks>
-            <param name="cacheKey">Cache key.</param>
-            <param name="obj">Obj.</param>
-            <param name="context">Context.</param>
-        </member>
-        <member name="T:Subtext.Framework.Providers.BlogProviders">
-            <summary>
-            Summary description for BlogProviders.
-            </summary>
-        </member>
-        <member name="T:Subtext.Framework.Providers.ConfigProvider">
-            <summary>
-            ConfigProvider loads the Singleton Instance of IConfig
-            </summary>
-        </member>
-        <member name="T:Subtext.Framework.Providers.ConfigProviderConfiguration">
-            <summary>
-            Summary description for ConfigProvider.
-            </summary>
-        </member>
-        <member name="T:Subtext.Framework.Providers.DbProvider">
-            <summary>
-            ConfigProvider loads the Singleton Instance of IDbProvider
-            </summary>
-        </member>
         <member name="T:Subtext.Framework.Providers.DbProviderConfiguration">
             <summary>
-            Summary description for DbProvider.
+            Provider configuration instance for the <see cref="T:Subtext.Framework.Providers.DbProvider"/>.
             </summary>
         </member>
-        <member name="T:Subtext.Framework.Providers.DTOProvider">
+        <member name="T:Subtext.Framework.Providers.DbProviderSectionHandler">
             <summary>
-            Summary description for DTOProvider.
+            Configuration section handler for the <see cref="T:Subtext.Framework.Providers.DbProvider"/>.  Most of 
+            the implementation is in the base <see cref="T:Subtext.Extensibility.Providers.ProviderSectionHandler"/> 
+            class.  This merely follows the factory pattern in providing a method 
+            to create a proper <see cref="T:Subtext.Extensibility.Providers.ProviderConfiguration"/> instance.
             </summary>
         </member>
-        <member name="T:Subtext.Framework.Providers.DTOProviderConfiguration">
+        <member name="M:Subtext.Framework.Providers.DbProviderSectionHandler.CreateProviderConfigurationInstance">
             <summary>
-            Summary description for DTOProvider.
+            Creates an <see cref="T:Subtext.Framework.Providers.DbProviderConfiguration"/> instance which 
+            is populated by this section handler.
             </summary>
         </member>
-        <member name="T:Subtext.Framework.Providers.EmailProvider">
+        <member name="T:Subtext.Framework.Providers.ObjectProviderConfiguration">
             <summary>
-            Summary description for EmailProvider.
+            Summary description for <see cref="T:Subtext.Framework.Providers.ObjectProviderConfiguration"/>.
             </summary>
         </member>
-        <member name="T:Subtext.Framework.Providers.EmailProviderConfiguration">
+        <member name="T:Subtext.Framework.Providers.ObjectProviderSectionHandler">
             <summary>
-            Summary description for EmailProvider.
+            Configuration section handler for the <see cref="T:Subtext.Framework.Providers.ObjectProvider"/>.  Most of 
+            the implementation is in the base <see cref="T:Subtext.Extensibility.Providers.ProviderSectionHandler"/> 
+            class.  This merely follows the factory pattern in providing a method 
+            to create a proper <see cref="T:Subtext.Extensibility.Providers.ProviderConfiguration"/> instance.
             </summary>
         </member>
-        <member name="T:Subtext.Framework.Providers.IBlogProvider">
+        <member name="M:Subtext.Framework.Providers.ObjectProviderSectionHandler.CreateProviderConfigurationInstance">
             <summary>
-            Summary description for IBlogProvider.
+            Creates an <see cref="T:Subtext.Framework.Providers.ObjectProviderConfiguration"/> instance which 
+            is populated by this section handler.
             </summary>
-        </member>
-        <member name="T:Subtext.Framework.Providers.UrlFormatProvider">
-            <summary>
-            Summary description for UrlFormatProvider.
-            </summary>
-        </member>
-        <member name="T:Subtext.Framework.Providers.UrlFormatProviderConfiguration">
-            <summary>
-            Summary description for UrlFormatProvider.
-            </summary>
+            <returns></returns>
         </member>
         <member name="T:Subtext.Framework.Syndication.BaseAtomWriter">
             <summary>
@@ -3349,12 +4051,12 @@
         <member name="M:Subtext.Framework.Text.StringHelper.RightAfter(System.String,System.String)">
             <summary>
             Returns a string containing every character within a string after the 
-            first occurrence of another string.
+            first occurrence of another string.  If the string is not found, the 
+            whole string is returned.
             </summary>
             <param name="str">Required. String expression from which the rightmost characters are returned.</param>
             <param name="searchString">The string where the end of it marks the 
-            characters to return.  If the string is not found, the whole string is 
-            returned.</param>
+            characters to return.</param>
             <returns></returns>
             <exception cref="T:System.NullReferenceException">Thrown if str or searchstring is null.</exception>
         </member>
@@ -3414,6 +4116,25 @@
             <param name="searched">The string to check its end.</param>
             <param name="suffix">The string to search for at the end of the searched string.</param>
             <param name="ignoreCase">Ignore case.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Text.StringHelper.IndexOf(System.String,System.String,System.Boolean)">
+            <summary>
+            Returns the index of the first string within the second.
+            </summary>
+            <param name="container">Container.</param>
+            <param name="contained">Contained.</param>
+            <param name="caseSensitive">Case sensitive.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Text.StringHelper.Contains(System.String,System.String,System.Boolean)">
+            <summary>
+            Returns true if the the specified container string contains the 
+            contained string.
+            </summary>
+            <param name="container">Container.</param>
+            <param name="contained">Contained.</param>
+            <param name="caseSensitive">Case sensitive.</param>
             <returns></returns>
         </member>
         <member name="T:Subtext.Framework.Threading.TimedLock">
@@ -3596,8 +4317,16 @@
         </member>
         <member name="T:Subtext.Framework.Tracking.PingBackService">
             <summary>
-            Summary description for PingBackService.
+            Service used to receive pingbacks from remote clients.
             </summary>
+        </member>
+        <member name="M:Subtext.Framework.Tracking.PingBackService.pingBack(System.String,System.String)">
+            <summary>
+            Method called by a remote client to ping this server.
+            </summary>
+            <param name="sourceURI">Source URI.</param>
+            <param name="targetURI">Target URI.</param>
+            <returns></returns>
         </member>
         <member name="T:Subtext.Framework.Tracking.TrackBackHandler">
             <summary>
@@ -3611,7 +4340,7 @@
         </member>
         <member name="T:Subtext.Framework.Tracking.TrackHelpers">
             <summary>
-            Summary description for TrackHelpers.
+            Contains static helper methods for dealing with Trackbacks and PingBacks.
             </summary>
         </member>
         <member name="T:Subtext.Framework.Tracking.TrackingUrls">
@@ -3706,7 +4435,8 @@
         </member>
         <member name="M:Subtext.Framework.Util.KeyWords.ReplaceFormat(System.String,System.String,System.String,System.Boolean,System.Boolean)">
             <summary>
-            Preforms a forward scan and replace for a given pattern. Can specify only to match first fine and if the pattern is CaseSensitive
+            Preforms a forward scan and replace for a given pattern. 
+            Can specify only to match first fine and if the pattern is CaseSensitive
             </summary>
             <param name="source">Text to search</param>
             <param name="oldValue">Pattern to search for</param>
@@ -3886,12 +4616,383 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Subtext.Framework.Entries">
+        <member name="T:Subtext.Framework.BlogInfo">
             <summary>
-            Summary description for Entries.
+            Represents an instance of a blog.  This was formerly known as the BlogConfig class. 
+            We are attempting to distinguish this from settings stored in web.config. This class 
+            is persisted via a <see cref="T:Subtext.Framework.Providers.ObjectProvider"/>.
             </summary>
         </member>
-        <member name="M:Subtext.Framework.Entries.GetPagedEntries(Subtext.Framework.Components.PostType,System.Int32,System.Int32,System.Int32,System.Boolean)">
+        <member name="M:Subtext.Framework.BlogInfo.NormalizeHostName(System.String)">
+            <summary>
+            Removes the preceding "www." on a host name.
+            </summary>
+            <param name="host">Host.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.BlogInfo.GetBlogs(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Returns a <see cref="T:Subtext.Framework.Components.BlogInfoCollection"/> containing the <see cref="T:Subtext.Framework.BlogInfo"/> 
+            instances within the specified range.
+            </summary>
+            <param name="pageIndex">Page index.</param>
+            <param name="pageSize">Size of the page.</param>
+            <param name="sortDescending">Sort descending.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.BlogInfo.GetBlogsByHost(System.String)">
+            <summary>
+            Returns a <see cref="T:Subtext.Framework.Components.BlogInfoCollection"/> containing the <see cref="T:Subtext.Framework.BlogInfo"/> 
+            instances that have the specified hostname.
+            </summary>
+            <param name="host">host.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.BlogInfo.GetActiveBlogs(System.Int32,System.Int32,System.Boolean,System.Int32@)">
+            <summary>
+            Returns a <see cref="T:Subtext.Framework.Components.BlogInfoCollection"/> containing ACTIVE the <see cref="T:Subtext.Framework.BlogInfo"/> 
+            instances within the specified range.
+            </summary>
+            <param name="pageIndex">Page index.</param>
+            <param name="pageSize">Size of the page.</param>
+            <param name="sortDescending">Sort descending.</param>
+            <param name="totalBlogs">Indicates the total number of blogs</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.BlogInfo.GetActiveBlogs(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Returns a <see cref="T:Subtext.Framework.Components.BlogInfoCollection"/> containing ACTIVE the <see cref="T:Subtext.Framework.BlogInfo"/> 
+            instances within the specified range.
+            </summary>
+            <param name="pageIndex">Page index.</param>
+            <param name="pageSize">Size of the page.</param>
+            <param name="sortDescending">Sort descending.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.BlogInfo.GetBlogById(System.Int32)">
+            <summary>
+            Gets the blog by id.
+            </summary>
+            <param name="blogId">Blog id.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.BlogInfo.FlagSetter(Subtext.Framework.Configuration.ConfigurationFlag,System.Boolean)">
+            <summary>
+            Adds or removes a <see cref="T:Subtext.Framework.Configuration.ConfigurationFlag"/> to the 
+            flags set for this blog via bitmask operations.
+            </summary>
+            <param name="cf">Cf.</param>
+            <param name="select">Select.</param>
+        </member>
+        <member name="M:Subtext.Framework.BlogInfo.FlagPropertyCheck(Subtext.Framework.Configuration.ConfigurationFlag)">
+            <summary>
+            Checks to see if the specified <see cref="T:Subtext.Framework.Configuration.ConfigurationFlag"/> 
+            matches a flag set for this blog.
+            </summary>
+            <param name="cf">Cf.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.BlogInfo.Equals(System.Object)">
+            <summary>
+            Returns true if the two instances are equal
+            </summary>
+            <param name="obj">Obj.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.BlogInfo.GetHashCode">
+            <summary>
+            Serves as the hash function for the type <see cref="T:Subtext.Framework.BlogInfo"/>, 
+            suitable for use in hashing functions.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.UrlFormats">
+            <summary>
+            Class used to encapsulate URL formats for 
+            various sections of the blog.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.ImageDirectory">
+            <summary>
+            Gets or sets the image directory path.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.ImagePath">
+            <summary>
+            Gets or sets the path to the image directory.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.LastUpdated">
+            <summary>
+            Gets or sets the date that the blog's configuration 
+            was last updated.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.BlogID">
+            <summary>
+            Gets or sets the ID of the blog.  This is the 
+            primary key in the blog_config table.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.TimeZone">
+            <summary>
+            Gets or sets the time zone.  0 = GMT. -8 = PST.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.ItemCount">
+            <summary>
+            Gets or sets the count of posts displayed on the front page 
+            of the blog.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.Language">
+            <summary>
+            Gets or sets the language the blog is in..
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.Email">
+            <summary>
+            Gets or sets the email of the blog owner.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.Host">
+            <summary>
+            Gets or sets the host for the blog.  For 
+            example, www.haacked.com might be a host.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.AllowServiceAccess">
+            <summary>
+            Gets or sets a value indicating whether this site can 
+            be accessed via MetaBlogAPI, XML Web Services, etc..
+            </summary>
+            <value>
+            	<c>true</c> if the blog allow service access; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.IsPasswordHashed">
+            <summary>
+            Gets or sets a value indicating whether passwords are 
+            stored in the database as cleartext or hashed.  If true, 
+            passwords are hashed before storage.
+            </summary>
+            <value>
+            	<c>true</c> if passwords are hashed; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.UseSyndicationCompression">
+            <summary>
+            Gets or sets a value indicating whether syndicated feeds (such as 
+            RSS or ATOM) are compressed.
+            </summary>
+            <value>
+            	<c>true</c> if using compression, otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.IsAggregated">
+            <summary>
+            Gets or sets a value indicating whether this blog 
+            contains some sort of feed (such as RSS or ATOM).
+            </summary>
+            <value>
+            	<c>true</c> if it is aggregated; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.EnableComments">
+            <summary>
+            Gets or sets a value indicating whether comments are enabled.
+            </summary>
+            <value>
+            	<c>true</c> if comments are enabled, otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.EnableDuplicateComments">
+            <summary>
+            Gets or sets a value indicating whether duplicate comments are enabled.  
+            If not, duplicate comments are not allowed.
+            </summary>
+            <remarks>
+            This may cause a problem with "me too!" comments.  
+            If that is an issue, we can tweak this to only check 
+            comments that are larger than a certain size.
+            </remarks>
+            <value>
+            	<c>true</c> if comments are enabled, otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.DaysTillCommentsClose">
+            <summary>
+            Gets or sets the days till comments close on a post.  
+            The count starts when a post is created.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.CommentDelayInMinutes">
+            <summary>
+            Gets or sets the delay in minutes, between any two successive comments from 
+            the same IP address.  This helps prevents comment bombing attacks.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.IsActive">
+            <summary>
+            Gets or sets a value indicating whether this blog is active.
+            </summary>
+            <value>
+            	<c>true</c> if it is active; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.Application">
+            <summary>
+            Gets or sets the application.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.Password">
+            <summary>
+            Gets or sets the password.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.UserName">
+            <summary>
+            Gets or sets the user name for the owner of the blog.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.Title">
+            <summary>
+            Gets or sets the title of the blog.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.SubTitle">
+            <summary>
+            Gets or sets the sub title of the blog.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.Skin">
+            <summary>
+            Gets or sets the <see cref="T:Subtext.Framework.Configuration.SkinConfig"/> instance 
+            which contains information about the specified skin.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.HasNews">
+            <summary>
+            Gets a value indicating whether the blog has news. 
+            News can be entered in the Admin section.
+            </summary>
+            <value>
+            	<c>true</c> if the blog has news; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.News">
+            <summary>
+            Gets or sets the news.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.Author">
+            <summary>
+            Gets or sets the author of the blog.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.LicenseUrl">
+            <summary>
+            Gets or sets the license URL.  This is used to 
+            Used to specify a license within a syndicated feed. 
+            Does not have to be a creative commons license. 
+            <see href="http://backend.userland.com/creativeCommonsRssModule" />
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.RootUrl">
+            <summary>
+            Gets the root URL for this blog.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.Flag">
+            <summary>
+            Gets or sets the flags pertaining to this blog.  
+            This is a bitmask of <see cref="T:Subtext.Framework.Configuration.ConfigurationFlag"/>s.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.CleanApplication">
+            <summary>
+            Returns the Application string without any dashes.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.PostCount">
+            <summary>
+            Gets or sets the total number of posts.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.CommentCount">
+            <summary>
+            Gets or sets the comment count.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.StoryCount">
+            <summary>
+            Gets or sets the story count.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.BlogInfo.PingTrackCount">
+            <summary>
+            Gets or sets the ping track count.
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Subtext.Framework.CommentFilter">
+            <summary>
+            Class used to filter incoming comments.  This will get replaced 
+            with a plugin once the plugin architecture is complete, but the 
+            logic will probably get ported.
+            </summary>
+        </member>
+        <member name="M:Subtext.Framework.CommentFilter.FilterComment(Subtext.Framework.Components.Entry)">
+            <summary>
+            Filters the comment. Throws an exception should the comment not be allowed. 
+            Otherwise returns true.  This interface may be changed.
+            </summary>
+            <remarks>
+            <p>
+            The first filter examines whether comments are coming in too quickly 
+            from the same SourceUrl.  Looks at the <see cref="P:Subtext.Framework.BlogInfo.CommentDelayInMinutes"/>.
+            </p>
+            <p>
+            The second filter checks for duplicate comments. It only looks at the body 
+            of the comment.
+            </p>
+            </remarks>
+            <param name="entry">Entry.</param>
+        </member>
+        <member name="T:Subtext.Framework.Entries">
+            <summary>
+            Static class used to get entries (blog posts, comments, etc...) 
+            from the data store.
+            </summary>
+        </member>
+        <member name="M:Subtext.Framework.Entries.GetPagedEntries(Subtext.Extensibility.PostType,System.Int32,System.Int32,System.Int32,System.Boolean)">
             <summary>
             Returns a collection of Posts for a give page and index size.
             </summary>
@@ -3915,6 +5016,29 @@
             Returns a collection of Entries containing the feedback for a given post (via ParentID)
             </summary>
             <param name="ParentId">Parent (EntryID) of the collection</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Entries.GetCommentByChecksumHash(System.String)">
+            <summary>
+            Searches the data store for the first comment with a 
+            matching checksum hash.
+            </summary>
+            <param name="checksumHash">Checksum hash.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Entries.Create(Subtext.Framework.Components.Entry)">
+            <summary>
+            Creates the specified entry and returns its ID.
+            </summary>
+            <param name="entry">Entry.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Entries.Create(Subtext.Framework.Components.Entry,System.Int32[])">
+            <summary>
+            Creates the specified entry and returns its ID.
+            </summary>
+            <param name="entry">Entry.</param>
+            <param name="CategoryIDs">The ids of the categories this entry belongs to.</param>
             <returns></returns>
         </member>
         <member name="M:Subtext.Framework.Entries.Update(Subtext.Framework.Components.Entry)">
@@ -3943,11 +5067,123 @@
             </remarks>
             <param name="entry">Entry.</param>
         </member>
-        <member name="T:Subtext.Framework.BlogDoesNotExistException">
+        <member name="T:Subtext.Framework.HostInfo">
             <summary>
-            Exception thrown when a blog does not exist.  This is 
-            indicative of not having created a blog_config record.
+            Represents the system that hosts the blogs within this 
+            Subtext installation.  This is a Singleton.
             </summary>
+        </member>
+        <member name="M:Subtext.Framework.HostInfo.LoadHost(System.Boolean)">
+            <summary>
+            Loads the host from the Object Provider.  This is provided 
+            for those cases when we really need to hit the db.
+            </summary>
+            <param name="suppressException">If true, won't throw an exception.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.HostInfo.UpdateHost(Subtext.Framework.HostInfo)">
+            <summary>
+            Updates the host in the persistent store.
+            </summary>
+            <param name="host">Host.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.HostInfo.CreateHost(System.String,System.String)">
+            <summary>
+            Creates the host in the persistent store.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Subtext.Framework.HostInfo.Instance">
+            <summary>
+            Returns an instance of <see cref="T:Subtext.Framework.HostInfo"/> used to 
+            describe this installation of Subtext.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Subtext.Framework.HostInfo.HostInfoTableExists">
+            <summary>
+            Gets a value indicating whether the HostInfo table exists.
+            </summary>
+            <value>
+            	<c>true</c> if host info table exists; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.HostInfo.HostUserName">
+            <summary>
+            Gets or sets the name of the host user.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.HostInfo.Password">
+            <summary>
+            Gets or sets the host password.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.HostInfo.Salt">
+            <summary>
+            Gets or sets the salt.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Framework.HostInfo.DateCreated">
+            <summary>
+            Gets or sets the date this record was created. 
+            This is essentially the date that Subtext was 
+            installed.
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Subtext.Framework.InstallationManager">
+            <summary>
+            Class used to help make determine whether an installation is required or not.
+            </summary>
+        </member>
+        <member name="M:Subtext.Framework.InstallationManager.IsInstallationActionRequired(System.Exception)">
+            <summary>
+            Determines whether an installation action is required by 
+            examining the specified unhandled Exception.
+            </summary>
+            <param name="unhandledException">Unhandled exception.</param>
+            <returns>
+            	<c>true</c> if an installation action is required; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Subtext.Framework.InstallationManager.IsInInstallDirectory">
+            <summary>
+            Determines whether the requested page is in the Install directory.
+            </summary>
+            <returns>
+            	<c>true</c> if is in install directory; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Subtext.Framework.InstallationManager.GetInstallationState">
+            <summary>
+            Gets the installation status.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.InstallationManager.GetInstallationQuestions">
+            <summary>
+            Gets the installation questions.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.InstallationManager.ValidateInstallationAnswers(System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Validates the installation information provided by the user.  
+            Returns a NameValueCollection of any fields that are incorrect 
+            with an explanation of why it is incorrect.
+            </summary>
+            <param name="answers">Information.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.InstallationManager.SetInstallationQuestionAnswers(System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Sets the installation question answers.
+            </summary>
+            <param name="answers">Answers.</param>
         </member>
         <member name="T:Subtext.Framework.Links">
             <summary>
@@ -3976,7 +5212,7 @@
             tag in Web.config).
             </p>
             <p>
-            The <see cref="P:Subtext.Framework.Configuration.Config.CurrentBlog"/> method returns an instance of <see cref="T:Subtext.Framework.Configuration.BlogConfig"/> 
+            The <see cref="P:Subtext.Framework.Configuration.Config.CurrentBlog"/> method returns an instance of <see cref="T:Subtext.Framework.BlogInfo"/> 
             contains settings stored in the blog_config table.  This can be used to save settings to 
             the configuration as well.
             </p>
@@ -4033,6 +5269,33 @@
             <param name="password">Supplied Password</param>
             <returns>Encrypted (Hashed) value</returns>
         </member>
+        <member name="M:Subtext.Framework.Security.HashPassword(System.String,System.String)">
+            <summary>
+            Get MD5 hashed/encrypted representation of the password and a 
+            salt value combined in the proper manner.  
+            Returns a Base64 encoded string of the hash.
+            This is a one-way hash.
+            </summary>
+            <remarks>
+            Passwords are case sensitive now. Before they weren't.
+            </remarks>
+            <param name="password">Supplied Password</param>
+            <returns>Encrypted (Hashed) value</returns>
+        </member>
+        <member name="M:Subtext.Framework.Security.CreateRandomSalt">
+            <summary>
+            Creates a random salt value.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Security.CombinePasswordAndSalt(System.String,System.String)">
+            <summary>
+            Returns a string with a password and salt combined.
+            </summary>
+            <param name="password">Password.</param>
+            <param name="salt">Salt.</param>
+            <returns></returns>
+        </member>
         <member name="M:Subtext.Framework.Security.IsValidUser(System.String,System.String)">
             <summary>
             Validates if the supplied credentials match the current blog
@@ -4060,7 +5323,8 @@
         </member>
         <member name="M:Subtext.Framework.Security.UpdatePassword(System.String)">
             <summary>
-            Updates the current users password to the supplied value. Handles hashing (or not hashing of the password)
+            Updates the current users password to the supplied value. 
+            Handles hashing (or not hashing of the password)
             </summary>
             <param name="password">Supplied Password</param>
         </member>
@@ -4069,6 +5333,39 @@
             Generates a "Random Enough" password. :)
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:Subtext.Framework.Security.IsInRole(System.String)">
+            <summary>
+            Returns true if the user is in the specified role.
+            It's a wrapper to calling the IsInRole method of 
+            IPrincipal.
+            </summary>
+            <param name="role">Role.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Subtext.Framework.Security.IsAdmin">
+            <summary>
+            Gets a value indicating whether the current 
+            user is the admin for the current blog.
+            </summary>
+            <value>
+            	<c>true</c> if [is admin]; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.Security.IsHostAdmin">
+            <summary>
+            Gets a value indicating whether the current user is a 
+            Host Admin for the entire installation.
+            </summary>
+            <value>
+            	<c>true</c> if [is host admin]; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Subtext.Framework.Security.CurrentUserName">
+            <summary>
+            Gets the name of the current user.
+            </summary>
+            <value></value>
         </member>
         <member name="P:Subtext.Framework.Security.UserIsConnectingLocally">
             <summary>

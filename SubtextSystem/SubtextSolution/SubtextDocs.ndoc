@@ -3,6 +3,9 @@
         <assembly location=".\Subtext.Common\bin\Debug\Subtext.Common.dll" documentation=".\Subtext.Common\bin\Debug\Subtext.Common.xml" />
         <assembly location=".\Subtext.Framework\bin\Debug\Subtext.Framework.dll" documentation=".\Subtext.Framework\bin\Debug\Subtext.Framework.xml" />
         <assembly location=".\Subtext.Web\bin\Subtext.Web.dll" documentation=".\Subtext.Web\bin\Subtext.Web.xml" />
+        <assembly location=".\Subtext.Extensibility\bin\Debug\Subtext.Extensibility.dll" documentation=".\Subtext.Extensibility\bin\Debug\Subtext.Extensibility.xml" />
+        <assembly location=".\Subtext.Installation\bin\Debug\Subtext.Installation.dll" documentation=".\Subtext.Installation\bin\Debug\Subtext.Installation.xml" />
+        <assembly location=".\Subtext.Web.Controls\bin\Debug\Subtext.Web.Controls.dll" documentation=".\Subtext.Web.Controls\bin\Debug\Subtext.Web.Controls.xml" />
     </assemblies>
     <documenters>
         <documenter name="JavaDoc">

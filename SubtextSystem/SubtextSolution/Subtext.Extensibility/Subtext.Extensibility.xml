@@ -1,0 +1,396 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Subtext.Extensibility</name>
+    </assembly>
+    <members>
+        <member name="T:Subtext.Extensibility.Plugins.IImplementationInfo">
+            <summary>
+            Provides general information about the module
+            </summary>
+        </member>
+        <member name="P:Subtext.Extensibility.Plugins.IImplementationInfo.Name">
+            <summary>
+            Name of the implementation
+            </summary>
+        </member>
+        <member name="P:Subtext.Extensibility.Plugins.IImplementationInfo.Author">
+            <summary>
+            Name of the author
+            </summary>
+        </member>
+        <member name="P:Subtext.Extensibility.Plugins.IImplementationInfo.Company">
+            <summary>
+            Company name
+            </summary>
+        </member>
+        <member name="P:Subtext.Extensibility.Plugins.IImplementationInfo.Copyright">
+            <summary>
+            Copyright information
+            </summary>
+        </member>
+        <member name="P:Subtext.Extensibility.Plugins.IImplementationInfo.HomePageUrl">
+            <summary>
+            Homepage Url
+            </summary>
+        </member>
+        <member name="P:Subtext.Extensibility.Plugins.IImplementationInfo.Version">
+            <summary>
+            Version information
+            </summary>
+        </member>
+        <member name="T:Subtext.Extensibility.Plugins.IModuleIdentifier">
+            <summary>
+            Summary description for IModuleIdentifier.
+            </summary>
+        </member>
+        <member name="T:Subtext.Extensibility.Plugins.IPlugin">
+            <summary>
+            This is the starting point for the plug-in architecture.  
+            Someone want to run with this?
+            </summary>
+        </member>
+        <member name="P:Subtext.Extensibility.Plugins.IPlugin.Id">
+            <summary>
+            Identifier of the plugin. This value has to be unique. For instance, full type name may be used.
+            </summary>
+        </member>
+        <member name="P:Subtext.Extensibility.Plugins.IPlugin.Targets">
+            <summary>
+            All targets for which this implementation is intended
+            </summary>
+        </member>
+        <member name="P:Subtext.Extensibility.Plugins.IPlugin.Info">
+            <summary>
+            Information about plugin implementation
+            </summary>
+        </member>
+        <member name="T:Subtext.Extensibility.Plugins.IPluginContext">
+            <summary>
+            Summary description for IModuleContext.
+            </summary>
+        </member>
+        <member name="T:Subtext.Extensibility.Plugins.IPluginFactory">
+            <summary>
+            Summary description for IPluginFactory.
+            </summary>
+        </member>
+        <member name="T:Subtext.Extensibility.Plugins.IPluginIdentifier">
+            <summary>
+            Summary description for IPluginIdentifier.
+            </summary>
+        </member>
+        <member name="T:Subtext.Extensibility.Plugins.IPluginIdentifierCollection">
+            <summary>
+            Summary description for IPluginIdentifierCollection.
+            </summary>
+        </member>
+        <member name="T:Subtext.Extensibility.Plugins.ITarget">
+            <summary>
+            Summary description for ITarget.
+            </summary>
+        </member>
+        <member name="T:Subtext.Extensibility.Plugins.ITargetIdentifier">
+            <summary>
+            Summary description for ITargetIdentifier.
+            </summary>
+        </member>
+        <member name="T:Subtext.Extensibility.Plugins.ITargetIdentifierCollection">
+            <summary>
+            Summary description for ITargetIdentifierCollection.
+            </summary>
+        </member>
+        <member name="T:Subtext.Extensibility.Plugins.IVersionDeclaration">
+            <summary>
+            Summary description for IVersionDeclaration.
+            </summary>
+        </member>
+        <member name="M:Subtext.Extensibility.Plugins.IVersionDeclaration.Compare(Subtext.Extensibility.Plugins.IVersionDeclaration)">
+            <summary>
+            Compares this instance with a specified version declaration
+            </summary>
+            <param name="versionDeclaration">version declaration to compare with</param>
+            <returns>0 if same version, -1 if the version is lower than the argument, 1 if the version is higher</returns>
+        </member>
+        <member name="T:Subtext.Extensibility.Plugins.IVersionDeclarationCollection">
+            <summary>
+            Summary description for IVersionDeclarationCollection.
+            </summary>
+        </member>
+        <member name="T:Subtext.Extensibility.Providers.EmailProvider">
+            <summary>
+            Provides a class used to handle email.
+            </summary>
+        </member>
+        <member name="T:Subtext.Extensibility.Providers.ProviderBase">
+            <summary>
+            <see href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnaspnet/html/asp02182004.asp"/> Part 1 and 
+            <see href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnaspnet/html/asp04212004.asp"/> Part 2.
+            </summary>
+        </member>
+        <member name="M:Subtext.Extensibility.Providers.ProviderBase.Initialize(System.String,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Initializes the specified provider.
+            </summary>
+            <param name="name">Friendly Name of the provider.</param>
+            <param name="configValue">Config value.</param>
+        </member>
+        <member name="M:Subtext.Extensibility.Providers.ProviderBase.Instance(System.String)">
+            <summary>
+            Returns an instance of this provider loaded from the specified section name.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Subtext.Extensibility.Providers.ProviderBase.Name">
+            <summary>
+            Returns the friendly name of the provider when the provider is initialized.
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:Subtext.Extensibility.Providers.EmailProvider.Instance">
+            <summary>
+            Returns the configured concrete instance of a <see cref="T:Subtext.Extensibility.Providers.EmailProvider"/>.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Subtext.Extensibility.Providers.EmailProviderConfiguration">
+            <summary>
+            Provider configuration instance for the <see cref="T:Subtext.Extensibility.Providers.EmailProvider"/>.
+            </summary>
+        </member>
+        <member name="T:Subtext.Extensibility.Providers.ProviderConfiguration">
+            <summary>
+            Contains information about the providers specified in the configuration file.
+            </summary>
+        </member>
+        <member name="M:Subtext.Extensibility.Providers.ProviderConfiguration.LoadValuesFromConfigurationXml(System.Xml.XmlNode)">
+            <summary>
+            Loads information about configured providers from the 
+            Configuration Section.
+            </summary>
+            <param name="node">Node.</param>
+        </member>
+        <member name="P:Subtext.Extensibility.Providers.ProviderConfiguration.DefaultProvider">
+            <summary>
+            Gets the default provider.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Extensibility.Providers.ProviderConfiguration.Providers">
+            <summary>
+            Returns a collection of <see cref="T:Subtext.Extensibility.Providers.ProviderInfo"/> instances configured 
+            within the config file.
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Subtext.Extensibility.Providers.EmailProviderSectionHandler">
+            <summary>
+            Configuration section handler for the <see cref="T:Subtext.Extensibility.Providers.EmailProvider"/>.  Most of 
+            the implementation is in the base <see cref="T:Subtext.Extensibility.Providers.ProviderSectionHandler"/> 
+            class.  This merely follows the factory pattern in providing a method 
+            to create a proper <see cref="T:Subtext.Extensibility.Providers.ProviderConfiguration"/> instance.
+            </summary>
+        </member>
+        <member name="T:Subtext.Extensibility.Providers.ProviderSectionHandler">
+            <summary>
+            Summary description for ProviderSectionHandler.
+            </summary>
+        </member>
+        <member name="M:Subtext.Extensibility.Providers.ProviderSectionHandler.Create(System.Object,System.Object,System.Xml.XmlNode)">
+            <summary>
+            Creates a configuration section from the specified node.
+            </summary>
+            <param name="parent">Parent.</param>
+            <param name="context">Context.</param>
+            <param name="node">Node.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Extensibility.Providers.ProviderSectionHandler.CreateProviderConfigurationInstance">
+            <summary>
+            Creates the provider configuration instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Extensibility.Providers.EmailProviderSectionHandler.CreateProviderConfigurationInstance">
+            <summary>
+            Creates an <see cref="T:Subtext.Extensibility.Providers.EmailProviderConfiguration"/> instance which 
+            is populated by this section handler.
+            </summary>
+        </member>
+        <member name="T:Subtext.Extensibility.Providers.InstallationProvider">
+            <summary>
+            Provider for classes that implement installation procedures. 
+            This allows new data providers to implement their own installation 
+            code.
+            </summary>
+        </member>
+        <member name="M:Subtext.Extensibility.Providers.InstallationProvider.Instance">
+            <summary>
+            Returns the configured concrete instance of a <see cref="T:Subtext.Extensibility.Providers.InstallationProvider"/>.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Extensibility.Providers.InstallationProvider.QueryInstallationInformation">
+            <summary>
+            <p>
+            This method is called by the installation engine in order to ask the 
+            provider what pieces of information it needs from the user in order 
+            to proceed with the installation.
+            </p>
+            <p>
+            The <see cref="T:System.Collections.Specialized.NameValueCollection"/> returned by this method should 
+            contain entries with the Name being the piece of information being 
+            requested and the Value being a description of the requested information.
+            </p>
+            <p>
+            Upon gathering this information, the <see cref="M:Subtext.Extensibility.Providers.InstallationProvider.ProvideInstallationInformation(System.Collections.Specialized.NameValueCollection)"/> method 
+            will be called passing in a <see cref="T:System.Collections.Specialized.NameValueCollection"/> with the 
+            values containing the user's input for each name.
+            </p>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Extensibility.Providers.InstallationProvider.ProvideInstallationInformation(System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Provides the installation information to this installation provider. 
+            See <see cref="M:Subtext.Extensibility.Providers.InstallationProvider.QueryInstallationInformation"/> for more information.
+            </summary>
+            <param name="information">Information.</param>
+        </member>
+        <member name="M:Subtext.Extensibility.Providers.InstallationProvider.ValidateInstallationInformation(System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Validates the installation information provided by the user.  
+            Returns a NameValueCollection of any fields that are incorrect 
+            with an explanation of why it is incorrect.
+            </summary>
+            <param name="information">Information.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Extensibility.Providers.InstallationProvider.GetInstallationStatus">
+            <summary>
+            Gets the installation status.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Extensibility.Providers.InstallationProvider.Upgrade">
+            <summary>
+            Upgrades this instance. Returns true if it was successful.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Extensibility.Providers.InstallationProvider.Install">
+            <summary>
+            Installs this instance.  Returns true if it was successful.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Extensibility.Providers.InstallationProvider.Repair">
+            <summary>
+            Attempts to repair this instance. Returns true if it was successful.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Extensibility.Providers.InstallationProvider.IsInstallationException(System.Exception)">
+            <summary>
+            Determines whether the specified exception is due to 
+            a problem with the installation.
+            </summary>
+            <param name="exception">exception.</param>
+            <returns>
+            	<c>true</c> if this is an installation exception; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="T:Subtext.Extensibility.Providers.InstallationState">
+            <summary>
+            Returns the current state of the installation.
+            </summary>
+        </member>
+        <member name="F:Subtext.Extensibility.Providers.InstallationState.None">
+            <summary>No information available</summary>
+        </member>
+        <member name="F:Subtext.Extensibility.Providers.InstallationState.NeedsUpgrade">
+            <summary>Subtext is installed, but needs to be upgraded.</summary>
+        </member>
+        <member name="F:Subtext.Extensibility.Providers.InstallationState.NeedsRepair">
+            <summary>Subtext is installed, but needs to be repaired.</summary>
+        </member>
+        <member name="F:Subtext.Extensibility.Providers.InstallationState.NeedsInstallation">
+            <summary>Subtext needs to be installed.</summary>
+        </member>
+        <member name="F:Subtext.Extensibility.Providers.InstallationState.Complete">
+            <summary>Subtext is installed and seems to be working properly.</summary>
+        </member>
+        <member name="T:Subtext.Extensibility.Providers.InstallationProviderConfiguration">
+            <summary>
+            Provider configuration instance for the <see cref="T:Subtext.Extensibility.Providers.InstallationProvider"/>.
+            </summary>
+        </member>
+        <member name="T:Subtext.Extensibility.Providers.InstallationProviderSectionHandler">
+            <summary>
+            Configuration section handler for the <see cref="T:Subtext.Extensibility.Providers.InstallationProvider"/>.  
+            Most of the implementation is in the base <see cref="T:Subtext.Extensibility.Providers.ProviderSectionHandler"/> 
+            class.  This merely follows the factory pattern in providing a method 
+            to create a proper <see cref="T:Subtext.Extensibility.Providers.ProviderConfiguration"/> instance.
+            </summary>
+        </member>
+        <member name="M:Subtext.Extensibility.Providers.InstallationProviderSectionHandler.CreateProviderConfigurationInstance">
+            <summary>
+            Creates an <see cref="T:Subtext.Extensibility.Providers.InstallationProviderConfiguration"/> instance which 
+            is populated by this section handler.
+            </summary>
+        </member>
+        <member name="T:Subtext.Extensibility.Providers.ProviderInfo">
+            <summary>
+            Configuration information about a provider.
+            </summary>
+        </member>
+        <member name="M:Subtext.Extensibility.Providers.ProviderInfo.#ctor(System.Xml.XmlAttributeCollection)">
+            <summary>
+            Creates a new <see cref="T:Subtext.Extensibility.Providers.ProviderInfo"/> instance.
+            </summary>
+            <param name="attributes">Attributes.</param>
+        </member>
+        <member name="P:Subtext.Extensibility.Providers.ProviderInfo.Name">
+            <summary>
+            Gets the name of the provider.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Extensibility.Providers.ProviderInfo.Type">
+            <summary>
+            Gets the type of the provider.
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Subtext.Extensibility.Providers.ProviderInfo.Attributes">
+            <summary>
+            Returns a collection of the attribute name/value pairs.
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Subtext.Framework.NamespaceDoc">
+            <summary>
+            Contains the primary framework classes used by 
+            the Subtext blogging engine.
+            </summary>
+        </member>
+        <member name="T:Subtext.Extensibility.NamespaceDoc">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:Subtext.Extensibility.Providers.NamespaceDoc">
+            <summary>
+            </summary>
+        </member>
+        <member name="T:Subtext.Extensibility.PostConfig">
+            <summary>
+            Summary description for PostConfig.
+            </summary>
+        </member>
+        <member name="T:Subtext.Extensibility.PostType">
+            <summary>
+            Summary description for PageType.
+            </summary>
+        </member>
+    </members>
+</doc>
