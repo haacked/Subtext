@@ -12,4 +12,8 @@
 	<p>
 	When the installer is ready, we&#8217;ll put more in depth instructions here.
 	</p>
+	<p>
+		But if you just want to download and play with the code, follow the 
+		<a href="~/About/ViewTheCode/" id="instructionsLink" runat="server">instructions here</a>.
+	</p>
 </MP:MasterPage>

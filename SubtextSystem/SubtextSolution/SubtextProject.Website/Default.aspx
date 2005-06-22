@@ -17,8 +17,7 @@
 	your hands in the air and declaring that you&#8217;re going to write your own blogging 
 	engine, then Subtext is for you.
 	</p>
-	<p>SCREENSHOT GOES HERE, NOT STEWIE</p>
-	<div class="dropshadow" style="float:right"><div class="innerbox"><img src="~/images/screenshot.jpg" alt="Screenshot" runat="server" style="width:149px;height:112px;" width="149" height="112" /></div></div>
+	<p>[Imagine, if you will, a beautiful screenshot right here.]</p>
 	<p>
 	The guiding philosophy behind Subtext is to remove hindrances to online expression. 
 	A blogging platform should be easy to understand, set up, and use.

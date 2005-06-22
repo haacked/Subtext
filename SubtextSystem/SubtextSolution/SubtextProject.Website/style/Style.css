@@ -41,6 +41,11 @@ h1, h2, h3, h4
 	text-shadow: 0.2em 0.2em 0.1em #CCC;
 }
 
+h3.version
+{
+	color: #0033AA;
+}
+
 .maintitle
 {
 	color : #BF5010;
@@ -162,6 +167,12 @@ img
 {
 	color: red;
 }
+
+.implemented
+{
+	color: brown;
+}
+
 /******** LAYOUT *******************/
 #main 
 {
@@ -235,7 +246,7 @@ img
 #content DIV#adwrap
 {
 	/* Remove the display:none line if you have an ad */
-	display: none;
+	/*display: none;*/
 	padding: 0; 
 	margin: 0; 
 	height: 100px;
@@ -248,7 +259,7 @@ img
 
 #logo
 {
-	/*background: url(/SubtextProject.Website/images/Header.jpg);*/
+	background: url(/SubtextProject.Website/images/SubtextLogo.png) no-repeat;
 	width: 772px;
 	height: 100px;
 	margin: 0 0 0 12px;

@@ -6,5 +6,4 @@
 	<SP:MenuItem href="~/Docs/Installation/" parentpath="~/Docs/" title="Installing This Sucker" runat="server" ID="docInstallLink">Installation</SP:MenuItem>
 	<SP:MenuItem href="~/Docs/FAQ/" parentpath="~/About/" title="Frequently Asked Questions" runat="server" ID="docFaqLink">FAQ</SP:MenuItem>
 	<SP:MenuItem href="~/Docs/Developer/" parentpath="~/About/" title="Developer Documentation" runat="server" ID="docDeveloperLink">Developer</SP:MenuItem>
-	<li><a href="http://wiki.subtextproject.com/">Wiki Docs &raquo;</a></li>
 </ul>

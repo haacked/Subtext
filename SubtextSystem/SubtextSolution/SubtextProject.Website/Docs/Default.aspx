@@ -8,9 +8,7 @@
 	</MP:ContentRegion>
 	
 	<h2>Documentation</h2>
-	<p>We&#8217;re just getting started on Subtext, but we're committed 
-	to having the best and clearest documentation possible.  To that 
-	end We&#8217;ve created a <a href="http://wiki.subtextproject.com/">wiki</a> that we&#8217;ll try to 
-	keep updated.  Please be patient as there isn&#8217;t much there yet.
+	<p>We&#8217;re just getting started on Subtext, but we&#8217;re committed 
+	to having the best and clearest documentation possible.
 	</p>
 </MP:MasterPage>

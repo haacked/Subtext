@@ -62,6 +62,26 @@
                     TreatWarningsAsErrors = "false"
                     WarningLevel = "4"
                 />
+                <Config
+                    Name = "Documentation"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "false"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "true"
+                    OutputPath = "bin\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
             </Settings>
             <References>
                 <Reference
@@ -138,6 +158,11 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "About\ViewTheCode\Default.aspx"
+                    BuildAction = "Content"
+                />
+                <Folder RelPath = "Assets\" />
+                <File
                     RelPath = "Docs\Default.aspx"
                     BuildAction = "Content"
                 />
@@ -152,6 +177,10 @@
                 />
                 <File
                     RelPath = "Docs\Developer\Changes\Default.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Docs\Developer\GuideToCVSAndSourceForge\Default.aspx"
                     BuildAction = "Content"
                 />
                 <File
@@ -213,6 +242,10 @@
                 />
                 <File
                     RelPath = "images\sidesbg.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "images\SubtextLogo.png"
                     BuildAction = "Content"
                 />
                 <File
