@@ -176,7 +176,7 @@
 			an AJAX implementation could make Subtext more usable.
 		</li>
 		<li>
-			<b>Friendly Url Support</b>: Currently, Subtext allows the user to 
+			<strong>Friendly Url Support</strong>: Currently, Subtext allows the user to 
 			specify a friendly URL in the &#8220;Entry Name&#8221; field when 
 			creating a post in the admin section.  We want to create a way for 
 			users to allow the system to automatically create these friendly 
@@ -187,6 +187,7 @@
 	
 	<h3>Features way down the road</h3>
 	<ul>
+		<li><strong>Flickr Integration</strong> Not sure yet what this means exactly, but have some ideas in my head.</li>
 		<li><strong>A Spell Checker</strong>: For all those bad spelers out there.</li>
 		<li><strong>Migration utility for other systems</strong>: We&#8217;re not so arrogant as to 
 		believe you&#8217;ll never use another blogging engine again.  

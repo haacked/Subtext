@@ -28,5 +28,12 @@
 		for developers who have WRITE access to the CVS repository.
 	</p>
 	
+	<h3><a href="Documentation.chm" title="Code Documentation">Code Documentation</a></h3>
+	<p>
+		This is an <a href="http://ndoc.sourceforge.net/">NDoc</a> generated CHM 
+		(Compiled Help Manual) file that contains documentation for the source code. 
+		It&#8217;s sparsely populated, but we&#8217;re working to steadily change that.
+	</p>
+	
 	
 </MP:MasterPage>
