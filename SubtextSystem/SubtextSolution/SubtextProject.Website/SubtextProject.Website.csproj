@@ -161,7 +161,6 @@
                     RelPath = "About\ViewTheCode\Default.aspx"
                     BuildAction = "Content"
                 />
-                <Folder RelPath = "Assets\" />
                 <File
                     RelPath = "Docs\Default.aspx"
                     BuildAction = "Content"
@@ -174,6 +173,10 @@
                 <File
                     RelPath = "Docs\Developer\Default.aspx"
                     BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Docs\Developer\Documentation.chm"
+                    BuildAction = "None"
                 />
                 <File
                     RelPath = "Docs\Developer\Changes\Default.aspx"
