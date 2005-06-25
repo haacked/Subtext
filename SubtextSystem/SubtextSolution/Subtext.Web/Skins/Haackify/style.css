@@ -200,6 +200,11 @@ code
 	padding-left: 10px;
 }
 
+#loginMenuLink
+{
+	/*display: none;*/
+}
+
 #content
 {
 	float: left;

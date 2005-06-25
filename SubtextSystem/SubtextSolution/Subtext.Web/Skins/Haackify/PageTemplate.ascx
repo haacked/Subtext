@@ -38,16 +38,18 @@
 			<div id="aboutMeBox">
 				<h2>About Haacked</h2>
 				<p>
-				In case you&#8217;re wondering, no, &#8220;Haacked&#8221; is NOT my real 
-				name.  My parents aren&#8217;t so cruel.  In the offline world, people tend 
-				to call me Phil Haack (pronounced "hack"), unless of course they are calling 
-				me more colorful names, as is often the case. Haacked is simply my 
-				<a href="http://haacked.com/archive/2005/03/12/2350.aspx">blogger handle</a>. 
-				(creative, huh?).
+				In case you were wondering (and I have no reason to believe you were), &#8220;Haacked&#8221; 
+				is NOT my real name.  In the offline world, people tend to call me Phil Haack 
+				(pronounced "hack"), unless of course they are calling 
+				me more colorful names, as is sometimes deserved. 
 				</p>
 				<p>
-				Professionally speaking, I&#8217;m currently an 
-				<a href="http://haacked.com/archive/2005/02/22/2168.aspx">independent consultant</a> 
+				&#8220;Haacked&#8221; is simply my 
+				<a href="http://haacked.com/archive/2005/03/12/2350.aspx">blogger handle</a>. 
+				(creative, eh?).
+				</p>
+				<p>
+				To pay the bills, I&#8217;m currently an <a href="http://haacked.com/archive/2005/02/22/2168.aspx">independent consultant</a> 
 				specializing in Microsoft technologies (such as .NET) living and working in 
 				sunny (&lt;-- required when mentioning LA) Los Angeles.
 				</p>
@@ -57,15 +59,15 @@
 				base in my free time.
 				</p>
 				<p>
-				I&#8217;ve recently started a new open source project named 
-				<a href="http://subtextproject.com/">Subtext</a> which has absorbed 
-				the rest of my free time.
+				In order to evaporate the little free time I had left over, I recently started a 
+				new open source project named <a href="http://subtextproject.com/">Subtext</a>. This 
+				blog is running off that software.
 				</p>
 			</div>
 			<div>
 				<asp:HyperLink ImageUrl="~/skins/Haackify/images/rss20icon.gif" Runat="server" NavigateUrl="~/Rss.aspx" ID="XMLLink">RSS 2.0 Feed</asp:HyperLink><asp:HyperLink Runat="server" NavigateUrl="~/Rss.aspx" ID="Syndication" />
 			</div>
-			<div id="flickrBadge">
+			<div>
 			<!-- Start of Flickr Badge -->
 				<table id="flickr_badge_uber_wrapper" cellpadding="0" cellspacing="0" border="0">
 					<tr>
