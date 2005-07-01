@@ -98,7 +98,12 @@ namespace Subtext.Framework.Syndication
 			this.WriteElementString("title", title);			
 			this.WriteElementString("link", link);
 			this.WriteElementString("description", description);
-			this.WriteElementString("managingEditor", authorEmail);
+			
+			//TODO: Provide REAL email authentication.
+			if(authorEmail != null && authorEmail.Length > 0 &&authorEmail.IndexOf("@") > 0)
+			{
+				this.WriteElementString("managingEditor", authorEmail);
+			}
 			this.WriteElementString("dc:language", lang);
 			this.WriteElementString("generator", VersionInfo.Version);
 
