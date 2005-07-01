@@ -50,7 +50,7 @@ namespace Subtext.Common.Syndication
 
 		protected override void WriteChannel()
 		{
-			this.BuildChannel(CommentEntry.Title, CommentEntry.Link, CommentEntry.Author, CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body,info.Language, info.Author, Subtext.Framework.Configuration.Config.CurrentBlog.LicenseUrl);
+			this.BuildChannel(CommentEntry.Title, CommentEntry.Link, CommentEntry.Email, CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body,info.Language, info.Author, Subtext.Framework.Configuration.Config.CurrentBlog.LicenseUrl);
 		}
 
 	}
