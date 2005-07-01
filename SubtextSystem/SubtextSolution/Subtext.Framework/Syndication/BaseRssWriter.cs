@@ -90,17 +90,17 @@ namespace Subtext.Framework.Syndication
 
 		protected virtual void WriteChannel()
 		{
-			BuildChannel(info.Title, info.RootUrl, info.Author, info.SubTitle, info.Language, info.Author, Config.CurrentBlog.LicenseUrl);
+			BuildChannel(info.Title, info.RootUrl, info.Email, info.SubTitle, info.Language, info.Author, Config.CurrentBlog.LicenseUrl);
 		}
 
-		protected void BuildChannel(string title, string link, string author, string description, string lang, string copyright, string cclicense)
+		protected void BuildChannel(string title, string link, string authorEmail, string description, string lang, string copyright, string cclicense)
 		{
-			this.WriteElementString("title",title);			
-			this.WriteElementString("link",link);
-			this.WriteElementString("description",description);
-			this.WriteElementString("managingEditor",author);
-			this.WriteElementString("dc:language",lang);
-			this.WriteElementString("generator",VersionInfo.Version);
+			this.WriteElementString("title", title);			
+			this.WriteElementString("link", link);
+			this.WriteElementString("description", description);
+			this.WriteElementString("managingEditor", authorEmail);
+			this.WriteElementString("dc:language", lang);
+			this.WriteElementString("generator", VersionInfo.Version);
 
 			this.WriteElementString("copyright", copyright);
 			if(cclicense != null && cclicense.Length > 0)
