@@ -164,6 +164,8 @@ namespace Subtext.Framework.Syndication
 			foreach(Entry entry in this.Entries)
 			{
 				// We'll show every entry if RFC3229 is not enabled.
+				//TODO: This is wrong.  What if a post is not published 
+				// and then gets published later. It will not be displayed.
 				if(!useDeltaEncoding || entry.EntryID > LastViewedFeedItemId)
 				{
 					this.WriteStartElement("entry");
