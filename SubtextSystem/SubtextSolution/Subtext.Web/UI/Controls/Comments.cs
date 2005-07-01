@@ -46,7 +46,7 @@ namespace Subtext.Web.UI.Controls
 		{
 			base.OnLoad (e);
 
-			if(CurrentBlog.EnableComments)
+			if(CurrentBlog.CommentsEnabled)
 			{
 
 				Entry entry = Cacher.GetEntryFromRequest(Context,CacheTime.Short);	

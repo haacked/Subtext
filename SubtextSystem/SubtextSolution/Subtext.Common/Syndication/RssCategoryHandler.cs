@@ -57,6 +57,10 @@ namespace Subtext.Common.Syndication
 		}
 
 
+		/// <summary>
+		/// Builds the feed using delta encoding if it's true.
+		/// </summary>
+		/// <returns></returns>
 		protected override CachedFeed BuildFeed()
 		{
 			CachedFeed feed =null;
@@ -66,7 +70,7 @@ namespace Subtext.Common.Syndication
 			if(posts != null && posts.Count > 0)
 			{
 				feed = new CachedFeed();
-				CategoryWriter cw = new CategoryWriter(posts,Category,WebPathStripper.RemoveRssSlash(Context.Request.Url.ToString()));
+				CategoryWriter cw = new CategoryWriter(posts, Category,WebPathStripper.RemoveRssSlash(Context.Request.Url.ToString()));
 				feed.LastModified = this.ConvertLastUpdatedDate(posts[0].DateCreated);
 				feed.Xml = cw.Xml;
 			}

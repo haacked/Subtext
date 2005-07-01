@@ -23,7 +23,8 @@ namespace Subtext.Common.Syndication
 		}
 
 		//TODO: implement lastViewedId
-		public CategoryWriter(EntryCollection ec, LinkCategory lc, string Url) : base(ec, int.MinValue)
+		//TODO: Implement useDeltaEncoding
+		public CategoryWriter(EntryCollection ec, LinkCategory lc, string Url) : base(ec, int.MinValue, false)
 		{
 			this.Category = lc;
 			this.Url = Url;

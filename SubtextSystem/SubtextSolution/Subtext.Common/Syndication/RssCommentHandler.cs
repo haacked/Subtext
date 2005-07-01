@@ -40,22 +40,30 @@ namespace Subtext.Common.Syndication
 		protected EntryCollection Comments = null;
 		EntryCollection comments = null;
 
+		/// <summary>
+		/// Gets the feed entries.
+		/// </summary>
+		/// <returns></returns>
 		protected override EntryCollection GetFeedEntries()
 		{
 			if(ParentEntry == null)
 			{
-				ParentEntry = Cacher.GetEntryFromRequest(Context,CacheTime.Short);
+				ParentEntry = Cacher.GetEntryFromRequest(Context, CacheTime.Short);
 			}
 
 			if(ParentEntry != null && Comments == null)
 			{
-				Comments = Cacher.GetComments(ParentEntry,CacheTime.Short,Context);
+				Comments = Cacher.GetComments(ParentEntry, CacheTime.Short, Context);
 			}
 
 			return Comments;
 		}
 
 
+		/// <summary>
+		/// Builds the feed using delta encoding if it's true.
+		/// </summary>
+		/// <returns></returns>
 		protected override CachedFeed BuildFeed()
 		{
 			CachedFeed feed = null;

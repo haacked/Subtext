@@ -36,7 +36,7 @@ namespace Subtext.Common.Syndication
 		/// </summary>
 		/// <param name="entries">Entries.</param>
 		/// <param name="lastViewedFeedItem">Last viewed feed item.</param>
-		public AtomWriter(EntryCollection entries, int lastViewedFeedItem) : base(lastViewedFeedItem)
+		public AtomWriter(EntryCollection entries, int lastViewedFeedItem, bool useDeltaEncoding) : base(lastViewedFeedItem, useDeltaEncoding)
 		{
 			this.Entries = entries;
 			this.UseAggBugs = true;

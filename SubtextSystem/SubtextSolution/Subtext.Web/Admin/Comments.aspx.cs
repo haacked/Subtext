@@ -37,7 +37,7 @@ namespace Subtext.Web.Admin
 		{
 			BlogInfo info = Config.CurrentBlog;
 			
-			this.chkEnableComments.Checked = info.EnableComments;
+			this.chkEnableComments.Checked = info.CommentsEnabled;
 			
 			if(info.DaysTillCommentsClose > -1 && info.DaysTillCommentsClose < int.MaxValue)
                 this.txtDaysTillCommentsClosed.Text = info.DaysTillCommentsClose.ToString(CultureInfo.InvariantCulture);
@@ -85,7 +85,7 @@ namespace Subtext.Web.Admin
 			{
 				BlogInfo info = Config.CurrentBlog;
 			
-				info.EnableComments = this.chkEnableComments.Checked;
+				info.CommentsEnabled = this.chkEnableComments.Checked;
 				if(this.txtCommentDelayIntervalMinutes.Text.Length == 0)
 				{
 					info.CommentDelayInMinutes = 0;

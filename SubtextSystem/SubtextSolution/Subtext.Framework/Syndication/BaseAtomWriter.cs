@@ -67,7 +67,7 @@ namespace Subtext.Framework.Syndication
 		/// Bases the syndication writer.
 		/// </summary>
 		/// <param name="lastViewedFeedItem">Last viewed feed item.</param>
-		protected BaseAtomWriter(int lastViewedFeedItem) : base(lastViewedFeedItem)
+		protected BaseAtomWriter(int lastViewedFeedItem, bool useDeltaEncoding) : base(lastViewedFeedItem, useDeltaEncoding)
 		{
 		}
 
@@ -163,7 +163,8 @@ namespace Subtext.Framework.Syndication
 			this.latestFeedItemId = this.LastViewedFeedItemId;
 			foreach(Entry entry in this.Entries)
 			{
-				if(entry.EntryID > LastViewedFeedItemId)
+				// We'll show every entry if RFC3229 is not enabled.
+				if(!useDeltaEncoding || entry.EntryID > LastViewedFeedItemId)
 				{
 					this.WriteStartElement("entry");
 					EntryXml(entry, settings, info.UrlFormats, timezone);
@@ -214,7 +215,7 @@ namespace Subtext.Framework.Syndication
 				);		
 				this.WriteEndElement();
 
-			if(AllowComments && info.EnableComments && entry.AllowComments && !entry.CommentingClosed)
+			if(AllowComments && info.CommentsEnabled && entry.AllowComments && !entry.CommentingClosed)
 			{
 				//optional for CommentApi Post location
 				this.WriteElementString("wfw:comment",uformat.CommentApiUrl(entry.EntryID));

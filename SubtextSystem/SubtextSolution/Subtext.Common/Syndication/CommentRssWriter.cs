@@ -40,7 +40,7 @@ namespace Subtext.Common.Syndication
 		/// </summary>
 		/// <param name="ec">Ec.</param>
 		/// <param name="ce">Ce.</param>
-		public CommentRssWriter(EntryCollection ec, Entry ce) : base(int.MinValue)
+		public CommentRssWriter(EntryCollection ec, Entry ce) : base(int.MinValue, false)
 		{
 			this.Entries = ec;
 			this.CommentEntry = ce;
