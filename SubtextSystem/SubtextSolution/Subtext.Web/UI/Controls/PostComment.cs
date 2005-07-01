@@ -65,7 +65,7 @@ namespace Subtext.Web.UI.Controls
 
 				Entry entry = Cacher.GetEntryFromRequest(Context, CacheTime.Short);	
 
-				if(CurrentBlog.EnableComments && entry != null && entry.AllowComments && !entry.CommentingClosed)
+				if(CurrentBlog.CommentsEnabled && entry != null && entry.AllowComments && !entry.CommentingClosed)
 				{
 					//Need to get this without a db hit?
 					tbTitle.Text = "re: " + entry.Title;

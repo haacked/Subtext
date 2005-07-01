@@ -64,7 +64,7 @@ namespace Subtext.Common.Syndication
 			{
 				if(writer == null)
 				{
-					writer = new RssWriter(Entries.GetMainSyndicationEntries(CurrentBlog.ItemCount), this.LastFeedItemReceived);
+					writer = new RssWriter(Entries.GetMainSyndicationEntries(CurrentBlog.ItemCount), this.LastFeedItemReceived, this.UseDeltaEncoding);
 				}
 				return writer;
 			}

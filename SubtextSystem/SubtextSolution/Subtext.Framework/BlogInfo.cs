@@ -322,10 +322,10 @@ namespace Subtext.Framework
 		/// <value>
 		/// 	<c>true</c> if comments are enabled, otherwise, <c>false</c>.
 		/// </value>
-		public bool EnableComments
+		public bool CommentsEnabled
 		{
-			get{return FlagPropertyCheck(ConfigurationFlag.EnableComments);}
-			set{FlagSetter(ConfigurationFlag.EnableComments,value);}
+			get{return FlagPropertyCheck(ConfigurationFlag.CommentsEnabled);}
+			set{FlagSetter(ConfigurationFlag.CommentsEnabled,value);}
 		}
 
 		/// <summary>
@@ -340,10 +340,29 @@ namespace Subtext.Framework
 		/// <value>
 		/// 	<c>true</c> if comments are enabled, otherwise, <c>false</c>.
 		/// </value>
-		public bool EnableDuplicateComments
+		public bool DuplicateCommentsEnabled
 		{
-			get{return FlagPropertyCheck(ConfigurationFlag.EnableDuplicateComments);}
-			set{FlagSetter(ConfigurationFlag.EnableDuplicateComments, value);}
+			get{return FlagPropertyCheck(ConfigurationFlag.DuplicateCommentsEnabled);}
+			set{FlagSetter(ConfigurationFlag.DuplicateCommentsEnabled, value);}
+		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether 
+		/// <see href="http://bobwyman.pubsub.com/main/2004/09/using_rfc3229_w.html">RFC3229 for feeds</see> 
+		/// delta encoding is enabled.
+		/// </summary>
+		/// <remarks>
+		/// This can reduce bandwidth usage for RSS feeds.  When clients request a 
+		/// feed using this protocol, only items that have not been sent to the client 
+		/// already are sent.
+		/// </remarks>
+		/// <value>
+		/// 	<c>true</c> if RFC3229 delta encoding is enabled.; otherwise, <c>false</c>.
+		/// </value>
+		public bool RFC3229DeltaEncodingEnabled
+		{
+			get{return FlagPropertyCheck(ConfigurationFlag.RFC3229DeltaEncodingEnabled);}
+			set{FlagSetter(ConfigurationFlag.RFC3229DeltaEncodingEnabled, value);}
 		}
 
 		/// <summary>

@@ -51,7 +51,7 @@ namespace Subtext.Common.Syndication
 			{
 				if(writer == null)
 				{
-					writer = new AtomWriter(Entries.GetMainSyndicationEntries(CurrentBlog.ItemCount), this.LastFeedItemReceived);
+					writer = new AtomWriter(Entries.GetMainSyndicationEntries(CurrentBlog.ItemCount), this.LastFeedItemReceived, this.UseDeltaEncoding);
 				}
 				return writer;
 			}

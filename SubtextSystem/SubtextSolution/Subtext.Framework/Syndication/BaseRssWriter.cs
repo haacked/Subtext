@@ -18,7 +18,7 @@ namespace Subtext.Framework.Syndication
 		/// Creates a new <see cref="BaseRssWriter"/> instance.
 		/// </summary>
 		/// <param name="lastViewedFeedItem">Last viewed feed item.</param>
-		protected BaseRssWriter(int lastViewedFeedItem) : base(lastViewedFeedItem)
+		protected BaseRssWriter(int lastViewedFeedItem, bool useDeltaEncoding) : base(lastViewedFeedItem, useDeltaEncoding)
 		{
 		}
 
@@ -150,7 +150,7 @@ namespace Subtext.Framework.Syndication
 			
 			foreach(Entry entry in this.Entries)
 			{
-				if(entry.EntryID <= LastViewedFeedItemId)
+				if(this.useDeltaEncoding && entry.EntryID <= LastViewedFeedItemId)
 				{
 					// Since Entries are ordered by ID descending, as soon 
 					// as we encounter one that is smaller than or equal to 
@@ -194,7 +194,7 @@ namespace Subtext.Framework.Syndication
 			//core Should we set the 
 			this.WriteElementString("guid", entry.Link);
 
-			if(AllowComments && info.EnableComments && entry.AllowComments && !entry.CommentingClosed)
+			if(AllowComments && info.CommentsEnabled && entry.AllowComments && !entry.CommentingClosed)
 			{
 				//optional for CommentApi Post location
 				this.WriteElementString("wfw:comment", uformat.CommentApiUrl(entry.EntryID));

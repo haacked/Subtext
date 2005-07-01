@@ -37,7 +37,7 @@ namespace Subtext.Framework
 			if(!SourceFrequencyIsValid(entry))
 				throw new Subtext.Framework.Exceptions.CommentFrequencyException();
 
-			if(!Config.CurrentBlog.EnableDuplicateComments && IsDuplicateComment(entry))
+			if(!Config.CurrentBlog.DuplicateCommentsEnabled && IsDuplicateComment(entry))
 				throw new Subtext.Framework.Exceptions.CommentDuplicateException();
 		}
 

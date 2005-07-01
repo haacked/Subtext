@@ -21,12 +21,18 @@ namespace Subtext.Framework.Configuration
 		/// <summary>Whether or not the password is hashed.</summary>
 		IsPasswordHashed = 8,
 		/// <summary>Whether or not Comments are enabled.</summary>
-		EnableComments = 16,
+		CommentsEnabled = 16,
 		/// <summary>Not sure.</summary>
 		PublishAsNew = 32,
 		/// <summary>The Blog compresses its syndicated feeds.</summary>
 		CompressSyndicatedFeed = 64,
 		/// <summary>Whether or not duplicate comments are allowed.</summary>
-		EnableDuplicateComments = 128,
+		DuplicateCommentsEnabled = 128,
+		/// <summary>
+		/// Whether or not <see href="http://bobwyman.pubsub.com/main/2004/09/using_rfc3229_w.html">RFC3229 for feeds</see>
+		/// is enabled. Enabling this can save on bandwidth by providing just updated posts in the 
+		/// RSS feed.
+		/// </summary>
+		RFC3229DeltaEncodingEnabled = 256,
 	};
 }

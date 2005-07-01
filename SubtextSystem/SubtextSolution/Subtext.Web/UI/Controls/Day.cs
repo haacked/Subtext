@@ -77,7 +77,7 @@ namespace Subtext.Web.UI.Controls
 					Literal PostDesc = (Literal)e.Item.FindControl("PostDesc");
 					if(PostDesc != null)
 					{
-						if(CurrentBlog.EnableComments && entry.AllowComments)
+						if(CurrentBlog.CommentsEnabled && entry.AllowComments)
 						{
 							PostDesc.Text = string.Format(postdescWithComments,entry.Link,entry.DateCreated.ToShortTimeString(),entry.Link,entry.FeedBackCount);
 						}

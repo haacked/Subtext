@@ -15,21 +15,22 @@ namespace Subtext.Framework.Syndication
         protected BlogInfo info;
 		int lastViewedFeedItemId = int.MinValue;
 		protected int latestFeedItemId = int.MinValue;
+		protected bool useDeltaEncoding = false;
 		protected bool clientHasAllFeedItems = false;
 
 		/// <summary>
 		/// Creates a new <see cref="BaseSyndicationWriter"/> instance.
 		/// </summary>
 		/// <param name="sw">Sw.</param>
-        protected BaseSyndicationWriter(StringWriter sw) : this(sw, int.MinValue)
-        {   
+        protected BaseSyndicationWriter(StringWriter sw) : this(sw, int.MinValue, false)
+        {
         }
 
 		/// <summary>
 		/// Creates a new <see cref="BaseSyndicationWriter"/> instance.
 		/// </summary>
 		/// <param name="lastViewedFeedItem"></param>
-        protected BaseSyndicationWriter(int lastViewedFeedItem) : this(new StringWriter(), lastViewedFeedItem)
+        protected BaseSyndicationWriter(int lastViewedFeedItem, bool useDeltaEncoding) : this(new StringWriter(), lastViewedFeedItem, useDeltaEncoding)
         {
 		}
 
@@ -38,11 +39,12 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		/// <param name="sw">Sw.</param>
 		/// <param name="lastViewedFeedItem">Last viewed feed item.</param>
-		protected BaseSyndicationWriter(StringWriter sw, int lastViewedFeedItem) : base(sw)
+		protected BaseSyndicationWriter(StringWriter sw, int lastViewedFeedItem, bool useDeltaEncoding) : base(sw)
 		{
 			lastViewedFeedItemId = lastViewedFeedItem;	
 			writer = sw;
 			info = Config.CurrentBlog;
+			this.useDeltaEncoding = useDeltaEncoding;
 		}
 
 		/// <summary>
@@ -80,10 +82,10 @@ namespace Subtext.Framework.Syndication
         }
 
 		/// <summary>
-		/// Gets a value indicating whether [client has all feed items].
+		/// Gets a value indicating whether the feed client has all the feed items.
 		/// </summary>
 		/// <value>
-		/// 	<c>true</c> if [client has all feed items]; otherwise, <c>false</c>.
+		/// 	<c>true</c> if the client has all feed items; otherwise, <c>false</c>.
 		/// </value>
 		public bool ClientHasAllFeedItems
 		{

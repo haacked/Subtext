@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.Net;
 using System.Web;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Syndication.Compression;
@@ -74,6 +75,20 @@ namespace Subtext.Framework.Syndication
 		}
 
 		/// <summary>
+		/// Gets a value indicating whether use delta encoding within this request.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if use delta encoding; otherwise, <c>false</c>.
+		/// </value>
+		protected bool UseDeltaEncoding
+		{
+			get
+			{
+				return CurrentBlog.RFC3229DeltaEncodingEnabled && AcceptDeltaEncoding;	
+			}
+		}
+
+		/// <summary>
 		/// Compares the requesting clients <see cref="LastModifiedHeader"/> against 
 		/// the date the feed was last updated.  If the feed hasn't been updated, then 
 		/// it sends a 304 HTTP header indicating such.
@@ -131,18 +146,20 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		protected virtual void ProcessFeed()
 		{
+			// Checks Last Modified Header.
 			if(IsLocalCacheOK())
 			{
 				Send304();
 				return;
 			}
-			
+		
+			// Checks our cache against last modified header.
 			if(!IsHttpCacheOK())
 			{
 				Feed = BuildFeed();
 				if(Feed != null)
 				{
-					if(Feed.ClientHasAllFeedItems)
+					if(UseDeltaEncoding && Feed.ClientHasAllFeedItems)
 					{
 						Send304();
 						return;
@@ -185,7 +202,7 @@ namespace Subtext.Framework.Syndication
 
 			if(Feed != null)
 			{
-				if(Config.CurrentBlog.UseSyndicationCompression && this.AcceptsGzipCompression)
+				if(Config.CurrentBlog.UseSyndicationCompression && this.AcceptGzipCompression)
 				{
 					// We're GZip Encoding!
 					SyndicationCompressionFilter filter = SyndicationCompressionHelper.GetFilterForScheme(this.AcceptEncoding, Context.Response.Filter);
@@ -207,7 +224,7 @@ namespace Subtext.Framework.Syndication
 				Context.Response.Cache.SetCacheability(HttpCacheability.Public);
 				Context.Response.Cache.SetLastModified(Feed.LastModified);
 				Context.Response.Cache.SetETag(Feed.Etag);
-				if(AcceptsGzipCompression)
+				if(AcceptGzipCompression)
 				{
 					Context.Response.AddHeader("IM", "feed, gzip");
 				}
@@ -215,7 +232,10 @@ namespace Subtext.Framework.Syndication
 				{
 					Context.Response.AddHeader("IM", "feed");
 				}
-				Context.Response.StatusCode = HTTP_IM_USED; //IM Used
+				if(this.UseDeltaEncoding)
+					Context.Response.StatusCode = HTTP_IM_USED; //IM Used
+				else
+					Context.Response.StatusCode = (int)HttpStatusCode.OK;
 
 				Context.Response.Write(Feed.Xml);
 			}
@@ -267,6 +287,10 @@ namespace Subtext.Framework.Syndication
 			}
 		}
 
+		/// <summary>
+		/// Gets the accept IM header from the request.
+		/// </summary>
+		/// <value></value>
 		protected string AcceptIMHeader
 		{
 			get
@@ -280,12 +304,28 @@ namespace Subtext.Framework.Syndication
 		}
 
 		/// <summary>
+		/// Gets a value indicating whether the client accepts 
+		/// <see href="http://bobwyman.pubsub.com/main/2004/09/using_rfc3229_w.html">RFC3229 Feed Delta 
+		/// Encoding</see>. 
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if [accepts delta encoding]; otherwise, <c>false</c>.
+		/// </value>
+		protected bool AcceptDeltaEncoding
+		{
+			get
+			{
+				return AcceptIMHeader.IndexOf("feed") >= 0;
+			}
+		}
+
+		/// <summary>
 		/// Gets a value indicating whether the client accepts gzip compression.
 		/// </summary>
 		/// <value>
 		/// 	<c>true</c> if accepts gzip compression; otherwise, <c>false</c>.
 		/// </value>
-		protected bool AcceptsGzipCompression
+		protected bool AcceptGzipCompression
 		{
 			get
 			{
