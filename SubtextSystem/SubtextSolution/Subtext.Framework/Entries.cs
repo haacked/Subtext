@@ -115,22 +115,11 @@ namespace Subtext.Framework
 			return GetConditionalEntries(ItemCount, PostType.BlogPost, PostConfig.IncludeInMainSyndication | PostConfig.IsActive);
 		}
 
-		public static EntryCollection GetMainSyndicationEntries(DateTime dt)
-		{
-			return GetConditionalEntries(0,PostType.BlogPost,PostConfig.IncludeInMainSyndication|PostConfig.IsActive,dt);
-		}
-
-
 		public static EntryCollection GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc)
 		{
 			return ObjectProvider.Instance().GetConditionalEntries(ItemCount,pt,pc);
 		}
-
-		public static EntryCollection GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc, DateTime DateUpdated)
-		{
-			return ObjectProvider.Instance().GetConditionalEntries(ItemCount,pt,pc, DateUpdated);
-		}
-
+	
 		/// <summary>
 		/// Returns a collection of Entries containing the feedback for a given post (via ParentID)
 		/// </summary>
@@ -151,6 +140,14 @@ namespace Subtext.Framework
 			return ObjectProvider.Instance().GetRecentPostsWithCategories(ItemCount,ActiveOnly);
 		}
 
+		/// <summary>
+		/// Gets recent posts used to support the MetaBlogAPI. 
+		/// Could be used for a Recent Posts control as well.
+		/// </summary>
+		/// <param name="ItemCount">Item count.</param>
+		/// <param name="postType">Post type.</param>
+		/// <param name="ActiveOnly">Active only.</param>
+		/// <returns></returns>
 		public static EntryCollection GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly)
 		{
 			return ObjectProvider.Instance().GetRecentPosts(ItemCount,postType,ActiveOnly);

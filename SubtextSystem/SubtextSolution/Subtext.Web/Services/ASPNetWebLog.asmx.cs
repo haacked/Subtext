@@ -257,6 +257,12 @@ namespace Subtext.Web.Services
 
 		#region Post Collections
 
+		/// <summary>
+		/// Gets recent posts for the MetaBlogAPI.
+		/// </summary>
+		/// <param name="ItemCount">Item count.</param>
+		/// <param name="LastUpdatedDate">Last updated date.</param>
+		/// <returns></returns>
 		[SoapHeaderAttribute("ASPNetWebLogUser", Direction=SoapHeaderDirection.InOut)]
 		[WebMethod(MessageName="GetRecentUpdatedPosts",Description="Returns the most recent posts")]
 		public EntryCollection GetRecentPosts(int ItemCount, DateTime LastUpdatedDate)

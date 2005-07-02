@@ -74,9 +74,14 @@ namespace Subtext.Framework.Providers
 		public abstract bool UpdateHost(HostInfo host);
 		#endregion Host Data
 		#region Get Blog Data
+		/// <summary>
+		/// Returns the specified number of blog entries
+		/// </summary>
+		/// <param name="ItemCount"></param>
+		/// <param name="pt"></param>
+		/// <param name="pc"></param>
+		/// <returns></returns>
 		public abstract IDataReader GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc);
-		public abstract IDataReader GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc, DateTime DateUpdated);
-
 		public abstract IDataReader GetEntriesByDateRangle(DateTime start, DateTime stop, PostType postType, bool ActiveOnly);
 
 		//Maybe under the hood only one call here? 

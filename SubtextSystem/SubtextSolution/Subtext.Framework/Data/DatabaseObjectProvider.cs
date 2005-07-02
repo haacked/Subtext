@@ -257,12 +257,6 @@ namespace Subtext.Framework.Data
 			return LoadEntryCollectionFromDataReader(reader);
 		}
 
-		public override EntryCollection GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc, DateTime DateUpdated)
-		{
-			IDataReader reader = DbProvider.Instance().GetConditionalEntries(ItemCount,pt,pc,DateUpdated);
-			return LoadEntryCollectionFromDataReader(reader);
-		}
-
 		public override EntryCollection GetFeedBack(int ParrentID)
 		{
 			IDataReader reader = DbProvider.Instance().GetFeedBack(ParrentID);

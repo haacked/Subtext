@@ -759,58 +759,6 @@ SET QUOTED_IDENTIFIER OFF
 GO
 SET ANSI_NULLS ON 
 GO
-
-
-CREATE PROC [blog_GetConditionalEntriesByDateUpdated]
-(
-	@DateUpdated datetime
-	, @ItemCount int
-	, @PostType int
-	, @PostConfig int
-	, @BlogID int
-)
-AS
-
-SET ROWCOUNT @ItemCount
-SELECT	blog_Content.BlogID
-	, blog_Content.[ID]
-	, blog_Content.Title
-	, blog_Content.DateAdded
-	, blog_Content.[Text]
-	, blog_Content.[Description]
-	, blog_Content.SourceUrl
-	, blog_Content.PostType
-	, blog_Content.Author
-	, blog_Content.Email
-	, blog_Content.SourceName
-	, blog_Content.DateUpdated
-	, blog_Content.TitleUrl
-	, blog_Content.FeedBackCount
-	, blog_Content.ParentID
-	, Blog_Content.PostConfig
-	, blog_Content.EntryName 
-	, blog_Content.ContentChecksumHash
-FROM blog_Content
-WHERE	blog_Content.PostType=@PostType 
-	AND blog_Content.BlogID = @BlogID
-	AND blog_Content.PostConfig & @PostConfig = @PostConfig 
-	AND blog_Content.DateUpdated > @DateUpdated
-ORDER BY blog_Content.[ID] DESC
-
-
-GO
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-GRANT  EXECUTE  ON [blog_GetConditionalEntriesByDateUpdated]  TO [public]
-GO
-
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
 /*
 Returns the blog that matches the given host/application combination.
 
@@ -1059,8 +1007,6 @@ SET QUOTED_IDENTIFIER OFF
 GO
 SET ANSI_NULLS ON 
 GO
-
-
 
 CREATE PROC [blog_GetEntryWithCategoryTitlesByEntryName]
 (
@@ -2027,7 +1973,6 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-
 CREATE PROC [blog_GetPostsByCategoryID]
 (
 	@ItemCount int
@@ -2181,7 +2126,6 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-
 CREATE PROC [blog_GetPostsByCategoryNameByDateUpdated]
 (
 	@ItemCount int
@@ -2234,7 +2178,6 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-
 CREATE PROC [blog_GetPostsByDayRange]
 (
 	@StartDate datetime,
@@ -2284,7 +2227,6 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON 
 GO
-
 
 CREATE PROC [blog_GetPostsByMonth]
 (
@@ -2363,7 +2305,6 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-
 CREATE PROC blog_GetPostsByYearArchive 
 (
 	@BlogID int
@@ -2372,8 +2313,6 @@ AS
 SELECT 1 AS [Month], Year(DateAdded) AS [Year], 1 AS Day, Count(*) AS [Count] FROM blog_Content 
 WHERE PostType = 1 AND PostConfig & 1 = 1 AND BlogID = @BlogID 
 GROUP BY Year(DateAdded) ORDER BY [Year] DESC
-
-
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -2389,7 +2328,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-
+-- Gets recently added entries.
 CREATE PROC [blog_GetRecentEntries]
 (
 	@ItemCount int
@@ -2488,7 +2427,6 @@ SET QUOTED_IDENTIFIER OFF
 GO
 SET ANSI_NULLS ON 
 GO
-
 
 CREATE PROC [blog_GetRecentEntriesWithCategoryTitles]
 (
@@ -2605,7 +2543,6 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON 
 GO
-
 
 CREATE PROC [blog_GetSingleEntry]
 (
@@ -2800,7 +2737,6 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-
 CREATE PROC blog_InsertCategory
 (
 	@Title nvarchar(150)
@@ -2843,9 +2779,6 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON 
 GO
-
-
-
 
 CREATE PROC blog_InsertEntryViewCount-- 1, 0, 1
 (
@@ -2890,10 +2823,6 @@ BEGIN
 
 END
 
-
-
-
-
 GO
 SET QUOTED_IDENTIFIER OFF 
 GO
@@ -2907,14 +2836,6 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON 
 GO
-
-
-
-
-
-
-
-
 
 CREATE PROC blog_InsertImage
 (
@@ -2938,8 +2859,6 @@ Values
 )
 Set @ImageID = SCOPE_IDENTITY()
 
-
-
 GO
 SET QUOTED_IDENTIFIER OFF 
 GO
@@ -2953,11 +2872,6 @@ SET QUOTED_IDENTIFIER OFF
 GO
 SET ANSI_NULLS ON 
 GO
-
-
-
-
-
 
 CREATE PROC blog_InsertKeyWord
 (
@@ -2995,14 +2909,6 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON 
 GO
-
-
-
-
-
-
-
-
 
 CREATE PROC blog_InsertLink
 (
@@ -3042,9 +2948,6 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-
-
-
 CREATE PROC blog_InsertLinkCategoryList
 (
 	@CategoryList nvarchar(4000)
@@ -3070,9 +2973,6 @@ FROM iter_charlist_to_table(@CategoryList,',')
 WHERE 
 	Convert(int, [str]) not in (SELECT CategoryID FROM blog_Links WHERE PostID = @PostID AND BlogID = @BlogID)
 
-
-
-
 GO
 SET QUOTED_IDENTIFIER OFF 
 GO
@@ -3082,104 +2982,10 @@ GO
 GRANT  EXECUTE  ON [blog_InsertLinkCategoryList]  TO [public]
 GO
 
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-
-CREATE PROC [blog_InsertPingTrackEntry]
-(
-	@Title nvarchar(255)
-	, @TitleUrl nvarchar(255)
-	, @Text ntext
-	, @SourceUrl nvarchar(200)
-	, @PostType int
-	, @Author nvarchar(50)
-	, @Email nvarchar(50)
-	, @SourceName nvarchar(200)
-	, @Description nvarchar(500)
-	, @BlogID int
-	, @DateAdded datetime
-	, @ParentID int
-	, @PostConfig int
-	, @EntryName nvarchar(150)
-	, @ContentChecksumHash varchar(32)
-	, @ID int output
-)
-AS
-
---Do not insert EntryNames. No needed for comments AND tracks. To messy anyway
-
-SET @ID = -1
-
-IF NOT EXISTS(SELECT [ID] FROM blog_Content WHERE TitleUrl = @TitleUrl AND ParentID = @ParentID)
-BEGIN
-
-IF(LTRIM(RTRIM(@Description)) = '')
-SET @Description = NULL
-
-INSERT INTO blog_Content 
-( 
-	PostConfig
-	, Title
-	, TitleUrl
-	, [Text]
-	, SourceUrl
-	, PostType
-	, Author
-	, Email
-	, DateAdded
-	,DateUpdated
-	, SourceName
-	, [Description]
-	, ContentChecksumHash
-	, ParentID
-	, BlogID
-)
-VALUES 
-(
-	@PostConfig
-	, @Title
-	, @TitleUrl
-	, @Text
-	, @SourceUrl
-	, @PostType
-	, @Author
-	, @Email
-	, @DateAdded
-	, @DateAdded
-	, @SourceName
-	, @Description
-	, @ContentChecksumHash
-	, @ParentID
-	, @BlogID
-)
-
-SELECT @ID = SCOPE_IDENTITY()
-
-UPDATE blog_Content
-SET FeedBackCount = FeedBackCount + 1 
-WHERE [ID] = @ParentID
-
-END
-
-
-
-GO
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-GRANT  EXECUTE  ON [blog_InsertPingTrackEntry]  TO [public]
-GO
-
 SET QUOTED_IDENTIFIER ON 
 GO
 SET ANSI_NULLS ON 
 GO
-
 
 CREATE PROC [blog_InsertPostCategoryByName]
 (
@@ -3216,16 +3022,12 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-
-
-
 CREATE PROC [blog_InsertReferral]
 (
 	@EntryID int,
 	@BlogID int,
 	@Url nvarchar(255)
 )
-
 AS
 
 DECLARE @UrlID int
@@ -3249,11 +3051,7 @@ BEGIN
 		Insert blog_Referrals (EntryID, BlogID, UrlID, [Count], LastUpdated)
 		       values (@EntryID, @BlogID, @UrlID, 1, getdate())
 	END
-
-
 END
-
-
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -3590,7 +3388,6 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-
 CREATE PROC [blog_UpdateEntry]
 (
 	@ID int
@@ -3695,8 +3492,6 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-
-
 CREATE PROC [blog_UpdateKeyWord]
 (
 	@KeyWordID int,
@@ -3779,16 +3574,10 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-
-
-
 CREATE PROC [blog_Utility_GetUnHashedPasswords]
 AS
 
 SELECT BlogID, Password FROM blog_COnfig WHERE Flag & 8 = 0
-
-
-
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -4017,8 +3806,99 @@ SELECT COUNT([BlogID]) AS TotalRecords
 FROM 	blog_config
 GO
 
-
 GRANT  EXECUTE  ON [blog_GetBlogsByHost]  TO [public]
+GO
+
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+--//TODO: We can probably merge the following two procedures.
+CREATE PROC [blog_InsertPingTrackEntry]
+(
+	@Title nvarchar(255)
+	, @TitleUrl nvarchar(255)
+	, @Text ntext
+	, @SourceUrl nvarchar(200)
+	, @PostType int
+	, @Author nvarchar(50)
+	, @Email nvarchar(50)
+	, @SourceName nvarchar(200)
+	, @Description nvarchar(500)
+	, @BlogID int
+	, @DateAdded datetime
+	, @ParentID int
+	, @PostConfig int
+	, @EntryName nvarchar(150)
+	, @ContentChecksumHash varchar(32)
+	, @ID int output
+)
+AS
+
+-- Do not insert EntryNames. No needed for comments AND tracks. 
+-- To messy anyway
+
+SET @ID = -1
+
+IF NOT EXISTS(SELECT [ID] FROM blog_Content WHERE TitleUrl = @TitleUrl AND ParentID = @ParentID)
+BEGIN
+
+IF(LTRIM(RTRIM(@Description)) = '')
+SET @Description = NULL
+
+INSERT INTO blog_Content 
+( 
+	PostConfig
+	, Title
+	, TitleUrl
+	, [Text]
+	, SourceUrl
+	, PostType
+	, Author
+	, Email
+	, DateAdded
+	, DateUpdated
+	, SourceName
+	, [Description]
+	, ContentChecksumHash
+	, ParentID
+	, BlogID
+)
+VALUES 
+(
+	@PostConfig
+	, @Title
+	, @TitleUrl
+	, @Text
+	, @SourceUrl
+	, @PostType
+	, @Author
+	, @Email
+	, @DateAdded
+	, @DateAdded
+	, @SourceName
+	, @Description
+	, @ContentChecksumHash
+	, @ParentID
+	, @BlogID
+)
+
+SELECT @ID = SCOPE_IDENTITY()
+
+UPDATE blog_Content
+SET FeedBackCount = FeedBackCount + 1 
+WHERE [ID] = @ParentID
+
+END
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+GRANT  EXECUTE  ON [blog_InsertPingTrackEntry]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
