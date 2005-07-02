@@ -101,7 +101,7 @@ Global
 		Subtext.Web\AspNetWithoutWebProjects.txt = Subtext.Web\AspNetWithoutWebProjects.txt
 		CVSReadMe.txt = CVSReadMe.txt
 		License.txt = License.txt
-		SubtextSetup\Migration_Notes.txt = SubtextSetup\Migration_Notes.txt
+		Subtext.Installation\Scripts\Migration_Notes.txt = Subtext.Installation\Scripts\Migration_Notes.txt
 		SolutionInfo.cs = SolutionInfo.cs
 		SourceGuidelines.txt = SourceGuidelines.txt
 	EndGlobalSection
