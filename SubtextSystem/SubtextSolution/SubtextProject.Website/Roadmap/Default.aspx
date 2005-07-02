@@ -110,7 +110,7 @@
 	
 	<h3>Version 1.1 - Code named &#8220;Daedelus&#8221;</h3>
 	<p>
-		<strong>Estimated release - March, 2005</strong>.
+		<strong>Estimated release - March, 2006</strong>.
 	</p>
 	<p>
 		Daedelus takes an inward look and fixes up the plumbing a bit, 
