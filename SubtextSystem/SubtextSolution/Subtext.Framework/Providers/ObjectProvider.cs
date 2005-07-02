@@ -87,11 +87,18 @@ namespace Subtext.Framework.Providers
 		#region EntryCollections
 
 		public abstract EntryCollection GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc);
-		public abstract EntryCollection GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc, DateTime DateUpdated);
 
 		public abstract EntryCollection GetFeedBack(int ParrentID);
 		public abstract EntryCollection GetFeedBack(Entry ParentEntry);
 		public abstract EntryCollection GetRecentPostsWithCategories(int ItemCount, bool ActiveOnly);
+		/// <summary>
+		/// Gets recent posts used to support the MetaBlogAPI. 
+		/// Could be used for a Recent Posts control as well.
+		/// </summary>
+		/// <param name="ItemCount">Item count.</param>
+		/// <param name="postType">Post type.</param>
+		/// <param name="ActiveOnly">Active only.</param>
+		/// <returns></returns>
 		public abstract EntryCollection GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly);
 		public abstract EntryCollection GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly, DateTime DateUpdated);
 		public abstract EntryCollection GetPostCollectionByMonth(int month, int year);

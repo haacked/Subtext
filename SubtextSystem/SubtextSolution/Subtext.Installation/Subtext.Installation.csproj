@@ -161,8 +161,16 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Scripts\NoLongerUsedSPs.sql"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Scripts\StoredProcedures.sql"
                     BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Scripts\UnknownScripts.sql"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "Scripts\UpgradeDotText095Script.sql"

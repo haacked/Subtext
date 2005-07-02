@@ -378,21 +378,7 @@ namespace Subtext.Framework.Data
 
 			return GetReader("blog_GetConditionalEntries",p);
 		}
-		
-		public override IDataReader GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc, DateTime DateUpdated)
-		{
-			SqlParameter[] p =
-			{
-				SqlHelper.MakeInParam("@ItemCount", SqlDbType.Int,4,ItemCount),
-				SqlHelper.MakeInParam("@PostType",SqlDbType.Int,4,pt),
-				SqlHelper.MakeInParam("@PostConfig",SqlDbType.Int,4,pc),
-				SqlHelper.MakeInParam("@DateUpdated",SqlDbType.DateTime,8,DateUpdated),
-				BlogIDParam				
-			};
-
-			return GetReader("blog_GetConditionalEntriesByDateUpdated",p);
-		}
-			
+				
 		public override IDataReader GetEntriesByDateRangle(DateTime start, DateTime stop, PostType postType, bool ActiveOnly)
 		{
 			SqlParameter[] p =	
@@ -456,6 +442,15 @@ namespace Subtext.Framework.Data
 			return GetReader("blog_GetRecentEntries",p);
 		}
 
+		/// <summary>
+		/// Gets recent posts used to support the MetaBlogAPI. 
+		/// Could be used for a Recent Posts control as well.
+		/// </summary>
+		/// <param name="ItemCount">Item count.</param>
+		/// <param name="postType">Post type.</param>
+		/// <param name="ActiveOnly">Active only.</param>
+		/// <param name="DateUpdated"></param>
+		/// <returns></returns>
 		public override IDataReader GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly, DateTime DateUpdated)
 		{
 			SqlParameter[] p =
