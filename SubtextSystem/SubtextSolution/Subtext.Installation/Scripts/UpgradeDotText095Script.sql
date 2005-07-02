@@ -122,7 +122,7 @@ END
 /*
 Add the blog_Host table.
 */
-if NOT exists (select * from dbo.sysobjects where id = object_id(N'[blog_Host]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+IF NOT exists (select * from dbo.sysobjects where id = object_id(N'[blog_Host]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
 BEGIN
 CREATE TABLE [blog_Host] (
 	[HostUserName] [nvarchar] (64) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
@@ -131,4 +131,14 @@ CREATE TABLE [blog_Host] (
 	[DateCreated] [datetime] NOT NULL
 ) ON [PRIMARY]
 END
+
+/*
+Update various tables so that they conform to Foreign Key Constraints.  This 
+primarily means having values of -1 be updated to NULL.
+*/
+UPDATE [blog_Links]
+SET	PostID = NULL WHERE PostID = -1
+
+UPDATE [blog_Content]
+SET	ParentID = NULL WHERE ParentID = -1
 

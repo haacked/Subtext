@@ -12,4 +12,5 @@ blog_config - Changed format of Password.  Still backwards compatible though.
 			- Added a DaysTillCommentsClose column.
 			- Added a CommentDelayInMinutes column.
 blog_content - Added a ContentChecksumHash column.
+			- ParentID column should have values of -1 converted to NULL
 blog_Links	- PostID column should have values of -1 converted to NULL
