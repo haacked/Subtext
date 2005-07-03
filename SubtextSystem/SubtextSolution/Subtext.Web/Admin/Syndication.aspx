@@ -11,11 +11,18 @@ Syndication</SP:HelpToolTip>
 			</LABEL>
 			<asp:CheckBox id="chkEnableSyndication" runat="server"></asp:CheckBox></P>
 		<DIV id="otherSettings">
-			<P class="ValueLabel"><LABEL for="chkUseSyndicationCompression">
-					<SP:HelpToolTip id="HelpToolTip2" runat="server" HelpText="If checked, your feeds will be compressed for clients that indicate they are able to receive compressed feeds.  This could reduce your bandwidth usage. If you encounter problems with your feed, try turning this off.">Enable 
-Compression</SP:HelpToolTip>
+			<P class="ValueLabel">
+				<LABEL for="chkUseSyndicationCompression">
+					<SP:HelpToolTip id="HelpToolTip2" runat="server" HelpText="If checked, your feeds will be compressed for clients that indicate they are able to receive compressed feeds.  This could reduce your bandwidth usage. If you encounter problems with your feed, try turning this off.">Enable Compression</SP:HelpToolTip>
 				</LABEL>
-				<asp:CheckBox id="chkUseSyndicationCompression" runat="server"></asp:CheckBox></P>
+				<asp:CheckBox id="chkUseSyndicationCompression" runat="server"></asp:CheckBox>
+			</P>
+			<P class="ValueLabel">
+				<LABEL for="chkUseDeltaEncoding">
+					<SP:HelpToolTip id="Helptooltip4" runat="server" HelpText="If checked, your feeds will employ RFC3229 Delta Encoding.  This can save on bandwidth usage for aggregators that support this protocol.  It simply sends only the feed items that have changed since the last request.">Enable Delta Encoding</SP:HelpToolTip>
+				</LABEL>
+				<asp:CheckBox id="chkUseDeltaEncoding" runat="server"></asp:CheckBox>
+			</P>
 			<LABEL class="Block">
 				<SP:HelpToolTip id="HelpToolTip3" runat="server" HelpText="If specifed, indicates that your RSS feed is available under a license using the creativeCommons:license element. This can be used to display any license. For more information, read the <a href=\'http://backend.userland.com/creativeCommonsRssModule\'>spec here</a>.">License 
 Url</SP:HelpToolTip>

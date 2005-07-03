@@ -133,6 +133,10 @@ namespace Subtext.Framework.Configuration
 			if(info == null)
 			{
 				string app = UrlFormats.GetBlogApplicationNameFromRequest(context.Request.RawUrl, context.Request.ApplicationPath);
+
+				if(!Config.IsValidApplicationName(app))
+					app = string.Empty;
+
 				//BlogConfig was not found in the context. It could be in the current cache.
 				string mCacheKey = cacheKey + app;
 

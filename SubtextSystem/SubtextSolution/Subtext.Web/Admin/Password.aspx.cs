@@ -23,14 +23,13 @@
 
 using System;
 using Subtext.Framework;
-using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Admin.Pages
 {
 	/// <summary>
 	/// Summary description for Password.
 	/// </summary>
-	public class Password : System.Web.UI.Page
+	public class Password : AdminOptionsPage
 	{
 		protected System.Web.UI.WebControls.TextBox tbPasswordConfirm;
 		protected System.Web.UI.WebControls.Label Message;
@@ -42,8 +41,6 @@ namespace Subtext.Web.Admin.Pages
 		protected System.Web.UI.WebControls.LinkButton btnSave;
 		protected System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
 		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel Results;
-		protected Subtext.Web.Admin.WebUI.Page PageContainer;
 		protected System.Web.UI.WebControls.TextBox tbPassword;
 	
 		private void Page_Load(object sender, System.EventArgs e)
@@ -80,9 +77,6 @@ namespace Subtext.Web.Admin.Pages
 			const string failureMessage = "Your password can not be updated";
 			if(Page.IsValid)
 			{
-				BlogInfo info = Config.CurrentBlog;
-				bool useHash = Config.Settings.UseHashedPasswords;
-				
 				if(Security.IsValidPassword(tbCurrent.Text))
 				{
 					if(tbPassword.Text == tbPasswordConfirm.Text)

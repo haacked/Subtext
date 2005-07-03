@@ -2,19 +2,21 @@ using System;
 using System.Globalization;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Web.Admin.Pages;
 
 namespace Subtext.Web.Admin
 {
 	/// <summary>
 	/// Summary description for Comments.
 	/// </summary>
-	public class Comments : System.Web.UI.Page
+	public class Comments : AdminOptionsPage
 	{
 		private const string RES_SUCCESS = "Your comment settings were successfully updated.";
 		private const string RES_FAILURE = "Comment settings update failed.";
 
 		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
 		protected System.Web.UI.WebControls.CheckBox chkEnableComments;
+		protected System.Web.UI.WebControls.CheckBox chkEnableTrackbacks;
 		protected System.Web.UI.WebControls.TextBox txtCommentDelayIntervalMinutes;
 		protected System.Web.UI.WebControls.TextBox txtDaysTillCommentsClosed;
 		protected System.Web.UI.WebControls.LinkButton lkbPost;
@@ -22,8 +24,9 @@ namespace Subtext.Web.Admin
 		protected Subtext.Web.Controls.HelpToolTip HelpToolTip1;
 		protected Subtext.Web.Controls.HelpToolTip HelpToolTip2;
 		protected Subtext.Web.Controls.HelpToolTip Helptooltip3;
-		protected Subtext.Web.Admin.WebUI.Page PageContainer;
-
+		protected Subtext.Web.Controls.HelpToolTip Helptooltip4;
+		protected System.Web.UI.WebControls.CheckBox chkAllowDuplicates;
+		
 		private void Page_Load(object sender, System.EventArgs e)
 		{
 			if (!IsPostBack)
@@ -38,6 +41,7 @@ namespace Subtext.Web.Admin
 			BlogInfo info = Config.CurrentBlog;
 			
 			this.chkEnableComments.Checked = info.CommentsEnabled;
+			this.chkEnableTrackbacks.Checked = info.TrackbacksEnabled;
 			
 			if(info.DaysTillCommentsClose > -1 && info.DaysTillCommentsClose < int.MaxValue)
                 this.txtDaysTillCommentsClosed.Text = info.DaysTillCommentsClose.ToString(CultureInfo.InvariantCulture);
@@ -86,6 +90,7 @@ namespace Subtext.Web.Admin
 				BlogInfo info = Config.CurrentBlog;
 			
 				info.CommentsEnabled = this.chkEnableComments.Checked;
+				info.TrackbacksEnabled = this.chkEnableTrackbacks.Checked;
 				if(this.txtCommentDelayIntervalMinutes.Text.Length == 0)
 				{
 					info.CommentDelayInMinutes = 0;

@@ -32,7 +32,7 @@ using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Admin.Pages
 {
-	public class Configure : AdminPage
+	public class Configure : AdminOptionsPage
 	{
 		// abstract out at a future point for i18n
 		private const string RES_SUCCESS = "Your configuration was successfully updated.";
@@ -55,7 +55,7 @@ namespace Subtext.Web.Admin.Pages
 		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
 		protected Subtext.Web.Controls.HelpToolTip HelpToolTip1;
 		protected Subtext.Web.Controls.HelpToolTip HelpToolTip2;
-		protected Subtext.Web.Admin.WebUI.Page PageContainer;
+		//protected Subtext.Web.Admin.WebUI.Page PageContainer;
 	
 		#region Accessors
 		public CategoryType CategoryType

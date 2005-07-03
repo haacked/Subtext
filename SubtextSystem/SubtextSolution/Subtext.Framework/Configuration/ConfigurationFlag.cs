@@ -22,8 +22,8 @@ namespace Subtext.Framework.Configuration
 		IsPasswordHashed = 8,
 		/// <summary>Whether or not Comments are enabled.</summary>
 		CommentsEnabled = 16,
-		/// <summary>Not sure.</summary>
-		PublishAsNew = 32,
+		/// <summary>Whether or not trackbacks and pingbacks are enabled.</summary>
+		TrackbacksEnabled = 32,
 		/// <summary>The Blog compresses its syndicated feeds.</summary>
 		CompressSyndicatedFeed = 64,
 		/// <summary>Whether or not duplicate comments are allowed.</summary>

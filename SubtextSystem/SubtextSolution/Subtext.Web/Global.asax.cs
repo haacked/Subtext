@@ -121,6 +121,7 @@ namespace Subtext
 
 		protected void Application_Error(Object sender, EventArgs e)
 		{
+			/*
 			Exception exception = Server.GetLastError();
 			if(exception is HttpUnhandledException)
 			{
@@ -179,6 +180,7 @@ namespace Subtext
 			// extra safe. If customErrors are off, we'll just let ASP.NET default happen.
 			if (Context != null && Context.IsCustomErrorEnabled)
 				Server.Transfer(ERROR_PAGE_LOCATION, false);
+			*/
 		}
 
 		protected void Session_End(Object sender, EventArgs e)
