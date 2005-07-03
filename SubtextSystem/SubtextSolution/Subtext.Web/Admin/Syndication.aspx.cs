@@ -1,13 +1,14 @@
 using System;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Web.Admin.Pages;
 
 namespace Subtext.Web.Admin
 {
 	/// <summary>
 	/// Admin Page used to set syndication settings.
 	/// </summary>
-	public class Syndication : System.Web.UI.Page
+	public class Syndication : AdminOptionsPage
 	{
 		// abstract out at a future point for i18n
 		private const string RES_SUCCESS = "Your syndication settings were successfully updated.";
@@ -16,14 +17,14 @@ namespace Subtext.Web.Admin
 		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
 		protected System.Web.UI.WebControls.CheckBox chkEnableSyndication;
 		protected System.Web.UI.WebControls.CheckBox chkUseSyndicationCompression;
+		protected System.Web.UI.WebControls.CheckBox chkUseDeltaEncoding;
 		protected System.Web.UI.WebControls.TextBox txtLicenseUrl;
 		protected System.Web.UI.WebControls.LinkButton lkbPost;
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
 		protected Subtext.Web.Controls.HelpToolTip HelpToolTip1;
 		protected Subtext.Web.Controls.HelpToolTip HelpToolTip2;
 		protected Subtext.Web.Controls.HelpToolTip HelpToolTip3;
-		protected Subtext.Web.Admin.WebUI.Page PageContainer;
-	
+		
 		private void Page_Load(object sender, System.EventArgs e)
 		{
 			if (!IsPostBack)
@@ -38,7 +39,7 @@ namespace Subtext.Web.Admin
 			BlogInfo info = Config.CurrentBlog;
 			
 			this.chkEnableSyndication.Checked = info.IsAggregated;
-			
+			this.chkUseDeltaEncoding.Checked = info.RFC3229DeltaEncodingEnabled;
 			this.chkUseSyndicationCompression.Checked = info.UseSyndicationCompression;
 			this.txtLicenseUrl.Text = info.LicenseUrl;
 		}
@@ -74,6 +75,7 @@ namespace Subtext.Web.Admin
 			
 			info.IsAggregated = this.chkEnableSyndication.Checked;
 			info.UseSyndicationCompression = this.chkUseSyndicationCompression.Checked;
+			info.RFC3229DeltaEncodingEnabled = this.chkUseDeltaEncoding.Checked;
 			info.LicenseUrl = this.txtLicenseUrl.Text;
 
 			Config.UpdateConfigData(info);

@@ -32,7 +32,7 @@ namespace Subtext.Web.Admin.Pages
 	// TODO: import - reconcile duplicates
 	// TODO: CheckAll client-side, confirm bulk delete (add cmd)
 
-	public class EditKeyWords : AdminPage
+	public class EditKeyWords : AdminOptionsPage
 	{
 		private const string VSKEY_KEYWORDID = "LinkID";
 
@@ -41,7 +41,6 @@ namespace Subtext.Web.Admin.Pages
 
 		protected System.Web.UI.WebControls.Repeater rprSelectionList;
 		protected Subtext.Web.Admin.WebUI.Pager ResultsPager;
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel Results;
 		protected System.Web.UI.WebControls.Label lblEntryID;
 		protected System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
 		protected System.Web.UI.WebControls.TextBox txbTitle;
@@ -54,7 +53,6 @@ namespace Subtext.Web.Admin.Pages
 
 
 		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
-		protected Subtext.Web.Admin.WebUI.Page PageContainer;
 		protected System.Web.UI.WebControls.TextBox txbWord;
 		protected System.Web.UI.WebControls.TextBox txbText;
 		protected System.Web.UI.WebControls.RequiredFieldValidator Requiredfieldvalidator3;

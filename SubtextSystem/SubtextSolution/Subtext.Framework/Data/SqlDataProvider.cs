@@ -357,7 +357,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@SortDesc", SqlDbType.Bit, 1, sortDescending),
 				BlogIDParam
 			};
-			return GetReader("blog_GetPageableFeedback",p);
+			return GetReader("blog_GetPageableFeedback", p);
 
 		}
 

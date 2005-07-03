@@ -95,24 +95,33 @@ namespace Subtext.Framework.Syndication
 
 		protected void BuildChannel(string title, string link, string authorEmail, string description, string lang, string copyright, string cclicense)
 		{
+			//Required Channel Elements
 			this.WriteElementString("title", title);			
 			this.WriteElementString("link", link);
 			this.WriteElementString("description", description);
 			
+			//Optional Channel Elements
+			this.WriteElementString("language", lang);
+			this.WriteElementString("dc:language", lang);
+			//TODO: Implement this element.
+			this.WriteElementString("copyright", copyright);
+
 			//TODO: Provide REAL email authentication.
 			if(authorEmail != null && authorEmail.Length > 0 &&authorEmail.IndexOf("@") > 0)
 			{
 				this.WriteElementString("managingEditor", authorEmail);
 			}
-			this.WriteElementString("dc:language", lang);
+			
+			//TODO: <category>One or more categories</category>
 			this.WriteElementString("generator", VersionInfo.Version);
 
-			this.WriteElementString("copyright", copyright);
 			if(cclicense != null && cclicense.Length > 0)
 			{
 				this.WriteElementString("creativeCommons:license", cclicense);
 			}
-			this.AddImageElement(title, link, description);
+
+			if(link != null && link.Length > 0)
+				this.AddImageElement(title, link, description);
 		}
 
 		// <summary>
@@ -187,44 +196,43 @@ namespace Subtext.Framework.Syndication
 		/// <param name="uformat">Uformat.</param>
 		protected virtual void EntryXml(Entry entry, BlogConfigurationSettings settings, UrlFormats uformat)
 		{
-			this.WriteElementString("dc:creator",entry.Author);
-			
 			//core
 			this.WriteElementString("title", entry.Title);
-			
-			//core
 			this.WriteElementString("link", entry.Link);
-			this.WriteElementString("pubDate", entry.DateCreated.ToString("r"));
-			
-			//core Should we set the 
-			this.WriteElementString("guid", entry.Link);
-
-			if(AllowComments && info.CommentsEnabled && entry.AllowComments && !entry.CommentingClosed)
-			{
-				//optional for CommentApi Post location
-				this.WriteElementString("wfw:comment", uformat.CommentApiUrl(entry.EntryID));
-				//optional url for comments
-				this.WriteElementString("comments", entry.Link + "#Feedback");
-				//optional comment count
-				this.WriteElementString("slash:comments", entry.FeedBackCount.ToString(CultureInfo.InvariantCulture));
-				//optional commentRss feed location
-				this.WriteElementString("wfw:commentRss", uformat.CommentRssUrl(entry.EntryID));
-				//optional trackback location
-				this.WriteElementString("trackback:ping", uformat.TrackBackUrl(entry.EntryID));
-				//core 
-			}
-
 			this.WriteElementString
 			(
 				"description", //Tag
 				string.Format
-					(
+				(
 					"{0}{1}", //tag def
 					entry.SyndicateDescriptionOnly ? entry.Description : entry.Body,  //use desc or full post
 					(UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(uformat.AggBugkUrl(entry.EntryID)) : null //use aggbugs
 				)
 			);
-					
+			//TODO: Perform real email auth.
+			if(entry.Email != null && entry.Email.Length > 0 && entry.Email.IndexOf('@') > 0)
+				this.WriteElementString("author", entry.Email);
+			this.WriteElementString("dc:creator", entry.Author);
+			this.WriteElementString("guid", entry.Link);
+			this.WriteElementString("pubDate", entry.DateCreated.ToString("r"));			
+			
+
+			if(AllowComments && info.CommentsEnabled && entry.AllowComments && !entry.CommentingClosed)
+			{
+				// Comment API (http://wellformedweb.org/story/9)
+				this.WriteElementString("wfw:comment", uformat.CommentApiUrl(entry.EntryID));
+			}
+
+			this.WriteElementString("comments", entry.Link + "#Feedback");
+			
+			if(entry.FeedBackCount > 0)
+				this.WriteElementString("slash:comments", entry.FeedBackCount.ToString(CultureInfo.InvariantCulture));
+			
+			this.WriteElementString("wfw:commentRss", uformat.CommentRssUrl(entry.EntryID));
+			
+			if(info.TrackbacksEnabled)
+				this.WriteElementString("trackback:ping", uformat.TrackBackUrl(entry.EntryID));
+
 			//optional
 			if(settings.UseXHTML && entry.IsXHMTL)
 			{

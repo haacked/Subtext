@@ -158,7 +158,7 @@ namespace Subtext.Framework.Data
 
 		public override PagedEntryCollection GetPagedFeedback(int pageIndex, int pageSize, bool sortDescending)
 		{
-			IDataReader reader = DbProvider.Instance().GetPagedFeedback(pageIndex,pageSize,sortDescending);
+			IDataReader reader = DbProvider.Instance().GetPagedFeedback(pageIndex, pageSize, sortDescending);
 			PagedEntryCollection pec = new PagedEntryCollection();
 			while(reader.Read())
 			{

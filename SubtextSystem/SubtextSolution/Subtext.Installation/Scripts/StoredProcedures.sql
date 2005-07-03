@@ -1564,7 +1564,7 @@ SELECT	content.BlogID
 		, content.PostConfig
 		, content.EntryName
 		, content.ContentChecksumHash
-		, blog_Content.DateSyndicated
+		, content.DateSyndicated
 FROM  	blog_Content content
     INNER JOIN #TempPagedEntryIDs tmp ON (content.[ID] = tmp.EntryID)
 WHERE 	content.BlogID = @BlogID 

@@ -28,7 +28,7 @@ using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Admin.Pages
 {
-	public class EditPreferences : AdminPage
+	public class EditPreferences : AdminOptionsPage
 	{
 		protected System.Web.UI.WebControls.DropDownList ddlPageSize;
 		protected System.Web.UI.WebControls.DropDownList ddlPublished;
@@ -36,8 +36,7 @@ namespace Subtext.Web.Admin.Pages
 		protected System.Web.UI.WebControls.LinkButton lkbUpdate;
 		protected System.Web.UI.WebControls.LinkButton lkbCancel;
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
-		protected Subtext.Web.Admin.WebUI.Page PageContainer;
-	
+		
 		private void Page_Load(object sender, System.EventArgs e)
 		{
 //			if (!AreCookiesAllowed())

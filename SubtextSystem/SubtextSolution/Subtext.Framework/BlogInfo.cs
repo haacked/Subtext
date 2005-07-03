@@ -329,6 +329,18 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
+		/// Gets or sets a value indicating whether trackbacks and pingbacks are enabled.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if comments are enabled, otherwise, <c>false</c>.
+		/// </value>
+		public bool TrackbacksEnabled
+		{
+			get{return FlagPropertyCheck(ConfigurationFlag.TrackbacksEnabled);}
+			set{FlagSetter(ConfigurationFlag.TrackbacksEnabled, value);}
+		}
+
+		/// <summary>
 		/// Gets or sets a value indicating whether duplicate comments are enabled.  
 		/// If not, duplicate comments are not allowed.
 		/// </summary>

@@ -1,4 +1,4 @@
-<%@ Page language="c#" Codebehind="Options.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.Options" %>
+<%@ Page language="c#" Codebehind="Options.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.AdminOptionsPage" %>
 <%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <ANW:Page id="PageContainer" TabSectionID="Options" runat="server">
 	<ANW:AdvancedPanel id="Results" runat="server" Collapsible="False" HeaderText="Options" HeaderCssClass="CollapsibleHeader"
@@ -11,7 +11,7 @@
 			<a href="Syndication.aspx">Syndication</a>: Manage your RSS (or ATOM) Feed.
 		</p>
 		<p>
-			<a href="Comments.aspx">Comments</a>: Manage comment settings.
+			<a href="Comments.aspx">Comments</a>: Manage comment and trackback settings.
 		</p>
 		<p>
 			<a href="EditKeyWords.aspx">Key Words</a>: Auto transform specific words/patterns to links.
