@@ -126,6 +126,29 @@ namespace Subtext.Framework.Data
 			return null;
 		}
 
+		public static string CheckNullString(object obj)
+		{
+			if(obj is DBNull)
+			{
+				return null;
+			}
+			return (string)obj;
+		}
+
+		/// <summary>
+		/// Checks the value of the specified value type for a null value.  
+		/// Returns null if the value represents a null value
+		/// </summary>
+		/// <param name="dateTime">Date time.</param>
+		/// <returns></returns>
+		public static object CheckNull(DateTime dateTime)
+		{
+			if(dateTime == DateTime.MinValue)
+				return null;
+			return dateTime;
+		}
+
+
 		#endregion
 
 		#region AddParameters
@@ -1055,7 +1078,5 @@ namespace Subtext.Framework.Data
 		#endregion ExecuteXmlReader
 
 	}
-
-
 }
 

@@ -29,6 +29,7 @@ using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Data;
 
 namespace Subtext.Framework.Data
 {
@@ -85,7 +86,7 @@ namespace Subtext.Framework.Data
 										{
 											SqlHelper.MakeInParam("@EntryID",SqlDbType.Int,4,ev.EntryID),
 											SqlHelper.MakeInParam("@BlogID",SqlDbType.Int,4,ev.BlogID),
-											SqlHelper.MakeInParam("@URL",SqlDbType.NVarChar,255,DataHelper.CheckNull(ev.ReferralUrl)),
+											SqlHelper.MakeInParam("@URL",SqlDbType.NVarChar,255,SqlHelper.CheckNull(ev.ReferralUrl)),
 											SqlHelper.MakeInParam("@IsWeb",SqlDbType.Bit,1,ev.PageViewType)
 										};
 						SqlHelper.ExecuteNonQuery(conn,CommandType.StoredProcedure,"blog_TrackEntry",p);
@@ -113,7 +114,7 @@ namespace Subtext.Framework.Data
 					{
 						SqlHelper.MakeInParam("@EntryID",SqlDbType.Int,4,ev.EntryID),
 						SqlHelper.MakeInParam("@BlogID",SqlDbType.Int,4,ev.BlogID),
-						SqlHelper.MakeInParam("@URL",SqlDbType.NVarChar,255,DataHelper.CheckNull(ev.ReferralUrl)),
+						SqlHelper.MakeInParam("@URL",SqlDbType.NVarChar,255,SqlHelper.CheckNull(ev.ReferralUrl)),
 						SqlHelper.MakeInParam("@IsWeb",SqlDbType.Bit,1,ev.PageViewType)
 			};
 			return this.NonQueryBool("blog_TrackEntry",p);
@@ -363,16 +364,14 @@ namespace Subtext.Framework.Data
 		#endregion	
 
 		#region Get Blog Data
-
-		
-		
+			
 		public override IDataReader GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc)
 		{
 			SqlParameter[] p =
 			{
-				SqlHelper.MakeInParam("@ItemCount", SqlDbType.Int,4,ItemCount),
-				SqlHelper.MakeInParam("@PostType",SqlDbType.Int,4,pt),
-				SqlHelper.MakeInParam("@PostConfig",SqlDbType.Int,4,pc),
+				SqlHelper.MakeInParam("@ItemCount", SqlDbType.Int, 4,ItemCount),
+				SqlHelper.MakeInParam("@PostType", SqlDbType.Int, 4,pt),
+				SqlHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4,pc),
 				BlogIDParam				
 			};
 
@@ -383,10 +382,10 @@ namespace Subtext.Framework.Data
 		{
 			SqlParameter[] p =	
 			{
-				SqlHelper.MakeInParam("@StartDate",SqlDbType.DateTime,8,start),
-				SqlHelper.MakeInParam("@StopDate",SqlDbType.DateTime,8,stop),
-				SqlHelper.MakeInParam("@PostType",SqlDbType.Int,4,postType),
-				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
+				SqlHelper.MakeInParam("@StartDate",SqlDbType.DateTime, 8, start),
+				SqlHelper.MakeInParam("@StopDate",SqlDbType.DateTime, 8, stop),
+				SqlHelper.MakeInParam("@PostType",SqlDbType.Int, 4, postType),
+				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1, ActiveOnly),
 				BlogIDParam
 			};
 			return GetReader("blog_GetEntriesByDayRange",p);
@@ -696,56 +695,66 @@ namespace Subtext.Framework.Data
 
 		}
 
-		//maps to blog_InsertBlog
+		/// <summary>
+		/// Adds a new entry to the blog.  Whether the entry be a blog post, article,
+		/// a comment, trackback, etc...
+		/// </summary>
+		/// <param name="entry">Entry.</param>
+		/// <returns></returns>
 		public override int InsertEntry(Entry entry)
 		{
 			SqlParameter outIdParam = SqlHelper.MakeOutParam("@ID", SqlDbType.Int, 4);
 			SqlParameter[] p =
 			{
 				SqlHelper.MakeInParam("@Title",  SqlDbType.NVarChar, 255, entry.Title), 
-				SqlHelper.MakeInParam("@TitleUrl",  SqlDbType.NVarChar, 255, DataHelper.CheckNull(entry.TitleUrl)), 
+				SqlHelper.MakeInParam("@TitleUrl",  SqlDbType.NVarChar, 255, SqlHelper.CheckNull(entry.TitleUrl)), 
 				SqlHelper.MakeInParam("@Text", SqlDbType.Text, 0, entry.Body), 
-				SqlHelper.MakeInParam("@SourceUrl", SqlDbType.NVarChar, 200, DataHelper.CheckNull(entry.SourceUrl)), 
+				SqlHelper.MakeInParam("@SourceUrl", SqlDbType.NVarChar, 200, SqlHelper.CheckNull(entry.SourceUrl)), 
 				SqlHelper.MakeInParam("@PostType", SqlDbType.Int, 4, entry.PostType), 
-				SqlHelper.MakeInParam("@Author", SqlDbType.NVarChar, 50, DataHelper.CheckNull(entry.Author)), 
-				SqlHelper.MakeInParam("@Email", SqlDbType.NVarChar, 50, DataHelper.CheckNull(entry.Email)), 
-				SqlHelper.MakeInParam("@Description", SqlDbType.NVarChar, 500, DataHelper.CheckNull(entry.Description)), 
-				SqlHelper.MakeInParam("@SourceName", SqlDbType.NVarChar, 200, DataHelper.CheckNull(entry.SourceName)), 
+				SqlHelper.MakeInParam("@Author", SqlDbType.NVarChar, 50, SqlHelper.CheckNull(entry.Author)), 
+				SqlHelper.MakeInParam("@Email", SqlDbType.NVarChar, 50, SqlHelper.CheckNull(entry.Email)), 
+				SqlHelper.MakeInParam("@Description", SqlDbType.NVarChar, 500, SqlHelper.CheckNull(entry.Description)), 
+				SqlHelper.MakeInParam("@SourceName", SqlDbType.NVarChar, 200, SqlHelper.CheckNull(entry.SourceName)), 
 				SqlHelper.MakeInParam("@DateAdded", SqlDbType.DateTime, 8, entry.DateCreated), 
 				SqlHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, entry.PostConfig), 
 				SqlHelper.MakeInParam("@ParentID", SqlDbType.Int, 4, entry.ParentID), 
-				SqlHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, DataHelper.CheckNull(entry.EntryName)), 
-				SqlHelper.MakeInParam("@ContentChecksumHash", SqlDbType.VarChar, 32, DataHelper.CheckNull(entry.ContentChecksumHash)), 
+				SqlHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, SqlHelper.CheckNull(entry.EntryName)), 
+				SqlHelper.MakeInParam("@ContentChecksumHash", SqlDbType.VarChar, 32, SqlHelper.CheckNull(entry.ContentChecksumHash)), 
+				SqlHelper.MakeInParam("@DateSyndicated", SqlDbType.DateTime, 8, SqlHelper.CheckNull(entry.DateSyndicated)), 
 				BlogIDParam,
 				outIdParam
 				
 			};
 
-			NonQueryInt("blog_InsertEntry",p);
+			NonQueryInt("blog_InsertEntry", p);
 			return (int)outIdParam.Value;
 		}
-
-		
-
+	
+		/// <summary>
+		/// Updates the specified entry in the database.
+		/// </summary>
+		/// <param name="entry">Entry.</param>
+		/// <returns></returns>
 		public override bool UpdateEntry(Entry entry)
 		{
 			SqlParameter[] p =
 			{
 				SqlHelper.MakeInParam("@ID", SqlDbType.Int, 4, entry.EntryID), 
 				SqlHelper.MakeInParam("@Title",  SqlDbType.NVarChar, 255, entry.Title), 
-				SqlHelper.MakeInParam("@TitleUrl",  SqlDbType.NVarChar, 255, DataHelper.CheckNull(entry.TitleUrl)),
+				SqlHelper.MakeInParam("@TitleUrl",  SqlDbType.NVarChar, 255, SqlHelper.CheckNull(entry.TitleUrl)),
 				SqlHelper.MakeInParam("@Text", SqlDbType.Text, 0, entry.Body), 
-				SqlHelper.MakeInParam("@SourceUrl", SqlDbType.NVarChar, 200, DataHelper.CheckNull(entry.SourceUrl)), 
+				SqlHelper.MakeInParam("@SourceUrl", SqlDbType.NVarChar, 200, SqlHelper.CheckNull(entry.SourceUrl)), 
 				SqlHelper.MakeInParam("@PostType", SqlDbType.Int, 4, entry.PostType), 
-				SqlHelper.MakeInParam("@Author", SqlDbType.NVarChar, 50, DataHelper.CheckNull(entry.Author)), 
-				SqlHelper.MakeInParam("@Email", SqlDbType.NVarChar, 50, DataHelper.CheckNull(entry.Email)), 
-				SqlHelper.MakeInParam("@Description", SqlDbType.NVarChar, 500, DataHelper.CheckNull(entry.Description)), 
-				SqlHelper.MakeInParam("@SourceName", SqlDbType.NVarChar, 200, DataHelper.CheckNull(entry.SourceName)), 
+				SqlHelper.MakeInParam("@Author", SqlDbType.NVarChar, 50, SqlHelper.CheckNull(entry.Author)), 
+				SqlHelper.MakeInParam("@Email", SqlDbType.NVarChar, 50, SqlHelper.CheckNull(entry.Email)), 
+				SqlHelper.MakeInParam("@Description", SqlDbType.NVarChar, 500, SqlHelper.CheckNull(entry.Description)), 
+				SqlHelper.MakeInParam("@SourceName", SqlDbType.NVarChar, 200, SqlHelper.CheckNull(entry.SourceName)), 
 				SqlHelper.MakeInParam("@DateUpdated", SqlDbType.SmallDateTime, 4, entry.DateUpdated), 
 				SqlHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, entry.PostConfig), 
 				SqlHelper.MakeInParam("@ParentID", SqlDbType.Int, 4, entry.ParentID), 
-				SqlHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, DataHelper.CheckNull(entry.EntryName)), 
-				SqlHelper.MakeInParam("@ContentChecksumHash", SqlDbType.VarChar, 32, DataHelper.CheckNull(entry.ContentChecksumHash)), 
+				SqlHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, SqlHelper.CheckNull(entry.EntryName)), 
+				SqlHelper.MakeInParam("@ContentChecksumHash", SqlDbType.VarChar, 32, SqlHelper.CheckNull(entry.ContentChecksumHash)), 
+				SqlHelper.MakeInParam("@DateSyndicated", SqlDbType.DateTime, 8, SqlHelper.CheckNull(entry.DateSyndicated)), 
 				BlogIDParam
 			};
 			return NonQueryBool("blog_UpdateEntry", p);
@@ -760,19 +769,19 @@ namespace Subtext.Framework.Data
 				SqlParameter[] p =
 				{
 					SqlHelper.MakeInParam("@Title",  SqlDbType.NVarChar, 255, entry.Title), 
-					SqlHelper.MakeInParam("@TitleUrl",  SqlDbType.NVarChar, 255, DataHelper.CheckNull(entry.TitleUrl)), 
+					SqlHelper.MakeInParam("@TitleUrl",  SqlDbType.NVarChar, 255, SqlHelper.CheckNull(entry.TitleUrl)), 
 					SqlHelper.MakeInParam("@Text", SqlDbType.Text, 0, entry.Body), 
-					SqlHelper.MakeInParam("@SourceUrl", SqlDbType.NVarChar, 200, DataHelper.CheckNull(entry.SourceUrl)), 
+					SqlHelper.MakeInParam("@SourceUrl", SqlDbType.NVarChar, 200, SqlHelper.CheckNull(entry.SourceUrl)), 
 					SqlHelper.MakeInParam("@PostType", SqlDbType.Int, 4, entry.PostType), 
-					SqlHelper.MakeInParam("@Author", SqlDbType.NVarChar, 50, DataHelper.CheckNull(entry.Author)), 
-					SqlHelper.MakeInParam("@Email", SqlDbType.NVarChar, 50, DataHelper.CheckNull(entry.Email)), 
-					SqlHelper.MakeInParam("@Description", SqlDbType.NVarChar, 500, DataHelper.CheckNull(entry.Description)), 
-					SqlHelper.MakeInParam("@SourceName", SqlDbType.NVarChar, 200, DataHelper.CheckNull(entry.SourceName)), 
+					SqlHelper.MakeInParam("@Author", SqlDbType.NVarChar, 50, SqlHelper.CheckNull(entry.Author)), 
+					SqlHelper.MakeInParam("@Email", SqlDbType.NVarChar, 50, SqlHelper.CheckNull(entry.Email)), 
+					SqlHelper.MakeInParam("@Description", SqlDbType.NVarChar, 500, SqlHelper.CheckNull(entry.Description)), 
+					SqlHelper.MakeInParam("@SourceName", SqlDbType.NVarChar, 200, SqlHelper.CheckNull(entry.SourceName)), 
 					SqlHelper.MakeInParam("@DateAdded", SqlDbType.DateTime, 8, entry.DateCreated), 
 					SqlHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, entry.PostConfig), 
 					SqlHelper.MakeInParam("@ContentChecksumHash", SqlDbType.VarChar, 32, entry.ContentChecksumHash), 
 					SqlHelper.MakeInParam("@ParentID", SqlDbType.Int, 4, entry.ParentID), 
-					SqlHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, DataHelper.CheckNull(entry.EntryName)), 
+					SqlHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, SqlHelper.CheckNull(entry.EntryName)), 
 					BlogIDParam, 
 					outParam
 				};
@@ -827,9 +836,9 @@ namespace Subtext.Framework.Data
 				Link link = lc[0];
 				SqlParameter[] p = 
 				{
-					SqlHelper.MakeInParam("@Title", SqlDbType.NVarChar, 150, DataHelper.CheckNull(link.Title)), 
-					SqlHelper.MakeInParam("@Url", SqlDbType.NVarChar, 255, DataHelper.CheckNull(link.Url)), 
-					SqlHelper.MakeInParam("@Rss", SqlDbType.NVarChar, 255, DataHelper.CheckNull(link.Rss)), 
+					SqlHelper.MakeInParam("@Title", SqlDbType.NVarChar, 150, SqlHelper.CheckNull(link.Title)), 
+					SqlHelper.MakeInParam("@Url", SqlDbType.NVarChar, 255, SqlHelper.CheckNull(link.Url)), 
+					SqlHelper.MakeInParam("@Rss", SqlDbType.NVarChar, 255, SqlHelper.CheckNull(link.Rss)), 
 					SqlHelper.MakeInParam("@Active", SqlDbType.Bit, 1, link.IsActive), 
 					SqlHelper.MakeInParam("@NewWindow", SqlDbType.Bit, 1, link.NewWindow), 
 					SqlHelper.MakeInParam("@CategoryID", SqlDbType.Int, 4, link.CategoryID), 
@@ -871,7 +880,7 @@ namespace Subtext.Framework.Data
 			{
 				SqlHelper.MakeInParam("@Title",SqlDbType.NVarChar,150,link.Title),
 				SqlHelper.MakeInParam("@Url",SqlDbType.NVarChar,255,link.Url),
-				SqlHelper.MakeInParam("@Rss",SqlDbType.NVarChar,255,DataHelper.CheckNull(link.Rss)),
+				SqlHelper.MakeInParam("@Rss",SqlDbType.NVarChar,255,SqlHelper.CheckNull(link.Rss)),
 				SqlHelper.MakeInParam("@Active",SqlDbType.Bit,1,link.IsActive),
 				SqlHelper.MakeInParam("@NewWindow",SqlDbType.Bit,1,link.NewWindow),
 				SqlHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,link.CategoryID),
@@ -890,7 +899,7 @@ namespace Subtext.Framework.Data
 			{
 				SqlHelper.MakeInParam("@Title",SqlDbType.NVarChar,150,link.Title),
 				SqlHelper.MakeInParam("@Url",SqlDbType.NVarChar,255,link.Url),
-				SqlHelper.MakeInParam("@Rss",SqlDbType.NVarChar,255,DataHelper.CheckNull(link.Rss)),
+				SqlHelper.MakeInParam("@Rss",SqlDbType.NVarChar,255,SqlHelper.CheckNull(link.Rss)),
 				SqlHelper.MakeInParam("@Active",SqlDbType.Bit,1,link.IsActive),
 				SqlHelper.MakeInParam("@NewWindow",SqlDbType.Bit,1,link.NewWindow),
 				SqlHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,link.CategoryID),
@@ -983,7 +992,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@Active",SqlDbType.Bit,1,lc.IsActive),
 				SqlHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,lc.CategoryID),
 				SqlHelper.MakeInParam("@CategoryType",SqlDbType.TinyInt,1,lc.CategoryType),
-				SqlHelper.MakeInParam("@Description",SqlDbType.NVarChar,1000,DataHelper.CheckNull(lc.Description)),
+				SqlHelper.MakeInParam("@Description",SqlDbType.NVarChar,1000,SqlHelper.CheckNull(lc.Description)),
 				BlogIDParam
 			};
 			return NonQueryBool("blog_UpdateCategory",p);
@@ -999,7 +1008,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@Title",SqlDbType.NVarChar,150,lc.Title),
 				SqlHelper.MakeInParam("@Active",SqlDbType.Bit,1,lc.IsActive),
 				SqlHelper.MakeInParam("@CategoryType",SqlDbType.TinyInt,1,lc.CategoryType),
-				SqlHelper.MakeInParam("@Description",SqlDbType.NVarChar,1000,DataHelper.CheckNull(lc.Description)),
+				SqlHelper.MakeInParam("@Description",SqlDbType.NVarChar,1000,SqlHelper.CheckNull(lc.Description)),
 				BlogIDParam,
 				outParam
 			};
@@ -1056,17 +1065,16 @@ namespace Subtext.Framework.Data
 		/// the configuration settings for the blog specified by the 
 		/// Hostname and Application.
 		/// </summary>
+		/// <remarks>
+		/// If there are no matches, but there is only one blog_config record, 
+		/// this will return that record.
+		/// </remarks>
 		/// <param name="host">Hostname.</param>
 		/// <param name="application">Application.</param>
 		/// <returns></returns>
 		public override IDataReader GetBlogInfo(string host, string application)
 		{
-			SqlParameter[] p = 
-			{
-				SqlHelper.MakeInParam("@Host", SqlDbType.NVarChar, 100, host),
-				SqlHelper.MakeInParam("@Application", SqlDbType.NVarChar, 50, application)
-			};
-			return GetReader("blog_GetConfig", p);
+			return GetBlogInfo(host, application, false); //Not Strict.
 		}
 
 		/// <summary>
@@ -1095,11 +1103,16 @@ namespace Subtext.Framework.Data
 		}
 
 		
-		public override IDataReader GetBlogInfo(int BlogID)
+		/// <summary>
+		/// Gets information about a specific blog via its Id.
+		/// </summary>
+		/// <param name="blogId">Blog ID.</param>
+		/// <returns></returns>
+		public override IDataReader GetBlogInfo(int blogId)
 		{
 			SqlParameter[] p = 
 			{
-				SqlHelper.MakeInParam("@BlogID",SqlDbType.Int,4,BlogID)
+				SqlHelper.MakeInParam("@BlogID",SqlDbType.Int, 4, blogId)
 			};
 			return GetReader("blog_GetConfigByBlogID",p);
 		}
@@ -1138,12 +1151,12 @@ namespace Subtext.Framework.Data
 					,SqlHelper.MakeInParam("@Host", SqlDbType.NVarChar, 100, info.Host) 
 					,SqlHelper.MakeInParam("@TimeZone", SqlDbType.Int, 4, info.TimeZone) 
 					,SqlHelper.MakeInParam("@Language", SqlDbType.NVarChar, 10, info.Language) 
-					,SqlHelper.MakeInParam("@News", SqlDbType.Text, 0, DataHelper.CheckNull(info.News)) 
+					,SqlHelper.MakeInParam("@News", SqlDbType.Text, 0, SqlHelper.CheckNull(info.News)) 
 					,SqlHelper.MakeInParam("@ItemCount", SqlDbType.Int,  4, info.ItemCount) 
 					,SqlHelper.MakeInParam("@Flag", SqlDbType.Int,  4, (int)info.Flag) 
 					,SqlHelper.MakeInParam("@LastUpdated", SqlDbType.DateTime,  8, info.LastUpdated) 
-					,SqlHelper.MakeInParam("@SecondaryCss", SqlDbType.Text, 0, DataHelper.CheckNull(info.Skin.SkinCssText)) 
-					,SqlHelper.MakeInParam("@SkinCssFile", SqlDbType.VarChar, 100, DataHelper.CheckNull(info.Skin.SkinCssFile)) 
+					,SqlHelper.MakeInParam("@SecondaryCss", SqlDbType.Text, 0, SqlHelper.CheckNull(info.Skin.SkinCssText)) 
+					,SqlHelper.MakeInParam("@SkinCssFile", SqlDbType.VarChar, 100, SqlHelper.CheckNull(info.Skin.SkinCssFile)) 
 					,SqlHelper.MakeInParam("@LicenseUrl", SqlDbType.NVarChar, 64, info.LicenseUrl)
 					,SqlHelper.MakeInParam("@DaysTillCommentsClose", SqlDbType.Int, 4, daysTillCommentsClose)
 					,SqlHelper.MakeInParam("@CommentDelayInMinutes", SqlDbType.Int, 4, commentDelayInMinutes)

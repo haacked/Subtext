@@ -444,7 +444,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Data\SQLHelper.cs"
+                    RelPath = "Data\SqlHelper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

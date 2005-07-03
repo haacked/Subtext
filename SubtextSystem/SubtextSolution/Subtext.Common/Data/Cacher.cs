@@ -286,24 +286,7 @@ namespace Subtext.Common.Data
 				}
 			}
 			return comments;
-		}
-
-		private static readonly string ParentCommentEntryID = "ParentEntry:Comments:EntryID{0}:BlogID{1}";
-		public static EntryCollection GetComments(int EntryID, CacheTime ct, HttpContext context)
-		{
-			string key = string.Format(ParentCommentEntryID,EntryID, BlogID());
-			
-			EntryCollection comments = (EntryCollection)context.Cache[key];
-			if(comments == null)
-			{
-				comments = Entries.GetFeedBack(EntryID);
-				if(comments != null)
-				{
-					CacherCache(key,context,comments,ct);
-				}
-			}
-			return comments;
-		}
+		}		
 
 		#endregion
 		

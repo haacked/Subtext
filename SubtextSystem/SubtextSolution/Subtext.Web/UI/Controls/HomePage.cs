@@ -31,7 +31,7 @@ namespace Subtext.Web.UI.Controls
 	using System;
 
 	[PartialCaching(45,null,null,"Blogger",false)]
-	public  class HomePage : BaseControl
+	public class HomePage : BaseControl
 	{
 
 		protected Subtext.Web.UI.Controls.DayCollection HomePageDays;

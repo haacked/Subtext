@@ -36,13 +36,14 @@ namespace Subtext.Common.Syndication
 		BaseSyndicationWriter writer = null;
 
 		/// <summary>
-		/// Returns the cache key for the feed.
+		/// Returns the key used to cache this feed.
 		/// </summary>
+		/// <param name="dateLastViewedFeedItemPublished">Date last viewed feed item published.</param>
 		/// <returns></returns>
-		protected override string CacheKey(int lastViewedId)
+		protected override string CacheKey(DateTime dateLastViewedFeedItemPublished)
 		{
 			const string key = "IndividualMainFeed;BlogID:{0};LastViewed:{1}";
-			return string.Format(key, CurrentBlog.BlogID, lastViewedId);
+			return string.Format(key, CurrentBlog.BlogID, dateLastViewedFeedItemPublished);
 		}
 
 		/// <summary>
@@ -51,7 +52,7 @@ namespace Subtext.Common.Syndication
 		/// <param name="feed">Feed.</param>
 		protected override void Cache(CachedFeed feed)
 		{
-			Context.Cache.Insert(CacheKey(this.SyndicationWriter.LatestFeedItemId), feed, null, DateTime.Now.AddSeconds((double)Subtext.Common.Data.CacheTime.Medium), TimeSpan.Zero);
+			Context.Cache.Insert(CacheKey(this.SyndicationWriter.DateLastViewedFeedItemPublished), feed, null, DateTime.Now.AddSeconds((double)Subtext.Common.Data.CacheTime.Medium), TimeSpan.Zero);
 		}
 
 		/// <summary>
@@ -64,7 +65,7 @@ namespace Subtext.Common.Syndication
 			{
 				if(writer == null)
 				{
-					writer = new RssWriter(Entries.GetMainSyndicationEntries(CurrentBlog.ItemCount), this.LastFeedItemReceived, this.UseDeltaEncoding);
+					writer = new RssWriter(Entries.GetMainSyndicationEntries(CurrentBlog.ItemCount), this.PublishDateOfLastFeedItemReceived, this.UseDeltaEncoding);
 				}
 				return writer;
 			}

@@ -22,9 +22,15 @@ namespace Subtext.Common.Syndication
 			set {this._url = value;}
 		}
 
-		//TODO: implement lastViewedId
+		//TODO: implement dateLastViewedFeedItemPublished
 		//TODO: Implement useDeltaEncoding
-		public CategoryWriter(EntryCollection ec, LinkCategory lc, string Url) : base(ec, int.MinValue, false)
+		/// <summary>
+		/// Creates a new <see cref="CategoryWriter"/> instance.
+		/// </summary>
+		/// <param name="ec">Ec.</param>
+		/// <param name="lc">Lc.</param>
+		/// <param name="Url">URL.</param>
+		public CategoryWriter(EntryCollection ec, LinkCategory lc, string Url) : base(ec, DateTime.MinValue, false)
 		{
 			this.Category = lc;
 			this.Url = Url;

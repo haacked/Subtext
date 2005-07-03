@@ -13,8 +13,8 @@ namespace Subtext.Framework.Syndication
     {
         private StringWriter writer  = null;
         protected BlogInfo info;
-		int lastViewedFeedItemId = int.MinValue;
-		protected int latestFeedItemId = int.MinValue;
+		DateTime dateLastViewedFeedItemPublished = DateTime.MinValue;
+		protected DateTime latestPublishDate = DateTime.MinValue;
 		protected bool useDeltaEncoding = false;
 		protected bool clientHasAllFeedItems = false;
 
@@ -22,15 +22,15 @@ namespace Subtext.Framework.Syndication
 		/// Creates a new <see cref="BaseSyndicationWriter"/> instance.
 		/// </summary>
 		/// <param name="sw">Sw.</param>
-        protected BaseSyndicationWriter(StringWriter sw) : this(sw, int.MinValue, false)
+        protected BaseSyndicationWriter(StringWriter sw) : this(sw, DateTime.MinValue, false)
         {
         }
 
 		/// <summary>
 		/// Creates a new <see cref="BaseSyndicationWriter"/> instance.
 		/// </summary>
-		/// <param name="lastViewedFeedItem"></param>
-        protected BaseSyndicationWriter(int lastViewedFeedItem, bool useDeltaEncoding) : this(new StringWriter(), lastViewedFeedItem, useDeltaEncoding)
+		/// <param name="dateLastViewedFeedItemPublished"></param>
+        protected BaseSyndicationWriter(DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : this(new StringWriter(), dateLastViewedFeedItemPublished, useDeltaEncoding)
         {
 		}
 
@@ -38,10 +38,10 @@ namespace Subtext.Framework.Syndication
 		/// Creates a new <see cref="BaseSyndicationWriter"/> instance.
 		/// </summary>
 		/// <param name="sw">Sw.</param>
-		/// <param name="lastViewedFeedItem">Last viewed feed item.</param>
-		protected BaseSyndicationWriter(StringWriter sw, int lastViewedFeedItem, bool useDeltaEncoding) : base(sw)
+		/// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
+		protected BaseSyndicationWriter(StringWriter sw, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(sw)
 		{
-			lastViewedFeedItemId = lastViewedFeedItem;	
+			this.dateLastViewedFeedItemPublished = dateLastViewedFeedItemPublished;
 			writer = sw;
 			info = Config.CurrentBlog;
 			this.useDeltaEncoding = useDeltaEncoding;
@@ -96,27 +96,27 @@ namespace Subtext.Framework.Syndication
 		}
 
 		/// <summary>
-		/// Gets the latest feed item id that will be returned to 
-		/// the client.  This will be placed in the ETag.
+		/// Gets the publish date of the latest syndicated item.
 		/// </summary>
 		/// <value></value>
-		public int LatestFeedItemId
+		public DateTime LatestPublishDate
 		{
 			get
 			{
-				return this.latestFeedItemId;
+				return latestPublishDate;
 			}
 		}
-
+		
 		/// <summary>
-		/// Gets the id of last viewed feed item according 
-		/// to the client request.
+		/// Gets the publish date of the last syndicated feed item 
+		/// that the client aggregator viewed.  This is sent as 
+		/// the ETag.
 		/// </summary>
 		/// <value></value>
-    	public int LastViewedFeedItemId
-    	{
-    		get { return this.lastViewedFeedItemId; }
-    	}
+		public DateTime DateLastViewedFeedItemPublished
+		{
+			get {return this.dateLastViewedFeedItemPublished;}
+		}
 
     	private bool _useAggBugs = false;
         public bool UseAggBugs
@@ -140,6 +140,6 @@ namespace Subtext.Framework.Syndication
         }
 
         protected abstract void Build();
-		protected abstract void Build(int lastIdViewed);
+		protected abstract void Build(DateTime dateLastViewedFeedItemPublished);
     }
 }

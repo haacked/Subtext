@@ -17,8 +17,8 @@ namespace Subtext.Framework.Syndication
 		/// <summary>
 		/// Creates a new <see cref="BaseRssWriter"/> instance.
 		/// </summary>
-		/// <param name="lastViewedFeedItem">Last viewed feed item.</param>
-		protected BaseRssWriter(int lastViewedFeedItem, bool useDeltaEncoding) : base(lastViewedFeedItem, useDeltaEncoding)
+		/// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
+		protected BaseRssWriter(DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(dateLastViewedFeedItemPublished, useDeltaEncoding)
 		{
 		}
 
@@ -27,14 +27,14 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		protected override void Build()
 		{
-			Build(this.LastViewedFeedItemId);
+			Build(this.DateLastViewedFeedItemPublished);
 		}
 
 		/// <summary>
 		/// Builds the specified last id viewed.
 		/// </summary>
-		/// <param name="lastIdViewed">Last id viewed.</param>
-		protected override void Build(int lastIdViewed)
+		/// <param name="dateLastViewedFeedItemPublished">Last id viewed.</param>
+		protected override void Build(DateTime dateLastViewedFeedItemPublished)
 		{
 			if(!isBuilt)
 			{
@@ -151,13 +151,13 @@ namespace Subtext.Framework.Syndication
 		{
 			BlogConfigurationSettings settings = Config.Settings;
 			this.clientHasAllFeedItems = true;
-			this.latestFeedItemId = this.LastViewedFeedItemId;
+			this.latestPublishDate = this.DateLastViewedFeedItemPublished;
 			
 			foreach(Entry entry in this.Entries)
 			{
-				if(this.useDeltaEncoding && entry.EntryID <= LastViewedFeedItemId)
+				if(this.useDeltaEncoding && entry.DateSyndicated <= DateLastViewedFeedItemPublished)
 				{
-					// Since Entries are ordered by ID descending, as soon 
+					// Since Entries are ordered by DatePublished descending, as soon 
 					// as we encounter one that is smaller than or equal to 
 					// one the client has already seen, we're done as we 
 					// know the client already has the rest of the items in 
@@ -170,9 +170,9 @@ namespace Subtext.Framework.Syndication
 				this.WriteStartElement("item");
 				EntryXml(entry, settings, info.UrlFormats);
 				this.WriteEndElement();
-				if(entry.EntryID > base.latestFeedItemId)
+				if(entry.DateSyndicated > base.latestPublishDate)
 				{
-					base.latestFeedItemId = entry.EntryID;
+					base.latestPublishDate = entry.DateSyndicated;
 				}
 
 				this.clientHasAllFeedItems = false;

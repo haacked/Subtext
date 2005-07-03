@@ -739,11 +739,12 @@ SELECT blog_Content.BlogID
 	, Blog_Content.PostConfig
 	, blog_Content.EntryName 
 	, blog_Content.ContentChecksumHash
+	, blog_Content.DateSyndicated
 FROM blog_Content
-WHERE	blog_Content.PostType=@PostType 
-	AND blog_Content.BlogID = @BlogID
+WHERE	blog_Content.PostType = @PostType 
+	AND blog_Content.BlogID   = @BlogID
 	AND blog_Content.PostConfig & @PostConfig = @PostConfig
-ORDER BY blog_Content.[ID] DESC
+ORDER BY ISNULL(DateSyndicated, DateUpdated) DESC
 
 
 GO
@@ -877,6 +878,7 @@ SELECT	blog_Content.BlogID
 	, blog_Content.PostConfig
 	, blog_Content.EntryName 
 	, blog_Content.ContentChecksumHash
+	, blog_Content.DateSyndicated
 FROM blog_Content
 WHERE 
 	(
@@ -932,6 +934,7 @@ SELECT blog_Content.BlogID
 	, blog_Content.PostConfig
 	, blog_Content.EntryName 
 	, blog_Content.ContentChecksumHash
+	, blog_Content.DateSyndicated
 FROM blog_Content
 WHERE 
 	blog_Content.PostType=@PostType 
@@ -981,6 +984,7 @@ SELECT	blog_Content.BlogID
 		, blog_Content.EntryName
 		, blog_Content.ParentID 
 		, blog_Content.ContentChecksumHash
+		, blog_Content.DateSyndicated
 FROM blog_Content
 WHERE	blog_Content.[ID] = @PostID 
 	AND  blog_Content.BlogID = @BlogID 
@@ -1036,6 +1040,7 @@ SELECT	blog_Content.BlogID
 		, blog_Content.EntryName
 		, blog_Content.ParentID 
 		, blog_Content.ContentChecksumHash
+		, blog_Content.DateSyndicated
 FROM blog_Content
 WHERE	blog_Content.EntryName = @EntryName 
 	AND  blog_Content.BlogID = @BlogID 
@@ -1091,6 +1096,7 @@ SELECT	blog_Content.BlogID
 		, blog_Content.EntryName
 		, blog_Content.ParentID 
 		, blog_Content.ContentChecksumHash
+		, blog_Content.DateSyndicated
 FROM blog_Content
 WHERE blog_Content.BlogID = @BlogID AND blog_Content.PostConfig & 1 = 1 AND blog_Content.ParentID = @ParentID
 ORDER BY [ID]
@@ -1352,6 +1358,7 @@ SELECT	content.BlogID
 		, content.PostConfig
 		, content.EntryName
 		, content.ContentChecksumHash
+		, content.DateSyndicated
 		, vc.WebCount
 		, vc.AggCount
 		, vc.WebLastUpdated
@@ -1457,6 +1464,7 @@ SELECT	content.BlogID
 		, content.PostConfig
 		, content.EntryName
 		, blog_Content.ContentChecksumHash
+		, blog_Content.DateSyndicated
 		, vc.WebCount
 		, vc.AggCount
 		, vc.WebLastUpdated
@@ -1556,6 +1564,7 @@ SELECT	content.BlogID
 		, content.PostConfig
 		, content.EntryName
 		, content.ContentChecksumHash
+		, blog_Content.DateSyndicated
 FROM  	blog_Content content
     INNER JOIN #TempPagedEntryIDs tmp ON (content.[ID] = tmp.EntryID)
 WHERE 	content.BlogID = @BlogID 
@@ -2000,6 +2009,7 @@ SELECT	blog_Content.BlogID
 	, blog_Content.PostConfig
 	, blog_Content.EntryName 
 	, blog_Content.ContentChecksumHash
+	, blog_Content.DateSyndicated
 FROM blog_Content WITH (NOLOCK)
 	INNER JOIN blog_Links WITH (NOLOCK) ON blog_Content.ID = ISNULL(blog_Links.PostID, -1)
 	INNER JOIN blog_LinkCategories WITH (NOLOCK) ON blog_Links.CategoryID = blog_LinkCategories.CategoryID
@@ -2051,6 +2061,7 @@ SELECT	blog_Content.BlogID
 	, blog_Content.PostConfig
 	, blog_Content.EntryName 
 	, blog_Content.ContentChecksumHash
+	, blog_Content.DateSyndicated
 FROM blog_Content
 	INNER JOIN blog_Links ON blog_Content.ID = ISNULL(blog_Links.PostID, -1)
 	INNER JOIN blog_LinkCategories ON blog_Links.CategoryID = blog_LinkCategories.CategoryID
@@ -2103,6 +2114,7 @@ SELECT	blog_Content.BlogID
 		, blog_Content.PostConfig
 		, blog_Content.EntryName 
 		, blog_Content.ContentChecksumHash
+		, blog_Content.DateSyndicated
 FROM blog_Content
 	INNER JOIN blog_Links ON blog_Content.ID = ISNULL(blog_Links.PostID, -1)
 	INNER JOIN blog_LinkCategories ON blog_Links.CategoryID = blog_LinkCategories.CategoryID
@@ -2154,6 +2166,7 @@ SELECT	blog_Content.BlogID
 		, blog_Content.PostConfig
 		, blog_Content.EntryName 
 		, blog_Content.ContentChecksumHash
+		, blog_Content.DateSyndicated
 FROM blog_Content
 	INNER JOIN blog_Links ON blog_Content.ID = ISNULL(blog_Links.PostID, -1)
 	INNER JOIN blog_LinkCategories ON blog_Links.CategoryID = blog_LinkCategories.CategoryID
@@ -2203,6 +2216,7 @@ SELECT	blog_Content.BlogID
 		, blog_Content.PostConfig
 		, blog_Content.EntryName 
 		, blog_Content.ContentChecksumHash
+		, blog_Content.DateSyndicated
 FROM blog_Content
 WHERE 
 	(
@@ -2253,6 +2267,7 @@ SELECT	blog_Content.BlogID
 	, blog_Content.PostConfig
 	, blog_Content.EntryName 
 	, blog_Content.ContentChecksumHash
+	, blog_Content.DateSyndicated
 FROM blog_Content
 WHERE	blog_Content.PostType=1 
 	AND blog_Content.BlogID = @BlogID 
@@ -2356,6 +2371,7 @@ SELECT	blog_Content.BlogID
 	, Blog_Content.PostConfig
 	, blog_Content.EntryName 
 	, blog_Content.ContentChecksumHash
+	, blog_Content.DateSyndicated
 FROM blog_Content
 WHERE	blog_Content.PostType=@PostType 
 	AND blog_Content.BlogID = @BlogID 
@@ -2405,6 +2421,7 @@ SELECT	blog_Content.BlogID
 	, Blog_Content.PostConfig
 	, blog_Content.EntryName 
 	, blog_Content.ContentChecksumHash
+	, blog_Content.DateSyndicated
 FROM blog_Content
 WHERE 
 	blog_Content.PostType=@PostType 
@@ -2467,6 +2484,7 @@ SELECT	blog_Content.BlogID
 	, Blog_Content.PostConfig
 	, blog_Content.EntryName 
 	, blog_Content.ContentChecksumHash
+	, blog_Content.DateSyndicated
 FROM blog_Content, #IDs
 WHERE blog_Content.[ID] = #IDs.PostID
 ORDER BY TempID ASC
@@ -2520,6 +2538,7 @@ SELECT	blog_Content.BlogID
 	, Blog_Content.PostConfig
 	, blog_Content.EntryName 
 	, blog_Content.ContentChecksumHash
+	, blog_Content.DateSyndicated
 FROM blog_Content
 WHERE Year(blog_Content.DateAdded) = Year(@Date) 
 	AND Month(blog_Content.DateAdded) = Month(@Date)
@@ -2569,6 +2588,7 @@ SELECT	blog_Content.BlogID
 	, Blog_Content.PostConfig
 	, blog_Content.EntryName 
 	, blog_Content.ContentChecksumHash
+	, blog_Content.DateSyndicated
 FROM blog_Content
 WHERE blog_Content.[ID] = @ID 
 	AND blog_Content.BlogID = @BlogID 
@@ -2616,6 +2636,7 @@ SELECT	blog_Content.BlogID
 	, Blog_Content.PostConfig
 	, blog_Content.EntryName 
 	, blog_Content.ContentChecksumHash
+	, blog_Content.DateSyndicated
 FROM blog_Content
 WHERE blog_Content.[EntryName] = @EntryName 
 	AND blog_Content.BlogID = @BlogID 
@@ -3311,13 +3332,13 @@ CREATE PROC [blog_UpdateConfig]
 	, @Host nvarchar(100)
 	, @Author nvarchar(100)
 	, @Language nvarchar(10)
-	, @TimeZone int
+	, @TimeZone int = NULL
 	, @ItemCount int
-	, @News nText
-	, @LastUpdated datetime
-	, @SecondaryCss nText
-	, @SkinCssFile varchar(100)
-	, @Flag int
+	, @News nText = NULL
+	, @LastUpdated datetime = NULL
+	, @SecondaryCss nText = NULL
+	, @SkinCssFile varchar(100) = NULL
+	, @Flag int = NULL
 	, @BlogID int
 	, @LicenseUrl nvarchar(64) = NULL
 	, @DaysTillCommentsClose int = NULL
@@ -3392,19 +3413,20 @@ CREATE PROC [blog_UpdateEntry]
 (
 	@ID int
 	, @Title nvarchar(255)
-	, @TitleUrl nvarchar(255)
-	, @Text ntext
-	, @SourceUrl nvarchar(200)
+	, @TitleUrl nvarchar(255) = NULL
+	, @Text ntext = NULL
+	, @SourceUrl nvarchar(200) = NULL
 	, @PostType int
-	, @Author nvarchar(50)
-	, @Email nvarchar(50)
-	, @Description nvarchar(500)
-	, @SourceName nvarchar(200)
-	, @DateUpdated datetime
+	, @Author nvarchar(50) = NULL
+	, @Email nvarchar(50) = NULL
+	, @Description nvarchar(500) = NULL
+	, @SourceName nvarchar(200) = NULL
+	, @DateUpdated datetime = NULL
 	, @PostConfig int
-	, @ParentID int
-	, @EntryName nvarchar(150)
+	, @ParentID int = NULL
+	, @EntryName nvarchar(150) = NULL
 	, @ContentChecksumHash varchar(32)
+	, @DateSyndicated DateTime = NULL
 	, @BlogID int
 )
 AS
@@ -3436,6 +3458,7 @@ SET
 	, blog_Content.SourceName = @SourceName
 	, blog_Content.EntryName = @EntryName
 	, blog_Content.ContentChecksumHash = @ContentChecksumHash
+	, blog_Content.DateSyndicated = @DateSyndicated
 WHERE 	
 	blog_Content.[ID]=@ID AND blog_Content.BlogID = @BlogID
 EXEC blog_UpdateConfigUpdateTime @blogID, @DateUpdated
@@ -3818,19 +3841,19 @@ GO
 CREATE PROC [blog_InsertPingTrackEntry]
 (
 	@Title nvarchar(255)
-	, @TitleUrl nvarchar(255)
-	, @Text ntext
-	, @SourceUrl nvarchar(200)
+	, @TitleUrl nvarchar(255) = NULL
+	, @Text ntext = NULL
+	, @SourceUrl nvarchar(200) = NULL
 	, @PostType int
-	, @Author nvarchar(50)
-	, @Email nvarchar(50)
-	, @SourceName nvarchar(200)
-	, @Description nvarchar(500)
+	, @Author nvarchar(50) = NULL
+	, @Email nvarchar(50) = NULL
+	, @SourceName nvarchar(200) = NULL
+	, @Description nvarchar(500) = NULL
 	, @BlogID int
 	, @DateAdded datetime
-	, @ParentID int
+	, @ParentID int = NULL
 	, @PostConfig int
-	, @EntryName nvarchar(150)
+	, @EntryName nvarchar(150) = NULL
 	, @ContentChecksumHash varchar(32)
 	, @ID int output
 )
@@ -3909,20 +3932,21 @@ GO
 CREATE PROC blog_InsertEntry
 (
 	@Title nvarchar(255)
-	, @TitleUrl nvarchar(255)
-	, @Text ntext
-	, @SourceUrl nvarchar(200)
+	, @TitleUrl nvarchar(255) = NULL
+	, @Text ntext = NULL
+	, @SourceUrl nvarchar(200) = NULL
 	, @PostType int
-	, @Author nvarchar(50)
-	, @Email nvarchar(50)
-	, @SourceName nvarchar(200)
-	, @Description nvarchar(500)
+	, @Author nvarchar(50) = NULL
+	, @Email nvarchar(50) = NULL
+	, @SourceName nvarchar(200) = NULL
+	, @Description nvarchar(500) = NULL
 	, @BlogID int
 	, @DateAdded datetime
-	, @ParentID int
+	, @ParentID int = NULL
 	, @PostConfig int
-	, @EntryName nvarchar(150)
+	, @EntryName nvarchar(150) = NULL
 	, @ContentChecksumHash varchar(32)
+	, @DateSyndicated DateTime = NULL
 	, @ID int output
 )
 AS
@@ -3956,6 +3980,7 @@ INSERT INTO blog_Content
 	, BlogID
 	, EntryName 
 	, ContentChecksumHash
+	, DateSyndicated
 )
 VALUES 
 (
@@ -3975,6 +4000,7 @@ VALUES
 	, @BlogID
 	, @EntryName
 	, @ContentChecksumHash
+	, @DateSyndicated
 )
 SELECT @ID = SCOPE_IDENTITY()
 -- PostType
@@ -4033,6 +4059,7 @@ SELECT TOP 1 BlogID
 	, PostConfig
 	, EntryName 
 	, ContentChecksumHash
+	, DateSyndicated
 FROM blog_Content
 WHERE 
 	ContentChecksumHash = @ContentChecksumHash 

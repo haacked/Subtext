@@ -191,9 +191,15 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public override EntryDayCollection GetConditionalEntries(int ItemCount, PostConfig pc)
+		/// <summary>
+		/// Returns blog posts that meet the criteria specified in the <see cref="PostConfig"/> flags.
+		/// </summary>
+		/// <param name="ItemCount">Item count.</param>
+		/// <param name="pc">Pc.</param>
+		/// <returns></returns>
+		public override EntryDayCollection GetBlogPosts(int ItemCount, PostConfig pc)
 		{
-			IDataReader reader = DbProvider.Instance().GetConditionalEntries(ItemCount,PostType.BlogPost,pc);
+			IDataReader reader = DbProvider.Instance().GetConditionalEntries(ItemCount, PostType.BlogPost, pc);
 			try
 			{
 				EntryDayCollection edc = DataHelper.LoadEntryDayCollection(reader);
@@ -251,30 +257,37 @@ namespace Subtext.Framework.Data
 
 		#region EntryCollections
 
+		/// <summary>
+		/// Gets the entries that meet the specific <see cref="PostType"/> 
+		/// and the <see cref="PostConfig"/> flags.
+		/// </summary>
+		/// <remarks>
+		/// This is called to get the main syndicated entries.
+		/// </remarks>
+		/// <param name="ItemCount">Item count.</param>
+		/// <param name="pt">Pt.</param>
+		/// <param name="pc">Pc.</param>
+		/// <returns></returns>
 		public override EntryCollection GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc)
 		{
-			IDataReader reader = DbProvider.Instance().GetConditionalEntries(ItemCount,pt,pc);
+			IDataReader reader = DbProvider.Instance().GetConditionalEntries(ItemCount, pt, pc);
 			return LoadEntryCollectionFromDataReader(reader);
 		}
 
-		public override EntryCollection GetFeedBack(int ParrentID)
+		public override EntryCollection GetFeedBack(Entry parentEntry)
 		{
-			IDataReader reader = DbProvider.Instance().GetFeedBack(ParrentID);
-			return LoadEntryCollectionFromDataReader(reader);
-		}
-
-		public override EntryCollection GetFeedBack(Entry ParentEntry)
-		{
-			IDataReader reader = DbProvider.Instance().GetFeedBack(ParentEntry.EntryID);
+			IDataReader reader = DbProvider.Instance().GetFeedBack(parentEntry.EntryID);
 			UrlFormats formats = Config.CurrentBlog.UrlFormats;
+			const bool buildLinks = true;
 			try
 			{
 				EntryCollection ec = new EntryCollection();
 				Entry entry = null;
 				while(reader.Read())
 				{
-					entry = DataHelper.LoadSingleEntry(reader,false);
-					entry.Link = formats.CommentUrl(ParentEntry,entry);
+					//Don't build links.
+					entry = DataHelper.LoadSingleEntry(reader, !buildLinks);
+					entry.Link = formats.CommentUrl(parentEntry, entry);
 					ec.Add(entry);
 				}
 				return ec;
@@ -475,11 +488,13 @@ namespace Subtext.Framework.Data
 
 		#region Create Entry
 
-		public override int Create(Entry entry)
-		{
-			return Create(entry,null);
-		}
-
+		/// <summary>
+		/// Creates the specified entry in the back end data store attaching 
+		/// the specified category ids.
+		/// </summary>
+		/// <param name="entry">Entry.</param>
+		/// <param name="CategoryIDs">Category I ds.</param>
+		/// <returns></returns>
 		public override int Create(Entry entry, int[] CategoryIDs)
 		{
 			if(entry.PostType == PostType.PingTrack)
