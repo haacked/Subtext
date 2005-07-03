@@ -66,8 +66,8 @@ namespace Subtext.Framework.Syndication
 		/// <summary>
 		/// Bases the syndication writer.
 		/// </summary>
-		/// <param name="lastViewedFeedItem">Last viewed feed item.</param>
-		protected BaseAtomWriter(int lastViewedFeedItem, bool useDeltaEncoding) : base(lastViewedFeedItem, useDeltaEncoding)
+		/// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
+		protected BaseAtomWriter(DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(dateLastViewedFeedItemPublished, useDeltaEncoding)
 		{
 		}
 
@@ -75,15 +75,15 @@ namespace Subtext.Framework.Syndication
 		{
 			if(!isBuilt)
 			{
-				Build(this.LastViewedFeedItemId);
+				Build(this.DateLastViewedFeedItemPublished);
 			}
 		}
 
 		/// <summary>
 		/// Builds the specified last id viewed.
 		/// </summary>
-		/// <param name="lastIdViewed">Last id viewed.</param>
-		protected override void Build(int lastIdViewed)
+		/// <param name="dateLastViewedFeedItemPublished">Last id viewed.</param>
+		protected override void Build(DateTime dateLastViewedFeedItemPublished)
 		{
 			if(!isBuilt)
 			{
@@ -160,21 +160,24 @@ namespace Subtext.Framework.Syndication
 
 			string timezone = TimeZone(info.TimeZone);
 			this.clientHasAllFeedItems = true;
-			this.latestFeedItemId = this.LastViewedFeedItemId;
+			this.latestPublishDate = this.DateLastViewedFeedItemPublished;
+
 			foreach(Entry entry in this.Entries)
 			{
 				// We'll show every entry if RFC3229 is not enabled.
 				//TODO: This is wrong.  What if a post is not published 
 				// and then gets published later. It will not be displayed.
-				if(!useDeltaEncoding || entry.EntryID > LastViewedFeedItemId)
+				if(!useDeltaEncoding || entry.DateSyndicated > this.DateLastViewedFeedItemPublished)
 				{
 					this.WriteStartElement("entry");
 					EntryXml(entry, settings, info.UrlFormats, timezone);
 					this.WriteEndElement();
 					this.clientHasAllFeedItems = false;
-					if(entry.EntryID > base.latestFeedItemId)
+					
+					//Update the latest publish date.
+					if(entry.DateSyndicated > base.latestPublishDate)
 					{
-						base.latestFeedItemId = entry.EntryID;
+						base.latestPublishDate = entry.DateSyndicated;
 					}
 				}
 			}

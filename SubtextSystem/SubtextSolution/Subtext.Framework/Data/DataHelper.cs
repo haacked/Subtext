@@ -455,7 +455,6 @@ namespace Subtext.Framework.Data
 			{
 				entry.Email = (string)dr["Email"];
 			}
-
 			
 			entry.DateCreated = (DateTime)dr["DateAdded"];
 			if(dr["DateUpdated"] != DBNull.Value)
@@ -511,9 +510,12 @@ namespace Subtext.Framework.Data
 				entry.ParentID = (int)dr["ParentID"];
 			}
 
+			if(dr["DateSyndicated"] != DBNull.Value)
+			{
+				entry.DateSyndicated = (DateTime)dr["DateSyndicated"];
+			}
+
 			SetUrlPattern(entry);
-
-
 		}		
 
 		/// <summary>
@@ -846,7 +848,7 @@ namespace Subtext.Framework.Data
 			kw.Text = (string)reader["Text"];
 			if(reader["Title"] != DBNull.Value)
 			{
-				kw.Title = CheckNullString(reader["Title"]);
+				kw.Title = SqlHelper.CheckNullString(reader["Title"]);
 			}
 			kw.Url = (string)reader["Url"];
 			kw.Word = (string)reader["Word"];
@@ -854,38 +856,6 @@ namespace Subtext.Framework.Data
 		}
 
 
-
-		#endregion
-
-		#region Helpers
-
-		public static string CheckNullString(object obj)
-		{
-			if(obj is DBNull)
-			{
-				return null;
-			}
-			return (string)obj;
-		}
-
-		public static object CheckNull(string text)
-		{
-			if(text != null && text.Trim().Length > 0)
-			{
-				return text;
-			}
-			return DBNull.Value;
-		}
-
-		public static string CheckNull(object obj)
-		{
-			return (string) obj;
-		}
-
-		public static string CheckNull(DBNull obj)
-		{
-			return null;
-		}
 
 		#endregion
 

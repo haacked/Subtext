@@ -35,8 +35,8 @@ namespace Subtext.Common.Syndication
 		/// Creates a new <see cref="AtomWriter"/> instance.
 		/// </summary>
 		/// <param name="entries">Entries.</param>
-		/// <param name="lastViewedFeedItem">Last viewed feed item.</param>
-		public AtomWriter(EntryCollection entries, int lastViewedFeedItem, bool useDeltaEncoding) : base(lastViewedFeedItem, useDeltaEncoding)
+		/// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
+		public AtomWriter(EntryCollection entries, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(dateLastViewedFeedItemPublished, useDeltaEncoding)
 		{
 			this.Entries = entries;
 			this.UseAggBugs = true;

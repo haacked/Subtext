@@ -215,7 +215,11 @@ namespace Subtext.Framework.Components
 			set{_email = value;}
 		}
 
-		private DateTime _datecreated;
+		private DateTime _datecreated = DateTime.MinValue;
+		/// <summary>
+		/// Gets or sets the date this item was created.
+		/// </summary>
+		/// <value></value>
 		public DateTime DateCreated
 		{
 			get
@@ -225,7 +229,11 @@ namespace Subtext.Framework.Components
 			set{_datecreated = value;}
 		}
 
-		private DateTime _dateupated;
+		private DateTime _dateupated = DateTime.MinValue;
+		/// <summary>
+		/// Gets or sets the date this entry was last updated.
+		/// </summary>
+		/// <value></value>
 		public DateTime DateUpdated
 		{
 			get
@@ -234,6 +242,18 @@ namespace Subtext.Framework.Components
 			}
 			set{_dateupated = value;}
 		}
+
+		/// <summary>
+		/// Gets or sets the date the item was published.
+		/// </summary>
+		/// <value></value>
+		public DateTime DateSyndicated
+		{
+			get { return _dateSyndicated; }
+			set { _dateSyndicated = value; }
+		}
+
+		DateTime _dateSyndicated = DateTime.MinValue;
 
 		public bool IsActive
 		{

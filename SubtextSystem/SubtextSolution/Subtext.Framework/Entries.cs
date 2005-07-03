@@ -72,14 +72,29 @@ namespace Subtext.Framework
 
 		}
 
+		/// <summary>
+		/// Gets the entries to display on the home page.
+		/// </summary>
+		/// <param name="ItemCount">Item count.</param>
+		/// <returns></returns>
 		public static EntryDayCollection GetHomePageEntries(int ItemCount)
 		{
-			return GetConditionalEntries(ItemCount,PostConfig.DisplayOnHomePage|PostConfig.IsActive);
+			return GetBlogPosts(ItemCount, PostConfig.DisplayOnHomePage | PostConfig.IsActive);
 		}
 
-		public static EntryDayCollection GetConditionalEntries(int ItemCount, PostConfig pc)
+		/// <summary>
+		/// Gets the specified number of entries using the <see cref="PostConfig"/> flags 
+		/// specified.
+		/// </summary>
+		/// <remarks>
+		/// This is used to get the posts displayed on the home page.
+		/// </remarks>
+		/// <param name="ItemCount">Item count.</param>
+		/// <param name="pc">Pc.</param>
+		/// <returns></returns>
+		public static EntryDayCollection GetBlogPosts(int ItemCount, PostConfig pc)
 		{
-			return ObjectProvider.Instance().GetConditionalEntries(ItemCount,pc);
+			return ObjectProvider.Instance().GetBlogPosts(ItemCount, pc);
 		}
 
 		/// <summary>
@@ -108,31 +123,24 @@ namespace Subtext.Framework
 
 		#region EntryCollections
 
-
-
+		/// <summary>
+		/// Gets the main syndicated entries.
+		/// </summary>
+		/// <param name="ItemCount">Item count.</param>
+		/// <returns></returns>
 		public static EntryCollection GetMainSyndicationEntries(int ItemCount)
 		{
-			return GetConditionalEntries(ItemCount, PostType.BlogPost, PostConfig.IncludeInMainSyndication | PostConfig.IsActive);
+			return ObjectProvider.Instance().GetConditionalEntries(ItemCount, PostType.BlogPost, PostConfig.IncludeInMainSyndication | PostConfig.IsActive);
 		}
 
-		public static EntryCollection GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc)
-		{
-			return ObjectProvider.Instance().GetConditionalEntries(ItemCount,pt,pc);
-		}
-	
 		/// <summary>
-		/// Returns a collection of Entries containing the feedback for a given post (via ParentID)
+		/// Gets the comments (including trackback, etc...) for the specified entry.
 		/// </summary>
-		/// <param name="ParentId">Parent (EntryID) of the collection</param>
+		/// <param name="parentEntry">Parent entry.</param>
 		/// <returns></returns>
-		public static EntryCollection GetFeedBack(int ParentId)
+		public static EntryCollection GetFeedBack(Entry parentEntry)
 		{
-			return ObjectProvider.Instance().GetFeedBack(ParentId);
-		}
-
-		public static EntryCollection GetFeedBack(Entry ParentEntry)
-		{
-			return ObjectProvider.Instance().GetFeedBack(ParentEntry);
+			return ObjectProvider.Instance().GetFeedBack(parentEntry);
 		}
 
 		public static EntryCollection GetRecentPostsWithCategories(int ItemCount, bool ActiveOnly)
@@ -258,6 +266,12 @@ namespace Subtext.Framework
 			if(entry.PostType == PostType.Comment 
 				|| entry.PostType == PostType.PingTrack)
 				CommentFilter.FilterComment(entry);
+
+			if(entry.IsActive && entry.IncludeInMainSyndication)
+				entry.DateSyndicated = DateTime.Now;
+			else
+				entry.DateSyndicated = DateTime.MinValue;
+			
 			return ObjectProvider.Instance().Create(entry, CategoryIDs);
 		}
 
@@ -272,6 +286,13 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static bool Update(Entry entry)
 		{
+			if(entry.DateSyndicated == DateTime.MinValue && entry.IsActive && entry.IncludeInMainSyndication)
+				entry.DateSyndicated = DateTime.Now;
+			else 
+				//Note, this could cause updated items to get republished to the feed for RFC3229. 
+				//This should be fine since the GUID won't change.
+				entry.DateSyndicated = DateTime.MinValue;
+
 			return Update(entry, null);
 		}
 

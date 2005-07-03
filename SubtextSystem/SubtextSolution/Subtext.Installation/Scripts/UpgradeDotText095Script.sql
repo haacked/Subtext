@@ -29,7 +29,7 @@ BEGIN
 	COMMIT
 END
 
-
+GO
 /*
 Adds the DaysTillCommentsClose column which specifies the number of 
 days comments are allowed to be posted to an individual post.  Afterwards, 
@@ -59,7 +59,7 @@ BEGIN
 		[DaysTillCommentsClose] INT NULL
 	COMMIT
 END
-
+GO
 /*
 Adds the CommentDelayInMinutes column which, if specified, determines 
 the number of minutes that must elapse between posts from the same 
@@ -89,7 +89,7 @@ BEGIN
 		[CommentDelayInMinutes] INT NULL
 	COMMIT
 END
-
+GO
 /*
 Adds the ContentChecksumHash column to the blog_content table. 
 This is used as a fast way to check for duplicate content.
@@ -118,7 +118,7 @@ BEGIN
 		ContentChecksumHash VARCHAR(32) NULL
 	COMMIT
 END
-
+GO
 /*
 Add the blog_Host table.
 */
@@ -131,7 +131,7 @@ CREATE TABLE [blog_Host] (
 	[DateCreated] [datetime] NOT NULL
 ) ON [PRIMARY]
 END
-
+GO
 /*
 Update various tables so that they conform to Foreign Key Constraints.  This 
 primarily means having values of -1 be updated to NULL.
@@ -142,3 +142,37 @@ SET	PostID = NULL WHERE PostID = -1
 UPDATE [blog_Content]
 SET	ParentID = NULL WHERE ParentID = -1
 
+GO
+/*
+Adds the DateSyndicated column to the blog_content table. 
+*/
+IF NOT EXISTS 
+(
+	SELECT * FROM SysObjects O INNER JOIN SysColumns C ON O.ID=C.ID
+	WHERE ObjectProperty(O.ID,'IsUserTable')=1
+	AND O.Name = 'blog_content'
+	AND C.Name = 'DateSyndicated'
+) 
+BEGIN
+	PRINT 'Adding Column DateSyndicated to Table blog_content'
+	BEGIN TRANSACTION
+	SET QUOTED_IDENTIFIER ON
+	SET TRANSACTION ISOLATION LEVEL SERIALIZABLE
+	SET ARITHABORT ON
+	SET NUMERIC_ROUNDABORT OFF
+	SET CONCAT_NULL_YIELDS_NULL ON
+	SET ANSI_NULLS ON
+	SET ANSI_PADDING ON
+	SET ANSI_WARNINGS ON
+	COMMIT
+	BEGIN TRANSACTION
+	ALTER TABLE [blog_content] ADD
+		DateSyndicated DateTime NULL
+	COMMIT
+END
+GO
+
+UPDATE blog_Content 
+SET DateSyndicated = DateUpdated
+-- Post is syndicated and active
+WHERE PostConfig & 16 = 16 AND PostConfig & 1 = 1

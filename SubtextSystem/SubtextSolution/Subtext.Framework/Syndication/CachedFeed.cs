@@ -77,17 +77,17 @@ namespace Subtext.Framework.Syndication
 		bool _clientHasAllFeedItems;
 
 		/// <summary>
-		/// Gets or sets the latest feed item id. This is the id of the latest feed 
-		/// item that will be sent to the client.
+		/// Gets or sets the latest feed item publish date. This is the date that the latest feed 
+		/// item that will be sent to the client was published.
 		/// </summary>
 		/// <value></value>
-		public int LatestFeedItemId
+		public DateTime LatestFeedItemPublishDate
 		{
-			get { return _latestFeedItemId; }
-			set { _latestFeedItemId = value; }
+			get { return _latestFeedItemPublishDate; }
+			set { _latestFeedItemPublishDate = value; }
 		}
 
-		int _latestFeedItemId;
+		DateTime _latestFeedItemPublishDate = DateTime.MinValue;
 
 
 		private string etag;

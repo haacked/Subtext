@@ -32,11 +32,11 @@ namespace Subtext.Common.Syndication
 	/// </summary>
 	public abstract class EntryCollectionHandler : Subtext.Framework.Syndication.BaseSyndicationHandler
 	{
+		/// <summary>
+		/// Creates a new <see cref="EntryCollectionHandler"/> instance.
+		/// </summary>
 	    protected EntryCollectionHandler()
 		{
-			//
-			// TODO: Add constructor logic here
-			//
 		}	
 	
 		protected abstract EntryCollection GetFeedEntries();
@@ -57,7 +57,12 @@ namespace Subtext.Common.Syndication
 			return false;			
 		}
 
-		protected override string CacheKey(int lastViewedId)
+		/// <summary>
+		/// Returns the key used to cache this feed.
+		/// </summary>
+		/// <param name="dateLastViewedFeedItemPublished">Date last viewed feed item published.</param>
+		/// <returns></returns>
+		protected override string CacheKey(DateTime dateLastViewedFeedItemPublished)
 		{
 			return null;
 		}

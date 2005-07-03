@@ -35,7 +35,9 @@ namespace Subtext.Common.Syndication
 		/// Creates a new <see cref="RssWriter"/> instance.
 		/// </summary>
 		/// <param name="entries">Entries.</param>
-		public RssWriter(EntryCollection entries, int lastViewedFeedItem, bool useDeltaEncoding) : base(lastViewedFeedItem, useDeltaEncoding)
+		/// <param name="dateLastViewedFeedItemPublished"></param>
+		/// <param name="useDeltaEncoding"></param>
+		public RssWriter(EntryCollection entries, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(dateLastViewedFeedItemPublished, useDeltaEncoding)
 		{
 			this.Entries = entries;
 			this.UseAggBugs = true;

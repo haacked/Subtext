@@ -80,15 +80,29 @@ namespace Subtext.Framework.Providers
 		public abstract EntryDayCollection GetPostsByMonth(int month, int year);
 		public abstract EntryDayCollection GetPostsByCategoryID(int ItemCount, int catID);
 
-		public abstract EntryDayCollection GetConditionalEntries(int ItemCount,PostConfig pc);
+		/// <summary>
+		/// Gets entries within the system that meet the 
+		/// <see cref="PostConfig"/> flags.
+		/// </summary>
+		/// <param name="ItemCount">Item count.</param>
+		/// <param name="pc">Pc.</param>
+		/// <returns></returns>
+		public abstract EntryDayCollection GetBlogPosts(int ItemCount, PostConfig pc);
 
 		#endregion
 
 		#region EntryCollections
 
+		/// <summary>
+		/// Gets the entries that meet the <see cref="PostType"/> and 
+		/// <see cref="PostConfig"/> flags.
+		/// </summary>
+		/// <param name="ItemCount">Item count.</param>
+		/// <param name="pt">Pt.</param>
+		/// <param name="pc">Pc.</param>
+		/// <returns></returns>
 		public abstract EntryCollection GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc);
 
-		public abstract EntryCollection GetFeedBack(int ParrentID);
 		public abstract EntryCollection GetFeedBack(Entry ParentEntry);
 		public abstract EntryCollection GetRecentPostsWithCategories(int ItemCount, bool ActiveOnly);
 		/// <summary>
@@ -135,8 +149,13 @@ namespace Subtext.Framework.Providers
 
 		#region Create
 
-		public abstract int Create(Entry entry);
-		public abstract int Create(Entry entry, int[] CategoryIDs);
+		/// <summary>
+		/// Creates the specified entry attaching the specified categories.
+		/// </summary>
+		/// <param name="entry">Entry.</param>
+		/// <param name="categoryIds">Category Ids.</param>
+		/// <returns></returns>
+		public abstract int Create(Entry entry, int[] categoryIds);
 
 		#endregion
 

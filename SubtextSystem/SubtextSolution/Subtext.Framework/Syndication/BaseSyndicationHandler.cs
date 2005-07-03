@@ -49,13 +49,13 @@ namespace Subtext.Framework.Syndication
 		}
 
 		/// <summary>
-		/// Gets the ID of the last feed item received by the client. 
+		/// Gets the Publish Date of the last feed item received by the client. 
 		/// This is used to determine whether the client is up to date 
 		/// or whether the client is ready to receive new feed items. 
 		/// We will then send just the difference.
 		/// </summary>
 		/// <value></value>
-		protected int LastFeedItemReceived
+		protected DateTime PublishDateOfLastFeedItemReceived
 		{
 			get
 			{
@@ -63,14 +63,14 @@ namespace Subtext.Framework.Syndication
 				{
 					try
 					{
-						return int.Parse(IfNonMatchHeader);
+						return DateTime.Parse(IfNonMatchHeader);
 					}
 					catch(System.FormatException)
 					{
 						//Swallow it.
 					}
 				}
-				return int.MinValue;
+				return DateTime.MinValue;
 			}
 		}
 
@@ -119,7 +119,7 @@ namespace Subtext.Framework.Syndication
 		/// <returns></returns>
 		protected virtual bool IsHttpCacheOK()
 		{
-			Feed = Context.Cache[this.CacheKey(this.LastFeedItemReceived)] as CachedFeed;
+			Feed = Context.Cache[this.CacheKey(this.PublishDateOfLastFeedItemReceived)] as CachedFeed;
 			if(Feed == null)
 			{
 				return false;
@@ -171,7 +171,12 @@ namespace Subtext.Framework.Syndication
 			WriteFeed();
 		}
 
-		protected abstract string CacheKey(int lastViewedId);
+		/// <summary>
+		/// Returns the key used to cache this feed.
+		/// </summary>
+		/// <param name="dateLastViewedFeedItemPublished">Date last viewed feed item published.</param>
+		/// <returns></returns>
+		protected abstract string CacheKey(DateTime dateLastViewedFeedItemPublished);
 		protected abstract void Cache(CachedFeed feed);
 		
 		/// <summary>
@@ -187,8 +192,8 @@ namespace Subtext.Framework.Syndication
 			BaseSyndicationWriter writer = SyndicationWriter;
 			feed.Xml = writer.Xml;
 			feed.ClientHasAllFeedItems = writer.ClientHasAllFeedItems;
-			feed.Etag = writer.LatestFeedItemId.ToString(CultureInfo.InvariantCulture);
-			feed.LatestFeedItemId = writer.LatestFeedItemId;
+			feed.Etag = writer.DateLastViewedFeedItemPublished.ToString(CultureInfo.InvariantCulture);
+			feed.LatestFeedItemPublishDate = writer.DateLastViewedFeedItemPublished;
 
 			return feed;
 		}
