@@ -2,7 +2,7 @@
 <%@ Import Namespace = "Subtext.Framework" %>
 <asp:Repeater ID="CatList" Runat="server" OnItemCreated="CategoryCreated">
 	<ItemTemplate>
-	<dl>
+	<dl class="Links">
 		<dt>	
 			<asp:literal runat="server" id="Title" />
 		</dt>

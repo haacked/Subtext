@@ -563,8 +563,23 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Logging\LogEntry.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Logging\LogEntryCollection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Logging\LoggingConfigurationExample.xml"
                     BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Logging\LoggingProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Providers\DbProvider.cs"

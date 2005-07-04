@@ -21,7 +21,7 @@ namespace Subtext.Web.Controls
 		protected override void Render(System.Web.UI.HtmlTextWriter writer)
 		{
 			string format = @"<a class=""helpLink"" onclick=""showHelpTip(event, '{0}'); return false;"" href=""?"">";
-			string helpText = HelpText.Replace("'", "''");
+			string helpText = HelpText.Replace("'", "\'");
 
 			writer.Write(string.Format(System.Globalization.CultureInfo.InvariantCulture, format, helpText));
 			this.RenderChildren(writer);

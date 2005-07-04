@@ -12,7 +12,7 @@ namespace Subtext.Web.UI.Skinning
 	{
 		private string _type = "text/javascript";
 		/// <summary>
-		/// Script type. Default value <code>text/javascript</code>
+		/// Script type. Default value is <code>text/javascript</code>
 		/// </summary>
 		[XmlAttribute]
 		public string Type

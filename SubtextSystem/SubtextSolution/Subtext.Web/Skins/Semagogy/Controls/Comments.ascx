@@ -1,5 +1,5 @@
 <%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Comments" %>
-	<a name = "feedback" />
+	<a name="feedback"></a>
 	<dl class="Comments">
 		<dt>
 			Comments
@@ -12,19 +12,19 @@
 					<dt>
 						<asp:literal runat = "server" id = "Title" />
 					</dt>
-					<dd class="Date">
-						<asp:literal id = "PostDate" runat = "server" />
-					</dd>
 					<dd class="Name">
 						<asp:hyperlink runat="server" id="NameLink" />
+					</dd>
+					<dd class="Date">
+						<asp:literal id = "PostDate" runat = "server" />
 					</dd>
 					<dd class="Admin">
 						<asp:linkbutton runat="server" id="EditLink" causesvalidation="False" />
 					</dd>
-					<dd>
+					<dd class="Content">
 						<asp:literal id = "PostText" runat = "server" />
 					</dd>
-				</dl
+				</dl>
 			</itemtemplate>
 		</asp:repeater>
 		</dd>
