@@ -145,8 +145,8 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Scripts\DropStoredProcedures.txt"
-                    BuildAction = "EmbeddedResource"
+                    RelPath = "Scripts\DropStoredProcedures.sql"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "Scripts\DropTables.sql"

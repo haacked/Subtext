@@ -53,8 +53,8 @@ namespace Subtext.Installation
 			}
 			catch(SqlException e)
 			{
-				e.Source = this._scriptText;
-				throw;
+				//TODO: Need to create an InstallationException class.
+				throw new Exception("Error in executing the script: " + _scriptText, e);
 			}
 		}
 	}

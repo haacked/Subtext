@@ -4,7 +4,7 @@ using System.IO;
 using System.Reflection;
 
 namespace Subtext.Installation
-{
+{ 
 	/// <summary>
 	/// Summary description for ResourceHelper.
 	/// </summary>

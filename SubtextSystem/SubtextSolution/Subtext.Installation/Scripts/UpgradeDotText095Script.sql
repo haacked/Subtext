@@ -1,3 +1,5 @@
+/* This script needs to be updated since table and stored proc names have changed */
+
 /*
 Adds the LicenseUrl column to the blog_config table.  
 If specified, this will be displayed in the RSS feed 
