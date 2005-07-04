@@ -24,18 +24,41 @@
 using System;
 using System.Web.UI.WebControls;
 
+using Subtext.Framework.Logging;
+
 namespace Subtext.Web.Admin.Pages
 {
-	public class Statistics : AdminPage
+	public class ErrorLog : AdminPage
 	{
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel Results;
+		protected Subtext.Web.Admin.WebUI.AdvancedPanel Log;
 		protected Subtext.Web.Admin.WebUI.Page PageContainer;
+		protected System.Web.UI.WebControls.Repeater LogPage;
+		protected System.Web.UI.HtmlControls.HtmlGenericControl NoMessagesLabel;
+		protected Subtext.Web.Admin.WebUI.Pager LogPager;
+
+		private int _logPageNumber;
 	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
+			if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
+				_logPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
 
+			LogPager.PageSize = Preferences.ListingItemCount;
+			LogPager.PageIndex = _logPageNumber;
 
 			BindLocalUI();
+			BindList();
+		}
+
+		private void BindList()
+		{
+			LogEntryCollection logEntries = LoggingProvider.Instance.GetLogEntries(LogPager.PageIndex, LogPager.PageSize);
+			if (logEntries.Count > 0)
+			{				
+				LogPager.ItemCount = logEntries.MaxItems;
+				LogPage.DataSource = logEntries;
+				LogPage.DataBind();
+			}			
 		}
 
 		

@@ -27,3 +27,7 @@ function SetAllCheckboxes(form, checked)
 		}
 	}
 }
+
+function toggleHideOnCheckbox()
+{
+}

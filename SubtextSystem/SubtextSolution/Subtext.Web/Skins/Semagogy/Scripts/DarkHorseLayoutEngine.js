@@ -62,9 +62,25 @@ function DarkHorseLayoutEngine()
 		{
 			if (child.nodeType == 1)
 			{
-				if (child.className && child.className.length > 0)
+				var className = child.className;
+				if (className && className.length > 0)
 				{
-					this[child.className] = child;
+					var item = this[className];
+					if (item)
+					{
+						if (item instanceof Array)
+						{
+							item.push(child);
+						}
+						else
+						{
+							this[className] = [item, child];
+						}
+					}
+					else
+					{
+						this[className] = child;
+					}
 				}
 				else
 				{
@@ -97,7 +113,9 @@ function DarkHorseLayoutEngine()
 			var contentItems = new ClassNameBag(content);
 			var archive = null;
 			var categories = null;
-			var namelessItems = contentItems.__nameless;
+			var blogRoll = null;
+			var articles = null;
+			var namelessItems = contentItems.Links;
 			for(var i = 0; i < namelessItems.length; i++)
 			{
 				var namelessItem = namelessItems[i];
@@ -106,13 +124,27 @@ function DarkHorseLayoutEngine()
 					var title = GetDtContent(namelessItem);
 					if (title == "archives")
 					{
-						namelessItem.className = "Archive";
+						namelessItem.className = "Links Archive";
 						archive = namelessItem;
 					} 
 					else if (title == "postcategories")
 					{
-						namelessItem.className = "Categories";
+						namelessItem.className = "Links Categories";
 						categories = namelessItem;
+					}
+					else if (title == "blogroll")
+					{
+						namelessItem.className = "Links BlogRoll";
+						blogRoll = namelessItem;
+					}
+					else if (title == "articles")
+					{
+						namelessItem.className = "Links Articles";
+						articles = namelessItem;
+					}
+					else
+					{
+						namelessItem.parentNode.removeChild(namelessItem);
 					}
 				}				
 			}
@@ -123,6 +155,8 @@ function DarkHorseLayoutEngine()
 			layoutTable.appendChild(3, 1, contentItems.News);
 			layoutTable.appendChild(3, 1, archive);
 			layoutTable.appendChild(3, 1, categories);
+			layoutTable.appendChild(3, 1, articles);
+			layoutTable.appendChild(3, 1, blogRoll);
 			layoutTable.appendChild(2, 1, header);
 			layoutTable.appendChild(2, 1, content);
 			layoutTable.appendChild(2, 1, footer);

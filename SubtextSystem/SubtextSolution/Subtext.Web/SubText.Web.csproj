@@ -510,6 +510,21 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "Admin\ErrorLog.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\ErrorLog.aspx.cs"
+                    DependentUpon = "ErrorLog.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\ErrorLog.aspx.resx"
+                    DependentUpon = "ErrorLog.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Admin\Export.aspx"
                     BuildAction = "Content"
                 />
@@ -5970,7 +5985,15 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\Semagogy\Images\ClusterArticles.gif"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\Semagogy\Images\ClusterBackground.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Semagogy\Images\ClusterBlogRoll.gif"
                     BuildAction = "Content"
                 />
                 <File
@@ -5979,6 +6002,18 @@
                 />
                 <File
                     RelPath = "Skins\Semagogy\Images\ClusterCategories.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Semagogy\Images\ClusterStatistics.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Semagogy\Images\CommentPermaLink.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Semagogy\Images\CommentSeparatorTile.gif"
                     BuildAction = "Content"
                 />
                 <File

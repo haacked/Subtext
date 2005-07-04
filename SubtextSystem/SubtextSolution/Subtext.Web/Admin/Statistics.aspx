@@ -9,6 +9,9 @@
 		<p>
 			<a href = "StatsView.aspx">Check Page Views</a>: Get an overview of page views.
 		</p>
+		<p>
+			<a href = "ErrorLog.aspx">Error Log</a>: Configure and view error log
+		</p>
 		<br class="Clear">
 	</ANW:AdvancedPanel>
 </ANW:Page>

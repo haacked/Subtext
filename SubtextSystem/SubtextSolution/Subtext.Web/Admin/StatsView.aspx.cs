@@ -81,11 +81,13 @@ namespace Subtext.Web.Admin.Pages
 			// Setup the LH navigation.
 			HyperLink lnkReferrals = Utilities.CreateHyperLink("Referrals", "Referrers.aspx");
 			HyperLink lnkViews		= Utilities.CreateHyperLink("Views", "StatsView.aspx");
+			HyperLink lnkErrorLog	= Utilities.CreateHyperLink("Error Log", "ErrorLog.aspx");
 
 
 			// Add the buttons to the PageContainer.
 			PageContainer.AddToActions(lnkReferrals);
 			PageContainer.AddToActions(lnkViews);
+			PageContainer.AddToActions(lnkErrorLog);
 
 			// Attempt to customize the breadcrumb.
 			Control container = Page.FindControl("PageContainer");

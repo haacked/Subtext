@@ -152,14 +152,15 @@ dd
 	div#Header h1 a
 	{
 		font-weight: bold;
-		font-size: 0.6em;
+		font-size: 1.1em;
+		letter-spacing: -1px;
 		color: #9F1414;
 	}
 	
 	div#Header div.Subtitle
 	{
 		font-size: 0.7em;
-		padding: 5px 0px 0px 0px;
+		padding: 10px 0px 0px 0px;
 	}
 
 /* /div#Header */
@@ -178,40 +179,68 @@ dd
 	}
 	
 	/* /dl.BlogStats */
-
-	/* dl.Day */
 	
-		dl.Day
+	/* dl.Posts */
+	
+		dl.Posts dd.Description,
+		dl.Posts dd.More
 		{
-		}
-		
-		dl.Day dt
-		{
+			font-size: 0.7em;
 			padding: 0px 4% 0px 4%;
 			height: 0px;
 		}
 		
-		dl.Day > dt
+		dl.Posts > dd.Description,
+		dl.Posts > dd.More
+		{
+			padding: 0;
+			margin: 0px 4% 0px 4%;
+			height: auto;
+		}
+		
+		dl.Posts dd.More a
+		{
+			color: #9F1414;
+			font-weight: bold;
+		}
+	
+	/* /dl.Posts */
+	
+	/* dl.Day */
+		
+		dl.Day dt,
+		dl.Posts dt
+		{
+			font-size: 0.7em;
+			padding: 0px 4% 0px 4%;
+			height: 0px;
+			color: #7A794D;
+		}
+		
+		dl.Day > dt,
+		dl.Posts > dt
 		{
 			padding: 0px;
 			margin: 0px 4% 0px 4%;
 			height: auto;
 		}
 	
-		dl.Day dt a
+		dl.Day dt a,
+		dl.Posts dt a
 		{
-			font-size: 0.7em;
 			color: #7A794D;
 		}
 		
-		dl.Day dd
+		dl.Day dd,
+		dl.Posts dd
 		{
 			margin: 0px;
 		}
 		
 		/* dl.Post */
 		
-			dl.Day dl.Post
+			dl.Day dl.Post,
+			dl.Posts dl.Post
 			{
 				background: url(Images/PostBottomBackground.gif) repeat-x left bottom;
 			}
@@ -219,10 +248,11 @@ dd
 			dl.Post
 			{
 				padding: 10px 4% 20px 4%;
-				height: 0px;
+				height: 0;
 			}
 		
-			dd > dl.Post
+			dd > dl.Post,
+			dl.Post
 			{
 				height: auto;
 			}
@@ -253,6 +283,11 @@ dd
 			{
 				font-weight: bold;
 				color: #9F1414;
+			}
+			
+			dl.Post dd.Ping
+			{
+				display: none;
 			}
 			
 			/* dd.Text */
@@ -288,8 +323,8 @@ dd
 				
 				dl.Post dd.Text li
 				{
-					padding: 0px 0px 0.4em 11px;
-					background: url(Images/ClusterBullet.gif) no-repeat 3px 9px;
+					padding: 0px 0px 0.4em 20px;
+					background: url(Images/ClusterBullet.gif) no-repeat 10px 9px;
 				}
 				
 			/* /dd.Text */
@@ -303,6 +338,75 @@ dd
 		/* /dl.Post */
 	
 	/* /dl.Day/
+
+	/* dl.Comments */
+	
+		dl.Comments
+		{
+			font-size: 0.7em;
+		}
+				
+		dl.Comments dt
+		{
+			position: absolute;
+			left: -10000px;
+		}
+		
+		/* dl.Comment */
+		
+			dl.Comment
+			{
+				background: #EBEBE7 url(Images/CommentSeparatorTile.gif) repeat-x;
+			}
+			
+			dl.Comment 
+				dd.Name, 
+			dl.Comment
+				dd.Date,
+			dl.Comment
+				dd.Content
+			{
+				padding: 5px 4%;
+				height: 0;
+ 			}
+ 			
+			dl.Comment > dd.Name, 
+			dl.Comment > dd.Date,
+			dl.Comment > dd.Content
+ 			{
+				margin: 5px 4%;
+ 				height: auto;
+ 			}
+ 			
+			dl.Comments dd.Name a
+			{
+				color: #9F1414;
+				font-family: Georgia, Sans serif;
+			}
+			
+			dl.Comments dd.Date
+			{
+				font-family: Georgia, Sans serif;
+				text-align: right;
+				margin-top: -2.9em;
+			}
+			
+			dl.Comments dd.Content
+			{
+				background: #F1F1ED;
+				font-family: Lucida Sans Unicode, Sans serif;
+				padding-bottom: 15px;
+			}
+			
+			dl.Comments dd a
+			{
+				color: #393925;
+				font-weight: bold;
+			}
+		
+		/* /dl.Comment */
+	
+	/* /dl.Comments */
 
 /* /div#Content */
 
@@ -358,51 +462,90 @@ dd
 
 	/* /dl.News */
 	
-	dl.Archive dt, dl.Categories dt
-	{
-		height: 0px;
-		overflow: hidden;
-		margin: 11px 0px 0px 13px;
-		background-repeat: no-repeat;
-	}
-	
-	dl.Archive ul, dl.Categories ul
-	{
-		list-style: none;
-		margin: 0px;
-		padding: 0px;
-	}
-	
-	dl.Archive a, dl.Categories a
-	{
-		color: #C2C1B0;
-		display: block;
-		position: relative;
-		padding: 0px 0px 0px 11px;
-		background: url(Images/ClusterBullet.gif) no-repeat left 6px;
-	}
-	
-	/* dl.Archive */
+	/* dl.Links */
 		
-		dl.Archive dt
+		dl.Links li
 		{
-			width: 53px;
-			padding: 12px 0px 0px 0px;
-			background-image: url(Images/ClusterArchive.gif);
+			height: 0;
 		}
-	
-	/* /dl.Archive */
-	
-	/* dl.Categories */
 		
-		dl.Categories dt
+		dl.Links ul > li
 		{
-			width: 76px;
-			padding: 14px 0px 0px 0px;
-			background-image: url(Images/ClusterCategories.gif);
+			height: auto;
+			padding: 0 0 3px 0;
 		}
-	
-	/* /dl.Categories */
+		
+		dl.Links dt
+		{
+			height: 0px;
+			overflow: hidden;
+			margin: 11px 0px 0px 13px;
+			background-repeat: no-repeat;
+		}
+		
+		dl.Links ul
+		{
+			list-style: none;
+			margin: 0px;
+			padding: 0px;
+		}
+		
+		dl.Links a
+		{
+			color: #C2C1B0;
+			display: block;
+			position: relative;
+			padding: 0px 0px 0px 11px;
+			background: url(Images/ClusterBullet.gif) no-repeat left 6px;
+		}
+		
+		/* dl.Archive */
+			
+			dl.Archive dt
+			{
+				width: 53px;
+				padding: 12px 0px 0px 0px;
+				background-image: url(Images/ClusterArchive.gif);
+			}
+		
+		/* /dl.Archive */
+		
+		/* dl.Articles */
+			
+			dl.Articles
+				dt
+			{
+				width: 53px;
+				padding: 12px 0px 0px 0px;
+				background-image: url(Images/ClusterArticles.gif);
+			}
+		
+		/* /dl.Articles */
+		
+		/* dl.BlogRoll */
+			
+			dl.BlogRoll
+				dt
+			{
+				width: 57px;
+				padding: 14px 0px 0px 0px;
+				background-image: url(Images/ClusterBlogRoll.gif);
+			}
+		
+		/* /dl.Articles */
+		
+		/* dl.Categories */
+			
+			dl.Categories dt
+			{
+				width: 76px;
+				padding: 14px 0px 0px 0px;
+				background-image: url(Images/ClusterCategories.gif);
+			}
+		
+		/* /dl.Categories */
+		
+	/* /dl.Links */
 	
 	
 /* /table.Layout td.c3 */

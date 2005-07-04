@@ -1,5 +1,5 @@
 <%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.PostComment" %>
-	<dl class="Comment">
+	<dl class="PostComment">
 		<dt>Post Comment</dt>
 		<dd class="Form">
 			<dl class="Inputs">
