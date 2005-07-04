@@ -4,7 +4,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [blog_GetConditionalEntriesByDateUpdated]
+CREATE PROC [dbo].[blog_GetConditionalEntriesByDateUpdated]
 (
 	@DateUpdated datetime
 	, @ItemCount int
@@ -15,30 +15,30 @@ CREATE PROC [blog_GetConditionalEntriesByDateUpdated]
 AS
 
 SET ROWCOUNT @ItemCount
-SELECT	blog_Content.BlogID
-	, blog_Content.[ID]
-	, blog_Content.Title
-	, blog_Content.DateAdded
-	, blog_Content.[Text]
-	, blog_Content.[Description]
-	, blog_Content.SourceUrl
-	, blog_Content.PostType
-	, blog_Content.Author
-	, blog_Content.Email
-	, blog_Content.SourceName
-	, blog_Content.DateUpdated
-	, blog_Content.TitleUrl
-	, blog_Content.FeedBackCount
-	, blog_Content.ParentID
-	, Blog_Content.PostConfig
-	, blog_Content.EntryName 
-	, blog_Content.ContentChecksumHash
-FROM blog_Content
-WHERE	blog_Content.PostType=@PostType 
-	AND blog_Content.BlogID = @BlogID
-	AND blog_Content.PostConfig & @PostConfig = @PostConfig 
-	AND blog_Content.DateUpdated > @DateUpdated
-ORDER BY blog_Content.[ID] DESC
+SELECT	BlogID
+	, [ID]
+	, Title
+	, DateAdded
+	, [Text]
+	, [Description]
+	, SourceUrl
+	, PostType
+	, Author
+	, Email
+	, SourceName
+	, DateUpdated
+	, TitleUrl
+	, FeedBackCount
+	, ParentID
+	, PostConfig
+	, EntryName 
+	, ContentChecksumHash
+FROM [dbo].[blog_Content]
+WHERE	PostType=@PostType 
+	AND BlogID = @BlogID
+	AND PostConfig & @PostConfig = @PostConfig 
+	AND DateUpdated > @DateUpdated
+ORDER BY [ID] DESC
 
 
 GO
@@ -47,5 +47,5 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [blog_GetConditionalEntriesByDateUpdated]  TO [public]
+GRANT  EXECUTE  ON [dbo].[blog_GetConditionalEntriesByDateUpdated]  TO [public]
 GO

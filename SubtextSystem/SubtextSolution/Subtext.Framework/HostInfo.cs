@@ -75,7 +75,7 @@ namespace Subtext.Framework
 			}
 			catch(SqlException e)
 			{
-				if(e.Message.IndexOf("Invalid object name 'blog_Host'") >= 0)
+				if(e.Message.IndexOf("Invalid object name 'subtext_Host'") >= 0)
 				{
 					if(suppressException)
 						return null;

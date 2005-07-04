@@ -89,7 +89,7 @@ namespace Subtext.Framework.Data
 											SqlHelper.MakeInParam("@URL",SqlDbType.NVarChar,255,SqlHelper.CheckNull(ev.ReferralUrl)),
 											SqlHelper.MakeInParam("@IsWeb",SqlDbType.Bit,1,ev.PageViewType)
 										};
-						SqlHelper.ExecuteNonQuery(conn,CommandType.StoredProcedure,"blog_TrackEntry",p);
+						SqlHelper.ExecuteNonQuery(conn,CommandType.StoredProcedure, "subtext_TrackEntry",p);
 					}
 					return true;
 				
@@ -117,7 +117,7 @@ namespace Subtext.Framework.Data
 						SqlHelper.MakeInParam("@URL",SqlDbType.NVarChar,255,SqlHelper.CheckNull(ev.ReferralUrl)),
 						SqlHelper.MakeInParam("@IsWeb",SqlDbType.Bit,1,ev.PageViewType)
 			};
-			return this.NonQueryBool("blog_TrackEntry",p);
+			return this.NonQueryBool("subtext_TrackEntry",p);
 		}
 		
 		#endregion
@@ -133,7 +133,7 @@ namespace Subtext.Framework.Data
 				BlogIDParam
 			};
 
-			return GetReader("blog_GetImageCategory",p);
+			return GetReader("subtext_GetImageCategory",p);
 		}
 
 		public override IDataReader GetSingleImage(int imageID, bool ActiveOnly)
@@ -144,7 +144,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
 				BlogIDParam
 			};
-			return GetReader("blog_GetSingleImage",p);
+			return GetReader("subtext_GetSingleImage",p);
 		}
 
 		public override int InsertImage(Image _image)
@@ -161,7 +161,7 @@ namespace Subtext.Framework.Data
 				BlogIDParam,
 				outParam
 			};
-			NonQueryInt("blog_InsertImage",p);
+			NonQueryInt("subtext_InsertImage",p);
 			return (int)outParam.Value;
 		}
 
@@ -178,7 +178,7 @@ namespace Subtext.Framework.Data
 				BlogIDParam,
 				SqlHelper.MakeInParam("@ImageID",SqlDbType.Int,4,_image.ImageID)
 			};
-			return NonQueryBool("blog_UpdateImage",p);
+			return NonQueryBool("subtext_UpdateImage",p);
 		}
 
 		public override bool DeleteImage(int imageID)
@@ -188,7 +188,7 @@ namespace Subtext.Framework.Data
 				BlogIDParam,
 				SqlHelper.MakeInParam("@ImageID",SqlDbType.Int,4,imageID)
 			};
-			return NonQueryBool("blog_DeleteImage",p);
+			return NonQueryBool("subtext_DeleteImage",p);
 		}
 
 		#endregion
@@ -204,7 +204,7 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override IDataReader GetPagedBlogs(int pageIndex, int pageSize, bool sortDescending)
 		{
-			string sql = "blog_GetPageableBlogs";
+			string sql = "subtext_GetPageableBlogs";
 
 			SqlConnection conn = new SqlConnection(ConnectionString);
 			SqlCommand command = new SqlCommand(sql, conn);
@@ -225,7 +225,7 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override IDataReader GetBlogById(int blogId)
 		{
-			string sql = "blog_GetBlogById";
+			string sql = "subtext_GetBlogById";
 
 			SqlConnection conn = new SqlConnection(ConnectionString);
 			SqlCommand command = new SqlCommand(sql, conn);
@@ -246,7 +246,7 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override IDataReader GetBlogsByHost(string host)
 		{
-			string sql = "blog_GetBlogsByHost";
+			string sql = "subtext_GetBlogsByHost";
 
 			SqlConnection conn = new SqlConnection(ConnectionString);
 			SqlCommand command = new SqlCommand(sql, conn);
@@ -261,7 +261,7 @@ namespace Subtext.Framework.Data
 		public override IDataReader GetPagedLinks(int CategoryID, int pageIndex, int pageSize, bool sortDescending)
 		{
 			bool useCategory = CategoryID > -1;
-			string sql = useCategory ? "blog_GetPageableLinksByCategoryID" : "blog_GetPageableLinks";
+			string sql = useCategory ? "subtext_GetPageableLinksByCategoryID" : "subtext_GetPageableLinks";
 			
 			SqlConnection conn = new SqlConnection(ConnectionString);
 			SqlCommand command = new SqlCommand(sql,conn);
@@ -286,7 +286,7 @@ namespace Subtext.Framework.Data
 			// default setup is for unfiltered pageable results
 			bool useCategoryID = categoryID > -1;
 
-			string sql = useCategoryID ? "blog_GetPageableEntriesByCategoryID" : "blog_GetPageableEntries";
+			string sql = useCategoryID ? "subtext_GetPageableEntriesByCategoryID" : "subtext_GetPageableEntries";
 
 			SqlConnection conn = new SqlConnection(ConnectionString);
 			SqlCommand command = new SqlCommand(sql,conn);
@@ -317,7 +317,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex),
 				SqlHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize)
 			};
-			return GetReader("blog_GetPageableViewStats",p);
+			return GetReader("subtext_GetPageableViewStats",p);
 		}
 
 		public override IDataReader GetPagedReferrers(int pageIndex, int pageSize)
@@ -328,7 +328,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex),
 				SqlHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize)
 			};
-			return GetReader("blog_GetPageableReferrers",p);
+			return GetReader("subtext_GetPageableReferrers",p);
 
 		}
 
@@ -343,7 +343,7 @@ namespace Subtext.Framework.Data
 			};
 			
 			
-			return GetReader("blog_GetPageableReferrersByEntryID",p);
+			return GetReader("subtext_GetPageableReferrersByEntryID",p);
 
 		}
 		
@@ -357,7 +357,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@SortDesc", SqlDbType.Bit, 1, sortDescending),
 				BlogIDParam
 			};
-			return GetReader("blog_GetPageableFeedback", p);
+			return GetReader("subtext_GetPageableFeedback", p);
 
 		}
 
@@ -375,7 +375,7 @@ namespace Subtext.Framework.Data
 				BlogIDParam				
 			};
 
-			return GetReader("blog_GetConditionalEntries",p);
+			return GetReader("subtext_GetConditionalEntries",p);
 		}
 				
 		public override IDataReader GetEntriesByDateRangle(DateTime start, DateTime stop, PostType postType, bool ActiveOnly)
@@ -388,7 +388,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1, ActiveOnly),
 				BlogIDParam
 			};
-			return GetReader("blog_GetEntriesByDayRange",p);
+			return GetReader("subtext_GetEntriesByDayRange",p);
 		}
 
 		public override DataSet GetRecentPostsWithCategories(int ItemCount, bool ActiveOnly)
@@ -399,7 +399,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
 				BlogIDParam
 			};
-			DataSet ds = SqlHelper.ExecuteDataset(ConnectionString,CommandType.StoredProcedure,"blog_GetRecentEntriesWithCategoryTitles",p);
+			DataSet ds = SqlHelper.ExecuteDataset(ConnectionString,CommandType.StoredProcedure,"subtext_GetRecentEntriesWithCategoryTitles",p);
 			DataRelation dr = new DataRelation("cats",ds.Tables[0].Columns["ID"],ds.Tables[1].Columns["PostID"],false);
 			ds.Relations.Add(dr);
 			return ds;
@@ -413,7 +413,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
 				BlogIDParam
 			};
-			return GetReader("blog_GetEntryWithCategoryTitles",p);
+			return GetReader("subtext_GetEntryWithCategoryTitles",p);
 			
 		}
 
@@ -425,7 +425,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
 				BlogIDParam
 			};
-				 return GetReader("blog_GetEntryWithCategoryTitlesByEntryName",p);
+				 return GetReader("subtext_GetEntryWithCategoryTitlesByEntryName",p);
 			
 			 }
 
@@ -438,7 +438,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
 				BlogIDParam
 			};
-			return GetReader("blog_GetRecentEntries",p);
+			return GetReader("subtext_GetRecentEntries",p);
 		}
 
 		/// <summary>
@@ -460,7 +460,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@DateUpdated",SqlDbType.DateTime,8,DateUpdated),
 				BlogIDParam
 			};
-			return GetReader("blog_GetRecentEntriesByDateUpdated",p);
+			return GetReader("subtext_GetRecentEntriesByDateUpdated",p);
 		}
 
 		public override IDataReader GetEntry(string entryName, bool ActiveOnly)
@@ -471,7 +471,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
 				BlogIDParam
 			};
-			return GetReader("blog_GetSingleEntryByName",p);
+			return GetReader("subtext_GetSingleEntryByName",p);
 		}
 
 		/// <summary>
@@ -487,7 +487,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@ContentChecksumHash", SqlDbType.VarChar, 32, checksumHash),
 				BlogIDParam
 			};
-			return GetReader("blog_GetCommentByChecksumHash", p);
+			return GetReader("subtext_GetCommentByChecksumHash", p);
 		}
 
 		public override IDataReader GetEntry(int postID, bool ActiveOnly)
@@ -498,7 +498,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
 				BlogIDParam
 			};
-			return GetReader("blog_GetSingleEntry" ,p);
+			return GetReader("subtext_GetSingleEntry" ,p);
 		}
 
 		public override IDataReader GetSingleDay(DateTime dt)
@@ -508,7 +508,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@Date",SqlDbType.DateTime,8,dt),
 				BlogIDParam
 			};
-			return GetReader("blog_GetSingleDay",p);
+			return GetReader("subtext_GetSingleDay",p);
 		}
 
 		public override IDataReader GetEntriesByCategory(int ItemCount, int catID, bool ActiveOnly)
@@ -520,7 +520,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
 				BlogIDParam
 			};
-			return GetReader("blog_GetPostsByCategoryID",p);
+			return GetReader("subtext_GetPostsByCategoryID",p);
 	
 		}
 
@@ -533,7 +533,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
 				BlogIDParam
 			};
-			return GetReader("blog_GetPostsByCategoryName",p);
+			return GetReader("subtext_GetPostsByCategoryName",p);
 	
 		}
 
@@ -547,7 +547,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
 				BlogIDParam
 			};
-			return GetReader("blog_GetPostsByCategoryIDByDateUpdated",p);
+			return GetReader("subtext_GetPostsByCategoryIDByDateUpdated",p);
 		}
 
 		public override IDataReader GetEntriesByCategory(int ItemCount, string CategoryName, DateTime DateUpdated, bool ActiveOnly)
@@ -560,7 +560,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
 				BlogIDParam
 			};
-			return GetReader("blog_GetPostsByCategoryIDByDateUpdated",p);
+			return GetReader("subtext_GetPostsByCategoryIDByDateUpdated",p);
 		}
 
 		public override IDataReader GetPostsByCategoryID(int ItemCount, int catID)
@@ -570,7 +570,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@ItemCount",SqlDbType.Int,4,ItemCount),
 				SqlHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,catID),
 				BlogIDParam};
-			return GetReader("blog_GetPostsByCategoryID",p);
+			return GetReader("subtext_GetPostsByCategoryID",p);
 		}
 
 		//Should power both EntryCollection and EntryDayCollection
@@ -581,7 +581,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@Month",SqlDbType.Int,4,month),
 				SqlHelper.MakeInParam("@Year",SqlDbType.Int,4,year),
 				BlogIDParam};
-			return GetReader("blog_GetPostsByMonth",p);
+			return GetReader("subtext_GetPostsByMonth",p);
 		}
 
 //		//Should power both EntryCollection and EntryDayCollection
@@ -592,7 +592,7 @@ namespace Subtext.Framework.Data
 //				SqlHelper.MakeInParam("@Month",SqlDbType.Int,4,month),
 //				SqlHelper.MakeInParam("@Year",SqlDbType.Int,4,year),
 //				BlogIDParam};
-//			return GetReader("blog_GetPostsByMonth",p);
+//			return GetReader("subtext_GetPostsByMonth",p);
 //		}
 
 		public override IDataReader GetRecentDayPosts(int ItemCount, bool ActiveOnly)
@@ -603,7 +603,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
 				SqlHelper.MakeInParam("@PostType",SqlDbType.Int,4,PostType.BlogPost),
 				BlogIDParam};
-			return GetReader("blog_GetRecentEntries",p);
+			return GetReader("subtext_GetRecentEntries",p);
 		}
 
 		#endregion
@@ -617,7 +617,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@ID",SqlDbType.Int,4,PostID),
 				BlogIDParam
 			};
-			return NonQueryBool("blog_DeletePost",p);
+			return NonQueryBool("subtext_DeletePost",p);
 		}
 
 		public override int InsertCategoryEntry(CategoryEntry ce)
@@ -643,7 +643,7 @@ namespace Subtext.Framework.Data
 
 		private void InsertLinkByCategoryName(SqlParameter[] p, SqlConnection conn)
 		{
-			string sql = "blog_InsertPostCategoryByName";
+			string sql = "subtext_InsertPostCategoryByName";
 			SqlHelper.ExecuteNonQuery(conn,CommandType.StoredProcedure,sql,p);
 
 		}
@@ -691,7 +691,7 @@ namespace Subtext.Framework.Data
 				BlogIDParam,
 				SqlHelper.MakeInParam("@CategoryList",SqlDbType.NVarChar,4000,catList)
 			};
-			return NonQueryBool("blog_InsertLinkCategoryList",p);
+			return NonQueryBool("subtext_InsertLinkCategoryList",p);
 
 		}
 
@@ -726,7 +726,7 @@ namespace Subtext.Framework.Data
 				
 			};
 
-			NonQueryInt("blog_InsertEntry", p);
+			NonQueryInt("subtext_InsertEntry", p);
 			return (int)outIdParam.Value;
 		}
 	
@@ -757,7 +757,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@DateSyndicated", SqlDbType.DateTime, 8, SqlHelper.CheckNull(entry.DateSyndicated)), 
 				BlogIDParam
 			};
-			return NonQueryBool("blog_UpdateEntry", p);
+			return NonQueryBool("subtext_UpdateEntry", p);
 		}
 
 		//Not that efficent, but maybe we should just iterage over feedback items?
@@ -786,7 +786,7 @@ namespace Subtext.Framework.Data
 					outParam
 				};
 
-					NonQueryInt("blog_InsertPingTrackEntry",p);
+					NonQueryInt("subtext_InsertPingTrackEntry",p);
 					return (int)outParam.Value;
 			}
 			else
@@ -808,7 +808,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@PostID",SqlDbType.Int,4,PostID),
 				BlogIDParam
 			};
-			return GetReader("blog_GetLinkCollectionByPostID", p);
+			return GetReader("subtext_GetLinkCollectionByPostID", p);
 		}
 
 		/// <summary>
@@ -831,7 +831,7 @@ namespace Subtext.Framework.Data
 			//we should use the iter_charlist_to_table function instead
 			if(count > 0)
 			{
-				string sql = "blog_InsertLink";
+				string sql = "subtext_InsertLink";
 				
 				Link link = lc[0];
 				SqlParameter[] p = 
@@ -859,7 +859,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@LinkID",SqlDbType.Int,4,LinkID),
 				BlogIDParam
 			};
-			return NonQueryBool("blog_DeleteLink",p);
+			return NonQueryBool("subtext_DeleteLink",p);
 
 		}
 
@@ -870,7 +870,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@LinkID",SqlDbType.Int,4,linkID),
 				BlogIDParam
 			};
-			return GetReader("blog_GetSingleLink",p);
+			return GetReader("subtext_GetSingleLink",p);
 		}
 
 		public override int InsertLink(Link link)
@@ -888,7 +888,7 @@ namespace Subtext.Framework.Data
 				BlogIDParam,
 				outParam
 			};
-			NonQueryInt("blog_InsertLink",p);
+			NonQueryInt("subtext_InsertLink",p);
 			return (int)outParam.Value;
 
 		}
@@ -906,7 +906,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@LinkID",SqlDbType.Int,4,link.LinkID),
 				BlogIDParam
 			};
-			return NonQueryBool("blog_UpdateLink",p);
+			return NonQueryBool("subtext_UpdateLink",p);
 		}
 
 
@@ -915,14 +915,14 @@ namespace Subtext.Framework.Data
 			SqlParameter[] p ={SqlHelper.MakeInParam("@CategoryType",SqlDbType.TinyInt,1,catType),
 							  SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
 								  BlogIDParam};
-			return GetReader("blog_GetAllCategories",p);
+			return GetReader("subtext_GetAllCategories",p);
 		}
 
 		//maps to blog_GetActiveCategoriesWithLinkCollection
 		public override DataSet GetActiveCategories()
 		{
 			SqlParameter[] p ={BlogIDParam};
-			DataSet ds = SqlHelper.ExecuteDataset(ConnectionString,CommandType.StoredProcedure,"blog_GetActiveCategoriesWithLinkCollection",p);
+			DataSet ds = SqlHelper.ExecuteDataset(ConnectionString,CommandType.StoredProcedure,"subtext_GetActiveCategoriesWithLinkCollection",p);
 
 			DataRelation dl = new DataRelation("CategoryID",ds.Tables[0].Columns["CategoryID"],ds.Tables[1].Columns["CategoryID"],false);
 			ds.Relations.Add(dl);
@@ -933,7 +933,7 @@ namespace Subtext.Framework.Data
 		//maps to blog_GetLinksByCategoryID
 		public override IDataReader GetLinksByCategoryID(int catID, bool ActiveOnly)
 		{
-			string sql = ActiveOnly ? "blog_GetLinksByActiveCategoryID" : "blog_GetLinksByCategoryID";
+			string sql = ActiveOnly ? "subtext_GetLinksByActiveCategoryID" : "subtext_GetLinksByCategoryID";
 			SqlParameter[] p = 
 			{
 				SqlHelper.MakeInParam("@CategoryID",SqlDbType.Int,4 ,catID),
@@ -955,7 +955,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,CatID),
 				BlogIDParam
 			};
-			return NonQueryBool("blog_DeleteCategory",p);
+			return NonQueryBool("subtext_DeleteCategory",p);
 
 		}
 
@@ -968,7 +968,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,IsActive),
 				BlogIDParam
 			};
-			return GetReader("blog_GetCategory",p);
+			return GetReader("subtext_GetCategory",p);
 		}
 		
 
@@ -980,7 +980,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,IsActive),
 				BlogIDParam
 			};
-			return GetReader("blog_GetCategoryByName",p);
+			return GetReader("subtext_GetCategoryByName",p);
 		}
 
 		public override bool UpdateCategory(LinkCategory lc)
@@ -995,7 +995,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@Description",SqlDbType.NVarChar,1000,SqlHelper.CheckNull(lc.Description)),
 				BlogIDParam
 			};
-			return NonQueryBool("blog_UpdateCategory",p);
+			return NonQueryBool("subtext_UpdateCategory",p);
 		}
 
 		//maps to blog_LinkCategory
@@ -1012,7 +1012,7 @@ namespace Subtext.Framework.Data
 				BlogIDParam,
 				outParam
 			};
-			NonQueryInt("blog_InsertCategory",p);
+			NonQueryInt("subtext_InsertCategory",p);
 			return (int)outParam.Value;
 		}
 
@@ -1029,7 +1029,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@ParentID",SqlDbType.Int,4,PostID),
 				BlogIDParam
 			};
-			return GetReader("blog_GetFeedBack",p);
+			return GetReader("subtext_GetFeedBack",p);
 		}
 
 		#endregion
@@ -1057,7 +1057,7 @@ namespace Subtext.Framework.Data
 				, SqlHelper.MakeInParam("@IsHashed", SqlDbType.Bit, 1, Config.Settings.UseHashedPasswords)
 				
 			};
-			return NonQueryBool("blog_UTILITY_AddBlog", parameters);
+			return NonQueryBool("subtext_UTILITY_AddBlog", parameters);
 		}
 
 		/// <summary>
@@ -1099,7 +1099,7 @@ namespace Subtext.Framework.Data
 				,SqlHelper.MakeInParam("@Application", SqlDbType.NVarChar, 50, application)
 				,SqlHelper.MakeInParam("@Strict", SqlDbType.Bit, 1, strict)
 			};
-			return GetReader("blog_GetConfig", p);
+			return GetReader("subtext_GetConfig", p);
 		}
 
 		
@@ -1114,12 +1114,12 @@ namespace Subtext.Framework.Data
 			{
 				SqlHelper.MakeInParam("@BlogID",SqlDbType.Int, 4, blogId)
 			};
-			return GetReader("blog_GetConfigByBlogID",p);
+			return GetReader("subtext_GetConfigByBlogID",p);
 		}
 
 		/// <summary>
 		/// Updates the blog configuration in the SQL database 
-		/// using the "blog_UpdateConfig" stored proc.
+		/// using the "subtext_UpdateConfig" stored proc.
 		/// </summary>
 		/// <param name="info">Config.</param>
 		/// <returns></returns>
@@ -1163,7 +1163,7 @@ namespace Subtext.Framework.Data
 				};
 
 
-			return NonQueryBool("blog_UpdateConfig", p);
+			return NonQueryBool("subtext_UpdateConfig", p);
 
 		}
 
@@ -1174,13 +1174,13 @@ namespace Subtext.Framework.Data
 		public override IDataReader GetPostsByMonthArchive()
 		{
 			SqlParameter[] p = {BlogIDParam};
-			return GetReader("blog_GetPostsByMonthArchive",p);
+			return GetReader("subtext_GetPostsByMonthArchive",p);
 		}
 
 		public override IDataReader GetPostsByYearArchive()
 		{
 			SqlParameter[] p = {BlogIDParam};
-			return GetReader("blog_GetPostsByYearArchive",p);
+			return GetReader("subtext_GetPostsByYearArchive",p);
 		}
 
 		#endregion
@@ -1194,7 +1194,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@KeyWordID",SqlDbType.Int,4,KeyWordID),
 				BlogIDParam
 			};
-			return GetReader("blog_GetKeyWord",p);
+			return GetReader("subtext_GetKeyWord",p);
 		}
 
 		public override bool DeleteKeyWord(int KeyWordID)
@@ -1204,7 +1204,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@KeyWordID",SqlDbType.Int,4,KeyWordID),
 				BlogIDParam
 			};
-			return NonQueryBool("blog_DeleteKeyWord",p);
+			return NonQueryBool("subtext_DeleteKeyWord",p);
 		}
 
 
@@ -1224,7 +1224,7 @@ namespace Subtext.Framework.Data
 				BlogIDParam,
 				outParam
 			};
-			NonQueryInt("blog_InsertKeyWord",p);
+			NonQueryInt("subtext_InsertKeyWord",p);
 			return (int)outParam.Value;
 		}
 
@@ -1242,7 +1242,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@Title",SqlDbType.NVarChar,100,kw.Title),
 				BlogIDParam
 			};
-			return NonQueryBool("blog_UpdateKeyWord",p);
+			return NonQueryBool("subtext_UpdateKeyWord",p);
 		}
 
 
@@ -1253,7 +1253,7 @@ namespace Subtext.Framework.Data
 			{
 				BlogIDParam
 			};
-			return GetReader("blog_GetBlogKeyWords",p);
+			return GetReader("subtext_GetBlogKeyWords",p);
 		}
 
 		public override IDataReader GetPagedKeyWords(int pageIndex, int pageSize,bool sortDescending)
@@ -1265,7 +1265,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@SortDesc", SqlDbType.Bit, 1, sortDescending),
 				BlogIDParam
 			};
-			return GetReader("blog_GetPageableKeyWords",p);
+			return GetReader("subtext_GetPageableKeyWords",p);
 		}
 
 
@@ -1303,7 +1303,7 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		public override IDataReader GetHost()
 		{
-			return GetReader("blog_GetHost");
+			return GetReader("[dbo].[subtext_GetHost]");
 		}
 
 		/// <summary>
@@ -1320,7 +1320,7 @@ namespace Subtext.Framework.Data
 				, SqlHelper.MakeInParam("@Salt", SqlDbType.NVarChar,  32, host.Salt)
 			};
 
-			return NonQueryBool("blog_UpdateHost", p);
+			return NonQueryBool("subtext_UpdateHost", p);
 		}
 
 		#endregion

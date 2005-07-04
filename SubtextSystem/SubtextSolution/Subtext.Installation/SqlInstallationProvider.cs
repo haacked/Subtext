@@ -97,7 +97,7 @@ namespace Subtext.Installation
 		{
 			try
 			{
-				string tableName = "blog_" + System.Guid.NewGuid().ToString();
+				string tableName = "subtext_" + System.Guid.NewGuid().ToString();
 				string testCreateSql = "CREATE TABLE [" + tableName + "] ([TestColumn] [int] NULL)";
 				SqlHelper.ExecuteNonQuery(connectionString, CommandType.Text, testCreateSql);
 				string testDropSql = "DROP TABLE [" + tableName + "]";
@@ -137,6 +137,7 @@ namespace Subtext.Installation
 		{
 			if(!BlogContentTableExists)
 				return InstallationState.NeedsInstallation;
+			
 			else if(!BlogHostTableExists)
 				return InstallationState.NeedsUpgrade;
 			
@@ -249,7 +250,7 @@ namespace Subtext.Installation
 		{
 			get
 			{
-				return DoesTableExist("blog_content");
+				return DoesTableExist("subtext_content");
 			}
 		}
 
@@ -257,7 +258,7 @@ namespace Subtext.Installation
 		{
 			get 
 			{ 
-				return DoesTableExist("blog_Host");
+				return DoesTableExist("subtext_Host");
 			}
 			
 		}
