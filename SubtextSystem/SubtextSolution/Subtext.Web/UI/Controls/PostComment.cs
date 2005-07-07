@@ -48,6 +48,11 @@ namespace Subtext.Web.UI.Controls
 		protected System.Web.UI.WebControls.CheckBox chkRemember;
 		
 
+		/// <summary>
+		/// Handles the OnLoad event.  Attempts to prepopulate comment 
+		/// fields based on the user's cookie.
+		/// </summary>
+		/// <param name="e">E.</param>
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad (e);
@@ -65,7 +70,7 @@ namespace Subtext.Web.UI.Controls
 
 				Entry entry = Cacher.GetEntryFromRequest(Context, CacheTime.Short);	
 
-				if(CurrentBlog.CommentsEnabled && entry != null && entry.AllowComments && !entry.CommentingClosed)
+				if(IsCommentAllowed(entry))
 				{
 					//Need to get this without a db hit?
 					tbTitle.Text = "re: " + entry.Title;
@@ -110,36 +115,41 @@ namespace Subtext.Web.UI.Controls
 			{
 				try
 				{
-					Entry currentEntry =  Cacher.GetEntryFromRequest(Context,CacheTime.Short);	
-				
-					Entry entry = new Entry(PostType.Comment);
-					entry.Author = tbName.Text;
-					entry.TitleUrl =  HtmlHelper.CheckForUrl(tbUrl.Text);
-					entry.Body = tbComment.Text;
-					entry.Title = tbTitle.Text;
-					entry.ParentID = currentEntry.EntryID;
-					entry.SourceName = Subtext.Framework.Util.Globals.GetUserIpAddress(Context);
-					entry.SourceUrl = currentEntry.Link;
-
-
-					Subtext.Framework.Entries.InsertComment(entry);
-
-					if(chkRemember.Checked)
+					Entry currentEntry =  Cacher.GetEntryFromRequest(Context, CacheTime.Short);	
+					if(IsCommentAllowed(currentEntry))
 					{
-						HttpCookie user = new HttpCookie("CommentUser");
-						user.Values["Name"] = tbName.Text;
-						user.Values["Url"] = tbUrl.Text;
-						user.Expires = DateTime.Now.AddDays(30);
-						Response.Cookies.Add(user);
+						Entry entry = new Entry(PostType.Comment);
+						entry.Author = tbName.Text;
+						entry.TitleUrl =  HtmlHelper.CheckForUrl(tbUrl.Text);
+						entry.Body = tbComment.Text;
+						entry.Title = tbTitle.Text;
+						entry.ParentID = currentEntry.EntryID;
+						entry.SourceName = Subtext.Framework.Util.Globals.GetUserIpAddress(Context);
+						entry.SourceUrl = currentEntry.Link;
+
+						Subtext.Framework.Entries.InsertComment(entry);
+
+						if(chkRemember.Checked)
+						{
+							HttpCookie user = new HttpCookie("CommentUser");
+							user.Values["Name"] = tbName.Text;
+							user.Values["Url"] = tbUrl.Text;
+							user.Expires = DateTime.Now.AddDays(30);
+							Response.Cookies.Add(user);
+						}
 					}
-				
-					Response.Redirect(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?Pending=true",Request.Path));
+					Response.Redirect(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?Pending=true", Request.Path));
 				}
 				catch(BaseCommentException exception)
 				{
 					Message.Text = exception.Message;
 				}
 			}
+		}
+
+		bool IsCommentAllowed(Entry entry)
+		{
+			return CurrentBlog.CommentsEnabled && entry != null && entry.AllowComments && !entry.CommentingClosed;
 		}
 	}
 }
