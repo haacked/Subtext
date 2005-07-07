@@ -116,7 +116,7 @@ namespace Subtext.Common.Data
 			}
 			else
 			{
-				string CategoryName = WebPathStripper.GetReqeustedFileName(path);
+				string CategoryName = WebPathStripper.GetRequestedFileName(path);
 				return GetEntriesByCategory(count,ct,context,CategoryName);
 			}
 		}
@@ -162,7 +162,7 @@ namespace Subtext.Common.Data
 		public static LinkCategory SingleCategory(CacheTime ct, HttpContext context)
 		{
 			string path = WebPathStripper.RemoveRssSlash(context.Request.Path);
-			string CategoryName = WebPathStripper.GetReqeustedFileName(path);
+			string CategoryName = WebPathStripper.GetRequestedFileName(path);
 			if(WebPathStripper.IsNumeric(CategoryName))
 			{
 				int CategoryID =Int32.Parse(CategoryName);
@@ -207,7 +207,7 @@ namespace Subtext.Common.Data
 
 		public static Entry GetEntryFromRequest(HttpContext context, CacheTime ct)
 		{
-			string id = WebPathStripper.GetReqeustedFileName(context.Request.Path);
+			string id = WebPathStripper.GetRequestedFileName(context.Request.Path);
 
 			if(WebPathStripper.IsNumeric(id))
 			{

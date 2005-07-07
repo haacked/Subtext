@@ -51,7 +51,7 @@ namespace Subtext.Web.UI.Handlers
 			}
 			else if(Regex.IsMatch(uri,"/posts/|/story/",RegexOptions.IgnoreCase))
 			{
-				string entryName = WebPathStripper.GetReqeustedFileName(uri);
+				string entryName = WebPathStripper.GetRequestedFileName(uri);
 				Entry entry = null;
 				if(WebPathStripper.IsNumeric(entryName))
 				{

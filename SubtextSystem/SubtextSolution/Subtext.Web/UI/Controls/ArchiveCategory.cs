@@ -46,7 +46,7 @@ namespace Subtext.Web.UI.Controls
 
 			int catID = UrlFormats.GetPostIDFromUrl(Request.Path);
 
-			string s = WebPathStripper.GetReqeustedFileName(Request.Path);
+			string s = WebPathStripper.GetRequestedFileName(Request.Path);
 
 			Days.Days = Entries.GetPostsByCategoryID(Config.CurrentBlog.ItemCount,catID);
 
