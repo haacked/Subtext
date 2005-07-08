@@ -100,7 +100,7 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				return "<a href = \"http://Subtext.com\">" + Version + "</a>";
+				return "<a href = \"http://SubtextProject.com\">" + Version + "</a>";
 			}
 		}
 	}
