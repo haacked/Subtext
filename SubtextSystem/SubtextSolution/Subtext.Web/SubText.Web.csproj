@@ -762,10 +762,6 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Admin\Resources\uicontrols.js"
-                    BuildAction = "Content"
-                />
-                <File
                     RelPath = "Admin\Resources\FTB\folder.big.gif"
                     BuildAction = "Content"
                 />

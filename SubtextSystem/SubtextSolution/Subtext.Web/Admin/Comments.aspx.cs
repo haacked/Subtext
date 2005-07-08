@@ -25,6 +25,7 @@ namespace Subtext.Web.Admin
 		protected Subtext.Web.Controls.HelpToolTip HelpToolTip2;
 		protected Subtext.Web.Controls.HelpToolTip Helptooltip3;
 		protected Subtext.Web.Controls.HelpToolTip Helptooltip4;
+		protected Subtext.Web.Controls.HelpToolTip Helptooltip5;
 		protected System.Web.UI.WebControls.CheckBox chkAllowDuplicates;
 		
 		private void Page_Load(object sender, System.EventArgs e)
