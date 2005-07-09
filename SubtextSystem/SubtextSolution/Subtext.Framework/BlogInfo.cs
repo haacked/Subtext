@@ -418,7 +418,7 @@ namespace Subtext.Framework
 		public bool IsActive
 		{
 			get{return FlagPropertyCheck(ConfigurationFlag.IsActive);}
-			set{FlagSetter(ConfigurationFlag.IsActive,value);}
+			set{FlagSetter(ConfigurationFlag.IsActive, value);}
 		}
 
 		private string _application;
@@ -590,6 +590,20 @@ namespace Subtext.Framework
 			}
 		}
 		string _rootUrl = null;
+
+		/// <summary>
+		/// Gets the blog home URL.  This is the URL to the blog's home page. 
+		/// Until we integrate with IIS better, we have to append the "Default.aspx" 
+		/// to the end.
+		/// </summary>
+		/// <value></value>
+		public string BlogHomeUrl
+		{
+			get
+			{
+				return RootUrl + "Default.aspx";
+			}
+		}
 
 		private ConfigurationFlag _flag = ConfigurationFlag.Empty;
 		/// <summary>

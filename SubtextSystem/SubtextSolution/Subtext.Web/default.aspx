@@ -19,7 +19,7 @@
 						blog</a>.</p>
 				<p>
 					Powered By:<br>
-					<asp:HyperLink NavigateUrl="http://scottwater.com/blog" ImageUrl="~/images/100x30_Logo.gif"
+					<asp:HyperLink NavigateUrl="http://scottwater.com/blog" ImageUrl="~/images/PoweredBySubtext85x33.png"
 						Runat="server" BorderWidth="0" id="HyperLink1" />
 				</p>
 				<p>

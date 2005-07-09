@@ -90,7 +90,7 @@ namespace Subtext.Framework.Syndication
 
 		protected virtual void WriteChannel()
 		{
-			BuildChannel(info.Title, info.RootUrl, info.Email, info.SubTitle, info.Language, info.Author, Config.CurrentBlog.LicenseUrl);
+			BuildChannel(info.Title, info.BlogHomeUrl, info.Email, info.SubTitle, info.Language, info.Author, Config.CurrentBlog.LicenseUrl);
 		}
 
 		protected void BuildChannel(string title, string link, string authorEmail, string description, string lang, string copyright, string cclicense)

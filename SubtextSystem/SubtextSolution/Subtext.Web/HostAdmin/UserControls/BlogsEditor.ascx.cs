@@ -103,12 +103,15 @@ namespace Subtext.Web.HostAdmin.UserControls
 			{
 				this.resultsPager.Visible = true;
 				this.resultsPager.ItemCount = blogs.MaxItems;
+				this.rprBlogsList.Visible = true;
 				this.rprBlogsList.DataSource = blogs;
 				this.rprBlogsList.DataBind();
 				this.lblNoMessages.Visible = false;
 			}
 			else
 			{
+				this.resultsPager.Visible = false;
+				this.rprBlogsList.Visible = false;
 				this.resultsPager.Visible = false;
 				this.lblNoMessages.Visible = true;	
 			}

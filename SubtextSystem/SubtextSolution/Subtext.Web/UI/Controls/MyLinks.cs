@@ -48,20 +48,20 @@ namespace Subtext.Web.UI.Controls
 				
 				
 				HomeLink.NavigateUrl = CurrentBlog.RootUrl;
-				ContactLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}contact.aspx",CurrentBlog.RootUrl);
+				ContactLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}contact.aspx", CurrentBlog.RootUrl);
 
 				if(Request.IsAuthenticated && Security.IsAdmin)
 				{
 					Admin.Text = "Admin";
-					Admin.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}admin/default.aspx",CurrentBlog.RootUrl);
+					Admin.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}admin/default.aspx", CurrentBlog.RootUrl);
 				}
 				else
 				{
 					Admin.Text = "Login";
-					Admin.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}login.aspx",CurrentBlog.RootUrl);
+					Admin.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}login.aspx", CurrentBlog.RootUrl);
 				}
 
-				Syndication.NavigateUrl = XMLLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Rss.aspx",CurrentBlog.RootUrl);
+				Syndication.NavigateUrl = XMLLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Rss.aspx", CurrentBlog.RootUrl);
 					
 
 			}

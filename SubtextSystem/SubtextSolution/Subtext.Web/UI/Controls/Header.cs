@@ -25,11 +25,8 @@ using System;
 
 namespace Subtext.Web.UI.Controls
 {
-	using System;
-
-
 	/// <summary>
-	///		Summary description for Header.
+	///	Used to display the header.
 	/// </summary>
 	public class Header : BaseControl
 	{
@@ -43,7 +40,7 @@ namespace Subtext.Web.UI.Controls
 		{
 			base.OnLoad (e);
 		
-			HeaderTitle.NavigateUrl = CurrentBlog.RootUrl;
+			HeaderTitle.NavigateUrl = CurrentBlog.BlogHomeUrl;
 			HeaderTitle.Text = CurrentBlog.Title;
 			HeaderSubTitle.Text = CurrentBlog.SubTitle;
 		}

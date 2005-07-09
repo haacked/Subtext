@@ -18,7 +18,7 @@
 			<table id="BodyTable" cellpadding="0" cellspacing="0" width="100%">
 				<tr>
 					<td>
-						<a href="http://sourceforge.net/projects/subtext/"><img id="HeaderLogo" align="right" src='<%= Utilities.ResourcePath + "resources/header_logo.gif" %>' height="100" width="121" border="0" ></a>
+						<a href="http://sourceforge.net/projects/subtext/"><img id="HeaderLogo" align="right" src='<%= Utilities.ResourcePath + "resources/SubtextLogo.png" %>' height="85" width="261" border="0" ></a>
 					</td>
 					<td id="header">
 						<div id="SiteNav">
