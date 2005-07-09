@@ -1,3 +1,7 @@
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Version]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [dbo].[subtext_Version]
+GO
+
 if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_Host]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
 drop table [dbo].[subtext_Host]
 GO
