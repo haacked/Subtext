@@ -147,7 +147,7 @@ namespace Subtext.Framework.Syndication
 
 			this.WriteStartElement("generator");
 				this.WriteAttributeString("url","http://scottwater.com/blog");
-				this.WriteAttributeString("version", VersionInfo.Version);
+				this.WriteAttributeString("version", VersionInfo.VersionDisplayText);
 				this.WriteString(".Text");
 			this.WriteEndElement();
 
