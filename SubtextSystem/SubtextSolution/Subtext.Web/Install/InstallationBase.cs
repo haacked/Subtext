@@ -18,7 +18,7 @@ namespace Subtext.Web.Install
 		/// <param name="e">E.</param>
 		protected override void OnLoad(EventArgs e)
 		{		
-			InstallationState status = InstallationManager.GetInstallationState();
+			InstallationState status = InstallationManager.GetCurrentInstallationState(VersionInfo.FrameworkVersion);
 
 			switch(status)
 			{

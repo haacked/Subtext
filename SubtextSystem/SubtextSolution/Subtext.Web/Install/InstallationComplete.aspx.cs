@@ -1,4 +1,5 @@
 using System;
+using Subtext.Framework;
 
 namespace Subtext.Web.Install
 {
@@ -13,7 +14,7 @@ namespace Subtext.Web.Install
 	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-			// Put user code to initialize the page here
+			InstallationManager.ResetInstallationStatusCache();
 		}
 
 		#region Web Form Designer generated code

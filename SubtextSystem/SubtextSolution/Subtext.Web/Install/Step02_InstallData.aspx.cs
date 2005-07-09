@@ -27,7 +27,7 @@ namespace Subtext.Web.Install
 	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-			_state = InstallationManager.GetInstallationState();
+			_state = InstallationManager.GetCurrentInstallationState(VersionInfo.FrameworkVersion);
 			switch(_state)
 			{
 				case InstallationState.NeedsInstallation:
@@ -82,7 +82,7 @@ namespace Subtext.Web.Install
 		{
 			if(chkFullInstallation.Checked)
 			{
-				InstallationProvider.Instance().Install();
+				InstallationProvider.Instance().Install(VersionInfo.FrameworkVersion);
 				Response.Redirect(NextStepUrl);
 				return;
 			}
@@ -90,14 +90,14 @@ namespace Subtext.Web.Install
 			switch(_state)
 			{
 				case InstallationState.NeedsInstallation:
-					if(!InstallationProvider.Instance().Install())
+					if(!InstallationProvider.Instance().Install(VersionInfo.FrameworkVersion))
 					{
 						installationStateMessage.Text = "Uh oh. Something went wrong with the installation.";
 						return;
 					}
 					break;
 				case InstallationState.NeedsUpgrade:
-					if(!InstallationProvider.Instance().Upgrade())
+					if(!InstallationProvider.Instance().Upgrade(VersionInfo.FrameworkVersion))
 					{
 						installationStateMessage.Text = "Uh oh. Something went wrong with the upgrade.";
 						return;

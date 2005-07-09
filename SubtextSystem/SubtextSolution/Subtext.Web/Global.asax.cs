@@ -30,6 +30,7 @@ using System.Web;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Data;
+using Subtext.Framework.Exceptions;
 using Subtext.Framework.Providers;
 
 namespace Subtext 
@@ -77,12 +78,17 @@ namespace Subtext
 		/// <param name="e"></param>
 		protected void Application_BeginRequest(Object sender, EventArgs e)
 		{
+			// Want to redirect to install if installation is required, 
+			// or if we're missing a HostInfo record.
+			if((InstallationManager.IsInstallationActionRequired(VersionInfo.FrameworkVersion) || InstallationManager.HostInfoRecordNeeded) && !InstallationManager.IsInInstallDirectory)
+			{
+				Response.Redirect("~/Install/");
+			}
 		}
 
 		protected void Application_EndRequest(Object sender, EventArgs e)
 		{
 			#if DEBUG
-				
 				HttpApplication application = (HttpApplication)sender;
 				HttpContext context = application.Context;
 
@@ -128,10 +134,17 @@ namespace Subtext
 					return;
 				}
 
-				if(InstallationManager.IsInstallationActionRequired(exception.InnerException)
-					&& !InstallationManager.IsInInstallDirectory())
+				if(!InstallationManager.IsInInstallDirectory)
 				{
-					Response.Redirect("~/Install/");
+					if(exception.InnerException.GetType() == typeof(BlogDoesNotExistException))
+					{
+						Response.Redirect("~/Install/BlogNotConfiguredError.aspx");
+					}
+
+					if(InstallationManager.GetIsInstallationActionRequired(exception.InnerException, VersionInfo.FrameworkVersion))
+					{
+						Response.Redirect("~/Install/");
+					}	
 				}
 
 				//Sql Exception and request is for "localhost"
@@ -185,7 +198,7 @@ namespace Subtext
 		}
 
 		private static string lb = "============ Debug Build ============";
-		private static string message = "{0}{1}<br>Dottext Version: {2}<br>Machine Name: {3}<br>.NET Version: {4}<br>{5}<br>{6}{7}";
+		private static string message = "{0}{1}<br>Subtext Version: {2}<br>Machine Name: {3}<br>.NET Version: {4}<br>{5}<br>{6}{7}";
 
 		protected void Application_End(Object sender, EventArgs e)
 		{

@@ -99,6 +99,7 @@ namespace Subtext.Web.Install
 					}
 					else
 					{
+						InstallationManager.ResetInstallationStatusCache();
 						Response.Redirect("InstallationComplete.aspx");
 					}
 				}
