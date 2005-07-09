@@ -22,16 +22,13 @@
 #endregion
 
 using System;
-using System.Collections.Specialized;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Web;
-using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
-using Subtext.Framework.Providers;
 
 namespace Subtext 
 {
@@ -57,13 +54,6 @@ namespace Subtext
 		
 		protected void Application_Start(Object sender, EventArgs e)
 		{
-			//TODO: This is a special case for SQL.  Can we remove this?
-			if(DbProvider.Instance() != null)
-			{
-				NameValueCollection info = new NameValueCollection();
-				info["Default Connection String"] = DbProvider.Instance().ConnectionString;
-				InstallationProvider.Instance().ProvideInstallationInformation(info);
-			}
 		}
  
 		protected void Session_Start(Object sender, EventArgs e)

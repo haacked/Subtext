@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Specialized;
+using System.Web.UI;
 
 namespace Subtext.Extensibility.Providers
 {
@@ -26,34 +26,30 @@ namespace Subtext.Extensibility.Providers
 		/// to proceed with the installation.
 		/// </p>
 		/// <p>
-		/// The <see cref="NameValueCollection"/> returned by this method should 
-		/// contain entries with the Name being the piece of information being 
-		/// requested and the Value being a description of the requested information.
-		/// </p>
-		/// <p>
-		/// Upon gathering this information, the <see cref="ProvideInstallationInformation"/> method 
-		/// will be called passing in a <see cref="NameValueCollection"/> with the 
-		/// values containing the user's input for each name.
+		/// This method returns the <see cref="Control"/> used to gather 
+		/// the required installation information.  This will be returned 
+		/// back to the provider after the user provides the information.
 		/// </p>
 		/// </summary>
 		/// <returns></returns>
-		public abstract NameValueCollection QueryInstallationInformation();
+		public abstract Control GatherInstallationInformation();
 
 		/// <summary>
-		/// Provides the installation information to this installation provider. 
-		/// See <see cref="QueryInstallationInformation"/> for more information.
+		/// Provides the installation information as provided by the user. 
+		/// The control passed in should be the same as that provided in 
+		/// <see cref="GatherInstallationInformation"/>, but with user values 
+		/// supplied within it.
 		/// </summary>
-		/// <param name="information">Information.</param>
-		public abstract void ProvideInstallationInformation(NameValueCollection information);
+		/// <param name="populatedControl">Populated control.</param>
+		public abstract void ProvideInstallationInformation(Control populatedControl);
 
 		/// <summary>
 		/// Validates the installation information provided by the user.  
-		/// Returns a NameValueCollection of any fields that are incorrect 
-		/// with an explanation of why it is incorrect.
+		/// Returns a string with an explanation of why it is incorrect.
 		/// </summary>
-		/// <param name="information">Information.</param>
+		/// <param name="control">control used to provide information.</param>
 		/// <returns></returns>
-		public abstract NameValueCollection ValidateInstallationInformation(NameValueCollection information);
+		public abstract string ValidateInstallationInformation(Control control);
 
 		/// <summary>
 		/// Gets the installation status.

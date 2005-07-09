@@ -333,6 +333,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Framework\Providers\ProviderBaseTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Framework\Syndication\RssWriterTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

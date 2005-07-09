@@ -24,8 +24,7 @@ Installation </MP:ContentRegion>
 	</P>
 	<P>Please fill in the following fields.</P>
 	<P>
-		<TABLE id="installationQuestionTable" runat="server">
-		</TABLE>
+		<asp:Panel id="pnlInstallationInformation" runat="server"></asp:Panel>
 	</P>
 	<P>
 		<asp:Button id="btnSave" runat="server" text="Go to Step 2"></asp:Button></P>

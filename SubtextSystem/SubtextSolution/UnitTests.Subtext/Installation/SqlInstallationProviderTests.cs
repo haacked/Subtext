@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Specialized;
 using NUnit.Framework;
 using Subtext.Extensibility.Providers;
 using Subtext.Installation;
@@ -25,11 +24,7 @@ namespace UnitTests.Subtext.Installation
 			Assert.IsNotNull(sqlProvider, "The sql provider instance should not be null.");
 			Assert.AreEqual("SqlInstallationProvider", provider.Name);
 
-			NameValueCollection information = provider.QueryInstallationInformation();
-			
-			Assert.AreEqual("Admin Connection String", information.AllKeys[0], "The first name should be 'Admin Connection String'");
-			information["Admin Connection String"] = "Server=localhost;Database=SubtextData;Trusted_Connection=True";
-			provider.ProvideInstallationInformation(information);
+		
 			//Ok, no way to really check this just yet.
 		}
 

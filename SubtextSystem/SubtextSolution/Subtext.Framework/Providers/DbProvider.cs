@@ -33,7 +33,7 @@ namespace Subtext.Framework.Providers
 		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
 		{
 			_name = name;
-			_connectionString = configValue["connectionString"];
+			_connectionString = GetSettingValue("connectionString", configValue);
 		}
 
 		/// <summary>
@@ -308,3 +308,4 @@ namespace Subtext.Framework.Providers
 		#endregion
 	}
 }
+ 
