@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title>
-			<ANW:PlaceHolder id="PageTitle" runat="server">.Text - Manage</ANW:PlaceHolder>
+			<ANW:PlaceHolder id="PageTitle" runat="server">Subtext - Manage</ANW:PlaceHolder>
 		</title>
 		<ANW:ScriptTag id="HelptipJs" type="text/javascript" src="resources/Scripts/helptip.js" runat="server" />
 		<ANW:ScriptTag id="AdminJs" type="text/javascript" src="resources/Scripts/admin.js" runat="server" />
