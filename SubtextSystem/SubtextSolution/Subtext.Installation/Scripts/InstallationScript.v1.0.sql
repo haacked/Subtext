@@ -1,3 +1,7 @@
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Version]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [dbo].[subtext_Version]
+GO
+
 if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_Host]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
 drop table [dbo].[subtext_Host]
 GO
@@ -436,12 +440,6 @@ RETURNS @tbl TABLE
       INSERT @tbl(str, nstr) VALUES (ltrim(rtrim(@leftover)), ltrim(rtrim(@leftover)))
    RETURN
    END
-
-
-GO
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -490,5 +488,28 @@ CREATE TABLE [dbo].[subtext_Host] (
 	[Salt] [nvarchar] (32) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[DateCreated] [datetime] NOT NULL
 ) ON [PRIMARY]
+GO
+
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+CREATE TABLE [dbo].[subtext_Version] (
+	[Id] [int] IDENTITY (1, 1) NOT NULL ,
+	[Major] [int] NOT NULL ,
+	[Minor] [int] NOT NULL ,
+	[Build] [int] NOT NULL ,
+	[DateCreated] [datetime] NOT NULL 
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[subtext_Version] WITH NOCHECK ADD 
+	CONSTRAINT [PK_subtext_Version] PRIMARY KEY  CLUSTERED 
+	(
+		[Id]
+	)  ON [PRIMARY] 
 GO
 

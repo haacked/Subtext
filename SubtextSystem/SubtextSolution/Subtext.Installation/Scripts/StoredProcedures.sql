@@ -1,3 +1,11 @@
+if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_VersionAdd]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [dbo].[subtext_VersionAdd]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_VersionGetCurrent]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [dbo].[subtext_VersionGetCurrent]
+GO
+
 if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetHost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetHost]
 GO
@@ -4304,3 +4312,59 @@ GO
 GRANT  EXECUTE  ON [dbo].[DNW_HomePageData]  TO [public]
 GO
 
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/* Gets the most recent version in the Version table */
+CREATE PROC [dbo].[subtext_VersionGetCurrent]
+AS
+SELECT	TOP 1
+		[Id]
+		, [Major]
+		, [Minor]
+		, [Build]
+		, [DateCreated]
+FROM	[dbo].[subtext_Version]
+ORDER BY [DateCreated] DESC
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+GRANT  EXECUTE  ON [dbo].[subtext_VersionGetCurrent]  TO [public]
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/* Gets the most recent version in the Version table */
+CREATE PROC [dbo].[subtext_VersionAdd]
+(
+	 @Major	INT
+	, @Minor INT
+	, @Build INT
+	, @DateCreated DATETIME
+	, @Id INT OUTPUT
+	
+)
+AS
+INSERT [dbo].[subtext_Version]
+SELECT	@Major, @Minor, @Build, @DateCreated
+
+SELECT @Id = SCOPE_IDENTITY()
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+GRANT  EXECUTE  ON [dbo].[subtext_VersionAdd]  TO [public]
+GO
