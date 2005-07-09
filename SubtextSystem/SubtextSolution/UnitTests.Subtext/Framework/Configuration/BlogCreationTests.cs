@@ -37,26 +37,22 @@ namespace UnitTests.Subtext.Framework.Configuration
 		}
 
 		/// <summary>
-		/// Ensures that creating a blog will hash the password 
-		/// if UseHashedPassword is set in web.config (as it should be).
+		/// Ran into a problem where saving changes to a blog would rehash the password. 
+		/// We need a separate method for changing passwords.
 		/// </summary>
 		[Test]
 		[Rollback]
-		public void ModifyingBlogHashesPassword()
+		public void ModifyingBlogShouldNotChangePassword()
 		{
-			string password = "My Password";
-			string hashedPassword = Security.HashPassword(password);
-            
-			Config.CreateBlog("", "username", "something", _hostName, "MyBlog1");
-			BlogInfo info = Config.GetBlogInfo(_hostName.ToUpper(CultureInfo.InvariantCulture), "MyBlog1");
 			Config.Settings.UseHashedPasswords = true;
-			
-			info.Password = password;
-			Assert.AreEqual(password, info.Password, "Passwords aren't hashed till they're saved. Otherwise loading a config would hash the hash.");
-		
+			Config.CreateBlog("", "username", "thePassword", _hostName, "MyBlog1");
+			BlogInfo info = Config.GetBlogInfo(_hostName.ToUpper(CultureInfo.InvariantCulture), "MyBlog1");
+			string password = info.Password;
+			info.LicenseUrl = "http://subtextproject.com/";
 			Config.UpdateConfigData(info);
-
-			Assert.AreEqual(hashedPassword, info.Password, "The password wasn't hashed.");
+			
+			info = Config.GetBlogInfo(_hostName.ToUpper(CultureInfo.InvariantCulture), "MyBlog1");
+			Assert.AreEqual(password, info.Password);
 		}
 
 		/// <summary>
