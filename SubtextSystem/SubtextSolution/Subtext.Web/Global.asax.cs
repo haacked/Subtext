@@ -44,8 +44,8 @@ namespace Subtext
 			return base.GetVaryByCustomString(context,custom);
 		}
 
-		private const string ERROR_PAGE_LOCATION = "~/error.aspx";
-		private const string BAD_CONNECTION_STRING_PAGE = "~/CheckYourConnectionString.aspx";
+		private const string ERROR_PAGE_LOCATION = "~/SystemMessages/error.aspx";
+		private const string BAD_CONNECTION_STRING_PAGE = "~/SystemMessages/CheckYourConnectionString.aspx";
 
 		public Global()
 		{
@@ -110,7 +110,6 @@ namespace Subtext
 
 		protected void Application_AuthenticateRequest(Object sender, EventArgs e)
 		{
-
 		}
 
 		protected void Application_Error(Object sender, EventArgs e)
@@ -141,14 +140,14 @@ namespace Subtext
 				SqlException sqlExc = exception.InnerException as SqlException;
 				if(sqlExc != null &&
 					(
-						sqlExc.Number == (int)SqlErrorMessages.LoginFailsCannotOpenDatabase
-						|| sqlExc.Number == (int)SqlErrorMessages.LoginFailed
-						|| sqlExc.Number == (int)SqlErrorMessages.LoginFailedInvalidUserOfTrustedConnection
-						|| sqlExc.Number == (int)SqlErrorMessages.LoginFailedNotAssociatedWithTrustedConnection
-						|| sqlExc.Number == (int)SqlErrorMessages.LoginFailedUserNameInvalid
-						|| (sqlExc.Number == (int)SqlErrorMessages.CouldNotFindStoredProcedure && sqlExc.Message.IndexOf("'blog_GetConfig'") > 0)
+					sqlExc.Number == (int)SqlErrorMessages.LoginFailsCannotOpenDatabase
+					|| sqlExc.Number == (int)SqlErrorMessages.LoginFailed
+					|| sqlExc.Number == (int)SqlErrorMessages.LoginFailedInvalidUserOfTrustedConnection
+					|| sqlExc.Number == (int)SqlErrorMessages.LoginFailedNotAssociatedWithTrustedConnection
+					|| sqlExc.Number == (int)SqlErrorMessages.LoginFailedUserNameInvalid
+					|| (sqlExc.Number == (int)SqlErrorMessages.CouldNotFindStoredProcedure && sqlExc.Message.IndexOf("'blog_GetConfig'") > 0)
 					)
-				)
+					)
 				{
 					// Probably a bad connection string.
 					Server.Transfer(BAD_CONNECTION_STRING_PAGE);
@@ -164,22 +163,21 @@ namespace Subtext
 
 				if(exception.InnerException is ArgumentException 
 					&& (
-							exception.InnerException.Message.IndexOf("Keyword not supported") >= 0
-						||	exception.InnerException.Message.IndexOf("Invalid value for key") >= 0
+					exception.InnerException.Message.IndexOf("Keyword not supported") >= 0
+					||	exception.InnerException.Message.IndexOf("Invalid value for key") >= 0
 					)
-				)
+					)
 				{
 					// Probably a malformed connection string.
 					Server.Transfer(BAD_CONNECTION_STRING_PAGE);
 					return;
 				}
 
+				// I don't know that Context can ever be null in the pipe, but we'll play it
+				// extra safe. If customErrors are off, we'll just let ASP.NET default happen.
+				if (Context != null && Context.IsCustomErrorEnabled)
+					Server.Transfer(ERROR_PAGE_LOCATION, false);
 			}
-
-			// I don't know that Context can ever be null in the pipe, but we'll play it
-			// extra safe. If customErrors are off, we'll just let ASP.NET default happen.
-			if (Context != null && Context.IsCustomErrorEnabled)
-				Server.Transfer(ERROR_PAGE_LOCATION, false);
 		}
 
 		protected void Session_End(Object sender, EventArgs e)

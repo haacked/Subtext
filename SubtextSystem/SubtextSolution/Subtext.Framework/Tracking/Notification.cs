@@ -52,13 +52,6 @@ namespace Subtext.Framework.Tracking
 	/// </summary>
 	public class NotificationServices
 	{
-		public NotificationServices()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
 		public static void Run(Entry entry)
 		{
 			if(entry != null)

@@ -38,6 +38,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		[Test]
 		public void HashPasswordReturnsProperHash()
 		{
+			Config.CreateBlog("", "username", "thePassword", _hostName, "MyBlog");
 			string password = "myPassword";
 			string hashedPassword = "Bc5M0y93wXmtXNxwW6IJVA==";
 			Assert.AreEqual(hashedPassword, Security.HashPassword(password));
@@ -70,6 +71,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		[Test]
 		public void OldBitConverterPasswordUnderstood()
 		{
+			Config.CreateBlog("", "username", "thePassword", _hostName, "MyBlog");
 			string password = "myPassword";
 			Byte[] clearBytes = new UnicodeEncoding().GetBytes(password);
 			Byte[] hashedBytes = new MD5CryptoServiceProvider().ComputeHash(clearBytes);

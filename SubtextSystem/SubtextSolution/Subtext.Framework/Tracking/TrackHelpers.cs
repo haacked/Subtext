@@ -79,7 +79,7 @@ namespace Subtext.Framework.Tracking
 							"trackback:ping=\"{3}services/trackbacks/{4}.aspx\" />" + nl + 
 							"</rdf:RDF>" + nl + 
 							"-->" + nl;
-			return string.Format(tag,entry.Link,entry.Link,entry.Title,Config.CurrentBlog.RootUrl,entry.EntryID.ToString(CultureInfo.InvariantCulture));
+			return string.Format(tag, entry.Link, entry.Link, entry.Title, Config.CurrentBlog.RootUrl, entry.EntryID.ToString(CultureInfo.InvariantCulture));
 
 		}
 

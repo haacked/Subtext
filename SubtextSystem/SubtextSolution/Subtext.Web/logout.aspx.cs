@@ -37,7 +37,7 @@ namespace Subtext.Web.Pages
 			
 			HttpContext.Current.Response.Cookies.Clear();
 			System.Web.Security.FormsAuthentication.SignOut();
-			Response.Redirect(Config.CurrentBlog.RootUrl + "default.aspx");
+			Response.Redirect(Config.CurrentBlog.BlogHomeUrl);
 		}
 
 		#region Web Form Designer generated code

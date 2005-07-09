@@ -60,8 +60,8 @@ namespace Subtext.Framework.XmlRpc
 			BlogInfo b = new BlogInfo();
 			b.blogid = info.BlogID.ToString(CultureInfo.InvariantCulture);
 			b.blogName = info.Title;
-			b.url = info.RootUrl;
-			bi[0]=b;
+			b.url = info.BlogHomeUrl;
+			bi[0] = b;
 			return bi;
 
 		}

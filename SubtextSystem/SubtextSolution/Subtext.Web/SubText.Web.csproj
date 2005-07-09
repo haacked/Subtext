@@ -187,22 +187,6 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "CheckYourConnectionString.aspx"
-                    SubType = "Form"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "CheckYourConnectionString.aspx.cs"
-                    DependentUpon = "CheckYourConnectionString.aspx"
-                    SubType = "ASPXCodeBehind"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "CheckYourConnectionString.aspx.resx"
-                    DependentUpon = "CheckYourConnectionString.aspx.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "default.aspx"
                     BuildAction = "Content"
                 />
@@ -224,21 +208,6 @@
                 <File
                     RelPath = "emoticons.txt"
                     BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Error.aspx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Error.aspx.cs"
-                    DependentUpon = "Error.aspx"
-                    SubType = "ASPXCodeBehind"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Error.aspx.resx"
-                    DependentUpon = "Error.aspx.cs"
-                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "favicon.ico"
@@ -735,6 +704,10 @@
                 />
                 <File
                     RelPath = "Admin\Resources\poweredbydotnet.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\SubtextLogo.png"
                     BuildAction = "Content"
                 />
                 <File
@@ -4648,6 +4621,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Images\PoweredBySubtext85x33.png"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Images\shadow.gif"
                     BuildAction = "Content"
                 />
@@ -6274,6 +6251,78 @@
                     BuildAction = "Content"
                 />
                 <Folder RelPath = "Skins\white\Images\" />
+                <File
+                    RelPath = "SystemMessages\BlogNotActive.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "SystemMessages\BlogNotActive.aspx.cs"
+                    DependentUpon = "BlogNotActive.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SystemMessages\BlogNotActive.aspx.resx"
+                    DependentUpon = "BlogNotActive.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SystemMessages\CheckYourConnectionString.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "SystemMessages\CheckYourConnectionString.aspx.cs"
+                    DependentUpon = "CheckYourConnectionString.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SystemMessages\CheckYourConnectionString.aspx.resx"
+                    DependentUpon = "CheckYourConnectionString.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SystemMessages\Error.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "SystemMessages\Error.aspx.cs"
+                    DependentUpon = "Error.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SystemMessages\Error.aspx.resx"
+                    DependentUpon = "Error.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SystemMessages\FileNotFound.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "SystemMessages\FileNotFound.aspx.cs"
+                    DependentUpon = "FileNotFound.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SystemMessages\FileNotFound.aspx.resx"
+                    DependentUpon = "FileNotFound.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SystemMessages\PageTemplate.ascx"
+                    SubType = "UserControl"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "SystemMessages\Style\SystemMessageStyle.css"
+                    BuildAction = "Content"
+                />
                 <File
                     RelPath = "UI\Globals.cs"
                     SubType = "Code"

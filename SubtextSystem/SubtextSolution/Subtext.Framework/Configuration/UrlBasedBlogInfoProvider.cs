@@ -156,9 +156,12 @@ namespace Subtext.Framework.Configuration
 						throw new BlogDoesNotExistException(Host, app, anyBlogsExist);
 					}
 
+					if(!info.IsActive && !IsInSystemMessageDirectory && !IsInHostAdminDirectory)
+						HttpContext.Current.Response.Redirect("~/SystemMessages/BlogNotActive.aspx");
+			
 					BlogConfigurationSettings settings = Subtext.Framework.Configuration.Config.Settings;
 
-					string formattedHost = GetFormattedHost(Host,settings.UseWWW);
+					string formattedHost = GetFormattedHost(Host, settings.UseWWW);
 
 					if(!app.EndsWith("/"))
 					{
@@ -222,6 +225,53 @@ namespace Subtext.Framework.Configuration
 		protected void CacheConfig(Cache cache, BlogInfo info, string cacheKEY)
 		{
 			cache.Insert(cacheKEY, info, null, DateTime.Now.AddSeconds(CacheTime), TimeSpan.Zero, CacheItemPriority.High, null);
+		}
+
+		/// <summary>
+		/// Determines whether the requested page is in the System Message directory.
+		/// </summary>
+		/// <returns>
+		/// 	<c>true</c> if is in system message directory; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool IsInSystemMessageDirectory
+		{
+			get
+			{
+				return IsInDirectory("SystemMessages");
+			}
+		}
+
+		/// <summary>
+		/// Determines whether the requested page is in the Host Admin directory.
+		/// </summary>
+		/// <returns>
+		/// 	<c>true</c> if is in system message directory; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool IsInHostAdminDirectory
+		{
+			get
+			{
+				return IsInDirectory("HostAdmin");
+			}
+		}
+
+
+		/// <summary>
+		/// Determines whether the current request is for a page in the specified 
+		/// directory.
+		/// </summary>
+		/// <param name="directoryName">Name of the directory.</param>
+		/// <returns>
+		/// 	<c>true</c> if [is in directory] [the specified directoryName]; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool IsInDirectory(string directoryName)
+		{
+			string appPath = HttpContext.Current.Request.ApplicationPath;
+			if(appPath.EndsWith("/"))
+				appPath.Remove(appPath.Length - 1, 1);
+			string installPath = appPath + "/" + directoryName + "/";
+
+			return StringHelper.IndexOf(HttpContext.Current.Request.Path, installPath, false) >= 0;
 		}
 	}
 }

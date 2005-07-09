@@ -119,8 +119,7 @@ namespace Subtext.Framework.Syndication
 
 		protected virtual void WriteChannel()
 		{
-			
-			BuildChannel(info.Title,info.RootUrl,info.SubTitle);
+			BuildChannel(info.Title, info.BlogHomeUrl, info.SubTitle);
 		}
 
 		protected void BuildChannel(string title, string link, string description)
@@ -141,8 +140,8 @@ namespace Subtext.Framework.Syndication
 			this.WriteElementString("id",link);
 
 			this.WriteStartElement("author");
-				this.WriteElementString("name",info.Author);
-				this.WriteElementString("url",info.RootUrl);
+				this.WriteElementString("name", info.Author);
+				this.WriteElementString("url", info.BlogHomeUrl);
 			this.WriteEndElement();
 
 			this.WriteStartElement("generator");

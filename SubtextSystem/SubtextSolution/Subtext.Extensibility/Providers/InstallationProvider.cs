@@ -26,7 +26,7 @@ namespace Subtext.Extensibility.Providers
 		/// to proceed with the installation.
 		/// </p>
 		/// <p>
-		/// This method returns the <see cref="Control"/> used to gather 
+		/// This method returns a <see cref="Control"/> used to gather 
 		/// the required installation information.  This will be returned 
 		/// back to the provider after the user provides the information.
 		/// </p>
@@ -35,7 +35,8 @@ namespace Subtext.Extensibility.Providers
 		public abstract Control GatherInstallationInformation();
 
 		/// <summary>
-		/// Provides the installation information as provided by the user. 
+		/// Provides the installation information as provided by the user 
+		/// back into the provider. 
 		/// The control passed in should be the same as that provided in 
 		/// <see cref="GatherInstallationInformation"/>, but with user values 
 		/// supplied within it.
