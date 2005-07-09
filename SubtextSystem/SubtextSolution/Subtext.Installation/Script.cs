@@ -18,7 +18,7 @@ namespace Subtext.Installation
 		/// <param name="fullScriptText">Full script text.</param>
 		public static ScriptCollection ParseScripts(string fullScriptText)
 		{
-			Regex regex = new Regex(@"(^\s*|\s+)GO(\s*$|\s+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+			Regex regex = new Regex(@"(^\s*|\s+)GO(\s+|\s*$)",  RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 			string[] scriptTexts = regex.Split(fullScriptText);
 			ScriptCollection scripts = new ScriptCollection();
 			foreach(string scriptText in scriptTexts)
@@ -40,6 +40,15 @@ namespace Subtext.Installation
 		public Script(string scriptText)
 		{
 			_scriptText = scriptText;
+		}
+
+		/// <summary>
+		/// Gets the script text.
+		/// </summary>
+		/// <value></value>
+		public string ScriptText
+		{
+			get { return _scriptText; }
 		}
 
 		/// <summary>

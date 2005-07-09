@@ -12,6 +12,7 @@ namespace Subtext.Installation
 	/// </summary>
 	public class SqlInstallationProvider : InstallationProvider
 	{
+		Version _version = null;
 		string _name = string.Empty;
 		const string TableExistsSql = "SELECT COUNT(1) FROM dbo.sysobjects WHERE id = object_id(N'[{0}]') and OBJECTPROPERTY(id, N'IsUserTable') = 1";
 		string _adminConnectionString = string.Empty;
@@ -130,17 +131,18 @@ namespace Subtext.Installation
 		}
 
 		/// <summary>
-		/// Gets the installation status.
+		/// Gets the installation status based on the current assembly Version.
 		/// </summary>
+		/// <param name="currentAssemblyVersion">The version of the assembly that represents this installation.</param>
 		/// <returns></returns>
-		public override InstallationState GetInstallationStatus()
+		public override InstallationState GetInstallationStatus(Version currentAssemblyVersion)
 		{
-			if(!BlogContentTableExists)
+			if(!VersionTableExists)
 				return InstallationState.NeedsInstallation;
 			
-			else if(!BlogHostTableExists)
+			if(NeedsUpgrade)
 				return InstallationState.NeedsUpgrade;
-			
+		
 			return InstallationState.Complete;
 		}
 
@@ -169,8 +171,9 @@ namespace Subtext.Installation
 		/// <summary>
 		/// Upgrades this instance. Returns true if it was successful.
 		/// </summary>
+		/// <param name="assemblyVersion">Version of the assembly upgrading to.</param>
 		/// <returns></returns>
-		public override bool Upgrade()
+		public override bool Upgrade(Version assemblyVersion)
 		{
 			using(SqlConnection connection = new SqlConnection(this._adminConnectionString))
 			{
@@ -180,9 +183,12 @@ namespace Subtext.Installation
 					//TODO: Calculate the script name.
 					try
 					{
-						bool result = ScriptHelper.ExecuteScript("UpgradeDotText095Script.sql", transaction);
+						bool result = false; //ScriptHelper.ExecuteScript("UpgradeDotText095Script.sql", transaction);
 						if(result)
+						{
+							UpdateCurrentInstalledVersion(assemblyVersion);
 							transaction.Commit();
+						}
 						else
 							transaction.Rollback();
 						return result;
@@ -199,8 +205,9 @@ namespace Subtext.Installation
 		/// <summary>
 		/// Installs this instance.  Returns true if it was successful.
 		/// </summary>
+		/// <param name="assemblyVersion">The version of the assembly being installed.</param>
 		/// <returns></returns>
-		public override bool Install()
+		public override bool Install(Version assemblyVersion)
 		{
 			using(SqlConnection connection = new SqlConnection(this._adminConnectionString))
 			{
@@ -210,7 +217,7 @@ namespace Subtext.Installation
 					try
 					{
 						//TODO: Calculate the script name.
-						if(ScriptHelper.ExecuteScript("InstallationScript.v1.0.sql", transaction))
+						if(ScriptHelper.ExecuteScript("Installation.01.00.00.sql", transaction))
 						{
 							bool result = ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction);
 							if(result)
@@ -219,6 +226,8 @@ namespace Subtext.Installation
 								transaction.Rollback();
 							return result;
 						}
+
+						UpdateCurrentInstalledVersion(assemblyVersion);
 						transaction.Rollback();
 						return false;
 					}
@@ -228,6 +237,87 @@ namespace Subtext.Installation
 						throw;
 					}
 				}
+			}
+		}
+
+		/// <summary>
+		/// Gets the <see cref="Version"/> of the current Subtext installation.
+		/// </summary>
+		/// <returns></returns>
+		public override Version GetCurrentInstalledVersion()
+		{
+			string sql = "[dbo].[subtext_VersionGetCurrent]";
+		
+			using(IDataReader reader = SqlHelper.ExecuteReader(_defaultConnectionString, CommandType.StoredProcedure, sql))
+			{
+				if(reader.Read())
+				{
+					Version version = new Version((int)reader["Major"], (int)reader["Minor"], (int)reader["Build"]);
+					reader.Close();
+					return version;
+				}
+				reader.Close();
+			}
+			return null;
+		}
+
+		/// <summary>
+		/// Updates the value of the current installed version within the subtext_Version table.
+		/// </summary>
+		/// <param name="newVersion">New version.</param>
+		public override void UpdateCurrentInstalledVersion(Version newVersion)
+		{
+			string sql = "[dbo].[subtext_VersionAdd]";
+			SqlParameter[] p =
+			{
+				CreateParameter("@Major", SqlDbType.Int, 4, newVersion.Major), 
+				CreateParameter("@Major", SqlDbType.Int, 4, newVersion.Minor), 
+				CreateParameter("@Build", SqlDbType.Int, 4, newVersion.Build)
+			};
+			SqlHelper.ExecuteNonQuery(_defaultConnectionString, CommandType.StoredProcedure, sql, p);
+		}
+
+		SqlParameter CreateParameter(string name, SqlDbType dbType, int size, object value)
+		{
+			SqlParameter param = new SqlParameter(name, dbType, size);
+			param.Value = value;
+			return param;
+		}
+
+		/// <summary>
+		/// Gets the framework version.
+		/// </summary>
+		/// <value></value>
+		public Version CurrentAssemblyVersion
+		{
+			get
+			{
+				if(_version == null)
+				{
+					_version = this.GetType().Assembly.GetName().Version;
+				}
+				return _version;
+			}
+		}
+
+		/// <summary>
+		/// Gets a value indicating whether the subtext installation needs an upgrade 
+		/// to occur.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if [needs upgrade]; otherwise, <c>false</c>.
+		/// </value>
+		bool NeedsUpgrade
+		{
+			get
+			{
+				Version installedVersion = GetCurrentInstalledVersion();
+				if(installedVersion > CurrentAssemblyVersion)
+				{
+					//TODO: check if we have any scripts between the current 
+					//		installed version and the current assemly version.
+				}
+				return false;
 			}
 		}
 
@@ -246,21 +336,12 @@ namespace Subtext.Installation
 		/// <value>
 		/// 	<c>true</c> if the blog content table exists; otherwise, <c>false</c>.
 		/// </value>
-		bool BlogContentTableExists
+		bool VersionTableExists
 		{
 			get
 			{
-				return DoesTableExist("subtext_content");
+				return DoesTableExist("subtext_Version");
 			}
-		}
-
-		bool BlogHostTableExists
-		{
-			get 
-			{ 
-				return DoesTableExist("subtext_Host");
-			}
-			
 		}
 
 		bool DoesTableExist(string tableName)

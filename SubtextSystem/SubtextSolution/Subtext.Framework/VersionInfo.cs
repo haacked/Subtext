@@ -41,7 +41,6 @@
 #endregion
 using System;
 using System.Globalization;
-using System.Reflection;
 
 namespace Subtext.Framework
 {

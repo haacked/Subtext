@@ -73,6 +73,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="host">The host information.</param>
 		public abstract bool UpdateHost(HostInfo host);
 		#endregion Host Data
+
 		#region Get Blog Data
 		/// <summary>
 		/// Returns the specified number of blog entries

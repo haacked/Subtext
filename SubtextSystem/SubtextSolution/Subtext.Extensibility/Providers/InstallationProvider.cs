@@ -58,20 +58,23 @@ namespace Subtext.Extensibility.Providers
 		/// <summary>
 		/// Gets the installation status.
 		/// </summary>
+		/// <param name="currentAssemblyVersion">The version of the assembly that represents this installation.</param>
 		/// <returns></returns>
-		public abstract InstallationState GetInstallationStatus();
+		public abstract InstallationState GetInstallationStatus(Version currentAssemblyVersion);
 
 		/// <summary>
 		/// Upgrades this instance. Returns true if it was successful.
 		/// </summary>
+		/// <param name="assemblyVersion">The new assembly version.</param>
 		/// <returns></returns>
-		public abstract bool Upgrade();
+		public abstract bool Upgrade(Version assemblyVersion);
 
 		/// <summary>
 		/// Installs this instance.  Returns true if it was successful.
 		/// </summary>
+		/// <param name="assemblyVersion">The current assembly version being installed.</param>
 		/// <returns></returns>
-		public abstract bool Install();
+		public abstract bool Install(Version assemblyVersion);
 
 		/// <summary>
 		/// Attempts to repair this instance. Returns true if it was successful.
@@ -88,6 +91,19 @@ namespace Subtext.Extensibility.Providers
 		/// 	<c>true</c> if this is an installation exception; otherwise, <c>false</c>.
 		/// </returns>
 		public abstract bool IsInstallationException(Exception exception);
+
+		/// <summary>
+		/// Gets the <see cref="Version"/> of the current Subtext installation.
+		/// </summary>
+		/// <returns></returns>
+		public abstract Version GetCurrentInstalledVersion();
+
+		/// <summary>
+		/// Updates the current installed version.
+		/// </summary>
+		/// <param name="newVersion">The new version that is now current.</param>
+		/// <returns></returns>
+		public abstract void UpdateCurrentInstalledVersion(Version newVersion);
 	}
 
 	/// <summary>

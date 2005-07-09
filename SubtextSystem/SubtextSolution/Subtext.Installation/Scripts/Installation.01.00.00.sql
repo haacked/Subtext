@@ -473,8 +473,6 @@ SET
 	PingTrackCount =  (Select Count(*) FROM [dbo].[subtext_Content] WHERE BlogID = [dbo].[subtext_Config].BlogID and PostType = 4 and PostConfig & 1 = 1)
 WHERE BlogID = @BlogID
 
-
-
 GO
 SET QUOTED_IDENTIFIER OFF 
 GO
@@ -488,9 +486,6 @@ CREATE TABLE [dbo].[subtext_Host] (
 	[Salt] [nvarchar] (32) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[DateCreated] [datetime] NOT NULL
 ) ON [PRIMARY]
-GO
-
-
 GO
 SET QUOTED_IDENTIFIER OFF 
 GO
@@ -511,5 +506,5 @@ ALTER TABLE [dbo].[subtext_Version] WITH NOCHECK ADD
 	(
 		[Id]
 	)  ON [PRIMARY] 
-GO
 
+GO

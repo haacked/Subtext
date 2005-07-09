@@ -183,22 +183,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "BlogNotConfiguredError.aspx"
-                    SubType = "Form"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "BlogNotConfiguredError.aspx.cs"
-                    DependentUpon = "BlogNotConfiguredError.aspx"
-                    SubType = "ASPXCodeBehind"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "BlogNotConfiguredError.aspx.resx"
-                    DependentUpon = "BlogNotConfiguredError.aspx.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "blue.css"
                     BuildAction = "Content"
                 />
@@ -4674,6 +4658,22 @@
                 <File
                     RelPath = "Images\xml.gif"
                     BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Install\BlogNotConfiguredError.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Install\BlogNotConfiguredError.aspx.cs"
+                    DependentUpon = "BlogNotConfiguredError.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Install\BlogNotConfiguredError.aspx.resx"
+                    DependentUpon = "BlogNotConfiguredError.aspx.cs"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "Install\Default.aspx"

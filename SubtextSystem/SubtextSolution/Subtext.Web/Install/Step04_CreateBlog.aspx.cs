@@ -73,6 +73,7 @@ namespace Subtext.Web.Install
 			{
 				//We probably should have creating the blog authenticate the user 
 				//automatically so this redirect doesn't require a login.
+				InstallationManager.ResetInstallationStatusCache();
 				Response.Redirect("~/Admin/Configure.aspx");
 			}
 			else

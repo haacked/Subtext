@@ -20,7 +20,7 @@ namespace Subtext.Web.Install
 	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-			if(InstallationManager.GetInstallationState() == InstallationState.Complete)
+			if(InstallationManager.GetCurrentInstallationState(VersionInfo.FrameworkVersion) == InstallationState.Complete)
 			{
 				Response.Redirect("InstallationComplete.aspx");
 			}

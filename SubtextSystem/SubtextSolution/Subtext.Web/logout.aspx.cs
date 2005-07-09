@@ -28,17 +28,16 @@ using Subtext.Framework.Configuration;
 namespace Subtext.Web.Pages
 {
 	/// <summary>
-	/// Summary description for login.
+	/// Logs a user out of the system.
 	/// </summary>
 	public class logout : System.Web.UI.Page
 	{
-	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
 			
 			HttpContext.Current.Response.Cookies.Clear();
 			System.Web.Security.FormsAuthentication.SignOut();
-			Response.Redirect(Config.CurrentBlog.RootUrl);
+			Response.Redirect(Config.CurrentBlog.RootUrl + "default.aspx");
 		}
 
 		#region Web Form Designer generated code
@@ -61,11 +60,6 @@ namespace Subtext.Web.Pages
 
 		}
 		#endregion
-
-		private void btnLogin_Click(object sender, System.EventArgs e)
-		{
-
-		}
 	}
 }
 

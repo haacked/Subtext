@@ -25,7 +25,6 @@ namespace Subtext.Framework.Providers
 		#region ObjectProvider Specific methods
 		#region Host
 
-		#endregion Host
 		/// <summary>
 		/// Returns the <see cref="HostInfo"/> for the Subtext installation.
 		/// </summary>
@@ -38,6 +37,8 @@ namespace Subtext.Framework.Providers
 		/// </summary>
 		/// <param name="hostInfo">The host information.</param>
 		public abstract bool UpdateHost(HostInfo hostInfo);
+		
+		#endregion Host
 		#region Blogs
 		/// <summary>
 		/// Gets a pageable <see cref="BlogInfoCollection"/> of <see cref="BlogInfo"/> instances.
