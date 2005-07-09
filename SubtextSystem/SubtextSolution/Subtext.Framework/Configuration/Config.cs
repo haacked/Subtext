@@ -249,10 +249,6 @@ namespace Subtext.Framework.Configuration
 				}
 			}
 			
-			if(Config.Settings.UseHashedPasswords)
-			{
-				info.Password = Security.HashPassword(info.Password);
-			}
 			info.IsPasswordHashed = Config.Settings.UseHashedPasswords;
 			info.AllowServiceAccess = Config.Settings.AllowServiceAccess;
 

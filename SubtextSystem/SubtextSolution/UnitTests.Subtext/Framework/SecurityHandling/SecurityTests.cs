@@ -2,19 +2,36 @@ using System;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web;
 using NUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 
-namespace UnitTests.Subtext.Framework
+namespace UnitTests.Subtext.Framework.SecurityHandling
 {
 	/// <summary>
-	/// Unit tests of the Subtext.Framework.Security class methods.
+	/// Summary description for SecurityTests.
 	/// </summary>
 	[TestFixture]
 	public class SecurityTests
 	{
+		string _hostName;
+
+		/// <summary>
+		/// Makes sure that the UpdatePassword method hashes the password.
+		/// </summary>
+		[Test]
+		[Rollback]
+		public void UpdatePasswordHashesPassword()
+		{
+			Config.Settings.UseHashedPasswords = true;
+			Config.CreateBlog("", "username", "thePassword", _hostName, "MyBlog");
+			string password = Security.HashPassword("newPass");
+
+			Security.UpdatePassword("newPass");
+			BlogInfo info = Config.GetBlogInfo(_hostName, "MyBlog");
+			Assert.AreEqual(password, info.Password);
+		}
+
 		/// <summary>
 		/// Basically a regression test of the HashPasswordMethod.
 		/// </summary>
@@ -64,22 +81,31 @@ namespace UnitTests.Subtext.Framework
 			Assert.IsTrue(Security.IsValidPassword(password));
 		}
 
-		[SetUp]
-		public void SetUp()
+		/// <summary>
+		/// Sets the up test fixture.  This is called once for 
+		/// this test fixture before all the tests run.  It 
+		/// essentially copies the App.config file to the 
+		/// run directory.
+		/// </summary>
+		[TestFixtureSetUp]
+		public void SetUpTestFixture()
 		{
-			Config.ConfigurationProvider = new UnitTestConfigProvider();
-
-			//This file needs to be there already.
 			UnitTestHelper.UnpackEmbeddedResource("App.config", "UnitTests.Subtext.dll.config");
 			
 			//Confirm app settings
 			Assert.AreEqual("~/Admin/Resources/PageTemplate.ascx", System.Configuration.ConfigurationSettings.AppSettings["Admin.DefaultTemplate"]) ;
 		}
+		
+		[SetUp]
+		public void SetUp()
+		{
+			_hostName = UnitTestHelper.GenerateUniqueHost();
+			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog");
+		}
 
 		[TearDown]
 		public void TearDown()
 		{
-			Config.ConfigurationProvider = null;
 		}
 	}
 }
