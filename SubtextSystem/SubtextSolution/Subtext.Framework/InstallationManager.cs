@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Specialized;
 using System.Web;
+using System.Web.UI;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Text;
@@ -125,12 +125,12 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
-		/// Gets the installation questions.
+		/// Gets the installation information control.
 		/// </summary>
 		/// <returns></returns>
-		public static NameValueCollection GetInstallationQuestions()
+		public static Control GetInstallationInformationControl()
 		{
-			return InstallationProvider.Instance().QueryInstallationInformation();	
+			return InstallationProvider.Instance().GatherInstallationInformation();	
 		}
 
 		/// <summary>
@@ -138,20 +138,20 @@ namespace Subtext.Framework
 		/// Returns a NameValueCollection of any fields that are incorrect 
 		/// with an explanation of why it is incorrect.
 		/// </summary>
-		/// <param name="answers">Information.</param>
+		/// <param name="populatedControl">Information.</param>
 		/// <returns></returns>
-		public static NameValueCollection ValidateInstallationAnswers(NameValueCollection answers)
+		public static string ValidateInstallationAnswers(Control populatedControl)
 		{
-			return InstallationProvider.Instance().ValidateInstallationInformation(answers);
+			return InstallationProvider.Instance().ValidateInstallationInformation(populatedControl);
 		}
 
 		/// <summary>
 		/// Sets the installation question answers.
 		/// </summary>
-		/// <param name="answers">Answers.</param>
-		public static void SetInstallationQuestionAnswers(NameValueCollection answers)
+		/// <param name="control">Control containing the user's answers.</param>
+		public static void SetInstallationQuestionAnswers(Control control)
 		{
-			InstallationProvider.Instance().ProvideInstallationInformation(answers);
+			InstallationProvider.Instance().ProvideInstallationInformation(control);
 		}
 	}
 }

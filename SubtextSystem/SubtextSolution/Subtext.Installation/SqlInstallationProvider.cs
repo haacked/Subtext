@@ -3,6 +3,9 @@ using System.Collections.Specialized;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
 using Subtext.Extensibility.Providers;
 
 namespace Subtext.Installation
@@ -26,6 +29,9 @@ namespace Subtext.Installation
 		public override void Initialize(string name, NameValueCollection configValue)
 		{
 			_name = name;
+			_defaultConnectionString = GetSettingValue("defaultConnectionString", configValue);
+			// Can specify this in web.config but it's better not to.
+			_adminConnectionString = GetSettingValue("adminConnectionString", configValue);
 		}
 
 		/// <summary>
@@ -47,22 +53,67 @@ namespace Subtext.Installation
 		/// to proceed with the installation.
 		/// </p>
 		/// <p>
-		/// The <see cref="NameValueCollection"/> returned by this method should 
-		/// contain entries with the Name being the piece of information being 
-		/// requested and the Value being a description of the requested information.
-		/// </p>
-		/// <p>
-		/// Upon gathering this information, the <see cref="Initialize"/> method 
-		/// will be called passing in a <see cref="NameValueCollection"/> with the 
-		/// values containing the user's input for each name.
+		/// This method returns the <see cref="Control"/> used to gather 
+		/// the required installation information.  This will be returned 
+		/// back to the provider after the user provides the information.
 		/// </p>
 		/// </summary>
 		/// <returns></returns>
-		public override NameValueCollection QueryInstallationInformation()
+		public override Control GatherInstallationInformation()
 		{
-			NameValueCollection information = new NameValueCollection();
-			information["Admin Connection String"] = "A SQL Connection String with the rights to create SQL Database objects such as Stored Procedures, Table, and Views.";
-			return information;
+			HtmlTable table = new HtmlTable();
+			table.ID = "installationQuestionTable";
+			table.CellPadding = 3;
+			table.CellSpacing = 0;
+
+			// Create header row
+			HtmlTableRow headerRow = new HtmlTableRow();
+			headerRow.BgColor = "#EEEEEE";
+			HtmlTableCell fieldCell = new HtmlTableCell("TH");
+			fieldCell.ColSpan = 2;
+			fieldCell.Controls.Add(new LiteralControl("<strong>Connection String</strong>"));
+			headerRow.Cells.Add(fieldCell);
+			table.Rows.Add(headerRow);
+
+			// Create Text Input Row
+			HtmlTableRow row = new HtmlTableRow();
+			row.VAlign = "top";
+			HtmlTableCell questionCell = new HtmlTableCell();
+			TextBox textbox = new TextBox();
+			textbox.ID = "txtAdminConnectionString";
+			questionCell.Controls.Add(textbox);
+			row.Cells.Add(questionCell);
+
+			HtmlTableCell descriptionCell = new HtmlTableCell();
+			descriptionCell.Controls.Add(new LiteralControl("A SQL Connection String with the rights to create SQL Database objects such as Stored Procedures, Table, and Views."));
+			row.Cells.Add(descriptionCell);
+			
+			table.Rows.Add(row);
+			
+			return table;
+		}
+
+		/// <summary>
+		/// Provides the installation information as provided by the user. 
+		/// The control passed in should be the same as that provided in 
+		/// <see cref="GatherInstallationInformation"/>, but with user values 
+		/// supplied within it.
+		/// </summary>
+		/// <param name="populatedControl">Populated control.</param>
+		public override void ProvideInstallationInformation(Control populatedControl)
+		{
+			this._adminConnectionString = GetConnectionStringFromControl(populatedControl);
+		}
+
+		string GetConnectionStringFromControl(Control populatedControl)
+		{
+			if(populatedControl != null)
+			{
+				TextBox textbox = populatedControl.FindControl("txtAdminConnectionString") as TextBox;
+				if(textbox != null)
+					return textbox.Text;
+			}
+			return string.Empty;
 		}
 
 		/// <summary>
@@ -70,28 +121,25 @@ namespace Subtext.Installation
 		/// Returns a NameValueCollection of any fields that are incorrect 
 		/// with an explanation of why it is incorrect.
 		/// </summary>
-		/// <param name="information">Information.</param>
+		/// <param name="control">Information.</param>
 		/// <returns></returns>
-		public override NameValueCollection ValidateInstallationInformation(NameValueCollection information)
+		public override string ValidateInstallationInformation(Control control)
 		{
-			NameValueCollection errors = new NameValueCollection();
-		
-			string connectionString = information["Admin Connection String"] as string;
+			string connectionString = GetConnectionStringFromControl(control);
+			string errorMessages = string.Empty;
 			if(connectionString == null || connectionString.Length == 0)
 			{
-				errors["Admin Connection String"] = "Was not specified.";
-				return errors;
+				errorMessages = "The Connection String was not specified.";
+				return errorMessages;
 			}
 
 			if(!TestAdminConnection(connectionString))
 			{
 				//TODO: Improve this error handling.
-				errors["Admin Connection String"] = "The connection string is invalid or does not have sufficient rights.";
-				return errors;
+				errorMessages = "The connection string is invalid or does not have sufficient rights.";
+				return errorMessages;
 			}
-
-		
-			return errors;
+			return string.Empty;
 		}
 
 		bool TestAdminConnection(string connectionString)
@@ -108,25 +156,6 @@ namespace Subtext.Installation
 			catch(Exception)
 			{
 				return false;
-			}
-		}
-
-		/// <summary>
-		/// Provides the installation information to this installation provider. 
-		/// See <see cref="QueryInstallationInformation"/> for more information.
-		/// </summary>
-		/// <param name="information">Information.</param>
-		public override void ProvideInstallationInformation(NameValueCollection information)
-		{
-			string adminConnectionString = information["Admin Connection String"] as string;
-			if(adminConnectionString != null && adminConnectionString.Length > 0)
-			{
-				_adminConnectionString = adminConnectionString;
-			}
-			string defaultConnectionString = information["Default Connection String"] as string;
-			if(defaultConnectionString != null && defaultConnectionString.Length > 0)
-			{
-				_defaultConnectionString = defaultConnectionString;
 			}
 		}
 

@@ -210,6 +210,21 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Providers\ImportProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Providers\ImportProviderConfiguration.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Providers\ImportProviderSectionHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Providers\InstallationProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
