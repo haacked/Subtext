@@ -88,8 +88,6 @@ namespace Subtext
 
 				if(!Regex.IsMatch(context.Request.Path,"rss|mainfeed|atom|services|opml",RegexOptions.IgnoreCase))
 				{
-
-					//Type t = Type.GetType("Subtext.Framework.Security, Subtext.Framework");
 					Version v =  Subtext.Framework.VersionInfo.FrameworkVersion; //t.Assembly.GetName().Version;
 					string machineName = System.Environment.MachineName;
 					Version framework = System.Environment.Version;

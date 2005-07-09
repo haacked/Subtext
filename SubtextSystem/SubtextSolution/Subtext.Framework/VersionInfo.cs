@@ -40,68 +40,81 @@
  ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 using System;
+using System.Globalization;
+using System.Reflection;
 
 namespace Subtext.Framework
 {
 	/// <summary>
-	/// Summary description for VersionInfo.
+	/// Class used to manage version information regarding 
+	/// Subtext.
 	/// </summary>
 	public sealed class VersionInfo 
 	{
 		private VersionInfo() {}
 
-		private static Version _version = null;
+		static Version _version = null;
+		static Uri _homePageUrl = new Uri("http://SubtextProject.com/");
 
+		/// <summary>
+		/// Gets the framework version.
+		/// </summary>
+		/// <value></value>
 		public static Version FrameworkVersion
 		{
 			get
 			{
 				if(_version == null)
 				{
-					string  a = Type.GetType("Subtext.Framework.VersionInfo").Assembly.Location;
-					_version = System.Reflection.AssemblyName.GetAssemblyName(a).Version;
-
+					_version = typeof(VersionInfo).Assembly.GetName().Version;
 				}
 				return _version;
 			}
-
 		}
 
-		public static string HomePage
+		/// <summary>
+		/// Gets the home page.
+		/// </summary>
+		/// <value></value>
+		public static Uri HomePageUrl
 		{
 			get
 			{
-				return "http://haacked.com/";
+				return _homePageUrl;
 			}
 		}
 
-		public static string Version
+		/// <summary>
+		/// Gets version information that is formatted for display.
+		/// </summary>
+		/// <value></value>
+		public static string VersionDisplayText
 		{
 			get
 			{
-				return string.Format(System.Globalization.CultureInfo.InvariantCulture, "Subtext Version {0}", FrameworkVersion);
+				return string.Format(CultureInfo.InvariantCulture, "Subtext Version {0}", FrameworkVersion);
 			}
 		}
 
+		/// <summary>
+		/// Returns a display string 
+		/// </summary>
+		/// <returns></returns>
 		public override string ToString()
 		{
-			return Version;
+			return VersionDisplayText;
 		}
 	
+		/// <summary>
+		/// Gets the user agent.
+		/// </summary>
+		/// <value></value>
 		public static string UserAgent 
 		{ 
 			get
 			{
-				return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} - {1}",Version,HomePage);
+				return string.Format(CultureInfo.InvariantCulture, "{0} - {1}", VersionDisplayText, HomePageUrl);
 			} 
-		}
-		
-		public static string Display
-		{
-			get
-			{
-				return "<a href = \"http://SubtextProject.com\">" + Version + "</a>";
-			}
 		}
 	}
 

@@ -113,7 +113,7 @@ namespace Subtext.Framework.Syndication
 			}
 			
 			//TODO: <category>One or more categories</category>
-			this.WriteElementString("generator", VersionInfo.Version);
+			this.WriteElementString("generator", VersionInfo.VersionDisplayText);
 
 			if(cclicense != null && cclicense.Length > 0)
 			{
