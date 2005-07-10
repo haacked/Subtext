@@ -54,7 +54,7 @@ namespace Subtext.Web.Admin.Import
 			}
 			else
 			{
-				string noDataNeededMessage = "It looks like this import tool doesn&#8217;t " 
+				string noDataNeededMessage = "It looks like this import wizard doesn&#8217;t " 
 					+ "need any more information.  You&#8217;re all set.";
 				this.plcImportInformation.Controls.Add(new LiteralControl(noDataNeededMessage));
 			}
