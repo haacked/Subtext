@@ -16,11 +16,14 @@ namespace Subtext.Web.Admin.Import
 		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
 		protected Subtext.Web.Controls.MasterPage MPContainer;
 		protected System.Web.UI.WebControls.Literal ltlErrorMessage;
+		protected System.Web.UI.WebControls.Button btnBeginImport;
+		protected System.Web.UI.HtmlControls.HtmlGenericControl paraBeginImportText;
 		ProviderInfo _providerInfo = null;
 		Control importInformationControl = null;
 
 		private void Page_Load(object sender, System.EventArgs e)
 		{
+			paraBeginImportText.Visible = false;
 			SetProviderFormQueryString();
 
 			BindImportInformationControl();
@@ -62,13 +65,47 @@ namespace Subtext.Web.Admin.Import
 			string errors = ImportManager.ValidateImportAnswers(importInformationControl, _providerInfo);
 			if(errors == null || errors.Length == 0)
 			{
-				ImportManager.SetImportQuestionAnswers(importInformationControl, _providerInfo);
-				Response.Redirect("//TODO:");
+				ImportManager.ValidateImportAnswers(importInformationControl, _providerInfo);
+				paraBeginImportText.Visible = true;
+				btnNext.Visible = false;
 			}
 			else
 			{
 				ltlErrorMessage.Text = errors;
 			}
+		}
+
+		private void btnBeginImport_Click(object sender, EventArgs e)
+		{
+			string errors = ImportManager.ValidateImportAnswers(importInformationControl, _providerInfo);
+			if(errors != null && errors.Length > 0)
+			{
+				//Ok, user must have changed the data despite disabling the control.
+				paraBeginImportText.Visible = false;
+				btnNext.Visible = true;
+				ltlErrorMessage.Text = errors;
+				return;
+			}
+
+			//Here we go.
+			try
+			{
+				if(ImportManager.Import(this.importInformationControl, this._providerInfo))
+				{
+					Response.Redirect("ImportComplete.aspx");	
+					return;
+				}
+				else
+				{
+					this.ltlErrorMessage.Text = "An unexpected unknown error occured.  I know, the worst kind.";
+				}
+			}
+			catch(Exception exception)
+			{
+				this.ltlErrorMessage.Text = "Oooh. We had trouble with the import.  The error message follows : " + exception.Message;
+			}
+			paraBeginImportText.Visible = false;
+			btnNext.Visible = true;
 		}
 
 		#region Web Form Designer generated code
@@ -87,12 +124,11 @@ namespace Subtext.Web.Admin.Import
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.btnBeginImport.Click += new EventHandler(btnBeginImport_Click);
 			this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
 			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion
-
-		
 	}
 }

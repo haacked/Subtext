@@ -676,6 +676,22 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "Admin\Import\ImportComplete.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Import\ImportComplete.aspx.cs"
+                    DependentUpon = "ImportComplete.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\Import\ImportComplete.aspx.resx"
+                    DependentUpon = "ImportComplete.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Admin\Import\PageTemplate.ascx"
                     SubType = "UserControl"
                     BuildAction = "Content"

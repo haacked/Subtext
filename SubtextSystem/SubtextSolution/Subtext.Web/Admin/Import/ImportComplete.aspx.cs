@@ -1,18 +1,29 @@
 using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Web;
+using System.Web.SessionState;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
 
 namespace Subtext.Web.Admin.Import
 {
 	/// <summary>
-	/// Summary description for _Default.
+	/// Summary description for ImportComplete.
 	/// </summary>
-	public class _Default : System.Web.UI.Page
+	public class ImportComplete : System.Web.UI.Page
 	{
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
 		protected Subtext.Web.Controls.MasterPage MPContainer;
-		protected System.Web.UI.WebControls.Button btnNext;
+		protected System.Web.UI.HtmlControls.HtmlAnchor lnkHostAdmin;
+	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
+			// Put user code to initialize the page here
 		}
 
 		#region Web Form Designer generated code
@@ -31,15 +42,9 @@ namespace Subtext.Web.Admin.Import
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
 			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion
-
-		private void btnNext_Click(object sender, EventArgs e)
-		{
-			Response.Redirect("Step01_SelectImportProvider.aspx");
-		}
 	}
 }

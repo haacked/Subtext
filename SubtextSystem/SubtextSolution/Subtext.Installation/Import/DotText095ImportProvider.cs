@@ -14,9 +14,6 @@ namespace Subtext.Installation.Import
 	/// </summary>
 	public class DotText095ImportProvider : ImportProvider
 	{
-		string _subtextConnectionString = null;
-		string _dotTextConnectionString = null;
-
 		/// <summary>
 		/// Initializes this import provider.
 		/// </summary>
@@ -24,16 +21,6 @@ namespace Subtext.Installation.Import
 		/// <param name="configValue">Config value.</param>
 		public override void Initialize(string name, NameValueCollection configValue)
 		{
-			_subtextConnectionString = GetSettingValue("connectionString", configValue);
-		}
-
-		/// <summary>
-		/// Imports data into this instance.
-		/// </summary>
-		/// <returns></returns>
-		public override bool Import()
-		{
-			return false;
 		}
 
 		/// <summary>
@@ -55,13 +42,15 @@ namespace Subtext.Installation.Import
 			if(builder.ID == null || builder.ID.Length == 0)
 				builder.ID = "ctlConnectionStringBuilder";
 			builder.Title = ".TEXT Connection String";
-			builder.Description = "A SQL Server Connection String that can connect to and read from your .TEXT database.";
+			builder.Description = "A SQL Server Connection String that can connect to and " 
+				+ "read from your .TEXT database.";
 
 			ConnectionStringBuilder subtextBuilder = new ConnectionStringBuilder();
 			if(subtextBuilder.ID == null || subtextBuilder.ID.Length == 0)
 				subtextBuilder.ID = "ctlSubtextConnectionStringBuilder";
 			subtextBuilder.Title = "Subtext Connection String";
-			subtextBuilder.Description = "A SQL Server Connection String that can connect to your Subtext database and has permissions to directly DELETE and INSERT records.";
+			subtextBuilder.Description = "A SQL Server Connection String that can connect " 
+				+ "to your Subtext database and has permissions to directly DELETE and INSERT records.";
 			
 			Panel panel = new Panel();
 			panel.Controls.Add(builder);
@@ -78,13 +67,13 @@ namespace Subtext.Installation.Import
 		/// supplied within it.
 		/// </summary>
 		/// <param name="populatedControl">Populated control.</param>
-		public override void ProvideImportInformation(Control populatedControl)
+		public override bool Import(Control populatedControl)
 		{
-			ConnectionStringBuilder control = populatedControl as ConnectionStringBuilder;
-			if(control != null)
-			{
-				_dotTextConnectionString = control.ConnectionString;
-			}
+			string subtextConnectionString;
+			string dotTextConnectionString;
+			GetConnectionStringsFromControl(populatedControl, out dotTextConnectionString, out subtextConnectionString);
+
+			throw new NotImplementedException("Sorry, the import is not yet implemented.");
 		}
 
 		/// <summary>
@@ -98,37 +87,35 @@ namespace Subtext.Installation.Import
 			if(populatedControl == null)
 				throw new ArgumentNullException("populatedControl", "Hello, sorry, but we really can't validate a null control.");
 
-			ConnectionStringBuilder control = populatedControl.FindControl("ctlConnectionStringBuilder") as ConnectionStringBuilder;
-			_dotTextConnectionString = control.ConnectionString;
+			string subtextConnectionString;
+			string dotTextConnectionString;
+			GetConnectionStringsFromControl(populatedControl, out dotTextConnectionString, out subtextConnectionString);
 
-			control = populatedControl.FindControl("ctlSubtextConnectionStringBuilder") as ConnectionStringBuilder;
-			_subtextConnectionString = control.ConnectionString;
-
-			if(_dotTextConnectionString == null || _dotTextConnectionString.Length == 0)
+			if(dotTextConnectionString == null || dotTextConnectionString.Length == 0)
 				return "Please specify a valid connection string to the .TEXT 0.95 database.";
 
-			if(_subtextConnectionString == null || _subtextConnectionString.Length == 0)
+			if(subtextConnectionString == null || subtextConnectionString.Length == 0)
 				return "Please specify a valid connection string to the Subtext database.";
 
 			try
 			{
-				if(!DoesTableExist("blog_config"))
+				if(!DoesTableExist("blog_config", dotTextConnectionString))
 				{
 					string errorMessage = "I&#8217;m sorry, but it does not appear that " 
 						+ "there is a .TEXT database corresponding to the connection string provided. " 
 						+ "Please double check that the &#8220;blog_config&#8221; table exists.  If it does, " 
 						+ "double check that it was created using the [dbo] account OR by the same user " 
-						+ "specified in the connection string you provided.";
+						+ "specified in the .TEXT connection string below.";
 					return errorMessage;
 				}
 
-				if(!DoesTableExist("subtext_config"))
+				if(!DoesTableExist("subtext_config", subtextConnectionString))
 				{
 					string errorMessage = "I&#8217;m sorry, but it does not appear that " 
 						+ "there is a Subtext database corresponding to the connection string provided. " 
 						+ "Please double check that the &#8220;subtext_config&#8221; table exists.  If it does, " 
 						+ "double check that it was created using the [dbo] account OR by the same user " 
-						+ "specified in the connection string you provided.";
+						+ "specified in the .sUBTEXT connection string below.";
 					return errorMessage;
 				}
 			}
@@ -144,16 +131,25 @@ namespace Subtext.Installation.Import
 			return string.Empty;
 		}
 
-		bool DoesTableExist(string tableName)
+		private static void GetConnectionStringsFromControl(Control populatedControl, out string dotTextConnectionString, out string subtextConnectionString)
 		{
-			return 0 < GetTableCount(tableName);
+			ConnectionStringBuilder control = populatedControl.FindControl("ctlConnectionStringBuilder") as ConnectionStringBuilder;
+			dotTextConnectionString = control.ConnectionString;
+
+			control = populatedControl.FindControl("ctlSubtextConnectionStringBuilder") as ConnectionStringBuilder;
+			subtextConnectionString = control.ConnectionString;
 		}
 
-		int GetTableCount(string tableName)
+		bool DoesTableExist(string tableName, string connectionString)
+		{
+			return 0 < GetTableCount(tableName, connectionString);
+		}
+
+		int GetTableCount(string tableName, string connectionString)
 		{
 			const string TableExistsSql = "SELECT COUNT(1) FROM dbo.sysobjects WHERE id = object_id(N'[{0}]') and OBJECTPROPERTY(id, N'IsUserTable') = 1";
 			string blogContentTableSql = String.Format(TableExistsSql, tableName);			
-			return (int)SqlHelper.ExecuteScalar(this._dotTextConnectionString, CommandType.Text, blogContentTableSql);
+			return (int)SqlHelper.ExecuteScalar(connectionString, CommandType.Text, blogContentTableSql);
 		}
 	}
 }
