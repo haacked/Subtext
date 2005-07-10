@@ -245,6 +245,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Providers\ProviderCollection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Providers\ProviderConfiguration.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

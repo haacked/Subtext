@@ -30,6 +30,17 @@ namespace Subtext.Extensibility.Providers
 		public abstract string Name { get; }
 
 		/// <summary>
+		/// Gets the providers installed using the section name.
+		/// </summary>
+		/// <param name="sectionName">Name of the section.</param>
+		/// <returns></returns>
+		protected static ProviderCollection GetProviders(string sectionName)
+		{
+			ProviderConfiguration config = (ProviderConfiguration)ConfigurationSettings.GetConfig(sectionName);
+			return config.Providers;
+		}
+
+		/// <summary>
 		/// Returns an instance of this provider loaded from the specified section name.
 		/// </summary>
 		/// <returns></returns>
@@ -48,29 +59,31 @@ namespace Subtext.Extensibility.Providers
 
 			// Use the cache because the reflection used later is expensive
 			Cache cache = HttpRuntime.Cache;
-			Type type = null;
-			string cacheKey = null;
 
 			ProviderConfiguration config = (ProviderConfiguration)ConfigurationSettings.GetConfig(sectionName);
 
 			// Read the configuration specific information
 			// for this provider
-			ProviderInfo providerInfo = (ProviderInfo)config.Providers[config.DefaultProvider];
+			ProviderInfo providerInfo = config.Providers.DefaultProvider;
 
-			// In the cache?
-			cacheKey = sectionName + "::" + config.DefaultProvider;
-			if ( cache[cacheKey] == null ) 
+			// Is the actual provider In the cache?
+			string cacheKey = sectionName + "::";
+
+			if(providerInfo != null)
+				cacheKey += providerInfo.Name;
+
+			if (cache[cacheKey] == null) 
 			{
 				// The assembly should be in \bin or GAC, so we simply need
 				// to get an instance of the type
 				try 
 				{
-					type = Type.GetType( providerInfo.Type );
+					Type type = Type.GetType(providerInfo.Type);
 
 					// Insert the type into the cache
 					// Provider Types must have a default no parameter constructor
 					Type[] paramTypes = new Type[0];
-					cache.Insert( cacheKey, type.GetConstructor(paramTypes) );
+					cache.Insert(cacheKey, type.GetConstructor(paramTypes));
 				} 
 				catch (Exception e) 
 				{

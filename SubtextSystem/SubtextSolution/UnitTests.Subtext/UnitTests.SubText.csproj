@@ -322,8 +322,9 @@
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
+                <Folder RelPath = "Framework\Format\" />
                 <File
-                    RelPath = "Framework\Format\UrlFormatsTests.cs"
+                    RelPath = "Framework\Providers\ImportProviderTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

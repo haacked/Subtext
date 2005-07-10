@@ -10,6 +10,7 @@ namespace Subtext.Web.Install
 	{
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
+		protected System.Web.UI.HtmlControls.HtmlAnchor lnkHostAdmin;
 		protected Subtext.Web.Controls.MasterPage MPContainer;
 	
 		private void Page_Load(object sender, System.EventArgs e)

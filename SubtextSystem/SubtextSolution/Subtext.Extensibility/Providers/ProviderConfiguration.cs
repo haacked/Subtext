@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Xml;
 
 namespace Subtext.Extensibility.Providers
@@ -9,8 +8,7 @@ namespace Subtext.Extensibility.Providers
 	/// </summary>
 	public class ProviderConfiguration
 	{
-		string _defaultProvider;
-		Hashtable _providers = new Hashtable();
+		ProviderCollection _providers = new ProviderCollection();
 
 		/// <summary>
 		/// Loads information about configured providers from the 
@@ -19,8 +17,12 @@ namespace Subtext.Extensibility.Providers
 		/// <param name="node">Node.</param>
 		public virtual void LoadValuesFromConfigurationXml(XmlNode node)
 		{
+			string defaultProviderName = null;
 			// Get the default provider
-			_defaultProvider = node.Attributes["defaultProvider"].Value;
+			if(node.Attributes["defaultProvider"] != null)
+			{
+				defaultProviderName = node.Attributes["defaultProvider"].Value;
+			}
 
 			// Read child nodes
 			foreach (XmlNode child in node.ChildNodes) 
@@ -29,10 +31,11 @@ namespace Subtext.Extensibility.Providers
 					GetProviders(child);
 			}
 
-			if((_defaultProvider == null || _defaultProvider.Length == 0) && _providers.Count > 0)
+			if((defaultProviderName == null || defaultProviderName.Length == 0) && _providers.Count > 0)
 			{
-				_defaultProvider = ((ProviderInfo)_providers[0]).Name;
+				defaultProviderName = _providers[0].Name;
 			}
+			_providers.DefaultProvider = _providers[defaultProviderName];
 		}
 
 		void GetProviders(XmlNode node) 
@@ -42,7 +45,7 @@ namespace Subtext.Extensibility.Providers
 				switch (provider.Name) 
 				{
 					case "add" :
-						_providers.Add(provider.Attributes["name"].Value, new ProviderInfo(provider.Attributes) );
+						_providers.Add(new ProviderInfo(provider.Attributes) );
 						break;
 
 					case "remove" :
@@ -57,20 +60,11 @@ namespace Subtext.Extensibility.Providers
 		}
 
 		/// <summary>
-		/// Gets the default provider.
-		/// </summary>
-		/// <value></value>
-		public string DefaultProvider
-		{
-			get { return _defaultProvider; }
-		}
-
-		/// <summary>
 		/// Returns a collection of <see cref="ProviderInfo"/> instances configured 
 		/// within the config file.
 		/// </summary>
 		/// <value></value>
-		public Hashtable Providers
+		public ProviderCollection Providers
 		{
 			get
 			{

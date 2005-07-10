@@ -9,8 +9,9 @@ namespace Subtext.Extensibility.Providers
 	/// </summary>
 	public class ProviderInfo 
 	{
-		string name;
-		string providerType;
+		string name = string.Empty;
+		string providerType = string.Empty;
+		string _description = string.Empty;
 		NameValueCollection providerAttributes = new NameValueCollection();
 
 		/// <summary>
@@ -25,10 +26,13 @@ namespace Subtext.Extensibility.Providers
 			// Set the type of the provider
 			providerType = attributes["type"].Value;
 
+			if(attributes["description"] != null)
+				_description = attributes["description"].Value;
+
 			// Store all the attributes in the attributes bucket
 			foreach (XmlAttribute attribute in attributes) 
 			{
-				if ( (attribute.Name != "name") && (attribute.Name != "type") )
+				if ((attribute.Name != "name") && (attribute.Name != "type") && (attribute.Name != "description"))
 					providerAttributes.Add(attribute.Name, attribute.Value);
 			}
 		}
@@ -54,6 +58,18 @@ namespace Subtext.Extensibility.Providers
 			get 
 			{
 				return providerType;
+			}
+		}
+
+		/// <summary>
+		/// Gets the description.
+		/// </summary>
+		/// <value></value>
+		public string Description
+		{
+			get
+			{
+				return _description;
 			}
 		}
 
