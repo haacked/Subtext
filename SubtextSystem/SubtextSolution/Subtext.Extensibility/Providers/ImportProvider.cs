@@ -68,12 +68,6 @@ namespace Subtext.Extensibility.Providers
 		}
 
 		/// <summary>
-		/// Imports data into this instance.
-		/// </summary>
-		/// <returns></returns>
-		public abstract bool Import();
-
-		/// <summary>
 		/// <p>
 		/// This method is called by the import engine in order to ask the 
 		/// provider what pieces of information it needs from the user in order 
@@ -90,13 +84,13 @@ namespace Subtext.Extensibility.Providers
 
 		/// <summary>
 		/// Provides the import information as provided by the user back 
-		/// into the import provider. 
+		/// into the import provider and begins the import.
 		/// The control passed in should be the same as that provided in 
 		/// <see cref="GatherImportInformation"/>, but with user values 
 		/// supplied within it.
 		/// </summary>
 		/// <param name="populatedControl">Populated control.</param>
-		public abstract void ProvideImportInformation(Control populatedControl);
+		public abstract bool Import(Control populatedControl);
 
 		/// <summary>
 		/// Validates the installation information provided by the user.  

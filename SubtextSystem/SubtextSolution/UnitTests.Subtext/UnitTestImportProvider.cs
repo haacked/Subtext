@@ -10,15 +10,6 @@ namespace UnitTests.Subtext
 	public class UnitTestImportProvider : ImportProvider
 	{
 		/// <summary>
-		/// Imports data into this instance.
-		/// </summary>
-		/// <returns></returns>
-		public override bool Import()
-		{
-			throw new NotImplementedException();
-		}
-
-		/// <summary>
 		/// <p>
 		/// This method is called by the import engine in order to ask the 
 		/// provider what pieces of information it needs from the user in order 
@@ -38,13 +29,13 @@ namespace UnitTests.Subtext
 
 		/// <summary>
 		/// Provides the import information as provided by the user back 
-		/// into the import provider. 
+		/// into the import provider and begins the import.
 		/// The control passed in should be the same as that provided in 
 		/// <see cref="GatherImportInformation"/>, but with user values 
 		/// supplied within it.
 		/// </summary>
 		/// <param name="populatedControl">Populated control.</param>
-		public override void ProvideImportInformation(Control populatedControl)
+		public override bool Import(Control populatedControl)
 		{
 			throw new NotImplementedException();
 		}

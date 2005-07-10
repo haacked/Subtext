@@ -36,12 +36,12 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
-		/// Sets the import question answers.
+		/// Begins the import using the information within the populated Control.
 		/// </summary>
-		/// <param name="control">Control containing the user's answers.</param>
-		public static void SetImportQuestionAnswers(Control control, ProviderInfo providerInfo)
+		/// <param name="populatedControl">Control containing the user's answers.</param>
+		public static bool Import(Control populatedControl, ProviderInfo providerInfo)
 		{
-			ImportProvider.Instance(providerInfo).ProvideImportInformation(control);
+			return ImportProvider.Instance(providerInfo).Import(populatedControl);
 		}
 	}
 }
