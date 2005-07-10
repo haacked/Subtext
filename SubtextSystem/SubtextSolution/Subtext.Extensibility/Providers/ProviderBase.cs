@@ -41,7 +41,8 @@ namespace Subtext.Extensibility.Providers
 		}
 
 		/// <summary>
-		/// Returns an instance of this provider loaded from the specified section name.
+		/// Instantiates and returns the default instance of the provider loaded from 
+		/// the specified section name.
 		/// </summary>
 		/// <returns></returns>
 		protected static ProviderBase Instance(string sectionName) 
@@ -58,20 +59,37 @@ namespace Subtext.Extensibility.Providers
 			}
 
 			// Use the cache because the reflection used later is expensive
-			Cache cache = HttpRuntime.Cache;
-
 			ProviderConfiguration config = (ProviderConfiguration)ConfigurationSettings.GetConfig(sectionName);
 
-			// Read the configuration specific information
-			// for this provider
-			ProviderInfo providerInfo = config.Providers.DefaultProvider;
+			ProviderBase provider = Instance(sectionName, config.Providers.DefaultProvider);
+
+			// It's possible that at this point, another thread has already 
+			// added the correct provider to this hashtable.  That we might be 
+			// overwriting that instance is not a big problem as a provider doesn't 
+			// have changing state and this one will be essentially a copy of the 
+			// existing one.  Also, it's a rare thing to occur.  So we don't lock 
+			// for maximum throughput.
+			_providers[sectionName] = provider;
+			return provider;
+		}
+
+		/// <summary>
+		/// Instantiates and returns an instance of this provider loaded from 
+		/// the specified section name matching the specified <see cref="ProviderInfo"/>.
+		/// </summary>
+		/// <param name="sectionName">Name of the section.</param>
+		/// <param name="providerInfo">Provider info.</param>
+		/// <returns></returns>
+		public static ProviderBase Instance(string sectionName, ProviderInfo providerInfo)
+		{
+			Cache cache = HttpRuntime.Cache;
 
 			// Is the actual provider In the cache?
 			string cacheKey = sectionName + "::";
-
+	
 			if(providerInfo != null)
 				cacheKey += providerInfo.Name;
-
+	
 			if (cache[cacheKey] == null) 
 			{
 				// The assembly should be in \bin or GAC, so we simply need
@@ -90,18 +108,10 @@ namespace Subtext.Extensibility.Providers
 					throw new Exception("Unable to load provider type '" + providerInfo.Type + "'", e);
 				}
 			}
-
+	
 			ConstructorInfo constructor = cache[cacheKey] as ConstructorInfo;
 			ProviderBase provider = (ProviderBase)(constructor.Invoke(new object[] {}));
 			provider.Initialize(providerInfo.Name, providerInfo.Attributes);
-			
-			// It's possible that at this point, another thread has already 
-			// added the correct provider to this hashtable.  That we might be 
-			// overwriting that instance is not a big problem as a provider doesn't 
-			// have changing state and this one will be essentially a copy of the 
-			// existing one.  Also, it's a rare thing to occur.  So we don't lock 
-			// for maximum throughput.
-			_providers[sectionName] = provider;
 			return provider;
 		}
 

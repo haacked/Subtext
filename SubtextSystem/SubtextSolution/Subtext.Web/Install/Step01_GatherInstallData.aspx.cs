@@ -35,6 +35,10 @@ namespace Subtext.Web.Install
 		public override void DataBind()
 		{
 			installationInformationControl = InstallationManager.GetInstallationInformationControl();
+			
+			if(installationInformationControl.ID == null || installationInformationControl.ID.Length == 0)
+				installationInformationControl.ID = "installationInformationControl";
+			
 			pnlInstallationInformation.Controls.Add(installationInformationControl);
 			base.DataBind ();
 		}
@@ -52,7 +56,6 @@ namespace Subtext.Web.Install
 				ltlErrorMessage.Text = errors;
 			}
 		}
-
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
