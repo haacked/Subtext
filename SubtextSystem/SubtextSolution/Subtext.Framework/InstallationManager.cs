@@ -135,8 +135,8 @@ namespace Subtext.Framework
 
 		/// <summary>
 		/// Validates the installation information provided by the user.  
-		/// Returns a NameValueCollection of any fields that are incorrect 
-		/// with an explanation of why it is incorrect.
+		/// Returns a string with error information.  The string is 
+		/// empty if there are no errors.
 		/// </summary>
 		/// <param name="populatedControl">Information.</param>
 		/// <returns></returns>

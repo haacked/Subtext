@@ -697,6 +697,22 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "Admin\Import\Step02_GatherInfo.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Import\Step02_GatherInfo.aspx.cs"
+                    DependentUpon = "Step02_GatherInfo.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\Import\Step02_GatherInfo.aspx.resx"
+                    DependentUpon = "Step02_GatherInfo.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Admin\Resources\admin.css"
                     BuildAction = "Content"
                 />

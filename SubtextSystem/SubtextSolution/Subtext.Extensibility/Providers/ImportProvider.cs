@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Specialized;
 using System.Web.UI;
 
 namespace Subtext.Extensibility.Providers
@@ -10,14 +11,46 @@ namespace Subtext.Extensibility.Providers
 	public abstract class ImportProvider : ProviderBase
 	{
 		const string SECTION_NAME = "Import";
+		string _name;
 
 		/// <summary>
-		/// Returns the configured concrete instance of a <see cref="InstallationProvider"/>.
+		/// Instantiates and returns the configured concrete 
+		/// default instance of a <see cref="ImportProvider"/>.
 		/// </summary>
 		/// <returns></returns>
-		public static InstallationProvider Instance()
+		public static ImportProvider Instance()
 		{
-			return (InstallationProvider)ProviderBase.Instance(SECTION_NAME);
+			return (ImportProvider)ProviderBase.Instance(SECTION_NAME);
+		}
+
+		/// <summary>
+		/// Instantiates and returns the <see cref="ImportProvider"/> specified 
+		/// by the <see cref="ProviderInfo"/> instance.
+		/// </summary>
+		/// <param name="providerInfo">Name of the provider.</param>
+		/// <returns></returns>
+		public static ImportProvider Instance(ProviderInfo providerInfo)
+		{
+			return (ImportProvider)ProviderBase.Instance(SECTION_NAME, providerInfo);
+		}
+
+		/// <summary>
+		/// Initializes the specified provider.
+		/// </summary>
+		/// <param name="name">Friendly Name of the provider.</param>
+		/// <param name="configValue">Config value.</param>
+		public override void Initialize(string name, NameValueCollection configValue)
+		{
+			_name = name;
+		}
+
+		/// <summary>
+		/// Gets or sets the name.
+		/// </summary>
+		/// <value></value>
+		public override string Name
+		{
+			get { return _name; }
 		}
 
 		/// <summary>
