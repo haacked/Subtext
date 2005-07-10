@@ -40,7 +40,7 @@
 	</p>
 	<ol>
 		<li><strong>Web Based Installer</strong> - Supports clean install and future upgrades.</li>
-		<li><strong>.TEXT 0.95 Import Tool</strong></li>
+		<li><strong>.TEXT 0.95 Import Wizard</strong></li>
 		<li>
 			<strong>Table and Stored Procedures Prefix</strong> - Allows users to specify 
 			a prefix for all tables and stored procedures within the web.config file.  This is 

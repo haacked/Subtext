@@ -8,4 +8,8 @@
 		Click <A id="lnkHostAdmin" href="~/HostAdmin/" runat="server">here</A> to visit 
 		the Host Admin tool.
 	</p>
+	<p>
+		If you need to import data from another blogging engine, try 
+		the <a href="~/Admin/Import/" runat="server" id="importWizardAnchor">Import Wizard</a>.
+	</p>
 </MP:MasterPage>
