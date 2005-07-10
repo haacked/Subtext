@@ -150,6 +150,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Import\DotText095ImportProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Scripts\DropTables.sql"
                     BuildAction = "EmbeddedResource"
                 />

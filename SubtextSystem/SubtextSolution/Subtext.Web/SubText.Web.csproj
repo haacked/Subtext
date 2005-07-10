@@ -660,6 +660,43 @@
                     BuildAction = "None"
                 />
                 <File
+                    RelPath = "Admin\Import\Default.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Import\Default.aspx.cs"
+                    DependentUpon = "Default.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\Import\Default.aspx.resx"
+                    DependentUpon = "Default.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Admin\Import\PageTemplate.ascx"
+                    SubType = "UserControl"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Import\Step01_SelectImportProvider.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Import\Step01_SelectImportProvider.aspx.cs"
+                    DependentUpon = "Step01_SelectImportProvider.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\Import\Step01_SelectImportProvider.aspx.resx"
+                    DependentUpon = "Step01_SelectImportProvider.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Admin\Resources\admin.css"
                     BuildAction = "Content"
                 />

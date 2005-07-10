@@ -9,13 +9,29 @@ namespace Subtext.Extensibility.Providers
 	/// </summary>
 	public abstract class ImportProvider : ProviderBase
 	{
+		const string SECTION_NAME = "Import";
+
 		/// <summary>
 		/// Returns the configured concrete instance of a <see cref="InstallationProvider"/>.
 		/// </summary>
 		/// <returns></returns>
 		public static InstallationProvider Instance()
 		{
-			return (InstallationProvider)ProviderBase.Instance("Import");
+			return (InstallationProvider)ProviderBase.Instance(SECTION_NAME);
+		}
+
+		/// <summary>
+		/// Returns a <see cref="ProviderCollection"/> containing <see cref="ProviderInfo"/> 
+		/// instances for each <see cref="ImportProvider"/>.  Note that these are not the 
+		/// actual providers, simply information about the installed providers.
+		/// </summary>
+		/// <value></value>
+		public static ProviderCollection Providers
+		{
+			get
+			{
+				return ProviderBase.GetProviders(SECTION_NAME);
+			}
 		}
 
 		/// <summary>

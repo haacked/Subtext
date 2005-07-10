@@ -172,7 +172,14 @@ namespace Subtext
 					Server.Transfer(BAD_CONNECTION_STRING_PAGE);
 					return;
 				}
+			}
 
+			if(exception is HttpException)
+			{
+				if(((HttpException)exception).GetHttpCode() == 404)
+				{
+					return;
+				}
 				// I don't know that Context can ever be null in the pipe, but we'll play it
 				// extra safe. If customErrors are off, we'll just let ASP.NET default happen.
 				if (Context != null && Context.IsCustomErrorEnabled)

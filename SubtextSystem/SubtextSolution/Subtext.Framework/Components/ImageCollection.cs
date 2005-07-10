@@ -33,7 +33,6 @@ namespace Subtext.Framework.Components
 	[Serializable]
 	public class ImageCollection: CollectionBase
 	{
-
 		private LinkCategory _lc;
 		public LinkCategory Category
 		{
