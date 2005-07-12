@@ -73,7 +73,38 @@ namespace Subtext.Installation.Import
 			string dotTextConnectionString;
 			GetConnectionStringsFromControl(populatedControl, out dotTextConnectionString, out subtextConnectionString);
 
-			throw new NotImplementedException("Sorry, the import is not yet implemented.");
+			/*
+			using(SqlConnection connection = new SqlConnection(subtextConnectionString))
+			{
+				connection.Open();
+				using(SqlTransaction transaction = connection.BeginTransaction())
+				{
+					try
+					{
+						// Hmmm... we can't assume that the .TEXT database is on the same 
+						// server (or database) as our database.  We might have to do a 
+						// cross database join.  We might need to do something more tricky here.
+						if(ScriptHelper.ExecuteScript("ImportDotText095.sql", transaction))
+						{
+							bool result = ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction);
+							if(result)
+								transaction.Commit();
+							else
+								transaction.Rollback();
+							return result;
+						}						
+						transaction.Rollback();
+						return false;
+					}
+					catch(SqlException)
+					{
+						transaction.Rollback();
+						throw;
+					}
+				}
+			}
+			*/
+			throw new NotImplementedException("Sorry, this is not yet implemented.");
 		}
 
 		/// <summary>
