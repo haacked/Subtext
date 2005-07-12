@@ -59,7 +59,7 @@ namespace Subtext.Framework
 		/// <param name="persist">Should this ticket be persisted</param>
 		private static void SetTicket(string username, bool persist)
 		{
-			FormsAuthentication.SetAuthCookie(username,persist);
+			FormsAuthentication.SetAuthCookie(username, persist);
 		}
 
 		//From Forums Source Code
