@@ -242,6 +242,7 @@ namespace Subtext.Web.Controls
 		/// <param name="searched">The string to check its start.</param>
 		/// <param name="prefix">The string to search for at the beginning of the searched string.</param>
 		/// <param name="ignoreCase">Ignore case.</param>
+		/// <exception cref="NullReferenceException">Thrown if the search string or prefix is null.</exception>
 		/// <returns></returns>
 		public static bool StartsWith(string searched, string prefix, bool ignoreCase)
 		{

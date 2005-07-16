@@ -2,7 +2,6 @@ using System;
 using System.Globalization;
 using Subtext.Extensibility;
 using Subtext.Framework;
-using Subtext.Framework.Components;
 using Subtext.Framework.Format;
 
 #region Disclaimer/Info

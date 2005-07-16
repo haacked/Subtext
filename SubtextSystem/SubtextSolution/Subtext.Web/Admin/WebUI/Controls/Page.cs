@@ -43,7 +43,7 @@ namespace Subtext.Web.Admin.WebUI
 	// add appropriate actions.
 	[
 		ToolboxData("<{0}:AdminPage runat=server></{0}:AdminPage>"),
-		ToolboxItem(typeof(WebControlToolboxItem)),
+			ToolboxItem(typeof(WebControlToolboxItem)),
 	Designer(typeof(ReadWriteControlDesigner))
 	]
 	public class Page : System.Web.UI.HtmlControls.HtmlContainerControl

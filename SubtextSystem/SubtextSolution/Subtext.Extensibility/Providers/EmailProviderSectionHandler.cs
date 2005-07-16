@@ -1,5 +1,4 @@
 using System;
-using Subtext.Extensibility.Providers;
 
 namespace Subtext.Extensibility.Providers
 {

@@ -24,11 +24,11 @@
 using System;
 using System.Web;
 using System.Xml;
+using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Format;
 using Subtext.Framework.Text;
-using Subtext.Extensibility;
 
 namespace Subtext.Common.Syndication
 {

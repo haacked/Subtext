@@ -4,7 +4,6 @@ using System.Web;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
-using Subtext.Framework.Util;
 
 namespace Subtext.Framework.Tracking
 {

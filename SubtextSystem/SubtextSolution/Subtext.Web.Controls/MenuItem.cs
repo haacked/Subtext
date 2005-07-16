@@ -147,7 +147,7 @@ namespace Subtext.Web.Controls
 			}
 		}
 
-		string ConvertToAppPath(string path)
+		static string ConvertToAppPath(string path)
 		{
 			return ControlHelper.ExpandTildePath(path);
 		}

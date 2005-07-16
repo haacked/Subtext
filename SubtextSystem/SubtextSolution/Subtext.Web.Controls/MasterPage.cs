@@ -74,7 +74,11 @@ namespace Subtext.Web.Controls
 		/// <summary>
 		/// Builds the master page and contents.
 		/// </summary>
-		/// <param name="e">E.</param>
+		/// <exception cref="FormatException">
+		/// Thrown if a sub-page does not define a <see cref="ContentRegion"/> 
+		/// on its master page.
+		/// </exception>
+		/// <param name="e">Event arguments.</param>
 		protected override void OnInit(EventArgs e)
 		{
 			this.BuildMasterPage();
@@ -103,6 +107,10 @@ namespace Subtext.Web.Controls
 			}
 		}
 
+		/// <exception cref="FormatException">
+		/// Thrown if a sub-page does not define a <see cref="ContentRegion"/> 
+		/// on its master page.
+		/// </exception>
 		private void BuildContents()
 		{
 			if (this._defaults.HasControls())
@@ -116,7 +124,7 @@ namespace Subtext.Web.Controls
 				Control region = this.FindControl(contentRegion.ID);
 				if ((region == null) || !(region is ContentRegion))
 				{
-					throw new Exception("ContentRegion with ID '" + contentRegion.ID + "' must be Defined");
+					throw new FormatException("ContentRegion with ID '" + contentRegion.ID + "' must be Defined");
 				}
 				region.Controls.Clear();
 				int controlCount = contentRegion.Controls.Count;
@@ -179,7 +187,7 @@ namespace Subtext.Web.Controls
 			HtmlContainerControl htmlControl = obj as HtmlContainerControl;
 			if(htmlControl != null)
 			{
-				CorrectReferenceAttribute((HtmlContainerControl)obj);
+				CorrectReferenceAttribute(htmlControl);
 				return;
 			}
 

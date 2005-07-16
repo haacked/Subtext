@@ -49,7 +49,7 @@ namespace Subtext.Web.Controls
 			}
 			set
 			{
-				if(value == string.Empty)
+				if(value.Length == 0)
 					value = null;
 
 				Attributes["src"] = value;
@@ -71,14 +71,14 @@ namespace Subtext.Web.Controls
 			}
 			set
 			{
-				if(value == string.Empty)
+				if(value.Length == 0)
 					value = null;
 
 				Attributes["language"] = value;
 			}
 		}
 
-		string ConvertToAppPath(string path)
+		static string ConvertToAppPath(string path)
 		{
 			return ControlHelper.ExpandTildePath(path);
 		}
