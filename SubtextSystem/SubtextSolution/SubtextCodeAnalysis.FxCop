@@ -29,7 +29,18 @@
  <Rules>
   <RuleFiles>
    <RuleFile Name="$(FxCopDir)\Rules\DesignRules.dll" Enabled="True" AllRulesEnabled="True" />
-   <RuleFile Name="$(FxCopDir)\Rules\FxCop.Rules.dll" Enabled="True" AllRulesEnabled="True" />
+   <RuleFile Name="$(FxCopDir)\Rules\FxCop.Rules.dll" Enabled="True" AllRulesEnabled="False">
+    <Rule Name="AvoidComplicatedMethods" Enabled="True" />
+    <Rule Name="ConsiderMovingPInvokeMethodsToInteropMethods" Enabled="True" />
+    <Rule Name="EnumerationsAreMarkedSerializable" Enabled="True" />
+    <Rule Name="EnumeratorsShouldBeSealed" Enabled="True" />
+    <Rule Name="InternalNamespacesDoNotExposePublicApi" Enabled="True" />
+    <Rule Name="NotImplementedExceptionShouldNotBeThrown" Enabled="True" />
+    <Rule Name="PInvokeMethodsDoNotHavePublicAccessLevel" Enabled="True" />
+    <Rule Name="PrivateFieldNamesHaveUnderscorePrefixArePascalCased" Enabled="True" />
+    <Rule Name="PrivateOrAssemblyMemberNamesDoNotHaveUnderscores" Enabled="True" />
+    <Rule Name="UseEnvironmentNewLineInsteadOfNewLineLiteral" Enabled="True" />
+   </RuleFile>
    <RuleFile Name="$(FxCopDir)\Rules\GlobalizationRules.dll" Enabled="True" AllRulesEnabled="True" />
    <RuleFile Name="$(FxCopDir)\Rules\InteroperabilityRules.dll" Enabled="True" AllRulesEnabled="True" />
    <RuleFile Name="$(FxCopDir)\Rules\MobilityRules.dll" Enabled="True" AllRulesEnabled="True" />

@@ -103,7 +103,7 @@ namespace Subtext.Web.Controls
 		/// the entire string is returned. If str is null, this returns null.</param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentOutOfRangeException">Thrown if length is less than 0</exception>
-		/// <exception cref="NullReferenceException">Thrown if str is null.</exception>
+		/// <exception cref="ArgumentNullException">Thrown if str is null.</exception>
 		public static string Left(string str, int length)
 		{
 			if(length >= str.Length)
@@ -115,77 +115,79 @@ namespace Subtext.Web.Controls
 		/// <summary>
 		/// Returns a string containing a specified number of characters from the right side of a string.
 		/// </summary>
-		/// <param name="str">Required. String expression from which the rightmost characters are returned.</param>
+		/// <param name="original">Required. String expression from which the rightmost characters are returned.</param>
 		/// <param name="length">Required. Integer greater than 0. Numeric expression 
 		/// indicating how many characters to return. If 0, a zero-length string ("") 
 		/// is returned. If greater than or equal to the number of characters in Str, 
 		/// the entire string is returned. If str is null, this returns null.</param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentOutOfRangeException">Thrown if length is less than 0</exception>
-		/// <exception cref="NullReferenceException">Thrown if str is null.</exception>
-		public static string Right(string str, int length)
+		/// <exception cref="ArgumentNullException">Thrown if str is null.</exception>
+		public static string Right(string original, int length)
 		{
-			if(str == null)
-				throw new NullReferenceException("Right cannot be evaluated on a null string.");
+			if(original == null)
+				throw new ArgumentNullException("original", "Right cannot be evaluated on a null string.");
 
 			if(length < 0)
 				throw new ArgumentOutOfRangeException("length", length, "Length must not be negative.");
 			
-			if(str.Length == 0 || length == 0)
+			if(original.Length == 0 || length == 0)
 				return String.Empty;
 
-			if(length >= str.Length)
-				return str;
+			if(length >= original.Length)
+				return original;
 
-			return str.Substring(str.Length - length);
+			return original.Substring(original.Length - length);
 		}
 
 		/// <summary>
 		/// Returns a string containing every character within a string after the 
 		/// first occurrence of another string.
 		/// </summary>
-		/// <param name="str">Required. String expression from which the rightmost characters are returned.</param>
-		/// <param name="searchString">The string where the end of it marks the 
+		/// <param name="original">Required. String expression from which the rightmost characters are returned.</param>
+		/// <param name="search">The string where the end of it marks the 
 		/// characters to return.  If the string is not found, the whole string is 
 		/// returned.</param>
 		/// <returns></returns>
-		/// <exception cref="NullReferenceException">Thrown if str or searchstring is null.</exception>
-		public static string RightAfter(string str, string searchString)
+		/// <exception cref="ArgumentNullException">Thrown if str or searchstring is null.</exception>
+		public static string RightAfter(string original, string search)
 		{
-			return RightAfter(str, searchString, true);
+			return RightAfter(original, search, true);
 		}
 
 		/// <summary>
 		/// Returns a string containing every character within a string after the 
 		/// first occurrence of another string.
 		/// </summary>
-		/// <param name="str">Required. String expression from which the rightmost characters are returned.</param>
-		/// <param name="searchString">The string where the end of it marks the 
+		/// <param name="original">Required. String expression from which the rightmost characters are returned.</param>
+		/// <param name="search">The string where the end of it marks the 
 		/// characters to return.  If the string is not found, the whole string is 
 		/// returned.</param>
 		/// <param name="caseSensitive">Default true: If true, uses case sensitive search.</param>
 		/// <returns></returns>
-		/// <exception cref="NullReferenceException">Thrown if str or searchstring is null.</exception>
-		public static string RightAfter(string str, string searchString, bool caseSensitive)
+		/// <exception cref="ArgumentNullException">Thrown if str or searchstring is null.</exception>
+		public static string RightAfter(string original, string search, bool caseSensitive)
 		{
-			if(searchString == null)
-				throw new NullReferenceException("Search string may not be null.");
+			if(original == null)
+				throw new ArgumentNullException("original", "The original string may not be null.");
+			if(search == null)
+				throw new ArgumentNullException("search", "The searchString string may not be null.");
 
 			//Shortcut.
-			if(searchString.Length > str.Length || searchString.Length == 0)
-				return str;
+			if(search.Length > original.Length || search.Length == 0)
+				return original;
 
 			int searchIndex;
 
 			if(caseSensitive)
-				searchIndex = str.IndexOf(searchString, 0);
+				searchIndex = original.IndexOf(search, 0);
 			else
-				searchIndex = str.ToUpper(CultureInfo.InvariantCulture).IndexOf(searchString.ToUpper(CultureInfo.InvariantCulture), 0);
+				searchIndex = original.ToUpper(CultureInfo.InvariantCulture).IndexOf(search.ToUpper(CultureInfo.InvariantCulture), 0);
 			
 			if(searchIndex < 0)
-				return str;
+				return original;
 
-			return Right(str, str.Length - (searchIndex + searchString.Length));
+			return Right(original, original.Length - (searchIndex + search.Length));
 		}
 
 		/// <summary>
@@ -193,46 +195,49 @@ namespace Subtext.Web.Controls
 		/// first occurrence of another string.
 		/// </summary>
 		/// <param name="str">Required. String expression from which the leftmost characters are returned.</param>
-		/// <param name="searchString">The string where the beginning of it marks the 
+		/// <param name="search">The string where the beginning of it marks the 
 		/// characters to return.  If the string is not found, the whole string is 
 		/// returned.</param>
 		/// <returns></returns>
-		/// <exception cref="NullReferenceException">Thrown if str or searchstring is null.</exception>
-		public static string LeftBefore(string str, string searchString)
+		/// <exception cref="ArgumentNullException">Thrown if str or searchstring is null.</exception>
+		public static string LeftBefore(string str, string search)
 		{
-			return LeftBefore(str, searchString, true);
+			return LeftBefore(str, search, true);
 		}
 
 		/// <summary>
 		/// Returns a string containing every character within a string before the 
 		/// first occurrence of another string.
 		/// </summary>
-		/// <param name="str">Required. String expression from which the leftmost characters are returned.</param>
-		/// <param name="searchString">The string where the beginning of it marks the 
+		/// <param name="original">Required. String expression from which the leftmost characters are returned.</param>
+		/// <param name="search">The string where the beginning of it marks the 
 		/// characters to return.  If the string is not found, the whole string is 
 		/// returned.</param>
 		/// <param name="caseSensitive">Default true: If true, uses case sensitive search.</param>
 		/// <returns></returns>
-		/// <exception cref="NullReferenceException">Thrown if str or searchstring is null.</exception>
-		public static string LeftBefore(string str, string searchString, bool caseSensitive)
+		/// <exception cref="ArgumentNullException">Thrown if str or searchstring is null.</exception>
+		public static string LeftBefore(string original, string search, bool caseSensitive)
 		{
-			if(searchString == null)
-				throw new NullReferenceException("Search string may not be null.");
+			if(original == null)
+				throw new ArgumentNullException("str", "The original string may not be null.");
+
+			if(search == null)
+				throw new ArgumentNullException("search", "Search string may not be null.");
 
 			//Shortcut.
-			if(searchString.Length > str.Length || searchString.Length == 0)
-				return str;
+			if(search.Length > original.Length || search.Length == 0)
+				return original;
 
 			int searchIndex;
 			if(caseSensitive)
-				searchIndex = str.IndexOf(searchString, 0);
+				searchIndex = original.IndexOf(search, 0);
 			else
-				searchIndex = str.ToUpper(CultureInfo.InvariantCulture).IndexOf(searchString.ToUpper(CultureInfo.InvariantCulture), 0);
+				searchIndex = original.ToUpper(CultureInfo.InvariantCulture).IndexOf(search.ToUpper(CultureInfo.InvariantCulture), 0);
 
 			if(searchIndex < 0)
-				return str;
+				return original;
 
-			return Left(str, searchIndex);
+			return Left(original, searchIndex);
 		}
 
 		/// <summary>
@@ -242,12 +247,12 @@ namespace Subtext.Web.Controls
 		/// <param name="searched">The string to check its start.</param>
 		/// <param name="prefix">The string to search for at the beginning of the searched string.</param>
 		/// <param name="ignoreCase">Ignore case.</param>
-		/// <exception cref="NullReferenceException">Thrown if the search string or prefix is null.</exception>
+		/// <exception cref="ArgumentNullException">Thrown if the search string or prefix is null.</exception>
 		/// <returns></returns>
 		public static bool StartsWith(string searched, string prefix, bool ignoreCase)
 		{
 			if(searched == null)
-				throw new NullReferenceException("The searched string may not be null.");
+				throw new ArgumentNullException("searched", "The searched string may not be null.");
 
 			// If we're not ignoring the case, use the built in function. 
 			// That's what it's there for.
@@ -255,7 +260,7 @@ namespace Subtext.Web.Controls
 				return searched.StartsWith(prefix);
 
 			if(prefix == null)
-				throw new NullReferenceException("The prefix string may not be null.");
+				throw new ArgumentNullException("prefix", "The prefix string may not be null.");
 
 			if(prefix.Length > searched.Length)
 				return false;
@@ -275,13 +280,13 @@ namespace Subtext.Web.Controls
 		public static bool EndsWith(string searched, string suffix, bool ignoreCase)
 		{
 			if(searched == null)
-				throw new NullReferenceException("The searched string may not be null.");
+				throw new ArgumentNullException("searched", "The searched string may not be null.");
 
 			if(!ignoreCase)
 				return searched.EndsWith(suffix);
 
 			if(suffix == null)
-				throw new NullReferenceException("The prefix string may not be null.");
+				throw new ArgumentNullException("suffix", "The prefix string may not be null.");
 
 			if(suffix.Length > searched.Length)
 				return false;
@@ -305,5 +310,17 @@ namespace Subtext.Web.Controls
 				return container.ToUpper(CultureInfo.InvariantCulture).IndexOf(contained.ToUpper(CultureInfo.InvariantCulture));
 		}
 
+		/// <summary>
+		/// Returns true if the the specified container string contains the 
+		/// contained string.
+		/// </summary>
+		/// <param name="container">Container.</param>
+		/// <param name="contained">Contained.</param>
+		/// <param name="caseSensitive">Case sensitive.</param>
+		/// <returns></returns>
+		public static bool Contains(string container, string contained, bool caseSensitive)
+		{
+			return StringHelper.IndexOf(container, contained, !caseSensitive) >= 0;
+		}
 	}
 }
