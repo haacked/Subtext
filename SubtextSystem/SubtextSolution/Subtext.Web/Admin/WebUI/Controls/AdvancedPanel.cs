@@ -22,9 +22,7 @@
 #endregion
 
 using System;
-using System.ComponentModel;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using Subtext.Web.Controls;
 
 namespace Subtext.Web.Admin.WebUI

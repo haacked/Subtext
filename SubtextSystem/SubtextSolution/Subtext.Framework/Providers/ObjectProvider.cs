@@ -1,7 +1,6 @@
 using System;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Providers;
-using Subtext.Framework;
 using Subtext.Framework.Components;
 
 namespace Subtext.Framework.Providers

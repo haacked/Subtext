@@ -23,7 +23,6 @@
 
 using System;
 using System.Web.UI.WebControls;
-
 using Subtext.Framework.Logging;
 
 namespace Subtext.Web.Admin.Pages

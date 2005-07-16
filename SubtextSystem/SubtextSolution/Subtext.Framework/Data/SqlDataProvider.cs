@@ -29,7 +29,6 @@ using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
-using Subtext.Framework.Data;
 
 namespace Subtext.Framework.Data
 {

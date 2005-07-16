@@ -23,7 +23,6 @@
 
 using System;
 using System.Collections;
-using Subtext.Framework.Components;
 
 namespace Subtext.Framework.Components
 {

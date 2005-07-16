@@ -10,7 +10,6 @@ using Subtext.Framework.Text;
 using Subtext.Framework.Tracking;
 using Subtext.Framework.Util;
 
-
 namespace Subtext.Framework.Data
 {
 	/// <summary>

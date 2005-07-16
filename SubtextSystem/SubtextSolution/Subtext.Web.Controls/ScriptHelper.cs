@@ -58,7 +58,7 @@ namespace Subtext.Web.Controls
 		/// <returns>Contents of the script.</returns>
 		public static string UnpackScript(string scriptName, string scriptLanguage)
 		{
-			return "<script language=\"Javascript\">" 
+			return "<script language=\"" + scriptLanguage + "\">" 
 				+ Environment.NewLine 
 				+ UnpackEmbeddedResourceToString("Resources.Scripts." + scriptName) 
 				+ Environment.NewLine 

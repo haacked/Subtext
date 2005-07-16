@@ -28,8 +28,8 @@ using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
-using Subtext.Framework.Util;
 using Subtext.Framework.Text;
+using Subtext.Framework.Util;
 
 namespace Subtext.Framework
 {

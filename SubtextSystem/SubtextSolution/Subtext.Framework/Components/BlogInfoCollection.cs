@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Components
 {

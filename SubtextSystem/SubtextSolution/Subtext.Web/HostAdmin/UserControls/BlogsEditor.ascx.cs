@@ -7,7 +7,6 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Web.Admin;
 using Subtext.Web.Controls;
-using Keys = Subtext.Web.Admin.Keys;
 
 namespace Subtext.Web.HostAdmin.UserControls
 {

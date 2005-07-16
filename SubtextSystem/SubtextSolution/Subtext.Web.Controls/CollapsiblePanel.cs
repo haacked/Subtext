@@ -32,13 +32,13 @@ namespace Subtext.Web.Controls
 		#region Member Fields
 		const string CLIENT_SCRIPT_KEY = "Subtext.Web.Controls.CollapsiblePanel";
 
-		protected const string VSKEY_COLLAPSED = "Collapsed";
-		protected const string VSKEY_COLLAPSIBLE = "Collapsible";
+		private const string VSKEY_COLLAPSED = "Collapsed";
+		private const string VSKEY_COLLAPSIBLE = "Collapsible";
 
-		protected const string CTLID_CONTENTS = "Contents";
-		protected const string CTLID_HEADER = "Header";
-		protected const string CTLID_LINK = "Link";
-		protected const string CTLID_LINK_IMAGE = "LinkImage";
+		private const string CTLID_CONTENTS = "Contents";
+		private const string CTLID_HEADER = "Header";
+		private const string CTLID_LINK = "Link";
+		private const string CTLID_LINK_IMAGE = "LinkImage";
 		
 		protected string _bodyCssClass;
 		protected HyperLink _collapseLink;
@@ -209,7 +209,7 @@ namespace Subtext.Web.Controls
 		/// </summary>
 		/// <value></value>
 		[
-		Description("Collapse link image URL"), Bindable(true),
+			Description("Collapse link image URL"), Bindable(true),
 		Editor("System.Web.UI.Design.ImageUrlEditor, System.Design", typeof(System.Drawing.Design.UITypeEditor))
 		]
 		public string LinkImage
