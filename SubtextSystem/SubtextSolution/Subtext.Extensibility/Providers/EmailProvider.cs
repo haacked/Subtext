@@ -17,24 +17,44 @@ namespace Subtext.Extensibility.Providers
 		}
 
 		#region EmailProvider Methods
+		/// <summary>
+		/// Gets or sets the admin email.  This is the email address that 
+		/// emails sent to a blog owner appears to be from.  It represents 
+		/// the system and might not be a real address.
+		/// </summary>
+		/// <value></value>
 		public abstract string AdminEmail
 		{
 			get;
 			set;
 		}
 
+		/// <summary>
+		/// Gets or sets the SMTP server.
+		/// </summary>
+		/// <value></value>
 		public abstract string SmtpServer
 		{
 			get;
 			set;
 		}
 
+		/// <summary>
+		/// Gets or sets the password for SMTP servers that 
+		/// require authentication.
+		/// </summary>
+		/// <value></value>
 		public abstract string Password
 		{
 			get;
 			set;
 		}
 		
+		/// <summary>
+		/// Gets or sets the name of the user for SMPT servers that 
+		/// require authentication.
+		/// </summary>
+		/// <value></value>
 		public abstract string UserName
 		{
 			get;
