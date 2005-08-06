@@ -144,6 +144,11 @@
                     Project = "{13018F20-F796-4FFE-9290-83D0E661C0A1}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "DotNetOpenMail"
+                    AssemblyName = "DotNetOpenMail"
+                    HintPath = "ExternalDependencies\DotNetOpenMail.dll"
+                />
             </References>
         </Build>
         <Files>
@@ -454,6 +459,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Email\DotNetOpenMailProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Email\SystemMailProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -525,6 +535,10 @@
                 />
                 <File
                     RelPath = "ExternalDependencies\CookComputing.XmlRpc.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\DotNetOpenMail.dll"
                     BuildAction = "Content"
                 />
                 <File

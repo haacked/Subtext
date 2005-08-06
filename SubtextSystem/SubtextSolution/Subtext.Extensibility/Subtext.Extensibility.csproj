@@ -200,6 +200,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Providers\EmailProviderBase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Providers\EmailProviderConfiguration.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
