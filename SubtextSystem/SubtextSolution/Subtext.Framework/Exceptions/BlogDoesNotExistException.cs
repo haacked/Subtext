@@ -70,7 +70,7 @@ namespace Subtext.Framework.Exceptions
 		{
 			get
 			{
-				return string.Format(System.Globalization.CultureInfo.InvariantCulture, "A blog matching the location you requested was not found. Host = [{0}], Application = [{1}]", Host, ApplicationName);
+				return string.Format(System.Globalization.CultureInfo.InvariantCulture, "A blog matching the location you requested was not found. Host = [{0}], Application (Blog Name) = [{1}]", Host, ApplicationName);
 			}
 		}
 

@@ -1,6 +1,7 @@
 using System;
 using NUnit.Framework;
 using Subtext.Framework;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 
 namespace UnitTests.Subtext.Installation
@@ -19,6 +20,48 @@ namespace UnitTests.Subtext.Installation
 		public void IsInstallationActionRequiredReturnsTrueForBlogDoesNotExistException()
 		{
 			Assert.IsTrue(InstallationManager.GetIsInstallationActionRequired(new BlogDoesNotExistException("host", "app", false), VersionInfo.FrameworkVersion));
+		}
+
+		/// <summary>
+		/// Determines whether [is in install directory reports correct result].
+		/// </summary>
+		[Test]
+		[Rollback]
+		public void IsInInstallDirectoryReportsTrueCorrectly()
+		{
+			AssertIsInInstallDirectory(System.Guid.NewGuid().ToString().Replace("-", ""), "VirtDir");
+			AssertIsInInstallDirectory(System.Guid.NewGuid().ToString().Replace("-", ""), "");
+			AssertIsInInstallDirectory("", "");
+		}
+
+		/// <summary>
+		/// Determines whether [is in install directory reports correct result].
+		/// </summary>
+		[Test]
+		[Rollback]
+		public void IsInInstallDirectoryReportsFalseCorrectly()
+		{
+			AssertNotInInstallDirectory(System.Guid.NewGuid().ToString().Replace("-", ""), "");
+			AssertNotInInstallDirectory(System.Guid.NewGuid().ToString().Replace("-", ""), "VirtDir");
+			AssertNotInInstallDirectory("", "");
+		}
+
+		void AssertIsInInstallDirectory(string virtualDirectory, string blogName)
+		{
+			string host = System.Guid.NewGuid().ToString().Replace("-", "");
+			Config.CreateBlog("Title", "username", "thePassword", host, blogName);
+
+			UnitTestHelper.SetHttpContextWithBlogRequest(host, blogName, virtualDirectory, "Install/InstallationComplete.aspx");
+			Assert.IsTrue(InstallationManager.IsInInstallDirectory, "This request is indeed within the installation directory.");	
+		}
+
+		void AssertNotInInstallDirectory(string virtualDirectory, string blogName)
+		{
+			string host = System.Guid.NewGuid().ToString().Replace("-", "");
+			Config.CreateBlog("Title", "username", "thePassword", host, blogName);
+
+			UnitTestHelper.SetHttpContextWithBlogRequest(host, blogName, virtualDirectory, "Admin/InstallationComplete.aspx");
+			Assert.IsFalse(InstallationManager.IsInInstallDirectory, "This request is indeed within the installation directory.");	
 		}
 	
 		/// <summary>

@@ -2,6 +2,7 @@ using System;
 using System.Web;
 using System.Web.UI;
 using Subtext.Extensibility.Providers;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Text;
 
@@ -107,8 +108,19 @@ namespace Subtext.Framework
 			{
 				string appPath = HttpContext.Current.Request.ApplicationPath;
 				if(appPath.EndsWith("/"))
-					appPath.Remove(appPath.Length - 1, 1);
-				string installPath = appPath + "/Install/";
+					appPath = appPath.Remove(appPath.Length - 1, 1);
+				if(appPath.StartsWith("/"))
+					appPath = appPath.Remove(0, 1);
+				
+				string installPath = appPath;							// ex... "Subtext.Web" or ""
+				if(installPath.Length > 0)
+					installPath = "/" + installPath;
+
+				string blogAppName = Config.CurrentBlog.Application;	// ex... "MyBlog" or ""
+				if(blogAppName.Length > 0)
+					installPath = installPath + "/" + blogAppName;		// ex... "/Subtext.Web/MyBlog" or "/MyBlog"
+
+				installPath += "/Install/";		// ex...  "Subtext.Web/MyBlog/Install/" or "/MyBlog/Install/" or "/Install/"
 
 				return StringHelper.IndexOf(HttpContext.Current.Request.Path, installPath, false) >= 0;
 			}
