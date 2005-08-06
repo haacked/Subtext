@@ -342,7 +342,7 @@ img
 #content DIV#adwrap
 {
 	/* Remove the display:none line if you have an ad */
-	display: none;
+	display:none;
 	padding: 0; 
 	margin: 0; 
 	height: 100px;

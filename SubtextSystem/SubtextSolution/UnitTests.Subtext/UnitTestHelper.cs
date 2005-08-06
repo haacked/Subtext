@@ -77,10 +77,10 @@ namespace UnitTests.Subtext
 		/// by the host and application.
 		/// </summary>
 		/// <param name="host">Host.</param>
-		/// <param name="application">Application.</param>
-		public static void SetHttpContextWithBlogRequest(string host, string application)
+		/// <param name="blogName">Application.</param>
+		public static void SetHttpContextWithBlogRequest(string host, string blogName)
 		{
-			SetHttpContextWithBlogRequest(host, application, string.Empty);
+			SetHttpContextWithBlogRequest(host, blogName, string.Empty);
 		}
 
 		/// <summary>
@@ -88,35 +88,36 @@ namespace UnitTests.Subtext
 		/// by the host and application hosted in a virtual directory.
 		/// </summary>
 		/// <param name="host">Host.</param>
-		/// <param name="application">Application.</param>
+		/// <param name="blogName">Application.</param>
 		/// <param name="virtualDir"></param>
-		public static void SetHttpContextWithBlogRequest(string host, string application, string virtualDir)
+		public static void SetHttpContextWithBlogRequest(string host, string blogName, string virtualDir)
 		{
-			virtualDir = virtualDir.Replace(@"\", string.Empty).Replace("/", string.Empty);
-			application = application.Replace(@"\", string.Empty).Replace("/", string.Empty);
+			SetHttpContextWithBlogRequest(host, blogName, virtualDir, "default.aspx");
+		}
+		
+		public static void SetHttpContextWithBlogRequest(string host, string blogName, string virtualDir, string page)
+		{
+			virtualDir = StripSlashes(virtualDir);	// Subtext.Web
+			blogName = StripSlashes(blogName);		// MyBlog
 
-			string page = string.Empty;
-
-			string appPhysicalDir = @"c:\projects\SubtextSystem\";			
+			string appPhysicalDir = @"c:\projects\SubtextSystem\";	
 			if(virtualDir.Length == 0)
 			{
 				virtualDir = "/";
 			}
 			else
 			{
-				appPhysicalDir += virtualDir + @"\";
-				virtualDir = "/" + virtualDir;
+				appPhysicalDir += virtualDir + @"\";	//	c:\projects\SubtextSystem\Subtext.Web\
+				virtualDir = "/" + virtualDir;			//	/Subtext.Web
 			}
 
-			if(application.Length > 0)
+			if(blogName.Length > 0)
 			{
-				if(page.Length > 0)
-					page += "/";
-				page += application;
-				application = "/" + application;
+				page = blogName + "/" + page;			//	MyBlog/default.aspx
+				blogName = "/" + blogName;				//	/MyBlog
 			}
 
-			page += "/default.aspx";
+			//page = "/" + page;							//	/MyBlog/default.aspx
 
 			string query = string.Empty;
 			TextWriter output = null;
@@ -135,6 +136,46 @@ namespace UnitTests.Subtext
 			Console.WriteLine("Request.Url: " + HttpContext.Current.Request.Url);
 			Console.WriteLine("Request.ApplicationPath: " + HttpContext.Current.Request.ApplicationPath);
 			Console.WriteLine("Request.PhysicalPath: " + HttpContext.Current.Request.PhysicalPath);
+		}
+
+		/// <summary>
+		/// Strips the slashes from the target string.
+		/// </summary>
+		/// <param name="target">Target.</param>
+		/// <returns></returns>
+		public static string StripSlashes(string target)
+		{
+			if(target.Length == 0)
+				return target;
+
+			return target.Replace(@"\", string.Empty).Replace("/", string.Empty);
+		}
+
+		/// <summary>
+		/// Strips the outer slashes.
+		/// </summary>
+		/// <param name="target">Target.</param>
+		/// <returns></returns>
+		public static string StripOuterSlashes(string target)
+		{
+			if(target.Length == 0)
+				return target;
+
+			char firstChar = target[0];
+			if(firstChar == '\\' || firstChar == '/')
+			{
+				target = target.Substring(1);
+			}
+
+			if(target.Length > 0)
+			{
+				char lastChar = target[target.Length - 1];
+				if(lastChar == '\\' || lastChar == '/')
+				{
+					target = target.Substring(0, target.Length - 1);
+				}	
+			}
+			return target;
 		}
 	}
 }
