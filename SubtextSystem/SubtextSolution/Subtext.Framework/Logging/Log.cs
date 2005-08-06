@@ -6,8 +6,9 @@ using log4net.Core;
 namespace Subtext.Framework.Logging
 {
 	/// <summary>
-	/// Provides logging for the Subtext framework. This class is typically instantiated as a <c>private static readonly</c> member
-	///  of a class in order to handle logging inside of the class. This class is a specialized wrapper for the log4net framework.
+	/// Provides logging for the Subtext framework. This class is typically instantiated as a 
+	/// <c>private static readonly</c> member of a class in order to handle logging inside of 
+	/// the class. This class is a specialized wrapper for the log4net framework.
 	/// </summary>
 	/// <para>
 	/// The class provides methods to log messages at the following levels:
@@ -95,8 +96,7 @@ namespace Subtext.Framework.Logging
 		/// Default constructor. Uses <see cref="T:System.Diagnostics.StackFrame"/> to discover the class it is being called from 
 		/// and automatically establishes log name as the <see cref="P:System.Type.FullName"/> of the class type.
 		/// </summary>
-		public Log()
-			:this(GetCallerType())
+		public Log() : this(GetCallerType())
 		{
 		}
 
@@ -554,7 +554,6 @@ namespace Subtext.Framework.Logging
 		/// <summary>
 		/// Logs a message with the <c>INFO</c> level.
 		/// </summary>
-		/// <param name="provider">An <see cref="T:System.IFormatProvider"/> that supplies culture-specific formatting information</param>
 		/// <param name="format">A <see cref="T:System.String"/> containing zero or more format items</param>
 		/// <param name="args">An <see cref="T:System.Array"/> containing zero or more objects to format</param>
 		/// <remarks>
@@ -599,7 +598,6 @@ namespace Subtext.Framework.Logging
 		/// <summary>
 		/// Logs a message with the <c>FATAL</c> level.
 		/// </summary>
-		/// <param name="provider">An <see cref="T:System.IFormatProvider"/> that supplies culture-specific formatting information</param>
 		/// <param name="format">A <see cref="T:System.String"/> containing zero or more format items</param>
 		/// <param name="args">An <see cref="T:System.Array"/> containing zero or more objects to format</param>
 		/// <remarks>
@@ -648,7 +646,6 @@ namespace Subtext.Framework.Logging
 		/// <summary>
 		/// Logs a message with the <c>DEBUG</c> level.
 		/// </summary>
-		/// <param name="provider">An <see cref="T:System.IFormatProvider"/> that supplies culture-specific formatting information</param>
 		/// <param name="format">A <see cref="T:System.String"/> containing zero or more format items</param>
 		/// <param name="args">An <see cref="T:System.Array"/> containing zero or more objects to format</param>
 		/// <remarks>
