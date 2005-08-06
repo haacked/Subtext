@@ -2,6 +2,7 @@ using System;
 using DotNetOpenMail;
 using DotNetOpenMail.SmtpAuth;
 using Subtext.Extensibility.Providers;
+using Subtext.Framework.Logging;
 
 namespace Subtext.Framework.Email
 {
@@ -11,6 +12,8 @@ namespace Subtext.Framework.Email
 	/// </summary>
 	public class DotNetOpenMailProvider : EmailProviderBase
 	{
+		static Log Log = new Log();
+
 		/// <summary>
 		/// Sends an email with the specified parameters.
 		/// </summary>
@@ -35,7 +38,15 @@ namespace Subtext.Framework.Email
 				smtpServer.SmtpAuthToken = new SmtpAuthToken(UserName, Password);
 			}
 
-			return email.Send(smtpServer);
+			try
+			{
+				return email.Send(smtpServer);
+			}
+			catch(Exception e)
+			{
+				Log.Error("Error occurred while sending an email.", e);
+			}
+			return false;
 		}
 	}
 }
