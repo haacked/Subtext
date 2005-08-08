@@ -6,6 +6,7 @@ using System.Web.Caching;
 using log4net;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
+using Subtext.Framework.Logging;
 using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Configuration
@@ -177,19 +178,23 @@ namespace Subtext.Framework.Configuration
 					{
 						info.ImageDirectory = context.Request.MapPath("~" + virtualPath);
 					}
-					catch(NullReferenceException)
+					catch(NullReferenceException nullException)
 					{
-						//TODO: log it.
+						log.Warn("Could not map the image directory.", nullException);
 					}
 
 					CacheConfig(context.Cache, info, mCacheKey);
 					context.Items.Add(cacheKey, info);
+
+					// Set the BlogId context for the current request.
+					Log.SetBlogIdContext(info.BlogID);
 				}
 				else
 				{
 					context.Items.Add(cacheKey, info);
 				}
 			}
+
 			return info;
 		}
 
