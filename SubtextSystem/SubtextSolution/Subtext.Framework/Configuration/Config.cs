@@ -18,7 +18,6 @@ namespace Subtext.Framework.Configuration
 		static object _synchBlock = new object();
 		static int _blogCount = int.MinValue;
 		static UrlBasedBlogInfoProvider _configProvider = null;
-		static int _currentBlogId = int.MinValue;
 		private Config() {}
 
 		/// <summary>
@@ -43,22 +42,7 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
-				BlogInfo current = ConfigurationProvider.GetBlogInfo(HttpContext.Current);
-				_currentBlogId = current.BlogID;
-				return current;
-			}
-		}
-
-		/// <summary>
-		/// Gets the current blog id.  If the CurrentBlog hasn't 
-		/// yet been resolved, returns int.MinValue;
-		/// </summary>
-		/// <value></value>
-		public static int CurrentBlogId
-		{
-			get
-			{
-				return _currentBlogId;
+				return ConfigurationProvider.GetBlogInfo(HttpContext.Current);
 			}
 		}
 

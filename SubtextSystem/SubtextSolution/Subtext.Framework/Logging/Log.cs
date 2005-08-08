@@ -2,7 +2,6 @@ using System;
 using System.Diagnostics;
 using log4net;
 using log4net.Core;
-using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Logging
 {
@@ -277,13 +276,19 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Info(object message, Exception exception)
 		{
-			SetBlogIdContext();
 			_log.Info(message, exception);
 		}
 
-		private void SetBlogIdContext()
+		/// <summary>
+		/// Sets the blog id context in the Log4net ThreadContext.
+		/// </summary>
+		/// <param name="blogId">Blog id.</param>
+		public static void SetBlogIdContext(int blogId)
 		{
-			log4net.ThreadContext.Properties["BlogId"] = Config.CurrentBlogId;
+			if(blogId == int.MinValue && log4net.ThreadContext.Properties["BlogId"] != null)
+				return;
+
+			log4net.ThreadContext.Properties["BlogId"] = blogId;
 		}
 
 		/// <summary>
@@ -307,7 +312,6 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Info(object message)
 		{
-			SetBlogIdContext();
 			_log.Info(message);
 		}
 
@@ -330,7 +334,6 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Debug(object message, Exception exception)
 		{
-			SetBlogIdContext();
 			_log.Debug(message, exception);
 		}
 
@@ -358,7 +361,6 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Debug(object message)
 		{
-			SetBlogIdContext();
 			_log.Debug(message);
 		}
 
@@ -378,7 +380,6 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Warn(object message, Exception exception)
 		{
-			SetBlogIdContext();
 			_log.Warn(message, exception);
 		}
 
@@ -403,7 +404,6 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Warn(object message)
 		{
-			SetBlogIdContext();
 			_log.Warn(message);
 		}
 
@@ -468,7 +468,6 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Fatal(object message, Exception exception)
 		{
-			SetBlogIdContext();
 			_log.Fatal(message, exception);
 		}
 
@@ -493,7 +492,6 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Fatal(object message)
 		{
-			SetBlogIdContext();
 			_log.Fatal(message);
 		}
 
@@ -513,7 +511,6 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Error(object message, Exception exception)
 		{
-			SetBlogIdContext();
 			_log.Error(message, exception);
 		}
 
@@ -538,7 +535,6 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Error(object message)
 		{
-			SetBlogIdContext();
 			_log.Error(message);
 		}
 

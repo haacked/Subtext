@@ -33,6 +33,7 @@ using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
+using Subtext.Framework.Logging;
 
 namespace Subtext 
 {
@@ -99,6 +100,10 @@ namespace Subtext
 		/// <param name="e"></param>
 		protected void Application_BeginRequest(Object sender, EventArgs e)
 		{
+			//KLUDGE: This is required due to a bug in Log4Net 1.2.9.
+			// This should be fixed in the next release.
+			Log.SetBlogIdContext(int.MinValue);
+
 			// Want to redirect to install if installation is required, 
 			// or if we're missing a HostInfo record.
 			if((InstallationManager.IsInstallationActionRequired(VersionInfo.FrameworkVersion) || InstallationManager.HostInfoRecordNeeded) && !InstallationManager.IsInInstallDirectory)
