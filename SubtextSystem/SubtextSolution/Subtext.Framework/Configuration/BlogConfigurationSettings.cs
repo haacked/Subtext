@@ -141,6 +141,17 @@ namespace Subtext.Framework.Configuration
 
 		string _docTypeDeclaration;
 
+		/// <summary>
+		/// Gets the connection string for the application.
+		/// </summary>
+		/// <value></value>
+		public string ConnectionString
+		{
+			get
+			{
+				return System.Configuration.ConfigurationSettings.AppSettings["ConnectionString"];
+			}
+		}
 	}
 }
 

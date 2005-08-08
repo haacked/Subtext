@@ -1,3 +1,7 @@
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Log]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [dbo].[subtext_Log]
+GO
+
 if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Version]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
 drop table [dbo].[subtext_Version]
 GO
@@ -507,4 +511,38 @@ ALTER TABLE [dbo].[subtext_Version] WITH NOCHECK ADD
 		[Id]
 	)  ON [PRIMARY] 
 
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+CREATE TABLE [subtext_Log] (
+	[Id] [int] IDENTITY (1, 1) NOT NULL ,
+	[BlogId] [int] NULL ,
+	[Date] [datetime] NOT NULL ,
+	[Thread] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[Context] [varchar] (512) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+	[Level] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[Logger] [nvarchar] (256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[Message] [nvarchar] (2000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+	[Exception] [nvarchar] (1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL 
+) ON [PRIMARY]
+
+GO
+ALTER TABLE [dbo].[subtext_Log] WITH NOCHECK ADD 
+	CONSTRAINT [PK_subtext_Log] PRIMARY KEY  CLUSTERED 
+	(
+		[Id]
+	)  ON [PRIMARY] 
+
+GO
+ALTER TABLE [dbo].[subtext_Log] ADD 
+	CONSTRAINT [FK_subtext_Log_subtext_Config] FOREIGN KEY 
+	(
+		[BlogID]
+	) REFERENCES [dbo].[subtext_Config] (
+		[BlogID]
+	)
 GO

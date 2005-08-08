@@ -169,6 +169,11 @@
                     Project = "{745B39B7-DE46-4070-8733-C53308721C58}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "log4net"
+                    AssemblyName = "log4net"
+                    HintPath = "ExternalDependencies\log4net.dll"
+                />
             </References>
         </Build>
         <Files>
@@ -227,6 +232,10 @@
                     RelPath = "Global.asax.resx"
                     DependentUpon = "Global.asax.cs"
                     BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Log4Net.config"
+                    BuildAction = "None"
                 />
                 <File
                     RelPath = "login.aspx"

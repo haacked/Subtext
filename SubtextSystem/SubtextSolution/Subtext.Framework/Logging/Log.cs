@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using log4net;
 using log4net.Core;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Logging
 {
@@ -87,7 +88,7 @@ namespace Subtext.Framework.Logging
 	/// }
 	/// </code>
 	/// </example>
-	public class Log
+	public class Log : ILog
 	{
 		private static readonly ILog __nullLog = new NullLog();
 		private readonly ILog _log;
@@ -276,7 +277,13 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Info(object message, Exception exception)
 		{
+			SetBlogIdContext();
 			_log.Info(message, exception);
+		}
+
+		private void SetBlogIdContext()
+		{
+			log4net.ThreadContext.Properties["BlogId"] = Config.CurrentBlogId;
 		}
 
 		/// <summary>
@@ -300,6 +307,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Info(object message)
 		{
+			SetBlogIdContext();
 			_log.Info(message);
 		}
 
@@ -320,9 +328,9 @@ namespace Subtext.Framework.Logging
 		/// This method is compiled to nothing if DEBUG compilation constant is not set (production build).
 		/// </para>
 		/// </remarks>
-		[Conditional("DEBUG")]
 		public void Debug(object message, Exception exception)
 		{
+			SetBlogIdContext();
 			_log.Debug(message, exception);
 		}
 
@@ -348,9 +356,9 @@ namespace Subtext.Framework.Logging
 		/// This method is compiled to nothing if DEBUG compilation constant is not set (production build).
 		/// </para>
 		/// </remarks>
-		[Conditional("DEBUG")]
 		public void Debug(object message)
 		{
+			SetBlogIdContext();
 			_log.Debug(message);
 		}
 
@@ -370,6 +378,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Warn(object message, Exception exception)
 		{
+			SetBlogIdContext();
 			_log.Warn(message, exception);
 		}
 
@@ -394,6 +403,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Warn(object message)
 		{
+			SetBlogIdContext();
 			_log.Warn(message);
 		}
 
@@ -458,6 +468,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Fatal(object message, Exception exception)
 		{
+			SetBlogIdContext();
 			_log.Fatal(message, exception);
 		}
 
@@ -482,6 +493,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Fatal(object message)
 		{
+			SetBlogIdContext();
 			_log.Fatal(message);
 		}
 
@@ -501,6 +513,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Error(object message, Exception exception)
 		{
+			SetBlogIdContext();
 			_log.Error(message, exception);
 		}
 
@@ -525,6 +538,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Error(object message)
 		{
+			SetBlogIdContext();
 			_log.Error(message);
 		}
 
@@ -637,7 +651,6 @@ namespace Subtext.Framework.Logging
 		/// This method is compiled to nothing if DEBUG compilation constant is not set (production build).
 		/// </para>
 		/// </remarks>
-		[Conditional("DEBUG")]
 		public void DebugFormat(IFormatProvider provider, string format, params object[] args)
 		{
 			_log.DebugFormat(provider, format, args);
@@ -663,6 +676,14 @@ namespace Subtext.Framework.Logging
 		public void DebugFormat(string format, params object[] args)
 		{
 			_log.DebugFormat(format, args);
+		}
+
+		public ILogger Logger
+		{
+			get
+			{
+				return _log.Logger;
+			}
 		}
 
 		#region private class NulLog : ILog
@@ -793,8 +814,6 @@ namespace Subtext.Framework.Logging
 
 			#endregion
 
-			#region ILoggerWrapper Members
-
 			public ILogger Logger
 			{
 				get
@@ -802,12 +821,7 @@ namespace Subtext.Framework.Logging
 					return null;
 				}
 			}
-
-			#endregion
-
 		}
-
-
 		#endregion
 	}
 }

@@ -13,3 +13,5 @@ using System.Runtime.InteropServices;
 
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(false)]
+
+[assembly: log4net.Config.XmlConfigurator( ConfigFile="Log4Net.config",Watch=true )]

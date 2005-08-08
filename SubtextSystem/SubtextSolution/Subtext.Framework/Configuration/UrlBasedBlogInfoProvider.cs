@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Caching;
+using log4net;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
 using Subtext.Framework.Text;
@@ -14,6 +15,8 @@ namespace Subtext.Framework.Configuration
 	/// </summary>
 	public class UrlBasedBlogInfoProvider
 	{
+		private readonly static ILog log = new Subtext.Framework.Logging.Log();
+
 		static UrlBasedBlogInfoProvider _singletonInstance = new UrlBasedBlogInfoProvider();
 		
 		/// <summary>
@@ -130,6 +133,7 @@ namespace Subtext.Framework.Configuration
 			BlogInfo info = (BlogInfo)context.Items[cacheKey];
 			if(info == null)
 			{
+				log.Info("BlogInfo was not in context cache using cacheKey '" + cacheKey + "'");
 				string app = UrlFormats.GetBlogApplicationNameFromRequest(context.Request.RawUrl, context.Request.ApplicationPath);
 
 				if(!Config.IsValidApplicationName(app))
