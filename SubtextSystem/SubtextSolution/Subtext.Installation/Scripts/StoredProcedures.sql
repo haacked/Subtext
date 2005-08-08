@@ -4368,3 +4368,37 @@ GO
 
 GRANT  EXECUTE  ON [dbo].[subtext_VersionAdd]  TO [public]
 GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/* Creates a record in the subtext_log table */
+CREATE PROC [dbo].[subtext_AddLogEntry]
+(
+	 @Date DateTime
+	 , @BlogId int = NULL
+	 , @Thread varchar(255)
+	 , @Context varchar(512)
+	 , @Level varchar(20)
+	 , @Logger nvarchar(256)
+	 , @Message nvarchar(2000)
+	 , @Exception nvarchar(1000)
+)
+AS
+
+if @BlogId < 0
+	SET @BlogId = NULL
+
+INSERT [dbo].[subtext_Log]
+SELECT	@BlogId, @Date, @Thread, @Context, @Level, @Logger, @Message, @Exception
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+GRANT  EXECUTE  ON [dbo].[subtext_AddLogEntry]  TO [public]
+GO

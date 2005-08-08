@@ -26,7 +26,11 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Web;
+using log4net;
+using log4net.Appender;
+using log4net.Repository.Hierarchy;
 using Subtext.Framework;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
 
@@ -52,10 +56,37 @@ namespace Subtext
 			InitializeComponent();
 		}	
 		
+		/// <summary>
+		/// Method called by the application on startup.  
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		protected void Application_Start(Object sender, EventArgs e)
 		{
+			log4net.Repository.Hierarchy.Hierarchy h = LogManager.GetRepository() as log4net.Repository.Hierarchy.Hierarchy;
+			//get the ADO appender
+			h.ConfigurationChanged += new log4net.Repository.LoggerRepositoryConfigurationChangedEventHandler(log4Net_ConfigurationChanged);
+			EnsureLog4NetConnectionString(h);
 		}
- 
+
+		private static void EnsureLog4NetConnectionString(Hierarchy h)
+		{
+			foreach(IAppender appender in h.Root.Appenders)
+			{
+				AdoNetAppender adoAppender = appender as AdoNetAppender;
+				if(adoAppender != null)
+				{
+					adoAppender.ConnectionString = Config.Settings.ConnectionString;
+					adoAppender.ActivateOptions();
+				}
+			}
+		}
+
+		/// <summary>
+		/// Method called when a session starts.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		protected void Session_Start(Object sender, EventArgs e)
 		{
 			
@@ -209,6 +240,11 @@ namespace Subtext
 		{    
 		}
 		#endregion
+
+		private void log4Net_ConfigurationChanged(object sender, EventArgs e)
+		{
+			EnsureLog4NetConnectionString((Hierarchy)sender);
+		}
 	}
 }
 
