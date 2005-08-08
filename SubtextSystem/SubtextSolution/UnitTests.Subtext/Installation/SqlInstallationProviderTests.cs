@@ -16,6 +16,7 @@ namespace UnitTests.Subtext.Installation
 		/// properly gathers the information.
 		/// </summary>
 		[Test]
+		[Rollback]
 		public void InstallationInformationGatheringProcessGathersCorrectInfo()
 		{
 			InstallationProvider provider = InstallationProvider.Instance();

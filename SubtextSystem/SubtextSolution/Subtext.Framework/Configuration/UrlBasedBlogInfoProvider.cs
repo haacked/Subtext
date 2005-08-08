@@ -186,8 +186,15 @@ namespace Subtext.Framework.Configuration
 					CacheConfig(context.Cache, info, mCacheKey);
 					context.Items.Add(cacheKey, info);
 
-					// Set the BlogId context for the current request.
-					Log.SetBlogIdContext(info.BlogID);
+					if(!InstallationManager.IsInHostAdminDirectory)
+					{
+						// Set the BlogId context for the current request.
+						Log.SetBlogIdContext(info.BlogID);
+					}
+					else
+					{
+						Log.ResetBlogIdContext();
+					}
 				}
 				else
 				{

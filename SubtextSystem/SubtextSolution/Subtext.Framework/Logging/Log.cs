@@ -292,6 +292,14 @@ namespace Subtext.Framework.Logging
 		}
 
 		/// <summary>
+		/// Resets blog id context in the Log4net ThreadContext.
+		/// </summary>
+		public static void ResetBlogIdContext()
+		{
+			log4net.ThreadContext.Properties["BlogId"] = int.MinValue;
+		}
+
+		/// <summary>
 		/// Logs a message object with the <c>INFO</c> level.
 		/// </summary>
 		/// <param name="message">The message object to log</param>

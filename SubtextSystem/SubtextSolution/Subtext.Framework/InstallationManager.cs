@@ -106,24 +106,49 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				string appPath = HttpContext.Current.Request.ApplicationPath;
-				if(appPath.EndsWith("/"))
-					appPath = appPath.Remove(appPath.Length - 1, 1);
-				if(appPath.StartsWith("/"))
-					appPath = appPath.Remove(0, 1);
-				
-				string installPath = appPath;							// ex... "Subtext.Web" or ""
-				if(installPath.Length > 0)
-					installPath = "/" + installPath;
-
-				string blogAppName = Config.CurrentBlog.Application;	// ex... "MyBlog" or ""
-				if(blogAppName.Length > 0)
-					installPath = installPath + "/" + blogAppName;		// ex... "/Subtext.Web/MyBlog" or "/MyBlog"
-
-				installPath += "/Install/";		// ex...  "Subtext.Web/MyBlog/Install/" or "/MyBlog/Install/" or "/Install/"
-
-				return StringHelper.IndexOf(HttpContext.Current.Request.Path, installPath, false) >= 0;
+				return IsInDirectory("Install");
 			}
+		}
+
+		/// <summary>
+		/// Determines whether the requested page is in the Install directory.
+		/// </summary>
+		/// <returns>
+		/// 	<c>true</c> if is in install directory; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool IsInHostAdminDirectory
+		{
+			get
+			{
+				return IsInDirectory("HostAdmin");
+			}
+		}
+
+		static bool IsInDirectory(string rootFolderName)
+		{
+			string appPath = StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
+				
+			string installPath = appPath;							// ex... "Subtext.Web" or ""
+			if(installPath.Length > 0)
+				installPath = "/" + installPath;
+
+			string blogAppName = Config.CurrentBlog.Application;	// ex... "MyBlog" or ""
+			if(blogAppName.Length > 0)
+				installPath = installPath + "/" + blogAppName;		// ex... "/Subtext.Web/MyBlog" or "/MyBlog"
+
+			installPath += "/" + StripSurroundingSlashes(rootFolderName) + "/";		// ex...  "Subtext.Web/MyBlog/Install/" or "/MyBlog/Install/" or "/Install/"
+
+			return StringHelper.IndexOf(HttpContext.Current.Request.Path, installPath, false) >= 0;
+		}
+
+		static string StripSurroundingSlashes(string target)
+		{
+			if(target.EndsWith("/"))
+				target = target.Remove(target.Length - 1, 1);
+			if(target.StartsWith("/"))
+				target = target.Remove(0, 1);
+
+			return target;
 		}
 
 		/// <summary>
