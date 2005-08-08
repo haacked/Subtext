@@ -232,6 +232,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// within the application name.
 		/// </summary>
 		[Test]
+		[Rollback]
 		public void EnsureInvalidCharactersMayNotBeUsedInApplicationName()
 		{
 			string[] badNames = {".name", "a{b", "a}b", "a[e", "a]e", "a/e",@"a\e", "a@e", "a!e", "a#e", "a$e", "a'e", "a%", ":e", "a^", "ae&", "*ae", "a(e", "a)e", "a?e", "+a", "e|", "a\"", "e=", "a'", "e<", "a>e", "a;", ",e", "a e"};
