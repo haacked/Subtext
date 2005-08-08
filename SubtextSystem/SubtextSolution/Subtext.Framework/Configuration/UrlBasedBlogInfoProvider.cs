@@ -133,7 +133,7 @@ namespace Subtext.Framework.Configuration
 			BlogInfo info = (BlogInfo)context.Items[cacheKey];
 			if(info == null)
 			{
-				log.Info("BlogInfo was not in context cache using cacheKey '" + cacheKey + "'");
+				log.Debug("BlogInfo was not in context cache using cacheKey '" + cacheKey + "'");
 				string app = UrlFormats.GetBlogApplicationNameFromRequest(context.Request.RawUrl, context.Request.ApplicationPath);
 
 				if(!Config.IsValidApplicationName(app))
