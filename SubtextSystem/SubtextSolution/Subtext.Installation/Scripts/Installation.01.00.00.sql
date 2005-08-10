@@ -1,3 +1,15 @@
+if exists (select * from dbo.sysobjects where id = object_id(N'[PK_subtext_Log]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
+ALTER TABLE [dbo].[subtext_Log] DROP CONSTRAINT PK_subtext_Log
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[FK_subtext_Log_subtext_Config]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
+ALTER TABLE [dbo].[subtext_Log] DROP CONSTRAINT FK_subtext_Log_subtext_Config
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_Log]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [subtext_Log]
+GO
+
 if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Log]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
 drop table [dbo].[subtext_Log]
 GO
