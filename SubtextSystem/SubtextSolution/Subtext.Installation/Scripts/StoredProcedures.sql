@@ -4158,20 +4158,20 @@ GRANT  EXECUTE  ON [dbo].[subtext_UpdateHost]  TO [public]
 GO
 
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[DNW_GetRecentPosts]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[DNW_GetRecentPosts]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[DNW_GetRecentPosts]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[DNW_HomePageData]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[DNW_HomePageData]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[DNW_HomePageData]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[DNW_Stats]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[DNW_Stats]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[DNW_Stats]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[DNW_Total_Stats]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [DNW_Total_Stats]
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[DNW_Total_Stats]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [dbo].[DNW_Total_Stats]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -4265,7 +4265,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [DNW_Total_Stats]
+CREATE PROC [dbo].[DNW_Total_Stats]
 (
 	@Host nvarchar(100),
 	@GroupID int
