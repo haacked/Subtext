@@ -125,11 +125,6 @@
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
-                    Name = "freetextbox"
-                    AssemblyName = "FreeTextBox"
-                    HintPath = "ExternalDependencies\freetextbox.dll"
-                />
-                <Reference
                     Name = "System.Design"
                     AssemblyName = "System.Design"
                     HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Design.dll"
@@ -168,6 +163,11 @@
                     Name = "Subtext.Installation"
                     Project = "{745B39B7-DE46-4070-8733-C53308721C58}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "FreeTextBox"
+                    AssemblyName = "FreeTextBox"
+                    HintPath = "ExternalDependencies\FreeTextBox.dll"
                 />
                 <Reference
                     Name = "log4net"
@@ -4618,11 +4618,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ExternalDependencies\freetextbox.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\FreeTextBox.xml"
+                    RelPath = "ExternalDependencies\FreeTextBox.dll"
                     BuildAction = "Content"
                 />
                 <File

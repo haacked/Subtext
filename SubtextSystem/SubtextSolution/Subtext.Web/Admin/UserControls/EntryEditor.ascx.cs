@@ -55,7 +55,7 @@ namespace Subtext.Web.Admin.UserControls
 		protected Subtext.Web.Admin.WebUI.Pager ResultsPager;
 		protected System.Web.UI.WebControls.HyperLink hlEntryLink;
 		protected System.Web.UI.WebControls.TextBox txbTitle;
-		protected System.Web.UI.WebControls.TextBox txbBody;
+//		protected System.Web.UI.WebControls.TextBox txbBody;
 		protected System.Web.UI.WebControls.Button Post;
 		protected System.Web.UI.WebControls.TextBox txbExcerpt;
 		protected System.Web.UI.WebControls.TextBox txbTitleUrl;
@@ -81,6 +81,7 @@ namespace Subtext.Web.Admin.UserControls
 		protected System.Web.UI.WebControls.RequiredFieldValidator valTitleRequired;
 		protected System.Web.UI.WebControls.LinkButton lkbNewPost;	
 		protected System.Web.UI.WebControls.TextBox txbEntryName;
+		protected FreeTextBoxControls.FreeTextBox freeTextBox;
 		#endregion
 
 		#region Accessors
@@ -355,7 +356,8 @@ namespace Subtext.Web.Admin.UserControls
 			chkSyndicateDescriptionOnly.Checked = false;
 			chkIsAggregated.Checked = true;
 
-			txbBody.Text = String.Empty;
+//			txbBody.Text = String.Empty;
+			freeTextBox.Text = String.Empty;
 
 			for(int i =0; i < cklCategories.Items.Count;i++)
 				cklCategories.Items[i].Selected = false;
@@ -388,7 +390,8 @@ namespace Subtext.Web.Admin.UserControls
 					Entry entry = new Entry(EntryType);
 
 					entry.Title = txbTitle.Text;
-					entry.Body = HtmlHelper.StripRTB(txbBody.Text, Request.Url.Host);
+//					entry.Body = HtmlHelper.StripRTB(txbBody.Text, Request.Url.Host);
+					entry.Body = HtmlHelper.StripRTB(freeTextBox.Text, Request.Url.Host);
 					entry.IsActive = ckbPublished.Checked;
 					entry.SourceName = txbSourceName.Text;
 					entry.Author = Config.CurrentBlog.Author;
@@ -505,7 +508,8 @@ namespace Subtext.Web.Admin.UserControls
 
 		private void SetEditorText(string bodyValue)
 		{
-			txbBody.Text = bodyValue;
+//			txbBody.Text = bodyValue;
+			freeTextBox.Text = bodyValue;
 		}
 
 		private void ConfirmDelete(int postID)
