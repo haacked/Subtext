@@ -1,9 +1,12 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Format
 {
@@ -226,5 +229,19 @@ namespace Subtext.Framework.Format
 			return retVal;
 		}
 
+		/// <summary>
+		/// Builds the <see cref="HyperLink"/>.NavigateUrl for an EditPost Link by determining
+		/// the current Application and adding it to the URL if necessary.
+		/// </summary>
+		/// <param name="entryID">ID of the entry to be edited</param>
+		/// <returns></returns>
+		public static string GetEditLink(int entryID)
+		{
+			String app = Config.CurrentBlog.Application.Trim();
+			StringBuilder url = new StringBuilder();
+			url.Append((app.Equals(String.Empty)) ? "~" : "~/"+app);
+			url.Append("/Admin/EditPosts.aspx?PostID=" + entryID);
+			return url.ToString();
+		}
 	}
 }
