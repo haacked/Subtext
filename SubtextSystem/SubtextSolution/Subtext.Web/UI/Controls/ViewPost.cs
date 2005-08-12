@@ -26,6 +26,7 @@ using System.Web.UI;
 using Subtext.Common.Data;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Format;
 using Subtext.Framework.Tracking;
 
 namespace Subtext.Web.UI.Controls
@@ -100,7 +101,7 @@ namespace Subtext.Web.UI.Controls
 					{
 						//We'll slap on our little pencil icon.
 						editLink.ImageUrl = "~/Images/edit.gif";
-						editLink.NavigateUrl = "~/Admin/EditPosts.aspx?PostID=" + entry.EntryID;
+						editLink.NavigateUrl = UrlFormats.GetEditLink(entry.EntryID);
 					}
 				}
 				else

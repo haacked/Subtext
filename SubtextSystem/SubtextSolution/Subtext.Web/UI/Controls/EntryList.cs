@@ -22,9 +22,12 @@
 #endregion
 
 using System;
+using System.Text;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
+using Subtext.Framework.Format;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -109,9 +112,14 @@ namespace Subtext.Web.UI.Controls
 					editLink.Visible = true;
 					if(editLink.Text.Length == 0 && editLink.ImageUrl.Length == 0)
 					{
+//						String app = Config.CurrentBlog.Application.Trim();
+//						StringBuilder url = new StringBuilder();
+//						url.Append((app.Equals(String.Empty)) ? "~" : "~/"+app);
+//						url.Append("/Admin/EditPosts.aspx?PostID=" + entry.EntryID);
+
 						//We'll slap on our little pencil icon.
 						editLink.ImageUrl = "~/Images/edit.gif";
-						editLink.NavigateUrl = "~/Admin/EditPosts.aspx?PostID=" + entry.EntryID;
+						editLink.NavigateUrl = UrlFormats.GetEditLink(entry.EntryID);
 					}
 				}
 				else
