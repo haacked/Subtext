@@ -517,6 +517,21 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "Admin\ftb.imagegallery.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\ftb.imagegallery.aspx.cs"
+                    DependentUpon = "ftb.imagegallery.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\ftb.imagegallery.aspx.resx"
+                    DependentUpon = "ftb.imagegallery.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Admin\license.txt"
                     BuildAction = "Content"
                 />

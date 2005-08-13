@@ -90,38 +90,11 @@
 		<p class="Label">Post Title&nbsp;<asp:RequiredFieldValidator id="valTitleRequired" runat="server" ControlToValidate="txbTitle" ForeColor="#990066" ErrorMessage="Your post must have a title"></asp:RequiredFieldValidator></p>
 		<p><asp:TextBox id="txbTitle" runat="server" columns="255" width="98%" MaxLength = "250"></asp:TextBox></p>
 		<p class="Label">Post Body&nbsp;<asp:RequiredFieldValidator id="valtbBodyRequired" runat="server" ControlToValidate="freeTextBox" ForeColor="#990066" ErrorMessage="Your post must have a body"></asp:RequiredFieldValidator></p>
-<%--		<asp:RequiredFieldValidator id="valftbBodyRequired" runat="server" ControlToValidate="ftbBody" ForeColor="#990066" ErrorMessage="Your post must have a body"></asp:RequiredFieldValidator></P> --%>
 		<p>
-<%--			<FTB:FreeTextBox id="ftbBody" runat="server" width="98%" visible="False" 
-				toolbarlayout="Bold,Italic,Underline,Strikethrough;Superscript,Subscript,RemoveFormat|FontFacesMenu,FontSizesMenu,FontForeColorsMenu|JustifyLeft,JustifyRight,JustifyCenter,JustifyFull;BulletedList,NumberedList,Indent,Outdent;CreateLink,Unlink,Insert,InsertRule|Cut,Copy,Paste;Undo,Redo|ieSpellCheck,WordClean"
-				toolbarbackcolor="Transparent" backcolor="Transparent" height="300px" toolbartype="Custom"
-				showstatusarea="False" downlevelmode="TextArea" gutterbackcolor="Transparent" GutterBorderColorDark="Transparent"
-				EditorBorderColorDark="Transparent" EditorBorderColorLight="Transparent" />
---%>				
-<%--			<script language="javascript" type="text/javascript" src="Resources/TinyMCE/tiny_mce.js"></script>
-			<script language="javascript" type="text/javascript">
-			//<![CDATA[
-				tinyMCE.init({
-					theme : "subtext",
-					mode : "exact",
-					elements : "Editor:Edit:txbBody",
-					extended_valid_elements : "a[href|target|name]",
-					plugins : "table,contextmenu,emotions,insertdatetime,preview,print,searchreplace",
-				    theme_subtext_buttons1_add : "separator,preview,print,separator,search,replace",
-					theme_subtext_buttons2_add : "emotions",
-				    theme_subtext_buttons2_add_before : "insertdate,inserttime,separator",
-					theme_subtext_buttons3_add_before : "tablecontrols,separator",
-				    plugin_insertdate_dateFormat : "%Y-%m-%d",
-					plugin_insertdate_timeFormat : "%H:%M:%S",
-					plugin_preview_width : "500",
-					plugin_preview_height : "600"
-				});
-			//]]>
-			</script>
-			<asp:TextBox id="txbBody" runat="server" width="98%" rows="20" textmode="MultiLine" /> --%>
+
 			<FTB:FreeTextBox 
 				id="freeTextBox"
-				toolbarlayout="Bold,Italic,Underline,Strikethrough;Superscript,Subscript,RemoveFormat|FontFacesMenu,FontSizesMenu,FontForeColorsMenu|JustifyLeft,JustifyRight,JustifyCenter,JustifyFull;BulletedList,NumberedList,Indent,Outdent;CreateLink,Unlink,Insert,InsertRule|Cut,Copy,Paste;Undo,Redo|ieSpellCheck,WordClean"
+				toolbarlayout="Bold,Italic,Underline,Strikethrough;Superscript,Subscript,RemoveFormat|FontFacesMenu,FontSizesMenu,FontForeColorsMenu|InsertTable|JustifyLeft,JustifyRight,JustifyCenter,JustifyFull;BulletedList,NumberedList,Indent,Outdent;CreateLink,Unlink,Insert,InsertRule|Cut,Copy,Paste;Undo,Redo|ieSpellCheck,WordClean|InsertImage,InsertImageFromGallery"
 				runat="Server" />
 		</p>
 		<p class="Label">Categories</p>
