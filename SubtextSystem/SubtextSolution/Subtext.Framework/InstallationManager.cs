@@ -131,8 +131,24 @@ namespace Subtext.Framework
 			string installPath = appPath;							// ex... "Subtext.Web" or ""
 			if(installPath.Length > 0)
 				installPath = "/" + installPath;
+			String blogAppName;
 
-			string blogAppName = Config.CurrentBlog.Application;	// ex... "MyBlog" or ""
+			try
+			{
+				blogAppName = Config.CurrentBlog.Application;	// ex... "MyBlog" or ""
+			}
+			catch (System.Data.SqlClient.SqlException sqlE)
+			{
+				if(sqlE.Number == (int)Subtext.Framework.Data.SqlErrorMessages.CouldNotFindStoredProcedure &&
+					sqlE.Message.IndexOf("'subtext_GetConfig'") > 0)
+				{
+					//OK, so we blew-up b/c we don't have this SP... probably b/c we've not yet run the install
+					//wizard, yet we're trying to access the DB. Lets just redirect to the Install directory.
+					blogAppName = String.Empty;
+				}
+				else
+					throw sqlE;
+			}
 			if(blogAppName.Length > 0)
 				installPath = installPath + "/" + blogAppName;		// ex... "/Subtext.Web/MyBlog" or "/MyBlog"
 
