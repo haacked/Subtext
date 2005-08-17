@@ -7,7 +7,7 @@ ALTER TABLE [dbo].[subtext_Log] DROP CONSTRAINT FK_subtext_Log_subtext_Config
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_Log]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [subtext_Log]
+drop table [dbo].[subtext_Log]
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Log]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
@@ -530,7 +530,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE TABLE [subtext_Log] (
+CREATE TABLE [dbo].[subtext_Log] (
 	[Id] [int] IDENTITY (1, 1) NOT NULL ,
 	[BlogId] [int] NULL ,
 	[Date] [datetime] NOT NULL ,
