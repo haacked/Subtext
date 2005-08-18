@@ -251,7 +251,7 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
-				return IsInDirectory("SystemMessages");
+				return UrlFormats.IsInDirectory("SystemMessages");
 			}
 		}
 
@@ -265,27 +265,8 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
-				return IsInDirectory("HostAdmin");
+				return UrlFormats.IsInDirectory("HostAdmin");
 			}
-		}
-
-
-		/// <summary>
-		/// Determines whether the current request is for a page in the specified 
-		/// directory.
-		/// </summary>
-		/// <param name="directoryName">Name of the directory.</param>
-		/// <returns>
-		/// 	<c>true</c> if [is in directory] [the specified directoryName]; otherwise, <c>false</c>.
-		/// </returns>
-		public static bool IsInDirectory(string directoryName)
-		{
-			string appPath = HttpContext.Current.Request.ApplicationPath;
-			if(appPath.EndsWith("/"))
-				appPath.Remove(appPath.Length - 1, 1);
-			string installPath = appPath + "/" + directoryName + "/";
-
-			return StringHelper.IndexOf(HttpContext.Current.Request.Path, installPath, false) >= 0;
 		}
 	}
 }

@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Format
 {
@@ -242,6 +243,34 @@ namespace Subtext.Framework.Format
 			url.Append((app.Equals(String.Empty)) ? "~" : "~/"+app);
 			url.Append("/Admin/EditPosts.aspx?PostID=" + entryID);
 			return url.ToString();
+		}
+
+		public static bool IsInDirectory(String rootFolderName)
+		{
+			String appPath = StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
+			String directory = rootFolderName;
+				
+			String installPath = appPath;							// ex... "Subtext.Web" or ""
+			if(installPath.Length > 0)
+				installPath = "/" + installPath;
+			String blogAppName = (directory.ToLower().Equals("install")) ? string.Empty : Config.CurrentBlog.Application;
+
+			if(blogAppName.Length > 0)
+				installPath = installPath + "/" + blogAppName;		// ex... "/Subtext.Web/MyBlog" or "/MyBlog"
+
+			installPath += "/" + StripSurroundingSlashes(rootFolderName) + "/";		// ex...  "Subtext.Web/MyBlog/Install/" or "/MyBlog/Install/" or "/Install/"
+
+			return StringHelper.IndexOf(HttpContext.Current.Request.Path, installPath, false) >= 0;
+		}
+
+		private static string StripSurroundingSlashes(string target)
+		{
+			if(target.EndsWith("/"))
+				target = target.Remove(target.Length - 1, 1);
+			if(target.StartsWith("/"))
+				target = target.Remove(0, 1);
+
+			return target;
 		}
 	}
 }
