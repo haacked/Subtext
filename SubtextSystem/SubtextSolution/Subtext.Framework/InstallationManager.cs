@@ -2,9 +2,8 @@ using System;
 using System.Web;
 using System.Web.UI;
 using Subtext.Extensibility.Providers;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
-using Subtext.Framework.Text;
+using Subtext.Framework.Format;
 
 namespace Subtext.Framework
 {
@@ -106,7 +105,7 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				return IsInDirectory("Install");
+				return UrlFormats.IsInDirectory("Install");
 			}
 		}
 
@@ -120,51 +119,8 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				return IsInDirectory("HostAdmin");
+				return UrlFormats.IsInDirectory("HostAdmin");
 			}
-		}
-
-		static bool IsInDirectory(string rootFolderName)
-		{
-			string appPath = StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
-				
-			string installPath = appPath;							// ex... "Subtext.Web" or ""
-			if(installPath.Length > 0)
-				installPath = "/" + installPath;
-			String blogAppName;
-
-			try
-			{
-				blogAppName = Config.CurrentBlog.Application;	// ex... "MyBlog" or ""
-			}
-			catch (System.Data.SqlClient.SqlException sqlE)
-			{
-				if(sqlE.Number == (int)Subtext.Framework.Data.SqlErrorMessages.CouldNotFindStoredProcedure &&
-					sqlE.Message.IndexOf("'subtext_GetConfig'") > 0)
-				{
-					//OK, so we blew-up b/c we don't have this SP... probably b/c we've not yet run the install
-					//wizard, yet we're trying to access the DB. Lets just redirect to the Install directory.
-					blogAppName = String.Empty;
-				}
-				else
-					throw sqlE;
-			}
-			if(blogAppName.Length > 0)
-				installPath = installPath + "/" + blogAppName;		// ex... "/Subtext.Web/MyBlog" or "/MyBlog"
-
-			installPath += "/" + StripSurroundingSlashes(rootFolderName) + "/";		// ex...  "Subtext.Web/MyBlog/Install/" or "/MyBlog/Install/" or "/Install/"
-
-			return StringHelper.IndexOf(HttpContext.Current.Request.Path, installPath, false) >= 0;
-		}
-
-		static string StripSurroundingSlashes(string target)
-		{
-			if(target.EndsWith("/"))
-				target = target.Remove(target.Length - 1, 1);
-			if(target.StartsWith("/"))
-				target = target.Remove(0, 1);
-
-			return target;
 		}
 
 		/// <summary>
