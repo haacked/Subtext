@@ -245,15 +245,21 @@ namespace Subtext.Framework.Format
 			return url.ToString();
 		}
 
+		/// <summary>
+		/// Determines whether the current request is in the specified directory.
+		/// </summary>
+		/// <param name="rootFolderName">Name of the root folder.</param>
+		/// <returns>
+		/// 	<c>true</c> if [is in directory] [the specified rootFolderName]; otherwise, <c>false</c>.
+		/// </returns>
 		public static bool IsInDirectory(String rootFolderName)
 		{
 			String appPath = StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
-			String directory = rootFolderName;
 				
 			String installPath = appPath;							// ex... "Subtext.Web" or ""
 			if(installPath.Length > 0)
 				installPath = "/" + installPath;
-			String blogAppName = (directory.ToLower().Equals("install")) ? string.Empty : Config.CurrentBlog.Application;
+			String blogAppName = Config.CurrentBlog.Application;
 
 			if(blogAppName.Length > 0)
 				installPath = installPath + "/" + blogAppName;		// ex... "/Subtext.Web/MyBlog" or "/MyBlog"
@@ -261,6 +267,25 @@ namespace Subtext.Framework.Format
 			installPath += "/" + StripSurroundingSlashes(rootFolderName) + "/";		// ex...  "Subtext.Web/MyBlog/Install/" or "/MyBlog/Install/" or "/Install/"
 
 			return StringHelper.IndexOf(HttpContext.Current.Request.Path, installPath, false) >= 0;
+		}
+
+		/// <summary>
+		/// Determines whether the current request is a request within a special directory.
+		/// </summary>
+		/// <param name="folderName">Name of the folder.</param>
+		/// <returns>
+		/// 	<c>true</c> if [is in special directory] [the specified folderName]; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool IsInSpecialDirectory(string folderName)
+		{
+			// Either "" or "Subtext.Web" for ex...
+			String appPath = UrlFormats.StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
+			if(appPath.Length == 0)
+				appPath = "/" + folderName + "/";
+			else
+				appPath = "/" + appPath + "/" + folderName + "/";
+				
+			return StringHelper.IndexOf(HttpContext.Current.Request.Path, appPath, false) >= 0;
 		}
 
 		public static string StripSurroundingSlashes(string target)
