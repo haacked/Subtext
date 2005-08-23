@@ -263,7 +263,7 @@ namespace Subtext.Framework.Format
 			return StringHelper.IndexOf(HttpContext.Current.Request.Path, installPath, false) >= 0;
 		}
 
-		private static string StripSurroundingSlashes(string target)
+		public static string StripSurroundingSlashes(string target)
 		{
 			if(target.EndsWith("/"))
 				target = target.Remove(target.Length - 1, 1);
