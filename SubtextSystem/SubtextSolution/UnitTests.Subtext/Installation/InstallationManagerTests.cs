@@ -52,7 +52,7 @@ namespace UnitTests.Subtext.Installation
 			string host = System.Guid.NewGuid().ToString().Replace("-", "");
 			Config.CreateBlog("Title", "username", "thePassword", host, blogName);
 
-			UnitTestHelper.SetHttpContextWithBlogRequest(host, blogName, virtualDirectory, "HostAdmin/Install/InstallationComplete.aspx");
+			UnitTestHelper.SetHttpContextWithBlogRequest(host, blogName, virtualDirectory, "Install/InstallationComplete.aspx");
 			Assert.IsTrue(InstallationManager.IsInInstallDirectory, "This request should be within the installation directory.");	
 		}
 
