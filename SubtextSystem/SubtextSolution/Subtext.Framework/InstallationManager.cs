@@ -4,6 +4,7 @@ using System.Web.UI;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
+using Subtext.Framework.Text;
 
 namespace Subtext.Framework
 {
@@ -119,7 +120,14 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				return UrlFormats.IsInDirectory("HostAdmin");
+				// Either "" or "Subtext.Web" for ex...
+				String appPath = UrlFormats.StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
+				if(appPath.Length == 0)
+					appPath = "/HostAdmin/";
+				else
+					appPath = "/" + appPath + "/HostAdmin/";
+				
+				return StringHelper.IndexOf(HttpContext.Current.Request.Path, appPath, false) >= 0;
 			}
 		}
 
