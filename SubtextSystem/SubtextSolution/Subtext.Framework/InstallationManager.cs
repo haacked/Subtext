@@ -105,7 +105,7 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				return UrlFormats.IsInDirectory("HostAdmin/Install");
+				return UrlFormats.IsInDirectory("Install");
 			}
 		}
 
