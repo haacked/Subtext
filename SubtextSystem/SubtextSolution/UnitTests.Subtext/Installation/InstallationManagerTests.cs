@@ -13,6 +13,18 @@ namespace UnitTests.Subtext.Installation
 	public class InstallationManagerTests
 	{
 		/// <summary>
+		/// Determines whether [is in host admin directory returns true result].
+		/// </summary>
+		[Test]
+		[Rollback]
+		public void IsInHostAdminDirectoryReturnsTrueResult()
+		{
+			string host = System.Guid.NewGuid().ToString().Replace("-", "");
+			UnitTestHelper.SetHttpContextWithBlogRequest(host, "", "Subtext.Web", "HostAdmin/Import/BlahBlah.aspx");
+			Assert.IsTrue(InstallationManager.IsInHostAdminDirectory, "This request should be within the hostadmin/import directory.");	
+		}
+
+		/// <summary>
 		/// Makes sure that a <see cref="BlogDoesNotExistException"/> indicates that 
 		/// an installation action is required.
 		/// </summary>
@@ -30,8 +42,8 @@ namespace UnitTests.Subtext.Installation
 		[Rollback]
 		public void IsInInstallDirectoryReportsTrueCorrectly()
 		{
-			AssertIsInInstallDirectory(System.Guid.NewGuid().ToString().Replace("-", ""), "VirtDir");
-			AssertIsInInstallDirectory(System.Guid.NewGuid().ToString().Replace("-", ""), "");
+			AssertIsInInstallDirectory("VirtDir", System.Guid.NewGuid().ToString().Replace("-", ""));
+			AssertIsInInstallDirectory("", System.Guid.NewGuid().ToString().Replace("-", ""));
 			AssertIsInInstallDirectory("", "");
 		}
 
@@ -51,7 +63,6 @@ namespace UnitTests.Subtext.Installation
 		{
 			string host = System.Guid.NewGuid().ToString().Replace("-", "");
 			Config.CreateBlog("Title", "username", "thePassword", host, blogName);
-
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, blogName, virtualDirectory, "Install/InstallationComplete.aspx");
 			Assert.IsTrue(InstallationManager.IsInInstallDirectory, "This request should be within the installation directory.");	
 		}
