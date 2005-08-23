@@ -106,7 +106,8 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				return UrlFormats.IsInDirectory("Install");
+				//TODO: Fix this up.
+				return StringHelper.IndexOf(HttpContext.Current.Request.Path, "/Install/", false) >= 0;
 			}
 		}
 
@@ -120,14 +121,7 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				// Either "" or "Subtext.Web" for ex...
-				String appPath = UrlFormats.StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
-				if(appPath.Length == 0)
-					appPath = "/HostAdmin/";
-				else
-					appPath = "/" + appPath + "/HostAdmin/";
-				
-				return StringHelper.IndexOf(HttpContext.Current.Request.Path, appPath, false) >= 0;
+				return UrlFormats.IsInSpecialDirectory("HostAdmin");
 			}
 		}
 
