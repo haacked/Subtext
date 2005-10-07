@@ -1,4 +1,4 @@
-<%@ Page %>
+<%@ Page EnableViewState="true" %>
 <%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <%@ Register TagPrefix="BLE" TagName="BlogsEditor" Src="~/HostAdmin/UserControls/BlogsEditor.ascx" %>
 <MP:MasterPage id="MPContainer" runat="server">
