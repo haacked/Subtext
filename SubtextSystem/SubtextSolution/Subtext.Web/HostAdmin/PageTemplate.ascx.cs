@@ -9,12 +9,6 @@ namespace Subtext.Web.HostAdmin
 	public class PageTemplate : System.Web.UI.UserControl
 	{
 		protected System.Web.UI.WebControls.Literal hostAdminName;
-		/// <summary>
-		/// Creates a new <see cref="PageTemplate"/> instance.
-		/// </summary>
-		public PageTemplate() : base()
-		{
-		}
 
 		protected override void OnLoad(EventArgs e)
 		{
