@@ -11,7 +11,9 @@ TODOs:
 	1) figure out how to take advantage of 2 seperate DB connections
 		possibly by using the USE <databaseName> keyword?
 	2) clean up this UGLY SQL and format it for readability.
-	3) I'm sure there's a lot more to be done...
+	3) Allow user to override the user and database name for the source database.
+	4) Allow the user to override the user name for the destination database.
+	5) I'm sure there's a lot more to be done...
 
 DECLARE @user_name varchar(30)
 SELECT @user_name = user_name()
@@ -21,12 +23,12 @@ SELECT @user_name = user_name()
 -- subtext_Config
 SET IDENTITY_INSERT SubtextData.dbo.subtext_Config ON
 INSERT INTO SubtextData.dbo.subtext_Config 
-( BlogID, UserName, Password, Email, Title, SubTitle, Skin, Application, Host, Author,
+( BlogID, UserName, [Password], Email, Title, SubTitle, Skin, Application, Host, Author,
 	TimeZone, IsActive, Language, ItemCount, LastUpdated, News, SecondaryCss, PostCount, 
 	StoryCount, PingTrackCount, CommentCount, IsAggregated, Flag, SkinCssFile, 
 	BlogGroup, LicenseUrl, DaysTillCommentsClose, CommentDelayInMinutes )
 	SELECT 
-		BlogID, UserName, Password, Email, Title, SubTitle, Skin, Application, Host, Author,
+		BlogID, UserName, [Password], Email, Title, SubTitle, Skin, Application, Host, Author,
 		TimeZone, IsActive, Language, ItemCount, LastUpdated, News, SecondaryCss, PostCount, 
 		StoryCount, PingTrackCount, CommentCount, IsAggregated, Flag, SkinCssFile, BlogGroup, null, null, null
 	FROM blog_Config
@@ -37,12 +39,12 @@ GO
 -- subtext_Content
 SET IDENTITY_INSERT SubtextData.dbo.subtext_Content ON
 INSERT INTO SubtextData.dbo.subtext_Content 
-( ID, Title, DateAdded, SourceUrl, PostType, Author, Email, SourceName, BlogID, Description,
+( [ID], Title, DateAdded, SourceUrl, PostType, Author, Email, SourceName, BlogID, [Description],
 	DateUpdated, TitleUrl, Text, ParentID, FeedBackCount, PostConfig, EntryName, 
 	ContentChecksumHash, DateSyndicated )
 	SELECT 
-		ID, Title, DateAdded, SourceUrl, PostType, Author, Email, SourceName, BlogID, Description,
-		DateUpdated, TitleUrl, Text, ParentID, FeedBackCount, PostConfig, EntryName, null, null 
+		[ID], Title, DateAdded, SourceUrl, PostType, Author, Email, SourceName, BlogID, [Description],
+		DateUpdated, TitleUrl, Text, ParentID, FeedBackCount, PostConfig, EntryName, null, DateUpdated 
 	FROM blog_Content
 	WHERE 1=1
 SET IDENTITY_INSERT SubtextData.dbo.subtext_Content OFF
