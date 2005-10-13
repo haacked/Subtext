@@ -1,0 +1,48 @@
+subText Project - CVS Tag and Branching Guidelines
+================================================================================
+
+If you are getting ready to COMMIT some changes, please be sure 
+to read (and follow) these Guidelines for the subText project.
+
+1.	When we get ready for a public release of the next verion of 
+	subText, we will TAG the MAIN (Trunk) Branch as follows:
+	REL_Major.Minor.Patch
+		ex -> REL_1.0.1
+
+2.	If we find a bug and need the fix before the next Minor release, 
+	we will create a RELEASE BRANCH (branching from the REL_x.y.z tag) 
+	as follows:
+	RB_Major.Minor.Patch
+		ex -> RB_1.0.1
+
+3.	Before we merge a RELEASE BRANCH into the MAIN (Trunk) branch we will 
+	TAG the Trunk as follows: (where ### is the number in our bug tracker)
+	PRE_Bug.###		<-- TAG right before we merge
+	POST_Bug.###	<-- TAG right after the merge
+
+4.	If a developer wants to BRANCH the code so they can experiment with 
+	a new feature they are interested in adding, they should branch from 
+	the Trunk as follows:
+	EXP_initials.yyyymmdd
+		ex -> EXP_SH.20051012
+
+5.	For branches that will be shared b/t developers for implementing 
+	new features, refactoring, etc... name the BRANCH as follows:
+	EXP_somethingDescriptive.moreDetailIfNeeded
+		ex -> EXP_BlogImportChanges	 or	 
+				EXP_BlogImportChanges.RemoveOldImport
+
+================================================================================
+For more information on how to work with TAG and BRANCH in CVS, please 
+see the following resources:
+
+The CVS Wiki & FAQ- 
+http://ximbiot.com/cvs/wiki/index.php?title=CVS--Concurrent_Versions_System_v1.12.12.1
+http://ximbiot.com/cvs/wiki/index.php?title=CVS_FAQ
+
+TortoiseCVS Daily Use Guide -
+http://noc.postnuke.com/docman/view.php/6/41/TortoiseCVS.htm
+
+================================================================================
+For more information on how to use CVS with SourceForge projects, 
+please read http://haacked.com/archive/2005/05/12/3178.aspx
