@@ -1,325 +1,381 @@
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_VersionAdd]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[iter_charlist_to_table]') and xtype in (N'FN', N'IF', N'TF'))
+drop function [dbo].[iter_charlist_to_table]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_VersionAdd]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_VersionAdd]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_VersionGetCurrent]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_VersionGetCurrent]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_VersionGetCurrent]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetHost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetHost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetHost]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_UpdateHost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_UpdateHost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_UpdateHost]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetCommentByChecksumHash]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetCommentByChecksumHash]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetCommentByChecksumHash]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetPageableBlogs]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPageableBlogs]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetPageableBlogs]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetBlogsByHost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetBlogsByHost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetBlogsByHost]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetBlogById]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetBlogById]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetBlogById]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_DeleteCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_DeleteCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_DeleteCategory]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_DeleteImage]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_DeleteImage]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_DeleteImage]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_DeleteImageCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_DeleteImageCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_DeleteImageCategory]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_DeleteKeyWord]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_DeleteKeyWord]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_DeleteKeyWord]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_DeleteLink]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_DeleteLink]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_DeleteLink]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_DeleteLinksByPostID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_DeleteLinksByPostID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_DeleteLinksByPostID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_DeletePost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_DeletePost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_DeletePost]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetActiveCategoriesWithLinkCollection]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetActiveCategoriesWithLinkCollection]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetActiveCategoriesWithLinkCollection]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetAllCategories]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetAllCategories]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetAllCategories]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetBlogKeyWords]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetBlogKeyWords]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetBlogKeyWords]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetCategory]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetCategoryByName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetCategoryByName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetCategoryByName]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetConditionalEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetConditionalEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetConditionalEntries]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetConditionalEntriesByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetConditionalEntriesByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetConditionalEntriesByDateUpdated]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetConfig]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetConfig]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetConfig]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetEntriesByDayRange]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetEntriesByDayRange]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetEntriesByDayRange]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetEntryCollectionByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetEntryCollectionByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetEntryCollectionByDateUpdated]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetEntryWithCategoryTitles]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetEntryWithCategoryTitles]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetEntryWithCategoryTitles]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetEntryWithCategoryTitlesByEntryName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetEntryWithCategoryTitlesByEntryName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetEntryWithCategoryTitlesByEntryName]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetFeedBack]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetFeedBack]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetFeedBack]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetImageCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetImageCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetImageCategory]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetKeyWord]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetKeyWord]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetKeyWord]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetLinkCollectionByPostID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetLinkCollectionByPostID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetLinkCollectionByPostID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetLinksByActiveCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetLinksByActiveCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetLinksByActiveCategoryID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetLinksByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetLinksByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetLinksByCategoryID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetPageableEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPageableEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetPageableEntries]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetPageableEntriesByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPageableEntriesByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetPageableEntriesByCategoryID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetPageableFeedback]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPageableFeedback]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetPageableFeedback]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetPageableKeyWords]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPageableKeyWords]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetPageableKeyWords]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetPageableLinks]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPageableLinks]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetPageableLinks]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetPageableLinksByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPageableLinksByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetPageableLinksByCategoryID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetPageableReferrers]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPageableReferrers]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetPageableReferrers]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetPageableReferrersByEntryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPageableReferrersByEntryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetPageableReferrersByEntryID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetPostsByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPostsByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetPostsByCategoryID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetPostsByCategoryIDByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPostsByCategoryIDByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetPostsByCategoryIDByDateUpdated]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetPostsByCategoryName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPostsByCategoryName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetPostsByCategoryName]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetPostsByCategoryNameByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPostsByCategoryNameByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetPostsByCategoryNameByDateUpdated]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetPostsByDayRange]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPostsByDayRange]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetPostsByDayRange]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetPostsByMonth]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPostsByMonth]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetPostsByMonth]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetPostsByMonthArchive]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPostsByMonthArchive]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetPostsByMonthArchive]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetPostsByYearArchive]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPostsByYearArchive]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetPostsByYearArchive]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetRecentEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetRecentEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetRecentEntries]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetRecentEntriesByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetRecentEntriesByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetRecentEntriesByDateUpdated]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetRecentEntriesWithCategoryTitles]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetRecentEntriesWithCategoryTitles]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetRecentEntriesWithCategoryTitles]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetSingleDay]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetSingleDay]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetSingleDay]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetSingleEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetSingleEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetSingleEntry]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetSingleEntryByName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetSingleEntryByName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetSingleEntryByName]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetSingleImage]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetSingleImage]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetSingleImage]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetSingleLink]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetSingleLink]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetSingleLink]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_GetUrlID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetUrlID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetUrlID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_InsertCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_InsertCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_InsertCategory]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_InsertEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_InsertEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_InsertEntry]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_InsertEntryViewCount]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_InsertEntryViewCount]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_InsertEntryViewCount]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_InsertImage]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_InsertImage]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_InsertImage]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_InsertKeyWord]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_InsertKeyWord]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_InsertKeyWord]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_InsertLink]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_InsertLink]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_InsertLink]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_InsertLinkCategoryList]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_InsertLinkCategoryList]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_InsertLinkCategoryList]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_InsertPingTrackEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_InsertPingTrackEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_InsertPingTrackEntry]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_InsertPostCategoryByName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_InsertPostCategoryByName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_InsertPostCategoryByName]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_InsertReferral]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_InsertReferral]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_InsertReferral]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_InsertViewStats]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_InsertViewStats]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_InsertViewStats]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_StatsSummary]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_StatsSummary]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_StatsSummary]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_TrackEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_TrackEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_TrackEntry]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_UTILITY_AddBlog]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_UTILITY_AddBlog]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_UTILITY_AddBlog]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_UpdateCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_UpdateCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_UpdateCategory]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_UpdateConfig]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_UpdateConfig]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_UpdateConfig]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_UpdateConfigUpdateTime]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_UpdateConfigUpdateTime]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_UpdateConfigUpdateTime]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_UpdateEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_UpdateEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_UpdateEntry]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_UpdateImage]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_UpdateImage]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_UpdateImage]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_UpdateKeyWord]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_UpdateKeyWord]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_UpdateKeyWord]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_UpdateLink]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_UpdateLink]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_UpdateLink]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_Utility_GetUnHashedPasswords]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Utility_GetUnHashedPasswords]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_Utility_GetUnHashedPasswords]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_Utility_UpdateToHashedPassword]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Utility_UpdateToHashedPassword]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_Utility_UpdateToHashedPassword]
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS OFF 
+GO
+
+--Found at: http://www.algonet.se/~sommar/arrays-in-sql.html
+  CREATE FUNCTION [dbo].[iter_charlist_to_table]
+                    (@list      ntext,
+                     @delimiter nchar(1) = N',')
+         RETURNS @tbl TABLE (listpos int IDENTITY(1, 1) NOT NULL,
+                             str     varchar(4000),
+                             nstr    nvarchar(2000)) AS
+
+   BEGIN
+      DECLARE @pos      int,
+              @textpos  int,
+              @chunklen smallint,
+              @tmpstr   nvarchar(4000),
+              @leftover nvarchar(4000),
+              @tmpval   nvarchar(4000)
+
+      SET @textpos = 1 
+           SET @leftover = ''
+                 WHILE @textpos <= datalength(@list) / 2
+                       BEGIN
+         SET @chunklen = 4000 - datalength(@leftover) / 2
+         SET @tmpstr = @leftover + substring(@list, @textpos, @chunklen)
+         SET @textpos = @textpos + @chunklen
+
+         SET @pos = charindex(@delimiter, @tmpstr)
+
+         WHILE @pos > 0
+         BEGIN
+            SET @tmpval = ltrim(rtrim(left(@tmpstr, @pos - 1)))
+            INSERT @tbl (str, nstr) VALUES(@tmpval, @tmpval)
+            SET @tmpstr = substring(@tmpstr, @pos + 1, len(@tmpstr))
+            SET @pos = charindex(@delimiter, @tmpstr)
+         END
+
+         SET @leftover = @tmpstr
+      END
+
+      INSERT @tbl(str, nstr) VALUES (ltrim(rtrim(@leftover)), ltrim(rtrim(@leftover)))
+   RETURN
+   END
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
 GO
 
 SET QUOTED_IDENTIFIER OFF 
