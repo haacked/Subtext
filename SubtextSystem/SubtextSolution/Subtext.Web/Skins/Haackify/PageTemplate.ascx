@@ -11,21 +11,7 @@
 		<div id="content">
 			<div id="adwrap">
 				<p id="ad">
-					<script type="text/javascript">
-					<!--
-					google_ad_client = "pub-7694059317326582";
-					google_ad_width = 468;
-					google_ad_height = 60;
-					google_ad_format = "468x60_as";
-					google_ad_channel = "3629720158";
-					google_color_border = "FFFFFF";
-					google_color_bg = "FFFFFF";
-					google_color_link = "444444";
-					google_color_url = "BF5010";
-					google_color_text = "444444";
-					//-->
-					</script>
-					<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
+					<!-- //TODO: Put a Google Ad Control here (to be built) -->
 				</p>
 			</div> <!-- end google ad -->
 
@@ -35,56 +21,13 @@
 		</div> <!-- end #content -->
 		
 		<div id="sidebar">
-			<div id="aboutMeBox">
-				<h2>About Haacked</h2>
-				<p>
-				In case you were wondering (and I have no reason to believe you were), &#8220;Haacked&#8221; 
-				is NOT my real name.  In the offline world, people tend to call me Phil Haack 
-				(pronounced "hack"), unless of course they are calling 
-				me more colorful names, as is sometimes deserved. 
-				</p>
-				<p>
-				&#8220;Haacked&#8221; is simply my 
-				<a href="http://haacked.com/archive/2005/03/12/2350.aspx">blogger handle</a>. 
-				(creative, eh?).
-				</p>
-				<p>
-				To pay the bills, I&#8217;m currently an <a href="http://haacked.com/archive/2005/02/22/2168.aspx">independent consultant</a> 
-				specializing in Microsoft technologies (such as .NET) living and working in 
-				sunny (&lt;-- required when mentioning LA) Los Angeles.
-				</p>
-				<p>
-				I&#8217;m also a member of the <a href="http://www.rssbandit.org/">RSS Bandit team</a> 
-				and enjoy documenting its nooks and crannies all the while hacking away at its code 
-				base in my free time.
-				</p>
-				<p>
-				In order to evaporate the little free time I had left over, I recently started a 
-				new open source project named <a href="http://subtextproject.com/">Subtext</a>. This 
-				blog is running off that software.
-				</p>
-			</div>
 			<div>
 				<asp:HyperLink ImageUrl="~/skins/Haackify/images/rss20icon.gif" Runat="server" NavigateUrl="~/Rss.aspx" ID="XMLLink">RSS 2.0 Feed</asp:HyperLink><asp:HyperLink Runat="server" NavigateUrl="~/Rss.aspx" ID="Syndication" /><br />
 				<asp:HyperLink ImageUrl="~/images/PoweredBySubtext85x33.png" Runat="server" NavigateUrl="http://subtextproject.com/" ID="PoweredByLink"></asp:HyperLink>
-				
 			</div>
 			<div>
-			<!-- Start of Flickr Badge -->
-				<table id="flickr_badge_uber_wrapper" cellpadding="0" cellspacing="0" border="0">
-					<tr>
-						<td>
-							<table cellpadding="0" cellspacing="2" border="0" id="flickr_badge_wrapper">
-								<caption>
-									<script type="text/javascript" src="http://www.flickr.com/badge_code_v2.gne?show_name=1&amp;count=4&amp;display=random&amp;size=t&amp;layout=v&amp;source=user_tag&amp;user=95736638%40N00&amp;tag=badge"></script>
-								</caption>
-								<tr>
-									<td align="center" id="flickr_badge_source_txt">View more of<br /> <a href="http://www.flickr.com/photos/haacked/tags/badge/">Haacked's photos</a></td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-				</table>
+<!-- Start of Flickr Badge -->
+				<!-- //TODO: Flickr Badge Control -->
 <!-- End of Flickr Badge -->
 			</div>
 
