@@ -6,7 +6,7 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[FK_subtext_Log_s
 ALTER TABLE [dbo].[subtext_Log] DROP CONSTRAINT FK_subtext_Log_subtext_Config
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_Log]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Log]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
 drop table [subtext_Log]
 GO
 
@@ -18,7 +18,7 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Ve
 drop table [dbo].[subtext_Version]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_Host]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Host]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
 drop table [dbo].[subtext_Host]
 GO
 
@@ -66,47 +66,43 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[FK_subtext_Refer
 ALTER TABLE [dbo].[subtext_Referrals] DROP CONSTRAINT FK_subtext_Referrals_subtext_URLs
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_Content_Trigger]') and OBJECTPROPERTY(id, N'IsTrigger') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Content_Trigger]') and OBJECTPROPERTY(id, N'IsTrigger') = 1)
 drop trigger [dbo].[subtext_Content_Trigger]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[iter_charlist_to_table]') and xtype in (N'FN', N'IF', N'TF'))
-drop function [iter_charlist_to_table]
-GO
-
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_Config]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Config]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
 drop table [dbo].[subtext_Config]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_Content]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Content]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
 drop table [dbo].[subtext_Content]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_EntryViewCount]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_EntryViewCount]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
 drop table [dbo].[subtext_EntryViewCount]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_Images]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Images]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
 drop table [dbo].[subtext_Images]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_KeyWords]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_KeyWords]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
 drop table [dbo].[subtext_KeyWords]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_LinkCategories]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_LinkCategories]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
 drop table [dbo].[subtext_LinkCategories]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_Links]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Links]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
 drop table [dbo].[subtext_Links]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_Referrals]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Referrals]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
 drop table [dbo].[subtext_Referrals]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_URLs]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_URLs]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
 drop table [dbo].[subtext_URLs]
 GO
 
