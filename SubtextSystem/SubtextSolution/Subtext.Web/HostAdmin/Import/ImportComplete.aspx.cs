@@ -1,6 +1,6 @@
 using System;
 
-namespace Subtext.Web.Admin.Import
+namespace Subtext.Web.HostAdmin
 {
 	/// <summary>
 	/// Summary description for ImportComplete.

@@ -4654,11 +4654,81 @@
                 />
                 <File
                     RelPath = "HostAdmin\PageTemplate.ascx.cs"
+                    DependentUpon = "PageTemplate.ascx"
                     SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "HostAdmin\PageTemplate.ascx.resx"
+                    DependentUpon = "PageTemplate.ascx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "HostAdmin\Web.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "HostAdmin\Import\ImportComplete.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "HostAdmin\Import\ImportComplete.aspx.cs"
+                    DependentUpon = "ImportComplete.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "HostAdmin\Import\ImportComplete.aspx.resx"
+                    DependentUpon = "ImportComplete.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "HostAdmin\Import\ImportStart.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "HostAdmin\Import\ImportStart.aspx.cs"
+                    DependentUpon = "ImportStart.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "HostAdmin\Import\ImportStart.aspx.resx"
+                    DependentUpon = "ImportStart.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "HostAdmin\Import\Step01_SelectImportProvider.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "HostAdmin\Import\Step01_SelectImportProvider.aspx.cs"
+                    DependentUpon = "Step01_SelectImportProvider.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "HostAdmin\Import\Step01_SelectImportProvider.aspx.resx"
+                    DependentUpon = "Step01_SelectImportProvider.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "HostAdmin\Import\Step02_GatherInfo.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "HostAdmin\Import\Step02_GatherInfo.aspx.cs"
+                    DependentUpon = "Step02_GatherInfo.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "HostAdmin\Import\Step02_GatherInfo.aspx.resx"
+                    DependentUpon = "Step02_GatherInfo.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "HostAdmin\Import\Web.config"
                     BuildAction = "None"
                 />
                 <File

@@ -1,6 +1,6 @@
-<%@ Page language="c#" Codebehind="ImportComplete.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Import.ImportComplete" %>
+<%@ Page language="c#" Codebehind="ImportComplete.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.HostAdmin.ImportComplete" %>
 <%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
-<MP:MasterPage id="MPContainer" TemplateFile="~/Admin/Import/PageTemplate.ascx" runat="server">
+<MP:MasterPage id="MPContainer" TemplateFile="~/HostAdmin/PageTemplate.ascx" runat="server">
 	<MP:ContentRegion id="MPTitle" runat="server">Subtext - Import Complete!</MP:ContentRegion>
 	<MP:ContentRegion id="MPSubTitle" runat="server">Import Complete!</MP:ContentRegion>
 	<p>Good News! The import is complete.</p>

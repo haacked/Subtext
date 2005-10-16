@@ -23,7 +23,10 @@ honorary status) who does not follow them.
 	them ADDED and then COMMITED to CVS!
     After checking in your changes, wipe your working/merge directory, re-UPDATE 
     the tree and recompile locally. If that breaks, some files are missing, fix 
-    the problem. 
+    the problem.
+  3.1	If you have COMMIT privilages, please read Docs/subText_CVSGuidelines.txt 
+		before you make any commits. This document explains how TAGs & BRANCHes 
+		for the subText project will be handled/named.
 
 4.	If you want to add a feature or fix a bug, we expect that you know what you 
 	are doing. 

@@ -114,6 +114,16 @@
                     Project = "{2278427B-8BAD-4CE9-B15A-FD1131753D64}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "log4net"
+                    AssemblyName = "log4net"
+                    HintPath = "..\Subtext.Framework\ExternalDependencies\log4net.dll"
+                />
+                <Reference
+                    Name = "Subtext.Framework"
+                    Project = "{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
             </References>
         </Build>
         <Files>

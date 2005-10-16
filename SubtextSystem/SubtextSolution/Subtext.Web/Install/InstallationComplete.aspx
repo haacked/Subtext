@@ -10,6 +10,6 @@
 	</p>
 	<p>
 		If you need to import data from another blogging engine, try 
-		the <a href="~/Admin/Import/" runat="server" id="importWizardAnchor">Import Wizard</a>.
+		the <a href="~/HostAdmin/Import/ImportStart.aspx" runat="server" id="importWizardAnchor">Import Wizard</a>.
 	</p>
 </MP:MasterPage>

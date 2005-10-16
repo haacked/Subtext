@@ -1,7 +1,7 @@
 using System;
 using Subtext.Extensibility.Providers;
 
-namespace Subtext.Web.Admin.Import
+namespace Subtext.Web.HostAdmin
 {
 	/// <summary>
 	/// Summary description for Step01_SelectImportProvider.
@@ -9,10 +9,10 @@ namespace Subtext.Web.Admin.Import
 	public class Step01_SelectImportProvider : System.Web.UI.Page
 	{
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
-		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
 		protected System.Web.UI.WebControls.Button btnNext;
 		protected System.Web.UI.WebControls.RadioButtonList rdlImportProviders;
 		protected System.Web.UI.WebControls.RequiredFieldValidator vldImportProviders;
+		protected Subtext.Web.Controls.ContentRegion MPSectionTitle;
 		protected Subtext.Web.Controls.MasterPage MPContainer;
 	
 		private void Page_Load(object sender, System.EventArgs e)
