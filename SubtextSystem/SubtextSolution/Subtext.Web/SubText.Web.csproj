@@ -684,75 +684,6 @@
                     BuildAction = "None"
                 />
                 <File
-                    RelPath = "Admin\Import\Default.aspx"
-                    SubType = "Form"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Admin\Import\Default.aspx.cs"
-                    DependentUpon = "Default.aspx"
-                    SubType = "ASPXCodeBehind"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Admin\Import\Default.aspx.resx"
-                    DependentUpon = "Default.aspx.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Admin\Import\ImportComplete.aspx"
-                    SubType = "Form"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Admin\Import\ImportComplete.aspx.cs"
-                    DependentUpon = "ImportComplete.aspx"
-                    SubType = "ASPXCodeBehind"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Admin\Import\ImportComplete.aspx.resx"
-                    DependentUpon = "ImportComplete.aspx.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Admin\Import\PageTemplate.ascx"
-                    SubType = "UserControl"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Admin\Import\Step01_SelectImportProvider.aspx"
-                    SubType = "Form"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Admin\Import\Step01_SelectImportProvider.aspx.cs"
-                    DependentUpon = "Step01_SelectImportProvider.aspx"
-                    SubType = "ASPXCodeBehind"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Admin\Import\Step01_SelectImportProvider.aspx.resx"
-                    DependentUpon = "Step01_SelectImportProvider.aspx.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Admin\Import\Step02_GatherInfo.aspx"
-                    SubType = "Form"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Admin\Import\Step02_GatherInfo.aspx.cs"
-                    DependentUpon = "Step02_GatherInfo.aspx"
-                    SubType = "ASPXCodeBehind"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Admin\Import\Step02_GatherInfo.aspx.resx"
-                    DependentUpon = "Step02_GatherInfo.aspx.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "Admin\Resources\admin.css"
                     BuildAction = "Content"
                 />
@@ -5350,6 +5281,142 @@
                     BuildAction = "Content"
                 />
                 <Folder RelPath = "Skins\gertrude\Images\" />
+                <File
+                    RelPath = "Skins\Haacked\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\ArchiveCategory.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\ArchiveDay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\ArchiveLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\ArchiveMonth.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\BlogStats.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\CategoryDisplay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\CategoryEntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\CategoryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\Comments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\Contact.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\Day.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\DayCollection.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\EntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\Footer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\GalleryThumbNailViewer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\Header.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\HomePage.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\Login.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\MonthListings.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\MyLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\News.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\PostComment.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\RelatedLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\ViewPicture.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Images\bottom.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Images\Header.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Images\Header.jpg.bak"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Images\rss20icon.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Images\sidesbg.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haacked\Images\Thumbs.db"
+                    BuildAction = "None"
+                />
                 <File
                     RelPath = "Skins\Haackify\PageTemplate.ascx"
                     BuildAction = "Content"
