@@ -1,4 +1,4 @@
-using System;
+	using System;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
@@ -18,8 +18,9 @@ namespace Subtext.Web.Install
 		protected System.Web.UI.WebControls.Literal ltlMessage;
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
-		protected Subtext.Web.Controls.ContentRegion Content;
 		protected Subtext.Web.Controls.MasterPage MPContainer;
+		protected System.Web.UI.WebControls.Button btnImportBlog;
+		protected Subtext.Web.Controls.ContentRegion Content;
 	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
@@ -57,6 +58,7 @@ namespace Subtext.Web.Install
 		private void InitializeComponent()
 		{    
 			this.btnQuickCreate.Click += new System.EventHandler(this.btnQuickCreate_Click);
+			this.btnImportBlog.Click += new System.EventHandler(this.btnImportBlog_Click);
 			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
@@ -85,6 +87,12 @@ namespace Subtext.Web.Install
 				//TODO: Pick a non-generic exception.
 				throw new Exception(errorMessage);
 			}
+		}
+
+		private void btnImportBlog_Click(object sender, System.EventArgs e)
+		{
+			// We need to get over to the Import pages... why do i keep getting redirected here?
+			Response.Redirect("~/HostAdmin/Import/ImportStart.aspx");
 		}
 	}
 }

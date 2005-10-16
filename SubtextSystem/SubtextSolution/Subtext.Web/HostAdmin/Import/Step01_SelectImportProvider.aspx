@@ -1,9 +1,8 @@
 <%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
-<%@ Page language="c#" Codebehind="Step01_SelectImportProvider.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Import.Step01_SelectImportProvider" %>
-<MP:MasterPage id="MPContainer" TemplateFile="~/Admin/Import/PageTemplate.ascx" runat="server">
-	<MP:ContentRegion id="MPTitle" runat="server">Subtext Import - Step 1 - Select an Import 
-Provider</MP:ContentRegion>
-	<MP:ContentRegion id="MPSubTitle" runat="server">Select an Import Provider</MP:ContentRegion>
+<%@ Page language="c#" Codebehind="Step01_SelectImportProvider.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.HostAdmin.Step01_SelectImportProvider" %>
+<MP:MasterPage id="MPContainer" TemplateFile="~/HostAdmin/PageTemplate.ascx" runat="server">
+	<MP:ContentRegion id="MPTitle" runat="server">Subtext Import - Step 1 - Select an Import Provider</MP:ContentRegion>
+	<MP:ContentRegion id="MPSectionTitle" runat="server">Select an Import Provider</MP:ContentRegion>
 	<p>In this step, you’ll select an import provider used to import data from another 
 		blog engine. If you don’t see your blog engine listed here, then either you 
 		don’t have an import provider for that engine installed, or nobody has written 

@@ -22,7 +22,6 @@ namespace Subtext.Installation.Import
 		public override void Initialize(string name, NameValueCollection configValue)
 		{
 		}
-
 		/// <summary>
 		/// <p>
 		/// This method is called by the import engine in order to ask the 
@@ -73,8 +72,9 @@ namespace Subtext.Installation.Import
 			string dotTextConnectionString;
 			GetConnectionStringsFromControl(populatedControl, out dotTextConnectionString, out subtextConnectionString);
 
-			/*
-			using(SqlConnection connection = new SqlConnection(subtextConnectionString))
+			
+			//using(SqlConnection connection = new SqlConnection(subtextConnectionString))
+			using(SqlConnection connection = new SqlConnection(dotTextConnectionString))
 			{
 				connection.Open();
 				using(SqlTransaction transaction = connection.BeginTransaction())
@@ -84,6 +84,7 @@ namespace Subtext.Installation.Import
 						// Hmmm... we can't assume that the .TEXT database is on the same 
 						// server (or database) as our database.  We might have to do a 
 						// cross database join.  We might need to do something more tricky here.
+						
 						if(ScriptHelper.ExecuteScript("ImportDotText095.sql", transaction))
 						{
 							bool result = ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction);
@@ -103,8 +104,6 @@ namespace Subtext.Installation.Import
 					}
 				}
 			}
-			*/
-			throw new NotImplementedException("Sorry, this is not yet implemented.");
 		}
 
 		/// <summary>
@@ -146,7 +145,7 @@ namespace Subtext.Installation.Import
 						+ "there is a Subtext database corresponding to the connection string provided. " 
 						+ "Please double check that the &#8220;subtext_config&#8221; table exists.  If it does, " 
 						+ "double check that it was created using the [dbo] account OR by the same user " 
-						+ "specified in the .sUBTEXT connection string below.";
+						+ "specified in the subText connection string below.";
 					return errorMessage;
 				}
 			}
@@ -154,7 +153,7 @@ namespace Subtext.Installation.Import
 			{
 				return "There was an error while trying to connect to the database.  The error is &#8220;" + exception.Message + "&#8221;";
 			}
-			catch(System.ArgumentException)
+			catch(ArgumentException)
 			{
 				return "The format for the connection string is incorrect. Please double check it and try again.";
 			}

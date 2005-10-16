@@ -326,6 +326,10 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Ut
 drop procedure [dbo].[subtext_Utility_UpdateToHashedPassword]
 GO
 
+if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_AddLogEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [dbo].[subtext_AddLogEntry]
+GO
+
 SET QUOTED_IDENTIFIER OFF 
 GO
 SET ANSI_NULLS OFF 
