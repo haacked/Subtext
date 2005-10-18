@@ -25,6 +25,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml.Serialization;
+using Subtext.Framework.Threading;
 
 namespace Subtext.Common.UrlManager
 {
@@ -158,7 +159,7 @@ namespace Subtext.Common.UrlManager
 			{
 				if(this._httpHanlderType == null)
 				{
-					lock(handlerLock)
+					using(TimedLock.Lock(handlerLock))
 					{
 						if(this._httpHanlderType == null)
 						{
@@ -175,7 +176,7 @@ namespace Subtext.Common.UrlManager
 		{
 			if(constructor == null)
 			{
-				lock(handlerLock)
+				using(TimedLock.Lock(handlerLock))
 				{
 					if(constructor == null)
 					{

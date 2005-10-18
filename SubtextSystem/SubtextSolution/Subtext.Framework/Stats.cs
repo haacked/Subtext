@@ -26,6 +26,7 @@ using System.Collections.Specialized;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Threading;
 using Subtext.Framework.Tracking;
 using Subtext.Framework.Util;
 
@@ -63,7 +64,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static bool ClearQueue(bool save)
 		{
-			lock(queuedStatsList.SyncRoot)
+			using(TimedLock.Lock(queuedStatsList.SyncRoot))
 			{
 				if(save)
 				{
@@ -89,7 +90,7 @@ namespace Subtext.Framework
 			if(queuedStatsList.Count >= queuedAllowCount)
 			{
 				//aquire the lock
-				lock(queuedStatsList.SyncRoot)
+				using(TimedLock.Lock(queuedStatsList.SyncRoot))
 				{
 					//make sure the pool queue was not cleared during a wait for the lock
 					if(queuedStatsList.Count >= queuedAllowCount)

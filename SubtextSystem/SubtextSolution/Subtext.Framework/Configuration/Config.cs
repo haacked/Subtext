@@ -194,7 +194,7 @@ namespace Subtext.Framework.Configuration
 			if(!passwordAlreadyHashed && Config.Settings.UseHashedPasswords)
 				password = Security.HashPassword(password);
 
-			lock(_synchBlock)
+			using(TimedLock.Lock(_synchBlock))
 			{
 				_blogCount++;
 			}
