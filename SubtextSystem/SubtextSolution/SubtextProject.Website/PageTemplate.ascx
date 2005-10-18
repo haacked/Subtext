@@ -8,6 +8,8 @@
 		<title><MP:ContentRegion id="MPTitle" runat="server" /></title>
 		<link rel="stylesheet" type="text/css" href="~/style/Style.css" runat="server" />
 		<link rel="shortcut icon"  href="~/favicon.ico" type="image/x-icon" runat="server" />
+		<sp:ScriptTag id="HelptipJs" type="text/javascript" src="~/scripts/helptip.js" runat="server" />
+		<link rel="stylesheet" type="text/css" href="~/scripts/helptip.css" runat="server" ID="Link1"/>
 	</head>
 	<body>
 		<div id="main">
