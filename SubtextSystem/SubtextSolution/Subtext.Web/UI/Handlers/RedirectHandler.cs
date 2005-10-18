@@ -11,21 +11,24 @@ using Subtext.Framework.Util;
 namespace Subtext.Web.UI.Handlers
 {
 	/// <summary>
-	/// Summary description for RedirectHandler.
+	/// Handles redirects of incoming requests to the appropriate control.
 	/// </summary>
 	public class RedirectHandler : System.Web.IHttpHandler
 	{
-		public RedirectHandler()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
 		#region IHttpHandler Members
 
+		/// <summary>
+		/// Enables processing of HTTP Web requests by a custom
+		/// <see langword="HttpHandler "/>
+		/// that implements the <see cref="T:System.Web.IHttpHandler"/> interface.
+		/// </summary>
+		/// <remarks>
+		/// Parses the incoming request url to determine where the request 
+		/// should be redirected.
+		/// </remarks>
+		/// <param name="context">An <see cref="T:System.Web.HttpContext"/> object that provides references to the intrinsic server objects (for example, <see langword="Request"/>, <see langword="Response"/>, <see langword="Session"/>, and <see langword="Server"/>)<see langword=""/> used to service HTTP requests.</param>
 		public void ProcessRequest(HttpContext context)
 		{
-			
 			string uri = context.Request.Path;
 			string redirectUrl = null;
 
@@ -38,15 +41,23 @@ namespace Subtext.Web.UI.Handlers
 				UrlFormats formats = Config.CurrentBlog.UrlFormats;
 
 				string dateString = UrlFormats.GetRequestedFileName(uri);
-				if(dateString.Length == 8)
+				try
 				{
-					DateTime dt = DateTime.ParseExact(dateString,"MMddyyyy",new CultureInfo("en-US"));
-					redirectUrl = formats.DayUrl(dt);
+					if(dateString.Length == 8)
+					{
+						DateTime dt = DateTime.ParseExact(dateString,"MMddyyyy",new CultureInfo("en-US"));
+						redirectUrl = formats.DayUrl(dt);
+					}
+					else
+					{
+						DateTime dt = DateTime.ParseExact(dateString,"MMyyyy",new CultureInfo("en-US"));
+						redirectUrl = formats.MonthUrl(dt);
+					}
 				}
-				else
+				catch(System.FormatException)
 				{
-					DateTime dt = DateTime.ParseExact(dateString,"MMyyyy",new CultureInfo("en-US"));
-					redirectUrl = formats.MonthUrl(dt);
+					context.Response.StatusCode = 404;
+					context.Response.Redirect("~/SystemMessages/FileNotFound.aspx");
 				}
 			}
 			else if(Regex.IsMatch(uri,"/posts/|/story/",RegexOptions.IgnoreCase))
@@ -55,11 +66,12 @@ namespace Subtext.Web.UI.Handlers
 				Entry entry = null;
 				if(WebPathStripper.IsNumeric(entryName))
 				{
-					entry = Cacher.SingleEntry(Int32.Parse(entryName),CacheTime.Short,context);
+					entry = Cacher.GetSingleEntry(Int32.Parse(entryName), CacheTime.Short, context);
 				}
 				else
 				{
-					entry = Cacher.SingleEntry(entryName,CacheTime.Short,context);
+					//This is why EntryName must be unique.
+					entry = Cacher.GetSingleEntry(entryName, CacheTime.Short, context);
 				}
 				
 				if(entry != null)
@@ -71,7 +83,7 @@ namespace Subtext.Web.UI.Handlers
 			if(redirectUrl != null)
 			{
 				context.Response.StatusCode = 301;
-				context.Response.Redirect(redirectUrl,true);
+				context.Response.Redirect(redirectUrl, true);
 			}
 			else
 			{
@@ -79,12 +91,17 @@ namespace Subtext.Web.UI.Handlers
 			}
 		}
 
+		/// <summary>
+		/// Gets a value indicating whether another request can use
+		/// the <see cref="T:System.Web.IHttpHandler"/>
+		/// instance.
+		/// </summary>
+		/// <value></value>
 		public bool IsReusable
 		{
 			get
 			{
-				// TODO:  Add RedirectHandler.IsReusable getter implementation
-				return false;
+				return true;
 			}
 		}
 

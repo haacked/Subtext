@@ -211,21 +211,30 @@ namespace Subtext.Common.Data
 
 			if(WebPathStripper.IsNumeric(id))
 			{
-				return SingleEntry(Int32.Parse(id),CacheTime.Short,context);
+				return GetSingleEntry(Int32.Parse(id),CacheTime.Short,context);
 			}
 			else
 			{
-				return SingleEntry(id,CacheTime.Short,context);
+				return GetSingleEntry(id,CacheTime.Short,context);
 			}
 		}
 
 		private static readonly string EntryKeyID="Entry{0}BlogID{1}";
 		private static readonly string EntryKeyName="EntryName{0}BlogID{1}";
 
-		public static Entry SingleEntry(string EntryName, CacheTime ct, HttpContext context)
+		/// <summary>
+		/// Retrieves a single entry from the cache by the entry name.  
+		/// If it is not in the cache, gets it from the database and 
+		/// inserts it into the cache.
+		/// </summary>
+		/// <param name="EntryName">Name of the entry.</param>
+		/// <param name="ct">The ct.</param>
+		/// <param name="context">The context.</param>
+		/// <returns></returns>
+		public static Entry GetSingleEntry(string EntryName, CacheTime ct, HttpContext context)
 		{
-			int BID  =  BlogID();
-			string key = string.Format(EntryKeyName,EntryName,BID);
+			int blogId  =  BlogID();
+			string key = string.Format(EntryKeyName, EntryName, blogId);
 			
 			Entry entry = (Entry)context.Cache[key];
 			if(entry == null)
@@ -237,18 +246,27 @@ namespace Subtext.Common.Data
 
 					//Most other page items will use the entryID. Add entry to cache for id key as well.
 					//Bind them together with a cache dependency.
-					string entryIDKey = string.Format(EntryKeyID,entry.EntryID,BID);
-					CacheDependency cd = new CacheDependency(null,new string[]{key});
-					context.Cache.Insert(entryIDKey,entry,cd);
+					string entryIDKey = string.Format(EntryKeyID, entry.EntryID, blogId);
+					CacheDependency cd = new CacheDependency(null, new string[]{key});
+					context.Cache.Insert(entryIDKey, entry, cd);
 
 				}
 			}
 			return entry;
 		}
 
-		public static Entry SingleEntry(int EntryID, CacheTime ct, HttpContext context)
+		/// <summary>
+		/// Retrieves a single entry from the cache by the id.
+		/// If it is not in the cache, gets it from the database and
+		/// inserts it into the cache.
+		/// </summary>
+		/// <param name="EntryID">The entry ID.</param>
+		/// <param name="ct">The ct.</param>
+		/// <param name="context">The context.</param>
+		/// <returns></returns>
+		public static Entry GetSingleEntry(int EntryID, CacheTime ct, HttpContext context)
 		{
-			string key = string.Format(EntryKeyID,EntryID,BlogID());
+			string key = string.Format(EntryKeyID, EntryID, BlogID());
 			
 			Entry entry = (Entry)context.Cache[key];
 			if(entry == null)
@@ -256,7 +274,7 @@ namespace Subtext.Common.Data
 				entry = Entries.GetEntry(EntryID,true);		
 				if(entry != null)
 				{
-					CacherCache(key,context,entry,ct);
+					CacherCache(key, context, entry, ct);
 				}
 			}
 			return entry;

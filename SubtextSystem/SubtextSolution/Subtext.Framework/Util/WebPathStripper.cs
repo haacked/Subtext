@@ -74,6 +74,11 @@ namespace Subtext.Framework.Util
 			return Regex.Replace(url, "/rss$", string.Empty);
 		}
 
+		/// <summary>
+		/// Gets the name of the requested file.
+		/// </summary>
+		/// <param name="uri">The URI.</param>
+		/// <returns></returns>
 		public static string GetRequestedFileName(string uri)
 		{
 			return Path.GetFileNameWithoutExtension(uri);
