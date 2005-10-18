@@ -8,6 +8,25 @@ namespace Subtext.Framework.Configuration
 	[Serializable]
 	public class SkinConfig
 	{
+		static SkinConfig _defaultSkin = CreateDefaultSkin();
+
+		/// <summary>
+		/// Gets the default skin.
+		/// </summary>
+		/// <returns></returns>
+		public static SkinConfig GetDefaultSkin()
+		{
+			return _defaultSkin;
+		}
+
+		static SkinConfig CreateDefaultSkin()
+		{
+			SkinConfig defaultSkin = new SkinConfig();
+			defaultSkin.SkinName = "RedBook";
+			defaultSkin.SkinCssFile = "Blue.css";
+			return defaultSkin;
+		}
+
 		private string _skinName;
 		public string SkinName
 		{

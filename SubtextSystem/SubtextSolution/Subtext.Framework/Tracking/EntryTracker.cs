@@ -29,6 +29,11 @@ namespace Subtext.Framework.Tracking
 		private static bool AggTrack = false;
 		private static bool QueueStats = false;
 		
+		/// <summary>
+		/// Records the request in the database for statistics/tracking purposes.
+		/// </summary>
+		/// <param name="ev">The ev.</param>
+		/// <returns></returns>
 		public static bool Track(EntryView ev)
 		{
 			if(QueueStats)
@@ -41,11 +46,18 @@ namespace Subtext.Framework.Tracking
 			}
 		}
 
+		/// <summary>
+		/// Records the request in the database for statistics/tracking purposes.
+		/// </summary>
+		/// <param name="context">The context.</param>
+		/// <param name="EntryID">The entry ID.</param>
+		/// <param name="BlogID">The blog ID.</param>
+		/// <returns></returns>
 		public static bool Track(HttpContext context, int EntryID, int BlogID)
 		{
 			if(WebTrack)
 			{
-				if(FilerUserAgent(context.Request.UserAgent))
+				if(FilterUserAgent(context.Request.UserAgent))
 				{
 					if(context.Request.HttpMethod != "POST")
 					{
@@ -79,7 +91,7 @@ namespace Subtext.Framework.Tracking
 			return url;
 		}
 
-		private static bool FilerUserAgent(string agent)
+		private static bool FilterUserAgent(string agent)
 		{
 			return (agent != null && agent.Length > 0 && Regex.IsMatch(agent,"msie|mozilla|opera",RegexOptions.IgnoreCase));
 		}

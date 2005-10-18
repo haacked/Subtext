@@ -3,6 +3,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Web.UI;
 using System.Web.UI.Design;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.UI.WebControls
 {
@@ -20,6 +21,7 @@ namespace Subtext.Web.UI.WebControls
 		Designer(typeof(ReadWriteControlDesigner))]
 	public class MasterPage : System.Web.UI.HtmlControls.HtmlContainerControl
 	{
+		Subtext.Framework.Logging.Log Log = new Subtext.Framework.Logging.Log();
 		private string templateFile = null;
 		private Control template = null;
 
@@ -66,7 +68,17 @@ namespace Subtext.Web.UI.WebControls
 			{
 				throw new ApplicationException("TemplateFile Property for MasterPage must be Defined");
 			}
-			this.template = this.Page.LoadControl(this.TemplateFile);
+			try
+			{
+				this.template = this.Page.LoadControl(this.TemplateFile);
+			}
+			catch(System.IO.FileNotFoundException e)
+			{
+				Log.Warn("The configured skin '" + Config.CurrentBlog.Skin.SkinName + "' does not exist.  Reverting to a default skin.", e);
+				Config.CurrentBlog.Skin = SkinConfig.GetDefaultSkin();
+				this.templateFile = null;
+				this.template = this.Page.LoadControl(this.TemplateFile);
+			}
 			this.template.ID = this.ID + "_Template";
 			
 			int count = this.template.Controls.Count;

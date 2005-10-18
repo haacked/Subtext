@@ -31,7 +31,7 @@ namespace Subtext.Web.UI
 		{
 			if(Config.CurrentBlog.Skin.SkinName == null)
 			{
-				Config.CurrentBlog.Skin.SkinName = "marvin2";
+				Config.CurrentBlog.Skin.SkinName = "BlueBook";
 			}
 			return Config.CurrentBlog.Skin.SkinName;
 		}
