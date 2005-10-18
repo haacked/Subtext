@@ -25,26 +25,10 @@ namespace Subtext.Framework.Tracking
 			QueueStats = tracking.QueueStats;
 		}
 		
-
-
 		private static bool WebTrack = false;
 		private static bool AggTrack = false;
 		private static bool QueueStats = false;
 		
-
-		public static bool Track(int EntryID, int BlogID)
-		{
-			if(AggTrack)
-			{
-				EntryView ev = new EntryView();
-				ev.EntryID = EntryID;
-				ev.BlogID = BlogID;
-				ev.PageViewType = PageViewType.AggView;
-				return Stats.TrackEntry(ev);
-			}
-			return false;
-		}
-
 		public static bool Track(EntryView ev)
 		{
 			if(QueueStats)

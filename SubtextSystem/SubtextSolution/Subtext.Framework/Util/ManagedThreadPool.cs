@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Globalization;
 using System.Threading;
+using Subtext.Framework.Logging;
+using Subtext.Framework.Threading;
 
 #region Credits
 // Stephen Toub
@@ -62,7 +64,7 @@ namespace Subtext.Framework.Util
 		{
 			// Lock so we can work in peace.  This works because lock is actually
 			// built around Monitor.
-			lock(this) 
+			using(TimedLock.Lock(this))
 			{
 				// Wait until a unit becomes available.  We need to wait
 				// in a loop in case someone else wakes up before us.  This could
@@ -79,7 +81,7 @@ namespace Subtext.Framework.Util
 		{
 			// Lock so we can work in peace.  This works because lock is actually
 			// built around Monitor.
-			lock(this) 
+			using(TimedLock.Lock(this))
 			{
 				// Release our hold on the unit of control.  Then tell everyone
 				// waiting on this object that there is a unit available.
@@ -91,7 +93,7 @@ namespace Subtext.Framework.Util
 		/// <summary>Resets the semaphore to the specified count.  Should be used cautiously.</summary>
 		public void Reset(int count)
 		{
-			lock(this) { _count = count; }
+			using(TimedLock.Lock(this)) { _count = count; }
 		}
 		#endregion
 	}
@@ -99,6 +101,8 @@ namespace Subtext.Framework.Util
 	/// <summary>Managed thread pool.</summary>
 	public class ManagedThreadPool
 	{
+		static Log Log = new Log();
+
 		#region Constants
 		/// <summary>Maximum number of threads the thread pool has at its disposal.</summary>
 		private static int _maxWorkerThreads = 5;
@@ -180,14 +184,14 @@ namespace Subtext.Framework.Util
 			// Create a waiting callback that contains the delegate and its state.
 			// At it to the processing queue, and signal that data is waiting.
 			WaitingCallback waiting = new WaitingCallback(callback, state);
-			lock(_waitingCallbacks.SyncRoot) { _waitingCallbacks.Enqueue(waiting); }
+			using(TimedLock.Lock(_waitingCallbacks.SyncRoot)) { _waitingCallbacks.Enqueue(waiting); }
 			_workerThreadNeeded.AddOne();
 		}
 
 		/// <summary>Empties the work queue of any queued work items.</summary>
 		public static void EmptyQueue()
 		{
-			lock(_waitingCallbacks.SyncRoot) 
+			using(TimedLock.Lock(_waitingCallbacks.SyncRoot))
 			{ 
 				try 
 				{
@@ -217,7 +221,7 @@ namespace Subtext.Framework.Util
 		/// <summary>Gets the number of currently active threads in the thread pool.</summary>
 		public static int ActiveThreads { get { return _inUseThreads; } }
 		/// <summary>Gets the number of callback delegates currently waiting in the thread pool.</summary>
-		public static int WaitingCallbacks { get { lock(_waitingCallbacks.SyncRoot) { return _waitingCallbacks.Count; } } }
+		public static int WaitingCallbacks { get { using(TimedLock.Lock(_waitingCallbacks.SyncRoot)) { return _waitingCallbacks.Count; } } }
 		#endregion
 
 		#region Thread Processing
@@ -234,7 +238,7 @@ namespace Subtext.Framework.Util
 				{
 					// Try to get the next callback available.  We need to lock on the 
 					// queue in order to make our count check and retrieval atomic.
-					lock(_waitingCallbacks.SyncRoot)
+					using(TimedLock.Lock(_waitingCallbacks.SyncRoot))
 					{
 						if (_waitingCallbacks.Count > 0)
 						{
@@ -254,9 +258,14 @@ namespace Subtext.Framework.Util
 					Interlocked.Increment(ref _inUseThreads);
 					callback.Callback(callback.State);
 				} 
+				catch(Exception exc)
+				{
+					// Make sure we don't throw here.
+					Log.Error("Error while processing queued items.", exc);
+				}
 				catch
 				{
-					// Make sure we don't throw here.  Errors are not our problem.
+					Log.Error("Unexpected exception while processing queued items.");
 				}
 				finally 
 				{

@@ -3236,12 +3236,11 @@ SET ANSI_NULLS ON
 GO
 
 
-
 CREATE PROC [dbo].[subtext_TrackEntry]
 (
 	@EntryID int,
 	@BlogID int,
-	@Url nvarchar(255),
+	@Url nvarchar(255) = NULL,
 	@IsWeb bit
 )
 

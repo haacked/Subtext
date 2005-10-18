@@ -12,11 +12,11 @@ namespace Subtext.Framework.Tracking
 	/// </summary>
 	public class AggBugHandler : IHttpHandler
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AggBugHandler"/> class.
+		/// </summary>
 		public AggBugHandler()
 		{
-			//
-			// TODO: Add constructor logic here
-			//
 		}
 
 		static AggBugHandler()
