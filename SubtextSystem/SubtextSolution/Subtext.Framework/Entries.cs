@@ -22,6 +22,7 @@
 #endregion
 
 using System;
+using System.Text.RegularExpressions;
 using System.Web;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Providers;
@@ -267,12 +268,56 @@ namespace Subtext.Framework
 				|| entry.PostType == PostType.PingTrack)
 				CommentFilter.FilterComment(entry);
 
+			if(Config.CurrentBlog.AutoFriendlyUrlEnabled
+				&& (entry.PostType == PostType.BlogPost || entry.PostType == PostType.Story)
+				&& entry.Title != null
+				&& entry.Title.Length > 0)
+			{
+				entry.EntryName = AutoGenerateFriendlyUrl(entry.Title);
+				entry.TitleUrl = entry.Link;
+				
+			}
+
 			if(entry.IsActive && entry.IncludeInMainSyndication)
 				entry.DateSyndicated = DateTime.Now;
 			else
 				entry.DateSyndicated = DateTime.MinValue;
 			
 			return ObjectProvider.Instance().Create(entry, CategoryIDs);
+		}
+
+		/// <summary>
+		/// Returns a friendly title that's safe for url.
+		/// </summary>
+		/// <param name="title">The title.</param>
+		/// <returns></returns>
+		public static string AutoGenerateFriendlyUrl(string title)
+		{
+			Regex regex = new Regex(@"[""'`~@#$%^&*(){\[}\]?+/=\\|<> ]+", RegexOptions.Compiled);
+			string entryName = regex.Replace(title, "");
+			if(entryName.Length == 0)
+				return null;
+
+			string newEntryName = entryName;
+			int tryCount = 0;
+			while(ObjectProvider.Instance().GetEntry(newEntryName, false) != null)
+			{
+				if(tryCount == 1)
+					newEntryName = entryName + "Again";
+				if(tryCount == 2)
+					newEntryName = entryName + "YetAgain";
+				if(tryCount == 3)
+					newEntryName = entryName + "AndAgain";
+				if(tryCount == 4)
+					newEntryName = entryName + "OnceMore";
+				if(tryCount == 5)
+					newEntryName = entryName + "ToBeatADeadHorse";
+
+				if(tryCount++ > 5)
+					break; //Allow an exception to get thrown later.
+			}
+
+			return newEntryName;
 		}
 
 		#endregion

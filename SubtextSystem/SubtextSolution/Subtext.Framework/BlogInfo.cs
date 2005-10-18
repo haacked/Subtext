@@ -329,6 +329,19 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
+		/// Gets or sets a value indicating whether blog posts and articles 
+		/// have a friendly URL generated automatically from the title.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if comments are enabled, otherwise, <c>false</c>.
+		/// </value>
+		public bool AutoFriendlyUrlEnabled
+		{
+			get{return FlagPropertyCheck(ConfigurationFlag.AutoFriendlyUrlEnabled);}
+			set{FlagSetter(ConfigurationFlag.AutoFriendlyUrlEnabled, value);}
+		}
+
+		/// <summary>
 		/// Gets or sets a value indicating whether trackbacks and pingbacks are enabled.
 		/// </summary>
 		/// <value>

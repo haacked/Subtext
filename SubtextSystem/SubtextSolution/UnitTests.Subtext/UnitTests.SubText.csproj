@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = ""
+                PostBuildEvent = "copy $(ProjectDir)Resources\App.config $(TargetPath).config"
                 RootNamespace = "UnitTests.Subtext"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -309,6 +309,11 @@
                 />
                 <File
                     RelPath = "Framework\LinksTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Framework\Components\EntryTests\AutoGenerateFriendlyUrlTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

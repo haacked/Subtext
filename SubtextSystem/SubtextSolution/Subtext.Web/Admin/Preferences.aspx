@@ -1,8 +1,9 @@
-<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Page language="c#" Codebehind="Preferences.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.EditPreferences" %>
+<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
+<%@ Register TagPrefix="SP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <ANW:Page runat="server" id="PageContainer" TabSectionID="Options" CategoriesLabel="Other Items">
-	<ANW:AdvancedPanel id="Edit" runat="server" DisplayHeader="True" HeaderText="Preferences" HeaderCssClass="CollapsibleHeader"
-		BodyCssClass="Edit">
+	<ANW:AdvancedPanel id="Edit" runat="server" BodyCssClass="Edit" HeaderCssClass="CollapsibleHeader"
+		HeaderText="Preferences" DisplayHeader="True">
 		<p style="MARGIN-TOP: 8px">Default number of items to display in listings &nbsp;
 			<asp:DropDownList id="ddlPageSize" runat="server" AutoPostBack="false">
 				<asp:ListItem Value="5">5</asp:ListItem>
@@ -25,10 +26,18 @@
 				<asp:ListItem Value="true">Yes</asp:ListItem>
 				<asp:ListItem Value="false">No</asp:ListItem>
 			</asp:DropDownList></p>
-		<DIV style="MARGIN-TOP: 12px">
-			<ASP:LinkButton id="lkbUpdate" runat="server" CssClass="Button" Text="Save"></ASP:LinkButton>
-			<ASP:LinkButton id="lkbCancel" runat="server" CssClass="Button" Text="Cancel"></ASP:LinkButton><BR>
-			&nbsp;
-		</DIV>
+		<p style="MARGIN-TOP: 8px">
+			<label class="Block" for="chkAutoGenerate">
+				<SP:HelpToolTip id="Helptooltip4" runat="server" HelpText="If checked, blog posts and articles will have friendly Urls auto-generated based on the title. For example, the title \'My Blog Post\' will become \'MyBlogPost.aspx\'.">
+				Auto-Generate Friendly Url
+				</sp:HelpToolTip> 
+				<asp:CheckBox id="chkAutoGenerate" runat="server"></asp:CheckBox>
+			</label>
+			
+		</p>
+		<div style="MARGIN-TOP: 12px">
+			<ASP:LinkButton id="lkbUpdate" runat="server" Text="Save" CssClass="Button"></ASP:LinkButton>
+		</div>
+		
 	</ANW:AdvancedPanel>
 </ANW:Page>
