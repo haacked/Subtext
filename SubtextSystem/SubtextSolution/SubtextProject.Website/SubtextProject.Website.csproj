@@ -256,6 +256,14 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Scripts\helptip.css"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Scripts\helptip.js"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "style\Style.css"
                     BuildAction = "Content"
                 />

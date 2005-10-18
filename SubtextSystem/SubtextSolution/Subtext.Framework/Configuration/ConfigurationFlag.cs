@@ -34,5 +34,9 @@ namespace Subtext.Framework.Configuration
 		/// RSS feed.
 		/// </summary>
 		RFC3229DeltaEncodingEnabled = 256,
+		/// <summary>
+		/// Whether or not titles of blog posts and articles automatically have a friendly url generated.
+		/// </summary>
+		AutoFriendlyUrlEnabled = 512,
 	};
 }

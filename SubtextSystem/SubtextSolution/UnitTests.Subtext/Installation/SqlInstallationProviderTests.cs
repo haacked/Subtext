@@ -35,8 +35,6 @@ namespace UnitTests.Subtext.Installation
 		[TestFixtureSetUp]
 		public void TestFixtureSetUp()
 		{
-			//This file needs to be there already.
-			UnitTestHelper.UnpackEmbeddedResource("App.config", "UnitTests.Subtext.dll.config");
 			//Confirm app settings
 			Assert.AreEqual("~/Admin/Resources/PageTemplate.ascx", System.Configuration.ConfigurationSettings.AppSettings["Admin.DefaultTemplate"]) ;
 		}

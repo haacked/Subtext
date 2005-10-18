@@ -26,6 +26,9 @@ namespace Subtext.Framework.Util
 
 		static string PerformUserTransforms(string stringToTransform, ArrayList userDefinedTransforms) 
 		{
+			if(userDefinedTransforms == null)
+				return stringToTransform;
+
 			int iLoop = 0;	
 			string host = Config.CurrentBlog.RootUrl;
 			while (iLoop < userDefinedTransforms.Count) 
@@ -39,7 +42,7 @@ namespace Subtext.Framework.Util
 			return stringToTransform;
 		}
 
-		private static ArrayList LoadTransformFile (string filename) 
+		private static ArrayList LoadTransformFile(string filename) 
 		{
 			string cacheKey = "transformTable-" + filename;
 			ArrayList tranforms;
@@ -53,12 +56,21 @@ namespace Subtext.Framework.Util
 
 			if (tranforms == null) 
 			{
-
 				tranforms = new ArrayList();
 
 				// Grab the transform file
-				//
-				filenameOfTransformFile = context.Request.MapPath("~/" + filename);
+				if(context == null || context.Request == null)
+					return null;
+
+				try
+				{
+					filenameOfTransformFile = context.Request.MapPath("~/" + filename);
+				}
+				catch(System.NullReferenceException)
+				{
+					//This exception can be thrown from the bowels of MapPath...
+					return null;
+				}
 
 				if (filenameOfTransformFile.Length > 0) 
 				{

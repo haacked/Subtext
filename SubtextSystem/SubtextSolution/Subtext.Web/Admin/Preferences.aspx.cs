@@ -34,26 +34,16 @@ namespace Subtext.Web.Admin.Pages
 		protected System.Web.UI.WebControls.DropDownList ddlPublished;
 		protected System.Web.UI.WebControls.DropDownList ddlExpandAdvanced;
 		protected System.Web.UI.WebControls.LinkButton lkbUpdate;
-		protected System.Web.UI.WebControls.LinkButton lkbCancel;
+		protected System.Web.UI.WebControls.CheckBox chkAutoGenerate;
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
+		
 		
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-//			if (!AreCookiesAllowed())
-//			{
-//				//TODO: -- display an errormsg indicating cookies are required
-//				// with a link to FinishCookieTest on the off chance this is the
-//				// first page accessed and cookies are in fact on.
-//				Controls.Add(new LiteralControl("Cookies NOT ALLOWED"));
-//			}
-//			else if (!IsPostBack)
-//			{
 			if(!IsPostBack)
 			{
 				BindLocalUI();
-			}
-//			}
-			
+			}		
 		}
 
 		private void BindLocalUI()
@@ -66,6 +56,8 @@ namespace Subtext.Web.Admin.Pages
 
 			ddlExpandAdvanced.SelectedIndex = -1;
 			ddlExpandAdvanced.Items.FindByValue(Preferences.AlwaysExpandAdvanced ? "true" : "false").Selected = true;
+
+			this.chkAutoGenerate.Checked = Config.CurrentBlog.AutoFriendlyUrlEnabled;
 		}
 
 		#region Web Form Designer generated code
@@ -85,7 +77,6 @@ namespace Subtext.Web.Admin.Pages
 		private void InitializeComponent()
 		{    
 			this.lkbUpdate.Click += new System.EventHandler(this.lkbUpdate_Click);
-			this.lkbCancel.Click += new System.EventHandler(this.lkbCancel_Click);
 			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
@@ -105,15 +96,8 @@ namespace Subtext.Web.Admin.Pages
 
 			BlogInfo info  = Config.CurrentBlog;
 			info.ItemCount = pageSize;
+			info.AutoFriendlyUrlEnabled = this.chkAutoGenerate.Checked;
 			Config.UpdateConfigData(info);
-
-
-//			BindLocalUI();
-		}
-
-		private void lkbCancel_Click(object sender, System.EventArgs e)
-		{
-			BindLocalUI();
 		}
 	}
 }
