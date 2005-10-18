@@ -1,0 +1,24 @@
+/* RedBook (v.1.1) is made by Fabian Aggeler in Switzerland (Summer 05) || Blog: http://www.aisiiu.ws */
+
+body{
+	background-color:#B80000;
+	background-image:url(Images/Red/back.jpg);
+}
+
+#all {
+	background-image:url(Images/Red/backback.png);
+}
+
+
+#content h1{
+	font-size: 18px;
+	color:#660000;
+}
+
+#rondo{
+	background-image: url(Images/Red/rondo.jpg);
+}
+
+#rondobottom{
+	background-image: url(Images/Red/rondobottom.jpg);
+}
