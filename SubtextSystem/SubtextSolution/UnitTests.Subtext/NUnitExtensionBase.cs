@@ -7,7 +7,7 @@ using TestCase = NUnit.Core.TestCase;
 
 // Code generously made available by Roy Osherove and modified for Subtext use.
 // http://weblogs.asp.net/rosherove/articles/ExntendingNunit221.aspx
-namespace NUnit.Extensions.Royo
+namespace NUnit.Extensions
 {
 	public interface ICustomTestCaseEventsListener
 	{

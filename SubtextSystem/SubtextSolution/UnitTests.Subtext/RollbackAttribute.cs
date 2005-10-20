@@ -1,7 +1,7 @@
 using System;
 using System.EnterpriseServices;
 using NUnit.Core;
-using NUnit.Extensions.Royo;
+using NUnit.Extensions;
 
 namespace UnitTests
 {
@@ -13,11 +13,22 @@ namespace UnitTests
 	[TestBuilder(typeof(CustomTestAttributeBase.CustomTestBuilder))]
 	public class RollbackAttribute : CustomTestAttributeBase
 	{
+		int _transactionTimeoutInSeconds = 0;
+
 		/// <summary>
 		/// Creates a new <see cref="RollbackAttribute"/> instance.
 		/// </summary>
 		public RollbackAttribute() : base()
 		{}
+
+		/// <summary>
+		/// Creates a new <see cref="RollbackAttribute"/> instance.
+		/// </summary>
+		/// <param name="transactionTimeoutInSeconds">The timeout for the transaction.</param>
+		public RollbackAttribute(int transactionTimeoutInSeconds) : base()
+		{
+			_transactionTimeoutInSeconds = transactionTimeoutInSeconds;
+		}
 
 		/// <summary>
 		/// Creates a new <see cref="RollbackAttribute"/> instance.
@@ -36,6 +47,22 @@ namespace UnitTests
 		{
 			this._expectedException = expectedExceptionType;
 			this._expectedMessage = expectedMessage;
+		}
+
+		/// <summary>
+		/// Gets or sets the transaction timeout in seconds.
+		/// </summary>
+		/// <value>The transaction timeout.</value>
+		public int TransactionTimeout
+		{
+			get
+			{
+				return _transactionTimeoutInSeconds;
+			}
+			set
+			{
+				_transactionTimeoutInSeconds = value;	
+			}
 		}
 
 		/// <summary>
@@ -70,6 +97,10 @@ namespace UnitTests
 		public override void BeforeTestRun(NUnit.Core.TestCaseResult testResult, NUnit.Core.TemplateTestCase testCase)
 		{
 			ServiceConfig config = new ServiceConfig();
+			if(TransactionTimeout > 0)
+			{
+				config.TransactionTimeout = TransactionTimeout; // in seconds...
+			}
 			config.Transaction = TransactionOption.RequiresNew;
 			
 			ServiceDomain.Enter(config);
