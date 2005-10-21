@@ -149,7 +149,8 @@ namespace Subtext.Framework.Components
 		private string _titleurl;
 		/// <summary>
 		/// Gets or sets the URL the Title of an entry will 
-		/// link to.
+		/// link to.  For comments, this is the URL the commenter 
+		/// specifies.
 		/// </summary>
 		/// <value></value>
 		public string TitleUrl
@@ -188,6 +189,13 @@ namespace Subtext.Framework.Components
 		}
 
 		private string _sourceurl;
+		/// <summary>
+		/// Gets or sets the source URL.  For comments, this is the URL 
+		/// to the comment form used if any. For trackbacks, this is the 
+		/// url of the site making the trackback.
+		/// the 
+		/// </summary>
+		/// <value>The source URL.</value>
 		public string SourceUrl
 		{
 			get{return _sourceurl;}
@@ -195,6 +203,11 @@ namespace Subtext.Framework.Components
 		}
 
 		private string _sourcename;
+		/// <summary>
+		/// Gets or sets the name of the source.  For comments this is the 
+		/// IP address of the commenter.
+		/// </summary>
+		/// <value>The name of the source.</value>
 		public string SourceName
 		{
 			get{return _sourcename;}
@@ -202,6 +215,11 @@ namespace Subtext.Framework.Components
 		}
 
 		private string _author;
+		/// <summary>
+		/// Gets or sets the author name of the entry.  
+		/// For comments, this is the name given by the commenter. 
+		/// </summary>
+		/// <value>The author.</value>
 		public string Author
 		{
 			get{return _author;}

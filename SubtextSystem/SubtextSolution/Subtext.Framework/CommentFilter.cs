@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Caching;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Exceptions;
 
 namespace Subtext.Framework
 {
@@ -34,11 +36,37 @@ namespace Subtext.Framework
 		/// <param name="entry">Entry.</param>
 		public static void FilterComment(Entry entry)
 		{
+			if(ContainsSpam(entry))
+				throw new CommentSpamException("Sorry, spam is not allowed.");
+
 			if(!SourceFrequencyIsValid(entry))
 				throw new Subtext.Framework.Exceptions.CommentFrequencyException();
 
 			if(!Config.CurrentBlog.DuplicateCommentsEnabled && IsDuplicateComment(entry))
 				throw new Subtext.Framework.Exceptions.CommentDuplicateException();
+		}
+
+		static bool ContainsSpam(Entry entry)
+		{
+			string spamWordsText = System.Configuration.ConfigurationSettings.AppSettings["SpamWords"];
+			if(spamWordsText != null && spamWordsText.Length > 0)
+			{
+				string[] spamWords = spamWordsText.Split(' ');
+				foreach(string spamWord in spamWords)
+				{
+					Regex regex = new Regex(@"(^|[^a-zA-Z])" + spamWord + @"([^a-zA-Z]|$)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+					//We're not going to filter the body yet since most of the 
+					//spam puts casino in title.
+					
+					if(regex.IsMatch(entry.Title) 
+						|| regex.IsMatch(entry.Author)
+						|| regex.IsMatch(entry.TitleUrl))
+					{
+						return true;
+					}					
+				}
+			}
+			return false;
 		}
 
 		// Returns true if the source of the entry is not 

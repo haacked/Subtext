@@ -3,14 +3,31 @@ using System;
 namespace Subtext.Framework.Exceptions
 {
 	/// <summary>
-	/// Summary description for BaseSubtextException.
+	/// Base exception for subtext exceptions.
 	/// </summary>
+	[Serializable]
 	public abstract class BaseSubtextException : Exception
 	{
 		/// <summary>
 		/// Creates a new <see cref="BaseSubtextException"/> instance.
 		/// </summary>
 		public BaseSubtextException() : base()
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="BaseSubtextException"/> class.
+		/// </summary>
+		/// <param name="message">The message.</param>
+		public BaseSubtextException(string message) : base(message)
+		{}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="BaseSubtextException"/> class.
+		/// </summary>
+		/// <param name="message">The message.</param>
+		/// <param name="innerException">The inner exception.</param>
+		public BaseSubtextException(string message, Exception innerException) : base(message, innerException)
 		{
 		}
 
