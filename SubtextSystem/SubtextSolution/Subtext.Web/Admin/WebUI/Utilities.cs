@@ -28,6 +28,7 @@ using System.IO;
 using System.Text;
 using System.Web;
 using System.Web.UI.WebControls;
+using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
@@ -201,12 +202,6 @@ namespace Subtext.Web.Admin
 		internal const string CSSSTYLE_HIDDEN = "display: none;";
 
 		internal const CategoryType DEFAULT_CATEGORYTYPE = CategoryType.PostCollection;
-	
-		internal const int NULL_INTEGER = int.MinValue;
-		internal const int NULL_CATEGORYID = -1;
-		internal const int NULL_POSTID = -1;
-		internal const int NULL_LINKID = -1;
-		internal const int NULL_IMAGEID = -1;
 
 		internal const int PAGE_SIZE_DEFAULT = 10;
 		internal const bool ALWAYS_EXPAND_DEFAULT = false;

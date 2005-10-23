@@ -70,7 +70,7 @@ namespace Subtext.Framework.Syndication
 						//Swallow it.
 					}
 				}
-				return DateTime.MinValue;
+				return NullValue.NullDateTime;
 			}
 		}
 

@@ -22,9 +22,6 @@
 		<p>
 			<a href="Preferences.aspx">Preferences</a>: Set common preferences.
 		</p>
-		<p>
-			<a href="Import/">Import Wizard</a>: Import data from another blog.
-		</p>
 		<br class="Clear">
 	</ANW:AdvancedPanel>
 </ANW:Page>

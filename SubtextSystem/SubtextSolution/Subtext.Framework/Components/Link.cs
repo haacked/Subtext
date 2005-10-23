@@ -47,7 +47,7 @@ namespace Subtext.Framework.Components
 			set{_linkid = value;}
 		}
 
-		private int _postID = -1;
+		private int _postID = NullValue.NullInt32;
 		public  virtual int PostID
 		{
 			get{return _postID;}

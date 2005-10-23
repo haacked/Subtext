@@ -17,7 +17,7 @@ namespace Subtext.Framework.Exceptions
 	public class BlogRequiresApplicationException : BaseBlogConfigurationException
 	{
 		int _blogsWithSameHostCount;
-		int _blogId = int.MinValue;
+		int _blogId = NullValue.NullInt32;
 
 		/// <summary>
 		/// Creates a new <see cref="BlogRequiresApplicationException"/> instance.
@@ -35,7 +35,7 @@ namespace Subtext.Framework.Exceptions
 		/// Creates a new <see cref="BlogRequiresApplicationException"/> instance.
 		/// </summary>
 		/// <param name="blogsWithSameHostCount">The number of blogs with this host name.</param>
-		public BlogRequiresApplicationException(int blogsWithSameHostCount) : this(blogsWithSameHostCount, int.MinValue)
+		public BlogRequiresApplicationException(int blogsWithSameHostCount) : this(blogsWithSameHostCount, NullValue.NullInt32)
 		{
 		}
 

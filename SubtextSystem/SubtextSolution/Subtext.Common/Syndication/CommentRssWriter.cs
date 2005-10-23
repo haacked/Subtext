@@ -22,6 +22,7 @@
 #endregion
 
 using System;
+using Subtext.Framework;
 using Subtext.Framework.Components;
 
 namespace Subtext.Common.Syndication
@@ -40,7 +41,7 @@ namespace Subtext.Common.Syndication
 		/// </summary>
 		/// <param name="ec">Ec.</param>
 		/// <param name="ce">Ce.</param>
-		public CommentRssWriter(EntryCollection ec, Entry ce) : base(DateTime.MinValue, false)
+		public CommentRssWriter(EntryCollection ec, Entry ce) : base(NullValue.NullDateTime, false)
 		{
 			this.Entries = ec;
 			this.CommentEntry = ce;

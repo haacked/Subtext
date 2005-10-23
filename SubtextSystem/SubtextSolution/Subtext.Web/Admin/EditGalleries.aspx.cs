@@ -60,7 +60,7 @@ namespace Subtext.Web.Admin.Pages
 				if (null != ViewState["CategoryID"])
 					return (int)ViewState["CategoryID"];
 				else
-					return Constants.NULL_CATEGORYID;
+					return NullValue.NullInt32;
 			}
 			set { ViewState["CategoryID"] = value; }
 		}

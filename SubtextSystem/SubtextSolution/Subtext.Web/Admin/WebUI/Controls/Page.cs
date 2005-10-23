@@ -48,7 +48,7 @@ namespace Subtext.Web.Admin.WebUI
 	]
 	public class Page : System.Web.UI.HtmlControls.HtmlContainerControl
 	{
-		private const int NULL_CATEGORY = -1;
+		private const int NULL_CATEGORY = NullValue.NullInt32;
 
 		private const string SITEMAP_CONFIG_LOCATION = "~/admin/navigation.config";
 		private const string TITLE_PREFIX = "SubText Admin";

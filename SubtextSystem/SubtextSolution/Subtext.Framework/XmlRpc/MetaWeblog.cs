@@ -217,8 +217,7 @@ namespace Subtext.Framework.XmlRpc
 			entry.IsAggregated = true;
 			entry.SyndicateDescriptionOnly = false;
 
-
-			int postID = -1;
+			int postID = NullValue.NullInt32;
 			try
 			{
 				postID = Entries.Create(entry);

@@ -13,8 +13,8 @@ namespace Subtext.Framework.Syndication
     {
         private StringWriter writer  = null;
         protected BlogInfo info;
-		DateTime dateLastViewedFeedItemPublished = DateTime.MinValue;
-		protected DateTime latestPublishDate = DateTime.MinValue;
+		DateTime dateLastViewedFeedItemPublished = NullValue.NullDateTime;
+		protected DateTime latestPublishDate = NullValue.NullDateTime;
 		protected bool useDeltaEncoding = false;
 		protected bool clientHasAllFeedItems = false;
 
@@ -22,7 +22,7 @@ namespace Subtext.Framework.Syndication
 		/// Creates a new <see cref="BaseSyndicationWriter"/> instance.
 		/// </summary>
 		/// <param name="sw">Sw.</param>
-        protected BaseSyndicationWriter(StringWriter sw) : this(sw, DateTime.MinValue, false)
+        protected BaseSyndicationWriter(StringWriter sw) : this(sw, NullValue.NullDateTime, false)
         {
         }
 

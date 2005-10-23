@@ -16,7 +16,7 @@ namespace Subtext.Framework.Configuration
 	public sealed class Config
 	{
 		static object _synchBlock = new object();
-		static int _blogCount = int.MinValue;
+		static int _blogCount = NullValue.NullInt32;
 		static UrlBasedBlogInfoProvider _configProvider = null;
 		private Config() {}
 
@@ -54,11 +54,11 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
-				if(_blogCount == int.MinValue)
+				if(_blogCount == NullValue.NullInt32)
 				{
 					using(TimedLock.Lock(_synchBlock))
 					{
-						if(_blogCount == int.MinValue)
+						if(_blogCount == NullValue.NullInt32)
 						{
 							//TODO: Get this in a more efficient means.
 							BlogInfo.GetActiveBlogs(1, 100, true, out _blogCount);

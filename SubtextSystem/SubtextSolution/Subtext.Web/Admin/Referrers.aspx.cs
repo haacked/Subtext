@@ -38,7 +38,7 @@ namespace Subtext.Web.Admin.Pages
 		private int _resultsPageNumber = 1;
 		private bool _isListHidden = false;
 
-		private int _entryID = -1;
+		private int _entryID = NullValue.NullInt32;
 
 		protected System.Web.UI.WebControls.Repeater rprSelectionList;
 		protected Subtext.Web.Admin.WebUI.Pager ResultsPager;
@@ -103,7 +103,7 @@ namespace Subtext.Web.Admin.Pages
 //				page.BreadCrumbs.AddLastItem("Referrers");
 //			}
 
-			if(_entryID == -1)
+			if(_entryID == NullValue.NullInt32)
 			{
 
 				//SetReferalDesc("Referrals");
@@ -119,7 +119,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			PagedReferrerCollection referrers = null;
 
-			if(_entryID == -1)
+			if(_entryID == NullValue.NullInt32)
 			{
 
 					referrers = Stats.GetPagedReferrers(_resultsPageNumber, ResultsPager.PageSize);

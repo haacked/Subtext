@@ -1,4 +1,5 @@
 using System;
+using Subtext.Framework;
 using Subtext.Framework.Components;
 
 namespace Subtext.Common.Syndication
@@ -30,7 +31,7 @@ namespace Subtext.Common.Syndication
 		/// <param name="ec">Ec.</param>
 		/// <param name="lc">Lc.</param>
 		/// <param name="Url">URL.</param>
-		public CategoryWriter(EntryCollection ec, LinkCategory lc, string Url) : base(ec, DateTime.MinValue, false)
+		public CategoryWriter(EntryCollection ec, LinkCategory lc, string Url) : base(ec, NullValue.NullDateTime, false)
 		{
 			this.Category = lc;
 			this.Url = Url;
