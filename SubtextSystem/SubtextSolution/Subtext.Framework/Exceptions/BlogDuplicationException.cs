@@ -13,7 +13,7 @@ namespace Subtext.Framework.Exceptions
 		/// Creates a new <see cref="BlogDuplicationException"/> instance.
 		/// </summary>
 		/// <param name="duplicate">Duplicate.</param>
-		public BlogDuplicationException(BlogInfo duplicate) : this(duplicate, int.MinValue)
+		public BlogDuplicationException(BlogInfo duplicate) : this(duplicate, NullValue.NullInt32)
 		{
 		}
 
@@ -36,7 +36,7 @@ namespace Subtext.Framework.Exceptions
 		{
 			get
 			{
-				if(_blogId == int.MinValue)
+				if(_blogId == NullValue.NullInt32)
 				{
 					return "Oooh. A blog with the same host and application already exists.";
 				}
@@ -72,7 +72,7 @@ namespace Subtext.Framework.Exceptions
 		/// <summary>
 		/// Id of the blog being updated that caused this exception.  This 
 		/// would be populated if updating a blog to have the same host and 
-		/// application as another blog.  Otherwise this is equal to int.MinValue.
+		/// application as another blog.  Otherwise this is equal to NullValue.NullInt32.
 		/// </summary>
 		/// <value></value>
 		public int BlogId
@@ -80,7 +80,7 @@ namespace Subtext.Framework.Exceptions
 			get { return _blogId; }
 		}
 
-		int _blogId = int.MinValue;
+		int _blogId = NullValue.NullInt32;
 
 		BlogInfo _duplicateBlog;
 	}

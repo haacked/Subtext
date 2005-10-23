@@ -35,7 +35,7 @@ namespace Subtext.Framework.Exceptions
 		/// Creates a new <see cref="BlogHiddenException"/> instance.
 		/// </summary>
 		/// <param name="hidden">Hidden.</param>
-		public BlogHiddenException(BlogInfo hidden) : this(hidden, int.MinValue)
+		public BlogHiddenException(BlogInfo hidden) : this(hidden, NullValue.NullInt32)
 		{
 			
 		}
@@ -74,7 +74,7 @@ namespace Subtext.Framework.Exceptions
 			get
 			{
 				string message = string.Empty;
-				if(_blogId == int.MinValue)
+				if(_blogId == NullValue.NullInt32)
 				{
 					message = "The blog you are trying to create ";
 				}
@@ -88,7 +88,7 @@ namespace Subtext.Framework.Exceptions
 					+ "When two or more blogs have the same host, they both need to have an application defined. " 
 					+ "The previously mentioned blog does not have an application defined.  Please update it before ";
 
-				if(_blogId == int.MinValue)
+				if(_blogId == NullValue.NullInt32)
 				{
 					message += "creating this blog.";
 				}

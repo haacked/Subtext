@@ -209,7 +209,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 				if(ViewState[VSKEY_BLOGID] != null)
 					return (int)ViewState[VSKEY_BLOGID];
 				else
-					return Constants.NULL_INTEGER;
+					return NullValue.NullInt32;
 			}
 			set { ViewState[VSKEY_BLOGID] = value; }
 		}
@@ -226,7 +226,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 				if(ViewState["VS_CurrentBlogCount"] != null)
 					return (int)ViewState["VS_CurrentBlogCount"];
 				else
-					return Constants.NULL_INTEGER;
+					return NullValue.NullInt32;
 			}
 			set { ViewState["VS_CurrentBlogCount"] = value; }
 		}
@@ -235,7 +235,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 		{
 			get
 			{
-				return BlogId == Constants.NULL_INTEGER;
+				return BlogId == NullValue.NullInt32;
 			}
 		}
 
@@ -270,7 +270,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
 		private void btnAddNewBlog_Click(object sender, EventArgs e)
 		{
-			this.BlogId = Constants.NULL_INTEGER;
+			this.BlogId = NullValue.NullInt32;
 			this.txtTitle.Text = string.Empty;
 			this.lblTitle.Text = string.Empty;
 			this.txtApplication.Text = string.Empty;
@@ -309,7 +309,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 			{
 				try
 				{
-					if(BlogId != Constants.NULL_INTEGER)
+					if(BlogId != NullValue.NullInt32)
 					{
 						SaveBlogEdits();
 					}

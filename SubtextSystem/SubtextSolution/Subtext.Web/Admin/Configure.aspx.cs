@@ -209,7 +209,7 @@ namespace Subtext.Web.Admin.Pages
 			InitializeComponent();
 			base.OnInit(e);
 
-			ViewState["CategoryID"] = Constants.NULL_CATEGORYID;
+			ViewState["CategoryID"] = NullValue.NullInt32;
 			ViewState["CategoryType"] = Constants.DEFAULT_CATEGORYTYPE;
 		}
 		

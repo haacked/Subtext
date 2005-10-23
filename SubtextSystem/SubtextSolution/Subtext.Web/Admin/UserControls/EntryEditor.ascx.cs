@@ -43,7 +43,7 @@ namespace Subtext.Web.Admin.UserControls
 		private const string VSKEY_POSTID = "PostID";
 		private const string VSKEY_CATEGORYTYPE = "CategoryType";
 
-		private int _filterCategoryID = Constants.NULL_CATEGORYID;
+		private int _filterCategoryID = NullValue.NullInt32;
 		private int _resultsPageNumber = 1;
 		private PostType _entryType = PostType.BlogPost;
 		private bool _isListHidden = false;
@@ -99,7 +99,7 @@ namespace Subtext.Web.Admin.UserControls
 				if(ViewState[VSKEY_POSTID] != null)
 					return (int)ViewState[VSKEY_POSTID];
 				else
-					return Constants.NULL_POSTID;
+					return NullValue.NullInt32;
 			}
 			set { ViewState[VSKEY_POSTID] = value; }
 		}
@@ -161,7 +161,7 @@ namespace Subtext.Web.Admin.UserControls
 				ResultsPager.PageIndex = _resultsPageNumber;
 				Results.Collapsible = false;
 
-				if (Constants.NULL_CATEGORYID != _filterCategoryID)
+				if (NullValue.NullInt32 != _filterCategoryID)
 				{
 					ResultsPager.UrlFormat += string.Format(System.Globalization.CultureInfo.InvariantCulture, "&{0}={1}", Keys.QRYSTR_CATEGORYID, _filterCategoryID);
 				}
@@ -172,7 +172,7 @@ namespace Subtext.Web.Admin.UserControls
 
 				// We now allow direct links to edit a post.
 				string postIdText = Request.QueryString["PostId"];
-				int postId = int.MinValue;
+				int postId = NullValue.NullInt32;
 				if(postIdText != null && postIdText.Length > 0)
 				{
 					try
@@ -186,7 +186,7 @@ namespace Subtext.Web.Admin.UserControls
 						//Swallow it. Gulp!
 					}
 				}
-				if(postId > int.MinValue)
+				if(postId > NullValue.NullInt32)
 				{
 					this.PostID = postId;
 					BindPostEdit();
@@ -332,7 +332,7 @@ namespace Subtext.Web.Admin.UserControls
 
 		private void ResetPostEdit(bool showEdit)
 		{
-			PostID = Constants.NULL_POSTID;
+			PostID = NullValue.NullInt32;
 
 			Results.Collapsible = showEdit;
 			Results.Collapsed = showEdit;

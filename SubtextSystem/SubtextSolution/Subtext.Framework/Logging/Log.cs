@@ -285,7 +285,7 @@ namespace Subtext.Framework.Logging
 		/// <param name="blogId">Blog id.</param>
 		public static void SetBlogIdContext(int blogId)
 		{
-			if(blogId == int.MinValue && log4net.ThreadContext.Properties["BlogId"] != null)
+			if(blogId == NullValue.NullInt32 && log4net.ThreadContext.Properties["BlogId"] != null)
 				return;
 
 			log4net.ThreadContext.Properties["BlogId"] = blogId;
@@ -296,7 +296,7 @@ namespace Subtext.Framework.Logging
 		/// </summary>
 		public static void ResetBlogIdContext()
 		{
-			log4net.ThreadContext.Properties["BlogId"] = int.MinValue;
+			log4net.ThreadContext.Properties["BlogId"] = NullValue.NullInt32;
 		}
 
 		/// <summary>

@@ -44,21 +44,33 @@ namespace Subtext.Framework.Components
 		}
 
 		private int _blogID;
+		/// <summary>
+		/// Gets or sets the blog ID.
+		/// </summary>
+		/// <value>The blog ID.</value>
 		public int BlogID
 		{
 			get {return this._blogID;}
 			set {this._blogID = value;}
 		}
 
-		private int _entryid;
+		private int _entryid = NullValue.NullInt32;
+		/// <summary>
+		/// Gets or sets the entry ID.
+		/// </summary>
+		/// <value>The entry ID.</value>
 		[XmlAttribute]
-		public   int EntryID
+		public int EntryID
 		{
 			get{return _entryid;}
 			set{_entryid = value;}
 		}
 
-		private int _parentID = -1;		
+		private int _parentID = NullValue.NullInt32;		
+		/// <summary>
+		/// Gets or sets the parent ID.
+		/// </summary>
+		/// <value>The parent ID.</value>
 		public int ParentID
 		{
 			get
@@ -71,6 +83,12 @@ namespace Subtext.Framework.Components
 			}
 		}
 
+		/// <summary>
+		/// Gets a value indicating whether this instance is updated.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if this instance is updated; otherwise, <c>false</c>.
+		/// </value>
 		public bool IsUpdated
 		{
 			get
@@ -79,6 +97,12 @@ namespace Subtext.Framework.Components
 			}
 		}
 
+		/// <summary>
+		/// Gets a value indicating whether this instance has description.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if this instance has description; otherwise, <c>false</c>.
+		/// </value>
 		public bool HasDescription
 		{
 			get
@@ -105,6 +129,10 @@ namespace Subtext.Framework.Components
 		}
 
 		private PostType _postType = PostType.Undeclared;
+		/// <summary>
+		/// Gets or sets the type of the post.
+		/// </summary>
+		/// <value>The type of the post.</value>
 		public virtual PostType PostType
 		{
 			get
@@ -233,7 +261,7 @@ namespace Subtext.Framework.Components
 			set{_email = value;}
 		}
 
-		private DateTime _datecreated = DateTime.MinValue;
+		private DateTime _datecreated = NullValue.NullDateTime;
 		/// <summary>
 		/// Gets or sets the date this item was created.
 		/// </summary>
@@ -247,7 +275,7 @@ namespace Subtext.Framework.Components
 			set{_datecreated = value;}
 		}
 
-		private DateTime _dateupated = DateTime.MinValue;
+		private DateTime _dateupated = NullValue.NullDateTime;
 		/// <summary>
 		/// Gets or sets the date this entry was last updated.
 		/// </summary>
@@ -271,7 +299,7 @@ namespace Subtext.Framework.Components
 			set { _dateSyndicated = value; }
 		}
 
-		DateTime _dateSyndicated = DateTime.MinValue;
+		DateTime _dateSyndicated = NullValue.NullDateTime;
 
 		public bool IsActive
 		{

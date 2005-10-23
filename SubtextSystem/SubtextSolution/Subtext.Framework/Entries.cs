@@ -281,7 +281,7 @@ namespace Subtext.Framework
 			if(entry.IsActive && entry.IncludeInMainSyndication)
 				entry.DateSyndicated = DateTime.Now;
 			else
-				entry.DateSyndicated = DateTime.MinValue;
+				entry.DateSyndicated = NullValue.NullDateTime;
 			
 			return ObjectProvider.Instance().Create(entry, CategoryIDs);
 		}
@@ -331,12 +331,12 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static bool Update(Entry entry)
 		{
-			if(entry.DateSyndicated == DateTime.MinValue && entry.IsActive && entry.IncludeInMainSyndication)
+			if(entry.DateSyndicated == NullValue.NullDateTime && entry.IsActive && entry.IncludeInMainSyndication)
 				entry.DateSyndicated = DateTime.Now;
 			else 
 				//Note, this could cause updated items to get republished to the feed for RFC3229. 
 				//This should be fine since the GUID won't change.
-				entry.DateSyndicated = DateTime.MinValue;
+				entry.DateSyndicated = NullValue.NullDateTime;
 
 			return Update(entry, null);
 		}

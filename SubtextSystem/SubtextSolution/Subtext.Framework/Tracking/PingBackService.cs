@@ -69,7 +69,7 @@ namespace Subtext.Framework.Tracking
 			// GetPostIDFromUrl returns the postID
 			postId = UrlFormats.GetPostIDFromUrl(targetURI);
 			
-			if ( postId == -1 )
+			if ( postId == NullValue.NullInt32 )
 				throw new XmlRpcFaultException(33, "You did not link to a permalink");
   			  		
 			// does the sourceURI actually contain the permalink ?

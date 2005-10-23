@@ -771,7 +771,7 @@ namespace Subtext.Framework.Data
 			}
 			else
 			{
-				info.CommentDelayInMinutes = int.MinValue;
+				info.CommentDelayInMinutes = NullValue.NullInt32;
 			}
 
 			return info;

@@ -117,6 +117,9 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static string SafeFormat(string stringToTransform) 
 		{
+			if(stringToTransform == null)
+				throw new ArgumentNullException("stringToTransform", "Cannot transform a null string.");
+
 			stringToTransform = HttpContext.Current.Server.HtmlEncode(stringToTransform);
 			string brTag = "<br />";
 			if(!Config.Settings.UseXHTML)

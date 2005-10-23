@@ -116,6 +116,13 @@ namespace Subtext.Framework.Data
 
 		#region DataHelpers
 
+		public static object CheckNull(int obj)
+		{
+			if(NullValue.IsNull(obj))
+				return null;
+			return obj;
+		}
+
 		public static string CheckNull(object obj)
 		{
 			return (string) obj;
@@ -143,7 +150,7 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public static object CheckNull(DateTime dateTime)
 		{
-			if(dateTime == DateTime.MinValue)
+			if(NullValue.IsNull(dateTime))
 				return null;
 			return dateTime;
 		}

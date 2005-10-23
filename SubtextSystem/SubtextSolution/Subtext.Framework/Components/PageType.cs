@@ -30,7 +30,6 @@ namespace Subtext.Framework.Components
 	/// </summary>
 	public enum PageType
 	{
-	
 		//0 = HomePage, 1 = RSS, 2 = Date,3 = Post, 4 = Story, 5 = Other
 		HomePage = 0,
 		RSS = 1,
@@ -39,7 +38,7 @@ namespace Subtext.Framework.Components
 		Story = 4,
 		Other = 5,
 		ImagePage = 6,
-		NotSpecified = -1
+		NotSpecified = NullValue.NullInt32
 	};
 }
 

@@ -638,7 +638,7 @@ namespace Subtext.Web.Admin
 	{		
 		protected OpmlItemCollection _linksToImport;
 		protected LinkCollection _allLinks;
-		protected int _categoryID = -1;
+		protected int _categoryID = NullValue.NullInt32;
 
 		protected ImportLinksCommand() 
 		{

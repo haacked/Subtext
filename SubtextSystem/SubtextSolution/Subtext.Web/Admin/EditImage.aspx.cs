@@ -86,7 +86,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindImage(int imageID)
 		{
-			if (Constants.NULL_IMAGEID != imageID)
+			if (NullValue.NullInt32 != imageID)
 			{
 				LinkCategoryCollection selectionList = Links.GetCategories(CategoryType.ImageCollection, false);
 				if (selectionList.Count > 0)
@@ -237,7 +237,7 @@ namespace Subtext.Web.Admin.Pages
 			InitializeComponent();
 			base.OnInit(e);
 
-			ViewState[VSKEY_IMAGEID] = Constants.NULL_IMAGEID;
+			ViewState[VSKEY_IMAGEID] = NullValue.NullInt32;
 		}
 		
 		/// <summary>

@@ -38,8 +38,6 @@ namespace Subtext.Framework.Util
 		#region General
 
 
-
-
 		public static int GetIntQS(string qs)
 		{
 			return Int32.Parse(HttpContext.Current.Request.QueryString[qs]);

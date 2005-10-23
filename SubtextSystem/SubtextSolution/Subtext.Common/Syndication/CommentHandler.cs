@@ -41,11 +41,11 @@ namespace Subtext.Common.Syndication
 	/// </summary>
 	public class CommentHandler : IHttpHandler
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CommentHandler"/> class.
+		/// </summary>
 		public CommentHandler()
 		{
-			//
-			// TODO: Add constructor logic here
-			//
 		}
 
 		public void ProcessRequest(HttpContext context)
@@ -74,12 +74,14 @@ namespace Subtext.Common.Syndication
 
 				Entries.InsertComment(entry);
 			}
-			
-
 		}
 	
-	
-
+		/// <summary>
+		/// Gets a value indicating whether another request can use
+		/// the <see cref="T:System.Web.IHttpHandler"/>
+		/// instance.
+		/// </summary>
+		/// <value></value>
 		public bool IsReusable
 		{
 			get { return true; }

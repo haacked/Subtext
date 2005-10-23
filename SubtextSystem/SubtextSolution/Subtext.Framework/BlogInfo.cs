@@ -188,7 +188,7 @@ namespace Subtext.Framework
 			}
 		}
 
-		private int _blogID = -1;
+		private int _blogID = NullValue.NullInt32;
 		/// <summary>
 		/// Gets or sets the ID of the blog.  This is the 
 		/// primary key in the blog_config table.

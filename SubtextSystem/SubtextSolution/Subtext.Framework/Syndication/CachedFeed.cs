@@ -87,7 +87,7 @@ namespace Subtext.Framework.Syndication
 			set { _latestFeedItemPublishDate = value; }
 		}
 
-		DateTime _latestFeedItemPublishDate = DateTime.MinValue;
+		DateTime _latestFeedItemPublishDate = NullValue.NullDateTime;
 
 
 		private string etag;

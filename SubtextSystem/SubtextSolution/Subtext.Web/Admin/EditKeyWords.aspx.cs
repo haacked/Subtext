@@ -24,6 +24,7 @@
 using System;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Util;
 
@@ -69,7 +70,7 @@ namespace Subtext.Web.Admin.Pages
 				if(ViewState[VSKEY_KEYWORDID] != null)
 					return (int)ViewState[VSKEY_KEYWORDID];
 				else
-					return Constants.NULL_LINKID;
+					return NullValue.NullInt32;
 			}
 			set { ViewState[VSKEY_KEYWORDID] = value; }
 		}
@@ -203,7 +204,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void ResetPostEdit(bool showEdit)
 		{
-			KeyWordID = Constants.NULL_LINKID;
+			KeyWordID = NullValue.NullInt32;
 
 			Results.Collapsible = showEdit;
 			Results.Collapsed = showEdit;

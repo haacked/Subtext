@@ -45,7 +45,7 @@ namespace Subtext.Web.Admin.Pages
 			{
 				if(ViewState["_filterCategoryID"] == null)
 				{
-					return Constants.NULL_CATEGORYID;
+					return NullValue.NullInt32;
 				}
 				else
 				{
@@ -91,7 +91,7 @@ namespace Subtext.Web.Admin.Pages
 				if (null != ViewState[VSKEY_CATEGORYID])
 					return (int)ViewState[VSKEY_CATEGORYID];
 				else
-					return Constants.NULL_CATEGORYID;
+					return NullValue.NullInt32;
 			}
 			set { ViewState[VSKEY_CATEGORYID] = value; }
 		}
@@ -103,7 +103,7 @@ namespace Subtext.Web.Admin.Pages
 				if(ViewState[VSKEY_LINKID] != null)
 					return (int)ViewState[VSKEY_LINKID];
 				else
-					return Constants.NULL_LINKID;
+					return NullValue.NullInt32;
 			}
 			set { ViewState[VSKEY_LINKID] = value; }
 		}
@@ -126,7 +126,7 @@ namespace Subtext.Web.Admin.Pages
 				ResultsPager.PageIndex = _resultsPageNumber;
 				Results.Collapsible = false;
 
-				if (Constants.NULL_CATEGORYID != _filterCategoryID)
+				if (NullValue.NullInt32 != _filterCategoryID)
 					ResultsPager.UrlFormat += string.Format(System.Globalization.CultureInfo.InvariantCulture, "&{0}={1}", Keys.QRYSTR_CATEGORYID, 
 						_filterCategoryID);
 				
@@ -270,7 +270,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void ResetPostEdit(bool showEdit)
 		{
-			LinkID = Constants.NULL_LINKID;
+			LinkID = NullValue.NullInt32;
 
 			Results.Collapsible = showEdit;
 			Results.Collapsed = showEdit;
