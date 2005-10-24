@@ -302,6 +302,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="sortDirection">The sort direction.</param>
 		/// <returns></returns>
 		public abstract IDataReader GetPagedLogEntries(int pageIndex, int pageSize, SortDirection sortDirection);
+		public abstract void ClearLog();
 		public abstract IDataReader GetPagedViewStats(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate);
 		public abstract IDataReader GetPagedReferrers(int pageIndex, int pageSize);
 		public abstract IDataReader GetPagedReferrers(int pageIndex, int pageSize, int EntryID);

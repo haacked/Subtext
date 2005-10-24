@@ -33,6 +33,11 @@ namespace Subtext.Framework.Logging
 		public abstract PagedLogEntryCollection GetPagedLogEntries(int pageIndex, int pageSize, SortDirection sortDirection);
 
 		/// <summary>
+		/// Clears the log.
+		/// </summary>
+		public abstract void ClearLog();
+
+		/// <summary>
 		/// Initializes the specified provider.
 		/// </summary>
 		/// <param name="name">Friendly Name of the provider.</param>
