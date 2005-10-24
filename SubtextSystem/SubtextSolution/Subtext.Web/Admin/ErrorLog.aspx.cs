@@ -35,10 +35,18 @@ namespace Subtext.Web.Admin.Pages
 		protected System.Web.UI.WebControls.Repeater LogPage;
 		protected System.Web.UI.HtmlControls.HtmlGenericControl NoMessagesLabel;
 		protected Subtext.Web.Admin.WebUI.Pager LogPager;
+		protected System.Web.UI.WebControls.LinkButton btnClearLog;
 
 		private int _logPageNumber;
 	
-		private void Page_Load(object sender, System.EventArgs e)
+		protected override void OnLoad(EventArgs e)
+		{
+			LoadPage();
+			base.OnLoad (e);
+		}
+
+
+		private void LoadPage()
 		{
 			if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
 				_logPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
@@ -76,9 +84,6 @@ namespace Subtext.Web.Admin.Pages
 
 		}
 
-
-
-
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
 		{
@@ -95,11 +100,15 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.Load += new System.EventHandler(this.Page_Load);
-
+			this.btnClearLog.Click += new System.EventHandler(this.btnClearLog_Click);
 		}
 		#endregion
 
+		private void btnClearLog_Click(object sender, System.EventArgs e)
+		{
+			LoggingProvider.Instance().ClearLog();
+			BindList();
+		}
 	}
 }
 

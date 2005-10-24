@@ -377,8 +377,20 @@ namespace Subtext.Framework.Data
 				BlogIDParam
 			};
 			return GetReader("subtext_GetPageableLogEntries", p);
-
 		}
+
+		/// <summary>
+		/// Clears the log.
+		/// </summary>
+		public override void ClearLog()
+		{
+			SqlParameter[] p =
+			{
+				BlogIDParam
+			};
+			this.NonQueryInt("subtext_LogClear", p);
+		}
+
 
 		#endregion	
 

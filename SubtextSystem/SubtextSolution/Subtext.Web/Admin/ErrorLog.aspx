@@ -66,5 +66,7 @@
 		<ANW:Pager id="LogPager" runat="server" CssClass="Pager" UrlFormat="ErrorLog.aspx?pg={0}"
 			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' PrefixText="<div>Goto page</div>"
 			UseSpacer="False"></ANW:Pager>
+		<asp:LinkButton id="btnClearLog" runat="server" CssClass="RightButton" Text="Clear Log"></asp:LinkButton>
+		<br class="Clear" />
 	</ANW:AdvancedPanel>
 </ANW:Page>

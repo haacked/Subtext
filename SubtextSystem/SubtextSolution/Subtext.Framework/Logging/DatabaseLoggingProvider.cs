@@ -29,5 +29,14 @@ namespace Subtext.Framework.Logging
 			entries.MaxItems = DataHelper.GetMaxItems(reader);
 			return entries;
 		}
+
+		/// <summary>
+		/// Clears the log.
+		/// </summary>
+		public override void ClearLog()
+		{
+			DbProvider.Instance().ClearLog();
+		}
+
 	}
 }
