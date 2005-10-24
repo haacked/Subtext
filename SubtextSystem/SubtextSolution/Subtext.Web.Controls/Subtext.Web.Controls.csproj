@@ -154,6 +154,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "RepeaterWithEmptyDataTemplate.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ScriptHelper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

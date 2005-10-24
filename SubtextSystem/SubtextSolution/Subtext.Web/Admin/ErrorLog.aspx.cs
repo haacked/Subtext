@@ -61,12 +61,9 @@ namespace Subtext.Web.Admin.Pages
 		private void BindList()
 		{
 			PagedLogEntryCollection logEntries = LoggingProvider.Instance().GetPagedLogEntries(LogPager.PageIndex, LogPager.PageSize, SortDirection.Descending);
-			if (logEntries.Count > 0)
-			{				
-				LogPager.ItemCount = logEntries.MaxItems;
-				LogPage.DataSource = logEntries;
-				LogPage.DataBind();
-			}			
+			LogPager.ItemCount = logEntries.MaxItems;
+			LogPage.DataSource = logEntries;
+			LogPage.DataBind();		
 		}
 
 		
@@ -107,6 +104,7 @@ namespace Subtext.Web.Admin.Pages
 		private void btnClearLog_Click(object sender, System.EventArgs e)
 		{
 			LoggingProvider.Instance().ClearLog();
+			LogPager.PageIndex = 0; //Back to first page.
 			BindList();
 		}
 	}

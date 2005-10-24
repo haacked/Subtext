@@ -1,19 +1,20 @@
 <%@ Page language="c#" Codebehind="ErrorLog.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.ErrorLog" %>
 <%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
+<%@ Register TagPrefix="sb" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <ANW:Page id="PageContainer" TabSectionID="ErrorLog" runat="server">
 	<ANW:AdvancedPanel id="Log" runat="server" Collapsible="False" HeaderText="Error Log" HeaderCssClass="CollapsibleHeader"
 		DisplayHeader="true">
-		<asp:Repeater id="LogPage" runat="server">
+		<table id="Listing" class="Listing" cellSpacing="0" cellPadding="0" border="0">
+		<sb:RepeaterWithEmptyDataTemplate id="LogPage" runat="server">
 			<HeaderTemplate>
-				<table id="Listing" class="Listing" cellSpacing="0" cellPadding="0" border="0">
-					<tr>
-						<th>Date</th>
-						<th>Thread</th>
-						<th>Logger</th>
-						<th>Level</th>
-						<th>Message</th>
-						<th>Exception</th>
-					</tr>
+				<tr>
+					<th>Date</th>
+					<th>Thread</th>
+					<th>Logger</th>
+					<th>Level</th>
+					<th>Message</th>
+					<th>Exception</th>
+				</tr>
 			</HeaderTemplate>
 			<ItemTemplate>
 				<tr>
@@ -59,10 +60,13 @@
 					</td>				
 				</tr>
 			</AlternatingItemTemplate>
-			<FooterTemplate>
-				</table>
-			</FooterTemplate>
-		</asp:Repeater>
+			<EmptyDataTemplate>
+				<tr>
+					<td colspan="6">No log entries to show.</td>
+				</tr>
+			</EmptyDataTemplate>
+		</sb:RepeaterWithEmptyDataTemplate>
+		</table>
 		<ANW:Pager id="LogPager" runat="server" CssClass="Pager" UrlFormat="ErrorLog.aspx?pg={0}"
 			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' PrefixText="<div>Goto page</div>"
 			UseSpacer="False"></ANW:Pager>
