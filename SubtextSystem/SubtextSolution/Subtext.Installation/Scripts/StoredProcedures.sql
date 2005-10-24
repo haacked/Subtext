@@ -146,6 +146,10 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Ge
 drop procedure [dbo].[subtext_GetPageableFeedback]
 GO
 
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPageableLogEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [dbo].[subtext_GetPageableLogEntries]
+GO
+
 if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPageableKeyWords]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[subtext_GetPageableKeyWords]
 GO
@@ -1656,6 +1660,85 @@ GO
 
 GRANT  EXECUTE  ON [dbo].[subtext_GetPageableFeedback]  TO [public]
 GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+CREATE PROC [dbo].[subtext_GetPageableLogEntries]
+(
+	@BlogID int
+	, @PageIndex int
+	, @PageSize int
+	, @SortDesc bit
+)
+AS
+
+DECLARE @PageLowerBound int
+DECLARE @PageUpperBound int
+
+SET @PageLowerBound = @PageSize * @PageIndex - @PageSize
+SET @PageUpperBound = @PageLowerBound + @PageSize + 1
+
+
+CREATE TABLE #TempPagedEntryIDs 
+(
+	TempID int IDENTITY (1, 1) NOT NULL,
+	EntryID int NOT NULL
+)	
+
+IF NOT (@SortDesc = 1)
+BEGIN
+	INSERT INTO #TempPagedEntryIDs (EntryID)
+	SELECT	[ID] 
+	FROM [dbo].[subtext_Log] 
+	WHERE 	blogID = @BlogID OR @BlogID IS NULL
+	ORDER BY [Date]
+END
+ELSE
+BEGIN
+	INSERT INTO #TempPagedEntryIDs (EntryID)
+	SELECT	[ID] 
+	FROM [dbo].[subtext_Log]
+	WHERE 	blogID = @BlogID OR @BlogID IS NULL
+	ORDER BY [Date] DESC
+END
+
+SELECT	[log].[Id]
+		, [log].[BlogId]
+		, [log].[Date]
+		, [log].[Thread]
+		, [log].[Context]
+		, [log].[Level]
+		, [log].[Logger]
+		, [log].[Message]
+		, [log].[Exception]
+FROM [dbo].[subtext_Log] [log]
+    INNER JOIN #TempPagedEntryIDs tmp ON ([log].[ID] = tmp.EntryID)
+WHERE 	(
+			[log].BlogID = @BlogID  
+		OR @BlogID IS NULL
+		)
+	AND tmp.TempID > @PageLowerBound 
+	AND tmp.TempID < @PageUpperBound
+ORDER BY tmp.TempID
+ 
+DROP TABLE #TempPagedEntryIDs
+
+SELECT 	COUNT([ID]) AS TotalRecords
+FROM [dbo].[subtext_Log] 
+WHERE 	blogID = @BlogID OR @BlogId IS NULL
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+GRANT  EXECUTE  ON [dbo].[subtext_GetPageableLogEntries]  TO [public]
+GO
+
 
 SET QUOTED_IDENTIFIER ON 
 GO

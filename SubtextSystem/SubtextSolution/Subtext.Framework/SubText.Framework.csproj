@@ -577,6 +577,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Logging\DatabaseLoggingProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Logging\IConfigurationDeclaration.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -607,6 +612,11 @@
                 />
                 <File
                     RelPath = "Logging\LoggingProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Logging\PagedLogEntryCollection.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

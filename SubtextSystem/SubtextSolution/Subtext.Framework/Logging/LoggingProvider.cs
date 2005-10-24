@@ -1,32 +1,56 @@
 using System;
+using System.Collections.Specialized;
+using Subtext.Extensibility.Providers;
+using Subtext.Framework.Data;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Framework.Logging
 {
 	/// <summary>
-	/// Summary description for LoggingProvider.
+	/// Provider for retrieving log entries.
 	/// </summary>
-	public class LoggingProvider
+	public abstract class LoggingProvider : ProviderBase
 	{
-		private static readonly LoggingProvider __instance = new LoggingProvider();
+		string _name;
 
-		public LogEntryCollection GetLogEntries(int pageIndex, int pageSize)
+		/// <summary>
+		/// Returns the configured concrete instance of a <see cref="ObjectProvider"/>.
+		/// </summary>
+		/// <returns></returns>
+		public static LoggingProvider Instance()
 		{
-			LogEntryCollection logEntries = new LogEntryCollection();
-			LogEntry testEntry = new LogEntry();
-			testEntry.Date = DateTime.Now;
-			testEntry.Level = "INFO";
-			testEntry.Logger = "Subtext.Framework.Logging.SomeLogger";
-			testEntry.Message = "Dummy test message. Nothing else to see here.";
-			testEntry.Thread = "1234";
-			logEntries.Add(testEntry);
-			return logEntries;
+			//TODO: Make this a real provider.
+			return new DatabaseLoggingProvider();
 		}
 
-		public static LoggingProvider Instance
+		/// <summary>
+		/// Gets a pageable collection of log entries.
+		/// </summary>
+		/// <param name="pageIndex">Index of the page.</param>
+		/// <param name="pageSize">Size of the page.</param>
+		/// <param name="sortDirection">The sort direction.</param>
+		/// <returns></returns>
+		public abstract PagedLogEntryCollection GetPagedLogEntries(int pageIndex, int pageSize, SortDirection sortDirection);
+
+		/// <summary>
+		/// Initializes the specified provider.
+		/// </summary>
+		/// <param name="name">Friendly Name of the provider.</param>
+		/// <param name="configValue">Config value.</param>
+		public override void Initialize(string name, NameValueCollection configValue)
+		{
+			_name = name;
+		}
+
+		/// <summary>
+		/// Returns the friendly name of the provider when the provider is initialized.
+		/// </summary>
+		/// <value></value>
+		public override string Name
 		{
 			get
 			{
-				return __instance;
+				return _name;
 			}
 		}
 	}

@@ -3,104 +3,129 @@ using System;
 namespace Subtext.Framework.Logging
 {
 	/// <summary>
-	/// Contains log entry information. This class used only for retrieving and viewing logging information.
+	/// Represents an entry within the Subtext log.
 	/// </summary>
+	/// <remarks>
+	/// These entries as of now are added by Log4Net.
+	/// </remarks>
+	[Serializable]
 	public class LogEntry
 	{
 		/// <summary>
-		/// Date of the entry
+		/// Initializes a new instance of the <see cref="LogEntry"/> class.
 		/// </summary>
-		private DateTime _date;
+		public LogEntry()
+		{
+		}
+
+		/// <summary>
+		/// Gets or sets the id.
+		/// </summary>
+		/// <value>The id.</value>
+		public int Id
+		{
+			get { return _id; }
+			set { _id = value; }
+		}
+
+		int _id;
+
+		/// <summary>
+		/// Gets or sets the blog id.
+		/// </summary>
+		/// <value>The blog id.</value>
+		public int BlogId
+		{
+			get { return _blogId; }
+			set { _blogId = value; }
+		}
+
+		int _blogId = NullValue.NullInt32;
+
+		/// <summary>
+		/// Gets or sets the date of the log entry.
+		/// </summary>
+		/// <value>The date.</value>
 		public DateTime Date
 		{
-			get
-			{
-				return _date;
-			}
-			set
-			{
-				_date = value;
-			}
+			get { return _date; }
+			set { _date = value; }
 		}
 
+		DateTime _date;
+
 		/// <summary>
-		/// ID of the thread which logged the entry
+		/// Gets or sets the id or name of thread on which 
+		/// this log message was logged.
 		/// </summary>
-		private string _thread;
+		/// <value>The thread.</value>
 		public string Thread
 		{
-			get
-			{
-				return _thread;
-			}
-			set
-			{
-				_thread = value;
-			}
+			get { return _thread; }
+			set { _thread = value; }
 		}
 
+		string _thread;
+
 		/// <summary>
-		/// Full name of the type (class) that logged the entry
+		/// Gets or sets the context of the message if any was set.
 		/// </summary>
-		private string _logger;
-		public string Logger
+		/// <value>The context.</value>
+		public string Context
 		{
-			get
-			{
-				return _logger;
-			}
-			set
-			{
-				_logger = value;
-			}
+			get { return _context; }
+			set { _context = value; }
 		}
 
+		string _context;
+
 		/// <summary>
-		/// Level of the entry
+		/// Gets or sets the level of the log message.
 		/// </summary>
-		private string _level;
+		/// <value>The level.</value>
 		public string Level
 		{
-			get
-			{
-				return _level;
-			}
-			set
-			{
-				_level = value;
-			}
+			get { return _level; }
+			set { _level = value; }
 		}
 
+		string _level;
+
 		/// <summary>
-		/// Message of the entry
+		/// Gets or sets the logger that logged this message.
 		/// </summary>
-		private string _message;
+		/// <value>The logger.</value>
+		public string Logger
+		{
+			get { return _logger; }
+			set { _logger = value; }
+		}
+
+		string _logger;
+
+		/// <summary>
+		/// Gets or sets the log message.
+		/// </summary>
+		/// <value>The message.</value>
 		public string Message
 		{
-			get
-			{
-				return _message;
-			}
-			set
-			{
-				_message = value;
-			}
+			get { return _message; }
+			set { _message = value; }
 		}
 
+		string _message;
+
 		/// <summary>
-		/// Exception (if any) that was the cause of generating the entry
+		/// Gets or sets the exception type and stack trace 
+		/// if an exception was logged.
 		/// </summary>
-		private string _exception;
+		/// <value>The exception.</value>
 		public string Exception
 		{
-			get
-			{
-				return _exception;
-			}
-			set
-			{
-				_exception = value;
-			}
+			get { return _exception; }
+			set { _exception = value; }
 		}
+
+		string _exception;
 	}
 }

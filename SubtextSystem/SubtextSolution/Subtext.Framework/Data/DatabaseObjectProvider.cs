@@ -134,6 +134,15 @@ namespace Subtext.Framework.Data
 
 		#region Paged Posts
 
+		/// <summary>
+		/// Gets the paged entries.
+		/// </summary>
+		/// <param name="postType">Type of the post.</param>
+		/// <param name="categoryID">The category ID.</param>
+		/// <param name="pageIndex">Index of the page.</param>
+		/// <param name="pageSize">Size of the page.</param>
+		/// <param name="sortDescending">if set to <c>true</c> [sort descending].</param>
+		/// <returns></returns>
 		public override PagedEntryCollection GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize, bool sortDescending)
 		{
 			IDataReader reader = DbProvider.Instance().GetPagedEntries(postType,categoryID,pageIndex,pageSize,sortDescending);
@@ -155,6 +164,13 @@ namespace Subtext.Framework.Data
 			}
 		}
 
+		/// <summary>
+		/// Gets the paged feedback.
+		/// </summary>
+		/// <param name="pageIndex">Index of the page.</param>
+		/// <param name="pageSize">Size of the page.</param>
+		/// <param name="sortDescending">if set to <c>true</c> [sort descending].</param>
+		/// <returns></returns>
 		public override PagedEntryCollection GetPagedFeedback(int pageIndex, int pageSize, bool sortDescending)
 		{
 			IDataReader reader = DbProvider.Instance().GetPagedFeedback(pageIndex, pageSize, sortDescending);

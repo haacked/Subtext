@@ -23,6 +23,7 @@
 
 using System;
 using System.Web.UI.WebControls;
+using Subtext.Framework.Data;
 using Subtext.Framework.Logging;
 
 namespace Subtext.Web.Admin.Pages
@@ -51,7 +52,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindList()
 		{
-			LogEntryCollection logEntries = LoggingProvider.Instance.GetLogEntries(LogPager.PageIndex, LogPager.PageSize);
+			PagedLogEntryCollection logEntries = LoggingProvider.Instance().GetPagedLogEntries(LogPager.PageIndex, LogPager.PageSize, SortDirection.Descending);
 			if (logEntries.Count > 0)
 			{				
 				LogPager.ItemCount = logEntries.MaxItems;

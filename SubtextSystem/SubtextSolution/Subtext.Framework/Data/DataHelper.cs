@@ -27,6 +27,7 @@ using System.Globalization;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Logging;
 
 //Need to remove Global.X calls ...just seems unclean
 //Maybe create a another class formatter ...Format.Entry(ref Entry entry) 
@@ -873,6 +874,81 @@ namespace Subtext.Framework.Data
 			info.DateCreated = (DateTime)reader["DateCreated"];
 		}
 		#endregion
+
+		#region Log Entries
+		/// <summary>
+		/// Loads the single log entry.
+		/// </summary>
+		/// <param name="reader">The reader.</param>
+		/// <returns></returns>
+		public static LogEntry LoadSingleLogEntry(IDataReader reader)
+		{
+			LogEntry entry = new LogEntry();
+			entry.Id = ReadInt(reader, "Id");
+			entry.BlogId = ReadInt(reader, "BlogId");
+			entry.Date = ReadDate(reader, "Date");
+			entry.Thread = ReadString(reader, "Thread");
+			entry.Level = ReadString(reader, "Level");
+			entry.Context = ReadString(reader, "Context");
+			entry.Logger = ReadString(reader, "Logger");
+			entry.Message = ReadString(reader, "Message");
+			entry.Exception = ReadString(reader, "Exception");
+			return entry;
+		}
+		#endregion
+
+		/// <summary>
+		/// Reads the int from the data reader.
+		/// </summary>
+		/// <param name="reader">The reader.</param>
+		/// <param name="columnName">Name of the column.</param>
+		/// <returns></returns>
+		public static int ReadInt(IDataReader reader, string columnName)
+		{
+			if(reader[columnName] != DBNull.Value)
+				return (int)reader[columnName];
+			else
+				return NullValue.NullInt32;
+		}
+
+		/// <summary>
+		/// Reads the string.
+		/// </summary>
+		/// <param name="reader">The reader.</param>
+		/// <param name="columnName">Name of the coumn.</param>
+		/// <returns></returns>
+		public static string ReadString(IDataReader reader, string columnName)
+		{
+			if(reader[columnName] != DBNull.Value)
+				return (string)reader[columnName];
+			else
+				return null;
+		}
+
+		/// <summary>
+		/// Reads the date.
+		/// </summary>
+		/// <param name="reader">The reader.</param>
+		/// <param name="columnName">Name of the column.</param>
+		/// <returns></returns>
+		public static DateTime ReadDate(IDataReader reader, string columnName)
+		{
+			if(reader[columnName] != DBNull.Value)
+				return (DateTime)reader[columnName];
+			else
+				return NullValue.NullDateTime;
+		}
+	}
+
+	/// <summary>
+	/// Sort direction.
+	/// </summary>
+	public enum SortDirection
+	{
+		None = 0,
+		/// <summary>Sort ascending</summary>
+		Ascending,
+		/// <summary>Sort descending</summary>
+		Descending
 	}
 }
-
