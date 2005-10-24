@@ -24,6 +24,7 @@
 using System;
 using System.Data;
 using Subtext.Extensibility;
+using Subtext.Framework.Logging;
 
 namespace Subtext.Framework.Components
 {
@@ -139,6 +140,7 @@ namespace Subtext.Framework.Components
 
 		public abstract PagedLinkCollection GetPagedLinks(int CategoryID, int pageIndex, int pageSize, bool sortDescending);
 		public abstract PagedEntryCollection GetPagedFeedback(int pageIndex, int pageSize, bool sortDescending);
+		public abstract PagedLogEntryCollection GetPagedLogEntries(int pageIndex, int pageSize, bool sortDescending);
 		public abstract PagedReferrerCollection GetPagedReferrers(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate);
 		public abstract PagedReferrerCollection GetPagedReferrers(int pageIndex, int pageSize, int EntryID);
 		public abstract PagedEntryCollection GetPagedEntries(PostType postType, int categoryTypeID, int pageIndex, int pageSize, bool sortDescending);

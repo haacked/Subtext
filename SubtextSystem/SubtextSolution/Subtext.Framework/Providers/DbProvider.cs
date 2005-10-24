@@ -293,6 +293,15 @@ namespace Subtext.Framework.Providers
 		public abstract IDataReader GetPagedLinks(int CategoryID, int pageIndex, int pageSize, bool sortDescending);
 		public abstract IDataReader GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize, bool sortDescending);
 		public abstract IDataReader GetPagedFeedback(int pageIndex, int pageSize, bool sortDescending);
+		
+		/// <summary>
+		/// Gets the specified page of log entries.
+		/// </summary>
+		/// <param name="pageIndex">Index of the page.</param>
+		/// <param name="pageSize">Size of the page.</param>
+		/// <param name="sortDirection">The sort direction.</param>
+		/// <returns></returns>
+		public abstract IDataReader GetPagedLogEntries(int pageIndex, int pageSize, SortDirection sortDirection);
 		public abstract IDataReader GetPagedViewStats(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate);
 		public abstract IDataReader GetPagedReferrers(int pageIndex, int pageSize);
 		public abstract IDataReader GetPagedReferrers(int pageIndex, int pageSize, int EntryID);

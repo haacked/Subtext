@@ -346,7 +346,7 @@ namespace Subtext.Framework.Data
 
 		}
 		
-			//Did not really experiment why, but sqlhelper does not seem to like the output parameter after the reader
+		//Did not really experiment why, but sqlhelper does not seem to like the output parameter after the reader
 		public override IDataReader GetPagedFeedback(int pageIndex, int pageSize, bool sortDescending)
 		{
 			SqlParameter[] p =
@@ -357,6 +357,26 @@ namespace Subtext.Framework.Data
 				BlogIDParam
 			};
 			return GetReader("subtext_GetPageableFeedback", p);
+
+		}
+
+		/// <summary>
+		/// Gets the specified page of log entries.
+		/// </summary>
+		/// <param name="pageIndex">Index of the page.</param>
+		/// <param name="pageSize">Size of the page.</param>
+		/// <param name="sortDirection">The sort direction.</param>
+		/// <returns></returns>
+		public override IDataReader GetPagedLogEntries(int pageIndex, int pageSize, SortDirection sortDirection)
+		{
+			SqlParameter[] p =
+			{
+				SqlHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex),
+				SqlHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize),
+				SqlHelper.MakeInParam("@SortDesc", SqlDbType.Bit, 1, sortDirection == SortDirection.Descending),
+				BlogIDParam
+			};
+			return GetReader("subtext_GetPageableLogEntries", p);
 
 		}
 

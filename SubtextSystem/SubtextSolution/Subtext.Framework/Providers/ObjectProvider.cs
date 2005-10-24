@@ -38,6 +38,7 @@ namespace Subtext.Framework.Providers
 		public abstract bool UpdateHost(HostInfo hostInfo);
 		
 		#endregion Host
+
 		#region Blogs
 		/// <summary>
 		/// Gets a pageable <see cref="BlogInfoCollection"/> of <see cref="BlogInfo"/> instances.
@@ -62,7 +63,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="host">Host.</param>
 		/// <returns></returns>
 		public abstract BlogInfoCollection GetBlogsByHost(string host);
-		#endregion
+		#endregion Blogs
 		
 		#region Entries
 
