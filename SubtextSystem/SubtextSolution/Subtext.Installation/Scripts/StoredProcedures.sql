@@ -820,7 +820,7 @@ FROM [dbo].[subtext_Content]
 WHERE	PostType = @PostType 
 	AND BlogID   = @BlogID
 	AND PostConfig & @PostConfig = @PostConfig
-ORDER BY ISNULL(DateSyndicated, DateUpdated) DESC
+ORDER BY [DateUpdated] DESC
 
 
 GO
