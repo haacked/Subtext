@@ -32,6 +32,63 @@ to read (and follow) these Guidelines for the subText project.
 		ex -> EXP_BlogImportChanges	 or	 
 				EXP_BlogImportChanges.RemoveOldImport
 
+================================================================================				
+HOW-TO: Keep your branch in sync with changes happening on the TRUNK.
+	*** You probably don't need to do this... this is only needed if a lot of 
+		changes are made to TRUNK before you merge you branch back. If in doubt,
+		ask Steve (ussherm) or Phil (Haacked). ***
+
+- Changes made to the parent (TRUNK) are "brought over" to the child (EXP_xxx) 
+  by applying the differences between the last "bring over" point and HEAD on 
+  the parent branch. The last "bring over" point is remembered by tagging with
+  the -F option (Move tag if it exists).
+
+                   parent-to-child-last
+  -----+--------+---------+---------- parent
+       \        \         \              |
+        \        \         \             |
+         \        \         \            v
+     -----+--------+---------+-------- child
+
+   # first bring the child sand box up-to-date
+ $ cd <child sand box>
+ $ cvs update
+ $ # resolve conflicts
+ $ cvs commit
+
+ $ cvs update -j parent-to-child-last -j parent
+ $ # resolve conflicts
+ $ cvs commit
+
+- Changes made to the child can be "put back" to parent only after the child
+  "brings over" the latest changes relevant on the parent. That is, the
+  child cannot "put back" if parent-to-child-last and the HEAD on the
+  parent branch are different.
+
+- Changes to the child are "put back" to the parent branch by making
+  the HEAD revision of the parent _the same as_ that of the child
+  content wise.
+
+  $ cd  <parent sand box>
+  $ cvs update # first get the sand box up-to-date with the repository
+
+  $ cvs tag -F current-parent
+  $ cvs update -j current-parent -j child
+  $ # conflicts cannot arise
+  $ cvs commit 
+  
+- In subText, you would replace "child" with the name of your branch 
+  (i.e.- EXP_SH.20051012), and you could replace "parent" with HEAD since 
+  your branch will [usually] be a child of the TRUNK. You would also need 
+  to name "parent-to-child-last" and "current-parent" appropriately.
+  
+- If you're using TortoiseCVS to do your merging, be sure to either have 
+  seperate directories for your <parent sandbox> & <child sandbox>, or at
+  least do an "Update Special" and get a "Clean Copy" of the branch. When 
+  you do the merge, you'll be given a dialog asking for a "Start" and "End"
+  tag. The "Start" would be the first "-j xxx" above, and "End" is the 2nd 
+  "-j yyy".
+
 ================================================================================
 For more information on how to work with TAG and BRANCH in CVS, please 
 see the following resources:
