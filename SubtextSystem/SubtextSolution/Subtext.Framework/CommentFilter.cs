@@ -17,6 +17,8 @@ namespace Subtext.Framework
 	public sealed class CommentFilter
 	{
 		private const string FILTER_CACHE_KEY = "COMMENT FILTER:";
+		private const string BLACKLIST_CACHE_KEY = "BLACKLIST:";
+		private const int BLACKLIST_TIMEOUT = 60; //minutes.
 		private CommentFilter() {}
 
 		/// <summary>
@@ -36,14 +38,17 @@ namespace Subtext.Framework
 		/// <param name="entry">Entry.</param>
 		public static void FilterComment(Entry entry)
 		{
-			if(ContainsSpam(entry))
-				throw new CommentSpamException("Sorry, spam is not allowed.");
-
 			if(!SourceFrequencyIsValid(entry))
 				throw new Subtext.Framework.Exceptions.CommentFrequencyException();
 
 			if(!Config.CurrentBlog.DuplicateCommentsEnabled && IsDuplicateComment(entry))
 				throw new Subtext.Framework.Exceptions.CommentDuplicateException();
+
+			if(ContainsSpam(entry))
+				throw new CommentSpamException("Sorry, spam is not allowed.");
+
+			if(IsInBlackList(entry))
+				throw new CommentBlackListException("Sorry, you've been temporarily blacklisted for spamming.");
 		}
 
 		static bool ContainsSpam(Entry entry)
@@ -62,11 +67,39 @@ namespace Subtext.Framework
 						|| regex.IsMatch(entry.Author)
 						|| regex.IsMatch(entry.TitleUrl))
 					{
+						AddToBlackList(entry);
 						return true;
 					}					
 				}
 			}
 			return false;
+		}
+
+		/// <summary>
+		/// Determines whether [is in black list] [the specified entry].
+		/// </summary>
+		/// <param name="entry">The entry.</param>
+		/// <returns>
+		/// 	<c>true</c> if [is in black list] [the specified entry]; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool IsInBlackList(Entry entry)
+		{
+			Cache cache = HttpContext.Current.Cache;
+			if(cache.Get(BLACKLIST_CACHE_KEY + entry.SourceName) != null)
+				return true;
+			return false;
+		}
+
+		/// <summary>
+		/// Adds the source IP of this entry to black list.  The 
+		/// black list is temporary for now.
+		/// </summary>
+		/// <param name="entry">The entry.</param>
+		/// <returns></returns>
+		public static void AddToBlackList(Entry entry)
+		{
+			Cache cache = HttpContext.Current.Cache;
+			cache.Insert(BLACKLIST_CACHE_KEY + entry.SourceName, string.Empty, null, DateTime.Now.AddMinutes(BLACKLIST_TIMEOUT), TimeSpan.Zero);
 		}
 
 		// Returns true if the source of the entry is not 
