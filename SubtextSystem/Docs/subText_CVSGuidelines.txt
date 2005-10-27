@@ -6,31 +6,31 @@ to read (and follow) these Guidelines for the subText project.
 
 1.	When we get ready for a public release of the next verion of 
 	subText, we will TAG the MAIN (Trunk) Branch as follows:
-	REL_Major.Minor.Patch
-		ex -> REL_1.0.1
+	REL-Major_Minor_Patch
+		ex -> REL-1_0_1
 
 2.	If we find a bug and need the fix before the next Minor release, 
 	we will create a RELEASE BRANCH (branching from the REL_x.y.z tag) 
 	as follows:
-	RB_Major.Minor.Patch
-		ex -> RB_1.0.1
+	RB-Major_Minor_Patch
+		ex -> RB-1_0_1
 
 3.	Before we merge a RELEASE BRANCH into the MAIN (Trunk) branch we will 
 	TAG the Trunk as follows: (where ### is the number in our bug tracker)
-	PRE_Bug.###		<-- TAG right before we merge
-	POST_Bug.###	<-- TAG right after the merge
+	PRE-Bug_###		<-- TAG right before we merge
+	POST-Bug_###	<-- TAG right after the merge
 
 4.	If a developer wants to BRANCH the code so they can experiment with 
 	a new feature they are interested in adding, they should branch from 
 	the Trunk as follows:
-	EXP_initials.yyyymmdd
-		ex -> EXP_SH.20051012
+	EXP-initials_yyyymmdd
+		ex -> EXP-SH_20051012
 
 5.	For branches that will be shared b/t developers for implementing 
 	new features, refactoring, etc... name the BRANCH as follows:
-	EXP_somethingDescriptive.moreDetailIfNeeded
-		ex -> EXP_BlogImportChanges	 or	 
-				EXP_BlogImportChanges.RemoveOldImport
+	EXP-somethingDescriptive_moreDetailIfNeeded
+		ex -> EXP-BlogImportChanges	 or	 
+				EXP-BlogImportChanges_RemoveOldImport
 
 ================================================================================				
 HOW-TO: Keep your branch in sync with changes happening on the TRUNK.
