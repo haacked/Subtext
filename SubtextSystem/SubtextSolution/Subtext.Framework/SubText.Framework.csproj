@@ -514,6 +514,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Exceptions\CommentBlacklistException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Exceptions\CommentDuplicateException.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
