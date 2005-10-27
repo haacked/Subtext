@@ -59,6 +59,7 @@ HOW-TO: Keep your branch in sync with changes happening on the TRUNK.
  $ cvs update -j parent-to-child-last -j parent
  $ # resolve conflicts
  $ cvs commit
+ $ cvs tag -F parent-to-child-last
 
 - Changes made to the child can be "put back" to parent only after the child
   "brings over" the latest changes relevant on the parent. That is, the
@@ -72,6 +73,7 @@ HOW-TO: Keep your branch in sync with changes happening on the TRUNK.
   $ cd  <parent sand box>
   $ cvs update # first get the sand box up-to-date with the repository
 
+  $ # I think below references to "current-parent" should actually be "parent-to-child-last"
   $ cvs tag -F current-parent
   $ cvs update -j current-parent -j child
   $ # conflicts cannot arise
