@@ -3359,12 +3359,6 @@ SET ANSI_NULLS ON
 GO
 
 
-
-/*
-Subtext 1.0 will only support single user blogs, thus this 
-proc will make sure there is only one blog in the system 
-AND will fail to add a blog if one already exists.
-*/
 CREATE PROC [dbo].[subtext_UTILITY_AddBlog]
 (
 	@Title nvarchar(100), 
@@ -3412,7 +3406,7 @@ Values
 	, @Email
 	, @Title
 	, 'Another Subtext Powered Blog'
-	, 'marvin2'
+	, 'RedBook'
 	, 'blue.css'
 	, @Application
 	, @Host
