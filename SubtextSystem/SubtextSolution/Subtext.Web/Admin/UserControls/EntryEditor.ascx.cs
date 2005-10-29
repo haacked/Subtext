@@ -55,7 +55,6 @@ namespace Subtext.Web.Admin.UserControls
 		protected Subtext.Web.Admin.WebUI.Pager ResultsPager;
 		protected System.Web.UI.WebControls.HyperLink hlEntryLink;
 		protected System.Web.UI.WebControls.TextBox txbTitle;
-//		protected System.Web.UI.WebControls.TextBox txbBody;
 		protected System.Web.UI.WebControls.Button Post;
 		protected System.Web.UI.WebControls.TextBox txbExcerpt;
 		protected System.Web.UI.WebControls.TextBox txbTitleUrl;
@@ -73,13 +72,13 @@ namespace Subtext.Web.Admin.UserControls
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Advanced;
 		protected System.Web.UI.WebControls.TextBox txbSourceName;
 		protected System.Web.UI.WebControls.TextBox txbSourceUrl;
-		protected System.Web.UI.WebControls.LinkButton lkbPost;
-		protected System.Web.UI.WebControls.LinkButton lkUpdateCategories;
-		protected System.Web.UI.WebControls.LinkButton lkbCancel;
+		protected System.Web.UI.WebControls.Button lkbPost;
+		protected System.Web.UI.WebControls.Button lkUpdateCategories;
+		protected System.Web.UI.WebControls.Button lkbCancel;
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
 		protected System.Web.UI.WebControls.RequiredFieldValidator valtbBodyRequired;
 		protected System.Web.UI.WebControls.RequiredFieldValidator valTitleRequired;
-		protected System.Web.UI.WebControls.LinkButton lkbNewPost;	
+		protected System.Web.UI.WebControls.Button lkbNewPost;	
 		protected System.Web.UI.WebControls.TextBox txbEntryName;
 		protected FreeTextBoxControls.FreeTextBox freeTextBox;
 		#endregion

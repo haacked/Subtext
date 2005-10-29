@@ -40,7 +40,6 @@ namespace Subtext.Web.Admin.WebUI
 		{	
 			if (_items.Count > 0)
 			{
-			
 				output.WriteBeginTag("ul");
 				output.WriteAttribute("id", this.ClientID, false);
 				output.Write(HtmlTextWriter.TagRightChar);

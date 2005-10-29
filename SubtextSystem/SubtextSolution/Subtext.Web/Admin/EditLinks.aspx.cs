@@ -65,15 +65,15 @@ namespace Subtext.Web.Admin.Pages
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Results;
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel ImportExport;
 		protected System.Web.UI.HtmlControls.HtmlInputFile OpmlImportFile;
-		protected System.Web.UI.WebControls.LinkButton lkbImportOpml;
+		protected System.Web.UI.WebControls.Button lkbImportOpml;
 		protected System.Web.UI.WebControls.Label lblEntryID;
 		protected System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
 		protected System.Web.UI.WebControls.TextBox txbTitle;
 		protected System.Web.UI.WebControls.RequiredFieldValidator Requiredfieldvalidator2;
 		protected System.Web.UI.WebControls.TextBox txbUrl;
 		protected System.Web.UI.WebControls.CheckBoxList cklCategories;
-		protected System.Web.UI.WebControls.LinkButton lkbPost;
-		protected System.Web.UI.WebControls.LinkButton lkbCancel;
+		protected System.Web.UI.WebControls.Button lkbPost;
+		protected System.Web.UI.WebControls.Button lkbCancel;
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
 		protected System.Web.UI.WebControls.CheckBox ckbIsActive;
 		protected System.Web.UI.WebControls.TextBox txbRss;

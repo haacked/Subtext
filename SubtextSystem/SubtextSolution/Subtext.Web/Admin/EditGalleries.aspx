@@ -42,13 +42,13 @@
 		<br>
 		<label class="Block">Description (1000 characters including HTML)</lable><br>
 		<asp:TextBox id="txbNewDescription" max = "1000"  runat="server" width="450" rows="5" textmode="MultiLine"></asp:TextBox>
-<DIV style="MARGIN-TOP: 8px"><asp:linkbutton id=lkbPost runat="server" CssClass="Button" Text="Add"></asp:linkbutton><BR>&nbsp; 
+<DIV style="MARGIN-TOP: 8px"><asp:Button id=lkbPost runat="server" CssClass="buttonSubmit" Text="Add"></asp:Button><BR>&nbsp; 
 </DIV></ANW:AdvancedPanel></ANW:AdvancedPanel><ASP:Panel id=ImagesDiv runat="server"><ANW:AdvancedPanel id=AddImages runat="server" LinkStyle="Image" LinkImageCollapsed="~/admin/resources/toggle_gray_down.gif" LinkImage="~/admin/resources/toggle_gray_up.gif" LinkBeforeHeader="True" DisplayHeader="true" HeaderCssClass="CollapsibleTitle" HeaderText="Add New Image" Collapsible="True" BodyCssClass="Edit"><LABEL 
 class=Block>Local File Location</LABEL> <INPUT class=FileUpload id=ImageFile 
 type=file size=82 name=ImageFile runat="server"> <BR class=Clear><LABEL 
 class=Block>Image Description</LABEL> <asp:TextBox id=txbImageTitle runat="server" size="82"></asp:TextBox>&nbsp; 
 Visible <asp:CheckBox id=ckbIsActiveImage runat="server" Checked="true"></asp:CheckBox>
-<DIV style="MARGIN-TOP: 8px"><asp:linkbutton id=lbkAddImage runat="server" CssClass="Button" Text="Add"></asp:linkbutton><BR>&nbsp; 
+<DIV style="MARGIN-TOP: 8px"><asp:Button id=lbkAddImage runat="server" CssClass="buttonSubmit" Text="Add"></asp:Button><BR>&nbsp; 
 </DIV></ANW:AdvancedPanel>
 <H1><ASP:PlaceHolder id=plhImageHeader runat="server"></ASP:PlaceHolder></H1><ASP:Repeater id=rprImages runat="server"> 
 			<HeaderTemplate> 			
@@ -64,7 +64,7 @@ Visible <asp:CheckBox id=ckbIsActiveImage runat="server" Checked="true"></asp:Ch
 							<br>
 							<a href='EditImage.aspx?imgid=<%# DataBinder.Eval(Container.DataItem, "ImageID") %>'>Edit</a>
 							&nbsp;&bull;&nbsp;
-							<asp:linkbutton id="lnkDeleteImage" CommandName="DeleteImage" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "ImageID") %>' Text="Delete" runat="server" />
+							<asp:Button id="lnkDeleteImage" CssClass="buttonSubmit" CommandName="DeleteImage" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "ImageID") %>' Text="Delete" runat="server" />
 						</div>
 					</div>				
 			</ItemTemplate>

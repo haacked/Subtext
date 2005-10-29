@@ -18,7 +18,8 @@ legend
 
 label 
 {
-	color:#999;
+	color:#333;
+	font-weight: bold;
 	cursor: pointer;
 	padding-left:2px;
 	line-height:15px;

@@ -35,7 +35,7 @@ namespace Subtext.Web.Admin.Pages
 		protected System.Web.UI.WebControls.Repeater LogPage;
 		protected System.Web.UI.HtmlControls.HtmlGenericControl NoMessagesLabel;
 		protected Subtext.Web.Admin.WebUI.Pager LogPager;
-		protected System.Web.UI.WebControls.LinkButton btnClearLog;
+		protected System.Web.UI.WebControls.Button btnClearLog;
 
 		private int _logPageNumber;
 	

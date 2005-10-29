@@ -40,7 +40,7 @@ namespace Subtext.Web.Admin.Pages
 		private int _resultsPageNumber = 1;
 		private bool _isListHidden = false;
 		protected System.Web.UI.WebControls.Repeater rprSelectionList;
-		protected System.Web.UI.WebControls.LinkButton btnDelete;
+		protected System.Web.UI.WebControls.Button btnDelete;
 		protected Subtext.Web.Admin.WebUI.Pager ResultsPager;
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Results;
 		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;

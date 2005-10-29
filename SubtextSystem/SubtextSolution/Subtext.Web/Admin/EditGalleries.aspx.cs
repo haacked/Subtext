@@ -40,10 +40,10 @@ namespace Subtext.Web.Admin.Pages
 		protected System.Web.UI.WebControls.DataGrid dgrSelectionList;
 		protected System.Web.UI.WebControls.TextBox txbNewTitle;
 		protected System.Web.UI.WebControls.CheckBox ckbNewIsActive;
-		protected System.Web.UI.WebControls.LinkButton lkbPost;
+		protected System.Web.UI.WebControls.Button lkbPost;
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Add;
 		protected System.Web.UI.WebControls.TextBox txbImageTitle;
-		protected System.Web.UI.WebControls.LinkButton lbkAddImage;
+		protected System.Web.UI.WebControls.Button lbkAddImage;
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel AddImages;
 		protected System.Web.UI.WebControls.Panel ImagesDiv;
 		protected System.Web.UI.HtmlControls.HtmlInputFile ImageFile;

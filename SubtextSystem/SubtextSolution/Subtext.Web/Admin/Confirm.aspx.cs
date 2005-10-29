@@ -30,10 +30,10 @@ namespace Subtext.Web.Admin.Pages
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Header;
 		protected System.Web.UI.WebControls.Label lblOutput;
 		protected Subtext.Web.Admin.WebUI.Page PageContainer;
-		protected System.Web.UI.WebControls.LinkButton lkbYes;
+		protected System.Web.UI.WebControls.Button lkbYes;
 		protected System.Web.UI.WebControls.HyperLink lnkContinue;
 		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
-		protected System.Web.UI.WebControls.LinkButton lkbNo;
+		protected System.Web.UI.WebControls.Button lkbNo;
 	
 		private void Page_Load(object sender, System.EventArgs e)
 		{

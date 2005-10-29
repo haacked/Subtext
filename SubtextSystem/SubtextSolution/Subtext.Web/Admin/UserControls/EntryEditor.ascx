@@ -37,10 +37,10 @@
 					<a href="Referrers.aspx?EntryID=<%# DataBinder.Eval(Container.DataItem, "EntryID") %>">View</a>
 				</td>				
 				<td>
-					<asp:LinkButton id="lnkEdit" CausesValidation = "False" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "EntryID") %>' Text="Edit" runat="server" />
+					<asp:LinkButton id="lnkEdit" CssClass="buttonSubmit" CausesValidation = "False" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "EntryID") %>' Text="Edit" runat="server" />
 				</td>
 				<td>
-					<asp:LinkButton id="lnkDelete" CausesValidation = "False" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "EntryID") %>' Text="Delete" runat="server" />
+					<asp:LinkButton id="lnkDelete" CssClass="buttonSubmit" CausesValidation = "False" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "EntryID") %>' Text="Delete" runat="server" />
 				</td>
 			</tr>
 		</ItemTemplate>
@@ -62,10 +62,10 @@
 					<a href="Referrers.aspx?EntryID=<%# DataBinder.Eval(Container.DataItem, "EntryID") %>">View</a>
 				</td>				
 				<td>
-					<asp:LinkButton id="lnkEditAlt" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "EntryID") %>' Text="Edit" runat="server" />
+					<asp:LinkButton id="lnkEditAlt" CssClass="buttonSubmit" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "EntryID") %>' Text="Edit" runat="server" />
 				</td>
 				<td>
-					<asp:LinkButton id="lnkDeleteAlt" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "EntryID") %>' Text="Delete" runat="server" />
+					<asp:LinkButton id="lnkDeleteAlt" CssClass="buttonSubmit" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "EntryID") %>' Text="Delete" runat="server" />
 				</td>
 			</tr>
 		</AlternatingItemTemplate>
@@ -87,22 +87,26 @@
 	<div class="Edit">
 		<!-- DEBUG -->
 		<p class="Label"><asp:HyperLink id="hlEntryLink" Target="_blank" Runat="server"></asp:HyperLink></p>
-		<p class="Label">Post Title&nbsp;<asp:RequiredFieldValidator id="valTitleRequired" runat="server" ControlToValidate="txbTitle" ForeColor="#990066" ErrorMessage="Your post must have a title"></asp:RequiredFieldValidator></p>
-		<p><asp:TextBox id="txbTitle" runat="server" columns="255" width="98%" MaxLength = "250"></asp:TextBox></p>
-		<p class="Label">Post Body&nbsp;<asp:RequiredFieldValidator id="valtbBodyRequired" runat="server" ControlToValidate="freeTextBox" ForeColor="#990066" ErrorMessage="Your post must have a body"></asp:RequiredFieldValidator></p>
 		<p>
-
+			<label for="Editor_Edit_txbTitle" AccessKey="t">Post <u>T</u>itle</label>&nbsp;<asp:RequiredFieldValidator id="valTitleRequired" runat="server" ControlToValidate="txbTitle" ForeColor="#990066" ErrorMessage="Your post must have a title"></asp:RequiredFieldValidator>
+		</p>
+		<p>
+			<asp:TextBox id="txbTitle" runat="server" columns="255" width="98%" MaxLength = "250"></asp:TextBox>
+		</p>
+		<p>
+			<label for="Editor_Edit_freeTextBox" AccessKey="b">Post <u>B</u>ody</label>&nbsp;<asp:RequiredFieldValidator id="valtbBodyRequired" runat="server" ControlToValidate="freeTextBox" ForeColor="#990066" ErrorMessage="Your post must have a body"></asp:RequiredFieldValidator></p>
+		<p>
 			<FTB:FreeTextBox 
 				id="freeTextBox"
 				toolbarlayout="Bold,Italic,Underline,Strikethrough;Superscript,Subscript,RemoveFormat|FontFacesMenu,FontSizesMenu,FontForeColorsMenu|InsertTable|JustifyLeft,JustifyRight,JustifyCenter,JustifyFull;BulletedList,NumberedList,Indent,Outdent;CreateLink,Unlink,Insert,InsertRule|Cut,Copy,Paste;Undo,Redo|ieSpellCheck,WordClean|InsertImage,InsertImageFromGallery"
 				runat="Server" />
 		</p>
-		<p class="Label">Categories</p>
+		<p><label>Categories</label></p>
 		<p><asp:CheckBoxList id="cklCategories" runat="server" RepeatColumns="5" RepeatDirection="Horizontal"></asp:CheckBoxList></p>
 		<div>
-			<asp:LinkButton id="lkbPost" runat="server" CssClass="Button" Text="Post"></asp:LinkButton>
-			<asp:LinkButton id="lkUpdateCategories" runat="server" Width="160" CssClass="Button" Text="<nobr>Update Categories Only</nobr>"></asp:LinkButton>
-			<asp:LinkButton id="lkbCancel" runat="server" CssClass="Button" Text="Cancel" CausesValidation="False">Cancel</asp:LinkButton><br>
+			<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Post" />
+			<asp:Button id="lkUpdateCategories" runat="server" CssClass="buttonSubmit" Text="Categories" />
+			<asp:Button id="lkbCancel" runat="server" CssClass="buttonSubmit" CausesValidation="False" Text="Cancel" />
 			&nbsp;
 		</div>
 	</div>
@@ -117,15 +121,32 @@
 			<asp:CheckBox id="chkSyndicateDescriptionOnly" runat="server" Text = "Syndicate Description Only" textalign="Left" />
 			<asp:CheckBox id="chkIsAggregated" runat="server" Text = "Include in Aggregated Site" textalign="Left" />
 		</p>
-		<p class="Label">EntryName (page name) <asp:RegularExpressionValidator ID="vRegexEntryName" ControlToValidate = "txbEntryName" ValidationExpression = "^[a-zA-Z][\w-]{1,149}$" Text = "Invalid EntryName Format. Must match the follwing pattern: ^[a-zA-Z][\w-]{1,149}$" runat="server"/> </p>
-		<p><asp:TextBox id="txbEntryName" runat="server" columns="255" width="98%" MaxLength = "150"></asp:TextBox></p>
-		<p class="Label">Excerpt</p>
-		<p><asp:TextBox id="txbExcerpt" runat="server" width="98%" rows="5" textmode="MultiLine" MaxLength = "500"></asp:TextBox></p>
-		<p class="Label">Title Url</p>
-		<p><asp:TextBox id="txbTitleUrl" runat="server" columns="255" width="98%" MaxLength = "250"></asp:TextBox></p>
-		<p class="Label">Source Name</p>
-		<p><asp:TextBox id="txbSourceName" runat="server" columns="255" width="98%"></asp:TextBox></p>
-		<p class="Label">Source Url</p>
+		<p>
+			<label for="Editor_Edit_txbEntryName" AccessKey="n">Entry <u>N</u>ame (page name)</label> <asp:RegularExpressionValidator ID="vRegexEntryName" ControlToValidate = "txbEntryName" ValidationExpression = "^[a-zA-Z][\w-]{1,149}$" Text = "Invalid EntryName Format. Must match the follwing pattern: ^[a-zA-Z][\w-]{1,149}$" runat="server"/>
+		</p>
+		<p>
+			<asp:TextBox id="txbEntryName" runat="server" columns="255" width="98%" MaxLength = "150"></asp:TextBox>
+		</p>
+		<p>
+			<label for="Editor_Edit_txbExcerpt" AccessKey="e"><u>E</u>xcerpt</label></p>
+		<p>
+			<asp:TextBox id="txbExcerpt" runat="server" width="98%" rows="5" textmode="MultiLine" MaxLength = "500"></asp:TextBox>
+		</p>
+		<p>
+			<label for="Editor_Edit_txbTitleUrl" AccessKey="u">Title <u>U</u>rl</label>
+		</p>
+		<p>
+			<asp:TextBox id="txbTitleUrl" runat="server" columns="255" width="98%" MaxLength = "250"></asp:TextBox>
+		</p>
+		<p>
+			<label for="Editor_Edit_txbSourceName" AccessKey="s"><u>S</u>ource Name</label>
+		</p>
+		<p>
+			<asp:TextBox id="txbSourceName" runat="server" columns="255" width="98%"></asp:TextBox>
+		</p>
+		<p>
+			<label for="Editor_Edit_txbSourceUrl" AccessKey="o">S<u>o</u>urce Url</label>
+		</p>
 		<p><asp:TextBox id="txbSourceUrl" runat="server" columns="255" width="98%"></asp:TextBox></p>
 	</ANW:AdvancedPanel>
 	

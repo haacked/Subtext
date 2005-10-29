@@ -24,8 +24,11 @@
 using System;
 using System.Globalization;
 using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Web.Controls;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -69,8 +72,21 @@ namespace Subtext.Web.Admin.Pages
 			// dummy run in OnSessionStart. But we'll add the overhead for now. We can look at
 			// putting it in the default.aspx, but that fails to work on direct url access.
 			AreCookiesAllowed();
-			
+
+			ControlHelper.ApplyRecursively(new ControlAction(SetTextBoxStyle), this);
 			base.OnLoad(e);
+		}
+
+		void SetTextBoxStyle(Control control)
+		{
+			TextBox textBox = control as TextBox;
+			if(textBox != null)
+			{
+				if(textBox.TextMode == TextBoxMode.SingleLine || textBox.TextMode == TextBoxMode.Password)
+					textBox.CssClass = "textinput";
+				if(textBox.TextMode == TextBoxMode.MultiLine)
+					textBox.CssClass = "textarea";
+			}
 		}
 
 		private bool ValidateUser

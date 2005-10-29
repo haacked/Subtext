@@ -41,6 +41,8 @@ namespace Subtext.Web.Admin.Pages
 		protected System.Web.UI.WebControls.LinkButton btnSave;
 		protected System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
 		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
+		protected Subtext.Web.Admin.WebUI.AdvancedPanel Results;
+		protected Subtext.Web.Admin.WebUI.Page PageContainer;
 		protected System.Web.UI.WebControls.TextBox tbPassword;
 	
 		private void Page_Load(object sender, System.EventArgs e)

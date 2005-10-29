@@ -1,5 +1,6 @@
 <%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Page language="c#" Codebehind="EditLinks.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.EditLinks" %>
+
 <ANW:Page runat="server" id="PageContainer" TabSectionID="Links" CategoryType="LinkCollection">
 	<ANW:MessagePanel id="Messages" runat="server"></ANW:MessagePanel>
 	<ANW:AdvancedPanel id="Results" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True"
@@ -58,51 +59,57 @@
 	<ANW:AdvancedPanel id="ImportExport" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True"
 		HeaderCssClass="CollapsibleTitle" HeaderText="Import/Export" Collapsible="True" BodyCssClass="Edit"
 		visible="false">
-		<DIV style="HEIGHT: 0px"><!-- IE bug hides label in following div without this -->
-			<DIV>
-				<DIV>
-					<P class="Block"><LABEL class="Block">Local File Location (*.opml)</LABEL></P>
+		<div style="HEIGHT: 0px"><!-- IE bug hides label in following div without this -->
+			<div>
+				<div>
+					<P class="Block"><LABEL class="Block">Local File Location (*.opml)</LABEL></p>
 					<INPUT class="FileUpload" id="OpmlImportFile" type="file" size="62" name="ImageFile" runat="server">
-					<P class="Label">Categories</P>
+					<p>Categories</p>
 					<P>
-						<ASP:DropDownList id="ddlImportExportCategories" runat="server"></ASP:DropDownList></P>
-				</DIV>
-				<DIV style="MARGIN-TOP: 8px">
-					<asp:linkbutton id="lkbImportOpml" runat="server" CssClass="Button" Text="Import"></asp:linkbutton><A class="Button" href="Export.aspx?command=opml">Export</A>
+						<ASP:DropDownList id="ddlImportExportCategories" runat="server"></ASP:DropDownList></p>
+				</div>
+				<div style="MARGIN-TOP: 8px">
+					<asp:Button id="lkbImportOpml" runat="server" CssClass="Button" Text="Import"></asp:Button><A class="Button" href="Export.aspx?command=opml">Export</A>
 					<BR class="Clear">
 					&nbsp;
-				</DIV>
+				</div>
+			</div>
+		</div>
 	</ANW:AdvancedPanel>
 	<ANW:AdvancedPanel id="Edit" runat="server" LinkStyle="Image" DisplayHeader="True" HeaderCssClass="CollapsibleTitle"
 		HeaderText="Edit Link" Collapsible="False">
-		<DIV class="Edit"><!-- DEBUG -->
-			<P class="Label">Link ID
-				<asp:Label id="lblEntryID" runat="server"></asp:Label></P>
-			<P class="Label">Link Title
+		<div class="Edit"><!-- DEBUG -->
+			<p>
+				<label>Link ID</label>
+				<asp:Label id="lblEntryID" runat="server"></asp:Label>
+			</p>
+			<p>
+				<label for="Edit_txbTitle" AccessKey="t">Link <u>T</u>itle</label>
 				<asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" ControlToValidate="txbTitle" ForeColor="#990066"
-					ErrorMessage="Your link must have a title"></asp:RequiredFieldValidator></P>
+					ErrorMessage="Your link must have a title"></asp:RequiredFieldValidator></p>
 			<P>
-				<asp:TextBox id="txbTitle" runat="server" columns="255" width="98%"></asp:TextBox></P>
-			<P class="Label">Web Url
+				<asp:TextBox id="txbTitle" runat="server" columns="255" width="98%"></asp:TextBox></p>
+			<p>
+				<label for="Edit_txbUrl" AccessKey="w"><u>W</u>eb Url</label>
 				<asp:RequiredFieldValidator id="Requiredfieldvalidator2" runat="server" ControlToValidate="txbUrl" ForeColor="#990066"
-					ErrorMessage="Your link must have a url"></asp:RequiredFieldValidator></P>
+					ErrorMessage="Your link must have a url"></asp:RequiredFieldValidator></p>
 			<P>
-				<asp:TextBox id="txbUrl" runat="server" columns="255" width="98%"></asp:TextBox></P>
-			<P class="Label">Rss Url</P>
+				<asp:TextBox id="txbUrl" runat="server" columns="255" width="98%"></asp:TextBox></p>
+			<p><label for="Edit_txbRss" AccessKey="r"><u>R</u>ss Url</label></p>
 			<P>
-				<asp:TextBox id="txbRss" runat="server" columns="255" width="98%"></asp:TextBox></P>
-			<P class="Label">Categories</P>
+				<asp:TextBox id="txbRss" runat="server" columns="255" width="98%"></asp:TextBox></p>
+			<p><label for="Edit_ddlCategories" AccessKey="c"><u>C</u>ategories</label></p>
 			<P>
-				<ASP:DropDownList id="ddlCategories" runat="server"></ASP:DropDownList></P>
-			<P class="ValueLabel">Visible
-				<asp:CheckBox id="ckbIsActive" runat="server" textalign="Left"></asp:CheckBox>&nbsp; 
-				New Window
-				<asp:CheckBox id="chkNewWindow" runat="server" textalign="Left"></asp:CheckBox></P>
-			<DIV>
-				<asp:LinkButton id="lkbPost" runat="server" CssClass="Button" Text="Post"></asp:LinkButton>
-				<asp:LinkButton id="lkbCancel" runat="server" CssClass="Button" Text="Cancel"></asp:LinkButton><BR>
+				<ASP:DropDownList id="ddlCategories" runat="server"></ASP:DropDownList></p>
+			<P>
+				<asp:CheckBox id="ckbIsActive" runat="server" textalign="Left" Text="Visible"></asp:CheckBox>&nbsp; 
+					<asp:CheckBox id="chkNewWindow" runat="server" textalign="Left" Text="New Window"></asp:CheckBox>
+				</p>
+			<div>
+				<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Post" />
+				<asp:Button id="lkbCancel" runat="server" CssClass="buttonSubmit" Text="Cancel" />
 				&nbsp;
-			</DIV>
-		</DIV>
+			</div>
+		</div>
 	</ANW:AdvancedPanel>
-</ANW:Page></DIV></DIV>
+</ANW:Page>

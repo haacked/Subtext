@@ -1,9 +1,7 @@
 <%@ Page language="c#" Codebehind="Feedback.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.Feedback" %>
 <%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <ANW:Page runat="server" id="PageContainer" TabSectionID="Feedback">
-
 	<ANW:MessagePanel id="Messages" runat="server" />
-
 	<ANW:AdvancedPanel id="Results" runat="server" Collapsible="False" HeaderText="Comments" HeaderCssClass="CollapsibleHeader" DisplayHeader="true">
 		<ASP:Repeater id="rprSelectionList" runat="server">
 			<HeaderTemplate>
@@ -55,7 +53,7 @@
 				</tr>
 				<tr class="Alt">
 					<td colspan="4">
-												<%# GetBody(Container.DataItem) %>
+						<%# GetBody(Container.DataItem) %>
 					</td>
 				</tr>				
 			</AlternatingItemTemplate>
@@ -64,7 +62,7 @@
 		</FooterTemplate>
 		</ASP:Repeater>
 		<ANW:Pager id="ResultsPager" runat="server" UseSpacer="False" PrefixText="<div>Goto page</div>" LinkFormatActive='<a href="{0}" class="Current">{1}</a>' UrlFormat="Feedback.aspx?pg={0}" CssClass="Pager" />
-		<asp:LinkButton id="btnDelete" runat="server" CssClass="RightButton" Text="Delete"></asp:LinkButton>
+		<asp:Button id="btnDelete" runat="server" CssClass="buttonSubmit" style="float:right" Text="Delete" />
 		<br class="Clear">
 	</ANW:AdvancedPanel>
 </ANW:Page>

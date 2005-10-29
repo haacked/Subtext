@@ -1,5 +1,6 @@
 using System;
 using System.Web;
+using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
@@ -57,5 +58,20 @@ namespace Subtext.Web.Controls
 		{
 			return control.Attributes[name] != null && control.Attributes[name].Length > 0;
 		}
+
+		/// <summary>
+		/// Applies the specified control action recursively.
+		/// </summary>
+		/// <param name="controlAction">The control action.</param>
+		public static void ApplyRecursively(ControlAction controlAction, Control root)
+		{
+			foreach(Control control in root.Controls)
+			{
+				controlAction(control);
+				ApplyRecursively(controlAction, control);
+			}
+		}
 	}
+
+	public delegate void ControlAction(Control control);
 }

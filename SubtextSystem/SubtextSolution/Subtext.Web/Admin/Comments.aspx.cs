@@ -19,8 +19,13 @@ namespace Subtext.Web.Admin
 		protected System.Web.UI.WebControls.CheckBox chkEnableTrackbacks;
 		protected System.Web.UI.WebControls.TextBox txtCommentDelayIntervalMinutes;
 		protected System.Web.UI.WebControls.TextBox txtDaysTillCommentsClosed;
-		protected System.Web.UI.WebControls.LinkButton lkbPost;
+		protected System.Web.UI.WebControls.Button lkbPost;
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
+		protected Subtext.Web.Controls.HelpToolTip HelpToolTip1;
+		protected Subtext.Web.Controls.HelpToolTip Helptooltip5;
+		protected Subtext.Web.Controls.HelpToolTip HelpToolTip2;
+		protected Subtext.Web.Controls.HelpToolTip Helptooltip3;
+		protected Subtext.Web.Controls.HelpToolTip Helptooltip4;
 		protected System.Web.UI.WebControls.CheckBox chkAllowDuplicates;
 		
 		private void Page_Load(object sender, System.EventArgs e)
