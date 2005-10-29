@@ -32,13 +32,6 @@ namespace Subtext.Web.UI.Skinning
 	[Serializable]
 	public class SkinTemplate
 	{
-		public SkinTemplate()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-
 		private string _skin;
 		[XmlAttribute]
 		public string Skin
@@ -85,6 +78,22 @@ namespace Subtext.Web.UI.Skinning
 			}
 		}
 
+		private Style[] _styles;
+		/// <summary>
+		/// Collection of stylesheet elements declared for the skin.
+		/// </summary>
+		[XmlArray("Styles")]
+		public Style[] Styles
+		{
+			get
+			{
+				return _styles;
+			}
+			set
+			{
+				_styles = value;
+			}
+		}
 		
 	}
 }

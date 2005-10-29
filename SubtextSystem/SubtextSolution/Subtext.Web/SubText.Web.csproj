@@ -947,12 +947,72 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Admin\Resources\Scripts\autoTab.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\Scripts\comboBox.js"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Admin\Resources\Scripts\helptip.css"
                     BuildAction = "None"
                 />
                 <File
                     RelPath = "Admin\Resources\Scripts\helptip.js"
                     BuildAction = "None"
+                />
+                <File
+                    RelPath = "Admin\Resources\Scripts\labelFocus.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\Scripts\niceForms.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\Scripts\niceforms-default.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\Scripts\Images\bottom.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\Scripts\Images\button.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\Scripts\Images\checkbox.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\Scripts\Images\input.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\Scripts\Images\radio.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\Scripts\Images\select_bg.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\Scripts\Images\select_left.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\Scripts\Images\select_right.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\Scripts\Images\sidesbg.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\Scripts\Images\textarea.gif"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "Admin\UserControls\EntryEditor.ascx"
@@ -1798,6 +1858,10 @@
                 />
                 <Folder RelPath = "Skins\gertrude\Images\" />
                 <File
+                    RelPath = "Skins\Haackify\niceforms-default.css"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\Haackify\PageTemplate.ascx"
                     BuildAction = "Content"
                 />
@@ -1914,7 +1978,23 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\Haackify\Images\button.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Images\checkbox.gif"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\Haackify\Images\Header.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Images\input.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Images\radio.gif"
                     BuildAction = "Content"
                 />
                 <File
@@ -1922,7 +2002,23 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\Haackify\Images\select_bg.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Images\select_left.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Images\select_right.gif"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\Haackify\Images\sidesbg.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Images\textarea.gif"
                     BuildAction = "Content"
                 />
                 <File
@@ -2449,6 +2545,230 @@
                 />
                 <File
                     RelPath = "Skins\Marvin3\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Blue.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Green.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\niceforms-default.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Red.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\ArchiveCategory.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\ArchiveDay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\ArchiveLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\ArchiveMonth.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\BlogStats.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\CategoryDisplay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\CategoryEntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\CategoryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\Comments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\Contact.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\Day.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\DayCollection.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\EntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\Footer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\GalleryThumbNailViewer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\Header.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\HomePage.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\Login.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\MonthListings.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\MyLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\News.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\PostComment.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\RelatedLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\ViewPicture.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Images\button.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Images\checkbox.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Images\header.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Images\input.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Images\mitem.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Images\radio.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Images\select_bg.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Images\select_left.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Images\select_right.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Images\textarea.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Images\uitu.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Images\underlink.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Images\Blue\back.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Images\Blue\backback.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Images\Blue\rondo.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Images\Blue\rondobottom.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Images\Green\back.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Images\Green\backback.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Images\Green\rondo.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Images\Green\rondobottom.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Images\Red\back.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Images\Red\backback.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Images\Red\rondo.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Images\Red\rondobottom.jpg"
                     BuildAction = "Content"
                 />
                 <File
@@ -3141,6 +3461,11 @@
                 />
                 <File
                     RelPath = "UI\Skinning\SkinTemplates.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Skinning\Style.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

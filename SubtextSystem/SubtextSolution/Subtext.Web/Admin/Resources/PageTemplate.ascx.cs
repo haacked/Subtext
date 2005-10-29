@@ -48,6 +48,8 @@ namespace Subtext.Web.Admin
 		protected Subtext.Web.Admin.WebUI.ScriptTag HelptipJs;
 		protected Subtext.Web.Admin.WebUI.ScriptTag AdminJs;
 		protected Subtext.Web.Admin.WebUI.HeaderLink HelptipCss;
+		protected Subtext.Web.Admin.WebUI.ScriptTag NiceForms;
+		protected Subtext.Web.Admin.WebUI.HeaderLink NiceFormsStyle;
 
 		#region Accessors
 

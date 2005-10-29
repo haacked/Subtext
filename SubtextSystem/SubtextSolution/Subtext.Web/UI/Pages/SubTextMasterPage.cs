@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Web;
 using System.Web.UI;
 using Subtext.Framework;
@@ -16,6 +17,7 @@ namespace Subtext.Web.UI.Pages
 	public class SubtextMasterPage : System.Web.UI.Page
 	{
 		private static readonly ScriptElementCollectionRenderer __scriptRenderer = new ScriptElementCollectionRenderer();
+		private static readonly StyleSheetElementCollectionRenderer __styleRenderer = new StyleSheetElementCollectionRenderer();
 		protected System.Web.UI.WebControls.Literal pageTitle;
 		protected System.Web.UI.WebControls.Literal docTypeDeclaration;
 		protected System.Web.UI.HtmlControls.HtmlGenericControl MainStyle;
@@ -23,6 +25,7 @@ namespace Subtext.Web.UI.Pages
 		protected System.Web.UI.HtmlControls.HtmlGenericControl RSSLink;
 		protected System.Web.UI.WebControls.PlaceHolder CenterBodyControl;
 		protected System.Web.UI.WebControls.Literal scripts;
+		protected System.Web.UI.WebControls.Literal styles;
 		
 		protected BlogInfo CurrentBlog;
 		protected const string TemplateLocation = "~/Skins/{0}/{1}";
@@ -67,6 +70,11 @@ namespace Subtext.Web.UI.Pages
 			if (scripts != null)
 			{
 				scripts.Text = __scriptRenderer.RenderScriptElementCollection(Context, skin);
+			}
+
+			if(styles != null)
+			{
+				styles.Text = __styleRenderer.RenderStyleElementCollection(Context, skin);
 			}
 		}
 
@@ -182,6 +190,51 @@ namespace Subtext.Web.UI.Pages
 		}
 
 		#endregion
+
+		/// <summary>
+		/// Provides rendering facilities for stylesheet elements in the head element of the page
+		/// </summary>
+		private class StyleSheetElementCollectionRenderer
+		{
+			private string RenderStyleAttribute(string attributeName, string attributeValue)
+			{
+				return attributeValue != null ? " " + attributeName + "=\"" + attributeValue + "\"" : String.Empty;
+			}
+
+			private string RenderStyleElement(string skinPath, Style style)
+			{
+				return "<link" + 
+					RenderStyleAttribute("type", "text/css") + 
+					RenderStyleAttribute("rel", "stylesheet") + 
+					RenderStyleAttribute("href", Path.Combine(skinPath, style.Href)) + //TODO: Look at this line again.
+					"></link>" + Environment.NewLine;
+			}
+
+			private string CreateStylePath(HttpContext httpContext, string skinName)
+			{
+				string applicationPath = httpContext.Request.ApplicationPath;
+				string path = (applicationPath == "/" ? String.Empty : applicationPath) + "/Skins/" + skinName + "/";
+				return path;
+			}
+
+			public string RenderStyleElementCollection(HttpContext httpContext, string skinName)
+			{
+				string result = String.Empty;
+
+				SkinTemplates skinTemplates = SkinTemplates.Instance(httpContext);
+				SkinTemplate skinTemplate = skinTemplates.GetTemplate(skinName);
+				
+				if (skinTemplate != null && skinTemplate.Styles != null)
+				{
+					string skinPath = CreateStylePath(httpContext, skinName);
+					foreach(Style style in skinTemplate.Styles)
+					{
+						result += RenderStyleElement(skinPath, style);
+					}
+				}
+				return result;
+			}
+		}
 
 	}
 }
