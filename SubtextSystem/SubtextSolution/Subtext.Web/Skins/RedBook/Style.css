@@ -430,7 +430,7 @@ a:link
 a:visited
 {
 	text-decoration:none;
-	color:#666666;	
+	color:#666666;
 }
 a:hover
 {
@@ -442,4 +442,9 @@ a:hover
 	font-size: 80%;
 	background: transparent url("images/mitem.gif") no-repeat 4px 0px;
 	padding-left: 25px;
+}
+
+legend
+{
+	color:#666666;
 }

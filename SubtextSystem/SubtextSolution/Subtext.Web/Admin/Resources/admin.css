@@ -320,56 +320,11 @@ div.ImageThumbnail div.ImageThumbnailTitle {
 	margin: 0px 12px 8px 12px;
 }
 
-input,
-textarea {
-	padding: 2px; 
-	color: #000000;
-	font-family: "lucida grande", verdana, arial, geneva, lucida, sans-serif;
-	width: auto;
-	background-color: #FFF;
-}
-
-select,
-option {
-	color: #000000;
-	font-family: "lucida grande", verdana, arial, geneva, lucida, sans-serif;
-	font-size: 95%;
-	width: auto;	
-	background-color: #FFF;
-}	
-
-input[type='checkbox'] {
-	border: 0;
-}
-
-textarea,
-input[type='text'] {
-	border: 1px solid #666666;
-}
-
 iframe {
 	border: 1px solid #666666;
 }
 
 div#Main div.Edit p.Label,
-label {
-	font-size: 85%;
-	font-weight: bold;
-	margin: 0px 0px 2px 0px;
-	color: #111111;
-	position: relative;
-}
-
-label {
-	color: #111111;
-	background: inherit;
-}
-
-label.Block {
-	margin-top: 8px;
-	display: block;
-	clear: both;
-}
 
 div.MessagePanel {
 	color: #333333;

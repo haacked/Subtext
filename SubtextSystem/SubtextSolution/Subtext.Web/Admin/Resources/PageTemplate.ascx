@@ -7,11 +7,13 @@
 		<title>
 			<ANW:PlaceHolder id="PageTitle" runat="server">Subtext - Manage</ANW:PlaceHolder>
 		</title>
+		<ANW:ScriptTag id="NiceForms" type="text/javascript" src="resources/Scripts/niceForms.js" runat="server" />
 		<ANW:ScriptTag id="HelptipJs" type="text/javascript" src="resources/Scripts/helptip.js" runat="server" />
 		<ANW:ScriptTag id="AdminJs" type="text/javascript" src="resources/Scripts/admin.js" runat="server" />
 		<ANW:HeaderLink id="HelptipCss" rel="stylesheet" href="resources/scripts/helptip.css" linkType="text/css"
 			runat="server" />
 		<ANW:HeaderLink id="Css1" rel="stylesheet" href="resources/admin.css" linkType="text/css" runat="server" />
+		<ANW:HeaderLink id="NiceFormsStyle" rel="stylesheet" href="resources/scripts/niceforms-default.css" linkType="text/css" runat="server" />
 	</head>
 	<body id="AdminSection" runat="server">
 		<form id="frmMain" method="post" runat="server">
@@ -88,6 +90,7 @@
 					</td>
 				</tr>
 			</table>
+			<div id="stylesheetTest"></div>
 		</form>
 	</body>
 </html>

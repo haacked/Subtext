@@ -17,16 +17,20 @@ var buttons = new Array();
 var selectText = "please select";
 
 //this function runs when the page is loaded so put all your other onload stuff in here too.
-function init() {
-	
+function init() 
+{
 	//check if styles are enabled and only then start replacing elements
-	if(findPosX(document.getElementById('stylesheetTest')) == -999) {
-		replaceSelects();
-		replaceRadios();
-		replaceCheckboxes();
+	var styleSheetTestDiv = document.getElementById('stylesheetTest');
+	if(styleSheetTestDiv != null)
+	{
+		if(findPosX(styleSheetTestDiv) == -999) {
+			replaceSelects();
+			/*replaceRadios();*/ //Removed till further notice
+			/*replaceCheckboxes();*/ //Removed till further notice
+		}
+		hoverEffects();
+		buttonHovers();
 	}
-	hoverEffects();
-	buttonHovers();
 }
 
 function replaceRadios() {
@@ -64,12 +68,15 @@ function replaceRadios() {
 	}
 }
 
-function replaceCheckboxes() {
+function replaceCheckboxes() 
+{
 	//get all the checkboxes on the page
 	var inputs = document.getElementsByTagName('input');
 	var j = 0;
-	for (var i2=0; i2 < inputs.length; i2++) {
-		if(inputs[i2].type=='checkbox') {
+	for (var i2=0; i2 < inputs.length; i2++) 
+	{
+		if(inputs[i2].type=='checkbox') 
+		{
 			checkboxes[j] = inputs[i2];
 			++j;
 		}
@@ -87,8 +94,26 @@ function replaceCheckboxes() {
 
 		//build new div
 		var checkboxArea = document.createElement('div');
-		if(checkboxes[i2].checked) {checkboxes[i2].nextSibling.className = "chosen"; checkboxArea.className = "checkboxAreaChecked";}
-		else if(!checkboxes[i2].checked) {checkboxArea.className = "checkboxAreaUnchecked";}
+		if(checkboxes[i2].checked) 
+		{
+			var next = checkboxes[i2].nextSibling;
+			while(next)
+			{
+				if(next.nodeType == 1)
+				{
+					next.className = "chosen";
+					next = null;	
+				}
+				else
+					next = next.nextSibling;
+			}
+				
+			checkboxArea.className = "checkboxAreaChecked";
+		}
+		else if(!checkboxes[i2].checked) 
+		{
+			checkboxArea.className = "checkboxAreaUnchecked";
+		}
 		checkboxArea.style.left = x + 'px';
 		checkboxArea.style.top = y + 'px';
 		checkboxArea.id = 'myCheck'+i2;
@@ -216,13 +241,34 @@ function checkCheck(g) {
 		for(var k = 0; k < checkboxes.length; k++) {
 			if(k == g) {
 				document.getElementById('myCheck'+k).className = "checkboxAreaChecked";
-				checkboxes[g].nextSibling.className = "chosen";
+				var next = checkboxes[g].nextSibling;
+				while(next)
+				{
+					if(next.nodeType == 1)
+					{
+						next.className = "chosen";
+						next = null;
+					}
+					else
+						next = next.nextSibling;
+				}
 			}
 		}
 	}
-	else if(!checkboxes[g].checked) {
+	else if(!checkboxes[g].checked) 
+	{
 		document.getElementById('myCheck'+g).className = "checkboxAreaUnchecked";
-		checkboxes[g].nextSibling.className = "";
+		var next = checkboxes[g].nextSibling;
+		while(next)
+		{
+			if(next.nodeType == 1)
+			{
+				next.className = "";
+				next = null;
+			}
+			else
+				next = next.nextSibling;
+		}
 	}
 }
 

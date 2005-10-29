@@ -6,6 +6,7 @@
 		<link id="MainStyle" type="text/css" rel="stylesheet" runat="Server" />
 		<link id="SecondaryCss" type="text/css" rel="stylesheet" runat="Server" />
 		<link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" runat="Server" />
+		<asp:Literal ID="styles" Runat="server" />
 		<asp:Literal ID="scripts" Runat="server" />
 	</head>
 	<body>
