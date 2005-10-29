@@ -29,7 +29,7 @@ Url</SP:HelpToolTip>
 			</LABEL>
 			<asp:TextBox id="txtLicenseUrl" runat="server" width="400"></asp:TextBox></DIV>
 		<DIV style="MARGIN-TOP: 8px">
-			<asp:linkbutton id="lkbPost" runat="server" CssClass="Button" Text="Save"></asp:linkbutton><BR>
+			<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Save"></asp:Button><BR>
 			&nbsp;
 		</DIV>
 	</ANW:AdvancedPanel>

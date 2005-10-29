@@ -28,7 +28,7 @@
 		<input id="ImageFile" class="FileUpload" type="file" size="82" runat="server" name="ImageFile">
 		<br class="Clear">		
 		<div style="margin-top: 8px">
-			<asp:linkbutton id="lbkAddImage" runat="server" CssClass="Button" Text="Replace"/>
+			<asp:Button id="lbkAddImage" runat="server" CssClass="buttonSubmit" Text="Replace"/>
 			<br>&nbsp; 
 		</div>		
 	</ANW:AdvancedPanel>	

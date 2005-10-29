@@ -34,7 +34,7 @@ Duplicate Comments </SP:HelpToolTip>
 			</label>
 			<asp:CheckBox id="chkAllowDuplicates" runat="server"></asp:CheckBox></P>
 		<div style="MARGIN-TOP: 8px">
-			<asp:linkbutton id="lkbPost" runat="server" CssClass="Button" Text="Save"></asp:linkbutton><br />
+			<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Save" />
 			&nbsp;
 		</div>
 	</ANW:AdvancedPanel>

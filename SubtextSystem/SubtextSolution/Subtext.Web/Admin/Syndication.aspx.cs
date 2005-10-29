@@ -19,10 +19,11 @@ namespace Subtext.Web.Admin
 		protected System.Web.UI.WebControls.CheckBox chkUseSyndicationCompression;
 		protected System.Web.UI.WebControls.CheckBox chkUseDeltaEncoding;
 		protected System.Web.UI.WebControls.TextBox txtLicenseUrl;
-		protected System.Web.UI.WebControls.LinkButton lkbPost;
+		protected System.Web.UI.WebControls.Button lkbPost;
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
 		protected Subtext.Web.Controls.HelpToolTip HelpToolTip1;
 		protected Subtext.Web.Controls.HelpToolTip HelpToolTip2;
+		protected Subtext.Web.Controls.HelpToolTip Helptooltip4;
 		protected Subtext.Web.Controls.HelpToolTip HelpToolTip3;
 		
 		private void Page_Load(object sender, System.EventArgs e)

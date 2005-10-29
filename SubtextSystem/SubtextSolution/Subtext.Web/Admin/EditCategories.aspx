@@ -53,7 +53,7 @@
 		<label class="Block">Description (1000 characters including HTML)</lable><br>
 		<asp:TextBox id="txbNewDescription" max = "1000"  runat="server" width="450" rows="5" textmode="MultiLine"></asp:TextBox>
 		<div style="margin-top: 8px">
-			<asp:linkbutton id="lkbPost" runat="server" CssClass="Button" Text="Add"/>
+			<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Add"/>
 			<br>&nbsp; 
 		</div>
 	</ANW:AdvancedPanel>

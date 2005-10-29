@@ -117,6 +117,14 @@ namespace Subtext.Web.Admin
 				 HttpContext.Current.Request.Browser.MinorVersion >= 5));
 		}
 
+		internal static Button CreateButton(string text)
+		{
+			Button button = new Button();
+			button.Text = text;
+			button.CssClass = "buttonSubmit";
+			return button;
+		}
+
 		internal static LinkButton CreateLinkButton(string text)
 		{
 			LinkButton result = new LinkButton();

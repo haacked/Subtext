@@ -48,8 +48,8 @@ namespace Subtext.Web.Admin.Pages
 		protected System.Web.UI.WebControls.RequiredFieldValidator Requiredfieldvalidator2;
 		protected System.Web.UI.WebControls.TextBox txbUrl;
 		protected System.Web.UI.WebControls.CheckBoxList cklCategories;
-		protected System.Web.UI.WebControls.LinkButton lkbPost;
-		protected System.Web.UI.WebControls.LinkButton lkbCancel;
+		protected System.Web.UI.WebControls.Button lkbPost;
+		protected System.Web.UI.WebControls.Button lkbCancel;
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
 
 
@@ -94,7 +94,6 @@ namespace Subtext.Web.Admin.Pages
 				//BindImportExportCategories();
 			}	
 		}
-
 
 		private void BindLocalUI()
 		{

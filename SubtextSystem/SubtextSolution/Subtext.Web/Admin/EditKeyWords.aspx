@@ -34,9 +34,9 @@
 						</a>
 					</td>
 					<td>
-						<asp:linkbutton id="lnkEdit" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "KeyWordID") %>' Text="Edit" runat="server" /></td>
+						<asp:LinkButton id="lnkEdit" CssClass="buttonSubmit" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "KeyWordID") %>' Text="Edit" runat="server" /></td>
 					<td>
-						<asp:linkbutton id="lnkDelete" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "KeyWordID") %>' Text="Delete" runat="server" /></td>
+						<asp:LinkButton id="lnkDelete" CssClass="buttonSubmit" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "KeyWordID") %>' Text="Delete" runat="server" /></td>
 				</tr>
 			</ItemTemplate>
 			<AlternatingItemTemplate>
@@ -53,9 +53,9 @@
 						</a>
 					</td>
 					<td>
-						<asp:linkbutton id="Linkbutton1" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "KeyWordID") %>' Text="Edit" runat="server" /></td>
+						<asp:LinkButton id="Linkbutton1" CssClass="buttonSubmit" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "KeyWordID") %>' Text="Edit" runat="server" /></td>
 					<td>
-						<asp:linkbutton id="Linkbutton2" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "KeyWordID") %>' Text="Delete" runat="server" /></td>
+						<asp:LinkButton id="Linkbutton2" CssClass="buttonSubmit" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "KeyWordID") %>' Text="Delete" runat="server" /></td>
 				</tr>
 			</AlternatingItemTemplate>
 			<FooterTemplate>
@@ -94,12 +94,10 @@
 				Replace First Occurrence Only
 				<asp:CheckBox id="chkFirstOnly" runat="server" textalign="Left"></asp:CheckBox>&nbsp; 
 				Is CaseSensitive
-				<asp:CheckBox id="chkCaseSensitive" runat="server" textalign="Left"></asp:CheckBox>
-			
-			</P>
+				<asp:CheckBox id="chkCaseSensitive" runat="server" textalign="Left"></asp:CheckBox></P>
 			<DIV>
-				<asp:LinkButton id="lkbPost" runat="server" CssClass="Button" Text="Post"></asp:LinkButton>
-				<asp:LinkButton id="lkbCancel" runat="server" CssClass="Button" Text="Cancel" CausesValidation ="false"></asp:LinkButton><BR>
+				<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Post" />
+				<asp:Button id="lkbCancel" runat="server" CssClass="buttonSubmit" Text="Cancel" CausesValidation="false" />
 				&nbsp;
 			</DIV>
 		</DIV>

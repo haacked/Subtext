@@ -34,7 +34,7 @@ namespace Subtext.Web.Admin.Pages
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
 		protected System.Web.UI.WebControls.TextBox txbNewTitle;
 		protected System.Web.UI.WebControls.CheckBox ckbNewIsActive;
-		protected System.Web.UI.WebControls.LinkButton lkbPost;
+		protected System.Web.UI.WebControls.Button lkbPost;
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Add;
 		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
 		protected System.Web.UI.WebControls.RequiredFieldValidator valtxbNewTitleRequired;
