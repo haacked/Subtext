@@ -1,0 +1,564 @@
+body {
+	font: 76%/162% 'Lucida Sans Unicode', 'Lucida Grande', 'Bitstream Vera Sans', 'Trebuchet MS', Geneva, Arial, sans-serif;
+	background: #FAFCFD url(Images/asual-bg.jpg) repeat-x;
+	color: #000000;
+	text-align: center;
+}
+input, textarea, select {
+	font: 100% 'Lucida Sans Unicode', 'Lucida Grande', 'Bitstream Vera Sans', 'Trebuchet MS', Geneva, Arial, sans-serif;
+}
+body, div, p, img, ul, li, h1, h2, h3, h4, h5, h6, form {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+a {
+	color: #285090;
+}
+a:visited {
+	color: #333333;
+}
+a:hover {
+	color: #A30000;
+}
+#main {
+	margin: 0 auto;
+	text-align: left;
+}
+#header{
+	height: 6em;
+}
+#name {
+	float: left; 
+	margin-right: -24em;
+}
+#name h1 {
+	font-size: 200%;
+	margin: 26px 0 6px 43px;
+}
+#name h2 {
+	font-size: 120%;
+	font-weight: normal;
+	margin-left: 43px;
+	color: #333333;
+}
+#name a {
+	text-decoration: none;
+	color: #285090;
+	margin-left: -1px;
+}
+#controls {
+	float: right;
+	width: 23em;
+	border: 0;
+	margin: 26px 43px 0 0;
+	display: inline;
+}
+#searchform {
+	text-align: right;
+}
+#searchlabel {
+	margin-right: 4px;
+}
+#searchfield {
+	width: 12em;
+	border: 1px solid #285090;
+}
+#searchimage {
+	vertical-align: middle;
+}
+#switcher {
+	width: 12em;
+	float: right;
+	display: inline;
+	margin: 4px 22px 0 0;
+	text-align: center;
+}
+#switcher a {
+	font-size: 84%;
+	text-decoration: none;
+	color: #000000;
+	background: #FAFCFD;
+	padding: 0;
+	border-top: 1px solid #FAFCFD;
+	border-bottom: 1px solid #FAFCFD;
+}
+#switcher a span {
+	border-top: 1px solid #FAFCFD;
+	border-bottom: 1px solid #FAFCFD;
+	height: 100%;
+	margin: -1px 1px;
+	padding: 0 2px;	
+}
+#switcher a:hover {
+	color: #FAFCFD;
+	background: #285090;
+	padding: 0;
+	border-top: 1px solid #93A9C9;
+	border-bottom: 1px solid #93A9C9;
+}
+#switcher a:hover span {
+	border-top: 1px solid #285090;
+	border-bottom: 1px solid #285090;
+}
+#footer {
+	display: block;
+	clear: both;
+	margin: -10px 43px 0;
+	height: 2.8em;
+	color: #000000;
+}
+#footer p {
+	font-size: 84%;
+}
+#copyright {
+	float: left;
+}
+#info {
+	float: right;
+}
+#info a {
+	color: #285090;
+	text-decoration: none;
+	padding: 1px 0;
+}
+#info a:hover {
+	text-decoration: underline;
+}
+#contentHeadLeft {
+	background: #FAFCFD url(Images/asual-headleft.jpg) no-repeat;
+	height: 28px;
+	padding-left: 22px;
+}
+#contentHeadCenter {
+	background: url(Images/asual-headcenter.jpg) repeat-x;
+	height: 100%;
+	margin: 0 6px;
+}
+#contentHeadRight {
+	background: url(Images/asual-headright.jpg) no-repeat right;
+	height: 100%;
+	padding-right: 22px;
+}
+#contentBodyLeft {
+	background: url(Images/asual-bodyleft.jpg) repeat-y;
+	padding-left: 22px;
+	clear: both;
+}
+#contentBodyCenter {
+	height: auto;
+	background: url(Images/asual-bodycenter.jpg);
+}
+#contentBodyRight {
+	padding-right: 22px;
+	background: url(Images/asual-bodyright.jpg) repeat-y right;
+}
+#contentFootLeft {
+	background: #FAFCFD url(Images/asual-footleft.jpg) no-repeat;
+	height: 28px;
+	padding-left: 22px;
+	clear: both;
+}
+#contentFootCenter {
+	background: url(Images/asual-footcenter.jpg) repeat-x;
+	height: 100%;
+	margin: 0 6px;
+}
+#contentFootRight {
+	background: url(Images/asual-footright.jpg) no-repeat right;
+	height: 100%;
+	padding-right: 22px;
+}
+#content {
+	background: #D5DEED url(Images/asual-content.jpg) repeat-x;
+	width: auto;
+	height: 300px;
+	margin: 0;
+	padding: 16px 22px 0;
+	color: #000000;
+}
+#entries {
+	width: 100%;
+	float: left; 
+	clear: both;
+	margin-right: -18em;
+}
+* html #entries{
+	overflow: hidden;
+}
+#column {
+	font-size: 92%;
+	width: 18em; 
+	float: right;
+	background: url(Images/asual-bodycenter.jpg);
+}
+#column a.rounded {
+	color: #285090;
+	background: #D4DEEC;
+	text-decoration: none;
+	border-top: 1px solid #D4DEEC;
+	border-bottom: 1px solid #D4DEEC;
+}
+#column a.rounded span {
+	margin: -1px 1px;
+	padding: 0 2px;
+	border-top: 1px solid #D4DEEC;
+	border-bottom: 1px solid #D4DEEC;
+}
+#column a.rounded:hover {
+	color: #FAFCFD;
+	background: #285090;
+	border-top: 1px solid #93A9C9;
+	border-bottom: 1px solid #93A9C9;
+}
+#column a.rounded:hover span {
+	border-top: 1px solid #285090;
+	border-bottom: 1px solid #285090;
+}
+#column a.rounded span.break {
+	width: 0;
+	margin: 0;
+	padding: 0;
+}
+
+#links {
+	padding: .8em;
+	line-height: 154%;
+}
+#links h5 {
+	font-size: 100%;
+	font-weight: bold;
+	margin: 1.8em 2px .4em;
+	clear: both;
+}
+#links ul {
+	list-style: none;
+}
+#links li {
+	margin-bottom: .8em;
+}
+#subtext {
+	display: block;
+}
+#blojsom p {
+	padding: 2.8em 0 1.8em .4em;
+	display: block;
+}
+div.entry {
+	padding: 0;
+	margin: 0 18em 2em 0;
+}
+div.entry div, div.entry p {
+	margin-bottom: 1.2em;
+}
+div.entry h3 {
+	font-size: 100%;
+	font-weight: bold;
+	color: #285090;
+	margin-top: -.2em;
+}
+div.entry h4 {
+	font-size: 130%;
+	font-weight: normal;
+	padding-bottom: .2em;
+	border-bottom: 1px solid #839ABF;
+}
+div.entry h4 a, div.entry h4 a:visited {
+	color: #A30000;
+	text-decoration: none;
+}
+div.entry h4 a:hover {
+	color: #000000;
+}
+div.entry ul, div.entry ol, div.entry dl {
+	margin: 10px 0;
+	padding: 0;
+}
+div.entry li {
+	margin-left: 10px;
+	padding: 0 0 .4em 12px;
+	list-style: none;
+	background: url(Images/asual-disc.jpg) no-repeat 0 .6em;
+}
+div.entry blockquote {
+	margin: 10px;
+	padding-left: 20px;
+	background: url(Images/asual-blockquote.jpg) no-repeat;	
+}
+div.entry tt {
+	font-size: 120%;
+	font-weight: bold;
+	color: #333333;
+}
+div.entry .post {
+	padding-top: 1em;
+}
+div.entry .info {
+	color: #333333;
+	margin-bottom: 0;
+}
+div.entry .info a, div.entry .info a:visited {
+	color: #285090;
+}
+div.entry .info a:hover {
+	color: #A30000;
+}
+div.entry .links {
+	color: #000000;
+}
+div.entry .links a, div.entry .links a:visited {
+	color: #285090;
+}
+div.entry .links a:hover {
+	color: #A30000;
+}
+div.entry .commentslink a {
+	float: left;
+	margin: 0 6px 1.8em -4px;
+	padding: 1px;
+}
+div.entry .commentslink a span {
+	float: left;
+	background: url(Images/asual-commentslink.jpg) no-repeat -22px .1em;
+	width: 22px;
+	height: 22px;
+	margin-right: 2px;
+	vertical-align: middle;
+}
+div.entry .commentslink a:hover span {
+	background: url(Images/asual-commentslink.jpg) no-repeat 0 .1em;
+}
+div.entry .trackbackslink a {
+	float: left;
+	margin: 0 0 1.8em 4px;
+	padding: 1px;
+}
+div.entry .trackbackslink a span {
+	float: left;
+	background: url(Images/asual-trackbackslink.jpg) no-repeat -22px .1em;
+	width: 22px;
+	height: 22px;
+	margin-right: 3px;
+	vertical-align: middle;
+}
+div.entry .trackbackslink a:hover span {
+	background: url(Images/asual-trackbackslink.jpg) no-repeat 0 .1em;
+}
+
+div.entryDate {
+	padding: 0;
+}
+div.entryDate h3 {
+	font-size: 100%;
+	font-weight: bold;
+	color: #285090;
+	margin-top: -.2em;
+}
+div.comment {
+	margin: 0 0 1em 0;
+}
+div.trackback {
+	margin: 0 18em 1em 0;
+}
+div.comment .info, div.trackback .info {
+	color: #333333;
+	margin-bottom: .2em;
+	padding-left: 26px;
+	height: 22px;
+	display: block;
+}
+div.comment .info {
+	background: url(Images/asual-comments.jpg) no-repeat 0 .1em;
+}
+div.trackback .info {
+	background: url(Images/asual-trackbacks.jpg) no-repeat 0 .1em;
+}
+div.comment .post, div.trackback .post {
+	border: 1px solid #285090;
+	background: #F1F7FB;
+	padding: 1.2em 1.2em 1.2em 26px;
+	display: block;
+}
+#trackback {
+	margin: 0 18em 3em 0;
+}
+#comments {
+	margin: 0 18em 3em 0;
+}
+#comments h3 {
+	display: block;
+	font-size: 100%;
+	font-weight: bold;
+	color: #000000;
+	clear: both;
+	border-bottom: 1px solid #285090;
+	margin-bottom: 1.8em;
+}
+#commentform {
+	display: block;
+}
+#commentform .label {
+	width: 8em;
+	float: left;
+	clear: both;
+	margin-bottom: .4em;
+}
+#commentform .input {
+	width: 300px;
+	float: left;
+	margin-bottom: .4em;
+}
+#commentform .input span {
+	float: left;
+	display: inline;
+	margin-left: 5px;
+}
+#commentform input.fixed {
+	width: 160px;
+	float: left;
+	border: 1px solid #285090;
+}
+#commentform textarea.fixed {
+	width: 300px;
+	float: left;
+	border: 1px solid #285090;
+}
+#commentform .button {
+	width: auto;
+	float: left;
+}
+#commentform textarea {
+	overflow: auto;
+}
+#commentform h4 {
+	font-size: 100%;
+	font-weight: bold;
+	color: #000000;
+	clear: both;
+}
+#commentPreview {
+	display: block;
+	margin: 0 0 1.8em 0;
+}
+#commentPreview p {
+	margin-bottom: .8em;
+}
+img.emoticons {
+	vertical-align: middle
+}
+.author {
+	color: #000000;
+}
+.author a {
+	color: #000000;
+}
+.author a:hover {
+	color: #A30000;
+}
+.red {
+	color: #A30000;
+}
+.clear {
+	clear: both;
+	height: 0;
+}
+
+#calendar {
+	border: 1px solid #839ABF;
+	background: #F1F7FB;
+	padding: .6em .6em 1em;
+	text-align: center;
+}
+#calendar table {
+	margin: 0 auto;
+	border-collapse: collapse;
+}
+
+#calendar tbody a {
+	display: block;
+	background: #285090;
+	text-align: center;
+	text-decoration: none;
+	color: #FAFCFD;
+	border-top: 1px solid #A5B8D3;
+	border-bottom: 1px solid #A5B8D3;
+}
+#calendar tbody a:hover {
+	color: #FAFCFD;
+	background: #A30000;
+	border-top: 1px solid #E39A9D;
+	border-bottom: 1px solid #E39A9D;
+}
+#entryCal {
+	color: #000;
+	width: 16.5em;
+	border: none !important;
+	border-collapse: collapse;
+}
+
+#entryCal td {
+	background-color: #F1F7FB!important;
+	width:100%;
+}
+
+#entryCal td.day {
+	width:15%!important;
+}
+
+#entryCal td.day-header {
+	font-size: 94%;
+	font-weight: normal;
+	color: #285090;
+	width:15%!important;
+}
+
+#entryCal td a{
+	border: none !important;
+}
+
+#entryCal .title td {
+	width:100%;
+}
+#entryCal .title td a{
+	background-color: #F1F7FB!important;
+}
+
+#entryCal .today {
+	color: #000000!important;
+	background-color: #F1F7FB!important;
+}
+
+#entryCal .other-month {
+	visibility:hidden;
+	width:15%!important;
+}
+
+#entryCal .title {
+	background-color: #F1F7FB !important;
+	padding: 4px;
+	border-bottom: none !important;
+	font-size: 120%;
+	font-weight: bold;
+	text-align: center;
+	padding-bottom: .2em;
+	color: #A30000;
+}
+
+#entryCal .next {
+	font-size: 120%;
+	font-weight: bold;
+	text-align: center;
+	padding-bottom: .2em;
+	color: #A30000;
+}
+
+#entryCal .next a{
+	color: #285090;
+	margin: 0 .8em; 
+	text-decoration: none;
+	background-color: #F1F7FB!important;
+}
+
+#entryCal .next a:hover {
+	color: #000000;
+}
