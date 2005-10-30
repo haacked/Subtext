@@ -203,9 +203,14 @@ namespace Subtext.Web.UI.Pages
 
 			private string RenderStyleElement(string skinPath, Style style)
 			{
-				return "<link" + 
+				string element = "<link";
+				if(style.Media != null && style.Media.Length > 0)
+					element += RenderStyleAttribute("media", style.Media);
+ 
+				return element +
 					RenderStyleAttribute("type", "text/css") + 
 					RenderStyleAttribute("rel", "stylesheet") + 
+					RenderStyleAttribute("title", style.Title) + 
 					RenderStyleAttribute("href", Path.Combine(skinPath, style.Href)) + //TODO: Look at this line again.
 					"></link>" + Environment.NewLine;
 			}
