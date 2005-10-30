@@ -991,6 +991,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Admin\Resources\Scripts\Images\ms_information_small.gif"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Admin\Resources\Scripts\Images\radio.gif"
                     BuildAction = "Content"
                 />
