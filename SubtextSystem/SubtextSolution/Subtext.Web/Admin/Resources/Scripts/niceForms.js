@@ -24,7 +24,7 @@ function init()
 	if(styleSheetTestDiv != null)
 	{
 		if(findPosX(styleSheetTestDiv) == -999) {
-			replaceSelects();
+			//replaceSelects();
 			/*replaceRadios();*/ //Removed till further notice
 			/*replaceCheckboxes();*/ //Removed till further notice
 		}
