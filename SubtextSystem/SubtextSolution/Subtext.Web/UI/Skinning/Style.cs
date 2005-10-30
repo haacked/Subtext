@@ -11,6 +11,9 @@ namespace Subtext.Web.UI.Skinning
 	public class Style
 	{
 		private string _href;
+		private string _title;
+		private string _media;
+
 		/// <summary>
 		/// Location of the script. Specified as relative to the skin directory
 		/// </summary>
@@ -26,5 +29,42 @@ namespace Subtext.Web.UI.Skinning
 				_href = value;
 			}	
 		}
+
+		/// <summary>
+		/// Title of the styesheet.
+		/// </summary>
+		[XmlAttribute("title")]
+		public string Title
+		{
+			get
+			{
+				return _title;
+			}
+			set
+			{
+				_title = value;
+			}	
+		}
+
+		/// <summary>
+		/// Media for the stylesheet.  Can be a comma delimited list.
+		/// </summary>
+		/// <remarks>
+		/// Allowed media... aural, braille, emboss, handheld, print, projection 
+		/// screen, tty, tv
+		/// </remarks>
+		[XmlAttribute("media")]
+		public string Media
+		{
+			get
+			{
+				return _media;
+			}
+			set
+			{
+				_media = value;
+			}	
+		}
+
 	}
 }
