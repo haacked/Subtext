@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility.Providers;
+using Subtext.Scripting;
 using Subtext.Web.Controls;
 
 namespace Subtext.Installation.Import
