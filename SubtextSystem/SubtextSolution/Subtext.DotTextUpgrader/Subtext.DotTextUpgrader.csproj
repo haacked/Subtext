@@ -3,13 +3,13 @@
         ProjectType = "Local"
         ProductVersion = "7.10.3077"
         SchemaVersion = "2.0"
-        ProjectGuid = "{745B39B7-DE46-4070-8733-C53308721C58}"
+        ProjectGuid = "{9BB422AA-91C7-48DB-8153-E04B58232C2F}"
     >
         <Build>
             <Settings
                 ApplicationIcon = ""
                 AssemblyKeyContainerName = ""
-                AssemblyName = "Subtext.Installation"
+                AssemblyName = "Subtext.DotTextUpgrader"
                 AssemblyOriginatorKeyFile = ""
                 DefaultClientScript = "JScript"
                 DefaultHTMLPageLayout = "Grid"
@@ -18,7 +18,7 @@
                 OutputType = "Library"
                 PreBuildEvent = ""
                 PostBuildEvent = ""
-                RootNamespace = "Subtext.Installation"
+                RootNamespace = "Subtext.DotTextUpgrader"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
             >
@@ -36,7 +36,7 @@
                     NoStdLib = "false"
                     NoWarn = ""
                     Optimize = "false"
-                    OutputPath = "bin\Debug\"
+                    OutputPath = "bin\"
                     RegisterForComInterop = "false"
                     RemoveIntegerChecks = "false"
                     TreatWarningsAsErrors = "true"
@@ -62,26 +62,6 @@
                     TreatWarningsAsErrors = "false"
                     WarningLevel = "4"
                 />
-                <Config
-                    Name = "Documentation"
-                    AllowUnsafeBlocks = "false"
-                    BaseAddress = "285212672"
-                    CheckForOverflowUnderflow = "false"
-                    ConfigurationOverrideFile = ""
-                    DefineConstants = "TRACE"
-                    DocumentationFile = "Subtext.Installation.xml"
-                    DebugSymbols = "false"
-                    FileAlignment = "4096"
-                    IncrementalBuild = "false"
-                    NoStdLib = "false"
-                    NoWarn = ""
-                    Optimize = "false"
-                    OutputPath = "bin\Debug\"
-                    RegisterForComInterop = "false"
-                    RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
-                    WarningLevel = "4"
-                />
             </Settings>
             <References>
                 <Reference
@@ -100,29 +80,19 @@
                     HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
                 <Reference
-                    Name = "Subtext.Extensibility"
-                    Project = "{13018F20-F796-4FFE-9290-83D0E661C0A1}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
                     Name = "System.Web"
                     AssemblyName = "System.Web"
                     HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Web.dll"
                 />
                 <Reference
-                    Name = "Subtext.Web.Controls"
-                    Project = "{2278427B-8BAD-4CE9-B15A-FD1131753D64}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                    Name = "System.Drawing"
+                    AssemblyName = "System.Drawing"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Drawing.dll"
                 />
                 <Reference
-                    Name = "log4net"
-                    AssemblyName = "log4net"
-                    HintPath = "..\Subtext.Framework\ExternalDependencies\log4net.dll"
-                />
-                <Reference
-                    Name = "Subtext.Framework"
-                    Project = "{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                    Name = "SharpZipLib"
+                    AssemblyName = "SharpZipLib"
+                    HintPath = "ExternalDependencies\SharpZipLib.dll"
                 />
                 <Reference
                     Name = "Subtext.Scripting"
@@ -139,56 +109,43 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ScriptHelper.cs"
+                    RelPath = "DotText095Upgrader.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "SolutionInfo.cs"
-                    Link = "..\SolutionInfo.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SqlInstallationProvider.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Import\DotText095ImportProvider.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Scripts\DropTables.sql"
+                    RelPath = "SubtextDeployment.zip"
                     BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Web.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Admin\UpgradeToSubtext.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\UpgradeToSubtext.aspx.cs"
+                    DependentUpon = "UpgradeToSubtext.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\UpgradeToSubtext.aspx.resx"
+                    DependentUpon = "UpgradeToSubtext.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "ExternalDependencies\SharpZipLib.dll"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "Scripts\ImportDotText095.sql"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "Scripts\Installation.01.00.00.sql"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Scripts\Migration_Notes.txt"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Scripts\NoLongerUsedSPs.sql"
-                    BuildAction = "Content"
-                />
-                <File
                     RelPath = "Scripts\StoredProcedures.sql"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Scripts\UnknownScripts.sql"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Scripts\UpgradeDotText095Script.sql"
                     BuildAction = "EmbeddedResource"
                 />
             </Include>

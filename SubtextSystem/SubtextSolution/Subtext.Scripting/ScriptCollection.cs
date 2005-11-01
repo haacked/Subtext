@@ -1,13 +1,24 @@
 using System;
 using System.Collections;
 
-namespace Subtext.Installation
+namespace Subtext.Scripting
 {
 	/// <summary>
 	/// A collection of <see cref="Script"/>s.
 	/// </summary>
 	public class ScriptCollection : CollectionBase
 	{
+		string _fullScriptText;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ScriptCollection"/> class.
+		/// </summary>
+		/// <param name="fullScriptText">The full script text.</param>
+		public ScriptCollection(string fullScriptText)
+		{
+			_fullScriptText = fullScriptText;
+		}
+
 		/// <summary>
 		/// Gets the <see cref="Script"/> at the specified index.
 		/// </summary>
@@ -92,6 +103,15 @@ namespace Subtext.Installation
 		public void Remove(Script value) 
 		{
 			List.Remove(value);
+		}
+
+		/// <summary>
+		/// Gets the full script text.
+		/// </summary>
+		/// <value>The full script text.</value>
+		public string FullScriptText
+		{
+			get { return _fullScriptText; }
 		}
 	}
 }

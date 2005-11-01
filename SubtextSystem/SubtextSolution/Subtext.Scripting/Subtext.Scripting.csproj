@@ -3,13 +3,13 @@
         ProjectType = "Local"
         ProductVersion = "7.10.3077"
         SchemaVersion = "2.0"
-        ProjectGuid = "{745B39B7-DE46-4070-8733-C53308721C58}"
+        ProjectGuid = "{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}"
     >
         <Build>
             <Settings
                 ApplicationIcon = ""
                 AssemblyKeyContainerName = ""
-                AssemblyName = "Subtext.Installation"
+                AssemblyName = "Subtext.Scripting"
                 AssemblyOriginatorKeyFile = ""
                 DefaultClientScript = "JScript"
                 DefaultHTMLPageLayout = "Grid"
@@ -18,7 +18,7 @@
                 OutputType = "Library"
                 PreBuildEvent = ""
                 PostBuildEvent = ""
-                RootNamespace = "Subtext.Installation"
+                RootNamespace = "Subtext.Scripting"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
             >
@@ -39,7 +39,7 @@
                     OutputPath = "bin\Debug\"
                     RegisterForComInterop = "false"
                     RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "true"
+                    TreatWarningsAsErrors = "false"
                     WarningLevel = "4"
                 />
                 <Config
@@ -62,26 +62,6 @@
                     TreatWarningsAsErrors = "false"
                     WarningLevel = "4"
                 />
-                <Config
-                    Name = "Documentation"
-                    AllowUnsafeBlocks = "false"
-                    BaseAddress = "285212672"
-                    CheckForOverflowUnderflow = "false"
-                    ConfigurationOverrideFile = ""
-                    DefineConstants = "TRACE"
-                    DocumentationFile = "Subtext.Installation.xml"
-                    DebugSymbols = "false"
-                    FileAlignment = "4096"
-                    IncrementalBuild = "false"
-                    NoStdLib = "false"
-                    NoWarn = ""
-                    Optimize = "false"
-                    OutputPath = "bin\Debug\"
-                    RegisterForComInterop = "false"
-                    RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
-                    WarningLevel = "4"
-                />
             </Settings>
             <References>
                 <Reference
@@ -99,36 +79,6 @@
                     AssemblyName = "System.Xml"
                     HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
-                <Reference
-                    Name = "Subtext.Extensibility"
-                    Project = "{13018F20-F796-4FFE-9290-83D0E661C0A1}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "System.Web"
-                    AssemblyName = "System.Web"
-                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Web.dll"
-                />
-                <Reference
-                    Name = "Subtext.Web.Controls"
-                    Project = "{2278427B-8BAD-4CE9-B15A-FD1131753D64}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "log4net"
-                    AssemblyName = "log4net"
-                    HintPath = "..\Subtext.Framework\ExternalDependencies\log4net.dll"
-                />
-                <Reference
-                    Name = "Subtext.Framework"
-                    Project = "{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "Subtext.Scripting"
-                    Project = "{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
             </References>
         </Build>
         <Files>
@@ -139,57 +89,29 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ScriptHelper.cs"
+                    RelPath = "Script.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "SolutionInfo.cs"
-                    Link = "..\SolutionInfo.cs"
+                    RelPath = "ScriptCollection.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "SqlInstallationProvider.cs"
+                    RelPath = "SqlHelper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Import\DotText095ImportProvider.cs"
+                    RelPath = "SqlScriptRunner.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Scripts\DropTables.sql"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Scripts\ImportDotText095.sql"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Scripts\Installation.01.00.00.sql"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Scripts\Migration_Notes.txt"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Scripts\NoLongerUsedSPs.sql"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Scripts\StoredProcedures.sql"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Scripts\UnknownScripts.sql"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Scripts\UpgradeDotText095Script.sql"
-                    BuildAction = "EmbeddedResource"
+                    RelPath = "Exceptions\SqlScriptExecutionException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
                 />
             </Include>
         </Files>

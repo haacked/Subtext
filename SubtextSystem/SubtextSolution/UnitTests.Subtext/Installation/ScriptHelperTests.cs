@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using NUnit.Framework;
 using Subtext.Installation;
+using Subtext.Scripting;
 
 namespace UnitTests.Subtext.Installation
 {

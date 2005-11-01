@@ -7,6 +7,7 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility.Providers;
+using Subtext.Scripting;
 
 namespace Subtext.Installation
 {

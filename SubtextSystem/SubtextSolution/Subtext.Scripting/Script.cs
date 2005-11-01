@@ -2,11 +2,14 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
+using Subtext.Scripting.Exceptions;
 
-namespace Subtext.Installation
+namespace Subtext.Scripting
 {
 	/// <summary>
-	/// Summary description for Script.
+	/// Represents a single executable script within the full SQL script.
+	/// //TODO: want to implement a means to evaluate template variables 
+	///			like in Sql Query Analyzer.
 	/// </summary>
 	public class Script
 	{
@@ -20,7 +23,7 @@ namespace Subtext.Installation
 		{
 			Regex regex = new Regex(@"(^\s*|\s+)GO(\s+|\s*$)",  RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 			string[] scriptTexts = regex.Split(fullScriptText);
-			ScriptCollection scripts = new ScriptCollection();
+			ScriptCollection scripts = new ScriptCollection(fullScriptText);
 			foreach(string scriptText in scriptTexts)
 			{
 				if(scriptText.Trim() != string.Empty)
@@ -62,8 +65,7 @@ namespace Subtext.Installation
 			}
 			catch(SqlException e)
 			{
-				//TODO: Need to create an InstallationException class.
-				throw new Exception("Error in executing the script: " + _scriptText, e);
+				throw new SqlScriptExecutionException("Error in executing the script: ", this, 0, e);
 			}
 		}
 	}

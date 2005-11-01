@@ -35,6 +35,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Installation", "Sub
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.DotTextUpgrader", "Subtext.DotTextUpgrader\Subtext.DotTextUpgrader.csproj", "{9BB422AA-91C7-48DB-8153-E04B58232C2F}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Scripting", "Subtext.Scripting\Subtext.Scripting.csproj", "{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -96,6 +104,18 @@ Global
 		{745B39B7-DE46-4070-8733-C53308721C58}.Documentation.Build.0 = Documentation|.NET
 		{745B39B7-DE46-4070-8733-C53308721C58}.Release.ActiveCfg = Release|.NET
 		{745B39B7-DE46-4070-8733-C53308721C58}.Release.Build.0 = Release|.NET
+		{9BB422AA-91C7-48DB-8153-E04B58232C2F}.Debug.ActiveCfg = Debug|.NET
+		{9BB422AA-91C7-48DB-8153-E04B58232C2F}.Debug.Build.0 = Debug|.NET
+		{9BB422AA-91C7-48DB-8153-E04B58232C2F}.Documentation.ActiveCfg = Debug|.NET
+		{9BB422AA-91C7-48DB-8153-E04B58232C2F}.Documentation.Build.0 = Debug|.NET
+		{9BB422AA-91C7-48DB-8153-E04B58232C2F}.Release.ActiveCfg = Release|.NET
+		{9BB422AA-91C7-48DB-8153-E04B58232C2F}.Release.Build.0 = Release|.NET
+		{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}.Debug.ActiveCfg = Debug|.NET
+		{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}.Debug.Build.0 = Debug|.NET
+		{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}.Documentation.ActiveCfg = Debug|.NET
+		{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}.Documentation.Build.0 = Debug|.NET
+		{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}.Release.ActiveCfg = Release|.NET
+		{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 		Subtext.Web\AspNetWithoutWebProjects.txt = Subtext.Web\AspNetWithoutWebProjects.txt

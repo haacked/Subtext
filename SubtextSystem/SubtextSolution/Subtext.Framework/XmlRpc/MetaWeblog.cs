@@ -259,13 +259,18 @@ namespace Subtext.Framework.XmlRpc
 
 		// we'll also add a couple structs and methods to give us nominal MT API-level support.
 		// by doing this we'll allow w.bloggar to run against .Text using w.b's MT configuration.
-		[XmlRpcMissingMapping(MappingAction.Ignore)]
 		public struct MtCategory
 		{
 			public string categoryId;
+			[XmlRpcMissingMapping(MappingAction.Ignore)]
 			public string categoryName;
+			[XmlRpcMissingMapping(MappingAction.Ignore)]
 			public bool isPrimary;
 
+			/// <summary>
+			/// Initializes a new instance of the <see cref="MtCategory"/> class.
+			/// </summary>
+			/// <param name="category">The category.</param>
 			public MtCategory(string category)
 			{
 				categoryId = category;
@@ -273,6 +278,11 @@ namespace Subtext.Framework.XmlRpc
 				isPrimary = false;
 			}
 
+			/// <summary>
+			/// Initializes a new instance of the <see cref="MtCategory"/> class.
+			/// </summary>
+			/// <param name="id">The id.</param>
+			/// <param name="category">The category.</param>
 			public MtCategory(string id, string category)
 			{
 				categoryId = id;
