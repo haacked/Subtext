@@ -22,10 +22,10 @@ namespace Subtext.Installation
 		/// </remarks>
 		/// <param name="scriptName">Name of the script.</param>
 		/// <param name="transaction">The current transaction.</param>
-		public static bool ExecuteScript(string scriptName, SqlTransaction transaction)
+		public static void ExecuteScript(string scriptName, SqlTransaction transaction)
 		{
 			SqlScriptRunner scriptRunner = new SqlScriptRunner(UnpackEmbeddedScript(scriptName), Encoding.UTF8);
-			return scriptRunner.ExecuteScript(transaction);
+			scriptRunner.Execute(transaction);
 		}
 
 		/// <summary>
@@ -37,10 +37,10 @@ namespace Subtext.Installation
 		/// </remarks>
 		/// <param name="scripts">The collection of scripts to execute.</param>
 		/// <param name="transaction">The current transaction.</param>
-		public static bool ExecuteScript(ScriptCollection scripts, SqlTransaction transaction)
+		public static void ExecuteScript(ScriptCollection scripts, SqlTransaction transaction)
 		{
 			SqlScriptRunner scriptRunner = new SqlScriptRunner(scripts);
-			return scriptRunner.ExecuteScript(transaction);
+			scriptRunner.Execute(transaction);
 		}
 
 		/// <summary>

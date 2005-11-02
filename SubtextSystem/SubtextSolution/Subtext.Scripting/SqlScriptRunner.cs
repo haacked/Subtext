@@ -12,7 +12,7 @@ namespace Subtext.Scripting
 	/// Class used to manage and execute SQL scripts.  
 	/// Can also be used to hand
 	/// </summary>
-	public class SqlScriptRunner
+	public class SqlScriptRunner : IScript
 	{
 		ScriptCollection _scripts;
 
@@ -111,7 +111,7 @@ namespace Subtext.Scripting
 		/// status of our script exection from here.
 		/// </remarks>
 		/// <param name="transaction">The current transaction.</param>
-		public bool ExecuteScript(SqlTransaction transaction)
+		public int Execute(SqlTransaction transaction)
 		{
 			// the following reg exp will be used to determine if each script is an
 			// INSERT, UPDATE, or DELETE operation. The reg exp is also only looking
@@ -119,6 +119,7 @@ namespace Subtext.Scripting
 			string regextStr = @"(INSERT\sINTO\sSubtextData\.[\d\w\.]+[\s\w\d]*)|(UPDATE\sSubtextData\.[\d\w\.]+\s*SET[\s\w\d]*)|(DELETE\sFROM\SubtextData\.[\d\w\.]+)";
 			Regex regex = new Regex(regextStr, RegexOptions.IgnorePatternWhitespace | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 	
+			int recordsAffectedTotal = 0;
 			int scriptsExecutedCount = 0;
 			
 			foreach(Script script in _scripts)
@@ -136,6 +137,7 @@ namespace Subtext.Scripting
 					* This would be a good place to get a part of that status.  Any Ideas?  */
 					if(returnValue > -1)
 					{
+						recordsAffectedTotal += returnValue;
 						OnProgressEvent(++scriptsExecutedCount, returnValue, script);
 					}
 					else
@@ -148,7 +150,7 @@ namespace Subtext.Scripting
 					OnProgressEvent(++scriptsExecutedCount, returnValue, script);
 				}
 			}
-			return true;
+			return recordsAffectedTotal;
 		}
 
 		public event ScriptProgressEventHandler ScriptProgress;

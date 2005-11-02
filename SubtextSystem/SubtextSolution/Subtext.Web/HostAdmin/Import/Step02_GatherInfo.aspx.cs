@@ -2,6 +2,7 @@ using System;
 using System.Web.UI;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
+using Subtext.Scripting.Exceptions;
 
 namespace Subtext.Web.HostAdmin
 {
@@ -90,17 +91,11 @@ namespace Subtext.Web.HostAdmin
 			//Here we go.
 			try
 			{
-				if(ImportManager.Import(this.importInformationControl, this._providerInfo))
-				{
-					Response.Redirect("ImportComplete.aspx");	
-					return;
-				}
-				else
-				{
-					this.ltlErrorMessage.Text = "An unexpected unknown error occured.  I know, the worst kind.";
-				}
+				ImportManager.Import(this.importInformationControl, this._providerInfo);
+				Response.Redirect("ImportComplete.aspx");	
+				return;
 			}
-			catch(Exception exception)
+			catch(SqlScriptExecutionException exception)
 			{
 				this.ltlErrorMessage.Text = "Oooh. We had trouble with the import.  The error message follows : " + exception.Message;
 			}

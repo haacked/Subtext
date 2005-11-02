@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Subtext.Installation;
 using Subtext.Scripting;
 
@@ -16,7 +16,7 @@ namespace UnitTests.Subtext.Installation
 		/// Makes sure that ParseScript parses correctly.
 		/// </summary>
 		[Test]
-		[Rollback]
+		[RollBack]
 		public void ParseScriptParsesCorrectly()
 		{
 			string script =  @"SET QUOTED_IDENTIFIER OFF " + Environment.NewLine +

@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Web;
+using MbUnit.Framework;
 
 namespace UnitTests.Subtext
 {
@@ -11,6 +12,7 @@ namespace UnitTests.Subtext
 	public sealed class UnitTestHelper
 	{
 		private UnitTestHelper() {}
+
 		/// <summary>
 		/// Unpacks an embedded resource into the specified directory.
 		/// </summary>
@@ -177,5 +179,47 @@ namespace UnitTests.Subtext
 			}
 			return target;
 		}
+
+		#region ...Assert.AreNotEqual replacements...
+		/// <summary>
+		/// Asserts that the two values are not equal.
+		/// </summary>
+		/// <param name="first">The first.</param>
+		/// <param name="compare">The compare.</param>
+		public static void AssertAreNotEqual(int first, int compare)
+		{
+			AssertAreNotEqual(first, compare, "");
+		}
+
+		/// <summary>
+		/// Asserts that the two values are not equal.
+		/// </summary>
+		/// <param name="first">The first.</param>
+		/// <param name="compare">The compare.</param>
+		public static void AssertAreNotEqual(int first, int compare, string message)
+		{
+			Assert.IsTrue(first != compare, message + "{0} is equal to {1}", first, compare);
+		}
+
+		/// <summary>
+		/// Asserts that the two values are not equal.
+		/// </summary>
+		/// <param name="first">The first.</param>
+		/// <param name="compare">The compare.</param>
+		public static void AssertAreNotEqual(string first, string compare)
+		{
+			AssertAreNotEqual(first, compare, "");
+		}
+
+		/// <summary>
+		/// Asserts that the two values are not equal.
+		/// </summary>
+		/// <param name="first">The first.</param>
+		/// <param name="compare">The compare.</param>
+		public static void AssertAreNotEqual(string first, string compare, string message)
+		{
+			Assert.IsTrue(first != compare, message + "{0} is equal to {1}", first, compare);
+		}
+		#endregion
 	}
 }

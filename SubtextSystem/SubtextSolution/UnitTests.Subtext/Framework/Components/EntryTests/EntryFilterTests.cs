@@ -1,6 +1,6 @@
 using System;
 using System.Threading;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -23,7 +23,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		/// create too many within the interval.
 		/// </summary>
 		[Test]
-		[Rollback(typeof(CommentFrequencyException))]
+		[RollBack]
+		[ExpectedException(typeof(CommentFrequencyException))]
 		public void CannotCreateMoreThanOneCommentWithinDelay()
 		{
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
@@ -51,7 +52,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		/// Make sure that duplicate comments are blocked.
 		/// </summary>
 		[Test]
-		[Rollback(typeof(CommentDuplicateException))]
+		[RollBack]
+		[ExpectedException(typeof(CommentDuplicateException))]
 		public void CannotCreateDuplicateComments()
 		{
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));

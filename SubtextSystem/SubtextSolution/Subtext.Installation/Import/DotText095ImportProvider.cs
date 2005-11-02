@@ -67,7 +67,7 @@ namespace Subtext.Installation.Import
 		/// supplied within it.
 		/// </summary>
 		/// <param name="populatedControl">Populated control.</param>
-		public override bool Import(Control populatedControl)
+		public override void Import(Control populatedControl)
 		{
 			string subtextConnectionString;
 			string dotTextConnectionString;
@@ -85,20 +85,11 @@ namespace Subtext.Installation.Import
 						// Hmmm... we can't assume that the .TEXT database is on the same 
 						// server (or database) as our database.  We might have to do a 
 						// cross database join.  We might need to do something more tricky here.
-						
-						if(ScriptHelper.ExecuteScript("ImportDotText095.sql", transaction))
-						{
-							bool result = ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction);
-							if(result)
-								transaction.Commit();
-							else
-								transaction.Rollback();
-							return result;
-						}						
-						transaction.Rollback();
-						return false;
+						ScriptHelper.ExecuteScript("ImportDotText095.sql", transaction);
+						ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction);
+						transaction.Commit();
 					}
-					catch(SqlException)
+					catch(Exception)
 					{
 						transaction.Rollback();
 						throw;

@@ -237,7 +237,7 @@ namespace Subtext.Installation
 		/// </summary>
 		/// <param name="assemblyVersion">The version of the assembly being installed.</param>
 		/// <returns></returns>
-		public override bool Install(Version assemblyVersion)
+		public override void Install(Version assemblyVersion)
 		{
 			using(SqlConnection connection = new SqlConnection(this._adminConnectionString))
 			{
@@ -247,21 +247,12 @@ namespace Subtext.Installation
 					try
 					{
 						//TODO: Calculate the script name.
-						if(ScriptHelper.ExecuteScript("Installation.01.00.00.sql", transaction))
-						{
-							bool result = ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction);
-							if(result)
-								transaction.Commit();
-							else
-								transaction.Rollback();
-							return result;
-						}
-
+						ScriptHelper.ExecuteScript("Installation.01.00.00.sql", transaction);
+						ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction);
 						UpdateCurrentInstalledVersion(assemblyVersion);
-						transaction.Rollback();
-						return false;
+						transaction.Commit();
 					}
-					catch(SqlException)
+					catch(Exception)
 					{
 						transaction.Rollback();
 						throw;

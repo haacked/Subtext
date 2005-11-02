@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Web;
 using ICSharpCode.SharpZipLib.Zip;
 using Subtext.Scripting;
+using Subtext.Scripting.Exceptions;
 
 namespace Subtext.DotTextUpgrader
 {
@@ -19,14 +20,12 @@ namespace Subtext.DotTextUpgrader
 		/// <returns></returns>
 		public bool Upgrade(string connectionString)
 		{
-			if(UpgradeDatabase(connectionString))
-			{
-				DeployFiles();
-			}
+			UpgradeDatabase(connectionString);
+			DeployFiles();
 			return true;
 		}
 
-		private bool UpgradeDatabase(string connectionString)
+		private void UpgradeDatabase(string connectionString)
 		{
 			using(SqlConnection connection = new SqlConnection(connectionString))
 			{
@@ -39,20 +38,12 @@ namespace Subtext.DotTextUpgrader
 						// server (or database) as our database.  We might have to do a 
 						// cross database join.  We might need to do something more tricky here.
 						SqlScriptRunner scriptRunner = new SqlScriptRunner(Script.ParseScripts(GetSchemaScriptContents()));
-						if(scriptRunner.ExecuteScript(transaction))
-						{
-							SqlScriptRunner spScriptRunner = new SqlScriptRunner(Script.ParseScripts(GetStoredProcScriptContents()));
-							bool result = spScriptRunner.ExecuteScript(transaction);
-							if(result)
-								transaction.Commit();
-							else
-								transaction.Rollback();
-							return result;
-						}						
-						transaction.Rollback();
-						return false;
+						scriptRunner.Execute(transaction);
+						SqlScriptRunner spScriptRunner = new SqlScriptRunner(Script.ParseScripts(GetStoredProcScriptContents()));
+						spScriptRunner.Execute(transaction);
+						transaction.Commit();
 					}
-					catch(SqlException)
+					catch(Exception)
 					{
 						transaction.Rollback();
 						throw;

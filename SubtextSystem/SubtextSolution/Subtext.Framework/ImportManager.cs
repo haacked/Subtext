@@ -39,9 +39,9 @@ namespace Subtext.Framework
 		/// Begins the import using the information within the populated Control.
 		/// </summary>
 		/// <param name="populatedControl">Control containing the user's answers.</param>
-		public static bool Import(Control populatedControl, ProviderInfo providerInfo)
+		public static void Import(Control populatedControl, ProviderInfo providerInfo)
 		{
-			return ImportProvider.Instance(providerInfo).Import(populatedControl);
+			ImportProvider.Instance(providerInfo).Import(populatedControl);
 		}
 	}
 }

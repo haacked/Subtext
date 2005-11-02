@@ -11,11 +11,11 @@ namespace Subtext.Scripting
 	/// //TODO: want to implement a means to evaluate template variables 
 	///			like in Sql Query Analyzer.
 	/// </summary>
-	public class Script
+	public class Script : IScript
 	{
 		/// <summary>
 		/// Helper method which given a full SQL script, returns 
-		/// a <see cref="ScriptCollection"/> of individual <see cref="Script"/> 
+		/// a <see cref="ScriptCollection"/> of individual <see cref="TemplateParameter"/> 
 		/// using "GO" as the delimiter.
 		/// </summary>
 		/// <param name="fullScriptText">Full script text.</param>
@@ -37,7 +37,7 @@ namespace Subtext.Scripting
 
 		string _scriptText;
 		/// <summary>
-		/// Creates a new <see cref="Script"/> instance.
+		/// Creates a new <see cref="TemplateParameter"/> instance.
 		/// </summary>
 		/// <param name="scriptText">Script text.</param>
 		public Script(string scriptText)

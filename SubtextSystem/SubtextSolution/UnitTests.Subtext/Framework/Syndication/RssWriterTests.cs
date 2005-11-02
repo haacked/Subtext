@@ -1,6 +1,6 @@
 using System;
 using System.Web;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Subtext.Common.Syndication;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -51,7 +51,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 		/// <see href="http://bobwyman.pubsub.com/main/2004/09/using_rfc3229_w.html"/>.
 		/// </summary>
 		[Test]
-		[Rollback]
+		[RollBack]
 		public void RssWriterHandlesRFC3229DeltaEncoding()
 		{
 			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "Subtext.Web");

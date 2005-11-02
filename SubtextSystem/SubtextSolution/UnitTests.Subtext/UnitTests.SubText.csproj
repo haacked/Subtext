@@ -100,11 +100,6 @@
                     HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
                 <Reference
-                    Name = "nunit.framework"
-                    AssemblyName = "nunit.framework"
-                    HintPath = "ExternalDependencies\nunit.framework.dll"
-                />
-                <Reference
                     Name = "Subtext.Common"
                     Project = "{7594F3CF-85F9-4500-AFBD-5D370D9D57B4}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
@@ -130,11 +125,6 @@
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
-                    Name = "nunit.core"
-                    AssemblyName = "nunit.core"
-                    HintPath = "ExternalDependencies\nunit.core.dll"
-                />
-                <Reference
                     Name = "System.EnterpriseServices"
                     AssemblyName = "System.EnterpriseServices"
                     HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.EnterpriseServices.dll"
@@ -149,22 +139,37 @@
                     Project = "{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "MbUnit.Framework"
+                    AssemblyName = "MbUnit.Framework"
+                    HintPath = "ExternalDependencies\MbUnit.Framework.dll"
+                />
+                <Reference
+                    Name = "MbUnit.Framework.1.1"
+                    AssemblyName = "MbUnit.Framework.1.1"
+                    HintPath = "ExternalDependencies\MbUnit.Framework.1.1.dll"
+                />
+                <Reference
+                    Name = "TestFu"
+                    AssemblyName = "TestFu"
+                    HintPath = "ExternalDependencies\TestFu.dll"
+                />
+                <Reference
+                    Name = "QuickGraph.Algorithms"
+                    AssemblyName = "QuickGraph.Algorithms"
+                    HintPath = "ExternalDependencies\QuickGraph.Algorithms.dll"
+                />
+                <Reference
+                    Name = "QuickGraph"
+                    AssemblyName = "QuickGraph"
+                    HintPath = "ExternalDependencies\QuickGraph.dll"
+                />
             </References>
         </Build>
         <Files>
             <Include>
                 <File
                     RelPath = "AssemblyInfo.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "NUnitExtensionBase.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "RollbackAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -189,127 +194,27 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ExternalDependencies\mock-assembly.dll"
+                    RelPath = "ExternalDependencies\MbUnit.Core.dll"
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "ExternalDependencies\mock-assembly.dll.config"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "ExternalDependencies\nonamespace-assembly.dll"
+                    RelPath = "ExternalDependencies\MbUnit.Framework.1.1.dll"
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "ExternalDependencies\notestfixtures-assembly.dll"
+                    RelPath = "ExternalDependencies\MbUnit.Framework.dll"
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "ExternalDependencies\nunit.core.dll"
+                    RelPath = "ExternalDependencies\QuickGraph.Algorithms.dll"
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "ExternalDependencies\nunit.extensions.dll"
+                    RelPath = "ExternalDependencies\QuickGraph.dll"
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "ExternalDependencies\nunit.framework.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\nunit.framework.tests.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\nunit.framework.tests.dll.config"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "ExternalDependencies\nunit.mocks.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\nunit.mocks.tests.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\nunit.mocks.tests.dll.config"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "ExternalDependencies\nunit.testutilities.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\nunit.uikit.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\nunit.uikit.tests.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\nunit.uikit.tests.dll.config"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "ExternalDependencies\nunit.util.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\nunit.util.tests.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\nunit.util.tests.dll.config"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "ExternalDependencies\nunit-console.exe"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\nunit-console.exe.config"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "ExternalDependencies\nunit-console.tests.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\nunit-console.tests.dll.config"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "ExternalDependencies\nunit-console-runner.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\nunit-gui.exe"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\nunit-gui.exe.config"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "ExternalDependencies\nunit-gui.tests.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\nunit-gui-runner.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\NUnitTests.config"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "ExternalDependencies\NUnitTests.nunit"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "ExternalDependencies\timing-tests.dll"
+                    RelPath = "ExternalDependencies\TestFu.dll"
                     BuildAction = "Content"
                 />
                 <File
@@ -381,6 +286,11 @@
                 <File
                     RelPath = "Resources\App.config"
                     BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Scripting\TemplateParameterParseTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
                 />
             </Include>
         </Files>

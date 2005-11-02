@@ -1,5 +1,5 @@
 using System;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
@@ -16,7 +16,7 @@ namespace UnitTests.Subtext.Installation
 		/// Determines whether [is in host admin directory returns true result].
 		/// </summary>
 		[Test]
-		[Rollback]
+		[RollBack]
 		public void IsInHostAdminDirectoryReturnsTrueResult()
 		{
 			string host = System.Guid.NewGuid().ToString().Replace("-", "");
@@ -29,7 +29,7 @@ namespace UnitTests.Subtext.Installation
 		/// an installation action is required.
 		/// </summary>
 		[Test]
-		[Rollback]
+		[RollBack]
 		public void IsInstallationActionRequiredReturnsTrueForBlogDoesNotExistException()
 		{
 			Assert.IsTrue(InstallationManager.GetIsInstallationActionRequired(new BlogDoesNotExistException("host", "app", false), VersionInfo.FrameworkVersion));
@@ -39,7 +39,7 @@ namespace UnitTests.Subtext.Installation
 		/// Determines whether [is in install directory reports correct result].
 		/// </summary>
 		[Test]
-		[Rollback]
+		[RollBack]
 		public void IsInInstallDirectoryReportsTrueCorrectly()
 		{
 			AssertIsInInstallDirectory("VirtDir", System.Guid.NewGuid().ToString().Replace("-", ""));
@@ -51,7 +51,7 @@ namespace UnitTests.Subtext.Installation
 		/// Determines whether [is in install directory reports correct result].
 		/// </summary>
 		[Test]
-		[Rollback]
+		[RollBack]
 		public void IsInInstallDirectoryReportsFalseCorrectly()
 		{
 			AssertNotInInstallDirectory(System.Guid.NewGuid().ToString().Replace("-", ""), "");

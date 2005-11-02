@@ -1,5 +1,5 @@
 using System;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Subtext.Extensibility.Providers;
 
 namespace UnitTests.Subtext.Framework.Providers

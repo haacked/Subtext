@@ -1,6 +1,6 @@
 using System;
 using System.Globalization;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
@@ -21,7 +21,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// if UseHashedPassword is set in web.config (as it should be).
 		/// </summary>
 		[Test]
-		[Rollback]
+		[RollBack]
 		public void CreatingBlogHashesPassword()
 		{
 			string password = "MyPassword";
@@ -41,7 +41,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// We need a separate method for changing passwords.
 		/// </summary>
 		[Test]
-		[Rollback]
+		[RollBack]
 		public void ModifyingBlogShouldNotChangePassword()
 		{
 			Config.Settings.UseHashedPasswords = true;
@@ -61,7 +61,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// </summary>
 		[Test]
 		//[ExpectedException(typeof(BlogRequiresApplicationException))]
-		[Rollback(typeof(BlogRequiresApplicationException))]
+		[RollBack]
+		[ExpectedException(typeof(BlogRequiresApplicationException))]
 		public void CreatingBlogWithDuplicateHostNameRequiresApplicationName()
 		{
 			Config.CreateBlog("", "username", "password", _hostName, "MyBlog1");
@@ -72,7 +73,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// Make sure adding two distinct blogs doesn't raise an exception.
 		/// </summary>
 		[Test]
-		[Rollback]
+		[RollBack]
 		public void AddingDistinctBlogsIsFine()
 		{
 			Config.CreateBlog("title", "username", "password", UnitTestHelper.GenerateUniqueHost(), string.Empty);
@@ -88,8 +89,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// as another blog when both have no application specified.
 		/// </summary>
 		[Test]
-		[Rollback(typeof(BlogDuplicationException))]
-		//[ExpectedException(typeof(BlogDuplicationException))]
+		[RollBack]
+		[ExpectedException(typeof(BlogDuplicationException))]
 		public void CreateBlogCannotCreateOneWithDuplicateHostAndNoApplication()
 		{
 			Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
@@ -101,8 +102,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// as another blog.
 		/// </summary>
 		[Test]
-		[Rollback(typeof(BlogDuplicationException))]
-		//[ExpectedException(typeof(BlogDuplicationException))]
+		[RollBack]
+		[ExpectedException(typeof(BlogDuplicationException))]
 		public void CreateBlogCannotCreateOneWithDuplicateHostAndApplication()
 		{
 			Config.CreateBlog("title", "username", "password", _hostName, "MyBlog");
@@ -114,8 +115,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// as another blog.
 		/// </summary>
 		[Test]
-		[Rollback(typeof(BlogDuplicationException))]
-		//[ExpectedException(typeof(BlogDuplicationException))]
+		[RollBack]
+		[ExpectedException(typeof(BlogDuplicationException))]
 		public void UpdateBlogCannotConflictWithDuplicateHostAndApplication()
 		{
 			string secondHost = UnitTestHelper.GenerateUniqueHost();
@@ -132,8 +133,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// as another blog when both have no application specified.
 		/// </summary>
 		[Test]
-		[Rollback(typeof(BlogDuplicationException))]
-		//[ExpectedException(typeof(BlogDuplicationException))]
+		[RollBack]
+		[ExpectedException(typeof(BlogDuplicationException))]
 		public void UpdateBlogCannotConflictWithDuplicateHost()
 		{
 			string anotherHost = UnitTestHelper.GenerateUniqueHost();
@@ -160,8 +161,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// </p>
 		/// </remarks>
 		[Test]
-		[Rollback(typeof(BlogHiddenException))]
-		//[ExpectedException(typeof(BlogHiddenException))]
+		[RollBack]
+		[ExpectedException(typeof(BlogHiddenException))]
 		public void CreateBlogCannotHideAnotherBlog()
 		{
 			Config.CreateBlog("title", "username", "password", "www." + _hostName, string.Empty);
@@ -183,7 +184,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// </p>
 		/// </remarks>
 		[Test]
-		[Rollback]
+		[RollBack]
 		public void UpdatingBlogCannotHideAnotherBlog()
 		{
 			Config.CreateBlog("title", "username", "password", "www.mydomain.com", string.Empty);
@@ -199,8 +200,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// cannot modify another blog to have the same domain name, but with no application.
 		/// </summary>
 		[Test]
-		[Rollback(typeof(BlogRequiresApplicationException))]
-		//[ExpectedException(typeof(BlogRequiresApplicationException))]
+		[RollBack]
+		[ExpectedException(typeof(BlogRequiresApplicationException))]
 		public void UpdatingBlogWithDuplicateHostNameRequiresApplicationName()
 		{
 			string anotherHost = UnitTestHelper.GenerateUniqueHost();
@@ -218,7 +219,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// include the blog being edited.
 		/// </summary>
 		[Test]
-		[Rollback]
+		[RollBack]
 		public void UpdatingBlogIsFine()
 		{
 			Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
@@ -232,7 +233,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// within the application name.
 		/// </summary>
 		[Test]
-		[Rollback]
+		[RollBack]
 		public void EnsureInvalidCharactersMayNotBeUsedInApplicationName()
 		{
 			string[] badNames = {".name", "a{b", "a}b", "a[e", "a]e", "a/e",@"a\e", "a@e", "a!e", "a#e", "a$e", "a'e", "a%", ":e", "a^", "ae&", "*ae", "a(e", "a)e", "a?e", "+a", "e|", "a\"", "e=", "a'", "e<", "a>e", "a;", ",e", "a e"};
@@ -246,7 +247,9 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// <summary>
 		/// Tests that creating a blog with a reserved keyword (bin) is not allowed.
 		/// </summary>
-		[Test, Rollback(typeof(InvalidApplicationNameException))]
+		[Test]
+		[RollBack]
+		[ExpectedException(typeof(InvalidApplicationNameException))]
 		public void CannotCreateBlogWithApplicationNameBin()
 		{
 			Config.CreateBlog("title", "blah", "blah", _hostName, "bin");
@@ -256,8 +259,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// Tests that modifying a blog with a reserved keyword (bin) is not allowed.
 		/// </summary>
 		[Test]
-		//[ExpectedException(typeof(InvalidApplicationNameException))]
-		[Rollback(typeof(InvalidApplicationNameException))]
+		[RollBack]
+		[ExpectedException(typeof(InvalidApplicationNameException))]
 		public void CannotRenameBlogToHaveApplicationNameBin()
 		{
 			Config.CreateBlog("title", "blah", "blah", _hostName, "Anything");
@@ -271,8 +274,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// Tests that creating a blog with a reserved keyword (archive) is not allowed.
 		/// </summary>
 		[Test]
-		//[ExpectedException(typeof(InvalidApplicationNameException))]
-		[Rollback(typeof(InvalidApplicationNameException))]
+		[RollBack]
+		[ExpectedException(typeof(InvalidApplicationNameException))]
 		public void CannotCreateBlogWithApplicationNameArchive()
 		{
 			Config.CreateBlog("title", "blah", "blah", _hostName, "archive");
@@ -286,8 +289,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// Tests that creating a blog that ends with . is not allowed
 		/// </summary>
 		[Test]
-		//[ExpectedException(typeof(InvalidApplicationNameException))]
-		[Rollback(typeof(InvalidApplicationNameException))]
+		[RollBack]
+		[ExpectedException(typeof(InvalidApplicationNameException))]
 		public void CannotCreateBlogWithApplicationNameEndingWithDot()
 		{
 			Config.CreateBlog("title", "blah", "blah", _hostName, "archive.");
@@ -297,8 +300,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// Tests that creating a blog that starts with . is not allowed
 		/// </summary>
 		[Test]
-		//[ExpectedException(typeof(InvalidApplicationNameException))]
-		[Rollback(typeof(InvalidApplicationNameException))]
+		[RollBack]
+		[ExpectedException(typeof(InvalidApplicationNameException))]
 		public void CannotCreateBlogWithApplicationNameStartingWithDot()
 		{
 			Config.CreateBlog("title", "blah", "blah", _hostName, ".archive");
@@ -308,8 +311,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// Tests that creating a blog that contains invalid characters is not allowed.
 		/// </summary>
 		[Test]
-		//[ExpectedException(typeof(InvalidApplicationNameException))]
-		[Rollback(typeof(InvalidApplicationNameException))]
+		[RollBack]
+		[ExpectedException(typeof(InvalidApplicationNameException))]
 		public void CannotCreateBlogWithApplicationNameWithInvalidCharacters()
 		{
 			Config.CreateBlog("title", "blah", "blah", _hostName, "My!Blog");

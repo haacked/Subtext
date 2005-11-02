@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 
@@ -20,7 +20,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		/// Makes sure that the UpdatePassword method hashes the password.
 		/// </summary>
 		[Test]
-		[Rollback]
+		[RollBack]
 		public void UpdatePasswordHashesPassword()
 		{
 			Config.Settings.UseHashedPasswords = true;
@@ -60,8 +60,8 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		{
 			string lowercase = "password";
 			string uppercase = "Password";
-			Assert.AreNotEqual(Security.HashPassword(lowercase), Security.HashPassword(uppercase), "A lower cased and upper cased password should not be equivalent.");
-			Assert.AreNotEqual(Security.HashPassword(lowercase), Security.HashPassword(uppercase.ToUpper(CultureInfo.InvariantCulture)), "A lower cased and a completely upper cased password should not be equivalent.");
+			UnitTestHelper.AssertAreNotEqual(Security.HashPassword(lowercase), Security.HashPassword(uppercase), "A lower cased and upper cased password should not be equivalent.");
+			UnitTestHelper.AssertAreNotEqual(Security.HashPassword(lowercase), Security.HashPassword(uppercase.ToUpper(CultureInfo.InvariantCulture)), "A lower cased and a completely upper cased password should not be equivalent.");
 		}
 
 		/// <summary>
