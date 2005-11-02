@@ -67,11 +67,10 @@ namespace Subtext.Extensibility.Providers
 		public abstract bool Upgrade(Version assemblyVersion);
 
 		/// <summary>
-		/// Installs this instance.  Returns true if it was successful.
+		/// Installs this instance.
 		/// </summary>
 		/// <param name="assemblyVersion">The current assembly version being installed.</param>
-		/// <returns></returns>
-		public abstract bool Install(Version assemblyVersion);
+		public abstract void Install(Version assemblyVersion);
 
 		/// <summary>
 		/// Attempts to repair this instance. Returns true if it was successful.

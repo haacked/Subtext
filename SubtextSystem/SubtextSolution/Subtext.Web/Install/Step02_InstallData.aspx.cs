@@ -1,6 +1,7 @@
 using System;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
+using Subtext.Scripting.Exceptions;
 
 namespace Subtext.Web.Install
 {
@@ -90,9 +91,13 @@ namespace Subtext.Web.Install
 			switch(_state)
 			{
 				case InstallationState.NeedsInstallation:
-					if(!InstallationProvider.Instance().Install(VersionInfo.FrameworkVersion))
+					try
 					{
-						installationStateMessage.Text = "Uh oh. Something went wrong with the installation.";
+						InstallationProvider.Instance().Install(VersionInfo.FrameworkVersion);
+					}
+					catch(SqlScriptExecutionException ex)
+					{
+						installationStateMessage.Text = "Uh oh. Something went wrong with the installation. " + ex.Message;
 						return;
 					}
 					break;

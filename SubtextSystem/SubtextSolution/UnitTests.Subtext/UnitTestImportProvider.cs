@@ -35,7 +35,7 @@ namespace UnitTests.Subtext
 		/// supplied within it.
 		/// </summary>
 		/// <param name="populatedControl">Populated control.</param>
-		public override bool Import(Control populatedControl)
+		public override void Import(Control populatedControl)
 		{
 			throw new NotImplementedException();
 		}

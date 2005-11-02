@@ -90,7 +90,7 @@ namespace Subtext.Extensibility.Providers
 		/// supplied within it.
 		/// </summary>
 		/// <param name="populatedControl">Populated control.</param>
-		public abstract bool Import(Control populatedControl);
+		public abstract void Import(Control populatedControl);
 
 		/// <summary>
 		/// Validates the installation information provided by the user.  

@@ -1,5 +1,5 @@
 using System;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Subtext.Extensibility.Providers;
 using Subtext.Installation;
 
@@ -16,7 +16,7 @@ namespace UnitTests.Subtext.Installation
 		/// properly gathers the information.
 		/// </summary>
 		[Test]
-		[Rollback]
+		[RollBack]
 		public void InstallationInformationGatheringProcessGathersCorrectInfo()
 		{
 			InstallationProvider provider = InstallationProvider.Instance();

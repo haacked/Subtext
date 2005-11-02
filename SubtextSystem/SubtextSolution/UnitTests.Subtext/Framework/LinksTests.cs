@@ -1,6 +1,6 @@
 using System;
 using System.Web;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
@@ -20,7 +20,7 @@ namespace UnitTests.Subtext.Framework
 		/// Ensures CreateLinkCategory assigns unique CatIDs
 		/// </summary>
 		[Test]
-		[Rollback]
+		[RollBack]
 		public void CreateLinkCategoryAssignsUniqueCatIDs()
 		{
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, "MyBlog"));
@@ -30,16 +30,16 @@ namespace UnitTests.Subtext.Framework
 			LinkCategoryCollection linkCategoryCollection = Links.GetCategories(CategoryType.LinkCollection, false);
 
 			// Ensure the CategoryIDs are unique
-			Assert.AreNotEqual(linkCategoryCollection[0].CategoryID, linkCategoryCollection[1].CategoryID);
-			Assert.AreNotEqual(linkCategoryCollection[0].CategoryID, linkCategoryCollection[2].CategoryID);
-			Assert.AreNotEqual(linkCategoryCollection[1].CategoryID, linkCategoryCollection[2].CategoryID);
+			UnitTestHelper.AssertAreNotEqual(linkCategoryCollection[0].CategoryID, linkCategoryCollection[1].CategoryID);
+			UnitTestHelper.AssertAreNotEqual(linkCategoryCollection[0].CategoryID, linkCategoryCollection[2].CategoryID);
+			UnitTestHelper.AssertAreNotEqual(linkCategoryCollection[1].CategoryID, linkCategoryCollection[2].CategoryID);
 		}
 
 		/// <summary>
 		/// Ensure UpdateLInkCategory updates the correct link category
 		/// </summary>
 		[Test]
-		[Rollback]
+		[RollBack]
 		public void UpdateLinkCategoryIsFine()
 		{
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, "MyBlog"));

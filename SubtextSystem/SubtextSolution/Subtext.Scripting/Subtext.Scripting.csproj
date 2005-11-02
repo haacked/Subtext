@@ -89,6 +89,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "IScript.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ITemplateScript.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Script.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -105,6 +115,16 @@
                 />
                 <File
                     RelPath = "SqlScriptRunner.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TemplateParameter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TemplateParameterCollection.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

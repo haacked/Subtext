@@ -1,5 +1,5 @@
 using System;
-using NUnit.Framework;
+using MbUnit.Framework;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -45,7 +45,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		/// Make sure that generated friendly urls are unique.
 		/// </summary>
 		[Test]
-		[Rollback]
+		[RollBack]
 		public void FriendlyUrlIsUnique()
 		{
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
@@ -71,7 +71,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Entry savedDupe = Entries.GetEntry(dupeId, false);
 			
 			Assert.AreEqual("SomeTitleAgain", savedDupe.EntryName, "Should have appended 'Again'");
-			Assert.AreNotEqual(savedEntry.EntryName, savedDupe.EntryName, "No duplicate entry names are allowed.");
+			UnitTestHelper.AssertAreNotEqual(savedEntry.EntryName, savedDupe.EntryName, "No duplicate entry names are allowed.");
 
 			Entry yetAnotherDuplicate = new Entry(PostType.BlogPost);
 			yetAnotherDuplicate.DateCreated = DateTime.Now;
