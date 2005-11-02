@@ -106,7 +106,8 @@ namespace Subtext
 
 			// Want to redirect to install if installation is required, 
 			// or if we're missing a HostInfo record.
-			if((InstallationManager.IsInstallationActionRequired(VersionInfo.FrameworkVersion) || InstallationManager.HostInfoRecordNeeded) && !InstallationManager.IsInInstallDirectory)
+			if((InstallationManager.IsInstallationActionRequired(VersionInfo.FrameworkVersion) || InstallationManager.HostInfoRecordNeeded) 
+				&& !(InstallationManager.IsInInstallDirectory || Framework.Format.UrlFormats.IsInSpecialDirectory("Import")))
 			{
 				Response.Redirect("~/Install/");
 			}
