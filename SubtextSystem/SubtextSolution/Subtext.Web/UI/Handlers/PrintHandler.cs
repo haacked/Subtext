@@ -43,7 +43,7 @@ namespace Subtext.Web.UI
 			int PostID = UrlFormats.GetPostIDFromUrl(context.Request.Path);
 			if(PostID > -1)
 			{
-				Entry entry = Entries.GetEntry(PostID,true);
+				Entry entry = Entries.GetEntry(PostID, EntryGetOption.ActiveOnly);
 				if(entry != null)
 				{
 					StringBuilder sb = new StringBuilder();

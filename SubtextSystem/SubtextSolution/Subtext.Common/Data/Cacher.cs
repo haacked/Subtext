@@ -239,7 +239,7 @@ namespace Subtext.Common.Data
 			Entry entry = (Entry)context.Cache[key];
 			if(entry == null)
 			{
-				entry = Entries.GetEntry(EntryName,true);		
+				entry = Entries.GetEntry(EntryName, EntryGetOption.ActiveOnly);		
 				if(entry != null)
 				{
 					CacherCache(key,context,entry,ct);
@@ -271,7 +271,7 @@ namespace Subtext.Common.Data
 			Entry entry = (Entry)context.Cache[key];
 			if(entry == null)
 			{
-				entry = Entries.GetEntry(EntryID,true);		
+				entry = Entries.GetEntry(EntryID, EntryGetOption.ActiveOnly);
 				if(entry != null)
 				{
 					CacherCache(key, context, entry, ct);

@@ -20,6 +20,7 @@
 				<SP:MenuItem href="~/About/"	title="Everything you didn't want to know about Subtext." runat="server">About</SP:MenuItem>
 				<SP:MenuItem href="~/Docs/"	title="Everything you DID want to know about Subtext." runat="server">Docs</SP:MenuItem>
 				<SP:MenuItem href="~/Roadmap/"	title="Everything you will want to know about Subtext." runat="server" ID="Menuitem1">Roadmap</SP:MenuItem>
+				<SP:MenuItem href="~/License/"	title="Subtext is licensed under the BSD license." runat="server" ID="mnuLicense">License</SP:MenuItem>
 			</ul><!-- #menu -->
 			
 			<div id="sidebar">
