@@ -1,10 +1,10 @@
 using System;
 using System.Globalization;
 using System.IO;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI.WebControls;
+using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
@@ -234,15 +234,23 @@ namespace Subtext.Framework.Format
 		/// Builds the <see cref="HyperLink"/>.NavigateUrl for an EditPost Link by determining
 		/// the current Application and adding it to the URL if necessary.
 		/// </summary>
-		/// <param name="entryID">ID of the entry to be edited</param>
+		/// <param name="entry">The entry to be edited</param>
 		/// <returns></returns>
-		public static string GetEditLink(int entryID)
+		public static string GetEditLink(Entry entry)
 		{
-			String app = Config.CurrentBlog.Application.Trim();
-			StringBuilder url = new StringBuilder();
-			url.Append((app.Equals(String.Empty)) ? "~" : "~/"+app);
-			url.Append("/Admin/EditPosts.aspx?PostID=" + entryID);
-			return url.ToString();
+			//This is too small a concatenation to create a  
+			//the overhead of a StringBuilder. If perf is really a hit here, 
+			//we can pass in a string builder.
+			String app = Config.CurrentBlog.Application;
+			
+			string url = (app.Equals(String.Empty)) ? "~" : "~/" + app;
+			if(entry.PostType == PostType.BlogPost)
+				url += "/Admin/EditPosts.aspx?PostID=" + entry.EntryID;
+			else if(entry.PostType == PostType.Story)
+				url += "/Admin/EditArticles.aspx?PostID=" + entry.EntryID;
+			else
+				throw new InvalidOperationException(String.Format("Post type {0} not expected to have an edit link.", entry.PostType));
+			return url;
 		}
 
 		/// <summary>

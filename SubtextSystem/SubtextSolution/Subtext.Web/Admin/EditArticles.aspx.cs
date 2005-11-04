@@ -39,7 +39,6 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindLocalUI()
 		{
-
 			Editor.ResultsUrlFormat = "EditArticles.aspx?pg={0}";
 
 			// REFACTOR: we're duplicating this in both Articles and Posts for the sake
