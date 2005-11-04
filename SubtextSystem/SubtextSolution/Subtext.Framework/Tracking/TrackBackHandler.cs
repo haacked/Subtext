@@ -90,7 +90,7 @@ namespace Subtext.Framework.Tracking
 				}
 	
 				string pageTitle = null;
-				Entry trackedEntry = Entries.GetEntry(postId,true);
+				Entry trackedEntry = Entries.GetEntry(postId, EntryGetOption.ActiveOnly);
 				if (trackedEntry != null &&  ! Verifier.SourceContainsTarget(url, trackedEntry.Link, out pageTitle))
 				{
 					trackbackResponse (context, 2, "Sorry couldn't find a relevant link in " + url ) ;
@@ -110,7 +110,7 @@ namespace Subtext.Framework.Tracking
 			}
 			else
 			{
-				Entry entry = Entries.GetEntry(postId,true);
+				Entry entry = Entries.GetEntry(postId,EntryGetOption.ActiveOnly);
 
 				XmlTextWriter w = new XmlTextWriter(context.Response.Output) ;
 				w.Formatting = Formatting.Indented;

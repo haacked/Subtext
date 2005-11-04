@@ -212,25 +212,48 @@ namespace Subtext.Framework
 			return ObjectProvider.Instance().GetCommentByChecksumHash(checksumHash);
 		}
 		
-		public static Entry GetEntry(int postID, bool ActiveOnly)
+		/// <summary>
+		/// Gets the entry from the data store by id.
+		/// </summary>
+		/// <param name="entryId">The ID of the entry.</param>
+		/// <param name="entryOption">The entry option used to constrain the search.</param>
+		/// <returns></returns>
+		public static Entry GetEntry(int entryId, EntryGetOption entryOption)
 		{
-			return ObjectProvider.Instance().GetEntry(postID, ActiveOnly);
+			return ObjectProvider.Instance().GetEntry(entryId, (entryOption == EntryGetOption.ActiveOnly));
 		}
 
-		public static Entry GetEntry(string EntryName, bool ActiveOnly)
+		/// <summary>
+		/// Gets the entry from the data store by entry name.
+		/// </summary>
+		/// <param name="EntryName">Name of the entry.</param>
+		/// <param name="entryOption">The entry option used to constrain the search.</param>
+		/// <returns></returns>
+		public static Entry GetEntry(string EntryName, EntryGetOption entryOption)
 		{
-			return ObjectProvider.Instance().GetEntry(EntryName,ActiveOnly);
+			return ObjectProvider.Instance().GetEntry(EntryName, (entryOption == EntryGetOption.ActiveOnly));
 		}
 
-
-		public static CategoryEntry GetCategoryEntry(int postid, bool ActiveOnly)
+		/// <summary>
+		/// Gets the category entry by id.
+		/// </summary>
+		/// <param name="entryId">The entryId.</param>
+		/// <param name="entryOption">The entry option used to constrain the search.</param>
+		/// <returns></returns>
+		public static CategoryEntry GetCategoryEntry(int entryId, EntryGetOption entryOption)
 		{
-			return ObjectProvider.Instance().GetCategoryEntry(postid,ActiveOnly);
+			return ObjectProvider.Instance().GetCategoryEntry(entryId, (entryOption == EntryGetOption.ActiveOnly));
 		}
 
-		public static CategoryEntry GetCategoryEntry(string EntryName, bool ActiveOnly)
+		/// <summary>
+		/// Gets the category entry by its entry name.
+		/// </summary>
+		/// <param name="entryName">Name of the entry.</param>
+		/// <param name="entryOption">The entry option used to constrain the search.</param>
+		/// <returns></returns>
+		public static CategoryEntry GetCategoryEntry(string entryName, EntryGetOption entryOption)
 		{
-			return ObjectProvider.Instance().GetCategoryEntry(EntryName,ActiveOnly);
+			return ObjectProvider.Instance().GetCategoryEntry(entryName, (entryOption == EntryGetOption.ActiveOnly));
 		}
 
 		#endregion
@@ -423,8 +446,16 @@ namespace Subtext.Framework
 				}
 			}
 		}
-		
+	}
 
+	/// <summary>
+	/// Enum used to determine which type of entries to retrieve.
+	/// </summary>
+	public enum EntryGetOption
+	{
+		All = 0,
+		ActiveOnly = 1,
+		//TODO: At some point let's add InactiveOnly = 2,
 	}
 }
 

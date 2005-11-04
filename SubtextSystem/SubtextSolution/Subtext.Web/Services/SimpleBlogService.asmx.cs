@@ -146,7 +146,7 @@ namespace Subtext.Web.Services
 		public bool Edit(int entryid, string username, string password, DateTime postupdate, string title, string body, string url)
 		{
 			CheckUser(username,password);
-			Entry entry = Entries.GetEntry(entryid,false);
+			Entry entry = Entries.GetEntry(entryid, EntryGetOption.All);
 			if(entry != null)
 			{
 				entry.Title = title;

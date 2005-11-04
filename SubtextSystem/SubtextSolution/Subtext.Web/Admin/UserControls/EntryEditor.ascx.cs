@@ -252,7 +252,7 @@ namespace Subtext.Web.Admin.UserControls
 		{
 			SetConfirmation();
 			
-			Entry currentPost = Entries.GetEntry(PostID, false);
+			Entry currentPost = Entries.GetEntry(PostID, EntryGetOption.All);
 			if(currentPost == null)
 			{
 				Response.Redirect("EditPosts.aspx");
@@ -370,7 +370,7 @@ namespace Subtext.Web.Admin.UserControls
 			else
 			{
 				// We came from outside the post, let's go there.
-				Entry updatedEntry = Entries.GetEntry(PostID, true);
+				Entry updatedEntry = Entries.GetEntry(PostID, EntryGetOption.ActiveOnly);
 				if(updatedEntry != null)
 				{
 					Response.Redirect(updatedEntry.Link);
@@ -386,10 +386,13 @@ namespace Subtext.Web.Admin.UserControls
 
 				try
 				{
-					Entry entry = new Entry(EntryType);
-
+					Entry entry;
+					if (PostID != NullValue.NullInt32)
+						entry = new Entry(EntryType);
+					else
+						entry = Entries.GetEntry(PostID, EntryGetOption.All);
+					
 					entry.Title = txbTitle.Text;
-//					entry.Body = HtmlHelper.StripRTB(txbBody.Text, Request.Url.Host);
 					entry.Body = HtmlHelper.StripRTB(freeTextBox.Text, Request.Url.Host);
 					entry.IsActive = ckbPublished.Checked;
 					entry.SourceName = txbSourceName.Text;
@@ -398,17 +401,15 @@ namespace Subtext.Web.Admin.UserControls
 					entry.SourceUrl = txbSourceUrl.Text;
 					entry.Description = txbExcerpt.Text;
 					entry.TitleUrl = txbTitleUrl.Text;
-
 					entry.AllowComments = chkComments.Checked;
 					entry.DisplayOnHomePage = chkDisplayHomePage.Checked;
 					entry.IncludeInMainSyndication = chkMainSyndication.Checked;
 					entry.SyndicateDescriptionOnly = chkSyndicateDescriptionOnly.Checked;
 					entry.IsAggregated = chkIsAggregated.Checked;
 					entry.EntryName = txbEntryName.Text;
-
 					entry.BlogID = Config.CurrentBlog.BlogID;
 				
-					if (PostID > 0)
+					if (PostID != NullValue.NullInt32)
 					{
 						successMessage = Constants.RES_SUCCESSEDIT;
 						entry.DateUpdated = BlogTime.CurrentBloggerTime;
@@ -418,7 +419,7 @@ namespace Subtext.Web.Admin.UserControls
 						if(ReturnToOriginalPost)
 						{
 							// We came from outside the post, let's go there.
-							Entry updatedEntry = Entries.GetEntry(PostID, true);
+							Entry updatedEntry = Entries.GetEntry(PostID, EntryGetOption.ActiveOnly);
 							if(updatedEntry != null)
 							{
 								Response.Redirect(updatedEntry.Link);
@@ -572,7 +573,7 @@ namespace Subtext.Web.Admin.UserControls
 			if(PostID > -1 && ReturnToOriginalPost)
 			{
 				// We came from outside the post, let's go there.
-				Entry updatedEntry = Entries.GetEntry(PostID, true);
+				Entry updatedEntry = Entries.GetEntry(PostID, EntryGetOption.ActiveOnly);
 				if(updatedEntry != null)
 				{
 					Response.Redirect(updatedEntry.Link);

@@ -32,7 +32,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			entry.Body = "Some Body";
 			int id = Entries.Create(entry);
 
-			Entry savedEntry = Entries.GetEntry(id, false);
+			Entry savedEntry = Entries.GetEntry(id, EntryGetOption.All);
 			Assert.IsTrue(savedEntry.ContentChecksumHash.Length > 0, "The Content Checksum should be larger than 0.");
 
 		}

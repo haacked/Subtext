@@ -4,9 +4,9 @@ original source code falls under the BSD license as
 stated below.
 
 ----------------------------------------------------------
-Copyright (c) 2003, Scott Watermasysk
-Copyright (c) 2005, Phil Haack
-All rights reserved.
+Copyright (c) 2005, Phil Haack (http://haacked.com/)
+Original .TEXT Source Code: Copyright (c) 2003, Scott Watermasysk (http://scottwater.com/blog/)
+All rights reserved.All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, 
 are permitted provided that the following conditions are met:
