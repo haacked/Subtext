@@ -795,7 +795,10 @@ CREATE PROC [dbo].[subtext_GetConditionalEntries]
 	, @BlogID int
 )
 AS
-
+/* 
+//TODO: This proc is being used to populate home page 
+and feed. But it should sort on different dates for each.
+*/
 SET ROWCOUNT @ItemCount
 SELECT BlogID
 	, [ID]
@@ -820,7 +823,7 @@ FROM [dbo].[subtext_Content]
 WHERE	PostType = @PostType 
 	AND BlogID   = @BlogID
 	AND PostConfig & @PostConfig = @PostConfig
-ORDER BY [DateUpdated] DESC
+ORDER BY [DateAdded] DESC
 
 
 GO
