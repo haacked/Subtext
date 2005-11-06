@@ -1,16 +1,3 @@
-using System;
-using System.Collections;
-using System.Globalization;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using Subtext.Extensibility;
-using Subtext.Framework;
-using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Text;
-using Subtext.Framework.Util;
-using Subtext.Web.Admin.Pages;
-
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // .Text WebLog
@@ -34,6 +21,19 @@ using Subtext.Web.Admin.Pages;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
+using System;
+using System.Collections;
+using System.Globalization;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using Subtext.Extensibility;
+using Subtext.Framework;
+using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
+using Subtext.Framework.Text;
+using Subtext.Framework.Util;
+using Subtext.Web.Admin.Pages;
+
 namespace Subtext.Web.Admin.UserControls
 {
 	using System;
@@ -45,7 +45,6 @@ namespace Subtext.Web.Admin.UserControls
 
 		private int _filterCategoryID = NullValue.NullInt32;
 		private int _resultsPageNumber = 1;
-		private PostType _entryType = PostType.BlogPost;
 		private bool _isListHidden = false;
 		
 		#region Declared Controls
@@ -84,11 +83,22 @@ namespace Subtext.Web.Admin.UserControls
 		#endregion
 
 		#region Accessors
-		// REFACTOR: are all of these still relevant when done?
+		/// <summary>
+		/// Gets or sets the type of the entry.
+		/// </summary>
+		/// <value>The type of the entry.</value>
 		public PostType EntryType
 		{
-			get { return _entryType; }
-			set { _entryType = value; }
+			get
+			{
+				if(ViewState["PostType"] != null)
+					return (PostType)ViewState["PostType"];
+				return PostType.Undeclared;
+			}
+			set
+			{
+				ViewState["PostType"] = value;
+			}
 		}
 
 		public int PostID
@@ -213,7 +223,7 @@ namespace Subtext.Web.Admin.UserControls
 		{
 			Edit.Visible = false;
 
-			PagedEntryCollection selectionList = Entries.GetPagedEntries(_entryType, _filterCategoryID, 
+			PagedEntryCollection selectionList = Entries.GetPagedEntries(this.EntryType, _filterCategoryID, 
 				_resultsPageNumber, ResultsPager.PageSize,true);		
 
 			if (selectionList.Count > 0)
@@ -231,7 +241,7 @@ namespace Subtext.Web.Admin.UserControls
 
 		private void BindCategoryList()
 		{
-			cklCategories.DataSource = Links.GetCategories(CategoryType,false);
+			cklCategories.DataSource = Links.GetCategories(CategoryType, false);
 			cklCategories.DataValueField = "CategoryID";
 			cklCategories.DataTextField = "Title";
 			cklCategories.DataBind();
@@ -295,9 +305,12 @@ namespace Subtext.Web.Admin.UserControls
 			LinkCollection postCategories = Links.GetLinkCollectionByPostID(PostID);
 			if (postCategories.Count > 0)
 			{
-				for (int i = 0; i < postCategories.Count; i++)
+				foreach(Link postCategory in postCategories)
 				{
-					cklCategories.Items.FindByValue(postCategories[i].CategoryID.ToString(CultureInfo.InvariantCulture)).Selected = true;
+					ListItem categoryItem = cklCategories.Items.FindByValue(postCategory.CategoryID.ToString(CultureInfo.InvariantCulture));
+					if(categoryItem == null)
+						throw new InvalidOperationException(string.Format("Could not find category id {0} in the Checkbox list which has {1} items.", postCategory.CategoryID, cklCategories.Items.Count));
+					categoryItem.Selected = true;
 				}
 			}
 
@@ -388,9 +401,19 @@ namespace Subtext.Web.Admin.UserControls
 				{
 					Entry entry;
 					if (PostID != NullValue.NullInt32)
+					{
+						if(EntryType == PostType.Undeclared)
+							throw new ArgumentException("The entry type is undeclared. Impossible!", "EntryType");
 						entry = new Entry(EntryType);
+					}
 					else
+					{
 						entry = Entries.GetEntry(PostID, EntryGetOption.All);
+						if(entry.PostType != EntryType)
+						{
+							this.EntryType = entry.PostType;
+						}
+					}
 					
 					entry.Title = txbTitle.Text;
 					entry.Body = HtmlHelper.StripRTB(freeTextBox.Text, Request.Url.Host);
