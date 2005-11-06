@@ -34,7 +34,7 @@ namespace Subtext.Scripting
 		/// <returns></returns>
 		public int Add(TemplateParameter value) 
 		{
-			if(_names.Contains(value.Name))
+			if(!_names.Contains(value.Name))
 				return this.List.Add(value);
 			return 0;
 		}
