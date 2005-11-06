@@ -164,6 +164,11 @@
                     AssemblyName = "QuickGraph"
                     HintPath = "ExternalDependencies\QuickGraph.dll"
                 />
+                <Reference
+                    Name = "Refly"
+                    AssemblyName = "Refly"
+                    HintPath = "ExternalDependencies\Refly.dll"
+                />
             </References>
         </Build>
         <Files>
@@ -211,6 +216,10 @@
                 />
                 <File
                     RelPath = "ExternalDependencies\QuickGraph.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\Refly.dll"
                     BuildAction = "Content"
                 />
                 <File

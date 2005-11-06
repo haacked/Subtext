@@ -11,7 +11,7 @@ namespace Subtext.Scripting
 	/// //TODO: want to implement a means to evaluate template variables 
 	///			like in Sql Query Analyzer.
 	/// </summary>
-	public class Script : IScript
+	public class Script : IScript, ITemplateScript
 	{
 		/// <summary>
 		/// Helper method which given a full SQL script, returns 
@@ -67,6 +67,37 @@ namespace Subtext.Scripting
 			{
 				throw new SqlScriptExecutionException("Error in executing the script: ", this, 0, e);
 			}
+		}
+
+		/// <summary>
+		/// Gets the template parameters embedded in the script.
+		/// </summary>
+		/// <returns></returns>
+		public TemplateParameterCollection GetTemplateParameters()
+		{
+			Regex regex = new Regex(@"<\s*(?<name>[^>,]*)\s*,\s*(?<type>[^>,]*)\s*,\s*(?<default>[^>,]*)\s*>", RegexOptions.Compiled);
+			MatchCollection matches = regex.Matches(this._scriptText);
+			
+			TemplateParameterCollection parameters = new TemplateParameterCollection();
+			foreach(Match match in matches)
+			{
+				parameters.Add(CreateFromMatch(match));
+			}
+			return parameters;
+		}
+
+		/// <summary>
+		/// Sets the template parameter values.
+		/// </summary>
+		/// <param name="parameters">The parameters.</param>
+		public void SetTemplateParameterValues(TemplateParameterCollection parameters)
+		{
+			throw new NotImplementedException();
+		}
+
+		static TemplateParameter CreateFromMatch(Match match)
+		{
+			return new TemplateParameter(match.Groups["name"].Value, match.Groups["type"].Value, match.Groups["default"].Value);			
 		}
 	}
 }
