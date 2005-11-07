@@ -2557,6 +2557,218 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\Piyo\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\piyo-elastic.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\piyo-fixed.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\README.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\ArchiveCategory.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\ArchiveDay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\ArchiveLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\ArchiveMonth.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\BlogStats.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\CategoryDisplay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\CategoryEntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\CategoryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\Comments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\Contact.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\Day.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\DayCollection.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\EntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\Footer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\GalleryThumbNailViewer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\Header.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\HomePage.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\Login.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\MonthListings.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\MyLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\News.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\PostComment.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\RelatedLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\SubTextBlogCalendar.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\Syndacations.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\ViewPicture.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Images\asual-bg.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Images\asual-blockquote.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Images\asual-bodycenter.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Images\asual-bodyleft.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Images\asual-bodyright.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Images\asual-comments.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Images\asual-commentslink.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Images\asual-content.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Images\asual-disc.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Images\asual-footcenter.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Images\asual-footleft.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Images\asual-footright.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Images\asual-headcenter.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Images\asual-headleft.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Images\asual-headright.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Images\asual-search.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Images\asual-trackbacks.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Images\asual-trackbackslink.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Images\PoweredBySubtext85x33.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Scripts\piyo.js"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\RedBook\Blue.css"
                     BuildAction = "Content"
                 />
@@ -3305,6 +3517,11 @@
                 />
                 <File
                     RelPath = "UI\Controls\CachedColumnControl.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\Calendar.cs"
                     SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"
                 />
