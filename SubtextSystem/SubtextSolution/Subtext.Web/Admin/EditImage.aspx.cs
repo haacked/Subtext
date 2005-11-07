@@ -42,7 +42,7 @@ namespace Subtext.Web.Admin.Pages
 		protected System.Web.UI.WebControls.TextBox txbTitle;
 		protected System.Web.UI.WebControls.DropDownList ddlGalleries;
 		protected System.Web.UI.WebControls.CheckBox ckbPublished;
-		protected System.Web.UI.WebControls.LinkButton lbkAddImage;
+		protected System.Web.UI.WebControls.Button lbkAddImage;
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Advanced;
 		protected System.Web.UI.HtmlControls.HtmlInputFile ImageFile;
 		protected System.Web.UI.WebControls.LinkButton lkbUpdateImage;
