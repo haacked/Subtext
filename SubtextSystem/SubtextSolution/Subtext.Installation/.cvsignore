@@ -1,2 +1,4 @@
 obj
 bin
+*.suo
+*.csproj.user

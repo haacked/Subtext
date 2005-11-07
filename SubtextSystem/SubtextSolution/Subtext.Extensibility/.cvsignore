@@ -1,3 +1,4 @@
 bin
 obj
-Subtext.Extensibility.csproj.user
+*.suo
+*.csproj.user
