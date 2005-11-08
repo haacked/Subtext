@@ -164,19 +164,26 @@ namespace Subtext.Framework.Configuration
 			
 					BlogConfigurationSettings settings = Subtext.Framework.Configuration.Config.Settings;
 
-					string formattedHost = GetFormattedHost(Host, settings.UseWWW);
+					string webApp=HttpContext.Current.Request.ApplicationPath;
+
+					if(webApp.Length<=1)
+						webApp="";
+
+					string formattedHost = GetFormattedHost(Host, settings.UseWWW)+webApp;
 
 					if(!app.EndsWith("/"))
 					{
 						app += "/";
 					}
+					if(app.Length>1)
+						app="/"+app;
 
-					string virtualPath = string.Format(System.Globalization.CultureInfo.InvariantCulture, "/images/{0}/{1}/", Regex.Replace(Host,@"\:|\.","_"), app);
+					string virtualPath = string.Format(System.Globalization.CultureInfo.InvariantCulture, "images/{0}{1}", Regex.Replace(Host+webApp,@"\:|\.","_"), app);
 
 					info.ImagePath = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}{2}", formattedHost, app, virtualPath);
 					try
 					{
-						info.ImageDirectory = context.Request.MapPath("~" + virtualPath);
+						info.ImageDirectory = context.Request.MapPath("~/" + virtualPath);
 					}
 					catch(NullReferenceException nullException)
 					{
