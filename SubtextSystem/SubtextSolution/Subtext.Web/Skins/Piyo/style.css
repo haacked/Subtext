@@ -240,10 +240,7 @@ a:hover {
 #subtext {
 	display: block;
 }
-#blojsom p {
-	padding: 2.8em 0 1.8em .4em;
-	display: block;
-}
+
 div.entry {
 	padding: 0;
 	margin: 0 18em 2em 0;
@@ -561,4 +558,21 @@ img.emoticons {
 
 #entryCal .next a:hover {
 	color: #000000;
+}
+
+
+
+.Thumbnail {
+
+
+	padding: 0;
+	margin: 2em 18em 2em 2em;
+}
+
+
+.Thumbnail a img {
+
+	border:1px solid black;
+	margin: 15px;
+
 }
