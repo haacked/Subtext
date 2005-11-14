@@ -1,7 +1,10 @@
 <%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.MyLinks" %>
-<div>
-	<h5>Syndication:</h5>
-	<p><asp:HyperLink Runat="server" NavigateUrl="~/Rss.aspx" Text="RSS" ID="Syndication" CssClass="rounded" /> <asp:HyperLink Runat="server" NavigateUrl="~/Atom.aspx" Text="ATOM" ID="AtomLink" CssClass="rounded" /></p>
+<div class="leftbox">
+	<h2>Syndication:</h2>
+	<ul>
+	<li><asp:HyperLink Runat="server" NavigateUrl="~/Rss.aspx" Text="RSS" ID="Syndication" /></li>
+	<li><asp:HyperLink Runat="server" NavigateUrl="~/Atom.aspx" Text="ATOM" ID="AtomLink"  /></li>
+	</ul>
 </div>
 
 <!-- Not Visible -->

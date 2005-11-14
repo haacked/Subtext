@@ -2889,6 +2889,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\RedBook\Controls\Syndications.ascx"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\RedBook\Controls\ViewPicture.ascx"
                     BuildAction = "Content"
                 />

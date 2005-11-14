@@ -35,6 +35,7 @@ namespace Subtext.Framework.Syndication
 	/// </summary>
 	public class BaseAtomWriter : BaseSyndicationWriter
 	{
+
 		#region TimeHelpers
 		//Maybe move to globals/util?
 		private string TimeZone(int tz)
@@ -102,14 +103,16 @@ namespace Subtext.Framework.Syndication
 			this.WriteAttributeString("xmlns:trackback","http://madskills.com/public/xml/rss/module/trackback/");
 			this.WriteAttributeString("xmlns:wfw","http://wellformedweb.org/CommentAPI/");
 			this.WriteAttributeString("xmlns:slash","http://purl.org/rss/1.0/modules/slash/");
-			this.WriteAttributeString("xmlns","http://purl.org/atom/ns#");
+			//(Duncanma 11/13/2005, changing atom namespace for 1.0 feed)
+			this.WriteAttributeString("xmlns","http://www.w3.org/2005/Atom");
 			this.WriteAttributeString("xml:lang",info.Language);
 		}
 
 		protected virtual void StartDocument()
 		{
 			this.WriteStartElement("feed");
-			this.WriteAttributeString("version","0.3");
+			//(Duncanma 11/13/2005, removing version attribute for 1.0 feed)
+			//this.WriteAttributeString("version","0.3");
 		}
 
 		protected void EndDocument()
@@ -120,20 +123,23 @@ namespace Subtext.Framework.Syndication
 		protected virtual void WriteChannel()
 		{
 			BuildChannel(info.Title, info.BlogHomeUrl, info.SubTitle);
+			
 		}
 
 		protected void BuildChannel(string title, string link, string description)
 		{
 			this.WriteElementString("title",title);	
 
+			//(Duncanma 11/13/2005, changing link rel and href for 1.0 feed)
 			this.WriteStartElement("link");
-				this.WriteAttributeString("rel","alternate");
-				this.WriteAttributeString("type","text/html");
-				this.WriteAttributeString("href",link);
+				this.WriteAttributeString("rel","self");
+				this.WriteAttributeString("type","application/xml");
+				this.WriteAttributeString("href",info.RootUrl + "atom.aspx");
 			this.WriteEndElement();
 
-			this.WriteStartElement("tagline");
-				this.WriteAttributeString("type","text/html");
+			//(Duncanma 11/13/2005, changing tagline to subtitle for 1.0 feed)
+			this.WriteStartElement("subtitle");
+				this.WriteAttributeString("type","html");
 				this.WriteString(description);
 			this.WriteEndElement();
 
@@ -141,16 +147,20 @@ namespace Subtext.Framework.Syndication
 
 			this.WriteStartElement("author");
 				this.WriteElementString("name", info.Author);
-				this.WriteElementString("url", info.BlogHomeUrl);
+				//(Duncanma 11/13/2005, changing url to uri for 1.0 feed)
+				this.WriteElementString("uri", info.BlogHomeUrl);
 			this.WriteEndElement();
-
+			
+			//(Duncanma 11/13/05) updated generator to reflect project name change to Subtext
 			this.WriteStartElement("generator");
-				this.WriteAttributeString("url","http://scottwater.com/blog");
+				//(Duncanma 11/13/2005, changing url to uri for 1.0 feed)
+				this.WriteAttributeString("uri","http://subtextproject.com");
 				this.WriteAttributeString("version", VersionInfo.VersionDisplayText);
-				this.WriteString(".Text");
+				this.WriteString("Subtext");
 			this.WriteEndElement();
 
-			this.WriteElementString("modified",W3UTCZ(info.LastUpdated));
+			//(Duncanma 11/13/2005, changing modified to updated for 1.0 feed)
+			this.WriteElementString("updated",W3UTCZ(info.LastUpdated));
 		}
 
 		private void WriteEntries()
@@ -187,28 +197,34 @@ namespace Subtext.Framework.Syndication
 				this.WriteElementString("title",entry.Title);
 						
 				this.WriteStartElement("link");
-					this.WriteAttributeString("rel","alternate");
+					//(Duncanma 11/13/2005, changing alternate to self for 1.0 feed)
+					this.WriteAttributeString("rel","self");
 					this.WriteAttributeString("type","text/html");
 					this.WriteAttributeString("href",entry.Link);
 				this.WriteEndElement();
 
 				this.WriteElementString("id",entry.Link);
 
-				this.WriteElementString("created",W3UTCZ(entry.DateCreated));
-				this.WriteElementString("issued",W3UTC(entry.DateCreated.AddHours((-1) * info.TimeZone),timezone));
-				this.WriteElementString("modified",W3UTCZ(entry.DateUpdated));
+				//(Duncanma 11/13/2005, hiding created, change issued to
+			    //published and modified to updated for 1.0 feed)
+				//this.WriteElementString("created",W3UTCZ(entry.DateCreated));
+				this.WriteElementString("published",W3UTC(entry.DateCreated.AddHours((-1) * info.TimeZone),timezone));
+				this.WriteElementString("updated",W3UTCZ(entry.DateUpdated));
 
 				if(entry.HasDescription)
 				{
 					this.WriteStartElement("summary");
-						this.WriteAttributeString("type","text/html");
+						//(Duncanma 11/13/2005, changing text/html to html for 1.0 feed)
+						this.WriteAttributeString("type","html");
 						this.WriteString(entry.Description);
 					this.WriteEndElement();
 				}
 
 				this.WriteStartElement("content");
-					this.WriteAttributeString("type","text/html");
-					this.WriteAttributeString("mode","escaped");
+					//(Duncanma 11/13/2005, changing text/html to html for 1.0 feed)
+					this.WriteAttributeString("type","html");
+					//(Duncanma 11/13/2005, hiding mode for 1.0 feed)
+					//this.WriteAttributeString("mode","escaped");
 							
 				this.WriteString(
 				string.Format
