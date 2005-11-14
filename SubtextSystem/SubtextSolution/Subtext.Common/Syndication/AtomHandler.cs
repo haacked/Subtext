@@ -42,7 +42,7 @@ namespace Subtext.Common.Syndication
 		/// <returns></returns>
 		protected override string CacheKey(DateTime dateLastViewedFeedItemPublished)
 		{
-			const string key = "IndividualMainFeed;BlogID:{0};LastViewed:{1}";
+			const string key = "ATOM;IndividualMainFeed;BlogID:{0};LastViewed:{1}";
 			return string.Format(key, CurrentBlog.BlogID, dateLastViewedFeedItemPublished);
 		}
 

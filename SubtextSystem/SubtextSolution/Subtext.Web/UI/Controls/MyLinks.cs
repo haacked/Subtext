@@ -36,6 +36,7 @@ namespace Subtext.Web.UI.Controls
 	{
 		protected System.Web.UI.WebControls.HyperLink Admin;
 		protected System.Web.UI.WebControls.HyperLink XMLLink;
+		protected System.Web.UI.WebControls.HyperLink AtomLink;
 		protected System.Web.UI.WebControls.HyperLink Syndication;
 		protected System.Web.UI.WebControls.HyperLink HomeLink;
 		protected System.Web.UI.WebControls.HyperLink ContactLink;
@@ -62,6 +63,9 @@ namespace Subtext.Web.UI.Controls
 				}
 
 				Syndication.NavigateUrl = XMLLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Rss.aspx", CurrentBlog.RootUrl);
+
+				if (AtomLink != null)
+					AtomLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Atom.aspx", CurrentBlog.RootUrl);
 					
 
 			}

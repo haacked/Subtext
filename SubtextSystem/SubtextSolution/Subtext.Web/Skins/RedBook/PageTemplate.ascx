@@ -21,13 +21,6 @@
 					<uc1:News id="News" runat="server"></uc1:News>
 					<uc1:SingleColumn id="SingleColumn" runat="server" />
 					<div class="leftbox">
-						<h2>Syndication</h2>
-						<ul>
-							<li><a href="/Rss.aspx" title="RSS 2.0">RSS 2.0</a></li>
-							<li><a href="/Atom.aspx" title="Atom 0.3">Atom 0.3</a></li>
-						</ul>
-					</div>
-					<div class="leftbox">
 						<h2>Hosted by</h2>
 						<p style="text-align:center;padding-top: 8px;"><a href="http://www.uitu.ch/" title="uitu Solutions"><img src="/Skins/rosso/images/uitu.jpg" alt="uitu Solutions" /></a></p>
 					</div>
