@@ -267,7 +267,7 @@ namespace Subtext.Installation
 		/// <returns></returns>
 		public override Version GetCurrentInstalledVersion()
 		{
-			string sql = "[dbo].[subtext_VersionGetCurrent]";
+			string sql = "subtext_VersionGetCurrent";
 		
 			using(IDataReader reader = SqlHelper.ExecuteReader(_defaultConnectionString, CommandType.StoredProcedure, sql))
 			{
@@ -288,7 +288,7 @@ namespace Subtext.Installation
 		/// <param name="newVersion">New version.</param>
 		public override void UpdateCurrentInstalledVersion(Version newVersion, SqlTransaction transaction)
 		{
-			string sql = "[dbo].[subtext_VersionAdd]";
+			string sql = "subtext_VersionAdd";
 			SqlParameter[] p =
 			{
 				CreateParameter("@Major", SqlDbType.Int, 4, newVersion.Major), 
