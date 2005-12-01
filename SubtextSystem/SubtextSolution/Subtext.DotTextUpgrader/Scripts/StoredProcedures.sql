@@ -4490,11 +4490,14 @@ CREATE PROC [dbo].[subtext_VersionAdd]
 	 @Major	INT
 	, @Minor INT
 	, @Build INT
-	, @DateCreated DATETIME
+	, @DateCreated DATETIME = NULL
 	, @Id INT OUTPUT
 	
 )
 AS
+IF @DateCreated IS NULL
+	SET @DateCreated = getdate()
+
 INSERT [dbo].[subtext_Version]
 SELECT	@Major, @Minor, @Build, @DateCreated
 

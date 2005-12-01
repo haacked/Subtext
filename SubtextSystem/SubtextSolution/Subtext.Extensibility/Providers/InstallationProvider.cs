@@ -1,4 +1,5 @@
 using System;
+using System.Data.SqlClient;
 using System.Web.UI;
 
 namespace Subtext.Extensibility.Providers
@@ -99,7 +100,7 @@ namespace Subtext.Extensibility.Providers
 		/// </summary>
 		/// <param name="newVersion">The new version that is now current.</param>
 		/// <returns></returns>
-		public abstract void UpdateCurrentInstalledVersion(Version newVersion);
+		public abstract void UpdateCurrentInstalledVersion(Version newVersion, SqlTransaction transaction);
 	}
 
 	/// <summary>

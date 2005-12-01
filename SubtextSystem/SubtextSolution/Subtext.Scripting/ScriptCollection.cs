@@ -6,9 +6,10 @@ namespace Subtext.Scripting
 	/// <summary>
 	/// A collection of <see cref="Script"/>s.
 	/// </summary>
-	public class ScriptCollection : CollectionBase
+	public class ScriptCollection : CollectionBase, ITemplateScript
 	{
 		string _fullScriptText;
+		TemplateParameterCollection _templateParameters;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ScriptCollection"/> class.
@@ -112,6 +113,27 @@ namespace Subtext.Scripting
 		public string FullScriptText
 		{
 			get { return _fullScriptText; }
+		}
+
+		/// <summary>
+		/// Gets the template parameters embedded in the script.
+		/// </summary>
+		/// <returns></returns>
+		public TemplateParameterCollection TemplateParameters
+		{
+			get
+			{
+				if(_templateParameters == null)
+				{
+					_templateParameters = new TemplateParameterCollection();
+					foreach(Script script in this.List)
+					{
+						_templateParameters.AddRange(script.TemplateParameters);
+					}
+				}
+
+				return _templateParameters;
+			}
 		}
 	}
 }

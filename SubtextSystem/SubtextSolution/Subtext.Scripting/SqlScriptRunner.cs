@@ -12,10 +12,10 @@ namespace Subtext.Scripting
 	/// Class used to manage and execute SQL scripts.  
 	/// Can also be used to hand
 	/// </summary>
-	public class SqlScriptRunner : IScript
+	public class SqlScriptRunner : IScript, ITemplateScript
 	{
 		ScriptCollection _scripts;
-
+		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SqlScriptRunner"/> class.  
 		/// Initializes the script to execute.
@@ -132,7 +132,7 @@ namespace Subtext.Scripting
 					/* For UPDATE, INSERT, and DELETE statements, the return value is the 
 					* number of rows affected by the command. For all other types of statements, 
 					* the return value is -1. If a rollback occurs, the return value is also -1. 
-					* TODO:
+					* //TODO:
 					* Also, we want a way to notify the user of what action we just performed... 
 					* This would be a good place to get a part of that status.  Any Ideas?  */
 					if(returnValue > -1)
@@ -187,6 +187,18 @@ namespace Subtext.Scripting
 			return assembly.GetManifestResourceStream(fullScriptName);
 		}
 		#endregion
+
+		/// <summary>
+		/// Gets the template parameters embedded in the script.
+		/// </summary>
+		/// <returns></returns>
+		public TemplateParameterCollection TemplateParameters
+		{
+			get
+			{
+				return this._scripts.TemplateParameters;
+			}
+		}
 	}
 
 	#region ...ScriptProgressEvent Declarations...
