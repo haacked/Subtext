@@ -400,7 +400,7 @@ namespace Subtext.Web.Admin.UserControls
 				try
 				{
 					Entry entry;
-					if (PostID != NullValue.NullInt32)
+					if (PostID == NullValue.NullInt32)
 					{
 						if(EntryType == PostType.Undeclared)
 							throw new ArgumentException("The entry type is undeclared. Impossible!", "EntryType");
