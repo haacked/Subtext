@@ -27,7 +27,7 @@ namespace UnitTests.Subtext.Installation
 				@"SET ANSI_NULLS ON " + Environment.NewLine +
 				Environment.NewLine +
 				Environment.NewLine +
-				@"CREATE TABLE [dbo].[blog_Gost] (" + Environment.NewLine +
+				@"CREATE TABLE [<username,varchar,dbo>].[blog_Gost] (" + Environment.NewLine +
 				"\t" + @"[HostUserName] [nvarchar] (64) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ," + Environment.NewLine +
 				"\t" + @"[Password] [nvarchar] (64) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ," + Environment.NewLine +
 				"\t" + @"[Salt] [nvarchar] (32) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ," + Environment.NewLine +
@@ -42,6 +42,22 @@ namespace UnitTests.Subtext.Installation
 			{
 				Assert.IsFalse(sqlScript.ScriptText.StartsWith("GO"));
 			}
+
+			string expectedThirdScriptBeginning = "SET ANSI_NULLS ON " 
+				+ Environment.NewLine 
+				+ Environment.NewLine 
+				+ Environment.NewLine + "CREATE TABLE [<username,varchar,dbo>].[blog_Gost]";
+
+			Assert.AreEqual(expectedThirdScriptBeginning, scripts[2].ScriptText.Substring(0, expectedThirdScriptBeginning.Length), "Script not parsed correctly");
+	
+			scripts.TemplateParameters.SetValue("username", "haacked");
+			
+			expectedThirdScriptBeginning = "SET ANSI_NULLS ON " 
+				+ Environment.NewLine 
+				+ Environment.NewLine 
+				+ Environment.NewLine + "CREATE TABLE [haacked].[blog_Gost]";
+
+			Assert.AreEqual(expectedThirdScriptBeginning, scripts[2].ScriptText.Substring(0, expectedThirdScriptBeginning.Length), "Script not parsed correctly");
 		}
 
 		/// <summary>

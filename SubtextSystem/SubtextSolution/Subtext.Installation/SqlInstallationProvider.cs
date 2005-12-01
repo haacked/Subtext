@@ -216,7 +216,7 @@ namespace Subtext.Installation
 						bool result = false; //ScriptHelper.ExecuteScript("UpgradeDotText095Script.sql", transaction);
 						if(result)
 						{
-							UpdateCurrentInstalledVersion(assemblyVersion);
+							UpdateCurrentInstalledVersion(assemblyVersion, transaction);
 							transaction.Commit();
 						}
 						else
@@ -249,7 +249,7 @@ namespace Subtext.Installation
 						//TODO: Calculate the script name.
 						ScriptHelper.ExecuteScript("Installation.01.00.00.sql", transaction);
 						ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction);
-						UpdateCurrentInstalledVersion(assemblyVersion);
+						UpdateCurrentInstalledVersion(assemblyVersion, transaction);
 						transaction.Commit();
 					}
 					catch(Exception)
@@ -286,16 +286,16 @@ namespace Subtext.Installation
 		/// Updates the value of the current installed version within the subtext_Version table.
 		/// </summary>
 		/// <param name="newVersion">New version.</param>
-		public override void UpdateCurrentInstalledVersion(Version newVersion)
+		public override void UpdateCurrentInstalledVersion(Version newVersion, SqlTransaction transaction)
 		{
 			string sql = "[dbo].[subtext_VersionAdd]";
 			SqlParameter[] p =
 			{
 				CreateParameter("@Major", SqlDbType.Int, 4, newVersion.Major), 
-				CreateParameter("@Major", SqlDbType.Int, 4, newVersion.Minor), 
+				CreateParameter("@Minor", SqlDbType.Int, 4, newVersion.Minor), 
 				CreateParameter("@Build", SqlDbType.Int, 4, newVersion.Build)
 			};
-			SqlHelper.ExecuteNonQuery(_defaultConnectionString, CommandType.StoredProcedure, sql, p);
+			SqlHelper.ExecuteNonQuery(transaction, CommandType.StoredProcedure, sql, p);
 		}
 
 		SqlParameter CreateParameter(string name, SqlDbType dbType, int size, object value)

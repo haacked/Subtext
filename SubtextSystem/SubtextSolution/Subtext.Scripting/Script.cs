@@ -1,6 +1,7 @@
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Text;
 using System.Text.RegularExpressions;
 using Subtext.Scripting.Exceptions;
 
@@ -13,6 +14,9 @@ namespace Subtext.Scripting
 	/// </summary>
 	public class Script : IScript, ITemplateScript
 	{
+		ScriptToken _scriptTokens = null;
+		TemplateParameterCollection _parameters = null;
+
 		/// <summary>
 		/// Helper method which given a full SQL script, returns 
 		/// a <see cref="ScriptCollection"/> of individual <see cref="TemplateParameter"/> 
@@ -51,7 +55,10 @@ namespace Subtext.Scripting
 		/// <value></value>
 		public string ScriptText
 		{
-			get { return _scriptText; }
+			get
+			{
+				return ApplyTemplateReplacements();
+			}
 		}
 
 		/// <summary>
@@ -61,7 +68,7 @@ namespace Subtext.Scripting
 		{
 			try
 			{
-				return SqlHelper.ExecuteNonQuery(transaction, CommandType.Text, this._scriptText);
+				return SqlHelper.ExecuteNonQuery(transaction, CommandType.Text, this.ScriptText);
 			}
 			catch(SqlException e)
 			{
@@ -73,31 +80,174 @@ namespace Subtext.Scripting
 		/// Gets the template parameters embedded in the script.
 		/// </summary>
 		/// <returns></returns>
-		public TemplateParameterCollection GetTemplateParameters()
+		public TemplateParameterCollection TemplateParameters
 		{
-			Regex regex = new Regex(@"<\s*(?<name>[^>,]*)\s*,\s*(?<type>[^>,]*)\s*,\s*(?<default>[^>,]*)\s*>", RegexOptions.Compiled);
-			MatchCollection matches = regex.Matches(this._scriptText);
-			
-			TemplateParameterCollection parameters = new TemplateParameterCollection();
-			foreach(Match match in matches)
+			get
 			{
-				parameters.Add(CreateFromMatch(match));
+				if(_parameters == null)
+				{
+					_parameters = new TemplateParameterCollection();
+
+					if(this._scriptText.Length == 0)
+						return _parameters;
+
+					Regex regex = new Regex(@"<\s*(?<name>[^()\[\]>,]*)\s*,\s*(?<type>[^>,]*)\s*,\s*(?<default>[^>,]*)\s*>", RegexOptions.Compiled);
+					MatchCollection matches = regex.Matches(this._scriptText);
+			
+					_scriptTokens = new ScriptToken();
+			
+					int lastIndex = 0;
+					foreach(Match match in matches)
+					{
+						if(match.Index > 0)
+						{
+							string textBeforeMatch = this._scriptText.Substring(lastIndex, match.Index - lastIndex);
+							_scriptTokens.Append(textBeforeMatch);
+						}
+
+						lastIndex = match.Index + match.Length;
+						TemplateParameter parameter = _parameters.Add(match);
+						_scriptTokens.Append(parameter);
+					}
+					string textAfterLastMatch = this._scriptText.Substring(lastIndex);
+					if(textAfterLastMatch.Length > 0)
+						_scriptTokens.Append(textAfterLastMatch);
+				}
+				return _parameters;
 			}
-			return parameters;
+		}
+
+		string ApplyTemplateReplacements()
+		{
+			StringBuilder builder = new StringBuilder();
+			if(_scriptTokens == null && TemplateParameters == null)
+			{
+				throw new InvalidOperationException("The Template parameters are null. This is impossible.");
+			}
+			_scriptTokens.AggregateText(builder);
+			return builder.ToString();
 		}
 
 		/// <summary>
-		/// Sets the template parameter values.
+		/// Returns the text of the script.
 		/// </summary>
-		/// <param name="parameters">The parameters.</param>
-		public void SetTemplateParameterValues(TemplateParameterCollection parameters)
+		/// <returns>
+		/// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+		/// </returns>
+		public override string ToString()
 		{
-			throw new NotImplementedException();
+			return this.ScriptText;
 		}
 
-		static TemplateParameter CreateFromMatch(Match match)
+		/// <summary>
+		/// Implements a linked list representing the script.
+		/// </summary>
+		class ScriptToken
 		{
-			return new TemplateParameter(match.Groups["name"].Value, match.Groups["type"].Value, match.Groups["default"].Value);			
+			internal ScriptToken()
+			{}
+
+			internal ScriptToken(string text)
+			{
+				_text = text;	
+			}
+
+			/// <summary>
+			/// Gets the text.
+			/// </summary>
+			/// <value>The text.</value>
+			public virtual string Text
+			{
+				get { return _text; }
+			}
+
+			string _text;
+
+			/// <summary>
+			/// Gets or sets the next node.
+			/// </summary>
+			/// <value>The next.</value>
+			public ScriptToken Next
+			{
+				get { return _next; }
+				set {_next = value;}
+			}
+
+			ScriptToken _next;
+
+			/// <summary>
+			/// Gets the last node.
+			/// </summary>
+			/// <value>The last.</value>
+			public ScriptToken Last
+			{
+				get
+				{
+					ScriptToken last = this;
+					ScriptToken next = _next;
+				
+					while(next != null)
+					{
+						last = next;
+						next = last.Next;
+					}
+					return last;
+				}
+			}
+
+			/// <summary>
+			/// Appends the specified text.
+			/// </summary>
+			/// <param name="text">The text.</param>
+			internal void Append(string text)
+			{
+				this.Last.Next = new ScriptToken(text);
+			}
+
+			internal void Append(TemplateParameter parameter)
+			{
+				this.Last.Next = new TemplateParameterToken(parameter);
+			}
+
+			internal void AggregateText(StringBuilder builder)
+			{
+				builder.Append(this.Text);
+				if(this.Next != null)
+					this.Next.AggregateText(builder);
+			}
+		}
+
+		/// <summary>
+		/// Represents a template parameter.
+		/// </summary>
+		class TemplateParameterToken : ScriptToken
+		{
+			TemplateParameter _parameter = null;
+
+			internal TemplateParameterToken(TemplateParameter parameter)
+			{
+				_parameter = parameter;
+			}
+
+			/// <summary>
+			/// Gets the text of this node.
+			/// </summary>
+			/// <value>The text.</value>
+			public override string Text
+			{
+				get
+				{
+					return _parameter.Value;
+				}
+			}
+
+			internal TemplateParameter Parameter
+			{
+				get
+				{
+					return _parameter;
+				}
+			}
 		}
 	}
 }

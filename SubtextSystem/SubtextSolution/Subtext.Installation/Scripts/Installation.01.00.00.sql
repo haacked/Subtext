@@ -1,117 +1,122 @@
+/*
+WARNING: This SCRIPT USES SQL TEMPLATE PARAMETERS.
+Be sure to hit CTRL+SHIFT+M in Query Analyzer if running manually.
+*/
+
 if exists (select * from dbo.sysobjects where id = object_id(N'[PK_subtext_Log]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
-ALTER TABLE [dbo].[subtext_Log] DROP CONSTRAINT PK_subtext_Log
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Log] DROP CONSTRAINT PK_subtext_Log
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[FK_subtext_Log_subtext_Config]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
-ALTER TABLE [dbo].[subtext_Log] DROP CONSTRAINT FK_subtext_Log_subtext_Config
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Log] DROP CONSTRAINT FK_subtext_Log_subtext_Config
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Log]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [dbo].[subtext_Log]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_Log]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [<dbUser,varchar,dbo>].[subtext_Log]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Log]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [dbo].[subtext_Log]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_Log]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [<dbUser,varchar,dbo>].[subtext_Log]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Version]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [dbo].[subtext_Version]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_Version]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [<dbUser,varchar,dbo>].[subtext_Version]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Host]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [dbo].[subtext_Host]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_Host]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [<dbUser,varchar,dbo>].[subtext_Host]
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[FK_subtext_Content_subtext_Config]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
-ALTER TABLE [dbo].[subtext_Content] DROP CONSTRAINT FK_subtext_Content_subtext_Config
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content] DROP CONSTRAINT FK_subtext_Content_subtext_Config
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[FK_subtext_EntryViewCount_subtext_Config]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
-ALTER TABLE [dbo].[subtext_EntryViewCount] DROP CONSTRAINT FK_subtext_EntryViewCount_subtext_Config
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_EntryViewCount] DROP CONSTRAINT FK_subtext_EntryViewCount_subtext_Config
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[FK_subtext_Images_subtext_Config]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
-ALTER TABLE [dbo].[subtext_Images] DROP CONSTRAINT FK_subtext_Images_subtext_Config
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Images] DROP CONSTRAINT FK_subtext_Images_subtext_Config
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[FK_subtext_KeyWords_subtext_Config]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
-ALTER TABLE [dbo].[subtext_KeyWords] DROP CONSTRAINT FK_subtext_KeyWords_subtext_Config
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_KeyWords] DROP CONSTRAINT FK_subtext_KeyWords_subtext_Config
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[FK_subtext_LinkCategories_subtext_Config]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
-ALTER TABLE [dbo].[subtext_LinkCategories] DROP CONSTRAINT FK_subtext_LinkCategories_subtext_Config
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_LinkCategories] DROP CONSTRAINT FK_subtext_LinkCategories_subtext_Config
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[FK_subtext_Links_subtext_Config]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
-ALTER TABLE [dbo].[subtext_Links] DROP CONSTRAINT FK_subtext_Links_subtext_Config
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Links] DROP CONSTRAINT FK_subtext_Links_subtext_Config
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[FK_subtext_Referrals_subtext_Config]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
-ALTER TABLE [dbo].[subtext_Referrals] DROP CONSTRAINT FK_subtext_Referrals_subtext_Config
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Referrals] DROP CONSTRAINT FK_subtext_Referrals_subtext_Config
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[FK_subtext_Links_subtext_Content]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
-ALTER TABLE [dbo].[subtext_Links] DROP CONSTRAINT FK_subtext_Links_subtext_Content
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Links] DROP CONSTRAINT FK_subtext_Links_subtext_Content
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[FK_subtext_Images_subtext_LinkCategories]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
-ALTER TABLE [dbo].[subtext_Images] DROP CONSTRAINT FK_subtext_Images_subtext_LinkCategories
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Images] DROP CONSTRAINT FK_subtext_Images_subtext_LinkCategories
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[FK_subtext_Links_subtext_LinkCategories]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
-ALTER TABLE [dbo].[subtext_Links] DROP CONSTRAINT FK_subtext_Links_subtext_LinkCategories
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Links] DROP CONSTRAINT FK_subtext_Links_subtext_LinkCategories
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[FK_subtext_Referrals_subtext_URLs]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
-ALTER TABLE [dbo].[subtext_Referrals] DROP CONSTRAINT FK_subtext_Referrals_subtext_URLs
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Referrals] DROP CONSTRAINT FK_subtext_Referrals_subtext_URLs
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Content_Trigger]') and OBJECTPROPERTY(id, N'IsTrigger') = 1)
-drop trigger [dbo].[subtext_Content_Trigger]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_Content_Trigger]') and OBJECTPROPERTY(id, N'IsTrigger') = 1)
+drop trigger [<dbUser,varchar,dbo>].[subtext_Content_Trigger]
 GO
 
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Config]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [dbo].[subtext_Config]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_Config]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [<dbUser,varchar,dbo>].[subtext_Config]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Content]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [dbo].[subtext_Content]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_Content]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [<dbUser,varchar,dbo>].[subtext_Content]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_EntryViewCount]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [dbo].[subtext_EntryViewCount]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_EntryViewCount]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [<dbUser,varchar,dbo>].[subtext_EntryViewCount]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Images]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [dbo].[subtext_Images]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_Images]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [<dbUser,varchar,dbo>].[subtext_Images]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_KeyWords]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [dbo].[subtext_KeyWords]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_KeyWords]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [<dbUser,varchar,dbo>].[subtext_KeyWords]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_LinkCategories]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [dbo].[subtext_LinkCategories]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_LinkCategories]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [<dbUser,varchar,dbo>].[subtext_LinkCategories]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Links]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [dbo].[subtext_Links]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_Links]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [<dbUser,varchar,dbo>].[subtext_Links]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Referrals]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [dbo].[subtext_Referrals]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_Referrals]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [<dbUser,varchar,dbo>].[subtext_Referrals]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_URLs]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [dbo].[subtext_URLs]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_URLs]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [<dbUser,varchar,dbo>].[subtext_URLs]
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[spamPostCount]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
 drop table [spamPostCount]
 GO
 
-CREATE TABLE [dbo].[subtext_Config] (
+CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Config] (
 	[BlogID] [int] IDENTITY (0, 1) NOT NULL ,
 	[UserName] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[Password] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
@@ -143,7 +148,7 @@ CREATE TABLE [dbo].[subtext_Config] (
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-CREATE TABLE [dbo].[subtext_Content] (
+CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Content] (
 	[ID] [int] IDENTITY (1, 1) NOT NULL ,
 	[Title] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[DateAdded] [smalldatetime] NOT NULL ,
@@ -166,7 +171,7 @@ CREATE TABLE [dbo].[subtext_Content] (
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-CREATE TABLE [dbo].[subtext_EntryViewCount] (
+CREATE TABLE [<dbUser,varchar,dbo>].[subtext_EntryViewCount] (
 	[EntryID] [int] NOT NULL ,
 	[BlogID] [int] NOT NULL ,
 	[WebCount] [int] NOT NULL ,
@@ -176,7 +181,7 @@ CREATE TABLE [dbo].[subtext_EntryViewCount] (
 ) ON [PRIMARY]
 GO
 
-CREATE TABLE [dbo].[subtext_Images] (
+CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Images] (
 	[ImageID] [int] IDENTITY (1, 1) NOT NULL ,
 	[Title] [nvarchar] (250) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[CategoryID] [int] NOT NULL ,
@@ -188,7 +193,7 @@ CREATE TABLE [dbo].[subtext_Images] (
 ) ON [PRIMARY]
 GO
 
-CREATE TABLE [dbo].[subtext_KeyWords] (
+CREATE TABLE [<dbUser,varchar,dbo>].[subtext_KeyWords] (
 	[KeyWordID] [int] IDENTITY (1, 1) NOT NULL ,
 	[Word] [nvarchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[Text] [nvarchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
@@ -201,7 +206,7 @@ CREATE TABLE [dbo].[subtext_KeyWords] (
 ) ON [PRIMARY]
 GO
 
-CREATE TABLE [dbo].[subtext_LinkCategories] (
+CREATE TABLE [<dbUser,varchar,dbo>].[subtext_LinkCategories] (
 	[CategoryID] [int] IDENTITY (1, 1) NOT NULL ,
 	[Title] [nvarchar] (150) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[Active] [bit] NOT NULL ,
@@ -211,7 +216,7 @@ CREATE TABLE [dbo].[subtext_LinkCategories] (
 ) ON [PRIMARY]
 GO
 
-CREATE TABLE [dbo].[subtext_Links] (
+CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Links] (
 	[LinkID] [int] IDENTITY (1, 1) NOT NULL ,
 	[Title] [nvarchar] (150) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
 	[Url] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
@@ -224,7 +229,7 @@ CREATE TABLE [dbo].[subtext_Links] (
 ) ON [PRIMARY]
 GO
 
-CREATE TABLE [dbo].[subtext_Referrals] (
+CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Referrals] (
 	[EntryID] [int] NOT NULL ,
 	[BlogID] [int] NOT NULL ,
 	[UrlID] [int] NOT NULL ,
@@ -233,7 +238,7 @@ CREATE TABLE [dbo].[subtext_Referrals] (
 ) ON [PRIMARY]
 GO
 
-CREATE TABLE [dbo].[subtext_URLs] (
+CREATE TABLE [<dbUser,varchar,dbo>].[subtext_URLs] (
 	[UrlID] [int] IDENTITY (1, 1) NOT NULL ,
 	[URL] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL 
 ) ON [PRIMARY]
@@ -244,56 +249,56 @@ CREATE TABLE [spamPostCount] (
 ) ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[subtext_Config] WITH NOCHECK ADD 
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config] WITH NOCHECK ADD 
 	CONSTRAINT [PK_subtext_Config] PRIMARY KEY  CLUSTERED 
 	(
 		[BlogID]
 	)  ON [PRIMARY] 
 GO
 
-ALTER TABLE [dbo].[subtext_Content] WITH NOCHECK ADD 
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content] WITH NOCHECK ADD 
 	CONSTRAINT [PK_subtext_Content] PRIMARY KEY  CLUSTERED 
 	(
 		[ID]
 	)  ON [PRIMARY] 
 GO
 
-ALTER TABLE [dbo].[subtext_Images] WITH NOCHECK ADD 
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Images] WITH NOCHECK ADD 
 	CONSTRAINT [PK_subtext_Images] PRIMARY KEY  CLUSTERED 
 	(
 		[ImageID]
 	)  ON [PRIMARY] 
 GO
 
-ALTER TABLE [dbo].[subtext_KeyWords] WITH NOCHECK ADD 
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_KeyWords] WITH NOCHECK ADD 
 	CONSTRAINT [PK_subtext_KeyWords] PRIMARY KEY  CLUSTERED 
 	(
 		[KeyWordID]
 	)  ON [PRIMARY] 
 GO
 
-ALTER TABLE [dbo].[subtext_LinkCategories] WITH NOCHECK ADD 
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_LinkCategories] WITH NOCHECK ADD 
 	CONSTRAINT [PK_subtext_LinkCategories] PRIMARY KEY  CLUSTERED 
 	(
 		[CategoryID]
 	)  ON [PRIMARY] 
 GO
 
-ALTER TABLE [dbo].[subtext_Links] WITH NOCHECK ADD 
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Links] WITH NOCHECK ADD 
 	CONSTRAINT [PK_subtext_Links] PRIMARY KEY  CLUSTERED 
 	(
 		[LinkID]
 	)  ON [PRIMARY] 
 GO
 
-ALTER TABLE [dbo].[subtext_URLs] WITH NOCHECK ADD 
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_URLs] WITH NOCHECK ADD 
 	CONSTRAINT [PK_subtext_URLs] PRIMARY KEY  CLUSTERED 
 	(
 		[UrlID]
 	)  ON [PRIMARY] 
 GO
 
-ALTER TABLE [dbo].[subtext_Config] WITH NOCHECK ADD 
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config] WITH NOCHECK ADD 
 	CONSTRAINT [DF_subtext_Config_TimeZone] DEFAULT (0) FOR [TimeZone],
 	CONSTRAINT [DF__subtext_Conf__IsAct__047AA831] DEFAULT (1) FOR [IsActive],
 	CONSTRAINT [DF_subtext_Config_Language] DEFAULT ('en-US') FOR [Language],
@@ -310,92 +315,92 @@ ALTER TABLE [dbo].[subtext_Config] WITH NOCHECK ADD
 	)  ON [PRIMARY] 
 GO
 
- CREATE  UNIQUE  INDEX [IX_subtext_Config_HostApplication] ON [dbo].[subtext_Config]([BlogID], [Host], [Application]) WITH  FILLFACTOR = 90 ON [PRIMARY]
+ CREATE  UNIQUE  INDEX [IX_subtext_Config_HostApplication] ON [<dbUser,varchar,dbo>].[subtext_Config]([BlogID], [Host], [Application]) WITH  FILLFACTOR = 90 ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[subtext_Content] ADD 
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content] ADD 
 	CONSTRAINT [FK_subtext_Content_subtext_Config] FOREIGN KEY 
 	(
 		[BlogID]
-	) REFERENCES [dbo].[subtext_Config] (
+	) REFERENCES [<dbUser,varchar,dbo>].[subtext_Config] (
 		[BlogID]
 	)
 GO
 
-ALTER TABLE [dbo].[subtext_EntryViewCount] ADD 
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_EntryViewCount] ADD 
 	CONSTRAINT [FK_subtext_EntryViewCount_subtext_Config] FOREIGN KEY 
 	(
 		[BlogID]
-	) REFERENCES [dbo].[subtext_Config] (
+	) REFERENCES [<dbUser,varchar,dbo>].[subtext_Config] (
 		[BlogID]
 	)
 GO
 
-ALTER TABLE [dbo].[subtext_Images] ADD 
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Images] ADD 
 	CONSTRAINT [FK_subtext_Images_subtext_Config] FOREIGN KEY 
 	(
 		[BlogID]
-	) REFERENCES [dbo].[subtext_Config] (
+	) REFERENCES [<dbUser,varchar,dbo>].[subtext_Config] (
 		[BlogID]
 	),
 	CONSTRAINT [FK_subtext_Images_subtext_LinkCategories] FOREIGN KEY 
 	(
 		[CategoryID]
-	) REFERENCES [dbo].[subtext_LinkCategories] (
+	) REFERENCES [<dbUser,varchar,dbo>].[subtext_LinkCategories] (
 		[CategoryID]
 	)
 GO
 
-ALTER TABLE [dbo].[subtext_KeyWords] ADD 
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_KeyWords] ADD 
 	CONSTRAINT [FK_subtext_KeyWords_subtext_Config] FOREIGN KEY 
 	(
 		[BlogID]
-	) REFERENCES [dbo].[subtext_Config] (
+	) REFERENCES [<dbUser,varchar,dbo>].[subtext_Config] (
 		[BlogID]
 	)
 GO
 
-ALTER TABLE [dbo].[subtext_LinkCategories] ADD 
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_LinkCategories] ADD 
 	CONSTRAINT [FK_subtext_LinkCategories_subtext_Config] FOREIGN KEY 
 	(
 		[BlogID]
-	) REFERENCES [dbo].[subtext_Config] (
+	) REFERENCES [<dbUser,varchar,dbo>].[subtext_Config] (
 		[BlogID]
 	)
 GO
 
-ALTER TABLE [dbo].[subtext_Links] ADD 
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Links] ADD 
 	CONSTRAINT [FK_subtext_Links_subtext_Config] FOREIGN KEY 
 	(
 		[BlogID]
-	) REFERENCES [dbo].[subtext_Config] (
+	) REFERENCES [<dbUser,varchar,dbo>].[subtext_Config] (
 		[BlogID]
 	),
 	CONSTRAINT [FK_subtext_Links_subtext_Content] FOREIGN KEY 
 	(
 		[PostID]
-	) REFERENCES [dbo].[subtext_Content] (
+	) REFERENCES [<dbUser,varchar,dbo>].[subtext_Content] (
 		[ID]
 	),
 	CONSTRAINT [FK_subtext_Links_subtext_LinkCategories] FOREIGN KEY 
 	(
 		[CategoryID]
-	) REFERENCES [dbo].[subtext_LinkCategories] (
+	) REFERENCES [<dbUser,varchar,dbo>].[subtext_LinkCategories] (
 		[CategoryID]
 	)
 GO
 
-ALTER TABLE [dbo].[subtext_Referrals] ADD 
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Referrals] ADD 
 	CONSTRAINT [FK_subtext_Referrals_subtext_Config] FOREIGN KEY 
 	(
 		[BlogID]
-	) REFERENCES [dbo].[subtext_Config] (
+	) REFERENCES [<dbUser,varchar,dbo>].[subtext_Config] (
 		[BlogID]
 	),
 	CONSTRAINT [FK_subtext_Referrals_subtext_URLs] FOREIGN KEY 
 	(
 		[UrlID]
-	) REFERENCES [dbo].[subtext_URLs] (
+	) REFERENCES [<dbUser,varchar,dbo>].[subtext_URLs] (
 		[UrlID]
 	)
 GO
@@ -405,8 +410,8 @@ GO
 SET ANSI_NULLS OFF 
 GO
 
-CREATE TRIGGER [dbo].[subtext_Content_Trigger]
-ON [dbo].[subtext_Content]
+CREATE TRIGGER [<dbUser,varchar,dbo>].[subtext_Content_Trigger]
+ON [<dbUser,varchar,dbo>].[subtext_Content]
 AFTER INSERT, UPDATE, DELETE
 AS
 
@@ -422,12 +427,12 @@ Begin
 	Select @BlogID = BlogID From DELETED	
 End
 
-UPDATE [dbo].[subtext_Config]
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config]
 SET
-	PostCount= (Select Count(*) FROM [dbo].[subtext_Content] WHERE BlogID = [dbo].[subtext_Config].BlogID and PostType = 1 and PostConfig & 1 = 1),
-	CommentCount =  (Select Count(*) FROM [dbo].[subtext_Content] WHERE BlogID = [dbo].[subtext_Config].BlogID and PostType = 3 and PostConfig & 1 = 1),
-	StoryCount =  (Select Count(*) FROM [dbo].[subtext_Content] WHERE BlogID = [dbo].[subtext_Config].BlogID and PostType = 2 and PostConfig & 1 = 1),
-	PingTrackCount =  (Select Count(*) FROM [dbo].[subtext_Content] WHERE BlogID = [dbo].[subtext_Config].BlogID and PostType = 4 and PostConfig & 1 = 1)
+	PostCount= (Select Count(*) FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE BlogID = [<dbUser,varchar,dbo>].[subtext_Config].BlogID and PostType = 1 and PostConfig & 1 = 1),
+	CommentCount =  (Select Count(*) FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE BlogID = [<dbUser,varchar,dbo>].[subtext_Config].BlogID and PostType = 3 and PostConfig & 1 = 1),
+	StoryCount =  (Select Count(*) FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE BlogID = [<dbUser,varchar,dbo>].[subtext_Config].BlogID and PostType = 2 and PostConfig & 1 = 1),
+	PingTrackCount =  (Select Count(*) FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE BlogID = [<dbUser,varchar,dbo>].[subtext_Config].BlogID and PostType = 4 and PostConfig & 1 = 1)
 WHERE BlogID = @BlogID
 
 GO
@@ -437,7 +442,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE TABLE [dbo].[subtext_Host] (
+CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Host] (
 	[HostUserName] [nvarchar] (64) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[Password] [nvarchar] (64) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[Salt] [nvarchar] (32) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
@@ -449,7 +454,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE TABLE [dbo].[subtext_Version] (
+CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Version] (
 	[Id] [int] IDENTITY (1, 1) NOT NULL ,
 	[Major] [int] NOT NULL ,
 	[Minor] [int] NOT NULL ,
@@ -458,7 +463,7 @@ CREATE TABLE [dbo].[subtext_Version] (
 ) ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[subtext_Version] WITH NOCHECK ADD 
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Version] WITH NOCHECK ADD 
 	CONSTRAINT [PK_subtext_Version] PRIMARY KEY  CLUSTERED 
 	(
 		[Id]
@@ -471,7 +476,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE TABLE [dbo].[subtext_Log] (
+CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Log] (
 	[Id] [int] IDENTITY (1, 1) NOT NULL ,
 	[BlogId] [int] NULL ,
 	[Date] [datetime] NOT NULL ,
@@ -484,18 +489,18 @@ CREATE TABLE [dbo].[subtext_Log] (
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[subtext_Log] WITH NOCHECK ADD 
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Log] WITH NOCHECK ADD 
 	CONSTRAINT [PK_subtext_Log] PRIMARY KEY  CLUSTERED 
 	(
 		[Id]
 	)  ON [PRIMARY] 
 
 GO
-ALTER TABLE [dbo].[subtext_Log] ADD 
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Log] ADD 
 	CONSTRAINT [FK_subtext_Log_subtext_Config] FOREIGN KEY 
 	(
 		[BlogID]
-	) REFERENCES [dbo].[subtext_Config] (
+	) REFERENCES [<dbUser,varchar,dbo>].[subtext_Config] (
 		[BlogID]
 	)
 GO

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Specialized;
+using System.Text.RegularExpressions;
 
 namespace Subtext.Scripting
 {
@@ -28,15 +29,51 @@ namespace Subtext.Scripting
 		}
 
 		/// <summary>
-		/// Adds the specified value.
+		/// Gets the <see cref="TemplateParameter"/> with the specified name.
+		/// </summary>
+		/// <value></value>
+		public TemplateParameter this[string name]
+		{
+			get
+			{
+				foreach(TemplateParameter parameter in this.List)
+				{
+					if(String.Compare(parameter.Name, name, true) == 0)
+					{
+						return parameter;
+					}
+				}
+				return null;
+			}
+		}
+
+		/// <summary>
+		/// Creates a template parameter from a match.
+		/// </summary>
+		/// <param name="match">The match.</param>
+		/// <returns></returns>
+		public TemplateParameter Add(Match match)
+		{
+			if(this[match.Groups["name"].Value] != null)
+				return this[match.Groups["name"].Value];
+
+			TemplateParameter parameter = new TemplateParameter(match.Groups["name"].Value, match.Groups["type"].Value, match.Groups["default"].Value);
+			this.Add(parameter);
+			return parameter;
+		}
+
+		/// <summary>
+		/// Adds the specified value. If it already exists, returns 
+		/// the existing one, otherwise just returns the one you added.
 		/// </summary>
 		/// <param name="value">Value.</param>
 		/// <returns></returns>
-		public int Add(TemplateParameter value) 
+		public TemplateParameter Add(TemplateParameter value) 
 		{
-			if(!_names.Contains(value.Name))
-				return this.List.Add(value);
-			return 0;
+			if(this[value.Name] != null)
+				return this[value.Name];
+			List.Add(value);
+			return value;
 		}
 
 		/// <summary>
@@ -46,10 +83,8 @@ namespace Subtext.Scripting
 		/// <param name="value">A <see cref="ScriptCollection">ScriptCollection</see> containing the <see cref="TemplateParameter"/>s to add to the collection. </param>
 		public void AddRange(TemplateParameterCollection value) 
 		{
-			for (int i = 0;	(i < value.Count); i = (i +	1))	
-			{
-				this.Add((TemplateParameter)value.List[i]);
-			}
+			foreach(TemplateParameter parameter in value)
+				this.Add(parameter);
 		}
 
 		/// <summary>
@@ -105,6 +140,17 @@ namespace Subtext.Scripting
 		{
 			_names.Remove(value.Name);
 			List.Remove(value);
+		}
+
+		/// <summary>
+		/// Provides a shortcut to set a value.
+		/// </summary>
+		/// <param name="name">The name.</param>
+		/// <param name="value">The value.</param>
+		public void SetValue(string name, string value)
+		{
+			if(this[name] != null)
+				this[name].Value = value;
 		}
 	}
 }

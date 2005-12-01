@@ -97,7 +97,10 @@ namespace Subtext.Web.Install
 					}
 					catch(SqlScriptExecutionException ex)
 					{
-						installationStateMessage.Text = "Uh oh. Something went wrong with the installation. " + ex.Message;
+						installationStateMessage.Text = "<p>Uh oh. Something went wrong with the installation.</p><p>" + ex.Message + "</p><p>" + ex.GetType().FullName + "</p>";
+#if DEBUG
+						installationStateMessage.Text += "<p>" + ex.StackTrace + "</p>";
+#endif
 						return;
 					}
 					break;

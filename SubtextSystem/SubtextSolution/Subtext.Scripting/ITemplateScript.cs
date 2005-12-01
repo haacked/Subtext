@@ -17,12 +17,6 @@ namespace Subtext.Scripting
 		/// Gets the template parameters embedded in the script.
 		/// </summary>
 		/// <returns></returns>
-		TemplateParameterCollection GetTemplateParameters();
-		
-		/// <summary>
-		/// Sets the template parameter values.
-		/// </summary>
-		/// <param name="parameters">The parameters.</param>
-		void SetTemplateParameterValues(TemplateParameterCollection parameters);
+		TemplateParameterCollection TemplateParameters {get;}
 	}
 }
