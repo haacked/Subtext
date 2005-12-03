@@ -15,19 +15,20 @@ body
 
 a:link
 {	
-	color : #223355;
+	color : #2233aa;
 	text-decoration: none;
 }
 
 a:visited
 {
-	color: #6699CC;
+	color: #6699ee;
 	text-decoration: none;
 }
 
 a:hover 
 {	
 	color: #BF5010;
+	text-decoration:underline;
 }
 
 a.img, a.img, a.img

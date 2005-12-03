@@ -32,7 +32,7 @@
 			<mp:HelpToolTip id="Helptooltip1" runat="server" HelpText="In Enterprise Manager, expand the SubtextData database and click on the <em>Users</em> node. Right click here and select <em>New Database User</em>.  In the <em>Login name</em> drop down, select the ASPNET login.">How?</mp:HelpToolTip>
 		</li>
 		<li>
-			<a href="/code/GetSubtext.zip">Download and unzip</a> the batch file 
+			<a href="/code/GetSubtext.zip">Download and unzip the batch file</a> 
 			to your projects folder (for me, I would place this file in my 
 			&#8220;c:\Projects&#8221; folder).
 		</li>
