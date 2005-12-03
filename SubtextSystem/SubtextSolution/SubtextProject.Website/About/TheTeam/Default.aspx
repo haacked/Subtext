@@ -19,6 +19,7 @@
 		<li><a href="http://jasonkemp.ca/">Jason Kemp</a> &#8212; Installation and Facilities Management</li>
 		<li><a href="http://jaysonknight.com/blog/default.aspx">Jayson Knight</a> &#8212; Schema Worker</li>
 		<li><a href="http://sharpmarbles.stufftoread.com/">Robb Allen</a> &#8212; Security Guard and Master Brewer</li>
+		<li><a href="http://stevenharman.net">Steve Harman</a> &#8212; That Other Guy</li>
 	</ul>
 	
 	<h2>Testers</h2>
