@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FxCopProject Version="1.32" Name="My FxCop Project">
  <ProjectOptions>
-  <SharedProject>False</SharedProject>
+  <SharedProject>True</SharedProject>
   <Stylesheet Apply="False">c:\program files\microsoft fxcop 1.312\Xml\FxCopReport.Xsl</Stylesheet>
   <SaveMessages>
    <Project Status="Active, Excluded" NewOnly="False" />
@@ -19,12 +19,12 @@
   <CustomDictionaries SearchFxCopDir="True" SearchUserProfile="True" SearchProjectDir="True" />
  </ProjectOptions>
  <Targets>
-  <Target Name="C:\Projects\SubtextSystem\SubtextSolution\Subtext.Extensibility\bin\Debug\Subtext.Extensibility.dll" Analyze="True" AnalyzeAllChildren="True" />
-  <Target Name="C:\Projects\SubtextSystem\SubtextSolution\Subtext.Installation\bin\Debug\Subtext.Installation.dll" Analyze="True" AnalyzeAllChildren="True" />
-  <Target Name="C:\Projects\SubtextSystem\SubtextSolution\Subtext.Web.Controls\bin\Debug\Subtext.Web.Controls.dll" Analyze="True" AnalyzeAllChildren="True" />
-  <Target Name="C:\Projects\SubtextSystem\SubtextSolution\Subtext.Web\bin\Subtext.Common.dll" Analyze="True" AnalyzeAllChildren="True" />
-  <Target Name="C:\Projects\SubtextSystem\SubtextSolution\Subtext.Web\bin\Subtext.Framework.dll" Analyze="True" AnalyzeAllChildren="True" />
-  <Target Name="C:\Projects\SubtextSystem\SubtextSolution\Subtext.Web\bin\Subtext.Web.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="$(ProjectDir)/Subtext.Extensibility/bin/Debug/Subtext.Extensibility.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="$(ProjectDir)/Subtext.Installation/bin/Debug/Subtext.Installation.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="$(ProjectDir)/Subtext.Web.Controls/bin/Debug/Subtext.Web.Controls.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="$(ProjectDir)/Subtext.Web/bin/Subtext.Common.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="$(ProjectDir)/Subtext.Web/bin/Subtext.Framework.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="$(ProjectDir)/Subtext.Web/bin/Subtext.Web.dll" Analyze="True" AnalyzeAllChildren="True" />
  </Targets>
  <Rules>
   <RuleFiles>
@@ -34,10 +34,8 @@
     <Rule Name="ConsiderMovingPInvokeMethodsToInteropMethods" Enabled="True" />
     <Rule Name="EnumerationsAreMarkedSerializable" Enabled="True" />
     <Rule Name="EnumeratorsShouldBeSealed" Enabled="True" />
-    <Rule Name="InternalNamespacesDoNotExposePublicApi" Enabled="True" />
     <Rule Name="NotImplementedExceptionShouldNotBeThrown" Enabled="True" />
     <Rule Name="PInvokeMethodsDoNotHavePublicAccessLevel" Enabled="True" />
-    <Rule Name="PrivateFieldNamesHaveUnderscorePrefixArePascalCased" Enabled="True" />
     <Rule Name="PrivateOrAssemblyMemberNamesDoNotHaveUnderscores" Enabled="True" />
     <Rule Name="UseEnvironmentNewLineInsteadOfNewLineLiteral" Enabled="True" />
    </RuleFile>
@@ -68,7 +66,7 @@
    </Namespace>
   </Namespaces>
   <Targets>
-   <Target Name="C:\Projects\SubtextSystem\SubtextSolution\Subtext.Web.Controls\bin\Debug\Subtext.Web.Controls.dll">
+   <Target Name="$(ProjectDir)/Subtext.Web.Controls/bin/Debug/Subtext.Web.Controls.dll">
     <Modules>
      <Module Name="subtext.web.controls.dll">
       <Messages>
@@ -94,15 +92,6 @@
         <Types>
          <Type Name="CollapsiblePanel">
           <Members>
-           <Member Name="_image">
-            <Messages>
-             <Message TypeName="PrivateFieldNamesHaveUnderscorePrefixArePascalCased" Category="Custom" CheckId="CUS1013" Created="2005-07-16 05:26:01Z">
-              <Issue Name="Casing">
-               <Item>_image</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="Collapsed">
             <Accessors>
              <Accessor Name="get_Collapsed():System.Boolean">
@@ -196,42 +185,6 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="_contents">
-            <Messages>
-             <Message TypeName="PrivateFieldNamesHaveUnderscorePrefixArePascalCased" Category="Custom" CheckId="CUS1013" Created="2005-07-16 05:26:01Z">
-              <Issue Name="Casing">
-               <Item>_contents</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="_defaults">
-            <Messages>
-             <Message TypeName="PrivateFieldNamesHaveUnderscorePrefixArePascalCased" Category="Custom" CheckId="CUS1013" Created="2005-07-16 05:26:01Z">
-              <Issue Name="Casing">
-               <Item>_defaults</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="_template">
-            <Messages>
-             <Message TypeName="PrivateFieldNamesHaveUnderscorePrefixArePascalCased" Category="Custom" CheckId="CUS1013" Created="2005-07-16 05:26:01Z">
-              <Issue Name="Casing">
-               <Item>_template</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="_templateFile">
-            <Messages>
-             <Message TypeName="PrivateFieldNamesHaveUnderscorePrefixArePascalCased" Category="Custom" CheckId="CUS1013" Created="2005-07-16 05:26:01Z">
-              <Issue Name="Casing">
-               <Item>_templateFile</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="BuildContents():System.Void">
             <Messages>
              <Message Id="System.Exception.#ctor(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2005-07-03 06:29:27Z">
@@ -276,18 +229,6 @@
               <Issue>
                <Item>MasterPage.BuildMasterPage():Void</Item>
                <Item>System.Exception</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="defaultContent">
-            <Messages>
-             <Message TypeName="PrivateFieldNamesHaveUnderscorePrefixArePascalCased" Category="Custom" CheckId="CUS1013" Created="2005-07-16 05:26:01Z">
-              <Issue Name="Casing">
-               <Item>defaultContent</Item>
-              </Issue>
-              <Issue Name="Prefix">
-               <Item>defaultContent</Item>
               </Issue>
              </Message>
             </Messages>
@@ -680,10 +621,6 @@
    </Rule>
    <Rule TypeName="NamespacesHaveCompanyNameRoot" Category="Custom" CheckId="CUS1004">
     <Resolution Name="Default">Change the namespace '{0}' to start with the company name.</Resolution>
-   </Rule>
-   <Rule TypeName="PrivateFieldNamesHaveUnderscorePrefixArePascalCased" Category="Custom" CheckId="CUS1013">
-    <Resolution Name="Casing">Correct the casing of field name '{0}'.</Resolution>
-    <Resolution Name="Prefix">Prefix a '_' to the field name '{0}'.</Resolution>
    </Rule>
    <Rule TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062">
     <Resolution Name="Default">Validate parameter {0} passed to externally visible method {1}.</Resolution>
