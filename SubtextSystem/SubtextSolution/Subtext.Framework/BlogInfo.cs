@@ -150,7 +150,7 @@ namespace Subtext.Framework
 
 		private string _imageDirectory;
 		/// <summary>
-		/// Gets or sets the image directory path.
+		/// Gets or sets the physical path to the image directory.
 		/// </summary>
 		/// <value></value>
 		public string ImageDirectory
@@ -161,7 +161,7 @@ namespace Subtext.Framework
 
 		private string _imagePath;
 		/// <summary>
-		/// Gets or sets the path to the image directory.
+		/// Gets or sets the path (url) to the image directory.
 		/// </summary>
 		/// <value></value>
 		public string ImagePath

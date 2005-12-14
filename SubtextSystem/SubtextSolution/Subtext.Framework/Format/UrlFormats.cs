@@ -305,5 +305,60 @@ namespace Subtext.Framework.Format
 
 			return target;
 		}
+
+		/// <summary>
+		/// Get the fully qualified url for an image for a given url to the image. 
+		/// The given url could be fully qualified, or some type of local url.
+		/// </summary>
+		/// <param name="imageUrl">url to an image</param>
+		/// <returns>fully qualified url to the image</returns>
+		public static string GetImageFullUrl(string imageUrl) 
+		{
+			/// Examples of some fully qualified URLs: 
+			/// http://somehost.com/Subtext.Web/images/somehost_com/Subtext_Web/blog/8/pic.jpg
+			/// http://thathost.net/Subtext.Web/images/thathost_net/Subtext_Web/4/picture.jpg
+			/// http://fooHost.org/images/fooHost_org/myBlog/2/bar.jpg
+			/// http://barHost.edu/images/
+			/// 
+			/// Examples of some local URLs:
+			///		/Subtext.Web/images/somehost_com/Subtext_Web/blog/8/pic.jpg
+			///		/Subtext.Web/images/thathost_net/Subtext_Web/4/picture.jpg
+			///		/images/fooHost_org/myBlog/2/bar.jpg
+			///		/images/barHost_edu/7/that.jpg
+
+			// First see if already have a full url 
+			if(!imageUrl.StartsWith("http")) 
+			{
+				// it's not a full url, so it must by some type of local url 		
+				// so add the siteRoot in front of it.
+				imageUrl = StripSurroundingSlashes(imageUrl);
+				imageUrl = "http://" + Config.CurrentBlog.Host + "/" + imageUrl ;
+			}
+			return imageUrl ;
+		}
+		/// <summary>
+		/// Return the url with the http://host stripped off the front. The given url
+		/// may or maynot have the http://host on it.
+		/// </summary>
+		/// <param name="url"></param>
+		/// <returns></returns>
+		public static string StripHostFromUrl(string url)
+		{
+			string fullHost = "http://" + Config.CurrentBlog.Host;
+			if(url.StartsWith(fullHost))
+			{
+				// use Lenght b/c we want to leave the beginning "/" character on newUrl
+				url = url.Substring(fullHost.Length);
+			}
+			return url;
+		}
+
+		public static string GetHostFromExternalUrl(string url)
+		{
+			string hostDelim = "://";
+			int hostStart = url.IndexOf(hostDelim) + 3;
+			int hostEnd = url.IndexOf("/", hostStart);
+			return url.Substring(hostStart, hostEnd-hostStart);
+		}
 	}
 }

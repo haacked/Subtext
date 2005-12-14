@@ -1,34 +1,25 @@
 <%@ Register TagPrefix="SP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Page language="c#" Codebehind="Configure.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.Configure" %>
-<ANW:Page runat="server" id="PageContainer" TabSectionID="Options" Categorieslabel="Other Items">
+<ANW:PAGE id="PageContainer" Categorieslabel="Other Items" TabSectionID="Options" runat="server">
 	<ANW:MessagePanel id="Messages" runat="server"></ANW:MessagePanel>
-	<ANW:AdvancedPanel id="Edit" runat="server" Collapsible="False" HeaderText="Configure" HeaderCssClass="CollapsibleHeader"
-		BodyCssClass="Edit" DisplayHeader="true">
-		<fieldset>
-			<legend>Enter configuration settings</legend>		
-			<p>
-				<label class="Block" for="Edit_txbTitle" AccessKey="t"><u>T</u>itle</label>
-				<asp:TextBox id="txbTitle" runat="server" CssClass="textinput"></asp:TextBox>
-			</p>
-			<p>
-				<label class="Block" for="Edit_txbSubtitle" AccessKey="s"><u>S</u>ubtitle</label>
-				<asp:TextBox id="txbSubtitle" runat="server" CssClass="textinput"></asp:TextBox>
-			</p>
-			<p>
-				<label class="Block" for="Edit_txbUser" AccessKey="u"><u>U</u>sername</label>
-				<asp:TextBox id="txbUser" runat="server" CssClass="textinput"></asp:TextBox>
-			</p>
-			<p>
-				<label class="Block" for="Edit_txbAuthor" AccessKey="n">Owner's Display <u>N</u>ame</label>
-				<asp:TextBox id="txbAuthor" runat="server" CssClass="textinput"></asp:TextBox>
-			</p>
-			<p>
-				<label class="Block" for="Edit_txbAuthorEmail" AccessKey="e">Owner's <u>E</u>mail</label>
-				<asp:TextBox id="txbAuthorEmail" runat="server" CssClass="textinput"></asp:TextBox>
-			</p>
-			<p>
-				<label class="Block" for="Edit_ddlTimezone" AccessKey="z">Time<u>z</u>one</label>
+	<ANW:AdvancedPanel id="Edit" runat="server" DisplayHeader="true" BodyCssClass="Edit" HeaderCssClass="CollapsibleHeader"
+		HeaderText="Configure" Collapsible="False">
+		<FIELDSET>
+			<LEGEND>Enter configuration settings</LEGEND>
+			<P><LABEL class="Block" accessKey="t" for="Edit_txbTitle"><U>T</U>itle</LABEL>
+				<asp:TextBox id="txbTitle" runat="server" CssClass="textinput"></asp:TextBox></P>
+			<P><LABEL class="Block" accessKey="s" for="Edit_txbSubtitle"><U>S</U>ubtitle</LABEL>
+				<asp:TextBox id="txbSubtitle" runat="server" CssClass="textinput"></asp:TextBox></P>
+			<P><LABEL class="Block" accessKey="u" for="Edit_txbUser"><U>U</U>sername</LABEL>
+				<asp:TextBox id="txbUser" runat="server" CssClass="textinput"></asp:TextBox></P>
+			<P><LABEL class="Block" accessKey="n" for="Edit_txbAuthor">Owner's Display 
+<U>N</U>ame</LABEL>
+				<asp:TextBox id="txbAuthor" runat="server" CssClass="textinput"></asp:TextBox></P>
+			<P><LABEL class="Block" accessKey="e" for="Edit_txbAuthorEmail">Owner's 
+<U>E</U>mail</LABEL>
+				<asp:TextBox id="txbAuthorEmail" runat="server" CssClass="textinput"></asp:TextBox></P>
+			<P><LABEL class="Block" accessKey="z" for="Edit_ddlTimezone">Time<U>z</U>one</LABEL>
 				<asp:DropDownList id="ddlTimezone" runat="server">
 					<asp:ListItem Text="Hawaii (GMT -10)" Value="-10" />
 					<asp:ListItem Text="Alaska (GMT -9)" Value="-9" />
@@ -49,10 +40,8 @@
 					<asp:ListItem Text="Australian Time (GMT +10)" Value="10" />
 					<asp:ListItem Text="Pacific Rim Time (GMT +11)" Value="11" />
 					<asp:ListItem Text="New Zealand Time (GMT +12)" Value="12" />
-				</asp:DropDownList>
-			</p>
-			<p>
-				<label class="Block" for="Edit_ddlLangLocale" AccessKey="l"><u>L</u>anguage/Locale</label>
+				</asp:DropDownList></P>
+			<P><LABEL class="Block" accessKey="l" for="Edit_ddlLangLocale"><U>L</U>anguage/Locale</LABEL>
 				<asp:DropDownList id="ddlLangLocale" runat="server">
 					<asp:ListItem Text="Afrikaans" Value="af" />
 					<asp:ListItem Text="Afrikaans - South Africa" Value="af-ZA" />
@@ -255,33 +244,26 @@
 					<asp:ListItem Text="Uzbek (Latin) - Uzbekistan" Value="Lt-uz-UZ" />
 					<asp:ListItem Text="Vietnamese" Value="vi" />
 					<asp:ListItem Text="Vietnamese - Vietnam" Value="vi-VN" />
-				</asp:DropDownList>
-			</p>
-			<p>
-				<label Class="Block" for="Edit_ddlItemCount" AccessKey="d"><u>D</u>efault Number of Feed/Homepage Items</label>
-				<asp:DropDownList id="ddlItemCount" runat="server"></asp:DropDownList>
-			</p>
-			<p>
-				<label Class="Block" for="Edit_ddlSkin" AccessKey="s">Display <u>S</u>kin</label>
-				<asp:DropDownList id="ddlSkin" runat="server"></asp:DropDownList>
-			</p>
-			<p>
-				<label Class="Block" for="Edit_txbSecondaryCss" AccessKey="c">
-					<SP:HelpToolTip id="HelpToolTip1" runat="server" HelpText="You can enter custom CSS within this block.  Be careful as the tool will not validate the CSS.  This CSS will be included (as a proper link) within every page of your blog."><u>C</u>ustom CSS</SP:HelpToolTip>
-				</label>
-				<asp:TextBox id="txbSecondaryCss" runat="server" TextMode="MultiLine" CssClass="textarea"></asp:TextBox>
-			</p>
-			<p>
-				<label Class="Block" for="Edit_txbNews" AccessKey="a">Static News/<u>A</u>nnouncement</label>
-				<asp:TextBox id="txbNews" runat="server" TextMode="MultiLine" CssClass="textarea"></asp:TextBox>
-			</p>
-			<p>
-				<label for="Edit_ckbAllowServiceAccess" AccessKey="w">Allow <u>W</u>eb Service Access</label>
-				<asp:CheckBox id="ckbAllowServiceAccess" runat="server"></asp:CheckBox>
-			</p>
-			<div>
-				<asp:Button id="lkbPost" runat="server" Text="Save" CssClass="buttonSubmit"></asp:Button>
-			</div>
-		</fieldset>
+				</asp:DropDownList></P>
+			<P><LABEL class="Block" accessKey="d" for="Edit_ddlItemCount"><U>D</U>efault Number of 
+Feed/Homepage Items</LABEL>
+				<asp:DropDownList id="ddlItemCount" runat="server"></asp:DropDownList></P>
+			<P><LABEL class="Block" accessKey="s" for="Edit_ddlSkin">Display <U>S</U>kin</LABEL>
+				<asp:DropDownList id="ddlSkin" runat="server"></asp:DropDownList></P>
+			<P><LABEL class="Block" accessKey="c" for="Edit_txbSecondaryCss">
+					<SP:HelpToolTip id="HelpToolTip1" runat="server" HelpText="You can enter custom CSS within this block.  Be careful as the tool will not validate the CSS.  This CSS will be included (as a proper link) within every page of your blog."><U>
+							C</U>ustom 
+CSS</SP:HelpToolTip>
+				</LABEL>
+				<asp:TextBox id="txbSecondaryCss" runat="server" CssClass="textarea" TextMode="MultiLine"></asp:TextBox></P>
+			<P><LABEL class="Block" accessKey="a" for="Edit_txbNews">Static 
+News/<U>A</U>nnouncement</LABEL>
+				<asp:TextBox id="txbNews" runat="server" CssClass="textarea" TextMode="MultiLine"></asp:TextBox></P>
+			<P><LABEL accessKey="w" for="Edit_ckbAllowServiceAccess">Allow <U>W</U>eb Service 
+Access</LABEL>
+				<asp:CheckBox id="ckbAllowServiceAccess" runat="server"></asp:CheckBox></P>
+			<DIV>
+				<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Save"></asp:Button></DIV>
+		</FIELDSET>
 	</ANW:AdvancedPanel>
-</ANW:Page>
+</ANW:PAGE>

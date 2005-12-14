@@ -99,7 +99,8 @@
 			<FTB:FreeTextBox 
 				id="freeTextBox"
 				toolbarlayout="Bold,Italic,Underline,Strikethrough;Superscript,Subscript,RemoveFormat|FontFacesMenu,FontSizesMenu,FontForeColorsMenu|InsertTable|JustifyLeft,JustifyRight,JustifyCenter,JustifyFull;BulletedList,NumberedList,Indent,Outdent;CreateLink,Unlink,Insert,InsertRule|Cut,Copy,Paste;Undo,Redo|ieSpellCheck,WordClean|InsertImage,InsertImageFromGallery"
-				runat="Server" />
+				runat="Server" 
+				RemoveServerNamefromUrls="false"/>
 		</p>
 		<p><label>Categories</label></p>
 		<p><asp:CheckBoxList id="cklCategories" runat="server" RepeatColumns="5" RepeatDirection="Horizontal"></asp:CheckBoxList></p>

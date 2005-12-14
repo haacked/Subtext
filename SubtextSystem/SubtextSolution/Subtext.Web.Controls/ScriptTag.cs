@@ -1,5 +1,5 @@
-using System;
 using System.Globalization;
+using System.Web.UI;
 using System.Web.UI.HtmlControls;
 
 namespace Subtext.Web.Controls
@@ -22,7 +22,7 @@ namespace Subtext.Web.Controls
 		/// Renders this script tag.
 		/// </summary>
 		/// <param name="writer">Writer.</param>
-		protected override void Render(System.Web.UI.HtmlTextWriter writer)
+		protected override void Render(HtmlTextWriter writer)
 		{
 			string format = "<script src=\"{0}\" language=\"{1}\"{2}></script>";	
 

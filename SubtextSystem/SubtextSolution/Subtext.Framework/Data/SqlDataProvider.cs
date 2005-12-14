@@ -29,6 +29,7 @@ using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Data
 {
@@ -749,7 +750,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@DateAdded", SqlDbType.DateTime, 8, entry.DateCreated), 
 				SqlHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, entry.PostConfig), 
 				SqlHelper.MakeInParam("@ParentID", SqlDbType.Int, 4, SqlHelper.CheckNull(entry.ParentID)), 
-				SqlHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, SqlHelper.CheckNull(entry.EntryName)), 
+				SqlHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, StringHelper.ReturnNullForEmpty(entry.EntryName)), 
 				SqlHelper.MakeInParam("@ContentChecksumHash", SqlDbType.VarChar, 32, SqlHelper.CheckNull(entry.ContentChecksumHash)), 
 				SqlHelper.MakeInParam("@DateSyndicated", SqlDbType.DateTime, 8, SqlHelper.CheckNull(entry.DateSyndicated)), 
 				BlogIDParam,

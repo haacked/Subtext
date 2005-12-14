@@ -22,34 +22,38 @@
 #endregion
 
 using System;
+using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Util;
 using Subtext.Web.Admin.WebUI;
+using PlaceHolder = Subtext.Web.Admin.WebUI.PlaceHolder;
+using ScriptTag = Subtext.Web.Controls.ScriptTag;
 
 namespace Subtext.Web.Admin
 {
-	public abstract class PageTemplate : System.Web.UI.UserControl
+	public abstract class PageTemplate : UserControl
 	{
-		protected Subtext.Web.Admin.WebUI.PlaceHolder PageTitle;
-		protected Subtext.Web.Admin.WebUI.PlaceHolder PageContent;
-		protected Subtext.Web.Admin.WebUI.PlaceHolder LabelCategories;
-		protected Subtext.Web.Admin.WebUI.PlaceHolder LabelActions;
+		protected PlaceHolder PageTitle;
+		protected PlaceHolder PageContent;
+		protected PlaceHolder LabelCategories;
+		protected PlaceHolder LabelActions;
 		protected HyperLink BlogTitle;
 		protected HeaderLink Css1;
 		protected LinkList LinksCategories;
 		protected LinkList LinksActions;
-		protected System.Web.UI.WebControls.LinkButton LogoutLink;
-		protected System.Web.UI.WebControls.HyperLink BlogTitleLink;
-		protected Subtext.Web.Admin.WebUI.BreadCrumbs BreadCrumbs;		
+		protected LinkButton LogoutLink;
+		protected HyperLink BlogTitleLink;
+		protected BreadCrumbs BreadCrumbs;		
 		protected HeaderBase Base1;
 		protected Literal LoggedInUser;
-		protected System.Web.UI.HtmlControls.HtmlGenericControl GalleryTab;
-		protected Subtext.Web.Admin.WebUI.ScriptTag HelptipJs;
-		protected Subtext.Web.Admin.WebUI.ScriptTag AdminJs;
-		protected Subtext.Web.Admin.WebUI.HeaderLink HelptipCss;
-		protected Subtext.Web.Admin.WebUI.ScriptTag NiceForms;
-		protected Subtext.Web.Admin.WebUI.HeaderLink NiceFormsStyle;
+		protected HtmlGenericControl GalleryTab;
+		protected ScriptTag HelptipJs;
+		protected ScriptTag AdminJs;
+		protected HeaderLink HelptipCss;
+		protected ScriptTag NiceForms;
+		protected HeaderLink NiceFormsStyle;
 
 		#region Accessors
 
@@ -72,7 +76,7 @@ namespace Subtext.Web.Admin
 
 		#endregion
 
-		private void Page_Load(object sender, System.EventArgs e)
+		private void Page_Load(object sender, EventArgs e)
 		{
 			GalleryTab.Visible = Config.Settings.AllowImages;
 			LoggedInUser.Text = Config.CurrentBlog.Author;
@@ -87,7 +91,7 @@ namespace Subtext.Web.Admin
 		
 		private void InitializeComponent() 
 		{
-			this.Load += new System.EventHandler(this.Page_Load);
+			this.Load += new EventHandler(this.Page_Load);
 
 		}
 		#endregion

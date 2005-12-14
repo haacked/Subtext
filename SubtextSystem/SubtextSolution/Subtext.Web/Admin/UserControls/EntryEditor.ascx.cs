@@ -25,7 +25,9 @@ using System;
 using System.Collections;
 using System.Globalization;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using FreeTextBoxControls;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -33,12 +35,12 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
 using Subtext.Web.Admin.Pages;
+using Subtext.Web.Admin.WebUI;
+using Page = Subtext.Web.Admin.WebUI.Page;
 
 namespace Subtext.Web.Admin.UserControls
 {
-	using System;
-
-	public class EntryEditor : System.Web.UI.UserControl
+	public class EntryEditor : UserControl
 	{
 		private const string VSKEY_POSTID = "PostID";
 		private const string VSKEY_CATEGORYTYPE = "CategoryType";
@@ -48,38 +50,38 @@ namespace Subtext.Web.Admin.UserControls
 		private bool _isListHidden = false;
 		
 		#region Declared Controls
-		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
-		protected System.Web.UI.WebControls.Repeater rprSelectionList;
-		protected System.Web.UI.HtmlControls.HtmlGenericControl NoMessagesLabel;
-		protected Subtext.Web.Admin.WebUI.Pager ResultsPager;
-		protected System.Web.UI.WebControls.HyperLink hlEntryLink;
-		protected System.Web.UI.WebControls.TextBox txbTitle;
-		protected System.Web.UI.WebControls.Button Post;
-		protected System.Web.UI.WebControls.TextBox txbExcerpt;
-		protected System.Web.UI.WebControls.TextBox txbTitleUrl;
-		protected System.Web.UI.WebControls.TextBox Textbox1;
-		protected System.Web.UI.WebControls.TextBox Textbox2;
-		protected System.Web.UI.WebControls.CheckBox ckbPublished;
-		protected System.Web.UI.WebControls.CheckBox chkComments;
-		protected System.Web.UI.WebControls.CheckBox chkDisplayHomePage;
-		protected System.Web.UI.WebControls.CheckBox chkMainSyndication;
-		protected System.Web.UI.WebControls.CheckBox chkSyndicateDescriptionOnly;
-		protected System.Web.UI.WebControls.CheckBox chkIsAggregated;
+		protected MessagePanel Messages;
+		protected Repeater rprSelectionList;
+		protected HtmlGenericControl NoMessagesLabel;
+		protected Pager ResultsPager;
+		protected HyperLink hlEntryLink;
+		protected TextBox txbTitle;
+		protected Button Post;
+		protected TextBox txbExcerpt;
+		protected TextBox txbTitleUrl;
+		protected TextBox Textbox1;
+		protected TextBox Textbox2;
+		protected CheckBox ckbPublished;
+		protected CheckBox chkComments;
+		protected CheckBox chkDisplayHomePage;
+		protected CheckBox chkMainSyndication;
+		protected CheckBox chkSyndicateDescriptionOnly;
+		protected CheckBox chkIsAggregated;
 
-		protected System.Web.UI.WebControls.CheckBoxList cklCategories;
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel Results;
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel Advanced;
-		protected System.Web.UI.WebControls.TextBox txbSourceName;
-		protected System.Web.UI.WebControls.TextBox txbSourceUrl;
-		protected System.Web.UI.WebControls.Button lkbPost;
-		protected System.Web.UI.WebControls.Button lkUpdateCategories;
-		protected System.Web.UI.WebControls.Button lkbCancel;
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
-		protected System.Web.UI.WebControls.RequiredFieldValidator valtbBodyRequired;
-		protected System.Web.UI.WebControls.RequiredFieldValidator valTitleRequired;
-		protected System.Web.UI.WebControls.Button lkbNewPost;	
-		protected System.Web.UI.WebControls.TextBox txbEntryName;
-		protected FreeTextBoxControls.FreeTextBox freeTextBox;
+		protected CheckBoxList cklCategories;
+		protected AdvancedPanel Results;
+		protected AdvancedPanel Advanced;
+		protected TextBox txbSourceName;
+		protected TextBox txbSourceUrl;
+		protected Button lkbPost;
+		protected Button lkUpdateCategories;
+		protected Button lkbCancel;
+		protected AdvancedPanel Edit;
+		protected RequiredFieldValidator valtbBodyRequired;
+		protected RequiredFieldValidator valTitleRequired;
+		protected Button lkbNewPost;	
+		protected TextBox txbEntryName;
+		protected FreeTextBox freeTextBox;
 		#endregion
 
 		#region Accessors
@@ -156,7 +158,7 @@ namespace Subtext.Web.Admin.UserControls
 		
 		#endregion
 
-		private void Page_Load(object sender, System.EventArgs e)
+		private void Page_Load(object sender, EventArgs e)
 		{	
 			if (!IsPostBack)
 			{
@@ -172,7 +174,7 @@ namespace Subtext.Web.Admin.UserControls
 
 				if (NullValue.NullInt32 != _filterCategoryID)
 				{
-					ResultsPager.UrlFormat += string.Format(System.Globalization.CultureInfo.InvariantCulture, "&{0}={1}", Keys.QRYSTR_CATEGORYID, _filterCategoryID);
+					ResultsPager.UrlFormat += string.Format(CultureInfo.InvariantCulture, "&{0}={1}", Keys.QRYSTR_CATEGORYID, _filterCategoryID);
 				}
 				
 				BindList();
@@ -190,7 +192,7 @@ namespace Subtext.Web.Admin.UserControls
 						//Ok, we came from outside the admin tool.
 						ReturnToOriginalPost = true;
 					}
-					catch(System.FormatException)
+					catch(FormatException)
 					{
 						//Swallow it. Gulp!
 					}
@@ -319,10 +321,10 @@ namespace Subtext.Web.Admin.UserControls
 			Advanced.Collapsed = !Preferences.AlwaysExpandAdvanced;
 
 			Control container = Page.FindControl("PageContainer");
-			if (null != container && container is Subtext.Web.Admin.WebUI.Page)
+			if (null != container && container is Page)
 			{	
-				Subtext.Web.Admin.WebUI.Page page = (Subtext.Web.Admin.WebUI.Page)container;
-				string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Editing {0} \"{1}\"", 
+				Page page = (Page)container;
+				string title = string.Format(CultureInfo.InvariantCulture, "Editing {0} \"{1}\"", 
 					CategoryType == CategoryType.StoryCollection ? "Article" : "Post", currentPost.Title);
 
 				page.BreadCrumbs.AddLastItem(title);
@@ -417,21 +419,31 @@ namespace Subtext.Web.Admin.UserControls
 					
 					entry.Title = txbTitle.Text;
 					entry.Body = HtmlHelper.StripRTB(freeTextBox.Text, Request.Url.Host);
-					entry.IsActive = ckbPublished.Checked;
-					entry.SourceName = txbSourceName.Text;
+//					entry.Body = freeTextBox.Text;
 					entry.Author = Config.CurrentBlog.Author;
 					entry.Email = Config.CurrentBlog.Email;
-					entry.SourceUrl = txbSourceUrl.Text;
-					entry.Description = txbExcerpt.Text;
-					entry.TitleUrl = txbTitleUrl.Text;
+					entry.BlogID = Config.CurrentBlog.BlogID;
+
+					// Advanced options
+					/* Need to do some special checks for txb*.Text == "", b/c they get posted 
+					 * by the page as String.Empty if there is nothing in them, but this 
+					 * causes issues when getting entries out of the dataStore. For example, 
+					 * when getting an "" for txbTitleUrl, we don't correctly write the url to
+					 * the post. So we need to be sure to get NULL for these values. This also works
+					 * to reset these fields in the dataStore for an "updated" post.
+					 */
+					entry.IsActive = ckbPublished.Checked;
 					entry.AllowComments = chkComments.Checked;
 					entry.DisplayOnHomePage = chkDisplayHomePage.Checked;
 					entry.IncludeInMainSyndication = chkMainSyndication.Checked;
 					entry.SyndicateDescriptionOnly = chkSyndicateDescriptionOnly.Checked;
 					entry.IsAggregated = chkIsAggregated.Checked;
-					entry.EntryName = txbEntryName.Text;
-					entry.BlogID = Config.CurrentBlog.BlogID;
-				
+					entry.EntryName = StringHelper.ReturnNullForEmpty(txbEntryName.Text);
+					entry.Description = StringHelper.ReturnNullForEmpty(txbExcerpt.Text);
+					entry.TitleUrl = StringHelper.ReturnNullForEmpty(txbTitleUrl.Text);
+					entry.SourceUrl = StringHelper.ReturnNullForEmpty(txbSourceUrl.Text);
+					entry.SourceName = StringHelper.ReturnNullForEmpty(txbSourceName.Text);
+
 					if (PostID != NullValue.NullInt32)
 					{
 						successMessage = Constants.RES_SUCCESSEDIT;
@@ -566,18 +578,18 @@ namespace Subtext.Web.Admin.UserControls
 		/// </summary>
 		private void InitializeComponent()
 		{    			
-			this.rprSelectionList.ItemCommand += new System.Web.UI.WebControls.RepeaterCommandEventHandler(this.rprSelectionList_ItemCommand);
-			this.lkbPost.Click += new System.EventHandler(this.lkbPost_Click);
+			this.rprSelectionList.ItemCommand += new RepeaterCommandEventHandler(this.rprSelectionList_ItemCommand);
+			this.lkbPost.Click += new EventHandler(this.lkbPost_Click);
 			this.lkUpdateCategories.Click += new EventHandler(lkUpdateCategories_Click);
-			this.lkbCancel.Click += new System.EventHandler(this.lkbCancel_Click);
-			this.Load += new System.EventHandler(this.Page_Load);
+			this.lkbCancel.Click += new EventHandler(this.lkbCancel_Click);
+			this.Load += new EventHandler(this.Page_Load);
 
 		}
 		#endregion
 
-		private void rprSelectionList_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
+		private void rprSelectionList_ItemCommand(object source, RepeaterCommandEventArgs e)
 		{				
-			switch (e.CommandName.ToLower(System.Globalization.CultureInfo.InvariantCulture)) 
+			switch (e.CommandName.ToLower(CultureInfo.InvariantCulture)) 
 			{
 				case "edit" :
 					PostID = Convert.ToInt32(e.CommandArgument);
@@ -591,7 +603,7 @@ namespace Subtext.Web.Admin.UserControls
 			}
 		}
 
-		private void lkbCancel_Click(object sender, System.EventArgs e)
+		private void lkbCancel_Click(object sender, EventArgs e)
 		{
 			if(PostID > -1 && ReturnToOriginalPost)
 			{
@@ -607,7 +619,7 @@ namespace Subtext.Web.Admin.UserControls
 			ResetPostEdit(false);
 		}
 
-		private void lkbPost_Click(object sender, System.EventArgs e)
+		private void lkbPost_Click(object sender, EventArgs e)
 		{
 			UpdatePost();
 		}
