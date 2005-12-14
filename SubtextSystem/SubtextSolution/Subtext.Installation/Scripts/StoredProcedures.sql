@@ -3586,17 +3586,20 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateEntry]
 )
 AS
 
-if(@EntryName is not NULL)
+IF(LEN(RTRIM(LTRIM(@EntryName))) = 0)
+	SET @EntryName = NULL
+
+IF(@EntryName IS NOT NULL)
 BEGIN
-	IF EXISTS(SELECT EntryName FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE BlogID = @BlogID AND EntryName = @EntryName AND [ID] <> @ID)
+	IF EXISTS(SELECT EntryName FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE BlogID = @BlogID AND EntryName = @EntryName)
 	BEGIN
-		RAISERROR('The EntryName you entry is already in use with in this Blog. Please pick a unique EntryName.',11,1) 
+		RAISERROR('The EntryName of your entry is already in use with in this Blog. Please pick a unique EntryName.', 11, 1) 
 		RETURN 1
 	END
 END
+IF(LTRIM(RTRIM(@Description)) = '')
+SET @Description = NULL
 
-if(Ltrim(Rtrim(@Description)) = '')
-set @Description = NULL
 UPDATE [<dbUser,varchar,dbo>].[subtext_Content] 
 SET 
 	Title = @Title 
@@ -4108,11 +4111,14 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertEntry]
 )
 AS
 
+IF(LEN(RTRIM(LTRIM(@EntryName))) = 0)
+	SET @EntryName = NULL
+
 IF(@EntryName IS NOT NULL)
 BEGIN
 	IF EXISTS(SELECT EntryName FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE BlogID = @BlogID AND EntryName = @EntryName)
 	BEGIN
-		RAISERROR('The EntryName you entry is already in use with in this Blog. Please pick a unique EntryName.', 11, 1) 
+		RAISERROR('The EntryName of your entry is already in use with in this Blog. Please pick a unique EntryName.', 11, 1) 
 		RETURN 1
 	END
 END

@@ -1,5 +1,6 @@
 <%@ Control Language="c#" AutoEventWireup="false" Codebehind="PageTemplate.ascx.cs" Inherits="Subtext.Web.Admin.PageTemplate" targetSchema="http://schemas.microsoft.com/intellisense/ie5" %>
 <%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
+<%@ Register TagPrefix="ST" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <%@ Import Namespace = "Subtext.Web.Admin" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -7,9 +8,9 @@
 		<title>
 			<ANW:PlaceHolder id="PageTitle" runat="server">Subtext - Manage</ANW:PlaceHolder>
 		</title>
-		<ANW:ScriptTag id="NiceForms" type="text/javascript" src="resources/Scripts/niceForms.js" runat="server" />
-		<ANW:ScriptTag id="HelptipJs" type="text/javascript" src="resources/Scripts/helptip.js" runat="server" />
-		<ANW:ScriptTag id="AdminJs" type="text/javascript" src="resources/Scripts/admin.js" runat="server" />
+		<ST:ScriptTag id="NiceForms" type="text/javascript" src="~/admin/resources/Scripts/niceForms.js" runat="server" />
+		<ST:ScriptTag id="HelptipJs" type="text/javascript" src="~/admin/resources/Scripts/helptip.js" runat="server" />
+		<ST:ScriptTag id="AdminJs" type="text/javascript" src="~/admin/resources/Scripts/admin.js" runat="server" />
 		<ANW:HeaderLink id="HelptipCss" rel="stylesheet" href="resources/scripts/helptip.css" linkType="text/css"
 			runat="server" />
 		<ANW:HeaderLink id="Css1" rel="stylesheet" href="resources/admin.css" linkType="text/css" runat="server" />
@@ -52,6 +53,8 @@
 							<li>
 								<a href="Options.aspx" id="TabOptions">Options</a></li>
 							</li>
+							<li>
+								<a href="ImportExport.aspx" id="TabImportExport">Import/Export</a></li>
 						</ul>
 						<div id="SubNav">
 							<ANW:BreadCrumbs id="BreadCrumbs" UsePrefixText="true" IsPanel="false" IncludeRoot="false" runat="server" />

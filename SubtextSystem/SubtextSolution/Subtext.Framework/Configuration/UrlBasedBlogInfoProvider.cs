@@ -164,6 +164,7 @@ namespace Subtext.Framework.Configuration
 			
 					BlogConfigurationSettings settings = Subtext.Framework.Configuration.Config.Settings;
 
+					// look here for issues with gallery images not showing up.
 					string webApp=HttpContext.Current.Request.ApplicationPath;
 
 					if(webApp.Length<=1)
@@ -180,7 +181,8 @@ namespace Subtext.Framework.Configuration
 
 					string virtualPath = string.Format(System.Globalization.CultureInfo.InvariantCulture, "images/{0}{1}", Regex.Replace(Host+webApp,@"\:|\.","_"), app);
 
-					info.ImagePath = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}{2}", formattedHost, app, virtualPath);
+					// now put together the host + / + virtual path (url) to images
+					info.ImagePath = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}/{1}", formattedHost, virtualPath);
 					try
 					{
 						info.ImageDirectory = context.Request.MapPath("~/" + virtualPath);

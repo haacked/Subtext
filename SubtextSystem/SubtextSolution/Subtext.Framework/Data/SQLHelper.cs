@@ -125,6 +125,9 @@ namespace Subtext.Framework.Data
 
 		public static string CheckNull(object obj)
 		{
+			if(obj == null)
+				return string.Empty;
+							 
 			return (string) obj;
 		}
 

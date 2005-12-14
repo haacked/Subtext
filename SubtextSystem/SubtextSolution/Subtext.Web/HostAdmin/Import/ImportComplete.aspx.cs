@@ -10,6 +10,7 @@ namespace Subtext.Web.HostAdmin
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
 		protected Subtext.Web.Controls.MasterPage MPContainer;
+		protected Subtext.Web.Controls.ContentRegion MPSectionTitle;
 		protected System.Web.UI.HtmlControls.HtmlAnchor lnkHostAdmin;
 	
 		private void Page_Load(object sender, System.EventArgs e)

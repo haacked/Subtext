@@ -149,6 +149,11 @@
                     AssemblyName = "DotNetOpenMail"
                     HintPath = "ExternalDependencies\DotNetOpenMail.dll"
                 />
+                <Reference
+                    Name = "BlogML"
+                    AssemblyName = "BlogML"
+                    HintPath = "ExternalDependencies\BlogML.dll"
+                />
             </References>
         </Build>
         <Files>
@@ -549,6 +554,10 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ExternalDependencies\BlogML.dll"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "ExternalDependencies\CookComputing.XmlRpc.dll"
                     BuildAction = "Content"
                 />
@@ -578,6 +587,16 @@
                 />
                 <File
                     RelPath = "Format\UrlFormats.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Import\SubtextBlogMLReader.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Import\SubtextBlogMLWriter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

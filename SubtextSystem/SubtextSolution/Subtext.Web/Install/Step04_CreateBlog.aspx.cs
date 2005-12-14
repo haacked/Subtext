@@ -18,7 +18,6 @@ namespace Subtext.Web.Install
 		protected System.Web.UI.WebControls.Literal ltlMessage;
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
-		protected Subtext.Web.Controls.MasterPage MPContainer;
 		protected System.Web.UI.WebControls.Button btnImportBlog;
 		protected Subtext.Web.Controls.ContentRegion Content;
 	

@@ -119,7 +119,7 @@ namespace Subtext
 				HttpApplication application = (HttpApplication)sender;
 				HttpContext context = application.Context;
 
-				if(!Regex.IsMatch(context.Request.Path,"rss|mainfeed|atom|services|opml|ftbwebresource",RegexOptions.IgnoreCase))
+				if(!Regex.IsMatch(context.Request.Path,"rss|mainfeed|atom|services|opml|ftbwebresource|ashx",RegexOptions.IgnoreCase))
 				{
 					Version v =  Subtext.Framework.VersionInfo.FrameworkVersion; //t.Assembly.GetName().Version;
 					string machineName = System.Environment.MachineName;

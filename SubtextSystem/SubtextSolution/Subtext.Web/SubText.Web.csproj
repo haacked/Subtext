@@ -179,6 +179,11 @@
                     Project = "{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "BlogML"
+                    AssemblyName = "BlogML"
+                    HintPath = "..\Subtext.Framework\ExternalDependencies\BlogML.dll"
+                />
             </References>
         </Build>
         <Files>
@@ -537,6 +542,21 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "Admin\ImportExport.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\ImportExport.aspx.cs"
+                    DependentUpon = "ImportExport.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Admin\ImportExport.aspx.resx"
+                    DependentUpon = "ImportExport.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Admin\license.txt"
                     BuildAction = "Content"
                 />
@@ -687,6 +707,15 @@
                 <File
                     RelPath = "Admin\Web.config"
                     BuildAction = "None"
+                />
+                <File
+                    RelPath = "Admin\Handlers\BlogMLExport.ashx"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Admin\Handlers\BlogMLExport.ashx.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Admin\Resources\admin.css"

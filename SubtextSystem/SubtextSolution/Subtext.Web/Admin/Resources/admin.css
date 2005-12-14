@@ -599,7 +599,8 @@ body#Feedback a#TabFeedback,
 body#Links a#TabLinks,
 body#Galleries a#TabGalleries,
 body#Stats a#TabStats,
-body#Options a#TabOptions{
+body#Options a#TabOptions,
+body#ImportExport a#TabImportExport{
 	background: #B6C9E7;
 	border-left: 1px solid #6F736D;
 	border-right: 1px solid #6F736D;
@@ -684,7 +685,7 @@ ul#TopNav li {
 }
 
 #SubNav A:link, 
-#SubNav A:visited,{
+#SubNav A:visited {
 	color: #001E6A;
 	background: inherit;	
 	/*font-weight: normal;*/
