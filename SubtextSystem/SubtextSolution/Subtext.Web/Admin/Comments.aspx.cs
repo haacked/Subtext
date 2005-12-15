@@ -1,10 +1,12 @@
 using System;
 using System.Globalization;
+using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
-using Subtext.Web.Admin.Pages;
+using Subtext.Web.Admin.WebUI;
+using Subtext.Web.Controls;
 
-namespace Subtext.Web.Admin
+namespace Subtext.Web.Admin.Pages
 {
 	/// <summary>
 	/// Summary description for Comments.
@@ -14,21 +16,21 @@ namespace Subtext.Web.Admin
 		private const string RES_SUCCESS = "Your comment settings were successfully updated.";
 		private const string RES_FAILURE = "Comment settings update failed.";
 
-		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
-		protected System.Web.UI.WebControls.CheckBox chkEnableComments;
-		protected System.Web.UI.WebControls.CheckBox chkEnableTrackbacks;
-		protected System.Web.UI.WebControls.TextBox txtCommentDelayIntervalMinutes;
-		protected System.Web.UI.WebControls.TextBox txtDaysTillCommentsClosed;
-		protected System.Web.UI.WebControls.Button lkbPost;
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
-		protected Subtext.Web.Controls.HelpToolTip HelpToolTip1;
-		protected Subtext.Web.Controls.HelpToolTip Helptooltip5;
-		protected Subtext.Web.Controls.HelpToolTip HelpToolTip2;
-		protected Subtext.Web.Controls.HelpToolTip Helptooltip3;
-		protected Subtext.Web.Controls.HelpToolTip Helptooltip4;
-		protected System.Web.UI.WebControls.CheckBox chkAllowDuplicates;
+		protected MessagePanel Messages;
+		protected CheckBox chkEnableComments;
+		protected CheckBox chkEnableTrackbacks;
+		protected TextBox txtCommentDelayIntervalMinutes;
+		protected TextBox txtDaysTillCommentsClosed;
+		protected Button lkbPost;
+		protected AdvancedPanel Edit;
+		protected HelpToolTip HelpToolTip1;
+		protected HelpToolTip Helptooltip5;
+		protected HelpToolTip HelpToolTip2;
+		protected HelpToolTip Helptooltip3;
+		protected HelpToolTip Helptooltip4;
+		protected CheckBox chkAllowDuplicates;
 		
-		private void Page_Load(object sender, System.EventArgs e)
+		private void Page_Load(object sender, EventArgs e)
 		{
 			if (!IsPostBack)
 			{
@@ -129,7 +131,7 @@ namespace Subtext.Web.Admin
 							this.Messages.ShowError("You can&#8217;t go back in time, the comment delay should not be a negative number.");
 						}
 					}
-					catch(System.FormatException)
+					catch(FormatException)
 					{
 						this.Messages.ShowError("Whoa there, the comment delay should be a valid integer.");
 						return false;
@@ -157,13 +159,13 @@ namespace Subtext.Web.Admin
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.lkbPost.Click += new System.EventHandler(this.lkbPost_Click);
-			this.Load += new System.EventHandler(this.Page_Load);
+			this.lkbPost.Click += new EventHandler(this.lkbPost_Click);
+			this.Load += new EventHandler(this.Page_Load);
 
 		}
 		#endregion
 
-		private void lkbPost_Click(object sender, System.EventArgs e)
+		private void lkbPost_Click(object sender, EventArgs e)
 		{
 			SaveSettings();
 		}
@@ -183,7 +185,7 @@ namespace Subtext.Web.Admin
 				}
 				return theNumber;
 			}
-			catch(System.FormatException)
+			catch(FormatException)
 			{
 				throw new ArgumentException("Please enter a valid positive number for the field \"" + fieldName + "\"", fieldName);
 			}

@@ -22,7 +22,9 @@
 #endregion
 
 using System;
+using System.Web.UI.WebControls;
 using Subtext.Framework;
+using Subtext.Web.Admin.WebUI;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -31,19 +33,19 @@ namespace Subtext.Web.Admin.Pages
 	/// </summary>
 	public class Password : AdminOptionsPage
 	{
-		protected System.Web.UI.WebControls.TextBox tbPasswordConfirm;
-		protected System.Web.UI.WebControls.Label Message;
-		protected System.Web.UI.WebControls.CompareValidator CompareValidator1;
-		protected System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator6;
-		protected System.Web.UI.WebControls.TextBox tbCurrent;
-		protected System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator5;
-		protected System.Web.UI.WebControls.ValidationSummary ValidationSummary1;
-		protected System.Web.UI.WebControls.LinkButton btnSave;
-		protected System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
-		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
-		protected System.Web.UI.WebControls.TextBox tbPassword;
+		protected TextBox tbPasswordConfirm;
+		protected Label Message;
+		protected CompareValidator CompareValidator1;
+		protected RequiredFieldValidator RequiredFieldValidator6;
+		protected TextBox tbCurrent;
+		protected RequiredFieldValidator RequiredFieldValidator5;
+		protected ValidationSummary ValidationSummary1;
+		protected LinkButton btnSave;
+		protected RequiredFieldValidator RequiredFieldValidator1;
+		protected MessagePanel Messages;
+		protected TextBox tbPassword;
 	
-		private void Page_Load(object sender, System.EventArgs e)
+		private void Page_Load(object sender, EventArgs e)
 		{
 			#if WANRelease
 				Response.Redirect("http://asp.net/Forums/User/ChangePassword.aspx?tabindex=1");
@@ -66,13 +68,13 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-			this.Load += new System.EventHandler(this.Page_Load);
+			this.btnSave.Click += new EventHandler(this.btnSave_Click);
+			this.Load += new EventHandler(this.Page_Load);
 
 		}
 		#endregion
 
-		private void btnSave_Click(object sender, System.EventArgs e)
+		private void btnSave_Click(object sender, EventArgs e)
 		{
 			const string failureMessage = "Your password can not be updated";
 			if(Page.IsValid)

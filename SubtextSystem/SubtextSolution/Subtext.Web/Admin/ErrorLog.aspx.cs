@@ -22,20 +22,22 @@
 #endregion
 
 using System;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Data;
 using Subtext.Framework.Logging;
+using Subtext.Web.Admin.WebUI;
 
 namespace Subtext.Web.Admin.Pages
 {
 	public class ErrorLog : AdminPage
 	{
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel Log;
-		protected Subtext.Web.Admin.WebUI.Page PageContainer;
-		protected System.Web.UI.WebControls.Repeater LogPage;
-		protected System.Web.UI.HtmlControls.HtmlGenericControl NoMessagesLabel;
-		protected Subtext.Web.Admin.WebUI.Pager LogPager;
-		protected System.Web.UI.WebControls.Button btnClearLog;
+		protected AdvancedPanel Log;
+		protected Page PageContainer;
+		protected Repeater LogPage;
+		protected HtmlGenericControl NoMessagesLabel;
+		protected Pager LogPager;
+		protected Button btnClearLog;
 
 		private int _logPageNumber;
 	
@@ -97,11 +99,11 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.btnClearLog.Click += new System.EventHandler(this.btnClearLog_Click);
+			this.btnClearLog.Click += new EventHandler(this.btnClearLog_Click);
 		}
 		#endregion
 
-		private void btnClearLog_Click(object sender, System.EventArgs e)
+		private void btnClearLog_Click(object sender, EventArgs e)
 		{
 			LoggingProvider.Instance().ClearLog();
 			LogPager.PageIndex = 0; //Back to first page.

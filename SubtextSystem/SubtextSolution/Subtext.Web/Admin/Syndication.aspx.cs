@@ -1,9 +1,11 @@
 using System;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
-using Subtext.Web.Admin.Pages;
+using Subtext.Web.Admin.WebUI;
 
-namespace Subtext.Web.Admin
+namespace Subtext.Web.Admin.Pages
 {
 	/// <summary>
 	/// Admin Page used to set syndication settings.
@@ -14,23 +16,19 @@ namespace Subtext.Web.Admin
 		private const string RES_SUCCESS = "Your syndication settings were successfully updated.";
 		private const string RES_FAILURE = "Syndication settings update failed.";
 
-		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
-		protected System.Web.UI.WebControls.CheckBox chkEnableSyndication;
-		protected System.Web.UI.WebControls.CheckBox chkUseSyndicationCompression;
-		protected System.Web.UI.WebControls.CheckBox chkUseDeltaEncoding;
-		protected System.Web.UI.WebControls.TextBox txtLicenseUrl;
-		protected System.Web.UI.WebControls.Button lkbPost;
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
-		protected Subtext.Web.Controls.HelpToolTip HelpToolTip1;
-		protected Subtext.Web.Controls.HelpToolTip HelpToolTip2;
-		protected Subtext.Web.Controls.HelpToolTip Helptooltip4;
-		protected System.Web.UI.HtmlControls.HtmlImage helpImg;
-		protected System.Web.UI.HtmlControls.HtmlImage Img1;
-		protected System.Web.UI.HtmlControls.HtmlImage Img2;
-		protected System.Web.UI.HtmlControls.HtmlImage Img3;
-		protected Subtext.Web.Controls.HelpToolTip HelpToolTip3;
+		protected MessagePanel Messages;
+		protected CheckBox chkEnableSyndication;
+		protected CheckBox chkUseSyndicationCompression;
+		protected CheckBox chkUseDeltaEncoding;
+		protected TextBox txtLicenseUrl;
+		protected Button lkbPost;
+		protected AdvancedPanel Edit;
+		protected HtmlImage helpImg;
+		protected HtmlImage Img1;
+		protected HtmlImage Img2;
+		protected HtmlImage Img3;
 		
-		private void Page_Load(object sender, System.EventArgs e)
+		private void Page_Load(object sender, EventArgs e)
 		{
 			if (!IsPostBack)
 			{
@@ -102,13 +100,13 @@ namespace Subtext.Web.Admin
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.lkbPost.Click += new System.EventHandler(this.lkbPost_Click);
-			this.Load += new System.EventHandler(this.Page_Load);
+			this.lkbPost.Click += new EventHandler(this.lkbPost_Click);
+			this.Load += new EventHandler(this.Page_Load);
 
 		}
 		#endregion
 
-		private void lkbPost_Click(object sender, System.EventArgs e)
+		private void lkbPost_Click(object sender, EventArgs e)
 		{
 			SaveSettings();
 		}
