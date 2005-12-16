@@ -164,6 +164,7 @@ namespace Subtext.Framework.Import
 				newEntry.DisplayOnHomePage = bmlPost.Approved;
 				newEntry.IncludeInMainSyndication = bmlPost.Approved;
 				newEntry.IsAggregated = bmlPost.Approved;
+				newEntry.AllowComments = true;
 				newEntryID = Entries.Create(newEntry);
 
 				// TODO: add categories for post
