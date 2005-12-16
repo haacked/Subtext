@@ -376,11 +376,11 @@ img
 	font-size: .7em;
 }
 
-#hostAdminName
+#hostAdminNameText
 {
 	font-weight: bold;
 }
-#logoutLink
+#logoutLinkText
 {
 	font-weight: bold;
 }

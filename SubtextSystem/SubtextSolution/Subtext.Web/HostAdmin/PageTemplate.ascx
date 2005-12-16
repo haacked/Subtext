@@ -13,10 +13,10 @@
 			<div id="main">
 				<div id="logo">
 					<div id="loginStatus">Logged in As
-						<span id="hostAdminName">
-							<asp:Literal ID="hostAdminName" Runat="server" Text="<%# HostUserName%>" />
-						</span>
-						<span id="logoutLink">(<a href="~/Logout.aspx" id="logoutLink" runat="server">Logout</a></span>)</div>
+						<span id="hostAdminNameText">
+							<asp:Literal ID="hostAdminName" Runat="server" Text="" />
+						</span> 
+						<span id="logoutLinkText">[<a href="~/Logout.aspx" id="logoutLink" runat="server">Logout</a>]</span></div>
 					<h1><MP:ContentRegion id="MPSectionTitle" runat="server">Subtext Host Admin</MP:ContentRegion></h1>
 				</div>
 				<ul id="menu">

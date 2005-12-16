@@ -97,7 +97,8 @@ namespace Subtext.Web.HostAdmin
 			}
 			catch(SqlScriptExecutionException exception)
 			{
-				this.ltlErrorMessage.Text = "Oooh. We had trouble with the import.  The error message follows : " + exception.Message;
+				this.ltlErrorMessage.Text = "<strong>Oooh. We had trouble with the import.  The error message follows :</strong><br />" 
+					+ exception.Message +"<hr size=5 />";
 			}
 			paraBeginImportText.Visible = false;
 			btnNext.Visible = true;

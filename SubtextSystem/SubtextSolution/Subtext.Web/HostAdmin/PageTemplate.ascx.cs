@@ -27,19 +27,7 @@ namespace Subtext.Web.HostAdmin
 			if(!IsPostBack)
 				DataBind();
 			base.OnLoad (e);
+			hostAdminName.Text = HostInfo.Instance.HostUserName;
 		}
-
-		/// <summary>
-		/// Gets the name of the host user.
-		/// </summary>
-		/// <value>The name of the host user.</value>
-		protected string HostUserName
-		{
-			get
-			{
-				return HostInfo.Instance.HostUserName;
-			}
-		}
-
 	}
 }
