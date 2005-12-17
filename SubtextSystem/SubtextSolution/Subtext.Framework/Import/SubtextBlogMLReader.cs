@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -22,7 +23,6 @@ namespace Subtext.Framework.Import
 	/// </summary>
 	public sealed class SubtextBlogMLReader
 	{
-
 		private readonly static ILog log = new Log();
 
 		/// <summary>
@@ -44,7 +44,7 @@ namespace Subtext.Framework.Import
 		/// this method is being called from an existing blog.</param>
 		public void ReadBlog(string blogMLFile, bool createNewBlog)
 		{
-			BlogMLBlog bmlBlog = BlogMLSerializer.Deserialize(new StringReader(blogMLFile));
+			BlogMLBlog bmlBlog = null;
 			Hashtable categoryMap = new Hashtable(); // will be used to map the blogML catID to real catID
 			int[] catIDs = null;
 			int count = 0;
@@ -59,6 +59,19 @@ namespace Subtext.Framework.Import
 			Entry newEntry = null;
 			Entry newPingTrack = null;
 			int newEntryID = NullValue.NullInt32;
+
+			try
+			{
+				bmlBlog = BlogMLSerializer.Deserialize(new StringReader(blogMLFile));
+			}
+			catch(Exception e)
+			{
+				string msg = (blogMLFile.Length == 0) ? 
+					"The specified BlogML file could not be found or does not exist." :
+					"There was an error trying to read the given BlogML file.";
+
+				throw new BlogImportException(msg, e);
+			}
 
 			/*	TODO - Map the data into the dataStore
 			 *	1) Add a new blog (subtext_Config)
