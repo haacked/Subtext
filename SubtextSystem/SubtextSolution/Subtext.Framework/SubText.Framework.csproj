@@ -514,6 +514,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Exceptions\BlogImportException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Exceptions\BlogRequiresApplicationException.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

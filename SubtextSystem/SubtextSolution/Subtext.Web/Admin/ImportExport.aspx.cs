@@ -24,8 +24,11 @@
 using System;
 using System.IO;
 using System.Web.UI.WebControls;
+using log4net;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Exceptions;
 using Subtext.Framework.Import;
+using Subtext.Framework.Logging;
 using Subtext.Web.Admin.WebUI;
 
 namespace Subtext.Web.Admin.Pages
@@ -46,7 +49,9 @@ namespace Subtext.Web.Admin.Pages
 		protected MessagePanel Messages;
 
 		protected System.Web.UI.WebControls.Button btnLoad;
+		protected System.Web.UI.WebControls.RequiredFieldValidator blogMLFileRequired;
 		protected System.Web.UI.HtmlControls.HtmlInputFile importBlogMLFile;
+		private readonly static ILog log = new Log();
 	
 		private void Page_Load(object sender, EventArgs e)
 		{
@@ -82,16 +87,32 @@ namespace Subtext.Web.Admin.Pages
 
 		private void btnLoad_Click(object sender, System.EventArgs e)
 		{
-			LoadBlogML();
+			if(Page.IsValid)
+				LoadBlogML();
 		}
 
 		private void LoadBlogML()
 		{
 			SubtextBlogMLReader bmlReader = new SubtextBlogMLReader();
+			bool errOccured = false;
 
 			StreamReader sReader = new StreamReader(this.importBlogMLFile.PostedFile.InputStream);
-			bmlReader.ReadBlog(sReader.ReadToEnd(), false);
-			sReader.Close();
+			try
+			{
+				bmlReader.ReadBlog(sReader.ReadToEnd(), false);
+			}
+			catch(BlogImportException bie)
+			{
+				log.Error("Import of BlogML file failed.", bie);
+				Messages.ShowError(bie.Message, true);
+			}
+			finally
+			{
+				sReader.Close();
+			}
+
+			if(!errOccured)
+				Messages.ShowMessage("The BlogML file was successfully imported!");
 		}
 	}
 }
