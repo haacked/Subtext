@@ -1,7 +1,7 @@
 <%@ Page language="c#" Codebehind="ErrorLog.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.ErrorLog" %>
 <%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Register TagPrefix="sb" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
-<ANW:Page id="PageContainer" TabSectionID="ErrorLog" runat="server">
+<ANW:Page id="PageContainer" TabSectionID="Stats" runat="server">
 	<ANW:AdvancedPanel id="Log" runat="server" Collapsible="False" HeaderText="Error Log" HeaderCssClass="CollapsibleHeader"
 		DisplayHeader="true">
 		<table id="Listing" class="Listing" cellSpacing="0" cellPadding="0" border="0">

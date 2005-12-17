@@ -30,10 +30,10 @@ namespace Subtext.Web.Admin.Pages
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Header;
 		protected System.Web.UI.WebControls.Label lblOutput;
 		protected Subtext.Web.Admin.WebUI.Page PageContainer;
+		protected System.Web.UI.WebControls.Button lkbContinue;
 		protected System.Web.UI.WebControls.Button lkbYes;
-		protected System.Web.UI.WebControls.HyperLink lnkContinue;
-		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
 		protected System.Web.UI.WebControls.Button lkbNo;
+		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
 	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
@@ -68,8 +68,7 @@ namespace Subtext.Web.Admin.Pages
 			else
 			{
 				lblOutput.Text = results;
-				lnkContinue.NavigateUrl = Command.RedirectUrl;
-				lnkContinue.Visible = true;
+				lkbContinue.Visible = true;
 				lkbYes.Visible = false;
 				lkbNo.Visible = false;				
 			}
@@ -91,6 +90,7 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		private void InitializeComponent()
 		{    
+			this.lkbContinue.Click += new System.EventHandler(this.lkbContinue_Click);
 			this.lkbYes.Click += new System.EventHandler(this.Yes_Click);
 			this.lkbNo.Click += new System.EventHandler(this.No_Click);
 			this.Load += new System.EventHandler(this.Page_Load);
@@ -108,6 +108,12 @@ namespace Subtext.Web.Admin.Pages
 		{
 			if (null != Command)
 				HandleCommand(Command.Cancel());
+		}
+
+		private void lkbContinue_Click(object sender, System.EventArgs e)
+		{
+			if (null != Command)
+				Response.Redirect(Command.RedirectUrl);
 		}
 	}
 }

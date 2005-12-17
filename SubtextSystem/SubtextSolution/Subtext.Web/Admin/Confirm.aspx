@@ -5,7 +5,7 @@
 	<ANW:AdvancedPanel id="Header" runat="server" DisplayHeader="true" CssClass="Dialog" HeaderCssClass="DialogTitle" BodyCssClass="DialogBody" HeaderText="Confirm Action" LinkText="[toggle list]"> 
 		<ASP:Label id="lblOutput" runat="server" />
 		<div style="margin-top: 12px;">
-			<ASP:HyperLink id="lnkContinue" runat="server" text="Continue" visible="false" CssClass="Button" />
+			<ASP:Button id="lkbContinue" runat="server" text="Continue" visible="false" CssClass="buttonSubmit" />
 			<ASP:Button id="lkbYes" runat="server" Text="Yes" CssClass="buttonSubmit" />
 			<ASP:Button id="lkbNo" runat="server" Text="No" CssClass="buttonSubmit" />
 			<BR>&nbsp;
