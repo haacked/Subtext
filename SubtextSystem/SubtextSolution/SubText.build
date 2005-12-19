@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<project name="SubText" default="dist.archive">
+
+	<property name="publish.root" value="D:\Simone\SubtextProject\SubtextSolution\targetDir"/>
+
+	<target name="get-publishing-properties">
+		
+		<tstamp property="build.date" pattern="yyyyMMddTHHmmss" />
+	
+	<!--
+		<ifnot test="${property::exists('publish.root')}"> 
+			<fail message="publish.root property not set, so can't create labelled distribution files" />
+		</ifnot>
+		<ifnot test="${property::exists('ccnet.label')}"> 
+			<fail message="ccnet.label property not set, so can't create labelled distribution files" />
+		</ifnot>
+	-->
+		
+		<property name="publish.dir.latest" value="${publish.root}\latest" />
+		<property name="publish.dir.archive" value="${publish.root}\archive" />
+
+	</target>
+
+
+	<target name="compile-main">
+		<solution configuration="debug">
+    <projects>
+        <include name="Subtext.Common\SubText.Common.csproj" />
+        <include name="Subtext.DotTextUpgrader\Subtext.DotTextUpgrader.csproj" />
+        <include name="Subtext.Extensibility\Subtext.Extensibility.csproj" />
+        <include name="Subtext.Framework\Subtext.Framework.csproj" />
+        <include name="Subtext.Installation\Subtext.Installation.csproj" />
+        <include name="Subtext.Scripting\Subtext.Scripting.csproj" />
+        <include name="Subtext.Web\Subtext.Web.csproj" />
+        <include name="Subtext.Web.Controls\Subtext.Web.Controls.csproj" />
+    </projects>
+		</solution>
+	</target>
+
+	<target name="compile-config">
+		<solution configuration="debug" verbose="true">
+    <projects>
+        <include name="SubtextConfigurationTool\SubtextConfigurationTool.csproj" />
+    </projects>
+		</solution>
+	</target>
+
+	<target name="compile-UnitTesting">
+		<solution configuration="debug" verbose="true">
+    <projects>
+        <include name="UnitTests.Subtext\UnitTests.SubText.csproj" />
+    </projects>
+    <referenceprojects>
+        <include name="Subtext.Common\SubText.Common.csproj" />
+        <include name="Subtext.DotTextUpgrader\Subtext.DotTextUpgrader.csproj" />
+        <include name="Subtext.Extensibility\Subtext.Extensibility.csproj" />
+        <include name="Subtext.Framework\Subtext.Framework.csproj" />
+        <include name="Subtext.Installation\Subtext.Installation.csproj" />
+        <include name="Subtext.Scripting\Subtext.Scripting.csproj" />
+        <include name="Subtext.Web\Subtext.Web.csproj" />
+        <include name="Subtext.Web.Controls\Subtext.Web.Controls.csproj" />
+    </referenceprojects>
+		</solution>
+	</target>
+
+
+
+	<target name="dist.publish.latest" depends="compile-main,get-publishing-properties">
+
+	
+		<mkdir dir="${publish.dir.latest}" />
+		<copy todir="${publish.dir.latest}">
+			<fileset basedir="Subtext.Web">
+				<include name="**/*" />
+				<exclude name="**/*.cs"/>
+				<exclude name="**/*.resx"/>
+				<exclude name="**/*.csproj"/>
+				<exclude name="**/*.*scc"/>
+				<exclude name="obj/**"/>
+			</fileset>
+		</copy>
+		
+		<attrib readonly="false" >
+			<fileset basedir="${publish.dir.latest}">
+				<include name="**/*" />
+			</fileset>
+		</attrib>
+		
+	</target>
+
+
+	<target name="dist.archive" depends="dist.publish.latest">
+		
+		<mkdir dir="${publish.dir.archive}" />
+		<zip zipfile="${publish.dir.archive}\${build.date}.zip">
+		<fileset basedir="${publish.dir.latest}">
+			<include name="**/*" />
+		</fileset>
+		</zip>
+		
+	</target>
+
+
+</project>
