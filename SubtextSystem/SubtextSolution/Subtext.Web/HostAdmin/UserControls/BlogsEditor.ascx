@@ -48,7 +48,7 @@
 		<AlternatingItemTemplate>
 			<tr class="Alt">
 				<td>
-					<a href="<%# DataBinder.Eval(Container.DataItem, "RootUrl") %>"><%# DataBinder.Eval(Container.DataItem, "Title") %></a>
+					<a href="<%# DataBinder.Eval(Container.DataItem, "RootUrl") %>Default.aspx"><%# DataBinder.Eval(Container.DataItem, "Title") %></a>
 				</td>
 				<td>
 					<strong>
