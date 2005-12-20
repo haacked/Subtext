@@ -1,341 +1,346 @@
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[iter_charlist_to_table]') and xtype in (N'FN', N'IF', N'TF'))
-drop function [dbo].[iter_charlist_to_table]
+/*
+WARNING: This SCRIPT USES SQL TEMPLATE PARAMETERS.
+Be sure to hit CTRL+SHIFT+M in Query Analyzer if running manually.
+*/
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[iter_charlist_to_table]') and xtype in (N'FN', N'IF', N'TF'))
+drop function [<dbUser,varchar,dbo>].[iter_charlist_to_table]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_VersionAdd]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_VersionAdd]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_VersionAdd]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_VersionAdd]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_VersionGetCurrent]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_VersionGetCurrent]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_VersionGetCurrent]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_VersionGetCurrent]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetHost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetHost]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetHost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetHost]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_UpdateHost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_UpdateHost]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_UpdateHost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_UpdateHost]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetCommentByChecksumHash]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetCommentByChecksumHash]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetCommentByChecksumHash]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetCommentByChecksumHash]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPageableBlogs]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetPageableBlogs]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableBlogs]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableBlogs]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetBlogsByHost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetBlogsByHost]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetBlogsByHost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetBlogsByHost]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetBlogById]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetBlogById]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetBlogById]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetBlogById]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_DeleteCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_DeleteCategory]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_DeleteCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_DeleteCategory]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_DeleteImage]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_DeleteImage]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_DeleteImage]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_DeleteImage]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_DeleteImageCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_DeleteImageCategory]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_DeleteImageCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_DeleteImageCategory]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_DeleteKeyWord]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_DeleteKeyWord]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_DeleteKeyWord]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_DeleteKeyWord]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_DeleteLink]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_DeleteLink]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_DeleteLink]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_DeleteLink]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_DeleteLinksByPostID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_DeleteLinksByPostID]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_DeleteLinksByPostID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_DeleteLinksByPostID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_DeletePost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_DeletePost]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_DeletePost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_DeletePost]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetActiveCategoriesWithLinkCollection]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetActiveCategoriesWithLinkCollection]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetActiveCategoriesWithLinkCollection]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetActiveCategoriesWithLinkCollection]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetAllCategories]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetAllCategories]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetAllCategories]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetAllCategories]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetBlogKeyWords]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetBlogKeyWords]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetBlogKeyWords]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetBlogKeyWords]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetCategory]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetCategory]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetCategoryByName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetCategoryByName]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetCategoryByName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetCategoryByName]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetConditionalEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetConditionalEntries]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetConditionalEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetConditionalEntries]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetConditionalEntriesByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetConditionalEntriesByDateUpdated]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetConditionalEntriesByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetConditionalEntriesByDateUpdated]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetConfig]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetConfig]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetConfig]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetConfig]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetEntriesByDayRange]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetEntriesByDayRange]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetEntriesByDayRange]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetEntriesByDayRange]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetEntryCollectionByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetEntryCollectionByDateUpdated]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetEntryCollectionByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetEntryCollectionByDateUpdated]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetEntryWithCategoryTitles]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetEntryWithCategoryTitles]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetEntryWithCategoryTitles]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetEntryWithCategoryTitles]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetEntryWithCategoryTitlesByEntryName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetEntryWithCategoryTitlesByEntryName]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetEntryWithCategoryTitlesByEntryName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetEntryWithCategoryTitlesByEntryName]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetFeedBack]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetFeedBack]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetFeedBack]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetFeedBack]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetImageCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetImageCategory]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetImageCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetImageCategory]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetKeyWord]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetKeyWord]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetKeyWord]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetKeyWord]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetLinkCollectionByPostID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetLinkCollectionByPostID]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetLinkCollectionByPostID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetLinkCollectionByPostID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetLinksByActiveCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetLinksByActiveCategoryID]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetLinksByActiveCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetLinksByActiveCategoryID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetLinksByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetLinksByCategoryID]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetLinksByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetLinksByCategoryID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPageableEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetPageableEntries]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableEntries]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPageableEntriesByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetPageableEntriesByCategoryID]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableEntriesByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableEntriesByCategoryID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPageableFeedback]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetPageableFeedback]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableFeedback]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableFeedback]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPageableLogEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetPageableLogEntries]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableLogEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableLogEntries]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPageableKeyWords]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetPageableKeyWords]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableKeyWords]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableKeyWords]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPageableLinks]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetPageableLinks]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableLinks]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableLinks]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPageableLinksByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetPageableLinksByCategoryID]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableLinksByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableLinksByCategoryID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPageableReferrers]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetPageableReferrers]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableReferrers]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableReferrers]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPageableReferrersByEntryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetPageableReferrersByEntryID]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableReferrersByEntryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableReferrersByEntryID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPostsByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetPostsByCategoryID]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPostsByCategoryIDByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetPostsByCategoryIDByDateUpdated]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryIDByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryIDByDateUpdated]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPostsByCategoryName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetPostsByCategoryName]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryName]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPostsByCategoryNameByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetPostsByCategoryNameByDateUpdated]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryNameByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryNameByDateUpdated]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPostsByDayRange]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetPostsByDayRange]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPostsByDayRange]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPostsByDayRange]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPostsByMonth]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetPostsByMonth]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPostsByMonth]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPostsByMonth]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPostsByMonthArchive]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetPostsByMonthArchive]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPostsByMonthArchive]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPostsByMonthArchive]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPostsByYearArchive]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetPostsByYearArchive]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPostsByYearArchive]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPostsByYearArchive]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetRecentEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetRecentEntries]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetRecentEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetRecentEntries]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetRecentEntriesByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetRecentEntriesByDateUpdated]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetRecentEntriesByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetRecentEntriesByDateUpdated]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetRecentEntriesWithCategoryTitles]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetRecentEntriesWithCategoryTitles]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetRecentEntriesWithCategoryTitles]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetRecentEntriesWithCategoryTitles]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetSingleDay]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetSingleDay]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetSingleDay]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetSingleDay]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetSingleEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetSingleEntry]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetSingleEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetSingleEntry]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetSingleEntryByName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetSingleEntryByName]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetSingleEntryByName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetSingleEntryByName]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetSingleImage]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetSingleImage]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetSingleImage]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetSingleImage]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetSingleLink]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetSingleLink]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetSingleLink]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetSingleLink]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetUrlID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_GetUrlID]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetUrlID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetUrlID]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_InsertCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_InsertCategory]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_InsertCategory]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_InsertEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_InsertEntry]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_InsertEntry]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_InsertEntryViewCount]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_InsertEntryViewCount]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertEntryViewCount]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_InsertEntryViewCount]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_InsertImage]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_InsertImage]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertImage]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_InsertImage]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_InsertKeyWord]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_InsertKeyWord]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertKeyWord]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_InsertKeyWord]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_InsertLink]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_InsertLink]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertLink]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_InsertLink]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_InsertLinkCategoryList]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_InsertLinkCategoryList]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertLinkCategoryList]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_InsertLinkCategoryList]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_InsertPingTrackEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_InsertPingTrackEntry]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertPingTrackEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_InsertPingTrackEntry]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_InsertPostCategoryByName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_InsertPostCategoryByName]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertPostCategoryByName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_InsertPostCategoryByName]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_InsertReferral]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_InsertReferral]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertReferral]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_InsertReferral]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_InsertViewStats]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_InsertViewStats]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertViewStats]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_InsertViewStats]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_StatsSummary]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_StatsSummary]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_StatsSummary]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_StatsSummary]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_TrackEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_TrackEntry]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_TrackEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_TrackEntry]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_UTILITY_AddBlog]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_UTILITY_AddBlog]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_UTILITY_AddBlog]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_UTILITY_AddBlog]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_UpdateCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_UpdateCategory]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_UpdateCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_UpdateCategory]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_UpdateConfig]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_UpdateConfig]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_UpdateConfig]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_UpdateConfig]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_UpdateConfigUpdateTime]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_UpdateConfigUpdateTime]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_UpdateConfigUpdateTime]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_UpdateConfigUpdateTime]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_UpdateEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_UpdateEntry]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_UpdateEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_UpdateEntry]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_UpdateImage]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_UpdateImage]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_UpdateImage]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_UpdateImage]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_UpdateKeyWord]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_UpdateKeyWord]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_UpdateKeyWord]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_UpdateKeyWord]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_UpdateLink]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_UpdateLink]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_UpdateLink]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_UpdateLink]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Utility_GetUnHashedPasswords]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_Utility_GetUnHashedPasswords]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_Utility_GetUnHashedPasswords]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_Utility_GetUnHashedPasswords]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_Utility_UpdateToHashedPassword]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_Utility_UpdateToHashedPassword]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_Utility_UpdateToHashedPassword]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_Utility_UpdateToHashedPassword]
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_AddLogEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_AddLogEntry]
+drop procedure [<dbUser,varchar,dbo>].[subtext_AddLogEntry]
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_LogClear]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[subtext_LogClear]
+drop procedure [<dbUser,varchar,dbo>].[subtext_LogClear]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -344,7 +349,7 @@ SET ANSI_NULLS OFF
 GO
 
 --Found at: http://www.algonet.se/~sommar/arrays-in-sql.html
-  CREATE FUNCTION [dbo].[iter_charlist_to_table]
+  CREATE FUNCTION [<dbUser,varchar,dbo>].[iter_charlist_to_table]
                     (@list      ntext,
                      @delimiter nchar(1) = N',')
          RETURNS @tbl TABLE (listpos int IDENTITY(1, 1) NOT NULL,
@@ -396,14 +401,14 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_DeleteCategory]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_DeleteCategory]
 (
 	@CategoryID int,
 	@BlogID int
 )
 AS
-DELETE [dbo].[subtext_Links] FROM [dbo].[subtext_Links] WHERE CategoryID = @CategoryID AND BlogID = @BlogID
-DELETE [dbo].[subtext_LinkCategories] FROM [dbo].[subtext_LinkCategories] WHERE subtext_LinkCategories.CategoryID = @CategoryID AND subtext_LinkCategories.BlogID = @BlogID
+DELETE [<dbUser,varchar,dbo>].[subtext_Links] FROM [<dbUser,varchar,dbo>].[subtext_Links] WHERE CategoryID = @CategoryID AND BlogID = @BlogID
+DELETE [<dbUser,varchar,dbo>].[subtext_LinkCategories] FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories] WHERE subtext_LinkCategories.CategoryID = @CategoryID AND subtext_LinkCategories.BlogID = @BlogID
 
 
 GO
@@ -412,7 +417,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_DeleteCategory]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_DeleteCategory]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -421,14 +426,14 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_DeleteImage]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_DeleteImage]
 (
 	@BlogID int,
 	@ImageID int
 )
 AS
-DELETE [dbo].[subtext_Images] 
-FROM [dbo].[subtext_Images] 
+DELETE [<dbUser,varchar,dbo>].[subtext_Images] 
+FROM [<dbUser,varchar,dbo>].[subtext_Images] 
 WHERE	ImageID = @ImageID 
 	AND BlogID = @BlogID
 
@@ -439,7 +444,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_DeleteImage]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_DeleteImage]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -448,14 +453,14 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_DeleteImageCategory]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_DeleteImageCategory]
 (
 	@CategoryID int,
 	@BlogID int
 )
 AS
-DELETE [dbo].[subtext_Images] FROM [dbo].[subtext_Images] WHERE subtext_Images.CategoryID = @CategoryID AND subtext_Images.BlogID = @BlogID
-DELETE [dbo].[subtext_LinkCategories] FROM [dbo].[subtext_LinkCategories] WHERE subtext_LinkCategories.CategoryID = @CategoryID AND subtext_LinkCategories.BlogID = @BlogID
+DELETE [<dbUser,varchar,dbo>].[subtext_Images] FROM [<dbUser,varchar,dbo>].[subtext_Images] WHERE subtext_Images.CategoryID = @CategoryID AND subtext_Images.BlogID = @BlogID
+DELETE [<dbUser,varchar,dbo>].[subtext_LinkCategories] FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories] WHERE subtext_LinkCategories.CategoryID = @CategoryID AND subtext_LinkCategories.BlogID = @BlogID
 
 
 
@@ -465,7 +470,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_DeleteImageCategory]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_DeleteImageCategory]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -474,7 +479,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_DeleteKeyWord]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_DeleteKeyWord]
 (
 	@KeyWordID int,
 	@BlogID int
@@ -482,7 +487,7 @@ CREATE PROC [dbo].[subtext_DeleteKeyWord]
 
 AS
 
-DELETE FROM [dbo].[subtext_KeyWords] WHERE BLOGID = @BlogID AND KeyWordID = @KeyWordID
+DELETE FROM [<dbUser,varchar,dbo>].[subtext_KeyWords] WHERE BLOGID = @BlogID AND KeyWordID = @KeyWordID
 
 
 GO
@@ -491,7 +496,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_DeleteKeyWord]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_DeleteKeyWord]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -500,13 +505,13 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_DeleteLink]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_DeleteLink]
 (
 	@LinkID int,
 	@BlogID int
 )
 AS
-DELETE [dbo].[subtext_Links] FROM [dbo].[subtext_Links] WHERE [LinkID] = @LinkID AND BlogID = @BlogID
+DELETE [<dbUser,varchar,dbo>].[subtext_Links] FROM [<dbUser,varchar,dbo>].[subtext_Links] WHERE [LinkID] = @LinkID AND BlogID = @BlogID
 
 
 GO
@@ -515,7 +520,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_DeleteLink]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_DeleteLink]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -524,14 +529,14 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_DeleteLinksByPostID]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_DeleteLinksByPostID]
 (
 	@PostID int,
 	@BlogID int
 )
 AS
 Set NoCount ON
-DELETE [dbo].[subtext_Links] FROM [dbo].[subtext_Links] WHERE PostID = @PostID AND BlogID = @BlogID
+DELETE [<dbUser,varchar,dbo>].[subtext_Links] FROM [<dbUser,varchar,dbo>].[subtext_Links] WHERE PostID = @PostID AND BlogID = @BlogID
 
 
 
@@ -541,7 +546,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_DeleteLinksByPostID]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_DeleteLinksByPostID]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -551,9 +556,9 @@ GO
 
 
 /*
-Deletes a record FROM [dbo].[subtext_content], whether it be a post, a comment, etc..
+Deletes a record FROM [<dbUser,varchar,dbo>].[subtext_content], whether it be a post, a comment, etc..
 */
-CREATE PROC [dbo].[subtext_DeletePost]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_DeletePost]
 (
 	@ID int,
 	@BlogID int
@@ -562,32 +567,32 @@ AS
 
 DECLARE @ParentID int, @PostType int
 
-SELECT @ParentID = ParentID, @PostType = PostType FROM [dbo].[subtext_Content] WHERE [ID] = @ID
+SELECT @ParentID = ParentID, @PostType = PostType FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE [ID] = @ID
 
 -- PostType 3 = Comment
 -- PostType 4 = PingBack
 
 IF(@PostType = 3 or @PostType = 4)
 BEGIN
-	UPDATE [dbo].[subtext_Content]
+	UPDATE [<dbUser,varchar,dbo>].[subtext_Content]
 	SET FeedBackCount = FeedBackCount - 1
 	WHERE [ID] = @ParentID
 END
 ELSE
 BEGIN
-	DELETE FROM [dbo].[subtext_Content] WHERE ParentID = @ID
+	DELETE FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE ParentID = @ID
 	-- This is a refactoring in progress 
 	-- to remove meaning from PostId = -1
 	DECLARE @PostID int
 	SET @PostID = @ID
 	IF @ID = -1
 		SET @PostID = NULL
-	DELETE FROM [dbo].[subtext_Links] WHERE PostID = @PostID
-	DELETE FROM [dbo].[subtext_EntryViewCount] WHERE EntryID = @ID
-	DELETE FROM [dbo].[subtext_Referrals] WHERE EntryID = @ID
+	DELETE FROM [<dbUser,varchar,dbo>].[subtext_Links] WHERE PostID = @PostID
+	DELETE FROM [<dbUser,varchar,dbo>].[subtext_EntryViewCount] WHERE EntryID = @ID
+	DELETE FROM [<dbUser,varchar,dbo>].[subtext_Referrals] WHERE EntryID = @ID
 END
 
-DELETE FROM [dbo].[subtext_Content] WHERE [ID] = @ID AND [BlogID] = @BlogID
+DELETE FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE [ID] = @ID AND [BlogID] = @BlogID
 
 
 GO
@@ -596,7 +601,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_DeletePost]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_DeletePost]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -605,7 +610,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetActiveCategoriesWithLinkCollection]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetActiveCategoriesWithLinkCollection]
 (
 	@BlogID int
 )
@@ -615,7 +620,7 @@ SELECT subtext_LinkCategories.CategoryID
 	, subtext_LinkCategories.Active
 	, subtext_LinkCategories.CategoryType
 	, subtext_LinkCategories.[Description]
-FROM [dbo].[subtext_LinkCategories]
+FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories]
 WHERE	
 			subtext_LinkCategories.Active= 1 
 	AND		subtext_LinkCategories.BlogID = @BlogID 
@@ -631,7 +636,7 @@ SELECT links.LinkID
 	, links.NewWindow
 	, links.CategoryID
 	, PostID = ISNULL(links.PostID, -1)
-FROM [dbo].[subtext_Links] links
+FROM [<dbUser,varchar,dbo>].[subtext_Links] links
 	INNER JOIN subtext_LinkCategories categories ON links.CategoryID = categories.CategoryID
 WHERE 
 		links.Active = 1 
@@ -650,7 +655,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetActiveCategoriesWithLinkCollection]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetActiveCategoriesWithLinkCollection]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -659,7 +664,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetAllCategories]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetAllCategories]
 (
 	@BlogID int
 	, @IsActive bit
@@ -671,7 +676,7 @@ SELECT subtext_LinkCategories.CategoryID
 	, subtext_LinkCategories.Active
 	, subtext_LinkCategories.CategoryType
 	, subtext_LinkCategories.[Description]
-FROM [dbo].[subtext_LinkCategories]
+FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories]
 WHERE subtext_LinkCategories.BlogID = @BlogID 
 	AND subtext_LinkCategories.CategoryType = @CategoryType 
 	AND subtext_LinkCategories.Active <> CASE @IsActive WHEN 1 THEN 0 ELSE -1 END
@@ -684,7 +689,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetAllCategories]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetAllCategories]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -692,7 +697,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_GetBlogKeyWords]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetBlogKeyWords]
 (
 	@BlogID int
 )
@@ -711,7 +716,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetBlogKeyWords]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetBlogKeyWords]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -720,7 +725,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetCategory]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetCategory]
 (
 	@CategoryID int,
 	@IsActive bit,
@@ -732,7 +737,7 @@ SELECT	subtext_LinkCategories.CategoryID
 		, subtext_LinkCategories.Active
 		, subtext_LinkCategories.CategoryType
 		, subtext_LinkCategories.[Description]
-FROM [dbo].[subtext_LinkCategories]
+FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories]
 WHERE subtext_LinkCategories.CategoryID=@CategoryID 
 	AND subtext_LinkCategories.BlogID = @BlogID 
 	AND subtext_LinkCategories.Active <> CASE @IsActive WHEN 0 THEN -1 else 0 END
@@ -745,7 +750,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetCategory]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetCategory]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -754,7 +759,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetCategoryByName] 
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetCategoryByName] 
 (
 	@CategoryName nvarchar(150),
 	@IsActive bit,
@@ -766,7 +771,7 @@ SELECT	subtext_LinkCategories.CategoryID
 		, subtext_LinkCategories.Active
 		, subtext_LinkCategories.CategoryType
 		, subtext_LinkCategories.[Description]
-FROM [dbo].[subtext_LinkCategories]
+FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories]
 WHERE	subtext_LinkCategories.Title=@CategoryName 
 	AND subtext_LinkCategories.BlogID = @BlogID 
 	AND subtext_LinkCategories.Active <> CASE @IsActive WHEN 0 THEN -1 else 0 END
@@ -778,7 +783,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetCategoryByName]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetCategoryByName]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -787,7 +792,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetConditionalEntries]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetConditionalEntries]
 (
 	@ItemCount int 
 	, @PostType int
@@ -795,7 +800,10 @@ CREATE PROC [dbo].[subtext_GetConditionalEntries]
 	, @BlogID int
 )
 AS
-
+/* 
+//TODO: This proc is being used to populate home page 
+and feed. But it should sort on different dates for each.
+*/
 SET ROWCOUNT @ItemCount
 SELECT BlogID
 	, [ID]
@@ -816,11 +824,11 @@ SELECT BlogID
 	, EntryName 
 	, ContentChecksumHash
 	, DateSyndicated
-FROM [dbo].[subtext_Content]
+FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	PostType = @PostType 
 	AND BlogID   = @BlogID
 	AND PostConfig & @PostConfig = @PostConfig
-ORDER BY [DateUpdated] DESC
+ORDER BY [DateAdded] DESC
 
 
 GO
@@ -829,7 +837,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetConditionalEntries]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetConditionalEntries]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -841,7 +849,7 @@ Returns the blog that matches the given host/application combination.
 
 @Strict -- If 0, then we return the one and only blog if there's one and only blog.
 */
-CREATE PROC [dbo].[subtext_GetConfig]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetConfig]
 (
 	@Host nvarchar(100)
 	, @Application nvarchar(50)
@@ -849,7 +857,7 @@ CREATE PROC [dbo].[subtext_GetConfig]
 )
 AS
 
-IF (@Strict = 0) AND (1 = (SELECT COUNT(1) FROM [dbo].[subtext_config]))
+IF (@Strict = 0) AND (1 = (SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_config]))
 BEGIN
 	-- Return the one and only record
 	SELECT
@@ -878,7 +886,7 @@ BEGIN
 		, LicenseUrl
 		, DaysTillCommentsClose
 		, CommentDelayInMinutes
-	FROM [dbo].[subtext_Config]
+	FROM [<dbUser,varchar,dbo>].[subtext_Config]
 END
 ELSE
 BEGIN
@@ -908,7 +916,7 @@ BEGIN
 		, LicenseUrl
 		, DaysTillCommentsClose
 		, CommentDelayInMinutes
-	FROM [dbo].[subtext_Config]
+	FROM [<dbUser,varchar,dbo>].[subtext_Config]
 	WHERE	Host = @Host
 		AND Application = @Application
 END
@@ -919,7 +927,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetConfig]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetConfig]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -927,7 +935,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_GetEntriesByDayRange]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetEntriesByDayRange]
 (
 	@StartDate datetime,
 	@StopDate datetime,
@@ -955,7 +963,7 @@ SELECT	BlogID
 	, EntryName 
 	, ContentChecksumHash
 	, DateSyndicated
-FROM [dbo].[subtext_Content]
+FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE 
 	(
 		DateAdded > @StartDate 
@@ -973,7 +981,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetEntriesByDayRange]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetEntriesByDayRange]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -982,7 +990,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetEntryCollectionByDateUpdated]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetEntryCollectionByDateUpdated]
 (
 	@ItemCount int,
 	@IsActive bit,
@@ -1011,7 +1019,7 @@ SELECT BlogID
 	, EntryName 
 	, ContentChecksumHash
 	, DateSyndicated
-FROM [dbo].[subtext_Content]
+FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE 
 	PostType=@PostType 
 	AND BlogID = @BlogID
@@ -1025,7 +1033,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetEntryCollectionByDateUpdated]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetEntryCollectionByDateUpdated]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -1034,7 +1042,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetEntryWithCategoryTitles]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetEntryWithCategoryTitles]
 (
 	@PostID int
 	, @IsActive bit
@@ -1061,7 +1069,7 @@ SELECT	BlogID
 		, ParentID 
 		, ContentChecksumHash
 		, DateSyndicated
-FROM [dbo].[subtext_Content]
+FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	[ID] = @PostID 
 	AND  BlogID = @BlogID 
 	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
@@ -1069,7 +1077,7 @@ ORDER BY [dateadded] DESC
 
 SELECT	c.Title
 		, PostID = ISNULL(l.PostID, -1)
-FROM [dbo].[subtext_Links] l
+FROM [<dbUser,varchar,dbo>].[subtext_Links] l
 INNER JOIN subtext_LinkCategories c ON l.CategoryID = c.CategoryID
 WHERE l.PostID = @PostID
 
@@ -1080,7 +1088,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetEntryWithCategoryTitles]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetEntryWithCategoryTitles]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -1088,7 +1096,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_GetEntryWithCategoryTitlesByEntryName]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetEntryWithCategoryTitlesByEntryName]
 (
 	@EntryName nvarchar(150)
 	, @IsActive bit
@@ -1117,7 +1125,7 @@ SELECT	BlogID
 		, ParentID 
 		, ContentChecksumHash
 		, DateSyndicated
-FROM [dbo].[subtext_Content]
+FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	EntryName = @EntryName 
 	AND  BlogID = @BlogID 
 	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
@@ -1125,9 +1133,9 @@ ORDER BY [dateadded] DESC
 
 SELECT	c.Title
 		, PostID = ISNULL(l.PostID, -1)
-FROM [dbo].[subtext_Links] l
-	INNER JOIN [dbo].[subtext_LinkCategories] c ON l.CategoryID = c.CategoryID
-	INNER JOIN [dbo].[subtext_Content] content ON l.PostID = content.[ID]
+FROM [<dbUser,varchar,dbo>].[subtext_Links] l
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] c ON l.CategoryID = c.CategoryID
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Content] content ON l.PostID = content.[ID]
 WHERE EntryName = @EntryName
 
 
@@ -1137,7 +1145,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetEntryWithCategoryTitlesByEntryName]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetEntryWithCategoryTitlesByEntryName]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1146,7 +1154,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetFeedBack]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetFeedBack]
 (
 	@ParentID int
 	, @BlogID int
@@ -1173,7 +1181,7 @@ SELECT	BlogID
 		, ParentID 
 		, ContentChecksumHash
 		, DateSyndicated
-FROM [dbo].[subtext_Content]
+FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE BlogID = @BlogID AND PostConfig & 1 = 1 AND ParentID = @ParentID
 ORDER BY [ID]
 
@@ -1184,7 +1192,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetFeedBack]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetFeedBack]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1193,14 +1201,14 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetImageCategory]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetImageCategory]
 (
 	@CategoryID int
 	, @IsActive bit
 	, @BlogID int
 )
 AS
-EXEC [dbo].[subtext_GetCategory] @CategoryID, @IsActive, @BlogID
+EXEC [<dbUser,varchar,dbo>].[subtext_GetCategory] @CategoryID, @IsActive, @BlogID
 
 SELECT	Title
 		, CategoryID
@@ -1209,7 +1217,7 @@ SELECT	Title
 		, [File]
 		, Active
 		, ImageID 
-FROM [dbo].[subtext_Images]  
+FROM [<dbUser,varchar,dbo>].[subtext_Images]  
 WHERE CategoryID = @CategoryID 
 	AND BlogID = @BlogID 
 	AND Active <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
@@ -1222,7 +1230,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetImageCategory]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetImageCategory]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -1231,7 +1239,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetKeyWord]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetKeyWord]
 (
 	@KeyWordID int
 	, @BlogID int
@@ -1252,7 +1260,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetKeyWord]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetKeyWord]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1261,7 +1269,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetLinkCollectionByPostID]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetLinkCollectionByPostID]
 (
 	@PostID int,
 	@BlogID int
@@ -1279,7 +1287,7 @@ SELECT	LinkID
 	, CategoryID
 	, PostID = ISNULL(PostID, -1)
 	, NewWindow 
-FROM [dbo].[subtext_Links]
+FROM [<dbUser,varchar,dbo>].[subtext_Links]
 WHERE PostID = @PostID 
 	AND BlogID = @BlogID
 
@@ -1290,7 +1298,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetLinkCollectionByPostID]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetLinkCollectionByPostID]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1299,13 +1307,13 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetLinksByActiveCategoryID]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetLinksByActiveCategoryID]
 (
 	@CategoryID int
 	, @BlogID int
 )
 AS
-EXEC [dbo].[subtext_GetCategory] @CategoryID, 0, @BlogID
+EXEC [<dbUser,varchar,dbo>].[subtext_GetCategory] @CategoryID, 0, @BlogID
 SELECT	LinkID
 		, Title
 		, Url
@@ -1313,7 +1321,7 @@ SELECT	LinkID
 		, Active
 		, CategoryID
 		, PostID = ISNULL(PostID, -1)
-FROM [dbo].[subtext_Links]
+FROM [<dbUser,varchar,dbo>].[subtext_Links]
 WHERE Active = 1 
 	AND CategoryID = @CategoryID 
 	AND BlogID = @BlogID
@@ -1326,7 +1334,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetLinksByActiveCategoryID]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetLinksByActiveCategoryID]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1335,13 +1343,13 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetLinksByCategoryID]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetLinksByCategoryID]
 (
 	@CategoryID int
 	, @BlogID int
 )
 AS
-EXEC [dbo].[subtext_GetCategory] @CategoryID, @BlogID
+EXEC [<dbUser,varchar,dbo>].[subtext_GetCategory] @CategoryID, @BlogID
 SELECT	LinkID
 		, Title
 		, Url
@@ -1350,7 +1358,7 @@ SELECT	LinkID
 		, NewWindow
 		, CategoryID
 		, PostId = ISNULL(PostID, -1)
-FROM [dbo].[subtext_Links]
+FROM [<dbUser,varchar,dbo>].[subtext_Links]
 WHERE	CategoryID = @CategoryID 
 	AND BlogID = @BlogID
 ORDER BY Title
@@ -1362,7 +1370,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetLinksByCategoryID]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetLinksByCategoryID]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1375,7 +1383,7 @@ GO
 I think this proc gets a page of blog posts 
 within the admin section.
 */
-CREATE PROC [dbo].[subtext_GetPageableEntries]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableEntries]
 (
 	@BlogID int
 	, @PageIndex int
@@ -1401,7 +1409,7 @@ IF NOT (@SortDesc = 1)
 BEGIN
 	INSERT INTO #TempPagedEntryIDs (EntryID)
 	SELECT	[ID] 
-	FROM [dbo].[subtext_Content] 
+	FROM [<dbUser,varchar,dbo>].[subtext_Content] 
 	WHERE 	blogID = @BlogID 
 		AND PostType = @PostType
 	ORDER BY [ID]
@@ -1410,7 +1418,7 @@ ELSE
 BEGIN
 	INSERT INTO #TempPagedEntryIDs (EntryID)
 	SELECT	[ID] 
-	FROM [dbo].[subtext_Content]
+	FROM [<dbUser,varchar,dbo>].[subtext_Content]
 	WHERE 	blogID = @BlogID 
 		AND PostType = @PostType
 	ORDER BY [ID] DESC
@@ -1440,7 +1448,7 @@ SELECT	content.BlogID
 		, vc.WebLastUpdated
 		, vc.AggLastUpdated
 		
-FROM [dbo].[subtext_Content] content
+FROM [<dbUser,varchar,dbo>].[subtext_Content] content
     	INNER JOIN #TempPagedEntryIDs tmp ON (content.[ID] = tmp.EntryID)
 	Left JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogID = @BlogID)
 WHERE 	content.BlogID = @BlogID 
@@ -1452,7 +1460,7 @@ DROP TABLE #TempPagedEntryIDs
 
 
 SELECT COUNT([ID]) AS TotalRecords
-FROM [dbo].[subtext_Content] 
+FROM [<dbUser,varchar,dbo>].[subtext_Content] 
 WHERE 	blogID = @BlogID 
 	AND PostType = @PostType 
 
@@ -1463,7 +1471,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetPageableEntries]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPageableEntries]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1472,7 +1480,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetPageableEntriesByCategoryID]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableEntriesByCategoryID]
 (
 	@BlogID int
 	, @CategoryID int
@@ -1501,7 +1509,7 @@ IF NOT (@SortDesc = 1)
 BEGIN
 	INSERT INTO #TempPagedEntryIDs (EntryID)
 	SELECT	blog.[ID] 
-	FROM [dbo].[subtext_Content] blog
+	FROM [<dbUser,varchar,dbo>].[subtext_Content] blog
 		INNER JOIN subtext_Links links ON (blog.[ID] = ISNULL(links.PostID, -1))
 		INNER JOIN subtext_LinkCategories cats ON (links.CategoryID = cats.CategoryID)
 	WHERE 	blog.blogID = @BlogID 
@@ -1513,7 +1521,7 @@ ELSE
 BEGIN
 	INSERT INTO #TempPagedEntryIDs (EntryID)
 	SELECT	blog.[ID] 
-	FROM [dbo].[subtext_Content] blog
+	FROM [<dbUser,varchar,dbo>].[subtext_Content] blog
 		INNER JOIN subtext_Links links ON (blog.[ID] = ISNULL(links.PostID, -1))
 		INNER JOIN subtext_LinkCategories cats ON (links.CategoryID = cats.CategoryID)
 	WHERE 	blog.blogID = @BlogID 
@@ -1546,7 +1554,7 @@ SELECT	content.BlogID
 		, vc.WebLastUpdated
 		, vc.AggLastUpdated
 
-FROM [dbo].[subtext_Content] content
+FROM [<dbUser,varchar,dbo>].[subtext_Content] content
     INNER JOIN #TempPagedEntryIDs tmp ON (content.[ID] = tmp.EntryID)
 	LEFT JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogID = @BlogID)
 WHERE	content.BlogID = @BlogID 
@@ -1557,7 +1565,7 @@ ORDER BY tmp.TempID
 DROP TABLE #TempPagedEntryIDs
 
 SELECT 	COUNT(blog.[ID]) AS TotalRecords
-FROM [dbo].[subtext_Content] blog
+FROM [<dbUser,varchar,dbo>].[subtext_Content] blog
 	INNER JOIN subtext_Links links ON (blog.[ID] = ISNULL(links.PostID, -1))
 	INNER JOIN subtext_LinkCategories cats ON (links.CategoryID = cats.CategoryID)
 WHERE 	blog.blogID = @BlogID 
@@ -1571,7 +1579,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetPageableEntriesByCategoryID]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPageableEntriesByCategoryID]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1580,7 +1588,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetPageableFeedback]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableFeedback]
 (
 	@BlogID int
 	, @PageIndex int
@@ -1606,7 +1614,7 @@ IF NOT (@SortDesc = 1)
 BEGIN
 	INSERT INTO #TempPagedEntryIDs (EntryID)
 	SELECT	[ID] 
-	FROM [dbo].[subtext_Content] 
+	FROM [<dbUser,varchar,dbo>].[subtext_Content] 
 	WHERE 	blogID = @BlogID 
 			AND (PostType = 3 or PostType = 4)
 
@@ -1616,7 +1624,7 @@ ELSE
 BEGIN
 	INSERT INTO #TempPagedEntryIDs (EntryID)
 	SELECT	[ID] 
-	FROM [dbo].[subtext_Content]
+	FROM [<dbUser,varchar,dbo>].[subtext_Content]
 	WHERE 	blogID = @BlogID 
 		AND (PostType = 3 or PostType = 4)
 	ORDER BY [DateAdded] DESC
@@ -1641,7 +1649,7 @@ SELECT	content.BlogID
 		, content.EntryName
 		, content.ContentChecksumHash
 		, content.DateSyndicated
-FROM [dbo].[subtext_Content] content
+FROM [<dbUser,varchar,dbo>].[subtext_Content] content
     INNER JOIN #TempPagedEntryIDs tmp ON (content.[ID] = tmp.EntryID)
 WHERE 	content.BlogID = @BlogID 
 	AND tmp.TempID > @PageLowerBound 
@@ -1651,7 +1659,7 @@ ORDER BY tmp.TempID
 DROP TABLE #TempPagedEntryIDs
 
 SELECT 	COUNT([ID]) AS TotalRecords
-FROM [dbo].[subtext_Content] 
+FROM [<dbUser,varchar,dbo>].[subtext_Content] 
 WHERE 	blogID = @BlogID 
 	AND (PostType = 3 or PostType = 4)
 
@@ -1662,7 +1670,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetPageableFeedback]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPageableFeedback]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1670,7 +1678,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_GetPageableLogEntries]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableLogEntries]
 (
 	@BlogID int
 	, @PageIndex int
@@ -1696,7 +1704,7 @@ IF NOT (@SortDesc = 1)
 BEGIN
 	INSERT INTO #TempPagedEntryIDs (EntryID)
 	SELECT	[ID] 
-	FROM [dbo].[subtext_Log] 
+	FROM [<dbUser,varchar,dbo>].[subtext_Log] 
 	WHERE 	blogID = @BlogID OR @BlogID IS NULL
 	ORDER BY [Date]
 END
@@ -1704,7 +1712,7 @@ ELSE
 BEGIN
 	INSERT INTO #TempPagedEntryIDs (EntryID)
 	SELECT	[ID] 
-	FROM [dbo].[subtext_Log]
+	FROM [<dbUser,varchar,dbo>].[subtext_Log]
 	WHERE 	blogID = @BlogID OR @BlogID IS NULL
 	ORDER BY [Date] DESC
 END
@@ -1718,7 +1726,7 @@ SELECT	[log].[Id]
 		, [log].[Logger]
 		, [log].[Message]
 		, [log].[Exception]
-FROM [dbo].[subtext_Log] [log]
+FROM [<dbUser,varchar,dbo>].[subtext_Log] [log]
     INNER JOIN #TempPagedEntryIDs tmp ON ([log].[ID] = tmp.EntryID)
 WHERE 	(
 			[log].BlogID = @BlogID  
@@ -1731,7 +1739,7 @@ ORDER BY tmp.TempID
 DROP TABLE #TempPagedEntryIDs
 
 SELECT 	COUNT([ID]) AS TotalRecords
-FROM [dbo].[subtext_Log] 
+FROM [<dbUser,varchar,dbo>].[subtext_Log] 
 WHERE 	blogID = @BlogID OR @BlogId IS NULL
 
 GO
@@ -1740,7 +1748,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetPageableLogEntries]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPageableLogEntries]  TO [public]
 GO
 
 
@@ -1750,7 +1758,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetPageableKeyWords]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableKeyWords]
 (
 	@BlogID int
 	, @PageIndex int
@@ -1776,7 +1784,7 @@ IF(@SortDesc = 1)
 BEGIN
 	INSERT INTO #TempPagedKeyWordIDs (KeyWordID)
 	SELECT	KeyWordID
-	FROM [dbo].[subtext_KeyWords] 
+	FROM [<dbUser,varchar,dbo>].[subtext_KeyWords] 
 	WHERE 	blogID = @BlogID 
 	ORDER BY Word
 END
@@ -1784,7 +1792,7 @@ Else
 BEGIN
 	INSERT INTO #TempPagedKeyWordIDs (KeyWordID)
 	SELECT	KeyWordID
-	FROM [dbo].[subtext_KeyWords] 
+	FROM [<dbUser,varchar,dbo>].[subtext_KeyWords] 
 	WHERE 	blogID = @BlogID 
 	ORDER BY Word DESC
 END
@@ -1811,7 +1819,7 @@ ORDER BY
 DROP TABLE #TempPagedKeyWordIDs
 
 SELECT 	COUNT([KeywordID]) AS 'TotalRecords'
-FROM [dbo].[subtext_KeyWords] 
+FROM [<dbUser,varchar,dbo>].[subtext_KeyWords] 
 WHERE 	blogID = @BlogID
 
 
@@ -1821,7 +1829,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetPageableKeyWords]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPageableKeyWords]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1830,7 +1838,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetPageableLinks]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableLinks]
 (
 	@BlogID int
 	, @PageIndex int
@@ -1856,7 +1864,7 @@ IF NOT (@SortDesc = 1)
 BEGIN
 	INSERT INTO #TempPagedLinkIDs (LinkID)
 	SELECT	LinkID
-	FROM [dbo].[subtext_Links] 
+	FROM [<dbUser,varchar,dbo>].[subtext_Links] 
 	WHERE 	blogID = @BlogID 
 		AND PostID IS NULL
 	ORDER BY Title
@@ -1865,7 +1873,7 @@ ELSE
 BEGIN
 	INSERT INTO #TempPagedLinkIDs (LinkID)
 	SELECT	LinkID
-	FROM [dbo].[subtext_Links]
+	FROM [<dbUser,varchar,dbo>].[subtext_Links]
 	WHERE 	blogID = @BlogID 
 		AND PostID IS NULL
 	ORDER BY [Title] DESC
@@ -1892,7 +1900,7 @@ ORDER BY
 DROP TABLE #TempPagedLinkIDs
 
 SELECT 	COUNT([LinkID]) AS TotalRecords
-FROM [dbo].[subtext_Links] 
+FROM [<dbUser,varchar,dbo>].[subtext_Links] 
 WHERE 	blogID = @BlogID
 	AND PostID IS NULL
 
@@ -1903,7 +1911,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetPageableLinks]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPageableLinks]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1912,7 +1920,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetPageableLinksByCategoryID]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableLinksByCategoryID]
 (
 	@BlogID int
 	, @CategoryID int
@@ -1938,7 +1946,7 @@ IF NOT (@SortDesc = 1)
 BEGIN
 	INSERT INTO #TempPagedLinkIDs (LinkID)
 	SELECT	LinkID
-	FROM [dbo].[subtext_Links] 
+	FROM [<dbUser,varchar,dbo>].[subtext_Links] 
 	WHERE 	blogID = @BlogID 
 		AND CategoryID = @CategoryID
 		AND PostID IS NULL
@@ -1948,7 +1956,7 @@ ELSE
 BEGIN
 	INSERT INTO #TempPagedLinkIDs (LinkID)
 	SELECT	LinkID
-	FROM [dbo].[subtext_Links]
+	FROM [<dbUser,varchar,dbo>].[subtext_Links]
 	WHERE 	blogID = @BlogID 
 		AND CategoryID = @CategoryID
 		AND PostID IS NULL
@@ -1978,7 +1986,7 @@ DROP TABLE #TempPagedLinkIDs
 
 
 SELECT  COUNT([LinkID]) AS TotalRecords
-FROM [dbo].[subtext_Links] 
+FROM [<dbUser,varchar,dbo>].[subtext_Links] 
 WHERE 	blogID = @BlogID 
 	AND CategoryID = @CategoryID 
 	AND PostID IS NULL
@@ -1990,7 +1998,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetPageableLinksByCategoryID]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPageableLinksByCategoryID]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -1999,9 +2007,9 @@ SET ANSI_NULLS ON
 GO
 
 
---SELECT Top 5 * FROM [dbo].[subtext_Referrals] ORDER BY LastUpdated DESC
+--SELECT Top 5 * FROM [<dbUser,varchar,dbo>].[subtext_Referrals] ORDER BY LastUpdated DESC
 
-CREATE PROC [dbo].[subtext_GetPageableReferrers]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableReferrers]
 (
 	@BlogID INT
 	, @PageIndex INT
@@ -2027,7 +2035,7 @@ CREATE TABLE #tempsubtext_Referrals
 
 INSERT INTO #tempsubtext_Referrals (EntryID,UrlID, [Count], LastUpdated)
   SELECT EntryID, UrlID, [Count], LastUpdated
-  FROM [dbo].[subtext_Referrals]
+  FROM [<dbUser,varchar,dbo>].[subtext_Referrals]
   WHERE subtext_Referrals.BlogID = @BlogID
   ORDER BY LastUpdated DESC
    
@@ -2037,7 +2045,7 @@ SELECT	u.URL,
 	c.EntryName,
 	LastUpdated,
 	[Count]
-FROM [dbo].[subtext_Content] c,
+FROM [<dbUser,varchar,dbo>].[subtext_Content] c,
 	#tempsubtext_Referrals r,
 	subtext_URLs u
 WHERE r.EntryID = c.ID AND
@@ -2058,7 +2066,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetPageableReferrers]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPageableReferrers]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -2067,7 +2075,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetPageableReferrersByEntryID] 
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableReferrersByEntryID] 
 (
 	@BlogID INT,
 	@EntryID int,
@@ -2099,7 +2107,7 @@ INSERT INTO #tempsubtext_Referrals
   SELECT UrlID
 	, [Count]
 	, LastUpdated
-  FROM [dbo].[subtext_Referrals]
+  FROM [<dbUser,varchar,dbo>].[subtext_Referrals]
   WHERE subtext_Referrals.BlogID = @BlogID AND subtext_Referrals.EntryID = @EntryID
   ORDER BY LastUpdated DESC
    
@@ -2110,7 +2118,7 @@ SELECT	u.URL
 	, [Count]
 	, r.LastUpdated
 	
-FROM [dbo].[subtext_Content] c
+FROM [<dbUser,varchar,dbo>].[subtext_Content] c
 	, #tempsubtext_Referrals r
 	, subtext_URLs u
 WHERE c.ID = @EntryID 
@@ -2129,7 +2137,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetPageableReferrersByEntryID]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPageableReferrersByEntryID]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -2137,7 +2145,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_GetPostsByCategoryID]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryID]
 (
 	@ItemCount int
 	, @CategoryID int
@@ -2165,7 +2173,7 @@ SELECT	content.BlogID
 	, content.EntryName 
 	, content.ContentChecksumHash
 	, content.DateSyndicated
-FROM [dbo].[subtext_Content] content WITH (NOLOCK)
+FROM [<dbUser,varchar,dbo>].[subtext_Content] content WITH (NOLOCK)
 	INNER JOIN subtext_Links links WITH (NOLOCK) ON content.ID = ISNULL(links.PostID, -1)
 	INNER JOIN subtext_LinkCategories categories WITH (NOLOCK) ON links.CategoryID = categories.CategoryID
 WHERE  content.BlogID = @BlogID 
@@ -2179,7 +2187,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetPostsByCategoryID]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryID]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -2188,7 +2196,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetPostsByCategoryIDByDateUpdated]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryIDByDateUpdated]
 (
 	@ItemCount int
 	, @CategoryID int
@@ -2217,7 +2225,7 @@ SELECT	content.BlogID
 	, content.EntryName 
 	, content.ContentChecksumHash
 	, content.DateSyndicated
-FROM [dbo].[subtext_Content] content
+FROM [<dbUser,varchar,dbo>].[subtext_Content] content
 	INNER JOIN subtext_Links ON content.ID = ISNULL(subtext_Links.PostID, -1)
 	INNER JOIN subtext_LinkCategories ON subtext_Links.CategoryID = subtext_LinkCategories.CategoryID
 WHERE  content.BlogID = @BlogID 
@@ -2233,7 +2241,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetPostsByCategoryIDByDateUpdated]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryIDByDateUpdated]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -2242,7 +2250,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetPostsByCategoryName]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryName]
 (
 	@ItemCount int,
 	@CategoryName nvarchar(150),
@@ -2270,7 +2278,7 @@ SELECT	content.BlogID
 		, content.EntryName 
 		, content.ContentChecksumHash
 		, content.DateSyndicated
-FROM [dbo].[subtext_Content] content
+FROM [<dbUser,varchar,dbo>].[subtext_Content] content
 	INNER JOIN subtext_Links ON content.ID = ISNULL(subtext_Links.PostID, -1)
 	INNER JOIN subtext_LinkCategories ON subtext_Links.CategoryID = subtext_LinkCategories.CategoryID
 WHERE	content.BlogID = @BlogID 
@@ -2285,7 +2293,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetPostsByCategoryName]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryName]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -2293,7 +2301,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_GetPostsByCategoryNameByDateUpdated]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryNameByDateUpdated]
 (
 	@ItemCount int
 	, @CategoryName nvarchar(150)
@@ -2322,7 +2330,7 @@ SELECT	content.BlogID
 		, content.EntryName 
 		, content.ContentChecksumHash
 		, content.DateSyndicated
-FROM [dbo].[subtext_Content] content
+FROM [<dbUser,varchar,dbo>].[subtext_Content] content
 	INNER JOIN subtext_Links ON content.ID = ISNULL(subtext_Links.PostID, -1)
 	INNER JOIN subtext_LinkCategories ON subtext_Links.CategoryID = subtext_LinkCategories.CategoryID
 WHERE  content.BlogID = @BlogID 
@@ -2338,7 +2346,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetPostsByCategoryNameByDateUpdated]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryNameByDateUpdated]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2346,7 +2354,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_GetPostsByDayRange]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByDayRange]
 (
 	@StartDate datetime,
 	@StopDate datetime,
@@ -2372,7 +2380,7 @@ SELECT	BlogID
 		, EntryName 
 		, ContentChecksumHash
 		, DateSyndicated
-FROM [dbo].[subtext_Content]
+FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE 
 	(
 			DateAdded > @StartDate 
@@ -2389,7 +2397,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetPostsByDayRange]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPostsByDayRange]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2397,7 +2405,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_GetPostsByMonth]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByMonth]
 (
 	@Month int
 	, @Year int
@@ -2423,7 +2431,7 @@ SELECT	BlogID
 	, EntryName 
 	, ContentChecksumHash
 	, DateSyndicated
-FROM [dbo].[subtext_Content]
+FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	PostType=1 
 	AND BlogID = @BlogID 
 	AND PostConfig & 1 = 1 
@@ -2438,7 +2446,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetPostsByMonth]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPostsByMonth]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2447,7 +2455,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetPostsByMonthArchive]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByMonthArchive]
 (
 	@BlogID int
 )
@@ -2455,7 +2463,7 @@ AS
 SELECT Month(DateAdded) AS [Month]
 	, Year(DateAdded) AS [Year]
 	, 1 AS Day, Count(*) AS [Count] 
-FROM [dbo].[subtext_Content] 
+FROM [<dbUser,varchar,dbo>].[subtext_Content] 
 WHERE PostType = 1 AND PostConfig & 1 = 1 AND BlogID = @BlogID 
 GROUP BY Year(DateAdded), Month(DateAdded) ORDER BY [Year] DESC, [Month] DESC
 
@@ -2467,7 +2475,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetPostsByMonthArchive]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPostsByMonthArchive]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2475,12 +2483,12 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_GetPostsByYearArchive] 
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByYearArchive] 
 (
 	@BlogID int
 )
 AS
-SELECT 1 AS [Month], Year(DateAdded) AS [Year], 1 AS Day, Count(*) AS [Count] FROM [dbo].[subtext_Content] 
+SELECT 1 AS [Month], Year(DateAdded) AS [Year], 1 AS Day, Count(*) AS [Count] FROM [<dbUser,varchar,dbo>].[subtext_Content] 
 WHERE PostType = 1 AND PostConfig & 1 = 1 AND BlogID = @BlogID 
 GROUP BY Year(DateAdded) ORDER BY [Year] DESC
 
@@ -2490,7 +2498,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetPostsByYearArchive]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPostsByYearArchive]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2499,7 +2507,7 @@ SET ANSI_NULLS ON
 GO
 
 -- Gets recently added entries.
-CREATE PROC [dbo].[subtext_GetRecentEntries]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetRecentEntries]
 (
 	@ItemCount int
 	, @IsActive bit
@@ -2527,7 +2535,7 @@ SELECT	BlogID
 	, EntryName 
 	, ContentChecksumHash
 	, DateSyndicated
-FROM [dbo].[subtext_Content]
+FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	PostType=@PostType 
 	AND BlogID = @BlogID 
 	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
@@ -2539,7 +2547,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetRecentEntries]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetRecentEntries]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2548,7 +2556,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetRecentEntriesByDateUpdated]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetRecentEntriesByDateUpdated]
 (
 	@ItemCount int
 	, @IsActive bit 
@@ -2577,7 +2585,7 @@ SELECT	BlogID
 	, EntryName 
 	, ContentChecksumHash
 	, DateSyndicated
-FROM [dbo].[subtext_Content]
+FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE 
 	PostType=@PostType 
 	AND BlogID = @BlogID
@@ -2592,7 +2600,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetRecentEntriesByDateUpdated]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetRecentEntriesByDateUpdated]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -2600,7 +2608,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_GetRecentEntriesWithCategoryTitles]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetRecentEntriesWithCategoryTitles]
 (
 	@ItemCount int,
 	@IsActive bit,
@@ -2615,7 +2623,7 @@ CREATE Table #IDs
 )
 INSERT #IDs (PostID)
 SELECT	[ID] 
-FROM [dbo].[subtext_Content]
+FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	PostType=1 
 	AND BlogID = @BlogID 
 	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
@@ -2640,7 +2648,7 @@ SELECT	BlogID
 	, EntryName 
 	, ContentChecksumHash
 	, DateSyndicated
-FROM [dbo].[subtext_Content], #IDs
+FROM [<dbUser,varchar,dbo>].[subtext_Content], #IDs
 WHERE [ID] = #IDs.PostID
 ORDER BY TempID ASC
 
@@ -2648,7 +2656,7 @@ SET ROWCOUNT 0
 
 SELECT	c.Title
 		, PostId = ISNULL(l.PostID, -1)
-FROM [dbo].[subtext_Links] l
+FROM [<dbUser,varchar,dbo>].[subtext_Links] l
 	INNER JOIN #IDs ON ISNULL(l.[PostID], -1) = #IDs.[PostID]
 	INNER JOIN subtext_LinkCategories c ON l.CategoryID = c.CategoryID
 DROP Table #IDs
@@ -2660,7 +2668,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetRecentEntriesWithCategoryTitles]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetRecentEntriesWithCategoryTitles]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2669,7 +2677,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetSingleDay]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetSingleDay]
 (
 	@Date datetime
 	,@BlogID int
@@ -2694,7 +2702,7 @@ SELECT	BlogID
 	, EntryName 
 	, ContentChecksumHash
 	, DateSyndicated
-FROM [dbo].[subtext_Content]
+FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE Year(DateAdded) = Year(@Date) 
 	AND Month(DateAdded) = Month(@Date)
     AND Day(DateAdded) = Day(@Date) 
@@ -2710,7 +2718,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetSingleDay]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetSingleDay]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2718,7 +2726,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_GetSingleEntry]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetSingleEntry]
 (
 	@ID int
 	, @IsActive bit
@@ -2744,7 +2752,7 @@ SELECT	BlogID
 	, EntryName 
 	, ContentChecksumHash
 	, DateSyndicated
-FROM [dbo].[subtext_Content]
+FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE [ID] = @ID 
 	AND BlogID = @BlogID 
 	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
@@ -2757,7 +2765,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetSingleEntry]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetSingleEntry]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -2766,7 +2774,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetSingleEntryByName]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetSingleEntryByName]
 (
 	@EntryName nvarchar(150)
 	, @IsActive bit
@@ -2792,7 +2800,7 @@ SELECT	BlogID
 	, EntryName 
 	, ContentChecksumHash
 	, DateSyndicated
-FROM [dbo].[subtext_Content]
+FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE [EntryName] = @EntryName 
 	AND BlogID = @BlogID 
 	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
@@ -2805,7 +2813,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetSingleEntryByName]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetSingleEntryByName]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2814,7 +2822,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetSingleImage]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetSingleImage]
 (
 	@ImageID int
 	, @IsActive bit
@@ -2828,7 +2836,7 @@ SELECT Title
 	, [File]
 	, Active
 	, ImageID 
-FROM [dbo].[subtext_Images]  
+FROM [<dbUser,varchar,dbo>].[subtext_Images]  
 WHERE ImageID = @ImageID 
 	AND BlogID = @BlogID 
 	AND  Active <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
@@ -2840,7 +2848,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetSingleImage]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetSingleImage]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2849,7 +2857,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetSingleLink]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetSingleLink]
 (
 	@LinkID int
 	, @BlogID int
@@ -2863,7 +2871,7 @@ SELECT	subtext_Links.LinkID
 		, subtext_Links.NewWindow
 		, subtext_Links.CategoryID
 		, PostId = ISNULL(subtext_Links.PostID, -1)
-FROM [dbo].[subtext_Links]
+FROM [<dbUser,varchar,dbo>].[subtext_Links]
 WHERE subtext_Links.LinkID = @LinkID AND subtext_Links.BlogID = @BlogID
 
 
@@ -2873,7 +2881,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetSingleLink]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetSingleLink]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2882,15 +2890,15 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_GetUrlID]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetUrlID]
 (
 	@Url nvarchar(255)
 	, @UrlID int output
 )
 AS
-IF EXISTS(SELECT UrlID FROM [dbo].[subtext_Urls] WHERE Url = @Url)
+IF EXISTS(SELECT UrlID FROM [<dbUser,varchar,dbo>].[subtext_Urls] WHERE Url = @Url)
 BEGIN
-	SELECT @UrlID = UrlID FROM [dbo].[subtext_Urls] WHERE Url = @Url
+	SELECT @UrlID = UrlID FROM [<dbUser,varchar,dbo>].[subtext_Urls] WHERE Url = @Url
 END
 Else
 BEGIN
@@ -2905,7 +2913,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetUrlID]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetUrlID]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2913,7 +2921,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_InsertCategory]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertCategory]
 (
 	@Title nvarchar(150)
 	, @Active bit
@@ -2948,7 +2956,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_InsertCategory]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_InsertCategory]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -2956,7 +2964,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_InsertEntryViewCount]-- 1, 0, 1
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertEntryViewCount]-- 1, 0, 1
 (
 	@EntryID int,
 	@BlogID int,
@@ -2967,17 +2975,17 @@ AS
 
 BEGIN
 	--Do we have an existing entry in the subtext_InsertEntryViewCount table?
-	IF EXISTS(SELECT EntryID FROM [dbo].[subtext_EntryViewCount] WHERE EntryID = @EntryID AND BlogID = @BlogID)
+	IF EXISTS(SELECT EntryID FROM [<dbUser,varchar,dbo>].[subtext_EntryViewCount] WHERE EntryID = @EntryID AND BlogID = @BlogID)
 	BEGIN
 		if(@IsWeb = 1) -- Is this a web view?
 		BEGIN
-			UPDATE [dbo].[subtext_EntryViewCount]
+			UPDATE [<dbUser,varchar,dbo>].[subtext_EntryViewCount]
 			Set [WebCount] = [WebCount] + 1, WebLastUpdated = getdate()
 			WHERE EntryID = @EntryID AND BlogID = @BlogID
 		END
 		else
 		BEGIN
-			UPDATE [dbo].[subtext_EntryViewCount]
+			UPDATE [<dbUser,varchar,dbo>].[subtext_EntryViewCount]
 			Set [AggCount] = [AggCount] + 1, AggLastUpdated = getdate()
 			WHERE EntryID = @EntryID AND BlogID = @BlogID
 		END
@@ -3005,7 +3013,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_InsertEntryViewCount]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_InsertEntryViewCount]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3013,7 +3021,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_InsertImage]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertImage]
 (
 	@Title nvarchar(250),
 	@CategoryID int,
@@ -3041,7 +3049,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_InsertImage]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_InsertImage]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -3049,7 +3057,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_InsertKeyWord]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertKeyWord]
 (
 	@Word nvarchar(100),
 	@Text nvarchar(100),
@@ -3078,7 +3086,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_InsertKeyWord]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_InsertKeyWord]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3086,7 +3094,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_InsertLink]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertLink]
 (
 	@Title nvarchar(150),
 	@Url nvarchar(255),
@@ -3116,7 +3124,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_InsertLink]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_InsertLink]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3124,7 +3132,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_InsertLinkCategoryList]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertLinkCategoryList]
 (
 	@CategoryList nvarchar(4000)
 	, @PostID int
@@ -3136,7 +3144,7 @@ IF @PostID = -1
 	SET @PostID = NULL
 
 --DELETE categories that have been removed
-DELETE [dbo].[subtext_Links] FROM [dbo].[subtext_Links]
+DELETE [<dbUser,varchar,dbo>].[subtext_Links] FROM [<dbUser,varchar,dbo>].[subtext_Links]
 WHERE 
 	CategoryID not in (SELECT str FROM iter_charlist_to_table(@CategoryList,','))
 And 
@@ -3147,7 +3155,7 @@ INSERT INTO subtext_Links ( Title, Url, Rss, Active, NewWindow, PostID, Category
 SELECT NULL, NULL, NULL, 1, 0, @PostID, Convert(int, [str]), @BlogID
 FROM iter_charlist_to_table(@CategoryList,',')
 WHERE 
-	Convert(int, [str]) not in (SELECT CategoryID FROM [dbo].[subtext_Links] WHERE PostID = @PostID AND BlogID = @BlogID)
+	Convert(int, [str]) not in (SELECT CategoryID FROM [<dbUser,varchar,dbo>].[subtext_Links] WHERE PostID = @PostID AND BlogID = @BlogID)
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -3155,7 +3163,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_InsertLinkCategoryList]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_InsertLinkCategoryList]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3163,7 +3171,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_InsertPostCategoryByName]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertPostCategoryByName]
 (
 	@Title nvarchar(150)
 	, @PostID int
@@ -3171,17 +3179,17 @@ CREATE PROC [dbo].[subtext_InsertPostCategoryByName]
 )
 AS
 DECLARE @CategoryID int
-SELECT @CategoryID = CategoryID FROM [dbo].[subtext_LinkCategories] WHERE Title = @Title AND BlogID = @BlogID AND CategoryType = 1
+SELECT @CategoryID = CategoryID FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories] WHERE Title = @Title AND BlogID = @BlogID AND CategoryType = 1
 
 if(@CategoryID is NULL)
 BEGIN
 
-EXEC [dbo].[subtext_InsertCategory] @Title, 1, @BlogID, 1, NULL, @CategoryID = @CategoryID output
+EXEC [<dbUser,varchar,dbo>].[subtext_InsertCategory] @Title, 1, @BlogID, 1, NULL, @CategoryID = @CategoryID output
 
 END
 
 DECLARE @LinkID int
-EXEC [dbo].[subtext_InsertLink] NULL, NULL, NULL, 1, 0, @CategoryID, @PostID, @BlogID, @LinkID output
+EXEC [<dbUser,varchar,dbo>].[subtext_InsertLink] NULL, NULL, NULL, 1, 0, @CategoryID, @PostID, @BlogID, @LinkID output
 
 
 GO
@@ -3190,7 +3198,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_InsertPostCategoryByName]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_InsertPostCategoryByName]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3198,7 +3206,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_InsertReferral]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertReferral]
 (
 	@EntryID int,
 	@BlogID int,
@@ -3210,15 +3218,15 @@ DECLARE @UrlID int
 
 if(@Url is not NULL)
 BEGIN
-	EXEC [dbo].[subtext_GetUrlID] @Url, @UrlID = @UrlID output
+	EXEC [<dbUser,varchar,dbo>].[subtext_GetUrlID] @Url, @UrlID = @UrlID output
 END
 
 if(@UrlID is not NULL)
 BEGIN
 
-	IF EXISTS(SELECT EntryID FROM [dbo].[subtext_Referrals] WHERE EntryID = @EntryID AND BlogID = @BlogID AND UrlID = @UrlID)
+	IF EXISTS(SELECT EntryID FROM [<dbUser,varchar,dbo>].[subtext_Referrals] WHERE EntryID = @EntryID AND BlogID = @BlogID AND UrlID = @UrlID)
 	BEGIN
-		UPDATE [dbo].[subtext_Referrals]
+		UPDATE [<dbUser,varchar,dbo>].[subtext_Referrals]
 		Set [Count] = [Count] + 1, LastUpdated = getdate()
 		WHERE EntryID = @EntryID AND BlogID = @BlogID AND UrlID = @UrlID
 	END
@@ -3235,7 +3243,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_InsertReferral]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_InsertReferral]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3244,7 +3252,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_InsertViewStats]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertViewStats]
 (
 	@BlogID int,
 	@PageType tinyint,
@@ -3258,15 +3266,15 @@ DECLARE @UrlID int
 
 if(@Url is not NULL)
 BEGIN
-	EXEC [dbo].[subtext_GetUrlID] @Url, @UrlID = @UrlID output
+	EXEC [<dbUser,varchar,dbo>].[subtext_GetUrlID] @Url, @UrlID = @UrlID output
 END
 if(@UrlID is NULL)
 set @UrlID = -1
 
 
-IF EXISTS (SELECT BlogID FROM [dbo].[subtext_ViewStats] WHERE BlogID = @BlogID AND PageType = @PageType AND PostID = @PostID AND [Day] = @Day AND UrlID = @UrlID)
+IF EXISTS (SELECT BlogID FROM [<dbUser,varchar,dbo>].[subtext_ViewStats] WHERE BlogID = @BlogID AND PageType = @PageType AND PostID = @PostID AND [Day] = @Day AND UrlID = @UrlID)
 BEGIN
-	UPDATE [dbo].[subtext_ViewStats]
+	UPDATE [<dbUser,varchar,dbo>].[subtext_ViewStats]
 	Set [Count] = [Count] + 1
 	WHERE BlogID = @BlogID AND PageType = @PageType AND PostID = @PostID AND [Day] = @Day AND UrlID = @UrlID
 END
@@ -3283,7 +3291,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_InsertViewStats]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_InsertViewStats]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3292,7 +3300,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_StatsSummary]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_StatsSummary]
 (
 	@BlogID int
 )
@@ -3301,9 +3309,9 @@ DECLARE @ReferralCount int
 DECLARE @WebCount int
 DECLARE @AggCount int
 
-SELECT @ReferralCount = Sum([Count]) FROM [dbo].[subtext_Referrals] WHERE BlogID = @BlogID
+SELECT @ReferralCount = Sum([Count]) FROM [<dbUser,varchar,dbo>].[subtext_Referrals] WHERE BlogID = @BlogID
 
-SELECT @WebCount = Sum(WebCount), @AggCount = Sum(AggCount) FROM [dbo].[subtext_EntryViewCount] WHERE BlogID = @BlogID
+SELECT @WebCount = Sum(WebCount), @AggCount = Sum(AggCount) FROM [<dbUser,varchar,dbo>].[subtext_EntryViewCount] WHERE BlogID = @BlogID
 
 SELECT @ReferralCount AS 'ReferralCount', @WebCount AS 'WebCount', @AggCount AS 'AggCount'
 
@@ -3314,7 +3322,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_StatsSummary]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_StatsSummary]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3323,7 +3331,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_TrackEntry]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_TrackEntry]
 (
 	@EntryID int,
 	@BlogID int,
@@ -3335,10 +3343,10 @@ AS
 
 if(@Url is not NULL AND @IsWeb = 1)
 BEGIN
-	EXEC [dbo].[subtext_InsertReferral] @EntryID, @BlogID, @Url
+	EXEC [<dbUser,varchar,dbo>].[subtext_InsertReferral] @EntryID, @BlogID, @Url
 END
 
-EXEC [dbo].[subtext_InsertEntryViewCount] @EntryID, @BlogID, @IsWeb
+EXEC [<dbUser,varchar,dbo>].[subtext_InsertEntryViewCount] @EntryID, @BlogID, @IsWeb
 
 
 
@@ -3350,7 +3358,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_TrackEntry]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_TrackEntry]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3359,7 +3367,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_UTILITY_AddBlog]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_UTILITY_AddBlog]
 (
 	@Title nvarchar(100), 
 	@UserName nvarchar(50),
@@ -3377,7 +3385,7 @@ Set @Flag = 55
 if(@IsHashed = 1)
 	Set @Flag = 63
 
-IF NOT EXISTS(SELECT * FROM [dbo].[subtext_config] WHERE Host = @Host AND Application = @Application)
+IF NOT EXISTS(SELECT * FROM [<dbUser,varchar,dbo>].[subtext_config] WHERE Host = @Host AND Application = @Application)
 BEGIN
 
 INSERT subtext_Config  
@@ -3424,7 +3432,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_UTILITY_AddBlog]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_UTILITY_AddBlog]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3433,7 +3441,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_UpdateCategory]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateCategory]
 (
 	@CategoryID int,
 	@Title nvarchar(150),
@@ -3443,7 +3451,7 @@ CREATE PROC [dbo].[subtext_UpdateCategory]
 	@BlogID int
 )
 AS
-UPDATE [dbo].[subtext_LinkCategories] 
+UPDATE [<dbUser,varchar,dbo>].[subtext_LinkCategories] 
 SET 
 	[Title] = @Title, 
 	[Active] = @Active,
@@ -3459,7 +3467,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_UpdateCategory]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_UpdateCategory]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -3467,7 +3475,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_UpdateConfig]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateConfig]
 (
 	@UserName nvarchar(50)
 	, @Password nvarchar(50)
@@ -3492,7 +3500,7 @@ CREATE PROC [dbo].[subtext_UpdateConfig]
 	, @CommentDelayInMinutes int = NULL
 )
 AS
-UPDATE [dbo].[subtext_Config]
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config]
 Set
 	UserName = @UserName     
 	, [Password] = @Password     
@@ -3522,7 +3530,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_UpdateConfig]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_UpdateConfig]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3531,13 +3539,13 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_UpdateConfigUpdateTime]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateConfigUpdateTime]
 (
 	@BlogID int,
 	@LastUpdated datetime
 )
 AS
-UPDATE [dbo].[subtext_Config]
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config]
 SET LastUpdated = @LastUpdated
 WHERE blogid = @blogid
 
@@ -3548,7 +3556,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_UpdateConfigUpdateTime]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_UpdateConfigUpdateTime]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -3556,7 +3564,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_UpdateEntry]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateEntry]
 (
 	@ID int
 	, @Title nvarchar(255)
@@ -3578,18 +3586,21 @@ CREATE PROC [dbo].[subtext_UpdateEntry]
 )
 AS
 
-if(@EntryName is not NULL)
+IF(LEN(RTRIM(LTRIM(@EntryName))) = 0)
+	SET @EntryName = NULL
+
+IF(@EntryName IS NOT NULL)
 BEGIN
-	IF EXISTS(SELECT EntryName FROM [dbo].[subtext_Content] WHERE BlogID = @BlogID AND EntryName = @EntryName AND [ID] <> @ID)
+	IF EXISTS(SELECT EntryName FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE BlogID = @BlogID AND EntryName = @EntryName)
 	BEGIN
-		RAISERROR('The EntryName you entry is already in use with in this Blog. Please pick a unique EntryName.',11,1) 
+		RAISERROR('The EntryName of your entry is already in use with in this Blog. Please pick a unique EntryName.', 11, 1) 
 		RETURN 1
 	END
 END
+IF(LTRIM(RTRIM(@Description)) = '')
+SET @Description = NULL
 
-if(Ltrim(Rtrim(@Description)) = '')
-set @Description = NULL
-UPDATE [dbo].[subtext_Content] 
+UPDATE [<dbUser,varchar,dbo>].[subtext_Content] 
 SET 
 	Title = @Title 
 	, TitleUrl = @TitleUrl 
@@ -3609,7 +3620,7 @@ SET
 WHERE 	
 		[ID] = @ID 
 	AND BlogID = @BlogID
-EXEC [dbo].[subtext_UpdateConfigUpdateTime] @blogID, @DateUpdated
+EXEC [<dbUser,varchar,dbo>].[subtext_UpdateConfigUpdateTime] @blogID, @DateUpdated
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -3617,7 +3628,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_UpdateEntry]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_UpdateEntry]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3625,7 +3636,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_UpdateImage]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateImage]
 (
 	@Title nvarchar(250),
 	@CategoryID int,
@@ -3637,7 +3648,7 @@ CREATE PROC [dbo].[subtext_UpdateImage]
 	@ImageID int
 )
 AS
-UPDATE [dbo].[subtext_Images]
+UPDATE [<dbUser,varchar,dbo>].[subtext_Images]
 Set
 	Title = @Title,
 	CategoryID = @CategoryID,
@@ -3655,7 +3666,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_UpdateImage]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_UpdateImage]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -3663,7 +3674,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_UpdateKeyWord]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateKeyWord]
 (
 	@KeyWordID int,
 	@Word nvarchar(100),
@@ -3678,7 +3689,7 @@ CREATE PROC [dbo].[subtext_UpdateKeyWord]
 
 AS
 
-UPDATE [dbo].[subtext_keywords] 
+UPDATE [<dbUser,varchar,dbo>].[subtext_keywords] 
 	Set
 		Word = @Word,
 		[Text] = @Text,
@@ -3697,7 +3708,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_UpdateKeyWord]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_UpdateKeyWord]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3706,7 +3717,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[subtext_UpdateLink]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateLink]
 (
 	@LinkID int,
 	@Title nvarchar(150),
@@ -3719,7 +3730,7 @@ CREATE PROC [dbo].[subtext_UpdateLink]
 	
 )
 AS
-UPDATE [dbo].[subtext_Links] 
+UPDATE [<dbUser,varchar,dbo>].[subtext_Links] 
 SET 
 	Title = @Title, 
 	Url = @Url, 
@@ -3738,7 +3749,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_UpdateLink]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_UpdateLink]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3746,10 +3757,10 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_Utility_GetUnHashedPasswords]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_Utility_GetUnHashedPasswords]
 AS
 
-SELECT BlogID, Password FROM [dbo].[subtext_COnfig] WHERE Flag & 8 = 0
+SELECT BlogID, Password FROM [<dbUser,varchar,dbo>].[subtext_COnfig] WHERE Flag & 8 = 0
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -3757,7 +3768,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_Utility_GetUnHashedPasswords]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_Utility_GetUnHashedPasswords]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3765,7 +3776,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_Utility_UpdateToHashedPassword]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_Utility_UpdateToHashedPassword]
 (
 	@Password nvarchar(100),
 	@BlogID int
@@ -3773,7 +3784,7 @@ CREATE PROC [dbo].[subtext_Utility_UpdateToHashedPassword]
 
 AS
 
-UPDATE [dbo].[subtext_Config]
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config]
 Set 
 	Password = @Password,
 	Flag = Flag | 8 
@@ -3787,7 +3798,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_Utility_UpdateToHashedPassword]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_Utility_UpdateToHashedPassword]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3798,7 +3809,7 @@ GO
 /*
 Returns a page of blogs within subtext_config table
 */
-CREATE PROC [dbo].[subtext_GetPageableBlogs]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableBlogs]
 (
 	@PageIndex int
 	, @PageSize int
@@ -3822,14 +3833,14 @@ IF NOT (@SortDesc = 1)
 BEGIN
 	INSERT INTO #TempPagedBlogIDs (BlogID)
 	SELECT	[BlogID] 
-	FROM [dbo].[subtext_config]
+	FROM [<dbUser,varchar,dbo>].[subtext_config]
 	ORDER BY [BlogID]
 END
 ELSE
 BEGIN
 	INSERT INTO #TempPagedBlogIDs (BlogID)
 	SELECT	[BlogID] 
-	FROM [dbo].[subtext_config]
+	FROM [<dbUser,varchar,dbo>].[subtext_config]
 	ORDER BY [BlogID] DESC
 END
 
@@ -3861,7 +3872,7 @@ SELECT	blog.BlogID
 		, blog.DaysTillCommentsClose
 		, blog.CommentDelayInMinutes
 		
-FROM [dbo].[subtext_config] blog
+FROM [<dbUser,varchar,dbo>].[subtext_config] blog
     	INNER JOIN #TempPagedBlogIDs tmp ON (blog.[BlogID] = tmp.BlogID)
 WHERE 	tmp.TempID > @PageLowerBound 
 	AND tmp.TempID < @PageUpperBound
@@ -3871,11 +3882,11 @@ DROP TABLE #TempPagedBlogIDs
 
 
 SELECT COUNT([BlogID]) AS TotalRecords
-FROM [dbo].[subtext_config]
+FROM [<dbUser,varchar,dbo>].[subtext_config]
 GO
 
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetPageableBlogs]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPageableBlogs]  TO [public]
 GO
 
 
@@ -3887,7 +3898,7 @@ GO
 /*
 Returns a single blog within the subtext_config table by id.
 */
-CREATE PROC [dbo].[subtext_GetBlogById]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetBlogById]
 (
 	@BlogId int
 )
@@ -3921,12 +3932,12 @@ SELECT	blog.BlogID
 		, blog.DaysTillCommentsClose
 		, blog.CommentDelayInMinutes
 		
-FROM [dbo].[subtext_config] blog
+FROM [<dbUser,varchar,dbo>].[subtext_config] blog
 WHERE	blog.BlogId = @BlogId
 GO
 
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetBlogById]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetBlogById]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3937,7 +3948,7 @@ GO
 /*
 Returns a single blog within the subtext_config table by id.
 */
-CREATE PROC [dbo].[subtext_GetBlogsByHost]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetBlogsByHost]
 (
 	@Host nvarchar(100)
 )
@@ -3971,14 +3982,14 @@ SELECT	blog.BlogID
 		, blog.DaysTillCommentsClose
 		, blog.CommentDelayInMinutes
 		
-FROM [dbo].[subtext_config] blog
+FROM [<dbUser,varchar,dbo>].[subtext_config] blog
 WHERE	blog.Host = @Host
 
 SELECT COUNT([BlogID]) AS TotalRecords
-FROM [dbo].[subtext_config]
+FROM [<dbUser,varchar,dbo>].[subtext_config]
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetBlogsByHost]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetBlogsByHost]  TO [public]
 GO
 
 
@@ -3987,7 +3998,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 --//TODO: We can probably merge the following two procedures.
-CREATE PROC [dbo].[subtext_InsertPingTrackEntry]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertPingTrackEntry]
 (
 	@Title nvarchar(255)
 	, @TitleUrl nvarchar(255) = NULL
@@ -4013,7 +4024,7 @@ AS
 
 SET @ID = -1
 
-IF NOT EXISTS(SELECT [ID] FROM [dbo].[subtext_Content] WHERE TitleUrl = @TitleUrl AND ParentID = @ParentID)
+IF NOT EXISTS(SELECT [ID] FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE TitleUrl = @TitleUrl AND ParentID = @ParentID)
 BEGIN
 
 IF(LTRIM(RTRIM(@Description)) = '')
@@ -4058,7 +4069,7 @@ VALUES
 
 SELECT @ID = SCOPE_IDENTITY()
 
-UPDATE [dbo].[subtext_Content]
+UPDATE [<dbUser,varchar,dbo>].[subtext_Content]
 SET FeedBackCount = FeedBackCount + 1 
 WHERE [ID] = @ParentID
 
@@ -4070,7 +4081,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_InsertPingTrackEntry]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_InsertPingTrackEntry]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -4078,7 +4089,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[subtext_InsertEntry]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertEntry]
 (
 	@Title nvarchar(255)
 	, @TitleUrl nvarchar(255) = NULL
@@ -4100,11 +4111,14 @@ CREATE PROC [dbo].[subtext_InsertEntry]
 )
 AS
 
+IF(LEN(RTRIM(LTRIM(@EntryName))) = 0)
+	SET @EntryName = NULL
+
 IF(@EntryName IS NOT NULL)
 BEGIN
-	IF EXISTS(SELECT EntryName FROM [dbo].[subtext_Content] WHERE BlogID = @BlogID AND EntryName = @EntryName)
+	IF EXISTS(SELECT EntryName FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE BlogID = @BlogID AND EntryName = @EntryName)
 	BEGIN
-		RAISERROR('The EntryName you entry is already in use with in this Blog. Please pick a unique EntryName.', 11, 1) 
+		RAISERROR('The EntryName of your entry is already in use with in this Blog. Please pick a unique EntryName.', 11, 1) 
 		RETURN 1
 	END
 END
@@ -4157,11 +4171,11 @@ SELECT @ID = SCOPE_IDENTITY()
 --	2 = Story
 if(@PostType = 1 or @PostType = 2)
 BEGIN
-	EXEC [dbo].[subtext_UpdateConfigUpdateTime] @blogID, @DateAdded
+	EXEC [<dbUser,varchar,dbo>].[subtext_UpdateConfigUpdateTime] @blogID, @DateAdded
 END
 ELSE IF(@PostType = 3) -- Comment
 BEGIN
-	UPDATE [dbo].[subtext_Content]
+	UPDATE [<dbUser,varchar,dbo>].[subtext_Content]
 	Set FeedBackCount = ISNULL(FeedBackCount, 0) + 1 WHERE [ID] = @ParentID
 END
 
@@ -4171,7 +4185,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_InsertEntry]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_InsertEntry]  TO [public]
 GO
 
 
@@ -4184,7 +4198,7 @@ GO
 Retrieves a comment (or pingback) that has the specified 
 ContentChecksumHash.
 */
-CREATE PROC [dbo].[subtext_GetCommentByChecksumHash]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetCommentByChecksumHash]
 (
 	@ContentChecksumHash VARCHAR(32)
 	,@BlogId int
@@ -4209,7 +4223,7 @@ SELECT TOP 1 BlogID
 	, EntryName 
 	, ContentChecksumHash
 	, DateSyndicated
-FROM [dbo].[subtext_Content]
+FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE 
 	ContentChecksumHash = @ContentChecksumHash 
 	AND BlogId = @BlogID
@@ -4220,7 +4234,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetCommentByChecksumHash]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetCommentByChecksumHash]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -4232,14 +4246,14 @@ GO
 Retrieves the Host Information. There should only be 
 one record.
 */
-CREATE PROC [dbo].[subtext_GetHost]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetHost]
 AS
 SELECT 
 	[HostUserName]
 	, [Password]
 	, [Salt]
 	, [DateCreated]
-FROM [dbo].[subtext_Host]
+FROM [<dbUser,varchar,dbo>].[subtext_Host]
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -4247,7 +4261,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_GetHost]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetHost]  TO [public]
 GO
 
 
@@ -4259,14 +4273,14 @@ GO
 /*
 Updates the Host information.
 */
-CREATE PROC [dbo].[subtext_UpdateHost]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateHost]
 	@HostUserName NVARCHAR(64)
 	, @Password NVARCHAR(32)
 	, @Salt NVARCHAR(32)
 AS
-IF EXISTS(SELECT * FROM [dbo].[subtext_Host])
+IF EXISTS(SELECT * FROM [<dbUser,varchar,dbo>].[subtext_Host])
 BEGIN
-	UPDATE [dbo].[subtext_Host] 
+	UPDATE [<dbUser,varchar,dbo>].[subtext_Host] 
 		SET [HostUserName] = @HostUserName
 			, [Password] = @Password
 			, [Salt] = @Salt
@@ -4294,24 +4308,24 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_UpdateHost]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_UpdateHost]  TO [public]
 GO
 
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[DNW_GetRecentPosts]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[DNW_GetRecentPosts]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[DNW_GetRecentPosts]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[DNW_GetRecentPosts]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[DNW_HomePageData]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[DNW_HomePageData]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[DNW_HomePageData]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[DNW_HomePageData]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[DNW_Stats]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[DNW_Stats]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[DNW_Stats]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[DNW_Stats]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[DNW_Total_Stats]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[DNW_Total_Stats]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[DNW_Total_Stats]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[DNW_Total_Stats]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -4319,7 +4333,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [dbo].[DNW_GetRecentPosts]
+CREATE PROC [<dbUser,varchar,dbo>].[DNW_GetRecentPosts]
 	@Host nvarchar(100)
 	, @GroupID int
 
@@ -4342,8 +4356,8 @@ SELECT Top 35 Host
 	, content.PostConfig
 	, config.TimeZone
 	, [Description] = IsNull(CASE WHEN PostConfig & 32 = 32 THEN content.[Description] else content.[Text] END, '')
-FROM [dbo].[subtext_Content] content
-INNER JOIN	[dbo].[subtext_Config] config ON content.BlogID = config.BlogID
+FROM [<dbUser,varchar,dbo>].[subtext_Content] content
+INNER JOIN	[<dbUser,varchar,dbo>].[subtext_Config] config ON content.BlogID = config.BlogID
 WHERE  content.PostType = 1 
 	AND content.PostConfig & 1 = 1 
 	AND content.PostConfig & 64 = 64 
@@ -4359,7 +4373,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[DNW_GetRecentPosts]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[DNW_GetRecentPosts]  TO [public]
 GO
 
 
@@ -4369,7 +4383,7 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[DNW_Stats]
+CREATE PROC [<dbUser,varchar,dbo>].[DNW_Stats]
 (
 	@Host nvarchar(100),
 	@GroupID int
@@ -4385,7 +4399,7 @@ SELECT BlogID
 	, StoryCount
 	, PingTrackCount
 	, LastUpdated
-FROM [dbo].[subtext_Config] 
+FROM [<dbUser,varchar,dbo>].[subtext_Config] 
 WHERE PostCount > 0 AND subtext_Config.Flag & 2 = 2 AND Host = @Host AND BlogGroup & @GroupID = @GroupID
 ORDER BY PostCount DESC
 
@@ -4396,7 +4410,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[DNW_Stats]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[DNW_Stats]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -4405,14 +4419,14 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[DNW_Total_Stats]
+CREATE PROC [<dbUser,varchar,dbo>].[DNW_Total_Stats]
 (
 	@Host nvarchar(100),
 	@GroupID int
 )
 AS
 SELECT Count(*) AS [BlogCount], Sum(PostCount) AS PostCount, Sum(CommentCount) AS CommentCount, Sum(StoryCount) AS StoryCount, Sum(PingTrackCount) AS PingTrackCount 
-FROM [dbo].[subtext_Config] WHERE subtext_Config.Flag & 2 = 2 AND Host = @Host AND BlogGroup & @GroupID = @GroupID
+FROM [<dbUser,varchar,dbo>].[subtext_Config] WHERE subtext_Config.Flag & 2 = 2 AND Host = @Host AND BlogGroup & @GroupID = @GroupID
 
 SET QUOTED_IDENTIFIER ON
 
@@ -4432,15 +4446,15 @@ SET ANSI_NULLS ON
 GO
 
 
-CREATE PROC [dbo].[DNW_HomePageData]
+CREATE PROC [<dbUser,varchar,dbo>].[DNW_HomePageData]
 (
 	@Host nvarchar(100),
 	@GroupID int
 )
 AS 
-EXEC [dbo].[DNW_Stats] @Host, @GroupID
-EXEC [dbo].[DNW_GetRecentPosts] @Host, @GroupID
-EXEC [dbo].[DNW_Total_Stats] @Host, @GroupID
+EXEC [<dbUser,varchar,dbo>].[DNW_Stats] @Host, @GroupID
+EXEC [<dbUser,varchar,dbo>].[DNW_GetRecentPosts] @Host, @GroupID
+EXEC [<dbUser,varchar,dbo>].[DNW_Total_Stats] @Host, @GroupID
 
 
 GO
@@ -4449,7 +4463,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[DNW_HomePageData]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[DNW_HomePageData]  TO [public]
 GO
 
 
@@ -4459,7 +4473,7 @@ SET ANSI_NULLS ON
 GO
 
 /* Gets the most recent version in the Version table */
-CREATE PROC [dbo].[subtext_VersionGetCurrent]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_VersionGetCurrent]
 AS
 SELECT	TOP 1
 		[Id]
@@ -4467,7 +4481,7 @@ SELECT	TOP 1
 		, [Minor]
 		, [Build]
 		, [DateCreated]
-FROM	[dbo].[subtext_Version]
+FROM	[<dbUser,varchar,dbo>].[subtext_Version]
 ORDER BY [DateCreated] DESC
 
 GO
@@ -4476,7 +4490,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_VersionGetCurrent]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_VersionGetCurrent]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -4485,20 +4499,20 @@ SET ANSI_NULLS ON
 GO
 
 /* Gets the most recent version in the Version table */
-CREATE PROC [dbo].[subtext_VersionAdd]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_VersionAdd]
 (
 	 @Major	INT
 	, @Minor INT
 	, @Build INT
 	, @DateCreated DATETIME = NULL
-	, @Id INT OUTPUT
-	
+	, @Id INT = NULL OUTPUT
 )
 AS
+
 IF @DateCreated IS NULL
 	SET @DateCreated = getdate()
 
-INSERT [dbo].[subtext_Version]
+INSERT [<dbUser,varchar,dbo>].[subtext_Version]
 SELECT	@Major, @Minor, @Build, @DateCreated
 
 SELECT @Id = SCOPE_IDENTITY()
@@ -4509,7 +4523,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_VersionAdd]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_VersionAdd]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -4518,16 +4532,16 @@ SET ANSI_NULLS ON
 GO
 
 /* Creates a record in the subtext_log table */
-CREATE PROC [dbo].[subtext_LogClear]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_LogClear]
 (
 	@BlogId int = NULL
 )
 AS
 
 IF(@BlogID IS NULL)
-	TRUNCATE TABLE [dbo].[subtext_Log]
+	TRUNCATE TABLE [<dbUser,varchar,dbo>].[subtext_Log]
 ELSE
-	DELETE [dbo].[subtext_Log] WHERE [BlogId] = @BlogId
+	DELETE [<dbUser,varchar,dbo>].[subtext_Log] WHERE [BlogId] = @BlogId
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -4535,7 +4549,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_LogClear]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_LogClear]  TO [public]
 GO
 
 
@@ -4545,7 +4559,7 @@ SET ANSI_NULLS ON
 GO
 
 /* Creates a record in the subtext_log table */
-CREATE PROC [dbo].[subtext_AddLogEntry]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_AddLogEntry]
 (
 	 @Date DateTime
 	 , @BlogId int = NULL
@@ -4561,7 +4575,7 @@ AS
 if @BlogId < 0
 	SET @BlogId = NULL
 
-INSERT [dbo].[subtext_Log]
+INSERT [<dbUser,varchar,dbo>].[subtext_Log]
 SELECT	@BlogId, @Date, @Thread, @Context, @Level, @Logger, @Message, @Exception
 
 GO
@@ -4570,5 +4584,5 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [dbo].[subtext_AddLogEntry]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_AddLogEntry]  TO [public]
 GO
