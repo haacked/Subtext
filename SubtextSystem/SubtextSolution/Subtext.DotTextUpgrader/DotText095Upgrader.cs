@@ -63,6 +63,13 @@ namespace Subtext.DotTextUpgrader
 						// server (or database) as our database.  We might have to do a 
 						// cross database join.  We might need to do something more tricky here.
 						SqlScriptRunner scriptRunner = new SqlScriptRunner(Script.ParseScripts(GetImportScriptContents()));
+
+						// For now, the tables are installed into the same database.
+						ConnectionString connectionInfo = ConnectionString.Parse(connectionString);
+
+						scriptRunner.TemplateParameters["subtext_db_name"].Value = connectionInfo.Database;
+						scriptRunner.TemplateParameters["dottext_db_name"].Value = connectionInfo.Database;
+						
 						scriptRunner.Execute(transaction);
 						SqlScriptRunner spScriptRunner = new SqlScriptRunner(Script.ParseScripts(GetStoredProcScriptContents()));
 						spScriptRunner.Execute(transaction);

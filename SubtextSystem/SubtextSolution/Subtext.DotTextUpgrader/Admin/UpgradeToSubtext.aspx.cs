@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using Subtext.Scripting;
 
 namespace Subtext.DotTextUpgrader.Admin
 {
@@ -19,6 +20,7 @@ namespace Subtext.DotTextUpgrader.Admin
 		protected System.Web.UI.WebControls.Panel pnlStep2;
 		protected System.Web.UI.WebControls.Button btnConfirmString;
 		protected System.Web.UI.WebControls.Label lblConnectionString;
+		protected System.Web.UI.WebControls.Label lblDatabaseName;
 		#endregion
 	
 		protected override void OnLoad(EventArgs e)
@@ -28,6 +30,8 @@ namespace Subtext.DotTextUpgrader.Admin
 			{
 				pnlFoundConnectionString.Visible = true;
 				this.lblConnectionString.Text = connectionString;
+				ConnectionString connectionInfo = ConnectionString.Parse(connectionString);
+				this.lblDatabaseName.Text = connectionInfo.Database;
 			}
 			else
 				this.pnlConnectionStringNotFound.Visible = true;
@@ -54,16 +58,6 @@ namespace Subtext.DotTextUpgrader.Admin
 				return reader.ReadToEnd();
 			}
 		}
-
-		private void WriteFile(string path, string contents)
-		{
-			using(StreamWriter writer = new StreamWriter(path))
-			{
-				writer.Write(contents);
-				writer.Flush();
-			}
-		}
-
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
