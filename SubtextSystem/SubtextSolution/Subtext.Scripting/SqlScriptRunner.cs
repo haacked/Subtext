@@ -122,6 +122,7 @@ namespace Subtext.Scripting
 			int recordsAffectedTotal = 0;
 			int scriptsExecutedCount = 0;
 			
+			_scripts.ApplyTemplatesToScripts();
 			foreach(Script script in _scripts)
 			{
 				int returnValue = script.Execute(transaction);
