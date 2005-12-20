@@ -84,7 +84,7 @@ INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subt
 		, null -- LicenseUrl
 		, null -- DaysTillCommentsClose
 		, null -- CommentDelayInMinutes
-	FROM [<dottext_db_name,varchar,DotTextData>].[blog_Config]
+	FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_Config]
 	WHERE 1=1
 
 SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Config] OFF
@@ -99,7 +99,7 @@ INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subt
 	SELECT 
 		[ID], Title, DateAdded, SourceUrl, PostType, Author, Email, SourceName, BlogID, [Description],
 		DateUpdated, TitleUrl, Text, ParentID, FeedBackCount, PostConfig, EntryName, null, DateUpdated 
-	FROM [<dottext_db_name,varchar,DotTextData>].[blog_Content]
+	FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_Content]
 	WHERE 1=1
 SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Content] OFF
 GO
@@ -122,7 +122,7 @@ INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subt
 ( EntryID, BlogID, WebCount, AggCount, WebLastUpdated, AggLastUpdated )
     SELECT 
         EntryID, BlogID, WebCount, AggCount, WebLastUpdated, AggLastUpdated
-    FROM [<dottext_db_name,varchar,DotTextData>].[blog_EntryViewCount]
+    FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_EntryViewCount]
     WHERE 1=1
 GO
 
@@ -132,7 +132,7 @@ INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subt
 ( CategoryID, Title, Active, BlogID, CategoryType, Description )
     SELECT 
 		CategoryID, Title, Active, BlogID, CategoryType, Description
-    FROM [<dottext_db_name,varchar,DotTextData>].[blog_LinkCategories]
+    FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_LinkCategories]
 SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_LinkCategories] OFF
 GO
 
@@ -142,7 +142,7 @@ INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subt
 ( KeyWordID, Word, Text, ReplaceFirstTimeOnly, OpenInNewWindow, Url, Title, BlogID, CaseSensitive )
     SELECT 
         KeyWordID, Word, Text, ReplaceFirstTimeOnly, OpenInNewWindow, Url, Title, BlogID, CaseSensitive
-    FROM [<dottext_db_name,varchar,DotTextData>].[blog_KeyWords]
+    FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_KeyWords]
 SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_KeyWords] OFF
 GO
 
@@ -156,7 +156,7 @@ INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subt
 ( ImageID, Title, CategoryID, Width, Height, [File], Active, BlogID )
     SELECT
         ImageID, Title, CategoryID, Width, Height, [File], Active, BlogID
-    FROM [<dottext_db_name,varchar,DotTextData>].[blog_Images]
+    FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_Images]
 SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Images OFF
 GO
 
@@ -171,16 +171,16 @@ INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subt
 ( LinkID, Title, Url, Rss, Active, CategoryID, BlogID, PostID, NewWindow )
     SELECT
       LinkID, Title, Url, Rss, Active, CategoryID, BlogID, PostID, NewWindow  
-    FROM [<dottext_db_name,varchar,DotTextData>].[blog_Links]
-    WHERE [<dottext_db_name,varchar,DotTextData>].[blog_Links].PostID <> -1
+    FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_Links]
+    WHERE [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_Links].PostID <> -1
 
 -- now to take care of the "-1" issue!
 INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Links] 
 ( LinkID, Title, Url, Rss, Active, CategoryID, BlogID, PostID, NewWindow )
     SELECT
       LinkID, Title, Url, Rss, Active, CategoryID, BlogID, null, NewWindow  
-    FROM [<dottext_db_name,varchar,DotTextData>].[blog_Links]
-    WHERE [<dottext_db_name,varchar,DotTextData>].[blog_Links].PostID = -1
+    FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_Links]
+    WHERE [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_Links].PostID = -1
 SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Links] OFF
 GO
 
@@ -190,7 +190,7 @@ INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subt
 ( UrlID, Url )
     SELECT
       UrlID, Url 
-    FROM [<dottext_db_name,varchar,DotTextData>].[blog_URLs]
+    FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_URLs]
 SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_URLs] OFF
 GO
 
@@ -205,7 +205,7 @@ INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subt
 ( EntryID, BlogID, UrlID, [Count], LastUpdated )
     SELECT
         EntryID, BlogID, UrlID, [Count], LastUpdated
-    FROM [<dottext_db_name,varchar,DotTextData>].[blog_Referrals] WHERE UrlID IN (SELECT UrlID FROM [<dottext_db_name,varchar,DotTextData>].[blog_URLs])
+    FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_Referrals] WHERE UrlID IN (SELECT UrlID FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_URLs])
 GO
 
 --  DONE

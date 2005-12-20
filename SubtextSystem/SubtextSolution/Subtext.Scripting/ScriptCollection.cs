@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Text;
 
 namespace Subtext.Scripting
 {
@@ -8,7 +9,7 @@ namespace Subtext.Scripting
 	/// </summary>
 	public class ScriptCollection : CollectionBase, ITemplateScript
 	{
-		string _fullScriptText;
+		string _fullScriptText; //Original unexpanded script.
 		TemplateParameterCollection _templateParameters;
 
 		/// <summary>
@@ -107,12 +108,33 @@ namespace Subtext.Scripting
 		}
 
 		/// <summary>
-		/// Gets the full script text.
+		/// Gets the original full unexpanded script text.
 		/// </summary>
 		/// <value>The full script text.</value>
 		public string FullScriptText
 		{
 			get { return _fullScriptText; }
+		}
+
+		/// <summary>
+		/// Gets the expanded script text.
+		/// </summary>
+		/// <value>The expanded script text.</value>
+		public string ExpandedScriptText
+		{
+			get
+			{
+				StringBuilder builder = new StringBuilder();
+				foreach(Script script in this.List)
+				{
+					builder.Append(script.ScriptText);
+					builder.Append(Environment.NewLine);
+					builder.Append("GO");
+					builder.Append(Environment.NewLine);
+					builder.Append(Environment.NewLine);
+				}
+				return builder.ToString();
+			}
 		}
 
 		/// <summary>
