@@ -355,7 +355,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
 			if(this.txtPassword.Text.Length > 0)
 			{
-				blog.Password = this.txtPassword.Text;
+				blog.Password = Security.HashPassword(this.txtPassword.Text);
 			}
 			
 			if(Config.UpdateConfigData(blog))
