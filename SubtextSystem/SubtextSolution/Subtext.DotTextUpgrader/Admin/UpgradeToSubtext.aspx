@@ -1,17 +1,21 @@
 <%@ Page language="c#" Codebehind="UpgradeToSubtext.aspx.cs" AutoEventWireup="false" Inherits="Subtext.DotTextUpgrader.Admin.UpgradeToSubtext" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" >
-<HTML>
-	<HEAD>
+<html>
+	<head>
 		<title>.TEXT to Subtext Upgrade Wizard</title>
-	</HEAD>
+	</head>
 	<body>
 		<form id="Form1" method="post" runat="server">
 			
 		<asp:Panel id="pnlStep1" Runat="server" Visible="True">
 			<asp:Panel id="pnlFoundConnectionString" Visible="False" runat="server">
 				<p>
-				<label>Found Connection String:</label>
-				<asp:Label ID="lblConnectionString" Runat="server" />
+					<label>Found Connection String:</label>
+					<asp:Label ID="lblConnectionString" Runat="server" />
+				</p>
+				<p>
+					<label>Database Name:</label>
+					<asp:Label ID="lblDatabaseName" Runat="server" />
 				</p>
 				<p>
 				The .TEXT to Subtext upgrade is ready to begin.  Click &#8220;Upgrade!&#8221; 
@@ -41,4 +45,4 @@
 		</asp:Panel>
 		</form>
 	</body>
-</HTML>
+</html>

@@ -140,9 +140,9 @@
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
-                    Name = "MbUnit.Framework"
-                    AssemblyName = "MbUnit.Framework"
-                    HintPath = "ExternalDependencies\MbUnit.Framework.dll"
+                    Name = "TestFu"
+                    AssemblyName = "TestFu"
+                    HintPath = "ExternalDependencies\TestFu.dll"
                 />
                 <Reference
                     Name = "MbUnit.Framework.1.1"
@@ -150,14 +150,19 @@
                     HintPath = "ExternalDependencies\MbUnit.Framework.1.1.dll"
                 />
                 <Reference
-                    Name = "TestFu"
-                    AssemblyName = "TestFu"
-                    HintPath = "ExternalDependencies\TestFu.dll"
+                    Name = "MbUnit.Framework"
+                    AssemblyName = "MbUnit.Framework"
+                    HintPath = "ExternalDependencies\MbUnit.Framework.dll"
                 />
                 <Reference
                     Name = "QuickGraph.Algorithms"
                     AssemblyName = "QuickGraph.Algorithms"
                     HintPath = "ExternalDependencies\QuickGraph.Algorithms.dll"
+                />
+                <Reference
+                    Name = "QuickGraph.Algorithms.Graphviz"
+                    AssemblyName = "QuickGraph.Algorithms.Graphviz"
+                    HintPath = "ExternalDependencies\QuickGraph.Algorithms.Graphviz.dll"
                 />
                 <Reference
                     Name = "QuickGraph"
@@ -299,6 +304,11 @@
                 <File
                     RelPath = "Resources\App.config"
                     BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Scripting\ConnectionStringParseTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Scripting\TemplateParameterParseTests.cs"
