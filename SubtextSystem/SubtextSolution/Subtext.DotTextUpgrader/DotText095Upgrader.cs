@@ -24,6 +24,7 @@ namespace Subtext.DotTextUpgrader
 			TransferData(connectionString);
 			DeployFiles();
 			DeployWebConfig(connectionString);
+		
 			return true;
 		}
 

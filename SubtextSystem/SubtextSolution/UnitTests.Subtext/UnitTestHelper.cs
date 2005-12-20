@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Web;
 using MbUnit.Framework;
 
@@ -30,6 +31,22 @@ namespace UnitTests.Subtext
 					writer.Write(reader.ReadToEnd());
 					writer.Flush();
 				}
+			}
+		}
+
+		/// <summary>
+		/// Unpacks an embedded resource as a string.
+		/// </summary>
+		/// <remarks>Omit the UnitTests.GameServer.Resources. part of the 
+		/// resource name.</remarks>
+		/// <param name="resourceName"></param>
+		/// <param name="encoding">The path to write the file as.</param>
+		public static string UnpackEmbeddedResource(string resourceName, Encoding encoding)
+		{
+			Stream stream = UnpackEmbeddedResource(resourceName);
+			using(StreamReader reader = new StreamReader(stream))
+			{
+				return reader.ReadToEnd();
 			}
 		}
 

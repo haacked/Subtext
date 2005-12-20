@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Text;
 using MbUnit.Framework;
 using Subtext.Scripting;
 
@@ -94,6 +96,37 @@ namespace UnitTests.Subtext.Scripting
 				+ "subtext_Config = 10 and '32'";
 
 			Assert.AreEqual(expected, script.ScriptText, "The template replacements failed");
+		}
+
+		/// <summary>
+		/// Tests expanding a templated collection of scripts without changing any defaults.
+		/// </summary>
+		[Test]
+		public void TestScriptCollectionsDefaultExpansion()
+		{
+			Stream stream = UnitTestHelper.UnpackEmbeddedResource("Scripting.TestTemplateSqlScript.txt");
+			SqlScriptRunner scriptRunner = new SqlScriptRunner(stream, Encoding.UTF8);
+			Assert.AreEqual(4, scriptRunner.TemplateParameters.Count, "Not the expected number of template parameters. Make sure it merges correctly.");
+
+			string expectedDefault = UnitTestHelper.UnpackEmbeddedResource("Scripting.TestTemplateSqlScriptExpectedDefault.txt", Encoding.UTF8);
+			Assert.AreEqual(expectedDefault, scriptRunner.ScriptCollection.ExpandedScriptText);
+		}
+
+		/// <summary>
+		/// Tests expanding a templated collection of scripts without changing any defaults.
+		/// </summary>
+		[Test]
+		public void TestScriptCollectionsExpansionWithChanges()
+		{
+			Stream stream = UnitTestHelper.UnpackEmbeddedResource("Scripting.TestTemplateSqlScript.txt");
+			SqlScriptRunner scriptRunner = new SqlScriptRunner(stream, Encoding.UTF8);
+			Assert.AreEqual(4, scriptRunner.TemplateParameters.Count, "Not the expected number of template parameters. Make sure it merges correctly.");
+
+			string expectedDefault = UnitTestHelper.UnpackEmbeddedResource("Scripting.TestTemplateSqlScriptExpectedChanges.txt", Encoding.UTF8);
+			scriptRunner.TemplateParameters["subtext_db_name"].Value = "SubtextDB";
+			scriptRunner.TemplateParameters["dottext_db_name"].Value = "dbDotText";
+			scriptRunner.TemplateParameters["dotTextDbUser"].Value = "haacked";
+			Assert.AreEqual(expectedDefault, scriptRunner.ScriptCollection.ExpandedScriptText);
 		}
 	}
 }

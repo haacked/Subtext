@@ -306,6 +306,18 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "Resources\Scripting\TestTemplateSqlScript.txt"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\Scripting\TestTemplateSqlScriptExpectedChanges.txt"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Resources\Scripting\TestTemplateSqlScriptExpectedDefault.txt"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Scripting\ConnectionStringParseTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
