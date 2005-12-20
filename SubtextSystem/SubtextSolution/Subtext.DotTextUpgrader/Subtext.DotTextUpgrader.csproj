@@ -56,7 +56,7 @@
                     NoStdLib = "false"
                     NoWarn = ""
                     Optimize = "true"
-                    OutputPath = "bin\Release\"
+                    OutputPath = "bin\"
                     RegisterForComInterop = "false"
                     RemoveIntegerChecks = "false"
                     TreatWarningsAsErrors = "false"
@@ -145,7 +145,15 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "Scripts\Installation.01.00.00.sql"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Scripts\StoredProcedures.sql"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Scripts\Web.config"
                     BuildAction = "EmbeddedResource"
                 />
             </Include>

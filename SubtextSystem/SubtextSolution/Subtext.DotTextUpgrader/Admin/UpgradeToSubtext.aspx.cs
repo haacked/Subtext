@@ -10,6 +10,7 @@ namespace Subtext.DotTextUpgrader.Admin
 	/// </summary>
 	public class UpgradeToSubtext : System.Web.UI.Page
 	{
+		#region Control Declarations
 		protected System.Web.UI.WebControls.Panel pnlFoundConnectionString;
 		protected System.Web.UI.WebControls.Panel pnlConnectionStringNotFound;
 		protected System.Web.UI.WebControls.TextBox txtConnectionString;
@@ -18,6 +19,7 @@ namespace Subtext.DotTextUpgrader.Admin
 		protected System.Web.UI.WebControls.Panel pnlStep2;
 		protected System.Web.UI.WebControls.Button btnConfirmString;
 		protected System.Web.UI.WebControls.Label lblConnectionString;
+		#endregion
 	
 		protected override void OnLoad(EventArgs e)
 		{
