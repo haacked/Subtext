@@ -118,10 +118,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "Web.config"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "Admin\UpgradeToSubtext.aspx"
                     BuildAction = "Content"
                 />
