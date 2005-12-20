@@ -21,8 +21,8 @@ SELECT @user_name = user_name()
 */
 
 -- subtext_Config
-SET IDENTITY_INSERT SubtextData.dbo.subtext_Config ON
-INSERT INTO SubtextData.dbo.subtext_Config 
+SET IDENTITY_INSERT DotTextData.dbo.subtext_Config ON
+INSERT INTO DotTextData.dbo.subtext_Config 
 ( BlogID, UserName, [Password], Email, Title, SubTitle, Skin, Application, Host, Author,
 	TimeZone, IsActive, Language, ItemCount, LastUpdated, News, SecondaryCss, PostCount, 
 	StoryCount, PingTrackCount, CommentCount, IsAggregated, Flag, SkinCssFile, 
@@ -33,12 +33,12 @@ INSERT INTO SubtextData.dbo.subtext_Config
 		StoryCount, PingTrackCount, CommentCount, IsAggregated, Flag, SkinCssFile, BlogGroup, null, null, null
 	FROM blog_Config
 	WHERE 1=1
-SET IDENTITY_INSERT SubtextData.dbo.subtext_Config OFF
+SET IDENTITY_INSERT DotTextData.dbo.subtext_Config OFF
 GO
 
 -- subtext_Content
-SET IDENTITY_INSERT SubtextData.dbo.subtext_Content ON
-INSERT INTO SubtextData.dbo.subtext_Content 
+SET IDENTITY_INSERT DotTextData.dbo.subtext_Content ON
+INSERT INTO DotTextData.dbo.subtext_Content 
 ( [ID], Title, DateAdded, SourceUrl, PostType, Author, Email, SourceName, BlogID, [Description],
 	DateUpdated, TitleUrl, Text, ParentID, FeedBackCount, PostConfig, EntryName, 
 	ContentChecksumHash, DateSyndicated )
@@ -47,14 +47,14 @@ INSERT INTO SubtextData.dbo.subtext_Content
 		DateUpdated, TitleUrl, Text, ParentID, FeedBackCount, PostConfig, EntryName, null, DateUpdated 
 	FROM blog_Content
 	WHERE 1=1
-SET IDENTITY_INSERT SubtextData.dbo.subtext_Content OFF
+SET IDENTITY_INSERT DotTextData.dbo.subtext_Content OFF
 GO
 
-UPDATE SubtextData.dbo.subtext_Content
+UPDATE DotTextData.dbo.subtext_Content
 SET ParentID = NULL WHERE ParentID = -1
 GO
 
-UPDATE SubtextData.dbo.subtext_Content 
+UPDATE DotTextData.dbo.subtext_Content 
 SET DateSyndicated = DateUpdated
 -- Post is syndicated and active
 WHERE PostConfig & 16 = 16 AND PostConfig & 1 = 1
@@ -64,7 +64,7 @@ GO
 	for all of the imported Subtext records		*/
 
 -- subtext_EntryViewCount
-INSERT INTO SubtextData.dbo.subtext_EntryViewCount 
+INSERT INTO DotTextData.dbo.subtext_EntryViewCount 
 ( EntryID, BlogID, WebCount, AggCount, WebLastUpdated, AggLastUpdated )
     SELECT 
         EntryID, BlogID, WebCount, AggCount, WebLastUpdated, AggLastUpdated
@@ -73,23 +73,23 @@ INSERT INTO SubtextData.dbo.subtext_EntryViewCount
 GO
 
 -- subtext_LinkCategories
-SET IDENTITY_INSERT SubtextData.dbo.subtext_LinkCategories  ON
-INSERT INTO SubtextData.dbo.subtext_LinkCategories 
+SET IDENTITY_INSERT DotTextData.dbo.subtext_LinkCategories  ON
+INSERT INTO DotTextData.dbo.subtext_LinkCategories 
 ( CategoryID, Title, Active, BlogID, CategoryType, Description )
     SELECT 
 		CategoryID, Title, Active, BlogID, CategoryType, Description
     FROM blog_LinkCategories
-SET IDENTITY_INSERT SubtextData.dbo.subtext_LinkCategories OFF
+SET IDENTITY_INSERT DotTextData.dbo.subtext_LinkCategories OFF
 GO
 
 -- subtext_KeyWords
-SET IDENTITY_INSERT SubtextData.dbo.subtext_KeyWords ON
-INSERT INTO SubtextData.dbo.subtext_KeyWords 
+SET IDENTITY_INSERT DotTextData.dbo.subtext_KeyWords ON
+INSERT INTO DotTextData.dbo.subtext_KeyWords 
 ( KeyWordID, Word, Text, ReplaceFirstTimeOnly, OpenInNewWindow, Url, Title, BlogID, CaseSensitive )
     SELECT 
         KeyWordID, Word, Text, ReplaceFirstTimeOnly, OpenInNewWindow, Url, Title, BlogID, CaseSensitive
     FROM blog_KeyWords
-SET IDENTITY_INSERT SubtextData.dbo.subtext_KeyWords OFF
+SET IDENTITY_INSERT DotTextData.dbo.subtext_KeyWords OFF
 GO
 
 -- subtext_Images
@@ -97,13 +97,13 @@ GO
 	Had to put brackets [ ] around the column name File b/c
 	it is a SQL Server KEYWORD.  Seems to work OK this way tho.
 */
-SET IDENTITY_INSERT SubtextData.dbo.subtext_Images ON
-INSERT INTO SubtextData.dbo.subtext_Images 
+SET IDENTITY_INSERT DotTextData.dbo.subtext_Images ON
+INSERT INTO DotTextData.dbo.subtext_Images 
 ( ImageID, Title, CategoryID, Width, Height, [File], Active, BlogID )
     SELECT
         ImageID, Title, CategoryID, Width, Height, [File], Active, BlogID
     FROM blog_Images
-SET IDENTITY_INSERT SubtextData.dbo.subtext_Images OFF
+SET IDENTITY_INSERT DotTextData.dbo.subtext_Images OFF
 GO
 
 -- subtext_Links
@@ -112,8 +112,8 @@ GO
 	we have to first import all records w/ PostID <> -1, and then import
 	the PostID == -1 records, but we fill these values w/ NULLs
 */
-SET IDENTITY_INSERT SubtextData.dbo.subtext_Links ON
-INSERT INTO SubtextData.dbo.subtext_Links 
+SET IDENTITY_INSERT DotTextData.dbo.subtext_Links ON
+INSERT INTO DotTextData.dbo.subtext_Links 
 ( LinkID, Title, Url, Rss, Active, CategoryID, BlogID, PostID, NewWindow )
     SELECT
       LinkID, Title, Url, Rss, Active, CategoryID, BlogID, PostID, NewWindow  
@@ -121,23 +121,23 @@ INSERT INTO SubtextData.dbo.subtext_Links
     WHERE blog_Links.PostID <> -1
 
 -- now to take care of the "-1" issue!
-INSERT INTO SubtextData.dbo.subtext_Links 
+INSERT INTO DotTextData.dbo.subtext_Links 
 ( LinkID, Title, Url, Rss, Active, CategoryID, BlogID, PostID, NewWindow )
     SELECT
       LinkID, Title, Url, Rss, Active, CategoryID, BlogID, null, NewWindow  
     FROM blog_Links
     WHERE blog_Links.PostID = -1
-SET IDENTITY_INSERT SubtextData.dbo.subtext_Links OFF
+SET IDENTITY_INSERT DotTextData.dbo.subtext_Links OFF
 GO
 
 -- subtext_URLs
-SET IDENTITY_INSERT SubtextData.dbo.subtext_URLs ON
-INSERT INTO SubtextData.dbo.subtext_URLs 
+SET IDENTITY_INSERT DotTextData.dbo.subtext_URLs ON
+INSERT INTO DotTextData.dbo.subtext_URLs 
 ( UrlID, Url )
     SELECT
       UrlID, Url 
     FROM blog_URLs
-SET IDENTITY_INSERT SubtextData.dbo.subtext_URLs OFF
+SET IDENTITY_INSERT DotTextData.dbo.subtext_URLs OFF
 GO
 
 -- subtext_Referrals
@@ -147,7 +147,7 @@ GO
 	prevent any Refferral records that have a bad UrlID from breaking 
 	the FK constraint to the URLs table.
 */
-INSERT INTO SubtextData.dbo.subtext_Referrals 
+INSERT INTO DotTextData.dbo.subtext_Referrals 
 ( EntryID, BlogID, UrlID, [Count], LastUpdated )
     SELECT
         EntryID, BlogID, UrlID, [Count], LastUpdated

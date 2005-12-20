@@ -2,10 +2,10 @@ using System;
 using System.Data.SqlClient;
 using System.IO;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Web;
 using ICSharpCode.SharpZipLib.Zip;
 using Subtext.Scripting;
-using Subtext.Scripting.Exceptions;
 
 namespace Subtext.DotTextUpgrader
 {
@@ -20,12 +20,37 @@ namespace Subtext.DotTextUpgrader
 		/// <returns></returns>
 		public bool Upgrade(string connectionString)
 		{
-			UpgradeDatabase(connectionString);
+			InstallSubtextTables(connectionString);
+			TransferData(connectionString);
 			DeployFiles();
+			DeployWebConfig(connectionString);
 			return true;
 		}
 
-		private void UpgradeDatabase(string connectionString)
+		private void InstallSubtextTables(string connectionString)
+		{
+			using(SqlConnection connection = new SqlConnection(connectionString))
+			{
+				connection.Open();
+				using(SqlTransaction transaction = connection.BeginTransaction())
+				{
+					try
+					{
+						SqlScriptRunner schemaScriptRunner = new SqlScriptRunner(Script.ParseScripts(this.GetSchemaScriptContents()));
+						schemaScriptRunner.Execute(transaction);
+						transaction.Commit();
+					}
+					catch(Exception)
+					{
+						if(transaction != null)
+							transaction.Rollback();
+					}
+				}
+				
+			}
+		}
+
+		private void TransferData(string connectionString)
 		{
 			using(SqlConnection connection = new SqlConnection(connectionString))
 			{
@@ -37,7 +62,7 @@ namespace Subtext.DotTextUpgrader
 						// Hmmm... we can't assume that the .TEXT database is on the same 
 						// server (or database) as our database.  We might have to do a 
 						// cross database join.  We might need to do something more tricky here.
-						SqlScriptRunner scriptRunner = new SqlScriptRunner(Script.ParseScripts(GetSchemaScriptContents()));
+						SqlScriptRunner scriptRunner = new SqlScriptRunner(Script.ParseScripts(GetImportScriptContents()));
 						scriptRunner.Execute(transaction);
 						SqlScriptRunner spScriptRunner = new SqlScriptRunner(Script.ParseScripts(GetStoredProcScriptContents()));
 						spScriptRunner.Execute(transaction);
@@ -64,6 +89,17 @@ namespace Subtext.DotTextUpgrader
 			ExtractArchive(stream, HttpContext.Current.Request.PhysicalApplicationPath);
 		}
 
+		/// <summary>
+		/// Updates the connection string in the new Web.config
+		/// </summary>
+		public void DeployWebConfig(string connectionString)
+		{
+			string webConfig = GetEmbeddedContents("Web.config");
+			Regex regex = new Regex(@"<add\s+key\s*=\s*""ConnectionString""\s*value\s*=\s*""(?<conn>[^""]+)""\s*/>", RegexOptions.IgnoreCase);
+			webConfig = regex.Replace(webConfig, string.Format(@"<add key=""ConnectionString"" value=""{0}"" />", connectionString));
+			WriteFile(Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "Web.config"), webConfig);
+		}
+
 		void ExtractArchive(Stream compressedArchive, string targetDirectory)
 		{
 			using(ZipInputStream inputStream = new ZipInputStream(compressedArchive))
@@ -86,10 +122,9 @@ namespace Subtext.DotTextUpgrader
 							Directory.CreateDirectory(Path.Combine(targetDirectory, Path.GetDirectoryName(nextEntry.Name)));
 						}
 
-						ExtractFile(targetDirectory, nextEntry, inputStream);
-
-						nextEntry = inputStream.GetNextEntry();
+						ExtractFile(targetDirectory, nextEntry, inputStream);						
 					}
+					nextEntry = inputStream.GetNextEntry();
 				}
 			}
 		}
@@ -109,21 +144,33 @@ namespace Subtext.DotTextUpgrader
 			}
 		}
 
-
-		public string GetSchemaScriptContents()
+		void WriteFile(string path, string contents)
 		{
-			Assembly assembly = Assembly.GetExecutingAssembly();
-			Stream stream = assembly.GetManifestResourceStream(typeof(DotText095Upgrader) + "Scripts.ImportDotText095.sql");
-			using(StreamReader reader = new StreamReader(stream))
+			using(StreamWriter writer = new StreamWriter(path))
 			{
-				return reader.ReadToEnd();
+				writer.Write(contents);
 			}
 		}
 
+		public string GetSchemaScriptContents()
+		{
+			return GetEmbeddedContents("Installation.01.00.00.sql");
+		}
+
+		public string GetImportScriptContents()
+		{
+			return GetEmbeddedContents("ImportDotText095.sql");
+		}
+
 		public string GetStoredProcScriptContents()
+		{			
+			return GetEmbeddedContents("StoredProcedures.sql");
+		}
+
+		string GetEmbeddedContents(string scriptName)
 		{
 			Assembly assembly = Assembly.GetExecutingAssembly();
-			Stream stream = assembly.GetManifestResourceStream(typeof(DotText095Upgrader) + "Scripts.StoredProcedures.sql");
+			Stream stream = assembly.GetManifestResourceStream(typeof(DotText095Upgrader), "Scripts." + scriptName);
 			using(StreamReader reader = new StreamReader(stream))
 			{
 				return reader.ReadToEnd();
