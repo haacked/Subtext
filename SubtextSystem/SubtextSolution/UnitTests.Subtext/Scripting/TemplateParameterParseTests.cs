@@ -13,6 +13,29 @@ namespace UnitTests.Subtext.Scripting
 	public class TemplateParameterParseTests
 	{
 		/// <summary>
+		/// Tests the contains method.
+		/// </summary>
+		[Test]
+		public void TestContains()
+		{
+			TemplateParameterCollection collection = new TemplateParameterCollection();
+			Assert.IsFalse(collection.Contains("test"), "An empty collection should not contain a parameter.");
+			TemplateParameter parameter = new TemplateParameter("test", "type", "something");
+			Assert.IsFalse(collection.Contains(parameter), "An empty collection should not contain a parameter.");
+			
+			collection.Add(parameter);
+			Assert.IsTrue(collection.Contains(parameter));
+			Assert.IsTrue(collection.Contains("test"));
+
+			TemplateParameter differentParameter = new TemplateParameter("differentName", "", "");
+			Assert.IsFalse(collection.Contains(differentParameter), "Contains should not be a \"yes\" method.");
+			Assert.IsFalse(collection.Contains(differentParameter.Name), "Contains should not be a \"yes\" method.");
+
+			TemplateParameter newParameterWithSameName = new TemplateParameter("test", "type", "something");
+			Assert.IsTrue(collection.Contains(newParameterWithSameName), "Even though this is a separate instance, we match parameters by name. So we should already contain this one.");
+		}
+
+		/// <summary>
 		/// Tests parsing simple scripts with template parameters.
 		/// </summary>
 		/// <param name="scriptText">The script.</param>
@@ -106,7 +129,7 @@ namespace UnitTests.Subtext.Scripting
 		{
 			Stream stream = UnitTestHelper.UnpackEmbeddedResource("Scripting.TestTemplateSqlScript.txt");
 			SqlScriptRunner scriptRunner = new SqlScriptRunner(stream, Encoding.UTF8);
-			Assert.AreEqual(4, scriptRunner.TemplateParameters.Count, "Not the expected number of template parameters. Make sure it merges correctly.");
+			Assert.AreEqual(5, scriptRunner.TemplateParameters.Count, "Not the expected number of template parameters. Make sure it merges correctly.");
 
 			string expectedDefault = UnitTestHelper.UnpackEmbeddedResource("Scripting.TestTemplateSqlScriptExpectedDefault.txt", Encoding.UTF8);
 			Assert.AreEqual(expectedDefault, scriptRunner.ScriptCollection.ExpandedScriptText);
@@ -120,13 +143,20 @@ namespace UnitTests.Subtext.Scripting
 		{
 			Stream stream = UnitTestHelper.UnpackEmbeddedResource("Scripting.TestTemplateSqlScript.txt");
 			SqlScriptRunner scriptRunner = new SqlScriptRunner(stream, Encoding.UTF8);
-			Assert.AreEqual(4, scriptRunner.TemplateParameters.Count, "Not the expected number of template parameters. Make sure it merges correctly.");
+			Assert.AreEqual(5, scriptRunner.TemplateParameters.Count, "Not the expected number of template parameters. Make sure it merges correctly.");
 
 			string expectedDefault = UnitTestHelper.UnpackEmbeddedResource("Scripting.TestTemplateSqlScriptExpectedChanges.txt", Encoding.UTF8);
+			
 			scriptRunner.TemplateParameters["subtext_db_name"].Value = "SubtextDB";
 			scriptRunner.TemplateParameters["dottext_db_name"].Value = "dbDotText";
 			scriptRunner.TemplateParameters["dotTextDbUser"].Value = "haacked";
-			Assert.AreEqual(expectedDefault, scriptRunner.ScriptCollection.ExpandedScriptText);
+			scriptRunner.TemplateParameters["someOtherTemplate"].Value = "NotABlogID";
+			
+			string expected = expectedDefault.Trim();
+			string result = scriptRunner.ScriptCollection.ExpandedScriptText.Trim();
+			result = result.Replace("" + ((char)13), ""); //Ugly hack!  I know. I'll Explain later.
+
+			Assert.AreEqual(expected, result, "Did not expand the template params properly.");
 		}
 	}
 }

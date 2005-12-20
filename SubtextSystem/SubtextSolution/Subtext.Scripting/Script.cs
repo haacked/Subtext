@@ -136,17 +136,28 @@ namespace Subtext.Scripting
 		/// </returns>
 		public override string ToString()
 		{
-			return this.ScriptText;
+			if(_scriptTokens != null)
+				return this._scriptTokens.ToString();
+			return "Script has no tokens.";
 		}
 
 		/// <summary>
-		/// Implements a linked list representing the script.
+		/// Implements a linked list representing the script.  This maps the structure 
+		/// of a script making it trivial to replace template parameters with their 
+		/// values.
 		/// </summary>
 		class ScriptToken
 		{
+			/// <summary>
+			/// Initializes a new instance of the <see cref="ScriptToken"/> class.
+			/// </summary>
 			internal ScriptToken()
 			{}
 
+			/// <summary>
+			/// Initializes a new instance of the <see cref="ScriptToken"/> class.
+			/// </summary>
+			/// <param name="text">The text.</param>
 			internal ScriptToken(string text)
 			{
 				_text = text;	
@@ -215,10 +226,29 @@ namespace Subtext.Scripting
 				if(this.Next != null)
 					this.Next.AggregateText(builder);
 			}
+
+			/// <summary>
+			/// Returns a <see cref="T:System.String"/> that represents the current <see cref="ScriptToken"/>.
+			/// </summary>
+			/// <returns>
+			/// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+			/// </returns>
+			public override string ToString()
+			{
+				int length = 0;
+				if(this.Text != null)
+					length = this.Text.Length;
+				string result = string.Format(@"<ScriptToken length=""{0}"">{1}", length, Environment.NewLine);
+				if(this.Next != null)
+					result += Next.ToString();
+				return result;
+			}
+
 		}
 
 		/// <summary>
-		/// Represents a template parameter.
+		/// Represents a template parameter within a script.  This is specialized node 
+		/// within the ScriptToken linked list.
 		/// </summary>
 		class TemplateParameterToken : ScriptToken
 		{
@@ -248,6 +278,26 @@ namespace Subtext.Scripting
 					return _parameter;
 				}
 			}
+
+			/// <summary>
+			/// Returns a <see cref="T:System.String"/> that represents the current <see cref="TemplateParameterToken"/>.
+			/// </summary>
+			/// <returns>
+			/// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+			/// </returns>
+			public override string ToString()
+			{
+				string result = "<TemplateParameter";
+				if(this._parameter != null)
+				{
+					result += string.Format(@" name=""{0}"" value=""{1}"" type=""{2}""", _parameter.Name, _parameter.Value, _parameter.DataType);
+				}
+				result += " />" + Environment.NewLine;
+				if(this.Next != null)
+					result += Next.ToString();
+				return result;
+			}
+
 		}
 	}
 }

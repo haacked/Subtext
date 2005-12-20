@@ -49,7 +49,80 @@ namespace Subtext.Scripting
 		public string Value
 		{
 			get { return _value; }
-			set { _value = value; }
+			set
+			{
+				if(value != _value)
+					OnValueChanged(_value, value);
+				_value = value;
+			}
 		}
+
+		protected void OnValueChanged(string oldValue, string newValue)
+		{
+			ParameterValueChangedEventHandler changeEvent = ValueChanged;
+			if(changeEvent != null)	
+				changeEvent(this, new ParameterValueChangedEventArgs(this.Name, oldValue, newValue));
+		}
+
+		/// <summary>
+		/// Event raised when the parameter's value changes.
+		/// </summary>
+		public event ParameterValueChangedEventHandler ValueChanged;
+	}
+
+	/// <summary>
+	/// Event handler delegate for the ValueChanged event.
+	/// </summary>
+	public delegate void ParameterValueChangedEventHandler(object sender, ParameterValueChangedEventArgs args);
+
+	/// <summary>
+	/// Contains information about when a template parameter value changes.
+	/// </summary>
+	public class ParameterValueChangedEventArgs : EventArgs
+	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ParameterValueChangedEventArgs"/> class.
+		/// </summary>
+		/// <param name="oldValue">The old value.</param>
+		/// <param name="newValue">The new value.</param>
+		public ParameterValueChangedEventArgs(string parameterName, string oldValue, string newValue)
+		{
+			_oldValue = oldValue;
+			_newValue = newValue;
+			_parameterName = parameterName;
+		}
+
+		/// <summary>
+		/// Gets the name of the parameter.
+		/// </summary>
+		/// <value>The name of the parameter.</value>
+		public string ParameterName
+		{
+			get { return _parameterName; }
+		}
+
+		string _parameterName;
+
+		/// <summary>
+		/// Gets the old value.
+		/// </summary>
+		/// <value>The old value.</value>
+		public string OldValue
+		{
+			get { return _oldValue; }
+		}
+
+		string _oldValue;
+
+		/// <summary>
+		/// Gets the new value.
+		/// </summary>
+		/// <value>The new value.</value>
+		public string NewValue
+		{
+			get { return _newValue; }
+		}
+
+		string _newValue;
 	}
 }

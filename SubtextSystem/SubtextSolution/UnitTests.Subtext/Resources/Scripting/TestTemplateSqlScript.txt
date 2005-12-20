@@ -1,0 +1,29 @@
+/*
+Test Script used to test that modifying the value of a template 
+parameter in a collection of scripts propagates the change to 
+the individual scripts.
+*/
+
+SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Config] ON
+
+INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Config] 
+( 
+	BlogID
+)
+SELECT BlogID FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_Config]
+GO
+
+UPDATE [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Content] 
+SET DateSyndicated = DateUpdated
+-- Post is syndicated and active
+WHERE PostConfig & 16 = 16 AND PostConfig & 1 = 1
+GO
+
+-- subtext_EntryViewCount
+INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_EntryViewCount] 
+( EntryID, BlogID, WebCount, AggCount, WebLastUpdated, AggLastUpdated )
+    SELECT 
+        EntryID, <someOtherTemplate,varchar,BlogID>, WebCount, AggCount, WebLastUpdated, AggLastUpdated
+    FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_EntryViewCount]
+    WHERE 1=1
+GO

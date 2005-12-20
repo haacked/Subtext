@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Specialized;
 using System.Text.RegularExpressions;
 
 namespace Subtext.Scripting
@@ -9,9 +8,7 @@ namespace Subtext.Scripting
 	/// A collection of <see cref="TemplateParameter"/> instances.
 	/// </summary>
 	public class TemplateParameterCollection : CollectionBase
-	{
-		StringCollection _names = new StringCollection();
-		
+	{	
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TemplateParameterCollection"/> class.
 		/// </summary>
@@ -48,6 +45,18 @@ namespace Subtext.Scripting
 		}
 
 		/// <summary>
+		/// Determines whether [contains] [the specified name].
+		/// </summary>
+		/// <param name="name">The name.</param>
+		/// <returns>
+		/// 	<c>true</c> if [contains] [the specified name]; otherwise, <c>false</c>.
+		/// </returns>
+		public bool Contains(string name)
+		{
+			return this[name] != null;
+		}
+
+		/// <summary>
 		/// Creates a template parameter from a match.
 		/// </summary>
 		/// <param name="match">The match.</param>
@@ -70,9 +79,13 @@ namespace Subtext.Scripting
 		/// <returns></returns>
 		public TemplateParameter Add(TemplateParameter value) 
 		{
-			if(this[value.Name] != null)
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a null template parameter.");
+			
+			if(Contains(value))
 				return this[value.Name];
 			List.Add(value);
+			value.ValueChanged += new ParameterValueChangedEventHandler(value_ValueChanged);
 			return value;
 		}
 
@@ -95,7 +108,7 @@ namespace Subtext.Scripting
 		/// <returns><b>true</b> if the collection contains the specified object; otherwise, <b>false</b>.</returns>
 		public bool Contains(TemplateParameter value) 
 		{
-			return this.List.Contains(value);
+			return Contains(value.Name);
 		}
 		
 		/// <summary>
@@ -123,22 +136,11 @@ namespace Subtext.Scripting
 		}
 		
 		/// <summary>
-		/// Inserts the specified index.
-		/// </summary>
-		/// <param name="index">Index.</param>
-		/// <param name="value">Value.</param>
-		public void Insert(int index, Script value)	
-		{
-			List.Insert(index, value);
-		}
-		
-		/// <summary>
 		/// Removes the specified value.
 		/// </summary>
 		/// <param name="value">Value.</param>
 		public void Remove(TemplateParameter value) 
 		{
-			_names.Remove(value.Name);
 			List.Remove(value);
 		}
 
@@ -152,5 +154,25 @@ namespace Subtext.Scripting
 			if(this[name] != null)
 				this[name].Value = value;
 		}
+
+		private void value_ValueChanged(object sender, ParameterValueChangedEventArgs args)
+		{
+			OnValueChanged(args);
+		}
+
+		protected void OnValueChanged(ParameterValueChangedEventArgs args)
+		{
+			ParameterValueChangedEventHandler changeEvent = ValueChanged;
+			if(changeEvent != null)	
+			{
+				changeEvent(this, args);
+			}
+		}
+
+		/// <summary>
+		/// Event raised when any parameter within this collection changes 
+		/// its values.
+		/// </summary>
+		public event ParameterValueChangedEventHandler ValueChanged;
 	}
 }

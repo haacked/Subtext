@@ -125,6 +125,7 @@ namespace Subtext.Scripting
 			get
 			{
 				StringBuilder builder = new StringBuilder();
+				ApplyTemplatesToScripts();
 				foreach(Script script in this.List)
 				{
 					builder.Append(script.ScriptText);
@@ -134,6 +135,20 @@ namespace Subtext.Scripting
 					builder.Append(Environment.NewLine);
 				}
 				return builder.ToString();
+			}
+		}
+
+		internal void ApplyTemplatesToScripts()
+		{
+			foreach(TemplateParameter parameter in this.TemplateParameters)
+			{
+				foreach(Script script in this)
+				{
+					if(script.TemplateParameters.Contains(parameter.Name))
+					{
+						script.TemplateParameters[parameter.Name].Value = parameter.Value;
+					}
+				}
 			}
 		}
 
@@ -152,10 +167,16 @@ namespace Subtext.Scripting
 					{
 						_templateParameters.AddRange(script.TemplateParameters);
 					}
+					_templateParameters.ValueChanged += new ParameterValueChangedEventHandler(_templateParameters_ValueChanged);
 				}
 
 				return _templateParameters;
 			}
+		}
+
+		private void _templateParameters_ValueChanged(object sender, ParameterValueChangedEventArgs args)
+		{
+			ApplyTemplatesToScripts();
 		}
 	}
 }
