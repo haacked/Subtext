@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="SubText" default="dist.archive">
+<project name="SubText" default="dist.updateCVS">
 
 	<!-- Set this propery if you want to specify a custom destination
 		<property name="publish.root" value="D:\Simone\SubtextProject\SubtextSolution\targetDir"/>
@@ -21,6 +21,7 @@
 		
 		<property name="publish.dir.latest" value="${publish.root}\latest" />
 		<property name="publish.dir.archive" value="${publish.root}\archive" />
+		<property name="publish.dir.toCVS" value="${publish.root}\toCVS" />
 
 	</target>
 
@@ -80,9 +81,11 @@
 				<include name="Images/*" />
 				<include name="Images/emotions/*" />
 				<exclude name="**/*.cs"/>
+				<exclude name="**/*.txt"/>
 				<exclude name="**/*.resx"/>
 				<exclude name="**/*.csproj"/>
-				<exclude name="**/*.*scc"/>
+				<exclude name="**/*.csproj.user"/>
+				<exclude name="**/.cvsignore"/>
 				<exclude name="obj/**"/>
 			</fileset>
 		</copy>
@@ -106,6 +109,24 @@
 		</fileset>
 		</zip>
 		
+	</target>
+	
+	<target name="dist.updateCVS" depends="dist.archive">
+		<copy file="${publish.dir.archive}\${build.date}.zip"
+				tofile="${publish.dir.toCVS}\SubtextDeployment.zip" />
+		
+		
+		<property name="web.config.latest" value="${publish.dir.latest}\web.config" />
+		<property name="web.config.published" value="${publish.dir.toCVS}\Scripts\web.config" />
+		
+		<ifnot test="${file::up-to-date(web.config.latest,web.config.published)}">
+			<copy file="${publish.dir.latest}\web.config"
+					tofile="${publish.dir.toCVS}\Scripts\web.config" />	
+		</ifnot>
+		
+		<!--
+		<cvs command="commit"
+			-->
 	</target>
 
 
