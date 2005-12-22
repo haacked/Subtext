@@ -3,6 +3,7 @@ WARNING: This SCRIPT USES SQL TEMPLATE PARAMETERS.
 Be sure to hit CTRL+SHIFT+M in Query Analyzer if running manually.
 */
 
+
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[iter_charlist_to_table]') and xtype in (N'FN', N'IF', N'TF'))
 drop function [<dbUser,varchar,dbo>].[iter_charlist_to_table]
 GO
