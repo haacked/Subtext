@@ -1,8 +1,12 @@
 <?xml version="1.0"?>
 <project name="SubText" default="dist.updateCVS">
 
+	<property name="CVSPATH" value="C:\Programmi\TortoiseCVS\cvs.exe"/>
+	<property name="SSHPATH" value="C:\Programmi\TortoiseCVS\TortoisePlink.exe"/>
+
 	<!-- Set this propery if you want to specify a custom destination
-		<property name="publish.root" value="D:\Simone\SubtextProject\SubtextSolution\targetDir"/>
+		<property name="publish.root" value="D:\Simone\SubtextProject\SubtextSolution\buildArchive"/>
+		<property name="source.root" value="D:\Simone\SubtextProject\SubtextSolution\Subtext.DotTextUpgrader"/>
 	-->
 	
 	<target name="get-publishing-properties">
@@ -11,8 +15,12 @@
 	
 	
 		<ifnot test="${property::exists('publish.root')}"> 
-			<property name="publish.root" value="targetDir"/>
+			<property name="publish.root" value="buildArchive"/>
 		</ifnot>
+		<ifnot test="${property::exists('source.root')}"> 
+			<property name="source.root" value="."/>
+		</ifnot>
+
 	<!--
 		<ifnot test="${property::exists('ccnet.label')}"> 
 			<fail message="ccnet.label property not set, so can't create labelled distribution files" />
@@ -21,7 +29,7 @@
 		
 		<property name="publish.dir.latest" value="${publish.root}\latest" />
 		<property name="publish.dir.archive" value="${publish.root}\archive" />
-		<property name="publish.dir.toCVS" value="${publish.root}\toCVS" />
+		<property name="publish.dir.toCVS" value="${source.root}\Subtext.DotTextUpgrader" />
 
 	</target>
 
@@ -111,11 +119,16 @@
 		
 	</target>
 	
+	
+	<!--
+		<target name="dist.updateCVS" depends="get-publishing-properties">
+		-->
+	
+
 	<target name="dist.updateCVS" depends="dist.archive">
-		<copy file="${publish.dir.archive}\${build.date}.zip"
+			<copy file="${publish.dir.archive}\${build.date}.zip"
 				tofile="${publish.dir.toCVS}\SubtextDeployment.zip" />
-		
-		
+				
 		<property name="web.config.latest" value="${publish.dir.latest}\web.config" />
 		<property name="web.config.published" value="${publish.dir.toCVS}\Scripts\web.config" />
 		
@@ -123,10 +136,27 @@
 			<copy file="${publish.dir.latest}\web.config"
 					tofile="${publish.dir.toCVS}\Scripts\web.config" />	
 		</ifnot>
-		
-		<!--
+
 		<cvs command="commit"
-			-->
+				destination="${publish.dir.toCVS}\Scripts"
+				commandline="-m &quot;test via NANT&quot; web.config"
+				module="SubtextProject"
+				usesharpcvslib="false"
+				cvsfullpath="${CVSPATH}"
+				cvsrsh="${SSHPATH}"
+			>
+		</cvs>
+		
+		<cvs command="commit"
+				destination="${publish.dir.toCVS}"
+				commandline="-m &quot;test via NANT&quot; SubtextDeployment.zip"
+				module="SubtextProject"
+				usesharpcvslib="false"
+				cvsfullpath="${CVSPATH}"
+				cvsrsh="${SSHPATH}"
+			>
+		</cvs>
+
 	</target>
 
 
