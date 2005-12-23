@@ -3591,7 +3591,7 @@ IF(LEN(RTRIM(LTRIM(@EntryName))) = 0)
 
 IF(@EntryName IS NOT NULL)
 BEGIN
-	IF EXISTS(SELECT EntryName FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE BlogID = @BlogID AND EntryName = @EntryName)
+	IF EXISTS(SELECT EntryName FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE BlogID = @BlogID AND EntryName = @EntryName AND [ID] <> @ID)
 	BEGIN
 		RAISERROR('The EntryName of your entry is already in use with in this Blog. Please pick a unique EntryName.', 11, 1) 
 		RETURN 1
