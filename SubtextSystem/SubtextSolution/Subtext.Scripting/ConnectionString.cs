@@ -42,6 +42,7 @@ namespace Subtext.Scripting
 			{
 				return _server;
 			}
+			set { _server=value; }
 		}
 
 		string _server;
@@ -53,6 +54,7 @@ namespace Subtext.Scripting
 		public string Database
 		{
 			get { return _database; }
+			set { _database=value; }
 		}
 
 		string _database;
@@ -91,6 +93,16 @@ namespace Subtext.Scripting
 			{
 				return String.Compare(_securityType, "sspi", true) == 0 
 					|| String.Compare(_securityType, "true", true) == 0;
+			}
+
+			set
+			{
+				if(value)
+				{
+					_securityType="true";
+					_securityTypeText="Trusted_Connection=true";
+				}
+				else _securityType=String.Empty;
 			}
 		}
 
