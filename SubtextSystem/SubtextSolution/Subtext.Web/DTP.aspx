@@ -3,6 +3,8 @@
 <asp:Literal ID="docTypeDeclaration" Runat="server" />
 	<head>
 		<title><asp:Literal ID="pageTitle" Runat="server" /></title>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<asp:Literal id="authorMetaTag" runat="server" />
 		<link id="MainStyle" type="text/css" rel="stylesheet" runat="Server" />
 		<link id="SecondaryCss" type="text/css" rel="stylesheet" runat="Server" />
 		<link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" runat="Server" />
