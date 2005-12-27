@@ -151,13 +151,15 @@ GO
 	Had to put brackets [ ] around the column name File b/c
 	it is a SQL Server KEYWORD.  Seems to work OK this way tho.
 */
-SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Images ON
-INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Images 
+SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Images] ON
+
+INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Images]
 ( ImageID, Title, CategoryID, Width, Height, [File], Active, BlogID )
     SELECT
         ImageID, Title, CategoryID, Width, Height, [File], Active, BlogID
     FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_Images]
-SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Images OFF
+
+SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Images] OFF
 GO
 
 -- subtext_Links
