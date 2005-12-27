@@ -17,6 +17,7 @@ namespace Subtext.Web.UI.Pages
 	/// </summary>
 	public class SubtextMasterPage : System.Web.UI.Page
 	{
+		#region Declared Controls in DTP.aspx
 		private static readonly ScriptElementCollectionRenderer __scriptRenderer = new ScriptElementCollectionRenderer();
 		private static readonly StyleSheetElementCollectionRenderer __styleRenderer = new StyleSheetElementCollectionRenderer();
 		protected System.Web.UI.WebControls.Literal pageTitle;
@@ -28,6 +29,7 @@ namespace Subtext.Web.UI.Pages
 		protected System.Web.UI.WebControls.Literal authorMetaTag;
 		protected System.Web.UI.WebControls.Literal scripts;
 		protected System.Web.UI.WebControls.Literal styles;
+		#endregion
 		
 		protected BlogInfo CurrentBlog;
 		protected const string TemplateLocation = "~/Skins/{0}/{1}";
