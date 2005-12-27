@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using Subtext.Framework;
@@ -24,6 +25,7 @@ namespace Subtext.Web.UI.Pages
 		protected System.Web.UI.HtmlControls.HtmlGenericControl SecondaryCss;
 		protected System.Web.UI.HtmlControls.HtmlGenericControl RSSLink;
 		protected System.Web.UI.WebControls.PlaceHolder CenterBodyControl;
+		protected System.Web.UI.WebControls.Literal authorMetaTag;
 		protected System.Web.UI.WebControls.Literal scripts;
 		protected System.Web.UI.WebControls.Literal styles;
 		
@@ -112,9 +114,14 @@ namespace Subtext.Web.UI.Pages
 		/// <param name="e">E.</param>
 		protected override void OnPreRender(EventArgs e)
 		{
+			Response.ContentEncoding = Encoding.UTF8; //TODO: allow for per/blog config.
+			Response.ContentType = "text/html"; //TODO: allow for per/blog config.
+
 			//Is this for extra security?
 			this.EnableViewState = false;
 			pageTitle.Text = Globals.CurrentTitle(Context);
+			if(Config.CurrentBlog.Author != null && Config.CurrentBlog.Author.Length > 0)
+				authorMetaTag.Text = String.Format("<meta name=\"author\" content=\"{0}\" />", Config.CurrentBlog.Author );
 			base.OnPreRender (e);
 		}
 
