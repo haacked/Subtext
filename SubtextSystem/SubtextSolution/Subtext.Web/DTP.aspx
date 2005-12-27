@@ -13,11 +13,11 @@
 	</head>
 	<body>
 		<form id="Form1" method="post" runat="server">
-			<DT:MASTERPAGE id="MPContainer" runat="server">
+			<DT:MasterPage id="MPContainer" runat="server">
 				<DT:contentregion id="MPMain" runat="server">
 					<asp:PlaceHolder id="CenterBodyControl" runat="server"></asp:PlaceHolder>
 				</DT:contentregion>
-			</DT:MASTERPAGE>
+			</DT:MasterPage>
 		</form>
 	</body>
 </html>
