@@ -22,8 +22,8 @@
 		
 		<div id="sidebar">
 			<div>
-				<asp:HyperLink ImageUrl="~/skins/Haackify/images/rss20icon.gif" Runat="server" NavigateUrl="~/Rss.aspx"  Title="RSS 2.0" ID="XMLLink">RSS 2.0 Feed</asp:HyperLink><asp:HyperLink Runat="server" NavigateUrl="~/Rss.aspx" ID="Syndication" Title="RSS 2.0" /><br />
-				<asp:HyperLink ImageUrl="~/images/PoweredBySubtext85x33.png" Runat="server" NavigateUrl="http://subtextproject.com/" ID="PoweredByLink" Title="Powered By Subtext"></asp:HyperLink>
+				<asp:HyperLink ImageUrl="~/skins/Haackify/images/rss20icon.gif" Runat="server" NavigateUrl="~/Rss.aspx"  title="RSS 2.0" ID="XMLLink">RSS 2.0 Feed</asp:HyperLink><asp:HyperLink Runat="server" NavigateUrl="~/Rss.aspx" ID="Syndication" title="RSS 2.0" /><br />
+				<asp:HyperLink ImageUrl="~/images/PoweredBySubtext85x33.png" Runat="server" NavigateUrl="http://subtextproject.com/" ID="PoweredByLink" title="Powered By Subtext"></asp:HyperLink>
 			</div>
 			<div>
 <!-- Start of Flickr Badge -->

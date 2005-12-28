@@ -70,6 +70,7 @@ namespace Subtext.Web.UI.Controls
 
 				//Sent entry properties
 				TitleUrl.Text = entry.Title;
+				TitleUrl.Attributes["Title"] = entry.Title;
 				TitleUrl.NavigateUrl = entry.TitleUrl;
 				Body.Text = entry.Body;
 				PostDescription.Text = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} {1}",entry.DateCreated.ToLongDateString(),entry.DateCreated.ToShortTimeString());
@@ -101,6 +102,7 @@ namespace Subtext.Web.UI.Controls
 					{
 						//We'll slap on our little pencil icon.
 						editLink.ImageUrl = "~/Images/edit.gif";
+						editLink.Attributes["Title"] = "Edit Entry";
 						editLink.NavigateUrl = UrlFormats.GetEditLink(entry);
 					}
 				}

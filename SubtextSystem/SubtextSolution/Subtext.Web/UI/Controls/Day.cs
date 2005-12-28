@@ -107,6 +107,7 @@ namespace Subtext.Web.UI.Controls
 					{
 						//We'll slap on our little pencil icon.
 						editLink.ImageUrl = "~/Images/edit.gif";
+						editLink.Attributes["Title"] = "Edit Entry";
 						editLink.NavigateUrl = UrlFormats.GetEditLink(entry);
 					}
 				}
