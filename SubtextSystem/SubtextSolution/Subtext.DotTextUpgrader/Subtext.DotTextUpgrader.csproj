@@ -142,11 +142,13 @@
                 />
                 <File
                     RelPath = "Scripts\Installation.01.00.00.sql"
-                    BuildAction = "EmbeddedResource"
+                    Link = "..\Subtext.Installation\Scripts\Installation.01.00.00.sql"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "Scripts\StoredProcedures.sql"
-                    BuildAction = "EmbeddedResource"
+                    Link = "..\Subtext.Installation\Scripts\StoredProcedures.sql"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "Scripts\Web.config"
