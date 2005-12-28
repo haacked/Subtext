@@ -132,9 +132,17 @@ namespace Subtext.Framework.Syndication
 
 			//(Duncanma 11/13/2005, changing link rel and href for 1.0 feed)
 			this.WriteStartElement("link");
+			//(Duncanma 12/28/2005, changing again... Atom vs atom was causing feed validation errors
 				this.WriteAttributeString("rel","self");
 				this.WriteAttributeString("type","application/xml");
-				this.WriteAttributeString("href",info.RootUrl + "atom.aspx");
+				string currentURL = link + "Atom.aspx";
+				if (System.Web.HttpContext.Current.Request != null)
+					currentURL = System.Web.HttpContext.Current.Request.Url.ToString();
+				this.WriteAttributeString("href",currentURL);
+
+//				this.WriteAttributeString("rel","self");
+//				this.WriteAttributeString("type","application/xml");
+//				this.WriteAttributeString("href",info.RootUrl + "atom.aspx");
 			this.WriteEndElement();
 
 			//(Duncanma 11/13/2005, changing tagline to subtitle for 1.0 feed)
