@@ -28,9 +28,8 @@ namespace Subtext.Web.UI.Controls
 {
 	using System;
 
-
 	/// <summary>
-	///		Summary description for Header.
+	///	Code behind class for the MyLinks section.
 	/// </summary>
 	public class MyLinks : BaseControl
 	{
@@ -45,11 +44,15 @@ namespace Subtext.Web.UI.Controls
 		{
 			base.OnLoad (e);
 			if(Context != null)
-			{
-				
-				
-				HomeLink.NavigateUrl = CurrentBlog.RootUrl;
-				ContactLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}contact.aspx", CurrentBlog.RootUrl);
+			{			
+				if(HomeLink != null)
+				{
+					HomeLink.NavigateUrl = CurrentBlog.RootUrl;
+				}
+				if(ContactLink != null)
+				{
+					ContactLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}contact.aspx", CurrentBlog.RootUrl);
+				}
 
 				if(Request.IsAuthenticated && Security.IsAdmin)
 				{
@@ -66,8 +69,6 @@ namespace Subtext.Web.UI.Controls
 
 				if (AtomLink != null)
 					AtomLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Atom.aspx", CurrentBlog.RootUrl);
-					
-
 			}
 		}
 
