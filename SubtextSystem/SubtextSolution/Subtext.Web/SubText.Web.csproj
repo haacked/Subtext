@@ -3769,6 +3769,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "UI\WebControls\AtomHyperLink.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "UI\WebControls\ContentRegion.bmp"
                     BuildAction = "Content"
                 />
@@ -3783,6 +3788,11 @@
                 />
                 <File
                     RelPath = "UI\WebControls\MasterPage.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\WebControls\RssHyperLink.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

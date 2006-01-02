@@ -234,6 +234,27 @@ namespace Subtext.Framework
 			set{_language = value;}
 		}
 
+		/// <summary>
+		/// Gets the two (or three) letter language without the culture code.
+		/// </summary>
+		/// <value>The language sans culture.</value>
+		public string LanguageCode
+		{
+			get
+			{
+				if(_languageCode == null || _languageCode.Length == 0)
+				{
+					//Just being paranoid in making this check.
+					if(_language == null)
+						_language = "en-US";
+					_languageCode = StringHelper.LeftBefore(_language, "-");
+				}
+				return _languageCode;
+			}
+		}
+
+		string _languageCode;
+
 		private string _email;
 		/// <summary>
 		/// Gets or sets the email of the blog owner.

@@ -2,10 +2,17 @@
 body 
 {
 	text-align: center;
-	font: .8em myriad, "gill sans", helvetica, arial, sans-serif;
+	font-family: myriad, "gill sans", helvetica, arial, sans-serif;
+	font-size: small;
 	background-color: #DDDDDD;
 	min-width: 794px;
 	color: #444444;
+}
+
+* html body /* The Simplified Box Model Hack */
+{
+	font-size: x-small; /* for IE5/Win */
+	f\ont-size: small; /* for other IE versions */
 }
 
 .clear 
@@ -16,13 +23,11 @@ body
 a:link
 {	
 	color : #448899;
-	text-decoration: none;
 }
 
 a:visited
 {
 	color: #6699CC;
-	text-decoration: none;
 }
 
 a:hover 
@@ -30,7 +35,7 @@ a:hover
 	color: #BF5010;
 }
 
-a.img, a.img, a.img
+a.img, img
 {
 	border: none;
 }
@@ -44,7 +49,7 @@ h1, h2, h3, h4
 /* Title */
 #logo h1
 {
-	font-size: 4em;
+	font-size: 400%;
 	margin-bottom: 0px;
 	padding-left: 100px;
 }
@@ -68,22 +73,21 @@ h1, h2, h3, h4
 
 #subtitle h2
 {
-	font-size: 1em;
+	font-size: 115%;
 }
 
 h2
 {
-	font-size: 1.25em;
+	font-size: 150%;
 }
 
 h3
 {
-	font-size: 1.2em;
+	font-size: 120%;
 }
 
 h4
 {
-	font-size: 1.0em;
 }
 
 h2 a:visited,
@@ -108,7 +112,7 @@ blockquote
 	margin-left: 18px;
 	font-family: verdana, helvetica, sans-serif;
 	font-family: verdana, helvetica, sans-serif;
-	font-size: .95em;
+	font-size: 95%;
 	line-height: 1.3em;
 	padding: 10px;
 	background-color: #F9F9FC;
@@ -133,7 +137,7 @@ textarea
 #comments h4 
 {
 	margin : 0px;
-	font-size : 0.9em;
+	font-size : 90%;
 }
 
 .Textbox, textarea
@@ -151,7 +155,6 @@ textarea
 input, textarea
 {
 	font-family: verdana, geneva, arial, sans-serif;
-	font-size: 10px;
 }
 
 img
@@ -162,7 +165,6 @@ img
 .caption
 {
 	font-family: arial, sans-serif;
-	font-size: 10px;
 	font-weight: bold;
 }
 
@@ -173,7 +175,7 @@ img
 
 code
 {
-	font-size: 1.3em;
+	font-size: 130%;
 }
 
 /******** LAYOUT *******************/
@@ -235,7 +237,7 @@ code
 #footer 
 {
 	text-align: center;
-	font-size : 0.7em;
+	font-size : 70%;
 }
 
 #bottom
@@ -257,10 +259,26 @@ code
 /********** Content Styling ************/
 .blogpost
 {
-	font-size : .9em;
+	font-size : 90%;
 	font-family : myriad, "gill sans", helvetica, arial, sans-serif;
 	padding-bottom: 20px;
 	overflow: auto;
+}
+
+.blogpost img
+{
+	float:left;
+}
+
+.blogpost img.alternate
+{
+	float: right;
+}
+
+.blogpost p img,  .blogpost img.important
+{
+	float: none;
+	margin-left: 40%;
 }
 
 .blogdate
@@ -272,26 +290,27 @@ code
 
 .postfooter
 {
+	clear: both;
 	margin: 0px;
 	margin-top: 14px;
 	color: #AAAAAA;
-	font-size: 0.8em;
+	font-size: 80%;
 }
 
-.title
+h2.title
 {
 	color: #CC7733;
 	/* consider image background: url(/images/someimage.gif) no-repeat left top; */
 	padding: 3px 0px 3px 0px;
 	text-shadow: 0.2em 0.2em 0.1em #CCC;
+	text-decoration: none;
 }
-
 
 .date
 {
 	color: #666666;
 	font-weight: normal;
-	font-size: .7em;
+	font-size: 70%;
 	text-shadow: 0.2em 0.2em 0.1em #CCC;
 	padding-left: 20px;
 }
@@ -306,7 +325,7 @@ code
 {
 	font-family: "lucida grande", verdana, arial, helvetica, sans-serif;
 	font-weight: bold;
-	font-size: .9em;
+	font-size: 90%;
 	color: #444444;
 	margin-bottom: 0;
 	text-decoration: none;
@@ -322,7 +341,7 @@ code
 {
 	text-align: right;
 	padding-left: 150px;
-	font-size: .7em;
+	font-size: 70%;
 }
 
 /* Sidebar Styling
@@ -331,7 +350,7 @@ code
 {
 	float: right;
 	width: 150px;
-	font-size: .8em;
+	font-size: 80%;
 	margin-right: 11px;
 	padding-left:10px;
 	padding-right:10px;
@@ -342,7 +361,7 @@ code
 {
 	font-family: "lucida grande", verdana, arial, helvetica, sans-serif;
 	font-weight: bold;
-	font-size: 1em;
+	font-size: 100%;
 	color: #999999;
 	margin-bottom: 0;
 }
@@ -361,7 +380,7 @@ code
 
 #sidebar ul li
 {
-	font-size: .9em;
+	font-size: 90%;
 	font-family: "lucida grande", verdana, arial, helvetica, sans-serif;
 	border: solid 1px #FFFFFF;
 	line-height: 1.5em;
@@ -425,7 +444,7 @@ code
 }
 .innerbox p
 {
-	font-size:14px;
+	font-size: 14px;
 	margin: 3px;
 }
 
