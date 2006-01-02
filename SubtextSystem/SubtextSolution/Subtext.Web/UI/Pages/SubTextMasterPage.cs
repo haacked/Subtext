@@ -103,6 +103,8 @@ namespace Subtext.Web.UI.Pages
 					if(Config.Settings.UseXHTML)
 					{
 						docTypeDeclaration.Text += " xmlns=\"http://www.w3.org/1999/xhtml\"";
+						docTypeDeclaration.Text += String.Format(" lang=\"{0}\"", Config.CurrentBlog.LanguageCode);
+						docTypeDeclaration.Text += String.Format(" xml:lang=\"{0}\"", Config.CurrentBlog.LanguageCode);
 					}
 					docTypeDeclaration.Text += ">";
 				}
