@@ -40,6 +40,7 @@ namespace Subtext.Web.UI.Skinning
 		{
 			return Instance(HttpContext.Current);
 		}
+		
 		public static SkinTemplates Instance(HttpContext context)
 		{
 			SkinTemplates st = (SkinTemplates)context.Cache["SkinTemplates"];
