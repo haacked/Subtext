@@ -1,0 +1,307 @@
+body
+{
+	margin: 0;
+	padding: 0;
+	font-family: Verdana, Sans-Serif;
+	font-size: small;
+	background: #fff;
+}
+
+/* Links */
+a:link 
+{
+	color: #40659B;
+	text-decoration: none;
+	border-bottom: 1px dotted #bbb;
+}
+
+a:visited 
+{
+	color: #8EA4C2;
+	text-decoration: none;
+	border-bottom: 1px dotted #bbb;
+}
+
+a:hover 
+{
+	color: #036;
+	border-bottom-style: solid;
+}
+
+/* Common Elements */
+h1
+{
+	font-size: 200%;
+}
+
+h2
+{
+	font-size: 175%;
+}
+
+h3
+{
+	font-size: 150%;
+}
+
+h4
+{
+	font-size: 125%;
+}
+
+/* Layout */
+#main
+{
+	padding: 0;
+	margin: 0 auto;
+	background: #fff;
+	position: relative;
+	width: 100%;
+}
+
+#top
+{
+	margin: 0;
+	padding: 0;
+	height: 8px;
+	background: #ffffff url(/Subtext.Web/Skins/Gradient/images/TOP_bluebar.gif) repeat-x top;
+}
+
+#header
+{
+	float: left;
+	margin:0;
+	padding:0;
+	width: 100%;
+	background: #ffffff url(/Subtext.Web/Skins/Gradient/images/headerbackground.gif) repeat-x bottom left;
+}
+
+#mainbody
+{
+	width: 800px;
+	margin: 0 auto 0 auto;
+	padding: 0;
+}
+
+#content
+{
+	float: left;
+	width: 540px;
+}
+
+#sidebar
+{
+	margin: 10px 0 0 0;
+	padding: 0;
+	float: right;
+	width: 249px;
+}
+
+#footer
+{
+	clear: both;
+	text-align: center;
+}
+
+/* Header Content Styling */
+
+#logo
+{
+	display: block;
+	height: 20px;
+	width: 800px;
+	margin: 0 auto 0 auto;
+}
+
+#logo h1
+{
+	width: 800px;
+	height: 20px;
+	margin: 0 auto 0 auto;
+	display: inline;
+	position: relative;
+	top: 10px;
+}
+
+a.blogTitle
+{
+	color: #556f9a;
+	text-decoration: none;
+	border: none;
+}
+
+/* Top Navigation Styling */
+#navbar
+{
+	width: 800px;
+	margin: 0 auto 0 auto;
+}
+
+#nav
+{
+	margin: 0 auto 0 auto;
+	padding: 10px 5px 0 46px;
+	list-style: none;
+	float: right;
+}
+
+#nav li
+{
+	float: left;
+	margin: 0;
+	padding: 0;
+	font-family: "Lucida Grande", Sans-Serif;
+	font-size: 125%;
+	font-weight: bold;
+}
+
+#nav a
+{
+	float: left;
+	display: block;
+	margin: 0 2px 0 0;
+	padding: 4px 8px;
+	color: #333;
+	text-decoration: none;
+	border: 1px solid #cce5f1;
+	border-bottom: 2px solid #cce5f1;
+	background: #5396b7 url(/Subtext.Web/Skins/Gradient/images/TabGradient.gif) repeat-x top left;
+}
+
+#nav a:hover
+{
+	background: #ffffff url(/Subtext.Web/Skins/Gradient/images/SelectedTabGradient.gif) repeat-x top left;
+	padding-bottom: 6px;
+	border-bottom: none;
+}
+
+#blogstats
+{
+	display: none;
+	clear: both;
+}
+
+/* Post Styles */
+.blogpost
+{
+	border-bottom: 1px dotted #E0E8B9;
+	padding: 0 0 8px 5px;
+	margin: 0 10px 0px 10px;
+	clear: both;
+}
+
+.daylink
+{
+	display: none;
+}
+
+h2.postTitle
+{
+	padding: 0;
+	margin: 5px 0 10px 0;
+}
+
+h2.postTitle a
+{
+	font-size: 150%;
+	font-family: helvetica, arial, sans-serif;
+	line-height: 30px;
+	letter-spacing: -1px;
+	color: #36A;
+	text-decoration: none;
+	border: none;
+}
+
+ul.postInfo
+{
+	float: left;
+	margin: 0;
+	padding: 0;
+	padding: 10px 0 20px 0;
+	list-style: none;
+}
+
+ul.postInfo li
+{
+	display: inline;
+	padding: 0;
+	margin: 0;
+}
+
+ul.postInfo li:before 
+{
+	color: #999;
+	content: "| "; 
+}
+
+ul.postInfo li:first-child:before 
+{
+	content: ""; 
+}
+
+/* Sidebar link boxes */
+#sidebar h3
+{
+	color: #EB8600;
+	font-size: 100%;
+	padding: 15px 18px 0 18px;
+	font-family: "Trebuchet MS", sans-serif;
+}
+
+#sidebar div
+{
+	margin-bottom: 10px;
+}
+
+div.box
+{
+	width: 241px;
+	margin: 0 0 14px 0;
+	border: solid 1px #e2e9bd;
+}
+
+.innerBox
+{
+
+}
+
+.box p, .box ul, .box ol, .box dl, .box form 
+{
+	margin: 0;
+	padding: 1em 18px 18px 18px;
+	font-size: 85%;
+	line-height: 1.4em;
+}
+
+div.box h3
+{
+	margin: 0;
+	display: block;
+	width: 241px;
+}
+
+ul.sidebarlist
+{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.box ul li 
+{
+	margin: 0 0 2px 10px;
+	padding-left: 15px;
+	list-style: none;
+}
+
+.box dl dt 
+{
+	margin: 0 0 2px 0;
+	font-weight: bold;
+}
+
+.box dl dd 
+{
+	margin: 0;
+	padding: 0;
+}

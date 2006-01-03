@@ -25,11 +25,8 @@ using System;
 
 namespace Subtext.Web.UI.Controls
 {
-	using System;
-
-
 	/// <summary>
-	///		Summary description for Header.
+	///	Displays news...
 	/// </summary>
 	public class News : BaseControl
 	{

@@ -22,6 +22,7 @@
 #endregion
 
 using System;
+using System.Threading;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -30,7 +31,7 @@ using Subtext.Framework.Format;
 namespace Subtext.Web.UI.Controls
 {
 	/// <summary>
-	/// Summary description for LastSevenDaysControl.
+	/// Control used to display a list of entries.
 	/// </summary>
 	public class EntryList : BaseControl
 	{
@@ -39,9 +40,11 @@ namespace Subtext.Web.UI.Controls
 		protected System.Web.UI.WebControls.Literal EntryCollectionDescription;
 		protected System.Web.UI.WebControls.HyperLink EntryCollectionReadMoreLink;
 
+		const string linkToComments = "<a href=\"{0}#FeedBack\" title=\"comments, pingbacks, trackbacks\">{1}{2}</a>";
 		const string postdescWithComments = "posted @ <a href=\"{0}\" title = \"permalink\">{1}</a> | <a href=\"{2}#FeedBack\" title = \"comments, pingbacks, trackbacks\">Feedback ({3})</a>";
 		const string postdescWithNoComments = "posted @ <a href=\"{0}\" title = \"permalink\">{1}</a>";
-		protected void PostCreated(object sender,  RepeaterItemEventArgs e)
+		
+		protected virtual void PostCreated(object sender,  RepeaterItemEventArgs e)
 		{
 			if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
 			{
@@ -75,7 +78,7 @@ namespace Subtext.Web.UI.Controls
 						}
 						else
 						{
-							PostText.Text = "<br>" + entry.Body;
+							PostText.Text = entry.Body;
 						}
 					}
 					
@@ -93,6 +96,38 @@ namespace Subtext.Web.UI.Controls
 						}
 					}
 
+					Label date = e.Item.FindControl("date") as Label;
+					if(date != null)
+					{
+						if(date.Attributes["Format"] != null)
+						{
+							date.Text = entry.DateCreated.ToString(date.Attributes["Format"]);
+						}
+						else
+						{
+							date.Text = entry.DateCreated.ToString(Thread.CurrentThread.CurrentUICulture);
+						}
+					}
+
+					Label commentCount = e.Item.FindControl("commentCount") as Label;
+					if(commentCount != null)
+					{
+						if(entry.AllowComments)
+						{
+							if(entry.FeedBackCount == 0)
+							{
+								commentCount.Text = string.Format(linkToComments, entry.Link, "Add Comment", "");
+							}
+							else if(entry.FeedBackCount == 1)
+							{
+								commentCount.Text = string.Format(linkToComments, entry.Link, "One Comment", "");
+							}
+							else if(entry.FeedBackCount > 1)
+							{
+								commentCount.Text = string.Format(linkToComments, entry.Link, entry.FeedBackCount, " Comments");
+							}
+						}
+					}
 				}
 			}
 		}
@@ -100,7 +135,7 @@ namespace Subtext.Web.UI.Controls
 		// If the user is an admin AND the the skin 
 		// contains an edit Hyperlink control, this 
 		// will display the edit control.
-		private void DisplayEditLink(Entry entry, RepeaterItemEventArgs e)
+		protected virtual void DisplayEditLink(Entry entry, RepeaterItemEventArgs e)
 		{
 			HyperLink editLink = e.Item.FindControl("editLink") as HyperLink;
 			if(editLink != null)
@@ -110,11 +145,6 @@ namespace Subtext.Web.UI.Controls
 					editLink.Visible = true;
 					if(editLink.Text.Length == 0 && editLink.ImageUrl.Length == 0)
 					{
-//						String app = Config.CurrentBlog.Application.Trim();
-//						StringBuilder url = new StringBuilder();
-//						url.Append((app.Equals(String.Empty)) ? "~" : "~/"+app);
-//						url.Append("/Admin/EditPosts.aspx?PostID=" + entry.EntryID);
-
 						//We'll slap on our little pencil icon.
 						editLink.ImageUrl = "~/Images/edit.gif";
 						editLink.Attributes["Title"] = "Edit Entry";
@@ -135,11 +165,11 @@ namespace Subtext.Web.UI.Controls
 			set{entries = value;}
 		}
 
-		private bool displayOnly = true;
+		private bool descriptionOnly = true;
 		public bool DescriptionOnly
 		{
-			get{return displayOnly;}
-			set{displayOnly = value;}
+			get{return descriptionOnly;}
+			set{descriptionOnly = value;}
 		}
 
 		private string entryListTitle;
@@ -174,33 +204,32 @@ namespace Subtext.Web.UI.Controls
 		{
 			base.OnLoad (e);
 
-				if(EntryListItems != null)
+			if(EntryListItems != null)
+			{
+				EntryCollectionTitle.Text = EntryListTitle;
+
+				if(EntryListDescription != null)
 				{
-					EntryCollectionTitle.Text = EntryListTitle;
-
-					if(EntryListDescription != null)
-					{
-						this.EntryCollectionDescription.Text = EntryListDescription;
-					}
-					else
-					{
-						EntryCollectionDescription.Visible = false;
-					}
-
-					if(EntryListReadMoreUrl != null && EntryListReadMoreText != null)
-					{
-						this.EntryCollectionReadMoreLink.Text = EntryListReadMoreText;
-						this.EntryCollectionReadMoreLink.NavigateUrl = EntryListReadMoreUrl;
-					}
-					else
-					{
-						EntryCollectionReadMoreLink.Visible = false;
-					}
-
-					Entries.DataSource = EntryListItems;
-					Entries.DataBind();
+					this.EntryCollectionDescription.Text = EntryListDescription;
+				}
+				else
+				{
+					EntryCollectionDescription.Visible = false;
 				}
 
+				if(EntryListReadMoreUrl != null && EntryListReadMoreText != null)
+				{
+					this.EntryCollectionReadMoreLink.Text = EntryListReadMoreText;
+					this.EntryCollectionReadMoreLink.NavigateUrl = EntryListReadMoreUrl;
+				}
+				else
+				{
+					EntryCollectionReadMoreLink.Visible = false;
+				}
+
+				Entries.DataSource = EntryListItems;
+				Entries.DataBind();
+			}
 		}
 	}
 }

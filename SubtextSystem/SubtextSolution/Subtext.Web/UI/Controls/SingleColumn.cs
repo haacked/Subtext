@@ -27,9 +27,6 @@ using Subtext.Framework.Components;
 
 namespace Subtext.Web.UI.Controls
 {
-	using System;
-
-
 	/// <summary>
 	///		Summary description for CategoryDisplayByColumn.
 	/// </summary>
@@ -48,7 +45,6 @@ namespace Subtext.Web.UI.Controls
 		{
 			LinkCategoryCollection lcc = new LinkCategoryCollection();
 
-			string fqu = CurrentBlog.RootUrl;
 			lcc.Add(UIData.Links(CategoryType.StoryCollection,CurrentBlog.UrlFormats));			
 			lcc.Add(UIData.ArchiveMonth(CurrentBlog.UrlFormats));
 			lcc.Add(UIData.Links(CategoryType.PostCollection,CurrentBlog.UrlFormats));
