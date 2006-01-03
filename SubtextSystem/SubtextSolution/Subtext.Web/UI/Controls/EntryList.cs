@@ -40,9 +40,9 @@ namespace Subtext.Web.UI.Controls
 		protected System.Web.UI.WebControls.Literal EntryCollectionDescription;
 		protected System.Web.UI.WebControls.HyperLink EntryCollectionReadMoreLink;
 
-		const string linkToComments = "<a href=\"{0}#FeedBack\" title=\"comments, pingbacks, trackbacks\">{1}{2}</a>";
-		const string postdescWithComments = "posted @ <a href=\"{0}\" title = \"permalink\">{1}</a> | <a href=\"{2}#FeedBack\" title = \"comments, pingbacks, trackbacks\">Feedback ({3})</a>";
-		const string postdescWithNoComments = "posted @ <a href=\"{0}\" title = \"permalink\">{1}</a>";
+		const string linkToComments = "<a href=\"{0}#FeedBack\" title=\"View and Add Comments\">{1}{2}</a>";
+		const string postdescWithComments = "posted @ <a href=\"{0}\" title = \"Permanent link to this post\">{1}</a> | <a href=\"{2}#FeedBack\" title = \"comments, pingbacks, trackbacks\">Feedback ({3})</a>";
+		const string postdescWithNoComments = "posted @ <a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>";
 		
 		protected virtual void PostCreated(object sender,  RepeaterItemEventArgs e)
 		{
@@ -92,7 +92,7 @@ namespace Subtext.Web.UI.Controls
 						}
 						else
 						{
-							PostDesc.Text = string.Format(postdescWithNoComments,entry.Link,entry.DateCreated.ToString("f"));
+							PostDesc.Text = string.Format(postdescWithNoComments, entry.Link, entry.DateCreated.ToString("f"));
 						}
 					}
 
@@ -101,11 +101,12 @@ namespace Subtext.Web.UI.Controls
 					{
 						if(date.Attributes["Format"] != null)
 						{
-							date.Text = entry.DateCreated.ToString(date.Attributes["Format"]);
+
+							date.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Link, entry.DateCreated.ToString(date.Attributes["Format"]));
 						}
 						else
 						{
-							date.Text = entry.DateCreated.ToString(Thread.CurrentThread.CurrentUICulture);
+							date.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Link, entry.DateCreated.ToString("f"));
 						}
 					}
 

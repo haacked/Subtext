@@ -1936,6 +1936,158 @@
                 />
                 <Folder RelPath = "Skins\gertrude\Images\" />
                 <File
+                    RelPath = "Skins\Gradient\IEPatches.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\ArchiveCategory.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\ArchiveDay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\ArchiveLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\ArchiveMonth.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\BlogStats.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\CategoryDisplay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\CategoryEntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\CategoryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\Comments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\Contact.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\Day.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\DayCollection.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\EntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\Footer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\GalleryThumbNailViewer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\Header.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\HomePage.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\Login.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\MonthListings.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\MyLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\News.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\PostComment.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\RelatedLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\ViewPicture.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Images\BlogTitle.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Images\BoxBottom.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Images\BoxTop.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Images\headerbackground.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Images\SelectedTabGradient.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Images\SidebarGradient.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Images\TabGradient.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Images\TOP_bluebar.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Images\YellowGradient.gif"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\Haackify\niceforms-default.css"
                     BuildAction = "Content"
                 />
