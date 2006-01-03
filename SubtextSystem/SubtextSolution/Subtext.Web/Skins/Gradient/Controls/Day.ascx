@@ -10,7 +10,7 @@
 						<asp:Literal  runat="server" ID="PostText" />
 						<div class="postfooter">
 							<ul class="postInfo">
-								<li class="postDate"><asp:Label id="date" runat="server" Format="MMM dd, yyyy" /></li>
+								<li class="permalink"><asp:Label id="date" runat="server" Format="MMM dd, yyyy" /></li>
 								<li class="commentCount"><asp:Label id="commentCount" runat="server" /></li>
 							</ul>
 						</div>
