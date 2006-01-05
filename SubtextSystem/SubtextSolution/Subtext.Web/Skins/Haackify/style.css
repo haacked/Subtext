@@ -188,7 +188,7 @@ code
 
 #background
 {
-    background: #FFFFFF url(/Subtext.Web/Skins/Haackify/Images/sidesbg.jpg) repeat-y;
+    background: #FFFFFF url(images/sidesbg.jpg) repeat-y;
     position: relative;
     top: 0px;
     left: 0px;
@@ -242,14 +242,14 @@ code
 
 #bottom
 {
-	background: url(/Subtext.Web/Skins/Haackify/Images/bottom.gif) no-repeat ;
+	background: url(images/bottom.gif) no-repeat ;
 	height: 31px;
 	width: 794px;
 }
 
 #logo
 {
-	background: url(/Subtext.Web/Skins/Haackify/Images/Header.jpg);
+	background: url(images/Header.jpg);
 	width: 772px;
 	height: 174px;
 	margin-left: 10px;
