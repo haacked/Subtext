@@ -96,17 +96,31 @@ namespace Subtext.Web.UI.Controls
 						}
 					}
 
-					Label date = e.Item.FindControl("date") as Label;
-					if(date != null)
+					Label permalink = e.Item.FindControl("permalink") as Label;
+					if(permalink != null)
 					{
-						if(date.Attributes["Format"] != null)
+						if(permalink.Attributes["Format"] != null)
 						{
 
-							date.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Link, entry.DateCreated.ToString(date.Attributes["Format"]));
+							permalink.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Link, entry.DateCreated.ToString(permalink.Attributes["Format"]));
 						}
 						else
 						{
-							date.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Link, entry.DateCreated.ToString("f"));
+							permalink.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Link, entry.DateCreated.ToString("f"));
+						}
+					}
+
+					Label postDate = e.Item.FindControl("postDate") as Label;
+					if(permalink != null)
+					{
+						if(postDate.Attributes["Format"] != null)
+						{
+
+							postDate.Text = entry.DateCreated.ToString(postDate.Attributes["Format"]);
+						}
+						else
+						{
+							postDate.Text = entry.DateCreated.ToString("f");
 						}
 					}
 

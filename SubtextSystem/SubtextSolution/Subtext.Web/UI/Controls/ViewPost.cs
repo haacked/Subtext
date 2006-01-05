@@ -38,10 +38,14 @@ namespace Subtext.Web.UI.Controls
 	{
 		protected System.Web.UI.WebControls.HyperLink editLink;
 		protected System.Web.UI.WebControls.HyperLink TitleUrl;
+		protected System.Web.UI.WebControls.Label date;
+		protected System.Web.UI.WebControls.Label commentCount;
 		protected System.Web.UI.WebControls.Literal Body;
 		protected System.Web.UI.WebControls.Literal PostDescription;
 		protected System.Web.UI.WebControls.Literal PingBack;
 		protected System.Web.UI.WebControls.Literal TrackBack;
+
+		const string linkToComments = "<a href=\"{0}#FeedBack\" title=\"View and Add Comments\">{1}{2}</a>";
 
 		/// <summary>
 		/// Loads the entry specified by the URL.  If the user is an 
@@ -73,7 +77,42 @@ namespace Subtext.Web.UI.Controls
 				TitleUrl.Attributes["Title"] = entry.Title;
 				TitleUrl.NavigateUrl = entry.TitleUrl;
 				Body.Text = entry.Body;
-				PostDescription.Text = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} {1}",entry.DateCreated.ToLongDateString(),entry.DateCreated.ToShortTimeString());
+				if(PostDescription != null)
+				{
+					PostDescription.Text = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} {1}",entry.DateCreated.ToLongDateString(),entry.DateCreated.ToShortTimeString());
+				}
+
+				if(date != null)
+				{
+					if(date.Attributes["Format"] != null)
+					{
+
+						date.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Link, entry.DateCreated.ToString(date.Attributes["Format"]));
+					}
+					else
+					{
+						date.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Link, entry.DateCreated.ToString("f"));
+					}
+				}
+
+				if(commentCount != null)
+				{
+					if(entry.AllowComments)
+					{
+						if(entry.FeedBackCount == 0)
+						{
+							commentCount.Text = string.Format(linkToComments, entry.Link, "Add Comment", "");
+						}
+						else if(entry.FeedBackCount == 1)
+						{
+							commentCount.Text = string.Format(linkToComments, entry.Link, "One Comment", "");
+						}
+						else if(entry.FeedBackCount > 1)
+						{
+							commentCount.Text = string.Format(linkToComments, entry.Link, entry.FeedBackCount, " Comments");
+						}
+					}
+				}
 				
 				//Set Pingback/Trackback 
 				PingBack.Text = TrackHelpers.PingPackTag;
