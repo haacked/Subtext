@@ -76,18 +76,23 @@ namespace Subtext.Framework.Tracking
 			return false;
 		}
 
+		//TODO: Unit test this method. Also clean it up and make it more self-descriptive.
 		private static string GetReferral(HttpRequest Request)
 		{
-			string url = UrlFormats.GetUriReferrerSafe(Request);
-			if(url != null)
+			Uri uri = UrlFormats.GetUriReferrerSafe(Request);
+			
+			if(uri == null)
+				return null;
+
+			string url = uri.ToString();
+
+			url = url.ToLower(System.Globalization.CultureInfo.InvariantCulture).Replace("www.",string.Empty);
+			string fqu = Config.CurrentBlog.RootUrl.ToLower(System.Globalization.CultureInfo.InvariantCulture).Replace("www.",string.Empty);
+			if(Regex.IsMatch(url, fqu,RegexOptions.IgnoreCase))
 			{
-				url = url.ToLower(System.Globalization.CultureInfo.InvariantCulture).Replace("www.",string.Empty);
-				string fqu = Config.CurrentBlog.RootUrl.ToLower(System.Globalization.CultureInfo.InvariantCulture).Replace("www.",string.Empty);
-				if(Regex.IsMatch(url,fqu,RegexOptions.IgnoreCase))
-				{
-					return null;
-				}
+				return null;
 			}
+			
 			return url;
 		}
 
