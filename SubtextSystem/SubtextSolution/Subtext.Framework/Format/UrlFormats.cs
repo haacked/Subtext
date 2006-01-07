@@ -217,18 +217,17 @@ namespace Subtext.Framework.Format
 		/// </summary>
 		/// <param name="request"></param>
 		/// <returns></returns>
-		public static string GetUriReferrerSafe(HttpRequest request)
+		public static Uri GetUriReferrerSafe(HttpRequest request)
 		{
-			string retVal = null;
-    
 			try
 			{
-				retVal = request.UrlReferrer.ToString();
+				return request.UrlReferrer;
 			}
-			catch{}
-    
-			return retVal;
-		}
+			catch(UriFormatException)
+			{
+				return null;
+			}
+    	}
 
 		/// <summary>
 		/// Builds the <see cref="HyperLink"/>.NavigateUrl for an EditPost Link by determining
