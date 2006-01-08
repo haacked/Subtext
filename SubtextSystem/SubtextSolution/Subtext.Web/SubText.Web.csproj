@@ -3624,6 +3624,154 @@
                 />
                 <Folder RelPath = "Skins\white\Images\" />
                 <File
+                    RelPath = "Skins\WPSkin\Install.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\ArchiveCategory.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\ArchiveDay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\ArchiveLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\ArchiveMonth.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\BlogStats.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\CategoryDisplay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\CategoryEntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\CategoryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\Comments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\Contact.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\Day.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\DayCollection.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\EntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\Footer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\GalleryThumbNailViewer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\Header.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\HomePage.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\Login.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\MonthListings.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\MyLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\News.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\PostComment.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\RelatedLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\SubtextSearch.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\ViewPicture.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\images\audio.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\images\header-img.php"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\images\kubrickbg.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\images\kubrickbgcolor.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\images\kubrickbgwide.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\images\kubrickfooter.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\WPSkin\images\kubrickheader.jpg"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "SystemMessages\BlogNotActive.aspx"
                     SubType = "Form"
                     BuildAction = "Content"
