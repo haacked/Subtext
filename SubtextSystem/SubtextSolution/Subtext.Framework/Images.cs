@@ -124,22 +124,16 @@ namespace Subtext.Framework
 
 		public static bool SaveImage(byte[] Buffer, string FileName)
 		{
-			try
+			
+			if (ValidateFile(FileName))
 			{
-				if (ValidateFile(FileName))
-				{
-					CheckDirectory(FileName);
-					FileStream fs = new FileStream(FileName,FileMode.Create);
-					fs.Write(Buffer,0,Buffer.Length);
-					fs.Close();	
-					return true;
-				}
-				return false;
+				CheckDirectory(FileName);
+				FileStream fs = new FileStream(FileName,FileMode.Create);
+				fs.Write(Buffer,0,Buffer.Length);
+				fs.Close();	
+				return true;
 			}
-			catch(Exception ex)
-			{
-				throw ex;
-			}
+			return false;
 		}
 
 		public static void MakeAlbumImages(ref Subtext.Framework.Components.Image _image)

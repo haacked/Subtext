@@ -54,42 +54,12 @@ namespace Subtext.Framework.Data
 		{
 			if(evc != null)
 			{
-				//				System.IO.StringWriter sw = new System.IO.StringWriter();
-				//				System.Xml.XmlTextWriter tw = new System.Xml.XmlTextWriter(sw);
-				//				tw.WriteStartElement("EntryViews");
-				//
-				//				
-				//				foreach(EntryView ev in evc)
-				//				{
-				//					tw.WriteStartElement("EV");
-				//					tw.WriteAttributeString("E",ev.EntryID.ToString());
-				//					tw.WriteAttributeString("B",ev.BlogID.ToString());
-				//					//tw.WriteAttributeString("U",ev.ReferralUrl);
-				//					tw.WriteAttributeString("W",((int)ev.PageViewType).ToString());
-				//					tw.WriteEndElement();
-				//					
-				//
-				//				}
-				//				tw.WriteEndElement();
-				
-				
-
 				SqlConnection conn = new SqlConnection(this.ConnectionString);
 				try
-				{
-									
-					//conn.Open();
+				{	
 					foreach(EntryView ev in evc)
 					{
-				
-						SqlParameter[] p =	
-										{
-											SqlHelper.MakeInParam("@EntryID", SqlDbType.Int, 4, SqlHelper.CheckNull(ev.EntryID)),
-											SqlHelper.MakeInParam("@BlogID", SqlDbType.Int, 4, ev.BlogID),
-											SqlHelper.MakeInParam("@URL", SqlDbType.NVarChar, 255, SqlHelper.CheckNull(ev.ReferralUrl)),
-											SqlHelper.MakeInParam("@IsWeb", SqlDbType.Bit, 1, ev.PageViewType)
-										};
-						SqlHelper.ExecuteNonQuery(conn,CommandType.StoredProcedure, "subtext_TrackEntry",p);
+						TrackEntry(ev);
 					}
 					return true;
 				
@@ -109,12 +79,11 @@ namespace Subtext.Framework.Data
 
 		public override bool TrackEntry(EntryView ev)
 		{
-			//blog_TrackEntry
 			SqlParameter[] p =	
-					{
+			{
 						SqlHelper.MakeInParam("@EntryID", SqlDbType.Int, 4, SqlHelper.CheckNull(ev.EntryID)),
 						SqlHelper.MakeInParam("@BlogID", SqlDbType.Int, 4, SqlHelper.CheckNull(ev.BlogID)),
-						SqlHelper.MakeInParam("@URL", SqlDbType.NVarChar, 255,SqlHelper.CheckNull(ev.ReferralUrl)),
+						SqlHelper.MakeInParam("@URL", SqlDbType.NVarChar, 255, SqlHelper.CheckNull(ev.ReferralUrl)),
 						SqlHelper.MakeInParam("@IsWeb", SqlDbType.Bit,1, ev.PageViewType)
 			};
 			return this.NonQueryBool("subtext_TrackEntry",p);

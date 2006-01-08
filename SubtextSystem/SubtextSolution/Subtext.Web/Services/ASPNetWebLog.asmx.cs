@@ -93,55 +93,35 @@ namespace Subtext.Web.Services
 		[WebMethod(MessageName="AddPostToCategories",Description="Set the categories by PostID",EnableSession=false)]
 		public bool AddPostToCategories(int PostID,int[] CategoryIDs)
 		{			
-			try
+			if(ValidateUser())
 			{
-				if(ValidateUser())
-				{
-					Entries.SetEntryCategoryList(PostID,CategoryIDs);
-					return true;
-				}
-				return false;
+				Entries.SetEntryCategoryList(PostID,CategoryIDs);
+				return true;
 			}
-			catch(Exception e)
-			{
-				throw e;
-			}
+			return false;
 		}
 
 		[SoapHeaderAttribute("ASPNetWebLogUser", Direction=SoapHeaderDirection.InOut)]
 		[WebMethod(MessageName="GetLinkCollectionByPostID",Description="The entry collection methods do not return each Entry and/or Story's categories. This method will return the category collection for the specified Entry/Story",EnableSession=false)]
 		public LinkCollection GetLinkCollectionByPostID(int PostID)
 		{
-			try
+			if(ValidateUser())
 			{
-				if(ValidateUser())
-				{
-					return Links.GetLinkCollectionByPostID(PostID);
-				}
-				return null;
+				return Links.GetLinkCollectionByPostID(PostID);
 			}
-			catch(Exception e)
-			{
-				throw e;
-			}
+			return null;
 		}
 
 		[SoapHeaderAttribute("ASPNetWebLogUser", Direction=SoapHeaderDirection.InOut)]		
 		[WebMethod(MessageName="GetCategories",Description="Returns the categories available for the specificid CategoryType (PostCollection or StoryCollection)",EnableSession=false)]
 		public LinkCategoryCollection GetCategories(CategoryType CategoryType)
 		{
-			try
+			
+			if(ValidateUser())
 			{
-				if(ValidateUser())
-				{
-					return Links.GetCategories(CategoryType,false);
-				}
-				return null;
+				return Links.GetCategories(CategoryType,false);
 			}
-			catch(Exception e)
-			{
-				throw e;
-			}
+			return null;
 		}
 
 		#endregion
@@ -149,57 +129,42 @@ namespace Subtext.Web.Services
 		#region Update Helpers
 		private int InsertEntryCheck(Entry entry, int[] Categories)
 		{
-			try
+			if(ValidateUser())
 			{
-				if(ValidateUser())
+				
+				if(entry.Author == null)
 				{
-					
-					if(entry.Author == null)
-					{
-						entry.Author = Config.CurrentBlog.Author;
-					}
-					if(entry.Email == null)
-					{
-						entry.Email = Config.CurrentBlog.Email;
-					}
-					entry.DateCreated.AddHours(BlogTime.ServerToClientTimeZoneFactor);
-
-					return Entries.Create(entry,Categories);
+					entry.Author = Config.CurrentBlog.Author;
 				}
-				return -1;
-			
+				if(entry.Email == null)
+				{
+					entry.Email = Config.CurrentBlog.Email;
+				}
+				entry.DateCreated.AddHours(BlogTime.ServerToClientTimeZoneFactor);
+
+				return Entries.Create(entry,Categories);
 			}
-			catch(Exception e)
-			{
-				throw e;
-			}
+			return -1;			
 		}
 
 
 		private bool UpdateEntryCheck(Entry entry, int[] Categories)
 		{
-			try
+			if(ValidateUser())
 			{
-				if(ValidateUser())
+				if(entry.Author == null)
 				{
-					if(entry.Author == null)
-					{
-						entry.Author = Config.CurrentBlog.Author;
-					}
-					if(entry.Email == null)
-					{
-						entry.Email = Config.CurrentBlog.Email;
-					}
-					entry.DateUpdated.AddHours(BlogTime.ServerToClientTimeZoneFactor);
-					Entries.Update(entry,Categories);
-					return true;
+					entry.Author = Config.CurrentBlog.Author;
 				}
-				return false;
+				if(entry.Email == null)
+				{
+					entry.Email = Config.CurrentBlog.Email;
+				}
+				entry.DateUpdated.AddHours(BlogTime.ServerToClientTimeZoneFactor);
+				Entries.Update(entry,Categories);
+				return true;
 			}
-			catch(Exception e)
-			{
-				throw e;
-			}
+			return false;
 		}
 
 		#endregion
@@ -267,80 +232,52 @@ namespace Subtext.Web.Services
 		[WebMethod(MessageName="GetRecentUpdatedPosts",Description="Returns the most recent posts")]
 		public EntryCollection GetRecentPosts(int ItemCount, DateTime LastUpdatedDate)
 		{
-			try
+			if(ValidateUser())
 			{
-				if(ValidateUser())
-				{
-					EntryCollection ec = Entries.GetRecentPosts(ItemCount,PostType.BlogPost,false,LastUpdatedDate.AddHours(BlogTime.ServerToClientTimeZoneFactor));
-					ResetEntryCollectionDates(ref ec);
-					return ec;
-				}
-				return null;
+				EntryCollection ec = Entries.GetRecentPosts(ItemCount,PostType.BlogPost,false,LastUpdatedDate.AddHours(BlogTime.ServerToClientTimeZoneFactor));
+				ResetEntryCollectionDates(ref ec);
+				return ec;
 			}
-			catch(Exception e)
-			{
-				throw e;
-			}
+			return null;
 		}
 
 		[SoapHeaderAttribute("ASPNetWebLogUser", Direction=SoapHeaderDirection.InOut)]
 		[WebMethod(MessageName="GetRecentPosts",Description="Returns the most recent posts")]
 		public EntryCollection GetRecentPosts(int ItemCount)
 		{
-			try
+			if(ValidateUser())
 			{
-				if(ValidateUser())
-				{
-					EntryCollection ec =  Entries.GetRecentPosts(ItemCount,PostType.BlogPost,false);
-					ResetEntryCollectionDates(ref ec);
-					return ec;
-				}
-				return null;
+				EntryCollection ec =  Entries.GetRecentPosts(ItemCount,PostType.BlogPost,false);
+				ResetEntryCollectionDates(ref ec);
+				return ec;
 			}
-			catch(Exception e)
-			{
-				throw e;
-			}
+			return null;
 		}
 
 //		[SoapHeaderAttribute("ASPNetWebLogUser", Direction=SoapHeaderDirection.InOut)]
 //		[WebMethod(MessageName="GetStories",Description="Returns an EntryCollection with all of the current stories",EnableSession=false)]
 //		public EntryCollection GetStories()
 //		{
-//			try
+//			if(ValidateUser())
 //			{
-//				if(ValidateUser())
-//				{
-//					EntryCollection ec = Entries.GetAllStoreis(false);
-//					ResetEntryCollectionDates(ref ec);
-//					return ec;
-//				}
-//				return null;
+//				EntryCollection ec = Entries.GetAllStoreis(false);
+//				ResetEntryCollectionDates(ref ec);
+//				return ec;
 //			}
-//			catch(Exception e)
-//			{
-//				throw e;
-//			}
+//			return null;
 //		}
 //
 //		[SoapHeaderAttribute("ASPNetWebLogUser", Direction=SoapHeaderDirection.InOut)]
 //		[WebMethod(MessageName="GetUpdatedStories",Description="Returns an EntryCollection with all of the current stories",EnableSession=false)]
 //		public EntryCollection GetStories(DateTime UpdatedSince)
 //		{
-//			try
+//			if(ValidateUser())
 //			{
-//				if(ValidateUser())
-//				{
-//					EntryCollection ec = Entries.GetAllStoreis(false,UpdatedSince.AddHours(BlogTime.ServerToClientTimeZoneFactor));
-//					ResetEntryCollectionDates(ref ec);
-//					return ec;
-//				}
-//				return null;
+//				EntryCollection ec = Entries.GetAllStoreis(false,UpdatedSince.AddHours(BlogTime.ServerToClientTimeZoneFactor));
+//				ResetEntryCollectionDates(ref ec);
+//				return ec;
 //			}
-//			catch(Exception e)
-//			{
-//				throw e;
-//			}
+//			return null;
 //		}
 
 		#endregion
@@ -351,19 +288,12 @@ namespace Subtext.Web.Services
 		[WebMethod(MessageName="DeleteEntry",Description="Remove an entry and/or story",EnableSession=false)]
 		public bool DeleteEntry(int PostID)
 		{
-			try
+			if(ValidateUser())
 			{
-				if(ValidateUser())
-				{
-					Entries.Delete(PostID);
-					return true;
-				}
-				return false;
+				Entries.Delete(PostID);
+				return true;
 			}
-			catch(Exception e)
-			{
-				throw e;
-			}
+			return false;
 		}
 
 		#endregion
@@ -374,34 +304,20 @@ namespace Subtext.Web.Services
 		[WebMethod(MessageName="InsertCategory",Description="Insert a new LinkCateogry",EnableSession=false)]
 		public int InsertCategory(LinkCategory lc)
 		{
-			try
+			if(ValidateUser())
 			{
-				if(ValidateUser())
-				{
-					return Links.CreateLinkCategory(lc);
-				}
-				return -1;
+				return Links.CreateLinkCategory(lc);
 			}
-			catch(Exception e)
-			{
-				throw e;
-			}
+			return -1;
 		}
 
 		[SoapHeaderAttribute("ASPNetWebLogUser", Direction=SoapHeaderDirection.InOut)]
 		[WebMethod(MessageName="UpdateCategory",Description="Update a LinkCateogry",EnableSession=false)]
 		public void UpdateCategory(LinkCategory lc)
 		{
-			try
+			if(ValidateUser())
 			{
-				if(ValidateUser())
-				{
-					Links.UpdateLinkCategory(lc);
-				}
-			}
-			catch(Exception e)
-			{
-				throw e;
+				Links.UpdateLinkCategory(lc);
 			}
 		}
 
@@ -409,34 +325,20 @@ namespace Subtext.Web.Services
 		[WebMethod(MessageName="InsertLink",Description="Insert a new Link",EnableSession=false)]
 		public int InsertLink(Link _link)
 		{
-			try
+			if(ValidateUser())
 			{
-				if(ValidateUser())
-				{
-					return Links.CreateLink(_link);
-				}
-				return -1;
+				return Links.CreateLink(_link);
 			}
-			catch(Exception e)
-			{
-				throw e;
-			}
+			return -1;
 		}
 
 		[SoapHeaderAttribute("ASPNetWebLogUser", Direction=SoapHeaderDirection.InOut)]
 		[WebMethod(MessageName="UpdateLink",Description="Update a Link",EnableSession=false)]
 		public void UpdateLink(Link _link)
 		{
-			try
+			if(ValidateUser())
 			{
-				if(ValidateUser())
-				{
-					Links.UpdateLink(_link);
-				}
-			}
-			catch(Exception e)
-			{
-				throw e;
+				Links.UpdateLink(_link);
 			}
 		}
 

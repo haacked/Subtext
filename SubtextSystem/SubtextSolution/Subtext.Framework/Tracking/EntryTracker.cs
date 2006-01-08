@@ -4,6 +4,7 @@ using System.Web;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
+using Subtext.Framework.Logging;
 
 namespace Subtext.Framework.Tracking
 {
@@ -12,6 +13,8 @@ namespace Subtext.Framework.Tracking
 	/// </summary>
 	public class EntryTracker
 	{
+		static Log Log = new Log();
+
 		private EntryTracker()
 		{
 
@@ -68,8 +71,6 @@ namespace Subtext.Framework.Tracking
 						ev.ReferralUrl = refUrl;
 						ev.PageViewType = PageViewType.WebView;
 						return Track(ev);
-
-
 					}
 				}
 			}
@@ -93,6 +94,12 @@ namespace Subtext.Framework.Tracking
 				return null;
 			}
 			
+			if(url.Length == 0)
+			{
+				Log.Warn("Somehow the referral was an empty string and not null.");	
+				return null;
+			}
+
 			return url;
 		}
 

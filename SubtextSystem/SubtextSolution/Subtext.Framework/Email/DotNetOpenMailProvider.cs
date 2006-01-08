@@ -44,6 +44,7 @@ namespace Subtext.Framework.Email
 			}
 			catch(Exception e)
 			{
+				//TODO: Find out which exceptions can be thrown and only catch those...
 				Log.Error("Error occurred while sending an email.", e);
 			}
 			return false;
