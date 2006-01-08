@@ -30,10 +30,6 @@ namespace Subtext.Framework.Util
 				XmlSerializer serializer = new XmlSerializer(type);
 				return serializer.Deserialize(fs);
 			}
-			catch(Exception e)
-			{
-				throw e;
-			}
 			finally
 			{
 				if(fs != null)
@@ -57,10 +53,6 @@ namespace Subtext.Framework.Util
 				fs = new FileStream(filename, FileMode.Create);
 				XmlSerializer serializer = new XmlSerializer(obj.GetType());
 				serializer.Serialize(fs, obj);	
-			}
-			catch(Exception ex)
-			{
-				throw ex;
 			}
 			finally
 			{

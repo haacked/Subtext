@@ -287,6 +287,11 @@ namespace Subtext.Framework.Import
 						}
 						catch(Exception e)
 						{
+							//TODO: We should only catch exceptions we can really handle...
+							//		In this case, we should wrap this in an exception that 
+							//		gives this more context (ex... BlogMLAttachmentException) and 
+							//		throw that. Let the main unhandled exception handler do the logging.
+
 							// lets do some error logging!
 							log.Error(string.Format(
 								"An error occured while trying to write an attachment for this blog. Error: {0}", e.Message),
@@ -667,9 +672,13 @@ namespace Subtext.Framework.Import
 				return reader;
 			}
 			catch(Exception ex) 
-			{
-				_connection.Close();
+			{		
 				throw new ApplicationException("An error occured trying to excute a query on the data store. Please see inner exception for details. ", ex);
+			}
+			finally
+			{
+				if(_connection != null)
+					_connection.Close();
 			}
 
 		}

@@ -29,6 +29,7 @@ using Subtext.Framework.Providers;
 using Subtext.Framework.Threading;
 using Subtext.Framework.Tracking;
 using Subtext.Framework.Util;
+using Subtext.Framework.Logging;
 
 namespace Subtext.Framework
 {
@@ -38,6 +39,8 @@ namespace Subtext.Framework
 	/// </summary>
 	public sealed class Stats
 	{
+		static Log Log = new Log();
+
 		private Stats(){}
 
 		static EntryViewCollection queuedStatsList = null;
@@ -216,9 +219,13 @@ namespace Subtext.Framework
 							tbnp.TrackBackPing(pageText,link,entry.Title,entry.Link,blogname,description);
 						}
 					}
-					catch
+					catch(Exception e)
 					{
-						//TODO: Log it...
+						//TODO: We should only catch exceptions we expect...
+						//		for the rest, let them propagate...
+						//		This one occurs on a separate thread, so it may make sense
+						//		to completely eat it.
+						Log.Warn("Error occurred while performing a pingback or trackback.", e);
 						//Do nothing, just eat it :(
 					}
 				}

@@ -51,12 +51,6 @@ namespace Subtext.Framework.Text
 				entry.IsXHMTL = false;
 				throw;
 			}
-			catch(Exception e)
-			{
-				Console.WriteLine(e.Message);
-				entry.IsXHMTL = false;
-				throw;
-			}
 		}
 
 		/// <summary>
