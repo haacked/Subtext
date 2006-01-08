@@ -1,0 +1,185 @@
+/*  
+Theme Name: WPSkin
+Theme URI: http://www.analystdeveloper.com/
+Description: This is a hack of the default WordPress theme for Subtext.
+Version: 1.0
+Author: Gurkan Yeniceri
+Author URI: http://www.analystdeveloper.com/
+
+	This theme was designed/hacked and built by Gurkan Yeniceri,
+	whose blog you will find at http://blogs.analystdeveloper.com/gurkaneng/default.aspx
+
+	The CSS and design is released under GPL:
+	http://www.opensource.org/licenses/gpl-license.php
+*/
+
+/*the top of the page*/
+#top {
+	background: url(images/kubrickheader.jpg) no-repeat center;
+	height : 200px;
+	margin-bottom : 0px;
+	padding-bottom : 0px;
+}
+
+/*The title of the blog*/
+.headermaintitle{
+	font-family : 'Lucida Grande', Verdana, Arial, Sans-Serif;
+}
+
+/*the subtitle of the blog*/
+#tagline {
+	font-size : 12px;
+	text-align : center;
+	color : white;
+	margin-bottom : 0px;
+}
+
+/*html element of body*/
+body {
+	font-size: 62.5%; /* Resets 1em to 10px */
+	font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif;
+	/*background-color: #d5d6d7;*/
+	color: #333;
+	margin-top : 0px;
+	background-image : url(images/kubrickbgcolor.jpg); 
+}
+
+/*where the posts and rightmenu stays*/
+#main{
+	text-align : justified;
+	background : url(images/kubrickbg.jpg) center;
+	background-repeat : repeat-y;
+	margin-top : 0px;
+}
+
+/*post text and the date on top of title*/
+.post, .date{
+	margin-left : 140px;
+	margin-right : 360px;
+	margin-top : 0px;
+	text-align : justified;
+}
+
+/*date on top title*/
+.date{
+	padding-top : 10px;
+	text-align : left;
+	font-size : 12px;
+	font-weight : bold;
+	margin-top : 0px;
+}
+
+/*trackback pingback and posted time are here*/
+.postfoot{
+	text-align : center;
+	margin-bottom : 0;
+}
+
+/*the menu on the right*/
+#rightmenu {
+	width : 180px;
+	position : absolute;
+	right : 0px;
+	margin-right : 170px;
+	margin-top : 10px;
+}
+
+/*This is not the page footer, it is the subtext footer control*/
+#footer {
+	padding-top : 5px;
+	font-size : 10px;
+	text-align : center;
+}
+
+/*I have added this for the end of page picture*/
+#eofp{
+	background : url(images/kubrickfooter.jpg) no-repeat center;
+	height : 60px;
+	margin-top : 0;
+	text-align : left; /*if center; it was mixing up with rightmenu on comment page*/
+	padding-left : 140px;
+}
+
+/*comment form and comments left*/
+#commentform, #comments{
+	margin-left : 140px;
+	margin-right : 360px;	
+	margin-top : 0px;
+	padding-top: 0px;
+}
+
+/*right menu list items*/
+#rightmenu ul li{
+	color: #777;
+	list-style: none;
+	padding-left : 10px;
+	/*padding-right : 25px;*/
+}
+
+/*rightmenu lists*/
+#rightmenu ul{
+	margin-left : 0px;
+}
+
+/*the bullet of the lists on rightmenu*/
+#rightmenu ul li:before {
+	content : "\00BB \0020";
+}
+
+/*headers' common settings*/
+h1, h2, h3 {
+	font-size: 62.5%; /* Resets 1em to 10px */
+	font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif;
+	font-weight: bold;
+	}
+
+/*header 1*/
+h1 {
+	text-align: center;
+	font-size : 40px;
+	margin-top : 0px;
+	margin-bottom : 5px;
+	padding-top : 70px;
+}
+
+/*various header settings*/
+h1, h1 a, h1 a:hover, h1 a:visited, .description {
+	text-decoration: none;
+	color: white;
+}
+
+/*header 2*/
+h2 {
+	font-size: 1.6em;
+	margin-top : 0px;
+}
+
+/*header 3s on rightmenu*/
+#rightmenu h3 {
+	font-family: 'Lucida Grande', Verdana, Sans-Serif;
+	font-size: 1.2em;
+}
+
+/*header 3 general*/	
+h3 {
+	font-size: 1.3em;
+}
+
+/*header 5*/
+h5 
+{
+	margin: 0px;
+	padding: 0px;
+}
+
+/*header mouse overs*/
+a, h2 a:hover, h3 a:hover {
+	color: #06c;
+	text-decoration: none;
+}
+
+/*hyperlinks, mouse over*/
+a:hover {
+	color: #147;
+	text-decoration: underline;
+}
