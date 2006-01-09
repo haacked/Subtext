@@ -19,7 +19,7 @@
 						<b><%# DataBinder.Eval(Container.DataItem, "Title") %></b>						
 					</td>
 					<td nowrap>
-						<%# DataBinder.Eval(Container.DataItem, "Author") %>
+						<%# GetAuthor(Container.DataItem) %>
 					</td>
 					<td nowrap>
 						<%# DataBinder.Eval(Container.DataItem, "DateCreated", "{0:M/d/yy h:mmt}") %>
@@ -41,7 +41,7 @@
 						<b><%# DataBinder.Eval(Container.DataItem, "Title") %></b>
 					</td>
 					<td nowrap>
-						<%# DataBinder.Eval(Container.DataItem, "Author") %>
+						<%# GetAuthor(Container.DataItem) %>
 					</td>
 					<td nowrap>
 						<%# DataBinder.Eval(Container.DataItem, "DateCreated") %>
