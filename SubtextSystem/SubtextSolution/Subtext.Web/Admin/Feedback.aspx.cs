@@ -72,6 +72,25 @@ namespace Subtext.Web.Admin.Pages
 			return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}<br /><a target=\"_blank\" title=\"view: {1}\"  href=\"{2}\">Pingback/TrackBack</a>", entry.Body,entry.Title, entry.TitleUrl);
 		}
 
+		/// <summary>
+		/// Returns the author during data binding. If the author specified 
+		/// an email address, includes that.
+		/// </summary>
+		/// <param name="dataItem"></param>
+		/// <returns></returns>
+		protected string GetAuthor(object dataItem)
+		{
+			Entry entry = (Entry)dataItem;
+			if(entry.Email != null && entry.Email.Length > 0 && entry.Email.IndexOf("@") > 0)
+			{
+				return string.Format("<a href=\"mailto:{0}\" title=\"Email Address\">{1}</a>", entry.Email, entry.Author);
+			}
+			else
+			{
+				return entry.Author;
+			}
+		}
+
 		private void BindList()
 		{
 			PagedEntryCollection selectionList = Entries.GetPagedFeedback(_resultsPageNumber, ResultsPager.PageSize,true);		
