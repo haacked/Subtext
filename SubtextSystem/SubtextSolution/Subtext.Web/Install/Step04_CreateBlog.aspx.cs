@@ -19,6 +19,7 @@ namespace Subtext.Web.Install
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
 		protected System.Web.UI.WebControls.Button btnImportBlog;
+		protected Subtext.Web.Controls.MasterPage MPContainer;
 		protected Subtext.Web.Controls.ContentRegion Content;
 	
 		private void Page_Load(object sender, System.EventArgs e)

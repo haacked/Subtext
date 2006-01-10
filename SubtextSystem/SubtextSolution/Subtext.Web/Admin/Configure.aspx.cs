@@ -54,6 +54,7 @@ namespace Subtext.Web.Admin.Pages
 		protected System.Web.UI.WebControls.TextBox txbSecondaryCss;
 		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
 		protected Subtext.Web.Controls.HelpToolTip HelpToolTip1;
+		protected Subtext.Web.Admin.WebUI.Page PageContainer;
 		protected Subtext.Web.Controls.HelpToolTip HelpToolTip2;
 		//protected Subtext.Web.Admin.WebUI.Page PageContainer;
 	
