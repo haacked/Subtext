@@ -30,7 +30,7 @@ namespace Subtext.Web.Admin.Pages
 		protected Subtext.Web.Controls.HelpToolTip HelpToolTip2;
 		protected Subtext.Web.Controls.HelpToolTip Helptooltip4;
 		protected Subtext.Web.Controls.HelpToolTip HelpToolTip3;
-		protected Subtext.Web.Admin.WebUI.Page PageContainer;
+
 		protected HtmlImage Img3;
 		
 		private void Page_Load(object sender, EventArgs e)
