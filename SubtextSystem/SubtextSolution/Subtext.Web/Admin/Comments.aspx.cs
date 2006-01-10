@@ -28,7 +28,6 @@ namespace Subtext.Web.Admin.Pages
 		protected HelpToolTip HelpToolTip2;
 		protected HelpToolTip Helptooltip3;
 		protected HelpToolTip Helptooltip4;
-		protected Subtext.Web.Admin.WebUI.Page PageContainer;
 		protected CheckBox chkAllowDuplicates;
 		
 		private void Page_Load(object sender, EventArgs e)
