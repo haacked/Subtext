@@ -1,5 +1,5 @@
 <%@ Control %>
-<%@ Register TagPrefix="DT" Namespace="Subtext.Web.UI.WebControls" Assembly="Subtext.Web" %>	
+<%@ Register TagPrefix="sub" Namespace="Subtext.Web.UI.WebControls" Assembly="Subtext.Web" %>
 <%@ Register TagPrefix="uc1" TagName="Header" Src="Controls/Header.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="Footer" Src="Controls/Footer.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="BlogStats" Src="Controls/BlogStats.ascx" %>

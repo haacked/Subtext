@@ -28,6 +28,7 @@ namespace Subtext.Web.Admin.Pages
 		protected HelpToolTip HelpToolTip2;
 		protected HelpToolTip Helptooltip3;
 		protected HelpToolTip Helptooltip4;
+		protected Subtext.Web.Admin.WebUI.Page PageContainer;
 		protected CheckBox chkAllowDuplicates;
 		
 		private void Page_Load(object sender, EventArgs e)
@@ -159,8 +160,8 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.lkbPost.Click += new EventHandler(this.lkbPost_Click);
-			this.Load += new EventHandler(this.Page_Load);
+			this.lkbPost.Click += new System.EventHandler(this.lkbPost_Click);
+			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion

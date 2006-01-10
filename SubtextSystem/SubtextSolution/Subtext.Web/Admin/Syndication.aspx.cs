@@ -26,6 +26,11 @@ namespace Subtext.Web.Admin.Pages
 		protected HtmlImage helpImg;
 		protected HtmlImage Img1;
 		protected HtmlImage Img2;
+		protected Subtext.Web.Controls.HelpToolTip HelpToolTip1;
+		protected Subtext.Web.Controls.HelpToolTip HelpToolTip2;
+		protected Subtext.Web.Controls.HelpToolTip Helptooltip4;
+		protected Subtext.Web.Controls.HelpToolTip HelpToolTip3;
+		protected Subtext.Web.Admin.WebUI.Page PageContainer;
 		protected HtmlImage Img3;
 		
 		private void Page_Load(object sender, EventArgs e)
@@ -100,8 +105,8 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.lkbPost.Click += new EventHandler(this.lkbPost_Click);
-			this.Load += new EventHandler(this.Page_Load);
+			this.lkbPost.Click += new System.EventHandler(this.lkbPost_Click);
+			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion
