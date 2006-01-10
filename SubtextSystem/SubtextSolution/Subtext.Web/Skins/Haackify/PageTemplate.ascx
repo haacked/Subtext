@@ -16,7 +16,7 @@
 			</div> <!-- end google ad -->
 
 			
-			<DT:contentregion id="MPMain" runat="server"></DT:contentregion>
+			<sub:contentregion id="MPMain" runat="server"></sub:contentregion>
 			
 		</div> <!-- end #content -->
 		

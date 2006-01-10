@@ -105,7 +105,7 @@ namespace Subtext.Web.UI.Controls
 						else if(entry.PostType == PostType.PingTrack)
 						{
 							namelink.Text =  entry.Author != null ? entry.Author : "Pingback/TrackBack";
-							namelink.Attributes.Add("title","PingBack/TrackBack");
+							namelink.Attributes.Add("title", "PingBack/TrackBack");
 						}
 						 
 					}
@@ -116,28 +116,34 @@ namespace Subtext.Web.UI.Controls
 						PostDate.Text = entry.DateCreated.ToShortDateString() + " " + entry.DateCreated.ToShortTimeString();
 					}
 
-					Literal Post = (Literal)(e.Item.FindControl("PostText"));
+					Literal Post = e.Item.FindControl("PostText") as Literal;
 					if(Post != null)
 					{
-						Post.Text = entry.Body;
-					}
-						if(Request.IsAuthenticated && Security.IsAdmin)
+						if(entry.Body.Length > 0)
 						{
-							LinkButton editlink = (LinkButton)(e.Item.FindControl("EditLink"));
-							if(editlink != null)
+							Post.Text = entry.Body;
+							if(entry.Body.Length == 0 && entry.PostType == PostType.PingTrack)
 							{
-								//editlink.CommandName = "Remove";
-								editlink.Text = "Remove Comment " + entry.EntryID.ToString(CultureInfo.InvariantCulture);
-								editlink.CommandName = entry.EntryID.ToString(CultureInfo.InvariantCulture);
-								editlink.Attributes.Add("onclick","return confirm(\"Are you sure you want to delete comment " + entry.EntryID.ToString(CultureInfo.InvariantCulture) + "?\");");
-								editlink.Visible = true;
-								editlink.CommandArgument = entry.EntryID.ToString(CultureInfo.InvariantCulture);
-
+								Post.Text = "Pingback / Trackback";
 							}
-							else
-							{
-								editlink.Visible = false;
-							}
+						}
+					}
+					if(Request.IsAuthenticated && Security.IsAdmin)
+					{
+						LinkButton editlink = (LinkButton)(e.Item.FindControl("EditLink"));
+						if(editlink != null)
+						{
+							//editlink.CommandName = "Remove";
+							editlink.Text = "Remove Comment " + entry.EntryID.ToString(CultureInfo.InvariantCulture);
+							editlink.CommandName = entry.EntryID.ToString(CultureInfo.InvariantCulture);
+							editlink.Attributes.Add("onclick","return confirm(\"Are you sure you want to delete comment " + entry.EntryID.ToString(CultureInfo.InvariantCulture) + "?\");");
+							editlink.Visible = true;
+							editlink.CommandArgument = entry.EntryID.ToString(CultureInfo.InvariantCulture);
+						}
+						else
+						{
+							editlink.Visible = false;
+						}
 					}
 				}
 			}
