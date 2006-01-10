@@ -22,7 +22,6 @@
 #endregion
 
 using System;
-using System.Threading;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -141,6 +140,15 @@ namespace Subtext.Web.UI.Controls
 							{
 								commentCount.Text = string.Format(linkToComments, entry.Link, entry.FeedBackCount, " Comments");
 							}
+						}
+					}
+
+					Label author = e.Item.FindControl("author") as Label;
+					if(author != null)
+					{
+						if(entry.Author != null && entry.Author.Length > 0)
+						{
+							author.Text = entry.Author;
 						}
 					}
 				}
