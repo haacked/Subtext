@@ -77,13 +77,19 @@ namespace Subtext.Framework.Data
 			return false;
 		}
 
+		/// <summary>
+		/// Inserts a tracking entry for this record.
+		/// </summary>
+		/// <param name="ev"></param>
+		/// <returns></returns>
 		public override bool TrackEntry(EntryView ev)
 		{
+			//Note, for the paramater @URL, do NOT convert null values into empty strings.
 			SqlParameter[] p =	
 			{
 						SqlHelper.MakeInParam("@EntryID", SqlDbType.Int, 4, SqlHelper.CheckNull(ev.EntryID)),
 						SqlHelper.MakeInParam("@BlogID", SqlDbType.Int, 4, SqlHelper.CheckNull(ev.BlogID)),
-						SqlHelper.MakeInParam("@URL", SqlDbType.NVarChar, 255, SqlHelper.CheckNull(ev.ReferralUrl)),
+						SqlHelper.MakeInParam("@URL", SqlDbType.NVarChar, 255, ev.ReferralUrl),
 						SqlHelper.MakeInParam("@IsWeb", SqlDbType.Bit,1, ev.PageViewType)
 			};
 			return this.NonQueryBool("subtext_TrackEntry",p);

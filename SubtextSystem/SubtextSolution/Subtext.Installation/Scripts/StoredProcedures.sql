@@ -2896,14 +2896,15 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetUrlID]
 	, @UrlID int output
 )
 AS
-IF EXISTS(SELECT UrlID FROM [<dbUser,varchar,dbo>].[subtext_Urls] WHERE Url = @Url)
+IF EXISTS(SELECT UrlID FROM [<dbUser,varchar,dbo>].[subtext_Urls] WHERE Url = @Url AND Url != '')
 BEGIN
 	SELECT @UrlID = UrlID FROM [<dbUser,varchar,dbo>].[subtext_Urls] WHERE Url = @Url
 END
 Else
 BEGIN
-	INSERT subtext_Urls VALUES (@Url)
-	SELECT @UrlID = SCOPE_IDENTITY()
+	IF(@Url != '' AND NOT @Url IS NULL)
+		INSERT subtext_Urls VALUES (@Url)
+		SELECT @UrlID = SCOPE_IDENTITY()
 END
 
 
@@ -3269,10 +3270,10 @@ BEGIN
 	EXEC [<dbUser,varchar,dbo>].[subtext_GetUrlID] @Url, @UrlID = @UrlID output
 END
 if(@UrlID is NULL)
-set @UrlID = -1
+	set @UrlID NULL
 
 
-IF EXISTS (SELECT BlogID FROM [<dbUser,varchar,dbo>].[subtext_ViewStats] WHERE BlogID = @BlogID AND PageType = @PageType AND PostID = @PostID AND [Day] = @Day AND UrlID = @UrlID)
+IF EXISTS (SELECT BlogID FROM [<dbUser,varchar,dbo>].[subtext_ViewStats] WHERE BlogID = @BlogID AND PageType = @PageType AND PostID = @PostID AND [Day] = @Day AND UrlID = @UrlID AND NOT @UrlID IS NULL)
 BEGIN
 	UPDATE [<dbUser,varchar,dbo>].[subtext_ViewStats]
 	Set [Count] = [Count] + 1

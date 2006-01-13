@@ -211,11 +211,11 @@ namespace Subtext.Common.Data
 
 			if(WebPathStripper.IsNumeric(id))
 			{
-				return GetSingleEntry(Int32.Parse(id),CacheTime.Short,context);
+				return GetSingleEntry(Int32.Parse(id), CacheTime.Short,context);
 			}
 			else
 			{
-				return GetSingleEntry(id,CacheTime.Short,context);
+				return GetSingleEntry(id, CacheTime.Short, context);
 			}
 		}
 
