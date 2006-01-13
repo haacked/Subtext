@@ -3103,7 +3103,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertLink]
 	@Active bit,
 	@NewWindow bit,
 	@CategoryID int,
-	@PostID int,
+	@PostID int = NULL,
 	@BlogID int,
 	@LinkID int output
 )
