@@ -1,4 +1,6 @@
 using System;
+using Subtext.Framework;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.HostAdmin
 {
@@ -9,13 +11,25 @@ namespace Subtext.Web.HostAdmin
 	{
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
-		protected Subtext.Web.Controls.MasterPage MPContainer;
 		protected Subtext.Web.Controls.ContentRegion MPSectionTitle;
+		protected System.Web.UI.WebControls.TextBox txtCurrentPassword;
+		protected System.Web.UI.WebControls.TextBox txtNewPassword;
+		protected System.Web.UI.WebControls.TextBox txtConfirmPassword;
+		protected System.Web.UI.WebControls.Button btnSave;
 		protected System.Web.UI.HtmlControls.HtmlAnchor lnkHostAdmin;
+		protected System.Web.UI.WebControls.ValidationSummary validationSummary;
+		protected System.Web.UI.WebControls.RequiredFieldValidator vldCurrentPassword;
+		protected System.Web.UI.WebControls.RequiredFieldValidator vldNewPassword;
+		protected System.Web.UI.WebControls.RequiredFieldValidator vldConfirmPassword;
+		protected System.Web.UI.WebControls.CompareValidator vldComparePasswords;
+		protected System.Web.UI.WebControls.CustomValidator CustomValidator1;
+		protected Subtext.Web.Controls.MasterPage MPContainer;
+		protected System.Web.UI.WebControls.CustomValidator vldCurrent;
+		protected System.Web.UI.WebControls.Label lblSuccess;
 	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-			// Put user code to initialize the page here
+			lblSuccess.Visible = false;
 		}
 
 		#region Web Form Designer generated code
@@ -34,9 +48,29 @@ namespace Subtext.Web.HostAdmin
 		/// </summary>
 		private void InitializeComponent()
 		{    
+			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
 			this.Load += new System.EventHandler(this.Page_Load);
-
+			vldCurrent.ServerValidate += new System.Web.UI.WebControls.ServerValidateEventHandler(vldCurrent_ServerValidate);
 		}
 		#endregion
+
+		private void btnSave_Click(object sender, System.EventArgs e)
+		{
+			if(Page.IsValid)
+			{
+				HostInfo.SetHostPassword(HostInfo.Instance, txtNewPassword.Text);
+				HostInfo.UpdateHost(HostInfo.Instance);
+				lblSuccess.Visible = true;
+			}
+		}
+
+		private void vldCurrent_ServerValidate(object source, System.Web.UI.WebControls.ServerValidateEventArgs args)
+		{
+			string password = txtCurrentPassword.Text;
+			if(Config.Settings.UseHashedPasswords)
+				password = Security.HashPassword(password, HostInfo.Instance.Salt);
+
+			args.IsValid = password == HostInfo.Instance.Password;
+		}
 	}
 }

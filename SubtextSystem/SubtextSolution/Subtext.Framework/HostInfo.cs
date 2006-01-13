@@ -113,16 +113,8 @@ namespace Subtext.Framework
 
 			HostInfo host = new HostInfo();
 			host.HostUserName = hostUserName;
-			host.Salt = Security.CreateRandomSalt();
 
-			if(Config.Settings.UseHashedPasswords)
-			{
-				string hashedPassword = Security.HashPassword(hostPassword, host.Salt);
-				host.Password = hashedPassword;
-			}
-			else
-				host.Password = hostPassword;
-				
+			SetHostPassword(host, hostPassword);
 			
 			if(UpdateHost(host))
 			{
@@ -130,6 +122,18 @@ namespace Subtext.Framework
 				return true;
 			}
 			return false;
+		}
+
+		public static void SetHostPassword(HostInfo host, string newPassword)
+		{
+			host.Salt = Security.CreateRandomSalt();
+			if(Config.Settings.UseHashedPasswords)
+			{
+				string hashedPassword = Security.HashPassword(newPassword, host.Salt);
+				host.Password = hashedPassword;
+			}
+			else
+				host.Password = newPassword;
 		}
 
 		/// <summary>

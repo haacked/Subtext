@@ -29,8 +29,7 @@ div.Pager a:visited
 	clear: none;
 }
 
-p.Label,
-label 
+p.Label, label 
 {
 	font-size: 85%;
 	font-weight: bold;
@@ -50,6 +49,22 @@ label.Block
 	margin-top: 8px;
 	display: block;
 	clear: both;
+}
+
+div.form label
+{
+	display: block;
+	clear: left;
+	float: left;
+	width: 150px;
+	margin: 0;
+	padding: 0;
+}
+
+div.form textarea, div.form input
+{
+	float: left;
+	clear: right;
 }
 
 div.MessagePanel 
@@ -531,6 +546,11 @@ img
 	height: 31px;
 	width: 794px;
 	margin: auto;
+}
+
+.success
+{
+	color: Navy;
 }
 
 /********* Image Drop Shadow **********/

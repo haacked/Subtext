@@ -1198,6 +1198,21 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "HostAdmin\ChangePassword.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "HostAdmin\ChangePassword.aspx.cs"
+                    DependentUpon = "ChangePassword.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "HostAdmin\ChangePassword.aspx.resx"
+                    DependentUpon = "ChangePassword.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "HostAdmin\Default.aspx"
                     BuildAction = "Content"
                 />
