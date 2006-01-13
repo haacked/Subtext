@@ -24,6 +24,8 @@
 						runat="server">Installed Blogs</MP:MenuItem>
 					<MP:MenuItem ID="Menuitem2" href="~/HostAdmin/Import/ImportStart.aspx" title="Import blog content into this subText installation."
 						runat="server">Import Blog(s)</MP:MenuItem>
+					<MP:MenuItem ID="Menuitem3" href="~/HostAdmin/ChangePassword.aspx" title="Change HostAdmin Password."
+						runat="server">Change Password</MP:MenuItem>
 				</ul> <!-- /#menu -->
 				<div id="sidebar">
 					<MP:ContentRegion id="MPSidebar" runat="server" />

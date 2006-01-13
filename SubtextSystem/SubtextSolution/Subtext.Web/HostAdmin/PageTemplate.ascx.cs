@@ -15,11 +15,12 @@ namespace Subtext.Web.HostAdmin
 		protected Subtext.Web.Controls.ContentRegion MPSidebar;
 		protected Subtext.Web.Controls.ContentRegion MPContent;
 		protected System.Web.UI.HtmlControls.HtmlAnchor logoutLink;
+		protected Subtext.Web.Controls.MenuItem Menuitem3;
 		protected System.Web.UI.WebControls.Literal hostAdminName;
 
 		private void InitializeComponent()
 		{
-		
+
 		}
 
 		protected override void OnLoad(EventArgs e)
