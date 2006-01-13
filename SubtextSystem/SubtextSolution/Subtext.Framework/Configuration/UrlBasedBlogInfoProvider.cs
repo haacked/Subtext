@@ -1,4 +1,5 @@
 using System;
+using System.Configuration;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -156,6 +157,11 @@ namespace Subtext.Framework.Configuration
 						BlogInfo.GetActiveBlogs(1, 10, true, out totalBlogs);
 						bool anyBlogsExist = totalBlogs > 0;
 
+						if(anyBlogsExist && ConfigurationSettings.AppSettings["AggregateEnabled"] == "true")
+						{
+							return GetAggregateBlog();
+						}
+
 						throw new BlogDoesNotExistException(Host, app, anyBlogsExist);
 					}
 
@@ -212,6 +218,18 @@ namespace Subtext.Framework.Configuration
 			}
 
 			return info;
+		}
+
+		private BlogInfo GetAggregateBlog()
+		{
+			BlogInfo aggregateBlog = new BlogInfo();
+			aggregateBlog.Title = System.Configuration.ConfigurationSettings.AppSettings["AggregateTitle"];
+			aggregateBlog.Skin = SkinConfig.GetDefaultSkin();
+			aggregateBlog.Host = System.Configuration.ConfigurationSettings.AppSettings["AggregateHost"];
+			aggregateBlog.Application = "";
+			aggregateBlog.UserName = HostInfo.Instance.HostUserName;
+			
+			return aggregateBlog;
 		}
 
 		/// <summary>

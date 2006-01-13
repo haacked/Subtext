@@ -612,7 +612,7 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetActiveCategoriesWithLinkCollection]
 (
-	@BlogID int
+	@BlogID int = NULL
 )
 AS
 SELECT subtext_LinkCategories.CategoryID
@@ -623,7 +623,7 @@ SELECT subtext_LinkCategories.CategoryID
 FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories]
 WHERE	
 			subtext_LinkCategories.Active= 1 
-	AND		subtext_LinkCategories.BlogID = @BlogID 
+	AND		(subtext_LinkCategories.BlogID = @BlogID OR @BlogID IS NULL)
 	AND		subtext_LinkCategories.CategoryType = 0
 ORDER BY 
 	subtext_LinkCategories.Title;
@@ -641,7 +641,7 @@ FROM [<dbUser,varchar,dbo>].[subtext_Links] links
 WHERE 
 		links.Active = 1 
 	AND categories.Active = 1
-	AND categories.BlogID = @BlogID 
+	AND (categories.BlogID = @BlogID OR @BlogID IS NULL)
 	AND links.BlogID = @BlogID 
 	AND categories.CategoryType = 0
 ORDER BY 
@@ -666,7 +666,7 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetAllCategories]
 (
-	@BlogID int
+	@BlogID int = NULL
 	, @IsActive bit
 	, @CategoryType tinyint
 )
@@ -677,7 +677,7 @@ SELECT subtext_LinkCategories.CategoryID
 	, subtext_LinkCategories.CategoryType
 	, subtext_LinkCategories.[Description]
 FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories]
-WHERE subtext_LinkCategories.BlogID = @BlogID 
+WHERE (subtext_LinkCategories.BlogID = @BlogID OR @BlogId IS NULL)
 	AND subtext_LinkCategories.CategoryType = @CategoryType 
 	AND subtext_LinkCategories.Active <> CASE @IsActive WHEN 1 THEN 0 ELSE -1 END
 ORDER BY subtext_LinkCategories.Title;
@@ -797,7 +797,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetConditionalEntries]
 	@ItemCount int 
 	, @PostType int
 	, @PostConfig int
-	, @BlogID int
+	, @BlogID int = NULL
 )
 AS
 /* 
@@ -826,7 +826,7 @@ SELECT BlogID
 	, DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	PostType = @PostType 
-	AND BlogID   = @BlogID
+	AND (BlogID = @BlogID OR @BlogID IS NULL)
 	AND PostConfig & @PostConfig = @PostConfig
 ORDER BY [DateAdded] DESC
 
@@ -1705,7 +1705,7 @@ BEGIN
 	INSERT INTO #TempPagedEntryIDs (EntryID)
 	SELECT	[ID] 
 	FROM [<dbUser,varchar,dbo>].[subtext_Log] 
-	WHERE 	blogID = @BlogID OR @BlogID IS NULL
+	WHERE 	(blogID = @BlogID OR @BlogID IS NULL)
 	ORDER BY [Date]
 END
 ELSE
@@ -1713,7 +1713,7 @@ BEGIN
 	INSERT INTO #TempPagedEntryIDs (EntryID)
 	SELECT	[ID] 
 	FROM [<dbUser,varchar,dbo>].[subtext_Log]
-	WHERE 	blogID = @BlogID OR @BlogID IS NULL
+	WHERE 	(blogID = @BlogID OR @BlogID IS NULL)
 	ORDER BY [Date] DESC
 END
 
@@ -1740,7 +1740,7 @@ DROP TABLE #TempPagedEntryIDs
 
 SELECT 	COUNT([ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Log] 
-WHERE 	blogID = @BlogID OR @BlogId IS NULL
+WHERE 	(blogID = @BlogID OR @BlogId IS NULL)
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -2409,7 +2409,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByMonth]
 (
 	@Month int
 	, @Year int
-	, @BlogID int
+	, @BlogID int = NULL
 )
 AS
 SELECT	BlogID
@@ -2433,7 +2433,7 @@ SELECT	BlogID
 	, DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	PostType=1 
-	AND BlogID = @BlogID 
+	AND (BlogID = @BlogID OR @BlogID IS NULL)
 	AND PostConfig & 1 = 1 
 	AND Month(DateAdded) = @Month 
 	AND Year(DateAdded)  = @Year
@@ -2457,14 +2457,14 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByMonthArchive]
 (
-	@BlogID int
+	@BlogID int = NULL
 )
 AS
 SELECT Month(DateAdded) AS [Month]
 	, Year(DateAdded) AS [Year]
 	, 1 AS Day, Count(*) AS [Count] 
 FROM [<dbUser,varchar,dbo>].[subtext_Content] 
-WHERE PostType = 1 AND PostConfig & 1 = 1 AND BlogID = @BlogID 
+WHERE PostType = 1 AND PostConfig & 1 = 1 AND (BlogID = @BlogID OR @BlogID IS NULL)
 GROUP BY Year(DateAdded), Month(DateAdded) ORDER BY [Year] DESC, [Month] DESC
 
 
