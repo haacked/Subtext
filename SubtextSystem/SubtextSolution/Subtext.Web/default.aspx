@@ -2,7 +2,7 @@
 <%@ Page CodeBehind="default.aspx.cs" EnableViewState="false" Language="c#" AutoEventWireup="false" Inherits="Subtext.Web._default" %>
 
 <html>
-	<head>
+  <head>
 		<title><asp:Literal id = "TitleTag" runat = "Server" /></title>
 		<asp:Literal id="Style" runat="Server" />
 	</head>
