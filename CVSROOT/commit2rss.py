@@ -27,7 +27,6 @@
 #   http://www.mnot.net/python/RSS.py
 #   Plus, if you're interested in creating RSS feeds, check out:
 #   http://www.mnot.net/rss/tutorial/
-
 DROP_DIR = "/home/groups/s/su/subtext/htdocs"
 ITEMS_TO_KEEP = 10
 CHANNEL_LINK = "" # enter link here, if you like
