@@ -11,3 +11,5 @@
 #	[<whitespace>]<filename>[<whitespace><error message>]<end-of-line>
 #
 # comment lines begin with '#'
+commit2rss.py 	COMMIT_TO_RSS_NOT_CHECKED_OUT
+Rss.py 			RSS_PY_NOT_CHECKED_OUT
