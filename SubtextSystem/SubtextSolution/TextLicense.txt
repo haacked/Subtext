@@ -1,6 +1,7 @@
 Pre-existing code forked over from the .TEXT project 
 is subject to the following license.  New original source 
 code falls under the BSD license as stated in License.txt
+
 ------------------------------------------
 Copyright (c) 2003, Scott Watermasysk
 All rights reserved.
