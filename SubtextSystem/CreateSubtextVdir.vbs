@@ -7,7 +7,6 @@
 'modified by Phil Haack (2005.06.18)
 ' Copyright (c) 2005 Phil Haack.  Under the BSD License.
 '----------------------------------------------
-
 vDirName = "Subtext.Web" ' Replace with the name of the virtual directory
 
 Set shell = Wscript.CreateObject( "WScript.Shell" )
