@@ -23,6 +23,7 @@ If Err.Number = 0 Then
     If result = 6 Then ' 6 = Yes
         DeleteVirtualDirectory vDirName 
     Else
+		'Goodbye!
         WScript.Quit
     End If
 End If
