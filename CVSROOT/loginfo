@@ -26,4 +26,4 @@
 # or
 #DEFAULT (echo ""; id; echo %{sVv}; date; cat) >> $CVSROOT/CVSROOT/commitlog
 
-ALL commit2rss.py %{}
+ALL /cvsroot/subtext/CVSROOT/commit2rss.py %{}
