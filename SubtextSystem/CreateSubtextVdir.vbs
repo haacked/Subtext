@@ -9,7 +9,6 @@
 '----------------------------------------------
 vDirName = "Subtext.Web" ' Replace with the name of the virtual directory
 
-
 Set shell = Wscript.CreateObject( "WScript.Shell" )
 
 ' Get the name of the current directory
