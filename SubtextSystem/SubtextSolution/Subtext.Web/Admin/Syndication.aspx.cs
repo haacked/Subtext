@@ -56,7 +56,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			this.chkEnableSyndication.Attributes["onclick"] = "toggleHideOnCheckbox(this, 'otherSettings');";
 	
-			string startupScript = "<script language=\"javascript\">"
+			string startupScript = "<script language=\"javascript\" type=\"text\">"
 				+  Environment.NewLine + "var checkbox = document.getElementById('" + this.chkEnableSyndication.ClientID + "');"
 				+  Environment.NewLine + " toggleHideOnCheckbox(checkbox, 'otherSettings');"
 				+  Environment.NewLine +  "</script>";

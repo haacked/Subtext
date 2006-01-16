@@ -65,7 +65,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			this.chkEnableComments.Attributes["onclick"] = "toggleHideOnCheckbox(this, 'otherSettings');";
 	
-			string startupScript = "<script language=\"javascript\">"
+			string startupScript = "<script language=\"javascript\" type=\"text\">"
 				+  Environment.NewLine + "var checkbox = document.getElementById('" + this.chkEnableComments.ClientID + "');"
 				+  Environment.NewLine + " toggleHideOnCheckbox(checkbox, 'otherSettings');"
 				+  Environment.NewLine +  "</script>";
