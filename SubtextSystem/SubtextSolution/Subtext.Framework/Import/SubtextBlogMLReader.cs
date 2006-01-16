@@ -19,7 +19,8 @@ namespace Subtext.Framework.Import
 {
 	/// <summary>
 	/// Reads and imports a BlogML file.  This is based on the BlogML standard 
-	/// proposed by Darren Neimke in <see href="http://markitup.com/Posts/PostsByCategory.aspx?categoryId=5751cee9-5b20-4db1-93bd-7e7c66208236">http://markitup.com/Posts/PostsByCategory.aspx?categoryId=5751cee9-5b20-4db1-93bd-7e7c66208236</see>
+	/// proposed by Darren Neimke in 
+	/// <see href="http://markitup.com/Posts/PostsByCategory.aspx?categoryId=5751cee9-5b20-4db1-93bd-7e7c66208236">http://markitup.com/Posts/PostsByCategory.aspx?categoryId=5751cee9-5b20-4db1-93bd-7e7c66208236</see>
 	/// </summary>
 	public sealed class SubtextBlogMLReader
 	{
@@ -73,7 +74,7 @@ namespace Subtext.Framework.Import
 				throw new BlogImportException(msg, e);
 			}
 
-			/*	TODO - Map the data into the dataStore
+			/* 
 			 *	1) Add a new blog (subtext_Config)
 			 *	2) Add categories and setup categoryMap w/ {blogMLCatID = subtextCatID}
 			 *	3) Add all content (post, story, comment, track/pingbacks, undeclared) as defined 
@@ -165,7 +166,6 @@ namespace Subtext.Framework.Import
 					}
 				} // End Attachments for Post
                 
-				// TODO: write post to dataStore
 				newEntry = new Entry(PostType.BlogPost);
 				newEntry.BlogID = info.BlogID;
 				newEntry.Title = bmlPost.Title;
@@ -180,7 +180,6 @@ namespace Subtext.Framework.Import
 				newEntry.AllowComments = true;
 				newEntryID = Entries.Create(newEntry);
 
-				// TODO: add categories for post
 				count = bmlPost.Categories.Count;
 				if(count > 0)
 				{
@@ -192,7 +191,6 @@ namespace Subtext.Framework.Import
 					Entries.SetEntryCategoryList(newEntryID, catIDs);
 				}
 
-				// TODO: add comments for post
 				if(bmlPost.Comments.Count > 0)
 				{
 					foreach(BlogMLComment bmlComment in bmlPost.Comments)
@@ -224,7 +222,6 @@ namespace Subtext.Framework.Import
 					}
 				}
 
-				// TODO: add ping/Trackbacks for post
 				if(bmlPost.Trackbacks.Count > 0)
 				{
 					foreach(BlogMLTrackback bmlPingTrack in bmlPost.Trackbacks)
