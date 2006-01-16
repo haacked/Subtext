@@ -1,16 +1,11 @@
+using System;
+using System.Collections;
+using System.Data;
+using System.Data.SqlClient;
+using Subtext.Scripting;
+
 namespace Subtext.Web.Install
 {
-	using System;
-	using System.Collections;
-	using System.Data;
-	using System.Data.SqlClient;
-	using System.Drawing;
-	using System.Web;
-	using System.Web.UI.WebControls;
-	using System.Web.UI.HtmlControls;
-	using Scripting;
-	using SQLDMO;
-
 	/// <summary>
 	///		Summary description for ConnectionStringBuilder.
 	/// </summary>
@@ -115,6 +110,7 @@ namespace Subtext.Web.Install
 			machineName.DataBind();
 		}
 
+		//TODO: connStr is not being used.
 		private void PopulateDatabaseNamesCmb(ConnectionString connStr)
 		{
 
