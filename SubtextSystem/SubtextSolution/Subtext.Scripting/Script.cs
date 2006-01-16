@@ -66,13 +66,15 @@ namespace Subtext.Scripting
 		/// </summary>
 		public int Execute(SqlTransaction transaction)
 		{
+			int returnValue = 0;
 			try
 			{
-				return SqlHelper.ExecuteNonQuery(transaction, CommandType.Text, this.ScriptText);
+				returnValue = SqlHelper.ExecuteNonQuery(transaction, CommandType.Text, this.ScriptText);
+				return returnValue;
 			}
 			catch(SqlException e)
 			{
-				throw new SqlScriptExecutionException("Error in executing the script: ", this, 0, e);
+				throw new SqlScriptExecutionException("Error in executing the script: " + this.ScriptText, this, returnValue, e);
 			}
 		}
 
