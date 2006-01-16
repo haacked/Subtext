@@ -26,9 +26,8 @@
 # or
 #DEFAULT (echo ""; id; echo %{sVv}; date; cat) >> $CVSROOT/CVSROOT/commitlog
 
-# This line sends all changes to the CVSROOT module to the user specified
-# by USERNAME. It is recommended that someone be watching this module
-# as it shouldn't need to be modified very often.
+# This line sends all changes to the CVSROOT module to the specified email address.  
+# This module shouldn't need to be modified very often.
 CVSROOT /cvsroot/sitedocs/CVSROOT/cvstools/syncmail %{sVv} haacked@users.sourceforge.net
 
 # This sends mail to a mailing list, defined by the PROJECTNAME-LISTNAME
