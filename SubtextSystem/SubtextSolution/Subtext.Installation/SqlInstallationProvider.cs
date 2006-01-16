@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Specialized;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
@@ -70,7 +71,7 @@ namespace Subtext.Installation
 			// Create header row
 			HtmlTableRow headerRow = new HtmlTableRow();
 			headerRow.BgColor = "#EEEEEE";
-			HtmlTableCell fieldCell = new HtmlTableCell("TH");
+			HtmlTableCell fieldCell = new HtmlTableCell("th");
 			fieldCell.ColSpan = 2;
 			fieldCell.Controls.Add(new LiteralControl("<strong>Connection String</strong>"));
 			headerRow.Cells.Add(fieldCell);
@@ -83,6 +84,15 @@ namespace Subtext.Installation
 			TextBox textbox = new TextBox();
 			textbox.ID = "txtAdminConnectionString";
 			questionCell.Controls.Add(textbox);
+
+			//Checkbox to use connection string in web.config
+			CheckBox checkbox = new CheckBox();
+			checkbox.ID = "chkUseConnectionStringInWebConfig";
+			checkbox.Text = "Use Connection String In Web.config";
+			checkbox.Attributes["onclick"] = "if(this.checked) {txtAdminConnectionString.disabled = true;} else {txtAdminConnectionString.disabled = false;} ;";
+			questionCell.Controls.Add(new LiteralControl("<br />"));
+			questionCell.Controls.Add(checkbox);
+			
 			row.Cells.Add(questionCell);
 
 			HtmlTableCell descriptionCell = new HtmlTableCell();
@@ -110,6 +120,10 @@ namespace Subtext.Installation
 		{
 			if(populatedControl != null)
 			{
+				CheckBox chkUseWebConfig = populatedControl.FindControl("chkUseConnectionStringInWebConfig") as CheckBox;
+				if(chkUseWebConfig != null && chkUseWebConfig.Checked)
+					return ConfigurationSettings.AppSettings["ConnectionString"];
+
 				TextBox textbox = populatedControl.FindControl("txtAdminConnectionString") as TextBox;
 				if(textbox != null)
 					return textbox.Text;
