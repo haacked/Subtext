@@ -1,14 +1,16 @@
-body {
+body
+{
 	background: #BBBBBB;
 	color: #333333;
 	margin: 8px;
 	padding: 0;
 }
 
-body, 
-td, 
-th, 
-h3 {
+body,
+td,
+th,
+h3
+{
 	font-family: "trebuchet ms", "lucida grande", verdana, arial, geneva, lucida, sans-serif;
 	font-size: x-small;
 	voice-family: "\"}\"";
@@ -16,26 +18,29 @@ h3 {
 	font-size: small;
 }
 
-h1 {
+h1 
+{
 	font-size: 170%;
 	padding: 8px 12px;
 	margin-bottom: 0px;
 }
 
-h2 {
-	/*font-size: 125%;*/
+h2 
+{
 	margin: 0;
 	padding: 0;
 }
 
 html>body, 
 html>body td, 
-html>body th {
+html>body th 
+{
 	font-size: small;
 }
 
-div.LeftNavHeader {
-	background: #B6C9E7;
+div.LeftNavHeader 
+{
+	background: #00B0FF;
 	border-bottom: 1px solid #666666;
 	border-top: 1px solid #666666;
 	color: #333333;
@@ -85,10 +90,10 @@ a:link, a:visited {
 	background: inherit;
 }
 
-a:hover {
+a:hover 
+{
 	color: #CC0066;
 	text-decoration: underline;
-	background-color: #F5F5F5;
 }
 
 a.Button:link,
@@ -229,7 +234,8 @@ div#LeftNav ul {
 	padding: 0;
 }
 
-div.Action {
+div.Action 
+{
 	color: #333333;
 	border-bottom: 1px dashed #AAAAAA;
 	margin-bottom: 8px;
@@ -237,7 +243,8 @@ div.Action {
 	background: #EEEEEE;
 }
 
-div#Main div.Edit  {
+div#Main div.Edit  
+{
 	color: #333333;
 	border-bottom: 1px solid #AAAAAA;
 	margin-bottom: 8px;
@@ -371,7 +378,8 @@ div, ul {
 	border: 0; /*border: 1px solid #3C0;*/
 }
 
-html>body div#SubNav {
+html>body div#SubNav 
+{
 	padding-bottom: 5px;
 }
 
@@ -423,9 +431,10 @@ table.Listing {
 	width: 100%;
 }
 
-div.CollapsibleHeader {
+div.CollapsibleHeader 
+{
 	color: #333333;
-	background: #E5EEF7;
+	background: #B7B9BB;
 	border-bottom: 1px dashed #AAAAAA;
 	border-top: 1px solid #999999;
 	font-size: 120%;
@@ -516,8 +525,9 @@ td {
 	vertical-align: top;
 }
 
-td div#LeftNavHeader {
-	background: #6B86B3;
+td div#LeftNavHeader 
+{
+	background: #003398;
 	border-bottom: 1px solid #666666;
 	border-top: 1px solid #666666;
 	color: #FFFFFF;
@@ -669,9 +679,10 @@ ul#TopNav li {
 	padding: 20px;
 }
 
-#SubNav {
+#SubNav 
+{
 	font-size: 85%;
-	background: #B6C9E7;
+	background: #9A9B9D;
 	border-left: 1px solid #666666;
 	border-top: 1px solid #666666;
 	clear: none;

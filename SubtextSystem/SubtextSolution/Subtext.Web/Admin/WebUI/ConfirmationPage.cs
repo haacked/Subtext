@@ -36,7 +36,7 @@ namespace Subtext.Web.Admin.Pages
 
 
 
-		const string scriptStart = "<script language=\"javascript\">g_blnCheckUnload = true;function RunOnBeforeUnload() {if (g_blnCheckUnload) {window.event.returnValue = '";
+		const string scriptStart = "<script language=\"javascript\" type=\"javascript\">g_blnCheckUnload = true;function RunOnBeforeUnload() {if (g_blnCheckUnload) {window.event.returnValue = '";
 		const string scriptEnd = "';    }  }  function bypassCheck() {     g_blnCheckUnload  = false;   }</script>";
 
 		public static readonly string ByPassFuncationName = "bypassCheck()";

@@ -28,7 +28,6 @@ using System.IO;
 using System.Text;
 using System.Web;
 using System.Web.UI.WebControls;
-using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
@@ -106,7 +105,7 @@ namespace Subtext.Web.Admin
 
 		internal static string GetClientScriptInclude(string filename)
 		{
-			return string.Format(System.Globalization.CultureInfo.InvariantCulture, "<script language=\"JavaScript\" src=\"{0}\"></script>", filename);
+			return string.Format(System.Globalization.CultureInfo.InvariantCulture, "<script language=\"JavaScript\" type=\"text\" src=\"{0}\"></script>", filename);
 		}
 
 		internal static bool CheckIsIE55()
