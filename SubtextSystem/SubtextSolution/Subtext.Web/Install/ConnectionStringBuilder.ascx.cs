@@ -23,7 +23,7 @@ namespace Subtext.Web.Install
 
 		private ConnectionString _connStr;
 
-		public String ConnStr 
+		public String ConnectionString 
 		{
 			get 
 			{
@@ -32,7 +32,7 @@ namespace Subtext.Web.Install
 
 			set 
 			{
-				_connStr=ConnectionString.Parse(value);
+				_connStr = Subtext.Scripting.ConnectionString.Parse(value);
 			}
 		}
 
@@ -151,7 +151,7 @@ namespace Subtext.Web.Install
 			try
 			{
 				SetConnectionString();
-				using(SqlConnection conn = new SqlConnection(ConnStr))
+				using(SqlConnection conn = new SqlConnection(ConnectionString))
 				{
 					conn.Open();
 					if(conn.State == ConnectionState.Open)
