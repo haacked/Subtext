@@ -3270,7 +3270,7 @@ BEGIN
 	EXEC [<dbUser,varchar,dbo>].[subtext_GetUrlID] @Url, @UrlID = @UrlID output
 END
 if(@UrlID is NULL)
-	set @UrlID NULL
+	set @UrlID = NULL
 
 
 IF EXISTS (SELECT BlogID FROM [<dbUser,varchar,dbo>].[subtext_ViewStats] WHERE BlogID = @BlogID AND PageType = @PageType AND PostID = @PostID AND [Day] = @Day AND UrlID = @UrlID AND NOT @UrlID IS NULL)
