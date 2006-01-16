@@ -1,10 +1,8 @@
 <%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <%@ Page language="c#" Codebehind="CheckYourConnectionString.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.CheckYourConnectionString" %>
 <MP:MasterPage id="MPContainer" TemplateFile="~/SystemMessages/PageTemplate.ascx" runat="server">
-	<MP:ContentRegion id="MPTitleBar" runat="server">Your Blog Cannot Connect To The 
-Database</MP:ContentRegion>
-	<MP:ContentRegion id="MPTitle" runat="server">Your 
-Blog Cannot Connect To The Database</MP:ContentRegion>
+	<MP:ContentRegion id="MPTitleBar" runat="server">Your Blog Cannot Connect To The Database</MP:ContentRegion>
+	<MP:ContentRegion id="MPTitle" runat="server">Your Blog Cannot Connect To The Database</MP:ContentRegion>
 	<MP:ContentRegion id="MPSubTitle" runat="server">But I Can Help You</MP:ContentRegion>
 	<p>
 		Welcome! It looks like the Subtext Blogging Engine code has been installed, but has not been 
@@ -14,6 +12,10 @@ Blog Cannot Connect To The Database</MP:ContentRegion>
 	<p>
 		Please check the connection string in your web.config file.  It&#8217;s in the 
 		<code>AppSettings</code> section with the key &#8220;ConnectionString&#8221;.
+	</p>
+	<p>
+		Also check to make sure that you have correctly set up the SQL Server user 
+		you are using to connect to the database with.
 	</p>
 	<asp:PlaceHolder id="plcDiagnosticInfo" runat="server" Visible="false">
 		<p>

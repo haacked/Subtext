@@ -159,56 +159,58 @@ namespace Subtext
 					Server.Transfer(ERROR_PAGE_LOCATION, false);
 					return;
 				}
+				exception = exception.InnerException;
+			}
 
-				if(!InstallationManager.IsInInstallDirectory)
+			//Sql Exception and request is for "localhost"
+			SqlException sqlExc = exception as SqlException;
+			if(sqlExc != null &&
+				(
+				sqlExc.Number == (int)SqlErrorMessages.LoginFailsCannotOpenDatabase
+				|| sqlExc.Number == (int)SqlErrorMessages.LoginFailed
+				|| sqlExc.Number == (int)SqlErrorMessages.LoginFailedInvalidUserOfTrustedConnection
+				|| sqlExc.Number == (int)SqlErrorMessages.LoginFailedNotAssociatedWithTrustedConnection
+				|| sqlExc.Number == (int)SqlErrorMessages.LoginFailedUserNameInvalid
+				|| (sqlExc.Number == (int)SqlErrorMessages.CouldNotFindStoredProcedure && sqlExc.Message.IndexOf("'blog_GetConfig'") > 0)
+				)
+				)
+			{
+				// Probably a bad connection string.
+				Server.Transfer(BAD_CONNECTION_STRING_PAGE);
+				return;
+			}
+
+
+			if(!InstallationManager.IsInInstallDirectory)
+			{
+				if(exception.GetType() == typeof(BlogDoesNotExistException))
 				{
-					if(exception.InnerException.GetType() == typeof(BlogDoesNotExistException))
-					{
-						Response.Redirect("~/Install/BlogNotConfiguredError.aspx");
-					}
-
-					if(InstallationManager.GetIsInstallationActionRequired(exception.InnerException, VersionInfo.FrameworkVersion))
-					{
-						Response.Redirect("~/Install/");
-					}	
+					Response.Redirect("~/Install/BlogNotConfiguredError.aspx");
 				}
 
-				//Sql Exception and request is for "localhost"
-				SqlException sqlExc = exception.InnerException as SqlException;
-				if(sqlExc != null &&
-					(
-					sqlExc.Number == (int)SqlErrorMessages.LoginFailsCannotOpenDatabase
-					|| sqlExc.Number == (int)SqlErrorMessages.LoginFailed
-					|| sqlExc.Number == (int)SqlErrorMessages.LoginFailedInvalidUserOfTrustedConnection
-					|| sqlExc.Number == (int)SqlErrorMessages.LoginFailedNotAssociatedWithTrustedConnection
-					|| sqlExc.Number == (int)SqlErrorMessages.LoginFailedUserNameInvalid
-					|| (sqlExc.Number == (int)SqlErrorMessages.CouldNotFindStoredProcedure && sqlExc.Message.IndexOf("'blog_GetConfig'") > 0)
-					)
-					)
+				if(InstallationManager.GetIsInstallationActionRequired(exception, VersionInfo.FrameworkVersion))
 				{
-					// Probably a bad connection string.
-					Server.Transfer(BAD_CONNECTION_STRING_PAGE);
-					return;
-				}
+					Response.Redirect("~/Install/");
+				}	
+			}
 
-				if(exception.InnerException is InvalidOperationException && exception.InnerException.Message.IndexOf("ConnectionString") >= 0)
-				{
-					// Probably a missing connection string.
-					Server.Transfer(BAD_CONNECTION_STRING_PAGE);
-					return;
-				}
+			if(exception is InvalidOperationException && exception.Message.IndexOf("ConnectionString") >= 0)
+			{
+				// Probably a missing connection string.
+				Server.Transfer(BAD_CONNECTION_STRING_PAGE);
+				return;
+			}
 
-				if(exception.InnerException is ArgumentException 
-					&& (
-					exception.InnerException.Message.IndexOf("Keyword not supported") >= 0
-					||	exception.InnerException.Message.IndexOf("Invalid value for key") >= 0
-					)
-					)
-				{
-					// Probably a malformed connection string.
-					Server.Transfer(BAD_CONNECTION_STRING_PAGE);
-					return;
-				}
+			if(exception is ArgumentException 
+				&& (
+				exception.Message.IndexOf("Keyword not supported") >= 0
+				||	exception.Message.IndexOf("Invalid value for key") >= 0
+				)
+				)
+			{
+				// Probably a malformed connection string.
+				Server.Transfer(BAD_CONNECTION_STRING_PAGE);
+				return;
 			}
 
 			if(exception is HttpException)
@@ -217,6 +219,7 @@ namespace Subtext
 				{
 					return;
 				}
+				
 				// I don't know that Context can ever be null in the pipe, but we'll play it
 				// extra safe. If customErrors are off, we'll just let ASP.NET default happen.
 				if (Context != null && Context.IsCustomErrorEnabled)
