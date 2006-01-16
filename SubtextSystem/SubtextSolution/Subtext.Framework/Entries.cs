@@ -287,7 +287,11 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static int Create(Entry entry, int[] CategoryIDs)
 		{
-			if(entry.PostType == PostType.Comment 
+			// check if we're admin, if not filter the comment. We do this to help when Importing 
+			// a blog using the BlogML import process. A better solution may be developing a way to 
+			// determine if we're currently in the BlogML import process and use that here.
+			if(!Security.IsAdmin
+				&& entry.PostType == PostType.Comment 
 				|| entry.PostType == PostType.PingTrack)
 				CommentFilter.FilterComment(entry);
 
