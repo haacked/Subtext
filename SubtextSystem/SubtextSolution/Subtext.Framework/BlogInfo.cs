@@ -81,6 +81,22 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
+		/// Gets the active blog count by host.
+		/// </summary>
+		/// <param name="host">The host.</param>
+		/// <returns></returns>
+		public static BlogInfoCollection GetActiveBlogsByHost(string host)
+		{
+			BlogInfoCollection blogsWithHost = BlogInfo.GetBlogsByHost(host);
+			for(int i = blogsWithHost.Count - 1; i >= 0; i--)
+			{
+				if(!blogsWithHost[i].IsActive)
+					blogsWithHost.RemoveAt(i);
+			}
+			return blogsWithHost;
+		}
+
+		/// <summary>
 		/// Returns a <see cref="BlogInfoCollection"/> containing ACTIVE the <see cref="BlogInfo"/> 
 		/// instances within the specified range.
 		/// </summary>

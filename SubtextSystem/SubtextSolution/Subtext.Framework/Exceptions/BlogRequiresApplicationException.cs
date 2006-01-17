@@ -18,6 +18,7 @@ namespace Subtext.Framework.Exceptions
 	{
 		int _blogsWithSameHostCount;
 		int _blogId = NullValue.NullInt32;
+		string _host;
 
 		/// <summary>
 		/// Creates a new <see cref="BlogRequiresApplicationException"/> instance.
@@ -25,8 +26,9 @@ namespace Subtext.Framework.Exceptions
 		/// <param name="blogsWithSameHostCount">The number of blogs with this 
 		/// host name (not counting the blog being modified).</param>
 		/// <param name="blogId">The blog that is being modified and is conflicting with a pre-existing blog.</param>
-		public BlogRequiresApplicationException(int blogsWithSameHostCount, int blogId) : base()
+		public BlogRequiresApplicationException(string hostName, int blogsWithSameHostCount, int blogId) : base()
 		{
+			_host = hostName;
 			_blogsWithSameHostCount = blogsWithSameHostCount;
 			_blogId = blogId;
 		}
@@ -35,7 +37,7 @@ namespace Subtext.Framework.Exceptions
 		/// Creates a new <see cref="BlogRequiresApplicationException"/> instance.
 		/// </summary>
 		/// <param name="blogsWithSameHostCount">The number of blogs with this host name.</param>
-		public BlogRequiresApplicationException(int blogsWithSameHostCount) : this(blogsWithSameHostCount, NullValue.NullInt32)
+		public BlogRequiresApplicationException(string hostName, int blogsWithSameHostCount) : this(hostName, blogsWithSameHostCount, NullValue.NullInt32)
 		{
 		}
 
@@ -68,6 +70,23 @@ namespace Subtext.Framework.Exceptions
 				throw new NotImplementedException("I8N Not yet implemented");
 			}
 		}
+
+		/// <summary>
+		/// Gets a message that describes the current exception.
+		/// </summary>
+		/// <value></value>
+		public override string Message
+		{
+			get
+			{
+				string blogCountClause = "is another blog";
+				if(_blogsWithSameHostCount >= 1)
+					blogCountClause = "are " + _blogsWithSameHostCount + " blogs";
+
+				return String.Format("Sorry, but there {0} with the specified hostname '{1}'.  To set up another blog with the same hostname, you must provide an application name.  Please click on 'Host Domain' below for more information.", blogCountClause, _host);
+			}
+		}
+
 
 	}
 }

@@ -73,28 +73,30 @@ namespace Subtext.Framework.Exceptions
 		{
 			get
 			{
+				//TODO: We need to move the message out of the exception class.
+
 				string message = string.Empty;
 				if(_blogId == NullValue.NullInt32)
 				{
-					message = "The blog you are trying to create ";
+					message = "<p>Creating/Activating this blog ";
 				}
 				else
 				{
-					message = "Sorry, but by changing this blog to use that host combination ";
+					message = "<p>Sorry, but by changing this blog to use that host combination ";
 				}
 
 				message += "would cause the blog entitled &#8220;" + _hiddenBlog.Title + "&#8221; to be hidden. "
-					+ "This change would cause more than one blog to have the host &#8220;" + _hiddenBlog.Host + "&#8221;. "
+					+ "by causing more than one blog to have the host &#8220;" + _hiddenBlog.Host + "&#8221;.</p><p>"
 					+ "When two or more blogs have the same host, they both need to have an application defined. " 
 					+ "The previously mentioned blog does not have an application defined.  Please update it before ";
 
 				if(_blogId == NullValue.NullInt32)
 				{
-					message += "creating this blog.";
+					message += "creating/activating this blog.</p>";
 				}
 				else
 				{
-					message += "making this change.";
+					message += "making this change.</p>";
 				}
 				return message;
 			}
