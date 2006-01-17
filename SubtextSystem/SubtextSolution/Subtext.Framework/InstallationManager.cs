@@ -126,6 +126,20 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
+		/// Determines whether the requested page is in the System Message directory.
+		/// </summary>
+		/// <returns>
+		/// 	<c>true</c> if is in system message directory; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool IsInSystemMessageDirectory
+		{
+			get
+			{
+				return UrlFormats.IsInSpecialDirectory("SystemMessages");
+			}
+		}
+
+		/// <summary>
 		/// Gets the installation status.
 		/// </summary>
 		/// <param name="assemblyVersion">Gets the version of the currently installed assembly.</param>

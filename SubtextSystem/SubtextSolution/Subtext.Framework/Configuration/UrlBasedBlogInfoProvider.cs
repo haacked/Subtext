@@ -165,8 +165,10 @@ namespace Subtext.Framework.Configuration
 						throw new BlogDoesNotExistException(Host, app, anyBlogsExist);
 					}
 
-					if(!info.IsActive && !IsInSystemMessageDirectory && !IsInHostAdminDirectory)
-						HttpContext.Current.Response.Redirect("~/SystemMessages/BlogNotActive.aspx");
+					if(!info.IsActive && !InstallationManager.IsInHostAdminDirectory && !InstallationManager.IsInSystemMessageDirectory)
+					{
+						throw new BlogInactiveException();
+					}
 			
 					BlogConfigurationSettings settings = Subtext.Framework.Configuration.Config.Settings;
 
@@ -266,34 +268,6 @@ namespace Subtext.Framework.Configuration
 		protected void CacheConfig(Cache cache, BlogInfo info, string cacheKEY)
 		{
 			cache.Insert(cacheKEY, info, null, DateTime.Now.AddSeconds(CacheTime), TimeSpan.Zero, CacheItemPriority.High, null);
-		}
-
-		/// <summary>
-		/// Determines whether the requested page is in the System Message directory.
-		/// </summary>
-		/// <returns>
-		/// 	<c>true</c> if is in system message directory; otherwise, <c>false</c>.
-		/// </returns>
-		public static bool IsInSystemMessageDirectory
-		{
-			get
-			{
-				return UrlFormats.IsInDirectory("SystemMessages");
-			}
-		}
-
-		/// <summary>
-		/// Determines whether the requested page is in the Host Admin directory.
-		/// </summary>
-		/// <returns>
-		/// 	<c>true</c> if is in system message directory; otherwise, <c>false</c>.
-		/// </returns>
-		public static bool IsInHostAdminDirectory
-		{
-			get
-			{
-				return UrlFormats.IsInDirectory("HostAdmin");
-			}
 		}
 	}
 }
