@@ -29,14 +29,14 @@ namespace Subtext.Web.Admin.Pages
 			//If we are in edit mode, register the script
 			if(IsInEdit)
 			{
-				Page.RegisterClientScriptBlock("ConfirmationBeforeLeaving",string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}{2}",scriptStart,Message,scriptEnd));
+				Page.RegisterClientScriptBlock("ConfirmationBeforeLeaving", string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}{2}",scriptStart,Message,scriptEnd));
 			}
 			base.OnPreRender (e);
 		}
 
 
 
-		const string scriptStart = "<script language=\"javascript\" type=\"javascript\">g_blnCheckUnload = true;function RunOnBeforeUnload() {if (g_blnCheckUnload) {window.event.returnValue = '";
+		const string scriptStart = "<script type=\"text/javascript\">g_blnCheckUnload = true;function RunOnBeforeUnload() {if (g_blnCheckUnload) {window.event.returnValue = '";
 		const string scriptEnd = "';    }  }  function bypassCheck() {     g_blnCheckUnload  = false;   }</script>";
 
 		public static readonly string ByPassFuncationName = "bypassCheck()";
