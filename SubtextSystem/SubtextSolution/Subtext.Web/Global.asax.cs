@@ -104,6 +104,10 @@ namespace Subtext
 			// This should be fixed in the next release.
 			Log.SetBlogIdContext(NullValue.NullInt32);
 
+
+			if(InstallationManager.IsInHostAdminDirectory)
+				return;
+
 			// Want to redirect to install if installation is required, 
 			// or if we're missing a HostInfo record.
 			if((InstallationManager.IsInstallationActionRequired(VersionInfo.FrameworkVersion) || InstallationManager.HostInfoRecordNeeded) 

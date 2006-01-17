@@ -38,7 +38,7 @@ namespace Subtext.Web.Install
 			if(!_anyBlogsExist)
 			{
 				//TODO:
-			}			
+			}
 		}
 
 		#region Web Form Designer generated code

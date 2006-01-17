@@ -1266,21 +1266,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "HostAdmin\Import\Step01_SelectImportProvider.aspx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "HostAdmin\Import\Step01_SelectImportProvider.aspx.cs"
-                    DependentUpon = "Step01_SelectImportProvider.aspx"
-                    SubType = "ASPXCodeBehind"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "HostAdmin\Import\Step01_SelectImportProvider.aspx.resx"
-                    DependentUpon = "Step01_SelectImportProvider.aspx.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "HostAdmin\Import\Step02_GatherInfo.aspx"
                     BuildAction = "Content"
                 />

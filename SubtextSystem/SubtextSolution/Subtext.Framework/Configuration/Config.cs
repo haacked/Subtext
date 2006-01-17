@@ -17,6 +17,7 @@ namespace Subtext.Framework.Configuration
 	{
 		static object _synchBlock = new object();
 		static int _blogCount = NullValue.NullInt32;
+		static int _activeBlogCount = NullValue.NullInt32;
 		static UrlBasedBlogInfoProvider _configProvider = null;
 		private Config() {}
 
@@ -47,7 +48,23 @@ namespace Subtext.Framework.Configuration
 		}
 
 		/// <summary>
-		/// Gets the blog count.
+		/// Gets the count of active blogs.
+		/// </summary>
+		/// <value></value>
+		public static int ActiveBlogCount
+		{
+			get
+			{
+				if(_activeBlogCount == NullValue.NullInt32)
+				{
+					_blogCount = BlogCount;
+				}
+				return _blogCount;
+			}
+		}
+
+		/// <summary>
+		/// Gets the total blog count in the system, active or not.
 		/// </summary>
 		/// <value></value>
 		public static int BlogCount
@@ -61,7 +78,7 @@ namespace Subtext.Framework.Configuration
 						if(_blogCount == NullValue.NullInt32)
 						{
 							//TODO: Get this in a more efficient means.
-							BlogInfo.GetActiveBlogs(1, 100, true, out _blogCount);
+							_activeBlogCount = BlogInfo.GetActiveBlogs(1, 100, true, out _blogCount).Count;
 						}
 					}
 				}

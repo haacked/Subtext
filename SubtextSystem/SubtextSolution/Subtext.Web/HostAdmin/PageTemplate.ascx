@@ -22,8 +22,8 @@
 				<ul id="menu">
 					<MP:MenuItem ID="Menuitem1" href="~/HostAdmin/Default.aspx" title="Manage the blogs installed on this server"
 						runat="server">Installed Blogs</MP:MenuItem>
-					<MP:MenuItem ID="Menuitem2" href="~/HostAdmin/Import/ImportStart.aspx" title="Import blog content into this subText installation."
-						runat="server">Import Blog(s)</MP:MenuItem>
+					<MP:MenuItem ID="Menuitem2" href="~/HostAdmin/Import/ImportStart.aspx" title="Import .TEXT Data"
+						runat="server">Import .TEXT</MP:MenuItem>
 					<MP:MenuItem ID="Menuitem3" href="~/HostAdmin/ChangePassword.aspx" title="Change HostAdmin Password."
 						runat="server">Change Password</MP:MenuItem>
 				</ul> <!-- /#menu -->

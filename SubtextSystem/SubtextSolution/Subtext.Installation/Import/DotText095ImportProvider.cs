@@ -2,6 +2,8 @@ using System;
 using System.Collections.Specialized;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
+using System.Text;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility.Providers;
@@ -39,6 +41,7 @@ namespace Subtext.Installation.Import
 		public override Control GatherImportInformation()
 		{
 			ConnectionStringBuilder builder = new ConnectionStringBuilder();
+			builder.AllowWebConfigOverride = false;
 			if(builder.ID == null || builder.ID.Length == 0)
 				builder.ID = "ctlConnectionStringBuilder";
 			builder.Title = ".TEXT Connection String";
@@ -46,12 +49,13 @@ namespace Subtext.Installation.Import
 				+ "read from your .TEXT database.";
 
 			ConnectionStringBuilder subtextBuilder = new ConnectionStringBuilder();
+			subtextBuilder.AllowWebConfigOverride = true;
 			if(subtextBuilder.ID == null || subtextBuilder.ID.Length == 0)
 				subtextBuilder.ID = "ctlSubtextConnectionStringBuilder";
 			subtextBuilder.Title = "Subtext Connection String";
 			subtextBuilder.Description = "A SQL Server Connection String that can connect " 
 				+ "to your Subtext database and has permissions to directly DELETE and INSERT records.";
-			
+		
 			Panel panel = new Panel();
 			panel.Controls.Add(builder);
 			panel.Controls.Add(subtextBuilder);
@@ -74,19 +78,32 @@ namespace Subtext.Installation.Import
 			GetConnectionStringsFromControl(populatedControl, out dotTextConnectionString, out subtextConnectionString);
 
 			
-			//using(SqlConnection connection = new SqlConnection(subtextConnectionString))
-			using(SqlConnection connection = new SqlConnection(dotTextConnectionString))
+			using(SqlConnection connection = new SqlConnection(subtextConnectionString))
 			{
 				connection.Open();
 				using(SqlTransaction transaction = connection.BeginTransaction())
 				{
 					try
 					{
-						// Hmmm... we can't assume that the .TEXT database is on the same 
-						// server (or database) as our database.  We might have to do a 
-						// cross database join.  We might need to do something more tricky here.
-						ScriptHelper.ExecuteScript("ImportDotText095.sql", transaction);
-						ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction);
+						//Set up script parameters...
+						ConnectionString subtextConnection = ConnectionString.Parse(subtextConnectionString);
+						ConnectionString dotTextConnection = ConnectionString.Parse(dotTextConnectionString);
+
+						Stream stream = ScriptHelper.UnpackEmbeddedScript("ImportDotText095.sql");
+						SqlScriptRunner runner = new SqlScriptRunner(stream, Encoding.UTF8);
+						runner.TemplateParameters["subtext_db_name"].Value = subtextConnection.Database;
+						if(!subtextConnection.TrustedConnection)
+						{
+							runner.TemplateParameters["dbUser"].Value = subtextConnection.UserId;
+						}
+
+						runner.TemplateParameters["dottext_db_name"].Value = dotTextConnection.Database;
+						if(!dotTextConnection.TrustedConnection)
+						{
+							runner.TemplateParameters["dotTextDbUser"].Value = dotTextConnection.UserId;
+						}
+
+						runner.Execute(transaction);
 						transaction.Commit();
 					}
 					catch(Exception)

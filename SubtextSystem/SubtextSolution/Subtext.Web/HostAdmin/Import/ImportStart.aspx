@@ -6,22 +6,18 @@
 		<asp:Button id="btnRestartWizard" runat="server" text="Restart Import"></asp:Button>
 	</MP:ContentRegion>
 	<!-- now, lay out our content for the DefaultContent Region (MPContent) -->
-		<P>Welcome to the Subtext Import Wizard!</P>
-		<P>Since you’re here, you are most likely interested in importing blog data from 
-			another blog engine. Glad to see that you’re giving Subtext a try.
-		</P>
-		<P>We’ll walk you through the steps to get you up and running in no time. But 
-			first, a warning.
-		</P>
-		<DIV><STRONG>Warning!</STRONG> Importing blog data from another blog engine will 
-			overwrite any data you might currently have within the blog. Please backup your 
-			database before continuing.
-		</DIV>
-		<P>Ok, now that we have that out of the way, click “Next” to select the blog engine 
-			you wish to import from.
-		</P>
+		<p>
+			Welcome to the .TEXT Import Wizard!
+		</p>
+		<p>
+			This wizard is strictly for bulk importing .TEXT data.  If you wish to import from 
+			other blogging engines, you can do that in the admin section of your specific blog.
+		</p>
+		<p>
+			We’ll walk you through the steps to get you up and running in no time.
+		</p>
 		<P>
-			<asp:Button id="btnNext" runat="server" text="Next - Select an Import Provider"></asp:Button>
-		</P>
+			<asp:Button id="btnNext" runat="server" text="Next - Specify Connection Information"></asp:Button>
+		</p>
 	<!-- END DefaultContent -->
 </MP:MasterPage>
