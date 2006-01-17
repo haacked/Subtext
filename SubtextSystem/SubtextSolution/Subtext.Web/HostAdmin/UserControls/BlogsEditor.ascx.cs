@@ -439,21 +439,29 @@ namespace Subtext.Web.HostAdmin.UserControls
 		{
 			BlogInfo blog = BlogInfo.GetBlogById(BlogId);
 			blog.IsActive = !blog.IsActive;
-			if(Config.UpdateConfigData(blog))
+			try
 			{
-				if(blog.IsActive)
+				if(Config.UpdateConfigData(blog))
 				{
-					this.messagePanel.ShowMessage("Blog Activated and ready to go.");
+					if(blog.IsActive)
+					{
+						this.messagePanel.ShowMessage("Blog Activated and ready to go.");
+					}
+					else
+					{
+						this.messagePanel.ShowMessage("Blog Inactivated and sent to a retirement community.");
+					}
 				}
 				else
 				{
-					this.messagePanel.ShowMessage("Blog Inactivated and sent to a retirement community.");
+					this.messagePanel.ShowError("Darn! An unexpected error occurred.  Not sure what happened. Sorry.");
 				}
 			}
-			else
+			catch(BaseBlogConfigurationException e)
 			{
-				this.messagePanel.ShowError("Darn! An unexpected error occurred.  Not sure what happened. Sorry.");
+				this.messagePanel.ShowError(e.Message);
 			}
+
 			BindList();
 		}
 

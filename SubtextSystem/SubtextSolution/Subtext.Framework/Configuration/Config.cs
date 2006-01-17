@@ -178,10 +178,10 @@ namespace Subtext.Framework.Configuration
 			{
 				//Check to see if this blog requires an Application value
 				//This would occur if another blog has the same host already.
-				BlogInfoCollection blogsWithHost = BlogInfo.GetBlogsByHost(host);
-				if(blogsWithHost.Count > 0)
+				int activeBlogWithHostCount = BlogInfo.GetActiveBlogsByHost(host).Count;
+				if(activeBlogWithHostCount > 0)
 				{
-					throw new BlogRequiresApplicationException(blogsWithHost.Count);
+					throw new BlogRequiresApplicationException(host, activeBlogWithHostCount);
 				}
 			}
 			else
@@ -216,7 +216,7 @@ namespace Subtext.Framework.Configuration
 
 			//Check to see if we're going to end up hiding another blog.
 			BlogInfo potentialHidden = Subtext.Framework.Configuration.Config.GetBlogInfo(info.Host, string.Empty);
-			if(potentialHidden != null && !potentialHidden.Equals(info))
+			if(potentialHidden != null && !potentialHidden.Equals(info) && potentialHidden.IsActive)
 			{
 				//We found a blog that would be hidden by this one.
 				throw new BlogHiddenException(potentialHidden);
@@ -228,12 +228,12 @@ namespace Subtext.Framework.Configuration
 			{
 				//Check to see if this blog requires an Application value
 				//This would occur if another blog has the same host already.
-				BlogInfoCollection blogsWithHost = BlogInfo.GetBlogsByHost(info.Host);
+				BlogInfoCollection blogsWithHost = BlogInfo.GetActiveBlogsByHost(info.Host);
 				if(blogsWithHost.Count > 0)
 				{
 					if(blogsWithHost.Count > 1 || !blogsWithHost[0].Equals(info))
 					{
-						throw new BlogRequiresApplicationException(blogsWithHost.Count);
+						throw new BlogRequiresApplicationException(info.Host, blogsWithHost.Count);
 					}
 				}
 			}
