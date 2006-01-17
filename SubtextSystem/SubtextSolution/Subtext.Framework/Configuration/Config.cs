@@ -5,7 +5,6 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
-using Subtext.Framework.Threading;
 
 namespace Subtext.Framework.Configuration
 {
@@ -15,9 +14,6 @@ namespace Subtext.Framework.Configuration
 	/// </summary>
 	public sealed class Config
 	{
-		static object _synchBlock = new object();
-		static int _blogCount = NullValue.NullInt32;
-		static int _activeBlogCount = NullValue.NullInt32;
 		static UrlBasedBlogInfoProvider _configProvider = null;
 		private Config() {}
 
@@ -55,11 +51,8 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
-				if(_activeBlogCount == NullValue.NullInt32)
-				{
-					_blogCount = BlogCount;
-				}
-				return _blogCount;
+				int notUsed;
+				return BlogInfo.GetActiveBlogs(1, 100, true, out notUsed).Count;
 			}
 		}
 
@@ -71,18 +64,9 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
-				if(_blogCount == NullValue.NullInt32)
-				{
-					using(TimedLock.Lock(_synchBlock))
-					{
-						if(_blogCount == NullValue.NullInt32)
-						{
-							//TODO: Get this in a more efficient means.
-							_activeBlogCount = BlogInfo.GetActiveBlogs(1, 100, true, out _blogCount).Count;
-						}
-					}
-				}
-				return _blogCount;
+				int totalBlogCount;
+				BlogInfo.GetActiveBlogs(1, 100, true, out totalBlogCount);
+				return totalBlogCount;
 			}
 		}
 
@@ -210,11 +194,6 @@ namespace Subtext.Framework.Configuration
 
 			if(!passwordAlreadyHashed && Config.Settings.UseHashedPasswords)
 				password = Security.HashPassword(password);
-
-			using(TimedLock.Lock(_synchBlock))
-			{
-				_blogCount++;
-			}
 
 			return (ObjectProvider.Instance().CreateBlog(title, userName, password, host, application));
 		}
