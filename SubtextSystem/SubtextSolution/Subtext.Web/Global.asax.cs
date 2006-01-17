@@ -135,10 +135,13 @@ namespace Subtext
 						if(context.Request.IsAuthenticated)
 						{
 							userInfo = context.User.Identity.Name;
-							userInfo += "<br>Is Admin: " + Subtext.Framework.Security.IsAdmin.ToString(CultureInfo.InvariantCulture);
-							userInfo += "<br>BlogID: " + Subtext.Framework.Configuration.Config.CurrentBlog.BlogID.ToString(CultureInfo.InvariantCulture);
+							userInfo += "<br>Is Host Admin: " + Subtext.Framework.Security.IsHostAdmin.ToString(CultureInfo.InvariantCulture);
+							if(!InstallationManager.IsInHostAdminDirectory && !InstallationManager.IsInInstallDirectory && !InstallationManager.IsInSystemMessageDirectory)
+							{
+								userInfo += "<br>Is Admin: " + Subtext.Framework.Security.IsAdmin.ToString(CultureInfo.InvariantCulture);
+								userInfo += "<br>BlogID: " + Subtext.Framework.Configuration.Config.CurrentBlog.BlogID.ToString(CultureInfo.InvariantCulture);
+							}
 						}
-
 					}
 					catch
 					{}
@@ -184,18 +187,27 @@ namespace Subtext
 				return;
 			}
 
-
 			if(!InstallationManager.IsInInstallDirectory)
 			{
 				if(exception.GetType() == typeof(BlogDoesNotExistException))
 				{
 					Response.Redirect("~/Install/BlogNotConfiguredError.aspx");
+					return;
 				}
 
 				if(InstallationManager.GetIsInstallationActionRequired(exception, VersionInfo.FrameworkVersion))
 				{
 					Response.Redirect("~/Install/");
-				}	
+					return;
+				}
+			}
+
+			if(!InstallationManager.IsInSystemMessageDirectory)
+			{
+				if(exception.GetType() == typeof(BlogInactiveException))
+				{
+					HttpContext.Current.Response.Redirect("~/SystemMessages/BlogNotActive.aspx");
+				}
 			}
 
 			if(exception is InvalidOperationException && exception.Message.IndexOf("ConnectionString") >= 0)

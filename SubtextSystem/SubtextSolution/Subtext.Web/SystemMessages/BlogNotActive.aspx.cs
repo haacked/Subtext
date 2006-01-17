@@ -1,5 +1,6 @@
 using System;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Exceptions;
 
 namespace Subtext.Web
 {
@@ -19,14 +20,22 @@ namespace Subtext.Web
 
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-			if(!Config.CurrentBlog.IsActive)
+			try
+			{
+				if(!Config.CurrentBlog.IsActive)
+				{
+					plcInactiveBlogMessage.Visible = true;
+					plcNothingToSeeHere.Visible = false;
+				}
+				else
+				{
+					lnkBlog.HRef = Config.CurrentBlog.BlogHomeUrl;
+				}
+			}
+			catch(BlogDoesNotExistException)
 			{
 				plcInactiveBlogMessage.Visible = true;
 				plcNothingToSeeHere.Visible = false;
-			}
-			else
-			{
-				lnkBlog.HRef = Config.CurrentBlog.BlogHomeUrl;
 			}
 		}
 
