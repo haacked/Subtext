@@ -1,5 +1,6 @@
 using System;
 using Subtext.Framework;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.HostAdmin
 {
@@ -18,17 +19,14 @@ namespace Subtext.Web.HostAdmin
 		protected Subtext.Web.Controls.MenuItem Menuitem3;
 		protected System.Web.UI.WebControls.Literal hostAdminName;
 
-		private void InitializeComponent()
-		{
-
-		}
-
 		protected override void OnLoad(EventArgs e)
 		{
 			if(!IsPostBack)
 				DataBind();
 			base.OnLoad (e);
 			hostAdminName.Text = HostInfo.Instance.HostUserName;
+
+			Menuitem2.Visible = (Config.ActiveBlogCount <= 0);
 		}
 	}
 }

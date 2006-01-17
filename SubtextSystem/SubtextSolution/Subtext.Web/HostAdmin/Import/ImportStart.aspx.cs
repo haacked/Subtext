@@ -3,7 +3,7 @@ using System;
 namespace Subtext.Web.HostAdmin
 {
 	/// <summary>
-	/// Summary description for _Default.
+	/// First page in the .TEXT Import wizard.
 	/// </summary>
 	public class ImportStart : System.Web.UI.Page
 	{
@@ -13,6 +13,7 @@ namespace Subtext.Web.HostAdmin
 		protected System.Web.UI.WebControls.Button btnRestartWizard;
 		protected Subtext.Web.Controls.ContentRegion MPSideBar;
 		protected System.Web.UI.WebControls.Button btnNext;
+		
 		private void Page_Load(object sender, System.EventArgs e)
 		{
 		}
@@ -42,12 +43,12 @@ namespace Subtext.Web.HostAdmin
 
 		private void btnNext_Click(object sender, EventArgs e)
 		{
-			Response.Redirect("Step01_SelectImportProvider.aspx");
+			Response.Redirect("Step02_GatherInfo.aspx?Provider=DotText095ImportProvider");
 		}
 
 		private void btnRestartWizard_Click(object sender, System.EventArgs e)
 		{
-		Response.Redirect("ImportStart.aspx");
+			Response.Redirect("ImportStart.aspx");
 		}
 	}
 }

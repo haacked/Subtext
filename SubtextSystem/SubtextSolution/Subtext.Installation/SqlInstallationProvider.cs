@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Specialized;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
 using Subtext.Extensibility.Providers;
 using Subtext.Scripting;
+using Subtext.Web.Controls;
 
 namespace Subtext.Installation
 {
@@ -63,45 +61,12 @@ namespace Subtext.Installation
 		/// <returns></returns>
 		public override Control GatherInstallationInformation()
 		{
-			HtmlTable table = new HtmlTable();
-			table.ID = "installationQuestionTable";
-			table.CellPadding = 3;
-			table.CellSpacing = 0;
-
-			// Create header row
-			HtmlTableRow headerRow = new HtmlTableRow();
-			headerRow.BgColor = "#EEEEEE";
-			HtmlTableCell fieldCell = new HtmlTableCell("th");
-			fieldCell.ColSpan = 2;
-			fieldCell.Controls.Add(new LiteralControl("<strong>Connection String</strong>"));
-			headerRow.Cells.Add(fieldCell);
-			table.Rows.Add(headerRow);
-
-			// Create Text Input Row
-			HtmlTableRow row = new HtmlTableRow();
-			row.VAlign = "top";
-			HtmlTableCell questionCell = new HtmlTableCell();
-			TextBox textbox = new TextBox();
-			textbox.ID = "txtAdminConnectionString";
-			questionCell.Controls.Add(textbox);
-
-			//Checkbox to use connection string in web.config
-			CheckBox checkbox = new CheckBox();
-			checkbox.ID = "chkUseConnectionStringInWebConfig";
-			checkbox.Text = "Use Connection String In Web.config";
-			checkbox.Attributes["onclick"] = "if(this.checked) {txtAdminConnectionString.disabled = true;} else {txtAdminConnectionString.disabled = false;} ;";
-			questionCell.Controls.Add(new LiteralControl("<br />"));
-			questionCell.Controls.Add(checkbox);
-			
-			row.Cells.Add(questionCell);
-
-			HtmlTableCell descriptionCell = new HtmlTableCell();
-			descriptionCell.Controls.Add(new LiteralControl("A SQL Connection String with the rights to create SQL Database objects such as Stored Procedures, Table, and Views."));
-			row.Cells.Add(descriptionCell);
-			
-			table.Rows.Add(row);
-			
-			return table;
+			ConnectionStringBuilder builder = new ConnectionStringBuilder();
+			builder.AllowWebConfigOverride = true;
+			builder.Description = "A SQL Connection String with the rights to create SQL Database objects such as Stored Procedures, Table, and Views.";
+			builder.Title = "Connection String";
+		
+			return builder;
 		}
 
 		/// <summary>
@@ -120,13 +85,11 @@ namespace Subtext.Installation
 		{
 			if(populatedControl != null)
 			{
-				CheckBox chkUseWebConfig = populatedControl.FindControl("chkUseConnectionStringInWebConfig") as CheckBox;
-				if(chkUseWebConfig != null && chkUseWebConfig.Checked)
-					return ConfigurationSettings.AppSettings["ConnectionString"];
-
-				TextBox textbox = populatedControl.FindControl("txtAdminConnectionString") as TextBox;
-				if(textbox != null)
-					return textbox.Text;
+				ConnectionStringBuilder builder = populatedControl as ConnectionStringBuilder;
+				if(builder != null)
+				{
+					return builder.ConnectionString;
+				}
 			}
 			return string.Empty;
 		}

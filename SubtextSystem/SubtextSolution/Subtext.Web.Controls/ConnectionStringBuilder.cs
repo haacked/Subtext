@@ -12,9 +12,10 @@ namespace Subtext.Web.Controls
 	[ValidationProperty("ConnectionString")]
 	public class ConnectionStringBuilder : System.Web.UI.WebControls.WebControl, INamingContainer
 	{
-		const string CONNECTION_STRING_FIELD = "txtConnectionStringBuilderConnectionString";
-		const string DESCRIPTION_FIELD = "ltlConnectionStringBuilderDescriptionText";
-		const string TITLE_FIELD = "ltlConnectionStringBuilderTitleText";
+		const string ConnectionStringControlId = "txtConnectionStringBuilderConnectionString";
+		const string DescriptionControlId = "ltlConnectionStringBuilderDescriptionText";
+		const string TitleControlId = "ltlConnectionStringBuilderTitleText";
+		const string CheckboxControlId = "chkUseConnectionStringInWebConfig";
 
 		/// <summary>
 		/// Called during the page init event.
@@ -43,7 +44,7 @@ namespace Subtext.Web.Controls
 			fieldCell.ColSpan = 2;
 			HtmlGenericControl strongControl = new HtmlGenericControl("strong");
 			LiteralControl titleControl = new LiteralControl("Connection String");
-			titleControl.ID = TITLE_FIELD;
+			titleControl.ID = TitleControlId;
 
 			strongControl.Controls.Add(titleControl);
 			fieldCell.Controls.Add(strongControl);
@@ -55,19 +56,55 @@ namespace Subtext.Web.Controls
 			row.VAlign = "top";
 			HtmlTableCell questionCell = new HtmlTableCell();
 			TextBox textbox = new TextBox();
-			textbox.ID = CONNECTION_STRING_FIELD;
+			textbox.ID = ConnectionStringControlId;
 			questionCell.Controls.Add(textbox);
 			row.Cells.Add(questionCell);
 
+			//Checkbox to use connection string in web.config
+			if(AllowWebConfigOverride)
+			{
+				CheckBox checkbox = new CheckBox();
+				checkbox.ID = CheckboxControlId;
+				checkbox.Text = "Use Connection String In Web.config";
+				//This next line is a hack since we don't yet know the client id yet.
+				checkbox.Attributes["onclick"] = "if(this.checked) {" + this.ID + "_" + textbox.ClientID + ".disabled = true;} else {" + this.ID + "_" + textbox.ClientID + ".disabled = false;} ;";
+				questionCell.Controls.Add(new LiteralControl("<br />"));
+				questionCell.Controls.Add(checkbox);
+			}
+
 			HtmlTableCell descriptionCell = new HtmlTableCell();
 			LiteralControl descriptionText = new LiteralControl(Description);
-			descriptionText.ID = DESCRIPTION_FIELD;
+			descriptionText.ID = DescriptionControlId;
 			descriptionCell.Controls.Add(descriptionText);
 			row.Cells.Add(descriptionCell);
 			
 			table.Rows.Add(row);
 			this.Controls.Add(table);
 			base.CreateChildControls();
+		}
+
+		/// <summary>
+		/// Gets a value indicating whether [allow web config override].
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if [allow web config override]; otherwise, <c>false</c>.
+		/// </value>
+		[Browsable(true)]
+		[DefaultValue("false")]
+		[Category("Behavior")]
+		[Description("Whether or not to display checkbox...")]
+		public bool AllowWebConfigOverride
+		{
+			get
+			{
+				if(ViewState["AllowWebConfigOverride"] != null)
+					return (bool)ViewState["AllowWebConfigOverride"];
+				return false;
+			}
+			set
+			{
+				ViewState["AllowWebConfigOverride"] = value;
+			}
 		}
 
 		/// <summary>
@@ -82,6 +119,9 @@ namespace Subtext.Web.Controls
 		{
 			get
 			{
+				if(UseWebConfigCheckBox != null && UseWebConfigCheckBox.Checked)
+					return System.Configuration.ConfigurationSettings.AppSettings["ConnectionString"];
+
 				return ConnectionStringTextBox.Text;
 			}
 			set
@@ -139,8 +179,18 @@ namespace Subtext.Web.Controls
 			get
 			{
 				EnsureChildControls();
-				return FindControl(CONNECTION_STRING_FIELD) as TextBox;
+				return FindControl(ConnectionStringControlId) as TextBox;
 			}
+		}
+
+		CheckBox UseWebConfigCheckBox
+		{
+			get
+			{
+				EnsureChildControls();
+				return FindControl(CheckboxControlId) as CheckBox;
+			}
+
 		}
 
 		LiteralControl DescriptionLiteralControl
@@ -148,7 +198,7 @@ namespace Subtext.Web.Controls
 			get
 			{
 				EnsureChildControls();
-				return FindControl(DESCRIPTION_FIELD) as LiteralControl;
+				return FindControl(DescriptionControlId) as LiteralControl;
 			}
 		}
 
@@ -157,7 +207,7 @@ namespace Subtext.Web.Controls
 			get
 			{
 				EnsureChildControls();
-				return FindControl(TITLE_FIELD) as LiteralControl;
+				return FindControl(TitleControlId) as LiteralControl;
 			}
 		}
 	}
