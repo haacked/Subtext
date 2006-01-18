@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -23,88 +22,48 @@ namespace Subtext.Web.Controls
 		/// Basically a reimplementation of the base 
 		/// </summary>
 		/// <param name="writer">The writer.</param>
-		protected override void AddAttributesToRender(System.Web.UI.HtmlTextWriter writer)
+		protected override void Render(System.Web.UI.HtmlTextWriter writer)
 		{
-			if (this.Page != null)
-			{
-				this.Page.VerifyRenderingInServerForm(this);
-			}
-			writer.AddAttribute(HtmlTextWriterAttribute.Type, "submit");
-			writer.AddAttribute(HtmlTextWriterAttribute.Name, this.UniqueID);
-			writer.AddAttribute(HtmlTextWriterAttribute.Value, this.Text);
-			if (((this.Page != null) && this.CausesValidation) && (this.Page.Validators.Count > 0))
-			{
-				string text1 = GetClientValidateEvent();
-				if(base.Attributes.Count > 0)
-				{
-					string text2 = base.Attributes["onclick"];
-					if (text2 != null)
-					{
-						text1 = text2 + text1;
-						base.Attributes.Remove("onclick");
-					}
-				}
-				writer.AddAttribute(HtmlTextWriterAttribute.Onclick, text1);
-			}
-			AddAttributesToRenderBase(writer);
+			CompliantHtmlTextWriter compliantWriter = new CompliantHtmlTextWriter(writer);
+			base.Render(compliantWriter);
 		}
 
-		private static string GetClientValidateEvent()
+		private class CompliantHtmlTextWriter : HtmlTextWriter
 		{
-			return "if (typeof(Page_ClientValidate) == 'function') Page_ClientValidate(); ";
-		}
- 
-		private void AddAttributesToRenderBase(HtmlTextWriter writer)
-		{
-			string text1;
-			if (this.ID != null)
+			internal CompliantHtmlTextWriter(HtmlTextWriter writer) : base(writer)
 			{
-				writer.AddAttribute(HtmlTextWriterAttribute.Id, this.ClientID);
 			}
-			if (this.AccessKey != null && this.AccessKey.Length > 0)
-			{
-				text1 = this.AccessKey;
-				if (text1.Length > 0)
-				{
-					writer.AddAttribute(HtmlTextWriterAttribute.Accesskey, text1);
-				}
-			}
-			if (!this.Enabled)
-			{
-				writer.AddAttribute(HtmlTextWriterAttribute.Disabled, "disabled");
-			}
-			if (this.TabIndex > 0)
-			{
-				int num1 = this.TabIndex;
-				if (num1 != 0)
-				{
-					writer.AddAttribute(HtmlTextWriterAttribute.Tabindex, num1.ToString(NumberFormatInfo.InvariantInfo));
-				}
-			}
-			if (this.ToolTip != null && this.ToolTip.Length > 0)
-			{
-				text1 = this.ToolTip;
-				if (text1.Length > 0)
-				{
-					writer.AddAttribute(HtmlTextWriterAttribute.Title, text1);
-				}
-			}
-			if (this.ControlStyleCreated)
-			{
-				this.ControlStyle.AddAttributesToRender(writer, this);
-			}
-			if (this.Attributes != null)
-			{
-				AttributeCollection collection1 = this.Attributes;
-				IEnumerator enumerator1 = collection1.Keys.GetEnumerator();
-				while (enumerator1.MoveNext())
-				{
-					string text2 = (string) enumerator1.Current;
-					writer.AddAttribute(text2, collection1[text2]);
-				}
-			}
-		}
 
+			/// <summary>
+			/// Ignores the language attribute for the purposes of a submit button.
+			/// <see langword="HtmlTextWriter"/> output stream.
+			/// </summary>
+			/// <param name="name">The HTML attribute to add.</param>
+			/// <param name="value"></param>
+			public override void AddAttribute(string name, string value)
+			{
+				if(String.Compare(name, "language", true, CultureInfo.InvariantCulture) == 0)
+					return;
+				base.AddAttribute(name, value);
+			}
 
+			/// <summary>
+			/// Ignores the language attribute for the purposes of a submit button. 
+			/// </summary>
+			/// <remarks>
+			/// I don't technically need to override this method, but it should make this 
+			/// more version proof.
+			/// </remarks>
+			/// <param name="name">The HTML attribute to add.</param>
+			/// <param name="value"></param>
+			/// <param name="fEndode"></param>
+			public override void AddAttribute(string name, string value, bool fEndode)
+			{
+				if(String.Compare(name, "language", true, CultureInfo.InvariantCulture) == 0)
+					return;
+				base.AddAttribute (name, value, fEndode);
+			}
+
+		}
 	}
 }
