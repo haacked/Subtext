@@ -1,4 +1,5 @@
 <%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.PostComment" %>
+<%@ Register TagPrefix="sub" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <div id="CommentForm">
 <fieldset>
 	<legend>Post a comment</legend>
@@ -14,7 +15,8 @@
 				ControlToValidate="tbComment"></asp:RequiredFieldValidator>
 	</p>
 	<asp:CheckBox id="chkRemember" runat="server" Text="Remember Me?" Visible="False" TabIndex="5"></asp:CheckBox>
-	<p><asp:Button id="btnSubmit" runat="server" Text="Post" CssClass="buttonSubmit" TabIndex="6" /><asp:Label id="Message" runat="server" ForeColor="Red" /></p>
+	<p><sub:CompliantButton id="Compliantbutton1" CssClass="buttonSubmit" runat="server" Text="Post" TabIndex="6"></sub:CompliantButton>
+	   <asp:Label id="Message" runat="server" ForeColor="Red" /></p>
 	<div id="stylesheetTest"></div>
 </fieldset>
 </div>
