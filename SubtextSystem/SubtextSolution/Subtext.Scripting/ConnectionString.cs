@@ -28,7 +28,7 @@ namespace Subtext.Scripting
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ConnectionString"/> class.
 		/// </summary>
-		private ConnectionString()
+		public ConnectionString()
 		{
 		}
 
