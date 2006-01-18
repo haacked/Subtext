@@ -7,5 +7,4 @@
 			posted @ <asp:Literal id="PostDescription"  runat="server" />
 		</p>
 		</div>
-	<asp:Literal ID = "PingBack" Runat="server" />
 	<asp:Literal ID = "TrackBack" Runat="server" />
