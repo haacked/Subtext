@@ -23,6 +23,7 @@
 
 using System;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 using Subtext.Common.Data;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -74,7 +75,7 @@ namespace Subtext.Web.UI.Controls
 
 				//Sent entry properties
 				TitleUrl.Text = entry.Title;
-				TitleUrl.Attributes["Title"] = entry.Title;
+				TitleUrl.Attributes["title"] = entry.Title;
 				TitleUrl.NavigateUrl = entry.TitleUrl;
 				Body.Text = entry.Body;
 				if(PostDescription != null)
@@ -86,8 +87,8 @@ namespace Subtext.Web.UI.Controls
 				{
 					if(date.Attributes["Format"] != null)
 					{
-
 						date.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Link, entry.DateCreated.ToString(date.Attributes["Format"]));
+						date.Attributes.Remove("Format");
 					}
 					else
 					{
@@ -115,9 +116,18 @@ namespace Subtext.Web.UI.Controls
 				}
 				
 				//Set Pingback/Trackback 
-				PingBack.Text = TrackHelpers.PingPackTag;
-				TrackBack.Text = TrackHelpers.TrackBackTag(entry);
-
+				if(PingBack == null)
+				{
+					PingBack = Page.FindControl("pinbackLinkTag") as Literal;
+				}
+				if(PingBack != null)
+				{
+					PingBack.Text = TrackHelpers.PingPackTag;
+				}
+				if(TrackBack != null)
+				{
+					TrackBack.Text = TrackHelpers.TrackBackTag(entry);
+				}
 			}
 			else 
 			{
@@ -141,7 +151,7 @@ namespace Subtext.Web.UI.Controls
 					{
 						//We'll slap on our little pencil icon.
 						editLink.ImageUrl = "~/Images/edit.gif";
-						editLink.Attributes["Title"] = "Edit Entry";
+						editLink.Attributes["title"] = "Edit Entry";
 						editLink.NavigateUrl = UrlFormats.GetEditLink(entry);
 					}
 				}

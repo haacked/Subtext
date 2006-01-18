@@ -10,6 +10,7 @@
 		<link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" runat="Server" />
 		<asp:Literal ID="styles" Runat="server" />
 		<asp:Literal ID="scripts" Runat="server" />
+		<asp:Literal ID="pinbackLinkTag" runat="server" />
 	</head>
 	<body>
 		<form id="Form1" method="post" runat="server">
