@@ -100,8 +100,8 @@ namespace Subtext.Web.UI.Controls
 					{
 						if(permalink.Attributes["Format"] != null)
 						{
-
 							permalink.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Link, entry.DateCreated.ToString(permalink.Attributes["Format"]));
+							permalink.Attributes.Remove("Format");
 						}
 						else
 						{
@@ -114,8 +114,8 @@ namespace Subtext.Web.UI.Controls
 					{
 						if(postDate.Attributes["Format"] != null)
 						{
-
 							postDate.Text = entry.DateCreated.ToString(postDate.Attributes["Format"]);
+							postDate.Attributes.Remove("Format");
 						}
 						else
 						{
@@ -170,7 +170,7 @@ namespace Subtext.Web.UI.Controls
 					{
 						//We'll slap on our little pencil icon.
 						editLink.ImageUrl = "~/Images/edit.gif";
-						editLink.Attributes["Title"] = "Edit Entry";
+						editLink.Attributes["title"] = "Edit Entry";
 						editLink.NavigateUrl = UrlFormats.GetEditLink(entry);
 					}
 				}
