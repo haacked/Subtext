@@ -44,6 +44,7 @@ namespace Subtext.Web.UI.Controls
 		protected System.Web.UI.WebControls.TextBox tbUrl;
 		protected System.Web.UI.WebControls.TextBox tbComment;
 		protected System.Web.UI.WebControls.Button btnSubmit;
+		protected Subtext.Web.Controls.CompliantButton btnCompliantSubmit;
 		protected System.Web.UI.WebControls.Label Message;
 		protected System.Web.UI.WebControls.CheckBox chkRemember;
 		
@@ -103,7 +104,15 @@ namespace Subtext.Web.UI.Controls
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
+			if(this.btnSubmit != null)
+			{
+				this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
+			}
+
+			if(this.btnCompliantSubmit != null)
+			{
+				this.btnCompliantSubmit.Click += new EventHandler(this.btnSubmit_Click);
+			}
 			//this.Load += new System.EventHandler(this.Page_Load);
 
 		}
