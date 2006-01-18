@@ -1365,22 +1365,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "Install\ConnectionStringBuilder.ascx"
-                    SubType = "UserControl"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Install\ConnectionStringBuilder.ascx.cs"
-                    DependentUpon = "ConnectionStringBuilder.ascx"
-                    SubType = "ASPXCodeBehind"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Install\ConnectionStringBuilder.ascx.resx"
-                    DependentUpon = "ConnectionStringBuilder.ascx.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "Install\Default.aspx"
                     SubType = "Form"
                     BuildAction = "Content"
@@ -1484,22 +1468,6 @@
                 <File
                     RelPath = "Install\Step04_CreateBlog.aspx.resx"
                     DependentUpon = "Step04_CreateBlog.aspx.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Install\StringConnectionControlTestPage.aspx"
-                    SubType = "Form"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Install\StringConnectionControlTestPage.aspx.cs"
-                    DependentUpon = "StringConnectionControlTestPage.aspx"
-                    SubType = "ASPXCodeBehind"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Install\StringConnectionControlTestPage.aspx.resx"
-                    DependentUpon = "StringConnectionControlTestPage.aspx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
