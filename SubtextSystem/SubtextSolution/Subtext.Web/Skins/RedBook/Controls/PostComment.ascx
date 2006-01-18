@@ -15,7 +15,7 @@
 				ControlToValidate="tbComment"></asp:RequiredFieldValidator>
 	</p>
 	<asp:CheckBox id="chkRemember" runat="server" Text="Remember Me?" Visible="False" TabIndex="5"></asp:CheckBox>
-	<p><sub:CompliantButton id="Compliantbutton1" CssClass="buttonSubmit" runat="server" Text="Post" TabIndex="6"></sub:CompliantButton>
+	<p><sub:CompliantButton id="btnCompliantSubmit" CssClass="buttonSubmit" runat="server" Text="Post" TabIndex="6"></sub:CompliantButton>
 	   <asp:Label id="Message" runat="server" ForeColor="Red" /></p>
 	<div id="stylesheetTest"></div>
 </fieldset>
