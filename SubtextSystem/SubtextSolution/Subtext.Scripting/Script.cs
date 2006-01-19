@@ -9,8 +9,6 @@ namespace Subtext.Scripting
 {
 	/// <summary>
 	/// Represents a single executable script within the full SQL script.
-	/// //TODO: want to implement a means to evaluate template variables 
-	///			like in Sql Query Analyzer.
 	/// </summary>
 	public class Script : IScript, ITemplateScript
 	{
