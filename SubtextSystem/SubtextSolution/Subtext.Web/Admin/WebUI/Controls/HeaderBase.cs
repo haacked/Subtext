@@ -24,6 +24,7 @@
 using System;
 using System.Web;
 using System.Web.UI;
+using Subtext.Framework.Format;
 
 namespace Subtext.Web.Admin.WebUI
 {

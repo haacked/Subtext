@@ -1,5 +1,6 @@
 using System;
 using System.Web;
+using Subtext.Framework.Format;
 
 namespace Subtext.Framework.Exceptions
 {

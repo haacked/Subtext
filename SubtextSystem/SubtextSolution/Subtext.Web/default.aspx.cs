@@ -26,6 +26,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Data;
@@ -77,7 +78,7 @@ namespace Subtext.Web
 		private void SetStyle()
 		{
 			const string style = "<link href=\"{0}{1}\" type=\"text/css\" rel=\"stylesheet\">";
-			string apppath = Request.ApplicationPath.EndsWith("/") ? Request.ApplicationPath : Request.ApplicationPath + "/";
+			string apppath = HttpContext.Current.Request.ApplicationPath.EndsWith("/") ? HttpContext.Current.Request.ApplicationPath : HttpContext.Current.Request.ApplicationPath + "/";
 			Style.Text = string.Format(style,apppath,"Style.css") + "\n" + string.Format(style,apppath,"blue.css");
 
 		}
@@ -88,7 +89,7 @@ namespace Subtext.Web
 		{
 			if(appPath == null)
 			{
-				appPath = Request.ApplicationPath;
+				appPath = HttpContext.Current.Request.ApplicationPath;
 				if(!appPath.ToLower(System.Globalization.CultureInfo.InvariantCulture).EndsWith("/"))
 				{
 					appPath += "/";

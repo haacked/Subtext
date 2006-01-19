@@ -29,6 +29,7 @@ using System.Text;
 using System.Web;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
+using Subtext.Framework.Format;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
 
@@ -55,7 +56,7 @@ namespace Subtext.Web.Admin
 				if (null != path && path.StartsWith("~"))
 				{
 					string relativePath = path.Substring(1, path.Length - 1);				
-					string appPath = System.Web.HttpContext.Current.Request.ApplicationPath;
+					string appPath = HttpContext.Current.Request.ApplicationPath;
 
 					bool caseSensitive = true;
 					if(StringHelper.StartsWith(relativePath, ADMIN_DEFAULT, !caseSensitive))

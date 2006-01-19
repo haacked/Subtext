@@ -48,7 +48,8 @@ namespace Subtext.Scripting
 		}
 
 		/// <summary>
-		/// Gets the script text.
+		/// Gets the script text after applying template parameter replacements. 
+		/// This is the text of the script that will actually get executed.
 		/// </summary>
 		/// <value></value>
 		public string ScriptText
@@ -56,6 +57,18 @@ namespace Subtext.Scripting
 			get
 			{
 				return ApplyTemplateReplacements();
+			}
+		}
+
+		/// <summary>
+		/// Gets the original script text.
+		/// </summary>
+		/// <value>The original script text.</value>
+		public string OriginalScriptText
+		{
+			get
+			{
+				return this._scriptText;
 			}
 		}
 

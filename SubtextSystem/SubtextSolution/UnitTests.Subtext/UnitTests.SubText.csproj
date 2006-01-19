@@ -184,6 +184,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ReflectionHelper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "SimulatedHttpRequest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -202,10 +207,6 @@
                     RelPath = "UnitTestImportProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ExternalDependencies\MbUnit.Core.dll"
-                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "ExternalDependencies\MbUnit.Framework.1.1.dll"

@@ -24,6 +24,15 @@ namespace UnitTests.Subtext
 		{
 			if(host == null || host.Length == 0)
 				throw new ArgumentNullException("host", "Host cannot be null nor empty.");
+
+			if(appVirtualDir == null)
+				throw new ArgumentNullException("appVirtualDir", "Can't create a request with a null virtual dir. Try empty string.");
+
+			if(appVirtualDir.Length > 0)
+				Console.WriteLine("Debug: AppVirtualDir = " + appVirtualDir);
+			else
+				Console.WriteLine("Debug: Empty Virtual Dir");
+			
 			_host = host;
 		}
 
@@ -45,6 +54,14 @@ namespace UnitTests.Subtext
 		{
 			return Path.Combine(this.GetAppPath(), virtualPath);
 		}
+
+		public override string GetAppPath()
+		{
+			string appPath = base.GetAppPath();
+			Console.WriteLine("DEBUG: Calling GetAppPath()... returning {" + appPath + "}");
+			return appPath;
+		}
+
 
 	}
 }

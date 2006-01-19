@@ -48,7 +48,7 @@ namespace UnitTests.Subtext.Installation
 				+ Environment.NewLine 
 				+ Environment.NewLine + "CREATE TABLE [<username,varchar,dbo>].[blog_Gost]";
 
-			Assert.AreEqual(expectedThirdScriptBeginning, scripts[2].ScriptText.Substring(0, expectedThirdScriptBeginning.Length), "Script not parsed correctly");
+			Assert.AreEqual(expectedThirdScriptBeginning, scripts[2].OriginalScriptText.Substring(0, expectedThirdScriptBeginning.Length), "Script not parsed correctly");
 	
 			scripts.TemplateParameters.SetValue("username", "haacked");
 			

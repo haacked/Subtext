@@ -91,15 +91,9 @@ namespace Subtext.Web.UI.Skinning
 
 		public static string SkinPath(string skin)
 		{
-			
-			return SkinPath(skin,HttpContext.Current);
-		}
-
-		public static string SkinPath(string skin, HttpContext context)
-		{
 			try
 			{
-				return Path.Combine(context.Request.ApplicationPath, "Skins/" + SkinTemplates.Instance(context).GetTemplate(skin).Skin + "/");
+				return Path.Combine(HttpContext.Current.Request.ApplicationPath, "Skins/" + SkinTemplates.Instance().GetTemplate(skin).Skin + "/");
 			}
 			catch
 			{

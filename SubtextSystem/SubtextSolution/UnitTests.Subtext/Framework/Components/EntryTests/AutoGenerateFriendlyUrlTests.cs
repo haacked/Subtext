@@ -20,8 +20,11 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		/// Makes sure we are generating nice friendly URLs.
 		/// </summary>
 		[Test]
+		[RollBack]
 		public void FriendlyUrlGeneratesNiceUrl()
 		{
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+
 			string[][] testPairs = new string[][] 
 			{
 				new string[] {"Title", "Title"}, 
@@ -131,7 +134,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		public void SetUp()
 		{
 			_hostName = System.Guid.NewGuid().ToString().Replace("-", "") + ".com";
-			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, string.Empty);
+			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "");
 		}
 
 		[TearDown]

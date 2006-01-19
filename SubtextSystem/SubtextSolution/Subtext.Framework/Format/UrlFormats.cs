@@ -171,7 +171,7 @@ namespace Subtext.Framework.Format
 		/// <param name="path">Path.</param>
 		/// <param name="app">App.</param>
 		/// <returns></returns>
-		public static string GetBlogApplicationNameFromRequest(string path, string app)
+		public static string GetBlogNameFromRequest(string path, string app)
 		{
 			if(path == null)
 				throw new ArgumentNullException("path", "The path cannot be null.");
@@ -287,6 +287,9 @@ namespace Subtext.Framework.Format
 		{
 			// Either "" or "Subtext.Web" for ex...
 			String appPath = UrlFormats.StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
+			if(appPath == null)
+				appPath = string.Empty;
+
 			if(appPath.Length == 0)
 				appPath = "/" + folderName + "/";
 			else
@@ -295,8 +298,16 @@ namespace Subtext.Framework.Format
 			return StringHelper.IndexOf(HttpContext.Current.Request.Path, appPath, false) >= 0;
 		}
 
+		/// <summary>
+		/// Strips the surrounding slashes from the specified string.
+		/// </summary>
+		/// <param name="target">The target.</param>
+		/// <returns></returns>
 		public static string StripSurroundingSlashes(string target)
 		{
+			if(target == null)
+				throw new ArgumentNullException("target", "The target to strip slashes from is null.");
+
 			if(target.EndsWith("/"))
 				target = target.Remove(target.Length - 1, 1);
 			if(target.StartsWith("/"))

@@ -19,9 +19,8 @@ namespace UnitTests.Subtext
 		/// Will look for the configuration in the cache first using the 
 		/// key "BlogConfig-".
 		/// </remarks>
-		/// <param name="context">Context.</param>
 		/// <returns></returns>
-		public override BlogInfo GetBlogInfo(HttpContext context)
+		public override BlogInfo GetBlogInfo()
 		{
 			return _config;	
 		}

@@ -38,19 +38,14 @@ namespace Subtext.Web.UI.Skinning
 	{
 		public static SkinTemplates Instance()
 		{
-			return Instance(HttpContext.Current);
-		}
-		
-		public static SkinTemplates Instance(HttpContext context)
-		{
-			SkinTemplates st = (SkinTemplates)context.Cache["SkinTemplates"];
+			SkinTemplates st = (SkinTemplates)HttpContext.Current.Cache["SkinTemplates"];
 			if(st == null)
 			{
-				string filename = context.Request.MapPath("~/Admin/Skins.config");
+				string filename = HttpContext.Current.Request.MapPath("~/Admin/Skins.config");
 				st = (SkinTemplates)SerializationHelper.Load(typeof(SkinTemplates),filename);
 				if(st != null)
 				{
-					context.Cache.Insert("SkinTemplates",st,new CacheDependency(filename));
+					HttpContext.Current.Cache.Insert("SkinTemplates",st,new CacheDependency(filename));
 				}
 			}
 			return st;

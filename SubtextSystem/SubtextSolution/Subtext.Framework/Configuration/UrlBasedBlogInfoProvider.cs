@@ -55,15 +55,6 @@ namespace Subtext.Framework.Configuration
 		}
 
 		#region IConfig
-		/// <summary>
-		/// Gets the blog configuration based on the current http context.
-		/// </summary>
-		/// <returns></returns>
-		public BlogInfo GetBlogInfo()
-		{
-			return GetBlogInfo(HttpContext.Current);
-		}
-
 		private int _blogID;
 		/// <summary>
 		/// Gets or sets the blog ID.
@@ -128,15 +119,14 @@ namespace Subtext.Framework.Configuration
 		/// It will next check the cache.
 		/// </summary>
 		/// <returns></returns>
-		public virtual BlogInfo GetBlogInfo(HttpContext context)
+		public virtual BlogInfo GetBlogInfo()
 		{
 			// First check the context for an existing BlogConfig. This saves us the trouble
 			// of having to figure out which blog we are at.
-			BlogInfo info = (BlogInfo)context.Items[cacheKey];
+			BlogInfo info = (BlogInfo)HttpContext.Current.Items[cacheKey];
 			if(info == null)
 			{
-				log.Debug("BlogInfo was not in context cache using cacheKey '" + cacheKey + "'");
-				string app = UrlFormats.GetBlogApplicationNameFromRequest(context.Request.RawUrl, context.Request.ApplicationPath);
+				string app = UrlFormats.GetBlogNameFromRequest(HttpContext.Current.Request.RawUrl, HttpContext.Current.Request.ApplicationPath);
 
 				if(!Config.IsValidApplicationName(app))
 					app = string.Empty;
@@ -145,7 +135,7 @@ namespace Subtext.Framework.Configuration
 				string mCacheKey = cacheKey + app;
 
 				//check the cache.
-				info = (BlogInfo)context.Cache[mCacheKey];
+				info = (BlogInfo)HttpContext.Current.Cache[mCacheKey];
 				if(info == null)
 				{
 					//Not found in the cache
@@ -173,7 +163,7 @@ namespace Subtext.Framework.Configuration
 					BlogConfigurationSettings settings = Subtext.Framework.Configuration.Config.Settings;
 
 					// look here for issues with gallery images not showing up.
-					string webApp=HttpContext.Current.Request.ApplicationPath;
+					string webApp = HttpContext.Current.Request.ApplicationPath;
 
 					if(webApp.Length<=1)
 						webApp="";
@@ -193,15 +183,15 @@ namespace Subtext.Framework.Configuration
 					info.ImagePath = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}/{1}", formattedHost, virtualPath);
 					try
 					{
-						info.ImageDirectory = context.Request.MapPath("~/" + virtualPath);
+						info.ImageDirectory = HttpContext.Current.Request.MapPath("~/" + virtualPath);
 					}
 					catch(NullReferenceException nullException)
 					{
 						log.Warn("Could not map the image directory.", nullException);
 					}
 
-					CacheConfig(context.Cache, info, mCacheKey);
-					context.Items.Add(cacheKey, info);
+					CacheConfig(HttpContext.Current.Cache, info, mCacheKey);
+					HttpContext.Current.Items.Add(cacheKey, info);
 
 					if(!InstallationManager.IsInHostAdminDirectory)
 					{
@@ -215,7 +205,7 @@ namespace Subtext.Framework.Configuration
 				}
 				else
 				{
-					context.Items.Add(cacheKey, info);
+					HttpContext.Current.Items.Add(cacheKey, info);
 				}
 			}
 
