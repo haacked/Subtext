@@ -232,6 +232,8 @@ namespace Subtext.Web.Controls
 				if(reference.Substring(0, 2) == "~/")
 				{
 					string appPath = Context.Request.ApplicationPath;
+					if(appPath == null)
+						appPath = string.Empty;
 					if(appPath.EndsWith("/"))
 					{
 						appPath = appPath.Substring(0, appPath.Length - 1);

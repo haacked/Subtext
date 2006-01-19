@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.Web;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -161,7 +162,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 			this.txtHost.Attributes["onkeyup"] = onChangeScript;
 			this.txtHost.Attributes["onblur"] = onBlurScript;
 
-			this.virtualDirectory.Value = Request.ApplicationPath.Replace("/", string.Empty);
+			this.virtualDirectory.Value = HttpContext.Current.Request.ApplicationPath.Replace("/", string.Empty);
 		}
 
 		// Contains the various help strings

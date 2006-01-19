@@ -297,6 +297,8 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static bool IsInRole(string role)
 		{
+			if(HttpContext.Current.User == null)
+				return false;
 			return HttpContext.Current.User.IsInRole(role);
 		}
 

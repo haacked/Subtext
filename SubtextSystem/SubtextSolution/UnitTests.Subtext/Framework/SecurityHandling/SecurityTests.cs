@@ -36,6 +36,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		/// Basically a regression test of the HashPasswordMethod.
 		/// </summary>
 		[Test]
+		[RollBack]
 		public void HashPasswordReturnsProperHash()
 		{
 			Config.CreateBlog("", "username", "thePassword", _hostName, "MyBlog");
@@ -56,6 +57,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		/// Ensures HashesPassword is case sensitive.
 		/// </summary>
 		[Test]
+		[RollBack]
 		public void HashPasswordIsCaseSensitive()
 		{
 			string lowercase = "password";
@@ -69,6 +71,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		/// bitconverter created password.
 		/// </summary>
 		[Test]
+		[RollBack]
 		public void OldBitConverterPasswordUnderstood()
 		{
 			Config.CreateBlog("", "username", "thePassword", _hostName, "MyBlog");

@@ -1,6 +1,5 @@
 using System;
 using System.Configuration;
-using System.Web;
 using Subtext.Framework.Components;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Providers;
@@ -39,7 +38,7 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
-				return ConfigurationProvider.GetBlogInfo(HttpContext.Current);
+				return ConfigurationProvider.GetBlogInfo();
 			}
 		}
 

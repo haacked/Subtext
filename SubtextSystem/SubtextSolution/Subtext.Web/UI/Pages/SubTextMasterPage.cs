@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Format;
 using Subtext.Web.UI.Skinning;
 
 namespace Subtext.Web.UI.Pages
@@ -50,7 +51,7 @@ namespace Subtext.Web.UI.Pages
 				CenterBodyControl.Controls.Add(c);
 			}
 
-			string path = (Context.Request.ApplicationPath + "/skins/" + skin + "/").Replace("//","/");
+			string path = (HttpContext.Current.Request.ApplicationPath + "/skins/" + skin + "/").Replace("//","/");
 
 			MainStyle.Attributes.Add("href", path + "style.css");
 
@@ -73,12 +74,12 @@ namespace Subtext.Web.UI.Pages
 			// if specified, add script elements
 			if (scripts != null)
 			{
-				scripts.Text = __scriptRenderer.RenderScriptElementCollection(Context, skin);
+				scripts.Text = __scriptRenderer.RenderScriptElementCollection(skin);
 			}
 
 			if(styles != null)
 			{
-				styles.Text = __styleRenderer.RenderStyleElementCollection(Context, skin);
+				styles.Text = __styleRenderer.RenderStyleElementCollection(skin);
 			}
 		}
 
@@ -176,21 +177,21 @@ namespace Subtext.Web.UI.Pages
 					"></script>\n";
 			}
 
-			private string CreateSkinPath(HttpContext httpContext, string skinName)
+			private string CreateSkinPath(string skinName)
 			{
-				string applicationPath = httpContext.Request.ApplicationPath;
+				string applicationPath = HttpContext.Current.Request.ApplicationPath;
 				return (applicationPath == "/" ? String.Empty : applicationPath) + "/Skins/" + skinName + "/";
 			}
 
-			public string RenderScriptElementCollection(HttpContext httpContext, string skinName)
+			public string RenderScriptElementCollection(string skinName)
 			{
 				string result = String.Empty;
 
-				SkinTemplates skinTemplates = SkinTemplates.Instance(httpContext);
+				SkinTemplates skinTemplates = SkinTemplates.Instance();
 				SkinTemplate skinTemplate = skinTemplates.GetTemplate(skinName);
 				if (skinTemplate != null && skinTemplate.Scripts != null)
 				{
-					string skinPath = CreateSkinPath(httpContext, skinName);
+					string skinPath = CreateSkinPath(skinName);
 					foreach(Script script in skinTemplate.Scripts)
 					{
 						result += RenderScriptElement(skinPath, script);
@@ -226,23 +227,23 @@ namespace Subtext.Web.UI.Pages
 					"></link>" + Environment.NewLine;
 			}
 
-			private string CreateStylePath(HttpContext httpContext, string skinName)
+			private string CreateStylePath(string skinName)
 			{
-				string applicationPath = httpContext.Request.ApplicationPath;
+				string applicationPath = HttpContext.Current.Request.ApplicationPath;
 				string path = (applicationPath == "/" ? String.Empty : applicationPath) + "/Skins/" + skinName + "/";
 				return path;
 			}
 
-			public string RenderStyleElementCollection(HttpContext httpContext, string skinName)
+			public string RenderStyleElementCollection(string skinName)
 			{
 				string result = String.Empty;
 
-				SkinTemplates skinTemplates = SkinTemplates.Instance(httpContext);
+				SkinTemplates skinTemplates = SkinTemplates.Instance();
 				SkinTemplate skinTemplate = skinTemplates.GetTemplate(skinName);
 				
 				if (skinTemplate != null && skinTemplate.Styles != null)
 				{
-					string skinPath = CreateStylePath(httpContext, skinName);
+					string skinPath = CreateStylePath(skinName);
 					foreach(Style style in skinTemplate.Styles)
 					{
 						result += RenderStyleElement(skinPath, style);

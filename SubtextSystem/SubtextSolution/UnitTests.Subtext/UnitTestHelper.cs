@@ -145,8 +145,9 @@ namespace UnitTests.Subtext
 			HttpContext.Current = new HttpContext(workerRequest);
 
 			Console.WriteLine("host: " + host);
-			Console.WriteLine("page: " + page);
+			Console.WriteLine("blogName: " + blogName);
 			Console.WriteLine("virtualDir: " + virtualDir);
+			Console.WriteLine("page: " + page);
 			Console.WriteLine("appPhysicalDir: " + appPhysicalDir);
 			Console.WriteLine("Request.Url.Host: " + HttpContext.Current.Request.Url.Host);
 			Console.WriteLine("Request.FilePath: " + HttpContext.Current.Request.FilePath);

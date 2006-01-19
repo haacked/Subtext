@@ -22,6 +22,7 @@
 #endregion
 
 using System;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
@@ -65,7 +66,7 @@ namespace Subtext.Web.Admin
 			{
 				if(this._resourcePath == null)
 				{
-					this._resourcePath = Globals.WebPathCombine(Request.ApplicationPath,  "/admin/");
+					this._resourcePath = Globals.WebPathCombine(HttpContext.Current.Request.ApplicationPath,  "/admin/");
 				}
 				return this._resourcePath;
 			}
