@@ -9,11 +9,21 @@ namespace Subtext.Scripting
 	/// </summary>
 	public class ConnectionString
 	{
+		private static ConnectionString _emptyConnectionString = new ConnectionString();
+
 		string _connectionFormatString = "{0}={1};{2}={3};User ID={4};Password={5};{6}";
 		string _databaseFieldName;
 		string _serverFieldName;
 		string _securityType;
 		string _securityTypeText;
+		
+		/// <summary>
+		/// Return an empty instance of connection string
+		/// </summary>
+		public static ConnectionString Empty
+		{
+			get {return _emptyConnectionString;}
+		}
 		
 		/// <summary>
 		/// Parses the specified connection string.
@@ -28,7 +38,7 @@ namespace Subtext.Scripting
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ConnectionString"/> class.
 		/// </summary>
-		public ConnectionString()
+		private ConnectionString()
 		{
 		}
 
