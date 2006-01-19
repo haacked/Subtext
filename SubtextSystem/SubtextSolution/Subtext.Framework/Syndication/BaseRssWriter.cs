@@ -102,7 +102,6 @@ namespace Subtext.Framework.Syndication
 			
 			//Optional Channel Elements
 			this.WriteElementString("language", lang);
-			this.WriteElementString("dc:language", lang);
 			//TODO: Implement this element.
 			this.WriteElementString("copyright", copyright);
 
@@ -212,7 +211,6 @@ namespace Subtext.Framework.Syndication
 			//TODO: Perform real email auth.
 			if(entry.Email != null && entry.Email.Length > 0 && entry.Email.IndexOf('@') > 0)
 				this.WriteElementString("author", entry.Email);
-			this.WriteElementString("dc:creator", entry.Author);
 			this.WriteElementString("guid", entry.Link);
 			this.WriteElementString("pubDate", entry.DateCreated.ToString("r"));			
 			
