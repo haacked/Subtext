@@ -86,8 +86,7 @@ namespace Subtext.Framework.Format
 
 		public virtual string CommentUrl(Entry ParentEntry, Entry ChildEntry)
 		{
-			return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}#{1}",ParentEntry.Link,ChildEntry.EntryID);
-			//return PostUrl(dt,EntryID) + "#FeedBack";
+			return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}#{1}", ParentEntry.Link, ChildEntry.EntryID);
 		}
 
 		public virtual string CommentUrl(Entry entry)

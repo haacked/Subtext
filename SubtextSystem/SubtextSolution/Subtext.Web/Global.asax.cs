@@ -110,7 +110,7 @@ namespace Subtext
 			//		I assume we do this but haven't checked.
 			try
 			{
-				if (Request.UserLanguages.Length > 0 && Request.UserLanguages[0] != null) 
+				if (Request.UserLanguages != null && Request.UserLanguages.Length > 0 && Request.UserLanguages[0] != null) 
 				{
 					Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(Request.UserLanguages[0]);
 					Thread.CurrentThread.CurrentUICulture = new CultureInfo(Request.UserLanguages[0]);
@@ -260,11 +260,17 @@ namespace Subtext
 				{
 					return;
 				}
-				
-				// I don't know that Context can ever be null in the pipe, but we'll play it
-				// extra safe. If customErrors are off, we'll just let ASP.NET default happen.
-				if (Context != null && Context.IsCustomErrorEnabled)
-					Server.Transfer(ERROR_PAGE_LOCATION, false);
+			}
+
+			// I don't know that Context can ever be null in the pipe, but we'll play it
+			// extra safe. If customErrors are off, we'll just let ASP.NET default happen.
+			if (Context != null && Context.IsCustomErrorEnabled)
+			{
+				Server.Transfer(ERROR_PAGE_LOCATION, false);
+			}
+			else
+			{
+				log.Error("Unhandled Exception trapped in Global.asax", exception);
 			}
 		}
 

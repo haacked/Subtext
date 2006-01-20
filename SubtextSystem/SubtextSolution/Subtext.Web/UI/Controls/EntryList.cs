@@ -39,8 +39,8 @@ namespace Subtext.Web.UI.Controls
 		protected System.Web.UI.WebControls.Literal EntryCollectionDescription;
 		protected System.Web.UI.WebControls.HyperLink EntryCollectionReadMoreLink;
 
-		const string linkToComments = "<a href=\"{0}#FeedBack\" title=\"View and Add Comments\">{1}{2}</a>";
-		const string postdescWithComments = "posted @ <a href=\"{0}\" title = \"Permanent link to this post\">{1}</a> | <a href=\"{2}#FeedBack\" title = \"comments, pingbacks, trackbacks\">Feedback ({3})</a>";
+		const string linkToComments = "<a href=\"{0}#feedback\" title=\"View and Add Comments\">{1}{2}</a>";
+		const string postdescWithComments = "posted @ <a href=\"{0}\" title = \"Permanent link to this post\">{1}</a> | <a href=\"{2}#feedback\" title = \"comments, pingbacks, trackbacks\">Feedback ({3})</a>";
 		const string postdescWithNoComments = "posted @ <a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>";
 		
 		protected virtual void PostCreated(object sender,  RepeaterItemEventArgs e)
