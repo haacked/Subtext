@@ -23,13 +23,17 @@
 
 using System;
 using System.Text;
+using System.Web;
 using System.Web.UI;
+using log4net;
 using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Pages
 {
 	public class Error : Page
-	{		
+	{
+		private readonly static ILog log = new Subtext.Framework.Logging.Log();
+
 		protected System.Web.UI.WebControls.Label ErrorMessageLabel;
 		protected System.Web.UI.WebControls.Label ErrorTitle;
 		protected Subtext.Web.Controls.ContentRegion MPTitleBar;
@@ -50,35 +54,33 @@ namespace Subtext.Web.Pages
 				catch
 				{
 					HomeLink.Visible = false;
+				}				
+				
+				Exception exception = Server.GetLastError();
+				if(exception == null || exception is HttpUnhandledException)
+				{
+					if(exception == null || exception.InnerException == null)
+					{
+						// There is no exception. User probably browsed here.
+						this.ErrorMessageLabel.Text = "No error message available.";
+						return;
+					}
+					exception = exception.InnerException;
 				}
 
-				string noExceptionFound = "No error message available.";
 				StringBuilder exceptionMsgs = new StringBuilder();
 				
-				Exception lastException = Server.GetLastError();
-				Exception baseException = null;
-				if(lastException != null)
-					baseException = Server.GetLastError().GetBaseException();
-
-				if(baseException != null)
+				if (exception is System.IO.FileNotFoundException)
 				{
-					if (baseException is System.IO.FileNotFoundException)
-					{
-						exceptionMsgs.Append("<p>The resource you requested could not be found.</p>");
-					}
-					else
-					{
-						exceptionMsgs.AppendFormat("<p>{0}</p>", baseException.Message);
-					}
-
-					baseException = baseException.InnerException;
-					Server.ClearError();
+					exceptionMsgs.Append("<p>The resource you requested could not be found.</p>");
 				}
 				else
 				{
-					exceptionMsgs.Append(noExceptionFound);
+					log.Error("Exception handled by the Error page.", exception);
+					exceptionMsgs.AppendFormat("<p>{0}</p>", exception.Message);
 				}
-				
+
+				Server.ClearError();
 				this.ErrorMessageLabel.Text = exceptionMsgs.ToString();
 			}
 		}

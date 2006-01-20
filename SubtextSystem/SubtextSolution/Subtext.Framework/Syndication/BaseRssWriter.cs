@@ -221,7 +221,7 @@ namespace Subtext.Framework.Syndication
 				this.WriteElementString("wfw:comment", uformat.CommentApiUrl(entry.EntryID));
 			}
 
-			this.WriteElementString("comments", entry.Link + "#Feedback");
+			this.WriteElementString("comments", entry.Link + "#feedback");
 			
 			if(entry.FeedBackCount > 0)
 				this.WriteElementString("slash:comments", entry.FeedBackCount.ToString(CultureInfo.InvariantCulture));

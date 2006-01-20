@@ -248,7 +248,7 @@ namespace Subtext.Framework.Syndication
 				//optional for CommentApi Post location
 				this.WriteElementString("wfw:comment",uformat.CommentApiUrl(entry.EntryID));
 				//optional url for comments
-				//this.WriteElementString("comments",entry.Link + "#Feedback");
+				//this.WriteElementString("comments",entry.Link + "#feedback");
 				//optional comment count
 				this.WriteElementString("slash:comments",entry.FeedBackCount.ToString(CultureInfo.InvariantCulture));
 				//optional commentRss feed location
