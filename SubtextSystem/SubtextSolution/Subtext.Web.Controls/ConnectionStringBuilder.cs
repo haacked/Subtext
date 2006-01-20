@@ -41,6 +41,7 @@ namespace Subtext.Web.Controls
 		/// <param name="e"></param>
 		protected override void OnPreRender(EventArgs e)
 		{
+			this.Page.Trace.Write("PreRender");
 			this.TitleLiteralControl.Text = this.Title;
 			this.DescriptionLiteralControl.Text = this.Description;
 			base.OnPreRender(e);
@@ -51,6 +52,7 @@ namespace Subtext.Web.Controls
 		/// </summary>
 		protected override void CreateChildControls()
 		{
+			this.Page.Trace.Write("CreateChildControls");
 			HtmlTable table = new HtmlTable();
 			table.CellPadding = 3;
 			table.CellSpacing = 0;
@@ -74,11 +76,12 @@ namespace Subtext.Web.Controls
 			row.VAlign = "top";
 			HtmlTableCell questionCell = new HtmlTableCell();
 
-			// Verify is SQL-DMO is installed
+			// TODO: Verify is SQL-DMO is installed
 			if(CheckSQLDMO()) 
 			{
 				//Build advanced control
-				BuildAdvancedBuilder();
+				HtmlTable connBuilderTable=BuildAdvancedBuilder();
+				questionCell.Controls.Add(connBuilderTable);
 			}
 			else 
 			{
@@ -121,11 +124,12 @@ namespace Subtext.Web.Controls
 		/// Build the advanced Connection String Builder
 		/// Build the UI, attach events, and populate the fields
 		/// </summary>
-		private void BuildAdvancedBuilder() 
+		private HtmlTable BuildAdvancedBuilder() 
 		{
-			BuildMainTable();
+			HtmlTable connBuilderTable=BuildMainTable();
 			AttachEvents();
 			LoadData();
+			return connBuilderTable;
 		}
 
 
@@ -133,7 +137,7 @@ namespace Subtext.Web.Controls
 		/// <summary>
 		/// Build the main UI Table
 		/// </summary>
-		private void BuildMainTable() 
+		private HtmlTable BuildMainTable() 
 		{
 			HtmlTable mainTable = new HtmlTable();
 			mainTable.Rows.Add(BuildServerNameRow());
@@ -142,7 +146,7 @@ namespace Subtext.Web.Controls
 			mainTable.Rows.Add(BuildPasswordRow());
 			mainTable.Rows.Add(BuildDatabaseRow());
 			mainTable.Rows.Add(BuildTestConnRow());
-			Controls.Add(mainTable);
+			return mainTable;
 			
 		}
 
@@ -160,7 +164,7 @@ namespace Subtext.Web.Controls
 			otherMachineName= new TextBox();
 			otherMachineName.TextMode=TextBoxMode.SingleLine;
 			cell.Controls.Add(machineName);
-			cell.Controls.Add(new HtmlGenericControl("br"));
+			cell.Controls.Add(new LiteralControl("<br />"));
 			cell.Controls.Add(otherMachineName);
 			row.Cells.Add(cell);
 
@@ -237,6 +241,7 @@ namespace Subtext.Web.Controls
 			refreshDatabase=new LinkButton();
 			refreshDatabase.Text="Refresh Databases";
 			cell.Controls.Add(databaseName);
+			cell.Controls.Add(new LiteralControl("<br />"));
 			cell.Controls.Add(refreshDatabase);
 			row.Cells.Add(cell);
 
@@ -255,7 +260,7 @@ namespace Subtext.Web.Controls
 			connResult= new Label();
 			connResult.Text="";
 			cell.Controls.Add(testConnection);
-			cell.Controls.Add(new HtmlGenericControl("br"));
+			cell.Controls.Add(new LiteralControl("<br />"));
 			cell.Controls.Add(connResult);
 			row.Cells.Add(cell);
 
@@ -375,7 +380,7 @@ namespace Subtext.Web.Controls
 		private void SetConnectionString()
 		{
 			_connStr.TrustedConnection = authMode.SelectedValue.Equals("win");
-			if(machineName.SelectedIndex!=-1)
+			if(otherMachineName.Text.Trim().Equals(""))
 				_connStr.Server = machineName.SelectedValue;
 			else
 				_connStr.Server = otherMachineName.Text;
@@ -437,12 +442,12 @@ namespace Subtext.Web.Controls
 					}
 				}
 			}
-			catch(Exception)
+			catch(Exception ex)
 			{
-				
+				connResult.Text="Connection Failed:" + ex.Message;
 			}
 
-			connResult.Text="Connection Failed";
+			
 		}
 
 		/// <summary>
@@ -485,6 +490,7 @@ namespace Subtext.Web.Controls
 					return System.Configuration.ConfigurationSettings.AppSettings["ConnectionString"];
 				if(CheckSQLDMO()) 
 				{
+					SetConnectionString();
 					return _connStr.ToString();
 				}
 				else
