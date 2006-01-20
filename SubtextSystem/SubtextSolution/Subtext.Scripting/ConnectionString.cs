@@ -12,8 +12,9 @@ namespace Subtext.Scripting
 		private static ConnectionString _emptyConnectionString = new ConnectionString();
 
 		string _connectionFormatString = "{0}={1};{2}={3};User ID={4};Password={5};{6}";
-		string _databaseFieldName;
-		string _serverFieldName;
+		string _trustedConnectionFormatString = "{0}={1};{2}={3};{4}";
+		string _databaseFieldName="Database";
+		string _serverFieldName="Server";
 		string _securityType;
 		string _securityTypeText;
 		
@@ -112,7 +113,7 @@ namespace Subtext.Scripting
 					_securityType="true";
 					_securityTypeText="Trusted_Connection=true";
 				}
-				else _securityType=String.Empty;
+				else _securityType=_securityTypeText=String.Empty;
 			}
 		}
 
@@ -124,7 +125,10 @@ namespace Subtext.Scripting
 		/// </returns>
 		public override string ToString()
 		{
-			return string.Format(_connectionFormatString, _serverFieldName, _server, _databaseFieldName, _database, _userId, _password, _securityTypeText);
+			if(TrustedConnection)
+				return string.Format(_trustedConnectionFormatString, _serverFieldName, _server, _databaseFieldName, _database, _securityTypeText);
+			else
+				return string.Format(_connectionFormatString, _serverFieldName, _server, _databaseFieldName, _database, _userId, _password, _securityTypeText);
 		}
 
 		private ConnectionString(string connectionString)
