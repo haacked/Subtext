@@ -264,7 +264,7 @@ namespace Subtext.Framework.Import
 			string[] imagesURLs = SgmlUtil.GetAttributeValues(content, "img", "src");
 			string imageURL = null;
 			string appFullRootUrl = "http://" + Config.CurrentBlog.Host.ToLower() 
-				+ StringHelper.ReturnCheckForNull(HttpContext.Current.Request.ApplicationPath);
+				+ StringHelper.ReturnCheckForNull(HttpContext.Current.Request.ApplicationPath).ToLower();
 			
 			if(imagesURLs.Length > 0)
 			{
@@ -292,7 +292,6 @@ namespace Subtext.Framework.Import
 							//		gives this more context (ex... BlogMLAttachmentException) and 
 							//		throw that. Let the main unhandled exception handler do the logging.
 
-							// lets do some error logging!
 							log.Error(string.Format(
 								"An error occured while trying to write an attachment for this blog. Error: {0}", e.Message),
 								e);
@@ -675,73 +674,9 @@ namespace Subtext.Framework.Import
 			{		
 				throw new ApplicationException("An error occured trying to excute a query on the data store. Please see inner exception for details. ", ex);
 			}
-			finally
-			{
-				if(_connection != null)
-					_connection.Close();
-			}
-
 		}
 
 
-
-		/// <summary>
-		/// This method is called internally to retrieve single field data from the data store. 
-		/// </summary>
-		/// <param name="cmd">A valid SqlCommand object complete with parameters to execute the update
-		/// action. </param>
-		/// <returns>Int - The number of rows affected. </returns>
-		private string ExecuteScalar(SqlCommand cmd) 
-		{
-			try 
-			{
-				if(!_connectionIsReady)
-					this.InitConnection();
-				cmd.Connection = _connection;
-				_connection.Open();
-				string scalarValue = (string)cmd.ExecuteScalar();
-				this.CloseConnection() ;
-				return scalarValue;
-			}
-			catch(Exception ex) 
-			{
-				throw new ApplicationException("An error occured trying to excute a query on the data store. Please see inner exception for details. ", ex);
-			}
-			finally 
-			{
-				_connection.Close();
-			}
-		}
-
-
-
-		/// <summary>
-		/// This method is called internally to update or delete data in the data store. 
-		/// </summary>
-		/// <param name="cmd">A valid SqlCommand object complete with parameters to execute the update
-		/// or delete action. </param>
-		/// <returns>Int - The number of rows affected. </returns>
-		private int ExecuteNonQuery(SqlCommand cmd) 
-		{
-			try 
-			{
-				if(!_connectionIsReady)
-					this.InitConnection();
-				cmd.Connection = _connection;
-				_connection.Open();
-				int recsAffected = cmd.ExecuteNonQuery();
-				this.CloseConnection() ;
-				return recsAffected;
-			}
-			catch(Exception ex) 
-			{
-				throw new ApplicationException("An error occured trying to excute a query on the data store. Please see inner exception for details. ", ex);
-			}
-			finally 
-			{
-				_connection.Close();
-			}
-		}
 
 		/// <summary>
 		/// This method is called internally to retrieve a DataSet from the data store.
