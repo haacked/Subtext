@@ -1,4 +1,4 @@
-<%@ Page language="c#" Codebehind="Test.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Install.Test"%>
+<%@ Page language="c#" Codebehind="Test.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Install.Test" Trace="True"%>
 <%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" > 
