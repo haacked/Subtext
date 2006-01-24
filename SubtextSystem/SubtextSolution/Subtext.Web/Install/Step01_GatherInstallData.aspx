@@ -1,4 +1,4 @@
-<%@ Page language="c#" Codebehind="Step01_GatherInstallData.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Install.Step01_GatherInstallData" %>
+<%@ Page language="c#" Codebehind="Step01_GatherInstallData.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Install.Step01_GatherInstallData"%>
 <%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <MP:MasterPage id="MPContainer" TemplateFile="~/Install/PageTemplate.ascx" runat="server">
 	<MP:ContentRegion id="MPTitle" runat="server">Subtext Installation: Step 1 - Gather Installation Data 
