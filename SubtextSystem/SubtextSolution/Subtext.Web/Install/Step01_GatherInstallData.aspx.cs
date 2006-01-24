@@ -25,7 +25,7 @@ namespace Subtext.Web.Install
 	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-			EnableViewState = false;
+			EnableViewState = true;
 			DataBind();
 		}
 
