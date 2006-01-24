@@ -15,25 +15,48 @@ namespace Subtext.Web.Controls
 	/// Control used to specify a connection string.
 	/// </summary>
 	[ValidationProperty("ConnectionString")]
-	public class ConnectionStringBuilder : Control, INamingContainer
+	public class ConnectionStringBuilder : WebControl, INamingContainer
 	{
 		const string ConnectionStringControlId = "txtConnectionStringBuilderConnectionString";
 		const string DescriptionControlId = "ltlConnectionStringBuilderDescriptionText";
 		const string TitleControlId = "ltlConnectionStringBuilderTitleText";
 		const string CheckboxControlId = "chkUseConnectionStringInWebConfig";
 
-		protected System.Web.UI.WebControls.DropDownList machineName;
-		protected System.Web.UI.WebControls.TextBox otherMachineName;
-		protected System.Web.UI.WebControls.RadioButtonList authMode;
-		protected System.Web.UI.WebControls.TextBox username;
-		protected System.Web.UI.WebControls.DropDownList databaseName;
-		protected System.Web.UI.WebControls.Button testConnection;
-		protected System.Web.UI.WebControls.TextBox password;
-		protected System.Web.UI.WebControls.Label connResult;
-		protected System.Web.UI.WebControls.LinkButton refreshDatabase;
+		const string MachineNameControlId = "lstConnectionStringBuilderMachineName";
+		const string OtherMachineNameControlId = "txtConnectionStringBuilderOtherMachineName";
+		const string AuthModeControlId = "radioConnectionStringBuilderAuthMode";
+		const string UsernameControlId = "txtConnectionStringBuilderUsername";
+		const string PasswordControlId = "txtConnectionStringBuilderPassword";
+		const string DatabaseNameControlId = "lstConnectionStringBuilderDatabaseName";
+		const string TestConnectionControlId = "btnConnectionStringBuilderTestConnection";
+		const string RefreshDatabaseControlId = "lnkBtnConnectionStringBuilderRefreshDatabase";
+		const string ConnectionResultControlId = "lblConnectionStringBuilderConnectionResult";
+
+		protected System.Web.UI.WebControls.DropDownList machineName=new DropDownList();
+		protected System.Web.UI.WebControls.TextBox otherMachineName=new TextBox();
+		protected System.Web.UI.WebControls.RadioButtonList authMode=new RadioButtonList();
+		protected System.Web.UI.WebControls.TextBox username=new TextBox();
+		protected System.Web.UI.WebControls.DropDownList databaseName= new DropDownList();
+		protected System.Web.UI.WebControls.Button testConnection=new Button();
+		protected System.Web.UI.WebControls.TextBox password=new TextBox();
+		protected System.Web.UI.WebControls.Label connResult=new Label();
+		protected System.Web.UI.WebControls.LinkButton refreshDatabase=new LinkButton();
 
 
 		private ConnectionString _connStr=Subtext.Scripting.ConnectionString.Empty;
+
+		override protected void OnInit(EventArgs e)
+		{
+			InitializeComponent();
+			base.OnInit(e);
+		}
+
+		private void InitializeComponent()
+		{
+			authMode.SelectedIndexChanged += new System.EventHandler(this.authMode_SelectedIndexChanged);
+			testConnection.Click += new System.EventHandler(this.testConnection_Click);
+			refreshDatabase.Click += new System.EventHandler(this.refreshDatabase_Click);
+		}
 
 		/// <summary>
 		/// Called during the page init event.
@@ -41,7 +64,6 @@ namespace Subtext.Web.Controls
 		/// <param name="e"></param>
 		protected override void OnPreRender(EventArgs e)
 		{
-			this.Page.Trace.Write("PreRender");
 			this.TitleLiteralControl.Text = this.Title;
 			this.DescriptionLiteralControl.Text = this.Description;
 			base.OnPreRender(e);
@@ -52,7 +74,6 @@ namespace Subtext.Web.Controls
 		/// </summary>
 		protected override void CreateChildControls()
 		{
-			this.Page.Trace.Write("CreateChildControls");
 			HtmlTable table = new HtmlTable();
 			table.CellPadding = 3;
 			table.CellSpacing = 0;
@@ -127,8 +148,6 @@ namespace Subtext.Web.Controls
 		private HtmlTable BuildAdvancedBuilder() 
 		{
 			HtmlTable connBuilderTable=BuildMainTable();
-			AttachEvents();
-			LoadData();
 			return connBuilderTable;
 		}
 
@@ -160,8 +179,9 @@ namespace Subtext.Web.Controls
 			row.Cells.Add(cell);
 
 			cell=new HtmlTableCell();
-			machineName = new DropDownList();
-			otherMachineName= new TextBox();
+			machineName.ID=MachineNameControlId;
+			machineName.EnableViewState=true;
+			otherMachineName.ID=OtherMachineNameControlId;
 			otherMachineName.TextMode=TextBoxMode.SingleLine;
 			cell.Controls.Add(machineName);
 			cell.Controls.Add(new LiteralControl("<br />"));
@@ -181,7 +201,7 @@ namespace Subtext.Web.Controls
 			row.Cells.Add(cell);
 
 			cell=new HtmlTableCell();
-			authMode= new RadioButtonList();
+			authMode.ID=AuthModeControlId;
 			authMode.AutoPostBack=true;
 			authMode.Items.Add(new ListItem("SQL","sql"));
 			authMode.Items.Add(new ListItem("Trusted","win"));
@@ -201,7 +221,7 @@ namespace Subtext.Web.Controls
 			row.Cells.Add(cell);
 
 			cell=new HtmlTableCell();
-			username= new TextBox();
+			username.ID=UsernameControlId;
 			username.TextMode=TextBoxMode.SingleLine;
 			cell.Controls.Add(username);
 			row.Cells.Add(cell);
@@ -219,7 +239,7 @@ namespace Subtext.Web.Controls
 			row.Cells.Add(cell);
 
 			cell=new HtmlTableCell();
-			password= new TextBox();
+			password.ID=PasswordControlId;
 			password.TextMode=TextBoxMode.SingleLine;
 			cell.Controls.Add(password);
 			row.Cells.Add(cell);
@@ -237,8 +257,8 @@ namespace Subtext.Web.Controls
 			row.Cells.Add(cell);
 
 			cell=new HtmlTableCell();
-			databaseName= new DropDownList();
-			refreshDatabase=new LinkButton();
+			databaseName.ID=DatabaseNameControlId;
+			refreshDatabase.ID=RefreshDatabaseControlId;
 			refreshDatabase.Text="Refresh Databases";
 			cell.Controls.Add(databaseName);
 			cell.Controls.Add(new LiteralControl("<br />"));
@@ -255,9 +275,9 @@ namespace Subtext.Web.Controls
 
 			cell=new HtmlTableCell();
 			cell.ColSpan=2;
-			testConnection= new Button();
+			testConnection.ID=TestConnectionControlId;
 			testConnection.Text="Test Connection";
-			connResult= new Label();
+			connResult.ID=ConnectionResultControlId;
 			connResult.Text="";
 			cell.Controls.Add(testConnection);
 			cell.Controls.Add(new LiteralControl("<br />"));
@@ -268,55 +288,6 @@ namespace Subtext.Web.Controls
 		}
 
 		#endregion // UI Builder
-
-		/// <summary>
-		/// Attach Events to the WebControls
-		/// </summary>
-		private void AttachEvents() 
-		{
-			authMode.SelectedIndexChanged += new System.EventHandler(this.authMode_SelectedIndexChanged);
-			testConnection.Click += new System.EventHandler(this.testConnection_Click);
-			refreshDatabase.Click += new System.EventHandler(this.refreshDatabase_Click);
-		}
-
-		/// <summary>
-		/// Populate web controls with inital values
-		/// If no connection string provided it just populate a combobox with
-		/// all discovered SQL Servers
-		/// </summary>
-		private void LoadData()
-		{
-			connResult.Text="";
-			if(!Page.IsPostBack) 
-			{
-				PopulateServerNameCmb();
-				if(_connStr!=null) 
-				{
-					if(machineName.Items.FindByValue(_connStr.Server)!=null)
-						machineName.SelectedValue=_connStr.Server;
-					else
-						otherMachineName.Text=_connStr.Server;
-
-					if(_connStr.TrustedConnection)
-					{
-						authMode.SelectedValue="win";
-						username.Enabled=false;
-						password.Enabled=false;
-					}
-					else 
-					{
-						authMode.SelectedValue="sql";
-						username.Enabled=true;
-						password.Enabled=true;
-						username.Text=_connStr.UserId;
-						password.Text=_connStr.Password;
-					}
-
-					PopulateDatabaseNamesCmb(_connStr);
-				}
-			}
-		}
-
 
 
 		/// <summary>
@@ -587,6 +558,38 @@ namespace Subtext.Web.Controls
 		}
 		#endregion // Accessors for Controls in page
 
+		protected override void OnLoad(EventArgs e)
+		{
+			connResult.Text="";
+			if(!Page.IsPostBack) 
+			{
+				PopulateServerNameCmb();
+				if(_connStr!=null) 
+				{
+					if(machineName.Items.FindByValue(_connStr.Server)!=null)
+						machineName.SelectedValue=_connStr.Server;
+					else
+						otherMachineName.Text=_connStr.Server;
 
+					if(_connStr.TrustedConnection)
+					{
+						authMode.SelectedValue="win";
+						username.Enabled=false;
+						password.Enabled=false;
+					}
+					else 
+					{
+						authMode.SelectedValue="sql";
+						username.Enabled=true;
+						password.Enabled=true;
+						username.Text=_connStr.UserId;
+						password.Text=_connStr.Password;
+					}
+
+					PopulateDatabaseNamesCmb(_connStr);
+				}
+			}
+			base.OnLoad(e);
+		}
 	}
 }
