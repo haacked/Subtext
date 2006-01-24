@@ -45,6 +45,7 @@ namespace Subtext.Web.Controls
 
 		private ConnectionString _connStr=Subtext.Scripting.ConnectionString.Empty;
 
+
 		override protected void OnInit(EventArgs e)
 		{
 			InitializeComponent();
@@ -97,7 +98,6 @@ namespace Subtext.Web.Controls
 			row.VAlign = "top";
 			HtmlTableCell questionCell = new HtmlTableCell();
 
-			// TODO: Verify is SQL-DMO is installed
 			if(CheckSQLDMO()) 
 			{
 				//Build advanced control
@@ -134,13 +134,24 @@ namespace Subtext.Web.Controls
 			table.Rows.Add(row);
 			this.Controls.Add(table);
 
-			LoadData();
+			if(CheckSQLDMO()) 
+			{
+				LoadData();
+			}
 
 			base.CreateChildControls();
 		}
 
 		private bool CheckSQLDMO() 
 		{
+			try 
+			{
+				SQLDMO.Application dmo = new SQLDMO.ApplicationClass();
+			}
+			catch(System.Runtime.InteropServices.COMException) 
+			{
+				return false;
+			}
 			return true;
 		}
 
