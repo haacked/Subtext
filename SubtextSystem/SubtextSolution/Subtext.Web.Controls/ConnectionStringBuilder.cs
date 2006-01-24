@@ -133,6 +133,9 @@ namespace Subtext.Web.Controls
 			
 			table.Rows.Add(row);
 			this.Controls.Add(table);
+
+			LoadData();
+
 			base.CreateChildControls();
 		}
 
@@ -179,13 +182,14 @@ namespace Subtext.Web.Controls
 			row.Cells.Add(cell);
 
 			cell=new HtmlTableCell();
+			cell.Controls.Add(machineName);
+			cell.Controls.Add(new LiteralControl("<br />"));
+			cell.Controls.Add(otherMachineName);
 			machineName.ID=MachineNameControlId;
 			machineName.EnableViewState=true;
 			otherMachineName.ID=OtherMachineNameControlId;
 			otherMachineName.TextMode=TextBoxMode.SingleLine;
-			cell.Controls.Add(machineName);
-			cell.Controls.Add(new LiteralControl("<br />"));
-			cell.Controls.Add(otherMachineName);
+			Page.Trace.Write("machineName");
 			row.Cells.Add(cell);
 
 			return row;
@@ -558,8 +562,9 @@ namespace Subtext.Web.Controls
 		}
 		#endregion // Accessors for Controls in page
 
-		protected override void OnLoad(EventArgs e)
+		protected void LoadData()
 		{
+			Page.Trace.Write("onLoad");
 			connResult.Text="";
 			if(!Page.IsPostBack) 
 			{
@@ -589,7 +594,6 @@ namespace Subtext.Web.Controls
 					PopulateDatabaseNamesCmb(_connStr);
 				}
 			}
-			base.OnLoad(e);
 		}
 	}
 }
