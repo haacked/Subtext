@@ -1,12 +1,15 @@
-Pre-existing code forked over from the .TEXT project 
-is subject to the BSD license in TextLicense.txt.  New 
-original source code falls under the BSD license as 
-stated below.
+This license is based on the new BSD template found here 
+(http://www.opensource.org/licenses/bsd-license.php)
+-----------------------------------------------------------------
+Subtext (http://subtextproject.com/)
+Copyright (c) 2005 - 2006 
+by Phil Haack (http://haacked.com/)
 
-----------------------------------------------------------
-Copyright (c) 2005, Phil Haack (http://haacked.com/)
-Original .TEXT Source Code: Copyright (c) 2003, Scott Watermasysk (http://scottwater.com/blog/)
-All rights reserved.All rights reserved.
+This work contains and builds upon code from the original .TEXT source Code 
+which is Copyright (c) 2003 Scott Watermasysk (http://scottwater.com/blog/), 
+and which is used herein pursuant to the BSD License.
+
+All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, 
 are permitted provided that the following conditions are met:
