@@ -23,8 +23,7 @@
 		<li><a href="http://blogs.ugidotnet.org/piyo/">Simone Chiaretta</a> &#8212; Web2.0 Evangelist and Skinner</li>
 		<li><a href="http://blogs.analystdeveloper.com/gurkaneng/">Gurkan Yeniceri</a> &#8212; YASD (Yet Another Subtext Developer)</li>
 	</ul>
-	
-	<h2>Testers</h2>
+	<h2>Contributors and Testers</h2>
 	<ul>
 		<li><a href="http://andrewconnell.com/blog/">Andrew Connell</a> &#8212; CMS Guru</li>
 		<li><a href="http://vernsblog.thegillfamily.us:8180/">Vern Gill &#8212; Head Bouncer</a></li>
