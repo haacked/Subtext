@@ -47,7 +47,7 @@ namespace Subtext.Web.UI.Controls
 			{			
 				if(HomeLink != null)
 				{
-					HomeLink.NavigateUrl = CurrentBlog.RootUrl;
+					HomeLink.NavigateUrl = CurrentBlog.BlogHomeUrl;
 				}
 				if(ContactLink != null)
 				{
