@@ -1463,22 +1463,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "Install\Test.aspx"
-                    SubType = "Form"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Install\Test.aspx.cs"
-                    DependentUpon = "Test.aspx"
-                    SubType = "ASPXCodeBehind"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Install\Test.aspx.resx"
-                    DependentUpon = "Test.aspx.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "Install\Style\InstallationStyle.css"
                     BuildAction = "Content"
                 />
