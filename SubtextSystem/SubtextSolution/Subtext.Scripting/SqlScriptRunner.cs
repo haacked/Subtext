@@ -116,8 +116,8 @@ namespace Subtext.Scripting
 			// the following reg exp will be used to determine if each script is an
 			// INSERT, UPDATE, or DELETE operation. The reg exp is also only looking
 			// for these actions on the SubtextData database. <- do we need this last part?
-			string regextStr = @"(INSERT\sINTO\sSubtextData\.[\d\w\.]+[\s\w\d]*)|(UPDATE\sSubtextData\.[\d\w\.]+\s*SET[\s\w\d]*)|(DELETE\sFROM\SubtextData\.[\d\w\.]+)";
-			Regex regex = new Regex(regextStr, RegexOptions.IgnorePatternWhitespace | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+			string regextStr = @"(INSERT\sINTO\s[\s\w\d\)\(\,\.\]\[\>\<]+)|(UPDATE\s[\s\w\d\)\(\,\.\]\[\>\<]+SET\s)|(DELETE\s[\s\w\d\)\(\,\.\]\[\>\<]+FROM\s[\s\w\d\)\(\,\.\]\[\>\<]+WHERE\s)";
+			Regex regex = new Regex(regextStr, RegexOptions.IgnorePatternWhitespace | RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
 	
 			int recordsAffectedTotal = 0;
 			int scriptsExecutedCount = 0;
@@ -130,12 +130,11 @@ namespace Subtext.Scripting
 				Match match = regex.Match(script.ScriptText);
 				if(match.Success)
 				{
-					/* For UPDATE, INSERT, and DELETE statements, the return value is the 
-					* number of rows affected by the command. For all other types of statements, 
-					* the return value is -1. If a rollback occurs, the return value is also -1. 
-					* //TODO:
-					* Also, we want a way to notify the user of what action we just performed... 
-					* This would be a good place to get a part of that status.  Any Ideas?  */
+					/* 
+					 * For UPDATE, INSERT, and DELETE statements, the return value is the 
+					 * number of rows affected by the command. For all other types of statements, 
+					 * the return value is -1. If a rollback occurs, the return value is also -1. 
+					 */
 					if(returnValue > -1)
 					{
 						recordsAffectedTotal += returnValue;
