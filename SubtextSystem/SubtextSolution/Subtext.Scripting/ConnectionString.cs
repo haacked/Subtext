@@ -207,5 +207,20 @@ namespace Subtext.Scripting
 
 			return false;
 		}
+
+		/// <summary>
+		/// Implicitly converts the string to a connection string.
+		/// </summary>
+		/// <remarks>
+		/// Got the idea from here.  
+		/// http://developer810.blogspot.com/2006/02/good-way-to-create-custom-value-type.html
+		/// It's not as clear to me as doing .Parse... I'll think about this one.
+		/// </remarks>
+		/// <param name="connectionString">The state.</param>
+		/// <returns></returns>
+		public static implicit operator ConnectionString(string connectionString)
+		{
+			return new ConnectionString(connectionString);
+		}
 	}
 }

@@ -24,6 +24,13 @@ namespace UnitTests.Subtext.Scripting
 			Assert.AreEqual(dataSource, connectionInfo.Server, "Did not parse the server string correctly.");
 			Assert.AreEqual(userId, connectionInfo.UserId, "Did not parse the user id correctly.");
 			Assert.AreEqual(password, connectionInfo.Password, "Did not parse the password correctly.");
+
+			//Test the implicit operation
+			ConnectionString connectionInfo2 = connectionString;
+			Assert.AreEqual(database, connectionInfo2.Database, "Did not parse the database string correctly.");
+			Assert.AreEqual(dataSource, connectionInfo2.Server, "Did not parse the server string correctly.");
+			Assert.AreEqual(userId, connectionInfo2.UserId, "Did not parse the user id correctly.");
+			Assert.AreEqual(password, connectionInfo2.Password, "Did not parse the password correctly.");
 		}
 	}
 }
