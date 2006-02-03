@@ -59,9 +59,20 @@ namespace Subtext.Web.UI.Controls
 				string SearchStr = txtSearch.Text.ToString();
 
 				ArrayList mySearchItems = new ArrayList();
+				int BlogID;
+				string applikasyon;
 
-				int BlogID = CurrentBlog.BlogID;
-				string applikasyon = CurrentBlog.Application;
+				//fix for the blogs where only one installed
+				if (CurrentBlog.BlogID >= 1)
+					BlogID = CurrentBlog.BlogID;
+				else
+					BlogID = 0;
+
+				if (CurrentBlog.Application != String.Empty)
+                    applikasyon = CurrentBlog.Application;
+				else
+					applikasyon = String.Empty;
+
 
 				SqlParameter[] p =
 				{
@@ -91,69 +102,21 @@ namespace Subtext.Web.UI.Controls
 			}
 		}
 
-
-		public DataSet Search(string sParam)
-		{
-			DataSet ds = new DataSet();
-
-			if(string.Empty != txtSearch.Text )
-			{
-				string sql = "subtext_SearchEntries"; //sp to run
-				string conn = DbProvider.Instance().ConnectionString; //from web.config
-
-				string SearchStr = sParam; //passed search string
-
-				int BlogID = CurrentBlog.BlogID; //id of current blog
-				string applikasyon = CurrentBlog.Application; //application of current blog
-
-				/*prepare sp parameters*/
-				SqlParameter[] p =
-				{
-					SqlHelper.MakeInParam("@BlogID", SqlDbType.Int, 4, BlogID),
-					SqlHelper.MakeInParam("@SearchStr", SearchStr)
-				};
-				
-				//execute sp, get back dt
-				DataTable dt = SqlHelper.ExecuteDataTable(conn, CommandType.StoredProcedure, sql, p);
-
-				int count = dt.Rows.Count;
-
-				/*Create a dataset to return back only Title and URL */
-				DataTable dt2 = ds.Tables.Add();
-				dt2.Columns.Add("Title", typeof(string));
-				dt2.Columns.Add("Url", typeof(string));
-				DataRow row;
-				/*End of new dataset*/
-				
-				//go through data table and prepare dataset
-				for (int i = 0; i < count; i++)
-				{
-					DataRow dr = dt.Rows[i];
-
-					string id = dr["id"].ToString();
-					string title = (string) dr["Title"];
-					DateTime dateAdded = (DateTime) dr["DateAdded"];
-
-					string myURL = URLFormat(applikasyon, dateAdded, id);
-					
-					/*Add to new dataset*/
-					row = dt2.NewRow();
-					row["Title"] = title;
-					row["Url"] = myURL;
-					dt2.Rows.Add(row);
-					/*End of new DataRow*/
-
-				}
-
-			}
-			return ds;
-		}
-
 		public string URLFormat(string dbApplication, DateTime dbDateAdded, string dbEntryID)
 		{
 			string myURL = ConfigurationSettings.AppSettings["AggregateURL"];
 
-			myURL = myURL + "/" + dbApplication + "/";
+			int i;
+
+			if (CurrentBlog.BlogID >= 1)
+				myURL = myURL + "/" + dbApplication + "/";
+			else
+			{
+				i = CurrentBlog.BlogHomeUrl.LastIndexOf("/");
+				myURL = CurrentBlog.BlogHomeUrl.Remove(i+1, CurrentBlog.BlogHomeUrl.Substring(i+1).Length);
+					
+			}
+
 
 			string myYear = dbDateAdded.Year.ToString();
 			string myMonth = dbDateAdded.Month.ToString();
