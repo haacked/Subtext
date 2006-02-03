@@ -15,10 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Web", "Subtext.Web\
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubtextConfigurationTool", "SubtextConfigurationTool\SubtextConfigurationTool.csproj", "{FD164E32-AE6A-46E5-AB0D-F3D6F97B4CAA}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Extensibility", "Subtext.Extensibility\Subtext.Extensibility.csproj", "{13018F20-F796-4FFE-9290-83D0E661C0A1}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -32,10 +28,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Web.Controls", "Sub
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Installation", "Subtext.Installation\Subtext.Installation.csproj", "{745B39B7-DE46-4070-8733-C53308721C58}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.DotTextUpgrader", "Subtext.DotTextUpgrader\Subtext.DotTextUpgrader.csproj", "{9BB422AA-91C7-48DB-8153-E04B58232C2F}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -74,12 +66,6 @@ Global
 		{8C11B428-9C4A-46C3-B7F0-48215276BFA5}.Documentation.Build.0 = Documentation|.NET
 		{8C11B428-9C4A-46C3-B7F0-48215276BFA5}.Release.ActiveCfg = Release|.NET
 		{8C11B428-9C4A-46C3-B7F0-48215276BFA5}.Release.Build.0 = Release|.NET
-		{FD164E32-AE6A-46E5-AB0D-F3D6F97B4CAA}.Debug.ActiveCfg = Debug|.NET
-		{FD164E32-AE6A-46E5-AB0D-F3D6F97B4CAA}.Debug.Build.0 = Debug|.NET
-		{FD164E32-AE6A-46E5-AB0D-F3D6F97B4CAA}.Documentation.ActiveCfg = Documentation|.NET
-		{FD164E32-AE6A-46E5-AB0D-F3D6F97B4CAA}.Documentation.Build.0 = Documentation|.NET
-		{FD164E32-AE6A-46E5-AB0D-F3D6F97B4CAA}.Release.ActiveCfg = Release|.NET
-		{FD164E32-AE6A-46E5-AB0D-F3D6F97B4CAA}.Release.Build.0 = Release|.NET
 		{13018F20-F796-4FFE-9290-83D0E661C0A1}.Debug.ActiveCfg = Debug|.NET
 		{13018F20-F796-4FFE-9290-83D0E661C0A1}.Debug.Build.0 = Debug|.NET
 		{13018F20-F796-4FFE-9290-83D0E661C0A1}.Documentation.ActiveCfg = Documentation|.NET
@@ -104,12 +90,6 @@ Global
 		{745B39B7-DE46-4070-8733-C53308721C58}.Documentation.Build.0 = Documentation|.NET
 		{745B39B7-DE46-4070-8733-C53308721C58}.Release.ActiveCfg = Release|.NET
 		{745B39B7-DE46-4070-8733-C53308721C58}.Release.Build.0 = Release|.NET
-		{9BB422AA-91C7-48DB-8153-E04B58232C2F}.Debug.ActiveCfg = Debug|.NET
-		{9BB422AA-91C7-48DB-8153-E04B58232C2F}.Debug.Build.0 = Debug|.NET
-		{9BB422AA-91C7-48DB-8153-E04B58232C2F}.Documentation.ActiveCfg = Debug|.NET
-		{9BB422AA-91C7-48DB-8153-E04B58232C2F}.Documentation.Build.0 = Debug|.NET
-		{9BB422AA-91C7-48DB-8153-E04B58232C2F}.Release.ActiveCfg = Release|.NET
-		{9BB422AA-91C7-48DB-8153-E04B58232C2F}.Release.Build.0 = Release|.NET
 		{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}.Debug.ActiveCfg = Debug|.NET
 		{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}.Debug.Build.0 = Debug|.NET
 		{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}.Documentation.ActiveCfg = Debug|.NET
