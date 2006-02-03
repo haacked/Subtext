@@ -343,6 +343,10 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_LogClear
 drop procedure [<dbUser,varchar,dbo>].[subtext_LogClear]
 GO
 
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_SearchEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_SearchEntries]
+GO
+
 SET QUOTED_IDENTIFIER OFF 
 GO
 SET ANSI_NULLS OFF 
@@ -4586,4 +4590,35 @@ SET ANSI_NULLS ON
 GO
 
 GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_AddLogEntry]  TO [public]
+GO
+
+/*Search Entries*/
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+CREATE Proc [<dbUser,varchar,dbo>].subtext_SearchEntries
+(
+	@BlogID int,
+	@SearchStr varchar(30)
+)
+as
+
+Set @SearchStr = '%' + @SearchStr + '%'
+
+Select [ID], Title, DateAdded 
+From [<dbUser,varchar,dbo>].Blog_Content
+Where (PostType = 1 OR PostType = 2)
+AND ([Text] LIKE @SearchStr 
+OR Title LIKE @SearchStr)
+AND BlogID = @BlogID
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_SearchEntries]  TO [public]
 GO
