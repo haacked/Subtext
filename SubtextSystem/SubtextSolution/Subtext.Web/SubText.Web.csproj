@@ -1650,6 +1650,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\AnotherEon001\Controls\SubtextSearch.ascx"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\AnotherEon001\Controls\ViewPicture.ascx"
                     BuildAction = "Content"
                 />
@@ -1759,6 +1763,10 @@
                 />
                 <File
                     RelPath = "Skins\blue\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\blue\Controls\SubtextSearch.ascx"
                     BuildAction = "Content"
                 />
                 <File
@@ -1887,6 +1895,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\gertrude\Controls\SubtextSearch.ascx"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\gertrude\Controls\ViewPicture.ascx"
                     BuildAction = "Content"
                 />
@@ -2001,6 +2013,10 @@
                 />
                 <File
                     RelPath = "Skins\Gradient\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Controls\SubtextSearch.ascx"
                     BuildAction = "Content"
                 />
                 <File
@@ -2153,6 +2169,10 @@
                 />
                 <File
                     RelPath = "Skins\Haackify\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Controls\SubtextSearch.ascx"
                     BuildAction = "Content"
                 />
                 <File
@@ -2316,6 +2336,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\Hover\Controls\SubtextSearch.ascx"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\Hover\Controls\ViewPicture.ascx"
                     BuildAction = "Content"
                 />
@@ -2426,6 +2450,10 @@
                 />
                 <File
                     RelPath = "Skins\Lighty\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lighty\Controls\SubtextSearch.ascx"
                     BuildAction = "Content"
                 />
                 <File
@@ -2593,6 +2621,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\Marvin2\Controls\SubtextSearch.ascx"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\Marvin2\Controls\ViewPicture.ascx"
                     BuildAction = "Content"
                 />
@@ -2730,6 +2762,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\Marvin3\Controls\SubtextSearch.ascx"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\Marvin3\Controls\ViewPicture.ascx"
                     BuildAction = "Content"
                 />
@@ -2855,6 +2891,10 @@
                 />
                 <File
                     RelPath = "Skins\Piyo\Controls\SubTextBlogCalendar.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Controls\SubtextSearch.ascx"
                     BuildAction = "Content"
                 />
                 <File
@@ -3070,6 +3110,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\RedBook\Controls\SubtextSearch.ascx"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\RedBook\Controls\Syndications.ascx"
                     BuildAction = "Content"
                 />
@@ -3278,6 +3322,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\Semagogy\Controls\SubtextSearch.ascx"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\Semagogy\Controls\ViewPicture.ascx"
                     BuildAction = "Content"
                 />
@@ -3462,6 +3510,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\simple\Controls\SubtextSearch.ascx"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\simple\Controls\ViewPicture.ascx"
                     BuildAction = "Content"
                 />
@@ -3575,6 +3627,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\white\Controls\SubtextSearch.ascx"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\white\Controls\ViewPicture.ascx"
                     BuildAction = "Content"
                 />
@@ -3583,10 +3639,6 @@
                     BuildAction = "Content"
                 />
                 <Folder RelPath = "Skins\white\Images\" />
-                <File
-                    RelPath = "Skins\WPSkin\Install.txt"
-                    BuildAction = "Content"
-                />
                 <File
                     RelPath = "Skins\WPSkin\PageTemplate.ascx"
                     BuildAction = "Content"
@@ -3950,6 +4002,11 @@
                 />
                 <File
                     RelPath = "UI\Controls\StoryList.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\SubtextSearch.cs"
                     SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"
                 />
