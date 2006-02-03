@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 using Subtext.Extensibility.Providers;
 using Subtext.Scripting;
 using Subtext.Web.Controls;
@@ -89,6 +90,14 @@ namespace Subtext.Installation
 				if(builder != null)
 				{
 					return builder.ConnectionString;
+				}
+				
+				//HAACK: Temporary Workaround since we're not using the 
+				//		 ConnectionString control for installation.
+				Label connectionStringLabel = populatedControl as Label;
+				if(connectionStringLabel != null)
+				{
+					return connectionStringLabel.Text;
 				}
 			}
 			return string.Empty;

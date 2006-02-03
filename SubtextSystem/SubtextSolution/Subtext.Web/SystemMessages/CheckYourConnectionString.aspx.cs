@@ -1,5 +1,4 @@
 using System;
-using System.Data.SqlClient;
 using Subtext.Framework;
 
 namespace Subtext.Web
@@ -37,12 +36,6 @@ namespace Subtext.Web
 				{
 					lblErrorMessage.Text = baseException.Message;
 					lblStackTrace.Text = baseException.StackTrace;
-
-					SqlException sqlexc = baseException as SqlException;
-					if(sqlexc != null)
-					{
-						Response.Write(sqlexc.Number);
-					}
 				}
 				else
 				{

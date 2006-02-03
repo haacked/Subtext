@@ -1,6 +1,9 @@
 using System;
-using System.Web.UI;
-using Subtext.Framework;
+using System.Web.UI.WebControls;
+using Subtext.Extensibility.Providers;
+using Subtext.Framework.Configuration;
+using Subtext.Scripting;
+using Subtext.Web.Controls;
 
 namespace Subtext.Web.Install
 {
@@ -19,9 +22,7 @@ namespace Subtext.Web.Install
 		protected Subtext.Web.Controls.MasterPage MPContainer;
 		protected System.Web.UI.WebControls.Button btnSave;
 		protected System.Web.UI.WebControls.Literal ltlErrorMessage;
-		protected System.Web.UI.WebControls.CheckBox chkFullInstallation;
-		protected System.Web.UI.WebControls.Panel pnlInstallationInformation;
-		Control installationInformationControl = null;
+		protected System.Web.UI.WebControls.Label lblDatabaseName;
 	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
@@ -34,27 +35,18 @@ namespace Subtext.Web.Install
 		/// </summary>
 		public override void DataBind()
 		{
-			installationInformationControl = InstallationManager.GetInstallationInformationControl();
-			
-			if(installationInformationControl.ID == null || installationInformationControl.ID.Length == 0)
-				installationInformationControl.ID = "installationInformationControl";
-			
-			pnlInstallationInformation.Controls.Add(installationInformationControl);
+			ConnectionString connectionString = ConnectionString.Parse(Config.Settings.ConnectionString);
+			lblDatabaseName.Text = connectionString.Database;
 			base.DataBind ();
 		}
 
 		private void btnSave_Click(object sender, EventArgs e)
 		{
-			string errors = InstallationManager.ValidateInstallationAnswers(installationInformationControl);
-			if(errors == null || errors.Length == 0)
-			{			
-				InstallationManager.SetInstallationQuestionAnswers(installationInformationControl);
-				Response.Redirect(NextStepUrl);
-			}
-			else
-			{
-				ltlErrorMessage.Text = errors;
-			}
+			//This is a hack for now...
+			Label connectionStringLabel = new Label();
+			connectionStringLabel.Text = Config.Settings.ConnectionString;
+			InstallationProvider.Instance().ProvideInstallationInformation(connectionStringLabel);
+			Response.Redirect(NextStepUrl);
 		}
 
 		#region Web Form Designer generated code

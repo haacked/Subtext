@@ -23,7 +23,12 @@ Installation </MP:ContentRegion>
 	</p>
 	<p>Please fill in the following fields.</p>
 	<p>
-		<asp:Panel id="pnlInstallationInformation" runat="server"></asp:Panel>
+		<div>
+			By reading your connection string, it appears you wish to install the database 
+			<strong><asp:Label id="lblDatabaseName" runat="server"></asp:Label></strong>.  
+			If this is wrong, please update your Web.config file and return to this page.  
+			Otherwise click &#8221;Go to Step 2&#8221;.
+		</div>
 	</p>
 	<p>
 		<asp:Button id="btnSave" runat="server" text="Go to Step 2"></asp:Button></p>

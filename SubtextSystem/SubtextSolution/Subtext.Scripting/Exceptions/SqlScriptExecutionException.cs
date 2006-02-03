@@ -111,6 +111,7 @@ namespace Subtext.Scripting.Exceptions
 				string message = base.Message;
 				if (scriptName != null)
 					message += Environment.NewLine + "scriptName: " + _script.ToString();
+				message+= "Return Value: " + ReturnValue;
 				return message;
 			}
 		}
