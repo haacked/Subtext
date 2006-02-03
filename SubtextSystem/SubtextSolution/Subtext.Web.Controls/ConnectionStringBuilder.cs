@@ -5,7 +5,6 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Subtext.Scripting;
 using System.Collections;
-using SQLDMO;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -147,6 +146,7 @@ namespace Subtext.Web.Controls
 			try 
 			{
 				SQLDMO.Application dmo = new SQLDMO.ApplicationClass();
+				
 			}
 			catch(System.Runtime.InteropServices.COMException) 
 			{
@@ -326,8 +326,7 @@ namespace Subtext.Web.Controls
 		/// <summary>
 		/// Populate the databases dropdown list with the DBs found on the specified server
 		/// </summary>
-		/// <param name="connStr">ConnectionString to use for listing DBs</param>
-		private void PopulateDatabaseNamesCmb(ConnectionString connStr)
+		private void PopulateDatabaseNamesCmb()
 		{
 			ArrayList dbNames = new ArrayList();
 			SQLDMO.SQLServer sqlInstance = new SQLDMO.SQLServerClass();
@@ -391,7 +390,7 @@ namespace Subtext.Web.Controls
 				username.Enabled=false;
 				password.Enabled=false;
 				SetConnectionString();
-				PopulateDatabaseNamesCmb(_connStr);
+				PopulateDatabaseNamesCmb();
 			}
 			else if(authMode.SelectedValue.Equals("sql")) 
 			{
@@ -401,7 +400,7 @@ namespace Subtext.Web.Controls
 				password.Text=_connStr.Password;
 				if(!username.Text.Trim().Equals(String.Empty))
 				{
-					PopulateDatabaseNamesCmb(_connStr);
+					PopulateDatabaseNamesCmb();
 				}
 			}
 		}
@@ -410,7 +409,7 @@ namespace Subtext.Web.Controls
 		{
 			SetConnectionString();
 			connResult.Text="";
-			PopulateDatabaseNamesCmb(_connStr);
+			PopulateDatabaseNamesCmb();
 		}
 
 		private void testConnection_Click(object sender, System.EventArgs e)
@@ -485,7 +484,8 @@ namespace Subtext.Web.Controls
 			set
 			{
 				_connStr = Subtext.Scripting.ConnectionString.Parse(value);
-				ConnectionStringTextBox.Text = value;
+				if(ConnectionStringTextBox != null)
+					ConnectionStringTextBox.Text = value;
 			}
 		}
 
@@ -602,7 +602,7 @@ namespace Subtext.Web.Controls
 						password.Text=_connStr.Password;
 					}
 
-					PopulateDatabaseNamesCmb(_connStr);
+					PopulateDatabaseNamesCmb();
 				}
 			}
 		}
