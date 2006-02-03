@@ -4608,7 +4608,7 @@ as
 Set @SearchStr = '%' + @SearchStr + '%'
 
 Select [ID], Title, DateAdded 
-From [<dbUser,varchar,dbo>].Blog_Content
+From [<dbUser,varchar,dbo>].subtext_Content
 Where (PostType = 1 OR PostType = 2)
 AND ([Text] LIKE @SearchStr 
 OR Title LIKE @SearchStr)
