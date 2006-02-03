@@ -165,7 +165,6 @@
                 />
                 <File
                     RelPath = "Scripts\ImportDotText095.sql"
-                    Link = "..\Subtext.DotTextUpgrader\Scripts\ImportDotText095.sql"
                     BuildAction = "EmbeddedResource"
                 />
                 <File

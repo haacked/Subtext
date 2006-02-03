@@ -28,7 +28,7 @@
 	</ol>
 	<h3 class="version">Version 1.0 - Code named &#8220;Nautilus&#8221;</h3>
 	<p>
-		<strong>Estimated release - October 1, 2005</strong>.
+		<strong>Estimated release - March 1, 2006</strong>.
 	</p>
 	<p>
 		Nautilus is focused on usability, its dashing good looks, 
@@ -39,13 +39,11 @@
 		implemented in CVS, though they may require testing and fixes.
 	</p>
 	<ol>
-		<li><strong>Web Based Installer</strong> - Supports clean install and future upgrades.</li>
-		<li><strong>.TEXT 0.95 Import Wizard</strong></li>
+		<li><span class="implemented">*</span><strong>Web Based Installer</strong> - Supports clean install and future upgrades.</li>
+		<li><span class="implemented">*</span><strong>.TEXT 0.95 Import Wizard</strong></li>
 		<li>
-			<strong>Table and Stored Procedures Prefix</strong> - Allows users to specify 
-			a prefix for all tables and stored procedures within the web.config file.  This is 
-			especially useful for those on shared hosting providers.  It prevents overwriting existing 
-			tables with the same name.
+			<span class="implemented">*</span><strong>BlogML Support</strong> - Supports importing and exporting via the 
+			<a href="http://www.gotdotnet.com/codegallery/codegallery.aspx?id=48e15925-d97f-48ac-81fb-e4e405762858" rel="external">BlogML format</a>.
 		</li>
 		<li>
 			<span class="implemented">*</span><strong>Simplified Configuration</strong> - There is one 
@@ -85,26 +83,29 @@
 			and over again.  You can have subtext block comments that are exact duplicates.
 		</li>
 		<li>
-			<strong>MT BlackList</strong>
-		</li>
-		<li>
 			<strong>Granular Control Over Comments/Trackbacks/Pingbacks</strong> - 
 			Users will be able to specify which of these features they want on or off.
 		</li>
 		<li>
-			<strong>Logging Console</strong> - Inspired by DotNetNuke&#8217;s implementation, 
+			<span class="implemented">*</span><strong>Logging Console</strong> - Inspired by DotNetNuke&#8217;s implementation, 
 			this allows users to view and clear the log and choose logging levels.
 		</li>
 		<li>
-			<strong>Simple Keyword Comment Filter</strong> - This will be replaced with a 
+			<span class="implemented">*</span><strong>Simple Keyword Comment Filter</strong> - This will be replaced with a 
 			more full fledged implementation later.
 		</li>
 		<li>
-			<span class="implemented">*</span><strong>Replace/Upgrade FreeTextBox.dll</strong>
+			<strong>Recent Comments</strong> - A skin control for displaying recent comments.
+		</li>
+		<li>
+			<strong>Search</strong> - Search within your blog.
+		</li>
+		<li>
+			<span class="implemented">*</span><span class="implemented">*</span><strong>Replace/Upgrade FreeTextBox.dll</strong>
 		</li>
 		<li><strong>Improved Documentation</strong> - Want all around better documentation.</li>
 		<li><strong>Great New Skins</strong></li>
-		<li><strong>BUG FIX: MetaBlogApi</strong> - You can edit query and edit old posts 
+		<li><span class="implemented">*</span><strong>BUG FIX: MetaBlogApi</strong> - You can edit query and edit old posts 
 		in w.bloggar.</li>
 	</ol>
 	
@@ -118,7 +119,7 @@
 	</p>
 	<ol>
 		<li>
-			<strong>ASP.NET 2.0</strong>
+			<strong>ASP.NET 2.0</strong> - So we can take advantage of all that goodness.
 		</li>
 		<li>
 			<strong>Code refactorings</strong> - Focus on simplifying the existing 
@@ -126,10 +127,9 @@
 			easily be built.
 		</li>
 		<li>
-			<strong>Plug-in Framework</strong>
-		</li>
-		<li>
-			<strong>Improved user management</strong> - Membership provider.
+			<strong>Plug-in Framework</strong> - This should include the ability to 
+			hook into Subtext system events as well as an API for creating and adding 
+			custom skin controls.
 		</li>
 		<li>
 			<strong>Comment Moderation and Whitelisting</strong>
@@ -145,7 +145,7 @@
 		</li>
 	</ol>
 	
-	<h3>Version 1.2 - Code named &#8220;Daedelus&#8221;</h3>
+	<h3>Version 1.2 - Code named &#8220;Poseidon&#8221;</h3>
 	<ol>
 		<li><strong>Improved XHTML (and other standards) Support</strong></li>
 		<li><strong>Localization and Internationalization</strong></li>
@@ -167,7 +167,7 @@
 		"Quotes" with nicer &#8220;Quotes&#8221;.
 		</li>
 		<li>
-			<strong>REST Architectural</strong> - There are several places where 
+			<strong>REST Architecture</strong> - There are several places where 
 			having a RESTful architecture could benefit Subtext.  We don&#8217;t 
 			plan to use REST as a golden hammer, merely use it where it makes sense.
 		</li>
@@ -176,7 +176,7 @@
 			an AJAX implementation could make Subtext more usable.
 		</li>
 		<li>
-			<strong>Friendly Url Support</strong>: Currently, Subtext allows the user to 
+			<strong>Improved Friendly Url Support</strong>: Currently, Subtext allows the user to 
 			specify a friendly URL in the &#8220;Entry Name&#8221; field when 
 			creating a post in the admin section.  We want to create a way for 
 			users to allow the system to automatically create these friendly 
@@ -189,10 +189,6 @@
 	<ul>
 		<li><strong>Flickr Integration</strong> Not sure yet what this means exactly, but have some ideas in my head.</li>
 		<li><strong>A Spell Checker</strong>: For all those bad spelers out there.</li>
-		<li><strong>Migration utility for other systems</strong>: We&#8217;re not so arrogant as to 
-		believe you&#8217;ll never use another blogging engine again.  
-		If you do, we want to help you migrate your permalinks and posts 
-		to it.</li>
 		<li><strong>MySql Provider</strong>: because not everyone wants to pay for 
 		SQL Server hosting and some people want to honor their license 
 		agreement for MSDN Universal. ;)
