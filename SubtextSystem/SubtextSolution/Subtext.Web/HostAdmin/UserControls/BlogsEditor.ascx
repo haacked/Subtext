@@ -83,7 +83,7 @@
 <ANW:AdvancedPanel id="pnlEdit" runat="server">
 	<SP:HelpToolTip id="blogEditorHelp" runat="server">
 		<IMG id="Img3" src="~/images/ms_help.gif" align="right" runat="server"></SP:HelpToolTip>
-	<SCRIPT type="text/javascript">
+	<script type="text/javascript">
 			function replace( str, from, to ) 
 			{
 				var idx = str.indexOf( from );
@@ -154,7 +154,7 @@
 				
 				urlPreview.innerHTML = preview;
 			}
-	</SCRIPT>
+	</script>
 	<STRONG>
 		<SP:HelpToolTip id="Helptooltip1" runat="server" HelpText="Based on what you’ve entered below, this shows what the url to this blog will look like. <em>(Requires Javascript to be enabled)</em>">Url 
 Preview</SP:HelpToolTip>:</STRONG>
