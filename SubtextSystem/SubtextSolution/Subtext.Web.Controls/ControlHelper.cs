@@ -88,6 +88,26 @@ namespace Subtext.Web.Controls
 				ApplyRecursively(controlAction, control);
 			}
 		}
+
+		/// <summary>
+		/// Recursively searches for the server form.
+		/// </summary>
+		/// <param name="parent">The parent.</param>
+		/// <returns></returns>
+		public static HtmlForm FindServerForm(ControlCollection parent)
+		{
+			foreach (Control child in parent)
+			{                        
+				Type t = child.GetType();
+				if (t == typeof(System.Web.UI.HtmlControls.HtmlForm))
+					return (HtmlForm)child;
+            
+				if (child.HasControls())   
+					return FindServerForm(child.Controls);
+			}
+         
+			return new HtmlForm();
+		}
 	}
 
 	public delegate void ControlAction(Control control);

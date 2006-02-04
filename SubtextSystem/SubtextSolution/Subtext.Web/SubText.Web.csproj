@@ -990,11 +990,11 @@
                 />
                 <File
                     RelPath = "Admin\Resources\Scripts\helptip.css"
-                    BuildAction = "None"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "Admin\Resources\Scripts\helptip.js"
-                    BuildAction = "None"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "Admin\Resources\Scripts\labelFocus.js"

@@ -36,11 +36,11 @@ namespace Subtext.Web.Admin.Pages
 	/// Base Page class for all pages in the admin tool.
 	/// </summary>
 	public class AdminPage : System.Web.UI.Page
-	{		
+	{
 		private const string TESTCOOKIE_NAME = "TestCookie";
 
 		private ConfirmCommand _command;
-
+		
 		internal CookieSupportType CookieSupport
 		{
 			get 
@@ -54,7 +54,7 @@ namespace Subtext.Web.Admin.Pages
 		}
 
 		protected override void OnLoad(EventArgs e)
-		{
+		{		
 			if(!ValidateUser)
 			{
 				Response.Redirect(Config.CurrentBlog.RootUrl + "Login.aspx?ReturnUrl=" + Request.Path);
