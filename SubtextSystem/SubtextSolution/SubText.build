@@ -97,6 +97,7 @@
 				<exclude name="**/*.csproj.user"/>
 				<exclude name="**/.cvsignore"/>
 				<exclude name="obj/**"/>
+				<include name="emoticons.txt" />
 			</fileset>
 		</copy>
 		
