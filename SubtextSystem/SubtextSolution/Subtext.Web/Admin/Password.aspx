@@ -32,7 +32,7 @@
 					<asp:TextBox id="tbPasswordConfirm" runat="server" TextMode="Password" Width="200px"></asp:TextBox>
 			</p>
 			<div>
-					<asp:LinkButton id="btnSave" runat="server" CssClass="Button" Text="Save"></asp:LinkButton><br><br>
+					<asp:LinkButton id="btnSave" runat="server" CssClass="Button" Text="Save"></asp:LinkButton><br /><br />
 			</div>
 		</div>
 	</ANW:AdvancedPanel>

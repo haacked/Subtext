@@ -4,21 +4,21 @@
 	<div class="moreinfotitle">Post a comment</div>
 	<div id="postcomment">
 		<div>
-			Title<br>
+			Title<br />
 			<asp:TextBox id="tbTitle" runat="server" Size = "40" Width="400px" CssClass="text"></asp:TextBox>
 			<asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" ErrorMessage="Please enter a title" ControlToValidate="tbTitle"></asp:RequiredFieldValidator>
 		</div>
 		<div>
-			Name<br>
+			Name<br />
 			<asp:TextBox id="tbName" runat="server" Size = "40" Width="400px" CssClass="text"></asp:TextBox>
 			<asp:RequiredFieldValidator id="RequiredFieldValidator2" runat="server" ErrorMessage="Please enter your name" ControlToValidate="tbName"></asp:RequiredFieldValidator>
 		</div>
 		<div>
-			Url<br>
-			<asp:TextBox id="tbUrl" runat="server" Size = "40" Width="400px" CssClass="text"></asp:TextBox><br><br>
+			Url<br />
+			<asp:TextBox id="tbUrl" runat="server" Size = "40" Width="400px" CssClass="text"></asp:TextBox><br /><br />
 		</div>
 		<div>
-			Comments<br>
+			Comments<br />
 			<asp:TextBox id="tbComment" runat="server" Rows = "10" Columns = "50" Width="400px" Height="193px" TextMode="MultiLine"></asp:TextBox>
 			<asp:RequiredFieldValidator id="RequiredFieldValidator3" runat="server" ErrorMessage="Please enter a comment" ControlToValidate="tbComment"></asp:RequiredFieldValidator>
 		</div>

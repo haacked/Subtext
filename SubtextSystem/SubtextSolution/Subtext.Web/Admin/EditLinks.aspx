@@ -54,7 +54,7 @@
 		<ANW:Pager id="ResultsPager" runat="server" UseSpacer="False" PrefixText="<div>Goto page</div>"
 			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' UrlFormat="EditLinks.aspx?pg={0}"
 			CssClass="Pager"></ANW:Pager>
-		<BR class="Clear">
+		<BR class="clear">
 	</ANW:AdvancedPanel>
 	<ANW:AdvancedPanel id="ImportExport" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True"
 		HeaderCssClass="CollapsibleTitle" HeaderText="Import/Export" Collapsible="True" BodyCssClass="Edit"
@@ -70,7 +70,7 @@
 				</div>
 				<div style="MARGIN-TOP: 8px">
 					<asp:Button id="lkbImportOpml" runat="server" CssClass="Button" Text="Import"></asp:Button><A class="Button" href="Export.aspx?command=opml">Export</A>
-					<BR class="Clear">
+					<BR class="clear">
 					&nbsp;
 				</div>
 			</div>

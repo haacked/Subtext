@@ -79,7 +79,7 @@
 	<ANW:Pager id="ResultsPager" runat="server" CssClass="Pager" UrlFormat="EditPosts.aspx?pg={0}"
 		LinkFormatActive='<a href="{0}" class="Current">{1}</a>' PrefixText="<div>Goto page</div>"
 		UseSpacer="False"></ANW:Pager>
-	<br class="Clear">
+	<br class="clear">
 </ANW:AdvancedPanel>
 
 <ANW:AdvancedPanel id="Edit" runat="server" LinkImageCollapsed="~/admin/resources/toggle_gray_down.gif" LinkImage="~/admin/resources/toggle_gray_up.gif" LinkStyle="Image" DisplayHeader="True" HeaderCssClass="CollapsibleTitle" Collapsible="False" HeaderText="Edit Post">

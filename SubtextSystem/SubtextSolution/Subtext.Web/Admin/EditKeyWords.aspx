@@ -65,7 +65,7 @@
 		<ANW:Pager id="ResultsPager" runat="server" CssClass="Pager" UrlFormat="EditKeyWords.aspx?pg={0}"
 			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' PrefixText="<div>Goto page</div>"
 			UseSpacer="False"></ANW:Pager>
-		<BR class="Clear">
+		<BR class="clear">
 	</ANW:AdvancedPanel>
 	<ANW:AdvancedPanel id="Edit" runat="server" Collapsible="False" HeaderText="Edit KeyWord" HeaderCssClass="CollapsibleTitle"
 		DisplayHeader="True" LinkStyle="Image">

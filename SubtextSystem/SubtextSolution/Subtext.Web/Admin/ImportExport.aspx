@@ -4,28 +4,34 @@
 	<ANW:MessagePanel id="Messages" runat="server"></ANW:MessagePanel>
 	<ANW:AdvancedPanel id="Action" runat="server" BodyCssClass="Edit" DisplayHeader="true" HeaderCssClass="CollapsibleHeader"
 		HeaderText="Options" Collapsible="False">
-		<FIELDSET>
-			<LEGEND>Import &amp; Export BlogML files.</LEGEND>
-			<H4>Persist this blog to BlogML Format.</H4>
-			<P>This function will generate BlogML for your blog and output it as an xml file. 
+		<fieldset>
+			<legend>Import &amp; Export BlogML files.</legend>
+			<h4>Persist this blog to BlogML Format.</h4>
+			<p>
+				This function will generate BlogML for your blog and output it as an xml file. 
 				After the BlogML generation phase you will be presented with a link to the 
-				file.</P>
-			<P>
-				<asp:CheckBox id="chkEmbedAttach" runat="server" Text="Embed Attachments?" Checked="True"></asp:CheckBox><BR>
-				<BR>
+				file.
+			</p>
+			<p>
+				<asp:CheckBox id="chkEmbedAttach" runat="server" Text="Embed Attachments?" Checked="True"></asp:CheckBox><br />
+				<br />
 				<asp:Button id="btnSave" runat="server" Text="Save" CssClass="buttonSubmit"></asp:Button>&nbsp;&nbsp;
 				<asp:HyperLink id="hypBlogMLFile" runat="server" Visible="False">Download BlogML File</asp:HyperLink></P>
-			<HR>
+			<hr />
 			<!-- BlogML Reader -->
-			<H4>Import from BlogML.</H4>
-			<P>Allows you to import an existing blog by loading BlogML content.<BR>
-				<LABEL class="block">BlogML file:&nbsp; 
-<asp:RequiredFieldValidator id="blogMLFileRequired" runat="server" ForeColor="#990066" Display="Dynamic" ControlToValidate="importBlogMLFile"
-						ErrorMessage="You must select a valid BlogML file to import."></asp:RequiredFieldValidator></LABEL></P>
-			<P><INPUT id="importBlogMLFile" type="file" name="filImportBlogML" runat="server">
-				<BR>
-				<BR>
-				<asp:Button id="btnLoad" runat="server" Text="Load!" CssClass="buttonSubmit"></asp:Button></P>
-		</FIELDSET>
+			<h4>Import from BlogML.</h4>
+			<p>
+				Allows you to import an existing blog by loading BlogML content.<br />
+				<label class="block">BlogML file:&nbsp; 
+					<asp:RequiredFieldValidator id="blogMLFileRequired" runat="server" ForeColor="#990066" Display="Dynamic" ControlToValidate="importBlogMLFile"
+						ErrorMessage="You must select a valid BlogML file to import."></asp:RequiredFieldValidator></label>
+			</p>
+			<p>
+				<input id="importBlogMLFile" type="file" name="filImportBlogML" runat="server">
+				<br />
+				<br />
+				<asp:Button id="btnLoad" runat="server" Text="Load!" CssClass="buttonSubmit"></asp:Button>
+			</p>
+		</fieldset>
 	</ANW:AdvancedPanel>
 </ANW:PAGE>

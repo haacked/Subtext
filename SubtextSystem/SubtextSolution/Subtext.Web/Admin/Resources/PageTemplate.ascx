@@ -85,9 +85,9 @@
 					<td id="Footer" colspan="2">
 						<div>
 							<a href="http://www.asp.net"><img id="PoweredBy" src='<%= Utilities.ResourcePath + "resources/poweredbydotnet.gif" %>' height="33" width="99"></a>
-							Copyright © <a href="http://haacked.com/blog">Phil Haack</a>, 2005. All rights 
-							reserved.<br>
-							Copyright © <a href="http://scottwater.com/blog">Scott Watermasysk</a>, 2003. 
+							Copyright &copy; <a href="http://haacked.com/blog">Phil Haack</a>, 2005. All rights 
+							reserved.<br />
+							Copyright &copy; <a href="http://scottwater.com/blog">Scott Watermasysk</a>, 2003. 
 							All rights reserved.
 						</div>
 					</td>

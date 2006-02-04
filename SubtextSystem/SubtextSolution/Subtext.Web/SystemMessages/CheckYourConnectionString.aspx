@@ -29,10 +29,10 @@
 			Please be kind and report the issue to the <a href="mailto:subtext-devs@lists.sourceforge.net?subject=Houston,+We+Have+a+Problem!">subtext team</a>.
 		</p>
 		<H2>Original Error Information</H2>
-		<p><B>Message:</B><BR>
+		<p><B>Message:</B><br />
 			<asp:Label id="lblErrorMessage" runat="server">Label</asp:Label></p>
 		<p>
-		<p><B>Stack Trace:</B><BR>
+		<p><B>Stack Trace:</B><br />
 			<asp:Label id="lblStackTrace" runat="server">Label</asp:Label>
 		</p>
 	</asp:PlaceHolder>

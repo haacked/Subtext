@@ -22,6 +22,6 @@
 		<p>
 			<a href="Preferences.aspx">Preferences</a>: Set common preferences.
 		</p>
-		<br class="Clear">
+		<br class="clear">
 	</ANW:AdvancedPanel>
 </ANW:Page>

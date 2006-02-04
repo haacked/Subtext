@@ -65,30 +65,35 @@
 		<ANW:Pager id="ResultsPager" runat="server" CssClass="Pager" UrlFormat="Referrers.aspx?pg={0}"
 			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' PrefixText="<div>Goto page</div>"
 			UseSpacer="False"></ANW:Pager>
-		<BR class="Clear">
+		<br class="clear">
 	</ANW:AdvancedPanel>
 	<ANW:AdvancedPanel id="Edit" runat="server" DisplayHeader="True" HeaderCssClass="CollapsibleTitle"
 		HeaderText="Create TrackBack" Collapsible="False" LinkStyle="Image" Visible="False">
-		<DIV class="Edit">
-			<P class="Label">Title
+		<div class="Edit">
+			<p class="Label">
+				Title
 				<asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" ControlToValidate="txbTitle" ForeColor="#990066"
-					ErrorMessage="You must enter a title"></asp:RequiredFieldValidator></P>
-			<P>
-				<asp:TextBox id="txbTitle" runat="server" max="100" columns="255" width="98%"></asp:TextBox></P>
-			<P class="Label">Url
+					ErrorMessage="You must enter a title"></asp:RequiredFieldValidator>
+			</p>
+			<p>
+				<asp:TextBox id="txbTitle" runat="server" max="100" columns="255" width="98%"></asp:TextBox>
+			</p>
+			<p class="Label">Url
 				<asp:RequiredFieldValidator id="Requiredfieldvalidator3" runat="server" ControlToValidate="txbUrl" ForeColor="#990066"
-					ErrorMessage="You must enter a Url"></asp:RequiredFieldValidator></P>
-			<P>
-				<asp:TextBox id="txbUrl" runat="server" columns="255" width="98%"></asp:TextBox></P>
-			<P class="Label">Comments/Content
-			</P>
-			<P>
-				<asp:TextBox id="txbBody" runat="server" columns="255" width="98%" TextMode="MultiLine"></asp:TextBox></P>
-			<DIV>
+					ErrorMessage="You must enter a Url"></asp:RequiredFieldValidator>
+			</p>
+			<p>
+				<asp:TextBox id="txbUrl" runat="server" columns="255" width="98%"></asp:TextBox>
+			</p>
+			<p class="Label">Comments/Content</p>
+			<p>
+				<asp:TextBox id="txbBody" runat="server" columns="255" width="98%" TextMode="MultiLine"></asp:TextBox>
+			</p>
+			<div>
 				<asp:LinkButton id="lkbPost" runat="server" CssClass="Button" Text="Post"></asp:LinkButton>
-				<asp:LinkButton id="lkbCancel" runat="server" CssClass="Button" Text="Cancel" CausesValidation="false"></asp:LinkButton><BR>
+				<asp:LinkButton id="lkbCancel" runat="server" CssClass="Button" Text="Cancel" CausesValidation="false"></asp:LinkButton><br />
 				&nbsp;
-			</DIV>
-		</DIV>
+			</div>
+		</div>
 	</ANW:AdvancedPanel>
 </ANW:Page>

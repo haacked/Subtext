@@ -376,7 +376,7 @@ namespace Subtext.Web.Admin.WebUI
 			writer.RenderEndTag();
 
 			#if Diagnostic
-			writer.Write("<br>PageIndex={0}, _padLeft={1}, _padRight={2}, MaxPages={3}, DisplayPages={4}, ItemCount={5}<br>", 
+			writer.Write("<br />PageIndex={0}, _padLeft={1}, _padRight={2}, MaxPages={3}, DisplayPages={4}, ItemCount={5}<br />", 
 				PageIndex, _padLeft, _padRight, MaxPages, DisplayPages, ItemCount);
 			#endif
 			
