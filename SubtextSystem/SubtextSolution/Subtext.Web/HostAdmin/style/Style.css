@@ -99,6 +99,17 @@ div.MessagePanel DIV
 	margin-left: 44px;
 }
 
+/******* {message styles} ***********/
+.warning, .error
+{
+	color: #cc0000;
+}
+
+.error
+{
+	font-weight: bold;
+}
+
 /******* Generic Styles ****/
 body 
 {
@@ -622,4 +633,3 @@ img
 }
 
 .lnum { color: #606060; }
-
