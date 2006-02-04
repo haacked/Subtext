@@ -7,6 +7,7 @@ namespace Subtext.Scripting
 	/// Class for parsing connection strings.  Will add the ability to 
 	/// change connection string properties and have the full string work properly.
 	/// </summary>
+	[Serializable]
 	public class ConnectionString
 	{
 		private static ConnectionString _emptyConnectionString = new ConnectionString();
