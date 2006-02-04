@@ -35,8 +35,13 @@ namespace Subtext.Web.Admin.Pages
 		protected Button btnSave;
 		protected RequiredFieldValidator RequiredFieldValidator1;
 		protected MessagePanel Messages;
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel Results;
-		protected Subtext.Web.Admin.WebUI.Page PageContainer;
+		/* Doesn't compile and since I guess there is no need to redefine them here
+		 * I simply commented them out..
+		 * Pardon me Phil if I broke some your idea, but.. doesn't compile
+		 * 
+		new protected Subtext.Web.Admin.WebUI.AdvancedPanel Results;
+		new protected Subtext.Web.Admin.WebUI.Page PageContainer;
+		*/
 		protected TextBox tbPassword;
 	
 		private void Page_Load(object sender, EventArgs e)
