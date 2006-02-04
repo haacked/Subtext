@@ -29,6 +29,8 @@ namespace Subtext.Web.Admin.Pages
 		protected HelpToolTip Helptooltip3;
 		protected HelpToolTip Helptooltip4;
 		protected CheckBox chkAllowDuplicates;
+		protected TextBox txtNumberOfRecentComments;
+		protected TextBox txtRecentCommentsLength;
 		
 		private void Page_Load(object sender, EventArgs e)
 		{
@@ -59,6 +61,25 @@ namespace Subtext.Web.Admin.Pages
 			{
 				this.txtCommentDelayIntervalMinutes.Text = string.Empty;
 			}
+
+			if(info.NumberOfRecentComments > 0 && info.NumberOfRecentComments < int.MaxValue)
+			{
+				this.txtNumberOfRecentComments.Text = info.NumberOfRecentComments.ToString(CultureInfo.InvariantCulture);
+			}
+			else
+			{
+				this.txtNumberOfRecentComments.Text = string.Empty;
+			}
+
+			if(info.RecentCommentsLength > 0 && info.RecentCommentsLength < int.MaxValue)
+			{
+				this.txtRecentCommentsLength.Text = info.RecentCommentsLength.ToString(CultureInfo.InvariantCulture);
+			}
+			else
+			{
+				this.txtRecentCommentsLength.Text = string.Empty;
+			}
+
 		}
 
 		private void ManageHiddenSettings()
@@ -112,6 +133,24 @@ namespace Subtext.Web.Admin.Pages
 					info.DaysTillCommentsClose = int.MaxValue;
 				}
 
+				if(this.txtNumberOfRecentComments.Text.Length > 0)
+				{
+					info.NumberOfRecentComments = ValidateInteger("Number of Recent Comments to Display", txtNumberOfRecentComments.Text, 0, int.MaxValue);
+				}
+				else
+				{
+					info.NumberOfRecentComments = int.MaxValue;
+				}
+
+				if(this.txtRecentCommentsLength.Text.Length > 0)
+				{
+					info.RecentCommentsLength = ValidateInteger("Length of Recent Comments to Display (Number of characters)", txtRecentCommentsLength.Text, 0, int.MaxValue);
+				}
+				else
+				{
+					info.RecentCommentsLength = int.MaxValue;
+				}
+
 				Config.UpdateConfigData(info);
 			}
 		}
@@ -140,6 +179,14 @@ namespace Subtext.Web.Admin.Pages
 				if(txtDaysTillCommentsClosed.Text.Length > 0)
 					ValidateInteger("Days Till Comments Close", txtDaysTillCommentsClosed.Text, 0, int.MaxValue);
 				return true;
+
+/*				if(txtNumberOfRecentComments.Text.Length > 0)
+					ValidateInteger("Number of Recent Comments to Display", txtNumberOfRecentComments.Text, 0, int.MaxValue);
+				return true;
+
+				if(txtRecentCommentsLength.Text.Length > 0)
+					ValidateInteger("Length of Recent Comments to Display (Number of characters)", txtRecentCommentsLength.Text, 0, int.MaxValue);
+				return true;*/
 			}
 		}
 

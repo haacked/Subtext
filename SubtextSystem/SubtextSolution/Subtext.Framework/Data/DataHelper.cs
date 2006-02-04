@@ -24,6 +24,7 @@
 using System;
 using System.Data;
 using System.Globalization;
+using System.Diagnostics;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
@@ -775,6 +776,27 @@ namespace Subtext.Framework.Data
 				info.CommentDelayInMinutes = NullValue.NullInt32;
 			}
 
+			if(reader["NumberOfRecentComments"] != DBNull.Value)
+			{
+				info.NumberOfRecentComments = (int)reader["NumberOfRecentComments"];
+			}
+			else
+			{
+				info.NumberOfRecentComments = NullValue.NullInt32;
+			}
+
+			if(reader["RecentCommentsLength"] != DBNull.Value)
+			{
+				info.RecentCommentsLength = (int)reader["RecentCommentsLength"];
+			}
+			else
+			{
+				info.RecentCommentsLength = NullValue.NullInt32;
+			}
+			
+			//TODO: Why is this here at this point?
+			PerformanceCounter pc = new PerformanceCounter("System", "System Up Time");
+			pc.NextValue();
 			return info;
 		}
 

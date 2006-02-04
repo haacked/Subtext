@@ -6,6 +6,7 @@
 <%@ Register TagPrefix="uc1" TagName="SingleColumn" Src="Controls/SingleColumn.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="MyLinks" Src="Controls/MyLinks.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="Header" Src="Controls/Header.ascx" %>
+<%@ Register TagPrefix="uc1" TagName="RecentComments" Src="Controls/RecentComments.ascx" %>
 <div id="rondo"><p>&nbsp;</p></div>
 		<div id="all">
 			<uc1:Header id="Header" runat="server"></uc1:Header>
@@ -19,6 +20,7 @@
 				</div>
 				<div id="rightbar">
 					<uc1:News id="News" runat="server"></uc1:News>
+					<uc1:RecentComments id="RecentComments" runat="server"></uc1:RecentComments>
 					<uc1:SingleColumn id="SingleColumn" runat="server" />
 					<div class="leftbox">
 						<h2>Hosted by</h2>

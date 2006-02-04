@@ -2145,6 +2145,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\Haackify\Controls\RecentComments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\Haackify\Controls\RelatedLinks.ascx"
                     BuildAction = "Content"
                 />
@@ -3973,6 +3977,11 @@
                 />
                 <File
                     RelPath = "UI\Controls\PostComment.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\RecentComments.cs"
                     SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"
                 />

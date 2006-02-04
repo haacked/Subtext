@@ -179,10 +179,6 @@
                     RelPath = "Scripts\StoredProcedures.sql"
                     BuildAction = "EmbeddedResource"
                 />
-                <File
-                    RelPath = "Scripts\UpgradeDotText095Script.sql"
-                    BuildAction = "EmbeddedResource"
-                />
             </Include>
         </Files>
     </CSHARP>

@@ -890,6 +890,8 @@ BEGIN
 		, LicenseUrl
 		, DaysTillCommentsClose
 		, CommentDelayInMinutes
+		, NumberOfRecentComments
+		, RecentCommentsLength
 	FROM [<dbUser,varchar,dbo>].[subtext_Config]
 END
 ELSE
@@ -920,6 +922,8 @@ BEGIN
 		, LicenseUrl
 		, DaysTillCommentsClose
 		, CommentDelayInMinutes
+		, NumberOfRecentComments
+		, RecentCommentsLength
 	FROM [<dbUser,varchar,dbo>].[subtext_Config]
 	WHERE	Host = @Host
 		AND Application = @Application
@@ -3503,6 +3507,8 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateConfig]
 	, @LicenseUrl nvarchar(64) = NULL
 	, @DaysTillCommentsClose int = NULL
 	, @CommentDelayInMinutes int = NULL
+	, @NumberOfRecentComments int = NULL
+	, @RecentCommentsLength int = NULL
 )
 AS
 UPDATE [<dbUser,varchar,dbo>].[subtext_Config]
@@ -3527,6 +3533,8 @@ Set
 	, LicenseUrl = @LicenseUrl
 	, DaysTillCommentsClose = @DaysTillCommentsClose
 	, CommentDelayInMinutes = @CommentDelayInMinutes
+	, NumberOfRecentComments = @NumberOfRecentComments
+	, RecentCommentsLength = @RecentCommentsLength
 WHERE BlogID = @BlogID
 
 GO
@@ -3876,6 +3884,8 @@ SELECT	blog.BlogID
 		, blog.LicenseUrl
 		, blog.DaysTillCommentsClose
 		, blog.CommentDelayInMinutes
+		, blog.NumberOfRecentComments
+		, blog.RecentCommentsLength
 		
 FROM [<dbUser,varchar,dbo>].[subtext_config] blog
     	INNER JOIN #TempPagedBlogIDs tmp ON (blog.[BlogID] = tmp.BlogID)
@@ -3936,6 +3946,8 @@ SELECT	blog.BlogID
 		, blog.LicenseUrl
 		, blog.DaysTillCommentsClose
 		, blog.CommentDelayInMinutes
+		, blog.NumberOfRecentComments
+		, blog.RecentCommentsLength
 		
 FROM [<dbUser,varchar,dbo>].[subtext_config] blog
 WHERE	blog.BlogId = @BlogId
@@ -3986,6 +3998,8 @@ SELECT	blog.BlogID
 		, blog.LicenseUrl
 		, blog.DaysTillCommentsClose
 		, blog.CommentDelayInMinutes
+		, blog.NumberOfRecentComments
+		, blog.RecentCommentsLength
 		
 FROM [<dbUser,varchar,dbo>].[subtext_config] blog
 WHERE	blog.Host = @Host

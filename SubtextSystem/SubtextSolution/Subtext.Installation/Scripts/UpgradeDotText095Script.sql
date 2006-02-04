@@ -178,3 +178,63 @@ UPDATE blog_Content
 SET DateSyndicated = DateUpdated
 -- Post is syndicated and active
 WHERE PostConfig & 16 = 16 AND PostConfig & 1 = 1
+
+/*
+Adds the NumberOfRecentComments column which specifies the number of 
+comments to display in the RecentComments control.
+*/
+IF NOT EXISTS 
+(
+	SELECT * FROM SysObjects O INNER JOIN SysColumns C ON O.ID=C.ID
+	WHERE ObjectProperty(O.ID,'IsUserTable')=1
+	AND O.Name = 'subtext_Config'
+	AND C.Name = 'NumberOfRecentComments'
+) 
+BEGIN
+	PRINT 'Adding Column NumberOfRecentComments to Table subtext_config'
+	BEGIN TRANSACTION
+	SET QUOTED_IDENTIFIER ON
+	SET TRANSACTION ISOLATION LEVEL SERIALIZABLE
+	SET ARITHABORT ON
+	SET NUMERIC_ROUNDABORT OFF
+	SET CONCAT_NULL_YIELDS_NULL ON
+	SET ANSI_NULLS ON
+	SET ANSI_PADDING ON
+	SET ANSI_WARNINGS ON
+	COMMIT
+	BEGIN TRANSACTION
+	ALTER TABLE [subtext_Config] ADD
+		[NumberOfRecentComments] INT NULL
+	COMMIT
+END
+GO
+
+/*
+Adds the RecentCommentsLength column which specifies the number of characters
+to display for recent comments in the RecentComments control.
+*/
+IF NOT EXISTS 
+(
+	SELECT * FROM SysObjects O INNER JOIN SysColumns C ON O.ID=C.ID
+	WHERE ObjectProperty(O.ID,'IsUserTable')=1
+	AND O.Name = 'subtext_Config'
+	AND C.Name = 'RecentCommentsLength'
+) 
+BEGIN
+	PRINT 'Adding Column RecentCommentsLength to Table subtext_config'
+	BEGIN TRANSACTION
+	SET QUOTED_IDENTIFIER ON
+	SET TRANSACTION ISOLATION LEVEL SERIALIZABLE
+	SET ARITHABORT ON
+	SET NUMERIC_ROUNDABORT OFF
+	SET CONCAT_NULL_YIELDS_NULL ON
+	SET ANSI_NULLS ON
+	SET ANSI_PADDING ON
+	SET ANSI_WARNINGS ON
+	COMMIT
+	BEGIN TRANSACTION
+	ALTER TABLE [subtext_Config] ADD
+		[RecentCommentsLength] INT NULL
+	COMMIT
+END
+GO
