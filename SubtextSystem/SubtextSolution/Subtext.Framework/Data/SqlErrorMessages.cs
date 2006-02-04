@@ -12,6 +12,21 @@ namespace Subtext.Framework.Data
 		/// Specified SQL server not found:
 		/// </summary>
 		SpecifiedSqlServerNotFound = 6,
+
+		/// <summary>
+		/// Permission is denied on an object.
+		/// </summary>
+		PermissionDeniedInOnObject = 229,
+
+		/// <summary>
+		/// Permission is denied on column.
+		/// </summary>
+		PermissionDeniedInOnColumn = 230,
+
+		/// <summary>
+		/// Permission is denied in the database.
+		/// </summary>
+		PermissionDeniedInDatabase = 262,
 		
 		/// <summary>
 		/// Could not find the stored procedure.
@@ -45,7 +60,5 @@ namespace Subtext.Framework.Data
 		/// mapping character or is longer than 30 characters.
 		/// </summary>
 		LoginFailedUserNameInvalid = 18457,
-
-
 	}
 }
