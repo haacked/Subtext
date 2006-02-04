@@ -160,10 +160,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Scripts\DropTables.sql"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "Scripts\ImportDotText095.sql"
                     BuildAction = "EmbeddedResource"
                 />
