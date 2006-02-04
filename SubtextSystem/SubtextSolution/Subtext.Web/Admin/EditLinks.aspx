@@ -1,6 +1,5 @@
 <%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Page language="c#" Codebehind="EditLinks.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.EditLinks" %>
-
 <ANW:Page runat="server" id="PageContainer" TabSectionID="Links" CategoryType="LinkCollection">
 	<ANW:MessagePanel id="Messages" runat="server"></ANW:MessagePanel>
 	<ANW:AdvancedPanel id="Results" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True"
@@ -88,16 +87,16 @@
 				<asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" ControlToValidate="txbTitle" ForeColor="#990066"
 					ErrorMessage="Your link must have a title"></asp:RequiredFieldValidator></p>
 			<P>
-				<asp:TextBox id="txbTitle" runat="server" columns="255" width="98%"></asp:TextBox></p>
+				<asp:TextBox id="txbTitle" runat="server" CssClass="textinput"></asp:TextBox></p>
 			<p>
 				<label for="Edit_txbUrl" AccessKey="w"><u>W</u>eb Url</label>
 				<asp:RequiredFieldValidator id="Requiredfieldvalidator2" runat="server" ControlToValidate="txbUrl" ForeColor="#990066"
 					ErrorMessage="Your link must have a url"></asp:RequiredFieldValidator></p>
 			<P>
-				<asp:TextBox id="txbUrl" runat="server" columns="255" width="98%"></asp:TextBox></p>
+				<asp:TextBox id="txbUrl" runat="server" CssClass="textinput"></asp:TextBox></p>
 			<p><label for="Edit_txbRss" AccessKey="r"><u>R</u>ss Url</label></p>
 			<P>
-				<asp:TextBox id="txbRss" runat="server" columns="255" width="98%"></asp:TextBox></p>
+				<asp:TextBox id="txbRss" runat="server" CssClass="textinput"></asp:TextBox></p>
 			<p><label for="Edit_ddlCategories" AccessKey="c"><u>C</u>ategories</label></p>
 			<P>
 				<ASP:DropDownList id="ddlCategories" runat="server"></ASP:DropDownList></p>

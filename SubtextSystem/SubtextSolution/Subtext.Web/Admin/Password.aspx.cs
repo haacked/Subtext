@@ -32,9 +32,11 @@ namespace Subtext.Web.Admin.Pages
 		protected TextBox tbCurrent;
 		protected RequiredFieldValidator RequiredFieldValidator5;
 		protected ValidationSummary ValidationSummary1;
-		protected LinkButton btnSave;
+		protected Button btnSave;
 		protected RequiredFieldValidator RequiredFieldValidator1;
 		protected MessagePanel Messages;
+		protected Subtext.Web.Admin.WebUI.AdvancedPanel Results;
+		protected Subtext.Web.Admin.WebUI.Page PageContainer;
 		protected TextBox tbPassword;
 	
 		private void Page_Load(object sender, EventArgs e)
@@ -60,8 +62,8 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.btnSave.Click += new EventHandler(this.btnSave_Click);
-			this.Load += new EventHandler(this.Page_Load);
+			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion
