@@ -3087,6 +3087,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\RedBook\Controls\RecentComments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\RedBook\Controls\RelatedLinks.ascx"
                     BuildAction = "Content"
                 />
