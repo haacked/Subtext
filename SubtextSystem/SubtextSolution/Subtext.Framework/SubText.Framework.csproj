@@ -154,6 +154,11 @@
                     AssemblyName = "BlogML"
                     HintPath = "ExternalDependencies\BlogML.dll"
                 />
+                <Reference
+                    Name = "Subtext.Scripting"
+                    Project = "{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
             </References>
         </Build>
         <Files>

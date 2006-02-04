@@ -23,6 +23,7 @@
 
 using System;
 using System.Xml.Serialization;
+using Subtext.Scripting;
 
 namespace Subtext.Framework.Configuration
 {
@@ -34,6 +35,7 @@ namespace Subtext.Framework.Configuration
 	public class BlogConfigurationSettings 
 	{
 		private Tracking _tracking;
+
 		public Tracking Tracking
 		{
 			get 
@@ -145,13 +147,19 @@ namespace Subtext.Framework.Configuration
 		/// Gets the connection string for the application.
 		/// </summary>
 		/// <value></value>
-		public string ConnectionString
+		[XmlIgnore]
+		public ConnectionString ConnectionString
 		{
 			get
 			{
-				return System.Configuration.ConfigurationSettings.AppSettings["ConnectionString"];
+				if(_connectionString == null && System.Configuration.ConfigurationSettings.AppSettings["ConnectionString"] != null)
+					_connectionString = System.Configuration.ConfigurationSettings.AppSettings["ConnectionString"];
+
+				return _connectionString;
 			}
 		}
+
+		ConnectionString _connectionString = null;
 	}
 }
 
