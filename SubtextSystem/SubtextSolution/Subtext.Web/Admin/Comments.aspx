@@ -30,7 +30,14 @@
 				<SP:HelpToolTip id="Helptooltip4" runat="server" HelpText="If checked, duplicate comments are allowed.  If unchecked, duplicate comments are not allowed.  Not checking this can help prevent some comment spam, but at the cost that short “me too” style comments may be blocked.">Allow Duplicate Comments </SP:HelpToolTip>
 			</label>
 			<asp:CheckBox id="chkAllowDuplicates" runat="server"></asp:CheckBox>
-		</p>
+			<p class="Valuelabel"><label class="txtNumberOfRecentComments">
+					<SP:HelpToolTip id="Helptooltip7" runat="server" HelpText="This sets how many recent comments are displayed in the sidebar. This is an integer from 1-99.">Number of Recent Comments to Display </SP:HelpToolTip>
+				</label>
+				<asp:TextBox id="txtNumberOfRecentComments" runat="server" Columns="2"></asp:TextBox>
+			</p>
+			<P class="Valuelabel"><LABEL class="txtRecentCommentsLength">
+<SP:HelpToolTip id="Helptooltip8" runat="server" HelpText="This controls how many characters of recent comments are displayed in the sidebar. This is an integer from 1-99.">Length of Recent Comments to Display (Number of characters)</SP:HelpToolTip></LABEL>
+				<asp:TextBox id="txtRecentCommentsLength" runat="server" Columns="2"></asp:TextBox></P>		</p>
 		<div style="MARGIN-TOP: 8px">
 			<asp:Button id="lkbPost" runat="server" Text="Save" CssClass="buttonSubmit"></asp:Button>&nbsp;
 		</div>

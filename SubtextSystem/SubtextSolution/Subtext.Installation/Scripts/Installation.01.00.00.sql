@@ -144,7 +144,9 @@ CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Config] (
 	[BlogGroup] [int] NULL ,
 	[LicenseUrl] [nvarchar] (64) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
 	[DaysTillCommentsClose] [int] NULL ,
-	[CommentDelayInMinutes] [int] NULL
+	[CommentDelayInMinutes] [int] NULL ,
+	[NumberOfRecentComments] [int] NULL,
+	[RecentCommentsLength] [int] NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 

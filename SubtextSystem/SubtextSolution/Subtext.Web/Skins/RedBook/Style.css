@@ -368,6 +368,17 @@ hr
    font-size: 90%;
 }
 
+#recentComments ul
+{
+	padding-left: 10px;
+}
+
+#recentComments ul li
+{
+	margin: 0;
+	padding: 0;
+}
+
 #footer
 {
 	float:none;

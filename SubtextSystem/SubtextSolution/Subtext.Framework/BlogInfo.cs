@@ -460,6 +460,44 @@ namespace Subtext.Framework
 		int _commentDelayInMinutes;
 
 		/// <summary>
+		/// Gets or sets the number of recent comments to display in 
+		/// the RecentComments control.
+		/// </summary>
+		/// <value></value>
+		public int NumberOfRecentComments
+		{
+			get
+			{
+				if(_numberOfRecentComments < 0 || _numberOfRecentComments == int.MaxValue)
+					return 0;
+				else
+					return _numberOfRecentComments;
+			}
+			set { _numberOfRecentComments = value; }
+		}
+
+		int _numberOfRecentComments;
+
+		/// <summary>
+		/// Gets or sets the number of characters to use to display recent comments  
+		/// in the RecentComments control.
+		/// </summary>
+		/// <value></value>
+		public int RecentCommentsLength
+		{
+			get
+			{
+				if(_recentCommentsLength < 0 || _recentCommentsLength == int.MaxValue)
+					return 0;
+				else
+					return _recentCommentsLength;
+			}
+			set { _recentCommentsLength = value; }
+		}
+
+		int _recentCommentsLength;
+
+		/// <summary>
 		/// Gets or sets a value indicating whether this blog is active.
 		/// </summary>
 		/// <value>
