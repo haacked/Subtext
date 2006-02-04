@@ -7,6 +7,7 @@ using System.Text;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility.Providers;
+using Subtext.Framework.Configuration;
 using Subtext.Scripting;
 using Subtext.Web.Controls;
 
@@ -47,18 +48,9 @@ namespace Subtext.Installation.Import
 			builder.Title = ".TEXT Connection String";
 			builder.Description = "A SQL Server Connection String that can connect to and " 
 				+ "read from your .TEXT database.";
-
-			ConnectionStringBuilder subtextBuilder = new ConnectionStringBuilder();
-			subtextBuilder.AllowWebConfigOverride = true;
-			if(subtextBuilder.ID == null || subtextBuilder.ID.Length == 0)
-				subtextBuilder.ID = "ctlSubtextConnectionStringBuilder";
-			subtextBuilder.Title = "Subtext Connection String";
-			subtextBuilder.Description = "A SQL Server Connection String that can connect " 
-				+ "to your Subtext database and has permissions to directly DELETE and INSERT records.";
-		
+			
 			Panel panel = new Panel();
 			panel.Controls.Add(builder);
-			panel.Controls.Add(subtextBuilder);
             
 			return panel;
 		}
@@ -73,12 +65,10 @@ namespace Subtext.Installation.Import
 		/// <param name="populatedControl">Populated control.</param>
 		public override void Import(Control populatedControl)
 		{
-			string subtextConnectionString;
 			string dotTextConnectionString;
-			GetConnectionStringsFromControl(populatedControl, out dotTextConnectionString, out subtextConnectionString);
+			GetConnectionStringsFromControl(populatedControl, out dotTextConnectionString);
 
-			
-			using(SqlConnection connection = new SqlConnection(subtextConnectionString))
+			using(SqlConnection connection = new SqlConnection(Config.Settings.ConnectionString.ToString()))
 			{
 				connection.Open();
 				using(SqlTransaction transaction = connection.BeginTransaction())
@@ -86,7 +76,7 @@ namespace Subtext.Installation.Import
 					try
 					{
 						//Set up script parameters...
-						ConnectionString subtextConnection = ConnectionString.Parse(subtextConnectionString);
+						ConnectionString subtextConnection = Config.Settings.ConnectionString;
 						ConnectionString dotTextConnection = ConnectionString.Parse(dotTextConnectionString);
 
 						Stream stream = ScriptHelper.UnpackEmbeddedScript("ImportDotText095.sql");
@@ -126,15 +116,11 @@ namespace Subtext.Installation.Import
 			if(populatedControl == null)
 				throw new ArgumentNullException("populatedControl", "Hello, sorry, but we really can't validate a null control.");
 
-			string subtextConnectionString;
 			string dotTextConnectionString;
-			GetConnectionStringsFromControl(populatedControl, out dotTextConnectionString, out subtextConnectionString);
+			GetConnectionStringsFromControl(populatedControl, out dotTextConnectionString);
 
 			if(dotTextConnectionString == null || dotTextConnectionString.Length == 0)
 				return "Please specify a valid connection string to the .TEXT 0.95 database.";
-
-			if(subtextConnectionString == null || subtextConnectionString.Length == 0)
-				return "Please specify a valid connection string to the Subtext database.";
 
 			try
 			{
@@ -148,13 +134,13 @@ namespace Subtext.Installation.Import
 					return errorMessage;
 				}
 
-				if(!DoesTableExist("subtext_config", subtextConnectionString))
+				if(!DoesTableExist("subtext_config", Config.Settings.ConnectionString))
 				{
 					string errorMessage = "I&#8217;m sorry, but it does not appear that " 
-						+ "there is a Subtext database corresponding to the connection string provided. " 
+						+ "there is a Subtext database corresponding to the connection string within web.config. " 
 						+ "Please double check that the &#8220;subtext_config&#8221; table exists.  If it does, " 
 						+ "double check that it was created using the [dbo] account OR by the same user " 
-						+ "specified in the subText connection string below.";
+						+ "specified in the subText connection string.";
 					return errorMessage;
 				}
 			}
@@ -170,13 +156,15 @@ namespace Subtext.Installation.Import
 			return string.Empty;
 		}
 
-		private static void GetConnectionStringsFromControl(Control populatedControl, out string dotTextConnectionString, out string subtextConnectionString)
+		private static void GetConnectionStringsFromControl(Control populatedControl, out string dotTextConnectionString)
 		{
 			ConnectionStringBuilder control = populatedControl.FindControl("ctlConnectionStringBuilder") as ConnectionStringBuilder;
 			dotTextConnectionString = control.ConnectionString;
+		}
 
-			control = populatedControl.FindControl("ctlSubtextConnectionStringBuilder") as ConnectionStringBuilder;
-			subtextConnectionString = control.ConnectionString;
+		bool DoesTableExist(string tableName, ConnectionString connectionString)
+		{
+			return DoesTableExist(tableName, connectionString.ToString());
 		}
 
 		bool DoesTableExist(string tableName, string connectionString)

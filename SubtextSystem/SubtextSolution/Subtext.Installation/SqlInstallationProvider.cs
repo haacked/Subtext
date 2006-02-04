@@ -4,7 +4,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using Subtext.Extensibility.Providers;
 using Subtext.Scripting;
 using Subtext.Web.Controls;
@@ -17,11 +16,10 @@ namespace Subtext.Installation
 	public class SqlInstallationProvider : InstallationProvider
 	{
 		Version _version = null;
+		string _connectionString = string.Empty;
 		string _name = string.Empty;
 		const string TableExistsSql = "SELECT COUNT(1) FROM dbo.sysobjects WHERE id = object_id(N'[{0}]') and OBJECTPROPERTY(id, N'IsUserTable') = 1";
-		string _adminConnectionString = string.Empty;
-		string _defaultConnectionString = string.Empty;
-
+		
 		/// <summary>
 		/// Initializes the specified provider.
 		/// </summary>
@@ -30,9 +28,7 @@ namespace Subtext.Installation
 		public override void Initialize(string name, NameValueCollection configValue)
 		{
 			_name = name;
-			_defaultConnectionString = GetSettingValue("defaultConnectionString", configValue);
-			// Can specify this in web.config but it's better not to.
-			_adminConnectionString = GetSettingValue("adminConnectionString", configValue);
+			_connectionString = GetSettingValue("connectionString", configValue);
 		}
 
 		/// <summary>
@@ -79,28 +75,7 @@ namespace Subtext.Installation
 		/// <param name="populatedControl">Populated control.</param>
 		public override void ProvideInstallationInformation(Control populatedControl)
 		{
-			this._adminConnectionString = GetConnectionStringFromControl(populatedControl);
-		}
-
-		string GetConnectionStringFromControl(Control populatedControl)
-		{
-			if(populatedControl != null)
-			{
-				ConnectionStringBuilder builder = populatedControl as ConnectionStringBuilder;
-				if(builder != null)
-				{
-					return builder.ConnectionString;
-				}
-				
-				//HAACK: Temporary Workaround since we're not using the 
-				//		 ConnectionString control for installation.
-				Label connectionStringLabel = populatedControl as Label;
-				if(connectionStringLabel != null)
-				{
-					return connectionStringLabel.Text;
-				}
-			}
-			return string.Empty;
+			
 		}
 
 		/// <summary>
@@ -112,38 +87,7 @@ namespace Subtext.Installation
 		/// <returns></returns>
 		public override string ValidateInstallationInformation(Control control)
 		{
-			string connectionString = GetConnectionStringFromControl(control);
-			string errorMessages = string.Empty;
-			if(connectionString == null || connectionString.Length == 0)
-			{
-				errorMessages = "The Connection String was not specified.";
-				return errorMessages;
-			}
-
-			if(!TestAdminConnection(connectionString))
-			{
-				//TODO: Improve this error handling.
-				errorMessages = "The connection string is invalid or does not have sufficient rights.";
-				return errorMessages;
-			}
 			return string.Empty;
-		}
-
-		bool TestAdminConnection(string connectionString)
-		{
-			try
-			{
-				string tableName = "subtext_" + System.Guid.NewGuid().ToString();
-				string testCreateSql = "CREATE TABLE [" + tableName + "] ([TestColumn] [int] NULL)";
-				SqlHelper.ExecuteNonQuery(connectionString, CommandType.Text, testCreateSql);
-				string testDropSql = "DROP TABLE [" + tableName + "]";
-				SqlHelper.ExecuteNonQuery(connectionString, CommandType.Text, testDropSql);
-				return true;
-			}
-			catch(Exception)
-			{
-				return false;
-			}
 		}
 
 		/// <summary>
@@ -191,7 +135,7 @@ namespace Subtext.Installation
 		/// <returns></returns>
 		public override bool Upgrade(Version assemblyVersion)
 		{
-			using(SqlConnection connection = new SqlConnection(this._adminConnectionString))
+			using(SqlConnection connection = new SqlConnection(_connectionString))
 			{
 				connection.Open();
 				using(SqlTransaction transaction = connection.BeginTransaction())
@@ -225,7 +169,7 @@ namespace Subtext.Installation
 		/// <returns></returns>
 		public override void Install(Version assemblyVersion)
 		{
-			using(SqlConnection connection = new SqlConnection(this._adminConnectionString))
+			using(SqlConnection connection = new SqlConnection(_connectionString))
 			{
 				connection.Open();
 				using(SqlTransaction transaction = connection.BeginTransaction())
@@ -255,7 +199,7 @@ namespace Subtext.Installation
 		{
 			string sql = "subtext_VersionGetCurrent";
 		
-			using(IDataReader reader = SqlHelper.ExecuteReader(_defaultConnectionString, CommandType.StoredProcedure, sql))
+			using(IDataReader reader = SqlHelper.ExecuteReader(_connectionString, CommandType.StoredProcedure, sql))
 			{
 				if(reader.Read())
 				{
@@ -360,7 +304,7 @@ namespace Subtext.Installation
 		int GetTableCount(string tableName)
 		{
 			string blogContentTableSql = String.Format(TableExistsSql, tableName);			
-			return (int)SqlHelper.ExecuteScalar(this._defaultConnectionString, CommandType.Text, blogContentTableSql);
+			return (int)SqlHelper.ExecuteScalar(_connectionString, CommandType.Text, blogContentTableSql);
 		}
 	}
 }

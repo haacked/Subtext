@@ -80,7 +80,7 @@ namespace Subtext
 				AdoNetAppender adoAppender = appender as AdoNetAppender;
 				if(adoAppender != null)
 				{
-					adoAppender.ConnectionString = Config.Settings.ConnectionString;
+					adoAppender.ConnectionString = Config.Settings.ConnectionString.ToString();
 					adoAppender.ActivateOptions();
 				}
 			}

@@ -30,8 +30,9 @@
 		Double check your information as you are now ready to begin the 
 		import. Allow us to repeat our earlier warning:
 		<br />
-		<font color="#ff0000">Importing data from another engine will erase your current 
-			blog data. Once you hit the button below, there is no turning back.</font>
+		<span class="warning">Importing data from another engine could conflict with your current 
+			blog data. Once you hit the button below, there is no turning back.
+		</span>
 		<br />
 		<asp:Button id="btnBeginImport" runat="server" text="Begin the Import!"></asp:Button></P>
 </MP:MasterPage>
