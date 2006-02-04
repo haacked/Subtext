@@ -50,7 +50,7 @@
 		Visible <asp:CheckBox id="ckbNewIsActive" runat="server" Checked="true"></asp:CheckBox>
 		<br />
 		<label class="Block">Description (1000 characters including HTML)</lable><br />
-		<asp:TextBox id="txbNewDescription" max="1000"  runat="server" width="450" rows="5" CssClass="textarea" textmode="MultiLine"></asp:TextBox>
+		<asp:TextBox id="txbNewDescription" max="1000"  runat="server" rows="5" CssClass="textarea" textmode="MultiLine"></asp:TextBox>
 		<div style="margin-top: 8px">
 			<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Add"/>
 			<br />&nbsp; 
