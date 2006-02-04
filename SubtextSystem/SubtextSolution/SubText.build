@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <project name="SubText" default="dist.updateCVS">
-
+	
+	<property name="nant.settings.currentframework" value="net-1.1"/>
+	<property name="configuration" value="release"/>
 	<property name="CVSPATH" value="C:\Programmi\TortoiseCVS\cvs.exe"/>
 	<property name="SSHPATH" value="C:\Programmi\TortoiseCVS\TortoisePlink.exe"/>
 
@@ -35,7 +37,7 @@
 
 
 	<target name="compile-main">
-		<solution configuration="debug">
+		<solution configuration="${configuration}">
 	    <projects>
 	        <include name="Subtext.Common\SubText.Common.csproj" />
 	        <include name="Subtext.DotTextUpgrader\Subtext.DotTextUpgrader.csproj" />
@@ -50,7 +52,7 @@
 	</target>
 
 	<target name="compile-config">
-		<solution configuration="debug">
+		<solution configuration="${configuration}">
     <projects>
         <include name="SubtextConfigurationTool\SubtextConfigurationTool.csproj" />
     </projects>
@@ -58,7 +60,7 @@
 	</target>
 
 	<target name="compile-UnitTesting">
-		<solution configuration="debug">
+		<solution configuration="${configuration}">
     <projects>
         <include name="UnitTests.Subtext\UnitTests.SubText.csproj" />
     </projects>
