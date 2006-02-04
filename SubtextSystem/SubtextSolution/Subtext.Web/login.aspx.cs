@@ -100,7 +100,7 @@ namespace Subtext.Web.Pages
 				string Subject = "Login Credentials";
 				string Body = string.Format(message,info.UserName,password);
 				mail.Send(To,From,Subject,Body);
-				Message.Text = "Login Credentials Sent<br>";
+				Message.Text = "Login Credentials Sent<br />";
 				messageSent = true;
 			}
 			
@@ -119,7 +119,7 @@ namespace Subtext.Web.Pages
 				string Subject = "Subtext Host Admin Login Credentials";
 				string Body = string.Format(message, HostInfo.Instance.HostUserName, password);
 				mail.Send(To, From, Subject, Body);
-				Message.Text = "Login Credentials Sent<br>";
+				Message.Text = "Login Credentials Sent<br />";
 				messageSent = true;
 			}
 			
@@ -152,7 +152,7 @@ namespace Subtext.Web.Pages
 				}
 				else
 				{
-					Message.Text = "That's not it<br>";
+					Message.Text = "That's not it<br />";
 				}
 			}
 		}

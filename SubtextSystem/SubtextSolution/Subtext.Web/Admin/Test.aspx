@@ -15,14 +15,14 @@
 
 		<ANW:AdvancedPanel id="Results" runat="server" Collapsible="false" LinkText="[toggle]" HeaderText="Links" HeaderCssClass="CollapsibleHeader" DisplayHeader="True" LinkBeforeHeader="True" LinkImage="~/admin/resources/toggle_gray_up.gif" LinkImageCollapsed="~/admin/resources/toggle_gray_down.gif" LinkStyle="Image">
 			<div style="margin: 10px;">
-				<label>Test</label><br>
-				<asp:TextBox id="txbTest1" runat="server"></asp:TextBox><br>
-				<asp:TextBox id="txbTest2" runat="server"></asp:TextBox><br>
+				<label>Test</label><br />
+				<asp:TextBox id="txbTest1" runat="server"></asp:TextBox><br />
+				<asp:TextBox id="txbTest2" runat="server"></asp:TextBox><br />
 				
-				<asp:RequiredFieldValidator id=RequiredFieldValidator1 runat="server" ForeColor="#990066" ErrorMessage="Field 1 is required!" Font-Bold="true" ControlToValidate=txbTest1></asp:RequiredFieldValidator><br>
-				<asp:RequiredFieldValidator id="Requiredfieldvalidator2" runat="server" ForeColor="#990066" ErrorMessage="Field 2 is required!" Font-Bold="true" ControlToValidate=txbTest2></asp:RequiredFieldValidator><br>
+				<asp:RequiredFieldValidator id=RequiredFieldValidator1 runat="server" ForeColor="#990066" ErrorMessage="Field 1 is required!" Font-Bold="true" ControlToValidate=txbTest1></asp:RequiredFieldValidator><br />
+				<asp:RequiredFieldValidator id="Requiredfieldvalidator2" runat="server" ForeColor="#990066" ErrorMessage="Field 2 is required!" Font-Bold="true" ControlToValidate=txbTest2></asp:RequiredFieldValidator><br />
 				<asp:CompareValidator id=CompareValidator1 runat="server" runat="server" ForeColor="#990066" ErrorMessage="Fields don't match, sucker!" Font-Bold="true"  ControlToCompare="txbTest2" ControlToValidate="txbTest1"></asp:CompareValidator>
-				<br><br>
+				<br /><br />
 				<asp:Button id="btnSubmit" runat="server" Text="Go" width="70"></asp:Button>
 			<div>			
 		</ANW:AdvancedPanel>	

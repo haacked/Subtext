@@ -206,7 +206,8 @@ a.ButtonInline:hover {
 	background: #FFFFFF;
 }
 
-br.Clear {
+br.clear 
+{
 	clear: both;
 }
 

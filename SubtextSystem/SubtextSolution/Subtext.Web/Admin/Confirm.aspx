@@ -8,7 +8,7 @@
 			<ASP:Button id="lkbContinue" runat="server" text="Continue" visible="false" CssClass="buttonSubmit" />
 			<ASP:Button id="lkbYes" runat="server" Text="Yes" CssClass="buttonSubmit" />
 			<ASP:Button id="lkbNo" runat="server" Text="No" CssClass="buttonSubmit" />
-			<BR>&nbsp;
+			<br/>&nbsp;
 		</div>
 	</ANW:AdvancedPanel>
 	

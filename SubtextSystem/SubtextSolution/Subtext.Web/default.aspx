@@ -18,7 +18,7 @@
 				<p>To learn more about the application, check out <a href="http://scottwater.com/blog">my 
 						blog</a>.</p>
 				<p>
-					Powered By:<br>
+					Powered By:<br />
 					<asp:HyperLink NavigateUrl="http://scottwater.com/blog" ImageUrl="~/images/PoweredBySubtext85x33.png"
 						Runat="server" BorderWidth="0" id="HyperLink1" />
 				</p>
@@ -64,7 +64,7 @@
 					<ItemTemplate>
 						<li>
 							<asp:HyperLink Runat = "server" NavigateUrl = '<%# GetFullUrl(DataBinder.Eval(((RepeaterItem)Container).DataItem,"host").ToString(),DataBinder.Eval(((RepeaterItem)Container).DataItem,"Application").ToString()) %>' Text = '<%# DataBinder.Eval(((RepeaterItem)Container).DataItem,"Author") %>' title = '<%# DataBinder.Eval(((RepeaterItem)Container).DataItem,"Title") %>' ID="Hyperlink1" NAME="Hyperlink1"/>
-							<br>
+							<br />
 							<small>(
 								<asp:Literal runat = "server" Text = '<%# DataBinder.Eval(((RepeaterItem)Container).DataItem,"PostCount") %>' ID="Label2"/>,
 								<asp:Literal runat = "server" Text = '<%# (DateTime.Parse(DataBinder.Eval(((RepeaterItem)Container).DataItem,"LastUpdated").ToString())).ToShortDateString() + " " + (DateTime.Parse(DataBinder.Eval(((RepeaterItem)Container).DataItem,"LastUpdated").ToString())).ToShortTimeString() %>' ID="Label1"/>)</small>

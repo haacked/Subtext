@@ -12,6 +12,6 @@
 		<p>
 			<a href = "ErrorLog.aspx">Error Log</a>: Configure and view error log
 		</p>
-		<br class="Clear">
+		<br class="clear">
 	</ANW:AdvancedPanel>
 </ANW:Page>

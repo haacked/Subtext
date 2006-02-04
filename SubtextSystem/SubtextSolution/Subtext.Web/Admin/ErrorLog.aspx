@@ -71,6 +71,6 @@
 			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' PrefixText="<div>Goto page</div>"
 			UseSpacer="False"></ANW:Pager>
 		<asp:Button id="btnClearLog" runat="server" CssClass="buttonSubmit" style="float:right;" Text="Clear" />
-		<br class="Clear" />
+		<br class="clear" />
 	</ANW:AdvancedPanel>
 </ANW:Page>

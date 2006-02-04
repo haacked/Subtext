@@ -50,7 +50,7 @@ namespace UnitTests.Subtext.Framework.Text
 		public void ConvertHtmlToXHtmlCorrectsInvalidMarkup()
 		{
 			Entry entry = new Entry(PostType.BlogPost);
-			entry.Body = "This <br><br>is bad <p> XHTML.";
+			entry.Body = "This <br /><br />is bad <p> XHTML.";
 			Assert.IsTrue(HtmlHelper.ConvertHtmlToXHtml(ref entry));
 			Assert.AreEqual("This <br /><br />is bad <p> XHTML.</p>", entry.Body);
 

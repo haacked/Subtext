@@ -45,7 +45,7 @@
 				<asp:Label id="Message" runat="server" ForeColor="#990044" FontBold="true" CssClass="ErrorMessage"></asp:Label>
 				<p class="Small">
 					Forget your password?
-					<br>
+					<br />
 					<a visible="false" id="aspnetLink" runat="server" href="http://asp.net/Forums/User/EmailForgottenPassword.aspx?tabindex=1">
 						Email me my password</a>
 					<asp:LinkButton id="lbSendPassword" runat="server" visible="true">Email me my password</asp:LinkButton>.

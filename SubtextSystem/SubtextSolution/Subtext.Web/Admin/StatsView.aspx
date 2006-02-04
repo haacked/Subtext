@@ -45,7 +45,7 @@
 		</FooterTemplate>
 		</ASP:Repeater>
 		<ANW:Pager id="ResultsPager" runat="server" UseSpacer="False" PrefixText="<div>Goto page</div>" LinkFormatActive='<a href="{0}" class="Current">{1}</a>' UrlFormat="StatsView.aspx?pg={0}" CssClass="Pager" />
-		<br class="Clear">	
+		<br class="clear">	
 	</ANW:AdvancedPanel>
 
 	

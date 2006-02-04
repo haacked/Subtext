@@ -437,8 +437,8 @@ namespace Subtext.Framework
 						entry.TitleUrl,
 						entry.SourceName,
 						entry.Title,					
-						// we're sending plain text email by default, but body includes <br>s for crlf
-						entry.Body.Replace("<br>", "\n"), 
+						// we're sending plain text email by default, but body includes <br />s for crlf
+						entry.Body.Replace("<br />", Environment.NewLine), 
 						entry.SourceUrl,
 						entryID);			
 				

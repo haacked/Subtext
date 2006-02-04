@@ -93,7 +93,7 @@ namespace Subtext.Framework.Text
 
 		/// <summary>
 		/// The only HTML we will allow is hyperlinks. 
-		/// We will however, check for line breaks and replace them with <br>
+		/// We will however, check for line breaks and replace them with <br />
 		/// </summary>
 		/// <param name="stringToTransform"></param>
 		/// <returns></returns>
@@ -105,7 +105,7 @@ namespace Subtext.Framework.Text
 		/// <summary>
 		/// The only HTML we will allow is hyperlinks. 
 		/// We will however, check for line breaks and replace 
-		/// them with <br> or <br />
+		/// them with <br />
 		/// </summary>
 		/// <param name="stringToTransform"></param>
 		/// <returns></returns>
@@ -118,7 +118,7 @@ namespace Subtext.Framework.Text
 			string brTag = "<br />";
 			if(!Config.Settings.UseXHTML)
 			{
-				brTag = "<br>";
+				brTag = "<br />";
 			}
 
 			return stringToTransform.Replace("\n", brTag);

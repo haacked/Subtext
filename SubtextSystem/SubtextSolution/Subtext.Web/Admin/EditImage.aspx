@@ -9,11 +9,11 @@
 		<ASP:HyperLink id="lnkThumbnail" runat="server" Visible="false" CssClass="Thumbnail"></ASP:HyperLink>
 		<p class="ThumbnailTitle">
 			<%# Image.Title %>
-			<br>
-			<span><%# Image.Width.ToString() %>W x <%# Image.Height.ToString() %>H</span><br>
-			<span><a href='<%# GetImageGalleryUrl() %>'><%# _galleryTitle %></a></span><br>
+			<br />
+			<span><%# Image.Width.ToString() %>W x <%# Image.Height.ToString() %>H</span><br />
+			<span><a href='<%# GetImageGalleryUrl() %>'><%# _galleryTitle %></a></span><br />
 		</p>
-		<br class="Clear">
+		<br class="clear">
 		<label class="Block">Title</label>
 		<ASP:TextBox id="txbTitle" runat="server" Text='<%# Image.Title %>' columns="255" width="98%" />
 		<label class="Block">Gallery</label>
@@ -21,15 +21,15 @@
 		<p style="margin-top: 8px;"><label>Visible</label><ASP:checkbox id="ckbPublished" runat="server" /></p>
 		<div style="margin-top: 8px">
 			<asp:linkbutton id="lkbUpdateImage" runat="server" CssClass="Button" Text="Update"/>
-			<br>&nbsp; 
+			<br />&nbsp; 
 		</div>			
 		<p class="InlineSubtitle">Replace File</p>
 		<label class="Block">Local File Location</label>
 		<input id="ImageFile" class="FileUpload" type="file" size="82" runat="server" name="ImageFile">
-		<br class="Clear">		
+		<br class="clear">		
 		<div style="margin-top: 8px">
 			<asp:Button id="lbkAddImage" runat="server" CssClass="buttonSubmit" Text="Replace"/>
-			<br>&nbsp; 
+			<br />&nbsp; 
 		</div>		
 	</ANW:AdvancedPanel>	
 	

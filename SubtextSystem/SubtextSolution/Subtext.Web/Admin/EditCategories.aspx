@@ -13,14 +13,14 @@
 				<asp:TemplateColumn HeaderText="Category">
 					<ItemTemplate>
 						<asp:Label runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Title") %>'></asp:Label>
-						<br>
+						<br />
 						<asp:Label runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Description") %>' ID="Label2" NAME="Label1"></asp:Label>
 					</ItemTemplate>
 
 					<EditItemTemplate>
-						Title<br>
+						Title<br />
 						<asp:TextBox width = "350" id="txbTitle" runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Title") %>'></asp:TextBox>
-						<br>Description<br>
+						<br />Description<br />
 						<asp:TextBox width = "350" rows="5" textmode="MultiLine" id="txbDescription" runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Description") %>'></asp:TextBox>
 					</EditItemTemplate>
 				</asp:TemplateColumn>
@@ -49,12 +49,12 @@
 		<asp:TextBox id="txbNewTitle" runat="server" width="350"></asp:TextBox>
 		&nbsp; 
 		Visible <asp:CheckBox id="ckbNewIsActive" runat="server" Checked="true"></asp:CheckBox>
-		<br>
-		<label class="Block">Description (1000 characters including HTML)</lable><br>
+		<br />
+		<label class="Block">Description (1000 characters including HTML)</lable><br />
 		<asp:TextBox id="txbNewDescription" max = "1000"  runat="server" width="450" rows="5" textmode="MultiLine"></asp:TextBox>
 		<div style="margin-top: 8px">
 			<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Add"/>
-			<br>&nbsp; 
+			<br />&nbsp; 
 		</div>
 	</ANW:AdvancedPanel>
 

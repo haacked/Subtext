@@ -160,11 +160,11 @@ namespace Subtext
 						if(context.Request.IsAuthenticated)
 						{
 							userInfo = context.User.Identity.Name;
-							userInfo += "<br>Is Host Admin: " + Subtext.Framework.Security.IsHostAdmin.ToString(CultureInfo.InvariantCulture);
+							userInfo += "<br />Is Host Admin: " + Subtext.Framework.Security.IsHostAdmin.ToString(CultureInfo.InvariantCulture);
 							if(!InstallationManager.IsInHostAdminDirectory && !InstallationManager.IsInInstallDirectory && !InstallationManager.IsInSystemMessageDirectory)
 							{
-								userInfo += "<br>Is Admin: " + Subtext.Framework.Security.IsAdmin.ToString(CultureInfo.InvariantCulture);
-								userInfo += "<br>BlogID: " + Subtext.Framework.Configuration.Config.CurrentBlog.BlogID.ToString(CultureInfo.InvariantCulture);
+								userInfo += "<br />Is Admin: " + Subtext.Framework.Security.IsAdmin.ToString(CultureInfo.InvariantCulture);
+								userInfo += "<br />BlogID: " + Subtext.Framework.Configuration.Config.CurrentBlog.BlogID.ToString(CultureInfo.InvariantCulture);
 							}
 						}
 					}
@@ -280,7 +280,7 @@ namespace Subtext
 		}
 
 		private static string lb = "============ Debug Build ============";
-		private static string message = "{0}{1}<br>Subtext Version: {2}<br>Machine Name: {3}<br>.NET Version: {4}<br>{5}<br>{6}{7}";
+		private static string message = "{0}{1}<br />Subtext Version: {2}<br />Machine Name: {3}<br />.NET Version: {4}<br />{5}<br />{6}{7}";
 
 		protected void Application_End(Object sender, EventArgs e)
 		{
