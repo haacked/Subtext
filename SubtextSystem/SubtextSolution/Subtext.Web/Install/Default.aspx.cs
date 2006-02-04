@@ -1,6 +1,7 @@
 using System;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Install
 {
@@ -16,7 +17,9 @@ namespace Subtext.Web.Install
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
 		protected System.Web.UI.WebControls.HyperLink lnkNextStep;
+		protected System.Web.UI.WebControls.Literal litDatabaseName;
 		protected Subtext.Web.Controls.MasterPage MPContainer;
+		protected System.Web.UI.WebControls.Button btnNext;
 	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
@@ -24,8 +27,8 @@ namespace Subtext.Web.Install
 			{
 				Response.Redirect("InstallationComplete.aspx");
 			}
-
-			lnkNextStep.NavigateUrl = InstallationBase.NextStepUrl;
+		
+			litDatabaseName.Text = Config.Settings.ConnectionString.Database;
 		}
 
 		#region Web Form Designer generated code
@@ -45,8 +48,14 @@ namespace Subtext.Web.Install
 		private void InitializeComponent()
 		{    
 			this.Load += new System.EventHandler(this.Page_Load);
+			btnNext.Click += new EventHandler(btnNext_Click);
 
 		}
 		#endregion
+
+		private void btnNext_Click(object sender, EventArgs e)
+		{
+			Response.Redirect(InstallationBase.NextStepUrl);
+		}
 	}
 }

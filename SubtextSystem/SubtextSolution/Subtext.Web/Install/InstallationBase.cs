@@ -25,17 +25,17 @@ namespace Subtext.Web.Install
 				case InstallationState.NeedsInstallation:
 				case InstallationState.NeedsUpgrade:
 				case InstallationState.NeedsRepair:
-					EnsureInstallStep("Step01_GatherInstallData.aspx", "Step02_InstallData.aspx");
+					EnsureInstallStep("Default.aspx", "Step01_InstallData.aspx");
 					break;
 				
 				default:
 					HostInfo info = HostInfo.LoadHost(true);
 
 					if(info == null)
-						EnsureInstallStep("Step03_ConfigureHost.aspx");
+						EnsureInstallStep("Step02_ConfigureHost.aspx");
 
 					if(info != null && Config.BlogCount == 0)
-						EnsureInstallStep("Step04_CreateBlog.aspx");
+						EnsureInstallStep("Step03_CreateBlog.aspx");
 		
 					if(info != null && Config.BlogCount > 0)
 						EnsureInstallStep("InstallationComplete.aspx");
@@ -92,10 +92,10 @@ namespace Subtext.Web.Install
 
 		static string[] _wizardPages =
 			{
-				"Step01_GatherInstallData.aspx"
-				, "Step02_InstallData.aspx"
-				, "Step03_ConfigureHost.aspx"
-				, "Step04_CreateBlog.aspx"
+				"Default.aspx"
+				, "Step01_InstallData.aspx"
+				, "Step02_ConfigureHost.aspx"
+				, "Step03_CreateBlog.aspx"
 			};
 
 		static bool IsOnPage(string page)
