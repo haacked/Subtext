@@ -91,7 +91,7 @@
 			<label for="Editor_Edit_txbTitle" AccessKey="t">Post <u>T</u>itle</label>&nbsp;<asp:RequiredFieldValidator id="valTitleRequired" runat="server" ControlToValidate="txbTitle" ForeColor="#990066" ErrorMessage="Your post must have a title"></asp:RequiredFieldValidator>
 		</p>
 		<p>
-			<asp:TextBox id="txbTitle" runat="server" columns="255" width="98%" MaxLength = "250"></asp:TextBox>
+			<asp:TextBox id="txbTitle" runat="server" CssClass="textinput" MaxLength="250"></asp:TextBox>
 		</p>
 		<p>
 			<label for="Editor_Edit_freeTextBox" AccessKey="b">Post <u>B</u>ody</label>&nbsp;<asp:RequiredFieldValidator id="valtbBodyRequired" runat="server" ControlToValidate="freeTextBox" ForeColor="#990066" ErrorMessage="Your post must have a body"></asp:RequiredFieldValidator></p>
@@ -126,29 +126,29 @@
 			<label for="Editor_Edit_txbEntryName" AccessKey="n">Entry <u>N</u>ame (page name)</label> <asp:RegularExpressionValidator ID="vRegexEntryName" ControlToValidate = "txbEntryName" ValidationExpression = "^[a-zA-Z][\w-]{1,149}$" Text = "Invalid EntryName Format. Must match the follwing pattern: ^[a-zA-Z][\w-]{1,149}$" runat="server"/>
 		</p>
 		<p>
-			<asp:TextBox id="txbEntryName" runat="server" columns="255" width="98%" MaxLength = "150"></asp:TextBox>
+			<asp:TextBox id="txbEntryName" runat="server" CssClass="textinput" MaxLength="150"></asp:TextBox>
 		</p>
 		<p>
 			<label for="Editor_Edit_txbExcerpt" AccessKey="e"><u>E</u>xcerpt</label></p>
 		<p>
-			<asp:TextBox id="txbExcerpt" runat="server" width="98%" rows="5" textmode="MultiLine" MaxLength = "500"></asp:TextBox>
+			<asp:TextBox id="txbExcerpt" runat="server" CssClass="textarea" rows="5" textmode="MultiLine" MaxLength="500"></asp:TextBox>
 		</p>
 		<p>
 			<label for="Editor_Edit_txbTitleUrl" AccessKey="u">Title <u>U</u>rl</label>
 		</p>
 		<p>
-			<asp:TextBox id="txbTitleUrl" runat="server" columns="255" width="98%" MaxLength = "250"></asp:TextBox>
+			<asp:TextBox id="txbTitleUrl" runat="server" CssClass="textinput" MaxLength="250"></asp:TextBox>
 		</p>
 		<p>
 			<label for="Editor_Edit_txbSourceName" AccessKey="s"><u>S</u>ource Name</label>
 		</p>
 		<p>
-			<asp:TextBox id="txbSourceName" runat="server" columns="255" width="98%"></asp:TextBox>
+			<asp:TextBox id="txbSourceName" runat="server" CssClass="textinput"></asp:TextBox>
 		</p>
 		<p>
 			<label for="Editor_Edit_txbSourceUrl" AccessKey="o">S<u>o</u>urce Url</label>
 		</p>
-		<p><asp:TextBox id="txbSourceUrl" runat="server" columns="255" width="98%"></asp:TextBox></p>
+		<p><asp:TextBox id="txbSourceUrl" runat="server" CssClass="textinput"></asp:TextBox></p>
 	</ANW:AdvancedPanel>
 	
 </ANW:AdvancedPanel>

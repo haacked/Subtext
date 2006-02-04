@@ -14,9 +14,9 @@
 
 					<EditItemTemplate>
 						Title<br />
-						<asp:TextBox width = "350" id="txbTitle" runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Title") %>'></asp:TextBox>
+						<asp:TextBox CssClass="textinput" id="txbTitle" runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Title") %>'></asp:TextBox>
 						<br />Description<br />
-						<asp:TextBox width = "350" rows="5" textmode="MultiLine" id="txbDescription" runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Description") %>'></asp:TextBox>
+						<asp:TextBox CssClass="textarea" rows="5" textmode="MultiLine" id="txbDescription" runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Description") %>'></asp:TextBox>
 					</EditItemTemplate>
 				</asp:TemplateColumn>
 
@@ -37,17 +37,17 @@
 		</asp:DataGrid>
 		<ANW:AdvancedPanel id=Add runat="server" DisplayHeader="true" HeaderCssClass="CollapsibleTitle" HeaderText="Add New Gallery" Collapsible="False" BodyCssClass="Edit">
 			<label class=Block>Title</label> 
-				<asp:TextBox id=txbNewTitle runat="server" width="350"></asp:TextBox>&nbsp; 
+				<asp:TextBox id=txbNewTitle runat="server" CssClass="textinput"></asp:TextBox>&nbsp; 
 				Visible <asp:CheckBox id=ckbNewIsActive runat="server" Checked="true"></asp:CheckBox>
 				<br />
 			<label class="Block">Description (1000 characters including HTML)</lable><br />
-			<asp:TextBox id="txbNewDescription" max = "1000"  runat="server" width="450" rows="5" textmode="MultiLine"></asp:TextBox>
+			<asp:TextBox id="txbNewDescription" max="1000"  runat="server" CssClass="textarea" rows="5" textmode="MultiLine"></asp:TextBox>
 			<div style="MARGIN-TOP: 8px">
 				<asp:Button id=lkbPost runat="server" CssClass="buttonSubmit" Text="Add"></asp:Button><br />&nbsp; 
 			</div>
 			</ANW:AdvancedPanel>
 		</ANW:AdvancedPanel>
-			<ASP:Panel id=Imagesdiv runat="server"><ANW:AdvancedPanel id=AddImages runat="server" LinkStyle="Image" LinkImageCollapsed="~/admin/resources/toggle_gray_down.gif" LinkImage="~/admin/resources/toggle_gray_up.gif" LinkBeforeHeader="True" DisplayHeader="true" HeaderCssClass="CollapsibleTitle" HeaderText="Add New Image" Collapsible="True" BodyCssClass="Edit">		
+			<ASP:Panel id="ImagesDiv" runat="server"><ANW:AdvancedPanel id=AddImages runat="server" LinkStyle="Image" LinkImageCollapsed="~/admin/resources/toggle_gray_down.gif" LinkImage="~/admin/resources/toggle_gray_up.gif" LinkBeforeHeader="True" DisplayHeader="true" HeaderCssClass="CollapsibleTitle" HeaderText="Add New Image" Collapsible="True" BodyCssClass="Edit">		
 				<label class="Block">Local File Location</label> 
 				<input class=FileUpload id=ImageFile type=file size=82 name=ImageFile runat="server"> 
 				<br class="clear">
