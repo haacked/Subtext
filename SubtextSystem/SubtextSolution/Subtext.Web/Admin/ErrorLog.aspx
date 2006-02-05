@@ -4,7 +4,7 @@
 <ANW:Page id="PageContainer" TabSectionID="Stats" runat="server">
 	<ANW:AdvancedPanel id="Log" runat="server" Collapsible="False" HeaderText="Error Log" HeaderCssClass="CollapsibleHeader"
 		DisplayHeader="true">
-		<table id="Listing" class="Listing" cellSpacing="0" cellPadding="0" border="0">
+		<table id="Listing" class="Listing highlightTable" cellSpacing="0" cellPadding="0" border="0">
 		<sb:RepeaterWithEmptyDataTemplate id="LogPage" runat="server">
 			<HeaderTemplate>
 				<tr>

@@ -11,6 +11,7 @@
 		<ST:ScriptTag id="NiceForms" type="text/javascript" src="~/admin/resources/Scripts/niceForms.js" runat="server" />
 		<ST:ScriptTag id="HelptipJs" type="text/javascript" src="~/admin/resources/Scripts/helptip.js" runat="server" />
 		<ST:ScriptTag id="AdminJs" type="text/javascript" src="~/admin/resources/Scripts/admin.js" runat="server" />
+		<ST:ScriptTag id="tableEffectsJS" type="text/javascript" src="~/admin/resources/Scripts/tableEffects.js" runat="server" />
 		<ANW:HeaderLink id="HelptipCss" rel="stylesheet" href="resources/scripts/helptip.css" linkType="text/css"
 			runat="server" />
 		<ANW:HeaderLink id="Css1" rel="stylesheet" href="resources/admin.css" linkType="text/css" runat="server" />

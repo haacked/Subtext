@@ -8,7 +8,7 @@
 <ANW:AdvancedPanel id="Results" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleHeader" LinkText="[toggle]" Collapsible="True">
 	<asp:Repeater id="rprSelectionList" runat="server">
 		<HeaderTemplate>
-			<table id="Listing" class="Listing" cellSpacing="0" cellPadding="0" border="0" style="<%= CheckHiddenStyle() %>">
+			<table id="Listing" class="Listing highlightTable" cellSpacing="0" cellPadding="0" border="0" style="<%= CheckHiddenStyle() %>">
 				<tr>
 					<th>Description</th>
 					<th width="50">Active</th>
@@ -37,10 +37,10 @@
 					<a href="Referrers.aspx?EntryID=<%# DataBinder.Eval(Container.DataItem, "EntryID") %>">View</a>
 				</td>				
 				<td>
-					<asp:LinkButton id="lnkEdit" CssClass="buttonSubmit" CausesValidation = "False" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "EntryID") %>' Text="Edit" runat="server" />
+					<asp:LinkButton id="lnkEdit" CausesValidation = "False" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "EntryID") %>' Text="Edit" runat="server" />
 				</td>
 				<td>
-					<asp:LinkButton id="lnkDelete" CssClass="buttonSubmit" CausesValidation = "False" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "EntryID") %>' Text="Delete" runat="server" />
+					<asp:LinkButton id="lnkDelete" CausesValidation = "False" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "EntryID") %>' Text="Delete" runat="server" />
 				</td>
 			</tr>
 		</ItemTemplate>
@@ -62,10 +62,10 @@
 					<a href="Referrers.aspx?EntryID=<%# DataBinder.Eval(Container.DataItem, "EntryID") %>">View</a>
 				</td>				
 				<td>
-					<asp:LinkButton id="lnkEditAlt" CssClass="buttonSubmit" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "EntryID") %>' Text="Edit" runat="server" />
+					<asp:LinkButton id="lnkEditAlt" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "EntryID") %>' Text="Edit" runat="server" />
 				</td>
 				<td>
-					<asp:LinkButton id="lnkDeleteAlt" CssClass="buttonSubmit" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "EntryID") %>' Text="Delete" runat="server" />
+					<asp:LinkButton id="lnkDeleteAlt" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "EntryID") %>' Text="Delete" runat="server" />
 				</td>
 			</tr>
 		</AlternatingItemTemplate>

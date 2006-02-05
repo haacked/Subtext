@@ -47,6 +47,7 @@ namespace Subtext.Web.Admin
 		protected HeaderLink HelptipCss;
 		protected ScriptTag NiceForms;
 		protected HeaderLink NiceFormsStyle;
+		protected Subtext.Web.Controls.ScriptTag Scripttag1;
 
 		#region Accessors
 
@@ -84,7 +85,7 @@ namespace Subtext.Web.Admin
 		
 		private void InitializeComponent() 
 		{
-			this.Load += new EventHandler(this.Page_Load);
+			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion

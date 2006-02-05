@@ -42,6 +42,7 @@ namespace Subtext.Web.Admin.Pages
 		protected System.Web.UI.WebControls.CheckBox ckbIsActiveImage;
 		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
 		protected System.Web.UI.WebControls.PlaceHolder plhImageHeader;
+		protected Subtext.Web.Controls.ScrollPositionSaver scrollsaver;
 		protected System.Web.UI.WebControls.TextBox txbNewDescription;
 
 		#region Accessors

@@ -54,7 +54,7 @@ namespace Subtext.Web.Admin.Pages
 		const string scriptStart = "<script type=\"text/javascript\">g_blnCheckUnload = true;function RunOnBeforeUnload() {if (g_blnCheckUnload) {window.event.returnValue = '";
 		const string scriptEnd = "';    }  }  function bypassCheck() {     g_blnCheckUnload  = false;   }</script>";
 
-		public static readonly string ByPassFuncationName = "bypassCheck()";
+		public static readonly string BypassFunctionName = "bypassCheck();";
 
 
 		protected override void Render(HtmlTextWriter writer)
