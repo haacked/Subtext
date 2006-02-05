@@ -786,9 +786,7 @@ namespace Subtext.Framework.Data
 				info.RecentCommentsLength = NullValue.NullInt32;
 			}
 			
-			//TODO: Why is this here at this point?
-			PerformanceCounter pc = new PerformanceCounter("System", "System Up Time");
-			pc.NextValue();
+
 			return info;
 		}
 
