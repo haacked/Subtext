@@ -1009,6 +1009,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Admin\Resources\Scripts\tableEffects.js"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Admin\Resources\Scripts\Images\bottom.gif"
                     BuildAction = "Content"
                 />

@@ -29,6 +29,7 @@ using Subtext.Framework.Util;
 using Subtext.Web.Admin.Pages;
 using Subtext.Web.Admin.WebUI;
 using Page = Subtext.Web.Admin.WebUI.Page;
+using StringHelper = Subtext.Framework.Text.StringHelper;
 
 namespace Subtext.Web.Admin.UserControls
 {
@@ -247,9 +248,9 @@ namespace Subtext.Web.Admin.UserControls
 			confirmPage.IsInEdit = true;
 			confirmPage.Message = "You will lose any unsaved content";
 
-			this.lkbPost.Attributes.Add("OnClick",ConfirmationPage.ByPassFuncationName);
-			this.lkUpdateCategories.Attributes.Add("OnClick",ConfirmationPage.ByPassFuncationName);
-			this.lkbCancel.Attributes.Add("OnClick",ConfirmationPage.ByPassFuncationName);
+			this.lkbPost.Attributes.Add("OnClick",ConfirmationPage.BypassFunctionName);
+			this.lkUpdateCategories.Attributes.Add("OnClick",ConfirmationPage.BypassFunctionName);
+			this.lkbCancel.Attributes.Add("OnClick",ConfirmationPage.BypassFunctionName);
 		}
 
 		private void BindPostEdit()

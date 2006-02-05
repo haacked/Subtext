@@ -515,7 +515,8 @@ table.Listing tr.Header td {
 	background: #FFFFFF;
 }
 
-table.Listing tr.Alt {
+table.Listing tr.Alt 
+{
 	color: inherit;
 	background: #FFFFFF;
 }
@@ -706,4 +707,24 @@ ul#TopNav li {
 #SubNav A:hover {
 	color: inherit;
 	background: transparent;
+}
+
+
+/*--------- {Used to highlight table listings} ------------*/
+table.highlightTable
+{}
+
+table.highlightTable tr.highlight td
+{
+	background: #fefeee;
+}
+
+table.highlightTable tr.highlightAlt td
+{
+	background: #fafae9;
+}
+
+.gridHeader
+{
+	font-weight: bold;
 }

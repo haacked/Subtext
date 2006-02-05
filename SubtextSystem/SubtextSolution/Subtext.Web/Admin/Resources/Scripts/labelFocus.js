@@ -6,11 +6,6 @@ Adapted from http://particletree.com/features/10-tips-to-a-better-form/
 Item #8
 */
 
-window.onload = function()
-{
-	initLabels();
-}
-
 function initLabels() 
 {
     labels = document.getElementsByTagName("label");
@@ -23,3 +18,27 @@ function labelFocus()
 {
     new Field.focus(this.getAttribute('for'));
 }
+
+//
+// addLoadEvent()
+// Adds event to window.onload without overwriting currently assigned onload functions.
+// Function found at Simon Willison's weblog - http://simon.incutio.com/
+//
+function addLoadEvent(func)
+{	
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function')
+	{
+    	window.onload = func;
+	} 
+	else 
+	{
+		window.onload = function()
+		{
+			oldonload();
+			func();
+		}
+	}
+}
+
+addLoadEvent(initLabels);

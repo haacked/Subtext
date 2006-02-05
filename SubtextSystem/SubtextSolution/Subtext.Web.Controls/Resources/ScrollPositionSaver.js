@@ -43,7 +43,29 @@ function smartScroller()
 	}
 }
 
-window.onload = __smartScroller.Scroll;
+//
+// addLoadEvent()
+// Adds event to window.onload without overwriting currently assigned onload functions.
+// Function found at Simon Willison's weblog - http://simon.incutio.com/
+//
+function addLoadEvent(func)
+{	
+	var oldonload = window.onload;
+	if (typeof window.onload != 'function')
+	{
+    	window.onload = func;
+	} 
+	else 
+	{
+		window.onload = function()
+		{
+			oldonload();
+			func();
+		}
+	}
+}
+
+addLoadEvent(__smartScroller.Scroll);
 window.onscroll = __smartScroller.GetCoords;
 window.onkeypress = __smartScroller.GetCoords;
 window.onclick = __smartScroller.GetCoords;

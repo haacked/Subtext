@@ -5,7 +5,7 @@
 	<sub:ScrollPositionSaver id="scrollsaver" runat="server" />
 	<ANW:MessagePanel id=Messages runat="server" ErrorIconUrl="~/admin/resources/ico_critical.gif" ErrorCssClass="ErrorPanel" MessageIconUrl="~/admin/resources/ico_info.gif" MessageCssClass="MessagePanel"></ANW:MessagePanel><ANW:AdvancedPanel id=Results runat="server" LinkStyle="Image" LinkImageCollapsed="~/admin/resources/toggle_gray_down.gif" LinkImage="~/admin/resources/toggle_gray_up.gif" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleHeader" HeaderText="Galleries" Collapsible="True">
 	
-	<asp:DataGrid id=dgrSelectionList runat="server" CssClass="Listing" GridLines="None" AutoGenerateColumns="False">
+	<asp:DataGrid id=dgrSelectionList runat="server" CssClass="Listing highlightTable" GridLines="None" AutoGenerateColumns="False">
 		<AlternatingItemStyle CssClass="Alt"></AlternatingItemStyle>
 			<HeaderStyle CssClass="Header"></HeaderStyle>
 
