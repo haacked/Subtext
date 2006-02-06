@@ -794,24 +794,24 @@ namespace Subtext.Framework.Data
 
 		#region Archive
 
-		public static ArchiveCountCollection LoadArchiveCount(IDataReader reader)
-		{
-			const string dateformat = "{0}/{1}/{2}";
-			string dt = null; //
-			ArchiveCount ac =null;// new ArchiveCount();
-			ArchiveCountCollection acc = new ArchiveCountCollection();
-			
-			while(reader.Read())
-			{
-				ac = new ArchiveCount();
-				dt = string.Format(CultureInfo.CurrentCulture, dateformat, (int)reader["Month"], (int)reader["Day"], (int)reader["Year"]);
-				ac.Date = DateTime.Parse(dt);
-				ac.Count = (int)reader["Count"];
-				acc.Add(ac);
-			}
-			return acc;
-			
-		}
+public static ArchiveCountCollection LoadArchiveCount(IDataReader reader)
+{
+	const string dateformat = "{0}/{1}/{2}";
+	string dt = null; //
+	ArchiveCount ac =null;// new ArchiveCount();
+	ArchiveCountCollection acc = new ArchiveCountCollection();
+	
+	while(reader.Read())
+	{
+		ac = new ArchiveCount();
+		dt = string.Format(CultureInfo.CurrentCulture, dateformat, (int)reader["Month"], (int)reader["Day"], (int)reader["Year"]);
+		ac.Date = DateTime.Parse(dt);
+		ac.Count = (int)reader["Count"];
+		acc.Add(ac);
+	}
+	return acc;
+	
+}
 
 		//Needs to be handled else where!
 		public static Link LoadArchiveLink(IDataReader reader)

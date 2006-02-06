@@ -22,12 +22,11 @@ using Subtext.Framework.Format;
 namespace Subtext.Common.Data
 {
 	/// <summary>
-	/// Common .Text object transformations
+	/// Common Subtext object transformations
 	/// </summary>
 	public class Transformer
 	{
 		private Transformer(){}
-
 
 		/// <summary>
 		/// Converts a LinkCategoryCollection into a single LinkCategory with its own LinkCollection.
@@ -55,14 +54,16 @@ namespace Subtext.Common.Data
 					switch(catType)
 					{
 						case CategoryType.StoryCollection:
-							link.Url =  formats.ArticleCategoryUrl(link.Title,lcc[i].CategoryID);
+							link.Url =  formats.ArticleCategoryUrl(link.Title, lcc[i].CategoryID);
 							break;
+						
 						case CategoryType.PostCollection:
-							link.Url = formats.PostCategoryUrl(link.Title,lcc[i].CategoryID);
+							link.Url = formats.PostCategoryUrl(link.Title, lcc[i].CategoryID);
 							link.Rss = link.Url + "/rss";
 							break;
+						
 						case CategoryType.ImageCollection:
-							link.Url = formats.GalleryUrl(link.Title,lcc[i].CategoryID);
+							link.Url = formats.GalleryUrl(link.Title, lcc[i].CategoryID);
 							break;
 
 					}
