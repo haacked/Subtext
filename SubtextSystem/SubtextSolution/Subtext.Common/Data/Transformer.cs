@@ -75,12 +75,12 @@ namespace Subtext.Common.Data
 
 		/// <summary>
 		/// Will convert ArchiveCountCollection method from Archives.GetPostsByMonthArchive()
-		/// into a LinkCategory. LinkCategory is a common item to databind to a web control.
+		/// into a <see cref="LinkCategory"/>. LinkCategory is a common item to databind to a web control.
 		/// </summary>
 		/// <param name="Title">Title for the Category</param>
 		/// <param name="formats">Determines how the Urls are formated</param>
 		/// <returns>A LinkCategory object with a Link (via LinkCollection) for each month in ArchiveCountCollection</returns>
-		public static LinkCategory BuildMonthLinks(string Title,UrlFormats formats)
+		public static LinkCategory BuildMonthLinks(string Title, UrlFormats formats)
 		{
 			ArchiveCountCollection acc = Archives.GetPostsByMonthArchive();
 

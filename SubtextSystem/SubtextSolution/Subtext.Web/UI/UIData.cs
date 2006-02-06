@@ -30,19 +30,28 @@ namespace Subtext.Web.UI
 			switch(catType)
 			{
 				case CategoryType.PostCollection:
-					return Transformer.BuildLinks(UIText.PostCollection,CategoryType.PostCollection,formats);
+					return Transformer.BuildLinks(UIText.PostCollection, CategoryType.PostCollection, formats);
+				
 				case CategoryType.ImageCollection:
-					return Transformer.BuildLinks(UIText.ImageCollection,CategoryType.ImageCollection,formats);
+					return Transformer.BuildLinks(UIText.ImageCollection, CategoryType.ImageCollection, formats);
+				
 				case CategoryType.StoryCollection:
-					return Transformer.BuildLinks(UIText.ArticleCollection,CategoryType.StoryCollection,formats);
+					return Transformer.BuildLinks(UIText.ArticleCollection, CategoryType.StoryCollection, formats);
+				
 				default:
 					throw new ApplicationException(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Invalid CategoryType: {0} via Subtext.Web.UI.UIData.Links",catType));
 			}
 		}
 
+		/// <summary>
+		/// Builds a <see cref="LinkCategory"/> using the specified url formats. 
+		/// A LinkCategory is a common item to databind to a web control.
+		/// </summary>
+		/// <param name="formats">Determines how the links are formatted.</param>
+		/// <returns></returns>
 		public static LinkCategory ArchiveMonth(UrlFormats formats)
 		{
-			return Transformer.BuildMonthLinks(UIText.Archives,formats);
+			return Transformer.BuildMonthLinks(UIText.Archives, formats);
 		}
 	}
 }

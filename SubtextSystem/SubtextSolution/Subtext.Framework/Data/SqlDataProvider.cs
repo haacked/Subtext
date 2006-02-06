@@ -1173,13 +1173,13 @@ namespace Subtext.Framework.Data
 		public override IDataReader GetPostsByMonthArchive()
 		{
 			SqlParameter[] p = {BlogIDParam};
-			return GetReader("subtext_GetPostsByMonthArchive",p);
+			return GetReader("subtext_GetPostsByMonthArchive", p);
 		}
 
 		public override IDataReader GetPostsByYearArchive()
 		{
 			SqlParameter[] p = {BlogIDParam};
-			return GetReader("subtext_GetPostsByYearArchive",p);
+			return GetReader("subtext_GetPostsByYearArchive", p);
 		}
 
 		#endregion

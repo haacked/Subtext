@@ -804,10 +804,8 @@ namespace Subtext.Framework.Data
 			while(reader.Read())
 			{
 				ac = new ArchiveCount();
-				dt = string.Format(CultureInfo.CurrentCulture, dateformat, (int)reader["Month"],(int)reader["Day"],(int)reader["Year"]);
+				dt = string.Format(CultureInfo.CurrentCulture, dateformat, (int)reader["Month"], (int)reader["Day"], (int)reader["Year"]);
 				ac.Date = DateTime.Parse(dt);
-				//ac.Date = DateTime.ParseExact(dt,"MM/dd/yyyy",en);
-
 				ac.Count = (int)reader["Count"];
 				acc.Add(ac);
 			}

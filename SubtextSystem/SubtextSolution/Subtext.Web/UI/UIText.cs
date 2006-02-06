@@ -19,44 +19,64 @@ using System.Configuration;
 namespace Subtext.Web.UI
 {
 	/// <summary>
-	/// Summary description for UIText.
+	/// Used to obtain configurable text displayed on the UI.  
+	/// Uses application settings (bleh!).
 	/// </summary>
+	/// <remarks>
+	/// This text ought to be configurable per-blog.
+	/// </remarks>
 	public sealed class UIText
 	{
+		//TODO: Refactor this to use blog settings, not app settings.
 		private UIText()
 		{
 		}
 
+		/// <summary>
+		/// Gets the titel for the post categories.
+		/// </summary>
+		/// <value>The post collection.</value>
 		public static string PostCollection
 		{
 			get
 			{
-				return GetSafeConfig("PostCollection","Post Categories");
+				return GetSafeConfig("PostCollection", "Post Categories");
 			}
 		}
 
+		/// <summary>
+		/// Gets the title for the article categories.
+		/// </summary>
+		/// <value>The article collection.</value>
 		public static string ArticleCollection
 		{
 			get
 			{
-				return GetSafeConfig("ArticleCollection","Article Categories");
+				return GetSafeConfig("ArticleCollection", "Article Categories");
 			}
 		}
 
+		/// <summary>
+		/// Gets the title for the image galleries.
+		/// </summary>
+		/// <value>The image collection.</value>
 		public static string ImageCollection
 		{
 			get
 			{
-				return GetSafeConfig("ImageCollection","Image Galleries");
+				return GetSafeConfig("ImageCollection", "Image Galleries");
 			}
 		}
 
-
+		/// <summary>
+		/// Gets the title for the Archives links.
+		/// </summary>
+		/// <value>The archives.</value>
 		public static string Archives
 		{
 			get
 			{
-				return GetSafeConfig("Archives","Archives");
+				return GetSafeConfig("Archives", "Archives");
 			}
 		}
 

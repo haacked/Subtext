@@ -24,7 +24,8 @@ using Subtext.Framework.Format;
 namespace UnitTests.Subtext.Framework.Format
 {
 	/// <summary>
-	/// Summary description for UrlFormatTests.
+	/// Unit tests of the <see cref="UrlFormats"/> class which 
+	/// is used to format Subtext specific urls.
 	/// </summary>
 	[TestFixture]
 	public class UrlFormatTests
