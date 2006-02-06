@@ -91,7 +91,7 @@ namespace Subtext.Framework.Format
 
 		public virtual string MonthUrl(DateTime dt)
 		{
-			return GetUrl("archive/{0}.aspx",dt.ToString("yyyy/MM", CultureInfo.InvariantCulture));
+			return GetUrl("archive/{0}.aspx", dt.ToString("yyyy/MM", CultureInfo.InvariantCulture));
 		}
 
 		public virtual string CommentRssUrl(int EntryID)
@@ -124,9 +124,15 @@ namespace Subtext.Framework.Format
 			return GetUrl("aggbug/{0}.aspx",EntryID);
 		}
 
-		protected virtual string GetUrl(string pattern, params object[] items)
+		/// <summary>
+		/// Returns a fully qualified Url using the specified format string.
+		/// </summary>
+		/// <param name="formatString">The pattern.</param>
+		/// <param name="items">The items.</param>
+		/// <returns></returns>
+		protected virtual string GetUrl(string formatString, params object[] items)
 		{
-			return this.fullyQualifiedUrl + string.Format(pattern,items);
+			return this.fullyQualifiedUrl + string.Format(formatString, items);
 		}
 
 		/// <summary>
@@ -149,11 +155,21 @@ namespace Subtext.Framework.Format
 			}
 		}
 
+		/// <summary>
+		/// Gets the name of the requested file.
+		/// </summary>
+		/// <param name="uri">The URI.</param>
+		/// <returns></returns>
 		public static string GetRequestedFileName(string uri)
 		{
 			return Path.GetFileNameWithoutExtension(uri);
 		}
 
+		/// <summary>
+		/// Parses out the post ID from URL.
+		/// </summary>
+		/// <param name="uri">The URI.</param>
+		/// <returns></returns>
 		public static int GetPostIDFromUrl(string uri)
 		{
 			try
@@ -377,6 +393,11 @@ namespace Subtext.Framework.Format
 			return url;
 		}
 
+		/// <summary>
+		/// Parses out the host from an external URL.
+		/// </summary>
+		/// <param name="url">The URL.</param>
+		/// <returns></returns>
 		public static string GetHostFromExternalUrl(string url)
 		{
 			string hostDelim = "://";
