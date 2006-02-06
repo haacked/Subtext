@@ -16,7 +16,6 @@
 using System;
 using System.Data;
 using System.Globalization;
-using System.Diagnostics;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
@@ -794,24 +793,25 @@ namespace Subtext.Framework.Data
 
 		#region Archive
 
-public static ArchiveCountCollection LoadArchiveCount(IDataReader reader)
-{
-	const string dateformat = "{0}/{1}/{2}";
-	string dt = null; //
-	ArchiveCount ac =null;// new ArchiveCount();
-	ArchiveCountCollection acc = new ArchiveCountCollection();
+		public static ArchiveCountCollection LoadArchiveCount(IDataReader reader)
+		{
+			const string dateformat = "{0:00}/{1:00}/{2:0000}";
+			string dt = null; //
+			ArchiveCount ac =null;// new ArchiveCount();
+			ArchiveCountCollection acc = new ArchiveCountCollection();
+			while(reader.Read())
+			{
+				ac = new ArchiveCount();
+				dt = string.Format(CultureInfo.InvariantCulture, dateformat, (int)reader["Month"],(int)reader["Day"],(int)reader["Year"]);
+				// FIX: BUG SF1423271 Archives Links
+				ac.Date = DateTime.ParseExact(dt,"MM/dd/yyyy",CultureInfo.InvariantCulture);
+
+				ac.Count = (int)reader["Count"];
+				acc.Add(ac);
+			}
+			return acc;
 	
-	while(reader.Read())
-	{
-		ac = new ArchiveCount();
-		dt = string.Format(CultureInfo.CurrentCulture, dateformat, (int)reader["Month"], (int)reader["Day"], (int)reader["Year"]);
-		ac.Date = DateTime.Parse(dt);
-		ac.Count = (int)reader["Count"];
-		acc.Add(ac);
-	}
-	return acc;
-	
-}
+		}
 
 		//Needs to be handled else where!
 		public static Link LoadArchiveLink(IDataReader reader)
