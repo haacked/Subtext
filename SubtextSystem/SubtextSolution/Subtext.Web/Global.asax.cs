@@ -105,7 +105,6 @@ namespace Subtext
 				if (Request.UserLanguages != null && Request.UserLanguages.Length > 0 && Request.UserLanguages[0] != null) 
 				{
 					Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(Request.UserLanguages[0]);
-					Thread.CurrentThread.CurrentUICulture = new CultureInfo(Request.UserLanguages[0]);
 				}
 			}
 			catch(NotSupportedException nse)
