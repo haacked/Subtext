@@ -258,6 +258,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Framework\Data\DataHelperTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Framework\Format\UrlFormatTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
