@@ -39,7 +39,7 @@ namespace Subtext.Web.Controls
 		/// <param name="writer">Writer.</param>
 		protected override void Render(HtmlTextWriter writer)
 		{
-			string format = "<script src=\"{0}\" language=\"{1}\"{2}></script>";	
+			string format = @"<script src=""{0}"" type=""text/{1}""{2}></script>";
 
 			string idText = string.Empty;
 			if(IsAttributeDefined("id"))
@@ -82,7 +82,7 @@ namespace Subtext.Web.Controls
 				if(IsAttributeDefined("language"))
 					return Attributes["language"];
 				else
-					return string.Empty;
+					return "javascript";
 			}
 			set
 			{
