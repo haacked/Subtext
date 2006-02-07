@@ -1136,6 +1136,18 @@ namespace Subtext.Framework.Data
 				commentDelayInMinutes = info.CommentDelayInMinutes;
 			}
 
+			object numberOfRecentComments = null;
+			if(info.NumberOfRecentComments > 0 && info.NumberOfRecentComments < int.MaxValue)
+			{
+				numberOfRecentComments = info.NumberOfRecentComments;
+			}
+
+			object recentCommentsLength = null;
+			if(info.RecentCommentsLength > 0 && info.RecentCommentsLength < int.MaxValue)
+			{
+				recentCommentsLength = info.RecentCommentsLength;
+			}
+
 			SqlParameter[] p = 
 				{
 					SqlHelper.MakeInParam("@BlogID", SqlDbType.Int,  4, SqlHelper.CheckNull(info.BlogID))
@@ -1159,11 +1171,11 @@ namespace Subtext.Framework.Data
 					,SqlHelper.MakeInParam("@LicenseUrl", SqlDbType.NVarChar, 64, info.LicenseUrl)
 					,SqlHelper.MakeInParam("@DaysTillCommentsClose", SqlDbType.Int, 4, daysTillCommentsClose)
 					,SqlHelper.MakeInParam("@CommentDelayInMinutes", SqlDbType.Int, 4, commentDelayInMinutes)
+					,SqlHelper.MakeInParam("@NumberOfRecentComments", SqlDbType.Int, 4, numberOfRecentComments)
+					,SqlHelper.MakeInParam("@RecentCommentsLength", SqlDbType.Int, 4, recentCommentsLength)
 				};
 
-
 			return NonQueryBool("subtext_UpdateConfig", p);
-
 		}
 
 		#endregion
