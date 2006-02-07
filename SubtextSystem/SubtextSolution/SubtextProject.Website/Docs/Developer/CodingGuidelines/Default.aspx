@@ -59,6 +59,7 @@
 	</p>
 	<ul>
 		<li>Curly braces will be placed on their own line</li>
+		<li>Use the default option for indenting in VS.NET. Use tabs with a size of 4.</li>
 		<li>
 		Do not prefix private member variables. Instead use the <code>this</code> keyword 
 		when referencing a private member.
