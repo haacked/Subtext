@@ -9,16 +9,22 @@
 	<h2>License</h2>
 	<p>
 	Subtext is licensed under the 
-	<a href="http://www.opensource.org/licenses/bsd-license.php">BSD License</a>, an 
-	<a href="http://www.opensource.org/index.php">OSI</a> approved license.
+	<a href="http://www.opensource.org/licenses/bsd-license.php" title="BSD License Info" rel="external">BSD License</a>, an 
+	<a href="http://www.opensource.org/index.php" title="Open Source Initiative" rel="external"><acronym title="Open Source Initiative">OSI</acronym></a> approved license.
 	</p>
 <div style="font-family:courier new, courier;font-size: .9em;">
 <p>
 --------------------------------------------------------<br />
-Copyright (c) 2005, <a href="http://haacked.com/">Phil Haack</a><br />
-Original .TEXT Source Code: Copyright (c) 2003, <a href="http://scottwater.com/blog/">Scott Watermasysk</a><br />
-All rights reserved.
+Subtext (<a href="http://subtextproject.com/" title="Project website">http://subtextproject.com/</a>)<br />
+Copyright (c) 2005 - 2006<br />
+by <a href="http://haacked.com/" rel="external" title="Phil Haack's Blog">Phil Haack</a>
 </p>
+<p>
+This work contains and builds upon code from the original .TEXT source Code 
+which is Copyright (c) 2003 <a href="http://scottwater.com/blog/" rel="external" title="Scott Watermasysk's Blog">Scott Watermasysk</a> (http://scottwater.com/blog/), 
+and which is used herein pursuant to the BSD License.
+</p>
+<p>All rights reserved.</p>
 <p>
 Redistribution and use in source and binary forms, with or without modification, 
 are permitted provided that the following conditions are met:
