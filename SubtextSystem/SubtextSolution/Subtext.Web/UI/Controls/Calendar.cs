@@ -109,7 +109,7 @@ namespace Subtext.Web.UI.Controls
 			match = new Regex("(.*)(\\d{4})/(\\d{2}).aspx$");
 			if (match.IsMatch(Request.RawUrl))
 			{
-				dateStr = match.Replace(Request.RawUrl, "$3-1-$2");
+				dateStr = match.Replace(Request.RawUrl, "$3-01-$2");
 
 				if (TryParseDateTime(dateStr, out parsedDate))
 				{
@@ -132,7 +132,7 @@ namespace Subtext.Web.UI.Controls
 		{ 
 			try
 			{
-				parsedDate = DateTime.Parse(dateString);
+				parsedDate = DateTime.ParseExact(dateString,"MM-dd-yyyy",CultureInfo.InvariantCulture);
 				return true;
 			}
 			catch (FormatException)
