@@ -111,10 +111,6 @@ namespace Subtext
 			{
 				log.Error("Error while attempting to set CurrentCulture to '" + Request.UserLanguages[0] + "'", nse);
 			}
-			catch(ArgumentException ae)
-			{
-				log.Error("Argument Exception while attempting to set CurrentUICulture to '" + Request.UserLanguages[0] + "'", ae);
-			}
 			
 			//KLUDGE: This is required due to a bug in Log4Net 1.2.9.
 			// This should be fixed in the next release.
