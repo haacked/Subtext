@@ -401,9 +401,15 @@ namespace Subtext.Framework.Format
 		public static string GetHostFromExternalUrl(string url)
 		{
 			string hostDelim = "://";
-			int hostStart = url.IndexOf(hostDelim) + 3;
+			string host = null;
+			int hostStart = url.IndexOf(hostDelim);
+			hostStart = (hostStart < 0) ? 0 : hostStart+3;
+
 			int hostEnd = url.IndexOf("/", hostStart);
-			return url.Substring(hostStart, hostEnd-hostStart);
+			
+			host =  (hostEnd < 0) ? url.Substring(hostStart) : url.Substring(hostStart, hostEnd-hostStart);
+
+			return host;
 		}
 	}
 }
