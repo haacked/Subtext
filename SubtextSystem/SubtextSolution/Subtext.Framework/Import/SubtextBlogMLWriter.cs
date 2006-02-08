@@ -17,6 +17,7 @@ using System;
 using System.Collections;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Web;
 using BlogML;
 using log4net;
@@ -255,8 +256,7 @@ namespace Subtext.Framework.Import
 							   DateTime.Parse(post["DateUpdated"].ToString()).ToUniversalTime(),
 							   true,
 							   postContent, 
-							   GetPostUrl(newPostID),
-							   false);
+							   GetPostUrl(newPostID));
 				Writer.Flush();
 
 				WritePostAttachments(postContent);
@@ -278,6 +278,7 @@ namespace Subtext.Framework.Import
 		{
 			string[] imagesURLs = SgmlUtil.GetAttributeValues(content, "img", "src");
 			string imageURL = null;
+			string fullImageURL = null;
 			string appFullRootUrl = "http://" + Config.CurrentBlog.Host.ToLower() 
 				+ StringHelper.ReturnCheckForNull(HttpContext.Current.Request.ApplicationPath).ToLower();
 			
@@ -295,17 +296,19 @@ namespace Subtext.Framework.Import
 						{
 							// make sure to write the imageURL as-is in the post so it can be
 							// found and fixed when un-serializing the blog later.
-							WriteAttachment(
-								imageURL, 
-								UrlFormats.GetImageFullUrl(imageURL));
+							fullImageURL = UrlFormats.GetImageFullUrl(imageURL);
+
+							WriteAttachment(imageURL, GetMimeType(imageURL), fullImageURL);
 							Writer.Flush();
 						}
 						catch(Exception e)
 						{
-							//TODO: We should only catch exceptions we can really handle...
-							//		In this case, we should wrap this in an exception that 
-							//		gives this more context (ex... BlogMLAttachmentException) and 
-							//		throw that. Let the main unhandled exception handler do the logging.
+							/* REVIEW:
+							 * We should only catch exceptions we can really handle...
+							 * In this case, we should wrap this in an exception that 
+							 * gives this more context (ex... BlogMLAttachmentException) and 
+							 * throw that. Let the main unhandled exception handler do the logging.
+							 */
 
 							log.Error(string.Format(
 								"An error occured while trying to write an attachment for this blog. Error: {0}", e.Message),
@@ -350,8 +353,7 @@ namespace Subtext.Framework.Import
 									 comment["Author"] as string,
 									 comment["Email"] as string,
 									 comment["TitleUrl"] as string,
-									 comment["Text"] as string,
-									 false);
+									 comment["Text"] as string);
 					
 						Writer.Flush();
 					}
@@ -462,6 +464,37 @@ namespace Subtext.Framework.Import
 			return string.Format("http://{0}/Posts/Post.aspx?postID={1}", _Host, postID );
 		}
 
+		private string GetMimeType(string fullUrl) 
+		{
+			string extension = Path.GetExtension(fullUrl);
+			if (extension == null || extension.Length==0) 
+			{
+				return string.Empty;
+			}
+
+			extension = extension.TrimStart(new char[] { '.' });
+
+			string retVal = "none";
+
+			switch (extension.ToLower()) 
+			{
+				case "png":
+					retVal = "png";
+					break;
+				case "jpg": 
+				case "jpeg":
+					retVal = "jpg";
+					break;
+				case "bmp":
+					retVal = "bmp";
+					break;
+				default:
+					retVal = "none";
+					break;
+			}
+
+			return retVal;
+		}
 		#endregion
 
 		#region subText Data Access Methods

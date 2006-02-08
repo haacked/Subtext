@@ -345,7 +345,7 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static String ReturnCheckForNull(string str)
 		{
-			return (str == null || str.Equals(string.Empty)) ? string.Empty : str;
+			return (str == null || str.Length==0) ? string.Empty : str;
 		}
 		/// <summary>
 		/// Returns a NULL if the passed in string is either the EmptyString ("") or 
@@ -355,7 +355,7 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static String ReturnNullForEmpty(string str)
 		{
-			return (str == null || str.Equals(string.Empty)) ? null : str;
+			return (str == null || str.Length==0) ? null : str;
 		}
 	}
 }
