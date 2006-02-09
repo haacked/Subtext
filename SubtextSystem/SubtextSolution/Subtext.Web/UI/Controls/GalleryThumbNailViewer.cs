@@ -34,6 +34,14 @@ namespace Subtext.Web.UI.Controls
 
 		private string _baseImagePath = null;
 
+		protected string BaseImagePath
+		{
+			get 
+			{
+				return _baseImagePath;
+			}
+		}
+
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad (e);
