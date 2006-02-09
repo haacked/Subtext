@@ -3001,7 +3001,19 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Skins\Piyo\Images\PoweredBySubtext85x33.png"
+                    RelPath = "Skins\Piyo\Images\close.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Images\loading.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Images\overlay.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\Scripts\lightbox.js"
                     BuildAction = "Content"
                 />
                 <File
