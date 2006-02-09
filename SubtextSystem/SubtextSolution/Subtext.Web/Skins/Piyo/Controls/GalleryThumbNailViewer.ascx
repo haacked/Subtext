@@ -4,7 +4,7 @@
 <div class="Thumbnail">
 <asp:DataList id="ThumbNails" runat="server" OnItemCreated = "ImageCreated" RepeatDirection = "Horizontal" repeatlayout="Flow">
 	<ItemTemplate>
-		<asp:HyperLink Runat="server" ID="ThumbNailImage" />
+		<a href="<%#BaseImagePath + ((Subtext.Framework.Components.Image)Container.DataItem).ResizedFile %>" rel="lightbox" title="<%#((Subtext.Framework.Components.Image)Container.DataItem).Title %>"><img src="<%#BaseImagePath + ((Subtext.Framework.Components.Image)Container.DataItem).ThumbNailFile %>"></a>
 	</ItemTemplate>
 </asp:DataList>
 </div>
