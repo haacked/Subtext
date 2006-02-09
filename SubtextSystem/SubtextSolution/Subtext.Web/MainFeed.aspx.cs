@@ -24,10 +24,12 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Syndication.Compression;
 
+
 namespace Subtext.Web
 {
 	/// <summary>
-	/// This class writes out an rss feed.  //TODO:IS THIS EVEN USED?
+	/// This class writes out an rss feed.  //TODO:IS THIS EVEN USED? 
+	/// Gurkan: Yes, this is the consolidated RSS feed for all the blogs
 	/// </summary>
 	public class RSSPage : System.Web.UI.Page
 	{
@@ -59,26 +61,31 @@ namespace Subtext.Web
 			if(feedData != null && feedData.Rows.Count > 0)
 			{
 				string rssXml = GetRSS(feedData,Request.ApplicationPath);
-				string encoding = null;
-	
-				if(Config.Settings.UseSyndicationCompression && this.AcceptEncoding != null)
-				{
-					SyndicationCompressionFilter filter = null;
-		
-					filter = SyndicationCompressionHelper.GetFilterForScheme(this.AcceptEncoding, Response.Filter);
-
-					if(filter != null)
-					{
-						encoding = filter.ContentEncoding;
-						Response.Filter = filter.Filter;
-						Response.AppendHeader("Content-Encoding", encoding);
-					}
-				}
-
-				if(encoding == null)
-				{
+			
+				/* CHANGE: I had to comment out these lines - GY
+				 * TODO: Is it possible to add Config.Settings.UseSyndicationCompression
+				 * for all the blogs in general.
+				 */
+//				string encoding = null;
+//
+//				if(Config.Settings.UseSyndicationCompression && this.AcceptEncoding != null)
+//				{
+//					SyndicationCompressionFilter filter = null;
+//		
+//					filter = SyndicationCompressionHelper.GetFilterForScheme(this.AcceptEncoding, Response.Filter);
+//
+//					if(filter != null)
+//					{
+//						encoding = filter.ContentEncoding;
+//						Response.Filter = filter.Filter;
+//						Response.AppendHeader("Content-Encoding", encoding);
+//					}
+//				}
+//
+//				if(encoding == null)
+//				{
 					Response.ContentEncoding = System.Text.Encoding.UTF8;
-				}
+//				}
 
 				Response.ContentType = "text/xml";
 				Response.Write(rssXml);
@@ -112,7 +119,9 @@ namespace Subtext.Web
 				writer.WriteElementString("title",ConfigurationSettings.AppSettings["AggregateTitle"] as string);
 				writer.WriteElementString("link",Context.Request.Url.ToString());
 				writer.WriteElementString("description",ConfigurationSettings.AppSettings["AggregateDescription"] as string);
-				writer.WriteElementString("generator",Subtext.Framework.VersionInfo.Version);
+				
+				//CHANGE: FrameworkVersion used insted of Version which is not exist.
+				writer.WriteElementString("generator",Subtext.Framework.VersionInfo.FrameworkVersion.ToString());
 
 				int count = dt.Rows.Count;
 				int servertz = Config.Settings.ServerTimeZone;

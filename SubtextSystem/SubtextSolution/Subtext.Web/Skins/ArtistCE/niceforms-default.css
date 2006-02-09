@@ -1,0 +1,203 @@
+/*##########################################
+Name: Default styling for Niceforms v.0.9
+Author: Lucian Slatineanu
+URL: http://www.badboy.ro/
+##########################################*/
+/*Forms defaults*/
+input, textarea 
+{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#404040;
+}
+label 
+{
+	color:#999;
+	cursor:pointer;
+	padding-left:2px;
+	line-height:15px;
+	vertical-align:top;
+}
+label.chosen 
+{
+	color:#333;
+}
+
+/*Transparent items*/
+.transparent 
+{
+	filter:alpha(opacity=0);
+	-moz-opacity:0;
+	opacity: 0;
+	border:0px solid #FFF;
+	background:#FFF;
+	z-index:10;
+	cursor:pointer;
+}
+.transparentFake 
+{
+	background:none;
+	border:none;
+}
+.transparent2 
+{
+	z-index:10;
+}
+
+/*Radio buttons*/
+.radioAreaUnchecked, .radioAreaChecked 
+{
+	z-index:5;
+	position:absolute;
+	width:15px;
+	height:15px;
+	cursor:pointer;
+}
+.radioAreaUnchecked 
+{
+	background:url(images/radio.gif) no-repeat left top;
+}
+.radioAreaChecked 
+{
+	background:url(images/radio.gif) no-repeat left bottom;
+}
+
+/*Checkboxes*/
+.checkboxAreaUnchecked, .checkboxAreaChecked 
+{
+	z-index:5;
+	position:absolute;
+	width:14px;
+	height:14px;
+	cursor:pointer;
+}
+.checkboxAreaUnchecked 
+{
+	background:url(images/checkbox.gif) no-repeat left top;
+}
+.checkboxAreaChecked 
+{
+	background:url(images/checkbox.gif) no-repeat left bottom;
+}
+
+/*Text inputs*/
+.textinput, .textinputHovered 
+{
+	width:236px;
+	height:15px;
+	background:url(images/input.gif) no-repeat left top;
+	border:none;
+	padding:4px 8px;
+}
+.textinputHovered {
+	background-position:left bottom;
+}
+
+/*Text areas*/
+.textarea, .textareaHovered 
+{
+	width:336px;
+	height:125px;
+	background:url(images/textarea.gif) no-repeat left top;
+	border:none;
+	padding:4px 8px;
+}
+.textareaHovered 
+{
+	background-position:left bottom;
+}
+
+/*Selects*/
+.selectArea 
+{
+	width:200px;
+	height:21px;
+	background:url(images/select_bg.gif) repeat-x left top;
+}
+.selectArea .left {
+	width:8px;
+	height:21px;
+	float:left;
+	background:url(images/select_left.gif) no-repeat left top;
+}
+.selectArea .right {
+	width:21px;
+	height:21px;
+	float:right;
+	background:url(images/select_right.gif) no-repeat left top;
+}
+.selectArea .right a {
+	display:block;
+	width:21px;
+	height:21px;
+}
+.selectArea .right i {
+	display:none;
+}
+.selectArea .center {
+	width:160px;
+	margin-left:5px;
+	margin-right:20px;
+	color:#FFF;
+	padding-top:3px;
+}
+
+/*Selects drop-down*/
+.optionsDivInvisible, .optionsDivVisible {
+	position:absolute;
+	margin-top:-1px;
+	margin-left:3px;
+	width:172px;
+	background:#6f7074;
+	padding:2px;
+	font-size:11px;
+	z-index:20;
+}
+.optionsDivInvisible {
+	display:none;
+}
+.optionsDivVisible {
+	display:block;
+	margin-top: 1px;
+}
+.optionsDivVisible p {
+	margin:0;
+	margin-top:-1px;
+	padding:0;
+}
+.optionsDivVisible a {
+	color:#F2F2F2;
+	text-decoration:none;
+	display:block;
+	padding:1px 4px;
+	border:1px solid #6f7074;
+}
+.optionsDivVisible a:hover {
+	color:#FFF;
+	background:#5F6062;
+	border-color:#cfd0d6;
+}
+
+/*Button*/
+.buttonSubmit, .buttonSubmitHovered {
+	width:69px;
+	height:26px;
+	color:#FFF;
+	font-weight:bold;
+	padding:2px 5px;
+	background:url(images/button.gif) no-repeat left top;
+	cursor:pointer;
+	border:none;
+}
+.buttonSubmitHovered {
+	background-position:left bottom;
+}
+
+/*Test div - testing if stylesheets are enabled*/
+#stylesheetTest 
+{
+	position:absolute;
+	left:-999px;
+	width:10px;
+	height:10px;
+}

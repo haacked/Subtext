@@ -17,7 +17,15 @@
 	<p>
 	However, with no new releases of .TEXT pending, we <a href="~/About/ForkingDotText/" runat="server">decided to fork it</a>.  
 	</p>
-	<p align="center">---&gt; Make a Donation Button Goes Here &lt;--</p>
+	<p align="center">		
+			<a href="http://sourceforge.net/projects/subtext">
+				Subtext
+			</a>
+			<br />
+			<a href="http://sourceforge.net/donate/index.php?group_id=137896">
+				<img src="http://images.sourceforge.net/images/project-support.jpg" width="88" height="32" border="0" alt="Support This Project" /> 
+			</a>
+	</p>
 	<h2>Current Work</h2>
 	<p>
 	As an open source product, Subtext depends on a committed and passionate 
