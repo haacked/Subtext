@@ -4358,7 +4358,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[DNW_GetRecentPosts]
 
 AS
 SELECT Top 35 Host
-	Application
+	, Application
 	, [EntryName] = IsNull(content.EntryName, content.[ID])
 	, content.[ID]
 	, content.Title
