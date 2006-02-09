@@ -278,9 +278,39 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "MainFeed.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "MainFeed.aspx.cs"
+                    DependentUpon = "MainFeed.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "MainFeed.aspx.resx"
+                    DependentUpon = "MainFeed.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "NamespaceDocumentation.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "OPML.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "OPML.aspx.cs"
+                    DependentUpon = "OPML.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "OPML.aspx.resx"
+                    DependentUpon = "OPML.aspx.cs"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "SolutionInfo.cs"
