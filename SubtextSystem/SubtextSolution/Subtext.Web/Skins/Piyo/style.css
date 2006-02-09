@@ -577,6 +577,14 @@ img.emoticons {
 
 }
 
+kbd{
+	background-color: #ddd;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	font-size: inherit;
+	font-family: inherit;
+	padding: 0 3px 2px 4px;
+	}
 
 #lightbox{
 	background-color:#eee;
