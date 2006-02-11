@@ -11,4 +11,8 @@ To install it just unzip the archive into your skin folder and edit the Skins.co
 		</Styles>
 	</SkinTemplate>
 
+NOTE: to change the default stylesheet that a user will get the first time to the page,
+ or after their cookie expires, just change the order in the above config settings.
+ i.e.- If piyo-fixed.css is on top, it will be default.
+
 Please send comments to simone@piyosailing.com
