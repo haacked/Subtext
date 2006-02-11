@@ -40,6 +40,7 @@ namespace Subtext.Web.HostAdmin
 		private void Page_Load(object sender, System.EventArgs e)
 		{
 			paraBeginImportText.Visible = false;
+			btnNext.Visible = true;
 			SetProviderFormQueryString();
 
 			BindImportInformationControl();
