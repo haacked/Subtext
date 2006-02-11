@@ -97,11 +97,6 @@ namespace Subtext.Installation.Import
 						Stream stream = ScriptHelper.UnpackEmbeddedScript("ImportDotText095.sql");
 						SqlScriptRunner runner = new SqlScriptRunner(stream, Encoding.UTF8);
 						runner.TemplateParameters["subtext_db_name"].Value = subtextConnection.Database;
-						if(!subtextConnection.TrustedConnection)
-						{
-							runner.TemplateParameters["dbUser"].Value = subtextConnection.UserId;
-						}
-
 						runner.TemplateParameters["dottext_db_name"].Value = dotTextConnection.Database;
 						if(!dotTextConnection.TrustedConnection)
 						{
