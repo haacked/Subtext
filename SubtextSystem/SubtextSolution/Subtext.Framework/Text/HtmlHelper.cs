@@ -19,6 +19,8 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml;
+using System.Configuration;
+using System.Collections.Specialized;
 using Sgml;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
@@ -165,6 +167,122 @@ namespace Subtext.Framework.Text
 				return text;
 			}
 			return "http://" + text;
+		}
+
+		/// <summary>
+		/// Filters text to only allow defined HTML.
+		/// </summary>
+		/// <param name="text">Text.</param>
+		/// <returns></returns>
+		public static string ConvertToAllowedHtml(string text)
+		{
+			AppSettingsReader settingreader = new AppSettingsReader();
+			NameValueCollection AllowedHtml = null;
+			AllowedHtml = ((NameValueCollection)(ConfigurationSettings.GetConfig("AllowableCommentHtml")));
+
+			if (AllowedHtml == null || AllowedHtml.Count == 0)
+			{
+				//This indicates that the AllowableCommentHtml configuration is either missing or
+                //has no values, therefore just strip the text as normal.
+				return HTMLSafe(text);
+			}
+			else
+			{
+				//this regex matches any tag. Tags with < or > inside of quotes will cause this
+				//to fail. Nothing that should be left in comments should have this anyway.
+				Regex RegX = new Regex("(<.+?>)", RegexOptions.Singleline | RegexOptions.IgnoreCase);
+				string[] splits;
+				//now we split at each match, then examine each resulting string to determine
+				//if allowed HTML code is matched
+				splits = RegX.Split(text);
+			
+				//build stupidly complex regex
+				System.Text.StringBuilder sb = new System.Text.StringBuilder();
+				sb.Append("<\\s*?\\/??\\s*((?:)");
+				for (int i = 0; i <= AllowedHtml.Count - 1; i++)
+				{
+					sb.Append(AllowedHtml.GetKey(i));
+					if (i < AllowedHtml.Count - 1)
+					{
+						sb.Append("|");
+					}
+				}
+				sb.Append(")"); //\s*")
+				string pattern = sb.ToString();
+			
+				sb = new System.Text.StringBuilder();
+			
+				foreach (string s in splits)
+				{
+					//check each match against the list of allowable tags.
+					if (Regex.IsMatch(s, pattern, RegexOptions.Singleline | RegexOptions.IgnoreCase))
+					{
+						//this is a tag that we allow
+						//check if it is the opening tag or close
+						if (Regex.IsMatch(s, "<\\s*?/", RegexOptions.Singleline | RegexOptions.IgnoreCase))
+						{
+							//this is the closing tag
+							//determine the tag type and return only the
+							//correctly formated close tag
+							sb.Append("</" + Regex.Match(s, "(\\w+)").Value + ">");
+						}
+						else
+						{
+							//this is the opening tag
+							//create the opening portion
+							sb.Append("<" + Regex.Match(s, "(\\w+)").Value);
+							//now determine which attributes (if any) to add
+							sb.Append(FilterAttributes(Regex.Match(s, "(\\w+)").Value, Regex.Matches(s, "(\\w+(\\s*=\\s*)((?:)\".*?\"|[^\"]\\S+))", RegexOptions.Singleline), ref AllowedHtml) + ">");
+						}
+						//sb.Append("Match found at " & s & vbCrLf)
+					}
+					else
+					{
+						sb.Append(HTMLSafe(s));
+					}
+				}
+				return sb.ToString();
+			}
+		}
+		
+		private static string HTMLSafe(string text)
+		{
+			//replace &, <, >, and line breaks with <br>
+			text = text.Replace("&", "&amp;");
+			text = text.Replace("<", "&lt;");
+			text = text.Replace(">", "&gt;");
+			text = text.Replace("\n", "<BR>");
+			return text;
+		}
+
+		private static string FilterAttributes(string TagName, MatchCollection Matches, ref NameValueCollection AllowedHtml)
+		{
+			System.Text.StringBuilder sb = new System.Text.StringBuilder();
+			string tString,attrValString;
+			//look to see which tag's attributes we are matching
+			TagName = TagName.ToLower();
+			char[] splitter  = {','};
+			char[] eqSplitter = {'='};
+			string[] tagAttr = AllowedHtml[TagName].Split(splitter);
+
+			foreach (Match attrMatch in Matches)
+			{
+				//find if first word exists in tagAttr
+				foreach (string s in tagAttr)
+				{
+					if (s == Regex.Match(attrMatch.Value, "\\w+").Value.ToLower().Trim())
+					{
+						//good attribute. add it to the return values
+						tString = Regex.Match(attrMatch.Value, "\\w+").Value.ToLower().Trim() + "=\"";
+						//get the attribute value
+						attrValString = attrMatch.Value.Split(eqSplitter)[1];
+
+						tString = tString +  attrValString.Replace("\"", "") + "\"";
+						sb.Append(" " + tString.Trim());
+					}
+				}
+			}
+			return sb.ToString();
 		}
 	}
 }
