@@ -398,7 +398,7 @@ namespace Subtext.Framework
 
 			entry.Author = HtmlHelper.SafeFormat(entry.Author);
 			entry.TitleUrl =  HtmlHelper.SafeFormat(entry.TitleUrl);
-			entry.Body = HtmlHelper.SafeFormatWithUrl(entry.Body);
+			entry.Body = HtmlHelper.ConvertToAllowedHtml(entry.Body);
 			entry.Title = HtmlHelper.SafeFormat(entry.Title);
 			entry.IsXHMTL = false;
 			entry.IsActive = true;
