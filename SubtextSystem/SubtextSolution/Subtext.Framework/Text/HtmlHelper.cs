@@ -247,11 +247,11 @@ namespace Subtext.Framework.Text
 		
 		private static string HTMLSafe(string text)
 		{
-			//replace &, <, >, and line breaks with <br>
+			//replace &, <, >, and line breaks with <br />
 			text = text.Replace("&", "&amp;");
 			text = text.Replace("<", "&lt;");
 			text = text.Replace(">", "&gt;");
-			text = text.Replace("\n", "<BR>");
+			text = text.Replace("\n", "<br />");
 			return text;
 		}
 
