@@ -90,6 +90,9 @@ HOW-TO: Keep your branch in sync with changes happening on the TRUNK.
   you do the merge, you'll be given a dialog asking for a "Start" and "End"
   tag. The "Start" would be the first "-j xxx" above, and "End" is the 2nd 
   "-j yyy".
+  
+  See the following for more info and a visual representation of the process:
+  http://stevenharman.net/blog/archive/2005/11/01/keepCVSBranchInSync.aspx
 
 ================================================================================
 For more information on how to work with TAG and BRANCH in CVS, please 
