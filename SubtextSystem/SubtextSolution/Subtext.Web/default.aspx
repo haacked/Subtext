@@ -1,4 +1,4 @@
-<%@ OutputCache Duration="120" VaryByParam="GroupID" %>
+<%@ OutputCache Duration="120" VaryByParam="GroupID" VaryByHeader="Accept-Language" %>
 <%@ Page CodeBehind="default.aspx.cs" EnableViewState="false" Language="c#" AutoEventWireup="false" Inherits="Subtext.Web._default" %>
 
 <html>
@@ -13,22 +13,18 @@
 			</div>
 			<div id="authors">
 				<h2>Welcome</h2>
-				<p>Please contact me (Scott Watermasysk) at <a href="http://scottwater.com/blog/contact.aspx">
-						here</a> with any errors, problems, and/or questions.</p>
-				<p>To learn more about the application, check out <a href="http://scottwater.com/blog">my 
-						blog</a>.</p>
 				<p>
-					Powered By:<br />
-					<asp:HyperLink NavigateUrl="http://scottwater.com/blog" ImageUrl="~/images/PoweredBySubtext85x33.png"
-						Runat="server" BorderWidth="0" id="HyperLink1" />
+					Please contact me (Phil Haack) at <a href="http://haacked.com/contact.aspx" title="Contact Page" rel="external">
+						here</a> with any errors, problems, and/or questions.
 				</p>
 				<p>
-					We are working on some new tools to help handle the increased number of bloggers. Please use the following links in the mean time.
-					<br >
-					<asp:HyperLink ID="Hyperlink6" Text="Posts by only Microsoft Bloggers" runat="server" NavigateUrl = "~/?GroupID=2" />
-					<br >
-					<asp:HyperLink ID="Hyperlink7" Text="Posts by Non-Microsoft Bloggers" runat="server" NavigateUrl = "~/?GroupID=4" />
-				
+					To learn more about the application, check out <a href="http://subtextproject.com/" title="Haacked Blog" rel="external">
+					the Subtext Project Website</a>.
+				</p>
+				<p>
+					Powered By:<br />
+					<asp:HyperLink NavigateUrl="http://subtextproject.com/" ImageUrl="~/images/PoweredBySubtext85x33.png"
+						Runat="server" BorderWidth="0" id="HyperLink1" />
 				</p>
 				<h2>Syndication</h2>
 				<ul>
