@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="SubText" default="dist.updateCVS">
+<project name="SubText" default="dist.publish.latest">
 	
 	<property name="nant.settings.currentframework" value="net-1.1"/>
 	<property name="configuration" value="release"/>
@@ -83,16 +83,18 @@
 
 		<delete dir="${publish.dir.latest}" failonerror="false" />
 		<mkdir dir="${publish.dir.latest}" />
-		<copy todir="${publish.dir.latest}">
+		<copy todir="${publish.dir.latest}" includeemptydirs="false">
 			<fileset basedir="Subtext.Web">
 				<include name="**/*" />
 				<exclude name="**/*.bmp" />
+				<exclude name="ExternalDependencies/*" />
 				<exclude name="Images/**" />
 				<include name="Images/*" />
 				<include name="Images/emotions/*" />
 				<exclude name="**/*.cs"/>
 				<exclude name="**/*.txt"/>
 				<exclude name="**/*.resx"/>
+				<exclude name="**/*.xml"/>
 				<exclude name="**/*.csproj"/>
 				<exclude name="**/*.csproj.user"/>
 				<exclude name="**/.cvsignore"/>
