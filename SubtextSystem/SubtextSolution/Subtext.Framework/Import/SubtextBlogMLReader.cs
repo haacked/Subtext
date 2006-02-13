@@ -80,7 +80,7 @@ namespace Subtext.Framework.Import
 			{
 				bmlBlog = BlogMLSerializer.Deserialize(new StringReader(blogMLFile));
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				string msg = (blogMLFile.Length == 0) ? 
 					"The specified BlogML file could not be found or does not exist." :
@@ -98,7 +98,7 @@ namespace Subtext.Framework.Import
 			 */ 
 			
 			// 1) This certainly needs to be beefed up to calculate the correct _host & app values
-			if(createNewBlog)
+			if (createNewBlog)
 			{
 				Config.CreateBlog(bmlBlog.Title, bmlBlog.Author.Name, "password", bmlBlog.RootUrl, string.Empty);
 				info = Config.GetBlogInfo(bmlBlog.RootUrl, string.Empty);
@@ -122,7 +122,7 @@ namespace Subtext.Framework.Import
 			imgDirUrl = info.ImagePath;
 			
 			// 2)
-			foreach(BlogMLCategory bmlCat in bmlBlog.Categories)
+			foreach (BlogMLCategory bmlCat in bmlBlog.Categories)
 			{
 				LinkCategory category = new LinkCategory();
 				category.BlogId = info.BlogId;
@@ -137,18 +137,18 @@ namespace Subtext.Framework.Import
 
 			// 3)
 
-			foreach(BlogMLPost bmlPost in bmlBlog.Posts)
+			foreach (BlogMLPost bmlPost in bmlBlog.Posts)
 			{
 				string postContent = bmlPost.Content.UncodedText;
 
-				if(bmlPost.Attachments.Count > 0)
+				if (bmlPost.Attachments.Count > 0)
 				{
-					if(!Directory.Exists(imgDirPath))
+					if (!Directory.Exists(imgDirPath))
 					{
 						Directory.CreateDirectory(imgDirPath);
 					}
 
-					foreach(BlogMLAttachment bmlAttachment in bmlPost.Attachments)
+					foreach (BlogMLAttachment bmlAttachment in bmlPost.Attachments)
 					{
 						fileName = Path.GetFileName(bmlAttachment.Url);
 						imgFilePath = imgDirPath + fileName;
@@ -159,7 +159,7 @@ namespace Subtext.Framework.Import
 										bmlAttachment.Url,
 										imgFileUrl);
 
-						if(bmlAttachment.Embedded == true) 
+						if (bmlAttachment.Embedded == true) 
 						{
 							MemoryStream memStream = new MemoryStream(bmlAttachment.Data);
 							Bitmap image = (Bitmap)Image.FromStream(memStream);
@@ -171,7 +171,7 @@ namespace Subtext.Framework.Import
 									image.Save(fStream, ImageFormat.Jpeg);
 								}
 							}
-							catch(IOException ioE)
+							catch (IOException ioE)
 							{
 								log.Warn("It looks like this image already exists. "
 									+ "We'll use the existing one, so you may need to fix it later. The Error Message:",
@@ -196,7 +196,7 @@ namespace Subtext.Framework.Import
 				newEntryID = Entries.Create(newEntry);
 
 				count = bmlPost.Categories.Count;
-				if(count > 0)
+				if (count > 0)
 				{
 					catIDs = new int[count];
 					for(int j = 0; j < count; j++)
@@ -206,9 +206,9 @@ namespace Subtext.Framework.Import
 					Entries.SetEntryCategoryList(newEntryID, catIDs);
 				}
 
-				if(bmlPost.Comments.Count > 0)
+				if (bmlPost.Comments.Count > 0)
 				{
-					foreach(BlogMLComment bmlComment in bmlPost.Comments)
+					foreach (BlogMLComment bmlComment in bmlPost.Comments)
 					{
 						newComment = new Entry(PostType.Comment);
 						newComment.BlogId = info.BlogId;
@@ -227,7 +227,7 @@ namespace Subtext.Framework.Import
 						{
 							Entries.InsertComment(newComment);
 						}
-						catch(CommentDuplicateException cDE)
+						catch (CommentDuplicateException cDE)
 						{
 							log.Warn(
 								string.Format(
@@ -237,9 +237,9 @@ namespace Subtext.Framework.Import
 					}
 				}
 
-				if(bmlPost.Trackbacks.Count > 0)
+				if (bmlPost.Trackbacks.Count > 0)
 				{
-					foreach(BlogMLTrackback bmlPingTrack in bmlPost.Trackbacks)
+					foreach (BlogMLTrackback bmlPingTrack in bmlPost.Trackbacks)
 					{
 						newPingTrack = new Entry(PostType.PingTrack);
 						newPingTrack.BlogId = info.BlogId;

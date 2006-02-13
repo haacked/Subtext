@@ -36,18 +36,16 @@ namespace Subtext.Framework.Import
 	{
 		#region Private Members
 			
-		private int _BlogId;
-		private bool _IsUseGuids;
-		private string _Host;
-		private Hashtable _Categories = new Hashtable();
+		private int blogId;
+		private bool isUseGuids;
+		private string host;
+		private Hashtable categories;
 		private readonly static ILog log = new Log();
 		
 		// Used by Sql Data Handlers //////////////////////////
-		private string _connectionString;
-		private SqlConnection _connection;
-		private bool _connectionIsReady = false;
-		///////////////////////////////////////////////////////
-		
+		private string connectionString;
+		private SqlConnection connection;
+		private bool isConnectionReady = false;
 		
 		#endregion
 
@@ -57,32 +55,33 @@ namespace Subtext.Framework.Import
 		/// Creates new instance of the SubtextBlogMLWriter.
 		/// </summary>
 		/// <param name="connectionString">Connection string to use to access .TEXT data store.</param>
-		/// <param name="blogID">The ID of you're .TEXT blog.</param>
+		/// <param name="blogId">The ID of you're .TEXT blog.</param>
 		/// <param name="isUseGuids">True if you want the writer to convert id's to Guids.
 		/// If you specify false the .TEXT int ID's will be retained.</param>
-		public SubtextBlogMLWriter( string connectionString, 
-									int blogID, 
+		public SubtextBlogMLWriter(string connectionString, 
+									int blogId, 
 									bool isUseGuids)
 		{
 			#region Parameter Checking
 			
-			if( connectionString == null )
+			if (connectionString == null)
 			{
-				throw( new ArgumentNullException( "connectionString", 
-												  "Unable to create new DOTTextBlogMLWriter. Connection String cannot be null.") );
+				throw(new ArgumentNullException("connectionString", 
+												  "Unable to create new DOTTextBlogMLWriter. Connection String cannot be null."));
 			}
 
-			if( connectionString == string.Empty )
+			if (connectionString.Length == 0)
 			{
-				throw( new ArgumentException( "Unable to create new DOTTextBlogMLWriter. Connection String cannot be empty.", 
-											  "connectionString") );
+				throw(new ArgumentException("Unable to create new DOTTextBlogMLWriter. Connection String cannot be empty.", 
+											  "connectionString"));
 			}
 
 			#endregion
 
-			_BlogId = blogID;
-			_connectionString = connectionString;			
-			_IsUseGuids = isUseGuids;			
+			this.blogId = blogId;
+			this.connectionString = connectionString;
+			this.isUseGuids = isUseGuids;
+			this.categories = new Hashtable();
 		}
 
 		#endregion
@@ -115,7 +114,7 @@ namespace Subtext.Framework.Import
 			}
 			finally
 			{
-				if( _connection != null )
+				if (this.connection != null)
 				{
 					CloseConnection();
 				}
@@ -125,18 +124,18 @@ namespace Subtext.Framework.Import
 		// Writes StartBlog and Author.
 		private void WriteFromBlogConfig()
 		{
-			using( SqlDataReader reader = GetBlogConfig() )
+			using(SqlDataReader reader = GetBlogConfig())
 			{
-				if( reader.HasRows )
+				if (reader.HasRows)
 				{
 					reader.Read();
 					
 					// get host from config
-					_Host = reader["Host"] as string;
+					this.host = reader["Host"] as string;
 
 					WriteStartBlog(reader["Title"] as string, 
 								   reader["SubTitle"] as string,
-								   _Host, 
+					               this.host, 
 								   DateTime.Now);
 
 					WriteAuthor(reader["Author"] as string, reader["Email"] as string);
@@ -144,7 +143,7 @@ namespace Subtext.Framework.Import
 				}
 				else
 				{
-					throw( new Exception("Unable to get config for supplied Blog ID.") );
+					throw(new Exception("Unable to get config for supplied Blog ID."));
 				}
 			}
 		}
@@ -158,15 +157,15 @@ namespace Subtext.Framework.Import
 			{
 				WriteStartCategories();
 
-				using( SqlDataReader reader = GetCategories() )
+				using(SqlDataReader reader = GetCategories())
 				{
-					if( reader.HasRows )
+					if (reader.HasRows)
 					{
-						while( reader.Read() )
+						while(reader.Read())
 						{
-							if( !_Categories.ContainsKey(reader["CategoryID"].ToString()) )
+							if (!this.categories.ContainsKey(reader["CategoryID"].ToString()))
 							{
-								if( _IsUseGuids )
+								if (this.isUseGuids)
 								{
 									categoryID = Guid.NewGuid().ToString();
 								}
@@ -178,7 +177,7 @@ namespace Subtext.Framework.Import
 								// tracks categories
 								// if we are using guids then we need to track categories
 								// when adding them to posts elements.
-								_Categories.Add(reader["CategoryID"].ToString(), categoryID);
+								this.categories.Add(reader["CategoryID"].ToString(), categoryID);
 							}
 							
 							WriteCategory(categoryID,
@@ -212,9 +211,9 @@ namespace Subtext.Framework.Import
                 
 				WriteStartPosts();
 
-				foreach( DataRow post in dsPosts.Tables[0].Rows )
+				foreach(DataRow post in dsPosts.Tables[0].Rows)
 				{
-					WritePost( post);
+					WritePost(post);
 					Writer.Flush();
 				}
 
@@ -231,7 +230,7 @@ namespace Subtext.Framework.Import
 			}
 		}
 
-		private void WritePost( DataRow post )
+		private void WritePost(DataRow post)
 		{
 			int currentPostId = -1;
 			string newPostID = string.Empty;
@@ -241,7 +240,7 @@ namespace Subtext.Framework.Import
 			{
 				currentPostId = int.Parse(post["ID"].ToString());
 
-                if( _IsUseGuids )
+                if (this.isUseGuids)
                 {
                 	newPostID = Guid.NewGuid().ToString();
                 }
@@ -282,15 +281,15 @@ namespace Subtext.Framework.Import
 			string appFullRootUrl = "http://" + Config.CurrentBlog.Host.ToLower() 
 				+ StringHelper.ReturnCheckForNull(HttpContext.Current.Request.ApplicationPath).ToLower();
 			
-			if(imagesURLs.Length > 0)
+			if (imagesURLs.Length > 0)
 			{
 				WriteStartAttachments();
-				for(int i=0; i < imagesURLs.Length; i++)
+				for (int i=0; i < imagesURLs.Length; i++)
 				{
 					imageURL = imagesURLs[i].ToLower();
 
 					// now we need to determine if the URL is local
-					if(SgmlUtil.IsRootUrlOf(appFullRootUrl, imageURL))
+					if (SgmlUtil.IsRootUrlOf(appFullRootUrl, imageURL))
 					{
 						try
 						{
@@ -301,7 +300,7 @@ namespace Subtext.Framework.Import
 							WriteAttachment(imageURL, GetMimeType(imageURL), fullImageURL);
 							Writer.Flush();
 						}
-						catch(Exception e)
+						catch (Exception e)
 						{
 							/* REVIEW:
 							 * We should only catch exceptions we can really handle...
@@ -321,7 +320,7 @@ namespace Subtext.Framework.Import
 			}
 		}
 		
-		private void WritePostComments( int postID )
+		private void WritePostComments(int postID)
 		{
 			DataSet dsComments = null;
 			string commentID = string.Empty;
@@ -330,13 +329,13 @@ namespace Subtext.Framework.Import
 			{
 				dsComments = GetPostComments(postID);
              
-				if( dsComments.Tables[0].Rows.Count > 0 )
+				if (dsComments.Tables[0].Rows.Count > 0)
 				{
 					WriteStartComments();
                    
-					foreach( DataRow comment in dsComments.Tables[0].Rows )
+					foreach(DataRow comment in dsComments.Tables[0].Rows)
 					{
-						if( _IsUseGuids )
+						if (this.isUseGuids)
 						{
 							commentID = Guid.NewGuid().ToString();
 						}
@@ -359,7 +358,6 @@ namespace Subtext.Framework.Import
 					}
 
 					WriteEndElement(); // End Comments Element
-
 					Writer.Flush();
 				}
 			}
@@ -373,7 +371,7 @@ namespace Subtext.Framework.Import
 			}
 		}
 
-		private void WritePostCategories( int postID )
+		private void WritePostCategories(int postID)
 		{
 			DataSet dsCategories = null;
 
@@ -381,19 +379,17 @@ namespace Subtext.Framework.Import
 			{
 				dsCategories = GetPostCategories(postID);
 				
-				if( dsCategories.Tables[0].Rows.Count > 0 )
+				if (dsCategories.Tables[0].Rows.Count > 0)
 				{
 					WriteStartCategories();
 
-					foreach( DataRow postCategoryId in dsCategories.Tables[0].Rows )
+					foreach(DataRow postCategoryId in dsCategories.Tables[0].Rows)
 					{
-						WriteCategoryReference( _Categories[postCategoryId["CategoryID"].ToString()].ToString());
-
+						WriteCategoryReference(this.categories[postCategoryId["CategoryID"].ToString()].ToString());
 						Writer.Flush();
 					}
 
 					WriteEndElement();
-
 					Writer.Flush();
 				}
 			}
@@ -407,22 +403,22 @@ namespace Subtext.Framework.Import
 			}
 		}
 
-		private void WritePostTrakbacks( int postID )
+		private void WritePostTrakbacks(int postID)
 		{
 			DataSet dsTrackBacks = null;
 			string trackbackID = string.Empty;
 
 			try
 			{
-				dsTrackBacks = GetPosTrackbacks( postID );
+				dsTrackBacks = GetPostTrackbacks(postID);
 
-				if( dsTrackBacks.Tables[0].Rows.Count > 0 )
+				if (dsTrackBacks.Tables[0].Rows.Count > 0)
 				{
 					WriteStartTrackbacks();
 
-					foreach( DataRow trackback in dsTrackBacks.Tables[0].Rows )
+					foreach (DataRow trackback in dsTrackBacks.Tables[0].Rows)
 					{
-						if( _IsUseGuids )
+						if (this.isUseGuids)
 						{
 							trackbackID = Guid.NewGuid().ToString();
 						}
@@ -443,7 +439,6 @@ namespace Subtext.Framework.Import
                     WriteEndElement(); // End Trackbacks element
 					Writer.Flush();
 				}
-
 			}
 			catch (Exception ex)
 			{
@@ -459,22 +454,22 @@ namespace Subtext.Framework.Import
 
 		#region Util Methods
 
-		private string GetPostUrl( string postID )
+		private string GetPostUrl(string postID)
 		{
-			return string.Format("http://{0}/Posts/Post.aspx?postID={1}", _Host, postID );
+			return string.Format("http://{0}/Posts/Post.aspx?postID={1}", this.host, postID);
 		}
 
-		private string GetMimeType(string fullUrl) 
+		private static string GetMimeType(string fullUrl) 
 		{
 			string extension = Path.GetExtension(fullUrl);
+			string retVal = "none";
+
 			if (extension == null || extension.Length==0) 
 			{
 				return string.Empty;
 			}
 
 			extension = extension.TrimStart(new char[] { '.' });
-
-			string retVal = "none";
 
 			switch (extension.ToLower()) 
 			{
@@ -506,7 +501,7 @@ namespace Subtext.Framework.Import
 
 			try
 			{
-				cmd = new SqlCommand(string.Format("SELECT Title, SubTitle, Host, Author, Email FROM subtext_config WHERE BlogId = {0}", _BlogId) );
+				cmd = new SqlCommand(string.Format("SELECT Title, SubTitle, Host, Author, Email FROM subtext_config WHERE BlogId = {0}", this.blogId) );
 				cmd.CommandType = CommandType.Text;
 				
 	            reader = ExecuteReader(cmd);
@@ -528,7 +523,7 @@ namespace Subtext.Framework.Import
 			{		
 				cmd = new SqlCommand("subtext_GetAllCategories");
 				cmd.CommandType = CommandType.StoredProcedure;
-				cmd.Parameters.Add("@BlogId", SqlDbType.Int).Value = _BlogId;
+				cmd.Parameters.Add("@BlogId", SqlDbType.Int).Value = this.blogId;
 				cmd.Parameters.Add("@IsActive", SqlDbType.Bit).Value = 1;
 				cmd.Parameters.Add("@CategoryType", SqlDbType.Int).Value = 1;
 
@@ -548,9 +543,9 @@ namespace Subtext.Framework.Import
 			SqlCommand cmd = null;
 			// not stored procedure that retreives all posts.
 			// use sql statement.
-			string sql = "select * from subtext_content " +
-						 "where blogid = " + _BlogId + " and " +
-						 "posttype = 1 and " +
+			string sql = "SELECT * FROM subtext_Content " +
+						 "WHERE BlogId = " + this.blogId + " AND " +
+						 "PostType = 1 AND " +
 						 "subtext_Content.PostConfig & 1 <> Case 1 When 1 then 0 Else -1 End";
 
 			try
@@ -565,27 +560,16 @@ namespace Subtext.Framework.Import
 				throw(new Exception("Unable to get Posts.", ex));
 			}
 
-
 			return ds;
 		}
 
-		private DataSet GetPostComments( int postID )
+		private DataSet GetPostComments(int postID)
 		{
 			DataSet ds = null;
-			//SqlCommand cmd = null;
 
 			try
 			{
-				
-				// subtext_GetFeedBack gets both comments and trackbacks
-				// use sql statement
-				//
-				//cmd = new SqlCommand("subtext_GetFeedBack");
-				//cmd.CommandType = CommandType.StoredProcedure;
-				//cmd.Parameters.Add("@ParentID", SqlDbType.Int).Value = postID;
-				//cmd.Parameters.Add("@BlogId", SqlDbType.Int).Value = _BlogId;
-
-				ds = GetFeedBackItems( postID, 3);
+				ds = GetFeedBackItems(postID, 3);
 			}
 			catch (Exception ex)
 			{
@@ -595,13 +579,13 @@ namespace Subtext.Framework.Import
 			return ds;
 		}
 
-		private DataSet GetPosTrackbacks( int postID )
+		private DataSet GetPostTrackbacks(int postID)
 		{
 			DataSet ds = null;
 			
 			try
 			{
-				ds = GetFeedBackItems( postID, 4);
+				ds = GetFeedBackItems(postID, 4);
 			}
 			catch (Exception ex)
 			{
@@ -611,17 +595,22 @@ namespace Subtext.Framework.Import
 			return ds;
 		}
 
-		// Gets a dataset containing trackbacks or comments 
-		// for a specified post.
-		// postType = 3 Comment
-		// postType = 4 Trackback
-		private DataSet GetFeedBackItems( int PostID, int postType )
+		/// <summary>
+		/// Gets a dataset containing trackbacks or comments for a specified post.
+		/// </summary>
+		/// <param name="PostID"></param>
+		/// <param name="postType">
+		///		postType = 3 Comment
+		///		postType = 4 Trackback
+		/// </param>
+		/// <returns></returns>
+		private DataSet GetFeedBackItems(int PostID, int postType)
 		{
 			DataSet dsFeedBackItems = null;
             SqlCommand cmd = null;
 			// no procedure exists to get only comments for a post.
-			string sql = string.Format("SELECT * FROM subtext_Content WHERE BlogId ={0} and PostType ={1} AND subtext_Content.PostConfig & 1 = 1 and subtext_Content.ParentID ={2} ORDER BY [ID]",
-									   _BlogId, postType, PostID);
+			string sql = string.Format("SELECT * FROM subtext_Content WHERE BlogId ={0} and PostType ={1} AND subtext_Content.PostConfig & 1 = 1 AND subtext_Content.ParentID ={2} ORDER BY [ID]",
+			                           this.blogId, postType, PostID);
 
 			try
 			{
@@ -638,7 +627,7 @@ namespace Subtext.Framework.Import
 			return dsFeedBackItems;
 		}
 
-		private DataSet GetPostCategories( int PostID )
+		private DataSet GetPostCategories(int PostID)
 		{
 			DataSet ds = null;
 			SqlCommand cmd = null;
@@ -673,19 +662,19 @@ namespace Subtext.Framework.Import
 	
 		private void InitConnection() 
 		{
-			if(!_connectionIsReady) 
+			if (!this.isConnectionReady) 
 			{
 				//_connectionString = System.Configuration.ConfigurationSettings.AppSettings["ConnectionString"] as string;
 				
-				if(_connectionString == null)
+				if (this.connectionString == null)
 				{
-					_connectionIsReady = false;
+					this.isConnectionReady = false;
 					throw new ArgumentNullException("Connection String", "The connection string could not be loaded to access the SQL Server.");
 				}
 				else
 				{
-					_connection = new SqlConnection(_connectionString);
-					_connectionIsReady = true;
+					this.connection = new SqlConnection(this.connectionString);
+					this.isConnectionReady = true;
 				}
 			}
 		}
@@ -693,13 +682,11 @@ namespace Subtext.Framework.Import
 
 		void CloseConnection() 
 		{
-			if( this._connection.State != ConnectionState.Closed ) 
+			if (this.connection.State != ConnectionState.Closed)
 			{
-				this._connection.Close() ;
+				this.connection.Close() ;
 			}
 		}
-
-
 
 		/// <summary>
 		/// this method is called internally in order to retrieve some data from the database. 
@@ -711,10 +698,12 @@ namespace Subtext.Framework.Import
 			SqlDataReader reader = null;
 			try 
 			{
-				if(!_connectionIsReady)
+				if (!this.isConnectionReady)
+				{
 					this.InitConnection();
-				cmd.Connection = _connection;
-				_connection.Open();
+				}
+				cmd.Connection = this.connection;
+				this.connection.Open();
 				reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
 				return reader;
 			}
@@ -743,19 +732,18 @@ namespace Subtext.Framework.Import
 
 			try
 			{
-				if(!_connectionIsReady)
+				if (!this.isConnectionReady)
 				{
 					InitConnection();
 				}
-				cmd.Connection = _connection;
+				cmd.Connection = this.connection;
 				
-				if( _connection.State != ConnectionState.Open )
+				if (this.connection.State != ConnectionState.Open)
 				{
-					_connection.Open();	
+					this.connection.Open();	
 				}
 				
 				adapter = new SqlDataAdapter(cmd);
-
 				adapter.Fill(ds);
 			}
 			catch (Exception ex)
