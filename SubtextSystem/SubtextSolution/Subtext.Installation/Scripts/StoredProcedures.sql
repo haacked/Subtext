@@ -335,15 +335,15 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,
 drop procedure [<dbUser,varchar,dbo>].[subtext_Utility_UpdateToHashedPassword]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_AddLogEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_AddLogEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_AddLogEntry]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[subtext_LogClear]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_LogClear]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_LogClear]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_SearchEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_SearchEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_SearchEntries]
 GO
 
@@ -4638,8 +4638,8 @@ GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_SearchEntries]  TO [public]
 GO
 
 /*Previous Next*/
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[Subtext_GetEntry_PreviousNext]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[Subtext_GetEntry_PreviousNext]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[Subtext_GetEntry_PreviousNext]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[Subtext_GetEntry_PreviousNext]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
