@@ -37,7 +37,7 @@ namespace Subtext.Web.UI.Controls
 			base.OnLoad (e);
 			
 			//Get the entry
-			Entry entry = Cacher.GetEntryFromRequest(Context,CacheTime.Short);			
+			Entry entry = Cacher.GetEntryFromRequest(Subtext.Framework.CacheDuration.Short);			
 			
 			//if found
 			if(entry != null)
@@ -49,7 +49,7 @@ namespace Subtext.Web.UI.Controls
 				SqlParameter[] p =
 					{
 						SqlHelper.MakeInParam("@ID",SqlDbType.Int,4,entry.EntryID),
-						SqlHelper.MakeInParam("@BlogID",SqlDbType.Int,4,Config.CurrentBlog.BlogID)
+						SqlHelper.MakeInParam("@BlogID",SqlDbType.Int,4,Config.CurrentBlog.BlogId)
 					};
 
 				//System.Data.SqlClient.SqlDataReader sdr = SqlHelper.ExecuteReader(ConnectionString,CommandType.StoredProcedure,"blog_GetEntry_PreviousNext",p);
