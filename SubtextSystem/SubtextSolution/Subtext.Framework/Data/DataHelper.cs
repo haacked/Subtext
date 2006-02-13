@@ -696,7 +696,7 @@ namespace Subtext.Framework.Data
 		{
 			BlogInfo info = new BlogInfo();
 			info.Author = (string)reader["Author"];
-			info.BlogID = (int)reader["BlogID"];
+			info.BlogId = (int)reader["BlogId"];
 			info.Email = (string)reader["Email"];
 			info.Password = (string)reader["Password"];
 
@@ -852,7 +852,7 @@ namespace Subtext.Framework.Data
 		{
 			KeyWord kw = new KeyWord();
 			kw.KeyWordID = (int)reader["KeyWordID"];
-			kw.BlogID = (int)reader["BlogID"];
+			kw.BlogId = (int)reader["BlogId"];
 			kw.OpenInNewWindow = (bool)reader["OpenInNewWindow"];
 			kw.ReplaceFirstTimeOnly = (bool)reader["ReplaceFirstTimeOnly"];
 			kw.CaseSensitive = (bool)reader["CaseSensitive"];

@@ -153,7 +153,7 @@ namespace Subtext.Web.Admin.Pages
 				info.TimeZone = Int32.Parse(ddlTimezone.SelectedItem.Value);
 				info.Application = Config.CurrentBlog.Application;
 				info.Host = Config.CurrentBlog.Host;
-				info.BlogID = Config.CurrentBlog.BlogID;
+				info.BlogId = Config.CurrentBlog.BlogId;
 
 				info.ItemCount = Int32.Parse(ddlItemCount.SelectedItem.Value);
 				info.Language = ddlLangLocale.SelectedItem.Value;

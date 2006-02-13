@@ -408,11 +408,11 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_DeleteCategory]
 (
 	@CategoryID int,
-	@BlogID int
+	@BlogId int
 )
 AS
-DELETE [<dbUser,varchar,dbo>].[subtext_Links] FROM [<dbUser,varchar,dbo>].[subtext_Links] WHERE CategoryID = @CategoryID AND BlogID = @BlogID
-DELETE [<dbUser,varchar,dbo>].[subtext_LinkCategories] FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories] WHERE subtext_LinkCategories.CategoryID = @CategoryID AND subtext_LinkCategories.BlogID = @BlogID
+DELETE [<dbUser,varchar,dbo>].[subtext_Links] FROM [<dbUser,varchar,dbo>].[subtext_Links] WHERE CategoryID = @CategoryID AND BlogId = @BlogId
+DELETE [<dbUser,varchar,dbo>].[subtext_LinkCategories] FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories] WHERE subtext_LinkCategories.CategoryID = @CategoryID AND subtext_LinkCategories.BlogId = @BlogId
 
 
 GO
@@ -432,14 +432,14 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_DeleteImage]
 (
-	@BlogID int,
+	@BlogId int,
 	@ImageID int
 )
 AS
 DELETE [<dbUser,varchar,dbo>].[subtext_Images] 
 FROM [<dbUser,varchar,dbo>].[subtext_Images] 
 WHERE	ImageID = @ImageID 
-	AND BlogID = @BlogID
+	AND BlogId = @BlogId
 
 
 GO
@@ -460,11 +460,11 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_DeleteImageCategory]
 (
 	@CategoryID int,
-	@BlogID int
+	@BlogId int
 )
 AS
-DELETE [<dbUser,varchar,dbo>].[subtext_Images] FROM [<dbUser,varchar,dbo>].[subtext_Images] WHERE subtext_Images.CategoryID = @CategoryID AND subtext_Images.BlogID = @BlogID
-DELETE [<dbUser,varchar,dbo>].[subtext_LinkCategories] FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories] WHERE subtext_LinkCategories.CategoryID = @CategoryID AND subtext_LinkCategories.BlogID = @BlogID
+DELETE [<dbUser,varchar,dbo>].[subtext_Images] FROM [<dbUser,varchar,dbo>].[subtext_Images] WHERE subtext_Images.CategoryID = @CategoryID AND subtext_Images.BlogId = @BlogId
+DELETE [<dbUser,varchar,dbo>].[subtext_LinkCategories] FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories] WHERE subtext_LinkCategories.CategoryID = @CategoryID AND subtext_LinkCategories.BlogId = @BlogId
 
 
 
@@ -486,12 +486,12 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_DeleteKeyWord]
 (
 	@KeyWordID int,
-	@BlogID int
+	@BlogId int
 )
 
 AS
 
-DELETE FROM [<dbUser,varchar,dbo>].[subtext_KeyWords] WHERE BLOGID = @BlogID AND KeyWordID = @KeyWordID
+DELETE FROM [<dbUser,varchar,dbo>].[subtext_KeyWords] WHERE BLOGID = @BlogId AND KeyWordID = @KeyWordID
 
 
 GO
@@ -512,10 +512,10 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_DeleteLink]
 (
 	@LinkID int,
-	@BlogID int
+	@BlogId int
 )
 AS
-DELETE [<dbUser,varchar,dbo>].[subtext_Links] FROM [<dbUser,varchar,dbo>].[subtext_Links] WHERE [LinkID] = @LinkID AND BlogID = @BlogID
+DELETE [<dbUser,varchar,dbo>].[subtext_Links] FROM [<dbUser,varchar,dbo>].[subtext_Links] WHERE [LinkID] = @LinkID AND BlogId = @BlogId
 
 
 GO
@@ -536,11 +536,11 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_DeleteLinksByPostID]
 (
 	@PostID int,
-	@BlogID int
+	@BlogId int
 )
 AS
 Set NoCount ON
-DELETE [<dbUser,varchar,dbo>].[subtext_Links] FROM [<dbUser,varchar,dbo>].[subtext_Links] WHERE PostID = @PostID AND BlogID = @BlogID
+DELETE [<dbUser,varchar,dbo>].[subtext_Links] FROM [<dbUser,varchar,dbo>].[subtext_Links] WHERE PostID = @PostID AND BlogId = @BlogId
 
 
 
@@ -565,7 +565,7 @@ Deletes a record FROM [<dbUser,varchar,dbo>].[subtext_content], whether it be a 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_DeletePost]
 (
 	@ID int,
-	@BlogID int
+	@BlogId int
 )
 AS
 
@@ -596,7 +596,7 @@ BEGIN
 	DELETE FROM [<dbUser,varchar,dbo>].[subtext_Referrals] WHERE EntryID = @ID
 END
 
-DELETE FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE [ID] = @ID AND [BlogID] = @BlogID
+DELETE FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE [ID] = @ID AND [BlogId] = @BlogId
 
 
 GO
@@ -616,7 +616,7 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetActiveCategoriesWithLinkCollection]
 (
-	@BlogID int = NULL
+	@BlogId int = NULL
 )
 AS
 SELECT subtext_LinkCategories.CategoryID
@@ -627,7 +627,7 @@ SELECT subtext_LinkCategories.CategoryID
 FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories]
 WHERE	
 			subtext_LinkCategories.Active= 1 
-	AND		(subtext_LinkCategories.BlogID = @BlogID OR @BlogID IS NULL)
+	AND		(subtext_LinkCategories.BlogId = @BlogId OR @BlogId IS NULL)
 	AND		subtext_LinkCategories.CategoryType = 0
 ORDER BY 
 	subtext_LinkCategories.Title;
@@ -645,8 +645,8 @@ FROM [<dbUser,varchar,dbo>].[subtext_Links] links
 WHERE 
 		links.Active = 1 
 	AND categories.Active = 1
-	AND (categories.BlogID = @BlogID OR @BlogID IS NULL)
-	AND links.BlogID = @BlogID 
+	AND (categories.BlogId = @BlogId OR @BlogId IS NULL)
+	AND links.BlogId = @BlogId 
 	AND categories.CategoryType = 0
 ORDER BY 
 	links.Title;
@@ -670,7 +670,7 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetAllCategories]
 (
-	@BlogID int = NULL
+	@BlogId int = NULL
 	, @IsActive bit
 	, @CategoryType tinyint
 )
@@ -681,7 +681,7 @@ SELECT subtext_LinkCategories.CategoryID
 	, subtext_LinkCategories.CategoryType
 	, subtext_LinkCategories.[Description]
 FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories]
-WHERE (subtext_LinkCategories.BlogID = @BlogID OR @BlogId IS NULL)
+WHERE (subtext_LinkCategories.BlogId = @BlogId OR @BlogId IS NULL)
 	AND subtext_LinkCategories.CategoryType = @CategoryType 
 	AND subtext_LinkCategories.Active <> CASE @IsActive WHEN 1 THEN 0 ELSE -1 END
 ORDER BY subtext_LinkCategories.Title;
@@ -703,16 +703,16 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetBlogKeyWords]
 (
-	@BlogID int
+	@BlogId int
 )
 AS
 
 SELECT 
-	KeyWordID, Word,[Text],ReplaceFirstTimeOnly,OpenInNewWindow, CaseSensitive,Url,Title,BlogID
+	KeyWordID, Word,[Text],ReplaceFirstTimeOnly,OpenInNewWindow, CaseSensitive,Url,Title,BlogId
 FROM
 	subtext_keywords
 WHERE 
-	BlogID = @BlogID
+	BlogId = @BlogId
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -733,7 +733,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetCategory]
 (
 	@CategoryID int,
 	@IsActive bit,
-	@BlogID int
+	@BlogId int
 )
 AS
 SELECT	subtext_LinkCategories.CategoryID
@@ -743,7 +743,7 @@ SELECT	subtext_LinkCategories.CategoryID
 		, subtext_LinkCategories.[Description]
 FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories]
 WHERE subtext_LinkCategories.CategoryID=@CategoryID 
-	AND subtext_LinkCategories.BlogID = @BlogID 
+	AND subtext_LinkCategories.BlogId = @BlogId 
 	AND subtext_LinkCategories.Active <> CASE @IsActive WHEN 0 THEN -1 else 0 END
 
 
@@ -767,7 +767,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetCategoryByName]
 (
 	@CategoryName nvarchar(150),
 	@IsActive bit,
-	@BlogID int
+	@BlogId int
 )
 AS
 SELECT	subtext_LinkCategories.CategoryID
@@ -777,7 +777,7 @@ SELECT	subtext_LinkCategories.CategoryID
 		, subtext_LinkCategories.[Description]
 FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories]
 WHERE	subtext_LinkCategories.Title=@CategoryName 
-	AND subtext_LinkCategories.BlogID = @BlogID 
+	AND subtext_LinkCategories.BlogId = @BlogId 
 	AND subtext_LinkCategories.Active <> CASE @IsActive WHEN 0 THEN -1 else 0 END
 
 
@@ -801,7 +801,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetConditionalEntries]
 	@ItemCount int 
 	, @PostType int
 	, @PostConfig int
-	, @BlogID int = NULL
+	, @BlogId int = NULL
 )
 AS
 /* 
@@ -809,7 +809,7 @@ AS
 and feed. But it should sort on different dates for each.
 */
 SET ROWCOUNT @ItemCount
-SELECT BlogID
+SELECT BlogId
 	, [ID]
 	, Title
 	, DateAdded
@@ -830,7 +830,7 @@ SELECT BlogID
 	, DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	PostType = @PostType 
-	AND (BlogID = @BlogID OR @BlogID IS NULL)
+	AND (BlogId = @BlogId OR @BlogId IS NULL)
 	AND PostConfig & @PostConfig = @PostConfig
 ORDER BY [DateAdded] DESC
 
@@ -865,7 +865,7 @@ IF (@Strict = 0) AND (1 = (SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_
 BEGIN
 	-- Return the one and only record
 	SELECT
-		subtext_Config.BlogID
+		subtext_Config.BlogId
 		, UserName
 		, [Password]
 		, Email
@@ -897,7 +897,7 @@ END
 ELSE
 BEGIN
 	SELECT
-		BlogID
+		BlogId
 		, UserName
 		, [Password]
 		, Email
@@ -949,10 +949,10 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetEntriesByDayRange]
 	@StopDate datetime,
 	@PostType int,
 	@IsActive bit,
-	@BlogID int
+	@BlogId int
 )
 AS
-SELECT	BlogID
+SELECT	BlogId
 	, [ID]
 	, Title
 	, DateAdded
@@ -978,7 +978,7 @@ WHERE
 		AND DateAdded < DateAdd(day, 1, @StopDate)
 	)
 	AND PostType=@PostType 
-	AND BlogID = @BlogID 
+	AND BlogId = @BlogId 
 	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
 ORDER BY DateAdded DESC;
 
@@ -1004,11 +1004,11 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetEntryCollectionByDateUpdated]
 	@IsActive bit,
 	@PostType int, 
 	@DateUpdated datetime,
-	@BlogID int
+	@BlogId int
 )
 AS
 SET ROWCOUNT @ItemCount
-SELECT BlogID
+SELECT BlogId
 	, [ID]
 	, Title
 	, DateAdded
@@ -1030,7 +1030,7 @@ SELECT BlogID
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE 
 	PostType=@PostType 
-	AND BlogID = @BlogID
+	AND BlogId = @BlogId
 	AND DateUpdated > @DateUpdated
 	AND PostConfig & 1  <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
 ORDER BY [dateupdated] DESC
@@ -1054,10 +1054,10 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetEntryWithCategoryTitles]
 (
 	@PostID int
 	, @IsActive bit
-	, @BlogID int
+	, @BlogId int
 )
 AS
-SELECT	BlogID
+SELECT	BlogId
 		, [ID]
 		, Title
 		, DateAdded
@@ -1079,7 +1079,7 @@ SELECT	BlogID
 		, DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	[ID] = @PostID 
-	AND  BlogID = @BlogID 
+	AND  BlogId = @BlogId 
 	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
 ORDER BY [dateadded] DESC
 
@@ -1108,12 +1108,12 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetEntryWithCategoryTitlesByEntryNam
 (
 	@EntryName nvarchar(150)
 	, @IsActive bit
-	, @BlogID int
+	, @BlogId int
 )
 AS
 DECLARE @PostID int
 
-SELECT	BlogID
+SELECT	BlogId
 		, [ID]
 		, Title
 		, DateAdded
@@ -1135,7 +1135,7 @@ SELECT	BlogID
 		, DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	EntryName = @EntryName 
-	AND  BlogID = @BlogID 
+	AND  BlogId = @BlogId 
 	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
 ORDER BY [dateadded] DESC
 
@@ -1165,11 +1165,11 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetFeedBack]
 (
 	@ParentID int
-	, @BlogID int
+	, @BlogId int
 )
 AS
 
-SELECT	BlogID
+SELECT	BlogId
 		, [ID]
 		, Title
 		, DateAdded
@@ -1190,7 +1190,7 @@ SELECT	BlogID
 		, ContentChecksumHash
 		, DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
-WHERE BlogID = @BlogID AND PostConfig & 1 = 1 AND ParentID = @ParentID
+WHERE BlogId = @BlogId AND PostConfig & 1 = 1 AND ParentID = @ParentID
 ORDER BY [ID]
 
 
@@ -1213,10 +1213,10 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetImageCategory]
 (
 	@CategoryID int
 	, @IsActive bit
-	, @BlogID int
+	, @BlogId int
 )
 AS
-EXEC [<dbUser,varchar,dbo>].[subtext_GetCategory] @CategoryID, @IsActive, @BlogID
+EXEC [<dbUser,varchar,dbo>].[subtext_GetCategory] @CategoryID, @IsActive, @BlogId
 
 SELECT	Title
 		, CategoryID
@@ -1227,7 +1227,7 @@ SELECT	Title
 		, ImageID 
 FROM [<dbUser,varchar,dbo>].[subtext_Images]  
 WHERE CategoryID = @CategoryID 
-	AND BlogID = @BlogID 
+	AND BlogId = @BlogId 
 	AND Active <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
 ORDER BY Title
 
@@ -1250,16 +1250,16 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetKeyWord]
 (
 	@KeyWordID int
-	, @BlogID int
+	, @BlogId int
 )
 AS
 
 SELECT 
-	KeyWordID, Word,[Text],ReplaceFirstTimeOnly,OpenInNewWindow, CaseSensitive,Url,Title,BlogID
+	KeyWordID, Word,[Text],ReplaceFirstTimeOnly,OpenInNewWindow, CaseSensitive,Url,Title,BlogId
 FROM
 	subtext_keywords
 WHERE 
-	KeyWordID = @KeyWordID AND BlogID = @BlogID
+	KeyWordID = @KeyWordID AND BlogId = @BlogId
 
 
 GO
@@ -1280,7 +1280,7 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetLinkCollectionByPostID]
 (
 	@PostID int,
-	@BlogID int
+	@BlogId int
 )
 AS
 
@@ -1297,7 +1297,7 @@ SELECT	LinkID
 	, NewWindow 
 FROM [<dbUser,varchar,dbo>].[subtext_Links]
 WHERE PostID = @PostID 
-	AND BlogID = @BlogID
+	AND BlogId = @BlogId
 
 
 GO
@@ -1318,10 +1318,10 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetLinksByActiveCategoryID]
 (
 	@CategoryID int
-	, @BlogID int
+	, @BlogId int
 )
 AS
-EXEC [<dbUser,varchar,dbo>].[subtext_GetCategory] @CategoryID, 0, @BlogID
+EXEC [<dbUser,varchar,dbo>].[subtext_GetCategory] @CategoryID, 0, @BlogId
 SELECT	LinkID
 		, Title
 		, Url
@@ -1332,7 +1332,7 @@ SELECT	LinkID
 FROM [<dbUser,varchar,dbo>].[subtext_Links]
 WHERE Active = 1 
 	AND CategoryID = @CategoryID 
-	AND BlogID = @BlogID
+	AND BlogId = @BlogId
 ORDER BY Title
 
 
@@ -1354,10 +1354,10 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetLinksByCategoryID]
 (
 	@CategoryID int
-	, @BlogID int
+	, @BlogId int
 )
 AS
-EXEC [<dbUser,varchar,dbo>].[subtext_GetCategory] @CategoryID, @BlogID
+EXEC [<dbUser,varchar,dbo>].[subtext_GetCategory] @CategoryID, @BlogId
 SELECT	LinkID
 		, Title
 		, Url
@@ -1368,7 +1368,7 @@ SELECT	LinkID
 		, PostId = ISNULL(PostID, -1)
 FROM [<dbUser,varchar,dbo>].[subtext_Links]
 WHERE	CategoryID = @CategoryID 
-	AND BlogID = @BlogID
+	AND BlogId = @BlogId
 ORDER BY Title
 
 
@@ -1393,7 +1393,7 @@ within the admin section.
 */
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableEntries]
 (
-	@BlogID int
+	@BlogId int
 	, @PageIndex int
 	, @PageSize int
 	, @PostType int
@@ -1418,7 +1418,7 @@ BEGIN
 	INSERT INTO #TempPagedEntryIDs (EntryID)
 	SELECT	[ID] 
 	FROM [<dbUser,varchar,dbo>].[subtext_Content] 
-	WHERE 	blogID = @BlogID 
+	WHERE 	blogID = @BlogId 
 		AND PostType = @PostType
 	ORDER BY [ID]
 END
@@ -1427,12 +1427,12 @@ BEGIN
 	INSERT INTO #TempPagedEntryIDs (EntryID)
 	SELECT	[ID] 
 	FROM [<dbUser,varchar,dbo>].[subtext_Content]
-	WHERE 	blogID = @BlogID 
+	WHERE 	blogID = @BlogId 
 		AND PostType = @PostType
 	ORDER BY [ID] DESC
 END
 
-SELECT	content.BlogID 
+SELECT	content.BlogId 
 		, content.[ID] 
 		, content.Title 
 		, content.DateAdded 
@@ -1458,8 +1458,8 @@ SELECT	content.BlogID
 		
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
     	INNER JOIN #TempPagedEntryIDs tmp ON (content.[ID] = tmp.EntryID)
-	Left JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogID = @BlogID)
-WHERE 	content.BlogID = @BlogID 
+	Left JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
+WHERE 	content.BlogId = @BlogId 
 	AND tmp.TempID > @PageLowerBound 
 	AND tmp.TempID < @PageUpperBound
 ORDER BY tmp.TempID
@@ -1469,7 +1469,7 @@ DROP TABLE #TempPagedEntryIDs
 
 SELECT COUNT([ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Content] 
-WHERE 	blogID = @BlogID 
+WHERE 	blogID = @BlogId 
 	AND PostType = @PostType 
 
 
@@ -1490,7 +1490,7 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableEntriesByCategoryID]
 (
-	@BlogID int
+	@BlogId int
 	, @CategoryID int
 	, @PageIndex int
 	, @PageSize int
@@ -1520,7 +1520,7 @@ BEGIN
 	FROM [<dbUser,varchar,dbo>].[subtext_Content] blog
 		INNER JOIN subtext_Links links ON (blog.[ID] = ISNULL(links.PostID, -1))
 		INNER JOIN subtext_LinkCategories cats ON (links.CategoryID = cats.CategoryID)
-	WHERE 	blog.blogID = @BlogID 
+	WHERE 	blog.blogID = @BlogId 
 		AND blog.PostType = @PostType
 		AND cats.CategoryID = @CategoryID
 	ORDER BY blog.[ID]
@@ -1532,13 +1532,13 @@ BEGIN
 	FROM [<dbUser,varchar,dbo>].[subtext_Content] blog
 		INNER JOIN subtext_Links links ON (blog.[ID] = ISNULL(links.PostID, -1))
 		INNER JOIN subtext_LinkCategories cats ON (links.CategoryID = cats.CategoryID)
-	WHERE 	blog.blogID = @BlogID 
+	WHERE 	blog.blogID = @BlogId 
 		AND blog.PostType = @PostType
 		AND cats.CategoryID = @CategoryID
 	ORDER BY blog.[ID] DESC
 END
  
-SELECT	content.BlogID 
+SELECT	content.BlogId 
 		, content.[ID] 
 		, content.Title 
 		, content.DateAdded 
@@ -1564,8 +1564,8 @@ SELECT	content.BlogID
 
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
     INNER JOIN #TempPagedEntryIDs tmp ON (content.[ID] = tmp.EntryID)
-	LEFT JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogID = @BlogID)
-WHERE	content.BlogID = @BlogID 
+	LEFT JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
+WHERE	content.BlogId = @BlogId 
 	AND	tmp.TempID > @PageLowerBound
 	AND tmp.TempID < @PageUpperBound
 ORDER BY tmp.TempID
@@ -1576,7 +1576,7 @@ SELECT 	COUNT(blog.[ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Content] blog
 	INNER JOIN subtext_Links links ON (blog.[ID] = ISNULL(links.PostID, -1))
 	INNER JOIN subtext_LinkCategories cats ON (links.CategoryID = cats.CategoryID)
-WHERE 	blog.blogID = @BlogID 
+WHERE 	blog.blogID = @BlogId 
 	AND blog.PostType = @PostType
 	AND cats.CategoryID = @CategoryID
 
@@ -1598,7 +1598,7 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableFeedback]
 (
-	@BlogID int
+	@BlogId int
 	, @PageIndex int
 	, @PageSize int
 	, @SortDesc bit
@@ -1623,7 +1623,7 @@ BEGIN
 	INSERT INTO #TempPagedEntryIDs (EntryID)
 	SELECT	[ID] 
 	FROM [<dbUser,varchar,dbo>].[subtext_Content] 
-	WHERE 	blogID = @BlogID 
+	WHERE 	blogID = @BlogId 
 			AND (PostType = 3 or PostType = 4)
 
 	ORDER BY [DateAdded]
@@ -1633,12 +1633,12 @@ BEGIN
 	INSERT INTO #TempPagedEntryIDs (EntryID)
 	SELECT	[ID] 
 	FROM [<dbUser,varchar,dbo>].[subtext_Content]
-	WHERE 	blogID = @BlogID 
+	WHERE 	blogID = @BlogId 
 		AND (PostType = 3 or PostType = 4)
 	ORDER BY [DateAdded] DESC
 END
 
-SELECT	content.BlogID 
+SELECT	content.BlogId 
 		, content.[ID] 
 		, content.Title 
 		, content.DateAdded 
@@ -1659,7 +1659,7 @@ SELECT	content.BlogID
 		, content.DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
     INNER JOIN #TempPagedEntryIDs tmp ON (content.[ID] = tmp.EntryID)
-WHERE 	content.BlogID = @BlogID 
+WHERE 	content.BlogId = @BlogId 
 	AND tmp.TempID > @PageLowerBound 
 	AND tmp.TempID < @PageUpperBound
 ORDER BY tmp.TempID
@@ -1668,7 +1668,7 @@ DROP TABLE #TempPagedEntryIDs
 
 SELECT 	COUNT([ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Content] 
-WHERE 	blogID = @BlogID 
+WHERE 	blogID = @BlogId 
 	AND (PostType = 3 or PostType = 4)
 
 
@@ -1688,7 +1688,7 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableLogEntries]
 (
-	@BlogID int
+	@BlogId int
 	, @PageIndex int
 	, @PageSize int
 	, @SortDesc bit
@@ -1713,7 +1713,7 @@ BEGIN
 	INSERT INTO #TempPagedEntryIDs (EntryID)
 	SELECT	[ID] 
 	FROM [<dbUser,varchar,dbo>].[subtext_Log] 
-	WHERE 	(blogID = @BlogID OR @BlogID IS NULL)
+	WHERE 	(blogID = @BlogId OR @BlogId IS NULL)
 	ORDER BY [Date]
 END
 ELSE
@@ -1721,7 +1721,7 @@ BEGIN
 	INSERT INTO #TempPagedEntryIDs (EntryID)
 	SELECT	[ID] 
 	FROM [<dbUser,varchar,dbo>].[subtext_Log]
-	WHERE 	(blogID = @BlogID OR @BlogID IS NULL)
+	WHERE 	(blogID = @BlogId OR @BlogId IS NULL)
 	ORDER BY [Date] DESC
 END
 
@@ -1737,8 +1737,8 @@ SELECT	[log].[Id]
 FROM [<dbUser,varchar,dbo>].[subtext_Log] [log]
     INNER JOIN #TempPagedEntryIDs tmp ON ([log].[ID] = tmp.EntryID)
 WHERE 	(
-			[log].BlogID = @BlogID  
-		OR @BlogID IS NULL
+			[log].BlogId = @BlogId  
+		OR @BlogId IS NULL
 		)
 	AND tmp.TempID > @PageLowerBound 
 	AND tmp.TempID < @PageUpperBound
@@ -1748,7 +1748,7 @@ DROP TABLE #TempPagedEntryIDs
 
 SELECT 	COUNT([ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Log] 
-WHERE 	(blogID = @BlogID OR @BlogId IS NULL)
+WHERE 	(blogID = @BlogId OR @BlogId IS NULL)
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -1768,7 +1768,7 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableKeyWords]
 (
-	@BlogID int
+	@BlogId int
 	, @PageIndex int
 	, @PageSize int
 	, @SortDesc bit
@@ -1793,7 +1793,7 @@ BEGIN
 	INSERT INTO #TempPagedKeyWordIDs (KeyWordID)
 	SELECT	KeyWordID
 	FROM [<dbUser,varchar,dbo>].[subtext_KeyWords] 
-	WHERE 	blogID = @BlogID 
+	WHERE 	blogID = @BlogId 
 	ORDER BY Word
 END
 Else
@@ -1801,7 +1801,7 @@ BEGIN
 	INSERT INTO #TempPagedKeyWordIDs (KeyWordID)
 	SELECT	KeyWordID
 	FROM [<dbUser,varchar,dbo>].[subtext_KeyWords] 
-	WHERE 	blogID = @BlogID 
+	WHERE 	blogID = @BlogId 
 	ORDER BY Word DESC
 END
 
@@ -1813,12 +1813,12 @@ SELECT 	words.KeyWordID
 		, words.CaseSensitive
 		, words.Url
 		, words.Title
-		, words.BlogID
+		, words.BlogId
 FROM 	
 	subtext_KeyWords words
 	INNER JOIN #TempPagedKeyWordIDs tmp ON (words.KeyWordID = tmp.KeyWordID)
 WHERE 	
-		words.blogID = @BlogID 
+		words.blogID = @BlogId 
 	AND tmp.TempID > @PageLowerBound
 	AND tmp.TempID < @PageUpperBound
 ORDER BY
@@ -1828,7 +1828,7 @@ DROP TABLE #TempPagedKeyWordIDs
 
 SELECT 	COUNT([KeywordID]) AS 'TotalRecords'
 FROM [<dbUser,varchar,dbo>].[subtext_KeyWords] 
-WHERE 	blogID = @BlogID
+WHERE 	blogID = @BlogId
 
 
 GO
@@ -1848,7 +1848,7 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableLinks]
 (
-	@BlogID int
+	@BlogId int
 	, @PageIndex int
 	, @PageSize int
 	, @SortDesc bit
@@ -1873,7 +1873,7 @@ BEGIN
 	INSERT INTO #TempPagedLinkIDs (LinkID)
 	SELECT	LinkID
 	FROM [<dbUser,varchar,dbo>].[subtext_Links] 
-	WHERE 	blogID = @BlogID 
+	WHERE 	blogID = @BlogId 
 		AND PostID IS NULL
 	ORDER BY Title
 END
@@ -1882,7 +1882,7 @@ BEGIN
 	INSERT INTO #TempPagedLinkIDs (LinkID)
 	SELECT	LinkID
 	FROM [<dbUser,varchar,dbo>].[subtext_Links]
-	WHERE 	blogID = @BlogID 
+	WHERE 	blogID = @BlogId 
 		AND PostID IS NULL
 	ORDER BY [Title] DESC
 END
@@ -1899,7 +1899,7 @@ FROM
 	subtext_Links links
 	INNER JOIN #TempPagedLinkIDs tmp ON (links.LinkID = tmp.LinkID)
 WHERE 	
-		links.blogID = @BlogID 
+		links.blogID = @BlogId 
 	AND tmp.TempID > @PageLowerBound
 	AND tmp.TempID < @PageUpperBound
 ORDER BY
@@ -1909,7 +1909,7 @@ DROP TABLE #TempPagedLinkIDs
 
 SELECT 	COUNT([LinkID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Links] 
-WHERE 	blogID = @BlogID
+WHERE 	blogID = @BlogId
 	AND PostID IS NULL
 
 
@@ -1930,7 +1930,7 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableLinksByCategoryID]
 (
-	@BlogID int
+	@BlogId int
 	, @CategoryID int
 	, @PageIndex int
 	, @PageSize int
@@ -1955,7 +1955,7 @@ BEGIN
 	INSERT INTO #TempPagedLinkIDs (LinkID)
 	SELECT	LinkID
 	FROM [<dbUser,varchar,dbo>].[subtext_Links] 
-	WHERE 	blogID = @BlogID 
+	WHERE 	blogID = @BlogId 
 		AND CategoryID = @CategoryID
 		AND PostID IS NULL
 	ORDER BY Title
@@ -1965,7 +1965,7 @@ BEGIN
 	INSERT INTO #TempPagedLinkIDs (LinkID)
 	SELECT	LinkID
 	FROM [<dbUser,varchar,dbo>].[subtext_Links]
-	WHERE 	blogID = @BlogID 
+	WHERE 	blogID = @BlogId 
 		AND CategoryID = @CategoryID
 		AND PostID IS NULL
 	ORDER BY Title DESC
@@ -1983,7 +1983,7 @@ FROM
 	subtext_Links links
 	INNER JOIN #TempPagedLinkIDs tmp ON (links.LinkID = tmp.LinkID)
 WHERE 	
-		links.blogID = @BlogID 
+		links.blogID = @BlogId 
 	AND links.CategoryID = @CategoryID
 	AND tmp.TempID > @PageLowerBound
 	AND tmp.TempID < @PageUpperBound
@@ -1995,7 +1995,7 @@ DROP TABLE #TempPagedLinkIDs
 
 SELECT  COUNT([LinkID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Links] 
-WHERE 	blogID = @BlogID 
+WHERE 	blogID = @BlogId 
 	AND CategoryID = @CategoryID 
 	AND PostID IS NULL
 
@@ -2019,7 +2019,7 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableReferrers]
 (
-	@BlogID INT
+	@BlogId INT
 	, @PageIndex INT
 	, @PageSize INT
 )
@@ -2044,7 +2044,7 @@ CREATE TABLE #tempsubtext_Referrals
 INSERT INTO #tempsubtext_Referrals (EntryID,UrlID, [Count], LastUpdated)
   SELECT EntryID, UrlID, [Count], LastUpdated
   FROM [<dbUser,varchar,dbo>].[subtext_Referrals]
-  WHERE subtext_Referrals.BlogID = @BlogID
+  WHERE subtext_Referrals.BlogId = @BlogId
   ORDER BY LastUpdated DESC
    
 SELECT	u.URL,
@@ -2057,7 +2057,7 @@ FROM [<dbUser,varchar,dbo>].[subtext_Content] c,
 	#tempsubtext_Referrals r,
 	subtext_URLs u
 WHERE r.EntryID = c.ID AND
-      c.BlogID = @BlogID
+      c.BlogId = @BlogId
   AND r.UrlID = u.UrlID
   AND r.TempID > @PageLowerBound
   AND r.TempID < @PageUpperBound
@@ -2085,7 +2085,7 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableReferrersByEntryID] 
 (
-	@BlogID INT,
+	@BlogId INT,
 	@EntryID int,
 	@PageIndex INT,
 	@PageSize INT
@@ -2116,7 +2116,7 @@ INSERT INTO #tempsubtext_Referrals
 	, [Count]
 	, LastUpdated
   FROM [<dbUser,varchar,dbo>].[subtext_Referrals]
-  WHERE subtext_Referrals.BlogID = @BlogID AND subtext_Referrals.EntryID = @EntryID
+  WHERE subtext_Referrals.BlogId = @BlogId AND subtext_Referrals.EntryID = @EntryID
   ORDER BY LastUpdated DESC
    
 SELECT	u.URL
@@ -2130,7 +2130,7 @@ FROM [<dbUser,varchar,dbo>].[subtext_Content] c
 	, #tempsubtext_Referrals r
 	, subtext_URLs u
 WHERE c.ID = @EntryID 
-	AND c.BlogID = @BlogID
+	AND c.BlogId = @BlogId
 	AND r.UrlID = u.UrlID
 	AND r.TempID > @PageLowerBound
 	AND r.TempID < @PageUpperBound
@@ -2158,11 +2158,11 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryID]
 	@ItemCount int
 	, @CategoryID int
 	, @IsActive bit
-	, @BlogID int
+	, @BlogId int
 )
 AS
 SET ROWCOUNT @ItemCount
-SELECT	content.BlogID
+SELECT	content.BlogId
 	, content.[ID]
 	, content.Title
 	, content.DateAdded
@@ -2184,7 +2184,7 @@ SELECT	content.BlogID
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content WITH (NOLOCK)
 	INNER JOIN subtext_Links links WITH (NOLOCK) ON content.ID = ISNULL(links.PostID, -1)
 	INNER JOIN subtext_LinkCategories categories WITH (NOLOCK) ON links.CategoryID = categories.CategoryID
-WHERE  content.BlogID = @BlogID 
+WHERE  content.BlogId = @BlogId 
 	AND content.PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END AND categories.CategoryID = @CategoryID
 ORDER BY content.[ID] DESC
 
@@ -2210,11 +2210,11 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryIDByDateUpdated]
 	, @CategoryID int
 	, @IsActive bit
 	, @DateUpdated datetime
-	, @BlogID int
+	, @BlogId int
 )
 AS
 SET ROWCOUNT @ItemCount
-SELECT	content.BlogID
+SELECT	content.BlogId
 	, content.[ID]
 	, content.Title
 	, content.DateAdded
@@ -2236,7 +2236,7 @@ SELECT	content.BlogID
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
 	INNER JOIN subtext_Links ON content.ID = ISNULL(subtext_Links.PostID, -1)
 	INNER JOIN subtext_LinkCategories ON subtext_Links.CategoryID = subtext_LinkCategories.CategoryID
-WHERE  content.BlogID = @BlogID 
+WHERE  content.BlogId = @BlogId 
 	AND content.PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END 
 	AND subtext_LinkCategories.CategoryID = @CategoryID 
 	AND content.DateUpdated > @DateUpdated
@@ -2263,11 +2263,11 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryName]
 	@ItemCount int,
 	@CategoryName nvarchar(150),
 	@IsActive bit,
-	@BlogID int
+	@BlogId int
 )
 AS
 SET ROWCOUNT @ItemCount
-SELECT	content.BlogID
+SELECT	content.BlogId
 		, content.[ID]
 		, content.Title
 		, content.DateAdded
@@ -2289,7 +2289,7 @@ SELECT	content.BlogID
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
 	INNER JOIN subtext_Links ON content.ID = ISNULL(subtext_Links.PostID, -1)
 	INNER JOIN subtext_LinkCategories ON subtext_Links.CategoryID = subtext_LinkCategories.CategoryID
-WHERE	content.BlogID = @BlogID 
+WHERE	content.BlogId = @BlogId 
 	AND content.PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END 
 	AND subtext_LinkCategories.Title = @CategoryName
 ORDER BY content.[ID] DESC
@@ -2315,11 +2315,11 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryNameByDateUpdated]
 	, @CategoryName nvarchar(150)
 	, @IsActive bit
 	, @DateUpdated datetime
-	, @BlogID int
+	, @BlogId int
 )
 AS
 SET ROWCOUNT @ItemCount
-SELECT	content.BlogID
+SELECT	content.BlogId
 		, content.[ID]
 		, content.Title
 		, content.DateAdded
@@ -2341,7 +2341,7 @@ SELECT	content.BlogID
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
 	INNER JOIN subtext_Links ON content.ID = ISNULL(subtext_Links.PostID, -1)
 	INNER JOIN subtext_LinkCategories ON subtext_Links.CategoryID = subtext_LinkCategories.CategoryID
-WHERE  content.BlogID = @BlogID 
+WHERE  content.BlogId = @BlogId 
 	AND content.PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END 
 	AND subtext_LinkCategories.Title = @CategoryName 
 	AND content.DateUpdated > @DateUpdated
@@ -2366,10 +2366,10 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByDayRange]
 (
 	@StartDate datetime,
 	@StopDate datetime,
-	@BlogID int
+	@BlogId int
 )
 AS
-SELECT	BlogID
+SELECT	BlogId
 		, [ID]
 		, Title
 		, DateAdded
@@ -2395,7 +2395,7 @@ WHERE
 		AND DateAdded < DateAdd(day,1,@StopDate)
 	)
 	AND PostType=1 
-	AND BlogID = @BlogID
+	AND BlogId = @BlogId
 ORDER BY DateAdded DESC;
 
 
@@ -2417,10 +2417,10 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByMonth]
 (
 	@Month int
 	, @Year int
-	, @BlogID int = NULL
+	, @BlogId int = NULL
 )
 AS
-SELECT	BlogID
+SELECT	BlogId
 	, [ID]
 	, Title
 	, DateAdded
@@ -2441,7 +2441,7 @@ SELECT	BlogID
 	, DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	PostType=1 
-	AND (BlogID = @BlogID OR @BlogID IS NULL)
+	AND (BlogId = @BlogId OR @BlogId IS NULL)
 	AND PostConfig & 1 = 1 
 	AND Month(DateAdded) = @Month 
 	AND Year(DateAdded)  = @Year
@@ -2465,14 +2465,14 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByMonthArchive]
 (
-	@BlogID int = NULL
+	@BlogId int = NULL
 )
 AS
 SELECT Month(DateAdded) AS [Month]
 	, Year(DateAdded) AS [Year]
 	, 1 AS Day, Count(*) AS [Count] 
 FROM [<dbUser,varchar,dbo>].[subtext_Content] 
-WHERE PostType = 1 AND PostConfig & 1 = 1 AND (BlogID = @BlogID OR @BlogID IS NULL)
+WHERE PostType = 1 AND PostConfig & 1 = 1 AND (BlogId = @BlogId OR @BlogId IS NULL)
 GROUP BY Year(DateAdded), Month(DateAdded) ORDER BY [Year] DESC, [Month] DESC
 
 
@@ -2493,11 +2493,11 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByYearArchive] 
 (
-	@BlogID int
+	@BlogId int
 )
 AS
 SELECT 1 AS [Month], Year(DateAdded) AS [Year], 1 AS Day, Count(*) AS [Count] FROM [<dbUser,varchar,dbo>].[subtext_Content] 
-WHERE PostType = 1 AND PostConfig & 1 = 1 AND BlogID = @BlogID 
+WHERE PostType = 1 AND PostConfig & 1 = 1 AND BlogId = @BlogId 
 GROUP BY Year(DateAdded) ORDER BY [Year] DESC
 
 GO
@@ -2520,11 +2520,11 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetRecentEntries]
 	@ItemCount int
 	, @IsActive bit
 	, @PostType int
-	, @BlogID int
+	, @BlogId int
 )
 AS
 SET ROWCOUNT @ItemCount
-SELECT	BlogID
+SELECT	BlogId
 	, [ID]
 	, Title
 	, DateAdded
@@ -2545,7 +2545,7 @@ SELECT	BlogID
 	, DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	PostType=@PostType 
-	AND BlogID = @BlogID 
+	AND BlogId = @BlogId 
 	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
 ORDER BY [dateadded] DESC
 
@@ -2570,11 +2570,11 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetRecentEntriesByDateUpdated]
 	, @IsActive bit 
 	, @PostType int
 	, @DateUpdated datetime
-	, @BlogID int
+	, @BlogId int
 )
 AS
 SET ROWCOUNT @ItemCount
-SELECT	BlogID
+SELECT	BlogId
 	, [ID]
 	, Title
 	, DateAdded
@@ -2596,7 +2596,7 @@ SELECT	BlogID
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE 
 	PostType=@PostType 
-	AND BlogID = @BlogID
+	AND BlogId = @BlogId
 	AND DateUpdated > @DateUpdated
 	AND PostConfig & 1  <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
 ORDER BY [ID] DESC
@@ -2620,7 +2620,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetRecentEntriesWithCategoryTitles]
 (
 	@ItemCount int,
 	@IsActive bit,
-	@BlogID int
+	@BlogId int
 )
 AS
 SET ROWCOUNT @ItemCount
@@ -2633,11 +2633,11 @@ INSERT #IDs (PostID)
 SELECT	[ID] 
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	PostType=1 
-	AND BlogID = @BlogID 
+	AND BlogId = @BlogId 
 	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
 ORDER BY [dateadded] DESC
 
-SELECT	BlogID
+SELECT	BlogId
 	, [ID]
 	, Title
 	, DateAdded
@@ -2688,10 +2688,10 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetSingleDay]
 (
 	@Date datetime
-	,@BlogID int
+	,@BlogId int
 )
 AS
-SELECT	BlogID
+SELECT	BlogId
 	, [ID]
 	, Title
 	, DateAdded
@@ -2715,7 +2715,7 @@ WHERE Year(DateAdded) = Year(@Date)
 	AND Month(DateAdded) = Month(@Date)
     AND Day(DateAdded) = Day(@Date) 
     And PostType=1
-    AND BlogID = @BlogID 
+    AND BlogId = @BlogId 
     AND PostConfig & 1 = 1 
 ORDER BY DateAdded DESC;
 
@@ -2738,10 +2738,10 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetSingleEntry]
 (
 	@ID int
 	, @IsActive bit
-	, @BlogID int
+	, @BlogId int
 )
 AS
-SELECT	BlogID
+SELECT	BlogId
 	, [ID]
 	, Title
 	, DateAdded
@@ -2762,7 +2762,7 @@ SELECT	BlogID
 	, DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE [ID] = @ID 
-	AND BlogID = @BlogID 
+	AND BlogId = @BlogId 
 	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
 ORDER BY [ID] DESC
 
@@ -2786,10 +2786,10 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetSingleEntryByName]
 (
 	@EntryName nvarchar(150)
 	, @IsActive bit
-	, @BlogID int
+	, @BlogId int
 )
 AS
-SELECT	BlogID
+SELECT	BlogId
 	, [ID]
 	, Title
 	, DateAdded
@@ -2810,7 +2810,7 @@ SELECT	BlogID
 	, DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE [EntryName] = @EntryName 
-	AND BlogID = @BlogID 
+	AND BlogId = @BlogId 
 	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
 ORDER BY [ID] DESC
 
@@ -2834,7 +2834,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetSingleImage]
 (
 	@ImageID int
 	, @IsActive bit
-	, @BlogID int
+	, @BlogId int
 )
 AS
 SELECT Title
@@ -2846,7 +2846,7 @@ SELECT Title
 	, ImageID 
 FROM [<dbUser,varchar,dbo>].[subtext_Images]  
 WHERE ImageID = @ImageID 
-	AND BlogID = @BlogID 
+	AND BlogId = @BlogId 
 	AND  Active <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
 
 
@@ -2868,7 +2868,7 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetSingleLink]
 (
 	@LinkID int
-	, @BlogID int
+	, @BlogId int
 )
 AS
 SELECT	subtext_Links.LinkID
@@ -2880,7 +2880,7 @@ SELECT	subtext_Links.LinkID
 		, subtext_Links.CategoryID
 		, PostId = ISNULL(subtext_Links.PostID, -1)
 FROM [<dbUser,varchar,dbo>].[subtext_Links]
-WHERE subtext_Links.LinkID = @LinkID AND subtext_Links.BlogID = @BlogID
+WHERE subtext_Links.LinkID = @LinkID AND subtext_Links.BlogId = @BlogId
 
 
 GO
@@ -2934,7 +2934,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertCategory]
 (
 	@Title nvarchar(150)
 	, @Active bit
-	, @BlogID int
+	, @BlogId int
 	, @CategoryType tinyint
 	, @Description nvarchar(1000)
 	, @CategoryID int output
@@ -2947,14 +2947,14 @@ INSERT INTO subtext_LinkCategories
 	, Active
 	, CategoryType
 	, [Description]
-	, BlogID )
+	, BlogId )
 VALUES 
 (
 	@Title
 	, @Active
 	, @CategoryType
 	, @Description
-	, @BlogID
+	, @BlogId
 )
 SELECT @CategoryID = SCOPE_IDENTITY()
 
@@ -2976,7 +2976,7 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertEntryViewCount]-- 1, 0, 1
 (
 	@EntryID int,
-	@BlogID int,
+	@BlogId int,
 	@IsWeb bit
 )
 
@@ -2984,32 +2984,32 @@ AS
 
 BEGIN
 	--Do we have an existing entry in the subtext_InsertEntryViewCount table?
-	IF EXISTS(SELECT EntryID FROM [<dbUser,varchar,dbo>].[subtext_EntryViewCount] WHERE EntryID = @EntryID AND BlogID = @BlogID)
+	IF EXISTS(SELECT EntryID FROM [<dbUser,varchar,dbo>].[subtext_EntryViewCount] WHERE EntryID = @EntryID AND BlogId = @BlogId)
 	BEGIN
 		if(@IsWeb = 1) -- Is this a web view?
 		BEGIN
 			UPDATE [<dbUser,varchar,dbo>].[subtext_EntryViewCount]
 			Set [WebCount] = [WebCount] + 1, WebLastUpdated = getdate()
-			WHERE EntryID = @EntryID AND BlogID = @BlogID
+			WHERE EntryID = @EntryID AND BlogId = @BlogId
 		END
 		else
 		BEGIN
 			UPDATE [<dbUser,varchar,dbo>].[subtext_EntryViewCount]
 			Set [AggCount] = [AggCount] + 1, AggLastUpdated = getdate()
-			WHERE EntryID = @EntryID AND BlogID = @BlogID
+			WHERE EntryID = @EntryID AND BlogId = @BlogId
 		END
 	END
 	else
 	BEGIN
 		if(@IsWeb = 1) -- Is this a web view
 		BEGIN
-			Insert subtext_EntryViewCount (EntryID, BlogID, WebCount, AggCount, WebLastUpdated, AggLastUpdated)
-		       values (@EntryID, @BlogID, 1, 0, getdate(), NULL)
+			Insert subtext_EntryViewCount (EntryID, BlogId, WebCount, AggCount, WebLastUpdated, AggLastUpdated)
+		       values (@EntryID, @BlogId, 1, 0, getdate(), NULL)
 		END
 		else
 		BEGIN
-			Insert subtext_EntryViewCount (EntryID, BlogID, WebCount, AggCount, WebLastUpdated, AggLastUpdated)
-		       values (@EntryID, @BlogID, 0, 1, NULL, getdate())
+			Insert subtext_EntryViewCount (EntryID, BlogId, WebCount, AggCount, WebLastUpdated, AggLastUpdated)
+		       values (@EntryID, @BlogId, 0, 1, NULL, getdate())
 		END
 	END
 
@@ -3038,17 +3038,17 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertImage]
 	@Height int,
 	@File nvarchar(50),
 	@Active bit,
-	@BlogID int,
+	@BlogId int,
 	@ImageID int output
 )
 AS
 Insert subtext_Images
 (
-	Title, CategoryID, Width, Height, [File], Active, BlogID
+	Title, CategoryID, Width, Height, [File], Active, BlogId
 )
 Values
 (
-	@Title, @CategoryID, @Width, @Height, @File, @Active, @BlogID
+	@Title, @CategoryID, @Width, @Height, @File, @Active, @BlogId
 )
 Set @ImageID = SCOPE_IDENTITY()
 
@@ -3075,16 +3075,16 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertKeyWord]
 	@CaseSensitive bit,
 	@Url nvarchar(255),
 	@Title nvarchar(100),
-	@BlogID int,
+	@BlogId int,
 	@KeyWordID int output
 )
 
 AS
 
 Insert subtext_keywords 
-	(Word,[Text],ReplaceFirstTimeOnly,OpenInNewWindow, CaseSensitive,Url,Title,BlogID)
+	(Word,[Text],ReplaceFirstTimeOnly,OpenInNewWindow, CaseSensitive,Url,Title,BlogId)
 Values
-	(@Word,@Text,@ReplaceFirstTimeOnly,@OpenInNewWindow, @CaseSensitive,@Url,@Title,@BlogID)
+	(@Word,@Text,@ReplaceFirstTimeOnly,@OpenInNewWindow, @CaseSensitive,@Url,@Title,@BlogId)
 
 SELECT @KeyWordID = SCOPE_IDENTITY()
 
@@ -3112,7 +3112,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertLink]
 	@NewWindow bit,
 	@CategoryID int,
 	@PostID int = NULL,
-	@BlogID int,
+	@BlogId int,
 	@LinkID int output
 )
 AS
@@ -3121,9 +3121,9 @@ IF @PostID = -1
 	SET @PostID = NULL
 
 INSERT INTO subtext_Links 
-( Title, Url, Rss, Active, NewWindow, PostID, CategoryID, BlogID )
+( Title, Url, Rss, Active, NewWindow, PostID, CategoryID, BlogId )
 VALUES 
-(@Title, @Url, @Rss, @Active, @NewWindow, @PostID, @CategoryID, @BlogID);
+(@Title, @Url, @Rss, @Active, @NewWindow, @PostID, @CategoryID, @BlogId);
 SELECT @LinkID = SCOPE_IDENTITY()
 
 
@@ -3145,7 +3145,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertLinkCategoryList]
 (
 	@CategoryList nvarchar(4000)
 	, @PostID int
-	, @BlogID int
+	, @BlogId int
 )
 AS
 
@@ -3157,14 +3157,14 @@ DELETE [<dbUser,varchar,dbo>].[subtext_Links] FROM [<dbUser,varchar,dbo>].[subte
 WHERE 
 	CategoryID not in (SELECT str FROM iter_charlist_to_table(@CategoryList,','))
 And 
-	BlogID = @BlogID AND (PostID = @PostID)
+	BlogId = @BlogId AND (PostID = @PostID)
 
 --Add updated/new categories
-INSERT INTO subtext_Links ( Title, Url, Rss, Active, NewWindow, PostID, CategoryID, BlogID )
-SELECT NULL, NULL, NULL, 1, 0, @PostID, Convert(int, [str]), @BlogID
+INSERT INTO subtext_Links ( Title, Url, Rss, Active, NewWindow, PostID, CategoryID, BlogId )
+SELECT NULL, NULL, NULL, 1, 0, @PostID, Convert(int, [str]), @BlogId
 FROM iter_charlist_to_table(@CategoryList,',')
 WHERE 
-	Convert(int, [str]) not in (SELECT CategoryID FROM [<dbUser,varchar,dbo>].[subtext_Links] WHERE PostID = @PostID AND BlogID = @BlogID)
+	Convert(int, [str]) not in (SELECT CategoryID FROM [<dbUser,varchar,dbo>].[subtext_Links] WHERE PostID = @PostID AND BlogId = @BlogId)
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -3184,21 +3184,21 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertPostCategoryByName]
 (
 	@Title nvarchar(150)
 	, @PostID int
-	, @BlogID int
+	, @BlogId int
 )
 AS
 DECLARE @CategoryID int
-SELECT @CategoryID = CategoryID FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories] WHERE Title = @Title AND BlogID = @BlogID AND CategoryType = 1
+SELECT @CategoryID = CategoryID FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories] WHERE Title = @Title AND BlogId = @BlogId AND CategoryType = 1
 
 if(@CategoryID is NULL)
 BEGIN
 
-EXEC [<dbUser,varchar,dbo>].[subtext_InsertCategory] @Title, 1, @BlogID, 1, NULL, @CategoryID = @CategoryID output
+EXEC [<dbUser,varchar,dbo>].[subtext_InsertCategory] @Title, 1, @BlogId, 1, NULL, @CategoryID = @CategoryID output
 
 END
 
 DECLARE @LinkID int
-EXEC [<dbUser,varchar,dbo>].[subtext_InsertLink] NULL, NULL, NULL, 1, 0, @CategoryID, @PostID, @BlogID, @LinkID output
+EXEC [<dbUser,varchar,dbo>].[subtext_InsertLink] NULL, NULL, NULL, 1, 0, @CategoryID, @PostID, @BlogId, @LinkID output
 
 
 GO
@@ -3218,7 +3218,7 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertReferral]
 (
 	@EntryID int,
-	@BlogID int,
+	@BlogId int,
 	@Url nvarchar(255)
 )
 AS
@@ -3233,16 +3233,16 @@ END
 if(@UrlID is not NULL)
 BEGIN
 
-	IF EXISTS(SELECT EntryID FROM [<dbUser,varchar,dbo>].[subtext_Referrals] WHERE EntryID = @EntryID AND BlogID = @BlogID AND UrlID = @UrlID)
+	IF EXISTS(SELECT EntryID FROM [<dbUser,varchar,dbo>].[subtext_Referrals] WHERE EntryID = @EntryID AND BlogId = @BlogId AND UrlID = @UrlID)
 	BEGIN
 		UPDATE [<dbUser,varchar,dbo>].[subtext_Referrals]
 		Set [Count] = [Count] + 1, LastUpdated = getdate()
-		WHERE EntryID = @EntryID AND BlogID = @BlogID AND UrlID = @UrlID
+		WHERE EntryID = @EntryID AND BlogId = @BlogId AND UrlID = @UrlID
 	END
 	else
 	BEGIN
-		Insert subtext_Referrals (EntryID, BlogID, UrlID, [Count], LastUpdated)
-		       values (@EntryID, @BlogID, @UrlID, 1, getdate())
+		Insert subtext_Referrals (EntryID, BlogId, UrlID, [Count], LastUpdated)
+		       values (@EntryID, @BlogId, @UrlID, 1, getdate())
 	END
 END
 
@@ -3263,7 +3263,7 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertViewStats]
 (
-	@BlogID int,
+	@BlogId int,
 	@PageType tinyint,
 	@PostID int,
 	@Day datetime,
@@ -3281,16 +3281,16 @@ if(@UrlID is NULL)
 	set @UrlID = NULL
 
 
-IF EXISTS (SELECT BlogID FROM [<dbUser,varchar,dbo>].[subtext_ViewStats] WHERE BlogID = @BlogID AND PageType = @PageType AND PostID = @PostID AND [Day] = @Day AND UrlID = @UrlID AND NOT @UrlID IS NULL)
+IF EXISTS (SELECT BlogId FROM [<dbUser,varchar,dbo>].[subtext_ViewStats] WHERE BlogId = @BlogId AND PageType = @PageType AND PostID = @PostID AND [Day] = @Day AND UrlID = @UrlID AND NOT @UrlID IS NULL)
 BEGIN
 	UPDATE [<dbUser,varchar,dbo>].[subtext_ViewStats]
 	Set [Count] = [Count] + 1
-	WHERE BlogID = @BlogID AND PageType = @PageType AND PostID = @PostID AND [Day] = @Day AND UrlID = @UrlID
+	WHERE BlogId = @BlogId AND PageType = @PageType AND PostID = @PostID AND [Day] = @Day AND UrlID = @UrlID
 END
 Else
 BEGIN
-	Insert subtext_ViewStats (BlogID, PageType, PostID, [Day], UrlID, [Count])
-	Values (@BlogID, @PageType, @PostID, @Day, @UrlID, 1)
+	Insert subtext_ViewStats (BlogId, PageType, PostID, [Day], UrlID, [Count])
+	Values (@BlogId, @PageType, @PostID, @Day, @UrlID, 1)
 END
 
 
@@ -3311,16 +3311,16 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_StatsSummary]
 (
-	@BlogID int
+	@BlogId int
 )
 AS
 DECLARE @ReferralCount int
 DECLARE @WebCount int
 DECLARE @AggCount int
 
-SELECT @ReferralCount = Sum([Count]) FROM [<dbUser,varchar,dbo>].[subtext_Referrals] WHERE BlogID = @BlogID
+SELECT @ReferralCount = Sum([Count]) FROM [<dbUser,varchar,dbo>].[subtext_Referrals] WHERE BlogId = @BlogId
 
-SELECT @WebCount = Sum(WebCount), @AggCount = Sum(AggCount) FROM [<dbUser,varchar,dbo>].[subtext_EntryViewCount] WHERE BlogID = @BlogID
+SELECT @WebCount = Sum(WebCount), @AggCount = Sum(AggCount) FROM [<dbUser,varchar,dbo>].[subtext_EntryViewCount] WHERE BlogId = @BlogId
 
 SELECT @ReferralCount AS 'ReferralCount', @WebCount AS 'WebCount', @AggCount AS 'AggCount'
 
@@ -3343,7 +3343,7 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_TrackEntry]
 (
 	@EntryID int,
-	@BlogID int,
+	@BlogId int,
 	@Url nvarchar(255) = NULL,
 	@IsWeb bit
 )
@@ -3352,10 +3352,10 @@ AS
 
 if(@Url is not NULL AND @IsWeb = 1)
 BEGIN
-	EXEC [<dbUser,varchar,dbo>].[subtext_InsertReferral] @EntryID, @BlogID, @Url
+	EXEC [<dbUser,varchar,dbo>].[subtext_InsertReferral] @EntryID, @BlogId, @Url
 END
 
-EXEC [<dbUser,varchar,dbo>].[subtext_InsertEntryViewCount] @EntryID, @BlogID, @IsWeb
+EXEC [<dbUser,varchar,dbo>].[subtext_InsertEntryViewCount] @EntryID, @BlogId, @IsWeb
 
 
 
@@ -3457,7 +3457,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateCategory]
 	@Active bit,
 	@CategoryType tinyint,
 	@Description nvarchar(1000),
-	@BlogID int
+	@BlogId int
 )
 AS
 UPDATE [<dbUser,varchar,dbo>].[subtext_LinkCategories] 
@@ -3468,7 +3468,7 @@ SET
 	[Description] = @Description
 WHERE   
 		[CategoryID] = @CategoryID 
-	AND [BlogID] = @BlogID
+	AND [BlogId] = @BlogId
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -3503,7 +3503,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateConfig]
 	, @SecondaryCss nText = NULL
 	, @SkinCssFile varchar(100) = NULL
 	, @Flag int = NULL
-	, @BlogID int
+	, @BlogId int
 	, @LicenseUrl nvarchar(64) = NULL
 	, @DaysTillCommentsClose int = NULL
 	, @CommentDelayInMinutes int = NULL
@@ -3535,7 +3535,7 @@ Set
 	, CommentDelayInMinutes = @CommentDelayInMinutes
 	, NumberOfRecentComments = @NumberOfRecentComments
 	, RecentCommentsLength = @RecentCommentsLength
-WHERE BlogID = @BlogID
+WHERE BlogId = @BlogId
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -3554,7 +3554,7 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateConfigUpdateTime]
 (
-	@BlogID int,
+	@BlogId int,
 	@LastUpdated datetime
 )
 AS
@@ -3595,7 +3595,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateEntry]
 	, @EntryName nvarchar(150) = NULL
 	, @ContentChecksumHash varchar(32)
 	, @DateSyndicated DateTime = NULL
-	, @BlogID int
+	, @BlogId int
 )
 AS
 
@@ -3604,7 +3604,7 @@ IF(LEN(RTRIM(LTRIM(@EntryName))) = 0)
 
 IF(@EntryName IS NOT NULL)
 BEGIN
-	IF EXISTS(SELECT EntryName FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE BlogID = @BlogID AND EntryName = @EntryName AND [ID] <> @ID)
+	IF EXISTS(SELECT EntryName FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE BlogId = @BlogId AND EntryName = @EntryName AND [ID] <> @ID)
 	BEGIN
 		RAISERROR('The EntryName of your entry is already in use with in this Blog. Please pick a unique EntryName.', 11, 1) 
 		RETURN 1
@@ -3632,7 +3632,7 @@ SET
 	, DateSyndicated = @DateSyndicated
 WHERE 	
 		[ID] = @ID 
-	AND BlogID = @BlogID
+	AND BlogId = @BlogId
 EXEC [<dbUser,varchar,dbo>].[subtext_UpdateConfigUpdateTime] @blogID, @DateUpdated
 
 GO
@@ -3657,7 +3657,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateImage]
 	@Height int,
 	@File nvarchar(50),
 	@Active bit,
-	@BlogID int,
+	@BlogId int,
 	@ImageID int
 )
 AS
@@ -3671,7 +3671,7 @@ Set
 	Active = @Active
 	
 WHERE
-	ImageID = @ImageID AND BlogID = @BlogID
+	ImageID = @ImageID AND BlogId = @BlogId
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -3697,7 +3697,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateKeyWord]
 	@CaseSensitive bit,
 	@Url nvarchar(255),
 	@Title nvarchar(100),
-	@BlogID int
+	@BlogId int
 )
 
 AS
@@ -3712,7 +3712,7 @@ UPDATE [<dbUser,varchar,dbo>].[subtext_keywords]
 		Url = @Url,
 		Title = @Title
 	WHERE
-		BlogID = @BlogID AND KeyWordID = @KeyWordID
+		BlogId = @BlogId AND KeyWordID = @KeyWordID
 
 
 GO
@@ -3739,7 +3739,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateLink]
 	@Active bit,
 	@NewWindow bit,
 	@CategoryID int,
-	@BlogID int
+	@BlogId int
 	
 )
 AS
@@ -3753,7 +3753,7 @@ SET
 	CategoryID = @CategoryID
 WHERE  
 		LinkID = @LinkID 
-	AND BlogID = @BlogID
+	AND BlogId = @BlogId
 
 
 GO
@@ -3773,7 +3773,7 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_Utility_GetUnHashedPasswords]
 AS
 
-SELECT BlogID, Password FROM [<dbUser,varchar,dbo>].[subtext_COnfig] WHERE Flag & 8 = 0
+SELECT BlogId, Password FROM [<dbUser,varchar,dbo>].[subtext_COnfig] WHERE Flag & 8 = 0
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -3792,7 +3792,7 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_Utility_UpdateToHashedPassword]
 (
 	@Password nvarchar(100),
-	@BlogID int
+	@BlogId int
 )
 
 AS
@@ -3836,28 +3836,28 @@ DECLARE @PageUpperBound int
 SET @PageLowerBound = @PageSize * @PageIndex - @PageSize
 SET @PageUpperBound = @PageLowerBound + @PageSize + 1
 
-CREATE TABLE #TempPagedBlogIDs 
+CREATE TABLE #TempPagedBlogIds 
 (
 	TempID int IDENTITY (1, 1) NOT NULL,
-	BlogID int NOT NULL
+	BlogId int NOT NULL
 )	
 
 IF NOT (@SortDesc = 1)
 BEGIN
-	INSERT INTO #TempPagedBlogIDs (BlogID)
-	SELECT	[BlogID] 
+	INSERT INTO #TempPagedBlogIds (BlogId)
+	SELECT	[BlogId] 
 	FROM [<dbUser,varchar,dbo>].[subtext_config]
-	ORDER BY [BlogID]
+	ORDER BY [BlogId]
 END
 ELSE
 BEGIN
-	INSERT INTO #TempPagedBlogIDs (BlogID)
-	SELECT	[BlogID] 
+	INSERT INTO #TempPagedBlogIds (BlogId)
+	SELECT	[BlogId] 
 	FROM [<dbUser,varchar,dbo>].[subtext_config]
-	ORDER BY [BlogID] DESC
+	ORDER BY [BlogId] DESC
 END
 
-SELECT	blog.BlogID 
+SELECT	blog.BlogId 
 		, blog.UserName
 		, blog.[Password]
 		, blog.Email
@@ -3888,15 +3888,15 @@ SELECT	blog.BlogID
 		, blog.RecentCommentsLength
 		
 FROM [<dbUser,varchar,dbo>].[subtext_config] blog
-    	INNER JOIN #TempPagedBlogIDs tmp ON (blog.[BlogID] = tmp.BlogID)
+    	INNER JOIN #TempPagedBlogIds tmp ON (blog.[BlogId] = tmp.BlogId)
 WHERE 	tmp.TempID > @PageLowerBound 
 	AND tmp.TempID < @PageUpperBound
 ORDER BY tmp.TempID
  
-DROP TABLE #TempPagedBlogIDs
+DROP TABLE #TempPagedBlogIds
 
 
-SELECT COUNT([BlogID]) AS TotalRecords
+SELECT COUNT([BlogId]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_config]
 GO
 
@@ -3919,7 +3919,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetBlogById]
 )
 AS
 
-SELECT	blog.BlogID 
+SELECT	blog.BlogId 
 		, blog.UserName
 		, blog.[Password]
 		, blog.Email
@@ -3971,7 +3971,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetBlogsByHost]
 )
 AS
 
-SELECT	blog.BlogID 
+SELECT	blog.BlogId 
 		, blog.UserName
 		, blog.[Password]
 		, blog.Email
@@ -4004,7 +4004,7 @@ SELECT	blog.BlogID
 FROM [<dbUser,varchar,dbo>].[subtext_config] blog
 WHERE	blog.Host = @Host
 
-SELECT COUNT([BlogID]) AS TotalRecords
+SELECT COUNT([BlogId]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_config]
 GO
 
@@ -4028,7 +4028,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertPingTrackEntry]
 	, @Email nvarchar(50) = NULL
 	, @SourceName nvarchar(200) = NULL
 	, @Description nvarchar(500) = NULL
-	, @BlogID int
+	, @BlogId int
 	, @DateAdded datetime
 	, @ParentID int = NULL
 	, @PostConfig int
@@ -4065,7 +4065,7 @@ INSERT INTO subtext_Content
 	, [Description]
 	, ContentChecksumHash
 	, ParentID
-	, BlogID
+	, BlogId
 )
 VALUES 
 (
@@ -4083,7 +4083,7 @@ VALUES
 	, @Description
 	, @ContentChecksumHash
 	, @ParentID
-	, @BlogID
+	, @BlogId
 )
 
 SELECT @ID = SCOPE_IDENTITY()
@@ -4119,7 +4119,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertEntry]
 	, @Email nvarchar(50) = NULL
 	, @SourceName nvarchar(200) = NULL
 	, @Description nvarchar(500) = NULL
-	, @BlogID int
+	, @BlogId int
 	, @DateAdded datetime
 	, @ParentID int = NULL
 	, @PostConfig int
@@ -4135,7 +4135,7 @@ IF(LEN(RTRIM(LTRIM(@EntryName))) = 0)
 
 IF(@EntryName IS NOT NULL)
 BEGIN
-	IF EXISTS(SELECT EntryName FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE BlogID = @BlogID AND EntryName = @EntryName)
+	IF EXISTS(SELECT EntryName FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE BlogId = @BlogId AND EntryName = @EntryName)
 	BEGIN
 		RAISERROR('The EntryName of your entry is already in use with in this Blog. Please pick a unique EntryName.', 11, 1) 
 		RETURN 1
@@ -4159,7 +4159,7 @@ INSERT INTO subtext_Content
 	, [Description]
 	, PostConfig
 	, ParentID
-	, BlogID
+	, BlogId
 	, EntryName 
 	, ContentChecksumHash
 	, DateSyndicated
@@ -4179,7 +4179,7 @@ VALUES
 	, @Description
 	, @PostConfig
 	, @ParentID
-	, @BlogID
+	, @BlogId
 	, @EntryName
 	, @ContentChecksumHash
 	, @DateSyndicated
@@ -4223,7 +4223,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetCommentByChecksumHash]
 	,@BlogId int
 )
 AS
-SELECT TOP 1 BlogID
+SELECT TOP 1 BlogId
 	, [ID]
 	, Title
 	, DateAdded
@@ -4245,7 +4245,7 @@ SELECT TOP 1 BlogID
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE 
 	ContentChecksumHash = @ContentChecksumHash 
-	AND BlogId = @BlogID
+	AND BlogId = @BlogId
 	AND (PostType = 3 OR PostType = 4) -- Comment or PingBack
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -4376,7 +4376,7 @@ SELECT Top 35 Host
 	, config.TimeZone
 	, [Description] = IsNull(CASE WHEN PostConfig & 32 = 32 THEN content.[Description] else content.[Text] END, '')
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
-INNER JOIN	[<dbUser,varchar,dbo>].[subtext_Config] config ON content.BlogID = config.BlogID
+INNER JOIN	[<dbUser,varchar,dbo>].[subtext_Config] config ON content.BlogId = config.BlogId
 WHERE  content.PostType = 1 
 	AND content.PostConfig & 1 = 1 
 	AND content.PostConfig & 64 = 64 
@@ -4408,7 +4408,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[DNW_Stats]
 	@GroupID int
 )
 AS
-SELECT BlogID
+SELECT BlogId
 	, Author
 	, Application
 	, Host
@@ -4557,7 +4557,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_LogClear]
 )
 AS
 
-IF(@BlogID IS NULL)
+IF(@BlogId IS NULL)
 	TRUNCATE TABLE [<dbUser,varchar,dbo>].[subtext_Log]
 ELSE
 	DELETE [<dbUser,varchar,dbo>].[subtext_Log] WHERE [BlogId] = @BlogId
@@ -4614,7 +4614,7 @@ GO
 
 CREATE Proc [<dbUser,varchar,dbo>].subtext_SearchEntries
 (
-	@BlogID int,
+	@BlogId int,
 	@SearchStr varchar(30)
 )
 as
@@ -4626,7 +4626,7 @@ From [<dbUser,varchar,dbo>].subtext_Content
 Where (PostType = 1 OR PostType = 2)
 AND ([Text] LIKE @SearchStr 
 OR Title LIKE @SearchStr)
-AND BlogID = @BlogID
+AND BlogId = @BlogId
 GO
 
 SET QUOTED_IDENTIFIER OFF 

@@ -36,7 +36,7 @@ namespace Subtext.Framework.Import
 	{
 		#region Private Members
 			
-		private int _BlogID;
+		private int _BlogId;
 		private bool _IsUseGuids;
 		private string _Host;
 		private Hashtable _Categories = new Hashtable();
@@ -80,7 +80,7 @@ namespace Subtext.Framework.Import
 
 			#endregion
 
-			_BlogID = blogID;
+			_BlogId = blogID;
 			_connectionString = connectionString;			
 			_IsUseGuids = isUseGuids;			
 		}
@@ -506,7 +506,7 @@ namespace Subtext.Framework.Import
 
 			try
 			{
-				cmd = new SqlCommand(string.Format("SELECT Title, SubTitle, Host, Author, Email FROM subtext_config WHERE BlogID = {0}", _BlogID) );
+				cmd = new SqlCommand(string.Format("SELECT Title, SubTitle, Host, Author, Email FROM subtext_config WHERE BlogId = {0}", _BlogId) );
 				cmd.CommandType = CommandType.Text;
 				
 	            reader = ExecuteReader(cmd);
@@ -528,7 +528,7 @@ namespace Subtext.Framework.Import
 			{		
 				cmd = new SqlCommand("subtext_GetAllCategories");
 				cmd.CommandType = CommandType.StoredProcedure;
-				cmd.Parameters.Add("@BlogID", SqlDbType.Int).Value = _BlogID;
+				cmd.Parameters.Add("@BlogId", SqlDbType.Int).Value = _BlogId;
 				cmd.Parameters.Add("@IsActive", SqlDbType.Bit).Value = 1;
 				cmd.Parameters.Add("@CategoryType", SqlDbType.Int).Value = 1;
 
@@ -549,7 +549,7 @@ namespace Subtext.Framework.Import
 			// not stored procedure that retreives all posts.
 			// use sql statement.
 			string sql = "select * from subtext_content " +
-						 "where blogid = " + _BlogID + " and " +
+						 "where blogid = " + _BlogId + " and " +
 						 "posttype = 1 and " +
 						 "subtext_Content.PostConfig & 1 <> Case 1 When 1 then 0 Else -1 End";
 
@@ -583,7 +583,7 @@ namespace Subtext.Framework.Import
 				//cmd = new SqlCommand("subtext_GetFeedBack");
 				//cmd.CommandType = CommandType.StoredProcedure;
 				//cmd.Parameters.Add("@ParentID", SqlDbType.Int).Value = postID;
-				//cmd.Parameters.Add("@BlogID", SqlDbType.Int).Value = _BlogID;
+				//cmd.Parameters.Add("@BlogId", SqlDbType.Int).Value = _BlogId;
 
 				ds = GetFeedBackItems( postID, 3);
 			}
@@ -620,8 +620,8 @@ namespace Subtext.Framework.Import
 			DataSet dsFeedBackItems = null;
             SqlCommand cmd = null;
 			// no procedure exists to get only comments for a post.
-			string sql = string.Format("SELECT * FROM subtext_Content WHERE BlogID ={0} and PostType ={1} AND subtext_Content.PostConfig & 1 = 1 and subtext_Content.ParentID ={2} ORDER BY [ID]",
-									   _BlogID, postType, PostID);
+			string sql = string.Format("SELECT * FROM subtext_Content WHERE BlogId ={0} and PostType ={1} AND subtext_Content.PostConfig & 1 = 1 and subtext_Content.ParentID ={2} ORDER BY [ID]",
+									   _BlogId, postType, PostID);
 
 			try
 			{

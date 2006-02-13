@@ -415,7 +415,7 @@ namespace Subtext.Web.Admin.UserControls
 //					entry.Body = freeTextBox.Text;
 					entry.Author = Config.CurrentBlog.Author;
 					entry.Email = Config.CurrentBlog.Email;
-					entry.BlogID = Config.CurrentBlog.BlogID;
+					entry.BlogId = Config.CurrentBlog.BlogId;
 
 					// Advanced options
 					/* Need to do some special checks for txb*.Text == "", b/c they get posted 

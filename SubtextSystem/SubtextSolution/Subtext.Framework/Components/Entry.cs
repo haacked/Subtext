@@ -40,7 +40,7 @@ namespace Subtext.Framework.Components
 		/// Gets or sets the blog ID.
 		/// </summary>
 		/// <value>The blog ID.</value>
-		public int BlogID
+		public int BlogId
 		{
 			get {return this._blogID;}
 			set {this._blogID = value;}

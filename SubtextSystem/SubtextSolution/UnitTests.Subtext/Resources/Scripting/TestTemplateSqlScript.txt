@@ -8,9 +8,9 @@ SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo
 
 INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Config] 
 ( 
-	BlogID
+	BlogId
 )
-SELECT BlogID FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_Config]
+SELECT BlogId FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_Config]
 GO
 
 UPDATE [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Content] 
@@ -21,9 +21,9 @@ GO
 
 -- subtext_EntryViewCount
 INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_EntryViewCount] 
-( EntryID, BlogID, WebCount, AggCount, WebLastUpdated, AggLastUpdated )
+( EntryID, BlogId, WebCount, AggCount, WebLastUpdated, AggLastUpdated )
     SELECT 
-        EntryID, <someOtherTemplate,varchar,BlogID>, WebCount, AggCount, WebLastUpdated, AggLastUpdated
+        EntryID, <someOtherTemplate,varchar,BlogId>, WebCount, AggCount, WebLastUpdated, AggLastUpdated
     FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_EntryViewCount]
     WHERE 1=1
 GO

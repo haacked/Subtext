@@ -151,7 +151,7 @@ namespace Subtext
 							if(!InstallationManager.IsInHostAdminDirectory && !InstallationManager.IsInInstallDirectory && !InstallationManager.IsInSystemMessageDirectory)
 							{
 								userInfo += "<br />Is Admin: " + Subtext.Framework.Security.IsAdmin.ToString(CultureInfo.InvariantCulture);
-								userInfo += "<br />BlogID: " + Subtext.Framework.Configuration.Config.CurrentBlog.BlogID.ToString(CultureInfo.InvariantCulture);
+								userInfo += "<br />BlogId: " + Subtext.Framework.Configuration.Config.CurrentBlog.BlogId.ToString(CultureInfo.InvariantCulture);
 							}
 						}
 					}

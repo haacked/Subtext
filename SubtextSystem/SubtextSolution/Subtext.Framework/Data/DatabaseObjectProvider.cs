@@ -1026,7 +1026,7 @@ namespace Subtext.Framework.Data
 			}
 		}
 		
-		public override BlogInfo GetBlogInfo(int BlogID)
+		public override BlogInfo GetBlogInfo(int BlogId)
 		{
 			return null;
 		}

@@ -50,7 +50,7 @@ namespace Subtext.Framework.XmlRpc
 			
 			BlogInfo[] bi = new BlogInfo[1];
 			BlogInfo b = new BlogInfo();
-			b.blogid = info.BlogID.ToString(CultureInfo.InvariantCulture);
+			b.blogid = info.BlogId.ToString(CultureInfo.InvariantCulture);
 			b.blogName = info.Title;
 			b.url = info.BlogHomeUrl;
 			bi[0] = b;

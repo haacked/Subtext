@@ -69,9 +69,9 @@ namespace Subtext.Framework.Tracking
 		/// </summary>
 		/// <param name="context">The context.</param>
 		/// <param name="EntryID">The entry ID.</param>
-		/// <param name="BlogID">The blog ID.</param>
+		/// <param name="BlogId">The blog ID.</param>
 		/// <returns></returns>
-		public static bool Track(HttpContext context, int EntryID, int BlogID)
+		public static bool Track(HttpContext context, int EntryID, int BlogId)
 		{
 			if(WebTrack)
 			{
@@ -82,7 +82,7 @@ namespace Subtext.Framework.Tracking
 						string refUrl = GetReferral(context.Request);
 						EntryView ev = new EntryView();
 						ev.EntryID = EntryID;
-						ev.BlogID = BlogID;
+						ev.BlogId = BlogId;
 						ev.ReferralUrl = refUrl;
 						ev.PageViewType = PageViewType.WebView;
 						return Track(ev);

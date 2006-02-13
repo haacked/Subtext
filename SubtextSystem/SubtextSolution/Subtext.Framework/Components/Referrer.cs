@@ -65,7 +65,7 @@ namespace Subtext.Framework.Components
 		}
 
 		private int _blogID;
-		public int BlogID
+		public int BlogId
 		{
 			get {return this._blogID;}
 			set {this._blogID = value;}

@@ -33,8 +33,8 @@ namespace Subtext.Common.Syndication
 		/// <returns></returns>
 		protected override string CacheKey(DateTime dateLastViewedFeedItemPublished)
 		{
-			const string key = "RSS;IndividualMainFeed;BlogID:{0};LastViewed:{1}";
-			return string.Format(key, CurrentBlog.BlogID, dateLastViewedFeedItemPublished);
+			const string key = "RSS;IndividualMainFeed;BlogId:{0};LastViewed:{1}";
+			return string.Format(key, CurrentBlog.BlogId, dateLastViewedFeedItemPublished);
 		}
 
 		/// <summary>

@@ -300,9 +300,9 @@ namespace Subtext.Framework.Providers
 		/// <summary>
 		/// Gets the config. This has been depracated
 		/// </summary>
-		/// <param name="BlogID">Blog ID.</param>
+		/// <param name="BlogId">Blog ID.</param>
 		/// <returns></returns>
-		public abstract BlogInfo GetBlogInfo(int BlogID);
+		public abstract BlogInfo GetBlogInfo(int BlogId);
 
 
 		#endregion

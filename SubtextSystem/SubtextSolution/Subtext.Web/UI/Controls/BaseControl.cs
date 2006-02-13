@@ -44,7 +44,7 @@ namespace Subtext.Web.UI.Controls
 		{
 			get
 			{
-				return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}:{1}",this.GetType(),CurrentBlog.BlogID);
+				return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}:{1}",this.GetType(),CurrentBlog.BlogId);
 			}
 		}
 
