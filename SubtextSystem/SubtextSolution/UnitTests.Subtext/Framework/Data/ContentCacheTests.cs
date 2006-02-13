@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Globalization;
 using System.Threading;
 using System.Web;
@@ -59,10 +60,12 @@ namespace UnitTests.Subtext.Framework.Data
 			Assert.AreEqual("English", cache["test"], "Should have changed the value based on language code.");
 
 			int stringCount = 0;
-			foreach(object item in cache)
+			foreach(DictionaryEntry item in cache)
 			{
-				Console.WriteLine(item);
-				stringCount++;
+				if(item.Value.ToString() == "English" || item.Value.ToString() == "Espanol")
+				{
+					stringCount++;
+				}
 			}
 			Assert.AreEqual(2, stringCount, "Expected two items in the cache.");
 
@@ -76,6 +79,7 @@ namespace UnitTests.Subtext.Framework.Data
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void CannotInsertNullTest()
 		{
+			UnitTestHelper.SetHttpContextWithBlogRequest(UnitTestHelper.GenerateUniqueHost(), "");
 			ContentCache cache = ContentCache.Instantiate();
 			cache.Insert("test", null);
 		}
@@ -87,6 +91,7 @@ namespace UnitTests.Subtext.Framework.Data
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void CannotInsertNullWithCacheDurationTest()
 		{
+			UnitTestHelper.SetHttpContextWithBlogRequest(UnitTestHelper.GenerateUniqueHost(), "");
 			ContentCache cache = ContentCache.Instantiate();
 			cache.Insert("test", null, CacheDuration.Short);
 		}
