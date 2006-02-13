@@ -1081,7 +1081,7 @@ FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	[ID] = @PostID 
 	AND  BlogId = @BlogId 
 	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
-ORDER BY [dateadded] DESC
+ORDER BY [DateAdded] DESC
 
 SELECT	c.Title
 		, PostID = ISNULL(l.PostID, -1)
@@ -1137,7 +1137,7 @@ FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	EntryName = @EntryName 
 	AND  BlogId = @BlogId 
 	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
-ORDER BY [dateadded] DESC
+ORDER BY [DateAdded] DESC
 
 SELECT	c.Title
 		, PostID = ISNULL(l.PostID, -1)
@@ -1418,7 +1418,7 @@ BEGIN
 	INSERT INTO #TempPagedEntryIDs (EntryID)
 	SELECT	[ID] 
 	FROM [<dbUser,varchar,dbo>].[subtext_Content] 
-	WHERE 	blogID = @BlogId 
+	WHERE 	BlogId = @BlogId 
 		AND PostType = @PostType
 	ORDER BY [ID]
 END
@@ -1427,7 +1427,7 @@ BEGIN
 	INSERT INTO #TempPagedEntryIDs (EntryID)
 	SELECT	[ID] 
 	FROM [<dbUser,varchar,dbo>].[subtext_Content]
-	WHERE 	blogID = @BlogId 
+	WHERE 	BlogId = @BlogId 
 		AND PostType = @PostType
 	ORDER BY [ID] DESC
 END
@@ -1469,7 +1469,7 @@ DROP TABLE #TempPagedEntryIDs
 
 SELECT COUNT([ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Content] 
-WHERE 	blogID = @BlogId 
+WHERE 	BlogId = @BlogId 
 	AND PostType = @PostType 
 
 
@@ -1520,7 +1520,7 @@ BEGIN
 	FROM [<dbUser,varchar,dbo>].[subtext_Content] blog
 		INNER JOIN subtext_Links links ON (blog.[ID] = ISNULL(links.PostID, -1))
 		INNER JOIN subtext_LinkCategories cats ON (links.CategoryID = cats.CategoryID)
-	WHERE 	blog.blogID = @BlogId 
+	WHERE 	blog.BlogId = @BlogId 
 		AND blog.PostType = @PostType
 		AND cats.CategoryID = @CategoryID
 	ORDER BY blog.[ID]
@@ -1532,7 +1532,7 @@ BEGIN
 	FROM [<dbUser,varchar,dbo>].[subtext_Content] blog
 		INNER JOIN subtext_Links links ON (blog.[ID] = ISNULL(links.PostID, -1))
 		INNER JOIN subtext_LinkCategories cats ON (links.CategoryID = cats.CategoryID)
-	WHERE 	blog.blogID = @BlogId 
+	WHERE 	blog.BlogId = @BlogId 
 		AND blog.PostType = @PostType
 		AND cats.CategoryID = @CategoryID
 	ORDER BY blog.[ID] DESC
@@ -1576,7 +1576,7 @@ SELECT 	COUNT(blog.[ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Content] blog
 	INNER JOIN subtext_Links links ON (blog.[ID] = ISNULL(links.PostID, -1))
 	INNER JOIN subtext_LinkCategories cats ON (links.CategoryID = cats.CategoryID)
-WHERE 	blog.blogID = @BlogId 
+WHERE 	blog.BlogId = @BlogId 
 	AND blog.PostType = @PostType
 	AND cats.CategoryID = @CategoryID
 
@@ -1623,7 +1623,7 @@ BEGIN
 	INSERT INTO #TempPagedEntryIDs (EntryID)
 	SELECT	[ID] 
 	FROM [<dbUser,varchar,dbo>].[subtext_Content] 
-	WHERE 	blogID = @BlogId 
+	WHERE 	BlogId = @BlogId 
 			AND (PostType = 3 or PostType = 4)
 
 	ORDER BY [DateAdded]
@@ -1633,7 +1633,7 @@ BEGIN
 	INSERT INTO #TempPagedEntryIDs (EntryID)
 	SELECT	[ID] 
 	FROM [<dbUser,varchar,dbo>].[subtext_Content]
-	WHERE 	blogID = @BlogId 
+	WHERE 	BlogId = @BlogId 
 		AND (PostType = 3 or PostType = 4)
 	ORDER BY [DateAdded] DESC
 END
@@ -1668,7 +1668,7 @@ DROP TABLE #TempPagedEntryIDs
 
 SELECT 	COUNT([ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Content] 
-WHERE 	blogID = @BlogId 
+WHERE 	BlogId = @BlogId 
 	AND (PostType = 3 or PostType = 4)
 
 
@@ -1713,7 +1713,7 @@ BEGIN
 	INSERT INTO #TempPagedEntryIDs (EntryID)
 	SELECT	[ID] 
 	FROM [<dbUser,varchar,dbo>].[subtext_Log] 
-	WHERE 	(blogID = @BlogId OR @BlogId IS NULL)
+	WHERE 	(BlogId = @BlogId OR @BlogId IS NULL)
 	ORDER BY [Date]
 END
 ELSE
@@ -1721,7 +1721,7 @@ BEGIN
 	INSERT INTO #TempPagedEntryIDs (EntryID)
 	SELECT	[ID] 
 	FROM [<dbUser,varchar,dbo>].[subtext_Log]
-	WHERE 	(blogID = @BlogId OR @BlogId IS NULL)
+	WHERE 	(BlogId = @BlogId OR @BlogId IS NULL)
 	ORDER BY [Date] DESC
 END
 
@@ -1748,7 +1748,7 @@ DROP TABLE #TempPagedEntryIDs
 
 SELECT 	COUNT([ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Log] 
-WHERE 	(blogID = @BlogId OR @BlogId IS NULL)
+WHERE 	(BlogId = @BlogId OR @BlogId IS NULL)
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -1785,7 +1785,7 @@ SET @PageUpperBound = @PageLowerBound + @PageSize + 1
 CREATE TABLE #TempPagedKeyWordIDs 
 (
 	TempID int IDENTITY (1, 1) NOT NULL
-	, KeywordID int NOT NULL
+	, KeywordId int NOT NULL
 )	
 
 IF(@SortDesc = 1)
@@ -1793,7 +1793,7 @@ BEGIN
 	INSERT INTO #TempPagedKeyWordIDs (KeyWordID)
 	SELECT	KeyWordID
 	FROM [<dbUser,varchar,dbo>].[subtext_KeyWords] 
-	WHERE 	blogID = @BlogId 
+	WHERE 	BlogId = @BlogId 
 	ORDER BY Word
 END
 Else
@@ -1801,7 +1801,7 @@ BEGIN
 	INSERT INTO #TempPagedKeyWordIDs (KeyWordID)
 	SELECT	KeyWordID
 	FROM [<dbUser,varchar,dbo>].[subtext_KeyWords] 
-	WHERE 	blogID = @BlogId 
+	WHERE 	BlogId = @BlogId 
 	ORDER BY Word DESC
 END
 
@@ -1818,7 +1818,7 @@ FROM
 	subtext_KeyWords words
 	INNER JOIN #TempPagedKeyWordIDs tmp ON (words.KeyWordID = tmp.KeyWordID)
 WHERE 	
-		words.blogID = @BlogId 
+		words.BlogId = @BlogId 
 	AND tmp.TempID > @PageLowerBound
 	AND tmp.TempID < @PageUpperBound
 ORDER BY
@@ -1826,9 +1826,9 @@ ORDER BY
  
 DROP TABLE #TempPagedKeyWordIDs
 
-SELECT 	COUNT([KeywordID]) AS 'TotalRecords'
+SELECT 	COUNT([KeywordId]) AS 'TotalRecords'
 FROM [<dbUser,varchar,dbo>].[subtext_KeyWords] 
-WHERE 	blogID = @BlogId
+WHERE 	BlogId = @BlogId
 
 
 GO
@@ -1873,7 +1873,7 @@ BEGIN
 	INSERT INTO #TempPagedLinkIDs (LinkID)
 	SELECT	LinkID
 	FROM [<dbUser,varchar,dbo>].[subtext_Links] 
-	WHERE 	blogID = @BlogId 
+	WHERE 	BlogId = @BlogId 
 		AND PostID IS NULL
 	ORDER BY Title
 END
@@ -1882,7 +1882,7 @@ BEGIN
 	INSERT INTO #TempPagedLinkIDs (LinkID)
 	SELECT	LinkID
 	FROM [<dbUser,varchar,dbo>].[subtext_Links]
-	WHERE 	blogID = @BlogId 
+	WHERE 	BlogId = @BlogId 
 		AND PostID IS NULL
 	ORDER BY [Title] DESC
 END
@@ -1899,7 +1899,7 @@ FROM
 	subtext_Links links
 	INNER JOIN #TempPagedLinkIDs tmp ON (links.LinkID = tmp.LinkID)
 WHERE 	
-		links.blogID = @BlogId 
+		links.BlogId = @BlogId 
 	AND tmp.TempID > @PageLowerBound
 	AND tmp.TempID < @PageUpperBound
 ORDER BY
@@ -1909,7 +1909,7 @@ DROP TABLE #TempPagedLinkIDs
 
 SELECT 	COUNT([LinkID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Links] 
-WHERE 	blogID = @BlogId
+WHERE 	BlogId = @BlogId
 	AND PostID IS NULL
 
 
@@ -1955,7 +1955,7 @@ BEGIN
 	INSERT INTO #TempPagedLinkIDs (LinkID)
 	SELECT	LinkID
 	FROM [<dbUser,varchar,dbo>].[subtext_Links] 
-	WHERE 	blogID = @BlogId 
+	WHERE 	BlogId = @BlogId 
 		AND CategoryID = @CategoryID
 		AND PostID IS NULL
 	ORDER BY Title
@@ -1965,7 +1965,7 @@ BEGIN
 	INSERT INTO #TempPagedLinkIDs (LinkID)
 	SELECT	LinkID
 	FROM [<dbUser,varchar,dbo>].[subtext_Links]
-	WHERE 	blogID = @BlogId 
+	WHERE 	BlogId = @BlogId 
 		AND CategoryID = @CategoryID
 		AND PostID IS NULL
 	ORDER BY Title DESC
@@ -1983,7 +1983,7 @@ FROM
 	subtext_Links links
 	INNER JOIN #TempPagedLinkIDs tmp ON (links.LinkID = tmp.LinkID)
 WHERE 	
-		links.blogID = @BlogId 
+		links.BlogId = @BlogId 
 	AND links.CategoryID = @CategoryID
 	AND tmp.TempID > @PageLowerBound
 	AND tmp.TempID < @PageUpperBound
@@ -1995,7 +1995,7 @@ DROP TABLE #TempPagedLinkIDs
 
 SELECT  COUNT([LinkID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Links] 
-WHERE 	blogID = @BlogId 
+WHERE 	BlogId = @BlogId 
 	AND CategoryID = @CategoryID 
 	AND PostID IS NULL
 
@@ -2547,7 +2547,7 @@ FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	PostType=@PostType 
 	AND BlogId = @BlogId 
 	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
-ORDER BY [dateadded] DESC
+ORDER BY [DateAdded] DESC
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -2635,7 +2635,7 @@ FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	PostType=1 
 	AND BlogId = @BlogId 
 	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
-ORDER BY [dateadded] DESC
+ORDER BY [DateAdded] DESC
 
 SELECT	BlogId
 	, [ID]
@@ -3633,7 +3633,7 @@ SET
 WHERE 	
 		[ID] = @ID 
 	AND BlogId = @BlogId
-EXEC [<dbUser,varchar,dbo>].[subtext_UpdateConfigUpdateTime] @blogID, @DateUpdated
+EXEC [<dbUser,varchar,dbo>].[subtext_UpdateConfigUpdateTime] @BlogId, @DateUpdated
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -4190,7 +4190,7 @@ SELECT @ID = SCOPE_IDENTITY()
 --	2 = Story
 if(@PostType = 1 or @PostType = 2)
 BEGIN
-	EXEC [<dbUser,varchar,dbo>].[subtext_UpdateConfigUpdateTime] @blogID, @DateAdded
+	EXEC [<dbUser,varchar,dbo>].[subtext_UpdateConfigUpdateTime] @BlogId, @DateAdded
 END
 ELSE IF(@PostType = 3) -- Comment
 BEGIN
@@ -4651,19 +4651,19 @@ CREATE Proc Subtext_GetEntry_PreviousNext
 (
  @ID int,
  @PostType int = 1,
- @BlogID int
+ @BlogId int
 )
 as
 Select *
 FROM
  ( SELECT Top 1 Subtext_Content.[ID] as [EntryID], Subtext_Content.Title as [EntryTitle], Subtext_Content.DateAdded as [EntryDate], Subtext_Content.EntryName as [EntryName] FROM Subtext_Content
-   WHERE Subtext_Content.[ID] < @ID and Subtext_Content.BlogID = @BlogID and Subtext_Content.PostConfig & 1 = 1 and PostType = @PostType
+   WHERE Subtext_Content.[ID] < @ID and Subtext_Content.BlogId = @BlogId and Subtext_Content.PostConfig & 1 = 1 and PostType = @PostType
    ORDER BY Subtext_Content.[ID] desc ) Prev
 UNION
 Select *
 FROM
  ( SELECT Top 1 Subtext_Content.[ID] as [NextID], Subtext_Content.Title as [NextTitle], Subtext_Content.DateAdded as [NextDate], Subtext_Content.EntryName as [NextName] FROM Subtext_Content
-   WHERE Subtext_Content.[ID] > @ID and Subtext_Content.BlogID = @BlogID and Subtext_Content.PostConfig & 1 = 1 and PostType = @PostType
+   WHERE Subtext_Content.[ID] > @ID and Subtext_Content.BlogId = @BlogId and Subtext_Content.PostConfig & 1 = 1 and PostType = @PostType
           ORDER BY Subtext_Content.[ID] ) [Next]
 
 GO
