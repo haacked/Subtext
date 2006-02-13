@@ -4,11 +4,42 @@
         <name>Subtext.Web</name>
     </assembly>
     <members>
+        <member name="T:Subtext.Web.Admin.Handlers.BlogMLExport">
+            <summary>
+            Summary description for BlogMLExport.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Handlers.BlogMLExport.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Subtext.Web.Admin.Handlers.BlogMLExport"/> class.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Handlers.BlogMLExport.ProcessRequest(System.Web.HttpContext)">
+            <summary>
+            Implements the <see cref="T:System.Web.IHttpHandler"/> interface 
+            and generates a BlogML export of the current blog's contents.
+            </summary>
+            <param name="context">An <see cref="T:System.Web.HttpContext"/> object that provides references to the intrinsic server objects (for example, <see langword="Request"/>, <see langword="Response"/>, <see langword="Session"/>, and <see langword="Server"/>)<see langword=""/> used to service HTTP requests.</param>
+        </member>
+        <member name="P:Subtext.Web.Admin.Handlers.BlogMLExport.IsReusable">
+            <summary>
+            Gets a value indicating whether another request can use
+            the <see cref="T:System.Web.IHttpHandler"/>
+            instance.
+            </summary>
+            <value></value>
+        </member>
         <member name="M:Subtext.Web.Admin.UserControls.EntryEditor.InitializeComponent">
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
             </summary>
+        </member>
+        <member name="P:Subtext.Web.Admin.UserControls.EntryEditor.EntryType">
+            <summary>
+            Gets or sets the type of the entry.
+            </summary>
+            <value>The type of the entry.</value>
         </member>
         <member name="T:Subtext.Web.Admin.IOpmlItemCollection">
             <summary>
@@ -1776,12 +1807,18 @@
             Will cause the user to confirm navigating away from the current page. This behavior can be overriden.
             </summary>
         </member>
-        <member name="T:Subtext.Web.Admin.Comments">
+        <member name="T:Subtext.Web.Admin.Pages.Comments">
             <summary>
             Summary description for Comments.
             </summary>
         </member>
-        <member name="M:Subtext.Web.Admin.Comments.InitializeComponent">
+        <member name="M:Subtext.Web.Admin.Pages.AdminOptionsPage.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Pages.Comments.InitializeComponent">
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
@@ -1858,6 +1895,12 @@
             the contents of this method with the code editor.
             </summary>
         </member>
+        <member name="M:Subtext.Web.Admin.Pages.ErrorLog.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
         <member name="M:Subtext.Web.Admin.Pages.Export.InitializeComponent">
             <summary>
             Required method for Designer support - do not modify
@@ -1870,13 +1913,46 @@
             admin to delete comments.
             </summary>
         </member>
+        <member name="M:Subtext.Web.Admin.Pages.Feedback.GetAuthor(System.Object)">
+            <summary>
+            Returns the author during data binding. If the author specified 
+            an email address, includes that.
+            </summary>
+            <param name="dataItem"></param>
+            <returns></returns>
+        </member>
         <member name="M:Subtext.Web.Admin.Pages.Feedback.InitializeComponent">
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
             </summary>
         </member>
-        <member name="M:Subtext.Web.Admin.Pages.Options.InitializeComponent">
+        <member name="T:Subtext.Web.Admin.ftb_imagegallery">
+            <summary>
+            Implements the FreeTextBox image gallery.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.ftb_imagegallery.Page_Load(System.Object,System.EventArgs)">
+            <summary>
+            Method called when the page loads.
+            </summary>
+            <param name="sender">Sender.</param>
+            <param name="e">E.</param>
+        </member>
+        <member name="M:Subtext.Web.Admin.ftb_imagegallery.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Admin.Pages.ImportExportPage">
+            <summary>
+            Renders the page used to import and export blog data using 
+            the BlogML format proposed in 
+            <see href="http://markitup.com/Posts/PostsByCategory.aspx?categoryId=5751cee9-5b20-4db1-93bd-7e7c66208236">this blog</see>
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Admin.Pages.ImportExportPage.InitializeComponent">
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
@@ -1933,12 +2009,12 @@
             the contents of this method with the code editor.
             </summary>
         </member>
-        <member name="T:Subtext.Web.Admin.Syndication">
+        <member name="T:Subtext.Web.Admin.Pages.Syndication">
             <summary>
             Admin Page used to set syndication settings.
             </summary>
         </member>
-        <member name="M:Subtext.Web.Admin.Syndication.InitializeComponent">
+        <member name="M:Subtext.Web.Admin.Pages.Syndication.InitializeComponent">
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
@@ -1950,6 +2026,39 @@
             </summary>
         </member>
         <member name="M:Subtext.Web.Admin.Test.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.HostAdmin.ImportComplete">
+            <summary>
+            Summary description for ImportComplete.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.HostAdmin.ImportComplete.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.HostAdmin.ImportStart">
+            <summary>
+            First page in the .TEXT Import wizard.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.HostAdmin.ImportStart.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.HostAdmin.Step02_GatherInfo">
+            <summary>
+            Page used to gather information for the specified import provider.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.HostAdmin.Step02_GatherInfo.InitializeComponent">
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
@@ -1982,14 +2091,35 @@
             </summary>
             <value></value>
         </member>
+        <member name="T:Subtext.Web.HostAdmin.ChangePassword">
+            <summary>
+            Allows the user to change the host admin password.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.HostAdmin.ChangePassword.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
         <member name="T:Subtext.Web.HostAdmin.PageTemplate">
             <summary>
             Summary description for PageTemplate.
             </summary>
         </member>
-        <member name="M:Subtext.Web.HostAdmin.PageTemplate.#ctor">
+        <member name="T:Subtext.Web.BlogNotConfiguredError">
             <summary>
-            Creates a new <see cref="T:Subtext.Web.HostAdmin.PageTemplate"/> instance.
+            Page used to create an initial configuration for the blog.
+            </summary>
+            <remarks>
+            This page will ONLY be displayed if there are no 
+            blog configurations within the database.
+            </remarks>
+        </member>
+        <member name="M:Subtext.Web.BlogNotConfiguredError.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
             </summary>
         </member>
         <member name="T:Subtext.Web.Install.Default">
@@ -2035,7 +2165,7 @@
             the contents of this method with the code editor.
             </summary>
         </member>
-        <member name="T:Subtext.Web.Install.Step01_GatherInstallData">
+        <member name="T:Subtext.Web.Install.Step01_InstallData">
             <summary>
             Page used to create an initial configuration for the blog.
             </summary>
@@ -2044,18 +2174,13 @@
             blog configurations within the database.
             </remarks>
         </member>
-        <member name="M:Subtext.Web.Install.Step01_GatherInstallData.DataBind">
-            <summary>
-            Binds the data to the form controls.
-            </summary>
-        </member>
-        <member name="M:Subtext.Web.Install.Step01_GatherInstallData.InitializeComponent">
+        <member name="M:Subtext.Web.Install.Step01_InstallData.InitializeComponent">
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
             </summary>
         </member>
-        <member name="T:Subtext.Web.Install.Step02_InstallData">
+        <member name="T:Subtext.Web.Install.Step02_ConfigureHost">
             <summary>
             Page used to create an initial configuration for the blog.
             </summary>
@@ -2064,13 +2189,13 @@
             blog configurations within the database.
             </remarks>
         </member>
-        <member name="M:Subtext.Web.Install.Step02_InstallData.InitializeComponent">
+        <member name="M:Subtext.Web.Install.Step02_ConfigureHost.InitializeComponent">
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
             </summary>
         </member>
-        <member name="T:Subtext.Web.Install.Step03_ConfigureHost">
+        <member name="T:Subtext.Web.Install.Step03_CreateBlog">
             <summary>
             Page used to create an initial configuration for the blog.
             </summary>
@@ -2079,22 +2204,7 @@
             blog configurations within the database.
             </remarks>
         </member>
-        <member name="M:Subtext.Web.Install.Step03_ConfigureHost.InitializeComponent">
-            <summary>
-            Required method for Designer support - do not modify
-            the contents of this method with the code editor.
-            </summary>
-        </member>
-        <member name="T:Subtext.Web.Install.Step04_CreateBlog">
-            <summary>
-            Page used to create an initial configuration for the blog.
-            </summary>
-            <remarks>
-            This page will ONLY be displayed if there are no 
-            blog configurations within the database.
-            </remarks>
-        </member>
-        <member name="M:Subtext.Web.Install.Step04_CreateBlog.InitializeComponent">
+        <member name="M:Subtext.Web.Install.Step03_CreateBlog.InitializeComponent">
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.
@@ -2120,6 +2230,14 @@
             <summary>
             Clean up any resources being used.
             </summary>
+        </member>
+        <member name="M:Subtext.Web.Services.ASPNetWebLogApi.GetRecentPosts(System.Int32,System.DateTime)">
+            <summary>
+            Gets recent posts for the MetaBlogAPI.
+            </summary>
+            <param name="ItemCount">Item count.</param>
+            <param name="LastUpdatedDate">Last updated date.</param>
+            <returns></returns>
         </member>
         <member name="T:Subtext.Web.Services.Subtext">
             <summary>
@@ -2185,6 +2303,69 @@
             Clean up any resources being used.
             </summary>
         </member>
+        <member name="T:Subtext.Web.Skins.shnet.PageTemplate">
+            <summary>
+            	Summary description for PageTemplate.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Skins.shnet.PageTemplate.InitializeComponent">
+            <summary>
+            	Required method for Designer support - do not modify
+            	the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.Skins.shnet.SkinTemplate">
+            <summary>
+            	Summary description for SkinTemplate.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Skins.shnet.SkinTemplate.InitializeComponent">
+            <summary>
+            	Required method for Designer support - do not modify
+            	the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.BlogNotActive">
+            <summary>
+            Displays the blog not active message.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.BlogNotActive.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.CheckYourConnectionString">
+            <summary>
+            This page presents useful information to users connecting 
+            to the blog via "localhost".  In otherwords, on a local 
+            installation.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.CheckYourConnectionString.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.Pages.Error.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.SystemMessages.FileNotFound">
+            <summary>
+            Summary description for FileNotFound.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.SystemMessages.FileNotFound.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
         <member name="T:Subtext.Web.UI.Controls.ArchiveCategory">
             <summary>
             	Summary description for ArchiveMonth.
@@ -2221,6 +2402,55 @@
             	Summary description for Header.
             </summary>
         </member>
+        <member name="T:Subtext.Web.UI.Controls.Calendar">
+            <summary>
+            Summary description for Calendar.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.UI.Controls.Calendar.OnLoad(System.EventArgs)">
+            <summary>
+            If the page is on a "day page" then have the calendar select the day the URL is on. 
+            Otherwise use the current day.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.UI.Controls.Calendar.ChooseSelectedDateFromUrl">
+            <summary>
+            Chooses the selected date from the url.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Web.UI.Controls.Calendar.TryParseDateTime(System.String,System.DateTime@)">
+            <summary>
+            Attemps to parse the specified string as a DateTime.
+            </summary>
+            <param name="dateString">The string to parse.</param>
+            <param name="parsedDate">The date if the string was parsed succesfully.</param>
+            <returns>True if the string was parsed succesfully.</returns>
+        </member>
+        <member name="M:Subtext.Web.UI.Controls.Calendar.LoadMonthData">
+            <summary>
+            Load all entries for the selected month.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.UI.Controls.Calendar.entryCal_DayRender(System.Object,System.Web.UI.WebControls.DayRenderEventArgs)">
+            <summary>
+            As each day is rendered in the calendar, put a link if an entry exists for that day.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Subtext.Web.UI.Controls.Calendar.IsSameDay(System.DateTime,System.DateTime)">
+            <summary>
+            Returns true if the two dates fall on the same day.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.UI.Controls.Calendar.entryCal_VisibleMonthChanged(System.Object,System.Web.UI.WebControls.MonthChangedEventArgs)">
+            <summary>
+            Occurs when the user clicks on the next or previous month navigation controls on the title heading.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
         <member name="T:Subtext.Web.UI.Controls.CategoryDisplay">
             <summary>
             	Summary description for CategoryDisplayByColumn.
@@ -2236,17 +2466,36 @@
             	Summary description for Comments.
             </summary>
         </member>
+        <member name="M:Subtext.Web.UI.Controls.Contact.OnInit(System.EventArgs)">
+            <summary>
+            Initializes the control.  Sets up the send button's 
+            click event handler.
+            </summary>
+            <param name="e"></param>
+        </member>
         <member name="T:Subtext.Web.UI.Controls.Day">
             <summary>
-            Summary description for LastSevenDaysControl.
-            </summary>
-        </member>
-        <member name="T:Subtext.Web.UI.Controls.DayCollection">
-            <summary>
-            Summary description for LastSevenDaysControl.
+            Displays all entries for a given day.
             </summary>
         </member>
         <member name="T:Subtext.Web.UI.Controls.EntryList">
+            <summary>
+            Control used to display a list of entries.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.UI.Controls.Day.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Subtext.Web.UI.Controls.Day"/> class and sets 
+            the DescriptionOnly property to false.
+            </summary>
+        </member>
+        <member name="P:Subtext.Web.UI.Controls.Day.CurrentDay">
+            <summary>
+            Sets the current day.
+            </summary>
+            <value>The current day.</value>
+        </member>
+        <member name="T:Subtext.Web.UI.Controls.DayCollection">
             <summary>
             Summary description for LastSevenDaysControl.
             </summary>
@@ -2271,7 +2520,7 @@
         </member>
         <member name="T:Subtext.Web.UI.Controls.Header">
             <summary>
-            	Summary description for Header.
+            Used to display the header.
             </summary>
         </member>
         <member name="T:Subtext.Web.UI.Controls.Login">
@@ -2287,12 +2536,12 @@
         </member>
         <member name="T:Subtext.Web.UI.Controls.MyLinks">
             <summary>
-            	Summary description for Header.
+            Code behind class for the MyLinks section.
             </summary>
         </member>
         <member name="T:Subtext.Web.UI.Controls.News">
             <summary>
-            	Summary description for Header.
+            Displays news...
             </summary>
         </member>
         <member name="T:Subtext.Web.UI.Controls.PageTemplate">
@@ -2305,15 +2554,53 @@
             	Summary description for Comments.
             </summary>
         </member>
+        <member name="M:Subtext.Web.UI.Controls.PostComment.OnLoad(System.EventArgs)">
+            <summary>
+            Handles the OnLoad event.  Attempts to prepopulate comment 
+            fields based on the user's cookie.
+            </summary>
+            <param name="e">E.</param>
+        </member>
         <!-- Badly formed XML comment ignored for member "M:Subtext.Web.UI.Controls.PostComment.InitializeComponent" -->
+        <member name="T:Subtext.Web.UI.Controls.RecentComments">
+            
+            RecentComments displays the last 5 comments
+            ToDOo: make this number configurable
+            
+        </member>
         <member name="T:Subtext.Web.UI.Controls.SingleColumn">
             <summary>
-            	Summary description for CategoryDisplayByColumn.
+            <para>
+            This control displays links by categories.  Categories 
+            include "Archives", "Image Galleries", And custom link Categories.
+            </para>
+            <para>
+            Makes use of the <see cref="T:Subtext.Web.UI.Controls.CategoryList"/> control.
+            </para>
             </summary>
+        </member>
+        <member name="M:Subtext.Web.UI.Controls.SingleColumn.OnLoad(System.EventArgs)">
+            <summary>
+            Raises the <see cref="E:System.Web.UI.Control.Load"/>
+            event.  Then calls <see cref="M:Subtext.Web.UI.Controls.SingleColumn.GetArchiveCategories"/> to 
+            populate the <see cref="T:Subtext.Web.UI.Controls.CategoryList"/> control.
+            </summary>
+            <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
         </member>
         <member name="T:Subtext.Web.UI.Controls.CategoryEntryList">
             <summary>
             	Summary description for ArchiveDay.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Controls.SubtextSearch">
+            <summary>
+            	Summary description for DotTextSearch.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.UI.Controls.SubtextSearch.InitializeComponent">
+            <summary>
+            	Required method for Designer support - do not modify
+            	the contents of this method with the code editor.
             </summary>
         </member>
         <member name="T:Subtext.Web.UI.Controls.ViewPicture">
@@ -2395,8 +2682,28 @@
         </member>
         <member name="T:Subtext.Web.UI.Handlers.RedirectHandler">
             <summary>
-            Summary description for RedirectHandler.
+            Handles redirects of incoming requests to the appropriate control.
             </summary>
+        </member>
+        <member name="M:Subtext.Web.UI.Handlers.RedirectHandler.ProcessRequest(System.Web.HttpContext)">
+            <summary>
+            Enables processing of HTTP Web requests by a custom
+            <see langword="HttpHandler "/>
+            that implements the <see cref="T:System.Web.IHttpHandler"/> interface.
+            </summary>
+            <remarks>
+            Parses the incoming request url to determine where the request 
+            should be redirected.
+            </remarks>
+            <param name="context">An <see cref="T:System.Web.HttpContext"/> object that provides references to the intrinsic server objects (for example, <see langword="Request"/>, <see langword="Response"/>, <see langword="Session"/>, and <see langword="Server"/>)<see langword=""/> used to service HTTP requests.</param>
+        </member>
+        <member name="P:Subtext.Web.UI.Handlers.RedirectHandler.IsReusable">
+            <summary>
+            Gets a value indicating whether another request can use
+            the <see cref="T:System.Web.IHttpHandler"/>
+            instance.
+            </summary>
+            <value></value>
         </member>
         <member name="T:Subtext.Web.UI.Pages.SubtextMasterPage">
             <summary>
@@ -2438,6 +2745,11 @@
             Provides rendering facilities for script elements in the head element of the page
             </summary>
         </member>
+        <member name="T:Subtext.Web.UI.Pages.SubtextMasterPage.StyleSheetElementCollectionRenderer">
+            <summary>
+            Provides rendering facilities for stylesheet elements in the head element of the page
+            </summary>
+        </member>
         <member name="T:Subtext.Web.UI.Skinning.CacheKey">
             <summary>
             Summary description for CacheKey.
@@ -2451,7 +2763,7 @@
         </member>
         <member name="P:Subtext.Web.UI.Skinning.Script.Type">
             <summary>
-            Script type. Default value <code>text/javascript</code>
+            Script type. Default value is <code>text/javascript</code>
             </summary>
         </member>
         <member name="P:Subtext.Web.UI.Skinning.Script.Src">
@@ -2484,10 +2796,59 @@
             Collection of <code>script</code> elements, declared for the skin.
             </summary>
         </member>
+        <member name="P:Subtext.Web.UI.Skinning.SkinTemplate.Styles">
+            <summary>
+            Collection of stylesheet elements declared for the skin.
+            </summary>
+        </member>
         <member name="T:Subtext.Web.UI.Skinning.SkinTemplates">
             <summary>
             Summary description for SkinTemplates.
             </summary>
+        </member>
+        <member name="T:Subtext.Web.UI.Skinning.Style">
+            <summary>
+            Declaration of a <code>style</code> element in the skin. Supports the capability 
+            to specify css stylesheet includes in the <code>head</code> element of the page.
+            </summary>
+        </member>
+        <member name="P:Subtext.Web.UI.Skinning.Style.Href">
+            <summary>
+            Location of the script. Specified as relative to the skin directory
+            </summary>
+        </member>
+        <member name="P:Subtext.Web.UI.Skinning.Style.Title">
+            <summary>
+            Title of the styesheet.
+            </summary>
+        </member>
+        <member name="P:Subtext.Web.UI.Skinning.Style.Media">
+            <summary>
+            Media for the stylesheet.  Can be a comma delimited list.
+            </summary>
+            <remarks>
+            Allowed media... aural, braille, emboss, handheld, print, projection 
+            screen, tty, tv
+            </remarks>
+        </member>
+        <member name="T:Subtext.Web.UI.WebControls.AtomHyperLink">
+            <summary>
+            Use this to link to the Atom feed and do not specify the NavigateUrl property. 
+            It'll fill this in for you.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.UI.WebControls.AtomHyperLink.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Subtext.Web.UI.WebControls.RssHyperLink"/> class.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.UI.WebControls.AtomHyperLink.OnPreRender(System.EventArgs)">
+            <summary>
+            Overrides the NavigateUrl property to point too the RSS feed 
+            and raises the <see cref="E:System.Web.UI.Control.PreRender"/>
+            event.
+            </summary>
+            <param name="e">An <see cref="T:System.EventArgs"/> object that contains the event data.</param>
         </member>
         <member name="T:Subtext.Web.UI.WebControls.MasterPage">
             <summary>
@@ -2505,6 +2866,25 @@
             Gets or sets the template file from the Skins directory.
             </summary>
             <value></value>
+        </member>
+        <member name="T:Subtext.Web.UI.WebControls.RssHyperLink">
+            <summary>
+            Use this to link to the rss feed and do not specify the NavigateUrl property. 
+            It'll fill this in for you.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.UI.WebControls.RssHyperLink.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Subtext.Web.UI.WebControls.RssHyperLink"/> class.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.UI.WebControls.RssHyperLink.OnPreRender(System.EventArgs)">
+            <summary>
+            Overrides the NavigateUrl property to point too the RSS feed 
+            and raises the <see cref="E:System.Web.UI.Control.PreRender"/>
+            event.
+            </summary>
+            <param name="e">An <see cref="T:System.EventArgs"/> object that contains the event data.</param>
         </member>
         <member name="T:Subtext.Web.UI.Globals">
             <summary>
@@ -2544,38 +2924,46 @@
             Summary description for UIData.
             </summary>
         </member>
+        <member name="M:Subtext.Web.UI.UIData.ArchiveMonth(Subtext.Framework.Format.UrlFormats)">
+            <summary>
+            Builds a <see cref="T:Subtext.Framework.Components.LinkCategory"/> using the specified url formats. 
+            A LinkCategory is a common item to databind to a web control.
+            </summary>
+            <param name="formats">Determines how the links are formatted.</param>
+            <returns></returns>
+        </member>
         <member name="T:Subtext.Web.UI.UIText">
             <summary>
-            Summary description for UIText.
-            </summary>
-        </member>
-        <member name="T:Subtext.Web.BlogNotConfiguredError">
-            <summary>
-            Page used to create an initial configuration for the blog.
+            Used to obtain configurable text displayed on the UI.  
+            Uses application settings (bleh!).
             </summary>
             <remarks>
-            This page will ONLY be displayed if there are no 
-            blog configurations within the database.
+            This text ought to be configurable per-blog.
             </remarks>
         </member>
-        <member name="M:Subtext.Web.BlogNotConfiguredError.InitializeComponent">
+        <member name="P:Subtext.Web.UI.UIText.PostCollection">
             <summary>
-            Required method for Designer support - do not modify
-            the contents of this method with the code editor.
+            Gets the titel for the post categories.
             </summary>
+            <value>The post collection.</value>
         </member>
-        <member name="T:Subtext.Web.CheckYourConnectionString">
+        <member name="P:Subtext.Web.UI.UIText.ArticleCollection">
             <summary>
-            This page presents useful information to users connecting 
-            to the blog via "localhost".  In otherwords, on a local 
-            installation.
+            Gets the title for the article categories.
             </summary>
+            <value>The article collection.</value>
         </member>
-        <member name="M:Subtext.Web.CheckYourConnectionString.InitializeComponent">
+        <member name="P:Subtext.Web.UI.UIText.ImageCollection">
             <summary>
-            Required method for Designer support - do not modify
-            the contents of this method with the code editor.
+            Gets the title for the image galleries.
             </summary>
+            <value>The image collection.</value>
+        </member>
+        <member name="P:Subtext.Web.UI.UIText.Archives">
+            <summary>
+            Gets the title for the Archives links.
+            </summary>
+            <value>The archives.</value>
         </member>
         <member name="T:Subtext.Web._default">
             <summary>
@@ -2588,11 +2976,19 @@
             the contents of this method with the code editor.
             </summary>
         </member>
-        <member name="M:Subtext.Web.Pages.Error.InitializeComponent">
+        <member name="M:Subtext.Global.Application_Start(System.Object,System.EventArgs)">
             <summary>
-            Required method for Designer support - do not modify
-            the contents of this method with the code editor.
+            Method called by the application on startup.  
             </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Subtext.Global.Session_Start(System.Object,System.EventArgs)">
+            <summary>
+            Method called when a session starts.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
         </member>
         <member name="M:Subtext.Global.Application_BeginRequest(System.Object,System.EventArgs)">
             <summary>
@@ -2620,10 +3016,43 @@
         </member>
         <member name="T:Subtext.Web.Pages.logout">
             <summary>
-            Summary description for login.
+            Logs a user out of the system.
             </summary>
         </member>
         <member name="M:Subtext.Web.Pages.logout.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Subtext.Web.RSSPage">
+            <summary>
+            This class writes out an rss feed.  //TODO:IS THIS EVEN USED? 
+            Gurkan: Yes, this is the consolidated RSS feed for all the blogs
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.RSSPage.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:Subtext.Web.RSSPage.AcceptEncoding">
+            <summary>
+            Returns the "Accept-Encoding" value from the HTTP Request header. 
+            This is a list of encodings that may be sent to the browser.
+            </summary>
+            <remarks>
+            Specifically we're looking for gzip.
+            </remarks>
+            <value></value>
+        </member>
+        <member name="T:Subtext.Web.OPML">
+            <summary>
+            Summary description for OPML.
+            </summary>
+        </member>
+        <member name="M:Subtext.Web.OPML.InitializeComponent">
             <summary>
             Required method for Designer support - do not modify
             the contents of this method with the code editor.

@@ -14,13 +14,13 @@
 #endregion
 
 using System;
+using System.Collections.Specialized;
+using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml;
-using System.Configuration;
-using System.Collections.Specialized;
 using Sgml;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
@@ -78,7 +78,7 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static bool HasIllegalContent(string s)
 		{
-			if(s == null || s.Trim().Length == 0)
+			if (s == null || s.Trim().Length == 0)
 			{
 				return false;
 			}
@@ -128,12 +128,12 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static string SafeFormat(string stringToTransform) 
 		{
-			if(stringToTransform == null)
+			if (stringToTransform == null)
 				throw new ArgumentNullException("stringToTransform", "Cannot transform a null string.");
 
 			stringToTransform = HttpContext.Current.Server.HtmlEncode(stringToTransform);
 			string brTag = "<br />";
-			if(!Config.Settings.UseXHTML)
+			if (!Config.Settings.UseXHTML)
 			{
 				brTag = "<br />";
 			}
@@ -160,7 +160,7 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static string CheckForUrl(string text)
 		{
-			if(text == null 
+			if (text == null 
 				|| text.Trim().Length == 0 
 				|| text.Trim().ToLower(CultureInfo.InvariantCulture).StartsWith("http://"))
 			{
@@ -176,7 +176,6 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static string ConvertToAllowedHtml(string text)
 		{
-			AppSettingsReader settingreader = new AppSettingsReader();
 			NameValueCollection AllowedHtml = null;
 			AllowedHtml = ((NameValueCollection)(ConfigurationSettings.GetConfig("AllowableCommentHtml")));
 
@@ -184,7 +183,7 @@ namespace Subtext.Framework.Text
 			{
 				//This indicates that the AllowableCommentHtml configuration is either missing or
                 //has no values, therefore just strip the text as normal.
-				return HTMLSafe(text);
+				return HtmlSafe(text);
 			}
 			else
 			{
@@ -222,8 +221,7 @@ namespace Subtext.Framework.Text
 						if (Regex.IsMatch(s, "<\\s*?/", RegexOptions.Singleline | RegexOptions.IgnoreCase))
 						{
 							//this is the closing tag
-							//determine the tag type and return only the
-							//correctly formated close tag
+							//determine the tag type and return only the correctly formated close tag
 							sb.Append("</" + Regex.Match(s, "(\\w+)").Value + ">");
 						}
 						else
@@ -238,51 +236,67 @@ namespace Subtext.Framework.Text
 					}
 					else
 					{
-						sb.Append(HTMLSafe(s));
+						sb.Append(HtmlSafe(s));
 					}
 				}
 				return sb.ToString();
 			}
 		}
 		
-		private static string HTMLSafe(string text)
+		private static string HtmlSafe(string text)
 		{
 			//replace &, <, >, and line breaks with <br />
 			text = text.Replace("&", "&amp;");
 			text = text.Replace("<", "&lt;");
 			text = text.Replace(">", "&gt;");
+			text = text.Replace("\r\n", "<br />");
 			text = text.Replace("\n", "<br />");
 			return text;
 		}
 
-		private static string FilterAttributes(string TagName, MatchCollection Matches, ref NameValueCollection AllowedHtml)
+		/// <summary>
+		/// Removes any non-permitted attributes for the given tagName. The permitted attributes 
+		/// are determined by the given allowedHtml collection.
+		/// </summary>
+		/// <param name="tagName"></param>
+		/// <param name="attrMatches"></param>
+		/// <param name="allowedHtml"></param>
+		/// <returns></returns>
+		/// <remarks>This will be a high volume method, so make it as efficient as possible</remarks>
+		private static string FilterAttributes(string tagName, MatchCollection attrMatches, ref NameValueCollection allowedHtml)
 		{
-			System.Text.StringBuilder sb = new System.Text.StringBuilder();
-			string tString,attrValString;
-			//look to see which tag's attributes we are matching
-			TagName = TagName.ToLower();
-			char[] splitter  = {','};
-			char[] eqSplitter = {'='};
-			string[] tagAttr = AllowedHtml[TagName].Split(splitter);
-
-			foreach (Match attrMatch in Matches)
+			string allowedAttrsStr = allowedHtml[tagName];
+			if (allowedAttrsStr != null && allowedAttrsStr.Length>0)
 			{
-				//find if first word exists in tagAttr
-				foreach (string s in tagAttr)
+				System.Text.StringBuilder attrSB = new System.Text.StringBuilder();
+				string attrKey,attrValue;
+				//look to see which tag's attributes we are matching
+				tagName = tagName.ToLower();
+				char[] splitter  = {','};
+				char[] eqSplitter = {'='};
+			
+				string[] allowedAttrs = allowedHtml[tagName].Split(splitter);
+				// go thru each matched attribute, and determine if it's allowed
+				foreach (Match attrMatch in attrMatches)
 				{
-					if (s == Regex.Match(attrMatch.Value, "\\w+").Value.ToLower().Trim())
-					{
-						//good attribute. add it to the return values
-						tString = Regex.Match(attrMatch.Value, "\\w+").Value.ToLower().Trim() + "=\"";
-						//get the attribute value
-						attrValString = attrMatch.Value.Split(eqSplitter)[1];
+					// get the actual markup attribute (the key) from attrMatch which is a key=value pair.
+					attrKey = Regex.Match(attrMatch.Value, "\\w+").Value.ToLower().Trim();
 
-						tString = tString +  attrValString.Replace("\"", "") + "\"";
-						sb.Append(" " + tString.Trim());
+					foreach (string allowedAttr in allowedAttrs)
+					{
+						if (allowedAttr.Equals(attrKey))
+						{
+							// found an allowed attribute, so get the attribute value
+							attrValue = attrMatch.Value.Split(eqSplitter)[1];
+
+							// and now add the full attribute (key=value) to be returned
+							attrSB.Append(" " + attrKey + "=\"" + attrValue.Replace("\"", "") + "\"");
+						}
 					}
 				}
+				return attrSB.ToString();
 			}
-			return sb.ToString();
+			return string.Empty;
 		}
 	}
 }

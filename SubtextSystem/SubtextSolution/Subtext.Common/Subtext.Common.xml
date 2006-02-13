@@ -6,12 +6,54 @@
     <members>
         <member name="T:Subtext.Common.Data.Cacher">
             <summary>
-            Summary description for Cacher.
+            Encapsulates obtaining content from the cache.
             </summary>
+        </member>
+        <member name="M:Subtext.Common.Data.Cacher.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Subtext.Common.Data.Cacher"/> class.
+            </summary>
+        </member>
+        <member name="M:Subtext.Common.Data.Cacher.GetActiveCategories(Subtext.Framework.CacheDuration)">
+            <summary>
+            Gets the active categories from the cache. 
+            If they aren't in the cache, queries the database and puts the 
+            result in the cache.
+            </summary>
+            <param name="cacheDuration">The cache duration.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Common.Data.Cacher.GetMonth(System.DateTime,Subtext.Framework.CacheDuration)">
+            <summary>
+            Gets the entries for the specified month.
+            </summary>
+            <param name="dt">The dt.</param>
+            <param name="cacheDuration">The cache duration.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Common.Data.Cacher.GetSingleEntry(System.String,Subtext.Framework.CacheDuration)">
+            <summary>
+            Retrieves a single entry from the cache by the entry name.  
+            If it is not in the cache, gets it from the database and 
+            inserts it into the cache.
+            </summary>
+            <param name="EntryName">Name of the entry.</param>
+            <param name="cacheDuration">The cache duration.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Common.Data.Cacher.GetSingleEntry(System.Int32,Subtext.Framework.CacheDuration)">
+            <summary>
+            Retrieves a single entry from the cache by the id.
+            If it is not in the cache, gets it from the database and
+            inserts it into the cache.
+            </summary>
+            <param name="EntryID">The entry ID.</param>
+            <param name="cacheDuration">The cache duration.</param>
+            <returns></returns>
         </member>
         <member name="T:Subtext.Common.Data.Transformer">
             <summary>
-            Common .Text object transformations
+            Common Subtext object transformations
             </summary>
         </member>
         <member name="M:Subtext.Common.Data.Transformer.BuildLinks(System.String,Subtext.Framework.Components.CategoryType,Subtext.Framework.Format.UrlFormats)">
@@ -26,7 +68,7 @@
         <member name="M:Subtext.Common.Data.Transformer.BuildMonthLinks(System.String,Subtext.Framework.Format.UrlFormats)">
             <summary>
             Will convert ArchiveCountCollection method from Archives.GetPostsByMonthArchive()
-            into a LinkCategory. LinkCategory is a common item to databind to a web control.
+            into a <see cref="T:Subtext.Framework.Components.LinkCategory"/>. LinkCategory is a common item to databind to a web control.
             </summary>
             <param name="Title">Title for the Category</param>
             <param name="formats">Determines how the Urls are formated</param>
@@ -36,6 +78,13 @@
             <summary>
             Summary description for RssHandler.
             </summary>
+        </member>
+        <member name="M:Subtext.Common.Syndication.AtomHandler.CacheKey(System.DateTime)">
+            <summary>
+            Returns the key used to cache this feed.
+            </summary>
+            <param name="dateLastViewedFeedItemPublished">Date last viewed feed item published.</param>
+            <returns></returns>
         </member>
         <member name="P:Subtext.Common.Syndication.AtomHandler.SyndicationWriter">
             <summary>
@@ -48,12 +97,12 @@
             Generates RSS
             </summary>
         </member>
-        <member name="M:Subtext.Common.Syndication.AtomWriter.#ctor(Subtext.Framework.Components.EntryCollection,System.Int32)">
+        <member name="M:Subtext.Common.Syndication.AtomWriter.#ctor(Subtext.Framework.Components.EntryCollection,System.DateTime,System.Boolean)">
             <summary>
             Creates a new <see cref="T:Subtext.Common.Syndication.AtomWriter"/> instance.
             </summary>
             <param name="entries">Entries.</param>
-            <param name="lastViewedFeedItem">Last viewed feed item.</param>
+            <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
         </member>
         <member name="T:Subtext.Common.Syndication.CategoryWriter">
             <summary>
@@ -65,17 +114,40 @@
             Generates RSS
             </summary>
         </member>
-        <member name="M:Subtext.Common.Syndication.RssWriter.#ctor(Subtext.Framework.Components.EntryCollection,System.Int32)">
+        <member name="M:Subtext.Common.Syndication.RssWriter.#ctor(Subtext.Framework.Components.EntryCollection,System.DateTime,System.Boolean)">
             <summary>
             Creates a new <see cref="T:Subtext.Common.Syndication.RssWriter"/> instance.
             </summary>
             <param name="entries">Entries.</param>
+            <param name="dateLastViewedFeedItemPublished"></param>
+            <param name="useDeltaEncoding"></param>
+        </member>
+        <member name="M:Subtext.Common.Syndication.CategoryWriter.#ctor(Subtext.Framework.Components.EntryCollection,Subtext.Framework.Components.LinkCategory,System.String)">
+            <summary>
+            Creates a new <see cref="T:Subtext.Common.Syndication.CategoryWriter"/> instance.
+            </summary>
+            <param name="ec">Ec.</param>
+            <param name="lc">Lc.</param>
+            <param name="Url">URL.</param>
         </member>
         <member name="T:Subtext.Common.Syndication.CommentHandler">
             <summary>
             Implementation of http://wellformedweb.org/story/9
             Accepts a posted XML document via HttpPost.
             </summary>
+        </member>
+        <member name="M:Subtext.Common.Syndication.CommentHandler.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Subtext.Common.Syndication.CommentHandler"/> class.
+            </summary>
+        </member>
+        <member name="P:Subtext.Common.Syndication.CommentHandler.IsReusable">
+            <summary>
+            Gets a value indicating whether another request can use
+            the <see cref="T:System.Web.IHttpHandler"/>
+            instance.
+            </summary>
+            <value></value>
         </member>
         <member name="T:Subtext.Common.Syndication.CommentRssWriter">
             <summary>
@@ -93,12 +165,30 @@
             <summary>
             </summary>
         </member>
+        <member name="M:Subtext.Common.Syndication.EntryCollectionHandler.#ctor">
+            <summary>
+            Creates a new <see cref="T:Subtext.Common.Syndication.EntryCollectionHandler"/> instance.
+            </summary>
+        </member>
+        <member name="M:Subtext.Common.Syndication.EntryCollectionHandler.CacheKey(System.DateTime)">
+            <summary>
+            Returns the key used to cache this feed.
+            </summary>
+            <param name="dateLastViewedFeedItemPublished">Date last viewed feed item published.</param>
+            <returns></returns>
+        </member>
         <member name="T:Subtext.Common.Syndication.RssCategoryHandler">
             <summary>
             RssCommentHandler is a proposed extention to the CommentApi. This is still beta/etc.
             The Main Rss feed now contains an element for each entry, which will generate a rss feed 
             containing the comments for each post.
             </summary>
+        </member>
+        <member name="M:Subtext.Common.Syndication.RssCategoryHandler.BuildFeed">
+            <summary>
+            Builds the feed using delta encoding if it's true.
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Subtext.Common.Syndication.RssCommentHandler">
             <summary>
@@ -107,15 +197,28 @@
             containing the comments for each post.
             </summary>
         </member>
+        <member name="M:Subtext.Common.Syndication.RssCommentHandler.GetFeedEntries">
+            <summary>
+            Gets the feed entries.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Subtext.Common.Syndication.RssCommentHandler.BuildFeed">
+            <summary>
+            Builds the feed using delta encoding if it's true.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Subtext.Common.Syndication.RssHandler">
             <summary>
             Class used to handle requests for an RSS feed.
             </summary>
         </member>
-        <member name="M:Subtext.Common.Syndication.RssHandler.CacheKey(System.Int32)">
+        <member name="M:Subtext.Common.Syndication.RssHandler.CacheKey(System.DateTime)">
             <summary>
-            Returns the cache key for the feed.
+            Returns the key used to cache this feed.
             </summary>
+            <param name="dateLastViewedFeedItemPublished">Date last viewed feed item published.</param>
             <returns></returns>
         </member>
         <member name="M:Subtext.Common.Syndication.RssHandler.Cache(Subtext.Framework.Syndication.CachedFeed)">
