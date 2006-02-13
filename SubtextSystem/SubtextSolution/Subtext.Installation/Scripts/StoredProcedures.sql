@@ -4636,3 +4636,38 @@ GO
 
 GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_SearchEntries]  TO [public]
 GO
+
+/*Previous Next*/
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[Subtext_GetEntry_PreviousNext]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [dbo].[Subtext_GetEntry_PreviousNext]
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+CREATE Proc Subtext_GetEntry_PreviousNext
+(
+ @ID int,
+ @PostType int = 1,
+ @BlogID int
+)
+as
+Select *
+FROM
+ ( SELECT Top 1 Subtext_Content.[ID] as [EntryID], Subtext_Content.Title as [EntryTitle], Subtext_Content.DateAdded as [EntryDate], Subtext_Content.EntryName as [EntryName] FROM Subtext_Content
+   WHERE Subtext_Content.[ID] < @ID and Subtext_Content.BlogID = @BlogID and Subtext_Content.PostConfig & 1 = 1 and PostType = @PostType
+   ORDER BY Subtext_Content.[ID] desc ) Prev
+UNION
+Select *
+FROM
+ ( SELECT Top 1 Subtext_Content.[ID] as [NextID], Subtext_Content.Title as [NextTitle], Subtext_Content.DateAdded as [NextDate], Subtext_Content.EntryName as [NextName] FROM Subtext_Content
+   WHERE Subtext_Content.[ID] > @ID and Subtext_Content.BlogID = @BlogID and Subtext_Content.PostConfig & 1 = 1 and PostType = @PostType
+          ORDER BY Subtext_Content.[ID] ) [Next]
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
