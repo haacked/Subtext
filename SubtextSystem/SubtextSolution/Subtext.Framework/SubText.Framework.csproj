@@ -125,11 +125,6 @@
                     HintPath = "ExternalDependencies\CookComputing.XmlRpc.dll"
                 />
                 <Reference
-                    Name = "HttpCompressionModule"
-                    AssemblyName = "HttpCompressionModule"
-                    HintPath = "ExternalDependencies\HttpCompressionModule.dll"
-                />
-                <Reference
                     Name = "log4net"
                     AssemblyName = "log4net"
                     HintPath = "ExternalDependencies\log4net.dll"
@@ -138,11 +133,6 @@
                     Name = "Subtext.Extensibility"
                     Project = "{13018F20-F796-4FFE-9290-83D0E661C0A1}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "DotNetOpenMail"
-                    AssemblyName = "DotNetOpenMail"
-                    HintPath = "ExternalDependencies\DotNetOpenMail.dll"
                 />
                 <Reference
                     Name = "BlogML"
@@ -155,9 +145,14 @@
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
-                    Name = "ICSharpCode.SharpZipLib"
-                    AssemblyName = "ICSharpCode.SharpZipLib"
-                    HintPath = "ExternalDependencies\ICSharpCode.SharpZipLib.dll"
+                    Name = "DotNetOpenMail"
+                    AssemblyName = "DotNetOpenMail"
+                    HintPath = "ExternalDependencies\DotNetOpenMail.dll"
+                />
+                <Reference
+                    Name = "blowery.Web.HttpCompress"
+                    Project = "{24B5F8DA-F11C-4B77-8BF9-5D2E4534DDE5}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
         </Build>
@@ -180,6 +175,11 @@
                 />
                 <File
                     RelPath = "CommentFilter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ContentCache.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -578,14 +578,6 @@
                 />
                 <File
                     RelPath = "ExternalDependencies\DotNetOpenMail.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\HttpCompressionModule.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\HttpCompressionModule.xml"
                     BuildAction = "Content"
                 />
                 <File

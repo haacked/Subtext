@@ -1,0 +1,401 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>blowery.Web.HttpCompress</name>
+    </assembly>
+    <members>
+        <member name="T:blowery.Web.HttpCompress.CompressingFilter">
+            <summary>
+            Base for any HttpFilter that performing compression
+            </summary>
+            <remarks>
+            When implementing this class, you need to implement a <see cref="T:blowery.Web.HttpCompress.HttpOutputFilter"/>
+            along with a <see cref="P:blowery.Web.HttpCompress.CompressingFilter.ContentEncoding"/>.  The latter corresponds to a 
+            content coding (see http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.5)
+            that your implementation will support.
+            </remarks>
+        </member>
+        <member name="T:blowery.Web.HttpCompress.HttpOutputFilter">
+            <summary>
+            The base of anything you want to latch onto the Filter property of a <see cref="T:System.Web.HttpResponse"/>
+            object.
+            </summary>
+            <remarks>
+            <p></p>These are generally used with <see cref="T:blowery.Web.HttpCompress.HttpModule"/> but you could really use them in
+            other HttpModules.  This is a general, write-only stream that writes to some underlying stream.  When implementing
+            a real class, you have to override void Write(byte[], int offset, int count).  Your work will be performed there.
+            </remarks>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.HttpOutputFilter.#ctor(System.IO.Stream)">
+            <summary>
+            Subclasses need to call this on contruction to setup the underlying stream
+            </summary>
+            <param name="baseStream">The stream we're wrapping up in a filter</param>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.HttpOutputFilter.Seek(System.Int64,System.IO.SeekOrigin)">
+            <summary>
+            Not supported.  Throws an exception saying so.
+            </summary>
+            <exception cref="T:System.NotSupportedException">Thrown.  Always.</exception>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.HttpOutputFilter.SetLength(System.Int64)">
+            <summary>
+            Not supported.  Throws an exception saying so.
+            </summary>
+            <exception cref="T:System.NotSupportedException">Thrown.  Always.</exception>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.HttpOutputFilter.Close">
+            <summary>
+            Closes this Filter and the underlying stream.
+            </summary>
+            <remarks>
+            If you override, call up to this method in your implementation.
+            </remarks>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.HttpOutputFilter.Flush">
+            <summary>
+            Fluses this Filter and the underlying stream.
+            </summary>
+            <remarks>
+            If you override, call up to this method in your implementation.
+            </remarks>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.HttpOutputFilter.Read(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Not supported.
+            </summary>
+            <param name="buffer">The buffer to write into.</param>
+            <param name="offset">The offset on the buffer to write into</param>
+            <param name="count">The number of bytes to write.  Must be less than buffer.Length</param>
+            <returns>An int telling you how many bytes were written</returns>
+        </member>
+        <member name="P:blowery.Web.HttpCompress.HttpOutputFilter.BaseStream">
+            <summary>
+            Allow subclasses access to the underlying stream
+            </summary>
+        </member>
+        <member name="P:blowery.Web.HttpCompress.HttpOutputFilter.CanRead">
+            <summary>
+            False.  These are write-only streams
+            </summary>
+        </member>
+        <member name="P:blowery.Web.HttpCompress.HttpOutputFilter.CanSeek">
+            <summary>
+            False.  These are write-only streams
+            </summary>
+        </member>
+        <member name="P:blowery.Web.HttpCompress.HttpOutputFilter.CanWrite">
+            <summary>
+            True.  You can write to the stream.  May change if you call Close or Dispose
+            </summary>
+        </member>
+        <member name="P:blowery.Web.HttpCompress.HttpOutputFilter.Length">
+            <summary>
+            Not supported.  Throws an exception saying so.
+            </summary>
+            <exception cref="T:System.NotSupportedException">Thrown.  Always.</exception>
+        </member>
+        <member name="P:blowery.Web.HttpCompress.HttpOutputFilter.Position">
+            <summary>
+            Not supported.  Throws an exception saying so.
+            </summary>
+            <exception cref="T:System.NotSupportedException">Thrown.  Always.</exception>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.CompressingFilter.#ctor(System.IO.Stream,blowery.Web.HttpCompress.CompressionLevels)">
+            <summary>
+            Protected constructor that sets up the underlying stream we're compressing into
+            </summary>
+            <param name="baseStream">The stream we're wrapping up</param>
+            <param name="compressionLevel">The level of compression to use when compressing the content</param>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.CompressingFilter.WriteHeaders">
+            <summary>
+            Writes out the compression-related headers.  Subclasses should call this once before writing to the output stream.
+            </summary>
+        </member>
+        <member name="P:blowery.Web.HttpCompress.CompressingFilter.ContentEncoding">
+            <summary>
+            The name of the content-encoding that's being implemented
+            </summary>
+            <remarks>
+            See http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.5 for more
+            details on content codings.
+            </remarks>
+        </member>
+        <member name="P:blowery.Web.HttpCompress.CompressingFilter.CompressionLevel">
+            <summary>
+            Allow inheriting classes to get access the the level of compression that should be used
+            </summary>
+        </member>
+        <member name="P:blowery.Web.HttpCompress.CompressingFilter.HasWrittenHeaders">
+            <summary>
+            Keeps track of whether or not we're written the compression headers
+            </summary>
+        </member>
+        <member name="T:blowery.Web.HttpCompress.DeflateFilter">
+            <summary>
+            Summary description for DeflateFilter.
+            </summary>
+        </member>
+        <member name="F:blowery.Web.HttpCompress.DeflateFilter.m_stream">
+            <summary>
+            compression stream member
+            has to be a member as we can only have one instance of the
+            actual filter class
+            </summary>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.DeflateFilter.#ctor(System.IO.Stream)">
+            <summary>
+            Basic constructor that uses the Normal compression level
+            </summary>
+            <param name="baseStream">The stream to wrap up with the deflate algorithm</param>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.DeflateFilter.#ctor(System.IO.Stream,blowery.Web.HttpCompress.CompressionLevels)">
+            <summary>
+            Full constructor that allows you to set the wrapped stream and the level of compression
+            </summary>
+            <param name="baseStream">The stream to wrap up with the deflate algorithm</param>
+            <param name="compressionLevel">The level of compression to use</param>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.DeflateFilter.Write(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Write out bytes to the underlying stream after compressing them using deflate
+            </summary>
+            <param name="buffer">The array of bytes to write</param>
+            <param name="offset">The offset into the supplied buffer to start</param>
+            <param name="count">The number of bytes to write</param>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.DeflateFilter.Close">
+            <summary>
+            Closes this Filter and calls the base class implementation.
+            </summary>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.DeflateFilter.Flush">
+            <summary>
+            Flushes that the filter out to underlying storage
+            </summary>
+        </member>
+        <member name="P:blowery.Web.HttpCompress.DeflateFilter.ContentEncoding">
+            <summary>
+            Return the Http name for this encoding.  Here, deflate.
+            </summary>
+        </member>
+        <member name="T:blowery.Web.HttpCompress.Algorithms">
+            <summary>
+            The available compression algorithms to use with the HttpCompressionModule
+            </summary>
+        </member>
+        <member name="F:blowery.Web.HttpCompress.Algorithms.Deflate">
+            <summary>Use the Deflate algorithm</summary>
+        </member>
+        <member name="F:blowery.Web.HttpCompress.Algorithms.GZip">
+            <summary>Use the GZip algorithm</summary>
+        </member>
+        <member name="F:blowery.Web.HttpCompress.Algorithms.Default">
+            <summary>Use the default algorithm (picked by client)</summary>
+        </member>
+        <member name="T:blowery.Web.HttpCompress.CompressionLevels">
+            <summary>
+            The level of compression to use with deflate
+            </summary>
+        </member>
+        <member name="F:blowery.Web.HttpCompress.CompressionLevels.Default">
+            <summary>Use the default compression level</summary>
+        </member>
+        <member name="F:blowery.Web.HttpCompress.CompressionLevels.Highest">
+            <summary>The highest level of compression.  Also the slowest.</summary>
+        </member>
+        <member name="F:blowery.Web.HttpCompress.CompressionLevels.Higher">
+            <summary>A higher level of compression.</summary>
+        </member>
+        <member name="F:blowery.Web.HttpCompress.CompressionLevels.High">
+            <summary>A high level of compression.</summary>
+        </member>
+        <member name="F:blowery.Web.HttpCompress.CompressionLevels.More">
+            <summary>More compression.</summary>
+        </member>
+        <member name="F:blowery.Web.HttpCompress.CompressionLevels.Normal">
+            <summary>Normal compression.</summary>
+        </member>
+        <member name="F:blowery.Web.HttpCompress.CompressionLevels.Less">
+            <summary>Less than normal compression.</summary>
+        </member>
+        <member name="F:blowery.Web.HttpCompress.CompressionLevels.Low">
+            <summary>A low level of compression.</summary>
+        </member>
+        <member name="F:blowery.Web.HttpCompress.CompressionLevels.Lower">
+            <summary>A lower level of compression.</summary>
+        </member>
+        <member name="F:blowery.Web.HttpCompress.CompressionLevels.Lowest">
+            <summary>The lowest level of compression that still performs compression.</summary>
+        </member>
+        <member name="F:blowery.Web.HttpCompress.CompressionLevels.None">
+            <summary>No compression.  Use this is you are quite silly.</summary>
+        </member>
+        <member name="T:blowery.Web.HttpCompress.GZipFilter">
+            <summary>
+            This is a little filter to support HTTP compression using GZip
+            </summary>
+        </member>
+        <member name="F:blowery.Web.HttpCompress.GZipFilter.m_stream">
+            <summary>
+            compression stream member
+            has to be a member as we can only have one instance of the
+            actual filter class
+            </summary>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.GZipFilter.#ctor(System.IO.Stream)">
+            <summary>
+            Primary constructor.  Need to pass in a stream to wrap up with gzip.
+            </summary>
+            <param name="baseStream">The stream to wrap in gzip.  Must have CanWrite.</param>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.GZipFilter.Write(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Write content to the stream and have it compressed using gzip.
+            </summary>
+            <param name="buffer">The bytes to write</param>
+            <param name="offset">The offset into the buffer to start reading bytes</param>
+            <param name="count">The number of bytes to write</param>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.GZipFilter.Close">
+            <summary>
+            Closes this Filter and calls the base class implementation.
+            </summary>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.GZipFilter.Flush">
+            <summary>
+            Flushes the stream out to underlying storage
+            </summary>
+        </member>
+        <member name="P:blowery.Web.HttpCompress.GZipFilter.ContentEncoding">
+            <summary>
+            The Http name of this encoding.  Here, gzip.
+            </summary>
+        </member>
+        <member name="T:blowery.Web.HttpCompress.HttpModule">
+            <summary>
+            An HttpModule that hooks onto the Response.Filter property of the
+            current request and tries to compress the output, based on what
+            the browser supports
+            </summary>
+            <remarks>
+            <p>This HttpModule uses classes that inherit from <see cref="T:blowery.Web.HttpCompress.CompressingFilter"/>.
+            We already support gzip and deflate (aka zlib), if you'd like to add 
+            support for compress (which uses LZW, which is licensed), add in another
+            class that inherits from HttpFilter to do the work.</p>
+            
+            <p>This module checks the Accept-Encoding HTTP header to determine if the
+            client actually supports any notion of compression.  Currently, we support
+            the deflate (zlib) and gzip compression schemes.  I chose to not implement
+            compress because it uses lzw which requires a license from 
+            Unisys.  For more information about the common compression types supported,
+            see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.11 for details.</p> 
+            </remarks>
+            <seealso cref="T:blowery.Web.HttpCompress.CompressingFilter"/>
+            <seealso cref="T:System.IO.Stream"/>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.HttpModule.System#Web#IHttpModule#Init(System.Web.HttpApplication)">
+            <summary>
+            Init the handler and fulfill <see cref="T:System.Web.IHttpModule"/>
+            </summary>
+            <remarks>
+            This implementation hooks the ReleaseRequestState and PreSendRequestHeaders events to 
+            figure out as late as possible if we should install the filter.  Previous versions did
+            not do this as well.
+            </remarks>
+            <param name="context">The <see cref="T:System.Web.HttpApplication"/> this handler is working for.</param>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.HttpModule.System#Web#IHttpModule#Dispose">
+            <summary>
+            Implementation of <see cref="T:System.Web.IHttpModule"/>
+            </summary>
+            <remarks>
+            Currently empty.  Nothing to really do, as I have no member variables.
+            </remarks>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.HttpModule.CompressContent(System.Object,System.EventArgs)">
+            <summary>
+            EventHandler that gets ahold of the current request context and attempts to compress the output.
+            </summary>
+            <param name="sender">The <see cref="T:System.Web.HttpApplication"/> that is firing this event.</param>
+            <param name="e">Arguments to the event</param>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.HttpModule.GetFilterForScheme(System.String[],System.IO.Stream,blowery.Web.HttpCompress.Settings)">
+            <summary>
+            Get ahold of a <see cref="T:blowery.Web.HttpCompress.CompressingFilter"/> for the given encoding scheme.
+            If no encoding scheme can be found, it returns null.
+            </summary>
+            <remarks>
+            See http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.3 for details
+            on how clients are supposed to construct the Accept-Encoding header.  This
+            implementation follows those rules, though we allow the server to override
+            the preference given to different supported algorithms.  I'm doing this as 
+            I would rather give the server control over the algorithm decision than 
+            the client.  If the clients send up * as an accepted encoding with highest
+            quality, we use the preferred algorithm as specified in the config file.
+            </remarks>
+        </member>
+        <member name="T:blowery.Web.HttpCompress.SectionHandler">
+            <summary>
+            This class acts as a factory for the configuration settings.
+            </summary>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.SectionHandler.System#Configuration#IConfigurationSectionHandler#Create(System.Object,System.Object,System.Xml.XmlNode)">
+            <summary>
+            Create a new config section handler.  This is of type <see cref="T:blowery.Web.HttpCompress.Settings"/>
+            </summary>
+        </member>
+        <member name="T:blowery.Web.HttpCompress.Settings">
+            <summary>
+            This class encapsulates the settings for an HttpCompressionModule
+            </summary>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.Settings.#ctor(System.Xml.XmlNode)">
+            <summary>
+            Create an HttpCompressionModuleSettings from an XmlNode
+            </summary>
+            <param name="node">The XmlNode to configure from</param>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.Settings.AddSettings(System.Xml.XmlNode)">
+            <summary>
+            Suck in some more changes from an XmlNode.  Handy for config file parenting.
+            </summary>
+            <param name="node">The node to read from</param>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.Settings.GetSettings">
+            <summary>
+            Get the current settings from the xml config file
+            </summary>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.Settings.IsExcludedMimeType(System.String)">
+            <summary>
+            Checks a given mime type to determine if it has been excluded from compression
+            </summary>
+            <param name="mimetype">The MimeType to check.  Can include wildcards like image/* or */xml.</param>
+            <returns>true if the mime type passed in is excluded from compression, false otherwise</returns>
+        </member>
+        <member name="M:blowery.Web.HttpCompress.Settings.IsExcludedPath(System.String)">
+            <summary>
+            Looks for a given path in the list of paths excluded from compression
+            </summary>
+            <param name="relUrl">the relative url to check</param>
+            <returns>true if excluded, false if not</returns>
+        </member>
+        <member name="P:blowery.Web.HttpCompress.Settings.Default">
+            <summary>
+            The default settings.  Deflate + normal.
+            </summary>
+        </member>
+        <member name="P:blowery.Web.HttpCompress.Settings.PreferredAlgorithm">
+            <summary>
+            The preferred algorithm to use for compression
+            </summary>
+        </member>
+        <member name="P:blowery.Web.HttpCompress.Settings.CompressionLevel">
+            <summary>
+            The preferred compression level
+            </summary>
+        </member>
+    </members>
+</doc>

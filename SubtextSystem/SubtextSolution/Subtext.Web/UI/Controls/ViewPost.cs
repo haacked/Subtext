@@ -52,7 +52,7 @@ namespace Subtext.Web.UI.Controls
 			base.OnLoad (e);
 			
 			//Get the entry
-			Entry entry = Cacher.GetEntryFromRequest(Context, CacheTime.Short);			
+			Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short);			
 			
 			//if found
 			if(entry != null)

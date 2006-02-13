@@ -77,7 +77,49 @@ namespace Subtext.Framework
 		/// <param name="value">The value.</param>
 		public void Insert(string key, object value)
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot cache a null object.");
 			this.cache.Insert(GetCacheKey(key), value);
+		}
+
+		/// <summary>
+		/// <para>Inserts the specified object to the <see cref="System.Web.Caching.Cache"/> object 
+		/// with a cache key to reference its location and using default values provided by 
+		/// the <see cref="System.Web.Caching.CacheItemPriority"/> enumeration.
+		/// </para>
+		/// <para>
+		/// Allows specifying a general cache duration.
+		/// </para>
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <param name="value">The value.</param>
+		/// <param name="cacheDuration">The cache duration.</param>
+		public void Insert(string key, object value, CacheDuration cacheDuration)
+		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot cache a null object.");
+			
+			this.cache.Insert(GetCacheKey(key), value, null, DateTime.Now.AddSeconds((int)cacheDuration), TimeSpan.Zero, CacheItemPriority.Normal, null);
+		}
+
+		/// <summary>
+		/// <para>Inserts the specified object to the <see cref="System.Web.Caching.Cache"/> object 
+		/// with a cache key to reference its location and using default values provided by 
+		/// the <see cref="System.Web.Caching.CacheItemPriority"/> enumeration.
+		/// </para>
+		/// <para>
+		/// Allows specifying a <see cref="CacheDependency"/>
+		/// </para>
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <param name="value">The value.</param>
+		/// <param name="cacheDependency">The cache dependency.</param>
+		public void Insert(string key, object value, CacheDependency cacheDependency)
+		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot cache a null object.");
+			
+			this.cache.Insert(GetCacheKey(key), value, cacheDependency);
 		}
 
 		/// <summary>
@@ -88,6 +130,16 @@ namespace Subtext.Framework
 		public object Get(string key)
 		{
 			return this.cache.Get(GetCacheKey(key));
+		}
+
+		/// <summary>
+		/// Removes the specified item from the cache.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <returns></returns>
+		public object Remove(string key)
+		{
+			return this.cache.Remove(GetCacheKey(key));
 		}
 
 		/// <summary>
@@ -102,4 +154,14 @@ namespace Subtext.Framework
 			return this.cache.GetEnumerator();
 		}
 	}
+
+	/// <summary>
+	/// Low granularity Cache Duration.
+	/// </summary>
+	public enum CacheDuration
+	{
+		Short = 10,
+		Medium = 20,
+		Long = 30
+	};
 }

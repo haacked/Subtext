@@ -16,7 +16,6 @@
 using System;
 using Subtext.Framework;
 using Subtext.Framework.Syndication;
-using DTCF = Subtext.Framework.Configuration;
 
 namespace Subtext.Common.Syndication
 {
@@ -44,7 +43,7 @@ namespace Subtext.Common.Syndication
 		/// <param name="feed">Feed.</param>
 		protected override void Cache(CachedFeed feed)
 		{
-			Context.Cache.Insert(CacheKey(this.SyndicationWriter.DateLastViewedFeedItemPublished), feed, null, DateTime.Now.AddSeconds((double)Subtext.Common.Data.CacheTime.Medium), TimeSpan.Zero);
+			Context.Cache.Insert(CacheKey(this.SyndicationWriter.DateLastViewedFeedItemPublished), feed, null, DateTime.Now.AddSeconds((double)CacheDuration.Medium), TimeSpan.Zero);
 		}
 
 		/// <summary>

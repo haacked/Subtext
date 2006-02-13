@@ -41,7 +41,7 @@ namespace Subtext.Web.UI.Controls
 			if(CurrentBlog.CommentsEnabled)
 			{
 
-				Entry entry = Cacher.GetEntryFromRequest(Context,CacheTime.Short);	
+				Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short);	
 
 				if(entry != null && entry.AllowComments)
 				{
@@ -160,9 +160,9 @@ namespace Subtext.Web.UI.Controls
 				{
 					if(Request.QueryString["Pending"] != null)
 					{
-						Cacher.ClearCommentCache(entry.EntryID,Context);
+						Cacher.ClearCommentCache(entry.EntryID);
 					}
-					CommentList.DataSource = Cacher.GetComments(entry,CacheTime.Short,Context);
+					CommentList.DataSource = Cacher.GetComments(entry,CacheDuration.Short);
 					CommentList.DataBind();
 
 					if(CommentList.Items.Count == 0)

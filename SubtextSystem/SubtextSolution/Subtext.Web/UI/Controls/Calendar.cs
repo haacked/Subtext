@@ -15,11 +15,8 @@
 
 using System;
 using System.Globalization;
-using Subtext.Extensibility;
 using System.Text.RegularExpressions;
 using Subtext.Framework;
-using Subtext.Framework.Format;
-using System.Data;
 using Subtext.Common.Data;
 using Subtext.Framework.Components;
 
@@ -148,7 +145,7 @@ namespace Subtext.Web.UI.Controls
 		/// </summary>
 		private void LoadMonthData()
 		{
-			_monthEntries = Cacher.GetMonth(entryCal.SelectedDate, CacheTime.Long, Context);
+			_monthEntries = Cacher.GetMonth(entryCal.SelectedDate, CacheDuration.Long);
 			if (_monthEntries == null)
 			{
 				Trace.Warn("SubTextBlogCalendar Error: Cacher.GetMonth");

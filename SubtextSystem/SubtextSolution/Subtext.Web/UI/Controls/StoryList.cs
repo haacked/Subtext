@@ -1,5 +1,6 @@
 using System;
 using Subtext.Common.Data;
+using Subtext.Framework;
 using Subtext.Framework.Components;
 
 #region Disclaimer/Info
@@ -42,13 +43,13 @@ namespace Subtext.Web.UI.Controls
 			{
 
 				//int catID = Globals.GetPostIDFromUrl(Request.Path);
-				LinkCategory lc = Cacher.SingleCategory(CacheTime.Short,Context);
+				LinkCategory lc = Cacher.SingleCategory(CacheDuration.Short);
 				
 				int count = Request.QueryString["Show"] != null ? 0 :10;
 
 				if(lc != null)
 				{
-					EntryCollection ec = Cacher.GetEntriesByCategory(count,CacheTime.Short,Context,lc.CategoryID);
+					EntryCollection ec = Cacher.GetEntriesByCategory(count, CacheDuration.Short, lc.CategoryID);
 					EntryStoryList.EntryListItems = ec;
 
 					EntryStoryList.EntryListTitle = lc.Title;

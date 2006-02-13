@@ -16,13 +16,13 @@
 using System;
 using System.Configuration;
 using System.Xml;
-using blowery.Web.HttpModules;
+using blowery.Web.HttpCompress;
 
 namespace Subtext.Framework.Syndication.Compression
 {
 	public class SyndicationCompressionSettings
 	{
-		private CompressionTypes _type;
+		private Algorithms _type;
 		private CompressionLevels _level;
 		private static readonly SyndicationCompressionSettings DefaultSettings = new SyndicationCompressionSettings();
 		
@@ -36,7 +36,7 @@ namespace Subtext.Framework.Syndication.Compression
 				return;
 			}
 
-			_type = (CompressionTypes)this.RetrieveEnumFromAttribute(node.Attributes["type"], typeof(CompressionTypes));
+			_type = (Algorithms)this.RetrieveEnumFromAttribute(node.Attributes["type"], typeof(Algorithms));
 			_level = (CompressionLevels)this.RetrieveEnumFromAttribute(node.Attributes["level"], typeof(CompressionLevels));
 		}
 		#endregion
@@ -44,7 +44,7 @@ namespace Subtext.Framework.Syndication.Compression
 		#region -- Constructor() --
 		private SyndicationCompressionSettings()
 		{
-			_type = CompressionTypes.Deflate;
+			_type = Algorithms.Deflate;
 			_level = CompressionLevels.Normal;
 		}
 		#endregion
@@ -62,7 +62,7 @@ namespace Subtext.Framework.Syndication.Compression
 		#endregion
 
 		#region -- CompressionType Property --
-		public CompressionTypes CompressionType
+		public Algorithms CompressionType
 		{
 			get
 			{

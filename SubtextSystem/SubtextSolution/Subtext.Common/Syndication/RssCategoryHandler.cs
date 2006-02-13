@@ -15,10 +15,10 @@
 
 using System;
 using Subtext.Common.Data;
+using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Syndication;
 using Subtext.Framework.Util;
-using DTCF = Subtext.Framework.Configuration;
 
 namespace Subtext.Common.Syndication
 {
@@ -37,12 +37,12 @@ namespace Subtext.Common.Syndication
 		{
 			if(Category == null)
 			{
-				Category = Cacher.SingleCategory(CacheTime.Short,Context);
+				Category = Cacher.SingleCategory(CacheDuration.Short);
 			}
 
 			if(Category != null && Posts == null)
 			{
-				Posts = Cacher.GetEntriesByCategory(10,CacheTime.Short,Context,Category.CategoryID);
+				Posts = Cacher.GetEntriesByCategory(10, CacheDuration.Short, Category.CategoryID);
 			}
 
 			return Posts;
