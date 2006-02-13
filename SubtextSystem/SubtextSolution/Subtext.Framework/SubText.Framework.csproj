@@ -130,11 +130,6 @@
                     HintPath = "ExternalDependencies\HttpCompressionModule.dll"
                 />
                 <Reference
-                    Name = "SharpZipLib"
-                    AssemblyName = "SharpZipLib"
-                    HintPath = "ExternalDependencies\SharpZipLib.dll"
-                />
-                <Reference
                     Name = "log4net"
                     AssemblyName = "log4net"
                     HintPath = "ExternalDependencies\log4net.dll"
@@ -158,6 +153,11 @@
                     Name = "Subtext.Scripting"
                     Project = "{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "ICSharpCode.SharpZipLib"
+                    AssemblyName = "ICSharpCode.SharpZipLib"
+                    HintPath = "ExternalDependencies\ICSharpCode.SharpZipLib.dll"
                 />
             </References>
         </Build>
@@ -589,15 +589,15 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "ExternalDependencies\ICSharpCode.SharpZipLib.dll"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "ExternalDependencies\log4net.dll"
                     BuildAction = "Content"
                 />
                 <File
                     RelPath = "ExternalDependencies\SgmlReaderDll.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\SharpZipLib.dll"
                     BuildAction = "Content"
                 />
                 <File
