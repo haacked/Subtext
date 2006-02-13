@@ -93,7 +93,7 @@ namespace UnitTests.Subtext.Framework
 		LinkCategory CreateCategory(string title, string description, CategoryType categoryType, bool isActive)
 		{
 			LinkCategory linkCategory = new LinkCategory();
-			linkCategory.BlogID = Config.CurrentBlog.BlogID;
+			linkCategory.BlogId = Config.CurrentBlog.BlogId;
 			linkCategory.Title = title;
 			linkCategory.Description = description;
 			linkCategory.CategoryType = categoryType;

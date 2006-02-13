@@ -37,7 +37,7 @@ namespace UnitTests.Subtext.Framework.Data
 
 			//Note, this corresponds to a private var in Cacher.
 			string ActiveLCCKey = "ActiveLinkCategoryCollection:Blog{0}";
-			ActiveLCCKey = String.Format(ActiveLCCKey, Config.CurrentBlog.BlogID);
+			ActiveLCCKey = String.Format(ActiveLCCKey, Config.CurrentBlog.BlogId);
 			ContentCache cache = ContentCache.Instantiate();
 			cache[ActiveLCCKey] = cachedCategories;
 

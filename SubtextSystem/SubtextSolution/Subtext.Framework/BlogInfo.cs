@@ -202,7 +202,7 @@ namespace Subtext.Framework
 		/// primary key in the blog_config table.
 		/// </summary>
 		/// <value></value>
-		public int BlogID
+		public int BlogId
 		{
 			get{return _blogID;}
 			set{_blogID = value;}
@@ -795,7 +795,7 @@ namespace Subtext.Framework
 			if(obj == null || GetType() != obj.GetType())
 				return false;
 
-			return ((BlogInfo)obj).BlogID == this.BlogID;
+			return ((BlogInfo)obj).BlogId == this.BlogId;
 		}
 
 		/// <summary>

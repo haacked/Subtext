@@ -74,14 +74,14 @@ namespace Subtext.Web.UI.Controls
 				string SearchStr = txtSearch.Text.ToString();
 
 				ArrayList mySearchItems = new ArrayList();
-				int BlogID;
+				int BlogId;
 				string applikasyon;
 
 				//fix for the blogs where only one installed
-				if (CurrentBlog.BlogID >= 1)
-					BlogID = CurrentBlog.BlogID;
+				if (CurrentBlog.BlogId >= 1)
+					BlogId = CurrentBlog.BlogId;
 				else
-					BlogID = 0;
+					BlogId = 0;
 
 				if (CurrentBlog.Application != String.Empty)
                     applikasyon = CurrentBlog.Application;
@@ -91,7 +91,7 @@ namespace Subtext.Web.UI.Controls
 
 				SqlParameter[] p =
 				{
-					SqlHelper.MakeInParam("@BlogID", SqlDbType.Int, 4, BlogID),
+					SqlHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, BlogId),
 					SqlHelper.MakeInParam("@SearchStr", SearchStr)
 				};
 
@@ -123,7 +123,7 @@ namespace Subtext.Web.UI.Controls
 
 			int i;
 
-			if (CurrentBlog.BlogID >= 1)
+			if (CurrentBlog.BlogId >= 1)
 				myURL = myURL + "/" + dbApplication + "/";
 			else
 			{

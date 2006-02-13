@@ -75,7 +75,7 @@ namespace Subtext.Framework.Configuration
 		/// Gets or sets the blog ID.
 		/// </summary>
 		/// <value></value>
-		public int BlogID
+		public int BlogId
 		{
 			get {return this._blogID;}
 			set {this._blogID = value;}
@@ -211,7 +211,7 @@ namespace Subtext.Framework.Configuration
 					if(!InstallationManager.IsInHostAdminDirectory)
 					{
 						// Set the BlogId context for the current request.
-						Log.SetBlogIdContext(info.BlogID);
+						Log.SetBlogIdContext(info.BlogId);
 					}
 					else
 					{

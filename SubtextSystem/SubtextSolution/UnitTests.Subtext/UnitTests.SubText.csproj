@@ -155,6 +155,21 @@
                     HintPath = "ExternalDependencies\MbUnit.Framework.dll"
                 />
                 <Reference
+                    Name = "NGraphviz"
+                    AssemblyName = "NGraphviz"
+                    HintPath = "ExternalDependencies\NGraphviz.dll"
+                />
+                <Reference
+                    Name = "NGraphviz.Helpers"
+                    AssemblyName = "NGraphviz.Helpers"
+                    HintPath = "ExternalDependencies\NGraphviz.Helpers.dll"
+                />
+                <Reference
+                    Name = "NGraphviz.Layout"
+                    AssemblyName = "NGraphviz.Layout"
+                    HintPath = "ExternalDependencies\NGraphviz.Layout.dll"
+                />
+                <Reference
                     Name = "QuickGraph.Algorithms"
                     AssemblyName = "QuickGraph.Algorithms"
                     HintPath = "ExternalDependencies\QuickGraph.Algorithms.dll"
@@ -173,21 +188,6 @@
                     Name = "Refly"
                     AssemblyName = "Refly"
                     HintPath = "ExternalDependencies\Refly.dll"
-                />
-                <Reference
-                    Name = "NGraphviz.Helpers"
-                    AssemblyName = "NGraphviz.Helpers"
-                    HintPath = "ExternalDependencies\NGraphviz.Helpers.dll"
-                />
-                <Reference
-                    Name = "NGraphviz.Layout"
-                    AssemblyName = "NGraphviz.Layout"
-                    HintPath = "ExternalDependencies\NGraphviz.Layout.dll"
-                />
-                <Reference
-                    Name = "NGraphviz"
-                    AssemblyName = "NGraphviz"
-                    HintPath = "ExternalDependencies\NGraphviz.dll"
                 />
             </References>
         </Build>

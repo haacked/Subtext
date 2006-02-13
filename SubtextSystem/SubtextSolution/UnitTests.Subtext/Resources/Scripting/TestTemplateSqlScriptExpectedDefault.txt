@@ -8,9 +8,9 @@ SET IDENTITY_INSERT [SubtextData].[dbo].[subtext_Config] ON
 
 INSERT INTO [SubtextData].[dbo].[subtext_Config] 
 ( 
-	BlogID
+	BlogId
 )
-SELECT BlogID FROM [DotTextData].[dbo].[blog_Config]
+SELECT BlogId FROM [DotTextData].[dbo].[blog_Config]
 GO
 
 UPDATE [SubtextData].[dbo].[subtext_Content] 
@@ -21,9 +21,9 @@ GO
 
 -- subtext_EntryViewCount
 INSERT INTO [SubtextData].[dbo].[subtext_EntryViewCount] 
-( EntryID, BlogID, WebCount, AggCount, WebLastUpdated, AggLastUpdated )
+( EntryID, BlogId, WebCount, AggCount, WebLastUpdated, AggLastUpdated )
     SELECT 
-        EntryID, BlogID, WebCount, AggCount, WebLastUpdated, AggLastUpdated
+        EntryID, BlogId, WebCount, AggCount, WebLastUpdated, AggLastUpdated
     FROM [DotTextData].[dbo].[blog_EntryViewCount]
     WHERE 1=1
 GO

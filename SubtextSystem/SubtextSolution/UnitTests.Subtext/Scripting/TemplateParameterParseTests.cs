@@ -165,7 +165,7 @@ namespace UnitTests.Subtext.Scripting
 			scriptRunner.TemplateParameters["subtext_db_name"].Value = "SubtextDB";
 			scriptRunner.TemplateParameters["dottext_db_name"].Value = "dbDotText";
 			scriptRunner.TemplateParameters["dotTextDbUser"].Value = "haacked";
-			scriptRunner.TemplateParameters["someOtherTemplate"].Value = "NotABlogID";
+			scriptRunner.TemplateParameters["someOtherTemplate"].Value = "NotABlogId";
 			
 			string expected = expectedDefault.Trim();
 			string result = scriptRunner.ScriptCollection.ExpandedScriptText.Trim();

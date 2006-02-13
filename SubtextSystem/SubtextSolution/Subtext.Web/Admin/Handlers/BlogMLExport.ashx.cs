@@ -62,7 +62,7 @@ namespace Subtext.Web.Admin.Handlers
 		private void WriteBlogML(Stream outStream, bool embedAttachments)
 		{
 			string connStr = Config.Settings.ConnectionString.ToString();
-			SubtextBlogMLWriter blogWriter = new SubtextBlogMLWriter(connStr, Config.CurrentBlog.BlogID, false);
+			SubtextBlogMLWriter blogWriter = new SubtextBlogMLWriter(connStr, Config.CurrentBlog.BlogId, false);
 			blogWriter.EmbedAttachments = embedAttachments;
 			
 			using(StreamWriter strWriter = new StreamWriter(outStream, Encoding.UTF8))

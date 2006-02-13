@@ -117,7 +117,7 @@ drop table [spamPostCount]
 GO
 
 CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Config] (
-	[BlogID] [int] IDENTITY (0, 1) NOT NULL ,
+	[BlogId] [int] IDENTITY (0, 1) NOT NULL ,
 	[UserName] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[Password] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[Email] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
@@ -159,7 +159,7 @@ CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Content] (
 	[Author] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
 	[Email] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
 	[SourceName] [nvarchar] (200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
-	[BlogID] [int] NULL ,
+	[BlogId] [int] NULL ,
 	[Description] [nvarchar] (500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
 	[DateUpdated] [smalldatetime] NULL ,
 	[TitleUrl] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
@@ -175,7 +175,7 @@ GO
 
 CREATE TABLE [<dbUser,varchar,dbo>].[subtext_EntryViewCount] (
 	[EntryID] [int] NOT NULL ,
-	[BlogID] [int] NOT NULL ,
+	[BlogId] [int] NOT NULL ,
 	[WebCount] [int] NOT NULL ,
 	[AggCount] [int] NOT NULL ,
 	[WebLastUpdated] [datetime] NULL ,
@@ -191,7 +191,7 @@ CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Images] (
 	[Height] [int] NOT NULL ,
 	[File] [nvarchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[Active] [bit] NOT NULL ,
-	[BlogID] [int] NOT NULL 
+	[BlogId] [int] NOT NULL 
 ) ON [PRIMARY]
 GO
 
@@ -203,7 +203,7 @@ CREATE TABLE [<dbUser,varchar,dbo>].[subtext_KeyWords] (
 	[OpenInNewWindow] [bit] NOT NULL ,
 	[Url] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[Title] [nvarchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
-	[BlogID] [int] NOT NULL ,
+	[BlogId] [int] NOT NULL ,
 	[CaseSensitive] [bit] NOT NULL 
 ) ON [PRIMARY]
 GO
@@ -212,7 +212,7 @@ CREATE TABLE [<dbUser,varchar,dbo>].[subtext_LinkCategories] (
 	[CategoryID] [int] IDENTITY (1, 1) NOT NULL ,
 	[Title] [nvarchar] (150) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
 	[Active] [bit] NOT NULL ,
-	[BlogID] [int] NOT NULL ,
+	[BlogId] [int] NOT NULL ,
 	[CategoryType] [tinyint] NULL ,
 	[Description] [nvarchar] (1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL 
 ) ON [PRIMARY]
@@ -225,7 +225,7 @@ CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Links] (
 	[Rss] [nvarchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
 	[Active] [bit] NOT NULL ,
 	[CategoryID] [int] NULL ,
-	[BlogID] [int] NOT NULL ,
+	[BlogId] [int] NOT NULL ,
 	[PostID] [int] NULL ,
 	[NewWindow] [bit] NULL 
 ) ON [PRIMARY]
@@ -233,7 +233,7 @@ GO
 
 CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Referrals] (
 	[EntryID] [int] NOT NULL ,
-	[BlogID] [int] NOT NULL ,
+	[BlogId] [int] NOT NULL ,
 	[UrlID] [int] NOT NULL ,
 	[Count] [int] NOT NULL ,
 	[LastUpdated] [datetime] NOT NULL 
@@ -254,7 +254,7 @@ GO
 ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config] WITH NOCHECK ADD 
 	CONSTRAINT [PK_subtext_Config] PRIMARY KEY  CLUSTERED 
 	(
-		[BlogID]
+		[BlogId]
 	)  ON [PRIMARY] 
 GO
 
@@ -317,33 +317,33 @@ ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config] WITH NOCHECK ADD
 	)  ON [PRIMARY] 
 GO
 
- CREATE  UNIQUE  INDEX [IX_subtext_Config_HostApplication] ON [<dbUser,varchar,dbo>].[subtext_Config]([BlogID], [Host], [Application]) WITH  FILLFACTOR = 90 ON [PRIMARY]
+ CREATE  UNIQUE  INDEX [IX_subtext_Config_HostApplication] ON [<dbUser,varchar,dbo>].[subtext_Config]([BlogId], [Host], [Application]) WITH  FILLFACTOR = 90 ON [PRIMARY]
 GO
 
 ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content] ADD 
 	CONSTRAINT [FK_subtext_Content_subtext_Config] FOREIGN KEY 
 	(
-		[BlogID]
+		[BlogId]
 	) REFERENCES [<dbUser,varchar,dbo>].[subtext_Config] (
-		[BlogID]
+		[BlogId]
 	)
 GO
 
 ALTER TABLE [<dbUser,varchar,dbo>].[subtext_EntryViewCount] ADD 
 	CONSTRAINT [FK_subtext_EntryViewCount_subtext_Config] FOREIGN KEY 
 	(
-		[BlogID]
+		[BlogId]
 	) REFERENCES [<dbUser,varchar,dbo>].[subtext_Config] (
-		[BlogID]
+		[BlogId]
 	)
 GO
 
 ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Images] ADD 
 	CONSTRAINT [FK_subtext_Images_subtext_Config] FOREIGN KEY 
 	(
-		[BlogID]
+		[BlogId]
 	) REFERENCES [<dbUser,varchar,dbo>].[subtext_Config] (
-		[BlogID]
+		[BlogId]
 	),
 	CONSTRAINT [FK_subtext_Images_subtext_LinkCategories] FOREIGN KEY 
 	(
@@ -356,27 +356,27 @@ GO
 ALTER TABLE [<dbUser,varchar,dbo>].[subtext_KeyWords] ADD 
 	CONSTRAINT [FK_subtext_KeyWords_subtext_Config] FOREIGN KEY 
 	(
-		[BlogID]
+		[BlogId]
 	) REFERENCES [<dbUser,varchar,dbo>].[subtext_Config] (
-		[BlogID]
+		[BlogId]
 	)
 GO
 
 ALTER TABLE [<dbUser,varchar,dbo>].[subtext_LinkCategories] ADD 
 	CONSTRAINT [FK_subtext_LinkCategories_subtext_Config] FOREIGN KEY 
 	(
-		[BlogID]
+		[BlogId]
 	) REFERENCES [<dbUser,varchar,dbo>].[subtext_Config] (
-		[BlogID]
+		[BlogId]
 	)
 GO
 
 ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Links] ADD 
 	CONSTRAINT [FK_subtext_Links_subtext_Config] FOREIGN KEY 
 	(
-		[BlogID]
+		[BlogId]
 	) REFERENCES [<dbUser,varchar,dbo>].[subtext_Config] (
-		[BlogID]
+		[BlogId]
 	),
 	CONSTRAINT [FK_subtext_Links_subtext_Content] FOREIGN KEY 
 	(
@@ -395,9 +395,9 @@ GO
 ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Referrals] ADD 
 	CONSTRAINT [FK_subtext_Referrals_subtext_Config] FOREIGN KEY 
 	(
-		[BlogID]
+		[BlogId]
 	) REFERENCES [<dbUser,varchar,dbo>].[subtext_Config] (
-		[BlogID]
+		[BlogId]
 	),
 	CONSTRAINT [FK_subtext_Referrals_subtext_URLs] FOREIGN KEY 
 	(
@@ -417,25 +417,25 @@ ON [<dbUser,varchar,dbo>].[subtext_Content]
 AFTER INSERT, UPDATE, DELETE
 AS
 
-DECLARE @BlogID INT
+DECLARE @BlogId INT
 
 --Get the current blogid
-SELECT @BlogID = BlogID FROM INSERTED
+SELECT @BlogId = BlogId FROM INSERTED
 
 -- much more likely to be an insert than delete
 -- need to run on updates as well, incase an item is marked as inactive
-IF(@BlogID IS NULL)
+IF(@BlogId IS NULL)
 Begin
-	Select @BlogID = BlogID From DELETED	
+	Select @BlogId = BlogId From DELETED	
 End
 
 UPDATE [<dbUser,varchar,dbo>].[subtext_Config]
 SET
-	PostCount= (Select Count(*) FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE BlogID = [<dbUser,varchar,dbo>].[subtext_Config].BlogID and PostType = 1 and PostConfig & 1 = 1),
-	CommentCount =  (Select Count(*) FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE BlogID = [<dbUser,varchar,dbo>].[subtext_Config].BlogID and PostType = 3 and PostConfig & 1 = 1),
-	StoryCount =  (Select Count(*) FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE BlogID = [<dbUser,varchar,dbo>].[subtext_Config].BlogID and PostType = 2 and PostConfig & 1 = 1),
-	PingTrackCount =  (Select Count(*) FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE BlogID = [<dbUser,varchar,dbo>].[subtext_Config].BlogID and PostType = 4 and PostConfig & 1 = 1)
-WHERE BlogID = @BlogID
+	PostCount= (Select Count(*) FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE BlogId = [<dbUser,varchar,dbo>].[subtext_Config].BlogId and PostType = 1 and PostConfig & 1 = 1),
+	CommentCount =  (Select Count(*) FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE BlogId = [<dbUser,varchar,dbo>].[subtext_Config].BlogId and PostType = 3 and PostConfig & 1 = 1),
+	StoryCount =  (Select Count(*) FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE BlogId = [<dbUser,varchar,dbo>].[subtext_Config].BlogId and PostType = 2 and PostConfig & 1 = 1),
+	PingTrackCount =  (Select Count(*) FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE BlogId = [<dbUser,varchar,dbo>].[subtext_Config].BlogId and PostType = 4 and PostConfig & 1 = 1)
+WHERE BlogId = @BlogId
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -501,8 +501,8 @@ GO
 ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Log] ADD 
 	CONSTRAINT [FK_subtext_Log_subtext_Config] FOREIGN KEY 
 	(
-		[BlogID]
+		[BlogId]
 	) REFERENCES [<dbUser,varchar,dbo>].[subtext_Config] (
-		[BlogID]
+		[BlogId]
 	)
 GO
