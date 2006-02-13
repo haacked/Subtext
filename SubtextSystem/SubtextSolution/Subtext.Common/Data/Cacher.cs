@@ -23,36 +23,41 @@ using Subtext.Framework.Util;
 
 namespace Subtext.Common.Data
 {
-	public enum CacheTime
-	{
-		Short = 10,
-		Medium = 20,
-		Long = 30
-	};
-
 	/// <summary>
-	/// Summary description for Cacher.
+	/// Encapsulates obtaining content from the cache.
 	/// </summary>
 	public class Cacher
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Cacher"/> class.
+		/// </summary>
 		public Cacher()
 		{
-			
 		}
 
 		#region LinkCategoryCollection
 
 		private static readonly string ActiveLCCKey = "ActiveLinkCategoryCollection:Blog{0}";
-		public static LinkCategoryCollection GetActiveCategories(CacheTime ct, HttpContext context)
+		/// <summary>
+		/// Gets the active categories from the cache. 
+		/// If they aren't in the cache, queries the database and puts the 
+		/// result in the cache.
+		/// </summary>
+		/// <param name="cacheDuration">The cache duration.</param>
+		/// <returns></returns>
+		public static LinkCategoryCollection GetActiveCategories(CacheDuration cacheDuration)
 		{
-			string key = string.Format(ActiveLCCKey,BlogID());
-			LinkCategoryCollection categories = (LinkCategoryCollection)context.Cache[key];
+			string key = string.Format(ActiveLCCKey, BlogID());
+
+			ContentCache cache = ContentCache.Instantiate();
+
+			LinkCategoryCollection categories = (LinkCategoryCollection)cache[key];
 			if(categories == null)
 			{
 				categories = Links.GetActiveCategories();
 				if(categories != null)
 				{
-					Cacher.CacherCache(key,context,categories,ct);
+					cache.Insert(key, categories, cacheDuration);
 				}
 			}
 			return categories;
@@ -63,16 +68,23 @@ namespace Subtext.Common.Data
 		#region Month
 
 		private static readonly string EntryMonthKey = "EntryMonth:Date{0}Blog{1}";
-		public static EntryCollection GetMonth(DateTime dt, CacheTime ct, HttpContext context)
+		/// <summary>
+		/// Gets the entries for the specified month.
+		/// </summary>
+		/// <param name="dt">The dt.</param>
+		/// <param name="cacheDuration">The cache duration.</param>
+		/// <returns></returns>
+		public static EntryCollection GetMonth(DateTime dt, CacheDuration cacheDuration)
 		{
-			string key = string.Format(EntryMonthKey,dt.ToString("yyyyMM", CultureInfo.InvariantCulture), BlogID());
-			EntryCollection month = (EntryCollection)context.Cache[key];
+			string key = string.Format(EntryMonthKey, dt.ToString("yyyyMM", CultureInfo.InvariantCulture), BlogID());
+			ContentCache cache = ContentCache.Instantiate();
+			EntryCollection month = (EntryCollection)cache[key];
 			if(month == null)
 			{
 				month = Entries.GetPostCollectionByMonth(dt.Month,dt.Year);
 				if(month != null)
 				{
-					Cacher.CacherCache(key,context,month,ct);
+					cache.Insert(key, month, cacheDuration);
 				}
 			}
 			return month;
@@ -84,16 +96,19 @@ namespace Subtext.Common.Data
 		#region EntryDay
 
 		private static readonly string EntryDayKey = "EntryDay:Date{0}Blog{1}";
-		public static EntryDay GetDay(DateTime dt, CacheTime ct, HttpContext context)
+		public static EntryDay GetDay(DateTime dt, CacheDuration cacheDuration)
 		{
 			string key = string.Format(EntryDayKey, dt.ToString("yyyyMMdd", CultureInfo.InvariantCulture),BlogID());
-			EntryDay day = (EntryDay)context.Cache[key];
+			
+			ContentCache cache = ContentCache.Instantiate();
+			
+			EntryDay day = (EntryDay)cache[key];
 			if(day == null)
 			{
 				day = Entries.GetSingleDay(dt);
 				if(day != null)
 				{
-					Cacher.CacherCache(key,context,day,ct);
+					cache.Insert(key, day, cacheDuration);
 				}
 			}
 			return day;
@@ -109,62 +124,56 @@ namespace Subtext.Common.Data
 			return Framework.Configuration.Config.CurrentBlog.BlogID;
 		}
 
-		public static void CacherCache(string cacheKey, HttpContext context, object obj, CacheTime ct)
-		{
-			if(obj != null)
-			{
-				context.Cache.Insert(cacheKey,obj,null,DateTime.Now.AddSeconds((int)ct),TimeSpan.Zero,CacheItemPriority.Normal,null);
-			}
-		}
-
 		#endregion
 
 		#region EntriesByCategory
 
-		public static EntryCollection GetEntriesByCategory(int count, CacheTime ct, HttpContext context)
+		public static EntryCollection GetEntriesByCategory(int count, CacheDuration cacheDuration)
 		{
-			string path = WebPathStripper.RemoveRssSlash(context.Request.Path);
+			string path = WebPathStripper.RemoveRssSlash(HttpContext.Current.Request.Path);
 			if(WebPathStripper.IsNumeric(path))
 			{
 				int CategoryID = WebPathStripper.GetEntryIDFromUrl(path);
-				return GetEntriesByCategory(count,ct,context,CategoryID);
+				return GetEntriesByCategory(count, cacheDuration, CategoryID);
 			}
 			else
 			{
 				string CategoryName = WebPathStripper.GetRequestedFileName(path);
-				return GetEntriesByCategory(count,ct,context,CategoryName);
+				return GetEntriesByCategory(count, cacheDuration, CategoryName);
 			}
 		}
 
 		private static readonly string ECKey="EC:Count{0}Category{1}BlogID{2}";
-		public static EntryCollection GetEntriesByCategory(int count, CacheTime ct, HttpContext context, int categoryID)
+		public static EntryCollection GetEntriesByCategory(int count, CacheDuration cacheDuration, int categoryID)
 		{
 			string key = string.Format(ECKey,count,categoryID,BlogID());
-			EntryCollection ec = (EntryCollection)context.Cache[key];
+			ContentCache cache = ContentCache.Instantiate();
+			EntryCollection ec = (EntryCollection)cache[key];
 			if(ec == null)
 			{
 				ec = Entries.GetEntriesByCategory(count,categoryID,true);
 				
 				if(ec != null)
 				{
-					CacherCache(key,context,ec,ct);
+					cache.Insert(key, ec, cacheDuration);
 				}
 			}
 			return ec;
 		}
 
 		private static readonly string ECNameKey="EC:Count{0}CategoryName{1}BlogID{2}";
-		public static EntryCollection GetEntriesByCategory(int count, CacheTime ct, HttpContext context, string CategoryName)
+		public static EntryCollection GetEntriesByCategory(int count, CacheDuration cacheDuration, string CategoryName)
 		{
 			string key = string.Format(ECNameKey,count,CategoryName,BlogID());
-			EntryCollection ec = (EntryCollection)context.Cache[key];
+			ContentCache cache = ContentCache.Instantiate();
+			EntryCollection ec = (EntryCollection)cache[key];
 			if(ec == null)
 			{
 				ec = Entries.GetEntriesByCategory(count,CategoryName,true);
 				
 				if(ec != null)
 				{
-					CacherCache(key,context,ec,ct);
+					cache.Insert(key, ec, cacheDuration);
 				}
 			}
 			return ec;
@@ -174,44 +183,45 @@ namespace Subtext.Common.Data
 
 		#region LinkCategory
 
-		public static LinkCategory SingleCategory(CacheTime ct, HttpContext context)
+		public static LinkCategory SingleCategory(CacheDuration cacheDuration)
 		{
-			string path = WebPathStripper.RemoveRssSlash(context.Request.Path);
+			string path = WebPathStripper.RemoveRssSlash(HttpContext.Current.Request.Path);
 			string CategoryName = WebPathStripper.GetRequestedFileName(path);
 			if(WebPathStripper.IsNumeric(CategoryName))
 			{
 				int CategoryID =Int32.Parse(CategoryName);
-				return SingleCategory(ct,context,CategoryID);
+				return SingleCategory(cacheDuration, CategoryID);
 			}
 			else
 			{
-				
-				return SingleCategory(ct,context,CategoryName);
+				return SingleCategory(cacheDuration, CategoryName);
 			}
 		}
 
 		private static readonly string LCKey="LC{0}BlogID{1}";
 
-		public static LinkCategory SingleCategory(CacheTime ct, HttpContext context,int CategoryID)
+		public static LinkCategory SingleCategory(CacheDuration cacheDuration, int CategoryID)
 		{
+			ContentCache cache = ContentCache.Instantiate();
 			string key = string.Format(LCKey,CategoryID,BlogID());
-			LinkCategory lc = (LinkCategory)context.Cache[key];
+			LinkCategory lc = (LinkCategory)cache[key];
 			if(lc == null)
 			{
 				lc = Links.GetLinkCategory(CategoryID,true);
-				CacherCache(key,context,lc,ct);
+				cache.Insert(key, lc, cacheDuration);
 			}
 			return lc;
 		}
 
-		public static LinkCategory SingleCategory(CacheTime ct, HttpContext context, string CategoryName)
+		public static LinkCategory SingleCategory(CacheDuration cacheDuration, string CategoryName)
 		{
+			ContentCache cache = ContentCache.Instantiate();
 			string key = string.Format(LCKey,CategoryName,BlogID());
-			LinkCategory lc = (LinkCategory)context.Cache[key];
+			LinkCategory lc = (LinkCategory)cache[key];
 			if(lc == null)
 			{
 				lc = Links.GetLinkCategory(CategoryName,true);
-				CacherCache(key,context,lc,ct);
+				cache.Insert(key, lc, cacheDuration);
 			}
 			return lc;
 		}
@@ -220,17 +230,17 @@ namespace Subtext.Common.Data
 
 		#region Entry
 
-		public static Entry GetEntryFromRequest(HttpContext context, CacheTime ct)
+		public static Entry GetEntryFromRequest(CacheDuration cacheDuration)
 		{
-			string id = WebPathStripper.GetRequestedFileName(context.Request.Path);
+			string id = WebPathStripper.GetRequestedFileName(HttpContext.Current.Request.Path);
 
 			if(WebPathStripper.IsNumeric(id))
 			{
-				return GetSingleEntry(Int32.Parse(id), CacheTime.Short,context);
+				return GetSingleEntry(Int32.Parse(id), cacheDuration);
 			}
 			else
 			{
-				return GetSingleEntry(id, CacheTime.Short, context);
+				return GetSingleEntry(id, cacheDuration);
 			}
 		}
 
@@ -243,27 +253,28 @@ namespace Subtext.Common.Data
 		/// inserts it into the cache.
 		/// </summary>
 		/// <param name="EntryName">Name of the entry.</param>
-		/// <param name="ct">The ct.</param>
-		/// <param name="context">The context.</param>
+		/// <param name="cacheDuration">The cache duration.</param>
 		/// <returns></returns>
-		public static Entry GetSingleEntry(string EntryName, CacheTime ct, HttpContext context)
+		public static Entry GetSingleEntry(string EntryName, CacheDuration cacheDuration)
 		{
 			int blogId  =  BlogID();
+			
+			ContentCache cache = ContentCache.Instantiate();
 			string key = string.Format(EntryKeyName, EntryName, blogId);
 			
-			Entry entry = (Entry)context.Cache[key];
+			Entry entry = (Entry)cache[key];
 			if(entry == null)
 			{
 				entry = Entries.GetEntry(EntryName, EntryGetOption.ActiveOnly);		
 				if(entry != null)
 				{
-					CacherCache(key,context,entry,ct);
+					cache.Insert(key, entry, cacheDuration);
 
 					//Most other page items will use the entryID. Add entry to cache for id key as well.
 					//Bind them together with a cache dependency.
 					string entryIDKey = string.Format(EntryKeyID, entry.EntryID, blogId);
 					CacheDependency cd = new CacheDependency(null, new string[]{key});
-					context.Cache.Insert(entryIDKey, entry, cd);
+					cache.Insert(entryIDKey, entry, cd);
 
 				}
 			}
@@ -276,20 +287,20 @@ namespace Subtext.Common.Data
 		/// inserts it into the cache.
 		/// </summary>
 		/// <param name="EntryID">The entry ID.</param>
-		/// <param name="ct">The ct.</param>
-		/// <param name="context">The context.</param>
+		/// <param name="cacheDuration">The cache duration.</param>
 		/// <returns></returns>
-		public static Entry GetSingleEntry(int EntryID, CacheTime ct, HttpContext context)
+		public static Entry GetSingleEntry(int EntryID, CacheDuration cacheDuration)
 		{
+			ContentCache cache = ContentCache.Instantiate();
 			string key = string.Format(EntryKeyID, EntryID, BlogID());
 			
-			Entry entry = (Entry)context.Cache[key];
+			Entry entry = (Entry)cache[key];
 			if(entry == null)
 			{
 				entry = Entries.GetEntry(EntryID, EntryGetOption.ActiveOnly);
 				if(entry != null)
 				{
-					CacherCache(key, context, entry, ct);
+					cache.Insert(key, entry, cacheDuration);
 				}
 			}
 			return entry;
@@ -298,24 +309,25 @@ namespace Subtext.Common.Data
 
 		#region Comments/FeedBack
 
-		public static void ClearCommentCache(int EntryID, HttpContext context)
+		public static void ClearCommentCache(int EntryID)
 		{
 			string key = string.Format(ParentCommentEntryKey,EntryID,BlogID());
-			context.Cache.Remove(key);
+			ContentCache cache = ContentCache.Instantiate();
+			cache.Remove(key);
 		}
-			
+		
 		private static readonly string ParentCommentEntryKey = "ParentEntry:Comments:EntryID{0}:BlogID{1}";
-		public static EntryCollection GetComments(Entry ParentEntry, CacheTime ct, HttpContext context)
+		public static EntryCollection GetComments(Entry ParentEntry, CacheDuration cacheDuration)
 		{
 			string key = string.Format(ParentCommentEntryKey,ParentEntry.EntryID,BlogID());
-			
-			EntryCollection comments = (EntryCollection)context.Cache[key];
+			ContentCache cache = ContentCache.Instantiate();
+			EntryCollection comments = (EntryCollection)cache[key];
 			if(comments == null)
 			{
 				comments = Entries.GetFeedBack(ParentEntry);
 				if(comments != null)
 				{
-					CacherCache(key,context,comments,ct);
+					cache.Insert(key, comments, cacheDuration);
 				}
 			}
 			return comments;

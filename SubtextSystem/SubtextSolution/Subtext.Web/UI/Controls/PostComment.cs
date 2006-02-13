@@ -3,6 +3,7 @@ using System.Web;
 using System.Web.UI;
 using Subtext.Common.Data;
 using Subtext.Extensibility;
+using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Text;
@@ -61,7 +62,7 @@ namespace Subtext.Web.UI.Controls
 					tbUrl.Text = user.Values["Url"];
 				}
 
-				Entry entry = Cacher.GetEntryFromRequest(Context, CacheTime.Short);	
+				Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short);	
 
 				if(IsCommentAllowed(entry))
 				{
@@ -116,7 +117,7 @@ namespace Subtext.Web.UI.Controls
 			{
 				try
 				{
-					Entry currentEntry =  Cacher.GetEntryFromRequest(Context, CacheTime.Short);	
+					Entry currentEntry =  Cacher.GetEntryFromRequest(CacheDuration.Short);	
 					if(IsCommentAllowed(currentEntry))
 					{
 						Entry entry = new Entry(PostType.Comment);

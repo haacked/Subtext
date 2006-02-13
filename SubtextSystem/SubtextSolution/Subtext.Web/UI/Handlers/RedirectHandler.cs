@@ -18,6 +18,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Web;
 using Subtext.Common.Data;
+using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
@@ -81,12 +82,12 @@ namespace Subtext.Web.UI.Handlers
 				Entry entry = null;
 				if(WebPathStripper.IsNumeric(entryName))
 				{
-					entry = Cacher.GetSingleEntry(Int32.Parse(entryName), CacheTime.Short, context);
+					entry = Cacher.GetSingleEntry(Int32.Parse(entryName), CacheDuration.Short);
 				}
 				else
 				{
 					//This is why EntryName must be unique.
-					entry = Cacher.GetSingleEntry(entryName, CacheTime.Short, context);
+					entry = Cacher.GetSingleEntry(entryName, CacheDuration.Short);
 				}
 				
 				if(entry != null)

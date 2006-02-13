@@ -42,7 +42,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
 			Entry entry = new Entry(PostType.PingTrack);
 			entry.DateCreated = DateTime.Now;
-			entry.SourceUrl = "http://localhost/ThisUrl/";
+			entry.SourceUrl = "http://" + UnitTestHelper.GenerateUniqueHost() + "/ThisUrl/";
 			entry.Title = "Some Title";
 			entry.Body = "Some Body";
 			int id = Entries.Create(entry);

@@ -15,9 +15,9 @@
 
 using System;
 using Subtext.Common.Data;
+using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Syndication;
-using DTCF = Subtext.Framework.Configuration;
 
 namespace Subtext.Common.Syndication
 {
@@ -40,12 +40,12 @@ namespace Subtext.Common.Syndication
 		{
 			if(ParentEntry == null)
 			{
-				ParentEntry = Cacher.GetEntryFromRequest(Context, CacheTime.Short);
+				ParentEntry = Cacher.GetEntryFromRequest(CacheDuration.Short);
 			}
 
 			if(ParentEntry != null && Comments == null)
 			{
-				Comments = Cacher.GetComments(ParentEntry, CacheTime.Short, Context);
+				Comments = Cacher.GetComments(ParentEntry, CacheDuration.Short);
 			}
 
 			return Comments;

@@ -56,7 +56,7 @@ namespace Subtext.Common.Syndication
 
 		protected override void Cache(CachedFeed feed)
 		{
-			Context.Cache.Insert(CacheKey(this.SyndicationWriter.DateLastViewedFeedItemPublished), feed,null, DateTime.Now.AddSeconds((double)Subtext.Common.Data.CacheTime.Medium), TimeSpan.Zero);
+			Context.Cache.Insert(CacheKey(this.SyndicationWriter.DateLastViewedFeedItemPublished), feed,null, DateTime.Now.AddSeconds((double)CacheDuration.Medium), TimeSpan.Zero);
 		}
 	}
 }

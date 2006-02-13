@@ -15,7 +15,7 @@
 
 using System;
 using System.IO;
-using blowery.Web.HttpModules;
+using blowery.Web.HttpCompress;
 
 namespace Subtext.Framework.Syndication.Compression
 {
@@ -53,11 +53,11 @@ namespace Subtext.Framework.Syndication.Compression
 				foundGZip = true;
 			}
 
-			if(settings.CompressionType == CompressionTypes.Deflate && foundDeflate)
+			if(settings.CompressionType == Algorithms.Deflate && foundDeflate)
 			{
 				filter = new SyndicationCompressionFilter(new DeflateFilter(contextFilter, settings.CompressionLevel), "deflate");
 			}
-			else if(settings.CompressionType == CompressionTypes.GZip && foundGZip)
+			else if(settings.CompressionType == Algorithms.GZip && foundGZip)
 			{
 				filter = new SyndicationCompressionFilter(new GZipFilter(contextFilter), "gzip");
 			}
