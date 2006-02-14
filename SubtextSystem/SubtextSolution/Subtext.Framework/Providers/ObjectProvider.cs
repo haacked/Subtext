@@ -296,15 +296,6 @@ namespace Subtext.Framework.Providers
 		/// there is only one blog record, regardless if the application and hostname match.</param>
 		/// <returns></returns>
 		public abstract BlogInfo GetBlogInfo(string hostname, string application, bool strict);
-		
-		/// <summary>
-		/// Gets the config. This has been depracated
-		/// </summary>
-		/// <param name="BlogId">Blog ID.</param>
-		/// <returns></returns>
-		public abstract BlogInfo GetBlogInfo(int BlogId);
-
-
 		#endregion
 
 		#region KeyWords

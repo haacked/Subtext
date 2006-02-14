@@ -419,7 +419,7 @@ AS
 
 DECLARE @BlogId INT
 
---Get the current blogid
+--Get the current Blogid
 SELECT @BlogId = BlogId FROM INSERTED
 
 -- much more likely to be an insert than delete

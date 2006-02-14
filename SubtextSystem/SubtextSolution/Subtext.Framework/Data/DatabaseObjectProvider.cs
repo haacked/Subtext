@@ -1025,13 +1025,6 @@ namespace Subtext.Framework.Data
 				reader.Close();
 			}
 		}
-		
-		public override BlogInfo GetBlogInfo(int BlogId)
-		{
-			return null;
-		}
-
-
 		#endregion
 
 		#region KeyWords
