@@ -219,7 +219,7 @@ namespace Subtext.Framework.Data
 			SqlCommand command = new SqlCommand(sql, conn);
 			
 			command.CommandType = CommandType.StoredProcedure;
-			command.Parameters.Add(SqlHelper.MakeInParam("@host", SqlDbType.NVarChar, 100, host));
+			command.Parameters.Add(SqlHelper.MakeInParam("@Host", SqlDbType.NVarChar, 100, host));
 
 			conn.Open();
 			return command.ExecuteReader(CommandBehavior.CloseConnection);
@@ -1099,21 +1099,6 @@ namespace Subtext.Framework.Data
 				,SqlHelper.MakeInParam("@Strict", SqlDbType.Bit, 1, strict)
 			};
 			return GetReader("subtext_GetConfig", p);
-		}
-
-		
-		/// <summary>
-		/// Gets information about a specific blog via its Id.
-		/// </summary>
-		/// <param name="blogId">Blog ID.</param>
-		/// <returns></returns>
-		public override IDataReader GetBlogInfo(int blogId)
-		{
-			SqlParameter[] p = 
-			{
-				SqlHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, SqlHelper.CheckNull(blogId))
-			};
-			return GetReader("subtext_GetConfigByBlogId",p);
 		}
 
 		/// <summary>

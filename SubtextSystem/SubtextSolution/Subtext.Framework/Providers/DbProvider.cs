@@ -230,15 +230,6 @@ namespace Subtext.Framework.Providers
 		/// <returns></returns>
 		public abstract IDataReader GetBlogInfo(string host, string application, bool strict);
 		
-		/// <summary>
-		/// Returns a <see cref="IDataReader"/> instance containing 
-		/// the configuration settings for the blog specified by the 
-		/// blog id.
-		/// </summary>
-		/// <param name="blogId">The unique identifier for the blog to retrieve.</param>
-		/// <returns></returns>
-		public abstract IDataReader GetBlogInfo(int blogId);
-
 		public abstract bool UpdateBlog(BlogInfo info);
 
 		#endregion
