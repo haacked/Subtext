@@ -24,6 +24,7 @@ using System.Xml;
 using Sgml;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Velocit.RegularExpressions;
 
 namespace Subtext.Framework.Text
 {
@@ -34,6 +35,17 @@ namespace Subtext.Framework.Text
 	{
 		private HtmlHelper()
 		{
+		}
+
+		/// <summary>
+		/// Strips HTML tags from the specified text.
+		/// </summary>
+		/// <param name="text">The text.</param>
+		/// <returns></returns>
+		public static string RemoveHtml(string text)
+		{
+			HtmlTagRegex regex = new HtmlTagRegex();
+			return regex.Replace(text, string.Empty);
 		}
 
 		/// <summary>
