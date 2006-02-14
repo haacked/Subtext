@@ -188,13 +188,23 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static string ConvertToAllowedHtml(string text)
 		{
-			NameValueCollection AllowedHtml = null;
-			AllowedHtml = ((NameValueCollection)(ConfigurationSettings.GetConfig("AllowableCommentHtml")));
+			NameValueCollection allowedHtmlTags = ((NameValueCollection)(ConfigurationSettings.GetConfig("AllowableCommentHtml")));
 
-			if (AllowedHtml == null || AllowedHtml.Count == 0)
+			return ConvertToAllowedHtml(allowedHtmlTags, text);
+		}
+
+		/// <summary>
+		/// Filters text to only allow defined HTML.
+		/// </summary>
+		/// <param name="text">Text.</param>
+		/// <param name="allowedHtmlTags">The allowed html tags.</param>
+		/// <returns></returns>
+		public static string ConvertToAllowedHtml(NameValueCollection allowedHtmlTags, string text)
+		{
+			if (allowedHtmlTags == null || allowedHtmlTags.Count == 0)
 			{
 				//This indicates that the AllowableCommentHtml configuration is either missing or
-                //has no values, therefore just strip the text as normal.
+				//has no values, therefore just strip the text as normal.
 				return HtmlSafe(text);
 			}
 			else
@@ -210,10 +220,10 @@ namespace Subtext.Framework.Text
 				//build stupidly complex regex
 				System.Text.StringBuilder sb = new System.Text.StringBuilder();
 				sb.Append("<\\s*?\\/??\\s*((?:)");
-				for (int i = 0; i <= AllowedHtml.Count - 1; i++)
+				for (int i = 0; i <= allowedHtmlTags.Count - 1; i++)
 				{
-					sb.Append(AllowedHtml.GetKey(i));
-					if (i < AllowedHtml.Count - 1)
+					sb.Append(allowedHtmlTags.GetKey(i));
+					if (i < allowedHtmlTags.Count - 1)
 					{
 						sb.Append("|");
 					}
@@ -242,7 +252,7 @@ namespace Subtext.Framework.Text
 							//create the opening portion
 							sb.Append("<" + Regex.Match(s, "(\\w+)").Value);
 							//now determine which attributes (if any) to add
-							sb.Append(FilterAttributes(Regex.Match(s, "(\\w+)").Value, Regex.Matches(s, "(\\w+(\\s*=\\s*)((?:)\".*?\"|[^\"]\\S+))", RegexOptions.Singleline), ref AllowedHtml) + ">");
+							sb.Append(FilterAttributes(Regex.Match(s, "(\\w+)").Value, Regex.Matches(s, "(\\w+(\\s*=\\s*)((?:)\".*?\"|[^\"]\\S+))", RegexOptions.Singleline), ref allowedHtmlTags) + ">");
 						}
 						//sb.Append("Match found at " & s & vbCrLf)
 					}
@@ -254,14 +264,14 @@ namespace Subtext.Framework.Text
 				return sb.ToString();
 			}
 		}
-		
+
 		private static string HtmlSafe(string text)
 		{
 			//replace &, <, >, and line breaks with <br />
 			text = text.Replace("&", "&amp;");
 			text = text.Replace("<", "&lt;");
 			text = text.Replace(">", "&gt;");
-			text = text.Replace("\r\n", "<br />");
+			text = text.Replace("\r", string.Empty);
 			text = text.Replace("\n", "<br />");
 			return text;
 		}
