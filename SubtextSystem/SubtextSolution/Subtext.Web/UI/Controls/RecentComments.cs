@@ -22,33 +22,35 @@ using Subtext.Framework.Components;
 
 namespace Subtext.Web.UI.Controls
 {
-	/// 
-	/// RecentComments displays the last 5 comments
-	/// ToDOo: make this number configurable
-	/// 
+	/// <summary>
+	/// Displays the most recent comments on the skin.
+	/// </summary>
 	public class RecentComments : BaseControl
 	{
 		protected System.Web.UI.WebControls.Repeater feedList;
 		private EntryCollection comments;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RecentComments"/> class.
+		/// </summary>
 		public RecentComments()
 		{
-			// comments = Entries.GetRecentPosts(5, Subtext.Extensibility.PostType.Comment, true);
 			if(Config.CurrentBlog.NumberOfRecentComments > 0)
 			{
 				comments = Entries.GetRecentPosts(Config.CurrentBlog.NumberOfRecentComments, PostType.Comment, true);
 			}
 			else
 			{
-				/*AppSettingsReader settingreader = new AppSettingsReader();
-				int NumberOfRecentComments = (int) settingreader.GetValue("NumberOfRecentComments", typeof(int));
-				
-				comments = Entries.GetRecentPosts(NumberOfRecentComments, PostType.Comment, true);*/
 				comments = Entries.GetRecentPosts(5, Subtext.Extensibility.PostType.Comment, true);
 			}
-
 		}
 
+		/// <summary>
+		/// Binds the comments <see cref="EntryCollection"/> to the comment list repeater.
+		/// Raises the <see cref="E:System.Web.UI.Control.Load"/>
+		/// event.
+		/// </summary>
+		/// <param name="e">The <see cref="T:System.EventArgs"/> object that contains the event data.</param>
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad (e);
@@ -75,25 +77,14 @@ namespace Subtext.Web.UI.Controls
 				HyperLink title = (HyperLink)e.Item.FindControl("Link");
 				if(title != null)
 				{
-
-					if (entry.Body.Length > 50) 
+					if (entry.Body.Length > Config.CurrentBlog.RecentCommentsLength) 
 					{
-						// title.Text = entry.Body.Substring(0, 50).ToString() + "...";
 						if(Config.CurrentBlog.RecentCommentsLength > 0)
 						{
-							title.Text = entry.Body.Substring(0, (Config.CurrentBlog.RecentCommentsLength)).ToString() + "...";
-						}
-						else
-						{
-							/*AppSettingsReader settingreader = new AppSettingsReader(); 
-							int RecentCommentsLength = (int) settingreader.GetValue("RecentCommentsLength", typeof(int)); 
-
-							title.Text = entry.Body.Substring(0, (RecentCommentsLength)).ToString() + "..."; 
-							title.NavigateUrl = entry.Link;*/
-							title.Text = entry.Body.Substring(0, 50).ToString() + "...";
+							string truncatedText = entry.Body.Substring(0, (Config.CurrentBlog.RecentCommentsLength));
+							title.Text = truncatedText + "...";
 						}
 						title.NavigateUrl = entry.Link;
-
 					} 
 					else
 					{
