@@ -164,27 +164,53 @@ GO
 
 -- subtext_Links
 /*
-	Due to the FK constraint subtext_Links.PostID --> subtext_Content.ID,
-	we have to first import all records w/ PostID <> -1, and then import
-	the PostID == -1 records, but we fill these values w/ NULLs
+	Due to the Foreign Key constraints between subtext_Links.PostID --> subtext_Content.ID 
+	AND subtext_Links.CategoryID --> subtext_LinkCategories.CategoryID, we have to perform 
+	sub queries to specify NULL for these columns if the corresponding data does not exist.
 */
 SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Links] ON
-INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Links] 
-( LinkID, Title, Url, Rss, Active, CategoryID, BlogId, PostID, NewWindow )
-    SELECT
-      LinkID, Title, Url, Rss, Active, CategoryID, BlogId, PostID, NewWindow  
-    FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_Links]
-    WHERE [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_Links].PostID <> -1
-
--- now to take care of the "-1" issue!
-INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Links] 
-( LinkID, Title, Url, Rss, Active, CategoryID, BlogId, PostID, NewWindow )
-    SELECT
-      LinkID, Title, Url, Rss, Active, CategoryID, BlogId, null, NewWindow  
-    FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_Links]
-    WHERE [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_Links].PostID = -1
+INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Links]
+( 
+	LinkID
+	, Title
+	, Url
+	, Rss
+	, Active
+	, CategoryID
+	, BlogId
+	, PostID
+	, NewWindow 
+)
+SELECT
+      LinkID
+      , Title
+      , Url
+      , Rss
+      , Active
+      , CategoryID = 	CASE
+				WHEN NOT EXISTS
+				(
+					SELECT slc.[CategoryID] 
+					FROM [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_LinkCategories] slc 
+					WHERE slc.[CategoryID] = [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_Links].CategoryID
+				)
+				THEN NULL
+				ELSE CategoryID
+			END
+      , BlogId
+      , PostID =	CASE
+				WHEN NOT EXISTS
+				(
+					SELECT sct.[ID] 
+					FROM [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Content] sct 
+					WHERE sct.[ID] = [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_Links].PostID
+				)
+				THEN NULL
+				ELSE PostID
+			END
+      , NewWindow  
+FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_Links]
 SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Links] OFF
-GO
 
 -- subtext_URLs
 SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_URLs] ON
