@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.IO;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
@@ -107,6 +108,35 @@ namespace Subtext.Web.Controls
 			}
          
 			return new HtmlForm();
+		}
+
+		/// <summary>
+		/// Exports the specified control to excel.
+		/// </summary>
+		/// <remarks>
+		/// Calling this function will prompt the user with a dialog 
+		/// to save the trade blotter grid as an Excel file named 
+		/// TradeBlotter.xls.
+		/// </remarks>
+		public static void ExportToExcel(Control control, string filename)
+		{
+			// Set the content type to Excel
+			HttpContext.Current.Response.AddHeader( "Content-Disposition", "filename=" + filename); 
+			HttpContext.Current.Response.ContentType = "application/vnd.ms-excel";
+
+			control.Page.EnableViewState = false;
+
+			//Remove the charset from the Content-Type header
+			HttpContext.Current.Response.Charset = String.Empty;
+
+			StringWriter writer = new StringWriter();
+			HtmlTextWriter htmlWriter = new HtmlTextWriter(writer);
+		
+			//Get the HTML for the control
+			control.RenderControl(htmlWriter);
+
+			HttpContext.Current.Response.Write(writer.ToString());
+			HttpContext.Current.Response.End();
 		}
 	}
 
