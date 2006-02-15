@@ -40,13 +40,13 @@
 		<solution configuration="${configuration}">
 	    <projects>
 	        <include name="Subtext.Common\SubText.Common.csproj" />
-	        <include name="Subtext.DotTextUpgrader\Subtext.DotTextUpgrader.csproj" />
 	        <include name="Subtext.Extensibility\Subtext.Extensibility.csproj" />
 	        <include name="Subtext.Framework\Subtext.Framework.csproj" />
 	        <include name="Subtext.Installation\Subtext.Installation.csproj" />
 	        <include name="Subtext.Scripting\Subtext.Scripting.csproj" />
 	        <include name="Subtext.Web\Subtext.Web.csproj" />
 	        <include name="Subtext.Web.Controls\Subtext.Web.Controls.csproj" />
+	        <include name="blowery.Web.HttpCompress\blowery.Web.HttpCompress.csproj" />
 	    </projects>
 		</solution>
 	</target>

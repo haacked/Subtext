@@ -135,6 +135,7 @@ Global
 		Subtext.Installation\Scripts\Migration_Notes.txt = Subtext.Installation\Scripts\Migration_Notes.txt
 		SolutionInfo.cs = SolutionInfo.cs
 		SourceGuidelines.txt = SourceGuidelines.txt
+		SubText.build = SubText.build
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
