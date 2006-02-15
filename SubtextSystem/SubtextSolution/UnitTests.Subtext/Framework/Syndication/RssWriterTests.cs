@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Globalization;
 using System.Web;
 using MbUnit.Framework;
 using Subtext.Common.Syndication;
@@ -158,7 +159,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			entry.Author = "Phil Haack";
 			entry.Body = body;
 			entry.EntryID = id;
-			entry.Link = "http://localhost/Subtext.Web/archive/" + dateCreated.ToString("yyyy/MM/dd") + "/" + id;
+			entry.Link = string.Format(CultureInfo.InvariantCulture, "http://localhost/Subtext.Web/archive/{0:yyyy/MM/dd}/{1}", dateCreated, id);
 			entry.DateSyndicated = entry.DateCreated;
 			
 			return entry;

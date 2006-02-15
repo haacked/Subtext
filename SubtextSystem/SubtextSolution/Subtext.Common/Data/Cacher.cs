@@ -67,7 +67,7 @@ namespace Subtext.Common.Data
 
 		#region Month
 
-		private static readonly string EntryMonthKey = "EntryMonth:Date{0}Blog{1}";
+		private static readonly string EntryMonthKey = "EntryMonth:Date{0:yyyyMM}Blog{1}";
 		/// <summary>
 		/// Gets the entries for the specified month.
 		/// </summary>
@@ -76,7 +76,7 @@ namespace Subtext.Common.Data
 		/// <returns></returns>
 		public static EntryCollection GetMonth(DateTime dt, CacheDuration cacheDuration)
 		{
-			string key = string.Format(EntryMonthKey, dt.ToString("yyyyMM", CultureInfo.InvariantCulture), BlogId());
+			string key = string.Format(CultureInfo.InvariantCulture, EntryMonthKey, dt, BlogId());
 			ContentCache cache = ContentCache.Instantiate();
 			EntryCollection month = (EntryCollection)cache[key];
 			if(month == null)
@@ -95,10 +95,10 @@ namespace Subtext.Common.Data
 		
 		#region EntryDay
 
-		private static readonly string EntryDayKey = "EntryDay:Date{0}Blog{1}";
+		private static readonly string EntryDayKey = "EntryDay:Date{0:yyyyMMdd}Blog{1}";
 		public static EntryDay GetDay(DateTime dt, CacheDuration cacheDuration)
 		{
-			string key = string.Format(EntryDayKey, dt.ToString("yyyyMMdd", CultureInfo.InvariantCulture),BlogId());
+			string key = string.Format(CultureInfo.InvariantCulture, EntryDayKey, dt, BlogId());
 			
 			ContentCache cache = ContentCache.Instantiate();
 			
