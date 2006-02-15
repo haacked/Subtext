@@ -34,20 +34,26 @@ namespace UnitTests.Subtext.Framework.Text
 
 		[RowTest]
 		[Row("", "")]
+		[Row("<", "&lt;")]
 		[Row(">", "&gt;")]
-		[Row("\r\r\n", "<br />")]
+		[Row("<>", "&lt;&gt;")]
 		[Row("How now brown cow.", "How now brown cow.")]
-		[Row("How now brown cow.", "How now brown cow.")]
-		[Row("<a href='test'>a</a>", "<a href='test'>a</a>")]
+		[Row("How <strong>now</strong> brown cow.", "How <strong>now</strong> brown cow.")]
+		[Row("How <strong>now</strong> brown <cow.", "How <strong>now</strong> brown &lt;cow.")]
+		[Row("<How <strong>now</strong>", "&lt;How <strong>now</strong>")]
+		[Row("Text Before <a href=\"test\">a</a> Text After", "Text Before <a href=\"test\">a</a> Text After")]
 		[Row("<a href=\"test\">a</a>", "<a href=\"test\">a</a>")]
 		[Row("<a href=\"test\" rel=\"notallowed\">a</a>", "<a href=\"test\">a</a>")]
 		[Row("<a title=\">\">a</a>", "<a title=\">\">a</a>")]
-		[Row("<a\r\ntitle=\">\">a</a>", "<a\r\ntitle=\">\">a</a>")]
+		[Row("<A TITLE=\">\">a</a>", "<a title=\">\">a</a>")]
+		[Row("<a\r\ntitle=\">\">a</a>", "<a title=\">\">a</a>")]
+		[Row("<a href='test'></a>", "<a href=\"test\"></a>")]
 		public void StripsNonAllowedHtml(string text, string expected)
 		{
-			NameValueCollection allowedTags = new NameValueCollection();
+			NameValueCollection allowedTags = new NameValueCollection(new System.Collections.CaseInsensitiveHashCodeProvider(), new System.Collections.CaseInsensitiveComparer());
 			allowedTags.Add("a", "href,title");
-			Assert.AreEqual(expected, HtmlHelper.ConvertToAllowedHtml(allowedTags, text));
+			allowedTags.Add("strong", "");
+			UnitTestHelper.AssertStringsEqualCharacterByCharacter(expected, HtmlHelper.ConvertToAllowedHtml(allowedTags, text));
 		}
 
 	}

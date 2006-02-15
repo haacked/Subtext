@@ -18,6 +18,7 @@ using System.Collections.Specialized;
 using System.Configuration;
 using System.Globalization;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml;
@@ -189,7 +190,15 @@ namespace Subtext.Framework.Text
 		public static string ConvertToAllowedHtml(string text)
 		{
 			NameValueCollection allowedHtmlTags = ((NameValueCollection)(ConfigurationSettings.GetConfig("AllowableCommentHtml")));
-
+			
+#if DEBUG
+			//Assert that the NameValueCollection is case insensitive!
+			if(allowedHtmlTags.Get("strong") != null && allowedHtmlTags.Get("STRONG") == null)
+			{
+				throw new InvalidOperationException("Darn it, it's case sensitive!" + allowedHtmlTags.Get("STRONG"));
+			}
+#endif
+			
 			return ConvertToAllowedHtml(allowedHtmlTags, text);
 		}
 
@@ -201,6 +210,7 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static string ConvertToAllowedHtml(NameValueCollection allowedHtmlTags, string text)
 		{
+
 			if (allowedHtmlTags == null || allowedHtmlTags.Count == 0)
 			{
 				//This indicates that the AllowableCommentHtml configuration is either missing or
@@ -209,58 +219,53 @@ namespace Subtext.Framework.Text
 			}
 			else
 			{
-				//this regex matches any tag. Tags with < or > inside of quotes will cause this
-				//to fail. Nothing that should be left in comments should have this anyway.
-				Regex RegX = new Regex("(<.+?>)", RegexOptions.Singleline | RegexOptions.IgnoreCase);
-				string[] splits;
-				//now we split at each match, then examine each resulting string to determine
-				//if allowed HTML code is matched
-				splits = RegX.Split(text);
-			
-				//build stupidly complex regex
-				System.Text.StringBuilder sb = new System.Text.StringBuilder();
-				sb.Append("<\\s*?\\/??\\s*((?:)");
-				for (int i = 0; i <= allowedHtmlTags.Count - 1; i++)
+				HtmlTagRegex regex = new HtmlTagRegex();
+				MatchCollection matches = regex.Matches(text);
+
+				if(matches.Count == 0)
 				{
-					sb.Append(allowedHtmlTags.GetKey(i));
-					if (i < allowedHtmlTags.Count - 1)
-					{
-						sb.Append("|");
-					}
+					return HtmlSafe(text);
 				}
-				sb.Append(")"); //\s*")
-				string pattern = sb.ToString();
 			
-				sb = new System.Text.StringBuilder();
-			
-				foreach (string s in splits)
+				StringBuilder sb = new StringBuilder();
+
+				int currentIndex = 0;
+				foreach (Match match in matches)
 				{
-					//check each match against the list of allowable tags.
-					if (Regex.IsMatch(s, pattern, RegexOptions.Singleline | RegexOptions.IgnoreCase))
+					//Append text before the match.
+					if(currentIndex < match.Index)
 					{
-						//this is a tag that we allow
-						//check if it is the opening tag or close
-						if (Regex.IsMatch(s, "<\\s*?/", RegexOptions.Singleline | RegexOptions.IgnoreCase))
-						{
-							//this is the closing tag
-							//determine the tag type and return only the correctly formated close tag
-							sb.Append("</" + Regex.Match(s, "(\\w+)").Value + ">");
-						}
-						else
-						{
-							//this is the opening tag
-							//create the opening portion
-							sb.Append("<" + Regex.Match(s, "(\\w+)").Value);
-							//now determine which attributes (if any) to add
-							sb.Append(FilterAttributes(Regex.Match(s, "(\\w+)").Value, Regex.Matches(s, "(\\w+(\\s*=\\s*)((?:)\".*?\"|[^\"]\\S+))", RegexOptions.Singleline), ref allowedHtmlTags) + ">");
-						}
-						//sb.Append("Match found at " & s & vbCrLf)
+						sb.Append(HtmlSafe(text.Substring(currentIndex, match.Index - currentIndex)));
+					}
+
+					string tagName = match.Groups["tagname"].Value.ToLower(CultureInfo.InvariantCulture);
+
+					//check each match against the list of allowable tags.
+					if(allowedHtmlTags.Get(tagName) == null)
+					{
+						sb.Append(HtmlSafe(match.Value));
 					}
 					else
 					{
-						sb.Append(HtmlSafe(s));
+						bool isEndTag = match.Groups["endTag"].Value.Length > 0;
+						if(isEndTag)
+						{
+							sb.Append("</" + tagName + ">");
+						}
+						else
+						{
+							sb.Append("<" + tagName);
+							sb.Append(FilterAttributes(tagName, Regex.Matches(match.Value, "(\\w+(\\s*=\\s*)((?:)\".*?\"|[^\"]\\S+))", RegexOptions.Singleline), allowedHtmlTags) + ">");
+						}
 					}
+					currentIndex = match.Index + match.Length;
 				}
+				//add the remaining text.
+				if(currentIndex < text.Length)
+				{
+					sb.Append(HtmlSafe(text.Substring(currentIndex)));
+				}
+
 				return sb.ToString();
 			}
 		}
@@ -285,15 +290,14 @@ namespace Subtext.Framework.Text
 		/// <param name="allowedHtml"></param>
 		/// <returns></returns>
 		/// <remarks>This will be a high volume method, so make it as efficient as possible</remarks>
-		private static string FilterAttributes(string tagName, MatchCollection attrMatches, ref NameValueCollection allowedHtml)
+		private static string FilterAttributes(string tagName, MatchCollection attrMatches, NameValueCollection allowedHtml)
 		{
-			string allowedAttrsStr = allowedHtml[tagName];
-			if (allowedAttrsStr != null && allowedAttrsStr.Length>0)
+			string allowedAttributesText = allowedHtml[tagName];
+			if (allowedAttributesText != null && allowedAttributesText.Length > 0)
 			{
 				System.Text.StringBuilder attrSB = new System.Text.StringBuilder();
-				string attrKey,attrValue;
+
 				//look to see which tag's attributes we are matching
-				tagName = tagName.ToLower();
 				char[] splitter  = {','};
 				char[] eqSplitter = {'='};
 			
@@ -302,14 +306,14 @@ namespace Subtext.Framework.Text
 				foreach (Match attrMatch in attrMatches)
 				{
 					// get the actual markup attribute (the key) from attrMatch which is a key=value pair.
-					attrKey = Regex.Match(attrMatch.Value, "\\w+").Value.ToLower().Trim();
+					string attrKey = Regex.Match(attrMatch.Value, "\\w+").Value.ToLower().Trim();
 
 					foreach (string allowedAttr in allowedAttrs)
 					{
 						if (allowedAttr.Equals(attrKey))
 						{
 							// found an allowed attribute, so get the attribute value
-							attrValue = attrMatch.Value.Split(eqSplitter)[1];
+							string attrValue = attrMatch.Value.Split(eqSplitter)[1];
 
 							// and now add the full attribute (key=value) to be returned
 							attrSB.Append(" " + attrKey + "=\"" + attrValue.Replace("\"", "") + "\"");

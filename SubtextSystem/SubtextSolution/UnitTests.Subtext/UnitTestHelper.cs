@@ -213,6 +213,34 @@ namespace UnitTests.Subtext
 			return target;
 		}
 
+		/// <summary>
+		/// This is useful when two strings appear to be but Assert.AreEqual says they are not.
+		/// </summary>
+		/// <param name="original"></param>
+		/// <param name="expected"></param>
+		public static void AssertStringsEqualCharacterByCharacter(string original, string expected)
+		{
+			if(original != expected)
+			{
+				for(int i = 0; i < Math.Max(original.Length, expected.Length); i++)
+				{
+					char originalChar = (char)0;
+					char expectedChar = (char)0;
+					if(i < original.Length)
+					{
+						originalChar = original[i];
+					}
+
+					if(i < expected.Length)
+					{
+						expectedChar = expected[i];
+					}
+					Console.WriteLine("{0}:\t{1} ({2})\t{3} ({4})", i, originalChar, (int)originalChar, expectedChar, (int)expectedChar);
+				}
+				Assert.AreEqual(original, expected);
+			}
+		}
+
 		#region ...Assert.AreNotEqual replacements...
 		/// <summary>
 		/// Asserts that the two values are not equal.
