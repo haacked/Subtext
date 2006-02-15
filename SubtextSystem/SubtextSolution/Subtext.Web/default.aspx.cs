@@ -64,7 +64,7 @@ namespace Subtext.Web
 
 		protected string GetEntryUrl(string host, string app, string entryName, DateTime dt)
 		{			
-			return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}archive/{1}/{2}.aspx",GetFullUrl(host,app), dt.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture),entryName);
+			return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}archive/{1:yyyy/MM/dd}/{2}.aspx", GetFullUrl(host,app), dt, entryName);
 		}
 
 		private void SetStyle()

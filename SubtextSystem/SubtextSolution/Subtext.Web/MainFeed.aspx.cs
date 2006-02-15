@@ -22,8 +22,6 @@ using System.IO;
 using System.Xml;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
-using Subtext.Framework.Syndication.Compression;
-
 
 namespace Subtext.Web
 {
@@ -137,7 +135,7 @@ namespace Subtext.Web
 					writer.WriteElementString("title", (string)dr["Title"]);
 
 					string baselink = string.Format(baseUrl,(string)dr["Host"],(string)dr["Application"]);
-					string link = string.Format(baselink + "archive/{0}/{1}.aspx",((DateTime)dr["DateAdded"]).ToString("yyyy/MM/dd"),dr["EntryName"]);
+					string link = string.Format(CultureInfo.InvariantCulture, baselink + "archive/{0:yyyy/MM/dd}/{1}.aspx", ((DateTime)dr["DateAdded"]), dr["EntryName"]);
 					writer.WriteElementString("link",link);
 
 					DateTime time = (DateTime)dr["DateAdded"];
