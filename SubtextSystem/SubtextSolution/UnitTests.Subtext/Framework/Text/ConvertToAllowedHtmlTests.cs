@@ -48,6 +48,14 @@ namespace UnitTests.Subtext.Framework.Text
 		[Row("<A TITLE=\">\">a</a>", "<a title=\">\">a</a>")]
 		[Row("<a\r\ntitle=\">\">a</a>", "<a title=\">\">a</a>")]
 		[Row("<a href='test'></a>", "<a href=\"test\"></a>")]
+		[Row("<a href=test></a>", "<a href=\"test\"></a>")]
+		[Row("<a href=test title=\"cool\"></a>", "<a href=\"test\" title=\"cool\"></a>")]
+		[Row("<a href=test title=cool></a>", "<a href=\"test\" title=\"cool\"></a>")]
+		[Row("<a title></a>", "<a></a>")]
+		[Row("<a title href=\"test\"></a>", "<a href=\"test\"></a>")]
+		[Row("<a title href=\"test\" title></a>", "<a href=\"test\"></a>")]
+		[Row("<a title href=\"test\" title title title></a>", "<a href=\"test\"></a>")]
+		[Row("<a title=\"one\" title=\"two\"></a>", "<a title=\"one,two\"></a>")]
 		public void StripsNonAllowedHtml(string text, string expected)
 		{
 			NameValueCollection allowedTags = new NameValueCollection(new System.Collections.CaseInsensitiveHashCodeProvider(), new System.Collections.CaseInsensitiveComparer());

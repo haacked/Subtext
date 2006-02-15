@@ -255,7 +255,7 @@ namespace Subtext.Framework.Text
 						else
 						{
 							sb.Append("<" + tagName);
-							sb.Append(FilterAttributes(tagName, Regex.Matches(match.Value, "(\\w+(\\s*=\\s*)((?:)\".*?\"|[^\"]\\S+))", RegexOptions.Singleline), allowedHtmlTags) + ">");
+							sb.Append(FilterAttributes(tagName, match, allowedHtmlTags) + ">");
 						}
 					}
 					currentIndex = match.Index + match.Length;
@@ -286,43 +286,109 @@ namespace Subtext.Framework.Text
 		/// are determined by the given allowedHtml collection.
 		/// </summary>
 		/// <param name="tagName"></param>
-		/// <param name="attrMatches"></param>
+		/// <param name="match"></param>
 		/// <param name="allowedHtml"></param>
 		/// <returns></returns>
 		/// <remarks>This will be a high volume method, so make it as efficient as possible</remarks>
-		private static string FilterAttributes(string tagName, MatchCollection attrMatches, NameValueCollection allowedHtml)
+		private static string FilterAttributes(string tagName, Match match, NameValueCollection allowedHtml)
 		{
 			string allowedAttributesText = allowedHtml[tagName];
+			
 			if (allowedAttributesText != null && allowedAttributesText.Length > 0)
 			{
 				System.Text.StringBuilder attrSB = new System.Text.StringBuilder();
 
 				//look to see which tag's attributes we are matching
 				char[] splitter  = {','};
-				char[] eqSplitter = {'='};
 			
-				string[] allowedAttrs = allowedHtml[tagName].Split(splitter);
-				// go thru each matched attribute, and determine if it's allowed
-				foreach (Match attrMatch in attrMatches)
-				{
-					// get the actual markup attribute (the key) from attrMatch which is a key=value pair.
-					string attrKey = Regex.Match(attrMatch.Value, "\\w+").Value.ToLower().Trim();
+				NameValueCollection attributes = GetAttributeNameValues(match);
 
+				string[] allowedAttrs = allowedHtml[tagName].ToLower(CultureInfo.InvariantCulture).Split(splitter);
+
+				// go thru each matched attribute, and determine if it's allowed
+				foreach (string attributeName in attributes.Keys)
+				{
 					foreach (string allowedAttr in allowedAttrs)
 					{
-						if (allowedAttr.Equals(attrKey))
+						if(StringHelper.AreEqualIgnoringCase(allowedAttr.Trim(), attributeName))
 						{
 							// found an allowed attribute, so get the attribute value
-							string attrValue = attrMatch.Value.Split(eqSplitter)[1];
+							string attrValue = attributes[attributeName];
 
 							// and now add the full attribute (key=value) to be returned
-							attrSB.Append(" " + attrKey + "=\"" + attrValue.Replace("\"", "") + "\"");
+							attrSB.Append(" " + attributeName.ToLower(CultureInfo.InvariantCulture) + "=\"" + attrValue + "\"");
 						}
 					}
 				}
 				return attrSB.ToString();
 			}
 			return string.Empty;
+		}
+
+		private static NameValueCollection GetAttributeNameValues(Match match)
+		{
+			CaptureCollection nameCaptures = match.Groups["attName"].Captures;	
+			CaptureCollection valueCaptures = match.Groups["attVal"].Captures;
+
+			NameValueCollection attributes = new NameValueCollection();
+
+			if(nameCaptures.Count == valueCaptures.Count)
+			{
+				for(int i = 0; i < nameCaptures.Count; i++)
+				{
+					attributes.Add(nameCaptures[i].Value, valueCaptures[i].Value);
+				}
+				return attributes;
+			}
+			
+			if(valueCaptures.Count == 0)
+			{
+				return attributes;
+			}
+			
+			//this is a much more complicated issue.  
+			//One of the attribute names doesn't have a value.
+			//so we need to match them up somehow.
+			int valueIndex = 0;
+			for(int i = 0; i < nameCaptures.Count; i++)
+			{
+				Capture currentNameCapture = nameCaptures[i];
+				Capture currentValueCapture = null;
+				string name = currentNameCapture.Value;
+				
+				if(valueIndex == valueCaptures.Count)
+				{
+					//No more values to worry about.
+					continue;
+				}
+				
+				currentValueCapture = valueCaptures[valueIndex];
+
+				//Peek ahead.
+				if(i < nameCaptures.Count - 1)
+				{
+					Capture peekAhead = nameCaptures[i+1];
+					if(peekAhead.Index > currentValueCapture.Index && currentValueCapture.Index > currentNameCapture.Index)
+					{
+						attributes.Add(name, currentValueCapture.Value);
+						//We are on the right value.
+						valueIndex++;
+						continue;
+					}
+				}
+				else
+				{
+					//we're on the last item.
+					if(currentValueCapture.Index > currentNameCapture.Index)
+					{
+						attributes.Add(name, currentValueCapture.Value);
+						//We are on the right value.
+						valueIndex++;
+						continue;
+					}
+				}
+			}
+			return attributes;
 		}
 	}
 }
