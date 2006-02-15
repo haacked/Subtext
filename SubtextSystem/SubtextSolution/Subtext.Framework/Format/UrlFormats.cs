@@ -44,7 +44,7 @@ namespace Subtext.Framework.Format
 
 		public virtual string PostCategoryUrl(string categoryName, int categoryID)
 		{
-			return GetUrl("category/{0}.aspx",categoryID);
+			return GetUrl("category/{0}.aspx", categoryID);
 		}
 		
 		public virtual string ArticleCategoryUrl(string categoryName, int categoryID)
@@ -54,7 +54,7 @@ namespace Subtext.Framework.Format
 
 		public virtual string EntryUrl(Entry entry)
 		{
-			return GetUrl("archive/" + entry.DateCreated.ToString("yyyy/MM/dd") + "/{0}.aspx", entry.HasEntryName ? entry.EntryName : entry.EntryID.ToString(CultureInfo.InvariantCulture));
+			return GetUrl("archive/{0:yyyy/MM/dd}/{1}.aspx", entry.DateCreated, entry.HasEntryName ? entry.EntryName : entry.EntryID.ToString(CultureInfo.InvariantCulture));
 		}
 
 		public virtual string ImageUrl(string category, int ImageID)
@@ -101,7 +101,7 @@ namespace Subtext.Framework.Format
 
 		public virtual string CommentUrl(Entry ParentEntry, Entry ChildEntry)
 		{
-			return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}#{1}", ParentEntry.Link, ChildEntry.EntryID);
+			return string.Format(CultureInfo.InvariantCulture, "{0}#{1}", ParentEntry.Link, ChildEntry.EntryID);
 		}
 
 		public virtual string CommentUrl(Entry entry)
@@ -132,7 +132,7 @@ namespace Subtext.Framework.Format
 		/// <returns></returns>
 		protected virtual string GetUrl(string formatString, params object[] items)
 		{
-			return this.fullyQualifiedUrl + string.Format(formatString, items);
+			return this.fullyQualifiedUrl + string.Format(CultureInfo.InvariantCulture, formatString, items);
 		}
 
 		/// <summary>
@@ -218,7 +218,7 @@ namespace Subtext.Framework.Format
 				cleanApp = string.Empty;
 			string appRegex = Regex.Escape(cleanApp);
 
-			string urlRegexPattern = string.Format(urlPatternFormat, appRegex);
+			string urlRegexPattern = string.Format(CultureInfo.InvariantCulture, urlPatternFormat, appRegex);
 			
 			Regex urlRegex = new Regex(urlRegexPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
 			Match match = urlRegex.Match(path);
@@ -278,7 +278,7 @@ namespace Subtext.Framework.Format
 			else if(entry.PostType == PostType.Story)
 				url += "/Admin/EditArticles.aspx?PostID=" + entry.EntryID;
 			else
-				throw new InvalidOperationException(String.Format("Post type {0} not expected to have an edit link.", entry.PostType));
+				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Post type {0} not expected to have an edit link.", entry.PostType));
 			return url;
 		}
 

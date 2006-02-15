@@ -350,6 +350,7 @@ namespace Subtext.Framework.Data
 				case PostType.BlogPost:
 					entry.Link = Config.CurrentBlog.UrlFormats.EntryUrl(entry);
 					break;
+
 				case PostType.Story:
 					entry.Link = Config.CurrentBlog.UrlFormats.ArticleUrl(entry);
 					break;
