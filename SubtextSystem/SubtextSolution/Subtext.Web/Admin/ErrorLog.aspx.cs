@@ -19,6 +19,7 @@ using System.Web.UI.WebControls;
 using Subtext.Framework.Data;
 using Subtext.Framework.Logging;
 using Subtext.Web.Admin.WebUI;
+using Subtext.Web.Controls;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -29,6 +30,7 @@ namespace Subtext.Web.Admin.Pages
 		protected Repeater LogPage;
 		protected HtmlGenericControl NoMessagesLabel;
 		protected Pager LogPager;
+		protected Button btnExportToExcel;
 		protected Button btnClearLog;
 
 		private int _logPageNumber;
@@ -92,6 +94,7 @@ namespace Subtext.Web.Admin.Pages
 		private void InitializeComponent()
 		{    
 			this.btnClearLog.Click += new EventHandler(this.btnClearLog_Click);
+			this.btnExportToExcel.Click +=new EventHandler(btnExportToExcel_Click);
 		}
 		#endregion
 
@@ -100,6 +103,19 @@ namespace Subtext.Web.Admin.Pages
 			LoggingProvider.Instance().ClearLog();
 			LogPager.PageIndex = 0; //Back to first page.
 			BindList();
+		}
+
+		private void BindListForExcel()
+		{
+			PagedLogEntryCollection logEntries = LoggingProvider.Instance().GetPagedLogEntries(1, int.MaxValue - 1, SortDirection.Descending);
+			LogPage.DataSource = logEntries;
+			LogPage.DataBind();
+		}
+
+		private void btnExportToExcel_Click(object sender, EventArgs e)
+		{
+			BindListForExcel();
+			ControlHelper.ExportToExcel(this.LogPage, "SubtextErrorLog.xls");
 		}
 	}
 }
