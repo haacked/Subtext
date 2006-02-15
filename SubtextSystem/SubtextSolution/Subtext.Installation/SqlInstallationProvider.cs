@@ -90,7 +90,6 @@ namespace Subtext.Installation
 		/// <param name="populatedControl">Populated control.</param>
 		public override void ProvideInstallationInformation(Control populatedControl)
 		{
-			
 		}
 
 		/// <summary>
