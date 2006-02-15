@@ -14,6 +14,8 @@
 #endregion
 
 using System;
+using System.Globalization;
+using System.Threading;
 using System.Web;
 using MbUnit.Framework;
 using Subtext.Extensibility;
@@ -31,6 +33,25 @@ namespace UnitTests.Subtext.Framework.Format
 	public class UrlFormatTests
 	{
 		string _hostName;
+
+		/// <summary>
+		/// Makes sure that url formatting is culture invariant.
+		/// </summary>
+		[Test]
+		public void FormattingEntryUrlIsCultureInvariant()
+		{
+			Entry entry = new Entry(PostType.BlogPost);
+			entry.DateCreated = DateTime.Parse("2006/01/23");
+			entry.EntryName = "test";
+
+			UrlFormats formats = new UrlFormats("http://localhost/");
+			string url = formats.EntryUrl(entry);
+			Assert.AreEqual("http://localhost/archive/2006/01/23/test.aspx", url, "Expected a normally formatted url.");
+
+			Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("tr");
+			url = formats.EntryUrl(entry);
+			Assert.AreEqual("http://localhost/archive/2006/01/23/test.aspx", url, "Expected a normally formatted url.");
+		}
 
 		/// <summary>
 		/// Makes sure the method GetEditLink distringuishes between a post and article.
