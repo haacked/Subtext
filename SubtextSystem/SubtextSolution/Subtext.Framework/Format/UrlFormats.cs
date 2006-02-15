@@ -64,13 +64,12 @@ namespace Subtext.Framework.Format
 
 		public virtual string YearUrl(DateTime dt)
 		{
-			return GetUrl("archive/{0}.aspx",dt.ToString("yyyy", CultureInfo.InvariantCulture));
+			return GetUrl("archive/{0:yyyy}.aspx", dt);
 		}
 
 		public virtual string DayUrl(DateTime dt)
 		{
-			//return GetUrl("archive/{0}/{1}/{2}.aspx",dt.Year,dt.Month,dt.Day);
-			return GetUrl("archive/{0}.aspx",dt.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture));
+			return GetUrl("archive/{0:yyyy/MM/dd}.aspx", dt);
 		}
 
 		public virtual string GalleryUrl(string category, int GalleryID)
@@ -86,27 +85,26 @@ namespace Subtext.Framework.Format
 			}
 
 			return GetUrl("articles/{0}.aspx",entry.EntryID);
-			
 		}
 
 		public virtual string MonthUrl(DateTime dt)
 		{
-			return GetUrl("archive/{0}.aspx", dt.ToString("yyyy/MM", CultureInfo.InvariantCulture));
+			return GetUrl("archive/{0:yyyy/MM}.aspx", dt);
 		}
 
-		public virtual string CommentRssUrl(int EntryID)
+		public virtual string CommentRssUrl(int entryId)
 		{
-			return GetUrl("comments/commentRss/{0}.aspx",EntryID);
+			return GetUrl("comments/commentRss/{0}.aspx", entryId);
 		}
 
-		public virtual string CommentUrl(Entry ParentEntry, Entry ChildEntry)
+		public virtual string CommentUrl(Entry parentEntry, Entry childEntry)
 		{
-			return string.Format(CultureInfo.InvariantCulture, "{0}#{1}", ParentEntry.Link, ChildEntry.EntryID);
+			return string.Format(CultureInfo.InvariantCulture, "{0}#{1}", parentEntry.Link, childEntry.EntryID);
 		}
 
 		public virtual string CommentUrl(Entry entry)
 		{
-			return 	GetUrl("archive/" + entry.DateCreated.ToString("yyyy/MM/dd") + "/{0}.aspx#{1}", entry.HasEntryName ? entry.EntryName : entry.ParentID.ToString(CultureInfo.InvariantCulture), entry.EntryID);
+			return 	GetUrl("archive/{0:yyyy/MM/dd}/{1}.aspx#{2}", entry.DateCreated, entry.HasEntryName ? entry.EntryName : entry.ParentID.ToString(CultureInfo.InvariantCulture), entry.EntryID);
 		}
 
 		public virtual string CommentApiUrl(int EntryID)
@@ -403,7 +401,7 @@ namespace Subtext.Framework.Format
 			string hostDelim = "://";
 			string host = null;
 			int hostStart = url.IndexOf(hostDelim);
-			hostStart = (hostStart < 0) ? 0 : hostStart+3;
+			hostStart = (hostStart < 0) ? 0 : hostStart + 3;
 
 			int hostEnd = url.IndexOf("/", hostStart);
 			
