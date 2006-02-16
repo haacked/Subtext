@@ -8,15 +8,10 @@
 		<HeaderTemplate>
 			<table class="Listing" cellSpacing="0" cellPadding="4" border="0">
 				<tr>
-					<th>
-						Title</th>
-					<th>
-						Host</th>
-					<th>
-						Application</th>
-					<th>
-						Active
-					</th>
+					<th>Title</th>
+					<th>Host</th>
+					<th>Subfolder</th>
+					<th>Active</th>
 				</tr>
 		</HeaderTemplate>
 		<ItemTemplate>
@@ -115,7 +110,7 @@
 				var host = document.getElementById(txtHostId);
 				var application = document.getElementById(txtApplicationId);
 				var urlPreview = document.getElementById('urlPreview');
-				var virtDirField = document.getElementById(virtualDirectoryId);
+				var virtdirField = document.getElementById(virtualDirectoryId);
 				
 				var hostText = 'not specified';
 				if(host && host.value != '')
@@ -144,75 +139,75 @@
 					appText += '/';
 				}
 				
-				var virtDirText = '';
-				if(virtDirField && virtDirField.value != '')
+				var virtdirText = '';
+				if(virtdirField && virtdirField.value != '')
 				{
-					virtDirText = '/' + virtDirField.value;
+					virtdirText = '/' + virtdirField.value;
 				}
 			
-				var preview = 'http://<span style="color:#990000">' + hostText + '</span>' + virtDirText + '/' + appText + 'default.aspx';
+				var preview = 'http://<span style="color:#990000">' + hostText + '</span>' + virtdirText + '/' + appText + 'default.aspx';
 				
 				urlPreview.innerHTML = preview;
 			}
 	</script>
-	<STRONG>
+	<strong>
 		<SP:HelpToolTip id="Helptooltip1" runat="server" HelpText="Based on what you’ve entered below, this shows what the url to this blog will look like. <em>(Requires Javascript to be enabled)</em>">Url 
-Preview</SP:HelpToolTip>:</STRONG>
+Preview</SP:HelpToolTip>:</strong>
 	<DIV class="MessagePanel" id="urlPreview">http://
 	</DIV>
 	<TABLE border="0">
-		<TR valign="top">
-			<TD><LABEL for="lblTitle">Title:</LABEL></TD>
-			<TD>
+		<tr valign="top">
+			<td><label for="lblTitle">Title:</label></td>
+			<td>
 				<asp:label id="lblTitle" Runat="server"></asp:label>
 				<asp:TextBox id="txtTitle" Runat="server" MaxLength="100"></asp:TextBox>
-			</TD>
-		</TR>
-		<TR valign="top">
-			<TD><LABEL for="txtHost">
-					<SP:HelpToolTip id="hostDomainHelpTip" runat="server">
-						<STRONG>Host Domain</STRONG></SP:HelpToolTip>:</LABEL>
-			</TD>
-			<TD>
+			</td>
+		</tr>
+		<tr valign="top">
+			<td>
+				<label for="txtHost">
+				<SP:HelpToolTip id="hostDomainHelpTip" runat="server"><strong>Host Domain</strong></SP:HelpToolTip>:</label>
+			</td>
+			<td>
 				<asp:TextBox id="txtHost" Runat="server" MaxLength="100"></asp:TextBox><INPUT id="virtualDirectory" type="hidden" runat="server">
-			</TD>
-		</TR>
-		<TR valign="top">
-			<TD>
+			</td>
+		</tr>
+		<tr valign="top">
+			<td>
 				<SP:HelpToolTip id="applicationHelpTip" runat="server">
-					<STRONG>Application</STRONG></SP:HelpToolTip>:
-				</TD>
-			<TD>
+					<strong>Subfolder</strong></SP:HelpToolTip>:
+				</td>
+			<td>
 				<asp:TextBox id="txtApplication" Runat="server" MaxLength="50"></asp:TextBox>
-			</TD>
-		</TR>
-		<TR valign="top">
-			<TD><LABEL for="txtUsername">
-				<SP:HelpToolTip id="helpUsername" runat="server" HelpText="This will be the user who is the administrator of this blog.">User 
-				Name:</SP:HelpToolTip></LABEL>
-			</TD>
-			<TD>
-				<asp:TextBox id="txtUsername" Runat="server" MaxLength="50"></asp:TextBox></TD>
-		</TR>
-		<TR id="passwordRow" runat="server" valign="top">
-			<TD><LABEL for="txtPassword">
-					<SP:HelpToolTip id="helpPassword" runat="server" HelpText="When editing an existing blog, you can leave this blank if you do not wish to change the password.">Password:</SP:HelpToolTip></LABEL>
-			</TD>
-			<TD>
+			</td>
+		</tr>
+		<tr valign="top">
+			<td><label for="txtUsername">
+				<SP:HelpToolTip id="helpUsername" runat="server" HelpText="This will be the user who is the administrator of this blog.">
+				User Name:</SP:HelpToolTip></label>
+			</td>
+			<td>
+				<asp:TextBox id="txtUsername" Runat="server" MaxLength="50"></asp:TextBox></td>
+		</tr>
+		<tr id="passwordRow" runat="server" valign="top">
+			<td><label for="txtPassword">
+					<SP:HelpToolTip id="helpPassword" runat="server" HelpText="When editing an existing blog, you can leave this blank if you do not wish to change the password.">Password:</SP:HelpToolTip></label>
+			</td>
+			<td>
 				<asp:TextBox id="txtPassword" Runat="server" MaxLength="50" TextMode="Password"></asp:TextBox>
-			</TD>
-		</TR>
-		<TR id="passwordRowConfirm" runat="server" valign="top">
-			<TD><LABEL for="txtPasswordConfirm">Confirm Password:</LABEL></TD>
-			<TD>
+			</td>
+		</tr>
+		<tr id="passwordRowConfirm" runat="server" valign="top">
+			<td><label for="txtPasswordConfirm">Confirm Password:</label></td>
+			<td>
 				<asp:TextBox id="txtPasswordConfirm" Runat="server" MaxLength="50" TextMode="Password"></asp:TextBox>
-			</TD>
-		</TR>
-		<TR valign="top">
-			<TD colSpan="2">
+			</td>
+		</tr>
+		<tr valign="top">
+			<td colSpan="2">
 				<asp:Button id="btnCancel" Text="Cancel" Runat="server" CssClass="button"></asp:Button>
 				<asp:Button id="btnSave" Text="Save" Runat="server" CssClass="button"></asp:Button>
-			</TD>
-		</TR>
+			</td>
+		</tr>
 	</TABLE>
 </ANW:AdvancedPanel>

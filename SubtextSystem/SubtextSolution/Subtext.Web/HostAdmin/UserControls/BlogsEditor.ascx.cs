@@ -204,12 +204,14 @@ namespace Subtext.Web.HostAdmin.UserControls
 				+ "</p>";
 
 			this.applicationHelpTip.HelpText = "<p>"
-				+ "Leave the application blank unless you are hosting multiple blogs on the "
-				+ "same server.</p>"
-				+ "<p>The Application is a &#8220;subdirectory&#8221; that will correspond "
-				+ "to this blog.</p><p>For example, if you enter &#8220;MyBlog&#8221; " 
+				+ "This sets the subfolder of the host domain that the blog will appear to be located in."
+				+ "</p>"
+				+ "<p>For example, if you enter &#8220;MyBlog&#8221; " 
 				+ "(sans quotes of course) for the application, then the root URL to your blog "
 				+ "would be <em>http://[HOSTDOMAIN]/MyBlog/</em>"
+				+ "</p>"
+				+ "<p>"
+				+ "Leave this value blank if you wish to host your blog in the root of your website."
 				+ "</p>";
 			#endregion
 		}
