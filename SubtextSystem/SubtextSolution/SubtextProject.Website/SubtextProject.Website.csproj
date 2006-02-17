@@ -195,7 +195,7 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Docs\Developer\HowARequestBecomesAPage\Default.aspx"
+                    RelPath = "Docs\Developer\HowAnUrlIsMappedToABlog\Default.aspx"
                     BuildAction = "Content"
                 />
                 <File
@@ -216,7 +216,19 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "images\BlogRecords.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "images\BlogRecordsNoApplicationOnOne.Png"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "images\bottom.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "images\CreateVirtualDir.Png"
                     BuildAction = "Content"
                 />
                 <File
@@ -232,11 +244,19 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "images\HostAdminSingleBlog.jpg"
+                    RelPath = "images\HostAdminEditBlog.Png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "images\HostAdminSingleBlog.png"
                     BuildAction = "Content"
                 />
                 <File
                     RelPath = "images\link.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "images\ListOfLegalBlogs.Png"
                     BuildAction = "Content"
                 />
                 <File
@@ -265,6 +285,10 @@
                 />
                 <File
                     RelPath = "images\SubtextLogo.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "License\Default.aspx"
                     BuildAction = "Content"
                 />
                 <File
