@@ -390,7 +390,7 @@ namespace Subtext.Framework.Components
 			set{_feedBackCount = value;}
 		}
 
-		private PostConfig _PostConfig = PostConfig.Empty;
+		private PostConfig _PostConfig = PostConfig.None;
 		
 		public PostConfig PostConfig
 		{
