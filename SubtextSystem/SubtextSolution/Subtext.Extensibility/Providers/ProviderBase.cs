@@ -155,6 +155,12 @@ namespace Subtext.Extensibility.Providers
 		/// <returns></returns>
 		public string GetSettingValue(string settingKey, System.Collections.Specialized.NameValueCollection configValue)
 		{
+			if(settingKey == null)
+				throw new ArgumentNullException("settingKey", "The setting key is null. The provider may not be configured correctly.");
+			
+			if(configValue == null)
+				throw new ArgumentNullException("configValue", "The config values collection is null. The provider for the setting '" + settingKey + "' may not be configured correctly.");
+
 			const int StartDelimiterLength = 2;
 			const int EndDelimiterLength = 1;
 			string settingValue = configValue[settingKey];

@@ -24,7 +24,7 @@ namespace Subtext.Extensibility
 	[Flags()]
 	public enum PostConfig
 	{
-		Empty = 0,
+		None = 0,
 		IsActive = 1,
 		IsXHTML = 2,
 		AllowComments = 4,
