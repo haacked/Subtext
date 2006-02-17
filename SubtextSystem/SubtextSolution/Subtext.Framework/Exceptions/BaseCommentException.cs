@@ -26,7 +26,7 @@ namespace Subtext.Framework.Exceptions
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CommentSpamException"/> class.
 		/// </summary>
-		public BaseCommentException() : base()
+		protected BaseCommentException() : base()
 		{
 		}
 
@@ -34,7 +34,7 @@ namespace Subtext.Framework.Exceptions
 		/// Initializes a new instance of the <see cref="CommentSpamException"/> class.
 		/// </summary>
 		/// <param name="message">The message.</param>
-		public BaseCommentException(string message) : base(message)
+		protected BaseCommentException(string message) : base(message)
 		{
 		}
 
@@ -42,7 +42,7 @@ namespace Subtext.Framework.Exceptions
 		/// Initializes a new instance of the <see cref="BaseCommentException"/> class.
 		/// </summary>
 		/// <param name="innerException">The inner exception.</param>
-		public BaseCommentException(Exception innerException) : base(innerException)
+		protected BaseCommentException(Exception innerException) : base(innerException)
 		{}
 
 		/// <summary>
@@ -50,7 +50,7 @@ namespace Subtext.Framework.Exceptions
 		/// </summary>
 		/// <param name="message">The message.</param>
 		/// <param name="innerException">The inner exception.</param>
-		public BaseCommentException(string message, Exception innerException) : base(message, innerException)
+		protected BaseCommentException(string message, Exception innerException) : base(message, innerException)
 		{
 		}
 	}
