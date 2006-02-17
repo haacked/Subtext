@@ -120,7 +120,7 @@ namespace Subtext.Framework.Components
 			}
 		}
 
-		private PostType _postType = PostType.Undeclared;
+		private PostType _postType = PostType.None;
 		/// <summary>
 		/// Gets or sets the type of the post.
 		/// </summary>

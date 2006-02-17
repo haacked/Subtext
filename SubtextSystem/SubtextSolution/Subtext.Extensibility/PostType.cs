@@ -22,11 +22,11 @@ namespace Subtext.Extensibility
 	/// </summary>
 	public enum PostType
 	{
+		None = 0,
 		BlogPost = 1,
 		Story = 2,
 		Comment = 3,
 		PingTrack = 4,
-		Undeclared =5
 	}
 }
 

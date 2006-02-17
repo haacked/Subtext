@@ -88,7 +88,7 @@ namespace Subtext.Web.Admin.UserControls
 			{
 				if(ViewState["PostType"] != null)
 					return (PostType)ViewState["PostType"];
-				return PostType.Undeclared;
+				return PostType.None;
 			}
 			set
 			{
@@ -397,8 +397,8 @@ namespace Subtext.Web.Admin.UserControls
 					Entry entry;
 					if (PostID == NullValue.NullInt32)
 					{
-						if(EntryType == PostType.Undeclared)
-							throw new ArgumentException("The entry type is undeclared. Impossible!", "EntryType");
+						if(EntryType == PostType.None)
+							throw new ArgumentException("The entry type is None. Impossible!", "EntryType");
 						entry = new Entry(EntryType);
 					}
 					else
