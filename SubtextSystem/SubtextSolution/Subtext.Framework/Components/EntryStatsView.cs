@@ -26,7 +26,7 @@ namespace Subtext.Framework.Components
 		/// <summary>
 		/// Creates a new <see cref="EntryStatsView"/> instance.
 		/// </summary>
-		public EntryStatsView() : base(PostType.Undeclared)
+		public EntryStatsView() : base(PostType.None)
 		{
 		}
 
