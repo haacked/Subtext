@@ -57,7 +57,7 @@ namespace Subtext.Framework.Exceptions
 				}
 				else
 				{
-					return "Sorry, but changing this blog to use that host and application name would conflict with another blog.";
+					return "Sorry, but changing this blog to use that host and subfolder name would conflict with another blog.";
 				}
 			}
 		}

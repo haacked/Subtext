@@ -151,11 +151,12 @@
 			}
 	</script>
 	<strong>
-		<SP:HelpToolTip id="Helptooltip1" runat="server" HelpText="Based on what you’ve entered below, this shows what the url to this blog will look like. <em>(Requires Javascript to be enabled)</em>">Url 
-Preview</SP:HelpToolTip>:</strong>
-	<DIV class="MessagePanel" id="urlPreview">http://
-	</DIV>
-	<TABLE border="0">
+		<SP:HelpToolTip id="Helptooltip1" runat="server" HelpText="Based on what you’ve entered below, this shows what the url to this blog will look like.">
+			Url Preview</SP:HelpToolTip>:
+	</strong>
+	<div class="MessagePanel" id="urlPreview">http://
+	</div>
+	<table border="0">
 		<tr valign="top">
 			<td><label for="lblTitle">Title:</label></td>
 			<td>
@@ -209,5 +210,5 @@ Preview</SP:HelpToolTip>:</strong>
 				<asp:Button id="btnSave" Text="Save" Runat="server" CssClass="button"></asp:Button>
 			</td>
 		</tr>
-	</TABLE>
+	</table>
 </ANW:AdvancedPanel>

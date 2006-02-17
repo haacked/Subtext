@@ -98,7 +98,7 @@ namespace Subtext.Framework.Exceptions
 				if(_blogsWithSameHostCount >= 1)
 					blogCountClause = "are " + _blogsWithSameHostCount + " blogs";
 
-				return String.Format("Sorry, but there {0} with the specified hostname '{1}'.  To set up another blog with the same hostname, you must provide an application name.  Please click on 'Host Domain' below for more information.", blogCountClause, _host);
+				return String.Format("Sorry, but there {0} with the specified hostname '{1}'.  To set up another blog with the same hostname, you must provide an subfolder name.  Please click on 'Host Domain' below for more information.", blogCountClause, _host);
 			}
 		}
 
