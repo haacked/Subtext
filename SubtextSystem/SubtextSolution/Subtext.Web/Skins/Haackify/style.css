@@ -1,4 +1,10 @@
-/******* Generic Styles ****/
+/*
+Title:		Haackify Stylesheet for screen
+Author:		Phil Haack
+Updated:	Jan 02, 2005
+Notes:		IE hacks are kept in IEPatches.css
+*/
+
 body 
 {
 	text-align: center;
