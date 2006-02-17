@@ -50,7 +50,7 @@ namespace Subtext.Framework.Exceptions
 		{
 			get
 			{
-				return "Sorry, but the application name &#8220;" + _application + "&#8221; you&#8217;ve chosen is not allowed.";
+				return "Sorry, but the subfolder name &#8220;" + _application + "&#8221; you&#8217;ve chosen is not allowed.";
 			}
 		}
 
