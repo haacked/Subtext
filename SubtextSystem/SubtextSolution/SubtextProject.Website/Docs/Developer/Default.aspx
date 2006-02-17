@@ -24,16 +24,23 @@
 	
 	<h3><a href="~/Docs/Developer/GuideToCVSAndSourceForge/" title="Quickstart Guide to CVS and SourceForge" runat="server" ID="A1">Quickstart Guide To Open Source Development With CVS and SourceForge</a></h3>
 	<p>
-		This is a copy of <a href="http://haacked.com/archive/2005/05/12/3178.aspx">the post</a> on <a href="http://haacked.com/">http://haacked.com/</a> 
+		This is a copy of <a href="http://haacked.com/archive/2005/05/12/3178.aspx" title="Quickstart Guide to CVS and SourceForge" rel="external">the post</a> on <a href="http://haacked.com/" title="Phil Haack's Blog" rel="external">http://haacked.com/</a> 
 		for developers who have WRITE access to the CVS repository.
+	</p>
+	
+	<h3><a href="~/Docs/Developer/CodingGuidelines/" title="Coding Guidelines" runat="server">Coding Guidelines</a></h3>
+	<p>
+		A style guide for contributing code to the Subtext project.
 	</p>
 	
 	<h3><a href="Documentation.chm" title="Code Documentation">Code Documentation</a></h3>
 	<p>
-		This is an <a href="http://ndoc.sourceforge.net/">NDoc</a> generated CHM 
+		This is an <a href="http://ndoc.sourceforge.net/" title="NDoc Code Documentation" rel="external">NDoc</a> generated CHM 
 		(Compiled Help Manual) file that contains documentation for the source code. 
 		It&#8217;s sparsely populated, but we&#8217;re working to steadily change that.
 	</p>
+	
+	
 	
 	
 </MP:MasterPage>

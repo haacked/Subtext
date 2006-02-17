@@ -13,7 +13,7 @@
 	</p>
 	<ul>
 		<li>ASP.NET 1.1</li>
-		<li>SQL Server</li>
+		<li>SQL Server 2000</li>
 	</ul>
 	<p>
 	And of course it should be running IIS 4.0 or later.
