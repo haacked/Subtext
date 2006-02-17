@@ -12,8 +12,8 @@
 	<ul>
 		<li>
 		Providers implemented following the Provider Model Design Pattern and Specification as 
-		written up in the following two articles: <a href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnaspnet/html/asp02182004.asp">Part 1</a> 
-		and <a href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnaspnet/html/asp04212004.asp">Part 2</a>.
+		written up in the following two articles: <a href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnaspnet/html/asp02182004.asp" title="Provider Design Pattern Part 1" rel="external">Part 1</a> 
+		and <a href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnaspnet/html/asp04212004.asp" title="Provider Design Pattern Part 2" rel="external">Part 2</a>.
 		</li>
 		<li>
 		DTOProvider is now the ObjectProvider.  Currently there&#8217;s still only one concrete 
@@ -32,7 +32,7 @@
 		<li>
 		<strong>Subtext.Web</strong> is a class library project, rather than a Web Project according to the 
 		outline written up by Fritz Onion in his article 
-		<a href="http://pluralsight.com/wiki/default.aspx/Fritz.AspNetWithoutWebProjects">ASP.NET Applications 
+		<a href="http://pluralsight.com/wiki/default.aspx/Fritz.AspNetWithoutWebProjects" title="How to implement ASP.NET 1.1 web sites as a class library" rel="external">ASP.NET Applications 
 		Without Web Projects</a>.
 		</li>
 		<li>
@@ -40,15 +40,19 @@
 		dependencies on Subtext.  These are essentially controls that can be reused anywhere.
 		</li>
 		<li>
-		<strong>SubtextBuildAndSetup</strong> may go away at some point. It is currently 
-		just a place to store SQL Installation and Upgrade scripts.  It was the beginning 
-		of a WiX installation project, but we&#8217;re moving away from that approach.
+		<strong>Subtext.Installation</strong> houses the SQL installation scripts an 
+		embedded resources.
 		</li>
 		<li>
-		<strong>UnitTests.Subtext</strong> is where Subtext unit tests are housed.  
-		Currently the unit tests are implemented against a mock UnitTestObjectProvider.  
-		This will change soon and we&#8217;ll test against every provider using a 
-		RollBack attribute.
+		<strong>Subtext.Scripting</strong> contains the SqlScriptRunner class. This is useful 
+		for running embedded sql scripts as if the user were in Query Analyzer. It includes 
+		support for template variables.
+		</li>
+		<li>
+		<strong>UnitTests.Subtext</strong> is where Subtext  unit tests are housed.  
+		These unit tests are run via <a href="http://www.mertner.com/confluence/display/MbUnit/Home" title="MBUnit Home" rel="external">MBUnit</a> 
+		and make use of the RollBack attribute so that writes to the database are 
+		not persisted.
 		</li>
 	</ul>	
 </MP:MasterPage>

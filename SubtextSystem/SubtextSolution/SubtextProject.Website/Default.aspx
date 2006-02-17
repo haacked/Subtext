@@ -17,7 +17,7 @@
 	your hands in the air and declaring that you&#8217;re going to write your own blogging 
 	engine, then Subtext is for you.
 	</p>
-	<p><img src="images/screenshots-hp.jpg" alt="Two of the new SubText skins"></p>
+	<div class="dropshadow"><div class="innerbox"><img src="~/images/screenshots-hp.jpg" alt="Two of the new SubText skins" runat="server" /></div></div>
 	<p>
 	The guiding philosophy behind Subtext is to remove hindrances to online expression. 
 	A blogging platform should be easy to understand, set up, and use.

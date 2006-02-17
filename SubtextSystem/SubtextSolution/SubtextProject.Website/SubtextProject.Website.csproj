@@ -171,6 +171,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Docs\Configuration\Default.aspx"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Docs\Developer\Default.aspx"
                     BuildAction = "Content"
                 />
@@ -224,6 +228,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "images\HostAdminSingleBlog.jpg"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "images\link.gif"
                     BuildAction = "Content"
                 />
@@ -236,7 +244,7 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "images\Screenshot.jpg"
+                    RelPath = "images\screenshots-hp.jpg"
                     BuildAction = "Content"
                 />
                 <File

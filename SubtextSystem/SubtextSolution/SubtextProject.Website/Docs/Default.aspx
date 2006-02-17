@@ -11,4 +11,7 @@
 	<p>We&#8217;re just getting started on Subtext, but we&#8217;re committed 
 	to having the best and clearest documentation possible.
 	</p>
+	<p>
+	If you would like to help, please contribute.  We could really use the help.
+	</p>
 </MP:MasterPage>
