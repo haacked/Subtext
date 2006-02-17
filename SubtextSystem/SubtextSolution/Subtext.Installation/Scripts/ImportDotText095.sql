@@ -21,6 +21,10 @@ SELECT @user_name = user_name()
 
 */
 
+SELECT BlogId, Host
+FROM subtext_Config
+
+
 -- subtext_Config
 SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Config] ON
 

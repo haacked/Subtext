@@ -421,6 +421,15 @@ img
 	margin: auto;
 }
 
+/*-----------[ acronym ] --------------*/
+.description, acronym, dfn 
+{
+	border-bottom-width: 1px;
+	border-bottom-style: dotted;
+	border-bottom-color: #666666;
+	cursor: help;
+}
+
 /********* Image Drop Shadow **********/
 
 .dropshadow

@@ -189,6 +189,9 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static string ConvertToAllowedHtml(string text)
 		{
+			if(text == null)
+				throw new ArgumentNullException("text", "Cannot convert null to allowed html.");
+
 			NameValueCollection allowedHtmlTags = ((NameValueCollection)(ConfigurationSettings.GetConfig("AllowableCommentHtml")));
 			
 #if DEBUG

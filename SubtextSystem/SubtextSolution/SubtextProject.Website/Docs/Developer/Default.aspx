@@ -33,6 +33,13 @@
 		A style guide for contributing code to the Subtext project.
 	</p>
 	
+	<h3><a href="~/Docs/Developer/HowAnUrlIsMappedToABlog/" title="How An Url Is Mapped To A Blog" runat="server" ID="A2">How An Url Is Mapped To A Blog</a></h3>
+	<p>
+		Describes how urls are mapped to blogs within Subtext.  
+		This is a necessary topic for developers since Subtext 
+		installations supports multiple blogs.
+	</p>
+	
 	<h3><a href="Documentation.chm" title="Code Documentation">Code Documentation</a></h3>
 	<p>
 		This is an <a href="http://ndoc.sourceforge.net/" title="NDoc Code Documentation" rel="external">NDoc</a> generated CHM 
