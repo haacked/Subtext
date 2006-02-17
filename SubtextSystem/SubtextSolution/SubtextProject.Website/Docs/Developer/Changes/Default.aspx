@@ -2,7 +2,7 @@
 <%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <%@ Register TagPrefix="MP" TagName="DocLinks" Src="~/Docs/DocLinks.ascx" %>
 <MP:MasterPage id="MPContainer" runat="server">
-	<MP:ContentRegion id="MPTitle" runat="server">Subtext - Docs - FAQ</MP:ContentRegion>
+	<MP:ContentRegion id="MPTitle" runat="server">Subtext - Docs - Developer</MP:ContentRegion>
 	<MP:ContentRegion id="MPSideBar" runat="server">
 		<MP:DocLinks id="AboutLinks" runat="server" />
 	</MP:ContentRegion>

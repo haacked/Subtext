@@ -14,6 +14,10 @@
 		is for the configuration information that doesn&#8217;t 
 		explain itself.
 	</p>
+	<p>
+		For a deeper understanding of how URLs are mapped to 
+		blogs, please <a href="~/Docs/Developer/HowAnUrlIsMappedToABlog" title="Mapping URLs to Blogs" runat="server" ID="A1">read this</a>.
+	</p>
 	<h3>Single Blog Configuration</h3>
 	<p>
 		Single blog configuration is pretty straightforward. 
@@ -48,11 +52,12 @@
 	</p>
 	<p>
 		To have the blog in the web root, simply leave the &#8220;Subfolder&#8221; 
-		field blank. Note that if a Subfolder is specified, it is not necessary, but 
-		a good idea to create a virtual directory in IIS with the same name.  The 
-		virtual directory should point to the webroot directory, and should NOT 
-		be an IIS Application (in the screenshot below, clicking the &#8220;Remove&#8221; 
-		button makes sure this virtual directory is not an application.
+		field blank. Note that if a Subfolder is specified, it is a good idea to 
+		create a virtual directory in IIS with the same name, though this is  not 
+		absolutely necessary.  The virtual directory should point to the webroot 
+		directory, and should NOT be an IIS Application (in the screenshot below, 
+		clicking the &#8220;Remove&#8221; button makes sure this virtual directory 
+		is not an application.
 	</p>
 	<div class="dropshadow"><div class="innerbox"><img src="~/images/CreateVirtualDir.Png" alt="Screenshot of IIS Virtual Directory Dialog" runat="server" ID="Img2"/></div></div>
 	<div class="caption" style="clear: both;"><strong>Figure 3:</strong> Setting up a virtual directory.</div>
@@ -65,8 +70,10 @@
 	<p>
 		If you plan on hosting multiple blogs within a single 
 		installation of Subtext, then configuration gets slightly 
-		more complicated.  It helps to understand how Subtext 
-		maps requests to blogs under the hood.
+		more complicated.
+	</p>
+	<p>
+		This topic is covered more <a href="~/Docs/Developer/HowAnUrlIsMappedToABlog" title="Mapping URLs to Blogs" runat="server">in-depth here</a>.
 	</p>
 	
 </MP:MasterPage>
