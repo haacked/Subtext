@@ -44,13 +44,13 @@ namespace Subtext.Framework
 		/// <summary>
 		/// Determines whether the specified value is null.
 		/// </summary>
-		/// <param name="integer">The value.</param>
+		/// <param name="integerValue">The value.</param>
 		/// <returns>
 		/// 	<c>true</c> if the specified value is null; otherwise, <c>false</c>.
 		/// </returns>
-		public static bool IsNull(int integer)
+		public static bool IsNull(int integerValue)
 		{
-			return integer == NullInt32;
+			return integerValue == NullInt32;
 		}
 
 		/// <summary>

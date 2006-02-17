@@ -710,14 +710,6 @@
           </Members>
          </Type>
          <Type Name="CommentRssWriter">
-          <Messages>
-           <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-            <Issue Name="Type">
-             <Item>Rss</Item>
-             <Item>Subtext.Common.Syndication.CommentRssWriter</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor(Subtext.Framework.Components.EntryCollection,Subtext.Framework.Components.Entry)">
             <Messages>
@@ -758,14 +750,6 @@
           </Members>
          </Type>
          <Type Name="RssCategoryHandler">
-          <Messages>
-           <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-            <Issue Name="Type">
-             <Item>Rss</Item>
-             <Item>Subtext.Common.Syndication.RssCategoryHandler</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor()">
             <Messages>
@@ -812,14 +796,6 @@
           </Members>
          </Type>
          <Type Name="RssCommentHandler">
-          <Messages>
-           <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-            <Issue Name="Type">
-             <Item>Rss</Item>
-             <Item>Subtext.Common.Syndication.RssCommentHandler</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor()">
             <Messages>
@@ -877,14 +853,6 @@
           </Members>
          </Type>
          <Type Name="RssHandler">
-          <Messages>
-           <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-            <Issue Name="Type">
-             <Item>Rss</Item>
-             <Item>Subtext.Common.Syndication.RssHandler</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor()">
             <Messages>
@@ -910,16 +878,6 @@
             </Messages>
            </Member>
           </Members>
-         </Type>
-         <Type Name="RssWriter">
-          <Messages>
-           <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-            <Issue Name="Type">
-             <Item>Rss</Item>
-             <Item>Subtext.Common.Syndication.RssWriter</Item>
-            </Issue>
-           </Message>
-          </Messages>
          </Type>
         </Types>
        </Namespace>
@@ -1134,11 +1092,6 @@
     <Modules>
      <Module Name="subtext.extensibility.dll">
       <Messages>
-       <Message TypeName="AssembliesShouldDeclareMinimumSecurity" Category="Microsoft.Usage" CheckId="CA2209" Created="2006-02-17 18:47:00Z">
-        <Issue>
-         <Item>Subtext.Extensibility</Item>
-        </Issue>
-       </Message>
        <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Created="2006-02-17 18:47:00Z">
         <Issue Name="NoStrongName">
          <Item>Subtext.Extensibility</Item>
@@ -1159,12 +1112,6 @@
          </Type>
          <Type Name="PostConfig">
           <Messages>
-           <Message TypeName="EnumsShouldHaveZeroValue" Category="Microsoft.Design" CheckId="CA1008" Created="2006-02-17 18:47:00Z" FixCategory="Breaking">
-            <Issue Name="FlagsRename">
-             <Item>Subtext.Extensibility.PostConfig</Item>
-             <Item>PostConfig.Empty</Item>
-            </Issue>
-           </Message>
            <Message TypeName="FlagsEnumsShouldHavePluralNames" Category="Microsoft.Naming" CheckId="CA1714" Created="2006-02-17 18:47:00Z">
             <Issue>
              <Item>PostConfig</Item>
@@ -1194,15 +1141,6 @@
             </Messages>
            </Member>
           </Members>
-         </Type>
-         <Type Name="PostType">
-          <Messages>
-           <Message TypeName="EnumsShouldHaveZeroValue" Category="Microsoft.Design" CheckId="CA1008" Created="2006-02-17 18:47:00Z" FixCategory="NonBreaking">
-            <Issue Name="NotFlagsNoZeroValue">
-             <Item>PostType</Item>
-            </Issue>
-           </Message>
-          </Messages>
          </Type>
         </Types>
        </Namespace>
@@ -1385,10 +1323,18 @@
           <Members>
            <Member Name="GetSettingValue(System.String,System.Collections.Specialized.NameValueCollection):System.String">
             <Messages>
-             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-02-17 18:47:00Z">
+             <Message Id="System.ArgumentNullException.#ctor(System.String,System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-02-17 19:02:23Z">
               <Issue>
-               <Item>'configValue'</Item>
                <Item>ProviderBase.GetSettingValue(String, NameValueCollection):String</Item>
+               <Item>2</Item>
+               <Item>ArgumentNullException.ArgumentNullException(String, String)</Item>
+               <Item>The config values collection is null. The provider for the setting '____' may not be configured correctly.</Item>
+              </Issue>
+              <Issue>
+               <Item>ProviderBase.GetSettingValue(String, NameValueCollection):String</Item>
+               <Item>2</Item>
+               <Item>ArgumentNullException.ArgumentNullException(String, String)</Item>
+               <Item>The setting key is null. The provider may not be configured correctly.</Item>
               </Issue>
              </Message>
             </Messages>
@@ -4188,30 +4134,6 @@
            </Member>
           </Members>
          </Type>
-         <Type Name="EntryStatsView">
-          <Members>
-           <Member Name="AggCount">
-            <Messages>
-             <Message Id="Agg" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-              <Issue Name="Member">
-               <Item>Agg</Item>
-               <Item>EntryStatsView.AggCount:Int32</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="AggLastUpdated">
-            <Messages>
-             <Message Id="Agg" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-              <Issue Name="Member">
-               <Item>Agg</Item>
-               <Item>EntryStatsView.AggLastUpdated:DateTime</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
          <Type Name="EntryView">
           <Members>
            <Member Name="EntryID">
@@ -4525,16 +4447,6 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="HasRss">
-            <Messages>
-             <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-              <Issue Name="Member">
-               <Item>Rss</Item>
-               <Item>Link.HasRss:Boolean</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="LinkID">
             <Messages>
              <Message Id="Member" TypeName="ShortAcronymsShouldBeUppercase" Category="Microsoft.Naming" CheckId="CA1706" Created="2006-02-17 18:47:00Z">
@@ -4549,16 +4461,6 @@
              <Message Id="Member" TypeName="ShortAcronymsShouldBeUppercase" Category="Microsoft.Naming" CheckId="CA1706" Created="2006-02-17 18:47:00Z">
               <Issue Name="MemberId">
                <Item>Link.PostID:Int32</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="Rss">
-            <Messages>
-             <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-              <Issue Name="Member">
-               <Item>Rss</Item>
-               <Item>Link.Rss:String</Item>
               </Issue>
              </Message>
             </Messages>
@@ -4720,18 +4622,6 @@
             </Issue>
            </Message>
           </Messages>
-          <Members>
-           <Member Name="AggView">
-            <Messages>
-             <Message Id="Agg" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-              <Issue Name="Member">
-               <Item>Agg</Item>
-               <Item>PageViewType.AggView</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
          </Type>
          <Type Name="Referrer">
           <Members>
@@ -4989,16 +4879,6 @@
            </Message>
           </Messages>
           <Members>
-           <Member Name="EnableAggBugs">
-            <Messages>
-             <Message Id="Agg" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-              <Issue Name="Member">
-               <Item>Agg</Item>
-               <Item>Tracking.EnableAggBugs:Boolean</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="PingWeblogs">
             <Messages>
              <Message Id="Weblogs" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
@@ -6770,12 +6650,6 @@
                <Item>EntryID</Item>
               </Issue>
              </Message>
-             <Message Id="Agg" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-              <Issue Name="Member">
-               <Item>Agg</Item>
-               <Item>UrlFormats.AggBugkUrl(Int32):String</Item>
-              </Issue>
-             </Message>
              <Message Id="Bugk" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
               <Issue Name="Member">
                <Item>Bugk</Item>
@@ -6850,12 +6724,6 @@
            </Member>
            <Member Name="CommentRssUrl(System.Int32):System.String">
             <Messages>
-             <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-              <Issue Name="Member">
-               <Item>Rss</Item>
-               <Item>UrlFormats.CommentRssUrl(Int32):String</Item>
-              </Issue>
-             </Message>
              <Message TypeName="UriReturnValuesShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1055" Created="2006-02-17 18:47:00Z">
               <Issue>
                <Item>UrlFormats.CommentRssUrl(Int32):String</Item>
@@ -9470,14 +9338,6 @@
           </Members>
          </Type>
          <Type Name="BaseRssWriter">
-          <Messages>
-           <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-            <Issue Name="Type">
-             <Item>Rss</Item>
-             <Item>Subtext.Framework.Syndication.BaseRssWriter</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".ctor(System.DateTime,System.Boolean)">
             <Messages>
@@ -9731,35 +9591,11 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="UseAggBugs">
-            <Messages>
-             <Message Id="Agg" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-              <Issue Name="Member">
-               <Item>Agg</Item>
-               <Item>BaseSyndicationWriter.UseAggBugs:Boolean</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="useDeltaEncoding">
             <Messages>
              <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2006-02-17 18:47:00Z">
               <Issue>
                <Item>useDeltaEncoding</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="CachedFeed">
-          <Members>
-           <Member Name="Etag">
-            <Messages>
-             <Message Id="Etag" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-              <Issue Name="Member">
-               <Item>Etag</Item>
-               <Item>CachedFeed.Etag:String</Item>
               </Issue>
              </Message>
             </Messages>
@@ -10415,14 +10251,6 @@
        <Namespace Name="Subtext.Framework.Tracking">
         <Types>
          <Type Name="AggBugHandler">
-          <Messages>
-           <Message Id="Agg" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-            <Issue Name="Type">
-             <Item>Agg</Item>
-             <Item>Subtext.Framework.Tracking.AggBugHandler</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name=".cctor()">
             <Messages>
@@ -10828,12 +10656,6 @@
           <Members>
            <Member Name="AggBugImage(System.String):System.String">
             <Messages>
-             <Message Id="Agg" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-              <Issue Name="Member">
-               <Item>Agg</Item>
-               <Item>TrackingUrls.AggBugImage(String):String</Item>
-              </Issue>
-             </Message>
              <Message Id="System.String.Format(System.String,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-02-17 18:47:00Z">
               <Issue>
                <Item>TrackingUrls.AggBugImage(String):String</Item>
@@ -11611,12 +11433,6 @@
                <Item>WebPathStripper.GetCategryFromRss(String):String</Item>
               </Issue>
              </Message>
-             <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-              <Issue Name="Member">
-               <Item>Rss</Item>
-               <Item>WebPathStripper.GetCategryFromRss(String):String</Item>
-              </Issue>
-             </Message>
              <Message Id="0#" TypeName="UriParametersShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1054" Created="2006-02-17 18:47:00Z">
               <Issue>
                <Item>url</Item>
@@ -11689,12 +11505,6 @@
            </Member>
            <Member Name="RemoveRssSlash(System.String):System.String">
             <Messages>
-             <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-              <Issue Name="Member">
-               <Item>Rss</Item>
-               <Item>WebPathStripper.RemoveRssSlash(String):String</Item>
-              </Issue>
-             </Message>
              <Message Id="0#" TypeName="UriParametersShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1054" Created="2006-02-17 18:47:00Z">
               <Issue>
                <Item>url</Item>
@@ -11868,12 +11678,6 @@
              <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2006-02-17 18:47:00Z">
               <Issue>
                <Item>rssUrl</Item>
-              </Issue>
-             </Message>
-             <Message Id="rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-              <Issue Name="Member">
-               <Item>rss</Item>
-               <Item>CategoryInfo.rssUrl</Item>
               </Issue>
              </Message>
             </Messages>
@@ -14517,16 +14321,6 @@
               <Issue Name="Member">
                <Item>Pingtrack</Item>
                <Item>_default.PingtrackCount</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="RssLink">
-            <Messages>
-             <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-              <Issue Name="Member">
-               <Item>Rss</Item>
-               <Item>_default.RssLink</Item>
               </Issue>
              </Message>
             </Messages>
@@ -18759,12 +18553,6 @@
            </Member>
            <Member Name="txbRss">
             <Messages>
-             <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-              <Issue Name="Member">
-               <Item>Rss</Item>
-               <Item>EditLinks.txbRss</Item>
-              </Issue>
-             </Message>
              <Message Id="txb" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
               <Issue Name="Member">
                <Item>txb</Item>
@@ -19948,14 +19736,14 @@
                <Item>EntryEditor.UpdatePost():Void</Item>
                <Item>1</Item>
                <Item>ArgumentException.ArgumentException(String, String)</Item>
-               <Item>The entry type is undeclared. Impossible!</Item>
+               <Item>The entry type is None. Impossible!</Item>
               </Issue>
              </Message>
              <Message TypeName="InstantiateArgumentExceptionsCorrectly" Category="Microsoft.Usage" CheckId="CA2208" Created="2006-02-17 18:47:00Z">
               <Issue Name="TwoArgumentsSecondShouldBeParameterName">
                <Item>System.ArgumentException</Item>
                <Item>ArgumentException.ArgumentException(String, String)</Item>
-               <Item>The entry type is undeclared. Impossible!</Item>
+               <Item>The entry type is None. Impossible!</Item>
                <Item>EntryType</Item>
               </Issue>
              </Message>
@@ -24183,12 +23971,6 @@
              <Item>class</Item>
              <Item>RssHyperLink</Item>
              <Item>Hyperlink</Item>
-            </Issue>
-           </Message>
-           <Message Id="Rss" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-            <Issue Name="Type">
-             <Item>Rss</Item>
-             <Item>Subtext.Web.UI.WebControls.RssHyperLink</Item>
             </Issue>
            </Message>
           </Messages>

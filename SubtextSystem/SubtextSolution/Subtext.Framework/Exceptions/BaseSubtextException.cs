@@ -26,7 +26,7 @@ namespace Subtext.Framework.Exceptions
 		/// <summary>
 		/// Creates a new <see cref="BaseSubtextException"/> instance.
 		/// </summary>
-		public BaseSubtextException() : base()
+		protected BaseSubtextException() : base()
 		{
 		}
 
@@ -34,7 +34,7 @@ namespace Subtext.Framework.Exceptions
 		/// Initializes a new instance of the <see cref="BaseSubtextException"/> class.
 		/// </summary>
 		/// <param name="message">The message.</param>
-		public BaseSubtextException(string message) : base(message)
+		protected BaseSubtextException(string message) : base(message)
 		{}
 
 		/// <summary>
@@ -42,7 +42,7 @@ namespace Subtext.Framework.Exceptions
 		/// </summary>
 		/// <param name="message">The message.</param>
 		/// <param name="innerException">The inner exception.</param>
-		public BaseSubtextException(string message, Exception innerException) : base(message, innerException)
+		protected BaseSubtextException(string message, Exception innerException) : base(message, innerException)
 		{
 		}
 
@@ -50,7 +50,7 @@ namespace Subtext.Framework.Exceptions
 		/// Creates a new <see cref="BaseSubtextException"/> instance.
 		/// </summary>
 		/// <param name="innerException">Inner exception.</param>
-		public BaseSubtextException(Exception innerException) : base(string.Empty, innerException)
+		protected BaseSubtextException(Exception innerException) : base(string.Empty, innerException)
 		{}
 
 		/// <summary>
