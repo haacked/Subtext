@@ -14,4 +14,7 @@
 	<p>
 	If you would like to help, please contribute.  We could really use the help.
 	</p>
+	<p>
+		Documentation is divided into several areas in the right sidebar.
+	</p>
 </MP:MasterPage>

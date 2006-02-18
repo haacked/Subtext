@@ -199,6 +199,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Docs\Developer\InDepthLookAtTheLifeOfARequest\Default.aspx"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Docs\FAQ\Default.aspx"
                     BuildAction = "Content"
                 />
