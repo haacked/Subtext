@@ -7,7 +7,20 @@
 		<MP:DocLinks id="AboutLinks" runat="server" />
 	</MP:ContentRegion>
 	
-	<h2>In Depth Look At The Life Of A Request</h2>
+	<h2>In Depth Look At The Life Of A Request In Subtext</h2>
+	<h3>Contents</h3>
+	<ul>
+		<li><a href="#intro" title="">Intro</a></li>
+		<li><a href="#firstStop" title="">First Stop, Application_BeginRequest</a></li>
+		<li><a href="#webconfig" title="">Next Stop, Web.config Http Handlers</a></li>
+		<li><a href="#urlReWriteHandlerFactory" title="">All Aboard The UrlReWriteHandlerFactory</a></li>
+		<li><a href="#dtpAhoy" title="">DTP.aspx Ahoy!</a></li>
+		<li><a href="#whoIsTheMaster" title="">Who Is The Master Page!?</a></li>
+		<li><a href="#whoAmI" title="">Who Am I?</a></li>
+		<li><a href="#slapMeSomeSkin" title="">Slap Me Some Skin</a></li>
+		<li><a href="#dtpAndSkinControls" title="">DTP.aspx and SKin Controls</a></li>
+		<li><a href="#moreOnSkins" title="">More On Skins</a></li>
+	</ul>
 	<h3 id="intro">Introduction</h3>
 	<p>
 		In the entry entitled 
@@ -25,7 +38,7 @@
 	<p>
 		This request will end up serving up the page for a single blog post.
 	</p>
-	<h3>First Stop, Application_BeginRequest</h3>
+	<h3 id="firstStop">First Stop, Application_BeginRequest</h3>
 	<p>
 		The first stop on our tour is the <code>Application_BeginRequest</code> method 
 		within Global.asax.cs.
@@ -82,7 +95,7 @@
 		Since the request we are following does not match any of the first five handlers, it is 
 		handled by the <code>UrlReWriteHandlerFactory</code>.
 	</p>
-	<h3 id="UrlReWriteHandlerFactory">All Aboard The UrlReWriteHandlerFactory</h3>
+	<h3 id="urlReWriteHandlerFactory">All Aboard The UrlReWriteHandlerFactory</h3>
 	<p>
 		This handler has its own configuration section within <code>web.config</code>. 
 		It is defined within the <span class="kwrd">&lt;</span><span class="html">HandlerConfiguration</span><span class="kwrd">&gt;</span> 
@@ -125,7 +138,7 @@
 		This returns a compiled instance of &#8220;DTP.aspx&#8221;.  Remember, all this code is executing within 
 		a factory which has the single goal of returning an <code>IHttpHandler</code> to the ASP.NET runtime.
 	</p>
-	<h3>DTP.aspx Ahoy!</h3>
+	<h3 id="dtpAhoy">DTP.aspx Ahoy!</h3>
 	<p>
 		Our journey is by no means over yet, mate.  DTP.aspx is the base skeleton template for pretty 
 		much every page that is handled by the <code>UrlReWriteHandlerFactory</code>.
@@ -138,7 +151,7 @@
 		It also has a <code>MasterPage</code> control declared with a <code>ContentRegion</code>.  
 		These act very similar to the corresponding controls in ASP.NET 2.0.
 	</p>
-	<h3>Who Is The Master!?</h3>
+	<h3 id="whoIsTheMaster">Who Is The Master Page!?</h3>
 	<p>
 		The next stop in our travels takes us to the <code>Subtext.Web.UI.WebControls.MasterPage</code> 
 		control declared on DTP.aspx.  This control is an adaptation of 
@@ -152,7 +165,7 @@
 		skin for.  When attempting to look up the current skin, Subtext calls the property 
 		<code>Config.CurrentBlog</code>
 	</p>
-	<h3>Who Am I?</h3>
+	<h3 id="whoAmI">Who Am I?</h3>
 	<p>
 		<code>Config.CurrentBlog</code> calls the <code>GetBlogInfo</code> method on the specified 
 		Configuration provider (there is only one, the <code>Subtext.Framework.Configuration.UrlBasedBlogInfoProvider</code>).  
@@ -162,7 +175,7 @@
 		as described in <a href="../HowAnUrlIsMappedToABlog/" title="How An Url Is Mapped To A Blog">How An Url Is Mapped To A Blog</a>. 
 		This all happens in the <code>GetBlogInfo</code> method.
 	</p>
-	<h3>Slap Me Some Skin</h3>
+	<h3 id="slapMeSomeSkin">Slap Me Some Skin</h3>
 	<p>
 		Now that we know which blog the request is for, we can get the skin name of 
 		the current blog from the <code>BlogInfo.Skin.SkinName</code> property.  The 
@@ -181,18 +194,52 @@
 	<p>
 		The next step is to move these controls into the ContentRegion named MPMain.
 	</p>
-	<h3>Back To DTP.aspx</h3>
+	<h3 id="dtpAndSkinControls">DTP.aspx and SKin Controls</h3>
 	<p>
 		Ok, finally we are back at the codebehind for the DTP.aspx page.  The code behind 
 		class is <code>Subtext.Web.UI.Pages.SubtextMasterPage</code>.  
 	</p>
 	<p>
-		The initialization method for this page loads each control specified by the 
-		HttpHandler (remember that guy?) into the center body control.
+		The initialization method for this page looks at the Skin configuration file 
+		(/Admin/Skins.config) to find out which javascript and css files need to be 
+		referenced.  It places references to these files in the &lt;head&gt; section 
+		of the pagae.
 	</p>
 	<p>
-		It also looks at the Skin configuration file (/Admin/Skins.config) and places 
-		references to the stylesheets and javascripts files in the HEAD section of the 
-		page.
+		The method then loads each control specified by the HttpHandler (remember that guy?) 
+		into the center body control.  In this example, the page should load in the following 
+		controls:
 	</p>
+	<ul>
+		<li><viewpost.ascx</li>
+		<li>Comments.ascx</li>
+		<li>PostComment.ascx</li>
+	</ul>
+	<p>
+		These are skin controls that are loaded from the current Blog&#8217;s 
+		skin directory.
+	</p>
+	<h3 id="moreOnSkins">More On Skins</h3>
+	<p>
+		Skin controls in Subtext are simply user controls.  They do not have a code-behind 
+		file but instead inherit from classes defined in the &#8220;Subtext.Web/UI/Controls&#8221; 
+		directory.
+	</p>
+	<p>
+		Each skin directory is responsible for containing the &#8220;Code In Front&#8221; 
+		ascx file for each of these controls it makes use of.
+	</p>
+		For example, the Redbook skin directory and the Piyo skin directory each will 
+		contain a &#8220;ViewPost.ascx&#8221; file.  The respective files may differ 
+		in layout, but they will have the same Inherits declaration at top like so:
+	</p>
+	
+<pre class="csharpcode">
+<span class="asp">&lt;%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.ViewPost" %&gt;</span></pre>
+
+	<p>
+		So when DTP.aspx is loading in these skin controls from the proper skin 
+		directory, each control will execute its <code>OnInit</code> method as 
+		well as its <code>OnLoad</code> at the right time.
+	</p>	
 </MP:MasterPage>
