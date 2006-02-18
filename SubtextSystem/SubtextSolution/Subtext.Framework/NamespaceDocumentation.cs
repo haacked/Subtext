@@ -20,6 +20,20 @@
 // http://ndoc.sourceforge.net/reference/NDoc.Core.Reflection.BaseReflectionDocumenterConfig.UseNamespaceDocSummaries.html
 
 //#if debug
+namespace Subtext
+{
+	/// <summary>
+	/// Subtext is a blogging engine built on the .NET Framework.  
+	/// For more information, check out SubtextProject.com.
+	/// </summary>
+	internal sealed class NamespaceDoc
+	{
+		private NamespaceDoc()
+		{
+		}
+	}
+}
+
 namespace Subtext.Framework
 {
 	/// <summary>
