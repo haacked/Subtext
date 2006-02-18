@@ -160,6 +160,7 @@ namespace Subtext.Framework
 	/// </summary>
 	public enum CacheDuration
 	{
+		None = 0,
 		Short = 10,
 		Medium = 20,
 		Long = 30

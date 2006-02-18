@@ -26,7 +26,7 @@ namespace Subtext.Framework.Configuration
 	public enum ConfigurationFlag
 	{
 		/// <summary>Nothing is set</summary>
-		Empty = 0,
+		None = 0,
 		/// <summary>The Blog is Active</summary>
 		IsActive = 1,
 		/// <summary>The Blog has a syndicated feed (RSS or ATOM)</summary>
