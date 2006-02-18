@@ -685,7 +685,7 @@ namespace Subtext.Framework
 			}
 		}
 
-		private ConfigurationFlag _flag = ConfigurationFlag.Empty;
+		private ConfigurationFlag _flag = ConfigurationFlag.None;
 		/// <summary>
 		/// Gets or sets the flags pertaining to this blog.  
 		/// This is a bitmask of <see cref="ConfigurationFlag"/>s.

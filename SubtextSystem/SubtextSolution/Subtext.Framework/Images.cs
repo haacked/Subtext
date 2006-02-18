@@ -128,21 +128,20 @@ namespace Subtext.Framework
 			return false;
 		}
 
-		public static void MakeAlbumImages(ref Subtext.Framework.Components.Image _image)
+		public static void MakeAlbumImages(Subtext.Framework.Components.Image image)
 		{
+			System.Drawing.Image original = System.Drawing.Image.FromFile(image.OriginalFilePath);
 
-			System.Drawing.Image original = System.Drawing.Image.FromFile(_image.OriginalFilePath);
-
-			Size _newSize = ResizeImage(original.Width,original.Height,640,480);
-			_image.Height = _newSize.Height;
-			_image.Width = _newSize.Width;
-			System.Drawing.Image displayImage = new Bitmap(original,_newSize);
+			Size newSize = ResizeImage(original.Width,original.Height,640,480);
+			image.Height = newSize.Height;
+			image.Width = newSize.Width;
+			System.Drawing.Image displayImage = new Bitmap(original,newSize);
 			System.Drawing.Image tbimage = new Bitmap(original,ResizeImage(original.Width,original.Height,120,120));
 			original.Dispose();
 			
-			displayImage.Save(_image.ResizedFilePath, GetFormat(_image.File));   
+			displayImage.Save(image.ResizedFilePath, GetFormat(image.File));   
 			displayImage.Dispose();
-			tbimage.Save(_image.ThumbNailFilePath,ImageFormat.Jpeg);
+			tbimage.Save(image.ThumbNailFilePath,ImageFormat.Jpeg);
 			tbimage.Dispose();
 		}
 
@@ -210,12 +209,12 @@ namespace Subtext.Framework
 			return ObjectProvider.Instance().GetSingleImage(imageID,ActiveOnly);
 		}
 
-		public static int InsertImage(Subtext.Framework.Components.Image _image,byte[] Buffer)
+		public static int InsertImage(Subtext.Framework.Components.Image image, byte[] Buffer)
 		{
-			if(SaveImage(Buffer,_image.OriginalFilePath))
+			if(SaveImage(Buffer,image.OriginalFilePath))
 			{
-				MakeAlbumImages(ref _image);
-				return ObjectProvider.Instance().InsertImage(_image);
+				MakeAlbumImages(image);
+				return ObjectProvider.Instance().InsertImage(image);
 			}
 			return -1;
 		}
@@ -226,12 +225,12 @@ namespace Subtext.Framework
 		}
 
 		// added
-		public static void Update(Subtext.Framework.Components.Image _image, byte[] Buffer)
+		public static void Update(Subtext.Framework.Components.Image image, byte[] Buffer)
 		{
-			if(SaveImage(Buffer, _image.OriginalFilePath))
+			if(SaveImage(Buffer, image.OriginalFilePath))
 			{
-				MakeAlbumImages(ref _image);
-				UpdateImage(_image);
+				MakeAlbumImages(image);
+				UpdateImage(image);
 			}
 		}
 

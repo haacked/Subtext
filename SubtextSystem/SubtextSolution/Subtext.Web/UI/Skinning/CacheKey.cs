@@ -22,10 +22,10 @@ namespace Subtext.Web.UI.Skinning
 	/// </summary>
 	public enum CacheKey
 	{
+		None = 0,
 		Control =1,
 		ControlPage =2,
 		Page= 3,
-		None = 4
 	};
 }
 
