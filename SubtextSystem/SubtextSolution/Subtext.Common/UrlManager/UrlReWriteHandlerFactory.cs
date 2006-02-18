@@ -68,7 +68,7 @@ namespace Subtext.Common.UrlManager
 						switch(handler.HandlerType)
 						{
 							case HandlerType.Page:
-								return ProccessHandlerTypePage(handler, context, url);
+								return ProcessHandlerTypePage(handler, context, url);
 							
 							case HandlerType.Direct:
 								HandlerConfiguration.SetControls(context, handler.BlogControls);
@@ -93,7 +93,7 @@ namespace Subtext.Common.UrlManager
 		}
 
 
-		private IHttpHandler ProccessHandlerTypePage(HttpHandler item, HttpContext context, string url)
+		private IHttpHandler ProcessHandlerTypePage(HttpHandler item, HttpContext context, string url)
 		{
 			string pagepath = item.FullPageLocation;
 			if(pagepath == null)
