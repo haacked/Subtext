@@ -117,6 +117,10 @@ namespace Subtext.Web.HostAdmin
 					+ exception.Message + "<hr size=\"5\" />";
 #if DEBUG
 				this.ltlErrorMessage.Text += exception.StackTrace;
+				if(exception.InnerException != null)
+				{
+					this.ltlErrorMessage.Text += "<hr />" + exception.InnerException.Message + "<hr />" + exception.InnerException.StackTrace;
+				}
 #endif
 			}
 			paraBeginImportText.Visible = false;
