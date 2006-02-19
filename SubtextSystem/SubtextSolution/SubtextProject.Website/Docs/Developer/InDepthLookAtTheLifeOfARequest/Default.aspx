@@ -203,7 +203,7 @@
 		The initialization method for this page looks at the Skin configuration file 
 		(/Admin/Skins.config) to find out which javascript and css files need to be 
 		referenced.  It places references to these files in the &lt;head&gt; section 
-		of the pagae.
+		of the page.
 	</p>
 	<p>
 		The method then loads each control specified by the HttpHandler (remember that guy?) 
