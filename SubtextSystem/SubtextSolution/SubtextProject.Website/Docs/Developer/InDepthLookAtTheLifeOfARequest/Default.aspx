@@ -97,6 +97,10 @@
 	</p>
 	<h3 id="urlReWriteHandlerFactory">All Aboard The UrlReWriteHandlerFactory</h3>
 	<p>
+		The <code>UrlReWriteHandlerFactory</code> is somewhat misnamed as it doesn&#8217;t 
+		actually rewrite URLs.  Instead, it is used to map URLs to controls.
+	</p>
+	<p>
 		This handler has its own configuration section within <code>web.config</code>. 
 		It is defined within the <span class="kwrd">&lt;</span><span class="html">HandlerConfiguration</span><span class="kwrd">&gt;</span> 
 		section.  It has a single <span class="kwrd">&lt;</span><span class="html">HttpHandlers</span><span class="kwrd">&gt;</span> node 
@@ -137,6 +141,10 @@
 		<code>controls</code> property and calls <code>System.Web.UI.PageParser.GetCompiledPageInstance</code>. 
 		This returns a compiled instance of &#8220;DTP.aspx&#8221;.  Remember, all this code is executing within 
 		a factory which has the single goal of returning an <code>IHttpHandler</code> to the ASP.NET runtime.
+	</p>
+	<p>
+		Scott Watermasysk, the original creator of .TEXT wrote up a short description of this 
+		<a href="http://scottwater.com/blog/articles/UrlRewrite1.aspx" title=".TEXT UrlReWriting" rel="external">technique of URL Rewriting here</a>.
 	</p>
 	<h3 id="dtpAhoy">DTP.aspx Ahoy!</h3>
 	<p>
@@ -211,7 +219,7 @@
 		controls:
 	</p>
 	<ul>
-		<li><viewpost.ascx</li>
+		<li>viewpost.ascx</li>
 		<li>Comments.ascx</li>
 		<li>PostComment.ascx</li>
 	</ul>
