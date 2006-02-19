@@ -40,6 +40,12 @@
 		installations supports multiple blogs.
 	</p>
 	
+	<h3><a href="~/Docs/Developer/InDepthLookAtTheLifeOfARequest/" title="An in-depth look at a request" runat="server">An In-Depth Look At The Life of a Subtext Request</a></h3>
+	<p>
+		This is a detailed examination of how Subtext handles 
+		an incoming request and which code is involved.
+	</p>
+	
 	<h3><a href="Documentation.chm" title="Code Documentation">Code Documentation</a></h3>
 	<p>
 		This is an <a href="http://ndoc.sourceforge.net/" title="NDoc Code Documentation" rel="external">NDoc</a> generated CHM 
