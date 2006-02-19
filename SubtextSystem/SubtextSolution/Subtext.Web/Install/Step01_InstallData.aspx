@@ -12,7 +12,6 @@ Installation</MP:ContentRegion>
 	</ol>
 	<div>
 		<p>
-			Thanks for the information provided in the last step.  
 			You are now ready to install the Subtext database.
 		</p>
 		<p>
