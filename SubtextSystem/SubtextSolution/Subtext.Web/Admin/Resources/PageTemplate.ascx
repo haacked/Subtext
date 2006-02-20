@@ -36,27 +36,29 @@
 					</td>
 				</tr>
 				<tr>
-					<td>
+					<td style="vertical-align:bottom;">
 						<div id="LeftNavHeader"><ANW:PlaceHolder id="LabelActions" runat="server" /></div>
 					</td>
 					<td class="NavHeaderRow">
-						<ul id="TopNav">
-							<li><a href="EditPosts.aspx" id="TabPosts">Posts</a></li>
-							<li><a href="EditArticles.aspx" id="TabArticles">Articles</a></li>
-							<li><a href="Feedback.aspx" id="TabFeedback">Feedback</a></li>
-							<li><a href="EditLinks.aspx" id="TabLinks">Links</a></li>
-							<li runat="server" id="GalleryTab">
-								<a href="EditGalleries.aspx" id="TabGalleries">Galleries</a>
-							</li>
-							<li>
-								<a href="Statistics.aspx" id="TabStats">Stats</a>
-							</li>
-							<li>
-								<a href="Options.aspx" id="TabOptions">Options</a></li>
-							</li>
-							<li>
-								<a href="ImportExport.aspx" id="TabImportExport">Import/Export</a></li>
-						</ul>
+						<div id="headerSS">
+							<ul id="TopNav">
+								<li id="PostsTab"><a href="EditPosts.aspx" id="TabPosts">Posts</a></li>
+								<li id="ArticlesTab"><a href="EditArticles.aspx" id="TabArticles">Articles</a></li>
+								<li id="FeedbackTab"><a href="Feedback.aspx" id="TabFeedback">Feedback</a></li>
+								<li id="LinksTab"><a href="EditLinks.aspx" id="TabLinks">Links</a></li>
+								<li runat="server" id="GalleryTab">
+									<a href="EditGalleries.aspx" id="TabGalleries">Galleries</a>
+								</li>
+								<li id="StatsTab">
+									<a href="Statistics.aspx" id="TabStats">Stats</a>
+								</li>
+								<li id="OptionsTab">
+									<a href="Options.aspx" id="TabOptions">Options</a></li>
+								</li>
+								<li id="ImportExportTab">
+									<a href="ImportExport.aspx" id="TabImportExport">Import/Export</a></li>
+							</ul>
+						</div>
 						<div id="SubNav">
 							<ANW:BreadCrumbs id="BreadCrumbs" UsePrefixText="true" IsPanel="false" IncludeRoot="false" runat="server" />
 						</div>
