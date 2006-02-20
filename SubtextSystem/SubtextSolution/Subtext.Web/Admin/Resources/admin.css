@@ -1,7 +1,8 @@
 body
 {
-	background: #BBBBBB;
-	color: #333333;
+	/*background: #D9D9EF;*/
+	background: #E0E0E5;
+	color: #333;
 	margin: 8px;
 	padding: 0;
 }
@@ -40,9 +41,8 @@ html>body th
 
 div.LeftNavHeader 
 {
-	background: #00B0FF;
-	border-bottom: 1px solid #666666;
-	border-top: 1px solid #666666;
+	border-bottom: 1px solid #999;
+	border-top: 1px solid #999;
 	color: #333333;
 	font-size: 80%;
 	text-transform: uppercase;
@@ -157,7 +157,7 @@ a.Thumbnail:hover {
 
 a.Thumbnail IMG {
 	margin: 12px;
-	border: 1px solid #666;	
+	border: 1px solid #999;	
 }
 
 p.ThumbnailTitle {
@@ -238,7 +238,7 @@ div#LeftNav ul {
 div.Action 
 {
 	color: #333333;
-	border-bottom: 1px dashed #AAAAAA;
+	border-bottom: 1px dashed #999;
 	margin-bottom: 8px;
 	padding: 8px 12px 0px 12px;
 	background: #EEEEEE;
@@ -262,7 +262,7 @@ div.Dialog {
 
 div.DialogTitle {
 	font-size: 105%;
-	border-bottom: 1px dashed #AAAAAA;
+	border-bottom: 1px dashed #999;
 	font-weight: bold;
 	color: #333333;
 	width: auto;
@@ -315,7 +315,7 @@ div.ImageThumbnail IMG {
 	margin-left: auto;
 	margin-right: auto;
 	display: block;
-	border: 1px solid #666666;
+	border: 1px solid #999;
 }
 
 div.ImageThumbnail div.ImageThumbnailImage {
@@ -329,7 +329,7 @@ div.ImageThumbnail div.ImageThumbnailTitle {
 }
 
 iframe {
-	border: 1px solid #666666;
+	border: 1px solid #999;
 }
 
 div#Main div.Edit p.Label,
@@ -409,14 +409,14 @@ span.BreadcrumbLabel {
 
 table#BodyTable {
 	color: #333333;
-	border: 1px solid #666666;
+	border: 1px solid #999;
 	clear: left;
 	background: #FFFFFF;
 }
 
 table#Footer {
 	color: #333333;
-	border: 1px solid #666666;
+	border: 1px solid #999;
 	margin-top: 8px;
 	background: #FFFFFF;
 }
@@ -435,8 +435,8 @@ table.Listing {
 div.CollapsibleHeader 
 {
 	color: #333333;
-	background: #B7B9BB;
-	border-bottom: 1px dashed #AAAAAA;
+	background: #CACBCD;
+	border-bottom: 1px dashed #999;
 	border-top: 1px solid #999999;
 	font-size: 120%;
 	font-weight: bold;
@@ -448,9 +448,9 @@ div.CollapsibleHeader
 
 div.CollapsibleTitle {
 	font-size: 105%;
-	background: #E5E5E5;
+	background: #CACBCD;
 	border-top: 1px solid #AAAAAA;
-	border-bottom: 1px dashed #AAAAAA;
+	border-bottom: 1px dashed #999;
 	font-weight: bold;
 	color: #333333;
 	width: auto;
@@ -529,22 +529,26 @@ td {
 
 td div#LeftNavHeader 
 {
-	background: #003398;
-	border-bottom: 1px solid #666666;
-	border-top: 1px solid #666666;
-	color: #FFFFFF;
+	background: #00C2FF;
+	border-bottom: 1px solid #999;
+	border-top: 1px solid #999;
+	color: #333;
 	font-size: 80%;
 	text-transform: uppercase;
-	height: 17px;
-	margin-top: 23px;
-	padding-top: 4px;
+	padding-bottom: 4px;
+	height: 13px;
 	text-align: center;
 	width: auto;
 	font-weight: bold;
 }
 
+*>td div#LeftNavHeader 
+{
+	padding: 4px;
+}
+
 td#Body {
-	border-left: 1px solid #333333;
+	border-left: 1px solid #999;
 }
 
 td#Header {
@@ -553,7 +557,6 @@ td#Header {
 
 td.NavHeaderRow {
 	color: inherit;
-	background: url(bg_tabs.gif) #FFFFFF repeat-x;
 }
 
 td.NavLeftCell {
@@ -566,94 +569,14 @@ tr {
 	vertical-align: top;
 }
 
-ul#TopNav 
-{
-	display: block;
-	height: 24px;
-	list-style: none;
-	margin: 0;
-	overflow: hidden;
-	padding: 0;
-	width: auto;
-}
 
-ul#TopNav a {
-	background: #CFE0F8;
-	border-left: 1px solid #949991;
-	border-right: 1px solid #949991;
-	border-top: 1px solid #949991;
-	color: #000000;
-	display: block;
-	font-weight: normal;
-	height: 17px;
-	margin: 0;
-	padding: 3px 11px;
-	text-align: center;
-	text-decoration: none;
-	width: 45px;
-}
-
-html>body ul#TopNav a {
-	width: auto;
-}
 
 #TopNav {
-	width: 590px;
+	width: auto;
 }
 
 html>body #TopNav {
 	min-width: 560px;
-}
-
-body#Posts a#TabPosts,
-body#Articles a#TabArticles,
-body#feedback a#TabFeedback,
-body#Links a#TabLinks,
-body#Galleries a#TabGalleries,
-body#Stats a#TabStats,
-body#Options a#TabOptions,
-body#ImportExport a#TabImportExport{
-	background: #B6C9E7;
-	border-left: 1px solid #6F736D;
-	border-right: 1px solid #6F736D;
-	border-top: 1px solid #6F736D;
-	color: #000000;
-	position: relative;
-	text-decoration: none;
-	z-index: 200;
-}
-
-ul#TopNav a.Here:link, 
-ul#TopNav a.Here:visited, 
-ul#TopNav a.Here:hover, 
-ul#TopNav a.Here:active {
-	background: #B6C9E7;
-	border-left: 1px solid #6F736D;
-	border-right: 1px solid #6F736D;
-	border-top: 1px solid #6F736D;
-	color: #000000;
-	overflow: hidden;
-	position: relative;
-	text-decoration: none;
-	z-index: 200;
-}
-
-ul#TopNav a:hover, 
-ul#TopNav a:active {
-	border-left: 1px solid #6F736D;
-	border-right: 1px solid #6F736D;
-	border-top: 1px solid #6F736D;
-	color: #CC0066;
-	text-decoration: underline;
-	background: inherit;
-}
-
-ul#TopNav li {
-	display: block;
-	float: left;
-	font-size: 85%;
-	margin: 0;
-	padding-right: 2px;
 }
 
 #BlogTitle {
@@ -673,6 +596,7 @@ ul#TopNav li {
 }
 
 #LeftNav {
+	width:auto;
 	font-size: 85%;
 	padding: 8px;
 }
@@ -684,18 +608,18 @@ ul#TopNav li {
 #SubNav 
 {
 	font-size: 85%;
-	background: #9A9B9D;
-	border-left: 1px solid #666666;
-	border-top: 1px solid #666666;
-	clear: none;
+	background: #00C2FF;
+	border-left: 1px solid #999;
+	/*border-top: 1px solid #999;*/
 	color: #000;
 	height: 13px;
-	margin: 0;
+	float:left;
+	width:100%;
+	margin: 0px;
 	padding: 3px 8px 2px 8px;
-	position: relative;
-	top: -1px;
 	z-index: 100;
 }
+*>#SubNav {width:98%;}
 
 #SubNav A:link, 
 #SubNav A:visited {
@@ -728,3 +652,66 @@ table.highlightTable tr.highlightAlt td
 {
 	font-weight: bold;
 }
+
+
+
+#headerSS {
+  float:left;
+  width:100%;
+  background:#FFF url("bg.gif") repeat-x bottom;
+  border-bottom:1px solid #00C2FF;
+  font-size:93%;
+  line-height:normal;
+  }
+#headerSS ul {
+  margin:0;
+  padding:10px 10px 0;
+  list-style:none;
+  }
+#headerSS li {
+  float:left;
+  background:url("left.gif") no-repeat left top;
+  margin:0;
+  padding:0 0 0 9px;
+  }
+#headerSS a {
+  float:left;
+  display:block;
+  background:url("right.gif") no-repeat right top;
+  padding:5px 15px 4px 6px;
+  text-decoration:none;
+  font-weight:bold;
+  color:#FFF;
+  }
+  
+  
+#headerSS a:hover {
+  color:#C0C0C0;
+  }
+
+
+body#Posts li#PostsTab,
+body#Articles li#ArticlesTab,
+body#Feedback li#FeedbackTab,
+body#Links li#LinksTab,
+body#Galleries li#GalleryTab,
+body#Stats li#StatsTab,
+body#Options li#OptionsTab,
+body#ImportExport li#ImportExportTab 
+ {
+  background-image:url("left_on.gif");
+  }
+  
+  
+body#Posts a#TabPosts,
+body#Articles a#TabArticles,
+body#Feedback a#TabFeedback,
+body#Links a#TabLinks,
+body#Galleries a#TabGalleries,
+body#Stats a#TabStats,
+body#Options a#TabOptions,
+body#ImportExport a#TabImportExport  {
+  background-image:url("right_on.gif");
+  color:#333;
+  padding-bottom:5px;
+  }
