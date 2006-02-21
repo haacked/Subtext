@@ -98,9 +98,17 @@ namespace Subtext.Installation.Import
 						SqlScriptRunner runner = new SqlScriptRunner(stream, Encoding.UTF8);
 						runner.TemplateParameters["subtext_db_name"].Value = subtextConnection.Database;
 						runner.TemplateParameters["dottext_db_name"].Value = dotTextConnection.Database;
+						
 						if(!dotTextConnection.TrustedConnection)
 						{
-							runner.TemplateParameters["dotTextDbUser"].Value = dotTextConnection.UserId;
+							// We need to determine if we should be using the username we got from 
+							// the dotTextConnection, or use the default template value (dbo).
+
+							if (DoesTableExist("blog_Config", dotTextConnection.UserId, dotTextConnection))
+							{
+								// we have the correct user for the path to the dotText tables
+								runner.TemplateParameters["dotTextDbUser"].Value = dotTextConnection.UserId;
+							}
 						}
 
 						runner.Execute(transaction);
@@ -172,6 +180,11 @@ namespace Subtext.Installation.Import
 			dotTextConnectionString = control.ConnectionString;
 		}
 
+		bool DoesTableExist(string tableName, string ownerName, ConnectionString connectionString)
+		{	
+			return DoesTableExist(ownerName+"."+tableName, connectionString.ToString());
+		}
+
 		bool DoesTableExist(string tableName, ConnectionString connectionString)
 		{
 			return DoesTableExist(tableName, connectionString.ToString());
@@ -184,7 +197,7 @@ namespace Subtext.Installation.Import
 
 		int GetTableCount(string tableName, string connectionString)
 		{
-			const string TableExistsSql = "SELECT COUNT(1) FROM dbo.sysobjects WHERE id = object_id(N'[{0}]') and OBJECTPROPERTY(id, N'IsUserTable') = 1";
+			const string TableExistsSql = "SELECT COUNT(1) FROM dbo.sysobjects WHERE id = object_id(N'{0}') and OBJECTPROPERTY(id, N'IsUserTable') = 1";
 			string blogContentTableSql = String.Format(TableExistsSql, tableName);			
 			return (int)SqlHelper.ExecuteScalar(connectionString, CommandType.Text, blogContentTableSql);
 		}
