@@ -4647,7 +4647,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE Proc Subtext_GetEntry_PreviousNext
+CREATE Proc [<dbUser,varchar,dbo>].Subtext_GetEntry_PreviousNext
 (
  @ID int,
  @PostType int = 1,
