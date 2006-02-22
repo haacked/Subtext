@@ -10,7 +10,7 @@ to read (and follow) these Guidelines for the subText project.
 		ex -> REL-1_0_1
 
 2.	If we find a bug and need the fix before the next Minor release, 
-	we will create a RELEASE BRANCH (branching from the REL_x.y.z tag) 
+	we will create a RELEASE BRANCH (branching from the REL-x_y_z tag) 
 	as follows:
 	RB-Major_Minor_Patch
 		ex -> RB-1_0_1
