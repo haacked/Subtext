@@ -603,7 +603,7 @@ img.emoticons {
 {
 	height:27px;
 	width:27px;
-	background-image: url(images/comment_button_bold.jpg);
+	/*background-image: url(images/comment_button_bold.jpg);*/
 	float:left;
 	margin-right:3px;
 	cursor:pointer;

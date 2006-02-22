@@ -17,44 +17,48 @@
 		<tr>
 			<td align="right">Website:</td>
 			<td>
-				<DIV class="input"><asp:TextBox id="tbUrl" runat="server" CssClass="fixed" Columns="45"></asp:TextBox>
+				<div class="input"><asp:TextBox id="tbUrl" runat="server" CssClass="fixed" Columns="45"></asp:TextBox>
 					<asp:RequiredFieldValidator id="Requiredfieldvalidator4" runat="server" ErrorMessage="Please enter a comment"
-						ControlToValidate="tbComment"></asp:RequiredFieldValidator></DIV>
+						ControlToValidate="tbComment"></asp:RequiredFieldValidator></div>
 			</td>
 		</tr>
 		<tr>
 			<td align="right" valign="bottom">
-				<DIV class="label"><LABEL for="PostComment.ascx_tbComment">Comment:</LABEL>
-				</DIV>
+				<div class="label"><LABEL for="PostComment.ascx_tbComment">Comment:</LABEL>
+				</div>
 			</td>
-			<td><DIV class="commentButtons"><IMG id=buttonBold title=Bold 
-      onclick="wrapWithBold(document.getElementById('PostComment.ascx_tbComment')); return false;" 
-      src="<%= Subtext.Framework.Configuration.Config.CurrentBlog.RootUrl %>skins/KeyWest/images/comment_button_bold.jpg">
-					<IMG id=buttonItalic 
-      onclick="wrapWithItalic(document.getElementById('PostComment.ascx_tbComment')); return false;" 
-      alt=Italic 
-      src="<%= Subtext.Framework.Configuration.Config.CurrentBlog.RootUrl %>skins/KeyWest/images/comment_button_italic.jpg">
-					<IMG id=buttonUnderline 
-      onclick="wrapWithUnderline(document.getElementById('PostComment.ascx_tbComment')); return false;" 
-      alt=Underline 
-      src="<%= Subtext.Framework.Configuration.Config.CurrentBlog.RootUrl %>skins/KeyWest/images/comment_button_underline.jpg">
-					<IMG id=buttonBlockquote 
-      onclick="wrapWithBlockquote(document.getElementById('PostComment.ascx_tbComment')); return false;" 
-      alt=Blockquote 
-      src="<%= Subtext.Framework.Configuration.Config.CurrentBlog.RootUrl %>skins/KeyWest/images/comment_button_blockquote.jpg">
-					<IMG id=buttonHyperlink 
-      onclick="wrapWithLink(document.getElementById('PostComment.ascx_tbComment')); return false;" 
-      alt=Hyperlink 
-      src="<%= Subtext.Framework.Configuration.Config.CurrentBlog.RootUrl %>skins/KeyWest/images/comment_button_hyperlink.jpg"></DIV>
+			<td>
+				<div class="commentButtons">
+					<img id=buttonBold 
+						title="Bold"
+						onclick="wrapWithBold(document.getElementById('PostComment.ascx_tbComment')); return false;" 
+						src="~/skins/KeyWest/images/comment_button_bold.jpg" runat="server">
+					<img id=buttonItalic 
+						onclick="wrapWithItalic(document.getElementById('PostComment.ascx_tbComment')); return false;" 
+						alt="Italic"
+						src="~/skins/KeyWest/images/comment_button_italic.jpg" runat="server">
+					<img id=buttonUnderline 
+						onclick="wrapWithUnderline(document.getElementById('PostComment.ascx_tbComment')); return false;" 
+						alt="Underline"
+						src="~/skins/KeyWest/images/comment_button_underline.jpg" runat="server">
+					<img id=buttonBlockquote 
+						onclick="wrapWithBlockquote(document.getElementById('PostComment.ascx_tbComment')); return false;" 
+						alt="Blockquote"
+						src="~/skins/KeyWest/images/comment_button_blockquote.jpg" runat="server">
+					<img id=buttonHyperlink 
+						onclick="wrapWithLink(document.getElementById('PostComment.ascx_tbComment')); return false;" 
+						alt="Hyperlink" 
+						src="~/skins/KeyWest/images/comment_button_hyperlink.jpg" runat="server">
+				</div>
 			</td>
 		</tr>
 		<tr>
 			<td>
 			</td>
 			<td>
-				<DIV class="input">
+				<div class="input">
 					<asp:TextBox id="tbComment" CssClass="fixed" runat="server" TextMode="MultiLine" cols="55" rows="7"></asp:TextBox>
-				</DIV>
+				</div>
 			</td>
 		</tr>
 		<TR>
