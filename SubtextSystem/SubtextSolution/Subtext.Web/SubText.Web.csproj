@@ -4547,6 +4547,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "UI\Controls\PreviousNext.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "UI\Controls\RecentComments.cs"
                     SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"
