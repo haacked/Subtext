@@ -1677,6 +1677,166 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\ArtistCE\niceforms-default.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\ArchiveCategory.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\ArchiveDay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\ArchiveLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\ArchiveMonth.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\BlogStats.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\CategoryDisplay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\CategoryEntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\CategoryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\Comments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\Contact.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\Day.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\DayCollection.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\EntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\Footer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\GalleryThumbNailViewer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\Header.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\HomePage.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\Login.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\MonthListings.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\MyLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\News.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\PostComment.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\RecentComments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\RelatedLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\SkinBrowser.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\SubTextBlogCalendar.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\SubtextSearch.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\Syndacations.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\ViewPicture.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Images\bcgrmain.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Images\button.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Images\external.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Images\head.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Images\rssButton.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\ArtistCE\Images\search_go.gif"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\blue\PageTemplate.ascx"
                     BuildAction = "Content"
                 />
@@ -2368,6 +2528,242 @@
                 />
                 <Folder RelPath = "Skins\Hover\Images\" />
                 <File
+                    RelPath = "Skins\KeyWest\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\README.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\ArchiveCategory.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\ArchiveDay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\ArchiveLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\ArchiveMonth.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\BlogStats.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\CategoryDisplay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\CategoryEntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\CategoryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\Comments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\Contact.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\Day.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\DayCollection.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\EntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\Footer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\GalleryThumbNailViewer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\Header.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\HomePage.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\Login.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\MonthListings.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\MyLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\News.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\PostComment.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\PreviousNext.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\RelatedLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\SubTextBlogCalendar.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\SubtextSearch.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\Syndications.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\ViewPicture.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\comment_bg.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\comment_button_blockquote.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\comment_button_bold.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\comment_button_hyperlink.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\comment_button_italic.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\comment_button_underline.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\content_footer_center.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\content_footer_left.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\content_footer_right.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\content_head_center.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\content_head_left.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\content_head_right.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\content_side_left.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\content_side_right.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\kw_body_center.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\kw_body_left.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\kw_body_right.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\kw_comments.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\kw_header.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\kw_header_bg.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\PoweredBySubtext85x33.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\sidebar_bg.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\sidebar_footer.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\sidebar_header.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\Thumbs.db"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\title_bg.gif"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\Lighty\PageTemplate.ascx"
                     BuildAction = "Content"
                 />
@@ -2790,6 +3186,126 @@
                 />
                 <File
                     RelPath = "Skins\Marvin3\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\ReadMe.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\ArchiveCategory.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\ArchiveDay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\ArchiveLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\ArchiveMonth.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\BlogStats.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\CategoryDisplay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\CategoryEntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\CategoryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\Comments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\Contact.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\Day.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\DayCollection.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\EntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\Footer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\GalleryThumbNailViewer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\Header.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\HomePage.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\Login.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\MonthListings.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\MyLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\News.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\PostComment.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\PreviousNext.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\SubtextSearch.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\ViewPicture.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Naked\Controls\ViewPost.ascx"
                     BuildAction = "Content"
                 />
                 <File

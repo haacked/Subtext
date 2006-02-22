@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>HttpCompressionModule</name>
+        <name>blowery.Web.HttpCompress</name>
     </assembly>
     <members>
         <member name="T:blowery.Web.HttpCompress.CompressingFilter">
