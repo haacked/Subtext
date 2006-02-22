@@ -1492,6 +1492,14 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Scripts\ExternalLinks.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Scripts\LiveCommentPreview.js"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Services\ASPNetWebLog.asmx"
                     BuildAction = "Content"
                 />
