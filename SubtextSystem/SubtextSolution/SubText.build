@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project xmlns="http://nant.sf.net/schemas/nant.xsd" name="SubText" default="dist.publish.latest">
+<project xmlns="http://nant.sf.net/schemas/nant.xsd" name="SubText" default="dist.archive">
 	
 	<property name="nant.settings.currentframework" value="net-1.1"/>
 	<property name="configuration" value="release"/>
@@ -116,15 +116,13 @@
 
 
 	<target name="dist.archive" depends="dist.publish.latest">
-		
 		<mkdir dir="${publish.dir.archive}" />
 		<zip zipfile="${publish.dir.archive}\${build.date}.zip">
 		<fileset basedir="${publish.dir.latest}">
 			<include name="**/*" />
 			<exclude name="**/*.pdb" />
 		</fileset>
-		</zip>
-		
+		</zip>		
 	</target>
 	
 	
