@@ -157,7 +157,7 @@ namespace Subtext.Web.Controls
 		{
 			if (this._templateFile.Length == 0)
 			{
-				throw new Exception("TemplateFile Property for MasterPage must be Defined");
+				throw new InvalidOperationException("TemplateFile Property for MasterPage must be Defined");
 			}
 			this._template = this.Page.LoadControl(this._templateFile);
 			this._template.ID = this.ID + "_Template";
