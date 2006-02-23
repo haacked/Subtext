@@ -51,7 +51,9 @@
 					</p>
 				</div> <!-- end google ad -->
 			</div> <!-- #content -->
-			<div id="footer">&nbsp;</div>
+			<div id="footer">
+				<span>Subtext Logo design by <a href="http://turbomilk.com/" title="Powerful and healthy GUI design for the human" rel="external">TurboMilk</a>.</span>
+			</div>
 			
 		</div> <!-- #main -->
 		<div id="bottom"></div> <!-- #bottom -->
