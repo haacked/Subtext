@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="SubText" default="dist.publish.latest">
+<project xmlns="http://nant.sf.net/schemas/nant.xsd" name="SubText" default="dist.publish.latest">
 	
 	<property name="nant.settings.currentframework" value="net-1.1"/>
 	<property name="configuration" value="release"/>
@@ -15,9 +15,8 @@
 		
 		<tstamp property="build.date" pattern="yyyyMMddTHHmmss" />
 	
-	
 		<ifnot test="${property::exists('publish.root')}"> 
-			<property name="publish.root" value="buildArchive"/>
+			<property name="publish.root" value="..\Builds\${configuration}"/>
 		</ifnot>
 		<ifnot test="${property::exists('source.root')}"> 
 			<property name="source.root" value="."/>
@@ -34,7 +33,6 @@
 		<property name="publish.dir.toCVS" value="${source.root}\Subtext.DotTextUpgrader" />
 
 	</target>
-
 
 	<target name="compile-main">
 		<solution configuration="${configuration}">
@@ -53,31 +51,29 @@
 
 	<target name="compile-config">
 		<solution configuration="${configuration}">
-    <projects>
-        <include name="SubtextConfigurationTool\SubtextConfigurationTool.csproj" />
-    </projects>
+			<projects>
+				<include name="SubtextConfigurationTool\SubtextConfigurationTool.csproj" />
+			</projects>
 		</solution>
 	</target>
 
 	<target name="compile-UnitTesting">
 		<solution configuration="${configuration}">
-    <projects>
-        <include name="UnitTests.Subtext\UnitTests.SubText.csproj" />
-    </projects>
-    <referenceprojects>
-        <include name="Subtext.Common\SubText.Common.csproj" />
-        <include name="Subtext.DotTextUpgrader\Subtext.DotTextUpgrader.csproj" />
-        <include name="Subtext.Extensibility\Subtext.Extensibility.csproj" />
-        <include name="Subtext.Framework\Subtext.Framework.csproj" />
-        <include name="Subtext.Installation\Subtext.Installation.csproj" />
-        <include name="Subtext.Scripting\Subtext.Scripting.csproj" />
-        <include name="Subtext.Web\Subtext.Web.csproj" />
-        <include name="Subtext.Web.Controls\Subtext.Web.Controls.csproj" />
-    </referenceprojects>
+			<projects>
+				<include name="UnitTests.Subtext\UnitTests.SubText.csproj" />
+			</projects>
+			<referenceprojects>
+				<include name="Subtext.Common\SubText.Common.csproj" />
+				<include name="Subtext.DotTextUpgrader\Subtext.DotTextUpgrader.csproj" />
+				<include name="Subtext.Extensibility\Subtext.Extensibility.csproj" />
+				<include name="Subtext.Framework\Subtext.Framework.csproj" />
+				<include name="Subtext.Installation\Subtext.Installation.csproj" />
+				<include name="Subtext.Scripting\Subtext.Scripting.csproj" />
+				<include name="Subtext.Web\Subtext.Web.csproj" />
+				<include name="Subtext.Web.Controls\Subtext.Web.Controls.csproj" />
+			</referenceprojects>
 		</solution>
 	</target>
-
-
 
 	<target name="dist.publish.latest" depends="compile-main,get-publishing-properties">
 
@@ -138,8 +134,8 @@
 	
 
 	<target name="dist.updateCVS" depends="dist.archive">
-			<copy file="${publish.dir.archive}\${build.date}.zip"
-				tofile="${publish.dir.toCVS}\SubtextDeployment.zip" />
+		<copy file="${publish.dir.archive}\${build.date}.zip"
+			tofile="${publish.dir.toCVS}\SubtextDeployment.zip" />
 				
 		<property name="web.config.latest" value="${publish.dir.latest}\web.config" />
 		<property name="web.config.published" value="${publish.dir.toCVS}\Scripts\web.config" />
@@ -170,6 +166,4 @@
 		</cvs>
 
 	</target>
-
-
 </project>
