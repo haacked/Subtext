@@ -162,7 +162,7 @@ img
 	border: 0px;
 }
 
-.caption
+.caption, #footer span
 {
 	font-family: arial, sans-serif;
 	font-size: 10px;
@@ -182,7 +182,7 @@ img
 /******** LAYOUT *******************/
 #main 
 {
-	background: #FFFFFF url(/SubtextProject.WebSite/images/sidesbg.jpg) repeat-y;
+	background: #FFFFFF url(../images/sidesbg.jpg) repeat-y;
     position: relative;
     top: 0px;
     left: 0px;
@@ -261,11 +261,12 @@ img
 #footer 
 {
 	clear: both;
+	text-align: center;
 }
 
 #logo
 {
-	background: url(/SubtextProject.Website/images/SubtextLogo.png) no-repeat;
+	background: url(../images/SubtextLogo.png) no-repeat;
 	width: 772px;
 	height: 100px;
 	margin: 0 0 0 12px;
@@ -299,7 +300,7 @@ img
 .title
 {
 	color: #CC7733;
-	/* consider image background: url(/images/someimage.gif) no-repeat left top; */
+	/* consider image background: url(../images/someimage.gif) no-repeat left top; */
 	padding: 3px 0px 3px 0px;
 	text-shadow: 0.2em 0.2em 0.1em #CCC;
 }
@@ -415,7 +416,7 @@ img
 
 #bottom
 {
-	background: url(/Subtext.Web/Skins/Haackify/Images/bottom.gif) no-repeat ;
+	background: url(../images/bottom.gif) no-repeat ;
 	height: 31px;
 	width: 794px;
 	margin: auto;
@@ -436,8 +437,8 @@ img
 {
 	float:left;
 	clear:left;
-	background: url(/SubtextProject.WebSite/images/shadowAlpha.png) no-repeat bottom right !important;
-	background: url(/SubtextProject.WebSite/images/shadow.gif) no-repeat bottom right;
+	background: url(../images/shadowAlpha.png) no-repeat bottom right !important;
+	background: url(../images/shadow.gif) no-repeat bottom right;
 	margin: 10px 0 10px 10px !important;
 	margin: 10px 0 10px 5px;
 	padding: 0px;

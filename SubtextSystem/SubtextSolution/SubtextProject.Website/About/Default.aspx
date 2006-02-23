@@ -38,4 +38,15 @@
 	<p>
 	<a href="~/About/TheTeam/" runat="server">Meet The Team</a>	
 	</p>
+	
+	<h2>Logo</h2>
+	<p>
+		The Subtext Logo was designed by a fantastic team 
+		of designers who have since formed the company, 
+		<a href="http://turbomilk.com/" title="Powerful and healthy GUI design for the human" rel="external">TurboMilk</a>.  
+	</p>
+	<p>
+		They were great to work with and we hope to persuade them 
+		to contribute some more design to Subtext in the future.
+	</p>
 </MP:MasterPage>
