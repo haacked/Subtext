@@ -12,8 +12,8 @@ to read (and follow) these Guidelines for the subText project.
 2.	If we find a bug and need the fix before the next Minor release, 
 	we will create a RELEASE BRANCH (branching from the REL-x_y_z tag) 
 	as follows:
-	RB-Major_Minor_Patch
-		ex -> RB-1_0_1
+	RELBRANCH-Major_Minor_Patch
+		ex -> RELBRANCH-1_0_1
 
 3.	Before we merge a RELEASE BRANCH into the MAIN (Trunk) branch we will 
 	TAG the Trunk as follows: (where ### is the number in our bug tracker)
