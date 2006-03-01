@@ -167,7 +167,10 @@
 	
 	<target name="doc">
 		<property name="configuration" value="documentation"/>
-
+		<property name="docs.root.dir" value="..\Docs" />
+		<property name="ndoc.output.dir" value="${docs.root.dir}\NDoc" />
+		<property name="ndoc.file.name" value="CodeDocumentation" />
+		
 		<call target="dist.publish.latest" />	
 		
 		<echo message="Building xml comment files in ${publish.dir.latest}" />
@@ -183,8 +186,8 @@
 			</assemblies>
 			<documenters>
 				<documenter name="MSDN">
-					<property name="OutputDirectory" value="..\Docs\NDoc" />
-					<property name="HtmlHelpName" value="Subtext Code Documentation" />
+					<property name="OutputDirectory" value="${ndoc.output.dir}" />
+					<property name="HtmlHelpName" value="${ndoc.file.name}" />
 					<property name="HtmlHelpCompilerFilename" value="hhc.exe" />
 					<property name="IncludeFavorites" value="False" />
 					<property name="Title" value="Subtext Code Documentation" />
@@ -207,5 +210,8 @@
 				</documenter>
 			</documenters>
 		</ndoc>
+		
+		<copy file="${ndoc.output.dir}\${ndoc.file.name}.chm" todir="${docs.root.dir}" />
+		<delete dir="${ndoc.output.dir}" />
 	</target>
 </project>
