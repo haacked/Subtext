@@ -34,29 +34,29 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		/// <summary>
 		/// Makes sure we are generating nice friendly URLs.
 		/// </summary>
-		[Test]
+		[RowTest]
+		[Row("Title", "Title")]
+		[Row("Title.", "Title")]
+		[Row("A Very Good Book", "AVeryGoodBook")]
+		[Row("A Very Good Book.", "AVeryGoodBook")]
+		[Row("A Very Good Book..", "AVeryGoodBook")]
+		[Row("Trouble With VS.NET", "TroubleWithVS.NET")]
+		[Row(@"[""'`~@#$%^&*(){\[}\]?+/=\\|<> X", "X")]
 		[RollBack]
-		public void FriendlyUrlGeneratesNiceUrl()
+		public void FriendlyUrlGeneratesNiceUrl(string title, string expected)
 		{
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title), "THe auto generated entry name is not what we expected.");
+		}
 
-			string[][] testPairs = new string[][] 
-			{
-				new string[] {"Title", "Title"}, 
-				new string[] {"A Very Good Book", "AVeryGoodBook"}, 
-				new string[] {"Trouble With VS.NET", "TroubleWithVS.NET"}, 
-				new string[] {@"[""'`~@#$%^&*(){\[}\]?+/=\\|<> X", "X"}, 
-				new string[] {@"[""'`~@#$%^&*(){\[}\]?+/=\\|<>", null}, 
-			};
-
-			for(int i = 0; i < testPairs.Length; i++)
-			{
-				string title = testPairs[i][0];
-				string expected = testPairs[i][1];
-
-				Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title), "THe auto generated entry name is not what we expected.");
-			}
-			
+		[Test]
+		[RollBack]
+		public void FriendlyUrlReturnsNull()
+		{
+			string title = @"[""'`~@#$%^&*(){\[}\]?+/=\\|<>";
+			string expected = null;
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title), "THe auto generated entry name is not what we expected.");
 		}
 
 		/// <summary>
