@@ -17,6 +17,7 @@ using System;
 using System.Configuration;
 using Subtext.Framework.Components;
 using Subtext.Framework.Exceptions;
+using Subtext.Framework.Format;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 
@@ -127,14 +128,14 @@ namespace Subtext.Framework.Configuration
 		/// this will always return the same instance.
 		/// </remarks>
 		/// <param name="hostName">Hostname.</param>
-		/// <param name="application">Application.</param>
+		/// <param name="subfolder">Application.</param>
 		/// <param name="strict">If false, then this will return a blog record if 
 		/// there is only one blog record, regardless if the application and hostname match.</param>
 		/// <returns></returns>
-		public static BlogInfo GetBlogInfo(string hostName, string application, bool strict)
+		public static BlogInfo GetBlogInfo(string hostName, string subfolder, bool strict)
 		{
 			hostName = BlogInfo.NormalizeHostName(hostName);
-			return ObjectProvider.Instance().GetBlogInfo(hostName, application, strict);
+			return ObjectProvider.Instance().GetBlogInfo(hostName, subfolder, strict);
 		}
 
 		/// <summary>
@@ -144,12 +145,12 @@ namespace Subtext.Framework.Configuration
 		/// </summary>
 		/// <param name="userName">Name of the user.</param>
 		/// <param name="password">Password.</param>
-		/// <param name="application"></param>
+		/// <param name="subfolder"></param>
 		/// <param name="host"></param>
 		/// <returns></returns>
-		public static bool CreateBlog(string title, string userName, string password, string host, string application)
+		public static bool CreateBlog(string title, string userName, string password, string host, string subfolder)
 		{
-			return CreateBlog(title, userName, password, host, application, false);
+			return CreateBlog(title, userName, password, host, subfolder, false);
 		}
 
 		/// <summary>
@@ -159,19 +160,19 @@ namespace Subtext.Framework.Configuration
 		/// </summary>
 		/// <param name="userName">Name of the user.</param>
 		/// <param name="password">Password.</param>
-		/// <param name="application"></param>
+		/// <param name="subfolder"></param>
 		/// <param name="host"></param>
 		/// <param name="passwordAlreadyHashed">If true, the password has already been hashed.</param>
 		/// <returns></returns>
-		public static bool CreateBlog(string title, string userName, string password, string host, string application, bool passwordAlreadyHashed)
+		public static bool CreateBlog(string title, string userName, string password, string host, string subfolder, bool passwordAlreadyHashed)
 		{
-			if(application != null && application.StartsWith("."))
-				throw new InvalidApplicationNameException(application);
+			if(subfolder != null && subfolder.StartsWith("."))
+				throw new InvalidApplicationNameException(subfolder);
 
 			host = BlogInfo.NormalizeHostName(host);
 
 			//Check for duplicate
-			BlogInfo potentialDuplicate = Subtext.Framework.Configuration.Config.GetBlogInfo(host, application);
+			BlogInfo potentialDuplicate = Subtext.Framework.Configuration.Config.GetBlogInfo(host, subfolder);
 			if(potentialDuplicate != null)
 			{
 				//we found a duplicate!
@@ -186,9 +187,9 @@ namespace Subtext.Framework.Configuration
 				throw new BlogHiddenException(potentialHidden);
 			}
 			
-			application = application.Replace("/", string.Empty);
+			subfolder = UrlFormats.StripSurroundingSlashes(subfolder);
 
-			if(application == null || application.Length == 0)
+			if(subfolder == null || subfolder.Length == 0)
 			{
 				//Check to see if this blog requires an Application value
 				//This would occur if another blog has the same host already.
@@ -200,16 +201,16 @@ namespace Subtext.Framework.Configuration
 			}
 			else
 			{
-				if(!IsValidApplicationName(application))
+				if(!IsValidApplicationName(subfolder))
 				{
-					throw new InvalidApplicationNameException(application);
+					throw new InvalidApplicationNameException(subfolder);
 				}
 			}
 
 			if(!passwordAlreadyHashed && Config.Settings.UseHashedPasswords)
 				password = Security.HashPassword(password);
 
-			return (ObjectProvider.Instance().CreateBlog(title, userName, password, host, application));
+			return (ObjectProvider.Instance().CreateBlog(title, userName, password, host, subfolder));
 		}
 
 		/// <summary>
@@ -236,7 +237,7 @@ namespace Subtext.Framework.Configuration
 				throw new BlogHiddenException(potentialHidden);
 			}
 
-			string application = info.Application == null ? string.Empty : info.Application.Replace("/", string.Empty);
+			string application = info.Application == null ? string.Empty : UrlFormats.StripSurroundingSlashes(info.Application);
 
 			if(application.Length == 0)
 			{

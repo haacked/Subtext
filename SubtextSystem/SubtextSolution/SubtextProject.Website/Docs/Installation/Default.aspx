@@ -21,21 +21,6 @@
   </script>
 	
 	<h2>Installation</h2>
-	
-	<!-- I would remove this paragraph from here 
-	
-	<h3>Developers</h3>
-	<p>
-		If you just want to download and play with the latest code on your local machine, follow the 
-		<a href="~/About/ViewTheCode/" id="instructionsLink" runat="server">instructions here</a>.
-	</p>
-	
-	 
-	 
-	<h3>Users</h3>
-	
-	to here   -->
-	
 	<h3>Installation step by step guide</h3>
 	<p>
 		To install a Subtext release:
@@ -61,6 +46,9 @@
 		</li>
 		<li>
 			Copy the installation files over to your web root.
+		</li>
+		<li>
+			<a href="../Configuration/Custom404Mapping/">Configure the Custom 404 page</a>.
 		</li>
 		<li>
 			Navigate to your blog via the browser and follow the installation steps.

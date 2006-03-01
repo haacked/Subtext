@@ -21,6 +21,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
+using Subtext.Framework.Format;
 using Subtext.Web.Admin;
 using Subtext.Web.Controls;
 
@@ -177,7 +178,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 			this.txtHost.Attributes["onkeyup"] = onChangeScript;
 			this.txtHost.Attributes["onblur"] = onBlurScript;
 
-			this.virtualDirectory.Value = HttpContext.Current.Request.ApplicationPath.Replace("/", string.Empty);
+			this.virtualDirectory.Value = UrlFormats.StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
 		}
 
 		// Contains the various help strings

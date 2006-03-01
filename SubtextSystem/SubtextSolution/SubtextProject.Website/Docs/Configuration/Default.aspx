@@ -55,24 +55,10 @@
 	</p>
 	<p>
 		To have the blog in the web root, simply leave the &#8220;Subfolder&#8221; 
-		field blank. Note that if a Subfolder is specified, it is a good idea to 
-		create a virtual directory in IIS with the same name, though this is  not 
-		absolutely necessary.  The virtual directory should point to the webroot 
-		directory, and should NOT be an IIS Application (in the screenshot below, 
-		clicking the &#8220;Remove&#8221; button makes sure this virtual directory 
-		is not an application.
-	</p>
-	<p>
-		Another workaround is to simply create a physical folder with the same 
-		name as the Subfolder and put a stub (empty) default.aspx file in that 
-		folder.
-	</p>
-	<div class="dropshadow"><div class="innerbox"><img src="~/images/CreateVirtualDir.Png" alt="Screenshot of IIS Virtual Directory Dialog" runat="server" ID="Img2"/></div></div>
-	<div class="caption" style="clear: both;"><strong>Figure 3:</strong> Setting up a virtual directory.</div>
-	<p>
-		Not creating this virtual directory requires that the URL to the blog 
-		contain &#8220;Default.aspx&#8221; at the end. This will be remedied 
-		in a future version of Subtext.
+		field blank. Note that if a Subfolder is specified, the url to the blog 
+		must end in &#8220;Default.aspx&#8221; unless you take the extra step 
+		to <a href="Custom404Mapping/" title="configuring a custom 404 page">configure a custom 404 page</a> 
+		to point to the file <code>/SystemMessages/FileNotFound.aspx</code>.
 	</p>
 	<h3>Multiple Blog Configuration</h3>
 	<p>
