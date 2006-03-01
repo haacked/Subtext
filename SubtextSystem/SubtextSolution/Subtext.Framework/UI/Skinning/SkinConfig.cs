@@ -21,7 +21,7 @@ using System.Web.UI;
 using System.Xml.Serialization;
 using Subtext.Framework;
 
-namespace Subtext.Web.UI.Skinning
+namespace Subtext.Framework.UI.Skinning
 {
 	/// <summary>
 	/// Summary description for SkinConfig.

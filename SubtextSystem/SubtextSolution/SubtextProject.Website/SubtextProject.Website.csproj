@@ -175,6 +175,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Docs\Configuration\AggregateBlogs\Default.aspx"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Docs\Configuration\ConfigurationTable\Default.aspx"
                     BuildAction = "Content"
                 />

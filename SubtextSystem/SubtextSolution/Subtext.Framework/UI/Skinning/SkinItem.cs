@@ -14,27 +14,29 @@
 #endregion
 
 using System;
+using System.Web.Caching;
 using System.Xml.Serialization;
 
-namespace Subtext.Web.UI.Skinning
+namespace Subtext.Framework.UI.Skinning
 {
 	/// <summary>
-	/// Summary description for SkinPage.
+	/// Summary description for SkinItem.
 	/// </summary>
 	[Serializable]
-	public class SkinPage
+	public class SkinItem
 	{
-
 		[XmlAttribute]
-		public string Name;
-
-		private SkinItem[] controls;
-		public SkinItem[] Controls
-		{
-			get{return controls;}
-			set{controls = value;}
-		}
-
+		public bool UseSpacer = false;
+		[XmlAttribute]
+		public string ControlName;
+		[XmlAttribute]
+		public string ParentControl;
+		[XmlAttribute]
+		public CacheKey CacheKey = CacheKey.None;
+		[XmlAttribute]
+		public int CacheTime = 0;
+		[XmlAttribute]
+		public CacheItemPriority CacheItemPriority = CacheItemPriority.Default;
 	}
 }
 

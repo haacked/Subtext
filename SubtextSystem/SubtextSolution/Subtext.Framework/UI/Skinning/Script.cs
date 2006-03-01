@@ -14,29 +14,49 @@
 #endregion
 
 using System;
-using System.Web.Caching;
 using System.Xml.Serialization;
 
-namespace Subtext.Web.UI.Skinning
+namespace Subtext.Framework.UI.Skinning
 {
 	/// <summary>
-	/// Summary description for SkinItem.
+	/// Declaration of a <code>script</code> element in the skin. Supports the capability to specify script includes in the 
+	/// <code>head</code> element of the page.
 	/// </summary>
 	[Serializable]
-	public class SkinItem
+	public class Script
 	{
+		private string _type = "text/javascript";
+		/// <summary>
+		/// Script type. Default value is <code>text/javascript</code>
+		/// </summary>
 		[XmlAttribute]
-		public bool UseSpacer = false;
+		public string Type
+		{
+			get
+			{
+				return _type;
+			}
+			set
+			{
+				_type = value;
+			}
+		}
+
+		private string _src;
+		/// <summary>
+		/// Location of the script. Specified as relative to the skin directory
+		/// </summary>
 		[XmlAttribute]
-		public string ControlName;
-		[XmlAttribute]
-		public string ParentControl;
-		[XmlAttribute]
-		public CacheKey CacheKey = CacheKey.None;
-		[XmlAttribute]
-		public int CacheTime = 0;
-		[XmlAttribute]
-		public CacheItemPriority CacheItemPriority = CacheItemPriority.Default;
+		public string Src
+		{
+			get
+			{
+				return _src;
+			}
+			set
+			{
+				_src = value;
+			}	
+		}
 	}
 }
-

@@ -20,7 +20,7 @@ using System.Web;
 using System.Web.UI;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
-using Subtext.Web.UI.Skinning;
+using Subtext.Framework.UI.Skinning;
 
 namespace Subtext.Web.UI.Pages
 {
