@@ -18,6 +18,11 @@
 		<ifnot test="${property::exists('publish.root')}"> 
 			<property name="publish.root" value="..\Builds\${configuration}"/>
 		</ifnot>
+		
+		<ifnot test="${property::exists('publish.source.root')}"> 
+			<property name="publish.source.root" value="..\Builds\source\${configuration}"/>
+		</ifnot>
+		
 		<ifnot test="${property::exists('source.root')}"> 
 			<property name="source.root" value="."/>
 		</ifnot>
@@ -27,11 +32,11 @@
 			<fail message="ccnet.label property not set, so can't create labelled distribution files" />
 		</ifnot>
 	-->
-		
+		<property name="publish.source.dir.latest" value="${publish.source.root}\latest" />
+		<property name="publish.source.dir.archive" value="${publish.source.root}\archive" />
 		<property name="publish.dir.latest" value="${publish.root}\latest" />
 		<property name="publish.dir.archive" value="${publish.root}\archive" />
 		<property name="publish.dir.toCVS" value="${source.root}\Subtext.DotTextUpgrader" />
-
 	</target>
 
 	<target name="compile-main">
@@ -80,6 +85,8 @@
 		<delete dir="${publish.dir.latest}" failonerror="false" />
 		<mkdir dir="${publish.dir.latest}" />
 		
+		<echo message="deploying binaries to latest" />
+		
 		<copy todir="${publish.dir.latest}" includeemptydirs="false">
 			<fileset basedir="Subtext.Web">
 				<include name="**/*" />
@@ -100,14 +107,19 @@
 			</fileset>
 		</copy>
 		
-		<copy todir="${publish.dir.latest}" includeemptydirs="false">
-			<fileset basedir="Subtext.Web">
-				<include name="emoticons.txt" />
-				<include name="Images/*" />
-				<include name="Images/emotions/*" />
+		<echo message="deploying source code" />
+		<copy todir="${publish.source.dir.latest}" includeemptydirs="false">
+			<fileset basedir=".">
+				<include name="**" />
+				<exclude name="**/*.csproj.user"/>
+				<exclude name="**/.*.resharperoptions"/>
+				<exclude name="**/.*.suo"/>
+				<exclude name="**/*.cvsignore"/>
+				<exclude name="**/bin/**"/>
+				<exclude name="**/obj/**"/>
 			</fileset>
 		</copy>
-		
+			
 		<if test="${configuration == 'documentation'}">
 			<echo message="Deploying XML files" /> 
 			<copy todir="${publish.dir.latest}" includeemptydirs="false">
@@ -116,7 +128,6 @@
 				</fileset>
 			</copy>
 		</if>
-		
 		
 		<attrib readonly="false" >
 			<fileset basedir="${publish.dir.latest}">
@@ -130,19 +141,22 @@
 	<target name="dist.archive" depends="dist.publish.latest">
 		<mkdir dir="${publish.dir.archive}" />
 		<zip zipfile="${publish.dir.archive}\${build.date}.zip">
-		<fileset basedir="${publish.dir.latest}">
-			<include name="**/*" />
-			<exclude name="**/*.pdb" />
-		</fileset>
-		</zip>		
+			<fileset basedir="${publish.dir.latest}">
+				<include name="**/*" />
+				<exclude name="**/*.pdb" />
+			</fileset>
+		</zip>
+		<zip zipfile="${publish.source.dir.archive}\${build.date}">
+			<fileset basedir="${publish.source.dir.latest}">
+				<include name="**/*" />
+			</fileset>
+		</zip>
 	</target>
 	
-	
-	<!--
+		<!--
 		<target name="dist.updateCVS" depends="get-publishing-properties">
 		-->
 	
-
 	<target name="dist.updateCVS" depends="dist.archive">
 		<copy file="${publish.dir.archive}\${build.date}.zip"
 			tofile="${publish.dir.toCVS}\SubtextDeployment.zip" />
