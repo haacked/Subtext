@@ -16,7 +16,7 @@
 using System;
 using System.Xml.Serialization;
 
-namespace Subtext.Web.UI.Skinning
+namespace Subtext.Framework.UI.Skinning
 {
 	/// <summary>
 	/// Declaration of a <code>style</code> element in the skin. Supports the capability 

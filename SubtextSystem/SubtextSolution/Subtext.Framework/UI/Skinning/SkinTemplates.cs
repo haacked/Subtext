@@ -20,7 +20,7 @@ using System.Web.Caching;
 using System.Xml.Serialization;
 using Subtext.Framework.Util;
 
-namespace Subtext.Web.UI.Skinning
+namespace Subtext.Framework.UI.Skinning
 {
 	/// <summary>
 	/// Summary description for SkinTemplates.

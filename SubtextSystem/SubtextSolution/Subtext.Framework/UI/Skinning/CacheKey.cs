@@ -15,7 +15,7 @@
 
 using System;
 
-namespace Subtext.Web.UI.Skinning
+namespace Subtext.Framework.UI.Skinning
 {
 	/// <summary>
 	/// Summary description for CacheKey.
