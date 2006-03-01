@@ -179,6 +179,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Docs\Configuration\Custom404Mapping\Default.aspx"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Docs\Developer\Default.aspx"
                     BuildAction = "Content"
                 />
@@ -257,6 +261,10 @@
                 />
                 <File
                     RelPath = "images\HostAdminSingleBlog.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "images\IISCustomErrorsDialog.png"
                     BuildAction = "Content"
                 />
                 <File

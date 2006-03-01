@@ -212,7 +212,7 @@ namespace Subtext.Framework.Format
 			string urlPatternFormat = "{0}/(?<app>.*?)/";
 
 			//Remove any / from App.
-			string cleanApp = "/" + app.Replace("/", string.Empty);
+			string cleanApp = "/" + StripSurroundingSlashes(app);
 			if(cleanApp == "/")
 				cleanApp = string.Empty;
 			string appRegex = Regex.Escape(cleanApp);

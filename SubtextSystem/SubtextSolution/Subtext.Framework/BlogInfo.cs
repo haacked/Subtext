@@ -515,7 +515,7 @@ namespace Subtext.Framework
 			set
 			{
 				if(value != null)
-					value = value.Replace("/", string.Empty); //For legacy data.
+					value = UrlFormats.StripSurroundingSlashes(value);
 				
 				_application = value;
 			}
@@ -667,7 +667,7 @@ namespace Subtext.Framework
 			{
 				if(this.virtualUrl == null)
 				{
-					string appPath = "/" + HttpContext.Current.Request.ApplicationPath.Replace("/", string.Empty);
+					string appPath = "/" + UrlFormats.StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
 					if(appPath.Length > 0)
 					{
 						this.virtualUrl += appPath + "/";

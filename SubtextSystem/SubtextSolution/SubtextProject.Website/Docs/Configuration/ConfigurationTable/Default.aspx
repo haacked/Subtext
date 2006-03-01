@@ -37,7 +37,11 @@
 		</tr>
 		<tr class="alt">
 			<td>http://example.com/blog/</td>
-			<td>Virtual Directory named &#8220;Blog&#8221; points to c:\inetpub\wwwroot</td>
+			<td>
+				Virtual Directory named &#8220;Blog&#8221; points to c:\inetpub\wwwroot
+				 <strong>OR</strong> 
+				<a href="../Custom404Mapping/" title="Custom 404 Page Configuration">Configure Custom 404 Page</a>
+			</td>
 			<td>blog</td>
 		</tr>
 	</table>
