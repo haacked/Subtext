@@ -54,10 +54,10 @@ body {
 
 /*post text and the date on top of title*/
 .post, .date{
-	margin-left : 140px;
-	margin-right : 360px;
+	margin-left : 270px;
 	margin-top : 0px;
 	text-align : justified;
+	width: 500px;
 }
 
 /*date on top title*/
@@ -78,10 +78,9 @@ body {
 /*the menu on the right*/
 #rightmenu {
 	width : 180px;
-	position : absolute;
-	right : 0px;
-	margin-right : 170px;
+	margin-right : 290px;
 	margin-top : 10px;
+	float:right;
 }
 
 /*This is not the page footer, it is the subtext footer control*/
