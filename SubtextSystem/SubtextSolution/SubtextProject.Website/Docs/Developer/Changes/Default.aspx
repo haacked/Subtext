@@ -8,7 +8,7 @@
 	</MP:ContentRegion>
 	
 	<h2>Changes From .TEXT 0.95</h2>
-	
+	[<a href="../../Developer/" title="Dev Docs">Back To Developer Docs</a>]
 	<ul>
 		<li>
 		Providers implemented following the Provider Model Design Pattern and Specification as 

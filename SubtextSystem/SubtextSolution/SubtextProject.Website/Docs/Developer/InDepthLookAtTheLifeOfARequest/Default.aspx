@@ -8,6 +8,7 @@
 	</MP:ContentRegion>
 	
 	<h2>In Depth Look At The Life Of A Request In Subtext</h2>
+	[<a href="../../Developer/" title="Dev Docs">Back To Developer Docs</a>]
 	<h3>Contents</h3>
 	<ul>
 		<li><a href="#intro" title="">Intro</a></li>

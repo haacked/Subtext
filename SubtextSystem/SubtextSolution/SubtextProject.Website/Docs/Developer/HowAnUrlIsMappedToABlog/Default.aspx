@@ -8,6 +8,7 @@
 	</MP:ContentRegion>
 	
 	<h2>How URLs Are Mapped To A Blog</h2>
+	[<a href="../../Developer/" title="Dev Docs">Back To Developer Docs</a>]
 	<h3>Introduction</h3>
 	<p>
 		The manner in which Subtext maps a request to the final 

@@ -8,7 +8,7 @@
 	</MP:ContentRegion>
 	
 	<h2>C# Coding Style Guide</h2>
-	
+	[<a href="../../Developer/" title="Dev Docs">Back To Developer Docs</a>]
 	<h3>Preface</h3>
 	<p>
 	From developer to developer and project to project, coding styles vary 
