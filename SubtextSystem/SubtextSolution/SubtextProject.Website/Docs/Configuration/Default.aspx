@@ -14,11 +14,12 @@
 		is for the configuration information that doesn&#8217;t 
 		explain itself.
 	</p>
+	<h3>Other Topics</h3>
 	<ul>
-		<li><em>For a deeper understanding of how URLs are mapped to 
-		blogs, please <a href="~/Docs/Developer/HowAnUrlIsMappedToABlog" title="Mapping URLs to Blogs" runat="server" ID="A1">read this</a>.</em></li>
-		<li><em>For a list of various configurations please see <a href="ConfigurationTable/" title="Configuration Chart">this chart</a>.</em></li>	
-		<li>For Configuring Aggregate Blogs, See <a href="AggregateBlogs/" title="Configuring Aggregate Blogs">this short guide</a>.</li>
+		<li><em><a href="~/Docs/Developer/HowAnUrlIsMappedToABlog" title="Mapping URLs to Blogs" runat="server" ID="A1">A Deeper examination</a> of how URLs are mapped to Blogs.</em></li>
+		<li><em><a href="ConfigurationTable/" title="Configuration Chart">A chart</a> with a list of various configurations.</em></li>	
+		<li><em><a href="AggregateBlogs/" title="Configuring Aggregate Blogs">A short guide</a> to configuring Aggregate Blogs.</em></li>
+		<li><em><a href="Custom404Mapping/" title="configuring a custom 404 page">Details</a> on configuring a custom 404 page read this.</em></li>
 	</ul>
 	<h3>Single Blog Configuration</h3>
 	<p>

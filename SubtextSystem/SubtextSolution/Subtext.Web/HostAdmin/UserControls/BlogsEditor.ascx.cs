@@ -185,7 +185,9 @@ namespace Subtext.Web.HostAdmin.UserControls
 		void BindEditHelp()
 		{
 			#region Help Tool Tip Text
-			this.blogEditorHelp.HelpText = "<p>Use this page to manage the blogs installed on this server.</p>";
+			this.blogEditorHelp.HelpText = "<p>Use this page to manage the blogs installed on this server. " 
+				+ "For more information on configuring blogs, see the <a href=\\'http://localhost/SubtextProject.Website/Docs/Configuration/\\'>the configuration docs</a>."
+				+ "</p>";
 
 			this.hostDomainHelpTip.HelpText = "<p><strong>Host Domain</strong> is the domain name for this blog. "
 				+ "If you never plan on setting up another blog on this server, then you do not have " 
@@ -214,10 +216,12 @@ namespace Subtext.Web.HostAdmin.UserControls
 				+ "<p>"
 				+ "Leave this value blank if you wish to host your blog in the root of your website."
 				+ "</p>"
-				+ "<p><strong>NOTE:</strong> If you specify a sub-folder, you do not need to set up a virtual directory corresponding to the subfolder. " 
-				+ "But not doing so will require that the blog url include the trailing &#8220;Default.aspx&#8221;.</p>" 
+				+ "<p><strong>NOTE:</strong> If you specify a sub-folder, you do not need to set up a virtual directory "
+				+ "corresponding to the subfolder. But not doing so will require that the blog url include the trailing " 
+				+ "&#8220;Default.aspx&#8221; or you will have to <a href=\\'http://localhost/SubtextProject.Website/Docs/Configuration/Custom404Mapping/\\'>configure a Custom 404 page</a>.</p>" 
 				+ "<p>In the above example, if you want the URL to be <em>http://[HOSTDOMAIN]/MyBlog/</em> then you "
-				+ "would simply set up a virtual directory (not application) named &#8220;MyBlog&#8221; pointing to the same location as the webroot.</p>";
+				+ "would simply set up a virtual directory (not application) named &#8220;MyBlog&#8221; pointing to the same location as the webroot.</p>" 
+				+ "<p>For more information, please view <a href=\\'http://localhost/SubtextProject.Website/Docs/Configuration/\\'>the configuration docs</a>.</p>";
 			#endregion
 		}
 
