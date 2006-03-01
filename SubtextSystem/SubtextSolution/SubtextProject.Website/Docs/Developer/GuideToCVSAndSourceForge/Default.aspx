@@ -8,7 +8,7 @@
 	</MP:ContentRegion>
 	
 	<h2>Developer Documentation</h2>
-	
+	[<a href="../../Developer/" title="Dev Docs">Back To Developer Docs</a>]
 	
 		<h2><span class="title">Quickstart Guide To Open Source Development With CVS and SourceForge</span></h2>
 		<h2>Introduction</h2>
