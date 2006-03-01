@@ -181,27 +181,28 @@ namespace Subtext.Framework.Format
 		}
 
 		/// <summary>
-		/// Parses out the application name from the requested URL.  It simply searches 
-		/// for the first "folder" after the host and Request.ApplicationPath.
+		/// Parses out the subfolder of the blog from the requested URL.  It 
+		/// simply searches for the first "folder" after the host and 
+		/// Request.ApplicationPath.
 		/// </summary>
 		/// <remarks>
 		/// <p>
 		/// For example, if a blog is hosted at the virtual directory http://localhost/Subtext.Web/ and 
 		/// request is made for http://localhost/Subtext.Web/, the application name is "" (empty string). 
 		/// Howver, a request for http://localhost/Subtext.Web/MyBlog/ would return "MyBlog" as the 
-		/// application.
+		/// subfolder.
 		/// </p>
 		/// <p>
 		/// Likewise, if a blog is hosted at http://localhost/, a request for http://localhost/MyBlog/ 
-		/// would return "MyBlog" as the application name.
+		/// would return "MyBlog" as the subfolder.
 		/// </p>
 		/// </remarks>
-		/// <param name="path">Path.</param>
-		/// <param name="app">App.</param>
+		/// <param name="rawUrl">The raw url.</param>
+		/// <param name="app">The application name as found in the Request.ApplicationName property.</param>
 		/// <returns></returns>
-		public static string GetBlogNameFromRequest(string path, string app)
+		public static string GetBlogSubfolderFromRequest(string rawUrl, string app)
 		{
-			if(path == null)
+			if(rawUrl == null)
 				throw new ArgumentNullException("path", "The path cannot be null.");
 
 			if(app == null)
@@ -219,7 +220,7 @@ namespace Subtext.Framework.Format
 			string urlRegexPattern = string.Format(CultureInfo.InvariantCulture, urlPatternFormat, appRegex);
 			
 			Regex urlRegex = new Regex(urlRegexPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
-			Match match = urlRegex.Match(path);
+			Match match = urlRegex.Match(rawUrl);
 			if(match.Success)
 			{
 				return match.Groups["app"].Value;

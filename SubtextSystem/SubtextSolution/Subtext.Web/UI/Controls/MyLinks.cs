@@ -30,6 +30,7 @@ namespace Subtext.Web.UI.Controls
 		protected System.Web.UI.WebControls.HyperLink AtomLink;
 		protected System.Web.UI.WebControls.HyperLink Syndication;
 		protected System.Web.UI.WebControls.HyperLink HomeLink;
+		protected System.Web.UI.WebControls.HyperLink Archives;
 		protected System.Web.UI.WebControls.HyperLink ContactLink;
 
 		protected override void OnLoad(EventArgs e)
@@ -41,9 +42,15 @@ namespace Subtext.Web.UI.Controls
 				{
 					HomeLink.NavigateUrl = CurrentBlog.BlogHomeUrl;
 				}
+				
 				if(ContactLink != null)
 				{
 					ContactLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}contact.aspx", CurrentBlog.RootUrl);
+				}
+
+				if(Archives != null)
+				{
+					Archives.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}archives.aspx", CurrentBlog.RootUrl);
 				}
 
 				if(Request.IsAuthenticated && Security.IsAdmin)

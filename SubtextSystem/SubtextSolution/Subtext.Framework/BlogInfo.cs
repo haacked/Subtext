@@ -653,26 +653,38 @@ namespace Subtext.Framework
 			{
 				if(_rootUrl == null)
 				{
-					_rootUrl = "http://" + this.Host + "/";
-					string appPath = HttpContext.Current.Request.ApplicationPath.Replace("/", "");
-					if(appPath.Length > 0)
-					{
-						_rootUrl += appPath + "/";
-					}
-					
-					if(this.Application.Length > 0)
-					{
-						_rootUrl += this.Application + "/";
-					}
-					
+					_rootUrl = "http://" + this.Host + VirtualUrl;					
 				}
 				return _rootUrl;
 			}
 		}
 		string _rootUrl = null;
 
+		[XmlIgnore]
+		public string VirtualUrl
+		{
+			get
+			{
+				if(this.virtualUrl == null)
+				{
+					string appPath = "/" + HttpContext.Current.Request.ApplicationPath.Replace("/", string.Empty);
+					if(appPath.Length > 0)
+					{
+						this.virtualUrl += appPath + "/";
+					}
+					
+					if(this.Application.Length > 0)
+					{
+						this.virtualUrl += this.Application + "/";
+					}
+				}
+				return this.virtualUrl;
+			}
+		}
+		string virtualUrl;
+
 		/// <summary>
-		/// Gets the blog home URL.  This is the URL to the blog's home page. 
+		/// Gets the fully qualified blog home URL.  This is the URL to the blog's home page. 
 		/// Until we integrate with IIS better, we have to append the "Default.aspx" 
 		/// to the end.
 		/// </summary>
@@ -682,6 +694,18 @@ namespace Subtext.Framework
 			get
 			{
 				return RootUrl + "Default.aspx";
+			}
+		}
+
+		/// <summary>
+		/// Gets the blog home virtual URL.
+		/// </summary>
+		/// <value>The blog home virtual URL.</value>
+		public string BlogHomeVirtualUrl
+		{
+			get
+			{
+				return VirtualUrl + "Default.aspx";
 			}
 		}
 

@@ -1335,11 +1335,31 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Images\admin.gif"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Images\administration_icon.gif"
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Images\atom.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\atomsmall.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\contact.gif"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Images\edit.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\home.gif"
                     BuildAction = "Content"
                 />
                 <File
@@ -1360,6 +1380,10 @@
                 />
                 <File
                     RelPath = "Images\PoweredBySubtext85x33.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\rss20icon.gif"
                     BuildAction = "Content"
                 />
                 <File

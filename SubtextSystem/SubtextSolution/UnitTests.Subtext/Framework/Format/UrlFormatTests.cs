@@ -84,7 +84,7 @@ namespace UnitTests.Subtext.Framework.Format
 		{
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog", "");
 			Console.WriteLine("HttpContext.Current.Request.ApplicationPath: " + HttpContext.Current.Request.ApplicationPath);
-			string blogName = UrlFormats.GetBlogNameFromRequest(HttpContext.Current.Request.RawUrl, HttpContext.Current.Request.ApplicationPath);
+			string blogName = UrlFormats.GetBlogSubfolderFromRequest(HttpContext.Current.Request.RawUrl, HttpContext.Current.Request.ApplicationPath);
 			Assert.AreEqual("MyBlog", blogName, "Wasn't able to parse request properly.");
 		}
 
@@ -94,7 +94,7 @@ namespace UnitTests.Subtext.Framework.Format
 		{
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog2", "Subtext.Web");
 			Console.WriteLine("HttpContext.Current.Request.ApplicationPath: " + HttpContext.Current.Request.ApplicationPath);
-			string blogName = UrlFormats.GetBlogNameFromRequest(HttpContext.Current.Request.RawUrl, HttpContext.Current.Request.ApplicationPath);
+			string blogName = UrlFormats.GetBlogSubfolderFromRequest(HttpContext.Current.Request.RawUrl, HttpContext.Current.Request.ApplicationPath);
 			Assert.AreEqual("MyBlog2", blogName, "Wasn't able to parse request properly.");
 		}
 
