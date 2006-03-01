@@ -266,8 +266,10 @@ namespace Subtext
 
 		}
 
+#if DEBUG
 		private static string lb = "============ Debug Build ============";
 		private static string message = "{0}{1}<br />Subtext Version: {2}<br />Machine Name: {3}<br />.NET Version: {4}<br />{5}<br />{6}{7}";
+#endif
 
 		protected void Application_End(Object sender, EventArgs e)
 		{

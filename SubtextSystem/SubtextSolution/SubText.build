@@ -164,4 +164,48 @@
 		</cvs>
 
 	</target>
+	
+	<target name="doc">
+		<property name="configuration" value="documentation"/>
+
+		<call target="dist.publish.latest" />	
+		
+		<echo message="Building xml comment files in ${publish.dir.latest}" />
+		
+		<ndoc>
+			<assemblies basedir="${publish.dir.latest}\bin">
+				<include name="Subtext.Common.dll" />
+				<include name="Subtext.Framework.dll" />
+				<include name="Subtext.Web.dll" />
+				<include name="Subtext.Extensibility.dll" />
+				<include name="Subtext.Installation.dll" />
+				<include name="Subtext.Web.Controls.dll" />
+			</assemblies>
+			<documenters>
+				<documenter name="MSDN">
+					<property name="OutputDirectory" value="..\Docs\NDoc" />
+					<property name="HtmlHelpName" value="Subtext Code Documentation" />
+					<property name="HtmlHelpCompilerFilename" value="hhc.exe" />
+					<property name="IncludeFavorites" value="False" />
+					<property name="Title" value="Subtext Code Documentation" />
+					<property name="SplitTOCs" value="False" />
+					<property name="DefaulTOC" value="" />
+					<property name="ShowVisualBasic" value="False" />
+					<property name="ShowMissingSummaries" value="True" />
+					<property name="ShowMissingRemarks" value="True" />
+					<property name="ShowMissingParams" value="True" />
+					<property name="ShowMissingReturns" value="True" />
+					<property name="ShowMissingValues" value="True" />
+					<property name="DocumentInternals" value="False" />
+					<property name="DocumentProtected" value="True" />
+					<property name="DocumentPrivates" value="False" />
+					<property name="DocumentEmptyNamespaces" value="False" />
+					<property name="IncludeAssemblyVersion" value="False" />
+					<property name="CopyrightText" value="Copyright 2005 Phil Haack" />
+					<property name="CopyrightHref" value="" />
+					<property name="UseNamespaceDocSummaries" value="True" />
+				</documenter>
+			</documenters>
+		</ndoc>
+	</target>
 </project>
