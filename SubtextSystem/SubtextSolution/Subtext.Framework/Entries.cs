@@ -317,6 +317,9 @@ namespace Subtext.Framework
 			if(entryName.Length == 0)
 				return null;
 
+			Regex regexTrailingPeriods = new Regex(@"\.*$", RegexOptions.Compiled);
+			entryName = regexTrailingPeriods.Replace(entryName, "");
+
 			string newEntryName = entryName;
 			int tryCount = 0;
 			while(ObjectProvider.Instance().GetEntry(newEntryName, false) != null)
