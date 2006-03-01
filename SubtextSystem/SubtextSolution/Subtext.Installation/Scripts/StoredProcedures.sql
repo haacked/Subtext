@@ -2520,7 +2520,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetRecentEntries]
 	@ItemCount int
 	, @IsActive bit
 	, @PostType int
-	, @BlogId int
+	, @BlogId int = NULL
 )
 AS
 SET ROWCOUNT @ItemCount
@@ -2545,7 +2545,7 @@ SELECT	BlogId
 	, DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	PostType=@PostType 
-	AND BlogId = @BlogId 
+	AND (BlogId = @BlogId OR @BlogID IS NULL)
 	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
 ORDER BY [DateAdded] DESC
 
