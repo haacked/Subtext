@@ -14,18 +14,55 @@
 #endregion
 
 using System;
+using System.IO;
+using Subtext.Framework;
+using Subtext.Framework.Format;
+using Subtext.Framework.Text;
 
 namespace Subtext.Web.SystemMessages
 {
 	/// <summary>
-	/// Summary description for FileNotFound.
+	/// Displays a file not found message to the user.
 	/// </summary>
 	public class FileNotFound : System.Web.UI.Page
 	{
-		private void Page_Load(object sender, System.EventArgs e)
+		protected override void OnLoad(EventArgs e)
 		{
-			// Put user code to initialize the page here
+			//TODO: Refactor this into a method and unit test it.
+			//Multiple blog handling.
+			string queryString = Request.QueryString[0];
+			if(queryString != null)
+			{
+				string urlText = StringHelper.RightAfter(queryString, ";");
+				if(urlText != null && urlText.Length > 0)
+				{
+					try
+					{
+						Uri uri = new Uri(urlText);
+
+						string extension = Path.GetExtension(uri.AbsolutePath);
+						if(extension == null || extension == string.Empty)
+						{
+							string subfolder = UrlFormats.GetBlogSubfolderFromRequest(uri.AbsolutePath, Request.ApplicationPath);
+							BlogInfo info = Subtext.Framework.Configuration.Config.GetBlogInfo(uri.Host, subfolder);
+							if(info != null)
+							{
+								Response.Redirect(info.BlogHomeVirtualUrl);
+								return;
+							}
+						}
+					}
+					catch(UriFormatException)
+					{
+						//Do nothing...
+					}
+					
+				}
+			}
+
+			base.OnLoad (e);
 		}
+
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
@@ -43,7 +80,6 @@ namespace Subtext.Web.SystemMessages
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.Load += new System.EventHandler(this.Page_Load);
 		}
 		#endregion
 	}

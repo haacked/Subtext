@@ -141,13 +141,13 @@ namespace Subtext.Framework.Configuration
 			BlogInfo info = (BlogInfo)HttpContext.Current.Items[cacheKey];
 			if(info == null)
 			{
-				string app = UrlFormats.GetBlogNameFromRequest(HttpContext.Current.Request.RawUrl, HttpContext.Current.Request.ApplicationPath);
+				string subFolder = UrlFormats.GetBlogSubfolderFromRequest(HttpContext.Current.Request.RawUrl, HttpContext.Current.Request.ApplicationPath);
 
-				if(!Config.IsValidApplicationName(app))
-					app = string.Empty;
+				if(!Config.IsValidApplicationName(subFolder))
+					subFolder = string.Empty;
 
 				//BlogConfig was not found in the context. It could be in the current cache.
-				string mCacheKey = cacheKey + app;
+				string mCacheKey = cacheKey + subFolder;
 
 				//check the cache.
 				info = (BlogInfo)HttpContext.Current.Cache[mCacheKey];
@@ -155,7 +155,7 @@ namespace Subtext.Framework.Configuration
 				{
 					//Not found in the cache
 					bool strict = true; //strict implies 
-					info = Subtext.Framework.Configuration.Config.GetBlogInfo(Host, app, !strict);
+					info = Subtext.Framework.Configuration.Config.GetBlogInfo(Host, subFolder, !strict);
 					if(info == null)
 					{
 						int totalBlogs;
@@ -167,7 +167,7 @@ namespace Subtext.Framework.Configuration
 							return GetAggregateBlog();
 						}
 
-						throw new BlogDoesNotExistException(Host, app, anyBlogsExist);
+						throw new BlogDoesNotExistException(Host, subFolder, anyBlogsExist);
 					}
 
 					if(!info.IsActive && !InstallationManager.IsInHostAdminDirectory && !InstallationManager.IsInSystemMessageDirectory)
@@ -185,14 +185,14 @@ namespace Subtext.Framework.Configuration
 
 					string formattedHost = GetFormattedHost(Host, settings.UseWWW)+webApp;
 
-					if(!app.EndsWith("/"))
+					if(!subFolder.EndsWith("/"))
 					{
-						app += "/";
+						subFolder += "/";
 					}
-					if(app.Length>1)
-						app="/"+app;
+					if(subFolder.Length>1)
+						subFolder="/"+subFolder;
 
-					string virtualPath = string.Format(System.Globalization.CultureInfo.InvariantCulture, "images/{0}{1}", Regex.Replace(Host+webApp,@"\:|\.","_"), app);
+					string virtualPath = string.Format(System.Globalization.CultureInfo.InvariantCulture, "images/{0}{1}", Regex.Replace(Host+webApp,@"\:|\.","_"), subFolder);
 
 					// now put together the host + / + virtual path (url) to images
 					info.ImagePath = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}/{1}", formattedHost, virtualPath);
