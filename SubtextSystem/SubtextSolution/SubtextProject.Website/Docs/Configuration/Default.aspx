@@ -18,6 +18,9 @@
 		For a deeper understanding of how URLs are mapped to 
 		blogs, please <a href="~/Docs/Developer/HowAnUrlIsMappedToABlog" title="Mapping URLs to Blogs" runat="server" ID="A1">read this</a>.
 	</p>
+	<p>
+		For a list of various configurations please see <a href="ConfigurationTable/" title="Configuration Chart">this chart</a>.
+	</p>
 	<h3>Single Blog Configuration</h3>
 	<p>
 		Single blog configuration is pretty straightforward. 
@@ -58,6 +61,11 @@
 		directory, and should NOT be an IIS Application (in the screenshot below, 
 		clicking the &#8220;Remove&#8221; button makes sure this virtual directory 
 		is not an application.
+	</p>
+	<p>
+		Another workaround is to simply create a physical folder with the same 
+		name as the Subfolder and put a stub (empty) default.aspx file in that 
+		folder.
 	</p>
 	<div class="dropshadow"><div class="innerbox"><img src="~/images/CreateVirtualDir.Png" alt="Screenshot of IIS Virtual Directory Dialog" runat="server" ID="Img2"/></div></div>
 	<div class="caption" style="clear: both;"><strong>Figure 3:</strong> Setting up a virtual directory.</div>
