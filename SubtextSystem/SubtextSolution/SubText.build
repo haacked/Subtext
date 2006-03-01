@@ -36,16 +36,16 @@
 
 	<target name="compile-main">
 		<solution configuration="${configuration}">
-	    <projects>
-	        <include name="Subtext.Common\SubText.Common.csproj" />
-	        <include name="Subtext.Extensibility\Subtext.Extensibility.csproj" />
-	        <include name="Subtext.Framework\Subtext.Framework.csproj" />
-	        <include name="Subtext.Installation\Subtext.Installation.csproj" />
-	        <include name="Subtext.Scripting\Subtext.Scripting.csproj" />
-	        <include name="Subtext.Web\Subtext.Web.csproj" />
-	        <include name="Subtext.Web.Controls\Subtext.Web.Controls.csproj" />
-	        <include name="blowery.Web.HttpCompress\blowery.Web.HttpCompress.csproj" />
-	    </projects>
+			<projects>
+				<include name="Subtext.Common\SubText.Common.csproj" />
+				<include name="Subtext.Extensibility\Subtext.Extensibility.csproj" />
+				<include name="Subtext.Framework\Subtext.Framework.csproj" />
+				<include name="Subtext.Installation\Subtext.Installation.csproj" />
+				<include name="Subtext.Scripting\Subtext.Scripting.csproj" />
+				<include name="Subtext.Web\Subtext.Web.csproj" />
+				<include name="Subtext.Web.Controls\Subtext.Web.Controls.csproj" />
+				<include name="blowery.Web.HttpCompress\blowery.Web.HttpCompress.csproj" />
+			</projects>
 		</solution>
 	</target>
 
@@ -79,6 +79,7 @@
 
 		<delete dir="${publish.dir.latest}" failonerror="false" />
 		<mkdir dir="${publish.dir.latest}" />
+		
 		<copy todir="${publish.dir.latest}" includeemptydirs="false">
 			<fileset basedir="Subtext.Web">
 				<include name="**/*" />
@@ -98,14 +99,25 @@
 				<exclude name="obj/**"/>
 			</fileset>
 		</copy>
+		
 		<copy todir="${publish.dir.latest}" includeemptydirs="false">
 			<fileset basedir="Subtext.Web">
-				
 				<include name="emoticons.txt" />
 				<include name="Images/*" />
 				<include name="Images/emotions/*" />
 			</fileset>
-		</copy>		
+		</copy>
+		
+		<if test="${configuration == 'documentation'}">
+			<echo message="Deploying XML files" /> 
+			<copy todir="${publish.dir.latest}" includeemptydirs="false">
+				<fileset basedir="Subtext.Web">
+					<include name="**/*.xml" />
+				</fileset>
+			</copy>
+		</if>
+		
+		
 		<attrib readonly="false" >
 			<fileset basedir="${publish.dir.latest}">
 				<include name="**/*" />
@@ -189,21 +201,7 @@
 					<property name="OutputDirectory" value="${ndoc.output.dir}" />
 					<property name="HtmlHelpName" value="${ndoc.file.name}" />
 					<property name="HtmlHelpCompilerFilename" value="hhc.exe" />
-					<property name="IncludeFavorites" value="False" />
 					<property name="Title" value="Subtext Code Documentation" />
-					<property name="SplitTOCs" value="False" />
-					<property name="DefaulTOC" value="" />
-					<property name="ShowVisualBasic" value="False" />
-					<property name="ShowMissingSummaries" value="True" />
-					<property name="ShowMissingRemarks" value="True" />
-					<property name="ShowMissingParams" value="True" />
-					<property name="ShowMissingReturns" value="True" />
-					<property name="ShowMissingValues" value="True" />
-					<property name="DocumentInternals" value="False" />
-					<property name="DocumentProtected" value="True" />
-					<property name="DocumentPrivates" value="False" />
-					<property name="DocumentEmptyNamespaces" value="False" />
-					<property name="IncludeAssemblyVersion" value="False" />
 					<property name="CopyrightText" value="Copyright 2005 Phil Haack" />
 					<property name="CopyrightHref" value="" />
 					<property name="UseNamespaceDocSummaries" value="True" />
