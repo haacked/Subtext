@@ -431,6 +431,33 @@ img
 	cursor: help;
 }
 
+/*-----------[ configuration ] --------*/
+table.configuration
+{
+	width: 100%;
+}
+
+table.configuration td, table.configuration th
+{
+	vertical-align: top;
+	font: .8em verdana;
+}
+
+table.configuration th
+{
+	font: .9em verdana bold;
+}
+
+table.configuration tr
+{
+	background-color: #eee;
+}
+
+table.configuration tr.alt
+{
+	background-color: #fff;
+}
+
 /********* Image Drop Shadow **********/
 
 .dropshadow
