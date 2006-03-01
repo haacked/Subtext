@@ -40,14 +40,20 @@ namespace Subtext.Web.SystemMessages
 					{
 						Uri uri = new Uri(urlText);
 
+						
 						string extension = Path.GetExtension(uri.AbsolutePath);
 						if(extension == null || extension == string.Empty)
 						{
-							string subfolder = UrlFormats.GetBlogSubfolderFromRequest(uri.AbsolutePath, Request.ApplicationPath);
+							string uriAbsolutePath = uri.AbsolutePath;
+							if(!uriAbsolutePath.EndsWith("/"))
+							{
+								uriAbsolutePath += "/";
+							}
+							string subfolder = UrlFormats.GetBlogSubfolderFromRequest(uriAbsolutePath, Request.ApplicationPath);
 							BlogInfo info = Subtext.Framework.Configuration.Config.GetBlogInfo(uri.Host, subfolder);
 							if(info != null)
 							{
-								Response.Redirect(info.BlogHomeVirtualUrl);
+								Response.Redirect(uriAbsolutePath + "Default.aspx");
 								return;
 							}
 						}
