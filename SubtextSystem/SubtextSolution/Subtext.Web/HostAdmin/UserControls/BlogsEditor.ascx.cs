@@ -108,7 +108,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 			if(this.chkShowInactive.Checked)
 			{
 				blogs = BlogInfo.GetBlogs(_resultsPageNumber, resultsPager.PageSize, false);	
-				totalBlogs = blogs.Count;
+				totalBlogs = blogs.MaxItems;
 			}
 			else
 			{

@@ -13,7 +13,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-using System;
 using System.Configuration;
 using Subtext.Framework.Components;
 using Subtext.Framework.Exceptions;
@@ -66,8 +65,12 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
+				/* TASK - version 1.1
+				 * We get a pageSize of 10 here - the number 10 is just a magic #, and 
+				 * could be any number... possibly move down to 1 for next release.
+				 */
 				int notUsed;
-				return BlogInfo.GetActiveBlogs(1, 100, true, out notUsed).Count;
+				return BlogInfo.GetActiveBlogs(1, 10, true, out notUsed).Count;
 			}
 		}
 
@@ -79,8 +82,15 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
+				/* TASK - version 1.1
+				 * We get a pageSize of 10 here - the number 10 is just a magic #, and 
+				 * could be any number... possibly move down to 1 for next release.
+				 * we only need to get one page of blogInfo objects b/c the SP that the 
+				 * dataProvider calls will return the total number of blogs as a return value. 
+				 * This value is then set as the MaxItems property of our BlogInfoCollection.
+				 */
 				int totalBlogCount;
-				BlogInfo.GetActiveBlogs(1, 100, true, out totalBlogCount);
+				BlogInfo.GetActiveBlogs(1, 10, true, out totalBlogCount);
 				return totalBlogCount;
 			}
 		}

@@ -100,11 +100,14 @@ namespace Subtext.Framework
 		public static BlogInfoCollection GetActiveBlogs(int pageIndex, int pageSize, bool sortDescending, out int totalBlogs)
 		{
 			BlogInfoCollection blogs = ObjectProvider.Instance().GetPagedBlogs(pageIndex, pageSize, sortDescending);
-			totalBlogs = blogs.Count;
-			for(int i = blogs.Count - 1; i > -1; i--)
+			// the ObjectProvider puts the returned TotalRecords value in the MaxItems property.
+			totalBlogs = blogs.MaxItems;
+			for (int i = blogs.Count - 1; i > -1; i--)
 			{
-				if(!blogs[i].IsActive)
+				if (!blogs[i].IsActive)
+				{
 					blogs.RemoveAt(i);
+				}
 			}
 			return blogs;
 		}

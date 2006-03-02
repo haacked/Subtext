@@ -13,9 +13,11 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-using System;
 using System.Web.UI;
 using Subtext.Extensibility.Providers;
+using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Framework
 {
@@ -57,6 +59,35 @@ namespace Subtext.Framework
 		public static void Import(Control populatedControl, ProviderInfo providerInfo)
 		{
 			ImportProvider.Instance(providerInfo).Import(populatedControl);
+
+//			BlogInfoCollection blogs = null;
+//			ObjectProvider objProvider = ObjectProvider.Instance();
+//
+//			int totalBlogCount = Config.BlogCount;
+//			const int pageSize = 100;
+//			int pages = totalBlogCount/pageSize;
+//			int currentPage = 1;
+//
+//			if (totalBlogCount % pageSize > 0)
+//			{
+//				pages++;
+//			}
+//			
+//			while (currentPage <= pages)
+//			{
+//				blogs = objProvider.GetPagedBlogs(currentPage, pageSize, true);
+//
+//				foreach (BlogInfo currentBlogInfo in blogs)
+//				{
+//					if (!allSkins.contains(currentBlogInfo.Skin))
+//					{
+//						currentBlogInfo.Skin = SkinConfig.GetDefaultSkin();
+//						Config.UpdateConfigData(currentBlogInfo);
+//					}
+//				}
+//
+//				currentPage++;
+//			}
 		}
 	}
 }
