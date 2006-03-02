@@ -12,6 +12,7 @@
 	-->
 	
 	<target name="get-publishing-properties">
+		
 		<tstamp property="build.date" pattern="yyyyMMddTHHmmss" />
 	
 		<ifnot test="${property::exists('publish.root')}"> 
