@@ -1540,6 +1540,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Scripts\lightbox.js"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Scripts\LiveCommentPreview.js"
                     BuildAction = "Content"
                 />

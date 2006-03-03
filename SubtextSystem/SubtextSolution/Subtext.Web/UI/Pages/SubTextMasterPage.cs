@@ -21,6 +21,7 @@ using System.Web.UI;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.UI.Skinning;
+using Subtext.Web.Controls;
 
 namespace Subtext.Web.UI.Pages
 {
@@ -176,22 +177,38 @@ namespace Subtext.Web.UI.Pages
 		/// <summary>
 		/// Provides rendering facilities for script elements in the head element of the page
 		/// </summary>
-		private class ScriptElementCollectionRenderer
+		public class ScriptElementCollectionRenderer
 		{
-			private string RenderScriptAttribute(string attributeName, string attributeValue)
+			private static string RenderScriptAttribute(string attributeName, string attributeValue)
 			{
                 return attributeValue != null ? " " + attributeName + "=\"" + attributeValue + "\"" : String.Empty;
 			}
 
-			private string RenderScriptElement(string skinPath, Script script)
+			public static string RenderScriptElement(string skinPath, Script script)
 			{
 				return "<script" + 
 					RenderScriptAttribute("type", script.Type) + 
-					RenderScriptAttribute("src", skinPath + script.Src) + 
-					"></script>\n";
+					RenderScriptAttribute("src", GetScriptSourcePath(skinPath, script)) + 
+					"></script>" + Environment.NewLine;
 			}
 
-			private string CreateSkinPath(string skinName)
+			private static string GetScriptSourcePath(string skinPath, Script script)
+			{
+				if(script.Src.StartsWith("~"))
+				{
+					return ControlHelper.ExpandTildePath(script.Src);
+				}
+				else if(script.Src.StartsWith("/"))
+				{
+					return script.Src;
+				}
+				else
+				{
+					return skinPath + script.Src;
+				}
+			}
+
+			private static string GetSkinPath(string skinName)
 			{
 				string applicationPath = HttpContext.Current.Request.ApplicationPath;
 				return (applicationPath == "/" ? String.Empty : applicationPath) + "/Skins/" + skinName + "/";
@@ -205,7 +222,7 @@ namespace Subtext.Web.UI.Pages
 				SkinTemplate skinTemplate = skinTemplates.GetTemplate(skinName);
 				if (skinTemplate != null && skinTemplate.Scripts != null)
 				{
-					string skinPath = CreateSkinPath(skinName);
+					string skinPath = GetSkinPath(skinName);
 					foreach(Script script in skinTemplate.Scripts)
 					{
 						result += RenderScriptElement(skinPath, script);
@@ -220,7 +237,7 @@ namespace Subtext.Web.UI.Pages
 		/// <summary>
 		/// Provides rendering facilities for stylesheet elements in the head element of the page
 		/// </summary>
-		private class StyleSheetElementCollectionRenderer
+		public class StyleSheetElementCollectionRenderer
 		{
 			private string RenderStyleAttribute(string attributeName, string attributeValue)
 			{
