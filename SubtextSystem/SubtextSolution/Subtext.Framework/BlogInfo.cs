@@ -33,8 +33,9 @@ namespace Subtext.Framework
 	[Serializable]
 	public class BlogInfo
 	{
-		private object urlLock = new object();
+		const int DefaultRecentCommentsLength = 50;
 
+		private object urlLock = new object();
 		private UrlFormats _urlFormats = null;
 
 		/// <summary>
@@ -483,7 +484,7 @@ namespace Subtext.Framework
 			get
 			{
 				if(_recentCommentsLength < 0 || _recentCommentsLength == int.MaxValue)
-					return 0;
+					return DefaultRecentCommentsLength;
 				else
 					return _recentCommentsLength;
 			}
