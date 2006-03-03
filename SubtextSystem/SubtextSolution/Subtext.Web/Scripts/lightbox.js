@@ -34,18 +34,17 @@
 // Configuration
 //
 
-var initSubTextPath=location.pathname.indexOf("gallery");
-var startPath=location.pathname.substring(0,initSubTextPath);
-var imagesPath=startPath+"Skins/Piyo/Images/";
+var imagesPath = '/Subtext.Web' /* needs to be removed for prod */
+
+if(location.pathname.indexOf(imagesPath) < 0)
+{
+	imagesPath = '';
+}
 
 // If you would like to use a custom loading image or close button reference them in the next two lines.
-var loadingImage = imagesPath+'loading.gif';		
-var closeButton = imagesPath+'close.gif';		
-var overlayImage = imagesPath+'overlay.png';
-
-
-
-
+var loadingImage = imagesPath + '/images/loading.gif';		
+var closeButton = imagesPath + '/images/close.gif';
+var overlayImage = imagesPath + '/images/overlay.png';
 
 //
 // getPageScroll()
