@@ -162,6 +162,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Code\GetSubtext.zip"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "Docs\Default.aspx"
                     BuildAction = "Content"
                 />
