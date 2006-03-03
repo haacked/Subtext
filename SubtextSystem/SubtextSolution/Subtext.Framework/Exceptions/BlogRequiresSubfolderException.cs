@@ -19,29 +19,29 @@ namespace Subtext.Framework.Exceptions
 {
 	/// <summary>
 	/// Exception thrown when creating a new blog, or changing an existing 
-	/// blog, without an Application value specified, when another blog 
+	/// blog, without a Subfolder value specified, when another blog 
 	/// with the same Host name exists.
 	/// </summary>
 	/// <remarks>
 	/// An example of this case is where a system has a blog with the host 
-	/// "example.com" and the application name "MyBlog".  Attempting to create 
-	/// a new blog with the host name "example.com" and an empty application 
+	/// "example.com" and the subfolder name "MyBlog".  Attempting to create 
+	/// a new blog with the host name "example.com" and an empty subfolder 
 	/// name will result in this exception being thrown.
 	/// </remarks>
 	[Serializable]
-	public class BlogRequiresApplicationException : BaseBlogConfigurationException
+	public class BlogRequiresSubfolderException : BaseBlogConfigurationException
 	{
 		int _blogsWithSameHostCount;
 		int _blogId = NullValue.NullInt32;
 		string _host;
 
 		/// <summary>
-		/// Creates a new <see cref="BlogRequiresApplicationException"/> instance.
+		/// Creates a new <see cref="BlogRequiresSubfolderException"/> instance.
 		/// </summary>
 		/// <param name="blogsWithSameHostCount">The number of blogs with this 
 		/// host name (not counting the blog being modified).</param>
 		/// <param name="blogId">The blog that is being modified and is conflicting with a pre-existing blog.</param>
-		public BlogRequiresApplicationException(string hostName, int blogsWithSameHostCount, int blogId) : base()
+		public BlogRequiresSubfolderException(string hostName, int blogsWithSameHostCount, int blogId) : base()
 		{
 			_host = hostName;
 			_blogsWithSameHostCount = blogsWithSameHostCount;
@@ -49,10 +49,10 @@ namespace Subtext.Framework.Exceptions
 		}
 
 		/// <summary>
-		/// Creates a new <see cref="BlogRequiresApplicationException"/> instance.
+		/// Creates a new <see cref="BlogRequiresSubfolderException"/> instance.
 		/// </summary>
 		/// <param name="blogsWithSameHostCount">The number of blogs with this host name.</param>
-		public BlogRequiresApplicationException(string hostName, int blogsWithSameHostCount) : this(hostName, blogsWithSameHostCount, NullValue.NullInt32)
+		public BlogRequiresSubfolderException(string hostName, int blogsWithSameHostCount) : this(hostName, blogsWithSameHostCount, NullValue.NullInt32)
 		{
 		}
 

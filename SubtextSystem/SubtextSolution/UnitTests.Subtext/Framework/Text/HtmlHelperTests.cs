@@ -134,7 +134,7 @@ namespace UnitTests.Subtext.Framework.Text
 			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "MyBlog");
 			BlogInfo blogInfo = new BlogInfo();
 			blogInfo.Host = "localhost";
-			blogInfo.Application = "MyBlog";
+			blogInfo.Subfolder = "MyBlog";
 
 			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 		}

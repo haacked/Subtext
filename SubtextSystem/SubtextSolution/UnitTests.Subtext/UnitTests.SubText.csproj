@@ -264,6 +264,11 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Framework\BlogInfoTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Framework\LinksTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

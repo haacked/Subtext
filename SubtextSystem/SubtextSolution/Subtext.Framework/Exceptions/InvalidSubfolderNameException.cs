@@ -21,17 +21,17 @@ namespace Subtext.Framework.Exceptions
 	/// Exception thrown when creating an application
 	/// </summary>
 	[Serializable]
-	public class InvalidApplicationNameException : BaseBlogConfigurationException
+	public class InvalidSubfolderNameException : BaseBlogConfigurationException
 	{
-		string _application;
+		string subfolder;
 
 		/// <summary>
-		/// Creates a new <see cref="InvalidApplicationNameException"/> instance.
+		/// Creates a new <see cref="InvalidSubfolderNameException"/> instance.
 		/// </summary>
-		/// <param name="application">Application.</param>
-		public InvalidApplicationNameException(string application) : base()
+		/// <param name="subfolder">Subfolder.</param>
+		public InvalidSubfolderNameException(string subfolder) : base()
 		{
-			_application = application;
+			this.subfolder = subfolder;
 		}
 		/// <summary>
 		/// Gets the message resource key.
@@ -50,7 +50,7 @@ namespace Subtext.Framework.Exceptions
 		{
 			get
 			{
-				return "Sorry, but the subfolder name &#8220;" + _application + "&#8221; you&#8217;ve chosen is not allowed.";
+				return "Sorry, but the subfolder name &#8220;" + subfolder + "&#8221; you&#8217;ve chosen is not allowed.";
 			}
 		}
 

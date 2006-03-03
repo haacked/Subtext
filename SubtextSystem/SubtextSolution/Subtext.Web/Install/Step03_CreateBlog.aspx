@@ -35,7 +35,7 @@
 						as it does a FULL import from .TEXT.
 					</p>
 					<p>
-						After the import, you may need to change the Application 
+						After the import, you may need to change the Subfolder 
 						value as well as reset the password for the imported blogs.
 					</p>
 					<p>

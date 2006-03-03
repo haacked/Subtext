@@ -83,8 +83,8 @@ namespace Subtext.Web.UI.Controls
 				else
 					BlogId = 0;
 
-				if (CurrentBlog.Application != String.Empty)
-                    applikasyon = CurrentBlog.Application;
+				if (CurrentBlog.Subfolder != String.Empty)
+                    applikasyon = CurrentBlog.Subfolder;
 				else
 					applikasyon = String.Empty;
 

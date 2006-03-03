@@ -15,17 +15,22 @@
 
 using System;
 using System.Web;
-using Subtext.Framework.Format;
 
 namespace Subtext.Framework.Exceptions
 {
 	/// <summary>
 	/// Exception thrown when creating a blog (or updating a blog) and the 
-	/// application directory cannot be created.
+	/// subfolder directory cannot be created.
 	/// </summary>
+	/// <remarks>
+	/// This is not being used currently.  It was created as an experiment 
+	/// and may never be used.
+	/// </remarks>
 	[Serializable]
 	public class BlogApplicationDirectoryCreateException : BaseBlogConfigurationException
 	{
+		//TODO: Remove this class.
+
 		/// <summary>
 		/// Creates a new <see cref="BlogApplicationDirectoryCreateException"/> instance.
 		/// </summary>

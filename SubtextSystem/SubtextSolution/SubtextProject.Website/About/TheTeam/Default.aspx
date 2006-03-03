@@ -19,7 +19,7 @@
 		<li><a href="http://jasonkemp.ca/">Jason Kemp</a> &#8212; Installation and Facilities Management</li>
 		<li><a href="http://jaysonknight.com/blog/default.aspx">Jayson Knight</a> &#8212; Schema Worker</li>
 		<li><a href="http://sharpmarbles.stufftoread.com/">Robb Allen</a> &#8212; Security Guard and Master Brewer</li>
-		<li><a href="http://stevenharman.net">Steve Harman</a> &#8212; That Other Guy</li>
+		<li><a href="http://stevenharman.net">Steve Harman</a> &#8212; Chief Source and Control Officer</li>
 		<li><a href="http://blogs.ugidotnet.org/piyo/">Simone Chiaretta</a> &#8212; Web2.0 Evangelist and Skinner</li>
 		<li><a href="http://blogs.analystdeveloper.com/gurkaneng/">Gurkan Yeniceri</a> &#8212; YASD (Yet Another Subtext Developer)</li>
 	</ul>

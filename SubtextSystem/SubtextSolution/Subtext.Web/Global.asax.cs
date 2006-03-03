@@ -38,7 +38,7 @@ namespace Subtext
 		{
 			if(custom == "Blogger")
 			{
-				return Subtext.Framework.Configuration.Config.CurrentBlog.Application;
+				return Subtext.Framework.Configuration.Config.CurrentBlog.Subfolder;
 			}
 
 			return base.GetVaryByCustomString(context,custom);

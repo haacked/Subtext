@@ -50,7 +50,7 @@ namespace Subtext.Framework.Components
 		public abstract DataSet RawEntriesByCategoryID(int ItemCount, int CategoryID, bool ActiveOnly);
 
 	
-		public abstract BlogInfo GetBlogInfo(string host, string application);
+		public abstract BlogInfo GetBlogInfo(string host, string subfolder);
 		
 		//Update/Add/Remove
 		public abstract bool UpdateEntry(Entry _entry);

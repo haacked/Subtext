@@ -121,11 +121,11 @@ namespace Subtext.Framework.Configuration
 		/// Hostname and Application.
 		/// </summary>
 		/// <param name="hostName">Hostname.</param>
-		/// <param name="application">Application.</param>
+		/// <param name="subfolder">Subfolder Name.</param>
 		/// <returns></returns>
-		public static BlogInfo GetBlogInfo(string hostName, string application)
+		public static BlogInfo GetBlogInfo(string hostName, string subfolder)
 		{
-			return GetBlogInfo(hostName, application, true);
+			return GetBlogInfo(hostName, subfolder, true);
 		}
 
 		/// <summary>
@@ -138,9 +138,9 @@ namespace Subtext.Framework.Configuration
 		/// this will always return the same instance.
 		/// </remarks>
 		/// <param name="hostName">Hostname.</param>
-		/// <param name="subfolder">Application.</param>
+		/// <param name="subfolder">Subfolder Name.</param>
 		/// <param name="strict">If false, then this will return a blog record if 
-		/// there is only one blog record, regardless if the application and hostname match.</param>
+		/// there is only one blog record, regardless if the subfolder and hostname match.</param>
 		/// <returns></returns>
 		public static BlogInfo GetBlogInfo(string hostName, string subfolder, bool strict)
 		{
@@ -177,7 +177,7 @@ namespace Subtext.Framework.Configuration
 		public static bool CreateBlog(string title, string userName, string password, string host, string subfolder, bool passwordAlreadyHashed)
 		{
 			if(subfolder != null && subfolder.StartsWith("."))
-				throw new InvalidApplicationNameException(subfolder);
+				throw new InvalidSubfolderNameException(subfolder);
 
 			host = BlogInfo.NormalizeHostName(host);
 
@@ -201,19 +201,19 @@ namespace Subtext.Framework.Configuration
 
 			if(subfolder == null || subfolder.Length == 0)
 			{
-				//Check to see if this blog requires an Application value
+				//Check to see if this blog requires a Subfolder value
 				//This would occur if another blog has the same host already.
 				int activeBlogWithHostCount = BlogInfo.GetActiveBlogsByHost(host).Count;
 				if(activeBlogWithHostCount > 0)
 				{
-					throw new BlogRequiresApplicationException(host, activeBlogWithHostCount);
+					throw new BlogRequiresSubfolderException(host, activeBlogWithHostCount);
 				}
 			}
 			else
 			{
-				if(!IsValidApplicationName(subfolder))
+				if(!IsValidSubfolderName(subfolder))
 				{
-					throw new InvalidApplicationNameException(subfolder);
+					throw new InvalidSubfolderNameException(subfolder);
 				}
 			}
 
@@ -232,7 +232,7 @@ namespace Subtext.Framework.Configuration
 		public static bool UpdateConfigData(BlogInfo info)
 		{
 			//Check for duplicate
-			BlogInfo potentialDuplicate = Subtext.Framework.Configuration.Config.GetBlogInfo(info.Host, info.Application);
+			BlogInfo potentialDuplicate = Subtext.Framework.Configuration.Config.GetBlogInfo(info.Host, info.Subfolder);
 			if(potentialDuplicate != null && !potentialDuplicate.Equals(info))
 			{
 				//we found a duplicate!
@@ -247,26 +247,26 @@ namespace Subtext.Framework.Configuration
 				throw new BlogHiddenException(potentialHidden);
 			}
 
-			string application = info.Application == null ? string.Empty : UrlFormats.StripSurroundingSlashes(info.Application);
+			string subfolderName = info.Subfolder == null ? string.Empty : UrlFormats.StripSurroundingSlashes(info.Subfolder);
 
-			if(application.Length == 0)
+			if(subfolderName.Length == 0)
 			{
-				//Check to see if this blog requires an Application value
+				//Check to see if this blog requires a Subfolder value
 				//This would occur if another blog has the same host already.
 				BlogInfoCollection blogsWithHost = BlogInfo.GetActiveBlogsByHost(info.Host);
 				if(blogsWithHost.Count > 0)
 				{
 					if(blogsWithHost.Count > 1 || !blogsWithHost[0].Equals(info))
 					{
-						throw new BlogRequiresApplicationException(info.Host, blogsWithHost.Count);
+						throw new BlogRequiresSubfolderException(info.Host, blogsWithHost.Count);
 					}
 				}
 			}
 			else
 			{
-				if(!IsValidApplicationName(application))
+				if(!IsValidSubfolderName(subfolderName))
 				{
-					throw new InvalidApplicationNameException(application);
+					throw new InvalidSubfolderNameException(subfolderName);
 				}
 			}
 			
@@ -277,32 +277,32 @@ namespace Subtext.Framework.Configuration
 		}
 
 		//TODO: Is this the right place to put this list?
-		private static string[] _invalidApplications = {"Admin", "bin", "ExternalDependencies", "HostAdmin", "Images", "Install", "Modules", "Services", "Skins", "UI", "Category", "Archive", "Archives", "Comments", "Articles", "Posts", "Story", "Stories", "Gallery" };
+		private static string[] _invalidSubfolders = {"Admin", "bin", "ExternalDependencies", "HostAdmin", "Images", "Install", "Modules", "Services", "Skins", "UI", "Category", "Archive", "Archives", "Comments", "Articles", "Posts", "Story", "Stories", "Gallery" };
 
 		/// <summary>
-		/// Returns true if the specified application name has a 
+		/// Returns true if the specified subfolder name has a 
 		/// valid format. It may not start, nor end with ".".  It 
 		/// may not contain any of the following invalid characters 
 		/// {}[]/\ @!#$%:^&*()?+|"='<>;,
 		/// </summary>
-		/// <param name="application">Application.</param>
+		/// <param name="subfolder">subfolder.</param>
 		/// <returns></returns>
-		public static bool IsValidApplicationName(string application)
+		public static bool IsValidSubfolderName(string subfolder)
 		{
-			if(application.StartsWith(".") || application.EndsWith("."))
+			if(subfolder.StartsWith(".") || subfolder.EndsWith("."))
 				return false;
 
 			string invalidChars = @"{}[]/\ @!#$%:^&*()?+|""='<>;,";
 
 			foreach(char c in invalidChars)
 			{
-				if(application.IndexOf(c) > -1)
+				if(subfolder.IndexOf(c) > -1)
 					return false;
 			}
 
-			foreach(string invalidApp in _invalidApplications)
+			foreach(string invalidSubFolder in _invalidSubfolders)
 			{
-				if(StringHelper.AreEqualIgnoringCase(invalidApp, application))
+				if(StringHelper.AreEqualIgnoringCase(invalidSubFolder, subfolder))
 					return false;
 			}
 			return true;

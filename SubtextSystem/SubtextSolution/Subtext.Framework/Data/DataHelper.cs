@@ -728,7 +728,9 @@ namespace Subtext.Framework.Data
 				info.LastUpdated = new DateTime(2003,1,1);
 			}
 			info.Host = (string)reader["Host"];
-			info.Application = (string)reader["Application"];
+			// The Subfolder property is stored in the Application column. 
+			// This is a result of the legacy schema.
+			info.Subfolder = (string)reader["Application"];
 
 			info.Flag = (ConfigurationFlag)((int)reader["Flag"]);
 

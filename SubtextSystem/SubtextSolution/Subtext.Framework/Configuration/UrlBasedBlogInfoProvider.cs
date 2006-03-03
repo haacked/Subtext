@@ -104,15 +104,15 @@ namespace Subtext.Framework.Configuration
 			}
 		}
 
-		private string _application;
+		private string subfolder;
 		/// <summary>
 		/// Gets or sets the application.
 		/// </summary>
 		/// <value></value>
-		public string Application
+		public string Subfolder
 		{
-			get {return this._application;}
-			set {this._application = value;}
+			get {return this.subfolder;}
+			set {this.subfolder = value;}
 		}
 
 		private string _imageDirectory;
@@ -143,7 +143,7 @@ namespace Subtext.Framework.Configuration
 			{
 				string subFolder = UrlFormats.GetBlogSubfolderFromRequest(HttpContext.Current.Request.RawUrl, HttpContext.Current.Request.ApplicationPath);
 
-				if(!Config.IsValidApplicationName(subFolder))
+				if(!Config.IsValidSubfolderName(subFolder))
 					subFolder = string.Empty;
 
 				//BlogConfig was not found in the context. It could be in the current cache.
@@ -233,7 +233,7 @@ namespace Subtext.Framework.Configuration
 			aggregateBlog.Title = System.Configuration.ConfigurationSettings.AppSettings["AggregateTitle"];
 			aggregateBlog.Skin = SkinConfig.GetDefaultSkin();
 			aggregateBlog.Host = System.Configuration.ConfigurationSettings.AppSettings["AggregateHost"];
-			aggregateBlog.Application = "";
+			aggregateBlog.Subfolder = "";
 			aggregateBlog.UserName = HostInfo.Instance.HostUserName;
 			
 			return aggregateBlog;

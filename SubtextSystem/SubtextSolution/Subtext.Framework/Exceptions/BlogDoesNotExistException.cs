@@ -33,7 +33,7 @@ namespace Subtext.Framework.Exceptions
 		{
 			_anyBlogsExist = anyBlogsExist;
 			_host = host;
-			_applicationName = app;
+			subfolder = app;
 		}
 
 		/// <summary>
@@ -70,12 +70,12 @@ namespace Subtext.Framework.Exceptions
 		/// Gets the name of the application.
 		/// </summary>
 		/// <value></value>
-		public string ApplicationName
+		public string Subfolder
 		{
-			get { return _applicationName; }
+			get { return subfolder; }
 		}
 
-		string _applicationName;
+		string subfolder;
 
 		/// <summary>
 		/// Gets the message.
@@ -85,7 +85,7 @@ namespace Subtext.Framework.Exceptions
 		{
 			get
 			{
-				return string.Format(System.Globalization.CultureInfo.InvariantCulture, "A blog matching the location you requested was not found. Host = [{0}], Application (Blog Name) = [{1}]", Host, ApplicationName);
+				return string.Format(System.Globalization.CultureInfo.InvariantCulture, "A blog matching the location you requested was not found. Host = [{0}], Subfolder = [{1}]", Host, Subfolder);
 			}
 		}
 

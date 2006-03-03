@@ -18,6 +18,8 @@ using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
+using Subtext.Framework.UI.Skinning;
+using SkinConfig = Subtext.Framework.Configuration.SkinConfig;
 
 namespace Subtext.Framework
 {
@@ -60,34 +62,35 @@ namespace Subtext.Framework
 		{
 			ImportProvider.Instance(providerInfo).Import(populatedControl);
 
-//			BlogInfoCollection blogs = null;
-//			ObjectProvider objProvider = ObjectProvider.Instance();
-//
-//			int totalBlogCount = Config.BlogCount;
-//			const int pageSize = 100;
-//			int pages = totalBlogCount/pageSize;
-//			int currentPage = 1;
-//
-//			if (totalBlogCount % pageSize > 0)
-//			{
-//				pages++;
-//			}
-//			
-//			while (currentPage <= pages)
-//			{
-//				blogs = objProvider.GetPagedBlogs(currentPage, pageSize, true);
-//
-//				foreach (BlogInfo currentBlogInfo in blogs)
-//				{
-//					if (!allSkins.contains(currentBlogInfo.Skin))
-//					{
-//						currentBlogInfo.Skin = SkinConfig.GetDefaultSkin();
-//						Config.UpdateConfigData(currentBlogInfo);
-//					}
-//				}
-//
-//				currentPage++;
-//			}
+			BlogInfoCollection blogs = null;
+			ObjectProvider objProvider = ObjectProvider.Instance();
+
+			int totalBlogCount = Config.BlogCount;
+			const int pageSize = 100;
+			int pages = totalBlogCount/pageSize;
+			int currentPage = 1;
+			SkinTemplates skins = SkinTemplates.Instance();
+
+			if (totalBlogCount % pageSize > 0)
+			{
+				pages++;
+			}
+			
+			while (currentPage <= pages)
+			{
+				blogs = objProvider.GetPagedBlogs(currentPage, pageSize, true);
+
+				foreach (BlogInfo currentBlogInfo in blogs)
+				{
+					if (skins.GetTemplate(currentBlogInfo.Skin.SkinName) == null)
+					{
+						currentBlogInfo.Skin = SkinConfig.GetDefaultSkin();
+						Config.UpdateConfigData(currentBlogInfo);
+					}
+				}
+
+				currentPage++;
+			}
 		}
 	}
 }

@@ -53,7 +53,7 @@ namespace Subtext.Framework.Exceptions
 			{
 				if(_blogId == NullValue.NullInt32)
 				{
-					return "Oooh. A blog with the same host and application already exists.";
+					return "Oooh. A blog with the same host and subfolder name already exists.";
 				}
 				else
 				{
@@ -87,7 +87,7 @@ namespace Subtext.Framework.Exceptions
 		/// <summary>
 		/// Id of the blog being updated that caused this exception.  This 
 		/// would be populated if updating a blog to have the same host and 
-		/// application as another blog.  Otherwise this is equal to NullValue.NullInt32.
+		/// subfolder as another blog.  Otherwise this is equal to NullValue.NullInt32.
 		/// </summary>
 		/// <value></value>
 		public int BlogId

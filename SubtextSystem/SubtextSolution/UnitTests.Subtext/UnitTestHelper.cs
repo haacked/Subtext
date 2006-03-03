@@ -19,6 +19,7 @@ using System.Reflection;
 using System.Text;
 using System.Web;
 using MbUnit.Framework;
+using Subtext.Framework.Format;
 
 namespace UnitTests.Subtext
 {
@@ -111,7 +112,7 @@ namespace UnitTests.Subtext
 		/// by the host and application.
 		/// </summary>
 		/// <param name="host">Host.</param>
-		/// <param name="blogName">Application.</param>
+		/// <param name="blogName">Subfolder Name.</param>
 		public static void SetHttpContextWithBlogRequest(string host, string blogName)
 		{
 			SetHttpContextWithBlogRequest(host, blogName, string.Empty);
@@ -119,20 +120,20 @@ namespace UnitTests.Subtext
 
 		/// <summary>
 		/// Sets the HTTP context with a valid request for the blog specified 
-		/// by the host and application hosted in a virtual directory.
+		/// by the host and subfolder hosted in a virtual directory.
 		/// </summary>
 		/// <param name="host">Host.</param>
-		/// <param name="blogName">Application.</param>
+		/// <param name="subfolder">Subfolder Name.</param>
 		/// <param name="virtualDir"></param>
-		public static void SetHttpContextWithBlogRequest(string host, string blogName, string virtualDir)
+		public static void SetHttpContextWithBlogRequest(string host, string subfolder, string virtualDir)
 		{
-			SetHttpContextWithBlogRequest(host, blogName, virtualDir, "default.aspx");
+			SetHttpContextWithBlogRequest(host, subfolder, virtualDir, "default.aspx");
 		}
 		
-		public static void SetHttpContextWithBlogRequest(string host, string blogName, string virtualDir, string page)
+		public static void SetHttpContextWithBlogRequest(string host, string subfolder, string virtualDir, string page)
 		{
-			virtualDir = StripSlashes(virtualDir);	// Subtext.Web
-			blogName = StripSlashes(blogName);		// MyBlog
+			virtualDir = UrlFormats.StripSurroundingSlashes(virtualDir);	// Subtext.Web
+			subfolder = StripSlashes(subfolder);		// MyBlog
 
 			string appPhysicalDir = @"c:\projects\SubtextSystem\";	
 			if(virtualDir.Length == 0)
@@ -145,10 +146,10 @@ namespace UnitTests.Subtext
 				virtualDir = "/" + virtualDir;			//	/Subtext.Web
 			}
 
-			if(blogName.Length > 0)
+			if(subfolder.Length > 0)
 			{
-				page = blogName + "/" + page;			//	MyBlog/default.aspx
-				blogName = "/" + blogName;				//	/MyBlog
+				page = subfolder + "/" + page;			//	MyBlog/default.aspx
+				subfolder = "/" + subfolder;				//	/MyBlog
 			}
 
 			//page = "/" + page;							//	/MyBlog/default.aspx
@@ -160,7 +161,7 @@ namespace UnitTests.Subtext
 			HttpContext.Current = new HttpContext(workerRequest);
 
 			Console.WriteLine("host: " + host);
-			Console.WriteLine("blogName: " + blogName);
+			Console.WriteLine("blogName: " + subfolder);
 			Console.WriteLine("virtualDir: " + virtualDir);
 			Console.WriteLine("page: " + page);
 			Console.WriteLine("appPhysicalDir: " + appPhysicalDir);
@@ -235,7 +236,20 @@ namespace UnitTests.Subtext
 					{
 						expectedChar = expected[i];
 					}
-					Console.WriteLine("{0}:\t{1} ({2})\t{3} ({4})", i, originalChar, (int)originalChar, expectedChar, (int)expectedChar);
+
+					string originalCharDisplay = "" + originalChar;
+					if(char.IsWhiteSpace(originalChar))
+					{
+						originalCharDisplay = "{" + (int)originalChar  + "}";
+					}
+
+					string expectedCharDisplay = "" + expectedChar;
+					if(char.IsWhiteSpace(expectedChar))
+					{
+						expectedCharDisplay = "{" + (int)expectedChar + "}";
+					}
+
+					Console.WriteLine("{0}:\t{1} ({2})\t{3} ({4})", i, originalCharDisplay, (int)originalChar, expectedCharDisplay, (int)expectedChar);
 				}
 				Assert.AreEqual(original, expected);
 			}

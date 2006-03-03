@@ -15,6 +15,7 @@
 
 using System;
 using Subtext.Framework;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Install
 {
@@ -26,11 +27,17 @@ namespace Subtext.Web.Install
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
 		protected System.Web.UI.HtmlControls.HtmlAnchor lnkHostAdmin;
+		protected System.Web.UI.HtmlControls.HtmlAnchor lnkBlog;
+		protected System.Web.UI.HtmlControls.HtmlAnchor importWizardAnchor;
 		protected Subtext.Web.Controls.MasterPage MPContainer;
 	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
 			InstallationManager.ResetInstallationStatusCache();
+			if(Config.CurrentBlog != null)
+			{
+				lnkBlog.HRef = Config.CurrentBlog.BlogHomeVirtualUrl;
+			}
 		}
 
 		#region Web Form Designer generated code

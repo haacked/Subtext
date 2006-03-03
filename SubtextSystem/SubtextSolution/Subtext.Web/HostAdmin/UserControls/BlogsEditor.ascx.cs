@@ -149,7 +149,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 				this.txtTitle.Visible = false;
 				blog = BlogInfo.GetBlogById(BlogId);
 				this.lblTitle.Text = blog.Title;
-				this.txtApplication.Text = blog.Application;
+				this.txtApplication.Text = blog.Subfolder;
 				this.txtHost.Text = blog.Host;
 				this.txtUsername.Text = blog.UserName;
 			}
@@ -377,7 +377,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 				throw new ArgumentNullException("Blog Being Edited", "Ok, somehow the blog you were editing is now null.  This is very odd.");
 			
 			blog.Host = this.txtHost.Text;
-			blog.Application = this.txtApplication.Text;
+			blog.Subfolder = this.txtApplication.Text;
 			blog.UserName = this.txtUsername.Text;
 
 			if(this.txtPassword.Text.Length > 0)
@@ -422,7 +422,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 					& ValidateRequiredField(this.txtHost, "Host Domain") 
 					& ValidateRequiredField(this.txtUsername, "Username")
 					& ValidateFieldLength(this.txtHost, "Host Domain", 100)
-					& ValidateFieldLength(this.txtApplication, "Application", 50)
+					& ValidateFieldLength(this.txtApplication, "Subfolder", 50)
 					& ValidateFieldLength(this.txtUsername, "Username", 50)
 					& ValidateFieldLength(this.txtPassword, "Password", 50)
 					& ValidateFieldLength(this.txtTitle, "Title", 100);

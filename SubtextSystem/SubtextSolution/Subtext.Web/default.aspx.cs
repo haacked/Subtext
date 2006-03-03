@@ -108,6 +108,7 @@ namespace Subtext.Web
 			
 			string conn = DbProvider.Instance().ConnectionString;
 
+			//TODO: This needs to be part of the object model.
 
 			SqlParameter[] p = 
 				{

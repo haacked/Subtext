@@ -1040,10 +1040,13 @@ namespace Subtext.Framework.Data
 		/// allowing a user with a freshly installed blog to immediately gain access 
 		/// to the admin section to edit the blog.
 		/// </summary>
+		/// <param name="title"></param>
 		/// <param name="userName">Name of the user.</param>
 		/// <param name="password">Password.</param>
+		/// <param name="host"></param>
+		/// <param name="subfolder"></param>
 		/// <returns></returns>
-		public override bool AddBlogConfiguration(string title, string userName, string password, string host, string application)
+		public override bool AddBlogConfiguration(string title, string userName, string password, string host, string subfolder)
 		{
 			SqlParameter[] parameters = 
 			{
@@ -1052,7 +1055,7 @@ namespace Subtext.Framework.Data
 				, SqlHelper.MakeInParam("@Password", SqlDbType.NVarChar, 50, password)
 				, SqlHelper.MakeInParam("@Email", SqlDbType.NVarChar, 50, string.Empty)
 				, SqlHelper.MakeInParam("@Host", SqlDbType.NVarChar, 50, host)
-				, SqlHelper.MakeInParam("@Application", SqlDbType.NVarChar, 50, application)
+				, SqlHelper.MakeInParam("@Application", SqlDbType.NVarChar, 50, subfolder)
 				, SqlHelper.MakeInParam("@IsHashed", SqlDbType.Bit, 1, Config.Settings.UseHashedPasswords)
 				
 			};
@@ -1069,11 +1072,11 @@ namespace Subtext.Framework.Data
 		/// this will return that record.
 		/// </remarks>
 		/// <param name="host">Hostname.</param>
-		/// <param name="application">Application.</param>
+		/// <param name="subfolder">Subfolder Name.</param>
 		/// <returns></returns>
-		public override IDataReader GetBlogInfo(string host, string application)
+		public override IDataReader GetBlogInfo(string host, string subfolder)
 		{
-			return GetBlogInfo(host, application, false); //Not Strict.
+			return GetBlogInfo(host, subfolder, false); //Not Strict.
 		}
 
 		/// <summary>
@@ -1086,16 +1089,16 @@ namespace Subtext.Framework.Data
 		/// this will always return the same instance.
 		/// </remarks>
 		/// <param name="host">Hostname.</param>
-		/// <param name="application">Application.</param>
+		/// <param name="subfolder">Subfolder Name.</param>
 		/// <param name="strict">If false, then this will return a blog record if 
-		/// there is only one blog record, regardless if the application and hostname match.</param>
+		/// there is only one blog record, regardless if the subfolder and hostname match.</param>
 		/// <returns></returns>
-		public override IDataReader GetBlogInfo(string host, string application, bool strict)
+		public override IDataReader GetBlogInfo(string host, string subfolder, bool strict)
 		{
 			SqlParameter[] p = 
 			{
 				SqlHelper.MakeInParam("@Host", SqlDbType.NVarChar, 100, host)
-				,SqlHelper.MakeInParam("@Application", SqlDbType.NVarChar, 50, application)
+				,SqlHelper.MakeInParam("@Application", SqlDbType.NVarChar, 50, subfolder)
 				,SqlHelper.MakeInParam("@Strict", SqlDbType.Bit, 1, strict)
 			};
 			return GetReader("subtext_GetConfig", p);
@@ -1143,7 +1146,7 @@ namespace Subtext.Framework.Data
 					,SqlHelper.MakeInParam("@Title", SqlDbType.NVarChar, 100, info.Title) 
 					,SqlHelper.MakeInParam("@SubTitle", SqlDbType.NVarChar, 250, info.SubTitle) 
 					,SqlHelper.MakeInParam("@Skin", SqlDbType.NVarChar, 50, info.Skin.SkinName) 
-					,SqlHelper.MakeInParam("@Application", SqlDbType.NVarChar, 50, info.CleanApplication) 
+					,SqlHelper.MakeInParam("@Application", SqlDbType.NVarChar, 50, info.CleanSubfolder) 
 					,SqlHelper.MakeInParam("@Host", SqlDbType.NVarChar, 100, info.Host) 
 					,SqlHelper.MakeInParam("@TimeZone", SqlDbType.Int, 4, info.TimeZone) 
 					,SqlHelper.MakeInParam("@Language", SqlDbType.NVarChar, 10, info.Language) 

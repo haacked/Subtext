@@ -28,7 +28,7 @@
 	</ol>
 	<h3 class="version">Version 1.0 - Code named &#8220;Nautilus&#8221;</h3>
 	<p>
-		<strong>Estimated release - March 1, 2006</strong>.
+		<strong><span color="exciting">Just Released!</span> - March 2, 2006</strong>.
 	</p>
 	<p>
 		Nautilus is focused on usability, its dashing good looks, 

@@ -107,14 +107,18 @@
 			</fileset>
 		</copy>
 		
+		<delete dir="${publish.source.dir.latest}" failonerror="false" />
+		<mkdir dir="${publish.source.dir.latest}" />
 		<echo message="deploying source code" />
+		
 		<copy todir="${publish.source.dir.latest}" includeemptydirs="false">
-			<fileset basedir=".">
-				<include name="**" />
+			<fileset basedir="${source.root}">
+				<include name="**/*" />
 				<exclude name="**/*.csproj.user"/>
-				<exclude name="**/.*.resharperoptions"/>
-				<exclude name="**/.*.suo"/>
+				<exclude name="**/*.resharperoptions"/>
+				<exclude name="**/*.suo"/>
 				<exclude name="**/*.cvsignore"/>
+				<exclude name="_ReSharper.*/**"/>
 				<exclude name="**/bin/**"/>
 				<exclude name="**/obj/**"/>
 			</fileset>
@@ -146,7 +150,7 @@
 				<exclude name="**/*.pdb" />
 			</fileset>
 		</zip>
-		<zip zipfile="${publish.source.dir.archive}\${build.date}">
+		<zip zipfile="${publish.source.dir.archive}\${build.date}.zip">
 			<fileset basedir="${publish.source.dir.latest}">
 				<include name="**/*" />
 			</fileset>
