@@ -19,10 +19,9 @@ using System.Reflection;
 [assembly: AssemblyCompany("Subtext")]
 [assembly: AssemblyProduct("Subtext Blog Engine")]
 [assembly: AssemblyCopyright("Copyright (c) 2005 Subtext Project Team")]
-[assembly: AssemblyVersion("1.0.0.2")]
-
-[assembly: AssemblyInformationalVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.2")]
+[assembly: AssemblyVersion("1.0.0.3")]
+[assembly: AssemblyFileVersion("1.0.0.3")]
+[assembly: AssemblyInformationalVersion("1.0.0.3")]
 
 //
 // In order to sign your assembly you must specify a key to use. Refer to the 
