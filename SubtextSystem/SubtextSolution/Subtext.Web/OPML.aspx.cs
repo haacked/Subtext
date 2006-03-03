@@ -84,9 +84,6 @@ namespace Subtext.Web
 		{
 			public Opml()
 			{
-				//
-				// TODO: Add constructor logic here
-				//
 			}
 
 			public static string Write(DataTable dt, string appPath)

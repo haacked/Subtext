@@ -534,7 +534,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Exceptions\BlogRequiresApplicationException.cs"
+                    RelPath = "Exceptions\BlogRequiresSubfolderException.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -569,7 +569,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Exceptions\InvalidApplicationNameException.cs"
+                    RelPath = "Exceptions\InvalidSubfolderNameException.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

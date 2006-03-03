@@ -14,9 +14,11 @@
 #endregion
 
 using System;
+using log4net;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
+using Subtext.Framework.Logging;
 
 namespace Subtext.Web.Install
 {
@@ -29,6 +31,7 @@ namespace Subtext.Web.Install
 	/// </remarks>
 	public class Step03_CreateBlog : InstallationBase
 	{
+		static ILog log = new Log();
 		protected System.Web.UI.WebControls.Button btnQuickCreate;
 		protected System.Web.UI.WebControls.Literal ltlMessage;
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
@@ -40,10 +43,9 @@ namespace Subtext.Web.Install
 		private void Page_Load(object sender, System.EventArgs e)
 		{
 			bool _anyBlogsExist = true;
-			BlogInfo info = null;
 			try
 			{
-				info = Config.CurrentBlog;
+				log.Debug("Current Blog Is Null " + (null != Config.CurrentBlog));
 			}
 			catch(BlogDoesNotExistException exception)
 			{
@@ -100,13 +102,14 @@ namespace Subtext.Web.Install
 					+ "this issue</a> to the Subtext team.";
 					
 				//TODO: Pick a non-generic exception.
-				throw new Exception(errorMessage);
+				throw new InvalidOperationException(errorMessage);
 			}
 		}
 
 		private void btnImportBlog_Click(object sender, System.EventArgs e)
 		{
-			// We need to get over to the Import pages... why do i keep getting redirected here?
+			// We need to get over to the Import pages... 
+			// So we automatically authenticate here.
 			Response.Redirect("~/HostAdmin/Import/ImportStart.aspx");
 		}
 	}

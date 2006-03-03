@@ -198,21 +198,21 @@ namespace Subtext.Framework.Providers
 		/// </summary>
 		/// <param name="title"></param>
 		/// <param name="host"></param>
-		/// <param name="application"></param>
+		/// <param name="subfolder"></param>
 		/// <param name="userName">Name of the user.</param>
 		/// <param name="password">Password.</param>
 		/// <returns></returns>
-		public abstract bool AddBlogConfiguration(string title, string userName, string password, string host, string application);
+		public abstract bool AddBlogConfiguration(string title, string userName, string password, string host, string subfolder);
 
 		/// <summary>
 		/// Returns a <see cref="IDataReader"/> instance containing 
 		/// the configuration settings for the blog specified by the 
 		/// Hostname and Application.
 		/// </summary>
-		/// <param name="host">Hostname.</param>
-		/// <param name="application">Application.</param>
+		/// <param name="host">Subfolder Name.</param>
+		/// <param name="subfolder">Subfolder Name.</param>
 		/// <returns></returns>
-		public abstract IDataReader GetBlogInfo(string host, string application);
+		public abstract IDataReader GetBlogInfo(string host, string subfolder);
 		
 		/// <summary>
 		/// Returns a <see cref="IDataReader"/> instance containing 
@@ -224,11 +224,11 @@ namespace Subtext.Framework.Providers
 		/// this will always return the same instance.
 		/// </remarks>
 		/// <param name="host">Hostname.</param>
-		/// <param name="application">Application.</param>
+		/// <param name="subfolder">Subfolder Name.</param>
 		/// <param name="strict">If false, then this will return a blog record if 
-		/// there is only one blog record, regardless if the application and hostname match.</param>
+		/// there is only one blog record, regardless if the subfolder and hostname match.</param>
 		/// <returns></returns>
-		public abstract IDataReader GetBlogInfo(string host, string application, bool strict);
+		public abstract IDataReader GetBlogInfo(string host, string subfolder, bool strict);
 		
 		public abstract bool UpdateBlog(BlogInfo info);
 

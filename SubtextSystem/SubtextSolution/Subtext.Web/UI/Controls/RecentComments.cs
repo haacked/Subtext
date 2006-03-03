@@ -73,17 +73,21 @@ namespace Subtext.Web.UI.Controls
 			if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
 			{
 				Entry entry = (Entry)e.Item.DataItem;
+				BlogInfo currentBlog = Config.CurrentBlog;
                 
 				HyperLink title = (HyperLink)e.Item.FindControl("Link");
 				if(title != null)
 				{
-					if (entry.Body.Length > Config.CurrentBlog.RecentCommentsLength) 
+					int commentLength = CurrentBlog.RecentCommentsLength;
+					if (entry.Body.Length > commentLength) 
 					{
-						if(Config.CurrentBlog.RecentCommentsLength > 0)
+						string truncatedText = string.Empty;
+						if (commentLength > 0)
 						{
-							string truncatedText = entry.Body.Substring(0, (Config.CurrentBlog.RecentCommentsLength));
-							title.Text = truncatedText + "...";
+							truncatedText = entry.Body.Substring(0, commentLength);
 						}
+
+						title.Text = truncatedText + "...";
 						title.NavigateUrl = entry.Link;
 					} 
 					else

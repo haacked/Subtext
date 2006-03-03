@@ -59,7 +59,7 @@
 					</HeaderTemplate>
 					<ItemTemplate>
 						<li>
-							<asp:HyperLink Runat = "server" NavigateUrl = '<%# GetFullUrl(DataBinder.Eval(((RepeaterItem)Container).DataItem,"host").ToString(),DataBinder.Eval(((RepeaterItem)Container).DataItem,"Application").ToString()) %>' Text = '<%# DataBinder.Eval(((RepeaterItem)Container).DataItem,"Author") %>' title = '<%# DataBinder.Eval(((RepeaterItem)Container).DataItem,"Title") %>' ID="Hyperlink1" NAME="Hyperlink1"/>
+							<asp:HyperLink Runat = "server" NavigateUrl = '<%# GetFullUrl(DataBinder.Eval(((RepeaterItem)Container).DataItem,"host").ToString(),DataBinder.Eval(((RepeaterItem)Container).DataItem, "Application").ToString()) %>' Text = '<%# DataBinder.Eval(((RepeaterItem)Container).DataItem,"Author") %>' title = '<%# DataBinder.Eval(((RepeaterItem)Container).DataItem,"Title") %>' ID="Hyperlink1" NAME="Hyperlink1"/>
 							<br />
 							<small>(
 								<asp:Literal runat = "server" Text = '<%# DataBinder.Eval(((RepeaterItem)Container).DataItem,"PostCount") %>' ID="Label2"/>,

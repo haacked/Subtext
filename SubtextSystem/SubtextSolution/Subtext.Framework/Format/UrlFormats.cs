@@ -188,7 +188,7 @@ namespace Subtext.Framework.Format
 		/// <remarks>
 		/// <p>
 		/// For example, if a blog is hosted at the virtual directory http://localhost/Subtext.Web/ and 
-		/// request is made for http://localhost/Subtext.Web/, the application name is "" (empty string). 
+		/// request is made for http://localhost/Subtext.Web/, the subfolder name is "" (empty string). 
 		/// Howver, a request for http://localhost/Subtext.Web/MyBlog/ would return "MyBlog" as the 
 		/// subfolder.
 		/// </p>
@@ -198,21 +198,21 @@ namespace Subtext.Framework.Format
 		/// </p>
 		/// </remarks>
 		/// <param name="rawUrl">The raw url.</param>
-		/// <param name="app">The application name as found in the Request.ApplicationName property.</param>
+		/// <param name="applicationPath">The virtual application name as found in the Request.ApplicationName property.</param>
 		/// <returns></returns>
-		public static string GetBlogSubfolderFromRequest(string rawUrl, string app)
+		public static string GetBlogSubfolderFromRequest(string rawUrl, string applicationPath)
 		{
 			if(rawUrl == null)
 				throw new ArgumentNullException("path", "The path cannot be null.");
 
-			if(app == null)
+			if(applicationPath == null)
 				throw new ArgumentNullException("app", "The app should not be null.");
 
 			// The {0} represents a potential virtual directory
 			string urlPatternFormat = "{0}/(?<app>.*?)/";
 
 			//Remove any / from App.
-			string cleanApp = "/" + StripSurroundingSlashes(app);
+			string cleanApp = "/" + StripSurroundingSlashes(applicationPath);
 			if(cleanApp == "/")
 				cleanApp = string.Empty;
 			string appRegex = Regex.Escape(cleanApp);
@@ -260,7 +260,7 @@ namespace Subtext.Framework.Format
 
 		/// <summary>
 		/// Builds the <see cref="HyperLink"/>.NavigateUrl for an EditPost Link by determining
-		/// the current Application and adding it to the URL if necessary.
+		/// the current Subfolder and adding it to the URL if necessary.
 		/// </summary>
 		/// <param name="entry">The entry to be edited</param>
 		/// <returns></returns>
@@ -269,7 +269,7 @@ namespace Subtext.Framework.Format
 			//This is too small a concatenation to create a  
 			//the overhead of a StringBuilder. If perf is really a hit here, 
 			//we can pass in a string builder.
-			String app = Config.CurrentBlog.Application;
+			String app = Config.CurrentBlog.Subfolder;
 			
 			string url = (app.Equals(String.Empty)) ? "~" : "~/" + app;
 			if(entry.PostType == PostType.BlogPost)
@@ -295,7 +295,7 @@ namespace Subtext.Framework.Format
 			String installPath = appPath;							// ex... "Subtext.Web" or ""
 			if(installPath.Length > 0)
 				installPath = "/" + installPath;
-			String blogAppName = Config.CurrentBlog.Application;
+			String blogAppName = Config.CurrentBlog.Subfolder;
 
 			if(blogAppName.Length > 0)
 				installPath = installPath + "/" + blogAppName;		// ex... "/Subtext.Web/MyBlog" or "/MyBlog"

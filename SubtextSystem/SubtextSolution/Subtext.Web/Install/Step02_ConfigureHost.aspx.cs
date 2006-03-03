@@ -112,6 +112,7 @@ namespace Subtext.Web.Install
 				{
 					if(Config.BlogCount == 0)
 					{
+						System.Web.Security.FormsAuthentication.SetAuthCookie("HostAdmin", false);
 						Response.Redirect(InstallationBase.NextStepUrl);
 					}
 					else

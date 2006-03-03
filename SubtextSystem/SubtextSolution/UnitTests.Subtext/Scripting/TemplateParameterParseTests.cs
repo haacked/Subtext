@@ -151,7 +151,7 @@ namespace UnitTests.Subtext.Scripting
 		}
 
 		/// <summary>
-		/// Tests expanding a templated collection of scripts without changing any defaults.
+		/// Tests expanding a templated collection of scripts with changes to the defaults.
 		/// </summary>
 		[Test]
 		public void TestScriptCollectionsExpansionWithChanges()
@@ -169,9 +169,11 @@ namespace UnitTests.Subtext.Scripting
 			
 			string expected = expectedDefault.Trim();
 			string result = scriptRunner.ScriptCollection.ExpandedScriptText.Trim();
+			expected = expected.Replace("" + (char)13, ""); //Ugly hack!  I know. I'll Explain later.
 			result = result.Replace("" + ((char)13), ""); //Ugly hack!  I know. I'll Explain later.
 
-			Assert.AreEqual(expected, result, "Did not expand the template params properly.");
+			UnitTestHelper.AssertStringsEqualCharacterByCharacter(expected, result);
+			//Assert.AreEqual(expected, result, "Did not expand the template params properly.");
 		}
 	}
 }

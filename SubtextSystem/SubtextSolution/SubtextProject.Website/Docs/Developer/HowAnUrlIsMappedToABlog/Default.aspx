@@ -82,7 +82,7 @@
 	</p>
 	<p>
 		The query below is a simplified version of the one Subtext runs. 
-		(NOTE: The <em>Application</em> column corresponds to the Subfolder 
+		(NOTE: The <em>Application</em> database column corresponds to the Subfolder 
 		in the Host Admin.  We did not change the column name yet.)
 	</p>
 	

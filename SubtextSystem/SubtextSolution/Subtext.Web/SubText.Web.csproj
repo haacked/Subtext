@@ -752,6 +752,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Admin\Resources\bg.gif"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Admin\Resources\bg_body.gif"
                     BuildAction = "Content"
                 />
@@ -776,6 +780,14 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Admin\Resources\left.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\left_on.gif"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Admin\Resources\PageTemplate.ascx"
                     BuildAction = "Content"
                 />
@@ -792,6 +804,14 @@
                 />
                 <File
                     RelPath = "Admin\Resources\poweredbydotnet.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\right.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Admin\Resources\right_on.gif"
                     BuildAction = "Content"
                 />
                 <File

@@ -19,7 +19,9 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Security;
+using log4net;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Logging;
 using Subtext.Framework.Text;
 
 namespace Subtext.Framework
@@ -29,6 +31,8 @@ namespace Subtext.Framework
 	/// </summary>
 	public sealed class Security
 	{
+		private readonly static ILog log = new Log();
+
 		//Can not instantiate this object
 		private Security(){}
 
@@ -262,7 +266,10 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				//TODO: Eventually just check for admin role.				
+				//TODO: Eventually just check for admin role.
+				log.Debug("IsInRole(Admins): " + IsInRole("Admins"));
+				log.Debug("CurrentUserName: " + CurrentUserName);
+				log.Debug("Config.CurrentBlog.UserName: " + CurrentUserName);
 				return IsInRole("Admins") || StringHelper.AreEqualIgnoringCase(CurrentUserName, Config.CurrentBlog.UserName);
 			}
 		}

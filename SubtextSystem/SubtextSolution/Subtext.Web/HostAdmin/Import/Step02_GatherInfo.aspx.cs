@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Web;
 using System.Web.UI;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
@@ -108,6 +109,7 @@ namespace Subtext.Web.HostAdmin
 			try
 			{
 				ImportManager.Import(this.importInformationControl, this._providerInfo);
+				HttpContext.Current.Application["NeedsInstallation"] = null;
 				Response.Redirect("ImportComplete.aspx");	
 				return;
 			}

@@ -151,7 +151,7 @@ namespace Subtext.Web.Admin.Pages
 				#endif
 
 				info.TimeZone = Int32.Parse(ddlTimezone.SelectedItem.Value);
-				info.Application = Config.CurrentBlog.Application;
+				info.Subfolder = Config.CurrentBlog.Subfolder;
 				info.Host = Config.CurrentBlog.Host;
 				info.BlogId = Config.CurrentBlog.BlogId;
 

@@ -71,14 +71,13 @@ namespace UnitTests.Subtext.Framework.Configuration
 		}
 
 		/// <summary>
-		/// If a blog already exists with a domain name and application, one 
-		/// cannot create a blog with the same domain name and no application.
+		/// If a blog already exists with a domain name and subfolder, one 
+		/// cannot create a blog with the same domain name and no subfolder.
 		/// </summary>
 		[Test]
-		//[ExpectedException(typeof(BlogRequiresApplicationException))]
 		[RollBack]
-		[ExpectedException(typeof(BlogRequiresApplicationException))]
-		public void CreatingBlogWithDuplicateHostNameRequiresApplicationName()
+		[ExpectedException(typeof(BlogRequiresSubfolderException))]
+		public void CreatingBlogWithDuplicateHostNameRequiresSubfolderName()
 		{
 			Config.CreateBlog("", "username", "password", _hostName, "MyBlog1");
 			Config.CreateBlog("", "username", "password", _hostName, string.Empty);
@@ -101,38 +100,38 @@ namespace UnitTests.Subtext.Framework.Configuration
 
 		/// <summary>
 		/// Ensures that one cannot create a blog with a duplicate host 
-		/// as another blog when both have no application specified.
+		/// as another blog when both have no subfolder specified.
 		/// </summary>
 		[Test]
 		[RollBack]
 		[ExpectedException(typeof(BlogDuplicationException))]
-		public void CreateBlogCannotCreateOneWithDuplicateHostAndNoApplication()
+		public void CreateBlogCannotCreateOneWithDuplicateHostAndNoSubfolder()
 		{
 			Config.CreateBlog("title", "username", "password", _hostName, string.Empty);
 			Config.CreateBlog("title", "username2", "password2", _hostName, string.Empty);
 		}
 
 		/// <summary>
-		/// Ensures that one cannot create a blog with a duplicate application and host 
+		/// Ensures that one cannot create a blog with a duplicate subfolder and host 
 		/// as another blog.
 		/// </summary>
 		[Test]
 		[RollBack]
 		[ExpectedException(typeof(BlogDuplicationException))]
-		public void CreateBlogCannotCreateOneWithDuplicateHostAndApplication()
+		public void CreateBlogCannotCreateOneWithDuplicateHostAndSubfolder()
 		{
 			Config.CreateBlog("title", "username", "password", _hostName, "MyBlog");
 			Config.CreateBlog("title", "username2", "password2", _hostName, "MyBlog");
 		}
 
 		/// <summary>
-		/// Ensures that one cannot update a blog to have a duplicate application and host 
+		/// Ensures that one cannot update a blog to have a duplicate subfolder and host 
 		/// as another blog.
 		/// </summary>
 		[Test]
 		[RollBack]
 		[ExpectedException(typeof(BlogDuplicationException))]
-		public void UpdateBlogCannotConflictWithDuplicateHostAndApplication()
+		public void UpdateBlogCannotConflictWithDuplicateHostAndSubfolder()
 		{
 			string secondHost = UnitTestHelper.GenerateUniqueHost();
 			Config.CreateBlog("title", "username", "password", _hostName, "MyBlog");
@@ -145,7 +144,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 
 		/// <summary>
 		/// Ensures that one update a blog to have a duplicate host 
-		/// as another blog when both have no application specified.
+		/// as another blog when both have no subfolder specified.
 		/// </summary>
 		[Test]
 		[RollBack]
@@ -167,12 +166,12 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// </summary>
 		/// <remarks>
 		/// <p>This exception occurs when adding a blog with the same hostname as another blog, 
-		/// but the original blog does not have an application name defined.</p>  
+		/// but the original blog does not have an subfolder name defined.</p>  
 		/// <p>For example, if there exists a blog with the host "www.example.com" with no 
-		/// application defined, and the admin adds another blog with the host "www.example.com" 
-		/// and application as "MyBlog", this creates a multiple blog situation in the example.com 
-		/// domain.  In that situation, each example.com blog MUST have an application name defined. 
-		/// The URL to the example.com with no application becomes the aggregate blog.
+		/// subfolder defined, and the admin adds another blog with the host "www.example.com" 
+		/// and subfolder as "MyBlog", this creates a multiple blog situation in the example.com 
+		/// domain.  In that situation, each example.com blog MUST have an subfolder name defined. 
+		/// The URL to the example.com with no subfolder becomes the aggregate blog.
 		/// </p>
 		/// </remarks>
 		[Test]
@@ -190,12 +189,12 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// </summary>
 		/// <remarks>
 		/// <p>This exception occurs when adding a blog with the same hostname as another blog, 
-		/// but the original blog does not have an application name defined.</p>  
+		/// but the original blog does not have an subfolder name defined.</p>  
 		/// <p>For example, if there exists a blog with the host "www.example.com" with no 
-		/// application defined, and the admin adds another blog with the host "www.example.com" 
-		/// and application as "MyBlog", this creates a multiple blog situation in the example.com 
-		/// domain.  In that situation, each example.com blog MUST have an application name defined. 
-		/// The URL to the example.com with no application becomes the aggregate blog.
+		/// subfolder defined, and the admin adds another blog with the host "www.example.com" 
+		/// and subfolder as "MyBlog", this creates a multiple blog situation in the example.com 
+		/// domain.  In that situation, each example.com blog MUST have an subfolder name defined. 
+		/// The URL to the example.com with no subfolder becomes the aggregate blog.
 		/// </p>
 		/// </remarks>
 		[Test]
@@ -206,18 +205,18 @@ namespace UnitTests.Subtext.Framework.Configuration
 			
 			BlogInfo info = Config.GetBlogInfo("www.mydomain.com", string.Empty);
 			info.Host = "mydomain.com";
-			info.Application = "MyBlog";
+			info.Subfolder = "MyBlog";
 			Config.UpdateConfigData(info);
 		}
 
 		/// <summary>
-		/// If a blog already exists with a domain name and application, one 
-		/// cannot modify another blog to have the same domain name, but with no application.
+		/// If a blog already exists with a domain name and subfolder, one 
+		/// cannot modify another blog to have the same domain name, but with no subfolder.
 		/// </summary>
 		[Test]
 		[RollBack]
-		[ExpectedException(typeof(BlogRequiresApplicationException))]
-		public void UpdatingBlogWithDuplicateHostNameRequiresApplicationName()
+		[ExpectedException(typeof(BlogRequiresSubfolderException))]
+		public void UpdatingBlogWithDuplicateHostNameRequiresSubfolderName()
 		{
 			string anotherHost = UnitTestHelper.GenerateUniqueHost();
 			Config.CreateBlog("title", "username", "password", _hostName, "MyBlog1");
@@ -225,7 +224,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 
 			BlogInfo info = Config.GetBlogInfo(anotherHost, string.Empty);
 			info.Host = _hostName;
-			info.Application = string.Empty;
+			info.Subfolder = string.Empty;
 			Config.UpdateConfigData(info);
 		}
 
@@ -245,27 +244,27 @@ namespace UnitTests.Subtext.Framework.Configuration
 
 		/// <summary>
 		/// Makes sure that every invalid character is checked 
-		/// within the application name.
+		/// within the subfolder name.
 		/// </summary>
 		[Test]
 		[RollBack]
-		public void EnsureInvalidCharactersMayNotBeUsedInApplicationName()
+		public void EnsureInvalidCharactersMayNotBeUsedInSubfolderName()
 		{
 			string[] badNames = {".name", "a{b", "a}b", "a[e", "a]e", "a/e",@"a\e", "a@e", "a!e", "a#e", "a$e", "a'e", "a%", ":e", "a^", "ae&", "*ae", "a(e", "a)e", "a?e", "+a", "e|", "a\"", "e=", "a'", "e<", "a>e", "a;", ",e", "a e"};
 			foreach(string badName in badNames)
 			{
-				Assert.IsFalse(Config.IsValidApplicationName(badName), badName + " is not a valid app name.");
+				Assert.IsFalse(Config.IsValidSubfolderName(badName), badName + " is not a valid app name.");
 			}
 		}
 
-		#region Invalid Application Name Tests... There's a bunch...
+		#region Invalid Subfolder Name Tests... There's a bunch...
 		/// <summary>
 		/// Tests that creating a blog with a reserved keyword (bin) is not allowed.
 		/// </summary>
 		[Test]
 		[RollBack]
-		[ExpectedException(typeof(InvalidApplicationNameException))]
-		public void CannotCreateBlogWithApplicationNameBin()
+		[ExpectedException(typeof(InvalidSubfolderNameException))]
+		public void CannotCreateBlogWithSubfolderNameBin()
 		{
 			Config.CreateBlog("title", "blah", "blah", _hostName, "bin");
 		}
@@ -275,12 +274,12 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// </summary>
 		[Test]
 		[RollBack]
-		[ExpectedException(typeof(InvalidApplicationNameException))]
-		public void CannotRenameBlogToHaveApplicationNameBin()
+		[ExpectedException(typeof(InvalidSubfolderNameException))]
+		public void CannotRenameBlogToHaveSubfolderNameBin()
 		{
 			Config.CreateBlog("title", "blah", "blah", _hostName, "Anything");
 			BlogInfo info = Config.GetBlogInfo(_hostName, "Anything");
-			info.Application = "bin";
+			info.Subfolder = "bin";
 
 			Config.UpdateConfigData(info);
 		}
@@ -290,12 +289,12 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// </summary>
 		[Test]
 		[RollBack]
-		[ExpectedException(typeof(InvalidApplicationNameException))]
-		public void CannotCreateBlogWithApplicationNameArchive()
+		[ExpectedException(typeof(InvalidSubfolderNameException))]
+		public void CannotCreateBlogWithSubfolderNameArchive()
 		{
 			Config.CreateBlog("title", "blah", "blah", _hostName, "archive");
 			BlogInfo info = Config.GetBlogInfo(_hostName, "archive");
-			info.Application = "archive";
+			info.Subfolder = "archive";
 
 			Config.UpdateConfigData(info);
 		}
@@ -305,8 +304,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// </summary>
 		[Test]
 		[RollBack]
-		[ExpectedException(typeof(InvalidApplicationNameException))]
-		public void CannotCreateBlogWithApplicationNameEndingWithDot()
+		[ExpectedException(typeof(InvalidSubfolderNameException))]
+		public void CannotCreateBlogWithSubfolderNameEndingWithDot()
 		{
 			Config.CreateBlog("title", "blah", "blah", _hostName, "archive.");
 		}
@@ -316,8 +315,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// </summary>
 		[Test]
 		[RollBack]
-		[ExpectedException(typeof(InvalidApplicationNameException))]
-		public void CannotCreateBlogWithApplicationNameStartingWithDot()
+		[ExpectedException(typeof(InvalidSubfolderNameException))]
+		public void CannotCreateBlogWithSubfolderNameStartingWithDot()
 		{
 			Config.CreateBlog("title", "blah", "blah", _hostName, ".archive");
 		}
@@ -327,8 +326,8 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// </summary>
 		[Test]
 		[RollBack]
-		[ExpectedException(typeof(InvalidApplicationNameException))]
-		public void CannotCreateBlogWithApplicationNameWithInvalidCharacters()
+		[ExpectedException(typeof(InvalidSubfolderNameException))]
+		public void CannotCreateBlogWithSubfolderNameWithInvalidCharacters()
 		{
 			Config.CreateBlog("title", "blah", "blah", _hostName, "My!Blog");
 		}

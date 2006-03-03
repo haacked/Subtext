@@ -41,7 +41,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 
 			BlogInfo blogInfo = new BlogInfo();
 			blogInfo.Host = "localhost";
-			blogInfo.Application = "Subtext.Web";
+			blogInfo.Subfolder = "Subtext.Web";
 			blogInfo.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = true;
 
@@ -76,7 +76,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 
 			BlogInfo blogInfo = new BlogInfo();
 			blogInfo.Host = "localhost";
-			blogInfo.Application = "Subtext.Web";
+			blogInfo.Subfolder = "Subtext.Web";
 			blogInfo.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = true;
 
@@ -109,7 +109,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 
 			BlogInfo blogInfo = new BlogInfo();
 			blogInfo.Host = "localhost";
-			blogInfo.Application = "Subtext.Web";
+			blogInfo.Subfolder = "Subtext.Web";
 			blogInfo.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = false;
 

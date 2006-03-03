@@ -26,7 +26,7 @@
 				</td>
 				<td>
 					<strong>
-						<%# DataBinder.Eval(Container.DataItem, "Application") %>
+						<%# DataBinder.Eval(Container.DataItem, "Subfolder") %>
 					</strong>
 				</td>
 				<td>
@@ -52,7 +52,7 @@
 				</td>
 				<td>
 					<strong>
-						<%# DataBinder.Eval(Container.DataItem, "Application") %>
+						<%# DataBinder.Eval(Container.DataItem, "Subfolder") %>
 					</strong>
 				</td>
 				<td>

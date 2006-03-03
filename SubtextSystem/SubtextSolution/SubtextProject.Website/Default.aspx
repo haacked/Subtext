@@ -12,6 +12,9 @@
 		</p>
 	</blockquote>
 	<p>
+		<span class="update">Subtext 1.0 Released!!!</span>.  Click <a href="http://haacked.com/archive/2006/03/02/Subtext1.0NautilusEditionReleased.aspx" title="Subtext 1.0 release announcement." rel="external">here for the announcement</a>.
+	</p>
+	<p>
 	<strong>Subtext</strong> is a personal blog publishing platform that focuses 
 	on usability, elegance, and simplicity.  If you&#8217;ve ever caught yourself throwing 
 	your hands in the air and declaring that you&#8217;re going to write your own blogging 
@@ -28,3 +31,5 @@
 	of the popular .TEXT blogging platform.
 	</p>
 </MP:MasterPage>
+
+
