@@ -16,8 +16,10 @@
 	
 	<h3>General</h3>
 	<dl>
+	
 	<dt>What is Subtext?</dt>
 	<dd>Subtext is a personal blog publishing engine that has evolved from .TEXT.</dd>
+	
 	<dt>How do I Contribute?</dt>
 	<dd>
 		The easiest way to help out is to <a href="~/About/ViewTheCode/" runat="server" ID="A1">
@@ -30,6 +32,19 @@
 		</p>
 		<p>
 		If we like what you&#8217;re contributions, we&#8217;ll give you write access.
+		</p>
+	</dd>
+	
+	<dt>Can Install Subtext on the same DB as my existing .TEXT installation</dt>
+	<dd>
+		<p>
+		Yes. Subtext tables are prefixed with &#8220;subtext_&#8221; so they 
+		will not interfere with .TEXT tables.
+		</p>
+		<p>
+			We recommend trying the procedure off-line first if you can. 
+			Once you install Subtext, you'll have an option as part of 
+			the installation wizord to import the .TEXT data.
 		</p>
 	</dd>
 	</dl>
