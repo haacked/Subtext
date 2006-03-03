@@ -239,12 +239,12 @@ namespace Subtext.Web.UI.Pages
 		/// </summary>
 		public class StyleSheetElementCollectionRenderer
 		{
-			private string RenderStyleAttribute(string attributeName, string attributeValue)
+			private static string RenderStyleAttribute(string attributeName, string attributeValue)
 			{
 				return attributeValue != null ? " " + attributeName + "=\"" + attributeValue + "\"" : String.Empty;
 			}
 
-			private string RenderStyleElement(string skinPath, Style style)
+			private static string RenderStyleElement(string skinPath, Style style)
 			{
 				string element = "<link";
 				if(style.Media != null && style.Media.Length > 0)
@@ -254,8 +254,24 @@ namespace Subtext.Web.UI.Pages
 					RenderStyleAttribute("type", "text/css") + 
 					RenderStyleAttribute("rel", "stylesheet") + 
 					RenderStyleAttribute("title", style.Title) + 
-					RenderStyleAttribute("href", Path.Combine(skinPath, style.Href)) + //TODO: Look at this line again.
+					RenderStyleAttribute("href", GetStylesheetHrefPath(skinPath, style)) + //TODO: Look at this line again.
 					"></link>" + Environment.NewLine;
+			}
+
+			public static string GetStylesheetHrefPath(string skinPath, Style style)
+			{
+				if(style.Href.StartsWith("~"))
+				{
+					return ControlHelper.ExpandTildePath(style.Href);
+				}
+				else if(style.Href.StartsWith("/"))
+				{
+					return style.Href;
+				}
+				else
+				{
+					return skinPath + style.Href;
+				}
 			}
 
 			private string CreateStylePath(string skinName)

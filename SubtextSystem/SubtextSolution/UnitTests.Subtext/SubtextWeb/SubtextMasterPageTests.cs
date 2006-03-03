@@ -28,5 +28,22 @@ namespace UnitTests.Subtext.SubtextWeb
 			string scriptTag = SubtextMasterPage.ScriptElementCollectionRenderer.RenderScriptElement(skinPath, script);
 			Assert.AreEqual(scriptTag, expected + Environment.NewLine, "The rendered script tag was not what we expected.");
 		}
+
+		[RowTest]
+		[Row("style/test.css", "", "", @"style/test.css")]
+		[Row("style/test.css", "", "/Subtext.Web/MyBlog/", @"/Subtext.Web/MyBlog/style/test.css")]
+		[Row("~/style/test.css", "Subtext.Web", "/Anything/", @"/Subtext.Web/style/test.css")]
+		[Row("~/style/test.css", "", "/Anything/", "/style/test.css")]
+		[Row("/style/test.css", "Subtext.Web", "/Anything/", "/style/test.css")]
+		public void GetStylesheetHrefPathRendersAppropriatePath(string src, string virtualDir, string skinPath, string expected)
+		{
+			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "Anything", virtualDir);
+
+			Style style = new Style();
+			style.Href = src;
+
+			string stylePath = SubtextMasterPage.StyleSheetElementCollectionRenderer.GetStylesheetHrefPath(skinPath, style);
+			Assert.AreEqual(stylePath, expected, "The rendered style path was not what we expected.");
+		}
 	}
 }
