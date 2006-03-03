@@ -1,3 +1,5 @@
+REM Recreates a local Subtext Database. Used for testing installation.
+
 ::SET VARIABLES
 SET DBNAME=%1%
 IF "%DBNAME%" == "" SET DBNAME=SubtextData
