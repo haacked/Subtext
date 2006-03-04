@@ -24,7 +24,7 @@
 		</li>
 		<li>
 			Run the batch file &#8220;CreateLocalSubtextDatabase.bat&#8221; to create a local database 
-			samed &#8220;SubtetxData&#8221;.  <strong>NOTE:</strong> if you already have a database 
+			samed &#8220;SubtextData&#8221;.  <strong>NOTE:</strong> if you already have a database 
 			named SubtextData, this script will delete that one, so run at your own risk.
 		</li>
 		<li>
