@@ -13,7 +13,7 @@
 	</head>
 	<body>
 		<div id="main">
-			<div id="logo"></div>
+			<div id="logo"><h1>Subtext</h1></div>
 				
 			<ul id="menu">
 				<SP:MenuItem href="~/"			title="Home is where you hang your hat" runat="server">Home</SP:MenuItem>
