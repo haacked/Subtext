@@ -278,6 +278,14 @@ img
 	border: solid 1px #FFFFFF;
 }
 
+* html #logo
+{
+	background-color: #fff;
+	back\ground-color: transparent;
+	background-image: url(blank.gif);
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/SubtextLogo.png', sizingMethod='crop');
+}
+
 /********** Content Styling ************/
 .blogpost
 {
