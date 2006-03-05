@@ -307,7 +307,7 @@ img
 /******** LAYOUT *******************/
 #main 
 {
-	background: #FFFFFF url(/SubtextProject.WebSite/images/sidesbg.jpg) repeat-y;
+	background: #FFFFFF url(../images/sidesbg.jpg) repeat-y;
     position: relative;
     top: 0px;
     left: 0px;
@@ -570,8 +570,8 @@ img
 {
 	float:left;
 	clear:left;
-	background: url(/SubtextProject.WebSite/images/shadowAlpha.png) no-repeat bottom right !important;
-	background: url(/SubtextProject.WebSite/images/shadow.gif) no-repeat bottom right;
+	background: url(../images/shadowAlpha.png) no-repeat bottom right !important;
+	background: url(../images/shadow.gif) no-repeat bottom right;
 	margin: 10px 0 10px 10px !important;
 	margin: 10px 0 10px 5px;
 	padding: 0px;
