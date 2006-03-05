@@ -102,7 +102,7 @@ namespace Subtext.Web.UI.Controls
 					}
 
 					Label postDate = e.Item.FindControl("postDate") as Label;
-					if(permalink != null)
+					if(postDate != null)
 					{
 						if(postDate.Attributes["Format"] != null)
 						{
