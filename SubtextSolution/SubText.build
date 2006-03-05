@@ -90,11 +90,8 @@
 		<copy todir="${publish.dir.latest}" includeemptydirs="false">
 			<fileset basedir="Subtext.Web">
 				<include name="**/*" />
-				<include name="Images/*" />
-				<include name="Images/emotions/*" />
 				<exclude name="**/*.bmp" />
 				<exclude name="ExternalDependencies/*" />
-				<exclude name="Images/**" />
 				<exclude name="**/*.cs"/>
 				<exclude name="**/*.txt"/>
 				<exclude name="**/*.resx"/>
