@@ -90,7 +90,6 @@
 		<copy todir="${publish.dir.latest}" includeemptydirs="false">
 			<fileset basedir="Subtext.Web">
 				<include name="**/*" />
-				<include name="emoticons.txt" />
 				<include name="Images/*" />
 				<include name="Images/emotions/*" />
 				<exclude name="**/*.bmp" />
@@ -107,6 +106,12 @@
 			</fileset>
 		</copy>
 		
+		<copy todir="${publish.dir.latest}" includeemptydirs="false">
+			<fileset basedir="Subtext.Web">
+				<include name="emoticons.txt" />
+			</fileset>
+		</copy>
+		
 		<delete dir="${publish.source.dir.latest}" failonerror="false" />
 		<mkdir dir="${publish.source.dir.latest}" />
 		<echo message="deploying source code" />
@@ -114,6 +119,7 @@
 		<copy todir="${publish.source.dir.latest}" includeemptydirs="false">
 			<fileset basedir="${source.root}">
 				<include name="**/*" />
+				<include name="emoticons.txt" />
 				<exclude name="**/*.csproj.user"/>
 				<exclude name="**/*.resharperoptions"/>
 				<exclude name="**/*.suo"/>
