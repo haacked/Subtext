@@ -17,7 +17,6 @@ using System;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Web;
 using log4net;
 using log4net.Appender;
@@ -94,24 +93,7 @@ namespace Subtext
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		protected void Application_BeginRequest(Object sender, EventArgs e)
-		{
-			// Set the user culture.  Got the idea from 
-			// http://markitup.com/Posts/Post.aspx?postId=52252561-f83d-4463-82f0-769fce82fd82 
-			// but modified it to catch specific exceptions.
-			//TODO: Make sure we store dates in UTC etc and do the conversion when we pull them. 
-			//		I assume we do this but haven't checked.
-			try
-			{
-				if (Request.UserLanguages != null && Request.UserLanguages.Length > 0 && Request.UserLanguages[0] != null) 
-				{
-					Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(Request.UserLanguages[0]);
-				}
-			}
-			catch(NotSupportedException nse)
-			{
-				log.Error("Error while attempting to set CurrentCulture to '" + Request.UserLanguages[0] + "'", nse);
-			}
-			
+		{		
 			//KLUDGE: This is required due to a bug in Log4Net 1.2.9.
 			// This should be fixed in the next release.
 			Log.SetBlogIdContext(NullValue.NullInt32);
