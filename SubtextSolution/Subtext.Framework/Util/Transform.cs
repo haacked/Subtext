@@ -19,24 +19,39 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Caching;
+using log4net;
+using Subtext.Framework.Logging;
 using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Util
 {
 	/// <summary>
-	/// Borrowed From Rob's Forum Code :) <- This is a joke :) <- Again...I will stop now
+	/// Class used to provide various transforms such as the 
+	/// Emoticon transforms.
 	/// </summary>
-	public class Transform
+	public sealed class Transform
 	{
-		public static string EmoticonTransforms (string formattedPost) 
-		{
-			// Load the emoticon transform table
-			//
-			ArrayList emoticonTxTable = LoadTransformFile("emoticons.txt");
+		private static ILog Log = new Log();
+		private Transform() {}
 
-			// Do the transforms
-			//
-			return PerformUserTransforms(formattedPost, emoticonTxTable);
+		/// <summary>
+		/// Transforms emoticons into image references based on the 
+		/// settings within the emoticons.txt file in the webroot.
+		/// </summary>
+		/// <param name="formattedPost">The formatted post.</param>
+		/// <returns></returns>
+		public static string EmoticonTransforms(string formattedPost) 
+		{
+			try
+			{
+				ArrayList emoticonTxTable = LoadTransformFile("emoticons.txt");
+				return PerformUserTransforms(formattedPost, emoticonTxTable);
+			}
+			catch(System.IO.IOException e)
+			{
+				Log.Warn("Missing an emoticons.txt file in the webroot. Please download it from <a href=\"http://haacked.com/images/emoticons.zip\" title=\"Emoticons file\">here</a>.", e);
+				return formattedPost;
+			}
 		}
 
 		static string PerformUserTransforms(string stringToTransform, ArrayList userDefinedTransforms) 
