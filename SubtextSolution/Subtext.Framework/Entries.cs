@@ -312,7 +312,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static string AutoGenerateFriendlyUrl(string title)
 		{
-			Regex regex = new Regex(@"[""'`~@#$%^&*(){\[}\]?+/=\\|<> ]+", RegexOptions.Compiled);
+			Regex regex = new Regex(@"[""'`;:~@#$%^&*(){\[}\]?+/=\\|<> ]+", RegexOptions.Compiled);
 			string entryName = regex.Replace(title, "");
 			if(entryName.Length == 0)
 				return null;
