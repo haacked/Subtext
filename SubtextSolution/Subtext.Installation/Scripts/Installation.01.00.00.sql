@@ -112,8 +112,8 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,
 drop table [<dbUser,varchar,dbo>].[subtext_URLs]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[spamPostCount]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [spamPostCount]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[spamPostCount]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [<dbUser,varchar,dbo>].[spamPostCount]
 GO
 
 CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Config] (
@@ -246,7 +246,7 @@ CREATE TABLE [<dbUser,varchar,dbo>].[subtext_URLs] (
 ) ON [PRIMARY]
 GO
 
-CREATE TABLE [spamPostCount] (
+CREATE TABLE [<dbUser,varchar,dbo>].[spamPostCount] (
 	[theCount] [int] NULL 
 ) ON [PRIMARY]
 GO

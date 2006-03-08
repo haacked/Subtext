@@ -111,6 +111,6 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,
 drop table [<dbUser,varchar,dbo>].[subtext_URLs]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[spamPostCount]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[spamPostCount]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
 drop table [spamPostCount]
 GO
