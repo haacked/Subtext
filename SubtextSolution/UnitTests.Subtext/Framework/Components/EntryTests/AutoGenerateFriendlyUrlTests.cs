@@ -38,10 +38,12 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[Row("Title", "Title")]
 		[Row("Title.", "Title")]
 		[Row("A Very Good Book", "AVeryGoodBook")]
+		[Row("A Very :Good Book", "AVeryGoodBook")]
+		[Row("A Very ;Good Book", "AVeryGoodBook")]
 		[Row("A Very Good Book.", "AVeryGoodBook")]
 		[Row("A Very Good Book..", "AVeryGoodBook")]
 		[Row("Trouble With VS.NET", "TroubleWithVS.NET")]
-		[Row(@"[""'`~@#$%^&*(){\[}\]?+/=\\|<> X", "X")]
+		[Row(@"[""'`;:~@#$%^&*(){\[}\]?+/=\\|<> X", "X")]
 		[RollBack]
 		public void FriendlyUrlGeneratesNiceUrl(string title, string expected)
 		{
