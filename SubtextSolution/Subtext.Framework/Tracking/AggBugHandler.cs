@@ -16,6 +16,7 @@
 using System;
 using System.Globalization;
 using System.Web;
+using log4net;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
@@ -27,6 +28,7 @@ namespace Subtext.Framework.Tracking
 	/// </summary>
 	public class AggBugHandler : IHttpHandler
 	{
+		ILog Log = new Subtext.Framework.Logging.Log();
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AggBugHandler"/> class.
 		/// </summary>
@@ -46,6 +48,7 @@ namespace Subtext.Framework.Tracking
 
 		public void ProcessRequest(HttpContext context)
 		{
+			Log.Debug("Entering AggBug Request...");
 			//Check to see if we have sent the 1x1 image in the last 12 hours (requires If-Modified-Since header)
 			if(_CachedVersionIsOkay(context.Request))
 			{
@@ -78,7 +81,7 @@ namespace Subtext.Framework.Tracking
 				context.Response.BinaryWrite(_bytes);
 			}
 
-			
+			Log.Debug("Leaving AggBug Request...");			
 		}
 
 		private bool _CachedVersionIsOkay(HttpRequest Request)

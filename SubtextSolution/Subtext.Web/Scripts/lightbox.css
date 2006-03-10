@@ -15,16 +15,11 @@
 #lightbox img{ border: none; clear: both;} 
 #overlay img{ border: none; }
 
-#overlay
-{ 
-	background-image: url(../images/overlay.png); 
-}
+#overlay{ background-image: url(../Images/overlay.png); }
 
-* html #overlay
-{
+* html #overlay{
 	background-color: #333;
 	back\ground-color: transparent;
 	background-image: url(blank.gif);
-	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../images/overlay.png", sizingMethod="scale");
-}
-	
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../Images/overlay.png", sizingMethod="scale");
+	}

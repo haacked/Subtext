@@ -89,5 +89,11 @@ namespace Subtext.Framework.Exceptions
 			}
 		}
 
+		public override string ToString()
+		{
+			return Message + Environment.NewLine + base.ToString ();
+		}
+
+
 	}
 }
