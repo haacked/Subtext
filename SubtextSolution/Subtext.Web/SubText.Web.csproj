@@ -1171,6 +1171,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Images\close.gif"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Images\contact.gif"
                     BuildAction = "Content"
                 />
@@ -1191,7 +1195,15 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Images\loading.gif"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Images\ms_help.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\overlay.png"
                     BuildAction = "Content"
                 />
                 <File
@@ -1336,7 +1348,15 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Scripts\BlogInfo.js"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Scripts\ExternalLinks.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Scripts\lightbox.css"
                     BuildAction = "Content"
                 />
                 <File

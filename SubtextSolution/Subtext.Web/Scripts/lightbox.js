@@ -33,18 +33,13 @@
 //
 // Configuration
 //
-
-var imagesPath = '/Subtext.Web' /* needs to be removed for prod */
-
-if(location.pathname.indexOf(imagesPath) < 0)
-{
-	imagesPath = '';
-}
+// subtextBlogInfo instance declared in DTP.aspx
+var imagesPath = subtextBlogInfo.getImagesVirtualRoot();
 
 // If you would like to use a custom loading image or close button reference them in the next two lines.
-var loadingImage = imagesPath + '/images/loading.gif';		
-var closeButton = imagesPath + '/images/close.gif';
-var overlayImage = imagesPath + '/images/overlay.png';
+var loadingImage = imagesPath + 'loading.gif';		
+var closeButton = imagesPath + 'close.gif';
+var overlayImage = imagesPath + 'overlay.png';
 
 //
 // getPageScroll()

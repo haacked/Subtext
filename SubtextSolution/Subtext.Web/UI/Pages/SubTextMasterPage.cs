@@ -14,10 +14,10 @@
 #endregion
 
 using System;
-using System.IO;
 using System.Text;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.UI.Skinning;
@@ -45,6 +45,8 @@ namespace Subtext.Web.UI.Pages
 		protected System.Web.UI.WebControls.Literal authorMetaTag;
 		protected System.Web.UI.WebControls.Literal scripts;
 		protected System.Web.UI.WebControls.Literal styles;
+		protected System.Web.UI.WebControls.Literal virtualRoot;
+		protected System.Web.UI.WebControls.Literal virtualBlogRoot;
 		#endregion
 		
 		protected BlogInfo CurrentBlog;
@@ -54,6 +56,9 @@ namespace Subtext.Web.UI.Pages
 		private void InitializeBlogPage()
 		{
 			CurrentBlog = Config.CurrentBlog;
+			virtualRoot.Text = CurrentBlog.VirtualDirectoryRoot;
+			virtualBlogRoot.Text = CurrentBlog.VirtualUrl;
+
 			string skin = Globals.Skin(Context);
 
 			SpecifyDocType();
@@ -95,6 +100,15 @@ namespace Subtext.Web.UI.Pages
 			if(styles != null)
 			{
 				styles.Text = __styleRenderer.RenderStyleElementCollection(skin);
+			}
+
+			foreach(Control control in this.Controls)
+			{
+				HtmlControl styleControl = control as HtmlControl;
+				if(styleControl != null && styleControl.TagName == "link" && styleControl.Attributes["href"] != null)
+				{
+					styleControl.Attributes["href"] = ControlHelper.ExpandTildePath(styleControl.Attributes["href"]);
+				}
 			}
 		}
 

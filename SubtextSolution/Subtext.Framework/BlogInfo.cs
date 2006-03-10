@@ -693,6 +693,34 @@ namespace Subtext.Framework
 		string virtualUrl;
 
 		/// <summary>
+		/// Gets the virtual directory root for the site.  
+		/// This value always ends with a slash.
+		/// </summary>
+		/// <value>The virtual URL.</value>
+		[XmlIgnore]
+		public string VirtualDirectoryRoot
+		{
+			get
+			{
+				string virtualDirectory = UrlFormats.StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
+				if(virtualDirectory.Length == 0)
+				{
+					return "/";
+				}
+				if(!virtualDirectory.EndsWith("/"))
+				{
+					virtualDirectory += "/";
+				}
+
+				if(!virtualDirectory.StartsWith("/"))
+				{
+					virtualDirectory = "/" + virtualDirectory;
+				}
+				return virtualDirectory;
+			}
+		}
+
+		/// <summary>
 		/// Gets the fully qualified blog home URL.  This is the URL to the blog's home page. 
 		/// Until we integrate with IIS better, we have to append the "Default.aspx" 
 		/// to the end.
