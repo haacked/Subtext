@@ -707,7 +707,7 @@ namespace Subtext.Framework.Data
 			{
 				SqlHelper.MakeInParam("@Title",  SqlDbType.NVarChar, 255, entry.Title), 
 				SqlHelper.MakeInParam("@TitleUrl",  SqlDbType.NVarChar, 255, StringHelper.ReturnNullForEmpty(entry.TitleUrl)), 
-				SqlHelper.MakeInParam("@Text", SqlDbType.Text, 0, entry.Body), 
+				SqlHelper.MakeInParam("@Text", SqlDbType.NText, 0, entry.Body), 
 				SqlHelper.MakeInParam("@SourceUrl", SqlDbType.NVarChar, 200, SqlHelper.CheckNull(entry.SourceUrl)), 
 				SqlHelper.MakeInParam("@PostType", SqlDbType.Int, 4, entry.PostType), 
 				SqlHelper.MakeInParam("@Author", SqlDbType.NVarChar, 50, SqlHelper.CheckNull(entry.Author)), 
