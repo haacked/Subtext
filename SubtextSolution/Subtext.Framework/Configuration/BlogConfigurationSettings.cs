@@ -14,6 +14,8 @@
 #endregion
 
 using System;
+using System.Collections.Specialized;
+using System.Configuration;
 using System.Xml.Serialization;
 using Subtext.Scripting;
 
@@ -152,6 +154,27 @@ namespace Subtext.Framework.Configuration
 		}
 
 		ConnectionString _connectionString = null;
+
+		/// <summary>
+		/// Returns a <see cref="NameValueCollection"/> containing the allowed 
+		/// HTML tags within a user comment.  The value contains a comma 
+		/// separated list of allowed attributes.
+		/// </summary>
+		/// <value>The allowed HTML tags.</value>
+		[XmlIgnore]
+		public NameValueCollection AllowedHtmlTags
+		{
+			get
+			{
+				if(this.allowedHtmlTags == null)
+				{
+					this.allowedHtmlTags = ((NameValueCollection)(ConfigurationSettings.GetConfig("AllowableCommentHtml")));
+				}
+				return this.allowedHtmlTags;
+			}
+		}
+
+		private NameValueCollection allowedHtmlTags = null;
 	}
 }
 

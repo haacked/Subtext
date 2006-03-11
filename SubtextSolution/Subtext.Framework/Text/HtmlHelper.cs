@@ -15,7 +15,6 @@
 
 using System;
 using System.Collections.Specialized;
-using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -192,7 +191,7 @@ namespace Subtext.Framework.Text
 			if(text == null)
 				throw new ArgumentNullException("text", "Cannot convert null to allowed html.");
 
-			NameValueCollection allowedHtmlTags = ((NameValueCollection)(ConfigurationSettings.GetConfig("AllowableCommentHtml")));
+			NameValueCollection allowedHtmlTags = Config.Settings.AllowedHtmlTags;
 			
 #if DEBUG
 			//Assert that the NameValueCollection is case insensitive!
@@ -200,8 +199,7 @@ namespace Subtext.Framework.Text
 			{
 				throw new InvalidOperationException("Darn it, it's case sensitive!" + allowedHtmlTags.Get("STRONG"));
 			}
-#endif
-			
+#endif		
 			return ConvertToAllowedHtml(allowedHtmlTags, text);
 		}
 

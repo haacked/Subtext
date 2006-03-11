@@ -20,14 +20,9 @@ function initLiveCommentPreview()
 {
 	if (!document.getElementsByTagName) { return; }
 
-	var paras = document.getElementsByTagName('p');
-	var previewElement = getPreviewDisplayElement(paras);
-	if(!previewElement)
-	{
-		var divs = document.getElementsByTagName('div');
-		previewElement = getPreviewDisplayElement(divs);
-	}
-	
+	var divs = document.getElementsByTagName('div');
+	var previewElement = getPreviewDisplayElement(divs);
+
 	if(!previewElement) {return;}	
 	var textareas = document.getElementsByTagName('textarea');
 
@@ -79,8 +74,21 @@ function reloadPreview(textarea, previewDisplay)
 		previewString = htmlUnencode(previewString);
 		previewString = previewString.replace(new RegExp("(.*)\n\n([^#\*\n\n].*)","g"), "<p>$1</p><p>$2</p>");
 		previewString = previewString.replace(new RegExp("(.*)\n([^#\*\n].*)","g"), "$1<br />$2");
+		
+		for(var i = 0; i < subtextAllowedHtmlTags.length; i++)
+		{
+			var allowedTag = subtextAllowedHtmlTags[i];
+			previewString = previewString.replace(new RegExp("&lt;(" + allowedTag + ".*?)&gt;(.+?)&lt;/(" + allowedTag + ")&gt;","g"), "<$1>$2</$3>");
+		}
 	}
-	previewDisplay.innerHTML = previewString;
+	try
+	{
+		previewDisplay.innerHTML = previewString;
+	}
+	catch(e)
+	{
+		alert('Sorry, but inserting a block element within is not allowed here.');
+	}
 }
 
 function htmlUnencode(s)

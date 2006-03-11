@@ -1,6 +1,7 @@
 <%@ Page language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Pages.SubtextMasterPage" %>
 <%@ Register TagPrefix="DT" Namespace="Subtext.Web.UI.WebControls" Assembly="Subtext.Web" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
+<%@ Import Namespace="Subtext.Framework.Configuration" %>
 <asp:Literal ID="docTypeDeclaration" Runat="server" />
 	<head>
 		<title><asp:Literal ID="pageTitle" Runat="server" /></title>
@@ -13,7 +14,8 @@
 		<asp:Literal ID="styles" Runat="server" />
 		<st:ScriptTag id="blogInfoScript" runat="server" src="~/scripts/BlogInfo.js" />
 		<script type="text/javascript">
-			var subtextBlogInfo = new blogInfo('<asp:Literal ID="virtualRoot" Runat="server" />', '<asp:Literal ID="virtualBlogRoot" Runat="server" />');
+			<%= AllowedHtmlJavascriptDeclaration %>
+			var subtextBlogInfo = new blogInfo('<%= Config.CurrentBlog.VirtualDirectoryRoot %>', '<%= Config.CurrentBlog.VirtualUrl %>" />');
 		</script>
 		<asp:Literal ID="scripts" Runat="server" />
 		<asp:Literal ID="pinbackLinkTag" runat="server" />

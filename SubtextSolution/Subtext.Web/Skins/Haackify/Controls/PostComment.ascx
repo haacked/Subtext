@@ -52,11 +52,11 @@
 			<td>
 				<div class="comment">
 					<h4>Live Comment Preview:</h4>
-					<p id="commentPreview" class="commentText livepreview">&nbsp;</p>
+					<div id="commentPreview" class="commentText livepreview">&nbsp;</div>
 				</div>
 			</td>
 			<td></td>
 		</tr>
 	</table>
-	
+
 </div>
