@@ -35,7 +35,7 @@
 				<asp:RequiredFieldValidator id="RequiredFieldValidator3" runat="server" ErrorMessage="Please enter a comment"
 					ControlToValidate="tbComment"></asp:RequiredFieldValidator><br />
 				<asp:TextBox id="tbComment" runat="server" Rows="10" Columns="40" width="100%" Height="193px"
-					TextMode="MultiLine"></asp:TextBox>
+					TextMode="MultiLine" class="livepreview"></asp:TextBox>
 			</td>
 		</tr>
 		<tr>
@@ -48,5 +48,15 @@
 			<td colspan="2">
 				<asp:Label id="Message" runat="server" ForeColor="Red"></asp:Label></td>
 		</tr>
+		<tr>
+			<td>
+				<div class="comment">
+					<h4>Live Comment Preview:</h4>
+					<p id="commentPreview" class="commentText livepreview">&nbsp;</p>
+				</div>
+			</td>
+			<td></td>
+		</tr>
 	</table>
+	
 </div>
