@@ -17,7 +17,6 @@ using System;
 using System.Text;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.UI.Skinning;
@@ -56,8 +55,6 @@ namespace Subtext.Web.UI.Pages
 		private void InitializeBlogPage()
 		{
 			CurrentBlog = Config.CurrentBlog;
-			virtualRoot.Text = CurrentBlog.VirtualDirectoryRoot;
-			virtualBlogRoot.Text = CurrentBlog.VirtualUrl;
 
 			string skin = Globals.Skin(Context);
 
@@ -101,15 +98,6 @@ namespace Subtext.Web.UI.Pages
 			{
 				styles.Text = __styleRenderer.RenderStyleElementCollection(skin);
 			}
-
-			foreach(Control control in this.Controls)
-			{
-				HtmlControl styleControl = control as HtmlControl;
-				if(styleControl != null && styleControl.TagName == "link" && styleControl.Attributes["href"] != null)
-				{
-					styleControl.Attributes["href"] = ControlHelper.ExpandTildePath(styleControl.Attributes["href"]);
-				}
-			}
 		}
 
 		//	Renders the DocType tag and specifies an xmlns for the HTML 
@@ -121,12 +109,6 @@ namespace Subtext.Web.UI.Pages
 				docTypeDeclaration.Text = string.Empty;
 				if(Config.Settings.DocTypeDeclaration != null && Config.Settings.DocTypeDeclaration.Length > 0)
 				{
-
-					// DG: Removed as this forces IE to go into the Quirks mode
-//					if(Config.Settings.UseXHTML)
-//					{
-//						docTypeDeclaration.Text = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine;
-//					}
 					docTypeDeclaration.Text += "<" + Config.Settings.DocTypeDeclaration + ">" + Environment.NewLine;
 					docTypeDeclaration.Text += "<html";
 					
@@ -314,5 +296,23 @@ namespace Subtext.Web.UI.Pages
 			}
 		}
 
+		/// <summary>
+		/// Returns the text for a javascript array of allowed elements. 
+		/// This will be used by other scripts.
+		/// </summary>
+		/// <value>The allowed HTML javascript declaration.</value>
+		protected string AllowedHtmlJavascriptDeclaration
+		{
+			get
+			{
+				string declaration = string.Format("var subtextAllowedHtmlTags = new Array({0});", Config.Settings.AllowedHtmlTags.Count) + Environment.NewLine;
+				for(int i = 0; i < Config.Settings.AllowedHtmlTags.Count; i++)
+				{
+					string tagname = Config.Settings.AllowedHtmlTags.Keys[i];
+					declaration += string.Format("subtextAllowedHtmlTags[{0}] = '{1}';", i, tagname) + Environment.NewLine;
+				}
+				return declaration;
+			}
+		}
 	}
 }
