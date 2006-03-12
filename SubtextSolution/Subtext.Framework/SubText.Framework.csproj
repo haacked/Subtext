@@ -115,11 +115,6 @@
                     HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Drawing.dll"
                 />
                 <Reference
-                    Name = "SgmlReaderDll"
-                    AssemblyName = "SgmlReaderDll"
-                    HintPath = "ExternalDependencies\SgmlReaderDll.dll"
-                />
-                <Reference
                     Name = "CookComputing.XmlRpc"
                     AssemblyName = "CookComputing.XmlRpc"
                     HintPath = "ExternalDependencies\CookComputing.XmlRpc.dll"
@@ -158,6 +153,11 @@
                     Name = "Velocit.RegularExpressions"
                     AssemblyName = "Velocit.RegularExpressions"
                     HintPath = "ExternalDependencies\Velocit.RegularExpressions.dll"
+                />
+                <Reference
+                    Name = "SgmlReaderDll"
+                    AssemblyName = "SgmlReaderDll"
+                    HintPath = "ExternalDependencies\SgmlReaderDll.dll"
                 />
             </References>
         </Build>
