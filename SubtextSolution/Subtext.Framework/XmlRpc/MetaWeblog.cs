@@ -175,6 +175,16 @@ namespace Subtext.Framework.XmlRpc
 			return categories;
 		}
 
+		/// <summary>
+		/// Creates a new post.  The publish boolean is used to determine whether the item 
+		/// should be published or not.
+		/// </summary>
+		/// <param name="blogid">The blogid.</param>
+		/// <param name="username">The username.</param>
+		/// <param name="password">The password.</param>
+		/// <param name="post">The post.</param>
+		/// <param name="publish">if set to <c>true</c> [publish].</param>
+		/// <returns></returns>
 		public string newPost(string blogid, string username, string password, Post post, bool publish)
 		{
 			Framework.BlogInfo info = Config.CurrentBlog;

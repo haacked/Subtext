@@ -668,7 +668,7 @@ namespace Subtext.Framework.Data
 
 			if(Config.Settings.UseXHTML)
 			{
-				if(!HtmlHelper.ConvertHtmlToXHtml(ref e))
+				if(!HtmlHelper.ConvertHtmlToXHtml(e))
 				{
 					return false;
 				}

@@ -54,7 +54,7 @@ namespace Subtext.Framework.Text
 		/// </summary>
 		/// <param name="entry">Entry.</param>
 		/// <returns></returns>
-		public static bool ConvertHtmlToXHtml(ref Entry entry)
+		public static bool ConvertHtmlToXHtml(Entry entry)
 		{
 			try
 			{
