@@ -54,7 +54,7 @@ namespace UnitTests.Subtext.Framework.Text
 		{
 			Entry entry = new Entry(PostType.BlogPost);
 			entry.Body = "This is some text";
-			Assert.IsTrue(HtmlHelper.ConvertHtmlToXHtml(ref entry));
+			Assert.IsTrue(HtmlHelper.ConvertHtmlToXHtml(entry));
 			Assert.AreEqual("This is some text", entry.Body);
 		}
 
@@ -66,12 +66,12 @@ namespace UnitTests.Subtext.Framework.Text
 		{
 			Entry entry = new Entry(PostType.BlogPost);
 			entry.Body = "This <br /><br />is bad <p> XHTML.";
-			Assert.IsTrue(HtmlHelper.ConvertHtmlToXHtml(ref entry));
+			Assert.IsTrue(HtmlHelper.ConvertHtmlToXHtml(entry));
 			Assert.AreEqual("This <br /><br />is bad <p> XHTML.</p>", entry.Body);
 
 			Entry entryTwo = new Entry(PostType.BlogPost);
 			entryTwo.Body = "This <P>is bad </P> XHTML.";
-			Assert.IsTrue(HtmlHelper.ConvertHtmlToXHtml(ref entryTwo));
+			Assert.IsTrue(HtmlHelper.ConvertHtmlToXHtml(entryTwo));
 			Assert.AreEqual("This <p>is bad </p> XHTML.", entryTwo.Body);
 		}
 
