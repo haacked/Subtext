@@ -60,18 +60,31 @@ namespace Subtext.Framework.Text
 			{
 				SgmlReader reader = new SgmlReader();
 				reader.SetBaseUri(Config.CurrentBlog.RootUrl);
-				reader.DocType = "HTML";
-				reader.InputStream = new StringReader("<bloghelper>" + entry.Body + "</bloghelper>");
+				reader.DocType = "html";
+				reader.WhitespaceHandling = WhitespaceHandling.None;
+				reader.InputStream = new StringReader("<html>" + entry.Body + "</html>");
+				reader.CaseFolding = CaseFolding.ToLower;
 				StringWriter writer = new StringWriter();
-				XmlTextWriter xmlWriter = new XmlTextWriter(writer);
-				while (reader.Read()) 
+				XmlTextWriter xmlWriter = null;
+				try
 				{
-					xmlWriter.WriteNode(reader, true);
+					xmlWriter = new XmlTextWriter(writer);
+				
+					while (reader.Read()) 
+					{
+						xmlWriter.WriteNode(reader, true);
+					}
 				}
-				xmlWriter.Close(); 
+				finally
+				{
+					if(xmlWriter != null)
+					{
+						xmlWriter.Close(); 
+					}
+				}
 
 				string xml = writer.ToString();
-				entry.Body = xml.Substring(12, xml.Length - 25);
+				entry.Body = xml.Substring("<html>".Length, xml.Length - "<html></html>".Length);
 				entry.IsXHMTL = true;
 				return true;
 			}

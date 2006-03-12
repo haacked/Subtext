@@ -49,30 +49,30 @@ namespace UnitTests.Subtext.Framework.Text
 		/// <summary>
 		/// Makes sure that IsValidXHTML recognizes valid markup.
 		/// </summary>
-		[Test]
-		public void ConvertHtmlToXHtmlLeavesValidMarkupAlone()
+		[RowTest]
+		[Row("This is some text", "This is some text")]
+		[Row("<span>This is some text</span>", "<span>This is some text</span>")]
+		[Row("<span>&#8220;</span>", "<span>&#8220;</span>")]
+		public void ConvertHtmlToXHtmlLeavesValidMarkupAlone(string goodMarkup, string expected)
 		{
 			Entry entry = new Entry(PostType.BlogPost);
-			entry.Body = "This is some text";
+			entry.Body = goodMarkup;
 			Assert.IsTrue(HtmlHelper.ConvertHtmlToXHtml(entry));
-			Assert.AreEqual("This is some text", entry.Body);
+			Assert.AreEqual(expected, entry.Body);
 		}
 
 		/// <summary>
 		/// Makes sure that IsValidXHTML recognizes invalid markup.
 		/// </summary>
-		[Test]
-		public void ConvertHtmlToXHtmlCorrectsInvalidMarkup()
+		[RowTest]
+		[Row("This <br /><br />is bad <p> XHTML.", "This <br /><br />is bad <p> XHTML.</p>")]
+		[Row("This <P>is bad </P> XHTML.", "This <p>is bad </p> XHTML.")]
+		public void ConvertHtmlToXHtmlCorrectsInvalidMarkup(string badMarkup, string corrected)
 		{
 			Entry entry = new Entry(PostType.BlogPost);
-			entry.Body = "This <br /><br />is bad <p> XHTML.";
+			entry.Body = badMarkup;
 			Assert.IsTrue(HtmlHelper.ConvertHtmlToXHtml(entry));
-			Assert.AreEqual("This <br /><br />is bad <p> XHTML.</p>", entry.Body);
-
-			Entry entryTwo = new Entry(PostType.BlogPost);
-			entryTwo.Body = "This <P>is bad </P> XHTML.";
-			Assert.IsTrue(HtmlHelper.ConvertHtmlToXHtml(entryTwo));
-			Assert.AreEqual("This <p>is bad </p> XHTML.", entryTwo.Body);
+			Assert.AreEqual(corrected, entry.Body);
 		}
 
 		/// <summary>
