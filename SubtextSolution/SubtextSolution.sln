@@ -31,10 +31,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Scripting", "Subtex
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "blowery.Web.HttpCompress", "blowery.Web.HttpCompress\blowery.Web.HttpCompress.csproj", "{24B5F8DA-F11C-4B77-8BF9-5D2E4534DDE5}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -90,12 +86,6 @@ Global
 		{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}.Documentation.Build.0 = Documentation|.NET
 		{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}.Release.ActiveCfg = Release|.NET
 		{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}.Release.Build.0 = Release|.NET
-		{24B5F8DA-F11C-4B77-8BF9-5D2E4534DDE5}.Debug.ActiveCfg = Debug|.NET
-		{24B5F8DA-F11C-4B77-8BF9-5D2E4534DDE5}.Debug.Build.0 = Debug|.NET
-		{24B5F8DA-F11C-4B77-8BF9-5D2E4534DDE5}.Documentation.ActiveCfg = Documentation|.NET
-		{24B5F8DA-F11C-4B77-8BF9-5D2E4534DDE5}.Documentation.Build.0 = Documentation|.NET
-		{24B5F8DA-F11C-4B77-8BF9-5D2E4534DDE5}.Release.ActiveCfg = Release|.NET
-		{24B5F8DA-F11C-4B77-8BF9-5D2E4534DDE5}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 		Subtext.Web\AspNetWithoutWebProjects.txt = Subtext.Web\AspNetWithoutWebProjects.txt

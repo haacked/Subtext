@@ -1,12 +1,7 @@
 using System;
 using System.IO;
 
-using System.Text;
-using System.Diagnostics;
-
-using ICSharpCode.SharpZipLib.Zip.Compression;
 using ICSharpCode.SharpZipLib.GZip;
-using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 
 namespace blowery.Web.HttpCompress {
   /// <summary>
