@@ -349,6 +349,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Framework\Util\KeywordsTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Installation\InstallationManagerTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
