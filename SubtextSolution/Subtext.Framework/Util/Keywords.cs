@@ -38,7 +38,8 @@ namespace Subtext.Framework.Util
 		}
 
 		/// <summary>
-		/// Preforms a forward scan and replace for a given pattern. Replaces all finds and preforms a case sensitive search
+		/// Preforms a forward scan and replace for a given pattern. 
+		/// Replaces all finds and preforms a case sensitive search
 		/// </summary>
 		/// <param name="source">Text to search</param>
 		/// <param name="oldValue">Pattern to search for</param>
@@ -201,7 +202,7 @@ namespace Subtext.Framework.Util
 
 		#region Data
 
-		public static void Format(ref Entry entry)
+		public static void Format(Entry entry)
 		{
 			KeyWordCollection kwc = GetKeyWords();
 			if(kwc != null && kwc.Count > 0)
@@ -210,7 +211,7 @@ namespace Subtext.Framework.Util
 				for(int i =0; i<kwc.Count;i++)
 				{
 					kw = kwc[i];
-					entry.Body = ReplaceFormat(entry.Body,kw.Word,kw.GetFormat,kw.ReplaceFirstTimeOnly,kw.CaseSensitive);
+					entry.Body = ReplaceFormat(entry.Body, kw.Word, kw.GetFormat, kw.ReplaceFirstTimeOnly, kw.CaseSensitive);
 				}
 			}
 		}
