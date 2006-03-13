@@ -411,8 +411,7 @@ namespace Subtext.Web.Admin.UserControls
 					}
 					
 					entry.Title = txbTitle.Text;
-					entry.Body = HtmlHelper.StripRTB(freeTextBox.Text, Request.Url.Host);
-//					entry.Body = freeTextBox.Text;
+					entry.Body = HtmlHelper.StripRTB(freeTextBox.Xhtml, Request.Url.Host);
 					entry.Author = Config.CurrentBlog.Author;
 					entry.Email = Config.CurrentBlog.Email;
 					entry.BlogId = Config.CurrentBlog.BlogId;

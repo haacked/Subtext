@@ -99,6 +99,7 @@
 			<FTB:FreeTextBox 
 				id="freeTextBox"
 				toolbarlayout="Bold,Italic,Underline,Strikethrough;Superscript,Subscript,RemoveFormat|FontFacesMenu,FontSizesMenu,FontForeColorsMenu|InsertTable|JustifyLeft,JustifyRight,JustifyCenter,JustifyFull;BulletedList,NumberedList,Indent,Outdent;CreateLink,Unlink,Insert,InsertRule|Cut,Copy,Paste;Undo,Redo|ieSpellCheck,WordClean|InsertImage,InsertImageFromGallery"
+				FormatHtmlTagsToXhtml="true"
 				runat="Server" 
 				RemoveServerNamefromUrls="false"/>
 		</p>
