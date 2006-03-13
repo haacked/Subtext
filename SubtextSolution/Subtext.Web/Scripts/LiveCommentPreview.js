@@ -2,7 +2,7 @@
 Adds Live Comment Preview for comment forms.
 
 USAGE: Simply add the css class "livepreview" to the textarea that 
-is the source of the comment and to the <div> or <p> element that 
+is the source of the comment and to the <div> element that 
 will display the live preview.
 
 Note that livepreview does not have to be the only css class.
@@ -12,7 +12,7 @@ ex... Make this edit in PostComment.ascx
 <asp:TextBox id="tbComment" runat="server" Rows="10" Columns="40" width="100%" Height="193px"
 					TextMode="MultiLine" class="livepreview"></asp:TextBox>
 					
-<p class="comment livepreview"></p>
+<div class="comment livepreview"></div>
 
 */
 
