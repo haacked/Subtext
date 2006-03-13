@@ -532,7 +532,7 @@ namespace Subtext.Framework.Data
 				return DbProvider.Instance().InsertPingTrackEntry(entry);
 			}
 
-			if(!FormatEntry(ref entry,true))
+			if(!FormatEntry(entry,true))
 			{
 				throw new BlogFailedPostException("Failed post exception");
 			}		
@@ -576,7 +576,7 @@ namespace Subtext.Framework.Data
 
 		public override bool Update(Entry entry, int[] CategoryIDs)
 		{
-			if(!FormatEntry(ref entry,false))
+			if(!FormatEntry(entry,false))
 			{
 				throw new BlogFailedPostException("Failed post exception");
 			}
@@ -635,12 +635,12 @@ namespace Subtext.Framework.Data
         
 		#region Format Helper
 		
-		private bool FormatEntry(ref Entry e, bool UseKeyWords)
+		private bool FormatEntry(Entry e, bool UseKeyWords)
 		{
 			//Do this before we validate the text
 			if(UseKeyWords)
 			{
-				KeyWords.Format(ref e);
+				KeyWords.Format(e);
 			}
 
 			//TODO: Make this a configuration option.

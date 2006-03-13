@@ -52,7 +52,7 @@ namespace UnitTests.Subtext.Framework.Text
 		[RowTest]
 		[Row("This is some text", "This is some text")]
 		[Row("<span>This is some text</span>", "<span>This is some text</span>")]
-		[Row("<span>&#8220;</span>", "<span>&#8220;</span>")]
+		[Row("<img src=\"blah\" />", "<img src=\"blah\" />")]
 		public void ConvertHtmlToXHtmlLeavesValidMarkupAlone(string goodMarkup, string expected)
 		{
 			Entry entry = new Entry(PostType.BlogPost);
