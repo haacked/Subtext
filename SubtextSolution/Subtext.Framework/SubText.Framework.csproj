@@ -145,11 +145,6 @@
                     HintPath = "ExternalDependencies\DotNetOpenMail.dll"
                 />
                 <Reference
-                    Name = "blowery.Web.HttpCompress"
-                    Project = "{24B5F8DA-F11C-4B77-8BF9-5D2E4534DDE5}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
                     Name = "Velocit.RegularExpressions"
                     AssemblyName = "Velocit.RegularExpressions"
                     HintPath = "ExternalDependencies\Velocit.RegularExpressions.dll"
@@ -158,6 +153,16 @@
                     Name = "SgmlReaderDll"
                     AssemblyName = "SgmlReaderDll"
                     HintPath = "ExternalDependencies\SgmlReaderDll.dll"
+                />
+                <Reference
+                    Name = "blowery.Web.HttpCompress"
+                    AssemblyName = "blowery.Web.HttpCompress"
+                    HintPath = "ExternalDependencies\blowery.Web.HttpCompress.dll"
+                />
+                <Reference
+                    Name = "ICSharpCode.SharpZipLib"
+                    AssemblyName = "ICSharpCode.SharpZipLib"
+                    HintPath = "ExternalDependencies\ICSharpCode.SharpZipLib.dll"
                 />
             </References>
         </Build>
