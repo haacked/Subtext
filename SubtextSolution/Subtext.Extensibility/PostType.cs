@@ -18,7 +18,9 @@ using System;
 namespace Subtext.Extensibility
 {
 	/// <summary>
-	/// Summary description for PageType.
+	/// Enumerates the various types of entries within the 
+	/// subtext_Content table.  A record in that table 
+	/// might be any one of the following enumerations.
 	/// </summary>
 	public enum PostType
 	{

@@ -5,6 +5,7 @@
 <%@ Register TagPrefix="uc1" TagName="BlogStats" Src="Controls/BlogStats.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="News" Src="Controls/News.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="SingleColumn" Src="Controls/SingleColumn.ascx" %>
+<%@ Register TagPrefix="uc1" TagName="RecentComments" Src="Controls/RecentComments.ascx" %>
 <div id="main">
 	<div id="background">
 		<uc1:Header id="Header1" runat="server"></uc1:Header>
@@ -32,6 +33,13 @@
 			</div>
 
 			<uc1:SingleColumn id="SingleColumn1" runat="server"></uc1:SingleColumn>
+			
+			<div class="sideBarSection">
+				<h3>Recent Comments</h3>
+				<div class="innerBox">
+					<uc1:RecentComments id="RecentComments" runat="server"></uc1:RecentComments>
+				</div>
+			</div>
 		</div>
 				
 		<div class="clear">&nbsp;</div>	

@@ -27,6 +27,7 @@ namespace Subtext.Web.UI.Controls
 	/// </summary>
 	public class RecentComments : BaseControl
 	{
+		private const int DefaultRecentPostCount = 5;
 		protected System.Web.UI.WebControls.Repeater feedList;
 		private EntryCollection comments;
 
@@ -41,7 +42,15 @@ namespace Subtext.Web.UI.Controls
 			}
 			else
 			{
-				comments = Entries.GetRecentPosts(5, Subtext.Extensibility.PostType.Comment, true);
+				comments = Entries.GetRecentPosts(DefaultRecentPostCount, Subtext.Extensibility.PostType.Comment, true);
+			}
+
+			for(int i = 0; i < comments.Count; i++)
+			{
+				if(comments[i].ParentID <= 0)
+				{
+					comments.RemoveAt(i);
+				}
 			}
 		}
 
@@ -73,8 +82,7 @@ namespace Subtext.Web.UI.Controls
 			if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
 			{
 				Entry entry = (Entry)e.Item.DataItem;
-				BlogInfo currentBlog = Config.CurrentBlog;
-                
+				
 				HyperLink title = (HyperLink)e.Item.FindControl("Link");
 				if(title != null)
 				{
