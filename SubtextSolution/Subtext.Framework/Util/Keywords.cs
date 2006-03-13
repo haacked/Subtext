@@ -251,7 +251,7 @@ namespace Subtext.Framework.Util
 
 
 	#region CharQueue
-	internal class CharQueue : object
+	internal class CharQueue
 	{
 		private char[] _list;
 		private int _charCount = 0;
