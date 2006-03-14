@@ -231,7 +231,8 @@ namespace Subtext.Framework.Syndication
 					{
 						encoding = filter.ContentEncoding;
 						Context.Response.Filter = filter.Filter;
-						Context.Response.AppendHeader("Content-Encoding", encoding);
+						//No longer need to append the gzip header. 
+						//Blowery does that.
 					}
 				}
 
