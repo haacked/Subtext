@@ -19,6 +19,7 @@ using System.Threading;
 using System.Web;
 using MbUnit.Framework;
 using Subtext.Extensibility;
+using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
@@ -34,6 +35,77 @@ namespace UnitTests.Subtext.Framework.Format
 	{
 		string _hostName;
 
+		/// <summary>
+		/// Makes sure that UrlFormats.GetBlogAppFromRequest does the right thing.
+		/// </summary>
+		[RowTest]
+		[Row("/Subtext.Web/MyBlog/default.aspx", "/Subtext.Web", "MyBlog")]
+		[Row("/subtext.web/MyBlog/default.aspx", "/Subtext.Web", "MyBlog")]
+		[Row("/subtext.web/MyBlog/default.aspx", "Subtext.Web", "MyBlog")]
+		[Row("/subtext.web/default.aspx", "/Subtext.Web", "")]
+		[Row("/subtext.web", "/Subtext.Web", "")]
+		[Row("/subtext.web/myBLOG/", "/Subtext.Web", "myBLOG")]
+		public void GetBlogAppFromRequestDoesTheRightThing(string rawUrl, string subfolder, string expected)
+		{
+			Assert.AreEqual(expected, UrlFormats.GetBlogSubfolderFromRequest(rawUrl, subfolder));
+		}
+
+		/// <summary>
+		/// Makes sure an entry url with no application is formatted correctly.
+		/// </summary>
+		[Test]
+		public void EntryArchiveUrlWithNoApplication()
+		{
+			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", string.Empty);
+			BlogInfo blogInfo = new BlogInfo();
+			blogInfo.Host = "localhost";
+			blogInfo.Subfolder = string.Empty;
+
+			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
+			UrlFormats formats = new UrlFormats(Config.CurrentBlog.RootUrl);
+			Entry entry = new Entry(PostType.BlogPost);
+			entry.DateCreated = DateTime.Parse("January 23, 1975");
+			entry.EntryID = 123;
+			Assert.AreEqual("http://localhost/archive/1975/01/23/123.aspx", formats.EntryUrl(entry));
+		}
+
+		/// <summary>
+		/// Makes sure an entry url with no application is formatted correctly.
+		/// </summary>
+		[Test]
+		public void EntryArchiveUrlWithApplication()
+		{
+			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "MyBlog");
+			BlogInfo blogInfo = new BlogInfo();
+			blogInfo.Host = "localhost";
+			blogInfo.Subfolder = "MyBlog";
+
+			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
+			UrlFormats formats = new UrlFormats(Config.CurrentBlog.RootUrl);
+			Entry entry = new Entry(PostType.BlogPost);
+			entry.DateCreated = DateTime.Parse("January 23, 1975");
+			entry.EntryID = 123;
+			Assert.AreEqual("http://localhost/MyBlog/archive/1975/01/23/123.aspx", formats.EntryUrl(entry));
+		}
+
+		/// <summary>
+		/// Makes sure an entry url with no application is formatted correctly.
+		/// </summary>
+		[Test]
+		public void EntryArchiveUrlWithApplicationAndVirtualDir()
+		{
+			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "MyBlog", "Subtext.Web");
+			BlogInfo blogInfo = new BlogInfo();
+			blogInfo.Host = "localhost";
+			blogInfo.Subfolder = "MyBlog";
+
+			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
+			UrlFormats formats = new UrlFormats(Config.CurrentBlog.RootUrl);
+			Entry entry = new Entry(PostType.BlogPost);
+			entry.DateCreated = DateTime.Parse("January 23, 1975");
+			entry.EntryID = 123;
+			Assert.AreEqual("http://localhost/Subtext.Web/MyBlog/archive/1975/01/23/123.aspx", formats.EntryUrl(entry));
+		}
 		/// <summary>
 		/// Makes sure that url formatting is culture invariant.
 		/// </summary>
