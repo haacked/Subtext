@@ -155,14 +155,14 @@
                     HintPath = "ExternalDependencies\SgmlReaderDll.dll"
                 />
                 <Reference
-                    Name = "blowery.Web.HttpCompress"
-                    AssemblyName = "blowery.Web.HttpCompress"
-                    HintPath = "ExternalDependencies\blowery.Web.HttpCompress.dll"
-                />
-                <Reference
                     Name = "ICSharpCode.SharpZipLib"
                     AssemblyName = "ICSharpCode.SharpZipLib"
                     HintPath = "ExternalDependencies\ICSharpCode.SharpZipLib.dll"
+                />
+                <Reference
+                    Name = "blowery.Web.HttpCompress"
+                    AssemblyName = "blowery.Web.HttpCompress"
+                    HintPath = "..\Subtext.Web\bin\blowery.Web.HttpCompress.dll"
                 />
             </References>
         </Build>

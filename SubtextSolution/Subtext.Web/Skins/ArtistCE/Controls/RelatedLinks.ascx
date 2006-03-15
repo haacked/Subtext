@@ -1,22 +1,15 @@
 <%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.RelatedLinks" %>
-
-<div class = "moreinfo">
-	<div class = "moreinfotitle">
-		Related Links
+<div class = "relatedlinks">
+	<div class = "relatedlinkstitle">
+		Related Posts
 	</div>
-	<asp:Repeater id="Links" runat="server" OnItemCreated="MoreReadingCreated" OnItemCommand="RemovePTR_ItemCommand">
-		<HeaderTemplate>
-			<ul class = "morelist">
-		</HeaderTemplate>
+	<asp:Repeater id="urlRelatedLinks" runat="server">
 		<ItemTemplate>
-			<li class = "morelistitem">
-				<asp:HyperLink Target="_blank" Runat="server" ID="Link" />
-				<asp:Literal Runat="server" ID="DisplayType" />
-				<asp:LinkButton Runat="server" ID="EditReadingLink" CausesValidation="False" />								
-			</li>	
+			<div class="relateditem">
+				<a href="<%# DataBinder.Eval(Container.DataItem, "url") %>"> 
+					<%# DataBinder.Eval(Container.DataItem, "Title") %> 
+				</a>
+			</div>
 		</ItemTemplate>
-		<FooterTemplate>
-			</ul>
-		</FooterTemplate>
 	</asp:Repeater>
 </div>
