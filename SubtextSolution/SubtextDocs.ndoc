@@ -27,8 +27,12 @@
             <property name="HtmlHelpName" value="Documentation" />
             <property name="Title" value="Subtext Code Documentation" />
             <property name="OutputTarget" value="HtmlHelp" />
+            <property name="DocumentProtectedInternalAsProtected" value="True" />
             <property name="CopyrightText" value="Copyright 2005 Phil Haack" />
             <property name="UseNamespaceDocSummaries" value="True" />
+            <property name="AutoDocumentConstructors" value="False" />
+            <property name="DocumentAttributes" value="True" />
+            <property name="CleanIntermediates" value="True" />
         </documenter>
         <documenter name="MSDN 2003">
             <property name="OutputDirectory" value=".\doc\" />
