@@ -18,7 +18,13 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Web;
+using ICSharpCode.SharpZipLib.GZip;
+using ICSharpCode.SharpZipLib.Zip;
+using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using MbUnit.Framework;
+using Subtext.Extensibility;
+using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 
 namespace UnitTests.Subtext
@@ -112,10 +118,10 @@ namespace UnitTests.Subtext
 		/// by the host and application.
 		/// </summary>
 		/// <param name="host">Host.</param>
-		/// <param name="blogName">Subfolder Name.</param>
-		public static void SetHttpContextWithBlogRequest(string host, string blogName)
+		/// <param name="subfolder">Subfolder Name.</param>
+		public static void SetHttpContextWithBlogRequest(string host, string subfolder)
 		{
-			SetHttpContextWithBlogRequest(host, blogName, string.Empty);
+			SetHttpContextWithBlogRequest(host, subfolder, string.Empty);
 		}
 
 		/// <summary>
@@ -131,6 +137,11 @@ namespace UnitTests.Subtext
 		}
 		
 		public static void SetHttpContextWithBlogRequest(string host, string subfolder, string virtualDir, string page)
+		{
+			SetHttpContextWithBlogRequest(host, subfolder, virtualDir, page, null);
+		}
+
+		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string virtualDir, string page, TextWriter output)
 		{
 			virtualDir = UrlFormats.StripSurroundingSlashes(virtualDir);	// Subtext.Web
 			subfolder = StripSlashes(subfolder);		// MyBlog
@@ -155,11 +166,12 @@ namespace UnitTests.Subtext
 			//page = "/" + page;							//	/MyBlog/default.aspx
 
 			string query = string.Empty;
-			TextWriter output = null;
 
 			SimulatedHttpRequest workerRequest = new SimulatedHttpRequest(virtualDir, appPhysicalDir, page, query, output, host);
 			HttpContext.Current = new HttpContext(workerRequest);
 
+			#region Console Debug INfo
+			/*
 			Console.WriteLine("host: " + host);
 			Console.WriteLine("blogName: " + subfolder);
 			Console.WriteLine("virtualDir: " + virtualDir);
@@ -172,6 +184,10 @@ namespace UnitTests.Subtext
 			Console.WriteLine("Request.Url: " + HttpContext.Current.Request.Url);
 			Console.WriteLine("Request.ApplicationPath: " + HttpContext.Current.Request.ApplicationPath);
 			Console.WriteLine("Request.PhysicalPath: " + HttpContext.Current.Request.PhysicalPath);
+			*/
+			#endregion
+
+			return workerRequest;
 		}
 
 		/// <summary>
@@ -253,6 +269,179 @@ namespace UnitTests.Subtext
 				}
 				Assert.AreEqual(original, expected);
 			}
+		}
+
+		/// <summary>
+		/// Creates an entry instance with the proper syndication settings.
+		/// </summary>
+		/// <param name="author">The author.</param>
+		/// <param name="body">The body.</param>
+		/// <param name="title">The title.</param>
+		public static Entry CreateEntryInstanceForSyndication(string author, string body, string title)
+		{
+			Entry entry = new Entry(PostType.BlogPost);
+			entry.BlogId = Config.CurrentBlog.BlogId;
+			entry.Author = author;
+			entry.Body = body;
+			entry.DateCreated = DateTime.Now;
+			entry.DateSyndicated = DateTime.Now;
+			entry.DateUpdated = DateTime.Now;
+			entry.Title = title;
+			entry.PostConfig  = PostConfig.IncludeInMainSyndication | PostConfig.IsActive | PostConfig.IsAggregated | PostConfig.DisplayOnHomePage;
+			return entry;
+		}
+
+		public static string ExtractArchiveToString(Stream compressedArchive)
+		{
+			StringBuilder target = new StringBuilder();
+			using(ZipInputStream inputStream = new ZipInputStream(compressedArchive))
+			{
+				ZipEntry nextEntry = inputStream.GetNextEntry();
+				
+				while(nextEntry != null)
+				{
+					target.Append(Extract(inputStream));
+					nextEntry = inputStream.GetNextEntry();
+				}
+			}
+			return target.ToString();
+		}
+
+		public static string Extract(ZipInputStream inputStream)
+		{
+			MemoryStream output = new MemoryStream();
+			
+			byte[] buffer = new byte[4096];
+			int count = inputStream.Read(buffer, 0, 4096);
+			while(count > 0)
+			{
+				output.Write(buffer, 0, count);
+				count = inputStream.Read(buffer, 0, 4096);
+			}
+			
+			byte[] bytes = output.ToArray();
+			return Encoding.UTF8.GetString(bytes);
+		}
+
+		public static void ExtractArchive(Stream compressedArchive, string targetDirectory)
+		{
+			using(ZipInputStream inputStream = new ZipInputStream(compressedArchive))
+			{
+				ZipEntry nextEntry = inputStream.GetNextEntry();
+				if(!Directory.Exists(targetDirectory))
+				{
+					Directory.CreateDirectory(targetDirectory);
+				}
+				while(nextEntry != null)
+				{
+					if(nextEntry.IsDirectory)
+					{
+						Directory.CreateDirectory(Path.Combine(targetDirectory, nextEntry.Name));
+					}
+					else
+					{
+						if(!Directory.Exists(Path.Combine(targetDirectory, Path.GetDirectoryName(nextEntry.Name))))
+						{
+							Directory.CreateDirectory(Path.Combine(targetDirectory, Path.GetDirectoryName(nextEntry.Name)));
+						}
+
+						ExtractFile(targetDirectory, nextEntry, inputStream);						
+					}
+					nextEntry = inputStream.GetNextEntry();
+				}
+			}
+		}
+
+		private static void ExtractFile(string targetDirectory, ZipEntry nextEntry, ZipInputStream inputStream)
+		{
+			using(FileStream fileStream = new FileStream(Path.Combine(targetDirectory, nextEntry.Name), FileMode.OpenOrCreate, FileAccess.Write))
+			{
+				byte[] buffer = new byte[4096];
+				int count = inputStream.Read(buffer, 0, 4096);
+				while(count > 0)
+				{
+					fileStream.Write(buffer, 0, count);
+					count = inputStream.Read(buffer, 0, 4096);
+				}
+				fileStream.Flush();
+			}
+		}
+
+		/// <summary>
+		/// Returns a deflated version of the response sent by the web server. If the 
+		/// web server did not send a compressed stream then the original stream is returned. 
+		/// </summary>
+		/// <param name="encoding">Encoding of the stream. One of 'deflate' or 'gzip' or Empty.</param>
+		/// <param name="inputStream">Input Stream</param>
+		/// <returns>Seekable Stream</returns>
+		public static Stream GetDeflatedResponse(string encoding, Stream inputStream)
+		{
+			//BORROWED FROM RSS BANDIT.
+			const int BUFFER_SIZE = 4096;	// 4K read buffer
+
+			Stream compressed = null, input = inputStream; 
+			bool tryAgainDeflate = true;
+			
+			if (input.CanSeek)
+				input.Seek(0, SeekOrigin.Begin);
+
+			if (encoding=="deflate") 
+			{	//to solve issue "invalid checksum" exception with dasBlog and "deflate" setting:
+				//input = ResponseToMemory(input);			// need them within mem to have a seekable stream
+				compressed = new InflaterInputStream(input);	// try deflate with headers
+			}
+			else if (encoding=="gzip") 
+			{
+				compressed = new GZipInputStream(input);
+			}
+
+			retry_decompress:			
+				if (compressed != null) 
+				{
+			
+					MemoryStream decompressed = new MemoryStream();
+
+					try 
+					{
+
+						int size = BUFFER_SIZE;
+						byte[] writeData = new byte[BUFFER_SIZE];
+						while (true) 
+						{
+							size = compressed.Read(writeData, 0, size);
+							if (size > 0) 
+							{
+								decompressed.Write(writeData, 0, size);
+							} 
+							else 
+							{
+								break;
+							}
+						}
+					} 
+					catch (ICSharpCode.SharpZipLib.GZip.GZipException) 
+					{
+						if (tryAgainDeflate && (encoding=="deflate")) 
+						{
+							input.Seek(0, SeekOrigin.Begin);	// reset position
+							compressed = new InflaterInputStream(input, new ICSharpCode.SharpZipLib.Zip.Compression.Inflater(true));
+							tryAgainDeflate = false;
+							goto retry_decompress;
+						} 
+						else
+							throw;
+					}
+				
+					//reposition to beginning of decompressed stream then return
+					decompressed.Seek(0, SeekOrigin.Begin);
+					return decompressed;
+				}
+				else
+				{
+					// allready seeked, just return
+					return input;
+				}
+
 		}
 
 		#region ...Assert.AreNotEqual replacements...
