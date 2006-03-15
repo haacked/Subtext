@@ -4433,6 +4433,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "UI\Controls\RelatedLinks.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "UI\Controls\SingleColumn.cs"
                     SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"
@@ -4444,6 +4449,11 @@
                 />
                 <File
                     RelPath = "UI\Controls\SubtextSearch.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\Top10Module.cs"
                     SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"
                 />
