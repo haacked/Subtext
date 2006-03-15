@@ -189,6 +189,11 @@
                     AssemblyName = "Refly"
                     HintPath = "ExternalDependencies\Refly.dll"
                 />
+                <Reference
+                    Name = "ICSharpCode.SharpZipLib"
+                    AssemblyName = "ICSharpCode.SharpZipLib"
+                    HintPath = "ExternalDependencies\ICSharpCode.SharpZipLib.dll"
+                />
             </References>
         </Build>
         <Files>
@@ -222,6 +227,10 @@
                     RelPath = "UnitTestImportProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ExternalDependencies\ICSharpCode.SharpZipLib.dll"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "ExternalDependencies\MbUnit.Framework.1.1.dll"
@@ -325,6 +334,11 @@
                 />
                 <File
                     RelPath = "Framework\SecurityHandling\SecurityTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Framework\Syndication\RssHandlerTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Specialized;
 using System.IO;
 using System.Web.Hosting;
 
@@ -58,6 +59,32 @@ namespace UnitTests.Subtext
 		public override string GetServerName()
 		{
 			return _host;
+		}
+
+		public NameValueCollection Headers
+		{
+			get
+			{
+				return this.headers;
+			}
+		}
+
+		private NameValueCollection headers = new NameValueCollection();
+
+		public override string[][] GetUnknownRequestHeaders()
+		{
+			if(this.headers == null || this.headers.Count == 0)
+			{
+				return null;
+			}
+			string[][] headersArray = new string[this.headers.Count][];
+			for(int i = 0; i < this.headers.Count; i++)
+			{
+				headersArray[i] = new string[2];
+				headersArray[i][0] = this.headers.Keys[i];
+				headersArray[i][1] = this.headers[i];
+			}
+			return headersArray;
 		}
 
 		/// <summary>
