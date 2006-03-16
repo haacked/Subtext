@@ -90,6 +90,21 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title, '_'), "THe auto generated entry name is not what we expected.");
 		}
 
+		[RowTest]
+		[Row("_", "One_Two")]
+		[Row(" ", "OneTwo")]
+		[Row("X", "OneXTwo")]
+		[Row("$", "OneTwo")]
+		[RollBack]
+		public void FriendlyUrlHandlesBadSeparators(string wordSeparatorString, string expected)
+		{
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+
+			string title = "One Two";
+			char wordSeparator = wordSeparatorString[0];
+			Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title, wordSeparator), "THe auto generated entry name is not what we expected.");
+		}
+
 		/// <summary>
 		/// Make sure that generated friendly urls are unique.
 		/// </summary>
