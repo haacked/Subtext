@@ -306,19 +306,36 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
-		/// Returns a friendly title that's safe for url.
+		/// Converts a title of a blog post into a friendly, but URL safe string.
 		/// </summary>
-		/// <param name="title">The title.</param>
+		/// <param name="title">The original title of the blog post.</param>
 		/// <returns></returns>
 		public static string AutoGenerateFriendlyUrl(string title)
 		{
-			Regex regex = new Regex(@"[""'`;:~@#$%^&*(){\[}\]?+/=\\|<> ]+", RegexOptions.Compiled);
-			string entryName = regex.Replace(title, "");
-			if(entryName.Length == 0)
-				return null;
+			if(title == null)
+				throw new ArgumentNullException("title", "Cannot generate friendly url from null title.");
 
-			Regex regexTrailingPeriods = new Regex(@"\.*$", RegexOptions.Compiled);
-			entryName = regexTrailingPeriods.Replace(entryName, "");
+			//TODO: Robb's going to allow configuring the word Separator character.
+			char wordSeparator = char.MinValue;
+			return AutoGenerateFriendlyUrl(title, wordSeparator);
+		}
+
+		/// <summary>
+		/// Converts a title of a blog post into a friendly, but URL safe string.
+		/// </summary>
+		/// <param name="title">The original title of the blog post.</param>
+		/// <param name="wordSeparator">The string used to separate words in the title.</param>
+		/// <returns></returns>
+		public static string AutoGenerateFriendlyUrl(string title, char wordSeparator)
+		{
+			if(title == null)
+				throw new ArgumentNullException("title", "Cannot generate friendly url from null title.");
+
+			string entryName = StripSpaces(title, wordSeparator);
+			entryName = RemoveNonWordCharacters(entryName);
+			entryName = HttpUtility.UrlEncode(entryName);
+			entryName = RemoveTrailingPeriods(entryName);
+			entryName = entryName.Trim(new char[] {wordSeparator});
 
 			string newEntryName = entryName;
 			int tryCount = 0;
@@ -340,6 +357,41 @@ namespace Subtext.Framework
 			}
 
 			return newEntryName;
+		}
+
+		static string StripSpaces(string text, char wordSeparator)
+		{
+			if(wordSeparator == char.MinValue)
+			{
+				//Special case if we are just removing spaces.
+				return StringHelper.PascalCase(text);
+			}
+			else
+			{
+				return text.Replace(' ', wordSeparator);
+			}
+		}
+
+		static string RemoveNonWordCharacters(string text)
+		{
+			Regex regex = new Regex(@"[\w\d\.]+", RegexOptions.Compiled);
+			MatchCollection matches = regex.Matches(text);
+			string cleansedText = string.Empty;
+
+			foreach(Match match in matches)
+			{
+				if(match.Value.Length > 0)
+				{
+					cleansedText += match.Value;
+				}
+			}
+			return cleansedText;
+		}
+
+		static string RemoveTrailingPeriods(string text)
+		{
+			Regex regex = new Regex(@"\.+$", RegexOptions.Compiled);
+			return regex.Replace(text, string.Empty);
 		}
 
 		#endregion

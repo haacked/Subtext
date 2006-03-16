@@ -31,6 +31,20 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 	{
 		string _hostName = string.Empty;
 
+		[Test]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void FriendlyUrlThrowsArgumentException()
+		{
+			Entries.AutoGenerateFriendlyUrl(null);
+		}
+
+		[Test]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void FriendlyUrlWithSeparatorAndNullTitleThrowsArgumentException()
+		{
+			Entries.AutoGenerateFriendlyUrl(null, '_');
+		}
+
 		/// <summary>
 		/// Makes sure we are generating nice friendly URLs.
 		/// </summary>
@@ -38,12 +52,14 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[Row("Title", "Title")]
 		[Row("Title.", "Title")]
 		[Row("A Very Good Book", "AVeryGoodBook")]
+		[Row("a very good book", "AVeryGoodBook")]
 		[Row("A Very :Good Book", "AVeryGoodBook")]
 		[Row("A Very ;Good Book", "AVeryGoodBook")]
 		[Row("A Very Good Book.", "AVeryGoodBook")]
 		[Row("A Very Good Book..", "AVeryGoodBook")]
+		[Row("Å Vêry G®®d B®®k..", "%c3%85V%c3%aaryGdBk")]
 		[Row("Trouble With VS.NET", "TroubleWithVS.NET")]
-		[Row(@"[""'`;:~@#$%^&*(){\[}\]?+/=\\|<> X", "X")]
+		[Row(@"[!""'`;:~@#$%^&*(){\[}\]?+/=\\|<> X", "X")]
 		[RollBack]
 		public void FriendlyUrlGeneratesNiceUrl(string title, string expected)
 		{
@@ -51,14 +67,27 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title), "THe auto generated entry name is not what we expected.");
 		}
 
-		[Test]
+		/// <summary>
+		/// Makes sure we are generating nice friendly URLs Using Underscores.
+		/// </summary>
+		[RowTest]
+		[Row("Title", "Title")]
+		[Row("Title.", "Title")]
+		[Row("A Very Good Book Yo", "A_Very_Good_Book_Yo")]
+		[Row("a very good book yo", "a_very_good_book_yo")]
+		[Row("A Very ::Good Book", "A_Very_Good_Book")]
+		[Row("A Very ;;Good Book", "A_Very_Good_Book")]
+		[Row("A Very Good Book yo.", "A_Very_Good_Book_yo")]
+		[Row("A Very Good Book yo..", "A_Very_Good_Book_yo")]
+		[Row("Å Vêry Good Book yo..", "%c3%85_V%c3%aary_Good_Book_yo")]
+		[Row("Trouble With VS.NET Yo", "Trouble_With_VS.NET_Yo")]
+		[Row(@"[!""'`;:~@#$%^&*(){\[}\]?+/=\\|<> Y", "Y")]
+		[Row(@"[!""'`;:~@#$%^&*(){\[}\]?+/=\\|<>YY", "YY")]
 		[RollBack]
-		public void FriendlyUrlReturnsNull()
+		public void FriendlyUrlGeneratesNiceUrlWithUnderscores(string title, string expected)
 		{
-			string title = @"[""'`~@#$%^&*(){\[}\]?+/=\\|<>";
-			string expected = null;
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
-			Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title), "THe auto generated entry name is not what we expected.");
+			Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title, '_'), "THe auto generated entry name is not what we expected.");
 		}
 
 		/// <summary>
