@@ -363,6 +363,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Framework\Text\StringHelperTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Framework\Util\KeywordsTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

@@ -109,6 +109,32 @@ namespace Subtext.Framework.Text
 		}
 
 		/// <summary>
+		/// Converts text to pascal case...
+		/// </summary>
+		/// <param name="text"></param>
+		/// <returns></returns>
+		public static string PascalCase(string text)
+		{
+			if(text == null)
+				throw new ArgumentNullException("text", "Cannot PascalCase null text.");
+			
+			if(text.Length == 0)
+				return text;
+
+			string[] words = text.Split(' ');
+			for(int i = 0; i < words.Length; i++)
+			{
+				if(words[i].Length > 0)
+				{
+					string word = words[i];
+					char firstChar = char.ToUpper(word[0]);
+					words[i] = firstChar + word.Substring(1);
+				}
+			}
+			return string.Join(string.Empty, words);
+		}
+
+		/// <summary>
 		/// Returns a string containing a specified number of characters from the left side of a string.
 		/// </summary>
 		/// <param name="str">Required. String expression from which the leftmost characters are returned.</param>
