@@ -61,7 +61,7 @@ namespace Subtext.Framework.Text
 				SgmlReader reader = new SgmlReader();
 				reader.SetBaseUri(Config.CurrentBlog.RootUrl);
 				reader.DocType = "html";
-				reader.WhitespaceHandling = WhitespaceHandling.None;
+				reader.WhitespaceHandling = WhitespaceHandling.All;
 				reader.InputStream = new StringReader("<html>" + entry.Body + "</html>");
 				reader.CaseFolding = CaseFolding.ToLower;
 				StringWriter writer = new StringWriter();
