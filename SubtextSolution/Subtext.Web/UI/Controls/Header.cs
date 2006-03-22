@@ -32,9 +32,14 @@ namespace Subtext.Web.UI.Controls
 		{
 			base.OnLoad (e);
 		
-			HeaderTitle.NavigateUrl = CurrentBlog.BlogHomeUrl;
-			HeaderTitle.Text = CurrentBlog.Title;
-			HeaderSubTitle.Text = CurrentBlog.SubTitle;
+			if (null != this.FindControl("HeaderTitle"))
+			{
+				HeaderTitle.NavigateUrl = CurrentBlog.BlogHomeUrl;
+				HeaderTitle.Text = CurrentBlog.Title;
+			}
+			
+			if (null != this.FindControl("HeaderSubTitle"))
+				HeaderSubTitle.Text = CurrentBlog.SubTitle;
 		}
 	}
 }
