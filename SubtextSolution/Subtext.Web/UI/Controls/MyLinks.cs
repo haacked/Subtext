@@ -53,18 +53,22 @@ namespace Subtext.Web.UI.Controls
 					Archives.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}archives.aspx", CurrentBlog.RootUrl);
 				}
 
-				if(Request.IsAuthenticated && Security.IsAdmin)
+				if (Admin != null)
 				{
-					Admin.Text = "Admin";
-					Admin.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}admin/default.aspx", CurrentBlog.RootUrl);
-				}
-				else
-				{
-					Admin.Text = "Login";
-					Admin.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}login.aspx", CurrentBlog.RootUrl);
+					if(Request.IsAuthenticated && Security.IsAdmin)
+					{
+						Admin.Text = "Admin";
+						Admin.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}admin/default.aspx", CurrentBlog.RootUrl);
+					}
+					else
+					{
+						Admin.Text = "Login";
+						Admin.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}login.aspx", CurrentBlog.RootUrl);
+					}
 				}
 
-				Syndication.NavigateUrl = XMLLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Rss.aspx", CurrentBlog.RootUrl);
+				if (Syndication != null)
+				  Syndication.NavigateUrl = XMLLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Rss.aspx", CurrentBlog.RootUrl);
 
 				if (AtomLink != null)
 					AtomLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Atom.aspx", CurrentBlog.RootUrl);
