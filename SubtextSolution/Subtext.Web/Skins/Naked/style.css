@@ -112,6 +112,10 @@ body
 {
 	/* listed items in unordered lists in links */
 }
+#recentComments
+{
+	/* container for recent comments control */
+}
 .comments
 {
 	/* container for all comments */

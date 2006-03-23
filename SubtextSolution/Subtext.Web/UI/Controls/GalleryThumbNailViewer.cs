@@ -57,7 +57,7 @@ namespace Subtext.Web.UI.Controls
 					GalleryTitle.Text = ic.Category.Title;
 					if(ic.Category.HasDescription)
 					{
-						Description.Text = string.Format(System.Globalization.CultureInfo.InvariantCulture, "<p>{0}</p>",ic.Category.Description);
+						Description.Text = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}",ic.Category.Description);
 					}
 					ThumbNails.DataSource = ic;
 					ThumbNails.DataBind();

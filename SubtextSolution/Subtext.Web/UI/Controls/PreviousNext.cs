@@ -1,28 +1,27 @@
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using Subtext.Common.Data;
+using Subtext.Framework;
+using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
+using Subtext.Framework.Providers;
+
 namespace Subtext.Web.UI.Controls
 {
-	using System;
-	using System.Data;
-	using System.Data.SqlClient;
-	using System.Drawing;
-	using System.Web;
-	using System.Web.UI.WebControls;
-	using System.Web.UI.HtmlControls;
-	using Subtext.Common.Data;
-	using Subtext.Framework;
-	using Subtext.Framework.Data;
-	using Subtext.Framework.Util;
-	using Subtext.Framework.Components;
-	using Subtext.Framework.Configuration;
 	/// <summary>
 	/// Summary description for PreviousNext.
 	/// </summary>
-	public class PreviousNext : Subtext.Web.UI.Controls.BaseControl
+	public class PreviousNext : BaseControl
 	{
-		protected System.Web.UI.WebControls.HyperLink NextLink;
-		protected System.Web.UI.WebControls.HyperLink PrevLink;
-		protected System.Web.UI.WebControls.HyperLink MainLink;
-		protected System.Web.UI.WebControls.Label LeftPipe;
-		protected System.Web.UI.WebControls.Label RightPipe;
+		protected HyperLink NextLink;
+		protected HyperLink PrevLink;
+		protected HyperLink MainLink;
+		protected Label LeftPipe;
+		protected Label RightPipe;
 		
 		public PreviousNext()
 		{
@@ -37,15 +36,15 @@ namespace Subtext.Web.UI.Controls
 			base.OnLoad (e);
 			
 			//Get the entry
-			Entry entry = Cacher.GetEntryFromRequest(Subtext.Framework.CacheDuration.Short);			
+			Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short);			
 			
 			//if found
 			if(entry != null)
 			{
 				//Sent entry properties
-				MainLink.NavigateUrl = CurrentBlog.RootUrl;
+				MainLink.NavigateUrl = CurrentBlog.BlogHomeUrl;
 
-				string ConnectionString = Subtext.Framework.Providers.DbProvider.Instance().ConnectionString;
+				string ConnectionString = DbProvider.Instance().ConnectionString;
 				SqlParameter[] p =
 					{
 						SqlHelper.MakeInParam("@ID",SqlDbType.Int,4,entry.EntryID),
@@ -53,13 +52,13 @@ namespace Subtext.Web.UI.Controls
 					};
 
 				//System.Data.SqlClient.SqlDataReader sdr = SqlHelper.ExecuteReader(ConnectionString,CommandType.StoredProcedure,"blog_GetEntry_PreviousNext",p);
-				System.Data.DataSet ds;
+				DataSet ds;
 				using (SqlConnection cn = new SqlConnection(ConnectionString))
 				{
 					cn.Open();
 
 					//call the overload that takes a connection in place of the connection string
-					ds = Subtext.Framework.Data.SqlHelper.ExecuteDataset(cn, CommandType.StoredProcedure,"Subtext_GetEntry_PreviousNext",p);
+					ds = SqlHelper.ExecuteDataset(cn, CommandType.StoredProcedure,"Subtext_GetEntry_PreviousNext",p);
 					cn.Close();
 				}
 				switch(ds.Tables[0].Rows.Count)
@@ -113,12 +112,12 @@ namespace Subtext.Web.UI.Controls
 			{
 				//No post? Deleted? Help :)
 				this.Controls.Clear();
-				this.Controls.Add(new System.Web.UI.LiteralControl("<p><strong>The entry could not be found or has been removed</strong></p>"));
+				this.Controls.Add(new LiteralControl("<p><strong>The entry could not be found or has been removed</strong></p>"));
 			}
 		}
 
 
-		private void SetNav(System.Web.UI.WebControls.HyperLink navLink, System.Data.DataRow dr)
+		private void SetNav(HyperLink navLink, DataRow dr)
 		{
 			string linkName;
 			navLink.Text = (string)dr["EntryTitle"];
