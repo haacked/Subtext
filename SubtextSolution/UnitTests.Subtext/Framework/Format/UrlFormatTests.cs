@@ -66,7 +66,7 @@ namespace UnitTests.Subtext.Framework.Format
 			Entry entry = new Entry(PostType.BlogPost);
 			entry.DateCreated = DateTime.Parse("January 23, 1975");
 			entry.EntryID = 123;
-			Assert.AreEqual("http://localhost/archive/1975/01/23/123.aspx", formats.EntryUrl(entry));
+			Assert.AreEqual("/archive/1975/01/23/123.aspx", formats.EntryUrl(entry));
 		}
 
 		/// <summary>
@@ -85,7 +85,7 @@ namespace UnitTests.Subtext.Framework.Format
 			Entry entry = new Entry(PostType.BlogPost);
 			entry.DateCreated = DateTime.Parse("January 23, 1975");
 			entry.EntryID = 123;
-			Assert.AreEqual("http://localhost/MyBlog/archive/1975/01/23/123.aspx", formats.EntryUrl(entry));
+			Assert.AreEqual("/MyBlog/archive/1975/01/23/123.aspx", formats.EntryUrl(entry));
 		}
 
 		/// <summary>
@@ -104,7 +104,7 @@ namespace UnitTests.Subtext.Framework.Format
 			Entry entry = new Entry(PostType.BlogPost);
 			entry.DateCreated = DateTime.Parse("January 23, 1975");
 			entry.EntryID = 123;
-			Assert.AreEqual("http://localhost/Subtext.Web/MyBlog/archive/1975/01/23/123.aspx", formats.EntryUrl(entry));
+			Assert.AreEqual("/Subtext.Web/MyBlog/archive/1975/01/23/123.aspx", formats.EntryUrl(entry));
 		}
 		/// <summary>
 		/// Makes sure that url formatting is culture invariant.
@@ -119,13 +119,13 @@ namespace UnitTests.Subtext.Framework.Format
 
 			UrlFormats formats = new UrlFormats("http://localhost/");
 			string url = formats.EntryUrl(entry);
-			Assert.AreEqual("http://localhost/archive/2006/01/23/test.aspx", url, "Expected a normally formatted url.");
+			Assert.AreEqual("/Subtext.Web/MyBlog/archive/2006/01/23/test.aspx", url, "Expected a normally formatted url.");
 
 			Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("tr");
 			url = formats.EntryUrl(entry);
-			Assert.AreEqual("http://localhost/archive/2006/01/23/test.aspx", url, "Expected a normally formatted url.");
-			Assert.AreEqual("http://localhost/archive/2006/01/23/test.aspx#123", formats.CommentUrl(entry), "Expected a normally formatted url.");
-			Assert.AreEqual("http://localhost/archive/2006/01.aspx", formats.MonthUrl(entry.DateCreated), "Expected a normally formatted url.");
+			Assert.AreEqual("/Subtext.Web/MyBlog/archive/2006/01/23/test.aspx", url, "Expected a normally formatted url.");
+			Assert.AreEqual("/Subtext.Web/MyBlog/archive/2006/01/23/test.aspx#123", formats.CommentUrl(entry), "Expected a normally formatted url.");
+			Assert.AreEqual("/Subtext.Web/MyBlog/archive/2006/01.aspx", formats.MonthUrl(entry.DateCreated), "Expected a normally formatted url.");
 		}
 
 		/// <summary>
