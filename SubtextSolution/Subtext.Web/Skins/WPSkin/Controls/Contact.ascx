@@ -1,5 +1,5 @@
 <%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Contact" %>
-
+<div class="contact">
 <P>Please&nbsp;use the form below if you have any comments, questions, or 
 	suggestions.</P>
 <table cellSpacing="1" cellPadding="1" border="0">
@@ -34,3 +34,4 @@
 			<asp:ValidationSummary id="ValidationSummary1" runat="server" HeaderText="There is an error:"></asp:ValidationSummary></td>
 	</tr>
 </table>
+</div>
