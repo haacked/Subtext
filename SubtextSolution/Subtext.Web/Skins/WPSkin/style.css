@@ -14,7 +14,8 @@ Author URI: http://www.analystdeveloper.com/
 */
 
 /*the top of the page*/
-#top {
+
+.top {
 	background: url(images/kubrickheader.jpg) no-repeat center;
 	height : 200px;
 	margin-bottom : 0px;
@@ -45,8 +46,7 @@ body {
 }
 
 /*where the posts and rightmenu stays*/
-#main{
-	text-align : justified;
+.container .main{
 	background : url(images/kubrickbg.jpg) center;
 	background-repeat : repeat-y;
 	margin-top : 0px;
@@ -54,10 +54,10 @@ body {
 
 /*post text and the date on top of title*/
 .post, .date{
-	margin-left : 270px;
+	margin-left : 140px;
+	margin-right : 360px;
 	margin-top : 0px;
 	text-align : justified;
-	width: 500px;
 }
 
 /*date on top title*/
@@ -69,6 +69,11 @@ body {
 	margin-top : 0px;
 }
 
+.contact{
+	margin-left: 130px;
+	margin-top: 0px;
+}
+
 /*trackback pingback and posted time are here*/
 .postfoot{
 	text-align : center;
@@ -76,11 +81,12 @@ body {
 }
 
 /*the menu on the right*/
-#rightmenu {
-	width : 180px;
-	margin-right : 290px;
+.container .rightmenu {
+	/*position : absolute;*/
+	float: right;
+	margin-right:130px;
 	margin-top : 10px;
-	float:right;
+	display:inline;
 }
 
 /*This is not the page footer, it is the subtext footer control*/
@@ -91,7 +97,7 @@ body {
 }
 
 /*I have added this for the end of page picture*/
-#eofp{
+.eofp{
 	background : url(images/kubrickfooter.jpg) no-repeat center;
 	height : 60px;
 	margin-top : 0;
@@ -108,7 +114,7 @@ body {
 }
 
 /*right menu list items*/
-#rightmenu ul li{
+.rightmenu ul li{
 	color: #777;
 	list-style: none;
 	padding-left : 10px;
@@ -116,12 +122,12 @@ body {
 }
 
 /*rightmenu lists*/
-#rightmenu ul{
+.rightmenu ul{
 	margin-left : 0px;
 }
 
 /*the bullet of the lists on rightmenu*/
-#rightmenu ul li:before {
+.rightmenu ul li:before {
 	content : "\00BB \0020";
 }
 
@@ -154,7 +160,7 @@ h2 {
 }
 
 /*header 3s on rightmenu*/
-#rightmenu h3 {
+.rightmenu h3 {
 	font-family: 'Lucida Grande', Verdana, Sans-Serif;
 	font-size: 1.2em;
 }
