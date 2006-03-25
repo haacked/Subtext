@@ -1,4 +1,4 @@
-<%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.Skins.Naked.Controls.RecentComments" CodeBehind="RecentComments.ascx.cs" %>
+<%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.RecentComments" %>
 <div class="title">Recent Comments.</div>
 <div id="recentComments">
 	<asp:Repeater id="feedList" Runat="server" OnItemCreated="EntryCreated">
