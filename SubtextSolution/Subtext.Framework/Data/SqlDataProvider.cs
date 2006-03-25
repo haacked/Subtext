@@ -741,7 +741,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@ID", SqlDbType.Int, 4, entry.EntryID), 
 				SqlHelper.MakeInParam("@Title",  SqlDbType.NVarChar, 255, entry.Title), 
 				SqlHelper.MakeInParam("@TitleUrl",  SqlDbType.NVarChar, 255, SqlHelper.CheckNull(entry.TitleUrl)),
-				SqlHelper.MakeInParam("@Text", SqlDbType.Text, 0, entry.Body), 
+				SqlHelper.MakeInParam("@Text", SqlDbType.NText, 0, entry.Body), 
 				SqlHelper.MakeInParam("@SourceUrl", SqlDbType.NVarChar, 200, SqlHelper.CheckNull(entry.SourceUrl)), 
 				SqlHelper.MakeInParam("@PostType", SqlDbType.Int, 4, entry.PostType), 
 				SqlHelper.MakeInParam("@Author", SqlDbType.NVarChar, 50, SqlHelper.CheckNull(entry.Author)), 
@@ -769,7 +769,7 @@ namespace Subtext.Framework.Data
 				{
 					SqlHelper.MakeInParam("@Title",  SqlDbType.NVarChar, 255, entry.Title), 
 					SqlHelper.MakeInParam("@TitleUrl",  SqlDbType.NVarChar, 255, SqlHelper.CheckNull(entry.TitleUrl)), 
-					SqlHelper.MakeInParam("@Text", SqlDbType.Text, 0, entry.Body), 
+					SqlHelper.MakeInParam("@Text", SqlDbType.NText, 0, entry.Body), 
 					SqlHelper.MakeInParam("@SourceUrl", SqlDbType.NVarChar, 200, SqlHelper.CheckNull(entry.SourceUrl)), 
 					SqlHelper.MakeInParam("@PostType", SqlDbType.Int, 4, entry.PostType), 
 					SqlHelper.MakeInParam("@Author", SqlDbType.NVarChar, 50, SqlHelper.CheckNull(entry.Author)), 
@@ -1150,7 +1150,7 @@ namespace Subtext.Framework.Data
 					,SqlHelper.MakeInParam("@Host", SqlDbType.NVarChar, 100, info.Host) 
 					,SqlHelper.MakeInParam("@TimeZone", SqlDbType.Int, 4, info.TimeZone) 
 					,SqlHelper.MakeInParam("@Language", SqlDbType.NVarChar, 10, info.Language) 
-					,SqlHelper.MakeInParam("@News", SqlDbType.Text, 0, SqlHelper.CheckNull(info.News)) 
+					,SqlHelper.MakeInParam("@News", SqlDbType.NText, 0, SqlHelper.CheckNull(info.News)) 
 					,SqlHelper.MakeInParam("@ItemCount", SqlDbType.Int,  4, info.ItemCount) 
 					,SqlHelper.MakeInParam("@Flag", SqlDbType.Int,  4, (int)info.Flag) 
 					,SqlHelper.MakeInParam("@LastUpdated", SqlDbType.DateTime,  8, info.LastUpdated) 
