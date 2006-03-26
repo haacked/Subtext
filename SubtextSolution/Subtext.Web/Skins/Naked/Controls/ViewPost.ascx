@@ -3,7 +3,7 @@
 <uc1:previousNext id="previousNext1" runat="server" />
 <div class="post">
 	<div class="title">
-		<asp:hyperlink runat="server" id="TitleUrl" />
+		<asp:HyperLink  Runat="server" ID="editLink" /><asp:hyperlink runat="server" id="TitleUrl" />
 	</div>
 	<div class="body">
 		<asp:literal id="Body" runat="server" />

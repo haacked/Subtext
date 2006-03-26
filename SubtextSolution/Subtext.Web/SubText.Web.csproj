@@ -184,6 +184,11 @@
                     AssemblyName = "BlogML"
                     HintPath = "..\Subtext.Framework\ExternalDependencies\BlogML.dll"
                 />
+                <Reference
+                    Name = "AngryPets.Web.Frameworks.ReverseDOS"
+                    AssemblyName = "AngryPets.Web.Frameworks.ReverseDOS"
+                    HintPath = "ExternalDependencies\AngryPets.Web.Frameworks.ReverseDOS.dll"
+                />
             </References>
         </Build>
         <Files>
@@ -311,6 +316,10 @@
                     RelPath = "OPML.aspx.resx"
                     DependentUpon = "OPML.aspx.cs"
                     BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "ReverseDOS.config"
+                    BuildAction = "None"
                 />
                 <File
                     RelPath = "SolutionInfo.cs"
@@ -1030,6 +1039,10 @@
                     RelPath = "Admin\WebUI\Controls\ScriptTag.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ExternalDependencies\AngryPets.Web.Frameworks.ReverseDOS.dll"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "ExternalDependencies\FreeTextBox.dll"

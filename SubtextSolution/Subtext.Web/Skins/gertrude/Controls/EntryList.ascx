@@ -5,7 +5,7 @@
 <asp:Repeater runat="Server" Runat="server" ID="Entries" OnItemCreated="PostCreated">
 	<ItemTemplate>
 			<div class="post">
-				<h5><asp:HyperLink  Runat="server" ID="editLink" /><asp:HyperLink Runat="server" ID="TitleUrl" /></h5>
+				<h5><asp:HyperLink Runat="server" ID="editLink" /><asp:HyperLink Runat="server" ID="TitleUrl" /></h5>
 				
 				<asp:Literal  runat="server" ID="PostText" />
 				
