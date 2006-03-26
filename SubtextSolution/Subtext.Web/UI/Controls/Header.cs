@@ -1,4 +1,5 @@
 using System;
+using Subtext.Web.Controls;
 
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -36,10 +37,13 @@ namespace Subtext.Web.UI.Controls
 			{
 				HeaderTitle.NavigateUrl = CurrentBlog.BlogHomeUrl;
 				HeaderTitle.Text = CurrentBlog.Title;
+				ControlHelper.SetTitleIfNone(HeaderTitle, "The Title Of This Blog.");
 			}
 			
 			if (null != this.FindControl("HeaderSubTitle"))
+			{
 				HeaderSubTitle.Text = CurrentBlog.SubTitle;
+			}
 		}
 	}
 }

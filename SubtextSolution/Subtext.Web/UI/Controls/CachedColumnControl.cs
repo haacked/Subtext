@@ -27,9 +27,6 @@ namespace Subtext.Web.UI.Controls
 	{
 		public CachedColumnControl()
 		{
-			//
-			// TODO: Add constructor logic here
-			//
 		}
 
 		protected override void Render(HtmlTextWriter writer)

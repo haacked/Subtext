@@ -1,5 +1,5 @@
 <%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Comments" %>
-<a name = "feedback" />
+<a name="feedback" title="feedback anchor"></a>
 <div class = "moreinfo">
 	<div class = "moreinfotitle">
 		Comments

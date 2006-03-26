@@ -28,7 +28,7 @@
 						<div id="SiteNav">
 							Logged in as <strong>
 								<asp:Literal Runat="server" ID="LoggedInUser" /></strong> (<asp:LinkButton id="LogoutLink" runat="server">logout</asp:LinkButton>) 
-							| <a href="http://sourceforge.net/projects/subtext/">Subtext Project Site</a>
+							| <a href="http://sourceforge.net/projects/subtext/" title="Subtext Project Site">Subtext Project Site</a>
 						</div>
 						<div id="BlogTitle">
 							<asp:HyperLink id="BlogTitleLink" runat="server" />
@@ -42,21 +42,21 @@
 					<td class="NavHeaderRow">
 						<div id="headerSS">
 							<ul id="TopNav">
-								<li id="PostsTab"><a href="EditPosts.aspx" id="TabPosts">Posts</a></li>
-								<li id="ArticlesTab"><a href="EditArticles.aspx" id="TabArticles">Articles</a></li>
-								<li id="FeedbackTab"><a href="Feedback.aspx" id="TabFeedback">Feedback</a></li>
-								<li id="LinksTab"><a href="EditLinks.aspx" id="TabLinks">Links</a></li>
+								<li id="PostsTab"><a href="EditPosts.aspx" id="TabPosts" title="Posts">Posts</a></li>
+								<li id="ArticlesTab"><a href="EditArticles.aspx" id="TabArticles" title="Articles">Articles</a></li>
+								<li id="FeedbackTab"><a href="Feedback.aspx" id="TabFeedback" title="Feedback">Feedback</a></li>
+								<li id="LinksTab"><a href="EditLinks.aspx" id="TabLinks" title="Links">Links</a></li>
 								<li runat="server" id="GalleryTab">
-									<a href="EditGalleries.aspx" id="TabGalleries">Galleries</a>
+									<a href="EditGalleries.aspx" id="TabGalleries" title="Galleries">Galleries</a>
 								</li>
 								<li id="StatsTab">
-									<a href="Statistics.aspx" id="TabStats">Stats</a>
+									<a href="Statistics.aspx" id="TabStats" title="Stats">Stats</a>
 								</li>
 								<li id="OptionsTab">
-									<a href="Options.aspx" id="TabOptions">Options</a></li>
+									<a href="Options.aspx" id="TabOptions" title="Options">Options</a></li>
 								</li>
 								<li id="ImportExportTab">
-									<a href="ImportExport.aspx" id="TabImportExport">Import/Export</a></li>
+									<a href="ImportExport.aspx" id="TabImportExport" title="Import/Export">Import/Export</a></li>
 							</ul>
 						</div>
 						<div id="SubNav">

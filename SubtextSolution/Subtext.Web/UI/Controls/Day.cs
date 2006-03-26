@@ -15,6 +15,7 @@
 
 using System;
 using Subtext.Framework.Components;
+using Subtext.Web.Controls;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -54,6 +55,7 @@ namespace Subtext.Web.UI.Controls
 			if(bpd != null)
 			{
 				ImageLink.NavigateUrl = Subtext.Framework.Configuration.Config.CurrentBlog.UrlFormats.DayUrl(bpd.BlogDay);
+				ControlHelper.SetTitleIfNone(ImageLink, "Click to see entries for this day.");
 				DateTitle.Text = bpd.BlogDay.ToLongDateString();
 				DayList.DataSource = bpd;
 				DayList.DataBind();

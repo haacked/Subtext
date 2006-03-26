@@ -3,7 +3,6 @@ using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
-using Subtext.Framework.Util;
 
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,10 +36,7 @@ namespace Subtext.Web.UI.Controls
 			base.OnLoad (e);
 
 			int catID = UrlFormats.GetPostIDFromUrl(Request.Path);
-
-			string s = WebPathStripper.GetRequestedFileName(Request.Path);
-
-			Days.Days = Entries.GetPostsByCategoryID(Config.CurrentBlog.ItemCount,catID);
+			Days.Days = Entries.GetPostsByCategoryID(Config.CurrentBlog.ItemCount, catID);
 
 		}
 	}

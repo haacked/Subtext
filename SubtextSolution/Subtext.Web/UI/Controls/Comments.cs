@@ -6,6 +6,7 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Text;
+using Subtext.Web.Controls;
 
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,15 +57,13 @@ namespace Subtext.Web.UI.Controls
 			{
 				this.Visible = false;
 			}
-			
 		}
-
 
 		protected void RemoveComment_ItemCommand(Object Sender, RepeaterCommandEventArgs e) 
 		{
-				int feedbackItem = Int32.Parse(e.CommandName);
+			int feedbackItem = Int32.Parse(e.CommandName);
 			Entries.Delete(feedbackItem);
-				Response.Redirect(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?Pending=true",Request.Path));
+			Response.Redirect(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?Pending=true", Request.Path));
 		}
 
 		protected void CommentsCreated(object sender,  RepeaterItemEventArgs e)
@@ -99,7 +98,7 @@ namespace Subtext.Web.UI.Controls
 							namelink.Text =  entry.Author != null ? entry.Author : "Pingback/TrackBack";
 							namelink.Attributes.Add("title", "PingBack/TrackBack");
 						}
-						 
+						ControlHelper.SetTitleIfNone(namelink, entry.SourceUrl);
 					}
 
 					Literal PostDate = (Literal)(e.Item.FindControl("PostDate"));
@@ -131,6 +130,8 @@ namespace Subtext.Web.UI.Controls
 							editlink.Attributes.Add("onclick","return confirm(\"Are you sure you want to delete comment " + entry.EntryID.ToString(CultureInfo.InvariantCulture) + "?\");");
 							editlink.Visible = true;
 							editlink.CommandArgument = entry.EntryID.ToString(CultureInfo.InvariantCulture);
+
+							ControlHelper.SetTitleIfNone(editlink, "Click to remove this entry.");
 						}
 						else
 						{
@@ -156,26 +157,26 @@ namespace Subtext.Web.UI.Controls
 
 		void BindComments(Entry entry)
 		{
-				try
+			try
+			{
+				if(Request.QueryString["Pending"] != null)
 				{
-					if(Request.QueryString["Pending"] != null)
-					{
-						Cacher.ClearCommentCache(entry.EntryID);
-					}
-					CommentList.DataSource = Cacher.GetComments(entry,CacheDuration.Short);
-					CommentList.DataBind();
-
-					if(CommentList.Items.Count == 0)
-					{
-						CommentList.Visible = false;
-						this.NoCommentMessage.Text = "No comments posted yet.";
-					}
-
+					Cacher.ClearCommentCache(entry.EntryID);
 				}
-				catch
+				CommentList.DataSource = Cacher.GetComments(entry,CacheDuration.Short);
+				CommentList.DataBind();
+
+				if(CommentList.Items.Count == 0)
 				{
-					this.Visible = false;
+					CommentList.Visible = false;
+					this.NoCommentMessage.Text = "No comments posted yet.";
 				}
+
+			}
+			catch
+			{
+				this.Visible = false;
+			}
 		}
 	}
 }

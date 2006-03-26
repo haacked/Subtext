@@ -138,6 +138,32 @@ namespace Subtext.Web.Controls
 			HttpContext.Current.Response.Write(writer.ToString());
 			HttpContext.Current.Response.End();
 		}
+
+		public static void SetTitleIfNone(LinkButton link, string title)
+		{
+			SetTitleIfNoneInternal(link, title);
+		}
+
+		public static void SetTitleIfNone(HyperLink link, string title)
+		{
+			SetTitleIfNoneInternal(link, title);
+		}
+
+		/// <summary>
+		/// Sets the title attribute for the hyperlink if none exists.
+		/// </summary>
+		/// <param name="link">The link.</param>
+		/// <param name="title">The title.</param>
+		private static void SetTitleIfNoneInternal(WebControl link, string title)
+		{
+			if(link == null)
+				throw new ArgumentNullException("link", "Cannot set the title for a null Hyperlink.");
+
+			if(link.Attributes["title"] == null || link.Attributes["title"].Length == 0)
+			{
+				link.Attributes["title"] = title;
+			}
+		}
 	}
 
 	public delegate void ControlAction(Control control);
