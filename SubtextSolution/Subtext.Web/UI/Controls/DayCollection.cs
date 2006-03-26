@@ -23,11 +23,11 @@ namespace Subtext.Web.UI.Controls
 	/// </summary>
 	public class DayCollection : BaseControl
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DayCollection"/> class.
+		/// </summary>
 		public DayCollection()
 		{
-			//
-			// TODO: Add constructor logic here
-			//
 		}
 
 		protected System.Web.UI.WebControls.Repeater DaysList;
@@ -45,7 +45,6 @@ namespace Subtext.Web.UI.Controls
 
 			if(bpdc != null)
 			{
-			
 				DaysList.DataSource = bpdc;
 				DaysList.DataBind();
 			}

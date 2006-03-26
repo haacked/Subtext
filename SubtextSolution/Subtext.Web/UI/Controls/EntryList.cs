@@ -18,6 +18,7 @@ using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Format;
+using Subtext.Web.Controls;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -42,115 +43,146 @@ namespace Subtext.Web.UI.Controls
 				Entry entry = (Entry)e.Item.DataItem;
 				if(entry != null)
 				{
-					HyperLink title = e.Item.FindControl("TitleUrl") as HyperLink;
-					if(title != null)
-					{
-						title.Text = entry.Title;
-						title.NavigateUrl = entry.Link;
-					}
+					// Each of these methods make sure to check that the 
+					// control to bind actually exists on the skin.
+					BindTitle(e, entry);
+					BindEditLink(entry, e);
+					BindPostText(e, entry);
+					BindPostDescription(e, entry);
+					BindPermalink(e, entry);
+					BindPostDate(e, entry);
+					BindCommentCount(e, entry);
+					BindAuthor(e, entry);
+				}
+			}
+		}
 
-					DisplayEditLink(entry, e);
+		private static void BindAuthor(RepeaterItemEventArgs e, Entry entry)
+		{
+			Label author = e.Item.FindControl("author") as Label;
+			if(author != null)
+			{
+				if(entry.Author != null && entry.Author.Length > 0)
+				{
+					author.Text = entry.Author;
+				}
+			}
+		}
 
-					Literal PostText = (Literal)e.Item.FindControl("PostText");
-
-					if(DescriptionOnly)
+		private static void BindCommentCount(RepeaterItemEventArgs e, Entry entry)
+		{
+			Label commentCount = e.Item.FindControl("commentCount") as Label;
+			if(commentCount != null)
+			{
+				if(entry.AllowComments)
+				{
+					if(entry.FeedBackCount == 0)
 					{
-						if(entry.HasDescription)
-						{
-						
-							PostText.Text = string.Format(System.Globalization.CultureInfo.InvariantCulture, "<p>{0}</p>",entry.Description);
-						}
+						commentCount.Text = string.Format(linkToComments, entry.Link, "Add Comment", "");
 					}
-					else
+					else if(entry.FeedBackCount == 1)
 					{
-						if(entry.HasDescription)
-						{
-							PostText.Text = entry.Description;
-						}
-						else
-						{
-							PostText.Text = entry.Body;
-						}
+						commentCount.Text = string.Format(linkToComments, entry.Link, "One Comment", "");
 					}
-					
-					Literal PostDesc = (Literal)e.Item.FindControl("PostDesc");
-					if(PostDesc != null)
+					else if(entry.FeedBackCount > 1)
 					{
-						
-						if(entry.AllowComments)
-						{
-							PostDesc.Text = string.Format(postdescWithComments,entry.Link,entry.DateCreated.ToString("f"),entry.Link,entry.FeedBackCount);
-						}
-						else
-						{
-							PostDesc.Text = string.Format(postdescWithNoComments, entry.Link, entry.DateCreated.ToString("f"));
-						}
-					}
-
-					Label permalink = e.Item.FindControl("permalink") as Label;
-					if(permalink != null)
-					{
-						if(permalink.Attributes["Format"] != null)
-						{
-							permalink.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Link, entry.DateCreated.ToString(permalink.Attributes["Format"]));
-							permalink.Attributes.Remove("Format");
-						}
-						else
-						{
-							permalink.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Link, entry.DateCreated.ToString("f"));
-						}
-					}
-
-					Label postDate = e.Item.FindControl("postDate") as Label;
-					if(postDate != null)
-					{
-						if(postDate.Attributes["Format"] != null)
-						{
-							postDate.Text = entry.DateCreated.ToString(postDate.Attributes["Format"]);
-							postDate.Attributes.Remove("Format");
-						}
-						else
-						{
-							postDate.Text = entry.DateCreated.ToString("f");
-						}
-					}
-
-					Label commentCount = e.Item.FindControl("commentCount") as Label;
-					if(commentCount != null)
-					{
-						if(entry.AllowComments)
-						{
-							if(entry.FeedBackCount == 0)
-							{
-								commentCount.Text = string.Format(linkToComments, entry.Link, "Add Comment", "");
-							}
-							else if(entry.FeedBackCount == 1)
-							{
-								commentCount.Text = string.Format(linkToComments, entry.Link, "One Comment", "");
-							}
-							else if(entry.FeedBackCount > 1)
-							{
-								commentCount.Text = string.Format(linkToComments, entry.Link, entry.FeedBackCount, " Comments");
-							}
-						}
-					}
-
-					Label author = e.Item.FindControl("author") as Label;
-					if(author != null)
-					{
-						if(entry.Author != null && entry.Author.Length > 0)
-						{
-							author.Text = entry.Author;
-						}
+						commentCount.Text = string.Format(linkToComments, entry.Link, entry.FeedBackCount, " Comments");
 					}
 				}
+			}
+		}
+
+		private static void BindPostDate(RepeaterItemEventArgs e, Entry entry)
+		{
+			Label postDate = e.Item.FindControl("postDate") as Label;
+			if(postDate != null)
+			{
+				if(postDate.Attributes["Format"] != null)
+				{
+					postDate.Text = entry.DateCreated.ToString(postDate.Attributes["Format"]);
+					postDate.Attributes.Remove("Format");
+				}
+				else
+				{
+					postDate.Text = entry.DateCreated.ToString("f");
+				}
+			}
+		}
+
+		private static void BindPermalink(RepeaterItemEventArgs e, Entry entry)
+		{
+			Label permalink = e.Item.FindControl("permalink") as Label;
+			if(permalink != null)
+			{
+				if(permalink.Attributes["Format"] != null)
+				{
+					permalink.Text = string.Format("<a href=\"{0}\" title=\"Permanent link to this post\">{1}</a>", entry.Link, entry.DateCreated.ToString(permalink.Attributes["Format"]));
+					permalink.Attributes.Remove("Format");
+				}
+				else
+				{
+					permalink.Text = string.Format("<a href=\"{0}\" title=\"Permanent link to this post\">{1}</a>", entry.Link, entry.DateCreated.ToString("f"));
+				}
+			}
+		}
+
+		private static void BindPostDescription(RepeaterItemEventArgs e, Entry entry)
+		{
+			Literal PostDesc = (Literal)e.Item.FindControl("PostDesc");
+			if(PostDesc != null)
+			{
+						
+				if(entry.AllowComments)
+				{
+					PostDesc.Text = string.Format(postdescWithComments,entry.Link,entry.DateCreated.ToString("f"),entry.Link,entry.FeedBackCount);
+				}
+				else
+				{
+					PostDesc.Text = string.Format(postdescWithNoComments, entry.Link, entry.DateCreated.ToString("f"));
+				}
+			}
+		}
+
+		private void BindPostText(RepeaterItemEventArgs e, Entry entry)
+		{
+			Literal PostText = (Literal)e.Item.FindControl("PostText");
+	
+			if(DescriptionOnly)
+			{
+				if(entry.HasDescription)
+				{
+						
+					PostText.Text = string.Format(System.Globalization.CultureInfo.InvariantCulture, "<p>{0}</p>",entry.Description);
+				}
+			}
+			else
+			{
+				if(entry.HasDescription)
+				{
+					PostText.Text = entry.Description;
+				}
+				else
+				{
+					PostText.Text = entry.Body;
+				}
+			}
+		}
+
+		private static void BindTitle(RepeaterItemEventArgs e, Entry entry)
+		{
+			HyperLink title = e.Item.FindControl("TitleUrl") as HyperLink;
+			if(title != null)
+			{
+				title.Text = entry.Title;
+				ControlHelper.SetTitleIfNone(title, "Click To View Entry.");
+				title.NavigateUrl = entry.Link;
 			}
 		}
 
 		// If the user is an admin AND the the skin 
 		// contains an edit Hyperlink control, this 
 		// will display the edit control.
-		protected virtual void DisplayEditLink(Entry entry, RepeaterItemEventArgs e)
+		protected virtual void BindEditLink(Entry entry, RepeaterItemEventArgs e)
 		{
 			HyperLink editLink = e.Item.FindControl("editLink") as HyperLink;
 			if(editLink != null)
@@ -162,7 +194,7 @@ namespace Subtext.Web.UI.Controls
 					{
 						//We'll slap on our little pencil icon.
 						editLink.ImageUrl = "~/Images/edit.gif";
-						editLink.Attributes["title"] = "Edit Entry";
+						ControlHelper.SetTitleIfNone(editLink, "Click to edit this entry.");
 						editLink.NavigateUrl = UrlFormats.GetEditLink(entry);
 					}
 				}

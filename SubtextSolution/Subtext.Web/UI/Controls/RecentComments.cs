@@ -19,6 +19,7 @@ using Subtext.Framework;
 using Subtext.Extensibility;
 using Subtext.Framework.Configuration;    
 using Subtext.Framework.Components;
+using Subtext.Web.Controls;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -103,6 +104,7 @@ namespace Subtext.Web.UI.Controls
 						title.Text = entry.Body;
 						title.NavigateUrl = entry.Link;
 					}
+					ControlHelper.SetTitleIfNone(title, "Reader Comment.");
 				}
 				Literal author = (Literal)e.Item.FindControl("Author");
 				if(author != null)

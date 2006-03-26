@@ -53,7 +53,7 @@ namespace Subtext.Web.UI.Controls
 
 		}
 
-		protected void CategoryCreated(object sender,  RepeaterItemEventArgs e)
+		protected void CategoryCreated(object sender, RepeaterItemEventArgs e)
 		{
 			if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
 			{
@@ -73,7 +73,7 @@ namespace Subtext.Web.UI.Controls
 			}
 		}
 
-		protected void LinkCreated(object sender,  RepeaterItemEventArgs e)
+		protected void LinkCreated(object sender, RepeaterItemEventArgs e)
 		{
 			if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
 			{
@@ -82,6 +82,10 @@ namespace Subtext.Web.UI.Controls
 				{
 					HyperLink Link = (HyperLink)e.Item.FindControl("Link");
 					Link.NavigateUrl = link.Url;
+					if(Link.Attributes["title"] == null || Link.Attributes["title"].Length == 0)
+					{
+						Link.Attributes["title"] = "Category Link";
+					}
 					Link.Text = link.Title;
 					if(link.NewWindow)
 					{
@@ -95,6 +99,10 @@ namespace Subtext.Web.UI.Controls
 						{
 							RssLink.NavigateUrl = link.Rss;
 							RssLink.Visible = true;
+							if(RssLink.Attributes["title"] == null || RssLink.Attributes["title"].Length == 0)
+							{
+								RssLink.Attributes["title"] = "Click to Subscribe";
+							}
 							RssLink.ToolTip = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Subscribe to {0}",link.Title);
 						}
 					}

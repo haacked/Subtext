@@ -21,6 +21,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Format;
 using Subtext.Framework.Tracking;
+using Subtext.Web.Controls;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -63,11 +64,11 @@ namespace Subtext.Web.UI.Controls
 				EntryTracker.Track(Context,entry.EntryID, CurrentBlog.BlogId);
 
 				//Set the page title
-				Globals.SetTitle(entry.Title,Context);
+				Globals.SetTitle(entry.Title, Context);
 
 				//Sent entry properties
 				TitleUrl.Text = entry.Title;
-				TitleUrl.Attributes["title"] = entry.Title;
+				ControlHelper.SetTitleIfNone(TitleUrl, "Title of this entry.");
 				TitleUrl.NavigateUrl = entry.TitleUrl;
 				Body.Text = entry.Body;
 				if(PostDescription != null)
@@ -143,7 +144,7 @@ namespace Subtext.Web.UI.Controls
 					{
 						//We'll slap on our little pencil icon.
 						editLink.ImageUrl = "~/Images/edit.gif";
-						editLink.Attributes["title"] = "Edit Entry";
+						ControlHelper.SetTitleIfNone(editLink, "Edit this entry.");
 						editLink.NavigateUrl = UrlFormats.GetEditLink(entry);
 					}
 				}

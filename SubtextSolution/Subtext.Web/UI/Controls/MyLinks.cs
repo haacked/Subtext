@@ -1,5 +1,6 @@
 using System;
 using Subtext.Framework;
+using Subtext.Web.Controls;
 
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,17 +41,20 @@ namespace Subtext.Web.UI.Controls
 			{			
 				if(HomeLink != null)
 				{
-					HomeLink.NavigateUrl = CurrentBlog.BlogHomeUrl;
+					HomeLink.NavigateUrl = CurrentBlog.VirtualUrl;
+					ControlHelper.SetTitleIfNone(HomeLink, "Link to the home page.");
 				}
 				
 				if(ContactLink != null)
 				{
-					ContactLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}contact.aspx", CurrentBlog.RootUrl);
+					ContactLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}contact.aspx", CurrentBlog.VirtualUrl);
+					ControlHelper.SetTitleIfNone(ContactLink, "Contact form.");
 				}
 
 				if(Archives != null)
 				{
-					Archives.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}archives.aspx", CurrentBlog.RootUrl);
+					Archives.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}archives.aspx", CurrentBlog.VirtualUrl);
+					ControlHelper.SetTitleIfNone(Archives, "View Archives.");
 				}
 
 				if (Admin != null)
@@ -58,20 +62,28 @@ namespace Subtext.Web.UI.Controls
 					if(Request.IsAuthenticated && Security.IsAdmin)
 					{
 						Admin.Text = "Admin";
-						Admin.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}admin/default.aspx", CurrentBlog.RootUrl);
+						Admin.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}admin/default.aspx", CurrentBlog.VirtualUrl);
+						ControlHelper.SetTitleIfNone(Admin, "Admin Section.");
 					}
 					else
 					{
 						Admin.Text = "Login";
-						Admin.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}login.aspx", CurrentBlog.RootUrl);
+						Admin.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}login.aspx", CurrentBlog.VirtualUrl);
+						ControlHelper.SetTitleIfNone(Admin, "Login Form.");
 					}
 				}
 
 				if (Syndication != null)
-				  Syndication.NavigateUrl = XMLLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Rss.aspx", CurrentBlog.RootUrl);
+				{
+					Syndication.NavigateUrl = XMLLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Rss.aspx", CurrentBlog.VirtualUrl);
+					ControlHelper.SetTitleIfNone(Syndication, "Subscribe to this feed.");
+				}
 
 				if (AtomLink != null)
-					AtomLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Atom.aspx", CurrentBlog.RootUrl);
+				{
+					AtomLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Atom.aspx", CurrentBlog.VirtualUrl);
+					ControlHelper.SetTitleIfNone(AtomLink, "Subscribe to this feed.");
+				}
 			}
 		}
 

@@ -1,6 +1,6 @@
 <%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Comments" %>
 <hr/>
-<a name="feedback" />
+<a name="feedback" title="feedback anchor"></a>
 <div id="moreinfo">
 	<h2>Feedback</h2>
 	<p><asp:Literal ID = "NoCommentMessage" Runat ="server" /></p>
