@@ -1,4 +1,4 @@
-Coding guidelines are typically a matter of religion.  However, we have to 
+Hacking Guidelines are typically a matter of religion.  However, we have to 
 agree on something so here goes.
 
 Wherever possible, we will follow the Microsoft Internal Coding Guidelines 
