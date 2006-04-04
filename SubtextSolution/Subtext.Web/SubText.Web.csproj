@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP
         ProjectType = "Local"
-        ProductVersion = "7.10.3077"
+        ProductVersion = "7.10.6015"
         SchemaVersion = "2.0"
         ProjectGuid = "{8C11B428-9C4A-46C3-B7F0-48215276BFA5}"
     >
@@ -2797,6 +2797,162 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\Lightz\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\ArchiveCategory.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\ArchiveDay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\ArchiveLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\ArchiveMonth.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\ArchivePostPage.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\ArticleCategories.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\BlogStats.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\CategoryDisplay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\CategoryEntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\CategoryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\Comments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\Contact.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\Day.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\DayCollection.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\EntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\Footer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\GalleryThumbNailViewer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\Header.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\HomePage.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\LinkPage.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\Login.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\MonthListings.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\MyLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\News.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\PostComment.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\RecentComments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\RelatedLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\SubtextSearch.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\ViewPicture.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Images\day_footer.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Images\day_header.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Images\header.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Images\main_background.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Images\post_footer.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\Images\xml.gif"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\Marvin2\blue.css"
                     BuildAction = "Content"
                 />
@@ -4335,6 +4491,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "UI\Controls\ArchivePostPage.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\ArticleCategories.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "UI\Controls\BaseControl.cs"
                     SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"
@@ -4406,6 +4572,11 @@
                 />
                 <File
                     RelPath = "UI\Controls\HomePage.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\LinkPage.cs"
                     SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"
                 />
