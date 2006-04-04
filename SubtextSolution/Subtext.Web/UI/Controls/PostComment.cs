@@ -1,10 +1,12 @@
 using System;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 using Subtext.Common.Data;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Text;
 
@@ -40,8 +42,8 @@ namespace Subtext.Web.UI.Controls
 		protected Subtext.Web.Controls.CompliantButton btnCompliantSubmit;
 		protected System.Web.UI.WebControls.Label Message;
 		protected System.Web.UI.WebControls.CheckBox chkRemember;
+		protected SubtextCoComment coComment;
 		
-
 		/// <summary>
 		/// Handles the OnLoad event.  Attempts to prepopulate comment 
 		/// fields based on the user's cookie.
@@ -78,6 +80,21 @@ namespace Subtext.Web.UI.Controls
 						this.Controls.Clear();
 						this.Controls.Add(new LiteralControl("<div class=\"commentsClosedMessage\"><span style=\"font-style: italic;\">Comments have been closed on this topic.</span></div>"));
 					}
+				}
+
+				if(Config.CurrentBlog.CoCommentsEnabled)
+				{
+					if(coComment == null)
+					{
+						coComment = new SubtextCoComment();
+						PlaceHolder coCommentPlaceHolder = Page.FindControl("coCommentPlaceholder") as PlaceHolder;
+						if(coCommentPlaceHolder != null)
+						{
+							coCommentPlaceHolder.Controls.Add(coComment);
+						}
+					}
+					coComment.PostTitle = entry.Title;
+					coComment.PostUrl = entry.Link;
 				}
 			}
 		}

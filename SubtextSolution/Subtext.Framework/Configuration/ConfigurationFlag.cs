@@ -53,5 +53,7 @@ namespace Subtext.Framework.Configuration
 		/// Whether or not titles of blog posts and articles automatically have a friendly url generated.
 		/// </summary>
 		AutoFriendlyUrlEnabled = 512,
+		/// <summary>Whether or not coComment is enabled</summary>
+		CoCommentEnabeld = 1024,
 	};
 }

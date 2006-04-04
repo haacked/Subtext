@@ -4636,6 +4636,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "UI\Controls\SubtextCoComment.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "UI\Controls\SubtextSearch.cs"
                     SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"

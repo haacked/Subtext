@@ -362,6 +362,18 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
+		/// Gets or sets a value indicating whether comments are enabled.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if comments are enabled, otherwise, <c>false</c>.
+		/// </value>
+		public bool CoCommentsEnabled
+		{
+			get{return FlagPropertyCheck(ConfigurationFlag.CoCommentEnabeld);}
+			set{FlagSetter(ConfigurationFlag.CoCommentEnabeld, value);}
+		}
+
+		/// <summary>
 		/// Gets or sets a value indicating whether blog posts and articles 
 		/// have a friendly URL generated automatically from the title.
 		/// </summary>
