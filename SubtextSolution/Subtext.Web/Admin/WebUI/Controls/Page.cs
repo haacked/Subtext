@@ -353,7 +353,8 @@ namespace Subtext.Web.Admin.WebUI
 
 			_body.ID = _tabSectionID;
 			_blogTitle.Target = String.Empty;
-			_blogTitle.NavigateUrl = Config.CurrentBlog.BlogHomeUrl;
+			_blogTitle.Attributes["title"] = "Blog home";
+			_blogTitle.NavigateUrl = Config.CurrentBlog.BlogHomeVirtualUrl;
 			_blogTitle.Text = Config.CurrentBlog.Title;
 		}
 
@@ -388,7 +389,7 @@ namespace Subtext.Web.Admin.WebUI
 				HttpContext.Current.Session.Abandon();
 			}
 			System.Web.Security.FormsAuthentication.SignOut();
-			Context.Response.Redirect(Config.CurrentBlog.BlogHomeUrl);
+			Context.Response.Redirect(Config.CurrentBlog.BlogHomeVirtualUrl);
 		}
 
 		protected override void Render(HtmlTextWriter writer)

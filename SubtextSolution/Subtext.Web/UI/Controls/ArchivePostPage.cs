@@ -3,6 +3,8 @@ using System.Web.UI.WebControls;
 
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
+using Subtext.Web.Controls;
 using Subtext.Web.UI;
 
 namespace Subtext.Web.UI.Controls
@@ -50,9 +52,10 @@ namespace Subtext.Web.UI.Controls
 
 						HyperLink catlink = (HyperLink) e.Item.FindControl("CatLink");
 						if (catlink != null)
-						{
-							catlink.NavigateUrl = CurrentBlog.VirtualUrl + "/category/" + linkcat.CategoryID.ToString() + ".aspx";
+						{							
+							catlink.NavigateUrl = Config.CurrentBlog.UrlFormats.PostCategoryUrl(linkcat.Description, linkcat.CategoryID);
 							catlink.Text = linkcat.Title;
+							ControlHelper.SetTitleIfNone(catlink, linkcat.CategoryType + " Category.");
 						}
 					}
 				}
@@ -71,6 +74,7 @@ namespace Subtext.Web.UI.Controls
 					{
 						datelink.NavigateUrl = link.Url;
 						datelink.Text = link.Title;
+						ControlHelper.SetTitleIfNone(datelink, "Posts for the month.");
 					}
 				}
 			}

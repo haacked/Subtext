@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP
         ProjectType = "Local"
-        ProductVersion = "7.10.3077"
+        ProductVersion = "7.10.6015"
         SchemaVersion = "2.0"
         ProjectGuid = "{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}"
     >
@@ -777,7 +777,7 @@
                 />
                 <File
                     RelPath = "Tracking\PingBackNotificatinProxy.cs"
-                    SubType = "Code"
+                    SubType = "Component"
                     BuildAction = "Compile"
                 />
                 <File
@@ -817,7 +817,7 @@
                 />
                 <File
                     RelPath = "Tracking\WeblogsNotificatinProxy.cs"
-                    SubType = "Code"
+                    SubType = "Component"
                     BuildAction = "Compile"
                 />
                 <File
