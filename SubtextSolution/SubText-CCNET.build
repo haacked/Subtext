@@ -1,0 +1,225 @@
+<?xml version="1.0"?>
+<project xmlns="http://nant.sf.net/schemas/nant.xsd" name="SubText" default="dist.archive">
+	
+	<property name="nant.settings.currentframework" value="net-1.1"/>
+	<property name="configuration" value="release"/>
+
+	<!-- Set this propery if you want to specify a custom destination
+		<property name="publish.root" value="D:\Simone\SubtextProject\SubtextSolution\buildArchive"/>
+		<property name="source.root" value="D:\Simone\SubtextProject\SubtextSolution\Subtext.DotTextUpgrader"/>
+	-->
+	
+	<target name="get-publishing-properties">
+		
+		<tstamp property="build.date" pattern="yyyyMMddTHHmmss" />
+	
+		<ifnot test="${property::exists('publish.root')}"> 
+			<property name="publish.root" value="..\Builds\${configuration}"/>
+		</ifnot>
+		
+		<ifnot test="${property::exists('publish.source.root')}"> 
+			<property name="publish.source.root" value="..\Builds\source\${configuration}"/>
+		</ifnot>
+		
+		<ifnot test="${property::exists('source.root')}"> 
+			<property name="source.root" value="."/>
+		</ifnot>
+
+	<!--
+		<ifnot test="${property::exists('ccnet.label')}"> 
+			<fail message="ccnet.label property not set, so can't create labelled distribution files" />
+		</ifnot>
+	-->
+		<property name="publish.source.dir.latest" value="${publish.source.root}\latest" />
+		<property name="publish.source.dir.archive" value="${publish.source.root}\archive" />
+		<property name="publish.dir.latest" value="${publish.root}\latest" />
+		<property name="publish.dir.archive" value="${publish.root}\archive" />
+		<property name="publish.dir.toCVS" value="${source.root}\Subtext.DotTextUpgrader" />
+	</target>
+
+	<target name="compile-main">
+		<solution configuration="${configuration}">
+			<projects>
+				<include name="Subtext.Common\SubText.Common.csproj" />
+				<include name="Subtext.Extensibility\Subtext.Extensibility.csproj" />
+				<include name="Subtext.Framework\Subtext.Framework.csproj" />
+				<include name="Subtext.Installation\Subtext.Installation.csproj" />
+				<include name="Subtext.Scripting\Subtext.Scripting.csproj" />
+				<include name="Subtext.Web\Subtext.Web.csproj" />
+				<include name="Subtext.Web.Controls\Subtext.Web.Controls.csproj" />
+			</projects>
+		</solution>
+	</target>
+
+	<target name="compile-UnitTesting">
+		<solution configuration="${configuration}">
+			<projects>
+				<include name="UnitTests.Subtext\UnitTests.SubText.csproj" />
+			</projects>
+			<referenceprojects>
+				<include name="Subtext.Common\SubText.Common.csproj" />
+				<include name="Subtext.DotTextUpgrader\Subtext.DotTextUpgrader.csproj" />
+				<include name="Subtext.Extensibility\Subtext.Extensibility.csproj" />
+				<include name="Subtext.Framework\Subtext.Framework.csproj" />
+				<include name="Subtext.Installation\Subtext.Installation.csproj" />
+				<include name="Subtext.Scripting\Subtext.Scripting.csproj" />
+				<include name="Subtext.Web\Subtext.Web.csproj" />
+				<include name="Subtext.Web.Controls\Subtext.Web.Controls.csproj" />
+			</referenceprojects>
+		</solution>
+	</target>
+
+	<target name="dist.publish.latest" depends="compile-main,get-publishing-properties">
+
+		<delete dir="${publish.dir.latest}" failonerror="false" />
+		<mkdir dir="${publish.dir.latest}" />
+		
+		<echo message="deploying binaries to latest" />
+		
+		<copy todir="${publish.dir.latest}" includeemptydirs="false">
+			<fileset basedir="Subtext.Web">
+				<include name="**/*" />
+				<exclude name="**/*.bmp" />
+				<exclude name="ExternalDependencies/*" />
+				<exclude name="**/*.cs"/>
+				<exclude name="**/*.txt"/>
+				<exclude name="**/*.resx"/>
+				<exclude name="**/*.xml"/>
+				<exclude name="**/*.csproj"/>
+				<exclude name="**/*.csproj.user"/>
+				<exclude name="**/.cvsignore"/>
+				<exclude name="obj/**"/>
+			</fileset>
+		</copy>
+		
+		<copy todir="${publish.dir.latest}" includeemptydirs="false">
+			<fileset basedir="Subtext.Web">
+				<include name="emoticons.txt" />
+			</fileset>
+		</copy>
+		
+		<delete dir="${publish.source.dir.latest}" failonerror="false" />
+		<mkdir dir="${publish.source.dir.latest}" />
+		<echo message="deploying source code" />
+		
+		<copy todir="${publish.source.dir.latest}" includeemptydirs="false">
+			<fileset basedir="${source.root}">
+				<include name="**/*" />
+				<include name="emoticons.txt" />
+				<exclude name="**/*.csproj.user"/>
+				<exclude name="**/*.resharperoptions"/>
+				<exclude name="**/*.suo"/>
+				<exclude name="**/*.cvsignore"/>
+				<exclude name="_ReSharper.*/**"/>
+				<exclude name="**/bin/**"/>
+				<exclude name="**/obj/**"/>
+			</fileset>
+		</copy>
+			
+		<if test="${configuration == 'documentation'}">
+			<echo message="Deploying XML files" /> 
+			<copy todir="${publish.dir.latest}" includeemptydirs="false">
+				<fileset basedir="Subtext.Web">
+					<include name="**/*.xml" />
+				</fileset>
+			</copy>
+		</if>
+		
+		<attrib readonly="false" >
+			<fileset basedir="${publish.dir.latest}">
+				<include name="**/*" />
+			</fileset>
+		</attrib>
+		
+	</target>
+
+
+	<target name="dist.archive" depends="dist.publish.latest">
+		<mkdir dir="${publish.dir.archive}" />
+		<zip zipfile="${publish.dir.archive}\${build.date}.zip">
+			<fileset basedir="${publish.dir.latest}">
+				<include name="**/*" />
+				<exclude name="**/*.pdb" />
+			</fileset>
+		</zip>
+		<zip zipfile="${publish.source.dir.archive}\${build.date}.zip">
+			<fileset basedir="${publish.source.dir.latest}">
+				<include name="**/*" />
+			</fileset>
+		</zip>
+	</target>
+	
+		<!--
+		<target name="dist.updateCVS" depends="get-publishing-properties">
+		-->
+	
+	<target name="dist.updateCVS" depends="dist.archive">
+		<copy file="${publish.dir.archive}\${build.date}.zip"
+			tofile="${publish.dir.toCVS}\SubtextDeployment.zip" />
+				
+		<property name="web.config.latest" value="${publish.dir.latest}\web.config" />
+		<property name="web.config.published" value="${publish.dir.toCVS}\Scripts\web.config" />
+		
+		<ifnot test="${file::up-to-date(web.config.latest,web.config.published)}">
+			<copy file="${publish.dir.latest}\web.config"
+					tofile="${publish.dir.toCVS}\Scripts\web.config" />	
+		</ifnot>
+
+		<cvs command="commit"
+				destination="${publish.dir.toCVS}\Scripts"
+				commandline="-m &quot;test via NANT&quot; web.config"
+				module="SubtextProject"
+				usesharpcvslib="false"
+				cvsfullpath="${CVSPATH}"
+				cvsrsh="${SSHPATH}"
+			>
+		</cvs>
+		
+		<cvs command="commit"
+				destination="${publish.dir.toCVS}"
+				commandline="-m &quot;test via NANT&quot; SubtextDeployment.zip"
+				module="SubtextProject"
+				usesharpcvslib="false"
+				cvsfullpath="${CVSPATH}"
+				cvsrsh="${SSHPATH}"
+			>
+		</cvs>
+
+	</target>
+	
+	<target name="doc">
+		<property name="configuration" value="documentation"/>
+		<property name="docs.root.dir" value="..\Docs" />
+		<property name="ndoc.output.dir" value="${docs.root.dir}\NDoc" />
+		<property name="ndoc.file.name" value="CodeDocumentation" />
+		
+		<call target="dist.publish.latest" />	
+		
+		<echo message="Building xml comment files in ${publish.dir.latest}" />
+		
+		<ndoc>
+			<assemblies basedir="${publish.dir.latest}\bin">
+				<include name="Subtext.Common.dll" />
+				<include name="Subtext.Framework.dll" />
+				<include name="Subtext.Web.dll" />
+				<include name="Subtext.Extensibility.dll" />
+				<include name="Subtext.Installation.dll" />
+				<include name="Subtext.Web.Controls.dll" />
+			</assemblies>
+			<documenters>
+				<documenter name="MSDN">
+					<property name="OutputDirectory" value="${ndoc.output.dir}" />
+					<property name="HtmlHelpName" value="${ndoc.file.name}" />
+					<property name="HtmlHelpCompilerFilename" value="hhc.exe" />
+					<property name="Title" value="Subtext Code Documentation" />
+					<property name="CopyrightText" value="Copyright 2005 Phil Haack" />
+					<property name="CopyrightHref" value="" />
+					<property name="UseNamespaceDocSummaries" value="True" />
+				</documenter>
+			</documenters>
+		</ndoc>
+		
+		<copy file="${ndoc.output.dir}\${ndoc.file.name}.chm" todir="${docs.root.dir}" />
+		<delete dir="${ndoc.output.dir}" />
+	</target>
+</project>
