@@ -8,7 +8,13 @@
 		<p class="Valuelabel"><label for="chkEnableComments">
 				<SP:HelpToolTip id="HelpToolTip1" runat="server" HelpText="If checked, enables comments.">Enable Comments</SP:HelpToolTip>
 			</label>
-			<asp:CheckBox id="chkEnableComments" runat="server"></asp:CheckBox></p>
+			<asp:CheckBox id="chkEnableComments" runat="server"></asp:CheckBox>
+		</p>
+		<p class="Valuelabel"><label for="chkCoCommentEnabled">
+				<SP:HelpToolTip id="Helptooltip6" runat="server" HelpText="If checked, enables CoComment support.">Enable CoComment Support.</SP:HelpToolTip>
+			</label>
+			<asp:CheckBox id="chkCoCommentEnabled" runat="server"></asp:CheckBox>
+		</p>
 		<p class="Valuelabel"><label for="chkEnableTrackbacks">
 				<SP:HelpToolTip id="Helptooltip5" runat="server" HelpText="If checked, enables trackbacks and pingbacks.">Enable TrackBacks</SP:HelpToolTip>
 			</label>

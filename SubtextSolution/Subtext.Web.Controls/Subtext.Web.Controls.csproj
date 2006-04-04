@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP
         ProjectType = "Local"
-        ProductVersion = "7.10.3077"
+        ProductVersion = "7.10.6015"
         SchemaVersion = "2.0"
         ProjectGuid = "{2278427B-8BAD-4CE9-B15A-FD1131753D64}"
     >
@@ -132,6 +132,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "CoComment.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "CollapsiblePanel.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -201,6 +206,10 @@
                     RelPath = "StringHelper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Resources\CoCommentScript.js"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "Resources\CollapsiblePanel.js"

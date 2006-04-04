@@ -18,6 +18,7 @@
 			var subtextBlogInfo = new blogInfo('<%= Config.CurrentBlog.VirtualDirectoryRoot %>', '<%= Config.CurrentBlog.VirtualUrl %>" />');
 		</script>
 		<asp:Literal ID="scripts" Runat="server" />
+		<asp:PlaceHolder ID="coCommentPlaceholder" Runat="server" />
 		<asp:Literal ID="pinbackLinkTag" runat="server" />
 	</head>
 	<body>

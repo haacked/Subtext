@@ -34,6 +34,7 @@ namespace Subtext.Web.Admin.Pages
 		protected MessagePanel Messages;
 		protected CheckBox chkEnableComments;
 		protected CheckBox chkEnableTrackbacks;
+		protected CheckBox chkCoCommentEnabled;
 		protected TextBox txtCommentDelayIntervalMinutes;
 		protected TextBox txtDaysTillCommentsClosed;
 		protected Button lkbPost;
@@ -45,6 +46,9 @@ namespace Subtext.Web.Admin.Pages
 		protected HelpToolTip Helptooltip4;
 		protected CheckBox chkAllowDuplicates;
 		protected TextBox txtNumberOfRecentComments;
+		protected Subtext.Web.Controls.HelpToolTip Helptooltip7;
+		protected Subtext.Web.Controls.HelpToolTip Helptooltip8;
+		protected Subtext.Web.Admin.WebUI.Page PageContainer;
 		protected TextBox txtRecentCommentsLength;
 		
 		private void Page_Load(object sender, EventArgs e)
@@ -62,6 +66,7 @@ namespace Subtext.Web.Admin.Pages
 			
 			this.chkEnableComments.Checked = info.CommentsEnabled;
 			this.chkEnableTrackbacks.Checked = info.TrackbacksEnabled;
+			this.chkCoCommentEnabled.Checked = info.CoCommentsEnabled;
 			
 			if(info.DaysTillCommentsClose > -1 && info.DaysTillCommentsClose < int.MaxValue)
                 this.txtDaysTillCommentsClosed.Text = info.DaysTillCommentsClose.ToString(CultureInfo.InvariantCulture);
@@ -130,6 +135,7 @@ namespace Subtext.Web.Admin.Pages
 			
 				info.CommentsEnabled = this.chkEnableComments.Checked;
 				info.TrackbacksEnabled = this.chkEnableTrackbacks.Checked;
+				info.CoCommentsEnabled = this.chkCoCommentEnabled.Checked;
 				if(this.txtCommentDelayIntervalMinutes.Text.Length == 0)
 				{
 					info.CommentDelayInMinutes = 0;

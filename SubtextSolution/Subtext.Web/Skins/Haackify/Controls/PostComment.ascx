@@ -1,4 +1,5 @@
 <%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.PostComment" %>
+<%@ Register TagPrefix="sub" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <div id="commentform">
 <h3>Post Comment</h3>
 	<table cellspacing="1" cellpadding="1" border="0">
@@ -44,7 +45,7 @@
 		</tr>
 		<tr>
 			<td>
-				<asp:Button id="btnSubmit" CssClass="Button" runat="server" Text="Submit"></asp:Button></td>
+				<sub:CompliantButton id="btnCompliantSubmit" CssClass="Button" runat="server" Text="Submit"></sub:CompliantButton></td>
 			<td colspan="2">
 				<asp:Label id="Message" runat="server" ForeColor="Red"></asp:Label></td>
 		</tr>

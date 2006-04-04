@@ -93,18 +93,50 @@ namespace Subtext.Web.Controls
 		/// <summary>
 		/// Recursively searches for the server form.
 		/// </summary>
+		/// <param name="parent">The parent to start the recursive search from.</param>
+		/// <param name="id">Id of the control to find.</param>
+		/// <returns></returns>
+		public static Control FindControlRecursively(Control parent, string id)
+		{
+			foreach (Control child in parent.Controls)
+			{                        
+				if(child.ID == id)
+				{
+					return child;
+				}
+				Control foundControl = FindControlRecursively(child, id);
+				if(foundControl != null)
+				{
+					return foundControl;
+				}
+			}
+         
+			return null;
+		}
+
+		/// <summary>
+		/// Recursively searches for the server form.
+		/// </summary>
 		/// <param name="parent">The parent.</param>
 		/// <returns></returns>
 		public static HtmlForm FindServerForm(ControlCollection parent)
 		{
 			foreach (Control child in parent)
 			{                        
-				Type t = child.GetType();
-				if (t == typeof(System.Web.UI.HtmlControls.HtmlForm))
-					return (HtmlForm)child;
+				HtmlForm childForm = child as HtmlForm;
+				if(childForm != null)
+				{
+					return childForm;
+				}
             
-				if (child.HasControls())   
-					return FindServerForm(child.Controls);
+				if (child.HasControls())
+				{
+					HtmlForm foundForm = FindServerForm(child.Controls);
+					if(foundForm != null)
+					{
+						return foundForm;
+					}
+				}
 			}
          
 			return new HtmlForm();
