@@ -1,20 +1,13 @@
+using System;
+using System.Web.UI.WebControls;
+
+using Subtext.Framework;
+using Subtext.Framework.Configuration;
+using Subtext.Framework.Components;
+using Subtext.Web.Controls;
+
 namespace Subtext.Web.UI.Controls
 {
-	using System;
-	using System.Data;
-	using System.Drawing;
-	using System.Web;
-	using System.Web.UI.WebControls;
-	using System.Web.UI.HtmlControls;
-
-	using Subtext.Web.UI.Controls;
-	using Subtext.Framework;
-	using Subtext.Framework.Util;
-	using Subtext.Framework.Configuration;
-	using Subtext.Framework.Components;
-	using Subtext.Common.Data;
-	using Subtext.Web.UI;
-
 	/// <summary>
 	///		Summary description for LinkPage.
 	/// </summary>
@@ -66,9 +59,13 @@ namespace Subtext.Web.UI.Controls
 					HyperLink Link = (HyperLink)e.Item.FindControl("Link");
 					Link.NavigateUrl = link.Url;
 					Link.Text = link.Title;
+					ControlHelper.SetTitleIfNone(Link, link.Title);
 					if(link.NewWindow)
 					{
-						Link.Target = "_blank";
+						if(!Config.Settings.UseXHTML)
+						{
+							Link.Target = "_blank";
+						}
 					}
 
 					if(link.HasRss)
@@ -78,7 +75,8 @@ namespace Subtext.Web.UI.Controls
 						{
 							RssLink.NavigateUrl = link.Rss;
 							RssLink.Visible = true;
-							RssLink.ToolTip = string.Format("Subscribe to {0}",link.Title);
+							RssLink.ToolTip = string.Format("Subscribe to {0}", link.Title);
+							ControlHelper.SetTitleIfNone(RssLink, RssLink.ToolTip);
 						}
 					}
 				}

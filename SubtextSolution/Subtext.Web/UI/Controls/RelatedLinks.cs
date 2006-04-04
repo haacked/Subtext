@@ -96,20 +96,6 @@ namespace Subtext.Web.UI.Controls
 
 		public string URLFormat(string dbApplication, DateTime dbDateAdded, string dbEntryID)
 		{
-			string myURL = ConfigurationSettings.AppSettings["AggregateURL"];
-
-			int i;
-
-			if (CurrentBlog.BlogId >= 1)
-				myURL = myURL + "/" + dbApplication + "/";
-			else
-			{
-				i = CurrentBlog.BlogHomeUrl.LastIndexOf("/");
-				myURL = CurrentBlog.BlogHomeUrl.Remove(i+1, CurrentBlog.BlogHomeUrl.Substring(i+1).Length);
-					
-			}
-
-
 			string myYear = dbDateAdded.Year.ToString();
 			string myMonth = dbDateAdded.Month.ToString();
 			string myDay = dbDateAdded.Day.ToString();
@@ -126,12 +112,8 @@ namespace Subtext.Web.UI.Controls
 				myDay = String.Concat("0", myDay);
 			}
 
-			myURL = myURL + "archive" + "/" + myYear + "/" + myMonth + "/" + myDay + "/" + dbEntryID + ".aspx";
-
-			return myURL;
+			return CurrentBlog.BlogHomeVirtualUrl + "archive" + "/" + myYear + "/" + myMonth + "/" + myDay + "/" + dbEntryID + ".aspx";
 		}
-
-
 	}
 	
 	public class PositionItems

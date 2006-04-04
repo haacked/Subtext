@@ -44,7 +44,7 @@ namespace Subtext.Web
 				}
 				else
 				{
-					lnkBlog.HRef = Config.CurrentBlog.BlogHomeUrl;
+					lnkBlog.HRef = Config.CurrentBlog.BlogHomeVirtualUrl;
 				}
 			}
 			catch(BlogDoesNotExistException)

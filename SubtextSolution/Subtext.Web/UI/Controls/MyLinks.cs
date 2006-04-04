@@ -22,10 +22,12 @@ namespace Subtext.Web.UI.Controls
 	using System;
 
 	/// <summary>
-	///	Code behind class for the MyLinks section.
+	///	Code behind class for the MyLinks section.  Hooks up links within 
+	///	MyLinks.ascx to their appropriate URL.
 	/// </summary>
 	public class MyLinks : BaseControl
 	{
+		#region Declared Controls
 		protected System.Web.UI.WebControls.HyperLink Admin;
 		protected System.Web.UI.WebControls.HyperLink XMLLink;
 		protected System.Web.UI.WebControls.HyperLink AtomLink;
@@ -33,12 +35,18 @@ namespace Subtext.Web.UI.Controls
 		protected System.Web.UI.WebControls.HyperLink HomeLink;
 		protected System.Web.UI.WebControls.HyperLink Archives;
 		protected System.Web.UI.WebControls.HyperLink ContactLink;
+		protected System.Web.UI.WebControls.HyperLink ArchivePostPageLink;
+		protected System.Web.UI.WebControls.HyperLink LinkPageLink;
+		protected System.Web.UI.WebControls.HyperLink ArticleCategoriesLink;
+		#endregion
 
 		protected override void OnLoad(EventArgs e)
 		{
+			//TODO: Make sure these urls use the UrlFormats class.
+
 			base.OnLoad (e);
 			if(Context != null)
-			{			
+			{
 				if(HomeLink != null)
 				{
 					HomeLink.NavigateUrl = CurrentBlog.VirtualUrl;
@@ -75,8 +83,14 @@ namespace Subtext.Web.UI.Controls
 
 				if (Syndication != null)
 				{
-					Syndication.NavigateUrl = XMLLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Rss.aspx", CurrentBlog.VirtualUrl);
+					Syndication.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Rss.aspx", CurrentBlog.VirtualUrl);
 					ControlHelper.SetTitleIfNone(Syndication, "Subscribe to this feed.");
+				}
+
+				if (XMLLink != null)
+				{
+					XMLLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Rss.aspx", CurrentBlog.VirtualUrl);
+					ControlHelper.SetTitleIfNone(XMLLink, "Subscribe to this feed.");
 				}
 
 				if (AtomLink != null)
@@ -84,6 +98,25 @@ namespace Subtext.Web.UI.Controls
 					AtomLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Atom.aspx", CurrentBlog.VirtualUrl);
 					ControlHelper.SetTitleIfNone(AtomLink, "Subscribe to this feed.");
 				}
+
+				if(ArchivePostPageLink != null)
+				{
+					ArchivePostPageLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}ArchivePostPage.aspx", CurrentBlog.VirtualUrl);
+					ControlHelper.SetTitleIfNone(ArchivePostPageLink, "Archives.");
+				}
+
+				if(LinkPageLink != null)
+				{
+					LinkPageLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}LinkPage.aspx", CurrentBlog.VirtualUrl);
+					ControlHelper.SetTitleIfNone(LinkPageLink, "Links.");
+				}
+
+				if(ArticleCategoriesLink != null)
+				{
+					ArticleCategoriesLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}ArticleCategoriesPage.aspx", CurrentBlog.VirtualUrl);
+					ControlHelper.SetTitleIfNone(ArticleCategoriesLink, "Article Categories.");
+				}
+				
 			}
 		}
 

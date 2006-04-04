@@ -41,7 +41,7 @@ namespace Subtext.Web.Pages
 				try
 				{				
 					if (null != Config.CurrentBlog)
-						HomeLink.NavigateUrl = Config.CurrentBlog.BlogHomeUrl;
+						HomeLink.NavigateUrl = Config.CurrentBlog.BlogHomeVirtualUrl;
 				}
 				catch
 				{
