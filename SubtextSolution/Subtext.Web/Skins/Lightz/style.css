@@ -1,0 +1,296 @@
+body, td {
+  background-color: #FFFFFF;
+	font-size : 10pt;
+	font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+	margin : 0px;
+}
+
+a:visited, a:active, a:link {	
+	color : #355EA0;
+	text-decoration : none;
+}
+
+a:hover {
+	color: #FF6600;
+	text-decoration : underline;
+}
+
+blockquote {
+	font-style : italic;
+}
+
+#header {
+  background-image: url(images/header.gif);
+  background-repeat: no-repeat;
+  height: 55px;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #E4E5E5;
+  color: #000000;
+  margin: 0px;
+  padding: 10px 10px 0px 10px;
+}
+
+html>body #header 
+{
+	  height: 55px;
+}
+
+#header a {
+  color: #000000;
+  font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	
+  font-size: 14pt;
+  font-weight: bold;
+}
+
+#menu {
+	float: left;
+	padding: 8px 10px 10px 10px;
+	width: 200px;
+}
+
+#menu h1 {
+	color: #FF6600;
+	font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	
+	font-size: 12pt;
+	font-weight: bold;
+  margin: 0px;
+}
+
+#menu ul {
+	list-style: none;
+	padding: 0px;
+	margin: 0px 0px 15px 5px;
+	font-size: 8pt;
+}
+
+.listitem img {
+	margin-left: 5px;
+}
+
+a.listitem:visited, a.listitem:active, a.listitem:link {	
+	color : #355EA0;
+	text-decoration : none;
+}
+
+a.listitem:hover {
+	color: #FF6600;
+	text-decoration : underline;
+}
+
+#LoginForm {
+	color: #808080;
+  font-size: 10px;
+  font-weight: bold;
+  text-align: justify;
+}
+
+#LoginForm input.text {
+  border: 1px dashed #C0C0C0;
+  font-size: 8pt;
+  width: 180px;
+}
+
+#main {
+	padding: 0px 20px 0px 0px;
+	width: 580px;
+	margin:0 0 0 220px; 
+}
+
+h1.block_title {
+  background-image: url(images/day_header.gif);
+  background-position: top left;
+  background-repeat: no-repeat;
+	color: #FF6600;
+	font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	
+	font-size: 12pt;
+	font-weight: bold;
+	height: 36px;
+  margin: 10px 0px 0px 0px;
+  padding: 20px 0px 3px 20px;
+	text-transform: uppercase;
+}
+
+h1.block_title img {
+  vertical-align: middle;
+}
+
+h1.block_title a:visited, h1.block_title a:active, h1.block_title a:link {
+	color: #FF6600;
+}
+
+html>body h1.block_title 
+{
+	height: 36px;
+}
+
+div.block {
+  background-image: url(images/main_background.gif);
+  background-position: top left;
+  background-repeat: repeat-y;
+  font-size: 8pt;
+  text-align: justify;
+}
+
+div.block_footer {
+  background-image: url(images/day_footer.gif);
+  background-position: top left;
+  background-repeat: no-repeat;
+  height: 67px;
+}
+
+div.post {
+  padding-left: 20px;
+}
+
+div.posttitle {
+  color: #355EA0;
+	font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	
+	font-size: 12pt;
+	font-weight: bold;
+}
+
+.posttitle a:visited, .posttitle a:active, .posttitle a:link {	
+	color : #FF6600;
+	text-decoration : none;
+}
+
+.posttitle a:hover {
+	color: #FF6600;
+	text-decoration : underline;
+}
+
+div.itemdesc {
+  color: #808080;
+  font-size: 10px;
+	font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	
+	text-transform: uppercase;
+}
+
+div.seperator {
+  background-image: url(images/post_footer.gif);
+  background-position: top left;
+  background-repeat: no-repeat;
+  margin: 15px 0px 10px 0px;
+}
+
+div.entrylistitem {
+  padding-left: 20px;
+  padding-bottom: 10px;
+}
+
+a.entrylisttitle, a.entrylisttitle:visited, a.entrylisttitle:link, a.entrylisttitle:active {
+  color: #FF6600;
+	font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	
+	font-size: 14px;
+	font-weight: bold;
+}
+
+div.moreinfo {
+  font-size: 8pt;
+  text-align: justify;
+}
+
+div.moreinfotitle {
+	color: #FF6600;
+	font-family: "trebuchet ms", "lucida grande", verdana, arial, sans-serif;	
+	font-size: 12pt;
+	font-weight: bold;
+}
+
+div.comments {
+  font-size: 8pt;
+}
+
+div.comment {
+	background-color: #FBFBFB;
+  border: 1px dashed #DDDDDD;
+  margin: 10px 0px 10px 0px;
+  padding: 10px;
+}
+
+div.comment_author {
+  margin: 5px 0px 5px 0px;
+}
+
+div.comment_content {
+  margin: 5px 0px 5px 0px;
+}
+
+#postcomment {
+	border: 1px solid #DDDDDD;
+	background-color: #FBFBFB;
+  font-size: 8pt;
+  padding: 10px;
+  text-align: justify;
+  margin-top: 15px;
+  width: 435px;
+}
+
+#postcomment div {
+	color: #808080;
+  font-size: 10px;
+	font-weight: bold;
+  margin: 5px 0px 5px 0px;
+}
+
+#postcomment input.text, textarea {
+  border: 1px solid #DDDDDD;
+  font-size: 8pt;
+}
+
+.footer {
+	border-top: 1px solid #E4E5E5;
+	clear: both;
+	margin : 0px;	
+	padding-top : 5px;
+	text-align : center;
+	font-size : 0.7em;
+}
+
+input.text {
+	width : 300px;	
+}
+
+textarea {
+	width : 300px;
+	height : 200px;	
+}
+
+#relatedlinks ul {
+	list-style : none;
+	margin-left : 10px;
+	padding : 0px;
+}
+
+table.archiveposts {
+	width : 400px;
+	text-align : left;
+}
+
+.archiveposts th {
+	font-size : 10pt;
+}
+	
+.archiveposts td {
+	vertical-align : top;
+}
+
+.link_table td {
+	vertical-align : top;
+}
+
+h3.link_title {
+	font-size : 10pt;
+}
+
+#HeaderLinks {
+	text-align : right;
+	float: right;
+	color: #999999;
+}
+
+#HeaderLinks a {
+	font-size: 12px;
+	color: #999999;	
+}
+
