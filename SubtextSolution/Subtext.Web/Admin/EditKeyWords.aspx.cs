@@ -51,6 +51,7 @@ namespace Subtext.Web.Admin.Pages
 		protected System.Web.UI.WebControls.RequiredFieldValidator Requiredfieldvalidator3;
 		protected System.Web.UI.WebControls.CheckBox chkFirstOnly;
 		protected System.Web.UI.WebControls.CheckBox chkCaseSensitive;
+		protected System.Web.UI.WebControls.Button btnCreate;
 		protected System.Web.UI.WebControls.CheckBox chkNewWindow;
 	
 		#region Accessors
@@ -71,7 +72,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-			BindLocalUI();
+			//BindLocalUI(); //no need to call
 
 			if (!IsPostBack)
 			{
@@ -87,13 +88,16 @@ namespace Subtext.Web.Admin.Pages
 			}	
 		}
 
+/*
 		private void BindLocalUI()
 		{
+			//wasn't working. I have added a button to GUI for this. - GY
 			LinkButton lkbNewLink = Utilities.CreateLinkButton("New KeyWord");
 			lkbNewLink.Click += new System.EventHandler(lkbNewKeyWord_Click);
 			lkbNewLink.CausesValidation =false;
 			PageContainer.AddToActions(lkbNewLink);
 		}
+*/
 
 		private void BindList()
 		{
@@ -245,6 +249,7 @@ namespace Subtext.Web.Admin.Pages
 		private void InitializeComponent()
 		{   
 			this.rprSelectionList.ItemCommand += new System.Web.UI.WebControls.RepeaterCommandEventHandler(this.rprSelectionList_ItemCommand);
+			this.btnCreate.Click += new System.EventHandler(this.btnCreate_Click);
 			this.lkbPost.Click += new System.EventHandler(this.lkbPost_Click);
 			this.lkbCancel.Click += new System.EventHandler(this.lkbCancel_Click);
 			this.Load += new System.EventHandler(this.Page_Load);
@@ -281,7 +286,7 @@ namespace Subtext.Web.Admin.Pages
 			UpdateLink();
 		}
 
-		private void lkbNewKeyWord_Click(object sender, System.EventArgs e)
+		private void btnCreate_Click(object sender, System.EventArgs e)
 		{
 			ResetPostEdit(true);
 		}
