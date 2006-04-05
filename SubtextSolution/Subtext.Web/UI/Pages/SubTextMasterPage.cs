@@ -305,13 +305,18 @@ namespace Subtext.Web.UI.Pages
 		{
 			get
 			{
-				string declaration = string.Format("var subtextAllowedHtmlTags = new Array({0});", Config.Settings.AllowedHtmlTags.Count) + Environment.NewLine;
+				string declaration = "var subtextAllowedHtmlTags = [";
 				for(int i = 0; i < Config.Settings.AllowedHtmlTags.Count; i++)
 				{
 					string tagname = Config.Settings.AllowedHtmlTags.Keys[i];
-					declaration += string.Format("subtextAllowedHtmlTags[{0}] = '{1}';", i, tagname) + Environment.NewLine;
+					declaration += string.Format("'{0}', ", tagname);
 				}
-				return declaration;
+				if(Config.Settings.AllowedHtmlTags.Count > 0)
+				{
+					declaration = StringHelper.Left(declaration, declaration.Length - 2);
+				}
+
+				return declaration + "];";
 			}
 		}
 	}
