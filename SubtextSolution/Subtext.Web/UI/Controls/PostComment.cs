@@ -95,6 +95,10 @@ namespace Subtext.Web.UI.Controls
 					}
 					coComment.PostTitle = entry.Title;
 					coComment.PostUrl = entry.Link;
+					if(entry.Link.StartsWith("/"))
+					{
+						coComment.PostUrl = "http://" + Config.CurrentBlog.Host + coComment.PostUrl;
+					}
 				}
 			}
 		}

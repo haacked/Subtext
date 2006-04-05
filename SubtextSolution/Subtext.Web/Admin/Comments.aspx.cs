@@ -48,7 +48,6 @@ namespace Subtext.Web.Admin.Pages
 		protected TextBox txtNumberOfRecentComments;
 		protected Subtext.Web.Controls.HelpToolTip Helptooltip7;
 		protected Subtext.Web.Controls.HelpToolTip Helptooltip8;
-		protected Subtext.Web.Admin.WebUI.Page PageContainer;
 		protected TextBox txtRecentCommentsLength;
 		
 		private void Page_Load(object sender, EventArgs e)
