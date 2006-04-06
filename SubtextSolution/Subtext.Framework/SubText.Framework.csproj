@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP
         ProjectType = "Local"
-        ProductVersion = "7.10.6015"
+        ProductVersion = "7.10.3077"
         SchemaVersion = "2.0"
         ProjectGuid = "{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}"
     >
@@ -162,7 +162,7 @@
                 <Reference
                     Name = "blowery.Web.HttpCompress"
                     AssemblyName = "blowery.Web.HttpCompress"
-                    HintPath = "..\Subtext.Web\bin\blowery.Web.HttpCompress.dll"
+                    HintPath = "ExternalDependencies\blowery.Web.HttpCompress.dll"
                 />
                 <Reference
                     Name = "Subtext.Web.Controls"
@@ -588,6 +588,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "ExternalDependencies\blowery.Web.HttpCompress.dll"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "ExternalDependencies\CookComputing.XmlRpc.dll"
                     BuildAction = "Content"
                 />
@@ -605,6 +609,10 @@
                 />
                 <File
                     RelPath = "ExternalDependencies\SgmlReaderDll.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\Velocit.RegularExpressions.dll"
                     BuildAction = "Content"
                 />
                 <File
