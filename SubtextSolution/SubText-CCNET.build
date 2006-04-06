@@ -4,37 +4,33 @@
 	<property name="nant.settings.currentframework" value="net-1.1"/>
 	<property name="configuration" value="release"/>
 
-	<!-- Set this propery if you want to specify a custom destination
-		<property name="publish.root" value="D:\Simone\SubtextProject\SubtextSolution\buildArchive"/>
-		<property name="source.root" value="D:\Simone\SubtextProject\SubtextSolution\Subtext.DotTextUpgrader"/>
-	-->
 	
 	<target name="get-publishing-properties">
-		
-		<tstamp property="build.date" pattern="yyyyMMddTHHmmss" />
 	
-		<ifnot test="${property::exists('publish.root')}"> 
-			<property name="publish.root" value="..\Builds\${configuration}"/>
+		<ifnot test="${property::exists('CCNetBuildDate')}"> 
+			<fail message="CCNetBuildDate property not set, so can't create distribution files" />
+		</ifnot>	
+
+		<ifnot test="${property::exists('CCNetBuildTime')}"> 
+			<fail message="CCNetBuildTime property not set, so can't create distribution files" />
 		</ifnot>
 		
-		<ifnot test="${property::exists('publish.source.root')}"> 
-			<property name="publish.source.root" value="..\Builds\source\${configuration}"/>
-		</ifnot>
-		
-		<ifnot test="${property::exists('source.root')}"> 
-			<property name="source.root" value="."/>
+		<ifnot test="${property::exists('CCNetArtifactDirectory')}"> 
+			<fail message="CCNetArtifactDirectory property not set, so can't create distribution files" />
 		</ifnot>
 
-	<!--
-		<ifnot test="${property::exists('ccnet.label')}"> 
-			<fail message="ccnet.label property not set, so can't create labelled distribution files" />
+		<ifnot test="${property::exists('CCNetLabel')}"> 
+			<fail message="CCNetLabel property not set, so can't create distribution files" />
 		</ifnot>
-	-->
-		<property name="publish.source.dir.latest" value="${publish.source.root}\latest" />
-		<property name="publish.source.dir.archive" value="${publish.source.root}\archive" />
-		<property name="publish.dir.latest" value="${publish.root}\latest" />
-		<property name="publish.dir.archive" value="${publish.root}\archive" />
-		<property name="publish.dir.toCVS" value="${source.root}\Subtext.DotTextUpgrader" />
+
+		<property name="publish.dir.latest" value="${CCNetArtifactDirectory}\builds\latest" />
+		<property name="publish.dir.archive" value="${CCNetArtifactDirectory}\builds\archive" />
+		
+		<property name="fileLabelTmp" value="${CCNetBuildDate}-${CCNetBuildTime}-${CCNetLabel}" />
+		<property name="fileLabel" value="${string::replace(fileLabelTmp,':','')}" />
+		
+		<property name="MbUnit.exe" value="C:\Programmi\MbUnit\MbUnit.Cons.exe" />
+		
 	</target>
 
 	<target name="compile-main">
@@ -51,7 +47,7 @@
 		</solution>
 	</target>
 
-	<target name="compile-UnitTesting">
+	<target name="compile-UnitTesting" depends="compile-main">
 		<solution configuration="${configuration}">
 			<projects>
 				<include name="UnitTests.Subtext\UnitTests.SubText.csproj" />
@@ -69,7 +65,18 @@
 		</solution>
 	</target>
 
-	<target name="dist.publish.latest" depends="compile-main,get-publishing-properties">
+
+	<target name="MBUnit" depends="get-publishing-properties,compile-UnitTesting">
+			<exec program="${MbUnit.exe}" workingdir="UnitTests.Subtext\bin\Release">
+				<arg value="/report-type:Xml"/>
+				<arg value="/report-folder:${CCNetArtifactDirectory}"/>
+				<arg value="UnitTests.Subtext.dll"/>
+			</exec>
+	</target>
+	
+
+
+	<target name="dist.publish.latest" depends="get-publishing-properties,compile-main">
 
 		<delete dir="${publish.dir.latest}" failonerror="false" />
 		<mkdir dir="${publish.dir.latest}" />
@@ -98,24 +105,7 @@
 			</fileset>
 		</copy>
 		
-		<delete dir="${publish.source.dir.latest}" failonerror="false" />
-		<mkdir dir="${publish.source.dir.latest}" />
-		<echo message="deploying source code" />
-		
-		<copy todir="${publish.source.dir.latest}" includeemptydirs="false">
-			<fileset basedir="${source.root}">
-				<include name="**/*" />
-				<include name="emoticons.txt" />
-				<exclude name="**/*.csproj.user"/>
-				<exclude name="**/*.resharperoptions"/>
-				<exclude name="**/*.suo"/>
-				<exclude name="**/*.cvsignore"/>
-				<exclude name="_ReSharper.*/**"/>
-				<exclude name="**/bin/**"/>
-				<exclude name="**/obj/**"/>
-			</fileset>
-		</copy>
-			
+	
 		<if test="${configuration == 'documentation'}">
 			<echo message="Deploying XML files" /> 
 			<copy todir="${publish.dir.latest}" includeemptydirs="false">
@@ -136,57 +126,15 @@
 
 	<target name="dist.archive" depends="dist.publish.latest">
 		<mkdir dir="${publish.dir.archive}" />
-		<zip zipfile="${publish.dir.archive}\${build.date}.zip">
+		<zip zipfile="${publish.dir.archive}\${fileLabel}.zip">
 			<fileset basedir="${publish.dir.latest}">
 				<include name="**/*" />
 				<exclude name="**/*.pdb" />
 			</fileset>
 		</zip>
-		<zip zipfile="${publish.source.dir.archive}\${build.date}.zip">
-			<fileset basedir="${publish.source.dir.latest}">
-				<include name="**/*" />
-			</fileset>
-		</zip>
 	</target>
 	
-		<!--
-		<target name="dist.updateCVS" depends="get-publishing-properties">
-		-->
-	
-	<target name="dist.updateCVS" depends="dist.archive">
-		<copy file="${publish.dir.archive}\${build.date}.zip"
-			tofile="${publish.dir.toCVS}\SubtextDeployment.zip" />
-				
-		<property name="web.config.latest" value="${publish.dir.latest}\web.config" />
-		<property name="web.config.published" value="${publish.dir.toCVS}\Scripts\web.config" />
 		
-		<ifnot test="${file::up-to-date(web.config.latest,web.config.published)}">
-			<copy file="${publish.dir.latest}\web.config"
-					tofile="${publish.dir.toCVS}\Scripts\web.config" />	
-		</ifnot>
-
-		<cvs command="commit"
-				destination="${publish.dir.toCVS}\Scripts"
-				commandline="-m &quot;test via NANT&quot; web.config"
-				module="SubtextProject"
-				usesharpcvslib="false"
-				cvsfullpath="${CVSPATH}"
-				cvsrsh="${SSHPATH}"
-			>
-		</cvs>
-		
-		<cvs command="commit"
-				destination="${publish.dir.toCVS}"
-				commandline="-m &quot;test via NANT&quot; SubtextDeployment.zip"
-				module="SubtextProject"
-				usesharpcvslib="false"
-				cvsfullpath="${CVSPATH}"
-				cvsrsh="${SSHPATH}"
-			>
-		</cvs>
-
-	</target>
-	
 	<target name="doc">
 		<property name="configuration" value="documentation"/>
 		<property name="docs.root.dir" value="..\Docs" />
