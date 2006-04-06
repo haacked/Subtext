@@ -279,7 +279,13 @@ namespace Subtext.Framework.Providers
 		/// <param name="hostname">Hostname.</param>
 		/// <param name="subfolder">Subfolder Name.</param>
 		/// <returns></returns>
-		public abstract BlogInfo GetBlogInfo(string hostname, string subfolder);
+		/// <param name="hostname">Hostname.</param>
+		/// <param name="subfolder">Subfolder.</param>
+		/// <returns></returns>
+		public BlogInfo GetBlogInfo(string hostname, string subfolder)
+		{
+			return GetBlogInfo(hostname, subfolder, true);
+		}
 
 		/// <summary>
 		/// Returns a <see cref="BlogInfo"/> instance containing 
