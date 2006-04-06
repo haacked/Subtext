@@ -1,0 +1,34 @@
+div.xfnFriendInfoBox
+{
+	text-align: left;
+	z-index: 1000;
+	border: solid 1px black;
+	background-color: #faf4cf;
+	color: #333;
+	width: 200px;
+	font-size: smaller;
+	font-family: Arial, helvetica, Sans-Serif;
+	padding-left: 4px;
+}
+
+div.xfnFriendInfoBox h3
+{
+	margin: 0;
+	padding: 0;
+}
+
+div.xfnFriendInfoBox ul
+{
+	margin: 0;
+}
+
+div.xfnFriendInfoBox ul li
+{
+	margin: 0;
+}
+
+a.xfnRelationship
+{
+	padding-right: 13px;
+	background: url(../images/friends.png) no-repeat right;
+}
