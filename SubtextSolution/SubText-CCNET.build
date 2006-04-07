@@ -2,7 +2,7 @@
 <project xmlns="http://nant.sf.net/schemas/nant.xsd" name="SubText" default="dist.archive">
 	
 	<property name="nant.settings.currentframework" value="net-1.1"/>
-	<property name="configuration" value="release"/>
+	<property name="configuration" value="debug"/>
 
 	
 	<target name="get-publishing-properties">
@@ -23,13 +23,19 @@
 			<fail message="CCNetLabel property not set, so can't create distribution files" />
 		</ifnot>
 
+		<ifnot test="${property::exists('MbUnit.exe')}"> 
+			<fail message="MbUnit.exe property not set, so cannot test" />
+		</ifnot>
+
+		<ifnot test="${property::exists('NCover.exe')}"> 
+			<fail message="NCover.exe property not set, so cannot test" />
+		</ifnot>
+
 		<property name="publish.dir.latest" value="${CCNetArtifactDirectory}\builds\latest" />
 		<property name="publish.dir.archive" value="${CCNetArtifactDirectory}\builds\archive" />
 		
 		<property name="fileLabelTmp" value="${CCNetBuildDate}-${CCNetBuildTime}-${CCNetLabel}" />
 		<property name="fileLabel" value="${string::replace(fileLabelTmp,':','')}" />
-		
-		<property name="MbUnit.exe" value="C:\Programmi\MbUnit\MbUnit.Cons.exe" />
 		
 	</target>
 
@@ -66,14 +72,9 @@
 	</target>
 
 
-	<target name="MBUnit" depends="get-publishing-properties,compile-UnitTesting">
-			<exec program="${MbUnit.exe}" workingdir="UnitTests.Subtext\bin\Release">
-				<arg value="/report-type:Xml"/>
-				<arg value="/report-folder:${CCNetArtifactDirectory}"/>
-				<arg value="UnitTests.Subtext.dll"/>
-			</exec>
+	<target name="TestAndCover" depends="get-publishing-properties,compile-UnitTesting">
+		<exec program="${NCover.exe}" workingdir="UnitTests.Subtext\bin\${configuration}" commandline="${MbUnit.exe} /rnf:unittest /rt:xml /rf:${CCNetArtifactDirectory} UnitTests.Subtext.dll //x ${CCNetArtifactDirectory}\ncover.xml" />
 	</target>
-	
 
 
 	<target name="dist.publish.latest" depends="get-publishing-properties,compile-main">
