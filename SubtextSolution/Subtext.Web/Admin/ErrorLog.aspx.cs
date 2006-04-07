@@ -27,13 +27,13 @@ namespace Subtext.Web.Admin.Pages
 	{
 		protected AdvancedPanel Log;
 		protected Page PageContainer;
-		protected Repeater LogPage;
+		protected RepeaterWithEmptyDataTemplate LogPage;
 		protected HtmlGenericControl NoMessagesLabel;
 		protected Pager LogPager;
 		protected Button btnExportToExcel;
 		protected Button btnClearLog;
 
-		private int _logPageNumber;
+		private int logPageNumber;
 	
 		protected override void OnLoad(EventArgs e)
 		{
@@ -41,14 +41,13 @@ namespace Subtext.Web.Admin.Pages
 			base.OnLoad (e);
 		}
 
-
 		private void LoadPage()
 		{
 			if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
-				_logPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
+				this.logPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
 
 			LogPager.PageSize = Preferences.ListingItemCount;
-			LogPager.PageIndex = _logPageNumber;
+			LogPager.PageIndex = this.logPageNumber;
 
 			BindLocalUI();
 			BindList();
@@ -61,20 +60,17 @@ namespace Subtext.Web.Admin.Pages
 			LogPage.DataSource = logEntries;
 			LogPage.DataBind();		
 		}
-
 		
 		private void BindLocalUI()
 		{
 			HyperLink lnkReferrals = Utilities.CreateHyperLink("Referrals", "Referrers.aspx");
-			HyperLink lnkViews		= Utilities.CreateHyperLink("Views", "StatsView.aspx");
-			HyperLink lnkErrorLog	= Utilities.CreateHyperLink("Error Log", "ErrorLog.aspx");
-
+			HyperLink lnkViews = Utilities.CreateHyperLink("Views", "StatsView.aspx");
+			HyperLink lnkErrorLog = Utilities.CreateHyperLink("Error Log", "ErrorLog.aspx");
 
 			// Add the buttons to the PageContainer.
 			PageContainer.AddToActions(lnkReferrals);
 			PageContainer.AddToActions(lnkViews);
 			PageContainer.AddToActions(lnkErrorLog);
-
 		}
 
 		#region Web Form Designer generated code
@@ -119,4 +115,3 @@ namespace Subtext.Web.Admin.Pages
 		}
 	}
 }
-
