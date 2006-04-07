@@ -84,7 +84,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 
 			EntryCollection entries = new EntryCollection(CreateSomeEntriesDescending());
 			// Tell the write we already received 1002 published 5/25/1976.
-			RssWriter writer = new RssWriter(entries, DateTime.Parse("5/25/1976"), true);
+			RssWriter writer = new RssWriter(entries, DateTime.ParseExact("05/25/1976","MM/dd/yyyy",CultureInfo.InvariantCulture), true);
 			
 			// We only expect 1003 and 1004
 			string expected = @"<rss version=""2.0"" xmlns:dc=""http://purl.org/dc/elements/1.1/"" xmlns:trackback=""http://madskills.com/public/xml/rss/module/trackback/"" xmlns:wfw=""http://wellformedweb.org/CommentAPI/"" xmlns:slash=""http://purl.org/rss/1.0/modules/slash/"" xmlns:copyright=""http://blogs.law.harvard.edu/tech/rss"" xmlns:image=""http://purl.org/rss/1.0/modules/image/""><channel><title /><link>http://localhost/Subtext.Web/Default.aspx</link><description /><language>en-US</language><copyright>Subtext Weblog</copyright><managingEditor>Subtext@example.com</managingEditor><generator>{0}</generator><image><title /><url>http://localhost/Subtext.Web/RSS2Image.gif</url><link>http://localhost/Subtext.Web/Default.aspx</link><width>77</width><height>60</height><description /></image>" 
@@ -95,8 +95,8 @@ namespace UnitTests.Subtext.Framework.Syndication
 
 			Assert.AreEqual(expected, writer.Xml);
 
-			Assert.AreEqual(DateTime.Parse("5/25/1976"), writer.DateLastViewedFeedItemPublished, "The Item ID Last Viewed (according to If-None-Since is wrong.");
-			Assert.AreEqual(DateTime.Parse("6/14/2003"), writer.LatestPublishDate, "The Latest Feed Item ID sent to the client is wrong.");
+			Assert.AreEqual(DateTime.ParseExact("05/25/1976","MM/dd/yyyy",CultureInfo.InvariantCulture), writer.DateLastViewedFeedItemPublished, "The Item ID Last Viewed (according to If-None-Since is wrong.");
+			Assert.AreEqual(DateTime.ParseExact("06/14/2003","MM/dd/yyyy",CultureInfo.InvariantCulture), writer.LatestPublishDate, "The Latest Feed Item ID sent to the client is wrong.");
 		}
 
 		/// <summary>
@@ -116,7 +116,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 
 			EntryCollection entries = new EntryCollection(CreateSomeEntriesDescending());		
-			RssWriter writer = new RssWriter(entries, DateTime.Parse("6/14/2003"), false);
+			RssWriter writer = new RssWriter(entries, DateTime.ParseExact("06/14/2003","MM/dd/yyyy",CultureInfo.InvariantCulture), false);
 
 			string expected = @"<rss version=""2.0"" xmlns:dc=""http://purl.org/dc/elements/1.1/"" xmlns:trackback=""http://madskills.com/public/xml/rss/module/trackback/"" xmlns:wfw=""http://wellformedweb.org/CommentAPI/"" xmlns:slash=""http://purl.org/rss/1.0/modules/slash/"" xmlns:copyright=""http://blogs.law.harvard.edu/tech/rss"" xmlns:image=""http://purl.org/rss/1.0/modules/image/""><channel><title /><link>http://localhost/Subtext.Web/Default.aspx</link><description /><language>en-US</language><copyright>Subtext Weblog</copyright><managingEditor>Subtext@example.com</managingEditor><generator>{0}</generator><image><title /><url>http://localhost/Subtext.Web/RSS2Image.gif</url><link>http://localhost/Subtext.Web/Default.aspx</link><width>77</width><height>60</height><description /></image>" 
 							+ @"<item><title>Title of 1004.</title><link>http://localhost/Subtext.Web/archive/2003/06/14/1004</link><description>Body of 1004&lt;img src =""http://localhost/Subtext.Web/aggbug/1004.aspx"" width = ""1"" height = ""1"" /&gt;</description><guid>http://localhost/Subtext.Web/archive/2003/06/14/1004</guid><pubDate>Sat, 14 Jun 2003 00:00:00 GMT</pubDate><comments>http://localhost/Subtext.Web/archive/2003/06/14/1004#feedback</comments><wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1004.aspx</wfw:commentRss></item>"
@@ -131,10 +131,10 @@ namespace UnitTests.Subtext.Framework.Syndication
 		{
 			return new Entry[]
 			{
-				CreateEntry(1001, "Title of 1001.", "Body of 1001", DateTime.Parse("1/23/1975"))
-				,CreateEntry(1002, "Title of 1002.", "Body of 1002", DateTime.Parse("5/25/1976"))
-				,CreateEntry(1003, "Title of 1003.", "Body of 1003", DateTime.Parse("9/16/1979"))
-				,CreateEntry(1004, "Title of 1004.", "Body of 1004", DateTime.Parse("6/14/2003"))
+				CreateEntry(1001, "Title of 1001.", "Body of 1001", DateTime.ParseExact("01/23/1975","MM/dd/yyyy",CultureInfo.InvariantCulture))
+				,CreateEntry(1002, "Title of 1002.", "Body of 1002", DateTime.ParseExact("05/25/1976","MM/dd/yyyy",CultureInfo.InvariantCulture))
+				,CreateEntry(1003, "Title of 1003.", "Body of 1003", DateTime.ParseExact("09/16/1979","MM/dd/yyyy",CultureInfo.InvariantCulture))
+				,CreateEntry(1004, "Title of 1004.", "Body of 1004", DateTime.ParseExact("06/14/2003","MM/dd/yyyy",CultureInfo.InvariantCulture))
 			};
 		}
 
@@ -142,10 +142,10 @@ namespace UnitTests.Subtext.Framework.Syndication
 		{
 			return new Entry[]
 			{
-				CreateEntry(1004, "Title of 1004.", "Body of 1004", DateTime.Parse("6/14/2003"))
-				,CreateEntry(1003, "Title of 1003.", "Body of 1003", DateTime.Parse("9/16/1979"))
-				,CreateEntry(1002, "Title of 1002.", "Body of 1002", DateTime.Parse("5/25/1976"))
-				,CreateEntry(1001, "Title of 1001.", "Body of 1001", DateTime.Parse("1/23/1975"))
+				CreateEntry(1004, "Title of 1004.", "Body of 1004", DateTime.ParseExact("06/14/2003","MM/dd/yyyy",CultureInfo.InvariantCulture))
+				,CreateEntry(1003, "Title of 1003.", "Body of 1003", DateTime.ParseExact("09/16/1979","MM/dd/yyyy",CultureInfo.InvariantCulture))
+				,CreateEntry(1002, "Title of 1002.", "Body of 1002", DateTime.ParseExact("05/25/1976","MM/dd/yyyy",CultureInfo.InvariantCulture))
+				,CreateEntry(1001, "Title of 1001.", "Body of 1001", DateTime.ParseExact("01/23/1975","MM/dd/yyyy",CultureInfo.InvariantCulture))
 				
 			};
 		}
