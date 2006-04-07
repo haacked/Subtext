@@ -110,6 +110,7 @@ namespace UnitTests.Subtext.Framework.Format
 		/// Makes sure that url formatting is culture invariant.
 		/// </summary>
 		[Test]
+		[RollBack]
 		public void FormattingEntryUrlIsCultureInvariant()
 		{
 			Entry entry = new Entry(PostType.BlogPost);

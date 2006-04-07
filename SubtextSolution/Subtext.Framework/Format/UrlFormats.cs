@@ -104,7 +104,7 @@ namespace Subtext.Framework.Format
 
 		public virtual string CommentUrl(Entry entry)
 		{
-			return GetFullyQualifiedUrl("archive/{0:yyyy/MM/dd}/{1}.aspx#{2}", entry.DateCreated, entry.HasEntryName ? entry.EntryName : entry.ParentID.ToString(CultureInfo.InvariantCulture), entry.EntryID);
+			return GetUrl("archive/{0:yyyy/MM/dd}/{1}.aspx#{2}", entry.DateCreated, entry.HasEntryName ? entry.EntryName : entry.ParentID.ToString(CultureInfo.InvariantCulture), entry.EntryID);
 		}
 
 		public virtual string CommentApiUrl(int EntryID)
