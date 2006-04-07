@@ -74,8 +74,8 @@
 		<ANW:Pager id="LogPager" runat="server" CssClass="Pager" UrlFormat="ErrorLog.aspx?pg={0}"
 			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' PrefixText="<div>Goto page</div>"
 			UseSpacer="False"></ANW:Pager>
-		<asp:Button id="btnExportToExcel" runat="Server" CssClass="buttonSubmit" Text="Export To Excel" style="float:right;"></asp:Button> 
-		<asp:Button id="btnClearLog" runat="server" CssClass="buttonSubmit" style="float:right;" Text="Clear" />
+		<asp:Button id="btnExportToExcel" runat="Server" CssClass="buttonSubmit" Text="Export" title="Export to Excel" style="float:right;"></asp:Button> 
+		<asp:Button id="btnClearLog" runat="server" CssClass="buttonSubmit" Text="Clear" title="Clear the Log" style="float:right;"/>
 		<br class="clear" />
 	</ANW:AdvancedPanel>
 </ANW:Page>

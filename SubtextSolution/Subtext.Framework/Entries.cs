@@ -288,13 +288,12 @@ namespace Subtext.Framework
 				CommentFilter.FilterComment(entry);
 
 			if(Config.CurrentBlog.AutoFriendlyUrlEnabled
+				&& (entry.EntryName == null || entry.EntryName.Length == 0)
 				&& (entry.PostType == PostType.BlogPost || entry.PostType == PostType.Story)
-				&& entry.Title != null
-				&& entry.Title.Length > 0)
+				&& entry.Title != null && entry.Title.Length > 0)
 			{
 				entry.EntryName = AutoGenerateFriendlyUrl(entry.Title);
 				entry.TitleUrl = entry.Link;
-				
 			}
 
 			if(entry.IsActive && entry.IncludeInMainSyndication)

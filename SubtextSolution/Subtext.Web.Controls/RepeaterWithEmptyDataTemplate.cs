@@ -13,10 +13,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-using System;
-using System.Web.UI;
 using System.Web.UI.WebControls;
- 
+
 namespace Subtext.Web.Controls
 {
 	/// <summary>
@@ -29,37 +27,36 @@ namespace Subtext.Web.Controls
 	/// </remarks>
 	public class RepeaterWithEmptyDataTemplate : Repeater
 	{
-		private ITemplate _emptyDataTemplate;
+		private PlaceHolder emptyDataTemplate;
 		
 		/// <summary>
 		/// Gets or sets the empty data template.  This contains controls 
 		/// displayed when the repeater is bound to a datasource with no elements.
 		/// </summary>
 		/// <value></value>
-		public ITemplate EmptyDataTemplate
+		public PlaceHolder EmptyDataTemplate
 		{
 			get 
 			{
-				return _emptyDataTemplate;
+				return this.emptyDataTemplate;
 			}
 			set 
 			{
-				_emptyDataTemplate = value;
+				this.emptyDataTemplate = value;
 			}
 		}
 	
 		/// <summary>
-		/// Performs the data bind and if the repeater has no 
-		/// items, it instantiates the EmptyItemTemplate.
+		/// When each item is created, this checks if the item is the
+		/// FooterTemplate. If it is, and the number if items is zero
+		/// (empty) then it adds the EmptyDataTemplate to the containting control.
 		/// </summary>
-		/// <param name="e">E.</param>
-		protected override void OnDataBinding(EventArgs e) 
-		{
-			base.OnDataBinding (e);
-			if(this.Items.Count == 0) 
-			{
-				EmptyDataTemplate.InstantiateIn(this);
-			}
+		/// <param name="ea">E.</param>
+		protected override void OnItemCreated(RepeaterItemEventArgs ea) 
+		{ 
+			if (ea.Item.ItemType == ListItemType.Footer && this.Items.Count == 0) 
+				Controls.Add(EmptyDataTemplate); 
+			base.OnItemCreated(ea); 
 		}
 	}
 }

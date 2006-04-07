@@ -283,7 +283,7 @@ namespace Subtext.Web.Admin.WebUI
 		protected override void Render(HtmlTextWriter writer)
 		{	
 			// there's only 1 page, a pager is useless so render nothing
-			if (FIRST_PAGE_INDEX == MaxPages) return;
+			if (MaxPages == 0 || FIRST_PAGE_INDEX == MaxPages) return;
 
 			if (_cssClass.Length > 0)
 				writer.AddAttribute("class", _cssClass);
