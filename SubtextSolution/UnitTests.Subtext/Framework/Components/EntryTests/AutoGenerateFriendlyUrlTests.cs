@@ -131,7 +131,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			duplicate.SourceUrl = "http://localhost/ThisUrl/";
 			duplicate.Title = "Some Title";
 			duplicate.Body = "Some Body";
-			int dupeId = Entries.Create(entry);
+			int dupeId = Entries.Create(duplicate);
 			Entry savedDupe = Entries.GetEntry(dupeId, EntryGetOption.All);
 			
 			Assert.AreEqual("SomeTitleAgain", savedDupe.EntryName, "Should have appended 'Again'");
@@ -142,7 +142,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			yetAnotherDuplicate.SourceUrl = "http://localhost/ThisUrl/";
 			yetAnotherDuplicate.Title = "Some Title";
 			yetAnotherDuplicate.Body = "Some Body";
-			dupeId = Entries.Create(entry);
+			dupeId = Entries.Create(yetAnotherDuplicate);
 			savedDupe = Entries.GetEntry(dupeId, EntryGetOption.All);
 			
 			Assert.AreEqual("SomeTitleYetAgain", savedDupe.EntryName, "Should have appended 'YetAgain'");
@@ -152,7 +152,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			yetAnotherDuplicate.SourceUrl = "http://localhost/ThisUrl/";
 			yetAnotherDuplicate.Title = "Some Title";
 			yetAnotherDuplicate.Body = "Some Body";
-			dupeId = Entries.Create(entry);
+			dupeId = Entries.Create(yetAnotherDuplicate);
 			savedDupe = Entries.GetEntry(dupeId, EntryGetOption.All);
 			
 			Assert.AreEqual("SomeTitleAndAgain", savedDupe.EntryName, "Should have appended 'AndAgain'");
@@ -162,7 +162,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			yetAnotherDuplicate.SourceUrl = "http://localhost/ThisUrl/";
 			yetAnotherDuplicate.Title = "Some Title";
 			yetAnotherDuplicate.Body = "Some Body";
-			dupeId = Entries.Create(entry);
+			dupeId = Entries.Create(yetAnotherDuplicate);
 			savedDupe = Entries.GetEntry(dupeId, EntryGetOption.All);
 			
 			Assert.AreEqual("SomeTitleOnceMore", savedDupe.EntryName, "Should have appended 'OnceMore'");
@@ -172,7 +172,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			yetAnotherDuplicate.SourceUrl = "http://localhost/ThisUrl/";
 			yetAnotherDuplicate.Title = "Some Title";
 			yetAnotherDuplicate.Body = "Some Body";
-			dupeId = Entries.Create(entry);
+			dupeId = Entries.Create(yetAnotherDuplicate);
 			savedDupe = Entries.GetEntry(dupeId, EntryGetOption.All);
 			
 			Assert.AreEqual("SomeTitleToBeatADeadHorse", savedDupe.EntryName, "Should have appended 'ToBeatADeadHorse'");
