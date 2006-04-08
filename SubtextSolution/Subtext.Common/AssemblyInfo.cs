@@ -23,7 +23,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 //
 [assembly: AssemblyTitle("Subtext.Common")]
-[assembly: AssemblyDescription("Some Common code.")]
+[assembly: AssemblyDescription("Some Common legacy code not yet migrated to Subtext.Framework.")]
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]

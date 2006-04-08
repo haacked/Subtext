@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 //
 [assembly: AssemblyTitle("Subtext.Web")]
-[assembly: AssemblyDescription("Default Subtext ASP.NET Implementation.")]
+[assembly: AssemblyDescription("ASP.NET Website implementation implented as a Class Library rather than a Web Project.")]
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]	

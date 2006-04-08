@@ -23,7 +23,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 //
 [assembly: AssemblyTitle("Subtext.Installation")]
-[assembly: AssemblyDescription("Contains classes used to install Subtext")]
+[assembly: AssemblyDescription("Implements the InstallationProvider for SQL Server. Contains classes used to install and upgrade Subtext")]
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
