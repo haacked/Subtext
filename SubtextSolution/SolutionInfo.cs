@@ -19,7 +19,7 @@ using System.Reflection;
 [assembly: AssemblyCompany("Subtext")]
 [assembly: AssemblyProduct("Subtext Blog Engine")]
 [assembly: AssemblyCopyright("Copyright (c) 2005 Subtext Project Team - BSD License")]
-[assembly: AssemblyVersion("1.0.0.4")]
+[assembly: AssemblyVersion("1.0.4.0")]
 /* Removed [AssemblyFileVersion] since it defaults to AssemblyVersion */
 /* Human Readable version. */
 [assembly: AssemblyInformationalVersion("1.0.5.0")]
