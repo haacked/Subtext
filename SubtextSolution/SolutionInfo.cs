@@ -18,10 +18,11 @@ using System.Reflection;
 
 [assembly: AssemblyCompany("Subtext")]
 [assembly: AssemblyProduct("Subtext Blog Engine")]
-[assembly: AssemblyCopyright("Copyright (c) 2005 Subtext Project Team")]
-[assembly: AssemblyVersion("1.0.0.3")]
-[assembly: AssemblyFileVersion("1.0.0.3")]
-[assembly: AssemblyInformationalVersion("1.0.0.3")]
+[assembly: AssemblyCopyright("Copyright (c) 2005 Subtext Project Team - BSD License")]
+[assembly: AssemblyVersion("1.0.0.4")]
+/* Removed [AssemblyFileVersion] since it defaults to AssemblyVersion */
+/* Human Readable version. */
+[assembly: AssemblyInformationalVersion("1.0.5.0")]
 
 //
 // In order to sign your assembly you must specify a key to use. Refer to the 
