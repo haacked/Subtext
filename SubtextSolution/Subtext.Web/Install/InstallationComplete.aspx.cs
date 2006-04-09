@@ -34,7 +34,7 @@ namespace Subtext.Web.Install
 		private void Page_Load(object sender, System.EventArgs e)
 		{
 			InstallationManager.ResetInstallationStatusCache();
-			if(Config.CurrentBlog != null)
+			if(Config.CurrentBlog != null && lnkBlog != null)
 			{
 				lnkBlog.HRef = Config.CurrentBlog.BlogHomeVirtualUrl;
 			}
