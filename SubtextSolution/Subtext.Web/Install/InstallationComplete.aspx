@@ -5,7 +5,7 @@
 	<MP:ContentRegion id="MPSubTitle" runat="server">Installation Is Complete</MP:ContentRegion>
 	<p>Congratulations. This Subtext Installation is complete.</p>
 	<p>
-		Click <a id="lnkBlog" href="~/">here</a> to visit your blog.
+		Click <a id="lnkBlog" href="" runat="server">here</a> to visit your blog.
 	</p>
 	<p>
 		Click <a id="lnkHostAdmin" href="~/HostAdmin/" runat="server">here</a> to visit 
