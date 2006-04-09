@@ -130,12 +130,27 @@ namespace Subtext.Web.Install
 					}
 					break;
 				case InstallationState.NeedsUpgrade:
-					if(!InstallationProvider.Instance().Upgrade(VersionInfo.FrameworkVersion))
+					try
 					{
-						installationStateMessage.Text = "Uh oh. Something went wrong with the upgrade.";
-						return;
+						InstallationProvider.Instance().Upgrade();
 					}
+					catch(SqlScriptExecutionException ex)
+					{
+						if(IsPermissionDeniedException(ex))
+						{
+							installationStateMessage.Text = "<p class=\"error\">The database user specified in web.config does not have enough "
+								+ "permission to perform the installation.  Please give the user database owner (dbo) rights and try again. " 
+								+ "You may remove them later.</p>";
+							return;
+						}
+						installationStateMessage.Text = "<p>Uh oh. Something went wrong with the installation.</p><p>" + ex.Message + "</p><p>" + ex.GetType().FullName + "</p>";
+#if DEBUG
+						installationStateMessage.Text += "<p>" + ex.StackTrace + "</p>";
+#endif
+					}
+
 					break;
+
 				default:
 					installationStateMessage.Text = "Hmmm, your installation is in an unknown state. ";
 					break;

@@ -17,6 +17,7 @@ using System;
 using System.Collections.Specialized;
 using System.Data;
 using System.Data.SqlClient;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Web.UI;
 using Subtext.Extensibility.Providers;
@@ -145,27 +146,33 @@ namespace Subtext.Installation
 		/// <summary>
 		/// Upgrades this instance. Returns true if it was successful.
 		/// </summary>
-		/// <param name="assemblyVersion">Version of the assembly upgrading to.</param>
 		/// <returns></returns>
-		public override bool Upgrade(Version assemblyVersion)
+		public override bool Upgrade()
 		{
 			using(SqlConnection connection = new SqlConnection(_connectionString))
 			{
 				connection.Open();
 				using(SqlTransaction transaction = connection.BeginTransaction())
 				{
-					//TODO: Calculate the script name.
 					try
 					{
-						bool result = false; //ScriptHelper.ExecuteScript("UpgradeDotText095Script.sql", transaction);
-						if(result)
+						Version installationVersion = this.GetCurrentInstallationVersion();
+						if(installationVersion == null)
 						{
-							UpdateCurrentInstalledVersion(assemblyVersion, transaction);
-							transaction.Commit();
+							//This is the base version.  We need to hardcode this 
+							//because Subtext 1.0 didn't write the assembly version 
+							//into the database.
+							installationVersion = new Version(1, 0, 0, 0);
 						}
-						else
-							transaction.Rollback();
-						return result;
+						string[] scripts = ListInstallationScripts(installationVersion, this.CurrentAssemblyVersion);
+						foreach(string scriptName in scripts)
+						{
+							ScriptHelper.ExecuteScript(scriptName, transaction);	
+						}
+
+						UpdateInstallationVersionNumber(this.CurrentAssemblyVersion, transaction);
+						transaction.Commit();
+						return true;
 					}
 					catch(Exception)
 					{
@@ -190,10 +197,14 @@ namespace Subtext.Installation
 				{
 					try
 					{
-						//TODO: Calculate the script name.
-						ScriptHelper.ExecuteScript("Installation.01.00.00.sql", transaction);
+						string[] scripts = ListInstallationScripts(this.GetCurrentInstallationVersion(), this.CurrentAssemblyVersion);
+						foreach(string scriptName in scripts)
+						{
+							ScriptHelper.ExecuteScript(scriptName, transaction);	
+						}
+
 						ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction);
-						UpdateCurrentInstalledVersion(assemblyVersion, transaction);
+						UpdateInstallationVersionNumber(assemblyVersion, transaction);
 						transaction.Commit();
 					}
 					catch(Exception)
@@ -206,10 +217,12 @@ namespace Subtext.Installation
 		}
 
 		/// <summary>
-		/// Gets the <see cref="Version"/> of the current Subtext installation.
+		/// Gets the <see cref="Version"/> of the current Subtext data store (ie. SQL Server). 
+		/// This is the value stored in the database. If it does not match the actual 
+		/// assembly version, we may need to run an upgrade.
 		/// </summary>
 		/// <returns></returns>
-		public override Version GetCurrentInstalledVersion()
+		public override Version GetCurrentInstallationVersion()
 		{
 			string sql = "subtext_VersionGetCurrent";
 		
@@ -230,7 +243,7 @@ namespace Subtext.Installation
 		/// Updates the value of the current installed version within the subtext_Version table.
 		/// </summary>
 		/// <param name="newVersion">New version.</param>
-		public override void UpdateCurrentInstalledVersion(Version newVersion, SqlTransaction transaction)
+		public override void UpdateInstallationVersionNumber(Version newVersion, SqlTransaction transaction)
 		{
 			string sql = "subtext_VersionAdd";
 			SqlParameter[] p =
@@ -272,18 +285,56 @@ namespace Subtext.Installation
 		/// <value>
 		/// 	<c>true</c> if [needs upgrade]; otherwise, <c>false</c>.
 		/// </value>
-		bool NeedsUpgrade
+		public bool NeedsUpgrade
 		{
 			get
 			{
-				Version installedVersion = GetCurrentInstalledVersion();
-				if(installedVersion > CurrentAssemblyVersion)
+				Version installationVersion = GetCurrentInstallationVersion();
+				if(installationVersion >= CurrentAssemblyVersion)
 				{
-					//TODO: check if we have any scripts between the current 
-					//		installed version and the current assemly version.
+					return false;
 				}
-				return false;
+
+				if(installationVersion == null)
+				{
+					//This is the base version.  We need to hardcode this 
+					//because Subtext 1.0 didn't write the assembly version 
+					//into the database.
+					installationVersion = new Version(1, 0, 0, 0);
+				}
+				string[] scripts = ListInstallationScripts(installationVersion, CurrentAssemblyVersion);
+				return scripts.Length > 0;
 			}
+		}
+
+		/// <summary>
+		/// Returns a collection of installation script names with a version 
+		/// less than or equal to the max version.
+		/// </summary>
+		/// <param name="maxVersionInclusive">The max version inclusive.</param>
+		/// <returns></returns>
+		public string[] ListInstallationScripts(System.Version minVersionExclusive, System.Version maxVersionInclusive)
+		{
+			Assembly assembly = Assembly.GetExecutingAssembly();
+			string[] resourceNames = assembly.GetManifestResourceNames();
+			StringCollection collection = new StringCollection();
+			foreach(string resourceName in resourceNames)
+			{
+				InstallationScriptInfo scriptInfo = InstallationScriptInfo.Parse(resourceName);
+				if(scriptInfo == null) continue;
+				
+				if((minVersionExclusive == null || scriptInfo.Version > minVersionExclusive)
+					&& (maxVersionInclusive == null || scriptInfo.Version <= maxVersionInclusive))
+				{
+					collection.Add(scriptInfo.ScriptName);
+				}
+			}
+
+			string[] scripts = new string[collection.Count];
+			collection.CopyTo(scripts, 0);
+			Array.Sort(scripts);
+
+			return scripts;
 		}
 
 		/// <summary>
@@ -319,6 +370,44 @@ namespace Subtext.Installation
 		{
 			string blogContentTableSql = String.Format(TableExistsSql, tableName);			
 			return (int)SqlHelper.ExecuteScalar(_connectionString, CommandType.Text, blogContentTableSql);
+		}
+
+		internal class InstallationScriptInfo
+		{
+			private InstallationScriptInfo(string scriptName, Version version)
+			{
+				this.version = version;
+				this.scriptName = scriptName;
+			}
+
+			internal static InstallationScriptInfo Parse(string resourceName)
+			{
+				Regex regex = new Regex(@"(?<scriptName>Installation\.(?<version>\d+\.\d+\.\d+)\.sql)$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+				Match match = regex.Match(resourceName);
+				if(!match.Success)
+				{
+					return null;
+				}
+				Version version = new Version(match.Groups["version"].Value);
+				string scriptName = match.Groups["scriptName"].Value;
+				return new InstallationScriptInfo(scriptName, version);
+			}
+
+			public string ScriptName
+			{
+				get { return this.scriptName; }
+				set { this.scriptName = value; }
+			}
+
+			string scriptName;
+
+			public Version Version
+			{
+				get { return this.version; }
+				set { this.version = value; }
+			}
+
+			Version version;
 		}
 	}
 }
