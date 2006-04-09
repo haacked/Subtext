@@ -47,7 +47,7 @@ namespace UnitTests.Subtext.Installation
 		[RollBack]
 		public void IsInstallationActionRequiredReturnsTrueForBlogDoesNotExistException()
 		{
-			Assert.IsTrue(InstallationManager.GetIsInstallationActionRequired(new BlogDoesNotExistException("host", "app", false), VersionInfo.FrameworkVersion));
+			Assert.IsTrue(InstallationManager.InstallationActionRequired(new BlogDoesNotExistException("host", "app", false), VersionInfo.FrameworkVersion));
 		}
 
 		/// <summary>

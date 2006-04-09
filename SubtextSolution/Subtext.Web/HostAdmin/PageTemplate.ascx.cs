@@ -39,9 +39,15 @@ namespace Subtext.Web.HostAdmin
 			if(!IsPostBack)
 				DataBind();
 			base.OnLoad (e);
-			hostAdminName.Text = HostInfo.Instance.HostUserName;
+			if(hostAdminName != null && HostInfo.Instance != null)
+			{
+				hostAdminName.Text = HostInfo.Instance.HostUserName;
+			}
 
-			Menuitem2.Visible = (Config.ActiveBlogCount <= 0);
+			if(Menuitem2 != null)
+			{
+				Menuitem2.Visible = (Config.ActiveBlogCount <= 0);
+			}
 		}
 	}
 }

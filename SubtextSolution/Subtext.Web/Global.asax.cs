@@ -21,6 +21,7 @@ using System.Web;
 using log4net;
 using log4net.Appender;
 using log4net.Repository.Hierarchy;
+using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
@@ -104,10 +105,23 @@ namespace Subtext
 
 			// Want to redirect to install if installation is required, 
 			// or if we're missing a HostInfo record.
-			if((InstallationManager.IsInstallationActionRequired(VersionInfo.FrameworkVersion) || InstallationManager.HostInfoRecordNeeded) 
-				&& !(InstallationManager.IsInInstallDirectory || Framework.Format.UrlFormats.IsInSpecialDirectory("Import")))
+			if((InstallationManager.IsInstallationActionRequired(VersionInfo.FrameworkVersion) || InstallationManager.HostInfoRecordNeeded))
 			{
-				Response.Redirect("~/Install/");
+				InstallationState state = InstallationManager.GetCurrentInstallationState(VersionInfo.FrameworkVersion);
+				if(state == InstallationState.NeedsInstallation)
+				{
+					Response.Redirect("~/Install/", true);
+					return;
+				}
+
+				if(state == InstallationState.NeedsUpgrade || state == InstallationState.NeedsRepair)
+				{
+					if(!InstallationManager.IsInHostAdminDirectory && !InstallationManager.IsOnLoginPage && !InstallationManager.IsInSystemMessageDirectory)
+					{
+						Response.Redirect("~/SystemMessages/UpgradeInProgress.aspx", true);
+						return;
+					}
+				}
 			}
 		}
 
@@ -185,13 +199,13 @@ namespace Subtext
 			{
 				if(exception.GetType() == typeof(BlogDoesNotExistException))
 				{
-					Response.Redirect("~/Install/BlogNotConfiguredError.aspx");
+					Response.Redirect("~/Install/BlogNotConfiguredError.aspx", true);
 					return;
 				}
 
-				if(InstallationManager.GetIsInstallationActionRequired(exception, VersionInfo.FrameworkVersion))
+				if(InstallationManager.InstallationActionRequired(exception, VersionInfo.FrameworkVersion))
 				{
-					Response.Redirect("~/Install/");
+					Response.Redirect("~/Install/", true);
 					return;
 				}
 			}

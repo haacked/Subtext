@@ -83,7 +83,7 @@ namespace Subtext.Framework
 		/// <returns>
 		/// 	<c>true</c> if an installation action is required; otherwise, <c>false</c>.
 		/// </returns>
-		public static bool GetIsInstallationActionRequired(Exception unhandledException, Version assemblyVersion)
+		public static bool InstallationActionRequired(Exception unhandledException, Version assemblyVersion)
 		{
 			if(unhandledException is BlogDoesNotExistException)
 				return true;
@@ -123,6 +123,20 @@ namespace Subtext.Framework
 			{
 				//TODO: Fix this up.
 				return StringHelper.IndexOf(HttpContext.Current.Request.Path, "/Install/", false) >= 0;
+			}
+		}
+
+		/// <summary>
+		/// Determines whether the requested page is the login page.
+		/// </summary>
+		/// <returns>
+		/// 	<c>true</c> if is in install directory; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool IsOnLoginPage
+		{
+			get
+			{
+				return StringHelper.EndsWith(HttpContext.Current.Request.FilePath, "Login.aspx", true);
 			}
 		}
 

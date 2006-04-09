@@ -1148,6 +1148,38 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "HostAdmin\Upgrade\Default.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "HostAdmin\Upgrade\Default.aspx.cs"
+                    DependentUpon = "Default.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "HostAdmin\Upgrade\Default.aspx.resx"
+                    DependentUpon = "Default.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "HostAdmin\Upgrade\UpgradeComplete.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "HostAdmin\Upgrade\UpgradeComplete.aspx.cs"
+                    DependentUpon = "UpgradeComplete.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "HostAdmin\Upgrade\UpgradeComplete.aspx.resx"
+                    DependentUpon = "UpgradeComplete.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "HostAdmin\UserControls\BlogsEditor.ascx"
                     SubType = "UserControl"
                     BuildAction = "Content"
@@ -4450,6 +4482,22 @@
                     RelPath = "SystemMessages\PageTemplate.ascx"
                     SubType = "UserControl"
                     BuildAction = "Content"
+                />
+                <File
+                    RelPath = "SystemMessages\UpgradeInProgress.aspx"
+                    SubType = "Form"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "SystemMessages\UpgradeInProgress.aspx.cs"
+                    DependentUpon = "UpgradeInProgress.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SystemMessages\UpgradeInProgress.aspx.resx"
+                    DependentUpon = "UpgradeInProgress.aspx.cs"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "SystemMessages\Style\SystemMessageStyle.css"

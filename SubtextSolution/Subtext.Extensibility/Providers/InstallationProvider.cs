@@ -78,9 +78,8 @@ namespace Subtext.Extensibility.Providers
 		/// <summary>
 		/// Upgrades this instance. Returns true if it was successful.
 		/// </summary>
-		/// <param name="assemblyVersion">The new assembly version.</param>
 		/// <returns></returns>
-		public abstract bool Upgrade(Version assemblyVersion);
+		public abstract bool Upgrade();
 
 		/// <summary>
 		/// Installs this instance.
@@ -108,14 +107,14 @@ namespace Subtext.Extensibility.Providers
 		/// Gets the <see cref="Version"/> of the current Subtext installation.
 		/// </summary>
 		/// <returns></returns>
-		public abstract Version GetCurrentInstalledVersion();
+		public abstract Version GetCurrentInstallationVersion();
 
 		/// <summary>
 		/// Updates the current installed version.
 		/// </summary>
 		/// <param name="newVersion">The new version that is now current.</param>
 		/// <returns></returns>
-		public abstract void UpdateCurrentInstalledVersion(Version newVersion, SqlTransaction transaction);
+		public abstract void UpdateInstallationVersionNumber(Version newVersion, SqlTransaction transaction);
 	}
 
 	/// <summary>
