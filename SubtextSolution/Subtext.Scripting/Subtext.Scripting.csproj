@@ -134,6 +134,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "SolutionInfo.cs"
+                    Link = "..\SolutionInfo.cs"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "SqlHelper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -151,6 +156,11 @@
                 <File
                     RelPath = "TemplateParameterCollection.cs"
                     SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "VersionInfo.Designer.cs"
+                    Link = "..\VersionInfo.Designer.cs"
                     BuildAction = "Compile"
                 />
                 <File

@@ -135,6 +135,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "VersionInfo.Designer.cs"
+                    Link = "..\VersionInfo.Designer.cs"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Plugins\IImplementationInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

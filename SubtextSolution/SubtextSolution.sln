@@ -96,6 +96,7 @@ Global
 		SourceGuidelines.txt = SourceGuidelines.txt
 		SubText.build = SubText.build
 		SubtextDocs.ndoc = SubtextDocs.ndoc
+		VersionInfo.Designer.cs = VersionInfo.Designer.cs
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
