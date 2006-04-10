@@ -15,10 +15,11 @@
 
 using System;
 using System.Web.UI.WebControls;
-using Subtext.Framework;
 using Subtext.Extensibility;
-using Subtext.Framework.Configuration;    
+using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
+using Subtext.Framework.Text;
 using Subtext.Web.Controls;
 
 namespace Subtext.Web.UI.Controls
@@ -29,7 +30,7 @@ namespace Subtext.Web.UI.Controls
 	public class RecentComments : BaseControl
 	{
 		private const int DefaultRecentPostCount = 5;
-		protected System.Web.UI.WebControls.Repeater feedList;
+		protected Repeater feedList;
 		private EntryCollection comments;
 
 		/// <summary>
@@ -43,7 +44,7 @@ namespace Subtext.Web.UI.Controls
 			}
 			else
 			{
-				comments = Entries.GetRecentPosts(DefaultRecentPostCount, Subtext.Extensibility.PostType.Comment, true);
+				comments = Entries.GetRecentPosts(DefaultRecentPostCount, PostType.Comment, true);
 			}
 
 			for(int i = 0; i < comments.Count; i++)
@@ -93,7 +94,8 @@ namespace Subtext.Web.UI.Controls
 						string truncatedText = string.Empty;
 						if (commentLength > 0)
 						{
-							truncatedText = entry.Body.Substring(0, commentLength);
+							truncatedText = HtmlHelper.RemoveHtml(entry.Body);
+							truncatedText = truncatedText.Substring(0, commentLength);
 						}
 
 						title.Text = truncatedText + "...";
@@ -101,7 +103,7 @@ namespace Subtext.Web.UI.Controls
 					} 
 					else
 					{
-						title.Text = entry.Body;
+						title.Text = HtmlHelper.RemoveHtml(entry.Body);
 						title.NavigateUrl = entry.Link;
 					}
 					ControlHelper.SetTitleIfNone(title, "Reader Comment.");
