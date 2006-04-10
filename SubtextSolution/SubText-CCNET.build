@@ -2,7 +2,6 @@
 <project xmlns="http://nant.sf.net/schemas/nant.xsd" name="SubText">
 	
 	<property name="nant.settings.currentframework" value="net-1.1"/>
-	<property name="configuration" value="debug"/>
 
 	
 	<target name="get-publishing-properties">
@@ -48,12 +47,62 @@
 		<property name="publish.dir.latest" value="${CCNetArtifactDirectory}\builds\latest" />
 		<property name="publish.dir.archive" value="${CCNetArtifactDirectory}\builds\archive" />
 		
-		<property name="fileLabelTmp" value="${CCNetBuildDate}-${CCNetBuildTime}-${CCNetLabel}" />
-		<property name="fileLabel" value="${string::replace(fileLabelTmp,':','')}" />
+		<property name="fileLabel" value="SubText-${CCNetLabel}" />
+		
+		<property name="docs.root.dir" value="${CCNetWorkingDirectory}\Docs" />
+		<property name="ndoc.output.dir" value="${docs.root.dir}\NDoc" />
 	
 	</target>
 
-	<target name="compile-main">
+
+
+
+	<target name="version" depends="get-publishing-properties">
+		<asminfo output="VersionInfo.Designer.cs" language="CSharp">
+    <imports>
+        <import namespace="System" />
+        <import namespace="System.Reflection" />
+    </imports>
+			<attributes>
+				<attribute type="AssemblyVersionAttribute" value="${CCNetLabel}" />
+			</attributes>
+		</asminfo>
+	</target>
+
+
+
+	<target name="clean" depends="get-publishing-properties">
+		<delete dir="${log.dir}" failonerror="false" />
+		<call target="clean-vs" />
+	</target>
+
+	<target name="clean-vs">
+		<foreach item="Folder" property="foldername">
+			<in>
+				<items basedir=".">
+					<include name="*\bin" />
+					<include name="*\obj" />
+				</items>
+			</in>
+			<do>
+				<delete dir="${foldername}" />
+			</do>
+		</foreach>
+	</target>
+
+
+	<target name="compile-debug" depends="clean, version">
+		<property name="configuration" value="debug"/>
+		<call target="compile" />
+	</target>
+	
+	<target name="compile-release" depends="clean, version">
+		<property name="configuration" value="Release"/>
+		<call target="compile" />
+	</target>
+
+
+	<target name="compile">
 		<solution configuration="${configuration}">
 			<projects>
 				<include name="Subtext.Common\SubText.Common.csproj" />
@@ -67,8 +116,8 @@
 		</solution>
 	</target>
 
-	<target name="compile-UnitTesting" depends="compile-main">
-		<solution configuration="${configuration}">
+	<target name="compile-UnitTesting" depends="compile-debug">
+		<solution configuration="debug">
 			<projects>
 				<include name="UnitTests.Subtext\UnitTests.SubText.csproj" />
 			</projects>
@@ -86,15 +135,15 @@
 	</target>
 
 
-	<target name="TestAndCover" depends="get-publishing-properties,compile-UnitTesting">
+	<target name="testAndCover" depends="get-publishing-properties,compile-UnitTesting">
 		
-		<exec program="${NCover.exe}" workingdir="UnitTests.Subtext\bin\${configuration}" commandline="&quot;${MbUnit.exe}&quot; /rnf:unittest /rt:xml /rf:${log.dir} UnitTests.Subtext.dll //x ${log.dir}\ncover-temp.xml" />
+		<exec program="${NCover.exe}" workingdir="UnitTests.Subtext\bin\${configuration}" commandline="&quot;${MbUnit.exe}&quot; /rnf:unittest /rt:xml /rf:${log.dir} UnitTests.Subtext.dll //x ${log.dir}\ncover-temp.xml" failonerror="false"/>
 		
 		<call target="util.ncoverexplorer.nant" />
 		
 	</target>
 
-	<target name="reporting" depends="compile-main">
+	<target name="reporting" depends="compile-debug">
 		<exec program="${fxcop.exe}" 
 			commandline="/p:SubtextCodeAnalysis.FxCop /o:${log.dir}\ccnet-fxcop.xml" failonerror="false"/>
 	</target>
@@ -118,8 +167,14 @@
 			</fileset>
 		</ncoverexplorer>
 	</target>
+	
+	
+	<target name="release" depends="dist.archive">
+		<echo message="CI Run for build number ${CCNetLabel} successfully completed" />
+	</target>
+	
 
-	<target name="dist.publish.latest" depends="get-publishing-properties,compile-main">
+	<target name="dist.publish.latest" depends="compile-release">
 
 		<delete dir="${publish.dir.latest}" failonerror="false" />
 		<mkdir dir="${publish.dir.latest}" />
@@ -175,13 +230,12 @@
 				<exclude name="**/*.pdb" />
 			</fileset>
 		</zip>
+		<delete dir="${publish.dir.latest}" failonerror="false" />
 	</target>
 	
 		
-	<target name="doc">
+	<target name="doc" depends="dist.publish.latest">
 		<property name="configuration" value="documentation"/>
-		<property name="docs.root.dir" value="..\Docs" />
-		<property name="ndoc.output.dir" value="${docs.root.dir}\NDoc" />
 		<property name="ndoc.file.name" value="CodeDocumentation" />
 		
 		<call target="dist.publish.latest" />	
@@ -203,7 +257,7 @@
 					<property name="HtmlHelpName" value="${ndoc.file.name}" />
 					<property name="HtmlHelpCompilerFilename" value="hhc.exe" />
 					<property name="Title" value="Subtext Code Documentation" />
-					<property name="CopyrightText" value="Copyright 2005 Phil Haack" />
+					<property name="CopyrightText" value="Copyright 2005-2006 Phil Haack" />
 					<property name="CopyrightHref" value="" />
 					<property name="UseNamespaceDocSummaries" value="True" />
 				</documenter>
