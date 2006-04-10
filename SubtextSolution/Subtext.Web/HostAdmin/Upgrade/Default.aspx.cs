@@ -28,6 +28,9 @@ namespace Subtext.Web.HostAdmin.Upgrade
 	/// </remarks>
 	public class Default : System.Web.UI.Page
 	{
+		protected Subtext.Web.Controls.ContentRegion MPTitle;
+		protected Subtext.Web.Controls.ContentRegion MPSideBar;
+		protected Subtext.Web.Controls.MasterPage MPContainer;
 		protected System.Web.UI.WebControls.Button btnUpgrade;
 	
 		private void Page_Load(object sender, System.EventArgs e)
@@ -54,8 +57,8 @@ namespace Subtext.Web.HostAdmin.Upgrade
 		/// </summary>
 		private void InitializeComponent()
 		{    
+			this.btnUpgrade.Click += new System.EventHandler(this.btnUpgrade_Click);
 			this.Load += new System.EventHandler(this.Page_Load);
-			btnUpgrade.Click += new EventHandler(btnUpgrade_Click);
 
 		}
 		#endregion
