@@ -28,17 +28,26 @@ namespace Subtext.Web.UI.Controls
 	/// </summary>
 	public  class ArchiveMonth : Subtext.Web.UI.Controls.BaseControl
 	{
-		
 		protected Subtext.Web.UI.Controls.EntryList Days;
 
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad (e);
 			
-			DateTime dt = WebPathStripper.GetDateFromRequest(Request.Path,"archive");
-			Days.EntryListItems = Cacher.GetMonth(dt, CacheDuration.Short);
-			Days.EntryListTitle = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} Entries", dt.ToString("MMMM yyyy", CultureInfo.CurrentCulture));
-			Subtext.Web.UI.Globals.SetTitle(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} - {1} Entries", CurrentBlog.Title, dt.ToString("MMMM yyyy", CultureInfo.CurrentCulture)),Context);
+			try
+			{
+				DateTime dt = WebPathStripper.GetDateFromRequest(Request.Path,"archive");
+				Days.EntryListItems = Cacher.GetMonth(dt, CacheDuration.Short);
+				Days.EntryListTitle = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} Entries", dt.ToString("MMMM yyyy", CultureInfo.CurrentCulture));
+				Subtext.Web.UI.Globals.SetTitle(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} - {1} Entries", CurrentBlog.Title, dt.ToString("MMMM yyyy", CultureInfo.CurrentCulture)),Context);
+			}
+			catch(System.FormatException)
+			{
+				//Somebody probably is messing with the url.
+				Response.StatusCode = 404;
+				Response.Redirect("~/SystemMessages/FileNotFound.aspx");
+			}
+			
 		}
 	}
 }

@@ -76,11 +76,15 @@ namespace Subtext.Framework
 
 		public static LinkCategory GetLinkCategory(int CategoryID, bool IsActive)
 		{
+			//TODO: We need to check this for null and throw a custom 
+			//		exception in the case that the category does not exist.
 			return ObjectProvider.Instance().GetLinkCategory(CategoryID,IsActive);
 		}
 
 		public static LinkCategory GetLinkCategory(string CategoryName, bool IsActive)
 		{
+			//TODO: We need to check this for null and throw a custom 
+			//		exception in the case that the category does not exist.
 			return ObjectProvider.Instance().GetLinkCategory(CategoryName,IsActive);
 		}
 

@@ -1742,6 +1742,7 @@ SELECT	[log].[Id]
 		, [log].[Logger]
 		, [log].[Message]
 		, [log].[Exception]
+		, [log].[Url]
 FROM [<dbUser,varchar,dbo>].[subtext_Log] [log]
     INNER JOIN #TempPagedEntryIDs tmp ON ([log].[ID] = tmp.EntryID)
 WHERE 	(

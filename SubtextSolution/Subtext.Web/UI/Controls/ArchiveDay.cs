@@ -28,17 +28,24 @@ namespace Subtext.Web.UI.Controls
 	/// </summary>
 	public  class ArchiveDay : BaseControl
 	{
-
 		protected Subtext.Web.UI.Controls.Day SingleDay;
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad (e);
 			if(Context != null)
 			{
-				//DateTime dt = Globals.DateFromUrl(Request.Path);
-				DateTime dt = WebPathStripper.GetDateFromRequest(Request.Path,"archive");
-				SingleDay.CurrentDay = Cacher.GetDay(dt, CacheDuration.Short);
-				Subtext.Web.UI.Globals.SetTitle(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} - {1} Entries",CurrentBlog.Title,dt.ToString("D", CultureInfo.CurrentCulture)),Context);
+				try
+				{
+					DateTime dt = WebPathStripper.GetDateFromRequest(Request.Path,"archive");
+					SingleDay.CurrentDay = Cacher.GetDay(dt, CacheDuration.Short);
+					Subtext.Web.UI.Globals.SetTitle(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} - {1} Entries",CurrentBlog.Title,dt.ToString("D", CultureInfo.CurrentCulture)),Context);
+				}
+				catch(System.FormatException)
+				{
+					//Somebody probably is messing with the url.
+					Response.StatusCode = 404;
+					Response.Redirect("~/SystemMessages/FileNotFound.aspx");
+				}
 			}
 		}
 	}
