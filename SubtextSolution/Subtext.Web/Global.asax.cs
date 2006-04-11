@@ -100,15 +100,12 @@ namespace Subtext
 			Log.SetBlogIdContext(NullValue.NullInt32);
 
 
-			if(InstallationManager.IsInHostAdminDirectory)
-				return;
-
 			// Want to redirect to install if installation is required, 
 			// or if we're missing a HostInfo record.
 			if((InstallationManager.IsInstallationActionRequired(VersionInfo.FrameworkVersion) || InstallationManager.HostInfoRecordNeeded))
 			{
 				InstallationState state = InstallationManager.GetCurrentInstallationState(VersionInfo.FrameworkVersion);
-				if(state == InstallationState.NeedsInstallation)
+				if(state == InstallationState.NeedsInstallation && !InstallationManager.IsInHostAdminDirectory)
 				{
 					Response.Redirect("~/Install/", true);
 					return;
@@ -116,7 +113,7 @@ namespace Subtext
 
 				if(state == InstallationState.NeedsUpgrade || state == InstallationState.NeedsRepair)
 				{
-					if(!InstallationManager.IsInHostAdminDirectory && !InstallationManager.IsOnLoginPage && !InstallationManager.IsInSystemMessageDirectory)
+					if(!InstallationManager.IsInUpgradeDirectory && !InstallationManager.IsOnLoginPage && !InstallationManager.IsInSystemMessageDirectory)
 					{
 						Response.Redirect("~/SystemMessages/UpgradeInProgress.aspx", true);
 						return;

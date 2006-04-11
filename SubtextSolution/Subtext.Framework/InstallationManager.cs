@@ -155,6 +155,20 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
+		/// Determines whether the requested page is in the Install directory.
+		/// </summary>
+		/// <returns>
+		/// 	<c>true</c> if is in install directory; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool IsInUpgradeDirectory
+		{
+			get
+			{
+				return UrlFormats.IsInSpecialDirectory("HostAdmin/Upgrade");
+			}
+		}
+
+		/// <summary>
 		/// Determines whether the requested page is in the System Message directory.
 		/// </summary>
 		/// <returns>

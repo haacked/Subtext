@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP
         ProjectType = "Local"
-        ProductVersion = "7.10.3077"
+        ProductVersion = "7.10.6015"
         SchemaVersion = "2.0"
         ProjectGuid = "{8C11B428-9C4A-46C3-B7F0-48215276BFA5}"
     >
@@ -338,6 +338,7 @@
                 <File
                     RelPath = "VersionInfo.Designer.cs"
                     Link = "..\VersionInfo.Designer.cs"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
