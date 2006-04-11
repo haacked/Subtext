@@ -317,7 +317,7 @@ namespace Subtext.Framework.Logging
 				Uri url = HttpContext.Current.Request.Url;
 				if(url != null)
 				{
-					log4net.ThreadContext.Properties["Url"] = url;
+					log4net.ThreadContext.Properties["Url"] = url.ToString();
 				}
 			}
 		}
