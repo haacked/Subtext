@@ -15,10 +15,6 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,
 drop table [<dbUser,varchar,dbo>].[subtext_Log]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_Log]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
-drop table [<dbUser,varchar,dbo>].[subtext_Log]
-GO
-
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_Version]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
 drop table [<dbUser,varchar,dbo>].[subtext_Version]
 GO
