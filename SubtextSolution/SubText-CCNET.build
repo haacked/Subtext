@@ -42,6 +42,12 @@
 			<fail message="ncoverexplorer.exe property not set, so cannot test" />
 		</ifnot>
 		
+		<ifnot test="${property::exists('vil.exe')}"> 
+			<fail message="vil.exe property not set, so cannot create code metrics" />
+		</ifnot>
+		
+		<property name="vil.assemblies" value="{CCNetWorkingDirectory}\SubtextSolution\Subtext.Web\bin\Subtext.Common.dll" />
+		
 		<property name="log.dir" value="${CCNetWorkingDirectory}\logs" />
 		
 		<property name="publish.dir.latest" value="${CCNetArtifactDirectory}\builds\latest" />
@@ -167,6 +173,13 @@
 			</fileset>
 		</ncoverexplorer>
 	</target>
+
+	
+	<target name="vil">
+		<exec program="${vil.exe}" commandline='/a="${vil.assemblies}" /outxml="${log.dir}\results-vil.xml" /m classes,enumerations,structs,types,LOC,events,impInterfaces,CC,WMC,DIT,CBO,RFC,NOC,dead,constructors,methods,imps,fields,properties' failonerror="false"/>
+	</target>
+
+
 	
 	
 	<target name="release" depends="dist.archive">
