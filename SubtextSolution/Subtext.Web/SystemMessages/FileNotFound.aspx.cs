@@ -30,8 +30,15 @@ namespace Subtext.Web.SystemMessages
 		{
 			//TODO: Refactor this into a method and unit test it.
 			//Multiple blog handling.
-			string queryString = Request.QueryString[0];
-			if(queryString != null)
+			string queryString = string.Empty;
+			if(Request.QueryString.Count == 0)
+			{
+				return;
+			}
+			
+			queryString = Request.QueryString[0];
+			
+			if(queryString != null && queryString.Length > 0)
 			{
 				string urlText = StringHelper.RightAfter(queryString, ";");
 				if(urlText != null && urlText.Length > 0)
@@ -40,7 +47,6 @@ namespace Subtext.Web.SystemMessages
 					{
 						Uri uri = new Uri(urlText);
 
-						
 						string extension = Path.GetExtension(uri.AbsolutePath);
 						if(extension == null || extension == string.Empty)
 						{
