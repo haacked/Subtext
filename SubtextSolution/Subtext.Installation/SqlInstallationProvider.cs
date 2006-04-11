@@ -169,6 +169,7 @@ namespace Subtext.Installation
 						{
 							ScriptHelper.ExecuteScript(scriptName, transaction);	
 						}
+						ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction);
 
 						UpdateInstallationVersionNumber(this.CurrentAssemblyVersion, transaction);
 						transaction.Commit();
