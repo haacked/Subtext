@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<project xmlns="http://nant.sf.net/schemas/nant.xsd" name="SubText">
+	
+	<property name="nant.settings.currentframework" value="net-1.1"/>
+
+	<target name="get-publishing-properties">
+	
+		<ifnot test="${property::exists('ccnet.config')}"> 
+			<fail message="ccnet.config property not set, so can't copy files" />
+		</ifnot>	
+
+		<ifnot test="${property::exists('dashboard.config')}"> 
+			<fail message="dashboard.config property not set, so can't copy files" />
+		</ifnot>
+	</target>
+
+	<target name="copyfiles">
+		<copy file="dashboard.config" tofile="${dashboard.config}" />
+		<copy file="ccnet.config" tofile="${ccnet.config}" />
+	</target>
+	
+</project>
