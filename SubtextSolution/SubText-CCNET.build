@@ -46,7 +46,7 @@
 			<fail message="vil.exe property not set, so cannot create code metrics" />
 		</ifnot>
 		
-		<property name="vil.assemblies" value="{CCNetWorkingDirectory}\SubtextSolution\Subtext.Web\bin\Subtext.Common.dll" />
+		<property name="vil.assemblies" value="${CCNetWorkingDirectory}\SubtextSolution\Subtext.Web\bin\Subtext.Common.dll" />
 		
 		<property name="log.dir" value="${CCNetWorkingDirectory}\logs" />
 		
