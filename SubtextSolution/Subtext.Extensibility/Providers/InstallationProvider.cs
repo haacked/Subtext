@@ -79,7 +79,7 @@ namespace Subtext.Extensibility.Providers
 		/// Upgrades this instance. Returns true if it was successful.
 		/// </summary>
 		/// <returns></returns>
-		public abstract bool Upgrade();
+		public abstract void Upgrade();
 
 		/// <summary>
 		/// Installs this instance.

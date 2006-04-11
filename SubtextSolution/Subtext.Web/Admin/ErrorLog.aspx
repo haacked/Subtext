@@ -10,11 +10,11 @@
 				<table id="Listing" class="Listing highlightTable" cellSpacing="0" cellPadding="0" border="0">
 				<tr>
 					<th>Date</th>
-					<th>Thread</th>
 					<th>Logger</th>
 					<th>Level</th>
 					<th>Message</th>
 					<th>Exception</th>
+					<th>Url</th>
 				</tr>
 			</HeaderTemplate>
 			<ItemTemplate>
@@ -23,9 +23,6 @@
 						<%# DataBinder.Eval(Container.DataItem, "Date") %>
 					</td>
 					<td>
-						<%# DataBinder.Eval(Container.DataItem, "Thread") %>
-					</td>												
-					<td>
 						<%# DataBinder.Eval(Container.DataItem, "Logger") %>
 					</td>
 					<td>
@@ -36,7 +33,10 @@
 					</td>				
 					<td>
 						<%# DataBinder.Eval(Container.DataItem, "Exception") %>
-					</td>				
+					</td>
+					<td>
+						<%# DataBinder.Eval(Container.DataItem, "Url") %>
+					</td>
 				</tr>
 			</ItemTemplate>
 			<AlternatingItemTemplate>
@@ -45,9 +45,6 @@
 						<%# DataBinder.Eval(Container.DataItem, "Date") %>
 					</td>
 					<td>
-						<%# DataBinder.Eval(Container.DataItem, "Thread") %>
-					</td>												
-					<td>
 						<%# DataBinder.Eval(Container.DataItem, "Logger") %>
 					</td>
 					<td>
@@ -58,7 +55,10 @@
 					</td>				
 					<td>
 						<%# DataBinder.Eval(Container.DataItem, "Exception") %>
-					</td>				
+					</td>
+					<td>
+						<%# DataBinder.Eval(Container.DataItem, "Url") %>
+					</td>
 				</tr>
 			</AlternatingItemTemplate>
 			<EmptyDataTemplate>
