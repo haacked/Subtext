@@ -4,6 +4,7 @@
 	<asp:Literal id="Body"  runat="server" />
 
 		<p class="postfooter">
+			<a href="javascript:window.print();" class="printIcon"><span>Print</span></a>
 			posted @ <asp:Literal id="PostDescription"  runat="server" />
 		</p>
 		</div>
