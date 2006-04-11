@@ -906,6 +906,7 @@ namespace Subtext.Framework.Data
 			entry.Logger = ReadString(reader, "Logger");
 			entry.Message = ReadString(reader, "Message");
 			entry.Exception = ReadString(reader, "Exception");
+			entry.Url = ReadUri(reader, "Url");
 			return entry;
 		}
 		#endregion
@@ -936,6 +937,21 @@ namespace Subtext.Framework.Data
 				return (string)reader[columnName];
 			else
 				return null;
+		}
+
+		public static Uri ReadUri(IDataReader reader, string columnName)
+		{
+			try
+			{
+				if(reader[columnName] != DBNull.Value)
+					return new Uri((string) reader[columnName]);
+				else
+					return null;
+			}
+			catch(System.FormatException)
+			{
+				return null;
+			}
 		}
 
 		/// <summary>

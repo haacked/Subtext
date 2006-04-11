@@ -142,5 +142,23 @@ namespace Subtext.Framework.Logging
 		}
 
 		string _exception;
+
+		/// <summary>
+		/// Gets or sets the Url that of the request that caused this 
+		/// exception.
+		/// </summary>
+		/// <value>The URL.</value>
+		public Uri Url
+		{
+			get
+			{
+				return this.url;
+			}
+			set
+			{
+				this.url = value;
+			}
+		}
+		Uri url;
 	}
 }

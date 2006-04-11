@@ -15,6 +15,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Web;
 using log4net;
 using log4net.Core;
 
@@ -250,6 +251,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void ErrorFormat(IFormatProvider provider, string format, params object[] args)
 		{
+			SetUrlContext();
 			_log.ErrorFormat(provider, format, args);
 		}
 
@@ -272,6 +274,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void ErrorFormat(string format, params object[] args)
 		{
+			SetUrlContext();
 			_log.ErrorFormat(format, args);
 		}
 
@@ -291,6 +294,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Info(object message, Exception exception)
 		{
+			SetUrlContext();
 			_log.Info(message, exception);
 		}
 
@@ -304,6 +308,18 @@ namespace Subtext.Framework.Logging
 				return;
 
 			log4net.ThreadContext.Properties["BlogId"] = blogId;
+		}
+
+		public void SetUrlContext()
+		{
+			if(HttpContext.Current != null)
+			{
+				Uri url = HttpContext.Current.Request.Url;
+				if(url != null)
+				{
+					log4net.ThreadContext.Properties["Url"] = url;
+				}
+			}
 		}
 
 		/// <summary>
@@ -335,6 +351,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Info(object message)
 		{
+			SetUrlContext();
 			_log.Info(message);
 		}
 
@@ -357,6 +374,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Debug(object message, Exception exception)
 		{
+			SetUrlContext();
 			_log.Debug(message, exception);
 		}
 
@@ -384,6 +402,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Debug(object message)
 		{
+			SetUrlContext();
 			_log.Debug(message);
 		}
 
@@ -403,6 +422,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Warn(object message, Exception exception)
 		{
+			SetUrlContext();
 			_log.Warn(message, exception);
 		}
 
@@ -427,6 +447,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Warn(object message)
 		{
+			SetUrlContext();
 			_log.Warn(message);
 		}
 
@@ -450,6 +471,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void WarnFormat(IFormatProvider provider, string format, params object[] args)
 		{
+			SetUrlContext();
 			_log.WarnFormat(provider, format, args);
 		}
 
@@ -472,6 +494,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void WarnFormat(string format, params object[] args)
 		{
+			SetUrlContext();
 			_log.WarnFormat(format, args);
 		}
 
@@ -491,6 +514,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Fatal(object message, Exception exception)
 		{
+			SetUrlContext();
 			_log.Fatal(message, exception);
 		}
 
@@ -515,6 +539,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Fatal(object message)
 		{
+			SetUrlContext();
 			_log.Fatal(message);
 		}
 
@@ -534,6 +559,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Error(object message, Exception exception)
 		{
+			SetUrlContext();
 			_log.Error(message, exception);
 		}
 
@@ -558,6 +584,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void Error(object message)
 		{
+			SetUrlContext();
 			_log.Error(message);
 		}
 
@@ -581,6 +608,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void InfoFormat(IFormatProvider provider, string format, params object[] args)
 		{
+			SetUrlContext();
 			_log.InfoFormat(provider, format, args);
 		}
 
@@ -602,6 +630,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void InfoFormat(string format, params object[] args)
 		{
+			SetUrlContext();
 			_log.InfoFormat(format, args);
 		}
 
@@ -625,6 +654,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void FatalFormat(IFormatProvider provider, string format, params object[] args)
 		{
+			SetUrlContext();
 			_log.FatalFormat(provider, format, args);
 		}
 
@@ -646,6 +676,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void FatalFormat(string format, params object[] args)
 		{
+			SetUrlContext();
 			_log.FatalFormat(format, args);
 		}
 
@@ -672,6 +703,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void DebugFormat(IFormatProvider provider, string format, params object[] args)
 		{
+			SetUrlContext();
 			_log.DebugFormat(provider, format, args);
 		}
 
@@ -694,6 +726,7 @@ namespace Subtext.Framework.Logging
 		/// </remarks>
 		public void DebugFormat(string format, params object[] args)
 		{
+			SetUrlContext();
 			_log.DebugFormat(format, args);
 		}
 

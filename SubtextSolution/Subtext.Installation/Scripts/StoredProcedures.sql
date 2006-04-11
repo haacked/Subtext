@@ -4596,6 +4596,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_AddLogEntry]
 	 , @Logger nvarchar(256)
 	 , @Message nvarchar(2000)
 	 , @Exception nvarchar(1000)
+	 , @Url varchar(255)
 )
 AS
 
@@ -4603,7 +4604,7 @@ if @BlogId < 0
 	SET @BlogId = NULL
 
 INSERT [<dbUser,varchar,dbo>].[subtext_Log]
-SELECT	@BlogId, @Date, @Thread, @Context, @Level, @Logger, @Message, @Exception
+SELECT	@BlogId, @Date, @Thread, @Context, @Level, @Logger, @Message, @Exception, @Url
 
 GO
 SET QUOTED_IDENTIFIER OFF 

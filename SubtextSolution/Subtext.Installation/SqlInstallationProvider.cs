@@ -147,7 +147,7 @@ namespace Subtext.Installation
 		/// Upgrades this instance. Returns true if it was successful.
 		/// </summary>
 		/// <returns></returns>
-		public override bool Upgrade()
+		public override void Upgrade()
 		{
 			using(SqlConnection connection = new SqlConnection(_connectionString))
 			{
@@ -172,12 +172,11 @@ namespace Subtext.Installation
 
 						UpdateInstallationVersionNumber(this.CurrentAssemblyVersion, transaction);
 						transaction.Commit();
-						return true;
 					}
 					catch(Exception)
 					{
 						transaction.Rollback();
-						return false;
+						throw;
 					}
 				}
 			}
