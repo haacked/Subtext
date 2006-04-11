@@ -105,6 +105,13 @@ div.MessagePanel DIV
 	color: #cc0000;
 }
 
+strong.warning
+{
+	text-transform: uppercase;
+	display: block;
+}
+
+
 .error
 {
 	font-weight: bold;
