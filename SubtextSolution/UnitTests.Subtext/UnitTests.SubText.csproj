@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP
         ProjectType = "Local"
-        ProductVersion = "7.10.3077"
+        ProductVersion = "7.10.6015"
         SchemaVersion = "2.0"
         ProjectGuid = "{16036AF0-ED24-4605-8919-90B40510BD68}"
     >
@@ -334,6 +334,11 @@
                 />
                 <File
                     RelPath = "Framework\SecurityHandling\SecurityTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Framework\Syndication\AtomHandlerTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

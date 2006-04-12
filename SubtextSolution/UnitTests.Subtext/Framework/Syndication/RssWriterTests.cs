@@ -116,7 +116,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 
 			EntryCollection entries = new EntryCollection(CreateSomeEntriesDescending());		
-			RssWriter writer = new RssWriter(entries, DateTime.ParseExact("06/14/2003","MM/dd/yyyy",CultureInfo.InvariantCulture), false);
+			RssWriter writer = new RssWriter(entries, DateTime.ParseExact("06/14/2003", "MM/dd/yyyy", CultureInfo.InvariantCulture), false);
 
 			string expected = @"<rss version=""2.0"" xmlns:dc=""http://purl.org/dc/elements/1.1/"" xmlns:trackback=""http://madskills.com/public/xml/rss/module/trackback/"" xmlns:wfw=""http://wellformedweb.org/CommentAPI/"" xmlns:slash=""http://purl.org/rss/1.0/modules/slash/"" xmlns:copyright=""http://blogs.law.harvard.edu/tech/rss"" xmlns:image=""http://purl.org/rss/1.0/modules/image/""><channel><title /><link>http://localhost/Subtext.Web/Default.aspx</link><description /><language>en-US</language><copyright>Subtext Weblog</copyright><managingEditor>Subtext@example.com</managingEditor><generator>{0}</generator><image><title /><url>http://localhost/Subtext.Web/RSS2Image.gif</url><link>http://localhost/Subtext.Web/Default.aspx</link><width>77</width><height>60</height><description /></image>" 
 							+ @"<item><title>Title of 1004.</title><link>http://localhost/Subtext.Web/archive/2003/06/14/1004</link><description>Body of 1004&lt;img src =""http://localhost/Subtext.Web/aggbug/1004.aspx"" width = ""1"" height = ""1"" /&gt;</description><guid>http://localhost/Subtext.Web/archive/2003/06/14/1004</guid><pubDate>Sat, 14 Jun 2003 00:00:00 GMT</pubDate><comments>http://localhost/Subtext.Web/archive/2003/06/14/1004#feedback</comments><wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1004.aspx</wfw:commentRss></item>"
@@ -152,7 +152,16 @@ namespace UnitTests.Subtext.Framework.Syndication
 
 		Entry CreateEntry(int id, string title, string body, DateTime dateCreated)
 		{
+			return CreateEntry(id, title, body, null, dateCreated);
+		}
+
+		Entry CreateEntry(int id, string title, string body, string entryName, DateTime dateCreated)
+		{
 			Entry entry = new Entry(PostType.BlogPost);
+			if(entryName != null)
+			{
+				entry.EntryName = entryName;
+			}
 			entry.DateCreated = dateCreated;
 			entry.DateUpdated = entry.DateCreated;
 			entry.Title = title;

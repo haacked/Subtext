@@ -277,17 +277,40 @@ namespace UnitTests.Subtext
 		/// <param name="author">The author.</param>
 		/// <param name="body">The body.</param>
 		/// <param name="title">The title.</param>
-		public static Entry CreateEntryInstanceForSyndication(string author, string body, string title)
+		public static Entry CreateEntryInstanceForSyndication(string author, string title, string body)
+		{
+			return CreateEntryInstanceForSyndication(author, title, body, null, DateTime.Now);
+		}
+
+		/// <summary>
+		/// Creates an entry instance with the proper syndication settings.
+		/// </summary>
+		/// <param name="author">The author.</param>
+		/// <param name="title">The title.</param>
+		/// <param name="body">The body.</param>
+		/// <param name="entryName">Name of the entry.</param>
+		/// <param name="dateCreated">The date created.</param>
+		/// <returns></returns>
+		public static Entry CreateEntryInstanceForSyndication(string author, string title, string body, string entryName, DateTime dateCreated)
 		{
 			Entry entry = new Entry(PostType.BlogPost);
+			if(entryName != null)
+			{
+				entry.EntryName = entryName;
+			}
 			entry.BlogId = Config.CurrentBlog.BlogId;
+			entry.DateCreated = dateCreated;
+			entry.DateUpdated = entry.DateCreated;
+			entry.DateSyndicated = entry.DateCreated;
+			entry.Title = title;
 			entry.Author = author;
 			entry.Body = body;
-			entry.DateCreated = DateTime.Now;
-			entry.DateSyndicated = DateTime.Now;
-			entry.DateUpdated = DateTime.Now;
-			entry.Title = title;
-			entry.PostConfig  = PostConfig.IncludeInMainSyndication | PostConfig.IsActive | PostConfig.IsAggregated | PostConfig.DisplayOnHomePage;
+			entry.DisplayOnHomePage = true;
+			entry.IsAggregated = true;
+			entry.IsActive = true;
+			entry.AllowComments = true;
+			entry.IncludeInMainSyndication = true;
+			
 			return entry;
 		}
 
