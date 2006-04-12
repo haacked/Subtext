@@ -1,3 +1,50 @@
 body
 {
+	background: #fff;
+	color: #000;
+}
+
+.noprint, #rondo
+, #rightbar, #navigation
+, #blogstats, #blogstatsback, #moreinfo
+, #CommentForm, #recentComments, #leftbox
+, #footer, #rondobottom, a.printIcon
+, hr
+{
+	display: none;
+}
+
+#header
+{
+	background: #fff;
+	display: block;
+	color: #000;
+}
+
+#hd, #header h1, #header h1 a, #header div
+{
+	margin: 0;
+	padding: 0;
+	color: #000;
+	display: inline;
+	position: relative;
+	top: 0;
+	left: 0;
+}
+
+#header h1
+{
+	display: block;
+}
+
+#all
+{
+	background: #fff;
+	width: 100%;
+}
+
+#container, #content
+{
+	border: none;
+	width: 100%;
 }
