@@ -86,7 +86,7 @@ namespace Subtext.Framework.Tracking
 				//a 12 hour stretch.
 				context.Response.ContentType = "image/gif";
 				context.Response.AppendHeader("Content-Length",_bytes.Length.ToString(CultureInfo.InvariantCulture));
-				context.Response.Cache.SetLastModified(DateTime.Now.ToUniversalTime());
+				context.Response.Cache.SetLastModified(DateTime.Now);
 				context.Response.Cache.SetCacheability(HttpCacheability.Public);
 				context.Response.BinaryWrite(_bytes);
 			}
