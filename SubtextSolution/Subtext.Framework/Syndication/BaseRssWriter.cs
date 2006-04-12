@@ -207,12 +207,12 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		/// <param name="entry">Entry.</param>
 		/// <param name="settings">Settings.</param>
-		/// <param name="uformat">Uformat.</param>
-		protected virtual void EntryXml(Entry entry, BlogConfigurationSettings settings, UrlFormats uformat)
+		/// <param name="urlFormats">Uformat.</param>
+		protected virtual void EntryXml(Entry entry, BlogConfigurationSettings settings, UrlFormats urlFormats)
 		{
 			//core
 			this.WriteElementString("title", entry.Title);
-			this.WriteElementString("link", entry.Link);
+			this.WriteElementString("link", urlFormats.EntryFullyQualifiedUrl(entry));
 			this.WriteElementString
 			(
 				"description", //Tag
@@ -220,38 +220,38 @@ namespace Subtext.Framework.Syndication
 				(
 					"{0}{1}", //tag def
 					entry.SyndicateDescriptionOnly ? entry.Description : entry.Body,  //use desc or full post
-					(UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(uformat.AggBugkUrl(entry.EntryID)) : null //use aggbugs
+					(UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(urlFormats.AggBugkUrl(entry.EntryID)) : null //use aggbugs
 				)
 			);
 			//TODO: Perform real email auth.
 			if(entry.Email != null && entry.Email.Length > 0 && entry.Email.IndexOf('@') > 0)
 				this.WriteElementString("author", entry.Email);
-			this.WriteElementString("guid", entry.Link);
+			this.WriteElementString("guid", urlFormats.EntryFullyQualifiedUrl(entry));
 			this.WriteElementString("pubDate", entry.DateCreated.ToString("r"));			
 			
 
 			if(AllowComments && info.CommentsEnabled && entry.AllowComments && !entry.CommentingClosed)
 			{
 				// Comment API (http://wellformedweb.org/story/9)
-				this.WriteElementString("wfw:comment", uformat.CommentApiUrl(entry.EntryID));
+				this.WriteElementString("wfw:comment", urlFormats.CommentApiUrl(entry.EntryID));
 			}
 
-			this.WriteElementString("comments", entry.Link + "#feedback");
+			this.WriteElementString("comments", urlFormats.EntryFullyQualifiedUrl(entry) + "#feedback");
 			
 			if(entry.FeedBackCount > 0)
 				this.WriteElementString("slash:comments", entry.FeedBackCount.ToString(CultureInfo.InvariantCulture));
 			
-			this.WriteElementString("wfw:commentRss", uformat.CommentRssUrl(entry.EntryID));
+			this.WriteElementString("wfw:commentRss", urlFormats.CommentRssUrl(entry.EntryID));
 			
 			if(info.TrackbacksEnabled)
-				this.WriteElementString("trackback:ping", uformat.TrackBackUrl(entry.EntryID));
+				this.WriteElementString("trackback:ping", urlFormats.TrackBackUrl(entry.EntryID));
 
 			//optional
 			if(settings.UseXHTML && entry.IsXHMTL)
 			{
 				this.WriteStartElement("body");
 				this.WriteAttributeString("xmlns", "http://www.w3.org/1999/xhtml");
-				this.WriteRaw(entry.Body + ((UseAggBugs && settings.Tracking.EnableAggBugs)  ? TrackingUrls.AggBugImage(uformat.AggBugkUrl(entry.EntryID)) : null));
+				this.WriteRaw(entry.Body + ((UseAggBugs && settings.Tracking.EnableAggBugs)  ? TrackingUrls.AggBugImage(urlFormats.AggBugkUrl(entry.EntryID)) : null));
 				this.WriteEndElement();
 			}			
 		}

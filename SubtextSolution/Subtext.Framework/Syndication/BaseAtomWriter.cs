@@ -192,45 +192,46 @@ namespace Subtext.Framework.Syndication
 			}
 		}
 
-		protected virtual void EntryXml(Entry entry, BlogConfigurationSettings settings, UrlFormats uformat, string timezone)
+		protected virtual void EntryXml(Entry entry, BlogConfigurationSettings settings, UrlFormats urlFormats, string timezone)
 		{
 				this.WriteElementString("title",entry.Title);
 						
 				this.WriteStartElement("link");
-					//(Duncanma 11/13/2005, changing alternate to self for 1.0 feed)
-					this.WriteAttributeString("rel","self");
-					this.WriteAttributeString("type","text/html");
-					this.WriteAttributeString("href",entry.Link);
+				//(Duncanma 11/13/2005, changing alternate to self for 1.0 feed)
+				this.WriteAttributeString("rel", "self");
+				this.WriteAttributeString("type", "text/html");
+				this.WriteAttributeString("href", urlFormats.EntryFullyQualifiedUrl(entry));
 				this.WriteEndElement();
 
-				this.WriteElementString("id",entry.Link);
+				this.WriteElementString("id", urlFormats.EntryFullyQualifiedUrl(entry));
 
 				//(Duncanma 11/13/2005, hiding created, change issued to
 			    //published and modified to updated for 1.0 feed)
 				//this.WriteElementString("created",W3UTCZ(entry.DateCreated));
-				this.WriteElementString("published",W3UTC(entry.DateCreated.AddHours((-1) * info.TimeZone),timezone));
-				this.WriteElementString("updated",W3UTCZ(entry.DateUpdated));
+				this.WriteElementString("published", W3UTC(entry.DateCreated.AddHours((-1) * info.TimeZone), timezone));
+				this.WriteElementString("updated", W3UTCZ(entry.DateUpdated));
 
 				if(entry.HasDescription)
 				{
 					this.WriteStartElement("summary");
-						//(Duncanma 11/13/2005, changing text/html to html for 1.0 feed)
-						this.WriteAttributeString("type","html");
-						this.WriteString(entry.Description);
+					//(Duncanma 11/13/2005, changing text/html to html for 1.0 feed)
+					this.WriteAttributeString("type", "html");
+					this.WriteString(entry.Description);
 					this.WriteEndElement();
 				}
 
 				this.WriteStartElement("content");
-					//(Duncanma 11/13/2005, changing text/html to html for 1.0 feed)
-					this.WriteAttributeString("type","html");
-					//(Duncanma 11/13/2005, hiding mode for 1.0 feed)
-					//this.WriteAttributeString("mode","escaped");
+				//(Duncanma 11/13/2005, changing text/html to html for 1.0 feed)
+				this.WriteAttributeString("type","html");
+				//(Duncanma 11/13/2005, hiding mode for 1.0 feed)
+				//this.WriteAttributeString("mode","escaped");
 							
-				this.WriteString(
-				string.Format
+				this.WriteString
+				(
+					string.Format
 					("{0}{1}", //tag def
 						entry.SyndicateDescriptionOnly ? entry.Description : entry.Body,  //use desc or full post
-						(UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(uformat.AggBugkUrl(entry.EntryID)) : null //use aggbugs
+						(UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(urlFormats.AggBugkUrl(entry.EntryID)) : null //use aggbugs
 					)
 				);		
 				this.WriteEndElement();
@@ -238,15 +239,15 @@ namespace Subtext.Framework.Syndication
 			if(AllowComments && info.CommentsEnabled && entry.AllowComments && !entry.CommentingClosed)
 			{
 				//optional for CommentApi Post location
-				this.WriteElementString("wfw:comment",uformat.CommentApiUrl(entry.EntryID));
+				this.WriteElementString("wfw:comment", urlFormats.CommentApiUrl(entry.EntryID));
 				//optional url for comments
 				//this.WriteElementString("comments",entry.Link + "#feedback");
 				//optional comment count
-				this.WriteElementString("slash:comments",entry.FeedBackCount.ToString(CultureInfo.InvariantCulture));
+				this.WriteElementString("slash:comments", entry.FeedBackCount.ToString(CultureInfo.InvariantCulture));
 				//optional commentRss feed location
-				this.WriteElementString("wfw:commentRss", uformat.CommentRssUrl(entry.EntryID));
+				this.WriteElementString("wfw:commentRss", urlFormats.CommentRssUrl(entry.EntryID));
 				//optional trackback location
-				this.WriteElementString("trackback:ping",uformat.TrackBackUrl(entry.EntryID));
+				this.WriteElementString("trackback:ping", urlFormats.TrackBackUrl(entry.EntryID));
 				//core 
 			}
 		}

@@ -57,6 +57,11 @@ namespace Subtext.Framework.Format
 			return GetUrl("archive/{0:yyyy/MM/dd}/{1}.aspx", entry.DateCreated, entry.HasEntryName ? entry.EntryName : entry.EntryID.ToString(CultureInfo.InvariantCulture));
 		}
 
+		public virtual string EntryFullyQualifiedUrl(Entry entry)
+		{
+			return GetFullyQualifiedUrl("archive/{0:yyyy/MM/dd}/{1}.aspx", entry.DateCreated, entry.HasEntryName ? entry.EntryName : entry.EntryID.ToString(CultureInfo.InvariantCulture));
+		}
+
 		public virtual string ImageUrl(string category, int ImageID)
 		{
 			return GetUrl("gallery/image/{0}.aspx",ImageID);
