@@ -64,7 +64,14 @@ namespace Subtext.Web.UI.Controls
 					tbUrl.Text = user.Values["Url"];
 				}
 
-				Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short);	
+				Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short);
+				if(entry == null)
+				{
+					//Somebody probably is messing with the url.
+					Response.StatusCode = 404;
+					Response.Redirect("~/SystemMessages/FileNotFound.aspx", true);
+					return;
+				}
 
 				if(IsCommentAllowed(entry))
 				{

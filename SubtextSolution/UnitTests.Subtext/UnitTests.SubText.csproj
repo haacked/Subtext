@@ -378,6 +378,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Framework\Web\HttpHelperTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Installation\InstallationManagerTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

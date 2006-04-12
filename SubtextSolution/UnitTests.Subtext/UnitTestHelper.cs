@@ -119,9 +119,9 @@ namespace UnitTests.Subtext
 		/// </summary>
 		/// <param name="host">Host.</param>
 		/// <param name="subfolder">Subfolder Name.</param>
-		public static void SetHttpContextWithBlogRequest(string host, string subfolder)
+		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder)
 		{
-			SetHttpContextWithBlogRequest(host, subfolder, string.Empty);
+			return SetHttpContextWithBlogRequest(host, subfolder, string.Empty);
 		}
 
 		/// <summary>
@@ -131,14 +131,14 @@ namespace UnitTests.Subtext
 		/// <param name="host">Host.</param>
 		/// <param name="subfolder">Subfolder Name.</param>
 		/// <param name="virtualDir"></param>
-		public static void SetHttpContextWithBlogRequest(string host, string subfolder, string virtualDir)
+		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string virtualDir)
 		{
-			SetHttpContextWithBlogRequest(host, subfolder, virtualDir, "default.aspx");
+			return SetHttpContextWithBlogRequest(host, subfolder, virtualDir, "default.aspx");
 		}
 		
-		public static void SetHttpContextWithBlogRequest(string host, string subfolder, string virtualDir, string page)
+		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string virtualDir, string page)
 		{
-			SetHttpContextWithBlogRequest(host, subfolder, virtualDir, page, null);
+			return SetHttpContextWithBlogRequest(host, subfolder, virtualDir, page, null);
 		}
 
 		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string virtualDir, string page, TextWriter output)

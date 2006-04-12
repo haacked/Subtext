@@ -50,7 +50,7 @@
                     ConfigurationOverrideFile = ""
                     DefineConstants = "TRACE"
                     DocumentationFile = ""
-                    DebugSymbols = "false"
+                    DebugSymbols = "true"
                     FileAlignment = "4096"
                     IncrementalBuild = "false"
                     NoStdLib = "false"
@@ -195,6 +195,11 @@
                 />
                 <File
                     RelPath = "ContentCache.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "DateTimeHelper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -926,6 +931,11 @@
                 />
                 <File
                     RelPath = "Util\XmlSerializerSectionHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Web\HttpHelper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -3,6 +3,7 @@ using System.Globalization;
 using Subtext.Common.Data;
 using Subtext.Framework;
 using Subtext.Framework.Util;
+using Subtext.Framework.Web;
 
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,9 +44,7 @@ namespace Subtext.Web.UI.Controls
 			}
 			catch(System.FormatException)
 			{
-				//Somebody probably is messing with the url.
-				Response.StatusCode = 404;
-				Response.Redirect("~/SystemMessages/FileNotFound.aspx");
+				HttpHelper.SetFileNotFoundResponse("~/SystemMessages/FileNotFound.aspx");
 			}
 			
 		}
