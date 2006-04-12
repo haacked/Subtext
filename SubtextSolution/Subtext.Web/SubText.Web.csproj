@@ -3640,6 +3640,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\RedBook\print.css"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\RedBook\Red.css"
                     BuildAction = "Content"
                 />
@@ -3781,6 +3785,10 @@
                 />
                 <File
                     RelPath = "Skins\RedBook\Images\mitem.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\RedBook\Images\printer.gif"
                     BuildAction = "Content"
                 />
                 <File
