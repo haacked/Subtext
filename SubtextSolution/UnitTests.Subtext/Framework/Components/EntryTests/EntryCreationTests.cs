@@ -70,6 +70,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		{
 			_hostName = System.Guid.NewGuid().ToString().Replace("-", "") + ".com";
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, string.Empty);
+			CommentFilter.ClearCommentCache();
 		}
 
 		[TearDown]
