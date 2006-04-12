@@ -173,6 +173,14 @@ namespace Subtext.Framework
 			return false;
 		}
 
+		/// <summary>
+		/// Clears the comment cache.
+		/// </summary>
+		public static void ClearCommentCache()
+		{
+			HttpContext.Current.Cache.Remove(FILTER_CACHE_KEY + ".RECENT_COMMENTS");
+		}
+
 		private static bool QueueContainsChecksumHash(Queue recentComments, Entry entry)
 		{
 			foreach(string contentChecksumHash in recentComments)

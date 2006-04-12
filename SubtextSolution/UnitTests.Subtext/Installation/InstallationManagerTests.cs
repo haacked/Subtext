@@ -77,7 +77,7 @@ namespace UnitTests.Subtext.Installation
 		void AssertIsInInstallDirectory(string virtualDirectory, string blogName)
 		{
 			string host = System.Guid.NewGuid().ToString().Replace("-", "");
-			Config.CreateBlog("Title", "username", "thePassword", host, blogName);
+			Config.CreateBlog("AssertIsInInstallDirectory", "username", "thePassword", host, blogName);
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, blogName, virtualDirectory, "Install/InstallationComplete.aspx");
 			Assert.IsTrue(InstallationManager.IsInInstallDirectory, "This request should be within the installation directory.");	
 		}
