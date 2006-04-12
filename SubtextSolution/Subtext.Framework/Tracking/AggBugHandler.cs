@@ -20,6 +20,7 @@ using log4net;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
+using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Tracking
 {
@@ -29,6 +30,7 @@ namespace Subtext.Framework.Tracking
 	public class AggBugHandler : IHttpHandler
 	{
 		ILog Log = new Subtext.Framework.Logging.Log();
+		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AggBugHandler"/> class.
 		/// </summary>
@@ -46,11 +48,19 @@ namespace Subtext.Framework.Tracking
 
 		private static byte[] _bytes;
 
+		/// <summary>
+		/// Custom <see langword="HttpHandler "/> that implements the <see cref="T:System.Web.IHttpHandler"/> interface. 
+		/// This records a visit via the AggBug.
+		/// </summary>
+		/// <param name="context">An <see cref="T:System.Web.HttpContext"/> object that provides 
+		/// references to the intrinsic server objects (for example, <see langword="Request"/>, 
+		/// <see langword="Response"/>, <see langword="Session"/>, and <see langword="Server"/>) 
+		/// <see langword=""/> used to service HTTP requests.</param>
 		public void ProcessRequest(HttpContext context)
 		{
 			Log.Debug("Entering AggBug Request...");
 			//Check to see if we have sent the 1x1 image in the last 12 hours (requires If-Modified-Since header)
-			if(_CachedVersionIsOkay(context.Request))
+			if(CachedVersionIsOkay())
 			{
 				context.Response.StatusCode = 304;
 				context.Response.SuppressContent = true;
@@ -76,7 +86,7 @@ namespace Subtext.Framework.Tracking
 				//a 12 hour stretch.
 				context.Response.ContentType = "image/gif";
 				context.Response.AppendHeader("Content-Length",_bytes.Length.ToString(CultureInfo.InvariantCulture));
-				context.Response.Cache.SetLastModified(DateTime.Now);
+				context.Response.Cache.SetLastModified(DateTime.Now.ToUniversalTime());
 				context.Response.Cache.SetCacheability(HttpCacheability.Public);
 				context.Response.BinaryWrite(_bytes);
 			}
@@ -84,22 +94,25 @@ namespace Subtext.Framework.Tracking
 			Log.Debug("Leaving AggBug Request...");			
 		}
 
-		private bool _CachedVersionIsOkay(HttpRequest Request)
+		private bool CachedVersionIsOkay()
 		{
 			//Get header value
-			string  ifModified = Request.Headers["If-Modified-Since"];
-
-			//Do we have it?
-			if (ifModified != null)
+			DateTime dt = HttpHelper.GetIfModifiedSinceDateUTC();
+			if(dt == DateTime.MinValue)
 			{
-				//convert to datetime and add 12 hours. We don't want to count quick reclicks.
-				DateTime dt = DateTime.Parse(ifModified).AddHours(12);
-				return dt >= DateTime.Now;
+				return false;
 			}
 
-			return false;
+			//convert to datetime and add 12 hours. We don't want to count quick reclicks.
+			return dt.AddHours(12) >= DateTime.Now.ToUniversalTime();
 		}
 
+		/// <summary>
+		/// Gets a value indicating whether another request can use
+		/// the <see cref="T:System.Web.IHttpHandler"/>
+		/// instance.
+		/// </summary>
+		/// <value></value>
 		public bool IsReusable
 		{
 			get
