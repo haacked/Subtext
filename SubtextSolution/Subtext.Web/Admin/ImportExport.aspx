@@ -3,7 +3,7 @@
 <ANW:PAGE id="PageContainer" runat="server" TabSectionID="ImportExport">
 	<ANW:MessagePanel id="Messages" runat="server"></ANW:MessagePanel>
 	<ANW:AdvancedPanel id="Action" runat="server" BodyCssClass="Edit" DisplayHeader="true" HeaderCssClass="CollapsibleHeader"
-		HeaderText="Options" Collapsible="False">
+		HeaderText="Import/Export" Collapsible="False">
 		<fieldset>
 			<legend>Import &amp; Export BlogML files.</legend>
 			<h4>Persist this blog to BlogML Format.</h4>

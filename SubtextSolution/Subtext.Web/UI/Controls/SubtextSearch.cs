@@ -14,19 +14,18 @@
 #endregion
 
 using System;
+using System.Collections;
+using System.Data;
+using System.Data.SqlClient;
+using System.Globalization;
+using System.Web.UI.WebControls;
+using Subtext.Framework.Data;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Web.UI.Controls
 {
-	using System.Collections;
-	using System.Configuration;
-	using System.Data;
-	using System.Data.SqlClient;
-	using System.Web.UI.WebControls;
-	using Subtext.Framework.Data;
-	using Subtext.Framework.Providers;
-
 	/// <summary>
-	///		Summary description for DotTextSearch.
+	///		Summary description for subTextSearch.
 	/// </summary>
 	public class SubtextSearch : BaseControl
 	{
@@ -68,34 +67,23 @@ namespace Subtext.Web.UI.Controls
 		{
 			if(string.Empty != txtSearch.Text )
 			{
-				string sql = "subtext_SearchEntries";
-				string conn = DbProvider.Instance().ConnectionString;
-
-				string SearchStr = txtSearch.Text.ToString();
-
+				string storedProc = "subtext_SearchEntries";
+				string connStr = DbProvider.Instance().ConnectionString;
+				string searchString = txtSearch.Text.ToString();
 				ArrayList mySearchItems = new ArrayList();
-				int BlogId;
-				string applikasyon;
 
 				//fix for the blogs where only one installed
-				if (CurrentBlog.BlogId >= 1)
-					BlogId = CurrentBlog.BlogId;
-				else
-					BlogId = 0;
-
-				if (CurrentBlog.Subfolder != String.Empty)
-                    applikasyon = CurrentBlog.Subfolder;
-				else
-					applikasyon = String.Empty;
-
+				int blogID = 0;
+				if (CurrentBlog.BlogId > 0)
+					blogID = CurrentBlog.BlogId;
 
 				SqlParameter[] p =
 				{
-					SqlHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, BlogId),
-					SqlHelper.MakeInParam("@SearchStr", SearchStr)
+					SqlHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, blogID),
+					SqlHelper.MakeInParam("@SearchStr", searchString)
 				};
 
-				DataTable dt = SqlHelper.ExecuteDataTable(conn, CommandType.StoredProcedure, sql, p);
+				DataTable dt = SqlHelper.ExecuteDataTable(connStr, CommandType.StoredProcedure, storedProc, p);
 
 				int count = dt.Rows.Count;
 
@@ -103,39 +91,17 @@ namespace Subtext.Web.UI.Controls
 				{
 					DataRow dr = dt.Rows[i];
 
-					string id = dr["id"].ToString();
-					string title = (string) dr["Title"];
-					DateTime dateAdded = (DateTime) dr["DateAdded"];
+					string entryId = ((int) dr["id"]).ToString(CultureInfo.InvariantCulture);
+					string entryTitle = (string) dr["Title"];
+					DateTime dateCreated = (DateTime) dr["DateAdded"];
+					string entryUrl = CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(dateCreated, entryId);
 
-					string myURL = URLFormat(applikasyon, dateAdded, id);
-
-					mySearchItems.Add(new PositionItems(title, myURL));
+					mySearchItems.Add(new PositionItems(entryTitle, entryUrl));
 				}
 
 				SearchResults.DataSource = mySearchItems;
 				SearchResults.DataBind();
 			}
-		}
-
-		public string URLFormat(string dbApplication, DateTime dbDateAdded, string dbEntryID)
-		{
-			string myYear = dbDateAdded.Year.ToString();
-			string myMonth = dbDateAdded.Month.ToString();
-			string myDay = dbDateAdded.Day.ToString();
-
-			int Month = int.Parse(myMonth);
-			int Day = int.Parse(myDay);
-
-			if (Month < 10)
-			{
-				myMonth = String.Concat("0", myMonth);
-			}
-			if (Day < 10)
-			{
-				myDay = String.Concat("0", myDay);
-			}
-
-			return CurrentBlog.BlogHomeVirtualUrl + "archive" + "/" + myYear + "/" + myMonth + "/" + myDay + "/" + dbEntryID + ".aspx";
 		}
 
 		public class PositionItems
@@ -159,7 +125,5 @@ namespace Subtext.Web.UI.Controls
 				get { return URL; }
 			}
 		}
-
-
 	}
 }
