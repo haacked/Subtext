@@ -79,7 +79,7 @@
 
 	<target name="clean" depends="get-publishing-properties">
 		<delete dir="${log.dir}" failonerror="false" />
-		<!--<call target="clean-vs" />-->
+		<call target="clean-vs" />
 	</target>
 
 	<target name="clean-vs">
@@ -143,7 +143,7 @@
 
 	<target name="testAndCover" depends="get-publishing-properties,compile-UnitTesting">
 		
-		<exec program="${NCover.exe}" workingdir="UnitTests.Subtext\bin\${configuration}" commandline="&quot;${MbUnit.exe}&quot; /rnf:unittest /rt:xml /rf:${log.dir} UnitTests.Subtext.dll //x ${log.dir}\ncover-temp.xml" failonerror="false"/>
+		<exec program="${NCover.exe}" workingdir="UnitTests.Subtext\bin\${configuration}" commandline="&quot;${MbUnit.exe}&quot; /rnf:unittest /rt:xml /rf:${log.dir} UnitTests.Subtext.dll //x ${log.dir}\ncover-temp.xml" failonerror="true"/>
 		
 		<call target="util.ncoverexplorer.nant" />
 		
@@ -186,7 +186,7 @@
 
 	<target name="dist.publish.latest" depends="compile-release">
 
-		<delete dir="${publish.dir.latest}" failonerror="false" />
+		<!--<delete dir="${publish.dir.latest}" failonerror="false" />-->
 		<mkdir dir="${publish.dir.latest}" />
 		
 		<echo message="deploying binaries to latest" />
