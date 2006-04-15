@@ -23,6 +23,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
+using Subtext.Framework.Web;
 
 namespace Subtext.Framework
 {
@@ -288,12 +289,13 @@ namespace Subtext.Framework
 				CommentFilter.FilterComment(entry);
 
 			if(Config.CurrentBlog.AutoFriendlyUrlEnabled
-				&& (entry.EntryName == null || entry.EntryName.Length == 0)
 				&& (entry.PostType == PostType.BlogPost || entry.PostType == PostType.Story)
-				&& entry.Title != null && entry.Title.Length > 0)
+				&& entry.Title != null
+				&& entry.Title.Length > 0)
 			{
 				entry.EntryName = AutoGenerateFriendlyUrl(entry.Title);
 				entry.TitleUrl = entry.Link;
+				
 			}
 
 			if(entry.IsActive && entry.IncludeInMainSyndication)
@@ -315,8 +317,55 @@ namespace Subtext.Framework
 				throw new ArgumentNullException("title", "Cannot generate friendly url from null title.");
 
 			//TODO: Robb's going to allow configuring the word Separator character.
-			char wordSeparator = char.MinValue;
-			return AutoGenerateFriendlyUrl(title, wordSeparator);
+			System.Collections.Specialized.NameValueCollection FriendlyUrlSettings;
+			FriendlyUrlSettings = (System.Collections.Specialized.NameValueCollection)System.Configuration.ConfigurationSettings.GetConfig("FriendlyUrlSettings");
+
+			string wordSeparator;
+			int wordCount;
+
+			wordSeparator = FriendlyUrlSettings["separatingCharacter"];
+			if (FriendlyUrlSettings["limitWordCount"] == null)
+			{
+				wordCount=0;
+			}
+			else
+			{
+				wordCount = int.Parse(FriendlyUrlSettings["limitWordCount"]);
+			}
+			
+			// break down to number of words. If 0 (or less) don't mess with the title
+			if (wordCount > 0)
+			{
+				//only do this is there are more words than allowed.
+				string[] words;
+				words = title.Split(" ".ToCharArray());
+
+				if (words.Length > wordCount)
+				{
+					//now strip the title down to the number of allowed words
+					int wordCharCounter = 0;
+					for (int i = 0; i < wordCount; i++)
+					{
+						wordCharCounter = wordCharCounter + words[i].Length + 1;
+					}
+
+					title = title.Substring(0, wordCharCounter-1);
+				}
+			}
+
+			// separating characters are limited due to the problems certain chars
+			// can cause. Only - _ and . are allowed
+			
+			if ((wordSeparator == "_") || (wordSeparator == ".") || (wordSeparator =="-"))
+			{
+				return AutoGenerateFriendlyUrl(title, wordSeparator[0]);
+			}
+			else
+			{
+				//invalid separator or none defined.
+				return AutoGenerateFriendlyUrl(title, char.MinValue);
+			}
+
 		}
 
 		/// <summary>
