@@ -27,6 +27,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 	/// of an entry. This serves as a friendly url.
 	/// </summary>
 	[TestFixture]
+			[Author("Robb Allen", "robb.allen@gmail.com", "http://blog.robballen.com")]
 	public class AutoGenerateFriendlyUrlTests
 	{
 		string _hostName = string.Empty;
@@ -43,6 +44,45 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		public void FriendlyUrlWithSeparatorAndNullTitleThrowsArgumentException()
 		{
 			Entries.AutoGenerateFriendlyUrl(null, '_');
+		}
+
+
+
+		/// <summary>
+		/// Make sure words are separated and limited correctly
+		/// using 2 word limit and underscore
+		/// </summary>
+		
+		[RowTest]
+		[Row("Single", "Single")]
+		[Row("Single ", "Single")]
+		[Row("Two words", "Two.words")]
+		[Row("Holymolythisisalongwordthatnormallywouldn'tbeused.", "Holymolythisisalongwordthatnormallywouldntbeused")]
+		[Row("This is a very long title that will be truncated.", "This.is")]
+		[RollBack]
+		public void FriendlyUrlLimitedDelimetedWrongChar(string title, string expected)
+		{
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title), "The auto generated entry name is not what we expected.");
+		}
+
+		
+		/// <summary>
+		/// Make sure words are separated and limited correctly
+		/// using 2 word limit and underscore
+		/// </summary>
+		
+		[RowTest]
+		[Row("Single", "Single")]
+		[Row("Single ", "Single")]
+		[Row("Two words", "Two_words")]
+		[Row("Holymolythisisalongwordthatnormallywouldn'tbeused.", "Holymolythisisalongwordthatnormallywouldntbeused")]
+		[Row("This is a very long title that will be truncated.", "This_is")]
+		[RollBack]
+		public void FriendlyUrlLimitedDelimeted(string title, string expected)
+		{
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title), "The auto generated entry name is not what we expected.");
 		}
 
 		/// <summary>
@@ -64,7 +104,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		public void FriendlyUrlGeneratesNiceUrl(string title, string expected)
 		{
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
-			Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title), "THe auto generated entry name is not what we expected.");
+			Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title), "The auto generated entry name is not what we expected.");
 		}
 
 		/// <summary>
