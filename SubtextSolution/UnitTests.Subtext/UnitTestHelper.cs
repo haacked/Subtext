@@ -39,7 +39,7 @@ namespace UnitTests.Subtext
 		/// <summary>
 		/// Unpacks an embedded resource into the specified directory.
 		/// </summary>
-		/// <remarks>Omit the UnitTests.GameServer.Resources. part of the 
+		/// <remarks>Omit the UnitTests.Subtext.Resources. part of the 
 		/// resource name.</remarks>
 		/// <param name="resourceName"></param>
 		/// <param name="outputPath">The path to write the file as.</param>
@@ -59,7 +59,7 @@ namespace UnitTests.Subtext
 		/// <summary>
 		/// Unpacks an embedded resource as a string.
 		/// </summary>
-		/// <remarks>Omit the UnitTests.GameServer.Resources. part of the 
+		/// <remarks>Omit the UnitTests.Subtext.Resources. part of the 
 		/// resource name.</remarks>
 		/// <param name="resourceName"></param>
 		/// <param name="encoding">The path to write the file as.</param>
@@ -75,7 +75,7 @@ namespace UnitTests.Subtext
 		/// <summary>
 		/// Unpacks an embedded binary resource into the specified directory.
 		/// </summary>
-		/// <remarks>Omit the UnitTests.GameServer.Resources. part of the 
+		/// <remarks>Omit the UnitTests.Subtext.Resources. part of the 
 		/// resource name.</remarks>
 		/// <param name="resourceName"></param>
 		/// <param name="outputPath">The path to write the file as.</param>
@@ -95,7 +95,7 @@ namespace UnitTests.Subtext
 		/// <summary>
 		/// Unpacks an embedded resource into a Stream.
 		/// </summary>
-		/// <remarks>Omit the UnitTests.GameServer.Resources. part of the 
+		/// <remarks>Omit the UnitTests.Subtext.Resources. part of the 
 		/// resource name.</remarks>
 		/// <param name="resourceName">Name of the resource.</param>
 		public static Stream UnpackEmbeddedResource(string resourceName)
