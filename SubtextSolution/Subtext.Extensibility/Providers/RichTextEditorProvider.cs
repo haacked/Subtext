@@ -72,7 +72,7 @@ namespace Subtext.Extensibility.Providers
 
 		/// <summary>
 		/// Returns a <see cref="ProviderCollection"/> containing <see cref="ProviderInfo"/> 
-		/// instances for each <see cref="ImportProvider"/>.  Note that these are not the 
+		/// instances for each <see cref="RichTextEditorProvider"/>.  Note that these are not the 
 		/// actual providers, simply information about the installed providers.
 		/// </summary>
 		/// <value></value>
