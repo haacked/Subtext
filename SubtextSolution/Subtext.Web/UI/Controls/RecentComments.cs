@@ -95,7 +95,7 @@ namespace Subtext.Web.UI.Controls
 						if (commentLength > 0)
 						{
 							truncatedText = HtmlHelper.RemoveHtml(entry.Body);
-							if (truncatedText.Length >= commentLength)
+							if (truncatedText.Length > commentLength)
 							{
 								truncatedText = truncatedText.Substring(0, commentLength);
 							}
