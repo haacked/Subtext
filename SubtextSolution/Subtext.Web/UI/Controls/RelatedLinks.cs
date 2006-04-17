@@ -41,7 +41,6 @@ namespace Subtext.Web.UI.Controls
 
 			Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short);
 
-			//BlogId = entry.BlogId;
 			int entryid = entry.EntryID;
 
 			SqlParameter[] p =
@@ -62,7 +61,7 @@ namespace Subtext.Web.UI.Controls
 				string title = (string) dr["Title"];
 				DateTime dateAdded = (DateTime) dr["DateAdded"];
 
-				string myURL = URLFormat(applikasyon, dateAdded, id);
+				string myURL = CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(dateAdded, id);
 
 				myRelLinks.Add(new PositionItems(title, myURL));
 			}
@@ -94,26 +93,6 @@ namespace Subtext.Web.UI.Controls
 
 		#endregion
 
-		public string URLFormat(string dbApplication, DateTime dbDateAdded, string dbEntryID)
-		{
-			string myYear = dbDateAdded.Year.ToString();
-			string myMonth = dbDateAdded.Month.ToString();
-			string myDay = dbDateAdded.Day.ToString();
-
-			int Month = int.Parse(myMonth);
-			int Day = int.Parse(myDay);
-
-			if (Month < 10)
-			{
-				myMonth = String.Concat("0", myMonth);
-			}
-			if (Day < 10)
-			{
-				myDay = String.Concat("0", myDay);
-			}
-
-			return CurrentBlog.BlogHomeVirtualUrl + "archive" + "/" + myYear + "/" + myMonth + "/" + myDay + "/" + dbEntryID + ".aspx";
-		}
 	}
 	
 	public class PositionItems

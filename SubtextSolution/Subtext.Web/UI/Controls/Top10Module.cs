@@ -53,7 +53,7 @@ namespace Subtext.Web.UI.Controls
 				DateTime dateAdded = (DateTime) dr["DateAdded"];
 				string id = dr["EntryId"].ToString();
 
-				string myURL = URLFormat(application, dateAdded, id);
+				string myURL = CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(dateAdded, id);
 
 				myLastItems.Add(new PositionItems(title, myURL));
 
@@ -61,33 +61,6 @@ namespace Subtext.Web.UI.Controls
 
 			Top10Entries.DataSource = myLastItems;
 			Top10Entries.DataBind();
-		}
-
-		public string URLFormat(string dbApplication, DateTime dbDateAdded, string dbEntryID)
-		{
-			string myURL = ConfigurationSettings.AppSettings["AggregateURL"];
-
-			myURL = myURL + "/" + dbApplication + "/";
-
-			string myYear = dbDateAdded.Year.ToString();
-			string myMonth = dbDateAdded.Month.ToString();
-			string myDay = dbDateAdded.Day.ToString();
-
-			int Month = int.Parse(myMonth);
-			int Day = int.Parse(myDay);
-
-			if (Month < 10)
-			{
-				myMonth = String.Concat("0", myMonth);
-			}
-			if (Day < 10)
-			{
-				myDay = String.Concat("0", myDay);
-			}
-
-			myURL = myURL + "archive" + "/" + myYear + "/" + myMonth + "/" + myDay + "/" + dbEntryID + ".aspx";
-
-			return myURL;
 		}
 
 	}
