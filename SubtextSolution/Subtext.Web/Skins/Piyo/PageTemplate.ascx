@@ -1,4 +1,4 @@
-/*
+<!--
 Skin inspired from Blojsom 2.0 Theme
 Name:     Asual
 Author:   Rostislav Hristov
@@ -6,7 +6,7 @@ URL:      www.asual.com
 Date:     1 October 2004
 
 and later adpated for the SubText blogging platform by Simone Chiaretta www.piyodesign.it
-*/
+-->
 
 <%@ Control %>
 <%@ Register TagPrefix="DT" Namespace="Subtext.Web.UI.WebControls" Assembly="Subtext.Web" %>
