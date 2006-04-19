@@ -251,7 +251,17 @@ namespace Subtext.Framework.Syndication
 			{
 				this.WriteStartElement("body");
 				this.WriteAttributeString("xmlns", "http://www.w3.org/1999/xhtml");
-				this.WriteRaw(entry.Body + ((UseAggBugs && settings.Tracking.EnableAggBugs)  ? TrackingUrls.AggBugImage(urlFormats.AggBugkUrl(entry.EntryID)) : null));
+				//If Syndicate Description Only was checked, write out the description to the
+				//body tag rather than the full text of the post
+				// - Robb Allen
+				if (entry.SyndicateDescriptionOnly)
+				{
+					this.WriteRaw(entry.Description + ((UseAggBugs && settings.Tracking.EnableAggBugs)  ? TrackingUrls.AggBugImage(urlFormats.AggBugkUrl(entry.EntryID)) : null));
+				}
+				else
+				{
+					this.WriteRaw(entry.Body + ((UseAggBugs && settings.Tracking.EnableAggBugs)  ? TrackingUrls.AggBugImage(urlFormats.AggBugkUrl(entry.EntryID)) : null));
+				}
 				this.WriteEndElement();
 			}			
 		}
