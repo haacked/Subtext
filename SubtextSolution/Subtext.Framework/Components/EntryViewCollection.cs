@@ -72,9 +72,12 @@ namespace Subtext.Framework.Components
 		/// <param name="value">An array of type <see cref="EntryView">EntryView</see> containing the Components to add to the collection.</param>
 		public void AddRange(EntryView[] value) 
 		{
-			for (int i = 0;	(i < value.Length); i = (i + 1)) 
+			for (int i = 0;	(i < value.Length); i++) 
 			{
-				this.Add(value[i]);
+				if(value[i] != null)
+				{
+					this.Add(value[i]);
+				}
 			}
 		}
 		
