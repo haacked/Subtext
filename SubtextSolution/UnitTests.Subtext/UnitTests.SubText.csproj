@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = "copy $(ProjectDir)Resources\App.config $(TargetPath).config"
+                PostBuildEvent = 'copy "$(ProjectDir)Resources\App.config" "$(TargetPath).config"'
                 RootNamespace = "UnitTests.Subtext"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""

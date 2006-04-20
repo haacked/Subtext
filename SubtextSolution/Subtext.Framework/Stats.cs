@@ -91,7 +91,7 @@ namespace Subtext.Framework
 					if(queuedStatsList.Count >= queuedAllowCount)
 					{
 						EntryView[] eva = new EntryView[queuedStatsList.Count];
-						queuedStatsList.CopyTo(eva,0);
+						queuedStatsList.CopyTo(eva, 0);
 
 						ClearTrackEntryQueue(new EntryViewCollection(eva));
 						queuedStatsList.Clear();	
