@@ -24,7 +24,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 		[RollBack]
 		public void AtomWriterProducesValidFeedFromDatabase()
 		{
-			string hostName = System.Guid.NewGuid().ToString().Replace("-", "") + ".com";
+			string hostName = UnitTestHelper.GenerateRandomHostName();
 			Assert.IsTrue(Config.CreateBlog("Test", "username", "password", hostName, string.Empty));
 
 			StringBuilder sb = new StringBuilder();
@@ -54,8 +54,12 @@ namespace UnitTests.Subtext.Framework.Syndication
 			Assert.AreEqual(1, itemNodes.Count, "expected one entry node.");
 
 			Assert.AreEqual("testtitle", itemNodes[0].SelectSingleNode("atom:title", nsmanager).InnerText, "Not what we expected for the title.");
-			Assert.AreEqual("http://" + hostName + "/archive/2006/04/12/" + id + ".aspx", itemNodes[0].SelectSingleNode("atom:id", nsmanager).InnerText, "Not what we expected for the link.");
-			Assert.AreEqual("http://" + hostName + "/archive/2006/04/12/" + id + ".aspx", itemNodes[0].SelectSingleNode("atom:link/@href", nsmanager).InnerText, "Not what we expected for the link.");
+			string urlFormat = "http://{0}/archive/{1:yyyy/MM/dd}/{2}.aspx";
+
+			string expectedUrl = string.Format(urlFormat, hostName, dateCreated, id);
+
+			Assert.AreEqual(expectedUrl, itemNodes[0].SelectSingleNode("atom:id", nsmanager).InnerText, "Not what we expected for the link.");
+			Assert.AreEqual(expectedUrl, itemNodes[0].SelectSingleNode("atom:link/@href", nsmanager).InnerText, "Not what we expected for the link.");
 		}
 	}
 }

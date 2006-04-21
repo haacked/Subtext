@@ -50,10 +50,13 @@ namespace UnitTests.Subtext.Framework.Syndication
 			XmlNodeList itemNodes = doc.SelectNodes("/rss/channel/item");
 			Assert.AreEqual(1, itemNodes.Count, "expected one item nodes.");
 
+			string urlFormat = "http://{0}/archive/{1:yyyy/MM/dd}/{2}.aspx";
+			string expectedUrl = string.Format(urlFormat, hostName, dateCreated, id);
+
 			Assert.AreEqual("testtitle", itemNodes[0].SelectSingleNode("title").InnerText, "Not what we expected for the title.");
-			Assert.AreEqual("http://" + hostName + "/archive/2006/04/12/" + id + ".aspx", itemNodes[0].SelectSingleNode("link").InnerText, "Not what we expected for the link.");
-			Assert.AreEqual("http://" + hostName + "/archive/2006/04/12/" + id + ".aspx", itemNodes[0].SelectSingleNode("guid").InnerText, "Not what we expected for the link.");
-			Assert.AreEqual("http://" + hostName + "/archive/2006/04/12/" + id + ".aspx#feedback", itemNodes[0].SelectSingleNode("comments").InnerText, "Not what we expected for the link.");
+			Assert.AreEqual(expectedUrl, itemNodes[0].SelectSingleNode("link").InnerText, "Not what we expected for the link.");
+			Assert.AreEqual(expectedUrl, itemNodes[0].SelectSingleNode("guid").InnerText, "Not what we expected for the link.");
+			Assert.AreEqual(expectedUrl + "#feedback", itemNodes[0].SelectSingleNode("comments").InnerText, "Not what we expected for the link.");
 		}
 
 		/// <summary>
