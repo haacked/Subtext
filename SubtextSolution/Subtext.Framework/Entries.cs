@@ -14,6 +14,8 @@
 #endregion
 
 using System;
+using System.Collections.Specialized;
+using System.Configuration;
 using System.Text.RegularExpressions;
 using System.Web;
 using Subtext.Extensibility;
@@ -23,7 +25,6 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
-using Subtext.Framework.Web;
 
 namespace Subtext.Framework
 {
@@ -317,20 +318,23 @@ namespace Subtext.Framework
 				throw new ArgumentNullException("title", "Cannot generate friendly url from null title.");
 
 			//TODO: Robb's going to allow configuring the word Separator character.
-			System.Collections.Specialized.NameValueCollection FriendlyUrlSettings;
-			FriendlyUrlSettings = (System.Collections.Specialized.NameValueCollection)System.Configuration.ConfigurationSettings.GetConfig("FriendlyUrlSettings");
+			NameValueCollection friendlyUrlSettings = (NameValueCollection)ConfigurationSettings.GetConfig("FriendlyUrlSettings");
+			if(friendlyUrlSettings == null)
+			{
+				//Default to old behavior.
+				return AutoGenerateFriendlyUrl(title, char.MinValue);
+			}
 
-			string wordSeparator;
+			string wordSeparator = friendlyUrlSettings["separatingCharacter"];;
 			int wordCount;
 
-			wordSeparator = FriendlyUrlSettings["separatingCharacter"];
-			if (FriendlyUrlSettings["limitWordCount"] == null)
+			if (friendlyUrlSettings["limitWordCount"] == null)
 			{
-				wordCount=0;
+				wordCount = 0;
 			}
 			else
 			{
-				wordCount = int.Parse(FriendlyUrlSettings["limitWordCount"]);
+				wordCount = int.Parse(friendlyUrlSettings["limitWordCount"]);
 			}
 			
 			// break down to number of words. If 0 (or less) don't mess with the title
@@ -355,7 +359,6 @@ namespace Subtext.Framework
 
 			// separating characters are limited due to the problems certain chars
 			// can cause. Only - _ and . are allowed
-			
 			if ((wordSeparator == "_") || (wordSeparator == ".") || (wordSeparator =="-"))
 			{
 				return AutoGenerateFriendlyUrl(title, wordSeparator[0]);

@@ -27,7 +27,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 	/// of an entry. This serves as a friendly url.
 	/// </summary>
 	[TestFixture]
-			[Author("Robb Allen", "robb.allen@gmail.com", "http://blog.robballen.com")]
+	[Author("Robb Allen", "robb.allen@gmail.com", "http://blog.robballen.com")]
 	public class AutoGenerateFriendlyUrlTests
 	{
 		string _hostName = string.Empty;
@@ -52,7 +52,6 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		/// Make sure words are separated and limited correctly
 		/// using 2 word limit and underscore
 		/// </summary>
-		
 		[RowTest]
 		[Row("Single", "Single")]
 		[Row("Single ", "Single")]
