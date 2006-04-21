@@ -105,7 +105,7 @@ namespace Subtext
 			if((InstallationManager.IsInstallationActionRequired(VersionInfo.FrameworkVersion) || InstallationManager.HostInfoRecordNeeded))
 			{
 				InstallationState state = InstallationManager.GetCurrentInstallationState(VersionInfo.FrameworkVersion);
-				if(state == InstallationState.NeedsInstallation && !InstallationManager.IsInHostAdminDirectory)
+				if(state == InstallationState.NeedsInstallation && !InstallationManager.IsInHostAdminDirectory && !InstallationManager.IsInInstallDirectory)
 				{
 					Response.Redirect("~/Install/", true);
 					return;
