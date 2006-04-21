@@ -91,7 +91,7 @@
 						</div>
 						<div>
 							<a href="http://www.asp.net"><img id="PoweredBy" src='<%= Utilities.ResourcePath + "resources/poweredbydotnet.gif" %>' height="33" width="99"></a>
-							Subtext Copyright &copy; <a href="http://haacked.com/blog">Phil Haack</a>, 2005. All rights 
+							Subtext Copyright &copy; <a href="http://haacked.com/">Phil Haack</a>, 2005. All rights 
 							reserved.<br />
 							.TEXT Copyright &copy; <a href="http://scottwater.com/blog">Scott Watermasysk</a>, 2003. 
 							All rights reserved.
