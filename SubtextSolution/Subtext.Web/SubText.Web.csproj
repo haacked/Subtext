@@ -1399,11 +1399,19 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Scripts\AmazonTooltips.js"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Scripts\BlogInfo.js"
                     BuildAction = "Content"
                 />
                 <File
                     RelPath = "Scripts\ExternalLinks.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Scripts\FormFocus.js"
                     BuildAction = "Content"
                 />
                 <File
@@ -1416,6 +1424,14 @@
                 />
                 <File
                     RelPath = "Scripts\LiveCommentPreview.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Scripts\XFNHighlighter.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Scripts\XFNHighlighter.js"
                     BuildAction = "Content"
                 />
                 <File
