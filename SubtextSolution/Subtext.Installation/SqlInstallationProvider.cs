@@ -226,15 +226,22 @@ namespace Subtext.Installation
 		{
 			string sql = "subtext_VersionGetCurrent";
 		
-			using(IDataReader reader = SqlHelper.ExecuteReader(_connectionString, CommandType.StoredProcedure, sql))
+			try 
 			{
-				if(reader.Read())
+				using(IDataReader reader = SqlHelper.ExecuteReader(_connectionString, CommandType.StoredProcedure, sql))
 				{
-					Version version = new Version((int)reader["Major"], (int)reader["Minor"], (int)reader["Build"]);
+					if(reader.Read())
+					{
+						Version version = new Version((int)reader["Major"], (int)reader["Minor"], (int)reader["Build"]);
+						reader.Close();
+						return version;
+					}
 					reader.Close();
-					return version;
 				}
-				reader.Close();
+			}
+			catch(SqlException) 
+			{
+				return null;
 			}
 			return null;
 		}
