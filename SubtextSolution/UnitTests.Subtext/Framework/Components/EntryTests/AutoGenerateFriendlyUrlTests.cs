@@ -45,30 +45,10 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		{
 			Entries.AutoGenerateFriendlyUrl(null, '_');
 		}
-
-
-
+	
 		/// <summary>
 		/// Make sure words are separated and limited correctly
-		/// using 2 word limit and underscore
-		/// </summary>
-		[RowTest]
-		[Row("Single", "Single")]
-		[Row("Single ", "Single")]
-		[Row("Two words", "Two.words")]
-		[Row("Holymolythisisalongwordthatnormallywouldn'tbeused.", "Holymolythisisalongwordthatnormallywouldntbeused")]
-		[Row("This is a very long title that will be truncated.", "This.is")]
-		[RollBack]
-		public void FriendlyUrlLimitedDelimetedWrongChar(string title, string expected)
-		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
-			Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title), "The auto generated entry name is not what we expected.");
-		}
-
-		
-		/// <summary>
-		/// Make sure words are separated and limited correctly
-		/// using 2 word limit and underscore
+		/// using 5 word limit and underscore
 		/// </summary>
 		
 		[RowTest]
@@ -76,7 +56,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[Row("Single ", "Single")]
 		[Row("Two words", "Two_words")]
 		[Row("Holymolythisisalongwordthatnormallywouldn'tbeused.", "Holymolythisisalongwordthatnormallywouldntbeused")]
-		[Row("This is a very long title that will be truncated.", "This_is")]
+		[Row("This is a very long title that will be truncated.", "This_is_a_very_long")]
 		[RollBack]
 		public void FriendlyUrlLimitedDelimeted(string title, string expected)
 		{
@@ -103,7 +83,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		public void FriendlyUrlGeneratesNiceUrl(string title, string expected)
 		{
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
-			Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title), "The auto generated entry name is not what we expected.");
+			Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title, char.MinValue), "The auto generated entry name is not what we expected.");
 		}
 
 		/// <summary>
@@ -162,7 +142,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			int id = Entries.Create(entry);
 
 			Entry savedEntry = Entries.GetEntry(id, EntryGetOption.All);
-			Assert.AreEqual("SomeTitle", savedEntry.EntryName, "The EntryName should have been auto-friendlied.");
+			Assert.AreEqual("Some_Title", savedEntry.EntryName, "The EntryName should have been auto-friendlied.");
 			Assert.AreEqual(savedEntry.Link, savedEntry.TitleUrl, "The title url should link to the entry.");
 
 			Entry duplicate = new Entry(PostType.BlogPost);
@@ -173,7 +153,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			int dupeId = Entries.Create(duplicate);
 			Entry savedDupe = Entries.GetEntry(dupeId, EntryGetOption.All);
 			
-			Assert.AreEqual("SomeTitleAgain", savedDupe.EntryName, "Should have appended 'Again'");
+			Assert.AreEqual("Some_TitleAgain", savedDupe.EntryName, "Should have appended 'Again'");
 			UnitTestHelper.AssertAreNotEqual(savedEntry.EntryName, savedDupe.EntryName, "No duplicate entry names are allowed.");
 
 			Entry yetAnotherDuplicate = new Entry(PostType.BlogPost);
@@ -184,7 +164,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			dupeId = Entries.Create(yetAnotherDuplicate);
 			savedDupe = Entries.GetEntry(dupeId, EntryGetOption.All);
 			
-			Assert.AreEqual("SomeTitleYetAgain", savedDupe.EntryName, "Should have appended 'YetAgain'");
+			Assert.AreEqual("Some_TitleYetAgain", savedDupe.EntryName, "Should have appended 'YetAgain'");
 
 			yetAnotherDuplicate = new Entry(PostType.BlogPost);
 			yetAnotherDuplicate.DateCreated = DateTime.Now;
@@ -194,7 +174,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			dupeId = Entries.Create(yetAnotherDuplicate);
 			savedDupe = Entries.GetEntry(dupeId, EntryGetOption.All);
 			
-			Assert.AreEqual("SomeTitleAndAgain", savedDupe.EntryName, "Should have appended 'AndAgain'");
+			Assert.AreEqual("Some_TitleAndAgain", savedDupe.EntryName, "Should have appended 'AndAgain'");
 
 			yetAnotherDuplicate = new Entry(PostType.BlogPost);
 			yetAnotherDuplicate.DateCreated = DateTime.Now;
@@ -204,7 +184,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			dupeId = Entries.Create(yetAnotherDuplicate);
 			savedDupe = Entries.GetEntry(dupeId, EntryGetOption.All);
 			
-			Assert.AreEqual("SomeTitleOnceMore", savedDupe.EntryName, "Should have appended 'OnceMore'");
+			Assert.AreEqual("Some_TitleOnceMore", savedDupe.EntryName, "Should have appended 'OnceMore'");
 
 			yetAnotherDuplicate = new Entry(PostType.BlogPost);
 			yetAnotherDuplicate.DateCreated = DateTime.Now;
@@ -214,7 +194,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			dupeId = Entries.Create(yetAnotherDuplicate);
 			savedDupe = Entries.GetEntry(dupeId, EntryGetOption.All);
 			
-			Assert.AreEqual("SomeTitleToBeatADeadHorse", savedDupe.EntryName, "Should have appended 'ToBeatADeadHorse'");
+			Assert.AreEqual("Some_TitleToBeatADeadHorse", savedDupe.EntryName, "Should have appended 'ToBeatADeadHorse'");
 		}
 
 		/// <summary>
