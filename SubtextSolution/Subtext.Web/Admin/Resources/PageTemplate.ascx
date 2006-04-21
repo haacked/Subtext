@@ -22,13 +22,13 @@
 			<table id="BodyTable" cellpadding="0" cellspacing="0" width="100%">
 				<tr>
 					<td>
-						<a href="http://sourceforge.net/projects/subtext/"><img id="HeaderLogo" align="right" src='<%= Utilities.ResourcePath + "resources/SubtextLogo.png" %>' height="85" width="261" border="0" ></a>
+						<a href="http://www.subtextproject.com/"><img id="HeaderLogo" align="right" src='<%= Utilities.ResourcePath + "resources/SubtextLogo.png" %>' height="85" width="261" border="0" ></a>
 					</td>
 					<td id="header">
 						<div id="SiteNav">
 							Logged in as <strong>
 								<asp:Literal Runat="server" ID="LoggedInUser" /></strong> (<asp:LinkButton id="LogoutLink" runat="server">logout</asp:LinkButton>) 
-							| <a href="http://sourceforge.net/projects/subtext/" title="Subtext Project Site">Subtext Project Site</a>
+							| <a href="http://www.subtextproject.com/" title="Subtext Project Site">Subtext Project Site</a>
 						</div>
 						<div id="BlogTitle">
 							<asp:HyperLink id="BlogTitleLink" runat="server" />
