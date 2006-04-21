@@ -464,7 +464,15 @@ namespace UnitTests.Subtext
 					// allready seeked, just return
 					return input;
 				}
+		}
 
+		/// <summary>
+		/// Generates a random hostname.
+		/// </summary>
+		/// <returns></returns>
+		public static string GenerateRandomHostName()
+		{
+			return System.Guid.NewGuid().ToString().Replace("-", "") + ".com";
 		}
 
 		#region ...Assert.AreNotEqual replacements...
