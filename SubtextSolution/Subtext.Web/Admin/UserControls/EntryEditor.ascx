@@ -1,6 +1,7 @@
-<%@ Control Language="c#" AutoEventWireup="false" Codebehind="EntryEditor.ascx.cs" Inherits="Subtext.Web.Admin.UserControls.EntryEditor" %>
+<%@ Control Language="c#" AutoEventWireup="false" Codebehind="EntryEditor.ascx.cs" Inherits="Subtext.Web.Admin.UserControls.EntryEditor"%>
 <%@ Register TagPrefix="FTB" Namespace="FreeTextBoxControls" Assembly="FreeTextBox" %>
 <%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
+<%@ Register TagPrefix="SUB" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <%@ Import Namespace = "Subtext.Web.Admin" %>
 
 <ANW:MessagePanel id="Messages" runat="server"></ANW:MessagePanel>
@@ -94,14 +95,9 @@
 			<asp:TextBox id="txbTitle" runat="server" CssClass="textinput" MaxLength="250"></asp:TextBox>
 		</p>
 		<p>
-			<label for="Editor_Edit_freeTextBox" AccessKey="b">Post <u>B</u>ody</label>&nbsp;<asp:RequiredFieldValidator id="valtbBodyRequired" runat="server" ControlToValidate="freeTextBox" ForeColor="#990066" ErrorMessage="Your post must have a body"></asp:RequiredFieldValidator></p>
+			<label for="Editor_Edit_richTextEditor" AccessKey="b">Post <u>B</u>ody</label>&nbsp;<asp:RequiredFieldValidator id="valtbBodyRequired" runat="server" ControlToValidate="richTextEditor" ForeColor="#990066" ErrorMessage="Your post must have a body"></asp:RequiredFieldValidator></p>
 		<p>
-			<FTB:FreeTextBox 
-				id="freeTextBox"
-				toolbarlayout="Bold,Italic,Underline,Strikethrough;Superscript,Subscript,RemoveFormat|FontFacesMenu,FontSizesMenu,FontForeColorsMenu|InsertTable|JustifyLeft,JustifyRight,JustifyCenter,JustifyFull;BulletedList,NumberedList,Indent,Outdent;CreateLink,Unlink,Insert,InsertRule|Cut,Copy,Paste;Undo,Redo|ieSpellCheck,WordClean|InsertImage,InsertImageFromGallery"
-				FormatHtmlTagsToXhtml="true"
-				runat="Server" 
-				RemoveServerNamefromUrls="false"/>
+			<SUB:RichTextEditor id="richTextEditor" runat="server"></SUB:RichTextEditor>
 		</p>
 		<p><label>Categories</label></p>
 		<p><asp:CheckBoxList id="cklCategories" runat="server" RepeatColumns="5" RepeatDirection="Horizontal"></asp:CheckBoxList></p>

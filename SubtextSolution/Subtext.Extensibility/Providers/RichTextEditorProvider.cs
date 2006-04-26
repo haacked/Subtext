@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Specialized;
+using System.Web.UI;
 
 namespace Subtext.Extensibility.Providers
 {
@@ -22,7 +23,7 @@ namespace Subtext.Extensibility.Providers
 	/// Provider for classes that implement the rich text editor 
 	/// to edit text visually.
 	/// </summary>
-	public class RichTextEditorProvider: ProviderBase
+	public abstract class RichTextEditorProvider: ProviderBase
 	{
 
 		const string SECTION_NAME = "RichTextEditor";
@@ -83,6 +84,18 @@ namespace Subtext.Extensibility.Providers
 				return ProviderBase.GetProviders(SECTION_NAME);
 			}
 		}
+
+		/// <summary>
+		/// Return the RichTextEditorControl to be displayed inside the page
+		/// </summary>
+		public abstract Control RichTextEditorControl{get;}
+		public abstract String ControlID{get;set;}
+		public abstract String Text{get;set;}
+		public abstract String Xhtml{get;}
+		public abstract System.Web.UI.WebControls.Unit Width{get;set;}
+		public abstract System.Web.UI.WebControls.Unit Height{get;set;}
+
+		public abstract void InitializeControl();
 
 	}
 }

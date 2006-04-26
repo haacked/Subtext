@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP
         ProjectType = "Local"
-        ProductVersion = "7.10.6015"
+        ProductVersion = "7.10.3077"
         SchemaVersion = "2.0"
         ProjectGuid = "{2278427B-8BAD-4CE9-B15A-FD1131753D64}"
     >
@@ -122,6 +122,11 @@
                     Lcid = "0"
                     WrapperTool = "tlbimp"
                 />
+                <Reference
+                    Name = "Subtext.Extensibility"
+                    Project = "{13018F20-F796-4FFE-9290-83D0E661C0A1}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
             </References>
         </Build>
         <Files>
@@ -178,6 +183,11 @@
                 />
                 <File
                     RelPath = "RepeaterWithEmptyDataTemplate.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RichTextEditor.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

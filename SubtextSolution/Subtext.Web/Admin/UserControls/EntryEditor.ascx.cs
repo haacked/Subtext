@@ -19,7 +19,6 @@ using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using FreeTextBoxControls;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -28,6 +27,7 @@ using Subtext.Framework.Text;
 using Subtext.Framework.Util;
 using Subtext.Web.Admin.Pages;
 using Subtext.Web.Admin.WebUI;
+using Subtext.Web.Controls;
 using Page = Subtext.Web.Admin.WebUI.Page;
 using StringHelper = Subtext.Framework.Text.StringHelper;
 
@@ -74,7 +74,7 @@ namespace Subtext.Web.Admin.UserControls
 		protected RequiredFieldValidator valTitleRequired;
 		protected Button lkbNewPost;	
 		protected TextBox txbEntryName;
-		protected FreeTextBox freeTextBox;
+		protected RichTextEditor richTextEditor;
 		#endregion
 
 		#region Accessors
@@ -364,7 +364,7 @@ namespace Subtext.Web.Admin.UserControls
 			chkIsAggregated.Checked = true;
 
 //			txbBody.Text = String.Empty;
-			freeTextBox.Text = String.Empty;
+			richTextEditor.Text = String.Empty;
 
 			for(int i =0; i < cklCategories.Items.Count;i++)
 				cklCategories.Items[i].Selected = false;
@@ -411,7 +411,7 @@ namespace Subtext.Web.Admin.UserControls
 					}
 					
 					entry.Title = txbTitle.Text;
-					entry.Body = HtmlHelper.StripRTB(freeTextBox.Xhtml, Request.Url.Host);
+					entry.Body = HtmlHelper.StripRTB(richTextEditor.Xhtml, Request.Url.Host);
 					entry.Author = Config.CurrentBlog.Author;
 					entry.Email = Config.CurrentBlog.Email;
 					entry.BlogId = Config.CurrentBlog.BlogId;
@@ -536,7 +536,7 @@ namespace Subtext.Web.Admin.UserControls
 		private void SetEditorText(string bodyValue)
 		{
 //			txbBody.Text = bodyValue;
-			freeTextBox.Text = bodyValue;
+			richTextEditor.Text = bodyValue;
 		}
 
 		private void ConfirmDelete(int postID)
