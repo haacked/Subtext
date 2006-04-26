@@ -15,8 +15,10 @@
 
 using System;
 using System.Web.UI;
+using System.IO;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility.Providers;
+using System.Web;
 using Subtext.Web.Controls;
 
 using FreeTextBoxControls;
@@ -32,6 +34,7 @@ namespace Subtext.Web.Providers.RichTextEditor.FTB
 		string _controlID=string.Empty;
 		string _name = string.Empty;
 
+		string _webFormFolder=string.Empty;
 		string _toolbarlayout=string.Empty;
 		bool _formatHtmlTagsToXhtml=false;
 		bool _removeServerNamefromUrls=false;
@@ -48,6 +51,10 @@ namespace Subtext.Web.Providers.RichTextEditor.FTB
 		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
 		{
 			_name=name;
+			if(configValue["WebFormFolder"]!=null)
+				_webFormFolder=configValue["WebFormFolder"];
+			else
+				throw new ApplicationException("WebFormFolder must be specified for the FreeTextBox provider to work");
 			if(configValue["toolbarlayout"]!=null)
 				_toolbarlayout=configValue["toolbarlayout"];
 			if(configValue["FormatHtmlTagsToXhtml"]!=null)
@@ -63,13 +70,18 @@ namespace Subtext.Web.Providers.RichTextEditor.FTB
 			_ftbCtl.ID=ControlID;
 			if(!_toolbarlayout.Trim().Equals(""))
 				_ftbCtl.ToolbarLayout=_toolbarlayout;
-			if(!_formatHtmlTagsToXhtml.Equals(""))
-				_ftbCtl.FormatHtmlTagsToXhtml=_formatHtmlTagsToXhtml;
-			if(!_removeServerNamefromUrls.Equals(""))
-				_ftbCtl.RemoveServerNameFromUrls=_removeServerNamefromUrls;
+			_ftbCtl.FormatHtmlTagsToXhtml=_formatHtmlTagsToXhtml;
+			_ftbCtl.RemoveServerNameFromUrls=_removeServerNamefromUrls;
 
-			_ftbCtl.ImageGalleryUrl=ControlHelper.ExpandTildePath("~/Providers/RichTextEditor/FTB/ftb.imagegallery.aspx?rif={0}&cif={0}");
-			_ftbCtl.ImageGalleryPath=Subtext.Framework.Format.UrlFormats.StripHostFromUrl(Subtext.Framework.Configuration.Config.CurrentBlog.ImagePath);
+			if(!_webFormFolder.Equals(""))
+				_ftbCtl.ImageGalleryUrl=ControlHelper.ExpandTildePath(_webFormFolder+"/ftb.imagegallery.aspx?rif={0}&cif={0}");
+
+			string blogImageRootPath=Subtext.Framework.Format.UrlFormats.StripHostFromUrl(Subtext.Framework.Configuration.Config.CurrentBlog.ImagePath);
+
+			if(!Directory.Exists(HttpContext.Current.Server.MapPath(blogImageRootPath)))
+				Directory.CreateDirectory(HttpContext.Current.Server.MapPath(blogImageRootPath));
+
+			_ftbCtl.ImageGalleryPath=blogImageRootPath;
 		}
 
 		public override string ControlID
