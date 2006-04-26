@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP
         ProjectType = "Local"
-        ProductVersion = "7.10.6015"
+        ProductVersion = "7.10.3077"
         SchemaVersion = "2.0"
         ProjectGuid = "{8C11B428-9C4A-46C3-B7F0-48215276BFA5}"
     >
@@ -165,11 +165,6 @@
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
-                    Name = "FreeTextBox"
-                    AssemblyName = "FreeTextBox"
-                    HintPath = "ExternalDependencies\FreeTextBox.dll"
-                />
-                <Reference
                     Name = "log4net"
                     AssemblyName = "log4net"
                     HintPath = "ExternalDependencies\log4net.dll"
@@ -188,6 +183,11 @@
                     Name = "AngryPets.Web.Frameworks.ReverseDOS"
                     AssemblyName = "AngryPets.Web.Frameworks.ReverseDOS"
                     HintPath = "ExternalDependencies\AngryPets.Web.Frameworks.ReverseDOS.dll"
+                />
+                <Reference
+                    Name = "freetextbox"
+                    AssemblyName = "FreeTextBox"
+                    HintPath = "ExternalDependencies\freetextbox.dll"
                 />
             </References>
         </Build>
@@ -569,21 +569,6 @@
                 <File
                     RelPath = "Admin\Feedback.aspx.resx"
                     DependentUpon = "Feedback.aspx.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Admin\ftb.imagegallery.aspx"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Admin\ftb.imagegallery.aspx.cs"
-                    DependentUpon = "ftb.imagegallery.aspx"
-                    SubType = "ASPXCodeBehind"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Admin\ftb.imagegallery.aspx.resx"
-                    DependentUpon = "ftb.imagegallery.aspx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -1395,6 +1380,31 @@
                 />
                 <File
                     RelPath = "Modules\CookieDomainModule.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Providers\RichTextEditor\FTB\ftb.imagegallery.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Providers\RichTextEditor\FTB\ftb.imagegallery.aspx.cs"
+                    DependentUpon = "ftb.imagegallery.aspx"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Providers\RichTextEditor\FTB\ftb.imagegallery.aspx.resx"
+                    DependentUpon = "ftb.imagegallery.aspx.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Providers\RichTextEditor\FTB\FtbRichTextEditorProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Providers\RichTextEditor\PlainText\PlainTextRichTextEditorProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
