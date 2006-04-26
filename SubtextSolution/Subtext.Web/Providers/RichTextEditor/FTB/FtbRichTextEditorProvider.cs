@@ -17,6 +17,7 @@ using System;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility.Providers;
+using Subtext.Web.Controls;
 
 using FreeTextBoxControls;
 
@@ -67,10 +68,8 @@ namespace Subtext.Web.Providers.RichTextEditor.FTB
 			if(!_removeServerNamefromUrls.Equals(""))
 				_ftbCtl.RemoveServerNameFromUrls=_removeServerNamefromUrls;
 
-			/*
-			 * TODO: move to config and build absolute url using conversion from ~ char
-			 */
-			_ftbCtl.ImageGalleryUrl="../Providers/RichTextEditor/FTB/ftb.imagegallery.aspx?rif={0}&cif={0}";
+			_ftbCtl.ImageGalleryUrl=ControlHelper.ExpandTildePath("~/Providers/RichTextEditor/FTB/ftb.imagegallery.aspx?rif={0}&cif={0}");
+			_ftbCtl.ImageGalleryPath=Subtext.Framework.Format.UrlFormats.StripHostFromUrl(Subtext.Framework.Configuration.Config.CurrentBlog.ImagePath);
 		}
 
 		public override string ControlID
