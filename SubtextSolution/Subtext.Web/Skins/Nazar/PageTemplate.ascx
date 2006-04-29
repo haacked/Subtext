@@ -39,12 +39,6 @@
 			</div>
 		</div>
 		<br />
-		<div align="center">
-		<div class="disclaimer">
-		<div class="title">Advertisement</div>
-			<iframe src="http://rcm.amazon.com/e/cm?t=httpwwwanalys-20&o=1&p=14&l=bn1&mode=software&browse=491286&=1&fc1=&lt1=&lc1=&bg1=&f=ifr" marginwidth="0" marginheight="0" width="160" height="600" border="0" frameborder="0" style="border:none;" scrolling="no"></iframe>
-		</div>
-		</div>
 	</div>
 	<div id="content">
 		<dt:contentregion id="MPMain" runat="server" />
