@@ -499,7 +499,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_DeleteKeyWord]
 
 AS
 
-DELETE FROM [<dbUser,varchar,dbo>].[subtext_KeyWords] WHERE BLOGID = @BlogId AND KeyWordID = @KeyWordID
+DELETE FROM [<dbUser,varchar,dbo>].[subtext_KeyWords] WHERE BlogId = @BlogId AND KeyWordID = @KeyWordID
 
 
 GO
@@ -2554,7 +2554,7 @@ SELECT	BlogId
 	, DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	PostType=@PostType 
-	AND (BlogId = @BlogId OR @BlogID IS NULL)
+	AND (BlogId = @BlogId OR @BlogId IS NULL)
 	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
 ORDER BY [DateAdded] DESC
 
@@ -3569,7 +3569,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateConfigUpdateTime]
 AS
 UPDATE [<dbUser,varchar,dbo>].[subtext_Config]
 SET LastUpdated = @LastUpdated
-WHERE blogid = @blogid
+WHERE BlogId = @BlogId
 
 
 GO
@@ -3810,7 +3810,7 @@ UPDATE [<dbUser,varchar,dbo>].[subtext_Config]
 Set 
 	Password = @Password,
 	Flag = Flag | 8 
-WHERE blogid = @blogid
+WHERE BlogId = @BlogId
 
 
 
@@ -4689,7 +4689,7 @@ SET ANSI_NULLS ON
 GO
 
 CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetRelatedLinks] 
-@BlogID int,
+@BlogId int,
 @EntryID int
 AS
 
@@ -4700,7 +4700,7 @@ And lc.Active = 1
 And l.CategoryID = lc.CategoryID
 And l.CategoryID In (Select CategoryID From [<dbUser,varchar,dbo>].subtext_links Where PostID = @EntryID)
 And l.PostID = c.ID
-And c.BlogID = @BlogID --param
+And c.BlogId = @BlogId --param
 And c.ID <> @EntryID --param --do not list the same entry in related links
 Order By c.DateAdded Desc
 

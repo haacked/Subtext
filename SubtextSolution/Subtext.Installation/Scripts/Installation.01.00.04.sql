@@ -3,7 +3,7 @@ ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Log]
 ALTER COLUMN [Message] NVARCHAR(255)
 GO
 
-/* Expand the Message Column to fit more details */
+/* Expand the Exception Column to fit more details */
 ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Log] 
 ALTER COLUMN [Exception] NVARCHAR(2745)
 GO
