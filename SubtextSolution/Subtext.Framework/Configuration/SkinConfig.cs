@@ -50,6 +50,13 @@ namespace Subtext.Framework.Configuration
 		}
 
 		private string _skinCssFile;
+		/// <summary>
+		/// Gets or sets the skin's primary CSS file, if any.  
+		/// Some Skins have multiple flavors based on different CSS files.  
+		/// For example, Redbook, Bluebook, and Greenbook are all variations 
+		/// of the skin Redbook.  They vary by the skin css file.
+		/// </summary>
+		/// <value>The skin CSS file.</value>
 		public string SkinCssFile
 		{
 			get{return _skinCssFile;}
@@ -84,7 +91,7 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
-				if(this.HasSecondaryFile)
+				if(HasSecondaryFile)
 				{
 					return SkinName + "-" + SkinCssFile;
 				}

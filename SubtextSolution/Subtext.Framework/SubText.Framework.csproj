@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP
         ProjectType = "Local"
-        ProductVersion = "7.10.6015"
+        ProductVersion = "7.10.3077"
         SchemaVersion = "2.0"
         ProjectGuid = "{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}"
     >
@@ -851,11 +851,6 @@
                 />
                 <File
                     RelPath = "UI\Skinning\Script.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "UI\Skinning\SkinConfig.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
