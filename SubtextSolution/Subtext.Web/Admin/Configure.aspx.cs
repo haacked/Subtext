@@ -60,11 +60,7 @@ namespace Subtext.Web.Admin.Pages
 		#endregion
 
 		private void Page_Load(object sender, System.EventArgs e)
-		{
-			#if WANRelease
-			this.txbUser.Enabled = false;
-			#endif
-			
+		{		
 			if (!IsPostBack)
 			{
 				BindForm();
@@ -128,10 +124,7 @@ namespace Subtext.Web.Admin.Pages
 				info.SubTitle = txbSubtitle.Text;
 				info.Author = txbAuthor.Text;
 				info.Email = txbAuthorEmail.Text;
-
-				#if WANRelease
 				info.UserName = txbUser.Text;
-				#endif
 
 				info.TimeZone = Int32.Parse(ddlTimezone.SelectedItem.Value);
 				info.Subfolder = Config.CurrentBlog.Subfolder;
