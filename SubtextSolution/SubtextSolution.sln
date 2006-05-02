@@ -31,6 +31,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Scripting", "Subtex
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Providers.RichTextEditor.FCKeditor", "Subtext.Providers.RichTextEditor.FCKeditor\Subtext.Providers.RichTextEditor.FCKeditor.csproj", "{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -86,6 +90,12 @@ Global
 		{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}.Documentation.Build.0 = Documentation|.NET
 		{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}.Release.ActiveCfg = Release|.NET
 		{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}.Release.Build.0 = Release|.NET
+		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Debug.ActiveCfg = Debug|.NET
+		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Debug.Build.0 = Debug|.NET
+		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Documentation.ActiveCfg = Debug|.NET
+		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Documentation.Build.0 = Debug|.NET
+		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Release.ActiveCfg = Release|.NET
+		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 		Subtext.Web\AspNetWithoutWebProjects.txt = Subtext.Web\AspNetWithoutWebProjects.txt

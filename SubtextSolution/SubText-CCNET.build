@@ -118,6 +118,7 @@
 				<include name="Subtext.Scripting\Subtext.Scripting.csproj" />
 				<include name="Subtext.Web\Subtext.Web.csproj" />
 				<include name="Subtext.Web.Controls\Subtext.Web.Controls.csproj" />
+				<include name="Subtext.Providers.RichTextEditor.FCKeditor\Subtext.Providers.RichTextEditor.FCKeditor.csproj" />
 			</projects>
 		</solution>
 	</target>
@@ -136,6 +137,7 @@
 				<include name="Subtext.Scripting\Subtext.Scripting.csproj" />
 				<include name="Subtext.Web\Subtext.Web.csproj" />
 				<include name="Subtext.Web.Controls\Subtext.Web.Controls.csproj" />
+				<include name="Subtext.Providers.RichTextEditor.FCKeditor\Subtext.Providers.RichTextEditor.FCKeditor.csproj" />
 			</referenceprojects>
 		</solution>
 	</target>
