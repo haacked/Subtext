@@ -62,6 +62,10 @@ namespace Subtext.Web.UI.Controls
 				{
 					tbName.Text = user.Values["Name"];
 					tbUrl.Text = user.Values["Url"];
+					if(this.chkRemember != null)
+					{
+						this.chkRemember.Checked = true;
+					}
 				}
 
 				Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short);
@@ -157,7 +161,7 @@ namespace Subtext.Web.UI.Controls
 						entry.SourceName = Subtext.Framework.Util.Globals.GetUserIpAddress(Context);
 						entry.SourceUrl = currentEntry.Link;
 
-						Subtext.Framework.Entries.InsertComment(entry);
+						Entries.InsertComment(entry);
 
 						if(chkRemember.Checked)
 						{
