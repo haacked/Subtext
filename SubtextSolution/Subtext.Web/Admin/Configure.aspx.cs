@@ -21,6 +21,7 @@ using System.Xml;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.UI.Skinning;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -82,47 +83,29 @@ namespace Subtext.Web.Admin.Pages
 			ckbAllowServiceAccess.Checked = info.AllowServiceAccess;
 			ddlTimezone.Items.FindByValue(info.TimeZone.ToString(CultureInfo.InvariantCulture)).Selected = true;
 
-			try
+			ListItem languageItem = ddlLangLocale.Items.FindByValue(info.Language);
+			if(languageItem != null)
 			{
-				ddlLangLocale.Items.FindByValue(info.Language).Selected = true;
-			}
-			catch{}
-			
+				languageItem.Selected = true;
+			}		
 			
 			if(info.Skin.HasSecondaryText)
 			{
 				txbSecondaryCss.Text = info.Skin.SkinCssText;
 			}
 
-			XmlDocument doc = (XmlDocument)Cache["SkinsDoc"];
-			if(doc == null)
+			SkinTemplate[] templates = SkinTemplates.Instance().Templates;
+			foreach(SkinTemplate template in templates)
 			{
-				doc = new XmlDocument();
-				string filename = Request.MapPath("~/Admin/Skins.config");
-				doc.Load(filename);
-				CacheDependency dep = new CacheDependency(filename);
-				Cache.Insert("SkinsDoc",doc,dep);				
+				ddlSkin.Items.Add(new ListItem(template.SkinID, template.SkinID));
 			}
 
-			XmlNodeList nodes = doc.SelectNodes("//SkinTemplates/Skins/SkinTemplate");
-
-			foreach(XmlNode node in nodes)
+			ListItem skinItem = ddlSkin.Items.FindByValue(info.Skin.SkinName);
+			if(skinItem != null)
 			{
-				string css = node.Attributes["SecondaryCss"] != null ? "-" + node.Attributes["SecondaryCss"].Value : string.Empty;
-				string name = node.Attributes["Skin"].Value +  css;
-				//string id = node.Attributes["SkinID"].Value;
-				ddlSkin.Items.Add(new ListItem(name, name));
+				skinItem.Selected = true;
 			}
-		
-			try
-			{
-				ddlSkin.Items.FindByValue(info.Skin.SkinID).Selected = true;
-			}
-			catch
-			{
-				
-			}
-
+			
 			int count = Config.Settings.ItemCount;
 			for (int i = 1; i <=count; i++)
 			{
@@ -166,23 +149,12 @@ namespace Subtext.Web.Admin.Pages
 				string news = txbNews.Text.Trim();
 				info.News = news.Length == 0 ? null : news;
 
-
-				string[] skins = ddlSkin.SelectedItem.Text.Split('-');
-
-				//Need to add logic for a skin name that might include "-"
-				info.Skin.SkinName = skins[0].Trim();
-				
-
-				if(skins.Length > 1)
+				SkinTemplate skinTemplate = SkinTemplates.Instance().GetTemplate(ddlSkin.SelectedItem.Value);
+				info.Skin.SkinName = skinTemplate.SkinID;
+				if(skinTemplate.UseSecondaryCss)
 				{
-					info.Skin.SkinCssFile = skins[skins.Length-1].Trim();
+					info.Skin.SkinCssFile = skinTemplate.SecondaryCss;
 				}
-				else
-				{
-					info.Skin.SkinCssFile = null;
-				}
-
-				
 				Config.UpdateConfigData(info);
 
 				this.Messages.ShowMessage(RES_SUCCESS);

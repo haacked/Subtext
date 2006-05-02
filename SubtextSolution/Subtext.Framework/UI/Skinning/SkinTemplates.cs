@@ -37,7 +37,7 @@ namespace Subtext.Framework.UI.Skinning
 				st = (SkinTemplates)SerializationHelper.Load(typeof(SkinTemplates),filename);
 				if(st != null)
 				{
-					HttpContext.Current.Cache.Insert("SkinTemplates",st,new CacheDependency(filename));
+					HttpContext.Current.Cache.Insert("SkinTemplates", st, new CacheDependency(filename));
 				}
 			}
 			return st;
