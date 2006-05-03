@@ -50,7 +50,7 @@
                     ConfigurationOverrideFile = ""
                     DefineConstants = "TRACE"
                     DocumentationFile = ""
-                    DebugSymbols = "true"
+                    DebugSymbols = "false"
                     FileAlignment = "4096"
                     IncrementalBuild = "false"
                     NoStdLib = "false"
@@ -796,7 +796,7 @@
                 />
                 <File
                     RelPath = "Tracking\PingBackNotificatinProxy.cs"
-                    SubType = "Code"
+                    SubType = "Component"
                     BuildAction = "Compile"
                 />
                 <File
@@ -836,7 +836,7 @@
                 />
                 <File
                     RelPath = "Tracking\WeblogsNotificatinProxy.cs"
-                    SubType = "Code"
+                    SubType = "Component"
                     BuildAction = "Compile"
                 />
                 <File
