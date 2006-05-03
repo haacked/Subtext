@@ -121,7 +121,6 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				//TODO: Fix this up.
 				return StringHelper.IndexOf(HttpContext.Current.Request.Path, "/Install/", ComparisonType.CaseInsensitive) >= 0;
 			}
 		}

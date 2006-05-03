@@ -4763,11 +4763,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "UI\Handlers\PrintHandler.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "UI\Handlers\RedirectHandler.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
