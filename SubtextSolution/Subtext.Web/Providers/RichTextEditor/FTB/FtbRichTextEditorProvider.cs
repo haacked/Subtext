@@ -74,7 +74,7 @@ namespace Subtext.Web.Providers.RichTextEditor.FTB
 			_ftbCtl.RemoveServerNameFromUrls=_removeServerNamefromUrls;
 
 			if(!_webFormFolder.Equals(""))
-				_ftbCtl.ImageGalleryUrl=ControlHelper.ExpandTildePath(_webFormFolder+"/ftb.imagegallery.aspx?rif={0}&cif={0}");
+				_ftbCtl.ImageGalleryUrl=ControlHelper.ExpandTildePath(_webFormFolder+"ftb.imagegallery.aspx?rif={0}&cif={0}");
 
 			string blogImageRootPath=Subtext.Framework.Format.UrlFormats.StripHostFromUrl(Subtext.Framework.Configuration.Config.CurrentBlog.ImagePath);
 
