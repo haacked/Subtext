@@ -31,6 +31,8 @@ namespace Subtext.Web.Controls
 		private Control editor;
 		private RichTextEditorProvider provider; 
 
+		private Unit _height=Unit.Empty;
+		private Unit _width=Unit.Empty;
 		
 		public string Text 
 		{
@@ -43,6 +45,31 @@ namespace Subtext.Web.Controls
 				provider.Text=value;
 			}
 		}
+
+		public override Unit Height
+		{
+			get
+			{
+				return _height;
+			}
+			set
+			{
+				_height=value;
+			}
+		}
+
+		public override Unit Width
+		{
+			get
+			{
+				return _width;
+			}
+			set
+			{
+				_width = value;
+			}
+		}
+
 
 		public string Xhtml 
 		{
@@ -57,6 +84,10 @@ namespace Subtext.Web.Controls
 			provider=RichTextEditorProvider.Instance();
 			provider.ControlID=this.ID;
 			provider.InitializeControl();
+			if(_height!=Unit.Empty)
+				provider.Height=_height;
+			if(_width!=Unit.Empty)
+				provider.Width=_width;
 			editor=provider.RichTextEditorControl;
 			this.Controls.Add(editor);
 			base.OnInit (e);
