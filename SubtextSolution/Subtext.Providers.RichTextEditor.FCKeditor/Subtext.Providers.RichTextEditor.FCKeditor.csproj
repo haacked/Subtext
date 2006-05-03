@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = "copy $(TargetDir)*.dll $(SolutionDir)Subtext.Web\bin"
+                PostBuildEvent = "copy $(TargetDir)*.dll $(SolutionDir)Subtext.Web\bin&#xd;&#xa;mkdir $(SolutionDir)Subtext.Web\Providers\RichTextEditor\FCKeditor&#xd;&#xa;mkdir $(SolutionDir)Subtext.Web\Providers\RichTextEditor\FCKeditor\editor&#xd;&#xa;copy  $(ProjectDir)*.js $(SolutionDir)Subtext.Web\Providers\RichTextEditor\FCKeditor\&#xd;&#xa;copy  $(ProjectDir)*.xml $(SolutionDir)Subtext.Web\Providers\RichTextEditor\FCKeditor\&#xd;&#xa;xcopy  $(ProjectDir)editor\*.* $(SolutionDir)Subtext.Web\Providers\RichTextEditor\FCKeditor\editor /S /Y"
                 RootNamespace = "Subtext.Providers.RichTextEditor.FCKeditor"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -94,6 +94,21 @@
                     AssemblyName = "System.Web"
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Web.dll"
                 />
+                <Reference
+                    Name = "Subtext.Web.Controls"
+                    Project = "{2278427B-8BAD-4CE9-B15A-FD1131753D64}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "System.Drawing"
+                    AssemblyName = "System.Drawing"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Drawing.dll"
+                />
+                <Reference
+                    Name = "Subtext.Framework"
+                    Project = "{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
             </References>
         </Build>
         <Files>
@@ -104,9 +119,29 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "fckconfig.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "fckeditor.js"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "FCKeditorRichTextEditorProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "fckstyles.xml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "fcktemplates.xml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "license.txt"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "SolutionInfo.cs"
@@ -119,6 +154,1966 @@
                     Link = "..\VersionInfo.Designer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "customConfiguration\subtextconfig.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\fckblank.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\fckdebug.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\fckdialog.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\fckdocument.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\fckeditor.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\fckeditor.original.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\css\fck_editorarea.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\css\fck_internal.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\css\fck_showtableborders_gecko.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\css\behaviors\disablehandles.htc"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\css\behaviors\hiddenfield.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\css\behaviors\hiddenfield.htc"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\css\behaviors\showtableborders.htc"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\css\images\fck_anchor.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\css\images\fck_flashlogo.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\css\images\fck_pagebreak.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_about.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_anchor.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_button.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_checkbox.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_colorselector.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_docprops.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_find.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_flash.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_form.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_hiddenfield.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_image.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_link.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_listprop.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_paste.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_radiobutton.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_replace.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_select.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_smiley.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_source.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_specialchar.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_spellerpages.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_table.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_tablecell.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_template.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_textarea.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_textfield.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_universalkey.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\common\fck_dialog_common.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\common\fck_dialog_common.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\common\fcknumericfield.htc"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\common\moz-bindings.xml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\common\images\locked.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\common\images\reset.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\common\images\unlocked.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_about\lgpl.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_about\logo_fckeditor.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_about\logo_fredck.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_docprops\fck_document_preview.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_flash\fck_flash.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_flash\fck_flash_preview.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_image\fck_image.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_image\fck_image_preview.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_link\fck_link.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_select\fck_select.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_spellerpages\spellerpages\blank.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_spellerpages\spellerpages\controls.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_spellerpages\spellerpages\controlWindow.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_spellerpages\spellerpages\spellchecker.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_spellerpages\spellerpages\spellChecker.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_spellerpages\spellerpages\spellerStyle.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_spellerpages\spellerpages\wordWindow.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.cfm"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.php"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.pl"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_template\images\template1.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_template\images\template2.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_template\images\template3.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_universalkey\00.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_universalkey\data.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_universalkey\diacritic.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_universalkey\dialogue.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_universalkey\fck_universalkey.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_universalkey\keyboard_layout.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\dialog\fck_universalkey\multihexa.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\browser.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\browser.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\frmactualfolder.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\frmcreatefolder.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\frmfolders.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\frmresourceslist.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\frmresourcetype.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\frmupload.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\connectors\aspx\connector.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\ButtonArrow.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\Folder.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\Folder32.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\FolderOpened.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\FolderOpened32.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\FolderUp.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\spacer.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\ai.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\avi.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\bmp.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\cs.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\default.icon.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\dll.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\doc.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\exe.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\fla.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\gif.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\htm.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\html.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\jpg.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\js.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\mdb.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\mp3.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\pdf.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\ppt.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\rdp.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\swf.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\swt.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\txt.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\vsd.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\xls.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\xml.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\zip.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\ai.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\avi.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\bmp.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\cs.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\default.icon.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\dll.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\doc.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\exe.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\fla.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\gif.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\htm.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\html.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\jpg.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\js.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\mdb.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\mp3.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\pdf.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\ppt.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\rdp.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\swf.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\swt.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\txt.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\vsd.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\xls.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\xml.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\images\icons\32\zip.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\js\common.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\browser\default\js\fckxml.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\filemanager\upload\aspx\upload.aspx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\images\anchor.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\images\spacer.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\images\smiley\msn\angel_smile.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\images\smiley\msn\angry_smile.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\images\smiley\msn\broken_heart.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\images\smiley\msn\cake.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\images\smiley\msn\confused_smile.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\images\smiley\msn\cry_smile.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\images\smiley\msn\devil_smile.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\images\smiley\msn\embaressed_smile.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\images\smiley\msn\envelope.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\images\smiley\msn\heart.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\images\smiley\msn\kiss.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\images\smiley\msn\lightbulb.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\images\smiley\msn\omg_smile.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\images\smiley\msn\regular_smile.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\images\smiley\msn\sad_smile.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\images\smiley\msn\shades_smile.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\images\smiley\msn\teeth_smile.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\images\smiley\msn\thumbs_down.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\images\smiley\msn\thumbs_up.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\images\smiley\msn\tounge_smile.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\images\smiley\msn\whatchutalkingabout_smile.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\images\smiley\msn\wink_smile.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\js\fck_startup.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\js\fckeditorcode_gecko_1.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\js\fckeditorcode_gecko_2.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\js\fckeditorcode_ie_1.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\js\fckeditorcode_ie_2.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\ar.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\bg.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\bs.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\ca.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\cs.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\da.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\de.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\el.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\en.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\en-au.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\en-uk.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\eo.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\es.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\et.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\eu.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\fa.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\fcklanguagemanager.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\fi.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\fo.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\fr.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\gl.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\he.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\hi.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\hr.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\hu.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\it.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\ja.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\ko.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\lt.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\lv.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\mn.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\ms.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\nl.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\no.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\pl.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\pt.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\pt-br.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\ro.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\ru.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\sk.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\sl.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\sr.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\sr-latn.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\sv.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\th.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\tr.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\uk.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\vi.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\zh.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\lang\zh-cn.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\plugins\placeholder\fck_placeholder.html"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\plugins\placeholder\fckplugin.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\plugins\placeholder\placeholder.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\plugins\placeholder\lang\de.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\plugins\placeholder\lang\en.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\plugins\placeholder\lang\fr.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\plugins\placeholder\lang\it.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\plugins\placeholder\lang\pl.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\plugins\simplecommands\fckplugin.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\plugins\tablecommands\fckplugin.js"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\fck_contextmenu.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\fck_dialog.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\fck_editor.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\images\toolbar.arrowright.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\images\toolbar.buttonarrow.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\images\toolbar.collapse.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\images\toolbar.end.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\images\toolbar.expand.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\images\toolbar.separator.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\images\toolbar.start.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\about.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\anchor.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\bgcolor.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\bold.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\bulletedlist.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\button.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\checkbox.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\copy.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\cut.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\docprops.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\find.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\flash.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\form.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\hiddenfield.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\image.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\imagebutton.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\indent.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\inserthorizontalrule.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\insertorderedlist.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\insertunorderedlist.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\italic.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\justifycenter.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\justifyfull.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\justifyleft.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\justifyright.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\link.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\newpage.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\numberedlist.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\outdent.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\pagebreak.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\paste.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\pastetext.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\pasteword.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\preview.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\print.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\radio.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\redo.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\removeformat.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\replace.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\save.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\select.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\selectall.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\showdetails.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\showtableborders.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\smiley.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\source.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\specialchar.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\spellcheck.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\strikethrough.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\subscript.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\superscript.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\table.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\tablecell.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\tabledeletecells.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\tabledeletecolumns.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\tabledeleterows.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\tableinsertcell.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\tableinsertcolumn.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\tableinsertrow.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\tablemergecells.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\tablesplitcell.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\templates.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\textarea.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\textcolor.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\textfield.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\underline.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\undo.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\universalkey.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\unlink.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\default\toolbar\unorderedlist.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\fck_contextmenu.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\fck_dialog.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\fck_editor.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\images\office.start.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\images\toolbar.arrowright.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\images\toolbar.bg.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\images\toolbar.buttonarrow.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\images\toolbar.collapse.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\images\toolbar.end.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\images\toolbar.expand.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\images\toolbar.separator.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\images\toolbar.start.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\about.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\anchor.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\bgcolor.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\bold.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\bulletedlist.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\button.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\checkbox.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\copy.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\cut.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\docprops.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\find.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\flash.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\fontstyleadv.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\form.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\hidden.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\hiddenfield.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\image.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\imagebutton.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\indent.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\input.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\inserthorizontalrule.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\insertorderedlist.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\insertunorderedlist.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\italic.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\justifycenter.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\justifyfull.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\justifyleft.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\justifyright.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\link.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\mail.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\new.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\newpage.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\numberedlist.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\open.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\outdent.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\pagebreak.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\paste.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\pastetext.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\pasteword.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\preview.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\print.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\radio.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\redo.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\removeformat.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\replace.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\save.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\select.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\selectall.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\showdetails.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\showtableborders.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\smiley.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\source.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\specialchar.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\spellcheck.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\strikethrough.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\subscript.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\superscript.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\table.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\tablecell.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\tabledeletecells.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\tabledeletecolumns.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\tabledeleterows.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\tableinsertcell.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\tableinsertcolumn.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\tableinsertrow.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\tablemergecells.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\tablesplitcell.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\templates.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\textarea.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\textcolor.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\textfield.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\underline.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\undo.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\universalkey.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\unlink.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\office2003\toolbar\unorderedlist.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\fck_contextmenu.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\fck_dialog.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\fck_editor.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\images\toolbar.arrowright.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\images\toolbar.buttonarrow.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\images\toolbar.buttonbg.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\images\toolbar.collapse.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\images\toolbar.end.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\images\toolbar.expand.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\images\toolbar.separator.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\images\toolbar.start.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\about.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\anchor.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\bgcolor.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\bold.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\bulletedlist.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\button.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\checkbox.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\copy.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\cut.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\docprops.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\find.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\flash.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\form.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\hiddenfield.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\image.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\imagebutton.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\indent.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\inserthorizontalrule.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\insertorderedlist.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\insertunorderedlist.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\italic.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\justifycenter.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\justifyfull.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\justifyleft.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\justifyright.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\link.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\newpage.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\numberedlist.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\outdent.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\pagebreak.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\paste.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\pastetext.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\pasteword.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\preview.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\print.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\radio.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\redo.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\removeformat.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\replace.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\save.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\select.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\selectall.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\showdetails.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\showtableborders.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\smiley.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\source.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\specialchar.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\spellcheck.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\strikethrough.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\subscript.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\superscript.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\table.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\tablecell.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\tabledeletecells.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\tabledeletecolumns.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\tabledeleterows.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\tableinsertcell.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\tableinsertcolumn.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\tableinsertrow.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\tablemergecells.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\tablesplitcell.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\templates.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\textarea.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\textcolor.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\textfield.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\underline.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\undo.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\universalkey.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\unlink.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "editor\skins\silver\toolbar\unorderedlist.gif"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "ExternalDependencies\FredCK.FCKeditorV2.dll"
