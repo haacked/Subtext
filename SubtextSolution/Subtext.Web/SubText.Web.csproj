@@ -1506,6 +1506,10 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "Skins\_System\SystemStyle.css"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\AnotherEon001\License.txt"
                     BuildAction = "Content"
                 />
