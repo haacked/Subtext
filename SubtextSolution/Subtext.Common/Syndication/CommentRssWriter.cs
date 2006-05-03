@@ -14,15 +14,16 @@
 #endregion
 
 using System;
+using System.Xml;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Syndication;
 
 namespace Subtext.Common.Syndication
 {
-	//Same code as RssWriter. Need to refactor these two to use 1  generic base.
-
 	/// <summary>
-	/// Generates CommentRssWriter 
+	/// Writes a CommentRSS feed to the underlying stream.  Inherits from 
+	/// <see cref="BaseRssWriter"/> which ultimately inherits from <see cref="XmlTextWriter"/>.
 	/// </summary>
 	public class CommentRssWriter : Subtext.Framework.Syndication.BaseRssWriter
 	{
@@ -41,11 +42,13 @@ namespace Subtext.Common.Syndication
 			this.AllowComments = false;
 		}
 
+		/// <summary>
+		/// Writes the RSS channel to the underlying stream.
+		/// </summary>
 		protected override void WriteChannel()
 		{
 			this.BuildChannel(CommentEntry.Title, CommentEntry.Link, CommentEntry.Email, CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body,info.Language, info.Author, Subtext.Framework.Configuration.Config.CurrentBlog.LicenseUrl);
 		}
-
 	}
 }
 

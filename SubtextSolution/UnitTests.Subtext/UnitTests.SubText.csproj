@@ -140,9 +140,29 @@
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
+                    Name = "Refly"
+                    AssemblyName = "Refly"
+                    HintPath = "ExternalDependencies\Refly.dll"
+                />
+                <Reference
+                    Name = "ICSharpCode.SharpZipLib"
+                    AssemblyName = "ICSharpCode.SharpZipLib"
+                    HintPath = "ExternalDependencies\ICSharpCode.SharpZipLib.dll"
+                />
+                <Reference
                     Name = "TestFu"
                     AssemblyName = "TestFu"
                     HintPath = "ExternalDependencies\TestFu.dll"
+                />
+                <Reference
+                    Name = "MbUnit.Framework.1.1"
+                    AssemblyName = "MbUnit.Framework.1.1"
+                    HintPath = "ExternalDependencies\MbUnit.Framework.1.1.dll"
+                />
+                <Reference
+                    Name = "MbUnit.Framework"
+                    AssemblyName = "MbUnit.Framework"
+                    HintPath = "ExternalDependencies\MbUnit.Framework.dll"
                 />
                 <Reference
                     Name = "NGraphviz"
@@ -173,26 +193,6 @@
                     Name = "QuickGraph"
                     AssemblyName = "QuickGraph"
                     HintPath = "ExternalDependencies\QuickGraph.dll"
-                />
-                <Reference
-                    Name = "Refly"
-                    AssemblyName = "Refly"
-                    HintPath = "ExternalDependencies\Refly.dll"
-                />
-                <Reference
-                    Name = "ICSharpCode.SharpZipLib"
-                    AssemblyName = "ICSharpCode.SharpZipLib"
-                    HintPath = "ExternalDependencies\ICSharpCode.SharpZipLib.dll"
-                />
-                <Reference
-                    Name = "MbUnit.Framework"
-                    AssemblyName = "MbUnit.Framework"
-                    HintPath = "ExternalDependencies\MbUnit.Framework.dll"
-                />
-                <Reference
-                    Name = "MbUnit.Framework.1.1"
-                    AssemblyName = "MbUnit.Framework.1.1"
-                    HintPath = "ExternalDependencies\MbUnit.Framework.1.1.dll"
                 />
             </References>
         </Build>
