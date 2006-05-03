@@ -19,6 +19,8 @@ using Subtext.Extensibility.Providers;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Subtext.Framework;
+using Subtext.Web.Controls;
 
 using FredCK.FCKeditorV2;
 
@@ -33,6 +35,8 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 		FredCK.FCKeditorV2.FCKeditor _fckCtl;
 		string _controlID=string.Empty;
 		string _name = string.Empty;
+
+		string _webFormFolder=string.Empty;
 
 		public override System.Web.UI.Control RichTextEditorControl
 		{
@@ -56,13 +60,28 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 
 		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
 		{
-
+			_name=name;
+			
+			if(configValue["WebFormFolder"]!=null)
+				_webFormFolder=configValue["WebFormFolder"];
+			else
+				throw new ApplicationException("WebFormFolder must be specified for the FCKeditor provider to work");
 		}
 
 		public override void InitializeControl()
 		{
 			_fckCtl=new FredCK.FCKeditorV2.FCKeditor();
 			_fckCtl.ID=ControlID;
+			_fckCtl.BasePath=ControlHelper.ExpandTildePath(_webFormFolder);
+
+			// Compute user image gallery url
+			string blogImageRootPath=Subtext.Framework.Format.UrlFormats.StripHostFromUrl(Subtext.Framework.Configuration.Config.CurrentBlog.ImagePath);
+
+			if(!Directory.Exists(HttpContext.Current.Server.MapPath(blogImageRootPath)))
+				Directory.CreateDirectory(HttpContext.Current.Server.MapPath(blogImageRootPath));
+
+			System.Web.HttpContext.Current.Application["FCKeditor:UserFilesPath"]=blogImageRootPath;
+
 		}
 
 		public override System.Web.UI.WebControls.Unit Height
