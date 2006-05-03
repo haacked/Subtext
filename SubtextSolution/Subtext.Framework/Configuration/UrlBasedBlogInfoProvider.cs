@@ -253,7 +253,7 @@ namespace Subtext.Framework.Configuration
 				host  += ":" + Request.Url.Port.ToString(CultureInfo.InvariantCulture);
 			}
 
-			if(StringHelper.StartsWith(host, "www.", true))
+			if(StringHelper.StartsWith(host, "www.", ComparisonType.CaseInsensitive))
 			{
 				host = host.Substring(4);
 			}

@@ -35,5 +35,22 @@ namespace UnitTests.Subtext.Framework.Text
 		{
 			StringHelper.PascalCase(null);
 		}
+		
+		[RowTest]
+		[Row("BLAH Tast", "a", 6, ComparisonType.CaseSensitive)]
+		[Row("BLAH Tast", "a", 2, ComparisonType.CaseInsensitive)]
+		public void IndexOfHandlesCaseSensitivity(string source, string search, int expectedIndex, ComparisonType comparison)
+		{
+			Assert.AreEqual(expectedIndex, StringHelper.IndexOf(source, search, comparison), "Did not find the string '{0}' at the index {1}", search, expectedIndex);
+		}
+		
+		[RowTest]
+		[Row("Blah/Default.aspx", "Default.aspx", "Blah/", ComparisonType.CaseSensitive)]
+		[Row("Blah/Default.aspx", "default.aspx", "Blah/", ComparisonType.CaseInsensitive)]
+		[Row("Blah/Default.aspx", "default.aspx", "", ComparisonType.CaseSensitive)]
+		public void LeftBeforeOfHandlesCaseSensitivity(string source, string search, int expectedIndex, ComparisonType comparison)
+		{
+			//Assert.AreEqual(expectedIndex, StringHelper.LeftBefore(source, search, comparison), "Did not find the string '{0}' at the index {1}", search, expectedIndex);
+		}
 	}
 }

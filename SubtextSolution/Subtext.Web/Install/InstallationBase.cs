@@ -115,8 +115,7 @@ namespace Subtext.Web.Install
 
 		static bool IsOnPage(string page)
 		{
-			bool caseSensitive = true;
-			return StringHelper.IndexOf(HttpContext.Current.Request.Path, page, !caseSensitive) >= 0;
+			return StringHelper.IndexOf(HttpContext.Current.Request.Path, page, ComparisonType.CaseInsensitive) >= 0;
 		}
 	}
 }

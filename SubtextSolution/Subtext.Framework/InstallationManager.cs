@@ -122,7 +122,7 @@ namespace Subtext.Framework
 			get
 			{
 				//TODO: Fix this up.
-				return StringHelper.IndexOf(HttpContext.Current.Request.Path, "/Install/", false) >= 0;
+				return StringHelper.IndexOf(HttpContext.Current.Request.Path, "/Install/", ComparisonType.CaseInsensitive) >= 0;
 			}
 		}
 
@@ -136,7 +136,7 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				return StringHelper.EndsWith(HttpContext.Current.Request.FilePath, "Login.aspx", true);
+				return StringHelper.EndsWith(HttpContext.Current.Request.FilePath, "Login.aspx", ComparisonType.CaseInsensitive);
 			}
 		}
 

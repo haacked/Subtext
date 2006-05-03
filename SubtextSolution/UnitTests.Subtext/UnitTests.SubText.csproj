@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP
         ProjectType = "Local"
-        ProductVersion = "7.10.6015"
+        ProductVersion = "7.10.3077"
         SchemaVersion = "2.0"
         ProjectGuid = "{16036AF0-ED24-4605-8919-90B40510BD68}"
     >
@@ -145,16 +145,6 @@
                     HintPath = "ExternalDependencies\TestFu.dll"
                 />
                 <Reference
-                    Name = "MbUnit.Framework.1.1"
-                    AssemblyName = "MbUnit.Framework.1.1"
-                    HintPath = "ExternalDependencies\MbUnit.Framework.1.1.dll"
-                />
-                <Reference
-                    Name = "MbUnit.Framework"
-                    AssemblyName = "MbUnit.Framework"
-                    HintPath = "ExternalDependencies\MbUnit.Framework.dll"
-                />
-                <Reference
                     Name = "NGraphviz"
                     AssemblyName = "NGraphviz"
                     HintPath = "ExternalDependencies\NGraphviz.dll"
@@ -193,6 +183,16 @@
                     Name = "ICSharpCode.SharpZipLib"
                     AssemblyName = "ICSharpCode.SharpZipLib"
                     HintPath = "ExternalDependencies\ICSharpCode.SharpZipLib.dll"
+                />
+                <Reference
+                    Name = "MbUnit.Framework"
+                    AssemblyName = "MbUnit.Framework"
+                    HintPath = "ExternalDependencies\MbUnit.Framework.dll"
+                />
+                <Reference
+                    Name = "MbUnit.Framework.1.1"
+                    AssemblyName = "MbUnit.Framework.1.1"
+                    HintPath = "ExternalDependencies\MbUnit.Framework.1.1.dll"
                 />
             </References>
         </Build>

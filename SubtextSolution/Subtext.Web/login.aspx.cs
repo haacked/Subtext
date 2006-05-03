@@ -118,8 +118,7 @@ namespace Subtext.Web.Pages
 		private void btnLogin_Click(object sender, System.EventArgs e)
 		{
 			string returnUrl = Request.QueryString["ReturnURL"];
-			const bool caseSensitive = true;
-			if(returnUrl != null && StringHelper.Contains(returnUrl, "HostAdmin", !caseSensitive))
+			if(returnUrl != null && StringHelper.Contains(returnUrl, "HostAdmin", ComparisonType.CaseInsensitive))
 			{
 				AuthenticateHostAdmin();
 			}

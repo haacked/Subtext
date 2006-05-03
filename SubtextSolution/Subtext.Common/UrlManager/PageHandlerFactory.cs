@@ -42,7 +42,7 @@ namespace Subtext.Common.UrlManager
 
 			if(!path.ToLower(System.Globalization.CultureInfo.InvariantCulture).EndsWith(".aspx"))
 			{
-				path = System.IO.Path.Combine(path,"default.aspx");
+				path = System.IO.Path.Combine(path, "default.aspx");
 			}
 			return PageParser.GetCompiledPageInstance(url, path, context);
 		}

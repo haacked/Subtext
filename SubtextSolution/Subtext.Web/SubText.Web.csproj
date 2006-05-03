@@ -50,7 +50,7 @@
                     ConfigurationOverrideFile = ""
                     DefineConstants = "TRACE"
                     DocumentationFile = ""
-                    DebugSymbols = "false"
+                    DebugSymbols = "true"
                     FileAlignment = "4096"
                     IncrementalBuild = "false"
                     NoStdLib = "false"
@@ -207,18 +207,18 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "default.aspx"
+                    RelPath = "Default.aspx"
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "default.aspx.cs"
-                    DependentUpon = "default.aspx"
+                    RelPath = "Default.aspx.cs"
+                    DependentUpon = "Default.aspx"
                     SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "default.aspx.resx"
-                    DependentUpon = "default.aspx.cs"
+                    RelPath = "Default.aspx.resx"
+                    DependentUpon = "Default.aspx.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
