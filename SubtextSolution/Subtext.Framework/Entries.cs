@@ -18,6 +18,7 @@ using System.Collections.Specialized;
 using System.Configuration;
 using System.Text.RegularExpressions;
 using System.Web;
+using log4net;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
@@ -34,6 +35,8 @@ namespace Subtext.Framework
 	/// </summary>
 	public sealed class Entries
 	{
+		private readonly static ILog log = new Subtext.Framework.Logging.Log();
+		
 		#region Paged Posts
 
 		/// <summary>
@@ -317,7 +320,6 @@ namespace Subtext.Framework
 			if(title == null)
 				throw new ArgumentNullException("title", "Cannot generate friendly url from null title.");
 
-			//TODO: Robb's going to allow configuring the word Separator character.
 			NameValueCollection friendlyUrlSettings = (NameValueCollection)ConfigurationSettings.GetConfig("FriendlyUrlSettings");
 			if(friendlyUrlSettings == null)
 			{
@@ -514,7 +516,7 @@ namespace Subtext.Framework
 				entry.SourceName = "N/A";
 
 			// insert comment into backend, save the returned entryid for permalink anchor below
-			int entryID = Entries.Create(entry);
+			int entryID = Create(entry);
 
 			// if it's not the administrator commenting
 			if(!Security.IsAdmin)
@@ -542,9 +544,9 @@ namespace Subtext.Framework
 				
 					im.Send(To, From, Subject, Body);
 				}
-				catch
+				catch(Exception e)
 				{
-					//TODO: Log this.
+					log.Error("Exception occurred while inserting comment", e);
 				}
 			}
 		}

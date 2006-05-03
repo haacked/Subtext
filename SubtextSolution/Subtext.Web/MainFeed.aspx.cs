@@ -26,8 +26,8 @@ using Subtext.Framework.Data;
 namespace Subtext.Web
 {
 	/// <summary>
-	/// This class writes out an rss feed.  //TODO:IS THIS EVEN USED? 
-	/// Gurkan: Yes, this is the consolidated RSS feed for all the blogs
+	/// This class writes out a consolidated rss feed for every blog in the system. 
+	/// This is used by hosted solutions that contain an aggregate blog.
 	/// </summary>
 	public class RSSPage : System.Web.UI.Page
 	{

@@ -121,7 +121,7 @@ namespace Subtext.Framework.Syndication
 			this.WriteElementString("copyright", copyright);
 
 			//TODO: Provide REAL email authentication.
-			if(authorEmail != null && authorEmail.Length > 0 &&authorEmail.IndexOf("@") > 0)
+			if(authorEmail != null && authorEmail.Length > 0 && authorEmail.IndexOf("@") > 0)
 			{
 				this.WriteElementString("managingEditor", authorEmail);
 			}

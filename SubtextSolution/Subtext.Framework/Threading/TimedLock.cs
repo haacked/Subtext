@@ -17,7 +17,6 @@ using System;
 using System.Collections;
 using System.Diagnostics;
 using System.Runtime.Serialization;
-using System.Security.Permissions;
 using System.Threading;
 
 // Adapted from - namespace Haack.Threading
@@ -72,7 +71,7 @@ namespace Subtext.Framework.Threading
 	/// </code>
 	/// </example>
 	public struct TimedLock : IDisposable
-	{
+	{	
 		/// <summary>
 		/// Attempts to obtain a lock on the specified object for up 
 		/// to 10 seconds.
@@ -98,7 +97,7 @@ namespace Subtext.Framework.Threading
 			{
 				// Failed to acquire lock.
 #if DEBUG
-				System.GC.SuppressFinalize(tl.leakDetector);
+				GC.SuppressFinalize(tl.leakDetector);
 				throw new LockTimeoutException(o);
 #else
 				throw new LockTimeoutException();
@@ -193,10 +192,6 @@ namespace Subtext.Framework.Threading
 						waitHandle.Set();
 					}
 					_failedLockTargets[lockTarget] = new StackTrace();
-					//TODO: Now's a good time to use your favorite logging 
-					//framework and log this.  Be sure to note that this 
-					//is the owning thread.
-
 					//Also. if you don't call GetBlockingStackTrace()
 					//the lockTarget doesn't get removed from the hash 
 					//table and so we'll always think there's an error
@@ -325,22 +320,6 @@ namespace Subtext.Framework.Threading
 		protected UndisposedLockException(SerializationInfo info, StreamingContext context) : base(info, context)
 		{
 		}
-
-		#region ISerializable Members
-
-		/// <summary>
-		/// Implements the ISerializable interface.  This method is used 
-		/// to serialize this class.
-		/// </summary>
-		/// <param name="info"></param>
-		/// <param name="context"></param>
-		[SecurityPermission(SecurityAction.Demand, SerializationFormatter=true)]
-		public override void GetObjectData(SerializationInfo info, StreamingContext context)
-		{
-			base.GetObjectData(info, context);
-		}
-
-		#endregion
 	}
 	#endregion
 #endif
