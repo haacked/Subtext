@@ -47,10 +47,10 @@ namespace UnitTests.Subtext.Framework.Text
 		[RowTest]
 		[Row("Blah/Default.aspx", "Default.aspx", "Blah/", ComparisonType.CaseSensitive)]
 		[Row("Blah/Default.aspx", "default.aspx", "Blah/", ComparisonType.CaseInsensitive)]
-		[Row("Blah/Default.aspx", "default.aspx", "", ComparisonType.CaseSensitive)]
-		public void LeftBeforeOfHandlesCaseSensitivity(string source, string search, int expectedIndex, ComparisonType comparison)
+		[Row("Blah/Default.aspx", "default.aspx", "Blah/Default.aspx", ComparisonType.CaseSensitive)]
+		public void LeftBeforeOfHandlesCaseSensitivity(string source, string search, string expected, ComparisonType comparison)
 		{
-			//Assert.AreEqual(expectedIndex, StringHelper.LeftBefore(source, search, comparison), "Did not find the string '{0}' at the index {1}", search, expectedIndex);
+			Assert.AreEqual(expected, StringHelper.LeftBefore(source, search, comparison), "Truncating did not return the correct result.");
 		}
 	}
 }

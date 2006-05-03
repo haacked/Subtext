@@ -76,6 +76,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[Row("A Very ;Good Book", "AVeryGoodBook")]
 		[Row("A Very Good Book.", "AVeryGoodBook")]
 		[Row("A Very Good Book..", "AVeryGoodBook")]
+		[Row("A Very Good..Book", "AVeryGood.Book")]
+		[Row("A Very Good...Book", "AVeryGood.Book")]
 		[Row("Å Vêry G®®d B®®k..", "%c3%85V%c3%aaryGdBk")]
 		[Row("Trouble With VS.NET", "TroubleWithVS.NET")]
 		[Row(@"[!""'`;:~@#$%^&*(){\[}\]?+/=\\|<> X", "X")]
@@ -107,6 +109,20 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		{
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
 			Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title, '_'), "THe auto generated entry name is not what we expected.");
+		}
+		
+		/// <summary>
+		/// Makes sure we are generating nice friendly URLs Using Periods.
+		/// </summary>
+		[RowTest]
+		[Row("Title.", "Title")]
+		[Row("Contains.PeriodAlready", "Contains.PeriodAlready")]
+		[Row("A Very Good Book yo..", "A.Very.Good.Book.yo")]
+		[RollBack]
+		public void FriendlyUrlGeneratesNiceUrlWithPeriods(string title, string expected)
+		{
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title, '.'), "THe auto generated entry name is not what we expected.");
 		}
 
 		[RowTest]
@@ -213,7 +229,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[SetUp]
 		public void SetUp()
 		{
-			_hostName = System.Guid.NewGuid().ToString().Replace("-", "") + ".com";
+			_hostName = Guid.NewGuid().ToString().Replace("-", "") + ".com";
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "");
 		}
 

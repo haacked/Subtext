@@ -35,7 +35,7 @@ namespace Subtext.Framework
 	/// </summary>
 	public sealed class Entries
 	{
-		private readonly static ILog log = new Subtext.Framework.Logging.Log();
+		private readonly static ILog log = new Logging.Log();
 		
 		#region Paged Posts
 
@@ -389,6 +389,7 @@ namespace Subtext.Framework
 			entryName = HttpUtility.UrlEncode(entryName);
 			entryName = RemoveTrailingPeriods(entryName);
 			entryName = entryName.Trim(new char[] {wordSeparator});
+			entryName = RemoveDoublePeriods(entryName);
 
 			string newEntryName = entryName;
 			int tryCount = 0;
@@ -437,8 +438,17 @@ namespace Subtext.Framework
 				{
 					cleansedText += match.Value;
 				}
-			}
+			}			
 			return cleansedText;
+		}
+		
+		static string RemoveDoublePeriods(string text)
+		{
+			while(text.IndexOf("..") > -1)
+			{
+				text = text.Replace("..", ".");
+			}
+			return text;
 		}
 
 		static string RemoveTrailingPeriods(string text)
