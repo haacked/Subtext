@@ -97,7 +97,7 @@
 		<p>
 			<label for="Editor_Edit_richTextEditor" AccessKey="b">Post <u>B</u>ody</label>&nbsp;<asp:RequiredFieldValidator id="valtbBodyRequired" runat="server" ControlToValidate="richTextEditor" ForeColor="#990066" ErrorMessage="Your post must have a body"></asp:RequiredFieldValidator></p>
 		<p>
-			<SUB:RichTextEditor id="richTextEditor" runat="server"></SUB:RichTextEditor>
+			<SUB:RichTextEditor id="richTextEditor" Height="400px" runat="server"></SUB:RichTextEditor>
 		</p>
 		<p><label>Categories</label></p>
 		<p><asp:CheckBoxList id="cklCategories" runat="server" RepeatColumns="5" RepeatDirection="Horizontal"></asp:CheckBoxList></p>
