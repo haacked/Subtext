@@ -32,16 +32,12 @@ namespace Subtext.Web.Pages
 		protected System.Web.UI.WebControls.CheckBox chkRemember;
 		protected System.Web.UI.WebControls.Button btnLogin;
 		protected System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
-		protected System.Web.UI.HtmlControls.HtmlAnchor aspnetLink;
 		protected MetaBuilders.WebControls.DefaultButtons DefaultButtons1;
+		protected System.Web.UI.HtmlControls.HtmlImage headerLogoImg;
 		protected System.Web.UI.WebControls.LinkButton lbSendPassword;
 	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-			#if WANRelease
-					lbSendPassword.Visible = false;
-					aspnetLink.Visible = true;					
-			#endif
 		}
 
 		#region Web Form Designer generated code

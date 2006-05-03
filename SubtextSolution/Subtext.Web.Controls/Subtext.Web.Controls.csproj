@@ -218,6 +218,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "StyleTag.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "VersionInfo.Designer.cs"
                     Link = "..\VersionInfo.Designer.cs"
                     SubType = "Code"
