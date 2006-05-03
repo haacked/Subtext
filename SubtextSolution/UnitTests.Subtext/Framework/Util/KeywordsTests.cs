@@ -13,7 +13,7 @@ namespace UnitTests.Subtext.Framework.Util
 		[RowTest]
 		[Row("This is a test", "is", "is not", "This is not a test")]
 		[Row("This is a test", "This", "XXX", "XXX is a test")]
-		[Row("This is a test.", "this", "XXX", "This is a test.")]
+		[Row("This is a test.", "this", "XXX", "XXX is a test.")]
 		[Row("This <b>is</b> a test.", "is", "is not", "This <b>is not</b> a test.")]
 		[Row("This is a test.", "test", "farce", "This is a farce.")]
 		[Row("This is a_test.", "test", "farce", "This is a_test.")]
