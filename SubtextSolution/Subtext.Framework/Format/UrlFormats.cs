@@ -322,7 +322,7 @@ namespace Subtext.Framework.Format
 
 			installPath += "/" + StripSurroundingSlashes(rootFolderName) + "/";		// ex...  "Subtext.Web/MyBlog/Install/" or "/MyBlog/Install/" or "/Install/"
 
-			return StringHelper.IndexOf(HttpContext.Current.Request.Path, installPath, false) >= 0;
+			return StringHelper.IndexOf(HttpContext.Current.Request.Path, installPath, ComparisonType.CaseInsensitive) >= 0;
 		}
 
 		/// <summary>
@@ -344,7 +344,7 @@ namespace Subtext.Framework.Format
 			else
 				appPath = "/" + appPath + "/" + folderName + "/";
 				
-			return StringHelper.IndexOf(HttpContext.Current.Request.Path, appPath, false) >= 0;
+			return StringHelper.IndexOf(HttpContext.Current.Request.Path, appPath, ComparisonType.CaseInsensitive) >= 0;
 		}
 
 		/// <summary>

@@ -187,8 +187,7 @@ namespace Subtext.Framework
 				}
 			}
 			
-			const bool ignoreCase = true;
-			return StringHelper.AreEqual(password, storedPassword, !ignoreCase);
+			return StringHelper.AreEqual(password, storedPassword, ComparisonType.CaseSensitive);
 		}
 
 		/// <summary>

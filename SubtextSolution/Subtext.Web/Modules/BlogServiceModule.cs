@@ -35,10 +35,9 @@ namespace Subtext.Web.Modules
 		void ReWriteServicePath(object sender, EventArgs e)
 		{
 			HttpContext context  = ((HttpApplication)sender).Context;
-			bool caseSensitive = true;
 			
-			if(StringHelper.IndexOf(context.Request.Path, "services", !caseSensitive) > 0 
-				&& StringHelper.IndexOf(context.Request.Path, ".asmx", !caseSensitive) > 0)
+			if(StringHelper.IndexOf(context.Request.Path, "services", ComparisonType.CaseInsensitive) > 0 
+				&& StringHelper.IndexOf(context.Request.Path, ".asmx", ComparisonType.CaseInsensitive) > 0)
 			{
 				if(AlllowService(context))
 

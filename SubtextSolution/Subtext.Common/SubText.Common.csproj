@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP
         ProjectType = "Local"
-        ProductVersion = "7.10.6015"
+        ProductVersion = "7.10.3077"
         SchemaVersion = "2.0"
         ProjectGuid = "{7594F3CF-85F9-4500-AFBD-5D370D9D57B4}"
     >
@@ -50,7 +50,7 @@
                     ConfigurationOverrideFile = ""
                     DefineConstants = "TRACE"
                     DocumentationFile = ""
-                    DebugSymbols = "false"
+                    DebugSymbols = "true"
                     FileAlignment = "4096"
                     IncrementalBuild = "false"
                     NoStdLib = "false"

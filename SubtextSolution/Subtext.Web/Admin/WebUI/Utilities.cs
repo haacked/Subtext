@@ -43,15 +43,14 @@ namespace Subtext.Web.Admin
 		{
 			const string ADMIN_DEFAULT = "/admin";
 
-			if (null != System.Web.HttpContext.Current)
+			if (null != HttpContext.Current)
 			{
 				if (null != path && path.StartsWith("~"))
 				{
 					string relativePath = path.Substring(1, path.Length - 1);				
 					string appPath = HttpContext.Current.Request.ApplicationPath;
 
-					bool caseSensitive = true;
-					if(StringHelper.StartsWith(relativePath, ADMIN_DEFAULT, !caseSensitive))
+					if(StringHelper.StartsWith(relativePath, ADMIN_DEFAULT, ComparisonType.CaseInsensitive))
 					{
 						relativePath = relativePath.Replace(ADMIN_DEFAULT, 
 							"admin");

@@ -69,15 +69,15 @@ namespace Subtext.Common.UrlManager
 						{
 							case HandlerType.Page:
 								return ProcessHandlerTypePage(handler, context, url);
-							
+						
 							case HandlerType.Direct:
 								HandlerConfiguration.SetControls(context, handler.BlogControls);
 								return (IHttpHandler)handler.Instance();
-							
+						
 							case HandlerType.Factory:
 								//Pass a long the request to a custom IHttpHandlerFactory
 								return ((IHttpHandlerFactory)handler.Instance()).GetHandler(context, requestType, url, path);
-							
+						
 							case HandlerType.Directory:
 								return ProcessHandlerTypeDirectory(handler, context, url);
 
@@ -92,7 +92,6 @@ namespace Subtext.Common.UrlManager
 			return PageHandlerFactory.GetHandler(context, requestType, url, path);
 		}
 
-
 		private IHttpHandler ProcessHandlerTypePage(HttpHandler item, HttpContext context, string url)
 		{
 			string pagepath = item.FullPageLocation;
@@ -101,14 +100,26 @@ namespace Subtext.Common.UrlManager
 				pagepath = HandlerConfiguration.Instance().FullPageLocation;
 			}
 			HandlerConfiguration.SetControls(context, item.BlogControls);
+			
+			// When setting the debug flag to false in Web.config --- 
+			// <compilation defaultLanguage="c#" debug="false" /> 
+			// An initial request for http://domain/default.aspx will 
+			// return a compiled "default.aspx" instead of "DTP.aspx" 
+			// as it should be.
+			// The following hack fixes it.
+			
+			if(StringHelper.EndsWith(url, "/default.aspx", ComparisonType.CaseInsensitive))
+			{
+				url = StringHelper.LeftBefore(url, "default.aspx", ComparisonType.CaseInsensitive);
+			}
+			
 			return PageParser.GetCompiledPageInstance(url, pagepath, context);
 		}
 
 		private IHttpHandler ProcessHandlerTypeDirectory(HttpHandler item, HttpContext context, string url)
 		{
-			bool caseSensitive = true;
 			string directory = item.DirectoryLocation;
-			string requestPath = StringHelper.RightAfter(url, directory, !caseSensitive);
+			string requestPath = StringHelper.RightAfter(url, directory, ComparisonType.CaseInsensitive);
 			string physicalPath = HttpContext.Current.Request.MapPath("~/" + directory + "/" + requestPath);
 			return PageParser.GetCompiledPageInstance(url, physicalPath, context);
 		}

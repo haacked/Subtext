@@ -52,7 +52,6 @@ namespace Subtext.Web
 
 		private void Page_Load(object sender, EventArgs e)
 		{
-			
 			TitleTag.Text = TitleLink.Text = ConfigurationSettings.AppSettings["AggregateTitle"] as string;
 			TitleLink.NavigateUrl = ConfigurationSettings.AppSettings["AggregateUrl"] as string;
 

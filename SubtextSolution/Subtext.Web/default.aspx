@@ -1,5 +1,5 @@
 <%@ OutputCache Duration="120" VaryByParam="GroupID" VaryByHeader="Accept-Language" %>
-<%@ Page CodeBehind="default.aspx.cs" EnableViewState="false" Language="c#" AutoEventWireup="false" Inherits="Subtext.Web._default" %>
+<%@ Page CodeBehind="Default.aspx.cs" EnableViewState="false" Language="c#" AutoEventWireup="false" Inherits="Subtext.Web._default" %>
 
 <html>
   <head>

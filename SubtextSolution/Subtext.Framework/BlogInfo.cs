@@ -45,8 +45,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static string NormalizeHostName(string host)
 		{
-			const bool caseSensitive = true;
-			return StringHelper.RightAfter(host, "www.", !caseSensitive);
+			return StringHelper.RightAfter(host, "www.", ComparisonType.CaseInsensitive);
 		}
 
 		/// <summary>
