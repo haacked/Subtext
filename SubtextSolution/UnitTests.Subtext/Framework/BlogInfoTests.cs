@@ -58,13 +58,14 @@ namespace UnitTests.Subtext.Framework
 		}
 
 		[RowTest]
-		[Row("XXX.example.com", "", "", "/Default.aspx")]
-		[Row("XXX.example.com", "Blog", "", "/Blog/Default.aspx")]
-		[Row("XXX.example.com", "Blog", "Subtext.Web", "/Subtext.Web/Blog/Default.aspx")]
-		[Row("XXX.example.com", "", "Subtext.Web", "/Subtext.Web/Default.aspx")]
+		[Row("", "", "/Default.aspx")]
+		[Row("Blog", "", "/Blog/Default.aspx")]
+		[Row("Blog", "Subtext.Web", "/Subtext.Web/Blog/Default.aspx")]
+		[Row("", "Subtext.Web", "/Subtext.Web/Default.aspx")]
 		[RollBack]
-		public void TestBlogHomeVirtualUrlPropertySetCorrectly(string host, string subfolder, string virtualDir, string expected)
+		public void TestBlogHomeVirtualUrlPropertySetCorrectly(string subfolder, string virtualDir, string expected)
 		{
+			string host = UnitTestHelper.GenerateRandomHostName();
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, subfolder, virtualDir);
 			Assert.IsTrue(Config.CreateBlog("TestBlogHomeVirtualUrlPropertySetCorrectly", "username", "password", host, subfolder));
 
@@ -74,18 +75,18 @@ namespace UnitTests.Subtext.Framework
 		/// <summary>
 		/// Tests the virtual directory root property set correctly.
 		/// </summary>
-		/// <param name="host">The host.</param>
 		/// <param name="subfolder">The subfolder.</param>
 		/// <param name="virtualDir">The virtual dir.</param>
 		/// <param name="expected">The expected.</param>
 		[RowTest]
-		[Row("XXX.example.com", "", "", "/")]
-		[Row("XXX.example.com", "Blog", "", "/")]
-		[Row("XXX.example.com", "Blog", "Subtext.Web", "/Subtext.Web/")]
-		[Row("XXX.example.com", "", "Subtext.Web", "/Subtext.Web/")]
+		[Row("", "", "/")]
+		[Row("Blog", "", "/")]
+		[Row("Blog", "Subtext.Web", "/Subtext.Web/")]
+		[Row("", "Subtext.Web", "/Subtext.Web/")]
 		[RollBack]
-		public void TestVirtualDirectoryRootPropertySetCorrectly(string host, string subfolder, string virtualDir, string expected)
+		public void TestVirtualDirectoryRootPropertySetCorrectly(string subfolder, string virtualDir, string expected)
 		{
+			string host = UnitTestHelper.GenerateRandomHostName();
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, subfolder, virtualDir);
 			Assert.IsTrue(Config.CreateBlog("TestVirtualDirectoryRootPropertySetCorrectly", "username", "password", host, subfolder));
 
