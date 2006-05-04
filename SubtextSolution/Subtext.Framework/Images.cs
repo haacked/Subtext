@@ -78,14 +78,14 @@ namespace Subtext.Framework
 
 		public static Size ResizeImage(int width, int height, int maxWidth, int maxHeight)
 		{
-			decimal MAX_WIDTH = (decimal)maxWidth;
-			decimal MAX_HEIGHT = (decimal)maxHeight;
+			decimal MAX_WIDTH = maxWidth;
+			decimal MAX_HEIGHT = maxHeight;
 			decimal ASPECT_RATIO = MAX_WIDTH / MAX_HEIGHT;
 
 			int newWidth, newHeight;
 
-			decimal originalWidth = (decimal)width;
-			decimal originalHeight = (decimal)height;
+			decimal originalWidth = width;
+			decimal originalHeight = height;
 			
 			if (originalWidth > MAX_WIDTH || originalHeight > MAX_HEIGHT) 
 			{
@@ -128,21 +128,56 @@ namespace Subtext.Framework
 			return false;
 		}
 
+		/// <summary>
+		/// Saves two images. A normal image for the web site and then a thumbnail.
+		/// </summary>
+		/// <param name="image">Original image to process.</param>
 		public static void MakeAlbumImages(Subtext.Framework.Components.Image image)
 		{
-			System.Drawing.Image original = System.Drawing.Image.FromFile(image.OriginalFilePath);
+			// need to load the original image to manipulate.
+			System.Drawing.Image originalImage = System.Drawing.Image.FromFile(image.OriginalFilePath); 
+			// dispose the original graphic (be kind; clean up)
+			using (originalImage)
+			{
+				/// TODO: make both sizes configurations. 
+				// calculate the new sizes we want (properly scaled) 
+				Size displaySize = ResizeImage(originalImage.Width, originalImage.Height, 640,480);
+				Size thumbSize = ResizeImage(originalImage.Width, originalImage.Height, 120, 120);
 
-			Size newSize = ResizeImage(original.Width,original.Height,640,480);
-			image.Height = newSize.Height;
-			image.Width = newSize.Width;
-			System.Drawing.Image displayImage = new Bitmap(original,newSize);
-			System.Drawing.Image tbimage = new Bitmap(original,ResizeImage(original.Width,original.Height,120,120));
-			original.Dispose();
-			
-			displayImage.Save(image.ResizedFilePath, GetFormat(image.File));   
-			displayImage.Dispose();
-			tbimage.Save(image.ThumbNailFilePath,ImageFormat.Jpeg);
-			tbimage.Dispose();
+				// re-size to the display and thumb size.
+				System.Drawing.Image displayImage = new Bitmap(displaySize.Width, displaySize.Height, originalImage.PixelFormat);
+				System.Drawing.Image thumbImage = new Bitmap(thumbSize.Width, thumbSize.Height, originalImage.PixelFormat); 
+
+				// Tell the object what its new display size will be
+				image.Height = displayImage.Height;
+				image.Width = displayImage.Width;
+
+				// Create a mid-size display image. 
+				Graphics displayGraphic =  Graphics.FromImage(displayImage);
+				using (displayImage)
+				{
+					displayGraphic.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality ;
+					displayGraphic.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality ;
+					displayGraphic.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic ;
+					Rectangle displayRectangle = new Rectangle(0, 0, displaySize.Width, displaySize.Height);
+					displayGraphic.DrawImage(originalImage, displayRectangle);
+					// Save our file
+					displayImage.Save(image.ResizedFilePath, ImageFormat.Jpeg);
+				}
+
+				// Create a small thumbnail by drawing the original image into a smaller area.
+				Graphics thumbGraphic =  Graphics.FromImage(thumbImage);
+				using (thumbImage)
+				{
+					thumbGraphic.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality ;
+					thumbGraphic.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality ;
+					thumbGraphic.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic ;
+					Rectangle thumbRectangle = new Rectangle(0, 0, thumbSize.Width, thumbSize.Height);
+					thumbGraphic.DrawImage(originalImage, thumbRectangle);
+					// Save our file
+					thumbImage.Save(image.ThumbNailFilePath, ImageFormat.Jpeg);
+				}
+			}
 		}
 
 		public static ImageFormat GetFormat(string name)
@@ -177,16 +212,16 @@ namespace Subtext.Framework
 			}
 		}
 
-      private static string StripUrlCharsFromFileName(string filename)
-      {
-         const string replacement = "_";
+		private static string StripUrlCharsFromFileName(string filename)
+		{
+			const string replacement = "_";
 
-         filename = filename.Replace("#", replacement);
-         filename = filename.Replace("&", replacement);
-         filename = filename.Replace("%", replacement);
+			filename = filename.Replace("#", replacement);
+			filename = filename.Replace("&", replacement);
+			filename = filename.Replace("%", replacement);
 
-         return filename;
-      }
+			return filename;
+		}
 
 		public static void CheckDirectory(string filepath)
 		{
@@ -249,4 +284,3 @@ namespace Subtext.Framework
 		#endregion
 	}
 }
-
