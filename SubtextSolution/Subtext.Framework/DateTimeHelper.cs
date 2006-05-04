@@ -23,7 +23,7 @@ namespace Subtext.Framework
 			DateTime dt = DateTime.MinValue;
 			try
 			{
-				dt = DateTime.Parse(dateTime);
+				return DateTime.Parse(dateTime);
 			}
 			catch(System.FormatException)
 			{
@@ -35,8 +35,7 @@ namespace Subtext.Framework
 			{
 				try
 				{
-					dt = DateTime.ParseExact(dateTime, dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
-					break;
+					return DateTime.ParseExact(dateTime, dateFormat, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
 				}
 				catch(System.FormatException)
 				{
