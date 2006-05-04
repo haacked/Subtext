@@ -47,7 +47,13 @@ namespace Subtext.Framework
 					using(TimedLock.Lock(_synchBlock))
 					{
 						if(_instance == null)
+						{
 							_instance = LoadHost(false);
+							if(_instance == null)
+							{
+								throw new HostNotConfiguredException();
+							}
+						}
 					}
 				}
 				return _instance;
@@ -123,7 +129,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static bool CreateHost(string hostUserName, string hostPassword)
 		{
-			if(HostInfo.Instance != null && HostInfo.LoadHost(true) == null)
+			if(!InstallationManager.HostInfoRecordNeeded)
 				throw new InvalidOperationException("Cannot create a Host record.  One already exists.");
 
 			HostInfo host = new HostInfo();
