@@ -143,6 +143,7 @@ namespace UnitTests.Subtext
 
 		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string virtualDir, string page, TextWriter output)
 		{
+			HttpContext.Current = null;
 			virtualDir = UrlFormats.StripSurroundingSlashes(virtualDir);	// Subtext.Web
 			subfolder = StripSlashes(subfolder);		// MyBlog
 
@@ -160,15 +161,16 @@ namespace UnitTests.Subtext
 			if(subfolder.Length > 0)
 			{
 				page = subfolder + "/" + page;			//	MyBlog/default.aspx
-				subfolder = "/" + subfolder;				//	/MyBlog
 			}
-
-			//page = "/" + page;							//	/MyBlog/default.aspx
 
 			string query = string.Empty;
 
 			SimulatedHttpRequest workerRequest = new SimulatedHttpRequest(virtualDir, appPhysicalDir, page, query, output, host);
 			HttpContext.Current = new HttpContext(workerRequest);
+			HttpContext.Current.Items.Clear();
+			HttpContext.Current.Cache.Remove("BlogInfo-");
+			HttpContext.Current.Cache.Remove("BlogInfo-" + subfolder);
+			Console.WriteLine("SimulatedHttpRequest: Cache cleared.");
 
 			#region Console Debug INfo
 			/*
