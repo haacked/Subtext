@@ -21,7 +21,25 @@ IF NOT EXISTS
 	ADD [Url] VARCHAR(255) NULL
 GO
 
+/*
+	Going to add a default value constraint (0) to column FeedBackCount 
+	in table subtext_Content 
+*/
 UPDATE [<dbUser,varchar,dbo>].[subtext_Content] 
 SET [FeedBackCount] = 0
 WHERE [FeedBackCount] IS NULL
+GO
+
+IF (SELECT COLUMN_DEFAULT FROM [information_schema].[columns] 
+		WHERE	table_name = 'subtext_Content'
+		AND		table_schema = 'dbo'
+		AND		column_name = 'FeedBackCount') IS NULL
+BEGIN
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content]  ADD CONSTRAINT
+		DF_subtext_Content_FeedBackCount DEFAULT 0 FOR FeedBackCount
+END
+GO
+
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content]  
+	ALTER COLUMN FeedBackCount int NOT NULL
 GO
