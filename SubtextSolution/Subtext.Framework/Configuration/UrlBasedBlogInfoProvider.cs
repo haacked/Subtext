@@ -192,8 +192,6 @@ namespace Subtext.Framework.Configuration
 					if(subFolder.Length > 1)
 						subFolder="/" + subFolder;
 					
-					Console.WriteLine("INSIDE GetBlog: subfolder: " + subfolder);
-
 					string virtualPath = string.Format(System.Globalization.CultureInfo.InvariantCulture, "images/{0}{1}", Regex.Replace(Host+webApp,@"\:|\.","_"), subFolder);
 
 					// now put together the host + / + virtual path (url) to images
@@ -224,10 +222,6 @@ namespace Subtext.Framework.Configuration
 				{
 					HttpContext.Current.Items.Add(cacheKey, info);
 				}
-			}
-			else
-			{
-				Console.WriteLine("Blog was in cache.");
 			}
 
 			return info;

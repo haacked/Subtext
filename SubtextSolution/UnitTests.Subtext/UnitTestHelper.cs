@@ -170,7 +170,6 @@ namespace UnitTests.Subtext
 			HttpContext.Current.Items.Clear();
 			HttpContext.Current.Cache.Remove("BlogInfo-");
 			HttpContext.Current.Cache.Remove("BlogInfo-" + subfolder);
-			Console.WriteLine("SimulatedHttpRequest: Cache cleared.");
 
 			#region Console Debug INfo
 			/*
