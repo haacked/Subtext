@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP
         ProjectType = "Local"
-        ProductVersion = "7.10.6015"
+        ProductVersion = "7.10.3077"
         SchemaVersion = "2.0"
         ProjectGuid = "{745B39B7-DE46-4070-8733-C53308721C58}"
     >
@@ -174,7 +174,7 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "Scripts\Installation.01.00.04.sql"
+                    RelPath = "Scripts\Installation.01.04.01.sql"
                     BuildAction = "EmbeddedResource"
                 />
                 <File

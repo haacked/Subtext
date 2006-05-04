@@ -27,7 +27,7 @@ namespace Subtext.Installation
 	public sealed class ScriptHelper
 	{
 		private ScriptHelper() {}
-
+		
 		/// <summary>
 		/// Executes the script.
 		/// </summary>
