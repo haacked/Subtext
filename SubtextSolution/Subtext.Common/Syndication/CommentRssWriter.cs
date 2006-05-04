@@ -17,6 +17,7 @@ using System;
 using System.Xml;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Syndication;
 
 namespace Subtext.Common.Syndication
@@ -32,12 +33,18 @@ namespace Subtext.Common.Syndication
 		/// <summary>
 		/// Creates a new <see cref="CommentRssWriter"/> instance.
 		/// </summary>
-		/// <param name="ec">Ec.</param>
-		/// <param name="ce">Ce.</param>
-		public CommentRssWriter(EntryCollection ec, Entry ce) : base(NullValue.NullDateTime, false)
+		/// <param name="commentEntries">Ec.</param>
+		/// <param name="entry">Ce.</param>
+		public CommentRssWriter(EntryCollection commentEntries, Entry entry) : base(NullValue.NullDateTime, false)
 		{
-			this.Entries = ec;
-			this.CommentEntry = ce;
+			if(commentEntries == null)
+				throw new ArgumentNullException("commentEntries", "Cannot generate a comment rss feed for a null collection of entries.");
+			
+			if(entry == null)
+				throw new ArgumentNullException("entry", "Comment RSS feed must be associated to an entry.");
+			
+			this.Entries = commentEntries;
+			this.CommentEntry = entry;
 			this.UseAggBugs = false;
 			this.AllowComments = false;
 		}
@@ -47,7 +54,7 @@ namespace Subtext.Common.Syndication
 		/// </summary>
 		protected override void WriteChannel()
 		{
-			this.BuildChannel(CommentEntry.Title, CommentEntry.Link, CommentEntry.Email, CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body,info.Language, info.Author, Subtext.Framework.Configuration.Config.CurrentBlog.LicenseUrl);
+			this.BuildChannel(CommentEntry.Title, CommentEntry.Link, CommentEntry.Email, CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body, info.Language, info.Author, Config.CurrentBlog.LicenseUrl, Config.CurrentBlog.Title, Config.CurrentBlog.BlogHomeUrl, string.Empty);
 		}
 	}
 }

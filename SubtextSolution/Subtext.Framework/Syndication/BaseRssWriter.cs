@@ -87,28 +87,68 @@ namespace Subtext.Framework.Syndication
 			this.WriteAttributeString("xmlns:image", "http://purl.org/rss/1.0/modules/image/");
 		}
 
+		/// <summary>
+		/// Starts the RSS document.
+		/// </summary>
 		protected virtual void StartDocument()
 		{
 			this.WriteStartElement("rss");
 			this.WriteAttributeString("version","2.0");
 		}
 
+		/// <summary>
+		/// Ends the document.
+		/// </summary>
 		protected void EndDocument()
 		{
 			this.WriteEndElement();
 		}
 
+		/// <summary>
+		/// Writes the channel Start element.
+		/// </summary>
 		protected void StartChannel()
 		{
 			this.WriteStartElement("channel");
 		}
 
+		/// <summary>
+		/// Writes the channel.
+		/// </summary>
 		protected virtual void WriteChannel()
 		{
-			BuildChannel(info.Title, info.BlogHomeUrl, info.Email, info.SubTitle, info.Language, info.Author, Config.CurrentBlog.LicenseUrl);
+			BuildChannel(info.Title, info.BlogHomeUrl, info.Email, info.SubTitle, info.Language, info.Author, Config.CurrentBlog.LicenseUrl, info.Title, info.BlogHomeUrl, string.Empty);
+		}
+		
+		/// <summary>
+		/// Builds the RSS channel starting XML section.
+		/// </summary>
+		/// <param name="title">The title.</param>
+		/// <param name="link">The link.</param>
+		/// <param name="authorEmail">The author email.</param>
+		/// <param name="description">The description.</param>
+		/// <param name="lang">The lang.</param>
+		/// <param name="copyright">The copyright.</param>
+		/// <param name="cclicense">The cclicense.</param>
+		protected void BuildChannel(string title, string link, string authorEmail, string description, string lang, string copyright, string cclicense)
+		{
+			BuildChannel(title, link, authorEmail, description, lang, copyright, cclicense, info.Title, info.BlogHomeUrl, string.Empty);
 		}
 
-		protected void BuildChannel(string title, string link, string authorEmail, string description, string lang, string copyright, string cclicense)
+		/// <summary>
+		/// Builds the RSS channel starting XML section.
+		/// </summary>
+		/// <param name="title">The title.</param>
+		/// <param name="link">The link.</param>
+		/// <param name="authorEmail">The author email.</param>
+		/// <param name="description">The description.</param>
+		/// <param name="lang">The lang.</param>
+		/// <param name="copyright">The copyright.</param>
+		/// <param name="cclicense">The cclicense.</param>
+		/// <param name="imageTitle">The "alt" attribute value for the RSS feed's image.</param>
+		/// <param name="imageLink">The url that the image will link to. Ostensibly the url to the blog.</param>
+		/// <param name="imageDescription">The "title" attribute value for the anchor tag used to surround the image and link to this blog.</param>
+		protected void BuildChannel(string title, string link, string authorEmail, string description, string lang, string copyright, string cclicense, string imageTitle, string imageLink, string imageDescription)
 		{
 			//Required Channel Elements
 			this.WriteElementString("title", title);			
@@ -135,14 +175,16 @@ namespace Subtext.Framework.Syndication
 			}
 
 			if(link != null && link.Length > 0)
-				this.AddImageElement(title, link, description);
+				this.AddImageElement(imageTitle, imageLink, imageDescription);
 		}
 
-		// <summary>
-		// Adds the image element to the rss feed.
-		// </summary>
-		// <param name="link">Link.</param>
-		// <param name="description">Description.</param>
+		/// <summary>
+		/// Adds the image element to the rss feed.  This image is often displayed by 
+		/// RSS aggregators with the feed contents.
+		/// </summary>
+		/// <param name="title"></param>
+		/// <param name="link"></param>
+		/// <param name="description"></param>
 		protected void AddImageElement(string title, string link,
 			string description)
 		{
@@ -161,7 +203,7 @@ namespace Subtext.Framework.Syndication
 			this.WriteElementString("link", link);
 			this.WriteElementString("width", "77");
 			this.WriteElementString("height", "60");
-			this.WriteElementString("description", description);
+			this.WriteElementString("description", description); //Used in the alt tag.
 			this.WriteEndElement();
 		}
 
@@ -193,9 +235,9 @@ namespace Subtext.Framework.Syndication
 				this.WriteStartElement("item");
 				EntryXml(entry, settings, info.UrlFormats);
 				this.WriteEndElement();
-				if(entry.DateSyndicated > base.latestPublishDate)
+				if(entry.DateSyndicated > latestPublishDate)
 				{
-					base.latestPublishDate = entry.DateSyndicated;
+					latestPublishDate = entry.DateSyndicated;
 				}
 
 				this.clientHasAllFeedItems = false;
