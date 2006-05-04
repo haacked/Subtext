@@ -830,7 +830,7 @@ SELECT BlogId
 	, SourceName
 	, DateUpdated
 	, TitleUrl
-	, FeedBackCount
+	, FeedBackCount = ISNULL(FeedBackCount, 0)
 	, ParentID
 	, PostConfig
 	, EntryName 
@@ -973,7 +973,7 @@ SELECT	BlogId
 	, SourceName
 	, DateUpdated
 	, TitleUrl
-	, FeedBackCount
+	, FeedBackCount = ISNULL(FeedBackCount, 0)
 	, ParentID
 	, PostConfig
 	, EntryName 
@@ -1029,7 +1029,7 @@ SELECT BlogId
 	, SourceName
 	, DateUpdated
 	, TitleUrl
-	, FeedBackCount
+	, FeedBackCount = ISNULL(FeedBackCount, 0)
 	, ParentID
 	, PostConfig
 	, EntryName 
@@ -1079,7 +1079,7 @@ SELECT	BlogId
 		, DateUpdated
 		, TitleUrl
 		, ParentID
-		, FeedBackCount
+		, FeedBackCount = ISNULL(FeedBackCount, 0)
 		, PostConfig
 		, EntryName
 		, ParentID 
@@ -1135,7 +1135,7 @@ SELECT	BlogId
 		, DateUpdated
 		, TitleUrl
 		, ParentID
-		, FeedBackCount
+		, FeedBackCount = ISNULL(FeedBackCount, 0)
 		, PostConfig
 		, EntryName
 		, ParentID 
@@ -1191,7 +1191,7 @@ SELECT	BlogId
 		, DateUpdated
 		, TitleUrl
 		, ParentID
-		, FeedBackCount
+		, FeedBackCount = ISNULL(FeedBackCount, 0)
 		, PostConfig
 		, EntryName
 		, ParentID 
@@ -1453,7 +1453,7 @@ SELECT	content.BlogId
 		, content.SourceName 
 		, content.DateUpdated 
 		, content.TitleUrl 
-		, content.FeedbackCount
+		, FeedBackCount = ISNULL(content.FeedBackCount, 0)
 		, content.ParentID
 		, content.PostConfig
 		, content.EntryName
@@ -1559,7 +1559,7 @@ SELECT	content.BlogId
 		, content.SourceName 
 		, content.DateUpdated 
 		, content.TitleUrl 
-		, content.FeedbackCount
+		, FeedBackCount = ISNULL(content.FeedBackCount, 0)
 		, content.ParentID
 		, content.PostConfig
 		, content.EntryName
@@ -1659,7 +1659,7 @@ SELECT	content.BlogId
 		, content.SourceName 
 		, content.DateUpdated 
 		, content.TitleUrl 
-		, content.FeedbackCount
+		, FeedBackCount = ISNULL(content.FeedBackCount, 0)
 		, content.ParentID
 		, content.PostConfig
 		, content.EntryName
@@ -2184,7 +2184,7 @@ SELECT	content.BlogId
 	, content.SourceName
 	, content.DateUpdated
 	, content.TitleUrl
-	, content.FeedBackCount
+	, FeedBackCount = ISNULL(content.FeedBackCount, 0)
 	, content.ParentID
 	, content.PostConfig
 	, content.EntryName 
@@ -2236,7 +2236,7 @@ SELECT	content.BlogId
 	, content.SourceName
 	, content.DateUpdated
 	, content.TitleUrl
-	, content.FeedBackCount
+	, FeedBackCount = ISNULL(content.FeedBackCount, 0)
 	, content.ParentID
 	, content.PostConfig
 	, content.EntryName 
@@ -2289,7 +2289,7 @@ SELECT	content.BlogId
 		, content.SourceName
 		, content.DateUpdated
 		, content.TitleUrl
-		, content.FeedBackCount
+		, FeedBackCount = ISNULL(content.FeedBackCount, 0)
 		, content.ParentID
 		, content.PostConfig
 		, content.EntryName 
@@ -2341,7 +2341,7 @@ SELECT	content.BlogId
 		, content.SourceName
 		, content.DateUpdated
 		, content.TitleUrl
-		, content.FeedBackCount
+		, FeedBackCount = ISNULL(content.FeedBackCount, 0)
 		, content.ParentID
 		, content.PostConfig
 		, content.EntryName 
@@ -2391,7 +2391,7 @@ SELECT	BlogId
 		, SourceName
 		, DateUpdated
 		, TitleUrl
-		, FeedBackCount
+		, FeedBackCount = ISNULL(FeedBackCount, 0)
 		, ParentID
 		, PostConfig
 		, EntryName 
@@ -2442,7 +2442,7 @@ SELECT	BlogId
 	, SourceName
 	, DateUpdated
 	, TitleUrl
-	, FeedBackCount
+	, FeedBackCount = ISNULL(FeedBackCount, 0)
 	, ParentID
 	, PostConfig
 	, EntryName 
@@ -2546,7 +2546,7 @@ SELECT	BlogId
 	, SourceName
 	, DateUpdated
 	, TitleUrl
-	, FeedBackCount
+	, FeedBackCount = ISNULL(FeedBackCount, 0)
 	, ParentID
 	, PostConfig
 	, EntryName 
@@ -2596,7 +2596,7 @@ SELECT	BlogId
 	, SourceName
 	, DateUpdated
 	, TitleUrl
-	, FeedBackCount
+	, FeedBackCount = ISNULL(FeedBackCount, 0)
 	, ParentID
 	, PostConfig
 	, EntryName 
@@ -2659,7 +2659,7 @@ SELECT	BlogId
 	, SourceName
 	, DateUpdated
 	, TitleUrl
-	, FeedBackCount
+	, FeedBackCount = ISNULL(FeedBackCount, 0)
 	, ParentID
 	, PostConfig
 	, EntryName 
@@ -2713,7 +2713,7 @@ SELECT	BlogId
 	, SourceName
 	, DateUpdated
 	, TitleUrl
-	, FeedBackCount
+	, FeedBackCount = ISNULL(FeedBackCount, 0)
 	, ParentID
 	, PostConfig
 	, EntryName 
@@ -2763,7 +2763,7 @@ SELECT	BlogId
 	, SourceName
 	, DateUpdated
 	, TitleUrl
-	, FeedBackCount
+	, FeedBackCount = ISNULL(FeedBackCount, 0)
 	, ParentID
 	, PostConfig
 	, EntryName 
@@ -2811,7 +2811,7 @@ SELECT	BlogId
 	, SourceName
 	, DateUpdated
 	, TitleUrl
-	, FeedBackCount
+	, FeedBackCount = ISNULL(FeedBackCount, 0)
 	, ParentID
 	, PostConfig
 	, EntryName 
@@ -4168,6 +4168,7 @@ INSERT INTO subtext_Content
 	, [Description]
 	, PostConfig
 	, ParentID
+	, FeedBackCount
 	, BlogId
 	, EntryName 
 	, ContentChecksumHash
@@ -4188,6 +4189,7 @@ VALUES
 	, @Description
 	, @PostConfig
 	, @ParentID
+	, 0
 	, @BlogId
 	, @EntryName
 	, @ContentChecksumHash
