@@ -43,3 +43,26 @@ GO
 ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content]  
 	ALTER COLUMN FeedBackCount int NOT NULL
 GO
+
+/*
+	Going to add a default value constraint (1) to column BlogGroup 
+	in table subtext_Config 
+*/
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] 
+SET [BlogGroup] = 1
+WHERE [BlogGroup] IS NULL
+GO
+
+IF (SELECT COLUMN_DEFAULT FROM [information_schema].[columns] 
+		WHERE	table_name = 'subtext_Config'
+		AND		table_schema = 'dbo'
+		AND		column_name = 'BlogGroup') IS NULL
+BEGIN
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config]  ADD CONSTRAINT
+		DF_subtext_Config_BlogGroup DEFAULT 1 FOR BlogGroup
+END
+GO
+
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config]
+	ALTER COLUMN BlogGroup int NOT NULL
+GO
