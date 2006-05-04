@@ -13,6 +13,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
+using System;
 using System.Configuration;
 using Subtext.Framework.Components;
 using Subtext.Framework.Exceptions;
@@ -198,6 +199,7 @@ namespace Subtext.Framework.Configuration
 			}
 			
 			subfolder = UrlFormats.StripSurroundingSlashes(subfolder);
+			Console.WriteLine("Creating a blog with subfolder '" + subfolder + "'");
 
 			if(subfolder == null || subfolder.Length == 0)
 			{

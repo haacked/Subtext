@@ -687,16 +687,27 @@ namespace Subtext.Framework
 				if(this.virtualUrl == null)
 				{
 					this.virtualUrl = "/";
+					Console.WriteLine("HttpContext.Current.Request.ApplicationPath: " + HttpContext.Current.Request.ApplicationPath);
 					string appPath = UrlFormats.StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
+					Console.WriteLine("appPath after stripping slashes: " + appPath);
 					if(appPath.Length > 0)
 					{
 						this.virtualUrl += appPath + "/";
 					}
 					
+					Console.WriteLine("virtualUrl after appending AppPath: " + virtualUrl);
+					Console.WriteLine("this.Subfolder.Length: " + this.Subfolder.Length);
+					Console.WriteLine("Subfolder: " + this.Subfolder);
+					
 					if(this.Subfolder.Length > 0)
 					{
 						this.virtualUrl += this.Subfolder + "/";
 					}
+					Console.WriteLine("virtualUrl after appending Subfolder: " + virtualUrl);
+				}
+				else
+				{
+					Console.WriteLine("VirtualURL: Retrieved from cache.");
 				}
 				return this.virtualUrl;
 			}

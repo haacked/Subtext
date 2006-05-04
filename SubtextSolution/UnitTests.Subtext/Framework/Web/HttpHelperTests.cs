@@ -1,6 +1,4 @@
 using System;
-using System.Globalization;
-using System.Web;
 using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Web;
@@ -27,7 +25,6 @@ namespace UnitTests.Subtext.Framework.Web
 			DateTime expectedDate = DateTimeHelper.ParseUnknownFormatUTC(expected);
 
 			Assert.AreEqual(expectedDate, HttpHelper.GetIfModifiedSinceDateUTC());
-
 		}
 	}
 }

@@ -45,9 +45,9 @@ namespace UnitTests.Subtext
 				throw new ArgumentNullException("appVirtualDir", "Can't create a request with a null virtual dir. Try empty string.");
 
 			if(appVirtualDir.Length > 0)
-				Console.WriteLine("Debug: AppVirtualDir = " + appVirtualDir);
+				Console.WriteLine("SimulatedHttpRequest: AppVirtualDir: " + appVirtualDir);
 			else
-				Console.WriteLine("Debug: Empty Virtual Dir");
+				Console.WriteLine("SimulatedHttpRequest: Empty Virtual Dir");
 			
 			_host = host;
 		}
@@ -61,6 +61,10 @@ namespace UnitTests.Subtext
 			return _host;
 		}
 
+		/// <summary>
+		/// Gets the headers.
+		/// </summary>
+		/// <value>The headers.</value>
 		public NameValueCollection Headers
 		{
 			get
@@ -71,6 +75,10 @@ namespace UnitTests.Subtext
 
 		private NameValueCollection headers = new NameValueCollection();
 
+		/// <summary>
+		/// Get all nonstandard HTTP header name-value pairs.
+		/// </summary>
+		/// <returns>An array of header name-value pairs.</returns>
 		public override string[][] GetUnknownRequestHeaders()
 		{
 			if(this.headers == null || this.headers.Count == 0)
@@ -88,15 +96,12 @@ namespace UnitTests.Subtext
 		}
 
 		/// <summary>
-		/// Maps the path to a filesystem path.
+		/// Returns the virtual path to the currently executing
+		/// server application.
 		/// </summary>
-		/// <param name="virtualPath">Virtual path.</param>
-		/// <returns></returns>
-		public override string MapPath(string virtualPath)
-		{
-			return Path.Combine(this.GetAppPath(), virtualPath);
-		}
-
+		/// <returns>
+		/// The virtual path of the current application.
+		/// </returns>
 		public override string GetAppPath()
 		{
 			string appPath = base.GetAppPath();
