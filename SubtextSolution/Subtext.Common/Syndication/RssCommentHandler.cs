@@ -61,14 +61,21 @@ namespace Subtext.Common.Syndication
 			CachedFeed feed = null;
 
 			comments = GetFeedEntries();
+			if(comments == null)
+				comments = new EntryCollection();
 
-			if(comments != null && comments.Count > 0)
+		
+			feed = new CachedFeed();
+			CommentRssWriter crw = new CommentRssWriter(comments,ParentEntry);
+			if(comments.Count > 0)
 			{
-				feed = new CachedFeed();
-				CommentRssWriter crw = new CommentRssWriter(comments,ParentEntry);
 				feed.LastModified = this.ConvertLastUpdatedDate(comments[comments.Count-1].DateCreated);
-				feed.Xml = crw.Xml;
 			}
+			else
+			{
+				feed.LastModified = this.ParentEntry.DateCreated;
+			}
+			feed.Xml = crw.Xml;
 			return feed;
 		}
 
@@ -81,7 +88,7 @@ namespace Subtext.Common.Syndication
 
 				if(comments != null && comments.Count > 0)
 				{
-					return DateTime.Compare(DateTime.Parse(dt),this.ConvertLastUpdatedDate(comments[comments.Count-1].DateCreated)) == 0;
+					return DateTime.Compare(DateTime.Parse(dt), this.ConvertLastUpdatedDate(comments[comments.Count-1].DateCreated)) == 0;
 				}
 			}
 			return false;			
