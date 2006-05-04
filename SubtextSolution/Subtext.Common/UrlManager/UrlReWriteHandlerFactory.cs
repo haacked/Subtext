@@ -13,8 +13,10 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 using System;
+using System.Configuration;
 using System.Web;
 using System.Web.UI;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
 
 namespace Subtext.Common.UrlManager
@@ -53,6 +55,11 @@ namespace Subtext.Common.UrlManager
 		/// </returns>
 		public virtual IHttpHandler GetHandler(HttpContext context, string requestType, string url, string path)
 		{
+			if((Config.CurrentBlog == null || Config.CurrentBlog.BlogId == int.MinValue) && ConfigurationSettings.AppSettings["AggregateEnabled"] == "true")
+			{
+				return PageParser.GetCompiledPageInstance("/Default.aspx", context.Server.MapPath("~/Default.aspx"), context);
+			}
+			
 			//Get the Handlers to process. By default, we grab them from the blog.config
 			HttpHandler[] items = GetHttpHandlers(context);
 			
@@ -107,7 +114,6 @@ namespace Subtext.Common.UrlManager
 			// return a compiled "default.aspx" instead of "DTP.aspx" 
 			// as it should be.
 			// The following hack fixes it.
-			
 			if(StringHelper.EndsWith(url, "/default.aspx", ComparisonType.CaseInsensitive))
 			{
 				url = StringHelper.LeftBefore(url, "default.aspx", ComparisonType.CaseInsensitive);

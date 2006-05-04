@@ -31,7 +31,6 @@ namespace Subtext.Web
 	/// </summary>
 	public class _default : Page
 	{
-
 		protected Repeater Bloggers;
 		protected Literal BlogCount;
 		protected Literal PostCount;
@@ -52,9 +51,8 @@ namespace Subtext.Web
 
 		private void Page_Load(object sender, EventArgs e)
 		{
-			TitleTag.Text = TitleLink.Text = ConfigurationSettings.AppSettings["AggregateTitle"] as string;
-			TitleLink.NavigateUrl = ConfigurationSettings.AppSettings["AggregateUrl"] as string;
-
+			TitleTag.Text = TitleLink.Text = ConfigurationSettings.AppSettings["AggregateTitle"];
+			TitleLink.NavigateUrl = ConfigurationSettings.AppSettings["AggregateUrl"];
 
 			//No postbacks on this page. It is output cached.
 			BindData();
@@ -71,7 +69,6 @@ namespace Subtext.Web
 			const string style = "<link href=\"{0}{1}\" type=\"text/css\" rel=\"stylesheet\">";
 			string apppath = HttpContext.Current.Request.ApplicationPath.EndsWith("/") ? HttpContext.Current.Request.ApplicationPath : HttpContext.Current.Request.ApplicationPath + "/";
 			Style.Text = string.Format(style,apppath,"Style.css") + "\n" + string.Format(style,apppath,"blue.css");
-
 		}
 
 		private string appPath = null;
@@ -104,15 +101,15 @@ namespace Subtext.Web
 
 			}
 			string sql = "DNW_HomePageData";
-			
+
 			string conn = DbProvider.Instance().ConnectionString;
 
 			//TODO: This needs to be part of the object model.
 
 			SqlParameter[] p = 
 				{
-					SqlHelper.MakeInParam("@Host",SqlDbType.NVarChar,100,ConfigurationSettings.AppSettings["AggregateHost"] as string),
-					SqlHelper.MakeInParam("@GroupID",SqlDbType.Int,4,GroupID)
+					SqlHelper.MakeInParam("@Host", SqlDbType.NVarChar, 100, ConfigurationSettings.AppSettings["AggregateHost"]),
+					SqlHelper.MakeInParam("@GroupID", SqlDbType.Int, 4, GroupID)
 				};
 
 					DataSet ds = SqlHelper.ExecuteDataset(conn,CommandType.StoredProcedure,sql,p);
