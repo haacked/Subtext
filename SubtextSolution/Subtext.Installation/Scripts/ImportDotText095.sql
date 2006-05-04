@@ -106,7 +106,7 @@ INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subt
 	ContentChecksumHash, DateSyndicated )
 	SELECT 
 		[ID], Title, DateAdded, SourceUrl, PostType, Author, Email, SourceName, BlogId, [Description],
-		DateUpdated, TitleUrl, Text, ParentID, FeedBackCount, PostConfig, EntryName, null, DateUpdated 
+		DateUpdated, TitleUrl, Text, ParentID, ISNULL(FeedBackCount, 0), PostConfig, EntryName, null, DateUpdated 
 	FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_Content]
 	WHERE 1=1
 SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Content] OFF

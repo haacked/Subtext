@@ -20,3 +20,8 @@ IF NOT EXISTS
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Log] 
 	ADD [Url] VARCHAR(255) NULL
 GO
+
+UPDATE [<dbUser,varchar,dbo>].[subtext_Content] 
+SET [FeedBackCount] = 0
+WHERE [FeedBackCount] IS NULL
+GO
