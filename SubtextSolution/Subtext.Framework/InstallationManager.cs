@@ -64,7 +64,14 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				return null == HostInfo.Instance;
+				try
+				{
+					return null == HostInfo.Instance;
+				}
+				catch(HostNotConfiguredException)
+				{
+					return true;
+				}
 			}
 		}
 
