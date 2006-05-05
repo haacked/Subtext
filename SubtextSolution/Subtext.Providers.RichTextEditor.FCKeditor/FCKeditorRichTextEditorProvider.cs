@@ -37,6 +37,8 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 		string _name = string.Empty;
 
 		string _webFormFolder=string.Empty;
+		string _toolbarSet=string.Empty;
+		string _skin=string.Empty;
 
 		public override System.Web.UI.Control RichTextEditorControl
 		{
@@ -66,6 +68,13 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 				_webFormFolder=configValue["WebFormFolder"];
 			else
 				throw new ApplicationException("WebFormFolder must be specified for the FCKeditor provider to work");
+
+			if(configValue["ToolbarSet"]!=null)
+				_toolbarSet=configValue["ToolbarSet"];
+
+			if(configValue["Skin"]!=null)
+				_skin=configValue["Skin"];
+
 		}
 
 		public override void InitializeControl()
@@ -73,6 +82,11 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 			_fckCtl=new FredCK.FCKeditorV2.FCKeditor();
 			_fckCtl.ID=ControlID;
 			_fckCtl.BasePath=ControlHelper.ExpandTildePath(_webFormFolder);
+			if(!_toolbarSet.Trim().Equals(""))
+				_fckCtl.ToolbarSet=_toolbarSet;
+
+			if(!_skin.Trim().Equals(""))
+				_fckCtl.SkinPath=_fckCtl.BasePath+"editor/skins/"+_skin+"/";
 
 			// Compute user image gallery url
 			string blogImageRootPath=Subtext.Framework.Format.UrlFormats.StripHostFromUrl(Subtext.Framework.Configuration.Config.CurrentBlog.ImagePath);
