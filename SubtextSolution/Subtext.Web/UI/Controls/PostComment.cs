@@ -64,7 +64,7 @@ namespace Subtext.Web.UI.Controls
 					tbUrl.Text = user.Values["Url"];
 					
 					// Remember by default if no-checkbox.
-					if(this.chkRemember == null || this.chkRemember.Checked)
+					if(this.chkRemember != null && this.chkRemember.Checked)
 					{
 						this.chkRemember.Checked = true;
 					}

@@ -40,14 +40,12 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="3">
-				<asp:CheckBox id="chkRemember" runat="server" Text="Remember Me?" Checked="True"></asp:CheckBox></td>
-		</tr>
-		<tr>
 			<td>
-				<sub:CompliantButton id="btnCompliantSubmit" CssClass="Button" runat="server" Text="Submit"></sub:CompliantButton></td>
+				<sub:CompliantButton id="btnCompliantSubmit" CssClass="Button" runat="server" Text="Submit"></sub:CompliantButton>
+			</td>
 			<td colspan="2">
-				<asp:Label id="Message" runat="server" ForeColor="Red"></asp:Label></td>
+				<asp:Label id="Message" runat="server" ForeColor="Red"></asp:Label>
+			</td>
 		</tr>
 		<tr>
 			<td>
