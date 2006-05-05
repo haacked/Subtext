@@ -372,8 +372,11 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-
-
+		/// <summary>
+		/// Loads a single entry from the data row.
+		/// </summary>
+		/// <param name="dr">The dr.</param>
+		/// <returns></returns>
 		public static Entry LoadSingleEntry(DataRow dr)
 		{
 			Entry entry = new Entry((PostType)(int)dr["PostType"]);
@@ -442,6 +445,11 @@ namespace Subtext.Framework.Data
 			{
 				entry.ParentID = (int)dr["ParentID"];
 			}
+			
+			if(dr["DateSyndicated"] != DBNull.Value)
+			{
+				entry.DateSyndicated = (DateTime)dr["DateSyndicated"];
+			}
 
 			SetUrlPattern(entry);
 			return entry;
@@ -461,6 +469,7 @@ namespace Subtext.Framework.Data
 			}
 			
 			entry.DateCreated = (DateTime)dr["DateAdded"];
+
 			if(dr["DateUpdated"] != DBNull.Value)
 			{
 				entry.DateUpdated = (DateTime)dr["DateUpdated"];

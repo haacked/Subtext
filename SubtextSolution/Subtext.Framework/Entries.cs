@@ -302,7 +302,10 @@ namespace Subtext.Framework
 				
 			}
 			
-			entry.DateCreated = DateTime.Now;
+			if(NullValue.IsNull(entry.DateCreated))
+			{
+				entry.DateCreated = DateTime.Now;
+			}
 
 			if(entry.IsActive && entry.IncludeInMainSyndication)
 				entry.DateSyndicated = DateTime.Now;
