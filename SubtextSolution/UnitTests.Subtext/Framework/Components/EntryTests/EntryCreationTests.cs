@@ -66,12 +66,12 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			entry.Body = "Some Body";
 			
 			int id = Entries.Create(entry);
-			Thread.Sleep(1000);
 			Entry savedEntry = Entries.GetEntry(id, EntryGetOption.All);
 			
 			Assert.AreEqual(NullValue.NullDateTime, savedEntry.DateSyndicated, "DateSyndicated should be null since it was not syndicated.");
 			
 			savedEntry.IsActive = true;
+			Thread.Sleep(1000);
 			savedEntry.IncludeInMainSyndication = true;
 			Entries.Update(savedEntry);
 					

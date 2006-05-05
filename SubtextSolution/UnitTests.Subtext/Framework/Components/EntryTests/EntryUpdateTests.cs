@@ -25,7 +25,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking");
 			Entries.Create(entry);
-			Thread.Sleep(1000);
+
 			Assert.IsTrue(entry.IncludeInMainSyndication, "Failed to setup this test properly.  This entry should be included in the main syndication.");
 			Assert.IsFalse(NullValue.IsNull(entry.DateSyndicated), "Failed to setup this test properly. DateSyndicated should be not null.");
 			
@@ -42,6 +42,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			
 			//Ok, make other changes.
 			DateTime date = DateTime.Now;
+			Thread.Sleep(1000);
 			savedEntry.IncludeInMainSyndication = true;
 			Assert.IsTrue(savedEntry.DateSyndicated >= date, "The DateSyndicated '{0}' should be updated to be later than '{1}.", savedEntry.DateSyndicated, date);
 			Entries.Update(savedEntry);

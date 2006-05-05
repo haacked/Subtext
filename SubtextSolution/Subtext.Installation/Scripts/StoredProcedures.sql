@@ -840,7 +840,7 @@ FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	PostType = @PostType 
 	AND (BlogId = @BlogId OR @BlogId IS NULL)
 	AND PostConfig & @PostConfig = @PostConfig
-ORDER BY [DateAdded] DESC
+ORDER BY ISNULL([DateSyndicated], [DateAdded]) DESC
 
 
 GO
