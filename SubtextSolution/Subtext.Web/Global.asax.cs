@@ -195,6 +195,7 @@ namespace Subtext
 			if(sqlExc != null &&
 				(
 				sqlExc.Number == (int)SqlErrorMessages.LoginFailsCannotOpenDatabase
+				|| sqlExc.Number == (int)SqlErrorMessages.SqlServerDoesNotExistOrAccessDenied
 				|| sqlExc.Number == (int)SqlErrorMessages.LoginFailed
 				|| sqlExc.Number == (int)SqlErrorMessages.LoginFailedInvalidUserOfTrustedConnection
 				|| sqlExc.Number == (int)SqlErrorMessages.LoginFailedNotAssociatedWithTrustedConnection
