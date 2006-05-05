@@ -301,6 +301,8 @@ namespace Subtext.Framework
 				entry.TitleUrl = entry.Link;
 				
 			}
+			
+			entry.DateCreated = DateTime.Now;
 
 			if(entry.IsActive && entry.IncludeInMainSyndication)
 				entry.DateSyndicated = DateTime.Now;
