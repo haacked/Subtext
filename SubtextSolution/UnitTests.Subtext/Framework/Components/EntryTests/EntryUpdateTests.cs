@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -24,6 +25,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking");
 			Entries.Create(entry);
+			Thread.Sleep(1000);
 			Assert.IsTrue(entry.IncludeInMainSyndication, "Failed to setup this test properly.  This entry should be included in the main syndication.");
 			Assert.IsFalse(NullValue.IsNull(entry.DateSyndicated), "Failed to setup this test properly. DateSyndicated should be not null.");
 			
