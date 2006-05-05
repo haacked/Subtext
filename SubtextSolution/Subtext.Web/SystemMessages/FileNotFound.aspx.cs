@@ -26,6 +26,11 @@ namespace Subtext.Web.SystemMessages
 	/// </summary>
 	public class FileNotFound : System.Web.UI.Page
 	{
+		protected Subtext.Web.Controls.ContentRegion MPTitleBar;
+		protected Subtext.Web.Controls.ContentRegion MPTitle;
+		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
+		protected Subtext.Web.Controls.MasterPage MPContainer;
+	
 		protected override void OnLoad(EventArgs e)
 		{
 			//TODO: Refactor this into a method and unit test it.
@@ -92,6 +97,7 @@ namespace Subtext.Web.SystemMessages
 		/// </summary>
 		private void InitializeComponent()
 		{    
+
 		}
 		#endregion
 	}

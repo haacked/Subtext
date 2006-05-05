@@ -27,6 +27,15 @@ namespace Subtext.Framework.Data
 		/// Specified SQL server not found:
 		/// </summary>
 		SpecifiedSqlServerNotFound = 6,
+		
+		/// <summary>
+		/// Sql Server does not exist or access denied.
+		/// </summary>
+		/// <remarks>
+		/// Did not find this error in sysmessages, but did get it via 
+		/// exception logging.
+		/// </remarks>
+		SqlServerDoesNotExistOrAccessDenied = 17,
 
 		/// <summary>
 		/// Permission is denied on an object.
