@@ -85,11 +85,6 @@
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
-                    Name = "FredCK.FCKeditorV2"
-                    AssemblyName = "FredCK.FCKeditorV2"
-                    HintPath = "ExternalDependencies\FredCK.FCKeditorV2.dll"
-                />
-                <Reference
                     Name = "System.Web"
                     AssemblyName = "System.Web"
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Web.dll"
@@ -108,6 +103,11 @@
                     Name = "Subtext.Framework"
                     Project = "{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "FredCK.FCKeditorV2"
+                    AssemblyName = "FredCK.FCKeditorV2"
+                    HintPath = "ExternalDependencies\FredCK.FCKeditorV2.dll"
                 />
             </References>
         </Build>
@@ -140,6 +140,11 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "FileBrowserConnector.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "license.txt"
                     BuildAction = "Content"
                 />
@@ -152,6 +157,11 @@
                 <File
                     RelPath = "VersionInfo.Designer.cs"
                     Link = "..\VersionInfo.Designer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "XmlUtil.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

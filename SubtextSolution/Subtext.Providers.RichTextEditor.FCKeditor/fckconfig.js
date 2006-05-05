@@ -18,7 +18,7 @@
  * 		Frederico Caldeira Knabben (fredck@fckeditor.net)
  */
 
-FCKConfig.CustomConfigurationsPath = 'customConfiguration/subtextconfig.js' ;
+FCKConfig.CustomConfigurationsPath = FCKConfig.EditorPath + 'customConfiguration/subtextconfig.js' ;
 
 FCKConfig.EditorAreaCSS = FCKConfig.BasePath + 'css/fck_editorarea.css' ;
 
@@ -29,7 +29,7 @@ FCKConfig.BaseHref = '' ;
 FCKConfig.FullPage = false ;
 
 FCKConfig.Debug = false ;
-FCKConfig.AllowQueryStringDebug = true ;
+FCKConfig.AllowQueryStringDebug = false ;
 
 FCKConfig.SkinPath = FCKConfig.BasePath + 'skins/default/' ;
 
@@ -151,17 +151,17 @@ FCKConfig.FlashBrowserURL = FCKConfig.BasePath + 'filemanager/browser/default/br
 FCKConfig.FlashBrowserWindowWidth  = FCKConfig.ScreenWidth * 0.7 ;	//70% ;
 FCKConfig.FlashBrowserWindowHeight = FCKConfig.ScreenHeight * 0.7 ;	//70% ;
 
-FCKConfig.LinkUpload = true ;
+FCKConfig.LinkUpload = false ;
 FCKConfig.LinkUploadURL = FCKConfig.BasePath + 'filemanager/upload/' + FCKConfig.QuickUploadLanguage + '/upload.' + _QuickUploadLanguage ;
 FCKConfig.LinkUploadAllowedExtensions	= "" ;			// empty for all
 FCKConfig.LinkUploadDeniedExtensions	= ".(php|php3|php5|phtml|asp|aspx|ascx|jsp|cfm|cfc|pl|bat|exe|dll|reg|cgi)$" ;	// empty for no one
 
-FCKConfig.ImageUpload = true ;
+FCKConfig.ImageUpload = false ;
 FCKConfig.ImageUploadURL = FCKConfig.BasePath + 'filemanager/upload/' + FCKConfig.QuickUploadLanguage + '/upload.' + _QuickUploadLanguage + '?Type=Image' ;
 FCKConfig.ImageUploadAllowedExtensions	= ".(jpg|gif|jpeg|png)$" ;		// empty for all
 FCKConfig.ImageUploadDeniedExtensions	= "" ;							// empty for no one
 
-FCKConfig.FlashUpload = true ;
+FCKConfig.FlashUpload = false ;
 FCKConfig.FlashUploadURL = FCKConfig.BasePath + 'filemanager/upload/' + FCKConfig.QuickUploadLanguage + '/upload.' + _QuickUploadLanguage + '?Type=Flash' ;
 FCKConfig.FlashUploadAllowedExtensions	= ".(swf|fla)$" ;		// empty for all
 FCKConfig.FlashUploadDeniedExtensions	= "" ;					// empty for no one
