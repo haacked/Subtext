@@ -64,16 +64,16 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			entry.SourceUrl = "http://" + UnitTestHelper.GenerateUniqueHost() + "/ThisUrl/";
 			entry.Title = "Some Title";
 			entry.Body = "Some Body";
-			int id = Entries.Create(entry);
 			
+			int id = Entries.Create(entry);
 			Entry savedEntry = Entries.GetEntry(id, EntryGetOption.All);
+			
 			Assert.AreEqual(NullValue.NullDateTime, savedEntry.DateSyndicated, "DateSyndicated should be null since it was not syndicated.");
 			
-			Thread.Sleep(1000);
-			Console.WriteLine(savedEntry.DateCreated + "\t" + savedEntry.DateSyndicated);
 			savedEntry.IsActive = true;
 			savedEntry.IncludeInMainSyndication = true;
 			Entries.Update(savedEntry);
+					
 			Assert.IsTrue(savedEntry.DateSyndicated > savedEntry.DateCreated, string.Format("DateSyndicated '{0}' should larger than date created '{1}'.", savedEntry.DateSyndicated, savedEntry.DateCreated));
 			
 			savedEntry = Entries.GetEntry(id, EntryGetOption.All);

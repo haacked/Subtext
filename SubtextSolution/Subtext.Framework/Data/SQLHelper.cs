@@ -779,16 +779,15 @@ namespace Subtext.Framework.Data
 		{
 			//create & open a SqlConnection
 			SqlConnection cn = new SqlConnection(connectionString);
-			cn.Open();
-
 			try
 			{
+				cn.Open();
+
 				//call the private overload that takes an internally owned connection in place of the connection string
 				return ExecuteReader(cn, null, commandType, commandText, commandParameters,SqlConnectionOwnership.Internal);
 			}
-			catch
+			catch(SqlException)
 			{
-				//if we fail to return the SqlDatReader, we need to close the connection ourselves
 				cn.Close();
 				throw;
 			}
