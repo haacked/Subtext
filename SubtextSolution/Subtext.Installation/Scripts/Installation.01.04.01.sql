@@ -66,3 +66,11 @@ GO
 ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config]
 	ALTER COLUMN BlogGroup int NOT NULL
 GO
+
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content]  
+	ALTER COLUMN DateAdded DateTime NOT NULL
+GO
+
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content]
+	ALTER COLUMN DateUpdated DateTime ULL
+GO

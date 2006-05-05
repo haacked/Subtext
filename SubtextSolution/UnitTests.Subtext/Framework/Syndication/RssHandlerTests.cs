@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Web;
 using System.Xml;
 using MbUnit.Framework;
@@ -73,6 +74,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostName, string.Empty));
 
 			Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking"));
+			Thread.Sleep(50);
 			Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test 2", "Body Rocking Pt 2"));
 
 			RssHandler handler = new RssHandler();
@@ -86,11 +88,11 @@ namespace UnitTests.Subtext.Framework.Syndication
 			XmlNodeList itemNodes = doc.SelectNodes("/rss/channel/item");
 			Assert.AreEqual(2, itemNodes.Count, "expected two item nodes.");
 
-			Assert.AreEqual("Title Test", itemNodes[0].SelectSingleNode("title").InnerText, "Not what we expected for the first title.");
-			Assert.AreEqual("Title Test 2", itemNodes[1].SelectSingleNode("title").InnerText, "Not what we expected for the second title.");
-
-			Assert.AreEqual("Body Rocking", itemNodes[0].SelectSingleNode("description").InnerText.Substring(0, "Body Rocking".Length), "Not what we expected for the first body.");
-			Assert.AreEqual("Body Rocking Pt 2", itemNodes[1].SelectSingleNode("description").InnerText.Substring(0, "Body Rocking pt 2".Length), "Not what we expected for the second body.");
+			Assert.AreEqual("Title Test 2", itemNodes[0].SelectSingleNode("title").InnerText, "Not what we expected for the second title.");
+			Assert.AreEqual("Title Test", itemNodes[1].SelectSingleNode("title").InnerText, "Not what we expected for the first title.");
+			
+			Assert.AreEqual("Body Rocking Pt 2", itemNodes[0].SelectSingleNode("description").InnerText.Substring(0, "Body Rocking pt 2".Length), "Not what we expected for the second body.");
+			Assert.AreEqual("Body Rocking", itemNodes[1].SelectSingleNode("description").InnerText.Substring(0, "Body Rocking".Length), "Not what we expected for the first body.");
 		}
 
 		/// <summary>
@@ -112,6 +114,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			Config.CurrentBlog.UseSyndicationCompression = true;
 
 			Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking"));
+			Thread.Sleep(50);
 			Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test 2", "Body Rocking Pt 2"));
 
 			RssHandler handler = new RssHandler();
@@ -133,15 +136,15 @@ namespace UnitTests.Subtext.Framework.Syndication
 			
 			XmlDocument doc = new XmlDocument();
 			doc.LoadXml(rssOutput);
+
 			XmlNodeList itemNodes = doc.SelectNodes("/rss/channel/item");
 			Assert.AreEqual(2, itemNodes.Count, "expected two item nodes.");
 
-			Assert.AreEqual("Title Test", itemNodes[0].SelectSingleNode("title").InnerText, "Not what we expected for the first title.");
-			Assert.AreEqual("Title Test 2", itemNodes[1].SelectSingleNode("title").InnerText, "Not what we expected for the second title.");
-
-			Assert.AreEqual("Body Rocking", itemNodes[0].SelectSingleNode("description").InnerText.Substring(0, "Body Rocking".Length), "Not what we expected for the first body.");
-			Assert.AreEqual("Body Rocking Pt 2", itemNodes[1].SelectSingleNode("description").InnerText.Substring(0, "Body Rocking pt 2".Length), "Not what we expected for the second body.");
+			Assert.AreEqual("Title Test 2", itemNodes[0].SelectSingleNode("title").InnerText, "Not what we expected for the second title.");
+			Assert.AreEqual("Title Test", itemNodes[1].SelectSingleNode("title").InnerText, "Not what we expected for the first title.");
 			
+			Assert.AreEqual("Body Rocking Pt 2", itemNodes[0].SelectSingleNode("description").InnerText.Substring(0, "Body Rocking pt 2".Length), "Not what we expected for the second body.");
+			Assert.AreEqual("Body Rocking", itemNodes[1].SelectSingleNode("description").InnerText.Substring(0, "Body Rocking".Length), "Not what we expected for the first body.");
 		}
 	}
 }

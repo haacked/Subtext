@@ -748,7 +748,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@Email", SqlDbType.NVarChar, 50, SqlHelper.CheckNull(entry.Email)), 
 				SqlHelper.MakeInParam("@Description", SqlDbType.NVarChar, 500, SqlHelper.CheckNull(entry.Description)), 
 				SqlHelper.MakeInParam("@SourceName", SqlDbType.NVarChar, 200, SqlHelper.CheckNull(entry.SourceName)), 
-				SqlHelper.MakeInParam("@DateUpdated", SqlDbType.SmallDateTime, 4, entry.DateUpdated), 
+				SqlHelper.MakeInParam("@DateUpdated", SqlDbType.DateTime, 4, entry.DateUpdated), 
 				SqlHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, entry.PostConfig), 
 				SqlHelper.MakeInParam("@ParentID", SqlDbType.Int, 4, SqlHelper.CheckNull(entry.ParentID)), 
 				SqlHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, SqlHelper.CheckNull(entry.EntryName)), 
