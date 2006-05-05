@@ -364,6 +364,13 @@ namespace Subtext.Framework.Data
 
 		#region Get Blog Data
 			
+		/// <summary>
+		/// Returns the specified number of blog entries
+		/// </summary>
+		/// <param name="ItemCount"></param>
+		/// <param name="pt"></param>
+		/// <param name="pc"></param>
+		/// <returns></returns>
 		public override IDataReader GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc)
 		{
 			SqlParameter[] p =
