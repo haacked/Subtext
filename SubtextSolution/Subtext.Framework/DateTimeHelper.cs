@@ -14,13 +14,13 @@ namespace Subtext.Framework
 
 		/// <summary>
 		/// Tries to parse the date given in an unknown format. Returns 
-		/// DateTime.MinValue if it cannot.
+		/// NullValue.NullDateTime if it cannot.
 		/// </summary>
 		/// <param name="dateTime">The date time.</param>
 		/// <returns></returns>
 		public static DateTime ParseUnknownFormatUTC(string dateTime)
 		{
-			DateTime dt = DateTime.MinValue;
+			DateTime dt = NullValue.NullDateTime;
 			try
 			{
 				return DateTime.Parse(dateTime);

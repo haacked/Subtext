@@ -98,7 +98,7 @@ namespace Subtext.Framework.Tracking
 		{
 			//Get header value
 			DateTime dt = HttpHelper.GetIfModifiedSinceDateUTC();
-			if(dt == DateTime.MinValue)
+			if(dt == NullValue.NullDateTime)
 			{
 				return false;
 			}

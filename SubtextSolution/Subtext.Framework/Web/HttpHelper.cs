@@ -42,7 +42,7 @@ namespace Subtext.Framework.Web
 					return DateTimeHelper.ParseUnknownFormatUTC(ifModified);
 				}
 			}
-			return DateTime.MinValue;
+			return NullValue.NullDateTime;
 		}
 	}
 }
