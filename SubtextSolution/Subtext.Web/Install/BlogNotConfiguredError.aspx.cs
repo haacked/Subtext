@@ -77,7 +77,9 @@ namespace Subtext.Web
 					+ "<p>"
 					+ "If you are the Host Admin, visit the <a href=\"" + ControlHelper.ExpandTildePath("~/HostAdmin/") + "\">Host Admin</a> " 
 					+ "Tool to view existing blogs and if necessary, correct settings."
-					+ "</p>";
+					+ "</p>"
+					+ "<p>If you are trying to set up an aggregate blog, make sure aggregate blogs are enabled via "
+					+ "the Web.config file.  See <a href=\"http://subtextproject.com/Home/Docs/Configuration/ConfiguringAggregateBlogs/tabid/122/Default.aspx\" title=\"Configuring Aggregate Blogs\">this article</a> for more information.</p>";
 			}
 			else
 			{
