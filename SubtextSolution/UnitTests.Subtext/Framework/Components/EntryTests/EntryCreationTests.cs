@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Threading;
 using MbUnit.Framework;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -68,6 +69,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Entry savedEntry = Entries.GetEntry(id, EntryGetOption.All);
 			Assert.AreEqual(NullValue.NullDateTime, savedEntry.DateSyndicated, "DateSyndicated should be null since it was not syndicated.");
 			
+			Thread.Sleep(1000);
+			Console.WriteLine(savedEntry.DateCreated + "\t" + savedEntry.DateSyndicated);
 			savedEntry.IsActive = true;
 			savedEntry.IncludeInMainSyndication = true;
 			Entries.Update(savedEntry);
