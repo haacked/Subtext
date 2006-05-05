@@ -43,7 +43,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
 			Entry entry = new Entry(PostType.PingTrack);
 			entry.DateCreated = DateTime.Now;
-			entry.SourceUrl = "http://" + UnitTestHelper.GenerateUniqueHost() + "/ThisUrl/";
+			entry.SourceUrl = "http://" + UnitTestHelper.GenerateRandomHostname() + "/ThisUrl/";
 			entry.Title = "Some Title";
 			entry.Body = "Some Body";
 			int id = Entries.Create(entry);
@@ -61,7 +61,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Entry entry = new Entry(PostType.BlogPost);
 			
 			entry.DateCreated = DateTime.Now;
-			entry.SourceUrl = "http://" + UnitTestHelper.GenerateUniqueHost() + "/ThisUrl/";
+			entry.SourceUrl = "http://" + UnitTestHelper.GenerateRandomHostname() + "/ThisUrl/";
 			entry.Title = "Some Title";
 			entry.Body = "Some Body";
 			

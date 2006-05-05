@@ -40,15 +40,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Author", "testtitle", "testbody", null, dateCreated);
 			int id = Entries.Create(entry); //persist to db.
 
-			RssHandler handler = new RssHandler();
-			handler.ProcessRequest(HttpContext.Current);
-			HttpContext.Current.Response.Flush();
-
-			string rssOutput = sb.ToString();
-			XmlDocument doc = new XmlDocument();
-			doc.LoadXml(rssOutput);
-			Console.Write(rssOutput);
-			XmlNodeList itemNodes = doc.SelectNodes("/rss/channel/item");
+			XmlNodeList itemNodes = GetRssHandlerItemNodes(sb);
 			Assert.AreEqual(1, itemNodes.Count, "expected one item nodes.");
 
 			string urlFormat = "http://{0}/archive/{1:yyyy/MM/dd}/{2}.aspx";
@@ -65,7 +57,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 		/// </summary>
 		[Test]
 		[RollBack]
-		public void TestSimpleRegularFeedWorks()
+		public void RssHandlerProducesValidRssFeed()
 		{
 			string hostName = System.Guid.NewGuid().ToString().Replace("-", "") + ".com";
 			StringBuilder sb = new StringBuilder();
@@ -77,15 +69,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			Thread.Sleep(50);
 			Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test 2", "Body Rocking Pt 2"));
 
-			RssHandler handler = new RssHandler();
-			handler.ProcessRequest(HttpContext.Current);
-			HttpContext.Current.Response.Flush();
-	
-			string rssOutput = sb.ToString();
-
-			XmlDocument doc = new XmlDocument();
-			doc.LoadXml(rssOutput);
-			XmlNodeList itemNodes = doc.SelectNodes("/rss/channel/item");
+			XmlNodeList itemNodes = GetRssHandlerItemNodes(sb);
 			Assert.AreEqual(2, itemNodes.Count, "expected two item nodes.");
 
 			Assert.AreEqual("Title Test 2", itemNodes[0].SelectSingleNode("title").InnerText, "Not what we expected for the second title.");
@@ -93,6 +77,46 @@ namespace UnitTests.Subtext.Framework.Syndication
 			
 			Assert.AreEqual("Body Rocking Pt 2", itemNodes[0].SelectSingleNode("description").InnerText.Substring(0, "Body Rocking pt 2".Length), "Not what we expected for the second body.");
 			Assert.AreEqual("Body Rocking", itemNodes[1].SelectSingleNode("description").InnerText.Substring(0, "Body Rocking".Length), "Not what we expected for the first body.");
+		}
+		
+		/// <summary>
+		/// Tests that items without a date syndicated are not syndicated.
+		/// </summary>
+		[Test]
+		[RollBack]
+		public void RssHandlerHandlesDateSyndicatedProperly()
+		{
+			string hostName = System.Guid.NewGuid().ToString().Replace("-", "") + ".com";
+			StringBuilder sb = new StringBuilder();
+			TextWriter output = new StringWriter(sb);
+			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "", "", "", output);
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostName, string.Empty));
+
+			Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking"));
+			int id = Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test 2", "Body Rocking Pt 2"));
+			Entry entry = Entries.GetEntry(id, EntryGetOption.All);
+			entry.IncludeInMainSyndication = false;
+			Entries.Update(entry);
+			Assert.AreEqual(NullValue.NullDateTime, entry.DateSyndicated);
+
+			XmlNodeList itemNodes = GetRssHandlerItemNodes(sb);
+			Assert.AreEqual(1, itemNodes.Count, "expected two item nodes.");
+
+			Assert.AreEqual("Title Test", itemNodes[0].SelectSingleNode("title").InnerText, "Not what we expected for the first title.");			
+			Assert.AreEqual("Body Rocking", itemNodes[0].SelectSingleNode("description").InnerText.Substring(0, "Body Rocking".Length), "Not what we expected for the first body.");
+			
+			
+		}
+
+		private static XmlNodeList GetRssHandlerItemNodes(StringBuilder sb)
+		{
+			RssHandler handler = new RssHandler();
+			handler.ProcessRequest(HttpContext.Current);
+			HttpContext.Current.Response.Flush();	
+			string rssOutput = sb.ToString();
+			XmlDocument doc = new XmlDocument();
+			doc.LoadXml(rssOutput);
+			return doc.SelectNodes("/rss/channel/item");
 		}
 
 		/// <summary>

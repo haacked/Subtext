@@ -105,13 +105,14 @@ namespace UnitTests.Subtext
 		}
 
 		/// <summary>
-		/// Generates a valid unique hostname (without preceding "www.").
+		/// Generates a random hostname.
 		/// </summary>
 		/// <returns></returns>
-		public static string GenerateUniqueHost()
+		public static string GenerateRandomHostname()
 		{
-			return Guid.NewGuid().ToString().Replace("-", "") + ".com";
+			return System.Guid.NewGuid().ToString().Replace("-", "") + ".com";
 		}
+
 
 		/// <summary>
 		/// Sets the HTTP context with a valid request for the blog specified 
@@ -465,15 +466,6 @@ namespace UnitTests.Subtext
 					// allready seeked, just return
 					return input;
 				}
-		}
-
-		/// <summary>
-		/// Generates a random hostname.
-		/// </summary>
-		/// <returns></returns>
-		public static string GenerateRandomHostName()
-		{
-			return System.Guid.NewGuid().ToString().Replace("-", "") + ".com";
 		}
 
 		#region ...Assert.AreNotEqual replacements...
