@@ -238,6 +238,11 @@ namespace Subtext.Framework.Data
 			{
 				entry.ParentID = (int)reader["ParentID"];
 			}
+			
+			if(reader["DateSyndicated"] != DBNull.Value)
+			{
+				entry.DateSyndicated = (DateTime)reader["DateSyndicated"];
+			}
 
 			SetUrlPattern(entry);
 
@@ -335,6 +340,11 @@ namespace Subtext.Framework.Data
 			if(reader["ParentID"] != DBNull.Value)
 			{
 				entry.ParentID = (int)reader["ParentID"];
+			}
+			
+			if(reader["DateSyndicated"] != DBNull.Value)
+			{
+				entry.DateSyndicated = (DateTime)reader["DateSyndicated"];
 			}
 	
 			if(buildLinks)
@@ -528,7 +538,7 @@ namespace Subtext.Framework.Data
 			System.Collections.ArrayList al = new System.Collections.ArrayList();
 			while(reader.Read())
 			{
-				al.Add((string)reader["Title"]);
+				al.Add(reader["Title"]);
 			}
 
 			if(al.Count > 0)
@@ -800,7 +810,7 @@ namespace Subtext.Framework.Data
 		{
 			const string dateformat = "{0:00}/{1:00}/{2:0000}";
 			string dt = null; //
-			ArchiveCount ac =null;// new ArchiveCount();
+			ArchiveCount ac = null;// new ArchiveCount();
 			ArchiveCountCollection acc = new ArchiveCountCollection();
 			while(reader.Read())
 			{

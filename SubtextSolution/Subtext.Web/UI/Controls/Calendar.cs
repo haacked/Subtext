@@ -75,7 +75,7 @@ namespace Subtext.Web.UI.Controls
 	
 				// fix the selected date if we're in "month mode"
 				//		if (_isUrlMonthMode)
-				//			entryCal.SelectedDate = DateTime.MinValue;
+				//			entryCal.SelectedDate = NullValue.NullDateTime;
 	
 				LoadMonthData();
 			}
@@ -88,7 +88,7 @@ namespace Subtext.Web.UI.Controls
 		private DateTime ChooseSelectedDateFromUrl()
 		{
 			string dateStr;
-			DateTime parsedDate = DateTime.MinValue;
+			DateTime parsedDate = NullValue.NullDateTime;
 			Regex match;
 			_isUrlMonthMode = false;
 			

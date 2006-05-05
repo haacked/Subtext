@@ -20,7 +20,6 @@ using System.Xml;
 
 namespace Subtext.Framework.Data
 {
-
 	/// <summary>
 	/// The SqlHelper class is intended to encapsulate high performance, scalable best practices for 
 	/// common uses of SqlClient.
@@ -108,6 +107,12 @@ namespace Subtext.Framework.Data
 
 		#region DataHelpers
 
+		/// <summary>
+		/// Checks the value type and returns null if the 
+		/// value is "null-equivalent".
+		/// </summary>
+		/// <param name="obj">The obj.</param>
+		/// <returns></returns>
 		public static object CheckNull(int obj)
 		{
 			if(NullValue.IsNull(obj))
@@ -115,6 +120,11 @@ namespace Subtext.Framework.Data
 			return obj;
 		}
 
+		/// <summary>
+		/// Returns an empty string if the value is null.
+		/// </summary>
+		/// <param name="obj">The obj.</param>
+		/// <returns></returns>
 		public static string CheckNull(object obj)
 		{
 			if(obj == null)
@@ -123,11 +133,21 @@ namespace Subtext.Framework.Data
 			return (string) obj;
 		}
 
+		/// <summary>
+		/// Returns a true null if the object is DBNull.
+		/// </summary>
+		/// <param name="obj">The obj.</param>
+		/// <returns></returns>
 		public static string CheckNull(DBNull obj)
 		{
 			return null;
 		}
 
+		/// <summary>
+		/// If the string is DBNull, returns null. Otherwise returns the string.
+		/// </summary>
+		/// <param name="obj">The obj.</param>
+		/// <returns></returns>
 		public static string CheckNullString(object obj)
 		{
 			if(obj is DBNull)
@@ -307,6 +327,7 @@ namespace Subtext.Framework.Data
 			PrepareCommand(cmd, connection, null, commandType, commandText, commandParameters);
 			
 			//finally, execute the command.
+			DebugPrintCommand(cmd);
 			int retval = cmd.ExecuteNonQuery();
 			
 			// detach the SqlParameters from the command object, so they can be used again.
@@ -352,6 +373,7 @@ namespace Subtext.Framework.Data
 			PrepareCommand(cmd, transaction.Connection, transaction, commandType, commandText, commandParameters);
 			
 			//finally, execute the command.
+			DebugPrintCommand(cmd);
 			int retval = cmd.ExecuteNonQuery();
 			
 			// detach the SqlParameters from the command object, so they can be used again.
@@ -1078,6 +1100,16 @@ namespace Subtext.Framework.Data
 
 	
 		#endregion ExecuteXmlReader
+		
+		private static void DebugPrintCommand(SqlCommand command)
+		{
+			Console.Write(command.CommandText);
+			foreach(SqlParameter parameter in command.Parameters)
+			{
+				Console.Write(" " + parameter.ParameterName + "=" + parameter.Value + ", ");
+			}
+			Console.Write(Environment.NewLine);
+		}
 
 	}
 }

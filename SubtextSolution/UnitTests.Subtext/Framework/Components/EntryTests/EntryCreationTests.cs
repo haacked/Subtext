@@ -49,8 +49,33 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
 			Entry savedEntry = Entries.GetEntry(id, EntryGetOption.All);
 			Assert.IsTrue(savedEntry.ContentChecksumHash.Length > 0, "The Content Checksum should be larger than 0.");
-
 		}
+		
+		[Test]
+		[RollBack]
+		public void EntryDateSyndicatedIsNullEquivalentUnlessPublished()
+		{
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+
+			Entry entry = new Entry(PostType.BlogPost);
+			entry.DateCreated = DateTime.Now;
+			entry.SourceUrl = "http://" + UnitTestHelper.GenerateUniqueHost() + "/ThisUrl/";
+			entry.Title = "Some Title";
+			entry.Body = "Some Body";
+			int id = Entries.Create(entry);
+			
+			Entry savedEntry = Entries.GetEntry(id, EntryGetOption.All);
+			Assert.AreEqual(NullValue.NullDateTime, savedEntry.DateSyndicated, "DateSyndicated should be null since it was not syndicated.");
+			
+			savedEntry.IsActive = true;
+			savedEntry.IncludeInMainSyndication = true;
+			Entries.Update(savedEntry);
+			Assert.IsTrue(savedEntry.DateSyndicated > savedEntry.DateCreated, string.Format("DateSyndicated '{0}' should larger than date created '{1}'.", savedEntry.DateSyndicated, savedEntry.DateCreated));
+			
+			savedEntry = Entries.GetEntry(id, EntryGetOption.All);
+			Assert.IsTrue(savedEntry.DateSyndicated > savedEntry.DateCreated, string.Format("After reloading from DB, DateSyndicated '{0}' should larger than date created '{1}'.", savedEntry.DateSyndicated, savedEntry.DateCreated));
+		}
+
 
 		/// <summary>
 		/// Sets the up test fixture.  This is called once for 
