@@ -58,6 +58,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
 
 			Entry entry = new Entry(PostType.BlogPost);
+			
 			entry.DateCreated = DateTime.Now;
 			entry.SourceUrl = "http://" + UnitTestHelper.GenerateUniqueHost() + "/ThisUrl/";
 			entry.Title = "Some Title";
