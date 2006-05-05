@@ -1062,15 +1062,6 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="ProccessHandlerTypePage(Subtext.Common.UrlManager.HttpHandler,System.Web.HttpContext,System.String):System.Web.IHttpHandler">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-02-17 18:47:00Z" FixCategory="NonBreaking">
-              <Issue>
-               <Item>UrlReWriteHandlerFactory.ProccessHandlerTypePage(HttpHandler, HttpContext, String):IHttpHandler</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="ProcessHandlerTypeDirectory(Subtext.Common.UrlManager.HttpHandler,System.Web.HttpContext,System.String):System.Web.IHttpHandler">
             <Messages>
              <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-02-17 18:47:00Z" FixCategory="NonBreaking">
@@ -1291,19 +1282,6 @@
               <Issue>
                <Item>'configValue'</Item>
                <Item>EmailProviderBase.Initialize(String, NameValueCollection):Void</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="InstallationProvider">
-          <Members>
-           <Member Name="GetCurrentInstalledVersion():System.Version">
-            <Messages>
-             <Message TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024" Created="2006-02-17 18:47:00Z">
-              <Issue Certainty="50">
-               <Item>GetCurrentInstalledVersion</Item>
               </Issue>
              </Message>
             </Messages>
@@ -2657,26 +2635,6 @@
               <Issue>
                <Item>context</Item>
                <Item>Images.LocalGalleryFilePath(HttpContext, Int32):String</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="MakeAlbumImages(Subtext.Framework.Components.Image&amp;):System.Void">
-            <Messages>
-             <Message Id="0#" TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045" Created="2006-02-17 18:47:00Z">
-              <Issue Level="CriticalWarning">
-               <Item>_image</Item>
-              </Issue>
-             </Message>
-             <Message Id="0#" TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Created="2006-02-17 18:47:00Z">
-              <Issue Name="Parameter">
-               <Item>_image</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>'_image'</Item>
-               <Item>Images.MakeAlbumImages(Image&amp;):Void</Item>
               </Issue>
              </Message>
             </Messages>
@@ -4789,16 +4747,6 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="IsValidApplicationName(System.String):System.Boolean">
-            <Messages>
-             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>'application'</Item>
-               <Item>Config.IsValidApplicationName(String):Boolean</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="UpdateConfigData(Subtext.Framework.BlogInfo):System.Boolean">
             <Messages>
              <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-02-17 18:47:00Z">
@@ -5008,15 +4956,6 @@
               <Issue>
                <Item>'entry'</Item>
                <Item>DatabaseObjectProvider.Create(Entry, Int32[]):Int32</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="FormatEntry(Subtext.Framework.Components.Entry&amp;,System.Boolean):System.Boolean">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-02-17 18:47:00Z" FixCategory="NonBreaking">
-              <Issue>
-               <Item>DatabaseObjectProvider.FormatEntry(Entry&amp;, Boolean):Boolean</Item>
               </Issue>
              </Message>
             </Messages>
@@ -6404,98 +6343,6 @@
            </Member>
           </Members>
          </Type>
-         <Type Name="BlogRequiresApplicationException">
-          <Messages>
-           <Message TypeName="ImplementISerializableCorrectly" Category="Microsoft.Usage" CheckId="CA2240" Created="2006-02-17 18:47:00Z">
-            <Issue>
-             <Item>BlogRequiresApplicationException</Item>
-            </Issue>
-           </Message>
-           <Message TypeName="ImplementStandardExceptionConstructors" Category="Microsoft.Design" CheckId="CA1032" Created="2006-02-17 18:47:00Z">
-            <Issue>
-             <Item>Subtext.Framework.Exceptions.BlogRequiresApplicationException</Item>
-             <Item>protected BlogRequiresApplicationException(SerializationInfo, StreamingContext)</Item>
-            </Issue>
-            <Issue>
-             <Item>Subtext.Framework.Exceptions.BlogRequiresApplicationException</Item>
-             <Item>public BlogRequiresApplicationException()</Item>
-            </Issue>
-            <Issue>
-             <Item>Subtext.Framework.Exceptions.BlogRequiresApplicationException</Item>
-             <Item>public BlogRequiresApplicationException(String)</Item>
-            </Issue>
-            <Issue>
-             <Item>Subtext.Framework.Exceptions.BlogRequiresApplicationException</Item>
-             <Item>public BlogRequiresApplicationException(String, Exception)</Item>
-            </Issue>
-           </Message>
-          </Messages>
-          <Members>
-           <Member Name=".ctor(System.String,System.Int32)">
-            <Messages>
-             <Message Id="1#blogs" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-              <Issue Name="Parameter">
-               <Item>BlogRequiresApplicationException.BlogRequiresApplicationException(String, Int32)</Item>
-               <Item>blogs</Item>
-               <Item>blogsWithSameHostCount</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name=".ctor(System.String,System.Int32,System.Int32)">
-            <Messages>
-             <Message Id="1#blogs" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-              <Issue Name="Parameter">
-               <Item>BlogRequiresApplicationException.BlogRequiresApplicationException(String, Int32, Int32)</Item>
-               <Item>blogs</Item>
-               <Item>blogsWithSameHostCount</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="BlogsWithSameHostCount">
-            <Messages>
-             <Message Id="Blogs" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-              <Issue Name="Member">
-               <Item>Blogs</Item>
-               <Item>BlogRequiresApplicationException.BlogsWithSameHostCount:Int32</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="Message">
-            <Accessors>
-             <Accessor Name="get_Message():System.String">
-              <Messages>
-               <Message Id="System.String.Format(System.String,System.Object,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-02-17 18:47:00Z">
-                <Issue>
-                 <Item>BlogRequiresApplicationException.get_Message():String</Item>
-                 <Item>System.String.Format(System.String,System.Object,System.Object)</Item>
-                 <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
-                </Issue>
-               </Message>
-              </Messages>
-             </Accessor>
-            </Accessors>
-           </Member>
-           <Member Name="MessageResourceKey">
-            <Accessors>
-             <Accessor Name="get_MessageResourceKey():System.String">
-              <Messages>
-               <Message Id="System.NotImplementedException.#ctor(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-02-17 18:47:00Z">
-                <Issue>
-                 <Item>BlogRequiresApplicationException.get_MessageResourceKey():String</Item>
-                 <Item>1</Item>
-                 <Item>NotImplementedException.NotImplementedException(String)</Item>
-                 <Item>I8N Not yet implemented</Item>
-                </Issue>
-               </Message>
-              </Messages>
-             </Accessor>
-            </Accessors>
-           </Member>
-          </Members>
-         </Type>
          <Type Name="CommentBlackListException">
           <Messages>
            <Message Id="BlackList" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2006-02-17 18:47:00Z">
@@ -6592,29 +6439,6 @@
             <Issue>
              <Item>Subtext.Framework.Exceptions.HostNotConfiguredException</Item>
              <Item>public HostNotConfiguredException(String, Exception)</Item>
-            </Issue>
-           </Message>
-          </Messages>
-         </Type>
-         <Type Name="InvalidApplicationNameException">
-          <Messages>
-           <Message TypeName="ImplementISerializableCorrectly" Category="Microsoft.Usage" CheckId="CA2240" Created="2006-02-17 18:47:00Z">
-            <Issue>
-             <Item>InvalidApplicationNameException</Item>
-            </Issue>
-           </Message>
-           <Message TypeName="ImplementStandardExceptionConstructors" Category="Microsoft.Design" CheckId="CA1032" Created="2006-02-17 18:47:00Z">
-            <Issue>
-             <Item>Subtext.Framework.Exceptions.InvalidApplicationNameException</Item>
-             <Item>protected InvalidApplicationNameException(SerializationInfo, StreamingContext)</Item>
-            </Issue>
-            <Issue>
-             <Item>Subtext.Framework.Exceptions.InvalidApplicationNameException</Item>
-             <Item>public InvalidApplicationNameException()</Item>
-            </Issue>
-            <Issue>
-             <Item>Subtext.Framework.Exceptions.InvalidApplicationNameException</Item>
-             <Item>public InvalidApplicationNameException(String, Exception)</Item>
             </Issue>
            </Message>
           </Messages>
@@ -6839,24 +6663,6 @@
              <Message TypeName="UriReturnValuesShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1055" Created="2006-02-17 18:47:00Z">
               <Issue>
                <Item>UrlFormats.GalleryUrl(String, Int32):String</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="GetBlogNameFromRequest(System.String,System.String):System.String">
-            <Messages>
-             <Message Id="System.ArgumentNullException.#ctor(System.String,System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>UrlFormats.GetBlogNameFromRequest(String, String):String</Item>
-               <Item>2</Item>
-               <Item>ArgumentNullException.ArgumentNullException(String, String)</Item>
-               <Item>The app should not be null.</Item>
-              </Issue>
-              <Issue>
-               <Item>UrlFormats.GetBlogNameFromRequest(String, String):String</Item>
-               <Item>2</Item>
-               <Item>ArgumentNullException.ArgumentNullException(String, String)</Item>
-               <Item>The path cannot be null.</Item>
               </Issue>
              </Message>
             </Messages>
@@ -9720,32 +9526,6 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="ConvertHtmlToXHtml(Subtext.Framework.Components.Entry&amp;):System.Boolean">
-            <Messages>
-             <Message Id="0#" TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045" Created="2006-02-17 18:47:00Z">
-              <Issue Level="CriticalWarning">
-               <Item>entry</Item>
-              </Issue>
-             </Message>
-             <Message Id="System.IO.StringWriter.#ctor" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>HtmlHelper.ConvertHtmlToXHtml(Entry&amp;):Boolean</Item>
-               <Item>System.IO.StringWriter.#ctor</Item>
-               <Item>System.IO.StringWriter.#ctor(System.IFormatProvider)</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>'entry'</Item>
-               <Item>HtmlHelper.ConvertHtmlToXHtml(Entry&amp;):Boolean</Item>
-              </Issue>
-              <Issue>
-               <Item>'entry'</Item>
-               <Item>HtmlHelper.ConvertHtmlToXHtml(Entry&amp;):Boolean</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="ConvertToAllowedHtml(System.Collections.Specialized.NameValueCollection,System.String):System.String">
             <Messages>
              <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-02-17 18:47:00Z">
@@ -9832,42 +9612,6 @@
          </Type>
          <Type Name="StringHelper">
           <Members>
-           <Member Name="EndsWith(System.String,System.String,System.Boolean):System.Boolean">
-            <Messages>
-             <Message Id="System.ArgumentNullException.#ctor(System.String,System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>StringHelper.EndsWith(String, String, Boolean):Boolean</Item>
-               <Item>2</Item>
-               <Item>ArgumentNullException.ArgumentNullException(String, String)</Item>
-               <Item>The prefix string may not be null.</Item>
-              </Issue>
-              <Issue>
-               <Item>StringHelper.EndsWith(String, String, Boolean):Boolean</Item>
-               <Item>2</Item>
-               <Item>ArgumentNullException.ArgumentNullException(String, String)</Item>
-               <Item>The searched string may not be null.</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="IndexOf(System.String,System.String,System.Boolean):System.Int32">
-            <Messages>
-             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>'contained'</Item>
-               <Item>StringHelper.IndexOf(String, String, Boolean):Int32</Item>
-              </Issue>
-              <Issue>
-               <Item>'container'</Item>
-               <Item>StringHelper.IndexOf(String, String, Boolean):Int32</Item>
-              </Issue>
-              <Issue>
-               <Item>'container'</Item>
-               <Item>StringHelper.IndexOf(String, String, Boolean):Int32</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="Left(System.String,System.Int32):System.String">
             <Messages>
              <Message Id="0#str" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
@@ -9892,32 +9636,6 @@
                <Item>StringHelper.LeftBefore(String, String):String</Item>
                <Item>str</Item>
                <Item>str</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="LeftBefore(System.String,System.String,System.Boolean):System.String">
-            <Messages>
-             <Message Id="System.ArgumentNullException.#ctor(System.String,System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>StringHelper.LeftBefore(String, String, Boolean):String</Item>
-               <Item>2</Item>
-               <Item>ArgumentNullException.ArgumentNullException(String, String)</Item>
-               <Item>Search string may not be null.</Item>
-              </Issue>
-              <Issue>
-               <Item>StringHelper.LeftBefore(String, String, Boolean):String</Item>
-               <Item>2</Item>
-               <Item>ArgumentNullException.ArgumentNullException(String, String)</Item>
-               <Item>The original string may not be null.</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="InstantiateArgumentExceptionsCorrectly" Category="Microsoft.Usage" CheckId="CA2208" Created="2006-02-17 18:47:00Z">
-              <Issue Name="TwoArgumentsFirstShouldBeParameterName">
-               <Item>System.ArgumentNullException</Item>
-               <Item>ArgumentNullException.ArgumentNullException(String, String)</Item>
-               <Item>str</Item>
-               <Item>The original string may not be null.</Item>
               </Issue>
              </Message>
             </Messages>
@@ -9964,24 +9682,6 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="RightAfter(System.String,System.String,System.Boolean):System.String">
-            <Messages>
-             <Message Id="System.ArgumentNullException.#ctor(System.String,System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>StringHelper.RightAfter(String, String, Boolean):String</Item>
-               <Item>2</Item>
-               <Item>ArgumentNullException.ArgumentNullException(String, String)</Item>
-               <Item>The original string may not be null.</Item>
-              </Issue>
-              <Issue>
-               <Item>StringHelper.RightAfter(String, String, Boolean):String</Item>
-               <Item>2</Item>
-               <Item>ArgumentNullException.ArgumentNullException(String, String)</Item>
-               <Item>The searchString string may not be null.</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="SplitUpperCase(System.String):System.String[]">
             <Messages>
              <Message Id="UpperCase" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2006-02-17 18:47:00Z">
@@ -10002,24 +9702,6 @@
                <Item>method</Item>
                <Item>SplitUpperCaseToString</Item>
                <Item>Uppercase</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="StartsWith(System.String,System.String,System.Boolean):System.Boolean">
-            <Messages>
-             <Message Id="System.ArgumentNullException.#ctor(System.String,System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>StringHelper.StartsWith(String, String, Boolean):Boolean</Item>
-               <Item>2</Item>
-               <Item>ArgumentNullException.ArgumentNullException(String, String)</Item>
-               <Item>The prefix string may not be null.</Item>
-              </Issue>
-              <Issue>
-               <Item>StringHelper.StartsWith(String, String, Boolean):Boolean</Item>
-               <Item>2</Item>
-               <Item>ArgumentNullException.ArgumentNullException(String, String)</Item>
-               <Item>The searched string may not be null.</Item>
               </Issue>
              </Message>
             </Messages>
@@ -10257,22 +9939,6 @@
              <Message TypeName="InitializeReferenceTypeStaticFieldsInline" Category="Microsoft.Performance" CheckId="CA1810" Created="2006-02-17 18:47:00Z">
               <Issue>
                <Item>Subtext.Framework.Tracking.AggBugHandler</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="_CachedVersionIsOkay(System.Web.HttpRequest):System.Boolean">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-02-17 18:47:00Z" FixCategory="NonBreaking">
-              <Issue>
-               <Item>AggBugHandler._CachedVersionIsOkay(HttpRequest):Boolean</Item>
-              </Issue>
-             </Message>
-             <Message Id="System.DateTime.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>AggBugHandler._CachedVersionIsOkay(HttpRequest):Boolean</Item>
-               <Item>System.DateTime.Parse(System.String)</Item>
-               <Item>System.DateTime.Parse(System.String,System.IFormatProvider)</Item>
               </Issue>
              </Message>
             </Messages>
@@ -10967,15 +10633,6 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="Holds(System.String,System.Boolean):System.Boolean">
-            <Messages>
-             <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>CharQueue.Holds(String, Boolean):Boolean</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="Item[System.Int32]">
             <Accessors>
              <Accessor Name="get_Item(System.Int32):System.Char">
@@ -11108,25 +10765,6 @@
                <Item>ID</Item>
                <Item>KeyWordID</Item>
                <Item>Id</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="Format(Subtext.Framework.Components.Entry&amp;):System.Void">
-            <Messages>
-             <Message Id="0#" TypeName="DoNotPassTypesByReference" Category="Microsoft.Design" CheckId="CA1045" Created="2006-02-17 18:47:00Z">
-              <Issue Level="CriticalWarning">
-               <Item>entry</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>'entry'</Item>
-               <Item>KeyWords.Format(Entry&amp;):Void</Item>
-              </Issue>
-              <Issue>
-               <Item>'entry'</Item>
-               <Item>KeyWords.Format(Entry&amp;):Void</Item>
               </Issue>
              </Message>
             </Messages>
@@ -12506,26 +12144,6 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="UpdateCurrentInstalledVersion(System.Version,System.Data.SqlClient.SqlTransaction):System.Void">
-            <Messages>
-             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>'newVersion'</Item>
-               <Item>SqlInstallationProvider.UpdateCurrentInstalledVersion(Version, SqlTransaction):Void</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="Upgrade(System.Version):System.Boolean">
-            <Messages>
-             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>SqlInstallationProvider.Upgrade(Version):Boolean</Item>
-               <Item>System.Exception</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
           </Members>
          </Type>
         </Types>
@@ -13482,10 +13100,15 @@
          <Item>Subtext.Web.Controls</Item>
         </Issue>
        </Message>
-       <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Created="2006-02-17 18:47:00Z">
+       <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Status="Excluded" Created="2006-02-17 18:47:00Z">
         <Issue Name="NoStrongName">
          <Item>Subtext.Web.Controls</Item>
         </Issue>
+        <Notes>
+         <User Name="Administrator">
+          <Note Id="0" />
+         </User>
+        </Notes>
        </Message>
       </Messages>
       <Namespaces>
@@ -18091,18 +17714,6 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="BindLocalUI():System.Void">
-            <Messages>
-             <Message Id="Subtext.Web.Admin.Utilities.CreateLinkButton(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>EditKeyWords.BindLocalUI():Void</Item>
-               <Item>1</Item>
-               <Item>Utilities.CreateLinkButton(String):LinkButton</Item>
-               <Item>New KeyWord</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="chkCaseSensitive">
             <Messages>
              <Message Id="chk" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
@@ -21800,16 +21411,6 @@
            </Message>
           </Messages>
           <Members>
-           <Member Name="aspnetLink">
-            <Messages>
-             <Message Id="aspnet" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-              <Issue Name="Member">
-               <Item>aspnet</Item>
-               <Item>login.aspnetLink</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="btnLogin">
             <Messages>
              <Message Id="btn" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
@@ -22482,32 +22083,6 @@
               <Issue>
                <Item>context</Item>
                <Item>Globals.Skin(HttpContext):String</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="PrintHandler">
-          <Members>
-           <Member Name="ProcessRequest(System.Web.HttpContext):System.Void">
-            <Messages>
-             <Message Id="System.DateTime.ToString(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>PrintHandler.ProcessRequest(HttpContext):Void</Item>
-               <Item>System.DateTime.ToString(System.String)</Item>
-               <Item>System.DateTime.ToString(System.String,System.IFormatProvider)</Item>
-              </Issue>
-              <Issue>
-               <Item>PrintHandler.ProcessRequest(HttpContext):Void</Item>
-               <Item>System.DateTime.ToString(System.String)</Item>
-               <Item>System.DateTime.ToString(System.String,System.IFormatProvider)</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>'context'</Item>
-               <Item>PrintHandler.ProcessRequest(HttpContext):Void</Item>
               </Issue>
              </Message>
             </Messages>
@@ -23376,51 +22951,6 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="URLFormat(System.String,System.DateTime,System.String):System.String">
-            <Messages>
-             <Message Id="Member" TypeName="LongAcronymsShouldBePascalCased" Category="Microsoft.Naming" CheckId="CA1705" Created="2006-02-17 18:47:00Z">
-              <Issue Name="Member">
-               <Item>SubtextSearch.URLFormat(String, DateTime, String):String</Item>
-              </Issue>
-             </Message>
-             <Message Id="2#" TypeName="ShortAcronymsShouldBeUppercase" Category="Microsoft.Naming" CheckId="CA1706" Created="2006-02-17 18:47:00Z">
-              <Issue Name="ParameterId">
-               <Item>ID</Item>
-               <Item>dbEntryID</Item>
-               <Item>Id</Item>
-              </Issue>
-             </Message>
-             <Message Id="System.Int32.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>SubtextSearch.URLFormat(String, DateTime, String):String</Item>
-               <Item>System.Int32.Parse(System.String)</Item>
-               <Item>System.Int32.Parse(System.String,System.IFormatProvider)</Item>
-              </Issue>
-              <Issue>
-               <Item>SubtextSearch.URLFormat(String, DateTime, String):String</Item>
-               <Item>System.Int32.Parse(System.String)</Item>
-               <Item>System.Int32.Parse(System.String,System.IFormatProvider)</Item>
-              </Issue>
-             </Message>
-             <Message Id="System.Int32.ToString" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>SubtextSearch.URLFormat(String, DateTime, String):String</Item>
-               <Item>System.Int32.ToString</Item>
-               <Item>System.Int32.ToString(System.IFormatProvider)</Item>
-              </Issue>
-              <Issue>
-               <Item>SubtextSearch.URLFormat(String, DateTime, String):String</Item>
-               <Item>System.Int32.ToString</Item>
-               <Item>System.Int32.ToString(System.IFormatProvider)</Item>
-              </Issue>
-              <Issue>
-               <Item>SubtextSearch.URLFormat(String, DateTime, String):String</Item>
-               <Item>System.Int32.ToString</Item>
-               <Item>System.Int32.ToString(System.IFormatProvider)</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
           </Members>
          </Type>
          <Type Name="SubtextSearch+PositionItems">
@@ -23635,15 +23165,6 @@
          </Type>
          <Type Name="SubtextMasterPage+ScriptElementCollectionRenderer">
           <Members>
-           <Member Name="CreateSkinPath(System.String):System.String">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-02-17 18:47:00Z" FixCategory="NonBreaking">
-              <Issue>
-               <Item>ScriptElementCollectionRenderer.CreateSkinPath(String):String</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="RenderScriptAttribute(System.String,System.String):System.String">
             <Messages>
              <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-02-17 18:47:00Z" FixCategory="NonBreaking">
@@ -23689,178 +23210,6 @@
              <Message TypeName="DoNotConcatenateStringsInsideLoops" Category="Microsoft.Performance" CheckId="CA1818" Created="2006-02-17 18:47:00Z">
               <Issue>
                <Item>StyleSheetElementCollectionRenderer.RenderStyleElementCollection(String):String</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-        </Types>
-       </Namespace>
-       <Namespace Name="Subtext.Web.UI.Skinning">
-        <Types>
-         <Type Name="CacheKey">
-          <Messages>
-           <Message TypeName="EnumsShouldHaveZeroValue" Category="Microsoft.Design" CheckId="CA1008" Created="2006-02-17 18:47:00Z" FixCategory="NonBreaking">
-            <Issue Name="NotFlagsNoZeroValue">
-             <Item>CacheKey</Item>
-            </Issue>
-           </Message>
-          </Messages>
-         </Type>
-         <Type Name="Script">
-          <Members>
-           <Member Name="Src">
-            <Messages>
-             <Message Id="Src" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-02-17 18:47:00Z">
-              <Issue Name="Member">
-               <Item>Src</Item>
-               <Item>Script.Src:String</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="SkinConfig">
-          <Members>
-           <Member Name="Common">
-            <Messages>
-             <Message TypeName="PropertiesShouldNotReturnArrays" Category="Microsoft.Performance" CheckId="CA1819" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>SkinConfig.Common:SkinItem[]</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="ControlString(System.Web.UI.Control):System.String">
-            <Messages>
-             <Message Id="System.IO.StringWriter.#ctor" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>SkinConfig.ControlString(Control):String</Item>
-               <Item>System.IO.StringWriter.#ctor</Item>
-               <Item>System.IO.StringWriter.#ctor(System.IFormatProvider)</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>'control'</Item>
-               <Item>SkinConfig.ControlString(Control):String</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="GetPage(System.String):Subtext.Web.UI.Skinning.SkinPage">
-            <Messages>
-             <Message Id="name" TypeName="AvoidUnnecessaryStringCreation" Category="Microsoft.Performance" CheckId="CA1807" Created="2006-02-17 18:47:00Z">
-              <Issue Name="DuplicateStringCreationParameter">
-               <Item>String.ToLower(CultureInfo):String</Item>
-               <Item>name</Item>
-              </Issue>
-              <Issue Name="UseCaseInsensitiveHashtableParameter">
-               <Item>SkinConfig.GetPage(String):SkinPage</Item>
-               <Item>Hashtable.Contains(Object):Boolean</Item>
-               <Item>name</Item>
-              </Issue>
-              <Issue Name="UseCaseInsensitiveHashtableParameter">
-               <Item>SkinConfig.GetPage(String):SkinPage</Item>
-               <Item>Hashtable.get_Item(Object):Object</Item>
-               <Item>name</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>'name'</Item>
-               <Item>SkinConfig.GetPage(String):SkinPage</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="LoadPages():System.Void">
-            <Messages>
-             <Message Id="stack1" TypeName="AvoidUnnecessaryStringCreation" Category="Microsoft.Performance" CheckId="CA1807" Created="2006-02-17 18:47:00Z">
-              <Issue Name="UseCaseInsensitiveHashtableLocal">
-               <Item>SkinConfig.LoadPages():Void</Item>
-               <Item>Hashtable.Add(Object, Object):Void</Item>
-               <Item>stack1</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="SkinItem">
-          <Members>
-           <Member Name=".ctor()">
-            <Messages>
-             <Message TypeName="DoNotInitializeUnnecessarily" Category="Microsoft.Performance" CheckId="CA1805" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>SkinItem.SkinItem()</Item>
-               <Item>CacheTime</Item>
-               <Item>System.Int32</Item>
-               <Item>0</Item>
-              </Issue>
-              <Issue>
-               <Item>SkinItem.SkinItem()</Item>
-               <Item>UseSpacer</Item>
-               <Item>System.Boolean</Item>
-               <Item>false</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="SkinPage">
-          <Members>
-           <Member Name="Controls">
-            <Messages>
-             <Message TypeName="PropertiesShouldNotReturnArrays" Category="Microsoft.Performance" CheckId="CA1819" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>SkinPage.Controls:SkinItem[]</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="SkinTemplate">
-          <Members>
-           <Member Name="SkinID">
-            <Messages>
-             <Message Id="Member" TypeName="ShortAcronymsShouldBeUppercase" Category="Microsoft.Naming" CheckId="CA1706" Created="2006-02-17 18:47:00Z">
-              <Issue Name="MemberId">
-               <Item>SkinTemplate.SkinID:String</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="SkinTemplates">
-          <Members>
-           <Member Name="GetTemplate(System.String):Subtext.Web.UI.Skinning.SkinTemplate">
-            <Messages>
-             <Message Id="id" TypeName="AvoidUnnecessaryStringCreation" Category="Microsoft.Performance" CheckId="CA1807" Created="2006-02-17 18:47:00Z">
-              <Issue Name="DuplicateStringCreationParameter">
-               <Item>String.ToLower(CultureInfo):String</Item>
-               <Item>id</Item>
-              </Issue>
-              <Issue Name="UseCaseInsensitiveHashtableParameter">
-               <Item>SkinTemplates.GetTemplate(String):SkinTemplate</Item>
-               <Item>Hashtable.Contains(Object):Boolean</Item>
-               <Item>id</Item>
-              </Issue>
-              <Issue Name="UseCaseInsensitiveHashtableParameter">
-               <Item>SkinTemplates.GetTemplate(String):SkinTemplate</Item>
-               <Item>Hashtable.get_Item(Object):Object</Item>
-               <Item>id</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-02-17 18:47:00Z">
-              <Issue>
-               <Item>'id'</Item>
-               <Item>SkinTemplates.GetTemplate(String):SkinTemplate</Item>
               </Issue>
              </Message>
             </Messages>
@@ -23982,6 +23331,11 @@
     </Modules>
    </Target>
   </Targets>
+  <Notes>
+   <User Name="Administrator">
+    <Note Id="0" Modified="2006-05-05 07:49:37Z">As an open source project relying on other open source libraries, we cannot rely on the assemblies that WE reference being strongly named. This is not a priority.</Note>
+   </User>
+  </Notes>
   <Rules>
    <Rule TypeName="AbstractTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1012">
     <Resolution Name="Default">Change the accessibility of all public constructors in '{0}' to protected.</Resolution>
@@ -24014,9 +23368,6 @@
     <Resolution Name="Default">'{0}' is an internal class that is apparently never instantiated. If so, remove the code from the assembly. If this class is intended to contain only static methods, consider adding a private constructor to prevent the compiler from generating a default constructor.</Resolution>
    </Rule>
    <Rule TypeName="AvoidUnnecessaryStringCreation" Category="Microsoft.Performance" CheckId="CA1807">
-    <Resolution Name="DuplicateStringCreationParameter">Multiple calls to {0} occur on '{1}'. Cache the result of the first occurrence and eliminate redundant string creation.</Resolution>
-    <Resolution Name="UseCaseInsensitiveHashtableLocal">{0} calls {1} on a Hashtable instance after converting '{2}', a local, to upper or lowercase. Pass a CaseInsensitiveHashCodeProvider and CaseInsensitiveComparer to the Hashtable constructor (so that keys are case-insensitive) and eliminate the unnecessary string creation.</Resolution>
-    <Resolution Name="UseCaseInsensitiveHashtableParameter">{0} calls {1} on a Hashtable instance after converting '{2}', a parameter, to upper or lowercase. Pass a CaseInsensitiveHashCodeProvider and CaseInsensitiveComparer to the Hashtable constructor (so that keys are case-insensitive) and eliminate the unnecessary string creation.</Resolution>
     <Resolution Name="UseStringCompareLocal">{0} calls {1} after converting '{2}', a local, to upper or lowercase. If possible, eliminate the string creation and call the overload of String.Compare that performs a case-insensitive comparison.</Resolution>
    </Rule>
    <Rule TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823">
