@@ -279,7 +279,7 @@ namespace Subtext.Framework.Configuration
 		}
 
 		//TODO: Is this the right place to put this list?
-		private static string[] _invalidSubfolders = {"Admin", "bin", "ExternalDependencies", "HostAdmin", "Images", "Install", "Modules", "Services", "Skins", "UI", "Category", "Archive", "Archives", "Comments", "Articles", "Posts", "Story", "Stories", "Gallery" };
+		private static string[] _invalidSubfolders = {"Admin", "bin", "ExternalDependencies", "HostAdmin", "Images", "Install", "Modules", "Services", "Skins", "UI", "Category", "Archive", "Archives", "Comments", "Articles", "Posts", "Story", "Stories", "Gallery","Providers"};
 
 		/// <summary>
 		/// Returns true if the specified subfolder name has a 
