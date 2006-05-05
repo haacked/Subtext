@@ -477,10 +477,9 @@ namespace Subtext.Framework
 			{
 				entry.DateSyndicated = DateTime.Now;
 			}
-			else
+			
+			if(!entry.IncludeInMainSyndication)
 			{
-				//Note, this could cause updated items to get republished to the feed for RFC3229. 
-				//This should be fine since the GUID won't change.
 				entry.DateSyndicated = NullValue.NullDateTime;
 			}
 

@@ -117,7 +117,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		[SetUp]
 		public void SetUp()
 		{
-			_hostName = UnitTestHelper.GenerateUniqueHost();
+			_hostName = UnitTestHelper.GenerateRandomHostname();
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog");
 		}
 

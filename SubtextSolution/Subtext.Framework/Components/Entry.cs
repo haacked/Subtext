@@ -288,7 +288,14 @@ namespace Subtext.Framework.Components
 		public DateTime DateSyndicated
 		{
 			get { return _dateSyndicated; }
-			set { _dateSyndicated = value; }
+			set
+			{
+				if(NullValue.IsNull(value))
+				{
+					this.IncludeInMainSyndication = false;
+				}
+				_dateSyndicated = value;
+			}
 		}
 
 		DateTime _dateSyndicated = NullValue.NullDateTime;
@@ -323,10 +330,26 @@ namespace Subtext.Framework.Components
 			set{PostConfigSetter(PostConfig.SyndicateDescriptionOnly,value);}
 		}
 
+		/// <summary>
+		/// Gets or sets a value indicating whether [include in main syndication].
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if [include in main syndication]; otherwise, <c>false</c>.
+		/// </value>
 		public bool IncludeInMainSyndication
 		{
-			get{return EntryPropertyCheck(PostConfig.IncludeInMainSyndication);}
-			set{PostConfigSetter(PostConfig.IncludeInMainSyndication,value);}
+			get
+			{
+				return EntryPropertyCheck(PostConfig.IncludeInMainSyndication);
+			}
+			set
+			{
+				if(value && NullValue.IsNull(DateSyndicated) && this.IsActive)
+				{
+					DateSyndicated = DateTime.Now;
+				}
+				PostConfigSetter(PostConfig.IncludeInMainSyndication,value);
+			}
 		}
 
 		public bool IsAggregated

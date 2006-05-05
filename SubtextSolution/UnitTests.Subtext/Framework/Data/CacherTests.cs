@@ -23,7 +23,7 @@ namespace UnitTests.Subtext.Framework.Data
 		[RollBack]
 		public void GetActiveCategoriesHandlesLocale()
 		{
-			string hostName = UnitTestHelper.GenerateUniqueHost();
+			string hostName = UnitTestHelper.GenerateRandomHostname();
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
 			Config.CreateBlog("", "username", "thePassword", hostName, "");
 
