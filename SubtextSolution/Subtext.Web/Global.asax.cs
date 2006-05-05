@@ -34,14 +34,30 @@ namespace Subtext
 	{
 		private readonly static ILog log = new Subtext.Framework.Logging.Log();
 
+		/// <summary>
+		/// <para>
+		/// This is used to vary partial caching of ASCX controls and ASPX pages on a per blog basis.  
+		/// You can see this in action via the [PartialCaching] attribute.
+		/// </para>
+		/// <para>
+		/// Provides an application-wide implementation of the <see cref="P:System.Web.UI.PartialCachingAttribute.VaryByCustom"/> property.
+		/// </para>
+		/// </summary>
+		/// <param name="context">An <see cref="T:System.Web.HttpContext"/> that contains information about the current Web request</param>
+		/// <param name="custom"></param>
+		/// <returns>
+		/// If the value of the <paramref name="custom"/> parameter is "browser", the browser's
+		/// <see cref="P:System.Web.HttpBrowserCapabilities.Type"/> ; otherwise,
+		/// <see langword="null"/> .
+		/// </returns>
 		public override string GetVaryByCustomString(HttpContext context, string custom)
 		{
-			if(custom == "Blogger")
+			if(custom == "Blogger" && !Security.IsAdmin && !Security.IsHostAdmin) // Do not cache admin.
 			{
-				return Subtext.Framework.Configuration.Config.CurrentBlog.Subfolder;
+				return Config.CurrentBlog.BlogId.ToString(CultureInfo.InvariantCulture);
 			}
 
-			return base.GetVaryByCustomString(context,custom);
+			return base.GetVaryByCustomString(context, custom);
 		}
 
 		private const string ERROR_PAGE_LOCATION = "~/SystemMessages/error.aspx";
