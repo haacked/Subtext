@@ -62,7 +62,9 @@ namespace Subtext.Web.UI.Controls
 				{
 					tbName.Text = user.Values["Name"];
 					tbUrl.Text = user.Values["Url"];
-					if(this.chkRemember != null)
+					
+					// Remember by default if no-checkbox.
+					if(this.chkRemember == null || this.chkRemember.Checked)
 					{
 						this.chkRemember.Checked = true;
 					}
@@ -163,7 +165,7 @@ namespace Subtext.Web.UI.Controls
 
 						Entries.InsertComment(entry);
 
-						if(chkRemember.Checked)
+						if(chkRemember == null || chkRemember.Checked)
 						{
 							HttpCookie user = new HttpCookie("CommentUser");
 							user.Values["Name"] = tbName.Text;
