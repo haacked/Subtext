@@ -136,8 +136,7 @@ namespace Subtext.Framework.Providers
 		public abstract EntryCollection GetEntriesByCategory(int ItemCount,int catID,bool ActiveOnly);
 		public abstract EntryCollection GetEntriesByCategory(int ItemCount,int catID, DateTime DateUpdated,bool ActiveOnly);
 
-		public abstract EntryCollection GetEntriesByCategory(int ItemCount,string categoryName ,bool ActiveOnly);
-		public abstract EntryCollection GetEntriesByCategory(int ItemCount,string categoryName, DateTime DateUpdated,bool ActiveOnly);
+		public abstract EntryCollection GetEntriesByCategory(int itemCount, string categoryName, bool activeOnly);
 
 		#endregion
 
