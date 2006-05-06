@@ -505,3 +505,72 @@ h2.title
 #flickr_badge_uber_wrapper a:visited {text-decoration:none !important; background:inherit !important;color:#3993ff;}
 #flickr_badge_wrapper {background-color:#ffffff; border: solid 1px #666666;}
 #flickr_badge_source {padding:0 !important; font: 11px Arial, Helvetica, Sans serif !important; color:#666666 !important;}
+
+/* -------- Share Options ------ */
+div.share span
+{
+	font-weight: bold;
+}
+
+div.share ul
+{
+	display: inline;
+}
+
+div.share ul
+{
+	margin: 0 0 5px 0;
+	padding: 0;
+	padding: 0;
+	list-style: none;
+}
+
+div.share ul li
+{
+	display: inline;
+	padding: 0;
+	margin: 0 2px 0 2px;
+	font-size: 100%;
+}
+
+
+div.share ul li a
+{
+}
+
+div.share ul li:before 
+{
+	content: "| "; 
+}
+
+div.share ul li:first-child:before, #nav li:first-child:before
+{
+	content: ""; 
+}
+
+
+/*All IE browsers*/
+* html div.share ul li, * html #nav li
+{
+	border-left: 1px solid #999;
+	padding: 0 0.4em 0 0.4em;
+	margin: -4px 0.4em -1px -0.4em;
+}
+
+/*Win IE browsers - hide from Mac IE\*/
+* html div.share ul, * html #nav { height: 1%; }
+
+* html div.share ul li
+{
+	display: block;
+	float: left;
+}
+
+/*End hide*/
+/*Mac IE 5*/
+* html div.share ul li:first-child, * html #nav li:first-child { border-left: 0; }
+
+* html body .blogpost p
+{
+	margin-top: 5px;
+}
