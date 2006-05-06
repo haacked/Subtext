@@ -59,18 +59,6 @@ namespace Subtext.Web.UI.Controls
 			}
 		}
 
-		private void BindCurrentEntryControls(Entry entry, Control root)
-		{
-			foreach(Control control in root.Controls)
-			{
-				CurrentEntryControl currentEntryControl = control as CurrentEntryControl;
-				if(currentEntryControl != null)
-				{
-					currentEntryControl.Entry = entry;
-				}
-			}
-		}
-		
 		private static void BindAuthor(RepeaterItemEventArgs e, Entry entry)
 		{
 			Label author = e.Item.FindControl("author") as Label;
