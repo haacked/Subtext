@@ -79,6 +79,7 @@ namespace Subtext.Web.UI.Controls
 				if(currentEntryControl != null)
 				{
 					currentEntryControl.Entry = entry;
+					currentEntryControl.DataBind();
 				}
 			}
 		}

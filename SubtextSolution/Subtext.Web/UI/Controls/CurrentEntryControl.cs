@@ -1,6 +1,7 @@
 using System;
 using System.Web;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -12,6 +13,7 @@ namespace Subtext.Web.UI.Controls
 	/// </summary>
 	public class CurrentEntryControl : BaseControl
 	{
+		bool dataBound;
 		Entry currentEntry;
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CurrentEntryControl"/> class.
@@ -42,8 +44,9 @@ namespace Subtext.Web.UI.Controls
 		/// </summary>
 		public override void DataBind()
 		{
-			if(this.Entry != null)
+			if(this.Entry != null && !dataBound)
 			{
+				dataBound = true;
 				base.DataBind();
 			}
 		}
@@ -56,6 +59,22 @@ namespace Subtext.Web.UI.Controls
 		protected string UrlEncode(string s)
 		{
 			return HttpUtility.UrlEncode(s);
+		}
+		
+		/// <summary>
+		/// Gets the entry fully qualifed URL.
+		/// </summary>
+		/// <value>The entry fully qualifed URL.</value>
+		protected string EntryFullyQualifedUrl
+		{
+			get
+			{
+				if(Entry != null)
+				{
+					return Config.CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(this.Entry);
+				}
+				return string.Empty;
+			}
 		}
 	}
 }
