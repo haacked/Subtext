@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -53,10 +54,23 @@ namespace Subtext.Web.UI.Controls
 					BindPostDate(e, entry);
 					BindCommentCount(e, entry);
 					BindAuthor(e, entry);
+					BindCurrentEntryControls(e, entry, e.Item);
 				}
 			}
 		}
 
+		private void BindCurrentEntryControls(RepeaterItemEventArgs e, Entry entry, Control root)
+		{
+			foreach(Control control in root.Controls)
+			{
+				CurrentEntryControl currentEntryControl = control as CurrentEntryControl;
+				if(currentEntryControl != null)
+				{
+					currentEntryControl.Entry = entry;
+				}
+			}
+		}
+		
 		private static void BindAuthor(RepeaterItemEventArgs e, Entry entry)
 		{
 			Label author = e.Item.FindControl("author") as Label;
@@ -134,7 +148,7 @@ namespace Subtext.Web.UI.Controls
 						
 				if(entry.AllowComments)
 				{
-					PostDesc.Text = string.Format(postdescWithComments,entry.Link,entry.DateCreated.ToString("f"),entry.Link,entry.FeedBackCount);
+					PostDesc.Text = string.Format(postdescWithComments, entry.Link, entry.DateCreated.ToString("f"), entry.Link, entry.FeedBackCount);
 				}
 				else
 				{

@@ -2304,6 +2304,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\Haackify\Controls\ShareThisPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\Haackify\Controls\SingleColumn.ascx"
                     BuildAction = "Content"
                 />
@@ -4629,6 +4633,11 @@
                 />
                 <File
                     RelPath = "UI\Controls\Contact.cs"
+                    SubType = "ASPXCodeBehind"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UI\Controls\CurrentEntryControl.cs"
                     SubType = "ASPXCodeBehind"
                     BuildAction = "Compile"
                 />
