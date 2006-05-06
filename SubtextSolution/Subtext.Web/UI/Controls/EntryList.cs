@@ -54,12 +54,12 @@ namespace Subtext.Web.UI.Controls
 					BindPostDate(e, entry);
 					BindCommentCount(e, entry);
 					BindAuthor(e, entry);
-					BindCurrentEntryControls(e, entry, e.Item);
+					BindCurrentEntryControls(entry, e.Item);
 				}
 			}
 		}
 
-		private void BindCurrentEntryControls(RepeaterItemEventArgs e, Entry entry, Control root)
+		private void BindCurrentEntryControls(Entry entry, Control root)
 		{
 			foreach(Control control in root.Controls)
 			{
