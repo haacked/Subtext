@@ -58,6 +58,8 @@ namespace Subtext.Web.UI.Controls
 			//if found
 			if(entry != null)
 			{
+				BindCurrentEntryControls(entry, this);
+				
 				DisplayEditLink(entry);
 
 				//Track this entry

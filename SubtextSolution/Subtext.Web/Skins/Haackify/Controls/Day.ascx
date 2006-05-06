@@ -11,8 +11,8 @@
 						<asp:Literal  runat="server" ID="PostText" />
 						<p class="postfooter">
 							<asp:Literal ID="PostDesc" Runat="server" />
-							<st:ShareThisPost id="shareOptions" runat="server"></st:ShareThisPost>
 						</p>
+						<st:ShareThisPost id="shareOptions" runat="server"></st:ShareThisPost>
 					</div> <!-- end #blogpost -->
 				</ItemTemplate>
 			</asp:Repeater>

@@ -14,7 +14,9 @@
 #endregion
 
 using System;
+using System.Web.UI;
 using Subtext.Framework;
+using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.UI.Controls
@@ -67,6 +69,18 @@ namespace Subtext.Web.UI.Controls
 			get
 			{return skinFilePath;}
 			set{skinFilePath = value;}
+		}
+		
+		protected void BindCurrentEntryControls(Entry entry, Control root)
+		{
+			foreach(Control control in root.Controls)
+			{
+				CurrentEntryControl currentEntryControl = control as CurrentEntryControl;
+				if(currentEntryControl != null)
+				{
+					currentEntryControl.Entry = entry;
+				}
+			}
 		}
 	}
 }
