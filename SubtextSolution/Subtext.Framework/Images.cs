@@ -134,8 +134,16 @@ namespace Subtext.Framework
 		/// <param name="image">Original image to process.</param>
 		public static void MakeAlbumImages(Subtext.Framework.Components.Image image)
 		{
-			// need to load the original image to manipulate.
-			System.Drawing.Image originalImage = System.Drawing.Image.FromFile(image.OriginalFilePath); 
+			System.Drawing.Image potentiallyIndexedFmtBmp, originalImage; 
+
+			// need to load the original image to manipulate. But GIFs can cause issues.
+			potentiallyIndexedFmtBmp = System.Drawing.Image.FromFile(image.OriginalFilePath); 
+			using (potentiallyIndexedFmtBmp)
+			{
+				// need it in a bitmap format. Any help here on a better way? Just want to convert it.
+				originalImage = new Bitmap(potentiallyIndexedFmtBmp, potentiallyIndexedFmtBmp.Width, potentiallyIndexedFmtBmp.Height);
+			}
+
 			// dispose the original graphic (be kind; clean up)
 			using (originalImage)
 			{
@@ -153,7 +161,7 @@ namespace Subtext.Framework
 				image.Width = displayImage.Width;
 
 				// Create a mid-size display image. 
-				Graphics displayGraphic =  Graphics.FromImage(displayImage);
+				Graphics displayGraphic = Graphics.FromImage(displayImage);
 				using (displayImage)
 				{
 					displayGraphic.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality ;
@@ -166,7 +174,7 @@ namespace Subtext.Framework
 				}
 
 				// Create a small thumbnail by drawing the original image into a smaller area.
-				Graphics thumbGraphic =  Graphics.FromImage(thumbImage);
+				Graphics thumbGraphic = Graphics.FromImage(thumbImage);
 				using (thumbImage)
 				{
 					thumbGraphic.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality ;
@@ -177,25 +185,6 @@ namespace Subtext.Framework
 					// Save our file
 					thumbImage.Save(image.ThumbNailFilePath, ImageFormat.Jpeg);
 				}
-			}
-		}
-
-		public static ImageFormat GetFormat(string name)
-		{
-			string ext = name.Substring(name.LastIndexOf(".") + 1);
-			switch(ext.ToLower(System.Globalization.CultureInfo.InvariantCulture))
-			{
-				case "jpg":
-				case "jpeg":
-					return ImageFormat.Jpeg;
-				case "bmp":
-					return ImageFormat.Bmp;
-				case "png":
-					return ImageFormat.Png;
-				case "gif":
-					return ImageFormat.Gif;
-				default:
-					return ImageFormat.Jpeg;
 			}
 		}
 
