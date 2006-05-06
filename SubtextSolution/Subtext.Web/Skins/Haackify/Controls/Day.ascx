@@ -1,4 +1,5 @@
 <%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.Day" %>
+<%@ Register TagPrefix="st" TagName="ShareThisPost" Src="ShareThisPost.ascx" %>
 <%@ Import Namespace = "Subtext.Framework" %>
 		<div class="dayPosts">
 			<span class="daylink"><asp:HyperLink Runat="server" title="Day Archive" BorderWidth="0" ID="ImageLink" ><asp:Literal ID = "DateTitle" Runat = "server" /></asp:HyperLink></span>
@@ -10,6 +11,7 @@
 						<asp:Literal  runat="server" ID="PostText" />
 						<p class="postfooter">
 							<asp:Literal ID="PostDesc" Runat="server" />
+							<st:ShareThisPost id="shareOptions" runat="server"></st:ShareThisPost>
 						</p>
 					</div> <!-- end #blogpost -->
 				</ItemTemplate>
