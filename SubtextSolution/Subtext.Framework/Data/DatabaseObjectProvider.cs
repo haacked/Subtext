@@ -389,12 +389,6 @@ namespace Subtext.Framework.Data
 			return LoadEntryCollectionFromDataReader(reader);
 		}
 
-		public override EntryCollection GetEntriesByCategory(int ItemCount, string categoryName, DateTime DateUpdated, bool ActiveOnly)
-		{
-			IDataReader reader = DbProvider.Instance().GetEntriesByCategory(ItemCount,categoryName,DateUpdated,ActiveOnly);
-			return LoadEntryCollectionFromDataReader(reader);
-		}
-
 		public override EntryCollection GetEntriesByCategory(int ItemCount, int catID, bool ActiveOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetEntriesByCategory(ItemCount,catID,ActiveOnly);

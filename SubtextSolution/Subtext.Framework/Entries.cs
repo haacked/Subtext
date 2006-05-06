@@ -189,11 +189,6 @@ namespace Subtext.Framework
 			return ObjectProvider.Instance().GetEntriesByCategory(ItemCount,categoryName,ActiveOnly);
 		}
 
-		public static EntryCollection GetEntriesByCategory(int ItemCount,string categoryName, DateTime DateUpdated,bool ActiveOnly)
-		{
-			return ObjectProvider.Instance().GetEntriesByCategory(ItemCount,categoryName,DateUpdated,ActiveOnly);
-		}
-
 		#endregion
 
 		#region Single Entry

@@ -3,6 +3,25 @@ WARNING: This SCRIPT USES SQL TEMPLATE PARAMETERS.
 Be sure to hit CTRL+SHIFT+M in Query Analyzer if running manually.
 */
 
+/* DROPPED STORED PROCS.  
+	These are stored procs that used to be in the system but are no longer needed.
+	The statements will only drop the procs if they exist as a form of cleanup.
+*/
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetConditionalEntriesByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetConditionalEntriesByDateUpdated]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetEntryCollectionByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetEntryCollectionByDateUpdated]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryNameByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryNameByDateUpdated]
+GO
+
+
+/* The Rest of the script */
+
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[iter_charlist_to_table]') and xtype in (N'FN', N'IF', N'TF'))
 drop function [<dbUser,varchar,dbo>].[iter_charlist_to_table]
 GO
@@ -91,20 +110,12 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetConditionalEntries]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetConditionalEntriesByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [<dbUser,varchar,dbo>].[subtext_GetConditionalEntriesByDateUpdated]
-GO
-
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetConfig]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetConfig]
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetEntriesByDayRange]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetEntriesByDayRange]
-GO
-
-if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetEntryCollectionByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [<dbUser,varchar,dbo>].[subtext_GetEntryCollectionByDateUpdated]
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetEntryWithCategoryTitles]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
@@ -185,10 +196,6 @@ GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryName]
-GO
-
-if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryNameByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryNameByDateUpdated]
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPostsByDayRange]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
@@ -998,58 +1005,6 @@ SET ANSI_NULLS ON
 GO
 
 GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetEntriesByDayRange]  TO [public]
-GO
-
-SET QUOTED_IDENTIFIER ON 
-GO
-SET ANSI_NULLS ON 
-GO
-
-
-CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetEntryCollectionByDateUpdated]
-(
-	@ItemCount int,
-	@IsActive bit,
-	@PostType int, 
-	@DateUpdated datetime,
-	@BlogId int
-)
-AS
-SET ROWCOUNT @ItemCount
-SELECT BlogId
-	, [ID]
-	, Title
-	, DateAdded
-	, [Text]
-	, [Description]
-	, SourceUrl
-	, PostType
-	, Author
-	, Email
-	, SourceName
-	, DateUpdated
-	, TitleUrl
-	, FeedBackCount = ISNULL(FeedBackCount, 0)
-	, ParentID
-	, PostConfig
-	, EntryName 
-	, ContentChecksumHash
-	, DateSyndicated
-FROM [<dbUser,varchar,dbo>].[subtext_Content]
-WHERE 
-	PostType=@PostType 
-	AND BlogId = @BlogId
-	AND DateUpdated > @DateUpdated
-	AND PostConfig & 1  <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
-ORDER BY [dateupdated] DESC
-
-GO
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetEntryCollectionByDateUpdated]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -2311,59 +2266,6 @@ SET ANSI_NULLS ON
 GO
 
 GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryName]  TO [public]
-GO
-
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryNameByDateUpdated]
-(
-	@ItemCount int
-	, @CategoryName nvarchar(150)
-	, @IsActive bit
-	, @DateUpdated datetime
-	, @BlogId int
-)
-AS
-SET ROWCOUNT @ItemCount
-SELECT	content.BlogId
-		, content.[ID]
-		, content.Title
-		, content.DateAdded
-		, content.[Text]
-		, content.[Description]
-		, content.SourceUrl
-		, content.PostType
-		, content.Author
-		, content.Email
-		, content.SourceName
-		, content.DateUpdated
-		, content.TitleUrl
-		, FeedBackCount = ISNULL(content.FeedBackCount, 0)
-		, content.ParentID
-		, content.PostConfig
-		, content.EntryName 
-		, content.ContentChecksumHash
-		, content.DateSyndicated
-FROM [<dbUser,varchar,dbo>].[subtext_Content] content
-	INNER JOIN subtext_Links ON content.ID = ISNULL(subtext_Links.PostID, -1)
-	INNER JOIN subtext_LinkCategories ON subtext_Links.CategoryID = subtext_LinkCategories.CategoryID
-WHERE  content.BlogId = @BlogId 
-	AND content.PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END 
-	AND subtext_LinkCategories.Title = @CategoryName 
-	AND content.DateUpdated > @DateUpdated
-ORDER BY content.[ID] DESC
-
-
-GO
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryNameByDateUpdated]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
