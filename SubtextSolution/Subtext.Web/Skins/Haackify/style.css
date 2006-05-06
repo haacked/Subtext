@@ -510,11 +510,9 @@ h2.title
 div.share span
 {
 	font-weight: bold;
-}
-
-div.share ul
-{
-	display: inline;
+	display: block;
+	float: left;
+	width: 100px;
 }
 
 div.share ul
@@ -523,6 +521,7 @@ div.share ul
 	padding: 0;
 	padding: 0;
 	list-style: none;
+	float: left;
 }
 
 div.share ul li
@@ -554,7 +553,7 @@ div.share ul li:first-child:before, #nav li:first-child:before
 {
 	border-left: 1px solid #999;
 	padding: 0 0.4em 0 0.4em;
-	margin: -4px 0.4em -1px -0.4em;
+	margin: -1px 0.4em -1px -0.4em;
 }
 
 /*Win IE browsers - hide from Mac IE\*/
