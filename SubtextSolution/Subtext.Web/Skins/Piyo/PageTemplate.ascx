@@ -5,7 +5,7 @@ Author:   Rostislav Hristov
 URL:      www.asual.com
 Date:     1 October 2004
 
-and later adpated for the SubText blogging platform by Simone Chiaretta www.piyodesign.it
+and later adapted for the SubText blogging platform by Simone Chiaretta www.piyodesign.it
 -->
 
 <%@ Control %>

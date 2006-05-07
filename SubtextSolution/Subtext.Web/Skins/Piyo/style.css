@@ -1,3 +1,13 @@
+/*
+Skin inspired from Blojsom 2.0 Theme
+Name:     Asual
+Author:   Rostislav Hristov
+URL:      www.asual.com
+Date:     1 October 2004
+
+and later adapted for the SubText blogging platform by Simone Chiaretta www.piyodesign.it
+*/
+
 body {
 	font: 76%/162% 'Lucida Sans Unicode', 'Lucida Grande', 'Bitstream Vera Sans', 'Trebuchet MS', Geneva, Arial, sans-serif;
 	background: #FAFCFD url(Images/asual-bg.jpg) repeat-x;
@@ -396,15 +406,16 @@ div.comment .post, div.trackback .post {
 }
 #commentform .label {
 	width: 8em;
-	float: left;
 	clear: both;
+	float: left;
 	margin-bottom: .4em;
 }
 #commentform .input {
-	width: 300px;
+	width: 400px;
 	float: left;
 	margin-bottom: .4em;
 }
+
 #commentform .input span {
 	float: left;
 	display: inline;
@@ -420,6 +431,7 @@ div.comment .post, div.trackback .post {
 	float: left;
 	border: 1px solid #285090;
 }
+
 #commentform .button {
 	width: auto;
 	float: left;
@@ -611,3 +623,20 @@ kbd{
 	background-image: url(Images/blank.gif);
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="Images/overlay.png", sizingMethod="scale");
 	}
+	
+	
+/*
+Fix to make the skin work with IE7Beta2, too
+Will later merge with the rest of the CSS
+*/
+
+	  #content {
+              height: auto;
+              padding-bottom: 300px;
+      }
+      #contentBodyLeft {
+              background-color: #D5DEED;
+      }
+      #contentBodyCenter {
+              background: none;
+      }
