@@ -1086,6 +1086,22 @@
                     BuildAction = "None"
                 />
                 <File
+                    RelPath = "HostAdmin\images\bottom.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "HostAdmin\images\shadow.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "HostAdmin\images\shadowAlpha.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "HostAdmin\images\sidesbg.jpg"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "HostAdmin\Import\ImportComplete.aspx"
                     BuildAction = "Content"
                 />
@@ -1268,7 +1284,6 @@
                 />
                 <File
                     RelPath = "Install\BlogNotConfiguredError.aspx"
-                    SubType = "Form"
                     BuildAction = "Content"
                 />
                 <File

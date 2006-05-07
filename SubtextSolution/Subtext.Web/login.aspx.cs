@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Configuration;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
@@ -67,33 +68,38 @@ namespace Subtext.Web.Pages
 		{
 			BlogInfo info = Config.CurrentBlog;
 			bool messageSent = false;
-			string password = null;
+			string password;
 			
-			if(StringHelper.AreEqualIgnoringCase(tbUserName.Text, info.UserName))
+			if(info != null)
 			{
-				if(info.IsPasswordHashed)
+				//Try Admin login.
+				if(StringHelper.AreEqualIgnoringCase(tbUserName.Text, info.UserName))
 				{
-					password = Security.ResetPassword();
-				}
-				else
-				{
-					password = info.Password;
-				}
+					if(info.IsPasswordHashed)
+					{
+						password = Security.ResetPassword();
+					}
+					else
+					{
+						password = info.Password;
+					}
 
-				string message = "Here is your blog login information:\nUserName: {0}\nPassword: {1}\n\nPlease disregard this message if you did not request it.";
-				EmailProvider mail = Subtext.Extensibility.Providers.EmailProvider.Instance();
+					string message = "Here is your blog login information:\nUserName: {0}\nPassword: {1}\n\nPlease disregard this message if you did not request it.";
+					EmailProvider mail = Subtext.Extensibility.Providers.EmailProvider.Instance();
 			
-				string To = info.Email;
-				string From = mail.AdminEmail;
-				string Subject = "Login Credentials";
-				string Body = string.Format(message,info.UserName,password);
-				mail.Send(To,From,Subject,Body);
-				Message.Text = "Login Credentials Sent<br />";
-				messageSent = true;
+					string To = info.Email;
+					string From = mail.AdminEmail;
+					string Subject = "Login Credentials";
+					string Body = string.Format(message,info.UserName,password);
+					mail.Send(To,From,Subject,Body);
+					Message.Text = "Login Credentials Sent<br />";
+					messageSent = true;
+				}
 			}
-			
+				
 			if(StringHelper.AreEqualIgnoringCase(tbUserName.Text, HostInfo.Instance.HostUserName))
 			{
+				//Try Host Admin login.
 				if(Config.Settings.UseHashedPasswords)
 					password = Security.ResetHostAdminPassword();		
 				else
@@ -102,7 +108,13 @@ namespace Subtext.Web.Pages
 				string message = "Here is your Host Admin Login information:\nUserName: {0}\nPassword: {1}\n\nPlease disregard this message if you did not request it.";
 				EmailProvider mail = Subtext.Extensibility.Providers.EmailProvider.Instance();
 			
-				string To = info.Email;
+				string hostAdminEmail = ConfigurationSettings.AppSettings["HostEmailAddress"];
+				if(hostAdminEmail == null || hostAdminEmail.Length == 0 || hostAdminEmail.IndexOf('@') <= 0) //Need better email validation. I know!
+				{
+					Message.Text = "Sorry, but I don&#8217;t know where to send the email.  Please specify a Host Email Address in Web.config. It is the AppSetting &#8220;HostEmailAddress&#8221;";
+					return;
+				}
+				string To = hostAdminEmail;
 				string From = mail.AdminEmail;
 				string Subject = "Subtext Host Admin Login Credentials";
 				string Body = string.Format(message, HostInfo.Instance.HostUserName, password);
@@ -112,19 +124,23 @@ namespace Subtext.Web.Pages
 			}
 			
 			if(!messageSent)
-				Message.Text = "I don't know you";		
+			{
+				Message.Text = "I don't know you";
+			}
 		}
 
 		private void btnLogin_Click(object sender, System.EventArgs e)
 		{
 			string returnUrl = Request.QueryString["ReturnURL"];
-			if(returnUrl != null && StringHelper.Contains(returnUrl, "HostAdmin", ComparisonType.CaseInsensitive))
+			if((returnUrl != null && StringHelper.Contains(returnUrl, "HostAdmin", ComparisonType.CaseInsensitive)) || Config.CurrentBlog == null)
 			{
-				AuthenticateHostAdmin();
+				if(!AuthenticateHostAdmin())
+				{
+					Message.Text = "That&#8217;s not it<br />";
+				}
 			}
 			else
 			{
-
 				BlogInfo info = Config.CurrentBlog;
 				if(Security.Authenticate(tbUserName.Text, tbPassword.Text, chkRemember.Checked))
 				{
@@ -139,12 +155,12 @@ namespace Subtext.Web.Pages
 				}
 				else
 				{
-					Message.Text = "That's not it<br />";
+					Message.Text = "That&#8217;s not it<br />";
 				}
 			}
 		}
 
-		private void AuthenticateHostAdmin()
+		private bool AuthenticateHostAdmin()
 		{
 			if(StringHelper.AreEqualIgnoringCase(tbUserName.Text, HostInfo.Instance.HostUserName))
 			{
@@ -154,16 +170,19 @@ namespace Subtext.Web.Pages
 				if(StringHelper.AreEqualIgnoringCase(HostInfo.Instance.Password, password))
 				{
 					System.Web.Security.FormsAuthentication.SetAuthCookie("HostAdmin", chkRemember.Checked);
-					if(Request.QueryString["ReturnURL"] != null)
+					if(Request.QueryString["ReturnURL"] != null && Request.QueryString["ReturnURL"].Length > 0)
 					{
 						Response.Redirect(Request.QueryString["ReturnURL"]);
+						return true;
 					}
 					else
 					{
 						Response.Redirect("~/HostAdmin/default.aspx");
+						return true;
 					}
 				}
 			}
+			return false;
 		}
 	}
 }

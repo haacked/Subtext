@@ -167,10 +167,15 @@ namespace Subtext.Framework.Configuration
 							return GetAggregateBlog();
 						}
 
+						if(InstallationManager.IsOnLoginPage)
+						{
+							return null;
+						}
+
 						throw new BlogDoesNotExistException(Host, subFolder, anyBlogsExist);
 					}
 
-					if(!info.IsActive && !InstallationManager.IsInHostAdminDirectory && !InstallationManager.IsInSystemMessageDirectory)
+					if(!info.IsActive && !InstallationManager.IsInHostAdminDirectory && !InstallationManager.IsInSystemMessageDirectory && !InstallationManager.IsOnLoginPage)
 					{
 						throw new BlogInactiveException();
 					}

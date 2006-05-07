@@ -211,6 +211,7 @@ namespace Subtext
 
 			if(!InstallationManager.IsInInstallDirectory)
 			{
+				// User could be logging into the HostAdmin.
 				if(exception.GetType() == typeof(BlogDoesNotExistException))
 				{
 					Response.Redirect("~/Install/BlogNotConfiguredError.aspx", true);
