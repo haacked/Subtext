@@ -34,27 +34,27 @@
 				runat="server"
 				onclick="wrapWithBold(document.getElementById('PostComment.ascx_tbComment')); return false;" 
 				alt="italic"
-				src="~/skins/Joomla/images/comment_button_bold.gif" />
+				src="~/skins/Nazar/images/comment_button_bold.gif" />
 			<img id="buttonItalic"
 				runat="server"
 				onclick="wrapWithItalic(document.getElementById('PostComment.ascx_tbComment')); return false;" 
 				alt="Italic"
-				src="~/skins/Joomla/images/comment_button_italic.gif" />
+				src="~/skins/Nazar/images/comment_button_italic.gif" />
 			<img id="buttonUnderline"
 				runat="server"
 				onclick="wrapWithUnderline(document.getElementById('PostComment.ascx_tbComment')); return false;" 
 				alt="Underline"
-				src="~/skins/Joomla/images/comment_button_underline.gif" />
+				src="~/skins/Nazar/images/comment_button_underline.gif" />
 			<img id="buttonBlockquote"
 				runat="server"
 				onclick="wrapWithBlockquote(document.getElementById('PostComment.ascx_tbComment')); return false;" 
 				alt="Blockquote"
-				src="~/skins/Joomla/images/comment_button_blockquote.gif" />
+				src="~/skins/Nazar/images/comment_button_blockquote.gif" />
 			<img id="buttonHyperlink"
 				runat="server"
 				onclick="wrapWithLink(document.getElementById('PostComment.ascx_tbComment')); return false;" 
 				alt="Hyperlink"
-				src="~/skins/Joomla/images/comment_button_hyperlink.gif" />
+				src="~/skins/Nazar/images/comment_button_hyperlink.gif" />
 				Click on the buttons for allowed HTML mark-ups
 		</div>
 				

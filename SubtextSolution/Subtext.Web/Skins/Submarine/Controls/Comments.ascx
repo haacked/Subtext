@@ -1,0 +1,23 @@
+<%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Comments" %>
+<a name="feedback" title="feedback anchor"></a>
+<div class="comments">
+	<h2>Comments</h2>
+	<asp:literal id="NoCommentMessage" runat="server" />
+	<asp:repeater id="CommentList" runat="server" onitemcreated="CommentsCreated" onitemcommand="RemoveComment_ItemCommand">
+		<itemtemplate>
+		<div class="comment">
+			<div class="title">
+				<asp:literal runat="server" id="Title" />
+			</div>
+			<div class="author">Posted by
+				<asp:hyperlink runat="server" id="NameLink" /></div>
+			<div class="postedDate">on
+				<asp:literal id="PostDate" runat="server" /></div>
+			<asp:linkbutton runat="server" id="EditLink" causesvalidation="False" />
+			<div class="content">
+				<asp:literal id="PostText" runat="server" />
+			</div>
+		</div>
+		</itemtemplate>
+	</asp:repeater>
+</div>
