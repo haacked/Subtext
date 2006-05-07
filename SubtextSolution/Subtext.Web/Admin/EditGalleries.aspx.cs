@@ -44,6 +44,9 @@ namespace Subtext.Web.Admin.Pages
 		protected System.Web.UI.WebControls.PlaceHolder plhImageHeader;
 		protected Subtext.Web.Controls.ScrollPositionSaver scrollsaver;
 		protected System.Web.UI.WebControls.TextBox txbNewDescription;
+		// jsbright added to support prompting for new file name
+		protected Panel PanelSuggestNewName, PanelDefaultName;
+		protected TextBox TextBoxImageFileName;
 
 		#region Accessors
 		private int CategoryID
@@ -226,8 +229,38 @@ namespace Subtext.Web.Admin.Pages
 				Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", ex.Message));
 			}
 		}
+		/// <summary>
+		/// We're being asked to upload and store an image on the server (re-sizing and
+		/// all of that). Ideally this will work. It may not. We may have to ask
+		/// the user for an alternative file name. 
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void OnAddImage(object sender, System.EventArgs e)
+		{
+			PersistImage(ImageFile.PostedFile.FileName);
+		}
 
-		private void PersistImage()
+		/// <summary>
+		/// The user is providing the file name here. 
+		/// </summary>
+		protected void OnAddImageUserProvidedName(object sender, System.EventArgs e)
+		{
+			if (TextBoxImageFileName.Text.Length == 0)
+			{
+				Messages.ShowError("Valid file name for server image is required.");
+				return;
+			}
+
+			PersistImage(TextBoxImageFileName.Text);
+		}
+
+		/// <summary>
+		/// A fancy term for saving the image to disk :-). We'll take the image and try to save
+		/// it. This currently puts all images in the same directory which can cause a conflict
+		/// if the file already exists. So we'll add in a way to take a new file name. 
+		/// </summary>
+		private void PersistImage(string targetFileName)
 		{
 			if (Page.IsValid)
 			{
@@ -238,8 +271,24 @@ namespace Subtext.Web.Admin.Pages
 				
 				try
 				{
-					image.File = Images.GetFileName(ImageFile.PostedFile.FileName);
+					image.File = Images.GetFileName(targetFileName);
 					image.LocalFilePath = Images.LocalGalleryFilePath(Context, CategoryID);
+					if (System.IO.File.Exists(image.OriginalFilePath))
+					{
+						// tell the user we can't accept this file.
+						Messages.ShowError("This file already exists on the server. Please provide a name for the file.");
+
+						// switch around our GUI.
+						PanelSuggestNewName.Visible = true;
+						PanelDefaultName.Visible = false;
+
+						AddImages.Collapsed = false;
+						// unfortunately you cann't set ImageFile.PostedFile.FileName. At least suggest
+						// a name for the new file.
+						TextBoxImageFileName.Text = image.File;
+						return;
+					}
+
 					int imageID = Images.InsertImage(image,Images.GetFileStream(ImageFile.PostedFile));				
 					if (imageID > 0)
 					{
@@ -254,6 +303,13 @@ namespace Subtext.Web.Admin.Pages
 					this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", ex.Message));
 				}
 			}
+
+			// if we're successful we need to revert back to our standard view
+			PanelSuggestNewName.Visible = false;
+			PanelDefaultName.Visible = true;
+
+			// re-bind the gallery; note we'll skip this step if a correctable error occurs.
+			BindGallery();
 		}
 
 		// REFACTOR: can the flag go in AdminPage along with this meth?
@@ -302,7 +358,6 @@ namespace Subtext.Web.Admin.Pages
 			this.dgrSelectionList.UpdateCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrSelectionList_UpdateCommand);
 			this.dgrSelectionList.DeleteCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrSelectionList_DeleteCommand);
 			this.lkbPost.Click += new System.EventHandler(this.lkbPost_Click);
-			this.lbkAddImage.Click += new System.EventHandler(this.lbkAddImage_Click);
 			this.rprImages.ItemCommand += new System.Web.UI.WebControls.RepeaterCommandEventHandler(this.rprImages_ItemCommand);
 			this.Load += new System.EventHandler(this.Page_Load);
 
@@ -382,11 +437,7 @@ namespace Subtext.Web.Admin.Pages
 			ckbNewIsActive.Checked = Preferences.AlwaysCreateIsActive;
 		}
 
-		private void lbkAddImage_Click(object sender, System.EventArgs e)
-		{
-			PersistImage();
-			BindGallery();
-		}
+
 
 		private void rprImages_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
 		{
