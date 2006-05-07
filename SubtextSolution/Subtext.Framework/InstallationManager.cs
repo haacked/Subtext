@@ -117,7 +117,7 @@ namespace Subtext.Framework
 
 			return false;
 		}
-
+		
 		/// <summary>
 		/// Determines whether the requested page is in the Install directory.
 		/// </summary>
