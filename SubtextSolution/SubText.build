@@ -95,7 +95,7 @@
 				<exclude name="**/*.cs"/>
 				<exclude name="**/*.txt"/>
 				<exclude name="**/*.resx"/>
-				<exclude name="**/*.xml"/>
+				<exclude name="bin/*.xml"/>
 				<exclude name="**/*.csproj"/>
 				<exclude name="**/*.csproj.user"/>
 				<exclude name="**/.cvsignore"/>
