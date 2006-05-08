@@ -72,5 +72,5 @@ ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content]
 GO
 
 ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content]
-	ALTER COLUMN DateUpdated DateTime ULL
+	ALTER COLUMN DateUpdated DateTime NULL
 GO
