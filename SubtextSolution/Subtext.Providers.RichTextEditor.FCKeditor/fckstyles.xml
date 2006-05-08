@@ -30,16 +30,6 @@
 		<Attribute name="border" value="2" />
 		<Attribute name="align" value="right" />
 	</Style>
-	<Style name="Custom Bold" element="span">
-		<Attribute name="style" value="font-weight: bold;" />
-	</Style>
-	<Style name="Custom Italic" element="em" />
-	<Style name="Title" element="span">
-		<Attribute name="class" value="Title" />
-	</Style>
-	<Style name="Code" element="span">
-		<Attribute name="class" value="Code" />
-	</Style>
 	<Style name="Title H3" element="h3" />
 	<Style name="Custom Ruler" element="hr">
 		<Attribute name="size" value="1" />
