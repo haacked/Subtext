@@ -91,14 +91,14 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 			{
 				case "GetFolders" :
 					this.GetFolders( oConnectorNode, sResourceType, sCurrentFolder ) ;
-					break ;
+					break;
 				case "GetFoldersAndFiles" :
 					this.GetFolders( oConnectorNode, sResourceType, sCurrentFolder ) ;
 					this.GetFiles( oConnectorNode, sResourceType, sCurrentFolder ) ;
-					break ;
+					break;
 				case "CreateFolder" :
 					this.CreateFolder( oConnectorNode, sResourceType, sCurrentFolder ) ;
-					break ;
+					break;
 			}
 
 			// Output the resulting XML.
@@ -199,10 +199,49 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 
 		private void FileUpload( string resourceType, string currentFolder )
 		{
+			HttpPostedFile oFile = Request.Files["NewFile"] ;
+
+			string sErrorNumber = "0" ;
+			string sFileName = "" ;
+
+			if ( oFile != null )
+			{
+				// Map the virtual path to the local server path.
+				string sServerDir = this.ServerMapFolder( resourceType, currentFolder ) ;
+
+				// Get the uploaded file name.
+				sFileName = System.IO.Path.GetFileName( oFile.FileName ) ;
+
+				int iCounter = 0 ;
+
+				while ( true )
+				{
+					string sFilePath = System.IO.Path.Combine( sServerDir, sFileName ) ;
+
+					if ( System.IO.File.Exists( sFilePath ) )
+					{
+						iCounter++ ;
+						sFileName = 
+							System.IO.Path.GetFileNameWithoutExtension( oFile.FileName ) +
+							"(" + iCounter + ")" +
+							System.IO.Path.GetExtension( oFile.FileName ) ;
+
+						sErrorNumber = "201" ;
+					}
+					else
+					{
+						oFile.SaveAs( sFilePath ) ;
+						break ;
+					}
+				}
+			}
+			else
+				sErrorNumber = "202" ;
+
 			Response.Clear() ;
 
 			Response.Write( "<script type=\"text/javascript\">" ) ;
-			Response.Write( "window.parent.frames['frmUpload'].OnUploadCompleted(203,'') ;" ) ;
+			Response.Write( "window.parent.frames['frmUpload'].OnUploadCompleted(" + sErrorNumber + ",'" + sFileName.Replace( "'", "\\'" ) + "') ;" ) ;
 			Response.Write( "</script>" ) ;
 
 			Response.End() ;
