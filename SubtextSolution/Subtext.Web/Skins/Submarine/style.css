@@ -241,7 +241,7 @@ body
 #myLinks .links .archives :visited
 #myLinks .links .syndication,
 #myLinks .links .syndication:link,
-#myLinks .links .syndication :visited
+#myLinks .links .syndication:visited
 {
 	background: url(images/buton.gif) no-repeat;
 	text-decoration:none;
