@@ -360,9 +360,23 @@ namespace Subtext.Framework.Components
 
 		/// <summary>
 		/// True if comments have been closed. Otherwise false.  Comments are closed 
-		/// after a certain number of days.
+		/// either explicitly or after by global age setting which overrides explicit settings
 		/// </summary>
 		public bool CommentingClosed
+		{
+			get
+			{
+				return (CommentingClosedByAge || EntryPropertyCheck(PostConfig.CommentsClosed));
+			}
+			set
+			{
+				// Closing By Age overrides explicit closing
+				if (CommentingClosedByAge == false)
+					PostConfigSetter(PostConfig.CommentsClosed,value);
+			}			
+		}
+
+		public bool CommentingClosedByAge
 		{
 			get
 			{

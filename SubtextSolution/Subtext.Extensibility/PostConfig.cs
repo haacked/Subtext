@@ -20,7 +20,6 @@ namespace Subtext.Extensibility
 	/// <summary>
 	/// Summary description for PostConfig.
 	/// </summary>
-	
 	[Flags()]
 	public enum PostConfig
 	{
@@ -31,7 +30,7 @@ namespace Subtext.Extensibility
 		DisplayOnHomePage = 8,
 		IncludeInMainSyndication = 16,
 		SyndicateDescriptionOnly = 32,
-		IsAggregated = 64
-
+		IsAggregated = 64,
+		CommentsClosed = 128,
 	}
 }

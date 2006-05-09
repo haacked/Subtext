@@ -57,7 +57,9 @@ namespace Subtext.Web.UI.Controls
 			{
 				this.Visible = false;
 			}
+			
 		}
+
 
 		protected void RemoveComment_ItemCommand(Object Sender, RepeaterCommandEventArgs e) 
 		{
@@ -157,26 +159,33 @@ namespace Subtext.Web.UI.Controls
 
 		void BindComments(Entry entry)
 		{
-			try
-			{
-				if(Request.QueryString["Pending"] != null)
+				try
 				{
-					Cacher.ClearCommentCache(entry.EntryID);
-				}
-				CommentList.DataSource = Cacher.GetComments(entry,CacheDuration.Short);
-				CommentList.DataBind();
+					if(Request.QueryString["Pending"] != null)
+					{
+						Cacher.ClearCommentCache(entry.EntryID);
+					}
+					CommentList.DataSource = Cacher.GetComments(entry,CacheDuration.Short);
+					CommentList.DataBind();
 
-				if(CommentList.Items.Count == 0)
+					if(CommentList.Items.Count == 0)
+					{
+						if (entry.CommentingClosed)
+						{
+							this.Controls.Clear();
+						}
+						else
+						{
+							CommentList.Visible = false;
+							this.NoCommentMessage.Text = "No comments posted yet.";
+						}
+					}
+
+				}
+				catch
 				{
-					CommentList.Visible = false;
-					this.NoCommentMessage.Text = "No comments posted yet.";
+					this.Visible = false;
 				}
-
-			}
-			catch
-			{
-				this.Visible = false;
-			}
 		}
 	}
 }

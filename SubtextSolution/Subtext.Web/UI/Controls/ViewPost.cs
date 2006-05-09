@@ -93,7 +93,7 @@ namespace Subtext.Web.UI.Controls
 
 				if(commentCount != null)
 				{
-					if(entry.AllowComments)
+					if(CurrentBlog.CommentsEnabled && entry.AllowComments)
 					{
 						if(entry.FeedBackCount == 0)
 						{

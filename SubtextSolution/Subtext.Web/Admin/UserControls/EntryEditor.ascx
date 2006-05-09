@@ -112,7 +112,8 @@
 	<ANW:AdvancedPanel id="Advanced" runat="server" Collapsible="True" LinkText="[toggle]" HeaderCssClass="CollapsibleTitle" DisplayHeader="True" LinkBeforeHeader="True" LinkStyle="Image" HeaderText="Advanced Options" BodyCssClass="Edit" Collapsed="true" HeaderTextCssClass="CollapsibleTitle">
 		<p class="ValueLabel">
 			<asp:CheckBox id="ckbPublished" runat="server" Text = "Published" textalign="Left" />
-			<asp:CheckBox id="chkComments" runat="server" Text = "Allow Comments" textalign="Left" />
+			<asp:CheckBox id="chkComments" runat="server" Text = "Show Comments" textalign="Left" />
+			<asp:CheckBox id="chkCommentsClosed" runat="server" Text = "Comments Closed" textalign="Left" />
 			<asp:CheckBox id="chkDisplayHomePage" runat="server" Text = "Display on HomePage" textalign="Left" />
 
 			<asp:CheckBox id="chkMainSyndication" runat="server" Text = "Syndicate on Main Feed" textalign="Left" />
