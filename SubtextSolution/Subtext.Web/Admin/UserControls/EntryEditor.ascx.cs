@@ -56,6 +56,7 @@ namespace Subtext.Web.Admin.UserControls
 		protected TextBox Textbox2;
 		protected CheckBox ckbPublished;
 		protected CheckBox chkComments;
+		protected CheckBox chkCommentsClosed;
 		protected CheckBox chkDisplayHomePage;
 		protected CheckBox chkMainSyndication;
 		protected CheckBox chkSyndicateDescriptionOnly;
@@ -275,6 +276,11 @@ namespace Subtext.Web.Admin.UserControls
 			hlEntryLink.Visible = true;
 
 			chkComments.Checked                    = currentPost.AllowComments;	
+			chkCommentsClosed.Checked			   = currentPost.CommentingClosed;
+			SetCommentControls();
+			if (currentPost.CommentingClosedByAge)
+				chkCommentsClosed.Enabled = false;
+
 			chkDisplayHomePage.Checked             = currentPost.DisplayOnHomePage;
 			chkMainSyndication.Checked             = currentPost.IncludeInMainSyndication;  
 			chkSyndicateDescriptionOnly.Checked    = currentPost.SyndicateDescriptionOnly ; 
@@ -331,6 +337,15 @@ namespace Subtext.Web.Admin.UserControls
 			}
 		}
 
+		private void SetCommentControls()
+		{
+			if (!Config.CurrentBlog.CommentsEnabled)
+			{
+				chkComments.Enabled = false;
+				chkCommentsClosed.Enabled = false;
+			}
+		}
+
 		public void EditNewEntry()
 		{
 			ResetPostEdit(true);
@@ -358,6 +373,8 @@ namespace Subtext.Web.Admin.UserControls
 
 			ckbPublished.Checked = Preferences.AlwaysCreateIsActive;
 			chkComments.Checked = true;
+			chkCommentsClosed.Checked = false;
+			SetCommentControls();
 			chkDisplayHomePage.Checked = true;
 			chkMainSyndication.Checked = true;
 			chkSyndicateDescriptionOnly.Checked = false;
@@ -426,6 +443,7 @@ namespace Subtext.Web.Admin.UserControls
 					 */
 					entry.IsActive = ckbPublished.Checked;
 					entry.AllowComments = chkComments.Checked;
+					entry.CommentingClosed = chkCommentsClosed.Checked;
 					entry.DisplayOnHomePage = chkDisplayHomePage.Checked;
 					entry.IncludeInMainSyndication = chkMainSyndication.Checked;
 					entry.SyndicateDescriptionOnly = chkSyndicateDescriptionOnly.Checked;

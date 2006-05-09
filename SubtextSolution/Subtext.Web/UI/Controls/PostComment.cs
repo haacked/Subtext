@@ -79,20 +79,21 @@ namespace Subtext.Web.UI.Controls
 					return;
 				}
 
-				if(IsCommentAllowed(entry))
+				if (IsCommentsRendered(entry))
 				{
-					//Need to get this without a db hit?
-					tbTitle.Text = "re: " + entry.Title;
-				}
-				else
-				{
-					if(!entry.CommentingClosed)
-						this.Visible = false;
-					else
+					if (entry.CommentingClosed)
 					{
 						this.Controls.Clear();
 						this.Controls.Add(new LiteralControl("<div class=\"commentsClosedMessage\"><span style=\"font-style: italic;\">Comments have been closed on this topic.</span></div>"));
 					}
+					else
+					{
+						tbTitle.Text = "re: " + entry.Title;
+					}
+				}
+				else
+				{
+					this.Controls.Clear();
 				}
 
 				if(Config.CurrentBlog.CoCommentsEnabled)
@@ -182,7 +183,12 @@ namespace Subtext.Web.UI.Controls
 				}
 			}
 		}
-
+		
+		bool IsCommentsRendered(Entry entry)
+		{
+			return CurrentBlog.CommentsEnabled && entry != null && entry.AllowComments;
+		}
+		
 		bool IsCommentAllowed(Entry entry)
 		{
 			return CurrentBlog.CommentsEnabled && entry != null && entry.AllowComments && !entry.CommentingClosed;

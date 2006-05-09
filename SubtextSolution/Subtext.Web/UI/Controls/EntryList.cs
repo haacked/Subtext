@@ -14,10 +14,10 @@
 #endregion
 
 using System;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Web.Controls;
 
@@ -76,7 +76,7 @@ namespace Subtext.Web.UI.Controls
 			Label commentCount = e.Item.FindControl("commentCount") as Label;
 			if(commentCount != null)
 			{
-				if(entry.AllowComments)
+				if(Config.CurrentBlog.CommentsEnabled && entry.AllowComments)
 				{
 					if(entry.FeedBackCount == 0)
 					{
