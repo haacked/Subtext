@@ -185,9 +185,9 @@
                     HintPath = "ExternalDependencies\AngryPets.Web.Frameworks.ReverseDOS.dll"
                 />
                 <Reference
-                    Name = "freetextbox"
-                    AssemblyName = "FreeTextBox"
-                    HintPath = "ExternalDependencies\freetextbox.dll"
+                    Name = "FreetextBox"
+                    AssemblyName = "FreetextBox"
+                    HintPath = "ExternalDependencies\FreetextBox.dll"
                 />
             </References>
         </Build>
@@ -1036,7 +1036,7 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "ExternalDependencies\FreeTextBox.dll"
+                    RelPath = "ExternalDependencies\FreetextBox.dll"
                     BuildAction = "Content"
                 />
                 <File
