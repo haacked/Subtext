@@ -25,13 +25,13 @@
    <Directory>$(ProjectDir)/UnitTests.Subtext/bin/Debug/</Directory>
   </AssemblyReferenceDirectories>
   <Target Name="$(ProjectDir)/Subtext.Web/bin/Subtext.Providers.RichTextEditor.FCKeditor.dll" Analyze="True" AnalyzeAllChildren="True" />
-  <Target Name="$(ProjectDir)/UnitTests.Subtext/bin/Debug/Subtext.Common.dll" Analyze="True" AnalyzeAllChildren="True" />
-  <Target Name="$(ProjectDir)/UnitTests.Subtext/bin/Debug/Subtext.Extensibility.dll" Analyze="True" AnalyzeAllChildren="True" />
-  <Target Name="$(ProjectDir)/UnitTests.Subtext/bin/Debug/Subtext.Framework.dll" Analyze="True" AnalyzeAllChildren="True" />
-  <Target Name="$(ProjectDir)/UnitTests.Subtext/bin/Debug/Subtext.Installation.dll" Analyze="True" AnalyzeAllChildren="True" />
-  <Target Name="$(ProjectDir)/UnitTests.Subtext/bin/Debug/Subtext.Scripting.dll" Analyze="True" AnalyzeAllChildren="True" />
-  <Target Name="$(ProjectDir)/UnitTests.Subtext/bin/Debug/Subtext.Web.Controls.dll" Analyze="True" AnalyzeAllChildren="True" />
-  <Target Name="$(ProjectDir)/UnitTests.Subtext/bin/Debug/Subtext.Web.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="$(ProjectDir)/Subtext.Web/bin/Subtext.Common.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="$(ProjectDir)/Subtext.Web/bin/Subtext.Extensibility.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="$(ProjectDir)/Subtext.Web/bin/Subtext.Framework.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="$(ProjectDir)/Subtext.Web/bin/Subtext.Installation.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="$(ProjectDir)/Subtext.Web/bin/Subtext.Scripting.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="$(ProjectDir)/Subtext.Web/bin/Subtext.Web.Controls.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="$(ProjectDir)/Subtext.Web/bin/Subtext.Web.dll" Analyze="True" AnalyzeAllChildren="True" />
  </Targets>
  <Rules>
   <RuleFiles>
