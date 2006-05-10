@@ -25,7 +25,7 @@ namespace Subtext.Common.Syndication
 	/// </summary>
 	public class AtomHandler : Subtext.Framework.Syndication.BaseSyndicationHandler
 	{
-		BaseSyndicationWriter writer = null;
+		BaseSyndicationWriter writer;
 
 		/// <summary>
 		/// Returns the key used to cache this feed.

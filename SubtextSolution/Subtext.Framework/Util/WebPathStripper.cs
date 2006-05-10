@@ -25,7 +25,7 @@ namespace Subtext.Framework.Util
 	/// <summary>
 	/// Summary description for WebPathStripper.
 	/// </summary>
-	public class WebPathStripper
+	public sealed class WebPathStripper
 	{
 		private WebPathStripper()
 		{

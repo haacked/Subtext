@@ -28,9 +28,9 @@ namespace Subtext.Common.Syndication
 	/// </summary>
 	public class RssCommentHandler : EntryCollectionHandler
 	{
-		protected Entry ParentEntry = null;
-		protected EntryCollection Comments = null;
-		EntryCollection comments = null;
+		protected Entry ParentEntry;
+		protected EntryCollection Comments;
+		EntryCollection comments;
 
 		/// <summary>
 		/// Gets the feed entries.
@@ -58,7 +58,7 @@ namespace Subtext.Common.Syndication
 		/// <returns></returns>
 		protected override CachedFeed BuildFeed()
 		{
-			CachedFeed feed = null;
+			CachedFeed feed;
 
 			comments = GetFeedEntries();
 			if(comments == null)
@@ -84,7 +84,7 @@ namespace Subtext.Common.Syndication
 			string dt = LastModifiedHeader;
 			if(dt != null)
 			{
-				EntryCollection comments = GetFeedEntries();
+				comments = GetFeedEntries();
 
 				if(comments != null && comments.Count > 0)
 				{

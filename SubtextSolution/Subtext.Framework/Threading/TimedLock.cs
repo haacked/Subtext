@@ -163,12 +163,12 @@ namespace Subtext.Framework.Threading
 
 	}
 
-	#region public class LockTimeoutException : ApplicationException
+	#region public class LockTimeoutException : Exception
 	/// <summary>
 	/// Thrown when a lock times out.
 	/// </summary>
 	[Serializable]
-	public class LockTimeoutException : ApplicationException
+	public class LockTimeoutException : Exception
 	{
 #if DEBUG
 		object _lockTarget = null;

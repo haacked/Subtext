@@ -323,7 +323,7 @@ namespace Subtext.Web.Admin.WebUI
 
 			if (NULL_CATEGORY != _catType)
 			{	
-				string linkUrl = null;
+				string linkUrl;
 
 				// add a unadorned link back to this same page to give an explicit way to clear filter
 				if (CategoryType.ImageCollection == (CategoryType)_catType)

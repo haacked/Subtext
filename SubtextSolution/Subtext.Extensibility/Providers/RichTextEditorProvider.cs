@@ -23,9 +23,8 @@ namespace Subtext.Extensibility.Providers
 	/// Provider for classes that implement the rich text editor 
 	/// to edit text visually.
 	/// </summary>
-	public abstract class RichTextEditorProvider: ProviderBase
+	public abstract class RichTextEditorProvider : ProviderBase
 	{
-
 		const string SECTION_NAME = "RichTextEditor";
 		string _name;
 

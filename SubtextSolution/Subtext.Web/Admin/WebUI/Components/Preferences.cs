@@ -15,19 +15,23 @@
 
 using System;
 using System.Web;
+using Subtext.Framework.Text;
 
 namespace Subtext.Web.Admin
 {
 	// This is sort of experimental right now. Not sure it's clean enough/performant enough.
-
-	internal class Preferences
+	internal sealed class Preferences
 	{
 		private const string COOKIES_PAGE_SIZE_DEFAULT = "AdminCookieListingItemCount";
 		private const string COOKIES_EXPAND_ADVANCED = "AdminCookieAlwaysExpandAdvanced";
 		private const string COOKIES_CREATE_ISACTIVE = "AlwaysCreateItemsAsActive";
 
-		protected const int COOKIE_EXPIRY_MONTHS = 6;
+		const int COOKIE_EXPIRY_MONTHS = 6;
 
+		private Preferences()
+		{
+		}
+		
 		internal static int ListingItemCount 
 		{
 			get 
@@ -47,10 +51,11 @@ namespace Subtext.Web.Admin
 		internal static bool AlwaysExpandAdvanced 
 		{
 			get 
-			{ 		
-				if (null != HttpContext.Current.Request.Cookies[COOKIES_EXPAND_ADVANCED])
+			{
+				HttpCookie cookie = HttpContext.Current.Request.Cookies[COOKIES_EXPAND_ADVANCED];
+				if (null != cookie)
 				{
-					return HttpContext.Current.Request.Cookies[COOKIES_EXPAND_ADVANCED].Value.ToLower(System.Globalization.CultureInfo.InvariantCulture) == "true" ? true : false;
+					return StringHelper.AreEqualIgnoringCase(cookie.Value, "true") ? true : false;
 				}
 				else
 					return Constants.ALWAYS_EXPAND_DEFAULT;
@@ -63,11 +68,12 @@ namespace Subtext.Web.Admin
 
 		internal static bool AlwaysCreateIsActive 
 		{
-			get 
-			{ 		
-				if (null != HttpContext.Current.Request.Cookies[COOKIES_CREATE_ISACTIVE])
+			get
+			{ 
+				HttpCookie cookie = HttpContext.Current.Request.Cookies[COOKIES_CREATE_ISACTIVE];
+				if (null != cookie)
 				{
-					return HttpContext.Current.Request.Cookies[COOKIES_CREATE_ISACTIVE].Value.ToLower(System.Globalization.CultureInfo.InvariantCulture) == "true" ? true : false;
+					return StringHelper.AreEqualIgnoringCase(cookie.Value, "true") ? true : false;
 				}
 				else
 					return Constants.CREATE_ISACTIVE_DEFAULT;
@@ -79,12 +85,12 @@ namespace Subtext.Web.Admin
 			}
 		}
 
-		protected static DateTime CookieExpiry
+		static DateTime CookieExpiry
 		{
 			get { return DateTime.Now.AddMonths(COOKIE_EXPIRY_MONTHS); }
 		}
 
-		protected static void CreateCookie(string name, object value, DateTime expiry)
+		static void CreateCookie(string name, object value, DateTime expiry)
 		{
 			HttpCookie addingCookie = new HttpCookie(name);
 			addingCookie.Value = value.ToString();

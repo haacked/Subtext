@@ -37,6 +37,9 @@ namespace Subtext.Framework.Components
 		/// <param name="value">A <see cref="EntryDayCollection">EntryDayCollection</see> with which to initialize the collection.</param>
 		public EntryDayCollection(EntryDayCollection value)	
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range from null.");
+
 			this.AddRange(value);
 		}
 		
@@ -46,6 +49,9 @@ namespace Subtext.Framework.Components
 		/// <param name="value">An array of <see cref="EntryDay">EntryDay</see> Components with which to initialize the collection. </param>
 		public EntryDayCollection(EntryDay[] value)
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range from null.");
+
 			this.AddRange(value);
 		}
 		
@@ -71,6 +77,9 @@ namespace Subtext.Framework.Components
 		/// <param name="value">An array of type <see cref="EntryDay">EntryDay</see> containing the Components to add to the collection.</param>
 		public void AddRange(EntryDay[] value) 
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range from null.");
+
 			for (int i = 0;	(i < value.Length); i = (i + 1)) 
 			{
 				this.Add(value[i]);
@@ -83,6 +92,9 @@ namespace Subtext.Framework.Components
 		/// <param name="value">A <see cref="EntryDayCollection">EntryDayCollection</see> containing the Components to add to the collection. </param>
 		public void AddRange(EntryDayCollection value) 
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range from null.");
+
 			for (int i = 0;	(i < value.Count); i = (i +	1))	
 			{
 				this.Add((EntryDay)value.List[i]);

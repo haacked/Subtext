@@ -62,6 +62,9 @@ namespace Subtext.Scripting
 		/// <param name="value">A <see cref="ScriptCollection">ScriptCollection</see> containing the <see cref="Script"/>s to add to the collection. </param>
 		public void AddRange(ScriptCollection value) 
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range from null.");
+			
 			for (int i = 0;	(i < value.Count); i = (i +	1))	
 			{
 				this.Add((Script)value.List[i]);

@@ -27,8 +27,8 @@ namespace Subtext.Scripting
 	/// </summary>
 	public class Script : IScript, ITemplateScript
 	{
-		ScriptToken _scriptTokens = null;
-		TemplateParameterCollection _parameters = null;
+		ScriptToken _scriptTokens;
+		TemplateParameterCollection _parameters;
 
 		/// <summary>
 		/// Helper method which given a full SQL script, returns 
@@ -296,14 +296,6 @@ namespace Subtext.Scripting
 				get
 				{
 					return _parameter.Value;
-				}
-			}
-
-			internal TemplateParameter Parameter
-			{
-				get
-				{
-					return _parameter;
 				}
 			}
 

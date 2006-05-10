@@ -76,12 +76,12 @@ namespace Subtext.Framework.Tracking
 				string blog_name = safeParam(context,"blog_name") ;
 
 				// is the url valid ?
-				if ( url == "" )
+				if (url.Length == 0)
 				{
 					trackbackResponse (context, 1, "no url parameter found, please try harder!") ;
 				}
 	
-				string pageTitle = null;
+				string pageTitle;
 				Entry trackedEntry = Entries.GetEntry(postId, EntryGetOption.ActiveOnly);
 				if (trackedEntry != null &&  ! Verifier.SourceContainsTarget(url, trackedEntry.Link, out pageTitle))
 				{
@@ -141,7 +141,7 @@ namespace Subtext.Framework.Tracking
 			XmlElement er = d.CreateElement("error") ;
 			root.AppendChild(er) ;
 			er.AppendChild(d.CreateTextNode(errNum.ToString(CultureInfo.InvariantCulture))) ;
-			if ( errText != "" )
+			if (errText.Length > 0)
 			{
 				XmlElement msg = d.CreateElement("message") ;
 				root.AppendChild(msg) ;

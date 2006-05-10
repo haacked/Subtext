@@ -51,7 +51,7 @@ namespace Subtext.Web.Admin.WebUI
 	// WebControl as an ancestor along with 13,000 other things. So this is kind 
 	// of bad pool here, need to reevalutate how to get same functionality but
 	// in a cleaner way.
-	public class LinkControlCollection: System.Collections.CollectionBase
+	public sealed class LinkControlCollection : System.Collections.CollectionBase
 	{
 		public LinkControlCollection()
 		{
@@ -69,43 +69,49 @@ namespace Subtext.Web.Admin.WebUI
 			this.AddRange(items);
 		}
 
-		public virtual void AddRange(WebControl[] items)
+		public void AddRange(WebControl[] items)
 		{
+			if(items == null)
+				throw new ArgumentNullException("items", "Cannot add a range from null.");
+			
 			foreach (WebControl item in items)
 			{
 				this.List.Add(item);
 			}
 		}
 
-		public virtual void AddRange(LinkControlCollection items)
+		public void AddRange(LinkControlCollection items)
 		{
+			if(items == null)
+				throw new ArgumentNullException("items", "Cannot add a range from null.");
+
 			foreach (WebControl item in items)
 			{
 				this.List.Add(item);
 			}
 		}
 
-		public virtual void Add(LinkButton value)
+		public void Add(LinkButton value)
 		{
 			this.List.Add(value);
 		}
 
-		public virtual void Add(HyperLink value)
+		public void Add(HyperLink value)
 		{
 			this.List.Add(value);
 		}
 
-		public virtual void Add(string text, string navigateUrl)
+		public void Add(string text, string navigateUrl)
 		{
 			Add(text, navigateUrl, null, null);
 		}
 
-		public virtual void Add(string text, string navigateUrl, string cssClass)
+		public void Add(string text, string navigateUrl, string cssClass)
 		{
 			Add(text, navigateUrl, cssClass, null);
 		}
 
-		public virtual void Add(string text, string navigateUrl, string cssClass, string target)
+		public void Add(string text, string navigateUrl, string cssClass, string target)
 		{
 			HyperLink adding = new HyperLink();
 			adding.Text = text;
@@ -118,12 +124,12 @@ namespace Subtext.Web.Admin.WebUI
 			this.List.Add(adding);
 		}
 
-		public virtual LinkButton Add(string text, EventHandler targetHandler)
+		public LinkButton Add(string text, EventHandler targetHandler)
 		{
 			return Add(text, null, targetHandler);
 		}
 
-		public virtual LinkButton Add(string text, string cssClass, EventHandler targetHandler)
+		public LinkButton Add(string text, string cssClass, EventHandler targetHandler)
 		{
 			LinkButton adding = new LinkButton ();
 			adding.Text = text;
@@ -136,33 +142,33 @@ namespace Subtext.Web.Admin.WebUI
 			return adding;
 		}
 
-		public virtual bool Contains(WebControl value)
+		public bool Contains(WebControl value)
 		{
 			return this.List.Contains(value);
 		}
 
-		public virtual int IndexOf(WebControl value)
+		public int IndexOf(WebControl value)
 		{
 			return this.List.IndexOf(value);
 		}
 
-		public virtual void Insert(int index, WebControl value)
+		public void Insert(int index, WebControl value)
 		{
 			this.List.Insert(index, value);
 		}
 
-		public virtual WebControl this[int index]
+		public WebControl this[int index]
 		{
 			get { return (WebControl)this.List[index]; }
 			set	{ this.List[index] = value; }
 		}
 
-		public virtual void Remove(WebControl value)
+		public void Remove(WebControl value)
 		{
 			this.List.Remove(value);
 		}
 
-		public new virtual LinkControlCollection.Enumerator GetEnumerator()
+		public new LinkControlCollection.Enumerator GetEnumerator()
 		{
 			return new LinkControlCollection.Enumerator(this);
 		}
@@ -183,7 +189,7 @@ namespace Subtext.Web.Admin.WebUI
 
 			object System.Collections.IEnumerator.Current
 			{
-				get { return (WebControl)this.wrapped.Current; }
+				get { return this.wrapped.Current; }
 			}
 
 			public bool MoveNext()

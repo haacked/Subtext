@@ -389,14 +389,14 @@ namespace Subtext.Installation
 
 			internal static InstallationScriptInfo Parse(string resourceName)
 			{
-				Regex regex = new Regex(@"(?<scriptName>Installation\.(?<version>\d+\.\d+\.\d+)\.sql)$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+				Regex regex = new Regex(@"(?<ScriptName>Installation\.(?<version>\d+\.\d+\.\d+)\.sql)$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 				Match match = regex.Match(resourceName);
 				if(!match.Success)
 				{
 					return null;
 				}
 				Version version = new Version(match.Groups["version"].Value);
-				string scriptName = match.Groups["scriptName"].Value;
+				string scriptName = match.Groups["ScriptName"].Value;
 				return new InstallationScriptInfo(scriptName, version);
 			}
 

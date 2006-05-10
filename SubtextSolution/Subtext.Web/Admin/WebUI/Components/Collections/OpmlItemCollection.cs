@@ -371,7 +371,7 @@ namespace Subtext.Web.Admin
 		public virtual void AddRange(OpmlItemCollection collection) 
 		{
 			if (collection == null)
-				throw new ArgumentNullException("collection");
+				throw new ArgumentNullException("collection", "Cannot add a range from a null collection");
 
 			if (collection.Count == 0) return;
 			if (this._count + collection.Count > this._array.Length)
@@ -399,7 +399,7 @@ namespace Subtext.Web.Admin
 		public virtual void AddRange(OpmlItem[] array) 
 		{
 			if (array == null)
-				throw new ArgumentNullException("array");
+				throw new ArgumentNullException("array", "Cannot add a range from a null array.");
 
 			if (array.Length == 0) return;
 			if (this._count + array.Length > this._array.Length)
@@ -1220,18 +1220,30 @@ namespace Subtext.Web.Admin
                 
 			public override int Capacity 
 			{
-				get { lock (this._root) return this._collection.Capacity; }                
-				set { lock (this._root) this._collection.Capacity = value; }
+				get
+				{
+					lock (this._root) return this._collection.Capacity;
+				}                
+				set
+				{
+					lock (this._root) this._collection.Capacity = value;
+				}
 			}
 
 			public override int Count 
 			{
-				get { lock (this._root) return this._collection.Count; }
+				get
+				{
+					lock (this._root) return this._collection.Count;
+				}
 			}
 
 			public override bool IsFixedSize 
 			{
-				get { return this._collection.IsFixedSize; }
+				get
+				{
+					return this._collection.IsFixedSize;
+				}
 			}
 
 			public override bool IsReadOnly 
@@ -1265,11 +1277,17 @@ namespace Subtext.Web.Admin
             
 			public override void AddRange(OpmlItemCollection collection) 
 			{
+				if(collection == null)
+					throw new ArgumentNullException("collection", "Cannot add a range from null.");
+				
 				lock (this._root) this._collection.AddRange(collection);
 			}
 
 			public override void AddRange(OpmlItem[] array) 
 			{
+				if(array == null)
+					throw new ArgumentNullException("array", "Cannot add a range from null.");
+				
 				lock (this._root) this._collection.AddRange(array);
 			}
 

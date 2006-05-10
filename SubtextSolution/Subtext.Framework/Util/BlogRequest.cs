@@ -37,8 +37,12 @@ using System.Text;
 
 namespace Subtext.Framework.Util
 {
-	public class BlogRequest 
+	public sealed class BlogRequest 
 	{
+		private BlogRequest()
+		{
+		}
+		
 		private const int defaultTimeout_ = 60000;
 		private static string referer_ = @"http://Subtext.com/Services/default.htm";
 		private static readonly string userAgent_ = VersionInfo.UserAgent
@@ -70,8 +74,8 @@ namespace Subtext.Framework.Util
 			HttpWebResponse response = GetResponse(url);
 			using (Stream s = response.GetResponseStream())
 			{
-				string enc = response.ContentEncoding.Trim() ;
-				if ( enc == "" )
+				string enc = response.ContentEncoding;
+				if (enc == null || enc.Trim().Length == 0)
 					enc = "us-ascii" ;
 				Encoding encode = System.Text.Encoding.GetEncoding(enc);
 				using ( StreamReader sr = new StreamReader( s, encode ) )

@@ -79,9 +79,9 @@ namespace Subtext.Web.UI.WebControls
 
 		private void BuildMasterPage() 
 		{
-			if (this.TemplateFile == null || this.TemplateFile == string.Empty) 
+			if (this.TemplateFile == null || this.TemplateFile.Length == 0) 
 			{
-				throw new ApplicationException("TemplateFile Property for MasterPage must be Defined");
+				throw new InvalidOperationException("TemplateFile Property for MasterPage must be Defined");
 			}
 			try
 			{

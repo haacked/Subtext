@@ -19,7 +19,7 @@ using blowery.Web.HttpCompress;
 
 namespace Subtext.Framework.Syndication.Compression
 {
-	public class SyndicationCompressionHelper
+	public sealed class SyndicationCompressionHelper
 	{
 		/*-- Constructors --*/
 

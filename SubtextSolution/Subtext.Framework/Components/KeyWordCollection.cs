@@ -72,6 +72,9 @@ namespace Subtext.Framework.Components
 		/// <param name="value">An array of type <see cref="KeyWord">KeyWord</see> containing the Components to add to the collection.</param>
 		public void AddRange(KeyWord[] value) 
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range from null.");
+
 			for (int i = 0;	(i < value.Length); i = (i + 1)) 
 			{
 				this.Add(value[i]);
@@ -84,6 +87,9 @@ namespace Subtext.Framework.Components
 		/// <param name="value">A <see cref="KeyWordCollection">KeyWordCollection</see> containing the Components to add to the collection. </param>
 		public void AddRange(KeyWordCollection value) 
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range from null.");
+
 			for (int i = 0;	(i < value.Count); i = (i +	1))	
 			{
 				this.Add((KeyWord)value.List[i]);

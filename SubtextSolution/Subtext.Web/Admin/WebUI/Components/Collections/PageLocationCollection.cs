@@ -370,8 +370,8 @@ namespace Subtext.Web.Admin
 
 		public virtual void AddRange(PageLocationCollection collection) 
 		{
-			if (collection == null)
-				throw new ArgumentNullException("collection");
+			if(collection == null)
+				throw new ArgumentNullException("collection", "Cannot add a range from null.");
 
 			if (collection.Count == 0) return;
 			if (this._count + collection.Count > this._array.Length)
@@ -398,8 +398,8 @@ namespace Subtext.Web.Admin
 
 		public virtual void AddRange(PageLocation[] array) 
 		{
-			if (array == null)
-				throw new ArgumentNullException("array");
+			if(array == null)
+				throw new ArgumentNullException("array", "Cannot add a range from null.");
 
 			if (array.Length == 0) return;
 			if (this._count + array.Length > this._array.Length)
@@ -1265,11 +1265,17 @@ namespace Subtext.Web.Admin
             
 			public override void AddRange(PageLocationCollection collection) 
 			{
+				if(collection == null)
+					throw new ArgumentNullException("collection", "Cannot add a range from null.");
+				
 				lock (this._root) this._collection.AddRange(collection);
 			}
 
 			public override void AddRange(PageLocation[] array) 
 			{
+				if(array == null)
+					throw new ArgumentNullException("array", "Cannot add a range from null.");
+				
 				lock (this._root) this._collection.AddRange(array);
 			}
 

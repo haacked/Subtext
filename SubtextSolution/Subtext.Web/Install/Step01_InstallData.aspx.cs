@@ -165,9 +165,9 @@ namespace Subtext.Web.Install
 			return sqlexc != null 
 				&& 
 				(
-				sqlexc.Number == (int)SqlErrorMessages.PermissionDeniedInDatabase
-				||	sqlexc.Number == (int)SqlErrorMessages.PermissionDeniedInOnColumn
-				||	sqlexc.Number == (int)SqlErrorMessages.PermissionDeniedInOnObject
+				sqlexc.Number == (int)SqlErrorMessage.PermissionDeniedInDatabase
+				||	sqlexc.Number == (int)SqlErrorMessage.PermissionDeniedInOnColumn
+				||	sqlexc.Number == (int)SqlErrorMessage.PermissionDeniedInOnObject
 				);
 		}
 	}

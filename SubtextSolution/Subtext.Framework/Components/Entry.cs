@@ -32,7 +32,7 @@ namespace Subtext.Framework.Components
 		/// <param name="ptype">Ptype.</param>
 		public Entry(PostType ptype)
 		{
-			this.PostType = ptype;
+			this._postType = ptype;
 		}
 
 		private int _blogID;
@@ -464,7 +464,7 @@ namespace Subtext.Framework.Components
 			int checksum = 0;
 			foreach(char c in text)
 			{
-				checksum += (int)c;
+				checksum += c;
 			}
 			return checksum;
 		}

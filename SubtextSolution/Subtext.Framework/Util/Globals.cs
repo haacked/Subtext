@@ -51,7 +51,7 @@ namespace Subtext.Framework.Util
 			if (context == null) return result;
 
 			result = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-			if (null == result || result == String.Empty)
+			if (null == result || result.Length == 0)
 				result = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
 
 			return result;

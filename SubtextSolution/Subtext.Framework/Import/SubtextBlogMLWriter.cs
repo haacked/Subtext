@@ -203,37 +203,24 @@ namespace Subtext.Framework.Import
 
 		private void WritePosts()
 		{
-			DataSet dsPosts = null;
+			DataSet dsPosts;
+			dsPosts = GetPosts();
+			WriteStartPosts();
 
-			try
+			foreach(DataRow post in dsPosts.Tables[0].Rows)
 			{
-				dsPosts = GetPosts();
-                
-				WriteStartPosts();
-
-				foreach(DataRow post in dsPosts.Tables[0].Rows)
-				{
-					WritePost(post);
-					Writer.Flush();
-				}
-
-				WriteEndElement(); // End Posts Element
+				WritePost(post);
 				Writer.Flush();
 			}
-			catch (Exception ex)
-			{
-				throw(new Exception("Unable to write posts.", ex));
-			}
-			finally
-			{
-				dsPosts = null;
-			}
+
+			WriteEndElement(); // End Posts Element
+			Writer.Flush();
 		}
 
 		private void WritePost(DataRow post)
 		{
-			int currentPostId = -1;
-			string newPostID = string.Empty;
+			int currentPostId;
+			string newPostID;
 			string postContent = post["Text"] as string;
 			
 			try
@@ -276,8 +263,8 @@ namespace Subtext.Framework.Import
 		private void WritePostAttachments(string content)
 		{
 			string[] imagesURLs = SgmlUtil.GetAttributeValues(content, "img", "src");
-			string imageURL = null;
-			string fullImageURL = null;
+			string imageURL;
+			string fullImageURL;
 			string appFullRootUrl = "http://" + Config.CurrentBlog.Host.ToLower() 
 				+ StringHelper.ReturnCheckForNull(HttpContext.Current.Request.ApplicationPath).ToLower();
 			
@@ -322,131 +309,100 @@ namespace Subtext.Framework.Import
 		
 		private void WritePostComments(int postID)
 		{
-			DataSet dsComments = null;
-			string commentID = string.Empty;
+			DataSet dsComments;
+			string commentID;
 
-			try
+		
+			dsComments = GetPostComments(postID);
+            
+			if (dsComments.Tables[0].Rows.Count > 0)
 			{
-				dsComments = GetPostComments(postID);
-             
-				if (dsComments.Tables[0].Rows.Count > 0)
+				WriteStartComments();
+                
+				foreach(DataRow comment in dsComments.Tables[0].Rows)
 				{
-					WriteStartComments();
-                   
-					foreach(DataRow comment in dsComments.Tables[0].Rows)
+					if (this.isUseGuids)
 					{
-						if (this.isUseGuids)
-						{
-							commentID = Guid.NewGuid().ToString();
-						}
-						else
-						{
-							commentID = comment["ID"].ToString();
-						}
-
-						WriteComment(commentID, 
-									 comment["Title"] as string,
-									 DateTime.Parse(comment["DateAdded"].ToString()),
-									 DateTime.Parse(comment["DateUpdated"].ToString()),
-									 true,
-									 comment["Author"] as string,
-									 comment["Email"] as string,
-									 comment["TitleUrl"] as string,
-									 comment["Text"] as string);
-					
-						Writer.Flush();
+						commentID = Guid.NewGuid().ToString();
+					}
+					else
+					{
+						commentID = comment["ID"].ToString();
 					}
 
-					WriteEndElement(); // End Comments Element
+					WriteComment(commentID, 
+					             comment["Title"] as string,
+					             DateTime.Parse(comment["DateAdded"].ToString()),
+					             DateTime.Parse(comment["DateUpdated"].ToString()),
+					             true,
+					             comment["Author"] as string,
+					             comment["Email"] as string,
+					             comment["TitleUrl"] as string,
+					             comment["Text"] as string);
+				
 					Writer.Flush();
 				}
-			}
-			catch (Exception ex)
-			{
-				throw(new Exception("Unable to Write Post Comments.", ex));
-			}
-			finally
-			{
-				dsComments = null;
+
+				WriteEndElement(); // End Comments Element
+				Writer.Flush();
 			}
 		}
 
 		private void WritePostCategories(int postID)
 		{
-			DataSet dsCategories = null;
+			DataSet dsCategories;
 
-			try
+			
+			dsCategories = GetPostCategories(postID);
+			
+			if (dsCategories.Tables[0].Rows.Count > 0)
 			{
-				dsCategories = GetPostCategories(postID);
-				
-				if (dsCategories.Tables[0].Rows.Count > 0)
+				WriteStartCategories();
+
+				foreach(DataRow postCategoryId in dsCategories.Tables[0].Rows)
 				{
-					WriteStartCategories();
-
-					foreach(DataRow postCategoryId in dsCategories.Tables[0].Rows)
-					{
-						WriteCategoryReference(this.categories[postCategoryId["CategoryID"].ToString()].ToString());
-						Writer.Flush();
-					}
-
-					WriteEndElement();
+					WriteCategoryReference(this.categories[postCategoryId["CategoryID"].ToString()].ToString());
 					Writer.Flush();
 				}
-			}
-			catch (Exception ex)
-			{
-				throw(new Exception("Unable to write Post Categories.", ex));
-			}
-			finally
-			{
-				dsCategories = null;
+
+				WriteEndElement();
+				Writer.Flush();
 			}
 		}
 
 		private void WritePostTrakbacks(int postID)
 		{
-			DataSet dsTrackBacks = null;
-			string trackbackID = string.Empty;
+			DataSet dsTrackBacks;
+			string trackbackID;
+		
+			dsTrackBacks = GetPostTrackbacks(postID);
 
-			try
+			if (dsTrackBacks.Tables[0].Rows.Count > 0)
 			{
-				dsTrackBacks = GetPostTrackbacks(postID);
+				WriteStartTrackbacks();
 
-				if (dsTrackBacks.Tables[0].Rows.Count > 0)
+				foreach (DataRow trackback in dsTrackBacks.Tables[0].Rows)
 				{
-					WriteStartTrackbacks();
-
-					foreach (DataRow trackback in dsTrackBacks.Tables[0].Rows)
+					if (this.isUseGuids)
 					{
-						if (this.isUseGuids)
-						{
-							trackbackID = Guid.NewGuid().ToString();
-						}
-						else
-						{
-							trackbackID = trackback["ID"].ToString();
-						}
-
-						WriteTrackback(trackbackID, 
-									   trackback["Title"] as string, 
-									   DateTime.Parse(trackback["DateAdded"].ToString()),
-									   DateTime.Parse(trackback["DateUpdated"].ToString()),
-									   true,
-									   trackback["TitleUrl"] as string);
-						Writer.Flush();
+						trackbackID = Guid.NewGuid().ToString();
+					}
+					else
+					{
+						trackbackID = trackback["ID"].ToString();
 					}
 
-                    WriteEndElement(); // End Trackbacks element
+					WriteTrackback(trackbackID, 
+									trackback["Title"] as string, 
+									DateTime.Parse(trackback["DateAdded"].ToString()),
+									DateTime.Parse(trackback["DateUpdated"].ToString()),
+									true,
+									trackback["TitleUrl"] as string);
 					Writer.Flush();
 				}
-			}
-			catch (Exception ex)
-			{
-				throw(new Exception("Unable to write Post Trackbacks.", ex));
-			}
-			finally
-			{
-				dsTrackBacks = null;
+
+                WriteEndElement(); // End Trackbacks element
+				Writer.Flush();
 			}
 		}
 
@@ -462,7 +418,7 @@ namespace Subtext.Framework.Import
 		private static string GetMimeType(string fullUrl) 
 		{
 			string extension = Path.GetExtension(fullUrl);
-			string retVal = "none";
+			string retVal;
 
 			if (extension == null || extension.Length==0) 
 			{
@@ -496,8 +452,8 @@ namespace Subtext.Framework.Import
 
 		private SqlDataReader GetBlogConfig()
 		{
-			SqlDataReader reader = null;
-			SqlCommand cmd = null;
+			SqlDataReader reader;
+			SqlCommand cmd;
 
 			try
 			{
@@ -516,8 +472,8 @@ namespace Subtext.Framework.Import
 
 		private SqlDataReader GetCategories()
 		{
-			SqlDataReader reader = null;
-			SqlCommand cmd = null;
+			SqlDataReader reader;
+			SqlCommand cmd;
 
 			try
 			{		
@@ -539,8 +495,8 @@ namespace Subtext.Framework.Import
 
 		private DataSet GetPosts()
 		{
-			DataSet ds = null;
-			SqlCommand cmd = null;
+			DataSet ds;
+			SqlCommand cmd;
 			// not stored procedure that retreives all posts.
 			// use sql statement.
 			string sql = "SELECT * FROM subtext_Content " +
@@ -565,7 +521,7 @@ namespace Subtext.Framework.Import
 
 		private DataSet GetPostComments(int postID)
 		{
-			DataSet ds = null;
+			DataSet ds;
 
 			try
 			{
@@ -581,7 +537,7 @@ namespace Subtext.Framework.Import
 
 		private DataSet GetPostTrackbacks(int postID)
 		{
-			DataSet ds = null;
+			DataSet ds;
 			
 			try
 			{
@@ -606,8 +562,8 @@ namespace Subtext.Framework.Import
 		/// <returns></returns>
 		private DataSet GetFeedBackItems(int PostID, int postType)
 		{
-			DataSet dsFeedBackItems = null;
-            SqlCommand cmd = null;
+			DataSet dsFeedBackItems;
+            SqlCommand cmd;
 			// no procedure exists to get only comments for a post.
 			string sql = string.Format("SELECT * FROM subtext_Content WHERE BlogId ={0} and PostType ={1} AND subtext_Content.PostConfig & 1 = 1 AND subtext_Content.ParentID ={2} ORDER BY [ID]",
 			                           this.blogId, postType, PostID);
@@ -629,8 +585,8 @@ namespace Subtext.Framework.Import
 
 		private DataSet GetPostCategories(int PostID)
 		{
-			DataSet ds = null;
-			SqlCommand cmd = null;
+			DataSet ds;
+			SqlCommand cmd;
 			// no procedure exists  to get just the post categories.
 			string sql = "select * from subtext_links where PostID = " + PostID.ToString() ;
 
@@ -695,25 +651,17 @@ namespace Subtext.Framework.Import
 		/// <returns></returns>
 		private SqlDataReader ExecuteReader(SqlCommand cmd) 
 		{
-			SqlDataReader reader = null;
-			try 
+			SqlDataReader reader;
+		
+			if (!this.isConnectionReady)
 			{
-				if (!this.isConnectionReady)
-				{
-					this.InitConnection();
-				}
-				cmd.Connection = this.connection;
-				this.connection.Open();
-				reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-				return reader;
+				this.InitConnection();
 			}
-			catch(Exception ex) 
-			{		
-				throw new ApplicationException("An error occured trying to excute a query on the data store. Please see inner exception for details. ", ex);
-			}
+			cmd.Connection = this.connection;
+			this.connection.Open();
+			reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+			return reader;
 		}
-
-
 
 		/// <summary>
 		/// This method is called internally to retrieve a DataSet from the data store.
@@ -728,29 +676,21 @@ namespace Subtext.Framework.Import
 		private DataSet ExecuteDataSet(SqlCommand cmd)
 		{
 			DataSet ds = new DataSet();
-			SqlDataAdapter adapter = null;
+			SqlDataAdapter adapter;
 
-			try
+			if (!this.isConnectionReady)
 			{
-				if (!this.isConnectionReady)
-				{
-					InitConnection();
-				}
-				cmd.Connection = this.connection;
-				
-				if (this.connection.State != ConnectionState.Open)
-				{
-					this.connection.Open();	
-				}
-				
-				adapter = new SqlDataAdapter(cmd);
-				adapter.Fill(ds);
+				InitConnection();
 			}
-			catch (Exception ex)
+			cmd.Connection = this.connection;
+			
+			if (this.connection.State != ConnectionState.Open)
 			{
-				throw(new Exception("An error occured trying to excute a query on the data store. Please see inner exception for details. ", ex));
+				this.connection.Open();	
 			}
-
+			
+			adapter = new SqlDataAdapter(cmd);
+			adapter.Fill(ds);
 			return ds;
 		}
 

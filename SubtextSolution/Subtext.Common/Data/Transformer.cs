@@ -24,18 +24,18 @@ namespace Subtext.Common.Data
 	/// <summary>
 	/// Common Subtext object transformations
 	/// </summary>
-	public class Transformer
+	public sealed class Transformer
 	{
 		private Transformer(){}
 
 		/// <summary>
 		/// Converts a LinkCategoryCollection into a single LinkCategory with its own LinkCollection.
 		/// </summary>
-		/// <param name="Title">Title for the LinkCategory</param>
+		/// <param name="title">title for the LinkCategory</param>
 		/// <param name="catType">Type of Categories to transform</param>
 		/// <param name="formats">Determines how the Urls are formated</param>
 		/// <returns></returns>
-		public static LinkCategory BuildLinks(string Title, CategoryType catType, UrlFormats formats)
+		public static LinkCategory BuildLinks(string title, CategoryType catType, UrlFormats formats)
 		{
 			LinkCategoryCollection lcc = Links.GetCategories(catType,true);
 			LinkCategory lc = null;
@@ -43,9 +43,9 @@ namespace Subtext.Common.Data
 			{
 				lc = new LinkCategory();
 				int count = lcc.Count;
-				lc.Title = Title;
+				lc.Title = title;
 				lc.Links = new LinkCollection();
-				Link link = null;
+				Link link;
 				for(int i = 0; i < count; i++)
 				{
 					link = new Link();
@@ -78,15 +78,15 @@ namespace Subtext.Common.Data
 		/// Will convert ArchiveCountCollection method from Archives.GetPostsByMonthArchive()
 		/// into a <see cref="LinkCategory"/>. LinkCategory is a common item to databind to a web control.
 		/// </summary>
-		/// <param name="Title">Title for the Category</param>
+		/// <param name="title">title for the Category</param>
 		/// <param name="formats">Determines how the Urls are formated</param>
 		/// <returns>A LinkCategory object with a Link (via LinkCollection) for each month in ArchiveCountCollection</returns>
-		public static LinkCategory BuildMonthLinks(string Title, UrlFormats formats)
+		public static LinkCategory BuildMonthLinks(string title, UrlFormats formats)
 		{
 			ArchiveCountCollection acc = Archives.GetPostsByMonthArchive();
 
 			LinkCategory lc = new LinkCategory();
-			lc.Title = Title;
+			lc.Title = title;
 			lc.Links = new LinkCollection();
 			foreach(ArchiveCount ac in acc)
 			{

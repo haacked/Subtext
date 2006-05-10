@@ -26,16 +26,11 @@ namespace Subtext.Web.Admin
 	{
 		protected const string DEFAULT_FILENAME = "navigation.config";
 
-		private static SiteMap _instance;		
+		private static SiteMap _instance = new SiteMap();		
 		private Hashtable _pages;
 		private PageLocation _root;
 		private bool _isConfigured;
 		
-		static SiteMap()
-		{
-			_instance = new SiteMap();
-		}
-
 		protected SiteMap()
 		{			
 			_pages = new Hashtable();

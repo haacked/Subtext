@@ -86,6 +86,9 @@ namespace Subtext.Framework.Components
 		/// <param name="value">An array of type <see cref="Image">Image</see> containing the Components to add to the collection.</param>
 		public void AddRange(Image[] value) 
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range from null.");
+
 			for (int i = 0;	(i < value.Length); i = (i + 1)) 
 			{
 				this.Add(value[i]);
@@ -98,6 +101,9 @@ namespace Subtext.Framework.Components
 		/// <param name="value">A <see cref="ImageCollection">ImageCollection</see> containing the Components to add to the collection. </param>
 		public void AddRange(ImageCollection value) 
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range from null.");
+
 			for (int i = 0;	(i < value.Count); i = (i +	1))	
 			{
 				this.Add((Image)value.List[i]);

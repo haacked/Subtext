@@ -45,11 +45,11 @@ namespace Subtext.Common.Syndication
 		/// </summary>
 		/// <param name="ec">Ec.</param>
 		/// <param name="lc">Lc.</param>
-		/// <param name="Url">URL.</param>
-		public CategoryWriter(EntryCollection ec, LinkCategory lc, string Url) : base(ec, NullValue.NullDateTime, false)
+		/// <param name="url">URL.</param>
+		public CategoryWriter(EntryCollection ec, LinkCategory lc, string url) : base(ec, NullValue.NullDateTime, false)
 		{
 			this.Category = lc;
-			this.Url = Url;
+			this.Url = url;
 		}
 
 		protected override void WriteChannel()

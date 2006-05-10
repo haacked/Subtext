@@ -160,11 +160,11 @@ namespace Subtext.Web.Admin.Pages
 			ImagesDiv.Visible = false;
 		}
 
-		protected string EvalImageUrl(object imageObject)
+		protected string EvalImageUrl(object potentialImage)
 		{
-			if (imageObject is Subtext.Framework.Components.Image)
+			Subtext.Framework.Components.Image image = potentialImage as Subtext.Framework.Components.Image;
+			if (image != null)
 			{
-				Subtext.Framework.Components.Image image = (Subtext.Framework.Components.Image)imageObject;
 				return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}", Images.HttpGalleryFilePath(Context, image.CategoryID), 
 					image.ThumbNailFile);
 			}
@@ -172,28 +172,27 @@ namespace Subtext.Web.Admin.Pages
 				return String.Empty;
 		}
 
-		protected string EvalImageNavigateUrl(object imageObject)
+		protected string EvalImageNavigateUrl(object potentialImage)
 		{
-			if (imageObject is Subtext.Framework.Components.Image)
+			Subtext.Framework.Components.Image image = potentialImage as Subtext.Framework.Components.Image;
+			if (image != null)
 			{
-				Subtext.Framework.Components.Image image = (Subtext.Framework.Components.Image)imageObject;
-				return Subtext.Framework.Configuration.Config.CurrentBlog.UrlFormats.ImageUrl(null,image.ImageID);
+				return Subtext.Framework.Configuration.Config.CurrentBlog.UrlFormats.ImageUrl(null, image.ImageID);
 			}
 			else
 				return String.Empty;
 		}
 
-		protected string EvalImageTitle(object imageObject)
+		protected string EvalImageTitle(object potentialImage)
 		{
 			const int TARGET_HEIGHT = 138;
 			const int MAX_IMAGE_HEIGHT = 120;
 			const int CHAR_PER_LINE = 19;
 			const int LINE_HEIGHT_PIXELS = 16;
 
-			if (imageObject is Subtext.Framework.Components.Image)
+			Subtext.Framework.Components.Image image = potentialImage as Subtext.Framework.Components.Image;
+			if (image != null)
 			{
-				Subtext.Framework.Components.Image image = (Subtext.Framework.Components.Image)imageObject;
-
 				// do a rough calculation of how many chars we can shoehorn into the title space
 				// we have to back into an estimated thumbnail height right now with aspect * max
 				double aspectRatio = (double)image.Height / image.Width;

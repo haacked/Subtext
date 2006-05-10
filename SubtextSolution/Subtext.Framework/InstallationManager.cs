@@ -28,6 +28,10 @@ namespace Subtext.Framework
 	/// </summary>
 	public sealed class InstallationManager
 	{
+		private InstallationManager()
+		{
+		}
+		
 		/// <summary>
 		/// Gets a value indicating whether this instance is installation action required.
 		/// </summary>

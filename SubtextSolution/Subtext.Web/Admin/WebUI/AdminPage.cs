@@ -41,18 +41,6 @@ namespace Subtext.Web.Admin.Pages
 
 		private ConfirmCommand _command;
 		
-		internal CookieSupportType CookieSupport
-		{
-			get 
-			{ 
-				if (HasBeenTestedForCookies())
-					return (CookieSupportType)Session[Keys.SESSION_COOKIETEST]; 
-				else
-					return CookieSupportType.Untested;
-			}
-			set { Session[Keys.SESSION_COOKIETEST] = value; }
-		}
-
 		protected override void OnLoad(EventArgs e)
 		{		
 			if(!ValidateUser)
