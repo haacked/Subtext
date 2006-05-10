@@ -178,17 +178,6 @@ namespace Subtext.Framework
 		{
 			return ObjectProvider.Instance().GetEntriesByCategory(ItemCount,catID,ActiveOnly);
 		}
-
-		public static EntryCollection GetEntriesByCategory(int ItemCount,int catID, DateTime DateUpdated,bool ActiveOnly)
-		{
-			return ObjectProvider.Instance().GetEntriesByCategory(ItemCount,catID,DateUpdated,ActiveOnly);
-		}
-
-		public static EntryCollection GetEntriesByCategory(int ItemCount,string categoryName,bool ActiveOnly)
-		{
-			return ObjectProvider.Instance().GetEntriesByCategory(ItemCount,categoryName,ActiveOnly);
-		}
-
 		#endregion
 
 		#region Single Entry
@@ -236,18 +225,6 @@ namespace Subtext.Framework
 		{
 			return ObjectProvider.Instance().GetCategoryEntry(entryId, (entryOption == EntryGetOption.ActiveOnly));
 		}
-
-		/// <summary>
-		/// Gets the category entry by its entry name.
-		/// </summary>
-		/// <param name="entryName">Name of the entry.</param>
-		/// <param name="entryOption">The entry option used to constrain the search.</param>
-		/// <returns></returns>
-		public static CategoryEntry GetCategoryEntry(string entryName, EntryGetOption entryOption)
-		{
-			return ObjectProvider.Instance().GetCategoryEntry(entryName, (entryOption == EntryGetOption.ActiveOnly));
-		}
-
 		#endregion
 
 		#region Delete

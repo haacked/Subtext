@@ -312,7 +312,7 @@ namespace Subtext.Framework.Data
 			try
 			{
 				EntryCollection ec = new EntryCollection();
-				Entry entry = null;
+				Entry entry;
 				while(reader.Read())
 				{
 					//Don't build links.
@@ -362,7 +362,7 @@ namespace Subtext.Framework.Data
 
 		public override EntryCollection GetPostsByDayRange(DateTime start, DateTime stop, PostType postType, bool ActiveOnly)
 		{
-			IDataReader reader = null;
+			IDataReader reader;
 			if(stop > start)
 			{
 				reader = DbProvider.Instance().GetEntriesByDateRangle(start,stop,postType,ActiveOnly);
@@ -383,21 +383,9 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public override EntryCollection GetEntriesByCategory(int ItemCount, string categoryName, bool ActiveOnly)
-		{
-			IDataReader reader = DbProvider.Instance().GetEntriesByCategory(ItemCount,categoryName,ActiveOnly);
-			return LoadEntryCollectionFromDataReader(reader);
-		}
-
 		public override EntryCollection GetEntriesByCategory(int ItemCount, int catID, bool ActiveOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetEntriesByCategory(ItemCount,catID,ActiveOnly);
-			return LoadEntryCollectionFromDataReader(reader);
-		}
-
-		public override EntryCollection GetEntriesByCategory(int ItemCount, int catID, DateTime DateUpdated, bool ActiveOnly)
-		{
-			IDataReader reader = DbProvider.Instance().GetEntriesByCategory(ItemCount,catID,DateUpdated,ActiveOnly);
 			return LoadEntryCollectionFromDataReader(reader);
 		}
 
@@ -478,27 +466,6 @@ namespace Subtext.Framework.Data
 				reader.Close();
 			}
 		}
-
-		public override CategoryEntry GetCategoryEntry(string EntryName, bool ActiveOnly)
-		{
-			IDataReader reader = DbProvider.Instance().GetCategoryEntry(EntryName,ActiveOnly);
-			try
-			{
-				CategoryEntry entry = null;
-				while(reader.Read())
-				{
-					entry = DataHelper.LoadSingleCategoryEntry(reader);
-					break;
-				}
-				return entry;
-			}
-			finally
-			{
-				reader.Close();
-			}
-		}
-
-
 		#endregion
 
 		#region Delete

@@ -117,11 +117,7 @@ namespace Subtext.Framework.Providers
 		//Should Power both EntryDayCollection and EntryCollection
 		public abstract IDataReader GetPostCollectionByMonth(int month, int year);
 		
-		public abstract IDataReader GetEntriesByCategory(int ItemCount, string CategoryName, bool ActiveOnly);
-		public abstract IDataReader GetEntriesByCategory(int ItemCount, string CategoryName, DateTime DateUpdated, bool ActiveOnly);
-
 		public abstract IDataReader GetEntriesByCategory(int ItemCount, int catID, bool ActiveOnly);
-		public abstract IDataReader GetEntriesByCategory(int ItemCount, int catID, DateTime DateUpdated, bool ActiveOnly);
 		
 		/// <summary>
 		/// Searches the data store for the first comment with a 
@@ -133,7 +129,6 @@ namespace Subtext.Framework.Providers
 		public abstract IDataReader GetEntry(int postID, bool ActiveOnly);
 		public abstract IDataReader GetEntry(string EntryName, bool ActiveOnly);
 		public abstract IDataReader GetCategoryEntry(int postID, bool ActiveOnly);
-		public abstract IDataReader GetCategoryEntry(string EntryName, bool ActiveOnly);
 
 		public abstract DataSet GetRecentPostsWithCategories(int ItemCount, bool ActiveOnly);
 		#endregion

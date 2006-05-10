@@ -105,6 +105,7 @@ Global
 		SolutionInfo.cs = SolutionInfo.cs
 		SourceGuidelines.txt = SourceGuidelines.txt
 		SubText.build = SubText.build
+		SubtextCodeAnalysis.FxCop = SubtextCodeAnalysis.FxCop
 		SubtextDocs.ndoc = SubtextDocs.ndoc
 		VersionInfo.Designer.cs = VersionInfo.Designer.cs
 	EndGlobalSection
