@@ -37,6 +37,10 @@ namespace Subtext.Framework
 	{
 		private readonly static ILog log = new Logging.Log();
 		
+		private Entries()
+		{
+		}
+		
 		#region Paged Posts
 
 		/// <summary>

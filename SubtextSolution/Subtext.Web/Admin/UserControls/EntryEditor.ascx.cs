@@ -116,7 +116,7 @@ namespace Subtext.Web.Admin.UserControls
 				if(ViewState[VSKEY_CATEGORYTYPE] != null)
 					return (CategoryType)ViewState[VSKEY_CATEGORYTYPE];
 				else
-					throw new ApplicationException("CategoryType was not set");
+					throw new InvalidOperationException("CategoryType was not set");
 			}
 			set 
 			{ 
@@ -415,7 +415,9 @@ namespace Subtext.Web.Admin.UserControls
 					if (PostID == NullValue.NullInt32)
 					{
 						if(EntryType == PostType.None)
-							throw new ArgumentException("The entry type is None. Impossible!", "EntryType");
+						{
+							throw new InvalidOperationException("The entry type is None. Impossible!");
+						}
 						entry = new Entry(EntryType);
 					}
 					else
@@ -497,7 +499,7 @@ namespace Subtext.Web.Admin.UserControls
 		{ 
 			if(Page.IsValid)
 			{
-				string successMessage = Constants.RES_SUCCESSCATEGORYUPDATE;
+				string successMessage;
 
 				try
 				{

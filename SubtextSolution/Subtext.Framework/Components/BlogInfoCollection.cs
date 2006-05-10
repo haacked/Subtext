@@ -52,6 +52,9 @@ namespace Subtext.Framework.Components
 		/// <param name="value">An array of <see cref="BlogInfo">BlogInfo</see> Components with which to initialize the collection. </param>
 		public BlogInfoCollection(BlogInfo[] value)
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range from null.");
+
 			this.AddRange(value);
 		}
 		
@@ -81,6 +84,9 @@ namespace Subtext.Framework.Components
 		/// containing the Components to add to the collection.</param>
 		public void AddRange(BlogInfo[] value) 
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range from null.");
+
 			for (int i = 0;	(i < value.Length); i = (i + 1)) 
 			{
 				this.Add(value[i]);
@@ -95,6 +101,9 @@ namespace Subtext.Framework.Components
 		/// the Components to add to the collection. </param>
 		public void AddRange(BlogInfoCollection value) 
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range from null.");
+
 			for (int i = 0;	(i < value.Count); i = (i +	1))	
 			{
 				this.Add((BlogInfo)value.List[i]);

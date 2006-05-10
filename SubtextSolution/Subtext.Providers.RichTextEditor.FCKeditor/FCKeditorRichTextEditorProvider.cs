@@ -17,25 +17,18 @@ using System;
 using System.IO;
 using Subtext.Extensibility.Providers;
 using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using Subtext.Framework;
 using Subtext.Web.Controls;
-
-using FredCK.FCKeditorV2;
 
 namespace Subtext.Providers.RichTextEditor.FCKeditor
 {
 	/// <summary>
 	/// Summary description for FCKeditorRichTextEditorProvider.
 	/// </summary>
-	public class FCKeditorRichTextEditorProvider: RichTextEditorProvider
+	public class FCKeditorRichTextEditorProvider : RichTextEditorProvider
 	{
 
 		FredCK.FCKeditorV2.FCKeditor _fckCtl;
 		string _controlID=string.Empty;
-		string _name = string.Empty;
-
 		string _webFormFolder=string.Empty;
 		string _toolbarSet=string.Empty;
 		string _skin=string.Empty;
@@ -62,12 +55,16 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 
 		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
 		{
-			_name=name;
+			if(name == null)
+				throw new ArgumentNullException("name", "Cannot initialize a provider with a null name.");
+			
+			if(configValue == null)
+				throw new ArgumentNullException("configValue", "Cannot initialize a provider with a null configValue.");
 			
 			if(configValue["WebFormFolder"]!=null)
 				_webFormFolder=configValue["WebFormFolder"];
 			else
-				throw new ApplicationException("WebFormFolder must be specified for the FCKeditor provider to work");
+				throw new InvalidOperationException("WebFormFolder must be specified for the FCKeditor provider to work");
 
 			if(configValue["ToolbarSet"]!=null)
 				_toolbarSet=configValue["ToolbarSet"];
@@ -75,6 +72,7 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 			if(configValue["Skin"]!=null)
 				_skin=configValue["Skin"];
 
+			base.Initialize(name, configValue);
 		}
 
 		public override void InitializeControl()

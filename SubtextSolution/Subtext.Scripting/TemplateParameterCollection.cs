@@ -78,6 +78,9 @@ namespace Subtext.Scripting
 		/// <returns></returns>
 		public TemplateParameter Add(Match match)
 		{
+			if(match == null)
+				throw new ArgumentNullException("match", "Cannot create a template parameter from a null match.");
+			
 			if(this[match.Groups["name"].Value] != null)
 				return this[match.Groups["name"].Value];
 
@@ -111,6 +114,9 @@ namespace Subtext.Scripting
 		/// <param name="value">A <see cref="ScriptCollection">ScriptCollection</see> containing the <see cref="TemplateParameter"/>s to add to the collection. </param>
 		public void AddRange(TemplateParameterCollection value) 
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range of null.");
+			
 			foreach(TemplateParameter parameter in value)
 				this.Add(parameter);
 		}
@@ -123,6 +129,9 @@ namespace Subtext.Scripting
 		/// <returns><b>true</b> if the collection contains the specified object; otherwise, <b>false</b>.</returns>
 		public bool Contains(TemplateParameter value) 
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot test whether or not it contains null.");
+			
 			return Contains(value.Name);
 		}
 		

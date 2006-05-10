@@ -62,6 +62,9 @@ namespace Subtext.Framework.Components
 		/// <param name="value">An array of type <see cref="ViewStat">ViewStat</see> containing the Components to add to the collection.</param>
 		public void AddRange(ViewStat[] value) 
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range from null.");
+
 			for (int i = 0;	(i < value.Length); i = (i + 1)) 
 			{
 				this.Add(value[i]);
@@ -74,6 +77,9 @@ namespace Subtext.Framework.Components
 		/// <param name="value">A <see cref="ViewStatCollection">ViewStatCollection</see> containing the Components to add to the collection. </param>
 		public void AddRange(ViewStatCollection value) 
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range from null.");
+
 			for (int i = 0;	(i < value.Count); i = (i +	1))	
 			{
 				this.Add((ViewStat)value.List[i]);

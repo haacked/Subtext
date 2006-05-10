@@ -54,6 +54,9 @@ namespace Subtext.Framework.Logging
 		/// <param name="entries">An array of type <see cref="Entry">Entry</see> containing the Components to add to the collection.</param>
 		public void AddRange(LogEntry[] entries) 
 		{
+			if(entries == null)
+				throw new ArgumentNullException("entries", "Cannot add a range from null.");
+
 			for (int i = 0;	(i < entries.Length); i = (i + 1)) 
 			{
 				this.Add(entries[i]);
@@ -66,6 +69,9 @@ namespace Subtext.Framework.Logging
 		/// <param name="entryCollection">A <see cref="EntryCollection">EntryCollection</see> containing the Components to add to the collection. </param>
 		public void AddRange(LogEntryCollection entryCollection) 
 		{
+			if(entryCollection == null)
+				throw new ArgumentNullException("entryCollection", "Cannot add a range from null.");
+
 			for (int i = 0;	(i < entryCollection.Count); i = (i +	1))	
 			{
 				this.Add((LogEntry)entryCollection.List[i]);

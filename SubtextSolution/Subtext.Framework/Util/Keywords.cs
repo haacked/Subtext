@@ -21,20 +21,24 @@ using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Util
 {
-	public class KeyWords
+	public sealed class KeyWords
 	{
+		private KeyWords()
+		{
+		}
+
 		#region Readers/Writers
 
 		private enum ScanState : byte { Replace, InTag, InAnchor };
 
 		public static string Replace(string source, string oldValue, string newValue)
 		{
-			return Scan(source, oldValue, newValue, false, false,true);
+			return Scan(source, oldValue, newValue, false, false);
 		}
 
-		public static string Replace(string source, string oldValue, string newValue, bool onlyFirstMatch, bool CaseSensitive)
+		public static string Replace(string source, string oldValue, string newValue, bool onlyFirstMatch)
 		{
-			return Scan(source, oldValue, newValue, false, onlyFirstMatch, CaseSensitive);
+			return Scan(source, oldValue, newValue, false, onlyFirstMatch);
 		}
 
 		/// <summary>
@@ -47,7 +51,7 @@ namespace Subtext.Framework.Util
 		/// <returns></returns>
 		public static string ReplaceFormat(string source, string oldValue, string formatString)
 		{
-			return Scan(source, oldValue, formatString, true, false,true);
+			return Scan(source, oldValue, formatString, true, false);
 		}
 
 		/// <summary>
@@ -58,14 +62,13 @@ namespace Subtext.Framework.Util
 		/// <param name="oldValue">Pattern to search for</param>
 		/// <param name="formatString">Replaced Pattern</param>
 		/// <param name="onlyFirstMatch">Match First Only</param>
-		/// <param name="CaseSensitive">Is CaseSensitive</param>
 		/// <returns></returns>
-		public static string ReplaceFormat(string source, string oldValue, string formatString, bool onlyFirstMatch, bool CaseSensitive)
+		public static string ReplaceFormat(string source, string oldValue, string formatString, bool onlyFirstMatch)
 		{
-			return Scan(source, oldValue, formatString, true, onlyFirstMatch, CaseSensitive);
+			return Scan(source, oldValue, formatString, true, onlyFirstMatch);
 		}
 
-		private static string Scan(string source, string oldValue, string newValue, bool isFormat, bool onlyFirstMatch, bool CaseSensitive)
+		private static string Scan(string source, string oldValue, string newValue, bool isFormat, bool onlyFirstMatch)
 		{			
 			const char tagOpen = '<';
 			const char tagClose = '>';
@@ -207,11 +210,11 @@ namespace Subtext.Framework.Util
 			KeyWordCollection kwc = GetKeyWords();
 			if(kwc != null && kwc.Count > 0)
 			{
-				KeyWord kw = null;
+				KeyWord kw;
 				for(int i =0; i<kwc.Count;i++)
 				{
 					kw = kwc[i];
-					entry.Body = ReplaceFormat(entry.Body, kw.Word, kw.GetFormat, kw.ReplaceFirstTimeOnly, kw.CaseSensitive);
+					entry.Body = ReplaceFormat(entry.Body, kw.Word, kw.GetFormat, kw.ReplaceFirstTimeOnly);
 				}
 			}
 		}

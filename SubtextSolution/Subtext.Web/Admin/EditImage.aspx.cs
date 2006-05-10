@@ -213,13 +213,6 @@ namespace Subtext.Web.Admin.Pages
 			}
 		}
 
-		private void ConfirmDeleteImage(int imageID)
-		{
-			(Page as AdminPage).Command = new DeleteImageCommand(imageID);
-			(Page as AdminPage).Command.RedirectUrl = Request.Url.ToString();
-			Server.Transfer(Constants.URL_CONFIRM);
-		}
-
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
 		{

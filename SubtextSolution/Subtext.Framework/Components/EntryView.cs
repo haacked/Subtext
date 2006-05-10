@@ -25,7 +25,6 @@ namespace Subtext.Framework.Components
 	{
 		public EntryView()
 		{
-
 		}
 
 		private int _blogID;

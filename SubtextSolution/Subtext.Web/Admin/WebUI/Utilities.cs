@@ -21,7 +21,6 @@ using System.Text;
 using System.Web;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
-using Subtext.Framework.Format;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
 
@@ -95,27 +94,6 @@ namespace Subtext.Web.Admin
 				return value;
 		}
 
-		internal static string GetClientScriptInclude(string filename)
-		{
-			return string.Format(System.Globalization.CultureInfo.InvariantCulture, "<script language=\"JavaScript\" type=\"text\" src=\"{0}\"></script>", filename);
-		}
-
-		internal static bool CheckIsIE55()
-		{
-			return	"IE" ==	HttpContext.Current.Request.Browser.Browser && 
-				(HttpContext.Current.Request.Browser.MajorVersion > 5 ||
-				(HttpContext.Current.Request.Browser.MajorVersion >= 5 && 
-				 HttpContext.Current.Request.Browser.MinorVersion >= 5));
-		}
-
-		internal static Button CreateButton(string text)
-		{
-			Button button = new Button();
-			button.Text = text;
-			button.CssClass = "buttonSubmit";
-			return button;
-		}
-
 		internal static LinkButton CreateLinkButton(string text)
 		{
 			LinkButton result = new LinkButton();
@@ -142,7 +120,7 @@ namespace Subtext.Web.Admin
 
 		internal static Encoding GetEncoding(string filepath)
 		{
-			Encoding result = null;
+			Encoding result;
 			FileStream file = null;
 			try 
 			{				

@@ -42,8 +42,12 @@ namespace Subtext.Framework.Tracking
 	/// <summary>
 	/// Summary description for Notification.
 	/// </summary>
-	public class NotificationServices
+	public sealed class NotificationServices
 	{
+		private NotificationServices()
+		{
+		}
+		
 		public static void Run(Entry entry)
 		{
 			if(entry != null)

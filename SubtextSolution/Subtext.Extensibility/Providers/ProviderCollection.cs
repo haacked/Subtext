@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.Collections.Specialized;
 
 namespace Subtext.Extensibility.Providers
@@ -22,6 +23,7 @@ namespace Subtext.Extensibility.Providers
 	/// Custom collection of configured <see cref="ProviderInfo"/> 
 	/// instances.
 	/// </summary>
+	[Serializable]
 	public class ProviderCollection : NameObjectCollectionBase
 	{
 		ProviderInfo _defaultProvider = null;
@@ -84,6 +86,9 @@ namespace Subtext.Extensibility.Providers
 		/// containing the Components to add to the collection.</param>
 		public void AddRange(ProviderInfo[] value) 
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range from null.");
+			
 			for (int i = 0;	(i < value.Length); i = (i + 1)) 
 			{
 				this.Add(value[i]);
@@ -98,6 +103,9 @@ namespace Subtext.Extensibility.Providers
 		/// the Components to add to the collection. </param>
 		public void AddRange(ProviderCollection value) 
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range from null.");
+			
 			foreach(string key in value.BaseGetAllKeys())
 			{
 				this.Add(value[key]);

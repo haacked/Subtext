@@ -28,7 +28,6 @@ namespace Subtext.Web.Admin.Pages
 
 	public class EditLinks : AdminPage
 	{
-		private const string VSKEY_CATEGORYID = "CategoryID";
 		private const string VSKEY_LINKID = "LinkID";
 
 		private int _filterCategoryID
@@ -76,18 +75,6 @@ namespace Subtext.Web.Admin.Pages
 		protected System.Web.UI.WebControls.DropDownList ddlImportExportCategories;
 	
 		#region Accessors
-		private int CategoryID
-		{
-			get
-			{
-				if (null != ViewState[VSKEY_CATEGORYID])
-					return (int)ViewState[VSKEY_CATEGORYID];
-				else
-					return NullValue.NullInt32;
-			}
-			set { ViewState[VSKEY_CATEGORYID] = value; }
-		}
-
 		public int LinkID
 		{
 			get
@@ -125,14 +112,6 @@ namespace Subtext.Web.Admin.Pages
 				BindList();
 				//BindImportExportCategories();
 			}	
-		}
-
-		private void BindImportExportCategories()
-		{
-			this.ddlImportExportCategories.DataSource = Links.GetCategories(CategoryType.LinkCollection,false);
-			this.ddlImportExportCategories.DataTextField = "Title";
-			this.ddlImportExportCategories.DataValueField = "CategoryID";
-			this.ddlImportExportCategories.DataBind();
 		}
 
 		private void BindLocalUI()

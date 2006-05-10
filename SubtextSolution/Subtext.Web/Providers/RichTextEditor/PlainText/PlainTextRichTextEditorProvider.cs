@@ -23,12 +23,10 @@ namespace Subtext.Web.Providers.RichTextEditor.PlainText
 	/// <summary>
 	/// Summary description for PlainTextRichTextEditorProvider.
 	/// </summary>
-	public class PlainTextRichTextEditorProvider: RichTextEditorProvider
+	public class PlainTextRichTextEditorProvider : RichTextEditorProvider
 	{
-
 		TextBox _txtCtl;
 		string _controlID=string.Empty;
-		string _name = string.Empty;
 		int _rows=0;
 		int _cols=0;
 		string _cssClass=String.Empty;
@@ -44,13 +42,14 @@ namespace Subtext.Web.Providers.RichTextEditor.PlainText
 
 		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
 		{
-			_name=name;
 			if(configValue["rows"]!=null)
 				_rows=Convert.ToInt32(configValue["rows"]);
 			if(configValue["cols"]!=null)
 				_cols=Convert.ToInt32(configValue["cols"]);
 			if(configValue["cssClass"]!=null)
 				_cssClass=configValue["cssClass"];
+			
+			base.Initialize(name, configValue);
 		}
 
 		public override void InitializeControl() 

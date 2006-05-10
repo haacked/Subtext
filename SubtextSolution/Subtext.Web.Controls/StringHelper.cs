@@ -62,7 +62,7 @@ namespace Subtext.Web.Controls
 		/// </example>
 		/// <param name="source"></param>
 		/// <returns></returns>
-		public static string[] SplitUpperCase(string source)
+		public static string[] SplitUppercase(string source)
 		{
 			if(source == null)
 				return new string[] {}; //Return empty array.
@@ -103,9 +103,9 @@ namespace Subtext.Web.Controls
 		/// </example>
 		/// <param name="source"></param>
 		/// <returns></returns>
-		public static string SplitUpperCaseToString(string source)
+		public static string SplitUppercaseToString(string source)
 		{
-			return string.Join(" ", SplitUpperCase(source));
+			return string.Join(" ", SplitUppercase(source));
 		}
 
 		/// <summary>

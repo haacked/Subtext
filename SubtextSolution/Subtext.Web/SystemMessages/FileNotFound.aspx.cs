@@ -53,7 +53,7 @@ namespace Subtext.Web.SystemMessages
 						Uri uri = new Uri(urlText);
 
 						string extension = Path.GetExtension(uri.AbsolutePath);
-						if(extension == null || extension == string.Empty)
+						if(extension == null || extension.Length == 0)
 						{
 							string uriAbsolutePath = uri.AbsolutePath;
 							if(!uriAbsolutePath.EndsWith("/"))

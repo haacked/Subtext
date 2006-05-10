@@ -62,7 +62,7 @@ namespace Subtext.Framework.Text
 		/// </example>
 		/// <param name="source"></param>
 		/// <returns></returns>
-		public static string[] SplitUpperCase(string source)
+		public static string[] SplitUppercase(string source)
 		{
 			if(source == null)
 				return new string[] {}; //Return empty array.
@@ -103,9 +103,9 @@ namespace Subtext.Framework.Text
 		/// </example>
 		/// <param name="source"></param>
 		/// <returns></returns>
-		public static string SplitUpperCaseToString(string source)
+		public static string SplitUppercaseToString(string source)
 		{
-			return string.Join(" ", SplitUpperCase(source));
+			return string.Join(" ", SplitUppercase(source));
 		}
 
 		/// <summary>
@@ -260,7 +260,7 @@ namespace Subtext.Framework.Text
 		public static string LeftBefore(string original, string search, ComparisonType comparisonType)
 		{
 			if(original == null)
-				throw new ArgumentNullException("str", "The original string may not be null.");
+				throw new ArgumentNullException("original", "The original string may not be null.");
 
 			if(search == null)
 				throw new ArgumentNullException("search", "Search string may not be null.");

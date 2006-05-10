@@ -41,6 +41,7 @@ using Subtext.Framework.Threading;
 // v1.0.1
 #endregion
 
+//TODO: Remove this and put in separate assembly.
 namespace Subtext.Framework.Util
 {
 	/// <summary>Implementation of Dijkstra's PV Semaphore based on the Monitor class.</summary>
@@ -114,8 +115,12 @@ namespace Subtext.Framework.Util
 	}
 
 	/// <summary>Managed thread pool.</summary>
-	public class ManagedThreadPool
+	public sealed class ManagedThreadPool
 	{
+		private ManagedThreadPool()
+		{
+		}
+		
 		static Log Log = new Log();
 
 		#region Constants

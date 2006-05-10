@@ -81,6 +81,9 @@ namespace Subtext.Framework.Components
 		/// <param name="value">An array of type <see cref="LinkCategory">LinkCategory</see> containing the Components to add to the collection.</param>
 		public void AddRange(LinkCategory[] value) 
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range from null.");
+
 			if(value != null)
 			{
 				for (int i = 0;	(i < value.Length); i = (i + 1)) 
@@ -96,6 +99,9 @@ namespace Subtext.Framework.Components
 		/// <param name="value">A <see cref="LinkCategoryCollection">LinkCategoryCollection</see> containing the Components to add to the collection. </param>
 		public void AddRange(LinkCategoryCollection value) 
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range from null.");
+
 			if(value != null)
 			{
 				for (int i = 0;	(i < value.Count); i = (i +	1))	

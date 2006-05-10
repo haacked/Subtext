@@ -38,9 +38,9 @@ namespace Subtext.Web.Controls
 		/// </summary>
 		/// <remarks>
 		/// Using a naming convention, all scripts are placed in the Resources\Scripts 
-		/// folder. The scriptName should just be the filename of the script.  For example, 
+		/// folder. The ScriptName should just be the filename of the script.  For example, 
 		/// if you embed a file at the following location "Resources\Scripts\MyScript.js", 
-		/// the scriptName to pass is "MyScript.js".
+		/// the ScriptName to pass is "MyScript.js".
 		/// </remarks>
 		/// <param name="scriptName">FileName of the script.  Just the file name.</param>
 		/// <returns>Contents of the script.</returns>
@@ -64,9 +64,9 @@ namespace Subtext.Web.Controls
 		/// </summary>
 		/// <remarks>
 		/// Using a naming convention, all scripts are placed in the Resources\Scripts 
-		/// folder. The scriptName should just be the filename of the script.  For example, 
+		/// folder. The ScriptName should just be the filename of the script.  For example, 
 		/// if you embed a file at the following location "Resources\Scripts\MyScript.js", 
-		/// the scriptName to pass is "MyScript.js".
+		/// the ScriptName to pass is "MyScript.js".
 		/// </remarks>
 		/// <param name="scriptName">FileName of the script.  Just the file name.</param>
 		/// <param name="scriptLanguage">The script language.</param>

@@ -62,6 +62,9 @@ namespace Subtext.Framework.Components
 		/// <param name="value">An array of type <see cref="Referrer">Referrer</see> containing the Components to add to the collection.</param>
 		public void AddRange(Referrer[] value) 
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range from null.");
+
 			for (int i = 0;	(i < value.Length); i = (i + 1)) 
 			{
 				this.Add(value[i]);

@@ -28,12 +28,10 @@ namespace Subtext.Web.Providers.RichTextEditor.FTB
 	/// <summary>
 	/// Summary description for FtbRichTextEditor.
 	/// </summary>
-	public class FtbRichTextEditorProvider: RichTextEditorProvider
+	public class FtbRichTextEditorProvider : RichTextEditorProvider
 	{
 		FreeTextBox _ftbCtl;
 		string _controlID=string.Empty;
-		string _name = string.Empty;
-
 		string _webFormFolder=string.Empty;
 		string _toolbarlayout=string.Empty;
 		bool _formatHtmlTagsToXhtml=false;
@@ -50,11 +48,17 @@ namespace Subtext.Web.Providers.RichTextEditor.FTB
 
 		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
 		{
-			_name=name;
+			if(name == null)
+				throw new ArgumentNullException("name", "Cannot initialize a provider with a null name.");
+			
+			if(configValue == null)
+				throw new ArgumentNullException("configValue", "Cannot initialize a provider with a null configValue.");
+			
 			if(configValue["WebFormFolder"]!=null)
 				_webFormFolder=configValue["WebFormFolder"];
 			else
-				throw new ApplicationException("WebFormFolder must be specified for the FreeTextBox provider to work");
+				throw new InvalidOperationException("WebFormFolder must be specified for the FreeTextBox provider to work");
+
 			if(configValue["toolbarlayout"]!=null)
 				_toolbarlayout=configValue["toolbarlayout"];
 			if(configValue["FormatHtmlTagsToXhtml"]!=null)
@@ -62,6 +66,7 @@ namespace Subtext.Web.Providers.RichTextEditor.FTB
 			if(configValue["RemoveServerNamefromUrls"]!=null)
 				_removeServerNamefromUrls=Boolean.Parse(configValue["RemoveServerNamefromUrls"]);
 
+			base.Initialize(name, configValue);
 		}
 
 		public override void InitializeControl() 

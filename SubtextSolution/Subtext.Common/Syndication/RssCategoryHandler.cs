@@ -29,9 +29,8 @@ namespace Subtext.Common.Syndication
 	/// </summary>
 	public class RssCategoryHandler : EntryCollectionHandler
 	{
-		protected LinkCategory Category = null;
-		protected EntryCollection Posts = null;
-		EntryCollection posts = null;
+		protected LinkCategory Category;
+		EntryCollection posts;
 
 		protected override EntryCollection GetFeedEntries()
 		{
@@ -40,12 +39,12 @@ namespace Subtext.Common.Syndication
 				Category = Cacher.SingleCategory(CacheDuration.Short);
 			}
 
-			if(Category != null && Posts == null)
+			if(Category != null && posts == null)
 			{
-				Posts = Cacher.GetEntriesByCategory(10, CacheDuration.Short, Category.CategoryID);
+				posts = Cacher.GetEntriesByCategory(10, CacheDuration.Short, Category.CategoryID);
 			}
 
-			return Posts;
+			return posts;
 		}
 
 

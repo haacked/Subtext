@@ -23,9 +23,9 @@ using Subtext.Framework.Components;
 
 namespace Subtext.Web.Admin
 {
-	public class OpmlProvider
+	public sealed class OpmlProvider
 	{
-		protected OpmlProvider()
+		private OpmlProvider()
 		{
 			//
 		}

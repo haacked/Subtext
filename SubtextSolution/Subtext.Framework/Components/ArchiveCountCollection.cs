@@ -38,6 +38,9 @@ namespace Subtext.Framework.Components
 		/// <param name="value">A <see cref="ArchiveCountCollection">ArchiveCountCollection</see> with which to initialize the collection.</param>
 		public ArchiveCountCollection(ArchiveCountCollection value)	
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range from null.");
+
 			this.AddRange(value);
 		}
 		
@@ -47,6 +50,9 @@ namespace Subtext.Framework.Components
 		/// <param name="value">An array of <see cref="ArchiveCount">ArchiveCount</see> Components with which to initialize the collection. </param>
 		public ArchiveCountCollection(ArchiveCount[] value)
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range from null.");
+
 			this.AddRange(value);
 		}
 		
@@ -72,6 +78,9 @@ namespace Subtext.Framework.Components
 		/// <param name="value">An array of type <see cref="ArchiveCount">ArchiveCount</see> containing the Components to add to the collection.</param>
 		public void AddRange(ArchiveCount[] value) 
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range from null.");
+
 			for (int i = 0;	(i < value.Length); i = (i + 1)) 
 			{
 				this.Add(value[i]);
@@ -84,6 +93,9 @@ namespace Subtext.Framework.Components
 		/// <param name="value">A <see cref="ArchiveCountCollection">ArchiveCountCollection</see> containing the Components to add to the collection. </param>
 		public void AddRange(ArchiveCountCollection value) 
 		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range from null.");
+
 			for (int i = 0;	(i < value.Count); i = (i +	1))	
 			{
 				this.Add((ArchiveCount)value.List[i]);

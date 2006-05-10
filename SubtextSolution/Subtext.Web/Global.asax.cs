@@ -194,13 +194,13 @@ namespace Subtext
 			SqlException sqlExc = exception as SqlException;
 			if(sqlExc != null &&
 				(
-				sqlExc.Number == (int)SqlErrorMessages.LoginFailsCannotOpenDatabase
-				|| sqlExc.Number == (int)SqlErrorMessages.SqlServerDoesNotExistOrAccessDenied
-				|| sqlExc.Number == (int)SqlErrorMessages.LoginFailed
-				|| sqlExc.Number == (int)SqlErrorMessages.LoginFailedInvalidUserOfTrustedConnection
-				|| sqlExc.Number == (int)SqlErrorMessages.LoginFailedNotAssociatedWithTrustedConnection
-				|| sqlExc.Number == (int)SqlErrorMessages.LoginFailedUserNameInvalid
-				|| (sqlExc.Number == (int)SqlErrorMessages.CouldNotFindStoredProcedure && sqlExc.Message.IndexOf("'blog_GetConfig'") > 0)
+				sqlExc.Number == (int)SqlErrorMessage.LoginFailsCannotOpenDatabase
+				|| sqlExc.Number == (int)SqlErrorMessage.SqlServerDoesNotExistOrAccessDenied
+				|| sqlExc.Number == (int)SqlErrorMessage.LoginFailed
+				|| sqlExc.Number == (int)SqlErrorMessage.LoginFailedInvalidUserOfTrustedConnection
+				|| sqlExc.Number == (int)SqlErrorMessage.LoginFailedNotAssociatedWithTrustedConnection
+				|| sqlExc.Number == (int)SqlErrorMessage.LoginFailedUserNameInvalid
+				|| (sqlExc.Number == (int)SqlErrorMessage.CouldNotFindStoredProcedure && sqlExc.Message.IndexOf("'blog_GetConfig'") > 0)
 				)
 				)
 			{

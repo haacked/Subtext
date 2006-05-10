@@ -43,7 +43,10 @@ namespace Subtext.Framework.Tracking
 	/// </summary>
 	public class Verifier
 	{
-	
+		private Verifier()
+		{
+		}
+		
 		public static  bool SourceContainsTarget(string sURI, string tURI, out string pageTitle)
 		{
 			pageTitle = string.Empty ;

@@ -22,7 +22,7 @@ namespace Subtext.Framework.Util
 	/// <summary>
 	/// Allows caching in application in applications hosted inside and out of IIS
 	/// </summary>
-	public class BlogCache
+	public sealed class BlogCache
 	{
 		private BlogCache(){}
 

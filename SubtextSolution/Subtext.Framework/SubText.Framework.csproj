@@ -490,7 +490,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Data\SqlErrorMessages.cs"
+                    RelPath = "Data\SqlErrorMessage.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

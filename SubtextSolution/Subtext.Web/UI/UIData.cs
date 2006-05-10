@@ -23,8 +23,12 @@ namespace Subtext.Web.UI
 	/// <summary>
 	/// Summary description for UIData.
 	/// </summary>
-	public class UIData
+	public sealed class UIData
 	{
+		private UIData()
+		{
+		}
+		
 		public static LinkCategory Links(CategoryType catType, UrlFormats formats)
 		{
 			switch(catType)
@@ -39,7 +43,7 @@ namespace Subtext.Web.UI
 					return Transformer.BuildLinks(UIText.ArticleCollection, CategoryType.StoryCollection, formats);
 				
 				default:
-					throw new ApplicationException(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Invalid CategoryType: {0} via Subtext.Web.UI.UIData.Links",catType));
+					throw new InvalidOperationException(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Invalid CategoryType: {0} via Subtext.Web.UI.UIData.Links",catType));
 			}
 		}
 

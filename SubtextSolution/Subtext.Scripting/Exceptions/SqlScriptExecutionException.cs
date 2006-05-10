@@ -28,7 +28,7 @@ namespace Subtext.Scripting.Exceptions
 	[Serializable]
 	public sealed class SqlScriptExecutionException : Exception, ISerializable
 	{
-		Script _script = null;
+		Script _script;
 		int _returnValue;
 
 		/// <summary>
@@ -95,13 +95,13 @@ namespace Subtext.Scripting.Exceptions
 		void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
 		{
 			info.AddValue("Script", _script);
-			base.GetObjectData(info, context);
+			GetObjectData(info, context);
 		}
 
 		/// <summary>
 		/// Gets the script.
 		/// </summary>
-		public Script scriptName
+		public Script ScriptName
 		{
 			get { return _script; }
 		}
@@ -124,8 +124,8 @@ namespace Subtext.Scripting.Exceptions
 			get
 			{
 				string message = base.Message;
-				if (scriptName != null)
-					message += Environment.NewLine + "scriptName: " + _script.ToString();
+				if (ScriptName != null)
+					message += Environment.NewLine + "ScriptName: " + _script.ToString();
 				message+= "Return Value: " + ReturnValue;
 				return message;
 			}
