@@ -86,19 +86,56 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 			XmlDocument oXML = new XmlDocument() ;
 			XmlNode oConnectorNode = CreateBaseXml( oXML, sCommand, sResourceType, sCurrentFolder ) ;
 
-			// Execute the required command.
-			switch( sCommand )
+			if(sResourceType.Equals("Image"))
 			{
-				case "GetFolders" :
-					this.GetFolders( oConnectorNode, sResourceType, sCurrentFolder ) ;
-					break;
-				case "GetFoldersAndFiles" :
-					this.GetFolders( oConnectorNode, sResourceType, sCurrentFolder ) ;
-					this.GetFiles( oConnectorNode, sResourceType, sCurrentFolder ) ;
-					break;
-				case "CreateFolder" :
-					this.CreateFolder( oConnectorNode, sResourceType, sCurrentFolder ) ;
-					break;
+				// Execute the required command.
+				switch( sCommand )
+				{
+					case "GetFolders" :
+						this.GetFolders( oConnectorNode, sResourceType, sCurrentFolder ) ;
+						break;
+					case "GetFoldersAndFiles" :
+						this.GetFolders( oConnectorNode, sResourceType, sCurrentFolder ) ;
+						this.GetFiles( oConnectorNode, sResourceType, sCurrentFolder ) ;
+						break;
+					case "CreateFolder" :
+						this.CreateFolder( oConnectorNode, sResourceType, sCurrentFolder ) ;
+						break;
+				}
+			}
+			else if(sResourceType.Equals("Pages"))
+			{
+				// Execute the required command.
+				switch( sCommand )
+				{
+					case "GetFolders" :
+						this.GetFolders( oConnectorNode, sResourceType, sCurrentFolder ) ;
+						break;
+					case "GetFoldersAndFiles" :
+						this.GetFolders( oConnectorNode, sResourceType, sCurrentFolder ) ;
+						this.GetFiles( oConnectorNode, sResourceType, sCurrentFolder ) ;
+						break;
+					case "CreateFolder" :
+						this.CreateFolder( oConnectorNode, sResourceType, sCurrentFolder ) ;
+						break;
+				}
+			}
+			else if(sResourceType.Equals("File"))
+			{
+				// Execute the required command.
+				switch( sCommand )
+				{
+					case "GetFolders" :
+						this.GetFolders( oConnectorNode, sResourceType, sCurrentFolder ) ;
+						break;
+					case "GetFoldersAndFiles" :
+						this.GetFolders( oConnectorNode, sResourceType, sCurrentFolder ) ;
+						this.GetFiles( oConnectorNode, sResourceType, sCurrentFolder ) ;
+						break;
+					case "CreateFolder" :
+						this.CreateFolder( oConnectorNode, sResourceType, sCurrentFolder ) ;
+						break;
+				}
 			}
 
 			// Output the resulting XML.
@@ -157,38 +194,44 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 		{
 			string sErrorNumber = "0" ;
 
+			if(resourceType.Equals("Pages"))
+			{
+				sErrorNumber = "103" ;
+			}
+			else {
 			string sNewFolderName = Request.QueryString["NewFolderName"] ;
 
-			if ( sNewFolderName == null || sNewFolderName.Length == 0 )
-				sErrorNumber = "102" ;
-			else
-			{
-				// Map the virtual path to the local server path of the current folder.
-				string sServerDir = this.ServerMapFolder( resourceType, currentFolder ) ;
+				if ( sNewFolderName == null || sNewFolderName.Length == 0 )
+					sErrorNumber = "102" ;
+				else
+				{
+					// Map the virtual path to the local server path of the current folder.
+					string sServerDir = this.ServerMapFolder( resourceType, currentFolder ) ;
 
-				try
-				{
-					Util.CreateDirectory( System.IO.Path.Combine( sServerDir, sNewFolderName )) ;
-				}
-				catch ( ArgumentException )
-				{
-					sErrorNumber = "102" ;
-				}
-				catch ( System.IO.PathTooLongException )
-				{
-					sErrorNumber = "102" ;
-				}
-				catch ( System.IO.IOException )
-				{
-					sErrorNumber = "101" ;
-				}
-				catch ( System.Security.SecurityException )
-				{
-					sErrorNumber = "103" ;
-				}
-				catch ( Exception )
-				{
-					sErrorNumber = "110" ;
+					try
+					{
+						Util.CreateDirectory( System.IO.Path.Combine( sServerDir, sNewFolderName )) ;
+					}
+					catch ( ArgumentException )
+					{
+						sErrorNumber = "102" ;
+					}
+					catch ( System.IO.PathTooLongException )
+					{
+						sErrorNumber = "102" ;
+					}
+					catch ( System.IO.IOException )
+					{
+						sErrorNumber = "101" ;
+					}
+					catch ( System.Security.SecurityException )
+					{
+						sErrorNumber = "103" ;
+					}
+					catch ( Exception )
+					{
+						sErrorNumber = "110" ;
+					}
 				}
 			}
 
@@ -287,7 +330,7 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 				return GetImageRootPath() + folderPath ;
 		}
 
-		private string GetImageRootPath() 
+		private static string GetImageRootPath() 
 		{
 			return Subtext.Framework.Format.UrlFormats.StripHostFromUrl(Subtext.Framework.Configuration.Config.CurrentBlog.ImagePath);
 		}

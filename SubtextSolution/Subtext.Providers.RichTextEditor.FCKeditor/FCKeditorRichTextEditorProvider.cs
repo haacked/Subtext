@@ -80,10 +80,10 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 			_fckCtl=new FredCK.FCKeditorV2.FCKeditor();
 			_fckCtl.ID=ControlID;
 			_fckCtl.BasePath=ControlHelper.ExpandTildePath(_webFormFolder);
-			if(!_toolbarSet.Trim().Equals(""))
+			if(_toolbarSet.Length!=0)
 				_fckCtl.ToolbarSet=_toolbarSet;
 
-			if(!_skin.Trim().Equals(""))
+			if(_skin.Length!=0)
 				_fckCtl.SkinPath=_fckCtl.BasePath+"editor/skins/"+_skin+"/";
 
 			// Compute user image gallery url
