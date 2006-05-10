@@ -423,18 +423,6 @@ namespace Subtext.Framework.Data
 			
 		}
 
-			 public override IDataReader GetCategoryEntry(string EntryName, bool ActiveOnly)
-			 {
-				 SqlParameter[] p =
-			{
-				SqlHelper.MakeInParam("@EntryName",SqlDbType.NVarChar,150,EntryName),
-				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
-				BlogIdParam
-			};
-				 return GetReader("subtext_GetEntryWithCategoryTitlesByEntryName",p);
-			
-			 }
-
 		public override IDataReader GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly)
 		{
 			SqlParameter[] p =
@@ -528,45 +516,6 @@ namespace Subtext.Framework.Data
 			};
 			return GetReader("subtext_GetPostsByCategoryID",p);
 	
-		}
-
-		public override IDataReader GetEntriesByCategory(int ItemCount, string CategoryName, bool ActiveOnly)
-		{
-			SqlParameter[] p =
-			{
-				SqlHelper.MakeInParam("@ItemCount",SqlDbType.Int,4,ItemCount),
-				SqlHelper.MakeInParam("@CategoryName",SqlDbType.NVarChar, 150,CategoryName),
-				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
-				BlogIdParam
-			};
-			return GetReader("subtext_GetPostsByCategoryName",p);
-	
-		}
-
-		public override IDataReader GetEntriesByCategory(int ItemCount, int catID, DateTime DateUpdated, bool ActiveOnly)
-		{
-			SqlParameter[] p =
-			{
-				SqlHelper.MakeInParam("@ItemCount",SqlDbType.Int,4,ItemCount),
-				SqlHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,(catID)),
-				SqlHelper.MakeInParam("@DateUpdated",SqlDbType.DateTime,8,DateUpdated),
-				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
-				BlogIdParam
-			};
-			return GetReader("subtext_GetPostsByCategoryIDByDateUpdated",p);
-		}
-
-		public override IDataReader GetEntriesByCategory(int ItemCount, string CategoryName, DateTime DateUpdated, bool ActiveOnly)
-		{
-			SqlParameter[] p =
-			{
-				SqlHelper.MakeInParam("@ItemCount",SqlDbType.Int,4,ItemCount),
-				SqlHelper.MakeInParam("@CategoryName",SqlDbType.NVarChar, 150,CategoryName),
-				SqlHelper.MakeInParam("@DateUpdated",SqlDbType.DateTime,8,DateUpdated),
-				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
-				BlogIdParam
-			};
-			return GetReader("subtext_GetPostsByCategoryIDByDateUpdated",p);
 		}
 
 		public override IDataReader GetPostsByCategoryID(int ItemCount, int catID)

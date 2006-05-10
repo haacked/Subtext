@@ -134,9 +134,6 @@ namespace Subtext.Framework.Providers
 		public abstract EntryCollection GetPostCollectionByMonth(int month, int year);
 		public abstract EntryCollection GetPostsByDayRange(DateTime start, DateTime stop, PostType postType, bool ActiveOnly);
 		public abstract EntryCollection GetEntriesByCategory(int ItemCount,int catID,bool ActiveOnly);
-		public abstract EntryCollection GetEntriesByCategory(int ItemCount,int catID, DateTime DateUpdated,bool ActiveOnly);
-
-		public abstract EntryCollection GetEntriesByCategory(int itemCount, string categoryName, bool activeOnly);
 
 		#endregion
 
@@ -152,7 +149,6 @@ namespace Subtext.Framework.Providers
 		public abstract Entry GetEntry(int postID, bool ActiveOnly);
 		public abstract Entry GetEntry(string EntryName, bool ActiveOnly);
 		public abstract CategoryEntry GetCategoryEntry(int postid, bool ActiveOnly);
-		public abstract CategoryEntry GetCategoryEntry(string EntryName, bool ActiveOnly);
 
 		#endregion
 

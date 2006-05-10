@@ -127,22 +127,6 @@ namespace Subtext.Common.Data
 		#endregion
 
 		#region EntriesByCategory
-
-		public static EntryCollection GetEntriesByCategory(int count, CacheDuration cacheDuration)
-		{
-			string path = WebPathStripper.RemoveRssSlash(HttpContext.Current.Request.Path);
-			if(WebPathStripper.IsNumeric(path))
-			{
-				int CategoryID = WebPathStripper.GetEntryIDFromUrl(path);
-				return GetEntriesByCategory(count, cacheDuration, CategoryID);
-			}
-			else
-			{
-				string CategoryName = WebPathStripper.GetRequestedFileName(path);
-				return GetEntriesByCategory(count, cacheDuration, CategoryName);
-			}
-		}
-
 		private static readonly string ECKey="EC:Count{0}Category{1}BlogId{2}";
 		public static EntryCollection GetEntriesByCategory(int count, CacheDuration cacheDuration, int categoryID)
 		{
@@ -160,25 +144,6 @@ namespace Subtext.Common.Data
 			}
 			return ec;
 		}
-
-		private static readonly string ECNameKey="EC:Count{0}CategoryName{1}BlogId{2}";
-		public static EntryCollection GetEntriesByCategory(int count, CacheDuration cacheDuration, string CategoryName)
-		{
-			string key = string.Format(ECNameKey,count,CategoryName,BlogId());
-			ContentCache cache = ContentCache.Instantiate();
-			EntryCollection ec = (EntryCollection)cache[key];
-			if(ec == null)
-			{
-				ec = Entries.GetEntriesByCategory(count,CategoryName,true);
-				
-				if(ec != null)
-				{
-					cache.Insert(key, ec, cacheDuration);
-				}
-			}
-			return ec;
-		}
-
 		#endregion
 
 		#region LinkCategory
