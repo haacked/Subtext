@@ -32,6 +32,8 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 		string _webFormFolder=string.Empty;
 		string _toolbarSet=string.Empty;
 		string _skin=string.Empty;
+		static string _fileAllowedExtensions=string.Empty;
+		static string _imageAllowedExtensions=string.Empty;
 
 		public override System.Web.UI.Control RichTextEditorControl
 		{
@@ -65,6 +67,18 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 				_webFormFolder=configValue["WebFormFolder"];
 			else
 				throw new InvalidOperationException("WebFormFolder must be specified for the FCKeditor provider to work");
+
+			if(configValue["FileAllowedExtensions"]!=null)
+				_webFormFolder=configValue["FileAllowedExtensions"];
+			else
+				throw new InvalidOperationException("FileAllowedExtensions must be specified for the FCKeditor provider to work");
+
+
+			if(configValue["ImageAllowedExtensions"]!=null)
+				_webFormFolder=configValue["ImageAllowedExtensions"];
+			else
+				throw new InvalidOperationException("ImageAllowedExtensions must be specified for the FCKeditor provider to work");
+
 
 			if(configValue["ToolbarSet"]!=null)
 				_toolbarSet=configValue["ToolbarSet"];
@@ -137,6 +151,22 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 			get
 			{
 				return this.Text;
+			}
+		}
+
+		public static string ImageAllowedExtensions 
+		{
+			get 
+			{
+				return _imageAllowedExtensions;
+			}
+		}
+
+		public static string FileAllowedExtensions 
+		{
+			get 
+			{
+				return _fileAllowedExtensions;
 			}
 		}
 

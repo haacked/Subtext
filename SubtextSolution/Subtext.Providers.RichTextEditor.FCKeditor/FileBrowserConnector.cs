@@ -38,6 +38,10 @@ using System;
 using System.Globalization ;
 using System.Xml ;
 using System.Web ;
+using System.Text.RegularExpressions;
+using Subtext.Framework;
+using Subtext.Extensibility;
+using Subtext.Framework.Components;
 using FredCK.FCKeditorV2;
 
 namespace Subtext.Providers.RichTextEditor.FCKeditor
@@ -92,28 +96,28 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 				switch( sCommand )
 				{
 					case "GetFolders" :
-						this.GetFolders( oConnectorNode, sResourceType, sCurrentFolder ) ;
+						this.GetFolders( oConnectorNode, sCurrentFolder ) ;
 						break;
 					case "GetFoldersAndFiles" :
-						this.GetFolders( oConnectorNode, sResourceType, sCurrentFolder ) ;
-						this.GetFiles( oConnectorNode, sResourceType, sCurrentFolder ) ;
+						this.GetFolders( oConnectorNode, sCurrentFolder ) ;
+						this.GetFiles( oConnectorNode, sResourceType,sCurrentFolder ) ;
 						break;
 					case "CreateFolder" :
 						this.CreateFolder( oConnectorNode, sResourceType, sCurrentFolder ) ;
 						break;
 				}
 			}
-			else if(sResourceType.Equals("Pages"))
+			else if(sResourceType.Equals("Posts"))
 			{
 				// Execute the required command.
 				switch( sCommand )
 				{
 					case "GetFolders" :
-						this.GetFolders( oConnectorNode, sResourceType, sCurrentFolder ) ;
+						this.GetCategories( oConnectorNode, sCurrentFolder) ;
 						break;
 					case "GetFoldersAndFiles" :
-						this.GetFolders( oConnectorNode, sResourceType, sCurrentFolder ) ;
-						this.GetFiles( oConnectorNode, sResourceType, sCurrentFolder ) ;
+						this.GetCategories( oConnectorNode, sCurrentFolder ) ;
+						this.GetPosts( oConnectorNode, sCurrentFolder ) ;
 						break;
 					case "CreateFolder" :
 						this.CreateFolder( oConnectorNode, sResourceType, sCurrentFolder ) ;
@@ -126,10 +130,10 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 				switch( sCommand )
 				{
 					case "GetFolders" :
-						this.GetFolders( oConnectorNode, sResourceType, sCurrentFolder ) ;
+						this.GetFolders( oConnectorNode, sCurrentFolder ) ;
 						break;
 					case "GetFoldersAndFiles" :
-						this.GetFolders( oConnectorNode, sResourceType, sCurrentFolder ) ;
+						this.GetFolders( oConnectorNode, sCurrentFolder ) ;
 						this.GetFiles( oConnectorNode, sResourceType, sCurrentFolder ) ;
 						break;
 					case "CreateFolder" :
@@ -148,10 +152,10 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
  
 		#region Command Handlers
 
-		private void GetFolders( XmlNode connectorNode, string resourceType, string currentFolder )
+		private void GetFolders( XmlNode connectorNode,  string currentFolder )
 		{
 			// Map the virtual path to the local server path.
-			string sServerDir = this.ServerMapFolder( resourceType, currentFolder ) ;
+			string sServerDir = this.ServerMapFolder( currentFolder ) ;
 
 			// Create the "Folders" node.
 			XmlNode oFoldersNode = XmlUtil.AppendElement( connectorNode, "Folders" ) ;
@@ -167,26 +171,30 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 			}
 		}
 
-		private void GetFiles( XmlNode connectorNode, string resourceType, string currentFolder )
+		private void GetFiles( XmlNode connectorNode, string resourceType,  string currentFolder )
 		{
 			// Map the virtual path to the local server path.
-			string sServerDir = this.ServerMapFolder( resourceType, currentFolder ) ;
+			string sServerDir = this.ServerMapFolder( currentFolder ) ;
 
 			// Create the "Files" node.
 			XmlNode oFilesNode = XmlUtil.AppendElement( connectorNode, "Files" ) ;
 
 			System.IO.DirectoryInfo oDir = new System.IO.DirectoryInfo( sServerDir ) ;
-			System.IO.FileInfo[] aFiles = oDir.GetFiles() ;
+			System.IO.FileInfo[] aFiles = oDir.GetFiles();
 
 			for ( int i = 0 ; i < aFiles.Length ; i++ )
 			{
-				Decimal iFileSize = Math.Round( (Decimal)aFiles[i].Length / 1024 ) ;
-				if ( iFileSize < 1 && aFiles[i].Length != 0 ) iFileSize = 1 ;
+				if(Regex.IsMatch(aFiles[i].Extension,GetAllowedExtension(resourceType),RegexOptions.IgnoreCase))
+				{
 
-				// Create the "File" node.
-				XmlNode oFileNode = XmlUtil.AppendElement( oFilesNode, "File" ) ;
-				XmlUtil.SetAttribute( oFileNode, "name", aFiles[i].Name ) ;
-				XmlUtil.SetAttribute( oFileNode, "size", iFileSize.ToString( CultureInfo.InvariantCulture ) ) ;
+					Decimal iFileSize = Math.Round( (Decimal)aFiles[i].Length / 1024 ) ;
+					if ( iFileSize < 1 && aFiles[i].Length != 0 ) iFileSize = 1 ;
+
+					// Create the "File" node.
+					XmlNode oFileNode = XmlUtil.AppendElement( oFilesNode, "File" ) ;
+					XmlUtil.SetAttribute( oFileNode, "name", aFiles[i].Name ) ;
+					XmlUtil.SetAttribute( oFileNode, "size", iFileSize.ToString( CultureInfo.InvariantCulture ) ) ;
+				}
 			}
 		}
 
@@ -194,7 +202,7 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 		{
 			string sErrorNumber = "0" ;
 
-			if(resourceType.Equals("Pages"))
+			if(resourceType.Equals("Posts"))
 			{
 				sErrorNumber = "103" ;
 			}
@@ -206,7 +214,7 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 				else
 				{
 					// Map the virtual path to the local server path of the current folder.
-					string sServerDir = this.ServerMapFolder( resourceType, currentFolder ) ;
+					string sServerDir = this.ServerMapFolder( currentFolder ) ;
 
 					try
 					{
@@ -242,44 +250,51 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 
 		private void FileUpload( string resourceType, string currentFolder )
 		{
-			HttpPostedFile oFile = Request.Files["NewFile"] ;
-
 			string sErrorNumber = "0" ;
 			string sFileName = "" ;
 
-			if ( oFile != null )
+			if(!resourceType.Equals("Posts"))
 			{
-				// Map the virtual path to the local server path.
-				string sServerDir = this.ServerMapFolder( resourceType, currentFolder ) ;
+				HttpPostedFile oFile = Request.Files["NewFile"] ;
 
-				// Get the uploaded file name.
-				sFileName = System.IO.Path.GetFileName( oFile.FileName ) ;
-
-				int iCounter = 0 ;
-
-				while ( true )
+				if ( oFile != null )
 				{
-					string sFilePath = System.IO.Path.Combine( sServerDir, sFileName ) ;
+					// Map the virtual path to the local server path.
+					string sServerDir = this.ServerMapFolder( currentFolder ) ;
 
-					if ( System.IO.File.Exists( sFilePath ) )
-					{
-						iCounter++ ;
-						sFileName = 
-							System.IO.Path.GetFileNameWithoutExtension( oFile.FileName ) +
-							"(" + iCounter + ")" +
-							System.IO.Path.GetExtension( oFile.FileName ) ;
+					// Get the uploaded file name.
+					sFileName = System.IO.Path.GetFileName( oFile.FileName ) ;
 
-						sErrorNumber = "201" ;
-					}
-					else
+					int iCounter = 0 ;
+
+					while ( true )
 					{
-						oFile.SaveAs( sFilePath ) ;
-						break ;
+						string sFilePath = System.IO.Path.Combine( sServerDir, sFileName ) ;
+
+						if ( System.IO.File.Exists( sFilePath ) )
+						{
+							iCounter++ ;
+							sFileName = 
+								System.IO.Path.GetFileNameWithoutExtension( oFile.FileName ) +
+								"(" + iCounter + ")" +
+								System.IO.Path.GetExtension( oFile.FileName ) ;
+
+							sErrorNumber = "201" ;
+						}
+						else
+						{
+							oFile.SaveAs( sFilePath ) ;
+							break ;
+						}
 					}
 				}
+				else
+					sErrorNumber = "202" ;
 			}
-			else
-				sErrorNumber = "202" ;
+			else 
+			{
+				sErrorNumber = "203" ;
+			}
 
 			Response.Clear() ;
 
@@ -288,6 +303,52 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 			Response.Write( "</script>" ) ;
 
 			Response.End() ;
+		}
+
+		#endregion
+
+		#region Post Type Handler
+
+		private void GetCategories( XmlNode connectorNode, string currentFolder )
+		{
+			if(currentFolder.Equals("/") )
+			{
+				LinkCategoryCollection catList= Links.GetCategories(CategoryType.PostCollection,false);
+
+				// Create the "Folders" node.
+				XmlNode oFoldersNode = XmlUtil.AppendElement( connectorNode, "Folders" ) ;
+
+				for ( int i = 0 ; i < catList.Count ; i++ )
+				{
+					// Create the "Folders" node.
+					XmlNode oFolderNode = XmlUtil.AppendElement( oFoldersNode, "Folder" ) ;
+					XmlUtil.SetAttribute( oFolderNode, "name", catList[i].Title ) ;
+				}
+			}
+		}
+
+		private void GetPosts( XmlNode connectorNode,  string currentFolder )
+		{
+			if(!currentFolder.Equals("/"))
+			{
+				string categoryName=currentFolder.Substring(1,currentFolder.Length-2);
+				LinkCategory cat = Links.GetLinkCategory(categoryName,false);
+				// Create the "Files" node.
+				XmlNode oFilesNode = XmlUtil.AppendElement( connectorNode, "Files" ) ;
+
+				PagedEntryCollection posts= Entries.GetPagedEntries(PostType.BlogPost, cat.CategoryID,1, 1000,true);
+
+				for ( int i = 0 ; i < posts.Count ; i++ )
+				{
+					// Create the "File" node.
+					if(posts[i].IsActive) 
+					{
+						XmlNode oFileNode = XmlUtil.AppendElement( oFilesNode, "File" ) ;
+						XmlUtil.SetAttribute( oFileNode, "name", posts[i].Title+"|"+posts[i].Link ) ;
+						XmlUtil.SetAttribute( oFileNode, "size", posts[i].DateUpdated.ToShortDateString() ) ;
+					}
+				}
+			}
 		}
 
 		#endregion
@@ -305,9 +366,18 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 			XmlUtil.SetAttribute( oConnectorNode, "resourceType", resourceType ) ;
 
 			// Add the current folder node.
-			XmlNode oCurrentNode = XmlUtil.AppendElement( oConnectorNode, "CurrentFolder" ) ;
-			XmlUtil.SetAttribute( oCurrentNode, "path", currentFolder ) ;
-			XmlUtil.SetAttribute( oCurrentNode, "url", GetUrlFromPath(resourceType,currentFolder) ) ;
+			if(!resourceType.Equals("Posts")) 
+			{
+				XmlNode oCurrentNode = XmlUtil.AppendElement( oConnectorNode, "CurrentFolder" ) ;
+				XmlUtil.SetAttribute( oCurrentNode, "path", currentFolder ) ;
+				XmlUtil.SetAttribute( oCurrentNode, "url", GetUrlFromPath(currentFolder) ) ;
+			}
+			else 
+			{
+				XmlNode oCurrentNode = XmlUtil.AppendElement( oConnectorNode, "CurrentFolder" ) ;
+				XmlUtil.SetAttribute( oCurrentNode, "path", currentFolder ) ;
+				XmlUtil.SetAttribute( oCurrentNode, "url", "") ;
+			}
 
 			return oConnectorNode ;
 		}
@@ -316,7 +386,7 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 
 		#region Directory Mapping
 
-		private string ServerMapFolder( string resourceType, string folderPath )
+		private string ServerMapFolder( string folderPath )
 		{
 			// Get the resource type directory.
 			string sResourceTypePath = Server.MapPath(GetImageRootPath());
@@ -325,7 +395,7 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 			return System.IO.Path.Combine( sResourceTypePath, folderPath.TrimStart('/') ) ;
 		}
 
-		private string GetUrlFromPath( string resourceType, string folderPath )
+		private string GetUrlFromPath( string folderPath )
 		{
 				return GetImageRootPath() + folderPath ;
 		}
@@ -335,6 +405,20 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 			return Subtext.Framework.Format.UrlFormats.StripHostFromUrl(Subtext.Framework.Configuration.Config.CurrentBlog.ImagePath);
 		}
 		#endregion
+
+		private static string GetAllowedExtension(string resourceType)
+		{
+			string extStr="";
+			if(resourceType.Equals("File")) 
+			{
+				extStr=FCKeditorRichTextEditorProvider.FileAllowedExtensions;
+			}
+			else if(resourceType.Equals("Image")) 
+			{
+				extStr=FCKeditorRichTextEditorProvider.ImageAllowedExtensions;
+			}
+			return extStr;
+		}
 
 	}
 }

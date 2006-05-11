@@ -34,6 +34,12 @@ function CreateFolder()
 {
 	var sFolderName ;
 	
+	if(oConnector.ResourceType=="Posts")
+	{
+		alert("You cannot create a new folder while looking for Posts,\r\nplease change resource type");
+		return;
+	}
+	
 	while ( true ) 
 	{
 		sFolderName = prompt( 'Type the name of the new folder:', '' ) ;
