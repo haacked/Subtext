@@ -186,7 +186,7 @@
                 />
                 <Reference
                     Name = "FreetextBox"
-                    AssemblyName = "FreetextBox"
+                    AssemblyName = "FreeTextBox"
                     HintPath = "ExternalDependencies\FreetextBox.dll"
                 />
             </References>
@@ -3445,6 +3445,198 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\Nazar\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\ReadMe.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\ArchiveCategory.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\ArchiveDay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\ArchiveLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\ArchiveMonth.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\BlogStats.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\CategoryDisplay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\CategoryEntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\CategoryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\Comments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\Contact.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\Day.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\DayCollection.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\EntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\Footer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\GalleryThumbNailViewer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\Header.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\HomePage.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\Login.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\MonthListings.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\MyLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\News.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\PostComment.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\PreviousNext.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\RecentComments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\RelatedLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\SubtextSearch.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\Top10Module.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\ViewPicture.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\images\advertisement.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\images\button_bg.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\images\comment_button_blockquote.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\images\comment_button_bold.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\images\comment_button_hyperlink.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\images\comment_button_italic.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\images\comment_button_underline.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\images\comment_foot_bg.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\images\comment_head_bg.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\images\external.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\images\header_short1.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\images\menu_bg.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\images\st_subhead_bg.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\images\subhead_bg.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Nazar\images\Thumbs.db"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "Skins\Piyo\PageTemplate.ascx"
                     BuildAction = "Content"
                 />
@@ -4217,6 +4409,170 @@
                     BuildAction = "Content"
                 />
                 <Folder RelPath = "Skins\simple\Images\" />
+                <File
+                    RelPath = "Skins\Submarine\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\style.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\ArchiveCategory.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\ArchiveDay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\ArchiveLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\ArchiveMonth.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\BlogStats.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\CategoryDisplay.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\CategoryEntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\CategoryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\Comments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\Contact.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\Day.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\DayCollection.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\EntryList.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\Footer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\GalleryThumbNailViewer.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\Header.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\HomePage.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\Login.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\MonthListings.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\MyLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\mylinksAdmin.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\News.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\PostComment.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\powered.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\PreviousNext.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\RecentComments.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\RelatedLinks.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\SingleColumn.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\SubtextSearch.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\ViewPicture.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\images\bcg.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\images\btnAdmin.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\images\buton.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\images\content.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\images\feedback.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\images\footer.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\images\home.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\images\poweredby.gif"
+                    BuildAction = "Content"
+                />
                 <File
                     RelPath = "Skins\white\PageTemplate.ascx"
                     BuildAction = "Content"
