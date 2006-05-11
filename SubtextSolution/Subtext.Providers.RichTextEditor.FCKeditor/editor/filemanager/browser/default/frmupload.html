@@ -23,17 +23,26 @@
 		<script type="text/javascript" src="js/common.js"></script>
 		<script language="javascript">
 
+
+
 function SetCurrentFolder( resourceType, folderPath )
 {
 	var sUrl = oConnector.ConnectorUrl +'Command=FileUpload' ;
 	sUrl += '&Type=' + resourceType ;
 	sUrl += '&CurrentFolder=' + folderPath ;
 	
+	oConnector.ResourceType = resourceType ;
+	
 	document.getElementById('frmUpload').action = sUrl ;
 }
 
 function OnSubmit()
 {
+	if(oConnector.ResourceType=="Posts")
+	{
+		alert( 'You cannot add posts using this upload file form:\r\nif you want to upload a file please change Resource Type\r\nif you want to add a new post, you must do it using the standard form' ) ;
+		return false ;
+	}
 	if ( document.getElementById('NewFile').value.length == 0 )
 	{
 		alert( 'Please select a file from your computer' ) ;

@@ -81,7 +81,10 @@ oListManager.AddFile = function( fileName, fileUrl, fileSize )
 	oCell = oRow.insertCell(-1) ;
 	oCell.noWrap = true ;
 	oCell.align = 'right' ;
-	oCell.innerHTML = '&nbsp;' + fileSize + ' KB' ;
+	if(oConnector.ResourceType=="Posts")
+		oCell.innerHTML = '&nbsp;' + fileSize;
+	else
+		oCell.innerHTML = '&nbsp;' + fileSize + ' KB' ;
 }
 
 function OpenFolder( folderPath )
@@ -134,7 +137,19 @@ function GetFoldersAndFilesCallBack( fckXml )
 	{
 		var sFileName = oNodes[i].attributes.getNamedItem('name').value ;
 		var sFileSize = oNodes[i].attributes.getNamedItem('size').value ;
-		oListManager.AddFile( sFileName, sCurrentFolderUrl + sFileName, sFileSize ) ;
+		var sFileUrl;
+		if(oConnector.ResourceType=="Posts")
+		{
+			var nameArr=sFileName.split("|");
+			sFileName=nameArr[0];
+			sFileUrl=nameArr[1];
+		}
+		else
+		{
+			sFileUrl=sCurrentFolderUrl + sFileName;
+		}
+		
+		oListManager.AddFile( sFileName, sFileUrl, sFileSize ) ;
 	}
 }
 
