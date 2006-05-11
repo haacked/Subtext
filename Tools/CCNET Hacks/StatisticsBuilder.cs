@@ -37,6 +37,10 @@ namespace ThoughtWorks.CruiseControl.Core.Publishers.Statistics
 			 */
 			Add(new Statistic("FxCop Warnings", "count(//FxCopReport//Issue[@Level='CriticalWarning']) + count(//FxCopReport//Issue[@Level='Warning'])"));
 			Add(new Statistic("FxCop Errors", "count(//FxCopReport//Issue[@Level='CriticalError']) + count(//FxCopReport//Issue[@Level='Error'])"));			
+			
+			Add(new Statistic("Coverage", "round(//coverageReport/project/@coverage)"));
+			Add(new Statistic("Code Lines", "//coverageReport/project/@nonCommentLines"));			
+
 		}
 
 		public Hashtable ProcessBuildResults(IIntegrationResult result)

@@ -60,6 +60,8 @@
 				<th>TestIgnored</th>
 				<th>FxCop Errors</th>
 				<th>FxCop Warnings</th>
+				<th>% Coverage</th>
+				<th>Code Lines</th>				
 				<th>BuildErrorType</th>
 			</tr>
 			<xsl:for-each select="./integration">
@@ -98,6 +100,12 @@
 						</td>
 						<td>
 							<xsl:value-of select='./statistic[@name="FxCop Warnings"]'/>
+						</td>
+						<td>
+							<xsl:value-of select='./statistic[@name="Coverage"]'/>
+						</td>
+						<td>
+							<xsl:value-of select='./statistic[@name="Code Lines"]'/>
 						</td>
 						<td>
 							<xsl:value-of select='./statistic[@name="BuildErrorType"]'/>
