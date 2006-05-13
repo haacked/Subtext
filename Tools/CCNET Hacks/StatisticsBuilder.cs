@@ -39,7 +39,7 @@ namespace ThoughtWorks.CruiseControl.Core.Publishers.Statistics
 			Add(new Statistic("FxCop Errors", "count(//FxCopReport//Issue[@Level='CriticalError']) + count(//FxCopReport//Issue[@Level='Error'])"));			
 			
 			Add(new Statistic("Coverage", "round(//coverageReport/project/@coverage)"));
-			Add(new Statistic("Code Lines", "//coverageReport/project/@nonCommentLines"));			
+			Add(new Statistic("Code Lines", "round(//coverageReport/project/@nonCommentLines)"));			
 
 		}
 
