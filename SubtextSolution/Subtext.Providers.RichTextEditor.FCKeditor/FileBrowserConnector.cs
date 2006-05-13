@@ -113,11 +113,11 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 				switch( sCommand )
 				{
 					case "GetFolders" :
-						this.GetCategories( oConnectorNode, sCurrentFolder) ;
+						GetCategories( oConnectorNode, sCurrentFolder) ;
 						break;
 					case "GetFoldersAndFiles" :
-						this.GetCategories( oConnectorNode, sCurrentFolder ) ;
-						this.GetPosts( oConnectorNode, sCurrentFolder ) ;
+						GetCategories( oConnectorNode, sCurrentFolder ) ;
+						GetPosts( oConnectorNode, sCurrentFolder ) ;
 						break;
 					case "CreateFolder" :
 						this.CreateFolder( oConnectorNode, sResourceType, sCurrentFolder ) ;
@@ -309,7 +309,7 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 
 		#region Post Type Handler
 
-		private void GetCategories( XmlNode connectorNode, string currentFolder )
+		private static void GetCategories( XmlNode connectorNode, string currentFolder )
 		{
 			if(currentFolder.Equals("/") )
 			{
@@ -327,26 +327,30 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 			}
 		}
 
-		private void GetPosts( XmlNode connectorNode,  string currentFolder )
+		private static void GetPosts( XmlNode connectorNode,  string currentFolder )
 		{
-			if(!currentFolder.Equals("/"))
+			PagedEntryCollection posts;
+			if(currentFolder.Equals("/"))
+			{
+				posts= Entries.GetPagedEntries(PostType.BlogPost, -1,1, 1000,true);
+			}
+			else
 			{
 				string categoryName=currentFolder.Substring(1,currentFolder.Length-2);
 				LinkCategory cat = Links.GetLinkCategory(categoryName,false);
-				// Create the "Files" node.
-				XmlNode oFilesNode = XmlUtil.AppendElement( connectorNode, "Files" ) ;
+				posts= Entries.GetPagedEntries(PostType.BlogPost, cat.CategoryID,1, 1000,true);
+			}
 
-				PagedEntryCollection posts= Entries.GetPagedEntries(PostType.BlogPost, cat.CategoryID,1, 1000,true);
-
-				for ( int i = 0 ; i < posts.Count ; i++ )
+			// Create the "Files" node.
+			XmlNode oFilesNode = XmlUtil.AppendElement( connectorNode, "Files" ) ;
+			for ( int i = 0 ; i < posts.Count ; i++ )
+			{
+				// Create the "File" node.
+				if(posts[i].IsActive) 
 				{
-					// Create the "File" node.
-					if(posts[i].IsActive) 
-					{
-						XmlNode oFileNode = XmlUtil.AppendElement( oFilesNode, "File" ) ;
-						XmlUtil.SetAttribute( oFileNode, "name", posts[i].Title+"|"+posts[i].Link ) ;
-						XmlUtil.SetAttribute( oFileNode, "size", posts[i].DateUpdated.ToShortDateString() ) ;
-					}
+					XmlNode oFileNode = XmlUtil.AppendElement( oFilesNode, "File" ) ;
+					XmlUtil.SetAttribute( oFileNode, "name", posts[i].Title+"|"+posts[i].Link ) ;
+					XmlUtil.SetAttribute( oFileNode, "size", posts[i].DateUpdated.ToShortDateString() ) ;
 				}
 			}
 		}
@@ -355,7 +359,7 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 
 		#region Base XML Creation
 
-		private XmlNode CreateBaseXml( XmlDocument xml, string command, string resourceType, string currentFolder )
+		private static XmlNode CreateBaseXml( XmlDocument xml, string command, string resourceType, string currentFolder )
 		{
 			// Create the XML document header.
 			xml.AppendChild( xml.CreateXmlDeclaration( "1.0", "utf-8", null ) ) ;
@@ -395,9 +399,9 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 			return System.IO.Path.Combine( sResourceTypePath, folderPath.TrimStart('/') ) ;
 		}
 
-		private string GetUrlFromPath( string folderPath )
+		private static string GetUrlFromPath( string folderPath )
 		{
-				return GetImageRootPath() + folderPath ;
+				return GetImageRootPath() + folderPath.Substring(1); ;
 		}
 
 		private static string GetImageRootPath() 

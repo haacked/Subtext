@@ -37,7 +37,7 @@ namespace FredCK.FCKeditorV2
 		{
 			XmlNode oNode ;
 
-			if ( node is XmlDocument )
+			if ( node.GetType() == typeof(XmlDocument) )
                 oNode = node.AppendChild( ((XmlDocument)node).CreateElement( newElementName ) ) ;
 			else
 				oNode = node.AppendChild( node.OwnerDocument.CreateElement( newElementName ) ) ;
