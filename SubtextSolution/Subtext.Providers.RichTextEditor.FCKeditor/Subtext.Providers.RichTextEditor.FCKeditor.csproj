@@ -2129,6 +2129,10 @@
                     RelPath = "ExternalDependencies\FredCK.FCKeditorV2.dll"
                     BuildAction = "Content"
                 />
+                <File
+                    RelPath = "resources\ErrorMessages.resx"
+                    BuildAction = "EmbeddedResource"
+                />
             </Include>
         </Files>
     </CSHARP>

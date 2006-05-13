@@ -194,6 +194,11 @@
                     AssemblyName = "QuickGraph"
                     HintPath = "ExternalDependencies\QuickGraph.dll"
                 />
+                <Reference
+                    Name = "Subtext.Providers.RichTextEditor.FCKeditor"
+                    Project = "{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
             </References>
         </Build>
         <Files>
