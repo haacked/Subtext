@@ -39,6 +39,8 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 		static string _fileAllowedExtensions=string.Empty;
 		static string _imageAllowedExtensions=string.Empty;
 
+		private static System.Resources.ResourceManager rm =  new System.Resources.ResourceManager("Subtext.Providers.RichTextEditor.FCKeditor.resources.ErrorMessages",System.Reflection.Assembly.GetExecutingAssembly());
+
 		public override System.Web.UI.Control RichTextEditorControl
 		{
 			get
@@ -62,47 +64,47 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
 		{
 			if(name == null)
-				throw new ArgumentNullException("name", "Cannot initialize a provider with a null name.");
+				throw new ArgumentNullException("name", rm.GetString("nameNeeded"));
 			
 			if(configValue == null)
-				throw new ArgumentNullException("configValue", "Cannot initialize a provider with a null configValue.");
+				throw new ArgumentNullException("configValue", rm.GetString("configNeeded"));
 			
 			if(configValue["WebFormFolder"]!=null)
 				_webFormFolder=configValue["WebFormFolder"];
 			else
-				throw new InvalidOperationException("WebFormFolder must be specified for the FCKeditor provider to work");
+				throw new InvalidOperationException(rm.GetString("WebFormFolderNeeded"));
 
 			if(configValue["ImageBrowserURL"]!=null)
 				_imageBrowserURL=configValue["ImageBrowserURL"];
 			else
-				throw new InvalidOperationException("ImageBrowserURL must be specified for the FCKeditor provider to work");
+				throw new InvalidOperationException(rm.GetString("ImageBrowserURLNeeded"));
 
 			if(configValue["LinkBrowserURL"]!=null)
 				_linkBrowserURL=configValue["LinkBrowserURL"];
 			else
-				throw new InvalidOperationException("LinkBrowserURL must be specified for the FCKeditor provider to work");
+				throw new InvalidOperationException(rm.GetString("LinkBrowserURLNeeded"));
 
 			if(configValue["ImageConnectorURL"]!=null)
 				_imageConnectorURL=configValue["ImageConnectorURL"];
 			else
-				throw new InvalidOperationException("ImageConnectorURL must be specified for the FCKeditor provider to work");
+				throw new InvalidOperationException(rm.GetString("ImageConnectorURLNeeded"));
 
 			if(configValue["LinkConnectorURL"]!=null)
 				_linkConnectorURL=configValue["LinkConnectorURL"];
 			else
-				throw new InvalidOperationException("LinkConnectorURL must be specified for the FCKeditor provider to work");
+				throw new InvalidOperationException(rm.GetString("LinkConnectorURLNeeded"));
 
 
 			if(configValue["FileAllowedExtensions"]!=null)
 				_fileAllowedExtensions=configValue["FileAllowedExtensions"];
 			else
-				throw new InvalidOperationException("FileAllowedExtensions must be specified for the FCKeditor provider to work");
+				throw new InvalidOperationException(rm.GetString("FileAllowedExtensionsNeeded"));
 
 
 			if(configValue["ImageAllowedExtensions"]!=null)
 				_imageAllowedExtensions=configValue["ImageAllowedExtensions"];
 			else
-				throw new InvalidOperationException("ImageAllowedExtensions must be specified for the FCKeditor provider to work");
+				throw new InvalidOperationException(rm.GetString("ImageAllowedExtensionsNeeded"));
 
 
 			if(configValue["ToolbarSet"]!=null)
