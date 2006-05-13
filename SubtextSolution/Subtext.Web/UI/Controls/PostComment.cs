@@ -1,15 +1,3 @@
-using System;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using Subtext.Common.Data;
-using Subtext.Extensibility;
-using Subtext.Framework;
-using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Exceptions;
-using Subtext.Framework.Text;
-
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Subtext WebLog
@@ -25,10 +13,20 @@ using Subtext.Framework.Text;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
+using System;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using Subtext.Common.Data;
+using Subtext.Extensibility;
+using Subtext.Framework;
+using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
+using Subtext.Framework.Exceptions;
+using Subtext.Framework.Text;
+
 namespace Subtext.Web.UI.Controls
 {
-	using System;
-
 	/// <summary>
 	///		Summary description for Comments.
 	/// </summary>

@@ -16,12 +16,14 @@
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Web;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
+using Image = Subtext.Framework.Components.Image;
 
 namespace Subtext.Framework
 {
@@ -37,12 +39,12 @@ namespace Subtext.Framework
 
 		public static string LocalGalleryFilePath(HttpContext context, int categoryid)
 		{
-			return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}\\{1}\\",Config.CurrentBlog.ImageDirectory,categoryid);
+			return string.Format(CultureInfo.InvariantCulture, "{0}{1}\\",Config.CurrentBlog.ImageDirectory,categoryid);
 		}
 
 		public static string HttpGalleryFilePath(HttpContext context, int categoryid)
 		{
-			return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}{1}/",Config.CurrentBlog.ImagePath,categoryid);
+			return string.Format(CultureInfo.InvariantCulture, "{0}{1}/",Config.CurrentBlog.ImagePath,categoryid);
 		}
 
 		public static string HttpFilePath(HttpContext context)
@@ -228,12 +230,12 @@ namespace Subtext.Framework
 			return ObjectProvider.Instance().GetImagesByCategoryID(catID,ActiveOnly);
 		}
 
-		public static Subtext.Framework.Components.Image GetSingleImage(int imageID, bool ActiveOnly)
+		public static Image GetSingleImage(int imageID, bool ActiveOnly)
 		{
 			return ObjectProvider.Instance().GetSingleImage(imageID,ActiveOnly);
 		}
 
-		public static int InsertImage(Subtext.Framework.Components.Image image, byte[] Buffer)
+		public static int InsertImage(Image image, byte[] Buffer)
 		{
 			if(SaveImage(Buffer,image.OriginalFilePath))
 			{
@@ -243,13 +245,13 @@ namespace Subtext.Framework
 			return -1;
 		}
 
-		public static bool UpdateImage(Subtext.Framework.Components.Image _image)
+		public static bool UpdateImage(Image _image)
 		{
 			return ObjectProvider.Instance().UpdateImage(_image);
 		}
 
 		// added
-		public static void Update(Subtext.Framework.Components.Image image, byte[] Buffer)
+		public static void Update(Image image, byte[] Buffer)
 		{
 			if(SaveImage(Buffer, image.OriginalFilePath))
 			{
@@ -258,7 +260,7 @@ namespace Subtext.Framework
 			}
 		}
 
-		public static void DeleteImage(Subtext.Framework.Components.Image _image)
+		public static void DeleteImage(Image _image)
 		{
 			ObjectProvider.Instance().DeleteImage(_image.ImageID);
 		}

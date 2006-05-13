@@ -819,6 +819,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Admin\Resources\SubtextLogo_small.png"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Admin\Resources\toggle_gray_down.gif"
                     BuildAction = "Content"
                 />
@@ -1280,6 +1284,78 @@
                 />
                 <File
                     RelPath = "Images\xml.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\emotions\emotions.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\emotions\readme.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\emotions\smiley-cool.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\emotions\smiley-cry.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\emotions\smiley-embarassed.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\emotions\smiley-foot-in-mouth.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\emotions\smiley-frown.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\emotions\smiley-innocent.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\emotions\smiley-kiss.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\emotions\smiley-laughing.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\emotions\smiley-money-mouth.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\emotions\smiley-sealed.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\emotions\smiley-smile.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\emotions\smiley-surprised.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\emotions\smiley-tongue-out.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\emotions\smiley-undecided.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\emotions\smiley-wink.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Images\emotions\smiley-yell.gif"
                     BuildAction = "Content"
                 />
                 <File
@@ -3444,6 +3520,8 @@
                     RelPath = "Skins\Naked\Controls\ViewPost.ascx"
                     BuildAction = "Content"
                 />
+                <Folder RelPath = "Skins\Naked\Images\" />
+                <Folder RelPath = "Skins\Naked\Scripts\" />
                 <File
                     RelPath = "Skins\Nazar\PageTemplate.ascx"
                     BuildAction = "Content"
