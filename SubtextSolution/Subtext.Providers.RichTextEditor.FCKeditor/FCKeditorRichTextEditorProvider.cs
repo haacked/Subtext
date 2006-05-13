@@ -30,6 +30,10 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 		FredCK.FCKeditorV2.FCKeditor _fckCtl;
 		string _controlID=string.Empty;
 		string _webFormFolder=string.Empty;
+		string _imageBrowserURL=string.Empty;
+		string _linkBrowserURL=string.Empty;
+		string _imageConnectorURL=string.Empty;
+		string _linkConnectorURL=string.Empty;
 		string _toolbarSet=string.Empty;
 		string _skin=string.Empty;
 		static string _fileAllowedExtensions=string.Empty;
@@ -68,14 +72,35 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 			else
 				throw new InvalidOperationException("WebFormFolder must be specified for the FCKeditor provider to work");
 
+			if(configValue["ImageBrowserURL"]!=null)
+				_imageBrowserURL=configValue["ImageBrowserURL"];
+			else
+				throw new InvalidOperationException("ImageBrowserURL must be specified for the FCKeditor provider to work");
+
+			if(configValue["LinkBrowserURL"]!=null)
+				_linkBrowserURL=configValue["LinkBrowserURL"];
+			else
+				throw new InvalidOperationException("LinkBrowserURL must be specified for the FCKeditor provider to work");
+
+			if(configValue["ImageConnectorURL"]!=null)
+				_imageConnectorURL=configValue["ImageConnectorURL"];
+			else
+				throw new InvalidOperationException("ImageConnectorURL must be specified for the FCKeditor provider to work");
+
+			if(configValue["LinkConnectorURL"]!=null)
+				_linkConnectorURL=configValue["LinkConnectorURL"];
+			else
+				throw new InvalidOperationException("LinkConnectorURL must be specified for the FCKeditor provider to work");
+
+
 			if(configValue["FileAllowedExtensions"]!=null)
-				_webFormFolder=configValue["FileAllowedExtensions"];
+				_fileAllowedExtensions=configValue["FileAllowedExtensions"];
 			else
 				throw new InvalidOperationException("FileAllowedExtensions must be specified for the FCKeditor provider to work");
 
 
 			if(configValue["ImageAllowedExtensions"]!=null)
-				_webFormFolder=configValue["ImageAllowedExtensions"];
+				_imageAllowedExtensions=configValue["ImageAllowedExtensions"];
 			else
 				throw new InvalidOperationException("ImageAllowedExtensions must be specified for the FCKeditor provider to work");
 
@@ -102,11 +127,15 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 
 			// Compute user image gallery url
 			string blogImageRootPath=Subtext.Framework.Format.UrlFormats.StripHostFromUrl(Subtext.Framework.Configuration.Config.CurrentBlog.ImagePath);
+			string currentImageConnector=_imageConnectorURL.Replace("~/","~/"+Subtext.Framework.Configuration.Config.CurrentBlog.Subfolder+"/");
+			string currentLinkConnector=_linkConnectorURL.Replace("~/","~/"+Subtext.Framework.Configuration.Config.CurrentBlog.Subfolder+"/");
 
 			if(!Directory.Exists(HttpContext.Current.Server.MapPath(blogImageRootPath)))
 				Directory.CreateDirectory(HttpContext.Current.Server.MapPath(blogImageRootPath));
 
-			System.Web.HttpContext.Current.Application["FCKeditor:UserFilesPath"]=blogImageRootPath;
+			_fckCtl.ImageBrowserURL=String.Format(ControlHelper.ExpandTildePath(_imageBrowserURL),ControlHelper.ExpandTildePath(currentImageConnector));
+			_fckCtl.LinkBrowserURL=String.Format(ControlHelper.ExpandTildePath(_linkBrowserURL),ControlHelper.ExpandTildePath(currentLinkConnector));
+			
 
 		}
 
