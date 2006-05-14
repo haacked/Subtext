@@ -30,35 +30,14 @@ namespace Subtext.Web.Controls
 	{
 
 		#region EventHandlers
-		public delegate void ErrorHandler(object sender, RichTextEditorErrorEventArgs e);
-		public event ErrorHandler Error;
+		public delegate void ErrorEventHandler(object sender, RichTextEditorErrorEventArgs e);
+		public event ErrorEventHandler Error;
 
 		public void OnError(Exception ex) 
 		{
 			if(Error!=null) 
 			{
 				Error(this,new RichTextEditorErrorEventArgs(ex));
-			}
-		}
-
-		public class RichTextEditorErrorEventArgs:EventArgs 
-		{
-			private Exception _ex;
-			public RichTextEditorErrorEventArgs( Exception ex) 
-			{
-				_ex=ex;
-			}
-
-			public Exception Ex 
-			{
-				get 
-				{
-					return _ex;
-				}
-				set 
-				{
-					_ex=value;
-				}
 			}
 		}
 		#endregion
@@ -129,9 +108,38 @@ namespace Subtext.Web.Controls
 				this.Controls.Add(editor);
 				base.OnInit (e);
 			}
-			catch (Exception ex) 
+			catch (ArgumentNullException ex)
 			{
 				OnError(ex);
+			}
+			catch (InvalidOperationException ex)
+			{
+				OnError(ex);
+			}
+			catch (UnauthorizedAccessException ex) 
+			{
+				OnError(ex);
+			}
+		}
+	}
+
+	public class RichTextEditorErrorEventArgs:EventArgs 
+	{
+		private Exception _ex;
+		public RichTextEditorErrorEventArgs( Exception ex) 
+		{
+			_ex=ex;
+		}
+
+		public Exception Exception 
+		{
+			get 
+			{
+				return _ex;
+			}
+			set 
+			{
+				_ex=value;
 			}
 		}
 	}
