@@ -27,9 +27,11 @@ namespace Subtext.Web.Providers.RichTextEditor.PlainText
 	{
 		TextBox _txtCtl;
 		string _controlID=string.Empty;
-		int _rows=0;
-		int _cols=0;
+		int _rows;
+		int _cols;
 		string _cssClass=String.Empty;
+
+		private static System.Resources.ResourceManager rm =  new System.Resources.ResourceManager("Subtext.Web.Providers.RichTextEditor.PlainText.resources.ErrorMessages",System.Reflection.Assembly.GetExecutingAssembly());
 
 
 		public override Control RichTextEditorControl
@@ -42,6 +44,13 @@ namespace Subtext.Web.Providers.RichTextEditor.PlainText
 
 		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
 		{
+
+			if(name == null)
+				throw new ArgumentNullException("name", rm.GetString("nameNeeded"));
+			
+			if(configValue == null)
+				throw new ArgumentNullException("configValue", rm.GetString("configNeeded"));
+
 			if(configValue["rows"]!=null)
 				_rows=Convert.ToInt32(configValue["rows"]);
 			if(configValue["cols"]!=null)
@@ -56,7 +65,7 @@ namespace Subtext.Web.Providers.RichTextEditor.PlainText
 		{
 			_txtCtl=new TextBox();
 			_txtCtl.ID=ControlID;
-			if(!_cssClass.Trim().Equals(""))
+			if(_cssClass!=null && _cssClass.Trim().Length!=0)
 				_txtCtl.CssClass=_cssClass;
 			_txtCtl.TextMode=TextBoxMode.MultiLine;
 			_txtCtl.Rows=_rows;
