@@ -642,9 +642,9 @@ namespace Subtext.Web.Admin.UserControls
 			UpdateCategories();
 		}
 
-		protected void richTextEditor_Error(object sender, Subtext.Web.Controls.RichTextEditor.RichTextEditorErrorEventArgs e)
+		protected void richTextEditor_Error(object sender, Subtext.Web.Controls.RichTextEditorErrorEventArgs e)
 		{
-			this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", e.Ex.Message));
+			this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", e.Exception.Message));
 		}
 	}
 }
