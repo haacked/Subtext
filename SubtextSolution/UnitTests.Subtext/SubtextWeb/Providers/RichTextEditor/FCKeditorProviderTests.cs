@@ -16,97 +16,102 @@
 using System;
 using MbUnit.Framework;
 using System.Web.UI.WebControls;
-using Subtext.Web.Providers.RichTextEditor.PlainText;
+using FredCK.FCKeditorV2;
+using Subtext.Framework;
+using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
+using Subtext.Providers.RichTextEditor.FCKeditor;
 
 namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 {
 	/// <summary>
-	/// Summary description for PlainTextProviderTests.
+	/// Summary description for FCKeditorProviderTests.
 	/// </summary>
 	[TestFixture]
-	public class PlainTextProviderTests
+	public class FCKeditorProviderTests
 	{
-
-		PlainTextRichTextEditorProvider ptrtep;
+		string _hostName = System.Guid.NewGuid().ToString().Replace("-", string.Empty) + ".com";
+		FCKeditorRichTextEditorProvider frtep;
 
 		[SetUp]
 		public void SetUp()
 		{
-			ptrtep = new PlainTextRichTextEditorProvider();
+			frtep = new FCKeditorRichTextEditorProvider();
+			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog", "Subtext.Web");
 		}
 
 		[Test]
 		public void SetControlID() 
 		{
 			string test="MyTestControlID";
-			ptrtep.ControlID=test;
-			Assert.AreEqual(test,ptrtep.ControlID);
+			frtep.ControlID=test;
+			Assert.AreEqual(test,frtep.ControlID);
 		}
 
 		[Test]
+		[Ignore("Have to setup dummy blog config first")]
+		[RollBack]
 		public void SetText() 
 		{
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, "MyBlog"));
 			string test="Lorem Ipsum";
-			ptrtep.InitializeControl();
-			ptrtep.Text=test;
-			Assert.AreEqual(test,ptrtep.Text);
-			Assert.AreEqual(test,ptrtep.Xhtml);
+			frtep.InitializeControl();
+			frtep.Text=test;
+			Assert.AreEqual(test,frtep.Text);
+			Assert.AreEqual(test,frtep.Xhtml);
 		}
 
 		[Test]
+		[Ignore("Have to setup dummy blog config first")]
 		public void SetWidth() 
 		{
 			Unit test=200;
-			ptrtep.InitializeControl();
-			ptrtep.Width=test;
-			Assert.AreEqual(test,ptrtep.Width);
+			frtep.InitializeControl();
+			frtep.Width=test;
+			Assert.AreEqual(test,frtep.Width);
 		}
 
 		[Test]
+		[Ignore("Have to setup dummy blog config first")]
 		public void SetHeight() 
 		{
 			Unit test=100;
-			ptrtep.InitializeControl();
-			ptrtep.Height=test;
-			Assert.AreEqual(test,ptrtep.Height);
+			frtep.InitializeControl();
+			frtep.Height=test;
+			Assert.AreEqual(test,frtep.Height);
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void TestInitializationWithNullName() 
 		{
-			ptrtep.Initialize(null,null);
+			frtep.Initialize(null,null);
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void TestInitializationWithNullConfigValue() 
 		{
-			ptrtep.Initialize("PlainTextProvider",null);
+			frtep.Initialize("FCKProvider",null);
 		}
 
-
 		[Test]
-		public void TestInitialization() 
+		[ExpectedException(typeof(InvalidOperationException))]
+		public void TestInitializationWithEmptyWebFolder() 
 		{
-			System.Collections.Specialized.NameValueCollection coll=GetNameValueCollection();
-			ptrtep.Initialize("PlainTextProvider", coll);
-			ptrtep.InitializeControl();
-			Assert.IsTrue(ptrtep.RichTextEditorControl.GetType()==typeof(TextBox));
-			TextBox txt = ptrtep.RichTextEditorControl as TextBox;
-			Assert.AreEqual(ptrtep.Name,"PlainTextProvider");
-			Assert.AreEqual(txt.Rows,10);
-			Assert.AreEqual(txt.Columns,70);
-			Assert.AreEqual(txt.CssClass,"myCssClass");
+			frtep.Initialize("FCKProvider",new System.Collections.Specialized.NameValueCollection());
 		}
 
 		private System.Collections.Specialized.NameValueCollection GetNameValueCollection() 
 		{
 			System.Collections.Specialized.NameValueCollection ret=new System.Collections.Specialized.NameValueCollection(3);
-			ret.Add("rows","10");
-			ret.Add("cols","70");
-			ret.Add("cssClass","myCssClass");
+			ret.Add("WebFormFolder","~/Providers/RichTextEditor/FCKeditor/");
+			ret.Add("ToolbarSet","SubText");
+			ret.Add("Skin","office2003");
+			ret.Add("RemoveServerNamefromUrls","false");
 			return ret;
 		}
+
 	}
+
 }
