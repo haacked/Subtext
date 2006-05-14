@@ -199,6 +199,16 @@
                     Project = "{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "freetextbox"
+                    AssemblyName = "freetextbox"
+                    HintPath = "ExternalDependencies\freetextbox.dll"
+                />
+                <Reference
+                    Name = "FredCK.FCKeditorV2"
+                    AssemblyName = "FredCK.FCKeditorV2"
+                    HintPath = "ExternalDependencies\FredCK.FCKeditorV2.dll"
+                />
             </References>
         </Build>
         <Files>
@@ -232,6 +242,14 @@
                     RelPath = "UnitTestImportProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ExternalDependencies\FredCK.FCKeditorV2.dll"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "ExternalDependencies\freetextbox.dll"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "ExternalDependencies\ICSharpCode.SharpZipLib.dll"
@@ -445,6 +463,16 @@
                 />
                 <File
                     RelPath = "SubtextWeb\SubtextMasterPageTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SubtextWeb\Providers\RichTextEditor\FCKeditorProviderTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SubtextWeb\Providers\RichTextEditor\FtbProviderTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
