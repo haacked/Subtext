@@ -45,25 +45,4 @@
     <data name="configNeeded">
         <value>Cannot initialize a provider with a null configValue.</value>
     </data>
-    <data name="WebFormFolderNeeded">
-        <value>WebFormFolder must be specified for the FCKeditor provider to work.</value>
-    </data>
-    <data name="LinkBrowserURLNeeded">
-        <value>LinkBrowserURL must be specified for the FCKeditor provider to work.</value>
-    </data>
-    <data name="ImageBrowserURLNeeded">
-        <value>ImageBrowserURLNeeded must be specified for the FCKeditor provider to work.</value>
-    </data>
-    <data name="ImageConnectorURLNeeded">
-        <value>ImageConnectorURL must be specified for the FCKeditor provider to work.</value>
-    </data>
-    <data name="LinkConnectorURLNeeded">
-        <value>LinkConnectorURL must be specified for the FCKeditor provider to work.</value>
-    </data>
-    <data name="FileAllowedExtensionsNeeded">
-        <value>FileAllowedExtensions must be specified for the FCKeditor provider to work.</value>
-    </data>
-    <data name="ImageAllowedExtensionsNeeded">
-        <value>ImageAllowedExtensions must be specified for the FCKeditor provider to work.</value>
-    </data>
 </root>

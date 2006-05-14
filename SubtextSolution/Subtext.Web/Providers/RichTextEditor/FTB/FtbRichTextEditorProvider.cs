@@ -34,8 +34,10 @@ namespace Subtext.Web.Providers.RichTextEditor.FTB
 		string _controlID=string.Empty;
 		string _webFormFolder=string.Empty;
 		string _toolbarlayout=string.Empty;
-		bool _formatHtmlTagsToXhtml=false;
-		bool _removeServerNamefromUrls=false;
+		bool _formatHtmlTagsToXhtml;
+		bool _removeServerNamefromUrls;
+
+		private static System.Resources.ResourceManager rm =  new System.Resources.ResourceManager("Subtext.Web.Providers.RichTextEditor.FTB.resources.ErrorMessages",System.Reflection.Assembly.GetExecutingAssembly());
 
 
 		public override Control RichTextEditorControl
@@ -49,15 +51,15 @@ namespace Subtext.Web.Providers.RichTextEditor.FTB
 		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
 		{
 			if(name == null)
-				throw new ArgumentNullException("name", "Cannot initialize a provider with a null name.");
+				throw new ArgumentNullException("name", rm.GetString("nameNeeded"));
 			
 			if(configValue == null)
-				throw new ArgumentNullException("configValue", "Cannot initialize a provider with a null configValue.");
+				throw new ArgumentNullException("configValue", rm.GetString("configNeeded"));
 			
 			if(configValue["WebFormFolder"]!=null)
 				_webFormFolder=configValue["WebFormFolder"];
 			else
-				throw new InvalidOperationException("WebFormFolder must be specified for the FreeTextBox provider to work");
+				throw new InvalidOperationException(rm.GetString("WebFormFolderNeeded"));
 
 			if(configValue["toolbarlayout"]!=null)
 				_toolbarlayout=configValue["toolbarlayout"];
@@ -73,12 +75,12 @@ namespace Subtext.Web.Providers.RichTextEditor.FTB
 		{
 			_ftbCtl=new FreeTextBox();
 			_ftbCtl.ID=ControlID;
-			if(!_toolbarlayout.Trim().Equals(""))
+			if(_toolbarlayout!=null && _toolbarlayout.Trim().Length!=0)
 				_ftbCtl.ToolbarLayout=_toolbarlayout;
 			_ftbCtl.FormatHtmlTagsToXhtml=_formatHtmlTagsToXhtml;
 			_ftbCtl.RemoveServerNameFromUrls=_removeServerNamefromUrls;
 
-			if(!_webFormFolder.Equals(""))
+			if(_webFormFolder!=null && _webFormFolder.Length!=0)
 				_ftbCtl.ImageGalleryUrl=ControlHelper.ExpandTildePath(_webFormFolder+"ftb.imagegallery.aspx?rif={0}&cif={0}");
 
 			string blogImageRootPath=Subtext.Framework.Format.UrlFormats.StripHostFromUrl(Subtext.Framework.Configuration.Config.CurrentBlog.ImagePath);
