@@ -87,7 +87,9 @@ namespace Subtext.Web.Providers.RichTextEditor.FTB
 
 			string phisicalImageRootPath=HttpContext.Current.Server.MapPath(blogImageRootPath);
 			if(!Directory.Exists(phisicalImageRootPath))
+			{
 				Directory.CreateDirectory(phisicalImageRootPath);
+			}
 
 			_ftbCtl.ImageGalleryPath=blogImageRootPath;
 		}

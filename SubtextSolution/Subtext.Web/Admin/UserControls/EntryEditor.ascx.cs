@@ -594,6 +594,7 @@ namespace Subtext.Web.Admin.UserControls
 			this.lkbPost.Click += new EventHandler(this.lkbPost_Click);
 			this.lkUpdateCategories.Click += new EventHandler(lkUpdateCategories_Click);
 			this.lkbCancel.Click += new EventHandler(this.lkbCancel_Click);
+			//this.richTextEditor.Error+=new Subtext.Web.Controls.RichTextEditor.ErrorHandler(richTextEditor_Error);
 			this.Load += new EventHandler(this.Page_Load);
 
 		}
@@ -639,6 +640,11 @@ namespace Subtext.Web.Admin.UserControls
 		private void lkUpdateCategories_Click(object sender, EventArgs e)
 		{
 			UpdateCategories();
+		}
+
+		protected void richTextEditor_Error(object sender, Subtext.Web.Controls.RichTextEditor.RichTextEditorErrorEventArgs e)
+		{
+			this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", e.Ex.Message));
 		}
 	}
 }

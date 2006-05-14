@@ -28,6 +28,41 @@ namespace Subtext.Web.Controls
 	[ValidationProperty("Text")]
 	public class RichTextEditor: WebControl, INamingContainer
 	{
+
+		#region EventHandlers
+		public delegate void ErrorHandler(object sender, RichTextEditorErrorEventArgs e);
+		public event ErrorHandler Error;
+
+		public void OnError(Exception ex) 
+		{
+			if(Error!=null) 
+			{
+				Error(this,new RichTextEditorErrorEventArgs(ex));
+			}
+		}
+
+		public class RichTextEditorErrorEventArgs:EventArgs 
+		{
+			private Exception _ex;
+			public RichTextEditorErrorEventArgs( Exception ex) 
+			{
+				_ex=ex;
+			}
+
+			public Exception Ex 
+			{
+				get 
+				{
+					return _ex;
+				}
+				set 
+				{
+					_ex=value;
+				}
+			}
+		}
+		#endregion
+
 		private Control editor;
 		private RichTextEditorProvider provider; 
 
@@ -80,17 +115,24 @@ namespace Subtext.Web.Controls
 		}
 
 		protected override void OnInit(EventArgs e)
-		{	
-			provider=RichTextEditorProvider.Instance();
-			provider.ControlID=this.ID;
-			provider.InitializeControl();
-			if(_height!=Unit.Empty)
-				provider.Height=_height;
-			if(_width!=Unit.Empty)
-				provider.Width=_width;
-			editor=provider.RichTextEditorControl;
-			this.Controls.Add(editor);
-			base.OnInit (e);
+		{
+			try 
+			{
+				provider=RichTextEditorProvider.Instance();
+				provider.ControlID=this.ID;
+				provider.InitializeControl();
+				if(_height!=Unit.Empty)
+					provider.Height=_height;
+				if(_width!=Unit.Empty)
+					provider.Width=_width;
+				editor=provider.RichTextEditorControl;
+				this.Controls.Add(editor);
+				base.OnInit (e);
+			}
+			catch (Exception ex) 
+			{
+				OnError(ex);
+			}
 		}
 	}
 }
