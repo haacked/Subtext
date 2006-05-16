@@ -301,7 +301,7 @@ namespace Subtext.Framework
 			if(title == null)
 				throw new ArgumentNullException("title", "Cannot generate friendly url from null title.");
 
-			NameValueCollection friendlyUrlSettings = (NameValueCollection)ConfigurationSettings.GetConfig("FriendlyUrlSettings");
+			   NameValueCollection friendlyUrlSettings = (NameValueCollection)ConfigurationSettings.GetConfig("FriendlyUrlSettings");
 			if(friendlyUrlSettings == null)
 			{
 				//Default to old behavior.
@@ -367,6 +367,8 @@ namespace Subtext.Framework
 
 			string entryName = StripSpaces(title, wordSeparator);
 			entryName = RemoveNonWordCharacters(entryName);
+			//Added to remove Turkish Chars - GY
+			entryName = RemoveTurkishChars(entryName);
 			entryName = HttpUtility.UrlEncode(entryName);
 			entryName = RemoveTrailingPeriods(entryName);
 			entryName = entryName.Trim(new char[] {wordSeparator});
@@ -405,6 +407,11 @@ namespace Subtext.Framework
 			{
 				return text.Replace(' ', wordSeparator);
 			}
+		}
+
+		static string RemoveTurkishChars(string text)
+		{
+			return Regex.Replace(text, @"[ügsçöiÜGISÇÖ]", "");
 		}
 
 		static string RemoveNonWordCharacters(string text)

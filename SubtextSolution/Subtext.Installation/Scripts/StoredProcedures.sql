@@ -4365,7 +4365,7 @@ GO
 CREATE Proc [<dbUser,varchar,dbo>].subtext_SearchEntries
 (
 	@BlogId int,
-	@SearchStr varchar(30)
+	@SearchStr nvarchar(30)
 )
 as
 
