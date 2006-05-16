@@ -461,7 +461,12 @@ namespace Subtext.Web.Admin.UserControls
 						successMessage = Constants.RES_SUCCESSEDIT;
 						entry.DateUpdated = BlogTime.CurrentBloggerTime;
 						entry.EntryID = PostID;
+						
+						//TODO: Add here code to be called before updating a post
+						
 						Entries.Update(entry);
+						
+						//TODO: Add here code to be called after updating a post
 
 						if(ReturnToOriginalPost)
 						{
@@ -477,7 +482,12 @@ namespace Subtext.Web.Admin.UserControls
 					else
 					{
 						entry.DateCreated = BlogTime.CurrentBloggerTime;
+						
+						//TODO: Add here code to be called before creating a post
+						
 						PostID = Entries.Create(entry);
+						
+						//TODO: Add here code to be called after creating a post
 					}
 
 					UpdateCategories();
