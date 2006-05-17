@@ -11,10 +11,13 @@
 						<asp:Literal Runat = "server" ID = "Title" />
 					</h4>
 					<div class="info">Left by <asp:HyperLink Target="_blank" Runat="server" ID="NameLink" /> at <asp:Literal id = "PostDate" Runat = "server" /></div>
-					<p class="post">
+					<div class="gravatar"><asp:Image runat="server" id="GravatarImg" visible="False" width="50px"></asp:Image></div>
+					<div class="post">
+					<p>
 						<asp:Literal id = "PostText" Runat = "server" />
 					</p>
-					<asp:LinkButton Runat="server" ID="EditLink" CausesValidation="False" />
+					<asp:LinkButton Runat="server" cssclass="editlink" ID="EditLink" CausesValidation="False" />
+					</div>
 			</div>
 		</ItemTemplate>
 	</asp:Repeater>

@@ -222,6 +222,10 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "default_gravatar.png"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "DTP.aspx"
                     BuildAction = "Content"
                 />
