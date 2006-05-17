@@ -22,6 +22,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Text;
 using Subtext.Web.Controls;
+using System.Configuration;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -33,9 +34,27 @@ namespace Subtext.Web.UI.Controls
 		protected System.Web.UI.WebControls.Repeater CommentList;
 		protected System.Web.UI.WebControls.Literal NoCommentMessage;
 
+		private bool gravatarEnabled;
+		private string gravatarUrlFormatString;
+		private string gravatarEmailFormat;
+
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad (e);
+
+			try
+			{
+				gravatarEnabled=Convert.ToBoolean(ConfigurationSettings.AppSettings["GravatarEnabled"]);
+			}
+			catch(FormatException) 
+			{
+				gravatarEnabled=false;
+			}
+			if(gravatarEnabled) 
+			{
+				gravatarUrlFormatString = ConfigurationSettings.AppSettings["GravatarUrlFormatString"];
+				gravatarEmailFormat = ConfigurationSettings.AppSettings["GravatarEmailFormat"];
+			}
 
 			if(CurrentBlog.CommentsEnabled)
 			{
@@ -119,6 +138,24 @@ namespace Subtext.Web.UI.Controls
 							}
 						}
 					}
+					System.Web.UI.WebControls.Image Gravatar = e.Item.FindControl("GravatarImg") as System.Web.UI.WebControls.Image;
+
+					if(gravatarEnabled)
+					{
+						if(Gravatar!=null) 
+						{
+							if(entry.Email.Length!=0)
+							{
+								string gravatarUrl=BuildGravatarUrl(entry.Email);
+								if(gravatarUrl.Length!=0)
+								{
+									Gravatar.ImageUrl=gravatarUrl;
+									Gravatar.Visible=true;
+								}
+							}
+						}
+					}
+
 					if(Request.IsAuthenticated && Security.IsAdmin)
 					{
 						LinkButton editlink = (LinkButton)(e.Item.FindControl("EditLink"));
@@ -153,6 +190,23 @@ namespace Subtext.Web.UI.Controls
 		private string Anchor(int ID)
 		{
 			return string.Format(anchortag,ID);
+		}
+
+		private string BuildGravatarUrl(string email) 
+		{
+			string processedEmail=string.Empty;
+			if(gravatarEmailFormat.Equals("plain"))
+			{
+				processedEmail=email;
+			}
+			else if(gravatarEmailFormat.Equals("MD5")) 
+			{
+				processedEmail=System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(email,"md5");
+			}
+			if(processedEmail.Length!=0)
+				return String.Format(gravatarUrlFormatString,processedEmail);
+			else
+				return string.Empty;
 		}
 
 		void BindComments(Entry entry)

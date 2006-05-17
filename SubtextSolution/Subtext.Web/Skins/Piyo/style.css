@@ -380,12 +380,32 @@ div.comment .info {
 div.trackback .info {
 	background: url(Images/asual-trackbacks.jpg) no-repeat 0 .1em;
 }
+
 div.comment .post, div.trackback .post {
+	margin-left:58px;
+}
+
+div.comment .post p, div.trackback .post p {
 	border: 1px solid #285090;
 	background: #F1F7FB;
 	padding: 1.2em 1.2em 1.2em 26px;
 	display: block;
 }
+
+div.comment .gravatar 
+{
+	float:left;
+}
+
+.gravatar img 
+{
+	/*
+	background: #F1F7FB;
+	padding:2px;
+*/
+	border: 3px solid #285090;
+}
+
 #trackback {
 	margin: 0 18em 3em 0;
 }
@@ -411,7 +431,7 @@ div.comment .post, div.trackback .post {
 	margin-bottom: .4em;
 }
 #commentform .input {
-	width: 400px;
+	width: 450px;
 	float: left;
 	margin-bottom: .4em;
 }

@@ -8,6 +8,9 @@
 <div class="label"><label for="PostComment.ascx_tbName">Name:</label></div>
 <div class="input"><asp:TextBox id="tbName" runat="server" CssClass="fixed"></asp:TextBox><br/><asp:RequiredFieldValidator id="RequiredFieldValidator2" runat="server" ErrorMessage="Please enter your name" ControlToValidate="tbName" Display="Dynamic" /></div>
 
+<div class="label"><label for="PostComment.ascx_tbEmail">Email:</label></div>
+<div class="input"><asp:TextBox id="tbEmail" runat="server" CssClass="fixed"></asp:TextBox>&nbsp;(will not be displayed)<br/><asp:RequiredFieldValidator id="RequiredFieldValidator3" runat="server" ErrorMessage="Please enter your email" ControlToValidate="tbEmail" Display="Dynamic" /></div>
+
 <div class="label"><label for="PostComment.ascx_tbUrl">Website:</label></div>
 <div class="input"><asp:TextBox id="tbUrl" runat="server" CssClass="fixed"></asp:TextBox></div>
 
@@ -17,7 +20,7 @@
 					ControlToValidate="tbComment"></asp:RequiredFieldValidator></div>
 
 <div class="label">&nbsp;</div>
-<div class="input"><asp:CheckBox id="chkRemember" runat="server" Text="Remember Me?" Visible="False"></asp:CheckBox></div>
+<div class="input"><asp:CheckBox id="chkRemember" runat="server" Text="Remember Me?" Visible="True"></asp:CheckBox></div>
 
 <div class="clear"></div>
 

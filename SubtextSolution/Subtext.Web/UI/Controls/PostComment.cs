@@ -36,6 +36,7 @@ namespace Subtext.Web.UI.Controls
 		protected System.Web.UI.WebControls.TextBox tbName;
 		protected System.Web.UI.WebControls.TextBox tbUrl;
 		protected System.Web.UI.WebControls.TextBox tbComment;
+		protected System.Web.UI.WebControls.TextBox tbEmail;
 		protected System.Web.UI.WebControls.Button btnSubmit;
 		protected Subtext.Web.Controls.CompliantButton btnCompliantSubmit;
 		protected System.Web.UI.WebControls.Label Message;
@@ -65,6 +66,12 @@ namespace Subtext.Web.UI.Controls
 					if(this.chkRemember != null && this.chkRemember.Checked)
 					{
 						this.chkRemember.Checked = true;
+					}
+					
+					//Check to see if email textbox is present
+					if(this.tbEmail!=null && user.Values["Email"]!=null)
+					{
+						this.tbEmail.Text = user.Values["Email"];
 					}
 				}
 
@@ -155,6 +162,8 @@ namespace Subtext.Web.UI.Controls
 					{
 						Entry entry = new Entry(PostType.Comment);
 						entry.Author = tbName.Text;
+						if(this.tbEmail!=null)
+							entry.Email = tbEmail.Text;
 						entry.TitleUrl =  HtmlHelper.CheckForUrl(tbUrl.Text);
 						entry.Body = tbComment.Text;
 						entry.Title = tbTitle.Text;
@@ -169,6 +178,8 @@ namespace Subtext.Web.UI.Controls
 							HttpCookie user = new HttpCookie("CommentUser");
 							user.Values["Name"] = tbName.Text;
 							user.Values["Url"] = tbUrl.Text;
+							if(this.tbEmail!=null)
+								user.Values["Email"] = tbEmail.Text;
 							user.Expires = DateTime.Now.AddDays(30);
 							Response.Cookies.Add(user);
 						}
