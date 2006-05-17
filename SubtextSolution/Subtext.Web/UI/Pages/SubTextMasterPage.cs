@@ -40,6 +40,7 @@ namespace Subtext.Web.UI.Pages
 		protected System.Web.UI.HtmlControls.HtmlGenericControl MainStyle;
 		protected System.Web.UI.HtmlControls.HtmlGenericControl SecondaryCss;
 		protected System.Web.UI.HtmlControls.HtmlGenericControl RSSLink;
+		protected System.Web.UI.HtmlControls.HtmlGenericControl AtomLink;
 		protected System.Web.UI.WebControls.PlaceHolder CenterBodyControl;
 		protected System.Web.UI.WebControls.Literal authorMetaTag;
 		protected System.Web.UI.WebControls.Literal scripts;
@@ -86,7 +87,16 @@ namespace Subtext.Web.UI.Pages
 				SecondaryCss.Visible = false;
 
 			}
-			RSSLink.Attributes.Add("href", CurrentBlog.RootUrl + "rss.aspx");
+			
+			if(RSSLink != null)
+			{
+				RSSLink.Attributes.Add("href", CurrentBlog.RootUrl + "rss.aspx");
+			}
+			
+			if(AtomLink != null)
+			{
+				AtomLink.Attributes.Add("href", CurrentBlog.RootUrl + "atom.aspx");
+			}
 
 			// if specified, add script elements
 			if (scripts != null)
