@@ -58,7 +58,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[Row("Holymolythisisalongwordthatnormallywouldn'tbeused.", "Holymolythisisalongwordthatnormallywouldntbeused")]
 		[Row("This is a very long title that will be truncated.", "This_is_a_very_long")]
 		[RollBack]
-		public void FriendlyUrlLimitedDelimeted(string title, string expected)
+		public void FriendlyUrlLimitedDelimited(string title, string expected)
 		{
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
 			Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title), "The auto generated entry name is not what we expected.");
@@ -80,6 +80,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[Row("A Very Good...Book", "AVeryGood.Book")]
 		[Row("Å Vêry G®®d B®®k..", "%c3%85V%c3%aaryGdBk")]
 		[Row("Trouble With VS.NET", "TroubleWithVS.NET")]
+		[Row("Barça is a nice town", "Bar%c3%a7aIsANiceTown")]
+		[Row("Perchè Più felicità può ed é?", "Perch%c3%a8Pi%c3%b9Felicit%c3%a0Pu%c3%b2Ed%c3%89")]
 		[Row(@"[!""'`;:~@#$%^&*(){\[}\]?+/=\\|<> X", "X")]
 		[RollBack]
 		public void FriendlyUrlGeneratesNiceUrl(string title, string expected)
@@ -102,6 +104,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[Row("A Very Good Book yo..", "A_Very_Good_Book_yo")]
 		[Row("Å Vêry Good Book yo..", "%c3%85_V%c3%aary_Good_Book_yo")]
 		[Row("Trouble With VS.NET Yo", "Trouble_With_VS.NET_Yo")]
+		[Row("Barça is a nice town", "Bar%c3%a7a_is_a_nice_town")]
+		[Row("Perchè Più felicità può ed é?", "Perch%c3%a8_Pi%c3%b9_felicit%c3%a0_pu%c3%b2_ed_%c3%a9")]
 		[Row(@"[!""'`;:~@#$%^&*(){\[}\]?+/=\\|<> Y", "Y")]
 		[Row(@"[!""'`;:~@#$%^&*(){\[}\]?+/=\\|<>YY", "YY")]
 		[RollBack]

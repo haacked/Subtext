@@ -24,6 +24,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 	/// Summary description for PlainTextProviderTests.
 	/// </summary>
 	[TestFixture]
+	[Author("Simone Chiaretta", "simone@piyosailing.com", "http://blogs.ugidotnet.org/piyo/")]
 	public class PlainTextProviderTests
 	{
 
