@@ -99,11 +99,10 @@ namespace Subtext.Web.UI.Controls
 						{
 							RssLink.NavigateUrl = link.Rss;
 							RssLink.Visible = true;
-							if(RssLink.Attributes["title"] == null || RssLink.Attributes["title"].Length == 0)
+							if(RssLink.ToolTip == null || RssLink.ToolTip.Length == 0)
 							{
-								RssLink.Attributes["title"] = "Click to Subscribe";
+								RssLink.ToolTip = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Subscribe to {0}", link.Title);
 							}
-							RssLink.ToolTip = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Subscribe to {0}",link.Title);
 						}
 					}
 				}
