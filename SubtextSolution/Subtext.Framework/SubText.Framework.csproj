@@ -920,6 +920,21 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Web\HttpModules\BlogRequest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Web\HttpModules\BlogRequestModule.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Web\HttpModules\InstallationCheckModule.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "XmlRpc\MetaWeblog.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

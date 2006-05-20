@@ -26,6 +26,7 @@ using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext
 {
@@ -171,6 +172,8 @@ namespace UnitTests.Subtext
 			HttpContext.Current.Items.Clear();
 			HttpContext.Current.Cache.Remove("BlogInfo-");
 			HttpContext.Current.Cache.Remove("BlogInfo-" + subfolder);
+			
+			HttpContext.Current.Items["Subtext__CurrentRequest"] = new BlogRequest(host, subfolder);
 
 			#region Console Debug INfo
 			/*
