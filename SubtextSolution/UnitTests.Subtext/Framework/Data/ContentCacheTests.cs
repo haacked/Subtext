@@ -24,11 +24,11 @@ namespace UnitTests.Subtext.Framework.Data
 		{
 			UnitTestHelper.SetHttpContextWithBlogRequest(UnitTestHelper.GenerateRandomHostname(), "");
 			Assert.IsNotNull(HttpContext.Current, "We did not set up the http context correctly.");
-			Assert.AreEqual(0, HttpContext.Current.Items.Count, "Did not expect the request cache to have any items.");
+			Assert.AreEqual(1, HttpContext.Current.Items.Count, "Did not expect the request cache to have any items.");
 			
 			ContentCache cache = ContentCache.Instantiate();
 
-			Assert.AreEqual(1, HttpContext.Current.Items.Count, "Expected one item in the request cache.");
+			Assert.AreEqual(2, HttpContext.Current.Items.Count, "Expected two item in the request cache.");
 
 			Assert.AreSame(cache, ContentCache.Instantiate(), "Expected second call to instantiate to return cached ContentCache.");
 

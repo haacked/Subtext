@@ -21,7 +21,6 @@ using System.Web;
 using log4net;
 using log4net.Appender;
 using log4net.Repository.Hierarchy;
-using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
@@ -114,32 +113,11 @@ namespace Subtext
 			//KLUDGE: This is required due to a bug in Log4Net 1.2.9.
 			// This should be fixed in the next release.
 			Log.SetBlogIdContext(NullValue.NullInt32);
-
-
-			// Want to redirect to install if installation is required, 
-			// or if we're missing a HostInfo record.
-			if((InstallationManager.IsInstallationActionRequired(VersionInfo.FrameworkVersion) || InstallationManager.HostInfoRecordNeeded))
-			{
-				InstallationState state = InstallationManager.GetCurrentInstallationState(VersionInfo.FrameworkVersion);
-				if(state == InstallationState.NeedsInstallation && !InstallationManager.IsInHostAdminDirectory && !InstallationManager.IsInInstallDirectory)
-				{
-					Response.Redirect("~/Install/", true);
-					return;
-				}
-
-				if(state == InstallationState.NeedsUpgrade || state == InstallationState.NeedsRepair)
-				{
-					if(!InstallationManager.IsInUpgradeDirectory && !InstallationManager.IsOnLoginPage && !InstallationManager.IsInSystemMessageDirectory)
-					{
-						Response.Redirect("~/SystemMessages/UpgradeInProgress.aspx", true);
-						return;
-					}
-				}
-			}
 		}
 
 		protected void Application_EndRequest(Object sender, EventArgs e)
 		{
+			#region Debug Information
 			#if DEBUG
 				HttpApplication application = (HttpApplication)sender;
 				HttpContext context = application.Context;
@@ -171,6 +149,7 @@ namespace Subtext
 
 				}
 			#endif
+			#endregion
 		}
 
 		protected void Application_AuthenticateRequest(Object sender, EventArgs e)

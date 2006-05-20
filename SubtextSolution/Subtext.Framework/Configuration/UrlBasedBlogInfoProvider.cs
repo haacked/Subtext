@@ -21,9 +21,9 @@ using System.Web;
 using System.Web.Caching;
 using log4net;
 using Subtext.Framework.Exceptions;
-using Subtext.Framework.Format;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Text;
+using Subtext.Framework.Web.HttpModules;
 
 namespace Subtext.Framework.Configuration
 {
@@ -70,17 +70,6 @@ namespace Subtext.Framework.Configuration
 		}
 
 		#region IConfig
-		private int _blogID;
-		/// <summary>
-		/// Gets or sets the blog ID.
-		/// </summary>
-		/// <value></value>
-		public int BlogId
-		{
-			get {return this._blogID;}
-			set {this._blogID = value;}
-		}
-
 		private int _cacheTime;
 		/// <summary>
 		/// Gets or sets the cache time.
@@ -91,41 +80,6 @@ namespace Subtext.Framework.Configuration
 			get {return this._cacheTime;}
 			set {this._cacheTime = value;}
 		}
-
-		/// <summary>
-		/// Gets or sets the host.
-		/// </summary>
-		/// <value></value>
-		public string Host
-		{
-			get
-			{
-				return this.GetCurrentHost(HttpContext.Current.Request);
-			}
-		}
-
-		private string subfolder;
-		/// <summary>
-		/// Gets or sets the application.
-		/// </summary>
-		/// <value></value>
-		public string Subfolder
-		{
-			get {return this.subfolder;}
-			set {this.subfolder = value;}
-		}
-
-		private string _imageDirectory;
-		/// <summary>
-		/// Gets or sets the image directory.
-		/// </summary>
-		/// <value></value>
-		public string ImageDirectory
-		{
-			get {return this._imageDirectory;}
-			set {this._imageDirectory = value;}
-		}
-
 		#endregion
 
 		/// <summary>
@@ -141,13 +95,10 @@ namespace Subtext.Framework.Configuration
 			BlogInfo info = (BlogInfo)HttpContext.Current.Items[cacheKey];
 			if(info == null)
 			{
-				string subFolder = UrlFormats.GetBlogSubfolderFromRequest(HttpContext.Current.Request.RawUrl, HttpContext.Current.Request.ApplicationPath);
-
-				if(!Config.IsValidSubfolderName(subFolder))
-					subFolder = string.Empty;
-
+				BlogRequest blogRequest = (BlogRequest)HttpContext.Current.Items["Subtext__CurrentRequest"];
+				
 				//BlogConfig was not found in the context. It could be in the current cache.
-				string mCacheKey = cacheKey + subFolder;
+				string mCacheKey = cacheKey + blogRequest.Subfolder;
 
 				//check the cache.
 				info = (BlogInfo)HttpContext.Current.Cache[mCacheKey];
@@ -155,7 +106,7 @@ namespace Subtext.Framework.Configuration
 				{
 					//Not found in the cache
 					bool strict = true; //strict implies 
-					info = Subtext.Framework.Configuration.Config.GetBlogInfo(Host, subFolder, !strict);
+					info = Subtext.Framework.Configuration.Config.GetBlogInfo(blogRequest.Host, blogRequest.Subfolder, !strict);
 					if(info == null)
 					{
 						int totalBlogs;
@@ -172,7 +123,7 @@ namespace Subtext.Framework.Configuration
 							return null;
 						}
 
-						throw new BlogDoesNotExistException(Host, subFolder, anyBlogsExist);
+						throw new BlogDoesNotExistException(blogRequest.Host, blogRequest.Subfolder, anyBlogsExist);
 					}
 
 					if(!info.IsActive && !InstallationManager.IsInHostAdminDirectory && !InstallationManager.IsInSystemMessageDirectory && !InstallationManager.IsOnLoginPage)
@@ -185,19 +136,20 @@ namespace Subtext.Framework.Configuration
 					// look here for issues with gallery images not showing up.
 					string webApp = HttpContext.Current.Request.ApplicationPath;
 
-					if(webApp.Length<=1)
+					if(webApp.Length <= 1)
 						webApp="";
 
-					string formattedHost = GetFormattedHost(Host, settings.UseWWW)+webApp;
+					string formattedHost = GetFormattedHost(blogRequest.Host, settings.UseWWW)+webApp;
 
-					if(!subFolder.EndsWith("/"))
+					string subfolder = blogRequest.Subfolder;
+					if(!subfolder.EndsWith("/"))
 					{
-						subFolder += "/";
+						subfolder += "/";
 					}
-					if(subFolder.Length > 1)
-						subFolder="/" + subFolder;
+					if(subfolder.Length > 1)
+						subfolder = "/" + subfolder;
 					
-					string virtualPath = string.Format(System.Globalization.CultureInfo.InvariantCulture, "images/{0}{1}", Regex.Replace(Host+webApp,@"\:|\.","_"), subFolder);
+					string virtualPath = string.Format(System.Globalization.CultureInfo.InvariantCulture, "images/{0}{1}", Regex.Replace(blogRequest.Host + webApp, @"\:|\.","_"), subfolder);
 
 					// now put together the host + / + virtual path (url) to images
 					info.ImagePath = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}/{1}", formattedHost, virtualPath);
