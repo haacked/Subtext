@@ -35,42 +35,42 @@
 using System;
 using System.Text.RegularExpressions;
 using Subtext.Framework.Util;
+using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Tracking
 {
 	/// <summary>
-	/// Summary description for Verifier.
+	/// Used to verify that a trackback or pingback source actually contains a link to this site.
 	/// </summary>
-	public class Verifier
+	public sealed class Verifier
 	{
 		private Verifier()
 		{
 		}
 		
-		public static  bool SourceContainsTarget(string sURI, string tURI, out string pageTitle)
+		/// <summary>
+		/// Checks that the contents of the source url contains the target URL.
+		/// </summary>
+		/// <param name="sourceUrl">The source URL.</param>
+		/// <param name="targetUrl">The target URL.</param>
+		/// <param name="pageTitle">The page title.</param>
+		/// <returns></returns>
+		public static bool SourceContainsTarget(string sourceUrl, string targetUrl, out string pageTitle)
 		{
 			pageTitle = string.Empty ;
-			try
+			string page = HttpHelper.GetPageText(sourceUrl);
+			if (page == null || page.IndexOf(targetUrl) < 0 )
+				return false;
+					
+			string pat = @"<head.*?>.*<title.*?>(.*)</title.*?>.*</head.*?>" ;
+			Regex reg = new Regex(pat, RegexOptions.IgnoreCase | RegexOptions.Singleline) ;
+			Match m = reg.Match(page) ;
+			if(m.Success)
 			{
-
-
-				string page = BlogRequest.GetPageText(sURI);
-				if (page == null ||  page.IndexOf(tURI) < 0 )
-					return false ;
-						
-				string pat = @"<head.*?>.*<title.*?>(.*)</title.*?>.*</head.*?>" ;
-				Regex reg = new Regex(pat, RegexOptions.IgnoreCase | RegexOptions.Singleline  ) ;
-				Match m = reg.Match(page) ;
-				if ( m.Success )
-				{
-					pageTitle = m.Result("$1") ;
-					return true ;
-				}
+				pageTitle = m.Result("$1") ;
+				return true;
 			}
-			finally
-			{
-			}
-			return false ;
+			return false;
 		}
 	}
 }

@@ -1,4 +1,7 @@
 using System;
+using System.IO;
+using System.Net;
+using System.Text;
 using System.Web;
 using log4net;
 
@@ -9,8 +12,6 @@ namespace Subtext.Framework.Web
 	/// </summary>
 	public sealed class HttpHelper
 	{
-		static ILog Log = new Subtext.Framework.Logging.Log();
-
 		private HttpHelper()
 		{
 		}
@@ -43,6 +44,63 @@ namespace Subtext.Framework.Web
 				}
 			}
 			return NullValue.NullDateTime;
+		}
+		
+		private const int defaultTimeout = 60000;
+		private static string referer = @"http://SubtextProject.com/Services/default.htm";
+		private static readonly string userAgent = VersionInfo.UserAgent
+			+ " (" + Environment.OSVersion.ToString() + "; .NET CLR " + Environment.Version.ToString() + ")";
+
+		
+		/// <summary>
+		/// Creates an <see cref="HttpWebRequest" /> for the specified URL..
+		/// </summary>
+		/// <param name="url">The URL.</param>
+		/// <returns></returns>
+		public static HttpWebRequest CreateRequest(string url) 
+		{
+			WebRequest req = WebRequest.Create(url);
+			
+			HttpWebRequest wreq = req as HttpWebRequest;
+			if (null != wreq) 
+			{
+				wreq.UserAgent = userAgent;
+				wreq.Referer =  referer;
+				wreq.Timeout = defaultTimeout;
+			}
+			return wreq;
+		}	
+
+		/// <summary>
+		/// Returns an <see cref="HttpWebResponse" /> for the specified URL.
+		/// </summary>
+		/// <param name="url">The URL.</param>
+		/// <returns></returns>
+		public static HttpWebResponse GetResponse(string url)
+		{
+			HttpWebRequest request = CreateRequest(url);
+			return (HttpWebResponse)request.GetResponse() ;
+		}		
+
+		/// <summary>
+		/// Returns the text of the page specified by the URL..
+		/// </summary>
+		/// <param name="url">The URL.</param>
+		/// <returns></returns>
+		public static string GetPageText(string url)
+		{
+			HttpWebResponse response = GetResponse(url);
+			using (Stream s = response.GetResponseStream())
+			{
+				string enc = response.ContentEncoding;
+				if (enc == null || enc.Trim().Length == 0)
+					enc = "us-ascii" ;
+				Encoding encode = System.Text.Encoding.GetEncoding(enc);
+				using ( StreamReader sr = new StreamReader(s, encode))
+				{
+					return sr.ReadToEnd() ;
+				}
+			}
 		}
 	}
 }
