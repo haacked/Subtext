@@ -3,7 +3,6 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Web;
-using log4net;
 
 namespace Subtext.Framework.Web
 {
@@ -101,6 +100,35 @@ namespace Subtext.Framework.Web
 					return sr.ReadToEnd() ;
 				}
 			}
+		}
+		
+		/// <summary>
+		/// Returns the IP Address of the user making the current request.
+		/// </summary>
+		/// <param name="context">The context.</param>
+		/// <returns></returns>
+		public static string GetUserIpAddress(HttpContext context)
+		{
+			string result = String.Empty;
+			if (context == null) return result;
+
+			result = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+			if (null == result || result.Length == 0)
+				result = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+
+			return result;
+		}
+		
+		/// <summary>
+		/// Combines Two Web Paths much like the Path.Combine method.
+		/// </summary>
+		/// <param name="uriOne">The URI one.</param>
+		/// <param name="uriTwo">The URI two.</param>
+		/// <returns></returns>
+		public static string CombineWebPaths(string uriOne, string uriTwo)
+		{
+			string newUri = (uriOne + uriTwo);
+			return newUri.Replace("//", "/");
 		}
 	}
 }

@@ -880,17 +880,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Util\BlogCache.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Util\BlogTime.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Util\Globals.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

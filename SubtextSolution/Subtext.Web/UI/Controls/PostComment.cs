@@ -24,6 +24,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Text;
+using Subtext.Framework.Web;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -168,7 +169,7 @@ namespace Subtext.Web.UI.Controls
 						entry.Body = tbComment.Text;
 						entry.Title = tbTitle.Text;
 						entry.ParentID = currentEntry.EntryID;
-						entry.SourceName = Subtext.Framework.Util.Globals.GetUserIpAddress(Context);
+						entry.SourceName = HttpHelper.GetUserIpAddress(Context);
 						entry.SourceUrl = currentEntry.Link;
 
 						Entries.InsertComment(entry);
