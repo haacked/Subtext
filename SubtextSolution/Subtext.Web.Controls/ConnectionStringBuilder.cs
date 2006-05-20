@@ -160,8 +160,7 @@ namespace Subtext.Web.Controls
 		{
 			try 
 			{
-				SQLDMO.Application dmo = new SQLDMO.ApplicationClass();
-				
+				new SQLDMO.ApplicationClass();			
 			}
 			catch(System.Runtime.InteropServices.COMException) 
 			{
@@ -180,7 +179,6 @@ namespace Subtext.Web.Controls
 			return connBuilderTable;
 		}
 
-
 		#region UI Builder
 		/// <summary>
 		/// Build the main UI Table
@@ -195,7 +193,6 @@ namespace Subtext.Web.Controls
 			mainTable.Rows.Add(BuildDatabaseRow());
 			mainTable.Rows.Add(BuildTestConnRow());
 			return mainTable;
-			
 		}
 
 		private HtmlTableRow BuildServerNameRow()
@@ -319,7 +316,6 @@ namespace Subtext.Web.Controls
 
 		#endregion // UI Builder
 
-
 		/// <summary>
 		/// Uses SQL-DMO to retrieve all servers available on the network
 		/// </summary>
@@ -327,16 +323,21 @@ namespace Subtext.Web.Controls
 		{
 			ArrayList serverNames = new ArrayList();
 			SQLDMO.Application dmo = new SQLDMO.ApplicationClass();
-			SQLDMO.NameList instances = dmo.ListAvailableSQLServers();
-			foreach(string instance in instances) 
+			try
 			{
-				serverNames.Add(instance);
+				SQLDMO.NameList instances = dmo.ListAvailableSQLServers();
+				foreach(string instance in instances) 
+				{
+					serverNames.Add(instance);
+				}
+			}
+			catch(System.InvalidCastException)
+			{
+				serverNames.Add("localhost");
 			}
 			machineName.DataSource=serverNames;
 			machineName.DataBind();
 		}
-
-
 
 		/// <summary>
 		/// Populate the databases dropdown list with the DBs found on the specified server
