@@ -34,7 +34,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
-using Subtext.Framework.Util;
+using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Tracking
 {
@@ -81,7 +81,7 @@ namespace Subtext.Framework.Tracking
 		{
 			StreamWriter myWriter =null;
 
-			HttpWebRequest request = BlogRequest.CreateRequest(trackBackItem);
+			HttpWebRequest request = HttpHelper.CreateRequest(trackBackItem);
 			request.Method = "POST";
 			request.ContentLength = parameters.Length;
 			request.ContentType = "application/x-www-form-urlencoded";

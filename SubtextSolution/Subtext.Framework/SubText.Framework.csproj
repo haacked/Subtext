@@ -885,11 +885,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Util\BlogRequest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Util\BlogTime.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

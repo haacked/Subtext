@@ -36,6 +36,7 @@ using System.Collections.Specialized;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Util;
+using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Tracking
 {
@@ -165,7 +166,7 @@ namespace Subtext.Framework.Tracking
 				{
 					string link = links[i];
 					//get the page text
-					string pageText = BlogRequest.GetPageText(link);
+					string pageText = HttpHelper.GetPageText(link);
 					if(pageText != null)
 					{
 						bool success = false;

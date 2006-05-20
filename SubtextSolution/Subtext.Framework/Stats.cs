@@ -22,6 +22,7 @@ using Subtext.Framework.Threading;
 using Subtext.Framework.Tracking;
 using Subtext.Framework.Util;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Web;
 
 namespace Subtext.Framework
 {
@@ -204,7 +205,7 @@ namespace Subtext.Framework
 					try
 					{
 						string link = links[i];
-						string pageText = BlogRequest.GetPageText(link);
+						string pageText = HttpHelper.GetPageText(link);
 						if(pageText != null)
 						{
 							pbnp.Ping(pageText,entry.Link,link);
