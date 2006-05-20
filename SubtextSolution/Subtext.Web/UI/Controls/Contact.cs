@@ -5,6 +5,7 @@ using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Web;
 
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,7 +61,7 @@ namespace Subtext.Web.UI.Controls
 					entry.Body = tbMessage.Text;
 					entry.TitleUrl = "contact.aspx";
 					entry.Title = "CONTACT: " + tbSubject.Text;
-					entry.SourceName = Subtext.Framework.Util.Globals.GetUserIpAddress(Context);
+					entry.SourceName = HttpHelper.GetUserIpAddress(Context);
 					Entries.InsertComment(entry);
 					
 					lblMessage.Text = "Your message was sent.";
@@ -79,7 +80,7 @@ namespace Subtext.Web.UI.Controls
 				string Subject = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} (via {1})", tbSubject.Text, 
 				                               info.Title);
 
-				string sendersIpAddress = Framework.Util.Globals.GetUserIpAddress(Context);
+				string sendersIpAddress = HttpHelper.GetUserIpAddress(Context);
 
 				// \n by itself has issues with qmail (unix via openSmtp), \r\n should work on unix + wintel
 				string Body = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Mail from {0}:\r\n\r\nSender: {1}\r\nEmail: {2}\r\nIP Address: {3}\r\n=====================================\r\n{4}", 

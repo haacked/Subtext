@@ -224,7 +224,6 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static string ConvertToAllowedHtml(NameValueCollection allowedHtmlTags, string text)
 		{
-
 			if (allowedHtmlTags == null || allowedHtmlTags.Count == 0)
 			{
 				//This indicates that the AllowableCommentHtml configuration is either missing or

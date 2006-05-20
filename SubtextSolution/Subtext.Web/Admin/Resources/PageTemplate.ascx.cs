@@ -19,7 +19,7 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Util;
+using Subtext.Framework.Web;
 using Subtext.Web.Admin.WebUI;
 using PlaceHolder = Subtext.Web.Admin.WebUI.PlaceHolder;
 using ScriptTag = Subtext.Web.Controls.ScriptTag;
@@ -59,12 +59,9 @@ namespace Subtext.Web.Admin
 			{
 				if(this._resourcePath == null)
 				{
-					this._resourcePath = Globals.WebPathCombine(HttpContext.Current.Request.ApplicationPath,  "/admin/");
+					this._resourcePath = HttpHelper.CombineWebPaths(HttpContext.Current.Request.ApplicationPath,  "/admin/");
 				}
 				return this._resourcePath;
-			}
-			set
-			{
 			}
 		}
 

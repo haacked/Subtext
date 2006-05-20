@@ -22,7 +22,7 @@ using System.Web;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
 using Subtext.Framework.Text;
-using Subtext.Framework.Util;
+using Subtext.Framework.Web;
 
 namespace Subtext.Web.Admin
 {
@@ -34,7 +34,7 @@ namespace Subtext.Web.Admin
 		{
 			get
 			{
-				return Globals.WebPathCombine(HttpContext.Current.Request.ApplicationPath,  "/admin/");
+				return HttpHelper.CombineWebPaths(HttpContext.Current.Request.ApplicationPath,  "/admin/");
 			}
 		}
 

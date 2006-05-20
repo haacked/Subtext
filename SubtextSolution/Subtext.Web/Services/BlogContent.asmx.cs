@@ -19,16 +19,19 @@ using System.Web.Services;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Util;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Services
 {
 	/// <summary>
 	/// Summary description for BlogContent.
 	/// </summary>
-	[ WebService(Name=".Text Content",Description=".Text content provider service",Namespace="http://ScottWater.com/DotText/services/blogcontent/")]
+	[ WebService(Name="Subtext Content", Description="Subtext content provider service", Namespace="http://ScottWater.com/DotText/services/blogcontent/")]
 	public class BlogContent : System.Web.Services.WebService
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="BlogContent"/> class.
+		/// </summary>
 		public BlogContent()
 		{
 			//CODEGEN: This call is required by the ASP.NET Web Services Designer
@@ -65,15 +68,23 @@ namespace Subtext.Web.Services
 		[WebMethod(MessageName="GetEntries",Description="Requests the last X number of Blog Entries. The number is limited by the settings in the blog.config file. The return type, is an an Array of Entries",EnableSession=false)]
 		public EntryCollection GetEntries(int ItemCount)
 		{
-			return Entries.GetRecentPosts(Globals.AllowedItemCount(ItemCount),PostType.BlogPost,true);
+			return Entries.GetRecentPosts(AllowedItemCount(ItemCount),PostType.BlogPost,true);
 		}
 
 		[WebMethod(MessageName="GetEntriesByCategoryID",Description="Requests the last X number of Blog Entries By a specific category. The number is limited by the settings in the blog.config file. The return type, is an an Array of Entries",EnableSession=false)]
 		public EntryCollection GetEntries(int ItemCount, int CategoryID)
 		{
-			return Entries.GetEntriesByCategory(Globals.AllowedItemCount(ItemCount),CategoryID,true);
+			return Entries.GetEntriesByCategory(AllowedItemCount(ItemCount), CategoryID, true);
 		}
 
+		private static int AllowedItemCount(int ItemCount)
+		{
+			if(ItemCount > Config.Settings.ItemCount)
+			{
+				ItemCount = Config.Settings.ItemCount;
+			}
+			return ItemCount;
+		}
 	}
 }
 
