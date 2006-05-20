@@ -57,7 +57,7 @@ namespace Subtext.Framework.Tracking
 
 		public bool Ping(string pageText,string sourceURI, string targetURI)
 		{
-			string pingbackURL = GetPingBackURL(pageText,targetURI,sourceURI);
+			string pingbackURL = GetPingBackURL(pageText, sourceURI);
 			if(pingbackURL != null)
 			{
 				this.Url = pingbackURL;
@@ -75,9 +75,9 @@ namespace Subtext.Framework.Tracking
 
 		}
 
-		private  string GetPingBackURL(string pageText, string url, string PostUrl)
+		private string GetPingBackURL(string pageText, string PostUrl)
 		{
-			if(!Regex.IsMatch(pageText,PostUrl,RegexOptions.IgnoreCase|RegexOptions.Singleline))
+			if(!Regex.IsMatch(pageText, PostUrl, RegexOptions.IgnoreCase | RegexOptions.Singleline))
 			{
 				if(pageText != null)
 				{
