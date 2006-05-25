@@ -314,7 +314,7 @@ namespace Subtext.Web.Services
 		}
 
 		[SoapHeaderAttribute("ASPNetWebLogUser", Direction=SoapHeaderDirection.InOut)]
-		[WebMethod(MessageName="InsertLink",Description="Insert a new Link",EnableSession=false)]
+		[WebMethod(MessageName="InsertLink",Description="Insert a new Url",EnableSession=false)]
 		public int InsertLink(Link _link)
 		{
 			if(ValidateUser())
@@ -325,7 +325,7 @@ namespace Subtext.Web.Services
 		}
 
 		[SoapHeaderAttribute("ASPNetWebLogUser", Direction=SoapHeaderDirection.InOut)]
-		[WebMethod(MessageName="UpdateLink",Description="Update a Link",EnableSession=false)]
+		[WebMethod(MessageName="UpdateLink",Description="Update a Url",EnableSession=false)]
 		public void UpdateLink(Link _link)
 		{
 			if(ValidateUser())

@@ -80,7 +80,7 @@ namespace Subtext.Common.Data
 		/// </summary>
 		/// <param name="title">title for the Category</param>
 		/// <param name="formats">Determines how the Urls are formated</param>
-		/// <returns>A LinkCategory object with a Link (via LinkCollection) for each month in ArchiveCountCollection</returns>
+		/// <returns>A LinkCategory object with a Url (via LinkCollection) for each month in ArchiveCountCollection</returns>
 		public static LinkCategory BuildMonthLinks(string title, UrlFormats formats)
 		{
 			ArchiveCountCollection acc = Archives.GetPostsByMonthArchive();

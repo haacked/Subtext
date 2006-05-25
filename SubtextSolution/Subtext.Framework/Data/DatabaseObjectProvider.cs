@@ -317,7 +317,7 @@ namespace Subtext.Framework.Data
 				{
 					//Don't build links.
 					entry = DataHelper.LoadSingleEntry(reader, !buildLinks);
-					entry.Link = formats.CommentUrl(parentEntry, entry);
+					entry.Url = formats.CommentUrl(parentEntry, entry);
 					ec.Add(entry);
 				}
 				return ec;
@@ -514,7 +514,7 @@ namespace Subtext.Framework.Data
 
 			if(entry.EntryID > -1 && Config.Settings.Tracking.UseTrackingServices)
 			{
-				entry.Link = Subtext.Framework.Configuration.Config.CurrentBlog.UrlFormats.EntryUrl(entry);
+				entry.Url = Subtext.Framework.Configuration.Config.CurrentBlog.UrlFormats.EntryUrl(entry);
 			}
 
 			if(entry.EntryID > -1)
@@ -565,11 +565,11 @@ namespace Subtext.Framework.Data
 			{
 				if(entry.PostType == PostType.BlogPost)
 				{
-					entry.Link = Config.CurrentBlog.UrlFormats.EntryUrl(entry);
+					entry.Url = Config.CurrentBlog.UrlFormats.EntryUrl(entry);
 				}
 				else
 				{
-					entry.Link = Config.CurrentBlog.UrlFormats.ArticleUrl(entry);
+					entry.Url = Config.CurrentBlog.UrlFormats.ArticleUrl(entry);
 				}
 
 				if(entry.EntryID > -1)
@@ -706,7 +706,7 @@ namespace Subtext.Framework.Data
 
 		#endregion
 
-		#region Single Link
+		#region Single Url
 
 		public override Link GetSingleLink(int linkID)
 		{

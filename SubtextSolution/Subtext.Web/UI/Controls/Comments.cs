@@ -98,7 +98,7 @@ namespace Subtext.Web.UI.Controls
 						// we should probably change skin format to dynamically wire up to 
 						// skin located title and permalinks at some point
 						title.Text = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{2}&nbsp;{0}{1}", Anchor(entry.EntryID), 
-							entry.Title, Link(entry.Title, entry.Link));
+							entry.Title, Link(entry.Title, entry.Url));
 					}
 
 					HyperLink namelink = (HyperLink)e.Item.FindControl("NameLink");

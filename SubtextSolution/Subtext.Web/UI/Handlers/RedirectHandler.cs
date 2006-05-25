@@ -92,7 +92,7 @@ namespace Subtext.Web.UI.Handlers
 				
 				if(entry != null)
 				{
-					redirectUrl = entry.Link;
+					redirectUrl = entry.Url;
 				}
 			}
 

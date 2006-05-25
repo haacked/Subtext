@@ -37,8 +37,8 @@ namespace UnitTests.Subtext.Framework.Syndication
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("haacked", "title of the post", "Body of the post.");
 			entry.EntryName = "titleofthepost";
 			entry.DateCreated = entry.DateSyndicated = entry.DateUpdated = DateTime.ParseExact("2006/04/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-			entry.Link = "/archive/2006/04/01/titleofthepost.aspx";
-			Console.WriteLine("LINK: " + entry.Link);
+			entry.Url = "/archive/2006/04/01/titleofthepost.aspx";
+			Console.WriteLine("LINK: " + entry.Url);
 			CommentRssWriter writer = new CommentRssWriter(new EntryCollection(), entry);
 			
 			Assert.IsTrue(entry.HasEntryName, "This entry should have an entry name.");

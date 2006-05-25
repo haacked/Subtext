@@ -49,7 +49,7 @@ namespace Subtext.Web.Admin
 ////				WriteOpmlItem(currentItem, writer);
 ////			}
 //
-//			foreach (Link currentItem in items)
+//			foreach (Url currentItem in items)
 //			{				
 //				writer.WriteStartElement("outline");
 //				writer.WriteAttributeString("title", currentItem.Title);

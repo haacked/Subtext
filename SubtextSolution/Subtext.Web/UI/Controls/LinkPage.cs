@@ -56,7 +56,7 @@ namespace Subtext.Web.UI.Controls
 				Link link = (Link)e.Item.DataItem;
 				if(link != null)
 				{
-					HyperLink Link = (HyperLink)e.Item.FindControl("Link");
+					HyperLink Link = (HyperLink)e.Item.FindControl("Url");
 					Link.NavigateUrl = link.Url;
 					Link.Text = link.Title;
 					ControlHelper.SetTitleIfNone(Link, link.Title);

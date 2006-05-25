@@ -164,7 +164,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
 			Entry savedEntry = Entries.GetEntry(id, EntryGetOption.All);
 			Assert.AreEqual("Some_Title", savedEntry.EntryName, "The EntryName should have been auto-friendlied.");
-			Assert.AreEqual(savedEntry.Link, savedEntry.TitleUrl, "The title url should link to the entry.");
+			Assert.AreEqual(savedEntry.Url, savedEntry.TitleUrl, "The title url should link to the entry.");
 
 			Entry duplicate = new Entry(PostType.BlogPost);
 			duplicate.DateCreated = DateTime.Now;

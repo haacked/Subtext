@@ -59,7 +59,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			string expectedFullyQualifiedLink = "http://" + hostname + expectedLink;
 			
 			Entry savedEntry = Entries.GetEntry(id, EntryGetOption.All);
-			Assert.AreEqual(savedEntry.Link, expectedLink, "The link was not what we expected.");
+			Assert.AreEqual(savedEntry.Url, expectedLink, "The link was not what we expected.");
 			Assert.AreEqual(savedEntry.FullyQualifiedUrl, expectedFullyQualifiedLink, "The link was not what we expected.");
 		}
 		

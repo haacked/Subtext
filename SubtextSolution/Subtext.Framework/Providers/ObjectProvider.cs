@@ -200,7 +200,7 @@ namespace Subtext.Framework.Providers
 
 		#endregion
 
-		#region Single Link
+		#region Single Url
 
 		public abstract Link GetSingleLink(int linkID);
 		
