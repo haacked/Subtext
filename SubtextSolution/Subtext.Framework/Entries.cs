@@ -25,6 +25,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
+using Subtext.Framework.Tracking;
 using Subtext.Framework.Util;
 
 namespace Subtext.Framework
@@ -275,7 +276,6 @@ namespace Subtext.Framework
 			{
 				entry.EntryName = AutoGenerateFriendlyUrl(entry.Title);
 				entry.TitleUrl = entry.Link;
-				
 			}
 			
 			if(NullValue.IsNull(entry.DateCreated))
@@ -288,7 +288,9 @@ namespace Subtext.Framework
 			else
 				entry.DateSyndicated = NullValue.NullDateTime;
 			
-			return ObjectProvider.Instance().Create(entry, CategoryIDs);
+			int id = ObjectProvider.Instance().Create(entry, CategoryIDs);
+			NotificationServices.Run(entry);
+			return id;
 		}
 
 		/// <summary>

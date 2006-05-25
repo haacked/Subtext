@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Web;
 using MbUnit.Framework;
 using Subtext.Common.Syndication;
@@ -34,9 +35,13 @@ namespace UnitTests.Subtext.Framework.Syndication
 			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("haacked", "title of the post", "Body of the post.");
-			entry.Link = "http://localhost/Subtext.Web/2006/04/01/titleofthepost.aspx";
+			entry.EntryName = "titleofthepost";
+			entry.DateCreated = entry.DateSyndicated = entry.DateUpdated = DateTime.ParseExact("2006/04/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+			entry.Link = "/archive/2006/04/01/titleofthepost.aspx";
 			Console.WriteLine("LINK: " + entry.Link);
 			CommentRssWriter writer = new CommentRssWriter(new EntryCollection(), entry);
+			
+			Assert.IsTrue(entry.HasEntryName, "This entry should have an entry name.");
 			
 			string expected = @"<rss version=""2.0"" " 
 									+ @"xmlns:dc=""http://purl.org/dc/elements/1.1/"" " 
@@ -47,7 +52,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 									+ @"xmlns:image=""http://purl.org/rss/1.0/modules/image/"">" 
 								+ @"<channel>" 
 										+ @"<title>title of the post</title>" 
-										+ @"<link>http://localhost/Subtext.Web/2006/04/01/titleofthepost.aspx</link>" 
+										+ @"<link>http://localhost/Subtext.Web/archive/2006/04/01/titleofthepost.aspx</link>" 
 										+ @"<description>Body of the post.</description>" 
 										+ @"<language>en-US</language>" 
 										+ @"<copyright>Subtext Weblog</copyright>" 

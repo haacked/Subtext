@@ -43,11 +43,11 @@ namespace Subtext.Framework.Tracking
 	/// </summary>
 	public class TrackBackNotificationProxy
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TrackBackNotificationProxy"/> class.
+		/// </summary>
 		public TrackBackNotificationProxy()
 		{
-			//
-			// TODO: Add constructor logic here
-			//
 		}
 
 		private string HtmlEncode(string text)
@@ -70,11 +70,8 @@ namespace Subtext.Framework.Tracking
 
 				
 				SendPing(trackBackItem, parameters);
-
-
 			}
 			return true;
- 
 		}
 
 		private void SendPing(string trackBackItem, string parameters)

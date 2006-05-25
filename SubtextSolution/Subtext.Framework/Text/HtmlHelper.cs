@@ -403,5 +403,35 @@ namespace Subtext.Framework.Text
 			}
 			return attributes;
 		}
+		
+		
+		/// <summary>
+		/// Returns a string collection of URLs within the specified text.
+		/// </summary>
+		/// <param name="text">The text.</param>
+		/// <returns></returns>
+		public static StringCollection GetLinks(string text)
+		{			
+			StringCollection links = new StringCollection();
+			string sPattern = @"(?:[hH][rR][eE][fF]\s*=)" +
+				@"(?:[\s""']*)(?!#|[Mm]ailto|[lL]ocation.|[jJ]avascript|.*css|.*this\.)" +
+				@"(.*?)(?:[\s>""'])";
+
+			Regex r = new Regex(sPattern,RegexOptions.IgnoreCase);
+			Match m;
+			string link = null;
+			for (m = r.Match(text); m.Success; m = m.NextMatch()) 
+			{
+				if(m.Groups.ToString().Length > 0 )
+				{
+					link = 	m.Groups[1].ToString();	
+					if(!links.Contains(link))
+					{
+						links.Add(link);
+					}
+				}
+			}
+			return links;	
+		}
 	}
 }

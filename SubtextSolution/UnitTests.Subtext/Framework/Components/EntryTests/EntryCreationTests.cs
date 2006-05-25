@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Globalization;
 using System.Threading;
 using MbUnit.Framework;
 using Subtext.Extensibility;
@@ -32,6 +33,36 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 	{
 		string _hostName = string.Empty;
 
+		/// <summary>
+		/// Tests that the fully qualified url is correct.
+		/// </summary>
+		[RowTest]
+		[Row("", "", "")]
+		[Row("blog", "", "/blog")]
+		[Row("", "Subtext.Web", "/Subtext.Web")]
+		[Row("blog", "Subtext.Web", "/Subtext.Web/blog")]
+		[RollBack]
+		public void CreatedEntryHasCorrectFullyQualifiedLink(string subfolder, string virtualDir, string expectedUrlPrefix)
+		{
+			string hostname = UnitTestHelper.GenerateRandomHostname();
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, subfolder));
+			
+			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, subfolder, virtualDir);
+
+			Entry entry = new Entry(PostType.BlogPost);
+			entry.DateCreated = DateTime.ParseExact("2005/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+			entry.Title = "Some Title";
+			entry.Body = "Some Body";
+			int id = Entries.Create(entry);
+
+			string expectedLink = string.Format("{0}/archive/2005/01/23/{1}.aspx", expectedUrlPrefix, id);
+			string expectedFullyQualifiedLink = "http://" + hostname + expectedLink;
+			
+			Entry savedEntry = Entries.GetEntry(id, EntryGetOption.All);
+			Assert.AreEqual(savedEntry.Link, expectedLink, "The link was not what we expected.");
+			Assert.AreEqual(savedEntry.FullyQualifiedUrl, expectedFullyQualifiedLink, "The link was not what we expected.");
+		}
+		
 		/// <summary>
 		/// Makes sure that the content checksum hash is being created correctly.
 		/// </summary>

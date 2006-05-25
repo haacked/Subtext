@@ -31,9 +31,7 @@
  ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 using System;
-using System.Collections.Specialized;
 using System.Globalization;
-using System.Text.RegularExpressions;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 
@@ -71,35 +69,8 @@ namespace Subtext.Framework.Tracking
 							"trackback:ping=\"{3}services/trackbacks/{4}.aspx\" />" + nl + 
 							"</rdf:RDF>" + nl + 
 							"-->" + nl;
-			return string.Format(tag, entry.Link, entry.Link, entry.Title, Config.CurrentBlog.RootUrl, entry.EntryID.ToString(CultureInfo.InvariantCulture));
+			return string.Format(tag, entry.FullyQualifiedUrl, entry.FullyQualifiedUrl, entry.Title, Config.CurrentBlog.RootUrl, entry.EntryID.ToString(CultureInfo.InvariantCulture));
 
-		}
-
-		//Gets a list of all of the valid html links from a string
-		public static StringCollection GetLinks(string text)
-		{			
-			StringCollection links = new StringCollection();
-			string sPattern = @"(?:[hH][rR][eE][fF]\s*=)" +
-				@"(?:[\s""']*)(?!#|[Mm]ailto|[lL]ocation.|[jJ]avascript|.*css|.*this\.)" +
-				@"(.*?)(?:[\s>""'])";
-
-			Regex r = new Regex(sPattern,RegexOptions.IgnoreCase);
-			Match m;
-			string link = null;
-			for (m = r.Match(text); m.Success; m = m.NextMatch()) 
-			{
-				
-				if(m.Groups.ToString().Length > 0 )
-				{
-					
-					link = 	m.Groups[1].ToString();	
-					if(!links.Contains(link))
-					{
-						links.Add(link);
-					}
-				}
-			}
-			return links;	
 		}
 	}
 }

@@ -271,7 +271,7 @@ namespace Subtext.Web.Admin.UserControls
 			txbTitle.Text = currentPost.Title;
 
 			hlEntryLink.NavigateUrl = currentPost.Link;
-			hlEntryLink.Text = currentPost.Link;
+			hlEntryLink.Text = currentPost.FullyQualifiedUrl;
 			hlEntryLink.Attributes.Add("title", "view: " + currentPost.Title);
 			hlEntryLink.Visible = true;
 

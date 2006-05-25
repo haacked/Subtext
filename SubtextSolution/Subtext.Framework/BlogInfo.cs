@@ -658,7 +658,7 @@ namespace Subtext.Framework
 		string _licenseUrl;
 
 		/// <summary>
-		/// Gets the root URL for this blog.
+		/// Gets the root URL for this blog.  For example, "http://example.com/" or "http://example.com/blog/".
 		/// </summary>
 		/// <value></value>
 		[XmlIgnore]
@@ -676,7 +676,7 @@ namespace Subtext.Framework
 		string _rootUrl = null;
 
 		/// <summary>
-		/// Gets the virtual URL for the site.
+		/// Gets the virtual URL for the site.  For example, "/" or "/Subtext.Web/" or "/Blog/".
 		/// </summary>
 		/// <value>The virtual URL.</value>
 		[XmlIgnore]
@@ -746,7 +746,7 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
-		/// Gets the blog home virtual URL.
+		/// Gets the blog home virtual URL.  For example, "/default.aspx" or "/Blog/Default.aspx".
 		/// </summary>
 		/// <value>The blog home virtual URL.</value>
 		public string BlogHomeVirtualUrl

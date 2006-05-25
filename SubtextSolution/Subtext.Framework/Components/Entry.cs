@@ -155,7 +155,7 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				return this.EntryName != null && this.EntryName.Trim().Length >0;
+				return this.EntryName != null && this.EntryName.Trim().Length > 0;
 			}
 		}
 
@@ -388,7 +388,11 @@ namespace Subtext.Framework.Components
 		}
 
 		private string _link;
-		public virtual string Link
+		/// <summary>
+		/// Returns the relative URL to this entry.
+		/// </summary>
+		/// <value>The link.</value>
+		public string Link
 		{
 			get
 			{
@@ -397,9 +401,24 @@ namespace Subtext.Framework.Components
 			set
 			{
 				_link = value;
+				_fullyQualifiedLink = Config.CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(this);
+				
 			}
 		}
-
+		
+		/// <summary>
+		/// Gets the fully qualified url to this entry.
+		/// </summary>
+		/// <value>The fully qualified link.</value>
+		public string FullyQualifiedUrl
+		{
+			get
+			{
+				return _fullyQualifiedLink;
+			}
+		}
+		string _fullyQualifiedLink;
+		
 		/// <summary>
 		/// This is a checksum of the entry text combined with 
 		/// a hash of the text like so "####.HASH". 
