@@ -27,7 +27,7 @@ using System.Configuration;
 namespace Subtext.Web.UI.Controls
 {
 	/// <summary>
-	///		Summary description for Comments.
+	///	Codebehind for the control that displays comments/trackbacks/pingbacks.
 	/// </summary>
 	public class Comments : BaseControl
 	{
@@ -44,12 +44,13 @@ namespace Subtext.Web.UI.Controls
 
 			try
 			{
-				gravatarEnabled=Convert.ToBoolean(ConfigurationSettings.AppSettings["GravatarEnabled"]);
+				gravatarEnabled = Convert.ToBoolean(ConfigurationSettings.AppSettings["GravatarEnabled"]);
 			}
 			catch(FormatException) 
 			{
-				gravatarEnabled=false;
+				gravatarEnabled = false;
 			}
+			
 			if(gravatarEnabled) 
 			{
 				gravatarUrlFormatString = ConfigurationSettings.AppSettings["GravatarUrlFormatString"];
@@ -58,7 +59,6 @@ namespace Subtext.Web.UI.Controls
 
 			if(CurrentBlog.CommentsEnabled)
 			{
-
 				Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short);	
 
 				if(entry != null && entry.AllowComments)
@@ -187,9 +187,9 @@ namespace Subtext.Web.UI.Controls
 
 		// GC: xhmtl format wreaking havoc in non-xhtml pages in non-IE, changed to non nullable format
 		const string anchortag = "<a name=\"{0}\"></a>";
-		private string Anchor(int ID)
+		private string Anchor(int id)
 		{
-			return string.Format(anchortag,ID);
+			return string.Format(anchortag, id);
 		}
 
 		private string BuildGravatarUrl(string email) 
@@ -217,7 +217,7 @@ namespace Subtext.Web.UI.Controls
 					{
 						Cacher.ClearCommentCache(entry.EntryID);
 					}
-					CommentList.DataSource = Cacher.GetComments(entry,CacheDuration.Short);
+					CommentList.DataSource = Cacher.GetComments(entry, CacheDuration.Short);
 					CommentList.DataBind();
 
 					if(CommentList.Items.Count == 0)

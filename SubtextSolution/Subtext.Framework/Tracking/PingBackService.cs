@@ -34,7 +34,6 @@
 #endregion
 using System;
 using CookComputing.XmlRpc;
-using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Format;
 using Subtext.Framework.Text;
@@ -55,8 +54,8 @@ namespace Subtext.Framework.Tracking
 		[XmlRpcMethod("pingback.ping", Description="Pingback server implementation")] 
 		public string pingBack(string sourceURI, string targetURI)
 		{
-			int 	postId 		= 0 ;
-			string 	pageTitle 	= "" ;
+			int 	postId;
+			string 	pageTitle;
   		
 			// GetPostIDFromUrl returns the postID
 			postId = UrlFormats.GetPostIDFromUrl(targetURI);
@@ -70,15 +69,8 @@ namespace Subtext.Framework.Tracking
   			
 			//PTR = Pingback - TrackBack - Referral
 
-			Entry entry = new Entry(PostType.PingTrack);
-			entry.ParentID = postId;
-			entry.Title = HtmlHelper.SafeFormat(pageTitle);
-			entry.TitleUrl = HtmlHelper.SafeFormat(sourceURI);
-			entry.Body = HtmlHelper.SafeFormat(pageTitle);
-			entry.DateCreated = entry.DateUpdated = DateTime.Now;
-			entry.IsActive = true;
-
-			Entries.Create(entry);
+			Trackback trackback = new Trackback(postId, HtmlHelper.SafeFormat(pageTitle), HtmlHelper.SafeFormat(sourceURI), string.Empty, HtmlHelper.SafeFormat(pageTitle));
+			Entries.Create(trackback);
   		
 			return "thanks for the pingback on " + sourceURI ;
 		}

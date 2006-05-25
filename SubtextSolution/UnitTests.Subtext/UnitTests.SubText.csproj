@@ -201,7 +201,7 @@
                 />
                 <Reference
                     Name = "freetextbox"
-                    AssemblyName = "freetextbox"
+                    AssemblyName = "FreeTextBox"
                     HintPath = "ExternalDependencies\freetextbox.dll"
                 />
                 <Reference
@@ -322,6 +322,11 @@
                 />
                 <File
                     RelPath = "Framework\Components\EntryTests\EntryUpdateTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Framework\Components\TrackbackTests\TrackbackCreation.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

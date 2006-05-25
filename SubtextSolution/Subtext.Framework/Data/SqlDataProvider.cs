@@ -84,7 +84,7 @@ namespace Subtext.Framework.Data
 						SqlHelper.MakeInParam("@URL", SqlDbType.NVarChar, 255, ev.ReferralUrl),
 						SqlHelper.MakeInParam("@IsWeb", SqlDbType.Bit,1, ev.PageViewType)
 			};
-			return this.NonQueryBool("subtext_TrackEntry",p);
+			return this.NonQueryBool("subtext_TrackEntry", p);
 		}
 		
 		#endregion
@@ -984,7 +984,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@ParentID", SqlDbType.Int, 4, SqlHelper.CheckNull(PostID)),
 				BlogIdParam
 			};
-			return GetReader("subtext_GetFeedBack",p);
+			return GetReader("subtext_GetFeedBack" ,p);
 		}
 
 		#endregion

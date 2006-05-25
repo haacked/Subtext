@@ -285,7 +285,7 @@ namespace Subtext.Common.Data
 		
 		public static EntryCollection GetComments(Entry parentEntry, CacheDuration cacheDuration)
 		{
-			string key = string.Format(ParentCommentEntryKey,parentEntry.EntryID,BlogId());
+			string key = string.Format(ParentCommentEntryKey, parentEntry.EntryID, BlogId());
 			ContentCache cache = ContentCache.Instantiate();
 			EntryCollection comments = (EntryCollection)cache[key];
 			if(comments == null)
