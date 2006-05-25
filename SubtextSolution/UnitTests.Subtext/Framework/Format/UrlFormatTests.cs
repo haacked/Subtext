@@ -174,7 +174,7 @@ namespace UnitTests.Subtext.Framework.Format
 		[SetUp]
 		public void SetUp()
 		{
-			_hostName = System.Guid.NewGuid().ToString().Replace("-", "") + ".com";
+			_hostName = UnitTestHelper.GenerateRandomHostname();
 			
 		}
 

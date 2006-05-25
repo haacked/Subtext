@@ -63,20 +63,19 @@ namespace Subtext.Framework.Tracking
 		/// <param name="context">An <see cref="T:System.Web.HttpContext"/> object that provides references to the intrinsic server objects (for example, <see langword="Request"/>, <see langword="Response"/>, <see langword="Session"/>, and <see langword="Server"/>)<see langword=""/> used to service HTTP requests.</param>
 		public void ProcessRequest(HttpContext context)
 		{
-			context.Response.ContentType="text/xml" ;
+			context.Response.ContentType = "text/xml";
 
 			int postId = 0 ;
 			try 
 			{
-				postId = WebPathStripper.GetEntryIDFromUrl(context.Request.Path);//int.Parse(context.Request.QueryString["postid"]) ;
+				postId = WebPathStripper.GetEntryIDFromUrl(context.Request.Path);
 			}
 			catch 
 			{
-				trackbackResponse (context, 1, "EntryID is invalid or missing" ) ;
+				trackbackResponse(context, 1, "EntryID is invalid or missing") ;
 			}
 
-
-			if ( context.Request.HttpMethod == "POST" )
+			if(context.Request.HttpMethod == "POST")
 			{
 				string title     = safeParam(context,"title") ;
 				string excerpt   = safeParam(context,"excerpt") ;
@@ -86,26 +85,25 @@ namespace Subtext.Framework.Tracking
 				// is the url valid ?
 				if (url.Length == 0)
 				{
-					trackbackResponse (context, 1, "no url parameter found, please try harder!") ;
+					trackbackResponse(context, 1, "no url parameter found, please try harder!") ;
 				}
 	
 				string pageTitle;
 				Entry trackedEntry = Entries.GetEntry(postId, EntryGetOption.ActiveOnly);
-				if (trackedEntry != null &&  ! Verifier.SourceContainsTarget(url, trackedEntry.FullyQualifiedUrl, out pageTitle))
+				if (trackedEntry != null &&  !Verifier.SourceContainsTarget(url, trackedEntry.FullyQualifiedUrl, out pageTitle))
 				{
 					trackbackResponse (context, 2, "Sorry couldn't find a relevant link in " + url ) ;
 				}
-				
+
 				Trackback trackback = new Trackback(postId, title, url, blog_name, excerpt);
 				Entries.Create(trackback);
 			}
 			else
 			{
-				Entry entry = Entries.GetEntry(postId,EntryGetOption.ActiveOnly);
+				Entry entry = Entries.GetEntry(postId, EntryGetOption.ActiveOnly);
 
 				XmlTextWriter w = new XmlTextWriter(context.Response.Output) ;
 				w.Formatting = Formatting.Indented;
-
 
 				w.WriteStartDocument() ;
 				w.WriteStartElement("response") ;
@@ -118,10 +116,10 @@ namespace Subtext.Framework.Tracking
 				w.WriteElementString("description", "" ) ;
 				w.WriteElementString("language", "en-us" ) ;
 
-				w.WriteEndElement() ; // channel
-				w.WriteEndElement() ; // rss 
-				w.WriteEndElement() ; // response
-				w.WriteEndDocument() ;
+				w.WriteEndElement(); // channel
+				w.WriteEndElement(); // rss 
+				w.WriteEndElement(); // response
+				w.WriteEndDocument();
 			}
 		}
 
