@@ -90,8 +90,8 @@
 				<asp:TextBox id="txbBody" runat="server" columns="255" width="98%" TextMode="MultiLine"></asp:TextBox>
 			</p>
 			<div>
-				<asp:LinkButton id="lkbPost" runat="server" CssClass="Button" Text="Post"></asp:LinkButton>
-				<asp:LinkButton id="lkbCancel" runat="server" CssClass="Button" Text="Cancel" CausesValidation="false"></asp:LinkButton><br />
+				<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Post"></asp:Button>
+				<asp:Button id="lkbCancel" runat="server" CssClass="buttonSubmit" Text="Cancel" CausesValidation="false"></asp:Button><br />
 				&nbsp;
 			</div>
 		</div>
