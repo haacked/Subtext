@@ -17,6 +17,7 @@ using System;
 using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using log4net;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -27,11 +28,14 @@ namespace Subtext.Web.Admin.Pages
 {
 	public class Referrers : AdminPage
 	{
+		private readonly static ILog log = new Subtext.Framework.Logging.Log();
+		
 		private int _resultsPageNumber = 1;
 		private bool _isListHidden = false;
 
 		private int _entryID = NullValue.NullInt32;
 
+		#region Declared Controls
 		protected System.Web.UI.WebControls.Repeater rprSelectionList;
 		protected Subtext.Web.Admin.WebUI.Pager ResultsPager;
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Results;
@@ -41,10 +45,11 @@ namespace Subtext.Web.Admin.Pages
 		protected System.Web.UI.WebControls.RequiredFieldValidator Requiredfieldvalidator3;
 		protected System.Web.UI.WebControls.TextBox txbUrl;
 		protected System.Web.UI.WebControls.TextBox txbBody;
-		protected System.Web.UI.WebControls.LinkButton lkbPost;
-		protected System.Web.UI.WebControls.LinkButton lkbCancel;
+		protected System.Web.UI.WebControls.Button lkbPost;
+		protected System.Web.UI.WebControls.Button lkbCancel;
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
 		protected Subtext.Web.Admin.WebUI.Page PageContainer;
+		#endregion
 	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
@@ -64,11 +69,6 @@ namespace Subtext.Web.Admin.Pages
 				ResultsPager.PageSize = Preferences.ListingItemCount;
 				ResultsPager.PageIndex = _resultsPageNumber;
 				Results.Collapsible = false;
-
-
-				// TODO: Implement category filtering.
-				//PageContainer.CategoryType = CategoryType.PostCollection;
-
 
 				BindList();
 			}
@@ -109,7 +109,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindList()
 		{
-			PagedReferrerCollection referrers = null;
+			PagedReferrerCollection referrers;
 
 			if(_entryID == NullValue.NullInt32)
 			{
@@ -277,6 +277,7 @@ namespace Subtext.Web.Admin.Pages
 			}
 			catch(Exception ex)
 			{
+				log.Error(ex.Message, ex);
 				this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, 
 					Constants.RES_FAILUREEDIT, ex.Message));
 			}

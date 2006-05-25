@@ -79,8 +79,8 @@ namespace Subtext.Framework
 					//spam puts casino in title.
 					
 					if(regex.IsMatch(entry.Title) 
-						|| regex.IsMatch(entry.Author)
-						|| regex.IsMatch(entry.TitleUrl))
+						|| (entry.Author != null && regex.IsMatch(entry.Author))
+						|| (entry.TitleUrl != null && regex.IsMatch(entry.TitleUrl)))
 					{
 						AddToBlackList(entry);
 						return true;
