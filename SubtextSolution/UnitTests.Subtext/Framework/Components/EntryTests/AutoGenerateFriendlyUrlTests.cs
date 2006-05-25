@@ -79,7 +79,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[Row("A Very Good..Book", "AVeryGood.Book")]
 		[Row("A Very Good...Book", "AVeryGood.Book")]
 		[Row("Å Vêry G®®d B®®k..", "%c3%85V%c3%aaryGdBk")]
-		[Row("sTurkish Character Test g", "%c5%9eTurkishCharacterTest%c4%9e")]
+		[Row("\u0130\u0069Turkish Character Test", "%c4%b0iTurkishCharacterTest")]
 		[Row("Trouble With VS.NET", "TroubleWithVS.NET")]
 		[Row("Barça is a nice town", "Bar%c3%a7aIsANiceTown")]
 		[Row("Perchè Più felicità può ed é?", "Perch%c3%a8Pi%c3%b9Felicit%c3%a0Pu%c3%b2Ed%c3%89")]
