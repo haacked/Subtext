@@ -106,7 +106,7 @@ namespace Subtext.Framework.Components
 		/// <summary>
 		/// Gets a value indicating whether this entry 
 		/// has an actual Title URL that's different from 
-		/// the Url (meaning the user overrode the title 
+		/// the Link (meaning the user overrode the title 
 		/// url).
 		/// </summary>
 		/// <value>
@@ -179,7 +179,7 @@ namespace Subtext.Framework.Components
 			{
 				if(_titleurl == null)
 				{
-					return _link;
+					return _url;
 				}
 				return _titleurl;
 			}
@@ -387,7 +387,7 @@ namespace Subtext.Framework.Components
 			}
 		}
 
-		private string _link;
+		private string _url;
 		/// <summary>
 		/// Returns the relative URL to this entry.
 		/// </summary>
@@ -396,11 +396,11 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				return _link;
+				return _url;
 			}
 			set
 			{
-				_link = value;
+				_url = value;
 				_fullyQualifiedLink = Config.CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(this);
 				
 			}

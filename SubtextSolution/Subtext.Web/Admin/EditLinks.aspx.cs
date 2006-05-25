@@ -116,7 +116,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindLocalUI()
 		{
-			LinkButton lkbNewLink = Utilities.CreateLinkButton("New Url");
+			LinkButton lkbNewLink = Utilities.CreateLinkButton("New Link");
 			lkbNewLink.Click += new System.EventHandler(lkbNewLink_Click);
 			lkbNewLink.CausesValidation =false;
 			PageContainer.AddToActions(lkbNewLink);
@@ -167,7 +167,7 @@ namespace Subtext.Web.Admin.Pages
 			if (null != container && container is Subtext.Web.Admin.WebUI.Page)
 			{	
 				Subtext.Web.Admin.WebUI.Page page = (Subtext.Web.Admin.WebUI.Page)container;
-				string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Editing Url \"{0}\"", currentLink.Title);
+				string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Editing Link \"{0}\"", currentLink.Title);
 
 				page.BreadCrumbs.AddLastItem(title);
 				page.Title = title;

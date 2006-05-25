@@ -19,7 +19,7 @@ using System.Collections;
 namespace Subtext.Framework.Components
 {
 	/// <summary>
-	/// Represents a collection of <see cref="Link">Url</see> Components.
+	/// Represents a collection of <see cref="Link">Link</see> Components.
 	/// </summary>
 	[Serializable]
 	public class LinkCollection: CollectionBase
@@ -57,9 +57,9 @@ namespace Subtext.Framework.Components
 		}
 		
 		/// <summary>
-		/// Initializes a new instance of the <see cref="LinkCollection">LinkCollection</see> class containing the specified array of <see cref="Link">Url</see> Components.
+		/// Initializes a new instance of the <see cref="LinkCollection">LinkCollection</see> class containing the specified array of <see cref="Link">Link</see> Components.
 		/// </summary>
-		/// <param name="value">An array of <see cref="Link">Url</see> Components with which to initialize the collection. </param>
+		/// <param name="value">An array of <see cref="Link">Link</see> Components with which to initialize the collection. </param>
 		public LinkCollection(Link[] value)
 		{
 			this.AddRange(value);
@@ -82,9 +82,9 @@ namespace Subtext.Framework.Components
 		}
 		
 		/// <summary>
-		/// Copies the elements of the specified <see cref="Link">Url</see> array to the end of the collection.
+		/// Copies the elements of the specified <see cref="Link">Link</see> array to the end of the collection.
 		/// </summary>
-		/// <param name="value">An array of type <see cref="Link">Url</see> containing the Components to add to the collection.</param>
+		/// <param name="value">An array of type <see cref="Link">Link</see> containing the Components to add to the collection.</param>
 		public void AddRange(Link[] value) 
 		{
 			if(value == null)

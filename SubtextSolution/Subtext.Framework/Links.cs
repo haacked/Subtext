@@ -49,7 +49,7 @@ namespace Subtext.Framework
 
 		#endregion
 
-		#region Single Url
+		#region Single Link
 
 		public static Link GetSingleLink(int linkID)
 		{

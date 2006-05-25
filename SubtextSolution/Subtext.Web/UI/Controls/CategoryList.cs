@@ -80,11 +80,11 @@ namespace Subtext.Web.UI.Controls
 				Link link = (Link)e.Item.DataItem;
 				if(link != null)
 				{
-					HyperLink Link = (HyperLink)e.Item.FindControl("Url");
+					HyperLink Link = (HyperLink)e.Item.FindControl("Link");
 					Link.NavigateUrl = link.Url;
 					if(Link.Attributes["title"] == null || Link.Attributes["title"].Length == 0)
 					{
-						Link.Attributes["title"] = "Category Url";
+						Link.Attributes["title"] = "Category Link";
 					}
 					Link.Text = link.Title;
 					if(link.NewWindow)
