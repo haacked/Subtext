@@ -280,7 +280,7 @@ namespace Subtext.Framework.Format
     	}
 
 		/// <summary>
-		/// Builds the <see cref="HyperLink"/>.NavigateUrl for an EditPost Url by determining
+		/// Builds the <see cref="HyperLink"/>.NavigateUrl for an EditPost Link by determining
 		/// the current Subfolder and adding it to the URL if necessary.
 		/// </summary>
 		/// <param name="entry">The entry to be edited</param>

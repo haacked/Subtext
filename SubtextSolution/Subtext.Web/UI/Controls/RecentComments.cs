@@ -85,7 +85,7 @@ namespace Subtext.Web.UI.Controls
 			{
 				Entry entry = (Entry)e.Item.DataItem;
 				
-				HyperLink title = (HyperLink)e.Item.FindControl("Url");
+				HyperLink title = (HyperLink)e.Item.FindControl("Link");
 				if(title != null)
 				{
 					int commentLength = CurrentBlog.RecentCommentsLength;

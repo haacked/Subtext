@@ -706,7 +706,7 @@ namespace Subtext.Framework.Data
 
 		#endregion
 
-		#region Single Url
+		#region Single Link
 
 		public override Link GetSingleLink(int linkID)
 		{

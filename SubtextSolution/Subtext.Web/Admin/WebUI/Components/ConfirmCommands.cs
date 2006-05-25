@@ -547,7 +547,7 @@ namespace Subtext.Web.Admin
 		public DeleteLinkCommand(int linkID, string linkTitle)
 		{	
 			_autoRedirect = true;
-			_targetName = "Url";
+			_targetName = "Link";
 			_targetID = linkID;
 		    itemTitle = linkTitle;
 		}

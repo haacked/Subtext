@@ -76,7 +76,7 @@
 		</div>
 	</ANW:AdvancedPanel>
 	<ANW:AdvancedPanel id="Edit" runat="server" LinkStyle="Image" DisplayHeader="True" HeaderCssClass="CollapsibleTitle"
-		HeaderText="Edit Url" Collapsible="False">
+		HeaderText="Edit Link" Collapsible="False">
 		<div class="Edit"><!-- DEBUG -->
 			<p>
 				<label>Link ID</label>

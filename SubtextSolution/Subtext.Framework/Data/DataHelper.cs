@@ -818,8 +818,8 @@ namespace Subtext.Framework.Data
 		public static ArchiveCountCollection LoadArchiveCount(IDataReader reader)
 		{
 			const string dateformat = "{0:00}/{1:00}/{2:0000}";
-			string dt = null; //
-			ArchiveCount ac = null;// new ArchiveCount();
+			string dt; //
+			ArchiveCount ac;// new ArchiveCount();
 			ArchiveCountCollection acc = new ArchiveCountCollection();
 			while(reader.Read())
 			{
