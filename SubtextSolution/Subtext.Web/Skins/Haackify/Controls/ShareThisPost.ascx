@@ -3,16 +3,16 @@
 	<span>Share this Post: </span>
 	<ul>
 		<li>
-			<a href="mailto:?body=Thought+you+would+find+this+interesting.+<%#UrlEncode(EntryFullyQualifedUrl)%>&amp;subject=<%# UrlEncode(Entry.Title) %>" title="Email it">email it</a>
+			<a href="mailto:?body=Thought+you+would+find+this+interesting.+<%#UrlEncode(Entry.FullyQualifiedUrl)%>&amp;subject=<%# UrlEncode(Entry.Title) %>" title="Email it">email it</a>
 		</li>
 		<li>
-			<a href="http://del.icio.us/login?url=<%# UrlEncode(EntryFullyQualifedUrl) %>;title=<%# UrlEncode(Entry.Title) %>" title="Bookmark it at del.icio.us">bookmark It</a>
+			<a href="http://del.icio.us/login?url=<%# UrlEncode(Entry.FullyQualifiedUrl) %>;title=<%# UrlEncode(Entry.Title) %>" title="Bookmark it at del.icio.us">bookmark It</a>
 		</li>
 		<li>
-			<a href="http://digg.com/submit?url=<%# UrlEncode(EntryFullyQualifedUrl) %>&amp;phase=2" title="digg it">digg It</a>
+			<a href="http://digg.com/submit?url=<%# UrlEncode(Entry.FullyQualifiedUrl) %>&amp;phase=2" title="digg it">digg It</a>
 		</li>
 		<li>
-			<a href="http://reddit.com/submit?url=<%# UrlEncode(EntryFullyQualifedUrl) %>&amp;title=<%# UrlEncode(Entry.Title) %>" title="redd">redd It</a>
+			<a href="http://reddit.com/submit?url=<%# UrlEncode(Entry.FullyQualifiedUrl) %>&amp;title=<%# UrlEncode(Entry.Title) %>" title="redd">redd It</a>
 		</li>
 	</ul>
 </div>

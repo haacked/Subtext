@@ -254,7 +254,7 @@ namespace Subtext.Framework.Syndication
 		{
 			//core
 			this.WriteElementString("title", entry.Title);
-			this.WriteElementString("link", urlFormats.EntryFullyQualifiedUrl(entry));
+			this.WriteElementString("link", entry.FullyQualifiedUrl);
 			this.WriteElementString
 			(
 				"description", //Tag
@@ -268,7 +268,7 @@ namespace Subtext.Framework.Syndication
 			//TODO: Perform real email auth.
 			if(entry.Email != null && entry.Email.Length > 0 && entry.Email.IndexOf('@') > 0)
 				this.WriteElementString("author", entry.Email);
-			this.WriteElementString("guid", urlFormats.EntryFullyQualifiedUrl(entry));
+			this.WriteElementString("guid", entry.FullyQualifiedUrl);
 			this.WriteElementString("pubDate", entry.DateCreated.ToString("r"));			
 			
 
@@ -278,7 +278,7 @@ namespace Subtext.Framework.Syndication
 				this.WriteElementString("wfw:comment", urlFormats.CommentApiUrl(entry.EntryID));
 			}
 
-			this.WriteElementString("comments", urlFormats.EntryFullyQualifiedUrl(entry) + "#feedback");
+			this.WriteElementString("comments", entry.FullyQualifiedUrl + "#feedback");
 			
 			if(entry.FeedBackCount > 0)
 				this.WriteElementString("slash:comments", entry.FeedBackCount.ToString(CultureInfo.InvariantCulture));

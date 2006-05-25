@@ -401,7 +401,7 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 
 		private static string GetUrlFromPath( string folderPath )
 		{
-				return GetImageRootPath() + folderPath.Substring(1); ;
+				return GetImageRootPath() + folderPath.Substring(1);
 		}
 
 		private static string GetImageRootPath() 

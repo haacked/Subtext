@@ -515,7 +515,6 @@ namespace Subtext.Framework.Data
 			if(entry.EntryID > -1 && Config.Settings.Tracking.UseTrackingServices)
 			{
 				entry.Link = Subtext.Framework.Configuration.Config.CurrentBlog.UrlFormats.EntryUrl(entry);
-				NotificationServices.Run(entry);
 			}
 
 			if(entry.EntryID > -1)
@@ -577,8 +576,6 @@ namespace Subtext.Framework.Data
 				{
 					Config.CurrentBlog.LastUpdated = entry.DateUpdated;
 				}
-
-				NotificationServices.Run(entry);
 			}
 			return true;
 		}

@@ -44,7 +44,7 @@ using Subtext.Framework.Util;
 namespace Subtext.Framework.Tracking
 {
 	/// <summary>
-	/// Summary description for TrackBackHandler.
+	/// Service used to receive trackbacks from remote clients.
 	/// </summary>
 	public class TrackBackHandler : IHttpHandler
 	{
@@ -91,7 +91,7 @@ namespace Subtext.Framework.Tracking
 	
 				string pageTitle;
 				Entry trackedEntry = Entries.GetEntry(postId, EntryGetOption.ActiveOnly);
-				if (trackedEntry != null &&  ! Verifier.SourceContainsTarget(url, trackedEntry.Link, out pageTitle))
+				if (trackedEntry != null &&  ! Verifier.SourceContainsTarget(url, trackedEntry.FullyQualifiedUrl, out pageTitle))
 				{
 					trackbackResponse (context, 2, "Sorry couldn't find a relevant link in " + url ) ;
 				}
@@ -122,9 +122,7 @@ namespace Subtext.Framework.Tracking
 				w.WriteEndElement() ; // rss 
 				w.WriteEndElement() ; // response
 				w.WriteEndDocument() ;
-		
 			}
-
 		}
 
 		public bool IsReusable

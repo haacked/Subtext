@@ -66,6 +66,7 @@ namespace Subtext.Framework.Format
 		{
 			return GetFullyQualifiedUrl("archive/{0:yyyy/MM/dd}/{1}.aspx", dateCreated, entryID);
 		}
+
 		public virtual string ImageUrl(string category, int ImageID)
 		{
 			return GetUrl("gallery/image/{0}.aspx",ImageID);
@@ -420,15 +421,13 @@ namespace Subtext.Framework.Format
 		public static string GetHostFromExternalUrl(string url)
 		{
 			string hostDelim = "://";
-			string host = null;
+			
 			int hostStart = url.IndexOf(hostDelim);
 			hostStart = (hostStart < 0) ? 0 : hostStart + 3;
 
 			int hostEnd = url.IndexOf("/", hostStart);
 			
-			host =  (hostEnd < 0) ? url.Substring(hostStart) : url.Substring(hostStart, hostEnd-hostStart);
-
-			return host;
+			return (hostEnd < 0) ? url.Substring(hostStart) : url.Substring(hostStart, hostEnd-hostStart);
 		}
 	}
 }

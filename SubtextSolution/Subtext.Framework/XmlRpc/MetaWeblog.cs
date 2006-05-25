@@ -115,7 +115,7 @@ namespace Subtext.Framework.XmlRpc
 			post.dateCreated = entry.DateCreated;
 			post.postid = entry.EntryID;
 			post.title = entry.Title;
-			post.permalink = entry.Link;
+			post.permalink = entry.FullyQualifiedUrl;
 			post.categories = entry.Categories;
 
 			return post;
@@ -136,7 +136,7 @@ namespace Subtext.Framework.XmlRpc
 				post.dateCreated = entry.DateCreated;
 				post.description = entry.Body;
 				post.link = entry.TitleUrl;
-				post.permalink = entry.Link;
+				post.permalink = entry.FullyQualifiedUrl;
 				post.title = entry.Title;
 				post.postid = entry.EntryID.ToString(CultureInfo.InvariantCulture);
 				post.userid = entry.Body.GetHashCode().ToString(CultureInfo.InvariantCulture);

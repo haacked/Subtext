@@ -18,6 +18,7 @@ using System.Collections.Specialized;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Text;
 using Subtext.Framework.Threading;
 using Subtext.Framework.Tracking;
 using Subtext.Framework.Util;
@@ -179,12 +180,11 @@ namespace Subtext.Framework
 		/// <param name="entry">Entry.</param>
 		public static void Notify(Entry entry)
 		{
-			StringCollection links = TrackHelpers.GetLinks(entry.Body);
+			StringCollection links = HtmlHelper.GetLinks(entry.Body);
 
 			if(links != null && links.Count > 0)
 			{
 				int count = links.Count;
-
 
 				string description;
 				string blogname = Config.CurrentBlog.Title;
@@ -208,8 +208,8 @@ namespace Subtext.Framework
 						string pageText = HttpHelper.GetPageText(link);
 						if(pageText != null)
 						{
-							pbnp.Ping(pageText,entry.Link,link);
-							tbnp.TrackBackPing(pageText, link, entry.Title, entry.Link, blogname, description);
+							pbnp.Ping(pageText, entry.FullyQualifiedUrl, link);
+							tbnp.TrackBackPing(pageText, link, entry.Title, entry.FullyQualifiedUrl, blogname, description);
 						}
 					}
 					catch(Exception e)
