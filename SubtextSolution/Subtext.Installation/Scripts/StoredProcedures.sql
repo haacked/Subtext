@@ -1112,7 +1112,9 @@ SELECT	BlogId
 		, ContentChecksumHash
 		, DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
-WHERE BlogId = @BlogId AND PostConfig & 1 = 1 AND ParentID = @ParentID
+WHERE BlogId = @BlogId 
+	AND PostConfig & 1 = 1
+	AND ParentID = @ParentID
 ORDER BY [ID]
 
 

@@ -36,7 +36,6 @@ using System;
 using System.Globalization;
 using System.Web;
 using System.Xml;
-using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
@@ -49,10 +48,19 @@ namespace Subtext.Framework.Tracking
 	/// </summary>
 	public class TrackBackHandler : IHttpHandler
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TrackBackHandler"/> class.
+		/// </summary>
 		public TrackBackHandler() 
 		{
 		}
 	
+		/// <summary>
+		/// Enables processing of HTTP Web requests by a custom
+		/// <see langword="HttpHandler "/>
+		/// that implements the <see cref="T:System.Web.IHttpHandler"/> interface.
+		/// </summary>
+		/// <param name="context">An <see cref="T:System.Web.HttpContext"/> object that provides references to the intrinsic server objects (for example, <see langword="Request"/>, <see langword="Response"/>, <see langword="Session"/>, and <see langword="Server"/>)<see langword=""/> used to service HTTP requests.</param>
 		public void ProcessRequest(HttpContext context)
 		{
 			context.Response.ContentType="text/xml" ;
@@ -87,18 +95,9 @@ namespace Subtext.Framework.Tracking
 				{
 					trackbackResponse (context, 2, "Sorry couldn't find a relevant link in " + url ) ;
 				}
-
-				Entry entry = new Entry(PostType.PingTrack);
-				entry.ParentID = postId;
-				entry.Title = title;
-				entry.TitleUrl = url;
-				entry.Author = blog_name;
-				entry.Body = excerpt;
-				entry.IsActive = true;
 				
-				entry.DateCreated = entry.DateUpdated = DateTime.Now;
-
-				Entries.Create(entry);
+				Trackback trackback = new Trackback(postId, title, url, blog_name, excerpt);
+				Entries.Create(trackback);
 			}
 			else
 			{

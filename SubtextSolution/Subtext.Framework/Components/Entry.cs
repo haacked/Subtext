@@ -195,7 +195,7 @@ namespace Subtext.Framework.Components
 		/// main content of the entry.
 		/// </summary>
 		/// <value></value>
-		public virtual string Body
+		public string Body
 		{
 			get
 			{
@@ -461,6 +461,8 @@ namespace Subtext.Framework.Components
 		/// <returns></returns>
 		public static int CalculateChecksum(string text)
 		{
+			if(text == null)
+				throw new ArgumentNullException("text", "Cannot calculate checksum for null string.");
 			int checksum = 0;
 			foreach(char c in text)
 			{

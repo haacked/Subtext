@@ -186,7 +186,7 @@ namespace Subtext.Framework
 				int count = links.Count;
 
 
-				string description = null;
+				string description;
 				string blogname = Config.CurrentBlog.Title;
 				if(entry.HasDescription)
 				{
@@ -209,7 +209,7 @@ namespace Subtext.Framework
 						if(pageText != null)
 						{
 							pbnp.Ping(pageText,entry.Link,link);
-							tbnp.TrackBackPing(pageText,link,entry.Title,entry.Link,blogname,description);
+							tbnp.TrackBackPing(pageText, link, entry.Title, entry.Link, blogname, description);
 						}
 					}
 					catch(Exception e)

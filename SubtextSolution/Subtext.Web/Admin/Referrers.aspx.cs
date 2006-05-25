@@ -18,7 +18,6 @@ using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using log4net;
-using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Text;
@@ -257,12 +256,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			try
 			{
-				Entry entry = new Entry(PostType.PingTrack);
-				entry.Title = txbTitle.Text;
-				entry.Body = txbBody.Text.Trim().Length > 0 ? txbBody.Text.Trim() : txbTitle.Text;
-				entry.TitleUrl = HtmlHelper.CheckForUrl(txbUrl.Text);
-				entry.DateCreated = entry.DateUpdated = BlogTime.CurrentBloggerTime;
-				entry.ParentID = EntryID;
+				Trackback entry = new Trackback(EntryID, txbTitle.Text, HtmlHelper.CheckForUrl(txbUrl.Text), string.Empty, txbBody.Text.Trim().Length > 0 ? txbBody.Text.Trim() : txbTitle.Text, BlogTime.CurrentBloggerTime);
 
 				if( Entries.Create(entry) > 0)
 				{
