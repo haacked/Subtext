@@ -66,7 +66,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 		[SetUp]
 		public void SetUp()
 		{
-			_hostName = System.Guid.NewGuid().ToString().Replace("-", "") + ".com";
+			_hostName = UnitTestHelper.GenerateRandomHostname();
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, string.Empty);
 			CommentFilter.ClearCommentCache();
 		}

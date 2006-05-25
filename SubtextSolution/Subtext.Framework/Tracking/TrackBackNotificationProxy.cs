@@ -76,23 +76,15 @@ namespace Subtext.Framework.Tracking
 
 		private void SendPing(string trackBackItem, string parameters)
 		{
-			StreamWriter myWriter =null;
-
 			HttpWebRequest request = HttpHelper.CreateRequest(trackBackItem);
 			request.Method = "POST";
 			request.ContentLength = parameters.Length;
 			request.ContentType = "application/x-www-form-urlencoded";
 			request.KeepAlive = false;
 
-			try
+			using(StreamWriter myWriter = new StreamWriter(request.GetRequestStream()))
 			{
-				myWriter = new StreamWriter(request.GetRequestStream());
 				myWriter.Write(parameters);
-			}
-			catch{}
-			finally
-			{
-				myWriter.Close();
 			}
 		}
 
