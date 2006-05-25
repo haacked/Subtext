@@ -367,8 +367,6 @@ namespace Subtext.Framework
 
 			string entryName = StripSpaces(title, wordSeparator);
 			entryName = RemoveNonWordCharacters(entryName);
-			//Added to remove Turkish Chars - GY
-			//entryName = RemoveTurkishChars(entryName);
 			entryName = HttpUtility.UrlEncode(entryName);
 			entryName = RemoveTrailingPeriods(entryName);
 			entryName = entryName.Trim(new char[] {wordSeparator});
@@ -408,11 +406,6 @@ namespace Subtext.Framework
 				return text.Replace(' ', wordSeparator);
 			}
 		}
-
-//		static string RemoveTurkishChars(string text)
-//		{
-//			return Regex.Replace(text, @"[ügsçöiÜGISÇÖ]", "");
-//		}
 
 		static string RemoveNonWordCharacters(string text)
 		{
