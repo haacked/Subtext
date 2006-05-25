@@ -19,7 +19,7 @@ using System.Xml.Serialization;
 namespace Subtext.Framework.Components
 {
 	/// <summary>
-	/// Summary description for Link.
+	/// Summary description for Url.
 	/// </summary>
 	[Serializable]
 	public class Image

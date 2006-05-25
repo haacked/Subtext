@@ -349,7 +349,7 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 				if(posts[i].IsActive) 
 				{
 					XmlNode oFileNode = XmlUtil.AppendElement( oFilesNode, "File" ) ;
-					XmlUtil.SetAttribute( oFileNode, "name", posts[i].Title+"|"+posts[i].Link ) ;
+					XmlUtil.SetAttribute( oFileNode, "name", posts[i].Title+"|"+posts[i].Url ) ;
 					XmlUtil.SetAttribute( oFileNode, "size", posts[i].DateUpdated.ToShortDateString() ) ;
 				}
 			}

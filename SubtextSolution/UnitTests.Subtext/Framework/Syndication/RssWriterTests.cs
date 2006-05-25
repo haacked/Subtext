@@ -195,7 +195,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			entry.Author = "Phil Haack";
 			entry.Body = body;
 			entry.EntryID = id;
-			entry.Link = string.Format(CultureInfo.InvariantCulture, "http://localhost/Subtext.Web/archive/{0:yyyy/MM/dd}/{1}", dateCreated, id);
+			entry.Url = string.Format(CultureInfo.InvariantCulture, "http://localhost/Subtext.Web/archive/{0:yyyy/MM/dd}/{1}", dateCreated, id);
 			entry.DateSyndicated = entry.DateCreated;
 			
 			return entry;

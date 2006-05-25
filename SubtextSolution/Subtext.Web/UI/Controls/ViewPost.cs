@@ -82,12 +82,12 @@ namespace Subtext.Web.UI.Controls
 				{
 					if(date.Attributes["Format"] != null)
 					{
-						date.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Link, entry.DateCreated.ToString(date.Attributes["Format"]));
+						date.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Url, entry.DateCreated.ToString(date.Attributes["Format"]));
 						date.Attributes.Remove("Format");
 					}
 					else
 					{
-						date.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Link, entry.DateCreated.ToString("f"));
+						date.Text = string.Format("<a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>", entry.Url, entry.DateCreated.ToString("f"));
 					}
 				}
 
@@ -97,15 +97,15 @@ namespace Subtext.Web.UI.Controls
 					{
 						if(entry.FeedBackCount == 0)
 						{
-							commentCount.Text = string.Format(linkToComments, entry.Link, "Add Comment", "");
+							commentCount.Text = string.Format(linkToComments, entry.Url, "Add Comment", "");
 						}
 						else if(entry.FeedBackCount == 1)
 						{
-							commentCount.Text = string.Format(linkToComments, entry.Link, "One Comment", "");
+							commentCount.Text = string.Format(linkToComments, entry.Url, "One Comment", "");
 						}
 						else if(entry.FeedBackCount > 1)
 						{
-							commentCount.Text = string.Format(linkToComments, entry.Link, entry.FeedBackCount, " Comments");
+							commentCount.Text = string.Format(linkToComments, entry.Url, entry.FeedBackCount, " Comments");
 						}
 					}
 				}

@@ -270,7 +270,7 @@ namespace Subtext.Web.Admin.UserControls
 			this.lkUpdateCategories.Visible = true;
 			txbTitle.Text = currentPost.Title;
 
-			hlEntryLink.NavigateUrl = currentPost.Link;
+			hlEntryLink.NavigateUrl = currentPost.Url;
 			hlEntryLink.Text = currentPost.FullyQualifiedUrl;
 			hlEntryLink.Attributes.Add("title", "view: " + currentPost.Title);
 			hlEntryLink.Visible = true;
@@ -398,7 +398,7 @@ namespace Subtext.Web.Admin.UserControls
 				Entry updatedEntry = Entries.GetEntry(PostID, EntryGetOption.ActiveOnly);
 				if(updatedEntry != null)
 				{
-					Response.Redirect(updatedEntry.Link);
+					Response.Redirect(updatedEntry.Url);
 				}
 			}
 		}
@@ -474,7 +474,7 @@ namespace Subtext.Web.Admin.UserControls
 							Entry updatedEntry = Entries.GetEntry(PostID, EntryGetOption.ActiveOnly);
 							if(updatedEntry != null)
 							{
-								Response.Redirect(updatedEntry.Link);
+								Response.Redirect(updatedEntry.Url);
 								return;
 							}
 						}
@@ -634,7 +634,7 @@ namespace Subtext.Web.Admin.UserControls
 				Entry updatedEntry = Entries.GetEntry(PostID, EntryGetOption.ActiveOnly);
 				if(updatedEntry != null)
 				{
-					Response.Redirect(updatedEntry.Link);
+					Response.Redirect(updatedEntry.Url);
 					return;
 				}
 			}

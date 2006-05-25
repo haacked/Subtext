@@ -85,7 +85,7 @@ namespace Subtext.Web.UI.Controls
 			{
 				Entry entry = (Entry)e.Item.DataItem;
 				
-				HyperLink title = (HyperLink)e.Item.FindControl("Link");
+				HyperLink title = (HyperLink)e.Item.FindControl("Url");
 				if(title != null)
 				{
 					int commentLength = CurrentBlog.RecentCommentsLength;
@@ -102,12 +102,12 @@ namespace Subtext.Web.UI.Controls
 						}
 
 						title.Text = truncatedText + "...";
-						title.NavigateUrl = entry.Link;
+						title.NavigateUrl = entry.Url;
 					} 
 					else
 					{
 						title.Text = HtmlHelper.RemoveHtml(entry.Body);
-						title.NavigateUrl = entry.Link;
+						title.NavigateUrl = entry.Url;
 					}
 					ControlHelper.SetTitleIfNone(title, "Reader Comment.");
 				}

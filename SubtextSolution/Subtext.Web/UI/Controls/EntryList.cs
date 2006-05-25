@@ -80,15 +80,15 @@ namespace Subtext.Web.UI.Controls
 				{
 					if(entry.FeedBackCount == 0)
 					{
-						commentCount.Text = string.Format(linkToComments, entry.Link, "Add Comment", "");
+						commentCount.Text = string.Format(linkToComments, entry.Url, "Add Comment", "");
 					}
 					else if(entry.FeedBackCount == 1)
 					{
-						commentCount.Text = string.Format(linkToComments, entry.Link, "One Comment", "");
+						commentCount.Text = string.Format(linkToComments, entry.Url, "One Comment", "");
 					}
 					else if(entry.FeedBackCount > 1)
 					{
-						commentCount.Text = string.Format(linkToComments, entry.Link, entry.FeedBackCount, " Comments");
+						commentCount.Text = string.Format(linkToComments, entry.Url, entry.FeedBackCount, " Comments");
 					}
 				}
 			}
@@ -118,12 +118,12 @@ namespace Subtext.Web.UI.Controls
 			{
 				if(permalink.Attributes["Format"] != null)
 				{
-					permalink.Text = string.Format("<a href=\"{0}\" title=\"Permanent link to this post\">{1}</a>", entry.Link, entry.DateCreated.ToString(permalink.Attributes["Format"]));
+					permalink.Text = string.Format("<a href=\"{0}\" title=\"Permanent link to this post\">{1}</a>", entry.Url, entry.DateCreated.ToString(permalink.Attributes["Format"]));
 					permalink.Attributes.Remove("Format");
 				}
 				else
 				{
-					permalink.Text = string.Format("<a href=\"{0}\" title=\"Permanent link to this post\">{1}</a>", entry.Link, entry.DateCreated.ToString("f"));
+					permalink.Text = string.Format("<a href=\"{0}\" title=\"Permanent link to this post\">{1}</a>", entry.Url, entry.DateCreated.ToString("f"));
 				}
 			}
 		}
@@ -136,11 +136,11 @@ namespace Subtext.Web.UI.Controls
 						
 				if(entry.AllowComments)
 				{
-					PostDesc.Text = string.Format(postdescWithComments, entry.Link, entry.DateCreated.ToString("f"), entry.Link, entry.FeedBackCount);
+					PostDesc.Text = string.Format(postdescWithComments, entry.Url, entry.DateCreated.ToString("f"), entry.Url, entry.FeedBackCount);
 				}
 				else
 				{
-					PostDesc.Text = string.Format(postdescWithNoComments, entry.Link, entry.DateCreated.ToString("f"));
+					PostDesc.Text = string.Format(postdescWithNoComments, entry.Url, entry.DateCreated.ToString("f"));
 				}
 			}
 		}
@@ -177,7 +177,7 @@ namespace Subtext.Web.UI.Controls
 			{
 				title.Text = entry.Title;
 				ControlHelper.SetTitleIfNone(title, "Click To View Entry.");
-				title.NavigateUrl = entry.Link;
+				title.NavigateUrl = entry.Url;
 			}
 		}
 

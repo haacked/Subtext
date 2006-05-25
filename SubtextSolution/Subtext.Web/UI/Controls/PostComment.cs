@@ -114,8 +114,8 @@ namespace Subtext.Web.UI.Controls
 						}
 					}
 					coComment.PostTitle = entry.Title;
-					coComment.PostUrl = entry.Link;
-					if(entry.Link.StartsWith("/"))
+					coComment.PostUrl = entry.Url;
+					if(entry.Url.StartsWith("/"))
 					{
 						coComment.PostUrl = "http://" + Config.CurrentBlog.Host + coComment.PostUrl;
 					}
@@ -170,7 +170,7 @@ namespace Subtext.Web.UI.Controls
 						entry.Title = tbTitle.Text;
 						entry.ParentID = currentEntry.EntryID;
 						entry.SourceName = HttpHelper.GetUserIpAddress(Context);
-						entry.SourceUrl = currentEntry.Link;
+						entry.SourceUrl = currentEntry.Url;
 
 						Entries.InsertComment(entry);
 

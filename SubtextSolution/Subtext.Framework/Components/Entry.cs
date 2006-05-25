@@ -106,7 +106,7 @@ namespace Subtext.Framework.Components
 		/// <summary>
 		/// Gets a value indicating whether this entry 
 		/// has an actual Title URL that's different from 
-		/// the Link (meaning the user overrode the title 
+		/// the Url (meaning the user overrode the title 
 		/// url).
 		/// </summary>
 		/// <value>
@@ -116,7 +116,7 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				return ((TitleUrl != null) && (TitleUrl != Link));
+				return ((TitleUrl != null) && (TitleUrl != Url));
 			}
 		}
 
@@ -392,7 +392,7 @@ namespace Subtext.Framework.Components
 		/// Returns the relative URL to this entry.
 		/// </summary>
 		/// <value>The link.</value>
-		public string Link
+		public string Url
 		{
 			get
 			{

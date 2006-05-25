@@ -275,7 +275,7 @@ namespace Subtext.Framework
 				&& entry.Title.Length > 0)
 			{
 				entry.EntryName = AutoGenerateFriendlyUrl(entry.Title);
-				entry.TitleUrl = entry.Link;
+				entry.TitleUrl = entry.Url;
 			}
 			
 			if(NullValue.IsNull(entry.DateCreated))

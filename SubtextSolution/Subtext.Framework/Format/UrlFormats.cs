@@ -109,7 +109,7 @@ namespace Subtext.Framework.Format
 
 		public virtual string CommentUrl(Entry parentEntry, Entry childEntry)
 		{
-			return string.Format(CultureInfo.InvariantCulture, "{0}#{1}", parentEntry.Link, childEntry.EntryID);
+			return string.Format(CultureInfo.InvariantCulture, "{0}#{1}", parentEntry.Url, childEntry.EntryID);
 		}
 
 		public virtual string CommentUrl(Entry entry)
@@ -280,7 +280,7 @@ namespace Subtext.Framework.Format
     	}
 
 		/// <summary>
-		/// Builds the <see cref="HyperLink"/>.NavigateUrl for an EditPost Link by determining
+		/// Builds the <see cref="HyperLink"/>.NavigateUrl for an EditPost Url by determining
 		/// the current Subfolder and adding it to the URL if necessary.
 		/// </summary>
 		/// <param name="entry">The entry to be edited</param>
