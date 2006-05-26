@@ -15,9 +15,7 @@
 
 using System;
 using System.Globalization;
-using System.Web.Caching;
 using System.Web.UI.WebControls;
-using System.Xml;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
