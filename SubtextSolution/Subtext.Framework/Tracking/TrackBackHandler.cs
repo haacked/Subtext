@@ -115,22 +115,23 @@ namespace Subtext.Framework.Tracking
 
 		private void CreateTrackbackAndSendResponse(HttpContext context, int postId)
 		{
-			string title     = SafeParam(context, "title") ;
-			string excerpt   = SafeParam(context, "excerpt") ;
-			string urlText       = SafeParam(context, "url");
-			string blog_name = SafeParam(context, "blog_name") ;
+			string title     = SafeParam(context, "title");
+			string excerpt   = SafeParam(context, "excerpt");
+			string urlText   = SafeParam(context, "url");
+			string blog_name = SafeParam(context, "blog_name");
 		
 			Uri url = HtmlHelper.ParseUri(urlText);
 			if(url == null)
 			{
-				SendTrackbackResponse(context, 1, "no url parameter found, please try harder!") ;
+				SendTrackbackResponse(context, 1, "no url parameter found, please try harder!");
 				return;
 			}
 		
 			Entry trackedEntry = Entries.GetEntry(postId, EntryGetOption.ActiveOnly);
-			if (trackedEntry != null && !IsSourceVerification(url, trackedEntry.FullyQualifiedUrl))
+			if (trackedEntry == null || !IsSourceVerification(url, trackedEntry.FullyQualifiedUrl))
 			{
-				SendTrackbackResponse(context, 2, "Sorry couldn't find a relevant link in " + url ) ;
+				SendTrackbackResponse(context, 2, "Sorry couldn't find a relevant link in " + url );
+				return;
 			}
 
 			Trackback trackback = new Trackback(postId, title, url.ToString(), blog_name, excerpt);
@@ -255,6 +256,3 @@ namespace Subtext.Framework.Tracking
 		
 	}
 }
-
-
-

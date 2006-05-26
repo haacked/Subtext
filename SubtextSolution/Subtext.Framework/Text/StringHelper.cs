@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Specialized;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 // adapted from namespace Haack.Text
 namespace Subtext.Framework.Text
@@ -384,6 +385,17 @@ namespace Subtext.Framework.Text
 			return (str == null || str.Length==0) ? null : str;
 		}
 		
+		/// <summary>
+		/// Determines whether the specified text is a numeric.
+		/// </summary>
+		/// <param name="text">The text.</param>
+		/// <returns>
+		/// 	<c>true</c> if the specified text is numeric; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool IsNumeric(string text)
+		{
+			return Regex.IsMatch(text,"^\\d+$");
+		}
 	}
 	
 	public enum ComparisonType

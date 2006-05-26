@@ -32,6 +32,11 @@ namespace Subtext.Framework.Util
 
 		}
 
+		/// <summary>
+		/// Parses out the year from the request.
+		/// </summary>
+		/// <param name="uri">The URI.</param>
+		/// <returns></returns>
 		public static int YearFromRequest(string uri)
 		{
 			return GetEntryIDFromUrl(uri);
@@ -56,13 +61,6 @@ namespace Subtext.Framework.Util
 		}
 
 		private static readonly string[] dateFormats = {"yyyy/MM/d","yyyy/MM/dd","yyyy/M/dd","yyyy/M/d","yyyy/MM","yyyy/M"};
-		
-
-
-		public static bool IsNumeric(string text)
-		{
-			return Regex.IsMatch(text,"^\\d+$");
-		}
 
 		/// <summary>
 		/// Return the value of a url between /category/ and /rss
@@ -92,6 +90,8 @@ namespace Subtext.Framework.Util
 		/// <summary>
 		/// Gets the entry ID from URL.
 		/// </summary>
+		/// <exception type="ArgumentNullException">Thrown if the specified url is null.</exception>
+		/// <exception type="ArgumentException">Thrown if the specified url does not have an entry id.</exception>
 		/// <param name="url">The URI.</param>
 		/// <returns></returns>
 		public static int GetEntryIDFromUrl(string url)
@@ -99,29 +99,14 @@ namespace Subtext.Framework.Util
 			if(url == null)
 				throw new ArgumentNullException("uri", "Cannot get entry id from a null url.");
 			
-			return Int32.Parse(Path.GetFileNameWithoutExtension(url));
-		}
-
-		public static string GetBlogAppFromRequest(string path, string app)
-		{
-			if(!app.StartsWith("/"))
+			try
 			{
-				app = "/" + app;
+				return Int32.Parse(Path.GetFileNameWithoutExtension(url));
 			}
-			if(!app.EndsWith("/"))
+			catch(System.FormatException e)
 			{
-				app += "/";
+				throw new ArgumentException("The specified URL does not contain an entry id.", "url", e);
 			}
-			if(path.StartsWith(app))
-			{
-				path = path.Remove(0,app.Length);
-			}
-			int lastSlash = path.IndexOf("/");
-			if(lastSlash > -1)
-			{
-				path = path.Remove(lastSlash,path.Length -lastSlash);
-			}
-			return path;
 		}
 	}
 }
