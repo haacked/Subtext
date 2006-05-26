@@ -39,5 +39,31 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 			Entry activeTrackback = Entries.GetEntry(id, EntryGetOption.ActiveOnly);
 			Assert.IsNotNull(activeTrackback, "The trackback was not active.");
 		}
+		
+		/// <summary>
+		/// Make sure that trackbacks show up when displaying feedback for an entry.
+		/// </summary>
+		[Test]
+		[RollBack]
+		public void TrackbackShowsUpInFeedbackList()
+		{
+			string hostname = UnitTestHelper.GenerateRandomHostname();
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, "blog"));
+			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "blog", string.Empty);
+			
+			Entry parentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("philsath aeuoa asoeuhtoensth", "sntoehu title aoeuao eu", "snaot hu aensaoehtu body");
+			int parentId = Entries.Create(parentEntry);
+			
+			EntryCollection entries = Entries.GetFeedBack(parentEntry);
+			Assert.AreEqual(0, entries.Count, "Did not expect any feedback yet.");
+			
+			Trackback trackback = new Trackback(parentId, "title", "titleUrl", "phil", "body");
+			Config.CurrentBlog.DuplicateCommentsEnabled = true;
+			int trackbackId = Entries.Create(trackback);
+			
+			entries = Entries.GetFeedBack(parentEntry);
+			Assert.AreEqual(1, entries.Count, "Expected a trackback.");
+			Assert.AreEqual(trackbackId, entries[0].EntryID, "The feedback was not the same one we expected. The IDs do not match.");
+		}
 	}
 }
