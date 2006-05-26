@@ -14,7 +14,6 @@
 #endregion
 
 using System;
-using System.Globalization;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 
@@ -22,7 +21,6 @@ namespace Subtext.Web.Admin.Pages
 {
 	public class EditPreferences : AdminOptionsPage
 	{
-		protected System.Web.UI.WebControls.DropDownList ddlPageSize;
 		protected System.Web.UI.WebControls.DropDownList ddlPublished;
 		protected System.Web.UI.WebControls.DropDownList ddlExpandAdvanced;
 		protected System.Web.UI.WebControls.Button lkbUpdate;
@@ -40,9 +38,6 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindLocalUI()
 		{
-			ddlPageSize.SelectedIndex = -1;
-			ddlPageSize.Items.FindByValue(Preferences.ListingItemCount.ToString(CultureInfo.InvariantCulture)).Selected = true;
-
 			ddlPublished.SelectedIndex = -1;
 			ddlPublished.Items.FindByValue(Preferences.AlwaysCreateIsActive ? "true" : "false").Selected = true;
 
@@ -75,11 +70,7 @@ namespace Subtext.Web.Admin.Pages
 		#endregion
 
 		private void lkbUpdate_Click(object sender, System.EventArgs e)
-		{
-			int pageSize = Int32.Parse(ddlPageSize.SelectedItem.Value);
-			if (pageSize > 0)
-				Preferences.ListingItemCount = pageSize;	
-	
+		{	
 			bool published = Boolean.Parse(ddlPublished.SelectedItem.Value);
 			Preferences.AlwaysCreateIsActive = published;
 
@@ -87,7 +78,6 @@ namespace Subtext.Web.Admin.Pages
 			Preferences.AlwaysExpandAdvanced = alwaysExpand;
 
 			BlogInfo info  = Config.CurrentBlog;
-			info.ItemCount = pageSize;
 			info.AutoFriendlyUrlEnabled = this.chkAutoGenerate.Checked;
 			Config.UpdateConfigData(info);
 		}
