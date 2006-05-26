@@ -56,7 +56,7 @@ namespace Subtext.Framework.Web
 		/// </summary>
 		/// <param name="url">The URL.</param>
 		/// <returns></returns>
-		public static HttpWebRequest CreateRequest(string url) 
+		public static HttpWebRequest CreateRequest(Uri url) 
 		{
 			WebRequest req = WebRequest.Create(url);
 			
@@ -75,7 +75,7 @@ namespace Subtext.Framework.Web
 		/// </summary>
 		/// <param name="url">The URL.</param>
 		/// <returns></returns>
-		public static HttpWebResponse GetResponse(string url)
+		public static HttpWebResponse GetResponse(Uri url)
 		{
 			HttpWebRequest request = CreateRequest(url);
 			return (HttpWebResponse)request.GetResponse() ;
@@ -86,7 +86,7 @@ namespace Subtext.Framework.Web
 		/// </summary>
 		/// <param name="url">The URL.</param>
 		/// <returns></returns>
-		public static string GetPageText(string url)
+		public static string GetPageText(Uri url)
 		{
 			HttpWebResponse response = GetResponse(url);
 			using (Stream s = response.GetResponseStream())

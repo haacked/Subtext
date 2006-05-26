@@ -15,6 +15,7 @@
 
 using System;
 using System.Globalization;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Web;
 using Subtext.Common.Data;
@@ -78,7 +79,7 @@ namespace Subtext.Web.UI.Handlers
 			}
 			else if(Regex.IsMatch(uri,"/posts/|/story/",RegexOptions.IgnoreCase))
 			{
-				string entryName = WebPathStripper.GetRequestedFileName(uri);
+				string entryName = Path.GetFileNameWithoutExtension(uri);
 				Entry entry = null;
 				if(WebPathStripper.IsNumeric(entryName))
 				{

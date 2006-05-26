@@ -200,10 +200,10 @@ namespace Subtext.Framework.Syndication
 				//(Duncanma 11/13/2005, changing alternate to self for 1.0 feed)
 				this.WriteAttributeString("rel", "self");
 				this.WriteAttributeString("type", "text/html");
-				this.WriteAttributeString("href", entry.FullyQualifiedUrl);
+				this.WriteAttributeString("href", entry.FullyQualifiedUrl.ToString());
 				this.WriteEndElement();
 
-				this.WriteElementString("id", entry.FullyQualifiedUrl);
+				this.WriteElementString("id", entry.FullyQualifiedUrl.ToString());
 
 				//(Duncanma 11/13/2005, hiding created, change issued to
 			    //published and modified to updated for 1.0 feed)

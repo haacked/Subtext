@@ -38,6 +38,7 @@ using System.Web;
 using System.Xml;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Logging;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
 
@@ -48,6 +49,8 @@ namespace Subtext.Framework.Tracking
 	/// </summary>
 	public class TrackBackHandler : IHttpHandler
 	{
+		static Log Log = new Log();
+		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TrackBackHandler"/> class.
 		/// </summary>
@@ -70,88 +73,188 @@ namespace Subtext.Framework.Tracking
 			{
 				postId = WebPathStripper.GetEntryIDFromUrl(context.Request.Path);
 			}
-			catch 
+			catch(ArgumentException e)
 			{
-				trackbackResponse(context, 1, "EntryID is invalid or missing") ;
+				Log.Info("Could not extract entry id from incoming URL." + e.Message, e);
+				SendTrackbackResponse(context, 1, "EntryID is invalid or missing") ;
 			}
 
 			if(context.Request.HttpMethod == "POST")
 			{
-				string title     = safeParam(context,"title") ;
-				string excerpt   = safeParam(context,"excerpt") ;
-				string url       = safeParam(context,"url");
-				string blog_name = safeParam(context,"blog_name") ;
-
-				// is the url valid ?
-				if (url.Length == 0)
-				{
-					trackbackResponse(context, 1, "no url parameter found, please try harder!") ;
-				}
-	
-				string pageTitle;
-				Entry trackedEntry = Entries.GetEntry(postId, EntryGetOption.ActiveOnly);
-				if (trackedEntry != null &&  !Verifier.SourceContainsTarget(url, trackedEntry.FullyQualifiedUrl, out pageTitle))
-				{
-					trackbackResponse (context, 2, "Sorry couldn't find a relevant link in " + url ) ;
-				}
-
-				Trackback trackback = new Trackback(postId, title, url, blog_name, excerpt);
-				Entries.Create(trackback);
+				CreateTrackbackAndSendResponse(context, postId);
 			}
 			else
 			{
-				Entry entry = Entries.GetEntry(postId, EntryGetOption.ActiveOnly);
-
-				XmlTextWriter w = new XmlTextWriter(context.Response.Output) ;
-				w.Formatting = Formatting.Indented;
-
-				w.WriteStartDocument() ;
-				w.WriteStartElement("response") ;
-				w.WriteElementString("error", "0") ;
-				w.WriteStartElement("rss") ;
-				w.WriteAttributeString("version", "0.91") ;
-				w.WriteStartElement("channel") ;
-				w.WriteElementString("title", entry.Title ) ;
-				w.WriteElementString("link", Config.CurrentBlog.UrlFormats.TrackBackUrl(postId));
-				w.WriteElementString("description", "" ) ;
-				w.WriteElementString("language", "en-us" ) ;
-
-				w.WriteEndElement(); // channel
-				w.WriteEndElement(); // rss 
-				w.WriteEndElement(); // response
-				w.WriteEndDocument();
+				SendTrackbackRss(context, postId);
 			}
 		}
 
+		private static void SendTrackbackRss(HttpContext context, int postId)
+		{
+			Entry entry = Entries.GetEntry(postId, EntryGetOption.ActiveOnly);
+
+			XmlTextWriter w = new XmlTextWriter(context.Response.Output) ;
+			w.Formatting = Formatting.Indented;
+
+			w.WriteStartDocument() ;
+			w.WriteStartElement("response") ;
+			w.WriteElementString("error", "0") ;
+			w.WriteStartElement("rss") ;
+			w.WriteAttributeString("version", "0.91") ;
+			w.WriteStartElement("channel") ;
+			w.WriteElementString("title", entry.Title ) ;
+			w.WriteElementString("link", Config.CurrentBlog.UrlFormats.TrackBackUrl(postId));
+			w.WriteElementString("description", "" ) ;
+			w.WriteElementString("language", "en-us" ) ;
+
+			w.WriteEndElement(); // channel
+			w.WriteEndElement(); // rss 
+			w.WriteEndElement(); // response
+			w.WriteEndDocument();
+		}
+
+		private void CreateTrackbackAndSendResponse(HttpContext context, int postId)
+		{
+			string title     = SafeParam(context, "title") ;
+			string excerpt   = SafeParam(context, "excerpt") ;
+			string urlText       = SafeParam(context, "url");
+			string blog_name = SafeParam(context, "blog_name") ;
+		
+			Uri url = HtmlHelper.ParseUri(urlText);
+			if(url == null)
+			{
+				SendTrackbackResponse(context, 1, "no url parameter found, please try harder!") ;
+				return;
+			}
+		
+			Entry trackedEntry = Entries.GetEntry(postId, EntryGetOption.ActiveOnly);
+			if (trackedEntry != null && !IsSourceVerification(url, trackedEntry.FullyQualifiedUrl))
+			{
+				SendTrackbackResponse(context, 2, "Sorry couldn't find a relevant link in " + url ) ;
+			}
+
+			Trackback trackback = new Trackback(postId, title, url.ToString(), blog_name, excerpt);
+			Entries.Create(trackback);
+		}
+		
+		/// <summary>
+		/// Gets a value indicating whether another request can use
+		/// the <see cref="T:System.Web.IHttpHandler"/>
+		/// instance.
+		/// </summary>
+		/// <value></value>
 		public bool IsReusable
 		{
 			get { return true; }
 		}
 
-		private void trackbackResponse(HttpContext context, int errNum, string errText)
+		private void SendTrackbackResponse(HttpContext context, int errNum, string errText)
 		{
-			XmlDocument d = new XmlDocument() ;
-			XmlElement root = d.CreateElement("response") ;
+			XmlDocument d = new XmlDocument();
+			XmlElement root = d.CreateElement("response");
 			d.AppendChild(root) ;
-			XmlElement er = d.CreateElement("error") ;
+			XmlElement er = d.CreateElement("error");
 			root.AppendChild(er) ;
-			er.AppendChild(d.CreateTextNode(errNum.ToString(CultureInfo.InvariantCulture))) ;
+			er.AppendChild(d.CreateTextNode(errNum.ToString(CultureInfo.InvariantCulture)));
 			if (errText.Length > 0)
 			{
-				XmlElement msg = d.CreateElement("message") ;
+				XmlElement msg = d.CreateElement("message");
 				root.AppendChild(msg) ;
-				msg.AppendChild(d.CreateTextNode(errText)) ;
+				msg.AppendChild(d.CreateTextNode(errText));
 			}
-			d.Save ( context.Response.Output ) ;
-			context.Response.End() ;
+			d.Save(context.Response.Output);
+			context.Response.Output.Flush();
 		}
 
-		private string safeParam(HttpContext context,string pName)
+		private string SafeParam(HttpContext context, string pName)
 		{
-			if ( context.Request.Form[pName] != null )
+			if (context.Request.Form[pName] != null)
 				return HtmlHelper.SafeFormat(context.Request.Form[pName]);
-			return  string.Empty;
+			return string.Empty;
+		}
+		
+		public delegate void SourceVerificationEventHandler(object sender, SourceVerificationEventArgs e);
+		
+		public event SourceVerificationEventHandler SourceVerification;
+		
+		private bool IsSourceVerification(Uri sourceUrl, Uri entryUrl)
+		{
+			SourceVerificationEventHandler handler = SourceVerification;
+			if(handler != null)
+			{
+				SourceVerificationEventArgs args = new SourceVerificationEventArgs(sourceUrl, entryUrl);
+				handler(this, args);
+				return args.Verified;
+			}
+			else
+			{
+				return Verifier.SourceContainsTarget(sourceUrl, entryUrl);
+			}
 		}
 	}
+	
+	/// <summary>
+	/// Event arguments for the SourceVerification event.
+	/// </summary>
+	public class SourceVerificationEventArgs : EventArgs
+	{
+		Uri sourceUrl;
+		Uri entryUrl;
+		bool verified;
+		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SourceVerificationEventArgs"/> class.
+		/// </summary>
+		/// <param name="sourceUrl">The source URL.</param>
+		/// <param name="entryUrl">The entry URL.</param>
+		public SourceVerificationEventArgs(Uri sourceUrl, Uri entryUrl) : base()
+		{
+			this.sourceUrl = sourceUrl;
+			this.entryUrl = entryUrl;
+		}
+		
+		/// <summary>
+		/// Gets the source URL.
+		/// </summary>
+		/// <value>The source URL.</value>
+		public Uri SourceUrl
+		{
+			get
+			{
+				return this.sourceUrl;
+			}
+		}
+		
+		/// <summary>
+		/// Gets the entry URL.
+		/// </summary>
+		/// <value>The entry URL.</value>
+		public Uri EntryUrl
+		{
+			get
+			{
+				return this.entryUrl;
+			}
+		}
+		
+		/// <summary>
+		/// Gets a value indicating whether this <see cref="SourceVerificationEventArgs"/> is verified.
+		/// </summary>
+		/// <value><c>true</c> if verified; otherwise, <c>false</c>.</value>
+		public bool Verified
+		{
+			get
+			{
+				return this.verified;
+			}
+			set
+			{
+				verified = value;
+			}
+		}
+		
+	}
 }
+
+
 

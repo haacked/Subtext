@@ -55,7 +55,7 @@ namespace Subtext.Framework.Tracking
 			get{return errormessage;}
 		}
 
-		public bool Ping(string pageText,string sourceURI, string targetURI)
+		public bool Ping(string pageText, Uri sourceURI, Uri targetURI)
 		{
 			string pingbackURL = GetPingBackURL(pageText, sourceURI);
 			if(pingbackURL != null)
@@ -63,7 +63,7 @@ namespace Subtext.Framework.Tracking
 				this.Url = pingbackURL;
 				try
 				{
-					Notifiy(sourceURI,targetURI);
+					Notifiy(sourceURI.ToString(), targetURI.ToString());
 					return true;
 				}
 				catch(Exception ex)
@@ -75,9 +75,9 @@ namespace Subtext.Framework.Tracking
 
 		}
 
-		private string GetPingBackURL(string pageText, string PostUrl)
+		private string GetPingBackURL(string pageText, Uri postUrl)
 		{
-			if(!Regex.IsMatch(pageText, PostUrl, RegexOptions.IgnoreCase | RegexOptions.Singleline))
+			if(!Regex.IsMatch(pageText, postUrl.ToString(), RegexOptions.IgnoreCase | RegexOptions.Singleline))
 			{
 				if(pageText != null)
 				{
@@ -96,7 +96,7 @@ namespace Subtext.Framework.Tracking
 		[XmlRpcMethod("pingback.ping")]
 		public void Notifiy(string sourceURI , string targetURI )
 		{
-			Invoke("Notifiy",new object[] {sourceURI,targetURI});
+			Invoke("Notifiy", new object[] {sourceURI,targetURI});
 		}
 
 	}

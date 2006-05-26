@@ -123,8 +123,8 @@ namespace Subtext.Framework.Tracking
 			set{fullyQualifiedUrl = value;}
 		}
 
-		private string postUrl;
-		public string PostUrl
+		private Uri postUrl;
+		public Uri PostUrl
 		{
 			get{return postUrl;}
 			set{postUrl = value;}
@@ -179,7 +179,11 @@ namespace Subtext.Framework.Tracking
 				foreach(string link in links)
 				{
 					//get the page text
-					string pageText = HttpHelper.GetPageText(link);
+					Uri url = HtmlHelper.ParseUri(link);
+					if(url == null)
+						continue;
+							
+					string pageText = HttpHelper.GetPageText(url);
 					if(pageText != null)
 					{
 						bool success = false;
@@ -187,12 +191,12 @@ namespace Subtext.Framework.Tracking
 						{
 							if(track.EnableTrackBacks)
 							{
-								success = tbnp.TrackBackPing(pageText,link,Title,PostUrl,BlogName,Description);
+								success = tbnp.TrackBackPing(pageText, url, Title, PostUrl, BlogName, Description);
 							}
 			
 							if(!success && track.EnablePingBacks)
 							{
-								pbnp.Ping(pageText,PostUrl,link);						
+								pbnp.Ping(pageText, PostUrl, url);						
 							}
 						}
 						catch(System.Exception exp)

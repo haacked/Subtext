@@ -401,7 +401,7 @@ namespace Subtext.Framework.Components
 			set
 			{
 				_url = value;
-				_fullyQualifiedLink = Config.CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(this);
+				_fullyQualifiedLink = new Uri(Config.CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(this));
 				
 			}
 		}
@@ -410,14 +410,14 @@ namespace Subtext.Framework.Components
 		/// Gets the fully qualified url to this entry.
 		/// </summary>
 		/// <value>The fully qualified link.</value>
-		public string FullyQualifiedUrl
+		public Uri FullyQualifiedUrl
 		{
 			get
 			{
 				return _fullyQualifiedLink;
 			}
 		}
-		string _fullyQualifiedLink;
+		Uri _fullyQualifiedLink;
 		
 		/// <summary>
 		/// This is a checksum of the entry text combined with 

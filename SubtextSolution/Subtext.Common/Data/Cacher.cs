@@ -15,6 +15,7 @@
 
 using System;
 using System.Globalization;
+using System.IO;
 using System.Web;
 using System.Web.Caching;
 using Subtext.Framework;
@@ -151,7 +152,7 @@ namespace Subtext.Common.Data
 		public static LinkCategory SingleCategory(CacheDuration cacheDuration)
 		{
 			string path = WebPathStripper.RemoveRssSlash(HttpContext.Current.Request.Path);
-			string CategoryName = WebPathStripper.GetRequestedFileName(path);
+			string CategoryName = Path.GetFileNameWithoutExtension(path);
 			if(WebPathStripper.IsNumeric(CategoryName))
 			{
 				int CategoryID =Int32.Parse(CategoryName);
@@ -197,7 +198,7 @@ namespace Subtext.Common.Data
 
 		public static Entry GetEntryFromRequest(CacheDuration cacheDuration)
 		{
-			string id = WebPathStripper.GetRequestedFileName(HttpContext.Current.Request.Path);
+			string id = Path.GetFileNameWithoutExtension(HttpContext.Current.Request.Path);
 
 			if(WebPathStripper.IsNumeric(id))
 			{

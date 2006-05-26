@@ -35,7 +35,7 @@ namespace Subtext.Web.SystemMessages
 		{
 			//TODO: Refactor this into a method and unit test it.
 			//Multiple blog handling.
-			string queryString = string.Empty;
+			string queryString;
 			if(Request.QueryString.Count == 0)
 			{
 				return;
@@ -48,32 +48,26 @@ namespace Subtext.Web.SystemMessages
 				string urlText = StringHelper.RightAfter(queryString, ";");
 				if(urlText != null && urlText.Length > 0)
 				{
-					try
-					{
-						Uri uri = new Uri(urlText);
+					Uri uri = HtmlHelper.ParseUri(urlText);
+					if(uri == null)
+						return;
 
-						string extension = Path.GetExtension(uri.AbsolutePath);
-						if(extension == null || extension.Length == 0)
-						{
-							string uriAbsolutePath = uri.AbsolutePath;
-							if(!uriAbsolutePath.EndsWith("/"))
-							{
-								uriAbsolutePath += "/";
-							}
-							string subfolder = UrlFormats.GetBlogSubfolderFromRequest(uriAbsolutePath, Request.ApplicationPath);
-							BlogInfo info = Subtext.Framework.Configuration.Config.GetBlogInfo(uri.Host, subfolder);
-							if(info != null)
-							{
-								Response.Redirect(uriAbsolutePath + "Default.aspx");
-								return;
-							}
-						}
-					}
-					catch(UriFormatException)
+					string extension = Path.GetExtension(uri.AbsolutePath);
+					if(extension == null || extension.Length == 0)
 					{
-						//Do nothing...
-					}
-					
+						string uriAbsolutePath = uri.AbsolutePath;
+						if(!uriAbsolutePath.EndsWith("/"))
+						{
+							uriAbsolutePath += "/";
+						}
+						string subfolder = UrlFormats.GetBlogSubfolderFromRequest(uriAbsolutePath, Request.ApplicationPath);
+						BlogInfo info = Subtext.Framework.Configuration.Config.GetBlogInfo(uri.Host, subfolder);
+						if(info != null)
+						{
+							Response.Redirect(uriAbsolutePath + "Default.aspx");
+							return;
+						}
+					}					
 				}
 			}
 

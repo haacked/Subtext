@@ -433,5 +433,25 @@ namespace Subtext.Framework.Text
 			}
 			return links;	
 		}
+		
+		/// <summary>
+		/// Parses the URI.
+		/// </summary>
+		/// <param name="uri">The URI.</param>
+		/// <returns></returns>
+		public static Uri ParseUri(string uri)
+		{
+			if(uri == null)
+				return null;
+
+			try
+			{
+				return new Uri(uri);
+			}
+			catch(UriFormatException)
+			{
+				return null;
+			}
+		}
 	}
 }

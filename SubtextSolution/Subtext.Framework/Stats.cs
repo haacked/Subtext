@@ -205,11 +205,16 @@ namespace Subtext.Framework
 					try
 					{
 						string link = links[i];
-						string pageText = HttpHelper.GetPageText(link);
+						Uri url = HtmlHelper.ParseUri(link);
+						if(url == null)
+							continue;
+						
+						string pageText = HttpHelper.GetPageText(url);
+						
 						if(pageText != null)
 						{
-							pbnp.Ping(pageText, entry.FullyQualifiedUrl, link);
-							tbnp.TrackBackPing(pageText, link, entry.Title, entry.FullyQualifiedUrl, blogname, description);
+							pbnp.Ping(pageText, entry.FullyQualifiedUrl, url);
+							tbnp.TrackBackPing(pageText, url, entry.Title, entry.FullyQualifiedUrl, blogname, description);
 						}
 					}
 					catch(Exception e)
