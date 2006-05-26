@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Specialized;
 using System.IO;
+using System.Text;
 using System.Web.Hosting;
 
 namespace UnitTests.Subtext
@@ -83,6 +84,19 @@ namespace UnitTests.Subtext
 		}
 
 		private NameValueCollection headers = new NameValueCollection();
+		
+		/// <summary>
+		/// Gets the format exception.
+		/// </summary>
+		/// <value>The format exception.</value>
+		public NameValueCollection Form
+		{
+			get
+			{
+				return formVariables;
+			}
+		}
+		private NameValueCollection formVariables = new NameValueCollection();
 
 		/// <summary>
 		/// Get all nonstandard HTTP header name-value pairs.
@@ -115,6 +129,35 @@ namespace UnitTests.Subtext
 		{
 			string appPath = base.GetAppPath();
 			return appPath;
-		}	
+		}
+		
+		/// <summary>
+		/// Reads request data from the client (when not preloaded).
+		/// </summary>
+		/// <returns>The number of bytes read.</returns>
+		public override byte[] GetPreloadedEntityBody()
+		{
+			string formText = string.Empty;
+			
+			foreach(string key in this.formVariables.Keys)
+			{
+				formText += string.Format("{0}={1}&", key, this.formVariables[key]);
+			}
+			
+			return Encoding.UTF8.GetBytes(formText);
+		}
+		
+		/// <summary>
+		/// Returns a value indicating whether all request data
+		/// is available and no further reads from the client are required.
+		/// </summary>
+		/// <returns>
+		/// 	<see langword="true"/> if all request data is available; otherwise,
+		/// <see langword="false"/>.
+		/// </returns>
+		public override bool IsEntireEntityBodyIsPreloaded()
+		{
+			return true;
+		}
 	}
 }

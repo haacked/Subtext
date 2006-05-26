@@ -20,6 +20,7 @@ using System.Web;
 using System.Web.Caching;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Text;
 using Subtext.Framework.Util;
 
 namespace Subtext.Common.Data
@@ -153,7 +154,7 @@ namespace Subtext.Common.Data
 		{
 			string path = WebPathStripper.RemoveRssSlash(HttpContext.Current.Request.Path);
 			string CategoryName = Path.GetFileNameWithoutExtension(path);
-			if(WebPathStripper.IsNumeric(CategoryName))
+			if(StringHelper.IsNumeric(CategoryName))
 			{
 				int CategoryID =Int32.Parse(CategoryName);
 				return SingleCategory(cacheDuration, CategoryID);
@@ -200,7 +201,7 @@ namespace Subtext.Common.Data
 		{
 			string id = Path.GetFileNameWithoutExtension(HttpContext.Current.Request.Path);
 
-			if(WebPathStripper.IsNumeric(id))
+			if(StringHelper.IsNumeric(id))
 			{
 				return GetSingleEntry(Int32.Parse(id), cacheDuration);
 			}
