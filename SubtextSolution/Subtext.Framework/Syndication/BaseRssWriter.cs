@@ -254,7 +254,7 @@ namespace Subtext.Framework.Syndication
 		{
 			//core
 			this.WriteElementString("title", entry.Title);
-			this.WriteElementString("link", entry.FullyQualifiedUrl);
+			this.WriteElementString("link", entry.FullyQualifiedUrl.ToString());
 			this.WriteElementString
 			(
 				"description", //Tag
@@ -268,7 +268,7 @@ namespace Subtext.Framework.Syndication
 			//TODO: Perform real email auth.
 			if(entry.Email != null && entry.Email.Length > 0 && entry.Email.IndexOf('@') > 0)
 				this.WriteElementString("author", entry.Email);
-			this.WriteElementString("guid", entry.FullyQualifiedUrl);
+			this.WriteElementString("guid", entry.FullyQualifiedUrl.ToString());
 			this.WriteElementString("pubDate", entry.DateCreated.ToString("r"));			
 			
 

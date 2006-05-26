@@ -90,25 +90,16 @@ namespace Subtext.Framework.Util
 		}
 
 		/// <summary>
-		/// Gets the name of the requested file.
+		/// Gets the entry ID from URL.
 		/// </summary>
-		/// <param name="uri">The URI.</param>
+		/// <param name="url">The URI.</param>
 		/// <returns></returns>
-		public static string GetRequestedFileName(string uri)
+		public static int GetEntryIDFromUrl(string url)
 		{
-			return Path.GetFileNameWithoutExtension(uri);
-		}
-
-		public static int GetEntryIDFromUrl(string uri)
-		{
-			try
-			{
-				return Int32.Parse(GetRequestedFileName(uri));
-			}
-			catch
-			{
-				throw new ArgumentException("Invalid Uri. Integer can not be found");
-			}			
+			if(url == null)
+				throw new ArgumentNullException("uri", "Cannot get entry id from a null url.");
+			
+			return Int32.Parse(Path.GetFileNameWithoutExtension(url));
 		}
 
 		public static string GetBlogAppFromRequest(string path, string app)

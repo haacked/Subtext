@@ -145,6 +145,11 @@ namespace UnitTests.Subtext
 
 		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string virtualDir, string page, TextWriter output)
 		{
+			return SetHttpContextWithBlogRequest(host, subfolder, virtualDir, page, output, "GET");
+		}
+		
+		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string virtualDir, string page, TextWriter output, string httpVerb)
+		{
 			HttpContext.Current = null;
 			virtualDir = UrlFormats.StripSurroundingSlashes(virtualDir);	// Subtext.Web
 			subfolder = StripSlashes(subfolder);		// MyBlog
@@ -167,7 +172,7 @@ namespace UnitTests.Subtext
 
 			string query = string.Empty;
 
-			SimulatedHttpRequest workerRequest = new SimulatedHttpRequest(virtualDir, appPhysicalDir, page, query, output, host);
+			SimulatedHttpRequest workerRequest = new SimulatedHttpRequest(virtualDir, appPhysicalDir, page, query, output, host, httpVerb);
 			HttpContext.Current = new HttpContext(workerRequest);
 			HttpContext.Current.Items.Clear();
 			HttpContext.Current.Cache.Remove("BlogInfo-");

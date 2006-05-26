@@ -34,6 +34,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
+using Subtext.Framework.Text;
 using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Tracking
@@ -42,7 +43,7 @@ namespace Subtext.Framework.Tracking
 	/// Summary description for TrackBackNotificationProxy.
 	/// </summary>
 	public class TrackBackNotificationProxy
-	{
+	{	
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TrackBackNotificationProxy"/> class.
 		/// </summary>
@@ -56,9 +57,9 @@ namespace Subtext.Framework.Tracking
 			
 		}
 
-		public bool TrackBackPing(string pageText,string url, string title, string link, string blogname, string description)
+		public bool TrackBackPing(string pageText, Uri url, string title, Uri link, string blogname, string description)
 		{
-			string trackBackItem = GetTrackBackText(pageText,url,link);
+			string trackBackItem = GetTrackBackText(pageText, url, link);
 			if(trackBackItem != null)
 			{
 				if(!trackBackItem.ToLower(System.Globalization.CultureInfo.InvariantCulture).StartsWith("http://"))
@@ -66,15 +67,18 @@ namespace Subtext.Framework.Tracking
 					trackBackItem = "http://" + trackBackItem;
 				}
 
-				string parameters = "title=" + HtmlEncode(title) + "&url=" + HtmlEncode(link) + "&blog_name=" + HtmlEncode(blogname) + "&excerpt=" + HtmlEncode(description);
+				string parameters = "title=" + HtmlEncode(title) + "&url=" + HtmlEncode(link.ToString()) + "&blog_name=" + HtmlEncode(blogname) + "&excerpt=" + HtmlEncode(description);
 
-				
-				SendPing(trackBackItem, parameters);
+				Uri trackBackUrl = HtmlHelper.ParseUri(trackBackItem);
+				if(trackBackUrl != null)
+				{
+					SendPing(trackBackUrl, parameters);
+				}				
 			}
 			return true;
 		}
 
-		private void SendPing(string trackBackItem, string parameters)
+		private void SendPing(Uri trackBackItem, string parameters)
 		{
 			HttpWebRequest request = HttpHelper.CreateRequest(trackBackItem);
 			request.Method = "POST";
@@ -88,11 +92,10 @@ namespace Subtext.Framework.Tracking
 			}
 		}
 
-		private string GetTrackBackText(string pageText, string url, string PostUrl)
+		private string GetTrackBackText(string pageText, Uri url, Uri postUrl)
 		{
-			if(!Regex.IsMatch(pageText,PostUrl,RegexOptions.IgnoreCase|RegexOptions.Singleline))
+			if(!Regex.IsMatch(pageText, postUrl.ToString(), RegexOptions.IgnoreCase|RegexOptions.Singleline))
 			{
-
 				string sPattern = @"<rdf:\w+\s[^>]*?>(</rdf:rdf>)?";
 				Regex r = new Regex(sPattern,RegexOptions.IgnoreCase);
 				Match m;
@@ -101,9 +104,8 @@ namespace Subtext.Framework.Tracking
 				{
 					if(m.Groups.ToString().Length > 0)
 					{
-					
 						string text = m.Groups[0].ToString();
-						if(text.IndexOf(url) > 0)
+						if(text.IndexOf(url.ToString()) > 0)
 						{
 							string tbPattern = "trackback:ping=\"([^\"]+)\"";
 							Regex reg = new Regex(tbPattern, RegexOptions.IgnoreCase) ;
@@ -112,8 +114,6 @@ namespace Subtext.Framework.Tracking
 							{
 								return m2.Result("$1") ;
 							}
-
-
 							return text;
 						}
 					}

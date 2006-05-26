@@ -34,7 +34,6 @@
 #endregion
 using System;
 using System.Text.RegularExpressions;
-using Subtext.Framework.Util;
 using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Tracking
@@ -55,11 +54,11 @@ namespace Subtext.Framework.Tracking
 		/// <param name="targetUrl">The target URL.</param>
 		/// <param name="pageTitle">The page title.</param>
 		/// <returns></returns>
-		public static bool SourceContainsTarget(string sourceUrl, string targetUrl, out string pageTitle)
+		public static bool SourceContainsTarget(Uri sourceUrl, Uri targetUrl, out string pageTitle)
 		{
 			pageTitle = string.Empty ;
 			string page = HttpHelper.GetPageText(sourceUrl);
-			if (page == null || page.IndexOf(targetUrl) < 0 )
+			if (page == null || targetUrl == null)
 				return false;
 					
 			string pat = @"<head.*?>.*<title.*?>(.*)</title.*?>.*</head.*?>" ;
@@ -71,6 +70,18 @@ namespace Subtext.Framework.Tracking
 				return true;
 			}
 			return false;
+		}
+		
+		/// <summary>
+		/// Checks that the contents of the source url contains the target URL.
+		/// </summary>
+		/// <param name="sourceUrl">The source URL.</param>
+		/// <param name="targetUrl">The target URL.</param>
+		/// <returns></returns>
+		public static bool SourceContainsTarget(Uri sourceUrl, Uri targetUrl)
+		{
+			string page;
+			return SourceContainsTarget(sourceUrl, targetUrl, out page);
 		}
 	}
 }

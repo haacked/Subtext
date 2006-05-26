@@ -416,6 +416,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Framework\Tracking\TrackbackHandlerTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Framework\Util\KeywordsTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

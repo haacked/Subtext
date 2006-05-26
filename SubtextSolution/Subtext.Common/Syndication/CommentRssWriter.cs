@@ -54,7 +54,7 @@ namespace Subtext.Common.Syndication
 		/// </summary>
 		protected override void WriteChannel()
 		{
-			this.BuildChannel(CommentEntry.Title, CommentEntry.FullyQualifiedUrl, CommentEntry.Email, CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body, info.Language, info.Author, Config.CurrentBlog.LicenseUrl, Config.CurrentBlog.Title, Config.CurrentBlog.BlogHomeUrl, string.Empty);
+			this.BuildChannel(CommentEntry.Title, CommentEntry.FullyQualifiedUrl.ToString(), CommentEntry.Email, CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body, info.Language, info.Author, Config.CurrentBlog.LicenseUrl, Config.CurrentBlog.Title, Config.CurrentBlog.BlogHomeUrl, string.Empty);
 		}
 	}
 }

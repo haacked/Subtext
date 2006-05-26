@@ -60,15 +60,17 @@ namespace Subtext.Framework.Tracking
 			// GetPostIDFromUrl returns the postID
 			postId = UrlFormats.GetPostIDFromUrl(targetURI);
 			
-			if ( postId == NullValue.NullInt32 )
+			if (postId == NullValue.NullInt32)
 				throw new XmlRpcFaultException(33, "You did not link to a permalink");
-  			  		
+			
+			Uri sourceUrl = HtmlHelper.ParseUri(sourceURI);
+			Uri targetUrl = HtmlHelper.ParseUri(targetURI);
+			
 			// does the sourceURI actually contain the permalink ?
-			if ( !Verifier.SourceContainsTarget(sourceURI, targetURI, out pageTitle) )
+			if(sourceUrl == null || targetUrl == null || !Verifier.SourceContainsTarget(sourceUrl, targetUrl, out pageTitle))
 				throw new XmlRpcFaultException(17, "Not a valid link.") ;		
   			
 			//PTR = Pingback - TrackBack - Referral
-
 			Trackback trackback = new Trackback(postId, HtmlHelper.SafeFormat(pageTitle), HtmlHelper.SafeFormat(sourceURI), string.Empty, HtmlHelper.SafeFormat(pageTitle));
 			Entries.Create(trackback);
   		
