@@ -20,6 +20,7 @@ namespace Subtext.Framework.Exceptions
 	/// <summary>
 	/// Exception thrown when attempting to visit a blog that is no longer active.
 	/// </summary>
+	[Serializable]
 	public class BlogInactiveException : BaseBlogConfigurationException
 	{
 		public BlogInactiveException() : base()

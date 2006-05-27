@@ -20,6 +20,7 @@ using System.Configuration;
 using System.Reflection;
 using System.Web;
 using System.Web.Caching;
+using Subtext.Extensibility.Exceptions;
 
 namespace Subtext.Extensibility.Providers
 {
@@ -97,6 +98,12 @@ namespace Subtext.Extensibility.Providers
 		/// <returns></returns>
 		public static ProviderBase Instance(string sectionName, ProviderInfo providerInfo)
 		{
+			if(sectionName == null)
+				throw new ArgumentNullException("providerInfo", "Error loading provider. Section name was null.");
+			
+			if(providerInfo == null)
+				throw new ArgumentNullException("providerInfo", "Error loading provider. ProviderInfo was null for sectio name '" + sectionName + "'");
+			
 			Cache cache = HttpRuntime.Cache;
 
 			// Is the actual provider In the cache?
@@ -105,7 +112,7 @@ namespace Subtext.Extensibility.Providers
 			if(providerInfo != null)
 				cacheKey += providerInfo.Name;
 	
-			if (cache[cacheKey] == null) 
+			if(cache[cacheKey] == null) 
 			{
 				// The assembly should be in \bin or GAC, so we simply need
 				// to get an instance of the type
@@ -118,9 +125,9 @@ namespace Subtext.Extensibility.Providers
 					Type[] paramTypes = new Type[0];
 					cache.Insert(cacheKey, type.GetConstructor(paramTypes));
 				} 
-				catch (Exception e) 
+				catch(Exception e) 
 				{
-					throw new Exception("Unable to load provider type '" + providerInfo.Type + "'", e);
+					throw new ProviderInstantiationException("Unable to load provider type '" + providerInfo.Type + "' for section '" + sectionName + "'", providerInfo, sectionName, e);
 				}
 			}
 	

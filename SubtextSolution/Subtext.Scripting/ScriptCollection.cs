@@ -65,9 +65,25 @@ namespace Subtext.Scripting
 			if(value == null)
 				throw new ArgumentNullException("value", "Cannot add a range from null.");
 			
-			for (int i = 0;	(i < value.Count); i = (i +	1))	
+			foreach(Script script in value)
 			{
-				this.Add((Script)value.List[i]);
+				this.Add(script);
+			}
+		}
+		
+		/// <summary>
+		/// Adds the contents of another <see cref="ScriptCollection">ScriptCollection</see> 
+		/// to the end of the collection.
+		/// </summary>
+		/// <param name="value">A <see cref="ScriptCollection">ScriptCollection</see> containing the <see cref="Script"/>s to add to the collection. </param>
+		public void AddRange(Script[] value) 
+		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range from null.");
+			
+			foreach(Script script in value)
+			{
+				this.Add(script);
 			}
 		}
 

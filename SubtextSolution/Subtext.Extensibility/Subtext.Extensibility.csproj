@@ -141,6 +141,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Exceptions\ProviderInstantiationException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Plugins\IImplementationInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
