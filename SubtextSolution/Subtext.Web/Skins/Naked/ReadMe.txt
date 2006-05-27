@@ -23,4 +23,4 @@ Most controls have a main container with each internal element also having its o
 
 The style.css class has all the elements and selectors predefined, simply add in the CSS stylings you want and *poof*..... instant skin!
 
-Naked was "designed" by Robb Allen (www.robballen.com , http://sharpmarbles.stufftoread.com)
+Naked was "designed" by Robb Allen (www.robballen.com , http://blog.robballen.com)
