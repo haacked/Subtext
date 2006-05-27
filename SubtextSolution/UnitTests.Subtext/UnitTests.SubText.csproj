@@ -219,6 +219,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "CustomCollectionTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ReflectionHelper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -240,6 +245,16 @@
                 />
                 <File
                     RelPath = "UnitTestImportProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\EmailProviderInstantiationTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\ProviderBaseTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

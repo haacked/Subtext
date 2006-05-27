@@ -18,11 +18,13 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Web;
+using System.Xml;
 using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using MbUnit.Framework;
 using Subtext.Extensibility;
+using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
@@ -37,6 +39,27 @@ namespace UnitTests.Subtext
 	{
 		private UnitTestHelper() {}
 
+		/// <summary>
+		/// Creates a provider info instance using the specified name and type.
+		/// </summary>
+		/// <param name="name">The name.</param>
+		/// <param name="type">The type.</param>
+		/// <returns></returns>
+		public static ProviderInfo CreateProviderInfoInstance(string name, string type)
+		{
+			XmlDocument doc = new XmlDocument();
+			XmlElement element = doc.CreateElement("Root");
+			doc.AppendChild(element);
+			
+			XmlAttribute nameAttribute = doc.CreateAttribute("name");
+			nameAttribute.Value = name;
+			XmlAttribute typeAttribute = doc.CreateAttribute("type");
+			typeAttribute.Value = type;
+			element.Attributes.Append(nameAttribute);
+			element.Attributes.Append(typeAttribute);
+			return new ProviderInfo(element.Attributes);
+		}
+		
 		/// <summary>
 		/// Unpacks an embedded resource into the specified directory.
 		/// </summary>

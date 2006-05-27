@@ -120,6 +120,20 @@ namespace Subtext.Scripting
 			foreach(TemplateParameter parameter in value)
 				this.Add(parameter);
 		}
+		
+		/// <summary>
+		/// Adds the contents of another <see cref="ScriptCollection">ScriptCollection</see> 
+		/// to the end of the collection.
+		/// </summary>
+		/// <param name="value">A <see cref="ScriptCollection">ScriptCollection</see> containing the <see cref="TemplateParameter"/>s to add to the collection. </param>
+		public void AddRange(TemplateParameter[] value) 
+		{
+			if(value == null)
+				throw new ArgumentNullException("value", "Cannot add a range of null.");
+			
+			foreach(TemplateParameter parameter in value)
+				this.Add(parameter);
+		}
 
 		/// <summary>
 		/// Gets a value indicating whether the collection contains the specified 
