@@ -43,9 +43,9 @@ namespace Subtext.Framework.Email
 			email.FromAddress = new EmailAddress(from);
 			email.AddToAddress(new EmailAddress(to));
 			email.Subject = subject;
-			email.TextPart = new TextAttachment(message);
+			email.BodyText = message;
 
-			SmtpServer smtpServer = new SmtpServer(SmtpServer);
+			SmtpServer smtpServer = new SmtpServer(SmtpServer, Port);
 			
 			//Authentication.
 			if(this.UserName != null && this.Password != null)
