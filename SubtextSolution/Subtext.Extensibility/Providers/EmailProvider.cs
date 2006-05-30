@@ -53,6 +53,16 @@ namespace Subtext.Extensibility.Providers
 			get;
 			set;
 		}
+		
+		/// <summary>
+		/// Gets or sets the SMTP server port.
+		/// </summary>
+		/// <value></value>
+		public abstract int Port
+		{
+			get;
+			set;
+		}
 
 		/// <summary>
 		/// Gets or sets the password for SMTP servers that 

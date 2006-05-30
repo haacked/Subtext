@@ -1,5 +1,4 @@
 using System;
-using System.Xml;
 using MbUnit.Framework;
 using Subtext.Extensibility.Exceptions;
 using Subtext.Extensibility.Providers;

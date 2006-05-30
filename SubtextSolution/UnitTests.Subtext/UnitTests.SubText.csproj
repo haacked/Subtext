@@ -209,6 +209,11 @@
                     AssemblyName = "FredCK.FCKeditorV2"
                     HintPath = "ExternalDependencies\FredCK.FCKeditorV2.dll"
                 />
+                <Reference
+                    Name = "Subtext.UnitTesting.Servers"
+                    Project = "{062D373E-FAC0-4451-BF57-8A2352AAC1BB}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
             </References>
         </Build>
         <Files>
@@ -245,6 +250,11 @@
                 />
                 <File
                     RelPath = "UnitTestImportProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\DotNetOpenMailProviderSendTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

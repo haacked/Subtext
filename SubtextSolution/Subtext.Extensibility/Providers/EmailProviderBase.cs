@@ -26,8 +26,11 @@ namespace Subtext.Extensibility.Providers
 	/// </summary>
 	public abstract class EmailProviderBase : EmailProvider
 	{
+		const int DefaultSmtpPort = 25;
+
 		string _name;
 		string _smtpServer = "localhost";
+		int _port = DefaultSmtpPort;
 		string _password;
 		string _userName;
 		string _adminEmail;
@@ -44,6 +47,17 @@ namespace Subtext.Extensibility.Providers
 			_smtpServer = configValue["smtpServer"];
 			_password = configValue["password"];
 			_userName = configValue["username"];
+			if(configValue["port"] != null)
+			{
+				try
+				{
+					_port = int.Parse(configValue["port"]);
+				}
+				catch(System.FormatException)
+				{
+					//Do nothing.
+				}
+			}
 		}
 
 		/// <summary>
@@ -82,6 +96,18 @@ namespace Subtext.Extensibility.Providers
 				_smtpServer = value;
 			}
 		}
+		
+		
+		/// <summary>
+		/// Gets and sets the port.
+		/// </summary>
+		/// <value>The port.</value>
+		public override int Port
+		{
+			get { return this._port; }
+			set { this._port = value; }
+		}
+
 
 		/// <summary>
 		/// Gets or sets the password used for SMTP servers that 

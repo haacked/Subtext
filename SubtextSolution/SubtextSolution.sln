@@ -35,6 +35,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Providers.RichTextE
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.UnitTesting.Servers", "Subtext.TestMailServer\Subtext.UnitTesting.Servers.csproj", "{062D373E-FAC0-4451-BF57-8A2352AAC1BB}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -96,6 +100,12 @@ Global
 		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Documentation.Build.0 = Debug|.NET
 		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Release.ActiveCfg = Release|.NET
 		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Release.Build.0 = Release|.NET
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Debug.ActiveCfg = Debug|.NET
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Debug.Build.0 = Debug|.NET
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Documentation.ActiveCfg = Debug|.NET
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Documentation.Build.0 = Debug|.NET
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Release.ActiveCfg = Release|.NET
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 		Subtext.Web\AspNetWithoutWebProjects.txt = Subtext.Web\AspNetWithoutWebProjects.txt
