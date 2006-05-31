@@ -12,18 +12,13 @@ namespace UnitTests.Subtext
 		[Test]
 		public void SingleResultStubDataReaderReturnsCorrectValues()
 		{
-DateTime testDate = DateTime.Now;
-StubResultSet resultSet = new StubResultSet("col0", "col1", "col2");
-resultSet.AddRow(1, "Test", testDate);
-resultSet.AddRow(2, "Test2", testDate.AddDays(1));
-			
-StubDataReader reader = new StubDataReader(resultSet);
+			DateTime testDate = DateTime.Now;
+			StubResultSet resultSet = new StubResultSet("col0", "col1", "col2");
+			resultSet.AddRow(1, "Test", testDate);
+			resultSet.AddRow(2, "Test2", testDate.AddDays(1));
+						
+			StubDataReader reader = new StubDataReader(resultSet);
 
-// Assertions			
-Assert.AreEqual(1, reader["col0"], "Misread row 0, col 0.");
-Assert.AreEqual("Test", reader["col1"], "Misread row 0, col 1.");
-Assert.AreEqual(testDate, reader["col2"], "Misread row 0, col 3.");
-			
 			//Advance to first row.
 			Assert.IsTrue(reader.Read(), "Expected data.");
 			
@@ -50,6 +45,40 @@ Assert.AreEqual(testDate, reader["col2"], "Misread row 0, col 3.");
 			Assert.AreEqual("Test2", reader["col1"], "Misread row 1, col 1.");
 			Assert.AreEqual(testDate.AddDays(1), reader["col2"], "Misread row 1, col 3.");
 		}
+		
+		[Test]
+		public void MultipleResultStubDataReaderReturnsCorrectValues()
+		{
+			DateTime testDate = DateTime.Now;
+			StubResultSet resultSet = new StubResultSet("col0", "col1", "col2");
+			resultSet.AddRow(1, "Test", testDate);
+			
+			StubResultSet anotherResultSet = new StubResultSet("first", "second");
+			anotherResultSet.AddRow((decimal)1.618, "Foo");
+			anotherResultSet.AddRow((decimal)2.718, "Bar");
+			anotherResultSet.AddRow((decimal)3.142, "Baz");
+						
+			StubDataReader reader = new StubDataReader(resultSet, anotherResultSet);
+
+			//Advance to first row.
+			Assert.IsTrue(reader.Read(), "Expected data.");
+			
+			Assert.AreEqual(1, reader["col0"]);
+			
+			//Advance to second ResultSet.
+			Assert.IsTrue(reader.NextResult(), "Expected next result set");
+			
+			//Advance to first row.
+			Assert.IsTrue(reader.Read(), "Expected data.");
+			Assert.AreEqual((decimal)1.618, reader["first"]);
+			Assert.AreEqual("Foo", reader["second"]);
+			Assert.IsTrue(reader.Read(), "Expected data.");
+			Assert.AreEqual((decimal)2.718, reader["first"]);
+			Assert.AreEqual("Bar", reader["second"]);
+			Assert.IsTrue(reader.Read(), "Expected data.");
+			Assert.AreEqual((decimal)3.142, reader["first"]);
+			Assert.AreEqual("Baz", reader["second"]);
+		}
 	}
 	
 	/// <summary>
@@ -69,16 +98,19 @@ Assert.AreEqual(testDate, reader["col2"], "Misread row 0, col 3.");
 		{
 			this.stubResultSets = stubResultSets;
 		}
-		
+	
 		/// <summary>
 		/// Initializes a new instance of the <see cref="StubDataReader"/> class. 
 		/// Each row in the arraylist is a result set.
 		/// </summary>
-		/// <param name="resultSet">The result sets.</param>
-		public StubDataReader(StubResultSet resultSet)
+		/// <param name="resultSets">The result sets to add.</param>
+		public StubDataReader(params StubResultSet[] resultSets)
 		{
 			this.stubResultSets = new StubResultSetCollection();
-			this.stubResultSets.Add(resultSet);
+			foreach(StubResultSet resultSet in resultSets)
+			{
+				this.stubResultSets.Add(resultSet);
+			}
 		}
 
 		public void Close()
