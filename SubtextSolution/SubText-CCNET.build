@@ -127,6 +127,7 @@
 		<solution configuration="debug">
 			<projects>
 				<include name="UnitTests.Subtext\UnitTests.SubText.csproj" />
+				<include name="Subtext.UnitTesting.Servers\Subtext.UnitTesting.Servers.csproj" />
 			</projects>
 			<referenceprojects>
 				<include name="Subtext.Common\SubText.Common.csproj" />
