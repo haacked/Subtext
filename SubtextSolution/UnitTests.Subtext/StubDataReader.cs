@@ -12,25 +12,30 @@ namespace UnitTests.Subtext
 		[Test]
 		public void SingleResultStubDataReaderReturnsCorrectValues()
 		{
-			DateTime testDate = DateTime.Now;
-			StubResultSet resultSet = new StubResultSet("col0", "col1", "col2");
-			resultSet.AddRow(1, "Test", testDate);
-			resultSet.AddRow(2, "Test2", testDate.AddDays(1));
+DateTime testDate = DateTime.Now;
+StubResultSet resultSet = new StubResultSet("col0", "col1", "col2");
+resultSet.AddRow(1, "Test", testDate);
+resultSet.AddRow(2, "Test2", testDate.AddDays(1));
 			
-			StubDataReader reader = new StubDataReader(resultSet);
+StubDataReader reader = new StubDataReader(resultSet);
+
+// Assertions			
+Assert.AreEqual(1, reader["col0"], "Misread row 0, col 0.");
+Assert.AreEqual("Test", reader["col1"], "Misread row 0, col 1.");
+Assert.AreEqual(testDate, reader["col2"], "Misread row 0, col 3.");
 			
 			//Advance to first row.
 			Assert.IsTrue(reader.Read(), "Expected data.");
 			
+			Assert.AreEqual(1, reader["col0"], "Misread row 0, col 0.");
+			Assert.AreEqual("Test", reader["col1"], "Misread row 0, col 1.");
+			Assert.AreEqual(testDate, reader["col2"], "Misread row 0, col 3.");
 			Assert.AreEqual(1, reader.GetInt32(0), "Misread row 0, col 0.");
 			Assert.AreEqual("Test", reader.GetString(1), "Misread row 0, col 1.");
 			Assert.AreEqual(testDate, reader.GetDateTime(2), "Misread row 0, col 3.");
 			Assert.AreEqual(1, reader[0], "Misread row 0, col 0.");
 			Assert.AreEqual("Test", reader[1], "Misread row 0, col 1.");
 			Assert.AreEqual(testDate, reader[2], "Misread row 0, col 3.");
-			Assert.AreEqual(1, reader["col0"], "Misread row 0, col 0.");
-			Assert.AreEqual("Test", reader["col1"], "Misread row 0, col 1.");
-			Assert.AreEqual(testDate, reader["col2"], "Misread row 0, col 3.");
 			
 			//Advance to second row.
 			Assert.IsTrue(reader.Read(), "Expected data.");
@@ -329,6 +334,10 @@ namespace UnitTests.Subtext
 		/// <param name="values">The values.</param>
 		public void AddRow(params object[] values)
 		{
+			if(values.Length != fieldNames.Count )
+			{
+				throw new ArgumentOutOfRangeException("values", string.Format("The Row must contain '{0}' items", fieldNames.Count));
+			}
 			rows.Add(new StubRow(values));
 		}
 		
