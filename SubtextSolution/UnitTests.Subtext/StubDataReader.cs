@@ -52,22 +52,22 @@ namespace UnitTests.Subtext
 			DateTime testDate = DateTime.Now;
 			StubResultSet resultSet = new StubResultSet("col0", "col1", "col2");
 			resultSet.AddRow(1, "Test", testDate);
-			
+
 			StubResultSet anotherResultSet = new StubResultSet("first", "second");
 			anotherResultSet.AddRow((decimal)1.618, "Foo");
 			anotherResultSet.AddRow((decimal)2.718, "Bar");
 			anotherResultSet.AddRow((decimal)3.142, "Baz");
-						
+
 			StubDataReader reader = new StubDataReader(resultSet, anotherResultSet);
 
 			//Advance to first row.
 			Assert.IsTrue(reader.Read(), "Expected data.");
-			
+
 			Assert.AreEqual(1, reader["col0"]);
-			
+
 			//Advance to second ResultSet.
 			Assert.IsTrue(reader.NextResult(), "Expected next result set");
-			
+
 			//Advance to first row.
 			Assert.IsTrue(reader.Read(), "Expected data.");
 			Assert.AreEqual((decimal)1.618, reader["first"]);
