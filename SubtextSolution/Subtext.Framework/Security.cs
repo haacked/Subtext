@@ -19,9 +19,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Security;
-using log4net;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Logging;
 using Subtext.Framework.Text;
 
 namespace Subtext.Framework
@@ -31,8 +29,6 @@ namespace Subtext.Framework
 	/// </summary>
 	public sealed class Security
 	{
-		private readonly static ILog log = new Log();
-
 		//Can not instantiate this object
 		private Security(){}
 
@@ -61,24 +57,44 @@ namespace Subtext.Framework
 		public static bool Authenticate(string username, string password, bool persist)
 		{
 			//if we don't match username, don't bother with password
-			if(IsValidUser(username, password))
-			{
-					SetTicket(username, persist);
-					return true;
-			}
-			return false;
+			if(!IsValidUser(username, password))
+				return false;
+
+			SetAuthenticationTicket(username, persist, "Admins");
+			return true;
 		}
-
-		//Maybe this method should be public?
-
+		
+		public static bool AuthenticateHostAdmin(string username, string password, bool persist)
+		{
+			if(!StringHelper.AreEqualIgnoringCase(username, HostInfo.Instance.HostUserName))
+				return false;
+			
+			if(Config.Settings.UseHashedPasswords)
+			{
+				password = Security.HashPassword(password, HostInfo.Instance.Salt);
+			}
+			
+			if(!StringHelper.AreEqualIgnoringCase(HostInfo.Instance.Password, password))
+				return false;
+			
+			SetAuthenticationTicket(username, persist, "HostAdmins");
+			
+			return true;
+		}
+		
 		/// <summary>
 		/// Private method to set FormsAuthentication Ticket. 
 		/// </summary>
 		/// <param name="username">Username for the ticket</param>
 		/// <param name="persist">Should this ticket be persisted</param>
-		private static void SetTicket(string username, bool persist)
+		private static void SetAuthenticationTicket(string username, bool persist, params string[] roles)
 		{
-			FormsAuthentication.SetAuthCookie(username, persist);
+			FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, username, DateTime.Now, DateTime.Now.AddMinutes(60), persist, string.Join("|", roles));
+			string encryptedTicket = FormsAuthentication.Encrypt(ticket);
+			// Create a cookie and add the encrypted ticket to the
+			// cookie as data.
+			HttpCookie authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+			HttpContext.Current.Response.Cookies.Add(authCookie);
 		}
 
 		//From Forums Source Code
@@ -266,10 +282,7 @@ namespace Subtext.Framework
 			get
 			{
 				//TODO: Eventually just check for admin role.
-				log.Debug("IsInRole(Admins): " + IsInRole("Admins"));
-				log.Debug("CurrentUserName: " + CurrentUserName);
-				log.Debug("Config.CurrentBlog.UserName: " + CurrentUserName);
-				return IsInRole("Admins") || StringHelper.AreEqualIgnoringCase(CurrentUserName, Config.CurrentBlog.UserName);
+				return IsInRole("Admins");
 			}
 		}
 
@@ -285,7 +298,7 @@ namespace Subtext.Framework
 			get
 			{
 				//TODO: Remove the second check when we have better security model.
-				return IsInRole("HostAdmins") || StringHelper.AreEqualIgnoringCase(CurrentUserName, "HostAdmin");
+				return IsInRole("HostAdmins");
 			}
 		}
 
