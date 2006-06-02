@@ -24,22 +24,50 @@ namespace Subtext.Web.Install
 	/// </summary>
 	public class InstallationComplete : InstallationBase
 	{
+		#region Declared Controls
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
 		protected System.Web.UI.HtmlControls.HtmlAnchor lnkHostAdmin;
 		protected System.Web.UI.HtmlControls.HtmlAnchor lnkBlog;
+		protected System.Web.UI.HtmlControls.HtmlAnchor lnkBlogAdmin;
+		protected System.Web.UI.HtmlControls.HtmlAnchor lnkBlogMl;
 		protected System.Web.UI.HtmlControls.HtmlAnchor importWizardAnchor;
+		protected System.Web.UI.HtmlControls.HtmlGenericControl paraBlogLink;
+		protected System.Web.UI.HtmlControls.HtmlGenericControl paraBlogAdminLink;
+		protected System.Web.UI.HtmlControls.HtmlGenericControl paraBlogmlImport;
 		protected Subtext.Web.Controls.MasterPage MPContainer;
+		#endregion
 	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
 			InstallationManager.ResetInstallationStatusCache();
-			if(Config.CurrentBlog != null && lnkBlog != null)
+			if(paraBlogLink != null) paraBlogLink.Visible = false;
+			if(paraBlogAdminLink != null) paraBlogAdminLink.Visible = false;
+			if(paraBlogmlImport != null) paraBlogmlImport.Visible = false;
+			
+			if(Config.CurrentBlog != null)
 			{
-				lnkBlog.HRef = Config.CurrentBlog.BlogHomeVirtualUrl;
+				if(lnkBlog != null && paraBlogLink != null)
+				{
+					paraBlogLink.Visible = true;
+					lnkBlog.HRef = Config.CurrentBlog.HomeVirtualUrl;
+				}
+				
+				if(lnkBlogAdmin != null && paraBlogAdminLink != null)
+				{
+					paraBlogAdminLink.Visible = true;
+					lnkBlogAdmin.HRef = Config.CurrentBlog.AdminHomeVirtualUrl;
+				}
+				
+				if(lnkBlogMl != null && paraBlogmlImport != null)
+				{
+					paraBlogmlImport.Visible = true;
+					lnkBlogMl.HRef = Config.CurrentBlog.AdminDirectoryVirtualUrl + "ImportExport.aspx";
+				}
 			}
+			
 		}
-
+		
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
 		{

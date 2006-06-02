@@ -29,7 +29,7 @@ namespace Subtext.Web.Pages
 			
 			HttpContext.Current.Response.Cookies.Clear();
 			System.Web.Security.FormsAuthentication.SignOut();
-			Response.Redirect(Config.CurrentBlog.BlogHomeVirtualUrl);
+			Response.Redirect(Config.CurrentBlog.HomeVirtualUrl);
 		}
 
 		#region Web Form Designer generated code

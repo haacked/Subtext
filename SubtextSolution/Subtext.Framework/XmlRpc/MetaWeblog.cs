@@ -52,7 +52,7 @@ namespace Subtext.Framework.XmlRpc
 			BlogInfo b = new BlogInfo();
 			b.blogid = info.BlogId.ToString(CultureInfo.InvariantCulture);
 			b.blogName = info.Title;
-			b.url = info.BlogHomeUrl;
+			b.url = info.HomeFullyQualifiedUrl;
 			bi[0] = b;
 			return bi;
 

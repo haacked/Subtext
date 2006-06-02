@@ -34,6 +34,44 @@ namespace UnitTests.Subtext.Framework
 		}
 
 		[RowTest]
+		[Row("", "", "/Admin/")]
+		[Row("", "/", "/Admin/")]
+		[Row("Blog", "", "/Blog/Admin/")]
+		[Row("Blog", "Subtext.Web", "/Subtext.Web/Blog/Admin/")]
+		[Row("Blog", "Subtext.Web/AnotherFolder", "/Subtext.Web/AnotherFolder/Blog/Admin/")]
+		[Row("Blog", "/Subtext.Web/AnotherFolder/", "/Subtext.Web/AnotherFolder/Blog/Admin/")]
+		[Row("", "Subtext.Web/", "/Subtext.Web/Admin/")]
+		[Row("", "/Subtext.Web/", "/Subtext.Web/Admin/")]
+		[Row("", "Subtext.Web", "/Subtext.Web/Admin/")]
+		[RollBack]
+		public void TestAdminDirectoryVirtualUrlPropertySetCorrectly(string subfolder, string virtualDir, string expected)
+		{
+			string host = UnitTestHelper.GenerateRandomHostname();
+			UnitTestHelper.SetHttpContextWithBlogRequest(host, subfolder, virtualDir);
+			Assert.IsTrue(Config.CreateBlog("TestVirtualUrlPropertySetCorrectly", "username", "password", host, subfolder));
+			Assert.AreEqual(expected, Config.CurrentBlog.AdminDirectoryVirtualUrl, "Did not set the Admin Virtual Dir correctly.");
+		}
+		
+		[RowTest]
+		[Row("", "", "/Admin/Default.aspx")]
+		[Row("", "/", "/Admin/Default.aspx")]
+		[Row("Blog", "", "/Blog/Admin/Default.aspx")]
+		[Row("Blog", "Subtext.Web", "/Subtext.Web/Blog/Admin/Default.aspx")]
+		[Row("Blog", "Subtext.Web/AnotherFolder", "/Subtext.Web/AnotherFolder/Blog/Admin/Default.aspx")]
+		[Row("Blog", "/Subtext.Web/AnotherFolder/", "/Subtext.Web/AnotherFolder/Blog/Admin/Default.aspx")]
+		[Row("", "Subtext.Web/", "/Subtext.Web/Admin/Default.aspx")]
+		[Row("", "/Subtext.Web/", "/Subtext.Web/Admin/Default.aspx")]
+		[Row("", "Subtext.Web", "/Subtext.Web/Admin/Default.aspx")]
+		[RollBack]
+		public void TestAdminVirtualUrlPropertySetCorrectly(string subfolder, string virtualDir, string expected)
+		{
+			string host = UnitTestHelper.GenerateRandomHostname();
+			UnitTestHelper.SetHttpContextWithBlogRequest(host, subfolder, virtualDir);
+			Assert.IsTrue(Config.CreateBlog("TestVirtualUrlPropertySetCorrectly", "username", "password", host, subfolder));
+			Assert.AreEqual(expected, Config.CurrentBlog.AdminHomeVirtualUrl, "Did not set the Admin Virtual Dir correctly.");
+		}
+
+		[RowTest]
 		[Row("", "Subtext.Web", "Subtext.Web/")]
 		[Row("", "", "")]
 		[Row("Blog", "", "Blog/")]
@@ -56,7 +94,7 @@ namespace UnitTests.Subtext.Framework
 		[Row("Blog", "Subtext.Web", "Subtext.Web/Blog/Default.aspx")]
 		[Row("", "Subtext.Web", "Subtext.Web/Default.aspx")]
 		[RollBack]
-		public void TestBlogHomeUrlPropertySetCorrectly(string subfolder, string virtualDir, string expected)
+		public void TestBlogHomeFullyQualifiedUrlPropertySetCorrectly(string subfolder, string virtualDir, string expected)
 		{
 			string host = UnitTestHelper.GenerateRandomHostname();
 			string expectedUrl = string.Format("http://{0}/{1}", host, expected);
@@ -64,7 +102,7 @@ namespace UnitTests.Subtext.Framework
 			Assert.IsTrue(Config.CreateBlog("TestBlogHomeUrlPropertySetCorrectly", "username", "password", host, subfolder));
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, subfolder, virtualDir);
 
-			Assert.AreEqual(expectedUrl, Config.CurrentBlog.BlogHomeUrl, "Did not set the BlogHomeUrl correctly.");
+			Assert.AreEqual(expectedUrl, Config.CurrentBlog.HomeFullyQualifiedUrl, "Did not set the BlogHomeUrl correctly.");
 		}
 
 		[RowTest]
@@ -79,7 +117,7 @@ namespace UnitTests.Subtext.Framework
 			Assert.IsTrue(Config.CreateBlog("TestBlogHomeVirtualUrlPropertySetCorrectly", "username", "password", host, subfolder));
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, subfolder, virtualDir);
 
-			Assert.AreEqual(expected, Config.CurrentBlog.BlogHomeVirtualUrl, "Did not set the BlogHomeVirtualUrl correctly.");
+			Assert.AreEqual(expected, Config.CurrentBlog.HomeVirtualUrl, "Did not set the BlogHomeVirtualUrl correctly.");
 		}
 
 		/// <summary>

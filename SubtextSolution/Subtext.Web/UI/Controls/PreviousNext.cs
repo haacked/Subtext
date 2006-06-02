@@ -42,7 +42,7 @@ namespace Subtext.Web.UI.Controls
 			if(entry != null)
 			{
 				//Sent entry properties
-				MainLink.NavigateUrl = CurrentBlog.BlogHomeVirtualUrl;
+				MainLink.NavigateUrl = CurrentBlog.HomeVirtualUrl;
 
 				string ConnectionString = DbProvider.Instance().ConnectionString;
 				SqlParameter[] p =

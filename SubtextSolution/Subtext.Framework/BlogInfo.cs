@@ -704,8 +704,9 @@ namespace Subtext.Framework
 		string virtualUrl;
 
 		/// <summary>
-		/// Gets the virtual directory root for the site.  
-		/// This value always ends with a slash.
+		/// Gets the virtual directory/application root for the site.  
+		/// This is really just a formatted version of the 
+		/// HttpContext.Current.Request.ApplicationPath property that always ends with a slash.
 		/// </summary>
 		/// <value>The virtual URL.</value>
 		[XmlIgnore]
@@ -732,12 +733,36 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
+		/// Gets virtual URL to the admin home page.
+		/// </summary>
+		/// <value>The admin virtual URL.</value>
+		public string AdminHomeVirtualUrl
+		{
+			get
+			{
+				return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Default.aspx", AdminDirectoryVirtualUrl);
+			}
+		}
+		
+		/// <summary>
+		/// Gets virtual URL to the admin section.
+		/// </summary>
+		/// <value>The admin virtual URL.</value>
+		public string AdminDirectoryVirtualUrl
+		{
+			get
+			{
+				return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Admin/", VirtualUrl);
+			}
+		}
+		
+		/// <summary>
 		/// Gets the fully qualified blog home URL.  This is the URL to the blog's home page. 
 		/// Until we integrate with IIS better, we have to append the "Default.aspx" 
 		/// to the end.
 		/// </summary>
 		/// <value></value>
-		public string BlogHomeUrl
+		public string HomeFullyQualifiedUrl
 		{
 			get
 			{
@@ -749,7 +774,7 @@ namespace Subtext.Framework
 		/// Gets the blog home virtual URL.  For example, "/default.aspx" or "/Blog/Default.aspx".
 		/// </summary>
 		/// <value>The blog home virtual URL.</value>
-		public string BlogHomeVirtualUrl
+		public string HomeVirtualUrl
 		{
 			get
 			{
