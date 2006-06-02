@@ -27,6 +27,7 @@ namespace Subtext.Web.Pages
 	/// </summary>
 	public class login : System.Web.UI.Page
 	{
+		#region Declared Controls
 		protected System.Web.UI.WebControls.Label Message;
 		protected System.Web.UI.WebControls.TextBox tbUserName;
 		protected System.Web.UI.WebControls.TextBox tbPassword;
@@ -36,6 +37,7 @@ namespace Subtext.Web.Pages
 		protected MetaBuilders.WebControls.DefaultButtons DefaultButtons1;
 		protected System.Web.UI.HtmlControls.HtmlImage headerLogoImg;
 		protected System.Web.UI.WebControls.LinkButton lbSendPassword;
+		#endregion
 	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
@@ -131,27 +133,27 @@ namespace Subtext.Web.Pages
 
 		private void btnLogin_Click(object sender, System.EventArgs e)
 		{
+			BlogInfo currentBlog = Config.CurrentBlog;
 			string returnUrl = Request.QueryString["ReturnURL"];
-			if((returnUrl != null && StringHelper.Contains(returnUrl, "HostAdmin", ComparisonType.CaseInsensitive)) || Config.CurrentBlog == null)
+			if(currentBlog == null || (returnUrl != null && StringHelper.Contains(returnUrl, "HostAdmin", ComparisonType.CaseInsensitive)))
 			{
 				if(!AuthenticateHostAdmin())
 				{
 					Message.Text = "That&#8217;s not it<br />";
+					return;
+				}
+				else
+				{
+					ReturnToUrl("~/HostAdmin/Default.aspx");
+					return;
 				}
 			}
 			else
 			{
-				BlogInfo info = Config.CurrentBlog;
 				if(Security.Authenticate(tbUserName.Text, tbPassword.Text, chkRemember.Checked))
 				{
-					if(returnUrl != null)
-					{
-						Response.Redirect(returnUrl);
-					}
-					else
-					{
-						Response.Redirect(info.RootUrl + "admin/default.aspx");
-					}
+					ReturnToUrl(currentBlog.AdminHomeVirtualUrl);
+					return;
 				}
 				else
 				{
@@ -159,30 +161,24 @@ namespace Subtext.Web.Pages
 				}
 			}
 		}
+		
+		private void ReturnToUrl(string defaultReturnUrl)
+		{
+			if(Request.QueryString["ReturnURL"] != null && Request.QueryString["ReturnURL"].Length > 0)
+			{
+				Response.Redirect(Request.QueryString["ReturnURL"], false);
+				return;
+			}
+			else
+			{
+				Response.Redirect(defaultReturnUrl, false);
+				return;
+			}
+		}
 
 		private bool AuthenticateHostAdmin()
 		{
-			if(StringHelper.AreEqualIgnoringCase(tbUserName.Text, HostInfo.Instance.HostUserName))
-			{
-				string password = tbPassword.Text;
-				if(Config.Settings.UseHashedPasswords)
-					password = Security.HashPassword(tbPassword.Text, HostInfo.Instance.Salt);
-				if(StringHelper.AreEqualIgnoringCase(HostInfo.Instance.Password, password))
-				{
-					System.Web.Security.FormsAuthentication.SetAuthCookie("HostAdmin", chkRemember.Checked);
-					if(Request.QueryString["ReturnURL"] != null && Request.QueryString["ReturnURL"].Length > 0)
-					{
-						Response.Redirect(Request.QueryString["ReturnURL"]);
-						return true;
-					}
-					else
-					{
-						Response.Redirect("~/HostAdmin/default.aspx");
-						return true;
-					}
-				}
-			}
-			return false;
+			return Security.AuthenticateHostAdmin(tbUserName.Text, tbPassword.Text, chkRemember.Checked);
 		}
 	}
 }
