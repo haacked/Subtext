@@ -70,7 +70,7 @@ namespace Subtext.Web.UI.Controls
 					if(Request.IsAuthenticated && Security.IsAdmin)
 					{
 						Admin.Text = "Admin";
-						Admin.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}admin/default.aspx", CurrentBlog.VirtualUrl);
+						Admin.NavigateUrl = CurrentBlog.AdminHomeVirtualUrl;
 						ControlHelper.SetTitleIfNone(Admin, "Admin Section.");
 					}
 					else

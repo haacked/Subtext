@@ -49,7 +49,7 @@ namespace Subtext.Web
 				{
 					plcUpgradeInProgressMessage.Visible = true;
 					plcNothingToSeeHere.Visible = false;
-					lnkBlog.HRef = Config.CurrentBlog.BlogHomeVirtualUrl;
+					lnkBlog.HRef = Config.CurrentBlog.HomeVirtualUrl;
 				}
 			}
 			catch(BlogDoesNotExistException)

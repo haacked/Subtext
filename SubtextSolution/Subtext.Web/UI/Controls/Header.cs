@@ -35,7 +35,7 @@ namespace Subtext.Web.UI.Controls
 		
 			if (null != this.FindControl("HeaderTitle"))
 			{
-				HeaderTitle.NavigateUrl = CurrentBlog.BlogHomeVirtualUrl;
+				HeaderTitle.NavigateUrl = CurrentBlog.HomeVirtualUrl;
 				HeaderTitle.Text = CurrentBlog.Title;
 				ControlHelper.SetTitleIfNone(HeaderTitle, "The Title Of This Blog.");
 			}

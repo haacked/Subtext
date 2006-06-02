@@ -117,7 +117,7 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		protected virtual void WriteChannel()
 		{
-			BuildChannel(info.Title, info.BlogHomeUrl, info.Email, info.SubTitle, info.Language, info.Author, Config.CurrentBlog.LicenseUrl, info.Title, info.BlogHomeUrl, string.Empty);
+			BuildChannel(info.Title, info.HomeFullyQualifiedUrl, info.Email, info.SubTitle, info.Language, info.Author, Config.CurrentBlog.LicenseUrl, info.Title, info.HomeFullyQualifiedUrl, string.Empty);
 		}
 		
 		/// <summary>
@@ -132,7 +132,7 @@ namespace Subtext.Framework.Syndication
 		/// <param name="cclicense">The cclicense.</param>
 		protected void BuildChannel(string title, string link, string authorEmail, string description, string lang, string copyright, string cclicense)
 		{
-			BuildChannel(title, link, authorEmail, description, lang, copyright, cclicense, info.Title, info.BlogHomeUrl, string.Empty);
+			BuildChannel(title, link, authorEmail, description, lang, copyright, cclicense, info.Title, info.HomeFullyQualifiedUrl, string.Empty);
 		}
 
 		/// <summary>
