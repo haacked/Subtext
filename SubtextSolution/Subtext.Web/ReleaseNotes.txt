@@ -1,0 +1,52 @@
+Version 1.5 - Nautilus R&R Edition
+- NEW:  [1447651] Display Subtext Version number in Admin
+- NEW:  [1446655] Implemented an upgrade wizard for upgrading schema and stored 
+		procedures.
+- NEW:  [1444649] Implemented HtmlEditorProvider. Included FreeTextBoxProvider, 
+		FCKeditorProvider, and PlainTextProvider.
+- NEW:  [1442301] Javascript BlogInfo object.  Useful for providing client 
+		scripts with information on the current blog.
+- NEW	[1212198] Printable View and Print Icon. Not All Skins implement this.
+- NEW:	[1442253] Live Comment Preview w/ Allowed HTML.  Not All Skins 
+		implement this.
+- CHG:	[1441184] Augo-generated URLs From Titles is now configurable.
+- BUG:  [1490671] Fixed bug with trackbacks/pingbacks
+- BUG:	[1452536] Fixed MultiBlog Caching Issue. Posts from one blog would show
+		up in another blog.
+- BUG:  [1387653] Fixed Entryname Duplicate Error Raised When Editing a Post.
+- BUG:  [1446739] Fixed MetaBlogAPI allowed bad entryname titles for blog posts
+- BUG:  [1444545] Fixed Strange Culture Behavior in which some info would show
+		up in different languages.
+- BUG:  [1458044] Fixed issue with displaying HTML in Recent Comments control.
+- BUG:  [1446934] Fixed Comment RSS Feeds with no comments.
+- BUG:  [1444543] Fixed a bug with the AggBug.
+- BUG:  [1479798] Fixed a bug that caused users to get the Subtext Community 
+		(aggregate) page.
+- CHG:  [1477381] Rss Items now ordered by DateSyndicated
+- CHG:  HostAdmin no longer has access to individual blog admin pages.
+- BUG:  [1446548] Fixed bug with RSS Compression which caused Response Filter
+		Error
+- BUG:  [1443314] Handle Emoticons File Missing Exception Gracefully.
+- BUG:  [1383114] Fixed Aggregate page for multi-blog setups.
+- BUG:  [1261637] Host Admin has no password change method.  Now the passowrd 
+		can change. 
+		Enter email address for host admin in web.config.
+
+Version 1.0 - Nautilus Edition
+- NEW:	Web Based Installer
+- NEW:	.TEXT 0.95 Import Script and Wizard
+- NEW:	BlogML Support
+- CHG:	Simplified Configuration.
+- NEW:	Host Admin Tool - For managing multiple blogs.
+- NEW:	Edit Link Control - Skins can provide a direct 
+		link to the edit page for a post for admins.
+- NEW:	Multiple Comment Deletion - UI Improvement.
+- NEW:	RSS GZIP Compression.
+- NEW:	RFC3229 Delta Encoding
+- NEW:	Comments Disabled after N days.
+- NEW:	Comment Throttling - Specify a delay in seconds between new comments.
+- NEW:	Duplicate Comment Blocking - Block comments that are exact duplicates.
+- NEW:	Logging Console
+- NEW:	Simple Keyword Comment Filter
+- NEW:	Recent Comments Skin Control
+- BUG:  Fixed bug with MetaBlogApi. Query and edit old posts works now.
