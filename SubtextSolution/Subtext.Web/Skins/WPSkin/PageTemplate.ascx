@@ -12,23 +12,24 @@
 		<uc1:Header id="Header1" runat="server"></uc1:Header>
 	</div>
 
-	<div class="rightmenu">
-		<DT:contentregion id="MPRightColumn" runat="server">
-			<uc1:BlogStats id="BlogStats1" runat="server"></uc1:BlogStats>
-			<uc1:MyLinks id="MyLinks1" runat="server"></uc1:MyLinks>
-			<uc1:CategoryDisplay id="CategoryDisplay1" runat="server"></uc1:CategoryDisplay>
-			<uc1:News id="News1" runat="server"></uc1:News>
-			<uc1:ArchiveLinks id="ArchiveLinks1" runat="server"></uc1:ArchiveLinks>
-			<uc1:Footer id="Footer1" runat="server"></uc1:Footer>
-		</DT:contentregion>
-	</div>
-
 	<div class="main">
-		<DT:contentregion id="MPMain" runat="server"></DT:contentregion>
+		<div class="innermain">
+			<div class="mainContent">
+				<DT:ContentRegion id="MPMain" runat="server"></DT:ContentRegion>
+			</div>
+			<div class="rightmenu">
+				<DT:ContentRegion id="MPRightColumn" runat="server">
+					<uc1:BlogStats id="BlogStats1" runat="server"></uc1:BlogStats>
+					<uc1:MyLinks id="MyLinks1" runat="server"></uc1:MyLinks>
+					<uc1:CategoryDisplay id="CategoryDisplay1" runat="server"></uc1:CategoryDisplay>
+					<uc1:News id="News1" runat="server"></uc1:News>
+					<uc1:ArchiveLinks id="ArchiveLinks1" runat="server"></uc1:ArchiveLinks>
+					<uc1:Footer id="Footer1" runat="server"></uc1:Footer>
+				</DT:ContentRegion>
+			</div>
+		</div>
 	</div>
 
 	<div class="eofp">
-	<br />Skin designed/hacked by <a href="http://www.analystdeveloper.com">Gurkan Yeniceri</a> from WordPress
-	<br />And distributed under <a href="http://www.opensource.org/licenses/gpl-license.php">GPL</a>
 	</div>
 </div>

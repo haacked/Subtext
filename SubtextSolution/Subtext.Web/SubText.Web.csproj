@@ -1625,6 +1625,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\AnotherEon001\print.css"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\AnotherEon001\style.css"
                     BuildAction = "Content"
                 />
@@ -1738,6 +1742,10 @@
                 />
                 <File
                     RelPath = "Skins\AnotherEon001\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\AnotherEon001\images\printer.gif"
                     BuildAction = "Content"
                 />
                 <File
@@ -2311,6 +2319,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\Haackify\print.css"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\Haackify\style.css"
                     BuildAction = "Content"
                 />
@@ -2448,6 +2460,10 @@
                 />
                 <File
                     RelPath = "Skins\Haackify\Images\input.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Haackify\Images\printer.gif"
                     BuildAction = "Content"
                 />
                 <File
@@ -2597,6 +2613,10 @@
                 <Folder RelPath = "Skins\Hover\Images\" />
                 <File
                     RelPath = "Skins\KeyWest\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\print.css"
                     BuildAction = "Content"
                 />
                 <File
@@ -2809,6 +2829,10 @@
                 />
                 <File
                     RelPath = "Skins\KeyWest\Images\PoweredBySubtext85x33.png"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\KeyWest\Images\printer.gif"
                     BuildAction = "Content"
                 />
                 <File
@@ -3955,6 +3979,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\Piyo\Images\printer.gif"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\Piyo\Scripts\lightbox.js"
                     BuildAction = "Content"
                 />
@@ -4211,6 +4239,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\Semagogy\print.css"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\Semagogy\style.css"
                     BuildAction = "Content"
                 />
@@ -4387,6 +4419,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\Semagogy\Images\printer.gif"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\Semagogy\Scripts\DarkHorseLayoutEngine.js"
                     BuildAction = "Content"
                 />
@@ -4509,6 +4545,10 @@
                 <Folder RelPath = "Skins\simple\Images\" />
                 <File
                     RelPath = "Skins\Submarine\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\print.css"
                     BuildAction = "Content"
                 />
                 <File
@@ -4669,6 +4709,10 @@
                 />
                 <File
                     RelPath = "Skins\Submarine\images\poweredby.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Submarine\images\printer.gif"
                     BuildAction = "Content"
                 />
                 <File

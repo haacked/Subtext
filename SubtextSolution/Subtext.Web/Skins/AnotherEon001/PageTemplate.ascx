@@ -9,22 +9,23 @@
 <table width="100%" class="Framework" cellspacing="0" cellpadding="0">
 	<tr>
 		<td colspan="2">
-			<uc1:Header id="Header1" runat="server"></uc1:Header></td>
+			<uc1:Header id="Header1" runat="server"></uc1:Header>
+		</td>
 	</tr>
 	<tr>
 		<td rowspan="2" class="LeftCell">
 			<div id="leftmenu">
-				<DT:contentregion id="MPLeftColumn" runat="server">
+				<DT:ContentRegion id="MPLeftColumn" runat="server">
 					<uc1:MyLinks id="MyLinks1" runat="server"></uc1:MyLinks>
 					<uc1:News id="News1" runat="server"></uc1:News>
 					<uc1:SingleColumn id="SingleColumn1" runat="server"></uc1:SingleColumn>
-				</DT:contentregion>
+				</DT:ContentRegion>
 				
 			</div>
 		</td>
 		<td class="MainCell">
 			<div id="main">
-				<DT:contentregion id="MPMain" runat="server"></DT:contentregion>
+				<DT:ContentRegion id="MPMain" runat="server"></DT:ContentRegion>
 			</div>
 		</td>
 	</tr>
