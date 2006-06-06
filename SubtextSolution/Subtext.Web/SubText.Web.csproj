@@ -322,6 +322,10 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "ReleaseNotes.txt"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "ReverseDOS.config"
                     BuildAction = "None"
                 />
@@ -3736,6 +3740,10 @@
                 />
                 <File
                     RelPath = "Skins\Piyo\piyo-fixed.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Piyo\print.css"
                     BuildAction = "Content"
                 />
                 <File

@@ -9,8 +9,7 @@
 		<asp:literal id="Body" runat="server" />
 	</div>
 	<div class="info">
-		posted on
-		<asp:literal id="PostDescription" runat="server" />
+		posted on <asp:literal id="PostDescription" runat="server" /> | <a href="javascript:window.print();" class="printIcon"><span>Print</span></a>
 	</div>
 	<div class="trackback">
 		<asp:literal id="PingBack" runat="server" />

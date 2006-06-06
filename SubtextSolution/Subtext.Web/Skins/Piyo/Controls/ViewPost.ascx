@@ -7,5 +7,6 @@
 			posted @ <asp:Literal id="PostDescription"  runat="server" />
 		</p>
 </div>
+	<a href="javascript:window.print();" class="printIcon"><span>Print</span></a>
 	<asp:Literal ID = "PingBack" Runat="server" />
 	<asp:Literal ID = "TrackBack" Runat="server" />

@@ -1,0 +1,8 @@
+body 
+{
+}
+
+.Navigation, .c3, .c1, .printIcon, .Form, .PostComment
+{
+	display: none;
+}
