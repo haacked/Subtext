@@ -1,0 +1,29 @@
+.container .main .innermain .mainContent, .container .main .innermain, .container .main, .container .top
+{
+	background: #fff;
+	width: 100%;
+	border: 0;
+	padding: 0 !important;
+	margin: 0 !important;
+	color: #000;
+}
+
+.container .top h1, .container .top h1 a, .container .top #tagline
+{
+	color: #000;
+	text-align: left;
+	margin: 0;
+	padding: 0;
+}
+
+.container .top
+{
+	margin: 0;
+	padding: 0;
+	height: 70px;
+}
+
+.rightmenu, #commentform, .container div.eofp
+{
+	display: none;
+}
