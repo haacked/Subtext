@@ -660,3 +660,15 @@ Will later merge with the rest of the CSS
       #contentBodyCenter {
               background: none;
       }
+      
+a.printIcon
+{
+	background: url('images/printer.gif') no-repeat top left;
+	padding-bottom: 4px;
+}
+
+a.printIcon span
+{
+	background: url('images/printer.gif') no-repeat top left;
+	padding-left: 17px;
+}

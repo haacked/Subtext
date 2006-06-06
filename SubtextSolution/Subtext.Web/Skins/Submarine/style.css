@@ -68,6 +68,12 @@ body
 	font-size:0.7em;
 	text-decoration: none;
 }
+
+#navigation .links a:hover
+{
+	color: #c00;
+}
+
 #navigation .links ul li
 {
 	color: #D1EDFF;
@@ -85,7 +91,7 @@ body
 	it can have posts, archives, category listings, etc. */	
 	padding-left: 0px;
 	background-color: #FCFCF7;
-	margin-left:20px;
+	margin-left: 20px;
 	width: 460px;  
 	margin-top:0px;
 }
@@ -138,13 +144,18 @@ body
 {
 	/* specific formatting for each individual thumbnail */
 }
+
 #postComment
 {
 	/* the container for the form where people can input comments */
+	padding-left: 10px;
+	margin-top: 15px;
 }
+
 #postComment .title
 {
-	/* the title of the comment form */
+	font-weight: bold;
+	font-size: .9em;
 }
 #searchBox
 {
@@ -181,27 +192,40 @@ body
 }
 .comments
 {
-	/* container for all comments */
+	font-size: .8em;
+	padding-left: 5px;
+	margin-right: 5px;
 }
+
+.comments h2
+{
+	font-size: 1.1em;
+}
+
 .comment
 {
 	/* container for individual comment */
+	padding-top: 10px;
 }
 .comment .title
 {
-	/* title of comment */
+	font-weight: bold;
 }
 .comment .author
 {
-	/* author of comment */
 }
-.comment .postedDate
+
+a.removeCommentLink
 {
-	/* comment date posted */
+	float: right;
 }
+
 .comment .content
 {
-	/* main body of comment */
+	clear: both;
+	font-size: 1.3em;
+	padding-top: 5px;
+	background: #f9f9fa;
 }
 .day
 {
@@ -348,6 +372,12 @@ body
 	background : transparent;
 	padding-left:5px;
 }
+
+.post .title a:hover
+{
+	color: #c00;
+}
+
 .post .body
 {
 	/* the body of a post */
@@ -377,10 +407,18 @@ body
 {	
 	/* the trackback / ping area of a post */
 }
+
 .previousNext
 {
-	/* the links that lead to the next and previous story */
+	font-size: .9em;
+	text-align: center;
 }
+
+.previousNext a:hover
+{
+	color: #c00;
+}
+
 .required
 {
 	/*information that should be marked as required */
@@ -397,4 +435,23 @@ body
 {
 	/* image being displayed */
 	
+}
+
+a.printIcon
+{
+	background: url('images/printer.gif') no-repeat top left;
+	padding-bottom: 4px;
+	margin-left: 0;
+}
+
+a.printIcon:hover
+{
+	color:#c00;
+}
+
+a.printIcon span
+{
+	margin-left: -5px;
+	background: url('images/printer.gif') no-repeat top left;
+	padding-left: 17px;
 }

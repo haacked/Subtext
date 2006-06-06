@@ -7,7 +7,7 @@
 		<asp:literal id="Body"  runat="server" />
 	</dd>
 	<dd class="Info">
-		posted on <asp:literal id="PostDescription"  runat="server" />
+		posted on <asp:literal id="PostDescription"  runat="server" /> <a href="javascript:window.print();" class="printIcon"><span>Print</span></a>
 	</dd>
 	<dd class="Ping">
 		<asp:literal id = "PingBack" runat="server" />

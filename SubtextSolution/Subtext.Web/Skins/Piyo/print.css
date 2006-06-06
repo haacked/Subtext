@@ -1,0 +1,29 @@
+body
+{
+	font: 76%/162% 'Lucida Sans Unicode', 'Lucida Grande', 'Bitstream Vera Sans', 'Trebuchet MS', Geneva, Arial, sans-serif;
+	background: #fff;
+	text-align: center;
+	width: 100%;
+}
+
+#main
+{
+	width: 100%;
+}
+
+#overlay, #contentHeadLeft, #contentHeadCenter, #contentHeadRight, #contentBodyLeft, #contentBodyRight, #contentHeadRight, #contentFootLeft, #contentFootCenter, #contentFootRight, #content
+{
+	background: #fff;
+}
+
+#column, #calendar, #links, #subtext, #Hyperlink2, #switcher, .printIcon, #commentform
+{
+	display: none;
+}
+
+#content, div.entry
+{
+	width: 100%;
+	padding: 0; 
+	margin: 0;
+}

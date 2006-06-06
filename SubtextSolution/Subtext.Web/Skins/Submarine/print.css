@@ -1,0 +1,33 @@
+body, #container
+{
+	background:#fff;
+	margin: 0;
+	padding: 0;
+	color: #000;
+}
+
+#header, #content
+{
+	margin: 0;
+	padding: 0;
+}
+
+.links, #navigation, .previousNext, .myadmin, #postComment
+{
+	display:none;
+}
+
+#container, #content
+{
+	width: 100%;
+}
+
+#header div.title a
+{
+	color: #000;
+}
+
+#footer div.copyright
+{
+	color: #000;
+}
