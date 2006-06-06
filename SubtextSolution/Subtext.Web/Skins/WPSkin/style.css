@@ -9,13 +9,14 @@ Author URI: http://www.analystdeveloper.com/
 	This theme was designed/hacked and built by Gurkan Yeniceri,
 	whose blog you will find at http://blogs.analystdeveloper.com/gurkaneng/default.aspx
 
-	The CSS and design is released under GPL:
-	http://www.opensource.org/licenses/gpl-license.php
+The CSS and design is released under GPL:
+http://www.opensource.org/licenses/gpl-license.php
 */
 
 /*the top of the page*/
 
-.top {
+.top 
+{
 	background: url(images/kubrickheader.jpg) no-repeat center;
 	height : 200px;
 	margin-bottom : 0px;
@@ -23,12 +24,14 @@ Author URI: http://www.analystdeveloper.com/
 }
 
 /*The title of the blog*/
-.headermaintitle{
+.headermaintitle
+{
 	font-family : 'Lucida Grande', Verdana, Arial, Sans-Serif;
 }
 
 /*the subtitle of the blog*/
-#tagline {
+#tagline 
+{
 	font-size : 12px;
 	text-align : center;
 	color : white;
@@ -36,7 +39,9 @@ Author URI: http://www.analystdeveloper.com/
 }
 
 /*html element of body*/
-body {
+body 
+{
+	text-align: center;
 	font-size: 62.5%; /* Resets 1em to 10px */
 	font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif;
 	/*background-color: #d5d6d7;*/
@@ -45,17 +50,40 @@ body {
 	background-image : url(images/kubrickbgcolor.jpg); 
 }
 
+.container
+{
+}
+
 /*where the posts and rightmenu stays*/
-.container .main{
+.container .main
+{
 	background : url(images/kubrickbg.jpg) center;
 	background-repeat : repeat-y;
-	margin-top : 0px;
+	margin: 0;
+	padding: 0;
+	float: left;
+	text-align: left;
+	width: 100%;
+}
+
+.main .mainContent
+{
+	margin: 0 15px 0 0;
+	padding: 0;
+	float: left;
+	width: 500px;
+}
+
+.innermain
+{
+	width: 800px;
+	float: left;
+	margin-left: 260px !important;
+	margin-left: 130px;
 }
 
 /*post text and the date on top of title*/
 .post, .date{
-	margin-left : 140px;
-	margin-right : 360px;
 	margin-top : 0px;
 	text-align : justified;
 }
@@ -69,77 +97,93 @@ body {
 	margin-top : 0px;
 }
 
-.contact{
-	margin-left: 130px;
+.contact
+{
 	margin-top: 0px;
 }
 
 /*trackback pingback and posted time are here*/
-.postfoot{
+.postfoot
+{
 	text-align : center;
 	margin-bottom : 0;
 }
 
 /*the menu on the right*/
-.container .rightmenu {
-	/*position : absolute;*/
-	float: right;
-	margin-right:130px;
+.main .rightmenu 
+{
+	float: left;
 	margin-top : 10px;
-	display:inline;
 }
 
 /*This is not the page footer, it is the subtext footer control*/
-#footer {
+#footer 
+{
 	padding-top : 5px;
 	font-size : 10px;
 	text-align : center;
 }
 
 /*I have added this for the end of page picture*/
-.eofp{
+.eofp
+{
 	background : url(images/kubrickfooter.jpg) no-repeat center;
 	height : 60px;
 	margin-top : 0;
 	text-align : left; /*if center; it was mixing up with rightmenu on comment page*/
 	padding-left : 140px;
+	clear: both;
+}
+
+.eofp p
+{
+	margin-left: 150px;
 }
 
 /*comment form and comments left*/
-#commentform, #comments{
-	margin-left : 140px;
-	margin-right : 360px;	
+#commentform, #comments
+{
 	margin-top : 0px;
 	padding-top: 0px;
 }
 
 /*right menu list items*/
-.rightmenu ul li{
+.rightmenu ul li
+{
 	color: #777;
 	list-style: none;
-	padding-left : 10px;
-	/*padding-right : 25px;*/
+	padding-left: 2px;
 }
 
 /*rightmenu lists*/
-.rightmenu ul{
-	margin-left : 0px;
+.rightmenu ul
+{
+	margin: 0;
+	padding: 2px;
 }
 
 /*the bullet of the lists on rightmenu*/
-.rightmenu ul li:before {
+.rightmenu ul li:before 
+{
 	content : "\00BB \0020";
 }
 
+.rightmenu h3
+{
+	margin-bottom: 0;
+}
+
 /*headers' common settings*/
-h1, h2, h3 {
+h1, h2, h3 
+{
 	font-size: 62.5%; /* Resets 1em to 10px */
 	font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif;
 	font-weight: bold;
-	}
+}
 
 /*header 1*/
-h1 {
+h1 
+{
 	text-align: center;
 	font-size : 40px;
 	margin-top : 0px;
@@ -148,7 +192,8 @@ h1 {
 }
 
 /*various header settings*/
-h1, h1 a, h1 a:hover, h1 a:visited, .description {
+h1, h1 a, h1 a:hover, h1 a:visited, .description 
+{
 	text-decoration: none;
 	color: white;
 }
@@ -160,7 +205,8 @@ h2 {
 }
 
 /*header 3s on rightmenu*/
-.rightmenu h3 {
+.rightmenu h3 
+{
 	font-family: 'Lucida Grande', Verdana, Sans-Serif;
 	font-size: 1.2em;
 }
@@ -178,7 +224,8 @@ h5
 }
 
 /*header mouse overs*/
-a, h2 a:hover, h3 a:hover {
+a, h2 a:hover, h3 a:hover 
+{
 	color: #06c;
 	text-decoration: none;
 }
@@ -187,4 +234,16 @@ a, h2 a:hover, h3 a:hover {
 a:hover {
 	color: #147;
 	text-decoration: underline;
+}
+
+a.printIcon
+{
+	background: url('images/printer.gif') no-repeat top left;
+	padding-bottom: 4px;
+}
+
+a.printIcon span
+{
+	background: url('images/printer.gif') no-repeat top left;
+	padding-left: 17px;
 }

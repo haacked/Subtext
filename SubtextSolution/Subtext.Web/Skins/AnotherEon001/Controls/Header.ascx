@@ -5,7 +5,7 @@
 	<tr>
 		<td>
 			<h1><asp:HyperLink id="HeaderTitle" CssClass="headermaintitle" runat="server" /></h1>
-			<asp:Literal id="HeaderSubTitle" runat="server" />
+			<span id="subtitle"><asp:Literal id="HeaderSubTitle" runat="server" /></span>
 		</td>
 	</tr>
 </table>

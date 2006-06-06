@@ -5,8 +5,7 @@
 	<h4><asp:HyperLink Runat="server" ID="editLink" /><asp:HyperLink Runat="server" ID="TitleUrl" /></h4>
 	<div class="post"><asp:Literal id="Body" runat="server" /></div>
 	<p>
-		posted @
-		<asp:Literal id="PostDescription" runat="server" />
+		<a href="javascript:window.print();" class="printIcon"><span>Print</span></a> | posted @ <asp:Literal id="PostDescription" runat="server" />
 	</p>
 </div>
 <asp:Literal ID="PingBack" Runat="server" />

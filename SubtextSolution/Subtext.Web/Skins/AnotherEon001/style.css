@@ -1,5 +1,5 @@
 body {
-	font-size : 0.7em;
+	font-size : small;
 	font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
 	margin-left : 30px;
 	margin-right: 30px;
@@ -10,15 +10,19 @@ body {
 	padding-top: 10px;
 	background-color: #D9D6CB;
 }
+
 img
 {
 	border: 0px;
 }
+
 td
 {
-	font-size: 0.7em;
+	font-size: small;
 }
-a{	
+
+a
+{	
 	color : #223355;
 	text-decoration: none;
 }
@@ -213,10 +217,16 @@ h3 {
 }
 .post h5, .post h2
 {
-	font-size: 14px;
+	font-size: 1.5em;
 	margin: 0px;
 	margin-bottom: 4px;
 }
+
+#comments .post h2
+{
+	font-size: .9em;
+}
+
 .post .postfoot
 {
 	margin: 0px;
@@ -224,6 +234,7 @@ h3 {
 	color: #AAAAAA;
 	border-top: 1px solid #DDDDDD;
 	font-size: 0.8em;
+	height: 17px;
 }
 pre
 {

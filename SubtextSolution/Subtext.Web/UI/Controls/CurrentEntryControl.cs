@@ -74,5 +74,25 @@ namespace Subtext.Web.UI.Controls
 		{
 			return HttpUtility.UrlEncode(s);
 		}
+		
+		/// <summary>
+		/// Url encodes the string.
+		/// </summary>
+		/// <param name="s">The s.</param>
+		/// <returns></returns>
+		protected string UrlEncode(Uri s)
+		{
+			return HttpUtility.UrlEncode(s.ToString());
+		}
+		
+		/// <summary>
+		/// Url encodes the string.
+		/// </summary>
+		/// <param name="s">The s.</param>
+		/// <returns></returns>
+		protected string UrlEncode(object s)
+		{
+			return HttpUtility.UrlEncode(s.ToString());
+		}
 	}
 }
