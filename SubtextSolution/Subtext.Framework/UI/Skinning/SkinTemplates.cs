@@ -51,20 +51,25 @@ namespace Subtext.Framework.UI.Skinning
 		}
 
 		private Hashtable _ht;
+		/// <summary>
+		/// Gets the template based on the skin id.
+		/// </summary>
+		/// <param name="id">The id.</param>
+		/// <returns></returns>
 		public SkinTemplate GetTemplate(string id)
 		{
 			if(_ht == null)
 			{
 				_ht = new Hashtable();
-				for(int i = 0; i<Templates.Length; i++)
+				for(int i = 0; i < Templates.Length; i++)
 				{
-					_ht.Add(Templates[i].SkinID.ToLower(System.Globalization.CultureInfo.InvariantCulture),Templates[i]);
+					_ht.Add(Templates[i].SkinKey, Templates[i]);
 				}
 			}
 
-			if(_ht.Contains(id.ToLower(System.Globalization.CultureInfo.InvariantCulture)))
+			if(_ht.Contains(id.ToUpper(System.Globalization.CultureInfo.InvariantCulture)))
 			{
-				return (SkinTemplate)_ht[id.ToLower(System.Globalization.CultureInfo.InvariantCulture)];
+				return (SkinTemplate)_ht[id.ToUpper(System.Globalization.CultureInfo.InvariantCulture)];
 			}
 			return null;
 

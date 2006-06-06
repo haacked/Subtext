@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Globalization;
 using System.Xml.Serialization;
 
 namespace Subtext.Framework.UI.Skinning
@@ -61,6 +62,15 @@ namespace Subtext.Framework.UI.Skinning
 		{
 			get {return this._skinID;}
 			set {this._skinID = value;}
+		}
+		
+		[XmlIgnore]
+		public string SkinKey
+		{
+			get
+			{
+				return (Skin + (SecondaryCss != null && SecondaryCss.Length > 0 ? "-" + SecondaryCss : string.Empty)).ToUpper(CultureInfo.InvariantCulture);
+			}
 		}
 
 		private Script[] _scripts;

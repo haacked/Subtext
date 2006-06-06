@@ -1,0 +1,33 @@
+body, #Form1 #centercontent, .singlepost
+{
+	margin: 0; 
+	padding: 0;
+	background: #fff;
+	border: 0;
+}
+
+#centercontent
+{
+	width: 100%;
+}
+
+#leftcontent, #CommentForm, a.printIcon, #rightcontent
+{
+	display: none;
+}
+
+#top a.headermaintitle
+{
+	color: #000;
+}
+
+#top
+{
+	background: #fff;
+}
+
+p#tagline
+{
+	background: #eee;
+	color: #000;
+}

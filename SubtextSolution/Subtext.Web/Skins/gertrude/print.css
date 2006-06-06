@@ -1,0 +1,32 @@
+body, #main
+{
+	margin: 0; 
+	padding: 0;
+	background: #fff;
+}
+
+#main
+{
+	width: 100%;
+}
+
+#rightmenu, #main #commentform, a.printIcon
+{
+	display: none;
+}
+
+#top a.headermaintitle
+{
+	color: #000;
+}
+
+#top
+{
+	background: #fff;
+}
+
+p#tagline
+{
+	background: #eee;
+	color: #000;
+}

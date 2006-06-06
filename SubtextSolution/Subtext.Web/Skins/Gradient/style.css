@@ -310,3 +310,15 @@ ul.sidebarlist
 	margin: 0;
 	padding: 0;
 }
+
+a.printIcon
+{
+	background: url('images/printer.gif') no-repeat top left;
+	padding-bottom: 4px;
+}
+
+a.printIcon span
+{
+	background: url('images/printer.gif') no-repeat top left;
+	padding-left: 17px;
+}

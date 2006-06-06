@@ -46,11 +46,10 @@ namespace Subtext.Web.UI
 		{
 			if(Config.CurrentBlog.Skin.SkinName == null)
 			{
-				Config.CurrentBlog.Skin.SkinName = "BlueBook";
+				Config.CurrentBlog.Skin = SkinConfig.GetDefaultSkin();
 			}
 			return Config.CurrentBlog.Skin.SkinName;
 		}
-
 
 		private static readonly string BlogPageTitle = "BlogPageTitle";
 

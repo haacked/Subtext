@@ -1,0 +1,17 @@
+body
+{
+	margin: 0;
+	padding: 0;
+}
+
+#mainbody #sidebar, #content #commentform
+{
+	display: none;
+}
+
+#main, #mainbody, #mainbody #content, #mainbody #content div.blogpost
+{
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}

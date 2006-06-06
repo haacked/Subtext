@@ -41,7 +41,7 @@ namespace Subtext.Web.UI.WebControls
 		private Control template = null;
 
 		private ArrayList contents = new ArrayList();
-		private const string SkinPath = "~/Skins/{0}/PageTemplate.ascx";
+		private const string skinPath = "~/Skins/{0}/PageTemplate.ascx";
 
 		/// <summary>
 		/// Gets or sets the template file from the Skins directory.
@@ -54,7 +54,7 @@ namespace Subtext.Web.UI.WebControls
 			{ 
 				if(this.templateFile == null)
 				{
-					this.templateFile =  string.Format(SkinPath, Globals.Skin(Context));
+					this.templateFile =  string.Format(skinPath, Globals.Skin(Context));
 				}
 				return this.templateFile;
 			}
