@@ -2038,6 +2038,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\gertrude\print.css"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\gertrude\red.css"
                     BuildAction = "Content"
                 />
@@ -2153,13 +2157,20 @@
                     RelPath = "Skins\gertrude\Controls\ViewPost.ascx"
                     BuildAction = "Content"
                 />
-                <Folder RelPath = "Skins\gertrude\Images\" />
+                <File
+                    RelPath = "Skins\gertrude\Images\printer.gif"
+                    BuildAction = "Content"
+                />
                 <File
                     RelPath = "Skins\Gradient\IEPatches.css"
                     BuildAction = "Content"
                 />
                 <File
                     RelPath = "Skins\Gradient\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\print.css"
                     BuildAction = "Content"
                 />
                 <File
@@ -2288,6 +2299,10 @@
                 />
                 <File
                     RelPath = "Skins\Gradient\Images\headerbackground.gif"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Gradient\Images\printer.gif"
                     BuildAction = "Content"
                 />
                 <File
@@ -2499,6 +2514,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\Hover\print.css"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\Hover\style.css"
                     BuildAction = "Content"
                 />
@@ -2610,7 +2629,10 @@
                     RelPath = "Skins\Hover\Controls\ViewPost.ascx"
                     BuildAction = "Content"
                 />
-                <Folder RelPath = "Skins\Hover\Images\" />
+                <File
+                    RelPath = "Skins\Hover\Images\printer.gif"
+                    BuildAction = "Content"
+                />
                 <File
                     RelPath = "Skins\KeyWest\PageTemplate.ascx"
                     BuildAction = "Content"
@@ -2860,6 +2882,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\Lighty\print.css"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\Lighty\style.css"
                     BuildAction = "Content"
                 />
@@ -2992,8 +3018,8 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Skins\Lighty\Images\WS_FTP.LOG"
-                    BuildAction = "None"
+                    RelPath = "Skins\Lighty\Images\printer.gif"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "Skins\Lighty\Images\xml.gif"
@@ -3001,6 +3027,10 @@
                 />
                 <File
                     RelPath = "Skins\Lightz\PageTemplate.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Lightz\print.css"
                     BuildAction = "Content"
                 />
                 <File
@@ -3152,6 +3182,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\Lightz\Images\printer.gif"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\Lightz\Images\xml.gif"
                     BuildAction = "Content"
                 />
@@ -3173,6 +3207,10 @@
                 />
                 <File
                     RelPath = "Skins\Marvin2\pink.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin2\print.css"
                     BuildAction = "Content"
                 />
                 <File
@@ -3295,7 +3333,10 @@
                     RelPath = "Skins\Marvin2\Controls\ViewPost.ascx"
                     BuildAction = "Content"
                 />
-                <Folder RelPath = "Skins\Marvin2\Images\" />
+                <File
+                    RelPath = "Skins\Marvin2\Images\printer.gif"
+                    BuildAction = "Content"
+                />
                 <File
                     RelPath = "Skins\Marvin3\blue.css"
                     BuildAction = "Content"
@@ -3314,6 +3355,10 @@
                 />
                 <File
                     RelPath = "Skins\Marvin3\pink.css"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\print.css"
                     BuildAction = "Content"
                 />
                 <File
@@ -3434,6 +3479,10 @@
                 />
                 <File
                     RelPath = "Skins\Marvin3\Controls\ViewPost.ascx"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Skins\Marvin3\images\printer.gif"
                     BuildAction = "Content"
                 />
                 <File

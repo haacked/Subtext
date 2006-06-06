@@ -6,7 +6,7 @@
 	
 	<asp:Literal id="Body"  runat="server" />
 	<div class = "itemdesc">
-		posted on <asp:Literal id="PostDescription"  runat="server" />
+		<a href="javascript:window.print();" class="printIcon"><span>Print</span></a> | posted on <asp:Literal id="PostDescription"  runat="server" />
 	</div>
 </div>
 	<asp:Literal ID = "PingBack" Runat = "server" />

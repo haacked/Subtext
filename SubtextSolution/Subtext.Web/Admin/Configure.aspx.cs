@@ -91,10 +91,10 @@ namespace Subtext.Web.Admin.Pages
 			SkinTemplate[] templates = SkinTemplates.Instance().Templates;
 			foreach(SkinTemplate template in templates)
 			{
-				ddlSkin.Items.Add(new ListItem(template.SkinID, template.SkinID));
+				ddlSkin.Items.Add(new ListItem(template.SkinID, template.SkinKey));
 			}
 
-			ListItem skinItem = ddlSkin.Items.FindByValue(info.Skin.SkinName);
+			ListItem skinItem = ddlSkin.Items.FindByValue(info.Skin.SkinID.ToUpper(CultureInfo.InvariantCulture));
 			if(skinItem != null)
 			{
 				skinItem.Selected = true;
@@ -135,13 +135,12 @@ namespace Subtext.Web.Admin.Pages
 				info.AllowServiceAccess = ckbAllowServiceAccess.Checked;
 
 				info.Skin.SkinCssText = txbSecondaryCss.Text.Trim();
-			
-				
+
 				string news = txbNews.Text.Trim();
 				info.News = news.Length == 0 ? null : news;
 
 				SkinTemplate skinTemplate = SkinTemplates.Instance().GetTemplate(ddlSkin.SelectedItem.Value);
-				info.Skin.SkinName = skinTemplate.SkinID;
+				info.Skin.SkinName = skinTemplate.Skin;
 				if(skinTemplate.UseSecondaryCss)
 				{
 					info.Skin.SkinCssFile = skinTemplate.SecondaryCss;

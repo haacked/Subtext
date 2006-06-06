@@ -1,0 +1,21 @@
+body
+{
+}
+
+div.pagelayout #menu, div.moreinfo #postcomment, div.block div.block_footer, div.moreinfo div.moreinfotitle
+{
+	display: none;
+}
+
+div.pagelayout #main h1.block_title
+{
+	background: #fff;
+	height: 20px;
+}
+
+div.block div.post, div.pagelayout #main
+{
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}

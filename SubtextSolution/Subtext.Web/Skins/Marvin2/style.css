@@ -144,3 +144,15 @@ h3 {
 	margin-left : 10px;
 	padding : 0px;
 }
+
+a.printIcon
+{
+	background: url('images/printer.gif') no-repeat top left;
+	padding-bottom: 4px;
+}
+
+a.printIcon span
+{
+	background: url('images/printer.gif') no-repeat top left;
+	padding-left: 17px;
+}
