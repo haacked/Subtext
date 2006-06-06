@@ -1,0 +1,24 @@
+body, #top, #tagline, #main, .Framework, .MainCell
+{
+	padding: 0;
+	margin: 0;
+	background-color: #fff;
+	color: #000;
+	border: none;
+	width: 100%;
+}
+
+td.LeftCell, #leftmenu, #commentform, .powererdby, .BlogStats, #sub
+{
+	display: none;
+}
+
+#top h1 td, #top h1 a, #subtitle
+{
+	color: #000;
+}
+
+.post
+{
+	border: none;
+}
