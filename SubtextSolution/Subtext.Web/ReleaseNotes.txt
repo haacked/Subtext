@@ -1,5 +1,5 @@
 Version 1.5 - Nautilus R&R Edition
-- NEW:  Skins!!! Such as Submarine, etc...
+- NEW:  Skins and Skin Controls such as Submarine and PreviousNext.
 - NEW:  [1447651] Display Subtext Version number in Admin
 - NEW:  [1446655] Implemented an upgrade wizard for upgrading schema and stored 
 		procedures.
