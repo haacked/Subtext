@@ -5,6 +5,12 @@ body, td {
 	margin : 0px;
 }
 
+.embedimage {
+	float: left;
+	margin-right: 10px;
+	margin-bottom: 5px;
+}
+
 a:visited, a:active, a:link {	
 	color : #355EA0;
 	text-decoration : none;
