@@ -1,0 +1,6 @@
+1. Prepare a clean build using NAnt and the Subtext.build file
+2. Update the Release Notes in Subtext.Web text file and in the Subtext Project site (http://subtextproject.com/Home/Roadmap/ReleaseNotes/tabid/146/Default.aspx).
+3. Prepare an announcement and updated docs for the release.
+4. Prepare the release in Source Forge
+5. Publish Source Forge Release.
+6. Publish announcements and updated documentation

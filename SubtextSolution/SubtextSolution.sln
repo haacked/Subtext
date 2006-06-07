@@ -112,6 +112,8 @@ Global
 		CVSReadMe.txt = CVSReadMe.txt
 		License.txt = License.txt
 		Subtext.Installation\Scripts\Migration_Notes.txt = Subtext.Installation\Scripts\Migration_Notes.txt
+		ReleaseChecklist.txt = ReleaseChecklist.txt
+		Subtext.Web\ReleaseNotes.txt = Subtext.Web\ReleaseNotes.txt
 		SolutionInfo.cs = SolutionInfo.cs
 		SourceGuidelines.txt = SourceGuidelines.txt
 		SubText.build = SubText.build
