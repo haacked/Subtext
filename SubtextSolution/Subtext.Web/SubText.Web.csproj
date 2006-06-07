@@ -1913,6 +1913,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\blue\print.css"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\blue\Style.css"
                     BuildAction = "Content"
                 />
@@ -2024,7 +2028,10 @@
                     RelPath = "Skins\blue\Controls\ViewPost.ascx"
                     BuildAction = "Content"
                 />
-                <Folder RelPath = "Skins\blue\Images\" />
+                <File
+                    RelPath = "Skins\blue\Images\printer.gif"
+                    BuildAction = "Content"
+                />
                 <File
                     RelPath = "Skins\gertrude\blue.css"
                     BuildAction = "Content"
@@ -4480,6 +4487,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\simple\print.css"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\simple\Style.css"
                     BuildAction = "Content"
                 />
@@ -4591,7 +4602,10 @@
                     RelPath = "Skins\simple\Controls\ViewPost.ascx"
                     BuildAction = "Content"
                 />
-                <Folder RelPath = "Skins\simple\Images\" />
+                <File
+                    RelPath = "Skins\simple\Images\printer.gif"
+                    BuildAction = "Content"
+                />
                 <File
                     RelPath = "Skins\Submarine\PageTemplate.ascx"
                     BuildAction = "Content"
@@ -4769,6 +4783,10 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "Skins\white\print.css"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "Skins\white\Style.css"
                     BuildAction = "Content"
                 />
@@ -4880,7 +4898,10 @@
                     RelPath = "Skins\white\Controls\ViewPost.ascx"
                     BuildAction = "Content"
                 />
-                <Folder RelPath = "Skins\white\Images\" />
+                <File
+                    RelPath = "Skins\white\Images\printer.gif"
+                    BuildAction = "Content"
+                />
                 <File
                     RelPath = "Skins\WPSkin\PageTemplate.ascx"
                     BuildAction = "Content"
