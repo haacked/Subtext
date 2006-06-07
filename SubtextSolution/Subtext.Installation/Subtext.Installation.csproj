@@ -174,8 +174,8 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "Scripts\Installation.01.04.01.sql"
-                    BuildAction = "EmbeddedResource"
+                    RelPath = "Scripts\Installation.01.05.00.sql"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "Scripts\Migration_Notes.txt"
