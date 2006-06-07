@@ -22,7 +22,7 @@ using System.Reflection;
 /* [assembly: AssemblyVersion("1.0.4.0")] moved to VersionInfo.cs for automatic generation */
 /* Removed [AssemblyFileVersion] since it defaults to AssemblyVersion */
 /* Human Readable version. */
-[assembly: AssemblyInformationalVersion("1.0.5.0")]
+[assembly: AssemblyInformationalVersion("1.5.0.0")]
 
 //
 // In order to sign your assembly you must specify a key to use. Refer to the 
