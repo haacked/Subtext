@@ -1,6 +1,8 @@
-1. Prepare a clean build using NAnt and the Subtext.build file
-2. Update the Release Notes in Subtext.Web text file and in the Subtext Project site (http://subtextproject.com/Home/Roadmap/ReleaseNotes/tabid/146/Default.aspx).
-3. Prepare an announcement and updated docs for the release.
-4. Prepare the release in Source Forge
-5. Publish Source Forge Release.
-6. Publish announcements and updated documentation
+0. Make sure code builds. Unit Tests Run. Etc...
+1. Update the Version Number in SolutionInfo.cs and VersionInfo.Designer.cs if necessary.
+2. Prepare a clean build using NAnt and the Subtext.build file
+3. Update the Release Notes in Subtext.Web text file and in the Subtext Project site (http://subtextproject.com/Home/Roadmap/ReleaseNotes/tabid/146/Default.aspx).
+4. Prepare an announcement and updated docs for the release.
+5. Prepare the release in Source Forge
+6. Publish Source Forge Release.
+7. Publish announcements and updated documentation
