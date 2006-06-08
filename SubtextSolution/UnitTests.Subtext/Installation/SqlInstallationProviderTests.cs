@@ -54,7 +54,7 @@ namespace UnitTests.Subtext.Installation
 			string[] scripts = sqlProvider.ListInstallationScripts(null, new Version(1, 5, 0, 0));
 			Assert.AreEqual(2, scripts.Length, "We expected to see two scripts.");
 			Assert.AreEqual("Installation.01.00.00.sql", scripts[0], "Expected the initial 1.0 installation file.");
-			Assert.AreEqual("Installation.01.04.01.sql", scripts[1], "Expected the bugfix 1.4.1 installation file.");
+			Assert.AreEqual("Installation.01.05.00.sql", scripts[1], "Expected the bugfix 1.5 installation file.");
 
 			scripts = sqlProvider.ListInstallationScripts(null, new Version(1, 0, 3, 0));
 			Assert.AreEqual(1, scripts.Length, "We expected to see one script.");
