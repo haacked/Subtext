@@ -7,9 +7,10 @@ Version 1.5 - Nautilus R&R Edition
 		FCKeditorProvider, and PlainTextProvider.
 - NEW:  [1442301] Javascript BlogInfo object.  Useful for providing client 
 		scripts with information on the current blog.
-- NEW	[1212198] Printable View and Print Icon. Not All Skins implement this.
+- NEW		[1212198] Printable View and Print Icon. Not All Skins implement this.
 - NEW:	[1442253] Live Comment Preview w/ Allowed HTML.  Not All Skins 
 		implement this.
+- NEW: 	[1199483] GRAVATAR Support
 - CHG:	[1441184] Augo-generated URLs From Titles is now configurable.
 - BUG:  [1490671] Fixed bug with trackbacks/pingbacks
 - BUG:	[1452536] Fixed MultiBlog Caching Issue. Posts from one blog would show
