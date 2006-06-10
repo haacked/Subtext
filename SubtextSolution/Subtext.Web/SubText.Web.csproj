@@ -5392,6 +5392,37 @@
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
+                <File
+                    RelPath = "Web References\com.community-credit.www\affiliateservices.disco"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Web References\com.community-credit.www\affiliateservices.wsdl"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Web References\com.community-credit.www\Reference.map"
+                    BuildAction = "None"
+                    Generator = "MSDiscoCodeGenerator"
+                    LastGenOutput = "Reference.cs"
+                />
+                <File
+                    RelPath = "Web References\com.community-credit.www\Reference.cs"
+                    DependentUpon = "Reference.map"
+                    SubType = "code"
+                    BuildAction = "Compile"
+                    DesignTime = "True"
+                    AutoGen = "True"
+                />
+                <Folder
+                    RelPath = "Web References\com.community-credit.www\"
+                    WebReferenceUrl = "http://www.community-credit.com/services/affiliateservices.asmx?op=AddCommunityCredit"
+                    UrlBehavior = "Static"
+                />
+                <Folder
+                    RelPath = "Web References\"
+                    WebReferences = "TRUE"
+                />
             </Include>
         </Files>
     </CSHARP>

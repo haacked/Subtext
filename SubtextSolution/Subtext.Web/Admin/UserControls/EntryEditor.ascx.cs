@@ -488,6 +488,7 @@ namespace Subtext.Web.Admin.UserControls
 						PostID = Entries.Create(entry);
 						
 						//TODO: Add here code to be called after creating a post
+						AddCommunityCredits(entry);
 					}
 
 					UpdateCategories();
@@ -655,6 +656,39 @@ namespace Subtext.Web.Admin.UserControls
 		protected void richTextEditor_Error(object sender, Subtext.Web.Controls.RichTextEditorErrorEventArgs e)
 		{
 			this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", e.Exception.Message));
+		}
+
+		private string AddCommunityCredits(Entry entry) 
+		{
+			string result=string.Empty;
+			string commCreditsEnabled=System.Configuration.ConfigurationSettings.AppSettings["CommCreditEnabled"].ToLower();
+			if(commCreditsEnabled.Equals("true")) 
+			{
+				com.community_credit.www.AffiliateServices wsCommunityCredit = new Subtext.Web.com.community_credit.www.AffiliateServices();
+				string url=entry.FullyQualifiedUrl.ToString();
+				string category=String.Empty;
+				if(entry.PostType==PostType.BlogPost)
+					category="Blog";
+				else if (entry.PostType==PostType.Story)
+					category="Article";
+				string description = "Blogged about: " + entry.Title;
+				BlogInfo info = Config.CurrentBlog;
+				string firstName=string.Empty;
+				string lastName=info.Author;
+				string email=info.Email;
+				string affiliateCode=System.Configuration.ConfigurationSettings.AppSettings["CommCreditAffiliateCode"];
+				string affiliateKey=System.Configuration.ConfigurationSettings.AppSettings["CommCreditAffiliateKey"];
+				
+				try 
+				{
+					result=wsCommunityCredit.AddCommunityCredit(email,firstName,lastName,description,url,category,affiliateCode,affiliateKey);
+				}
+				catch(Exception ex) 
+				{
+					this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "Error during Community Credits submission (your post has been saved)", ex.Message));
+				}	
+			}
+			return result;
 		}
 	}
 }
