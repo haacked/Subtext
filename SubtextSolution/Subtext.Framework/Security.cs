@@ -282,7 +282,7 @@ namespace Subtext.Framework
 			get
 			{
 				//TODO: Eventually just check for admin role.
-				return IsInRole("Admins");
+				return IsInRole("Admins") && StringHelper.AreEqualIgnoringCase(CurrentUserName, Config.CurrentBlog.UserName);
 			}
 		}
 
