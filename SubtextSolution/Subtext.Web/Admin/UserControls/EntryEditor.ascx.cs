@@ -661,7 +661,17 @@ namespace Subtext.Web.Admin.UserControls
 		private string AddCommunityCredits(Entry entry) 
 		{
 			string result=string.Empty;
-			string commCreditsEnabled=System.Configuration.ConfigurationSettings.AppSettings["CommCreditEnabled"].ToLower();
+
+			bool commCreditsEnabled;
+			try
+			{
+				commCreditsEnabled = Convert.ToBoolean(System.Configuration.ConfigurationSettings.AppSettings["CommCreditEnabled"]);
+			}
+			catch(Exception) 
+			{
+				commCreditsEnabled = false;
+			}
+
 			if(commCreditsEnabled.Equals("true")) 
 			{
 				com.community_credit.www.AffiliateServices wsCommunityCredit = new Subtext.Web.com.community_credit.www.AffiliateServices();

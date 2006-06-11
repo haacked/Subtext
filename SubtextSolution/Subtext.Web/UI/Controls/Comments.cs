@@ -46,7 +46,7 @@ namespace Subtext.Web.UI.Controls
 			{
 				gravatarEnabled = Convert.ToBoolean(ConfigurationSettings.AppSettings["GravatarEnabled"]);
 			}
-			catch(FormatException) 
+			catch(Exception) 
 			{
 				gravatarEnabled = false;
 			}
