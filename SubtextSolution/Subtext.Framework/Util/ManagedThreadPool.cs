@@ -281,11 +281,14 @@ namespace Subtext.Framework.Util
 				catch(Exception exc)
 				{
 					// Make sure we don't throw here.
-					Log.Error("Error while processing queued items.", exc);
-				}
-				catch
-				{
-					Log.Error("Unexpected exception while processing queued items.");
+                    try
+                    {
+                        Log.Error("Error while processing queued items.", exc);
+                    }
+                    catch
+                    {
+                        Log.Error("Unexpected exception while processing queued items.");
+                    }
 				}
 				finally 
 				{

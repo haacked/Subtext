@@ -665,7 +665,7 @@ namespace Subtext.Web.Admin.UserControls
 			bool commCreditsEnabled;
 			try
 			{
-				commCreditsEnabled = Convert.ToBoolean(System.Configuration.ConfigurationSettings.AppSettings["CommCreditEnabled"]);
+                commCreditsEnabled = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["CommCreditEnabled"]);
 			}
 			catch(Exception) 
 			{
@@ -686,8 +686,8 @@ namespace Subtext.Web.Admin.UserControls
 				string firstName=string.Empty;
 				string lastName=info.Author;
 				string email=info.Email;
-				string affiliateCode=System.Configuration.ConfigurationSettings.AppSettings["CommCreditAffiliateCode"];
-				string affiliateKey=System.Configuration.ConfigurationSettings.AppSettings["CommCreditAffiliateKey"];
+                string affiliateCode = System.Configuration.ConfigurationManager.AppSettings["CommCreditAffiliateCode"];
+                string affiliateKey = System.Configuration.ConfigurationManager.AppSettings["CommCreditAffiliateKey"];
 				
 				try 
 				{

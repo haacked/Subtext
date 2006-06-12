@@ -14,8 +14,9 @@
 #endregion
 
 using System;
-using System.Web.Mail;
+using System.Net.Mail;
 using Subtext.Extensibility.Providers;
+using System.Net;
 
 namespace Subtext.Framework.Email
 {
@@ -26,27 +27,29 @@ namespace Subtext.Framework.Email
 	/// </summary>
 	public class SystemMailProvider : EmailProviderBase
 	{
-		public override bool Send(string to, string from, string subject, string message)
+		public override bool Send(string toStr, string fromStr, string subject, string message)
 		{
 			try
 			{
-				MailMessage em = new MailMessage();
-				em.To = to;
-				em.From = from;
+
+                MailAddress from = new MailAddress(fromStr);
+                MailAddress to = new MailAddress(toStr);
+
+                MailMessage em = new MailMessage(from, to);
+
 				em.Subject = subject;
 				em.Body = message;
 
-				// Found out how to send authenticated email via System.Web.Mail 
-				// at http://SystemWebMail.com (fact 3.8)
+                SmtpClient client = new SmtpClient(this.SmtpServer);
+
 				if(this.UserName != null && this.Password != null)
 				{
-					em.Fields.Add("http://schemas.microsoft.com/cdo/configuration/smtpauthenticate", "1");	//basic authentication
-					em.Fields.Add("http://schemas.microsoft.com/cdo/configuration/sendusername", this.UserName); //set your username here
-					em.Fields.Add("http://schemas.microsoft.com/cdo/configuration/sendpassword", this.Password);	//set your password here
+                    NetworkCredential basicAuthCredential = new NetworkCredential(this.UserName, this.Password);
+                    client.UseDefaultCredentials = false;
+                    client.Credentials = basicAuthCredential;
 				}
-
-				SmtpMail.SmtpServer = this.SmtpServer;
-				SmtpMail.Send(em);
+                
+				client.Send(em);
 				return true;
 			}
 			catch

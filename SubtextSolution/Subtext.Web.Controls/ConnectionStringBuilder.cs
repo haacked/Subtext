@@ -488,7 +488,7 @@ namespace Subtext.Web.Controls
 			get
 			{
 				if(UseWebConfigCheckBox != null && UseWebConfigCheckBox.Checked)
-					return System.Configuration.ConfigurationSettings.AppSettings["ConnectionString"];
+                    return System.Configuration.ConfigurationManager.AppSettings["ConnectionString"];
 				if(CheckSQLDMO()) 
 				{
 					SetConnectionString();

@@ -44,8 +44,8 @@ namespace Subtext.Web.Controls
 			this._template = null;
 			this._defaults = new ContentRegion();
 			this._contents = new ArrayList();
-			this._templateFile = ConfigurationSettings.AppSettings["Subtext.MasterPages.TemplateFile"];
-			this.defaultContent = ConfigurationSettings.AppSettings["Subtext.MasterPages.DefaultContent"];
+            this._templateFile = ConfigurationManager.AppSettings["Subtext.MasterPages.TemplateFile"];
+            this.defaultContent = ConfigurationManager.AppSettings["Subtext.MasterPages.DefaultContent"];
 			if (this.defaultContent == null)
 			{
 				this.defaultContent = "Content";

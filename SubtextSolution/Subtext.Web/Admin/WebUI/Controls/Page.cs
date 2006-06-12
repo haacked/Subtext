@@ -36,7 +36,7 @@ namespace Subtext.Web.Admin.WebUI
 	[
 		ToolboxData("<{0}:AdminPage runat=server></{0}:AdminPage>"),
 			ToolboxItem(typeof(WebControlToolboxItem)),
-	Designer(typeof(ReadWriteControlDesigner))
+    Designer(typeof(ContainerControlDesigner))
 	]
 	public class Page : System.Web.UI.HtmlControls.HtmlContainerControl
 	{
@@ -153,12 +153,11 @@ namespace Subtext.Web.Admin.WebUI
 
 		public Page() 
 		{
-			_defaultTemplateFile = 
-				Utilities.AbsolutePath(ConfigurationSettings.AppSettings[TEMPLATE_DEFAULT]);
-			_downlevelTemplateFile = 
-				Utilities.AbsolutePath(ConfigurationSettings.AppSettings[TEMPLATE_DOWNLEVEL]);
-			
-			_defaultContent = ConfigurationSettings.AppSettings[DEFAULT_CONTENT];
+			_defaultTemplateFile =
+                Utilities.AbsolutePath(ConfigurationManager.AppSettings[TEMPLATE_DEFAULT]);
+			_downlevelTemplateFile =
+                Utilities.AbsolutePath(ConfigurationManager.AppSettings[TEMPLATE_DOWNLEVEL]);
+			_defaultContent = ConfigurationManager.AppSettings[DEFAULT_CONTENT];
 			if (_defaultContent == null) 
 				_defaultContent = "PageContent";
 		}

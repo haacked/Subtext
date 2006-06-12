@@ -51,8 +51,8 @@ namespace Subtext.Web
 
 		private void Page_Load(object sender, EventArgs e)
 		{
-			TitleTag.Text = TitleLink.Text = ConfigurationSettings.AppSettings["AggregateTitle"];
-			TitleLink.NavigateUrl = ConfigurationSettings.AppSettings["AggregateUrl"];
+            TitleTag.Text = TitleLink.Text = ConfigurationManager.AppSettings["AggregateTitle"];
+            TitleLink.NavigateUrl = ConfigurationManager.AppSettings["AggregateUrl"];
 
 			//No postbacks on this page. It is output cached.
 			BindData();
@@ -108,7 +108,7 @@ namespace Subtext.Web
 
 			SqlParameter[] p = 
 				{
-					SqlHelper.MakeInParam("@Host", SqlDbType.NVarChar, 100, ConfigurationSettings.AppSettings["AggregateHost"]),
+					SqlHelper.MakeInParam("@Host", SqlDbType.NVarChar, 100, ConfigurationManager.AppSettings["AggregateHost"]),
 					SqlHelper.MakeInParam("@GroupID", SqlDbType.Int, 4, GroupID)
 				};
 

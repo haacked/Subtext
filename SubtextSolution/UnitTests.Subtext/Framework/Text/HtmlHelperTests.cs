@@ -126,7 +126,7 @@ namespace UnitTests.Subtext.Framework.Text
 		public void TestFixtureSetUp()
 		{
 			//Confirm app settings
-			Assert.AreEqual("~/Admin/Resources/PageTemplate.ascx", System.Configuration.ConfigurationSettings.AppSettings["Admin.DefaultTemplate"]) ;
+            Assert.AreEqual("~/Admin/Resources/PageTemplate.ascx", System.Configuration.ConfigurationManager.AppSettings["Admin.DefaultTemplate"]);
 		}
 
 		[SetUp]

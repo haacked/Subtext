@@ -41,7 +41,7 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
-				return ((BlogConfigurationSettings)ConfigurationSettings.GetConfig("BlogConfigurationSettings"));
+				return ((BlogConfigurationSettings)ConfigurationManager.GetSection("BlogConfigurationSettings"));
 			}
 		}
 

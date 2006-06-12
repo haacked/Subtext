@@ -68,7 +68,7 @@ namespace Subtext.Framework
 
 		static bool ContainsSpam(Entry entry)
 		{
-			string spamWordsText = System.Configuration.ConfigurationSettings.AppSettings["SpamWords"];
+            string spamWordsText = System.Configuration.ConfigurationManager.AppSettings["SpamWords"];
 			if(spamWordsText != null && spamWordsText.Length > 0)
 			{
 				string[] spamWords = spamWordsText.Split(' ');
