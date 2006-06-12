@@ -141,13 +141,14 @@ namespace UnitTests.Subtext.Framework.Syndication
 			
 			//Expect the first item to be the second entry.
 			Assert.AreEqual("Title Test 2", itemNodes[0].SelectSingleNode("title").InnerText, "Not what we expected for the first title.");			
-			Assert.AreEqual("Title Test", itemNodes[1].SelectSingleNode("title").InnerText, "Not what we expected for the first title.");			
+			Assert.AreEqual("Title Test", itemNodes[1].SelectSingleNode("title").InnerText, "Not what we expected for the second title.");			
 			
 			//Remove first entry from syndication.
 			Entry firstEntry = Entries.GetEntry(firstId, EntryGetOption.All);
 			firstEntry.IncludeInMainSyndication = false;
 			Entries.Update(firstEntry);
 			
+		    Thread.Sleep(10);
 			//Now add it back in.
 			firstEntry.IncludeInMainSyndication = true;
 			Entries.Update(firstEntry);
@@ -159,7 +160,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			
 			//Expect the second item to be the second entry.
 			Assert.AreEqual("Title Test", itemNodes[0].SelectSingleNode("title").InnerText, "Not what we expected for the first title.");
-			Assert.AreEqual("Title Test 2", itemNodes[1].SelectSingleNode("title").InnerText, "Not what we expected for the first title.");
+			Assert.AreEqual("Title Test 2", itemNodes[1].SelectSingleNode("title").InnerText, "Not what we expected for the second title.");
 		}
 
 		private static XmlNodeList GetRssHandlerItemNodes(StringBuilder sb)
