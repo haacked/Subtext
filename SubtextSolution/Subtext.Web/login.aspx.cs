@@ -25,21 +25,12 @@ namespace Subtext.Web.Pages
 	/// <summary>
 	/// Summary description for login.
 	/// </summary>
-	public class login : System.Web.UI.Page
+	public partial class login : System.Web.UI.Page
 	{
 		#region Declared Controls
-		protected System.Web.UI.WebControls.Label Message;
-		protected System.Web.UI.WebControls.TextBox tbUserName;
-		protected System.Web.UI.WebControls.TextBox tbPassword;
-		protected System.Web.UI.WebControls.CheckBox chkRemember;
-		protected System.Web.UI.WebControls.Button btnLogin;
-		protected System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
-		protected MetaBuilders.WebControls.DefaultButtons DefaultButtons1;
-		protected System.Web.UI.HtmlControls.HtmlImage headerLogoImg;
-		protected System.Web.UI.WebControls.LinkButton lbSendPassword;
 		#endregion
 	
-		private void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
 		}
 
@@ -59,14 +50,11 @@ namespace Subtext.Web.Pages
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
-			this.lbSendPassword.Click += new System.EventHandler(this.lbSendPassword_Click);
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion
 
-		private void lbSendPassword_Click(object sender, System.EventArgs e)
+		protected void lbSendPassword_Click(object sender, System.EventArgs e)
 		{
 			BlogInfo info = Config.CurrentBlog;
 			bool messageSent = false;
@@ -131,7 +119,7 @@ namespace Subtext.Web.Pages
 			}
 		}
 
-		private void btnLogin_Click(object sender, System.EventArgs e)
+		protected void btnLogin_Click(object sender, System.EventArgs e)
 		{
 			BlogInfo currentBlog = Config.CurrentBlog;
 			string returnUrl = Request.QueryString["ReturnURL"];
