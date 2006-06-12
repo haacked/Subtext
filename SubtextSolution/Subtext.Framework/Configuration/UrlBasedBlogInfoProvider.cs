@@ -157,7 +157,7 @@ namespace Subtext.Framework.Configuration
 					{
 						info.ImageDirectory = HttpContext.Current.Request.MapPath("~/" + virtualPath);
 					}
-					catch(NullReferenceException nullException)
+					catch(ArgumentNullException nullException)
 					{
 						log.Warn("Could not map the image directory.", nullException);
 					}

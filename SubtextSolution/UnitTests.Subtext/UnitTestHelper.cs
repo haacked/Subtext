@@ -155,39 +155,42 @@ namespace UnitTests.Subtext
 		/// </summary>
 		/// <param name="host">Host.</param>
 		/// <param name="subfolder">Subfolder Name.</param>
-		/// <param name="virtualDir"></param>
-		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string virtualDir)
+		/// <param name="applicationPath"></param>
+		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string applicationPath)
 		{
-			return SetHttpContextWithBlogRequest(host, subfolder, virtualDir, "default.aspx");
+			return SetHttpContextWithBlogRequest(host, subfolder, applicationPath, "default.aspx");
 		}
 		
-		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string virtualDir, string page)
+		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string applicationPath, string page)
 		{
-			return SetHttpContextWithBlogRequest(host, subfolder, virtualDir, page, null);
+			return SetHttpContextWithBlogRequest(host, subfolder, applicationPath, page, null);
 		}
 
-		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string virtualDir, string page, TextWriter output)
+		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string applicationPath, string page, TextWriter output)
 		{
-			return SetHttpContextWithBlogRequest(host, subfolder, virtualDir, page, output, "GET");
+			return SetHttpContextWithBlogRequest(host, subfolder, applicationPath, page, output, "GET");
 		}
 		
-		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string virtualDir, string page, TextWriter output, string httpVerb)
+		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string applicationPath, string page, TextWriter output, string httpVerb)
 		{
 			HttpContext.Current = null;
-			virtualDir = UrlFormats.StripSurroundingSlashes(virtualDir);	// Subtext.Web
+		    	    
+			applicationPath = UrlFormats.StripSurroundingSlashes(applicationPath);	// Subtext.Web
 			subfolder = StripSlashes(subfolder);		// MyBlog
 
 			string appPhysicalDir = @"c:\projects\SubtextSystem\";	
-			if(virtualDir.Length == 0)
+			if(applicationPath.Length == 0)
 			{
-				virtualDir = "/";
+				applicationPath = "/";
 			}
 			else
 			{
-				appPhysicalDir += virtualDir + @"\";	//	c:\projects\SubtextSystem\Subtext.Web\
-				virtualDir = "/" + virtualDir;			//	/Subtext.Web
+				appPhysicalDir += applicationPath + @"\";	//	c:\projects\SubtextSystem\Subtext.Web\
+				applicationPath = "/" + applicationPath;			//	/Subtext.Web
 			}
 
+            SetHttpRequestApplicationPath(applicationPath);
+		    
 			if(subfolder.Length > 0)
 			{
 				page = subfolder + "/" + page;			//	MyBlog/default.aspx
@@ -195,7 +198,7 @@ namespace UnitTests.Subtext
 
 			string query = string.Empty;
 
-			SimulatedHttpRequest workerRequest = new SimulatedHttpRequest(virtualDir, appPhysicalDir, page, query, output, host, httpVerb);
+            SimulatedHttpRequest workerRequest = new SimulatedHttpRequest(applicationPath, appPhysicalDir, page, query, output, host, httpVerb);
 			HttpContext.Current = new HttpContext(workerRequest);
 			HttpContext.Current.Items.Clear();
 			HttpContext.Current.Cache.Remove("BlogInfo-");
@@ -204,10 +207,10 @@ namespace UnitTests.Subtext
 			HttpContext.Current.Items["Subtext__CurrentRequest"] = new BlogRequest(host, subfolder);
 
 			#region Console Debug INfo
-			/*
+			
 			Console.WriteLine("host: " + host);
 			Console.WriteLine("blogName: " + subfolder);
-			Console.WriteLine("virtualDir: " + virtualDir);
+			Console.WriteLine("virtualDir: " + applicationPath);
 			Console.WriteLine("page: " + page);
 			Console.WriteLine("appPhysicalDir: " + appPhysicalDir);
 			Console.WriteLine("Request.Url.Host: " + HttpContext.Current.Request.Url.Host);
@@ -217,11 +220,29 @@ namespace UnitTests.Subtext
 			Console.WriteLine("Request.Url: " + HttpContext.Current.Request.Url);
 			Console.WriteLine("Request.ApplicationPath: " + HttpContext.Current.Request.ApplicationPath);
 			Console.WriteLine("Request.PhysicalPath: " + HttpContext.Current.Request.PhysicalPath);
-			*/
+
 			#endregion
 
 			return workerRequest;
 		}
+	    
+	    static void SetHttpRequestApplicationPath(string applicationPath)
+	    {
+	        //We cheat by using reflection.
+	        FieldInfo runtimeField = typeof(HttpRuntime).GetField("_theRuntime", BindingFlags.NonPublic | BindingFlags.Static);
+	        Assert.IsNotNull(runtimeField);
+            HttpRuntime currentRuntime = runtimeField.GetValue(null) as HttpRuntime;
+            Assert.IsNotNull(currentRuntime);
+            FieldInfo appDomainAppVPathField = typeof(HttpRuntime).GetField("_appDomainAppVPath", BindingFlags.NonPublic | BindingFlags.Instance);
+            Assert.IsNotNull(appDomainAppVPathField);
+
+            Type virtualPathType = Type.GetType("System.Web.VirtualPath, System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", true);
+            Assert.IsNotNull(virtualPathType);
+            MethodInfo createMethod = virtualPathType.GetMethod("Create", BindingFlags.Static | BindingFlags.Public, null, new Type[] {typeof(string)}, null);
+            object virtualPath = createMethod.Invoke(null, new object[] { applicationPath });
+	        
+	        appDomainAppVPathField.SetValue(currentRuntime, virtualPath);
+	    }
 
 		/// <summary>
 		/// Strips the slashes from the target string.
