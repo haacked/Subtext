@@ -29,27 +29,12 @@ namespace Subtext.Web
 	/// <summary>
 	/// Summary description for _default.
 	/// </summary>
-	public class _default : Page
+	public partial class _default : Page
 	{
-		protected Repeater Bloggers;
-		protected Literal BlogCount;
-		protected Literal PostCount;
-		protected Literal StoryCount;
-		protected Literal CommentCount;
-		protected Literal PingtrackCount;
-		protected Repeater RecentPosts;
-		protected HyperLink HyperLink1;
-		protected HyperLink OpmlLink;
-		protected HyperLink RssLink;
-		protected HyperLink TitleLink;
-		protected Literal Style;
 		protected HyperLink Hyperlink6;
 		protected HyperLink Hyperlink7;
-		protected HyperLink Hyperlink4;
-		protected HyperLink Hyperlink5;
-		protected Literal TitleTag;
 
-		private void Page_Load(object sender, EventArgs e)
+		protected void Page_Load(object sender, EventArgs e)
 		{
             TitleTag.Text = TitleLink.Text = ConfigurationManager.AppSettings["AggregateTitle"];
             TitleLink.NavigateUrl = ConfigurationManager.AppSettings["AggregateUrl"];
