@@ -74,6 +74,8 @@ namespace Subtext.Framework.Util
 
 		private static ArrayList LoadTransformFile(string filename) 
 		{
+            if (filename == null)
+                throw new ArgumentNullException("filename", "The transform filename is null.");
 			string cacheKey = "transformTable-" + filename;
 			ArrayList tranforms;
 			string filenameOfTransformFile;
@@ -96,7 +98,7 @@ namespace Subtext.Framework.Util
 				{
 					filenameOfTransformFile = context.Request.MapPath("~/" + filename);
 				}
-				catch(System.NullReferenceException)
+				catch(System.ArgumentNullException)
 				{
 					//This exception can be thrown from the bowels of MapPath...
 					return null;
