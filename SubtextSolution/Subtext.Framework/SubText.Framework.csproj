@@ -211,9 +211,6 @@
     <Compile Include="Components\EntryDay.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Components\EntryDayCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Components\EntryStatsView.cs">
       <SubType>Code</SubType>
     </Compile>

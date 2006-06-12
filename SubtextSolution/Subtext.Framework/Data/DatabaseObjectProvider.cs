@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
 using Subtext.Extensibility;
@@ -227,12 +228,12 @@ namespace Subtext.Framework.Data
 		/// <param name="ItemCount">Item count.</param>
 		/// <param name="pc">Pc.</param>
 		/// <returns></returns>
-		public override EntryDayCollection GetBlogPosts(int ItemCount, PostConfig pc)
+		public override List<EntryDay> GetBlogPosts(int ItemCount, PostConfig pc)
 		{
 			IDataReader reader = DbProvider.Instance().GetConditionalEntries(ItemCount, PostType.BlogPost, pc);
 			try
 			{
-				EntryDayCollection edc = DataHelper.LoadEntryDayCollection(reader);
+				List<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader);
 				return edc;
 			}
 			finally
@@ -241,12 +242,12 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public override EntryDayCollection GetRecentDayPosts(int ItemCount, bool ActiveOnly)
+		public override List<EntryDay> GetRecentDayPosts(int ItemCount, bool ActiveOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetRecentDayPosts(ItemCount,ActiveOnly);
 			try
 			{
-				EntryDayCollection edc = DataHelper.LoadEntryDayCollection(reader);
+				List<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader);
 				return edc;
 			}
 			finally
@@ -255,12 +256,12 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public override EntryDayCollection GetPostsByMonth(int month, int year)
+		public override List<EntryDay> GetPostsByMonth(int month, int year)
 		{
 			IDataReader reader = DbProvider.Instance().GetPostCollectionByMonth(month,year);
 			try
 			{
-				EntryDayCollection edc = DataHelper.LoadEntryDayCollection(reader);
+				List<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader);
 				return edc;
 			}
 			finally
@@ -269,12 +270,12 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public override EntryDayCollection GetPostsByCategoryID(int ItemCount, int catID)
+		public override List<EntryDay> GetPostsByCategoryID(int ItemCount, int catID)
 		{
 			IDataReader reader = DbProvider.Instance().GetPostsByCategoryID(ItemCount,catID);
 			try
 			{
-				EntryDayCollection edc = DataHelper.LoadEntryDayCollection(reader);
+				List<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader);
 				return edc;
 			}
 			finally

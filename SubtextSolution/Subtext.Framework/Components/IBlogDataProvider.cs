@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Data;
 using Subtext.Extensibility;
 using Subtext.Framework.Logging;
@@ -27,8 +28,8 @@ namespace Subtext.Framework.Components
 		//--------------------------------------------------------------
 
 		//Get Content
-		public abstract EntryDayCollection GetRecentDayPosts(int ItemCount, bool ActiveOnly);
-		public abstract EntryDayCollection GetPostsByMonth(int month, int year);
+		public abstract List<EntryDay> GetRecentDayPosts(int ItemCount, bool ActiveOnly);
+		public abstract List<EntryDay> GetPostsByMonth(int month, int year);
 
 		public abstract EntryCollection GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly);
 		public abstract EntryCollection GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly, DateTime DateUpdated);
@@ -70,7 +71,7 @@ namespace Subtext.Framework.Components
 		//-------------------------------------------------------------------
 
 		//Content and Links
-		public abstract EntryDayCollection GetPostsByCategoryID(int ItemCount, int catID);
+		public abstract List<EntryDay> GetPostsByCategoryID(int ItemCount, int catID);
 		
 		public abstract EntryCollection GetEntriesByCategory(int ItemCount, int catID, bool ActiveOnly);
 		public abstract EntryCollection GetEntriesByCategory(int ItemCount, int catID, DateTime DateUpdated, bool ActiveOnly);

@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.Text.RegularExpressions;
@@ -80,7 +81,7 @@ namespace Subtext.Framework
 		/// </summary>
 		/// <param name="ItemCount">Item count.</param>
 		/// <returns></returns>
-		public static EntryDayCollection GetHomePageEntries(int ItemCount)
+		public static List<EntryDay> GetHomePageEntries(int ItemCount)
 		{
 			return GetBlogPosts(ItemCount, PostConfig.DisplayOnHomePage | PostConfig.IsActive);
 		}
@@ -95,7 +96,7 @@ namespace Subtext.Framework
 		/// <param name="ItemCount">Item count.</param>
 		/// <param name="pc">Pc.</param>
 		/// <returns></returns>
-		public static EntryDayCollection GetBlogPosts(int ItemCount, PostConfig pc)
+		public static List<EntryDay> GetBlogPosts(int ItemCount, PostConfig pc)
 		{
 			return ObjectProvider.Instance().GetBlogPosts(ItemCount, pc);
 		}
@@ -106,18 +107,18 @@ namespace Subtext.Framework
 		/// <param name="ItemCount">Number of entries total</param>
 		/// <param name="ActiveOnly">Return only Active Posts</param>
 		/// <returns></returns>
-		public static EntryDayCollection GetRecentDayPosts(int ItemCount, bool ActiveOnly)
+		public static List<EntryDay> GetRecentDayPosts(int ItemCount, bool ActiveOnly)
 		{
 			return ObjectProvider.Instance().GetRecentDayPosts(ItemCount,ActiveOnly);
 
 		}
 
-		public static EntryDayCollection GetPostsByMonth(int month, int year)
+		public static List<EntryDay> GetPostsByMonth(int month, int year)
 		{
 			return ObjectProvider.Instance().GetPostsByMonth(month,year);
 		}
 
-		public static EntryDayCollection GetPostsByCategoryID(int ItemCount, int catID)
+		public static List<EntryDay> GetPostsByCategoryID(int ItemCount, int catID)
 		{
 			return ObjectProvider.Instance().GetPostsByCategoryID(ItemCount,catID);
 		}

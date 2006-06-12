@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using Subtext.Extensibility;
@@ -30,7 +31,7 @@ namespace Subtext.Framework.Data
 {
 	/// <summary>
 	/// Contains helper methods for getting blog entries from the database 
-	/// into objects such as <see cref="EntryDayCollection"/> and <see cref="EntryCollection"/>.
+	/// into objects such as <see cref="List<EntryDay>"/> and <see cref="EntryCollection"/>.
 	/// </summary>
 	public sealed class DataHelper
 	{
@@ -108,10 +109,10 @@ namespace Subtext.Framework.Data
 			return !(dtCurrent.DayOfYear == dtDay.DayOfYear && dtCurrent.Year == dtDay.Year);
 		}
 
-		public static EntryDayCollection LoadEntryDayCollection(IDataReader reader)
+		public static List<EntryDay> LoadEntryDayCollection(IDataReader reader)
 		{
 			DateTime dt = new DateTime(1900,1,1);
-			EntryDayCollection edc = new EntryDayCollection();
+			List<EntryDay> edc = new List<EntryDay>();
 			EntryDay day = null;
 
 			while(reader.Read())

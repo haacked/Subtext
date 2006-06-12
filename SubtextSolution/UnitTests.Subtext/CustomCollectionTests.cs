@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using MbUnit.Framework;
 using Subtext.Extensibility;
@@ -113,7 +114,7 @@ namespace UnitTests.Subtext
 		{
 			get
 			{
-				return new CollectionHolder(typeof(EntryDayCollection), typeof(EntryDay), typeof(EntryDay[]));
+				return new CollectionHolder(typeof(List<EntryDay>), typeof(EntryDay), typeof(EntryDay[]));
 			}
 		}
 		
