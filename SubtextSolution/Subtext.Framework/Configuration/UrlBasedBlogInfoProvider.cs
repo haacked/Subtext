@@ -113,7 +113,7 @@ namespace Subtext.Framework.Configuration
 						BlogInfo.GetActiveBlogs(1, 10, true, out totalBlogs);
 						bool anyBlogsExist = totalBlogs > 0;
 
-						if(anyBlogsExist && ConfigurationSettings.AppSettings["AggregateEnabled"] == "true")
+                        if (anyBlogsExist && ConfigurationManager.AppSettings["AggregateEnabled"] == "true")
 						{
 							return GetAggregateBlog();
 						}
@@ -187,9 +187,9 @@ namespace Subtext.Framework.Configuration
 		private BlogInfo GetAggregateBlog()
 		{
 			BlogInfo aggregateBlog = new BlogInfo();
-			aggregateBlog.Title = System.Configuration.ConfigurationSettings.AppSettings["AggregateTitle"];
+            aggregateBlog.Title = System.Configuration.ConfigurationManager.AppSettings["AggregateTitle"];
 			aggregateBlog.Skin = SkinConfig.GetDefaultSkin();
-			aggregateBlog.Host = System.Configuration.ConfigurationSettings.AppSettings["AggregateHost"];
+            aggregateBlog.Host = System.Configuration.ConfigurationManager.AppSettings["AggregateHost"];
 			aggregateBlog.Subfolder = "";
 			aggregateBlog.UserName = HostInfo.Instance.HostUserName;
 			

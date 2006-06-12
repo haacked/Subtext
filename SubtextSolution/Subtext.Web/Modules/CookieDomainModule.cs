@@ -37,7 +37,7 @@ namespace Subtext.Web.Modules
 			if(context.Request.IsAuthenticated)
 			{
 				//should be a value like ".asp.net"
-				string domain = ConfigurationSettings.AppSettings["CookieDomain"] as string;
+                string domain = ConfigurationManager.AppSettings["CookieDomain"] as string;
 
 				if(domain != null)
 				{

@@ -109,7 +109,7 @@ namespace Subtext.Web.UI.Controls
 		{
 			get
 			{
-				string contactSetting = System.Configuration.ConfigurationSettings.AppSettings["ContactToFeedback"];
+                string contactSetting = System.Configuration.ConfigurationManager.AppSettings["ContactToFeedback"];
 				if(contactSetting != null)
 					try
 					{

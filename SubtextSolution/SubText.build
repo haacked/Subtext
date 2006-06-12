@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project xmlns="http://nant.sf.net/schemas/nant.xsd" name="SubText" default="dist.archive">
 	
-	<property name="nant.settings.currentframework" value="net-1.1"/>
+	<property name="nant.settings.currentframework" value="net-2.0"/>
 	<property name="configuration" value="release"/>
 	<property name="CVSPATH" value="C:\Programmi\TortoiseCVS\cvs.exe"/>
 	<property name="SSHPATH" value="C:\Programmi\TortoiseCVS\TortoisePlink.exe"/>
@@ -66,6 +66,7 @@
 		<solution configuration="${configuration}">
 			<projects>
 				<include name="UnitTests.Subtext\UnitTests.SubText.csproj" />
+        <include name="Subtext.UnitTesting.Servers\Subtext.UnitTesting.Servers.csproj" />
 			</projects>
 			<referenceprojects>
 				<include name="Subtext.Common\SubText.Common.csproj" />

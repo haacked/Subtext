@@ -1,528 +1,375 @@
-<VisualStudioProject>
-    <CSHARP
-        ProjectType = "Local"
-        ProductVersion = "7.10.3077"
-        SchemaVersion = "2.0"
-        ProjectGuid = "{16036AF0-ED24-4605-8919-90B40510BD68}"
-    >
-        <Build>
-            <Settings
-                ApplicationIcon = ""
-                AssemblyKeyContainerName = ""
-                AssemblyName = "UnitTests.Subtext"
-                AssemblyOriginatorKeyFile = ""
-                DefaultClientScript = "JScript"
-                DefaultHTMLPageLayout = "Grid"
-                DefaultTargetSchema = "IE50"
-                DelaySign = "false"
-                OutputType = "Library"
-                PreBuildEvent = ""
-                PostBuildEvent = 'copy "$(ProjectDir)Resources\App.config" "$(TargetPath).config"'
-                RootNamespace = "UnitTests.Subtext"
-                RunPostBuildEvent = "OnBuildSuccess"
-                StartupObject = ""
-            >
-                <Config
-                    Name = "Debug"
-                    AllowUnsafeBlocks = "false"
-                    BaseAddress = "285212672"
-                    CheckForOverflowUnderflow = "false"
-                    ConfigurationOverrideFile = ""
-                    DefineConstants = "DEBUG;TRACE"
-                    DocumentationFile = ""
-                    DebugSymbols = "true"
-                    FileAlignment = "4096"
-                    IncrementalBuild = "false"
-                    NoStdLib = "false"
-                    NoWarn = ""
-                    Optimize = "false"
-                    OutputPath = "bin\Debug\"
-                    RegisterForComInterop = "false"
-                    RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "true"
-                    WarningLevel = "4"
-                />
-                <Config
-                    Name = "Release"
-                    AllowUnsafeBlocks = "false"
-                    BaseAddress = "285212672"
-                    CheckForOverflowUnderflow = "false"
-                    ConfigurationOverrideFile = ""
-                    DefineConstants = "TRACE"
-                    DocumentationFile = ""
-                    DebugSymbols = "false"
-                    FileAlignment = "4096"
-                    IncrementalBuild = "false"
-                    NoStdLib = "false"
-                    NoWarn = ""
-                    Optimize = "true"
-                    OutputPath = "bin\Release\"
-                    RegisterForComInterop = "false"
-                    RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "true"
-                    WarningLevel = "4"
-                />
-                <Config
-                    Name = "Documentation"
-                    AllowUnsafeBlocks = "false"
-                    BaseAddress = "285212672"
-                    CheckForOverflowUnderflow = "false"
-                    ConfigurationOverrideFile = ""
-                    DefineConstants = "TRACE"
-                    DocumentationFile = ""
-                    DebugSymbols = "false"
-                    FileAlignment = "4096"
-                    IncrementalBuild = "false"
-                    NoStdLib = "false"
-                    NoWarn = ""
-                    Optimize = "true"
-                    OutputPath = "bin\Release\"
-                    RegisterForComInterop = "false"
-                    RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
-                    WarningLevel = "4"
-                />
-            </Settings>
-            <References>
-                <Reference
-                    Name = "System"
-                    AssemblyName = "System"
-                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.dll"
-                />
-                <Reference
-                    Name = "System.Data"
-                    AssemblyName = "System.Data"
-                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Data.dll"
-                />
-                <Reference
-                    Name = "System.XML"
-                    AssemblyName = "System.Xml"
-                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
-                />
-                <Reference
-                    Name = "Subtext.Common"
-                    Project = "{7594F3CF-85F9-4500-AFBD-5D370D9D57B4}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "Subtext.Framework"
-                    Project = "{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "Subtext.Web"
-                    Project = "{8C11B428-9C4A-46C3-B7F0-48215276BFA5}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "System.Web"
-                    AssemblyName = "System.Web"
-                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Web.dll"
-                />
-                <Reference
-                    Name = "Subtext.Extensibility"
-                    Project = "{13018F20-F796-4FFE-9290-83D0E661C0A1}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "System.EnterpriseServices"
-                    AssemblyName = "System.EnterpriseServices"
-                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.EnterpriseServices.dll"
-                />
-                <Reference
-                    Name = "Subtext.Installation"
-                    Project = "{745B39B7-DE46-4070-8733-C53308721C58}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "Subtext.Scripting"
-                    Project = "{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "Refly"
-                    AssemblyName = "Refly"
-                    HintPath = "ExternalDependencies\Refly.dll"
-                />
-                <Reference
-                    Name = "ICSharpCode.SharpZipLib"
-                    AssemblyName = "ICSharpCode.SharpZipLib"
-                    HintPath = "ExternalDependencies\ICSharpCode.SharpZipLib.dll"
-                />
-                <Reference
-                    Name = "TestFu"
-                    AssemblyName = "TestFu"
-                    HintPath = "ExternalDependencies\TestFu.dll"
-                />
-                <Reference
-                    Name = "MbUnit.Framework.1.1"
-                    AssemblyName = "MbUnit.Framework.1.1"
-                    HintPath = "ExternalDependencies\MbUnit.Framework.1.1.dll"
-                />
-                <Reference
-                    Name = "MbUnit.Framework"
-                    AssemblyName = "MbUnit.Framework"
-                    HintPath = "ExternalDependencies\MbUnit.Framework.dll"
-                />
-                <Reference
-                    Name = "NGraphviz"
-                    AssemblyName = "NGraphviz"
-                    HintPath = "ExternalDependencies\NGraphviz.dll"
-                />
-                <Reference
-                    Name = "NGraphviz.Helpers"
-                    AssemblyName = "NGraphviz.Helpers"
-                    HintPath = "ExternalDependencies\NGraphviz.Helpers.dll"
-                />
-                <Reference
-                    Name = "NGraphviz.Layout"
-                    AssemblyName = "NGraphviz.Layout"
-                    HintPath = "ExternalDependencies\NGraphviz.Layout.dll"
-                />
-                <Reference
-                    Name = "QuickGraph.Algorithms"
-                    AssemblyName = "QuickGraph.Algorithms"
-                    HintPath = "ExternalDependencies\QuickGraph.Algorithms.dll"
-                />
-                <Reference
-                    Name = "QuickGraph.Algorithms.Graphviz"
-                    AssemblyName = "QuickGraph.Algorithms.Graphviz"
-                    HintPath = "ExternalDependencies\QuickGraph.Algorithms.Graphviz.dll"
-                />
-                <Reference
-                    Name = "QuickGraph"
-                    AssemblyName = "QuickGraph"
-                    HintPath = "ExternalDependencies\QuickGraph.dll"
-                />
-                <Reference
-                    Name = "Subtext.Providers.RichTextEditor.FCKeditor"
-                    Project = "{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "freetextbox"
-                    AssemblyName = "FreeTextBox"
-                    HintPath = "ExternalDependencies\freetextbox.dll"
-                />
-                <Reference
-                    Name = "FredCK.FCKeditorV2"
-                    AssemblyName = "FredCK.FCKeditorV2"
-                    HintPath = "ExternalDependencies\FredCK.FCKeditorV2.dll"
-                />
-                <Reference
-                    Name = "Subtext.UnitTesting.Servers"
-                    Project = "{062D373E-FAC0-4451-BF57-8A2352AAC1BB}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-            </References>
-        </Build>
-        <Files>
-            <Include>
-                <File
-                    RelPath = "AssemblyInfo.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "CustomCollectionTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ReflectionHelper.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimulatedHttpRequest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "StubDataReader.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "UnitTestConfigProvider.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "UnitTestHelper.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "UnitTestImportProvider.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Extensibility\DotNetOpenMailProviderSendTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Extensibility\EmailProviderInstantiationTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Extensibility\ProviderBaseTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ExternalDependencies\FredCK.FCKeditorV2.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\freetextbox.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\ICSharpCode.SharpZipLib.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\MbUnit.Framework.1.1.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\MbUnit.Framework.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\NGraphviz.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\NGraphviz.Helpers.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\NGraphviz.Layout.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\QuickGraph.Algorithms.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\QuickGraph.Algorithms.Graphviz.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\QuickGraph.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\Refly.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "ExternalDependencies\TestFu.dll"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Framework\BlogInfoTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\LinksTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\Components\EntryTests\AutoGenerateFriendlyUrlTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\Components\EntryTests\EntryCreationTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\Components\EntryTests\EntryFilterTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\Components\EntryTests\EntryUpdateTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\Components\TrackbackTests\TrackbackCreation.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\Configuration\BlogCreationTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\Data\CacherTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\Data\ContentCacheTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\Data\DataHelperTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\Format\UrlFormatTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\Providers\ImportProviderTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\Providers\ProviderBaseTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\SecurityHandling\SecurityTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\Syndication\AtomHandlerTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\Syndication\CommentRssHandlerTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\Syndication\CommentRssWriterTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\Syndication\RssHandlerTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\Syndication\RssWriterTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\Text\ConvertToAllowedHtmlTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\Text\HtmlHelperTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\Text\RemoveHtmlTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\Text\StringHelperTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\Tracking\TrackbackHandlerTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\Util\KeywordsTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Framework\Web\HttpHelperTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Installation\InstallationManagerTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Installation\ScriptHelperTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Installation\SqlInstallationProviderTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Resources\App.config"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Resources\Scripting\TestTemplateSqlScript.txt"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Resources\Scripting\TestTemplateSqlScriptExpectedChanges.txt"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Resources\Scripting\TestTemplateSqlScriptExpectedDefault.txt"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Scripting\ConnectionStringParseTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Scripting\TemplateParameterParseTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SubtextWeb\SubtextMasterPageTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SubtextWeb\Providers\RichTextEditor\FCKeditorProviderTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SubtextWeb\Providers\RichTextEditor\FtbProviderTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SubtextWeb\Providers\RichTextEditor\PlainTextProviderTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-            </Include>
-        </Files>
-    </CSHARP>
-</VisualStudioProject>
-
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{16036AF0-ED24-4605-8919-90B40510BD68}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>UnitTests.Subtext</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>UnitTests.Subtext</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Documentation|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FredCK.FCKeditorV2">
+      <Name>FredCK.FCKeditorV2</Name>
+      <HintPath>ExternalDependencies\FredCK.FCKeditorV2.dll</HintPath>
+    </Reference>
+    <Reference Include="FreeTextBox">
+      <Name>freetextbox</Name>
+      <HintPath>ExternalDependencies\freetextbox.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <Name>ICSharpCode.SharpZipLib</Name>
+      <HintPath>ExternalDependencies\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="MbUnit.Framework">
+      <Name>MbUnit.Framework</Name>
+      <HintPath>ExternalDependencies\MbUnit.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="MbUnit.Framework.1.1">
+      <Name>MbUnit.Framework.1.1</Name>
+      <HintPath>ExternalDependencies\MbUnit.Framework.1.1.dll</HintPath>
+    </Reference>
+    <Reference Include="NGraphviz">
+      <Name>NGraphviz</Name>
+      <HintPath>ExternalDependencies\NGraphviz.dll</HintPath>
+    </Reference>
+    <Reference Include="NGraphviz.Helpers">
+      <Name>NGraphviz.Helpers</Name>
+      <HintPath>ExternalDependencies\NGraphviz.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="NGraphviz.Layout">
+      <Name>NGraphviz.Layout</Name>
+      <HintPath>ExternalDependencies\NGraphviz.Layout.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickGraph">
+      <Name>QuickGraph</Name>
+      <HintPath>ExternalDependencies\QuickGraph.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickGraph.Algorithms">
+      <Name>QuickGraph.Algorithms</Name>
+      <HintPath>ExternalDependencies\QuickGraph.Algorithms.dll</HintPath>
+    </Reference>
+    <Reference Include="QuickGraph.Algorithms.Graphviz">
+      <Name>QuickGraph.Algorithms.Graphviz</Name>
+      <HintPath>ExternalDependencies\QuickGraph.Algorithms.Graphviz.dll</HintPath>
+    </Reference>
+    <Reference Include="Refly">
+      <Name>Refly</Name>
+      <HintPath>ExternalDependencies\Refly.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.EnterpriseServices">
+      <Name>System.EnterpriseServices</Name>
+    </Reference>
+    <Reference Include="System.Web">
+      <Name>System.Web</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="TestFu">
+      <Name>TestFu</Name>
+      <HintPath>ExternalDependencies\TestFu.dll</HintPath>
+    </Reference>
+    <ProjectReference Include="..\Subtext.Common\Subtext.Common.csproj">
+      <Name>Subtext.Common</Name>
+      <Project>{7594F3CF-85F9-4500-AFBD-5D370D9D57B4}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Subtext.Extensibility\Subtext.Extensibility.csproj">
+      <Name>Subtext.Extensibility</Name>
+      <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Subtext.Framework\Subtext.Framework.csproj">
+      <Name>Subtext.Framework</Name>
+      <Project>{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Subtext.Installation\Subtext.Installation.csproj">
+      <Name>Subtext.Installation</Name>
+      <Project>{745B39B7-DE46-4070-8733-C53308721C58}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Subtext.Providers.RichTextEditor.FCKeditor\Subtext.Providers.RichTextEditor.FCKeditor.csproj">
+      <Name>Subtext.Providers.RichTextEditor.FCKeditor</Name>
+      <Project>{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Subtext.Scripting\Subtext.Scripting.csproj">
+      <Name>Subtext.Scripting</Name>
+      <Project>{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Subtext.UnitTesting.Servers\Subtext.UnitTesting.Servers.csproj">
+      <Name>Subtext.UnitTesting.Servers</Name>
+      <Project>{062D373E-FAC0-4451-BF57-8A2352AAC1BB}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Subtext.Web\Subtext.Web.csproj">
+      <Name>Subtext.Web</Name>
+      <Project>{8C11B428-9C4A-46C3-B7F0-48215276BFA5}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CustomCollectionTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensibility\DotNetOpenMailProviderSendTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensibility\EmailProviderInstantiationTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensibility\ProviderBaseTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\BlogInfoTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\Components\EntryTests\AutoGenerateFriendlyUrlTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\Components\EntryTests\EntryCreationTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\Components\EntryTests\EntryFilterTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\Components\EntryTests\EntryUpdateTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\Components\TrackbackTests\TrackbackCreation.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\Configuration\BlogCreationTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\Data\CacherTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\Data\ContentCacheTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\Data\DataHelperTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\Format\UrlFormatTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\LinksTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\Providers\ImportProviderTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\Providers\ProviderBaseTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\SecurityHandling\SecurityTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\Syndication\AtomHandlerTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\Syndication\CommentRssHandlerTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\Syndication\CommentRssWriterTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\Syndication\RssHandlerTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\Syndication\RssWriterTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\Text\ConvertToAllowedHtmlTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\Text\HtmlHelperTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\Text\RemoveHtmlTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\Text\StringHelperTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\Tracking\TrackbackHandlerTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\Util\KeywordsTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Framework\Web\HttpHelperTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Installation\InstallationManagerTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Installation\ScriptHelperTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Installation\SqlInstallationProviderTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ReflectionHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Scripting\ConnectionStringParseTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Scripting\TemplateParameterParseTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SimulatedHttpRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="StubDataReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SubtextWeb\Providers\RichTextEditor\FCKeditorProviderTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SubtextWeb\Providers\RichTextEditor\FtbProviderTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SubtextWeb\Providers\RichTextEditor\PlainTextProviderTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SubtextWeb\SubtextMasterPageTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UnitTestConfigProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UnitTestHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UnitTestImportProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Content Include="ExternalDependencies\FredCK.FCKeditorV2.dll" />
+    <Content Include="ExternalDependencies\freetextbox.dll" />
+    <Content Include="ExternalDependencies\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="ExternalDependencies\MbUnit.Framework.1.1.dll" />
+    <Content Include="ExternalDependencies\MbUnit.Framework.dll" />
+    <Content Include="ExternalDependencies\NGraphviz.dll" />
+    <Content Include="ExternalDependencies\NGraphviz.Helpers.dll" />
+    <Content Include="ExternalDependencies\NGraphviz.Layout.dll" />
+    <Content Include="ExternalDependencies\QuickGraph.Algorithms.dll" />
+    <Content Include="ExternalDependencies\QuickGraph.Algorithms.Graphviz.dll" />
+    <Content Include="ExternalDependencies\QuickGraph.dll" />
+    <Content Include="ExternalDependencies\Refly.dll" />
+    <Content Include="ExternalDependencies\TestFu.dll" />
+    <EmbeddedResource Include="Resources\App.config" />
+    <EmbeddedResource Include="Resources\Scripting\TestTemplateSqlScript.txt" />
+    <EmbeddedResource Include="Resources\Scripting\TestTemplateSqlScriptExpectedChanges.txt" />
+    <EmbeddedResource Include="Resources\Scripting\TestTemplateSqlScriptExpectedDefault.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>copy "$(ProjectDir)Resources\App.config" "$(TargetPath).config"</PostBuildEvent>
+  </PropertyGroup>
+</Project>

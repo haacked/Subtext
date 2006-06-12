@@ -47,7 +47,7 @@ namespace Subtext.Web
 
 			SqlParameter[] p = 
 				{
-					SqlHelper.MakeInParam("@Host",SqlDbType.NVarChar,100,ConfigurationSettings.AppSettings["AggregateHost"]),
+					SqlHelper.MakeInParam("@Host",SqlDbType.NVarChar,100,ConfigurationManager.AppSettings["AggregateHost"]),
 					SqlHelper.MakeInParam("@GroupID",SqlDbType.Int,4,GroupID)
 				};
 

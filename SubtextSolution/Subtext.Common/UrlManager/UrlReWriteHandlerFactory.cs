@@ -55,7 +55,7 @@ namespace Subtext.Common.UrlManager
 		/// </returns>
 		public virtual IHttpHandler GetHandler(HttpContext context, string requestType, string url, string path)
 		{
-			if((Config.CurrentBlog == null || Config.CurrentBlog.BlogId == int.MinValue) && ConfigurationSettings.AppSettings["AggregateEnabled"] == "true")
+            if ((Config.CurrentBlog == null || Config.CurrentBlog.BlogId == int.MinValue) && ConfigurationManager.AppSettings["AggregateEnabled"] == "true")
 			{
 				return PageParser.GetCompiledPageInstance("/Default.aspx", context.Server.MapPath("~/Default.aspx"), context);
 			}

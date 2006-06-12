@@ -95,7 +95,7 @@ namespace Subtext.Common.UrlManager
 		/// <returns></returns>
 		public static HandlerConfiguration Instance()
 		{
-			return ((HandlerConfiguration)ConfigurationSettings.GetConfig("HandlerConfiguration"));
+			return ((HandlerConfiguration)ConfigurationManager.GetSection("HandlerConfiguration"));
 		}
 	}
 }

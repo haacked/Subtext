@@ -82,7 +82,7 @@ namespace Subtext.Web.UI
 
 		private static string GetSafeConfig(string name, string defaultValue)
 		{
-			string text = ConfigurationSettings.AppSettings[name] as string;
+            string text = ConfigurationManager.AppSettings[name] as string;
 			if(text == null)
 			{
 				return defaultValue;

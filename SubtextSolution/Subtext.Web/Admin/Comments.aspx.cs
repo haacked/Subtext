@@ -110,7 +110,8 @@ namespace Subtext.Web.Admin.Pages
 				+  Environment.NewLine + " toggleHideOnCheckbox(checkbox, 'otherSettings');"
 				+  Environment.NewLine +  "</script>";
 	
-			Page.RegisterStartupScript("startupScript", startupScript);
+			Type ctype = this.GetType();
+			Page.ClientScript.RegisterStartupScript(ctype,"startupScript", startupScript);
 		}
 
 		private void SaveSettings()

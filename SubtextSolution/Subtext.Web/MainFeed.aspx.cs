@@ -49,7 +49,7 @@ namespace Subtext.Web
 
 			SqlParameter[] p = 
 				{
-					SqlHelper.MakeInParam("@Host",SqlDbType.NVarChar,100,ConfigurationSettings.AppSettings["AggregateHost"] as string),
+					SqlHelper.MakeInParam("@Host",SqlDbType.NVarChar,100,ConfigurationManager.AppSettings["AggregateHost"] as string),
 					SqlHelper.MakeInParam("@GroupID",SqlDbType.Int,4,GroupID)
 				};
 
@@ -114,9 +114,9 @@ namespace Subtext.Web
 				//Channel
 				writer.WriteStartElement("channel");
 				//Channel Description
-				writer.WriteElementString("title",ConfigurationSettings.AppSettings["AggregateTitle"] as string);
+                writer.WriteElementString("title", ConfigurationManager.AppSettings["AggregateTitle"] as string);
 				writer.WriteElementString("link",Context.Request.Url.ToString());
-				writer.WriteElementString("description",ConfigurationSettings.AppSettings["AggregateDescription"] as string);
+                writer.WriteElementString("description", ConfigurationManager.AppSettings["AggregateDescription"] as string);
 				
 				//CHANGE: FrameworkVersion used insted of Version which is not exist.
 				writer.WriteElementString("generator",Subtext.Framework.VersionInfo.FrameworkVersion.ToString());

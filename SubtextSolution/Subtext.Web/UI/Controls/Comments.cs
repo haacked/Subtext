@@ -44,7 +44,7 @@ namespace Subtext.Web.UI.Controls
 
 			try
 			{
-				gravatarEnabled = Convert.ToBoolean(ConfigurationSettings.AppSettings["GravatarEnabled"]);
+                gravatarEnabled = Convert.ToBoolean(ConfigurationManager.AppSettings["GravatarEnabled"]);
 			}
 			catch(Exception) 
 			{
@@ -53,8 +53,8 @@ namespace Subtext.Web.UI.Controls
 			
 			if(gravatarEnabled) 
 			{
-				gravatarUrlFormatString = ConfigurationSettings.AppSettings["GravatarUrlFormatString"];
-				gravatarEmailFormat = ConfigurationSettings.AppSettings["GravatarEmailFormat"];
+                gravatarUrlFormatString = ConfigurationManager.AppSettings["GravatarUrlFormatString"];
+                gravatarEmailFormat = ConfigurationManager.AppSettings["GravatarEmailFormat"];
 			}
 
 			if(CurrentBlog.CommentsEnabled)

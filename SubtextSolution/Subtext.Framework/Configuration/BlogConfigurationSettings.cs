@@ -146,8 +146,8 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
-				if(_connectionString == null && System.Configuration.ConfigurationSettings.AppSettings["ConnectionString"] != null)
-					_connectionString = System.Configuration.ConfigurationSettings.AppSettings["ConnectionString"];
+                if (_connectionString == null && System.Configuration.ConfigurationManager.AppSettings["ConnectionString"] != null)
+                    _connectionString = System.Configuration.ConfigurationManager.AppSettings["ConnectionString"];
 
 				return _connectionString;
 			}
@@ -168,7 +168,7 @@ namespace Subtext.Framework.Configuration
 			{
 				if(this.allowedHtmlTags == null)
 				{
-					this.allowedHtmlTags = ((NameValueCollection)(ConfigurationSettings.GetConfig("AllowableCommentHtml")));
+                    this.allowedHtmlTags = ((NameValueCollection)(ConfigurationManager.GetSection("AllowableCommentHtml")));
 				}
 				return this.allowedHtmlTags;
 			}

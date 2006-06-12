@@ -303,7 +303,7 @@ namespace Subtext.Framework
 			if(title == null)
 				throw new ArgumentNullException("title", "Cannot generate friendly url from null title.");
 
-			   NameValueCollection friendlyUrlSettings = (NameValueCollection)ConfigurationSettings.GetConfig("FriendlyUrlSettings");
+            NameValueCollection friendlyUrlSettings = (NameValueCollection)ConfigurationManager.GetSection("FriendlyUrlSettings");
 			if(friendlyUrlSettings == null)
 			{
 				//Default to old behavior.

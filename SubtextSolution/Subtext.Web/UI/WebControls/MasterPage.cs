@@ -33,7 +33,7 @@ namespace Subtext.Web.UI.WebControls
 	/// </summary>
 	[ToolboxData("<{0}:MasterPage runat=server></{0}:MasterPage>"),
 		ToolboxItem(typeof(WebControlToolboxItem)),
-		Designer(typeof(ReadWriteControlDesigner))]
+		Designer(typeof(ContainerControlDesigner))]
 	public class MasterPage : System.Web.UI.HtmlControls.HtmlContainerControl
 	{
 		Subtext.Framework.Logging.Log Log = new Subtext.Framework.Logging.Log();

@@ -52,7 +52,7 @@ namespace Subtext.Extensibility.Providers
 		/// <returns></returns>
 		protected static ProviderCollection GetProviders(string sectionName)
 		{
-			ProviderConfiguration config = (ProviderConfiguration)ConfigurationSettings.GetConfig(sectionName);
+            ProviderConfiguration config = (ProviderConfiguration)ConfigurationManager.GetSection(sectionName);
 			return config.Providers;
 		}
 
@@ -75,7 +75,7 @@ namespace Subtext.Extensibility.Providers
 			}
 
 			// Use the cache because the reflection used later is expensive
-			ProviderConfiguration config = (ProviderConfiguration)ConfigurationSettings.GetConfig(sectionName);
+            ProviderConfiguration config = (ProviderConfiguration)ConfigurationManager.GetSection(sectionName);
 
 			ProviderBase provider = Instance(sectionName, config.Providers.DefaultProvider);
 
@@ -175,7 +175,7 @@ namespace Subtext.Extensibility.Providers
 			if(IsPointerToAppSettings(settingValue))
 			{
 				string appKeyName = settingValue.Substring(StartDelimiterLength, settingValue.Length - (StartDelimiterLength + EndDelimiterLength));
-				settingValue = System.Configuration.ConfigurationSettings.AppSettings[appKeyName];
+                settingValue = System.Configuration.ConfigurationManager.AppSettings[appKeyName];
 			}
 			return settingValue;
 		}

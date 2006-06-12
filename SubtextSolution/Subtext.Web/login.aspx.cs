@@ -110,7 +110,7 @@ namespace Subtext.Web.Pages
 				string message = "Here is your Host Admin Login information:\nUserName: {0}\nPassword: {1}\n\nPlease disregard this message if you did not request it.";
 				EmailProvider mail = Subtext.Extensibility.Providers.EmailProvider.Instance();
 			
-				string hostAdminEmail = ConfigurationSettings.AppSettings["HostEmailAddress"];
+				string hostAdminEmail = ConfigurationManager.AppSettings["HostEmailAddress"];
 				if(hostAdminEmail == null || hostAdminEmail.Length == 0 || hostAdminEmail.IndexOf('@') <= 0) //Need better email validation. I know!
 				{
 					Message.Text = "Sorry, but I don&#8217;t know where to send the email.  Please specify a Host Email Address in Web.config. It is the AppSetting &#8220;HostEmailAddress&#8221;";
