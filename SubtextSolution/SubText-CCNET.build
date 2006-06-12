@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project xmlns="http://nant.sf.net/schemas/nant.xsd" name="SubText">
 	
-	<property name="nant.settings.currentframework" value="net-1.1"/>
+	<property name="nant.settings.currentframework" value="net-2.0"/>
 
 	
 	<target name="get-publishing-properties">
