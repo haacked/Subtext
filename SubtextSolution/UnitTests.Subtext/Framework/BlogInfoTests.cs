@@ -1,4 +1,5 @@
 using System;
+using System.Web;
 using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
@@ -11,6 +12,28 @@ namespace UnitTests.Subtext.Framework
 	[TestFixture]
 	public class BlogInfoTests
 	{
+	    /// <summary>
+	    /// Makes sure we can setup the fake HttpContext.
+	    /// </summary>
+	    [Test]
+	    public void TestSetHttpContextWithBlogRequest()
+	    {
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "");
+            Assert.AreEqual(HttpContext.Current.Request.Url.Host, "localhost");
+            Assert.AreEqual(HttpContext.Current.Request.ApplicationPath, "/");
+
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "blog", "Subtext.Web");           
+	        
+	        Assert.AreEqual(HttpContext.Current.Request.Url.Host, "localhost");
+            Assert.AreEqual(HttpContext.Current.Request.ApplicationPath, "/Subtext.Web");
+
+            UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web");
+
+            Assert.AreEqual(HttpContext.Current.Request.Url.Host, "localhost");
+            Assert.AreEqual(HttpContext.Current.Request.ApplicationPath, "/Subtext.Web");
+
+	    }
+	    
 		[RowTest]
 		[Row("", "", "/")]
 		[Row("", "/", "/")]
