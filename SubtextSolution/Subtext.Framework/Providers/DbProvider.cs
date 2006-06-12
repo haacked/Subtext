@@ -114,7 +114,7 @@ namespace Subtext.Framework.Providers
 		public abstract IDataReader GetPostsByCategoryID(int ItemCount, int catID);
 		public abstract IDataReader GetRecentDayPosts(int ItemCount, bool ActiveOnly);
 
-		//Should Power both EntryDayCollection and EntryCollection
+		//Should Power both List<EntryDay> and EntryCollection
 		public abstract IDataReader GetPostCollectionByMonth(int month, int year);
 		
 		public abstract IDataReader GetEntriesByCategory(int ItemCount, int catID, bool ActiveOnly);

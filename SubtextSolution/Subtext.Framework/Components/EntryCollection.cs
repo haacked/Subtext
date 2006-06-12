@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Subtext.Framework.Components
 {
@@ -22,12 +23,12 @@ namespace Subtext.Framework.Components
 	/// Represents a collection of <see cref="Entry">Entry</see> Components.
 	/// </summary>
 	[Serializable]
-	public class EntryCollection : CollectionBase
+	public class EntryCollection : List<Entry>
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EntryCollection">EntryCollection</see> class.
 		/// </summary>
-		public EntryCollection() 
+		public EntryCollection() : base()
 		{
 		}
 
@@ -42,93 +43,7 @@ namespace Subtext.Framework.Components
 
 			this.AddRange(value);
 		}
-		
-		/// <summary>
-		/// Gets the <see cref="EntryCollection">EntryCollection</see> at the specified index in the collection.
-		/// <para>
-		/// In C#, this property is the indexer for the <see cref="EntryCollection">EntryCollection</see> class.
-		/// </para>
-		/// </summary>
-		public Entry this[int index] 
-		{
-			get	{return ((Entry)(this.List[index]));}
-		}
-		
-		public int Add(Entry value) 
-		{
-			return this.List.Add(value);
-		}
-		
-		/// <summary>
-		/// Copies the elements of the specified <see cref="Entry">Entry</see> array to the end of the collection.
-		/// </summary>
-		/// <param name="value">An array of type <see cref="Entry">Entry</see> containing the Components to add to the collection.</param>
-		public void AddRange(Entry[] value) 
-		{
-			if(value == null)
-				throw new ArgumentNullException("value", "Cannot add a range from null.");
-
-			for (int i = 0;	(i < value.Length); i = (i + 1)) 
-			{
-				this.Add(value[i]);
-			}
-		}
-		
-		/// <summary>
-		/// Adds the contents of another <see cref="EntryCollection">EntryCollection</see> to the end of the collection.
-		/// </summary>
-		/// <param name="value">A <see cref="EntryCollection">EntryCollection</see> containing the Components to add to the collection. </param>
-		public void AddRange(EntryCollection value) 
-		{
-			if(value == null)
-				throw new ArgumentNullException("value", "Cannot add a range from null.");
-
-			for (int i = 0;	(i < value.Count); i = (i +	1))	
-			{
-				this.Add((Entry)value.List[i]);
-			}
-		}
-		
-		/// <summary>
-		/// Gets a value indicating whether the collection contains the specified <see cref="EntryCollection">EntryCollection</see>.
-		/// </summary>
-		/// <param name="value">The <see cref="EntryCollection">EntryCollection</see> to search for in the collection.</param>
-		/// <returns><b>true</b> if the collection contains the specified object; otherwise, <b>false</b>.</returns>
-		public bool Contains(Entry value) 
-		{
-			return this.List.Contains(value);
-		}
-		
-		/// <summary>
-		/// Copies the collection Components to a one-dimensional <see cref="T:System.Array">Array</see> instance beginning at the specified index.
-		/// </summary>
-		/// <param name="array">The one-dimensional <see cref="T:System.Array">Array</see> that is the destination of the values copied from the collection.</param>
-		/// <param name="index">The index of the array at which to begin inserting.</param>
-		public void CopyTo(Entry[] array, int index) 
-		{
-			this.List.CopyTo(array, index);
-		}
-		
-		/// <summary>
-		/// Gets the index in the collection of the specified <see cref="EntryCollection">EntryCollection</see>, if it exists in the collection.
-		/// </summary>
-		/// <param name="value">The <see cref="EntryCollection">EntryCollection</see> to locate in the collection.</param>
-		/// <returns>The index in the collection of the specified object, if found; otherwise, -1.</returns>
-		public int IndexOf(Entry value) 
-		{
-			return this.List.IndexOf(value);
-		}
-		
-		public void Insert(int index, Entry value)	
-		{
-			List.Insert(index, value);
-		}
-		
-		public void Remove(Entry value) 
-		{
-			List.Remove(value);
-		}
-		
+			
 		/// <summary>
 		/// Returns an enumerator that can iterate through the <see cref="EntryCollection">EntryCollection</see> instance.
 		/// </summary>
@@ -198,4 +113,3 @@ namespace Subtext.Framework.Components
 		}
 	}
 }
-

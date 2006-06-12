@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
@@ -92,9 +93,9 @@ namespace Subtext.Framework.Providers
 		#region EntryDays
 
 		public abstract EntryDay GetSingleDay(DateTime dt);
-		public abstract EntryDayCollection GetRecentDayPosts(int ItemCount, bool ActiveOnly);
-		public abstract EntryDayCollection GetPostsByMonth(int month, int year);
-		public abstract EntryDayCollection GetPostsByCategoryID(int ItemCount, int catID);
+		public abstract List<EntryDay> GetRecentDayPosts(int ItemCount, bool ActiveOnly);
+        public abstract List<EntryDay> GetPostsByMonth(int month, int year);
+        public abstract List<EntryDay> GetPostsByCategoryID(int ItemCount, int catID);
 
 		/// <summary>
 		/// Gets entries within the system that meet the 
@@ -103,7 +104,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="ItemCount">Item count.</param>
 		/// <param name="pc">Pc.</param>
 		/// <returns></returns>
-		public abstract EntryDayCollection GetBlogPosts(int ItemCount, PostConfig pc);
+        public abstract List<EntryDay> GetBlogPosts(int ItemCount, PostConfig pc);
 
 		#endregion
 
