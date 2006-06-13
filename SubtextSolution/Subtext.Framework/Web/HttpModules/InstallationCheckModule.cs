@@ -25,7 +25,7 @@ namespace Subtext.Web.HttpModules
 		/// and events common to all application objects within an ASP.NET application</param>
 		public void Init(System.Web.HttpApplication context)
 		{
-			context.BeginRequest += new EventHandler(CheckInstallationStatus);
+			context.BeginRequest += CheckInstallationStatus;
 		}
 
 		/// <summary>

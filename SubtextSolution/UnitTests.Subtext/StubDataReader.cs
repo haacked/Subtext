@@ -1,6 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Specialized;
+using System.Collections.Generic;
 using System.Data;
 using MbUnit.Framework;
 
@@ -86,7 +85,7 @@ namespace UnitTests.Subtext
 	/// </summary>
 	public class StubDataReader : IDataReader
 	{
-		StubResultSetCollection stubResultSets;
+		IList<StubResultSet> stubResultSets;
 		private int currentResultsetIndex = 0;
 	
 		/// <summary>
@@ -94,7 +93,7 @@ namespace UnitTests.Subtext
 		/// Each row in the arraylist is a result set.
 		/// </summary>
 		/// <param name="stubResultSets">The result sets.</param>
-		public StubDataReader(StubResultSetCollection stubResultSets)
+		public StubDataReader(IList<StubResultSet> stubResultSets)
 		{
 			this.stubResultSets = stubResultSets;
 		}
@@ -106,7 +105,7 @@ namespace UnitTests.Subtext
 		/// <param name="resultSets">The result sets to add.</param>
 		public StubDataReader(params StubResultSet[] resultSets)
 		{
-			this.stubResultSets = new StubResultSetCollection();
+			this.stubResultSets = new List<StubResultSet>();
 			foreach(StubResultSet resultSet in resultSets)
 			{
 				this.stubResultSets.Add(resultSet);
@@ -335,8 +334,8 @@ namespace UnitTests.Subtext
 	public class StubResultSet
 	{
 		int currentRowIndex = -1;
-		StubRowCollection rows = new StubRowCollection();
-		NameIndexCollection fieldNames = new NameIndexCollection();
+        List<StubRow> rows = new List<StubRow>();
+        Dictionary<string, int> fieldNames = new Dictionary<string, int>();
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="StubResultSet"/> class with the column names.
@@ -352,7 +351,9 @@ namespace UnitTests.Subtext
 		
 		public string[] GetFieldNames()
 		{
-			return fieldNames.GetAllKeys();
+            string[] keys = new string[fieldNames.Keys.Count];
+            fieldNames.Keys.CopyTo(keys, 0);
+            return keys;
 		}
 		
 		public string GetFieldName(int i)
@@ -408,37 +409,6 @@ namespace UnitTests.Subtext
 		}
 	}
 	
-	//We can always replace the internal implementation with something better later.
-	public class NameIndexCollection : NameObjectCollectionBase
-	{
-		/// <summary>
-		/// Adds the specified name.
-		/// </summary>
-		/// <param name="key">The name.</param>
-		/// <param name="index">The index.</param>
-		public void Add(string key, int index)
-		{
-			this.BaseAdd(key, index);
-		}
-		
-		/// <summary>
-		/// Gets the <see cref="Int32"/> with the specified key.
-		/// </summary>
-		/// <value></value>
-		public int this[string key]
-		{
-			get
-			{
-				return (int)this.BaseGet(key);
-			}
-		}
-		
-		public string[] GetAllKeys()
-		{
-			return this.BaseGetAllKeys();			
-		}
-	}
-	
 	public class StubRow
 	{
 		object[] rowValues;
@@ -461,431 +431,6 @@ namespace UnitTests.Subtext
 			get
 			{
 				return rowValues[i];
-			}
-		}
-	}
-
-	/// <summary>
-	/// Represents a collection of <see cref="StubRow">StubRow</see>.
-	/// </summary>
-	[Serializable]
-	public class StubRowCollection : CollectionBase
-	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="StubRowCollection">StubRowCollection</see> class.
-		/// </summary>
-		public StubRowCollection()
-		{
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="StubRowCollection">StubRowCollection</see> class containing the elements of the specified source collection.
-		/// </summary>
-		/// <param name="value">A <see cref="StubRowCollection">StubRowCollection</see> with which to initialize the collection.</param>
-		public StubRowCollection(StubRowCollection value)
-		{
-			if(value != null)
-			{
-				this.AddRange(value);
-			}
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="StubRowCollection">StubRowCollection</see> class containing the specified array of <see cref="StubRow">StubRow</see> Components.
-		/// </summary>
-		/// <param name="value">An array of <see cref="StubRow">StubRow</see> Components with which to initialize the collection. </param>
-		public StubRowCollection(StubRow[] value)
-		{
-			if(value != null)
-			{
-				this.AddRange(value);
-			}
-		}
-
-		/// <summary>
-		/// Gets the <see cref="StubRowCollection">StubRowCollection</see> at the specified index in the collection.
-		/// <para>
-		/// In C#, this property is the indexer for the <see cref="StubRowCollection">StubRowCollection</see> class.
-		/// </para>
-		/// </summary>
-		public StubRow this[int index]
-		{
-			get { return ((StubRow)(this.List[index])); }
-		}
-
-		public int Add(StubRow value)
-		{
-			if(value != null)
-			{
-				return this.List.Add(value);
-			}
-			return -1;
-		}
-
-		/// <summary>
-		/// Copies the elements of the specified <see cref="StubRow">StubRow</see> array to the end of the collection.
-		/// </summary>
-		/// <param name="value">An array of type <see cref="StubRow">StubRow</see> containing the Components to add to the collection.</param>
-		public void AddRange(StubRow[] value)
-		{
-			if(value == null)
-				throw new ArgumentNullException("value", "Cannot add a range from null.");
-
-			if(value != null)
-			{
-				for(int i = 0; (i < value.Length); i = (i + 1))
-				{
-					this.Add(value[i]);
-				}
-			}
-		}
-
-		/// <summary>
-		/// Adds the contents of another <see cref="StubRowCollection">StubRowCollection</see> to the end of the collection.
-		/// </summary>
-		/// <param name="value">A <see cref="StubRowCollection">StubRowCollection</see> containing the Components to add to the collection. </param>
-		public void AddRange(StubRowCollection value)
-		{
-			if(value == null)
-				throw new ArgumentNullException("value", "Cannot add a range from null.");
-
-			if(value != null)
-			{
-				for(int i = 0; (i < value.Count); i = (i + 1))
-				{
-					this.Add((StubRow)value.List[i]);
-				}
-			}
-		}
-
-		/// <summary>
-		/// Gets a value indicating whether the collection contains the specified <see cref="StubRowCollection">StubRowCollection</see>.
-		/// </summary>
-		/// <param name="value">The <see cref="StubRowCollection">StubRowCollection</see> to search for in the collection.</param>
-		/// <returns><b>true</b> if the collection contains the specified object; otherwise, <b>false</b>.</returns>
-		public bool Contains(StubRow value)
-		{
-			return this.List.Contains(value);
-		}
-
-		/// <summary>
-		/// Copies the collection Components to a one-dimensional <see cref="T:System.Array">Array</see> instance beginning at the specified index.
-		/// </summary>
-		/// <param name="array">The one-dimensional <see cref="T:System.Array">Array</see> that is the destination of the values copied from the collection.</param>
-		/// <param name="index">The index of the array at which to begin inserting.</param>
-		public void CopyTo(StubRow[] array, int index)
-		{
-			this.List.CopyTo(array, index);
-		}
-
-		/// <summary>
-		/// Gets the index in the collection of the specified <see cref="StubRowCollection">StubRowCollection</see>, if it exists in the collection.
-		/// </summary>
-		/// <param name="value">The <see cref="StubRowCollection">StubRowCollection</see> to locate in the collection.</param>
-		/// <returns>The index in the collection of the specified object, if found; otherwise, -1.</returns>
-		public int IndexOf(StubRow value)
-		{
-			return this.List.IndexOf(value);
-		}
-
-		public void Insert(int index, StubRow value)
-		{
-			List.Insert(index, value);
-		}
-
-		public void Remove(StubRow value)
-		{
-			List.Remove(value);
-		}
-
-		public void Sort()
-		{
-			this.InnerList.Sort();
-		}
-
-		/// <summary>
-		/// Returns an enumerator that can iterate through the <see cref="StubRowCollection">StubRowCollection</see> instance.
-		/// </summary>
-		/// <returns>An <see cref="StubRowCollectionEnumerator">StubRowCollectionEnumerator</see> for the <see cref="StubRowCollection">StubRowCollection</see> instance.</returns>
-		public new StubRowCollectionEnumerator GetEnumerator()
-		{
-			return new StubRowCollectionEnumerator(this);
-		}
-
-		/// <summary>
-		/// Supports a simple iteration over a <see cref="StubRowCollection">StubRowCollection</see>.
-		/// </summary>
-		public class StubRowCollectionEnumerator : IEnumerator
-		{
-			private IEnumerator _enumerator;
-			private IEnumerable _temp;
-
-			/// <summary>
-			/// Initializes a new instance of the <see cref="StubRowCollectionEnumerator">StubRowCollectionEnumerator</see> class referencing the specified <see cref="StubRowCollection">StubRowCollection</see> object.
-			/// </summary>
-			/// <param name="mappings">The <see cref="StubRowCollection">StubRowCollection</see> to enumerate.</param>
-			public StubRowCollectionEnumerator(StubRowCollection mappings)
-			{
-				_temp = mappings;
-				_enumerator = _temp.GetEnumerator();
-			}
-
-			/// <summary>
-			/// Gets the current element in the collection.
-			/// </summary>
-			public StubRow Current
-			{
-				get { return ((StubRow)(_enumerator.Current)); }
-			}
-
-			object IEnumerator.Current
-			{
-				get { return _enumerator.Current; }
-			}
-
-			/// <summary>
-			/// Advances the enumerator to the next element of the collection.
-			/// </summary>
-			/// <returns><b>true</b> if the enumerator was successfully advanced to the next element; <b>false</b> if the enumerator has passed the end of the collection.</returns>
-			public bool MoveNext()
-			{
-				return _enumerator.MoveNext();
-			}
-
-			bool IEnumerator.MoveNext()
-			{
-				return _enumerator.MoveNext();
-			}
-
-			/// <summary>
-			/// Sets the enumerator to its initial position, which is before the first element in the collection.
-			/// </summary>
-			public void Reset()
-			{
-				_enumerator.Reset();
-			}
-
-			void IEnumerator.Reset()
-			{
-				_enumerator.Reset();
-			}
-		}
-	}
-	
-	/// <summary>
-	/// Represents a collection of <see cref="StubResultSet">ResultSet</see>.
-	/// </summary>
-	[Serializable]
-	public class StubResultSetCollection : CollectionBase
-	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="StubResultSetCollection">ResultSetCollection</see> class.
-		/// </summary>
-		public StubResultSetCollection()
-		{
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="StubResultSetCollection">ResultSetCollection</see> class containing the elements of the specified source collection.
-		/// </summary>
-		/// <param name="value">A <see cref="StubResultSetCollection">ResultSetCollection</see> with which to initialize the collection.</param>
-		public StubResultSetCollection(StubResultSetCollection value)
-		{
-			if(value != null)
-			{
-				this.AddRange(value);
-			}
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="StubResultSetCollection">ResultSetCollection</see> class containing the specified array of <see cref="StubResultSet">ResultSet</see> Components.
-		/// </summary>
-		/// <param name="value">An array of <see cref="StubResultSet">ResultSet</see> Components with which to initialize the collection. </param>
-		public StubResultSetCollection(StubResultSet[] value)
-		{
-			if(value != null)
-			{
-				this.AddRange(value);
-			}
-		}
-
-		/// <summary>
-		/// Gets the <see cref="StubResultSetCollection">ResultSetCollection</see> at the specified index in the collection.
-		/// <para>
-		/// In C#, this property is the indexer for the <see cref="StubResultSetCollection">ResultSetCollection</see> class.
-		/// </para>
-		/// </summary>
-		public StubResultSet this[int index]
-		{
-			get { return ((StubResultSet)(this.List[index])); }
-		}
-
-		public int Add(StubResultSet value)
-		{
-			if(value != null)
-			{
-				return this.List.Add(value);
-			}
-			return -1;
-		}
-
-		/// <summary>
-		/// Copies the elements of the specified <see cref="StubResultSet">ResultSet</see> array to the end of the collection.
-		/// </summary>
-		/// <param name="value">An array of type <see cref="StubResultSet">ResultSet</see> containing the Components to add to the collection.</param>
-		public void AddRange(StubResultSet[] value)
-		{
-			if(value == null)
-				throw new ArgumentNullException("value", "Cannot add a range from null.");
-
-			if(value != null)
-			{
-				for(int i = 0; (i < value.Length); i = (i + 1))
-				{
-					this.Add(value[i]);
-				}
-			}
-		}
-
-		/// <summary>
-		/// Adds the contents of another <see cref="StubResultSetCollection">ResultSetCollection</see> to the end of the collection.
-		/// </summary>
-		/// <param name="value">A <see cref="StubResultSetCollection">ResultSetCollection</see> containing the Components to add to the collection. </param>
-		public void AddRange(StubResultSetCollection value)
-		{
-			if(value == null)
-				throw new ArgumentNullException("value", "Cannot add a range from null.");
-
-			if(value != null)
-			{
-				for(int i = 0; (i < value.Count); i = (i + 1))
-				{
-					this.Add((StubResultSet)value.List[i]);
-				}
-			}
-		}
-
-		/// <summary>
-		/// Gets a value indicating whether the collection contains the specified <see cref="StubResultSetCollection">ResultSetCollection</see>.
-		/// </summary>
-		/// <param name="value">The <see cref="StubResultSetCollection">ResultSetCollection</see> to search for in the collection.</param>
-		/// <returns><b>true</b> if the collection contains the specified object; otherwise, <b>false</b>.</returns>
-		public bool Contains(StubResultSet value)
-		{
-			return this.List.Contains(value);
-		}
-
-		/// <summary>
-		/// Copies the collection Components to a one-dimensional <see cref="T:System.Array">Array</see> instance beginning at the specified index.
-		/// </summary>
-		/// <param name="array">The one-dimensional <see cref="T:System.Array">Array</see> that is the destination of the values copied from the collection.</param>
-		/// <param name="index">The index of the array at which to begin inserting.</param>
-		public void CopyTo(StubResultSet[] array, int index)
-		{
-			this.List.CopyTo(array, index);
-		}
-
-		/// <summary>
-		/// Gets the index in the collection of the specified <see cref="StubResultSetCollection">ResultSetCollection</see>, if it exists in the collection.
-		/// </summary>
-		/// <param name="value">The <see cref="StubResultSetCollection">ResultSetCollection</see> to locate in the collection.</param>
-		/// <returns>The index in the collection of the specified object, if found; otherwise, -1.</returns>
-		public int IndexOf(StubResultSet value)
-		{
-			return this.List.IndexOf(value);
-		}
-
-		public void Insert(int index, StubResultSet value)
-		{
-			List.Insert(index, value);
-		}
-
-		public void Remove(StubResultSet value)
-		{
-			List.Remove(value);
-		}
-
-		public void Sort()
-		{
-			this.InnerList.Sort(new SortListCategoryComparer());
-		}
-
-		private sealed class SortListCategoryComparer : IComparer
-		{
-			public int Compare(object x, object y)
-			{
-				StubResultSet first = (StubResultSet)x;
-				StubResultSet second = (StubResultSet)y;
-				return first.ToString().CompareTo(second.ToString());
-			}
-		}
-
-
-		/// <summary>
-		/// Returns an enumerator that can iterate through the <see cref="StubResultSetCollection">ResultSetCollection</see> instance.
-		/// </summary>
-		/// <returns>An <see cref="ResultSetCollectionEnumerator">ResultSetCollectionEnumerator</see> for the <see cref="StubResultSetCollection">ResultSetCollection</see> instance.</returns>
-		public new ResultSetCollectionEnumerator GetEnumerator()
-		{
-			return new ResultSetCollectionEnumerator(this);
-		}
-
-		/// <summary>
-		/// Supports a simple iteration over a <see cref="StubResultSetCollection">ResultSetCollection</see>.
-		/// </summary>
-		public class ResultSetCollectionEnumerator : IEnumerator
-		{
-			private IEnumerator _enumerator;
-			private IEnumerable _temp;
-
-			/// <summary>
-			/// Initializes a new instance of the <see cref="ResultSetCollectionEnumerator">ResultSetCollectionEnumerator</see> class referencing the specified <see cref="StubResultSetCollection">ResultSetCollection</see> object.
-			/// </summary>
-			/// <param name="mappings">The <see cref="StubResultSetCollection">ResultSetCollection</see> to enumerate.</param>
-			public ResultSetCollectionEnumerator(StubResultSetCollection mappings)
-			{
-				_temp = mappings;
-				_enumerator = _temp.GetEnumerator();
-			}
-
-			/// <summary>
-			/// Gets the current element in the collection.
-			/// </summary>
-			public StubResultSet Current
-			{
-				get { return ((StubResultSet)(_enumerator.Current)); }
-			}
-
-			object IEnumerator.Current
-			{
-				get { return _enumerator.Current; }
-			}
-
-			/// <summary>
-			/// Advances the enumerator to the next element of the collection.
-			/// </summary>
-			/// <returns><b>true</b> if the enumerator was successfully advanced to the next element; <b>false</b> if the enumerator has passed the end of the collection.</returns>
-			public bool MoveNext()
-			{
-				return _enumerator.MoveNext();
-			}
-
-			bool IEnumerator.MoveNext()
-			{
-				return _enumerator.MoveNext();
-			}
-
-			/// <summary>
-			/// Sets the enumerator to its initial position, which is before the first element in the collection.
-			/// </summary>
-			public void Reset()
-			{
-				_enumerator.Reset();
-			}
-
-			void IEnumerator.Reset()
-			{
-				_enumerator.Reset();
 			}
 		}
 	}

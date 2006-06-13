@@ -227,8 +227,8 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.lkbPost.Click += new System.EventHandler(this.lkbPost_Click);
-			this.Load += new System.EventHandler(this.Page_Load);
+			this.lkbPost.Click += this.lkbPost_Click;
+			this.Load += this.Page_Load;
 
 		}
 		#endregion
