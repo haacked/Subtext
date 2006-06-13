@@ -1102,12 +1102,12 @@ namespace Subtext.Framework.Data
 
 		#region Archives
 
-		public override ArchiveCountCollection GetPostsByMonthArchive()
+        public override ICollection<ArchiveCount> GetPostsByMonthArchive()
 		{
 			IDataReader reader = DbProvider.Instance().GetPostsByMonthArchive();
 			try
 			{
-				ArchiveCountCollection acc = DataHelper.LoadArchiveCount(reader);
+                ICollection<ArchiveCount> acc = DataHelper.LoadArchiveCount(reader);
 				return acc;
 			}
 			finally
@@ -1116,12 +1116,12 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public override ArchiveCountCollection GetPostsByYearArchive()
+        public override ICollection<ArchiveCount> GetPostsByYearArchive()
 		{
 			IDataReader reader = DbProvider.Instance().GetPostsByYearArchive();
 			try
 			{
-				ArchiveCountCollection acc = DataHelper.LoadArchiveCount(reader);
+                ICollection<ArchiveCount> acc = DataHelper.LoadArchiveCount(reader);
 				return acc;
 			}
 			finally

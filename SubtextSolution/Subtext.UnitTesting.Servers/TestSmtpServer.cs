@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using LumiSoft.Net.SMTP.Server;
@@ -12,7 +13,7 @@ namespace Subtext.UnitTesting.Servers
 	{
 		public const int DefaultPort = 8082;
 		SMTP_Server server;
-		ReceivedEmailMessageCollection inbox = new ReceivedEmailMessageCollection();
+        IList<ReceivedEmailMessage> inbox = new List<ReceivedEmailMessage>();
 		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TestSmtpServer"/> class.
@@ -25,7 +26,7 @@ namespace Subtext.UnitTesting.Servers
 		/// Gets the inbox.
 		/// </summary>
 		/// <value>The inbox.</value>
-		public ReceivedEmailMessageCollection Inbox
+		public IList<ReceivedEmailMessage> Inbox
 		{
 			get
 			{

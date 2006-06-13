@@ -187,9 +187,6 @@
     <Compile Include="Components\ArchiveCount.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Components\ArchiveCountCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Components\BlogUser.cs">
       <SubType>Code</SubType>
     </Compile>
