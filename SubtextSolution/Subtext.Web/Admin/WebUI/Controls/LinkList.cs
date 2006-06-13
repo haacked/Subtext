@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.ObjectModel;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -51,56 +52,12 @@ namespace Subtext.Web.Admin.WebUI
 	// WebControl as an ancestor along with 13,000 other things. So this is kind 
 	// of bad pool here, need to reevalutate how to get same functionality but
 	// in a cleaner way.
-	public sealed class LinkControlCollection : System.Collections.CollectionBase
+	public sealed class LinkControlCollection : Collection<WebControl>
 	{
-		public LinkControlCollection()
+        public LinkControlCollection() : base()
 		{
-			//
 		}
-
-		#region CollectionBase basics
-		public LinkControlCollection(WebControl[] items)
-		{
-			this.AddRange(items);
-		}
-
-		public LinkControlCollection(LinkControlCollection items)
-		{
-			this.AddRange(items);
-		}
-
-		public void AddRange(WebControl[] items)
-		{
-			if(items == null)
-				throw new ArgumentNullException("items", "Cannot add a range from null.");
-			
-			foreach (WebControl item in items)
-			{
-				this.List.Add(item);
-			}
-		}
-
-		public void AddRange(LinkControlCollection items)
-		{
-			if(items == null)
-				throw new ArgumentNullException("items", "Cannot add a range from null.");
-
-			foreach (WebControl item in items)
-			{
-				this.List.Add(item);
-			}
-		}
-
-		public void Add(LinkButton value)
-		{
-			this.List.Add(value);
-		}
-
-		public void Add(HyperLink value)
-		{
-			this.List.Add(value);
-		}
-
+		
 		public void Add(string text, string navigateUrl)
 		{
 			Add(text, navigateUrl, null, null);
@@ -121,7 +78,7 @@ namespace Subtext.Web.Admin.WebUI
 			if (null != target && target.Length > 0)
 				adding.Target = target;
 			
-			this.List.Add(adding);
+			this.Add(adding);
 		}
 
 		public LinkButton Add(string text, EventHandler targetHandler)
@@ -138,72 +95,9 @@ namespace Subtext.Web.Admin.WebUI
 			if (null != cssClass && cssClass.Length > 0)
 				adding.CssClass = cssClass;
 			
-			this.List.Add(adding);
+			this.Add(adding);
 			return adding;
 		}
-
-		public bool Contains(WebControl value)
-		{
-			return this.List.Contains(value);
-		}
-
-		public int IndexOf(WebControl value)
-		{
-			return this.List.IndexOf(value);
-		}
-
-		public void Insert(int index, WebControl value)
-		{
-			this.List.Insert(index, value);
-		}
-
-		public WebControl this[int index]
-		{
-			get { return (WebControl)this.List[index]; }
-			set	{ this.List[index] = value; }
-		}
-
-		public void Remove(WebControl value)
-		{
-			this.List.Remove(value);
-		}
-
-		public new LinkControlCollection.Enumerator GetEnumerator()
-		{
-			return new LinkControlCollection.Enumerator(this);
-		}
-
-		public class Enumerator: System.Collections.IEnumerator
-		{
-			private System.Collections.IEnumerator wrapped;
-
-			public Enumerator(LinkControlCollection collection)
-			{
-				this.wrapped = ((System.Collections.CollectionBase)collection).GetEnumerator();
-			}
-
-			public WebControl Current
-			{
-				get { return (WebControl)this.wrapped.Current; }
-			}
-
-			object System.Collections.IEnumerator.Current
-			{
-				get { return this.wrapped.Current; }
-			}
-
-			public bool MoveNext()
-			{
-				return this.wrapped.MoveNext();
-			}
-
-			public void Reset()
-			{
-				this.wrapped.Reset();
-			}
-		}
-
-		#endregion
 	}
 }
 

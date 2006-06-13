@@ -146,7 +146,7 @@ namespace UnitTests.Subtext.Framework.Tracking
 			request.Form["blog_name"] = blogName;
 			
 			TrackBackHandler handler = new TrackBackHandler();
-			handler.SourceVerification += new TrackBackHandler.SourceVerificationEventHandler(handler_SourceVerification);
+			handler.SourceVerification += handler_SourceVerification;
 			
 			HttpContext.Current.Request.ContentType = "application/x-www-form-urlencoded";
 			handler.ProcessRequest(HttpContext.Current);

@@ -48,7 +48,11 @@ namespace Subtext.Extensibility.Providers
 
 			if((defaultProviderName == null || defaultProviderName.Length == 0) && _providers.Count > 0)
 			{
-				defaultProviderName = _providers[0].Name;
+                foreach (ProviderInfo provider in _providers.Values)
+                {
+                    defaultProviderName = provider.Name;
+                    break;
+                }
 			}
 			_providers.DefaultProvider = _providers[defaultProviderName];
 		}

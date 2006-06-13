@@ -76,7 +76,7 @@ namespace Subtext.UnitTesting.Servers
 			server = new SMTP_Server();
 			server.IpAddress = serverEndPoint.Address.ToString();
 			server.Port = serverEndPoint.Port;
-			server.StoreMessage += new NewMailEventHandler(OnStoreMessage);
+			server.StoreMessage += OnStoreMessage;
 			server.Enabled = true;
 		}
 		
