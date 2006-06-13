@@ -21,7 +21,7 @@ namespace Subtext.Framework.Exceptions
 	/// Exception thrown when a blog does not exist.  This is 
 	/// indicative of not having created a blog_config record.
 	/// </summary>
-	public class BlogDoesNotExistException : BaseSubtextException 
+	public class BlogDoesNotExistException : Exception 
 	{
 		/// <summary>
 		/// Creates a new <see cref="BlogDoesNotExistException"/> instance.
@@ -34,15 +34,6 @@ namespace Subtext.Framework.Exceptions
 			_anyBlogsExist = anyBlogsExist;
 			_host = host;
 			subfolder = app;
-		}
-
-		/// <summary>
-		/// Gets the message resource key.
-		/// </summary>
-		/// <value></value>
-		public override string MessageResourceKey
-		{
-			get { throw new NotImplementedException(); }
 		}
 
 		/// <summary>

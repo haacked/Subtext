@@ -21,7 +21,7 @@ namespace Subtext.Framework.Exceptions
 	/// Base exception class for comment errors.
 	/// </summary>
 	[Serializable]
-	public abstract class BaseCommentException : BaseSubtextException
+	public abstract class BaseCommentException : Exception
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CommentSpamException"/> class.
@@ -37,13 +37,6 @@ namespace Subtext.Framework.Exceptions
 		protected BaseCommentException(string message) : base(message)
 		{
 		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="BaseCommentException"/> class.
-		/// </summary>
-		/// <param name="innerException">The inner exception.</param>
-		protected BaseCommentException(Exception innerException) : base(innerException)
-		{}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CommentSpamException"/> class.

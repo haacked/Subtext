@@ -297,9 +297,6 @@
     <Compile Include="Exceptions\BaseCommentException.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Exceptions\BaseSubtextException.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Exceptions\BlogApplicationDirectoryCreateException.cs">
       <SubType>Code</SubType>
     </Compile>

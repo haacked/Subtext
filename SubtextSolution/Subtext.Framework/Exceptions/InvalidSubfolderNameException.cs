@@ -33,14 +33,6 @@ namespace Subtext.Framework.Exceptions
 		{
 			this.subfolder = subfolder;
 		}
-		/// <summary>
-		/// Gets the message resource key.
-		/// </summary>
-		/// <value></value>
-		public override string MessageResourceKey
-		{
-			get { throw new NotImplementedException(); }
-		}
 
 		/// <summary>
 		/// Gets the message.
