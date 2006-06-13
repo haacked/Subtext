@@ -444,6 +444,8 @@
     <Compile Include="Text\StringHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Threading\ManagedThreadPool.cs" />
+    <Compile Include="Threading\Semaphore.cs" />
     <Compile Include="Threading\TimedLock.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -505,9 +507,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Util\Keywords.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Util\ManagedThreadPool.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Util\SerializationHelper.cs">
