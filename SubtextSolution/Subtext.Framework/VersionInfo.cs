@@ -86,15 +86,6 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
-		/// Returns a display string 
-		/// </summary>
-		/// <returns></returns>
-		public override string ToString()
-		{
-			return VersionDisplayText;
-		}
-	
-		/// <summary>
 		/// Gets the user agent.
 		/// </summary>
 		/// <value></value>
