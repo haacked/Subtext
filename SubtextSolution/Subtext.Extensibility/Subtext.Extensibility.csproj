@@ -158,12 +158,6 @@
     <Compile Include="Plugins\ITargetIdentifierCollection.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Plugins\IVersionDeclaration.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Plugins\IVersionDeclarationCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="PostConfig.cs">
       <SubType>Code</SubType>
     </Compile>
