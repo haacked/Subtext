@@ -28,8 +28,8 @@ namespace Subtext.Web
 	
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-			Literal1.Text = Subtext.Framework.Util.ManagedThreadPool.ActiveThreads.ToString(CultureInfo.InvariantCulture);
-			Literal2.Text = Subtext.Framework.Util.ManagedThreadPool.WaitingCallbacks.ToString(CultureInfo.InvariantCulture);
+			Literal1.Text = Subtext.Framework.Threading.ManagedThreadPool.ActiveThreads.ToString(CultureInfo.InvariantCulture);
+            Literal2.Text = Subtext.Framework.Threading.ManagedThreadPool.WaitingCallbacks.ToString(CultureInfo.InvariantCulture);
 			
 		}
 

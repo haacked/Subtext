@@ -36,7 +36,7 @@ using System.Collections.Specialized;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
-using Subtext.Framework.Util;
+using Subtext.Framework.Threading;
 using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Tracking
