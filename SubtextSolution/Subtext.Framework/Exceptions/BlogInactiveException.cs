@@ -26,14 +26,5 @@ namespace Subtext.Framework.Exceptions
 		public BlogInactiveException() : base()
 		{
 		}
-
-		public override string MessageResourceKey
-		{
-			get
-			{
-				throw new NotImplementedException("Not yet implemented.");
-			}
-		}
-
 	}
 }

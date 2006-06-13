@@ -63,19 +63,6 @@ namespace Subtext.Framework.Exceptions
 		}
 
 		/// <summary>
-		/// Gets the message resource key.
-		/// </summary>
-		/// <value></value>
-		public override string MessageResourceKey
-		{
-			get
-			{
-				//TODO: Internationalize...
-				throw new NotImplementedException("We have not yet implemented I8N.");
-			}
-		}
-
-		/// <summary>
 		/// Gets the duplicate blog.
 		/// </summary>
 		/// <value></value>

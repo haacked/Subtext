@@ -116,20 +116,5 @@ namespace Subtext.Framework.Exceptions
 				return message;
 			}
 		}
-
-
-		/// <summary>
-		/// Gets the message resource key.
-		/// </summary>
-		/// <value></value>
-		public override string MessageResourceKey
-		{
-			get
-			{
-				throw new NotImplementedException("I8N not implemented.");
-			}
-		}
-
-
 	}
 }

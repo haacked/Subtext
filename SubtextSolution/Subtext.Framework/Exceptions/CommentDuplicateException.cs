@@ -24,15 +24,6 @@ namespace Subtext.Framework.Exceptions
 	public class CommentDuplicateException : BaseCommentException
 	{
 		/// <summary>
-		/// Gets the message resource key.
-		/// </summary>
-		/// <value></value>
-		public override string MessageResourceKey
-		{
-			get { throw new NotImplementedException(); }
-		}
-
-		/// <summary>
 		/// Gets the message.
 		/// </summary>
 		/// <value></value>

@@ -49,7 +49,7 @@ namespace Subtext.Framework.Exceptions
 		/// Initializes a new instance of the <see cref="CommentSpamException"/> class.
 		/// </summary>
 		/// <param name="innerException">The inner exception.</param>
-		public CommentSpamException(Exception innerException) : base(innerException)
+		public CommentSpamException(Exception innerException) : base(null, innerException)
 		{}
 
 		/// <summary>
@@ -59,17 +59,6 @@ namespace Subtext.Framework.Exceptions
 		/// <param name="innerException">The inner exception.</param>
 		public CommentSpamException(string message, Exception innerException) : base(message, innerException)
 		{
-		}
-
-		/// <summary>
-		/// Returns a resource key for the message.  This is used to 
-		/// look up the message in the correct language within a 
-		/// resource file (when we get around to I8N).
-		/// </summary>
-		/// <value></value>
-		public override string MessageResourceKey
-		{
-			get { throw new NotImplementedException(); }
 		}
 	}
 }
