@@ -40,10 +40,8 @@ namespace Subtext.Framework
 	/// Class used to manage version information regarding 
 	/// Subtext.
 	/// </summary>
-	public sealed class VersionInfo 
+	public static class VersionInfo 
 	{
-		private VersionInfo() {}
-
 		static Version _version = null;
 		static Uri _homePageUrl = new Uri("http://SubtextProject.com/");
 

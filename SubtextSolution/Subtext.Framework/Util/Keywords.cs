@@ -22,13 +22,9 @@ using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Util
 {
-	public sealed class KeyWords
+	public static class KeyWords
 	{
-		private KeyWords()
-		{
-		}
-
-		#region Readers/Writers
+	    #region Readers/Writers
 
 		private enum ScanState : byte { Replace, InTag, InAnchor };
 

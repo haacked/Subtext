@@ -26,10 +26,8 @@ using Subtext.Framework.Web;
 
 namespace Subtext.Web.Admin
 {
-	public sealed class Utilities
+	public static class Utilities
 	{
-		private Utilities() {}
-
 		public static string ResourcePath
 		{
 			get

@@ -28,11 +28,8 @@ using Image = Subtext.Framework.Components.Image;
 
 namespace Subtext.Framework
 {
-	public sealed class Images
+	public static class Images
 	{
-		//Static class.
-		private Images() {}
-
 		public static string LocalFilePath(HttpContext context)
 		{
 			return Config.CurrentBlog.ImageDirectory;

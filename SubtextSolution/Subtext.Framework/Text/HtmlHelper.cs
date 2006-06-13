@@ -31,12 +31,8 @@ namespace Subtext.Framework.Text
 	/// <summary>
 	/// Static class used for parseing, formatting, and validating HTML.
 	/// </summary>
-	public sealed class HtmlHelper
+	public static class HtmlHelper
 	{
-		private HtmlHelper()
-		{
-		}
-
 		/// <summary>
 		/// Strips HTML tags from the specified text.
 		/// </summary>

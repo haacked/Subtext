@@ -24,12 +24,8 @@ namespace Subtext.Framework.Text
 	/// <summary>
 	/// Static class with useful string manipulation methods.
 	/// </summary>
-	public sealed class StringHelper
+	public static class StringHelper
 	{
-		private StringHelper()
-		{
-		}
-
 		/// <summary>
 		/// Compares the strings and returns true if they are equal.
 		/// </summary>

@@ -21,10 +21,8 @@ namespace Subtext.Reflection
 	/// <summary>
 	/// Helper class to simplify common reflection tasks.
 	/// </summary>
-	public sealed class ReflectionHelper
+	public static class ReflectionHelper
 	{
-		private ReflectionHelper() {}
-
 		/// <summary>
 		/// Returns the value of the private member specified.
 		/// </summary>

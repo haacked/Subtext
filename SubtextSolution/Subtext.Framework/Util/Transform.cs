@@ -29,10 +29,9 @@ namespace Subtext.Framework.Util
 	/// Class used to provide various transforms such as the 
 	/// Emoticon transforms.
 	/// </summary>
-	public sealed class Transform
+	public static class Transform
 	{
 		private static ILog Log = new Log();
-		private Transform() {}
 
 		/// <summary>
 		/// Transforms emoticons into image references based on the 

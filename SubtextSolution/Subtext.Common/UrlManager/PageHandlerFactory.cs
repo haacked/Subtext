@@ -27,11 +27,9 @@ namespace Subtext.Common.UrlManager
 	/// documents will not be loaded. if no page is found, we will use attempt to load 
 	/// default.aspx in the current directory
 	/// </summary>
-	public sealed class PageHandlerFactory 
+	public static class PageHandlerFactory 
 	{
 		private static IStackWalk _stackwalk = new SecurityPermission(SecurityPermissionFlag.UnmanagedCode);
-
-		private PageHandlerFactory(){}
 
 		public static IHttpHandler GetHandler(HttpContext context, string requestType, string url, string path)
 		{

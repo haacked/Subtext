@@ -24,13 +24,8 @@ using Subtext.Framework.Components;
 
 namespace Subtext.Web.Admin
 {
-	public sealed class OpmlProvider
+	public static class OpmlProvider
 	{
-		private OpmlProvider()
-		{
-			//
-		}
-
 		public static XmlDocument Export(ICollection<Link> items)
 		{
 			#region	DEP: writer		

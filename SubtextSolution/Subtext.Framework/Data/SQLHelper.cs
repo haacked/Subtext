@@ -24,17 +24,11 @@ namespace Subtext.Framework.Data
 	/// The SqlHelper class is intended to encapsulate high performance, scalable best practices for 
 	/// common uses of SqlClient.
 	/// </summary>
-	public sealed class SqlHelper
+	public static class SqlHelper
 	{
 		#region private utility methods & constructors
 
-		//Since this class provides only static methods, make the default constructor private to prevent 
-		//instances from being created with "new SqlHelper()".
-		private SqlHelper() {}
-
-
-
-		/// <summary>
+	    /// <summary>
 		/// This method is used to attach array of SqlParameters to a SqlCommand.
 		/// 
 		/// This method will assign a value of DbNull to any parameter with a direction of

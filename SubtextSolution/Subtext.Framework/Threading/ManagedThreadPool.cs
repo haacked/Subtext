@@ -45,12 +45,8 @@ using Subtext.Framework.Threading;
 namespace Subtext.Framework.Threading
 {
 	/// <summary>Managed thread pool.</summary>
-	public sealed class ManagedThreadPool
-	{
-		private ManagedThreadPool()
-		{
-		}
-		
+	public static class ManagedThreadPool
+	{	
 		static Log Log = new Log();
 
 		#region Constants

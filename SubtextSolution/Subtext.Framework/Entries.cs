@@ -35,14 +35,10 @@ namespace Subtext.Framework
 	/// Static class used to get entries (blog posts, comments, etc...) 
 	/// from the data store.
 	/// </summary>
-	public sealed class Entries
+	public static class Entries
 	{
-		private readonly static ILog log = new Logging.Log();
-		
-		private Entries()
-		{
-		}
-		
+		private readonly static ILog log = new Logging.Log();		
+	
 		#region Paged Posts
 
 		/// <summary>

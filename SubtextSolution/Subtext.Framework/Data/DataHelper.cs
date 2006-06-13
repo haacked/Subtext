@@ -34,10 +34,8 @@ namespace Subtext.Framework.Data
 	/// Contains helper methods for getting blog entries from the database 
 	/// into objects such as <see cref="List<EntryDay>"/> and <see cref="EntryCollection"/>.
 	/// </summary>
-	public sealed class DataHelper
+	public static class DataHelper
 	{
-		private DataHelper() {}
-
 		#region Statisitics
 
 		public static ViewStat LoadSingleViewStat(IDataReader reader)

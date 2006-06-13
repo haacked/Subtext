@@ -25,13 +25,9 @@ namespace Subtext.Web.UI
 	/// <remarks>
 	/// This text ought to be configurable per-blog.
 	/// </remarks>
-	public sealed class UIText
+	public static class UIText
 	{
 		//TODO: Refactor this to use blog settings, not app settings.
-		private UIText()
-		{
-		}
-
 		/// <summary>
 		/// Gets the titel for the post categories.
 		/// </summary>

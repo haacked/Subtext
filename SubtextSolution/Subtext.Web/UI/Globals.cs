@@ -22,12 +22,8 @@ namespace Subtext.Web.UI
 	/// <summary>
 	/// Summary description for Globals.
 	/// </summary>
-	public sealed class Globals
+	public static class Globals
 	{
-		private Globals()
-		{
-		}
-
 		/// <summary>
 		/// Returns the current skin for the current context.
 		/// </summary>

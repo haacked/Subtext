@@ -26,13 +26,11 @@ namespace Subtext.Framework
 	/// Represents the system that hosts the blogs within this 
 	/// Subtext installation.  This is a Singleton.
 	/// </summary>
-	public sealed class HostInfo
+	public static class HostInfo
 	{
 		static object _synchBlock = new object();
 		static HostInfo _instance = LoadHost(true);
 		
-		private HostInfo() {}
-
 		/// <summary>
 		/// Returns an instance of <see cref="HostInfo"/> used to 
 		/// describe this installation of Subtext.

@@ -24,12 +24,8 @@ namespace Subtext.Framework
 	/// Static class used to get collections of archived posts 
 	/// (by month and year) from the data provider.
 	/// </summary>
-	public sealed class Archives
+	public static class Archives
 	{
-		private Archives()
-		{
-		}
-
 		/// <summary>
 		/// Gets archived posts by month.
 		/// </summary>

@@ -27,10 +27,9 @@ namespace Subtext.Framework.Configuration
 	/// Static helper class used to access various configuration 
 	/// settings.
 	/// </summary>
-	public sealed class Config
+	public static class Config
 	{
 		static UrlBasedBlogInfoProvider _configProvider = null;
-		private Config() {}
 
 		/// <summary>
 		/// Returns an instance of <see cref="BlogConfigurationSettings"/> which 

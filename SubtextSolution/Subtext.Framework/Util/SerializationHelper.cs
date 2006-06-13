@@ -23,12 +23,8 @@ namespace Subtext.Framework.Util
 	/// Class with methods for saving and loading objects as 
 	/// serialized instances.
 	/// </summary>
-	public sealed class SerializationHelper
+	public static class SerializationHelper
 	{
-		private SerializationHelper()
-		{
-		}
-
 		/// <summary>
 		/// Loads the specified type.
 		/// </summary>
