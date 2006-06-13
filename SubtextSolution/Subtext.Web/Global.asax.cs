@@ -48,7 +48,7 @@ namespace Subtext
 		/// <param name="custom"></param>
 		/// <returns>
 		/// If the value of the <paramref name="custom"/> parameter is "browser", the browser's
-		/// <see cref="P:System.Web.HttpBrowserCapabilities.Type"/> ; otherwise,
+		/// <see cref="System.Web.HttpBrowserCapabilities.Type"/> ; otherwise,
 		/// <see langword="null"/> .
 		/// </returns>
 		public override string GetVaryByCustomString(HttpContext context, string custom)

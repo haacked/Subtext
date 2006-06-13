@@ -15,6 +15,7 @@
 using System;
 using System.Configuration;
 using System.Web;
+using System.Web.Compilation;
 using System.Web.UI;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
@@ -57,7 +58,7 @@ namespace Subtext.Common.UrlManager
 		{
             if ((Config.CurrentBlog == null || Config.CurrentBlog.BlogId == int.MinValue) && ConfigurationManager.AppSettings["AggregateEnabled"] == "true")
 			{
-				return PageParser.GetCompiledPageInstance("/Default.aspx", context.Server.MapPath("~/Default.aspx"), context);
+                return BuildManager.CreateInstanceFromVirtualPath("/Default.aspx", typeof(Page)) as IHttpHandler;
 			}
 			
 			//Get the Handlers to process. By default, we grab them from the blog.config
@@ -119,15 +120,12 @@ namespace Subtext.Common.UrlManager
 				url = StringHelper.LeftBefore(url, "default.aspx", ComparisonType.CaseInsensitive);
 			}
 			
-			return PageParser.GetCompiledPageInstance(url, pagepath, context);
-		}
+            return BuildManager.CreateInstanceFromVirtualPath("~/DTP.aspx", typeof(Page)) as IHttpHandler;
+        }
 
 		private IHttpHandler ProcessHandlerTypeDirectory(HttpHandler item, HttpContext context, string url)
 		{
-			string directory = item.DirectoryLocation;
-			string requestPath = StringHelper.RightAfter(url, directory, ComparisonType.CaseInsensitive);
-			string physicalPath = HttpContext.Current.Request.MapPath("~/" + directory + "/" + requestPath);
-			return PageParser.GetCompiledPageInstance(url, physicalPath, context);
+            return BuildManager.CreateInstanceFromVirtualPath("~/DTP.aspx", typeof(Page)) as IHttpHandler;
 		}
 
 

@@ -17,6 +17,7 @@ using System;
 using System.Security;
 using System.Security.Permissions;
 using System.Web;
+using System.Web.Compilation;
 using System.Web.UI;
 
 namespace Subtext.Common.UrlManager 
@@ -35,11 +36,7 @@ namespace Subtext.Common.UrlManager
 		{
 			StackWalk.Assert();
 
-			if(!path.ToLower(System.Globalization.CultureInfo.InvariantCulture).EndsWith(".aspx"))
-			{
-				path = System.IO.Path.Combine(path, "default.aspx");
-			}
-			return PageParser.GetCompiledPageInstance(url, path, context);
+            return BuildManager.CreateInstanceFromVirtualPath(url, typeof(Page)) as IHttpHandler;
 		}
 
 		public static IStackWalk StackWalk
