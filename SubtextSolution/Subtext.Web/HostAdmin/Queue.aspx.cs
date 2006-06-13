@@ -16,7 +16,7 @@
 using System;
 using System.Globalization;
 
-namespace Subtext.Web
+namespace Subtext.Web.HostAdmin
 {
 	/// <summary>
 	/// Summary description for Queue.

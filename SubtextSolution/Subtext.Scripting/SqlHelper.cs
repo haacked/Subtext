@@ -49,13 +49,9 @@ namespace Subtext.Scripting
 	/// The SqlHelper class is intended to encapsulate high performance, scalable best practices for 
 	/// common uses of SqlClient
 	/// </summary>
-    public sealed class SqlHelper
+    public static class SqlHelper
     {
         #region private utility methods & constructors
-
-        // Since this class provides only static methods, make the default constructor private to prevent 
-        // instances from being created with "new SqlHelper()"
-        private SqlHelper() {}
 
         /// <summary>
         /// This method is used to attach array of SqlParameters to a SqlCommand.
@@ -1667,14 +1663,9 @@ namespace Subtext.Scripting
 	/// SqlHelperParameterCache provides functions to leverage a static cache of procedure parameters, and the
 	/// ability to discover parameters for stored procedures at run-time.
 	/// </summary>
-	public sealed class SqlHelperParameterCache
+	public static class SqlHelperParameterCache
 	{
 		#region private methods, variables, and constructors
-
-		//Since this class provides only static methods, make the default constructor private to prevent 
-		//instances from being created with "new SqlHelperParameterCache()"
-		private SqlHelperParameterCache() {}
-
 		private static Hashtable paramCache = Hashtable.Synchronized(new Hashtable());
 
         /// <summary>

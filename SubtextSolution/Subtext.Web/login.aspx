@@ -1,7 +1,7 @@
 <%@ Page language="c#" EnableViewState="False" Codebehind="login.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Pages.login" %>
 <%@ Register tagprefix="mbdb" namespace="MetaBuilders.WebControls" Assembly="MetaBuilders.WebControls.DefaultButtons" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 	<head>
 		<title>Subtext - Login</title>

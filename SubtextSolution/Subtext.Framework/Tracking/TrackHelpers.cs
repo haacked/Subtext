@@ -40,12 +40,9 @@ namespace Subtext.Framework.Tracking
 	/// <summary>
 	/// Contains static helper methods for dealing with Trackbacks and PingBacks.
 	/// </summary>
-	public sealed class TrackHelpers
+	public static class TrackHelpers
 	{
-		private TrackHelpers()
-		{}
-
-		//Text to insert into a file with pinkback service location
+	    //Text to insert into a file with pinkback service location
 		public static string PingPackTag
 		{
 			get

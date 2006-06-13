@@ -46,9 +46,6 @@ namespace Subtext.Framework.Import
 		/// </summary>
 		public SubtextBlogMLReader()
 		{
-			//
-			// TODO: Add constructor logic here
-			//
 		}
 
 		/// <summary>

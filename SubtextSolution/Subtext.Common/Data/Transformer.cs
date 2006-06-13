@@ -25,10 +25,8 @@ namespace Subtext.Common.Data
 	/// <summary>
 	/// Common Subtext object transformations
 	/// </summary>
-	public sealed class Transformer
+	public static class Transformer
 	{
-		private Transformer(){}
-
 		/// <summary>
 		/// Converts a LinkCategoryCollection into a single LinkCategory with its own LinkCollection.
 		/// </summary>

@@ -9,12 +9,8 @@ namespace Subtext.Framework.Web
 	/// <summary>
 	/// Static containing helper methods for HTTP operations.
 	/// </summary>
-	public sealed class HttpHelper
+	public static class HttpHelper
 	{
-		private HttpHelper()
-		{
-		}
-
 		/// <summary>
 		/// Sets the file not found response.
 		/// </summary>

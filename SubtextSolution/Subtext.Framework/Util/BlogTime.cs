@@ -21,10 +21,8 @@ namespace Subtext.Framework.Util
 	/// <summary>
 	/// Class used to convert server time to blogger time and back.
 	/// </summary>
-	public sealed class BlogTime
+	public static class BlogTime
 	{
-		private BlogTime() {}
-
 		/// <summary>
 		/// Converts the specified <see cref="DateTime"/> to 
 		/// the blogger's time zone.

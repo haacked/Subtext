@@ -29,12 +29,11 @@ namespace Subtext.Framework
 	/// with a plugin once the plugin architecture is complete, but the 
 	/// logic will probably get ported.
 	/// </summary>
-	public sealed class CommentFilter
+	public static class CommentFilter
 	{
 		private const string FILTER_CACHE_KEY = "COMMENT FILTER:";
 		private const string BLACKLIST_CACHE_KEY = "BLACKLIST:";
 		private const int BLACKLIST_TIMEOUT = 60; //minutes.
-		private CommentFilter() {}
 
 		/// <summary>
 		/// Filters the comment. Throws an exception should the comment not be allowed. 

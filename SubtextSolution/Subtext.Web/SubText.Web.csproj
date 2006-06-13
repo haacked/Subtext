@@ -137,10 +137,6 @@
       <DependentUpon>Preferences.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\Queue.aspx.cs">
-      <DependentUpon>Queue.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="Admin\Referrers.aspx.cs">
       <DependentUpon>Referrers.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -223,6 +219,10 @@
     </Compile>
     <Compile Include="HostAdmin\PageTemplate.ascx.cs">
       <DependentUpon>PageTemplate.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HostAdmin\Queue.aspx.cs">
+      <DependentUpon>Queue.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="HostAdmin\Upgrade\Default.aspx.cs">
@@ -575,10 +575,6 @@
       <DependentUpon>Preferences.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Admin\Queue.aspx.resx">
-      <DependentUpon>Queue.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Admin\Referrers.aspx.resx">
       <DependentUpon>Referrers.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -633,6 +629,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HostAdmin\PageTemplate.ascx.resx">
       <DependentUpon>PageTemplate.ascx.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HostAdmin\Queue.aspx.resx">
+      <DependentUpon>Queue.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="HostAdmin\Upgrade\Default.aspx.resx">
@@ -764,7 +764,6 @@
     <Content Include="Admin\Options.aspx" />
     <Content Include="Admin\Password.aspx" />
     <Content Include="Admin\Preferences.aspx" />
-    <Content Include="Admin\Queue.aspx" />
     <Content Include="Admin\Referrers.aspx" />
     <Content Include="Admin\Resources\admin.css" />
     <Content Include="Admin\Resources\bg.gif" />
@@ -821,6 +820,7 @@
     <Content Include="HostAdmin\Import\ImportStart.aspx" />
     <Content Include="HostAdmin\Import\Step02_GatherInfo.aspx" />
     <Content Include="HostAdmin\PageTemplate.ascx" />
+    <Content Include="HostAdmin\Queue.aspx" />
     <Content Include="HostAdmin\style\Style.css" />
     <Content Include="HostAdmin\Upgrade\Default.aspx">
       <SubType>Form</SubType>

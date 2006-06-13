@@ -20,12 +20,8 @@ namespace Subtext.Framework
 	/// <summary>
 	/// Constants used to represent null value type.
 	/// </summary>
-	public sealed class NullValue
+	public static class NullValue
 	{
-		private NullValue()
-		{
-		}
-
 		/// <summary>Represents a null integer.</summary>
 		public const int NullInt32 = Int32.MinValue;
 

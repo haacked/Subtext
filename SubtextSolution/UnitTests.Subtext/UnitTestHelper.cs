@@ -35,10 +35,8 @@ namespace UnitTests.Subtext
 	/// <summary>
 	/// Contains helpful methods for packing and unpacking resources
 	/// </summary>
-	public sealed class UnitTestHelper
+	public static class UnitTestHelper
 	{
-		private UnitTestHelper() {}
-
 		/// <summary>
 		/// Creates a provider info instance using the specified name and type.
 		/// </summary>

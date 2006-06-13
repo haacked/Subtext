@@ -29,15 +29,8 @@ namespace Subtext.Common.Data
 	/// <summary>
 	/// Encapsulates obtaining content from the cache.
 	/// </summary>
-	public sealed class Cacher
+	public static class Cacher
 	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="Cacher"/> class.
-		/// </summary>
-		private Cacher()
-		{
-		}
-
 		#region LinkCategoryCollection
 
 		private static readonly string ActiveLCCKey = "ActiveLinkCategoryCollection:Blog{0}";

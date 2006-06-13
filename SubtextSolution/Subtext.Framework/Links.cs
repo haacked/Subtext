@@ -23,10 +23,8 @@ namespace Subtext.Framework
 	/// <summary>
 	/// Summary description for Links.
 	/// </summary>
-	public sealed class Links
+	public static class Links
 	{
-		private Links(){}
-
 		#region Paged Links
 
         public static IPagedCollection<Link> GetPagedLinks(int categoryTypeID, int pageIndex, int pageSize, bool sortDescending)

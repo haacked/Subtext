@@ -23,7 +23,6 @@ using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Threading;
 using Subtext.Framework.Tracking;
-using Subtext.Framework.Util;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Web;
 
@@ -33,11 +32,9 @@ namespace Subtext.Framework
 	/// Class used for managing stats. Provides facilities for queing stats. 
 	/// This is used for trackbacks and pingbacks.
 	/// </summary>
-	public sealed class Stats
+	public static class Stats
 	{
 		static Log Log = new Log();
-
-		private Stats(){}
 
 		static List<EntryView> queuedStatsList = null;
 		static int queuedAllowCount;

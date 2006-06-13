@@ -26,11 +26,8 @@ namespace Subtext.Web.Controls
 	/// Static class containing helper methods for various controls 
 	/// that can't be placed within the control hierarchy.
 	/// </summary>
-	public sealed class ControlHelper
+	public static class ControlHelper
 	{
-		private ControlHelper()
-		{}
-
 		/// <summary>
 		/// If the URL is is the format ~/SomePath, this 
 		/// method expands the tilde using the app path.

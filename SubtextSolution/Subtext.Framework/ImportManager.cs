@@ -26,11 +26,8 @@ namespace Subtext.Framework
 	/// <summary>
 	/// Summary description for ImportManager.
 	/// </summary>
-	public sealed class ImportManager
+	public static class ImportManager
 	{
-		private ImportManager()
-		{}
-	
 		/// <summary>
 		/// Gets the import information control for the specified import provider.
 		/// </summary>

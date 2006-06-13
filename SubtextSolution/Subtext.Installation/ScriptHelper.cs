@@ -24,10 +24,8 @@ namespace Subtext.Installation
 	/// <summary>
 	/// Helper class used to execute SQL Scripts.
 	/// </summary>
-	public sealed class ScriptHelper
+	public static class ScriptHelper
 	{
-		private ScriptHelper() {}
-		
 		/// <summary>
 		/// Executes the script.
 		/// </summary>

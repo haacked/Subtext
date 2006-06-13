@@ -23,12 +23,8 @@ namespace Subtext.Web.UI
 	/// <summary>
 	/// Summary description for UIData.
 	/// </summary>
-	public sealed class UIData
+	public static class UIData
 	{
-		private UIData()
-		{
-		}
-		
 		public static LinkCategory Links(CategoryType catType, UrlFormats formats)
 		{
 			switch(catType)
