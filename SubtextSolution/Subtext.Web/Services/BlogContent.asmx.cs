@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Web.Services;
 using Subtext.Extensibility;
@@ -66,13 +67,13 @@ namespace Subtext.Web.Services
 		#endregion
 
 		[WebMethod(MessageName="GetEntries",Description="Requests the last X number of Blog Entries. The number is limited by the settings in the blog.config file. The return type, is an an Array of Entries",EnableSession=false)]
-		public EntryCollection GetEntries(int ItemCount)
+        public IList<Entry> GetEntries(int ItemCount)
 		{
 			return Entries.GetRecentPosts(AllowedItemCount(ItemCount),PostType.BlogPost,true);
 		}
 
 		[WebMethod(MessageName="GetEntriesByCategoryID",Description="Requests the last X number of Blog Entries By a specific category. The number is limited by the settings in the blog.config file. The return type, is an an Array of Entries",EnableSession=false)]
-		public EntryCollection GetEntries(int ItemCount, int CategoryID)
+        public IList<Entry> GetEntries(int ItemCount, int CategoryID)
 		{
 			return Entries.GetEntriesByCategory(AllowedItemCount(ItemCount), CategoryID, true);
 		}

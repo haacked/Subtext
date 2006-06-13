@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using Subtext.Framework;
@@ -39,7 +40,7 @@ namespace Subtext.Web.UI.Controls
 	public class Calendar: BaseControl
 	{
 		// The list of entries found for the month
-		EntryCollection _monthEntries;
+        IList<Entry> _monthEntries;
 		// Current index into _monthEntries.
 		int _currentDateIndex;
 		// Number of entries in _monthEntries
@@ -88,7 +89,7 @@ namespace Subtext.Web.UI.Controls
 		private DateTime ChooseSelectedDateFromUrl()
 		{
 			string dateStr;
-			DateTime parsedDate = NullValue.NullDateTime;
+			DateTime parsedDate;
 			Regex match;
 			_isUrlMonthMode = false;
 			

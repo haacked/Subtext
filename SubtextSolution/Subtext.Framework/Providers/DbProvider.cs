@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Data;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Providers;
@@ -93,31 +94,31 @@ namespace Subtext.Framework.Providers
 		/// <summary>
 		/// Returns the specified number of blog entries
 		/// </summary>
-		/// <param name="ItemCount"></param>
+		/// <param name="itemCount"></param>
 		/// <param name="pt"></param>
 		/// <param name="pc"></param>
 		/// <returns></returns>
-		public abstract IDataReader GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc);
-		public abstract IDataReader GetEntriesByDateRangle(DateTime start, DateTime stop, PostType postType, bool ActiveOnly);
+		public abstract IDataReader GetConditionalEntries(int itemCount, PostType pt, PostConfig pc);
+		public abstract IDataReader GetEntriesByDateRangle(DateTime start, DateTime stop, PostType postType, bool activeOnly);
 
 		//Maybe under the hood only one call here? 
 		//Good Canidate for service/dataset? 
 		//Used a lot, maybe it should be both dataset and DataReader?
-		public abstract IDataReader GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly);
-		public abstract IDataReader GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly, DateTime DateUpdated);
+		public abstract IDataReader GetRecentPosts(int itemCount, PostType postType, bool activeOnly);
+		public abstract IDataReader GetRecentPosts(int itemCount, PostType postType, bool activeOnly, DateTime dateUpdated);
 
-		public abstract IDataReader GetFeedBack(int PostID);
+		public abstract IDataReader GetFeedBack(int postId);
 
 		public abstract IDataReader GetSingleDay(DateTime dt);
 
 		//move other EntryDay Helper
-		public abstract IDataReader GetPostsByCategoryID(int ItemCount, int catID);
-		public abstract IDataReader GetRecentDayPosts(int ItemCount, bool ActiveOnly);
+		public abstract IDataReader GetPostsByCategoryID(int itemCount, int catID);
+		public abstract IDataReader GetRecentDayPosts(int itemCount, bool activeOnly);
 
 		//Should Power both List<EntryDay> and EntryCollection
 		public abstract IDataReader GetPostCollectionByMonth(int month, int year);
 		
-		public abstract IDataReader GetEntriesByCategory(int ItemCount, int catID, bool ActiveOnly);
+		public abstract IDataReader GetEntriesByCategory(int itemCount, int catID, bool activeOnly);
 		
 		/// <summary>
 		/// Searches the data store for the first comment with a 
@@ -126,15 +127,15 @@ namespace Subtext.Framework.Providers
 		/// <param name="checksumHash">Checksum hash.</param>
 		/// <returns></returns>
 		public abstract IDataReader GetCommentByChecksumHash(string checksumHash);
-		public abstract IDataReader GetEntry(int postID, bool ActiveOnly);
-		public abstract IDataReader GetEntry(string EntryName, bool ActiveOnly);
-		public abstract IDataReader GetCategoryEntry(int postID, bool ActiveOnly);
+		public abstract IDataReader GetEntry(int postID, bool activeOnly);
+		public abstract IDataReader GetEntry(string entryName, bool activeOnly);
+		public abstract IDataReader GetCategoryEntry(int postID, bool activeOnly);
 
-		public abstract DataSet GetRecentPostsWithCategories(int ItemCount, bool ActiveOnly);
+		public abstract DataSet GetRecentPostsWithCategories(int itemCount, bool activeOnly);
 		#endregion
 
 		#region Update Blog Data
-		public abstract bool DeleteEntry(int EntryID);
+		public abstract bool DeleteEntry(int entryID);
 
 		//Should just be Entry and check is CategoryEntry?
 		public abstract int InsertCategoryEntry(CategoryEntry ce);
@@ -148,14 +149,11 @@ namespace Subtext.Framework.Providers
 
 		#region Links
 
-		public abstract IDataReader GetLinkCollectionByPostID(int PostID);
+		public abstract IDataReader GetLinkCollectionByPostID(int postId);
 
-		//use charlist_to_table
-		public abstract bool AddEntryToCategories(int PostID, LinkCollection lc);
+		public abstract bool SetEntryCategoryList(int postID, int[] categoryIds);
 
-		public abstract bool SetEntryCategoryList(int PostID, int[] Categories);
-
-		public abstract bool DeleteLink(int LinkID);
+		public abstract bool DeleteLink(int linkId);
 
 		public abstract IDataReader GetSingleLink(int linkID);
 
@@ -163,11 +161,11 @@ namespace Subtext.Framework.Providers
 
 		public abstract bool UpdateLink(Link link); 
 
-		public abstract IDataReader GetCategories(CategoryType catType, bool ActiveOnly);
+		public abstract IDataReader GetCategories(CategoryType catType, bool activeOnly);
 
 		public abstract DataSet GetActiveCategories(); //Rename, since it includes LinkCollection as well
 
-		public abstract IDataReader GetLinksByCategoryID(int catID, bool ActiveOnly); //Add another method for by name
+		public abstract IDataReader GetLinksByCategoryID(int catID, bool activeOnly); //Add another method for by name
 
 
 
@@ -175,8 +173,8 @@ namespace Subtext.Framework.Providers
 
 		#region Categories
 
-		public abstract bool DeleteCategory(int CatID);
-		public abstract IDataReader GetLinkCategory(int catID, bool IsActive);
+		public abstract bool DeleteCategory(int catId);
+		public abstract IDataReader GetLinkCategory(int catID, bool isActive);
 		public abstract IDataReader GetLinkCategory(string categoryName, bool IsActive);
 
 		public abstract bool UpdateCategory(LinkCategory lc);
@@ -230,10 +228,10 @@ namespace Subtext.Framework.Providers
 		#endregion
 
 		#region KeyWord
-		public abstract IDataReader GetKeyWord(int KeyWordID);
+		public abstract IDataReader GetKeyWord(int keyWordID);
 		public abstract IDataReader GetPagedKeyWords(int pageIndex, int pageSize,bool sortDescending);
 
-		public abstract bool DeleteKeyWord(int KeyWordID);
+		public abstract bool DeleteKeyWord(int keywordId);
 
 		public abstract int InsertKeyWord(KeyWord kw);
 
@@ -246,20 +244,17 @@ namespace Subtext.Framework.Providers
 		#region Statistics
 
 		public abstract bool TrackEntry(EntryView ev);
-		public abstract bool TrackEntry(EntryViewCollection evc);
-
-		//		bool TrackPages(Referrer[] _feferrers);
-		//		bool TrackPage(PageType PageType, int PostID, string Referral);
+		public abstract bool TrackEntry(IEnumerable<EntryView> evc);
 
 		#endregion
 
 		#region Images
 
-		public abstract IDataReader GetImagesByCategoryID(int catID, bool ActiveOnly);
-		public abstract IDataReader GetSingleImage(int imageID, bool ActiveOnly);
+		public abstract IDataReader GetImagesByCategoryID(int catID, bool activeOnly);
+		public abstract IDataReader GetSingleImage(int imageID, bool activeOnly);
 
-		public abstract int InsertImage(Image _image);
-		public abstract bool UpdateImage(Image _image);
+		public abstract int InsertImage(Image image);
+		public abstract bool UpdateImage(Image image);
 		public abstract bool DeleteImage(int imageID);
 
 		#endregion
@@ -319,4 +314,3 @@ namespace Subtext.Framework.Providers
 		#endregion
 	}
 }
- 

@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Web;
@@ -339,7 +340,7 @@ namespace Subtext.Web.Admin.WebUI
 				}
 
 				// get all the categories for this type, and then add filtering links for each
-				LinkCategoryCollection cats = Links.GetCategories((CategoryType)_catType,false);
+                ICollection<LinkCategory> cats = Links.GetCategories((CategoryType)_catType, false);
 				foreach (LinkCategory current in cats)
 				{
 					if(_categories != null)

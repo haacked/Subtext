@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Web.UI.WebControls;
 
 using Subtext.Framework;
@@ -17,13 +18,12 @@ namespace Subtext.Web.UI.Controls
 
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-			// Put user code to initialize the page here
 		}
 
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad (e);
-			LinkCategoryCollection lcc = new LinkCategoryCollection();
+            List<LinkCategory> lcc = new List<LinkCategory>();
 			lcc.AddRange(Links.GetActiveCategories());
 			CatList.DataSource = lcc;
 			CatList.DataBind();

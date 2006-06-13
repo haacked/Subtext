@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Subtext.Framework.Components;
 using Subtext.Web.UI;
 
@@ -21,9 +22,9 @@ namespace Subtext.Web.UI.Controls
 			Categories.LinkCategories = GetArchiveCategories();
 		}
 
-		protected LinkCategoryCollection GetArchiveCategories()
+		protected ICollection<LinkCategory> GetArchiveCategories()
 		{
-			LinkCategoryCollection lcc = new LinkCategoryCollection();
+            List<LinkCategory> lcc = new List<LinkCategory>();
 
 			lcc.Add(UIData.Links(CategoryType.StoryCollection,CurrentBlog.UrlFormats));			
 

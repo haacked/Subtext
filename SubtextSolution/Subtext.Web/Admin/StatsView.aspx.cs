@@ -119,7 +119,7 @@ namespace Subtext.Web.Admin.Pages
 
 		public void BindList()
 		{
-			PagedViewStatCollection stats = Stats.GetPagedViewStats(_resultsPageNumber, ResultsPager.PageSize, DateTime.Now.AddMonths(-1), DateTime.Now);
+            IPagedCollection<ViewStat> stats = Stats.GetPagedViewStats(_resultsPageNumber, ResultsPager.PageSize, DateTime.Now.AddMonths(-1), DateTime.Now);
 
 			if (stats.Count > 0)
 			{

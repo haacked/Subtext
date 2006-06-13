@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -31,7 +32,7 @@ namespace Subtext.Web.UI.Controls
 	{
 		private const int DefaultRecentPostCount = 5;
 		protected Repeater feedList;
-		private EntryCollection comments;
+        private IList<Entry> comments;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RecentComments"/> class.
@@ -57,7 +58,7 @@ namespace Subtext.Web.UI.Controls
 		}
 
 		/// <summary>
-		/// Binds the comments <see cref="EntryCollection"/> to the comment list repeater.
+		/// Binds the comments <see cref="List{T}"/> to the comment list repeater.
 		/// Raises the <see cref="E:System.Web.UI.Control.Load"/>
 		/// event.
 		/// </summary>

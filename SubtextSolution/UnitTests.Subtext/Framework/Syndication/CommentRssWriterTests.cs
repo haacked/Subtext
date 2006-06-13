@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Web;
 using MbUnit.Framework;
@@ -39,7 +40,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			entry.DateCreated = entry.DateSyndicated = entry.DateUpdated = DateTime.ParseExact("2006/04/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			entry.Url = "/archive/2006/04/01/titleofthepost.aspx";
 			Console.WriteLine("LINK: " + entry.Url);
-			CommentRssWriter writer = new CommentRssWriter(new EntryCollection(), entry);
+			CommentRssWriter writer = new CommentRssWriter(new List<Entry>(), entry);
 			
 			Assert.IsTrue(entry.HasEntryName, "This entry should have an entry name.");
 			
@@ -87,7 +88,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void CommentRssWriterRequiresNonNullEntry()
 		{
-			new CommentRssWriter(new EntryCollection(), null);
+			new CommentRssWriter(new List<Entry>(), null);
 		}
 		#endregion
 		

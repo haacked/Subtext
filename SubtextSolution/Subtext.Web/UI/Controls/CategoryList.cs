@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
 
@@ -29,8 +30,8 @@ namespace Subtext.Web.UI.Controls
 	{
 		protected System.Web.UI.WebControls.Repeater CatList;
 
-		private LinkCategoryCollection lcc;
-		public LinkCategoryCollection LinkCategories
+        private ICollection<LinkCategory> lcc;
+        public ICollection<LinkCategory> LinkCategories
 		{
 			get{return lcc;}
 			set{lcc = value;}

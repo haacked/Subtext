@@ -190,9 +190,6 @@
     <Compile Include="Components\ArchiveCountCollection.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Components\BlogInfoCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Components\BlogUser.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -205,9 +202,6 @@
     <Compile Include="Components\Entry.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Components\EntryCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Components\EntryDay.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -215,9 +209,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Components\EntryView.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\EntryViewCollection.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Components\IBlogDataProvider.cs">
@@ -229,13 +220,8 @@
     <Compile Include="Components\ImageCollection.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Components\IPagedResults.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Components\IPagedCollection.cs" />
     <Compile Include="Components\KeyWord.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\KeyWordCollection.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Components\Link.cs">
@@ -244,43 +230,17 @@
     <Compile Include="Components\LinkCategory.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Components\LinkCategoryCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\LinkCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\PagedEntryCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\PagedKeyWordCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\PagedLinkCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\PagedReferrerCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\PagedViewStatCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Components\PagedCollection.cs" />
     <Compile Include="Components\PageType.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Components\Referrer.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Components\ReferrerCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Components\Trackback.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Components\ViewStat.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Components\ViewStatCollection.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Configuration\BlogConfigurationSettings.cs">
@@ -424,13 +384,7 @@
     <Compile Include="Logging\LogEntry.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Logging\LogEntryCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Logging\LoggingProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Logging\PagedLogEntryCollection.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="NamespaceDocumentation.cs">

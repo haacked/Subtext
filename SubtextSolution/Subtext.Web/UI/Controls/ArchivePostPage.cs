@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Web.UI.WebControls;
 
 using Subtext.Framework;
@@ -24,7 +25,7 @@ namespace Subtext.Web.UI.Controls
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad (e);
-			LinkCategoryCollection lcc = new LinkCategoryCollection();
+            List<LinkCategory> lcc = new List<LinkCategory>();
 			lcc.AddRange(Links.GetCategories(CategoryType.PostCollection, true));
 			lcc.Add(UIData.Links(CategoryType.PostCollection, CurrentBlog.UrlFormats));
 			CatList.DataSource = lcc;

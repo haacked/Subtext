@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -118,14 +119,14 @@ namespace UnitTests.Subtext.Framework.Tracking
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
 			entry.DateCreated = entry.DateSyndicated = entry.DateUpdated = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			int id = Entries.Create(entry);
-			EntryCollection feedback = Entries.GetFeedBack(entry);
+            IList<Entry> feedback = Entries.GetFeedBack(entry);
 			Assert.AreEqual(0, feedback.Count, "Something is wrong if a freshly created entry has feedback.");
 			
 			string responseText = GetTrackBackHandlerResponseText(blogName, excerpt, hostname, string.Empty, id, title, url);
 			
 			Assert.IsTrue(responseText.IndexOf("no url parameter found, please try harder!") > 0, "Did not receive the correct error message.");
-			
-			EntryCollection trackbacks = Entries.GetFeedBack(entry);
+
+            IList<Entry> trackbacks = Entries.GetFeedBack(entry);
 			Assert.AreEqual(0, trackbacks.Count, "We did not expect to see a trackback created.");
 		}
 
@@ -173,16 +174,24 @@ namespace UnitTests.Subtext.Framework.Tracking
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
 			entry.DateCreated = entry.DateSyndicated = entry.DateUpdated = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			int id = Entries.Create(entry);
-			EntryCollection feedback = Entries.GetFeedBack(entry);
+            IList<Entry> feedback = Entries.GetFeedBack(entry);
 			Assert.AreEqual(0, feedback.Count, "Something is wrong if a freshly created entry has feedback.");
 			
 			string responseText = GetTrackBackHandlerResponseText(blogName, excerpt, hostname, "blog", id, title, url);
 			
 			Assert.AreEqual(string.Empty, responseText, "Did not expect any error messages.");
-			
-			EntryCollection trackbacks = Entries.GetFeedBack(entry);
+
+            IList<Entry> trackbacks = Entries.GetFeedBack(entry);
 			Assert.AreEqual(1, trackbacks.Count, "We expect to see the one feedback we just created.");
-			Assert.AreEqual(title, trackbacks[0].Title, "Somehow the title of the feedback doesn't match.");
+		    
+		    Entry trackback = null;
+		    foreach(Entry tb in trackbacks)
+		    {
+		        trackback = tb;
+		        break;
+		    }
+
+            Assert.AreEqual(title, trackback.Title, "Somehow the title of the feedback doesn't match.");
 		}
 
 		private void handler_SourceVerification(object sender, SourceVerificationEventArgs e)

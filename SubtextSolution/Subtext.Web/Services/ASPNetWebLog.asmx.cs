@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Web.Services;
 using System.Web.Services.Protocols;
@@ -95,7 +96,7 @@ namespace Subtext.Web.Services
 
 		[SoapHeaderAttribute("ASPNetWebLogUser", Direction=SoapHeaderDirection.InOut)]
 		[WebMethod(MessageName="GetLinkCollectionByPostID",Description="The entry collection methods do not return each Entry and/or Story's categories. This method will return the category collection for the specified Entry/Story",EnableSession=false)]
-		public LinkCollection GetLinkCollectionByPostID(int PostID)
+		public ICollection<Link> GetLinkCollectionByPostID(int PostID)
 		{
 			if(ValidateUser())
 			{
@@ -106,7 +107,7 @@ namespace Subtext.Web.Services
 
 		[SoapHeaderAttribute("ASPNetWebLogUser", Direction=SoapHeaderDirection.InOut)]		
 		[WebMethod(MessageName="GetCategories",Description="Returns the categories available for the specificid CategoryType (PostCollection or StoryCollection)",EnableSession=false)]
-		public LinkCategoryCollection GetCategories(CategoryType CategoryType)
+        public ICollection<LinkCategory> GetCategories(CategoryType CategoryType)
 		{
 			
 			if(ValidateUser())
@@ -163,7 +164,7 @@ namespace Subtext.Web.Services
 
 		#region ResetDates
 
-		private void ResetEntryCollectionDates(ref EntryCollection ec)
+        private void ResetEntryCollectionDates(IList<Entry> ec)
 		{
 			if(ec != null && ec.Count > 0)
 			{
@@ -222,12 +223,12 @@ namespace Subtext.Web.Services
 		/// <returns></returns>
 		[SoapHeaderAttribute("ASPNetWebLogUser", Direction=SoapHeaderDirection.InOut)]
 		[WebMethod(MessageName="GetRecentUpdatedPosts",Description="Returns the most recent posts")]
-		public EntryCollection GetRecentPosts(int ItemCount, DateTime LastUpdatedDate)
+        public IList<Entry> GetRecentPosts(int ItemCount, DateTime LastUpdatedDate)
 		{
 			if(ValidateUser())
 			{
-				EntryCollection ec = Entries.GetRecentPosts(ItemCount,PostType.BlogPost,false,LastUpdatedDate.AddHours(BlogTime.ServerToClientTimeZoneFactor));
-				ResetEntryCollectionDates(ref ec);
+                IList<Entry> ec = Entries.GetRecentPosts(ItemCount, PostType.BlogPost, false, LastUpdatedDate.AddHours(BlogTime.ServerToClientTimeZoneFactor));
+				ResetEntryCollectionDates(ec);
 				return ec;
 			}
 			return null;
@@ -235,42 +236,16 @@ namespace Subtext.Web.Services
 
 		[SoapHeaderAttribute("ASPNetWebLogUser", Direction=SoapHeaderDirection.InOut)]
 		[WebMethod(MessageName="GetRecentPosts",Description="Returns the most recent posts")]
-		public EntryCollection GetRecentPosts(int ItemCount)
+		public IList<Entry> GetRecentPosts(int ItemCount)
 		{
 			if(ValidateUser())
 			{
-				EntryCollection ec =  Entries.GetRecentPosts(ItemCount,PostType.BlogPost,false);
-				ResetEntryCollectionDates(ref ec);
+                IList<Entry> ec = Entries.GetRecentPosts(ItemCount, PostType.BlogPost, false);
+				ResetEntryCollectionDates(ec);
 				return ec;
 			}
 			return null;
 		}
-
-//		[SoapHeaderAttribute("ASPNetWebLogUser", Direction=SoapHeaderDirection.InOut)]
-//		[WebMethod(MessageName="GetStories",Description="Returns an EntryCollection with all of the current stories",EnableSession=false)]
-//		public EntryCollection GetStories()
-//		{
-//			if(ValidateUser())
-//			{
-//				EntryCollection ec = Entries.GetAllStoreis(false);
-//				ResetEntryCollectionDates(ref ec);
-//				return ec;
-//			}
-//			return null;
-//		}
-//
-//		[SoapHeaderAttribute("ASPNetWebLogUser", Direction=SoapHeaderDirection.InOut)]
-//		[WebMethod(MessageName="GetUpdatedStories",Description="Returns an EntryCollection with all of the current stories",EnableSession=false)]
-//		public EntryCollection GetStories(DateTime UpdatedSince)
-//		{
-//			if(ValidateUser())
-//			{
-//				EntryCollection ec = Entries.GetAllStoreis(false,UpdatedSince.AddHours(BlogTime.ServerToClientTimeZoneFactor));
-//				ResetEntryCollectionDates(ref ec);
-//				return ec;
-//			}
-//			return null;
-//		}
 
 		#endregion
 

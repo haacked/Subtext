@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Xml.Serialization;
 using Subtext.Framework.Components;
@@ -49,25 +50,25 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
-		/// Returns a <see cref="BlogInfoCollection"/> containing the <see cref="BlogInfo"/> 
+		/// Returns a <see cref="IPagedCollection"/> containing the <see cref="BlogInfo"/> 
 		/// instances within the specified range.
 		/// </summary>
 		/// <param name="pageIndex">Page index.</param>
 		/// <param name="pageSize">Size of the page.</param>
 		/// <param name="sortDescending">Sort descending.</param>
 		/// <returns></returns>
-		public static BlogInfoCollection GetBlogs(int pageIndex, int pageSize, bool sortDescending)
+        public static IPagedCollection<BlogInfo> GetBlogs(int pageIndex, int pageSize, bool sortDescending)
 		{
 			return ObjectProvider.Instance().GetPagedBlogs(pageIndex, pageSize, sortDescending);
 		}
 
 		/// <summary>
-		/// Returns a <see cref="BlogInfoCollection"/> containing the <see cref="BlogInfo"/> 
+		/// Returns a <see cref="IPagedCollection"/> containing the <see cref="BlogInfo"/> 
 		/// instances that have the specified hostname.
 		/// </summary>
 		/// <param name="host">host.</param>
 		/// <returns></returns>
-		public static BlogInfoCollection GetBlogsByHost(string host)
+        public static IPagedCollection<BlogInfo> GetBlogsByHost(string host)
 		{
 			return ObjectProvider.Instance().GetBlogsByHost(host);
 		}
@@ -77,9 +78,9 @@ namespace Subtext.Framework
 		/// </summary>
 		/// <param name="host">The host.</param>
 		/// <returns></returns>
-		public static BlogInfoCollection GetActiveBlogsByHost(string host)
+        public static IPagedCollection<BlogInfo> GetActiveBlogsByHost(string host)
 		{
-			BlogInfoCollection blogsWithHost = BlogInfo.GetBlogsByHost(host);
+            IPagedCollection<BlogInfo> blogsWithHost = BlogInfo.GetBlogsByHost(host);
 			for(int i = blogsWithHost.Count - 1; i >= 0; i--)
 			{
 				if(!blogsWithHost[i].IsActive)
@@ -89,7 +90,7 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
-		/// Returns a <see cref="BlogInfoCollection"/> containing ACTIVE the <see cref="BlogInfo"/> 
+		/// Returns a <see cref="IList"/> containing ACTIVE the <see cref="BlogInfo"/> 
 		/// instances within the specified range.
 		/// </summary>
 		/// <param name="pageIndex">Page index.</param>
@@ -97,9 +98,9 @@ namespace Subtext.Framework
 		/// <param name="sortDescending">Sort descending.</param>
 		/// <param name="totalBlogs">Indicates the total number of blogs</param>
 		/// <returns></returns>
-		public static BlogInfoCollection GetActiveBlogs(int pageIndex, int pageSize, bool sortDescending, out int totalBlogs)
+        public static IPagedCollection<BlogInfo> GetActiveBlogs(int pageIndex, int pageSize, bool sortDescending, out int totalBlogs)
 		{
-			BlogInfoCollection blogs = ObjectProvider.Instance().GetPagedBlogs(pageIndex, pageSize, sortDescending);
+            IPagedCollection<BlogInfo> blogs = ObjectProvider.Instance().GetPagedBlogs(pageIndex, pageSize, sortDescending);
 			// the ObjectProvider puts the returned TotalRecords value in the MaxItems property.
 			totalBlogs = blogs.MaxItems;
 			for (int i = blogs.Count - 1; i > -1; i--)
@@ -113,14 +114,14 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
-		/// Returns a <see cref="BlogInfoCollection"/> containing ACTIVE the <see cref="BlogInfo"/> 
+		/// Returns a <see cref="IPagedCollection"/> containing ACTIVE the <see cref="BlogInfo"/> 
 		/// instances within the specified range.
 		/// </summary>
 		/// <param name="pageIndex">Page index.</param>
 		/// <param name="pageSize">Size of the page.</param>
 		/// <param name="sortDescending">Sort descending.</param>
 		/// <returns></returns>
-		public static BlogInfoCollection GetActiveBlogs(int pageIndex, int pageSize, bool sortDescending)
+        public static IPagedCollection<BlogInfo> GetActiveBlogs(int pageIndex, int pageSize, bool sortDescending)
 		{
 			int totalCount;
 			return GetActiveBlogs(pageIndex, pageSize, sortDescending, out totalCount);

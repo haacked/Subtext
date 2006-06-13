@@ -33,9 +33,9 @@ namespace Subtext.Web.UI.Controls
 
 		protected System.Web.UI.WebControls.Repeater DaysList;
 
-		private List<EntryDay> bpdc;
+        private ICollection<EntryDay> bpdc;
 
-        public List<EntryDay> Days
+        public ICollection<EntryDay> Days
 		{
 			set{bpdc = value;}
 		}

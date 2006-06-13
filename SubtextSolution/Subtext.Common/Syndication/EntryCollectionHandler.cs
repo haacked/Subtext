@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using Subtext.Framework.Components;
 using Subtext.Framework.Syndication;
 using DTCF = Subtext.Framework.Configuration;
@@ -29,9 +30,9 @@ namespace Subtext.Common.Syndication
 		/// </summary>
 	    protected EntryCollectionHandler()
 		{
-		}	
-	
-		protected abstract EntryCollection GetFeedEntries();
+		}
+
+        protected abstract IList<Entry> GetFeedEntries();
 
 		protected override bool IsLocalCacheOK()
 		{
@@ -39,11 +40,19 @@ namespace Subtext.Common.Syndication
 		
 			if(dt != null)
 			{
-				EntryCollection ec = GetFeedEntries();
+                IList<Entry> ec = GetFeedEntries();
 
 				if(ec != null && ec.Count > 0)
 				{
-					return DateTime.Compare(DateTime.Parse(dt),this.ConvertLastUpdatedDate(ec[0].DateCreated)) == 0;
+				    //Get the first entry.
+				    Entry entry = null;
+				    //TODO: Probably change GetFeedEntries to return IList<Entry>
+				    foreach(Entry en in ec)
+				    {
+				        entry = en;
+				        break;
+				    }
+					return DateTime.Compare(DateTime.Parse(dt),this.ConvertLastUpdatedDate(entry.DateCreated)) == 0;
 				}
 			}
 			return false;			

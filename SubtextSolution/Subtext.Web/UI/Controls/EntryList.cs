@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -207,8 +208,8 @@ namespace Subtext.Web.UI.Controls
 			}
 		}
 
-		private EntryCollection entries;
-		public EntryCollection EntryListItems
+        private IList<Entry> entries;
+        public IList<Entry> EntryListItems
 		{
 			get{return entries;}
 			set{entries = value;}

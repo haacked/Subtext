@@ -54,13 +54,13 @@ namespace Subtext.Framework
 		/// <param name="pageSize"></param>
 		/// <param name="sortDescending"></param>
 		/// <returns></returns>
-		public static PagedEntryCollection GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize, bool sortDescending)
+        public static IPagedCollection<Entry> GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize, bool sortDescending)
 		{
 			return ObjectProvider.Instance().GetPagedEntries(postType,categoryID,pageIndex,pageSize,sortDescending);
 		}
 
 
-		public static PagedEntryCollection GetPagedFeedback(int pageIndex, int pageSize, bool sortDescending)
+        public static IPagedCollection<Entry> GetPagedFeedback(int pageIndex, int pageSize, bool sortDescending)
 		{
 			return ObjectProvider.Instance().GetPagedFeedback(pageIndex,pageSize,sortDescending);
 		}
@@ -79,11 +79,11 @@ namespace Subtext.Framework
 		/// <summary>
 		/// Gets the entries to display on the home page.
 		/// </summary>
-		/// <param name="ItemCount">Item count.</param>
+		/// <param name="itemCount">Item count.</param>
 		/// <returns></returns>
-		public static List<EntryDay> GetHomePageEntries(int ItemCount)
+        public static ICollection<EntryDay> GetHomePageEntries(int itemCount)
 		{
-			return GetBlogPosts(ItemCount, PostConfig.DisplayOnHomePage | PostConfig.IsActive);
+			return GetBlogPosts(itemCount, PostConfig.DisplayOnHomePage | PostConfig.IsActive);
 		}
 
 		/// <summary>
@@ -93,34 +93,34 @@ namespace Subtext.Framework
 		/// <remarks>
 		/// This is used to get the posts displayed on the home page.
 		/// </remarks>
-		/// <param name="ItemCount">Item count.</param>
+		/// <param name="itemCount">Item count.</param>
 		/// <param name="pc">Pc.</param>
 		/// <returns></returns>
-		public static List<EntryDay> GetBlogPosts(int ItemCount, PostConfig pc)
+        public static ICollection<EntryDay> GetBlogPosts(int itemCount, PostConfig pc)
 		{
-			return ObjectProvider.Instance().GetBlogPosts(ItemCount, pc);
+			return ObjectProvider.Instance().GetBlogPosts(itemCount, pc);
 		}
 
 		/// <summary>
 		/// Returns a collection of Entries grouped by Day
 		/// </summary>
-		/// <param name="ItemCount">Number of entries total</param>
-		/// <param name="ActiveOnly">Return only Active Posts</param>
+		/// <param name="itemCount">Number of entries total</param>
+		/// <param name="activeOnly">Return only Active Posts</param>
 		/// <returns></returns>
-		public static List<EntryDay> GetRecentDayPosts(int ItemCount, bool ActiveOnly)
+        public static ICollection<EntryDay> GetRecentDayPosts(int itemCount, bool activeOnly)
 		{
-			return ObjectProvider.Instance().GetRecentDayPosts(ItemCount,ActiveOnly);
+			return ObjectProvider.Instance().GetRecentDayPosts(itemCount, activeOnly);
 
 		}
 
-		public static List<EntryDay> GetPostsByMonth(int month, int year)
+        public static ICollection<EntryDay> GetPostsByMonth(int month, int year)
 		{
 			return ObjectProvider.Instance().GetPostsByMonth(month,year);
 		}
 
-		public static List<EntryDay> GetPostsByCategoryID(int ItemCount, int catID)
+        public static ICollection<EntryDay> GetPostsByCategoryID(int itemCount, int catID)
 		{
-			return ObjectProvider.Instance().GetPostsByCategoryID(ItemCount,catID);
+			return ObjectProvider.Instance().GetPostsByCategoryID(itemCount,catID);
 		}
 
 		#endregion
@@ -130,11 +130,11 @@ namespace Subtext.Framework
 		/// <summary>
 		/// Gets the main syndicated entries.
 		/// </summary>
-		/// <param name="ItemCount">Item count.</param>
+		/// <param name="itemCount">Item count.</param>
 		/// <returns></returns>
-		public static EntryCollection GetMainSyndicationEntries(int ItemCount)
+		public static IList<Entry> GetMainSyndicationEntries(int itemCount)
 		{
-			return ObjectProvider.Instance().GetConditionalEntries(ItemCount, PostType.BlogPost, PostConfig.IncludeInMainSyndication | PostConfig.IsActive);
+			return ObjectProvider.Instance().GetConditionalEntries(itemCount, PostType.BlogPost, PostConfig.IncludeInMainSyndication | PostConfig.IsActive);
 		}
 
 		/// <summary>
@@ -142,47 +142,47 @@ namespace Subtext.Framework
 		/// </summary>
 		/// <param name="parentEntry">Parent entry.</param>
 		/// <returns></returns>
-		public static EntryCollection GetFeedBack(Entry parentEntry)
+        public static IList<Entry> GetFeedBack(Entry parentEntry)
 		{
 			return ObjectProvider.Instance().GetFeedBack(parentEntry);
 		}
 
-		public static EntryCollection GetRecentPostsWithCategories(int ItemCount, bool ActiveOnly)
+        public static ICollection<CategoryEntry> GetRecentPostsWithCategories(int itemCount, bool activeOnly)
 		{
-			return ObjectProvider.Instance().GetRecentPostsWithCategories(ItemCount,ActiveOnly);
+			return ObjectProvider.Instance().GetRecentPostsWithCategories(itemCount, activeOnly);
 		}
 
 		/// <summary>
 		/// Gets recent posts used to support the MetaBlogAPI. 
 		/// Could be used for a Recent Posts control as well.
 		/// </summary>
-		/// <param name="ItemCount">Item count.</param>
+		/// <param name="itemCount">Item count.</param>
 		/// <param name="postType">Post type.</param>
-		/// <param name="ActiveOnly">Active only.</param>
+		/// <param name="activeOnly">Active only.</param>
 		/// <returns></returns>
-		public static EntryCollection GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly)
+        public static IList<Entry> GetRecentPosts(int itemCount, PostType postType, bool activeOnly)
 		{
-			return ObjectProvider.Instance().GetRecentPosts(ItemCount,postType,ActiveOnly);
+			return ObjectProvider.Instance().GetRecentPosts(itemCount,postType, activeOnly);
 		}
 
-		public static EntryCollection GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly, DateTime DateUpdated)
+        public static IList<Entry> GetRecentPosts(int itemCount, PostType postType, bool activeOnly, DateTime DateUpdated)
 		{
-			return ObjectProvider.Instance().GetRecentPosts(ItemCount,postType,ActiveOnly,DateUpdated);
+			return ObjectProvider.Instance().GetRecentPosts(itemCount,postType, activeOnly,DateUpdated);
 		}
 
-		public static EntryCollection GetPostCollectionByMonth(int month, int year)
+        public static IList<Entry> GetPostCollectionByMonth(int month, int year)
 		{
 			return ObjectProvider.Instance().GetPostCollectionByMonth(month,year);
 		}
 
-		public static EntryCollection GetPostsByDayRange(DateTime start, DateTime stop, PostType postType, bool ActiveOnly)
+        public static IList<Entry> GetPostsByDayRange(DateTime start, DateTime stop, PostType postType, bool activeOnly)
 		{
-			return  ObjectProvider.Instance().GetPostsByDayRange(start,stop,postType,ActiveOnly);
+			return  ObjectProvider.Instance().GetPostsByDayRange(start,stop,postType, activeOnly);
 		}
 
-		public static EntryCollection GetEntriesByCategory(int ItemCount,int catID,bool ActiveOnly)
+        public static IList<Entry> GetEntriesByCategory(int itemCount, int catID, bool activeOnly)
 		{
-			return ObjectProvider.Instance().GetEntriesByCategory(ItemCount,catID,ActiveOnly);
+			return ObjectProvider.Instance().GetEntriesByCategory(itemCount,catID, activeOnly);
 		}
 		#endregion
 

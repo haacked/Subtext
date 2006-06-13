@@ -255,7 +255,7 @@ namespace Subtext.Framework.Configuration
 			{
 				//Check to see if this blog requires a Subfolder value
 				//This would occur if another blog has the same host already.
-				BlogInfoCollection blogsWithHost = BlogInfo.GetActiveBlogsByHost(info.Host);
+                IPagedCollection<BlogInfo> blogsWithHost = BlogInfo.GetActiveBlogsByHost(info.Host);
 				if(blogsWithHost.Count > 0)
 				{
 					if(blogsWithHost.Count > 1 || !blogsWithHost[0].Equals(info))

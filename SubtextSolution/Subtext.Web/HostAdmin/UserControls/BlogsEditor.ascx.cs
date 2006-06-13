@@ -102,7 +102,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 			this.pnlResults.Visible = true;
 			this.pnlEdit.Visible = false;
 
-			BlogInfoCollection blogs = null; 
+            IPagedCollection<BlogInfo> blogs; 
 			
 			int totalBlogs;
 			if(this.chkShowInactive.Checked)

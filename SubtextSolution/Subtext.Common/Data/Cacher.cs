@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Web;
@@ -47,13 +48,13 @@ namespace Subtext.Common.Data
 		/// </summary>
 		/// <param name="cacheDuration">The cache duration.</param>
 		/// <returns></returns>
-		public static LinkCategoryCollection GetActiveCategories(CacheDuration cacheDuration)
+        public static ICollection<LinkCategory> GetActiveCategories(CacheDuration cacheDuration)
 		{
 			string key = string.Format(ActiveLCCKey, BlogId());
 
 			ContentCache cache = ContentCache.Instantiate();
 
-			LinkCategoryCollection categories = (LinkCategoryCollection)cache[key];
+            ICollection<LinkCategory> categories = (ICollection<LinkCategory>)cache[key];
 			if(categories == null)
 			{
 				categories = Links.GetActiveCategories();
@@ -76,11 +77,11 @@ namespace Subtext.Common.Data
 		/// <param name="dt">The dt.</param>
 		/// <param name="cacheDuration">The cache duration.</param>
 		/// <returns></returns>
-		public static EntryCollection GetMonth(DateTime dt, CacheDuration cacheDuration)
+		public static IList<Entry> GetMonth(DateTime dt, CacheDuration cacheDuration)
 		{
 			string key = string.Format(CultureInfo.InvariantCulture, EntryMonthKey, dt, BlogId());
 			ContentCache cache = ContentCache.Instantiate();
-			EntryCollection month = (EntryCollection)cache[key];
+            IList<Entry> month = (IList<Entry>)cache[key];
 			if(month == null)
 			{
 				month = Entries.GetPostCollectionByMonth(dt.Month,dt.Year);
@@ -90,7 +91,6 @@ namespace Subtext.Common.Data
 				}
 			}
 			return month;
-
 		}
 
 		#endregion
@@ -130,14 +130,14 @@ namespace Subtext.Common.Data
 
 		#region EntriesByCategory
 		private static readonly string ECKey="EC:Count{0}Category{1}BlogId{2}";
-		public static EntryCollection GetEntriesByCategory(int count, CacheDuration cacheDuration, int categoryID)
+        public static IList<Entry> GetEntriesByCategory(int count, CacheDuration cacheDuration, int categoryID)
 		{
 			string key = string.Format(ECKey,count,categoryID,BlogId());
 			ContentCache cache = ContentCache.Instantiate();
-			EntryCollection ec = (EntryCollection)cache[key];
+            IList<Entry> ec = (IList<Entry>)cache[key];
 			if(ec == null)
 			{
-				ec = Entries.GetEntriesByCategory(count,categoryID,true);
+				ec = Entries.GetEntriesByCategory(count, categoryID, true);
 				
 				if(ec != null)
 				{
@@ -284,12 +284,12 @@ namespace Subtext.Common.Data
 		}
 		
 		private static readonly string ParentCommentEntryKey = "ParentEntry:Comments:EntryID{0}:BlogId{1}";
-		
-		public static EntryCollection GetComments(Entry parentEntry, CacheDuration cacheDuration)
+
+        public static IList<Entry> GetComments(Entry parentEntry, CacheDuration cacheDuration)
 		{
 			string key = string.Format(ParentCommentEntryKey, parentEntry.EntryID, BlogId());
 			ContentCache cache = ContentCache.Instantiate();
-			EntryCollection comments = (EntryCollection)cache[key];
+            IList<Entry> comments = (IList<Entry>)cache[key];
 			if(comments == null)
 			{
 				comments = Entries.GetFeedBack(parentEntry);

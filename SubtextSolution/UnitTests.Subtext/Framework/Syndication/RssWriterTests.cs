@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Web;
 using MbUnit.Framework;
@@ -49,7 +50,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 
 			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 
-			EntryCollection entries = new EntryCollection(CreateSomeEntries());		
+		    List<Entry> entries = new List<Entry>(CreateSomeEntries());		
 			RssWriter writer = new RssWriter(entries, NullValue.NullDateTime, false);
 
 			string expected = @"<rss version=""2.0"" " 
@@ -108,7 +109,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 
 			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 
-			EntryCollection entries = new EntryCollection(CreateSomeEntriesDescending());
+            List<Entry> entries = new List<Entry>(CreateSomeEntriesDescending());
 			// Tell the write we already received 1002 published 5/25/1976.
 			RssWriter writer = new RssWriter(entries, DateTime.ParseExact("05/25/1976","MM/dd/yyyy",CultureInfo.InvariantCulture), true);
 			
@@ -142,7 +143,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 
 			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 
-			EntryCollection entries = new EntryCollection(CreateSomeEntriesDescending());		
+            List<Entry> entries = new List<Entry>(CreateSomeEntriesDescending());		
 			RssWriter writer = new RssWriter(entries, DateTime.ParseExact("06/14/2003", "MM/dd/yyyy", CultureInfo.InvariantCulture), false);
 
 			string expected = @"<rss version=""2.0"" xmlns:dc=""http://purl.org/dc/elements/1.1/"" xmlns:trackback=""http://madskills.com/public/xml/rss/module/trackback/"" xmlns:wfw=""http://wellformedweb.org/CommentAPI/"" xmlns:slash=""http://purl.org/rss/1.0/modules/slash/"" xmlns:copyright=""http://blogs.law.harvard.edu/tech/rss"" xmlns:image=""http://purl.org/rss/1.0/modules/image/""><channel><title /><link>http://localhost/Subtext.Web/Default.aspx</link><description /><language>en-US</language><copyright>Subtext Weblog</copyright><managingEditor>Subtext@example.com</managingEditor><generator>{0}</generator><image><title /><url>http://localhost/Subtext.Web/RSS2Image.gif</url><link>http://localhost/Subtext.Web/Default.aspx</link><width>77</width><height>60</height><description /></image>" 

@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
@@ -225,14 +226,14 @@ namespace Subtext.Framework
 
 		#region Data Stuff
 
-		public static ImageCollection GetImagesByCategoryID(int catID, bool ActiveOnly)
+		public static ImageCollection GetImagesByCategoryID(int catID, bool activeOnly)
 		{
-			return ObjectProvider.Instance().GetImagesByCategoryID(catID,ActiveOnly);
+			return ObjectProvider.Instance().GetImagesByCategoryID(catID, activeOnly);
 		}
 
-		public static Image GetSingleImage(int imageID, bool ActiveOnly)
+		public static Image GetSingleImage(int imageID, bool activeOnly)
 		{
-			return ObjectProvider.Instance().GetSingleImage(imageID,ActiveOnly);
+			return ObjectProvider.Instance().GetSingleImage(imageID, activeOnly);
 		}
 
 		public static int InsertImage(Image image, byte[] Buffer)

@@ -35,6 +35,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Globalization ;
 using System.Xml ;
 using System.Web ;
@@ -313,23 +314,23 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 		{
 			if(currentFolder.Equals("/") )
 			{
-				LinkCategoryCollection catList= Links.GetCategories(CategoryType.PostCollection,false);
+				ICollection<LinkCategory> catList = Links.GetCategories(CategoryType.PostCollection, false);
 
 				// Create the "Folders" node.
 				XmlNode oFoldersNode = XmlUtil.AppendElement( connectorNode, "Folders" ) ;
 
-				for ( int i = 0 ; i < catList.Count ; i++ )
+				foreach(LinkCategory category in catList)
 				{
 					// Create the "Folders" node.
 					XmlNode oFolderNode = XmlUtil.AppendElement( oFoldersNode, "Folder" ) ;
-					XmlUtil.SetAttribute( oFolderNode, "name", catList[i].Title ) ;
+					XmlUtil.SetAttribute( oFolderNode, "name", category.Title ) ;
 				}
 			}
 		}
 
 		private static void GetPosts( XmlNode connectorNode,  string currentFolder )
 		{
-			PagedEntryCollection posts;
+            IPagedCollection<Entry> posts;
 			if(currentFolder.Equals("/"))
 			{
 				posts= Entries.GetPagedEntries(PostType.BlogPost, -1,1, 1000,true);
@@ -343,14 +344,14 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 
 			// Create the "Files" node.
 			XmlNode oFilesNode = XmlUtil.AppendElement( connectorNode, "Files" ) ;
-			for ( int i = 0 ; i < posts.Count ; i++ )
+			foreach(Entry entry in posts)
 			{
 				// Create the "File" node.
-				if(posts[i].IsActive) 
+				if(entry.IsActive) 
 				{
 					XmlNode oFileNode = XmlUtil.AppendElement( oFilesNode, "File" ) ;
-					XmlUtil.SetAttribute( oFileNode, "name", posts[i].Title+"|"+posts[i].Url ) ;
-					XmlUtil.SetAttribute( oFileNode, "size", posts[i].DateUpdated.ToShortDateString() ) ;
+                    XmlUtil.SetAttribute(oFileNode, "name", string.Format("{0}|{1}", entry.Title, entry.Url));
+                    XmlUtil.SetAttribute(oFileNode, "size", entry.DateUpdated.ToShortDateString());
 				}
 			}
 		}

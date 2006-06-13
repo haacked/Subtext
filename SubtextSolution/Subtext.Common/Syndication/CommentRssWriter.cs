@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Xml;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -35,7 +36,7 @@ namespace Subtext.Common.Syndication
 		/// </summary>
 		/// <param name="commentEntries">Ec.</param>
 		/// <param name="entry">Ce.</param>
-		public CommentRssWriter(EntryCollection commentEntries, Entry entry) : base(NullValue.NullDateTime, false)
+        public CommentRssWriter(IList<Entry> commentEntries, Entry entry) : base(NullValue.NullDateTime, false)
 		{
 			if(commentEntries == null)
 				throw new ArgumentNullException("commentEntries", "Cannot generate a comment rss feed for a null collection of entries.");

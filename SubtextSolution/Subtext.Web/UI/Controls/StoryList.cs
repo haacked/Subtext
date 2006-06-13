@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Subtext.Common.Data;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -49,7 +50,7 @@ namespace Subtext.Web.UI.Controls
 
 				if(lc != null)
 				{
-					EntryCollection ec = Cacher.GetEntriesByCategory(count, CacheDuration.Short, lc.CategoryID);
+                    IList<Entry> ec = Cacher.GetEntriesByCategory(count, CacheDuration.Short, lc.CategoryID);
 					EntryStoryList.EntryListItems = ec;
 
 					EntryStoryList.EntryListTitle = lc.Title;

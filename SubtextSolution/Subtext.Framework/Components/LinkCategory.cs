@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 
 namespace Subtext.Framework.Components
@@ -107,15 +108,15 @@ namespace Subtext.Framework.Components
 			set{_isActive = value;}
 		}
 
-		private LinkCollection _links;
-		public LinkCollection Links
+		private ICollection<Link> _links;
+		public ICollection<Link> Links
 		{
 			get{return _links;}
 			set{_links = value;}
 		}
 
-		private ImageCollection _images;
-		public ImageCollection Images
+        private ICollection<Image> _images;
+        public ICollection<Image> Images
 		{
 			get{return _images;}
 			set{_images = value;}
