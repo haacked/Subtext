@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Globalization;
 using Subtext.Extensibility;
@@ -816,12 +817,12 @@ namespace Subtext.Framework.Data
 
 		#region Archive
 
-		public static ArchiveCountCollection LoadArchiveCount(IDataReader reader)
+        public static ICollection<ArchiveCount> LoadArchiveCount(IDataReader reader)
 		{
 			const string dateformat = "{0:00}/{1:00}/{2:0000}";
 			string dt; //
 			ArchiveCount ac;// new ArchiveCount();
-			ArchiveCountCollection acc = new ArchiveCountCollection();
+            ICollection<ArchiveCount> acc = new Collection<ArchiveCount>();
 			while(reader.Read())
 			{
 				ac = new ArchiveCount();

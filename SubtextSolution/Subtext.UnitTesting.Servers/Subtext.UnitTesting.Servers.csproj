@@ -107,9 +107,6 @@
     <Compile Include="ReceivedEmailMessage.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ReceivedEmailMessageCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="SelfTests.cs">
       <SubType>Code</SubType>
     </Compile>

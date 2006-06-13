@@ -1,20 +1,6 @@
-#region Disclaimer/Info
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// Subtext WebLog
-// 
-// Subtext is an open source weblog system that is a fork of the .TEXT
-// weblog system.
-//
-// For updated news and information please visit http://subtextproject.com/
-// Subtext is hosted at SourceForge at http://sourceforge.net/projects/subtext
-// The development mailing list is at subtext-devs@lists.sourceforge.net 
-//
-// This project is licensed under the BSD license.  See the License.txt file for more information.
-///////////////////////////////////////////////////////////////////////////////////////////////////
-#endregion
-
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Subtext.Scripting
@@ -22,14 +8,24 @@ namespace Subtext.Scripting
 	/// <summary>
 	/// A collection of <see cref="TemplateParameter"/> instances.
 	/// </summary>
-	public class TemplateParameterCollection : CollectionBase
-	{	
-		/// <summary>
+	public class TemplateParameterCollection : IEnumerable<TemplateParameter>, ICollection<TemplateParameter>
+	{
+	    List<TemplateParameter> list = new List<TemplateParameter>();
+
+	    /// <summary>
 		/// Initializes a new instance of the <see cref="TemplateParameterCollection"/> class.
 		/// </summary>
 		public TemplateParameterCollection()
 		{
 		}
+	    
+	    private List<TemplateParameter> List
+	    {
+	        get
+	        {
+	            return list;
+	        }
+	    }
 
 		/// <summary>
 		/// Gets the <see cref="TemplateParameter"/> at the specified index.
@@ -37,7 +33,10 @@ namespace Subtext.Scripting
 		/// <value></value>
 		public TemplateParameter this[int index]
 		{
-			get	{return ((TemplateParameter)(this.List[index]));}
+            get 
+            {
+                return this.List[index];
+            }
 		}
 
 		/// <summary>
@@ -103,7 +102,7 @@ namespace Subtext.Scripting
 			if(Contains(value))
 				return this[value.Name];
 			List.Add(value);
-			value.ValueChanged += new ParameterValueChangedEventHandler(value_ValueChanged);
+            value.ValueChanged += value_ValueChanged;
 			return value;
 		}
 
@@ -112,30 +111,22 @@ namespace Subtext.Scripting
 		/// to the end of the collection.
 		/// </summary>
 		/// <param name="value">A <see cref="ScriptCollection">ScriptCollection</see> containing the <see cref="TemplateParameter"/>s to add to the collection. </param>
-		public void AddRange(TemplateParameterCollection value) 
+		public void AddRange(IEnumerable<TemplateParameter> value) 
 		{
-			if(value == null)
-				throw new ArgumentNullException("value", "Cannot add a range of null.");
-			
-			foreach(TemplateParameter parameter in value)
-				this.Add(parameter);
-		}
-		
-		/// <summary>
-		/// Adds the contents of another <see cref="ScriptCollection">ScriptCollection</see> 
-		/// to the end of the collection.
-		/// </summary>
-		/// <param name="value">A <see cref="ScriptCollection">ScriptCollection</see> containing the <see cref="TemplateParameter"/>s to add to the collection. </param>
-		public void AddRange(TemplateParameter[] value) 
-		{
-			if(value == null)
-				throw new ArgumentNullException("value", "Cannot add a range of null.");
-			
-			foreach(TemplateParameter parameter in value)
-				this.Add(parameter);
+			List.AddRange(value);
 		}
 
-		/// <summary>
+	    void ICollection<TemplateParameter>.Add(TemplateParameter item)
+	    {
+            Add(item);
+	    }
+
+	    public void Clear()
+	    {
+            List.Clear();
+	    }
+
+	    /// <summary>
 		/// Gets a value indicating whether the collection contains the specified 
 		/// <see cref="TemplateParameter">Script</see>.
 		/// </summary>
@@ -148,20 +139,23 @@ namespace Subtext.Scripting
 			
 			return Contains(value.Name);
 		}
-		
-		/// <summary>
-		/// Copies the collection Components to a one-dimensional 
-		/// <see cref="T:System.Array">Array</see> instance beginning at the specified index.
-		/// </summary>
-		/// <param name="array">The one-dimensional <see cref="T:System.Array">Array</see> 
-		/// that is the destination of the values copied from the collection.</param>
-		/// <param name="index">The index of the array at which to begin inserting.</param>
-		public void CopyTo(Script[] array, int index) 
-		{
-			this.List.CopyTo(array, index);
-		}
 
-		/// <summary>
+	    public void CopyTo(TemplateParameter[] array, int arrayIndex)
+	    {
+	        List.CopyTo(array, arrayIndex);
+	    }
+
+	    public int Count
+	    {
+	        get { return List.Count; }
+	    }
+
+	    public bool IsReadOnly
+	    {
+	        get { return false; }
+	    }
+
+	    /// <summary>
 		/// Gets the index in the collection of the specified 
 		/// <see cref="TemplateParameter">Script</see>, if it exists in the collection.
 		/// </summary>
@@ -177,9 +171,9 @@ namespace Subtext.Scripting
 		/// Removes the specified value.
 		/// </summary>
 		/// <param name="value">Value.</param>
-		public void Remove(TemplateParameter value) 
+		public bool Remove(TemplateParameter value) 
 		{
-			List.Remove(value);
+			return List.Remove(value);
 		}
 
 		/// <summary>
@@ -200,7 +194,7 @@ namespace Subtext.Scripting
 
 		protected void OnValueChanged(ParameterValueChangedEventArgs args)
 		{
-			ParameterValueChangedEventHandler changeEvent = ValueChanged;
+			EventHandler<ParameterValueChangedEventArgs> changeEvent = ValueChanged;
 			if(changeEvent != null)	
 			{
 				changeEvent(this, args);
@@ -211,6 +205,16 @@ namespace Subtext.Scripting
 		/// Event raised when any parameter within this collection changes 
 		/// its values.
 		/// </summary>
-		public event ParameterValueChangedEventHandler ValueChanged;
+        public event EventHandler<ParameterValueChangedEventArgs> ValueChanged;
+
+	    IEnumerator<TemplateParameter> IEnumerable<TemplateParameter>.GetEnumerator()
+	    {
+            return List.GetEnumerator();
+	    }
+
+	    public IEnumerator GetEnumerator()
+	    {
+            return List.GetEnumerator();
+	    }
 	}
 }

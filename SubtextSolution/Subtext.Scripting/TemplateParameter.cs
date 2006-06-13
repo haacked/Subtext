@@ -74,7 +74,7 @@ namespace Subtext.Scripting
 
 		protected void OnValueChanged(string oldValue, string newValue)
 		{
-			ParameterValueChangedEventHandler changeEvent = ValueChanged;
+            EventHandler<ParameterValueChangedEventArgs> changeEvent = ValueChanged;
 			if(changeEvent != null)	
 				changeEvent(this, new ParameterValueChangedEventArgs(this.Name, oldValue, newValue));
 		}
@@ -82,15 +82,10 @@ namespace Subtext.Scripting
 		/// <summary>
 		/// Event raised when the parameter's value changes.
 		/// </summary>
-		public event ParameterValueChangedEventHandler ValueChanged;
+        public event EventHandler<ParameterValueChangedEventArgs> ValueChanged;
 	}
 
-	/// <summary>
-	/// Event handler delegate for the ValueChanged event.
-	/// </summary>
-	public delegate void ParameterValueChangedEventHandler(object sender, ParameterValueChangedEventArgs args);
-
-	/// <summary>
+    /// <summary>
 	/// Contains information about when a template parameter value changes.
 	/// </summary>
 	public class ParameterValueChangedEventArgs : EventArgs
