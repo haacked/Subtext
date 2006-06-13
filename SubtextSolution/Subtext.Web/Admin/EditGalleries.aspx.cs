@@ -14,11 +14,13 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Image=Subtext.Framework.Components.Image;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -88,7 +90,7 @@ namespace Subtext.Web.Admin.Pages
 		private void BindList()
 		{
 			// TODO: possibly, later on, add paging support a la other cat editors
-			LinkCategoryCollection selectionList = Links.GetCategories(CategoryType.ImageCollection, false);
+            ICollection<LinkCategory> selectionList = Links.GetCategories(CategoryType.ImageCollection, false);
 
 			if (selectionList.Count > 0)
 			{
@@ -112,7 +114,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			CategoryID = galleryID;
 			LinkCategory selectedGallery = Links.GetLinkCategory(galleryID,false);
-			ImageCollection imageList = Images.GetImagesByCategoryID(galleryID, false);
+			ICollection<Image> imageList = Images.GetImagesByCategoryID(galleryID, false);
 
 			plhImageHeader.Controls.Clear();
 			string galleryTitle = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} - {1} images", selectedGallery.Title, imageList.Count);

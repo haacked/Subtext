@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using MbUnit.Framework;
@@ -53,8 +54,8 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 			
 			Entry parentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("philsath aeuoa asoeuhtoensth", "sntoehu title aoeuao eu", "snaot hu aensaoehtu body");
 			int parentId = Entries.Create(parentEntry);
-			
-			EntryCollection entries = Entries.GetFeedBack(parentEntry);
+
+            IList<Entry> entries = Entries.GetFeedBack(parentEntry);
 			Assert.AreEqual(0, entries.Count, "Did not expect any feedback yet.");
 			
 			Trackback trackback = new Trackback(parentId, "title", "titleUrl", "phil", "body");

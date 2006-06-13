@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -89,7 +90,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindList()
 		{
-			LinkCategoryCollection cats = Links.GetCategories(_categoryType, false);
+            ICollection<LinkCategory> cats = Links.GetCategories(_categoryType, false);
 			dgrItems.DataSource = cats;
 			dgrItems.DataKeyField = "CategoryID";
 			dgrItems.DataBind();

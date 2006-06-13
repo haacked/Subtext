@@ -3870,13 +3870,13 @@
            </Member>
           </Members>
          </Type>
-         <Type Name="EntryViewCollection">
+         <Type Name="List">
           <Members>
            <Member Name=".ctor(Subtext.Framework.Components.EntryView[])">
             <Messages>
              <Message Id="System.ArgumentNullException.#ctor(System.String,System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-05-10 07:31:04Z">
               <Issue>
-               <Item>EntryViewCollection.EntryViewCollection(EntryView[])</Item>
+               <Item>List.List(EntryView[])</Item>
                <Item>2</Item>
                <Item>ArgumentNullException.ArgumentNullException(String, String)</Item>
                <Item>Cannot add a range from null.</Item>
@@ -3884,11 +3884,11 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name=".ctor(Subtext.Framework.Components.EntryViewCollection)">
+           <Member Name=".ctor(Subtext.Framework.Components.List)">
             <Messages>
              <Message Id="System.ArgumentNullException.#ctor(System.String,System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-05-10 07:31:04Z">
               <Issue>
-               <Item>EntryViewCollection.EntryViewCollection(EntryViewCollection)</Item>
+               <Item>List.List(List)</Item>
                <Item>2</Item>
                <Item>ArgumentNullException.ArgumentNullException(String, String)</Item>
                <Item>Cannot add a range from null.</Item>
@@ -3900,7 +3900,7 @@
             <Messages>
              <Message Id="System.ArgumentNullException.#ctor(System.String,System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-05-10 07:31:04Z">
               <Issue>
-               <Item>EntryViewCollection.AddRange(EntryView[]):Void</Item>
+               <Item>List.AddRange(EntryView[]):Void</Item>
                <Item>2</Item>
                <Item>ArgumentNullException.ArgumentNullException(String, String)</Item>
                <Item>Cannot add a range from null.</Item>
@@ -3908,11 +3908,11 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="AddRange(Subtext.Framework.Components.EntryViewCollection):System.Void">
+           <Member Name="AddRange(Subtext.Framework.Components.List):System.Void">
             <Messages>
              <Message Id="System.ArgumentNullException.#ctor(System.String,System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-05-10 07:31:04Z">
               <Issue>
-               <Item>EntryViewCollection.AddRange(EntryViewCollection):Void</Item>
+               <Item>List.AddRange(List):Void</Item>
                <Item>2</Item>
                <Item>ArgumentNullException.ArgumentNullException(String, String)</Item>
                <Item>Cannot add a range from null.</Item>
@@ -3922,14 +3922,14 @@
            </Member>
           </Members>
          </Type>
-         <Type Name="EntryViewCollection+EntryViewCollectionEnumerator">
+         <Type Name="List+ListEnumerator">
           <Members>
-           <Member Name=".ctor(Subtext.Framework.Components.EntryViewCollection)">
+           <Member Name=".ctor(Subtext.Framework.Components.List)">
             <Messages>
              <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-05-10 07:31:04Z">
               <Issue>
                <Item>'mappings'</Item>
-               <Item>EntryViewCollectionEnumerator.EntryViewCollectionEnumerator(EntryViewCollection)</Item>
+               <Item>ListEnumerator.ListEnumerator(List)</Item>
               </Issue>
              </Message>
             </Messages>

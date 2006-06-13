@@ -16,7 +16,7 @@
 using System;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using Subtext.Framework.Data;
+using Subtext.Framework.Components;
 using Subtext.Framework.Logging;
 using Subtext.Web.Admin.WebUI;
 using Subtext.Web.Controls;
@@ -55,7 +55,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindList()
 		{
-			PagedLogEntryCollection logEntries = LoggingProvider.Instance().GetPagedLogEntries(LogPager.PageIndex, LogPager.PageSize, Subtext.Framework.Data.SortDirection.Descending);
+            IPagedCollection<LogEntry> logEntries = LoggingProvider.Instance().GetPagedLogEntries(LogPager.PageIndex, LogPager.PageSize, Subtext.Framework.Data.SortDirection.Descending);
 			LogPager.ItemCount = logEntries.MaxItems;
 			LogPage.DataSource = logEntries;
 			LogPage.DataBind();		
@@ -103,7 +103,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindListForExcel()
 		{
-			PagedLogEntryCollection logEntries = LoggingProvider.Instance().GetPagedLogEntries(1, int.MaxValue - 1, Subtext.Framework.Data.SortDirection.Descending);
+            IPagedCollection<LogEntry> logEntries = LoggingProvider.Instance().GetPagedLogEntries(1, int.MaxValue - 1, Subtext.Framework.Data.SortDirection.Descending);
 			LogPage.DataSource = logEntries;
 			LogPage.DataBind();
 		}

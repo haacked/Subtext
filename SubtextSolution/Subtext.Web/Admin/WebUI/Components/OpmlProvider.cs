@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
@@ -30,7 +31,7 @@ namespace Subtext.Web.Admin
 			//
 		}
 
-		public static XmlDocument Export(LinkCollection items)
+		public static XmlDocument Export(ICollection<Link> items)
 		{
 			#region	DEP: writer		
 //			StringWriter sw = new StringWriter();

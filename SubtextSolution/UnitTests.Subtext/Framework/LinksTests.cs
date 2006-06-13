@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Web;
 using MbUnit.Framework;
 using Subtext.Framework;
@@ -42,12 +43,36 @@ namespace UnitTests.Subtext.Framework
 
 			// Create some categories
 			CreateSomeLinkCategories();
-			LinkCategoryCollection linkCategoryCollection = Links.GetCategories(CategoryType.LinkCollection, false);
+            ICollection<LinkCategory> linkCategoryCollection = Links.GetCategories(CategoryType.LinkCollection, false);
 
+            LinkCategory first = null;
+            LinkCategory second = null;
+            LinkCategory third = null;
+		    foreach(LinkCategory linkCategory in linkCategoryCollection)
+		    {
+                if (first == null)
+                {
+                    first = linkCategory;
+                    continue;
+                }
+
+		        if(second == null)
+		        {
+                    second = linkCategory;
+                    continue;
+		        }
+
+                if (third == null)
+                {
+                    third = linkCategory;
+                    continue;
+                }
+		    }
+		    
 			// Ensure the CategoryIDs are unique
-			UnitTestHelper.AssertAreNotEqual(linkCategoryCollection[0].CategoryID, linkCategoryCollection[1].CategoryID);
-			UnitTestHelper.AssertAreNotEqual(linkCategoryCollection[0].CategoryID, linkCategoryCollection[2].CategoryID);
-			UnitTestHelper.AssertAreNotEqual(linkCategoryCollection[1].CategoryID, linkCategoryCollection[2].CategoryID);
+			UnitTestHelper.AssertAreNotEqual(first.CategoryID, second.CategoryID);
+            UnitTestHelper.AssertAreNotEqual(first.CategoryID, third.CategoryID);
+            UnitTestHelper.AssertAreNotEqual(second.CategoryID, third.CategoryID);
 		}
 
 		/// <summary>
@@ -63,14 +88,20 @@ namespace UnitTests.Subtext.Framework
 			CreateSomeLinkCategories();
 
 			// Retrieve the categories, grab the first one and update it
-			LinkCategoryCollection originalCategories = Links.GetCategories(CategoryType.LinkCollection, false);
-			LinkCategory originalCategory = originalCategories[0];
+            ICollection<LinkCategory> originalCategories = Links.GetCategories(CategoryType.LinkCollection, false);
+		    LinkCategory linkCat = null;
+            foreach (LinkCategory linkCategory in originalCategories)
+		    {
+                linkCat = linkCategory;
+		        break;
+		    }
+            LinkCategory originalCategory = linkCat;
 			originalCategory.Description = "New Description";
 			originalCategory.IsActive = false;
 			bool updated = Links.UpdateLinkCategory(originalCategory);
 
 			// Retrieve the categories and find the one we updated
-			LinkCategoryCollection updatedCategories = Links.GetCategories(CategoryType.LinkCollection, false);
+			ICollection<LinkCategory> updatedCategories = Links.GetCategories(CategoryType.LinkCollection, false);
 			LinkCategory updatedCategory = null;
 			foreach(LinkCategory lc in updatedCategories)
 				if (lc.CategoryID == originalCategory.CategoryID)

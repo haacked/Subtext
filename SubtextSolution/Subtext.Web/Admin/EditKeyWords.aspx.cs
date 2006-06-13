@@ -15,7 +15,6 @@
 
 using System;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Util;
@@ -103,7 +102,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			Edit.Visible = false;
 
-			PagedKeyWordCollection selectionList = KeyWords.GetPagedKeyWords(_resultsPageNumber,ResultsPager.PageSize,true);
+            IPagedCollection<KeyWord> selectionList = KeyWords.GetPagedKeyWords(_resultsPageNumber, ResultsPager.PageSize, true);
 			
 			if (selectionList.Count > 0)
 			{

@@ -108,12 +108,11 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindList()
 		{
-			PagedReferrerCollection referrers;
+            IPagedCollection<Referrer> referrers;
 
 			if(_entryID == NullValue.NullInt32)
 			{
-
-					referrers = Stats.GetPagedReferrers(_resultsPageNumber, ResultsPager.PageSize);
+				referrers = Stats.GetPagedReferrers(_resultsPageNumber, ResultsPager.PageSize);
 			}
 			else
 			{

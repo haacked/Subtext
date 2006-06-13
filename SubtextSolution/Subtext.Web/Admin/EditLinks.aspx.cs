@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -128,7 +129,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			Edit.Visible = false;
 
-			PagedLinkCollection selectionList = Links.GetPagedLinks(_filterCategoryID, _resultsPageNumber,
+            IPagedCollection<Link> selectionList = Links.GetPagedLinks(_filterCategoryID, _resultsPageNumber,
 				ResultsPager.PageSize,true);
 			
 			if (selectionList.Count > 0)
@@ -176,7 +177,7 @@ namespace Subtext.Web.Admin.Pages
 
 		public void BindLinkCategories()
 		{
-			LinkCategoryCollection selectionList = Links.GetCategories(CategoryType.LinkCollection, false);
+            ICollection<LinkCategory> selectionList = Links.GetCategories(CategoryType.LinkCollection, false);
 			if(selectionList != null && selectionList.Count != 0)
 			{
 				ddlCategories.DataSource = selectionList;

@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Text;
 using Subtext.Framework.Components;
 using Subtext.Framework.Providers;
@@ -207,14 +208,12 @@ namespace Subtext.Framework.Util
 
 		public static void Format(Entry entry)
 		{
-			KeyWordCollection kwc = GetKeyWords();
+			ICollection<KeyWord> kwc = GetKeyWords();
 			if(kwc != null && kwc.Count > 0)
 			{
-				KeyWord kw;
-				for(int i =0; i<kwc.Count;i++)
+				foreach(KeyWord keyword in kwc)
 				{
-					kw = kwc[i];
-					entry.Body = ReplaceFormat(entry.Body, kw.Word, kw.GetFormat, kw.ReplaceFirstTimeOnly);
+                    entry.Body = ReplaceFormat(entry.Body, keyword.Word, keyword.GetFormat, keyword.ReplaceFirstTimeOnly);
 				}
 			}
 		}
@@ -224,12 +223,12 @@ namespace Subtext.Framework.Util
 			return ObjectProvider.Instance().GetKeyWord(KeyWordID);
 		}
 
-		public static KeyWordCollection GetKeyWords()
+        public static ICollection<KeyWord> GetKeyWords()
 		{
 			return ObjectProvider.Instance().GetKeyWords();
 		}
 
-		public static PagedKeyWordCollection GetPagedKeyWords(int pageIndex, int pageSize,bool sortDescending)
+        public static IPagedCollection<KeyWord> GetPagedKeyWords(int pageIndex, int pageSize, bool sortDescending)
 		{
 			return ObjectProvider.Instance().GetPagedKeyWords(pageIndex,pageSize,sortDescending);
 		}

@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
@@ -35,14 +36,14 @@ namespace Subtext.Framework.Data
 		{
 			get
 			{
-				return  SqlHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, SqlHelper.CheckNull(Config.CurrentBlog.BlogId));
+				return SqlHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, SqlHelper.CheckNull(Config.CurrentBlog.BlogId));
 			}
 		}
 
 		#region DbProvider Methods
 		#region Statistics
 
-		public override bool TrackEntry(EntryViewCollection evc)
+		public override bool TrackEntry(IEnumerable<EntryView> evc)
 		{
 			if(evc != null)
 			{
@@ -91,24 +92,24 @@ namespace Subtext.Framework.Data
 
 		#region Images
 
-		public override IDataReader GetImagesByCategoryID(int catID, bool ActiveOnly)
+		public override IDataReader GetImagesByCategoryID(int catID, bool activeOnly)
 		{
 			SqlParameter[] p =
 			{
 				SqlHelper.MakeInParam("@CategoryID",SqlDbType.Int, 4, SqlHelper.CheckNull(catID)),
-				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
+				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1, activeOnly),
 				BlogIdParam
 			};
 
 			return GetReader("subtext_GetImageCategory",p);
 		}
 
-		public override IDataReader GetSingleImage(int imageID, bool ActiveOnly)
+		public override IDataReader GetSingleImage(int imageID, bool activeOnly)
 		{
 			SqlParameter[] p =
 			{
 				SqlHelper.MakeInParam("@ImageID",SqlDbType.Int,4,imageID),
-				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
+				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1, activeOnly),
 				BlogIdParam
 			};
 			return GetReader("subtext_GetSingleImage",p);
@@ -367,15 +368,15 @@ namespace Subtext.Framework.Data
 		/// <summary>
 		/// Returns the specified number of blog entries
 		/// </summary>
-		/// <param name="ItemCount"></param>
+		/// <param name="itemCount"></param>
 		/// <param name="pt"></param>
 		/// <param name="pc"></param>
 		/// <returns></returns>
-		public override IDataReader GetConditionalEntries(int ItemCount, PostType pt, PostConfig pc)
+		public override IDataReader GetConditionalEntries(int itemCount, PostType pt, PostConfig pc)
 		{
 			SqlParameter[] p =
 			{
-				SqlHelper.MakeInParam("@ItemCount", SqlDbType.Int, 4,ItemCount),
+				SqlHelper.MakeInParam("@ItemCount", SqlDbType.Int, 4,itemCount),
 				SqlHelper.MakeInParam("@PostType", SqlDbType.Int, 4,pt),
 				SqlHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4,pc),
 				BlogIdParam				
@@ -384,25 +385,25 @@ namespace Subtext.Framework.Data
 			return GetReader("subtext_GetConditionalEntries",p);
 		}
 				
-		public override IDataReader GetEntriesByDateRangle(DateTime start, DateTime stop, PostType postType, bool ActiveOnly)
+		public override IDataReader GetEntriesByDateRangle(DateTime start, DateTime stop, PostType postType, bool activeOnly)
 		{
 			SqlParameter[] p =	
 			{
 				SqlHelper.MakeInParam("@StartDate",SqlDbType.DateTime, 8, start),
 				SqlHelper.MakeInParam("@StopDate",SqlDbType.DateTime, 8, stop),
 				SqlHelper.MakeInParam("@PostType",SqlDbType.Int, 4, postType),
-				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1, ActiveOnly),
+				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1, activeOnly),
 				BlogIdParam
 			};
 			return GetReader("subtext_GetEntriesByDayRange",p);
 		}
 
-		public override DataSet GetRecentPostsWithCategories(int ItemCount, bool ActiveOnly)
+		public override DataSet GetRecentPostsWithCategories(int itemCount, bool activeOnly)
 		{
 			SqlParameter[] p =
 			{
-				SqlHelper.MakeInParam("@ItemCount",SqlDbType.Int,4,ItemCount),
-				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
+				SqlHelper.MakeInParam("@ItemCount",SqlDbType.Int,4,itemCount),
+				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1, activeOnly),
 				BlogIdParam
 			};
 			DataSet ds = SqlHelper.ExecuteDataset(ConnectionString,CommandType.StoredProcedure,"subtext_GetRecentEntriesWithCategoryTitles",p);
@@ -411,25 +412,25 @@ namespace Subtext.Framework.Data
 			return ds;
 		}
 
-		public override IDataReader GetCategoryEntry(int postID, bool ActiveOnly)
+		public override IDataReader GetCategoryEntry(int postID, bool activeOnly)
 		{
 			SqlParameter[] p =
 			{
 				SqlHelper.MakeInParam("@PostID", SqlDbType.Int, 4, SqlHelper.CheckNull(postID)),
-				SqlHelper.MakeInParam("@IsActive", SqlDbType.Bit, 1, ActiveOnly),
+				SqlHelper.MakeInParam("@IsActive", SqlDbType.Bit, 1, activeOnly),
 				BlogIdParam
 			};
 			return GetReader("subtext_GetEntryWithCategoryTitles",p);
 			
 		}
 
-		public override IDataReader GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly)
+		public override IDataReader GetRecentPosts(int itemCount, PostType postType, bool activeOnly)
 		{
 			SqlParameter[] p =
 			{
-				SqlHelper.MakeInParam("@ItemCount",SqlDbType.Int,4,ItemCount),
-				SqlHelper.MakeInParam("@PostType",SqlDbType.Int,4,postType),
-				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
+				SqlHelper.MakeInParam("@ItemCount", SqlDbType.Int, 4, itemCount),
+				SqlHelper.MakeInParam("@PostType", SqlDbType.Int, 4, postType),
+				SqlHelper.MakeInParam("@IsActive", SqlDbType.Bit, 1, activeOnly),
 				BlogIdParam
 			};
 			return GetReader("subtext_GetRecentEntries",p);
@@ -439,30 +440,30 @@ namespace Subtext.Framework.Data
 		/// Gets recent posts used to support the MetaBlogAPI. 
 		/// Could be used for a Recent Posts control as well.
 		/// </summary>
-		/// <param name="ItemCount">Item count.</param>
+		/// <param name="itemCount">Item count.</param>
 		/// <param name="postType">Post type.</param>
-		/// <param name="ActiveOnly">Active only.</param>
-		/// <param name="DateUpdated"></param>
+		/// <param name="activeOnly">Active only.</param>
+		/// <param name="dateUpdated"></param>
 		/// <returns></returns>
-		public override IDataReader GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly, DateTime DateUpdated)
+		public override IDataReader GetRecentPosts(int itemCount, PostType postType, bool activeOnly, DateTime dateUpdated)
 		{
 			SqlParameter[] p =
 			{
-				SqlHelper.MakeInParam("@ItemCount",SqlDbType.Int,4,ItemCount),
-				SqlHelper.MakeInParam("@PostType",SqlDbType.Int,4,postType),
-				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
-				SqlHelper.MakeInParam("@DateUpdated",SqlDbType.DateTime,8,DateUpdated),
+				SqlHelper.MakeInParam("@ItemCount", SqlDbType.Int,4, itemCount),
+				SqlHelper.MakeInParam("@PostType", SqlDbType.Int,4, postType),
+				SqlHelper.MakeInParam("@IsActive", SqlDbType.Bit,1, activeOnly),
+				SqlHelper.MakeInParam("@DateUpdated", SqlDbType.DateTime, 8, dateUpdated),
 				BlogIdParam
 			};
 			return GetReader("subtext_GetRecentEntriesByDateUpdated",p);
 		}
 
-		public override IDataReader GetEntry(string entryName, bool ActiveOnly)
+		public override IDataReader GetEntry(string entryName, bool activeOnly)
 		{
 			SqlParameter[] p =
 			{
 				SqlHelper.MakeInParam("@EntryName",SqlDbType.NVarChar,150,entryName),
-				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
+				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1, activeOnly),
 				BlogIdParam
 			};
 			return GetReader("subtext_GetSingleEntryByName",p);
@@ -484,12 +485,12 @@ namespace Subtext.Framework.Data
 			return GetReader("subtext_GetCommentByChecksumHash", p);
 		}
 
-		public override IDataReader GetEntry(int postID, bool ActiveOnly)
+		public override IDataReader GetEntry(int postID, bool activeOnly)
 		{
 			SqlParameter[] p =
 			{
 				SqlHelper.MakeInParam("@ID",SqlDbType.Int,4,postID),
-				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
+				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1, activeOnly),
 				BlogIdParam
 			};
 			return GetReader("subtext_GetSingleEntry" ,p);
@@ -505,25 +506,25 @@ namespace Subtext.Framework.Data
 			return GetReader("subtext_GetSingleDay",p);
 		}
 
-		public override IDataReader GetEntriesByCategory(int ItemCount, int catID, bool ActiveOnly)
+		public override IDataReader GetEntriesByCategory(int itemCount, int catID, bool activeOnly)
 		{
 			SqlParameter[] p =
 			{
-				SqlHelper.MakeInParam("@ItemCount",SqlDbType.Int,4,ItemCount),
-				SqlHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,SqlHelper.CheckNull(catID)),
-				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
+				SqlHelper.MakeInParam("@ItemCount", SqlDbType.Int, 4, itemCount),
+				SqlHelper.MakeInParam("@CategoryID", SqlDbType.Int, 4, SqlHelper.CheckNull(catID)),
+				SqlHelper.MakeInParam("@IsActive", SqlDbType.Bit, 1, activeOnly),
 				BlogIdParam
 			};
 			return GetReader("subtext_GetPostsByCategoryID",p);
 	
 		}
 
-		public override IDataReader GetPostsByCategoryID(int ItemCount, int catID)
+		public override IDataReader GetPostsByCategoryID(int itemCount, int catID)
 		{
 			SqlParameter[] p =
 			{
-				SqlHelper.MakeInParam("@ItemCount",SqlDbType.Int,4,ItemCount),
-				SqlHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,(catID)),
+				SqlHelper.MakeInParam("@ItemCount", SqlDbType.Int, 4, itemCount),
+				SqlHelper.MakeInParam("@CategoryID", SqlDbType.Int, 4, catID),
 				BlogIdParam};
 			return GetReader("subtext_GetPostsByCategoryID",p);
 		}
@@ -539,23 +540,12 @@ namespace Subtext.Framework.Data
 			return GetReader("subtext_GetPostsByMonth",p);
 		}
 
-//		//Should power both EntryCollection and EntryDayCollection
-//		public override IDataReader GetPostsByMonth(int month, int year)
-//		{
-//			SqlParameter[] p =
-//			{
-//				SqlHelper.MakeInParam("@Month",SqlDbType.Int,4,month),
-//				SqlHelper.MakeInParam("@Year",SqlDbType.Int,4,year),
-//				BlogIdParam};
-//			return GetReader("subtext_GetPostsByMonth",p);
-//		}
-
-		public override IDataReader GetRecentDayPosts(int ItemCount, bool ActiveOnly)
+		public override IDataReader GetRecentDayPosts(int itemCount, bool activeOnly)
 		{
 			SqlParameter[] p =
 			{
-				SqlHelper.MakeInParam("@ItemCount",SqlDbType.Int,4,ItemCount),
-				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
+				SqlHelper.MakeInParam("@ItemCount",SqlDbType.Int,4,itemCount),
+				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1, activeOnly),
 				SqlHelper.MakeInParam("@PostType",SqlDbType.Int,4,PostType.BlogPost),
 				BlogIdParam};
 			return GetReader("subtext_GetRecentEntries",p);
@@ -626,28 +616,27 @@ namespace Subtext.Framework.Data
 			return result;
 		}
 
-		public override bool SetEntryCategoryList(int PostID, int[] Categories)
+		public override bool SetEntryCategoryList(int postID, int[] categoryIds)
 		{
-			if(Categories == null || Categories.Length == 0)
+			if(categoryIds == null || categoryIds.Length == 0)
 			{
 				return false;
 			}
 
-			string[] cats = new string[Categories.Length];
-			for(int i = 0; i<Categories.Length;i++)
+			string[] cats = new string[categoryIds.Length];
+			for(int i = 0; i<categoryIds.Length;i++)
 			{
-				cats[i] = Categories[i].ToString(CultureInfo.InvariantCulture);
+				cats[i] = categoryIds[i].ToString(CultureInfo.InvariantCulture);
 			}
 			string catList = string.Join(",",cats);
 
 			SqlParameter[] p = 
 			{
-				SqlHelper.MakeInParam("@PostID", SqlDbType.Int, 4, SqlHelper.CheckNull(PostID)),
+				SqlHelper.MakeInParam("@PostID", SqlDbType.Int, 4, SqlHelper.CheckNull(postID)),
 				BlogIdParam,
 				SqlHelper.MakeInParam("@CategoryList",SqlDbType.NVarChar,4000,catList)
 			};
 			return NonQueryBool("subtext_InsertLinkCategoryList",p);
-
 		}
 
 		/// <summary>
@@ -756,62 +745,21 @@ namespace Subtext.Framework.Data
 
 		#region Links
 
-		public override IDataReader GetLinkCollectionByPostID(int PostID)
+		public override IDataReader GetLinkCollectionByPostID(int postId)
 		{
 			SqlParameter[] p =
 			{
-				SqlHelper.MakeInParam("@PostID", SqlDbType.Int, 4, SqlHelper.CheckNull(PostID)),
+				SqlHelper.MakeInParam("@PostID", SqlDbType.Int, 4, SqlHelper.CheckNull(postId)),
 				BlogIdParam
 			};
 			return GetReader("subtext_GetLinkCollectionByPostID", p);
 		}
 
-		/// <summary>
-		/// Adds the entry to categories specified in the <see cref="LinkCollection"/>.
-		/// </summary>
-		/// <param name="PostID">Post ID.</param>
-		/// <param name="lc">Lc.</param>
-		/// <returns></returns>
-		public override bool AddEntryToCategories(int PostID, LinkCollection lc)
-		{
-			int count = 0;
-			if(lc != null)
-			{
-				count = lc.Count;
-			}
-			SqlConnection conn = new SqlConnection(ConnectionString);
-			conn.Open();
-
-			//DeleteCategoriesByPostID(PostID,conn);
-			//we should use the iter_charlist_to_table function instead
-			if(count > 0)
-			{
-				string sql = "subtext_InsertLink";
-				
-				Link link = lc[0];
-				SqlParameter[] p = 
-				{
-					SqlHelper.MakeInParam("@Title", SqlDbType.NVarChar, 150, SqlHelper.CheckNull(link.Title)), 
-					SqlHelper.MakeInParam("@Url", SqlDbType.NVarChar, 255, SqlHelper.CheckNull(link.Url)), 
-					SqlHelper.MakeInParam("@Rss", SqlDbType.NVarChar, 255, SqlHelper.CheckNull(link.Rss)), 
-					SqlHelper.MakeInParam("@Active", SqlDbType.Bit, 1, link.IsActive), 
-					SqlHelper.MakeInParam("@NewWindow", SqlDbType.Bit, 1, link.NewWindow), 
-					SqlHelper.MakeInParam("@CategoryID", SqlDbType.Int, 4, SqlHelper.CheckNull(link.CategoryID)), 
-					SqlHelper.MakeInParam("@PostID", SqlDbType.Int, 4, SqlHelper.CheckNull(link.PostID)), 
-					BlogIdParam, 
-					SqlHelper.MakeOutParam("@LinkID", SqlDbType.Int, 4)
-				};
-				return NonQueryBool(sql,p);
-               }
-			conn.Close();
-			return false;
-		}
-
-		public override bool DeleteLink(int LinkID)
+	    public override bool DeleteLink(int linkId)
 		{
 			SqlParameter[] p = 
 			{
-				SqlHelper.MakeInParam("@LinkID",SqlDbType.Int,4,LinkID),
+				SqlHelper.MakeInParam("@LinkID", SqlDbType.Int, 4, linkId),
 				BlogIdParam
 			};
 			return NonQueryBool("subtext_DeleteLink",p);
@@ -865,10 +813,10 @@ namespace Subtext.Framework.Data
 		}
 
 
-		public override IDataReader GetCategories(CategoryType catType, bool ActiveOnly)
+		public override IDataReader GetCategories(CategoryType catType, bool activeOnly)
 		{
 			SqlParameter[] p ={SqlHelper.MakeInParam("@CategoryType",SqlDbType.TinyInt,1,catType),
-							  SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,ActiveOnly),
+							  SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1, activeOnly),
 								  BlogIdParam};
 			return GetReader("subtext_GetAllCategories",p);
 		}
@@ -886,9 +834,9 @@ namespace Subtext.Framework.Data
 		}
 
 		//maps to blog_GetLinksByCategoryID
-		public override IDataReader GetLinksByCategoryID(int catID, bool ActiveOnly)
+		public override IDataReader GetLinksByCategoryID(int catID, bool activeOnly)
 		{
-			string sql = ActiveOnly ? "subtext_GetLinksByActiveCategoryID" : "subtext_GetLinksByCategoryID";
+			string sql = activeOnly ? "subtext_GetLinksByActiveCategoryID" : "subtext_GetLinksByCategoryID";
 			SqlParameter[] p = 
 			{
 				SqlHelper.MakeInParam("@CategoryID",SqlDbType.Int,4 ,SqlHelper.CheckNull(catID)),
@@ -903,11 +851,11 @@ namespace Subtext.Framework.Data
 		#region Categories
 
 
-		public override bool DeleteCategory(int CatID)
+		public override bool DeleteCategory(int catId)
 		{
 			SqlParameter[] p = 
 			{
-				SqlHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,SqlHelper.CheckNull(CatID)),
+				SqlHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,SqlHelper.CheckNull(catId)),
 				BlogIdParam
 			};
 			return NonQueryBool("subtext_DeleteCategory",p);
@@ -915,12 +863,12 @@ namespace Subtext.Framework.Data
 		}
 
 		//maps to blog_GetCategory
-		public override IDataReader GetLinkCategory(int catID, bool IsActive)
+		public override IDataReader GetLinkCategory(int catID, bool isActive)
 		{
 			SqlParameter[] p = 
 			{
 				SqlHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,SqlHelper.CheckNull(catID)),
-				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,IsActive),
+				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1,isActive),
 				BlogIdParam
 			};
 			return GetReader("subtext_GetCategory",p);
@@ -977,11 +925,11 @@ namespace Subtext.Framework.Data
 
 		//we could pass ParentID with the rest of the sprocs
 		//one interface for entry data?
-		public override IDataReader GetFeedBack(int PostID)
+		public override IDataReader GetFeedBack(int postId)
 		{
 			SqlParameter[] p =
 			{
-				SqlHelper.MakeInParam("@ParentID", SqlDbType.Int, 4, SqlHelper.CheckNull(PostID)),
+				SqlHelper.MakeInParam("@ParentID", SqlDbType.Int, 4, SqlHelper.CheckNull(postId)),
 				BlogIdParam
 			};
 			return GetReader("subtext_GetFeedBack" ,p);
@@ -1142,29 +1090,27 @@ namespace Subtext.Framework.Data
 
 		#region KeyWords
 
-		public override IDataReader GetKeyWord(int KeyWordID)
+		public override IDataReader GetKeyWord(int keyWordID)
 		{
 			SqlParameter[] p =
 			{
-				SqlHelper.MakeInParam("@KeyWordID",SqlDbType.Int,4,KeyWordID),
+				SqlHelper.MakeInParam("@KeyWordID", SqlDbType.Int, 4, keyWordID),
 				BlogIdParam
 			};
 			return GetReader("subtext_GetKeyWord",p);
 		}
 
-		public override bool DeleteKeyWord(int KeyWordID)
+		public override bool DeleteKeyWord(int keywordId)
 		{
 			SqlParameter[] p =
 			{
-				SqlHelper.MakeInParam("@KeyWordID",SqlDbType.Int,4,KeyWordID),
+				SqlHelper.MakeInParam("@KeyWordID", SqlDbType.Int, 4, keywordId),
 				BlogIdParam
 			};
 			return NonQueryBool("subtext_DeleteKeyWord",p);
 		}
 
-
-
-		public override int InsertKeyWord(KeyWord kw)
+        public override int InsertKeyWord(KeyWord kw)
 		{
 			SqlParameter outParam = SqlHelper.MakeOutParam("@KeyWordID",SqlDbType.Int,4);
 			SqlParameter[] p =
@@ -1200,8 +1146,6 @@ namespace Subtext.Framework.Data
 			return NonQueryBool("subtext_UpdateKeyWord",p);
 		}
 
-
-
 		public override IDataReader GetKeyWords()
 		{
 			SqlParameter[] p =
@@ -1211,7 +1155,7 @@ namespace Subtext.Framework.Data
 			return GetReader("subtext_GetBlogKeyWords",p);
 		}
 
-		public override IDataReader GetPagedKeyWords(int pageIndex, int pageSize,bool sortDescending)
+		public override IDataReader GetPagedKeyWords(int pageIndex, int pageSize, bool sortDescending)
 		{
 			SqlParameter[] p = 
 			{

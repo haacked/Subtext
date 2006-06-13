@@ -51,7 +51,7 @@ namespace Subtext.Web.UI.Controls
 				int catID = UrlFormats.GetPostIDFromUrl(Request.Path);
 				_baseImagePath = Images.HttpGalleryFilePath(Context,catID);
 
-				ImageCollection ic = Images.GetImagesByCategoryID(catID,true);
+				ImageCollection ic = Images.GetImagesByCategoryID(catID, true);
 				if(ic != null)
 				{
 					GalleryTitle.Text = ic.Category.Title;

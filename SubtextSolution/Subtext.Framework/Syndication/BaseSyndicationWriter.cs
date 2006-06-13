@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using Subtext.Framework.Components;
@@ -147,8 +148,8 @@ namespace Subtext.Framework.Syndication
             set {this._allowComments = value;}
         }
 
-        private EntryCollection _entries;
-        public EntryCollection Entries
+        private IList<Entry> _entries;
+        public IList<Entry> Entries
         {
             get {return this._entries;}
             set {this._entries = value;}

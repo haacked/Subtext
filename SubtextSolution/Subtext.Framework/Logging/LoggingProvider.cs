@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Specialized;
 using Subtext.Extensibility.Providers;
+using Subtext.Framework.Components;
 using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 
@@ -45,7 +46,7 @@ namespace Subtext.Framework.Logging
 		/// <param name="pageSize">Size of the page.</param>
 		/// <param name="sortDirection">The sort direction.</param>
 		/// <returns></returns>
-		public abstract PagedLogEntryCollection GetPagedLogEntries(int pageIndex, int pageSize, SortDirection sortDirection);
+        public abstract IPagedCollection<LogEntry> GetPagedLogEntries(int pageIndex, int pageSize, SortDirection sortDirection);
 
 		/// <summary>
 		/// Clears the log.

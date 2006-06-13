@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Web.UI;
 using Subtext.Framework;
@@ -80,7 +81,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			if (NullValue.NullInt32 != imageID)
 			{
-				LinkCategoryCollection selectionList = Links.GetCategories(CategoryType.ImageCollection, false);
+                ICollection<LinkCategory> selectionList = Links.GetCategories(CategoryType.ImageCollection, false);
 				if (selectionList.Count > 0)
 				{
 					ddlGalleries.DataSource = selectionList;

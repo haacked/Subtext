@@ -28,27 +28,27 @@ namespace Subtext.Framework.Components
 		//--------------------------------------------------------------
 
 		//Get Content
-		public abstract List<EntryDay> GetRecentDayPosts(int ItemCount, bool ActiveOnly);
-		public abstract List<EntryDay> GetPostsByMonth(int month, int year);
+		public abstract ICollection<EntryDay> GetRecentDayPosts(int itemCount, bool activeOnly);
+        public abstract ICollection<EntryDay> GetPostsByMonth(int month, int year);
 
-		public abstract EntryCollection GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly);
-		public abstract EntryCollection GetRecentPosts(int ItemCount, PostType postType, bool ActiveOnly, DateTime DateUpdated);
+        public abstract IList<Entry> GetRecentPosts(int itemCount, PostType postType, bool activeOnly);
+        public abstract IList<Entry> GetRecentPosts(int itemCount, PostType postType, bool activeOnly, DateTime DateUpdated);
 
-		public abstract	EntryCollection GetRecentPostsWithCategories(int ItemCount, bool ActiveOnly);
+        public abstract ICollection<CategoryEntry> GetRecentPostsWithCategories(int itemCount, bool activeOnly);
 
-		public abstract EntryCollection GetPostCollectionByMonth(int month, int year);
-		public abstract EntryCollection GetEntriesByDateRangle(DateTime start, DateTime stop, PostType postType, bool ActiveOnly);
+		public abstract IList<Entry> GetPostCollectionByMonth(int month, int year);
+		public abstract IList<Entry> GetEntriesByDateRangle(DateTime start, DateTime stop, PostType postType, bool activeOnly);
 
-		public abstract EntryCollection GetFeedBack(int PostID);
+		public abstract IList<Entry> GetFeedBack(int PostID);
 		
 		public abstract EntryDay GetSingleDay(DateTime dt);
 		
-		public abstract Entry GetSingleEntry(int postID, bool ActiveOnly);
-		public abstract CategoryEntry GetSingleCategoryEntry(int postID, bool ActiveOnly);
+		public abstract Entry GetSingleEntry(int postID, bool activeOnly);
+		public abstract CategoryEntry GetSingleCategoryEntry(int postID, bool activeOnly);
 
 		//Provide a Raw view of the data for web services. ReadOnly 
-		public abstract DataSet RawEntries(int ItemCount, PostType postType, bool ActiveOnly);
-		public abstract DataSet RawEntriesByCategoryID(int ItemCount, int CategoryID, bool ActiveOnly);
+		public abstract DataSet RawEntries(int itemCount, PostType postType, bool activeOnly);
+		public abstract DataSet RawEntriesByCategoryID(int itemCount, int CategoryID, bool activeOnly);
 
 	
 		public abstract BlogInfo GetBlogInfo(string host, string subfolder);
@@ -71,34 +71,32 @@ namespace Subtext.Framework.Components
 		//-------------------------------------------------------------------
 
 		//Content and Links
-		public abstract List<EntryDay> GetPostsByCategoryID(int ItemCount, int catID);
+        public abstract ICollection<EntryDay> GetPostsByCategoryID(int itemCount, int catID);
 		
-		public abstract EntryCollection GetEntriesByCategory(int ItemCount, int catID, bool ActiveOnly);
-		public abstract EntryCollection GetEntriesByCategory(int ItemCount, int catID, DateTime DateUpdated, bool ActiveOnly);
+		public abstract IList<Entry> GetEntriesByCategory(int itemCount, int catID, bool activeOnly);
+		public abstract IList<Entry> GetEntriesByCategory(int itemCount, int catID, DateTime DateUpdated, bool activeOnly);
 
 		//Just link content
-		public abstract LinkCollection GetLinksByCategoryID(int catID, bool ActiveOnly);
-
-		//LinkCategoryCollection GetAllCategories(CategoryType catType);
-		
-		public abstract Link GetSingleLink(int linkID);		
-		
-		public abstract LinkCategory GetLinkCategory(int catID);		
-		
-		public abstract LinkCategoryCollection GetActiveCategories();
-		
-		public abstract LinkCategoryCollection GetCategories(CategoryType catType, bool ActiveOnly);		
+		public abstract ICollection<Link> GetLinksByCategoryID(int catID, bool activeOnly);
 	
-		public abstract LinkCollection GetLinkCollectionByPostID(int PostID); 
+		public abstract Link GetSingleLink(int linkID);
 
-		public abstract LinkCategory GetPostsByMonthArchive();
+        public abstract ICollection<Link> GetLinkCategory(int catID);		
+		
+		public abstract ICollection<LinkCategory> GetActiveCategories();
+
+        public abstract ICollection<LinkCategory> GetCategories(CategoryType catType, bool activeOnly);		
+	
+		public abstract ICollection<Link> GetLinkCollectionByPostID(int PostID);
+
+        public abstract ICollection<Link> GetPostsByMonthArchive();
 		
 		public abstract void DeleteLink(int LinkID);
 		public abstract void DeleteCategory(int CatID);
 
 
 		//Update/Add/Remove
-		public abstract void AddEntryToCategories(int PostID, LinkCollection lc);
+		public abstract void AddEntryToCategories(int PostID, IList<Link> lc);
 		public abstract void UpdateLink(Link _link);
 		public abstract int InsertLink(Link _link);
 		public abstract void UpdateCategory(LinkCategory lc);
@@ -108,9 +106,9 @@ namespace Subtext.Framework.Components
 
 		#region Images
 
-		public abstract ImageCollection GetImagesByCategoryID(int catID, bool ActiveOnly);
+		public abstract ICollection<Image> GetImagesByCategoryID(int catID, bool activeOnly);
 
-		public abstract Image GetSingleImage(int imageID, bool ActiveOnly);
+		public abstract Image GetSingleImage(int imageID, bool activeOnly);
 
 		public abstract int InsertImage(Image _image);
 
@@ -131,21 +129,21 @@ namespace Subtext.Framework.Components
 
 		//Need generic PageItem collectin? 
 
-		public abstract PagedLinkCollection GetPagedLinks(int CategoryID, int pageIndex, int pageSize, bool sortDescending);
-		public abstract PagedEntryCollection GetPagedFeedback(int pageIndex, int pageSize, bool sortDescending);
-		public abstract PagedLogEntryCollection GetPagedLogEntries(int pageIndex, int pageSize, bool sortDescending);
-		public abstract PagedReferrerCollection GetPagedReferrers(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate);
-		public abstract PagedReferrerCollection GetPagedReferrers(int pageIndex, int pageSize, int EntryID);
-		public abstract PagedEntryCollection GetPagedEntries(PostType postType, int categoryTypeID, int pageIndex, int pageSize, bool sortDescending);
-		public abstract PagedViewStatCollection GetPagedViewStats(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate);
-		public abstract PagedKeyWordCollection GetPagedKeyWords(int pageIndex, int pageSize,bool sortDescending);
+        public abstract IPagedCollection<Link> GetPagedLinks(int CategoryID, int pageIndex, int pageSize, bool sortDescending);
+		public abstract IPagedCollection<Entry> GetPagedFeedback(int pageIndex, int pageSize, bool sortDescending);
+		public abstract IPagedCollection<LogEntry> GetPagedLogEntries(int pageIndex, int pageSize, bool sortDescending);
+        public abstract IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate);
+        public abstract IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize, int EntryID);
+        public abstract PagedCollection<Entry> GetPagedEntries(PostType postType, int categoryTypeID, int pageIndex, int pageSize, bool sortDescending);
+        public abstract IPagedCollection<ViewStat> GetPagedViewStats(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate);
+        public abstract IPagedCollection<KeyWord> GetPagedKeyWords(int pageIndex, int pageSize, bool sortDescending);
 
 
 		#endregion
 
 		#region KeyWords
 
-		public abstract KeyWordCollection GetKeyWords();
+		public abstract ICollection<KeyWord> GetKeyWords();
 		public abstract KeyWord GetKeyWord(int KeyWordID);
 		public abstract void UpdateKeyWord(KeyWord kw);
 		public abstract int InsertKeyWord(KeyWord kw);

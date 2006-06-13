@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -37,33 +38,32 @@ namespace Subtext.Common.Data
 		/// <returns></returns>
 		public static LinkCategory BuildLinks(string title, CategoryType catType, UrlFormats formats)
 		{
-			LinkCategoryCollection lcc = Links.GetCategories(catType,true);
+            ICollection<LinkCategory> lcc = Links.GetCategories(catType, true);
 			LinkCategory lc = null;
 			if(lcc != null && lcc.Count > 0)
 			{
 				lc = new LinkCategory();
-				int count = lcc.Count;
 				lc.Title = title;
-				lc.Links = new LinkCollection();
+				lc.Links = new List<Link>();
 				Link link;
-				for(int i = 0; i < count; i++)
+				foreach(LinkCategory linkCategory in lcc)
 				{
 					link = new Link();
-					
-					link.Title = lcc[i].Title;
+
+                    link.Title = linkCategory.Title;
 					switch(catType)
 					{
 						case CategoryType.StoryCollection:
-							link.Url =  formats.ArticleCategoryUrl(link.Title, lcc[i].CategoryID);
+                            link.Url = formats.ArticleCategoryUrl(link.Title, linkCategory.CategoryID);
 							break;
 						
 						case CategoryType.PostCollection:
-							link.Url = formats.PostCategoryUrl(link.Title, lcc[i].CategoryID);
+                            link.Url = formats.PostCategoryUrl(link.Title, linkCategory.CategoryID);
 							link.Rss = link.Url + "/rss";
 							break;
 						
 						case CategoryType.ImageCollection:
-							link.Url = formats.GalleryUrl(link.Title, lcc[i].CategoryID);
+                            link.Url = formats.GalleryUrl(link.Title, linkCategory.CategoryID);
 							break;
 
 					}
@@ -87,7 +87,7 @@ namespace Subtext.Common.Data
 
 			LinkCategory lc = new LinkCategory();
 			lc.Title = title;
-			lc.Links = new LinkCollection();
+			lc.Links = new List<Link>();
 			foreach(ArchiveCount ac in acc)
 			{
 				Link link = new Link();

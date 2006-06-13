@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
@@ -219,8 +220,7 @@ namespace Subtext.Web.Admin.UserControls
 		{
 			Edit.Visible = false;
 
-			PagedEntryCollection selectionList = Entries.GetPagedEntries(this.EntryType, _filterCategoryID, 
-				_resultsPageNumber, ResultsPager.PageSize,true);		
+            IPagedCollection<Entry> selectionList = Entries.GetPagedEntries(this.EntryType, _filterCategoryID, _resultsPageNumber, ResultsPager.PageSize, true);		
 
 			if (selectionList.Count > 0)
 			{				
@@ -303,7 +303,7 @@ namespace Subtext.Web.Admin.UserControls
 			for (int i =0; i < cklCategories.Items.Count;i++)
 				cklCategories.Items[i].Selected = false;
 
-			LinkCollection postCategories = Links.GetLinkCollectionByPostID(PostID);
+			ICollection<Link> postCategories = Links.GetLinkCollectionByPostID(PostID);
 			if (postCategories.Count > 0)
 			{
 				foreach(Link postCategory in postCategories)

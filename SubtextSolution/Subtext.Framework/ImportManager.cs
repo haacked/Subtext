@@ -62,7 +62,7 @@ namespace Subtext.Framework
 		{
 			ImportProvider.Instance(providerInfo).Import(populatedControl);
 
-			BlogInfoCollection blogs = null;
+            IPagedCollection<BlogInfo> blogs = null;
 			ObjectProvider objProvider = ObjectProvider.Instance();
 
 			int totalBlogCount = Config.BlogCount;
@@ -80,7 +80,7 @@ namespace Subtext.Framework
 			{
 				blogs = objProvider.GetPagedBlogs(currentPage, pageSize, true);
 
-				foreach (BlogInfo currentBlogInfo in blogs)
+				foreach(BlogInfo currentBlogInfo in blogs)
 				{
 					if (skins.GetTemplate(currentBlogInfo.Skin.SkinName) == null)
 					{

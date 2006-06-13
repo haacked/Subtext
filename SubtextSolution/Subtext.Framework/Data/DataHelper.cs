@@ -109,7 +109,7 @@ namespace Subtext.Framework.Data
 			return !(dtCurrent.DayOfYear == dtDay.DayOfYear && dtCurrent.Year == dtDay.Year);
 		}
 
-		public static List<EntryDay> LoadEntryDayCollection(IDataReader reader)
+        public static ICollection<EntryDay> LoadEntryDayCollection(IDataReader reader)
 		{
 			DateTime dt = new DateTime(1900,1,1);
 			List<EntryDay> edc = new List<EntryDay>();
@@ -134,9 +134,9 @@ namespace Subtext.Framework.Data
 
 		#region EntryCollection
 
-		public static EntryCollection LoadEntryCollection(IDataReader reader)
+		public static IList<Entry> LoadEntryCollection(IDataReader reader)
 		{
-			EntryCollection ec = new EntryCollection();
+            List<Entry> ec = new List<Entry>();
 			while(reader.Read())
 			{
 				ec.Add(LoadSingleEntry(reader));

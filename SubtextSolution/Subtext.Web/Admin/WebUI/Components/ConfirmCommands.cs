@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Web;
@@ -485,7 +486,7 @@ namespace Subtext.Web.Admin
 		{
 			try
 			{
-				ImageCollection imageList = Images.GetImagesByCategoryID(_targetID, false);
+				ICollection<Image> imageList = Images.GetImagesByCategoryID(_targetID, false);
 				
 				// delete the folder
 				string galleryFolder = Images.LocalGalleryFilePath(HttpContext.Current, _targetID);
@@ -629,7 +630,7 @@ namespace Subtext.Web.Admin
 	public class ImportLinksCommand : ConfirmCommand
 	{		
 		protected OpmlItemCollection _linksToImport;
-		protected LinkCollection _allLinks;
+		protected ICollection<Link> _allLinks;
 		protected int _categoryID = NullValue.NullInt32;
 
 		protected ImportLinksCommand() 

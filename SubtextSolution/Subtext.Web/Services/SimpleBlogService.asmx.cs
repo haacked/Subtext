@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Web.Services;
 using Subtext.Extensibility;
@@ -163,7 +164,7 @@ namespace Subtext.Web.Services
 		public string[] GetCategories(string username, string password)
 		{
 			CheckUser(username,password);
-			LinkCategoryCollection lcc = Links.GetCategories(CategoryType.PostCollection,false);
+            ICollection<LinkCategory> lcc = Links.GetCategories(CategoryType.PostCollection, false);
 			ArrayList al = new ArrayList();
 			foreach(LinkCategory lc in lcc)
 			{

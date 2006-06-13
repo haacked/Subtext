@@ -85,7 +85,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindList()
 		{
-			PagedEntryCollection selectionList = Entries.GetPagedFeedback(_resultsPageNumber, ResultsPager.PageSize,true);		
+            IPagedCollection<Entry> selectionList = Entries.GetPagedFeedback(_resultsPageNumber, ResultsPager.PageSize, true);		
 
 			if (selectionList.Count > 0)
 			{
