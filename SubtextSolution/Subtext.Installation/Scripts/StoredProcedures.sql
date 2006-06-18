@@ -1312,8 +1312,9 @@ GO
 
 
 /*
-I think this proc gets a page of blog posts 
-within the admin section.
+Selects a page of blog posts within the admin section.
+Updated this to use a more efficient paging technique:
+http://www.4guysfromrolla.com/webtech/041206-1.shtml
 */
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableEntries]
 (
@@ -1325,36 +1326,19 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableEntries]
 )
 AS
 
-DECLARE @PageLowerBound int
-DECLARE @PageUpperBound int
+DECLARE @FirstId int
+DECLARE @StartRow int
+DECLARE @StartRowIndex int
 
-SET @PageLowerBound = @PageSize * @PageIndex - @PageSize
-SET @PageUpperBound = @PageLowerBound + @PageSize + 1
+SET @StartRowIndex = @PageIndex * @PageSize + 1
 
-CREATE TABLE #TempPagedEntryIDs 
-(
-	TempID int IDENTITY (1, 1) NOT NULL,
-	EntryID int NOT NULL
-)	
+SET ROWCOUNT @StartRowIndex
+-- Get the first entry id for the current page.
+SELECT @FirstId = [ID] FROM subtext_Content ORDER BY [ID]
 
-IF NOT (@SortDesc = 1)
-BEGIN
-	INSERT INTO #TempPagedEntryIDs (EntryID)
-	SELECT	[ID] 
-	FROM [<dbUser,varchar,dbo>].[subtext_Content] 
-	WHERE 	BlogId = @BlogId 
-		AND PostType = @PostType
-	ORDER BY [ID]
-END
-ELSE
-BEGIN
-	INSERT INTO #TempPagedEntryIDs (EntryID)
-	SELECT	[ID] 
-	FROM [<dbUser,varchar,dbo>].[subtext_Content]
-	WHERE 	BlogId = @BlogId 
-		AND PostType = @PostType
-	ORDER BY [ID] DESC
-END
+-- Now, set the row count to MaximumRows and get
+-- all records >= @first_id
+SET ROWCOUNT @PageSize
 
 SELECT	content.BlogId 
 		, content.[ID] 
@@ -1381,16 +1365,11 @@ SELECT	content.BlogId
 		, vc.AggLastUpdated
 		
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
-    	INNER JOIN #TempPagedEntryIDs tmp ON (content.[ID] = tmp.EntryID)
 	Left JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
 WHERE 	content.BlogId = @BlogId 
-	AND tmp.TempID > @PageLowerBound 
-	AND tmp.TempID < @PageUpperBound
-ORDER BY tmp.TempID
+	AND content.[ID] >= @FirstId
+ORDER BY content.[ID]
  
-DROP TABLE #TempPagedEntryIDs
-
-
 SELECT COUNT([ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Content] 
 WHERE 	BlogId = @BlogId 
