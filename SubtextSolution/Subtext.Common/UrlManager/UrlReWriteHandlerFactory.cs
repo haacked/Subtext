@@ -120,12 +120,12 @@ namespace Subtext.Common.UrlManager
 				url = StringHelper.LeftBefore(url, "default.aspx", ComparisonType.CaseInsensitive);
 			}
 			
-            return BuildManager.CreateInstanceFromVirtualPath("~/DTP.aspx", typeof(Page)) as IHttpHandler;
+            return BuildManager.CreateInstanceFromVirtualPath(url, typeof(Page)) as IHttpHandler;
         }
 
 		private IHttpHandler ProcessHandlerTypeDirectory(HttpHandler item, HttpContext context, string url)
 		{
-            return BuildManager.CreateInstanceFromVirtualPath("~/DTP.aspx", typeof(Page)) as IHttpHandler;
+            return BuildManager.CreateInstanceFromVirtualPath(url, typeof(Page)) as IHttpHandler;
 		}
 
 
