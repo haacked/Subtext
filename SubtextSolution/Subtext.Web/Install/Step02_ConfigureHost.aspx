@@ -10,7 +10,7 @@
 		<li>Create a Blog</li>
 	</ol>
 	<asp:Literal id="ltlMessage" Runat="server"></asp:Literal>
-	<div>
+	<div class="bordered">
 		<p>
 			<table id="tblConfigForm" border="0" runat="server">
 				<tr>

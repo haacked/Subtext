@@ -1,8 +1,7 @@
 <%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <%@ Page language="c#" Codebehind="Step01_InstallData.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Install.Step01_InstallData" %>
 <MP:MasterPage id="MPContainer" TemplateFile="~/Install/PageTemplate.ascx" runat="server">
-	<MP:ContentRegion id="MPTitle" runat="server">Subtext Installation: Step 2 - Data 
-Installation</MP:ContentRegion>
+	<MP:ContentRegion id="MPTitle" runat="server">Subtext Installation: Step 2 - Data Installation</MP:ContentRegion>
 	<MP:ContentRegion id="MPSubTitle" runat="server">Step 2 - Data Installation</MP:ContentRegion>
 	<ol>
 		<li>Gather Installation Information</li>
@@ -10,7 +9,7 @@ Installation</MP:ContentRegion>
 		<li>Configure the Host Admin</li>
 		<li>Create a Blog</li>
 	</ol>
-	<div>
+	<div class="bordered">
 		<p>
 			You are now ready to install the Subtext database.
 		</p>
