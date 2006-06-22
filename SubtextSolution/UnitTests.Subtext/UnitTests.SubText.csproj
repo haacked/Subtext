@@ -146,6 +146,7 @@
       <Name>Refly</Name>
       <HintPath>ExternalDependencies\Refly.dll</HintPath>
     </Reference>
+    <Reference Include="Rhino.Mocks, Version=2.8.7.11026, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL" />
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -358,6 +359,8 @@
     <Content Include="ExternalDependencies\QuickGraph.Algorithms.Graphviz.dll" />
     <Content Include="ExternalDependencies\QuickGraph.dll" />
     <Content Include="ExternalDependencies\Refly.dll" />
+    <Content Include="ExternalDependencies\Rhino.Mocks.dll" />
+    <Content Include="ExternalDependencies\Rhino.Mocks.xml" />
     <Content Include="ExternalDependencies\TestFu.dll" />
     <EmbeddedResource Include="Resources\App.config" />
     <EmbeddedResource Include="Resources\Scripting\TestTemplateSqlScript.txt" />
