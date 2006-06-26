@@ -156,7 +156,7 @@ namespace Subtext.Framework.XmlRpc
 			Framework.BlogInfo info = Config.CurrentBlog;
 			ValidateUser(username,password,info.AllowServiceAccess);
 
-            ICollection<LinkCategory> lcc = Links.GetCategories(CategoryType.PostCollection, false);
+            ICollection<LinkCategory> lcc = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
 			if(lcc == null)
 			{
 				throw new XmlRpcFaultException(0,"No categories exist");
@@ -321,8 +321,8 @@ namespace Subtext.Framework.XmlRpc
 		public MtCategory[] GetCategoryList(string blogid, string username, string password)
 		{
 			ValidateUser(username,password,Config.CurrentBlog.AllowServiceAccess);
-			
-			ICollection<LinkCategory> lcc = Links.GetCategories(CategoryType.PostCollection,false);
+
+            ICollection<LinkCategory> lcc = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
 			if(lcc == null)
 			{
 				throw new XmlRpcFaultException(0, "No categories exist");
@@ -382,7 +382,7 @@ namespace Subtext.Framework.XmlRpc
 				// REFACTOR: Might prefer seeing a dictionary come back straight from the provider.
 				// for now we'll build our own catid->catTitle lookup--we need it below bc collection
 				// from post is going to be null for title.
-				ICollection<LinkCategory> cats = Links.GetCategories(CategoryType.PostCollection, false);
+                ICollection<LinkCategory> cats = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
 				Hashtable catLookup = new Hashtable(cats.Count);
 				foreach (LinkCategory currentCat in cats)
 					catLookup.Add(currentCat.CategoryID, currentCat.Title);

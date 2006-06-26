@@ -54,8 +54,10 @@ namespace Subtext.Web.Admin.Pages
 		{			
 			if (!IsPostBack)
 			{
-				if (null != Request.QueryString[Keys.QRYSTR_CATEGORYID])
-					_categoryType = (CategoryType)Convert.ToInt32(Request.QueryString[Keys.QRYSTR_CATEGORYID]);
+                if (null != Request.QueryString[Keys.QRYSTR_CATEGORYID])
+                {
+                    _categoryType = (CategoryType)Enum.Parse(typeof(CategoryType), Request.QueryString[Keys.QRYSTR_CATEGORYID]);
+                }
 
 				ckbNewIsActive.Checked = Preferences.AlwaysCreateIsActive;
 
@@ -90,7 +92,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindList()
 		{
-            ICollection<LinkCategory> cats = Links.GetCategories(_categoryType, false);
+            ICollection<LinkCategory> cats = Links.GetCategories(_categoryType, ActiveFilter.None);
 			dgrItems.DataSource = cats;
 			dgrItems.DataKeyField = "CategoryID";
 			dgrItems.DataBind();

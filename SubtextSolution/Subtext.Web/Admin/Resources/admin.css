@@ -221,13 +221,13 @@ div#BlogTitle a:hover, div#BlogTitle a:active {
 	background: inherit;
 }
 
-div#LeftNav li {
+div.LeftNavContent li {
 	display: block;
 	margin: 0;
 	padding: 0;
 }
 
-div#LeftNav ul {
+div.LeftNavContent ul {
 	display: block;
 	list-style: none;
 	margin: 4px 4px 4px 0px;
@@ -595,7 +595,7 @@ html>body #TopNav {
 	background: inherit;
 }
 
-#LeftNav {
+.LeftNavContent {
 	width:auto;
 	font-size: 85%;
 	padding: 8px;
@@ -690,6 +690,7 @@ table.highlightTable tr.highlightAlt td
   }
 
 
+body.Posts li#PostsTab,
 body#Posts li#PostsTab,
 body#Articles li#ArticlesTab,
 body#Feedback li#FeedbackTab,
@@ -703,6 +704,7 @@ body#ImportExport li#ImportExportTab
   }
   
   
+body.Posts a#TabPosts,
 body#Posts a#TabPosts,
 body#Articles a#TabArticles,
 body#Feedback a#TabFeedback,

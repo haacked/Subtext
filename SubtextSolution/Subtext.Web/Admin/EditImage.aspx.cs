@@ -81,7 +81,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			if (NullValue.NullInt32 != imageID)
 			{
-                ICollection<LinkCategory> selectionList = Links.GetCategories(CategoryType.ImageCollection, false);
+                ICollection<LinkCategory> selectionList = Links.GetCategories(CategoryType.ImageCollection, ActiveFilter.None);
 				if (selectionList.Count > 0)
 				{
 					ddlGalleries.DataSource = selectionList;

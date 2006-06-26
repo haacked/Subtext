@@ -19,7 +19,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Providers;
 
 namespace Subtext.Framework
-{
+{ 
 	/// <summary>
 	/// Summary description for Links.
 	/// </summary>
@@ -59,9 +59,9 @@ namespace Subtext.Framework
 
         #region ICollection<LinkCategory>
 
-        public static ICollection<LinkCategory> GetCategories(CategoryType catType, bool activeOnly)
+        public static ICollection<LinkCategory> GetCategories(CategoryType catType, ActiveFilter status)
 		{
-			return ObjectProvider.Instance().GetCategories(catType, activeOnly);
+            return ObjectProvider.Instance().GetCategories(catType, status == ActiveFilter.ActiveOnly);
 		}
 
         public static ICollection<LinkCategory> GetActiveCategories()
@@ -121,9 +121,14 @@ namespace Subtext.Framework
 			return ObjectProvider.Instance().DeleteLink(LinkID);
 		}
 
-		#endregion
-
-		
+		#endregion	
 	}
+    
+    public enum ActiveFilter
+    {
+        None,
+        ActiveOnly,
+        InactiveOnly,
+    }
 }
 

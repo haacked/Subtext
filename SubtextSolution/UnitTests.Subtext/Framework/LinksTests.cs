@@ -43,7 +43,7 @@ namespace UnitTests.Subtext.Framework
 
 			// Create some categories
 			CreateSomeLinkCategories();
-            ICollection<LinkCategory> linkCategoryCollection = Links.GetCategories(CategoryType.LinkCollection, false);
+            ICollection<LinkCategory> linkCategoryCollection = Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.None);
 
             LinkCategory first = null;
             LinkCategory second = null;
@@ -88,7 +88,7 @@ namespace UnitTests.Subtext.Framework
 			CreateSomeLinkCategories();
 
 			// Retrieve the categories, grab the first one and update it
-            ICollection<LinkCategory> originalCategories = Links.GetCategories(CategoryType.LinkCollection, false);
+            ICollection<LinkCategory> originalCategories = Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.None);
 		    LinkCategory linkCat = null;
             foreach (LinkCategory linkCategory in originalCategories)
 		    {
@@ -101,7 +101,7 @@ namespace UnitTests.Subtext.Framework
 			bool updated = Links.UpdateLinkCategory(originalCategory);
 
 			// Retrieve the categories and find the one we updated
-			ICollection<LinkCategory> updatedCategories = Links.GetCategories(CategoryType.LinkCollection, false);
+            ICollection<LinkCategory> updatedCategories = Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.None);
 			LinkCategory updatedCategory = null;
 			foreach(LinkCategory lc in updatedCategories)
 				if (lc.CategoryID == originalCategory.CategoryID)

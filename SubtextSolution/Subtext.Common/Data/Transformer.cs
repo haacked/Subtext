@@ -36,7 +36,7 @@ namespace Subtext.Common.Data
 		/// <returns></returns>
 		public static LinkCategory BuildLinks(string title, CategoryType catType, UrlFormats formats)
 		{
-            ICollection<LinkCategory> lcc = Links.GetCategories(catType, true);
+            ICollection<LinkCategory> lcc = Links.GetCategories(catType, ActiveFilter.ActiveOnly);
 			LinkCategory lc = null;
 			if(lcc != null && lcc.Count > 0)
 			{
