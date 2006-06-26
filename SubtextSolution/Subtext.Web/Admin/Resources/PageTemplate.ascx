@@ -1,4 +1,5 @@
-<%@ Control Language="c#" AutoEventWireup="false" Codebehind="PageTemplate.ascx.cs" Inherits="Subtext.Web.Admin.PageTemplate" targetSchema="http://schemas.microsoft.com/intellisense/ie5" %>
+<%@ Control Language="c#" AutoEventWireup="false" targetSchema="http://schemas.microsoft.com/intellisense/ie5" %>
+<%@ Import namespace="Subtext.Framework.Configuration"%>
 <%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Register TagPrefix="ST" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <%@ Import Namespace = "Subtext.Web.Admin" %>
@@ -8,10 +9,10 @@
 		<title>
 			<ANW:PlaceHolder id="PageTitle" runat="server">Subtext - Manage</ANW:PlaceHolder>
 		</title>
-		<ST:ScriptTag id="NiceForms" type="text/javascript" src="~/admin/resources/Scripts/niceForms.js" runat="server" />
-		<ST:ScriptTag id="HelptipJs" type="text/javascript" src="~/admin/resources/Scripts/helptip.js" runat="server" />
-		<ST:ScriptTag id="AdminJs" type="text/javascript" src="~/admin/resources/Scripts/admin.js" runat="server" />
-		<ST:ScriptTag id="tableEffectsJS" type="text/javascript" src="~/admin/resources/Scripts/tableEffects.js" runat="server" />
+		<ST:ScriptTag id="NiceForms" src="~/admin/resources/Scripts/niceForms.js" runat="server" />
+		<ST:ScriptTag id="HelptipJs" src="~/admin/resources/Scripts/helptip.js" runat="server" />
+		<ST:ScriptTag id="AdminJs" src="~/admin/resources/Scripts/admin.js" runat="server" />
+		<ST:ScriptTag id="tableEffectsJS" src="~/admin/resources/Scripts/tableEffects.js" runat="server" />
 		<ANW:HeaderLink id="HelptipCss" rel="stylesheet" href="resources/scripts/helptip.css" linkType="text/css"
 			runat="server" />
 		<ANW:HeaderLink id="Css1" rel="stylesheet" href="resources/admin.css" linkType="text/css" runat="server" />
@@ -27,11 +28,11 @@
 					<td id="header">
 						<div id="SiteNav">
 							Logged in as <strong>
-								<asp:Literal Runat="server" ID="LoggedInUser" /></strong> (<asp:LinkButton id="LogoutLink" runat="server">logout</asp:LinkButton>) 
+								<asp:Literal Runat="server" ID="LoggedInUser" Text="<%# Config.CurrentBlog.Author %>" /></strong> (<asp:LinkButton id="LogoutLink" runat="server">logout</asp:LinkButton>) 
 							| <a href="http://www.subtextproject.com/" title="Subtext Project Site">Subtext Project Site</a>
 						</div>
 						<div id="BlogTitle">
-							<asp:HyperLink id="BlogTitleLink" runat="server" />
+							<asp:HyperLink id="BlogTitleLink" runat="server" ToolTip="Blog Home Page" NavigateUrl="<%# Config.CurrentBlog.HomeVirtualUrl %>" Text="<%# Config.CurrentBlog.Title %>" />
 						</div>
 					</td>
 				</tr>
@@ -46,7 +47,7 @@
 								<li id="ArticlesTab"><a href="EditArticles.aspx" id="TabArticles" title="Articles">Articles</a></li>
 								<li id="FeedbackTab"><a href="Feedback.aspx" id="TabFeedback" title="Feedback">Feedback</a></li>
 								<li id="LinksTab"><a href="EditLinks.aspx" id="TabLinks" title="Links">Links</a></li>
-								<li runat="server" id="GalleryTab">
+								<li runat="server" id="galleryTab" visible="<%# Config.Settings.AllowImages %>">
 									<a href="EditGalleries.aspx" id="TabGalleries" title="Galleries">Galleries</a>
 								</li>
 								<li id="StatsTab">
@@ -66,13 +67,13 @@
 				</tr>
 				<tr>
 					<td class="NavLeftCell">
-						<div id="LeftNav">
+						<div class="LeftNavContent">
 							<ANW:LinkList id="LinksActions" runat="server" />
 						</div>
 						<div class="LeftNavHeader">
 							<ANW:PlaceHolder id="LabelCategories" runat="server" />
 						</div>
-						<div id="LeftNav">
+						<div class="LeftNavContent">
 							<ANW:LinkList id="LinksCategories" runat="server" />
 						</div>
 					</td>

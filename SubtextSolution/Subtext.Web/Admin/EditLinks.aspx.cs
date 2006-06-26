@@ -177,7 +177,7 @@ namespace Subtext.Web.Admin.Pages
 
 		public void BindLinkCategories()
 		{
-            ICollection<LinkCategory> selectionList = Links.GetCategories(CategoryType.LinkCollection, false);
+            ICollection<LinkCategory> selectionList = Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.None);
 			if(selectionList != null && selectionList.Count != 0)
 			{
 				ddlCategories.DataSource = selectionList;

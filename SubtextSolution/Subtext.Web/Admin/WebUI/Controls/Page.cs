@@ -51,7 +51,6 @@ namespace Subtext.Web.Admin.WebUI
 		private const string DEFAULT_CONTENT = "Admin.DefaultContent";
 		private const string CONTROL_BODY = "AdminSection";
 		private const string CONTROL_LOGOUT_LINK = "LogoutLink";
-		private const string CONTROL_BLOGTITLE = "BlogTitleLink";
 		private const string CONTROL_CATEGORIES_LABEL = "LabelCategories";		
 		private const string CONTROL_CATEGORIES = "LinksCategories";
 		private const string CONTROL_ACTIONS_LABEL = "LabelActions";
@@ -74,7 +73,6 @@ namespace Subtext.Web.Admin.WebUI
 		private PlaceHolder _titleControl;
 		protected LinkButton _logoutLink;
 		private string _tabSectionID;	
-		private HyperLink _blogTitle;
 		private string _categoriesLabel = "Categories";
 		private string _actionsLabel = "Actions";
 		private LinkList _categories;
@@ -222,13 +220,6 @@ namespace Subtext.Web.Admin.WebUI
 			if (null != body) 
 				_body = body;
 
-			// REFACTOR: abstract next three
-			Control blogTitle = _template.FindControl(CONTROL_BLOGTITLE);
-			if (blogTitle == null || !(blogTitle is HyperLink)) 
-				throw new Exception("Cannot find template control: " + CONTROL_BLOGTITLE);
-			else
-				_blogTitle = (HyperLink)blogTitle;
-
 			Control categories = _template.FindControl(CONTROL_CATEGORIES);
 			if (categories == null || !(categories is LinkList)) 
 			{
@@ -340,7 +331,7 @@ namespace Subtext.Web.Admin.WebUI
 				}
 
 				// get all the categories for this type, and then add filtering links for each
-                ICollection<LinkCategory> cats = Links.GetCategories((CategoryType)_catType, false);
+                ICollection<LinkCategory> cats = Links.GetCategories((CategoryType)_catType, ActiveFilter.None);
 				foreach (LinkCategory current in cats)
 				{
 					if(_categories != null)
@@ -352,10 +343,6 @@ namespace Subtext.Web.Admin.WebUI
 			}			
 
 			_body.ID = _tabSectionID;
-			_blogTitle.Target = String.Empty;
-			_blogTitle.Attributes["title"] = "Blog home";
-			_blogTitle.NavigateUrl = Config.CurrentBlog.HomeVirtualUrl;
-			_blogTitle.Text = Config.CurrentBlog.Title;
 		}
 
 		public void AddToActions(LinkButton lkb)

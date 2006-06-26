@@ -14,12 +14,15 @@
 #endregion
 
 using System;
+using System.ComponentModel;
 using System.Globalization;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Web.Admin.WebUI;
 using Subtext.Web.Controls;
 
 namespace Subtext.Web.Admin.Pages
@@ -39,23 +42,46 @@ namespace Subtext.Web.Admin.Pages
 	{
 		private const string TESTCOOKIE_NAME = "TestCookie";
 
+        private HtmlGenericControl body;
 		private ConfirmCommand _command;
 		
 		protected override void OnLoad(EventArgs e)
 		{		
 			if(!Security.IsAdmin)
 			{
-				Response.Redirect(Config.CurrentBlog.VirtualUrl + "Login.aspx?ReturnUrl=" + Request.Path);
+				Response.Redirect(Config.CurrentBlog.VirtualUrl + "Login.aspx?ReturnUrl=" + Request.Path, false);
+			    return;
 			}
 
+            if (this.Page.Master != null)
+            {
+                this.body = this.Page.Master.FindControl("AdminSection") as HtmlGenericControl;
+                if(this.body != null)
+                {
+                    this.body.Attributes["class"] = this.TabSectionId;
+                }
+            }
+            
 			// REFACTOR: we really need a singleton indicator per session or run this initial 
 			// dummy run in OnSessionStart. But we'll add the overhead for now. We can look at
 			// putting it in the default.aspx, but that fails to work on direct url access.
 			AreCookiesAllowed();
 
 			ControlHelper.ApplyRecursively(new ControlAction(SetTextBoxStyle), this);
+		    if(!IsPostBack)
+		    {
+		        DataBind();
+		    }
 			base.OnLoad(e);
 		}
+	    
+	    protected AdminPageTemplate AdminMasterPage
+	    {
+	        get
+	        {
+                return (AdminPageTemplate)this.Page.Master;
+	        }
+	    }
 
 		void SetTextBoxStyle(Control control)
 		{
@@ -138,6 +164,17 @@ namespace Subtext.Web.Admin.Pages
 			get { return _command; }
 			set { _command = value; }
 		}
+
+        [Category("Page")]
+        [Description("Page tab section identifier")]
+        [Browsable(true)]
+        public string TabSectionId
+        {
+            get { return tabSectionId; }
+            protected set { tabSectionId = value;}
+        }
+        string tabSectionId;
+
 	}
 }
 

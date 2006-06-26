@@ -90,7 +90,7 @@ namespace Subtext.Web.Admin.Pages
 		private void BindList()
 		{
 			// TODO: possibly, later on, add paging support a la other cat editors
-            ICollection<LinkCategory> selectionList = Links.GetCategories(CategoryType.ImageCollection, false);
+            ICollection<LinkCategory> selectionList = Links.GetCategories(CategoryType.ImageCollection, ActiveFilter.None);
 
 			if (selectionList.Count > 0)
 			{

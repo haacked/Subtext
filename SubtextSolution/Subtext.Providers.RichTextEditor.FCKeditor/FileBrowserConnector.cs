@@ -314,7 +314,7 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 		{
 			if(currentFolder.Equals("/") )
 			{
-				ICollection<LinkCategory> catList = Links.GetCategories(CategoryType.PostCollection, false);
+                ICollection<LinkCategory> catList = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
 
 				// Create the "Folders" node.
 				XmlNode oFoldersNode = XmlUtil.AppendElement( connectorNode, "Folders" ) ;

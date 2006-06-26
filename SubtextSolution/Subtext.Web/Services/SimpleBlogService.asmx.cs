@@ -164,7 +164,7 @@ namespace Subtext.Web.Services
 		public string[] GetCategories(string username, string password)
 		{
 			CheckUser(username,password);
-            ICollection<LinkCategory> lcc = Links.GetCategories(CategoryType.PostCollection, false);
+            ICollection<LinkCategory> lcc = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
 			ArrayList al = new ArrayList();
 			foreach(LinkCategory lc in lcc)
 			{

@@ -112,7 +112,7 @@ namespace Subtext.Web.Services
 			
 			if(ValidateUser())
 			{
-				return Links.GetCategories(CategoryType,false);
+                return Links.GetCategories(CategoryType, ActiveFilter.None);
 			}
 			return null;
 		}
