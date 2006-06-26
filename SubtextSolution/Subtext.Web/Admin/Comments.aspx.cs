@@ -15,42 +15,20 @@
 
 using System;
 using System.Globalization;
-using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
-using Subtext.Web.Admin.WebUI;
-using Subtext.Web.Controls;
 
 namespace Subtext.Web.Admin.Pages
 {
 	/// <summary>
 	/// Summary description for Comments.
 	/// </summary>
-	public class Comments : AdminOptionsPage
+	public partial class Comments : AdminOptionsPage
 	{
 		private const string RES_SUCCESS = "Your comment settings were successfully updated.";
 		private const string RES_FAILURE = "Comment settings update failed.";
-
-		protected MessagePanel Messages;
-		protected CheckBox chkEnableComments;
-		protected CheckBox chkEnableTrackbacks;
-		protected CheckBox chkCoCommentEnabled;
-		protected TextBox txtCommentDelayIntervalMinutes;
-		protected TextBox txtDaysTillCommentsClosed;
-		protected Button lkbPost;
-		protected AdvancedPanel Edit;
-		protected HelpToolTip HelpToolTip1;
-		protected HelpToolTip Helptooltip5;
-		protected HelpToolTip HelpToolTip2;
-		protected HelpToolTip Helptooltip3;
-		protected HelpToolTip Helptooltip4;
-		protected CheckBox chkAllowDuplicates;
-		protected TextBox txtNumberOfRecentComments;
-		protected Subtext.Web.Controls.HelpToolTip Helptooltip7;
-		protected Subtext.Web.Controls.HelpToolTip Helptooltip8;
-		protected TextBox txtRecentCommentsLength;
 	    
-		private void Page_Load(object sender, EventArgs e)
+		protected void Page_Load(object sender, EventArgs e)
 		{
 			if (!IsPostBack)
 			{

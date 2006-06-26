@@ -692,6 +692,7 @@ table.highlightTable tr.highlightAlt td
 
 body.Posts li#PostsTab,
 body#Posts li#PostsTab,
+body.Articles li#ArticlesTab,
 body#Articles li#ArticlesTab,
 body#Feedback li#FeedbackTab,
 body#Links li#LinksTab,
@@ -707,6 +708,7 @@ body#ImportExport li#ImportExportTab
   
 body.Posts a#TabPosts,
 body#Posts a#TabPosts,
+body.Articles a#TabArticles,
 body#Articles a#TabArticles,
 body#Feedback a#TabFeedback,
 body#Links a#TabLinks,
