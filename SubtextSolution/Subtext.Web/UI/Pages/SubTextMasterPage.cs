@@ -62,12 +62,15 @@ namespace Subtext.Web.UI.Pages
 			SpecifyDocType();
 
 			string[] controls = Subtext.Common.UrlManager.HandlerConfiguration.GetControls(Context);
-			foreach(string control in controls)
-			{
-				Control c = LoadControl(string.Format(ControlLocation, skin, control));
-				c.ID = control;
-				CenterBodyControl.Controls.Add(c);
-			}
+            if (controls != null)
+            {
+                foreach (string control in controls)
+                {
+                    Control c = LoadControl(string.Format(ControlLocation, skin, control));
+                    c.ID = control;
+                    CenterBodyControl.Controls.Add(c);
+                }
+            }
 
 			string path = (HttpContext.Current.Request.ApplicationPath + "/skins/" + skin + "/").Replace("//","/");
 
@@ -85,7 +88,6 @@ namespace Subtext.Web.UI.Pages
 			{
 				//MAC IE does not like the empy CSS file..plus its a waste :)
 				SecondaryCss.Visible = false;
-
 			}
 			
 			if(RSSLink != null)

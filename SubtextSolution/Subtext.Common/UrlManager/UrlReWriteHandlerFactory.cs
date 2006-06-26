@@ -102,29 +102,32 @@ namespace Subtext.Common.UrlManager
 
 		private IHttpHandler ProcessHandlerTypePage(HttpHandler item, HttpContext context, string url)
 		{
-			string pagepath = item.FullPageLocation;
+			string pagepath = item.PageLocation;
 			if(pagepath == null)
 			{
-				pagepath = HandlerConfiguration.Instance().FullPageLocation;
+				pagepath = HandlerConfiguration.Instance().DefaultPageLocation;
 			}
-			HandlerConfiguration.SetControls(context, item.BlogControls);
-			
-			// When setting the debug flag to false in Web.config --- 
-			// <compilation defaultLanguage="c#" debug="false" /> 
-			// An initial request for http://domain/default.aspx will 
-			// return a compiled "default.aspx" instead of "DTP.aspx" 
-			// as it should be.
-			// The following hack fixes it.
-			if(StringHelper.EndsWith(url, "/default.aspx", ComparisonType.CaseInsensitive))
-			{
-				url = StringHelper.LeftBefore(url, "default.aspx", ComparisonType.CaseInsensitive);
-			}
-			
-            return BuildManager.CreateInstanceFromVirtualPath("~/DTP.aspx", typeof(Page)) as IHttpHandler;
+			HandlerConfiguration.SetControls(context, item.BlogControls);			
+            return BuildManager.CreateInstanceFromVirtualPath("/" + pagepath, typeof(Page)) as IHttpHandler;
         }
 
 		private IHttpHandler ProcessHandlerTypeDirectory(HttpHandler item, HttpContext context, string url)
 		{
+		    //Need to strip the blog subfolder part of url.
+		    if(Config.CurrentBlog != null && Config.CurrentBlog.Subfolder != null && Config.CurrentBlog.Subfolder.Length > 0)
+		    {
+                url = StringHelper.RightAfter(url, "/" + Config.CurrentBlog.Subfolder, ComparisonType.CaseInsensitive);
+                if (context.Request.ApplicationPath.Length > 0 && context.Request.ApplicationPath != "/")
+		        {
+		            //A bit ugly, but easily fixed later.
+                    url = ("/" + context.Request.ApplicationPath + "/" + url).Replace("//", "/");
+		        }
+		        if(url.EndsWith("/"))
+		        {
+                    url += "default.aspx";
+		        }
+		    }
+		    
             return BuildManager.CreateInstanceFromVirtualPath(url, typeof(Page)) as IHttpHandler;
 		}
 
