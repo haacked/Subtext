@@ -43,7 +43,7 @@ namespace Subtext.Web.Admin.Pages
 		
 		protected override void OnLoad(EventArgs e)
 		{		
-			if(!ValidateUser)
+			if(!Security.IsAdmin)
 			{
 				Response.Redirect(Config.CurrentBlog.VirtualUrl + "Login.aspx?ReturnUrl=" + Request.Path);
 			}
@@ -66,14 +66,6 @@ namespace Subtext.Web.Admin.Pages
 					textBox.CssClass = "textinput";
 				if(textBox.TextMode == TextBoxMode.MultiLine)
 					textBox.CssClass = "textarea";
-			}
-		}
-
-		private bool ValidateUser
-		{
-			get
-			{
-				return Security.IsAdmin || Security.IsHostAdmin;
 			}
 		}
 

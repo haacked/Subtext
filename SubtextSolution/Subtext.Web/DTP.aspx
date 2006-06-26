@@ -1,4 +1,4 @@
-<%@ Page language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Pages.SubtextMasterPage" %>
+﻿<%@ Page language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Pages.SubtextMasterPage" %>
 <%@ Register TagPrefix="DT" Namespace="Subtext.Web.UI.WebControls" Assembly="Subtext.Web" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <%@ Import Namespace="Subtext.Framework.Configuration" %>
@@ -24,9 +24,9 @@
 	<body>
 		<form id="Form1" method="post" runat="server">
 			<DT:MasterPage id="MPContainer" runat="server">
-				<DT:contentregion id="MPMain" runat="server">
+				<DT:ContentRegion id="MPMain" runat="server">
 					<asp:PlaceHolder id="CenterBodyControl" runat="server"></asp:PlaceHolder>
-				</DT:contentregion>
+				</DT:ContentRegion>
 			</DT:MasterPage>
 		</form>
 	</body>
