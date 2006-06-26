@@ -697,6 +697,7 @@ body#Feedback li#FeedbackTab,
 body#Links li#LinksTab,
 body#Galleries li#GalleryTab,
 body#Stats li#StatsTab,
+body.Options li#OptionsTab,
 body#Options li#OptionsTab,
 body#ImportExport li#ImportExportTab 
  {
@@ -711,6 +712,7 @@ body#Feedback a#TabFeedback,
 body#Links a#TabLinks,
 body#Galleries a#TabGalleries,
 body#Stats a#TabStats,
+body.Options a#TabOptions,
 body#Options a#TabOptions,
 body#ImportExport a#TabImportExport  {
   background-image:url("right_on.gif");

@@ -49,7 +49,7 @@ namespace Subtext.Web.Admin.Pages
 		protected Subtext.Web.Controls.HelpToolTip Helptooltip7;
 		protected Subtext.Web.Controls.HelpToolTip Helptooltip8;
 		protected TextBox txtRecentCommentsLength;
-		
+	    
 		private void Page_Load(object sender, EventArgs e)
 		{
 			if (!IsPostBack)

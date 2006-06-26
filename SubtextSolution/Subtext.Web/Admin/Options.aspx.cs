@@ -23,6 +23,11 @@ namespace Subtext.Web.Admin.Pages
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Results;
 		protected Subtext.Web.Admin.WebUI.Page PageContainer;
 	
+	    public AdminOptionsPage()
+	    {
+            TabSectionId = "Options";
+	    }
+	    
 		private void Page_Load(object sender, System.EventArgs e)
 		{
 			BindLocalUI();
@@ -33,22 +38,18 @@ namespace Subtext.Web.Admin.Pages
 			HyperLink lnkConfigure = Utilities.CreateHyperLink("Configure", "Configure.aspx");
 			HyperLink lnkSyndication = Utilities.CreateHyperLink("Syndication", "Syndication.aspx");
 			HyperLink lnkComments = Utilities.CreateHyperLink("Comments", "Comments.aspx");
-			HyperLink linkKeyWords		= Utilities.CreateHyperLink("Key Words", "EditKeyWords.aspx");
-			HyperLink lnkPasswords		= Utilities.CreateHyperLink("Password", "Password.aspx");
-			HyperLink lnkPreferences		= Utilities.CreateHyperLink("Preferences", "Preferences.aspx");
+			HyperLink linkKeyWords = Utilities.CreateHyperLink("Key Words", "EditKeyWords.aspx");
+			HyperLink lnkPasswords = Utilities.CreateHyperLink("Password", "Password.aspx");
+			HyperLink lnkPreferences = Utilities.CreateHyperLink("Preferences", "Preferences.aspx");
 
 			// Add the buttons to the PageContainer.
-			PageContainer.AddToActions(lnkConfigure);
-			PageContainer.AddToActions(lnkSyndication);
-			PageContainer.AddToActions(lnkComments);
-			PageContainer.AddToActions(linkKeyWords);
-			PageContainer.AddToActions(lnkPasswords);
-			PageContainer.AddToActions(lnkPreferences);
-
+            AdminMasterPage.AddToActions(lnkConfigure);
+            AdminMasterPage.AddToActions(lnkSyndication);
+            AdminMasterPage.AddToActions(lnkComments);
+            AdminMasterPage.AddToActions(linkKeyWords);
+            AdminMasterPage.AddToActions(lnkPasswords);
+            AdminMasterPage.AddToActions(lnkPreferences);
 		}
-
-
-
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
