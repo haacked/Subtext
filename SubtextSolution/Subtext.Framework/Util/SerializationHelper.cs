@@ -48,6 +48,18 @@ namespace Subtext.Framework.Util
 			}
 		}
 
+        /// <summary>
+        /// Loads the specified type based on the specified stream.
+        /// </summary>
+        /// <param name="type">Type.</param>
+        /// <param name="stream">stream containing the type.</param>
+        /// <returns></returns>
+        public static object Load(Type type, Stream stream)
+        {
+            XmlSerializer serializer = new XmlSerializer(type);
+            return serializer.Deserialize(stream);
+        }
+
 
 		/// <summary>
 		/// Saves the specified object at the specified location 
