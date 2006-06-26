@@ -15,8 +15,9 @@
 
 using System;
 using System.Collections;
+using System.IO;
 using System.Web;
-using System.Web.Caching;
+using System.Web.Hosting;
 using System.Xml.Serialization;
 using Subtext.Framework.Util;
 
@@ -33,11 +34,15 @@ namespace Subtext.Framework.UI.Skinning
 			SkinTemplates st = (SkinTemplates)HttpContext.Current.Cache["SkinTemplates"];
 			if(st == null)
 			{
-				string filename = HttpContext.Current.Request.MapPath("~/Admin/Skins.config");
-				st = (SkinTemplates)SerializationHelper.Load(typeof(SkinTemplates),filename);
+                VirtualPathProvider vpathProvider = HostingEnvironment.VirtualPathProvider;
+                VirtualFile virtualConfigFile = vpathProvider.GetFile("~/Admin/Skins.config");
+                using (Stream configStream = virtualConfigFile.Open())
+                {
+                    st = (SkinTemplates)SerializationHelper.Load(typeof(SkinTemplates), configStream);
+                }
 				if(st != null)
 				{
-					HttpContext.Current.Cache.Insert("SkinTemplates", st, new CacheDependency(filename));
+					HttpContext.Current.Cache.Insert("SkinTemplates", st, vpathProvider.GetCacheDependency("~/Admin/Skins.config", null, DateTime.Now.ToUniversalTime()));
 				}
 			}
 			return st;
