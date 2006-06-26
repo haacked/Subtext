@@ -1368,6 +1368,7 @@ FROM [<dbUser,varchar,dbo>].[subtext_Content] content
 	Left JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
 WHERE 	content.BlogId = @BlogId 
 	AND content.[ID] >= @FirstId
+	AND PostType = @PostType
 ORDER BY content.[ID]
  
 SELECT COUNT([ID]) AS TotalRecords

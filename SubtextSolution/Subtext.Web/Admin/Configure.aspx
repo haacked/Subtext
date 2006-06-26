@@ -1,9 +1,20 @@
-<%@ Page language="c#" Codebehind="Configure.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.Configure" %>
-<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
-<%@ Register TagPrefix="SP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
-<ANW:PAGE id="PageContainer" Categorieslabel="Other Items" TabSectionID="Options" runat="server">
-	<ANW:MessagePanel id="Messages" runat="server"></ANW:MessagePanel>
-	<ANW:AdvancedPanel id="Edit" runat="server" Collapsible="False" HeaderText="Configure" HeaderCssClass="CollapsibleHeader"
+<%@ Page language="c#" Title="Subtext Admin - Configure" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="Configure.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.Configure" %>
+<%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
+<%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
+
+<asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
+    Actions
+</asp:Content>
+
+<asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server">
+</asp:Content>
+
+<asp:Content ID="categoriesLinkListing" ContentPlaceHolderID="categoryListLinks" runat="server">
+</asp:Content>
+    
+<asp:Content ID="configurationOptions" ContentPlaceHolderID="pageContent" runat="server">
+	<st:MessagePanel id="Messages" runat="server"></st:MessagePanel>
+	<st:AdvancedPanel id="Edit" runat="server" Collapsible="False" HeaderText="Configure" HeaderCssClass="CollapsibleHeader"
 		BodyCssClass="Edit" DisplayHeader="true">
 		<fieldset>
 			<legend>Enter configuration settings</legend>
@@ -266,7 +277,7 @@
 				<asp:DropDownList id="ddlSkin" runat="server"></asp:DropDownList></p>
 			<p>
 				<label class="Block" accessKey="c" for="Edit_txbSecondaryCss">
-				<SP:HelpToolTip id="HelpToolTip1" runat="server" HelpText="You can enter custom CSS within this block.  Be careful as the tool will not validate the CSS.  This CSS will be included (as a proper link) within every page of your blog."><u>C</u>ustom CSS</SP:HelpToolTip>
+				<st:HelpToolTip id="HelpToolTip1" runat="server" HelpText="You can enter custom CSS within this block.  Be careful as the tool will not validate the CSS.  This CSS will be included (as a proper link) within every page of your blog."><u>C</u>ustom CSS</st:HelpToolTip>
 				</label>
 				<asp:TextBox id="txbSecondaryCss" runat="server" CssClass="textarea" TextMode="MultiLine"></asp:TextBox>
 			</p>
@@ -282,5 +293,5 @@
 				<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Save"></asp:Button>
 			</div>
 		</fieldset>
-	</ANW:AdvancedPanel>
-</ANW:PAGE>
+	</st:AdvancedPanel>
+</asp:Content>

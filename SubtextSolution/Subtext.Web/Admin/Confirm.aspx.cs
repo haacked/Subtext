@@ -19,7 +19,7 @@ namespace Subtext.Web.Admin.Pages
 {
 	public class Confirm : AdminPage
 	{
-		new protected Subtext.Web.Admin.WebUI.AdvancedPanel Header;
+		protected Subtext.Web.Admin.WebUI.AdvancedPanel Header;
 		protected System.Web.UI.WebControls.Label lblOutput;
 		protected Subtext.Web.Admin.WebUI.Page PageContainer;
 		protected System.Web.UI.WebControls.Button lkbContinue;
@@ -27,6 +27,11 @@ namespace Subtext.Web.Admin.Pages
 		protected System.Web.UI.WebControls.Button lkbNo;
 		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
 	
+	    public Confirm()
+	    {
+            this.TabSectionId = "Posts";
+	    }
+	    
 		private void Page_Load(object sender, System.EventArgs e)
 		{
 			if (!IsPostBack)

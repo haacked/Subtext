@@ -18,9 +18,8 @@ using System.Web.UI.WebControls;
 
 namespace Subtext.Web.Admin.Pages
 {
-	public class AdminOptionsPage : AdminPage
+	public partial class AdminOptionsPage : AdminPage
 	{
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel Results;
 		protected Subtext.Web.Admin.WebUI.Page PageContainer;
 	
 	    public AdminOptionsPage()
@@ -28,7 +27,7 @@ namespace Subtext.Web.Admin.Pages
             TabSectionId = "Options";
 	    }
 	    
-		private void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			BindLocalUI();
 		}
@@ -67,7 +66,6 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion

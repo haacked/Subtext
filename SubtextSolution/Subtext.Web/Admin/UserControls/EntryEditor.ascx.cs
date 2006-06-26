@@ -300,7 +300,8 @@ namespace Subtext.Web.Admin.UserControls
 
 			ckbPublished.Checked = currentPost.IsActive;
 
-			for (int i =0; i < cklCategories.Items.Count;i++)
+            BindCategoryList();
+			for (int i = 0; i < cklCategories.Items.Count; i++)
 				cklCategories.Items[i].Selected = false;
 
 			ICollection<Link> postCategories = Links.GetLinkCollectionByPostID(PostID);
@@ -619,10 +620,12 @@ namespace Subtext.Web.Admin.UserControls
 					PostID = Convert.ToInt32(e.CommandArgument);
 					BindPostEdit();
 					break;
-				case "delete" :
+				
+			    case "delete" :
 					ConfirmDelete(Convert.ToInt32(e.CommandArgument));
 					break;
-				default:
+				
+			    default:
 					break;
 			}
 		}
