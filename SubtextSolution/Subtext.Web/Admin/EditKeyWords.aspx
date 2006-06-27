@@ -1,10 +1,20 @@
-<%@ Page language="c#" Codebehind="EditKeyWords.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.EditKeyWords" %>
+<%@ Page language="c#" Title="Subtext Admin - Edit Keywords" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master"  Codebehind="EditKeyWords.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.EditKeyWords" %>
 <%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
-<ANW:Page runat="server" id="PageContainer" TabSectionID="Options">
-	<ANW:MessagePanel id="Messages" runat="server"></ANW:MessagePanel>
+
+<asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
+</asp:Content>
+
+<asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server">
+</asp:Content>
+
+<asp:Content ID="categoriesLinkListing" ContentPlaceHolderID="categoryListLinks" runat="server">
+</asp:Content>
+
+<asp:Content ID="entryEditor" ContentPlaceHolderID="pageContent" runat="server">
+    <ANW:MessagePanel id="Messages" runat="server"></ANW:MessagePanel>
 	<ANW:AdvancedPanel id="Results" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True"
 		HeaderCssClass="CollapsibleHeader" HeaderText="KeyWords" LinkText="[toggle]" Collapsible="True">
-		<ASP:Repeater id="rprSelectionList" runat="server">
+		<ASP:Repeater id="rprSelectionList" runat="server" OnItemCommand="rprSelectionList_ItemCommand">
 			<HeaderTemplate>
 				<table id="Listing" class="Listing" cellSpacing="0" cellPadding="0" border="0" style="<%= CheckHiddenStyle() %>">
 					<tr>
@@ -65,43 +75,41 @@
 		<ANW:Pager id="ResultsPager" runat="server" UseSpacer="False" PrefixText="<div>Goto page</div>"
 			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' UrlFormat="EditKeyWords.aspx?pg={0}"
 			CssClass="Pager"></ANW:Pager>
-		<BR class="clear">
+		<br class="clear" />
 	</ANW:AdvancedPanel>
-	<asp:Button id="btnCreate" runat="server" CssClass="buttonSubmit" Text="Create New"></asp:Button>
+	<asp:Button id="btnCreate" runat="server" CssClass="buttonSubmit" Text="Create New" OnClick="btnCreate_Click" />
 	<ANW:AdvancedPanel id="Edit" runat="server" LinkStyle="Image" DisplayHeader="True" HeaderCssClass="CollapsibleTitle"
 		HeaderText="Edit KeyWord" Collapsible="False">
-		<DIV class="Edit"><!-- DEBUG -->
-			<P class="Label">Word
+		<div class="Edit"><!-- DEBUG -->
+			<p class="Label">Word
 				<asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" ControlToValidate="txbWord" ForeColor="#990066"
-					ErrorMessage="You must enter a word (Text to replace)"></asp:RequiredFieldValidator></P>
-			<P>
-				<asp:TextBox id="txbWord" runat="server" max="100" columns="255" width="98%"></asp:TextBox></P>
-			<P class="Label">Text
+					ErrorMessage="You must enter a word (Text to replace)"></asp:RequiredFieldValidator></p>
+			<p>
+				<asp:TextBox id="txbWord" runat="server" max="100" columns="255" width="98%"></asp:TextBox></p>
+			<p class="Label">Text
 				<asp:RequiredFieldValidator id="Requiredfieldvalidator2" runat="server" ControlToValidate="txbText" ForeColor="#990066"
-					ErrorMessage="You must enter the Text to be displayed"></asp:RequiredFieldValidator></P>
-			<P>
-				<asp:TextBox id="txbText" runat="server" columns="255" width="98%"></asp:TextBox></P>
-			<P class="Label">Url
+					ErrorMessage="You must enter the Text to be displayed"></asp:RequiredFieldValidator></p>
+			<p>
+				<asp:TextBox id="txbText" runat="server" columns="255" width="98%"></asp:TextBox></p>
+			<p class="Label">Url
 				<asp:RequiredFieldValidator id="Requiredfieldvalidator3" runat="server" ControlToValidate="txbUrl" ForeColor="#990066"
-					ErrorMessage="You must enter a Url"></asp:RequiredFieldValidator></P>
-			<P>
-				<asp:TextBox id="txbUrl" runat="server" columns="255" width="98%"></asp:TextBox></P>
-			<P class="Label">Title
-			</P>
-			<P>
-				<asp:TextBox id="txbTitle" runat="server" columns="255" width="98%"></asp:TextBox></P>
-			<P class="ValueLabel">New Window
+					ErrorMessage="You must enter a Url"></asp:RequiredFieldValidator></p>
+			<p>
+				<asp:TextBox id="txbUrl" runat="server" columns="255" width="98%"></asp:TextBox></p>
+			<p class="Label">Title
+			</p>
+			<p>
+				<asp:TextBox id="txbTitle" runat="server" columns="255" width="98%"></asp:TextBox></p>
+			<p class="ValueLabel">New Window
 				<asp:CheckBox id="chkNewWindow" runat="server" textalign="Left"></asp:CheckBox>&nbsp; 
 				Replace First Occurrence Only
 				<asp:CheckBox id="chkFirstOnly" runat="server" textalign="Left"></asp:CheckBox>&nbsp; 
 				Is CaseSensitive
-				<asp:CheckBox id="chkCaseSensitive" runat="server" textalign="Left"></asp:CheckBox></P>
-			<DIV>
-				<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Post"></asp:Button>
-				<asp:Button id="lkbCancel" runat="server" CssClass="buttonSubmit" Text="Cancel" CausesValidation="false"></asp:Button>&nbsp;
-			</DIV>
-		</DIV>
+				<asp:CheckBox id="chkCaseSensitive" runat="server" textalign="Left"></asp:CheckBox></p>
+			<div>
+				<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Post" OnClick="lkbPost_Click"></asp:Button>
+				<asp:Button id="lkbCancel" runat="server" CssClass="buttonSubmit" Text="Cancel" CausesValidation="false" OnClick="lkbCancel_Click" />&nbsp;
+			</div>
+		</div>
 	</ANW:AdvancedPanel>
-</ANW:Page>
-<DIV></DIV>
-<DIV></DIV>
+</asp:Content>

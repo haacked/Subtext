@@ -1,12 +1,25 @@
-<%@ Page language="c#" Codebehind="EditGalleries.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.EditGalleries" %>
+<%@ Page language="c#" Title="Subtext Admin - Edit Galleries" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="EditGalleries.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.EditGalleries" %>
 <%@ Register TagPrefix="sub" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
-<ANW:Page runat="server" id="PageContainer" TabSectionID="Galleries" CategoryType="ImageCollection">
+<%@ Register TagPrefix="st" TagName="CategoryLinks" Src="~/Admin/UserControls/CategoryLinkList.ascx" %>
+
+<asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
+</asp:Content>
+
+<asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server">
+    Galleries
+</asp:Content>
+
+<asp:Content ID="categoriesLinkListing" ContentPlaceHolderID="categoryListLinks" runat="server">
+    <st:CategoryLinks ID="categoryLinks" runat="server" CategoryType="ImageCollection" />
+</asp:Content>
+
+<asp:Content ID="galleriesContainer" ContentPlaceHolderID="pageContent" runat="server">
 	<sub:ScrollPositionSaver id="scrollsaver" runat="server" />
-	<ANW:MessagePanel id=Messages runat="server" ErrorIconUrl="~/admin/resources/ico_critical.gif" ErrorCssClass="ErrorPanel" MessageIconUrl="~/admin/resources/ico_info.gif" MessageCssClass="MessagePanel"></ANW:MessagePanel>
-	<ANW:AdvancedPanel id=Results runat="server" LinkStyle="Image" LinkImageCollapsed="~/admin/resources/toggle_gray_down.gif" LinkImage="~/admin/resources/toggle_gray_up.gif" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleHeader" HeaderText="Galleries" Collapsible="True">
+	<ANW:MessagePanel id="Messages" runat="server" ErrorIconUrl="~/admin/resources/ico_critical.gif" ErrorCssClass="ErrorPanel" MessageIconUrl="~/admin/resources/ico_info.gif" MessageCssClass="MessagePanel"></ANW:MessagePanel>
+	<ANW:AdvancedPanel id="Results" runat="server" LinkStyle="Image" LinkImageCollapsed="~/admin/resources/toggle_gray_down.gif" LinkImage="~/admin/resources/toggle_gray_up.gif" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleHeader" HeaderText="Galleries" Collapsible="True">
 	
-		<asp:DataGrid id=dgrSelectionList runat="server" CssClass="Listing highlightTable" GridLines="None" AutoGenerateColumns="False">
+		<asp:DataGrid id="dgrSelectionList" runat="server" CssClass="Listing highlightTable" GridLines="None" AutoGenerateColumns="False">
 			<AlternatingItemStyle CssClass="Alt"></AlternatingItemStyle>
 				<HeaderStyle CssClass="Header"></HeaderStyle>
 
@@ -43,15 +56,15 @@
 			</asp:DataGrid>
 		
 			<!-- add new item panel -->
-			<ANW:AdvancedPanel id=Add runat="server" DisplayHeader="true" HeaderCssClass="CollapsibleTitle" HeaderText="Add New Gallery" Collapsible="False" BodyCssClass="Edit">
-				<label class=Block>Title</label> 
+			<ANW:AdvancedPanel id="Add" runat="server" DisplayHeader="true" HeaderCssClass="CollapsibleTitle" HeaderText="Add New Gallery" Collapsible="False" BodyCssClass="Edit">
+				<label class="Block">Title</label> 
 					<asp:TextBox id=txbNewTitle runat="server" CssClass="textinput"></asp:TextBox>&nbsp; 
 					Visible <asp:CheckBox id=ckbNewIsActive runat="server" Checked="true"></asp:CheckBox>
 					<br />
-				<label class="Block">Description (1000 characters including HTML)</lable><br />
+				<label class="Block">Description (1000 characters including HTML)</label><br />
 				<asp:TextBox id="txbNewDescription" max="1000"  runat="server" CssClass="textarea" rows="5" textmode="MultiLine"></asp:TextBox>
 				<div style="MARGIN-TOP: 8px">
-					<asp:Button id=lkbPost runat="server" CssClass="buttonSubmit" Text="Add"></asp:Button><br />&nbsp; 
+					<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Add" onclick="lkbPost_Click"></asp:Button><br />&nbsp; 
 				</div>
 			</ANW:AdvancedPanel>
 		
@@ -59,17 +72,17 @@
 		
 		<!-- add/upload a new file -->
 		<ASP:Panel id="ImagesDiv" runat="server">
-			<ANW:AdvancedPanel id=AddImages runat="server" LinkStyle="Image" LinkImageCollapsed="~/admin/resources/toggle_gray_down.gif" LinkImage="~/admin/resources/toggle_gray_up.gif" LinkBeforeHeader="True" DisplayHeader="true" HeaderCssClass="CollapsibleTitle" HeaderText="Add New Image" Collapsible="True" BodyCssClass="Edit">		
+			<ANW:AdvancedPanel id="AddImages" runat="server" LinkStyle="Image" LinkImageCollapsed="~/admin/resources/toggle_gray_down.gif" LinkImage="~/admin/resources/toggle_gray_up.gif" LinkBeforeHeader="True" DisplayHeader="true" HeaderCssClass="CollapsibleTitle" HeaderText="Add New Image" Collapsible="True" BodyCssClass="Edit">		
 				<label class="Block">Local File Location</label> 
-				<input class=FileUpload id=ImageFile type=file size=82 name=ImageFile runat="server"> 
-				<br class="clear">
+				<input class="FileUpload" id="ImageFile" type="file" size="82" name="ImageFile" runat="server" /> 
+				<br class="clear" />
 				<label class="Block">Image Description</label> 
-				<asp:TextBox id=txbImageTitle runat="server" size="82" />&nbsp; 
-				Visible <asp:CheckBox id=ckbIsActiveImage runat="server" Checked="true"/>
+				<asp:TextBox id="txbImageTitle" runat="server" size="82" />&nbsp; 
+				Visible <asp:CheckBox id="ckbIsActiveImage" runat="server" Checked="true"/>
 				
 				<asp:Panel ID="PanelDefaultName" runat="server">
-				<div style="MARGIN-TOP: 8px">
-					<asp:Button id=lbkAddImage runat="server" OnClick="OnAddImage" CssClass="buttonSubmit" Text="Add" /><br /> 
+				<div style="margin-top: 8px">
+					<asp:Button id="lbkAddImage" runat="server" OnClick="OnAddImage" CssClass="buttonSubmit" Text="Add" /><br /> 
 				</div>
 				</asp:Panel>
 				
@@ -107,7 +120,6 @@
 					</div>
 				</FooterTemplate>
 			</ASP:Repeater>
-			<br class="clear">
+			<br class="clear" />
 		</ASP:Panel>
-		
-</ANW:Page>
+</asp:Content>

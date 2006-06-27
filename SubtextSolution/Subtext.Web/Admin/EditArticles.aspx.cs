@@ -44,7 +44,7 @@ namespace Subtext.Web.Admin.Pages
 
 			// REFACTOR: Structural issue btw Page and Container.
 			HyperLink lnkEditCategories = Utilities.CreateHyperLink("Edit Categories",
-                string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?{1}={2}", Constants.URL_EDITCATEGORIES, Keys.QRYSTR_CATEGORYID, categoryLinks.CategoryType));
+                string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?{1}={2}", Constants.URL_EDITCATEGORIES, Keys.QRYSTR_CATEGORYTYPE, categoryLinks.CategoryType));
             base.AdminMasterPage.AddToActions(lnkEditCategories);
 		}
 

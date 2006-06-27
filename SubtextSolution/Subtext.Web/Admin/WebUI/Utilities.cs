@@ -166,6 +166,7 @@ namespace Subtext.Web.Admin
 
 		internal const string QRYSTR_PAGEINDEX = "pg";
 		internal const string QRYSTR_CATEGORYID = "catid";
+        internal const string QRYSTR_CATEGORYTYPE = "catType";
 		internal const string QRYSTR_IMAGEID = "imgid";
 	}
 

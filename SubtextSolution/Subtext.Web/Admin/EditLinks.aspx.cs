@@ -27,7 +27,7 @@ namespace Subtext.Web.Admin.Pages
 	// TODO: import - reconcile duplicates
 	// TODO: CheckAll client-side, confirm bulk delete (add cmd)
 
-	public class EditLinks : AdminPage
+	public partial class EditLinks : AdminPage
 	{
 		private const string VSKEY_LINKID = "LinkID";
 
@@ -52,28 +52,8 @@ namespace Subtext.Web.Admin.Pages
 		private int _resultsPageNumber = 1;
 		private bool _isListHidden = false;
 
-		protected System.Web.UI.WebControls.Repeater rprSelectionList;
-		protected Subtext.Web.Admin.WebUI.Pager ResultsPager;
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel Results;
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel ImportExport;
-		protected System.Web.UI.HtmlControls.HtmlInputFile OpmlImportFile;
-		protected System.Web.UI.WebControls.Button lkbImportOpml;
-		protected System.Web.UI.WebControls.Label lblEntryID;
-		protected System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
-		protected System.Web.UI.WebControls.TextBox txbTitle;
-		protected System.Web.UI.WebControls.RequiredFieldValidator Requiredfieldvalidator2;
-		protected System.Web.UI.WebControls.TextBox txbUrl;
 		protected System.Web.UI.WebControls.CheckBoxList cklCategories;
-		protected System.Web.UI.WebControls.Button lkbPost;
-		protected System.Web.UI.WebControls.Button lkbCancel;
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
-		protected System.Web.UI.WebControls.CheckBox ckbIsActive;
-		protected System.Web.UI.WebControls.TextBox txbRss;
-		protected System.Web.UI.WebControls.DropDownList ddlCategories;
-		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
 		protected Subtext.Web.Admin.WebUI.Page PageContainer;
-		protected System.Web.UI.WebControls.CheckBox chkNewWindow;
-		protected System.Web.UI.WebControls.DropDownList ddlImportExportCategories;
 	
 		#region Accessors
 		public int LinkID
@@ -89,8 +69,13 @@ namespace Subtext.Web.Admin.Pages
 		}
 	
 		#endregion
+	    
+	    public EditLinks()
+	    {
+            this.TabSectionId = "Links";
+	    }
 
-		private void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			BindLocalUI();
 
@@ -120,9 +105,10 @@ namespace Subtext.Web.Admin.Pages
 			LinkButton lkbNewLink = Utilities.CreateLinkButton("New Link");
 			lkbNewLink.Click += new System.EventHandler(lkbNewLink_Click);
 			lkbNewLink.CausesValidation =false;
-			PageContainer.AddToActions(lkbNewLink);
-			HyperLink hlEditCategories = Utilities.CreateHyperLink("Edit Categories","EditCategories.aspx");
-			PageContainer.AddToActions(hlEditCategories);
+			AdminMasterPage.AddToActions(lkbNewLink);
+            HyperLink lnkEditCategories = Utilities.CreateHyperLink("Edit Categories",
+                string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?{1}={2}", Constants.URL_EDITCATEGORIES, Keys.QRYSTR_CATEGORYTYPE, CategoryType.LinkCollection));
+            AdminMasterPage.AddToActions(lnkEditCategories);
 		}
 
 		private void BindList()
@@ -313,15 +299,11 @@ namespace Subtext.Web.Admin.Pages
 		private void InitializeComponent()
 		{   
 			this.rprSelectionList.ItemCommand += new System.Web.UI.WebControls.RepeaterCommandEventHandler(this.rprSelectionList_ItemCommand);
-			this.lkbImportOpml.Click += new System.EventHandler(this.lkbImportOpml_Click);
-			this.lkbPost.Click += new System.EventHandler(this.lkbPost_Click);
-			this.lkbCancel.Click += new System.EventHandler(this.lkbCancel_Click);
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion 
 
-		private void lkbImportOpml_Click(object sender, System.EventArgs e)
+		protected void lkbImportOpml_Click(object sender, System.EventArgs e)
 		{
 			if (Page.IsValid) ImportOpml();
 		}
@@ -344,12 +326,12 @@ namespace Subtext.Web.Admin.Pages
 			}			
 		}
 
-		private void lkbCancel_Click(object sender, System.EventArgs e)
+		protected void lkbCancel_Click(object sender, System.EventArgs e)
 		{
 			ResetPostEdit(false);
 		}
 
-		private void lkbPost_Click(object sender, System.EventArgs e)
+		protected void lkbPost_Click(object sender, System.EventArgs e)
 		{
 			UpdateLink();
 		}
