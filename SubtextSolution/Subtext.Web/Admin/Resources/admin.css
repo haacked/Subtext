@@ -488,7 +488,7 @@ div.CollapsibleTitle a:hover {
 	background: inherit;
 }
 
-table.Listing td,
+table.Listing td
 {
 	border-bottom: 1px solid #E6E6E6;
 }
@@ -695,6 +695,7 @@ body#Posts li#PostsTab,
 body.Articles li#ArticlesTab,
 body#Articles li#ArticlesTab,
 body#Feedback li#FeedbackTab,
+body.Links li#LinksTab,
 body#Links li#LinksTab,
 body#Galleries li#GalleryTab,
 body#Stats li#StatsTab,
@@ -711,6 +712,7 @@ body#Posts a#TabPosts,
 body.Articles a#TabArticles,
 body#Articles a#TabArticles,
 body#Feedback a#TabFeedback,
+body.Links a#TabLinks,
 body#Links a#TabLinks,
 body#Galleries a#TabGalleries,
 body#Stats a#TabStats,

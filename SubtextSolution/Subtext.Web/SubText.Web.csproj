@@ -92,9 +92,15 @@
       <DependentUpon>EditCategories.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Admin\EditCategories.aspx.designer.cs">
+      <DependentUpon>EditCategories.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\EditGalleries.aspx.cs">
       <DependentUpon>EditGalleries.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\EditGalleries.aspx.designer.cs">
+      <DependentUpon>EditGalleries.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\EditImage.aspx.cs">
       <DependentUpon>EditImage.aspx</DependentUpon>
@@ -104,9 +110,15 @@
       <DependentUpon>EditKeyWords.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Admin\EditKeyWords.aspx.designer.cs">
+      <DependentUpon>EditKeyWords.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\EditLinks.aspx.cs">
       <DependentUpon>EditLinks.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\EditLinks.aspx.designer.cs">
+      <DependentUpon>EditLinks.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Error.aspx.cs">
       <DependentUpon>Error.aspx</DependentUpon>

@@ -15,48 +15,34 @@
 
 using System;
 using System.Collections.Generic;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using CategoryTypeEnum = Subtext.Framework.Components.CategoryType;
 
 namespace Subtext.Web.Admin.Pages
 {
-	public class EditCategories : AdminPage
+	public partial class EditCategories : AdminPage
 	{
 		protected Subtext.Web.Admin.WebUI.Page PageContainer;
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
-		protected System.Web.UI.WebControls.TextBox txbNewTitle;
-		protected System.Web.UI.WebControls.CheckBox ckbNewIsActive;
-		protected System.Web.UI.WebControls.Button lkbPost;
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel Add;
-		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
-		protected System.Web.UI.WebControls.RequiredFieldValidator valtxbNewTitleRequired;
-		protected System.Web.UI.WebControls.DataGrid dgrItems;
-		protected System.Web.UI.WebControls.TextBox txbNewDescription;
 	
-		private CategoryType _categoryType
-		{
-			get
-			{
-				if(ViewState["_categoryType"] == null)
-				{
-					return CategoryType.LinkCollection;
-				}
-				return (CategoryType)ViewState["_categoryType"];
-			}
-			set
-			{
-				ViewState["_categoryType"] = value;
-			}
-		}
-
-		private void Page_Load(object sender, System.EventArgs e)
+	    public EditCategories()
+	    {
+            this.TabSectionId = "Posts";
+	    }
+	    
+		protected void Page_Load(object sender, System.EventArgs e)
 		{			
 			if (!IsPostBack)
 			{
-                if (null != Request.QueryString[Keys.QRYSTR_CATEGORYID])
+                if (null != Request.QueryString[Keys.QRYSTR_CATEGORYTYPE])
                 {
-                    _categoryType = (CategoryType)Enum.Parse(typeof(CategoryType), Request.QueryString[Keys.QRYSTR_CATEGORYID]);
+                    this.CategoryType = (CategoryType)Enum.Parse(typeof(CategoryType), Request.QueryString[Keys.QRYSTR_CATEGORYTYPE]);
+                }
+			    else
+                {
+                    this.CategoryType = CategoryTypeEnum.LinkCollection;
                 }
 
 				ckbNewIsActive.Checked = Preferences.AlwaysCreateIsActive;
@@ -66,33 +52,56 @@ namespace Subtext.Web.Admin.Pages
 			}			
 		}
 
+        protected CategoryTypeEnum CategoryType
+	    {
+	        get
+	        {
+                if (ViewState["CategoryType"] != null)
+                {
+                    return (CategoryType)ViewState["CategoryType"];    
+                }
+                else
+                {
+                    return CategoryType.None;
+                }
+	        }
+	        set
+	        {
+                ViewState["CategoryType"] = value;
+	        }
+	    }
+
 		// REFACTOR: Maybe. Some sections can be inferred from the catType, but not the not cat pages.
 		private void BindLocalUI()
 		{
-			switch (_categoryType)
+            switch (CategoryType)
 			{
 				case CategoryType.PostCollection : 
-					PageContainer.TabSectionID = "Posts";
+					TabSectionId = "Posts";
 					break;
-				case CategoryType.StoryCollection : 
-					PageContainer.TabSectionID = "Articles";
+				
+			    case CategoryType.StoryCollection :
+                    TabSectionId = "Articles";
 					break;
-				case CategoryType.LinkCollection : 
-					PageContainer.TabSectionID = "Links";
+				
+			    case CategoryType.LinkCollection :
+                    TabSectionId = "Links";
 					break;
-				case CategoryType.ImageCollection : 
-					PageContainer.TabSectionID = "Galleries";
+				
+			    case CategoryType.ImageCollection : 
+					TabSectionId = "Galleries";
 					// TODO: redirect to galleries? or just have original link stay there?
 					break;
-				default :
-					PageContainer.TabSectionID = "Posts";
+				
+			    default :
+					TabSectionId = "Posts";
 					break;
 			}
 		}
 
 		private void BindList()
 		{
-            ICollection<LinkCategory> cats = Links.GetCategories(_categoryType, ActiveFilter.None);
+            ICollection<LinkCategory> cats = Links.GetCategories(CategoryType, ActiveFilter.None);
 			dgrItems.DataSource = cats;
 			dgrItems.DataKeyField = "CategoryID";
 			dgrItems.DataBind();
@@ -153,8 +162,6 @@ namespace Subtext.Web.Admin.Pages
 			this.dgrItems.EditCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrCategories_EditCommand);
 			this.dgrItems.UpdateCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrCategories_UpdateCommand);
 			this.dgrItems.DeleteCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrCategories_DeleteCommand);
-			this.lkbPost.Click += new System.EventHandler(this.lkbPost_Click);
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion
@@ -215,13 +222,12 @@ namespace Subtext.Web.Admin.Pages
 			ToggleAddNew(true);
 		}
 
-		private void lkbPost_Click(object sender, System.EventArgs e)
+		protected void lkbPost_Click(object sender, System.EventArgs e)
 		{
 			if (Page.IsValid)
 			{
-			
 				LinkCategory newCategory = new LinkCategory();
-				newCategory.CategoryType = _categoryType;
+                newCategory.CategoryType = CategoryType;
 				newCategory.Title = txbNewTitle.Text;
 				newCategory.IsActive = ckbNewIsActive.Checked;
 				newCategory.Description = txbNewDescription.Text;

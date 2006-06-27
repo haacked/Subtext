@@ -24,31 +24,10 @@ using Image=Subtext.Framework.Components.Image;
 
 namespace Subtext.Web.Admin.Pages
 {
-	public class EditGalleries : AdminPage
+	public partial class EditGalleries : AdminPage
 	{
 		protected bool _isListHidden;
-
-		protected Subtext.Web.Admin.WebUI.Page PageContainer;
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel Results;
-		protected System.Web.UI.WebControls.Repeater rprImages;
-		protected System.Web.UI.WebControls.DataGrid dgrSelectionList;
-		protected System.Web.UI.WebControls.TextBox txbNewTitle;
-		protected System.Web.UI.WebControls.CheckBox ckbNewIsActive;
-		protected System.Web.UI.WebControls.Button lkbPost;
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel Add;
-		protected System.Web.UI.WebControls.TextBox txbImageTitle;
-		protected System.Web.UI.WebControls.Button lbkAddImage;
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel AddImages;
-		protected System.Web.UI.WebControls.Panel ImagesDiv;
-		protected System.Web.UI.HtmlControls.HtmlInputFile ImageFile;
-		protected System.Web.UI.WebControls.CheckBox ckbIsActiveImage;
-		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
-		protected System.Web.UI.WebControls.PlaceHolder plhImageHeader;
-		protected Subtext.Web.Controls.ScrollPositionSaver scrollsaver;
-		protected System.Web.UI.WebControls.TextBox txbNewDescription;
 		// jsbright added to support prompting for new file name
-		protected Panel PanelSuggestNewName, PanelDefaultName;
-		protected TextBox TextBoxImageFileName;
 
 		#region Accessors
 		private int CategoryID
@@ -64,7 +43,12 @@ namespace Subtext.Web.Admin.Pages
 		}
 		#endregion
 
-		private void Page_Load(object sender, System.EventArgs e)
+	    protected EditGalleries()
+	    {
+            this.TabSectionId = "Galleries";
+	    }
+	    
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			if(!Config.Settings.AllowImages)
 			{
@@ -358,9 +342,7 @@ namespace Subtext.Web.Admin.Pages
 			this.dgrSelectionList.EditCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrSelectionList_EditCommand);
 			this.dgrSelectionList.UpdateCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrSelectionList_UpdateCommand);
 			this.dgrSelectionList.DeleteCommand += new System.Web.UI.WebControls.DataGridCommandEventHandler(this.dgrSelectionList_DeleteCommand);
-			this.lkbPost.Click += new System.EventHandler(this.lkbPost_Click);
 			this.rprImages.ItemCommand += new System.Web.UI.WebControls.RepeaterCommandEventHandler(this.rprImages_ItemCommand);
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion
@@ -424,7 +406,7 @@ namespace Subtext.Web.Admin.Pages
 			Messages.Clear();
 		}
 
-		private void lkbPost_Click(object sender, System.EventArgs e)
+		protected void lkbPost_Click(object sender, System.EventArgs e)
 		{
 			LinkCategory newCategory = new LinkCategory();
 			newCategory.CategoryType = CategoryType.ImageCollection;

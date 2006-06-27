@@ -56,10 +56,6 @@ namespace Subtext.Web.Admin.Pages
             if (this.Page.Master != null)
             {
                 this.body = this.Page.Master.FindControl("AdminSection") as HtmlGenericControl;
-                if(this.body != null)
-                {
-                    this.body.Attributes["class"] = this.TabSectionId;
-                }
             }
             
 			// REFACTOR: we really need a singleton indicator per session or run this initial 
@@ -74,6 +70,14 @@ namespace Subtext.Web.Admin.Pages
 		    }
 			base.OnLoad(e);
 		}
+	    
+	    protected override void OnPreRender(EventArgs e)
+	    {
+	        if(this.body != null)
+            {
+                this.body.Attributes["class"] = this.TabSectionId;
+            }
+	    }
 	    
 	    protected AdminPageTemplate AdminMasterPage
 	    {
