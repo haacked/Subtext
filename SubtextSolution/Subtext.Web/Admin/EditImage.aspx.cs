@@ -22,64 +22,63 @@ using Subtext.Framework.Components;
 
 namespace Subtext.Web.Admin.Pages
 {
-	public class EditImage : AdminPage
+	public partial class EditImage : AdminPage
 	{
 		protected const string VSKEY_IMAGEID = "ImageID";
 		protected int _imageID;
 		protected Subtext.Framework.Components.Image _image;
 		protected string _galleryTitle;
 
-		protected Subtext.Web.Admin.WebUI.Page PageContainer;
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel ImageDetails;
-		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
-		protected System.Web.UI.WebControls.TextBox txbTitle;
-		protected System.Web.UI.WebControls.DropDownList ddlGalleries;
-		protected System.Web.UI.WebControls.CheckBox ckbPublished;
-		protected System.Web.UI.WebControls.Button lbkAddImage;
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel Advanced;
-		protected System.Web.UI.HtmlControls.HtmlInputFile ImageFile;
-		protected System.Web.UI.WebControls.LinkButton lkbUpdateImage;
-		protected System.Web.UI.WebControls.HyperLink lnkThumbnail;
-
 		#region Accessors
-		private int ImageID
+		private int ImageId
 		{
-			get { return (int)ViewState[VSKEY_IMAGEID]; }
-			set { ViewState[VSKEY_IMAGEID] = value; }
+			get
+			{
+                if (ViewState[VSKEY_IMAGEID] == null || NullValue.NullInt32 == (int)ViewState[VSKEY_IMAGEID])
+                {
+                    if (null != Request.QueryString[Keys.QRYSTR_IMAGEID])
+                        ViewState[VSKEY_IMAGEID] = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_IMAGEID]);
+                }
+			    return (int)ViewState[VSKEY_IMAGEID];
+			}
 		}
 
 		public Subtext.Framework.Components.Image Image
 		{
 			get 
 			{
-				if (null != _image)
-					return _image;
-				else
-					throw new Exception("Image not defined.");
+                if (null == _image)
+                {
+                    _image = Images.GetSingleImage(this.ImageId, false);
+                }
+
+			    if(_image == null)
+                    throw new Exception("Image not defined.");
+			    
+			    return _image;
 			}
 		}
 
 		#endregion
+	    
+	    public EditImage() : base()
+	    {
+            this.TabSectionId = "Galleries";
+	    }
 
-		private void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
-			if (!IsPostBack)
-			{
-				if (null != Request.QueryString[Keys.QRYSTR_IMAGEID])
-					ImageID = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_IMAGEID]);
-
-				BindImage();
-			}
 		}
+	    
+	    public override void DataBind()
+	    {
+            BindImage();
+	    }
+	    
 
 		private void BindImage()
 		{
-			BindImage(this.ImageID);
-		}
-
-		private void BindImage(int imageID)
-		{
-			if (NullValue.NullInt32 != imageID)
+			if (NullValue.NullInt32 != ImageId)
 			{
                 ICollection<LinkCategory> selectionList = Links.GetCategories(CategoryType.ImageCollection, ActiveFilter.None);
 				if (selectionList.Count > 0)
@@ -88,16 +87,15 @@ namespace Subtext.Web.Admin.Pages
 					ddlGalleries.DataValueField = "CategoryID";
 					ddlGalleries.DataTextField = "Title";
 					
-					_image = Images.GetSingleImage(imageID, false);
-					lnkThumbnail.ImageUrl = EvalImageUrl(_image);
-					lnkThumbnail.NavigateUrl = EvalImageNavigateUrl(_image);
+					lnkThumbnail.ImageUrl = EvalImageUrl(Image);
+					lnkThumbnail.NavigateUrl = EvalImageNavigateUrl(Image);
 					lnkThumbnail.Visible = true;
 
-					ckbPublished.Checked = _image.IsActive;
+					ckbPublished.Checked = Image.IsActive;
 
-					SetGalleryInfo(_image);
+					SetGalleryInfo(Image);
 
-					Page.DataBind();
+					ddlGalleries.DataBind();
 
 					ddlGalleries.Items.FindByValue(_image.CategoryID.ToString(CultureInfo.InvariantCulture)).Selected = true;
 					// HACK: we're disabling this until we do something with/around the provider
@@ -110,7 +108,7 @@ namespace Subtext.Web.Admin.Pages
 					if (null != container && container is Subtext.Web.Admin.WebUI.Page)
 					{	
 						Subtext.Web.Admin.WebUI.Page page = (Subtext.Web.Admin.WebUI.Page)container;
-						string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Editing Image \"{0}\"", _image.Title);
+						string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Editing Image \"{0}\"", Image.Title);
 
 						page.BreadCrumbs.AddLastItem(title);
 						page.Title = title;
@@ -167,7 +165,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			if (Page.IsValid)
 			{
-				_image = Images.GetSingleImage(ImageID, false);
+				_image = Images.GetSingleImage(this.ImageId, false);
 				_image.CategoryID = Convert.ToInt32(ddlGalleries.SelectedItem.Value);
 				_image.Title = txbTitle.Text;
 				_image.IsActive = ckbPublished.Checked;
@@ -193,7 +191,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			if (Page.IsValid)
 			{
-				_image = Images.GetSingleImage(ImageID, false);
+				_image = Images.GetSingleImage(this.ImageId, false);
 				_image.CategoryID = Convert.ToInt32(ddlGalleries.SelectedItem.Value);
 				_image.Title = txbTitle.Text;
 				_image.IsActive = ckbPublished.Checked;
@@ -232,19 +230,16 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.lkbUpdateImage.Click += new System.EventHandler(this.lkbUpdateImage_Click);
-			this.lbkAddImage.Click += new System.EventHandler(this.lbkReplaceImage_Click);
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion
 
-		private void lbkReplaceImage_Click(object sender, System.EventArgs e)
+		protected void lbkReplaceImage_Click(object sender, System.EventArgs e)
 		{
 			ReplaceImage();
 		}
 
-		private void lkbUpdateImage_Click(object sender, System.EventArgs e)
+		protected void lkbUpdateImage_Click(object sender, System.EventArgs e)
 		{
 			UpdateImage();		
 		}

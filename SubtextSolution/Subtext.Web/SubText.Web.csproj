@@ -106,6 +106,9 @@
       <DependentUpon>EditImage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Admin\EditImage.aspx.designer.cs">
+      <DependentUpon>EditImage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\EditKeyWords.aspx.cs">
       <DependentUpon>EditKeyWords.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
