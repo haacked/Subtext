@@ -1,0 +1,79 @@
+#main table {
+width:auto;
+}
+#top-link a{
+	height:14px;
+}
+/* =HEADER */
+
+	#header {height:127px;}
+	#personalization-help h2 a{
+		height:28px;
+	}
+		
+		/* =SEARCH */
+			
+			#live-search-fieldset {
+				height:132px;
+			}
+				#live-search-fieldset label {
+					height:35px;
+				}
+		/* END SEARCH */
+		
+/* END =HEADER */
+
+/* =CONTENT */
+	
+	/* =MAIN */
+					#main #admin-tools a {
+						height:24px;
+					}
+				
+		/* END =POST */
+		/* =COMMENT */
+		
+					
+					
+					.comment-box fieldset div {
+						width:380px;
+					}
+						
+					.comment-box fieldset div.buttons {
+						width:260px
+					}
+	
+		/* END =COMMENT */
+		
+		
+
+				#button-nav #typo-powered a{
+					height:79px;
+				}	
+				#button-nav #validate-CSS a{
+					height:76px;
+				}
+				#button-nav #validate-XHTML a{
+					height:83px;
+				}
+				.comment-box fieldset{
+					border: 1px solid #E2E4CE;
+					padding:10px 10px 10px 10px;
+					margin-bottom:1.5em;
+				}
+				
+					.comment-box fieldset div {
+						width:430px;
+					}
+					.comment-box fieldset div.buttons {width:260px}
+	/* END MAIN */
+	
+	/* =SIDEBAR */
+			
+				
+					#sidebar ul#flickr-list li {
+						height:65px;
+					}
+	/* END SIDEBAR */	
+	
+/* END CONTENT */

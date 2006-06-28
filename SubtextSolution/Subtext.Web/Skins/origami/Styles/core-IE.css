@@ -1,0 +1,41 @@
+/* CSS Document */
+/*body { 
+	behavior:url("../../javascript/theme/csshover.htc");
+}
+*/
+.jelloLayout #sizer {
+	width:expression(document.body.clientWidth > 1740 ? "490px" : "100%" );
+}
+.jelloLayout #sidebar-wrapper {width:28.5%}
+body {
+	word-wrap:break-word;
+}
+.sIFROn #content h1,
+.sIFROn #content h2,
+.sIFROn #content h3,
+.sIFROn #sideBar h3,
+.sIFROn #content h4,
+.sIFROn #content h5,
+.sIFROn #content h6 {
+	margin-bottom:.3em;
+}
+.post {overflow:auto; height:1%}
+#results-returned {height:3.2em;}
+#results-panel h3 {left:0px;}
+#results-returned ol a {height:1%;}
+.comment-body {height:62px;}
+.gravatar {right:15px;}
+#top-link {position:absolute;}
+#sidebar ul {height: 1%;}
+#sidebar ul a {height:1%;}
+#comment-box fieldset {padding-top:.75em;}
+ul, ol, dl, p.important, .sidebar-node{position: relative;}
+#sidebar .sidebar-node > ul#flickr-list {overflow:auto; height:1%}
+.important {height:1%}
+#main #commentList li, #main #trackbackList li {height:1%}
+#main ul.arcvives-list li {height:1%;}
+
+#personalization-instructions #personalization-instructions-close {
+
+					cursor:hand;
+				}
