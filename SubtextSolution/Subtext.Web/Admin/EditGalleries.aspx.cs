@@ -109,18 +109,13 @@ namespace Subtext.Web.Admin.Pages
 
 			ShowImages();
 
-			Control container = Page.FindControl("PageContainer");
-            //TODO: Need to use new breadcrumb logic.
-            /*
-		    if (null != container && container is Subtext.Web.Admin.WebUI.Page)
-			{	
-				Subtext.Web.Admin.WebUI.Page page = (Subtext.Web.Admin.WebUI.Page)container;
+			if(AdminMasterPage != null && AdminMasterPage.BreadCrumb != null)
+            {
 				string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Viewing Gallery \"{0}\"", selectedGallery.Title);
 
-				page.BreadCrumbs.AddLastItem(title);
-				page.Title = title;
+				AdminMasterPage.BreadCrumb.AddLastItem(title);
+				AdminMasterPage.Title = title;
 			}
-             */
 
 			AddImages.Collapsed = !Preferences.AlwaysExpandAdvanced;
 		}

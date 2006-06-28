@@ -106,19 +106,13 @@ namespace Subtext.Web.Admin.Pages
 
 		private void SetReferalDesc(string selection, string title)
 		{
-		    //TODO: Fix this code.
-			Control container = Page.FindControl("PageContainer");
-            //TODO: Need to use new breadcrumb logic.
-		    /*
-		    if (null != container && container is Subtext.Web.Admin.WebUI.Page)
-			{	
-				Subtext.Web.Admin.WebUI.Page page = (Subtext.Web.Admin.WebUI.Page)container;
+		    if(AdminMasterPage != null && AdminMasterPage.BreadCrumb != null)
+			{
 				string bctitle= string.Format(System.Globalization.CultureInfo.InvariantCulture, "Viewing {0}:{1}", selection,title);
 
-				page.BreadCrumbs.AddLastItem(bctitle);
-				page.Title = bctitle;
+				AdminMasterPage.BreadCrumb.AddLastItem(bctitle);
+                AdminMasterPage.Title = bctitle;
 			}
-             **/
 		}
 
 		public string CheckHiddenStyle()

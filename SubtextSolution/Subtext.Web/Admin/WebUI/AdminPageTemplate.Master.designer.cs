@@ -25,7 +25,7 @@ namespace Subtext.Web.Admin.WebUI {
         protected System.Web.UI.WebControls.HyperLink BlogTitleLink;
         protected System.Web.UI.WebControls.ContentPlaceHolder actionsHeading;
         protected System.Web.UI.HtmlControls.HtmlGenericControl galleryTab;
-        protected Subtext.Web.Admin.WebUI.BreadCrumbs BreadCrumbs;
+        protected Subtext.Web.Admin.WebUI.BreadCrumbs breadCrumbs;
         protected Subtext.Web.Admin.WebUI.LinkList LinksActions;
         protected System.Web.UI.WebControls.ContentPlaceHolder categoryListHeading;
         protected System.Web.UI.WebControls.ContentPlaceHolder categoryListLinks;

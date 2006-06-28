@@ -1,21 +1,21 @@
 <%@ Master Language="C#" AutoEventWireup="true" CodeBehind="AdminPageTemplate.master.cs" Inherits="Subtext.Web.Admin.WebUI.AdminPageTemplate" %>
 <%@ Import namespace="Subtext.Framework.Configuration"%>
-<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
-<%@ Register TagPrefix="ST" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
+<%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
+<%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <%@ Import Namespace = "Subtext.Web.Admin" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head runat="server">
     <title>Subtext - Admin</title>
-    <ST:ScriptTag id="NiceForms" src="~/admin/resources/Scripts/niceForms.js" runat="server" />
-	<ST:ScriptTag id="HelptipJs" src="~/admin/resources/Scripts/helptip.js" runat="server" />
-	<ST:ScriptTag id="AdminJs" src="~/admin/resources/Scripts/admin.js" runat="server" />
-	<ST:ScriptTag id="tableEffectsJS" src="~/admin/resources/Scripts/tableEffects.js" runat="server" />
-	<ANW:HeaderLink id="HelptipCss" rel="stylesheet" href="resources/scripts/helptip.css" linkType="text/css"
+    <st:ScriptTag id="NiceForms" src="~/admin/resources/Scripts/niceForms.js" runat="server" />
+	<st:ScriptTag id="HelptipJs" src="~/admin/resources/Scripts/helptip.js" runat="server" />
+	<st:ScriptTag id="AdminJs" src="~/admin/resources/Scripts/admin.js" runat="server" />
+	<st:ScriptTag id="tableEffectsJS" src="~/admin/resources/Scripts/tableEffects.js" runat="server" />
+	<st:HeaderLink id="HelptipCss" rel="stylesheet" href="resources/scripts/helptip.css" linkType="text/css"
 		runat="server" />
-	<ANW:HeaderLink id="Css1" rel="stylesheet" href="resources/admin.css" linkType="text/css" runat="server" />
-	<ANW:HeaderLink id="NiceFormsStyle" rel="stylesheet" href="resources/scripts/niceforms-default.css" linkType="text/css" runat="server" />
+	<st:HeaderLink id="Css1" rel="stylesheet" href="resources/admin.css" linkType="text/css" runat="server" />
+	<st:HeaderLink id="NiceFormsStyle" rel="stylesheet" href="resources/scripts/niceforms-default.css" linkType="text/css" runat="server" />
 </head>
 <body id="AdminSection" runat="server">
     <form id="frmMain" runat="server">
@@ -60,14 +60,14 @@
 						</ul>
 					</div>
 					<div id="SubNav">
-						<ANW:BreadCrumbs id="BreadCrumbs" UsePrefixText="true" IsPanel="false" IncludeRoot="false" runat="server" />
+						<st:BreadCrumbs id="breadCrumbs" UsePrefixText="true" IsPanel="false" IncludeRoot="false" runat="server" />
 					</div>
 				</td>
 			</tr>
 			<tr>
 				<td class="NavLeftCell">
 					<div class="LeftNavContent">
-						<ANW:LinkList id="LinksActions" runat="server" />
+						<st:LinkList id="LinksActions" runat="server" />
 					</div>
 					<div class="LeftNavHeader">
 						<asp:ContentPlaceHolder ID="categoryListHeading" runat="server"></asp:ContentPlaceHolder>

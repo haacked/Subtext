@@ -23,5 +23,19 @@ namespace Subtext.Web.Admin.WebUI
         {
             LinksActions.Items.Add(lnk);
         }
+        
+        public BreadCrumbs BreadCrumb
+        {
+            get
+            {
+                return this.breadCrumbs;
+            }
+        }
+
+        public string Title
+        {
+            get { return this.Page.Title; }
+            set { this.Page.Title = value; }
+        }
     }
 }
