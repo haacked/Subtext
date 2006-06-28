@@ -29,7 +29,6 @@ using Subtext.Framework.Util;
 using Subtext.Web.Admin.Pages;
 using Subtext.Web.Admin.WebUI;
 using Subtext.Web.Controls;
-using Page = Subtext.Web.Admin.WebUI.Page;
 using StringHelper = Subtext.Framework.Text.StringHelper;
 
 namespace Subtext.Web.Admin.UserControls
@@ -323,12 +322,15 @@ namespace Subtext.Web.Admin.UserControls
 			Control container = Page.FindControl("PageContainer");
 			if (null != container && container is Page)
 			{	
+			    //TODO: Need to use new breadcrumb logic.
+			    /*
 				Page page = (Page)container;
 				string title = string.Format(CultureInfo.InvariantCulture, "Editing {0} \"{1}\"", 
 					CategoryType == CategoryType.StoryCollection ? "Article" : "Post", currentPost.Title);
 
 				page.BreadCrumbs.AddLastItem(title);
 				page.Title = title;
+                 */
 			}
 
 			if(currentPost.HasEntryName)

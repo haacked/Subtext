@@ -1,8 +1,18 @@
-<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
-<%@ Page language="c#" Codebehind="Referrers.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.Referrers" %>
-<ANW:Page id="PageContainer" TabSectionID="Stats" runat="server">
-	<ANW:MessagePanel id="Messages" runat="server"></ANW:MessagePanel>
-	<ANW:AdvancedPanel id="Results" runat="server" DisplayHeader="true" HeaderCssClass="CollapsibleHeader"
+<%@ Page language="c#" Title="Subtext Admin - Referrers" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="Referrers.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.Referrers" %>
+<%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
+
+<asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
+</asp:Content>
+
+<asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server">
+</asp:Content>
+
+<asp:Content ID="categoriesLinkListing" ContentPlaceHolderID="categoryListLinks" runat="server">
+</asp:Content>
+
+<asp:Content ID="referrersContent" ContentPlaceHolderID="pageContent" runat="server">
+	<st:MessagePanel id="Messages" runat="server"></st:MessagePanel>
+	<st:AdvancedPanel id="Results" runat="server" DisplayHeader="true" HeaderCssClass="CollapsibleHeader"
 		HeaderText="Referrers" Collapsible="False" LinkStyle="Image" LinkBeforeHeader="True" LinkText="[toggle]">
 		<ASP:Repeater id="rprSelectionList" runat="server">
 			<HeaderTemplate>
@@ -62,12 +72,12 @@
 			</table>
 		</FooterTemplate>
 		</ASP:Repeater>
-		<ANW:Pager id="ResultsPager" runat="server" CssClass="Pager" UrlFormat="Referrers.aspx?pg={0}"
+		<st:Pager id="ResultsPager" runat="server" CssClass="Pager" UrlFormat="Referrers.aspx?pg={0}"
 			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' PrefixText="<div>Goto page</div>"
-			UseSpacer="False"></ANW:Pager>
+			UseSpacer="False"></st:Pager>
 		<br class="clear">
-	</ANW:AdvancedPanel>
-	<ANW:AdvancedPanel id="Edit" runat="server" DisplayHeader="True" HeaderCssClass="CollapsibleTitle"
+	</st:AdvancedPanel>
+	<st:AdvancedPanel id="Edit" runat="server" DisplayHeader="True" HeaderCssClass="CollapsibleTitle"
 		HeaderText="Create TrackBack" Collapsible="False" LinkStyle="Image" Visible="False">
 		<div class="Edit">
 			<p class="Label">
@@ -90,10 +100,10 @@
 				<asp:TextBox id="txbBody" runat="server" columns="255" width="98%" TextMode="MultiLine"></asp:TextBox>
 			</p>
 			<div>
-				<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Post"></asp:Button>
-				<asp:Button id="lkbCancel" runat="server" CssClass="buttonSubmit" Text="Cancel" CausesValidation="false"></asp:Button><br />
+				<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Post" onclick="lkbPost_Click"></asp:Button>
+				<asp:Button id="lkbCancel" runat="server" CssClass="buttonSubmit" Text="Cancel" CausesValidation="false" onclick="lkbCancel_Click"></asp:Button><br />
 				&nbsp;
 			</div>
 		</div>
-	</ANW:AdvancedPanel>
-</ANW:Page>
+	</st:AdvancedPanel>
+</asp:Content>

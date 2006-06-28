@@ -14,7 +14,6 @@
 #endregion
 
 using System;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
 using Subtext.Framework.Logging;
@@ -23,22 +22,19 @@ using Subtext.Web.Controls;
 
 namespace Subtext.Web.Admin.Pages
 {
-	public class ErrorLog : AdminPage
+	public partial class ErrorLog : StatsPage
 	{
-		protected AdvancedPanel Log;
-		protected Page PageContainer;
-		protected RepeaterWithEmptyDataTemplate LogPage;
-		protected HtmlGenericControl NoMessagesLabel;
-		protected Pager LogPager;
-		protected Button btnExportToExcel;
-		protected Button btnClearLog;
-
 		private int logPageNumber;
 	
+	    public ErrorLog() : base()
+	    {
+            this.TabSectionId = "Stats";
+	    }
+	    
 		protected override void OnLoad(EventArgs e)
 		{
 			LoadPage();
-			base.OnLoad (e);
+			base.OnLoad(e);
 		}
 
 		private void LoadPage()
@@ -49,7 +45,6 @@ namespace Subtext.Web.Admin.Pages
 			LogPager.PageSize = Preferences.ListingItemCount;
 			LogPager.PageIndex = this.logPageNumber;
 
-			BindLocalUI();
 			BindList();
 		}
 
@@ -61,18 +56,6 @@ namespace Subtext.Web.Admin.Pages
 			LogPage.DataBind();		
 		}
 		
-		private void BindLocalUI()
-		{
-			HyperLink lnkReferrals = Utilities.CreateHyperLink("Referrals", "Referrers.aspx");
-			HyperLink lnkViews = Utilities.CreateHyperLink("Views", "StatsView.aspx");
-			HyperLink lnkErrorLog = Utilities.CreateHyperLink("Error Log", "ErrorLog.aspx");
-
-			// Add the buttons to the PageContainer.
-			PageContainer.AddToActions(lnkReferrals);
-			PageContainer.AddToActions(lnkViews);
-			PageContainer.AddToActions(lnkErrorLog);
-		}
-
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
 		{

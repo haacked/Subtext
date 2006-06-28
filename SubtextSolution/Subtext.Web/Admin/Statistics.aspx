@@ -1,7 +1,17 @@
-<%@ Page language="c#" Codebehind="Statistics.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.Statistics" %>
-<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
-<ANW:Page id="PageContainer" TabSectionID="Stats" runat="server">
-	<ANW:AdvancedPanel id="Results" runat="server" Collapsible="False" HeaderText="Statistics" HeaderCssClass="CollapsibleHeader"
+<%@ Page language="c#" Title="Subtext Admin - Stats" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="Statistics.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.Statistics" %>
+<%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
+
+<asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
+</asp:Content>
+
+<asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server">
+</asp:Content>
+
+<asp:Content ID="categoriesLinkListing" ContentPlaceHolderID="categoryListLinks" runat="server">
+</asp:Content>
+
+<asp:Content ID="statsContent" ContentPlaceHolderID="pageContent" runat="server">
+	<st:AdvancedPanel id="Results" runat="server" Collapsible="False" HeaderText="Statistics" HeaderCssClass="CollapsibleHeader"
 		DisplayHeader="true" BodyCssClass="Edit">
 		<p>
 			<a href = "Referrers.aspx">Referrers</a>: See who is linking to you.
@@ -13,5 +23,5 @@
 			<a href = "ErrorLog.aspx">Error Log</a>: Configure and view error log
 		</p>
 		<br class="clear">
-	</ANW:AdvancedPanel>
-</ANW:Page>
+	</st:AdvancedPanel>
+</asp:Content>

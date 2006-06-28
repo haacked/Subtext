@@ -17,14 +17,9 @@ using System;
 
 namespace Subtext.Web.Admin.Pages
 {
-	public class Error : AdminPage
-	{
-		protected Subtext.Web.Admin.WebUI.Page PageContainer;
-		protected System.Web.UI.WebControls.Panel ErrorPanel;
-		protected System.Web.UI.WebControls.HyperLink HomeLink;
-		protected System.Web.UI.WebControls.Label ErrorMessageLabel;				
-	
-		private void Page_Load(object sender, System.EventArgs e)
+	public partial class Error : AdminPage
+	{	
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			if (!IsPostBack)
 			{
@@ -60,7 +55,6 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion

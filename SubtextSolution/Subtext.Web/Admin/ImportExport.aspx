@@ -1,8 +1,17 @@
-<%@ Page language="c#" Codebehind="ImportExport.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.ImportExportPage" %>
-<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
-<ANW:PAGE id="PageContainer" runat="server" TabSectionID="ImportExport">
-	<ANW:MessagePanel id="Messages" runat="server"></ANW:MessagePanel>
-	<ANW:AdvancedPanel id="Action" runat="server" BodyCssClass="Edit" DisplayHeader="true" HeaderCssClass="CollapsibleHeader"
+<%@ Page language="c#" Title="Subtext Admin - Import Export" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="ImportExport.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.ImportExportPage" %>
+<%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
+<asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
+</asp:Content>
+
+<asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server">
+</asp:Content>
+
+<asp:Content ID="categoriesLinkListing" ContentPlaceHolderID="categoryListLinks" runat="server">
+</asp:Content>
+
+<asp:Content ID="importExportContent" ContentPlaceHolderID="pageContent" runat="server">
+	<st:MessagePanel id="Messages" runat="server"></st:MessagePanel>
+	<st:AdvancedPanel id="Action" runat="server" BodyCssClass="Edit" DisplayHeader="true" HeaderCssClass="CollapsibleHeader"
 		HeaderText="Import/Export" Collapsible="False">
 		<fieldset>
 			<legend>Import &amp; Export BlogML files.</legend>
@@ -15,7 +24,7 @@
 			<p>
 				<asp:CheckBox id="chkEmbedAttach" runat="server" Text="Embed Attachments?" Checked="True"></asp:CheckBox><br />
 				<br />
-				<asp:Button id="btnSave" runat="server" Text="Save" CssClass="buttonSubmit"></asp:Button>&nbsp;&nbsp;
+				<asp:Button id="btnSave" runat="server" Text="Save" CssClass="buttonSubmit" onclick="btnSave_Click"></asp:Button>&nbsp;&nbsp;
 				<asp:HyperLink id="hypBlogMLFile" runat="server" Visible="False">Download BlogML File</asp:HyperLink></P>
 			<hr />
 			<!-- BlogML Reader -->
@@ -30,8 +39,8 @@
 				<input id="importBlogMLFile" type="file" name="filImportBlogML" runat="server">
 				<br />
 				<br />
-				<asp:Button id="btnLoad" runat="server" Text="Load!" CssClass="buttonSubmit"></asp:Button>
+				<asp:Button id="btnLoad" runat="server" Text="Load!" CssClass="buttonSubmit" onclick="btnLoad_Click"></asp:Button>
 			</p>
 		</fieldset>
-	</ANW:AdvancedPanel>
-</ANW:PAGE>
+	</st:AdvancedPanel>
+</asp:Content>

@@ -53,7 +53,6 @@ namespace Subtext.Web.Admin.Pages
 		private bool _isListHidden = false;
 
 		protected System.Web.UI.WebControls.CheckBoxList cklCategories;
-		protected Subtext.Web.Admin.WebUI.Page PageContainer;
 	
 		#region Accessors
 		public int LinkID
@@ -151,6 +150,8 @@ namespace Subtext.Web.Admin.Pages
 			ddlCategories.Items.FindByValue(currentLink.CategoryID.ToString(CultureInfo.InvariantCulture)).Selected = true;
 
 			Control container = Page.FindControl("PageContainer");
+            //TODO: Need to use new breadcrumb logic.
+		    /*
 			if (null != container && container is Subtext.Web.Admin.WebUI.Page)
 			{	
 				Subtext.Web.Admin.WebUI.Page page = (Subtext.Web.Admin.WebUI.Page)container;
@@ -159,6 +160,7 @@ namespace Subtext.Web.Admin.Pages
 				page.BreadCrumbs.AddLastItem(title);
 				page.Title = title;
 			}
+             */
 		}
 
 		public void BindLinkCategories()

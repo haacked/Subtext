@@ -691,35 +691,55 @@ table.highlightTable tr.highlightAlt td
 
 
 body.Posts li#PostsTab,
-body#Posts li#PostsTab,
 body.Articles li#ArticlesTab,
-body#Articles li#ArticlesTab,
-body#Feedback li#FeedbackTab,
+body.Feedback li#FeedbackTab,
 body.Links li#LinksTab,
-body#Links li#LinksTab,
-body#Galleries li#GalleryTab,
-body#Stats li#StatsTab,
+body.Galleries .NavHeaderRow #TopNav li.galleryTab,
+body.Stats li#StatsTab,
 body.Options li#OptionsTab,
-body#Options li#OptionsTab,
-body#ImportExport li#ImportExportTab 
- {
-  background-image:url("left_on.gif");
-  }
-  
-  
+body.ImportExport li#ImportExportTab 
+{
+	background-image:url("left_on.gif");
+}
+ 
 body.Posts a#TabPosts,
-body#Posts a#TabPosts,
 body.Articles a#TabArticles,
-body#Articles a#TabArticles,
-body#Feedback a#TabFeedback,
+body.Feedback a#TabFeedback,
 body.Links a#TabLinks,
-body#Links a#TabLinks,
-body#Galleries a#TabGalleries,
-body#Stats a#TabStats,
+body.Galleries a#TabGalleries,
+body.Stats a#TabStats,
 body.Options a#TabOptions,
-body#Options a#TabOptions,
-body#ImportExport a#TabImportExport  {
+body.ImportExport a#TabImportExport  {
   background-image:url("right_on.gif");
   color:#333;
   padding-bottom:5px;
   }
+  
+div.errorPage
+{
+	padding: 4px; 
+	border: 1px solid #CCC; 
+	width: 500px;
+	background: #fff;
+}
+
+div.errorPage h2
+{
+	color: #660033;
+	background: #FFFFCC;
+	border: 1px dashed #DBDB64;
+}
+
+div.errorPage div
+{
+	padding: 4px; 
+	background: #eee;
+	margin-top: 24px; 
+	margin-bottom: 48px;
+	border: 1px solid #CCC; 
+}
+
+div.errorPage strong
+{
+	margin: 0;
+}

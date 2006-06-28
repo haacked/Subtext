@@ -15,39 +15,19 @@
 
 using System;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Web.Admin.WebUI;
 
 namespace Subtext.Web.Admin.Pages
 {
 	/// <summary>
 	/// Summary description for StatsViews.
 	/// </summary>
-	public class StatsView : AdminPage
+	public partial class StatsView : StatsPage
 	{
 		private bool _isListHidden = false;
 		private int _resultsPageNumber = 1;
-		protected System.Web.UI.WebControls.Repeater rprSelectionList;
-		protected Subtext.Web.Admin.WebUI.Pager ResultsPager;
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel Results;
-		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
-		protected Subtext.Web.Admin.WebUI.Page PageContainer;
-
-		private void Page_Load(object sender, System.EventArgs e)
-		{	
-			//TODO: implement "blog_GetPageableViewStats"
-
-//			if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
-//				_resultsPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
-//
-//			ResultsPager.PageSize = Preferences.ListingItemCount;
-//			ResultsPager.PageIndex = _resultsPageNumber;
-//			Results.Collapsible = false;
-//
-//			BindLocalUI();
-//			BindList();
-		}
 
 		public string CheckHiddenStyle()
 		{
@@ -56,7 +36,6 @@ namespace Subtext.Web.Admin.Pages
 			else
 				return String.Empty;
 		}
-
 
 		public string GetPageTitle(object dataItem)
 		{
@@ -91,22 +70,13 @@ namespace Subtext.Web.Admin.Pages
 
 		}
 
-		public void BindLocalUI()
+		protected override void BindLocalUI()
 		{
-			// Setup the LH navigation.
-			HyperLink lnkReferrals = Utilities.CreateHyperLink("Referrals", "Referrers.aspx");
-			HyperLink lnkViews		= Utilities.CreateHyperLink("Views", "StatsView.aspx");
-			HyperLink lnkErrorLog	= Utilities.CreateHyperLink("Error Log", "ErrorLog.aspx");
-
-
-			// Add the buttons to the PageContainer.
-			PageContainer.AddToActions(lnkReferrals);
-			PageContainer.AddToActions(lnkViews);
-			PageContainer.AddToActions(lnkErrorLog);
-
-			// Attempt to customize the breadcrumb.
+			//TODO:  Attempt to customize the breadcrumb.
 			Control container = Page.FindControl("PageContainer");
-			if (null != container && container is Subtext.Web.Admin.WebUI.Page)
+            //TODO: Need to use new breadcrumb logic.
+			/*
+		    if (null != container && container is Subtext.Web.Admin.WebUI.Page)
 			{	
 				Subtext.Web.Admin.WebUI.Page page = (Subtext.Web.Admin.WebUI.Page) container;
 				string title = "Views";
@@ -114,7 +84,9 @@ namespace Subtext.Web.Admin.Pages
 				page.BreadCrumbs.AddLastItem(title);
 				page.Title = title;
 			}
+             */
 
+            base.BindLocalUI();
 		}
 
 		public void BindList()
@@ -146,7 +118,6 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.Load += new System.EventHandler(this.Page_Load);
 		}
 		#endregion
 

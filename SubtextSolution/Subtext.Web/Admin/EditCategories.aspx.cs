@@ -15,7 +15,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -25,9 +24,7 @@ namespace Subtext.Web.Admin.Pages
 {
 	public partial class EditCategories : AdminPage
 	{
-		protected Subtext.Web.Admin.WebUI.Page PageContainer;
-	
-	    public EditCategories()
+        public EditCategories() : base()
 	    {
             this.TabSectionId = "Posts";
 	    }

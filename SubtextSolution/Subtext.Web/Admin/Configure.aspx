@@ -1,4 +1,4 @@
-<%@ Page language="c#" Title="Subtext Admin - Configure" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="Configure.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.Configure" %>
+<%@ Page language="c#" Title="Subtext Admin - Configure" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="Configure.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.Configure" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 
@@ -290,7 +290,7 @@
 				<asp:CheckBox id="ckbAllowServiceAccess" runat="server"></asp:CheckBox>
 			</p>
 			<div>
-				<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Save"></asp:Button>
+				<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Save" onclick="lkbPost_Click"></asp:Button>
 			</div>
 		</fieldset>
 	</st:AdvancedPanel>

@@ -19,24 +19,9 @@ using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Admin.Pages
 {
-	public class EditPreferences : AdminOptionsPage
+	public partial class EditPreferences : AdminOptionsPage
 	{
-		protected System.Web.UI.WebControls.DropDownList ddlPublished;
-		protected System.Web.UI.WebControls.DropDownList ddlExpandAdvanced;
-		protected System.Web.UI.WebControls.Button lkbUpdate;
-		protected System.Web.UI.WebControls.CheckBox chkAutoGenerate;
-		protected Subtext.Web.Controls.HelpToolTip Helptooltip4;
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
-		
-		private void Page_Load(object sender, System.EventArgs e)
-		{
-			if(!IsPostBack)
-			{
-				BindLocalUI();
-			}		
-		}
-
-		private void BindLocalUI()
+		protected override void BindLocalUI()
 		{
 			ddlPublished.SelectedIndex = -1;
 			ddlPublished.Items.FindByValue(Preferences.AlwaysCreateIsActive ? "true" : "false").Selected = true;
@@ -45,6 +30,8 @@ namespace Subtext.Web.Admin.Pages
 			ddlExpandAdvanced.Items.FindByValue(Preferences.AlwaysExpandAdvanced ? "true" : "false").Selected = true;
 
 			this.chkAutoGenerate.Checked = Config.CurrentBlog.AutoFriendlyUrlEnabled;
+		    
+		    base.BindLocalUI();
 		}
 
 		#region Web Form Designer generated code
@@ -63,13 +50,11 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.lkbUpdate.Click += new System.EventHandler(this.lkbUpdate_Click);
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion
 
-		private void lkbUpdate_Click(object sender, System.EventArgs e)
+		protected void lkbUpdate_Click(object sender, System.EventArgs e)
 		{	
 			bool published = Boolean.Parse(ddlPublished.SelectedItem.Value);
 			Preferences.AlwaysCreateIsActive = published;

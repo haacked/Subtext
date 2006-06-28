@@ -14,41 +14,21 @@
 #endregion
 
 using System;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
-using Subtext.Web.Admin.WebUI;
 
 namespace Subtext.Web.Admin.Pages
 {
 	/// <summary>
 	/// Admin Page used to set syndication settings.
 	/// </summary>
-	public class Syndication : AdminOptionsPage
+	public partial class Syndication : AdminOptionsPage
 	{
 		// abstract out at a future point for i18n
 		private const string RES_SUCCESS = "Your syndication settings were successfully updated.";
 		private const string RES_FAILURE = "Syndication settings update failed.";
 
-		protected MessagePanel Messages;
-		protected CheckBox chkEnableSyndication;
-		protected CheckBox chkUseSyndicationCompression;
-		protected CheckBox chkUseDeltaEncoding;
-		protected TextBox txtLicenseUrl;
-		protected Button lkbPost;
-		protected AdvancedPanel Edit;
-		protected HtmlImage helpImg;
-		protected HtmlImage Img1;
-		protected HtmlImage Img2;
-		protected Subtext.Web.Controls.HelpToolTip HelpToolTip1;
-		protected Subtext.Web.Controls.HelpToolTip HelpToolTip2;
-		protected Subtext.Web.Controls.HelpToolTip Helptooltip4;
-		protected Subtext.Web.Controls.HelpToolTip HelpToolTip3;
-
-		protected HtmlImage Img3;
-		
-		private void Page_Load(object sender, EventArgs e)
+		protected new void Page_Load(object sender, EventArgs e)
 		{
 			if (!IsPostBack)
 			{
@@ -121,13 +101,11 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.lkbPost.Click += new System.EventHandler(this.lkbPost_Click);
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion
 
-		private void lkbPost_Click(object sender, EventArgs e)
+		protected void lkbPost_Click(object sender, EventArgs e)
 		{
 			SaveSettings();
 		}

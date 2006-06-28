@@ -15,13 +15,12 @@
 
 using System;
 using System.Web.UI.WebControls;
-using Subtext.Web.Admin.WebUI;
 
 namespace Subtext.Web.Admin.Pages
 {
 	public partial class EditArticles : ConfirmationPage
-	{	
-	    public EditArticles()
+	{
+        public EditArticles() : base()
 	    {
             this.TabSectionId = "Articles";
 	    }
