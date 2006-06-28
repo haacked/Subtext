@@ -142,7 +142,8 @@ namespace Subtext.Installation.Import
 
 			try
 			{
-				if(!DoesTableExist("blog_config", dotTextConnectionString))
+			    ConnectionString connStr = ConnectionString.Parse(dotTextConnectionString);
+                if (!DoesTableExist("blog_config", connStr))
 				{
 					string errorMessage = "I&#8217;m sorry, but it does not appear that " 
 						+ "there is a .TEXT database corresponding to the connection string provided. " 
@@ -182,24 +183,19 @@ namespace Subtext.Installation.Import
 
 		bool DoesTableExist(string tableName, string ownerName, ConnectionString connectionString)
 		{	
-			return DoesTableExist(ownerName+"."+tableName, connectionString.ToString());
+			return DoesTableExist(ownerName+"."+tableName, connectionString);
 		}
 
 		bool DoesTableExist(string tableName, ConnectionString connectionString)
 		{
-			return DoesTableExist(tableName, connectionString.ToString());
+            return 0 < GetTableCount(tableName, connectionString);
 		}
 
-		bool DoesTableExist(string tableName, string connectionString)
+		int GetTableCount(string tableName, ConnectionString connectionString)
 		{
-			return 0 < GetTableCount(tableName, connectionString);
-		}
-
-		int GetTableCount(string tableName, string connectionString)
-		{
-			const string TableExistsSql = "SELECT COUNT(1) FROM dbo.sysobjects WHERE id = object_id(N'{0}') and OBJECTPROPERTY(id, N'IsUserTable') = 1";
+            const string TableExistsSql = "SELECT COUNT(1) FROM [INFORMATION_SCHEMA].[TABLES] WHERE [TABLE_TYPE]='BASE TABLE' AND [TABLE_NAME]='{0}'";
 			string blogContentTableSql = String.Format(TableExistsSql, tableName);			
-			return (int)SqlHelper.ExecuteScalar(connectionString, CommandType.Text, blogContentTableSql);
+			return (int)SqlHelper.ExecuteScalar(connectionString.ToString(), CommandType.Text, blogContentTableSql);
 		}
 	}
 }
