@@ -105,4 +105,6 @@ function setUserStyles(){
 	//if (getCookie('styles')){
 	//	document.getElementsByTagName('body')[0].className = readCookie('styles');
 	//} 
+	var body = document.getElementsByTagName('body')[0];
+	body.className = 'jelloLayout rightNav mediumText';
 }
