@@ -319,18 +319,14 @@ namespace Subtext.Web.Admin.UserControls
 			Results.Collapsible = true;
 			Advanced.Collapsed = !Preferences.AlwaysExpandAdvanced;
 
-			Control container = Page.FindControl("PageContainer");
-			if (null != container && container is Page)
+            AdminPageTemplate adminMasterPage = Page.Master as AdminPageTemplate;
+            if (adminMasterPage != null && adminMasterPage.BreadCrumb != null)
 			{	
-			    //TODO: Need to use new breadcrumb logic.
-			    /*
-				Page page = (Page)container;
 				string title = string.Format(CultureInfo.InvariantCulture, "Editing {0} \"{1}\"", 
 					CategoryType == CategoryType.StoryCollection ? "Article" : "Post", currentPost.Title);
 
-				page.BreadCrumbs.AddLastItem(title);
-				page.Title = title;
-                 */
+                adminMasterPage.BreadCrumb.AddLastItem(title);
+                adminMasterPage.Title = title;
 			}
 
 			if(currentPost.HasEntryName)
