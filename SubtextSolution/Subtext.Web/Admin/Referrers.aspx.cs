@@ -16,16 +16,16 @@
 using System;
 using System.Globalization;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using log4net;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
+using Subtext.Web.Admin.WebUI;
 
 namespace Subtext.Web.Admin.Pages
 {
-	public class Referrers : AdminPage
+	public partial class Referrers : StatsPage
 	{
 		private readonly static ILog log = new Subtext.Framework.Logging.Log();
 		
@@ -35,22 +35,14 @@ namespace Subtext.Web.Admin.Pages
 		private int _entryID = NullValue.NullInt32;
 
 		#region Declared Controls
-		protected System.Web.UI.WebControls.Repeater rprSelectionList;
-		protected Subtext.Web.Admin.WebUI.Pager ResultsPager;
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel Results;
-		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
-		protected System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
-		protected System.Web.UI.WebControls.TextBox txbTitle;
-		protected System.Web.UI.WebControls.RequiredFieldValidator Requiredfieldvalidator3;
-		protected System.Web.UI.WebControls.TextBox txbUrl;
-		protected System.Web.UI.WebControls.TextBox txbBody;
-		protected System.Web.UI.WebControls.Button lkbPost;
-		protected System.Web.UI.WebControls.Button lkbCancel;
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
-		protected Subtext.Web.Admin.WebUI.Page PageContainer;
 		#endregion
+	    
+	    public Referrers() : base()
+	    {
+            this.TabSectionId = "Stats";
+	    }
 	
-		private void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
 
 			if(!IsPostBack)
@@ -71,29 +63,11 @@ namespace Subtext.Web.Admin.Pages
 
 				BindList();
 			}
-			BindLocalUI();
 		}
 
 		
-		private void BindLocalUI()
+		protected override void BindLocalUI()
 		{
-			HyperLink lnkReferrals = Utilities.CreateHyperLink("Referrals", "Referrers.aspx");
-			HyperLink lnkViews		= Utilities.CreateHyperLink("Views", "StatsView.aspx");
-			HyperLink lnkErrorLog	= Utilities.CreateHyperLink("Error Log", "ErrorLog.aspx");
-
-
-			// Add the buttons to the PageContainer.
-			PageContainer.AddToActions(lnkReferrals);
-			PageContainer.AddToActions(lnkViews);
-			PageContainer.AddToActions(lnkErrorLog);
-
-//			Control container = Page.FindControl("PageContainer");
-//			if (null != container && container is Subtext.Web.Admin.WebUI.Page)
-//			{	
-//				Subtext.Web.Admin.WebUI.Page page = (Subtext.Web.Admin.WebUI.Page) container;
-//				page.BreadCrumbs.AddLastItem("Referrers");
-//			}
-
 			if(_entryID == NullValue.NullInt32)
 			{
 
@@ -103,7 +77,7 @@ namespace Subtext.Web.Admin.Pages
 			{
 				SetReferalDesc("Entry", _entryID.ToString(CultureInfo.InvariantCulture));
 			}
-
+            base.BindLocalUI();
 		}
 
 		private void BindList()
@@ -132,8 +106,11 @@ namespace Subtext.Web.Admin.Pages
 
 		private void SetReferalDesc(string selection, string title)
 		{
+		    //TODO: Fix this code.
 			Control container = Page.FindControl("PageContainer");
-			if (null != container && container is Subtext.Web.Admin.WebUI.Page)
+            //TODO: Need to use new breadcrumb logic.
+		    /*
+		    if (null != container && container is Subtext.Web.Admin.WebUI.Page)
 			{	
 				Subtext.Web.Admin.WebUI.Page page = (Subtext.Web.Admin.WebUI.Page)container;
 				string bctitle= string.Format(System.Globalization.CultureInfo.InvariantCulture, "Viewing {0}:{1}", selection,title);
@@ -141,6 +118,7 @@ namespace Subtext.Web.Admin.Pages
 				page.BreadCrumbs.AddLastItem(bctitle);
 				page.Title = bctitle;
 			}
+             **/
 		}
 
 		public string CheckHiddenStyle()
@@ -244,14 +222,11 @@ namespace Subtext.Web.Admin.Pages
 		private void InitializeComponent()
 		{    
 			this.rprSelectionList.ItemCommand += new System.Web.UI.WebControls.RepeaterCommandEventHandler(this.rprSelectionList_ItemCommand);
-			this.lkbPost.Click += new System.EventHandler(this.lkbPost_Click);
-			this.lkbCancel.Click += new System.EventHandler(this.lkbCancel_Click);
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion
 
-		private void lkbPost_Click(object sender, System.EventArgs e)
+		protected void lkbPost_Click(object sender, System.EventArgs e)
 		{
 			try
 			{
@@ -281,7 +256,7 @@ namespace Subtext.Web.Admin.Pages
 		
 		}
 
-		private void lkbCancel_Click(object sender, System.EventArgs e)
+		protected void lkbCancel_Click(object sender, System.EventArgs e)
 		{
 			Results.Collapsible = false;
 			Edit.Visible = false;

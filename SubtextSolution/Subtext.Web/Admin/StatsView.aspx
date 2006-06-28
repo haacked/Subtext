@@ -1,10 +1,19 @@
-<%@ Page language="c#" Codebehind="StatsView.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.StatsView" %>
-<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
-<ANW:Page id="PageContainer" TabSectionID="Stats" runat="server">
+<%@ Page language="c#" Title="Subtext Admin - Stats View" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="StatsView.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.StatsView" %>
+<%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 
-	<ANW:MessagePanel id=Messages runat="server" ErrorIconUrl="~/admin/resources/ico_critical.gif" ErrorCssClass="ErrorPanel" MessageIconUrl="~/admin/resources/ico_info.gif" MessageCssClass="MessagePanel" />
+<asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
+</asp:Content>
+
+<asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server">
+</asp:Content>
+
+<asp:Content ID="categoriesLinkListing" ContentPlaceHolderID="categoryListLinks" runat="server">
+</asp:Content>
+
+<asp:Content ID="statsViewContent" ContentPlaceHolderID="pageContent" runat="server">
+	<st:MessagePanel id=Messages runat="server" ErrorIconUrl="~/admin/resources/ico_critical.gif" ErrorCssClass="ErrorPanel" MessageIconUrl="~/admin/resources/ico_info.gif" MessageCssClass="MessagePanel" />
 	Coming Soon
-	<ANW:AdvancedPanel id="Results" runat="server" Collapsible="False" HeaderText="View Stats" HeaderCssClass="CollapsibleHeader" DisplayHeader="true" Visible = "False">
+	<st:AdvancedPanel id="Results" runat="server" Collapsible="False" HeaderText="View Stats" HeaderCssClass="CollapsibleHeader" DisplayHeader="true" Visible = "False">
 		<ASP:Repeater id="rprSelectionList" runat="server" >
 			<HeaderTemplate>
 				<table id="Listing" class="Listing" cellSpacing="0" cellPadding="0" border="0" style="<%= CheckHiddenStyle() %>">
@@ -44,10 +53,7 @@
 			</table>
 		</FooterTemplate>
 		</ASP:Repeater>
-		<ANW:Pager id="ResultsPager" runat="server" UseSpacer="False" PrefixText="<div>Goto page</div>" LinkFormatActive='<a href="{0}" class="Current">{1}</a>' UrlFormat="StatsView.aspx?pg={0}" CssClass="Pager" />
+		<st:Pager id="ResultsPager" runat="server" UseSpacer="False" PrefixText="<div>Goto page</div>" LinkFormatActive='<a href="{0}" class="Current">{1}</a>' UrlFormat="StatsView.aspx?pg={0}" CssClass="Pager" />
 		<br class="clear">	
-	</ANW:AdvancedPanel>
-
-	
-	
-</ANW:Page>
+	</st:AdvancedPanel>
+</asp:Content>

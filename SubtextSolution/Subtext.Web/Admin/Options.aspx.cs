@@ -19,20 +19,21 @@ using System.Web.UI.WebControls;
 namespace Subtext.Web.Admin.Pages
 {
 	public partial class AdminOptionsPage : AdminPage
-	{
-		protected Subtext.Web.Admin.WebUI.Page PageContainer;
-	
-	    public AdminOptionsPage()
+	{	
+	    public AdminOptionsPage() : base()
 	    {
             TabSectionId = "Options";
 	    }
 	    
-		protected void Page_Load(object sender, System.EventArgs e)
+		protected virtual void Page_Load(object sender, System.EventArgs e)
 		{
-			BindLocalUI();
+            if (!IsPostBack)
+            {
+                BindLocalUI();
+            }
 		}
 		
-		private void BindLocalUI()
+		protected virtual void BindLocalUI()
 		{
 			HyperLink lnkConfigure = Utilities.CreateHyperLink("Configure", "Configure.aspx");
 			HyperLink lnkSyndication = Utilities.CreateHyperLink("Syndication", "Syndication.aspx");

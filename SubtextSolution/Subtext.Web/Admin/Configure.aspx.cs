@@ -23,30 +23,13 @@ using Subtext.Framework.UI.Skinning;
 
 namespace Subtext.Web.Admin.Pages
 {
-	public class Configure : AdminOptionsPage
+	public partial class Configure : AdminOptionsPage
 	{
 		// abstract out at a future point for i18n
 		private const string RES_SUCCESS = "Your configuration was successfully updated.";
 		private const string RES_FAILURE = "Configuration update failed.";
 
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
-		protected System.Web.UI.WebControls.Button lkbPost;
-		protected System.Web.UI.WebControls.TextBox txbTitle;
-		protected System.Web.UI.WebControls.TextBox txbSubtitle;
-		protected System.Web.UI.WebControls.TextBox txbAuthor;
-		protected System.Web.UI.WebControls.TextBox txbAuthorEmail;
-		protected System.Web.UI.WebControls.DropDownList ddlSkin;
-		protected System.Web.UI.WebControls.DropDownList ddlItemCount;
-		protected System.Web.UI.WebControls.DropDownList ddlTimezone;
-		protected System.Web.UI.WebControls.DropDownList ddlLangLocale;
-		protected System.Web.UI.WebControls.CheckBox ckbAllowServiceAccess;
-		protected System.Web.UI.WebControls.TextBox txbNews;
-		protected System.Web.UI.WebControls.TextBox txbUser;
-		protected System.Web.UI.WebControls.TextBox txbSecondaryCss;
-		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
-		protected Subtext.Web.Controls.HelpToolTip HelpToolTip1;
 		protected Subtext.Web.Controls.HelpToolTip HelpToolTip2;
-		//protected Subtext.Web.Admin.WebUI.Page PageContainer;
 	
 		#region Accessors
 		public CategoryType CategoryType
@@ -57,7 +40,7 @@ namespace Subtext.Web.Admin.Pages
 		
 		#endregion
 
-		private void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, System.EventArgs e)
 		{		
 			if (!IsPostBack)
 			{
@@ -173,13 +156,11 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.lkbPost.Click += new System.EventHandler(this.lkbPost_Click);
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion
 
-		private void lkbPost_Click(object sender, System.EventArgs e)
+		protected void lkbPost_Click(object sender, System.EventArgs e)
 		{
 			BindPost();
 		}

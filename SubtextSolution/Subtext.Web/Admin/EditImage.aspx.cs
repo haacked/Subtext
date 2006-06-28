@@ -105,7 +105,9 @@ namespace Subtext.Web.Admin.Pages
 					Advanced.Collapsed = Preferences.AlwaysExpandAdvanced;
 
 					Control container = Page.FindControl("PageContainer");
-					if (null != container && container is Subtext.Web.Admin.WebUI.Page)
+                    //TODO: Need to use new breadcrumb logic.
+				    /*
+				    if (null != container && container is Subtext.Web.Admin.WebUI.Page)
 					{	
 						Subtext.Web.Admin.WebUI.Page page = (Subtext.Web.Admin.WebUI.Page)container;
 						string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Editing Image \"{0}\"", Image.Title);
@@ -113,6 +115,7 @@ namespace Subtext.Web.Admin.Pages
 						page.BreadCrumbs.AddLastItem(title);
 						page.Title = title;
 					}
+                     */
 				}
 				else
 				{

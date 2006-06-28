@@ -27,19 +27,17 @@ namespace Subtext.Web.Admin.Pages
 	/// Displays comments posted to the blog and allows the 
 	/// admin to delete comments.
 	/// </summary>
-	public class Feedback : AdminPage
+	public partial class Feedback : AdminPage
 	{
 		private int _resultsPageNumber = 1;
 		private bool _isListHidden = false;
-		protected System.Web.UI.WebControls.Repeater rprSelectionList;
-		protected System.Web.UI.WebControls.Button btnDelete;
-		protected Subtext.Web.Admin.WebUI.Pager ResultsPager;
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel Results;
-		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
-		protected Subtext.Web.Admin.WebUI.Page PageContainer;
 	
+	    public Feedback() : base()
+	    {
+            this.TabSectionId = "Feedback";
+	    }
 
-		private void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			if (!IsPostBack)
 			{
@@ -134,13 +132,11 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion
 
-		private void btnDelete_Click(object sender, System.EventArgs e)
+		protected void btnDelete_Click(object sender, System.EventArgs e)
 		{
 			ArrayList itemsToDelete = new ArrayList();
 			

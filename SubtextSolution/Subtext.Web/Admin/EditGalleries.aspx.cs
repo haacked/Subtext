@@ -43,7 +43,7 @@ namespace Subtext.Web.Admin.Pages
 		}
 		#endregion
 
-	    protected EditGalleries()
+	    protected EditGalleries() : base()
 	    {
             this.TabSectionId = "Galleries";
 	    }
@@ -110,7 +110,9 @@ namespace Subtext.Web.Admin.Pages
 			ShowImages();
 
 			Control container = Page.FindControl("PageContainer");
-			if (null != container && container is Subtext.Web.Admin.WebUI.Page)
+            //TODO: Need to use new breadcrumb logic.
+            /*
+		    if (null != container && container is Subtext.Web.Admin.WebUI.Page)
 			{	
 				Subtext.Web.Admin.WebUI.Page page = (Subtext.Web.Admin.WebUI.Page)container;
 				string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Viewing Gallery \"{0}\"", selectedGallery.Title);
@@ -118,6 +120,7 @@ namespace Subtext.Web.Admin.Pages
 				page.BreadCrumbs.AddLastItem(title);
 				page.Title = title;
 			}
+             */
 
 			AddImages.Collapsed = !Preferences.AlwaysExpandAdvanced;
 		}

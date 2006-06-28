@@ -17,22 +17,14 @@ using System;
 
 namespace Subtext.Web.Admin.Pages
 {
-	public class Confirm : AdminPage
-	{
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel Header;
-		protected System.Web.UI.WebControls.Label lblOutput;
-		protected Subtext.Web.Admin.WebUI.Page PageContainer;
-		protected System.Web.UI.WebControls.Button lkbContinue;
-		protected System.Web.UI.WebControls.Button lkbYes;
-		protected System.Web.UI.WebControls.Button lkbNo;
-		protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
-	
-	    public Confirm()
+	public partial class Confirm : AdminPage
+	{	
+	    public Confirm() : base()
 	    {
             this.TabSectionId = "Posts";
 	    }
 	    
-		private void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			if (!IsPostBack)
 			{
@@ -87,27 +79,23 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.lkbContinue.Click += new System.EventHandler(this.lkbContinue_Click);
-			this.lkbYes.Click += new System.EventHandler(this.Yes_Click);
-			this.lkbNo.Click += new System.EventHandler(this.No_Click);
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion
 
-		private void Yes_Click(object sender, System.EventArgs e)
+		protected void Yes_Click(object sender, System.EventArgs e)
 		{
 			if (null != Command)
 				HandleCommand(Command.Execute());
 		}
 
-		private void No_Click(object sender, System.EventArgs e)
+		protected void No_Click(object sender, System.EventArgs e)
 		{
 			if (null != Command)
 				HandleCommand(Command.Cancel());
 		}
 
-		private void lkbContinue_Click(object sender, System.EventArgs e)
+		protected void lkbContinue_Click(object sender, System.EventArgs e)
 		{
 			if (null != Command)
 				Response.Redirect(Command.RedirectUrl);
