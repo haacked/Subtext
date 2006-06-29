@@ -45,12 +45,12 @@
       <HintPath>..\..\..\..\..\windows\microsoft.net\framework\v2.0.50727\temporary asp.net files\subtext.web\7a9137a4\_shadow\4e1f50de\bin\10\subtext.web.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Web.Mobile" />
