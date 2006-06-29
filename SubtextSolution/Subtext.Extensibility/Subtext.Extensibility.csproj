@@ -212,6 +212,7 @@
     <Compile Include="Providers\RichTextEditorProvider.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Providers\RichTextEditorProviderCollection.cs" />
     <Compile Include="Providers\RichTextEditorProviderConfiguration.cs">
       <SubType>Code</SubType>
     </Compile>
