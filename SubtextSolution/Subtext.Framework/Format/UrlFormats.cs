@@ -409,6 +409,13 @@ namespace Subtext.Framework.Format
 			{
 				// use Lenght b/c we want to leave the beginning "/" character on newUrl
 				url = url.Substring(fullHost.Length);
+
+                //Remove port number is present
+                if (url.StartsWith(":"))
+                {
+                    int firstSlash = url.IndexOf('/');
+                    url = url.Substring(firstSlash, url.Length - firstSlash);
+                }
 			}
 			return url;
 		}

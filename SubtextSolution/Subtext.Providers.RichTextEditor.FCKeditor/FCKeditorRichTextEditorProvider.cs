@@ -129,8 +129,14 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 
 			// Compute user image gallery url
 			string blogImageRootPath=Subtext.Framework.Format.UrlFormats.StripHostFromUrl(Subtext.Framework.Configuration.Config.CurrentBlog.ImagePath);
-			string currentImageConnector=_imageConnectorURL.Replace("~/","~/"+Subtext.Framework.Configuration.Config.CurrentBlog.Subfolder+"/");
-			string currentLinkConnector=_linkConnectorURL.Replace("~/","~/"+Subtext.Framework.Configuration.Config.CurrentBlog.Subfolder+"/");
+            string blogSubFolder = Subtext.Framework.Configuration.Config.CurrentBlog.Subfolder;
+            string currentImageConnector = _imageConnectorURL;
+            string currentLinkConnector = _linkConnectorURL;
+            if (blogSubFolder.Length > 0)
+            {
+                currentImageConnector = _imageConnectorURL.Replace("~/", "~/" + blogSubFolder + "/");
+                currentLinkConnector = _linkConnectorURL.Replace("~/", "~/" + blogSubFolder + "/");
+            }
 
 			if(!Directory.Exists(HttpContext.Current.Server.MapPath(blogImageRootPath)))
 				Directory.CreateDirectory(HttpContext.Current.Server.MapPath(blogImageRootPath));
