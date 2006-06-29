@@ -1,17 +1,17 @@
 <%@ Master Language="C#" AutoEventWireup="true" CodeBehind="AdminPageTemplate.master.cs" Inherits="Subtext.Web.Admin.WebUI.AdminPageTemplate" %>
 <%@ Import namespace="Subtext.Framework.Configuration"%>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
-<%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
+<%@ Register TagPrefix="st1" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <%@ Import Namespace = "Subtext.Web.Admin" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head runat="server">
     <title>Subtext - Admin</title>
-    <st:ScriptTag id="NiceForms" src="~/admin/resources/Scripts/niceForms.js" runat="server" />
-	<st:ScriptTag id="HelptipJs" src="~/admin/resources/Scripts/helptip.js" runat="server" />
-	<st:ScriptTag id="AdminJs" src="~/admin/resources/Scripts/admin.js" runat="server" />
-	<st:ScriptTag id="tableEffectsJS" src="~/admin/resources/Scripts/tableEffects.js" runat="server" />
+    <st1:ScriptTag id="NiceForms" src="~/admin/resources/Scripts/niceForms.js" runat="server" />
+	<st1:ScriptTag id="HelptipJs" src="~/admin/resources/Scripts/helptip.js" runat="server" />
+	<st1:ScriptTag id="AdminJs" src="~/admin/resources/Scripts/admin.js" runat="server" />
+	<st1:ScriptTag id="tableEffectsJS" src="~/admin/resources/Scripts/tableEffects.js" runat="server" />
 	<st:HeaderLink id="HelptipCss" rel="stylesheet" href="resources/scripts/helptip.css" linkType="text/css"
 		runat="server" />
 	<st:HeaderLink id="Css1" rel="stylesheet" href="resources/admin.css" linkType="text/css" runat="server" />
