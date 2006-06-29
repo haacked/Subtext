@@ -16,24 +16,27 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Configuration;
+using System.Configuration.Provider;
 
 namespace Subtext.Extensibility.Providers
 {
-    public class RichTextEditorProviderSectionHandler : ConfigurationSection
+    public class RichTextEditorProviderCollection : System.Configuration.Provider.ProviderCollection
     {
-        [ConfigurationProperty("providers")]
-        public ProviderSettingsCollection Providers
+        public new RichTextEditorProvider this[string name]
         {
-            get { return (ProviderSettingsCollection)base["providers"]; }
+            get { return (RichTextEditorProvider)base[name]; }
         }
 
-        [ConfigurationProperty("defaultProvider")]
-        public string DefaultProvider
+        public override void Add(System.Configuration.Provider.ProviderBase provider)
         {
-            get { return (string)base["defaultProvider"]; }
-            set { base["defaultProvider"] = value; }
+            if (provider == null)
+                throw new ArgumentNullException("provider");
+
+            if (!(provider is RichTextEditorProvider))
+                throw new ArgumentException
+                    ("Invalid provider type", "provider");
+
+            base.Add(provider);
         }
     }
 }
-

@@ -16,6 +16,8 @@
 using System;
 using System.Collections.Specialized;
 using System.Web.UI;
+using System.Configuration.Provider;
+using System.Web.Configuration;
 
 namespace Subtext.Extensibility.Providers
 {
@@ -23,77 +25,80 @@ namespace Subtext.Extensibility.Providers
 	/// Provider for classes that implement the rich text editor 
 	/// to edit text visually.
 	/// </summary>
-	public abstract class RichTextEditorProvider : ProviderBase
+	public abstract class RichTextEditorProvider : System.Configuration.Provider.ProviderBase
 	{
-		const string SECTION_NAME = "RichTextEditor";
-		string _name;
 
-		/// <summary>
-		/// Instantiates and returns the configured concrete 
-		/// default instance of a <see cref="RichTextEditorProvider"/>.
-		/// </summary>
-		/// <returns></returns>
-		public static RichTextEditorProvider Instance()
-		{
-			return (RichTextEditorProvider)ProviderBase.Instance(SECTION_NAME);
-		}
+        private static RichTextEditorProvider _provider = null;
+        private static RichTextEditorProviderCollection _providers = null;
+        private static object _lock = new object();
+
+        public static RichTextEditorProvider Instance()
+        {
+            LoadProviders();
+            return _provider;
+        }
+
+        private static void LoadProviders()
+        {
+            // Avoid claiming lock if providers are already loaded
+            if (_provider == null)
+            {
+                lock (_lock)
+                {
+                    // Do this again to make sure _provider is still null
+                    if (_provider == null)
+                    {
+                        // Get a reference to the <RichTextEditor> section
+                        RichTextEditorProviderSectionHandler section = (RichTextEditorProviderSectionHandler)
+                            WebConfigurationManager.GetSection
+                            ("RichTextEditor");
+
+                        // Load registered providers and point _provider
+                        // to the default provider
+                        _providers = new RichTextEditorProviderCollection();
+                        ProvidersHelper.InstantiateProviders
+                            (section.Providers, _providers,
+                            typeof(RichTextEditorProvider));
+                        _provider = _providers[section.DefaultProvider];
+
+                        if (_provider == null)
+                            throw new ProviderException
+                                ("Unable to load default RichTextEditorProvider");
+                    }
+                }
+            }
+        }
 
 
-		/// <summary>
-		/// Instantiates and returns the <see cref="ImportProvider"/> specified 
-		/// by the <see cref="RichTextEditorProvider"/> instance.
-		/// </summary>
-		/// <param name="providerInfo">Name of the provider.</param>
-		/// <returns></returns>
-		public static RichTextEditorProvider Instance(ProviderInfo providerInfo)
-		{
-			return (RichTextEditorProvider)ProviderBase.Instance(SECTION_NAME, providerInfo);
-		}
-
-		
-		/// <summary>
-		/// Initializes the specified provider.
-		/// </summary>
-		/// <param name="name">Friendly Name of the provider.</param>
-		/// <param name="configValue">Config value.</param>
-		public override void Initialize(string name, NameValueCollection configValue)
-		{
-			_name = name;
-		}
-
-		/// <summary>
-		/// Gets or sets the name.
-		/// </summary>
-		/// <value></value>
-		public override string Name
-		{
-			get { return _name; }
-		}
-
-		/// <summary>
-		/// Returns a <see cref="ProviderCollection"/> containing <see cref="ProviderInfo"/> 
-		/// instances for each <see cref="RichTextEditorProvider"/>.  Note that these are not the 
-		/// actual providers, simply information about the installed providers.
-		/// </summary>
-		/// <value></value>
-		public static ProviderCollection Providers
-		{
-			get
-			{
-				return ProviderBase.GetProviders(SECTION_NAME);
-			}
-		}
 
 		/// <summary>
 		/// Return the RichTextEditorControl to be displayed inside the page
 		/// </summary>
 		public abstract Control RichTextEditorControl{get;}
+        /// <summary>
+        /// Id of the control
+        /// </summary>
 		public abstract String ControlID{get;set;}
+        /// <summary>
+        /// The content of the area
+        /// </summary>
 		public abstract String Text{get;set;}
+        /// <summary>
+        /// The content of the area, but XHTML converted
+        /// </summary>
 		public abstract String Xhtml{get;}
+        /// <summary>
+        /// Width of the editor
+        /// </summary>
 		public abstract System.Web.UI.WebControls.Unit Width{get;set;}
+        /// <summary>
+        /// Height of the editor
+        /// </summary>
 		public abstract System.Web.UI.WebControls.Unit Height{get;set;}
 
+        /// <summary>
+        /// Initializes the Control to be displayed
+        /// </summary>
 		public abstract void InitializeControl();
 
 	}
