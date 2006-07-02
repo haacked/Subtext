@@ -33,8 +33,7 @@ namespace Subtext.Web.Providers.RichTextEditor.PlainText
 
 		private static System.Resources.ResourceManager rm =  new System.Resources.ResourceManager("Subtext.Web.Providers.RichTextEditor.PlainText.resources.ErrorMessages",System.Reflection.Assembly.GetExecutingAssembly());
 
-
-		public override Control RichTextEditorControl
+        public override Control RichTextEditorControl
 		{
 			get
 			{
@@ -56,7 +55,7 @@ namespace Subtext.Web.Providers.RichTextEditor.PlainText
 			if(configValue["cols"]!=null)
 				_cols=Convert.ToInt32(configValue["cols"]);
 			if(configValue["cssClass"]!=null)
-				_cssClass=configValue["cssClass"];
+				_cssClass = configValue["cssClass"];
 			
 			base.Initialize(name, configValue);
 		}

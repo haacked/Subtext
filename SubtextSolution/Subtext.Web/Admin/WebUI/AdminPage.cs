@@ -63,9 +63,9 @@ namespace Subtext.Web.Admin.Pages
 			// putting it in the default.aspx, but that fails to work on direct url access.
 			AreCookiesAllowed();
 
-			ControlHelper.ApplyRecursively(new ControlAction(SetTextBoxStyle), this);
 		    if(!IsPostBack)
 		    {
+                ControlHelper.ApplyRecursively(new ControlAction(SetTextBoxStyle), this);
 		        DataBind();
 		    }
 			base.OnLoad(e);
@@ -93,11 +93,25 @@ namespace Subtext.Web.Admin.Pages
 			if(textBox != null)
 			{
 				if(textBox.TextMode == TextBoxMode.SingleLine || textBox.TextMode == TextBoxMode.Password)
-					textBox.CssClass = "textinput";
-				if(textBox.TextMode == TextBoxMode.MultiLine)
-					textBox.CssClass = "textarea";
+                    AddCssClass(textBox, "textinput");
+                if (textBox.TextMode == TextBoxMode.MultiLine)
+                {
+                    AddCssClass(textBox, "textarea");
+                }
 			}
 		}
+	    
+	    private void AddCssClass(WebControl control, string cssClass)
+	    {
+            if (control.CssClass != null && control.CssClass.Length > 0 && !StringHelper.AreEqualIgnoringCase(cssClass, control.CssClass))
+            {
+                control.CssClass += " " + cssClass;
+            }
+            else
+            {
+                control.CssClass = cssClass;
+            }
+	    }
 
 		protected bool AreCookiesAllowed()
 		{
