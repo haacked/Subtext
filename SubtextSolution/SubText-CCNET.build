@@ -116,6 +116,8 @@
 	<target name="compile">
 		<exec program="${msbuild.exe}">
 			<arg value="SubtextSolution.sln"/>
+			<arg value="/nologo"/>
+			<arg value="/verbosity:normal"/>
 			<arg value="/t:Build"/>
 			<arg value="/p:Configuration=${configuration}"/>
 		</exec>
