@@ -46,6 +46,10 @@
 			<fail message="vil.exe property not set, so cannot test" />
 		</ifnot>
 		
+		<ifnot test="${property::exists('msbuild.exe')}"> 
+			<fail message="msbuild.exe property not set, so cannot test" />
+		</ifnot>
+		
 		<property name="vil.assemblies" value="${CCNetWorkingDirectory}\SubtextSolution\Subtext.Web\bin\Subtext.Common.dll" />
 	
 		<property name="log.dir" value="${CCNetWorkingDirectory}\logs" />
@@ -109,42 +113,14 @@
 
 
 	<target name="compile">
-		<solution configuration="${configuration}">
-			<projects>
-				<include name="Subtext.Common\SubText.Common.csproj" />
-				<include name="Subtext.Extensibility\Subtext.Extensibility.csproj" />
-				<include name="Subtext.Framework\Subtext.Framework.csproj" />
-				<include name="Subtext.Installation\Subtext.Installation.csproj" />
-				<include name="Subtext.Scripting\Subtext.Scripting.csproj" />
-				<include name="Subtext.Web\Subtext.Web.csproj" />
-				<include name="Subtext.Web.Controls\Subtext.Web.Controls.csproj" />
-				<include name="Subtext.Providers.RichTextEditor.FCKeditor\Subtext.Providers.RichTextEditor.FCKeditor.csproj" />
-			</projects>
-		</solution>
+		<exec program="${msbuild}">
+			<arg value="SubtextSolution.sln"/>
+			<arg value="/t:Build"/>
+			<arg value="/p:Configuration=${configuration}"/>
+		</exec>
 	</target>
 
-	<target name="compile-UnitTesting" depends="compile-debug">
-		<solution configuration="debug">
-			<projects>
-				<include name="UnitTests.Subtext\UnitTests.SubText.csproj" />
-				<include name="Subtext.UnitTesting.Servers\Subtext.UnitTesting.Servers.csproj" />
-			</projects>
-			<referenceprojects>
-				<include name="Subtext.Common\SubText.Common.csproj" />
-				<include name="Subtext.DotTextUpgrader\Subtext.DotTextUpgrader.csproj" />
-				<include name="Subtext.Extensibility\Subtext.Extensibility.csproj" />
-				<include name="Subtext.Framework\Subtext.Framework.csproj" />
-				<include name="Subtext.Installation\Subtext.Installation.csproj" />
-				<include name="Subtext.Scripting\Subtext.Scripting.csproj" />
-				<include name="Subtext.Web\Subtext.Web.csproj" />
-				<include name="Subtext.Web.Controls\Subtext.Web.Controls.csproj" />
-				<include name="Subtext.Providers.RichTextEditor.FCKeditor\Subtext.Providers.RichTextEditor.FCKeditor.csproj" />
-			</referenceprojects>
-		</solution>
-	</target>
-
-
-	<target name="testAndCover" depends="get-publishing-properties,compile-UnitTesting">
+	<target name="testAndCover" depends="get-publishing-properties,compile-debug">
 		
 		<exec program="${NCover.exe}" workingdir="UnitTests.Subtext\bin\${configuration}" commandline="&quot;${MbUnit.exe}&quot; /rnf:unittest /rt:xml /rf:${log.dir} UnitTests.Subtext.dll //x ${log.dir}\ncover-temp.xml" failonerror="true"/>
 		
