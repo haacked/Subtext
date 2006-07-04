@@ -113,7 +113,7 @@
 
 
 	<target name="compile">
-		<exec program="${msbuild}">
+		<exec program="${msbuild.exe}">
 			<arg value="SubtextSolution.sln"/>
 			<arg value="/t:Build"/>
 			<arg value="/p:Configuration=${configuration}"/>
