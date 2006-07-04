@@ -98,6 +98,7 @@
 				<delete dir="${foldername}" />
 			</do>
 		</foreach>
+		<mkdir dir="Subtext.Web\bin" />
 	</target>
 
 
