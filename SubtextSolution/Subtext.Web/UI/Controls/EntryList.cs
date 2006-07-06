@@ -27,13 +27,8 @@ namespace Subtext.Web.UI.Controls
 	/// <summary>
 	/// Control used to display a list of entries.
 	/// </summary>
-	public partial class EntryList : BaseControl
-	{
-		protected System.Web.UI.WebControls.Repeater Entries;
-		protected System.Web.UI.WebControls.Literal EntryCollectionTitle;
-		protected System.Web.UI.WebControls.Literal EntryCollectionDescription;
-		protected System.Web.UI.WebControls.HyperLink EntryCollectionReadMoreLink;
-
+	public class EntryList : BaseControl
+	{	
 		const string linkToComments = "<a href=\"{0}#feedback\" title=\"View and Add Comments\">{1}{2}</a>";
 		const string postdescWithComments = "posted @ <a href=\"{0}\" title = \"Permanent link to this post\">{1}</a> | <a href=\"{2}#feedback\" title = \"comments, pingbacks, trackbacks\">Feedback ({3})</a>";
 		const string postdescWithNoComments = "posted @ <a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>";
@@ -256,29 +251,46 @@ namespace Subtext.Web.UI.Controls
 
 			if(EntryListItems != null)
 			{
-				EntryCollectionTitle.Text = EntryListTitle;
+                Literal entryCollectionTitle = this.FindControl("EntryCollectionTitle") as Literal;
+                if(entryCollectionTitle != null)
+                {
+                    entryCollectionTitle.Text = EntryListTitle;
+                }
 
-				if(EntryListDescription != null)
-				{
-					this.EntryCollectionDescription.Text = EntryListDescription;
-				}
-				else
-				{
-					EntryCollectionDescription.Visible = false;
-				}
+                Literal entryCollectionDescription = this.FindControl("EntryCollectionDescription") as Literal;
+                if(entryCollectionDescription != null)
+                {
+                    if(EntryListDescription != null)
+                    {
+                        entryCollectionDescription.Text = EntryListDescription;
+                    }
+                    else
+                    {
+                        entryCollectionDescription.Visible = false;
+                    }
+                }
 
-				if(EntryListReadMoreUrl != null && EntryListReadMoreText != null)
-				{
-					this.EntryCollectionReadMoreLink.Text = EntryListReadMoreText;
-					this.EntryCollectionReadMoreLink.NavigateUrl = EntryListReadMoreUrl;
-				}
-				else
-				{
-					EntryCollectionReadMoreLink.Visible = false;
-				}
+                HyperLink entryListReadMoreUrl = this.FindControl("EntryListReadMoreUrl") as HyperLink;
 
-				Entries.DataSource = EntryListItems;
-				Entries.DataBind();
+                if(entryListReadMoreUrl != null)
+                {
+                    if(EntryListReadMoreText != null)
+                    {
+                        entryListReadMoreUrl.Text = EntryListReadMoreText;
+                        entryListReadMoreUrl.NavigateUrl = EntryListReadMoreUrl;
+                    }
+                    else
+                    {
+                        entryListReadMoreUrl.Visible = false;
+                    }
+                }
+
+                Repeater entryRepeater = this.FindControl("Entries") as Repeater;
+                if(entryRepeater != null)
+                {
+                    entryRepeater.DataSource = EntryListItems;
+                    entryRepeater.DataBind();
+                }
 			}
 		}
 	}

@@ -12,7 +12,7 @@ namespace Subtext.Web.Admin.Pages {
     
     public partial class Confirm {
         protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
-        protected Subtext.Web.Admin.WebUI.AdvancedPanel Header;
+        protected Subtext.Web.Admin.WebUI.AdvancedPanel HeaderSection;
         protected System.Web.UI.WebControls.Label lblOutput;
         protected System.Web.UI.WebControls.Button lkbContinue;
         protected System.Web.UI.WebControls.Button lkbYes;
