@@ -51,8 +51,8 @@ namespace Subtext.Framework.Components
 		/// Gets or sets the entry ID.
 		/// </summary>
 		/// <value>The entry ID.</value>
-		[XmlAttribute]
-		public int EntryID
+		[XmlAttribute("EntryID")]
+		public int Id
 		{
 			get{return _entryid;}
 			set{_entryid = value;}

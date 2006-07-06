@@ -192,7 +192,7 @@ namespace Subtext.Framework.Data
 				entry.DateUpdated = (DateTime)reader["DateUpdated"];
 			}
 
-			entry.EntryID = (int)reader["ID"];
+			entry.Id = (int)reader["ID"];
 
 			if(reader["TitleUrl"] != DBNull.Value)
 			{
@@ -289,7 +289,7 @@ namespace Subtext.Framework.Data
 				entry.DateUpdated = (DateTime)reader["DateUpdated"];
 			}
 	
-			entry.EntryID = (int)reader["ID"];
+			entry.Id = (int)reader["ID"];
 	
 			if(reader["TitleUrl"] != DBNull.Value)
 			{
@@ -401,7 +401,7 @@ namespace Subtext.Framework.Data
 			{
 				entry.DateUpdated = (DateTime)dr["DateUpdated"];
 			}
-			entry.EntryID = (int)dr["ID"];
+			entry.Id = (int)dr["ID"];
 
 			if(dr["TitleUrl"] != DBNull.Value)
 			{
@@ -478,7 +478,7 @@ namespace Subtext.Framework.Data
 			{
 				entry.DateUpdated = (DateTime)dr["DateUpdated"];
 			}
-			entry.EntryID = (int)dr["ID"];
+			entry.Id = (int)dr["ID"];
 
 			if(dr["TitleUrl"] != DBNull.Value)
 			{

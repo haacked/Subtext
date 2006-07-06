@@ -588,7 +588,7 @@ namespace Subtext.Framework.Data
 				SqlConnection conn = new SqlConnection(ConnectionString);
 				SqlParameter[] p = new SqlParameter[3];
 				p[0] = new SqlParameter("@Title",SqlDbType.NVarChar,150);
-				p[1] = SqlHelper.MakeInParam("@PostID", SqlDbType.Int, 4, SqlHelper.CheckNull(ce.EntryID));
+				p[1] = SqlHelper.MakeInParam("@PostID", SqlDbType.Int, 4, SqlHelper.CheckNull(ce.Id));
 				p[2] = BlogIdParam;
 				conn.Open();
 				//DeleteCategoriesByPostID(ce.EntryID,conn);
@@ -669,7 +669,7 @@ namespace Subtext.Framework.Data
 		{
 			SqlParameter[] p =
 			{
-				SqlHelper.MakeInParam("@ID", SqlDbType.Int, 4, entry.EntryID), 
+				SqlHelper.MakeInParam("@ID", SqlDbType.Int, 4, entry.Id), 
 				SqlHelper.MakeInParam("@Title",  SqlDbType.NVarChar, 255, entry.Title), 
 				SqlHelper.MakeInParam("@TitleUrl",  SqlDbType.NVarChar, 255, SqlHelper.CheckNull(entry.TitleUrl)),
 				SqlHelper.MakeInParam("@Text", SqlDbType.NText, 0, entry.Body), 

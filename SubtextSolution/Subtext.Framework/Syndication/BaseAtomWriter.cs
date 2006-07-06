@@ -231,7 +231,7 @@ namespace Subtext.Framework.Syndication
 					string.Format
 					("{0}{1}", //tag def
 						entry.SyndicateDescriptionOnly ? entry.Description : entry.Body,  //use desc or full post
-						(UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(urlFormats.AggBugkUrl(entry.EntryID)) : null //use aggbugs
+						(UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(urlFormats.AggBugkUrl(entry.Id)) : null //use aggbugs
 					)
 				);		
 				this.WriteEndElement();
@@ -239,15 +239,15 @@ namespace Subtext.Framework.Syndication
 			if(AllowComments && info.CommentsEnabled && entry.AllowComments && !entry.CommentingClosed)
 			{
 				//optional for CommentApi Post location
-				this.WriteElementString("wfw:comment", urlFormats.CommentApiUrl(entry.EntryID));
+				this.WriteElementString("wfw:comment", urlFormats.CommentApiUrl(entry.Id));
 				//optional url for comments
 				//this.WriteElementString("comments",entry.Link + "#feedback");
 				//optional comment count
 				this.WriteElementString("slash:comments", entry.FeedBackCount.ToString(CultureInfo.InvariantCulture));
 				//optional commentRss feed location
-				this.WriteElementString("wfw:commentRss", urlFormats.CommentRssUrl(entry.EntryID));
+				this.WriteElementString("wfw:commentRss", urlFormats.CommentRssUrl(entry.Id));
 				//optional trackback location
-				this.WriteElementString("trackback:ping", urlFormats.TrackBackUrl(entry.EntryID));
+				this.WriteElementString("trackback:ping", urlFormats.TrackBackUrl(entry.Id));
 				//core 
 			}
 		}

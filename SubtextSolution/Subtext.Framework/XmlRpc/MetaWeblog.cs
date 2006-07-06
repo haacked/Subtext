@@ -114,7 +114,7 @@ namespace Subtext.Framework.XmlRpc
 			post.link = entry.TitleUrl;
 			post.description = entry.Body;
 			post.dateCreated = entry.DateCreated;
-			post.postid = entry.EntryID;
+			post.postid = entry.Id;
 			post.title = entry.Title;
 			post.permalink = entry.FullyQualifiedUrl.ToString();
             post.categories = new string[entry.Categories.Count] ;
@@ -140,7 +140,7 @@ namespace Subtext.Framework.XmlRpc
 				post.link = entry.TitleUrl;
 				post.permalink = entry.FullyQualifiedUrl.ToString();
 				post.title = entry.Title;
-				post.postid = entry.EntryID.ToString(CultureInfo.InvariantCulture);
+				post.postid = entry.Id.ToString(CultureInfo.InvariantCulture);
 				post.userid = entry.Body.GetHashCode().ToString(CultureInfo.InvariantCulture);
 				if(entry.Categories != null && entry.Categories.Count > 0)
 				{

@@ -65,7 +65,7 @@ namespace UnitTests.Subtext.Framework.Format
 			UrlFormats formats = new UrlFormats(Config.CurrentBlog.RootUrl);
 			Entry entry = new Entry(PostType.BlogPost);
 			entry.DateCreated = DateTime.Parse("January 23, 1975");
-			entry.EntryID = 123;
+			entry.Id = 123;
 			Assert.AreEqual("/archive/1975/01/23/123.aspx", formats.EntryUrl(entry));
 		}
 
@@ -84,7 +84,7 @@ namespace UnitTests.Subtext.Framework.Format
 			UrlFormats formats = new UrlFormats(Config.CurrentBlog.RootUrl);
 			Entry entry = new Entry(PostType.BlogPost);
 			entry.DateCreated = DateTime.Parse("January 23, 1975");
-			entry.EntryID = 123;
+			entry.Id = 123;
 			Assert.AreEqual("/MyBlog/archive/1975/01/23/123.aspx", formats.EntryUrl(entry));
 		}
 
@@ -103,7 +103,7 @@ namespace UnitTests.Subtext.Framework.Format
 			UrlFormats formats = new UrlFormats(Config.CurrentBlog.RootUrl);
 			Entry entry = new Entry(PostType.BlogPost);
 			entry.DateCreated = DateTime.Parse("January 23, 1975");
-			entry.EntryID = 123;
+			entry.Id = 123;
 			Assert.AreEqual("/Subtext.Web/MyBlog/archive/1975/01/23/123.aspx", formats.EntryUrl(entry));
 		}
 		/// <summary>
@@ -114,7 +114,7 @@ namespace UnitTests.Subtext.Framework.Format
 		public void FormattingEntryUrlIsCultureInvariant()
 		{
 			Entry entry = new Entry(PostType.BlogPost);
-			entry.EntryID = 123;
+			entry.Id = 123;
 			entry.DateCreated = DateTime.Parse("2006/01/23");
 			entry.EntryName = "test";
 
@@ -140,13 +140,13 @@ namespace UnitTests.Subtext.Framework.Format
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
 
 			Entry postEntry = new Entry(PostType.BlogPost);
-			postEntry.EntryID = 123;
+			postEntry.Id = 123;
 
 			string editPostUrl = UrlFormats.GetEditLink(postEntry);
 			Assert.AreEqual("~/Admin/EditPosts.aspx?PostID=123", editPostUrl, "Expected blog post to go to EditPosts.aspx");
 
 			Entry articleEntry = new Entry(PostType.Story);
-			articleEntry.EntryID = 456;
+			articleEntry.Id = 456;
 			string editArticleUrl = UrlFormats.GetEditLink(articleEntry);
 			Assert.AreEqual("~/Admin/EditArticles.aspx?PostID=456", editArticleUrl, "Expected blog post to go to EditPosts.aspx");
 		}

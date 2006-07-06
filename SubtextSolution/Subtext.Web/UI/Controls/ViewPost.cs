@@ -63,7 +63,7 @@ namespace Subtext.Web.UI.Controls
 				DisplayEditLink(entry);
 
 				//Track this entry
-				EntryTracker.Track(Context, entry.EntryID, CurrentBlog.Id);
+				EntryTracker.Track(Context, entry.Id, CurrentBlog.Id);
 
 				//Set the page title
 				Globals.SetTitle(entry.Title, Context);

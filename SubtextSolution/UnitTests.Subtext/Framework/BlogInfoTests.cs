@@ -59,7 +59,7 @@ namespace UnitTests.Subtext.Framework
             
             Entry entry = new Entry(PostType.BlogPost);
             entry.DateCreated = DateTime.Parse("1/23/1975");
-            entry.EntryID = 987123;
+            entry.Id = 987123;
             Assert.AreEqual("http://" + host + expected, Config.CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(entry), "Did not set the entry url correctly.");
         }
 	    
