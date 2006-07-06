@@ -39,14 +39,9 @@ namespace Subtext.Web.UI.Controls
 		/// </summary>
 		public RecentComments()
 		{
-			if(Config.CurrentBlog.NumberOfRecentComments > 0)
-			{
-				comments = Entries.GetRecentPosts(Config.CurrentBlog.NumberOfRecentComments, PostType.Comment, true);
-			}
-			else
-			{
-				comments = Entries.GetRecentPosts(DefaultRecentPostCount, PostType.Comment, true);
-			}
+            int commentCount = Config.CurrentBlog.NumberOfRecentComments > 0 ? Config.CurrentBlog.NumberOfRecentComments : DefaultRecentPostCount;
+			
+		    comments = Entries.GetRecentPosts(commentCount, PostType.Comment, true);
 
 			for(int i = 0; i < comments.Count; i++)
 			{

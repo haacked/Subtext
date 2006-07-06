@@ -168,7 +168,7 @@ namespace Subtext.Framework.Configuration
 					if(!InstallationManager.IsInHostAdminDirectory)
 					{
 						// Set the BlogId context for the current request.
-						Log.SetBlogIdContext(info.BlogId);
+						Log.SetBlogIdContext(info.Id);
 					}
 					else
 					{

@@ -110,7 +110,7 @@ namespace Subtext.Web.Admin.Pages
 				info.TimeZone = Int32.Parse(ddlTimezone.SelectedItem.Value);
 				info.Subfolder = Config.CurrentBlog.Subfolder;
 				info.Host = Config.CurrentBlog.Host;
-				info.BlogId = Config.CurrentBlog.BlogId;
+				info.Id = Config.CurrentBlog.Id;
 
 				info.ItemCount = Int32.Parse(ddlItemCount.SelectedItem.Value);
 				info.Language = ddlLangLocale.SelectedItem.Value;

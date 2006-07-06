@@ -35,7 +35,7 @@ namespace Subtext.Common.Syndication
 		protected override string CacheKey(DateTime dateLastViewedFeedItemPublished)
 		{
 			const string key = "ATOM;IndividualMainFeed;BlogId:{0};LastViewed:{1}";
-			return string.Format(key, CurrentBlog.BlogId, dateLastViewedFeedItemPublished);
+			return string.Format(key, CurrentBlog.Id, dateLastViewedFeedItemPublished);
 		}
 
 		/// <summary>

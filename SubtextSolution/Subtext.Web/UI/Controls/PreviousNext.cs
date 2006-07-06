@@ -48,7 +48,7 @@ namespace Subtext.Web.UI.Controls
 				SqlParameter[] p =
 					{
 						SqlHelper.MakeInParam("@ID",SqlDbType.Int,4,entry.EntryID),
-						SqlHelper.MakeInParam("@BlogID",SqlDbType.Int,4,Config.CurrentBlog.BlogId)
+						SqlHelper.MakeInParam("@BlogID",SqlDbType.Int,4,Config.CurrentBlog.Id)
 					};
 
 				//System.Data.SqlClient.SqlDataReader sdr = SqlHelper.ExecuteReader(ConnectionString,CommandType.StoredProcedure,"blog_GetEntry_PreviousNext",p);

@@ -122,7 +122,7 @@ namespace Subtext.Framework.Import
 			foreach (BlogMLCategory bmlCat in bmlBlog.Categories)
 			{
 				LinkCategory category = new LinkCategory();
-				category.BlogId = info.BlogId;
+				category.BlogId = info.Id;
 				category.Title = bmlCat.Title;
 				category.Description = bmlCat.Description;
 				category.IsActive = bmlCat.Approved;
@@ -179,7 +179,7 @@ namespace Subtext.Framework.Import
 				} // End Attachments for Post
                 
 				newEntry = new Entry(PostType.BlogPost);
-				newEntry.BlogId = info.BlogId;
+				newEntry.BlogId = info.Id;
 				newEntry.Title = bmlPost.Title;
 				newEntry.DateCreated = bmlPost.DateCreated;
 				newEntry.DateUpdated = bmlPost.DateModified;
@@ -208,7 +208,7 @@ namespace Subtext.Framework.Import
 					foreach (BlogMLComment bmlComment in bmlPost.Comments)
 					{
 						newComment = new Entry(PostType.Comment);
-						newComment.BlogId = info.BlogId;
+						newComment.BlogId = info.Id;
 						newComment.ParentID = newEntryID;
 						newComment.Title = StringHelper.ReturnCheckForNull(bmlComment.Title);
 						newComment.DateCreated = bmlComment.DateCreated;
@@ -239,7 +239,7 @@ namespace Subtext.Framework.Import
 					foreach (BlogMLTrackback bmlPingTrack in bmlPost.Trackbacks)
 					{
 						newPingTrack = new Entry(PostType.PingTrack);
-						newPingTrack.BlogId = info.BlogId;
+						newPingTrack.BlogId = info.Id;
 						newPingTrack.ParentID = newEntryID;
 						newPingTrack.Title = bmlPingTrack.Title;
 						newPingTrack.TitleUrl = bmlPingTrack.Url;

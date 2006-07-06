@@ -32,7 +32,6 @@ namespace Subtext.Framework.Components
         public abstract ICollection<EntryDay> GetPostsByMonth(int month, int year);
 
         public abstract IList<Entry> GetRecentPosts(int itemCount, PostType postType, bool activeOnly);
-        public abstract IList<Entry> GetRecentPosts(int itemCount, PostType postType, bool activeOnly, DateTime DateUpdated);
 
         public abstract ICollection<CategoryEntry> GetRecentPostsWithCategories(int itemCount, bool activeOnly);
 

@@ -131,7 +131,6 @@ namespace Subtext.Framework.Providers
 		/// <param name="activeOnly">Active only.</param>
 		/// <returns></returns>
 		public abstract IList<Entry> GetRecentPosts(int itemCount, PostType postType, bool activeOnly);
-		public abstract IList<Entry> GetRecentPosts(int itemCount, PostType postType, bool activeOnly, DateTime DateUpdated);
 		public abstract IList<Entry> GetPostCollectionByMonth(int month, int year);
 		public abstract IList<Entry> GetPostsByDayRange(DateTime start, DateTime stop, PostType postType, bool activeOnly);
 		public abstract IList<Entry> GetEntriesByCategory(int ItemCount,int catID,bool ActiveOnly);

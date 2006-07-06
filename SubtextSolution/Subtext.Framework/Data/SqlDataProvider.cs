@@ -36,7 +36,7 @@ namespace Subtext.Framework.Data
 		{
 			get
 			{
-				return SqlHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, SqlHelper.CheckNull(Config.CurrentBlog.BlogId));
+				return SqlHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, SqlHelper.CheckNull(Config.CurrentBlog.Id));
 			}
 		}
 
@@ -382,10 +382,10 @@ namespace Subtext.Framework.Data
 				BlogIdParam				
 			};
 
-			return GetReader("subtext_GetConditionalEntries",p);
+			return GetReader("subtext_GetConditionalEntries", p);
 		}
 				
-		public override IDataReader GetEntriesByDateRangle(DateTime start, DateTime stop, PostType postType, bool activeOnly)
+		public override IDataReader GetEntriesByDateRange(DateTime start, DateTime stop, PostType postType, bool activeOnly)
 		{
 			SqlParameter[] p =	
 			{
@@ -400,14 +400,22 @@ namespace Subtext.Framework.Data
 
 		public override DataSet GetRecentPostsWithCategories(int itemCount, bool activeOnly)
 		{
+		    PostConfig postConfig = PostConfig.None;
+		    if(activeOnly)
+		    {
+                postConfig = PostConfig.IsActive;
+		    }
+		    
 			SqlParameter[] p =
 			{
-				SqlHelper.MakeInParam("@ItemCount",SqlDbType.Int,4,itemCount),
-				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1, activeOnly),
+				SqlHelper.MakeInParam("@ItemCount", SqlDbType.Int, 4, itemCount),
+				SqlHelper.MakeInParam("@PostType", SqlDbType.Int, 4, PostType.BlogPost),
+				SqlHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, postConfig),
+				SqlHelper.MakeInParam("@IncludeCategories", SqlDbType.Bit, 1, true),
 				BlogIdParam
 			};
-			DataSet ds = SqlHelper.ExecuteDataset(ConnectionString,CommandType.StoredProcedure,"subtext_GetRecentEntriesWithCategoryTitles",p);
-			DataRelation dr = new DataRelation("cats",ds.Tables[0].Columns["ID"],ds.Tables[1].Columns["PostID"],false);
+            DataSet ds = SqlHelper.ExecuteDataset(ConnectionString, CommandType.StoredProcedure, "subtext_GetConditionalEntries", p);
+			DataRelation dr = new DataRelation("cats", ds.Tables[0].Columns["ID"], ds.Tables[1].Columns["ID"], false);
 			ds.Relations.Add(dr);
 			return ds;
 		}
@@ -434,28 +442,6 @@ namespace Subtext.Framework.Data
 				BlogIdParam
 			};
 			return GetReader("subtext_GetRecentEntries",p);
-		}
-
-		/// <summary>
-		/// Gets recent posts used to support the MetaBlogAPI. 
-		/// Could be used for a Recent Posts control as well.
-		/// </summary>
-		/// <param name="itemCount">Item count.</param>
-		/// <param name="postType">Post type.</param>
-		/// <param name="activeOnly">Active only.</param>
-		/// <param name="dateUpdated"></param>
-		/// <returns></returns>
-		public override IDataReader GetRecentPosts(int itemCount, PostType postType, bool activeOnly, DateTime dateUpdated)
-		{
-			SqlParameter[] p =
-			{
-				SqlHelper.MakeInParam("@ItemCount", SqlDbType.Int,4, itemCount),
-				SqlHelper.MakeInParam("@PostType", SqlDbType.Int,4, postType),
-				SqlHelper.MakeInParam("@IsActive", SqlDbType.Bit,1, activeOnly),
-				SqlHelper.MakeInParam("@DateUpdated", SqlDbType.DateTime, 8, dateUpdated),
-				BlogIdParam
-			};
-			return GetReader("subtext_GetRecentEntriesByDateUpdated",p);
 		}
 
 		public override IDataReader GetEntry(string entryName, bool activeOnly)
@@ -1042,7 +1028,7 @@ namespace Subtext.Framework.Data
 
 			SqlParameter[] p = 
 				{
-					SqlHelper.MakeInParam("@BlogId", SqlDbType.Int,  4, SqlHelper.CheckNull(info.BlogId))
+					SqlHelper.MakeInParam("@BlogId", SqlDbType.Int,  4, SqlHelper.CheckNull(info.Id))
 					,SqlHelper.MakeInParam("@UserName", SqlDbType.NVarChar, 50, info.UserName) 
 					,SqlHelper.MakeInParam("@Password", SqlDbType.NVarChar, 50, info.Password) 
 					,SqlHelper.MakeInParam("@Author", SqlDbType.NVarChar, 100, info.Author) 

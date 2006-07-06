@@ -16,7 +16,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Data;
 using System.Globalization;
 using Subtext.Extensibility;
@@ -42,7 +41,6 @@ namespace Subtext.Framework.Data
 		public static ViewStat LoadViewStat(IDataReader reader)
 		{
 			ViewStat vStat = new ViewStat();
-
 
 			if (reader["Title"] != DBNull.Value)
 			{
@@ -461,7 +459,7 @@ namespace Subtext.Framework.Data
 			return entry;
 		}
 
-		public static void LoadEntry(ref Entry entry, DataRow dr)
+		public static void LoadEntry(Entry entry, DataRow dr)
 		{
 			entry.PostType = ((PostType)(int)dr["PostType"]);
 
@@ -550,15 +548,9 @@ namespace Subtext.Framework.Data
 
 			reader.NextResult();
 
-            StringCollection al = new StringCollection();
 			while(reader.Read())
 			{
-				al.Add(DataHelper.ReadString(reader, "Title"));
-			}
-
-			if(al.Count > 0)
-			{
-				entry.Categories = al;
+				entry.Categories.Add(DataHelper.ReadString(reader, "Title"));
 			}
 
 			return entry;
@@ -567,22 +559,20 @@ namespace Subtext.Framework.Data
 
 		public static CategoryEntry LoadCategoryEntry(DataRow dr)
 		{
-			Entry entry = new CategoryEntry();
-			LoadEntry(ref entry, dr);
+			CategoryEntry entry = new CategoryEntry();
+            LoadEntry(entry, dr);
 
 			DataRow[] child = dr.GetChildRows("cats");
 			if(child != null && child.Length > 0)
 			{
 				int count = child.Length;
-				StringCollection cats = new StringCollection();
 				for(int i=0; i < count; i++)
 				{
-					cats.Add((string)child[i]["Title"]);
+					entry.Categories.Add((string)child[i]["Title"]);
 				}
-				((CategoryEntry)entry).Categories = cats;	
 			}
 
-			return (CategoryEntry)entry;
+			return entry;
 		}
 
 		public static int GetMaxItems(IDataReader reader)
@@ -722,7 +712,7 @@ namespace Subtext.Framework.Data
 		{
 			BlogInfo info = new BlogInfo();
 			info.Author = (string)reader["Author"];
-			info.BlogId = (int)reader["BlogId"];
+			info.Id = (int)reader["BlogId"];
 			info.Email = (string)reader["Email"];
 			info.Password = (string)reader["Password"];
 

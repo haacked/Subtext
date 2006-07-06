@@ -366,7 +366,7 @@ namespace UnitTests.Subtext
 			{
 				entry.EntryName = entryName;
 			}
-			entry.BlogId = Config.CurrentBlog.BlogId;
+			entry.BlogId = Config.CurrentBlog.Id;
 			entry.DateCreated = dateCreated;
 			entry.DateUpdated = entry.DateCreated;
 			entry.DateSyndicated = entry.DateCreated;
