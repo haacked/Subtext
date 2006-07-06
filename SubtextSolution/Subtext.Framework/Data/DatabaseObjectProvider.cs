@@ -203,9 +203,9 @@ namespace Subtext.Framework.Data
 
 		#region EntryDays
 
-		public override EntryDay GetSingleDay(DateTime dt)
+		public override EntryDay GetEntryDay(DateTime dt)
 		{
-			IDataReader reader = DbProvider.Instance().GetSingleDay(dt);
+			IDataReader reader = DbProvider.Instance().GetEntryDayReader(dt);
 			try
 			{
 				EntryDay ed = new EntryDay(dt);
@@ -229,7 +229,7 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
         public override ICollection<EntryDay> GetBlogPosts(int itemCount, PostConfig pc)
 		{
-			IDataReader reader = DbProvider.Instance().GetConditionalEntries(itemCount, PostType.BlogPost, pc);
+			IDataReader reader = DbProvider.Instance().GetConditionalEntries(itemCount, PostType.BlogPost, pc, false);
 			try
 			{
                 ICollection<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader);
@@ -257,7 +257,7 @@ namespace Subtext.Framework.Data
 
         public override ICollection<EntryDay> GetPostsByCategoryID(int itemCount, int catID)
 		{
-			IDataReader reader = DbProvider.Instance().GetPostsByCategoryID(itemCount,catID);
+			IDataReader reader = DbProvider.Instance().GetEntriesByCategory(itemCount, catID, true);
 			try
 			{
                 ICollection<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader);
@@ -281,13 +281,16 @@ namespace Subtext.Framework.Data
 		/// This is called to get the main syndicated entries.
 		/// </remarks>
 		/// <param name="itemCount">Item count.</param>
-		/// <param name="postType">Pt.</param>
-		/// <param name="postConfig">Pc.</param>
+		/// <param name="postType">The type of post to retrieve.</param>
+		/// <param name="postConfig">Post configuration options.</param>
+		/// <param name="includeCategories">Whether or not to include categories</param>
 		/// <returns></returns>
-		public override IList<Entry> GetConditionalEntries(int itemCount, PostType postType, PostConfig postConfig)
+		public override IList<Entry> GetConditionalEntries(int itemCount, PostType postType, PostConfig postConfig, bool includeCategories)
 		{
-			IDataReader reader = DbProvider.Instance().GetConditionalEntries(itemCount, postType, postConfig);
-			return DataHelper.LoadEntryCollectionAndCloseDataReader(reader);
+            using(IDataReader reader = DbProvider.Instance().GetConditionalEntries(itemCount, postType, postConfig, includeCategories))
+            {
+                return DataHelper.LoadEntryCollectionFromDataReader(reader);
+            }
 		}
 
 		public override IList<Entry> GetFeedBack(Entry parentEntry)
@@ -314,74 +317,41 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-        public override ICollection<Entry> GetRecentPostsWithCategories(int itemCount, bool activeOnly)
+        public override IList<Entry> GetPostCollectionByMonth(int month, int year)
 		{
-			DataSet ds = DbProvider.Instance().GetRecentPostsWithCategories(itemCount, activeOnly);
-            List<Entry> ec = new List<Entry>();
-			int count = ds.Tables[0].Rows.Count;
-			for(int i = 0; i < count; i++)
-			{
-				DataRow row = ds.Tables[0].Rows[i];
-				Entry ce = DataHelper.LoadCategoryEntry(row);
-				ec.Add(ce);
-			}
-			return ec;
-		}
-
-		public override IList<Entry> GetRecentPosts(int itemCount, PostType postType, bool activeOnly)
-		{
-            IDataReader reader = DbProvider.Instance().GetConditionalEntries(itemCount, postType, PostConfig.IsActive);
-            return DataHelper.LoadEntryCollectionAndCloseDataReader(reader);
-		}
-
-		public override IList<Entry> GetPostCollectionByMonth(int month, int year)
-		{
-			IDataReader reader = DbProvider.Instance().GetPostCollectionByMonth(month,year);
-            return DataHelper.LoadEntryCollectionAndCloseDataReader(reader);
+            using(IDataReader reader = DbProvider.Instance().GetPostCollectionByMonth(month, year))
+            {
+                return DataHelper.LoadEntryCollectionFromDataReader(reader);
+            }
 		}
 
 		public override IList<Entry> GetPostsByDayRange(DateTime start, DateTime stop, PostType postType, bool activeOnly)
 		{
-			IDataReader reader;
-			if(stop > start)
-			{
-				reader = DbProvider.Instance().GetEntriesByDateRange(start, stop, postType, activeOnly);
-			}
-			else
-			{
-				reader = DbProvider.Instance().GetEntriesByDateRange(stop, start, postType, activeOnly);
-			}
+            DateTime min = start;
+            DateTime max = stop;
+		    
+		    if(stop < start)
+		    {
+		        min = stop;
+		        max = start;
+		    }
 
-			IList<Entry> ec = DataHelper.LoadEntryCollectionAndCloseDataReader(reader);
-			return ec;
+            using(IDataReader reader = DbProvider.Instance().GetEntriesByDateRange(min, max, postType, activeOnly))
+            {
+                return DataHelper.LoadEntryCollectionFromDataReader(reader);
+            }
 		}
 
 		public override IList<Entry> GetEntriesByCategory(int itemCount, int catID, bool activeOnly)
 		{
-			IDataReader reader = DbProvider.Instance().GetEntriesByCategory(itemCount,catID, activeOnly);
-			return DataHelper.LoadEntryCollectionAndCloseDataReader(reader);
+            using(IDataReader reader = DbProvider.Instance().GetEntriesByCategory(itemCount, catID, activeOnly))
+            {
+                return DataHelper.LoadEntryCollectionFromDataReader(reader);
+            }
 		}
 		#endregion
 
 		#region Single Entry
-		Entry LoadEntryFromReader(IDataReader reader)
-		{
-			try
-			{
-				Entry entry = null;
-				while(reader.Read())
-				{
-					entry = DataHelper.LoadEntry(reader);
-					break;
-				}
-				return entry;
-			}
-			finally
-			{
-				reader.Close();
-			}
-		}
-
 		/// <summary>
 		/// Searches the data store for the first comment with a 
 		/// matching checksum hash.
@@ -390,21 +360,27 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override Entry GetCommentByChecksumHash(string checksumHash)
 		{
-			IDataReader reader = DbProvider.Instance().GetCommentByChecksumHash(checksumHash);
-			return LoadEntryFromReader(reader);
+            using (IDataReader reader = DbProvider.Instance().GetCommentByChecksumHash(checksumHash))
+            {
+                return DataHelper.LoadEntry(reader);
+            }
 		}
 
 		public override Entry GetEntry(int postID, bool activeOnly)
 		{
-			IDataReader reader = DbProvider.Instance().GetEntry(postID, activeOnly);
-			return LoadEntryFromReader(reader);
+            using (IDataReader reader = DbProvider.Instance().GetEntry(postID, activeOnly))
+            {
+                return DataHelper.LoadEntry(reader);
+            }
 		}
 
 
 		public override Entry GetEntry(string EntryName, bool activeOnly)
 		{
-			IDataReader reader = DbProvider.Instance().GetEntry(EntryName, activeOnly);
-			return LoadEntryFromReader(reader);
+            using (IDataReader reader = DbProvider.Instance().GetEntry(EntryName, activeOnly))
+            {
+                return DataHelper.LoadEntry(reader);
+            }
 		}
 
 		public override Entry GetCategoryEntry(int postid, bool activeOnly)
@@ -667,9 +643,9 @@ namespace Subtext.Framework.Data
 
 		#region Single Link
 
-		public override Link GetSingleLink(int linkID)
+		public override Link GetLink(int linkID)
 		{
-			IDataReader reader = DbProvider.Instance().GetSingleLink(linkID);
+			IDataReader reader = DbProvider.Instance().GetLinkReader(linkID);
 			try
 			{
 				Link link = null;
@@ -1024,9 +1000,9 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public override Image GetSingleImage(int imageID, bool activeOnly)
+		public override Image GetImage(int imageID, bool activeOnly)
 		{
-			IDataReader reader = DbProvider.Instance().GetSingleImage(imageID, activeOnly);
+			IDataReader reader = DbProvider.Instance().GetImage(imageID, activeOnly);
 			try
 			{
 				Image image = null;

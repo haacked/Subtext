@@ -22,10 +22,9 @@ namespace Subtext.Web.UI.Controls
 {
 	using System;
 
-	[PartialCaching(45,null,null,"Blogger",false)]
+	[PartialCaching(45, null, null, "Blogger", false)]
 	public class HomePage : BaseControl
 	{
-
 		protected Subtext.Web.UI.Controls.DayCollection HomePageDays;
 
 		protected override void OnLoad(EventArgs e)
@@ -33,7 +32,6 @@ namespace Subtext.Web.UI.Controls
 			base.OnLoad (e);
 			
 			HomePageDays.Days = Entries.GetHomePageEntries(Config.CurrentBlog.ItemCount);
-
 		}
 	}
 }

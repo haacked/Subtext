@@ -127,7 +127,7 @@ namespace Subtext.Framework.XmlRpc
 		{
 			ValidateUser(username, password, Config.CurrentBlog.AllowServiceAccess);
 			
-			ICollection<Entry> ec = Entries.GetRecentPostsWithCategories(numberOfPosts, false);
+			ICollection<Entry> ec = Entries.GetRecentPosts(numberOfPosts, PostType.BlogPost, PostConfig.IsActive, true);
 			//int i = 0;
 			int count = ec.Count;
 			Post[] posts = new Post[count];

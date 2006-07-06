@@ -68,8 +68,7 @@ namespace Subtext.Framework
 
 		public static EntryDay GetSingleDay(DateTime dt)
 		{
-			return ObjectProvider.Instance().GetSingleDay(dt);
-
+			return ObjectProvider.Instance().GetEntryDay(dt);
 		}
 
 		/// <summary>
@@ -118,7 +117,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static IList<Entry> GetMainSyndicationEntries(int itemCount)
 		{
-			return ObjectProvider.Instance().GetConditionalEntries(itemCount, PostType.BlogPost, PostConfig.IncludeInMainSyndication | PostConfig.IsActive);
+			return ObjectProvider.Instance().GetConditionalEntries(itemCount, PostType.BlogPost, PostConfig.IncludeInMainSyndication | PostConfig.IsActive, false);
 		}
 
 		/// <summary>
@@ -131,25 +130,21 @@ namespace Subtext.Framework
 			return ObjectProvider.Instance().GetFeedBack(parentEntry);
 		}
 
-        public static ICollection<Entry> GetRecentPostsWithCategories(int itemCount, bool activeOnly)
+	    /// <summary>
+	    /// Returns the itemCount most recent posts.  
+	    /// This is used to support MetaBlogAPI...
+	    /// </summary>
+	    /// <param name="itemCount"></param>
+	    /// <param name="postType"></param>
+	    /// <param name="postConfig"></param>
+	    /// <param name="includeCategories"></param>
+	    /// <returns></returns>
+        public static IList<Entry> GetRecentPosts(int itemCount, PostType postType, PostConfig postConfig, bool includeCategories)
 		{
-			return ObjectProvider.Instance().GetRecentPostsWithCategories(itemCount, activeOnly);
+            return ObjectProvider.Instance().GetConditionalEntries(itemCount, postType, postConfig, includeCategories);
 		}
 
-		/// <summary>
-		/// Gets recent posts used to support the MetaBlogAPI. 
-		/// Could be used for a Recent Posts control as well.
-		/// </summary>
-		/// <param name="itemCount">Item count.</param>
-		/// <param name="postType">Post type.</param>
-		/// <param name="activeOnly">Active only.</param>
-		/// <returns></returns>
-        public static IList<Entry> GetRecentPosts(int itemCount, PostType postType, bool activeOnly)
-		{
-			return ObjectProvider.Instance().GetRecentPosts(itemCount, postType, activeOnly);
-		}
-
-        public static IList<Entry> GetPostCollectionByMonth(int month, int year)
+		public static IList<Entry> GetPostCollectionByMonth(int month, int year)
 		{
 			return ObjectProvider.Instance().GetPostCollectionByMonth(month,year);
 		}

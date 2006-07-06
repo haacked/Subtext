@@ -52,7 +52,7 @@ namespace Subtext.Framework
 
 		public static Link GetSingleLink(int linkID)
 		{
-			return ObjectProvider.Instance().GetSingleLink(linkID);
+			return ObjectProvider.Instance().GetLink(linkID);
 		}
 
 		#endregion

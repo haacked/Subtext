@@ -41,7 +41,7 @@ namespace Subtext.Web.UI.Controls
 		{
             int commentCount = Config.CurrentBlog.NumberOfRecentComments > 0 ? Config.CurrentBlog.NumberOfRecentComments : DefaultRecentPostCount;
 			
-		    comments = Entries.GetRecentPosts(commentCount, PostType.Comment, true);
+		    comments = Entries.GetRecentPosts(commentCount, PostType.Comment, PostConfig.IsActive, false);
 
 			for(int i = 0; i < comments.Count; i++)
 			{

@@ -104,7 +104,7 @@ namespace Subtext.Framework.Data
 			return GetReader("subtext_GetImageCategory",p);
 		}
 
-		public override IDataReader GetSingleImage(int imageID, bool activeOnly)
+		public override IDataReader GetImage(int imageID, bool activeOnly)
 		{
 			SqlParameter[] p =
 			{
@@ -371,15 +371,16 @@ namespace Subtext.Framework.Data
 		/// <param name="itemCount"></param>
 		/// <param name="postType"></param>
 		/// <param name="postConfiguration"></param>
+		/// <param name="includeCategories">Whether or not to include categories</param>
 		/// <returns></returns>
-		public override IDataReader GetConditionalEntries(int itemCount, PostType postType, PostConfig postConfiguration)
+		public override IDataReader GetConditionalEntries(int itemCount, PostType postType, PostConfig postConfiguration, bool includeCategories)
 		{
 			SqlParameter[] p =
 			{
 				SqlHelper.MakeInParam("@ItemCount", SqlDbType.Int, 4,itemCount),
 				SqlHelper.MakeInParam("@PostType", SqlDbType.Int, 4, postType),
 				SqlHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, postConfiguration),
-				SqlHelper.MakeInParam("@IncludeCategories", SqlDbType.Bit, 0, true),
+				SqlHelper.MakeInParam("@IncludeCategories", SqlDbType.Bit, 0, includeCategories),
 				BlogIdParam				
 			};
 
@@ -397,28 +398,6 @@ namespace Subtext.Framework.Data
 				BlogIdParam
 			};
 			return GetReader("subtext_GetEntriesByDayRange",p);
-		}
-
-		public override DataSet GetRecentPostsWithCategories(int itemCount, bool activeOnly)
-		{
-		    PostConfig postConfig = PostConfig.None;
-		    if(activeOnly)
-		    {
-                postConfig = PostConfig.IsActive;
-		    }
-		    
-			SqlParameter[] p =
-			{
-				SqlHelper.MakeInParam("@ItemCount", SqlDbType.Int, 4, itemCount),
-				SqlHelper.MakeInParam("@PostType", SqlDbType.Int, 4, PostType.BlogPost),
-				SqlHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, postConfig),
-				SqlHelper.MakeInParam("@IncludeCategories", SqlDbType.Bit, 1, true),
-				BlogIdParam
-			};
-            DataSet ds = SqlHelper.ExecuteDataset(ConnectionString, CommandType.StoredProcedure, "subtext_GetConditionalEntries", p);
-			DataRelation dr = new DataRelation("cats", ds.Tables[0].Columns["ID"], ds.Tables[1].Columns["ID"], false);
-			ds.Relations.Add(dr);
-			return ds;
 		}
 
 		public override IDataReader GetCategoryEntry(int postID, bool activeOnly)
@@ -471,7 +450,7 @@ namespace Subtext.Framework.Data
 			return GetReader("subtext_GetSingleEntry" ,p);
 		}
 
-		public override IDataReader GetSingleDay(DateTime dt)
+		public override IDataReader GetEntryDayReader(DateTime dt)
 		{
 			SqlParameter[] p =
 			{
@@ -481,7 +460,7 @@ namespace Subtext.Framework.Data
 			return GetReader("subtext_GetSingleDay",p);
 		}
 
-		public override IDataReader GetEntriesByCategory(int itemCount, int catID, bool activeOnly)
+        public override IDataReader GetEntriesByCategory(int itemCount, int catID, bool activeOnly)
 		{
 			SqlParameter[] p =
 			{
@@ -490,18 +469,8 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@IsActive", SqlDbType.Bit, 1, activeOnly),
 				BlogIdParam
 			};
-			return GetReader("subtext_GetPostsByCategoryID",p);
+			return GetReader("subtext_GetPostsByCategoryID", p);
 	
-		}
-
-		public override IDataReader GetPostsByCategoryID(int itemCount, int catID)
-		{
-			SqlParameter[] p =
-			{
-				SqlHelper.MakeInParam("@ItemCount", SqlDbType.Int, 4, itemCount),
-				SqlHelper.MakeInParam("@CategoryID", SqlDbType.Int, 4, catID),
-				BlogIdParam};
-			return GetReader("subtext_GetPostsByCategoryID",p);
 		}
 
 		//Should power both EntryCollection and EntryDayCollection
@@ -729,14 +698,14 @@ namespace Subtext.Framework.Data
 
 		}
 
-		public override IDataReader GetSingleLink(int linkID)
+		public override IDataReader GetLinkReader(int linkID)
 		{
 			SqlParameter[] p = 
 			{
 				SqlHelper.MakeInParam("@LinkID",SqlDbType.Int,4,linkID),
 				BlogIdParam
 			};
-			return GetReader("subtext_GetSingleLink",p);
+			return GetReader("subtext_GetSingleLink", p);
 		}
 
 		public override int InsertLink(Link link)
@@ -754,7 +723,7 @@ namespace Subtext.Framework.Data
 				BlogIdParam,
 				outParam
 			};
-			NonQueryInt("subtext_InsertLink",p);
+			NonQueryInt("subtext_InsertLink", p);
 			return (int)outParam.Value;
 
 		}
@@ -772,7 +741,7 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@LinkID",SqlDbType.Int,4,link.LinkID),
 				BlogIdParam
 			};
-			return NonQueryBool("subtext_UpdateLink",p);
+			return NonQueryBool("subtext_UpdateLink", p);
 		}
 
 
@@ -781,7 +750,7 @@ namespace Subtext.Framework.Data
 			SqlParameter[] p ={SqlHelper.MakeInParam("@CategoryType",SqlDbType.TinyInt,1,catType),
 							  SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1, activeOnly),
 								  BlogIdParam};
-			return GetReader("subtext_GetAllCategories",p);
+			return GetReader("subtext_GetAllCategories", p);
 		}
 
 		//maps to blog_GetActiveCategoriesWithLinkCollection
