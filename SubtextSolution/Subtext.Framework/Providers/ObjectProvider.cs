@@ -93,7 +93,6 @@ namespace Subtext.Framework.Providers
 		#region EntryDays
 
 		public abstract EntryDay GetSingleDay(DateTime dt);
-        public abstract ICollection<EntryDay> GetRecentDayPosts(int itemCount, bool activeOnly);
         public abstract ICollection<EntryDay> GetPostsByMonth(int month, int year);
         public abstract ICollection<EntryDay> GetPostsByCategoryID(int itemCount, int catID);
 

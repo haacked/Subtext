@@ -241,20 +241,6 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-        public override ICollection<EntryDay> GetRecentDayPosts(int itemCount, bool activeOnly)
-		{
-			IDataReader reader = DbProvider.Instance().GetRecentDayPosts(itemCount, activeOnly);
-			try
-			{
-                ICollection<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader);
-				return edc;
-			}
-			finally
-			{
-				reader.Close();
-			}
-		}
-
         public override ICollection<EntryDay> GetPostsByMonth(int month, int year)
 		{
 			IDataReader reader = DbProvider.Instance().GetPostCollectionByMonth(month,year);
@@ -344,7 +330,7 @@ namespace Subtext.Framework.Data
 
 		public override IList<Entry> GetRecentPosts(int itemCount, PostType postType, bool activeOnly)
 		{
-			IDataReader reader = DbProvider.Instance().GetRecentPosts(itemCount, postType, activeOnly);
+            IDataReader reader = DbProvider.Instance().GetConditionalEntries(itemCount, postType, PostConfig.IsActive);
             return DataHelper.LoadEntryCollectionAndCloseDataReader(reader);
 		}
 

@@ -546,12 +546,13 @@ namespace Subtext.Framework.Data
 			Entry entry = new Entry(PostType.BlogPost);
 			LoadEntry(reader, entry);
 
-			reader.NextResult();
-
-			while(reader.Read())
-			{
-				entry.Categories.Add(DataHelper.ReadString(reader, "Title"));
-			}
+            if(reader.NextResult())
+            {
+                while(reader.Read())
+                {
+                    entry.Categories.Add(DataHelper.ReadString(reader, "Title"));
+                }
+            }
 
 			return entry;
 		}
