@@ -23,7 +23,7 @@ using Subtext.Framework.Tracking;
 namespace Subtext.Framework.Syndication
 {
 	/// <summary>
-	/// Generates RSS
+	/// Generates an Atom feed.
 	/// </summary>
 	public class BaseAtomWriter : BaseSyndicationWriter
 	{
@@ -184,9 +184,9 @@ namespace Subtext.Framework.Syndication
 					this.clientHasAllFeedItems = false;
 					
 					//Update the latest publish date.
-					if(entry.DateSyndicated > base.latestPublishDate)
+					if(entry.DateSyndicated > latestPublishDate)
 					{
-						base.latestPublishDate = entry.DateSyndicated;
+						latestPublishDate = entry.DateSyndicated;
 					}
 				}
 			}
