@@ -13,7 +13,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
     public class MetaBlogApiTests
     {
         [Test]
-        [RollBack]
+        //[RollBack]
         public void GetRecentPostsReturnsRecentPosts()
         {
             string hostname = UnitTestHelper.GenerateRandomHostname();
@@ -33,24 +33,28 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             Entry entry = new Entry(PostType.BlogPost);
             entry.Title = "Title 1";
             entry.Body = "Blah";
+            entry.IsActive = true;
             entry.DateCreated = entry.DateSyndicated = entry.DateUpdated = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             Entries.Create(entry, categoryId);
 
             entry = new Entry(PostType.BlogPost);
             entry.Title = "Title 2";
             entry.Body = "Blah1";
+            entry.IsActive = true;
             entry.DateCreated = entry.DateSyndicated = entry.DateUpdated = DateTime.ParseExact("1976/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             Entries.Create(entry, categoryId, categoryId2);
 
             entry = new Entry(PostType.BlogPost);
             entry.Title = "Title 3";
             entry.Body = "Blah2";
+            entry.IsActive = true;
             entry.DateCreated = entry.DateSyndicated = entry.DateUpdated = DateTime.ParseExact("1979/09/16", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             Entries.Create(entry);
 
             entry = new Entry(PostType.BlogPost);
             entry.Title = "Title 4";
             entry.Body = "Blah3";
+            entry.IsActive = true;
             entry.DateCreated = entry.DateSyndicated = entry.DateUpdated = DateTime.ParseExact("2006/01/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             Entries.Create(entry, categoryId2);
 

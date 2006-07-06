@@ -117,7 +117,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static IList<Entry> GetMainSyndicationEntries(int itemCount)
 		{
-			return ObjectProvider.Instance().GetConditionalEntries(itemCount, PostType.BlogPost, PostConfig.IncludeInMainSyndication | PostConfig.IsActive, false);
+            return GetRecentPosts(itemCount, PostType.BlogPost, PostConfig.IncludeInMainSyndication | PostConfig.IsActive, true);
 		}
 
 		/// <summary>
@@ -446,7 +446,7 @@ namespace Subtext.Framework
 		/// <param name="entry">Entry.</param>
 		/// <param name="CategoryIDs">Category Ids this entry belongs to.</param>
 		/// <returns></returns>
-		public static bool Update(Entry entry, int[] CategoryIDs)
+		public static bool Update(Entry entry, params int[] CategoryIDs)
 		{
 			entry.DateUpdated = DateTime.Now;
 			return ObjectProvider.Instance().Update(entry, CategoryIDs);
