@@ -81,7 +81,7 @@ namespace Subtext.Framework.XmlRpc
 			Framework.BlogInfo info = Config.CurrentBlog;
 			ValidateUser(username,password,info.AllowServiceAccess);
 			
-			CategoryEntry entry = Entries.GetCategoryEntry(Int32.Parse(postid), EntryGetOption.All);
+			Entry entry = Entries.GetCategoryEntry(Int32.Parse(postid), EntryGetOption.All);
 			if(entry != null)
 			{
 				entry.Author = info.Author;
@@ -109,7 +109,7 @@ namespace Subtext.Framework.XmlRpc
 			Framework.BlogInfo info = Config.CurrentBlog;
 			ValidateUser(username,password,info.AllowServiceAccess);
 			
-			CategoryEntry entry = Entries.GetCategoryEntry(Int32.Parse(postid), EntryGetOption.All);
+			Entry entry = Entries.GetCategoryEntry(Int32.Parse(postid), EntryGetOption.All);
 			Post post = new Post();
 			post.link = entry.TitleUrl;
 			post.description = entry.Body;
@@ -127,12 +127,12 @@ namespace Subtext.Framework.XmlRpc
 		{
 			ValidateUser(username, password, Config.CurrentBlog.AllowServiceAccess);
 			
-			ICollection<CategoryEntry> ec = Entries.GetRecentPostsWithCategories(numberOfPosts, false);
+			ICollection<Entry> ec = Entries.GetRecentPostsWithCategories(numberOfPosts, false);
 			//int i = 0;
 			int count = ec.Count;
 			Post[] posts = new Post[count];
             int i = 0;
-			foreach(CategoryEntry entry in ec)
+			foreach(Entry entry in ec)
 			{
 				Post post = new Post();
 				post.dateCreated = entry.DateCreated;
@@ -195,7 +195,7 @@ namespace Subtext.Framework.XmlRpc
 			Framework.BlogInfo info = Config.CurrentBlog;
 			ValidateUser(username,password,info.AllowServiceAccess);
 			
-			CategoryEntry entry = new CategoryEntry();
+			Entry entry = new Entry(PostType.BlogPost);
 			entry.Author = info.Author;
 			entry.Email = info.Email;
 			entry.Body = post.description;

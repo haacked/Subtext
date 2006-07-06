@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Specialized;
 using System.Xml.Serialization;
 using Subtext.Extensibility;
 using Subtext.Framework.Configuration;
@@ -490,6 +491,15 @@ namespace Subtext.Framework.Components
 			return checksum;
 		}
 
+        /// <summary>
+        /// Returns the categories for this entry.
+        /// </summary>
+        public StringCollection Categories
+        {
+            get { return this.categories; }
+        }
+
+        private StringCollection categories = new StringCollection();
 	}
 }
 

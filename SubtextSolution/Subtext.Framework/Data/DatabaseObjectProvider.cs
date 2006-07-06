@@ -328,15 +328,15 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-        public override ICollection<CategoryEntry> GetRecentPostsWithCategories(int itemCount, bool activeOnly)
+        public override ICollection<Entry> GetRecentPostsWithCategories(int itemCount, bool activeOnly)
 		{
 			DataSet ds = DbProvider.Instance().GetRecentPostsWithCategories(itemCount, activeOnly);
-            List<CategoryEntry> ec = new List<CategoryEntry>();
+            List<Entry> ec = new List<Entry>();
 			int count = ds.Tables[0].Rows.Count;
 			for(int i = 0; i < count; i++)
 			{
 				DataRow row = ds.Tables[0].Rows[i];
-				CategoryEntry ce = DataHelper.LoadCategoryEntry(row);
+				Entry ce = DataHelper.LoadCategoryEntry(row);
 				ec.Add(ce);
 			}
 			return ec;
@@ -421,12 +421,12 @@ namespace Subtext.Framework.Data
 			return LoadEntryFromReader(reader);
 		}
 
-		public override CategoryEntry GetCategoryEntry(int postid, bool activeOnly)
+		public override Entry GetCategoryEntry(int postid, bool activeOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetCategoryEntry(postid, activeOnly);
 			try
 			{
-				CategoryEntry entry = null;
+				Entry entry = null;
 				while(reader.Read())
 				{
 					entry = DataHelper.LoadCategoryEntry(reader);
@@ -471,9 +471,9 @@ namespace Subtext.Framework.Data
 				throw new BlogFailedPostException("Failed post exception");
 			}		
 
-			if(entry is CategoryEntry)
+			if(entry.Categories.Count > 0)
 			{
-				entry.Id = DbProvider.Instance().InsertCategoryEntry(((CategoryEntry)entry));
+				entry.Id = DbProvider.Instance().InsertCategoryEntry(entry);
 			}
 			else
 			{
@@ -514,9 +514,9 @@ namespace Subtext.Framework.Data
 				throw new BlogFailedPostException("Failed post exception");
 			}
 
-			if(entry is CategoryEntry)
+			if(entry.Categories.Count > 0)
 			{
-				if(!DbProvider.Instance().UpdateCategoryEntry(((CategoryEntry)entry)))
+				if(!DbProvider.Instance().UpdateCategoryEntry(entry))
 				{
 					return false;
 				}

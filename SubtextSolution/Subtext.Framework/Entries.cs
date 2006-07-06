@@ -143,7 +143,7 @@ namespace Subtext.Framework
 			return ObjectProvider.Instance().GetFeedBack(parentEntry);
 		}
 
-        public static ICollection<CategoryEntry> GetRecentPostsWithCategories(int itemCount, bool activeOnly)
+        public static ICollection<Entry> GetRecentPostsWithCategories(int itemCount, bool activeOnly)
 		{
 			return ObjectProvider.Instance().GetRecentPostsWithCategories(itemCount, activeOnly);
 		}
@@ -218,7 +218,7 @@ namespace Subtext.Framework
 		/// <param name="entryId">The entryId.</param>
 		/// <param name="entryOption">The entry option used to constrain the search.</param>
 		/// <returns></returns>
-		public static CategoryEntry GetCategoryEntry(int entryId, EntryGetOption entryOption)
+		public static Entry GetCategoryEntry(int entryId, EntryGetOption entryOption)
 		{
 			return ObjectProvider.Instance().GetCategoryEntry(entryId, (entryOption == EntryGetOption.ActiveOnly));
 		}

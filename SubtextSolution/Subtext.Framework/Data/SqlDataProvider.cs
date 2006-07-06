@@ -552,7 +552,7 @@ namespace Subtext.Framework.Data
 			return NonQueryBool("subtext_DeletePost",p);
 		}
 
-		public override int InsertCategoryEntry(CategoryEntry ce)
+		public override int InsertCategoryEntry(Entry ce)
 		{
 			int PostID = InsertEntry(ce);
 			if(PostID > -1 && ce.Categories != null && ce.Categories.Count > 0)
@@ -581,7 +581,7 @@ namespace Subtext.Framework.Data
 		}
 
 		//use interate functions
-		public override bool UpdateCategoryEntry(CategoryEntry ce)
+		public override bool UpdateCategoryEntry(Entry ce)
 		{
 			bool result = UpdateEntry(ce);
 			if(ce.Categories != null && ce.Categories.Count > 0)

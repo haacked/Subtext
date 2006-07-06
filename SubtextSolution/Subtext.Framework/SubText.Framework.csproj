@@ -190,9 +190,6 @@
     <Compile Include="Components\BlogUser.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Components\CategoryEntry.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Components\CategoryType.cs">
       <SubType>Code</SubType>
     </Compile>

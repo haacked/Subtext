@@ -33,7 +33,7 @@ namespace Subtext.Framework.Components
 
         public abstract IList<Entry> GetRecentPosts(int itemCount, PostType postType, bool activeOnly);
 
-        public abstract ICollection<CategoryEntry> GetRecentPostsWithCategories(int itemCount, bool activeOnly);
+        public abstract ICollection<Entry> GetRecentPostsWithCategories(int itemCount, bool activeOnly);
 
 		public abstract IList<Entry> GetPostCollectionByMonth(int month, int year);
 		public abstract IList<Entry> GetEntriesByDateRangle(DateTime start, DateTime stop, PostType postType, bool activeOnly);
@@ -43,7 +43,7 @@ namespace Subtext.Framework.Components
 		public abstract EntryDay GetSingleDay(DateTime dt);
 		
 		public abstract Entry GetSingleEntry(int postID, bool activeOnly);
-		public abstract CategoryEntry GetSingleCategoryEntry(int postID, bool activeOnly);
+		public abstract Entry GetSingleCategoryEntry(int postID, bool activeOnly);
 
 		//Provide a Raw view of the data for web services. ReadOnly 
 		public abstract DataSet RawEntries(int itemCount, PostType postType, bool activeOnly);
@@ -54,11 +54,11 @@ namespace Subtext.Framework.Components
 		
 		//Update/Add/Remove
 		public abstract bool UpdateEntry(Entry _entry);
-		public abstract bool UpdateCategoryEntry(CategoryEntry ce);
+		public abstract bool UpdateCategoryEntry(Entry ce);
 		public abstract void DeleteEntry(int PostID);
 		public abstract int InsertEntry(Entry _entry);
 		public abstract int InsertPingTrackEntry(Entry entry);
-		public abstract int InsertCategoryEntry(CategoryEntry ce);
+		public abstract int InsertCategoryEntry(Entry ce);
 		public abstract void UpdateConfigData(BlogInfo info);
 		//public abstract void RemoveComment(int CommentID);
 
