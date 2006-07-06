@@ -270,7 +270,6 @@ namespace Subtext.Framework.Syndication
 				this.WriteElementString("author", entry.Email);
 			this.WriteElementString("guid", entry.FullyQualifiedUrl.ToString());
 			this.WriteElementString("pubDate", entry.DateCreated.ToString("r"));			
-			
 
 			if(AllowComments && info.CommentsEnabled && entry.AllowComments && !entry.CommentingClosed)
 			{

@@ -39,7 +39,7 @@ namespace Subtext.Framework.Logging
             IPagedCollection<LogEntry> entries = new PagedCollection<LogEntry>();
 			while(reader.Read())
 			{
-				entries.Add(DataHelper.LoadSingleLogEntry(reader));
+				entries.Add(DataHelper.LoadLogEntry(reader));
 			}
 			reader.NextResult();
 			entries.MaxItems = DataHelper.GetMaxItems(reader);

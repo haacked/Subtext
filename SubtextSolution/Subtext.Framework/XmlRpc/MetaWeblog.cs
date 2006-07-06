@@ -16,6 +16,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Globalization;
 using CookComputing.XmlRpc;
 using Subtext.Extensibility;
@@ -76,7 +77,7 @@ namespace Subtext.Framework.XmlRpc
 
 		#endregion
 
-		public bool editPost(string postid,	string username,string password,Post post,bool publish)
+		public bool editPost(string postid,	string username, string password, Post post, bool publish)
 		{
 			Framework.BlogInfo info = Config.CurrentBlog;
 			ValidateUser(username,password,info.AllowServiceAccess);
@@ -93,7 +94,9 @@ namespace Subtext.Framework.XmlRpc
 				entry.SourceUrl = string.Empty;
 				entry.Description = string.Empty;
 
-				entry.Categories = post.categories;
+                if (entry.Categories == null)
+                    entry.Categories = new StringCollection();
+				entry.Categories.AddRange(post.categories);
 				entry.PostType = PostType.BlogPost;
 				entry.IsXHMTL = false;
 				entry.IsActive = publish;
@@ -117,7 +120,8 @@ namespace Subtext.Framework.XmlRpc
 			post.postid = entry.EntryID;
 			post.title = entry.Title;
 			post.permalink = entry.FullyQualifiedUrl.ToString();
-			post.categories = entry.Categories;
+            post.categories = new string[entry.Categories.Count] ;
+			entry.Categories.CopyTo(post.categories, 0);
 
 			return post;
 		}
@@ -141,9 +145,10 @@ namespace Subtext.Framework.XmlRpc
 				post.title = entry.Title;
 				post.postid = entry.EntryID.ToString(CultureInfo.InvariantCulture);
 				post.userid = entry.Body.GetHashCode().ToString(CultureInfo.InvariantCulture);
-				if(entry.Categories != null && entry.Categories.Length > 0)
+				if(entry.Categories != null && entry.Categories.Count > 0)
 				{
-					post.categories = entry.Categories;
+                    post.categories = new string[entry.Categories.Count];
+					entry.Categories.CopyTo(post.categories, 0);
 				}
 				posts[i] = post;
                 i++;
@@ -212,7 +217,10 @@ namespace Subtext.Framework.XmlRpc
 				entry.DateCreated = BlogTime.CurrentBloggerTime;
 				entry.DateUpdated = entry.DateCreated;
 			}
-			entry.Categories = post.categories;
+            if (entry.Categories == null)
+                entry.Categories = new StringCollection();
+		    
+			entry.Categories.AddRange(post.categories);
 			entry.PostType = PostType.BlogPost;
 			
 			entry.IsActive = publish;

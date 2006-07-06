@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Data;
 using System.Globalization;
 using Subtext.Extensibility;
@@ -32,13 +33,13 @@ namespace Subtext.Framework.Data
 {
 	/// <summary>
 	/// Contains helper methods for getting blog entries from the database 
-	/// into objects such as <see cref="List<EntryDay>"/> and <see cref="EntryCollection"/>.
+	/// into objects such as <see cref="List<EntryDay>"/>
 	/// </summary>
 	public static class DataHelper
 	{
 		#region Statisitics
 
-		public static ViewStat LoadSingleViewStat(IDataReader reader)
+		public static ViewStat LoadViewStat(IDataReader reader)
 		{
 			ViewStat vStat = new ViewStat();
 
@@ -66,7 +67,7 @@ namespace Subtext.Framework.Data
             return vStat;
 		}
 
-		public static Referrer LoadSingleReferrer(IDataReader reader)
+		public static Referrer LoadReferrer(IDataReader reader)
 		{
 			Referrer refer = new Referrer();
 
@@ -122,7 +123,7 @@ namespace Subtext.Framework.Data
 					day = new EntryDay(dt);
 					edc.Add(day);
 				}
-				day.Add(DataHelper.LoadSingleEntry(reader));
+				day.Add(DataHelper.LoadEntry(reader));
 			}
 			return edc;
 
@@ -132,22 +133,27 @@ namespace Subtext.Framework.Data
 		#endregion
 
 		#region EntryCollection
-
-		public static IList<Entry> LoadEntryCollection(IDataReader reader)
-		{
-            List<Entry> ec = new List<Entry>();
-			while(reader.Read())
-			{
-				ec.Add(LoadSingleEntry(reader));
-			}
-			return ec;	
-		}
-
+        public static IList<Entry> LoadEntryCollectionAndCloseDataReader(IDataReader reader)
+        {
+            try
+            {
+                List<Entry> ec = new List<Entry>();
+                while (reader.Read())
+                {
+                    ec.Add(LoadEntry(reader));
+                }
+                return ec;	
+            }
+            finally
+            {
+                reader.Close();
+            }
+        }
 		#endregion
 
 		#region Single Entry
 		//Crappy. Need to clean up all of the entry references
-		public static EntryStatsView LoadSingleEntryStatsView(IDataReader reader)
+		public static EntryStatsView LoadEntryStatsView(IDataReader reader)
 		{
 			EntryStatsView entry = new EntryStatsView();
 
@@ -250,24 +256,24 @@ namespace Subtext.Framework.Data
 		}
 
 
-		public static Entry LoadSingleEntry(IDataReader reader)
+		public static Entry LoadEntry(IDataReader reader)
 		{
-			return LoadSingleEntry(reader, true);
+			return LoadEntry(reader, true);
 		}
 
-		public static Entry LoadSingleEntry(IDataReader reader, bool buildLinks)
+		public static Entry LoadEntry(IDataReader reader, bool buildLinks)
 		{
 			Entry entry = new Entry((PostType)(int)reader["PostType"]);
-			LoadSingleEntry(reader, entry, buildLinks);
+			LoadEntry(reader, entry, buildLinks);
 			return entry;
 		}
 
-		public static void LoadSingleEntry(IDataReader reader, Entry entry)
+		public static void LoadEntry(IDataReader reader, Entry entry)
 		{
-			LoadSingleEntry(reader, entry, true);
+			LoadEntry(reader, entry, true);
 		}
 
-		private static void LoadSingleEntry(IDataReader reader, Entry entry, bool buildLinks)
+		private static void LoadEntry(IDataReader reader, Entry entry, bool buildLinks)
 		{
 			if(reader["Author"] != DBNull.Value)
 			{
@@ -377,7 +383,7 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="dr">The dr.</param>
 		/// <returns></returns>
-		public static Entry LoadSingleEntry(DataRow dr)
+		public static Entry LoadEntry(DataRow dr)
 		{
 			Entry entry = new Entry((PostType)(int)dr["PostType"]);
 
@@ -455,7 +461,7 @@ namespace Subtext.Framework.Data
 			return entry;
 		}
 
-		public static void LoadSingleEntry(ref Entry entry, DataRow dr)
+		public static void LoadEntry(ref Entry entry, DataRow dr)
 		{
 			entry.PostType = ((PostType)(int)dr["PostType"]);
 
@@ -537,41 +543,41 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="reader"></param>
 		/// <returns></returns>
-		public static CategoryEntry LoadSingleCategoryEntry(IDataReader reader)
+		public static CategoryEntry LoadCategoryEntry(IDataReader reader)
 		{
 			CategoryEntry entry = new CategoryEntry();
-			LoadSingleEntry(reader, entry);
+			LoadEntry(reader, entry);
 
 			reader.NextResult();
 
-			System.Collections.ArrayList al = new System.Collections.ArrayList();
+            StringCollection al = new StringCollection();
 			while(reader.Read())
 			{
-				al.Add(reader["Title"]);
+				al.Add(DataHelper.ReadString(reader, "Title"));
 			}
 
 			if(al.Count > 0)
 			{
-				entry.Categories = (string[])al.ToArray(typeof(string));
+				entry.Categories = al;
 			}
 
 			return entry;
 		}
 
 
-		public static CategoryEntry LoadSingleCategoryEntry(DataRow dr)
+		public static CategoryEntry LoadCategoryEntry(DataRow dr)
 		{
 			Entry entry = new CategoryEntry();
-			LoadSingleEntry(ref entry, dr);
+			LoadEntry(ref entry, dr);
 
 			DataRow[] child = dr.GetChildRows("cats");
 			if(child != null && child.Length > 0)
 			{
 				int count = child.Length;
-				string[] cats = new string[count];
-				for(int i=0;i<count;i++)
+				StringCollection cats = new StringCollection();
+				for(int i=0; i < count; i++)
 				{
-					cats[i] = (string)child[i]["Title"];
+					cats.Add((string)child[i]["Title"]);
 				}
 				((CategoryEntry)entry).Categories = cats;	
 			}
@@ -589,7 +595,7 @@ namespace Subtext.Framework.Data
 
 		#region Categories
 
-		public static LinkCategory LoadSingleLinkCategory(IDataReader reader)
+		public static LinkCategory LoadLinkCategory(IDataReader reader)
 		{
 			LinkCategory lc = new LinkCategory((int)reader["CategoryID"], (string)reader["Title"]);
 			lc.IsActive = (bool)reader["Active"];
@@ -604,7 +610,7 @@ namespace Subtext.Framework.Data
 			return lc;
 		}
 
-		public static LinkCategory LoadSingleLinkCategory(DataRow dr)
+		public static LinkCategory LoadLinkCategory(DataRow dr)
 		{
 			LinkCategory lc = new LinkCategory((int)dr["CategoryID"], (string)dr["Title"]);
 			
@@ -626,7 +632,7 @@ namespace Subtext.Framework.Data
 
 		#region Links
 
-		public static Link LoadSingleLink(IDataReader reader)
+		public static Link LoadLink(IDataReader reader)
 		{
 			Link link = new Link();
 			// Active cannot be null
@@ -667,7 +673,7 @@ namespace Subtext.Framework.Data
 			return link;
 		}
 
-		public static Link LoadSingleLink(DataRow dr)
+		public static Link LoadLink(DataRow dr)
 		{
 			Link link = new Link();
 			// Active cannot be null
@@ -853,7 +859,7 @@ namespace Subtext.Framework.Data
 
 		#region Image
 
-		public static Image LoadSingleImage(IDataReader reader)
+		public static Image LoadImage(IDataReader reader)
 		{
 			Image _image = new Image();
 			_image.CategoryID = (int)reader["CategoryID"];
@@ -870,7 +876,7 @@ namespace Subtext.Framework.Data
 
 		#region Keywords
 
-		public static KeyWord LoadSingleKeyWord(IDataReader reader)
+		public static KeyWord LoadKeyWord(IDataReader reader)
 		{
 			KeyWord kw = new KeyWord();
 			kw.KeyWordID = (int)reader["KeyWordID"];
@@ -913,7 +919,7 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="reader">The reader.</param>
 		/// <returns></returns>
-		public static LogEntry LoadSingleLogEntry(IDataReader reader)
+		public static LogEntry LoadLogEntry(IDataReader reader)
 		{
 			LogEntry entry = new LogEntry();
 			entry.Id = ReadInt(reader, "Id");

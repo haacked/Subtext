@@ -103,7 +103,7 @@ namespace Subtext.Web.Services
 				entry.SyndicateDescriptionOnly = false;
 				entry.Author = info.Author;
 				entry.Email = info.Email;
-				entry.Categories = categories;
+				entry.Categories.AddRange(categories);
 				return Entries.Create(entry);			
 		}
 
