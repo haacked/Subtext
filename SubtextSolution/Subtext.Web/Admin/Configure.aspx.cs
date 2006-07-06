@@ -40,15 +40,7 @@ namespace Subtext.Web.Admin.Pages
 		
 		#endregion
 
-		protected void Page_Load(object sender, System.EventArgs e)
-		{		
-			if (!IsPostBack)
-			{
-				BindForm();
-			}
-		}
-
-		private void BindForm()
+		protected override void BindLocalUI()
 		{
 			BlogInfo info = Config.CurrentBlog;
 			txbTitle.Text = info.Title;

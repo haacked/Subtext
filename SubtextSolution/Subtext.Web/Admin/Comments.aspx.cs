@@ -28,16 +28,13 @@ namespace Subtext.Web.Admin.Pages
 		private const string RES_SUCCESS = "Your comment settings were successfully updated.";
 		private const string RES_FAILURE = "Comment settings update failed.";
 	    
-		protected void Page_Load(object sender, EventArgs e)
+		protected override void Page_Load(object sender, EventArgs e)
 		{
-			if (!IsPostBack)
-			{
-				PopulateForm();
-			}
+			base.Page_Load(sender, e);
 			ManageHiddenSettings();
 		}
 
-		private void PopulateForm()
+		protected override void BindLocalUI()
 		{
 			BlogInfo info = Config.CurrentBlog;
 			
