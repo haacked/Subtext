@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Specialized;
 using Subtext.Extensibility;
 
 namespace Subtext.Framework.Components
@@ -29,12 +30,16 @@ namespace Subtext.Framework.Components
 		public CategoryEntry() : base(PostType.None)
 		{}
 
-		private string[] _categories;
-		public string[] Categories
+	    /// <summary>
+	    /// Returns the categories for this entry.
+	    /// </summary>
+		public StringCollection Categories
 		{
-			get {return this._categories;}
-			set {this._categories = value;}
+			get {return this.categories;}
+			set {this.categories = value;}
 		}
+
+        private StringCollection categories = new StringCollection();
 	}
 }
 

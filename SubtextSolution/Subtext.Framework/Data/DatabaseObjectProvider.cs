@@ -166,7 +166,7 @@ namespace Subtext.Framework.Data
                 PagedCollection<Entry> pec = new PagedCollection<Entry>();
 				while(reader.Read())
 				{
-					pec.Add(DataHelper.LoadSingleEntryStatsView(reader));
+					pec.Add(DataHelper.LoadEntryStatsView(reader));
 				}
 				reader.NextResult();
 				pec.MaxItems = DataHelper.GetMaxItems(reader);
@@ -192,7 +192,7 @@ namespace Subtext.Framework.Data
             IPagedCollection<Entry> pec = new PagedCollection<Entry>();
 			while(reader.Read())
 			{
-				pec.Add(DataHelper.LoadSingleEntry(reader));
+				pec.Add(DataHelper.LoadEntry(reader));
 			}
 			reader.NextResult();
 			pec.MaxItems = DataHelper.GetMaxItems(reader);
@@ -211,7 +211,7 @@ namespace Subtext.Framework.Data
 				EntryDay ed = new EntryDay(dt);
 				while(reader.Read())
 				{
-					ed.Add(DataHelper.LoadSingleEntry(reader));
+					ed.Add(DataHelper.LoadEntry(reader));
 				}
 				return ed;
 			}
@@ -301,7 +301,7 @@ namespace Subtext.Framework.Data
 		public override IList<Entry> GetConditionalEntries(int itemCount, PostType pt, PostConfig pc)
 		{
 			IDataReader reader = DbProvider.Instance().GetConditionalEntries(itemCount, pt, pc);
-			return LoadEntryCollectionFromDataReader(reader);
+			return DataHelper.LoadEntryCollectionAndCloseDataReader(reader);
 		}
 
 		public override IList<Entry> GetFeedBack(Entry parentEntry)
@@ -316,7 +316,7 @@ namespace Subtext.Framework.Data
 				while(reader.Read())
 				{
 					//Don't build links.
-					entry = DataHelper.LoadSingleEntry(reader, !buildLinks);
+					entry = DataHelper.LoadEntry(reader, !buildLinks);
 					entry.Url = formats.CommentUrl(parentEntry, entry);
 					ec.Add(entry);
 				}
@@ -336,7 +336,7 @@ namespace Subtext.Framework.Data
 			for(int i =0; i<count; i++)
 			{
 				DataRow row = ds.Tables[0].Rows[i];
-				CategoryEntry ce = DataHelper.LoadSingleCategoryEntry(row);
+				CategoryEntry ce = DataHelper.LoadCategoryEntry(row);
 				ec.Add(ce);
 			}
 			return ec;
@@ -345,19 +345,19 @@ namespace Subtext.Framework.Data
 		public override IList<Entry> GetRecentPosts(int itemCount, PostType postType, bool activeOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetRecentPosts(itemCount, postType, activeOnly);
-			return LoadEntryCollectionFromDataReader(reader);
+            return DataHelper.LoadEntryCollectionAndCloseDataReader(reader);
 		}
 
 		public override IList<Entry> GetRecentPosts(int itemCount, PostType postType, bool activeOnly, DateTime dateUpdated)
 		{
 			IDataReader reader = DbProvider.Instance().GetRecentPosts(itemCount, postType, activeOnly, dateUpdated);
-			return LoadEntryCollectionFromDataReader(reader);
+            return DataHelper.LoadEntryCollectionAndCloseDataReader(reader);
 		}
 
 		public override IList<Entry> GetPostCollectionByMonth(int month, int year)
 		{
 			IDataReader reader = DbProvider.Instance().GetPostCollectionByMonth(month,year);
-			return LoadEntryCollectionFromDataReader(reader);
+            return DataHelper.LoadEntryCollectionAndCloseDataReader(reader);
 		}
 
 		public override IList<Entry> GetPostsByDayRange(DateTime start, DateTime stop, PostType postType, bool activeOnly)
@@ -372,36 +372,15 @@ namespace Subtext.Framework.Data
 				reader = DbProvider.Instance().GetEntriesByDateRangle(stop, start, postType, activeOnly);
 			}
 
-			try
-			{
-				IList<Entry> ec = DataHelper.LoadEntryCollection(reader);
-				return ec;
-			}
-			finally
-			{
-				reader.Close();
-			}
+			IList<Entry> ec = DataHelper.LoadEntryCollectionAndCloseDataReader(reader);
+			return ec;
 		}
 
 		public override IList<Entry> GetEntriesByCategory(int itemCount, int catID, bool activeOnly)
 		{
 			IDataReader reader = DbProvider.Instance().GetEntriesByCategory(itemCount,catID, activeOnly);
-			return LoadEntryCollectionFromDataReader(reader);
+			return DataHelper.LoadEntryCollectionAndCloseDataReader(reader);
 		}
-
-		IList<Entry> LoadEntryCollectionFromDataReader(IDataReader reader)
-		{
-			try
-			{
-				IList<Entry> ec = DataHelper.LoadEntryCollection(reader);
-				return ec;
-			}
-			finally
-			{
-				reader.Close();
-			}
-		}
-
 		#endregion
 
 		#region Single Entry
@@ -412,7 +391,7 @@ namespace Subtext.Framework.Data
 				Entry entry = null;
 				while(reader.Read())
 				{
-					entry = DataHelper.LoadSingleEntry(reader);
+					entry = DataHelper.LoadEntry(reader);
 					break;
 				}
 				return entry;
@@ -456,7 +435,7 @@ namespace Subtext.Framework.Data
 				CategoryEntry entry = null;
 				while(reader.Read())
 				{
-					entry = DataHelper.LoadSingleCategoryEntry(reader);
+					entry = DataHelper.LoadCategoryEntry(reader);
 					break;
 				}
 				return entry;
@@ -651,7 +630,7 @@ namespace Subtext.Framework.Data
                 IPagedCollection<Link> plc = new PagedCollection<Link>();
 				while(reader.Read())
 				{
-					plc.Add(DataHelper.LoadSingleLink(reader));
+					plc.Add(DataHelper.LoadLink(reader));
 				}
 				reader.NextResult();
 				plc.MaxItems = DataHelper.GetMaxItems(reader);
@@ -676,7 +655,7 @@ namespace Subtext.Framework.Data
 				ICollection<Link> lc = new List<Link>();
 				while(reader.Read())
 				{
-					lc.Add(DataHelper.LoadSingleLink(reader));
+					lc.Add(DataHelper.LoadLink(reader));
 				}
 				return lc;
 			}
@@ -694,7 +673,7 @@ namespace Subtext.Framework.Data
 			{
 				while(reader.Read())
 				{
-					lc.Add(DataHelper.LoadSingleLink(reader));
+					lc.Add(DataHelper.LoadLink(reader));
 				}
 				return lc;
 			}
@@ -716,7 +695,7 @@ namespace Subtext.Framework.Data
 				Link link = null;
 				while(reader.Read())
 				{
-					link = DataHelper.LoadSingleLink(reader);
+					link = DataHelper.LoadLink(reader);
 					break;
 				}
 				return link;
@@ -739,7 +718,7 @@ namespace Subtext.Framework.Data
 			{
 				while(reader.Read())
 				{
-					lcc.Add(DataHelper.LoadSingleLinkCategory(reader));
+					lcc.Add(DataHelper.LoadLinkCategory(reader));
 				}
 				return lcc;
 			}
@@ -755,11 +734,11 @@ namespace Subtext.Framework.Data
             ICollection<LinkCategory> lcc = new List<LinkCategory>();
 			foreach(DataRow dr in ds.Tables[0].Rows)
 			{
-				LinkCategory lc = DataHelper.LoadSingleLinkCategory(dr);
+				LinkCategory lc = DataHelper.LoadLinkCategory(dr);
 				lc.Links = new List<Link>();
 				foreach(DataRow drLink in dr.GetChildRows("CategoryID"))
 				{
-					lc.Links.Add(DataHelper.LoadSingleLink(drLink));
+					lc.Links.Add(DataHelper.LoadLink(drLink));
 				}
 				lcc.Add(lc);				
 			}
@@ -777,7 +756,7 @@ namespace Subtext.Framework.Data
 			try
 			{
 				reader.Read();
-				LinkCategory lc = DataHelper.LoadSingleLinkCategory(reader);
+				LinkCategory lc = DataHelper.LoadLinkCategory(reader);
 				return lc;
 			}
 			finally
@@ -793,7 +772,7 @@ namespace Subtext.Framework.Data
 			try
 			{
 				reader.Read();
-				LinkCategory lc = DataHelper.LoadSingleLinkCategory(reader);
+				LinkCategory lc = DataHelper.LoadLinkCategory(reader);
 				return lc;
 			}
 			finally
@@ -850,7 +829,7 @@ namespace Subtext.Framework.Data
                 IPagedCollection<ViewStat> vs = new PagedCollection<ViewStat>();
 				while(reader.Read())
 				{
-					vs.Add(DataHelper.LoadSingleViewStat(reader));
+					vs.Add(DataHelper.LoadViewStat(reader));
 				}
 				reader.NextResult();
 				vs.MaxItems = DataHelper.GetMaxItems(reader);
@@ -881,7 +860,7 @@ namespace Subtext.Framework.Data
                 IPagedCollection<Referrer> prc = new PagedCollection<Referrer>();
                 while (reader.Read())
                 {
-                    prc.Add(DataHelper.LoadSingleReferrer(reader));
+                    prc.Add(DataHelper.LoadReferrer(reader));
                 }
                 reader.NextResult();
                 prc.MaxItems = DataHelper.GetMaxItems(reader);
@@ -972,7 +951,7 @@ namespace Subtext.Framework.Data
 				KeyWord kw = null;
 				while(reader.Read())
 				{
-					kw = DataHelper.LoadSingleKeyWord(reader);
+					kw = DataHelper.LoadKeyWord(reader);
 					break;
 				}
 				return kw;
@@ -991,7 +970,7 @@ namespace Subtext.Framework.Data
 				List<KeyWord> kwc = new List<KeyWord>();
 				while(reader.Read())
 				{
-					kwc.Add(DataHelper.LoadSingleKeyWord(reader));
+					kwc.Add(DataHelper.LoadKeyWord(reader));
 				}
 				return kwc;
 			}
@@ -1009,7 +988,7 @@ namespace Subtext.Framework.Data
                 IPagedCollection<KeyWord> pkwc = new PagedCollection<KeyWord>();
 				while(reader.Read())
 				{
-					pkwc.Add(DataHelper.LoadSingleKeyWord(reader));
+					pkwc.Add(DataHelper.LoadKeyWord(reader));
 				}
 				reader.NextResult();
 				pkwc.MaxItems = DataHelper.GetMaxItems(reader);
@@ -1049,13 +1028,13 @@ namespace Subtext.Framework.Data
 				ImageCollection ic = new ImageCollection();
 				while(reader.Read())
 				{
-					ic.Category = DataHelper.LoadSingleLinkCategory(reader);
+					ic.Category = DataHelper.LoadLinkCategory(reader);
 					break;
 				}
 				reader.NextResult();
 				while(reader.Read())
 				{
-					ic.Add(DataHelper.LoadSingleImage(reader));
+					ic.Add(DataHelper.LoadImage(reader));
 				}
 				return ic;
 			}
@@ -1073,7 +1052,7 @@ namespace Subtext.Framework.Data
 				Image image = null;
 				while(reader.Read())
 				{
-					image = DataHelper.LoadSingleImage(reader);
+					image = DataHelper.LoadImage(reader);
 				}
 				return image;
 			}

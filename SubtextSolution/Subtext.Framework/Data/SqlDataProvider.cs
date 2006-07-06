@@ -568,7 +568,7 @@ namespace Subtext.Framework.Data
 		public override int InsertCategoryEntry(CategoryEntry ce)
 		{
 			int PostID = InsertEntry(ce);
-			if(PostID > -1 && ce.Categories != null && ce.Categories.Length > 0)
+			if(PostID > -1 && ce.Categories != null && ce.Categories.Count > 0)
 			{
 				SqlConnection conn = new SqlConnection(ConnectionString);
 				SqlParameter[] p = new SqlParameter[3];
@@ -597,7 +597,7 @@ namespace Subtext.Framework.Data
 		public override bool UpdateCategoryEntry(CategoryEntry ce)
 		{
 			bool result = UpdateEntry(ce);
-			if(ce.Categories != null && ce.Categories.Length > 0)
+			if(ce.Categories != null && ce.Categories.Count > 0)
 			{
 				SqlConnection conn = new SqlConnection(ConnectionString);
 				SqlParameter[] p = new SqlParameter[3];
