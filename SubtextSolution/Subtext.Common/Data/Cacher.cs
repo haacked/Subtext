@@ -196,11 +196,11 @@ namespace Subtext.Common.Data
 
 			if(StringHelper.IsNumeric(id))
 			{
-				return GetSingleEntry(Int32.Parse(id), cacheDuration);
+				return GetEntry(Int32.Parse(id), cacheDuration);
 			}
 			else
 			{
-				return GetSingleEntry(id, cacheDuration);
+				return GetEntry(id, cacheDuration);
 			}
 		}
 
@@ -215,7 +215,7 @@ namespace Subtext.Common.Data
 		/// <param name="EntryName">Name of the entry.</param>
 		/// <param name="cacheDuration">The cache duration.</param>
 		/// <returns></returns>
-		public static Entry GetSingleEntry(string EntryName, CacheDuration cacheDuration)
+		public static Entry GetEntry(string EntryName, CacheDuration cacheDuration)
 		{
 			int blogId  =  BlogId();
 			
@@ -249,7 +249,7 @@ namespace Subtext.Common.Data
 		/// <param name="entryID">The entry ID.</param>
 		/// <param name="cacheDuration">The cache duration.</param>
 		/// <returns></returns>
-		public static Entry GetSingleEntry(int entryID, CacheDuration cacheDuration)
+		public static Entry GetEntry(int entryID, CacheDuration cacheDuration)
 		{
 			ContentCache cache = ContentCache.Instantiate();
 			string key = string.Format(EntryKeyID, entryID, BlogId());

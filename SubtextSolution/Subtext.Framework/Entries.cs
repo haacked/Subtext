@@ -97,19 +97,7 @@ namespace Subtext.Framework
 			return ObjectProvider.Instance().GetBlogPosts(itemCount, pc);
 		}
 
-		/// <summary>
-		/// Returns a collection of Entries grouped by Day
-		/// </summary>
-		/// <param name="itemCount">Number of entries total</param>
-		/// <param name="activeOnly">Return only Active Posts</param>
-		/// <returns></returns>
-        public static ICollection<EntryDay> GetRecentDayPosts(int itemCount, bool activeOnly)
-		{
-			return ObjectProvider.Instance().GetRecentDayPosts(itemCount, activeOnly);
-
-		}
-
-        public static ICollection<EntryDay> GetPostsByMonth(int month, int year)
+		public static ICollection<EntryDay> GetPostsByMonth(int month, int year)
 		{
 			return ObjectProvider.Instance().GetPostsByMonth(month,year);
 		}

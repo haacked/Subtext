@@ -101,19 +101,12 @@ namespace Subtext.Framework.Providers
 		public abstract IDataReader GetConditionalEntries(int itemCount, PostType postType, PostConfig postConfiguration);
 		public abstract IDataReader GetEntriesByDateRange(DateTime start, DateTime stop, PostType postType, bool activeOnly);
 
-		//Maybe under the hood only one call here? 
-		//Good Canidate for service/dataset? 
-		//Used a lot, maybe it should be both dataset and DataReader?
-		public abstract IDataReader GetRecentPosts(int itemCount, PostType postType, bool activeOnly);
-
 		public abstract IDataReader GetFeedBack(int postId);
-
-		public abstract IDataReader GetSingleDay(DateTime dt);
+        public abstract IDataReader GetSingleDay(DateTime dt);
 
 		//move other EntryDay Helper
 		public abstract IDataReader GetPostsByCategoryID(int itemCount, int catID);
-		public abstract IDataReader GetRecentDayPosts(int itemCount, bool activeOnly);
-
+		
 		//Should Power both List<EntryDay> and EntryCollection
 		public abstract IDataReader GetPostCollectionByMonth(int month, int year);
 		

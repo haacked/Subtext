@@ -84,12 +84,12 @@ namespace Subtext.Web.UI.Handlers
 				Entry entry = null;
 				if(StringHelper.IsNumeric(entryName))
 				{
-					entry = Cacher.GetSingleEntry(Int32.Parse(entryName), CacheDuration.Short);
+					entry = Cacher.GetEntry(Int32.Parse(entryName), CacheDuration.Short);
 				}
 				else
 				{
 					//This is why EntryName must be unique.
-					entry = Cacher.GetSingleEntry(entryName, CacheDuration.Short);
+					entry = Cacher.GetEntry(entryName, CacheDuration.Short);
 				}
 				
 				if(entry != null)

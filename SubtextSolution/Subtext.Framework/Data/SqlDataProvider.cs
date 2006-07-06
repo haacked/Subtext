@@ -429,20 +429,8 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@IsActive", SqlDbType.Bit, 1, activeOnly),
 				BlogIdParam
 			};
-			return GetReader("subtext_GetEntryWithCategoryTitles",p);
+			return GetReader("subtext_GetEntryWithCategoryTitles", p);
 			
-		}
-
-		public override IDataReader GetRecentPosts(int itemCount, PostType postType, bool activeOnly)
-		{
-			SqlParameter[] p =
-			{
-				SqlHelper.MakeInParam("@ItemCount", SqlDbType.Int, 4, itemCount),
-				SqlHelper.MakeInParam("@PostType", SqlDbType.Int, 4, postType),
-				SqlHelper.MakeInParam("@IsActive", SqlDbType.Bit, 1, activeOnly),
-				BlogIdParam
-			};
-			return GetReader("subtext_GetRecentEntries",p);
 		}
 
 		public override IDataReader GetEntry(string entryName, bool activeOnly)
@@ -526,19 +514,7 @@ namespace Subtext.Framework.Data
 				BlogIdParam};
 			return GetReader("subtext_GetPostsByMonth",p);
 		}
-
-		public override IDataReader GetRecentDayPosts(int itemCount, bool activeOnly)
-		{
-			SqlParameter[] p =
-			{
-				SqlHelper.MakeInParam("@ItemCount",SqlDbType.Int,4,itemCount),
-				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1, activeOnly),
-				SqlHelper.MakeInParam("@PostType",SqlDbType.Int,4,PostType.BlogPost),
-				BlogIdParam};
-			return GetReader("subtext_GetRecentEntries",p);
-		}
-
-		#endregion
+	    #endregion
 
 		#region Update Blog Data
 
