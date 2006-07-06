@@ -34,6 +34,10 @@ GO
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetRecentEntriesByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetRecentEntriesByDateUpdated]
 GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetRecentEntriesWithCategoryTitles]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetRecentEntriesWithCategoryTitles]
+GO
 /* The Rest of the script */
 
 /* Note: DNW_* are the aggregate blog procs */
@@ -235,10 +239,6 @@ GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetRecentEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetRecentEntries]
-GO
-
-if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetRecentEntriesWithCategoryTitles]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [<dbUser,varchar,dbo>].[subtext_GetRecentEntriesWithCategoryTitles]
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetSingleDay]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
@@ -2328,75 +2328,6 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON 
 GO
-
-CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetRecentEntriesWithCategoryTitles]
-(
-	@ItemCount int,
-	@IsActive bit,
-	@BlogId int
-)
-AS
-SET ROWCOUNT @ItemCount
-CREATE Table #IDs
-(
-	TempID int IDENTITY (0, 1) NOT NULL,
-	PostID int not NULL
-)
-INSERT #IDs (PostID)
-SELECT	[ID] 
-FROM [<dbUser,varchar,dbo>].[subtext_Content]
-WHERE	PostType=1 
-	AND BlogId = @BlogId 
-	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
-ORDER BY [DateAdded] DESC
-
-SELECT	BlogId
-	, [ID]
-	, Title
-	, DateAdded
-	, [Text]
-	, [Description]
-	, SourceUrl
-	, PostType
-	, Author
-	, Email
-	, SourceName
-	, DateUpdated
-	, TitleUrl
-	, FeedBackCount = ISNULL(FeedBackCount, 0)
-	, ParentID
-	, PostConfig
-	, EntryName 
-	, ContentChecksumHash
-	, DateSyndicated
-FROM [<dbUser,varchar,dbo>].[subtext_Content], #IDs
-WHERE [ID] = #IDs.PostID
-ORDER BY TempID ASC
-
-SET ROWCOUNT 0
-
-SELECT	c.Title
-		, PostId = ISNULL(l.PostID, -1)
-FROM [<dbUser,varchar,dbo>].[subtext_Links] l
-	INNER JOIN #IDs ON ISNULL(l.[PostID], -1) = #IDs.[PostID]
-	INNER JOIN subtext_LinkCategories c ON l.CategoryID = c.CategoryID
-DROP Table #IDs
-
-
-GO
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetRecentEntriesWithCategoryTitles]  TO [public]
-GO
-
-SET QUOTED_IDENTIFIER ON 
-GO
-SET ANSI_NULLS ON 
-GO
-
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetSingleDay]
 (
