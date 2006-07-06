@@ -254,6 +254,12 @@ namespace Subtext.Framework.Syndication
 		{
 			//core
 			this.WriteElementString("title", entry.Title);
+		    
+	        foreach (string category in entry.Categories)
+            {
+                this.WriteElementString("category", category);
+            }
+		    
 			this.WriteElementString("link", entry.FullyQualifiedUrl.ToString());
 			this.WriteElementString
 			(
