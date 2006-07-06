@@ -22,7 +22,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
-using Subtext.Framework.Threading;
+using Subtext.Framework.Web.HttpModules;
 
 namespace Subtext.Framework
 {
@@ -35,8 +35,6 @@ namespace Subtext.Framework
 	public class BlogInfo
 	{
 		const int DefaultRecentCommentsLength = 50;
-
-		private object urlLock = new object();
 		private UrlFormats _urlFormats = null;
 
 		/// <summary>
@@ -148,13 +146,7 @@ namespace Subtext.Framework
 			{
 				if(_urlFormats == null)
 				{
-					using(TimedLock.Lock(urlLock))
-					{
-						if(_urlFormats == null)
-						{
-							_urlFormats = new UrlFormats(this.RootUrl);
-						}
-					}
+					_urlFormats = new UrlFormats(this.RootUrl);
 				}
 				return _urlFormats;
 			}
@@ -287,7 +279,7 @@ namespace Subtext.Framework
 		public string Host
 		{
 			get
-			{
+			{   
 				return _host;
 			}
 			set
@@ -295,6 +287,21 @@ namespace Subtext.Framework
 				_host = NormalizeHostName(value);
 			}
 		}
+
+	    /// <summary>
+	    /// The port the blog is listening on.
+	    /// </summary>
+	    public int Port
+	    {
+	        get
+	        {
+	            if(HttpContext.Current != null)
+	            {
+                    return HttpContext.Current.Request.Url.Port;
+	            }
+                return 80;
+	        }
+	    }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this site can 
@@ -669,7 +676,12 @@ namespace Subtext.Framework
 			{
 				if(_rootUrl == null)
 				{
-					_rootUrl = "http://" + this.Host + VirtualUrl;					
+                    string host = this._host;
+                    if (this.Port != BlogRequest.DefaultPort)
+                    {
+                        host += ":" + this.Port;
+                    }
+                    _rootUrl = "http://" + host + VirtualUrl;					
 				}
 				return _rootUrl;
 			}

@@ -106,7 +106,7 @@ namespace Subtext.Framework.Configuration
 				{
 					//Not found in the cache
 					bool strict = true; //strict implies 
-					info = Subtext.Framework.Configuration.Config.GetBlogInfo(blogRequest.Host, blogRequest.Subfolder, !strict);
+                    info = Subtext.Framework.Configuration.Config.GetBlogInfo(blogRequest.Host, blogRequest.Subfolder, !strict);
 					if(info == null)
 					{
 						int totalBlogs;
@@ -180,7 +180,7 @@ namespace Subtext.Framework.Configuration
 					HttpContext.Current.Items.Add(cacheKey, info);
 				}
 			}
-
+		    
 			return info;
 		}
 

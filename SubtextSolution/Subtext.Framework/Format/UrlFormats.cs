@@ -31,17 +31,17 @@ namespace Subtext.Framework.Format
 	/// </summary>
 	public class UrlFormats
 	{
-		protected string fullyQualifiedUrl = null;
+        protected string fullyQualifiedUrl = null;
 
-		/// <summary>
-		/// Creates a new <see cref="UrlFormats"/> instance.
-		/// </summary>
-		/// <param name="fullyQualifiedUrl">Fully qualified URL.</param>
-		public UrlFormats(string fullyQualifiedUrl)
-		{
-			this.fullyQualifiedUrl = fullyQualifiedUrl;
-		}
-
+        /// <summary>
+        /// Creates a new <see cref="UrlFormats"/> instance.
+        /// </summary>
+        /// <param name="fullyQualifiedUrl">Fully qualified URL.</param>
+	    public UrlFormats(string fullyQualifiedUrl)
+	    {
+            this.fullyQualifiedUrl = fullyQualifiedUrl;
+	    }
+	    
 		public virtual string PostCategoryUrl(string categoryName, int categoryID)
 		{
 			return GetUrl("category/{0}.aspx", categoryID);

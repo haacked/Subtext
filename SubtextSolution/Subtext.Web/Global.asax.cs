@@ -80,6 +80,7 @@ namespace Subtext
 			//get the ADO appender
 			h.ConfigurationChanged += new log4net.Repository.LoggerRepositoryConfigurationChangedEventHandler(log4Net_ConfigurationChanged);
 			EnsureLog4NetConnectionString(h);
+		    log.Info("Application_Start - This is not a malfunction.");
 		}
 
 		private static void EnsureLog4NetConnectionString(Hierarchy h)

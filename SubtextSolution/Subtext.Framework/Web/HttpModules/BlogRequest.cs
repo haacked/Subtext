@@ -7,6 +7,8 @@ namespace Subtext.Framework.Web.HttpModules
 	/// </summary>
 	public struct BlogRequest
 	{
+        public const int DefaultPort = 80;
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BlogRequest"/> class.
 		/// </summary>
@@ -30,8 +32,8 @@ namespace Subtext.Framework.Web.HttpModules
 			}
 		}
 		string host;
-		
-		/// <summary>
+
+	    /// <summary>
 		/// Gets the host.
 		/// </summary>
 		/// <value>The host.</value>

@@ -35,7 +35,7 @@ namespace UnitTests.Subtext.Framework.Format
 	{
 		string _hostName;
 
-		/// <summary>
+	    /// <summary>
 		/// Makes sure that UrlFormats.GetBlogAppFromRequest does the right thing.
 		/// </summary>
 		[RowTest]
