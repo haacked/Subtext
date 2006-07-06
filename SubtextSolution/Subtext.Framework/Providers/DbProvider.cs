@@ -117,9 +117,24 @@ namespace Subtext.Framework.Providers
 		/// <param name="checksumHash">Checksum hash.</param>
 		/// <returns></returns>
 		public abstract IDataReader GetCommentByChecksumHash(string checksumHash);
-		public abstract IDataReader GetEntry(int postID, bool activeOnly);
-		public abstract IDataReader GetEntry(string entryName, bool activeOnly);
-		public abstract IDataReader GetCategoryEntry(int postID, bool activeOnly);
+	    
+	    /// <summary>
+	    /// Returns a Data Reader pointing to the entry specified by the entry id.
+	    /// </summary>
+	    /// <param name="id"></param>
+	    /// <param name="activeOnly"></param>
+	    /// <param name="includeCategories"></param>
+	    /// <returns></returns>
+        public abstract IDataReader GetEntryReader(int id, bool activeOnly, bool includeCategories);
+        
+	    /// <summary>
+        /// Returns a Data Reader pointing to the entry specified by the entry name.
+        /// </summary>
+        /// <param name="entryName">Url friendly entry name.</param>
+        /// <param name="activeOnly"></param>
+        /// <param name="includeCategories"></param>
+        /// <returns></returns>
+	    public abstract IDataReader GetEntryReader(string entryName, bool activeOnly, bool includeCategories);
 		#endregion
 
 		#region Update Blog Data

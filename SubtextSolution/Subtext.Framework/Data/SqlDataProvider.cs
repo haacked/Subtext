@@ -400,28 +400,29 @@ namespace Subtext.Framework.Data
 			return GetReader("subtext_GetEntriesByDayRange",p);
 		}
 
-		public override IDataReader GetCategoryEntry(int postID, bool activeOnly)
-		{
-			SqlParameter[] p =
-			{
-				SqlHelper.MakeInParam("@PostID", SqlDbType.Int, 4, SqlHelper.CheckNull(postID)),
-				SqlHelper.MakeInParam("@IsActive", SqlDbType.Bit, 1, activeOnly),
-				BlogIdParam
-			};
-			return GetReader("subtext_GetEntryWithCategoryTitles", p);
-			
-		}
-
-		public override IDataReader GetEntry(string entryName, bool activeOnly)
+		public override IDataReader GetEntryReader(string entryName, bool activeOnly, bool includeCategories)
 		{
 			SqlParameter[] p =
 			{
 				SqlHelper.MakeInParam("@EntryName",SqlDbType.NVarChar,150,entryName),
 				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1, activeOnly),
+				SqlHelper.MakeInParam("@IncludeCategories", SqlDbType.Bit, 1, includeCategories),
 				BlogIdParam
 			};
-			return GetReader("subtext_GetSingleEntryByName",p);
+			return GetReader("subtext_GetSingleEntry", p);
 		}
+
+        public override IDataReader GetEntryReader(int postID, bool activeOnly, bool includeCategories)
+        {
+            SqlParameter[] p =
+			{
+				SqlHelper.MakeInParam("@ID", SqlDbType.Int,4,postID),
+				SqlHelper.MakeInParam("@IsActive", SqlDbType.Bit, 1, activeOnly),
+				SqlHelper.MakeInParam("@IncludeCategories", SqlDbType.Bit, 1, includeCategories),
+				BlogIdParam
+			};
+            return GetReader("subtext_GetSingleEntry", p);
+        }
 
 		/// <summary>
 		/// Searches the data store for the first comment with a 
@@ -437,17 +438,6 @@ namespace Subtext.Framework.Data
 				BlogIdParam
 			};
 			return GetReader("subtext_GetCommentByChecksumHash", p);
-		}
-
-		public override IDataReader GetEntry(int postID, bool activeOnly)
-		{
-			SqlParameter[] p =
-			{
-				SqlHelper.MakeInParam("@ID",SqlDbType.Int,4,postID),
-				SqlHelper.MakeInParam("@IsActive",SqlDbType.Bit,1, activeOnly),
-				BlogIdParam
-			};
-			return GetReader("subtext_GetSingleEntry" ,p);
 		}
 
 		public override IDataReader GetEntryDayReader(DateTime dt)

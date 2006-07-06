@@ -135,9 +135,24 @@ namespace Subtext.Framework.Providers
 		/// <param name="checksumHash">Checksum hash.</param>
 		/// <returns></returns>
 		public abstract Entry GetCommentByChecksumHash(string checksumHash);
-		public abstract Entry GetEntry(int postID, bool activeOnly);
-		public abstract Entry GetEntry(string EntryName, bool activeOnly);
-		public abstract Entry GetCategoryEntry(int postid, bool activeOnly);
+        
+	    /// <summary>
+	    /// Returns an <see cref="Entry" /> with the specified id.
+	    /// </summary>
+	    /// <param name="id">Id of the entry</param>
+        /// <param name="activeOnly">Whether or not to only return the entry if it is active.</param>
+        /// <param name="includeCategories">Whether the entry should have its Categories property populated</param>
+	    /// <returns></returns>
+	    public abstract Entry GetEntry(int id, bool activeOnly, bool includeCategories);
+
+        /// <summary>
+        /// Returns an <see cref="Entry" /> with the specified entry name.
+        /// </summary>
+        /// <param name="entryName">Url friendly entry name.</param>
+        /// <param name="activeOnly">Whether or not to only return the entry if it is active.</param>
+        /// <param name="includeCategories">Whether the entry should have its Categories property populated</param>
+        /// <returns></returns>
+        public abstract Entry GetEntry(string entryName, bool activeOnly, bool includeCategories);
 
 		#endregion
 

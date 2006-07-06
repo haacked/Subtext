@@ -81,7 +81,7 @@ namespace Subtext.Framework.XmlRpc
 			Framework.BlogInfo info = Config.CurrentBlog;
 			ValidateUser(username,password,info.AllowServiceAccess);
 			
-			Entry entry = Entries.GetCategoryEntry(Int32.Parse(postid), EntryGetOption.All);
+			Entry entry = Entries.GetEntry(Int32.Parse(postid), PostConfig.None, true);
 			if(entry != null)
 			{
 				entry.Author = info.Author;
@@ -109,7 +109,7 @@ namespace Subtext.Framework.XmlRpc
 			Framework.BlogInfo info = Config.CurrentBlog;
 			ValidateUser(username,password,info.AllowServiceAccess);
 			
-			Entry entry = Entries.GetCategoryEntry(Int32.Parse(postid), EntryGetOption.All);
+			Entry entry = Entries.GetEntry(Int32.Parse(postid), PostConfig.None, true);
 			Post post = new Post();
 			post.link = entry.TitleUrl;
 			post.description = entry.Body;

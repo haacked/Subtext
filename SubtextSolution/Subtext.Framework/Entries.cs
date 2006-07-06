@@ -177,33 +177,26 @@ namespace Subtext.Framework
 		/// Gets the entry from the data store by id.
 		/// </summary>
 		/// <param name="entryId">The ID of the entry.</param>
-		/// <param name="entryOption">The entry option used to constrain the search.</param>
+		/// <param name="postConfig">The entry option used to constrain the search.</param>
+		/// <param name="includeCategories">Whether the returned entry should have its categories collection populated.</param>
 		/// <returns></returns>
-		public static Entry GetEntry(int entryId, EntryGetOption entryOption)
+		public static Entry GetEntry(int entryId, PostConfig postConfig, bool includeCategories)
 		{
-			return ObjectProvider.Instance().GetEntry(entryId, (entryOption == EntryGetOption.ActiveOnly));
+            bool isActive = ((postConfig & PostConfig.IsActive) == PostConfig.IsActive);
+            return ObjectProvider.Instance().GetEntry(entryId, isActive, includeCategories);
 		}
 
 		/// <summary>
 		/// Gets the entry from the data store by entry name.
 		/// </summary>
 		/// <param name="EntryName">Name of the entry.</param>
-		/// <param name="entryOption">The entry option used to constrain the search.</param>
+		/// <param name="postConfig">The entry option used to constrain the search.</param>
+        /// <param name="includeCategories">Whether the returned entry should have its categories collection populated.</param>
 		/// <returns></returns>
-		public static Entry GetEntry(string EntryName, EntryGetOption entryOption)
+        public static Entry GetEntry(string EntryName, PostConfig postConfig, bool includeCategories)
 		{
-			return ObjectProvider.Instance().GetEntry(EntryName, (entryOption == EntryGetOption.ActiveOnly));
-		}
-
-		/// <summary>
-		/// Gets the category entry by id.
-		/// </summary>
-		/// <param name="entryId">The entryId.</param>
-		/// <param name="entryOption">The entry option used to constrain the search.</param>
-		/// <returns></returns>
-		public static Entry GetCategoryEntry(int entryId, EntryGetOption entryOption)
-		{
-			return ObjectProvider.Instance().GetCategoryEntry(entryId, (entryOption == EntryGetOption.ActiveOnly));
+            bool isActive = ((postConfig & PostConfig.IsActive) == PostConfig.IsActive);
+            return ObjectProvider.Instance().GetEntry(EntryName, isActive, includeCategories);
 		}
 		#endregion
 
@@ -351,7 +344,7 @@ namespace Subtext.Framework
 
 			string newEntryName = entryName;
 			int tryCount = 0;
-			while(ObjectProvider.Instance().GetEntry(newEntryName, false) != null)
+			while(ObjectProvider.Instance().GetEntry(newEntryName, false, false) != null)
 			{
 				if(tryCount == 1)
 					newEntryName = entryName + "Again";
@@ -522,16 +515,6 @@ namespace Subtext.Framework
 				}
 			}
 		}
-	}
-
-	/// <summary>
-	/// Enum used to determine which type of entries to retrieve.
-	/// </summary>
-	public enum EntryGetOption
-	{
-		All = 0,
-		ActiveOnly = 1,
-		//TODO: At some point let's add InactiveOnly = 2,
 	}
 }
 

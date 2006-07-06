@@ -7,6 +7,7 @@ using System.Web;
 using System.Xml;
 using MbUnit.Framework;
 using Subtext.Common.Syndication;
+using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
@@ -96,7 +97,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			//Create two entries, but only include one in main syndication.
 			Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking"));
 			int id = Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test 2", "Body Rocking Pt 2"));
-			Entry entry = Entries.GetEntry(id, EntryGetOption.All);
+			Entry entry = Entries.GetEntry(id, PostConfig.IsActive, false);
 			entry.IncludeInMainSyndication = false;
 			Entries.Update(entry);
 			Assert.AreEqual(NullValue.NullDateTime, entry.DateSyndicated);
@@ -144,7 +145,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			Assert.AreEqual("Title Test", itemNodes[1].SelectSingleNode("title").InnerText, "Not what we expected for the second title.");			
 			
 			//Remove first entry from syndication.
-			Entry firstEntry = Entries.GetEntry(firstId, EntryGetOption.All);
+			Entry firstEntry = Entries.GetEntry(firstId, PostConfig.IsActive, false);
 			firstEntry.IncludeInMainSyndication = false;
 			Entries.Update(firstEntry);
 			

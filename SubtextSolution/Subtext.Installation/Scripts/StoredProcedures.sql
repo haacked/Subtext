@@ -42,6 +42,14 @@ GO
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetRecentEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetRecentEntries]
 GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetSingleEntryByName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetSingleEntryByName]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetEntryWithCategoryTitles]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetEntryWithCategoryTitles]
+GO
 /* The Rest of the script */
 
 /* Note: DNW_* are the aggregate blog procs */
@@ -157,10 +165,6 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetEntriesByDayRange]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetEntryWithCategoryTitles]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [<dbUser,varchar,dbo>].[subtext_GetEntryWithCategoryTitles]
-GO
-
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetFeedBack]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetFeedBack]
 GO
@@ -247,10 +251,6 @@ GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetSingleEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetSingleEntry]
-GO
-
-if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetSingleEntryByName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [<dbUser,varchar,dbo>].[subtext_GetSingleEntryByName]
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetSingleImage]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
@@ -671,7 +671,7 @@ SELECT links.LinkID
 	, links.CategoryID
 	, PostID = ISNULL(links.PostID, -1)
 FROM [<dbUser,varchar,dbo>].[subtext_Links] links
-	INNER JOIN subtext_LinkCategories categories ON links.CategoryID = categories.CategoryID
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] categories ON links.CategoryID = categories.CategoryID
 WHERE 
 		links.Active = 1 
 	AND categories.Active = 1
@@ -855,7 +855,7 @@ ORDER BY ISNULL([DateSyndicated], [DateAdded]) DESC
 
 SET ROWCOUNT @ItemCount
 SELECT BlogId
-	, [dbo].[subtext_Content].[Id]
+	, [<dbUser,varchar,dbo>].[subtext_Content].[Id]
 	, Title
 	, DateAdded
 	, [Text]
@@ -874,7 +874,7 @@ SELECT BlogId
 	, ContentChecksumHash
 	, DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
-	INNER JOIN #IDs ON #IDs.[Id] = [dbo].[subtext_Content].[Id]
+	INNER JOIN #IDs ON #IDs.[Id] = [<dbUser,varchar,dbo>].[subtext_Content].[Id]
 ORDER BY #IDs.TempId
 
 IF @IncludeCategories = 1
@@ -1049,62 +1049,6 @@ SET QUOTED_IDENTIFIER OFF
 GO
 SET ANSI_NULLS ON 
 GO
-
-
-CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetEntryWithCategoryTitles]
-(
-	@PostID int
-	, @IsActive bit
-	, @BlogId int
-)
-AS
-SELECT	BlogId
-		, [ID]
-		, Title
-		, DateAdded
-		, [Text]
-		, [Description]
-		, SourceUrl
-		, PostType
-		, Author
-		, Email
-		, SourceName
-		, DateUpdated
-		, TitleUrl
-		, ParentID
-		, FeedBackCount = ISNULL(FeedBackCount, 0)
-		, PostConfig
-		, EntryName
-		, ParentID 
-		, ContentChecksumHash
-		, DateSyndicated
-FROM [<dbUser,varchar,dbo>].[subtext_Content]
-WHERE	[ID] = @PostID 
-	AND  BlogId = @BlogId 
-	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
-ORDER BY [DateAdded] DESC
-
-SELECT	c.Title
-		, PostID = l.PostID
-FROM [<dbUser,varchar,dbo>].[subtext_Links] l
-INNER JOIN subtext_LinkCategories c ON l.CategoryID = c.CategoryID
-WHERE l.PostID = @PostID
-
-
-GO
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetEntryWithCategoryTitles]  TO [public]
-GO
-
-SET QUOTED_IDENTIFIER ON 
-GO
-SET ANSI_NULLS ON 
-GO
-
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetFeedBack]
 (
@@ -1444,8 +1388,8 @@ BEGIN
 	INSERT INTO #TempPagedEntryIDs (EntryID)
 	SELECT	blog.[ID] 
 	FROM [<dbUser,varchar,dbo>].[subtext_Content] blog
-		INNER JOIN subtext_Links links ON (blog.[ID] = ISNULL(links.PostID, -1))
-		INNER JOIN subtext_LinkCategories cats ON (links.CategoryID = cats.CategoryID)
+		INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links links] ON (blog.[ID] = ISNULL(links.PostID, -1))
+		INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (links.CategoryID = cats.CategoryID)
 	WHERE 	blog.BlogId = @BlogId 
 		AND blog.PostType = @PostType
 		AND cats.CategoryID = @CategoryID
@@ -1456,8 +1400,8 @@ BEGIN
 	INSERT INTO #TempPagedEntryIDs (EntryID)
 	SELECT	blog.[ID] 
 	FROM [<dbUser,varchar,dbo>].[subtext_Content] blog
-		INNER JOIN subtext_Links links ON (blog.[ID] = ISNULL(links.PostID, -1))
-		INNER JOIN subtext_LinkCategories cats ON (links.CategoryID = cats.CategoryID)
+		INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links ON (blog.[ID] = ISNULL(links.PostID, -1))
+		INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (links.CategoryID = cats.CategoryID)
 	WHERE 	blog.BlogId = @BlogId 
 		AND blog.PostType = @PostType
 		AND cats.CategoryID = @CategoryID
@@ -1500,8 +1444,8 @@ DROP TABLE #TempPagedEntryIDs
 
 SELECT 	COUNT(blog.[ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Content] blog
-	INNER JOIN subtext_Links links ON (blog.[ID] = ISNULL(links.PostID, -1))
-	INNER JOIN subtext_LinkCategories cats ON (links.CategoryID = cats.CategoryID)
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links ON (blog.[ID] = ISNULL(links.PostID, -1))
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (links.CategoryID = cats.CategoryID)
 WHERE 	blog.BlogId = @BlogId 
 	AND blog.PostType = @PostType
 	AND cats.CategoryID = @CategoryID
@@ -2109,8 +2053,8 @@ SELECT	content.BlogId
 	, content.ContentChecksumHash
 	, content.DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content WITH (NOLOCK)
-	INNER JOIN subtext_Links links WITH (NOLOCK) ON content.ID = ISNULL(links.PostID, -1)
-	INNER JOIN subtext_LinkCategories categories WITH (NOLOCK) ON links.CategoryID = categories.CategoryID
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links WITH (NOLOCK) ON content.ID = ISNULL(links.PostID, -1)
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] categories WITH (NOLOCK) ON links.CategoryID = categories.CategoryID
 WHERE  content.BlogId = @BlogId 
 	AND content.PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END AND categories.CategoryID = @CategoryID
 ORDER BY content.[ID] DESC
@@ -2333,9 +2277,11 @@ GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetSingleEntry]
 (
-	@ID int
+	@ID int = NULL
+	, @EntryName nvarchar(150) = NULL
 	, @IsActive bit
 	, @BlogId int
+	, @IncludeCategories bit = 0
 )
 AS
 SELECT	BlogId
@@ -2358,10 +2304,20 @@ SELECT	BlogId
 	, ContentChecksumHash
 	, DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
-WHERE [ID] = @ID 
+WHERE ID = COALESCE(@ID, ID)
+	AND IsNull(EntryName, '') = COALESCE(@EntryName, EntryName, '') 
 	AND BlogId = @BlogId 
 	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
 ORDER BY [ID] DESC
+
+IF @IncludeCategories = 1
+BEGIN
+	SELECT c.Title
+		, PostID = l.PostID  
+	FROM [<dbUser,varchar,dbo>].[subtext_Links] l  
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] c ON l.CategoryID = c.CategoryID  
+	WHERE l.PostID = @Id
+END
 
 
 GO
@@ -2377,55 +2333,6 @@ SET QUOTED_IDENTIFIER OFF
 GO
 SET ANSI_NULLS ON 
 GO
-
-
-CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetSingleEntryByName]
-(
-	@EntryName nvarchar(150)
-	, @IsActive bit
-	, @BlogId int
-)
-AS
-SELECT	BlogId
-	, [ID]
-	, Title
-	, DateAdded
-	, [Text]
-	, [Description]
-	, SourceUrl
-	, PostType
-	, Author
-	, Email
-	, SourceName
-	, DateUpdated
-	, TitleUrl
-	, FeedBackCount = ISNULL(FeedBackCount, 0)
-	, ParentID
-	, PostConfig
-	, EntryName 
-	, ContentChecksumHash
-	, DateSyndicated
-FROM [<dbUser,varchar,dbo>].[subtext_Content]
-WHERE [EntryName] = @EntryName 
-	AND BlogId = @BlogId 
-	AND PostConfig & 1 <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
-ORDER BY [ID] DESC
-
-
-GO
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetSingleEntryByName]  TO [public]
-GO
-
-SET QUOTED_IDENTIFIER ON 
-GO
-SET ANSI_NULLS ON 
-GO
-
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetSingleImage]
 (

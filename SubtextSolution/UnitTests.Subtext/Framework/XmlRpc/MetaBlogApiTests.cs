@@ -13,7 +13,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
     public class MetaBlogApiTests
     {
         [Test]
-        //[RollBack]
+        [RollBack]
         public void GetRecentPostsReturnsRecentPosts()
         {
             string hostname = UnitTestHelper.GenerateRandomHostname();

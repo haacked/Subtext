@@ -182,7 +182,7 @@ namespace UnitTests.Subtext
 		
 	    public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string applicationPath, string page, TextWriter output, string httpVerb)
 	    {
-            return SetHttpContextWithBlogRequest(host, 80, subfolder, applicationPath, page, output, "GET");
+            return SetHttpContextWithBlogRequest(host, 80, subfolder, applicationPath, page, output, httpVerb);
 	    }
 	    
 		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, int port, string subfolder, string applicationPath, string page, TextWriter output, string httpVerb)
