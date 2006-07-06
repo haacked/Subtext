@@ -115,10 +115,10 @@ namespace Subtext.Framework.Providers
 		/// <see cref="PostConfig"/> flags.
 		/// </summary>
 		/// <param name="itemCount">Item count.</param>
-		/// <param name="pt">Pt.</param>
-		/// <param name="pc">Pc.</param>
+		/// <param name="postType">The type of entry to return.</param>
+		/// <param name="postConfig">Post Configuration options.</param>
 		/// <returns></returns>
-		public abstract IList<Entry> GetConditionalEntries(int itemCount, PostType pt, PostConfig pc);
+		public abstract IList<Entry> GetConditionalEntries(int itemCount, PostType postType, PostConfig postConfig);
 
 		public abstract IList<Entry> GetFeedBack(Entry ParentEntry);
 		public abstract ICollection<CategoryEntry> GetRecentPostsWithCategories(int itemCount, bool activeOnly);

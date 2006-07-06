@@ -295,12 +295,12 @@ namespace Subtext.Framework.Data
 		/// This is called to get the main syndicated entries.
 		/// </remarks>
 		/// <param name="itemCount">Item count.</param>
-		/// <param name="pt">Pt.</param>
-		/// <param name="pc">Pc.</param>
+		/// <param name="postType">Pt.</param>
+		/// <param name="postConfig">Pc.</param>
 		/// <returns></returns>
-		public override IList<Entry> GetConditionalEntries(int itemCount, PostType pt, PostConfig pc)
+		public override IList<Entry> GetConditionalEntries(int itemCount, PostType postType, PostConfig postConfig)
 		{
-			IDataReader reader = DbProvider.Instance().GetConditionalEntries(itemCount, pt, pc);
+			IDataReader reader = DbProvider.Instance().GetConditionalEntries(itemCount, postType, postConfig);
 			return DataHelper.LoadEntryCollectionAndCloseDataReader(reader);
 		}
 
