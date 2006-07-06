@@ -432,7 +432,7 @@ namespace Subtext.Web.Admin.UserControls
 					entry.Body = HtmlHelper.StripRTB(richTextEditor.Xhtml, Request.Url.Host);
 					entry.Author = Config.CurrentBlog.Author;
 					entry.Email = Config.CurrentBlog.Email;
-					entry.BlogId = Config.CurrentBlog.BlogId;
+					entry.BlogId = Config.CurrentBlog.Id;
 
 					// Advanced options
 					/* Need to do some special checks for txb*.Text == "", b/c they get posted 

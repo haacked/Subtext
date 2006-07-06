@@ -190,13 +190,18 @@ namespace Subtext.Framework.Configuration
 				throw new BlogDuplicationException(potentialDuplicate);
 			}
 
-			//Check to see if we're going to end up hiding another blog.
-			BlogInfo potentialHidden = Subtext.Framework.Configuration.Config.GetBlogInfo(host, string.Empty);
-			if(potentialHidden != null)
-			{
-				//We found a blog that would be hidden by this one.
-				throw new BlogHiddenException(potentialHidden);
-			}
+		    //If the subfolder is null, this next check is redundant as it is 
+		    //equivalent to the check we just made.
+			if (subfolder != null && subfolder.Length > 0)
+            {
+                //Check to see if we're going to end up hiding another blog.
+                BlogInfo potentialHidden = Subtext.Framework.Configuration.Config.GetBlogInfo(host, string.Empty, true);
+                if (potentialHidden != null)
+                {
+                    //We found a blog that would be hidden by this one.
+                    throw new BlogHiddenException(potentialHidden);
+                }
+            }
 			
 			subfolder = UrlFormats.StripSurroundingSlashes(subfolder);
 			Console.WriteLine("Creating a blog with subfolder '" + subfolder + "'");

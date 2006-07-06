@@ -373,25 +373,6 @@
     </Compile>
     <Compile Include="Providers\RichTextEditor\FTB\FtbRichTextEditorProvider.cs" />
     <Compile Include="Providers\RichTextEditor\PlainText\PlainTextRichTextEditorProvider.cs" />
-    <Compile Include="Services\ASPNetWebLog.asmx.cs">
-      <DependentUpon>ASPNetWebLog.asmx</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Services\BlogContent.asmx.cs">
-      <DependentUpon>BlogContent.asmx</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Services\Dottext.asmx.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Services\SimpleBlogService.asmx.cs">
-      <DependentUpon>SimpleBlogService.asmx</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Services\SubText.asmx.cs">
-      <DependentUpon>ASPNetWebLog.asmx</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="SystemMessages\BlogNotActive.aspx.cs">
       <DependentUpon>BlogNotActive.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -760,22 +741,6 @@
     <EmbeddedResource Include="Providers\RichTextEditor\PlainText\resources\ErrorMessages.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Services\ASPNetWebLog.asmx.resx">
-      <DependentUpon>ASPNetWebLog.asmx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Services\BlogContent.asmx.resx">
-      <DependentUpon>BlogContent.asmx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Services\Dottext.asmx.resx">
-      <DependentUpon>Dottext.asmx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Services\SimpleBlogService.asmx.resx">
-      <DependentUpon>SimpleBlogService.asmx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="SystemMessages\BlogNotActive.aspx.resx">
       <DependentUpon>BlogNotActive.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -956,9 +921,6 @@
     <Content Include="Scripts\LiveCommentPreview.js" />
     <Content Include="Scripts\XFNHighlighter.css" />
     <Content Include="Scripts\XFNHighlighter.js" />
-    <Content Include="Services\ASPNetWebLog.asmx" />
-    <Content Include="Services\BlogContent.asmx" />
-    <Content Include="Services\SimpleBlogService.asmx" />
     <Content Include="Skins\AnotherEon001\Controls\ArchiveCategory.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\ArchiveDay.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\ArchiveLinks.ascx" />

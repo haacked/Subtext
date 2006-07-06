@@ -99,13 +99,12 @@ namespace Subtext.Framework.Providers
 		/// <param name="pc"></param>
 		/// <returns></returns>
 		public abstract IDataReader GetConditionalEntries(int itemCount, PostType pt, PostConfig pc);
-		public abstract IDataReader GetEntriesByDateRangle(DateTime start, DateTime stop, PostType postType, bool activeOnly);
+		public abstract IDataReader GetEntriesByDateRange(DateTime start, DateTime stop, PostType postType, bool activeOnly);
 
 		//Maybe under the hood only one call here? 
 		//Good Canidate for service/dataset? 
 		//Used a lot, maybe it should be both dataset and DataReader?
 		public abstract IDataReader GetRecentPosts(int itemCount, PostType postType, bool activeOnly);
-		public abstract IDataReader GetRecentPosts(int itemCount, PostType postType, bool activeOnly, DateTime dateUpdated);
 
 		public abstract IDataReader GetFeedBack(int postId);
 

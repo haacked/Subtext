@@ -31,6 +31,9 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryName]
 GO
 
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetRecentEntriesByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetRecentEntriesByDateUpdated]
+GO
 /* The Rest of the script */
 
 /* Note: DNW_* are the aggregate blog procs */
@@ -232,10 +235,6 @@ GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetRecentEntries]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetRecentEntries]
-GO
-
-if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetRecentEntriesByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [<dbUser,varchar,dbo>].[subtext_GetRecentEntriesByDateUpdated]
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetRecentEntriesWithCategoryTitles]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
@@ -833,15 +832,30 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetConditionalEntries]
 	, @PostType int
 	, @PostConfig int
 	, @BlogId int = NULL
+	, @IncludeCategories bit = 0
 )
 AS
 /* 
 //TODO: This proc is being used to populate home page 
 and feed. But it should sort on different dates for each.
 */
+CREATE Table #IDs  
+(  
+	 TempId int IDENTITY (0, 1) NOT NULL,  
+	 Id int not NULL  
+)
+
+INSERT #IDs (Id)  
+SELECT [Id]   
+FROM [<dbUser,varchar,dbo>].[subtext_Content]
+WHERE	PostType = @PostType 
+	AND BlogId = COALESCE(@BlogId, BlogId)
+	AND PostConfig & @PostConfig = @PostConfig
+ORDER BY ISNULL([DateSyndicated], [DateAdded]) DESC
+
 SET ROWCOUNT @ItemCount
 SELECT BlogId
-	, [ID]
+	, [dbo].[subtext_Content].[Id]
 	, Title
 	, DateAdded
 	, [Text]
@@ -860,11 +874,17 @@ SELECT BlogId
 	, ContentChecksumHash
 	, DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
-WHERE	PostType = @PostType 
-	AND (BlogId = @BlogId OR @BlogId IS NULL)
-	AND PostConfig & @PostConfig = @PostConfig
-ORDER BY ISNULL([DateSyndicated], [DateAdded]) DESC
+	INNER JOIN #IDs ON #IDs.[Id] = [dbo].[subtext_Content].[Id]
+ORDER BY #IDs.TempId
 
+IF @IncludeCategories = 1
+BEGIN
+	SELECT	c.Title  
+			, [Id]
+	FROM [<dbUser,varchar,dbo>].[subtext_Links] l
+		INNER JOIN [<dbUser,varchar,dbo>].[subtext_Content] p ON l.[PostID] = p.[ID]  
+		INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] c ON l.CategoryID = c.CategoryID  
+END
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -2305,59 +2325,6 @@ GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetRecentEntries]  TO [public
 GO
 
 SET QUOTED_IDENTIFIER ON 
-GO
-SET ANSI_NULLS ON 
-GO
-
-
-CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetRecentEntriesByDateUpdated]
-(
-	@ItemCount int
-	, @IsActive bit 
-	, @PostType int
-	, @DateUpdated datetime
-	, @BlogId int
-)
-AS
-SET ROWCOUNT @ItemCount
-SELECT	BlogId
-	, [ID]
-	, Title
-	, DateAdded
-	, [Text]
-	, [Description]
-	, SourceUrl
-	, PostType
-	, Author
-	, Email
-	, SourceName
-	, DateUpdated
-	, TitleUrl
-	, FeedBackCount = ISNULL(FeedBackCount, 0)
-	, ParentID
-	, PostConfig
-	, EntryName 
-	, ContentChecksumHash
-	, DateSyndicated
-FROM [<dbUser,varchar,dbo>].[subtext_Content]
-WHERE 
-	PostType=@PostType 
-	AND BlogId = @BlogId
-	AND DateUpdated > @DateUpdated
-	AND PostConfig & 1  <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
-ORDER BY [ID] DESC
-
-
-GO
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetRecentEntriesByDateUpdated]  TO [public]
-GO
-
-SET QUOTED_IDENTIFIER OFF 
 GO
 SET ANSI_NULLS ON 
 GO

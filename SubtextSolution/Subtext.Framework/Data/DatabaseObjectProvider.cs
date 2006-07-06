@@ -333,7 +333,7 @@ namespace Subtext.Framework.Data
 			DataSet ds = DbProvider.Instance().GetRecentPostsWithCategories(itemCount, activeOnly);
             List<CategoryEntry> ec = new List<CategoryEntry>();
 			int count = ds.Tables[0].Rows.Count;
-			for(int i =0; i<count; i++)
+			for(int i = 0; i < count; i++)
 			{
 				DataRow row = ds.Tables[0].Rows[i];
 				CategoryEntry ce = DataHelper.LoadCategoryEntry(row);
@@ -348,12 +348,6 @@ namespace Subtext.Framework.Data
             return DataHelper.LoadEntryCollectionAndCloseDataReader(reader);
 		}
 
-		public override IList<Entry> GetRecentPosts(int itemCount, PostType postType, bool activeOnly, DateTime dateUpdated)
-		{
-			IDataReader reader = DbProvider.Instance().GetRecentPosts(itemCount, postType, activeOnly, dateUpdated);
-            return DataHelper.LoadEntryCollectionAndCloseDataReader(reader);
-		}
-
 		public override IList<Entry> GetPostCollectionByMonth(int month, int year)
 		{
 			IDataReader reader = DbProvider.Instance().GetPostCollectionByMonth(month,year);
@@ -365,11 +359,11 @@ namespace Subtext.Framework.Data
 			IDataReader reader;
 			if(stop > start)
 			{
-				reader = DbProvider.Instance().GetEntriesByDateRangle(start, stop, postType, activeOnly);
+				reader = DbProvider.Instance().GetEntriesByDateRange(start, stop, postType, activeOnly);
 			}
 			else
 			{
-				reader = DbProvider.Instance().GetEntriesByDateRangle(stop, start, postType, activeOnly);
+				reader = DbProvider.Instance().GetEntriesByDateRange(stop, start, postType, activeOnly);
 			}
 
 			IList<Entry> ec = DataHelper.LoadEntryCollectionAndCloseDataReader(reader);

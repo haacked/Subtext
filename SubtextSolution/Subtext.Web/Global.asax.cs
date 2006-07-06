@@ -55,7 +55,7 @@ namespace Subtext
 		{
 			if(custom == "Blogger" && !Security.IsAdmin && !Security.IsHostAdmin) // Do not cache admin.
 			{
-				return Config.CurrentBlog.BlogId.ToString(CultureInfo.InvariantCulture);
+				return Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture);
 			}
 
 			return base.GetVaryByCustomString(context, custom);
@@ -141,7 +141,7 @@ namespace Subtext
 							if(!InstallationManager.IsInHostAdminDirectory && !InstallationManager.IsInInstallDirectory && !InstallationManager.IsInSystemMessageDirectory)
 							{
 								userInfo += "<br />Is Admin: " + Subtext.Framework.Security.IsAdmin.ToString(CultureInfo.InvariantCulture);
-								userInfo += "<br />BlogId: " + Subtext.Framework.Configuration.Config.CurrentBlog.BlogId.ToString(CultureInfo.InvariantCulture);
+								userInfo += "<br />BlogId: " + Subtext.Framework.Configuration.Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture);
 							}	
 						}
 					}

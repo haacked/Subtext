@@ -75,7 +75,7 @@ namespace Subtext.Framework.Tracking
 				if(EntryID > 0)
 				{
 					EntryView ev = new EntryView();
-					ev.BlogId = Config.CurrentBlog.BlogId;
+					ev.BlogId = Config.CurrentBlog.Id;
 					ev.EntryID = EntryID;
 					ev.PageViewType = PageViewType.AggView;
 					EntryTracker.Track(ev);

@@ -158,12 +158,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
         public static IList<Entry> GetRecentPosts(int itemCount, PostType postType, bool activeOnly)
 		{
-			return ObjectProvider.Instance().GetRecentPosts(itemCount,postType, activeOnly);
-		}
-
-        public static IList<Entry> GetRecentPosts(int itemCount, PostType postType, bool activeOnly, DateTime DateUpdated)
-		{
-			return ObjectProvider.Instance().GetRecentPosts(itemCount,postType, activeOnly,DateUpdated);
+			return ObjectProvider.Instance().GetRecentPosts(itemCount, postType, activeOnly);
 		}
 
         public static IList<Entry> GetPostCollectionByMonth(int month, int year)

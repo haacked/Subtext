@@ -116,7 +116,7 @@ namespace Subtext.Common.Data
 
 		private static int BlogId()
 		{
-			return Framework.Configuration.Config.CurrentBlog.BlogId;
+			return Framework.Configuration.Config.CurrentBlog.Id;
 		}
 
 		#endregion

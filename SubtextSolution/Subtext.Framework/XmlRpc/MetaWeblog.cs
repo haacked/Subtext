@@ -16,7 +16,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Globalization;
 using CookComputing.XmlRpc;
 using Subtext.Extensibility;
@@ -30,7 +29,7 @@ using Subtext.Framework.Util;
 namespace Subtext.Framework.XmlRpc
 {
 	/// <summary>
-	/// Summary description for MetaWeblog.
+	/// Implements the MetaBlog API.
 	/// </summary>
 	public class MetaWeblog : XmlRpcService, Subtext.Framework.XmlRpc.IMetaWeblog
 	{
@@ -52,7 +51,7 @@ namespace Subtext.Framework.XmlRpc
 			
 			BlogInfo[] bi = new BlogInfo[1];
 			BlogInfo b = new BlogInfo();
-			b.blogid = info.BlogId.ToString(CultureInfo.InvariantCulture);
+			b.blogid = info.Id.ToString(CultureInfo.InvariantCulture);
 			b.blogName = info.Title;
 			b.url = info.HomeFullyQualifiedUrl;
 			bi[0] = b;
@@ -94,9 +93,7 @@ namespace Subtext.Framework.XmlRpc
 				entry.SourceUrl = string.Empty;
 				entry.Description = string.Empty;
 
-                if (entry.Categories == null)
-                    entry.Categories = new StringCollection();
-				entry.Categories.AddRange(post.categories);
+                entry.Categories.AddRange(post.categories);
 				entry.PostType = PostType.BlogPost;
 				entry.IsXHMTL = false;
 				entry.IsActive = publish;
@@ -217,10 +214,8 @@ namespace Subtext.Framework.XmlRpc
 				entry.DateCreated = BlogTime.CurrentBloggerTime;
 				entry.DateUpdated = entry.DateCreated;
 			}
-            if (entry.Categories == null)
-                entry.Categories = new StringCollection();
-		    
-			entry.Categories.AddRange(post.categories);
+
+		    entry.Categories.AddRange(post.categories);
 			entry.PostType = PostType.BlogPost;
 			
 			entry.IsActive = publish;
