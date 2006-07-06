@@ -47,7 +47,7 @@ namespace Subtext.Web.UI.Controls
 				string ConnectionString = DbProvider.Instance().ConnectionString;
 				SqlParameter[] p =
 					{
-						SqlHelper.MakeInParam("@ID",SqlDbType.Int,4,entry.EntryID),
+						SqlHelper.MakeInParam("@ID",SqlDbType.Int,4,entry.Id),
 						SqlHelper.MakeInParam("@BlogID",SqlDbType.Int,4,Config.CurrentBlog.Id)
 					};
 
@@ -75,7 +75,7 @@ namespace Subtext.Web.UI.Controls
 						//since there is only one record, you are at an end
 						//Check EntryID to see if it is greater or less than
 						//the current ID
-						if ((int)ds.Tables[0].Rows[0]["EntryID"] > entry.EntryID)
+						if ((int)ds.Tables[0].Rows[0]["EntryID"] > entry.Id)
 						{
 							//this is the oldest blog
 							PrevLink.Visible = false;

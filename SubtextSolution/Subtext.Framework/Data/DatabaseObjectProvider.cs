@@ -306,7 +306,7 @@ namespace Subtext.Framework.Data
 
 		public override IList<Entry> GetFeedBack(Entry parentEntry)
 		{
-			IDataReader reader = DbProvider.Instance().GetFeedBack(parentEntry.EntryID);
+			IDataReader reader = DbProvider.Instance().GetFeedBack(parentEntry.Id);
 			UrlFormats formats = Config.CurrentBlog.UrlFormats;
 			const bool buildLinks = true;
 			try
@@ -473,29 +473,29 @@ namespace Subtext.Framework.Data
 
 			if(entry is CategoryEntry)
 			{
-				entry.EntryID = DbProvider.Instance().InsertCategoryEntry(((CategoryEntry)entry));
+				entry.Id = DbProvider.Instance().InsertCategoryEntry(((CategoryEntry)entry));
 			}
 			else
 			{
-				entry.EntryID = DbProvider.Instance().InsertEntry(entry);	
+				entry.Id = DbProvider.Instance().InsertEntry(entry);	
 		
 				if(CategoryIDs != null)
 				{
-					DbProvider.Instance().SetEntryCategoryList(entry.EntryID,CategoryIDs);
+					DbProvider.Instance().SetEntryCategoryList(entry.Id,CategoryIDs);
 				}
 			}
 
-			if(entry.EntryID > -1 && Config.Settings.Tracking.UseTrackingServices)
+			if(entry.Id > -1 && Config.Settings.Tracking.UseTrackingServices)
 			{
 				entry.Url = Subtext.Framework.Configuration.Config.CurrentBlog.UrlFormats.EntryUrl(entry);
 			}
 
-			if(entry.EntryID > -1)
+			if(entry.Id > -1)
 			{
 				Config.CurrentBlog.LastUpdated = entry.DateCreated;
 			}
 
-			return entry.EntryID;
+			return entry.Id;
 		}
 
 		#endregion
@@ -530,7 +530,7 @@ namespace Subtext.Framework.Data
 		
 				if(CategoryIDs != null)
 				{
-					DbProvider.Instance().SetEntryCategoryList(entry.EntryID,CategoryIDs);
+					DbProvider.Instance().SetEntryCategoryList(entry.Id,CategoryIDs);
 				}
 			}
 
@@ -545,7 +545,7 @@ namespace Subtext.Framework.Data
 					entry.Url = Config.CurrentBlog.UrlFormats.ArticleUrl(entry);
 				}
 
-				if(entry.EntryID > -1)
+				if(entry.Id > -1)
 				{
 					Config.CurrentBlog.LastUpdated = entry.DateUpdated;
 				}

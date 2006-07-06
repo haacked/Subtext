@@ -54,12 +54,12 @@ namespace Subtext.Framework.Format
 
 		public virtual string EntryUrl(Entry entry)
 		{
-			return GetUrl("archive/{0:yyyy/MM/dd}/{1}.aspx", entry.DateCreated, entry.HasEntryName ? entry.EntryName : entry.EntryID.ToString(CultureInfo.InvariantCulture));
+			return GetUrl("archive/{0:yyyy/MM/dd}/{1}.aspx", entry.DateCreated, entry.HasEntryName ? entry.EntryName : entry.Id.ToString(CultureInfo.InvariantCulture));
 		}
 
 		public virtual string EntryFullyQualifiedUrl(Entry entry)
 		{
-			return EntryFullyQualifiedUrl(entry.DateCreated, entry.HasEntryName ? entry.EntryName : entry.EntryID.ToString(CultureInfo.InvariantCulture));
+			return EntryFullyQualifiedUrl(entry.DateCreated, entry.HasEntryName ? entry.EntryName : entry.Id.ToString(CultureInfo.InvariantCulture));
 		}
 
 		public virtual string EntryFullyQualifiedUrl(DateTime dateCreated, string entryID)
@@ -94,7 +94,7 @@ namespace Subtext.Framework.Format
 				return GetUrl("articles/{0}.aspx",entry.EntryName);
 			}
 
-			return GetUrl("articles/{0}.aspx",entry.EntryID);
+			return GetUrl("articles/{0}.aspx",entry.Id);
 		}
 
 		public virtual string MonthUrl(DateTime dt)
@@ -109,12 +109,12 @@ namespace Subtext.Framework.Format
 
 		public virtual string CommentUrl(Entry parentEntry, Entry childEntry)
 		{
-			return string.Format(CultureInfo.InvariantCulture, "{0}#{1}", parentEntry.Url, childEntry.EntryID);
+			return string.Format(CultureInfo.InvariantCulture, "{0}#{1}", parentEntry.Url, childEntry.Id);
 		}
 
 		public virtual string CommentUrl(Entry entry)
 		{
-			return GetUrl("archive/{0:yyyy/MM/dd}/{1}.aspx#{2}", entry.DateCreated, entry.HasEntryName ? entry.EntryName : entry.ParentID.ToString(CultureInfo.InvariantCulture), entry.EntryID);
+			return GetUrl("archive/{0:yyyy/MM/dd}/{1}.aspx#{2}", entry.DateCreated, entry.HasEntryName ? entry.EntryName : entry.ParentID.ToString(CultureInfo.InvariantCulture), entry.Id);
 		}
 
 		public virtual string CommentApiUrl(int EntryID)
@@ -294,9 +294,9 @@ namespace Subtext.Framework.Format
 			
 			string url = (app.Equals(String.Empty)) ? "~" : "~/" + app;
 			if(entry.PostType == PostType.BlogPost)
-				url += "/Admin/EditPosts.aspx?PostID=" + entry.EntryID;
+				url += "/Admin/EditPosts.aspx?PostID=" + entry.Id;
 			else if(entry.PostType == PostType.Story)
-				url += "/Admin/EditArticles.aspx?PostID=" + entry.EntryID;
+				url += "/Admin/EditArticles.aspx?PostID=" + entry.Id;
 			else
 				throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Post type {0} not expected to have an edit link.", entry.PostType));
 			return url;

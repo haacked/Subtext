@@ -97,7 +97,7 @@ namespace Subtext.Web.UI.Controls
 					{
 						// we should probably change skin format to dynamically wire up to 
 						// skin located title and permalinks at some point
-						title.Text = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{2}&nbsp;{0}{1}", Anchor(entry.EntryID), 
+						title.Text = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{2}&nbsp;{0}{1}", Anchor(entry.Id), 
 							entry.Title, Link(entry.Title, entry.Url));
 					}
 
@@ -162,11 +162,11 @@ namespace Subtext.Web.UI.Controls
 						if(editlink != null)
 						{
 							//editlink.CommandName = "Remove";
-							editlink.Text = "Remove Comment " + entry.EntryID.ToString(CultureInfo.InvariantCulture);
-							editlink.CommandName = entry.EntryID.ToString(CultureInfo.InvariantCulture);
-							editlink.Attributes.Add("onclick","return confirm(\"Are you sure you want to delete comment " + entry.EntryID.ToString(CultureInfo.InvariantCulture) + "?\");");
+							editlink.Text = "Remove Comment " + entry.Id.ToString(CultureInfo.InvariantCulture);
+							editlink.CommandName = entry.Id.ToString(CultureInfo.InvariantCulture);
+							editlink.Attributes.Add("onclick","return confirm(\"Are you sure you want to delete comment " + entry.Id.ToString(CultureInfo.InvariantCulture) + "?\");");
 							editlink.Visible = true;
-							editlink.CommandArgument = entry.EntryID.ToString(CultureInfo.InvariantCulture);
+							editlink.CommandArgument = entry.Id.ToString(CultureInfo.InvariantCulture);
 
 							ControlHelper.SetTitleIfNone(editlink, "Click to remove this entry.");
 						}
@@ -215,7 +215,7 @@ namespace Subtext.Web.UI.Controls
 				{
 					if(Request.QueryString["Pending"] != null)
 					{
-						Cacher.ClearCommentCache(entry.EntryID);
+						Cacher.ClearCommentCache(entry.Id);
 					}
 					CommentList.DataSource = Cacher.GetComments(entry, CacheDuration.Short);
 					CommentList.DataBind();

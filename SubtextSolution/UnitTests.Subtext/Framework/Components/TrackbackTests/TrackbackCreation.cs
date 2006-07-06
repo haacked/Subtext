@@ -64,7 +64,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 			
 			entries = Entries.GetFeedBack(parentEntry);
 			Assert.AreEqual(1, entries.Count, "Expected a trackback.");
-			Assert.AreEqual(trackbackId, entries[0].EntryID, "The feedback was not the same one we expected. The IDs do not match.");
+			Assert.AreEqual(trackbackId, entries[0].Id, "The feedback was not the same one we expected. The IDs do not match.");
 		}
 	}
 }

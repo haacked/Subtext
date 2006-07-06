@@ -41,7 +41,7 @@ namespace Subtext.Web.UI.Controls
 
 			Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short);
 
-			int entryid = entry.EntryID;
+			int entryid = entry.Id;
 
 			SqlParameter[] p =
 				{

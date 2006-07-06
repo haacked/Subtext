@@ -232,7 +232,7 @@ namespace Subtext.Common.Data
 
 					//Most other page items will use the entryID. Add entry to cache for id key as well.
 					//Bind them together with a cache dependency.
-					string entryIDKey = string.Format(EntryKeyID, entry.EntryID, blogId);
+					string entryIDKey = string.Format(EntryKeyID, entry.Id, blogId);
 					CacheDependency cd = new CacheDependency(null, new string[]{key});
 					cache.Insert(entryIDKey, entry, cd);
 
@@ -280,7 +280,7 @@ namespace Subtext.Common.Data
 
         public static IList<Entry> GetComments(Entry parentEntry, CacheDuration cacheDuration)
 		{
-			string key = string.Format(ParentCommentEntryKey, parentEntry.EntryID, BlogId());
+			string key = string.Format(ParentCommentEntryKey, parentEntry.Id, BlogId());
 			ContentCache cache = ContentCache.Instantiate();
             IList<Entry> comments = (IList<Entry>)cache[key];
 			if(comments == null)

@@ -262,7 +262,7 @@ namespace Subtext.Framework.Syndication
 				(
 					"{0}{1}", //tag def
 					entry.SyndicateDescriptionOnly ? entry.Description : entry.Body,  //use desc or full post
-					(UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(urlFormats.AggBugkUrl(entry.EntryID)) : null //use aggbugs
+					(UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(urlFormats.AggBugkUrl(entry.Id)) : null //use aggbugs
 				)
 			);
 			//TODO: Perform real email auth.
@@ -274,7 +274,7 @@ namespace Subtext.Framework.Syndication
 			if(AllowComments && info.CommentsEnabled && entry.AllowComments && !entry.CommentingClosed)
 			{
 				// Comment API (http://wellformedweb.org/story/9)
-				this.WriteElementString("wfw:comment", urlFormats.CommentApiUrl(entry.EntryID));
+				this.WriteElementString("wfw:comment", urlFormats.CommentApiUrl(entry.Id));
 			}
 
 			this.WriteElementString("comments", entry.FullyQualifiedUrl + "#feedback");
@@ -282,10 +282,10 @@ namespace Subtext.Framework.Syndication
 			if(entry.FeedBackCount > 0)
 				this.WriteElementString("slash:comments", entry.FeedBackCount.ToString(CultureInfo.InvariantCulture));
 			
-			this.WriteElementString("wfw:commentRss", urlFormats.CommentRssUrl(entry.EntryID));
+			this.WriteElementString("wfw:commentRss", urlFormats.CommentRssUrl(entry.Id));
 			
 			if(info.TrackbacksEnabled)
-				this.WriteElementString("trackback:ping", urlFormats.TrackBackUrl(entry.EntryID));
+				this.WriteElementString("trackback:ping", urlFormats.TrackBackUrl(entry.Id));
 
 			//optional
 			if(settings.UseXHTML && entry.IsXHMTL)
@@ -297,11 +297,11 @@ namespace Subtext.Framework.Syndication
 				// - Robb Allen
 				if (entry.SyndicateDescriptionOnly)
 				{
-					this.WriteRaw(entry.Description + ((UseAggBugs && settings.Tracking.EnableAggBugs)  ? TrackingUrls.AggBugImage(urlFormats.AggBugkUrl(entry.EntryID)) : null));
+					this.WriteRaw(entry.Description + ((UseAggBugs && settings.Tracking.EnableAggBugs)  ? TrackingUrls.AggBugImage(urlFormats.AggBugkUrl(entry.Id)) : null));
 				}
 				else
 				{
-					this.WriteRaw(entry.Body + ((UseAggBugs && settings.Tracking.EnableAggBugs)  ? TrackingUrls.AggBugImage(urlFormats.AggBugkUrl(entry.EntryID)) : null));
+					this.WriteRaw(entry.Body + ((UseAggBugs && settings.Tracking.EnableAggBugs)  ? TrackingUrls.AggBugImage(urlFormats.AggBugkUrl(entry.Id)) : null));
 				}
 				this.WriteEndElement();
 			}			

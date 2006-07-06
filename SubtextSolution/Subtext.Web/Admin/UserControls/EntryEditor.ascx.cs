@@ -459,7 +459,7 @@ namespace Subtext.Web.Admin.UserControls
 					{
 						successMessage = Constants.RES_SUCCESSEDIT;
 						entry.DateUpdated = BlogTime.CurrentBloggerTime;
-						entry.EntryID = PostID;
+						entry.Id = PostID;
 						
 						//TODO: Add here code to be called before updating a post
 						

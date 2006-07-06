@@ -35,13 +35,13 @@
 					<%# DataBinder.Eval(Container.DataItem, "AggCount") %>
 				</td>				
 				<td>
-					<a href="Referrers.aspx?EntryID=<%# DataBinder.Eval(Container.DataItem, "EntryID") %>">View</a>
+					<a href="Referrers.aspx?EntryID=<%# DataBinder.Eval(Container.DataItem, "Id") %>">View</a>
 				</td>				
 				<td>
-					<asp:LinkButton id="lnkEdit" CausesValidation = "False" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "EntryID") %>' Text="Edit" runat="server" />
+					<asp:LinkButton id="lnkEdit" CausesValidation = "False" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Edit" runat="server" />
 				</td>
 				<td>
-					<asp:LinkButton id="lnkDelete" CausesValidation = "False" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "EntryID") %>' Text="Delete" runat="server" />
+					<asp:LinkButton id="lnkDelete" CausesValidation = "False" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Delete" runat="server" />
 				</td>
 			</tr>
 		</ItemTemplate>
@@ -60,13 +60,13 @@
 					<%# DataBinder.Eval(Container.DataItem, "AggCount") %>
 				</td>					
 				<td>
-					<a href="Referrers.aspx?EntryID=<%# DataBinder.Eval(Container.DataItem, "EntryID") %>">View</a>
+					<a href="Referrers.aspx?EntryID=<%# DataBinder.Eval(Container.DataItem, "Id") %>">View</a>
 				</td>				
 				<td>
-					<asp:LinkButton id="lnkEditAlt" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "EntryID") %>' Text="Edit" runat="server" />
+					<asp:LinkButton id="lnkEditAlt" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Edit" runat="server" />
 				</td>
 				<td>
-					<asp:LinkButton id="lnkDeleteAlt" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "EntryID") %>' Text="Delete" runat="server" />
+					<asp:LinkButton id="lnkDeleteAlt" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Delete" runat="server" />
 				</td>
 			</tr>
 		</AlternatingItemTemplate>
