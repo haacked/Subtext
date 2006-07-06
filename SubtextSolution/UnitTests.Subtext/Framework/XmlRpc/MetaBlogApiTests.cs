@@ -32,7 +32,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             
             Entry entry = new Entry(PostType.BlogPost);
             entry.DateCreated = entry.DateSyndicated = entry.DateUpdated = DateTime.ParseExact("1/23/1975", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-            int entryId = Entries.Create(entry, categoryId);
+            Entries.Create(entry, categoryId);
 
             posts = api.getRecentPosts(Config.CurrentBlog.Id.ToString(), "username", "password", 10);
             Assert.AreEqual(1, posts.Length);
