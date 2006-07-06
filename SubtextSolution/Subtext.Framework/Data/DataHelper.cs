@@ -275,12 +275,12 @@ namespace Subtext.Framework.Data
 			return entry;
 		}
 
-		public static Entry LoadEntry(IDataReader reader)
+		internal static Entry LoadEntry(IDataReader reader)
 		{
 			return LoadEntry(reader, true);
 		}
 
-		public static Entry LoadEntry(IDataReader reader, bool buildLinks)
+		internal static Entry LoadEntry(IDataReader reader, bool buildLinks)
 		{
 			Entry entry = new Entry((PostType)ReadInt(reader, "PostType"));
 			LoadEntry(reader, entry, buildLinks);

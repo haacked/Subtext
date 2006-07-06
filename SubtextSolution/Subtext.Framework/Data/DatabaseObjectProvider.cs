@@ -362,7 +362,11 @@ namespace Subtext.Framework.Data
 		{
             using (IDataReader reader = DbProvider.Instance().GetCommentByChecksumHash(checksumHash))
             {
-                return DataHelper.LoadEntry(reader);
+                if (reader.Read())
+                {
+                    return DataHelper.LoadEntry(reader);
+                }
+                return null;
             }
 		}
 
@@ -370,7 +374,11 @@ namespace Subtext.Framework.Data
 		{
             using (IDataReader reader = DbProvider.Instance().GetEntry(postID, activeOnly))
             {
-                return DataHelper.LoadEntry(reader);
+                if (reader.Read())
+                {
+                    return DataHelper.LoadEntry(reader);
+                }
+                return null;
             }
 		}
 
@@ -379,7 +387,11 @@ namespace Subtext.Framework.Data
 		{
             using (IDataReader reader = DbProvider.Instance().GetEntry(EntryName, activeOnly))
             {
-                return DataHelper.LoadEntry(reader);
+                if (reader.Read())
+                {
+                    return DataHelper.LoadEntry(reader);
+                }
+                return null;
             }
 		}
 
