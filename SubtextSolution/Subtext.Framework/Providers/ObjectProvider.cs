@@ -121,7 +121,7 @@ namespace Subtext.Framework.Providers
 		public abstract IList<Entry> GetConditionalEntries(int itemCount, PostType postType, PostConfig postConfig);
 
 		public abstract IList<Entry> GetFeedBack(Entry ParentEntry);
-		public abstract ICollection<CategoryEntry> GetRecentPostsWithCategories(int itemCount, bool activeOnly);
+		public abstract ICollection<Entry> GetRecentPostsWithCategories(int itemCount, bool activeOnly);
 		/// <summary>
 		/// Gets recent posts used to support the MetaBlogAPI. 
 		/// Could be used for a Recent Posts control as well.
@@ -148,7 +148,7 @@ namespace Subtext.Framework.Providers
 		public abstract Entry GetCommentByChecksumHash(string checksumHash);
 		public abstract Entry GetEntry(int postID, bool activeOnly);
 		public abstract Entry GetEntry(string EntryName, bool activeOnly);
-		public abstract CategoryEntry GetCategoryEntry(int postid, bool activeOnly);
+		public abstract Entry GetCategoryEntry(int postid, bool activeOnly);
 
 		#endregion
 

@@ -137,8 +137,8 @@ namespace Subtext.Framework.Providers
 		public abstract bool DeleteEntry(int entryID);
 
 		//Should just be Entry and check is CategoryEntry?
-		public abstract int InsertCategoryEntry(CategoryEntry ce);
-		public abstract bool UpdateCategoryEntry(CategoryEntry ce);
+		public abstract int InsertCategoryEntry(Entry ce);
+		public abstract bool UpdateCategoryEntry(Entry ce);
 
 		public abstract int InsertEntry(Entry entry); //change to create?
 		public abstract bool UpdateEntry(Entry entry);

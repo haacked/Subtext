@@ -541,9 +541,9 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="reader"></param>
 		/// <returns></returns>
-		public static CategoryEntry LoadCategoryEntry(IDataReader reader)
+		public static Entry LoadCategoryEntry(IDataReader reader)
 		{
-			CategoryEntry entry = new CategoryEntry();
+			Entry entry = new Entry(PostType.BlogPost);
 			LoadEntry(reader, entry);
 
 			reader.NextResult();
@@ -557,9 +557,9 @@ namespace Subtext.Framework.Data
 		}
 
 
-		public static CategoryEntry LoadCategoryEntry(DataRow dr)
+		public static Entry LoadCategoryEntry(DataRow dr)
 		{
-			CategoryEntry entry = new CategoryEntry();
+			Entry entry = new Entry(PostType.BlogPost);
             LoadEntry(entry, dr);
 
 			DataRow[] child = dr.GetChildRows("cats");
