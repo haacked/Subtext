@@ -6,6 +6,8 @@ SET DBNAME=%1%
 IF "%DBNAME%" == "" SET DBNAME=SubtextData
 
 OSQL -E -d %DBNAME% -i ..\..\SubTextSolution\Subtext.Installation\Scripts\Installation.01.00.00.sql
+OSQL -E -d %DBNAME% -i ..\..\SubTextSolution\Subtext.Installation\Scripts\Installation.01.05.00.sql
+OSQL -E -d %DBNAME% -i ..\..\SubTextSolution\Subtext.Installation\Scripts\Installation.01.09.00.sql
 OSQL -E -d %DBNAME% -i ..\..\SubTextSolution\Subtext.Installation\Scripts\StoredProcedures.sql
 
 
