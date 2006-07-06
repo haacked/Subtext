@@ -27,7 +27,7 @@ namespace Subtext.Web.UI.Controls
 	/// <summary>
 	/// Control used to display a list of entries.
 	/// </summary>
-	public class EntryList : BaseControl
+	public partial class EntryList : BaseControl
 	{
 		protected System.Web.UI.WebControls.Repeater Entries;
 		protected System.Web.UI.WebControls.Literal EntryCollectionTitle;

@@ -880,11 +880,12 @@ ORDER BY #IDs.TempId
 IF @IncludeCategories = 1
 BEGIN
 	SELECT	c.Title  
-			, [Id]
+			, p.[Id]
 	FROM [<dbUser,varchar,dbo>].[subtext_Links] l
-		INNER JOIN [<dbUser,varchar,dbo>].[subtext_Content] p ON l.[PostID] = p.[ID]  
+		INNER JOIN #IDs p ON l.[PostID] = p.[ID]  
 		INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] c ON l.CategoryID = c.CategoryID  
 END
+DROP TABLE #IDs
 
 GO
 SET QUOTED_IDENTIFIER OFF 

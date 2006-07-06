@@ -25,6 +25,7 @@ using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using MbUnit.Framework;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Providers;
+using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
@@ -381,6 +382,22 @@ namespace UnitTests.Subtext
 			
 			return entry;
 		}
+	    
+	    /// <summary>
+	    /// Creates a blog post link category.
+	    /// </summary>
+	    /// <param name="blogId"></param>
+	    /// <param name="title"></param>
+	    /// <returns></returns>
+	    public static int CreateCategory(int blogId, string title)
+	    {
+            LinkCategory category = new LinkCategory();
+            category.BlogId = Config.CurrentBlog.Id;
+            category.Title = title;
+            category.CategoryType = CategoryType.PostCollection;
+	        category.IsActive = true;
+            return Links.CreateLinkCategory(category);
+	    }
 
 		public static string ExtractArchiveToString(Stream compressedArchive)
 		{

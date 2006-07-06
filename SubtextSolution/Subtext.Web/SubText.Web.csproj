@@ -40,10 +40,6 @@
       <HintPath>ExternalDependencies\log4net.dll</HintPath>
     </Reference>
     <Reference Include="MetaBuilders.WebControls.DefaultButtons, Version=1.1.5000.0, Culture=neutral, PublicKeyToken=8f1b87f9edb00944" />
-    <Reference Include="subtext.web, Version=1.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\windows\microsoft.net\framework\v2.0.50727\temporary asp.net files\subtext.web\7a9137a4\_shadow\4e1f50de\bin\10\subtext.web.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -1662,7 +1658,7 @@
     <Content Include="Skins\RedBook\Controls\Contact.ascx" />
     <Content Include="Skins\RedBook\Controls\Day.ascx" />
     <Content Include="Skins\RedBook\Controls\DayCollection.ascx" />
-    <Content Include="Skins\RedBook\Controls\EntryList.ascx" />
+    <None Include="Skins\RedBook\Controls\EntryList.ascx" />
     <Content Include="Skins\RedBook\Controls\Footer.ascx" />
     <Content Include="Skins\RedBook\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\RedBook\Controls\Header.ascx" />

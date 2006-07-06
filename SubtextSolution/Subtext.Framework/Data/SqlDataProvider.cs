@@ -369,16 +369,17 @@ namespace Subtext.Framework.Data
 		/// Returns the specified number of blog entries
 		/// </summary>
 		/// <param name="itemCount"></param>
-		/// <param name="pt"></param>
-		/// <param name="pc"></param>
+		/// <param name="postType"></param>
+		/// <param name="postConfiguration"></param>
 		/// <returns></returns>
-		public override IDataReader GetConditionalEntries(int itemCount, PostType pt, PostConfig pc)
+		public override IDataReader GetConditionalEntries(int itemCount, PostType postType, PostConfig postConfiguration)
 		{
 			SqlParameter[] p =
 			{
 				SqlHelper.MakeInParam("@ItemCount", SqlDbType.Int, 4,itemCount),
-				SqlHelper.MakeInParam("@PostType", SqlDbType.Int, 4,pt),
-				SqlHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4,pc),
+				SqlHelper.MakeInParam("@PostType", SqlDbType.Int, 4, postType),
+				SqlHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, postConfiguration),
+				SqlHelper.MakeInParam("@IncludeCategories", SqlDbType.Bit, 0, true),
 				BlogIdParam				
 			};
 

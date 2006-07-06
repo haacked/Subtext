@@ -95,10 +95,10 @@ namespace Subtext.Framework.Providers
 		/// Returns the specified number of blog entries
 		/// </summary>
 		/// <param name="itemCount"></param>
-		/// <param name="pt"></param>
-		/// <param name="pc"></param>
+		/// <param name="postType"></param>
+		/// <param name="postConfiguration"></param>
 		/// <returns></returns>
-		public abstract IDataReader GetConditionalEntries(int itemCount, PostType pt, PostConfig pc);
+		public abstract IDataReader GetConditionalEntries(int itemCount, PostType postType, PostConfig postConfiguration);
 		public abstract IDataReader GetEntriesByDateRange(DateTime start, DateTime stop, PostType postType, bool activeOnly);
 
 		//Maybe under the hood only one call here? 
