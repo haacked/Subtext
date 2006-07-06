@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using MbUnit.Framework;
@@ -32,12 +33,12 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 			Trackback trackback = new Trackback(parentId, "title", "titleUrl", "phil", "body");
 			int id = Entries.Create(trackback);
 			
-			Entry loadedTrackback = Entries.GetEntry(id, EntryGetOption.All);
+			Entry loadedTrackback = Entries.GetEntry(id, PostConfig.IsActive, false);
 			Assert.IsNotNull(loadedTrackback, "Was not able to load trackback from storage.");
 			Assert.IsTrue(loadedTrackback.IsActive, "This item is active");
 			Assert.IsTrue(loadedTrackback.PostConfig > 0, "PostConfig was 0");
-			
-			Entry activeTrackback = Entries.GetEntry(id, EntryGetOption.ActiveOnly);
+
+            Entry activeTrackback = Entries.GetEntry(id, PostConfig.IsActive, false);
 			Assert.IsNotNull(activeTrackback, "The trackback was not active.");
 		}
 		

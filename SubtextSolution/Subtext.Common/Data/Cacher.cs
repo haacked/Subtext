@@ -19,6 +19,7 @@ using System.Globalization;
 using System.IO;
 using System.Web;
 using System.Web.Caching;
+using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Text;
@@ -225,7 +226,7 @@ namespace Subtext.Common.Data
 			Entry entry = (Entry)cache[key];
 			if(entry == null)
 			{
-				entry = Entries.GetEntry(EntryName, EntryGetOption.ActiveOnly);		
+                entry = Entries.GetEntry(EntryName, PostConfig.IsActive, true);
 				if(entry != null)
 				{
 					cache.Insert(key, entry, cacheDuration);
@@ -257,7 +258,7 @@ namespace Subtext.Common.Data
 			Entry entry = (Entry)cache[key];
 			if(entry == null)
 			{
-				entry = Entries.GetEntry(entryID, EntryGetOption.ActiveOnly);
+				entry = Entries.GetEntry(entryID, PostConfig.IsActive, true);
 				if(entry != null)
 				{
 					cache.Insert(key, entry, cacheDuration);

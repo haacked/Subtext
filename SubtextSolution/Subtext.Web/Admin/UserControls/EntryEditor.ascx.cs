@@ -257,7 +257,7 @@ namespace Subtext.Web.Admin.UserControls
 		{
 			SetConfirmation();
 			
-			Entry currentPost = Entries.GetEntry(PostID, EntryGetOption.All);
+			Entry currentPost = Entries.GetEntry(PostID, PostConfig.IsActive, false);
 			if(currentPost == null)
 			{
 				Response.Redirect("EditPosts.aspx");
@@ -394,7 +394,7 @@ namespace Subtext.Web.Admin.UserControls
 			else
 			{
 				// We came from outside the post, let's go there.
-				Entry updatedEntry = Entries.GetEntry(PostID, EntryGetOption.ActiveOnly);
+				Entry updatedEntry = Entries.GetEntry(PostID, PostConfig.IsActive, false);
 				if(updatedEntry != null)
 				{
 					Response.Redirect(updatedEntry.Url);
@@ -421,7 +421,7 @@ namespace Subtext.Web.Admin.UserControls
 					}
 					else
 					{
-						entry = Entries.GetEntry(PostID, EntryGetOption.All);
+						entry = Entries.GetEntry(PostID, PostConfig.IsActive, false);
 						if(entry.PostType != EntryType)
 						{
 							this.EntryType = entry.PostType;
@@ -470,7 +470,7 @@ namespace Subtext.Web.Admin.UserControls
 						if(ReturnToOriginalPost)
 						{
 							// We came from outside the post, let's go there.
-							Entry updatedEntry = Entries.GetEntry(PostID, EntryGetOption.ActiveOnly);
+							Entry updatedEntry = Entries.GetEntry(PostID, PostConfig.IsActive, false);
 							if(updatedEntry != null)
 							{
 								Response.Redirect(updatedEntry.Url);
@@ -633,7 +633,7 @@ namespace Subtext.Web.Admin.UserControls
 			if(PostID > -1 && ReturnToOriginalPost)
 			{
 				// We came from outside the post, let's go there.
-				Entry updatedEntry = Entries.GetEntry(PostID, EntryGetOption.ActiveOnly);
+				Entry updatedEntry = Entries.GetEntry(PostID, PostConfig.IsActive, false);
 				if(updatedEntry != null)
 				{
 					Response.Redirect(updatedEntry.Url);

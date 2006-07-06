@@ -57,8 +57,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
 			string expectedLink = string.Format("{0}/archive/2005/01/23/{1}.aspx", expectedUrlPrefix, id);
 			string expectedFullyQualifiedLink = "http://" + hostname + expectedLink;
-			
-			Entry savedEntry = Entries.GetEntry(id, EntryGetOption.All);
+
+            Entry savedEntry = Entries.GetEntry(id, PostConfig.IsActive, false);
 			Assert.AreEqual(savedEntry.Url, expectedLink, "The link was not what we expected.");
 			Assert.AreEqual(savedEntry.FullyQualifiedUrl, expectedFullyQualifiedLink, "The link was not what we expected.");
 		}
@@ -79,7 +79,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			entry.Body = "Some Body";
 			int id = Entries.Create(entry);
 
-			Entry savedEntry = Entries.GetEntry(id, EntryGetOption.All);
+            Entry savedEntry = Entries.GetEntry(id, PostConfig.IsActive, false);
 			Assert.IsTrue(savedEntry.ContentChecksumHash.Length > 0, "The Content Checksum should be larger than 0.");
 		}
 		
@@ -97,7 +97,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			entry.Body = "Some Body";
 			
 			int id = Entries.Create(entry);
-			Entry savedEntry = Entries.GetEntry(id, EntryGetOption.All);
+            Entry savedEntry = Entries.GetEntry(id, PostConfig.IsActive, false);
 			
 			Assert.AreEqual(NullValue.NullDateTime, savedEntry.DateSyndicated, "DateSyndicated should be null since it was not syndicated.");
 			
@@ -108,7 +108,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 					
 			Assert.IsTrue(savedEntry.DateSyndicated > savedEntry.DateCreated, string.Format("DateSyndicated '{0}' should larger than date created '{1}'.", savedEntry.DateSyndicated, savedEntry.DateCreated));
 			
-			savedEntry = Entries.GetEntry(id, EntryGetOption.All);
+			savedEntry = Entries.GetEntry(id, PostConfig.IsActive, false);
 			Assert.IsTrue(savedEntry.DateSyndicated > savedEntry.DateCreated, string.Format("After reloading from DB, DateSyndicated '{0}' should larger than date created '{1}'.", savedEntry.DateSyndicated, savedEntry.DateCreated));
 		}
 

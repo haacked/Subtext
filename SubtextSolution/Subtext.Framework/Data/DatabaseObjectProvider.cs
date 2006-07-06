@@ -370,9 +370,16 @@ namespace Subtext.Framework.Data
             }
 		}
 
-		public override Entry GetEntry(int postID, bool activeOnly)
+        /// <summary>
+        /// Returns an <see cref="Entry" /> with the specified id.
+        /// </summary>
+        /// <param name="id">Id of the entry</param>
+        /// <param name="activeOnly">Whether or not to only return the entry if it is active.</param>
+        /// <param name="includeCategories">Whether the entry should have its Categories property populated</param>
+        /// <returns></returns>
+        public override Entry GetEntry(int id, bool activeOnly, bool includeCategories)
 		{
-            using (IDataReader reader = DbProvider.Instance().GetEntry(postID, activeOnly))
+            using (IDataReader reader = DbProvider.Instance().GetEntryReader(id, activeOnly, includeCategories))
             {
                 if (reader.Read())
                 {
@@ -382,10 +389,16 @@ namespace Subtext.Framework.Data
             }
 		}
 
-
-		public override Entry GetEntry(string EntryName, bool activeOnly)
+        /// <summary>
+        /// Returns an <see cref="Entry" /> with the specified entry name.
+        /// </summary>
+        /// <param name="entryName">Url friendly entry name.</param>
+        /// <param name="activeOnly">Whether or not to only return the entry if it is active.</param>
+        /// <param name="includeCategories">Whether the entry should have its Categories property populated</param>
+        /// <returns></returns>
+        public override Entry GetEntry(string entryName, bool activeOnly, bool includeCategories)
 		{
-            using (IDataReader reader = DbProvider.Instance().GetEntry(EntryName, activeOnly))
+            using (IDataReader reader = DbProvider.Instance().GetEntryReader(entryName, activeOnly, includeCategories))
             {
                 if (reader.Read())
                 {
@@ -393,26 +406,7 @@ namespace Subtext.Framework.Data
                 }
                 return null;
             }
-		}
-
-		public override Entry GetCategoryEntry(int postid, bool activeOnly)
-		{
-			IDataReader reader = DbProvider.Instance().GetCategoryEntry(postid, activeOnly);
-			try
-			{
-				Entry entry = null;
-				while(reader.Read())
-				{
-					entry = DataHelper.LoadCategoryEntry(reader);
-					break;
-				}
-				return entry;
-			}
-			finally
-			{
-				reader.Close();
-			}
-		}
+		}		
 		#endregion
 
 		#region Delete

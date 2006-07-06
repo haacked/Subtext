@@ -162,7 +162,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			entry.Body = "Some Body";
 			int id = Entries.Create(entry);
 
-			Entry savedEntry = Entries.GetEntry(id, EntryGetOption.All);
+            Entry savedEntry = Entries.GetEntry(id, PostConfig.IsActive, false);
 			Assert.AreEqual("Some_Title", savedEntry.EntryName, "The EntryName should have been auto-friendlied.");
 			Assert.AreEqual(savedEntry.Url, savedEntry.TitleUrl, "The title url should link to the entry.");
 
@@ -172,7 +172,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			duplicate.Title = "Some Title";
 			duplicate.Body = "Some Body";
 			int dupeId = Entries.Create(duplicate);
-			Entry savedDupe = Entries.GetEntry(dupeId, EntryGetOption.All);
+            Entry savedDupe = Entries.GetEntry(dupeId, PostConfig.IsActive, false);
 			
 			Assert.AreEqual("Some_TitleAgain", savedDupe.EntryName, "Should have appended 'Again'");
 			UnitTestHelper.AssertAreNotEqual(savedEntry.EntryName, savedDupe.EntryName, "No duplicate entry names are allowed.");
@@ -183,7 +183,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			yetAnotherDuplicate.Title = "Some Title";
 			yetAnotherDuplicate.Body = "Some Body";
 			dupeId = Entries.Create(yetAnotherDuplicate);
-			savedDupe = Entries.GetEntry(dupeId, EntryGetOption.All);
+            savedDupe = Entries.GetEntry(dupeId, PostConfig.IsActive, false);
 			
 			Assert.AreEqual("Some_TitleYetAgain", savedDupe.EntryName, "Should have appended 'YetAgain'");
 
@@ -193,7 +193,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			yetAnotherDuplicate.Title = "Some Title";
 			yetAnotherDuplicate.Body = "Some Body";
 			dupeId = Entries.Create(yetAnotherDuplicate);
-			savedDupe = Entries.GetEntry(dupeId, EntryGetOption.All);
+            savedDupe = Entries.GetEntry(dupeId, PostConfig.IsActive, false);
 			
 			Assert.AreEqual("Some_TitleAndAgain", savedDupe.EntryName, "Should have appended 'AndAgain'");
 
@@ -203,7 +203,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			yetAnotherDuplicate.Title = "Some Title";
 			yetAnotherDuplicate.Body = "Some Body";
 			dupeId = Entries.Create(yetAnotherDuplicate);
-			savedDupe = Entries.GetEntry(dupeId, EntryGetOption.All);
+            savedDupe = Entries.GetEntry(dupeId, PostConfig.IsActive, false);
 			
 			Assert.AreEqual("Some_TitleOnceMore", savedDupe.EntryName, "Should have appended 'OnceMore'");
 
@@ -213,7 +213,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			yetAnotherDuplicate.Title = "Some Title";
 			yetAnotherDuplicate.Body = "Some Body";
 			dupeId = Entries.Create(yetAnotherDuplicate);
-			savedDupe = Entries.GetEntry(dupeId, EntryGetOption.All);
+            savedDupe = Entries.GetEntry(dupeId, PostConfig.IsActive, false);
 			
 			Assert.AreEqual("Some_TitleToBeatADeadHorse", savedDupe.EntryName, "Should have appended 'ToBeatADeadHorse'");
 		}

@@ -69,7 +69,8 @@ namespace UnitTests.Subtext.Framework.Tracking
 			TextWriter output = new StringWriter(sb);
 			SimulatedHttpRequest request = UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, string.Empty, "/trackback/services/" + int.MaxValue + ".aspx", output, "POST");
 			string responseText = GetTrackBackHandlerResponseText(blogName, excerpt, request, sb, title, url);
-			Assert.IsTrue(responseText.IndexOf("Sorry couldn't find a relevant link in") > 0, "Could not find the expected text.");
+            Console.WriteLine("ResponseText" + Environment.NewLine + responseText);
+            Assert.IsTrue(responseText.IndexOf("EntryID is invalid or missing") > 0, "Could not find the expected text.");
 		}
 		
 		/// <summary>
@@ -178,8 +179,8 @@ namespace UnitTests.Subtext.Framework.Tracking
 			Assert.AreEqual(0, feedback.Count, "Something is wrong if a freshly created entry has feedback.");
 			
 			string responseText = GetTrackBackHandlerResponseText(blogName, excerpt, hostname, "blog", id, title, url);
-			
-			Assert.AreEqual(string.Empty, responseText, "Did not expect any error messages.");
+
+            Assert.AreEqual(string.Empty, responseText, "Did not expect any error response.");
 
             IList<Entry> trackbacks = Entries.GetFeedBack(entry);
 			Assert.AreEqual(1, trackbacks.Count, "We expect to see the one feedback we just created.");
