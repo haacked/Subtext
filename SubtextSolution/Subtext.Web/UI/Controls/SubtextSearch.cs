@@ -74,8 +74,8 @@ namespace Subtext.Web.UI.Controls
 
 				//fix for the blogs where only one installed
 				int blogID = 0;
-				if (CurrentBlog.BlogId > 0)
-					blogID = CurrentBlog.BlogId;
+				if (CurrentBlog.Id > 0)
+					blogID = CurrentBlog.Id;
 
 				SqlParameter[] p =
 				{

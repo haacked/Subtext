@@ -98,6 +98,10 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CookComputing.XmlRpc, Version=0.8.1.0, Culture=neutral, PublicKeyToken=a7d6e17aa302004d">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ExternalDependencies\CookComputing.XmlRpc.dll</HintPath>
+    </Reference>
     <Reference Include="FredCK.FCKeditorV2">
       <Name>FredCK.FCKeditorV2</Name>
       <HintPath>ExternalDependencies\FredCK.FCKeditorV2.dll</HintPath>
@@ -302,6 +306,7 @@
     <Compile Include="Framework\Web\HttpHelperTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\XmlRpc\MetaBlogApiTests.cs" />
     <Compile Include="Installation\InstallationManagerTests.cs">
       <SubType>Code</SubType>
     </Compile>

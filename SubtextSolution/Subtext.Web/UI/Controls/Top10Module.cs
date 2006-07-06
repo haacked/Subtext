@@ -28,8 +28,8 @@ namespace Subtext.Web.UI.Controls
 			ArrayList myLastItems = new ArrayList();
 
 			//fix for the blogs where only one installed
-			if (CurrentBlog.BlogId >= 1)
-				BlogId = CurrentBlog.BlogId;
+			if (CurrentBlog.Id >= 1)
+				BlogId = CurrentBlog.Id;
 			else
 				BlogId = 0;
 
