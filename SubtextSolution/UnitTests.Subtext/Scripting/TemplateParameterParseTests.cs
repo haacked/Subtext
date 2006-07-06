@@ -27,11 +27,35 @@ namespace UnitTests.Subtext.Scripting
 	[TestFixture]
 	public class TemplateParameterParseTests
 	{
+	    [Test]
+	    public void TemplateParameterCollectionDoesNotStoreDuplicateParameters()
+	    {
+            TemplateParameterCollection collection = new TemplateParameterCollection();
+            collection.Add(new TemplateParameter("MyTest", "int", 0.ToString()));
+	        Assert.AreEqual(1, collection.Count, "Our one parameter is in there.");
+
+            collection.Add(new TemplateParameter("MyTest", "nvarchar(32)", "Blah"));
+            Assert.AreEqual(1, collection.Count, "Should only be one parameter still.");
+	    }
+
+        [Test]
+        public void ScriptDoesNotStoreDuplicateParameters()
+        {
+            string scriptText = "SELECT TOP <name, int, 0> * FROM Somewhere" 
+                                + Environment.NewLine 
+                                + "GO" 
+                                + Environment.NewLine 
+                                + "SELECT TOP <name, int, 1> * FROM SomewhereElse";
+            ScriptCollection scripts = Script.ParseScripts(scriptText);
+            Assert.AreEqual(2, scripts.Count, "Did not parse the script.");
+            Assert.AreEqual(1, scripts.TemplateParameters.Count, "did not merge or parse the template params.");
+        }
+	    
 		/// <summary>
 		/// Tests the contains method.
 		/// </summary>
 		[Test]
-		public void TestContains()
+		public void ContainsReturnsCorrectParameter()
 		{
 			TemplateParameterCollection collection = new TemplateParameterCollection();
 			Assert.IsFalse(collection.Contains("test"), "An empty collection should not contain a parameter.");

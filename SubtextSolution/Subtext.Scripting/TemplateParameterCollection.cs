@@ -113,7 +113,10 @@ namespace Subtext.Scripting
 		/// <param name="value">A <see cref="ScriptCollection">ScriptCollection</see> containing the <see cref="TemplateParameter"/>s to add to the collection. </param>
 		public void AddRange(IEnumerable<TemplateParameter> value) 
 		{
-			List.AddRange(value);
+		    foreach(TemplateParameter parameter in value)
+		    {
+                Add(parameter);
+		    }
 		}
 
 	    void ICollection<TemplateParameter>.Add(TemplateParameter item)

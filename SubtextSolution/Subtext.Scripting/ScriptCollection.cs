@@ -32,7 +32,7 @@ namespace Subtext.Scripting
 		/// Initializes a new instance of the <see cref="ScriptCollection"/> class.
 		/// </summary>
 		/// <param name="fullScriptText">The full script text.</param>
-		public ScriptCollection(string fullScriptText)
+		internal ScriptCollection(string fullScriptText)
 		{
 			_fullScriptText = fullScriptText;
 		}
