@@ -230,7 +230,7 @@ namespace Subtext.Framework
 
 		public static Image GetSingleImage(int imageID, bool activeOnly)
 		{
-			return ObjectProvider.Instance().GetSingleImage(imageID, activeOnly);
+			return ObjectProvider.Instance().GetImage(imageID, activeOnly);
 		}
 
 		public static int InsertImage(Image image, byte[] Buffer)

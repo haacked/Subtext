@@ -884,7 +884,7 @@ BEGIN
 	FROM [<dbUser,varchar,dbo>].[subtext_Links] l
 		INNER JOIN #IDs p ON l.[PostID] = p.[ID]  
 		INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] c ON l.CategoryID = c.CategoryID
-	ORDER BY p.[ID]
+	ORDER BY p.[TempID] DESC
 END
 DROP TABLE #IDs
 

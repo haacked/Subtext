@@ -97,16 +97,14 @@ namespace Subtext.Framework.Providers
 		/// <param name="itemCount"></param>
 		/// <param name="postType"></param>
 		/// <param name="postConfiguration"></param>
+        /// <param name="includeCategories">Whether or not to include categories</param>
 		/// <returns></returns>
-		public abstract IDataReader GetConditionalEntries(int itemCount, PostType postType, PostConfig postConfiguration);
+		public abstract IDataReader GetConditionalEntries(int itemCount, PostType postType, PostConfig postConfiguration, bool includeCategories);
 		public abstract IDataReader GetEntriesByDateRange(DateTime start, DateTime stop, PostType postType, bool activeOnly);
 
 		public abstract IDataReader GetFeedBack(int postId);
-        public abstract IDataReader GetSingleDay(DateTime dt);
+        public abstract IDataReader GetEntryDayReader(DateTime dt);
 
-		//move other EntryDay Helper
-		public abstract IDataReader GetPostsByCategoryID(int itemCount, int catID);
-		
 		//Should Power both List<EntryDay> and EntryCollection
 		public abstract IDataReader GetPostCollectionByMonth(int month, int year);
 		
@@ -122,8 +120,6 @@ namespace Subtext.Framework.Providers
 		public abstract IDataReader GetEntry(int postID, bool activeOnly);
 		public abstract IDataReader GetEntry(string entryName, bool activeOnly);
 		public abstract IDataReader GetCategoryEntry(int postID, bool activeOnly);
-
-		public abstract DataSet GetRecentPostsWithCategories(int itemCount, bool activeOnly);
 		#endregion
 
 		#region Update Blog Data
@@ -147,7 +143,7 @@ namespace Subtext.Framework.Providers
 
 		public abstract bool DeleteLink(int linkId);
 
-		public abstract IDataReader GetSingleLink(int linkID);
+		public abstract IDataReader GetLinkReader(int linkID);
 
 		public abstract int InsertLink(Link link); //Create?
 
@@ -243,7 +239,7 @@ namespace Subtext.Framework.Providers
 		#region Images
 
 		public abstract IDataReader GetImagesByCategoryID(int catID, bool activeOnly);
-		public abstract IDataReader GetSingleImage(int imageID, bool activeOnly);
+		public abstract IDataReader GetImage(int imageID, bool activeOnly);
 
 		public abstract int InsertImage(Image image);
 		public abstract bool UpdateImage(Image image);

@@ -92,7 +92,7 @@ namespace Subtext.Framework.Providers
 
 		#region EntryDays
 
-		public abstract EntryDay GetSingleDay(DateTime dt);
+		public abstract EntryDay GetEntryDay(DateTime dt);
         public abstract ICollection<EntryDay> GetPostsByMonth(int month, int year);
         public abstract ICollection<EntryDay> GetPostsByCategoryID(int itemCount, int catID);
 
@@ -116,20 +116,10 @@ namespace Subtext.Framework.Providers
 		/// <param name="itemCount">Item count.</param>
 		/// <param name="postType">The type of entry to return.</param>
 		/// <param name="postConfig">Post Configuration options.</param>
+        /// <param name="includeCategories">Whether or not to include categories</param>
 		/// <returns></returns>
-		public abstract IList<Entry> GetConditionalEntries(int itemCount, PostType postType, PostConfig postConfig);
-
+		public abstract IList<Entry> GetConditionalEntries(int itemCount, PostType postType, PostConfig postConfig, bool includeCategories);
 		public abstract IList<Entry> GetFeedBack(Entry ParentEntry);
-		public abstract ICollection<Entry> GetRecentPostsWithCategories(int itemCount, bool activeOnly);
-		/// <summary>
-		/// Gets recent posts used to support the MetaBlogAPI. 
-		/// Could be used for a Recent Posts control as well.
-		/// </summary>
-		/// <param name="itemCount">Item count.</param>
-		/// <param name="postType">Post type.</param>
-		/// <param name="activeOnly">Active only.</param>
-		/// <returns></returns>
-		public abstract IList<Entry> GetRecentPosts(int itemCount, PostType postType, bool activeOnly);
 		public abstract IList<Entry> GetPostCollectionByMonth(int month, int year);
 		public abstract IList<Entry> GetPostsByDayRange(DateTime start, DateTime stop, PostType postType, bool activeOnly);
 		public abstract IList<Entry> GetEntriesByCategory(int ItemCount,int catID,bool ActiveOnly);
@@ -201,7 +191,7 @@ namespace Subtext.Framework.Providers
 
 		#region Single Link
 
-		public abstract Link GetSingleLink(int linkID);
+		public abstract Link GetLink(int linkID);
 		
 		#endregion
 
@@ -312,7 +302,7 @@ namespace Subtext.Framework.Providers
 		#region Images
 
         public abstract ImageCollection GetImagesByCategoryID(int catID, bool activeOnly);
-		public abstract Image GetSingleImage(int imageID, bool activeOnly);
+		public abstract Image GetImage(int imageID, bool activeOnly);
 		public abstract int InsertImage(Subtext.Framework.Components.Image _image);
 		public abstract bool UpdateImage(Subtext.Framework.Components.Image _image);
 		public abstract bool DeleteImage(int ImageID);

@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Data;
 using System.Globalization;
 using Subtext.Extensibility;
@@ -109,13 +110,13 @@ namespace Subtext.Framework.Data
 
         public static ICollection<EntryDay> LoadEntryDayCollection(IDataReader reader)
 		{
-			DateTime dt = new DateTime(1900,1,1);
+			DateTime dt = new DateTime(1900, 1, 1);
 			List<EntryDay> edc = new List<EntryDay>();
 			EntryDay day = null;
 
 			while(reader.Read())
 			{
-				if(IsNewDay(dt,(DateTime)reader["DateAdded"]))
+				if(IsNewDay(dt, (DateTime)reader["DateAdded"]))
 				{
 					dt = (DateTime)reader["DateAdded"];
 					day = new EntryDay(dt);
@@ -131,21 +132,42 @@ namespace Subtext.Framework.Data
 		#endregion
 
 		#region EntryCollection
-        public static IList<Entry> LoadEntryCollectionAndCloseDataReader(IDataReader reader)
+        internal static IList<Entry> LoadEntryCollectionFromDataReader(IDataReader reader)
         {
-            try
+            List<Entry> entries = new List<Entry>();
+            while(reader.Read())
             {
-                List<Entry> ec = new List<Entry>();
-                while (reader.Read())
+                entries.Add(LoadEntry(reader));
+            }
+
+            if(entries.Count > 0 && reader.NextResult())
+            {
+                //Categories...
+                Dictionary<int, StringCollection> categories = new Dictionary<int, StringCollection>();
+                while(reader.Read())
                 {
-                    ec.Add(LoadEntry(reader));
+                    int postId = ReadInt(reader, "Id");
+                    string categoryTitle = ReadString(reader, "Title");
+                    if(!categories.ContainsKey(postId))
+                    {
+                        categories.Add(postId, new StringCollection());
+                    }
+                    categories[postId].Add(categoryTitle);
                 }
-                return ec;	
+                
+                foreach(Entry entry in entries)
+                {
+                    StringCollection categoryTitles;
+                    if (categories.TryGetValue(entry.Id, out categoryTitles))
+                    {
+                        foreach (string category in categoryTitles)
+                        {
+                            entry.Categories.Add(category);
+                        }
+                    }
+                }
             }
-            finally
-            {
-                reader.Close();
-            }
+            return entries;
         }
 		#endregion
 
@@ -377,165 +399,6 @@ namespace Subtext.Framework.Data
 		}
 
 		/// <summary>
-		/// Loads a single entry from the data row.
-		/// </summary>
-		/// <param name="dr">The dr.</param>
-		/// <returns></returns>
-		public static Entry LoadEntry(DataRow dr)
-		{
-			Entry entry = new Entry((PostType)(int)dr["PostType"]);
-
-			if(dr["Author"] != DBNull.Value)
-			{
-				entry.Author = (string)dr["Author"];
-			}
-			if(dr["Email"] != DBNull.Value)
-			{
-				entry.Email = (string)dr["Email"];
-			}
-
-			// Not null.
-			entry.DateCreated = (DateTime)dr["DateAdded"];
-			
-			if(dr["DateUpdated"] != DBNull.Value)
-			{
-				entry.DateUpdated = (DateTime)dr["DateUpdated"];
-			}
-			entry.Id = (int)dr["ID"];
-
-			if(dr["TitleUrl"] != DBNull.Value)
-			{
-				entry.TitleUrl = (string)dr["TitleUrl"];
-			}
-			
-			if(dr["SourceName"] != DBNull.Value)
-			{
-				entry.SourceName = (string)dr["SourceName"];
-			}
-			if(dr["SourceUrl"] != DBNull.Value)
-			{
-				entry.SourceUrl = (string)dr["SourceUrl"];
-			}
-
-			if(dr["Description"] != DBNull.Value)
-			{
-				entry.Description = (string)dr["Description"];
-			}
-
-			if(dr["EntryName"] != DBNull.Value)
-			{
-				entry.EntryName = (string)dr["EntryName"];
-			}
-
-			if(dr["FeedBackCount"] != DBNull.Value)
-			{
-				entry.FeedBackCount = (int)dr["FeedBackCount"];
-			}
-
-			if(dr["Text"] != DBNull.Value)
-			{
-				entry.Body = (string)dr["Text"];
-			}
-
-			// Title cannot be null.
-			entry.Title =(string)dr["Title"];
-
-			if(dr["PostConfig"] != DBNull.Value)
-			{
-				entry.PostConfig = (PostConfig)((int)dr["PostConfig"]);
-			}
-
-			if(dr["ParentID"] != DBNull.Value)
-			{
-				entry.ParentID = (int)dr["ParentID"];
-			}
-			
-			if(dr["DateSyndicated"] != DBNull.Value)
-			{
-				entry.DateSyndicated = (DateTime)dr["DateSyndicated"];
-			}
-
-			SetUrlPattern(entry);
-			return entry;
-		}
-
-		public static void LoadEntry(Entry entry, DataRow dr)
-		{
-			entry.PostType = ((PostType)(int)dr["PostType"]);
-
-			if(dr["Author"] != DBNull.Value)
-			{
-				entry.Author = (string)dr["Author"];
-			}
-			if(dr["Email"] != DBNull.Value)
-			{
-				entry.Email = (string)dr["Email"];
-			}
-			
-			entry.DateCreated = (DateTime)dr["DateAdded"];
-
-			if(dr["DateUpdated"] != DBNull.Value)
-			{
-				entry.DateUpdated = (DateTime)dr["DateUpdated"];
-			}
-			entry.Id = (int)dr["ID"];
-
-			if(dr["TitleUrl"] != DBNull.Value)
-			{
-				entry.TitleUrl = (string)dr["TitleUrl"];
-			}
-			
-			if(dr["SourceName"] != DBNull.Value)
-			{
-				entry.SourceName = (string)dr["SourceName"];
-			}
-			if(dr["SourceUrl"] != DBNull.Value)
-			{
-				entry.SourceUrl = (string)dr["SourceUrl"];
-			}
-
-			if(dr["Description"] != DBNull.Value)
-			{
-				entry.Description = (string)dr["Description"];
-			}
-
-			if(dr["EntryName"] != DBNull.Value)
-			{
-				entry.EntryName = (string)dr["EntryName"];
-			}
-
-			if(dr["FeedBackCount"] != DBNull.Value)
-			{
-				entry.FeedBackCount = (int)dr["FeedBackCount"];
-			}
-
-			if(dr["Text"] != DBNull.Value)
-			{
-				entry.Body = (string)dr["Text"];
-			}
-
-			// Title cannot be null.
-			entry.Title = (string)dr["Title"];
-			
-			if(dr["PostConfig"] != DBNull.Value)
-			{
-				entry.PostConfig = (PostConfig)((int)dr["PostConfig"]);
-			}
-
-			if(dr["ParentID"] != DBNull.Value)
-			{
-				entry.ParentID = (int)dr["ParentID"];
-			}
-
-			if(dr["DateSyndicated"] != DBNull.Value)
-			{
-				entry.DateSyndicated = (DateTime)dr["DateSyndicated"];
-			}
-
-			SetUrlPattern(entry);
-		}		
-
-		/// <summary>
 		/// Returns a single CategoryEntry from a DataReader. Expects the data reader to have
 		/// two sets of results. Should only be used to load 1 ENTRY
 		/// </summary>
@@ -557,26 +420,7 @@ namespace Subtext.Framework.Data
 			return entry;
 		}
 
-
-		public static Entry LoadCategoryEntry(DataRow dr)
-		{
-			Entry entry = new Entry(PostType.BlogPost);
-            LoadEntry(entry, dr);
-
-			DataRow[] child = dr.GetChildRows("cats");
-			if(child != null && child.Length > 0)
-			{
-				int count = child.Length;
-				for(int i=0; i < count; i++)
-				{
-					entry.Categories.Add((string)child[i]["Title"]);
-				}
-			}
-
-			return entry;
-		}
-
-		public static int GetMaxItems(IDataReader reader)
+		internal static int GetMaxItems(IDataReader reader)
 		{
 			reader.Read();
 			return (int)reader["TotalRecords"];
