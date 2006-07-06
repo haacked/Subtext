@@ -53,11 +53,11 @@ namespace Subtext.Framework.Exceptions
 			{
 				if(_blogId == NullValue.NullInt32)
 				{
-					return "Oooh. A blog with the same host and subfolder name already exists.";
+					return "Oooh. A blog with the same host '" + _duplicateBlog.Host + "' and subfolder '" + _duplicateBlog.Subfolder + "' already exists.";
 				}
 				else
 				{
-					return "Sorry, but changing this blog to use that host and subfolder name would conflict with another blog.";
+                    return "Sorry, but changing this blog to use that host '" + _duplicateBlog.Host + "' and subfolder '" + _duplicateBlog.Subfolder + "' would conflict with another blog.";
 				}
 			}
 		}

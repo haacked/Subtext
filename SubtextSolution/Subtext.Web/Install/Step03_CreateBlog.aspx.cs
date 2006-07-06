@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Web;
 using log4net;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
@@ -88,6 +89,7 @@ namespace Subtext.Web.Install
 			
 			//Since the password is stored as a hash, let's not hash it again.
 			const bool passwordAlreadyHashed = true;
+
 			if(Config.CreateBlog("TEMPORARY BLOG NAME", HostInfo.Instance.HostUserName, HostInfo.Instance.Password, Request.Url.Host, string.Empty, passwordAlreadyHashed))
 			{
 				//We probably should have creating the blog authenticate the user 

@@ -29,7 +29,7 @@ namespace Subtext.Framework.Configuration
 	/// </summary>
 	public static class Config
 	{
-		static UrlBasedBlogInfoProvider _configProvider = null;
+	    static UrlBasedBlogInfoProvider _configProvider = null;
 
 		/// <summary>
 		/// Returns an instance of <see cref="BlogConfigurationSettings"/> which 
@@ -115,18 +115,18 @@ namespace Subtext.Framework.Configuration
 			}
 		}
 
-		/// <summary>
-		/// Returns a <see cref="BlogInfo"/> instance containing 
-		/// the configuration settings for the blog specified by the 
-		/// Hostname and Application.
-		/// </summary>
-		/// <param name="hostName">Hostname.</param>
-		/// <param name="subfolder">Subfolder Name.</param>
-		/// <returns></returns>
-		public static BlogInfo GetBlogInfo(string hostName, string subfolder)
-		{
-			return GetBlogInfo(hostName, subfolder, true);
-		}
+        /// <summary>
+        /// Returns a <see cref="BlogInfo"/> instance containing 
+        /// the configuration settings for the blog specified by the 
+        /// Hostname and Application.
+        /// </summary>
+        /// <param name="hostName">Hostname.</param>
+        /// <param name="subfolder">Subfolder Name.</param>
+        /// <returns></returns>
+	    public static BlogInfo GetBlogInfo(string hostName, string subfolder)
+	    {
+            return GetBlogInfo(hostName, subfolder, false);
+	    }
 
 		/// <summary>
 		/// Returns a <see cref="BlogInfo"/> instance containing 
@@ -153,6 +153,7 @@ namespace Subtext.Framework.Configuration
 		/// allowing a user with a freshly installed blog to immediately gain access 
 		/// to the admin section to edit the blog.
 		/// </summary>
+		/// <param name="title">Title of the blog</param>
 		/// <param name="userName">Name of the user.</param>
 		/// <param name="password">Password.</param>
 		/// <param name="subfolder"></param>
@@ -182,7 +183,7 @@ namespace Subtext.Framework.Configuration
 			host = BlogInfo.NormalizeHostName(host);
 
 			//Check for duplicate
-			BlogInfo potentialDuplicate = Subtext.Framework.Configuration.Config.GetBlogInfo(host, subfolder);
+			BlogInfo potentialDuplicate = Subtext.Framework.Configuration.Config.GetBlogInfo(host, subfolder, true);
 			if(potentialDuplicate != null)
 			{
 				//we found a duplicate!
@@ -221,7 +222,7 @@ namespace Subtext.Framework.Configuration
 			if(!passwordAlreadyHashed && Config.Settings.UseHashedPasswords)
 				password = Security.HashPassword(password);
 
-			return (ObjectProvider.Instance().CreateBlog(title, userName, password, host, subfolder));
+            return (ObjectProvider.Instance().CreateBlog(title, userName, password, host, subfolder));
 		}
 
 		/// <summary>

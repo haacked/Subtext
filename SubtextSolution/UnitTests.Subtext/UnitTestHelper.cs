@@ -158,10 +158,20 @@ namespace UnitTests.Subtext
 		{
 			return SetHttpContextWithBlogRequest(host, subfolder, applicationPath, "default.aspx");
 		}
+	    
+	    public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, int port, string subfolder, string applicationPath)
+	    {
+            return SetHttpContextWithBlogRequest(host, port, subfolder, applicationPath, "default.aspx");
+	    }
 		
-		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string applicationPath, string page)
+	    public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string applicationPath, string page)
+	    {
+	        return SetHttpContextWithBlogRequest(host, 80, subfolder, applicationPath, page);
+	    }
+	    
+		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, int port, string subfolder, string applicationPath, string page)
 		{
-			return SetHttpContextWithBlogRequest(host, subfolder, applicationPath, page, null);
+			return SetHttpContextWithBlogRequest(host, port, subfolder, applicationPath, page, null, "GET");
 		}
 
 		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string applicationPath, string page, TextWriter output)
@@ -169,7 +179,12 @@ namespace UnitTests.Subtext
 			return SetHttpContextWithBlogRequest(host, subfolder, applicationPath, page, output, "GET");
 		}
 		
-		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string applicationPath, string page, TextWriter output, string httpVerb)
+	    public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder, string applicationPath, string page, TextWriter output, string httpVerb)
+	    {
+            return SetHttpContextWithBlogRequest(host, 80, subfolder, applicationPath, page, output, "GET");
+	    }
+	    
+		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, int port, string subfolder, string applicationPath, string page, TextWriter output, string httpVerb)
 		{
 			HttpContext.Current = null;
 		    	    
@@ -196,7 +211,7 @@ namespace UnitTests.Subtext
 
 			string query = string.Empty;
 
-            SimulatedHttpRequest workerRequest = new SimulatedHttpRequest(applicationPath, appPhysicalDir, page, query, output, host, httpVerb);
+            SimulatedHttpRequest workerRequest = new SimulatedHttpRequest(applicationPath, appPhysicalDir, page, query, output, host, port, httpVerb);
 			HttpContext.Current = new HttpContext(workerRequest);
 			HttpContext.Current.Items.Clear();
 			HttpContext.Current.Cache.Remove("BlogInfo-");
@@ -216,6 +231,7 @@ namespace UnitTests.Subtext
 			Console.WriteLine("Request.Path: " + HttpContext.Current.Request.Path);
 			Console.WriteLine("Request.RawUrl: " + HttpContext.Current.Request.RawUrl);
 			Console.WriteLine("Request.Url: " + HttpContext.Current.Request.Url);
+            Console.WriteLine("Request.Url.Port: " + HttpContext.Current.Request.Url.Port);
 			Console.WriteLine("Request.ApplicationPath: " + HttpContext.Current.Request.ApplicationPath);
 			Console.WriteLine("Request.PhysicalPath: " + HttpContext.Current.Request.PhysicalPath);
 

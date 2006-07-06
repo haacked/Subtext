@@ -1,7 +1,9 @@
 using System;
 using System.Web;
 using MbUnit.Framework;
+using Subtext.Extensibility;
 using Subtext.Framework;
+using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 
 namespace UnitTests.Subtext.Framework
@@ -33,6 +35,33 @@ namespace UnitTests.Subtext.Framework
             Assert.AreEqual(HttpContext.Current.Request.ApplicationPath, "/Subtext.Web");
 
 	    }
+
+	    /// <summary>
+	    /// Test makes sure that the port number is included in fuly qualified 
+	    /// urls.
+	    /// </summary>
+	    /// <param name="subfolder"></param>
+	    /// <param name="virtualDir"></param>
+	    /// <param name="port"></param>
+	    /// <param name="expected"></param>
+        [RowTest]
+        [Row("", "", 8080, ":8080/archive/1975/01/23/987123.aspx")]
+        [Row("", "", 80, "/archive/1975/01/23/987123.aspx")]
+        [Row("", "Subtext.Web", 8080, ":8080/Subtext.Web/archive/1975/01/23/987123.aspx")]
+        [Row("blog", "Subtext.Web", 8080, ":8080/Subtext.Web/blog/archive/1975/01/23/987123.aspx")]
+        [Row("blog", "", 8080, ":8080/blog/archive/1975/01/23/987123.aspx")]
+        [RollBack]
+        public void FullyQualifiedUrlPropertySetCorrectly(string subfolder, string virtualDir, int port, string expected)
+        {
+            string host = UnitTestHelper.GenerateRandomHostname();
+            UnitTestHelper.SetHttpContextWithBlogRequest(host, port, subfolder, virtualDir);
+            Assert.IsTrue(Config.CreateBlog("TestVirtualUrlPropertySetCorrectly", "username", "password", host, subfolder));
+            
+            Entry entry = new Entry(PostType.BlogPost);
+            entry.DateCreated = DateTime.Parse("1/23/1975");
+            entry.EntryID = 987123;
+            Assert.AreEqual("http://" + host + expected, Config.CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(entry), "Did not set the entry url correctly.");
+        }
 	    
 		[RowTest]
 		[Row("", "", "/")]

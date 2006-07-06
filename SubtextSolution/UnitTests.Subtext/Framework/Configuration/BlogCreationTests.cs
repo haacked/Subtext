@@ -31,7 +31,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 	{
 		string _hostName;
 
-		/// <summary>
+        /// <summary>
 		/// Ensures that creating a blog will hash the password 
 		/// if UseHashedPassword is set in web.config (as it should be).
 		/// </summary>
