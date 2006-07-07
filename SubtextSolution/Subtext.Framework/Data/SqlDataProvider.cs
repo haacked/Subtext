@@ -487,58 +487,13 @@ namespace Subtext.Framework.Data
 			return NonQueryBool("subtext_DeletePost",p);
 		}
 
-		public override int InsertCategoryEntry(Entry ce)
-		{
-			int PostID = InsertEntry(ce);
-			if(PostID > -1 && ce.Categories != null && ce.Categories.Count > 0)
-			{
-				SqlConnection conn = new SqlConnection(ConnectionString);
-				SqlParameter[] p = new SqlParameter[3];
-				p[0] = new SqlParameter("@Title",SqlDbType.NVarChar,150);
-				p[1] = SqlHelper.MakeInParam("@PostID", SqlDbType. Int, 4, SqlHelper.CheckNull(PostID));
-				p[2] = BlogIdParam;
-				conn.Open();
-				foreach(string s in ce.Categories)
-				{
-					p[0].Value = s;
-					InsertLinkByCategoryName(p,conn);
-				}
-				conn.Close();
-			}
-			return PostID;
-		}
-
-		private void InsertLinkByCategoryName(SqlParameter[] p, SqlConnection conn)
-		{
-			string sql = "subtext_InsertPostCategoryByName";
-			SqlHelper.ExecuteNonQuery(conn,CommandType.StoredProcedure,sql,p);
-
-		}
-
-		//use interate functions
-		public override bool UpdateCategoryEntry(Entry ce)
-		{
-			bool result = UpdateEntry(ce);
-			if(ce.Categories != null && ce.Categories.Count > 0)
-			{
-				SqlConnection conn = new SqlConnection(ConnectionString);
-				SqlParameter[] p = new SqlParameter[3];
-				p[0] = new SqlParameter("@Title",SqlDbType.NVarChar,150);
-				p[1] = SqlHelper.MakeInParam("@PostID", SqlDbType.Int, 4, SqlHelper.CheckNull(ce.Id));
-				p[2] = BlogIdParam;
-				conn.Open();
-				//DeleteCategoriesByPostID(ce.EntryID,conn);
-				foreach(string s in ce.Categories)
-				{
-					p[0].Value = s;
-					//InsertLinkByCategoryName(p,conn);
-				}
-				conn.Close();
-			}
-			return result;
-		}
-
-		public override bool SetEntryCategoryList(int postID, int[] categoryIds)
+	    /// <summary>
+	    /// Saves the categories for the specified post.
+	    /// </summary>
+	    /// <param name="postId"></param>
+	    /// <param name="categoryIds"></param>
+	    /// <returns></returns>
+		public override bool SetEntryCategoryList(int postId, int[] categoryIds)
 		{
 			if(categoryIds == null || categoryIds.Length == 0)
 			{
@@ -546,25 +501,28 @@ namespace Subtext.Framework.Data
 			}
 
 			string[] cats = new string[categoryIds.Length];
-			for(int i = 0; i<categoryIds.Length;i++)
+			for(int i = 0; i< categoryIds.Length; i++)
 			{
 				cats[i] = categoryIds[i].ToString(CultureInfo.InvariantCulture);
 			}
-			string catList = string.Join(",",cats);
+			string catList = string.Join(",", cats);
 
 			SqlParameter[] p = 
 			{
-				SqlHelper.MakeInParam("@PostID", SqlDbType.Int, 4, SqlHelper.CheckNull(postID)),
+				SqlHelper.MakeInParam("@PostID", SqlDbType.Int, 4, SqlHelper.CheckNull(postId)),
 				BlogIdParam,
-				SqlHelper.MakeInParam("@CategoryList",SqlDbType.NVarChar,4000,catList)
+				SqlHelper.MakeInParam("@CategoryList", SqlDbType.NVarChar, 4000, catList)
 			};
-			return NonQueryBool("subtext_InsertLinkCategoryList",p);
+			return NonQueryBool("subtext_InsertLinkCategoryList", p);
 		}
 
-		/// <summary>
+        /// <summary>
 		/// Adds a new entry to the blog.  Whether the entry be a blog post, article,
 		/// a comment, trackback, etc...
 		/// </summary>
+		/// <remarks>
+        /// The method <see cref="SetEntryCategoryList" /> is used to save the entry's categories.
+		/// </remarks>
 		/// <param name="entry">Entry.</param>
 		/// <returns></returns>
 		public override int InsertEntry(Entry entry)
@@ -589,16 +547,18 @@ namespace Subtext.Framework.Data
 				SqlHelper.MakeInParam("@DateSyndicated", SqlDbType.DateTime, 8, SqlHelper.CheckNull(entry.DateSyndicated)), 
 				BlogIdParam,
 				outIdParam
-				
 			};
 
 			NonQueryInt("subtext_InsertEntry", p);
 			return (int)outIdParam.Value;
 		}
-	
-		/// <summary>
+
+        /// <summary>
 		/// Updates the specified entry in the database.
 		/// </summary>
+        /// <remarks>
+        /// The method <see cref="SetEntryCategoryList" /> is used to save the entry's categories.
+        /// </remarks>
 		/// <param name="entry">Entry.</param>
 		/// <returns></returns>
 		public override bool UpdateEntry(Entry entry)

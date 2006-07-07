@@ -397,28 +397,6 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		/// <summary>
-		/// Returns a single CategoryEntry from a DataReader. Expects the data reader to have
-		/// two sets of results. Should only be used to load 1 ENTRY
-		/// </summary>
-		/// <param name="reader"></param>
-		/// <returns></returns>
-		public static Entry LoadCategoryEntry(IDataReader reader)
-		{
-			Entry entry = new Entry(PostType.BlogPost);
-			LoadEntry(reader, entry);
-
-            if(reader.NextResult())
-            {
-                while(reader.Read())
-                {
-                    entry.Categories.Add(DataHelper.ReadString(reader, "Title"));
-                }
-            }
-
-			return entry;
-		}
-
 		internal static int GetMaxItems(IDataReader reader)
 		{
 			reader.Read();

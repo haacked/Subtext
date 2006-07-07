@@ -205,9 +205,6 @@
     <Compile Include="Components\EntryView.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Components\IBlogDataProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Components\Image.cs">
       <SubType>Code</SubType>
     </Compile>

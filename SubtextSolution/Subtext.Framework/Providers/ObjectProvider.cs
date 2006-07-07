@@ -162,8 +162,6 @@ namespace Subtext.Framework.Providers
 
 		#endregion
 
-		#region Create
-
 		/// <summary>
 		/// Creates the specified entry attaching the specified categories.
 		/// </summary>
@@ -172,14 +170,13 @@ namespace Subtext.Framework.Providers
 		/// <returns></returns>
 		public abstract int Create(Entry entry, int[] categoryIds);
 
-		#endregion
-
-		#region Update
-
-		public abstract bool Update(Entry entry);
-		public abstract bool Update(Entry entry, int[] CategoryIDs);
-
-		#endregion
+        /// <summary>
+        /// Saves changes to the specified entry attaching the specified categories.
+        /// </summary>
+        /// <param name="entry">Entry.</param>
+        /// <param name="categoryIds">Category Ids.</param>
+        /// <returns></returns>
+		public abstract bool Update(Entry entry, int[] categoryIds);
 
 		#region Entry Category List
 

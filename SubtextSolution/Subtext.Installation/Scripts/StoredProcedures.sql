@@ -50,6 +50,10 @@ GO
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetEntryWithCategoryTitles]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetEntryWithCategoryTitles]
 GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertPostCategoryByName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_InsertPostCategoryByName]
+GO
 /* The Rest of the script */
 
 /* Note: DNW_* are the aggregate blog procs */
@@ -295,10 +299,6 @@ GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertPingTrackEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_InsertPingTrackEntry]
-GO
-
-if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertPostCategoryByName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [<dbUser,varchar,dbo>].[subtext_InsertPostCategoryByName]
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertReferral]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
@@ -2677,41 +2677,6 @@ SET ANSI_NULLS ON
 GO
 
 GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_InsertLinkCategoryList]  TO [public]
-GO
-
-SET QUOTED_IDENTIFIER ON 
-GO
-SET ANSI_NULLS ON 
-GO
-
-CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertPostCategoryByName]
-(
-	@Title nvarchar(150)
-	, @PostID int
-	, @BlogId int
-)
-AS
-DECLARE @CategoryID int
-SELECT @CategoryID = CategoryID FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories] WHERE Title = @Title AND BlogId = @BlogId AND CategoryType = 1
-
-if(@CategoryID is NULL)
-BEGIN
-
-EXEC [<dbUser,varchar,dbo>].[subtext_InsertCategory] @Title, 1, @BlogId, 1, NULL, @CategoryID = @CategoryID output
-
-END
-
-DECLARE @LinkID int
-EXEC [<dbUser,varchar,dbo>].[subtext_InsertLink] NULL, NULL, NULL, 1, 0, @CategoryID, @PostID, @BlogId, @LinkID output
-
-
-GO
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_InsertPostCategoryByName]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
