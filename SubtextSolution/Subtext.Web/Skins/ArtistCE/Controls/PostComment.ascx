@@ -30,7 +30,7 @@
 		</div>
 		<div class="input">
 			<asp:TextBox id="tbComment" runat="server" rows="7" cols="55" CssClass="fixed"
-				TextMode="MultiLine" onkeyup="reloadPreviewDiv();"></asp:TextBox>
+				TextMode="MultiLine"></asp:TextBox>
 			<br/>
 			<asp:RequiredFieldValidator id="Requiredfieldvalidator4" runat="server" ErrorMessage="Please enter a comment" ControlToValidate="tbComment"></asp:RequiredFieldValidator>
 		</div>

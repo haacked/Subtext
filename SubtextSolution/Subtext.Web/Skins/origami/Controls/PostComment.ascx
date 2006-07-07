@@ -36,8 +36,7 @@
     <div class="required clearfix">
         <label for="PostComment.ascx_tbComment">
             <em>*</em>Your message:</label>
-        <asp:TextBox ID="tbComment" runat="server" Rows="7" cols="55" CssClass="fixed" TextMode="MultiLine"
-            onkeyup="reloadPreviewDiv();"></asp:TextBox><br />
+        <asp:TextBox ID="tbComment" runat="server" Rows="7" cols="55" CssClass="fixed" TextMode="MultiLine"></asp:TextBox><br />
         <asp:RequiredFieldValidator ID="Requiredfieldvalidator4" runat="server" ErrorMessage="Please enter a comment"
             ControlToValidate="tbComment"></asp:RequiredFieldValidator>
     </div>
