@@ -439,18 +439,11 @@ namespace Subtext.Framework.Data
 				throw new BlogFailedPostException("Failed post exception");
 			}		
 
-			if(entry.Categories.Count > 0)
+		    entry.Id = DbProvider.Instance().InsertEntry(entry);	
+	
+			if(CategoryIDs != null)
 			{
-				entry.Id = DbProvider.Instance().InsertCategoryEntry(entry);
-			}
-			else
-			{
-				entry.Id = DbProvider.Instance().InsertEntry(entry);	
-		
-				if(CategoryIDs != null)
-				{
-					DbProvider.Instance().SetEntryCategoryList(entry.Id,CategoryIDs);
-				}
+				DbProvider.Instance().SetEntryCategoryList(entry.Id,CategoryIDs);
 			}
 
 			if(entry.Id > -1 && Config.Settings.Tracking.UseTrackingServices)
@@ -469,39 +462,30 @@ namespace Subtext.Framework.Data
 		#endregion
 
 		#region Update
-
-		public override bool Update(Entry entry)
+        
+	    /// <summary>
+        /// Saves changes to the specified entry attaching the specified categories.
+        /// </summary>
+        /// <param name="entry">Entry.</param>
+        /// <param name="categoryIds">Category Ids.</param>
+        /// <returns></returns>
+	    public override bool Update(Entry entry, params int[] categoryIds)
 		{
-			return Update(entry,null);
-		}
-
-		public override bool Update(Entry entry, int[] CategoryIDs)
-		{
-			if(!FormatEntry(entry,false))
+			if(!FormatEntry(entry, false))
 			{
 				throw new BlogFailedPostException("Failed post exception");
 			}
 
-			if(entry.Categories.Count > 0)
+			if(!DbProvider.Instance().UpdateEntry(entry))
 			{
-				if(!DbProvider.Instance().UpdateCategoryEntry(entry))
-				{
-					return false;
-				}
+				return false;
 			}
-			else
+	
+			if(categoryIds != null && categoryIds.Length > 0)
 			{
-				if(!DbProvider.Instance().UpdateEntry(entry))
-				{
-					return false;
-				}
+				DbProvider.Instance().SetEntryCategoryList(entry.Id,categoryIds);
+			}
 		
-				if(CategoryIDs != null)
-				{
-					DbProvider.Instance().SetEntryCategoryList(entry.Id,CategoryIDs);
-				}
-			}
-
 			if(Config.Settings.Tracking.UseTrackingServices)
 			{
 				if(entry.PostType == PostType.BlogPost)

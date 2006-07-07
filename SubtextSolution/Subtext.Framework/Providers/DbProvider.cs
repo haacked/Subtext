@@ -138,23 +138,40 @@ namespace Subtext.Framework.Providers
 		#endregion
 
 		#region Update Blog Data
-		public abstract bool DeleteEntry(int entryID);
-
-		//Should just be Entry and check is CategoryEntry?
-		public abstract int InsertCategoryEntry(Entry ce);
-		public abstract bool UpdateCategoryEntry(Entry ce);
-
-		public abstract int InsertEntry(Entry entry); //change to create?
-		public abstract bool UpdateEntry(Entry entry);
-
-		public abstract int InsertPingTrackEntry(Entry entry); //Create and add check for PostType. 
+	    /// <summary>
+	    /// Deletes an entry with the specified id.
+	    /// </summary>
+	    /// <param name="id"></param>
+	    /// <returns></returns>
+		public abstract bool DeleteEntry(int id);
+	    
+	    /// <summary>
+	    /// Adds a new entry in the database.
+	    /// </summary>
+	    /// <param name="entry"></param>
+	    /// <returns></returns>
+		public abstract int InsertEntry(Entry entry);
+		
+	    /// <summary>
+	    /// Updates an existing entry.
+	    /// </summary>
+	    /// <param name="entry"></param>
+	    /// <returns></returns>
+	    public abstract bool UpdateEntry(Entry entry);
+		
+	    /// <summary>
+	    /// Adds a ping/trackback of an entry in the database.
+	    /// </summary>
+	    /// <param name="entry"></param>
+	    /// <returns></returns>
+	    public abstract int InsertPingTrackEntry(Entry entry); //Create and add check for PostType. 
 		#endregion
 
 		#region Links
 
 		public abstract IDataReader GetLinkCollectionByPostID(int postId);
 
-		public abstract bool SetEntryCategoryList(int postID, int[] categoryIds);
+		public abstract bool SetEntryCategoryList(int postId, int[] categoryIds);
 
 		public abstract bool DeleteLink(int linkId);
 

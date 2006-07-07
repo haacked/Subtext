@@ -210,24 +210,13 @@ namespace Subtext.Framework
 		#endregion
 
 		#region Create
-
 		/// <summary>
 		/// Creates the specified entry and returns its ID.
 		/// </summary>
 		/// <param name="entry">Entry.</param>
+		/// <param name="categoryIDs">The ids of the categories this entry belongs to.</param>
 		/// <returns></returns>
-		public static int Create(Entry entry)
-		{
-			return Create(entry, null);
-		}
-
-		/// <summary>
-		/// Creates the specified entry and returns its ID.
-		/// </summary>
-		/// <param name="entry">Entry.</param>
-		/// <param name="CategoryIDs">The ids of the categories this entry belongs to.</param>
-		/// <returns></returns>
-		public static int Create(Entry entry, params int[] CategoryIDs)
+		public static int Create(Entry entry, params int[] categoryIDs)
 		{
 			// check if we're admin, if not filter the comment. We do this to help when Importing 
 			// a blog using the BlogML import process. A better solution may be developing a way to 
@@ -256,7 +245,7 @@ namespace Subtext.Framework
 			else
 				entry.DateSyndicated = NullValue.NullDateTime;
 			
-			int id = ObjectProvider.Instance().Create(entry, CategoryIDs);
+			int id = ObjectProvider.Instance().Create(entry, categoryIDs);
 			NotificationServices.Run(entry);
 			return id;
 		}
@@ -437,12 +426,12 @@ namespace Subtext.Framework
 		/// and attaches the specified categories.
 		/// </summary>
 		/// <param name="entry">Entry.</param>
-		/// <param name="CategoryIDs">Category Ids this entry belongs to.</param>
+		/// <param name="categoryIDs">Category Ids this entry belongs to.</param>
 		/// <returns></returns>
-		public static bool Update(Entry entry, params int[] CategoryIDs)
+		public static bool Update(Entry entry, params int[] categoryIDs)
 		{
 			entry.DateUpdated = DateTime.Now;
-			return ObjectProvider.Instance().Update(entry, CategoryIDs);
+			return ObjectProvider.Instance().Update(entry, categoryIDs);
 		}
 
 		#endregion
