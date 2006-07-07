@@ -28,18 +28,17 @@ namespace Subtext.Web.UI.Controls
 			this.BlogTool = "Subtext";
 			this.BlogUrl = Config.CurrentBlog.RootUrl;
 			
-			this.CommentAuthorFieldName = GetControlClientId("tbName");
-			this.CommentButtonId = GetControlClientId("btnSubmit");
+			this.CommentAuthorFieldName = GetControlUniqueId("tbName");
+			this.CommentButtonId = GetControlUniqueId("btnSubmit");
 			if(this.CommentButtonId == null || this.CommentButtonId.Length == 0)
 			{
-				this.CommentButtonId = GetControlClientId("btnCompliantSubmit");
+				this.CommentButtonId = GetControlUniqueId("btnCompliantSubmit");
 			}
-			this.CommentTextFieldName = GetControlClientId("tbComment");
-
-			this.CommentFormId = "Form1";
+			this.CommentTextFieldName = GetControlUniqueId("tbComment");
+            this.CommentFormId = ControlHelper.GetPageFormClientId(this.Page);
 		}
 
-		private string GetControlClientId(string controlId)
+		private string GetControlUniqueId(string controlId)
 		{
 			Control control = ControlHelper.FindControlRecursively(this.Page, controlId);
 			if(control != null)

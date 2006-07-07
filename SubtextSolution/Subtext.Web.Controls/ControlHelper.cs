@@ -112,31 +112,27 @@ namespace Subtext.Web.Controls
 		}
 
 		/// <summary>
-		/// Recursively searches for the server form.
+		/// Recursively searches for the server form's client id.
 		/// </summary>
 		/// <param name="parent">The parent.</param>
 		/// <returns></returns>
-		public static HtmlForm FindServerForm(ControlCollection parent)
+		public static string GetPageFormClientId(Control parent)
 		{
-			foreach (Control child in parent)
+		    string id;
+			foreach (Control child in parent.Controls)
 			{                        
-				HtmlForm childForm = child as HtmlForm;
-				if(childForm != null)
+				if(child is HtmlForm)
 				{
-					return childForm;
+					return child.ClientID;
 				}
-            
-				if (child.HasControls())
-				{
-					HtmlForm foundForm = FindServerForm(child.Controls);
-					if(foundForm != null)
-					{
-						return foundForm;
-					}
-				}
+                id = GetPageFormClientId(child);
+			    if(id != null)
+			    {
+			        return id;
+			    }
 			}
          
-			return new HtmlForm();
+			return null;
 		}
 
 		/// <summary>

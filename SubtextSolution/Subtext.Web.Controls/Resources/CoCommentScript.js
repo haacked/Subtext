@@ -5,7 +5,7 @@
  var postURL = "{4}";
  var commentAuthorFieldName = "{5}";
  var commentTextFieldName = "{6}";
- var commentButtonID  = "{7}";
+ var commentButtonName  = "{7}";
  var commentFormID = "{8}";
  var commentAuthorLoggedIn = false;
  var cocomment_force  = false;
