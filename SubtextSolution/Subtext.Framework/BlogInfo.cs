@@ -44,11 +44,12 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static string NormalizeHostName(string host)
 		{
-			return StringHelper.RightAfter(host, "www.", ComparisonType.CaseInsensitive);
+			return StringHelper.LeftBefore(
+			    StringHelper.RightAfter(host, "www.", ComparisonType.CaseInsensitive), ":");
 		}
 
 		/// <summary>
-		/// Returns a <see cref="IPagedCollection"/> containing the <see cref="BlogInfo"/> 
+		/// Returns a <see cref="IPagedCollection{T}"/> containing the <see cref="BlogInfo"/> 
 		/// instances within the specified range.
 		/// </summary>
 		/// <param name="pageIndex">Page index.</param>
@@ -88,7 +89,7 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
-		/// Returns a <see cref="IList"/> containing ACTIVE the <see cref="BlogInfo"/> 
+		/// Returns a <see cref="IList{T}"/> containing ACTIVE the <see cref="BlogInfo"/> 
 		/// instances within the specified range.
 		/// </summary>
 		/// <param name="pageIndex">Page index.</param>
