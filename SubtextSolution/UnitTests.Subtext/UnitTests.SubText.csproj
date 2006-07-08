@@ -49,7 +49,7 @@
     <WarningLevel>4</WarningLevel>
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -98,6 +98,7 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BlogML, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="CookComputing.XmlRpc, Version=0.8.1.0, Culture=neutral, PublicKeyToken=a7d6e17aa302004d">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>ExternalDependencies\CookComputing.XmlRpc.dll</HintPath>
@@ -258,6 +259,7 @@
     <Compile Include="Framework\Format\UrlFormatTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Import\BlogMlImportTests.cs" />
     <Compile Include="Framework\LinksTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -352,6 +354,7 @@
     <Compile Include="UnitTestImportProvider.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Content Include="ExternalDependencies\BlogML.dll" />
     <Content Include="ExternalDependencies\FredCK.FCKeditorV2.dll" />
     <Content Include="ExternalDependencies\freetextbox.dll" />
     <Content Include="ExternalDependencies\ICSharpCode.SharpZipLib.dll" />
@@ -367,6 +370,7 @@
     <Content Include="ExternalDependencies\Rhino.Mocks.dll" />
     <Content Include="ExternalDependencies\Rhino.Mocks.xml" />
     <Content Include="ExternalDependencies\TestFu.dll" />
+    <EmbeddedResource Include="Resources\BlogMl\SimpleBlogMl.xml" />
     <EmbeddedResource Include="Resources\App.config" />
     <EmbeddedResource Include="Resources\Scripting\TestTemplateSqlScript.txt" />
     <EmbeddedResource Include="Resources\Scripting\TestTemplateSqlScriptExpectedChanges.txt" />
