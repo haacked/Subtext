@@ -86,7 +86,7 @@ namespace UnitTests.Subtext.Framework.Import
             //Make sure no files are left over from last time.
             if (Directory.Exists(Path.Combine(Environment.CurrentDirectory, "images")))
             {
-                Directory.Delete(Path.Combine(Environment.CurrentDirectory, "images", true));
+                Directory.Delete(Path.Combine(Environment.CurrentDirectory, "images"), true);
             }
         }
         
@@ -97,7 +97,7 @@ namespace UnitTests.Subtext.Framework.Import
             {
                 try
                 {
-                    Directory.Delete(Path.Combine(Environment.CurrentDirectory, "images", true));
+                    Directory.Delete(Path.Combine(Environment.CurrentDirectory, "images"), true);
                     Console.WriteLine("Deleted " + Path.Combine(Environment.CurrentDirectory, "images"));
                 }
                 catch(Exception)
