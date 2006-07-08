@@ -204,7 +204,7 @@ namespace Subtext.Framework.Text
 			
 #if DEBUG
 			//Assert that the NameValueCollection is case insensitive!
-			if(allowedHtmlTags.Get("strong") != null && allowedHtmlTags.Get("STRONG") == null)
+			if(allowedHtmlTags != null && allowedHtmlTags.Get("strong") != null && allowedHtmlTags.Get("STRONG") == null)
 			{
 				throw new InvalidOperationException("Darn it, it's case sensitive!" + allowedHtmlTags.Get("STRONG"));
 			}

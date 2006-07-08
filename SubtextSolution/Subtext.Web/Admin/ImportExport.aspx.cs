@@ -75,20 +75,19 @@ namespace Subtext.Web.Admin.Pages
 		{
 			SubtextBlogMLReader bmlReader = new SubtextBlogMLReader();
 			bool errOccured = false;
-
-			StreamReader sReader = new StreamReader(this.importBlogMLFile.PostedFile.InputStream);
+			
 			try
 			{
-				bmlReader.ReadBlog(sReader.ReadToEnd(), false);
+                bmlReader.ReadBlog(this.importBlogMLFile.PostedFile.InputStream, BlogMlReaderOption.None);
 			}
 			catch(BlogImportException bie)
 			{
 				log.Error("Import of BlogML file failed.", bie);
 				Messages.ShowError(bie.Message, true);
 			}
-			finally
+		    finally
 			{
-				sReader.Close();
+			    this.importBlogMLFile.PostedFile.InputStream.Close();
 			}
 
 			if(!errOccured)
