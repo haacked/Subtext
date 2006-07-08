@@ -14,6 +14,17 @@ namespace UnitTests.Subtext.Framework
 	[TestFixture]
 	public class BlogInfoTests
 	{
+	    [Test]
+	    public void TestNormalizeHostName()
+	    {
+            string host = UnitTestHelper.GenerateRandomHostname();
+	        
+	        Assert.AreEqual(host, BlogInfo.NormalizeHostName(host), "Should not have altered the host");
+	        Assert.AreEqual(host, BlogInfo.NormalizeHostName("www."+host), "Did not strip the URL prefix");
+	        Assert.AreEqual(host, BlogInfo.NormalizeHostName(host+":1234"), "Did not strip the port number");
+	        Assert.AreEqual(host, BlogInfo.NormalizeHostName("www."+host+":2734"), "Need to strip both the prefix and port number");
+	    }
+	    
 	    /// <summary>
 	    /// Makes sure we can setup the fake HttpContext.
 	    /// </summary>
@@ -37,7 +48,7 @@ namespace UnitTests.Subtext.Framework
 	    }
 
 	    /// <summary>
-	    /// Test makes sure that the port number is included in fuly qualified 
+	    /// Test makes sure that the port number is included in fully qualified 
 	    /// urls.
 	    /// </summary>
 	    /// <param name="subfolder"></param>
