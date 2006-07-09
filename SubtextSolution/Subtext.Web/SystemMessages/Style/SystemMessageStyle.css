@@ -16,10 +16,6 @@ body
 #main
 {
 	width: 600px;
-}
-
-div 
-{
 	border-right: #bbb 1px solid; 
 	padding-right: 32px; 
 	border-top: #bbb 1px solid; 
