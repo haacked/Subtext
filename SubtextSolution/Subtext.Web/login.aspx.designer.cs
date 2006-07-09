@@ -13,7 +13,6 @@ namespace Subtext.Web.Pages {
     public partial class login {
         protected Subtext.Web.Controls.StyleTag SystemStyle;
         protected System.Web.UI.HtmlControls.HtmlForm frmLogin;
-        protected MetaBuilders.WebControls.DefaultButtons DefaultButtons1;
         protected System.Web.UI.HtmlControls.HtmlImage headerLogoImg;
         protected System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
         protected System.Web.UI.WebControls.TextBox tbUserName;

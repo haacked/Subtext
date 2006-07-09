@@ -76,6 +76,7 @@ namespace Subtext
 		/// <param name="e"></param>
 		protected void Application_Start(Object sender, EventArgs e)
 		{
+            log4net.Config.XmlConfigurator.Configure();
 			log4net.Repository.Hierarchy.Hierarchy h = LogManager.GetRepository() as log4net.Repository.Hierarchy.Hierarchy;
 			//get the ADO appender
 			h.ConfigurationChanged += new log4net.Repository.LoggerRepositoryConfigurationChangedEventHandler(log4Net_ConfigurationChanged);

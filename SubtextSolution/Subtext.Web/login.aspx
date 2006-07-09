@@ -1,5 +1,4 @@
 <%@ Page language="c#" EnableViewState="False" Codebehind="login.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Pages.login" %>
-<%@ Register tagprefix="mbdb" namespace="MetaBuilders.WebControls" Assembly="MetaBuilders.WebControls.DefaultButtons" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
@@ -9,9 +8,6 @@
 	</head>
 	<body>
 		<form method="post" runat="server" ID="frmLogin">
-			<mbdb:DefaultButtons runat="server" id="DefaultButtons1">
-				<mbdb:DefaultButtonSetting parent="tbPassword" button="btnLogin" />
-			</mbdb:DefaultButtons>
 			<div id="Main">
 				<img src="~/admin/resources/SubtextLogo.png" runat="server" id="headerLogoImg" vspace="4" />
 				<div id="Heading">Please Sign In Below</div>

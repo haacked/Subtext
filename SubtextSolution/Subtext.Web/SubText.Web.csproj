@@ -39,7 +39,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>ExternalDependencies\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="MetaBuilders.WebControls.DefaultButtons, Version=1.1.5000.0, Culture=neutral, PublicKeyToken=8f1b87f9edb00944" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -533,8 +532,6 @@
     <Content Include="emoticons.txt" />
     <Content Include="ExternalDependencies\AngryPets.Web.Frameworks.ReverseDOS.dll" />
     <Content Include="ExternalDependencies\freetextbox.dll" />
-    <Content Include="ExternalDependencies\MetaBuilders.WebControls.DefaultButtons.dll" />
-    <Content Include="ExternalDependencies\MetaBuilders.WebControls.DefaultButtons.xml" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="login.aspx" />
@@ -759,7 +756,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Log4Net.config" />
     <Content Include="OPML.aspx" />
     <Content Include="ReleaseNotes.txt" />
     <Content Include="style.css" />
