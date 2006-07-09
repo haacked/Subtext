@@ -94,7 +94,7 @@ namespace Subtext.Web.UI.Controls
 					}
 					else
 					{
-						tbTitle.Text = "re: " + entry.Title;
+						tbTitle.Text = "re: " + HttpUtility.HtmlDecode(entry.Title);
 					}
 				}
 				else
