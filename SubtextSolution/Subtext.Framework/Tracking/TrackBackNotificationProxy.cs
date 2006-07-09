@@ -34,6 +34,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Web;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
 
@@ -51,12 +52,6 @@ namespace Subtext.Framework.Tracking
 		{
 		}
 
-		private string HtmlEncode(string text)
-		{
-			return System.Web.HttpUtility.HtmlEncode(text);
-			
-		}
-
 		public bool TrackBackPing(string pageText, Uri url, string title, Uri link, string blogname, string description)
 		{
 			string trackBackItem = GetTrackBackText(pageText, url, link);
@@ -67,7 +62,7 @@ namespace Subtext.Framework.Tracking
 					trackBackItem = "http://" + trackBackItem;
 				}
 
-				string parameters = "title=" + HtmlEncode(title) + "&url=" + HtmlEncode(link.ToString()) + "&blog_name=" + HtmlEncode(blogname) + "&excerpt=" + HtmlEncode(description);
+                string parameters = "title=" + HttpUtility.HtmlEncode(title) + "&url=" + HttpUtility.HtmlEncode(link.ToString()) + "&blog_name=" + HttpUtility.HtmlEncode(blogname) + "&excerpt=" + HttpUtility.HtmlEncode(description);
 
 				Uri trackBackUrl = HtmlHelper.ParseUri(trackBackItem);
 				if(trackBackUrl != null)
