@@ -271,9 +271,17 @@ namespace Subtext.Framework.Syndication
 					(UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(urlFormats.AggBugkUrl(entry.Id)) : null //use aggbugs
 				)
 			);
-			//TODO: Perform real email auth.
-			if(entry.Email != null && entry.Email.Length > 0 && entry.Email.IndexOf('@') > 0)
-				this.WriteElementString("author", entry.Email);
+
+		    if(!String.IsNullOrEmpty(entry.Email) && entry.Email.IndexOf('@') > 0 && entry.Email.IndexOf(".") > 0)
+		    {
+		        this.WriteElementString("author", entry.Email);
+		    }
+
+            if (!String.IsNullOrEmpty(entry.Author))
+            {
+                this.WriteElementString("dc:creator", entry.Author);
+            }
+		    
 			this.WriteElementString("guid", entry.FullyQualifiedUrl.ToString());
 			this.WriteElementString("pubDate", entry.DateCreated.ToString("r"));			
 
