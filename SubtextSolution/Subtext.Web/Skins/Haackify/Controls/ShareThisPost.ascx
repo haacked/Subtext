@@ -9,10 +9,10 @@
 			<a href="http://del.icio.us/login?url=<%# UrlEncode(Entry.FullyQualifiedUrl) %>;title=<%# UrlEncode(Entry.Title) %>" title="Bookmark it at del.icio.us">bookmark It</a>
 		</li>
 		<li>
-			<a href="http://digg.com/submit?url=<%# UrlEncode(Entry.FullyQualifiedUrl) %>&amp;phase=2" title="digg it">digg It</a>
+			<a href="http://digg.com/submit?url=<%# UrlEncode(Entry.FullyQualifiedUrl) %>&amp;phase=2&amp;title=<%# UrlEncode(Entry.Title) %>" title="digg it">digg It</a>
 		</li>
 		<li>
-			<a href="http://reddit.com/submit?url=<%# UrlEncode(Entry.FullyQualifiedUrl) %>&amp;title=<%# UrlEncode(Entry.Title) %>" title="redd">redd It</a>
+			<a href="http://www.dotnetkicks.com/submit/?url=<%# UrlEncode(Entry.FullyQualifiedUrl) %>&amp;title=<%# UrlEncode(Entry.Title) %>" title="redd">redd It</a>
 		</li>
 	</ul>
 </div>
