@@ -1056,17 +1056,17 @@ namespace Subtext.Framework.Data
 
 		private IDataReader GetReader(string sql)
 		{
-			return SqlHelper.ExecuteReader(ConnectionString,CommandType.StoredProcedure, sql);
+			return SqlHelper.ExecuteReader(ConnectionString, CommandType.StoredProcedure, sql);
 		}
 
 		private IDataReader GetReader(string sql, SqlParameter[] p)
 		{
-			return SqlHelper.ExecuteReader(ConnectionString,CommandType.StoredProcedure, sql, p);
+			return SqlHelper.ExecuteReader(ConnectionString, CommandType.StoredProcedure, sql, p);
 		}
 
 		private int NonQueryInt(string sql, SqlParameter[] p)
 		{
-			return SqlHelper.ExecuteNonQuery(ConnectionString,CommandType.StoredProcedure, sql, p);
+			return SqlHelper.ExecuteNonQuery(ConnectionString, CommandType.StoredProcedure, sql, p);
 		}
 
 		private bool NonQueryBool(string sql, SqlParameter[] p)
