@@ -168,15 +168,30 @@ namespace Subtext.Extensibility.Providers
 			if(configValue == null)
 				throw new ArgumentNullException("configValue", "The config values collection is null. The provider for the setting '" + settingKey + "' may not be configured correctly.");
 
-			const int StartDelimiterLength = 2;
-			const int EndDelimiterLength = 1;
-			string settingValue = configValue[settingKey];
-		
+		    string settingValue = configValue[settingKey];
+
+            if (settingKey == "connectionStringName")
+            {
+                ConnectionStringSettings setting = ConfigurationManager.ConnectionStrings[settingValue];
+                if (setting == null)
+                    throw new ArgumentException("The Connection String '" + settingValue + "' was not found in the ConnectionStrings section.", "settingKey");
+
+                return setting.ConnectionString;
+            }
+
+            const int StartDelimiterLength = 2;
+            const int EndDelimiterLength = 1;
 			if(IsPointerToAppSettings(settingValue))
 			{
 				string appKeyName = settingValue.Substring(StartDelimiterLength, settingValue.Length - (StartDelimiterLength + EndDelimiterLength));
                 settingValue = System.Configuration.ConfigurationManager.AppSettings[appKeyName];
 			}
+		    
+		    if(ConfigurationManager.ConnectionStrings[settingValue] != null)
+		    {
+                settingValue = ConfigurationManager.ConnectionStrings[settingValue].ConnectionString;
+		    }
+		    
 			return settingValue;
 		}
 	}

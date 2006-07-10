@@ -49,7 +49,7 @@ namespace Subtext.Framework.Providers
 		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
 		{
 			_name = name;
-			_connectionString = GetSettingValue("connectionString", configValue);
+            _connectionString = GetSettingValue("connectionStringName", configValue);
 		}
 
 		/// <summary>

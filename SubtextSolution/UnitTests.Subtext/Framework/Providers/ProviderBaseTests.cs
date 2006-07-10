@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Specialized;
+using System.Configuration;
 using MbUnit.Framework;
 using Subtext.Extensibility.Providers;
 
@@ -26,6 +27,12 @@ namespace UnitTests.Subtext.Framework.Providers
 	[TestFixture]
 	public class ProviderBaseTests
 	{
+	    [Test]
+	    public void CanFindConnectionString()
+	    {
+            Assert.AreEqual("Server=localhost;Database=SubtextData;Trusted_Connection=True", ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString);
+	    }
+	    
 		/// <summary>
 		/// Makes sure that we can recognize setting pointers.
 		/// </summary>

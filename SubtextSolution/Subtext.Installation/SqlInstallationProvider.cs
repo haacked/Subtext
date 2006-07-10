@@ -44,7 +44,7 @@ namespace Subtext.Installation
 		public override void Initialize(string name, NameValueCollection configValue)
 		{
 			_name = name;
-			_connectionString = GetSettingValue("connectionString", configValue);
+            _connectionString = GetSettingValue("connectionStringName", configValue);
 		}
 
 		/// <summary>

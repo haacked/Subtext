@@ -308,6 +308,7 @@ namespace UnitTests.Subtext
 		{
 			if(original != expected)
 			{
+                int unequalPos = 0;
 				for(int i = 0; i < Math.Max(original.Length, expected.Length); i++)
 				{
 					char originalChar = (char)0;
@@ -321,6 +322,9 @@ namespace UnitTests.Subtext
 					{
 						expectedChar = expected[i];
 					}
+
+                    if (unequalPos == 0 && originalChar != expectedChar)
+				        unequalPos = i;
 
 					string originalCharDisplay = "" + originalChar;
 					if(char.IsWhiteSpace(originalChar))
@@ -336,7 +340,7 @@ namespace UnitTests.Subtext
 
 					Console.WriteLine("{0}:\t{1} ({2})\t{3} ({4})", i, originalCharDisplay, (int)originalChar, expectedCharDisplay, (int)expectedChar);
 				}
-				Assert.AreEqual(original, expected);
+				Assert.AreEqual(original, expected, "Strings are not equal starting at character {0}", unequalPos);
 			}
 		}
 
