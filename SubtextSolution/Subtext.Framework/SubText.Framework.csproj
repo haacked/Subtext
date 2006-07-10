@@ -482,12 +482,6 @@
     <Compile Include="UI\Skinning\Script.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UI\Skinning\SkinItem.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="UI\Skinning\SkinPage.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="UI\Skinning\SkinTemplate.cs">
       <SubType>Code</SubType>
     </Compile>
