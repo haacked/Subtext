@@ -22,16 +22,14 @@ namespace Subtext.Framework.Email
 {
 	/// <summary>
 	/// Default implementation of the <see cref="EmailProvider"/>.  This uses 
-	/// classes in the System.Web.Mail namespace which have dependencies on 
-	/// CDONTS.
+	/// the new (introduced in .NET 2.0) System.Net.SmtpClient class which uses SMTP.
 	/// </summary>
 	public class SystemMailProvider : EmailProviderBase
 	{
 		public override bool Send(string toStr, string fromStr, string subject, string message)
 		{
 			try
-			{
-
+			{   
                 MailAddress from = new MailAddress(fromStr);
                 MailAddress to = new MailAddress(toStr);
 
