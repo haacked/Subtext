@@ -33,8 +33,8 @@ namespace Subtext.Web.UI.Pages
 	public class SubtextMasterPage : System.Web.UI.Page
 	{
 		#region Declared Controls in DTP.aspx
-		private static readonly ScriptElementCollectionRenderer __scriptRenderer = new ScriptElementCollectionRenderer();
-		private static readonly StyleSheetElementCollectionRenderer __styleRenderer = new StyleSheetElementCollectionRenderer();
+		private static readonly ScriptElementCollectionRenderer scriptRenderer = new ScriptElementCollectionRenderer();
+		private static readonly StyleSheetElementCollectionRenderer styleRenderer = new StyleSheetElementCollectionRenderer();
 		protected System.Web.UI.WebControls.Literal pageTitle;
 		protected System.Web.UI.WebControls.Literal docTypeDeclaration;
 		protected System.Web.UI.HtmlControls.HtmlGenericControl MainStyle;
@@ -103,12 +103,12 @@ namespace Subtext.Web.UI.Pages
 			// if specified, add script elements
 			if (scripts != null)
 			{
-				scripts.Text = __scriptRenderer.RenderScriptElementCollection(skin);
+				scripts.Text = scriptRenderer.RenderScriptElementCollection(skin);
 			}
 
 			if(styles != null)
 			{
-				styles.Text = __styleRenderer.RenderStyleElementCollection(skin);
+				styles.Text = styleRenderer.RenderStyleElementCollection(skin);
 			}
 		}
 
@@ -254,16 +254,30 @@ namespace Subtext.Web.UI.Pages
 
 			private static string RenderStyleElement(string skinPath, Style style)
 			{
-				string element = "<link";
-				if(style.Media != null && style.Media.Length > 0)
-					element += RenderStyleAttribute("media", style.Media);
- 
-				return element +
+                string element = string.Empty;
+			    
+                if (!String.IsNullOrEmpty(style.Conditional))
+                {
+                    element = string.Format("<!--[{0}]>{1}", style.Conditional, Environment.NewLine);
+                }
+			    
+                element += "<link";
+                    if (style.Media != null && style.Media.Length > 0)
+                        element += RenderStyleAttribute("media", style.Media);
+
+				element +=
 					RenderStyleAttribute("type", "text/css") + 
 					RenderStyleAttribute("rel", "stylesheet") + 
 					RenderStyleAttribute("title", style.Title) + 
 					RenderStyleAttribute("href", GetStylesheetHrefPath(skinPath, style)) + //TODO: Look at this line again.
 					"></link>" + Environment.NewLine;
+
+                if (!String.IsNullOrEmpty(style.Conditional))
+                {
+                    element += "<![endif]-->" + Environment.NewLine;
+                }
+			    
+			    return element;
 			}
 
 			public static string GetStylesheetHrefPath(string skinPath, Style style)

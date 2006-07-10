@@ -81,5 +81,26 @@ namespace Subtext.Framework.UI.Skinning
 			}	
 		}
 
+	    /// <summary>
+	    /// Adds a conditional comment around this stylesheet declaration. 
+	    /// Note that conditional comments only work in IE on Windows.
+	    /// </summary>
+	    /// <remarks>
+	    /// <para>
+	    /// This property should only set the conditional statement. For example, 
+	    /// a proper value would be "if IE" and not "[if IE]".
+        /// </para>
+        /// <para>
+        /// For more information, check out http://www.quirksmode.org/css/condcom.html
+        /// </para>
+	    /// </remarks>
+	    [XmlAttribute("conditional")]
+	    public string Conditional
+	    {
+	        get { return this.conditional; }
+	        set { this.conditional = value; }
+	    }
+
+	    string conditional;
 	}
 }
