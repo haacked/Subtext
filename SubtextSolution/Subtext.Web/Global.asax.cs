@@ -188,6 +188,12 @@ namespace Subtext
 				log.Warn("Could not decrypt the authentication cookie. No exception was thrown.");
 				return; 
 			}
+
+            if (authTicket.Expired)
+            {
+                log.Debug("Authentication ticket expired.");
+                return;
+            }
 			
 			// When the ticket was created, the UserData property was assigned a
 			// pipe delimited string of role names.
