@@ -79,11 +79,11 @@ namespace Subtext.Web.UI.Controls
 
 				SqlParameter[] p =
 				{
-					SqlHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, blogID),
-					SqlHelper.MakeInParam("@SearchStr", searchString)
+					DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, blogID),
+					DataHelper.MakeInParam("@SearchStr", searchString)
 				};
 
-				DataTable dt = SqlHelper.ExecuteDataTable(connStr, CommandType.StoredProcedure, storedProc, p);
+				DataTable dt = DataHelper.ExecuteDataTable(connStr, CommandType.StoredProcedure, storedProc, p);
 
 				int count = dt.Rows.Count;
 

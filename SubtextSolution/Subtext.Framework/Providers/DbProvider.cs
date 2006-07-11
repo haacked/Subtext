@@ -90,8 +90,25 @@ namespace Subtext.Framework.Providers
 		public abstract bool UpdateHost(HostInfo host);
 		#endregion Host Data
 
-		#region Get Blog Data
-		/// <summary>
+        #region Aggregate HomePage Data
+        /// <summary>
+        /// Returns data displayed on an aggregate blog's home page.
+        /// </summary>
+        /// <returns></returns>
+	    public abstract DataSet GetAggregateHomePageData(int groupId);
+
+        public abstract DataTable GetAggregateRecentPosts(int groupId);
+        
+	    /// <summary>
+	    /// Returns a data set with the previous and next entries.
+	    /// </summary>
+	    /// <param name="entryId"></param>
+	    /// <returns></returns>
+	    public abstract DataSet GetPreviousNext(int entryId);
+        #endregion
+
+        #region Get Blog Data
+        /// <summary>
 		/// Returns the specified number of blog entries
 		/// </summary>
 		/// <param name="itemCount"></param>

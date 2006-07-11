@@ -47,12 +47,12 @@ namespace Subtext.Web
 
 			SqlParameter[] p = 
 				{
-					SqlHelper.MakeInParam("@Host",SqlDbType.NVarChar,100,ConfigurationManager.AppSettings["AggregateHost"]),
-					SqlHelper.MakeInParam("@GroupID",SqlDbType.Int,4,GroupID)
+					DataHelper.MakeInParam("@Host",SqlDbType.NVarChar,100,ConfigurationManager.AppSettings["AggregateHost"]),
+					DataHelper.MakeInParam("@GroupID",SqlDbType.Int,4,GroupID)
 				};
 
 
-			DataTable dt = SqlHelper.ExecuteDataTable(conn,CommandType.StoredProcedure,sql,p);
+			DataTable dt = DataHelper.ExecuteDataTable(conn, CommandType.StoredProcedure, sql, p);
 			Response.ContentType = "text/xml";
 			//Response.ContentEncoding = System.Text.Encoding.UTF8;
 			Response.Write(Write(dt,Request.ApplicationPath));

@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Data;
+using System.Data.SqlClient;
 using System.Globalization;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
@@ -699,14 +700,44 @@ namespace Subtext.Framework.Data
 			kw.Text = (string)reader["Text"];
 			if(reader["Title"] != DBNull.Value)
 			{
-				kw.Title = SqlHelper.CheckNullString(reader["Title"]);
+				kw.Title = DataHelper.CheckNullString(reader["Title"]);
 			}
 			kw.Url = (string)reader["Url"];
 			kw.Word = (string)reader["Word"];
 			return kw;
 		}
 
+	    /// <summary>
+	    /// If the string is empty or null, returns a 
+	    /// System.DBNull.Value.
+	    /// </summary>
+	    /// <param name="text"></param>
+	    /// <returns></returns>
+        public static object CheckForNullString(string text)
+        {
+            if (String.IsNullOrEmpty(text))
+            {
+                return System.DBNull.Value;
+            }
+            else
+            {
+                return text;
+            }
+        }
 
+        /// <summary>
+        /// If the string is DBNull, returns null. Otherwise returns the string.
+        /// </summary>
+        /// <param name="obj">The obj.</param>
+        /// <returns></returns>
+        public static string CheckNullString(object obj)
+        {
+            if (obj is DBNull)
+            {
+                return null;
+            }
+            return (string)obj;
+        }
 
 		#endregion
 
@@ -804,6 +835,337 @@ namespace Subtext.Framework.Data
 			else
 				return NullValue.NullDateTime;
 		}
+
+        public static SqlParameter MakeInParam(string ParamName, object Value)
+        {
+            return new SqlParameter(ParamName, Value);
+        }
+
+        /// <summary>
+        /// Make input param.
+        /// </summary>
+        /// <param name="ParamName">Name of param.</param>
+        /// <param name="DbType">Param type.</param>
+        /// <param name="Size">Param size.</param>
+        /// <param name="Value">Param value.</param>
+        /// <returns>New parameter.</returns>
+        public static SqlParameter MakeInParam(string ParamName, SqlDbType DbType, int Size, object Value)
+        {
+            return MakeParam(ParamName, DbType, Size, ParameterDirection.Input, Value);
+        }
+
+        /// <summary>
+        /// Make input param.
+        /// </summary>
+        /// <param name="ParamName">Name of param.</param>
+        /// <param name="DbType">Param type.</param>
+        /// <param name="Size">Param size.</param>
+        /// <returns>New parameter.</returns>
+        public static SqlParameter MakeOutParam(string ParamName, SqlDbType DbType, int Size)
+        {
+            return MakeParam(ParamName, DbType, Size, ParameterDirection.Output, null);
+        }
+
+        /// <summary>
+        /// Make stored procedure param.
+        /// </summary>
+        /// <param name="ParamName">Name of param.</param>
+        /// <param name="DbType">Param type.</param>
+        /// <param name="Size">Param size.</param>
+        /// <param name="Direction">Parm direction.</param>
+        /// <param name="Value">Param value.</param>
+        /// <returns>New parameter.</returns>
+        public static SqlParameter MakeParam(string ParamName, SqlDbType DbType, Int32 Size, ParameterDirection Direction, object Value)
+        {
+            SqlParameter param;
+
+            if (Size > 0)
+                param = new SqlParameter(ParamName, DbType, Size);
+            else
+                param = new SqlParameter(ParamName, DbType);
+
+            param.Direction = Direction;
+            if (!(Direction == ParameterDirection.Output && Value == null))
+                param.Value = Value;
+
+            return param;
+        }
+
+	    /// <summary>
+	    /// Checks the value type and returns null if the 
+	    /// value is "null-equivalent".
+	    /// </summary>
+	    /// <param name="obj">The obj.</param>
+	    /// <returns></returns>
+	    public static object CheckNull(int obj)
+	    {
+	        if(NullValue.IsNull(obj))
+	            return null;
+	        return obj;
+	    }
+
+	    /// <summary>
+	    /// Returns an empty string if the value is null.
+	    /// </summary>
+	    /// <param name="obj">The obj.</param>
+	    /// <returns></returns>
+	    public static string CheckNull(object obj)
+	    {
+	        if(obj == null)
+	            return string.Empty;
+							 
+	        return (string) obj;
+	    }
+
+	    /// <summary>
+	    /// Returns a true null if the object is DBNull.
+	    /// </summary>
+	    /// <param name="obj">The obj.</param>
+	    /// <returns></returns>
+	    public static string CheckNull(DBNull obj)
+	    {
+	        return null;
+	    }
+
+	    /// <summary>
+	    /// Checks the value of the specified value type for a null value.  
+	    /// Returns null if the value represents a null value
+	    /// </summary>
+	    /// <param name="dateTime">Date time.</param>
+	    /// <returns></returns>
+	    public static object CheckNull(DateTime dateTime)
+	    {
+	        if(NullValue.IsNull(dateTime))
+	            return null;
+	        return dateTime;
+	    }
+
+	    internal static void DebugPrintCommand(SqlCommand command)
+	    {
+	        Console.Write(command.CommandText);
+	        foreach(SqlParameter parameter in command.Parameters)
+	        {
+	            Console.Write(" " + parameter.ParameterName + "=" + parameter.Value + ", ");
+	        }
+	        Console.Write(Environment.NewLine);
+	    }
+
+        #region ExecuteDataTable
+
+        /// <summary>
+        /// Execute a SqlCommand (that returns a resultset and takes no parameters) against the database specified in 
+        /// the connection string. 
+        /// </summary>
+        /// <remarks>
+        /// e.g.:  
+        ///  DataTable dt = ExecuteDataTable(connString, CommandType.StoredProcedure, "GetOrders");
+        /// </remarks>
+        /// <param name="connectionString">a valid connection string for a SqlConnection</param>
+        /// <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+        /// <param name="commandText">the stored procedure name or T-SQL command</param>
+        /// <returns>a DataTable containing the resultset generated by the command</returns>
+        public static DataTable ExecuteDataTable(string connectionString, CommandType commandType, string commandText)
+        {
+            //pass through the call providing null for the set of SqlParameters
+            return ExecuteDataTable(connectionString, commandType, commandText, null);
+        }
+
+        /// <summary>
+        /// Execute a SqlCommand (that returns a resultset) against the database specified in the connection string 
+        /// using the provided parameters.
+        /// </summary>
+        /// <remarks>
+        /// e.g.:  
+        ///  DataTable dt = ExecuteDataTable(connString, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid", 24));
+        /// </remarks>
+        /// <param name="connectionString">a valid connection string for a SqlConnection</param>
+        /// <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+        /// <param name="commandText">the stored procedure name or T-SQL command</param>
+        /// <param name="commandParameters">an array of SqlParamters used to execute the command</param>
+        /// <returns>a DataTable containing the resultset generated by the command</returns>
+        public static DataTable ExecuteDataTable(string connectionString, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
+        {
+            //create & open a SqlConnection, and dispose of it after we are done.
+            using (SqlConnection cn = new SqlConnection(connectionString))
+            {
+                cn.Open();
+
+                //call the overload that takes a connection in place of the connection string
+                return ExecuteDataTable(cn, commandType, commandText, commandParameters);
+            }
+        }
+
+
+
+        /// <summary>
+        /// Execute a SqlCommand (that returns a resultset and takes no parameters) against the provided SqlConnection. 
+        /// </summary>
+        /// <remarks>
+        /// e.g.:  
+        ///  DataTable dt = ExecuteDataTable(conn, CommandType.StoredProcedure, "GetOrders");
+        /// </remarks>
+        /// <param name="connection">a valid SqlConnection</param>
+        /// <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+        /// <param name="commandText">the stored procedure name or T-SQL command</param>
+        /// <returns>a DataTable containing the resultset generated by the command</returns>
+        public static DataTable ExecuteDataTable(SqlConnection connection, CommandType commandType, string commandText)
+        {
+            //pass through the call providing null for the set of SqlParameters
+            return ExecuteDataTable(connection, commandType, commandText, null);
+        }
+
+        /// <summary>
+        /// Execute a SqlCommand (that returns a resultset) against the specified SqlConnection 
+        /// using the provided parameters.
+        /// </summary>
+        /// <remarks>
+        /// e.g.:  
+        ///  DataTable dt = ExecuteDataTable(conn, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid", 24));
+        /// </remarks>
+        /// <param name="connection">a valid SqlConnection</param>
+        /// <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+        /// <param name="commandText">the stored procedure name or T-SQL command</param>
+        /// <param name="commandParameters">an array of SqlParamters used to execute the command</param>
+        /// <returns>a DataTable containing the resultset generated by the command</returns>
+        public static DataTable ExecuteDataTable(SqlConnection connection, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
+        {
+            //create a command and prepare it for execution
+            SqlCommand cmd = new SqlCommand();
+            PrepareCommand(cmd, connection, null, commandType, commandText, commandParameters);
+
+            //create the DataAdapter & DataTable
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+
+            //fill the DataTable using default values for DataTable names, etc.
+            da.Fill(dt);
+
+            // detach the SqlParameters from the command object, so they can be used again.			
+            cmd.Parameters.Clear();
+
+            //return the DataTable
+            return dt;
+        }
+
+
+        /// <summary>
+        /// Execute a SqlCommand (that returns a resultset and takes no parameters) against the provided SqlTransaction. 
+        /// </summary>
+        /// <remarks>
+        /// e.g.:  
+        ///  DataTable dt = ExecuteDataTable(trans, CommandType.StoredProcedure, "GetOrders");
+        /// </remarks>
+        /// <param name="transaction">a valid SqlTransaction</param>
+        /// <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+        /// <param name="commandText">the stored procedure name or T-SQL command</param>
+        /// <returns>a DataTable containing the resultset generated by the command</returns>
+        public static DataTable ExecuteDataTable(SqlTransaction transaction, CommandType commandType, string commandText)
+        {
+            //pass through the call providing null for the set of SqlParameters
+            return ExecuteDataTable(transaction, commandType, commandText, null);
+        }
+
+        /// <summary>
+        /// Execute a SqlCommand (that returns a resultset) against the specified SqlTransaction
+        /// using the provided parameters.
+        /// </summary>
+        /// <remarks>
+        /// e.g.:  
+        ///  DataTable dt = ExecuteDataTable(trans, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid", 24));
+        /// </remarks>
+        /// <param name="transaction">a valid SqlTransaction</param>
+        /// <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+        /// <param name="commandText">the stored procedure name or T-SQL command</param>
+        /// <param name="commandParameters">an array of SqlParamters used to execute the command</param>
+        /// <returns>a DataTable containing the resultset generated by the command</returns>
+        public static DataTable ExecuteDataTable(SqlTransaction transaction, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
+        {
+            //create a command and prepare it for execution
+            SqlCommand cmd = new SqlCommand();
+            PrepareCommand(cmd, transaction.Connection, transaction, commandType, commandText, commandParameters);
+
+            //create the DataAdapter & DataTable
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+
+            //fill the DataTable using default values for DataTable names, etc.
+            da.Fill(dt);
+
+            // detach the SqlParameters from the command object, so they can be used again.
+            cmd.Parameters.Clear();
+
+            //return the DataTable
+            return dt;
+        }
+
+        /// <summary>
+        /// This method opens (if necessary) and assigns a connection, transaction, command type and parameters 
+        /// to the provided command.
+        /// </summary>
+        /// <param name="command">the SqlCommand to be prepared</param>
+        /// <param name="connection">a valid SqlConnection, on which to execute this command</param>
+        /// <param name="transaction">a valid SqlTransaction, or 'null'</param>
+        /// <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+        /// <param name="commandText">the stored procedure name or T-SQL command</param>
+        /// <param name="commandParameters">an array of SqlParameters to be associated with the command or 'null' if no parameters are required</param>
+        private static void PrepareCommand(SqlCommand command, SqlConnection connection, SqlTransaction transaction, CommandType commandType, string commandText, SqlParameter[] commandParameters)
+        {
+            //if the provided connection is not open, we will open it
+            if (connection.State != ConnectionState.Open)
+            {
+                connection.Open();
+            }
+
+            //associate the connection with the command
+            command.Connection = connection;
+
+            //set the command text (stored procedure name or SQL statement)
+            command.CommandText = commandText;
+
+            //if we were provided a transaction, assign it.
+            if (transaction != null)
+            {
+                command.Transaction = transaction;
+            }
+
+            //set the command type
+            command.CommandType = commandType;
+
+            //attach the command parameters if they are provided
+            if (commandParameters != null)
+            {
+                AttachParameters(command, commandParameters);
+            }
+
+            return;
+        }
+
+        /// <summary>
+        /// This method is used to attach array of SqlParameters to a SqlCommand.
+        /// 
+        /// This method will assign a value of DbNull to any parameter with a direction of
+        /// InputOutput and a value of null.  
+        /// 
+        /// This behavior will prevent default values from being used, but
+        /// this will be the less common case than an intended pure output parameter (derived as InputOutput)
+        /// where the user provided no input value.
+        /// </summary>
+        /// <param name="command">The command to which the parameters will be added</param>
+        /// <param name="commandParameters">an array of SqlParameters tho be added to command</param>
+        private static void AttachParameters(SqlCommand command, SqlParameter[] commandParameters)
+        {
+            foreach (SqlParameter p in commandParameters)
+            {
+                //check for derived output value with no value assigned
+                if ((p.Direction == ParameterDirection.InputOutput) && (p.Value == null))
+                {
+                    p.Value = DBNull.Value;
+                }
+
+                command.Parameters.Add(p);
+            }
+        }
+        #endregion ExecuteDataTable
 	}
 
 	/// <summary>
