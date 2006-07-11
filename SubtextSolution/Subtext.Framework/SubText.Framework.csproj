@@ -108,10 +108,7 @@
     </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral" />
-    <Reference Include="SgmlReaderDll">
-      <Name>SgmlReaderDll</Name>
-      <HintPath>ExternalDependencies\SgmlReaderDll.dll</HintPath>
-    </Reference>
+    <Reference Include="SgmlReaderDll, Version=1.7.2383.20436, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
