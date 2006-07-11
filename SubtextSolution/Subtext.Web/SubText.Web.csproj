@@ -349,8 +349,6 @@
       <DependentUpon>MainFeed.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Modules\BlogServiceModule.cs" />
-    <Compile Include="Modules\CookieDomainModule.cs" />
     <Compile Include="NamespaceDocumentation.cs" />
     <Compile Include="OPML.aspx.cs">
       <DependentUpon>OPML.aspx</DependentUpon>
