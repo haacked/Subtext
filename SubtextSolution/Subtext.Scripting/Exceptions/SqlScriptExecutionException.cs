@@ -101,7 +101,7 @@ namespace Subtext.Scripting.Exceptions
 		/// <summary>
 		/// Gets the script.
 		/// </summary>
-		public Script ScriptName
+		public Script Script
 		{
 			get { return _script; }
 		}
@@ -124,7 +124,7 @@ namespace Subtext.Scripting.Exceptions
 			get
 			{
 				string message = base.Message;
-				if (ScriptName != null)
+				if (this.Script != null)
 					message += Environment.NewLine + "ScriptName: " + _script.ToString();
 				message+= "Return Value: " + ReturnValue;
 				return message;

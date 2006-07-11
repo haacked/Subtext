@@ -93,6 +93,9 @@ namespace Subtext.Scripting
 		/// </summary>
 		public int Execute(SqlTransaction transaction)
 		{
+            if (transaction == null)
+                throw new ArgumentNullException("transaction", "Transaction was null.");
+
 			int returnValue = 0;
 			try
 			{

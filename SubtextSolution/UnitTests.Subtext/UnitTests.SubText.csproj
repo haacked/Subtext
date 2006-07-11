@@ -324,6 +324,7 @@
     <Compile Include="Scripting\ConnectionStringParseTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Scripting\ExceptionTests.cs" />
     <Compile Include="Scripting\TemplateParameterParseTests.cs">
       <SubType>Code</SubType>
     </Compile>
