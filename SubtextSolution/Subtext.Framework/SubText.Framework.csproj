@@ -101,18 +101,12 @@
       <HintPath>ExternalDependencies\BlogML.dll</HintPath>
     </Reference>
     <Reference Include="blowery.Web.HttpCompress, Version=6.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
-    <Reference Include="CookComputing.XmlRpc">
-      <Name>CookComputing.XmlRpc</Name>
-      <HintPath>ExternalDependencies\CookComputing.XmlRpc.dll</HintPath>
-    </Reference>
+    <Reference Include="CookComputing.XmlRpc, Version=0.9.2.1, Culture=neutral, PublicKeyToken=a7d6e17aa302004d" />
     <Reference Include="DotNetOpenMail">
       <Name>DotNetOpenMail</Name>
       <HintPath>ExternalDependencies\DotNetOpenMail.dll</HintPath>
     </Reference>
-    <Reference Include="log4net">
-      <Name>log4net</Name>
-      <HintPath>ExternalDependencies\log4net.dll</HintPath>
-    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral" />
     <Reference Include="SgmlReaderDll">
       <Name>SgmlReaderDll</Name>
@@ -528,6 +522,7 @@
     <Content Include="ExternalDependencies\DotNetOpenMail.dll" />
     <Content Include="ExternalDependencies\ICSharpCode.SharpZipLib.dll" />
     <Content Include="ExternalDependencies\log4net.dll" />
+    <Content Include="ExternalDependencies\log4net.xml" />
     <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.dll" />
     <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.xml" />
     <Content Include="ExternalDependencies\SgmlReaderDll.dll" />
