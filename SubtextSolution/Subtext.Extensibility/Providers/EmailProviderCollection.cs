@@ -13,16 +13,29 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-
 using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Subtext.Extensibility.Providers
 {
-	/// <summary>
-	/// Summary description for RichTextEditorProviderConfiguration.
-	/// </summary>
-	public class RichTextEditorProviderConfiguration: ProviderConfiguration
-	{
+    public class EmailProviderCollection : System.Configuration.Provider.ProviderCollection
+    {
+        public new EmailProvider this[string name]
+        {
+            get { return (EmailProvider)base[name]; }
+        }
 
-	}
+        public override void Add(System.Configuration.Provider.ProviderBase provider)
+        {
+            if (provider == null)
+                throw new ArgumentNullException("provider");
+
+            if (!(provider is EmailProvider))
+                throw new ArgumentException
+                    ("Invalid provider type", "provider");
+
+            base.Add(provider);
+        }
+    }
 }
