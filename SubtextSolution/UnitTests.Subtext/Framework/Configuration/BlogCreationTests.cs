@@ -343,7 +343,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		public void SetUpTestFixture()
 		{
 			//Confirm app settings
-            Assert.AreEqual("~/Admin/Resources/PageTemplate.ascx", System.Configuration.ConfigurationManager.AppSettings["Admin.DefaultTemplate"]);
+            UnitTestHelper.AssertAppSettings();
 		}
 		
 		[SetUp]
