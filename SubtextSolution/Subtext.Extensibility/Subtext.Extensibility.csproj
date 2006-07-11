@@ -170,10 +170,10 @@
     <Compile Include="Providers\EmailProviderBase.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Providers\EmailProviderCollection.cs" />
     <Compile Include="Providers\EmailProviderSectionHandler.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Providers\GenericProviderCollection.cs" />
     <Compile Include="Providers\ImportProvider.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -210,7 +210,6 @@
     <Compile Include="Providers\RichTextEditorProvider.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Providers\RichTextEditorProviderCollection.cs" />
     <Compile Include="Providers\RichTextEditorProviderSectionHandler.cs">
       <SubType>Code</SubType>
     </Compile>

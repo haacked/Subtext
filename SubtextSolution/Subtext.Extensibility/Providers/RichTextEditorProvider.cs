@@ -29,7 +29,7 @@ namespace Subtext.Extensibility.Providers
 	{
 
         private static RichTextEditorProvider _provider = null;
-        private static RichTextEditorProviderCollection _providers = null;
+        private static GenericProviderCollection<RichTextEditorProvider> _providers = null;
         private static object _lock = new object();
 
         public static RichTextEditorProvider Instance()
@@ -55,7 +55,7 @@ namespace Subtext.Extensibility.Providers
 
                         // Load registered providers and point _provider
                         // to the default provider
-                        _providers = new RichTextEditorProviderCollection();
+                        _providers = new GenericProviderCollection<RichTextEditorProvider>();
                         ProvidersHelper.InstantiateProviders
                             (section.Providers, _providers,
                             typeof(RichTextEditorProvider));

@@ -26,7 +26,7 @@ namespace Subtext.Extensibility.Providers
 	{
 
         private static EmailProvider _provider = null;
-        private static EmailProviderCollection _providers = null;
+        private static GenericProviderCollection<EmailProvider> _providers = null;
         private static object _lock = new object();
 
 
@@ -53,7 +53,7 @@ namespace Subtext.Extensibility.Providers
 
                         // Load registered providers and point _provider
                         // to the default provider
-                        _providers = new EmailProviderCollection();
+                        _providers = new GenericProviderCollection<EmailProvider>();
                         ProvidersHelper.InstantiateProviders
                             (section.Providers, _providers,
                             typeof(EmailProvider));
