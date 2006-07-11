@@ -565,6 +565,14 @@ namespace UnitTests.Subtext
 		{
 			AssertAreNotEqual(first, compare, "");
 		}
+	    
+	    /// <summary>
+	    /// Makes sure we can read app settings
+	    /// </summary>
+	    public static void AssertAppSettings()
+	    {
+            Assert.AreEqual("UnitTestValue", System.Configuration.ConfigurationManager.AppSettings["UnitTestKey"], "Cannot read app settings");
+	    }
 
 		/// <summary>
 		/// Asserts that the two values are not equal.
