@@ -513,6 +513,7 @@
     <Compile Include="Web\HttpHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Web\HttpModules\AuthenticationModule.cs" />
     <Compile Include="Web\HttpModules\BlogRequest.cs">
       <SubType>Code</SubType>
     </Compile>

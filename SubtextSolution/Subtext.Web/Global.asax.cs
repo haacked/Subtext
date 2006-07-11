@@ -16,10 +16,8 @@
 using System;
 using System.Data.SqlClient;
 using System.Globalization;
-using System.Security.Principal;
 using System.Text.RegularExpressions;
 using System.Web;
-using System.Web.Security;
 using log4net;
 using log4net.Appender;
 using log4net.Repository.Hierarchy;
@@ -163,48 +161,6 @@ namespace Subtext
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		protected void Application_AuthenticateRequest(Object sender, EventArgs e)
 		{
-			string cookieName = FormsAuthentication.FormsCookieName;
-			HttpCookie authCookie = Context.Request.Cookies[cookieName];
-
-			if(null == authCookie)
-			{
-				// There is no authentication cookie.
-				return;
-			}
-			
-			FormsAuthenticationTicket authTicket;
-			try
-			{
-				authTicket = FormsAuthentication.Decrypt(authCookie.Value);
-			}
-			catch(Exception ex)
-			{
-				log.Error("Could not decrypt the authentication cookie.", ex);
-				return;
-			}
-
-			if (null == authTicket)
-			{
-				log.Warn("Could not decrypt the authentication cookie. No exception was thrown.");
-				return; 
-			}
-
-            if (authTicket.Expired)
-            {
-                log.Debug("Authentication ticket expired.");
-                return;
-            }
-			
-			// When the ticket was created, the UserData property was assigned a
-			// pipe delimited string of role names.
-			string[] roles = authTicket.UserData.Split(new char[]{'|'});
-			// Create an Identity object
-			FormsIdentity id = new FormsIdentity( authTicket ); 
-
-			// This principal will flow throughout the request.
-			GenericPrincipal principal = new GenericPrincipal(id, roles);
-			// Attach the new principal object to the current HttpContext object
-			Context.User = principal;
 		}
 
 		protected void Application_Error(Object sender, EventArgs e)

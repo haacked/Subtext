@@ -146,8 +146,8 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
-                if (_connectionString == null && System.Configuration.ConfigurationManager.AppSettings["ConnectionString"] != null)
-                    _connectionString = System.Configuration.ConfigurationManager.AppSettings["ConnectionString"];
+                if (_connectionString == null && ConfigurationManager.ConnectionStrings["subtextData"] != null)
+                    _connectionString = ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString;
 
 				return _connectionString;
 			}
