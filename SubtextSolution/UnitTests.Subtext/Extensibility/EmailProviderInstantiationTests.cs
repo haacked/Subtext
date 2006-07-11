@@ -30,19 +30,22 @@ namespace UnitTests.Subtext.Extensibility
 			Assert.AreEqual("haacked", provider.UserName, "Did not initialize the username properly.");
 		}
 		
-		[Test]
-		[ExpectedException(typeof(ArgumentNullException))]
-		public void GetSettingValueThrowsArgumentNullExceptionForNullSettingKey(EmailProvider provider)
-		{
-			provider.GetSettingValue(null, new NameValueCollection());
-		}
+        //
+        //Removed since this method doesn't exists any more (simo)
+        //
+        //[Test]
+        //[ExpectedException(typeof(ArgumentNullException))]
+        //public void GetSettingValueThrowsArgumentNullExceptionForNullSettingKey(EmailProvider provider)
+        //{
+        //    provider.GetSettingValue(null, new NameValueCollection());
+        //}
 		
-		[Test]
-		[ExpectedException(typeof(ArgumentNullException))]
-		public void GetSettingValueThrowsArgumentNullExceptionForNullConfigValues(EmailProvider provider)
-		{
-			provider.GetSettingValue("Section", null);
-		}
+        //[Test]
+        //[ExpectedException(typeof(ArgumentNullException))]
+        //public void GetSettingValueThrowsArgumentNullExceptionForNullConfigValues(EmailProvider provider)
+        //{
+        //    provider.GetSettingValue("Section", null);
+        //}
 	}
 	
 	internal class EmailProviderFactory

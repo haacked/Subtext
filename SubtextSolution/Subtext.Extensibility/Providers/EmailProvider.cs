@@ -14,22 +14,59 @@
 #endregion
 
 using System;
+using System.Configuration.Provider;
+using System.Web.Configuration;
 
 namespace Subtext.Extensibility.Providers
 {
 	/// <summary>
 	/// Provides a class used to handle email.
 	/// </summary>
-	public abstract class EmailProvider : ProviderBase
+    public abstract class EmailProvider : System.Configuration.Provider.ProviderBase
 	{
-		/// <summary>
-		/// Returns the configured concrete instance of a <see cref="EmailProvider"/>.
-		/// </summary>
-		/// <returns></returns>
-		public static EmailProvider Instance()
-		{
-			return (EmailProvider)ProviderBase.Instance("Email");
-		}
+
+        private static EmailProvider _provider = null;
+        private static EmailProviderCollection _providers = null;
+        private static object _lock = new object();
+
+
+        public static EmailProvider Instance()
+        {
+            LoadProviders();
+            return _provider;
+        }
+
+        private static void LoadProviders()
+        {
+            // Avoid claiming lock if providers are already loaded
+            if (_provider == null)
+            {
+                lock (_lock)
+                {
+                    // Do this again to make sure _provider is still null
+                    if (_provider == null)
+                    {
+                        // Get a reference to the <EmailProvider> section
+                        EmailProviderSectionHandler section = (EmailProviderSectionHandler)
+                            WebConfigurationManager.GetSection
+                            ("EmailProvider");
+
+                        // Load registered providers and point _provider
+                        // to the default provider
+                        _providers = new EmailProviderCollection();
+                        ProvidersHelper.InstantiateProviders
+                            (section.Providers, _providers,
+                            typeof(EmailProvider));
+                        _provider = _providers[section.DefaultProvider];
+
+                        if (_provider == null)
+                            throw new ProviderException
+                                ("Unable to load default EmailProvider");
+                    }
+                }
+            }
+        }
+
 
 		#region EmailProvider Methods
 		/// <summary>
