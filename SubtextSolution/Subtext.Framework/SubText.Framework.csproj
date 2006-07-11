@@ -100,10 +100,7 @@
       <Name>BlogML</Name>
       <HintPath>ExternalDependencies\BlogML.dll</HintPath>
     </Reference>
-    <Reference Include="blowery.Web.HttpCompress">
-      <Name>blowery.Web.HttpCompress</Name>
-      <HintPath>ExternalDependencies\blowery.Web.HttpCompress.dll</HintPath>
-    </Reference>
+    <Reference Include="blowery.Web.HttpCompress, Version=6.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="CookComputing.XmlRpc">
       <Name>CookComputing.XmlRpc</Name>
       <HintPath>ExternalDependencies\CookComputing.XmlRpc.dll</HintPath>
@@ -111,10 +108,6 @@
     <Reference Include="DotNetOpenMail">
       <Name>DotNetOpenMail</Name>
       <HintPath>ExternalDependencies\DotNetOpenMail.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <Name>ICSharpCode.SharpZipLib</Name>
-      <HintPath>ExternalDependencies\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <Name>log4net</Name>
