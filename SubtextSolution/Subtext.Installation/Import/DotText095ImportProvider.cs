@@ -21,6 +21,7 @@ using System.IO;
 using System.Text;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Microsoft.ApplicationBlocks.Data;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Configuration;
 using Subtext.Scripting;

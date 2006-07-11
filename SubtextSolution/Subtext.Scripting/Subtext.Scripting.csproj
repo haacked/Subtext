@@ -97,6 +97,7 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral" />
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -137,9 +138,6 @@
     <Compile Include="ScriptCollection.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SqlHelper.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="SqlScriptRunner.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -149,6 +147,10 @@
     <Compile Include="TemplateParameterCollection.cs">
       <SubType>Code</SubType>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.dll" />
+    <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -1,13 +1,10 @@
 using System;
 using System.Data;
-using System.Data.SqlClient;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Common.Data;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 
 namespace Subtext.Web.UI.Controls
@@ -25,11 +22,7 @@ namespace Subtext.Web.UI.Controls
 		
 		public PreviousNext()
 		{
-			//
-			// TODO: Add constructor logic here
-			//
 		}
-
 
 		protected override void OnLoad(EventArgs e)
 		{
@@ -44,23 +37,8 @@ namespace Subtext.Web.UI.Controls
 				//Sent entry properties
 				MainLink.NavigateUrl = CurrentBlog.HomeVirtualUrl;
 
-				string ConnectionString = DbProvider.Instance().ConnectionString;
-				SqlParameter[] p =
-					{
-						SqlHelper.MakeInParam("@ID",SqlDbType.Int,4,entry.Id),
-						SqlHelper.MakeInParam("@BlogID",SqlDbType.Int,4,Config.CurrentBlog.Id)
-					};
+			    DataSet ds = DbProvider.Instance().GetPreviousNext(entry.Id);
 
-				//System.Data.SqlClient.SqlDataReader sdr = SqlHelper.ExecuteReader(ConnectionString,CommandType.StoredProcedure,"blog_GetEntry_PreviousNext",p);
-				DataSet ds;
-				using (SqlConnection cn = new SqlConnection(ConnectionString))
-				{
-					cn.Open();
-
-					//call the overload that takes a connection in place of the connection string
-					ds = SqlHelper.ExecuteDataset(cn, CommandType.StoredProcedure,"Subtext_GetEntry_PreviousNext",p);
-					cn.Close();
-				}
 				switch(ds.Tables[0].Rows.Count)
 				{
 					case 0:

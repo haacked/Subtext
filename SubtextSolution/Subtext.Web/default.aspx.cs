@@ -16,12 +16,10 @@
 using System;
 using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 using System.Globalization;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 
 namespace Subtext.Web
@@ -85,19 +83,8 @@ namespace Subtext.Web
 				catch{}
 
 			}
-			string sql = "DNW_HomePageData";
 
-			string conn = DbProvider.Instance().ConnectionString;
-
-			//TODO: This needs to be part of the object model.
-
-			SqlParameter[] p = 
-				{
-					SqlHelper.MakeInParam("@Host", SqlDbType.NVarChar, 100, ConfigurationManager.AppSettings["AggregateHost"]),
-					SqlHelper.MakeInParam("@GroupID", SqlDbType.Int, 4, GroupID)
-				};
-
-					DataSet ds = SqlHelper.ExecuteDataset(conn,CommandType.StoredProcedure,sql,p);
+            DataSet ds = DbProvider.Instance().GetAggregateHomePageData(GroupID);
 
 			Bloggers.DataSource = ds.Tables[0];
 			RecentPosts.DataSource = ds.Tables[1];

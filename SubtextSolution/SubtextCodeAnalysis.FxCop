@@ -5451,7 +5451,7 @@
              <Message Id="obj" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2006-05-10 07:31:04Z" FixCategory="Breaking">
               <Issue>
                <Item>obj</Item>
-               <Item>SqlHelper.CheckNull(DBNull):String</Item>
+               <Item>DataHelper.CheckNull(DBNull):String</Item>
               </Issue>
              </Message>
             </Messages>
@@ -5487,7 +5487,7 @@
              <Message TypeName="SetLocaleForDataTypes" Category="Microsoft.Globalization" CheckId="CA1306" Created="2006-05-10 07:31:04Z">
               <Issue>
                <Item>DataTable</Item>
-               <Item>SqlHelper.ExecuteDataTable(SqlConnection, CommandType, String, SqlParameter[]):DataTable</Item>
+               <Item>DataHelper.ExecuteDataTable(SqlConnection, CommandType, String, SqlParameter[]):DataTable</Item>
               </Issue>
              </Message>
             </Messages>
@@ -5497,13 +5497,13 @@
              <Message TypeName="SetLocaleForDataTypes" Category="Microsoft.Globalization" CheckId="CA1306" Created="2006-05-10 07:31:04Z">
               <Issue>
                <Item>DataTable</Item>
-               <Item>SqlHelper.ExecuteDataTable(SqlTransaction, CommandType, String, SqlParameter[]):DataTable</Item>
+               <Item>DataHelper.ExecuteDataTable(SqlTransaction, CommandType, String, SqlParameter[]):DataTable</Item>
               </Issue>
              </Message>
              <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-05-10 07:31:04Z">
               <Issue>
                <Item>'transaction'</Item>
-               <Item>SqlHelper.ExecuteDataTable(SqlTransaction, CommandType, String, SqlParameter[]):DataTable</Item>
+               <Item>DataHelper.ExecuteDataTable(SqlTransaction, CommandType, String, SqlParameter[]):DataTable</Item>
               </Issue>
              </Message>
             </Messages>

@@ -20,8 +20,8 @@ using System.Data.SqlClient;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Web.UI;
+using Microsoft.ApplicationBlocks.Data;
 using Subtext.Extensibility.Providers;
-using Subtext.Scripting;
 using Subtext.Web.Controls;
 
 namespace Subtext.Installation

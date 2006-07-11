@@ -120,6 +120,7 @@
       <Name>log4net</Name>
       <HintPath>ExternalDependencies\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral" />
     <Reference Include="SgmlReaderDll">
       <Name>SgmlReaderDll</Name>
       <HintPath>ExternalDependencies\SgmlReaderDll.dll</HintPath>
@@ -265,9 +266,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\SqlErrorMessage.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Data\SqlHelper.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DateTimeHelper.cs">
@@ -536,6 +534,8 @@
     <Content Include="ExternalDependencies\DotNetOpenMail.dll" />
     <Content Include="ExternalDependencies\ICSharpCode.SharpZipLib.dll" />
     <Content Include="ExternalDependencies\log4net.dll" />
+    <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.dll" />
+    <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.xml" />
     <Content Include="ExternalDependencies\SgmlReaderDll.dll" />
     <Content Include="ExternalDependencies\Velocit.RegularExpressions.dll" />
     <Content Include="license.txt" />

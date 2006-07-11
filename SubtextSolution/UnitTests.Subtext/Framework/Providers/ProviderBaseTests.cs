@@ -70,12 +70,12 @@ namespace UnitTests.Subtext.Framework.Providers
 		public void GetSettingNameReturnsPointerSetting()
 		{
 			NameValueCollection collection = new NameValueCollection();
-			collection.Add("someSetting", "${ConnectionString}");
+            collection.Add("someSetting", "${UnitTestKey}");
 			collection.Add("anotherSetting", "ConnectionString");
 
 			UnitTestStubProvider provider = new UnitTestStubProvider();
 			string settingValue = provider.GetSettingValue("someSetting", collection);
-			Assert.AreEqual("Server=localhost;Database=SubtextData;Trusted_Connection=True", settingValue);
+			Assert.AreEqual("UnitTestValue", settingValue);
 
 			settingValue = provider.GetSettingValue("anotherSetting", collection);
 			Assert.AreEqual("ConnectionString", settingValue);

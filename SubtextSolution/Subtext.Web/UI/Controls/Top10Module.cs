@@ -37,10 +37,10 @@ namespace Subtext.Web.UI.Controls
 
 			SqlParameter[] p =
 				{
-					SqlHelper.MakeInParam("@BlogID", SqlDbType.Int, 4, BlogId)
+					DataHelper.MakeInParam("@BlogID", SqlDbType.Int, 4, BlogId)
 				};
 
-			DataTable dt = SqlHelper.ExecuteDataTable(conn, CommandType.StoredProcedure, sql, p);
+			DataTable dt = DataHelper.ExecuteDataTable(conn, CommandType.StoredProcedure, sql, p);
 
 			int count = dt.Rows.Count;
 
