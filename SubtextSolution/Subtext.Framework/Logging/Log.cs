@@ -873,7 +873,167 @@ namespace Subtext.Framework.Logging
 					return null;
 				}
 			}
-		}
+
+            #region ILog Members
+
+
+            public void DebugFormat(string format, object arg0, object arg1, object arg2)
+            {
+            }
+
+            public void DebugFormat(string format, object arg0, object arg1)
+            {
+            }
+
+            public void DebugFormat(string format, object arg0)
+            {
+            }
+
+            public void ErrorFormat(string format, object arg0, object arg1, object arg2)
+            {
+            }
+
+            public void ErrorFormat(string format, object arg0, object arg1)
+            {
+            }
+
+            public void ErrorFormat(string format, object arg0)
+            {
+            }
+
+            public void FatalFormat(string format, object arg0, object arg1, object arg2)
+            {
+            }
+
+            public void FatalFormat(string format, object arg0, object arg1)
+            {
+            }
+
+            public void FatalFormat(string format, object arg0)
+            {
+            }
+
+            public void InfoFormat(string format, object arg0, object arg1, object arg2)
+            {
+            }
+
+            public void InfoFormat(string format, object arg0, object arg1)
+            {
+            }
+
+            public void InfoFormat(string format, object arg0)
+            {
+            }
+
+            public void WarnFormat(string format, object arg0, object arg1, object arg2)
+            {
+            }
+
+            public void WarnFormat(string format, object arg0, object arg1)
+            {
+            }
+
+            public void WarnFormat(string format, object arg0)
+            {
+            }
+
+            #endregion
+        }
 		#endregion
-	}
+
+        #region ILog Members
+
+
+        public void DebugFormat(string format, object arg0, object arg1, object arg2)
+        {
+            SetUrlContext();
+            _log.DebugFormat(format, arg0, arg1, arg2);
+        }
+
+        public void DebugFormat(string format, object arg0, object arg1)
+        {
+            SetUrlContext();
+            _log.DebugFormat(format, arg0, arg1);
+        }
+
+        public void DebugFormat(string format, object arg0)
+        {
+            SetUrlContext();
+            _log.DebugFormat(format, arg0);
+        }
+
+        public void ErrorFormat(string format, object arg0, object arg1, object arg2)
+        {
+            SetUrlContext();
+            _log.ErrorFormat(format, arg0, arg1, arg2);
+        }
+
+        public void ErrorFormat(string format, object arg0, object arg1)
+        {
+            SetUrlContext();
+            _log.ErrorFormat(format, arg0, arg1); 
+        }
+
+        public void ErrorFormat(string format, object arg0)
+        {
+            SetUrlContext();
+            _log.ErrorFormat(format, arg0);
+        }
+
+        public void FatalFormat(string format, object arg0, object arg1, object arg2)
+        {
+            SetUrlContext();
+            _log.FatalFormat(format, arg0, arg1, arg2);
+        }
+
+        public void FatalFormat(string format, object arg0, object arg1)
+        {
+            SetUrlContext();
+            _log.FatalFormat(format, arg0, arg1);
+        }
+
+        public void FatalFormat(string format, object arg0)
+        {
+            SetUrlContext();
+            _log.FatalFormat(format, arg0);
+        }
+
+        public void InfoFormat(string format, object arg0, object arg1, object arg2)
+        {
+            SetUrlContext();
+            _log.InfoFormat(format, arg0, arg1, arg2);
+        }
+
+        public void InfoFormat(string format, object arg0, object arg1)
+        {
+            SetUrlContext();
+            _log.InfoFormat(format, arg0, arg1);
+        }
+
+        public void InfoFormat(string format, object arg0)
+        {
+            SetUrlContext();
+            _log.InfoFormat(format, arg0);
+        }
+
+        public void WarnFormat(string format, object arg0, object arg1, object arg2)
+        {
+            SetUrlContext();
+            _log.WarnFormat(format, arg0, arg1, arg2);
+        }
+
+        public void WarnFormat(string format, object arg0, object arg1)
+        {
+            SetUrlContext();
+            _log.WarnFormat(format, arg0, arg1);
+        }
+
+        public void WarnFormat(string format, object arg0)
+        {
+            SetUrlContext();
+            _log.WarnFormat(format, arg0);
+        }
+
+        #endregion
+    }
 }

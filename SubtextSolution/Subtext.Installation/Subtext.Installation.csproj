@@ -96,10 +96,7 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net">
-      <Name>log4net</Name>
-      <HintPath>..\Subtext.Framework\ExternalDependencies\log4net.dll</HintPath>
-    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral" />
     <Reference Include="System">
       <Name>System</Name>
@@ -159,6 +156,8 @@
     <EmbeddedResource Include="Scripts\Installation.01.00.00.sql" />
     <EmbeddedResource Include="Scripts\Installation.01.05.00.sql" />
     <EmbeddedResource Include="Scripts\StoredProcedures.sql" />
+    <Content Include="ExternalDependencies\log4net.dll" />
+    <Content Include="ExternalDependencies\log4net.xml" />
     <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.dll" />
     <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.xml" />
     <Content Include="Scripts\Installation.01.09.00.sql" />
