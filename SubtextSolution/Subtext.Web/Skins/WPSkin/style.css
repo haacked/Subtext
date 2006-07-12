@@ -247,3 +247,18 @@ a.printIcon span
 	background: url('images/printer.gif') no-repeat top left;
 	padding-left: 17px;
 }
+
+#news
+{
+	width: 200px;
+}
+
+.debug
+{
+	width: 200px;
+}
+
+.debug p
+{
+	font-size: x-small;
+}
