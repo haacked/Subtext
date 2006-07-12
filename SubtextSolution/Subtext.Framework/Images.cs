@@ -14,8 +14,8 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
@@ -134,57 +134,50 @@ namespace Subtext.Framework
 		/// <param name="image">Original image to process.</param>
 		public static void MakeAlbumImages(Subtext.Framework.Components.Image image)
 		{
-			System.Drawing.Image potentiallyIndexedFmtBmp, originalImage; 
-
-			// need to load the original image to manipulate. But GIFs can cause issues.
-			potentiallyIndexedFmtBmp = System.Drawing.Image.FromFile(image.OriginalFilePath); 
-			using (potentiallyIndexedFmtBmp)
-			{
-				// need it in a bitmap format. Any help here on a better way? Just want to convert it.
-				originalImage = new Bitmap(potentiallyIndexedFmtBmp, potentiallyIndexedFmtBmp.Width, potentiallyIndexedFmtBmp.Height);
-			}
+            // need to load the original image to manipulate. But GIFs can cause issues.
+            
 
 			// dispose the original graphic (be kind; clean up)
-			using (originalImage)
+			using (Bitmap originalImage = (Bitmap)Bitmap.FromFile(image.OriginalFilePath))
 			{
 				/// TODO: make both sizes configurations. 
 				// calculate the new sizes we want (properly scaled) 
 				Size displaySize = ResizeImage(originalImage.Width, originalImage.Height, 640,480);
 				Size thumbSize = ResizeImage(originalImage.Width, originalImage.Height, 120, 120);
 
-				// re-size to the display and thumb size.
-				System.Drawing.Image displayImage = new Bitmap(displaySize.Width, displaySize.Height, originalImage.PixelFormat);
-				System.Drawing.Image thumbImage = new Bitmap(thumbSize.Width, thumbSize.Height, originalImage.PixelFormat); 
+                // Tell the object what its new display size will be
+                image.Height = displaySize.Height;
+                image.Width = displaySize.Width;
 
-				// Tell the object what its new display size will be
-				image.Height = displayImage.Height;
-				image.Width = displayImage.Width;
+                // Create a mid-size display image by drawing the original image into a smaller area.
+                using (System.Drawing.Image displayImage = new Bitmap(displaySize.Width, displaySize.Height, originalImage.PixelFormat))
+                {
+                    using (Graphics displayGraphic = Graphics.FromImage(displayImage))
+                    {
+                        displayGraphic.CompositingQuality = CompositingQuality.HighQuality;
+                        displayGraphic.SmoothingMode = SmoothingMode.HighQuality;
+                        displayGraphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                        Rectangle displayRectangle = new Rectangle(0, 0, displaySize.Width, displaySize.Height);
+                        displayGraphic.DrawImage(originalImage, displayRectangle);
+                        // Save our file
+                        displayImage.Save(image.ResizedFilePath, ImageFormat.Jpeg);
+                    }
+                }
 
-				// Create a mid-size display image. 
-				Graphics displayGraphic = Graphics.FromImage(displayImage);
-				using (displayImage)
-				{
-					displayGraphic.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality ;
-					displayGraphic.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality ;
-					displayGraphic.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic ;
-					Rectangle displayRectangle = new Rectangle(0, 0, displaySize.Width, displaySize.Height);
-					displayGraphic.DrawImage(originalImage, displayRectangle);
-					// Save our file
-					displayImage.Save(image.ResizedFilePath, ImageFormat.Jpeg);
-				}
-
-				// Create a small thumbnail by drawing the original image into a smaller area.
-				Graphics thumbGraphic = Graphics.FromImage(thumbImage);
-				using (thumbImage)
-				{
-					thumbGraphic.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality ;
-					thumbGraphic.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality ;
-					thumbGraphic.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic ;
-					Rectangle thumbRectangle = new Rectangle(0, 0, thumbSize.Width, thumbSize.Height);
-					thumbGraphic.DrawImage(originalImage, thumbRectangle);
-					// Save our file
-					thumbImage.Save(image.ThumbNailFilePath, ImageFormat.Jpeg);
-				}
+				// Create a small thumbnail
+                using (System.Drawing.Image thumbImage = new Bitmap(thumbSize.Width, thumbSize.Height, originalImage.PixelFormat))
+                {
+                    using (Graphics thumbGraphic = Graphics.FromImage(thumbImage))
+                    {
+                        thumbGraphic.CompositingQuality = CompositingQuality.HighQuality;
+                        thumbGraphic.SmoothingMode = SmoothingMode.HighQuality;
+                        thumbGraphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                        Rectangle thumbRectangle = new Rectangle(0, 0, thumbSize.Width, thumbSize.Height);
+                        thumbGraphic.DrawImage(originalImage, thumbRectangle);
+                        // Save our file
+                        thumbImage.Save(image.ThumbNailFilePath, ImageFormat.Jpeg);
+                    }
+                }
 			}
 		}
 
