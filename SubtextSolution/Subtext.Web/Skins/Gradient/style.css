@@ -6,7 +6,7 @@ To make good use of this skin, make sure to use the following CSS Classes in you
 span.pullout - Creates a green box on the side for setting aside an important detail.
 blockquote.withline" - blockquote with a left green border.
 */
-
+	
 body
 {
 	font-size: medium;
