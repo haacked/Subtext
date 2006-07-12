@@ -147,8 +147,7 @@ namespace Subtext
 					catch
 					{}
 
-					context.Response.Write(string.Format(message,"<center>",lb,v,machineName,framework,userInfo,lb,"</center>"));
-
+					context.Response.Write(string.Format(message, @"<!-- ", lb, v, machineName, framework, userInfo, lb, "//-->"));
 				}
 			#endif
 			#endregion

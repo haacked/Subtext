@@ -1,314 +1,313 @@
 /*
-Title:		Haacked.com Stylesheet for screen
-Author:		Phil Haack
-Updated:	Jan 02, 2005
+
+To make good use of this skin, make sure to use the following CSS Classes in your blog post content.
+
+.dropcap - First letter of your post. Makes a nice bookish effect.
+span.pullout - Creates a green box on the side for setting aside an important detail.
+blockquote.withline" - blockquote with a left green border.
 */
 
 body
 {
-	margin: 0;
-	padding: 0;
-	font-family: Verdana, Sans-Serif;
-	font-size: small;
-	background: #fff;
+	font-size: medium;
 }
 
-a:link 
+/* css document */
+/* links */
+a:link	
 {
-	color: #40659B;
-	text-decoration: none;
-	border-bottom: 1px dotted #bbb;
+	color:#888888;
+	text-decoration:none;
 }
 
-a:visited 
+a:hover	
 {
-	color: #8EA4C2;
-	text-decoration: none;
-	border-bottom: 1px dotted #bbb;
+	color: #E11284;
+	text-decoration:none;
 }
 
-a:hover 
+a:active	
 {
-	color: #036;
-	border-bottom-style: solid;
+	color:#888888;
+	text-decoration:none;
 }
 
-/* Common Elements */
-h1
+a:visited	
 {
-	font-size: 200%;
+	color:#888888;
+	text-decoration:none;
 }
-
-h2
-{
-	font-size: 175%;
-}
-
-h3
-{
-	font-size: 150%;
-}
-
-h4
-{
-	font-size: 125%;
-}
-
-/* Layout */
-#main
-{
-	padding: 0;
-	margin: 0 auto;
-	background: #fff;
-	position: relative;
-	width: 100%;
-}
-
-#top
-{
-	margin: 0;
-	padding: 0;
-	height: 8px;
-	background: #ffffff url(/Subtext.Web/Skins/Gradient/images/TOP_bluebar.gif) repeat-x top;
-}
-
-#header
-{
-	float: left;
-	margin:0;
-	padding:0;
-	width: 100%;
-	background: #ffffff url(/Subtext.Web/Skins/Gradient/images/headerbackground.gif) repeat-x bottom left;
-}
-
-#mainbody
-{
-	width: 800px;
-	margin: 0 auto 0 auto;
-	padding: 0;
-}
-
+	
+/* content */	
 #content
 {
-	float: left;
-	width: 540px;
+	text-align: left;
+	width: 700px;
+	margin: 0 auto
 }
 
-#sidebar
+#navigation
 {
-	margin: 10px 0 0 0;
-	padding: 0;
-	float: right;
-	width: 249px;
-}
-
-#footer
-{
-	clear: both;
-	text-align: center;
-}
-
-/* Header Content Styling */
-
-#logo
-{
-	display: block;
-	height: 20px;
-	width: 800px;
-	margin: 0 auto 0 auto;
-}
-
-#logo h1
-{
-	width: 800px;
-	height: 20px;
-	margin: 0 auto 0 auto;
-	display: inline;
 	position: relative;
-	top: 10px;
+	left: 175px;
+	top:120px
 }
 
-a.blogTitle
+#flash
 {
-	color: #556f9a;
-	text-decoration: none;
+	position: relative;
+	left: 0px;
+	top: 115px
+}
+
+/* left and right conent */
+.container2 
+{
+	position: relative;
+	height: 50px;
+}
+
+.left-element 
+{
+	position: absolute;
+	left: 0;
+	width: 30%;
+	margin: 4;
+	white-space: wrap;
+	padding: 4;
+}
+
+.right-element 
+{
+	position: absolute;
+	right: 0;
+	width: 65%;
+	text-align: left; /* depends on element width */
+	margin: 4;
+	white-space: wrap;
+	padding: 0px;   
+}
+
+body 
+{
+	background-image:url(images/bg.gif);
+	background-repeat:repeat-x;
+}
+  
+div.float 
+{
+	float: left;
+}
+  
+h1 
+{ 
+	color: green;
+	font-weight: bold; 
+	font-size: 1.2em;
+	line-height: 1.2em;
+	font-family: arial; 
+	font-variant: normal;
+	font-style: normal;
+}
+
+h1 a.blogTitle
+{
+	font-size: 1.7em;
+	margin-top: 75px;
+	margin-bottom: 20px;
+	float: left;
+}
+
+/* styling post */
+.thinborder
+{
+	float:left;
+	border:solid 1px #9ACD32;
+	padding:5px;
+	margin-right:5px;
+}
+
+.dropcap 
+{
+	float: left;
+	font: 4em georgia, helvetica, verdana, arial, sans-serif;
+	color: #9ACD32;
+	border:solid 1px #AADD42;
+	padding:5px;
+	margin-right:5px;
+}
+
+.pullout
+{
+	width:30%;
+	padding:10px;
+	background-color: #9ACD32;
+	color:#f5f5f5;
+	float:right;
+	font: bold 1em arial, helvetica, sans-serif;
+	text-align:left;
+	letter-spacing: 0.05em;
+	margin:5px;
+	clear: both;
+}
+
+/* blockquote styling */
+blockquote.withline   
+{
+	font-family: "arial", courier, monospace;
+	text-align: justify; padding:5px;
+	border-left:1px solid #9ACD32;
+}
+  
+/* rounded corners */
+/* set millions of background images */
+.rbroundbox { background: url(images/nt.gif) repeat; }
+.rbtop div { background: url(images/tl.gif) no-repeat top left; }
+.rbtop { background: url(images/tr.gif) no-repeat top right; }
+.rbbot div { background: url(images/bl.gif) no-repeat bottom left; }
+.rbbot { background: url(images/br.gif) no-repeat bottom right; }
+
+/* height and width stuff, width not really nessisary. */
+.rbtop div, .rbtop, .rbbot div, .rbbot 
+{
+	width: 100%;
+	height: 7px;
+	font-size: 1px;
+}
+.rbcontent { margin: 0 7px; }
+.rbroundbox { width: 100%; margin: 1em auto; }
+
+/* navigation listamatic*/
+#navcontainer
+{
+	width: 12em;
+	padding: 0 0 1em 0;
+	margin-bottom: 1em;
+	font-family: Verdana, Lucida, Geneva, Helvetica, Arial, sans-serif;
+	color: #333;
+}
+
+ul.navlist
+{
+	list-style: none;
+	margin: 0;
+	padding: 0;
 	border: none;
 }
 
-/* Top Navigation Styling */
-#navbar
+ul.navlist li
 {
-	width: 800px;
-	margin: 0 auto 0 auto;
+	border-bottom: 1px solid #000000;
+	margin: 0;
 }
 
-#nav
+ul.navlist li a
 {
-	margin: 0 auto 0 auto;
-	padding: 10px 5px 0 46px;
-	list-style: none;
-	float: right;
+	display: block;
+	padding: 5px 5px 5px 0.5em;
+	background-color: #ffffff;
+	color: #888888;
+	text-decoration: none;
+	width: 100%;
 }
 
-#nav li
+html>body ul.navlist li a { width: auto; }
+
+ul.navlist li a:hover
 {
-	float: left;
+	background-color: #E11284;
+	color: #fff;
+}
+
+#sidebar h3, #sidebar ul.navlist li
+{
+	font-family: Verdana, Lucida, Geneva, Helvetica, Arial, sans-serif;
+	color: #888888;
+	font-size: .8em;
+}
+
+#sidebar h3
+{
+	color: #555;
 	margin: 0;
 	padding: 0;
-	font-family: "Lucida Grande", Sans-Serif;
-	font-size: 125%;
-	font-weight: bold;
 }
 
-#nav a
+#sidebar ul.navlist, #sidebar ul.navlist li
 {
-	float: left;
-	display: block;
-	margin: 0 2px 0 0;
-	padding: 4px 8px;
-	color: #333;
-	text-decoration: none;
-	border: 1px solid #cce5f1;
-	border-bottom: 2px solid #cce5f1;
-	background: #5396b7 url(/Subtext.Web/Skins/Gradient/images/TabGradient.gif) repeat-x top left;
-}
-
-#nav a:hover
-{
-	background: #ffffff url(/Subtext.Web/Skins/Gradient/images/SelectedTabGradient.gif) repeat-x top left;
-	padding-bottom: 6px;
-	border-bottom: none;
-}
-
-#blogstats
-{
-	display: none;
-	clear: both;
-}
-
-/* Post Styles */
-.blogpost
-{
-	border-bottom: 1px dotted #E0E8B9;
-	padding: 0 0 8px 5px;
-	margin: 0 10px 0px 10px;
-	clear: both;
-}
-
-.daylink
-{
-	display: none;
-}
-
-h2.postTitle
-{
+	margin: 0;
 	padding: 0;
-	margin: 5px 0 10px 0;
+}
+
+#sidebar ul.navlist li
+{
+	border: none;
+}
+
+#sidebar ul.navlist li a
+{
+	background-color: #fcfecc;
+}
+
+#sidebar ul.navlist li a:hover
+{
+	background-color: #ffd;
+	color: #E11284;
+}
+
+#star
+{
+	background: url(images/flash.gif);
+	width: 93px;
+	height: 93px;
+	display: block;
+	float: left;
+}
+
+#newsBox
+{
+	clear: both;
+}
+
+/* Zoom Cloud */
+
+#comments h2, #commentform h3
+{
+	color: #333;
+	font: bold 1em arial, helvetica, sans-serif;
 }
 
 h2.postTitle a
 {
-	font-size: 150%;
-	font-family: helvetica, arial, sans-serif;
-	line-height: 30px;
-	letter-spacing: -1px;
-	color: #36A;
-	text-decoration: none;
-	border: none;
+	/*color: #E11284;*/
+	color: #676;
+	font: bold 1.3em arial, helvetica, sans-serif;
 }
 
-ul.postInfo
+h2.postTitle a:visited
 {
-	float: left;
-	margin: 0;
-	padding: 0;
-	padding: 10px 0 20px 0;
-	list-style: none;
+	color: #787;
 }
 
-ul.postInfo li
+h2.postTitle a:hover
 {
-	display: inline;
-	padding: 0;
-	margin: 0;
+	color: #E11284;
 }
 
-ul.postInfo li:before 
+span.postTitleDate
 {
-	color: #999;
-	content: "| "; 
+	color: #aaa;
+	font: bold 1em arial, helvetica, sans-serif;
 }
 
-ul.postInfo li:first-child:before 
+p.postfooter
 {
-	content: ""; 
+	color: #888;
 }
 
-/* Sidebar link boxes */
-#sidebar h3
+p.postfooter a:hover
 {
-	color: #EB8600;
-	font-size: 100%;
-	padding: 15px 18px 0 18px;
-	font-family: "Trebuchet MS", sans-serif;
-}
-
-#sidebar div
-{
-	margin-bottom: 10px;
-}
-
-div.box
-{
-	width: 241px;
-	margin: 0 0 14px 0;
-	border: solid 1px #e2e9bd;
-}
-
-.innerBox
-{
-
-}
-
-.box p, .box ul, .box ol, .box dl, .box form 
-{
-	margin: 0;
-	padding: 1em 18px 18px 18px;
-	font-size: 85%;
-	line-height: 1.4em;
-}
-
-div.box h3
-{
-	margin: 0;
-	display: block;
-	width: 241px;
-}
-
-ul.sidebarlist
-{
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-
-.box ul li 
-{
-	margin: 0 0 2px 10px;
-	padding-left: 15px;
-	list-style: none;
-}
-
-.box dl dt 
-{
-	margin: 0 0 2px 0;
-	font-weight: bold;
-}
-
-.box dl dd 
-{
-	margin: 0;
-	padding: 0;
+	color: #e11284;
 }
 
 a.printIcon
