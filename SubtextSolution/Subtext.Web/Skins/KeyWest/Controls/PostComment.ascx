@@ -24,7 +24,7 @@
 		</tr>
 		<tr>
 			<td align="right" valign="bottom">
-				<div class="label"><LABEL for="PostComment.ascx_tbComment">Comment:</LABEL>
+				<div class="label"><label for="PostComment_ascx_tbComment">Comment:</LABEL>
 				</div>
 			</td>
 			<td>
