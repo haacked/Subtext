@@ -10,45 +10,45 @@
 			<fail message="CCNetBuildDate property not set, so can't create distribution files" />
 		</if>	
 
-		<ifnot test="${property::exists('CCNetBuildTime')}"> 
+		<if test="${not property::exists('CCNetBuildTime')}"> 
 			<fail message="CCNetBuildTime property not set, so can't create distribution files" />
-		</ifnot>
+		</if>
 		
-		<ifnot test="${property::exists('CCNetArtifactDirectory')}"> 
+		<if test="${not property::exists('CCNetArtifactDirectory')}"> 
 			<fail message="CCNetArtifactDirectory property not set, so can't create distribution files" />
-		</ifnot>
+		</if>
 
-		<ifnot test="${property::exists('CCNetWorkingDirectory')}"> 
+		<if test="${not property::exists('CCNetWorkingDirectory')}"> 
 			<fail message="CCNetWorkingDirectory property not set, so can't create distribution files" />
-		</ifnot>
+		</if>
 
-		<ifnot test="${property::exists('CCNetLabel')}"> 
+		<if test="${not property::exists('CCNetLabel')}"> 
 			<fail message="CCNetLabel property not set, so can't create distribution files" />
-		</ifnot>
+		</if>
 
-		<ifnot test="${property::exists('MbUnit.exe')}"> 
+		<if test="${not property::exists('MbUnit.exe')}"> 
 			<fail message="MbUnit.exe property not set, so cannot test" />
-		</ifnot>
+		</if>
 
-		<ifnot test="${property::exists('NCover.exe')}"> 
+		<if test="${not property::exists('NCover.exe')}"> 
 			<fail message="NCover.exe property not set, so cannot test" />
-		</ifnot>
+		</if>
 		
-		<ifnot test="${property::exists('fxcop.exe')}"> 
+		<if test="${not property::exists('fxcop.exe')}"> 
 			<fail message="fxcop.exe property not set, so cannot test" />
-		</ifnot>
+		</if>
 		
-		<ifnot test="${property::exists('ncoverexplorer.exe')}"> 
+		<if test="${not property::exists('ncoverexplorer.exe')}"> 
 			<fail message="ncoverexplorer.exe property not set, so cannot test" />
-		</ifnot>
+		</if>
 
-		<ifnot test="${property::exists('vil.exe')}"> 
+		<if test="${property::exists('vil.exe')}"> 
 			<fail message="vil.exe property not set, so cannot test" />
-		</ifnot>
+		</if>
 		
-		<ifnot test="${property::exists('msbuild.exe')}"> 
+		<if test="${property::exists('msbuild.exe')}"> 
 			<fail message="msbuild.exe property not set, so cannot test" />
-		</ifnot>
+		</if>
 		
 		<property name="vil.assemblies" value="${CCNetWorkingDirectory}\SubtextSolution\Subtext.Web\bin\Subtext.Common.dll" />
 	
