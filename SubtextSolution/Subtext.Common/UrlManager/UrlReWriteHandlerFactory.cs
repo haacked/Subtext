@@ -14,6 +14,7 @@
 #endregion
 using System;
 using System.Configuration;
+using System.Security.Principal;
 using System.Web;
 using System.Web.Compilation;
 using System.Web.UI;
@@ -56,9 +57,16 @@ namespace Subtext.Common.UrlManager
 		/// </returns>
 		public virtual IHttpHandler GetHandler(HttpContext context, string requestType, string url, string path)
 		{
-            if ((Config.CurrentBlog == null || Config.CurrentBlog.Id == int.MinValue) && ConfigurationManager.AppSettings["AggregateEnabled"] == "true")
+			using (WindowsImpersonationContext tempUserContext = WindowsIdentity.Impersonate(context.Request.LogonUserIdentity.Token))
 			{
-                return BuildManager.CreateInstanceFromVirtualPath("/Default.aspx", typeof(Page)) as IHttpHandler;
+				if ((Config.CurrentBlog == null || Config.CurrentBlog.Id == int.MinValue) && ConfigurationManager.AppSettings["AggregateEnabled"] == "true")
+				{
+					return BuildManager.CreateInstanceFromVirtualPath("/Default.aspx", typeof(Page)) as IHttpHandler;
+				}
+				
+				//Dispose calls this, but we want to make sure 
+				//we keep the reference alive till here.
+				tempUserContext.Undo();
 			}
 			
 			//Get the Handlers to process. By default, we grab them from the blog.config
@@ -76,7 +84,7 @@ namespace Subtext.Common.UrlManager
 						switch(handler.HandlerType)
 						{
 							case HandlerType.Page:
-								return ProcessHandlerTypePage(handler, context, url);
+								return ProcessHandlerTypePage(handler, context);
 						
 							case HandlerType.Direct:
 								HandlerConfiguration.SetControls(context, handler.BlogControls);
@@ -87,7 +95,7 @@ namespace Subtext.Common.UrlManager
 								return ((IHttpHandlerFactory)handler.Instance()).GetHandler(context, requestType, url, path);
 						
 							case HandlerType.Directory:
-								return ProcessHandlerTypeDirectory(handler, context, url);
+								return ProcessHandlerTypeDirectory(context, url);
 
 							default:
 								throw new Exception("Invalid HandlerType: Unknown");
@@ -100,7 +108,7 @@ namespace Subtext.Common.UrlManager
 			return PageHandlerFactory.GetHandler(context, requestType, url, path);
 		}
 
-		private IHttpHandler ProcessHandlerTypePage(HttpHandler item, HttpContext context, string url)
+		private IHttpHandler ProcessHandlerTypePage(HttpHandler item, HttpContext context)
 		{
 			string pagepath = item.PageLocation;
 			if(pagepath == null)
@@ -111,7 +119,7 @@ namespace Subtext.Common.UrlManager
             return BuildManager.CreateInstanceFromVirtualPath("/" + pagepath, typeof(Page)) as IHttpHandler;
         }
 
-		private IHttpHandler ProcessHandlerTypeDirectory(HttpHandler item, HttpContext context, string url)
+		private IHttpHandler ProcessHandlerTypeDirectory(HttpContext context, string url)
 		{
 		    //Need to strip the blog subfolder part of url.
 		    if(Config.CurrentBlog != null && Config.CurrentBlog.Subfolder != null && Config.CurrentBlog.Subfolder.Length > 0)
