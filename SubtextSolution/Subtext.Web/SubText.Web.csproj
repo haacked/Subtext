@@ -357,12 +357,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Providers\RichTextEditor\FTB\ftb.imagegallery.aspx.cs">
+    <Compile Include="Providers\BlogEntryEditor\FTB\ftb.imagegallery.aspx.cs">
       <DependentUpon>ftb.imagegallery.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Providers\RichTextEditor\FTB\FtbRichTextEditorProvider.cs" />
-    <Compile Include="Providers\RichTextEditor\PlainText\PlainTextRichTextEditorProvider.cs" />
+    <Compile Include="Providers\BlogEntryEditor\FTB\FtbRichTextEditorProvider.cs" />
+    <Compile Include="Providers\BlogEntryEditor\PlainText\PlainTextRichTextEditorProvider.cs" />
     <Compile Include="SystemMessages\BlogNotActive.aspx.cs">
       <DependentUpon>BlogNotActive.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -721,14 +721,14 @@
       <DependentUpon>OPML.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Providers\RichTextEditor\FTB\ftb.imagegallery.aspx.resx">
+    <EmbeddedResource Include="Providers\BlogEntryEditor\FTB\ftb.imagegallery.aspx.resx">
       <DependentUpon>ftb.imagegallery.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Providers\RichTextEditor\FTB\resources\ErrorMessages.resx">
+    <EmbeddedResource Include="Providers\BlogEntryEditor\FTB\resources\ErrorMessages.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Providers\RichTextEditor\PlainText\resources\ErrorMessages.resx">
+    <EmbeddedResource Include="Providers\BlogEntryEditor\PlainText\resources\ErrorMessages.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SystemMessages\BlogNotActive.aspx.resx">
@@ -902,7 +902,7 @@
     <Content Include="Install\Step02_ConfigureHost.aspx" />
     <Content Include="Install\Step03_CreateBlog.aspx" />
     <Content Include="Install\Style\InstallationStyle.css" />
-    <Content Include="Providers\RichTextEditor\FTB\ftb.imagegallery.aspx" />
+    <Content Include="Providers\BlogEntryEditor\FTB\ftb.imagegallery.aspx" />
     <Content Include="ReverseDOS.config" />
     <Content Include="Scripts\AmazonTooltips.js" />
     <Content Include="Scripts\BlogInfo.js" />

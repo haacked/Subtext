@@ -45,7 +45,7 @@ using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using FredCK.FCKeditorV2;
 
-namespace Subtext.Providers.RichTextEditor.FCKeditor
+namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 {
 	/// <summary>
 	/// Summary description for FileBrowserConnector.
@@ -416,11 +416,11 @@ namespace Subtext.Providers.RichTextEditor.FCKeditor
 			string extStr="";
 			if(resourceType.Equals("File")) 
 			{
-				extStr=FCKeditorRichTextEditorProvider.FileAllowedExtensions;
+                extStr = FckBlogEntryEditorProvider.FileAllowedExtensions;
 			}
 			else if(resourceType.Equals("Image")) 
 			{
-				extStr=FCKeditorRichTextEditorProvider.ImageAllowedExtensions;
+                extStr = FckBlogEntryEditorProvider.ImageAllowedExtensions;
 			}
 			return extStr;
 		}

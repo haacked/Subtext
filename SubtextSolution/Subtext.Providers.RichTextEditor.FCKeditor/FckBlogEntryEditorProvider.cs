@@ -19,12 +19,12 @@ using Subtext.Extensibility.Providers;
 using System.Web;
 using Subtext.Web.Controls;
 
-namespace Subtext.Providers.RichTextEditor.FCKeditor
+namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 {
 	/// <summary>
 	/// Summary description for FCKeditorRichTextEditorProvider.
 	/// </summary>
-	public class FCKeditorRichTextEditorProvider : RichTextEditorProvider
+    public class FckBlogEntryEditorProvider : BlogEntryEditorProvider
 	{
 
 		FredCK.FCKeditorV2.FCKeditor _fckCtl;

@@ -161,6 +161,7 @@
     <Compile Include="PostType.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Providers\BlogEntryEditorProvider.cs" />
     <Compile Include="Providers\EmailProvider.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -176,9 +177,6 @@
     </Compile>
     <Compile Include="Providers\ProviderConfigurationHelper.cs" />
     <Compile Include="Providers\ProviderSectionHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Providers\RichTextEditorProvider.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

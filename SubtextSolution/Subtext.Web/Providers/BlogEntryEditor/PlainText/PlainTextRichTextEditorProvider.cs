@@ -18,12 +18,12 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility.Providers;
 
-namespace Subtext.Web.Providers.RichTextEditor.PlainText
+namespace Subtext.Web.Providers.BlogEntryEditor.PlainText
 {
 	/// <summary>
 	/// Summary description for PlainTextRichTextEditorProvider.
 	/// </summary>
-	public class PlainTextRichTextEditorProvider : RichTextEditorProvider
+    public class PlainTextBlogEntryEditorProvider : BlogEntryEditorProvider
 	{
 		TextBox _txtCtl;
 		string _controlID=string.Empty;

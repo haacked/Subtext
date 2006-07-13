@@ -20,7 +20,7 @@ using FredCK.FCKeditorV2;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Providers.RichTextEditor.FCKeditor;
+using Subtext.Providers.BlogEntryEditor.FCKeditor;
 
 namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 {
@@ -32,12 +32,12 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 	public class FCKeditorProviderTests
 	{
 		string _hostName = System.Guid.NewGuid().ToString().Replace("-", string.Empty) + ".com";
-		FCKeditorRichTextEditorProvider frtep;
+		FckBlogEntryEditorProvider frtep;
 
 		[SetUp]
 		public void SetUp()
 		{
-			frtep = new FCKeditorRichTextEditorProvider();
+            frtep = new FckBlogEntryEditorProvider();
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog", "Subtext.Web");
 		}
 
@@ -106,7 +106,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		private System.Collections.Specialized.NameValueCollection GetNameValueCollection() 
 		{
 			System.Collections.Specialized.NameValueCollection ret=new System.Collections.Specialized.NameValueCollection(3);
-			ret.Add("WebFormFolder","~/Providers/RichTextEditor/FCKeditor/");
+			ret.Add("WebFormFolder","~/Providers/BlogEntryEditor/FCKeditor/");
 			ret.Add("ToolbarSet","SubText");
 			ret.Add("Skin","office2003");
 			ret.Add("RemoveServerNamefromUrls","false");
