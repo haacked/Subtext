@@ -502,7 +502,6 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="UI\Globals.cs" />
-    <Compile Include="UI\Handlers\BaseBlogPageHandlerFactory.cs" />
     <Compile Include="UI\Handlers\BlogSecondaryCssHandler.cs" />
     <Compile Include="UI\Handlers\RedirectHandler.cs" />
     <Compile Include="UI\Pages\SubTextMasterPage.cs">
