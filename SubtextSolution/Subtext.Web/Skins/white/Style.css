@@ -65,6 +65,13 @@ h2
 	font-size: 1.0em;
 }
 
+h3
+{
+	font-size: .9em;
+	margin: 0;
+	padding: 0;
+}
+
 #title h1 a
 {
 	font-size: 1.6em;
@@ -93,6 +100,29 @@ h2
 .postinfo a
 {
 	font-size: 1em;
+}
+
+.comment
+{
+	width: 400px;
+	margin: 2px 0 7px 0;
+}
+
+.comment a
+{
+	font-size: .9em;
+}
+
+.commentInfo
+{
+	margin-left: 5px;
+	padding: 4px;
+}
+
+div.commentbody
+{
+	background-color: #fafafa;
+	padding: 8px;
 }
 
 /*----------- {links} ------------------*/
@@ -278,6 +308,9 @@ div.content
 {
 	
 }
+
+/* --------------- {comments} ------------------*/
+
 
 /*---------------- {misc - special effects} --------------*/
 
