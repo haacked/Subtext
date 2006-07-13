@@ -8,7 +8,7 @@
 	
 		<if test="${not property::exists('CCNetBuildDate')}"> 
 			<fail message="CCNetBuildDate property not set, so can't create distribution files" />
-		</ifnot>	
+		</if>	
 
 		<ifnot test="${property::exists('CCNetBuildTime')}"> 
 			<fail message="CCNetBuildTime property not set, so can't create distribution files" />
