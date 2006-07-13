@@ -1,0 +1,650 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>Subtext.Providers.BlogEntryEditor.FCKeditor</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Subtext.Providers.BlogEntryEditor.FCKeditor</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FredCK.FCKeditorV2">
+      <Name>FredCK.FCKeditorV2</Name>
+      <HintPath>ExternalDependencies\FredCK.FCKeditorV2.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Web">
+      <Name>System.Web</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <ProjectReference Include="..\Subtext.Extensibility\Subtext.Extensibility.csproj">
+      <Name>Subtext.Extensibility</Name>
+      <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Subtext.Framework\Subtext.Framework.csproj">
+      <Name>Subtext.Framework</Name>
+      <Project>{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\Subtext.Web.Controls\Subtext.Web.Controls.csproj">
+      <Name>Subtext.Web.Controls</Name>
+      <Project>{2278427B-8BAD-4CE9-B15A-FD1131753D64}</Project>
+      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SolutionInfo.cs">
+      <Link>SolutionInfo.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\VersionInfo.Designer.cs">
+      <Link>VersionInfo.Designer.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FckBlogEntryEditorProvider.cs" />
+    <Compile Include="FileBrowserConnector.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="XmlUtil.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Content Include="customConfiguration\subtextconfig.js" />
+    <Content Include="editor\css\behaviors\disablehandles.htc" />
+    <Content Include="editor\css\behaviors\hiddenfield.gif" />
+    <Content Include="editor\css\behaviors\hiddenfield.htc" />
+    <Content Include="editor\css\behaviors\showtableborders.htc" />
+    <Content Include="editor\css\fck_editorarea.css" />
+    <Content Include="editor\css\fck_internal.css" />
+    <Content Include="editor\css\fck_showtableborders_gecko.css" />
+    <Content Include="editor\css\images\fck_anchor.gif" />
+    <Content Include="editor\css\images\fck_flashlogo.gif" />
+    <Content Include="editor\css\images\fck_pagebreak.gif" />
+    <Content Include="editor\dialog\common\fcknumericfield.htc" />
+    <Content Include="editor\dialog\common\fck_dialog_common.css" />
+    <Content Include="editor\dialog\common\fck_dialog_common.js" />
+    <Content Include="editor\dialog\common\images\locked.gif" />
+    <Content Include="editor\dialog\common\images\reset.gif" />
+    <Content Include="editor\dialog\common\images\unlocked.gif" />
+    <Content Include="editor\dialog\common\moz-bindings.xml" />
+    <Content Include="editor\dialog\fck_about.html" />
+    <Content Include="editor\dialog\fck_about\lgpl.html" />
+    <Content Include="editor\dialog\fck_about\logo_fckeditor.gif" />
+    <Content Include="editor\dialog\fck_about\logo_fredck.gif" />
+    <Content Include="editor\dialog\fck_anchor.html" />
+    <Content Include="editor\dialog\fck_button.html" />
+    <Content Include="editor\dialog\fck_checkbox.html" />
+    <Content Include="editor\dialog\fck_colorselector.html" />
+    <Content Include="editor\dialog\fck_docprops.html" />
+    <Content Include="editor\dialog\fck_docprops\fck_document_preview.html" />
+    <Content Include="editor\dialog\fck_find.html" />
+    <Content Include="editor\dialog\fck_flash.html" />
+    <Content Include="editor\dialog\fck_flash\fck_flash.js" />
+    <Content Include="editor\dialog\fck_flash\fck_flash_preview.html" />
+    <Content Include="editor\dialog\fck_form.html" />
+    <Content Include="editor\dialog\fck_hiddenfield.html" />
+    <Content Include="editor\dialog\fck_image.html" />
+    <Content Include="editor\dialog\fck_image\fck_image.js" />
+    <Content Include="editor\dialog\fck_image\fck_image_preview.html" />
+    <Content Include="editor\dialog\fck_link.html" />
+    <Content Include="editor\dialog\fck_link\fck_link.js" />
+    <Content Include="editor\dialog\fck_listprop.html" />
+    <Content Include="editor\dialog\fck_paste.html" />
+    <Content Include="editor\dialog\fck_radiobutton.html" />
+    <Content Include="editor\dialog\fck_replace.html" />
+    <Content Include="editor\dialog\fck_select.html" />
+    <Content Include="editor\dialog\fck_select\fck_select.js" />
+    <Content Include="editor\dialog\fck_smiley.html" />
+    <Content Include="editor\dialog\fck_source.html" />
+    <Content Include="editor\dialog\fck_specialchar.html" />
+    <Content Include="editor\dialog\fck_spellerpages.html" />
+    <Content Include="editor\dialog\fck_spellerpages\spellerpages\blank.html" />
+    <Content Include="editor\dialog\fck_spellerpages\spellerpages\controls.html" />
+    <Content Include="editor\dialog\fck_spellerpages\spellerpages\controlWindow.js" />
+    <Content Include="editor\dialog\fck_spellerpages\spellerpages\spellchecker.html" />
+    <Content Include="editor\dialog\fck_spellerpages\spellerpages\spellChecker.js" />
+    <Content Include="editor\dialog\fck_spellerpages\spellerpages\spellerStyle.css" />
+    <Content Include="editor\dialog\fck_spellerpages\spellerpages\wordWindow.js" />
+    <Content Include="editor\dialog\fck_table.html" />
+    <Content Include="editor\dialog\fck_tablecell.html" />
+    <Content Include="editor\dialog\fck_template.html" />
+    <Content Include="editor\dialog\fck_template\images\template1.gif" />
+    <Content Include="editor\dialog\fck_template\images\template2.gif" />
+    <Content Include="editor\dialog\fck_template\images\template3.gif" />
+    <Content Include="editor\dialog\fck_textarea.html" />
+    <Content Include="editor\dialog\fck_textfield.html" />
+    <Content Include="editor\dialog\fck_universalkey.html" />
+    <Content Include="editor\dialog\fck_universalkey\00.gif" />
+    <Content Include="editor\dialog\fck_universalkey\data.js" />
+    <Content Include="editor\dialog\fck_universalkey\diacritic.js" />
+    <Content Include="editor\dialog\fck_universalkey\dialogue.js" />
+    <Content Include="editor\dialog\fck_universalkey\fck_universalkey.css" />
+    <Content Include="editor\dialog\fck_universalkey\keyboard_layout.gif" />
+    <Content Include="editor\dialog\fck_universalkey\multihexa.js" />
+    <Content Include="editor\fckblank.html" />
+    <Content Include="editor\fckdebug.html" />
+    <Content Include="editor\fckdialog.html" />
+    <Content Include="editor\fckdocument.html" />
+    <Content Include="editor\fckeditor.html" />
+    <Content Include="editor\fckeditor.original.html" />
+    <Content Include="editor\filemanager\browser\default\browser.css" />
+    <Content Include="editor\filemanager\browser\default\browser.html" />
+    <Content Include="editor\filemanager\browser\default\connectors\aspx\connector.aspx" />
+    <Content Include="editor\filemanager\browser\default\frmactualfolder.html" />
+    <Content Include="editor\filemanager\browser\default\frmcreatefolder.html" />
+    <Content Include="editor\filemanager\browser\default\frmfolders.html" />
+    <Content Include="editor\filemanager\browser\default\frmresourceslist.html" />
+    <Content Include="editor\filemanager\browser\default\frmresourcetype.html" />
+    <Content Include="editor\filemanager\browser\default\frmupload.html" />
+    <Content Include="editor\filemanager\browser\default\images\ButtonArrow.gif" />
+    <Content Include="editor\filemanager\browser\default\images\Folder.gif" />
+    <Content Include="editor\filemanager\browser\default\images\Folder32.gif" />
+    <Content Include="editor\filemanager\browser\default\images\FolderOpened.gif" />
+    <Content Include="editor\filemanager\browser\default\images\FolderOpened32.gif" />
+    <Content Include="editor\filemanager\browser\default\images\FolderUp.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\ai.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\avi.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\bmp.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\cs.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\default.icon.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\dll.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\doc.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\exe.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\fla.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\gif.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\htm.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\html.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\jpg.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\js.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\mdb.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\mp3.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\pdf.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\ppt.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\rdp.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\swf.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\swt.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\txt.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\vsd.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\xls.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\xml.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\32\zip.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\ai.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\avi.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\bmp.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\cs.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\default.icon.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\dll.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\doc.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\exe.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\fla.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\gif.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\htm.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\html.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\jpg.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\js.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\mdb.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\mp3.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\pdf.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\ppt.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\rdp.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\swf.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\swt.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\txt.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\vsd.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\xls.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\xml.gif" />
+    <Content Include="editor\filemanager\browser\default\images\icons\zip.gif" />
+    <Content Include="editor\filemanager\browser\default\images\spacer.gif" />
+    <Content Include="editor\filemanager\browser\default\js\common.js" />
+    <Content Include="editor\filemanager\browser\default\js\fckxml.js" />
+    <Content Include="editor\filemanager\upload\aspx\upload.aspx" />
+    <Content Include="editor\images\anchor.gif" />
+    <Content Include="editor\images\smiley\msn\angel_smile.gif" />
+    <Content Include="editor\images\smiley\msn\angry_smile.gif" />
+    <Content Include="editor\images\smiley\msn\broken_heart.gif" />
+    <Content Include="editor\images\smiley\msn\cake.gif" />
+    <Content Include="editor\images\smiley\msn\confused_smile.gif" />
+    <Content Include="editor\images\smiley\msn\cry_smile.gif" />
+    <Content Include="editor\images\smiley\msn\devil_smile.gif" />
+    <Content Include="editor\images\smiley\msn\embaressed_smile.gif" />
+    <Content Include="editor\images\smiley\msn\envelope.gif" />
+    <Content Include="editor\images\smiley\msn\heart.gif" />
+    <Content Include="editor\images\smiley\msn\kiss.gif" />
+    <Content Include="editor\images\smiley\msn\lightbulb.gif" />
+    <Content Include="editor\images\smiley\msn\omg_smile.gif" />
+    <Content Include="editor\images\smiley\msn\regular_smile.gif" />
+    <Content Include="editor\images\smiley\msn\sad_smile.gif" />
+    <Content Include="editor\images\smiley\msn\shades_smile.gif" />
+    <Content Include="editor\images\smiley\msn\teeth_smile.gif" />
+    <Content Include="editor\images\smiley\msn\thumbs_down.gif" />
+    <Content Include="editor\images\smiley\msn\thumbs_up.gif" />
+    <Content Include="editor\images\smiley\msn\tounge_smile.gif" />
+    <Content Include="editor\images\smiley\msn\whatchutalkingabout_smile.gif" />
+    <Content Include="editor\images\smiley\msn\wink_smile.gif" />
+    <Content Include="editor\images\spacer.gif" />
+    <Content Include="editor\js\fckeditorcode_gecko_1.js" />
+    <Content Include="editor\js\fckeditorcode_gecko_2.js" />
+    <Content Include="editor\js\fckeditorcode_ie_1.js" />
+    <Content Include="editor\js\fckeditorcode_ie_2.js" />
+    <Content Include="editor\js\fck_startup.js" />
+    <Content Include="editor\lang\ar.js" />
+    <Content Include="editor\lang\bg.js" />
+    <Content Include="editor\lang\bs.js" />
+    <Content Include="editor\lang\ca.js" />
+    <Content Include="editor\lang\cs.js" />
+    <Content Include="editor\lang\da.js" />
+    <Content Include="editor\lang\de.js" />
+    <Content Include="editor\lang\el.js" />
+    <Content Include="editor\lang\en-au.js" />
+    <Content Include="editor\lang\en-uk.js" />
+    <Content Include="editor\lang\en.js" />
+    <Content Include="editor\lang\eo.js" />
+    <Content Include="editor\lang\es.js" />
+    <Content Include="editor\lang\et.js" />
+    <Content Include="editor\lang\eu.js" />
+    <Content Include="editor\lang\fa.js" />
+    <Content Include="editor\lang\fcklanguagemanager.js" />
+    <Content Include="editor\lang\fi.js" />
+    <Content Include="editor\lang\fo.js" />
+    <Content Include="editor\lang\fr.js" />
+    <Content Include="editor\lang\gl.js" />
+    <Content Include="editor\lang\he.js" />
+    <Content Include="editor\lang\hi.js" />
+    <Content Include="editor\lang\hr.js" />
+    <Content Include="editor\lang\hu.js" />
+    <Content Include="editor\lang\it.js" />
+    <Content Include="editor\lang\ja.js" />
+    <Content Include="editor\lang\ko.js" />
+    <Content Include="editor\lang\lt.js" />
+    <Content Include="editor\lang\lv.js" />
+    <Content Include="editor\lang\mn.js" />
+    <Content Include="editor\lang\ms.js" />
+    <Content Include="editor\lang\nl.js" />
+    <Content Include="editor\lang\no.js" />
+    <Content Include="editor\lang\pl.js" />
+    <Content Include="editor\lang\pt-br.js" />
+    <Content Include="editor\lang\pt.js" />
+    <Content Include="editor\lang\ro.js" />
+    <Content Include="editor\lang\ru.js" />
+    <Content Include="editor\lang\sk.js" />
+    <Content Include="editor\lang\sl.js" />
+    <Content Include="editor\lang\sr-latn.js" />
+    <Content Include="editor\lang\sr.js" />
+    <Content Include="editor\lang\sv.js" />
+    <Content Include="editor\lang\th.js" />
+    <Content Include="editor\lang\tr.js" />
+    <Content Include="editor\lang\uk.js" />
+    <Content Include="editor\lang\vi.js" />
+    <Content Include="editor\lang\zh-cn.js" />
+    <Content Include="editor\lang\zh.js" />
+    <Content Include="editor\plugins\placeholder\fckplugin.js" />
+    <Content Include="editor\plugins\placeholder\fck_placeholder.html" />
+    <Content Include="editor\plugins\placeholder\lang\de.js" />
+    <Content Include="editor\plugins\placeholder\lang\en.js" />
+    <Content Include="editor\plugins\placeholder\lang\fr.js" />
+    <Content Include="editor\plugins\placeholder\lang\it.js" />
+    <Content Include="editor\plugins\placeholder\lang\pl.js" />
+    <Content Include="editor\plugins\placeholder\placeholder.gif" />
+    <Content Include="editor\plugins\simplecommands\fckplugin.js" />
+    <Content Include="editor\plugins\tablecommands\fckplugin.js" />
+    <Content Include="editor\skins\default\fck_contextmenu.css" />
+    <Content Include="editor\skins\default\fck_dialog.css" />
+    <Content Include="editor\skins\default\fck_editor.css" />
+    <Content Include="editor\skins\default\images\toolbar.arrowright.gif" />
+    <Content Include="editor\skins\default\images\toolbar.buttonarrow.gif" />
+    <Content Include="editor\skins\default\images\toolbar.collapse.gif" />
+    <Content Include="editor\skins\default\images\toolbar.end.gif" />
+    <Content Include="editor\skins\default\images\toolbar.expand.gif" />
+    <Content Include="editor\skins\default\images\toolbar.separator.gif" />
+    <Content Include="editor\skins\default\images\toolbar.start.gif" />
+    <Content Include="editor\skins\default\toolbar\about.gif" />
+    <Content Include="editor\skins\default\toolbar\anchor.gif" />
+    <Content Include="editor\skins\default\toolbar\bgcolor.gif" />
+    <Content Include="editor\skins\default\toolbar\bold.gif" />
+    <Content Include="editor\skins\default\toolbar\bulletedlist.gif" />
+    <Content Include="editor\skins\default\toolbar\button.gif" />
+    <Content Include="editor\skins\default\toolbar\checkbox.gif" />
+    <Content Include="editor\skins\default\toolbar\copy.gif" />
+    <Content Include="editor\skins\default\toolbar\cut.gif" />
+    <Content Include="editor\skins\default\toolbar\docprops.gif" />
+    <Content Include="editor\skins\default\toolbar\find.gif" />
+    <Content Include="editor\skins\default\toolbar\flash.gif" />
+    <Content Include="editor\skins\default\toolbar\form.gif" />
+    <Content Include="editor\skins\default\toolbar\hiddenfield.gif" />
+    <Content Include="editor\skins\default\toolbar\image.gif" />
+    <Content Include="editor\skins\default\toolbar\imagebutton.gif" />
+    <Content Include="editor\skins\default\toolbar\indent.gif" />
+    <Content Include="editor\skins\default\toolbar\inserthorizontalrule.gif" />
+    <Content Include="editor\skins\default\toolbar\insertorderedlist.gif" />
+    <Content Include="editor\skins\default\toolbar\insertunorderedlist.gif" />
+    <Content Include="editor\skins\default\toolbar\italic.gif" />
+    <Content Include="editor\skins\default\toolbar\justifycenter.gif" />
+    <Content Include="editor\skins\default\toolbar\justifyfull.gif" />
+    <Content Include="editor\skins\default\toolbar\justifyleft.gif" />
+    <Content Include="editor\skins\default\toolbar\justifyright.gif" />
+    <Content Include="editor\skins\default\toolbar\link.gif" />
+    <Content Include="editor\skins\default\toolbar\newpage.gif" />
+    <Content Include="editor\skins\default\toolbar\numberedlist.gif" />
+    <Content Include="editor\skins\default\toolbar\outdent.gif" />
+    <Content Include="editor\skins\default\toolbar\pagebreak.gif" />
+    <Content Include="editor\skins\default\toolbar\paste.gif" />
+    <Content Include="editor\skins\default\toolbar\pastetext.gif" />
+    <Content Include="editor\skins\default\toolbar\pasteword.gif" />
+    <Content Include="editor\skins\default\toolbar\preview.gif" />
+    <Content Include="editor\skins\default\toolbar\print.gif" />
+    <Content Include="editor\skins\default\toolbar\radio.gif" />
+    <Content Include="editor\skins\default\toolbar\redo.gif" />
+    <Content Include="editor\skins\default\toolbar\removeformat.gif" />
+    <Content Include="editor\skins\default\toolbar\replace.gif" />
+    <Content Include="editor\skins\default\toolbar\save.gif" />
+    <Content Include="editor\skins\default\toolbar\select.gif" />
+    <Content Include="editor\skins\default\toolbar\selectall.gif" />
+    <Content Include="editor\skins\default\toolbar\showdetails.gif" />
+    <Content Include="editor\skins\default\toolbar\showtableborders.gif" />
+    <Content Include="editor\skins\default\toolbar\smiley.gif" />
+    <Content Include="editor\skins\default\toolbar\source.gif" />
+    <Content Include="editor\skins\default\toolbar\specialchar.gif" />
+    <Content Include="editor\skins\default\toolbar\spellcheck.gif" />
+    <Content Include="editor\skins\default\toolbar\strikethrough.gif" />
+    <Content Include="editor\skins\default\toolbar\subscript.gif" />
+    <Content Include="editor\skins\default\toolbar\superscript.gif" />
+    <Content Include="editor\skins\default\toolbar\table.gif" />
+    <Content Include="editor\skins\default\toolbar\tablecell.gif" />
+    <Content Include="editor\skins\default\toolbar\tabledeletecells.gif" />
+    <Content Include="editor\skins\default\toolbar\tabledeletecolumns.gif" />
+    <Content Include="editor\skins\default\toolbar\tabledeleterows.gif" />
+    <Content Include="editor\skins\default\toolbar\tableinsertcell.gif" />
+    <Content Include="editor\skins\default\toolbar\tableinsertcolumn.gif" />
+    <Content Include="editor\skins\default\toolbar\tableinsertrow.gif" />
+    <Content Include="editor\skins\default\toolbar\tablemergecells.gif" />
+    <Content Include="editor\skins\default\toolbar\tablesplitcell.gif" />
+    <Content Include="editor\skins\default\toolbar\templates.gif" />
+    <Content Include="editor\skins\default\toolbar\textarea.gif" />
+    <Content Include="editor\skins\default\toolbar\textcolor.gif" />
+    <Content Include="editor\skins\default\toolbar\textfield.gif" />
+    <Content Include="editor\skins\default\toolbar\underline.gif" />
+    <Content Include="editor\skins\default\toolbar\undo.gif" />
+    <Content Include="editor\skins\default\toolbar\universalkey.gif" />
+    <Content Include="editor\skins\default\toolbar\unlink.gif" />
+    <Content Include="editor\skins\default\toolbar\unorderedlist.gif" />
+    <Content Include="editor\skins\office2003\fck_contextmenu.css" />
+    <Content Include="editor\skins\office2003\fck_dialog.css" />
+    <Content Include="editor\skins\office2003\fck_editor.css" />
+    <Content Include="editor\skins\office2003\images\office.start.gif" />
+    <Content Include="editor\skins\office2003\images\toolbar.arrowright.gif" />
+    <Content Include="editor\skins\office2003\images\toolbar.bg.gif" />
+    <Content Include="editor\skins\office2003\images\toolbar.buttonarrow.gif" />
+    <Content Include="editor\skins\office2003\images\toolbar.collapse.gif" />
+    <Content Include="editor\skins\office2003\images\toolbar.end.gif" />
+    <Content Include="editor\skins\office2003\images\toolbar.expand.gif" />
+    <Content Include="editor\skins\office2003\images\toolbar.separator.gif" />
+    <Content Include="editor\skins\office2003\images\toolbar.start.gif" />
+    <Content Include="editor\skins\office2003\toolbar\about.gif" />
+    <Content Include="editor\skins\office2003\toolbar\anchor.gif" />
+    <Content Include="editor\skins\office2003\toolbar\bgcolor.gif" />
+    <Content Include="editor\skins\office2003\toolbar\bold.gif" />
+    <Content Include="editor\skins\office2003\toolbar\bulletedlist.gif" />
+    <Content Include="editor\skins\office2003\toolbar\button.gif" />
+    <Content Include="editor\skins\office2003\toolbar\checkbox.gif" />
+    <Content Include="editor\skins\office2003\toolbar\copy.gif" />
+    <Content Include="editor\skins\office2003\toolbar\cut.gif" />
+    <Content Include="editor\skins\office2003\toolbar\docprops.gif" />
+    <Content Include="editor\skins\office2003\toolbar\find.gif" />
+    <Content Include="editor\skins\office2003\toolbar\flash.gif" />
+    <Content Include="editor\skins\office2003\toolbar\fontstyleadv.gif" />
+    <Content Include="editor\skins\office2003\toolbar\form.gif" />
+    <Content Include="editor\skins\office2003\toolbar\hidden.gif" />
+    <Content Include="editor\skins\office2003\toolbar\hiddenfield.gif" />
+    <Content Include="editor\skins\office2003\toolbar\image.gif" />
+    <Content Include="editor\skins\office2003\toolbar\imagebutton.gif" />
+    <Content Include="editor\skins\office2003\toolbar\indent.gif" />
+    <Content Include="editor\skins\office2003\toolbar\input.gif" />
+    <Content Include="editor\skins\office2003\toolbar\inserthorizontalrule.gif" />
+    <Content Include="editor\skins\office2003\toolbar\insertorderedlist.gif" />
+    <Content Include="editor\skins\office2003\toolbar\insertunorderedlist.gif" />
+    <Content Include="editor\skins\office2003\toolbar\italic.gif" />
+    <Content Include="editor\skins\office2003\toolbar\justifycenter.gif" />
+    <Content Include="editor\skins\office2003\toolbar\justifyfull.gif" />
+    <Content Include="editor\skins\office2003\toolbar\justifyleft.gif" />
+    <Content Include="editor\skins\office2003\toolbar\justifyright.gif" />
+    <Content Include="editor\skins\office2003\toolbar\link.gif" />
+    <Content Include="editor\skins\office2003\toolbar\mail.gif" />
+    <Content Include="editor\skins\office2003\toolbar\new.gif" />
+    <Content Include="editor\skins\office2003\toolbar\newpage.gif" />
+    <Content Include="editor\skins\office2003\toolbar\numberedlist.gif" />
+    <Content Include="editor\skins\office2003\toolbar\open.gif" />
+    <Content Include="editor\skins\office2003\toolbar\outdent.gif" />
+    <Content Include="editor\skins\office2003\toolbar\pagebreak.gif" />
+    <Content Include="editor\skins\office2003\toolbar\paste.gif" />
+    <Content Include="editor\skins\office2003\toolbar\pastetext.gif" />
+    <Content Include="editor\skins\office2003\toolbar\pasteword.gif" />
+    <Content Include="editor\skins\office2003\toolbar\preview.gif" />
+    <Content Include="editor\skins\office2003\toolbar\print.gif" />
+    <Content Include="editor\skins\office2003\toolbar\radio.gif" />
+    <Content Include="editor\skins\office2003\toolbar\redo.gif" />
+    <Content Include="editor\skins\office2003\toolbar\removeformat.gif" />
+    <Content Include="editor\skins\office2003\toolbar\replace.gif" />
+    <Content Include="editor\skins\office2003\toolbar\save.gif" />
+    <Content Include="editor\skins\office2003\toolbar\select.gif" />
+    <Content Include="editor\skins\office2003\toolbar\selectall.gif" />
+    <Content Include="editor\skins\office2003\toolbar\showdetails.gif" />
+    <Content Include="editor\skins\office2003\toolbar\showtableborders.gif" />
+    <Content Include="editor\skins\office2003\toolbar\smiley.gif" />
+    <Content Include="editor\skins\office2003\toolbar\source.gif" />
+    <Content Include="editor\skins\office2003\toolbar\specialchar.gif" />
+    <Content Include="editor\skins\office2003\toolbar\spellcheck.gif" />
+    <Content Include="editor\skins\office2003\toolbar\strikethrough.gif" />
+    <Content Include="editor\skins\office2003\toolbar\subscript.gif" />
+    <Content Include="editor\skins\office2003\toolbar\superscript.gif" />
+    <Content Include="editor\skins\office2003\toolbar\table.gif" />
+    <Content Include="editor\skins\office2003\toolbar\tablecell.gif" />
+    <Content Include="editor\skins\office2003\toolbar\tabledeletecells.gif" />
+    <Content Include="editor\skins\office2003\toolbar\tabledeletecolumns.gif" />
+    <Content Include="editor\skins\office2003\toolbar\tabledeleterows.gif" />
+    <Content Include="editor\skins\office2003\toolbar\tableinsertcell.gif" />
+    <Content Include="editor\skins\office2003\toolbar\tableinsertcolumn.gif" />
+    <Content Include="editor\skins\office2003\toolbar\tableinsertrow.gif" />
+    <Content Include="editor\skins\office2003\toolbar\tablemergecells.gif" />
+    <Content Include="editor\skins\office2003\toolbar\tablesplitcell.gif" />
+    <Content Include="editor\skins\office2003\toolbar\templates.gif" />
+    <Content Include="editor\skins\office2003\toolbar\textarea.gif" />
+    <Content Include="editor\skins\office2003\toolbar\textcolor.gif" />
+    <Content Include="editor\skins\office2003\toolbar\textfield.gif" />
+    <Content Include="editor\skins\office2003\toolbar\underline.gif" />
+    <Content Include="editor\skins\office2003\toolbar\undo.gif" />
+    <Content Include="editor\skins\office2003\toolbar\universalkey.gif" />
+    <Content Include="editor\skins\office2003\toolbar\unlink.gif" />
+    <Content Include="editor\skins\office2003\toolbar\unorderedlist.gif" />
+    <Content Include="editor\skins\silver\fck_contextmenu.css" />
+    <Content Include="editor\skins\silver\fck_dialog.css" />
+    <Content Include="editor\skins\silver\fck_editor.css" />
+    <Content Include="editor\skins\silver\images\toolbar.arrowright.gif" />
+    <Content Include="editor\skins\silver\images\toolbar.buttonarrow.gif" />
+    <Content Include="editor\skins\silver\images\toolbar.buttonbg.gif" />
+    <Content Include="editor\skins\silver\images\toolbar.collapse.gif" />
+    <Content Include="editor\skins\silver\images\toolbar.end.gif" />
+    <Content Include="editor\skins\silver\images\toolbar.expand.gif" />
+    <Content Include="editor\skins\silver\images\toolbar.separator.gif" />
+    <Content Include="editor\skins\silver\images\toolbar.start.gif" />
+    <Content Include="editor\skins\silver\toolbar\about.gif" />
+    <Content Include="editor\skins\silver\toolbar\anchor.gif" />
+    <Content Include="editor\skins\silver\toolbar\bgcolor.gif" />
+    <Content Include="editor\skins\silver\toolbar\bold.gif" />
+    <Content Include="editor\skins\silver\toolbar\bulletedlist.gif" />
+    <Content Include="editor\skins\silver\toolbar\button.gif" />
+    <Content Include="editor\skins\silver\toolbar\checkbox.gif" />
+    <Content Include="editor\skins\silver\toolbar\copy.gif" />
+    <Content Include="editor\skins\silver\toolbar\cut.gif" />
+    <Content Include="editor\skins\silver\toolbar\docprops.gif" />
+    <Content Include="editor\skins\silver\toolbar\find.gif" />
+    <Content Include="editor\skins\silver\toolbar\flash.gif" />
+    <Content Include="editor\skins\silver\toolbar\form.gif" />
+    <Content Include="editor\skins\silver\toolbar\hiddenfield.gif" />
+    <Content Include="editor\skins\silver\toolbar\image.gif" />
+    <Content Include="editor\skins\silver\toolbar\imagebutton.gif" />
+    <Content Include="editor\skins\silver\toolbar\indent.gif" />
+    <Content Include="editor\skins\silver\toolbar\inserthorizontalrule.gif" />
+    <Content Include="editor\skins\silver\toolbar\insertorderedlist.gif" />
+    <Content Include="editor\skins\silver\toolbar\insertunorderedlist.gif" />
+    <Content Include="editor\skins\silver\toolbar\italic.gif" />
+    <Content Include="editor\skins\silver\toolbar\justifycenter.gif" />
+    <Content Include="editor\skins\silver\toolbar\justifyfull.gif" />
+    <Content Include="editor\skins\silver\toolbar\justifyleft.gif" />
+    <Content Include="editor\skins\silver\toolbar\justifyright.gif" />
+    <Content Include="editor\skins\silver\toolbar\link.gif" />
+    <Content Include="editor\skins\silver\toolbar\newpage.gif" />
+    <Content Include="editor\skins\silver\toolbar\numberedlist.gif" />
+    <Content Include="editor\skins\silver\toolbar\outdent.gif" />
+    <Content Include="editor\skins\silver\toolbar\pagebreak.gif" />
+    <Content Include="editor\skins\silver\toolbar\paste.gif" />
+    <Content Include="editor\skins\silver\toolbar\pastetext.gif" />
+    <Content Include="editor\skins\silver\toolbar\pasteword.gif" />
+    <Content Include="editor\skins\silver\toolbar\preview.gif" />
+    <Content Include="editor\skins\silver\toolbar\print.gif" />
+    <Content Include="editor\skins\silver\toolbar\radio.gif" />
+    <Content Include="editor\skins\silver\toolbar\redo.gif" />
+    <Content Include="editor\skins\silver\toolbar\removeformat.gif" />
+    <Content Include="editor\skins\silver\toolbar\replace.gif" />
+    <Content Include="editor\skins\silver\toolbar\save.gif" />
+    <Content Include="editor\skins\silver\toolbar\select.gif" />
+    <Content Include="editor\skins\silver\toolbar\selectall.gif" />
+    <Content Include="editor\skins\silver\toolbar\showdetails.gif" />
+    <Content Include="editor\skins\silver\toolbar\showtableborders.gif" />
+    <Content Include="editor\skins\silver\toolbar\smiley.gif" />
+    <Content Include="editor\skins\silver\toolbar\source.gif" />
+    <Content Include="editor\skins\silver\toolbar\specialchar.gif" />
+    <Content Include="editor\skins\silver\toolbar\spellcheck.gif" />
+    <Content Include="editor\skins\silver\toolbar\strikethrough.gif" />
+    <Content Include="editor\skins\silver\toolbar\subscript.gif" />
+    <Content Include="editor\skins\silver\toolbar\superscript.gif" />
+    <Content Include="editor\skins\silver\toolbar\table.gif" />
+    <Content Include="editor\skins\silver\toolbar\tablecell.gif" />
+    <Content Include="editor\skins\silver\toolbar\tabledeletecells.gif" />
+    <Content Include="editor\skins\silver\toolbar\tabledeletecolumns.gif" />
+    <Content Include="editor\skins\silver\toolbar\tabledeleterows.gif" />
+    <Content Include="editor\skins\silver\toolbar\tableinsertcell.gif" />
+    <Content Include="editor\skins\silver\toolbar\tableinsertcolumn.gif" />
+    <Content Include="editor\skins\silver\toolbar\tableinsertrow.gif" />
+    <Content Include="editor\skins\silver\toolbar\tablemergecells.gif" />
+    <Content Include="editor\skins\silver\toolbar\tablesplitcell.gif" />
+    <Content Include="editor\skins\silver\toolbar\templates.gif" />
+    <Content Include="editor\skins\silver\toolbar\textarea.gif" />
+    <Content Include="editor\skins\silver\toolbar\textcolor.gif" />
+    <Content Include="editor\skins\silver\toolbar\textfield.gif" />
+    <Content Include="editor\skins\silver\toolbar\underline.gif" />
+    <Content Include="editor\skins\silver\toolbar\undo.gif" />
+    <Content Include="editor\skins\silver\toolbar\universalkey.gif" />
+    <Content Include="editor\skins\silver\toolbar\unlink.gif" />
+    <Content Include="editor\skins\silver\toolbar\unorderedlist.gif" />
+    <Content Include="ExternalDependencies\FredCK.FCKeditorV2.dll" />
+    <Content Include="fckconfig.js" />
+    <Content Include="fckeditor.js" />
+    <Content Include="fckstyles.xml" />
+    <Content Include="fcktemplates.xml" />
+    <Content Include="license.txt" />
+    <None Include="editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.cfm" />
+    <None Include="editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.php" />
+    <None Include="editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.pl" />
+    <EmbeddedResource Include="resources\ErrorMessages.resx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>rmdir "$(ProjectDir)..\Subtext.Web\Providers\BlogEntryEditor\FCKeditor" /S /Q
+
+copy "$(TargetDir)FredCK.FCKeditorV2.dll" "$(ProjectDir)..\Subtext.Web\bin"
+copy "$(TargetDir)Subtext.Providers.RichTextEditor.FCKeditor.*" "$(ProjectDir)..\Subtext.Web\bin"
+
+mkdir "$(ProjectDir)..\Subtext.Web\Providers\BlogEntryEditor\FCKeditor"
+mkdir "$(ProjectDir)..\Subtext.Web\Providers\BlogEntryEditor\FCKeditor\editor"
+mkdir "$(ProjectDir)..\Subtext.Web\Providers\BlogEntryEditor\FCKeditor\customConfiguration"
+
+copy  "$(ProjectDir)*.js" "$(ProjectDir)..\Subtext.Web\Providers\BlogEntryEditor\FCKeditor\"
+copy  "$(ProjectDir)*.xml" "$(ProjectDir)..\Subtext.Web\Providers\BlogEntryEditor\FCKeditor\"
+copy  "$(ProjectDir)customConfiguration\*.*" "$(ProjectDir)..\Subtext.Web\Providers\BlogEntryEditor\FCKeditor\customConfiguration"
+
+xcopy  "$(ProjectDir)editor\*.*" "$(ProjectDir)..\Subtext.Web\Providers\BlogEntryEditor\FCKeditor\editor" /S /Y</PostBuildEvent>
+  </PropertyGroup>
+</Project>
