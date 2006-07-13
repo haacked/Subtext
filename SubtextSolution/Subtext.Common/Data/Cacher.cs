@@ -22,6 +22,7 @@ using System.Web.Caching;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
 
@@ -44,7 +45,7 @@ namespace Subtext.Common.Data
 		/// <returns></returns>
         public static ICollection<LinkCategory> GetActiveCategories(CacheDuration cacheDuration)
 		{
-			string key = string.Format(ActiveLCCKey, BlogId());
+			string key = string.Format(ActiveLCCKey, Config.CurrentBlog.Id);
 
 			ContentCache cache = ContentCache.Instantiate();
 
@@ -73,7 +74,7 @@ namespace Subtext.Common.Data
 		/// <returns></returns>
 		public static IList<Entry> GetMonth(DateTime dt, CacheDuration cacheDuration)
 		{
-			string key = string.Format(CultureInfo.InvariantCulture, EntryMonthKey, dt, BlogId());
+			string key = string.Format(CultureInfo.InvariantCulture, EntryMonthKey, dt, Config.CurrentBlog.Id);
 			ContentCache cache = ContentCache.Instantiate();
             IList<Entry> month = (IList<Entry>)cache[key];
 			if(month == null)
@@ -94,7 +95,7 @@ namespace Subtext.Common.Data
 		private static readonly string EntryDayKey = "EntryDay:Date{0:yyyyMMdd}Blog{1}";
 		public static EntryDay GetDay(DateTime dt, CacheDuration cacheDuration)
 		{
-			string key = string.Format(CultureInfo.InvariantCulture, EntryDayKey, dt, BlogId());
+			string key = string.Format(CultureInfo.InvariantCulture, EntryDayKey, dt, Config.CurrentBlog.Id);
 			
 			ContentCache cache = ContentCache.Instantiate();
 			
@@ -115,10 +116,6 @@ namespace Subtext.Common.Data
 		
 		#region Helpers
 
-		private static int BlogId()
-		{
-			return Framework.Configuration.Config.CurrentBlog.Id;
-		}
 
 		#endregion
 
@@ -126,7 +123,7 @@ namespace Subtext.Common.Data
 		private static readonly string ECKey="EC:Count{0}Category{1}BlogId{2}";
         public static IList<Entry> GetEntriesByCategory(int count, CacheDuration cacheDuration, int categoryID)
 		{
-			string key = string.Format(ECKey,count,categoryID,BlogId());
+			string key = string.Format(ECKey, count, categoryID, Config.CurrentBlog.Id);
 			ContentCache cache = ContentCache.Instantiate();
             IList<Entry> ec = (IList<Entry>)cache[key];
 			if(ec == null)
@@ -147,15 +144,15 @@ namespace Subtext.Common.Data
 		public static LinkCategory SingleCategory(CacheDuration cacheDuration)
 		{
 			string path = WebPathStripper.RemoveRssSlash(HttpContext.Current.Request.Path);
-			string CategoryName = Path.GetFileNameWithoutExtension(path);
-			if(StringHelper.IsNumeric(CategoryName))
+			string categoryName = Path.GetFileNameWithoutExtension(path);
+			if(StringHelper.IsNumeric(categoryName))
 			{
-				int CategoryID =Int32.Parse(CategoryName);
-				return SingleCategory(cacheDuration, CategoryID);
+				int categoryID = Int32.Parse(categoryName);
+				return SingleCategory(cacheDuration, categoryID);
 			}
 			else
 			{
-				return SingleCategory(cacheDuration, CategoryName);
+				return SingleCategory(cacheDuration, categoryName);
 			}
 		}
 
@@ -164,7 +161,7 @@ namespace Subtext.Common.Data
 		public static LinkCategory SingleCategory(CacheDuration cacheDuration, int categoryID)
 		{
 			ContentCache cache = ContentCache.Instantiate();
-			string key = string.Format(LCKey,categoryID,BlogId());
+			string key = string.Format(LCKey, categoryID, Config.CurrentBlog.Id);
 			LinkCategory lc = (LinkCategory)cache[key];
 			if(lc == null)
 			{
@@ -177,7 +174,7 @@ namespace Subtext.Common.Data
 		public static LinkCategory SingleCategory(CacheDuration cacheDuration, string categoryName)
 		{
 			ContentCache cache = ContentCache.Instantiate();
-			string key = string.Format(LCKey,categoryName,BlogId());
+			string key = string.Format(LCKey, categoryName, Config.CurrentBlog.Id);
 			LinkCategory lc = (LinkCategory)cache[key];
 			if(lc == null)
 			{
@@ -218,7 +215,7 @@ namespace Subtext.Common.Data
 		/// <returns></returns>
 		public static Entry GetEntry(string EntryName, CacheDuration cacheDuration)
 		{
-			int blogId  =  BlogId();
+			int blogId = Config.CurrentBlog.Id;
 			
 			ContentCache cache = ContentCache.Instantiate();
 			string key = string.Format(EntryKeyName, EntryName, blogId);
@@ -253,7 +250,7 @@ namespace Subtext.Common.Data
 		public static Entry GetEntry(int entryID, CacheDuration cacheDuration)
 		{
 			ContentCache cache = ContentCache.Instantiate();
-			string key = string.Format(EntryKeyID, entryID, BlogId());
+			string key = string.Format(EntryKeyID, entryID, Config.CurrentBlog.Id);
 			
 			Entry entry = (Entry)cache[key];
 			if(entry == null)
@@ -272,7 +269,7 @@ namespace Subtext.Common.Data
 
 		public static void ClearCommentCache(int entryID)
 		{
-			string key = string.Format(ParentCommentEntryKey,entryID,BlogId());
+			string key = string.Format(ParentCommentEntryKey, entryID, Config.CurrentBlog.Id);
 			ContentCache cache = ContentCache.Instantiate();
 			cache.Remove(key);
 		}
@@ -281,7 +278,7 @@ namespace Subtext.Common.Data
 
         public static IList<Entry> GetComments(Entry parentEntry, CacheDuration cacheDuration)
 		{
-			string key = string.Format(ParentCommentEntryKey, parentEntry.Id, BlogId());
+			string key = string.Format(ParentCommentEntryKey, parentEntry.Id, Config.CurrentBlog.Id);
 			ContentCache cache = ContentCache.Instantiate();
             IList<Entry> comments = (IList<Entry>)cache[key];
 			if(comments == null)
