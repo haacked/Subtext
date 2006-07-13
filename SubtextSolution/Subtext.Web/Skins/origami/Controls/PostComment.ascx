@@ -10,31 +10,31 @@
             <div id="errors"></div>
             <div class="notes"><p>Fields denoted with a "<em>*</em>" are required.</p></div>
             <div class="required clearfix">
-                <label for="PostComment.ascx_tbName">
+                <label for="PostComment_ascx_tbName">
                 <em>*</em>Your name:</label>
                 <asp:TextBox ID="tbName" runat="server" CssClass="fixed"></asp:TextBox><br />
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Please enter your name" ControlToValidate="tbName" Display="Dynamic" />
             </div>
             <div class="required clearfix">
-                <label for="PostComment.ascx_tbTitle">Subject:</label>
+                <label for="PostComment_ascx_tbTitle">Subject:</label>
                 <asp:TextBox ID="tbTitle" runat="server" CssClass="fixed"></asp:TextBox>
             </div>
             <div>
             <small>You may also like to <a href="/pages/javascript-error" onclick="toggleCommentForm(); return false;"> leave your email or website.</a></small>
     <div id="guest_url" class="clearfix" style="display: none;">
-        <label for="PostComment.ascx_tbUrl">
+        <label for="PostComment_ascx_tbUrl">
             Your blog:</label>
         <asp:TextBox ID="tbUrl" runat="server" CssClass="fixed"></asp:TextBox>
     </div>
     <div id="guest_email" class="clearfix" style="display: none;">
-        <label for="PostComment.ascx_tbEmail">
+        <label for="PostComment_ascx_tbEmail">
             Your email:</label>
         <asp:TextBox ID="tbEmail" runat="server" CssClass="fixed"></asp:TextBox>&nbsp;(will
         not be displayed)
     </div>
     </div>
     <div class="required clearfix">
-        <label for="PostComment.ascx_tbComment">
+        <label for="PostComment_ascx_tbComment">
             <em>*</em>Your message:</label>
         <asp:TextBox ID="tbComment" runat="server" Rows="7" cols="55" CssClass="fixed" TextMode="MultiLine"></asp:TextBox><br />
         <asp:RequiredFieldValidator ID="Requiredfieldvalidator4" runat="server" ErrorMessage="Please enter a comment"

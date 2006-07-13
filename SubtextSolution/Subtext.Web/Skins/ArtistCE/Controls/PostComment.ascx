@@ -5,28 +5,28 @@
 		<p align="center">Don't leave your e-mail address. HTML is not allowed. </p>
 		<p align="center"><b>OFFENSIVE COMMENTS WILL BE DELETED!!!</b></p>
 		<div class="label">
-			<label for="PostComment.ascx_tbTitle">Title:</label>
+			<label for="PostComment_ascx_tbTitle">Title:</label>
 		</div>
 		<div class="input">
 			<asp:TextBox id="tbTitle" runat="server" CssClass="fixed"></asp:TextBox><br/><asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" ErrorMessage="Please enter a title" ControlToValidate="tbTitle" Display="Dynamic" />
 		</div>
 		<br />
 		<div class="label">
-			<label for="PostComment.ascx_tbName">Name:</label>
+			<label for="PostComment_ascx_tbName">Name:</label>
 		</div>
 		<div class="input">
 			<asp:TextBox id="tbName" runat="server" CssClass="fixed"></asp:TextBox><br/><asp:RequiredFieldValidator id="RequiredFieldValidator2" runat="server" ErrorMessage="Please enter your name" ControlToValidate="tbName" Display="Dynamic" />
 		</div>
 		<br />
 		<div class="label">
-			<label for="PostComment.ascx_tbUrl">Website:</label>
+			<label for="PostComment_ascx_tbUrl">Website:</label>
 		</div>
 		<div class="input">
 			<asp:TextBox id="tbUrl" runat="server" CssClass="fixed"></asp:TextBox>
 		</div>
 		<br />
 		<div class="label">
-			<label for="PostComment.ascx_tbComment">Comment:</label>
+			<label for="PostComment_ascx_tbComment">Comment:</label>
 		</div>
 		<div class="input">
 			<asp:TextBox id="tbComment" runat="server" rows="7" cols="55" CssClass="fixed"
