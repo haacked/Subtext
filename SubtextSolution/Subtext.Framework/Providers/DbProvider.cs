@@ -20,6 +20,8 @@ using Subtext.Extensibility;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
+using System.Configuration.Provider;
+using System.Web.Configuration;
 
 namespace Subtext.Framework.Providers
 {
@@ -28,18 +30,50 @@ namespace Subtext.Framework.Providers
 	/// Subtext, then this provider is used to configure the underlying database 
 	/// used. One example of a class that implements this provider is the <see cref="SqlDataProvider"/>.
 	/// </summary>
-	public abstract class DbProvider : ProviderBase
+    public abstract class DbProvider : System.Configuration.Provider.ProviderBase
 	{
-		string _name;
 
-		/// <summary>
-		/// Returns the configured concrete instance of a <see cref="DbProvider"/>.
-		/// </summary>
-		/// <returns></returns>
-		public static DbProvider Instance()
-		{
-			return (DbProvider)ProviderBase.Instance("Database");
-		}
+        private static DbProvider _provider = null;
+        private static GenericProviderCollection<DbProvider> _providers = null;
+        private static object _lock = new object();
+
+        public static DbProvider Instance()
+        {
+            LoadProviders();
+            return _provider;
+        }
+
+        private static void LoadProviders()
+        {
+            // Avoid claiming lock if providers are already loaded
+            if (_provider == null)
+            {
+                lock (_lock)
+                {
+                    // Do this again to make sure _provider is still null
+                    if (_provider == null)
+                    {
+                        // Get a reference to the <Database> section
+                        DbProviderSectionHandler section = (DbProviderSectionHandler)
+                            WebConfigurationManager.GetSection
+                            ("Database");
+
+                        // Load registered providers and point _provider
+                        // to the default provider
+                        _providers = new GenericProviderCollection<DbProvider>();
+                        ProvidersHelper.InstantiateProviders
+                            (section.Providers, _providers,
+                            typeof(DbProvider));
+                        _provider = _providers[section.DefaultProvider];
+
+                        if (_provider == null)
+                            throw new ProviderException
+                                ("Unable to load default DbProvider");
+                    }
+                }
+            }
+        }
+
 
 		/// <summary>
 		/// Initializes this provider, setting the connection string.
@@ -48,20 +82,8 @@ namespace Subtext.Framework.Providers
 		/// <param name="configValue">Config value.</param>
 		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
 		{
-			_name = name;
-            _connectionString = GetSettingValue("connectionStringName", configValue);
-		}
-
-		/// <summary>
-		/// Returns the friendly name of the provider when the provider is initialized.
-		/// </summary>
-		/// <value></value>
-		public override string Name
-		{
-			get
-			{
-				return _name;
-			}
+            _connectionString = ProviderConfigurationHelper.GetSettingValue("connectionStringName", configValue);
+            base.Initialize(name, configValue);
 		}
 
 		private string _connectionString;
