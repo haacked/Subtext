@@ -16,8 +16,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Installation", "Sub
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Scripting", "Subtext.Scripting\Subtext.Scripting.csproj", "{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Providers.RichTextEditor.FCKeditor", "Subtext.Providers.RichTextEditor.FCKeditor\Subtext.Providers.RichTextEditor.FCKeditor.csproj", "{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.UnitTesting.Servers", "Subtext.UnitTesting.Servers\Subtext.UnitTesting.Servers.csproj", "{062D373E-FAC0-4451-BF57-8A2352AAC1BB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9D145684-0EDA-4147-BF81-3B0BED7DA439}"
@@ -35,6 +33,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		SubtextDocs.ndoc = SubtextDocs.ndoc
 		VersionInfo.Designer.cs = VersionInfo.Designer.cs
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Providers.BlogEntryEditor.FCKeditor", "Subtext.Providers.BlogEntryEditor.FCKeditor\Subtext.Providers.BlogEntryEditor.FCKeditor.csproj", "{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -90,17 +90,17 @@ Global
 		{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
 		{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
 		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Release|Any CPU.Build.0 = Release|Any CPU
-		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
-		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Documentation|Any CPU.Build.0 = Debug|Any CPU
-		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
