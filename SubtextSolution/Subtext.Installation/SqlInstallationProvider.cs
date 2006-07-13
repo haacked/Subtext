@@ -33,7 +33,6 @@ namespace Subtext.Installation
 	{
 		Version _version = null;
 		string _connectionString = string.Empty;
-		string _name = string.Empty;
 		
 		/// <summary>
 		/// Initializes the specified provider.
@@ -42,21 +41,10 @@ namespace Subtext.Installation
 		/// <param name="configValue">Config value.</param>
 		public override void Initialize(string name, NameValueCollection configValue)
 		{
-			_name = name;
-            _connectionString = GetSettingValue("connectionStringName", configValue);
+            _connectionString = ProviderConfigurationHelper.GetSettingValue("connectionStringName", configValue);
+            base.Initialize(name, configValue);
 		}
 
-		/// <summary>
-		/// Returns the friendly name of the provider when the provider is initialized.
-		/// </summary>
-		/// <value></value>
-		public override string Name
-		{
-			get
-			{
-				return _name;
-			}
-		}
 
 		/// <summary>
 		/// <p>

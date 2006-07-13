@@ -183,9 +183,6 @@
     <Compile Include="Providers\InstallationProvider.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Providers\InstallationProviderConfiguration.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Providers\InstallationProviderSectionHandler.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -198,6 +195,7 @@
     <Compile Include="Providers\ProviderConfiguration.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Providers\ProviderConfigurationHelper.cs" />
     <Compile Include="Providers\ProviderInfo.cs">
       <SubType>Code</SubType>
     </Compile>

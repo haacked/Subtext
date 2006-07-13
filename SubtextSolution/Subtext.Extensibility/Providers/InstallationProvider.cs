@@ -16,6 +16,8 @@
 using System;
 using System.Data.SqlClient;
 using System.Web.UI;
+using System.Configuration.Provider;
+using System.Web.Configuration;
 
 namespace Subtext.Extensibility.Providers
 {
@@ -24,97 +26,133 @@ namespace Subtext.Extensibility.Providers
 	/// This allows new data providers to implement their own installation 
 	/// code.
 	/// </summary>
-	public abstract class InstallationProvider : ProviderBase
+    public abstract class InstallationProvider : System.Configuration.Provider.ProviderBase
 	{
-		/// <summary>
-		/// Returns the configured concrete instance of a <see cref="InstallationProvider"/>.
-		/// </summary>
-		/// <returns></returns>
-		public static InstallationProvider Instance()
-		{
-			return (InstallationProvider)ProviderBase.Instance("Installation");
-		}
 
-		/// <summary>
-		/// <p>
-		/// This method is called by the installation engine in order to ask the 
-		/// provider what pieces of information it needs from the user in order 
-		/// to proceed with the installation.
-		/// </p>
-		/// <p>
-		/// This method returns a <see cref="Control"/> used to gather 
-		/// the required installation information.  This will be returned 
-		/// back to the provider after the user provides the information.
-		/// </p>
-		/// </summary>
-		/// <returns></returns>
-		public abstract Control GatherInstallationInformation();
+        private static InstallationProvider _provider = null;
+        private static GenericProviderCollection<InstallationProvider> _providers = null;
+        private static object _lock = new object();
 
-		/// <summary>
-		/// Provides the installation information as provided by the user 
-		/// back into the provider. 
-		/// The control passed in should be the same as that provided in 
-		/// <see cref="GatherInstallationInformation"/>, but with user values 
-		/// supplied within it.
-		/// </summary>
-		/// <param name="populatedControl">Populated control.</param>
-		public abstract void ProvideInstallationInformation(Control populatedControl);
+        public static InstallationProvider Instance()
+        {
+            LoadProviders();
+            return _provider;
+        }
 
-		/// <summary>
-		/// Validates the installation information provided by the user.  
-		/// Returns a string with an explanation of why it is incorrect.
-		/// </summary>
-		/// <param name="control">control used to provide information.</param>
-		/// <returns></returns>
-		public abstract string ValidateInstallationInformation(Control control);
+        private static void LoadProviders()
+        {
+            // Avoid claiming lock if providers are already loaded
+            if (_provider == null)
+            {
+                lock (_lock)
+                {
+                    // Do this again to make sure _provider is still null
+                    if (_provider == null)
+                    {
+                        // Get a reference to the <RichTextEditor> section
+                        InstallationProviderSectionHandler section = (InstallationProviderSectionHandler)
+                            WebConfigurationManager.GetSection
+                            ("Installation");
 
-		/// <summary>
-		/// Gets the installation status.
-		/// </summary>
-		/// <param name="currentAssemblyVersion">The version of the assembly that represents this installation.</param>
-		/// <returns></returns>
-		public abstract InstallationState GetInstallationStatus(Version currentAssemblyVersion);
+                        // Load registered providers and point _provider
+                        // to the default provider
+                        _providers = new GenericProviderCollection<InstallationProvider>();
+                        ProvidersHelper.InstantiateProviders
+                            (section.Providers, _providers,
+                            typeof(InstallationProvider));
+                        _provider = _providers[section.DefaultProvider];
 
-		/// <summary>
-		/// Upgrades this instance. Returns true if it was successful.
-		/// </summary>
-		/// <returns></returns>
-		public abstract void Upgrade();
+                        if (_provider == null)
+                            throw new ProviderException
+                                ("Unable to load default InstallationProvider");
+                    }
+                }
+            }
+        }
 
-		/// <summary>
-		/// Installs this instance.
-		/// </summary>
-		/// <param name="assemblyVersion">The current assembly version being installed.</param>
-		public abstract void Install(Version assemblyVersion);
 
-		/// <summary>
-		/// Attempts to repair this instance. Returns true if it was successful.
-		/// </summary>
-		/// <returns></returns>
-		public abstract bool Repair();
+        #region InstallationProvider methods
+        /// <summary>
+        /// <p>
+        /// This method is called by the installation engine in order to ask the 
+        /// provider what pieces of information it needs from the user in order 
+        /// to proceed with the installation.
+        /// </p>
+        /// <p>
+        /// This method returns a <see cref="Control"/> used to gather 
+        /// the required installation information.  This will be returned 
+        /// back to the provider after the user provides the information.
+        /// </p>
+        /// </summary>
+        /// <returns></returns>
+        public abstract Control GatherInstallationInformation();
 
-		/// <summary>
-		/// Determines whether the specified exception is due to 
-		/// a problem with the installation.
-		/// </summary>
-		/// <param name="exception">exception.</param>
-		/// <returns>
-		/// 	<c>true</c> if this is an installation exception; otherwise, <c>false</c>.
-		/// </returns>
-		public abstract bool IsInstallationException(Exception exception);
+        /// <summary>
+        /// Provides the installation information as provided by the user 
+        /// back into the provider. 
+        /// The control passed in should be the same as that provided in 
+        /// <see cref="GatherInstallationInformation"/>, but with user values 
+        /// supplied within it.
+        /// </summary>
+        /// <param name="populatedControl">Populated control.</param>
+        public abstract void ProvideInstallationInformation(Control populatedControl);
 
-		/// <summary>
-		/// Gets the <see cref="Version"/> of the current Subtext installation.
-		/// </summary>
-		/// <returns></returns>
-		public abstract Version GetCurrentInstallationVersion();
+        /// <summary>
+        /// Validates the installation information provided by the user.  
+        /// Returns a string with an explanation of why it is incorrect.
+        /// </summary>
+        /// <param name="control">control used to provide information.</param>
+        /// <returns></returns>
+        public abstract string ValidateInstallationInformation(Control control);
 
-		/// <summary>
-		/// Updates the current installed version.
-		/// </summary>
-		/// <param name="newVersion">The new version that is now current.</param>
-		/// <returns></returns>
-		public abstract void UpdateInstallationVersionNumber(Version newVersion, SqlTransaction transaction);
+        /// <summary>
+        /// Gets the installation status.
+        /// </summary>
+        /// <param name="currentAssemblyVersion">The version of the assembly that represents this installation.</param>
+        /// <returns></returns>
+        public abstract InstallationState GetInstallationStatus(Version currentAssemblyVersion);
+
+        /// <summary>
+        /// Upgrades this instance. Returns true if it was successful.
+        /// </summary>
+        /// <returns></returns>
+        public abstract void Upgrade();
+
+        /// <summary>
+        /// Installs this instance.
+        /// </summary>
+        /// <param name="assemblyVersion">The current assembly version being installed.</param>
+        public abstract void Install(Version assemblyVersion);
+
+        /// <summary>
+        /// Attempts to repair this instance. Returns true if it was successful.
+        /// </summary>
+        /// <returns></returns>
+        public abstract bool Repair();
+
+        /// <summary>
+        /// Determines whether the specified exception is due to 
+        /// a problem with the installation.
+        /// </summary>
+        /// <param name="exception">exception.</param>
+        /// <returns>
+        /// 	<c>true</c> if this is an installation exception; otherwise, <c>false</c>.
+        /// </returns>
+        public abstract bool IsInstallationException(Exception exception);
+
+        /// <summary>
+        /// Gets the <see cref="Version"/> of the current Subtext installation.
+        /// </summary>
+        /// <returns></returns>
+        public abstract Version GetCurrentInstallationVersion();
+
+        /// <summary>
+        /// Updates the current installed version.
+        /// </summary>
+        /// <param name="newVersion">The new version that is now current.</param>
+        /// <returns></returns>
+        public abstract void UpdateInstallationVersionNumber(Version newVersion, SqlTransaction transaction); 
+        #endregion
 	}
 
 	/// <summary>
