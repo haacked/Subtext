@@ -17,23 +17,18 @@ a:hover, a.printlink:hover
 	color: #ffdf4f;
 }
 
-#search input.searchButton
-{
-	background-color: #ffba27;
-}
-
 /* light grey */
 #title h2
 {
 	color: #ccc;
 }
 
-div.contentbox h2, #search input.searchterm
+div.contentbox h2
 {
 	background-color: #f9f9f9;
 }
 
-#header, #sidebar, #search input.searchterm, div.footer
+#header, #sidebar, div.footer
 {
 	border-color: #ddd;
 }
@@ -186,13 +181,6 @@ a.printIcon span
 	margin-left: 5px;
 }
 
-#search
-{
-	float: right;
-	width: 280px;
-	margin-top: 35px;
-}
-
 #content
 {
 	clear: both;
@@ -220,25 +208,6 @@ div.footer
 {
 	clear: both;
 	border-top: solid 1px;
-	text-align: center;
-}
-
-/* -------------- {header} -----------------*/
-#search input.searchterm
-{
-	padding: 0;
-	border: solid 1px;
-	color: #999;
-}
-
-#search input.searchButton
-{
-	color: #fff;
-	width: 29px !important;
-	width: 25px;
-	font-weight: bold;
-	border: none;
-	padding: 0 2px 0 2px;
 	text-align: center;
 }
 

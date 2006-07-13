@@ -36,7 +36,6 @@ namespace Subtext.Web.UI.Controls
 
 		private void Page_Load(object sender, EventArgs e)
 		{
-			txtSearch.Attributes.Add("onkeypress", "return clickButton(event,'" + btnSearch.ClientID + "')");
 		}
 
 		#region Web Form Designer generated code
