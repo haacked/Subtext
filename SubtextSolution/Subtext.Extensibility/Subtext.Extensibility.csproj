@@ -165,9 +165,6 @@
     <Compile Include="Providers\EmailProvider.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Providers\EmailProviderBase.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Providers\GenericProviderCollection.cs" />
     <Compile Include="Providers\ImportProvider.cs">
       <SubType>Code</SubType>
@@ -179,6 +176,7 @@
     <Compile Include="Providers\ProviderSectionHandler.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Providers\SearchProvider.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

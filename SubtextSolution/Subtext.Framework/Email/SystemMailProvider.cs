@@ -24,7 +24,7 @@ namespace Subtext.Framework.Email
 	/// Default implementation of the <see cref="EmailProvider"/>.  This uses 
 	/// the new (introduced in .NET 2.0) System.Net.SmtpClient class which uses SMTP.
 	/// </summary>
-	public class SystemMailProvider : EmailProviderBase
+	public class SystemMailProvider : EmailProvider
 	{
 		public override bool Send(string toStr, string fromStr, string subject, string message)
 		{
