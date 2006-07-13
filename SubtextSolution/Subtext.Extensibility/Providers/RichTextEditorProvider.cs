@@ -49,7 +49,7 @@ namespace Subtext.Extensibility.Providers
                     if (_provider == null)
                     {
                         // Get a reference to the <RichTextEditor> section
-                        RichTextEditorProviderSectionHandler section = (RichTextEditorProviderSectionHandler)
+                        ProviderSectionHandler section = (ProviderSectionHandler)
                             WebConfigurationManager.GetSection
                             ("RichTextEditor");
 

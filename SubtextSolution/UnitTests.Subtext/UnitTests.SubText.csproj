@@ -220,9 +220,6 @@
     <Compile Include="Extensibility\EmailProviderInstantiationTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensibility\ProviderBaseTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Framework\BlogInfoTests.cs">
       <SubType>Code</SubType>
     </Compile>

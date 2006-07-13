@@ -1,6 +1,5 @@
 using System;
 using MbUnit.Framework;
-using Subtext.Extensibility.Exceptions;
 using Subtext.Extensibility.Providers;
 
 namespace UnitTests.Subtext.Extensibility

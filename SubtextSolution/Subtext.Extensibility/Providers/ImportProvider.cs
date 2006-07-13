@@ -58,7 +58,7 @@ namespace Subtext.Extensibility.Providers
                     if (_provider == null)
                     {
                         // Get a reference to the <Import> section
-                        ImportProviderSectionHandler section = (ImportProviderSectionHandler)
+                        ProviderSectionHandler section = (ProviderSectionHandler)
                             WebConfigurationManager.GetSection
                             ("Import");
 

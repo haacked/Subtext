@@ -122,9 +122,6 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Exceptions\ProviderInstantiationException.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="NamespaceDocumentation.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -170,42 +167,18 @@
     <Compile Include="Providers\EmailProviderBase.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Providers\EmailProviderSectionHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Providers\GenericProviderCollection.cs" />
     <Compile Include="Providers\ImportProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Providers\ImportProviderSectionHandler.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Providers\InstallationProvider.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Providers\InstallationProviderSectionHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Providers\ProviderBase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Providers\ProviderCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Providers\ProviderConfiguration.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Providers\ProviderConfigurationHelper.cs" />
-    <Compile Include="Providers\ProviderInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Providers\ProviderSectionHandler.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Providers\RichTextEditorProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Providers\RichTextEditorProviderSectionHandler.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
