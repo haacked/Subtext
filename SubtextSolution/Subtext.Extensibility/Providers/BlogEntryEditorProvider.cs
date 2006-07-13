@@ -25,14 +25,14 @@ namespace Subtext.Extensibility.Providers
 	/// Provider for classes that implement the rich text editor 
 	/// to edit text visually.
 	/// </summary>
-	public abstract class RichTextEditorProvider : System.Configuration.Provider.ProviderBase
+	public abstract class BlogEntryEditorProvider : System.Configuration.Provider.ProviderBase
 	{
 
-        private static RichTextEditorProvider _provider = null;
-        private static GenericProviderCollection<RichTextEditorProvider> _providers = null;
+        private static BlogEntryEditorProvider _provider = null;
+        private static GenericProviderCollection<BlogEntryEditorProvider> _providers = null;
         private static object _lock = new object();
 
-        public static RichTextEditorProvider Instance()
+        public static BlogEntryEditorProvider Instance()
         {
             LoadProviders();
             return _provider;
@@ -48,22 +48,22 @@ namespace Subtext.Extensibility.Providers
                     // Do this again to make sure _provider is still null
                     if (_provider == null)
                     {
-                        // Get a reference to the <RichTextEditor> section
+                        // Get a reference to the <BlogEntryEditor> section
                         ProviderSectionHandler section = (ProviderSectionHandler)
                             WebConfigurationManager.GetSection
-                            ("RichTextEditor");
+                            ("BlogEntryEditor");
 
                         // Load registered providers and point _provider
                         // to the default provider
-                        _providers = new GenericProviderCollection<RichTextEditorProvider>();
+                        _providers = new GenericProviderCollection<BlogEntryEditorProvider>();
                         ProvidersHelper.InstantiateProviders
                             (section.Providers, _providers,
-                            typeof(RichTextEditorProvider));
+                            typeof(BlogEntryEditorProvider));
                         _provider = _providers[section.DefaultProvider];
 
                         if (_provider == null)
                             throw new ProviderException
-                                ("Unable to load default RichTextEditorProvider");
+                                ("Unable to load default BlogEntryEditorProvider");
                     }
                 }
             }

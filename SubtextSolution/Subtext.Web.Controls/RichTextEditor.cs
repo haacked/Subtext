@@ -43,7 +43,7 @@ namespace Subtext.Web.Controls
 		#endregion
 
 		private Control editor;
-		private RichTextEditorProvider provider; 
+		private BlogEntryEditorProvider provider; 
 
 		private Unit _height=Unit.Empty;
 		private Unit _width=Unit.Empty;
@@ -97,7 +97,7 @@ namespace Subtext.Web.Controls
 		{
 			try 
 			{
-				provider=RichTextEditorProvider.Instance();
+				provider=BlogEntryEditorProvider.Instance();
 				provider.ControlID=this.ID;
 				provider.InitializeControl();
 				if(_height!=Unit.Empty)

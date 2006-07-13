@@ -23,12 +23,12 @@ using Subtext.Web.Controls;
 
 using FreeTextBoxControls;
 
-namespace Subtext.Web.Providers.RichTextEditor.FTB
+namespace Subtext.Web.Providers.BlogEntryEditor.FTB
 {
 	/// <summary>
 	/// Summary description for FtbRichTextEditor.
 	/// </summary>
-	public class FtbRichTextEditorProvider : RichTextEditorProvider
+    public class FtbBlogEntryEditorProvider : BlogEntryEditorProvider
 	{
 		FreeTextBox _ftbCtl;
 		string _controlID=string.Empty;

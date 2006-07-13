@@ -123,9 +123,7 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FCKeditorRichTextEditorProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="FckBlogEntryEditorProvider.cs" />
     <Compile Include="FileBrowserConnector.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>

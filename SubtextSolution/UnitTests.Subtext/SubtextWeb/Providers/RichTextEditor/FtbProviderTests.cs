@@ -20,7 +20,7 @@ using FreeTextBoxControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Web.Providers.RichTextEditor.FTB;
+using Subtext.Web.Providers.BlogEntryEditor.FTB;
 
 namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 {
@@ -33,12 +33,12 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 	{
 		string _hostName = System.Guid.NewGuid().ToString().Replace("-", string.Empty) + ".com";
 		string _testToolbarLayout="Bold,Italic,Underline,Strikethrough;Superscript,Subscript,RemoveFormat|FontFacesMenu,FontSizesMenu,FontForeColorsMenu|InsertTable|JustifyLeft,JustifyRight,JustifyCenter,JustifyFull;BulletedList,NumberedList,Indent,Outdent;CreateLink,Unlink,Insert,InsertRule|Cut,Copy,Paste;Undo,Redo|ieSpellCheck,WordClean|InsertImage,InsertImageFromGallery";
-		FtbRichTextEditorProvider frtep;
+		FtbBlogEntryEditorProvider frtep;
 
 		[SetUp]
 		public void SetUp()
 		{
-			frtep = new FtbRichTextEditorProvider();
+            frtep = new FtbBlogEntryEditorProvider();
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog", "Subtext.Web");
 		}
 
