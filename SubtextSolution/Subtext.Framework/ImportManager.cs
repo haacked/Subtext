@@ -19,6 +19,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
 using Subtext.Framework.UI.Skinning;
+using System.Configuration.Provider;
 using SkinConfig = Subtext.Framework.Configuration.SkinConfig;
 
 namespace Subtext.Framework
@@ -33,9 +34,9 @@ namespace Subtext.Framework
 		/// </summary>
 		/// <param name="providerInfo">Provider info.</param>
 		/// <returns></returns>
-		public static Control GetImportInformationControl(ProviderInfo providerInfo)
+		public static Control GetImportInformationControl(ImportProvider provider)
 		{
-			return ImportProvider.Instance(providerInfo).GatherImportInformation();
+            return provider.GatherImportInformation();
 		}
 
 		/// <summary>
@@ -46,18 +47,18 @@ namespace Subtext.Framework
 		/// <param name="populatedControl">Information.</param>
 		/// <param name="providerInfo"></param>
 		/// <returns></returns>
-		public static string ValidateImportAnswers(Control populatedControl, ProviderInfo providerInfo)
+        public static string ValidateImportAnswers(Control populatedControl, ImportProvider provider)
 		{
-			return ImportProvider.Instance(providerInfo).ValidateImportInformation(populatedControl);
+            return provider.ValidateImportInformation(populatedControl);
 		}
 
 		/// <summary>
 		/// Begins the import using the information within the populated Control.
 		/// </summary>
 		/// <param name="populatedControl">Control containing the user's answers.</param>
-		public static void Import(Control populatedControl, ProviderInfo providerInfo)
+        public static void Import(Control populatedControl, ImportProvider provider)
 		{
-			ImportProvider.Instance(providerInfo).Import(populatedControl);
+            provider.Import(populatedControl);
 
             IPagedCollection<BlogInfo> blogs = null;
 			ObjectProvider objProvider = ObjectProvider.Instance();

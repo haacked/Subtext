@@ -177,9 +177,6 @@
     <Compile Include="Providers\ImportProvider.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Providers\ImportProviderConfiguration.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Providers\ImportProviderSectionHandler.cs">
       <SubType>Code</SubType>
     </Compile>

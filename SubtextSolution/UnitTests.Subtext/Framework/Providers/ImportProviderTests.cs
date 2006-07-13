@@ -32,7 +32,7 @@ namespace UnitTests.Subtext.Framework.Providers
 		[Test]
 		public void ProvidersPropertyReturnsAllImportProviders()
 		{
-			ProviderCollection providers = ImportProvider.Providers;
+            System.Configuration.Provider.ProviderCollection providers = ImportProvider.Providers;
 			Assert.IsNotNull(providers, "That didn't work out too well. It's null.");
 			Assert.AreEqual(2, providers.Count, "Not the number of providers expected.");
 		}
@@ -43,9 +43,9 @@ namespace UnitTests.Subtext.Framework.Providers
 		[Test]
 		public void InstanceCanReturnNonDefaultProvider()
 		{
-			ProviderCollection providers = ImportProvider.Providers;
+            System.Configuration.Provider.ProviderCollection providers = ImportProvider.Providers;
 
-			UnitTestImportProvider provider = (UnitTestImportProvider)ImportProvider.Instance(providers["UnitTestImportProvider"]);
+			UnitTestImportProvider provider = (UnitTestImportProvider)providers["UnitTestImportProvider"];
 			Assert.AreEqual("UnitTestImportProvider", provider.Name);
 		}
 	}

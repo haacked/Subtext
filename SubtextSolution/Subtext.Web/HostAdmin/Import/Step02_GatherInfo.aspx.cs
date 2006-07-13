@@ -19,6 +19,7 @@ using System.Web.UI;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Scripting.Exceptions;
+using System.Configuration.Provider;
 
 namespace Subtext.Web.HostAdmin
 {
@@ -34,7 +35,7 @@ namespace Subtext.Web.HostAdmin
 		protected System.Web.UI.WebControls.Literal ltlErrorMessage;
 		protected System.Web.UI.WebControls.Button btnBeginImport;
 		protected System.Web.UI.HtmlControls.HtmlGenericControl paraBeginImportText;
-		ProviderInfo _providerInfo = null;
+		ImportProvider _providerInfo = null;
 		protected Subtext.Web.Controls.ContentRegion MPSectionTitle;
 		Control importInformationControl = null;
 
