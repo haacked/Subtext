@@ -27,7 +27,6 @@ namespace Subtext.Web.UI.Controls
 
 	public class BaseControl : System.Web.UI.UserControl
 	{
-		
 		public BaseControl()
 		{
 			

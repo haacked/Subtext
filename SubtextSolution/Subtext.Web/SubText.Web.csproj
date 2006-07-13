@@ -470,6 +470,9 @@
     <Compile Include="UI\Controls\PostComment.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="UI\Controls\PostComment.Designer.cs">
+      <DependentUpon>PostComment.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Controls\PreviousNext.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -1128,6 +1131,8 @@
     <Content Include="Skins\Haackify\Images\select_bg.gif" />
     <Content Include="Skins\Haackify\Images\select_left.gif" />
     <Content Include="Skins\Haackify\Images\select_right.gif" />
+    <Content Include="Skins\Haackify\Images\shadow.gif" />
+    <Content Include="Skins\Haackify\Images\shadowAlpha.png" />
     <Content Include="Skins\Haackify\Images\sidesbg.jpg" />
     <Content Include="Skins\Haackify\Images\textarea.gif" />
     <Content Include="Skins\Haackify\niceforms-default.css" />
@@ -1848,6 +1853,8 @@
     <Content Include="Skins\white\Controls\ViewPicture.ascx" />
     <Content Include="Skins\white\Controls\ViewPost.ascx" />
     <Content Include="Skins\white\Images\printer.gif" />
+    <Content Include="Skins\white\Images\shadow.gif" />
+    <Content Include="Skins\white\Images\shadowAlpha.png" />
     <Content Include="Skins\white\PageTemplate.ascx" />
     <Content Include="Skins\white\print.css" />
     <Content Include="Skins\white\Style.css" />

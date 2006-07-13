@@ -1,6 +1,6 @@
 <%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.PostComment" %>
 <div class="moreinfo">
-<table id="CommentForm" class = "comments" cellSpacing="1" cellPadding="1"  border="0" >
+<table id="CommentForm" class="comments" cellSpacing="1" cellPadding="1"  border="0" >
 	<tr>
 		<td width="75">Title</td>
 		<td>
