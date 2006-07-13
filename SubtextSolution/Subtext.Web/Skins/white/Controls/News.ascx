@@ -1,7 +1,5 @@
 <%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.News" %>
-<div class = "listtitle">News</div>
-	<ul class = "list">
-		<li class = "listitem">
-			<asp:Literal ID = "NewsItem" Runat = "server" />
-	</li>
-</ul>
+<div id="news" class="contentbox">
+	<h2>News</h2>
+	<div class="content"><asp:Literal ID="NewsItem" Runat = "server" /></div>
+</div>

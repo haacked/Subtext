@@ -427,12 +427,13 @@ h2.title
 {
 	float:left;
 	clear:left;
-	background: url(/Subtext.Web/Images/shadowAlpha.png) no-repeat bottom right !important;
-	background: url(/Subtext.Web/Images/shadow.gif) no-repeat bottom right;
+	background: url(images/shadowAlpha.png) no-repeat bottom right !important;
+	background: url(images/shadow.gif) no-repeat bottom right;
 	margin: 10px 0 10px 10px !important;
 	margin: 10px 0 10px 5px;
 	padding: 0px;
 }
+
 .innerbox
 {
 	position:relative;
