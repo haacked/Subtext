@@ -25,7 +25,7 @@ namespace UnitTests.Subtext.Framework.Providers
 	/// Tests a few methods of the <see cref="ProviderBase"/> class.
 	/// </summary>
 	[TestFixture]
-	public class ProviderBaseTests
+    public class ProviderConfigurationHelperTests
 	{
 	    [Test]
 	    public void CanFindConnectionString()
@@ -39,8 +39,7 @@ namespace UnitTests.Subtext.Framework.Providers
 		[Test]
 		public void IsPointerToAppSettingRecognizesPointer()
 		{
-			UnitTestStubProvider provider = new UnitTestStubProvider();
-			Assert.IsTrue(provider.IsPointerToAppSettings("${Setting}"));
+			Assert.IsTrue(ProviderConfigurationHelper.IsPointerToAppSettings("${Setting}"));
 		}
 
 		/// <summary>
@@ -49,8 +48,7 @@ namespace UnitTests.Subtext.Framework.Providers
 		[Test]
 		public void IsPointerToAppSettingRecognizesIncompletePointer()
 		{
-			UnitTestStubProvider provider = new UnitTestStubProvider();
-			Assert.IsFalse(provider.IsPointerToAppSettings("${Setting"));
+            Assert.IsFalse(ProviderConfigurationHelper.IsPointerToAppSettings("${Setting"));
 		}
 
 		/// <summary>
@@ -59,8 +57,7 @@ namespace UnitTests.Subtext.Framework.Providers
 		[Test]
 		public void IsPointerToAppSettingRecognizesBadPointer()
 		{
-			UnitTestStubProvider provider = new UnitTestStubProvider();
-			Assert.IsFalse(provider.IsPointerToAppSettings("{Setting}"));
+            Assert.IsFalse(ProviderConfigurationHelper.IsPointerToAppSettings("{Setting}"));
 		}
 
 		/// <summary>
@@ -73,34 +70,33 @@ namespace UnitTests.Subtext.Framework.Providers
             collection.Add("someSetting", "${UnitTestKey}");
 			collection.Add("anotherSetting", "ConnectionString");
 
-			UnitTestStubProvider provider = new UnitTestStubProvider();
-			string settingValue = provider.GetSettingValue("someSetting", collection);
+            string settingValue = ProviderConfigurationHelper.GetSettingValue("someSetting", collection);
 			Assert.AreEqual("UnitTestValue", settingValue);
 
-			settingValue = provider.GetSettingValue("anotherSetting", collection);
+            settingValue = ProviderConfigurationHelper.GetSettingValue("anotherSetting", collection);
 			Assert.AreEqual("ConnectionString", settingValue);
 		}
 
-		class UnitTestStubProvider : ProviderBase
-		{
-			/// <summary>
-			/// Initializes the specified provider.
-			/// </summary>
-			/// <param name="name">Friendly Name of the provider.</param>
-			/// <param name="configValue">Config value.</param>
-			public override void Initialize(string name, NameValueCollection configValue)
-			{
-				throw new NotImplementedException();
-			}
+        //class UnitTestStubProvider : ProviderBase
+        //{
+        //    /// <summary>
+        //    /// Initializes the specified provider.
+        //    /// </summary>
+        //    /// <param name="name">Friendly Name of the provider.</param>
+        //    /// <param name="configValue">Config value.</param>
+        //    public override void Initialize(string name, NameValueCollection configValue)
+        //    {
+        //        throw new NotImplementedException();
+        //    }
 
-			/// <summary>
-			/// Returns the friendly name of the provider when the provider is initialized.
-			/// </summary>
-			/// <value></value>
-			public override string Name
-			{
-				get { throw new NotImplementedException(); }
-			}
-		}
+        //    /// <summary>
+        //    /// Returns the friendly name of the provider when the provider is initialized.
+        //    /// </summary>
+        //    /// <value></value>
+        //    public override string Name
+        //    {
+        //        get { throw new NotImplementedException(); }
+        //    }
+        //}
 	}
 }
