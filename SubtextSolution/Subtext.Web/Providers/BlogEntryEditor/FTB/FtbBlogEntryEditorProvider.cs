@@ -37,7 +37,7 @@ namespace Subtext.Web.Providers.BlogEntryEditor.FTB
 		bool _formatHtmlTagsToXhtml;
 		bool _removeServerNamefromUrls;
 
-		private static System.Resources.ResourceManager rm =  new System.Resources.ResourceManager("Subtext.Web.Providers.RichTextEditor.FTB.resources.ErrorMessages",System.Reflection.Assembly.GetExecutingAssembly());
+        private static System.Resources.ResourceManager rm = new System.Resources.ResourceManager("Subtext.Web.Providers.BlogEntryEditor.FTB.resources.ErrorMessages", System.Reflection.Assembly.GetExecutingAssembly());
 
 
 		public override Control RichTextEditorControl
