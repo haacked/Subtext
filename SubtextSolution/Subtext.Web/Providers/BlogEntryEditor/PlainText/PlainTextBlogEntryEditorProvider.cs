@@ -31,7 +31,7 @@ namespace Subtext.Web.Providers.BlogEntryEditor.PlainText
 		int _cols;
 		string _cssClass=String.Empty;
 
-		private static System.Resources.ResourceManager rm =  new System.Resources.ResourceManager("Subtext.Web.Providers.RichTextEditor.PlainText.resources.ErrorMessages",System.Reflection.Assembly.GetExecutingAssembly());
+        private static System.Resources.ResourceManager rm = new System.Resources.ResourceManager("Subtext.Web.Providers.BlogEntryEditor.PlainText.resources.ErrorMessages", System.Reflection.Assembly.GetExecutingAssembly());
 
         public override Control RichTextEditorControl
 		{
