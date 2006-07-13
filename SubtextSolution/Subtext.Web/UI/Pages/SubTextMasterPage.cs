@@ -67,7 +67,7 @@ namespace Subtext.Web.UI.Pages
                 foreach (string control in controls)
                 {
                     Control c = LoadControl(string.Format(ControlLocation, skin, control));
-                    c.ID = control;
+                    c.ID = control.Replace(".", "_");
                     CenterBodyControl.Controls.Add(c);
                 }
             }
