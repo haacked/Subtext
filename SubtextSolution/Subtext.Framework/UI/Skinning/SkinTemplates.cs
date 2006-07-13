@@ -14,7 +14,7 @@
 #endregion
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Web;
 using System.Web.Hosting;
@@ -55,7 +55,8 @@ namespace Subtext.Framework.UI.Skinning
 			//
 		}
 
-		private Hashtable _ht;
+		private Dictionary<string, SkinTemplate> _ht;
+
 		/// <summary>
 		/// Gets the template based on the skin id.
 		/// </summary>
@@ -65,16 +66,16 @@ namespace Subtext.Framework.UI.Skinning
 		{
 			if(_ht == null)
 			{
-				_ht = new Hashtable();
+				_ht = new Dictionary<string, SkinTemplate>();
 				for(int i = 0; i < Templates.Length; i++)
 				{
 					_ht.Add(Templates[i].SkinKey, Templates[i]);
 				}
 			}
 
-			if(_ht.Contains(id.ToUpper(System.Globalization.CultureInfo.InvariantCulture)))
+			if(_ht.ContainsKey(id.ToUpper(System.Globalization.CultureInfo.InvariantCulture)))
 			{
-				return (SkinTemplate)_ht[id.ToUpper(System.Globalization.CultureInfo.InvariantCulture)];
+				return _ht[id.ToUpper(System.Globalization.CultureInfo.InvariantCulture)];
 			}
 			return null;
 
