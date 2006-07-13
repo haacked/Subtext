@@ -14,10 +14,8 @@
 #endregion
 
 using System;
-using System.Collections.Specialized;
 using System.Web.UI;
 using System.Configuration.Provider;
-using System.Web.Configuration;
 
 namespace Subtext.Extensibility.Providers
 {
@@ -25,52 +23,27 @@ namespace Subtext.Extensibility.Providers
 	/// Provider for classes that implement the rich text editor 
 	/// to edit text visually.
 	/// </summary>
-	public abstract class BlogEntryEditorProvider : System.Configuration.Provider.ProviderBase
+	public abstract class BlogEntryEditorProvider : ProviderBase
 	{
-
-        private static BlogEntryEditorProvider _provider = null;
-        private static GenericProviderCollection<BlogEntryEditorProvider> _providers = null;
-        private static object _lock = new object();
+		private static BlogEntryEditorProvider provider;
+		private static GenericProviderCollection<BlogEntryEditorProvider> providers = ProviderConfigurationHelper.LoadProviderCollection<BlogEntryEditorProvider>("BlogEntryEditor", out provider);
 
         public static BlogEntryEditorProvider Instance()
         {
-            LoadProviders();
-            return _provider;
+            return provider;
         }
 
-        private static void LoadProviders()
-        {
-            // Avoid claiming lock if providers are already loaded
-            if (_provider == null)
-            {
-                lock (_lock)
-                {
-                    // Do this again to make sure _provider is still null
-                    if (_provider == null)
-                    {
-                        // Get a reference to the <BlogEntryEditor> section
-                        ProviderSectionHandler section = (ProviderSectionHandler)
-                            WebConfigurationManager.GetSection
-                            ("BlogEntryEditor");
-
-                        // Load registered providers and point _provider
-                        // to the default provider
-                        _providers = new GenericProviderCollection<BlogEntryEditorProvider>();
-                        ProvidersHelper.InstantiateProviders
-                            (section.Providers, _providers,
-                            typeof(BlogEntryEditorProvider));
-                        _provider = _providers[section.DefaultProvider];
-
-                        if (_provider == null)
-                            throw new ProviderException
-                                ("Unable to load default BlogEntryEditorProvider");
-                    }
-                }
-            }
-        }
-
-
-
+		/// <summary>
+		/// Returns all the configured Email Providers.
+		/// </summary>
+		public static GenericProviderCollection<BlogEntryEditorProvider> Providers
+		{
+			get
+			{
+				return providers;
+			}
+		}
+		
 		/// <summary>
 		/// Return the RichTextEditorControl to be displayed inside the page
 		/// </summary>

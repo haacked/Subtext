@@ -16,8 +16,6 @@
 using System;
 using System.Data.SqlClient;
 using System.Web.UI;
-using System.Configuration.Provider;
-using System.Web.Configuration;
 
 namespace Subtext.Extensibility.Providers
 {
@@ -28,48 +26,28 @@ namespace Subtext.Extensibility.Providers
 	/// </summary>
     public abstract class InstallationProvider : System.Configuration.Provider.ProviderBase
 	{
+		private static InstallationProvider provider;
+		private static GenericProviderCollection<InstallationProvider> providers = ProviderConfigurationHelper.LoadProviderCollection<InstallationProvider>("Installation", out provider);
 
-        private static InstallationProvider _provider = null;
-        private static GenericProviderCollection<InstallationProvider> _providers = null;
-        private static object _lock = new object();
-
+		/// <summary>
+		/// Returns the currently configured InstallationProvider.
+		/// </summary>
+		/// <returns></returns>
         public static InstallationProvider Instance()
         {
-            LoadProviders();
-            return _provider;
+            return provider;
         }
 
-        private static void LoadProviders()
-        {
-            // Avoid claiming lock if providers are already loaded
-            if (_provider == null)
-            {
-                lock (_lock)
-                {
-                    // Do this again to make sure _provider is still null
-                    if (_provider == null)
-                    {
-                        // Get a reference to the <Installation> section
-                        ProviderSectionHandler section = (ProviderSectionHandler)
-                            WebConfigurationManager.GetSection
-                            ("Installation");
-
-                        // Load registered providers and point _provider
-                        // to the default provider
-                        _providers = new GenericProviderCollection<InstallationProvider>();
-                        ProvidersHelper.InstantiateProviders
-                            (section.Providers, _providers,
-                            typeof(InstallationProvider));
-                        _provider = _providers[section.DefaultProvider];
-
-                        if (_provider == null)
-                            throw new ProviderException
-                                ("Unable to load default InstallationProvider");
-                    }
-                }
-            }
-        }
-
+		/// <summary>
+		/// Returns all the configured InstallationProvider.
+		/// </summary>
+		public static GenericProviderCollection<InstallationProvider> Providers
+		{
+			get
+			{
+				return providers;
+			}
+		}
 
         #region InstallationProvider methods
         /// <summary>

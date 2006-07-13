@@ -14,10 +14,8 @@
 #endregion
 
 using System;
-using System.Collections.Specialized;
 using System.Web.UI;
 using System.Configuration.Provider;
-using System.Web.Configuration;
 
 namespace Subtext.Extensibility.Providers
 {
@@ -25,58 +23,30 @@ namespace Subtext.Extensibility.Providers
 	/// Provider for classes that implement an import process 
 	/// from another system.
 	/// </summary>
-    public abstract class ImportProvider : System.Configuration.Provider.ProviderBase
+    public abstract class ImportProvider : ProviderBase
 	{
+		private static ImportProvider provider;
+		private static GenericProviderCollection<ImportProvider> providers = ProviderConfigurationHelper.LoadProviderCollection<ImportProvider>("Import", out provider);
 
-        private static ImportProvider _provider = null;
-        private static GenericProviderCollection<ImportProvider> _providers = null;
-        private static object _lock = new object();
+		/// <summary>
+		/// Returns the currently configured ImportProvider.
+		/// </summary>
+		/// <returns></returns>
+		public static ImportProvider Instance()
+		{
+			return provider;
+		}
 
-        public static GenericProviderCollection<ImportProvider> Providers
-        {
-            get
-            {
-                LoadProviders();
-                return _providers;
-            }
-        }
-
-        public static ImportProvider Instance()
-        {
-            LoadProviders();
-            return _provider;
-        }
-
-        private static void LoadProviders()
-        {
-            // Avoid claiming lock if providers are already loaded
-            if (_provider == null)
-            {
-                lock (_lock)
-                {
-                    // Do this again to make sure _provider is still null
-                    if (_provider == null)
-                    {
-                        // Get a reference to the <Import> section
-                        ProviderSectionHandler section = (ProviderSectionHandler)
-                            WebConfigurationManager.GetSection
-                            ("Import");
-
-                        // Load registered providers and point _provider
-                        // to the default provider
-                        _providers = new GenericProviderCollection<ImportProvider>();
-                        ProvidersHelper.InstantiateProviders
-                            (section.Providers, _providers,
-                            typeof(ImportProvider));
-                        _provider = _providers[section.DefaultProvider];
-
-                        if (_provider == null)
-                            throw new ProviderException
-                                ("Unable to load default ImportProvider");
-                    }
-                }
-            }
-        }
+		/// <summary>
+		/// Returns all the configured ImportProviders.
+		/// </summary>
+		public static GenericProviderCollection<ImportProvider> Providers
+		{
+			get
+			{
+				return providers;
+			}
+		}
 
         #region ImportProvider Methods
 

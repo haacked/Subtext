@@ -14,12 +14,13 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Configuration;
 
 namespace Subtext.Extensibility.Providers
 {
+	/// <summary>
+	/// Configuration Section Handler for providers.
+	/// </summary>
     public class ProviderSectionHandler : ConfigurationSection
     {
         [ConfigurationProperty("providers")]
