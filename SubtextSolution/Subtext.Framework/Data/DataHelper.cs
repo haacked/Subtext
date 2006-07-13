@@ -295,83 +295,27 @@ namespace Subtext.Framework.Data
 
 		private static void LoadEntry(IDataReader reader, Entry entry, bool buildLinks)
 		{
-			if(reader["Author"] != DBNull.Value)
-			{
-				entry.Author = ReadString(reader, "Author");
-			}
-
-			if(reader["Email"] != DBNull.Value)
-			{
-				entry.Email = ReadString(reader, "Email");
-			}
-
-			entry.DateCreated = (DateTime)reader["DateAdded"];
-			if(reader["DateUpdated"] != DBNull.Value)
-			{
-				entry.DateUpdated = (DateTime)reader["DateUpdated"];
-			}
-	
-			entry.Id = ReadInt32(reader, "ID");
-	
-			if(reader["TitleUrl"] != DBNull.Value)
-			{
-				entry.TitleUrl = ReadString(reader, "TitleUrl");
-			}
-	
-			if(reader["SourceName"] != DBNull.Value)
-			{
-				entry.SourceName = ReadString(reader, "SourceName");
-			}
-
-			if(reader["SourceUrl"] != DBNull.Value)
-			{
-				entry.SourceUrl = ReadString(reader, "SourceUrl");
-			}
-	
-			if(reader["Description"] != DBNull.Value)
-			{
-				entry.Description = ReadString(reader, "Description");
-			}
-	
-			if(reader["EntryName"] != DBNull.Value)
-			{
-				entry.EntryName = ReadString(reader, "EntryName");
-			}
-	
-			if(reader["FeedBackCount"] != DBNull.Value)
-			{
-				entry.FeedBackCount = ReadInt32(reader, "FeedBackCount");
-			}
-
-			if(reader["Text"] != DBNull.Value)
-			{
-				entry.Body = ReadString(reader, "Text");
-			}
-	
-			if(reader["Title"] != DBNull.Value)
-			{
-				entry.Title =ReadString(reader, "Title");
-			}
-	
-			if(reader["PostConfig"] != DBNull.Value)
-			{
-				entry.PostConfig = (PostConfig)(ReadInt32(reader, "PostConfig"));
-			}
-
-			if(reader["ContentChecksumHash"] != DBNull.Value)
-			{
-				entry.ContentChecksumHash = ReadString(reader, "ContentChecksumHash");
-			}
-	
-			if(reader["ParentID"] != DBNull.Value)
-			{
-				entry.ParentID = ReadInt32(reader, "ParentID");
-			}
+			entry.Author = ReadString(reader, "Author");
+			entry.Email = ReadString(reader, "Email");
+			entry.DateCreated = ReadDate(reader, "DateAdded");
+			entry.DateUpdated = ReadDate(reader, "DateUpdated");
 			
-			if(reader["DateSyndicated"] != DBNull.Value)
-			{
-				entry.DateSyndicated = (DateTime)reader["DateSyndicated"];
-			}
+			entry.Id = ReadInt32(reader, "ID");
+			entry.TitleUrl = ReadString(reader, "TitleUrl");
+			entry.SourceName = ReadString(reader, "SourceName");
+
+			entry.SourceUrl = ReadString(reader, "SourceUrl");
+			entry.Description = ReadString(reader, "Description");
+			entry.EntryName = ReadString(reader, "EntryName");
+	
+			entry.FeedBackCount = ReadInt32(reader, "FeedBackCount", 0);
+			entry.Body = ReadString(reader, "Text");
+			entry.Title = ReadString(reader, "Title");
+			entry.PostConfig = (PostConfig)(ReadInt32(reader, "PostConfig", (int)PostConfig.None));
+			
+			entry.ContentChecksumHash = ReadString(reader, "ContentChecksumHash");
+			entry.ParentID = ReadInt32(reader, "ParentID");
+			entry.DateSyndicated = DataHelper.ReadDate(reader, "DateSyndicated");
 	
 			if(buildLinks)
 			{
@@ -744,10 +688,17 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public static int ReadInt32(IDataReader reader, string columnName, int defaultValue)
 		{
-			if (reader[columnName] != DBNull.Value)
-				return (int)reader[columnName];
-			else
+			try
+			{
+				if (reader[columnName] != DBNull.Value)
+					return (int)reader[columnName];
+				else
+					return defaultValue;
+			}
+			catch(IndexOutOfRangeException)
+			{
 				return defaultValue;
+			}
 		}
 
 		/// <summary>
@@ -758,10 +709,17 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public static int? ReadNullableInt(IDataReader reader, string columnName)
 		{
-			if (reader[columnName] != DBNull.Value)
-				return (int)reader[columnName];
-			else
+			try
+			{
+				if (reader[columnName] != DBNull.Value)
+					return (int)reader[columnName];
+				else
+					return null;
+			}
+			catch(IndexOutOfRangeException)
+			{
 				return null;
+			}
 		}
 
 		/// <summary>
@@ -772,12 +730,25 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public static string ReadString(IDataReader reader, string columnName)
 		{
-			if(reader[columnName] != DBNull.Value)
-				return (string)reader[columnName];
-			else
+			try
+			{
+				if (reader[columnName] != DBNull.Value)
+					return (string)reader[columnName];
+				else
+					return null;
+			}
+			catch(IndexOutOfRangeException)
+			{
 				return null;
+			}
 		}
 
+		/// <summary>
+		/// Reads an URI from the database.
+		/// </summary>
+		/// <param name="reader"></param>
+		/// <param name="columnName"></param>
+		/// <returns></returns>
 		public static Uri ReadUri(IDataReader reader, string columnName)
 		{
 			try
@@ -786,6 +757,10 @@ namespace Subtext.Framework.Data
 					return new Uri((string) reader[columnName]);
 				else
 					return null;
+			}
+			catch(System.IndexOutOfRangeException)
+			{
+				return null;
 			}
 			catch(System.FormatException)
 			{
@@ -812,10 +787,17 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public static DateTime ReadDate(IDataReader reader, string columnName, DateTime defaultValue)
 		{
-			if(reader[columnName] != DBNull.Value)
-				return (DateTime)reader[columnName];
-			else
+			try
+			{
+				if (reader[columnName] != DBNull.Value)
+					return (DateTime)reader[columnName];
+				else
+					return defaultValue;
+			}
+			catch(IndexOutOfRangeException)
+			{
 				return defaultValue;
+			}
 		}
 
         public static SqlParameter MakeInParam(string ParamName, object Value)

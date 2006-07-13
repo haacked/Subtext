@@ -4067,21 +4067,27 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE Proc [<dbUser,varchar,dbo>].subtext_SearchEntries
+CREATE PROC [<dbUser,varchar,dbo>].subtext_SearchEntries
 (
-	@BlogId int,
-	@SearchStr nvarchar(30)
+	@BlogId int
+	, @SearchStr nvarchar(30)
 )
 as
 
 Set @SearchStr = '%' + @SearchStr + '%'
 
-Select [ID], Title, DateAdded 
-From [<dbUser,varchar,dbo>].subtext_Content
+Select [ID]
+	, Title
+	, DateAdded
+	, EntryName
+	, TitleUrl
+	, PostType
+From [<dbUser,varchar,dbo>].[subtext_Content]
 Where (PostType = 1 OR PostType = 2)
-AND ([Text] LIKE @SearchStr 
-OR Title LIKE @SearchStr)
-AND BlogId = @BlogId
+	AND PostConfig & 1 = 1 -- IsActive!
+	AND ([Text] LIKE @SearchStr OR Title LIKE @SearchStr)
+	AND BlogId = @BlogId
+	
 GO
 
 SET QUOTED_IDENTIFIER OFF 
