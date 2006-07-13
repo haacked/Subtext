@@ -632,19 +632,19 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>rmdir "$(ProjectDir)..\Subtext.Web\Providers\RichTextEditor\FCKeditor" /S /Q
+    <PostBuildEvent>rmdir "$(ProjectDir)..\Subtext.Web\Providers\BlogEntryEditor\FCKeditor" /S /Q
 
 copy "$(TargetDir)FredCK.FCKeditorV2.dll" "$(ProjectDir)..\Subtext.Web\bin"
 copy "$(TargetDir)Subtext.Providers.RichTextEditor.FCKeditor.*" "$(ProjectDir)..\Subtext.Web\bin"
 
-mkdir "$(ProjectDir)..\Subtext.Web\Providers\RichTextEditor\FCKeditor"
-mkdir "$(ProjectDir)..\Subtext.Web\Providers\RichTextEditor\FCKeditor\editor"
-mkdir "$(ProjectDir)..\Subtext.Web\Providers\RichTextEditor\FCKeditor\customConfiguration"
+mkdir "$(ProjectDir)..\Subtext.Web\Providers\BlogEntryEditor\FCKeditor"
+mkdir "$(ProjectDir)..\Subtext.Web\Providers\BlogEntryEditor\FCKeditor\editor"
+mkdir "$(ProjectDir)..\Subtext.Web\Providers\BlogEntryEditor\FCKeditor\customConfiguration"
 
-copy  "$(ProjectDir)*.js" "$(ProjectDir)..\Subtext.Web\Providers\RichTextEditor\FCKeditor\"
-copy  "$(ProjectDir)*.xml" "$(ProjectDir)..\Subtext.Web\Providers\RichTextEditor\FCKeditor\"
-copy  "$(ProjectDir)customConfiguration\*.*" "$(ProjectDir)..\Subtext.Web\Providers\RichTextEditor\FCKeditor\customConfiguration"
+copy  "$(ProjectDir)*.js" "$(ProjectDir)..\Subtext.Web\Providers\BlogEntryEditor\FCKeditor\"
+copy  "$(ProjectDir)*.xml" "$(ProjectDir)..\Subtext.Web\Providers\BlogEntryEditor\FCKeditor\"
+copy  "$(ProjectDir)customConfiguration\*.*" "$(ProjectDir)..\Subtext.Web\Providers\BlogEntryEditor\FCKeditor\customConfiguration"
 
-xcopy  "$(ProjectDir)editor\*.*" "$(ProjectDir)..\Subtext.Web\Providers\RichTextEditor\FCKeditor\editor" /S /Y</PostBuildEvent>
+xcopy  "$(ProjectDir)editor\*.*" "$(ProjectDir)..\Subtext.Web\Providers\BlogEntryEditor\FCKeditor\editor" /S /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>

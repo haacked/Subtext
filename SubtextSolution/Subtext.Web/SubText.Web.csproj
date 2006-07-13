@@ -361,8 +361,8 @@
       <DependentUpon>ftb.imagegallery.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Providers\BlogEntryEditor\FTB\FtbRichTextEditorProvider.cs" />
-    <Compile Include="Providers\BlogEntryEditor\PlainText\PlainTextRichTextEditorProvider.cs" />
+    <Compile Include="Providers\BlogEntryEditor\FTB\FtbBlogEntryEditorProvider.cs" />
+    <Compile Include="Providers\BlogEntryEditor\PlainText\PlainTextBlogEntryEditorProvider.cs" />
     <Compile Include="SystemMessages\BlogNotActive.aspx.cs">
       <DependentUpon>BlogNotActive.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
