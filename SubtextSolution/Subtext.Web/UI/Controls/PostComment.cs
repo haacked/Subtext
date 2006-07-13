@@ -42,17 +42,8 @@ namespace Subtext.Web.UI.Controls
 		{
 			base.OnLoad (e);
 
-			/*
-			foreach(Control control in this.Controls)
-			{
-				BaseValidator validator = control as BaseValidator;
-				if(validator != null)
-				{
-					validator.EnableClientScript = false;
-				}
-			}
-			 */
-			
+			DisableClientValidation();
+
 			tbComment.MaxLength = 4000;
 		
 			if(!IsPostBack)
@@ -119,6 +110,18 @@ namespace Subtext.Web.UI.Controls
 					{
 						coComment.PostUrl = "http://" + Config.CurrentBlog.Host + coComment.PostUrl;
 					}
+				}
+			}
+		}
+
+		private void DisableClientValidation()
+		{
+			foreach(Control control in this.Controls)
+			{
+				BaseValidator validator = control as BaseValidator;
+				if(validator != null)
+				{
+					validator.EnableClientScript = false;
 				}
 			}
 		}
