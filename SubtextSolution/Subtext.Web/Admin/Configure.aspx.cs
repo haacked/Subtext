@@ -28,8 +28,6 @@ namespace Subtext.Web.Admin.Pages
 		// abstract out at a future point for i18n
 		private const string RES_SUCCESS = "Your configuration was successfully updated.";
 		private const string RES_FAILURE = "Configuration update failed.";
-
-		protected Subtext.Web.Controls.HelpToolTip HelpToolTip2;
 	
 		#region Accessors
 		public CategoryType CategoryType
@@ -116,9 +114,14 @@ namespace Subtext.Web.Admin.Pages
 
 				SkinTemplate skinTemplate = SkinTemplates.Instance().GetTemplate(ddlSkin.SelectedItem.Value);
 				info.Skin.SkinName = skinTemplate.Skin;
+
 				if(skinTemplate.UseSecondaryCss)
 				{
 					info.Skin.SkinCssFile = skinTemplate.SecondaryCss;
+				}
+				else
+				{
+					info.Skin.SkinCssFile = string.Empty;
 				}
 				Config.UpdateConfigData(info);
 
