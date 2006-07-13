@@ -189,6 +189,10 @@
       <Project>{745B39B7-DE46-4070-8733-C53308721C58}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
+    <ProjectReference Include="..\Subtext.Providers.BlogEntryEditor.FCKeditor\Subtext.Providers.BlogEntryEditor.FCKeditor.csproj">
+      <Project>{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}</Project>
+      <Name>Subtext.Providers.BlogEntryEditor.FCKeditor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Subtext.Scripting\Subtext.Scripting.csproj">
       <Name>Subtext.Scripting</Name>
       <Project>{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}</Project>
