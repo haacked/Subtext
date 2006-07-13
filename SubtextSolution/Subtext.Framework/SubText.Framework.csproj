@@ -366,9 +366,6 @@
     <Compile Include="Providers\DbProvider.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Providers\DbProviderConfiguration.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Providers\DbProviderSectionHandler.cs">
       <SubType>Code</SubType>
     </Compile>
