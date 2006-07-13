@@ -59,7 +59,7 @@ namespace Subtext.Extensibility.Providers
 		/// Gets or sets the connection string.
 		/// </summary>
 		/// <value></value>
-		public string ConnectionString
+		protected string ConnectionString
 		{
 			get { return this.connectionString; }
 			set { this.connectionString = value; }
