@@ -31,19 +31,8 @@ namespace Subtext.Web.UI.Controls
 	/// <summary>
 	///		Summary description for Comments.
 	/// </summary>
-	public class PostComment : BaseControl
-	{
-		protected System.Web.UI.WebControls.TextBox tbTitle;
-		protected System.Web.UI.WebControls.TextBox tbName;
-		protected System.Web.UI.WebControls.TextBox tbUrl;
-		protected System.Web.UI.WebControls.TextBox tbComment;
-		protected System.Web.UI.WebControls.TextBox tbEmail;
-		protected System.Web.UI.WebControls.Button btnSubmit;
-		protected Subtext.Web.Controls.CompliantButton btnCompliantSubmit;
-		protected System.Web.UI.WebControls.Label Message;
-		protected System.Web.UI.WebControls.CheckBox chkRemember;
-		protected SubtextCoComment coComment;
-		
+	public partial class PostComment : BaseControl
+	{	
 		/// <summary>
 		/// Handles the OnLoad event.  Attempts to prepopulate comment 
 		/// fields based on the user's cookie.
@@ -53,6 +42,17 @@ namespace Subtext.Web.UI.Controls
 		{
 			base.OnLoad (e);
 
+			/*
+			foreach(Control control in this.Controls)
+			{
+				BaseValidator validator = control as BaseValidator;
+				if(validator != null)
+				{
+					validator.EnableClientScript = false;
+				}
+			}
+			 */
+			
 			tbComment.MaxLength = 4000;
 		
 			if(!IsPostBack)
