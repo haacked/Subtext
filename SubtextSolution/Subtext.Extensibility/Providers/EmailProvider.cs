@@ -14,8 +14,6 @@
 #endregion
 
 using System;
-using System.Configuration.Provider;
-using System.Web.Configuration;
 
 namespace Subtext.Extensibility.Providers
 {
@@ -24,49 +22,28 @@ namespace Subtext.Extensibility.Providers
 	/// </summary>
     public abstract class EmailProvider : System.Configuration.Provider.ProviderBase
 	{
+        private static EmailProvider provider = null;
+		private static GenericProviderCollection<EmailProvider> providers = ProviderConfigurationHelper.LoadProviderCollection<EmailProvider>("Email", out provider);
 
-        private static EmailProvider _provider = null;
-        private static GenericProviderCollection<EmailProvider> _providers = null;
-        private static object _lock = new object();
-
-
+		/// <summary>
+		/// Returns the currently configured Email Provider.
+		/// </summary>
+		/// <returns></returns>
         public static EmailProvider Instance()
         {
-            LoadProviders();
-            return _provider;
+            return provider;
         }
-
-        private static void LoadProviders()
-        {
-            // Avoid claiming lock if providers are already loaded
-            if (_provider == null)
-            {
-                lock (_lock)
-                {
-                    // Do this again to make sure _provider is still null
-                    if (_provider == null)
-                    {
-                        // Get a reference to the <EmailProvider> section
-                        ProviderSectionHandler section = (ProviderSectionHandler)
-                            WebConfigurationManager.GetSection
-                            ("EmailProvider");
-
-                        // Load registered providers and point _provider
-                        // to the default provider
-                        _providers = new GenericProviderCollection<EmailProvider>();
-                        ProvidersHelper.InstantiateProviders
-                            (section.Providers, _providers,
-                            typeof(EmailProvider));
-                        _provider = _providers[section.DefaultProvider];
-
-                        if (_provider == null)
-                            throw new ProviderException
-                                ("Unable to load default EmailProvider");
-                    }
-                }
-            }
-        }
-
+		
+		/// <summary>
+		/// Returns all the configured Email Providers.
+		/// </summary>
+		public static GenericProviderCollection<EmailProvider> Providers
+		{
+			get
+			{
+				return providers;
+			}
+		}
 
 		#region EmailProvider Methods
 		/// <summary>
