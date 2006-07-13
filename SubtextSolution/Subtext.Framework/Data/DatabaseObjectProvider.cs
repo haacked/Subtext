@@ -34,7 +34,6 @@ namespace Subtext.Framework.Data
 	/// </summary>
 	public class DatabaseObjectProvider : ObjectProvider
 	{	
-		string _name;
 
 		#region Host
 		/// <summary>
@@ -1057,26 +1056,5 @@ namespace Subtext.Framework.Data
 
 		#endregion
 
-		/// <summary>
-		/// Initializes the specified provider.
-		/// </summary>
-		/// <param name="name">Friendly Name of the provider.</param>
-		/// <param name="configValue">Config value.</param>
-		public override void Initialize(string name, NameValueCollection configValue)
-		{
-			_name = name;
-		}
-
-		/// <summary>
-		/// Returns the friendly name of the provider when the provider is initialized.
-		/// </summary>
-		/// <value></value>
-		public override string Name
-		{
-			get
-			{
-				return _name;
-			}
-		}
 	}
 }

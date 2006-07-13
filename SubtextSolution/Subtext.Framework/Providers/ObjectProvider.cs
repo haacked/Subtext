@@ -18,6 +18,8 @@ using System.Collections.Generic;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
+using System.Configuration.Provider;
+using System.Web.Configuration;
 
 namespace Subtext.Framework.Providers
 {
@@ -26,16 +28,48 @@ namespace Subtext.Framework.Providers
 	/// is a DataObjectProvider, which stores Subtext data in a database (which itself is 
 	/// provided via the <see cref="DbProvider"/> class).
 	/// </summary>
-	public abstract class ObjectProvider : ProviderBase
+    public abstract class ObjectProvider : System.Configuration.Provider.ProviderBase
 	{
-		/// <summary>
-		/// Returns the configured concrete instance of a <see cref="ObjectProvider"/>.
-		/// </summary>
-		/// <returns></returns>
-		public static ObjectProvider Instance()
-		{
-			return (ObjectProvider)ProviderBase.Instance("ObjectProvider");
-		}
+        private static ObjectProvider _provider = null;
+        private static GenericProviderCollection<ObjectProvider> _providers = null;
+        private static object _lock = new object();
+
+        public static ObjectProvider Instance()
+        {
+            LoadProviders();
+            return _provider;
+        }
+
+        private static void LoadProviders()
+        {
+            // Avoid claiming lock if providers are already loaded
+            if (_provider == null)
+            {
+                lock (_lock)
+                {
+                    // Do this again to make sure _provider is still null
+                    if (_provider == null)
+                    {
+                        // Get a reference to the <RichTextEditor> section
+                        ObjectProviderSectionHandler section = (ObjectProviderSectionHandler)
+                            WebConfigurationManager.GetSection
+                            ("ObjectProvider");
+
+                        // Load registered providers and point _provider
+                        // to the default provider
+                        _providers = new GenericProviderCollection<ObjectProvider>();
+                        ProvidersHelper.InstantiateProviders
+                            (section.Providers, _providers,
+                            typeof(ObjectProvider));
+                        _provider = _providers[section.DefaultProvider];
+
+                        if (_provider == null)
+                            throw new ProviderException
+                                ("Unable to load default ObjectProvider");
+                    }
+                }
+            }
+        }
 
 		#region ObjectProvider Specific methods
 		#region Host
