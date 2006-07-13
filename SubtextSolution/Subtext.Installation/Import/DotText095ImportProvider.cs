@@ -39,9 +39,10 @@ namespace Subtext.Installation.Import
 		/// </summary>
 		/// <param name="name">Name.</param>
 		/// <param name="configValue">Config value.</param>
-		public override void Initialize(string name, NameValueCollection configValue)
-		{
-		}
+        //public override void Initialize(string name, NameValueCollection configValue)
+        //{
+        //    base.Initialize(name, configValue);
+        //}
 		/// <summary>
 		/// <p>
 		/// This method is called by the import engine in order to ask the 
