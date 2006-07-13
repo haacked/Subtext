@@ -42,11 +42,11 @@
 			<fail message="ncoverexplorer.exe property not set, so cannot test" />
 		</if>
 
-		<if test="${property::exists('vil.exe')}"> 
+		<if test="${not property::exists('vil.exe')}"> 
 			<fail message="vil.exe property not set, so cannot test" />
 		</if>
 		
-		<if test="${property::exists('msbuild.exe')}"> 
+		<if test="${not property::exists('msbuild.exe')}"> 
 			<fail message="msbuild.exe property not set, so cannot test" />
 		</if>
 		
