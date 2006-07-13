@@ -14,18 +14,14 @@
 #endregion
 
 using System;
-using System.Collections;
-using System.Data;
-using System.Data.SqlClient;
-using System.Globalization;
+using System.Collections.Generic;
 using System.Web.UI.WebControls;
-using Subtext.Framework.Data;
-using Subtext.Framework.Providers;
+using Subtext.Extensibility.Providers;
 
 namespace Subtext.Web.UI.Controls
 {
 	/// <summary>
-	///		Summary description for subTextSearch.
+	///	Implements a search control that can be added to a skin.
 	/// </summary>
 	public class SubtextSearch : BaseControl
 	{
@@ -64,41 +60,15 @@ namespace Subtext.Web.UI.Controls
 
 		public void btnSearch_Click(object sender, EventArgs e)
 		{
-			if(string.Empty != txtSearch.Text )
+			if(string.Empty != txtSearch.Text)
 			{
-				string storedProc = "subtext_SearchEntries";
-				string connStr = DbProvider.Instance().ConnectionString;
-				string searchString = txtSearch.Text.ToString();
-				ArrayList mySearchItems = new ArrayList();
-
 				//fix for the blogs where only one installed
-				int blogID = 0;
+				int blogId = 0;
 				if (CurrentBlog.Id > 0)
-					blogID = CurrentBlog.Id;
+					blogId = CurrentBlog.Id;
+				IList<SearchResult> searchResults = SearchProvider.Instance().Search(blogId, txtSearch.Text);
 
-				SqlParameter[] p =
-				{
-					DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, blogID),
-					DataHelper.MakeInParam("@SearchStr", searchString)
-				};
-
-				DataTable dt = DataHelper.ExecuteDataTable(connStr, CommandType.StoredProcedure, storedProc, p);
-
-				int count = dt.Rows.Count;
-
-				for (int i = 0; i < count; i++)
-				{
-					DataRow dr = dt.Rows[i];
-
-					string entryId = ((int) dr["id"]).ToString(CultureInfo.InvariantCulture);
-					string entryTitle = (string) dr["Title"];
-					DateTime dateCreated = (DateTime) dr["DateAdded"];
-					string entryUrl = CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(dateCreated, entryId);
-
-					mySearchItems.Add(new PositionItems(entryTitle, entryUrl));
-				}
-
-				SearchResults.DataSource = mySearchItems;
+				SearchResults.DataSource = searchResults;
 				SearchResults.DataBind();
 			}
 		}

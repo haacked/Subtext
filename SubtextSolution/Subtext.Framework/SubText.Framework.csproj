@@ -369,6 +369,7 @@
     <Compile Include="Providers\ObjectProvider.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Providers\EntrySearchProvider.cs" />
     <Compile Include="Security.cs">
       <SubType>Code</SubType>
     </Compile>

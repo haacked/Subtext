@@ -43,7 +43,36 @@ namespace Subtext.Extensibility.Providers
 				return providers;
 			}
 		}
+
+		/// <summary>
+		/// Initializes this provider, setting the connection string.
+		/// </summary>
+		/// <param name="name">Friendly Name of the provider.</param>
+		/// <param name="configValue">Config value.</param>
+		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
+		{
+			this.connectionString = ProviderConfigurationHelper.GetSettingValue("connectionStringName", configValue);
+			base.Initialize(name, configValue);
+		}
+
+		/// <summary>
+		/// Gets or sets the connection string.
+		/// </summary>
+		/// <value></value>
+		public string ConnectionString
+		{
+			get { return this.connectionString; }
+			set { this.connectionString = value; }
+		}
 		
+		private string connectionString;
+		
+		/// <summary>
+		/// Searches the specified blog for items that match the search term.
+		/// </summary>
+		/// <param name="blogId"></param>
+		/// <param name="searchTerm"></param>
+		/// <returns></returns>
 		public abstract IList<SearchResult> Search(int blogId, string searchTerm);
 	}
 	
