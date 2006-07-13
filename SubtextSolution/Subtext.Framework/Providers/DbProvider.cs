@@ -54,7 +54,7 @@ namespace Subtext.Framework.Providers
                     if (_provider == null)
                     {
                         // Get a reference to the <Database> section
-                        DbProviderSectionHandler section = (DbProviderSectionHandler)
+                        ProviderSectionHandler section = (ProviderSectionHandler)
                             WebConfigurationManager.GetSection
                             ("Database");
 

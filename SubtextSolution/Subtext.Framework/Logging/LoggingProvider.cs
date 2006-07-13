@@ -19,18 +19,19 @@ using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
+using System.Configuration.Provider;
+using System.Web.Configuration;
 
 namespace Subtext.Framework.Logging
 {
 	/// <summary>
 	/// Provider for retrieving log entries.
 	/// </summary>
-	public abstract class LoggingProvider : ProviderBase
+    public abstract class LoggingProvider : System.Configuration.Provider.ProviderBase
 	{
-		string _name;
 
 		/// <summary>
-		/// Returns the configured concrete instance of a <see cref="ObjectProvider"/>.
+        /// Returns the configured concrete instance of a <see cref="LoggingProvider"/>.
 		/// </summary>
 		/// <returns></returns>
 		public static LoggingProvider Instance()
@@ -53,26 +54,6 @@ namespace Subtext.Framework.Logging
 		/// </summary>
 		public abstract void ClearLog();
 
-		/// <summary>
-		/// Initializes the specified provider.
-		/// </summary>
-		/// <param name="name">Friendly Name of the provider.</param>
-		/// <param name="configValue">Config value.</param>
-		public override void Initialize(string name, NameValueCollection configValue)
-		{
-			_name = name;
-		}
 
-		/// <summary>
-		/// Returns the friendly name of the provider when the provider is initialized.
-		/// </summary>
-		/// <value></value>
-		public override string Name
-		{
-			get
-			{
-				return _name;
-			}
-		}
 	}
 }

@@ -47,7 +47,7 @@ namespace Subtext.Extensibility.Providers
                     if (_provider == null)
                     {
                         // Get a reference to the <EmailProvider> section
-                        EmailProviderSectionHandler section = (EmailProviderSectionHandler)
+                        ProviderSectionHandler section = (ProviderSectionHandler)
                             WebConfigurationManager.GetSection
                             ("EmailProvider");
 

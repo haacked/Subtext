@@ -50,8 +50,8 @@ namespace Subtext.Framework.Providers
                     // Do this again to make sure _provider is still null
                     if (_provider == null)
                     {
-                        // Get a reference to the <RichTextEditor> section
-                        ObjectProviderSectionHandler section = (ObjectProviderSectionHandler)
+                        // Get a reference to the <ObjectProvider> section
+                        ProviderSectionHandler section = (ProviderSectionHandler)
                             WebConfigurationManager.GetSection
                             ("ObjectProvider");
 

@@ -38,26 +38,28 @@ namespace UnitTests.Subtext
 	/// </summary>
 	public static class UnitTestHelper
 	{
+        
 		/// <summary>
 		/// Creates a provider info instance using the specified name and type.
 		/// </summary>
 		/// <param name="name">The name.</param>
 		/// <param name="type">The type.</param>
 		/// <returns></returns>
-		public static ProviderInfo CreateProviderInfoInstance(string name, string type)
-		{
-			XmlDocument doc = new XmlDocument();
-			XmlElement element = doc.CreateElement("Root");
-			doc.AppendChild(element);
+        // NOT USED ANYMORE
+        //public static ProviderInfo CreateProviderInfoInstance(string name, string type)
+        //{
+        //    XmlDocument doc = new XmlDocument();
+        //    XmlElement element = doc.CreateElement("Root");
+        //    doc.AppendChild(element);
 			
-			XmlAttribute nameAttribute = doc.CreateAttribute("name");
-			nameAttribute.Value = name;
-			XmlAttribute typeAttribute = doc.CreateAttribute("type");
-			typeAttribute.Value = type;
-			element.Attributes.Append(nameAttribute);
-			element.Attributes.Append(typeAttribute);
-			return new ProviderInfo(element.Attributes);
-		}
+        //    XmlAttribute nameAttribute = doc.CreateAttribute("name");
+        //    nameAttribute.Value = name;
+        //    XmlAttribute typeAttribute = doc.CreateAttribute("type");
+        //    typeAttribute.Value = type;
+        //    element.Attributes.Append(nameAttribute);
+        //    element.Attributes.Append(typeAttribute);
+        //    return new ProviderInfo(element.Attributes);
+        //}
 		
 		/// <summary>
 		/// Unpacks an embedded resource into the specified directory.

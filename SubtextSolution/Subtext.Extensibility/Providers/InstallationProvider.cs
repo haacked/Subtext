@@ -49,8 +49,8 @@ namespace Subtext.Extensibility.Providers
                     // Do this again to make sure _provider is still null
                     if (_provider == null)
                     {
-                        // Get a reference to the <RichTextEditor> section
-                        InstallationProviderSectionHandler section = (InstallationProviderSectionHandler)
+                        // Get a reference to the <Installation> section
+                        ProviderSectionHandler section = (ProviderSectionHandler)
                             WebConfigurationManager.GetSection
                             ("Installation");
 
