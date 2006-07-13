@@ -70,8 +70,9 @@ namespace Subtext.Framework.Providers
 		/// Gets or sets the connection string.
 		/// </summary>
 		/// <value></value>
-		public string ConnectionString
+		protected string ConnectionString
 		{
+			//TODO: Make this protected.
 			get {return this._connectionString;}
 			set {this._connectionString = value;}
 		}

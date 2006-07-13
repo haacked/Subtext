@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Xml;
 using MbUnit.Framework;
@@ -7,7 +8,6 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Data;
 using Subtext.Framework.Import;
 
 namespace UnitTests.Subtext.Framework.Import
@@ -61,7 +61,7 @@ namespace UnitTests.Subtext.Framework.Import
 
             IList<Entry> entries = Entries.GetRecentPosts(20, PostType.BlogPost, PostConfig.None, true);
 
-            SubtextBlogMLWriter writer = new SubtextBlogMLWriter(SqlDataProvider.Instance().ConnectionString, Config.CurrentBlog.Id, false);
+            SubtextBlogMLWriter writer = new SubtextBlogMLWriter(ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString, Config.CurrentBlog.Id, false);
             writer.EmbedAttachments = true;
             MemoryStream memoryStream = new MemoryStream();
             using (XmlWriter xmlWriter = XmlWriter.Create(memoryStream))

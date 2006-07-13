@@ -69,7 +69,7 @@ namespace Subtext.Framework.Data
         public override DataTable GetAggregateRecentPosts(int groupId)
         {
             string sql = "DNW_GetRecentPosts";
-            string conn = Subtext.Framework.Providers.DbProvider.Instance().ConnectionString;
+            string conn = ConnectionString;
 
             SqlParameter[] p = 
 				{
