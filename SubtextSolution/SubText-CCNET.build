@@ -6,7 +6,7 @@
 	
 	<target name="get-publishing-properties">
 	
-		<ifnot test="${property::exists('CCNetBuildDate')}"> 
+		<if test="${not property::exists('CCNetBuildDate')}"> 
 			<fail message="CCNetBuildDate property not set, so can't create distribution files" />
 		</ifnot>	
 
