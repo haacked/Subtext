@@ -28,7 +28,7 @@ namespace Subtext.Web.Providers.BlogEntryEditor.PlainText
 		TextBox _txtCtl;
 		int _rows;
 		int _cols;
-		string _cssClass=String.Empty;
+		string _cssClass;
 
         private static System.Resources.ResourceManager rm = new System.Resources.ResourceManager("Subtext.Web.Providers.BlogEntryEditor.PlainText.resources.ErrorMessages", System.Reflection.Assembly.GetExecutingAssembly());
 
