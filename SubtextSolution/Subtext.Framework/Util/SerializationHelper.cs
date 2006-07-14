@@ -26,63 +26,14 @@ namespace Subtext.Framework.Util
 	public static class SerializationHelper
 	{
 		/// <summary>
-		/// Loads the specified type.
-		/// </summary>
-		/// <param name="type">Type.</param>
-		/// <param name="filename">Filename.</param>
-		/// <returns></returns>
-		public static object Load(Type type, string filename)
-		{
-			FileStream fs = null;
-			try
-			{
-				// open the stream...
-				fs = new FileStream(filename, FileMode.Open,FileAccess.Read);
-				XmlSerializer serializer = new XmlSerializer(type);
-				return serializer.Deserialize(fs);
-			}
-			finally
-			{
-				if(fs != null)
-					fs.Close();
-			}
-		}
-
-        /// <summary>
         /// Loads the specified type based on the specified stream.
         /// </summary>
-        /// <param name="type">Type.</param>
         /// <param name="stream">stream containing the type.</param>
         /// <returns></returns>
-        public static object Load(Type type, Stream stream)
+        public static T Load<T>(Stream stream)
         {
-            XmlSerializer serializer = new XmlSerializer(type);
-            return serializer.Deserialize(stream);
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
+            return (T)serializer.Deserialize(stream);
         }
-
-
-		/// <summary>
-		/// Saves the specified object at the specified location 
-		/// as a serialized file.
-		/// </summary>
-		/// <param name="obj">Obj.</param>
-		/// <param name="filename">Filename.</param>
-		public static void Save(object obj, string filename)
-		{
-			FileStream fs = null;
-			// serialize it...
-			try
-			{
-				fs = new FileStream(filename, FileMode.Create);
-				XmlSerializer serializer = new XmlSerializer(obj.GetType());
-				serializer.Serialize(fs, obj);	
-			}
-			finally
-			{
-				if(fs != null)
-					fs.Close();
-			}
-
-		}
 	}
 }
