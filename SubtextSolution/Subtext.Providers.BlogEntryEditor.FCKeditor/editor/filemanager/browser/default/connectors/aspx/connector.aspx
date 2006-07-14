@@ -1,4 +1,4 @@
-<%@ Page language="c#" Inherits="Subtext.Providers.RichTextEditor.FCKeditor.FileBrowserConnector" AutoEventWireup="false" %>
+<%@ Page language="c#" Inherits="Subtext.Providers.BlogEntryEditor.FCKeditor.FileBrowserConnector" AutoEventWireup="false" %>
 <%--
  * FCKeditor - The text editor for internet
  * Copyright (C) 2003-2005 Frederico Caldeira Knabben
