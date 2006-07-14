@@ -335,9 +335,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 
 		/// <summary>
 		/// Sets the up test fixture.  This is called once for 
-		/// this test fixture before all the tests run.  It 
-		/// essentially copies the App.config file to the 
-		/// run directory.
+		/// this test fixture before all the tests run.
 		/// </summary>
 		[TestFixtureSetUp]
 		public void SetUpTestFixture()

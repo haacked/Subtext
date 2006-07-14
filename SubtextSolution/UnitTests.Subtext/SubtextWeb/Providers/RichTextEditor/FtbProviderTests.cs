@@ -17,8 +17,6 @@ using System;
 using MbUnit.Framework;
 using System.Web.UI.WebControls;
 using FreeTextBoxControls;
-using Subtext.Framework;
-using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Web.Providers.BlogEntryEditor.FTB;
 
@@ -32,7 +30,7 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 	public class FtbProviderTests
 	{
 		string _hostName = System.Guid.NewGuid().ToString().Replace("-", string.Empty) + ".com";
-		string _testToolbarLayout="Bold,Italic,Underline,Strikethrough;Superscript,Subscript,RemoveFormat|FontFacesMenu,FontSizesMenu,FontForeColorsMenu|InsertTable|JustifyLeft,JustifyRight,JustifyCenter,JustifyFull;BulletedList,NumberedList,Indent,Outdent;CreateLink,Unlink,Insert,InsertRule|Cut,Copy,Paste;Undo,Redo|ieSpellCheck,WordClean|InsertImage,InsertImageFromGallery";
+		string _testToolbarLayout = "Bold,Italic,Underline,Strikethrough;Superscript,Subscript,RemoveFormat|FontFacesMenu,FontSizesMenu,FontForeColorsMenu|InsertTable|JustifyLeft,JustifyRight,JustifyCenter,JustifyFull;BulletedList,NumberedList,Indent,Outdent;CreateLink,Unlink,Insert,InsertRule|Cut,Copy,Paste;Undo,Redo|ieSpellCheck,WordClean|InsertImage,InsertImageFromGallery";
 		FtbBlogEntryEditorProvider frtep;
 
 		[SetUp]
