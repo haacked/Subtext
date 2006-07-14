@@ -40,8 +40,8 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		public void SetControlID() 
 		{
 			string test="MyTestControlID";
-			ptrtep.ControlID=test;
-			Assert.AreEqual(test,ptrtep.ControlID);
+			ptrtep.ControlId=test;
+			Assert.AreEqual(test,ptrtep.ControlId);
 		}
 
 		[Test]

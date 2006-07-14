@@ -26,7 +26,6 @@ namespace Subtext.Web.Providers.BlogEntryEditor.PlainText
     public class PlainTextBlogEntryEditorProvider : BlogEntryEditorProvider
 	{
 		TextBox _txtCtl;
-		string _controlID=string.Empty;
 		int _rows;
 		int _cols;
 		string _cssClass=String.Empty;
@@ -43,7 +42,6 @@ namespace Subtext.Web.Providers.BlogEntryEditor.PlainText
 
 		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
 		{
-
 			if(name == null)
 				throw new ArgumentNullException("name", rm.GetString("nameNeeded"));
 			
@@ -62,49 +60,20 @@ namespace Subtext.Web.Providers.BlogEntryEditor.PlainText
 
 		public override void InitializeControl() 
 		{
-			_txtCtl=new TextBox();
-			_txtCtl.ID=ControlID;
-			if(_cssClass!=null && _cssClass.Trim().Length!=0)
-				_txtCtl.CssClass=_cssClass;
+			_txtCtl = new TextBox();
+			_txtCtl.ID = this.ControlId;
+			if(_cssClass != null && _cssClass.Trim().Length != 0)
+				_txtCtl.CssClass = _cssClass;
+
+			if (this.Width != Unit.Empty)
+				_txtCtl.Width = this.Width;
+
+			if (this.Height != Unit.Empty)
+				_txtCtl.Height = this.Height;
+			
 			_txtCtl.TextMode=TextBoxMode.MultiLine;
-			_txtCtl.Rows=_rows;
-			_txtCtl.Columns=_cols;
-		}
-
-		public override string ControlID
-		{
-			get
-			{
-				return _controlID;
-			}
-			set
-			{
-				_controlID=value;
-			}
-		}
-
-		public override Unit Height
-		{
-			get
-			{
-				return _txtCtl.Height;
-			}
-			set
-			{
-				_txtCtl.Height=value;
-			}
-		}
-
-		public override Unit Width
-		{
-			get
-			{
-				return _txtCtl.Width;
-			}
-			set
-			{
-				_txtCtl.Width=value;
-			}
+			_txtCtl.Rows = _rows;
+			_txtCtl.Columns = _cols;
 		}
 
 		public override String Text

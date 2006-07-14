@@ -30,10 +30,9 @@ namespace Subtext.Web.Providers.BlogEntryEditor.FTB
 	/// </summary>
     public class FtbBlogEntryEditorProvider : BlogEntryEditorProvider
 	{
-		FreeTextBox _ftbCtl;
-		string _controlID=string.Empty;
-		string _webFormFolder=string.Empty;
-		string _toolbarlayout=string.Empty;
+		FreeTextBox _ftbCtl; //There's a good reason to do this early.
+		string _webFormFolder = string.Empty;
+		string _toolbarlayout = string.Empty;
 		bool _formatHtmlTagsToXhtml;
 		bool _removeServerNamefromUrls;
 
@@ -73,8 +72,15 @@ namespace Subtext.Web.Providers.BlogEntryEditor.FTB
 
 		public override void InitializeControl() 
 		{
-			_ftbCtl=new FreeTextBox();
-			_ftbCtl.ID=ControlID;
+			_ftbCtl = new FreeTextBox();
+			_ftbCtl.ID = this.ControlId;
+			
+			if (this.Width != Unit.Empty)
+				_ftbCtl.Width = this.Width;
+
+			if (this.Height != Unit.Empty)
+				_ftbCtl.Height = this.Height;
+			
 			if(_toolbarlayout!=null && _toolbarlayout.Trim().Length!=0)
 				_ftbCtl.ToolbarLayout=_toolbarlayout;
 			_ftbCtl.FormatHtmlTagsToXhtml=_formatHtmlTagsToXhtml;
@@ -94,42 +100,6 @@ namespace Subtext.Web.Providers.BlogEntryEditor.FTB
 			_ftbCtl.ImageGalleryPath=blogImageRootPath;
 		}
 
-		public override string ControlID
-		{
-			get
-			{
-				return _controlID;
-			}
-			set
-			{
-				_controlID=value;
-			}
-		}
-
-		public override Unit Height
-		{
-			get
-			{
-				return _ftbCtl.Height;
-			}
-			set
-			{
-				_ftbCtl.Height=value;
-			}
-		}
-
-		public override Unit Width
-		{
-			get
-			{
-				return _ftbCtl.Width;
-			}
-			set
-			{
-				_ftbCtl.Width=value;
-			}
-		}
-
 		public override String Text
 		{
 			get
@@ -138,7 +108,7 @@ namespace Subtext.Web.Providers.BlogEntryEditor.FTB
 			}
 			set
 			{
-				_ftbCtl.Text=value;
+				_ftbCtl.Text = value;
 			}
 		}
 
