@@ -16,6 +16,7 @@
 using System;
 using System.Web.UI;
 using System.Configuration.Provider;
+using System.Web.UI.WebControls;
 
 namespace Subtext.Extensibility.Providers
 {
@@ -27,7 +28,11 @@ namespace Subtext.Extensibility.Providers
 	{
 		private static BlogEntryEditorProvider provider;
 		private static GenericProviderCollection<BlogEntryEditorProvider> providers = ProviderConfigurationHelper.LoadProviderCollection<BlogEntryEditorProvider>("BlogEntryEditor", out provider);
-
+		
+		/// <summary>
+		/// Returns the default instance of this provider.
+		/// </summary>
+		/// <returns></returns>
         public static BlogEntryEditorProvider Instance()
         {
             return provider;
@@ -44,30 +49,95 @@ namespace Subtext.Extensibility.Providers
 			}
 		}
 		
+		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
+		{
+			if (configValue["Width"] != null)
+				this.Width = ParseUnit(configValue["Width"]);
+
+			if (configValue["Height"] != null)
+				this.Height = ParseUnit(configValue["Height"]);
+
+			base.Initialize(name, configValue);
+		}
+		
+		protected Unit ParseUnit(string s)
+		{
+			try
+			{
+				return Unit.Parse(s);
+			}
+			catch(Exception)
+			{
+			}
+			return Unit.Empty;
+		}
+		
+       
+		/// <summary>
+        /// Id of the control
+        /// </summary>
+		public virtual string ControlId
+		{
+			get
+			{
+				return this.controlId;
+			}
+			set
+			{
+				this.controlId = value;
+			}
+		}
+		
+		string controlId;
+        
+		/// <summary>
+		/// Width of the editor
+		/// </summary>
+		public Unit Width
+		{
+			get
+			{
+				return this.width;
+			}
+			set
+			{
+				this.width = value;
+			}
+		}
+
+		Unit width = Unit.Empty;
+        
+		/// <summary>
+		/// Height of the editor
+		/// </summary>
+		public Unit Height
+		{
+			get
+			{
+				return this.height;
+			}
+			set
+			{
+				this.height = value;
+			}
+		}
+
+		Unit height = Unit.Empty;
+
+		/// <summary>
+		/// The content of the area
+		/// </summary>
+		public abstract String Text { get;set;}
+
+		/// <summary>
+		/// The content of the area, but XHTML converted
+		/// </summary>
+		public abstract String Xhtml { get;}
+		
 		/// <summary>
 		/// Return the RichTextEditorControl to be displayed inside the page
 		/// </summary>
-		public abstract Control RichTextEditorControl{get;}
-        /// <summary>
-        /// Id of the control
-        /// </summary>
-		public abstract String ControlID{get;set;}
-        /// <summary>
-        /// The content of the area
-        /// </summary>
-		public abstract String Text{get;set;}
-        /// <summary>
-        /// The content of the area, but XHTML converted
-        /// </summary>
-		public abstract String Xhtml{get;}
-        /// <summary>
-        /// Width of the editor
-        /// </summary>
-		public abstract System.Web.UI.WebControls.Unit Width{get;set;}
-        /// <summary>
-        /// Height of the editor
-        /// </summary>
-		public abstract System.Web.UI.WebControls.Unit Height{get;set;}
+		public abstract Control RichTextEditorControl { get;}
 
         /// <summary>
         /// Initializes the Control to be displayed

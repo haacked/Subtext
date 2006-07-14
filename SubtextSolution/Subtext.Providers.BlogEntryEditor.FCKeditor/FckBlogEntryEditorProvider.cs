@@ -15,6 +15,7 @@
 
 using System;
 using System.IO;
+using System.Web.UI.WebControls;
 using Subtext.Extensibility.Providers;
 using System.Web;
 using Subtext.Web.Controls;
@@ -26,9 +27,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 	/// </summary>
     public class FckBlogEntryEditorProvider : BlogEntryEditorProvider
 	{
-
-		FredCK.FCKeditorV2.FCKeditor _fckCtl;
-		string _controlID=string.Empty;
+		FredCK.FCKeditorV2.FCKeditor _fckCtl = new FredCK.FCKeditorV2.FCKeditor(); //There's a good reason to do this early.
 		string _webFormFolder=string.Empty;
 		string _imageBrowserURL=string.Empty;
 		string _linkBrowserURL=string.Empty;
@@ -49,18 +48,6 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 			}
 		}
 
-		public override string ControlID
-		{
-			get
-			{
-				return _controlID;
-			}
-			set
-			{
-				_controlID=value;
-			}
-		}
-
 		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
 		{
 			if(name == null)
@@ -68,7 +55,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 			
 			if(configValue == null)
 				throw new ArgumentNullException("configValue", rm.GetString("configNeeded"));
-			
+
 			if(configValue["WebFormFolder"]!=null)
 				_webFormFolder=configValue["WebFormFolder"];
 			else
@@ -106,26 +93,32 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 			else
 				throw new InvalidOperationException(rm.GetString("ImageAllowedExtensionsNeeded"));
 
-
 			if(configValue["ToolbarSet"]!=null)
 				_toolbarSet=configValue["ToolbarSet"];
 
 			if(configValue["Skin"]!=null)
 				_skin=configValue["Skin"];
-
+			
 			base.Initialize(name, configValue);
 		}
 
 		public override void InitializeControl()
 		{
-			_fckCtl=new FredCK.FCKeditorV2.FCKeditor();
-			_fckCtl.ID=ControlID;
-			_fckCtl.BasePath=ControlHelper.ExpandTildePath(_webFormFolder);
-			if(_toolbarSet.Length!=0)
-				_fckCtl.ToolbarSet=_toolbarSet;
+			_fckCtl = new FredCK.FCKeditorV2.FCKeditor();
+			_fckCtl.ID = this.ControlId;
+			_fckCtl.BasePath = ControlHelper.ExpandTildePath(_webFormFolder);
 
-			if(_skin.Length!=0)
-				_fckCtl.SkinPath=_fckCtl.BasePath+"editor/skins/"+_skin+"/";
+			if(this.Width != Unit.Empty)
+				_fckCtl.Width = this.Width;
+
+			if (this.Height != Unit.Empty)
+				_fckCtl.Height = this.Height;
+			
+			if(_toolbarSet.Length!=0)
+				_fckCtl.ToolbarSet = _toolbarSet;
+
+			if(_skin.Length != 0)
+				_fckCtl.SkinPath = _fckCtl.BasePath + "editor/skins/" + _skin + "/";
 
 			// Compute user image gallery url
 			string blogImageRootPath=Subtext.Framework.Format.UrlFormats.StripHostFromUrl(Subtext.Framework.Configuration.Config.CurrentBlog.ImagePath);
@@ -143,20 +136,6 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 
 			_fckCtl.ImageBrowserURL=String.Format(ControlHelper.ExpandTildePath(_imageBrowserURL),ControlHelper.ExpandTildePath(currentImageConnector));
 			_fckCtl.LinkBrowserURL=String.Format(ControlHelper.ExpandTildePath(_linkBrowserURL),ControlHelper.ExpandTildePath(currentLinkConnector));
-			
-
-		}
-
-		public override System.Web.UI.WebControls.Unit Height
-		{
-			get
-			{
-				return _fckCtl.Height;
-			}
-			set
-			{
-				_fckCtl.Height=value;
-			}
 		}
 
 		public override string Text
@@ -167,19 +146,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 			}
 			set
 			{
-				_fckCtl.Value=value;
-			}
-		}
-
-		public override System.Web.UI.WebControls.Unit Width
-		{
-			get
-			{
-				return _fckCtl.Width;
-			}
-			set
-			{
-				_fckCtl.Width=value;
+				_fckCtl.Value = value;
 			}
 		}
 
