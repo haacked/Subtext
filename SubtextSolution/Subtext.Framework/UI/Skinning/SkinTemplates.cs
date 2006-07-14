@@ -38,7 +38,7 @@ namespace Subtext.Framework.UI.Skinning
                 VirtualFile virtualConfigFile = vpathProvider.GetFile("~/Admin/Skins.config");
                 using (Stream configStream = virtualConfigFile.Open())
                 {
-                    st = (SkinTemplates)SerializationHelper.Load(typeof(SkinTemplates), configStream);
+                    st = SerializationHelper.Load<SkinTemplates>(configStream);
                 }
 				if(st != null)
 				{
@@ -50,9 +50,6 @@ namespace Subtext.Framework.UI.Skinning
 
 		public SkinTemplates()
 		{
-			//
-			// TODO: Add constructor logic here
-			//
 		}
 
 		private Dictionary<string, SkinTemplate> _ht;
