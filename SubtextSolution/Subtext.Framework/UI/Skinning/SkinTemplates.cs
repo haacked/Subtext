@@ -31,21 +31,40 @@ namespace Subtext.Framework.UI.Skinning
 	{
 		public static SkinTemplates Instance()
 		{
-			SkinTemplates st = (SkinTemplates)HttpContext.Current.Cache["SkinTemplates"];
-			if(st == null)
+			SkinTemplates skinTemplates = (SkinTemplates)HttpContext.Current.Cache["SkinTemplates"];
+			if(skinTemplates == null)
 			{
-                VirtualPathProvider vpathProvider = HostingEnvironment.VirtualPathProvider;
-                VirtualFile virtualConfigFile = vpathProvider.GetFile("~/Admin/Skins.config");
-                using (Stream configStream = virtualConfigFile.Open())
-                {
-                    st = SerializationHelper.Load<SkinTemplates>(configStream);
-                }
-				if(st != null)
+				VirtualPathProvider vpathProvider = HostingEnvironment.VirtualPathProvider;
+				skinTemplates = GetSkinTemplates(vpathProvider, "~/Admin/Skins.config");
+
+				if (vpathProvider.FileExists("~/Admin/Skins.User.config"))
 				{
-					HttpContext.Current.Cache.Insert("SkinTemplates", st, vpathProvider.GetCacheDependency("~/Admin/Skins.config", null, DateTime.Now.ToUniversalTime()));
+					SkinTemplates userSpecificTemplates = GetSkinTemplates(vpathProvider, "~/Admin/Skins.User.config");
+					if (userSpecificTemplates != null)
+					{
+						foreach(SkinTemplate template in userSpecificTemplates.Templates)
+						{
+							skinTemplates.Templates.Add(template);
+						}
+					}
+				}
+
+				if(skinTemplates != null)
+				{
+					HttpContext.Current.Cache.Insert("SkinTemplates", skinTemplates, vpathProvider.GetCacheDependency("~/Admin/Skins.config", null, DateTime.Now.ToUniversalTime()));
 				}
 			}
-			return st;
+			return skinTemplates;
+		}
+
+		private static SkinTemplates GetSkinTemplates(VirtualPathProvider virtualPathProvider, string path)
+		{
+			VirtualFile virtualConfigFile = virtualPathProvider.GetFile(path);
+				
+			using (Stream configStream = virtualConfigFile.Open())
+			{
+				return SerializationHelper.Load<SkinTemplates>(configStream);
+			}
 		}
 
 		public SkinTemplates()
@@ -64,7 +83,7 @@ namespace Subtext.Framework.UI.Skinning
 			if(_ht == null)
 			{
 				_ht = new Dictionary<string, SkinTemplate>();
-				for(int i = 0; i < Templates.Length; i++)
+				for(int i = 0; i < Templates.Count; i++)
 				{
 					_ht.Add(Templates[i].SkinKey, Templates[i]);
 				}
@@ -78,13 +97,14 @@ namespace Subtext.Framework.UI.Skinning
 
 		}
 
-		private SkinTemplate[] _skinTemplates;
 		[XmlArray("Skins")]
-		public SkinTemplate[] Templates
+		public List<SkinTemplate> Templates
 		{
 			get {return this._skinTemplates;}
 			set {this._skinTemplates = value;}
 		}
+
+		private List<SkinTemplate> _skinTemplates;
 	}
 }
 

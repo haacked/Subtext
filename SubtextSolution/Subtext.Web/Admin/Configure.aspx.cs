@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
@@ -61,7 +62,7 @@ namespace Subtext.Web.Admin.Pages
 				txbSecondaryCss.Text = info.Skin.SkinCssText;
 			}
 
-			SkinTemplate[] templates = SkinTemplates.Instance().Templates;
+			IList<SkinTemplate> templates = SkinTemplates.Instance().Templates;
 			foreach(SkinTemplate template in templates)
 			{
 				ddlSkin.Items.Add(new ListItem(template.SkinID, template.SkinKey));
