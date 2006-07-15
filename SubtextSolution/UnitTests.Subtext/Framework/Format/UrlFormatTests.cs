@@ -174,7 +174,7 @@ namespace UnitTests.Subtext.Framework.Format
 		[SetUp]
 		public void SetUp()
 		{
-			_hostName = UnitTestHelper.GenerateRandomHostname();
+			_hostName = UnitTestHelper.GenerateRandomString();
 			
 		}
 

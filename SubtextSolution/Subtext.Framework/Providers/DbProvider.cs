@@ -106,7 +106,7 @@ namespace Subtext.Framework.Providers
 	    /// </summary>
 	    /// <param name="entryId"></param>
 	    /// <returns></returns>
-	    public abstract DataSet GetPreviousNext(int entryId);
+	    public abstract IDataReader GetPreviousNext(int entryId);
         #endregion
 
         #region Get Blog Data

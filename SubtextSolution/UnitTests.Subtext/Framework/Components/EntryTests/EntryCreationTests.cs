@@ -44,7 +44,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[RollBack]
 		public void CreatedEntryHasCorrectFullyQualifiedLink(string subfolder, string virtualDir, string expectedUrlPrefix)
 		{
-			string hostname = UnitTestHelper.GenerateRandomHostname();
+			string hostname = UnitTestHelper.GenerateRandomString();
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, subfolder));
 			
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, subfolder, virtualDir);
@@ -74,7 +74,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
 			Entry entry = new Entry(PostType.PingTrack);
 			entry.DateCreated = DateTime.Now;
-			entry.SourceUrl = "http://" + UnitTestHelper.GenerateRandomHostname() + "/ThisUrl/";
+			entry.SourceUrl = "http://" + UnitTestHelper.GenerateRandomString() + "/ThisUrl/";
 			entry.Title = "Some Title";
 			entry.Body = "Some Body";
 			int id = Entries.Create(entry);
@@ -92,7 +92,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Entry entry = new Entry(PostType.BlogPost);
 			
 			entry.DateCreated = DateTime.Now;
-			entry.SourceUrl = "http://" + UnitTestHelper.GenerateRandomHostname() + "/ThisUrl/";
+			entry.SourceUrl = "http://" + UnitTestHelper.GenerateRandomString() + "/ThisUrl/";
 			entry.Title = "Some Title";
 			entry.Body = "Some Body";
 			
@@ -127,7 +127,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[SetUp]
 		public void SetUp()
 		{
-			_hostName = UnitTestHelper.GenerateRandomHostname();
+			_hostName = UnitTestHelper.GenerateRandomString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, string.Empty);
 			CommentFilter.ClearCommentCache();
 		}

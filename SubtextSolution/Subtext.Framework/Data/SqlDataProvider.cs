@@ -43,7 +43,7 @@ namespace Subtext.Framework.Data
 		}
 
 		#region DbProvider Methods
-        public override DataSet GetPreviousNext(int entryId)
+        public override IDataReader GetPreviousNext(int entryId)
         {
             SqlParameter[] p =
 					{
@@ -51,7 +51,7 @@ namespace Subtext.Framework.Data
 						BlogIdParam
 					};
 
-            return SqlHelper.ExecuteDataset(ConnectionString, CommandType.StoredProcedure, "Subtext_GetEntry_PreviousNext", p);
+            return SqlHelper.ExecuteReader(ConnectionString, CommandType.StoredProcedure, "Subtext_GetEntry_PreviousNext", p);
         }
 	    	    
 	    public override DataSet GetAggregateHomePageData(int groupId)

@@ -30,7 +30,7 @@ namespace UnitTests.Subtext.Framework.Tracking
 			string excerpt = "Blah blah blah.";
 			string blogName = "You've been haacked";
 			
-			string hostname = UnitTestHelper.GenerateRandomHostname();
+			string hostname = UnitTestHelper.GenerateRandomString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, string.Empty);
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
 			
@@ -57,7 +57,7 @@ namespace UnitTests.Subtext.Framework.Tracking
 			string excerpt = "Blah blah blah blah blah.";
 			string blogName = "You've been haacked";
 			
-			string hostname = UnitTestHelper.GenerateRandomHostname();
+			string hostname = UnitTestHelper.GenerateRandomString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, string.Empty);
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
 			
@@ -85,7 +85,7 @@ namespace UnitTests.Subtext.Framework.Tracking
 			string excerpt = "Blah aoeu taonsteuh aonsteuh blah blah.";
 			string blogName = "You've been haacked";
 			
-			string hostname = UnitTestHelper.GenerateRandomHostname();
+			string hostname = UnitTestHelper.GenerateRandomString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, string.Empty);
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
 			
@@ -113,7 +113,7 @@ namespace UnitTests.Subtext.Framework.Tracking
 			string excerpt = "Blah blah blah.";
 			string blogName = "You've been haacked";
 			
-			string hostname = UnitTestHelper.GenerateRandomHostname();
+			string hostname = UnitTestHelper.GenerateRandomString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, string.Empty);
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
 			
@@ -164,11 +164,11 @@ namespace UnitTests.Subtext.Framework.Tracking
 		public void TrackBackPostCreatesProperTrackback()
 		{
 			string url = "http://haacked.com/";
-			string title = "This is the Title of the Trackback" + UnitTestHelper.GenerateRandomHostname();
-			string excerpt = "Blah blah blah blah blah." + UnitTestHelper.GenerateRandomHostname();
+			string title = "This is the Title of the Trackback" + UnitTestHelper.GenerateRandomString();
+			string excerpt = "Blah blah blah blah blah." + UnitTestHelper.GenerateRandomString();
 			string blogName = "You've been haacked";
 			
-			string hostname = UnitTestHelper.GenerateRandomHostname();
+			string hostname = UnitTestHelper.GenerateRandomString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "blog", string.Empty);
 			Assert.IsTrue(Config.CreateBlog("Some Title", "username", "password", hostname, "blog"));
 			

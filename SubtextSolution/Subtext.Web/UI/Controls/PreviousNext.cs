@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Common.Data;
+using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Providers;
@@ -17,8 +19,8 @@ namespace Subtext.Web.UI.Controls
 		protected HyperLink NextLink;
 		protected HyperLink PrevLink;
 		protected HyperLink MainLink;
-		protected Label LeftPipe;
-		protected Label RightPipe;
+		protected Control LeftPipe;
+		protected Control RightPipe;
 		
 		public PreviousNext()
 		{
@@ -37,9 +39,11 @@ namespace Subtext.Web.UI.Controls
 				//Sent entry properties
 				MainLink.NavigateUrl = CurrentBlog.HomeVirtualUrl;
 
-			    DataSet ds = DbProvider.Instance().GetPreviousNext(entry.Id);
+				IList<Entry> entries = ObjectProvider.Instance().GetPreviousAndNextEntries(entry.Id, PostType.BlogPost);
 
-				switch(ds.Tables[0].Rows.Count)
+				//Remember, the NEXT entry is the MORE RECENT entry.
+				
+				switch (entries.Count)
 				{
 					case 0:
 					{
@@ -53,21 +57,19 @@ namespace Subtext.Web.UI.Controls
 						//since there is only one record, you are at an end
 						//Check EntryID to see if it is greater or less than
 						//the current ID
-						if ((int)ds.Tables[0].Rows[0]["EntryID"] > entry.Id)
+						if (entries[0].DateSyndicated > entry.DateSyndicated)
 						{
 							//this is the oldest blog
 							PrevLink.Visible = false;
 							LeftPipe.Visible = false;							
-							SetNav(NextLink, ds.Tables[0].Rows[0]);
-							NextLink.Text = NextLink.Text + " >>";
+							SetNav(NextLink, entries[0]);
 						}
 						else
 						{
 							//this is the latest blog
 							NextLink.Visible = false;
 							RightPipe.Visible = false;
-							SetNav(PrevLink, ds.Tables[0].Rows[0]);
-							PrevLink.Text = "<< " + PrevLink.Text;
+							SetNav(PrevLink, entries[0]);
 						}
 						break;
 					}
@@ -76,15 +78,11 @@ namespace Subtext.Web.UI.Controls
 						//two records found. The first record will be NEXT
 						//the second record will be PREVIOUS
 						//This is because the query is sorted by EntryID
-						SetNav(PrevLink, ds.Tables[0].Rows[0]);
-						PrevLink.Text = "<< " + PrevLink.Text;							
-						SetNav(NextLink, ds.Tables[0].Rows[1]);
-						NextLink.Text = NextLink.Text + " >>";
+						SetNav(NextLink, entries[0]);
+						SetNav(PrevLink, entries[1]);
 						break;
 					}
 				}
-				
-
 			}
 			else 
 			{
@@ -95,20 +93,14 @@ namespace Subtext.Web.UI.Controls
 		}
 
 
-		private void SetNav(HyperLink navLink, DataRow dr)
+		private void SetNav(HyperLink navLink, Entry entry)
 		{
-			string linkName;
-			navLink.Text = (string)dr["EntryTitle"];
-			if (dr["EntryName"] != DBNull.Value)
-			{
-				linkName = (string)dr["EntryName"];
-			}
-			else
-			{
-				linkName = dr["EntryID"].ToString();
-			}
-			navLink.NavigateUrl = string.Format(CurrentBlog.RootUrl + "archive/{0}/{1}.aspx",((DateTime)dr["EntryDate"]).ToString("yyyy/MM/dd"),linkName);
-
+			string format = navLink.Attributes["Format"];
+			if (format == null)
+				format = "{0}";
+			
+			navLink.Text = string.Format(format, entry.Title);
+			navLink.NavigateUrl = entry.FullyQualifiedUrl.ToString();
 		}
 	}
 

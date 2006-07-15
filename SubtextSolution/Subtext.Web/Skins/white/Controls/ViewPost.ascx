@@ -1,4 +1,8 @@
 <%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.ViewPost" %>
+<%@ Register TagPrefix="uc1" TagName="PreviousNext" Src="PreviousNext.ascx" %>
+
+<uc1:PreviousNext id="PreviousNext1" runat="server" />
+
 <div class="dropshadow">
 	<div class="contentbox">
 		<h2><asp:HyperLink Runat="server" ID="editLink" /><asp:HyperLink  CssClass="singleposttitle" Runat="server" ID="TitleUrl" /></h2>

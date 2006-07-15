@@ -15,7 +15,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Data;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
@@ -271,7 +270,19 @@ namespace Subtext.Framework.Data
 		#endregion
 
 		#region EntryCollections
-
+		/// <summary>
+		/// Returns the previous and next entry to the specified entry.
+		/// </summary>
+		/// <param name="entryId"></param>
+		/// <returns></returns>
+		public override IList<Entry> GetPreviousAndNextEntries(int entryId, PostType postType)
+		{
+			using(IDataReader reader = DbProvider.Instance().GetPreviousNext(entryId))
+			{
+				return DataHelper.LoadEntryCollectionFromDataReader(reader);
+			}
+		}
+		
 		/// <summary>
 		/// Gets the entries that meet the specific <see cref="PostType"/> 
 		/// and the <see cref="PostConfig"/> flags.
