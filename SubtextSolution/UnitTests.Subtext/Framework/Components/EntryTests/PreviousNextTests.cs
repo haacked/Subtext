@@ -105,6 +105,46 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		}
 
 		/// <summary>
+		/// Test the case where we have more than three entries.
+		/// </summary>
+		[Test]
+		[RollBack]
+		public void GetPreviousAndNextEntriesReturnsCorrectEntries()
+		{
+			string hostname = UnitTestHelper.GenerateRandomString();
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
+			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
+
+			Entry firstEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateRandomString(), DateTime.Now.AddDays(-3));
+			Entry previousEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateRandomString(), DateTime.Now.AddDays(-2));
+			Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateRandomString(), DateTime.Now.AddDays(-1));
+			Entry nextEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateRandomString(), DateTime.Now);
+			Entry lastEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateRandomString(), DateTime.Now.AddDays(1));
+
+			Console.WriteLine("{0} Syndicate: {1:hh:mm:ss:fff}", Entries.Create(firstEntry), firstEntry.DateSyndicated);
+			Thread.Sleep(100);
+			int previousId = Entries.Create(previousEntry);
+			Console.WriteLine("{0} Syndicate: {1:hh:mm:ss:fff}", previousId, previousEntry.DateSyndicated);
+			Thread.Sleep(100);
+			int currentId = Entries.Create(currentEntry);
+			Console.WriteLine("{0} Syndicate: {1:hh:mm:ss:fff} ** Current", currentId, currentEntry.DateSyndicated);
+			Thread.Sleep(100);
+			int nextId = Entries.Create(nextEntry);
+			Thread.Sleep(100);
+			Console.WriteLine("{0} Syndicate: {1:hh:mm:ss:fff}", Entries.Create(lastEntry), lastEntry.DateSyndicated);
+
+			IList<Entry> entries = DatabaseObjectProvider.Instance().GetPreviousAndNextEntries(currentId, PostType.BlogPost);
+			Assert.AreEqual(2, entries.Count, "Expected both previous and next.");
+
+			Console.WriteLine("Prev: {0} Syndicate: {1:hh:mm:ss:fff}", entries[0].Id, entries[0].DateSyndicated);
+			Console.WriteLine("Next: {0} Syndicate: {1:hh:mm:ss:fff}", entries[1].Id, entries[1].DateSyndicated);
+
+			//The more recent one is next because of desceding sort.
+			Assert.AreEqual(nextId, entries[0].Id, "The next entry does not match expectations.");
+			Assert.AreEqual(previousId, entries[1].Id, "The previous entry does not match expectations.");
+		}
+
+		/// <summary>
 		/// Make sure that previous and next are based on syndication date and not entry id.
 		/// </summary>
 		[Test]

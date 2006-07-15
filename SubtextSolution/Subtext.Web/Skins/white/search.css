@@ -41,6 +41,11 @@
 }
 
 /* ------------- {search layout} -------------- */
+#search
+{
+	margin-right: 38px;
+}
+
 #search input.searchterm
 {
 	padding: 0;

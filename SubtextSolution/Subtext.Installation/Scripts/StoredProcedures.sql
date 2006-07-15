@@ -4108,7 +4108,7 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE Proc [<dbUser,varchar,dbo>].[Subtext_GetEntry_PreviousNext]
+CREATE PROC [<dbUser,varchar,dbo>].[Subtext_GetEntry_PreviousNext]
 (
 	@ID int
 	, @PostType int = 1
@@ -4121,43 +4121,49 @@ SELECT @DateSyndicated = ISNULL(DateSyndicated, DateAdded)
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE ID = @ID
 
-SELECT Top 1 BlogId
-	, [ID]
-	, Title
-	, DateAdded
-	, PostType
-	, TitleUrl
-	, PostConfig
-	, EntryName 
-	, DateSyndicated
-	, ISNULL(DateSyndicated, DateAdded) -- Must be here to order by
-FROM [<dbUser,varchar,dbo>].[subtext_Content]
-WHERE ISNULL([DateSyndicated], [DateAdded]) <= @DateSyndicated
-	AND Subtext_Content.BlogId = @BlogId 
-	AND Subtext_Content.PostConfig & 1 = 1 
-	AND PostType = @PostType
-	AND [ID] != @ID
-
+SELECT * FROM
+(
+	SELECT Top 1 BlogId
+		, [ID]
+		, Title
+		, DateAdded
+		, PostType
+		, TitleUrl
+		, PostConfig
+		, EntryName 
+		, DateSyndicated
+		, CardinalityDate = ISNULL(DateSyndicated, DateAdded) -- Must be here to order by
+	FROM [<dbUser,varchar,dbo>].[subtext_Content]
+	WHERE ISNULL([DateSyndicated], [DateAdded]) >= @DateSyndicated
+		AND Subtext_Content.BlogId = @BlogId 
+		AND Subtext_Content.PostConfig & 1 = 1 
+		AND PostType = @PostType
+		AND [ID] != @ID
+	ORDER BY ISNULL(DateSyndicated, DateAdded) ASC
+) [Previous]
 UNION
+SELECT * FROM
+(
+	SELECT Top 1 BlogId
+		, [ID]
+		, Title
+		, DateAdded
+		, PostType
+		, TitleUrl
+		, PostConfig
+		, EntryName 
+		, DateSyndicated
+		, CardinalityDate = ISNULL(DateSyndicated, DateAdded)
+	FROM [<dbUser,varchar,dbo>].[subtext_Content]
+	WHERE ISNULL([DateSyndicated], [DateAdded]) <= @DateSyndicated
+		AND Subtext_Content.BlogId = @BlogId 
+		AND Subtext_Content.PostConfig & 1 = 1 
+		AND PostType = @PostType
+		AND [ID] != @ID
+	ORDER BY ISNULL(DateSyndicated, DateAdded) DESC
+) [Next]
 
-SELECT Top 1 BlogId
-	, [ID]
-	, Title
-	, DateAdded
-	, PostType
-	, TitleUrl
-	, PostConfig
-	, EntryName 
-	, DateSyndicated
-	, ISNULL(DateSyndicated, DateAdded)
-FROM [<dbUser,varchar,dbo>].[subtext_Content]
-WHERE ISNULL([DateSyndicated], [DateAdded]) >= @DateSyndicated
-	AND Subtext_Content.BlogId = @BlogId 
-	AND Subtext_Content.PostConfig & 1 = 1 
-	AND PostType = @PostType
-	AND [ID] != @ID
-
-ORDER BY ISNULL(DateSyndicated, DateAdded) DESC
+ORDER BY CardinalityDate DESC
 
 GO
 SET QUOTED_IDENTIFIER OFF 
