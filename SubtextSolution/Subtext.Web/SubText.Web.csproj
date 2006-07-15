@@ -1820,6 +1820,7 @@
     <Content Include="Skins\white\Images\shadowAlpha.png" />
     <Content Include="Skins\white\PageTemplate.ascx" />
     <Content Include="Skins\white\print.css" />
+    <Content Include="Skins\white\search.css" />
     <Content Include="Skins\white\Style.css" />
     <Content Include="Skins\WPSkin\Controls\ArchiveCategory.ascx" />
     <Content Include="Skins\WPSkin\Controls\ArchiveDay.ascx" />
