@@ -16,7 +16,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         [RollBack]
         public void GetRecentPostsReturnsRecentPosts()
         {
-            string hostname = UnitTestHelper.GenerateRandomHostname();
+            string hostname = UnitTestHelper.GenerateRandomString();
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, ""));
             UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
             Config.CurrentBlog.AllowServiceAccess = true;
@@ -25,8 +25,8 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             Post[] posts = api.getRecentPosts(Config.CurrentBlog.Id.ToString(), "username", "password", 10);
             Assert.AreEqual(0, posts.Length);
 
-            string category1Name = UnitTestHelper.GenerateRandomHostname();
-            string category2Name = UnitTestHelper.GenerateRandomHostname();
+            string category1Name = UnitTestHelper.GenerateRandomString();
+            string category2Name = UnitTestHelper.GenerateRandomString();
             int categoryId = UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, category1Name);
             int categoryId2 = UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, category2Name);
             

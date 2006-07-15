@@ -133,7 +133,7 @@ namespace UnitTests.Subtext
 		/// Generates a random hostname.
 		/// </summary>
 		/// <returns></returns>
-		public static string GenerateRandomHostname()
+		public static string GenerateRandomString()
 		{
 			return System.Guid.NewGuid().ToString().Replace("-", "") + ".com";
 		}

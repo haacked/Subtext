@@ -20,7 +20,7 @@ namespace UnitTests.Subtext.Framework.Import
         public void ReadBlogCreatesEntriesAndAttachments()
         {
             //Create blog.
-            string hostName = UnitTestHelper.GenerateRandomHostname();
+            string hostName = UnitTestHelper.GenerateRandomString();
             Assert.IsTrue(Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", hostName, ""), "Could not create the blog for this test");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
             Assert.IsNotNull(Config.CurrentBlog, "Current Blog is null.");
@@ -46,7 +46,7 @@ namespace UnitTests.Subtext.Framework.Import
         public void RoundTripBlogMlTest()
         {
             //Create blog.
-            string hostName = UnitTestHelper.GenerateRandomHostname();
+            string hostName = UnitTestHelper.GenerateRandomString();
             Assert.IsTrue(Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", hostName, ""), "Could not create the blog for this test");
             UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
             Assert.IsNotNull(Config.CurrentBlog, "Current Blog is null.");

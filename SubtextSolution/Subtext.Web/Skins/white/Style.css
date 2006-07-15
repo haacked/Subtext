@@ -12,9 +12,20 @@ a, div.contentbox h2
 	color: #ffba27;
 }
 
+/* darker orange */
+div.previousNext a
+{
+	color: #efb027;
+}
+
+/* very light orange */
 a:hover, a.printlink:hover 
 {
 	color: #ffdf4f;
+}
+
+div.previousNext a:hover
+{
 }
 
 /* light grey */
@@ -298,4 +309,12 @@ div.content
 	
 	margin: 10px 0 10px 10px !important;
 	margin: 10px 0 10px 5px;
+}
+
+div.previousNext
+{
+	width: 100%;
+	text-align: center;
+	font-size: .9em;
+	padding: 4px;
 }

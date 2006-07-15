@@ -123,7 +123,14 @@ namespace Subtext.Framework.Providers
 		#endregion
 
 		#region EntryCollections
-
+		/// <summary>
+		/// Returns the previous and next entry to the specified entry.
+		/// </summary>
+		/// <param name="entryId"></param>
+		/// <param name="postType"></param>
+		/// <returns></returns>
+		public abstract IList<Entry> GetPreviousAndNextEntries(int entryId, PostType postType);
+		
 		/// <summary>
 		/// Gets the entries that meet the <see cref="PostType"/> and 
 		/// <see cref="PostConfig"/> flags.

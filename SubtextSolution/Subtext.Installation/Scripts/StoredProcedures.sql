@@ -4110,22 +4110,54 @@ GO
 
 CREATE Proc [<dbUser,varchar,dbo>].[Subtext_GetEntry_PreviousNext]
 (
- @ID int,
- @PostType int = 1,
- @BlogId int
+	@ID int
+	, @PostType int = 1
+	, @BlogId int
 )
-as
-Select *
-FROM
- ( SELECT Top 1 Subtext_Content.[ID] as [EntryID], Subtext_Content.Title as [EntryTitle], Subtext_Content.DateAdded as [EntryDate], Subtext_Content.EntryName as [EntryName] FROM Subtext_Content
-   WHERE Subtext_Content.[ID] < @ID and Subtext_Content.BlogId = @BlogId and Subtext_Content.PostConfig & 1 = 1 and PostType = @PostType
-   ORDER BY Subtext_Content.[ID] desc ) Prev
+AS
+
+DECLARE @DateSyndicated DateTime
+SELECT @DateSyndicated = ISNULL(DateSyndicated, DateAdded) 
+FROM [<dbUser,varchar,dbo>].[subtext_Content]
+WHERE ID = @ID
+
+SELECT Top 1 BlogId
+	, [ID]
+	, Title
+	, DateAdded
+	, PostType
+	, TitleUrl
+	, PostConfig
+	, EntryName 
+	, DateSyndicated
+	, ISNULL(DateSyndicated, DateAdded) -- Must be here to order by
+FROM [<dbUser,varchar,dbo>].[subtext_Content]
+WHERE ISNULL([DateSyndicated], [DateAdded]) <= @DateSyndicated
+	AND Subtext_Content.BlogId = @BlogId 
+	AND Subtext_Content.PostConfig & 1 = 1 
+	AND PostType = @PostType
+	AND [ID] != @ID
+
 UNION
-Select *
-FROM
- ( SELECT Top 1 Subtext_Content.[ID] as [NextID], Subtext_Content.Title as [NextTitle], Subtext_Content.DateAdded as [NextDate], Subtext_Content.EntryName as [NextName] FROM Subtext_Content
-   WHERE Subtext_Content.[ID] > @ID and Subtext_Content.BlogId = @BlogId and Subtext_Content.PostConfig & 1 = 1 and PostType = @PostType
-          ORDER BY Subtext_Content.[ID] ) [Next]
+
+SELECT Top 1 BlogId
+	, [ID]
+	, Title
+	, DateAdded
+	, PostType
+	, TitleUrl
+	, PostConfig
+	, EntryName 
+	, DateSyndicated
+	, ISNULL(DateSyndicated, DateAdded)
+FROM [<dbUser,varchar,dbo>].[subtext_Content]
+WHERE ISNULL([DateSyndicated], [DateAdded]) >= @DateSyndicated
+	AND Subtext_Content.BlogId = @BlogId 
+	AND Subtext_Content.PostConfig & 1 = 1 
+	AND PostType = @PostType
+	AND [ID] != @ID
+
+ORDER BY ISNULL(DateSyndicated, DateAdded) DESC
 
 GO
 SET QUOTED_IDENTIFIER OFF 

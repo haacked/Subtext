@@ -23,7 +23,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 		[RollBack]
 		public void CreateTrackbackSetsPostConfigCorrectly()
 		{
-			string hostname = UnitTestHelper.GenerateRandomHostname();
+			string hostname = UnitTestHelper.GenerateRandomString();
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, string.Empty);
 			
@@ -49,7 +49,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 		[RollBack]
 		public void TrackbackShowsUpInFeedbackList()
 		{
-			string hostname = UnitTestHelper.GenerateRandomHostname();
+			string hostname = UnitTestHelper.GenerateRandomString();
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, "blog"));
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "blog", string.Empty);
 			

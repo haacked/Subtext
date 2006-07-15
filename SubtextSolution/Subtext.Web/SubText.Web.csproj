@@ -1809,6 +1809,7 @@
     <Content Include="Skins\white\Controls\MyLinks.ascx" />
     <Content Include="Skins\white\Controls\News.ascx" />
     <Content Include="Skins\white\Controls\PostComment.ascx" />
+    <Content Include="Skins\white\Controls\PreviousNext.ascx" />
     <Content Include="Skins\white\Controls\RelatedLinks.ascx" />
     <Content Include="Skins\white\Controls\SingleColumn.ascx" />
     <Content Include="Skins\white\Controls\SubtextSearch.ascx" />
