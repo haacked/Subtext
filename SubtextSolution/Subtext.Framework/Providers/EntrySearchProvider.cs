@@ -5,7 +5,6 @@ using System.Data.SqlClient;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 
 namespace Subtext.Framework.Providers
@@ -33,10 +32,8 @@ namespace Subtext.Framework.Providers
 			IList<SearchResult> results = new List<SearchResult>();
 			while(reader.Read())
 			{
-				Entry foundEntry = DataHelper.LoadEntry(reader, false);
-				string entryUrlText = Config.CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(foundEntry);
-				Uri entryUrl = new Uri(entryUrlText);
-				results.Add(new SearchResult(foundEntry.Title, entryUrl));
+				Entry foundEntry = DataHelper.LoadEntry(reader, true);
+				results.Add(new SearchResult(foundEntry.Title, foundEntry.FullyQualifiedUrl));
 			}
 
 			return results;
