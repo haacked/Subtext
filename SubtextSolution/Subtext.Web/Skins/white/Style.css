@@ -157,18 +157,6 @@ a.printlink:link, a.printlink:visited
 	font-weight: normal;
 }
 
-a.printIcon
-{
-	background: url('images/printer.gif') no-repeat top left;
-	padding-bottom: 4px;
-}
-
-a.printIcon span
-{
-	background: url('images/printer.gif') no-repeat top left;
-	padding-left: 17px;
-}
-
 /* -------------- {layout} -----------------*/
 #main
 {

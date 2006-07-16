@@ -875,6 +875,7 @@
     <Content Include="Images\emotions\smiley-undecided.gif" />
     <Content Include="Images\emotions\smiley-wink.gif" />
     <Content Include="Images\emotions\smiley-yell.gif" />
+    <Content Include="Images\friends.png" />
     <Content Include="Images\home.gif" />
     <Content Include="Images\icn_delete.gif" />
     <Content Include="Images\link.gif" />
@@ -883,6 +884,7 @@
     <Content Include="Images\overlay.png" />
     <Content Include="Images\PoweredByAsp.Net.gif" />
     <Content Include="Images\PoweredBySubtext85x33.png" />
+    <Content Include="Images\printer.png" />
     <Content Include="Images\rss20icon.gif" />
     <Content Include="Images\shadow.gif" />
     <Content Include="Images\shadowAlpha.png" />
@@ -940,7 +942,6 @@
     <Content Include="Skins\AnotherEon001\Controls\ViewPicture.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\ViewPost.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\_Header.ascx" />
-    <Content Include="Skins\AnotherEon001\images\printer.gif" />
     <Content Include="Skins\AnotherEon001\License.txt" />
     <Content Include="Skins\AnotherEon001\PageTemplate.ascx" />
     <Content Include="Skins\AnotherEon001\print.css" />
@@ -972,7 +973,6 @@
     <Content Include="Skins\blue\Controls\SubtextSearch.ascx" />
     <Content Include="Skins\blue\Controls\ViewPicture.ascx" />
     <Content Include="Skins\blue\Controls\ViewPost.ascx" />
-    <Content Include="Skins\blue\Images\printer.gif" />
     <Content Include="Skins\blue\PageTemplate.ascx" />
     <Content Include="Skins\blue\print.css" />
     <Content Include="Skins\blue\Style.css" />
@@ -1015,37 +1015,6 @@
     <Content Include="Skins\Gradient\PageTemplate.ascx" />
     <Content Include="Skins\Gradient\print.css" />
     <Content Include="Skins\Gradient\style.css" />
-    <Content Include="Skins\Hover\Controls\ArchiveCategory.ascx" />
-    <Content Include="Skins\Hover\Controls\ArchiveDay.ascx" />
-    <Content Include="Skins\Hover\Controls\ArchiveLinks.ascx" />
-    <Content Include="Skins\Hover\Controls\ArchiveMonth.ascx" />
-    <Content Include="Skins\Hover\Controls\BlogStats.ascx" />
-    <Content Include="Skins\Hover\Controls\CategoryDisplay.ascx" />
-    <Content Include="Skins\Hover\Controls\CategoryEntryList.ascx" />
-    <Content Include="Skins\Hover\Controls\CategoryList.ascx" />
-    <Content Include="Skins\Hover\Controls\Comments.ascx" />
-    <Content Include="Skins\Hover\Controls\Contact.ascx" />
-    <Content Include="Skins\Hover\Controls\Day.ascx" />
-    <Content Include="Skins\Hover\Controls\DayCollection.ascx" />
-    <Content Include="Skins\Hover\Controls\EntryList.ascx" />
-    <Content Include="Skins\Hover\Controls\Footer.ascx" />
-    <Content Include="Skins\Hover\Controls\GalleryThumbNailViewer.ascx" />
-    <Content Include="Skins\Hover\Controls\Header.ascx" />
-    <Content Include="Skins\Hover\Controls\HomePage.ascx" />
-    <Content Include="Skins\Hover\Controls\Login.ascx" />
-    <Content Include="Skins\Hover\Controls\MonthListings.ascx" />
-    <Content Include="Skins\Hover\Controls\MyLinks.ascx" />
-    <Content Include="Skins\Hover\Controls\News.ascx" />
-    <Content Include="Skins\Hover\Controls\PostComment.ascx" />
-    <Content Include="Skins\Hover\Controls\RelatedLinks.ascx" />
-    <Content Include="Skins\Hover\Controls\SingleColumn.ascx" />
-    <Content Include="Skins\Hover\Controls\SubtextSearch.ascx" />
-    <Content Include="Skins\Hover\Controls\ViewPicture.ascx" />
-    <Content Include="Skins\Hover\Controls\ViewPost.ascx" />
-    <Content Include="Skins\Hover\Images\printer.gif" />
-    <Content Include="Skins\Hover\PageTemplate.ascx" />
-    <Content Include="Skins\Hover\print.css" />
-    <Content Include="Skins\Hover\style.css" />
     <Content Include="Skins\KeyWest\Controls\ArchiveCategory.ascx" />
     <Content Include="Skins\KeyWest\Controls\ArchiveDay.ascx" />
     <Content Include="Skins\KeyWest\Controls\ArchiveLinks.ascx" />
@@ -1097,7 +1066,6 @@
     <Content Include="Skins\KeyWest\Images\kw_header.jpg" />
     <Content Include="Skins\KeyWest\Images\kw_header_bg.jpg" />
     <Content Include="Skins\KeyWest\Images\PoweredBySubtext85x33.png" />
-    <Content Include="Skins\KeyWest\Images\printer.gif" />
     <Content Include="Skins\KeyWest\Images\sidebar_bg.jpg" />
     <Content Include="Skins\KeyWest\Images\sidebar_footer.jpg" />
     <Content Include="Skins\KeyWest\Images\sidebar_header.jpg" />
@@ -1142,7 +1110,6 @@
     <Content Include="Skins\Lightz\Images\header.gif" />
     <Content Include="Skins\Lightz\Images\main_background.gif" />
     <Content Include="Skins\Lightz\Images\post_footer.gif" />
-    <Content Include="Skins\Lightz\Images\printer.gif" />
     <Content Include="Skins\Lightz\Images\xml.gif" />
     <Content Include="Skins\Lightz\PageTemplate.ascx" />
     <Content Include="Skins\Lightz\print.css" />
@@ -1351,7 +1318,6 @@
     <Content Include="Skins\Piyo\Images\close.gif" />
     <Content Include="Skins\Piyo\Images\loading.gif" />
     <Content Include="Skins\Piyo\Images\overlay.png" />
-    <Content Include="Skins\Piyo\Images\printer.gif" />
     <Content Include="Skins\Piyo\PageTemplate.ascx" />
     <Content Include="Skins\Piyo\piyo-elastic.css" />
     <Content Include="Skins\Piyo\piyo-fixed.css" />
@@ -1404,7 +1370,6 @@
     <Content Include="Skins\RedBook\Images\header.jpg" />
     <Content Include="Skins\RedBook\Images\input.gif" />
     <Content Include="Skins\RedBook\Images\mitem.gif" />
-    <Content Include="Skins\RedBook\Images\printer.gif" />
     <Content Include="Skins\RedBook\Images\radio.gif" />
     <Content Include="Skins\RedBook\Images\Red\back.jpg" />
     <Content Include="Skins\RedBook\Images\Red\backback.png" />
@@ -1464,7 +1429,6 @@
     <Content Include="Skins\Semagogy\Images\NavigationLogin.gif" />
     <Content Include="Skins\Semagogy\Images\NavigationSyndication.gif" />
     <Content Include="Skins\Semagogy\Images\PostBottomBackground.gif" />
-    <Content Include="Skins\Semagogy\Images\printer.gif" />
     <Content Include="Skins\Semagogy\PageTemplate.ascx" />
     <Content Include="Skins\Semagogy\print.css" />
     <Content Include="Skins\Semagogy\Scripts\DarkHorseLayoutEngine.js" />
@@ -1508,7 +1472,6 @@
     <Content Include="Skins\Submarine\images\footer.gif" />
     <Content Include="Skins\Submarine\images\home.gif" />
     <Content Include="Skins\Submarine\images\poweredby.gif" />
-    <Content Include="Skins\Submarine\images\printer.gif" />
     <Content Include="Skins\Submarine\PageTemplate.ascx" />
     <Content Include="Skins\Submarine\print.css" />
     <Content Include="Skins\Submarine\style.css" />
@@ -1540,7 +1503,6 @@
     <Content Include="Skins\white\Controls\SubtextSearch.ascx" />
     <Content Include="Skins\white\Controls\ViewPicture.ascx" />
     <Content Include="Skins\white\Controls\ViewPost.ascx" />
-    <Content Include="Skins\white\Images\printer.gif" />
     <Content Include="Skins\white\Images\shadow.gif" />
     <Content Include="Skins\white\Images\shadowAlpha.png" />
     <Content Include="Skins\white\PageTemplate.ascx" />
@@ -1581,6 +1543,7 @@
     <Content Include="Skins\WPSkin\images\kubrickfooter.jpg" />
     <Content Include="Skins\WPSkin\images\kubrickheader.jpg" />
     <Content Include="Skins\WPSkin\PageTemplate.ascx" />
+    <Content Include="Skins\WPSkin\print.css" />
     <Content Include="Skins\WPSkin\style.css" />
     <Content Include="Skins\_System\commonlayout.css" />
     <Content Include="Skins\_System\commonstyle.css" />
@@ -1664,6 +1627,8 @@
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Skins\AnotherEon001\images\" />
+    <Folder Include="Skins\blue\Images\" />
     <Folder Include="Skins\Naked\Images\" />
     <Folder Include="Skins\Naked\Scripts\" />
   </ItemGroup>

@@ -437,21 +437,19 @@ a.removeCommentLink
 	
 }
 
+/*----------- print icon custom styling ---------*/
 a.printIcon
 {
-	background: url('images/printer.gif') no-repeat top left;
-	padding-bottom: 4px;
 	margin-left: 0;
-}
-
-a.printIcon:hover
-{
-	color:#c00;
 }
 
 a.printIcon span
 {
 	margin-left: -5px;
-	background: url('images/printer.gif') no-repeat top left;
 	padding-left: 17px;
+}
+
+a.printIcon:hover
+{
+	color:#c00;
 }
