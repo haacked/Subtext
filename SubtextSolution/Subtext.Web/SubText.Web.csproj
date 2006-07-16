@@ -945,36 +945,6 @@
     <Content Include="Skins\AnotherEon001\PageTemplate.ascx" />
     <Content Include="Skins\AnotherEon001\print.css" />
     <Content Include="Skins\AnotherEon001\style.css" />
-    <Content Include="Skins\blue\Controls\ArchiveCategory.ascx" />
-    <Content Include="Skins\blue\Controls\ArchiveDay.ascx" />
-    <Content Include="Skins\blue\Controls\ArchiveLinks.ascx" />
-    <Content Include="Skins\blue\Controls\ArchiveMonth.ascx" />
-    <Content Include="Skins\blue\Controls\BlogStats.ascx" />
-    <Content Include="Skins\blue\Controls\CategoryDisplay.ascx" />
-    <Content Include="Skins\blue\Controls\CategoryEntryList.ascx" />
-    <Content Include="Skins\blue\Controls\CategoryList.ascx" />
-    <Content Include="Skins\blue\Controls\Comments.ascx" />
-    <Content Include="Skins\blue\Controls\Contact.ascx" />
-    <Content Include="Skins\blue\Controls\Day.ascx" />
-    <Content Include="Skins\blue\Controls\DayCollection.ascx" />
-    <Content Include="Skins\blue\Controls\EntryList.ascx" />
-    <Content Include="Skins\blue\Controls\Footer.ascx" />
-    <Content Include="Skins\blue\Controls\GalleryThumbNailViewer.ascx" />
-    <Content Include="Skins\blue\Controls\Header.ascx" />
-    <Content Include="Skins\blue\Controls\HomePage.ascx" />
-    <Content Include="Skins\blue\Controls\Login.ascx" />
-    <Content Include="Skins\blue\Controls\MonthListings.ascx" />
-    <Content Include="Skins\blue\Controls\MyLinks.ascx" />
-    <Content Include="Skins\blue\Controls\News.ascx" />
-    <Content Include="Skins\blue\Controls\PostComment.ascx" />
-    <Content Include="Skins\blue\Controls\RelatedLinks.ascx" />
-    <Content Include="Skins\blue\Controls\SingleColumn.ascx" />
-    <Content Include="Skins\blue\Controls\SubtextSearch.ascx" />
-    <Content Include="Skins\blue\Controls\ViewPicture.ascx" />
-    <Content Include="Skins\blue\Controls\ViewPost.ascx" />
-    <Content Include="Skins\blue\PageTemplate.ascx" />
-    <Content Include="Skins\blue\print.css" />
-    <Content Include="Skins\blue\Style.css" />
     <Content Include="Skins\Gradient\Controls\ArchiveCategory.ascx" />
     <Content Include="Skins\Gradient\Controls\ArchiveDay.ascx" />
     <Content Include="Skins\Gradient\Controls\ArchiveLinks.ascx" />
@@ -1628,7 +1598,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Skins\AnotherEon001\images\" />
-    <Folder Include="Skins\blue\Images\" />
     <Folder Include="Skins\Naked\Images\" />
     <Folder Include="Skins\Naked\Scripts\" />
   </ItemGroup>
