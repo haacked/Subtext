@@ -15,8 +15,10 @@ namespace Subtext.Web.Admin.WebUI {
         protected Subtext.Web.Controls.ScriptTag HelptipJs;
         protected Subtext.Web.Controls.ScriptTag AdminJs;
         protected Subtext.Web.Controls.ScriptTag tableEffectsJS;
+        protected System.Web.UI.HtmlControls.HtmlLink commonLayoutCss;
+        protected System.Web.UI.HtmlControls.HtmlLink commonStyleCss;
         protected Subtext.Web.Admin.WebUI.HeaderLink HelptipCss;
-        protected Subtext.Web.Admin.WebUI.HeaderLink Css1;
+        protected Subtext.Web.Admin.WebUI.HeaderLink adminCss;
         protected Subtext.Web.Admin.WebUI.HeaderLink NiceFormsStyle;
         protected System.Web.UI.HtmlControls.HtmlGenericControl AdminSection;
         protected System.Web.UI.HtmlControls.HtmlForm frmMain;
