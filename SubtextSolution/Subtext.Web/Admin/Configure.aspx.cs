@@ -57,18 +57,18 @@ namespace Subtext.Web.Admin.Pages
 				languageItem.Selected = true;
 			}		
 			
-			if(info.Skin.HasSecondaryText)
+			if(info.Skin.HasCustomCssText)
 			{
-				txbSecondaryCss.Text = info.Skin.SkinCssText;
+				txbSecondaryCss.Text = info.Skin.CustomCssText;
 			}
 
 			IList<SkinTemplate> templates = SkinTemplates.Instance().Templates;
 			foreach(SkinTemplate template in templates)
 			{
-				ddlSkin.Items.Add(new ListItem(template.SkinID, template.SkinKey));
+				ddlSkin.Items.Add(new ListItem(template.Name, template.SkinKey));
 			}
 
-			ListItem skinItem = ddlSkin.Items.FindByValue(info.Skin.SkinID.ToUpper(CultureInfo.InvariantCulture));
+			ListItem skinItem = ddlSkin.Items.FindByValue(info.Skin.SkinKey.ToUpper(CultureInfo.InvariantCulture));
 			if(skinItem != null)
 			{
 				skinItem.Selected = true;
@@ -108,22 +108,14 @@ namespace Subtext.Web.Admin.Pages
 				
 				info.AllowServiceAccess = ckbAllowServiceAccess.Checked;
 
-				info.Skin.SkinCssText = txbSecondaryCss.Text.Trim();
+				info.Skin.CustomCssText = txbSecondaryCss.Text.Trim();
 
 				string news = txbNews.Text.Trim();
 				info.News = news.Length == 0 ? null : news;
 
 				SkinTemplate skinTemplate = SkinTemplates.Instance().GetTemplate(ddlSkin.SelectedItem.Value);
-				info.Skin.SkinName = skinTemplate.Skin;
-
-				if(skinTemplate.UseSecondaryCss)
-				{
-					info.Skin.SkinCssFile = skinTemplate.SecondaryCss;
-				}
-				else
-				{
-					info.Skin.SkinCssFile = string.Empty;
-				}
+				info.Skin.TemplateFolder = skinTemplate.TemplateFolder;
+				info.Skin.SkinStyleSheet = skinTemplate.StyleSheet;
 				Config.UpdateConfigData(info);
 
 				this.Messages.ShowMessage(RES_SUCCESS);

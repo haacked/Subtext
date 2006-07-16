@@ -39,6 +39,7 @@ namespace Subtext.Web.UI.Pages
 		protected System.Web.UI.WebControls.Literal docTypeDeclaration;
 		protected System.Web.UI.HtmlControls.HtmlGenericControl MainStyle;
 		protected System.Web.UI.HtmlControls.HtmlGenericControl SecondaryCss;
+		protected System.Web.UI.HtmlControls.HtmlGenericControl CustomCss;
 		protected System.Web.UI.HtmlControls.HtmlGenericControl RSSLink;
 		protected System.Web.UI.HtmlControls.HtmlGenericControl AtomLink;
 		protected System.Web.UI.WebControls.PlaceHolder CenterBodyControl;
@@ -57,7 +58,7 @@ namespace Subtext.Web.UI.Pages
 		{
 			CurrentBlog = Config.CurrentBlog;
 
-			string skinFolder = Config.CurrentBlog.Skin.SkinName;
+			string skinFolder = Config.CurrentBlog.Skin.TemplateFolder;
 
 			SpecifyDocType();
 
@@ -76,18 +77,23 @@ namespace Subtext.Web.UI.Pages
 
 			MainStyle.Attributes.Add("href", path + "style.css");
 
-			if(CurrentBlog.Skin.HasSecondaryFile)
+			if(CurrentBlog.Skin.HasStyleSheet)
 			{
-				SecondaryCss.Attributes.Add("href", path + CurrentBlog.Skin.SkinCssFile);
+				SecondaryCss.Attributes.Add("href", path + CurrentBlog.Skin.SkinStyleSheet);
 			}
-			else if(CurrentBlog.Skin.HasSecondaryText)
+			else
 			{
-				SecondaryCss.Attributes.Add("href", CurrentBlog.RootUrl  + "customcss.aspx");
+				SecondaryCss.Visible = false;
+			}
+			
+			if(CurrentBlog.Skin.HasCustomCssText)
+			{
+				CustomCss.Attributes.Add("href", CurrentBlog.RootUrl + "customcss.aspx");
 			}
 			else
 			{
 				//MAC IE does not like the empy CSS file..plus its a waste :)
-				SecondaryCss.Visible = false;
+				CustomCss.Visible = false;
 			}
 			
 			if(RSSLink != null)
@@ -108,7 +114,7 @@ namespace Subtext.Web.UI.Pages
 
 			if(styles != null)
 			{
-				styles.Text = styleRenderer.RenderStyleElementCollection(Config.CurrentBlog.Skin.SkinID);
+				styles.Text = styleRenderer.RenderStyleElementCollection(Config.CurrentBlog.Skin.SkinKey);
 			}
 		}
 
@@ -222,15 +228,15 @@ namespace Subtext.Web.UI.Pages
 				return (applicationPath == "/" ? String.Empty : applicationPath) + "/Skins/" + skinName + "/";
 			}
 
-			public string RenderScriptElementCollection(string skinName)
+			public string RenderScriptElementCollection(string skinKey)
 			{
 				string result = String.Empty;
 
 				SkinTemplates skinTemplates = SkinTemplates.Instance();
-				SkinTemplate skinTemplate = skinTemplates.GetTemplate(skinName);
+				SkinTemplate skinTemplate = skinTemplates.GetTemplate(skinKey);
 				if (skinTemplate != null && skinTemplate.Scripts != null)
 				{
-					string skinPath = GetSkinPath(skinName);
+					string skinPath = GetSkinPath(skinKey);
 					foreach(Script script in skinTemplate.Scripts)
 					{
 						result += RenderScriptElement(skinPath, script);

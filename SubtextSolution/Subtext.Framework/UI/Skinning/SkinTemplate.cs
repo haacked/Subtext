@@ -25,51 +25,71 @@ namespace Subtext.Framework.UI.Skinning
 	[Serializable]
 	public class SkinTemplate
 	{
-		private string _skin;
+		/// <summary>
+		/// This is the folder that contains the template files (*.ascx) 
+		/// for the current skin.
+		/// </summary>
 		[XmlAttribute]
-		public string Skin
+		public string TemplateFolder
 		{
-			get {return this._skin;}
-			set {this._skin = value;}
+			get {return this.templateFolder;}
+			set {this.templateFolder = value;}
 		}
 
-		private string _secondaryCss;
-		
+		private string templateFolder;
+
 		/// <summary>
-		/// Gets or sets the secondary CSS file name.  This is the 
-		/// CSS file that differentiates this Skin from another skin 
-		/// using the same ASCX files.
+		/// Gets or sets the stylesheet for this Skin.  Remember, 
+		/// every skin template folder should include a "style.css" 
+		/// file that is rendered by default.
 		/// </summary>
+		/// <remarks>
+		/// This property makes it possible to have multiple skins 
+		/// use the same template folder.
+		/// </remarks>
 		/// <value>The secondary CSS.</value>
 		[XmlAttribute]
-		public string SecondaryCss
+		public string StyleSheet
 		{
-			get {return this._secondaryCss;}
-			set {this._secondaryCss = value;}
+			get {return this.styleSheet;}
+			set {this.styleSheet = value;}
 		}
+
+		private string styleSheet;
 
 		/// <summary>
 		/// Whether or not this skin template has a secondary skin css file.
 		/// </summary>
-		public bool UseSecondaryCss
+		[XmlIgnore]
+		public bool HasSkinStylesheet
 		{
-			get{return (this.SecondaryCss != null && this.SecondaryCss.Trim().Length > 0);}
+			get{return (this.StyleSheet != null && this.StyleSheet.Trim().Length > 0);}
 		}
 
-		private string _skinID;
+		/// <summary>
+		/// Gets the name of the skin as will be displayed in the 
+		/// drop-down list in the admin section.
+		/// </summary>
 		[XmlAttribute]
-		public string SkinID
+		public string Name
 		{
-			get {return this._skinID;}
-			set {this._skinID = value;}
+			get {return this.name;}
+			set {this.name = value;}
 		}
+
+		private string name;
 		
+		/// <summary>
+		/// A key representing this particular skin.  A Skin 
+		/// is really a combination of the TemplateFolder and 
+		/// the Stylesheet specified.
+		/// </summary>
 		[XmlIgnore]
 		public string SkinKey
 		{
 			get
 			{
-				return (Skin + (SecondaryCss != null && SecondaryCss.Length > 0 ? "-" + SecondaryCss : string.Empty)).ToUpper(CultureInfo.InvariantCulture);
+				return (this.TemplateFolder + (this.StyleSheet != null && this.StyleSheet.Length > 0 ? "-" + this.StyleSheet : string.Empty)).ToUpper(CultureInfo.InvariantCulture);
 			}
 		}
 

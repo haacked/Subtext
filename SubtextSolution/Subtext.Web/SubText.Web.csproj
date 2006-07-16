@@ -540,7 +540,6 @@
     <Content Include="Admin\Web.config" />
     <Content Include="HostAdmin\Import\Web.config" />
     <Content Include="HostAdmin\Web.config" />
-    <None Include="Skins\KeyWest\Images\Thumbs.db" />
     <None Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -1475,6 +1474,7 @@
     <Content Include="Skins\Submarine\PageTemplate.ascx" />
     <Content Include="Skins\Submarine\print.css" />
     <Content Include="Skins\Submarine\style.css" />
+    <Content Include="Skins\white\Blue.css" />
     <Content Include="Skins\white\Controls\ArchiveCategory.ascx" />
     <Content Include="Skins\white\Controls\ArchiveDay.ascx" />
     <Content Include="Skins\white\Controls\ArchiveLinks.ascx" />

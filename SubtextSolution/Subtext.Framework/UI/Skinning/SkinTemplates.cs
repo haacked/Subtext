@@ -76,9 +76,9 @@ namespace Subtext.Framework.UI.Skinning
 		/// <summary>
 		/// Gets the template based on the skin id.
 		/// </summary>
-		/// <param name="id">The id.</param>
+		/// <param name="skinKey">The id.</param>
 		/// <returns></returns>
-		public SkinTemplate GetTemplate(string id)
+		public SkinTemplate GetTemplate(string skinKey)
 		{
 			if(_ht == null)
 			{
@@ -89,9 +89,9 @@ namespace Subtext.Framework.UI.Skinning
 				}
 			}
 
-			if(_ht.ContainsKey(id.ToUpper(System.Globalization.CultureInfo.InvariantCulture)))
+			if(_ht.ContainsKey(skinKey.ToUpper(System.Globalization.CultureInfo.InvariantCulture)))
 			{
-				return _ht[id.ToUpper(System.Globalization.CultureInfo.InvariantCulture)];
+				return _ht[skinKey.ToUpper(System.Globalization.CultureInfo.InvariantCulture)];
 			}
 			return null;
 
