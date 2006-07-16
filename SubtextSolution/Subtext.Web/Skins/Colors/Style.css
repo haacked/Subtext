@@ -157,18 +157,6 @@ a.printlink:link, a.printlink:visited
 	font-weight: normal;
 }
 
-a.printIcon
-{
-	background: url('images/printer.gif') no-repeat top left;
-	padding-bottom: 4px;
-}
-
-a.printIcon span
-{
-	background: url('images/printer.gif') no-repeat top left;
-	padding-left: 17px;
-}
-
 /* -------------- {layout} -----------------*/
 #main
 {
@@ -294,9 +282,6 @@ div.content
 	
 }
 
-/* --------------- {comments} ------------------*/
-
-
 /*---------------- {misc - special effects} --------------*/
 
 .debug
@@ -310,4 +295,14 @@ div.previousNext
 	text-align: center;
 	font-size: .9em;
 	padding: 4px;
+}
+
+span.commentInfo
+{
+	clear: none;
+}
+
+.comment h3
+{
+	clear: both;
 }
