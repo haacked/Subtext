@@ -506,9 +506,9 @@ namespace Subtext.Framework.Data
 			info.Flag = (ConfigurationFlag)(ReadInt32(reader, "Flag"));
 
 			info.Skin = new SkinConfig();
-			info.Skin.SkinName = ReadString(reader, "Skin");
-			info.Skin.SkinCssFile = ReadString(reader, "SkinCssFile");
-			info.Skin.SkinCssText = ReadString(reader, "SecondaryCss");
+			info.Skin.TemplateFolder = ReadString(reader, "Skin");
+			info.Skin.SkinStyleSheet = ReadString(reader, "SkinCssFile");
+			info.Skin.CustomCssText = ReadString(reader, "SecondaryCss");
 			info.LicenseUrl = ReadString(reader, "LicenseUrl");
 
 			info.DaysTillCommentsClose = ReadInt32(reader, "DaysTillCommentsClose", int.MaxValue);

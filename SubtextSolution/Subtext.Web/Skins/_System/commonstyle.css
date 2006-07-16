@@ -1,0 +1,81 @@
+﻿/********* DropCap **********
+Apply to the first letter of a post. 
+Makes a nice magazine effect.
+
+Make sure to overide border, font, etc... choices.
+*/
+.dropcap 
+{
+	float: left;
+	font: 4em georgia, helvetica, verdana, arial, sans-serif;
+	border: solid 1px;
+	padding: 5px;
+	margin-right: 5px;
+}
+
+
+/********* Image Drop Shadow **********
+Applies a nice dropshadow to a block element.
+Must be combined with .innerbox.
+
+Sample usage:
+<div class="dropshadow"><div class="innerbox">Text or image</div></div>
+
+*/
+.dropshadow
+{
+	float:left;
+	clear:left;
+	background: url(../../images/shadowAlpha.png) no-repeat bottom right !important;
+	background: url(../../images/shadow.gif) no-repeat bottom right;
+	margin: 10px 0 10px 10px !important;
+	margin: 10px 0 10px 5px;
+	padding: 0px;
+	display: block;
+}
+
+.innerbox
+{
+	position:relative;
+	bottom: 6px;
+	right: 6px;
+	border: 1px solid #999999;
+	padding: 4px;
+	margin: 0px 0px 0px 0px;
+	display: block;
+}
+
+.innerbox
+{
+	/* IE5 hack */
+	\margin: 0px 0px -3px 0px;
+	ma\rgin:  0px 0px 0px 0px;
+}
+
+/* This applies to debug information when compiled as a #DEBUG release. */
+div.debug
+{
+	font-size: x-small;
+	width: 200px;
+	position: absolute;
+}
+
+/********* PrintIcon **********
+Applies a print icon to a print link.
+
+Sample usage:
+<a class="printIcon"...></a>
+
+*/
+
+a.printIcon
+{
+	background: url('../../images/printer.png') no-repeat top left;
+	padding-bottom: 4px;
+}
+
+a.printIcon span
+{
+	background: url('../../images/printer.png') no-repeat top left;
+	padding-left: 17px;
+}

@@ -80,7 +80,7 @@ namespace Subtext.Framework
 
 				foreach(BlogInfo currentBlogInfo in blogs)
 				{
-					if (skins.GetTemplate(currentBlogInfo.Skin.SkinName) == null)
+					if (skins.GetTemplate(currentBlogInfo.Skin.TemplateFolder) == null)
 					{
 						currentBlogInfo.Skin = SkinConfig.GetDefaultSkin();
 						Config.UpdateConfigData(currentBlogInfo);

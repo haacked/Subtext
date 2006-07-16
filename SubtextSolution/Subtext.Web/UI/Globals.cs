@@ -40,11 +40,11 @@ namespace Subtext.Web.UI
 		/// <returns></returns>
 		public static string Skin(HttpContext context)
 		{
-			if(Config.CurrentBlog.Skin.SkinName == null)
+			if(Config.CurrentBlog.Skin.TemplateFolder == null)
 			{
 				Config.CurrentBlog.Skin = SkinConfig.GetDefaultSkin();
 			}
-			return Config.CurrentBlog.Skin.SkinName;
+			return Config.CurrentBlog.Skin.TemplateFolder;
 		}
 
 		private static readonly string BlogPageTitle = "BlogPageTitle";

@@ -89,7 +89,7 @@ namespace Subtext.Web.UI.WebControls
 			}
 			catch(System.IO.FileNotFoundException e)
 			{
-				Log.Warn("The configured skin '" + Config.CurrentBlog.Skin.SkinName + "' does not exist.  Reverting to a default skin.", e);
+				Log.Warn("The configured skin '" + Config.CurrentBlog.Skin.TemplateFolder + "' does not exist.  Reverting to a default skin.", e);
 				Config.CurrentBlog.Skin = SkinConfig.GetDefaultSkin();
 				this.templateFile = null;
 				this.template = this.Page.LoadControl(this.TemplateFile);

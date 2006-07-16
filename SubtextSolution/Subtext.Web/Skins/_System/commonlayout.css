@@ -1,0 +1,96 @@
+﻿/********* Search **********
+A standard layout for the search box
+Assumes the following structure:
+
+#search
+	label
+		input.searchterm
+			.searchButton
+	#searchResults {visible only when search button is clicked}
+
+----------------------------*/
+#search
+{
+	float: right;
+	width: 280px;
+}
+
+#search #searchResults
+{
+	z-index: 10;
+	position: relative;
+	padding: 5px;
+	margin: 0;
+	border: solid 1px;
+}
+
+#searchResults ul
+{
+	padding: 0;
+	margin: 5px;
+}
+
+#searchResults ul li
+{
+	list-style-position: inside;
+}
+
+/********* Previous / Next Links **********
+A standard layout for the previous entry and 
+next entry links.
+Assumes the following structure:
+
+.previousNext
+	a
+	span " | "
+    a
+	span " | "
+	a
+----------------------------*/
+div.previousNext
+{
+	width: 100%;
+	text-align: center;
+	font-size: .9em;
+	padding: 4px;
+}
+
+
+/********* Blog Stats **********
+Renders blog stats in a horizontal fashion.
+
+Sample usage:
+<dl title="Blog Statistics" id="blogStats">
+	<dt>posts</dt>
+	<dd><asp:Literal ID="PostCount" Runat="server" /></dd>
+	<dt>comments</dt>
+	<dd><asp:Literal ID="CommentCount" Runat="server" /></dd>
+	<dt>trackbacks</dt>
+	<dd><asp:Literal ID="PingTrackCount" Runat="server" /></dd>
+</dl>
+
+*/
+#blogStats
+{
+	float: right;
+	text-align: right;
+	font-size: .7em;
+}
+
+#blogStats dt, #blogStats dd
+{
+	float: left;
+	margin: 0;	
+}
+
+#blogStats dt
+{
+	padding-right: 2px;
+	margin-right: 2px;
+	text-transform: lowercase;
+}
+
+#blogStats dd
+{
+	margin-right: 7px;
+}
