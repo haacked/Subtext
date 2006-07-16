@@ -14,10 +14,10 @@
 #endregion
 using System;
 using System.Configuration;
-using System.Security.Principal;
 using System.Web;
 using System.Web.Compilation;
 using System.Web.UI;
+using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
 
@@ -57,22 +57,14 @@ namespace Subtext.Common.UrlManager
 		/// </returns>
 		public virtual IHttpHandler GetHandler(HttpContext context, string requestType, string url, string path)
 		{
-			using (WindowsImpersonationContext tempUserContext = WindowsIdentity.Impersonate(context.Request.LogonUserIdentity.Token))
+			if ((Config.CurrentBlog == null || Config.CurrentBlog.Id == NullValue.NullInt32) && ConfigurationManager.AppSettings["AggregateEnabled"] == "true")
 			{
-				if ((Config.CurrentBlog == null || Config.CurrentBlog.Id == int.MinValue) && ConfigurationManager.AppSettings["AggregateEnabled"] == "true")
-				{
-					//
-					string handlerUrl = context.Request.ApplicationPath;
-					if (!handlerUrl.EndsWith("/"))
-						handlerUrl += "/";
+				string handlerUrl = context.Request.ApplicationPath;
+				if (!handlerUrl.EndsWith("/"))
+					handlerUrl += "/";
 
-					handlerUrl += "Default.aspx";
-					return BuildManager.CreateInstanceFromVirtualPath(handlerUrl, typeof(Page)) as IHttpHandler;
-				}
-				
-				//Dispose calls this, but we want to make sure 
-				//we keep the reference alive till here.
-				tempUserContext.Undo();
+				handlerUrl += "Default.aspx";
+				return BuildManager.CreateInstanceFromVirtualPath(handlerUrl, typeof(Page)) as IHttpHandler;
 			}
 			
 			//Get the Handlers to process. By default, we grab them from the blog.config
