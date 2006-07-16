@@ -160,6 +160,7 @@ namespace Subtext
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		protected void Application_AuthenticateRequest(Object sender, EventArgs e)
 		{
+			//Handled by Subtext.Web.HttpModules.AuthenticationModule in Subtext.Framework.
 		}
 
 		protected void Application_Error(Object sender, EventArgs e)
