@@ -7,6 +7,7 @@
 		<ItemTemplate>
 			<div class="comment">
 				<h3><asp:Literal Runat = "server" ID="Title" /></h3>
+				<asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" PlaceHolderImage="~/images/shadow.gif" />
 				<span class="commentInfo">left by <asp:HyperLink Target="_blank" Runat="server" ID="NameLink" /> at <asp:Literal id = "PostDate" Runat = "server" /> <asp:LinkButton Runat="server" ID="EditLink" CausesValidation="False" /></span>
 				<div class="commentbody">
 					<asp:Literal id="PostText" Runat="server" />
