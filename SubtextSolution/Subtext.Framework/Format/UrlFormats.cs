@@ -392,7 +392,7 @@ namespace Subtext.Framework.Format
 				// it's not a full url, so it must by some type of local url 		
 				// so add the siteRoot in front of it.
 				imageUrl = StripSurroundingSlashes(imageUrl);
-				imageUrl = "http://" + Config.CurrentBlog.Host + "/" + imageUrl ;
+				imageUrl = string.Format("http://{0}/{1}", Config.CurrentBlog.Host, imageUrl) ;
 			}
 			return imageUrl ;
 		}
@@ -404,10 +404,11 @@ namespace Subtext.Framework.Format
 		/// <returns></returns>
 		public static string StripHostFromUrl(string url)
 		{
-			string fullHost = "http://" + Config.CurrentBlog.Host;
+			string fullHost = string.Format("{0}://{1}", HttpContext.Current.Request.Url.Scheme, Config.CurrentBlog.Host);
+			
 			if(url.StartsWith(fullHost))
 			{
-				// use Lenght b/c we want to leave the beginning "/" character on newUrl
+				// use Length b/c we want to leave the beginning "/" character on newUrl
 				url = url.Substring(fullHost.Length);
 
                 //Remove port number is present
