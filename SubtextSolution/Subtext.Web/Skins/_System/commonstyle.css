@@ -67,7 +67,6 @@ Sample usage:
 <a class="printIcon"...></a>
 
 */
-
 a.printIcon
 {
 	background: url('../../images/printer.png') no-repeat top left;
@@ -78,4 +77,27 @@ a.printIcon span
 {
 	background: url('../../images/printer.png') no-repeat top left;
 	padding-left: 17px;
+}
+
+/********* Gravatar **********
+This is an avatar thumbnail displayed next to a blog post.
+
+Sample usage within comments.ascx:
+<asp:Image runat="server" id="GravatarImg" visible="False" class="gravatar"></asp:Image>
+*/
+img.avatar
+{
+	float: left;	
+	width: 50px;
+	padding: 5px;
+}
+
+.commentInfo
+{
+	clear: left;
+}
+
+.accessKey
+{
+	text-decoration: underline;
 }
