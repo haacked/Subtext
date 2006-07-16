@@ -5,6 +5,9 @@
 	<head>
 		<title><MP:ContentRegion id="MPTitle" runat="server" /></title>
 		<link rel="stylesheet" type="text/css" href="~/HostAdmin/style/Style.css" runat="server" ID="lnkStyleSheet" />
+		<link rel="stylesheet" type="text/css" href="~/Skins/_System/dropshadow.css" runat="server" ID="lnkDropShadow" />
+		<link rel="stylesheet" type="text/css" href="~/Skins/_System/csharp.css" runat="server" ID="lnkCsharp" />
+		<link rel="stylesheet" type="text/css" href="~/Skins/_System/commonstyles.css" runat="server" ID="lknCommon" />
 		<link rel="stylesheet" type="text/css" href="~/Admin/Resources/scripts/helptip.css" runat="server" ID="lnkHelpTipCss" />
 		<MP:ScriptTag language="javascript" src="~/Admin/Resources/scripts/helptip.js" runat="server" ID="scrHelpTipJavascript" />
 	</head>

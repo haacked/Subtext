@@ -54,7 +54,7 @@ namespace Subtext.Web.UI.WebControls
 			{ 
 				if(this.templateFile == null)
 				{
-					this.templateFile =  string.Format(skinPath, Globals.Skin(Context));
+					this.templateFile = string.Format(skinPath, Globals.Skin());
 				}
 				return this.templateFile;
 			}

@@ -1,6 +1,6 @@
 <%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.SubtextSearch" %>
 <div id="search">
-	<label for="txtSearch">search for term</label> <asp:TextBox id="txtSearch" runat="server" class="searchTerm" /> <asp:Button id="btnSearch" runat="server" class="searchButton" Text="GO" CausesValidation="False" />
+	<label for="txtSearch">search for term</label> <asp:TextBox id="txtSearch" runat="server" class="searchterm" /> <asp:Button id="btnSearch" runat="server" class="searchButton" Text="GO" CausesValidation="False" />
 	
 
 	<asp:Repeater id="SearchResults" runat="server">

@@ -44,13 +44,13 @@
 #search
 {
 	margin-right: 38px;
+	margin-top: 35px;
 }
 
 #search input.searchterm
 {
 	padding: 0;
 	border: solid 1px;
-	color: #999;
 }
 
 #search input.searchButton
@@ -62,31 +62,4 @@
 	border: none;
 	padding: 0 2px 0 2px;
 	text-align: center;
-}
-
-#search
-{
-	float: right;
-	width: 280px;
-	margin-top: 35px;
-}
-
-#search #searchResults
-{
-	z-index: 10;
-	position: relative;
-	padding: 5px;
-	margin: 0;
-	border: solid 1px;
-}
-
-#searchResults ul
-{
-	padding: 0;
-	margin: 5px;
-}
-
-#searchResults ul li
-{
-	list-style-position:inside;
 }

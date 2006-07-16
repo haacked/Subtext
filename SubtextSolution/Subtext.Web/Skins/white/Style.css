@@ -44,6 +44,11 @@ div.contentbox h2
 	border-color: #ddd;
 }
 
+#search input.searchterm
+{
+	color: #999;
+}
+
 /* dark gray */
 #sidebar div.contentbox h2, #content div.contentbox h2
 {
@@ -297,18 +302,6 @@ div.content
 .debug
 {
 	display: none;
-}
-
-.dropshadow
-{
-	float:left;
-	clear:left;
-	background: url(images/shadowAlpha.png) no-repeat bottom right !important;
-	background: url(images/shadow.gif) no-repeat bottom right;
-	padding: 0;
-	
-	margin: 10px 0 10px 10px !important;
-	margin: 10px 0 10px 5px;
 }
 
 div.previousNext

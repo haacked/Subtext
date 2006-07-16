@@ -57,7 +57,7 @@ namespace Subtext.Web.UI.Pages
 		{
 			CurrentBlog = Config.CurrentBlog;
 
-			string skin = Globals.Skin(Context);
+			string skinFolder = Config.CurrentBlog.Skin.SkinName;
 
 			SpecifyDocType();
 
@@ -66,13 +66,13 @@ namespace Subtext.Web.UI.Pages
             {
                 foreach (string control in controls)
                 {
-                    Control c = LoadControl(string.Format(ControlLocation, skin, control));
+                    Control c = LoadControl(string.Format(ControlLocation, skinFolder, control));
                     c.ID = control.Replace(".", "_");
                     CenterBodyControl.Controls.Add(c);
                 }
             }
 
-			string path = (HttpContext.Current.Request.ApplicationPath + "/skins/" + skin + "/").Replace("//","/");
+			string path = (HttpContext.Current.Request.ApplicationPath + "/skins/" + skinFolder + "/").Replace("//","/");
 
 			MainStyle.Attributes.Add("href", path + "style.css");
 
@@ -103,12 +103,12 @@ namespace Subtext.Web.UI.Pages
 			// if specified, add script elements
 			if (scripts != null)
 			{
-				scripts.Text = scriptRenderer.RenderScriptElementCollection(skin);
+				scripts.Text = scriptRenderer.RenderScriptElementCollection(skinFolder);
 			}
 
 			if(styles != null)
 			{
-				styles.Text = styleRenderer.RenderStyleElementCollection(skin);
+				styles.Text = styleRenderer.RenderStyleElementCollection(Config.CurrentBlog.Skin.SkinID);
 			}
 		}
 
