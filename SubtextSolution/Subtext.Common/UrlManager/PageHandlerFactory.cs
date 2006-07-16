@@ -14,8 +14,6 @@
 #endregion
 
 using System;
-using System.Security;
-using System.Security.Permissions;
 using System.Web;
 using System.Web.Compilation;
 using System.Web.UI;
@@ -30,23 +28,10 @@ namespace Subtext.Common.UrlManager
 	/// </summary>
 	public static class PageHandlerFactory 
 	{
-		private static IStackWalk _stackwalk = new SecurityPermission(SecurityPermissionFlag.UnmanagedCode);
-
 		public static IHttpHandler GetHandler(HttpContext context, string requestType, string url, string path)
 		{
-			StackWalk.Assert();
-
             return BuildManager.CreateInstanceFromVirtualPath(url, typeof(Page)) as IHttpHandler;
 		}
-
-		public static IStackWalk StackWalk
-		{
-			get
-			{
-				return _stackwalk;
-			}
-		}
-		
 	}
 }
 
