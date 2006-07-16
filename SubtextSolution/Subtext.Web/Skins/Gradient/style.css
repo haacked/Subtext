@@ -272,10 +272,36 @@ ul.navlist li a:hover
 
 /* Zoom Cloud */
 
-#comments h2, #commentform h3
+#comments h2, #comments h4, #commentform h3
 {
 	color: #333;
 	font: bold 1em arial, helvetica, sans-serif;
+}
+
+#comments h4
+{
+	color: #676;
+}
+
+div.comment
+{
+	margin-top: 10px;
+}
+
+.commentText
+{
+	padding: 5px;
+}
+
+.commentInfo
+{
+	font-size: .8em;
+}
+
+#comments h4
+{
+	margin: 0;
+	padding: 0;
 }
 
 h2.postTitle a
