@@ -85,7 +85,8 @@ a:visited
 	text-align: left; /* depends on element width */
 	margin: 4;
 	white-space: wrap;
-	padding: 0px;   
+	padding: 0px;
+	padding-left: 4px;
 }
 
 body 
@@ -308,16 +309,4 @@ p.postfooter
 p.postfooter a:hover
 {
 	color: #e11284;
-}
-
-a.printIcon
-{
-	background: url('images/printer.gif') no-repeat top left;
-	padding-bottom: 4px;
-}
-
-a.printIcon span
-{
-	background: url('images/printer.gif') no-repeat top left;
-	padding-left: 17px;
 }

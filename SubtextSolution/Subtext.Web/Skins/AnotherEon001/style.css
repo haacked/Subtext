@@ -280,3 +280,8 @@ input, textarea
 {
 	vertical-align: top;
 }
+
+div.news
+{
+	padding: 0 4px 4px 6px;
+}
