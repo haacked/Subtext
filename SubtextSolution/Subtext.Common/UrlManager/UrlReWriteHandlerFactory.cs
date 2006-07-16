@@ -61,7 +61,13 @@ namespace Subtext.Common.UrlManager
 			{
 				if ((Config.CurrentBlog == null || Config.CurrentBlog.Id == int.MinValue) && ConfigurationManager.AppSettings["AggregateEnabled"] == "true")
 				{
-					return BuildManager.CreateInstanceFromVirtualPath("/Default.aspx", typeof(Page)) as IHttpHandler;
+					//
+					string handlerUrl = context.Request.ApplicationPath;
+					if (!handlerUrl.EndsWith("/"))
+						handlerUrl += "/";
+
+					handlerUrl += "Default.aspx";
+					return BuildManager.CreateInstanceFromVirtualPath(handlerUrl, typeof(Page)) as IHttpHandler;
 				}
 				
 				//Dispose calls this, but we want to make sure 
@@ -115,8 +121,13 @@ namespace Subtext.Common.UrlManager
 			{
 				pagepath = HandlerConfiguration.Instance().DefaultPageLocation;
 			}
-			HandlerConfiguration.SetControls(context, item.BlogControls);			
-            return BuildManager.CreateInstanceFromVirtualPath("/" + pagepath, typeof(Page)) as IHttpHandler;
+			HandlerConfiguration.SetControls(context, item.BlogControls);
+			string url = context.Request.ApplicationPath;
+			if (!url.EndsWith("/"))
+				url += "/";
+			url += pagepath;
+			
+            return BuildManager.CreateInstanceFromVirtualPath(url, typeof(Page)) as IHttpHandler;
         }
 
 		private IHttpHandler ProcessHandlerTypeDirectory(HttpContext context, string url)
