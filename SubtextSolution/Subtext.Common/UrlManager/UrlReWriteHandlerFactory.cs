@@ -34,7 +34,7 @@ namespace Subtext.Common.UrlManager
 	{
 		public UrlReWriteHandlerFactory(){} //Nothing to do in the cnstr
 		
-		protected virtual HttpHandler[] GetHttpHandlers(HttpContext context)
+		protected virtual HttpHandler[] GetHttpHandlers()
 		{
 			return HandlerConfiguration.Instance().HttpHandlers;
 		}
@@ -51,13 +51,12 @@ namespace Subtext.Common.UrlManager
 		/// to exist (Passed along to other IHttpHandlerFactory's)</param>
 		/// <returns>
 		/// Returns an Instance of IHttpHandler either by loading an instance of IHttpHandler 
-		/// or by returning an other 
-		/// IHttpHandlerFactory.GetHandlder(HttpContext context, string requestType, string url, string path) 
+		/// or by returning another IHttpHandlerFactory.GetHandler(HttpContext context, string requestType, string url, string path) 
 		/// method
 		/// </returns>
 		public virtual IHttpHandler GetHandler(HttpContext context, string requestType, string url, string path)
 		{
-			if ((Config.CurrentBlog == null || Config.CurrentBlog.Id == NullValue.NullInt32) && ConfigurationManager.AppSettings["AggregateEnabled"] == "true")
+			if (IsRequestForAggregateBlog) //This line calls the db.
 			{
 				string handlerUrl = context.Request.ApplicationPath;
 				if (!handlerUrl.EndsWith("/"))
@@ -68,7 +67,7 @@ namespace Subtext.Common.UrlManager
 			}
 			
 			//Get the Handlers to process. By default, we grab them from the blog.config
-			HttpHandler[] items = GetHttpHandlers(context);
+			HttpHandler[] items = GetHttpHandlers();
 			
 			//Do we have any?
 			if(items != null)
@@ -104,6 +103,14 @@ namespace Subtext.Common.UrlManager
 			
 			//If we do not find the page, just let ASP.NET take over
 			return PageHandlerFactory.GetHandler(context, requestType, url, path);
+		}
+		
+		private static bool IsRequestForAggregateBlog
+		{
+			get
+			{
+				return (Config.CurrentBlog == null || Config.CurrentBlog.Id == NullValue.NullInt32) && ConfigurationManager.AppSettings["AggregateEnabled"] == "true";
+			}
 		}
 
 		private IHttpHandler ProcessHandlerTypePage(HttpHandler item, HttpContext context)
