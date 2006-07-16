@@ -1,0 +1,65 @@
+/* ------------- {search color scheme} -------------- */
+/* Orange */
+#searchResults ul li
+{
+	color: #ffba27;
+}
+
+#search input.searchButton
+{
+	background-color: #ffba27;
+}
+
+/* very light gray */
+#search input.searchterm, #search #searchResults
+{
+	background-color: #f6f6f6;
+}
+
+/* Border dark gray */
+#search input.searchterm, #search #searchResults
+{
+	border-color: #ddd;
+}
+
+/* ------------- {typography} ----------------- */
+#searchResults h5
+{
+	font-size: 1em;
+	color: #444;
+	margin: 0;
+	padding: 0;
+}
+
+#searchResults ul li
+{
+}
+
+#searchResults ul li a
+{
+	font-size: .9em;
+}
+
+/* ------------- {search layout} -------------- */
+#search
+{
+	margin-right: 38px;
+	margin-top: 35px;
+}
+
+#search input.searchterm
+{
+	padding: 0;
+	border: solid 1px;
+}
+
+#search input.searchButton
+{
+	color: #fff;
+	width: 29px !important;
+	width: 25px;
+	font-weight: bold;
+	border: none;
+	padding: 0 2px 0 2px;
+	text-align: center;
+}
