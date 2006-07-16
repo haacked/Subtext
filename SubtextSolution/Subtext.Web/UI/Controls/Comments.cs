@@ -138,19 +138,23 @@ namespace Subtext.Web.UI.Controls
 							}
 						}
 					}
-					System.Web.UI.WebControls.Image Gravatar = e.Item.FindControl("GravatarImg") as System.Web.UI.WebControls.Image;
-
+					
 					if(gravatarEnabled)
 					{
-						if(Gravatar!=null) 
+						System.Web.UI.WebControls.Image Gravatar = e.Item.FindControl("GravatarImg") as System.Web.UI.WebControls.Image;
+						if(Gravatar != null) 
 						{
-							if(entry.Email.Length!=0)
+							string gravatarUrl = Gravatar.Attributes["PlaceHolderImage"];
+							
+							if (!String.IsNullOrEmpty(entry.Email))
+								gravatarUrl = BuildGravatarUrl(entry.Email);
+							
+							if(!String.IsNullOrEmpty(gravatarUrl))
 							{
-								string gravatarUrl=BuildGravatarUrl(entry.Email);
-								if(gravatarUrl.Length!=0)
+								if(gravatarUrl.Length != 0)
 								{
-									Gravatar.ImageUrl=gravatarUrl;
-									Gravatar.Visible=true;
+									Gravatar.ImageUrl = gravatarUrl;
+									Gravatar.Visible = true;
 								}
 							}
 						}
@@ -194,17 +198,17 @@ namespace Subtext.Web.UI.Controls
 
 		private string BuildGravatarUrl(string email) 
 		{
-			string processedEmail=string.Empty;
+			string processedEmail = string.Empty;
 			if(gravatarEmailFormat.Equals("plain"))
 			{
-				processedEmail=email;
+				processedEmail = email;
 			}
 			else if(gravatarEmailFormat.Equals("MD5")) 
 			{
-				processedEmail=System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(email,"md5");
+				processedEmail=System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(email, "md5");
 			}
-			if(processedEmail.Length!=0)
-				return String.Format(gravatarUrlFormatString,processedEmail);
+			if(processedEmail.Length != 0)
+				return String.Format(gravatarUrlFormatString, processedEmail);
 			else
 				return string.Empty;
 		}
