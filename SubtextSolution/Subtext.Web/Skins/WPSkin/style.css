@@ -14,7 +14,6 @@ http://www.opensource.org/licenses/gpl-license.php
 */
 
 /*the top of the page*/
-
 .top 
 {
 	background: url(images/kubrickheader.jpg) no-repeat center;
@@ -76,10 +75,11 @@ body
 
 .innermain
 {
-	width: 800px;
+	width: 718px;
 	float: left;
-	margin-left: 260px !important;
-	margin-left: 130px;
+	margin-left: 207px !important;
+	margin-left: 72px;
+	padding: 0;
 }
 
 /*post text and the date on top of title*/
@@ -114,6 +114,7 @@ body
 {
 	float: left;
 	margin-top : 10px;
+	width: 200px;
 }
 
 /*This is not the page footer, it is the subtext footer control*/
@@ -204,6 +205,12 @@ h2 {
 	margin-top : 0px;
 }
 
+div.post h2
+{
+	margin-top: 10px;
+	margin-bottom: 1px;
+}
+
 /*header 3s on rightmenu*/
 .rightmenu h3 
 {
@@ -236,11 +243,6 @@ a:hover {
 	text-decoration: underline;
 }
 
-#news
-{
-	width: 200px;
-}
-
 .debug
 {
 	width: 200px;
@@ -249,4 +251,19 @@ a:hover {
 .debug p
 {
 	font-size: x-small;
+}
+
+.debug
+{
+	display: none;
+}
+
+div.previousNext
+{
+	padding: 4px;
+}
+
+div.previousNext a
+{
+	font-size: 1.2em;
 }

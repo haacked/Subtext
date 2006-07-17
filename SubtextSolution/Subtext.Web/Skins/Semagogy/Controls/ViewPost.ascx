@@ -1,4 +1,8 @@
 <%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.ViewPost" %>
+<%@ Register TagPrefix="uc1" TagName="PreviousNext" Src="PreviousNext.ascx" %>
+
+<uc1:PreviousNext id="PreviousNext" runat="server" />
+
 <dl class="Post">
 	<dt>
 		<asp:HyperLink  Runat="server" ID="editLink" /><asp:hyperlink runat="server" id="TitleUrl" />

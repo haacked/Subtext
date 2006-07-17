@@ -336,3 +336,8 @@ p.postfooter a:hover
 {
 	color: #e11284;
 }
+
+div.previousNext a:hover
+{
+	color: #e11284;
+}
