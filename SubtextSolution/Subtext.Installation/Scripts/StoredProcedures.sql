@@ -1475,38 +1475,19 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableFeedback]
 )
 AS
 
-DECLARE @PageLowerBound int
-DECLARE @PageUpperBound int
+DECLARE @FirstId int
+DECLARE @StartRow int
+DECLARE @StartRowIndex int
 
-SET @PageLowerBound = @PageSize * @PageIndex - @PageSize
-SET @PageUpperBound = @PageLowerBound + @PageSize + 1
+SET @StartRowIndex = @PageIndex * @PageSize + 1
 
+SET ROWCOUNT @StartRowIndex
+-- Get the first entry id for the current page.
+SELECT @FirstId = [ID] FROM subtext_Content ORDER BY [ID]
 
-CREATE TABLE #TempPagedEntryIDs 
-(
-	TempID int IDENTITY (1, 1) NOT NULL,
-	EntryID int NOT NULL
-)	
-
-IF NOT (@SortDesc = 1)
-BEGIN
-	INSERT INTO #TempPagedEntryIDs (EntryID)
-	SELECT	[ID] 
-	FROM [<dbUser,varchar,dbo>].[subtext_Content] 
-	WHERE 	BlogId = @BlogId 
-			AND (PostType = 3 or PostType = 4)
-
-	ORDER BY [DateAdded]
-END
-ELSE
-BEGIN
-	INSERT INTO #TempPagedEntryIDs (EntryID)
-	SELECT	[ID] 
-	FROM [<dbUser,varchar,dbo>].[subtext_Content]
-	WHERE 	BlogId = @BlogId 
-		AND (PostType = 3 or PostType = 4)
-	ORDER BY [DateAdded] DESC
-END
+-- Now, set the row count to MaximumRows and get
+-- all records >= @first_id
+SET ROWCOUNT @PageSize
 
 SELECT	content.BlogId 
 		, content.[ID] 
@@ -1527,20 +1508,22 @@ SELECT	content.BlogId
 		, content.EntryName
 		, content.ContentChecksumHash
 		, content.DateSyndicated
+		, vc.WebCount
+		, vc.AggCount
+		, vc.WebLastUpdated
+		, vc.AggLastUpdated
+		
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
-    INNER JOIN #TempPagedEntryIDs tmp ON (content.[ID] = tmp.EntryID)
+	Left JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
 WHERE 	content.BlogId = @BlogId 
-	AND tmp.TempID > @PageLowerBound 
-	AND tmp.TempID < @PageUpperBound
-ORDER BY tmp.TempID
+	AND content.[ID] >= @FirstId
+	AND (PostType = 3 OR PostType = 4)
+ORDER BY content.[ID]
  
-DROP TABLE #TempPagedEntryIDs
-
-SELECT 	COUNT([ID]) AS TotalRecords
+SELECT COUNT([ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Content] 
 WHERE 	BlogId = @BlogId 
-	AND (PostType = 3 or PostType = 4)
-
+	AND (PostType = 3 OR PostType = 4)
 
 GO
 SET QUOTED_IDENTIFIER OFF 

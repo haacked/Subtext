@@ -39,7 +39,7 @@ namespace Subtext.Web.Admin.UserControls
 		private const string VSKEY_CATEGORYTYPE = "CategoryType";
 
 		private int _filterCategoryID = NullValue.NullInt32;
-		private int _resultsPageNumber = 1;
+		private int pageIndex = 0;
 		private bool _isListHidden = false;
 		
 		#region Declared Controls
@@ -157,13 +157,13 @@ namespace Subtext.Web.Admin.UserControls
 			if (!IsPostBack)
 			{
 				if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
-					_resultsPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
+					this.pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
 
 				if (null != Request.QueryString[Keys.QRYSTR_CATEGORYID])
 					_filterCategoryID = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_CATEGORYID]);
 
 				ResultsPager.PageSize = Preferences.ListingItemCount;
-				ResultsPager.PageIndex = _resultsPageNumber;
+				ResultsPager.PageIndex = this.pageIndex;
 				Results.Collapsible = false;
 
 				if (NullValue.NullInt32 != _filterCategoryID)
@@ -219,7 +219,7 @@ namespace Subtext.Web.Admin.UserControls
 		{
 			Edit.Visible = false;
 
-            IPagedCollection<Entry> selectionList = Entries.GetPagedEntries(this.EntryType, _filterCategoryID, _resultsPageNumber, ResultsPager.PageSize, true);		
+            IPagedCollection<Entry> selectionList = Entries.GetPagedEntries(this.EntryType, _filterCategoryID, this.pageIndex, ResultsPager.PageSize, true);		
 
 			if (selectionList.Count > 0)
 			{				
