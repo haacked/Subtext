@@ -138,3 +138,31 @@ blockquote.withline
 	padding: 5px;
 	border-left: 1px solid #9ACD32;
 }
+
+
+/********* form **********
+Styling for a Form. Assumes use of dl for the form.
+
+<dl class="form">
+*/
+dl.form dt
+{
+	height: 18px;
+	margin-top: 5px;
+}
+
+dl.form input
+{
+	width: 300px;
+}
+
+dl.form textarea
+{
+	width: 400px;
+	height: 200px;
+}
+
+label.required
+{
+	font-weight: bold;
+}

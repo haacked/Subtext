@@ -3,6 +3,7 @@
 <%@ Register TagName="Header" TagPrefix="origami" Src="Controls/Header.ascx" %>
 <%@ Register TagName="Footer" TagPrefix="origami" Src="Controls/Footer.ascx" %>
 <%@ Register TagPrefix="origami" TagName="SingleColumn" Src="Controls/SingleColumn.ascx" %>
+<%@ Register TagPrefix="uc1" TagName="News" Src="Controls/News.ascx" %>
 <script type="text/javascript">setUserStyles();</script>
   <!--[if IE]>
   <link href="skins/origami/Styles/core-IE.css?" media="screen" rel="Stylesheet" type="text/css" />
@@ -24,9 +25,8 @@
                 <div id="sidebar-wrapper">
                     <div id="sidebar">
                         <div class="sidebar-node">
-                            <h3 class="static-heading">Me</h3>
-                            <br/><p>All postings/content on this blog are provided "AS IS" with no warranties, and confer no rights. All entries in this blog are my opinion and don't necessarily reflect the opinion of my employer.</p>
-                            <ul>
+							<uc1:News ID="news" runat="server" />
+							<ul>
                                 <li><a href="~/contact.aspx" runat="server">Contact</a> </li>
                             </ul>
                         </div>

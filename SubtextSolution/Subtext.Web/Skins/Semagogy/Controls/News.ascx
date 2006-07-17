@@ -7,4 +7,3 @@
 			<asp:literal id = "NewsItem" runat = "server" />
 		</dd>
 	</dl>
-	
