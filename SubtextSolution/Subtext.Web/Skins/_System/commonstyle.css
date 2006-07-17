@@ -101,3 +101,40 @@ img.avatar
 {
 	text-decoration: underline;
 }
+
+/********* Pullout **********
+A magazine layout box that floats right. Good for emphasizing 
+a point in a blog post.
+
+USE THIS IN THE CONTENT OF A BLOG POST
+
+Sample usage.
+<span class="pullout">It is indeed a fact</span>
+*/
+.pullout
+{
+	display: block;
+	width: 30%;
+	padding: 10px;
+	background-color: #ddd;
+	float: right;
+	font: bold 1em arial, helvetica, sans-serif;
+	text-align: left;
+	letter-spacing: 0.05em;
+	margin: 5px;
+	clear: both;
+	border: solid 1px;
+}
+
+.pullout.alt
+{
+	float: left;
+}
+
+/* blockquote styling */
+blockquote.withline   
+{
+	text-align: justify; 
+	padding: 5px;
+	border-left: 1px solid #9ACD32;
+}

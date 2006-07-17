@@ -140,16 +140,9 @@ h1 a.blogTitle
 
 .pullout
 {
-	width:30%;
-	padding:10px;
 	background-color: #9ACD32;
 	color:#f5f5f5;
-	float:right;
-	font: bold 1em arial, helvetica, sans-serif;
-	text-align:left;
-	letter-spacing: 0.05em;
-	margin:5px;
-	clear: both;
+	border: none;
 }
 
 /* blockquote styling */
