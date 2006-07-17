@@ -1,4 +1,4 @@
-.container .main .innermain .mainContent, .container .main .innermain, .container .main, .container .top
+#main #mainBody .innermain #content, #main #mainBody .innermain, #main #mainBody, .container #header
 {
 	background: #fff;
 	width: 100%;
@@ -8,7 +8,7 @@
 	color: #000;
 }
 
-.container .top h1, .container .top h1 a, .container .top #tagline
+#main #header h1, #main #header h1 a, #main #header #tagline
 {
 	color: #000;
 	text-align: left;
@@ -16,14 +16,14 @@
 	padding: 0;
 }
 
-.container .top
+#main #header
 {
 	margin: 0;
 	padding: 0;
 	height: 70px;
 }
 
-.rightmenu, #commentform, .container div.eofp
+#sidebar, #commentform, #main div.eofp
 {
 	display: none;
 }
