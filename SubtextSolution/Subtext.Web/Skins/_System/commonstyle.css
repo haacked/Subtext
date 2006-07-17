@@ -151,6 +151,11 @@ dl.form dt
 	margin-top: 5px;
 }
 
+dl.form dd
+{
+	margin-left: 0;
+}
+
 dl.form input
 {
 	width: 300px;
