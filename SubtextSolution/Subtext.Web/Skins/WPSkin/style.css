@@ -13,8 +13,29 @@ The CSS and design is released under GPL:
 http://www.opensource.org/licenses/gpl-license.php
 */
 
+/*html element of body*/
+body 
+{
+	background-color: #E7E7E7;
+	text-align: center;
+	font-size: 62.5%; /* Resets 1em to 10px */
+	font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif;
+	color: #333;
+	margin: 0 auto 0 auto;
+	padding: 0;
+	background-image : url(images/kubrickbgcolor.jpg); 
+}
+
+#main
+{
+	margin: 0 auto;
+	text-align: left;
+	width: 760px;
+	padding: 0;
+}
+
 /*the top of the page*/
-.top 
+#header 
 {
 	background: url(images/kubrickheader.jpg) no-repeat center;
 	height : 200px;
@@ -37,53 +58,25 @@ http://www.opensource.org/licenses/gpl-license.php
 	margin-bottom : 0px;
 }
 
-/*html element of body*/
-body 
+/*where the posts and sidebar stays*/
+#mainBody
 {
-	text-align: center;
-	font-size: 62.5%; /* Resets 1em to 10px */
-	font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif;
-	/*background-color: #d5d6d7;*/
-	color: #333;
-	margin-top : 0px;
-	background-image : url(images/kubrickbgcolor.jpg); 
-}
-
-.container
-{
-}
-
-/*where the posts and rightmenu stays*/
-.container .main
-{
-	background : url(images/kubrickbg.jpg) center;
+	background: url(images/kubrickbg.jpg) no-repeat center;
 	background-repeat : repeat-y;
-	margin: 0;
-	padding: 0;
 	float: left;
-	text-align: left;
 	width: 100%;
 }
 
-.main .mainContent
+#content
 {
-	margin: 0 15px 0 0;
-	padding: 0;
 	float: left;
+	margin: 0 0 0 20px;
 	width: 500px;
 }
 
-.innermain
-{
-	width: 718px;
-	float: left;
-	margin-left: 207px !important;
-	margin-left: 72px;
-	padding: 0;
-}
-
 /*post text and the date on top of title*/
-.post, .date{
+.post, .date
+{
 	margin-top : 0px;
 	text-align : justified;
 }
@@ -110,10 +103,10 @@ body
 }
 
 /*the menu on the right*/
-.main .rightmenu 
+#sidebar
 {
 	float: left;
-	margin-top : 10px;
+	margin: 10px 0 0 15px;
 	width: 200px;
 }
 
@@ -131,7 +124,7 @@ body
 	background : url(images/kubrickfooter.jpg) no-repeat center;
 	height : 60px;
 	margin-top : 0;
-	text-align : left; /*if center; it was mixing up with rightmenu on comment page*/
+	text-align : left; /*if center; it was mixing up with sidebar on comment page*/
 	padding-left : 140px;
 	clear: both;
 }
@@ -149,27 +142,27 @@ body
 }
 
 /*right menu list items*/
-.rightmenu ul li
+#sidebar ul li
 {
 	color: #777;
 	list-style: none;
 	padding-left: 2px;
 }
 
-/*rightmenu lists*/
-.rightmenu ul
+/*sidebar lists*/
+#sidebar ul
 {
 	margin: 0;
 	padding: 2px;
 }
 
-/*the bullet of the lists on rightmenu*/
-.rightmenu ul li:before 
+/*the bullet of the lists on sidebar*/
+#sidebar ul li:before 
 {
 	content : "\00BB \0020";
 }
 
-.rightmenu h3
+#sidebar h3
 {
 	margin-bottom: 0;
 }
@@ -211,8 +204,8 @@ div.post h2
 	margin-bottom: 1px;
 }
 
-/*header 3s on rightmenu*/
-.rightmenu h3 
+/*header 3s on sidebar*/
+#sidebar h3 
 {
 	font-family: 'Lucida Grande', Verdana, Sans-Serif;
 	font-size: 1.2em;

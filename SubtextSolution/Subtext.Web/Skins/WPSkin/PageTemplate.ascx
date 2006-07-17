@@ -7,26 +7,24 @@
 <%@ Register TagPrefix="uc1" TagName="CategoryDisplay" Src="Controls/CategoryDisplay.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="BlogStats" Src="Controls/BlogStats.ascx" %>
 <%@ Register TagPrefix="DT" Namespace="Subtext.Web.UI.WebControls" Assembly="Subtext.Web" %>
-<div class="container">
-	<div class="top">
+<div id="main">
+	<div id="header">
 		<uc1:Header id="Header1" runat="server"></uc1:Header>
 	</div>
 
-	<div class="main">
-		<div class="innermain">
-			<div class="mainContent">
-				<DT:ContentRegion id="MPMain" runat="server"></DT:ContentRegion>
-			</div>
-			<div class="rightmenu">
-				<DT:ContentRegion id="MPRightColumn" runat="server">
-					<uc1:BlogStats id="BlogStats1" runat="server"></uc1:BlogStats>
-					<uc1:MyLinks id="MyLinks1" runat="server"></uc1:MyLinks>
-					<uc1:CategoryDisplay id="CategoryDisplay1" runat="server"></uc1:CategoryDisplay>
-					<uc1:News id="News1" runat="server"></uc1:News>
-					<uc1:ArchiveLinks id="ArchiveLinks1" runat="server"></uc1:ArchiveLinks>
-					<uc1:Footer id="Footer1" runat="server"></uc1:Footer>
-				</DT:ContentRegion>
-			</div>
+	<div id="mainBody">
+		<div id="content">
+			<DT:ContentRegion id="MPMain" runat="server"></DT:ContentRegion>
+		</div>
+		<div id="sidebar">
+			<DT:ContentRegion id="MPRightColumn" runat="server">
+				<uc1:BlogStats id="BlogStats1" runat="server"></uc1:BlogStats>
+				<uc1:MyLinks id="MyLinks1" runat="server"></uc1:MyLinks>
+				<uc1:CategoryDisplay id="CategoryDisplay1" runat="server"></uc1:CategoryDisplay>
+				<uc1:News id="News1" runat="server"></uc1:News>
+				<uc1:ArchiveLinks id="ArchiveLinks1" runat="server"></uc1:ArchiveLinks>
+				<uc1:Footer id="Footer1" runat="server"></uc1:Footer>
+			</DT:ContentRegion>
 		</div>
 	</div>
 
