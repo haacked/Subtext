@@ -660,3 +660,14 @@ Will later merge with the rest of the CSS
       #contentBodyCenter {
               background: none;
       }
+      
+div.debug
+{
+	display: none;
+}
+
+div.previousNext
+{
+	width: 550px;
+	margin-bottom: 10px;
+}

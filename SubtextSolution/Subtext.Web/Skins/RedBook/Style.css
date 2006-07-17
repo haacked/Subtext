@@ -459,3 +459,8 @@ legend
 {
 	color:#666666;
 }
+
+div.debug
+{
+	display: none;
+}

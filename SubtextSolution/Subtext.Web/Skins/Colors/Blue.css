@@ -1,0 +1,86 @@
+/*---------- {color scheme} ----------------*/
+/* blue */
+a, div.contentbox h2
+{
+	color: #27baff;
+}
+
+/* darker orange */
+div.previousNext a
+{
+	color: #27b0ef;
+}
+
+/* very light orange */
+a:hover, a.printlink:hover 
+{
+	color: #4fdfff;
+}
+
+div.previousNext a:hover
+{
+}
+
+/* light grey */
+#title h2
+{
+	color: #ccc;
+}
+
+div.contentbox h2
+{
+	background-color: #f9f9f9;
+}
+
+#header, #sidebar, div.footer
+{
+	border-color: #ddd;
+}
+
+#search input.searchterm
+{
+	color: #999;
+}
+
+/* dark gray */
+#sidebar div.contentbox h2, #content div.contentbox h2
+{
+	border-color: #aaa;
+}
+
+div.contentbox
+{
+	border-color: #777;
+}
+
+/* ------------- {search color scheme} -------------- */
+/* blue */
+#searchResults ul li
+{
+	color: #27baff;
+}
+
+#search
+{
+	margin-right: 49px !important;
+	margin-right: 12px;
+	margin-top: 30px;
+}
+
+#search input.searchButton
+{
+	background-color: #27baff;
+	border: none;
+}
+
+/* very light gray */
+#search input.searchterm, #search #searchResults
+{
+	background-color: #f6f6f6;
+}
+
+/* Border dark gray */
+#search input.searchterm, #search #searchResults
+{
+	border-color: #ddd;
+}

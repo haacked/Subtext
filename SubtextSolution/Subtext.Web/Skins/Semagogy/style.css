@@ -549,3 +549,18 @@ dd
 	
 	
 /* /table.Layout td.c3 */
+
+div.debug
+{
+	display: none;
+}
+
+div.previousNext a
+{
+	color: #9F1414;	
+}
+
+div.previousNext a:hover
+{
+	color: #7A794D;
+}
