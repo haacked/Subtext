@@ -824,6 +824,7 @@
     <Content Include="Admin\UserControls\CategoryLinkList.ascx" />
     <Content Include="Admin\UserControls\EntryEditor.ascx" />
     <Content Include="Admin\EditPosts.aspx" />
+    <Content Include="AspNetWithoutWebProjects.txt" />
     <Content Include="ExternalDependencies\FreeTextBox.xml" />
     <Content Include="ExternalDependencies\log4net.dll" />
     <Content Include="ExternalDependencies\log4net.xml" />
@@ -1166,6 +1167,7 @@
     <Content Include="Skins\origami\Controls\Header.ascx" />
     <Content Include="Skins\origami\Controls\HomePage.ascx" />
     <Content Include="Skins\origami\Controls\PostComment.ascx" />
+    <Content Include="Skins\origami\Controls\PreviousNext.ascx" />
     <Content Include="Skins\origami\Controls\SingleColumn.ascx" />
     <Content Include="Skins\origami\Controls\ViewPost.ascx" />
     <Content Include="Skins\origami\images\bg_85PercentWhite.png" />
@@ -1239,6 +1241,7 @@
     <Content Include="Skins\origami\images\bullet_UL.png" />
     <Content Include="Skins\origami\images\div_head.png" />
     <Content Include="Skins\origami\images\header_Personalize.png" />
+    <Content Include="Skins\origami\images\icon_download.gif" />
     <Content Include="Skins\origami\images\icon_enlarge.png" />
     <Content Include="Skins\origami\images\icon_externalSite.png" />
     <Content Include="Skins\origami\images\icon_externalSite_alt.png" />
@@ -1258,7 +1261,9 @@
     <Content Include="Skins\origami\images\sglogo.gif" />
     <Content Include="Skins\origami\images\tradegothic.swf" />
     <Content Include="Skins\origami\PageTemplate.ascx" />
+    <Content Include="Skins\origami\README.txt" />
     <Content Include="Skins\origami\Scripts\behaviour.js" />
+    <Content Include="Skins\origami\Scripts\cookies.js" />
     <Content Include="Skins\origami\Scripts\coreFunctions.js" />
     <Content Include="Skins\origami\Scripts\effects.js" />
     <Content Include="Skins\origami\Scripts\init.js" />
@@ -1266,6 +1271,7 @@
     <Content Include="Skins\origami\Scripts\searchResults.js" />
     <Content Include="Skins\origami\Scripts\styleSwitcher.js" />
     <Content Include="Skins\origami\Scripts\typo.js" />
+    <Content Include="Skins\origami\style.css" />
     <Content Include="Skins\origami\Styles\alternateStyles.css" />
     <Content Include="Skins\origami\Styles\core-IE.css" />
     <Content Include="Skins\origami\Styles\core.css" />

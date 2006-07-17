@@ -23,7 +23,6 @@ body {
 #results-returned {height:3.2em;}
 #results-panel h3 {left:0px;}
 #results-returned ol a {height:1%;}
-.comment-body {height:62px;}
 .gravatar {right:15px;}
 #top-link {position:absolute;}
 #sidebar ul {height: 1%;}
@@ -38,4 +37,4 @@ ul, ol, dl, p.important, .sidebar-node{position: relative;}
 #personalization-instructions #personalization-instructions-close {
 
 					cursor:hand;
-				}
+}

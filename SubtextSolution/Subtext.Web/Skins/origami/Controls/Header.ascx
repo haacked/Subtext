@@ -1,17 +1,11 @@
 <%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.Header" %>
-<!--[if IE]>
-            <LINK media="screen" href="Styles/core-IE.css?" type=text/css rel=Stylesheet>
-        <![endif]-->
-        <!--[if IE 5]>
-            <link href="Styles/ie5_5.css?" media="screen" rel="Stylesheet" type="text/css" />
-        <![endif]-->
 <div id="header">
                     <div id="jump-menu">
                         <h3>Jump Menu</h3>
                         <ul class="menu horizontal clearfix">
                             <li><a id="skipToNav" title="Jump to Navigation" href="#sidebar">Navigation</a> </li>
                             <li><a id="skipToContent" title="Jump to Content" href="#content">Content</a> </li>
-                            <li><a id="skipToSearch" title="Jump to Search" onclick="document.getElementById('q').focus(); return false;"href="#q">Search</a> </li>
+                            <li><a id="skipToSearch" title="Jump to Search" onclick="document.getElementById('q').focus(); return false;" href="#q">Search</a> </li>
                         </ul>
                     </div>
                     <div id="personalize">

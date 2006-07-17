@@ -8,8 +8,12 @@
     overflow:hidden;
 }
 
-.clearfix { display: inline-table; }
+.clearfix {display: inline-table;}
 
+/* Hides from IE-mac \*/
+* html .clearfix {height: 1%;}
+.clearfix {display: block;}
+/* End hide from IE-mac */
 /* END =CLEARFIX */
 
 /* =JELLO MOULD */
@@ -30,6 +34,10 @@
 	min-width: 760px; /* Critical Safari fix! */
 	position: relative;
 }
+
+/* Holly hack for IE \*/
+.jelloLayout * html #expander, * html #expander { height: 0; }
+/* */
 
 /* END =JELLO MOULD */
 
@@ -714,6 +722,16 @@ body > #top-link {position:fixed;}
 			}
 			
 			/* =POST */
+			.google-ad-home {
+				padding:15px;
+				border-width:1px;
+				border-style:solid;
+				border-color:#ede5d9;
+				position:relative;
+				background:#fff;
+				overflow:hidden;
+				margin-bottom:20px;
+			}
 			.post {
 				padding:15px;
 				border-width:1px;
@@ -754,6 +772,7 @@ body > #top-link {position:fixed;}
 					padding-top:24px;
 					overflow:hidden;
 					width:151px;
+					background: url(../images/btn_continueReading.png) no-repeat 0 0;
 					margin:1.5em 0
 				}
 				.continueReading:hover, .post-content + a:hover {
@@ -793,25 +812,25 @@ body > #top-link {position:fixed;}
 		/* END =POST */
 		/* =COMMENT */
 		
-		#main #commentListing {list-style-type:none;}
-		#main #commentListing li {
+		#main #commentList {list-style-type:none;}
+		#main #commentList li {
 			position:relative;
 		}
-		#main #commentListing li div.admin-tools-for-comment{
+		#main #commentList li div.admin-tools-for-comment{
 			position:absolute;
 			top:5px;
 			left:5px;
 			z-index:200;
 			overflow:hidden;
 		}
-		#main #commentListing li div.admin-tools-for-comment div {
+		#main #commentList li div.admin-tools-for-comment div {
 			height:24px;
 			z-index:100;
 			overflow:hidden;
 			float:left;
 		}
 		
-		#main #commentListing li div.admin-tools-for-comment a {
+		#main #commentList li div.admin-tools-for-comment a {
 			display:block;
 			float:left;
 			text-transform:uppercase;
@@ -820,12 +839,12 @@ body > #top-link {position:fixed;}
 			padding:5px;
 			border:1px solid #6a604f;
 		} 
-		#main #commentListing li div.admin-tools-for-comment a:hover {
+		#main #commentList li div.admin-tools-for-comment a:hover {
 			background-color:#f8f5e0 !important
 		}
 		
 		/* browsers with css2 selector styles get better styling */
-		#main #commentListing li div.admin-tools-for-comment div > a {
+		#main #commentList li div.admin-tools-for-comment div > a {
 			background: url(../images/btn_nukeComment.png) no-repeat 0 0;
 			height:0px;
 			padding:24px 0 0 0;
@@ -835,31 +854,32 @@ body > #top-link {position:fixed;}
 			overflow:hidden;
 		}
 		/* browsers with css2 selector styles get better styling */
-		#main #commentListing li div.admin-tools-for-comment div > a:hover {
+		#main #commentList li div.admin-tools-for-comment div > a:hover {
 			background-position: 0 -24px;
 			background-color:transparent !important
 		}
 		/* browsers with css2 selector styles get better styling */
-		#main #commentListing li div.admin-tools-for-comment div > a + a {
+		#main #commentList li div.admin-tools-for-comment div > a + a {
 			background-image: url(../images/btn_editComment.png);
 			width:125px;
 		}
 		/* browsers with css2 selector styles get better styling */
-		#main #commentListing li div.admin-tools-for-comment div > a + a:hover {
+		#main #commentList li div.admin-tools-for-comment div > a + a:hover {
 			background-position: 0 -24px;
 		}
 
-		#main #commentListing {
+		#main #commentList {
 			margin:0;
-			padding:0
+			padding:0;
+			list-style-type:none;
 		}
-			#main #commentListing li {
+			#main #commentList li {
 				margin:0 0 1.5em 0;
 				padding:0;
 				background:none;
 				
 			}
-				#main #commentListing li a{
+				#main #commentList li a{
 					margin:0;
 					padding:0;
 					background:none;
@@ -872,7 +892,7 @@ body > #top-link {position:fixed;}
 					position:relative;
 					min-height:62px;
 				}
-				
+							
 				.normal-comment .comment-body {
 					border-color:#628636;
 				}
@@ -887,22 +907,21 @@ body > #top-link {position:fixed;}
 				
 				.preview-comment {margin-bottom:20px;}
 					
-					.gravatar {
-						position:absolute;
-						top:10px;
-						right:10px;
+					.avatar 
+					{
+						position: relative;
 						background-color:#fff;
-						padding:5px;
+						margin: -6px 5px 0 5px;
 						border-width:1px;
 						border-style:solid;
 					}
-					.normal-comment .comment-body .gravatar{
+					.normal-comment .comment-body .avatar{
 						border-color:#e2e4ce;
 					}
-					.alternate-comment .comment-body .gravatar{
+					.alternate-comment .comment-body .avatar{
 						border-color:#e2e4ce;
 					}
-					.preview-comment .comment-body .gravatar{
+					.preview-comment .comment-body .avatar{
 						border-color:#ddd;
 					}
 				.comment cite {
@@ -1284,6 +1303,10 @@ body > #top-link {position:fixed;}
 						}
 						#sidebar ul a:visited {
 							background-image: url(../images/bullet_sideBar_v.png)
+						}
+						
+						#sidebar ul li a.download {
+							background-image: url(../images/icon_download.gif)
 						}
 					
 					#sidebar .sidebar-node > ul#flickr-list {overflow:hidden;}
