@@ -70,8 +70,10 @@ body
 #content
 {
 	float: left;
-	margin: 0 0 0 20px;
-	width: 500px;
+	margin: 0 0 0 20px !important;
+	margin-left: 8px;
+	padding-left: 4px;
+	width: 490px;
 }
 
 /*post text and the date on top of title*/
@@ -106,7 +108,8 @@ body
 #sidebar
 {
 	float: left;
-	margin: 10px 0 0 15px;
+	margin: 10px 0 0 20px !important;
+	margin-left: 15px;
 	width: 200px;
 }
 
@@ -124,8 +127,6 @@ body
 	background : url(images/kubrickfooter.jpg) no-repeat center;
 	height : 60px;
 	margin-top : 0;
-	text-align : left; /*if center; it was mixing up with sidebar on comment page*/
-	padding-left : 140px;
 	clear: both;
 }
 

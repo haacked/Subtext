@@ -1,4 +1,4 @@
-#main #mainBody .innermain #content, #main #mainBody .innermain, #main #mainBody, .container #header
+#main #mainBody #content, #main #mainBody, #main #header
 {
 	background: #fff;
 	width: 100%;
