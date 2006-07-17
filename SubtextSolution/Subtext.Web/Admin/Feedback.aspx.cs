@@ -29,7 +29,7 @@ namespace Subtext.Web.Admin.Pages
 	/// </summary>
 	public partial class Feedback : AdminPage
 	{
-		private int _resultsPageNumber = 1;
+		private int pageIndex = 0;
 		private bool _isListHidden = false;
 	
 	    public Feedback() : base()
@@ -42,10 +42,10 @@ namespace Subtext.Web.Admin.Pages
 			if (!IsPostBack)
 			{
 				if (Request.QueryString[Keys.QRYSTR_PAGEINDEX] != null)
-					_resultsPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
+					this.pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
 
 				ResultsPager.PageSize = Preferences.ListingItemCount;
-				ResultsPager.PageIndex = _resultsPageNumber;
+				ResultsPager.PageIndex = this.pageIndex;
 				Results.Collapsible = false;
 				
 				BindList();
@@ -83,7 +83,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindList()
 		{
-            IPagedCollection<Entry> selectionList = Entries.GetPagedFeedback(_resultsPageNumber, ResultsPager.PageSize, true);		
+            IPagedCollection<Entry> selectionList = Entries.GetPagedFeedback(this.pageIndex, ResultsPager.PageSize, true);		
 
 			if (selectionList.Count > 0)
 			{
