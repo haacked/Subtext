@@ -1,19 +1,46 @@
 <%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.Contact" %>
-<div class="post normal-post">
-    <h1>
-        Contact</h1>
-    <h2>
-        Physical</h2>
-    <img src="http://static.flickr.com/68/173567678_2dea396139.jpg?v=0" alt="Queen Creek, AZ, USA" />
-    <h2>
-        Email</h2>
-    <ul>
-        <li>tim &lt; at &gt; timheuer &lt;dot&gt; com</li>
-    </ul>
-    <h2>
-        IM</h2>
-    <ul>
-        <li>MSN: same as email above</li>
-    </ul>
+<h2>Contact</h2>
+	
+<div class="info">
+	<asp:label id="lblMessage" runat="server" />
 </div>
-<asp:Button ID="btnSend" runat="server" Visible="false" />
+
+<asp:ValidationSummary ID="vldSummary" runat="server" CssClass="error" />
+		
+<p>
+	Please use the form below if you have any comments, questions, or suggestions. (required fields in bold)
+</p>
+<dl class="form">
+	<dt>
+		<label for="Contact_ascx_tbName" accesskey="N" class="required"><span class="accessKey">N</span>ame</label> <asp:RequiredFieldValidator id="RequiredFieldValidator2" runat="server" ErrorMessage="Please enter your name"
+				ControlToValidate="tbName" Display="Static">*</asp:RequiredFieldValidator>
+	</dt>
+	<dd>
+		<asp:textbox id="tbName" cssclass="Text" runat="server" />
+	</dd>
+	<dt>
+		<label for="Contact_ascx_tbEmail" accesskey="E"><span class="accessKey">E</span>mail</label>
+	</dt>
+	<dd>
+		<asp:textbox id="tbEmail" cssclass="Text" runat="server" />
+	</dd>
+	<dt>
+		<label for="Contact_ascx_tbSubject" accesskey="S" class="required"><span class="accessKey">S</span>ubject</label> <asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" ErrorMessage="Please enter a subject"
+				ControlToValidate="tbName" Display="Static">*</asp:RequiredFieldValidator>
+	</dt>
+	<dd>
+		<asp:textbox id="tbSubject" cssclass="Text" runat="server" />
+	</dd>
+	<dt>
+		<label for="Contact_ascx_tbMessage" accesskey="M" class="required"><span class="accessKey">M</span>essage</label> <asp:RequiredFieldValidator id="RequiredFieldValidator3" runat="server" ErrorMessage="Please enter a message"
+				ControlToValidate="tbName" Display="Static">*</asp:RequiredFieldValidator>
+	</dt>
+	<dd>
+		<asp:textbox id="tbMessage" runat="server" textmode="MultiLine" />
+	</dd>
+</dl>
+<div class="action">
+	<asp:button id="btnSend" cssclass="button" runat="server" text="Send" />
+</div>
+
+
