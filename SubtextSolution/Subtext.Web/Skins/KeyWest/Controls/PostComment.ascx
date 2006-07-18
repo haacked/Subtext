@@ -15,6 +15,10 @@
 					ControlToValidate="tbName" Display="Dynamic" /></td>
 		</tr>
 		<tr>
+			<td align="right">Email:</td>
+			<td><asp:TextBox id="tbEmail" runat="server" CssClass="fixed" Columns="45"></asp:TextBox></td>
+		</tr>
+		<tr>
 			<td align="right">Website:</td>
 			<td>
 				<div class="input"><asp:TextBox id="tbUrl" runat="server" CssClass="fixed" Columns="45"></asp:TextBox>

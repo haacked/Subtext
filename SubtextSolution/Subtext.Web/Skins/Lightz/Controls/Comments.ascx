@@ -11,6 +11,7 @@
 			<div class="comments">
 		</HeaderTemplate>
 		<ItemTemplate>
+		    <asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" PlaceHolderImage="~/images/shadow.gif" />
 			<div class="comment">
 				<div class="comment_title">
 					<asp:Literal Runat = "server" ID = "Title" />

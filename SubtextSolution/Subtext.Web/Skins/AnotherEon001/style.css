@@ -215,6 +215,7 @@ h3 {
 	padding: 4px;
 	margin-bottom: 28px;
 }
+
 .post h5, .post h2
 {
 	font-size: 1.5em;
@@ -235,6 +236,10 @@ h3 {
 	border-top: 1px solid #DDDDDD;
 	font-size: 0.8em;
 	height: 17px;
+}
+#comments .post 
+{
+	margin-left:60px;
 }
 pre
 {

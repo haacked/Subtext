@@ -14,6 +14,10 @@
 			<asp:RequiredFieldValidator id="RequiredFieldValidator2" runat="server" ErrorMessage="Please enter your name" ControlToValidate="tbName"></asp:RequiredFieldValidator>
 		</div>
 		<div>
+			Email<br />
+			<asp:TextBox id="tbEmail" runat="server" Size = "40" Width="400px" CssClass="text"></asp:TextBox><br /><br />
+		</div>
+		<div>
 			Url<br />
 			<asp:TextBox id="tbUrl" runat="server" Size = "40" Width="400px" CssClass="text"></asp:TextBox><br /><br />
 		</div>
