@@ -361,7 +361,8 @@ div.comment .commentHeader
 {
 	background-color:#85879c;
 }
-div.comment .post, div.trackback .post {
+div.comment .post, div.trackback .post 
+{
 	border: 1px solid #285090;
 	background-color:#e1e3f2;
 	background-image: url(images/comment_bg.jpg);

@@ -208,9 +208,9 @@ div.comments {
 }
 
 div.comment {
-	background-color: #FBFBFB;
+  background-color: #FBFBFB;
   border: 1px dashed #DDDDDD;
-  margin: 10px 0px 10px 0px;
+  margin: 10px 0px 10px 60px;
   padding: 10px;
 }
 

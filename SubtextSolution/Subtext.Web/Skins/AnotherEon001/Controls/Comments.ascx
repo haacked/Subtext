@@ -5,6 +5,7 @@
 	<asp:Literal ID="NoCommentMessage" Runat="server" />
 	<asp:Repeater id="CommentList" runat="server" OnItemCreated="CommentsCreated" OnItemCommand="RemoveComment_ItemCommand">
 		<ItemTemplate>
+		    <asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" PlaceHolderImage="~/images/shadow.gif" />
 			<div class="post">
 				<h2>
 					<asp:Literal Runat = "server" ID = "Title" />
