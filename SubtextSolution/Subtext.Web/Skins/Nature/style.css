@@ -77,7 +77,7 @@ a:hover
 	background-color: #ccc;
 	text-align: right;
 	color: #fff;
-	background-image: url("images/leafy/menubg.jpg");
+	background-image: url("images/menubg.jpg");
 	margin-bottom: 10px;
 }
 
@@ -114,7 +114,7 @@ a:hover
 	padding:5px;
 	float:left;
 	clear:left;
-	background-image: url("images/leafy/article.jpg");
+	background-image: url("images/article.jpg");
 	background-position:bottom right;
 	background-repeat:repeat-x;
 }
@@ -281,4 +281,10 @@ span.adminLink
 	width: 450px;
 	clear: left;
 	margin-bottom: 1em;
+}
+
+#footer p.leafy, #footer p.rain
+{
+	display:none;
+	font-size: .7em;
 }

@@ -40,3 +40,8 @@ a
 {
 	color: #539acc;
 }
+
+#footer p.rain
+{
+	display: inline;
+}

@@ -39,3 +39,8 @@ a
 {
 	color: #9acc53;
 }
+
+#footer p.leafy
+{
+	display: inline;
+}
