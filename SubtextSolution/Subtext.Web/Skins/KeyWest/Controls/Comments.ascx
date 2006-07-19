@@ -8,7 +8,7 @@
 		<ItemTemplate>
 			<div class="comment">
 				<div class="commentHeader">
-				    <asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" PlaceHolderImage="~/images/shadow.gif" />
+				    <asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" PlaceHolderImage="~/images/shadow.gif" AlternateText="Gravatar" />
 					<strong><asp:Literal Runat = "server" ID = "Title" /></strong>
 					<div class="info">by <asp:HyperLink Target="_blank" Runat="server" ID="NameLink" /> at <asp:Literal id = "PostDate" Runat = "server" /></div>
 					<hr style="clear:left; visibility:hidden;" />

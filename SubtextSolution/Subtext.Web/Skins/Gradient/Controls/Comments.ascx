@@ -15,7 +15,7 @@
 					<h4><span class="title"><asp:Literal Runat = "server" ID = "Title" /></span>
 						<span class="adminLink"><asp:LinkButton Runat="server" ID="EditLink" CausesValidation="False" title="edit comment" /></span>
 					</h4>
-					<asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" />
+					<asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" AlternateText="Gravatar" />
 					<div class="commentText"><asp:Literal id="PostText" Runat="server" /></div>
 					<div class="postfoot commentInfo">
 						<asp:Literal id="PostDate" Runat="server" /> | <asp:HyperLink Target="_blank" Runat="server" ID="NameLink" title="Date posted" />
