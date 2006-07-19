@@ -171,3 +171,17 @@ label.required
 {
 	font-weight: bold;
 }
+
+/******** horizontal list ************
+Used to make an ordered or unordered list horizontal.
+*/
+ul.horizontal
+{
+	list-style: none;
+}
+
+ul.horizontal li
+{
+	display: inline;
+}
+

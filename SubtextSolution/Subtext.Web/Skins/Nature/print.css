@@ -1,0 +1,29 @@
+#main #mainBody #content, #main #mainBody, #main #header
+{
+	background: #fff;
+	width: 100%;
+	border: 0;
+	padding: 0 !important;
+	margin: 0 !important;
+	color: #000;
+}
+
+#main #header h1, #main #header h1 a, #main #header #tagline
+{
+	color: #000;
+	text-align: left;
+	margin: 0;
+	padding: 0;
+}
+
+#main #header
+{
+	margin: 0;
+	padding: 0;
+	height: 70px;
+}
+
+#sidebar, #commentform, #main div.eofp
+{
+	display: none;
+}

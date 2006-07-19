@@ -1,0 +1,284 @@
+/*
+Original site design by Bartosz (http://www.bartosz.co.nr/) site no longer functional.
+Adapted by Subtext team.
+*/
+body 
+{
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 0.74em;
+	color: #333;
+	line-height: 20px;
+	cursor: default;
+	margin: 0;
+	background-position: center;
+	background-repeat: repeat-y;
+}
+
+a 
+{
+	text-decoration:none;
+}
+
+a:hover 
+{
+	border-bottom:1px dotted #000;
+}
+
+#main 
+{
+	width: 700px;
+	padding: 10px;
+	background-color: #fff;
+	margin:0 auto 0 auto;
+}
+
+#header 
+{
+	width: 700px;
+	height: 258px;
+	color: #fff;
+	font-family: "Trebuchet MS", Arial, Verdana;
+	font-size: 1.5em;
+	font-weight: bold;
+	line-height: 20px;
+}
+
+#header p 
+{
+	padding:5px;
+	margin:0;
+	margin-left:340px;
+	margin-right:10px;
+	text-indent:5px;
+}
+
+#header h1 
+{
+	color:#fff;
+	font-family:"Trebuchet MS", Arial, Verdana;
+	font-size:300%;
+	font-weight:bold;
+	padding:0;
+	padding-top:75px;
+	padding-left:340px;
+	padding-bottom:25px;
+	margin:0;
+	border-bottom:2px solid #ffffff;
+	background-image:none;
+}
+
+#menu 
+{
+	width: 577px !important;
+	width: 575px;
+	padding: 5px 123px 6px 0 !important;
+	padding: 5px 125px 6px 0;
+	margin: 0;
+	background-color: #ccc;
+	text-align: right;
+	color: #fff;
+	background-image: url("images/leafy/menubg.jpg");
+	margin-bottom: 10px;
+}
+
+#menu a 
+{
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:60%;
+	font-weight:bold;
+	text-transform:uppercase;
+	color: #fff;
+	text-decoration:none;
+	padding: 13px 5px 12px 5px;
+	margin-left: 1px;
+}
+
+#menu a:hover 
+{
+	padding: 13px 5px 11px 5px;
+}
+
+#logo
+{
+	display: block;
+	width: 323px;
+	height: 258px;
+	border-right:2px solid #fff;
+	float:left;
+}
+
+#sidebar 
+{
+	width:150px;
+	border:1px solid #cccccc;
+	padding:5px;
+	float:left;
+	clear:left;
+	background-image: url("images/leafy/article.jpg");
+	background-position:bottom right;
+	background-repeat:repeat-x;
+}
+
+#content
+{
+	width: 530px;
+	float: left;
+	margin-left: 5px;
+}
+
+.post 
+{
+	margin: 0;
+	padding: 10px;
+	border: 1px solid #cccccc;
+	background-position:top left;
+	background-repeat:no-repeat;
+	margin-bottom:10px;
+}
+
+.post p 
+{
+	margin:10px;
+}
+
+.postInfo 
+{
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:10px;
+	color:#666;
+	letter-spacing:2px;
+	font-variant:small-caps;
+	text-transform:lowercase;
+}
+
+.postInfo a 
+{
+	font-weight:bold;
+	text-decoration:none;
+	color:#000;
+}
+
+.post h1, .post h2, .post h3 
+{	
+	font-family: Arial Narrow, Arial, Helvetica, sans-serif;
+	letter-spacing: -1px;
+	color: #000;
+	border-bottom:2px solid #cccccc;
+	background-position:top right;
+	background-repeat:no-repeat;
+	padding-bottom:5px;
+	padding-top:5px;
+}
+
+.post h2
+{
+	font-size: 2.0em;
+}
+
+.post h2 a
+{
+	color: #000;
+}
+
+div.comment
+{
+	margin: 0 0 1em 0;
+	padding: 5px;
+	clear: both;
+	float: left;
+	width: 450px;
+}
+
+div.comment .commentInfo
+{
+	width: 450px;
+	color: #333;
+	margin-bottom: .2em;
+	padding-left: 26px;
+	height: 22px;
+	display: block;
+	background: url(images/CommentIcon.gif) no-repeat 0 .1em;
+}
+
+div.comment h3
+{
+	font-family: Arial, helvetica, Sans-Serif;
+	margin: 0;
+}
+
+div.comment .commentText
+{
+	width: 450px;
+	display: block;
+	border: solid 1px #587796;
+	margin: 0;
+	padding: 5px;
+	float: left;
+}
+
+img.avatar
+{
+	padding: 0 5px 5px 0;
+	margin: 0;
+}
+
+div.debug
+{
+	display: none;
+}
+
+p.date
+{
+	display: none;
+}
+
+#sidebar h1,h2,h3 
+{
+	font-family: Arial Narrow, Arial, Helvetica, sans-serif;
+	letter-spacing: -1px;
+	color: #333;
+	border: none;
+	background-image: none;
+}
+
+#sidebar h2
+{
+	font-size: 2em;
+	margin-bottom: 4px;
+}
+
+#blogStats
+{
+	float: none;
+	text-align: left;
+	font-weight: normal;
+	font-size: 1em;
+}
+
+#sidebar ul
+{
+	margin: 0;
+	padding: 0;
+}
+
+#sidebar ul li
+{
+	padding: 0;
+	margin-left: 5px;
+	list-style-type: none;
+}
+
+#footer
+{
+}
+
+span.adminLink
+{
+}
+
+#commentform
+{
+	width: 450px;
+	clear: left;
+	margin-bottom: 1em;
+}

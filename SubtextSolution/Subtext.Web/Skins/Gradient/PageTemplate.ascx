@@ -35,9 +35,18 @@
         <div class="right-element">
             
             <sub:contentregion id="MPMain" runat="server"></sub:contentregion>
-            
-            <uc1:Footer ID="footer" runat="server" />
-            <!-- /rbroundbox -->
+            <div id="footer">
+				<uc1:Footer ID="footer2" runat="server" />
+			</div>
         </div>
+        
     </div>
+    
 </div>
+<!--
+Original Design: Two Point Oh by Jason Kingery aka Denial http://denial-design.com.
+Found on the Open Source Web Design site: http://www.oswd.org/design/preview/id/2834
+
+Original Design licensed under the GPL (http://www.opensource.org/licenses/gpl-license.php)
+Design adapted and modified by the Subtext team 2006.
+//-->
