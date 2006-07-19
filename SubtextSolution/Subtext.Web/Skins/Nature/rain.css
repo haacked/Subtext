@@ -1,0 +1,42 @@
+﻿body
+{
+	background-color: #d7effa;
+	background-image: url("images/rain/mainbg.jpg");
+}
+
+a
+{
+	color:#539acc;
+}
+
+#header
+{
+	background-color: #354055;
+}
+
+
+#logo
+{
+	background-image: url("images/rain/waterdrop.jpg");
+}
+
+#menu a:hover, #menu a.active 
+{
+	background-image: url("images/rain/link.jpg");
+}
+
+.post
+{
+	background-image: url("images/rain/fadedwaterdrop.jpg");
+	
+}
+
+.post h1, .post h2, .post h3 
+{
+	background-image: url("images/rain/bluewetglass.gif");
+}
+
+.post h2 a:hover
+{
+	color: #539acc;
+}

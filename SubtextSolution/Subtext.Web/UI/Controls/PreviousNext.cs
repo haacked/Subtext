@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Common.Data;
@@ -99,7 +100,7 @@ namespace Subtext.Web.UI.Controls
 			if (format == null)
 				format = "{0}";
 			
-			navLink.Text = string.Format(format, entry.Title);
+			navLink.Text = HttpUtility.HtmlEncode(string.Format(format, entry.Title));
 			navLink.NavigateUrl = entry.FullyQualifiedUrl.ToString();
 		}
 	}

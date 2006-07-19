@@ -1,0 +1,41 @@
+﻿body
+{
+	background-color:#dff3d7;
+	background-image: url("images/leafy/mainbg.jpg");
+}
+
+a
+{
+	color:#9ACC53;
+}
+
+#logo
+{
+	background-image: url("images/leafy/leaves.jpg");
+}
+
+#header
+{
+	background-color: #3f4a3e;
+}
+
+#menu a:hover, #menu a.active 
+{
+	background-color: #3f4a3e;
+	background-image: url("images/leafy/link.jpg");
+}
+
+.post
+{
+	background-image: url("images/leafy/articlenormal.jpg");
+}
+
+.post h1, .post h2, .post h3 
+{
+	background-image: url("images/leafy/headers.jpg");
+}
+
+.post h2 a:hover
+{
+	color: #9acc53;
+}

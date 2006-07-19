@@ -169,6 +169,7 @@
     <Compile Include="MenuItem.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="NavigationLink.cs" />
     <Compile Include="RepeaterWithEmptyDataTemplate.cs">
       <SubType>Code</SubType>
     </Compile>
