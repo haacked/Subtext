@@ -55,12 +55,13 @@
     <Section Enabled="True">Types Metrics</Section>
     <Section Enabled="False">Types Dependencies</Section>
   </Report>
-  <WarnFilter WarnNotUsedType="True" WarnNotUsedMember="True" WarnTypeVisibility="True" WarnPropertiesVisibility="True" WarnMethodsVisibility="True" WarnConstructorsVisibility="True" WarnFieldsVisibility="True" WarnEventsVisibility="True" /><CQLQueries>
+  <WarnFilter WarnNotUsedType="True" WarnNotUsedMember="True" WarnTypeVisibility="True" WarnPropertiesVisibility="True" WarnMethodsVisibility="True" WarnConstructorsVisibility="True" WarnFieldsVisibility="True" WarnEventsVisibility="True" />
+  <CQLQueries>
     <CQLGroup Name="Naming constraints" Active="True">
-      <CQLQuery Active="True" DisplayList="True" DisplayStat="True">WARN IF Count &gt; 0 IN SELECT FIELDS WHERE NameLike "^m_" AND IsStatic\r\n// A static field should not be named 'm_XXX'</CQLQuery>
       <CQLQuery Active="True" DisplayList="True" DisplayStat="True">WARN IF Count &gt; 0 IN SELECT FIELDS WHERE NameLike "^s_" AND !IsStatic\r\n// A non-static field should not be named 's_XXX'</CQLQuery>
       <CQLQuery Active="True" DisplayList="True" DisplayStat="True">WARN IF Count &gt; 0 IN SELECT TYPES WHERE IsInterface AND !NameLike "^I" AND !IsNested \r\n// The name of a non-nested interface should begin with a 'I'</CQLQuery>
       <CQLQuery Active="True" DisplayList="True" DisplayStat="True">WARN IF Count &gt; 0 IN SELECT TYPES WHERE IsExceptionClass AND !NameLike "Exception$" \r\n// The name of an exception class should end with 'Exception'</CQLQuery>
+      <CQLQuery Active="True" DisplayList="True" DisplayStat="True">WARN IF Count &gt; 0 IN SELECT FIELDS WHERE NameLike "^m_" AND IsStatic\r\n// A static field should not be named 'm_XXX'</CQLQuery>
       <CQLQuery Active="True" DisplayList="True" DisplayStat="True">WARN IF Count &gt; 0 IN SELECT TYPES WHERE IsAttributeClass AND !NameLike "Attribute$" \r\n// The name of an attribute class should end with 'Attribute'</CQLQuery>
       <CQLQuery Active="True" DisplayList="True" DisplayStat="True">WARN IF Count &gt; 0 IN SELECT TYPES WHERE \r\n   !NameLike "^[A-Z]" AND // The name of a type should begin with an Upper letter.\r\n   !NameLike "__StaticArrayInit" AND  // Except __StaticArrayInit generated type\r\n      !NameLike "struct0x" AND           // Except struct0x generated type \r\n    !NameLike "&lt;"                      // Except C# compiler generated type</CQLQuery>
       <CQLQuery Active="True" DisplayList="True" DisplayStat="True">WARN IF Count &gt; 0 IN SELECT METHODS WHERE \r\n   !NameLike "^[A-Z]" AND \r\n   !(IsClassConstructor OR IsConstructor OR \r\n     IsPropertyGetter  OR IsPropertySetter OR\r\n     IsIndexerGetter OR IsIndexerSetter OR\r\n     IsEventAdder OR IsEventRemover OR\r\n     IsOperator)\r\n// The name of a regular method should begin with an Upper letter.</CQLQuery>
@@ -85,6 +86,7 @@
     </CQLGroup>
     <CQLGroup Name="Design constraints" Active="True">
       <CQLQuery Active="True" DisplayList="True" DisplayStat="True">WARN IF Count &gt; 0 IN SELECT TYPES WHERE SizeOfInst ==0 AND !IsStatic AND !IsGeneric \r\n// It indicate stateless types that might eventually be turned into static classes.</CQLQuery>
-      <CQLQuery Active="True" DisplayList="True" DisplayStat="True">WARN IF Count &gt; 0 IN SELECT TYPES WHERE DepthOfInheritance >= 6 ORDER BY DepthOfInheritance DESC \r\n // Branches too long in the derivation should be avoided.</CQLQuery>
+      <CQLQuery Active="True" DisplayList="True" DisplayStat="True">WARN IF Count &gt; 0 IN SELECT TYPES WHERE DepthOfInheritance &gt;= 6 ORDER BY DepthOfInheritance DESC \r\n // Branches too long in the derivation should be avoided.</CQLQuery>
     </CQLGroup>
-  </CQLQueries></NDepend>
+  </CQLQueries>
+</NDepend>
