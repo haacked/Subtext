@@ -1189,8 +1189,6 @@
     <Content Include="Skins\Nature\images\leafy\link.jpg" />
     <Content Include="Skins\Nature\images\leafy\mainbg.jpg" />
     <Content Include="Skins\Nature\images\leafy\leaves.jpg" />
-    <Content Include="Skins\Nature\images\menu.jpg" />
-    <Content Include="Skins\Nature\images\menubg.gif" />
     <Content Include="Skins\Nature\images\menubg.jpg" />
     <Content Include="Skins\Nature\images\rain\bluewetglass.gif" />
     <Content Include="Skins\Nature\images\rain\fadedwaterdrop.jpg" />
