@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<AssemblySortForCompilOrObfusk>
+  <Assembly Name="Subtext.Extensibility">1</Assembly>
+  <Assembly Name="Subtext.Scripting">2</Assembly>
+  <Assembly Name="Subtext.Framework">3</Assembly>
+  <Assembly Name="Subtext.Common">4</Assembly>
+  <Assembly Name="Subtext.Web.Controls">5</Assembly>
+  <Assembly Name="Subtext.Installation">6</Assembly>
+  <Assembly Name="Subtext.Providers.BlogEntryEditor.FCKeditor">7</Assembly>
+  <Assembly Name="Subtext.UnitTesting.Servers">8</Assembly>
+  <Assembly Name="Subtext.Web">9</Assembly>
+</AssemblySortForCompilOrObfusk>
