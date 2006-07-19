@@ -12,5 +12,4 @@
 		<a href="javascript:window.print();" class="printIcon"><span>Print</span></a> | posted on <asp:Literal id="PostDescription"  runat="server" />
 	</p>
 </div>
-<asp:Literal ID = "PingBack" Runat = "server" />
-<asp:Literal ID = "TrackBack" Runat = "server" />
+<asp:Literal ID="TrackBack" Runat="server" />
