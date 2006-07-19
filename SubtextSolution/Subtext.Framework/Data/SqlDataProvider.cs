@@ -1142,6 +1142,7 @@ namespace Subtext.Framework.Data
 			return NonQueryBool("subtext_UpdateHost", p);
 		}
 		#endregion Host Data
+
 		#endregion
 	}
 }
