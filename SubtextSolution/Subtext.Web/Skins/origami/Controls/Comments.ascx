@@ -12,7 +12,7 @@
 				            <asp:Literal ID="Title" Runat="server" />
 			            </strong>
 		            </cite>
-		            <p><asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" PlaceHolderImage="~/images/shadow.gif" /><asp:Literal ID="PostText" Runat="server" /></p>
+		            <p><asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" PlaceHolderImage="~/images/shadow.gif" AlternateText="Gravatar" /><asp:Literal ID="PostText" Runat="server" /></p>
 	            </div>
 	            <div class="comment-date">Left by <asp:HyperLink Target="_blank" Runat="server" ID="NameLink" /> at <asp:Literal id = "PostDate" Runat = "server" /></div>
 	            <asp:LinkButton Runat="server" cssclass="editlink" ID="EditLink" CausesValidation="False" />
@@ -26,7 +26,7 @@
 				            <asp:Literal ID="Title" Runat="server" />
 			            </strong>
 		            </cite>
- 		            <p class="commentText"><asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" PlaceHolderImage="~/images/shadow.gif" /><asp:Literal ID="PostText" Runat="server" /></p>
+ 		            <p class="commentText"><asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" PlaceHolderImage="~/images/shadow.gif" AlternateText="Gravatar" /><asp:Literal ID="PostText" Runat="server" /></p>
 	            </div>
 	            <div class="comment-date">Left by <asp:HyperLink Target="_blank" Runat="server" ID="NameLink" /> at <asp:Literal id = "PostDate" Runat = "server" /></div>
 	            <asp:LinkButton Runat="server" cssclass="editlink" ID="EditLink" CausesValidation="False" />

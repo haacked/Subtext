@@ -7,7 +7,7 @@
 	<asp:Repeater id="CommentList" runat="server" OnItemCreated="CommentsCreated" OnItemCommand="RemoveComment_ItemCommand">
 		<ItemTemplate>
 			<div class="comment">
-				<asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" />
+				<asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" AlternateText="Gravatar" />
 				<h4>
 					<asp:Literal Runat = "server" ID = "Title" />
 				</h4>
