@@ -60,8 +60,6 @@ namespace Subtext.Web.UI.Pages
 
 			string skinFolder = Config.CurrentBlog.Skin.TemplateFolder;
 
-			SpecifyDocType();
-
 			string[] controls = Subtext.Common.UrlManager.HandlerConfiguration.GetControls(Context);
             if (controls != null)
             {
@@ -118,28 +116,6 @@ namespace Subtext.Web.UI.Pages
 			}
 		}
 
-		//	Renders the DocType tag and specifies an xmlns for the HTML 
-		//	tag if using XHTML.
-		private void SpecifyDocType()
-		{
-			if(docTypeDeclaration != null)
-			{
-				docTypeDeclaration.Text = string.Empty;
-				if(Config.Settings.DocTypeDeclaration != null && Config.Settings.DocTypeDeclaration.Length > 0)
-				{
-					docTypeDeclaration.Text += "<" + Config.Settings.DocTypeDeclaration + ">" + Environment.NewLine;
-					docTypeDeclaration.Text += "<html";
-					
-					if(Config.Settings.UseXHTML)
-					{
-						docTypeDeclaration.Text += " xmlns=\"http://www.w3.org/1999/xhtml\"";
-						docTypeDeclaration.Text += String.Format(" lang=\"{0}\"", Config.CurrentBlog.LanguageCode);
-						docTypeDeclaration.Text += String.Format(" xml:lang=\"{0}\"", Config.CurrentBlog.LanguageCode);
-					}
-					docTypeDeclaration.Text += ">";
-				}
-			}
-		}
 
 		/// <summary>
 		/// Before rendering, turns off ViewState again (why? not sure),  

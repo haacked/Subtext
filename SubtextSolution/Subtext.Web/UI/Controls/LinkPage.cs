@@ -62,10 +62,11 @@ namespace Subtext.Web.UI.Controls
 					ControlHelper.SetTitleIfNone(Link, link.Title);
 					if(link.NewWindow)
 					{
-						if(!Config.Settings.UseXHTML)
+						if(!String.IsNullOrEmpty(Link.Attributes["rel"]))
 						{
-							Link.Target = "_blank";
+							Link.Attributes["rel"] += " ";
 						}
+						Link.Attributes["rel"] += "external";
 					}
 
 					if(link.HasRss)

@@ -154,12 +154,7 @@ namespace Subtext.Framework.Text
 
 			stringToTransform = HttpContext.Current.Server.HtmlEncode(stringToTransform);
 			string brTag = "<br />";
-			if (!Config.Settings.UseXHTML)
-			{
-				brTag = "<br />";
-			}
-
-			return stringToTransform.Replace("\n", brTag);
+			return stringToTransform.Replace(Environment.NewLine, brTag);
 		}
 
 		/// <summary>

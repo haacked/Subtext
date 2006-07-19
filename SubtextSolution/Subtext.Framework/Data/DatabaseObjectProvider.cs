@@ -559,12 +559,9 @@ namespace Subtext.Framework.Data
 				return false;
 			}
 
-			if(Config.Settings.UseXHTML)
+			if(!HtmlHelper.ConvertHtmlToXHtml(e))
 			{
-				if(!HtmlHelper.ConvertHtmlToXHtml(e))
-				{
-					return false;
-				}
+				return false;
 			}
 
 			return true;

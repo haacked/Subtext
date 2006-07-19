@@ -301,24 +301,22 @@ namespace Subtext.Framework.Syndication
 			if(info.TrackbacksEnabled)
 				this.WriteElementString("trackback:ping", urlFormats.TrackBackUrl(entry.Id));
 
-			//optional
-			if(settings.UseXHTML && entry.IsXHMTL)
+			//TODO: Going to remove the body tag and attribute	
+			this.WriteStartElement("body");
+			this.WriteAttributeString("xmlns", "http://www.w3.org/1999/xhtml");
+			//If Syndicate Description Only was checked, write out the description to the
+			//body tag rather than the full text of the post
+			// - Robb Allen
+			if (entry.SyndicateDescriptionOnly)
 			{
-				this.WriteStartElement("body");
-				this.WriteAttributeString("xmlns", "http://www.w3.org/1999/xhtml");
-				//If Syndicate Description Only was checked, write out the description to the
-				//body tag rather than the full text of the post
-				// - Robb Allen
-				if (entry.SyndicateDescriptionOnly)
-				{
-					this.WriteRaw(entry.Description + ((UseAggBugs && settings.Tracking.EnableAggBugs)  ? TrackingUrls.AggBugImage(urlFormats.AggBugkUrl(entry.Id)) : null));
-				}
-				else
-				{
-					this.WriteRaw(entry.Body + ((UseAggBugs && settings.Tracking.EnableAggBugs)  ? TrackingUrls.AggBugImage(urlFormats.AggBugkUrl(entry.Id)) : null));
-				}
-				this.WriteEndElement();
-			}			
+				this.WriteRaw(entry.Description + ((UseAggBugs && settings.Tracking.EnableAggBugs)  ? TrackingUrls.AggBugImage(urlFormats.AggBugkUrl(entry.Id)) : null));
+			}
+			else
+			{
+				this.WriteRaw(entry.Body + ((UseAggBugs && settings.Tracking.EnableAggBugs)  ? TrackingUrls.AggBugImage(urlFormats.AggBugkUrl(entry.Id)) : null));
+			}
+			this.WriteEndElement();
+		
 		}
 	}
 }

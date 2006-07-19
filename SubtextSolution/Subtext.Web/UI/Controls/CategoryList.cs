@@ -89,9 +89,14 @@ namespace Subtext.Web.UI.Controls
 						Link.Attributes["title"] = "Category Link";
 					}
 					Link.Text = link.Title;
-					if(link.NewWindow && !Config.Settings.UseXHTML)
+
+					if (link.NewWindow)
 					{
-						Link.Target = "_blank";
+						if (!String.IsNullOrEmpty(Link.Attributes["rel"]))
+						{
+							Link.Attributes["rel"] += " ";
+						}
+						Link.Attributes["rel"] += "external";
 					}
 
 					if(link.HasRss)

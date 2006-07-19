@@ -85,35 +85,17 @@ namespace Subtext.Framework.Configuration
 		}
 
 		/// <summary>
-		/// Gets a value indicating whether or not to use XHTML.  This is 
-		/// dependent on the DocTypeDeclaration chosen.
-		/// </summary>
-		/// <value>
-		/// 	<c>true</c> if using XHTML; otherwise, <c>false</c>.
-		/// </value>
-		[XmlIgnore]
-		public bool UseXHTML
-		{
-			get
-			{
-				return this.DocTypeDeclaration != null 
-					&& (this.DocTypeDeclaration.IndexOf("http://www.w3.org/TR/xhtml1/DTD/xhtml1-") > 0);
-			}
-		}
-
-		private int feedItemCount = 15;
-		/// <summary>
 		/// Gets or sets the default number of items to display 
 		/// for syndication feeds.
 		/// </summary>
 		/// <value></value>
 		public int ItemCount
 		{
-			get{return feedItemCount;}
-			set{feedItemCount = value;}
+			get{return this.feedItemCount;}
+			set{this.feedItemCount = value;}
 		}
+		private int feedItemCount = 15;
 
-		private int serverTimeZone = -5;
 		/// <summary>
 		/// Gets or sets the server time zone.
 		/// </summary>
@@ -123,19 +105,7 @@ namespace Subtext.Framework.Configuration
 			get{return serverTimeZone;}
 			set{serverTimeZone = value;}
 		}
-
-		/// <summary>
-		/// Gets or sets the doc type declaration to use 
-		/// at the top of each page.
-		/// </summary>
-		/// <value></value>
-		public string DocTypeDeclaration
-		{
-			get { return _docTypeDeclaration; }
-			set { _docTypeDeclaration = value; }
-		}
-
-		string _docTypeDeclaration;
+		private int serverTimeZone = -5;
 
 		/// <summary>
 		/// Gets the connection string for the application.
