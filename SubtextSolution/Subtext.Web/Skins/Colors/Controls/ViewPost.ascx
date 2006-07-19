@@ -14,5 +14,4 @@
 		</div>	
 	</div>
 </div>
-<asp:Literal ID = "PingBack" Runat = "server" />
-<asp:Literal ID = "TrackBack" Runat = "server" />
+<asp:Literal ID="TrackBack" Runat="server" />

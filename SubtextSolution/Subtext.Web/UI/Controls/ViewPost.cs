@@ -115,10 +115,12 @@ namespace Subtext.Web.UI.Controls
 				{
 					PingBack = Page.FindControl("pinbackLinkTag") as Literal;
 				}
+				
 				if(PingBack != null)
 				{
 					PingBack.Text = TrackHelpers.PingPackTag;
 				}
+				
 				if(TrackBack != null)
 				{
 					TrackBack.Text = TrackHelpers.TrackBackTag(entry);
