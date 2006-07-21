@@ -21,10 +21,6 @@ SELECT @user_name = user_name()
 
 */
 
-SELECT BlogId, Host
-FROM subtext_Config
-
-
 -- subtext_Config
 SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Config] ON
 
@@ -84,7 +80,7 @@ INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subt
 		, IsAggregated
 		, Flag
 		, SkinCssFile
-		, BlogGroup
+		, ISNULL(BlogGroup, 1)
 		, null -- LicenseUrl
 		, null -- DaysTillCommentsClose
 		, null -- CommentDelayInMinutes
@@ -155,10 +151,6 @@ SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo
 GO
 
 -- subtext_Images
-/*
-	Had to put brackets [ ] around the column name File b/c
-	it is a SQL Server KEYWORD.  Seems to work OK this way tho.
-*/
 SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Images] ON
 
 INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Images]
@@ -219,6 +211,7 @@ SELECT
       , NewWindow  
 FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_Links]
 SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Links] OFF
+GO
 
 -- subtext_URLs
 SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_URLs] ON
