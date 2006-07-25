@@ -121,6 +121,7 @@
 				<exclude name="**/*.pdb" />
 			</fileset>
 		</zip>
+		<mkdir dir="${publish.source.dir.archive}" />
 		<zip zipfile="${publish.source.dir.archive}\${build.date}.zip">
 			<fileset basedir="${publish.source.dir.latest}">
 				<include name="**/*" />
