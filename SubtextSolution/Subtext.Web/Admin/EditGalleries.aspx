@@ -58,11 +58,11 @@
 			<!-- add new item panel -->
 			<ANW:AdvancedPanel id="Add" runat="server" DisplayHeader="true" HeaderCssClass="CollapsibleTitle" HeaderText="Add New Gallery" Collapsible="False" BodyCssClass="Edit">
 				<label class="Block">Title</label> 
-					<asp:TextBox id=txbNewTitle runat="server" CssClass="textinput"></asp:TextBox>&nbsp; 
-					Visible <asp:CheckBox id=ckbNewIsActive runat="server" Checked="true"></asp:CheckBox>
+					<asp:TextBox id="txbNewTitle" runat="server" CssClass="textinput"></asp:TextBox>&nbsp; 
+					Visible <asp:CheckBox id="ckbNewIsActive" runat="server" Checked="true"></asp:CheckBox>
 					<br />
 				<label class="Block">Description (1000 characters including HTML)</label><br />
-				<asp:TextBox id="txbNewDescription" max="1000"  runat="server" CssClass="textarea" rows="5" textmode="MultiLine"></asp:TextBox>
+				<asp:TextBox id="txbNewDescription" MaxLength="1000"  runat="server" CssClass="textarea" rows="5" textmode="MultiLine"></asp:TextBox>
 				<div style="MARGIN-TOP: 8px">
 					<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Add" onclick="lkbPost_Click"></asp:Button><br />&nbsp; 
 				</div>
@@ -72,12 +72,12 @@
 		
 		<!-- add/upload a new file -->
 		<ASP:Panel id="ImagesDiv" runat="server">
-			<ANW:AdvancedPanel id="AddImages" runat="server" LinkStyle="Image" LinkImageCollapsed="~/admin/resources/toggle_gray_down.gif" LinkImage="~/admin/resources/toggle_gray_up.gif" LinkBeforeHeader="True" DisplayHeader="true" HeaderCssClass="CollapsibleTitle" HeaderText="Add New Image" Collapsible="True" BodyCssClass="Edit">		
+			<ANW:AdvancedPanel id="AddImages" runat="server" LinkStyle="Image" LinkImageCollapsed="~/admin/resources/toggle_gray_down.gif" LinkImage="~/admin/resources/toggle_gray_up.gif" LinkBeforeHeader="True" DisplayHeader="true" HeaderCssClass="CollapsibleTitle" HeaderText="Add New Image (Single file or ZIP archive)" Collapsible="True" BodyCssClass="Edit">		
 				<label class="Block">Local File Location</label> 
 				<input class="FileUpload" id="ImageFile" type="file" size="82" name="ImageFile" runat="server" /> 
 				<br class="clear" />
-				<label class="Block">Image Description</label> 
-				<asp:TextBox id="txbImageTitle" runat="server" size="82" />&nbsp; 
+				<label class="Block">Image Description (ignored for ZIP archives)</label> 
+				<asp:TextBox id="txbImageTitle" runat="server" MaxLength="82" />&nbsp; 
 				Visible <asp:CheckBox id="ckbIsActiveImage" runat="server" Checked="true"/>
 				
 				<asp:Panel ID="PanelDefaultName" runat="server">
@@ -86,9 +86,9 @@
 				</div>
 				</asp:Panel>
 				
-				<asp:Panel ID="PanelSuggestNewName" runat="server" visible=false>
+				<asp:Panel ID="PanelSuggestNewName" runat="server" visible="false">
 					<label class="Block">Uploaded Image File Name</label> 
-					<asp:TextBox id="TextBoxImageFileName" runat="server" size="82"/> 
+					<asp:TextBox id="TextBoxImageFileName" runat="server" MaxLength="82"/> 
 					<div style="MARGIN-TOP: 8px">
 						<asp:Button id="lbkNewFile" runat="server" OnClick="OnAddImageUserProvidedName" CssClass="buttonSubmit" Text="Add"/><br />
 					</div>
@@ -97,8 +97,8 @@
 			</ANW:AdvancedPanel>
 		
 		
-			<h1><ASP:PlaceHolder id=plhImageHeader runat="server"/></h1>
-			<ASP:Repeater id=rprImages runat="server"> 
+			<h1><ASP:PlaceHolder id="plhImageHeader" runat="server"/></h1>
+			<ASP:Repeater id="rprImages" runat="server"> 
 				<HeaderTemplate> 			
 					<div class="ImageList">
 				</HeaderTemplate>
