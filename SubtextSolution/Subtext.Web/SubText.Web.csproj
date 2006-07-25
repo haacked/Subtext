@@ -35,6 +35,7 @@
       <HintPath>..\Subtext.Framework\ExternalDependencies\BlogML.dll</HintPath>
     </Reference>
     <Reference Include="freetextbox, Version=3.1.4.36150, Culture=neutral, PublicKeyToken=5962a4e684a48b87" />
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.84.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -826,6 +827,7 @@
     <Content Include="Admin\EditPosts.aspx" />
     <Content Include="AspNetWithoutWebProjects.txt" />
     <Content Include="ExternalDependencies\FreeTextBox.xml" />
+    <Content Include="ExternalDependencies\ICSharpCode.SharpZipLib.dll" />
     <Content Include="ExternalDependencies\log4net.dll" />
     <Content Include="ExternalDependencies\log4net.xml" />
     <Content Include="HostAdmin\ChangePassword.aspx" />
