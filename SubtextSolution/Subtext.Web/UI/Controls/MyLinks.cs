@@ -49,7 +49,7 @@ namespace Subtext.Web.UI.Controls
 			{
 				if(HomeLink != null)
 				{
-					HomeLink.NavigateUrl = CurrentBlog.VirtualUrl;
+					HomeLink.NavigateUrl = CurrentBlog.HomeVirtualUrl;
 					ControlHelper.SetTitleIfNone(HomeLink, "Link to the home page.");
 				}
 				
