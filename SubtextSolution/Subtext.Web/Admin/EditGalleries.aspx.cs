@@ -15,12 +15,18 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Image=Subtext.Framework.Components.Image;
+
+using ICSharpCode.SharpZipLib.Zip;
+using ICSharpCode.SharpZipLib.Zip.Compression;
+using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
+using System.Text;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -221,8 +227,139 @@ namespace Subtext.Web.Admin.Pages
 		/// <param name="e"></param>
 		protected void OnAddImage(object sender, System.EventArgs e)
 		{
-			PersistImage(ImageFile.PostedFile.FileName);
+            string fileName = ImageFile.PostedFile.FileName;
+
+            int lastDot = fileName.LastIndexOf(".");
+            if (lastDot > -1)
+            {
+                string ext = fileName.Substring(lastDot + 1);
+                if (ext.ToLower().Equals("zip"))
+                {
+                    // Handle as an archive
+                    PersistImageArchive();
+                    return;
+                }
+            }
+
+            // If there was no dot, or extension wasn't ZIP, then treat as a single image
+			PersistImage(fileName);
 		}
+
+
+        private void PersistImageArchive()
+        {
+            List<string> goodFiles = new List<string>(),
+                badFiles = new List<string>(),
+                updatedFiles = new List<string>();
+
+            Subtext.Framework.Components.Image image;
+
+            byte[] archiveData = Images.GetFileStream(ImageFile.PostedFile),
+                fileData;
+            System.IO.MemoryStream ms = new System.IO.MemoryStream(archiveData);
+
+            using (ZipInputStream zip = new ZipInputStream(ms))
+            {
+                ZipEntry theEntry;
+                while ((theEntry = zip.GetNextEntry()) != null)
+                {
+                    string fileName = Path.GetFileName(theEntry.Name);
+
+                    // TODO: Filter for image types?
+                    if (fileName != String.Empty)
+                    {
+                        image = new Subtext.Framework.Components.Image();
+                        image.CategoryID = CategoryID;
+                        image.Title = fileName;
+                        image.IsActive = ckbIsActiveImage.Checked;
+                        image.File = Images.GetFileName(fileName);
+                        image.LocalFilePath = Images.LocalGalleryFilePath(Context, CategoryID);
+
+                        // Read the next file from the Zip stream
+                        using (System.IO.MemoryStream currentFileData = new System.IO.MemoryStream((int)theEntry.Size))
+                        {
+                            int size = 2048;
+                            byte[] data = new byte[size];
+                            while (true)
+                            {
+                                size = zip.Read(data, 0, data.Length);
+                                if (size > 0)
+                                {
+                                    currentFileData.Write(data, 0, size);
+                                }
+                                else break;
+                            }
+
+                            fileData = currentFileData.ToArray();
+                        }
+
+                        try
+                        {
+                            // If it exists, update it
+                            if (System.IO.File.Exists(image.OriginalFilePath))
+                            {
+                                Images.Update(image, fileData);
+                                updatedFiles.Add(theEntry.Name);
+                            }
+                            else
+                            {
+                                // Attempt insertion as a new image
+                                int imageID = Images.InsertImage(image, fileData);
+                                if (imageID > 0)
+                                {
+                                    goodFiles.Add(theEntry.Name);
+                                }
+                                else
+                                {
+                                    // Wrong format, perhaps?
+                                    badFiles.Add(theEntry.Name);
+                                }
+                            }
+                        }
+                        catch( Exception ex )
+                        {
+                            badFiles.Add(theEntry.Name + " (" + ex.Message + ")");
+                        }
+                    }
+                }
+            }
+
+            string status = string.Format(
+                @"<script type=""text/javascript"">
+                    function ToggleVisibility(ctrl)
+                    {{
+                        if( ctrl.style.display == 'none' )
+                        {{
+                            ctrl.style.display = '';
+                        }}
+                        else
+                        {{
+                            ctrl.style.display = 'none';
+                        }}
+                    }}
+                </script>
+                The archive has been processed.<br />
+                <b><a onclick=""javascript:ToggleVisibility( document.getElementById('ImportAddDetails'))"">Adds ({0})</a></b><span id=""ImportAddDetails"" style=""display:none""> : {1}</span><br />
+                <b><a onclick=""javascript:ToggleVisibility(document.getElementById('ImportUpdateDetails'))"">Updates ({2})</a></b><span id=""ImportUpdateDetails"" style=""display:none""> : {3}</span><br />
+                <b><a onclick=""javascript:ToggleVisibility(document.getElementById('ImportErrorDetails'))"">Errors ({4})</a></b><span id=""ImportErrorDetails"" style=""display:none""> : {5}</span>", 
+                
+                goodFiles.Count, 
+                (goodFiles.Count > 0 ? string.Join(", ", goodFiles.ToArray()) : "none"), 
+                updatedFiles.Count, 
+                (updatedFiles.Count > 0 ? string.Join(", ", updatedFiles.ToArray()) : "none"), 
+                badFiles.Count, 
+                (badFiles.Count > 0 ? string.Join(", ", badFiles.ToArray()) : "none"));
+
+            this.Messages.ShowMessage(status);
+            txbImageTitle.Text = String.Empty;
+
+            // if we're successful we need to revert back to our standard view
+            PanelSuggestNewName.Visible = false;
+            PanelDefaultName.Visible = true;
+
+            // re-bind the gallery; note we'll skip this step if a correctable error occurs.
+            BindGallery();
+        }
 
 		/// <summary>
 		/// The user is providing the file name here. 
@@ -266,7 +403,7 @@ namespace Subtext.Web.Admin.Pages
 						PanelDefaultName.Visible = false;
 
 						AddImages.Collapsed = false;
-						// unfortunately you cann't set ImageFile.PostedFile.FileName. At least suggest
+						// Unfortunately you can't set ImageFile.PostedFile.FileName. At least suggest
 						// a name for the new file.
 						TextBoxImageFileName.Text = image.File;
 						return;

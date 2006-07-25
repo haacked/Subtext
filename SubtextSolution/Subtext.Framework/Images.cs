@@ -134,14 +134,25 @@ namespace Subtext.Framework
 		/// <param name="image">Original image to process.</param>
 		public static void MakeAlbumImages(Subtext.Framework.Components.Image image)
 		{
-            // need to load the original image to manipulate. But GIFs can cause issues.
-            
+            System.Drawing.Image originalImage = System.Drawing.Image.FromFile(image.OriginalFilePath);
 
-			// dispose the original graphic (be kind; clean up)
-			using (Bitmap originalImage = (Bitmap)Bitmap.FromFile(image.OriginalFilePath))
+            // Need to load the original image to manipulate. But indexed GIFs can cause issues.
+            if ((originalImage.PixelFormat & PixelFormat.Indexed) != 0)
+            {
+                // Draw the index image to a new bitmap.  It will then be unindexed.
+                System.Drawing.Image unindexedImage = new Bitmap(originalImage.Width, originalImage.Height);
+                Graphics g = Graphics.FromImage(unindexedImage);
+                g.DrawImageUnscaled(originalImage, 0, 0);
+
+                originalImage.Dispose();
+                originalImage = unindexedImage;
+            }
+
+			// Dispose the original graphic (be kind; clean up)
+            using (originalImage)
 			{
 				/// TODO: make both sizes configurations. 
-				// calculate the new sizes we want (properly scaled) 
+				// Calculate the new sizes we want (properly scaled) 
 				Size displaySize = ResizeImage(originalImage.Width, originalImage.Height, 640,480);
 				Size thumbSize = ResizeImage(originalImage.Width, originalImage.Height, 120, 120);
 
