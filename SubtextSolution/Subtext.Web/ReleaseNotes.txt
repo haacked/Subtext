@@ -1,3 +1,12 @@
+Version 1.5.2 - Bugfix Release
+- BUG:  [1492127] Fixed a changed a constraint on the subtext_Config.BlogGroup 
+		in the import script.
+- BUG:  [1524172] The User Name Is Being Saved as the Title
+- BUG:  [1502661] Change ReverseDOS.config - turn on isRegex="true" flag for
+		Trusted Addresses.
+- BUG:  [1514406] Fixed bug in which permissions were not applied to 
+		[Subtext_GetEntry_PreviousNext] stored procedure.
+
 Version 1.5 - Nautilus R&R Edition
 - NEW:  Skins and Skin Controls such as Submarine and PreviousNext.
 - NEW:  [1447651] Display Subtext Version number in Admin
