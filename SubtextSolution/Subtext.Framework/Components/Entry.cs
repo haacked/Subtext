@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Specialized;
+using System.Web;
 using System.Xml.Serialization;
 using Subtext.Extensibility;
 using Subtext.Framework.Configuration;
@@ -408,7 +409,8 @@ namespace Subtext.Framework.Components
 			set
 			{
 				_url = value;
-				_fullyQualifiedLink = new Uri(Config.CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(this));
+				if(HttpContext.Current != null)
+					_fullyQualifiedLink = new Uri(Config.CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(this));
 				
 			}
 		}
