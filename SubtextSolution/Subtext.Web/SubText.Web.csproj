@@ -523,7 +523,6 @@
   <ItemGroup>
     <Content Include="blue.css" />
     <Content Include="default.aspx" />
-    <Content Include="default_gravatar.png" />
     <Content Include="DTP.aspx">
       <SubType>ASPXCodeBehind</SubType>
     </Content>
@@ -858,6 +857,7 @@
     <Content Include="Images\atomsmall.gif" />
     <Content Include="Images\close.gif" />
     <Content Include="Images\contact.gif" />
+    <Content Include="Images\default_gravatar.png" />
     <Content Include="Images\edit.gif" />
     <Content Include="Images\emotions\emotions.gif" />
     <Content Include="Images\emotions\readme.txt" />
