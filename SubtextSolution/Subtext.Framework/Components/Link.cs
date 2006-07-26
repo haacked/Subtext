@@ -32,8 +32,8 @@ namespace Subtext.Framework.Components
 		}
 
 		private int _linkid;
-		[XmlAttribute]
-		public  virtual int LinkID
+		[XmlAttribute("LinkID")]
+		public  virtual int Id
 		{
 			get{return _linkid;}
 			set{_linkid = value;}

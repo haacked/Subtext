@@ -41,12 +41,24 @@ namespace Subtext.Web.Admin.Pages
                 {
                     this.CategoryType = CategoryTypeEnum.LinkCollection;
                 }
+				
+				if(this.CategoryType == CategoryTypeEnum.LinkCollection)
+				{
+					this.TabSectionId = "Links";
+				}
 
 				ckbNewIsActive.Checked = Preferences.AlwaysCreateIsActive;
 
 				BindLocalUI();				
 				BindList();
-			}			
+			}
+			else
+			{
+				if (this.CategoryType == CategoryTypeEnum.LinkCollection)
+				{
+					this.TabSectionId = "Links";
+				}
+			}
 		}
 
         protected CategoryTypeEnum CategoryType
@@ -100,7 +112,7 @@ namespace Subtext.Web.Admin.Pages
 		{
             ICollection<LinkCategory> cats = Links.GetCategories(CategoryType, ActiveFilter.None);
 			dgrItems.DataSource = cats;
-			dgrItems.DataKeyField = "CategoryID";
+			dgrItems.DataKeyField = "Id";
 			dgrItems.DataBind();
 		}
 
@@ -114,14 +126,14 @@ namespace Subtext.Web.Admin.Pages
 		{
 			try
 			{
-				if (category.CategoryID > 0)
+				if (category.Id > 0)
 				{
 					Links.UpdateLinkCategory(category);
 					this.Messages.ShowMessage(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Category \"{0}\" was updated.", category.Title));
 				}
 				else
 				{
-					category.CategoryID = Links.CreateLinkCategory(category);
+					category.Id = Links.CreateLinkCategory(category);
 					this.Messages.ShowMessage(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Category \"{0}\" was added.", category.Title));
 				}					
 			}

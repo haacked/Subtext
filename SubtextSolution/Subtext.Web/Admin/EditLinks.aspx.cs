@@ -137,7 +137,7 @@ namespace Subtext.Web.Admin.Pages
 //			ImportExport.Visible = false;
 			Edit.Visible = true;
 
-			lblEntryID.Text = currentLink.LinkID.ToString(CultureInfo.InvariantCulture);
+			lblEntryID.Text = currentLink.Id.ToString(CultureInfo.InvariantCulture);
 			txbTitle.Text = currentLink.Title;
 			txbUrl.Text = currentLink.Url;
 			txbRss.Text = currentLink.Rss;
@@ -163,7 +163,7 @@ namespace Subtext.Web.Admin.Pages
 			if(selectionList != null && selectionList.Count != 0)
 			{
 				ddlCategories.DataSource = selectionList;
-				ddlCategories.DataValueField = "CategoryID";
+				ddlCategories.DataValueField = "Id";
 				ddlCategories.DataTextField = "Title";
 				ddlCategories.DataBind();
 			}
@@ -189,12 +189,12 @@ namespace Subtext.Web.Admin.Pages
 				link.IsActive = ckbIsActive.Checked;
 				link.CategoryID = Convert.ToInt32(ddlCategories.SelectedItem.Value);
 				link.NewWindow = chkNewWindow.Checked;
-				link.LinkID = Config.CurrentBlog.Id;
+				link.Id = Config.CurrentBlog.Id;
 				
 				if (LinkID > 0)
 				{
 					successMessage = Constants.RES_SUCCESSEDIT;
-					link.LinkID = LinkID;
+					link.Id = LinkID;
 					Links.UpdateLink(link);
 				}
 				else

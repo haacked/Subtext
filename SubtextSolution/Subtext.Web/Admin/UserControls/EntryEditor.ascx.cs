@@ -237,7 +237,7 @@ namespace Subtext.Web.Admin.UserControls
 		private void BindCategoryList()
 		{
             cklCategories.DataSource = Links.GetCategories(CategoryType, ActiveFilter.None);
-			cklCategories.DataValueField = "CategoryID";
+			cklCategories.DataValueField = "Id";
 			cklCategories.DataTextField = "Title";
 			cklCategories.DataBind();
 		}

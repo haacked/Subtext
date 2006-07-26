@@ -38,7 +38,7 @@ namespace Subtext.Web.Admin.UserControls
                     ICollection<LinkCategory> categories = Links.GetCategories(this.catType, ActiveFilter.None);
                     foreach (LinkCategory current in categories)
                     {
-                        this.categoryLinks.Add(new LinkCategoryLink(current.Title, string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?{1}={2}", Page.Request.Url.LocalPath, QRYSTR_CATEGORYFILTER, current.CategoryID)));
+                        this.categoryLinks.Add(new LinkCategoryLink(current.Title, string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?{1}={2}", Page.Request.Url.LocalPath, QRYSTR_CATEGORYFILTER, current.Id)));
                     }
                 }
             }
