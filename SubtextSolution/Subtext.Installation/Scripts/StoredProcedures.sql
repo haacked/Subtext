@@ -1299,7 +1299,10 @@ SET @StartRowIndex = @PageIndex * @PageSize + 1
 
 SET ROWCOUNT @StartRowIndex
 -- Get the first entry id for the current page.
-SELECT @FirstId = [ID] FROM subtext_Content ORDER BY [ID] DESC
+SELECT	@FirstId = [ID] FROM subtext_Content 
+WHERE	BlogId = @BlogId 
+	AND PostType = @PostType 
+ORDER BY [ID] DESC
 
 -- Now, set the row count to MaximumRows and get
 -- all records >= @first_id
@@ -1469,7 +1472,6 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableFeedback]
 	@BlogId int
 	, @PageIndex int
 	, @PageSize int
-	, @SortDesc bit
 )
 AS
 
@@ -1481,7 +1483,11 @@ SET @StartRowIndex = @PageIndex * @PageSize + 1
 
 SET ROWCOUNT @StartRowIndex
 -- Get the first entry id for the current page.
-SELECT @FirstId = [ID] FROM subtext_Content ORDER BY [ID] DESC
+SELECT @FirstId = [ID] 
+FROM subtext_Content 
+WHERE 	BlogId = @BlogId 
+	AND (PostType = 3 OR PostType = 4)
+ORDER BY [ID] DESC
 
 -- Now, set the row count to MaximumRows and get
 -- all records >= @first_id

@@ -71,7 +71,7 @@
 			</table>
 		</FooterTemplate>
 		</ASP:Repeater>
-		<st:Pager id="ResultsPager" runat="server" UseSpacer="False" PrefixText="<div>Goto page</div>" LinkFormatActive='<a href="{0}" class="Current">{1}</a>' UrlFormat="Feedback.aspx?pg={0}" CssClass="Pager" />
+		<st:Pager id="ResultsPager" runat="server" UseSpacer="False" PrefixText="<div>Goto page</div>" UseZeroBasedIndex="true" LinkFormatActive='<a href="{0}" class="Current">{1}</a>' UrlFormat="Feedback.aspx?pg={0}" CssClass="Pager" />
 		<asp:Button id="btnDelete" runat="server" CssClass="buttonSubmit" style="float:right" Text="Delete" onclick="btnDelete_Click" />
 		<br class="clear">
 	</st:AdvancedPanel>
