@@ -59,7 +59,7 @@ namespace Subtext.Web.Admin.Pages
 			{
 				return entry.Body;
 			}
-			return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}<br /><a target=\"_blank\" title=\"view: {1}\"  href=\"{2}\">Pingback/TrackBack</a>", entry.Body,entry.Title, entry.TitleUrl);
+			return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}<br /><a target=\"_blank\" title=\"view: {1}\"  href=\"{2}\">Pingback/TrackBack</a>", entry.Body, entry.Title, entry.TitleUrl);
 		}
 
 		/// <summary>
@@ -83,7 +83,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindList()
 		{
-            IPagedCollection<Entry> selectionList = Entries.GetPagedFeedback(this.pageIndex, ResultsPager.PageSize, true);		
+            IPagedCollection<Entry> selectionList = Entries.GetPagedFeedback(this.pageIndex, ResultsPager.PageSize);		
 
 			if (selectionList.Count > 0)
 			{

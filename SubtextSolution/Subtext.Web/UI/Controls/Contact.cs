@@ -59,7 +59,7 @@ namespace Subtext.Web.UI.Controls
 					entry.Author = tbName.Text;
 					entry.Email = tbEmail.Text;
 					entry.Body = tbMessage.Text;
-					entry.TitleUrl = "contact.aspx";
+					entry.AlternativeTitleUrl = "contact.aspx";
 					entry.Title = "CONTACT: " + tbSubject.Text;
 					entry.SourceName = HttpHelper.GetUserIpAddress(Context);
 					Entries.InsertComment(entry);

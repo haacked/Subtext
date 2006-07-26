@@ -156,7 +156,7 @@ namespace Subtext.Web.UI.Controls
 						entry.Author = tbName.Text;
 						if(this.tbEmail!=null)
 							entry.Email = tbEmail.Text;
-						entry.TitleUrl =  HtmlHelper.CheckForUrl(tbUrl.Text);
+						entry.AlternativeTitleUrl =  HtmlHelper.CheckForUrl(tbUrl.Text);
 						entry.Body = tbComment.Text;
 						entry.Title = tbTitle.Text;
 						entry.ParentID = currentEntry.Id;

@@ -79,7 +79,7 @@
 	
 	<ANW:Pager id="ResultsPager" runat="server" CssClass="Pager" UrlFormat="EditPosts.aspx?pg={0}"
 		LinkFormatActive='<a href="{0}" class="Current">{1}</a>' PrefixText="<div>Goto page</div>"
-		UseSpacer="False"></ANW:Pager>
+		UseSpacer="False" UseZeroBasedIndex="true"></ANW:Pager>
 	<br class="clear" />
 </ANW:AdvancedPanel>
 

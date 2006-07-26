@@ -100,8 +100,24 @@ namespace Subtext.Framework.Providers
 
 		#region Paged Posts
 
-        public abstract IPagedCollection<Entry> GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize, bool sortDescending);
-        public abstract IPagedCollection<Entry> GetPagedFeedback(int pageIndex, int pageSize, bool sortDescending);
+		/// <summary>
+		/// Returns a pageable collection of entries ordered by the id descending.
+		/// This is used in the admin section.
+		/// </summary>
+		/// <param name="postType">Type of the post.</param>
+		/// <param name="categoryID">The category ID.</param>
+		/// <param name="pageIndex">Index of the page.</param>
+		/// <param name="pageSize">Size of the page.</param>
+		/// <returns></returns>
+        public abstract IPagedCollection<Entry> GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize);
+
+		/// <summary>
+		/// Gets the paged feedback.
+		/// </summary>
+		/// <param name="pageIndex">Index of the page.</param>
+		/// <param name="pageSize">Size of the page.</param>
+		/// <returns></returns>
+		public abstract IPagedCollection<Entry> GetPagedFeedback(int pageIndex, int pageSize);
 		
 		#endregion
 

@@ -32,6 +32,16 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 	public class EntryCreationTests
 	{
 		string _hostName = string.Empty;
+		
+		[Test]
+		public void AlternativeTitleUrlShouldNotUseTheUrlValue()
+		{
+			Entry entry = new Entry(PostType.BlogPost);
+			Assert.IsNull(entry.AlternativeTitleUrl);
+			entry.Url = "/BlahBlah/Blah.aspx";
+			Assert.IsNull(entry.AlternativeTitleUrl, "Since we didn't set the title Url, it should remain null.");
+			Assert.AreEqual(entry.Url, entry.TitleUrl, "Since AlternativeTitleUrl is null, entry.TitleUrl should be the same as entry.Url.");
+		}
 
 		/// <summary>
 		/// Tests that the fully qualified url is correct.

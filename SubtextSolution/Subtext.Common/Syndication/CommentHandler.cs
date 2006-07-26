@@ -60,7 +60,7 @@ namespace Subtext.Common.Syndication
 				entry.Body = doc.SelectSingleNode("//item/description").InnerText;
 			
 				entry.Title = doc.SelectSingleNode("//item/title").InnerText;
-				entry.TitleUrl = HtmlHelper.CheckForUrl(doc.SelectSingleNode("//item/link").InnerText);
+				entry.AlternativeTitleUrl = HtmlHelper.CheckForUrl(doc.SelectSingleNode("//item/link").InnerText);
 
 				entry.ParentID = UrlFormats.GetPostIDFromUrl(Request.Path);
 

@@ -219,7 +219,7 @@ namespace Subtext.Web.Admin.UserControls
 		{
 			Edit.Visible = false;
 
-            IPagedCollection<Entry> selectionList = Entries.GetPagedEntries(this.EntryType, _filterCategoryID, this.pageIndex, ResultsPager.PageSize, true);		
+            IPagedCollection<Entry> selectionList = Entries.GetPagedEntries(this.EntryType, _filterCategoryID, this.pageIndex, ResultsPager.PageSize);		
 
 			if (selectionList.Count > 0)
 			{				
@@ -288,9 +288,9 @@ namespace Subtext.Web.Admin.UserControls
 			// Advanced Options
 			this.txbEntryName.Text = currentPost.EntryName;
 			this.txbExcerpt.Text = currentPost.Description;
-			if(currentPost.HasTitleUrl)
+			if(currentPost.HasAlternativeTitleUrl)
 			{
-				this.txbTitleUrl.Text = currentPost.TitleUrl;
+				this.txbTitleUrl.Text = currentPost.AlternativeTitleUrl;
 			}
 			this.txbSourceUrl.Text = currentPost.SourceUrl;
 			this.txbSourceName.Text = currentPost.SourceName;
@@ -451,7 +451,7 @@ namespace Subtext.Web.Admin.UserControls
 					entry.IsAggregated = chkIsAggregated.Checked;
 					entry.EntryName = StringHelper.ReturnNullForEmpty(txbEntryName.Text);
 					entry.Description = StringHelper.ReturnNullForEmpty(txbExcerpt.Text);
-					entry.TitleUrl = StringHelper.ReturnNullForEmpty(txbTitleUrl.Text);
+					entry.AlternativeTitleUrl = StringHelper.ReturnNullForEmpty(txbTitleUrl.Text);
 					entry.SourceUrl = StringHelper.ReturnNullForEmpty(txbSourceUrl.Text);
 					entry.SourceName = StringHelper.ReturnNullForEmpty(txbSourceName.Text);
 

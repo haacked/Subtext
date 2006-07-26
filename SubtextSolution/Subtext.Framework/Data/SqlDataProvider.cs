@@ -288,7 +288,17 @@ namespace Subtext.Framework.Data
 			return command.ExecuteReader(CommandBehavior.CloseConnection);
 			
 		}
-		public override IDataReader GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize, bool sortDescending)
+
+		/// <summary>
+		/// Returns a data reader (<see cref="IDataReader" />) pointing to all the blog entries 
+		/// ordered by ID Descending for the specified page index (0-based) and page size.
+		/// </summary>
+		/// <param name="postType"></param>
+		/// <param name="categoryID"></param>
+		/// <param name="pageIndex"></param>
+		/// <param name="pageSize"></param>
+		/// <returns></returns>
+		public override IDataReader GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize)
 		{
 			// default setup is for unfiltered pageable results
 			bool useCategoryID = categoryID > -1;
@@ -302,7 +312,6 @@ namespace Subtext.Framework.Data
 			command.Parameters.Add(DataHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex));
 			command.Parameters.Add(DataHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize));
 			command.Parameters.Add(DataHelper.MakeInParam("@PostType", SqlDbType.Int, 4, postType));
-			command.Parameters.Add(DataHelper.MakeInParam("@SortDesc", SqlDbType.Bit, 1, sortDescending));
 			command.Parameters.Add(BlogIdParam);
 				
 			if(useCategoryID)
@@ -355,13 +364,12 @@ namespace Subtext.Framework.Data
 		}
 		
 		//Did not really experiment why, but sqlhelper does not seem to like the output parameter after the reader
-		public override IDataReader GetPagedFeedback(int pageIndex, int pageSize, bool sortDescending)
+		public override IDataReader GetPagedFeedback(int pageIndex, int pageSize)
 		{
 			SqlParameter[] p =
 			{
 				DataHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex),
 				DataHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize),
-				DataHelper.MakeInParam("@SortDesc", SqlDbType.Bit, 1, sortDescending),
 				BlogIdParam
 			};
 			return GetReader("subtext_GetPageableFeedback", p);
@@ -570,7 +578,7 @@ namespace Subtext.Framework.Data
 			SqlParameter[] p =
 			{
 				DataHelper.MakeInParam("@Title",  SqlDbType.NVarChar, 255, entry.Title), 
-				DataHelper.MakeInParam("@TitleUrl",  SqlDbType.NVarChar, 255, StringHelper.ReturnNullForEmpty(entry.TitleUrl)), 
+				DataHelper.MakeInParam("@TitleUrl",  SqlDbType.NVarChar, 255, StringHelper.ReturnNullForEmpty(entry.AlternativeTitleUrl)), 
 				DataHelper.MakeInParam("@Text", SqlDbType.NText, 0, entry.Body), 
 				DataHelper.MakeInParam("@SourceUrl", SqlDbType.NVarChar, 200, DataHelper.CheckNull(entry.SourceUrl)), 
 				DataHelper.MakeInParam("@PostType", SqlDbType.Int, 4, entry.PostType), 
@@ -606,7 +614,7 @@ namespace Subtext.Framework.Data
 			{
 				DataHelper.MakeInParam("@ID", SqlDbType.Int, 4, entry.Id), 
 				DataHelper.MakeInParam("@Title",  SqlDbType.NVarChar, 255, entry.Title), 
-				DataHelper.MakeInParam("@TitleUrl",  SqlDbType.NVarChar, 255, DataHelper.CheckNull(entry.TitleUrl)),
+				DataHelper.MakeInParam("@TitleUrl",  SqlDbType.NVarChar, 255, StringHelper.ReturnNullForEmpty(entry.AlternativeTitleUrl)),
 				DataHelper.MakeInParam("@Text", SqlDbType.NText, 0, entry.Body), 
 				DataHelper.MakeInParam("@SourceUrl", SqlDbType.NVarChar, 200, DataHelper.CheckNull(entry.SourceUrl)), 
 				DataHelper.MakeInParam("@PostType", SqlDbType.Int, 4, entry.PostType), 
@@ -634,7 +642,7 @@ namespace Subtext.Framework.Data
 				SqlParameter[] p =
 				{
 					DataHelper.MakeInParam("@Title",  SqlDbType.NVarChar, 255, entry.Title), 
-					DataHelper.MakeInParam("@TitleUrl",  SqlDbType.NVarChar, 255, DataHelper.CheckNull(entry.TitleUrl)), 
+					DataHelper.MakeInParam("@TitleUrl",  SqlDbType.NVarChar, 255, DataHelper.CheckNull(entry.AlternativeTitleUrl)), 
 					DataHelper.MakeInParam("@Text", SqlDbType.NText, 0, entry.Body), 
 					DataHelper.MakeInParam("@SourceUrl", SqlDbType.NVarChar, 200, DataHelper.CheckNull(entry.SourceUrl)), 
 					DataHelper.MakeInParam("@PostType", SqlDbType.Int, 4, entry.PostType), 

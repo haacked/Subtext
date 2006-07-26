@@ -169,7 +169,7 @@ namespace Subtext.Framework.Import
 	        newPingTrack.BlogId = info.Id;
 	        newPingTrack.ParentID = newEntryID;
 	        newPingTrack.Title = bmlPingTrack.Title;
-	        newPingTrack.TitleUrl = bmlPingTrack.Url;
+	        newPingTrack.AlternativeTitleUrl = bmlPingTrack.Url;
 	        newPingTrack.IsActive = bmlPingTrack.Approved;
 	        newPingTrack.DateCreated = bmlPingTrack.DateCreated;
 	        newPingTrack.DateUpdated = bmlPingTrack.DateModified;
@@ -195,7 +195,7 @@ namespace Subtext.Framework.Import
 	        newComment.Body = StringHelper.ReturnCheckForNull(bmlComment.Content.UncodedText);
 	        newComment.IsActive = bmlComment.Approved;
 	        newComment.Author = StringHelper.ReturnCheckForNull(bmlComment.UserName);
-	        newComment.TitleUrl = StringHelper.ReturnCheckForNull(bmlComment.UserUrl);
+	        newComment.AlternativeTitleUrl = StringHelper.ReturnCheckForNull(bmlComment.UserUrl);
 	        newComment.Email = bmlComment.UserEMail; // not sure where/if we use this?
 
 	        try

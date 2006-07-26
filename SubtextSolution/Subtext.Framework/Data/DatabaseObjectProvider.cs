@@ -148,17 +148,17 @@ namespace Subtext.Framework.Data
 		#region Paged Posts
 
 		/// <summary>
-		/// Gets the paged entries.
+		/// Returns a pageable collection of entries ordered by the id descending.
+		/// This is used in the admin section.
 		/// </summary>
 		/// <param name="postType">Type of the post.</param>
 		/// <param name="categoryID">The category ID.</param>
 		/// <param name="pageIndex">Index of the page.</param>
 		/// <param name="pageSize">Size of the page.</param>
-		/// <param name="sortDescending">if set to <c>true</c> [sort descending].</param>
 		/// <returns></returns>
-        public override IPagedCollection<Entry> GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize, bool sortDescending)
+        public override IPagedCollection<Entry> GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize)
 		{
-			IDataReader reader = DbProvider.Instance().GetPagedEntries(postType,categoryID,pageIndex,pageSize,sortDescending);
+			IDataReader reader = DbProvider.Instance().GetPagedEntries(postType, categoryID, pageIndex, pageSize);
 			try
 			{
                 PagedCollection<Entry> pec = new PagedCollection<Entry>();
@@ -182,11 +182,10 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="pageIndex">Index of the page.</param>
 		/// <param name="pageSize">Size of the page.</param>
-		/// <param name="sortDescending">if set to <c>true</c> [sort descending].</param>
 		/// <returns></returns>
-        public override IPagedCollection<Entry> GetPagedFeedback(int pageIndex, int pageSize, bool sortDescending)
+        public override IPagedCollection<Entry> GetPagedFeedback(int pageIndex, int pageSize)
 		{
-			IDataReader reader = DbProvider.Instance().GetPagedFeedback(pageIndex, pageSize, sortDescending);
+			IDataReader reader = DbProvider.Instance().GetPagedFeedback(pageIndex, pageSize);
             IPagedCollection<Entry> pec = new PagedCollection<Entry>();
 			while(reader.Read())
 			{
