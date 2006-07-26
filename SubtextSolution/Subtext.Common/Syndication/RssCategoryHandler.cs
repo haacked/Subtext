@@ -42,7 +42,7 @@ namespace Subtext.Common.Syndication
 
 			if(Category != null && posts == null)
 			{
-				posts = Cacher.GetEntriesByCategory(10, CacheDuration.Short, Category.CategoryID);
+				posts = Cacher.GetEntriesByCategory(10, CacheDuration.Short, Category.Id);
 			}
 
 			return posts;

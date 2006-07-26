@@ -735,7 +735,7 @@ namespace Subtext.Framework.Data
 				DataHelper.MakeInParam("@Active",SqlDbType.Bit,1,link.IsActive),
 				DataHelper.MakeInParam("@NewWindow",SqlDbType.Bit,1,link.NewWindow),
 				DataHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,DataHelper.CheckNull(link.CategoryID)),
-				DataHelper.MakeInParam("@LinkID",SqlDbType.Int,4,link.LinkID),
+				DataHelper.MakeInParam("@LinkID",SqlDbType.Int,4,link.Id),
 				BlogIdParam
 			};
 			return NonQueryBool("subtext_UpdateLink", p);
@@ -822,7 +822,7 @@ namespace Subtext.Framework.Data
 
 				DataHelper.MakeInParam("@Title",SqlDbType.NVarChar,150,lc.Title),
 				DataHelper.MakeInParam("@Active",SqlDbType.Bit,1,lc.IsActive),
-				DataHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,DataHelper.CheckNull(lc.CategoryID)),
+				DataHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,DataHelper.CheckNull(lc.Id)),
 				DataHelper.MakeInParam("@CategoryType",SqlDbType.TinyInt,1,lc.CategoryType),
 				DataHelper.MakeInParam("@Description",SqlDbType.NVarChar,1000,DataHelper.CheckNull(lc.Description)),
 				BlogIdParam

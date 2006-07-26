@@ -83,7 +83,7 @@ namespace Subtext.Web.Admin.Pages
 				if (selectionList.Count > 0)
 				{
 					ddlGalleries.DataSource = selectionList;
-					ddlGalleries.DataValueField = "CategoryID";
+					ddlGalleries.DataValueField = "Id";
 					ddlGalleries.DataTextField = "Title";
 					
 					lnkThumbnail.ImageUrl = EvalImageUrl(Image);

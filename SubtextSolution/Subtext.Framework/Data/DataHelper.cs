@@ -401,7 +401,7 @@ namespace Subtext.Framework.Data
 			}
 
 			// LinkID cannot be null
-			link.LinkID = ReadInt32(reader, "LinkID");
+			link.Id = ReadInt32(reader, "LinkID");
 			
 			if(reader["Rss"] != DBNull.Value)
 			{
@@ -442,7 +442,7 @@ namespace Subtext.Framework.Data
 			}
 
 			//LinkID cannot be null.
-			link.LinkID = (int)dr["LinkID"];
+			link.Id = (int)dr["LinkID"];
 			
 			if(dr["Rss"] != DBNull.Value)
 			{

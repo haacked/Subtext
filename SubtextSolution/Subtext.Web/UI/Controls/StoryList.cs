@@ -50,7 +50,7 @@ namespace Subtext.Web.UI.Controls
 
 				if(lc != null)
 				{
-                    IList<Entry> ec = Cacher.GetEntriesByCategory(count, CacheDuration.Short, lc.CategoryID);
+                    IList<Entry> ec = Cacher.GetEntriesByCategory(count, CacheDuration.Short, lc.Id);
 					EntryStoryList.EntryListItems = ec;
 
 					EntryStoryList.EntryListTitle = lc.Title;

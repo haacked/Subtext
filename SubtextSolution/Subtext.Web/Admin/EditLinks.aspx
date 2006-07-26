@@ -10,7 +10,7 @@
 </asp:Content>
 
 <asp:Content ID="categoriesLinkListing" ContentPlaceHolderID="categoryListLinks" runat="server">
-    <st:CategoryLinks ID="categoryLinks" runat="server" CategoryType="StoryCollection" />
+    <st:CategoryLinks ID="categoryLinks" runat="server" CategoryType="LinkCollection" />
 </asp:Content>
 
 <asp:Content ID="linkContent" ContentPlaceHolderID="pageContent" runat="server">
@@ -21,14 +21,10 @@
 			<HeaderTemplate>
 				<table id="Listing" class="Listing highlightTable" cellSpacing="0" cellPadding="0" border="0" style="<%= CheckHiddenStyle() %>">
 					<tr>
-						<th>
-							Description</th>
-						<th width="50">
-							Url</th>
-						<th width="50">
-							&nbsp;</th>
-						<th width="50">
-							&nbsp;</th>
+						<th>Description</th>
+						<th width="50">Url</th>
+						<th width="50">&nbsp;</th>
+						<th width="50">&nbsp;</th>
 					</tr>
 			</HeaderTemplate>
 			<ItemTemplate>
@@ -40,9 +36,9 @@
 						<%# DataBinder.Eval(Container.DataItem, "Url") %>
 					</td>
 					<td>
-						<asp:linkbutton id="lnkEdit" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "LinkID") %>' Text="Edit" runat="server" /></td>
+						<asp:linkbutton id="lnkEdit" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Edit" runat="server" /></td>
 					<td>
-						<asp:linkbutton id="lnkDelete" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "LinkID") %>' Text="Delete" runat="server" /></td>
+						<asp:linkbutton id="lnkDelete" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Delete" runat="server" /></td>
 				</tr>
 			</ItemTemplate>
 			<AlternatingItemTemplate>
@@ -54,9 +50,11 @@
 						<%# DataBinder.Eval(Container.DataItem, "Url") %>
 					</td>
 					<td>
-						<asp:linkbutton id="lnkEdit" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "LinkID") %>' Text="Edit" runat="server" /></td>
+						<asp:linkbutton id="lnkEdit" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Edit" runat="server" />
+					</td>
 					<td>
-						<asp:linkbutton id="lnkDelete" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "LinkID") %>' Text="Delete" runat="server" /></td>
+						<asp:linkbutton id="lnkDelete" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Delete" runat="server" />
+					</td>
 				</tr>
 			</AlternatingItemTemplate>
 			<FooterTemplate>

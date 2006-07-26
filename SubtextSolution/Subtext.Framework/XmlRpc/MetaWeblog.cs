@@ -168,10 +168,10 @@ namespace Subtext.Framework.XmlRpc
 			foreach(LinkCategory linkCategory in lcc)
 			{
 				CategoryInfo category = new CategoryInfo();
-                category.categoryid = linkCategory.CategoryID.ToString(CultureInfo.InvariantCulture);
+                category.categoryid = linkCategory.Id.ToString(CultureInfo.InvariantCulture);
                 category.title = linkCategory.Title;
-				category.htmlUrl = info.RootUrl + "Category/" + linkCategory.CategoryID.ToString(CultureInfo.InvariantCulture) + ".aspx";
-                category.rssUrl = info.RootUrl + "rss.aspx?catid=" + linkCategory.CategoryID.ToString(CultureInfo.InvariantCulture);
+				category.htmlUrl = info.RootUrl + "Category/" + linkCategory.Id.ToString(CultureInfo.InvariantCulture) + ".aspx";
+                category.rssUrl = info.RootUrl + "rss.aspx?catid=" + linkCategory.Id.ToString(CultureInfo.InvariantCulture);
                 category.description = linkCategory.Title;
 
 				categories[i] = category;
@@ -336,7 +336,7 @@ namespace Subtext.Framework.XmlRpc
             int i = 0;
 			foreach(LinkCategory linkCategory in lcc)
 			{
-                _category = new MtCategory(linkCategory.CategoryID.ToString(CultureInfo.InvariantCulture), linkCategory.Title);
+                _category = new MtCategory(linkCategory.Id.ToString(CultureInfo.InvariantCulture), linkCategory.Title);
 				categories[i] = _category;
                 i++;
 			}
@@ -388,7 +388,7 @@ namespace Subtext.Framework.XmlRpc
                 ICollection<LinkCategory> cats = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
 				Hashtable catLookup = new Hashtable(cats.Count);
 				foreach (LinkCategory currentCat in cats)
-					catLookup.Add(currentCat.CategoryID, currentCat.Title);
+					catLookup.Add(currentCat.Id, currentCat.Title);
 
 				MtCategory _category;
                 int i = 0;

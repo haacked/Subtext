@@ -339,7 +339,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 			{
 				string categoryName=currentFolder.Substring(1,currentFolder.Length-2);
 				LinkCategory cat = Links.GetLinkCategory(categoryName,false);
-				posts= Entries.GetPagedEntries(PostType.BlogPost, cat.CategoryID, 1, 1000);
+				posts= Entries.GetPagedEntries(PostType.BlogPost, cat.Id, 1, 1000);
 			}
 
 			// Create the "Files" node.

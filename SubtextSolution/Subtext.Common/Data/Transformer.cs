@@ -52,16 +52,16 @@ namespace Subtext.Common.Data
 					switch(catType)
 					{
 						case CategoryType.StoryCollection:
-                            link.Url = formats.ArticleCategoryUrl(link.Title, linkCategory.CategoryID);
+                            link.Url = formats.ArticleCategoryUrl(link.Title, linkCategory.Id);
 							break;
 						
 						case CategoryType.PostCollection:
-                            link.Url = formats.PostCategoryUrl(link.Title, linkCategory.CategoryID);
+                            link.Url = formats.PostCategoryUrl(link.Title, linkCategory.Id);
 							link.Rss = link.Url + "/rss";
 							break;
 						
 						case CategoryType.ImageCollection:
-                            link.Url = formats.GalleryUrl(link.Title, linkCategory.CategoryID);
+                            link.Url = formats.GalleryUrl(link.Title, linkCategory.Id);
 							break;
 
 					}

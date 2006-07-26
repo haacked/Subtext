@@ -39,7 +39,7 @@ namespace Subtext.Framework.Components
 		public LinkCategory(int catID, string title)
 		{
 			Title = title;
-			CategoryID = catID;
+			this.Id = catID;
 		}
 
 		private int _blogID;
@@ -93,12 +93,12 @@ namespace Subtext.Framework.Components
 			set{_categoryType = value;}
 		}
 
-		private int _catID;
-		[XmlAttribute]
-		public int CategoryID
+		private int id;
+		[XmlAttribute("CategoryID")]
+		public int Id
 		{
-			get{return _catID;}
-			set{_catID = value;}
+			get{return this.id;}
+			set{this.id = value;}
 		}
 
 		private bool _isActive;

@@ -43,7 +43,7 @@ namespace Subtext.Web.UI.Controls
 				LinkCategory linkcat = (LinkCategory)e.Item.DataItem;				
 				if(linkcat != null)
 				{
-					if (linkcat.CategoryID != 0)
+					if (linkcat.Id != 0)
 					{
 						Label description = (Label) e.Item.FindControl("Description");
 						if (description != null)
@@ -54,7 +54,7 @@ namespace Subtext.Web.UI.Controls
 						HyperLink catlink = (HyperLink) e.Item.FindControl("CatLink");
 						if (catlink != null)
 						{							
-							catlink.NavigateUrl = Config.CurrentBlog.UrlFormats.PostCategoryUrl(linkcat.Description, linkcat.CategoryID);
+							catlink.NavigateUrl = Config.CurrentBlog.UrlFormats.PostCategoryUrl(linkcat.Description, linkcat.Id);
 							catlink.Text = linkcat.Title;
 							ControlHelper.SetTitleIfNone(catlink, linkcat.CategoryType + " Category.");
 						}

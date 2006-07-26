@@ -70,9 +70,9 @@ namespace UnitTests.Subtext.Framework
 		    }
 		    
 			// Ensure the CategoryIDs are unique
-			UnitTestHelper.AssertAreNotEqual(first.CategoryID, second.CategoryID);
-            UnitTestHelper.AssertAreNotEqual(first.CategoryID, third.CategoryID);
-            UnitTestHelper.AssertAreNotEqual(second.CategoryID, third.CategoryID);
+			UnitTestHelper.AssertAreNotEqual(first.Id, second.Id);
+            UnitTestHelper.AssertAreNotEqual(first.Id, third.Id);
+            UnitTestHelper.AssertAreNotEqual(second.Id, third.Id);
 		}
 
 		/// <summary>
@@ -104,7 +104,7 @@ namespace UnitTests.Subtext.Framework
             ICollection<LinkCategory> updatedCategories = Links.GetCategories(CategoryType.LinkCollection, ActiveFilter.None);
 			LinkCategory updatedCategory = null;
 			foreach(LinkCategory lc in updatedCategories)
-				if (lc.CategoryID == originalCategory.CategoryID)
+				if (lc.Id == originalCategory.Id)
 					updatedCategory = lc;
 
 			// Ensure the update was successful
