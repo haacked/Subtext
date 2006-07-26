@@ -1288,7 +1288,6 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableEntries]
 	, @PageIndex int
 	, @PageSize int
 	, @PostType int
-	, @SortDesc bit
 )
 AS
 
@@ -1300,7 +1299,7 @@ SET @StartRowIndex = @PageIndex * @PageSize + 1
 
 SET ROWCOUNT @StartRowIndex
 -- Get the first entry id for the current page.
-SELECT @FirstId = [ID] FROM subtext_Content ORDER BY [ID]
+SELECT @FirstId = [ID] FROM subtext_Content ORDER BY [ID] DESC
 
 -- Now, set the row count to MaximumRows and get
 -- all records >= @first_id
@@ -1333,15 +1332,14 @@ SELECT	content.BlogId
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
 	Left JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
 WHERE 	content.BlogId = @BlogId 
-	AND content.[ID] >= @FirstId
+	AND content.[ID] <= @FirstId
 	AND PostType = @PostType
-ORDER BY content.[ID]
+ORDER BY content.[ID] DESC
  
 SELECT COUNT([ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Content] 
 WHERE 	BlogId = @BlogId 
 	AND PostType = @PostType 
-
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -1483,7 +1481,7 @@ SET @StartRowIndex = @PageIndex * @PageSize + 1
 
 SET ROWCOUNT @StartRowIndex
 -- Get the first entry id for the current page.
-SELECT @FirstId = [ID] FROM subtext_Content ORDER BY [ID]
+SELECT @FirstId = [ID] FROM subtext_Content ORDER BY [ID] DESC
 
 -- Now, set the row count to MaximumRows and get
 -- all records >= @first_id
@@ -1516,9 +1514,9 @@ SELECT	content.BlogId
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
 	Left JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
 WHERE 	content.BlogId = @BlogId 
-	AND content.[ID] >= @FirstId
+	AND content.[ID] <= @FirstId
 	AND (PostType = 3 OR PostType = 4)
-ORDER BY content.[ID]
+ORDER BY content.[ID] DESC
  
 SELECT COUNT([ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Content] 

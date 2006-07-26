@@ -88,7 +88,7 @@ namespace Subtext.Framework.XmlRpc
 				entry.Email = info.Email;
 				entry.Body = post.description;
 				entry.Title = post.title;
-				entry.TitleUrl = post.link;
+				//entry.TitleUrl = post.link;
 				entry.SourceName = string.Empty;
 				entry.SourceUrl = string.Empty;
 				entry.Description = string.Empty;
@@ -200,7 +200,7 @@ namespace Subtext.Framework.XmlRpc
 			entry.Email = info.Email;
 			entry.Body = post.description;
 			entry.Title = post.title;
-			entry.TitleUrl = post.link;
+			//entry.TitleUrl = post.link;
 			entry.SourceName = string.Empty;
 			entry.SourceUrl = string.Empty;
 			entry.Description = string.Empty;

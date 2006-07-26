@@ -33,7 +33,7 @@ namespace Subtext.Framework.Components
 		{
 			ParentID = parentId;
 			Title = title;
-			TitleUrl = titleUrl;
+			AlternativeTitleUrl = titleUrl;
 			Author = author;
 			Body = body;
 			

@@ -48,17 +48,16 @@ namespace Subtext.Framework
 		/// <param name="categoryID">-1 means not to filter by a categoryID</param>
 		/// <param name="pageIndex"></param>
 		/// <param name="pageSize"></param>
-		/// <param name="sortDescending"></param>
 		/// <returns></returns>
-        public static IPagedCollection<Entry> GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize, bool sortDescending)
+        public static IPagedCollection<Entry> GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize)
 		{
-			return ObjectProvider.Instance().GetPagedEntries(postType,categoryID,pageIndex,pageSize,sortDescending);
+			return ObjectProvider.Instance().GetPagedEntries(postType, categoryID, pageIndex, pageSize);
 		}
 
 
-        public static IPagedCollection<Entry> GetPagedFeedback(int pageIndex, int pageSize, bool sortDescending)
+        public static IPagedCollection<Entry> GetPagedFeedback(int pageIndex, int pageSize)
 		{
-			return ObjectProvider.Instance().GetPagedFeedback(pageIndex,pageSize,sortDescending);
+			return ObjectProvider.Instance().GetPagedFeedback(pageIndex, pageSize);
 		}
 
 
@@ -232,7 +231,6 @@ namespace Subtext.Framework
 				&& entry.Title.Length > 0)
 			{
 				entry.EntryName = AutoGenerateFriendlyUrl(entry.Title);
-				entry.TitleUrl = entry.Url;
 			}
 			
 			if(NullValue.IsNull(entry.DateCreated))
@@ -446,7 +444,7 @@ namespace Subtext.Framework
 		#endregion
 
 		/// <summary>
-		/// Inserts a comment for the specified entry.
+		/// Inserts the entry as a comment.
 		/// </summary>
 		/// <remarks>
 		/// If it's not the admin posting the comment, an email is sent 
@@ -459,7 +457,7 @@ namespace Subtext.Framework
 			if (null == HttpContext.Current) return;
 
 			entry.Author = HtmlHelper.SafeFormat(entry.Author);
-			entry.TitleUrl =  HtmlHelper.SafeFormat(entry.TitleUrl);
+			entry.AlternativeTitleUrl =  HtmlHelper.SafeFormat(entry.AlternativeTitleUrl);
 			entry.Body = HtmlHelper.ConvertToAllowedHtml(entry.Body);
 			entry.Title = HtmlHelper.SafeFormat(entry.Title);
 			entry.IsXHMTL = false;
@@ -470,7 +468,7 @@ namespace Subtext.Framework
 				entry.SourceName = "N/A";
 
 			// insert comment into backend, save the returned entryid for permalink anchor below
-			int entryID = Create(entry);
+			int entryId = Create(entry);
 
 			// if it's not the administrator commenting
 			if(!Security.IsAdmin)
@@ -488,13 +486,13 @@ namespace Subtext.Framework
 					string Body = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Comments from {0}:\r\n\r\nSender: {1}\r\nUrl: {2}\r\nIP Address: {3}\r\n=====================================\r\n\r\n{4}\r\n\r\n{5}\r\n\r\nSource: {6}#{7}", 
 						blogTitle,
 						entry.Author,
-						entry.TitleUrl,
+						entry.AlternativeTitleUrl,
 						entry.SourceName,
 						entry.Title,					
 						// we're sending plain text email by default, but body includes <br />s for crlf
 						entry.Body.Replace("<br />", Environment.NewLine), 
 						entry.SourceUrl,
-						entryID);			
+						entryId);			
 				
 					im.Send(To, From, Subject, Body);
 				}

@@ -219,7 +219,7 @@ namespace Subtext.Framework.Data
 
 			if(reader["TitleUrl"] != DBNull.Value)
 			{
-				entry.TitleUrl = ReadString(reader, "TitleUrl");
+				entry.AlternativeTitleUrl = ReadString(reader, "TitleUrl");
 			}
 			
 			if(reader["SourceName"] != DBNull.Value)
@@ -301,7 +301,7 @@ namespace Subtext.Framework.Data
 			entry.DateUpdated = ReadDate(reader, "DateUpdated");
 			
 			entry.Id = ReadInt32(reader, "ID");
-			entry.TitleUrl = ReadString(reader, "TitleUrl");
+			entry.AlternativeTitleUrl = ReadString(reader, "TitleUrl");
 			entry.SourceName = ReadString(reader, "SourceName");
 
 			entry.SourceUrl = ReadString(reader, "SourceUrl");

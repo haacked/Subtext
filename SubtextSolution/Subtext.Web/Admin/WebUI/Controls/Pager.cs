@@ -74,6 +74,7 @@ namespace Subtext.Web.Admin.WebUI
 
 		protected int _padLeft;
 		protected int _padRight;
+		protected bool _useZeroBasedIndex = false;
 
 		public Pager()
 		{
@@ -88,6 +89,24 @@ namespace Subtext.Web.Admin.WebUI
 		{
 			get { return _displayMode; }
 			set { _displayMode = value; }
+		}
+		
+		/// <summary>
+		/// Personally, I think every pager should just use a 
+		/// zero-based index, but since the code we inherited doesn't, 
+		/// we'll have to deal with this for now till we convert 
+		/// all paging logic to 0-base.
+		/// </summary>
+		public bool UseZeroBasedIndex
+		{
+			get
+			{
+				return _useZeroBasedIndex;
+			}
+			set
+			{
+				_useZeroBasedIndex = value;
+			}
 		}
 
 		public string CssClass
@@ -269,6 +288,9 @@ namespace Subtext.Web.Admin.WebUI
 
 		protected string RenderLink(int linkIndex, string display, bool isCurrent)
 		{
+			if (_useZeroBasedIndex)
+				linkIndex--;
+
 			string url = String.Format(_urlFormat, linkIndex);
 			return String.Format(isCurrent ? _linkFormatActive : _linkFormat,
 				url, display);

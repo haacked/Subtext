@@ -326,8 +326,26 @@ namespace Subtext.Framework.Providers
 		public abstract IDataReader GetBlogsByHost(string host);
 		
 		public abstract IDataReader GetPagedLinks(int CategoryID, int pageIndex, int pageSize, bool sortDescending);
-		public abstract IDataReader GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize, bool sortDescending);
-		public abstract IDataReader GetPagedFeedback(int pageIndex, int pageSize, bool sortDescending);
+		
+		/// <summary>
+		/// Returns a data reader (<see cref="IDataReader" />) pointing to all the blog entries 
+		/// ordered by ID Descending for the specified page index (0-based) and page size.
+		/// </summary>
+		/// <param name="postType"></param>
+		/// <param name="categoryID"></param>
+		/// <param name="pageIndex"></param>
+		/// <param name="pageSize"></param>
+		/// <returns></returns>
+		public abstract IDataReader GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize);
+		
+		/// <summary>
+		/// Returns a data reader (<see cref="IDataReader" />) pointing to all the comments 
+		/// ordered by ID Descending for the specified page index (0-based) and page size.
+		/// </summary>
+		/// <param name="pageIndex"></param>
+		/// <param name="pageSize"></param>
+		/// <returns></returns>
+		public abstract IDataReader GetPagedFeedback(int pageIndex, int pageSize);
 		
 		/// <summary>
 		/// Gets the specified page of log entries.

@@ -113,11 +113,11 @@ namespace Subtext.Framework.Components
 		/// <value>
 		/// 	<c>true</c> if [has title URL]; otherwise, <c>false</c>.
 		/// </value>
-		public bool HasTitleUrl
+		public bool HasAlternativeTitleUrl
 		{
 			get
 			{
-				return ((TitleUrl != null) && (TitleUrl != Url));
+				return !String.IsNullOrEmpty(this.AlternativeTitleUrl);
 			}
 		}
 
@@ -167,29 +167,35 @@ namespace Subtext.Framework.Components
 			set{_title = value;}
 		}
 
-		private string _titleurl;
+		private string _alternativeTitleUrl;
 		/// <summary>
-		/// Gets or sets the URL the Title of an entry will 
-		/// link to.  For comments, this is the URL the commenter 
-		/// specifies.
+		/// Gets or sets an alternative URL for the Title of this 
+		/// post to link to.
 		/// </summary>
 		/// <value></value>
+		public string AlternativeTitleUrl
+		{
+			get
+			{
+				return this._alternativeTitleUrl;
+			}
+			set
+			{
+				this._alternativeTitleUrl = value;
+			}
+		}
+		
+		/// <summary>
+		/// Returns the url the title should link to.
+		/// </summary>
 		public string TitleUrl
 		{
 			get
 			{
-				if(_titleurl == null)
-				{
-					return _url;
-				}
-				return _titleurl;
-			}
-			set
-			{
-				_titleurl = value;
+				return _alternativeTitleUrl ?? _url;
 			}
 		}
-
+		
 		private string _body;
 		/// <summary>
 		/// Gets or sets the body of the Entry.  This is the 

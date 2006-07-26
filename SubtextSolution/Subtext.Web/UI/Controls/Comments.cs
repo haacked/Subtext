@@ -104,7 +104,7 @@ namespace Subtext.Web.UI.Controls
 					HyperLink namelink = (HyperLink)e.Item.FindControl("NameLink");
 					if(namelink != null)
 					{
-						if(entry.HasTitleUrl)
+						if(entry.HasAlternativeTitleUrl)
 						{
 							namelink.NavigateUrl = HtmlHelper.CheckForUrl(entry.TitleUrl);
 						}
