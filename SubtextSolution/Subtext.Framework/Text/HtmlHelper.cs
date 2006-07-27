@@ -300,7 +300,7 @@ namespace Subtext.Framework.Text
 			
 			if (allowedAttributesText != null && allowedAttributesText.Length > 0)
 			{
-				System.Text.StringBuilder attrSB = new System.Text.StringBuilder();
+				StringBuilder attrSB = new StringBuilder();
 
 				//look to see which tag's attributes we are matching
 				char[] splitter  = {','};
@@ -357,7 +357,7 @@ namespace Subtext.Framework.Text
 			for(int i = 0; i < nameCaptures.Count; i++)
 			{
 				Capture currentNameCapture = nameCaptures[i];
-				Capture currentValueCapture = null;
+				Capture currentValueCapture;
 				string name = currentNameCapture.Value;
 				
 				if(valueIndex == valueCaptures.Count)
@@ -410,7 +410,7 @@ namespace Subtext.Framework.Text
 
 			Regex r = new Regex(sPattern,RegexOptions.IgnoreCase);
 			Match m;
-			string link = null;
+			string link;
 			for (m = r.Match(text); m.Success; m = m.NextMatch()) 
 			{
 				if(m.Groups.ToString().Length > 0 )
