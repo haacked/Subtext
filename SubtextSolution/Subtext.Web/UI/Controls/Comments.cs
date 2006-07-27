@@ -147,7 +147,7 @@ namespace Subtext.Web.UI.Controls
 							string gravatarUrl = Gravatar.Attributes["PlaceHolderImage"];
 							
 							if (!String.IsNullOrEmpty(entry.Email))
-								gravatarUrl = BuildGravatarUrl(entry.Email);
+                                gravatarUrl = BuildGravatarUrl(entry.Email, gravatarUrl);
 							
 							if(!String.IsNullOrEmpty(gravatarUrl))
 							{
@@ -196,9 +196,12 @@ namespace Subtext.Web.UI.Controls
 			return string.Format(anchortag, id);
 		}
 
-		private string BuildGravatarUrl(string email) 
+		private string BuildGravatarUrl(string email,string defaultGravatar) 
 		{
 			string processedEmail = string.Empty;
+
+            defaultGravatar = CurrentBlog.RootUrl.TrimEnd('/') + ControlHelper.ExpandTildePath(defaultGravatar);
+
 			if(gravatarEmailFormat.Equals("plain"))
 			{
 				processedEmail = email;
@@ -208,7 +211,7 @@ namespace Subtext.Web.UI.Controls
 				processedEmail=System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(email, "md5");
 			}
 			if(processedEmail.Length != 0)
-				return String.Format(gravatarUrlFormatString, processedEmail);
+                return String.Format(gravatarUrlFormatString, processedEmail, defaultGravatar);
 			else
 				return string.Empty;
 		}
