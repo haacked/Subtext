@@ -73,7 +73,7 @@ namespace Subtext.Framework.Tracking
 				}
 				else
 				{
-					entry.Description = entry.Title;	
+					notify.Description = entry.Title;	
 				}
 
 				notify.Text = entry.Body;
