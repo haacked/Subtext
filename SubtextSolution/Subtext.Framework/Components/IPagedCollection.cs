@@ -6,8 +6,7 @@ namespace Subtext.Framework.Components
     /// <summary>
     /// Base interface for paged collections.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public interface IPagedCollection<T> : IList<T>
+    public interface IPagedCollection
     {
         int MaxItems
         {
@@ -15,4 +14,10 @@ namespace Subtext.Framework.Components
             set;
         }
     }
+
+	/// <summary>
+	/// Base interface for generic paged collections.
+	/// </summary>
+	public interface IPagedCollection<T> : IList<T>, IPagedCollection
+	{}
 }
