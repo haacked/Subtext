@@ -91,7 +91,7 @@ namespace Subtext.Framework.Tracking
 	/// </summary>
 	public class Notifier
 	{
-		static Subtext.Framework.Logging.Log Log = new Subtext.Framework.Logging.Log();
+		static Logging.Log Log = new Logging.Log();
 		
 		public Notifier(){}
 
@@ -160,7 +160,7 @@ namespace Subtext.Framework.Tracking
 					weblogs.Dispose();
 				}
 			}
-			catch(System.Exception exp)
+			catch(Exception exp)
 			{
 				Log.Warn("Error while trying to ping weblogs.com - " + exp.Message, exp);
 			}
@@ -199,14 +199,13 @@ namespace Subtext.Framework.Tracking
 								pbnp.Ping(pageText, PostUrl, url);						
 							}
 						}
-						catch(System.Exception exp)
+						catch(Exception exp)
 						{
 							Log.Warn("Error while trying to send trackback - " + exp.Message, exp);
 						}
 					}
 				}
 			}
-			
 		}
 	}
 }

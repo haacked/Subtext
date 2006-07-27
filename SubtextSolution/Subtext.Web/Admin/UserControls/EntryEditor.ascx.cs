@@ -654,7 +654,7 @@ namespace Subtext.Web.Admin.UserControls
 			UpdateCategories();
 		}
 
-		protected void richTextEditor_Error(object sender, Subtext.Web.Controls.RichTextEditorErrorEventArgs e)
+		protected void richTextEditor_Error(object sender, RichTextEditorErrorEventArgs e)
 		{
 			this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", e.Exception.Message));
 		}
@@ -675,7 +675,7 @@ namespace Subtext.Web.Admin.UserControls
 
 			if(commCreditsEnabled.Equals("true")) 
 			{
-				com.community_credit.www.AffiliateServices wsCommunityCredit = new Subtext.Web.com.community_credit.www.AffiliateServices();
+				com.community_credit.www.AffiliateServices wsCommunityCredit = new com.community_credit.www.AffiliateServices();
 				string url=entry.FullyQualifiedUrl.ToString();
 				string category=String.Empty;
 				if(entry.PostType==PostType.BlogPost)
