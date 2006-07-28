@@ -21,12 +21,8 @@ using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Image=Subtext.Framework.Components.Image;
-
 using ICSharpCode.SharpZipLib.Zip;
-using ICSharpCode.SharpZipLib.Zip.Compression;
-using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
-using System.Text;
+using Image=Subtext.Framework.Components.Image;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -323,32 +319,20 @@ namespace Subtext.Web.Admin.Pages
                     }
                 }
             }
-
+            
+            // Construct and display the status message of added/updated/deleted images
             string status = string.Format(
-                @"<script type=""text/javascript"">
-                    function ToggleVisibility(ctrl)
-                    {{
-                        if( ctrl.style.display == 'none' )
-                        {{
-                            ctrl.style.display = '';
-                        }}
-                        else
-                        {{
-                            ctrl.style.display = 'none';
-                        }}
-                    }}
-                </script>
-                The archive has been processed.<br />
-                <b><a onclick=""javascript:ToggleVisibility( document.getElementById('ImportAddDetails'))"">Adds ({0})</a></b><span id=""ImportAddDetails"" style=""display:none""> : {1}</span><br />
-                <b><a onclick=""javascript:ToggleVisibility(document.getElementById('ImportUpdateDetails'))"">Updates ({2})</a></b><span id=""ImportUpdateDetails"" style=""display:none""> : {3}</span><br />
-                <b><a onclick=""javascript:ToggleVisibility(document.getElementById('ImportErrorDetails'))"">Errors ({4})</a></b><span id=""ImportErrorDetails"" style=""display:none""> : {5}</span>", 
+                @"The archive has been processed.<br />
+                <b><a onclick=""javascript:ToggleVisibility(document.getElementById('ImportAddDetails'))"">Adds ({0})</a></b><span id=""ImportAddDetails"" style=""display:none""> : <br />&nbsp;&nbsp;{1}</span><br />
+                <b><a onclick=""javascript:ToggleVisibility(document.getElementById('ImportUpdateDetails'))"">Updates ({2})</a></b><span id=""ImportUpdateDetails"" style=""display:none""> : <br />&nbsp;&nbsp;{3}</span><br />
+                <b><a onclick=""javascript:ToggleVisibility(document.getElementById('ImportErrorDetails'))"">Errors ({4})</a></b><span id=""ImportErrorDetails"" style=""display:none""> : <br />&nbsp;&nbsp;{5}</span>", 
                 
-                goodFiles.Count, 
-                (goodFiles.Count > 0 ? string.Join(", ", goodFiles.ToArray()) : "none"), 
-                updatedFiles.Count, 
-                (updatedFiles.Count > 0 ? string.Join(", ", updatedFiles.ToArray()) : "none"), 
-                badFiles.Count, 
-                (badFiles.Count > 0 ? string.Join(", ", badFiles.ToArray()) : "none"));
+                goodFiles.Count,
+                (goodFiles.Count > 0 ? string.Join("<br />&nbsp;&nbsp;", goodFiles.ToArray()) : "none"), 
+                updatedFiles.Count,
+                (updatedFiles.Count > 0 ? string.Join("<br />&nbsp;&nbsp;", updatedFiles.ToArray()) : "none"), 
+                badFiles.Count,
+                (badFiles.Count > 0 ? string.Join("<br />&nbsp;&nbsp;", badFiles.ToArray()) : "none"));
 
             this.Messages.ShowMessage(status);
             txbImageTitle.Text = String.Empty;
@@ -554,8 +538,6 @@ namespace Subtext.Web.Admin.Pages
 			txbNewTitle.Text = String.Empty;
 			ckbNewIsActive.Checked = Preferences.AlwaysCreateIsActive;
 		}
-
-
 
 		private void rprImages_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
 		{
