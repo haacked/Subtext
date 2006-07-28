@@ -382,7 +382,8 @@ namespace Subtext.Framework.Text
 		}
 		
 		/// <summary>
-		/// Determines whether the specified text is a numeric.
+		/// Determines whether the specified text is a numeric... or to be 
+		/// more precise, if the text is an integer.
 		/// </summary>
 		/// <param name="text">The text.</param>
 		/// <returns>
