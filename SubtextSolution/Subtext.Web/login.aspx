@@ -9,7 +9,7 @@
 	<body>
 		<form method="post" runat="server" ID="frmLogin">
 			<div id="Main">
-				<img src="~/admin/resources/SubtextLogo.png" runat="server" id="headerLogoImg" vspace="4" />
+				<img src="~/images/SubtextLogo.png" runat="server" id="headerLogoImg" vspace="4" />
 				<div id="Heading">Please Sign In Below</div>
 				<label for="tbUserName">
 					Username <asp:RequiredFieldValidator ForeColor="#990044" ControlToValidate="tbUserName" Text="Please enter username"
