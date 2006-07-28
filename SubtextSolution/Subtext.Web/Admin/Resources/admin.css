@@ -7,6 +7,35 @@ body
 	padding: 0;
 }
 
+#logo
+{
+	background: url(../../images/SubtextLogo_small.png);
+	width: 150px;
+	height: 49px;
+	display: block;
+	margin: 10px 0 0 10px;
+}
+
+* html #logo
+{
+	background: none;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../../images/SubtextLogo_small.png", sizingMethod="crop");
+}
+
+#logo a
+{
+	width: 150px;
+	height: 49px;
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+
+#logo a span
+{
+	display: none;
+}
+
 body,
 td,
 th,
