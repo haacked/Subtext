@@ -29,7 +29,7 @@ namespace Subtext.Web.Admin.Pages
             this.TabSectionId = "Posts";
 	    }
 	    
-		protected void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, EventArgs e)
 		{			
 			if (!IsPostBack)
 			{
@@ -175,7 +175,7 @@ namespace Subtext.Web.Admin.Pages
 		}
 		#endregion
 
-		private void dgrCategories_EditCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+		private void dgrCategories_EditCommand(object source, DataGridCommandEventArgs e)
 		{
 			dgrItems.EditItemIndex = e.Item.ItemIndex;
 			BindList();
@@ -183,7 +183,7 @@ namespace Subtext.Web.Admin.Pages
 			ToggleAddNew(false);
 		}
 
-		private void dgrCategories_UpdateCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+		private void dgrCategories_UpdateCommand(object source, DataGridCommandEventArgs e)
 		{	
 			TextBox title = e.Item.FindControl("txbTitle") as TextBox;
 			CheckBox isActive = e.Item.FindControl("ckbIsActive") as CheckBox;
@@ -196,7 +196,7 @@ namespace Subtext.Web.Admin.Pages
 			{
 				if (Utilities.IsNullorEmpty(title.Text))
 				{
-					Messages.ShowError("You cannot have a category with a blank description");
+					Messages.ShowError("You cannot have a category with a blank Title");
 					return;
 				}
 
@@ -216,14 +216,14 @@ namespace Subtext.Web.Admin.Pages
 			}
 		}
 
-		private void dgrCategories_DeleteCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+		private void dgrCategories_DeleteCommand(object source, DataGridCommandEventArgs e)
 		{
 			int id = Convert.ToInt32(dgrItems.DataKeys[e.Item.ItemIndex]);
 			LinkCategory lc = Links.GetLinkCategory(id,false);
 			ConfirmDelete(id, lc.Title);
 		}
 
-		private void dgrCategories_CancelCommand(object source, System.Web.UI.WebControls.DataGridCommandEventArgs e)
+		private void dgrCategories_CancelCommand(object source, DataGridCommandEventArgs e)
 		{
 			dgrItems.EditItemIndex = -1;			
 			BindList();
@@ -231,7 +231,7 @@ namespace Subtext.Web.Admin.Pages
 			ToggleAddNew(true);
 		}
 
-		protected void lkbPost_Click(object sender, System.EventArgs e)
+		protected void lkbPost_Click(object sender, EventArgs e)
 		{
 			if (Page.IsValid)
 			{
