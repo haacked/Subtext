@@ -328,6 +328,11 @@ namespace Subtext.Framework
 			entryName = RemoveTrailingPeriods(entryName);
 			entryName = entryName.Trim(new char[] {wordSeparator});
 			entryName = RemoveDoublePeriods(entryName);
+		    
+		    if (StringHelper.IsNumeric(entryName))
+		    {
+                entryName = "n" + wordSeparator + entryName;
+		    }
 
 			string newEntryName = entryName;
 			int tryCount = 0;
