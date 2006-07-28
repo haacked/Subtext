@@ -52,3 +52,15 @@ function ToggleVisible(targetID, imageID, linkImage, linkImageCollapsed)
   		}
   	}
 }
+
+function ToggleVisibility(ctrl)
+{
+    if( ctrl.style.display == 'none' )
+    {
+        ctrl.style.display = '';
+    }
+    else
+    {
+        ctrl.style.display = 'none';
+    }
+}
