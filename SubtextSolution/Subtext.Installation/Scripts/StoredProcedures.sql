@@ -1358,7 +1358,12 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-
+/*
+Selects a page of blog posts within the admin section, when a category 
+is selected.
+Updated this to use a more efficient paging technique:
+http://www.4guysfromrolla.com/webtech/041206-1.shtml
+*/
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableEntriesByCategoryID]
 (
 	@BlogId int
@@ -1366,49 +1371,30 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableEntriesByCategoryID]
 	, @PageIndex int
 	, @PageSize int
 	, @PostType int
-	, @SortDesc bit
 )
 AS
 
-DECLARE @PageLowerBound int
-DECLARE @PageUpperBound int
+DECLARE @FirstId int
+DECLARE @StartRow int
+DECLARE @StartRowIndex int
 
-SET @PageLowerBound = @PageSize * @PageIndex - @PageSize
-SET @PageUpperBound = @PageLowerBound + @PageSize + 1
+SET @StartRowIndex = @PageIndex * @PageSize + 1
 
--- ? Only Posts ?
+SET ROWCOUNT @StartRowIndex
+-- Get the first entry id for the current page.
+SELECT	@FirstId = content.[ID] 
+FROM subtext_Content content
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links ON content.[ID] = ISNULL(links.PostID, -1)
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (links.CategoryID = cats.CategoryID)
+WHERE	content.BlogId = @BlogId 
+	AND content.PostType = @PostType 
+	AND cats.CategoryID = @CategoryID
+ORDER BY content.[ID] DESC
 
-CREATE TABLE #TempPagedEntryIDs 
-(
-	TempID int IDENTITY (1, 1) NOT NULL,
-	EntryID int NOT NULL
-)	
+-- Now, set the row count to MaximumRows and get
+-- all records >= @first_id
+SET ROWCOUNT @PageSize
 
-IF NOT (@SortDesc = 1)
-BEGIN
-	INSERT INTO #TempPagedEntryIDs (EntryID)
-	SELECT	blog.[ID] 
-	FROM [<dbUser,varchar,dbo>].[subtext_Content] blog
-		INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links links] ON (blog.[ID] = ISNULL(links.PostID, -1))
-		INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (links.CategoryID = cats.CategoryID)
-	WHERE 	blog.BlogId = @BlogId 
-		AND blog.PostType = @PostType
-		AND cats.CategoryID = @CategoryID
-	ORDER BY blog.[ID]
-END
-ELSE
-BEGIN
-	INSERT INTO #TempPagedEntryIDs (EntryID)
-	SELECT	blog.[ID] 
-	FROM [<dbUser,varchar,dbo>].[subtext_Content] blog
-		INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links ON (blog.[ID] = ISNULL(links.PostID, -1))
-		INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (links.CategoryID = cats.CategoryID)
-	WHERE 	blog.BlogId = @BlogId 
-		AND blog.PostType = @PostType
-		AND cats.CategoryID = @CategoryID
-	ORDER BY blog.[ID] DESC
-END
- 
 SELECT	content.BlogId 
 		, content.[ID] 
 		, content.Title 
@@ -1432,25 +1418,24 @@ SELECT	content.BlogId
 		, vc.AggCount
 		, vc.WebLastUpdated
 		, vc.AggLastUpdated
-
+		
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
-    INNER JOIN #TempPagedEntryIDs tmp ON (content.[ID] = tmp.EntryID)
-	LEFT JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
-WHERE	content.BlogId = @BlogId 
-	AND	tmp.TempID > @PageLowerBound
-	AND tmp.TempID < @PageUpperBound
-ORDER BY tmp.TempID
- 
-DROP TABLE #TempPagedEntryIDs
-
-SELECT 	COUNT(blog.[ID]) AS TotalRecords
-FROM [<dbUser,varchar,dbo>].[subtext_Content] blog
-	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links ON (blog.[ID] = ISNULL(links.PostID, -1))
-	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (links.CategoryID = cats.CategoryID)
-WHERE 	blog.BlogId = @BlogId 
-	AND blog.PostType = @PostType
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] l ON content.[ID] = ISNULL(l.PostID, -1)
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (l.CategoryID = cats.CategoryID)
+	Left JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
+WHERE 	content.BlogId = @BlogId 
+	AND content.[ID] <= @FirstId
+	AND content.PostType = @PostType
 	AND cats.CategoryID = @CategoryID
-
+ORDER BY content.[ID] DESC
+ 
+SELECT COUNT(content.[ID]) AS TotalRecords
+FROM [<dbUser,varchar,dbo>].[subtext_Content] content
+INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links ON content.[ID] = ISNULL(links.PostID, -1)
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (links.CategoryID = cats.CategoryID)
+WHERE 	content.BlogId = @BlogId 
+	AND content.PostType = @PostType 
+	AND cats.CategoryID = @CategoryID
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -1465,7 +1450,6 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON 
 GO
-
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableFeedback]
 (

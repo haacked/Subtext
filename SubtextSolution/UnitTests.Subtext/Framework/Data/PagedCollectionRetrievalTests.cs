@@ -28,6 +28,7 @@ namespace UnitTests.Subtext.Framework.Data
 		{
 			IPagedCollectionTester[] collectionTesters = {
 			                           	new PagedEntryCollectionTester()
+										, new PagedEntryByCategoryCollectionTester()
 										, new FeedbackCollectionTester()
 										, new LinkCollectionTester()
 			                           };
@@ -110,6 +111,37 @@ namespace UnitTests.Subtext.Framework.Data
 		{
 			return ((IPagedCollection<Entry>)collection).Count;
 		}		
+	}
+
+	internal class PagedEntryByCategoryCollectionTester : IPagedCollectionTester
+	{
+		int categoryId;
+		
+		public PagedEntryByCategoryCollectionTester()
+		{
+			LinkCategory category = new LinkCategory();
+			category.BlogId = Config.CurrentBlog.Id;
+			category.IsActive = true;
+			category.Title = "Foobar";
+			category.Description = "Unit Test";
+			this.categoryId = Links.CreateLinkCategory(category);
+		}
+		
+		public void Create(int index)
+		{
+			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Phil", "Title" + index, "Who rocks the party that rocks the party?");
+			Entries.Create(entry, this.categoryId);
+		}
+
+		public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
+		{
+			return Entries.GetPagedEntries(PostType.BlogPost, this.categoryId, pageIndex, pageSize);
+		}
+
+		public int GetCount(IPagedCollection collection)
+		{
+			return ((IPagedCollection<Entry>)collection).Count;
+		}
 	}
 	
 	internal class FeedbackCollectionTester : IPagedCollectionTester
