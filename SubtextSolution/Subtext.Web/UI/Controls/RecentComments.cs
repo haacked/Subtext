@@ -45,7 +45,7 @@ namespace Subtext.Web.UI.Controls
 
 			for(int i = 0; i < comments.Count; i++)
 			{
-				if(comments[i].ParentID <= 0)
+				if(comments[i].ParentId <= 0)
 				{
 					comments.RemoveAt(i);
 				}

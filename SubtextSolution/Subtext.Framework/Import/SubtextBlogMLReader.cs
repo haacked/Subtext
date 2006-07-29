@@ -167,7 +167,7 @@ namespace Subtext.Framework.Import
 	        Entry newPingTrack;
 	        newPingTrack = new Entry(PostType.PingTrack);
 	        newPingTrack.BlogId = info.Id;
-	        newPingTrack.ParentID = newEntryID;
+	        newPingTrack.ParentId = newEntryID;
 	        newPingTrack.Title = bmlPingTrack.Title;
 	        newPingTrack.AlternativeTitleUrl = bmlPingTrack.Url;
 	        newPingTrack.IsActive = bmlPingTrack.Approved;
@@ -187,7 +187,7 @@ namespace Subtext.Framework.Import
 	    {
 	        Entry newComment = new Entry(PostType.Comment);
 	        newComment.BlogId = info.Id;
-	        newComment.ParentID = newEntryID;
+	        newComment.ParentId = newEntryID;
 	        newComment.Title = StringHelper.ReturnCheckForNull(bmlComment.Title);
 	        newComment.DateCreated = bmlComment.DateCreated;
 	        newComment.DateUpdated = bmlComment.DateModified;

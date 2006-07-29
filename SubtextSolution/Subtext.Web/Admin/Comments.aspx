@@ -21,6 +21,11 @@
 		    </label>
 		    <asp:CheckBox id="chkEnableComments" runat="server"></asp:CheckBox>
 	    </p>
+	    <p class="Valuelabel"><label for="chkEnableCommentModeration">
+			    <st:HelpToolTip id="helpCommentModeration" runat="server" HelpText="If checked, enables comment moderation.  Does nothing if comments are not enabled.">Enable Comment Moderation</st:HelpToolTip>
+		    </label>
+		    <asp:CheckBox id="chkEnableCommentModeration" runat="server"></asp:CheckBox>
+	    </p>
 	    <p class="Valuelabel"><label for="chkCoCommentEnabled">
 			    <st:HelpToolTip id="Helptooltip6" runat="server" HelpText="If checked, enables CoComment support.">Enable CoComment Support.</st:HelpToolTip>
 		    </label>

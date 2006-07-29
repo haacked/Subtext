@@ -14,12 +14,15 @@
 #endregion
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
+using Subtext.Framework.Text;
+using Subtext.Web.Controls;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -31,27 +34,89 @@ namespace Subtext.Web.Admin.Pages
 	{
 		private int pageIndex = 0;
 		private bool _isListHidden = false;
-	
+		LinkButton btnViewActiveComments;
+		LinkButton btnModerateComments;
+		
+		/// <summary>
+		/// Constructs an image of this page. Sets the tab section to "Feedback".
+		/// </summary>
 	    public Feedback() : base()
 	    {
             this.TabSectionId = "Feedback";
 	    }
+		
+		/// <summary>
+		/// Whether or not to moderate comments.
+		/// </summary>
+		protected bool ModerateComments
+		{
+			get
+			{
+				return ViewState["ModerateComments"] == null ? false : (bool)ViewState["ModerateComments"];
+			}
+			set
+			{
+				ViewState["ModerateComments"] = value;
+			}
+		}
 
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
+			if (Config.CurrentBlog.ModerationEnabled)
+			{
+				this.btnViewActiveComments = Utilities.CreateLinkButton("View Active Comments");
+				this.btnViewActiveComments.ID = "btnViewActiveComments";
+				this.btnViewActiveComments.CausesValidation = false;
+				this.btnViewActiveComments.Click += OnViewActiveCommentsClick;
+				AdminMasterPage.AddToActions(this.btnViewActiveComments);
+
+				this.btnModerateComments = Utilities.CreateLinkButton("Moderate Comments");
+				this.btnModerateComments.ID = "btnModerateComments";
+				this.btnModerateComments.CausesValidation = false;
+				this.btnModerateComments.Click += OnViewCommentsForModerationClick;
+				AdminMasterPage.AddToActions(this.btnModerateComments);
+
+				
+			}
+			
 			if (!IsPostBack)
 			{
+				this.ModerateComments = Request.QueryString["moderate"] == "true";
+				
 				if (Request.QueryString[Keys.QRYSTR_PAGEINDEX] != null)
 					this.pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
 
 				ResultsPager.PageSize = Preferences.ListingItemCount;
 				ResultsPager.PageIndex = this.pageIndex;
 				Results.Collapsible = false;
-				
+
 				BindList();
 			}			
 		}
 
+		void OnViewActiveCommentsClick(object sender, EventArgs e)
+		{
+			this.ModerateComments = false;
+			this.Results.HeaderText = "Comments";
+			HtmlHelper.AppendCssClass(this.btnViewActiveComments, "active");
+			this.ResultsPager.UrlFormat = "Feedback.aspx?pg={0}&moderate=false";
+			BindList();
+		}
+
+		void OnViewCommentsForModerationClick(object sender, EventArgs e)
+		{
+			this.ModerateComments = true;
+			this.Results.HeaderText = "Comments Pending Approval";
+			HtmlHelper.AppendCssClass(this.btnModerateComments, "active");
+			this.ResultsPager.UrlFormat = "Feedback.aspx?pg={0}&moderate=true";
+			BindList();
+		}
+
+		/// <summary>
+		/// Gets the body of the entry represented by the dataItem.
+		/// </summary>
+		/// <param name="dataItem"></param>
+		/// <returns></returns>
 		protected string GetBody(object dataItem)
 		{
 			Entry entry = (Entry)dataItem;
@@ -71,31 +136,60 @@ namespace Subtext.Web.Admin.Pages
 		protected string GetAuthor(object dataItem)
 		{
 			Entry entry = (Entry)dataItem;
-			if(entry.Email != null && entry.Email.Length > 0 && entry.Email.IndexOf("@") > 0)
+			return string.Format(@"<span title=""{0}"">{1}</span>", entry.SourceName, entry.Author);
+		}
+
+		/// <summary>
+		/// Returns the author during data binding. If the author specified 
+		/// an email address, includes that.
+		/// </summary>
+		/// <param name="dataItem"></param>
+		/// <returns></returns>
+		protected string GetAuthorInfo(object dataItem)
+		{
+			Entry entry = (Entry)dataItem;
+			string authorInfo = string.Empty;
+
+			if (entry.Email != null && entry.Email.Length > 0 && entry.Email.IndexOf("@") > 0)
 			{
-				return string.Format("<a href=\"mailto:{0}\" title=\"Email Address\">{1}</a>", entry.Email, entry.Author);
+				authorInfo += string.Format(@"<a href=""mailto:{0}"" title=""{0}""><img src=""{1}"" alt=""{0}"" border=""0"" class=""email"" /></a>", entry.Email, ControlHelper.ExpandTildePath("~/images/email.gif"));
 			}
-			else
+
+
+			if (!String.IsNullOrEmpty(entry.SourceUrl))
 			{
-				return entry.Author;
+				authorInfo += string.Format(@"<a href=""{0}"" title=""{0}""><img src=""{1}"" alt=""{0}"" border=""0"" /></a>", entry.SourceUrl, ControlHelper.ExpandTildePath("~/images/permalink.gif"));
 			}
+
+			return authorInfo;
 		}
 
 		private void BindList()
 		{
-            IPagedCollection<Entry> selectionList = Entries.GetPagedFeedback(this.pageIndex, ResultsPager.PageSize);		
+			PostConfig postConfig = this.ModerateComments ? PostConfig.NeedsModeratorApproval : PostConfig.IsActive;
+			IPagedCollection<Entry> selectionList = Entries.GetPagedFeedback(this.pageIndex, ResultsPager.PageSize, postConfig);
 
+			this.btnApprove.Visible = this.ModerateComments;
+			
 			if (selectionList.Count > 0)
 			{
+				ResultsPager.Visible = true;
 				ResultsPager.ItemCount = selectionList.MaxItems;
 				rprSelectionList.DataSource = selectionList;
 				rprSelectionList.DataBind();
+				this.btnDelete.Visible = true;
 			}
 			else
 			{
+				ResultsPager.Visible = false;
+				
 				//No Comments To Show..
 				Literal noComments = new Literal();
-				noComments.Text = "<em>There are no comments to display.</em>";
+				if(this.ModerateComments)
+					noComments.Text = "<em>No Entries Need Moderation.</em>";
+				else
+					noComments.Text = "<em>There are no comments to display.</em>";
+				this.rprSelectionList.Controls.Clear();
 				Results.Controls.Add(noComments);
 				this.btnDelete.Visible = false;
 			}
@@ -109,9 +203,9 @@ namespace Subtext.Web.Admin.Pages
 				return String.Empty;
 		}
 
-		private void ConfirmDeleteComment(int[] feedbackIDs)
+		private void ConfirmDeleteComment(IList<int> feedbackIds)
 		{
-			this.Command = new DeleteCommentsCommand(feedbackIDs);
+			this.Command = new DeleteCommentsCommand(feedbackIds);
 			this.Command.RedirectUrl = Request.Url.ToString();
 			Server.Transfer(Constants.URL_CONFIRM);
 		}
@@ -136,10 +230,53 @@ namespace Subtext.Web.Admin.Pages
 		}
 		#endregion
 
-		protected void btnDelete_Click(object sender, System.EventArgs e)
+		/// <summary>
+		/// Event handler for the approve button click event. 
+		/// Approves the checked comments.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void OnApproveClick(object sender, System.EventArgs e)
 		{
-			ArrayList itemsToDelete = new ArrayList();
+			IList<int> itemsToDelete = GetCheckedEntryIds();
+
+			if (itemsToDelete.Count == 0)
+			{
+				Messages.ShowMessage("Nothing was selected to be approved.", true);
+				return;
+			}
+
+			foreach(int entryId in itemsToDelete)
+			{
+				Entry comment = Entries.GetEntry(entryId, PostConfig.None, false);
+				Entries.Approve(comment);
+			}
 			
+			BindList();
+		}
+		
+		/// <summary>
+		/// Event handler for the Delete button Click event.  Deletes 
+		/// the checked comments.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		protected void OnDeleteClick(object sender, System.EventArgs e)
+		{
+			IList<int> itemsToDelete = GetCheckedEntryIds();
+
+			if(itemsToDelete.Count == 0)
+			{
+				Messages.ShowMessage("Nothing was selected to be deleted.", true);
+				return;
+			}
+
+			ConfirmDeleteComment(itemsToDelete);
+		}
+
+		private IList<int> GetCheckedEntryIds()
+		{
+			IList<int> entryIds = new List<int>();
 			foreach(RepeaterItem item in this.rprSelectionList.Items)
 			{
 				// Get the checkbox from the item or the alternating item.
@@ -163,7 +300,7 @@ namespace Subtext.Web.Admin.Pages
 					{
 						try
 						{
-							itemsToDelete.Add(int.Parse(entryId.Value));
+							entryIds.Add(int.Parse(entryId.Value));
 						}
 						catch(System.FormatException)
 						{
@@ -172,14 +309,7 @@ namespace Subtext.Web.Admin.Pages
 					}
 				}
 			}
-			
-			if(itemsToDelete.Count == 0)
-			{
-				Messages.ShowMessage("Nothing was selected to be deleted.", true);
-				return;
-			}
-
-			ConfirmDeleteComment((int[])itemsToDelete.ToArray(typeof(int)));
+			return entryIds;
 		}
 	}
 }

@@ -15,6 +15,8 @@ namespace Subtext.Web.Admin.Pages {
         protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
         protected Subtext.Web.Controls.HelpToolTip HelpToolTip1;
         protected System.Web.UI.WebControls.CheckBox chkEnableComments;
+        protected Subtext.Web.Controls.HelpToolTip helpCommentModeration;
+        protected System.Web.UI.WebControls.CheckBox chkEnableCommentModeration;
         protected Subtext.Web.Controls.HelpToolTip Helptooltip6;
         protected System.Web.UI.WebControls.CheckBox chkCoCommentEnabled;
         protected Subtext.Web.Controls.HelpToolTip Helptooltip5;

@@ -152,12 +152,12 @@ namespace Subtext.Web.Admin
 		/// </summary>
 		/// <param name="integers">Integers.</param>
 		/// <returns></returns>
-		protected string GetDisplayTextFromIntArray(int[] integers)
+		protected string GetDisplayTextFromIntArray(IList<int> integers)
 		{
-			if(integers.Length == 0)
+			if (integers == null || integers.Count == 0)
 				return string.Empty;
 
-			if(integers.Length == 2)
+			if(integers.Count == 2)
 			{
 				return integers[0] + " and " + integers[1];
 			}
@@ -226,7 +226,7 @@ namespace Subtext.Web.Admin
 	[Serializable]
 	public abstract class DeleteTargetsCommand : ConfirmCommand
 	{
-		protected int[] _targetIDs;
+		protected IList<int> _targetIDs;
 		protected string _targetName = "Items";
 
 		/// <summary>
@@ -245,11 +245,11 @@ namespace Subtext.Web.Admin
 		/// Creates a new <see cref="DeleteTargetsCommand"/> instance.
 		/// </summary>
 		/// <param name="targetIDs">Target ID.</param>
-		protected DeleteTargetsCommand(int[] targetIDs) : this()
+		protected DeleteTargetsCommand(IList<int> targetIDs) : this()
 		{
 			_targetIDs = targetIDs;
 
-			if(_targetIDs.Length == 1)
+			if(_targetIDs.Count == 1)
 			{
 				_targetName = "Item";
 				_executeSuccessMessage = "{0} {1} was deleted.";
@@ -407,9 +407,9 @@ namespace Subtext.Web.Admin
 		/// Creates a new <see cref="DeleteCommentsCommand"/> instance.
 		/// </summary>
 		/// <param name="postIDs">Post IDs.</param>
-		public DeleteCommentsCommand(int[] postIDs) : base(postIDs)
+		public DeleteCommentsCommand(IList<int> postIDs) : base(postIDs)
 		{
-			if(postIDs.Length > 1)
+			if(postIDs.Count > 1)
 			{
 				_targetName = "Feedback items";
 			}

@@ -54,6 +54,8 @@ namespace Subtext.Framework.Configuration
 		/// </summary>
 		AutoFriendlyUrlEnabled = 512,
 		/// <summary>Whether or not coComment is enabled</summary>
-		CoCommentEnabeld = 1024,
+		CoCommentEnabled = 1024,
+		/// <summary>The blog allows for comment moderation.</summary>
+		CommentModerationEnabled=2048,
 	};
 }

@@ -364,12 +364,13 @@ namespace Subtext.Framework.Data
 		}
 		
 		//Did not really experiment why, but sqlhelper does not seem to like the output parameter after the reader
-		public override IDataReader GetPagedFeedback(int pageIndex, int pageSize)
+		public override IDataReader GetPagedFeedback(int pageIndex, int pageSize, PostConfig postConfig)
 		{
 			SqlParameter[] p =
 			{
 				DataHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex),
 				DataHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize),
+				DataHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, postConfig),
 				BlogIdParam
 			};
 			return GetReader("subtext_GetPageableFeedback", p);
@@ -588,7 +589,7 @@ namespace Subtext.Framework.Data
 				DataHelper.MakeInParam("@SourceName", SqlDbType.NVarChar, 200, DataHelper.CheckNull(entry.SourceName)), 
 				DataHelper.MakeInParam("@DateAdded", SqlDbType.DateTime, 8, entry.DateCreated), 
 				DataHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, entry.PostConfig), 
-				DataHelper.MakeInParam("@ParentID", SqlDbType.Int, 4, DataHelper.CheckNull(entry.ParentID)), 
+				DataHelper.MakeInParam("@ParentID", SqlDbType.Int, 4, DataHelper.CheckNull(entry.ParentId)), 
 				DataHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, StringHelper.ReturnNullForEmpty(entry.EntryName)), 
 				DataHelper.MakeInParam("@ContentChecksumHash", SqlDbType.VarChar, 32, DataHelper.CheckNull(entry.ContentChecksumHash)), 
 				DataHelper.MakeInParam("@DateSyndicated", SqlDbType.DateTime, 8, DataHelper.CheckNull(entry.DateSyndicated)), 
@@ -624,7 +625,7 @@ namespace Subtext.Framework.Data
 				DataHelper.MakeInParam("@SourceName", SqlDbType.NVarChar, 200, DataHelper.CheckNull(entry.SourceName)), 
 				DataHelper.MakeInParam("@DateUpdated", SqlDbType.DateTime, 4, entry.DateUpdated), 
 				DataHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, entry.PostConfig), 
-				DataHelper.MakeInParam("@ParentID", SqlDbType.Int, 4, DataHelper.CheckNull(entry.ParentID)), 
+				DataHelper.MakeInParam("@ParentID", SqlDbType.Int, 4, DataHelper.CheckNull(entry.ParentId)), 
 				DataHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, DataHelper.CheckNull(entry.EntryName)), 
 				DataHelper.MakeInParam("@ContentChecksumHash", SqlDbType.VarChar, 32, DataHelper.CheckNull(entry.ContentChecksumHash)), 
 				DataHelper.MakeInParam("@DateSyndicated", SqlDbType.DateTime, 8, DataHelper.CheckNull(entry.DateSyndicated)), 
@@ -653,7 +654,7 @@ namespace Subtext.Framework.Data
 					DataHelper.MakeInParam("@DateAdded", SqlDbType.DateTime, 8, entry.DateCreated), 
 					DataHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, entry.PostConfig), 
 					DataHelper.MakeInParam("@ContentChecksumHash", SqlDbType.VarChar, 32, entry.ContentChecksumHash), 
-					DataHelper.MakeInParam("@ParentID", SqlDbType.Int, 4, DataHelper.CheckNull(entry.ParentID)), 
+					DataHelper.MakeInParam("@ParentID", SqlDbType.Int, 4, DataHelper.CheckNull(entry.ParentId)), 
 					DataHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, DataHelper.CheckNull(entry.EntryName)), 
 					BlogIdParam, 
 					outParam

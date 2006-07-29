@@ -16,7 +16,6 @@
 using System;
 using System.Collections.Specialized;
 using System.Web;
-using System.Xml.Serialization;
 using Subtext.Extensibility;
 using Subtext.Framework.Configuration;
 
@@ -53,27 +52,26 @@ namespace Subtext.Framework.Components
 		/// Gets or sets the entry ID.
 		/// </summary>
 		/// <value>The entry ID.</value>
-		[XmlAttribute("EntryID")]
 		public int Id
 		{
 			get{return _entryid;}
 			set{_entryid = value;}
 		}
 
-		private int _parentID = NullValue.NullInt32;		
+		private int _parentId = NullValue.NullInt32;		
 		/// <summary>
 		/// Gets or sets the parent ID.
 		/// </summary>
 		/// <value>The parent ID.</value>
-		public int ParentID
+		public int ParentId
 		{
 			get
 			{
-				return this._parentID;
+				return this._parentId;
 			}
 			set
 			{
-				this._parentID = value;
+				this._parentId = value;
 			}
 		}
 
@@ -360,10 +358,22 @@ namespace Subtext.Framework.Components
 			}
 		}
 
+		/// <summary>
+		/// Whether or not this entry is aggregated.
+		/// </summary>
 		public bool IsAggregated
 		{
 			get{return EntryPropertyCheck(PostConfig.IsAggregated);}
 			set{PostConfigSetter(PostConfig.IsAggregated,value);}
+		}
+
+		/// <summary>
+		/// Whether or not this entry needs moderator approval.
+		/// </summary>
+		public bool NeedsModeratorApproval
+		{
+			get { return EntryPropertyCheck(PostConfig.NeedsModeratorApproval); }
+			set { PostConfigSetter(PostConfig.NeedsModeratorApproval, value); }
 		}
 
 		/// <summary>
@@ -384,6 +394,10 @@ namespace Subtext.Framework.Components
 			}			
 		}
 
+		/// <summary>
+		/// Returns true if the comments for this entry are closed due 
+		/// to the age of the entry.  This is related to the DaysTillCommentsClose setting.
+		/// </summary>
 		public bool CommentingClosedByAge
 		{
 			get

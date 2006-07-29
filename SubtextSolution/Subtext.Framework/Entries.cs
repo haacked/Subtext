@@ -54,16 +54,19 @@ namespace Subtext.Framework
 			return ObjectProvider.Instance().GetPagedEntries(postType, categoryID, pageIndex, pageSize);
 		}
 
-
-        public static IPagedCollection<Entry> GetPagedFeedback(int pageIndex, int pageSize)
+		/// <summary>
+		/// Returns a pageable collection of comments.
+		/// </summary>
+		/// <param name="pageIndex"></param>
+		/// <param name="pageSize"></param>
+		/// <param name="postConfig"></param>
+		/// <returns></returns>
+        public static IPagedCollection<Entry> GetPagedFeedback(int pageIndex, int pageSize, PostConfig postConfig)
 		{
-			return ObjectProvider.Instance().GetPagedFeedback(pageIndex, pageSize);
+			return ObjectProvider.Instance().GetPagedFeedback(pageIndex, pageSize, postConfig);
 		}
 
-
 		#endregion
-
-		#region EntryDays
 
 		public static EntryDay GetSingleDay(DateTime dt)
 		{
@@ -105,7 +108,7 @@ namespace Subtext.Framework
 			return ObjectProvider.Instance().GetPostsByCategoryID(itemCount,catID);
 		}
 
-		#endregion
+		//#endregion
 
 		#region EntryCollections
 
@@ -201,9 +204,33 @@ namespace Subtext.Framework
 
 		#region Delete
 	
-		public static bool Delete(int PostID)
+		/// <summary>
+		/// Deletes the entry with the specified entryId.
+		/// </summary>
+		/// <param name="entryId"></param>
+		/// <returns></returns>
+		public static bool Delete(int entryId)
 		{
-			return ObjectProvider.Instance().Delete(PostID);
+			return ObjectProvider.Instance().Delete(entryId);
+		}
+
+		/// <summary>
+		/// Approves the comment. Used in comment moderation.
+		/// </summary>
+		/// <param name="comment"></param>
+		/// <returns></returns>
+		public static void Approve(Entry comment)
+		{
+			if (comment == null)
+				throw new ArgumentNullException("comment", "Cannot approve a null comment.");
+
+			if (comment.PostType != PostType.Comment && comment.PostType != PostType.PingTrack)
+				throw new ArgumentException("This is not a comment, it's an entry!", "comment");
+			
+			comment.NeedsModeratorApproval = false;
+			comment.IsActive = true;
+
+			Entries.Update(comment);
 		}
 
 		#endregion
@@ -455,57 +482,64 @@ namespace Subtext.Framework
 		/// If it's not the admin posting the comment, an email is sent 
 		/// to the Admin with the contents of the comment.
 		/// </remarks>
-		/// <param name="entry">Entry.</param>
-		public static void InsertComment(Entry entry)
+		/// <param name="comment">Entry.</param>
+		public static int InsertComment(Entry comment)
 		{
 			// what follows relies on context, so guard
-			if (null == HttpContext.Current) return;
+			if (null == HttpContext.Current) return NullValue.NullInt32;
 
-			entry.Author = HtmlHelper.SafeFormat(entry.Author);
-			entry.AlternativeTitleUrl =  HtmlHelper.SafeFormat(entry.AlternativeTitleUrl);
-			entry.Body = HtmlHelper.ConvertToAllowedHtml(entry.Body);
-			entry.Title = HtmlHelper.SafeFormat(entry.Title);
-			entry.IsXHMTL = false;
-			entry.IsActive = true;
-			entry.DateCreated = entry.DateUpdated = BlogTime.CurrentBloggerTime;
+			comment.Author = HtmlHelper.SafeFormat(comment.Author);
+			comment.AlternativeTitleUrl =  HtmlHelper.SafeFormat(comment.AlternativeTitleUrl);
+			comment.Body = HtmlHelper.ConvertToAllowedHtml(comment.Body);
+			comment.Title = HtmlHelper.SafeFormat(comment.Title);
+			comment.IsXHMTL = false;
+			comment.IsActive = Security.IsAdmin || !Config.CurrentBlog.ModerationEnabled;
+			comment.NeedsModeratorApproval = !comment.IsActive;
+			comment.DateCreated = comment.DateUpdated = BlogTime.CurrentBloggerTime;
 			
-			if (null == entry.SourceName || String.Empty == entry.SourceName)
-				entry.SourceName = "N/A";
+			if (null == comment.SourceName || String.Empty == comment.SourceName)
+				comment.SourceName = "N/A";
 
 			// insert comment into backend, save the returned entryid for permalink anchor below
-			int entryId = Create(entry);
+			int entryId = Create(comment);
 
 			// if it's not the administrator commenting
 			if(!Security.IsAdmin)
 			{
 				try
 				{
-					string blogTitle = Config.CurrentBlog.Title;
-
-					// create and format an email to the site admin with comment details
-					EmailProvider im = EmailProvider.Instance();
-
-					string To = Config.CurrentBlog.Email;
-					string From = im.AdminEmail;
-					string Subject = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Comment: {0} (via {1})", entry.Title, blogTitle);
-					string Body = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Comments from {0}:\r\n\r\nSender: {1}\r\nUrl: {2}\r\nIP Address: {3}\r\n=====================================\r\n\r\n{4}\r\n\r\n{5}\r\n\r\nSource: {6}#{7}", 
-						blogTitle,
-						entry.Author,
-						entry.AlternativeTitleUrl,
-						entry.SourceName,
-						entry.Title,					
-						// we're sending plain text email by default, but body includes <br />s for crlf
-						entry.Body.Replace("<br />", Environment.NewLine), 
-						entry.SourceUrl,
-						entryId);			
-				
-					im.Send(To, From, Subject, Body);
+					EmailCommentToAdmin(comment, entryId);
 				}
 				catch(Exception e)
 				{
 					log.Error("Exception occurred while inserting comment", e);
 				}
 			}
+			return entryId;
+		}
+
+		private static void EmailCommentToAdmin(Entry comment, int entryId)
+		{
+			string blogTitle = Config.CurrentBlog.Title;
+
+			// create and format an email to the site admin with comment details
+			EmailProvider im = EmailProvider.Instance();
+
+			string To = Config.CurrentBlog.Email;
+			string From = im.AdminEmail;
+			string Subject = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Comment: {0} (via {1})", comment.Title, blogTitle);
+			string Body = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Comments from {0}:\r\n\r\nSender: {1}\r\nUrl: {2}\r\nIP Address: {3}\r\n=====================================\r\n\r\n{4}\r\n\r\n{5}\r\n\r\nSource: {6}#{7}", 
+			                            blogTitle,
+			                            comment.Author,
+			                            comment.AlternativeTitleUrl,
+			                            comment.SourceName,
+			                            comment.Title,					
+			                            // we're sending plain text email by default, but body includes <br />s for crlf
+			                            comment.Body.Replace("<br />", Environment.NewLine), 
+			                            comment.SourceUrl,
+			                            entryId);			
+				
+			im.Send(To, From, Subject, Body);
 		}
 	}
 }

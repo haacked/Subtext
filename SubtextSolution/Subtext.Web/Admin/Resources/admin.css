@@ -455,7 +455,8 @@ table#Footer td {
 	padding: 4px 8px;
 }
 
-table.Listing {
+table.Listing 
+{
 	border-bottom: 3px solid #6B86B3;
 	margin: 0px 0px 8px 0px;
 	width: 100%;
@@ -771,4 +772,61 @@ div.errorPage div
 div.errorPage strong
 {
 	margin: 0;
+}
+
+#feedback
+{
+	border-collapse: collapse;
+}
+
+#feedback, #feedback td, #feedback th
+{
+	border: 0;
+	margin: 0;
+}
+
+#feedback th
+{
+	color: #004;
+	vertical-align: baseline;
+	padding: 5px;
+}
+
+#feedback td
+{
+	padding: 4px;
+}
+
+/* Feedback table */
+#feedback th.icons, #feedback td.icons
+{
+	text-align: right;
+	margin: 0;
+	padding: 0;
+}
+
+#feedback td img
+{
+	width: 16px;
+	height: 17px;
+	display: inline;
+	margin-left: 4px;
+	vertical-align: bottom;
+	margin-top: 2px;
+}
+
+#feedback td img.email
+{
+	width: 16px;
+	height: 17px;
+}
+
+#feedback tr.body td
+{
+	padding-bottom: 8px;
+}
+
+a.active
+{
+	text-decoration: underline;
 }

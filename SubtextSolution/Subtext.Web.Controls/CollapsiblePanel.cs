@@ -70,6 +70,7 @@ namespace Subtext.Web.Controls
 		protected string _linkCssClass;
 		protected string _linkImage;
 		protected string _linkImageCollapsed;
+		Label headerLabel;
 		private System.Web.UI.WebControls.Image _image;
 
 		#endregion
@@ -79,8 +80,7 @@ namespace Subtext.Web.Controls
 		/// </summary>
 		public CollapsiblePanel() : base()
 		{
-			ViewState[VSKEY_COLLAPSED] = false;
-			ViewState[VSKEY_COLLAPSIBLE] = false;
+			
 		}
 
 		#region Accessors		
@@ -168,7 +168,14 @@ namespace Subtext.Web.Controls
 		public string HeaderText
 		{
 			get { return _headerText; }
-			set { _headerText = value; }
+			set 
+			{
+				if (headerLabel != null)
+				{
+					headerLabel.Text = value;
+				}
+				_headerText = value; 
+			}
 		}
 
 		/// <summary>
@@ -260,6 +267,9 @@ namespace Subtext.Web.Controls
 
 		protected override void OnInit(EventArgs e)
 		{
+			ViewState[VSKEY_COLLAPSED] = false;
+			ViewState[VSKEY_COLLAPSIBLE] = false;
+			
 			RegisterClientScript();
 			RebuildControls();
 			base.OnInit(e);
@@ -310,7 +320,8 @@ namespace Subtext.Web.Controls
 				_header.ID = CTLID_HEADER;
 				SetCssClass(_header, _headerCssClass);
 
-				Label headerLabel = new Label();
+				headerLabel = new Label();
+				headerLabel.ID = "headerDisplayLabel";
 				headerLabel.Text = HeaderText;
 				headerLabel = (Label)SetCssClass(headerLabel, _headerTextCssClass);
 				

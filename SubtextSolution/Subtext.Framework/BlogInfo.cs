@@ -377,8 +377,8 @@ namespace Subtext.Framework
 		/// </value>
 		public bool CoCommentsEnabled
 		{
-			get{return FlagPropertyCheck(ConfigurationFlag.CoCommentEnabeld);}
-			set{FlagSetter(ConfigurationFlag.CoCommentEnabeld, value);}
+			get{return FlagPropertyCheck(ConfigurationFlag.CoCommentEnabled);}
+			set{FlagSetter(ConfigurationFlag.CoCommentEnabled, value);}
 		}
 
 		/// <summary>
@@ -523,6 +523,18 @@ namespace Subtext.Framework
 		{
 			get{return FlagPropertyCheck(ConfigurationFlag.IsActive);}
 			set{FlagSetter(ConfigurationFlag.IsActive, value);}
+		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not comments are moderated
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if it is active; otherwise, <c>false</c>.
+		/// </value>
+		public bool ModerationEnabled
+		{
+			get { return FlagPropertyCheck(ConfigurationFlag.CommentModerationEnabled); }
+			set { FlagSetter(ConfigurationFlag.CommentModerationEnabled, value); }
 		}
 
 		private string subfolder;

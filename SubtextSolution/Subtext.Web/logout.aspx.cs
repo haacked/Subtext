@@ -15,6 +15,7 @@
 
 using System;
 using System.Web;
+using Subtext.Framework;
 using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Pages
@@ -26,10 +27,8 @@ namespace Subtext.Web.Pages
 	{
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-			
-			HttpContext.Current.Response.Cookies.Clear();
-			System.Web.Security.FormsAuthentication.SignOut();
-			Response.Redirect(Config.CurrentBlog.HomeVirtualUrl);
+			Security.LogOut();
+			HttpContext.Current.Response.Redirect(Config.CurrentBlog.HomeVirtualUrl);
 		}
 
 		#region Web Form Designer generated code

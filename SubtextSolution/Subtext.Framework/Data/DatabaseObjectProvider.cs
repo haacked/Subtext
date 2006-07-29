@@ -182,10 +182,11 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="pageIndex">Index of the page.</param>
 		/// <param name="pageSize">Size of the page.</param>
+		/// <param name="postConfig"></param>
 		/// <returns></returns>
-        public override IPagedCollection<Entry> GetPagedFeedback(int pageIndex, int pageSize)
+        public override IPagedCollection<Entry> GetPagedFeedback(int pageIndex, int pageSize, PostConfig postConfig)
 		{
-			IDataReader reader = DbProvider.Instance().GetPagedFeedback(pageIndex, pageSize);
+			IDataReader reader = DbProvider.Instance().GetPagedFeedback(pageIndex, pageSize, postConfig);
             IPagedCollection<Entry> pec = new PagedCollection<Entry>();
 			while(reader.Read())
 			{

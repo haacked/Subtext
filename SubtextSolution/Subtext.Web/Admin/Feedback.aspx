@@ -2,6 +2,7 @@
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
+	Actions
 </asp:Content>
 
 <asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server">
@@ -15,10 +16,10 @@
 	<st:AdvancedPanel id="Results" runat="server" Collapsible="False" HeaderText="Comments" HeaderCssClass="CollapsibleHeader" DisplayHeader="true">
 		<ASP:Repeater id="rprSelectionList" runat="server">
 			<HeaderTemplate>
-				<table id="Listing" class="Listing highlightTable" cellSpacing="0" cellPadding="0" border="0" style="<%= CheckHiddenStyle() %>">
+				<table id="feedback" class="Listing" style="<%= CheckHiddenStyle() %>">
 					<tr>
 						<th>Title</th>
-						<th width="*">Posted By</th>
+						<th>Posted By</th>
 						<th width="100">Date</th>
 						<th width="50"><input type="checkbox" onclick="ToggleCheckAll(this);" /></th>
 					</tr>
@@ -28,10 +29,10 @@
 					<td>
 						<b><%# DataBinder.Eval(Container.DataItem, "Title") %></b>						
 					</td>
-					<td nowrap>
-						<%# GetAuthor(Container.DataItem) %>
+					<td>
+						<strong><%# GetAuthor(Container.DataItem) %></strong> <%# GetAuthorInfo(Container.DataItem) %>
 					</td>
-					<td nowrap>
+					<td nowrap="nowrap">
 						<%# DataBinder.Eval(Container.DataItem, "DateCreated", "{0:M/d/yy h:mmt}") %>
 					</td>
 					<td>
@@ -39,8 +40,8 @@
 						<input type="hidden" id="EntryID" name="EntryID" value='<%# DataBinder.Eval(Container.DataItem, "Id") %>' runat="server" />
 					</td>
 				</tr>
-				<tr>
-					<td colspan="4">
+				<tr class="body">
+					<td colspan="5">
 						<%# GetBody(Container.DataItem) %>
 					</td>
 				</tr>
@@ -50,10 +51,10 @@
 					<td>
 						<b><%# DataBinder.Eval(Container.DataItem, "Title") %></b>
 					</td>
-					<td nowrap>
-						<%# GetAuthor(Container.DataItem) %>
+					<td>
+						<strong><%# GetAuthor(Container.DataItem) %></strong> <%# GetAuthorInfo(Container.DataItem) %>
 					</td>
-					<td nowrap>
+					<td nowrap="nowrap">
 						<%# DataBinder.Eval(Container.DataItem, "DateCreated") %>
 					</td>
 					<td>
@@ -61,7 +62,7 @@
 						<input type="hidden" id="EntryIDAlt" name="EntryIDAlt" value='<%# DataBinder.Eval(Container.DataItem, "Id") %>' runat="server" />
 					</td>
 				</tr>
-				<tr class="Alt">
+				<tr class="body Alt">
 					<td colspan="4">
 						<%# GetBody(Container.DataItem) %>
 					</td>
@@ -72,7 +73,8 @@
 		</FooterTemplate>
 		</ASP:Repeater>
 		<st:Pager id="ResultsPager" runat="server" UseSpacer="False" PrefixText="<div>Goto page</div>" UseZeroBasedIndex="true" LinkFormatActive='<a href="{0}" class="Current">{1}</a>' UrlFormat="Feedback.aspx?pg={0}" CssClass="Pager" />
-		<asp:Button id="btnDelete" runat="server" CssClass="buttonSubmit" style="float:right" Text="Delete" onclick="btnDelete_Click" />
-		<br class="clear">
+		<asp:Button id="btnDelete" runat="server" CssClass="buttonSubmit" style="float:right" Text="Delete" onclick="OnDeleteClick" />
+		<asp:Button id="btnApprove" runat="server" CssClass="buttonSubmit" style="float:right" Text="Approve" onclick="OnApproveClick" />
+		<br class="clear" />
 	</st:AdvancedPanel>
 </asp:Content>

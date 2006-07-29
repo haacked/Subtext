@@ -76,7 +76,7 @@ GO
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[iter_charlist_to_table]') and xtype in (N'FN', N'IF', N'TF'))
 drop function [<dbUser,varchar,dbo>].[iter_charlist_to_table]
 GO
-
+	
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_VersionAdd]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_VersionAdd]
 GO
@@ -1472,6 +1472,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableFeedback]
 	@BlogId int
 	, @PageIndex int
 	, @PageSize int
+	, @PostConfig int
 )
 AS
 
@@ -1487,6 +1488,7 @@ SELECT @FirstId = [ID]
 FROM subtext_Content 
 WHERE 	BlogId = @BlogId 
 	AND (PostType = 3 OR PostType = 4)
+	AND PostConfig & @PostConfig = @PostConfig
 ORDER BY [ID] DESC
 
 -- Now, set the row count to MaximumRows and get
@@ -1522,12 +1524,14 @@ FROM [<dbUser,varchar,dbo>].[subtext_Content] content
 WHERE 	content.BlogId = @BlogId 
 	AND content.[ID] <= @FirstId
 	AND (PostType = 3 OR PostType = 4)
+	AND PostConfig & @PostConfig = @PostConfig
 ORDER BY content.[ID] DESC
  
 SELECT COUNT([ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Content] 
 WHERE 	BlogId = @BlogId 
 	AND (PostType = 3 OR PostType = 4)
+	AND PostConfig & @PostConfig = @PostConfig
 
 GO
 SET QUOTED_IDENTIFIER OFF 

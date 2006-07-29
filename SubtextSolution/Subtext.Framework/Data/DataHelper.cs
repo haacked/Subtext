@@ -263,7 +263,7 @@ namespace Subtext.Framework.Data
 
 			if(reader["ParentID"] != DBNull.Value)
 			{
-				entry.ParentID = ReadInt32(reader, "ParentID");
+				entry.ParentId = ReadInt32(reader, "ParentID");
 			}
 			
 			if(reader["DateSyndicated"] != DBNull.Value)
@@ -314,7 +314,7 @@ namespace Subtext.Framework.Data
 			entry.PostConfig = (PostConfig)(ReadInt32(reader, "PostConfig", (int)PostConfig.None));
 			
 			entry.ContentChecksumHash = ReadString(reader, "ContentChecksumHash");
-			entry.ParentID = ReadInt32(reader, "ParentID");
+			entry.ParentId = ReadInt32(reader, "ParentID");
 			entry.DateSyndicated = DataHelper.ReadDate(reader, "DateSyndicated");
 	
 			if(buildLinks)

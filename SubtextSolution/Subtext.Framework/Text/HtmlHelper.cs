@@ -20,6 +20,7 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Web.UI.WebControls;
 using System.Xml;
 using Sgml;
 using Subtext.Framework.Components;
@@ -33,6 +34,57 @@ namespace Subtext.Framework.Text
 	/// </summary>
 	public static class HtmlHelper
 	{
+		public static void AppendCssClass(WebControl control, string newClass)
+		{
+			string existingClasses = control.CssClass;
+			if (String.IsNullOrEmpty(existingClasses))
+			{
+				control.CssClass = newClass;
+				return;
+			}
+			else
+			{
+				string[] classes = control.CssClass.Split(' ');
+				foreach (string attributeValue in classes)
+				{
+					if (String.Equals(attributeValue, newClass, StringComparison.Ordinal))
+					{
+						//value's already in there.
+						return;
+					}
+				}
+				control.CssClass += " " + newClass;
+			}
+		}
+		
+		/// <summary>
+		/// Appends the attribute value to the control appropriately.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="value"></param>
+		public static void AppendAttributeValue(WebControl control, string name, string value)
+		{
+			string existingValue = control.Attributes[name];
+			if(String.IsNullOrEmpty(existingValue))
+			{
+				control.Attributes[name] = value;
+				return;
+			}
+			else
+			{
+				string[] attributeValues = control.Attributes[name].Split(' ');
+				foreach (string attributeValue in attributeValues)
+				{
+					if(String.Equals(attributeValue, value, StringComparison.Ordinal))
+					{
+						//value's already in there.
+						return;
+					}
+				}
+				control.Attributes[name] += " " + value;
+			}
+		}
+		
 		/// <summary>
 		/// Strips HTML tags from the specified text.
 		/// </summary>

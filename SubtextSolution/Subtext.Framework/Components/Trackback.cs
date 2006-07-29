@@ -31,7 +31,7 @@ namespace Subtext.Framework.Components
 		/// <param name="dateCreated">The date created.</param>
 		public Trackback(int parentId, string title, string titleUrl, string author, string body, DateTime dateCreated) : base(Subtext.Extensibility.PostType.PingTrack)
 		{
-			ParentID = parentId;
+			ParentId = parentId;
 			Title = title;
 			AlternativeTitleUrl = titleUrl;
 			Author = author;

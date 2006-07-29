@@ -812,8 +812,6 @@
     <Content Include="Admin\Resources\Scripts\niceforms-default.css" />
     <Content Include="Admin\Resources\Scripts\niceForms.js" />
     <Content Include="Admin\Resources\Scripts\tableEffects.js" />
-    <Content Include="Admin\Resources\SubtextLogo.png" />
-    <Content Include="Admin\Resources\SubtextLogo_small.png" />
     <Content Include="Admin\Resources\toggle_gray_down.gif" />
     <Content Include="Admin\Resources\toggle_gray_up.gif" />
     <Content Include="Admin\Statistics.aspx" />
