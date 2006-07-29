@@ -116,8 +116,9 @@ namespace Subtext.Framework.Providers
 		/// </summary>
 		/// <param name="pageIndex">Index of the page.</param>
 		/// <param name="pageSize">Size of the page.</param>
+		/// <param name="postConfig">Configuration options</param>
 		/// <returns></returns>
-		public abstract IPagedCollection<Entry> GetPagedFeedback(int pageIndex, int pageSize);
+		public abstract IPagedCollection<Entry> GetPagedFeedback(int pageIndex, int pageSize, PostConfig postConfig);
 		
 		#endregion
 

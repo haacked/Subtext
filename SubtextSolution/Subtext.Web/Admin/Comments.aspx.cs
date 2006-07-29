@@ -39,6 +39,7 @@ namespace Subtext.Web.Admin.Pages
 			BlogInfo info = Config.CurrentBlog;
 			
 			this.chkEnableComments.Checked = info.CommentsEnabled;
+			this.chkEnableCommentModeration.Checked = info.ModerationEnabled;
 			this.chkEnableTrackbacks.Checked = info.TrackbacksEnabled;
 			this.chkCoCommentEnabled.Checked = info.CoCommentsEnabled;
 			
@@ -109,6 +110,7 @@ namespace Subtext.Web.Admin.Pages
 				BlogInfo info = Config.CurrentBlog;
 			
 				info.CommentsEnabled = this.chkEnableComments.Checked;
+				info.ModerationEnabled = this.chkEnableCommentModeration.Checked;
 				info.TrackbacksEnabled = this.chkEnableTrackbacks.Checked;
 				info.CoCommentsEnabled = this.chkCoCommentEnabled.Checked;
 				if(this.txtCommentDelayIntervalMinutes.Text.Length == 0)

@@ -18,13 +18,11 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Web;
-using System.Xml;
 using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using MbUnit.Framework;
 using Subtext.Extensibility;
-using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
@@ -38,30 +36,7 @@ namespace UnitTests.Subtext
 	/// </summary>
 	public static class UnitTestHelper
 	{
-        
-		/// <summary>
-		/// Creates a provider info instance using the specified name and type.
-		/// </summary>
-		/// <param name="name">The name.</param>
-		/// <param name="type">The type.</param>
-		/// <returns></returns>
-        // NOT USED ANYMORE
-        //public static ProviderInfo CreateProviderInfoInstance(string name, string type)
-        //{
-        //    XmlDocument doc = new XmlDocument();
-        //    XmlElement element = doc.CreateElement("Root");
-        //    doc.AppendChild(element);
-			
-        //    XmlAttribute nameAttribute = doc.CreateAttribute("name");
-        //    nameAttribute.Value = name;
-        //    XmlAttribute typeAttribute = doc.CreateAttribute("type");
-        //    typeAttribute.Value = type;
-        //    element.Attributes.Append(nameAttribute);
-        //    element.Attributes.Append(typeAttribute);
-        //    return new ProviderInfo(element.Attributes);
-        //}
-		
-		/// <summary>
+        /// <summary>
 		/// Unpacks an embedded resource into the specified directory.
 		/// </summary>
 		/// <remarks>Omit the UnitTests.Subtext.Resources. part of the 
@@ -386,6 +361,32 @@ namespace UnitTests.Subtext
 			entry.AllowComments = true;
 			entry.IncludeInMainSyndication = true;
 			
+			return entry;
+		}
+
+		/// <summary>
+		/// Creates an entry instance with the proper syndication settings.
+		/// </summary>
+		/// <param name="parentEntryId">The parent entry.</param>
+		/// <param name="author">The author.</param>
+		/// <param name="title">The title.</param>
+		/// <param name="body">The body.</param>
+		/// <param name="dateCreated">The date created.</param>
+		/// <returns></returns>
+		public static Entry CreateCommentInstance(int parentEntryId, string author, string title, string body, DateTime dateCreated)
+		{
+			Entry entry = new Entry(PostType.Comment);
+			entry.AlternativeTitleUrl = "http://subtextproject.com/blah/";
+			entry.BlogId = Config.CurrentBlog.Id;
+			entry.ParentId = parentEntryId;
+			entry.DateCreated = dateCreated;
+			entry.DateUpdated = entry.DateCreated;
+			entry.DateSyndicated = entry.DateCreated;
+			entry.Title = title;
+			entry.Author = author;
+			entry.Body = body;
+			entry.IsActive = true;
+
 			return entry;
 		}
 	    

@@ -124,7 +124,7 @@ namespace UnitTests.Subtext.Framework.Data
 
 		public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
 		{
-			return Entries.GetPagedFeedback(pageIndex, pageSize);
+			return Entries.GetPagedFeedback(pageIndex, pageSize, PostConfig.IsActive);
 		}
 
 		public int GetCount(IPagedCollection collection)

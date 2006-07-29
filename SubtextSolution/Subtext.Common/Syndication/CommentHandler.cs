@@ -45,7 +45,6 @@ namespace Subtext.Common.Syndication
 			HttpRequest Request = context.Request;
 			if(Request.RequestType == "POST" && Request.ContentType == "text/xml")
 			{
-
 				XmlDocument doc = new XmlDocument();
 				doc.Load(Request.InputStream);
 				Entry entry = new Entry(PostType.Comment);
@@ -62,7 +61,7 @@ namespace Subtext.Common.Syndication
 				entry.Title = doc.SelectSingleNode("//item/title").InnerText;
 				entry.AlternativeTitleUrl = HtmlHelper.CheckForUrl(doc.SelectSingleNode("//item/link").InnerText);
 
-				entry.ParentID = UrlFormats.GetPostIDFromUrl(Request.Path);
+				entry.ParentId = UrlFormats.GetPostIDFromUrl(Request.Path);
 
 				Entries.InsertComment(entry);
 			}

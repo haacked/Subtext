@@ -344,8 +344,9 @@ namespace Subtext.Framework.Providers
 		/// </summary>
 		/// <param name="pageIndex"></param>
 		/// <param name="pageSize"></param>
+		/// <param name="postConfig"></param>
 		/// <returns></returns>
-		public abstract IDataReader GetPagedFeedback(int pageIndex, int pageSize);
+		public abstract IDataReader GetPagedFeedback(int pageIndex, int pageSize, PostConfig postConfig);
 		
 		/// <summary>
 		/// Gets the specified page of log entries.

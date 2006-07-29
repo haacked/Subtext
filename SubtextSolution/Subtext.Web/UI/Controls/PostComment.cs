@@ -42,31 +42,11 @@ namespace Subtext.Web.UI.Controls
 		{
 			base.OnLoad (e);
 
-			//DisableClientValidation();
-
+			//TODO: Make this configurable.
 			tbComment.MaxLength = 4000;
 		
 			if(!IsPostBack)
 			{
-				HttpCookie user = Request.Cookies["CommentUser"];
-				if(user != null)
-				{
-					tbName.Text = user.Values["Name"];
-					tbUrl.Text = user.Values["Url"];
-					
-					// Remember by default if no-checkbox.
-					if(this.chkRemember != null && this.chkRemember.Checked)
-					{
-						this.chkRemember.Checked = true;
-					}
-					
-					//Check to see if email textbox is present
-					if(this.tbEmail!=null && user.Values["Email"]!=null)
-					{
-						this.tbEmail.Text = user.Values["Email"];
-					}
-				}
-
 				Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short);
 				if(entry == null)
 				{
@@ -76,22 +56,7 @@ namespace Subtext.Web.UI.Controls
 					return;
 				}
 
-				if (IsCommentsRendered(entry))
-				{
-					if (entry.CommentingClosed)
-					{
-						this.Controls.Clear();
-						this.Controls.Add(new LiteralControl("<div class=\"commentsClosedMessage\"><span style=\"font-style: italic;\">Comments have been closed on this topic.</span></div>"));
-					}
-					else
-					{
-						tbTitle.Text = "re: " + HttpUtility.HtmlDecode(entry.Title);
-					}
-				}
-				else
-				{
-					this.Controls.Clear();
-				}
+				ResetCommentFields(entry);
 
 				if(Config.CurrentBlog.CoCommentsEnabled)
 				{
@@ -154,12 +119,12 @@ namespace Subtext.Web.UI.Controls
 					{
 						Entry entry = new Entry(PostType.Comment);
 						entry.Author = tbName.Text;
-						if(this.tbEmail!=null)
+						if(this.tbEmail != null)
 							entry.Email = tbEmail.Text;
 						entry.AlternativeTitleUrl =  HtmlHelper.CheckForUrl(tbUrl.Text);
 						entry.Body = tbComment.Text;
 						entry.Title = tbTitle.Text;
-						entry.ParentID = currentEntry.Id;
+						entry.ParentId = currentEntry.Id;
 						entry.SourceName = HttpHelper.GetUserIpAddress(Context);
 						entry.SourceUrl = currentEntry.Url;
 
@@ -175,8 +140,15 @@ namespace Subtext.Web.UI.Controls
 							user.Expires = DateTime.Now.AddDays(30);
 							Response.Cookies.Add(user);
 						}
+
+						ResetCommentFields(currentEntry);
+
+						if(Config.CurrentBlog.ModerationEnabled)
+						{
+							Message.Text = "Comments on this blog are moderated.  There may be a delay before your comment appears.";
+						}
 					}
-					Response.Redirect(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?Pending=true", Request.Path));
+					//Response.Redirect(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?Pending=true", Request.Path));
 				}
 				catch(BaseCommentException exception)
 				{
@@ -184,7 +156,64 @@ namespace Subtext.Web.UI.Controls
 				}
 			}
 		}
-		
+
+		private void ResetCommentFields(Entry entry)
+		{
+			if (this.tbComment != null)
+				this.tbComment.Text = string.Empty;
+			
+			if (this.tbEmail != null)
+				this.tbEmail.Text = string.Empty;
+			
+			if (this.tbName != null)
+				this.tbName.Text = string.Empty;
+			
+			if(entry == null)
+				entry = Cacher.GetEntryFromRequest(CacheDuration.Short);
+			
+			if (this.tbTitle != null)
+				this.tbTitle.Text = "re: " + HttpUtility.HtmlDecode(entry.Title);
+			
+			if (this.tbUrl != null)
+				this.tbUrl.Text = string.Empty;
+
+			HttpCookie user = Request.Cookies["CommentUser"];
+			if (user != null)
+			{
+				tbName.Text = user.Values["Name"];
+				tbUrl.Text = user.Values["Url"];
+
+				// Remember by default if no-checkbox.
+				if (this.chkRemember != null && this.chkRemember.Checked)
+				{
+					this.chkRemember.Checked = true;
+				}
+
+				//Check to see if email textbox is present
+				if (this.tbEmail != null && user.Values["Email"] != null)
+				{
+					this.tbEmail.Text = user.Values["Email"];
+				}
+			}
+
+			if (IsCommentsRendered(entry))
+			{
+				if (entry.CommentingClosed)
+				{
+					this.Controls.Clear();
+					this.Controls.Add(new LiteralControl("<div class=\"commentsClosedMessage\"><span style=\"font-style: italic;\">Comments have been closed on this topic.</span></div>"));
+				}
+				else
+				{
+					tbTitle.Text = "re: " + HttpUtility.HtmlDecode(entry.Title);
+				}
+			}
+			else
+			{
+				this.Controls.Clear();
+			}
+		}
+
 		bool IsCommentsRendered(Entry entry)
 		{
 			return CurrentBlog.CommentsEnabled && entry != null && entry.AllowComments;

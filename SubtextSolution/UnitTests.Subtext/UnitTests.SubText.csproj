@@ -222,6 +222,7 @@
     <Compile Include="Framework\BlogInfoTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Components\CommentTests\CommentSettingsTests.cs" />
     <Compile Include="Framework\Components\EntryTests\AutoGenerateFriendlyUrlTests.cs">
       <SubType>Code</SubType>
     </Compile>

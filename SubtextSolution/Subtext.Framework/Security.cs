@@ -61,6 +61,15 @@ namespace Subtext.Framework
 			return true;
 		}
 		
+		/// <summary>
+		/// Logs the user off the system.
+		/// </summary>
+		public static void LogOut()
+		{
+			HttpContext.Current.Response.Cookies.Clear();
+			System.Web.Security.FormsAuthentication.SignOut();
+		}
+		
 		public static bool AuthenticateHostAdmin(string username, string password, bool persist)
 		{
 			if(!StringHelper.AreEqualIgnoringCase(username, HostInfo.Instance.HostUserName))
