@@ -37,6 +37,8 @@ namespace Subtext.Web.Admin.WebUI
 		protected const string VSKEY_PAGEINDEX = "PageIndex";
 		protected const string VSKEY_PAGESIZE = "PageSize";
 		protected const string VSKEY_DISPLAYPAGES = "DisplayPages";
+
+		protected const int FIRST_PAGE_INDEX = 1;
 		protected const int PAGESIZE_MIN = 1;
 		protected const int PAGESIZE_DEFAULT = 20;
 		protected const int DISPLAYPAGES_MIN = 3;
@@ -72,19 +74,13 @@ namespace Subtext.Web.Admin.WebUI
 
 		protected int _padLeft;
 		protected int _padRight;
-		protected bool _useZeroBasedIndex = false;
 
 		public Pager()
 		{
-			
-			this.DisplayPages = DISPLAYPAGES_DEFAULT;
-		}
-		
-		protected override void OnInit(EventArgs args)
-		{
 			ViewState[VSKEY_ITEMCOUNT] = 0;
-			ViewState[VSKEY_PAGEINDEX] = FirstPageIndex;
+			ViewState[VSKEY_PAGEINDEX] = FIRST_PAGE_INDEX;
 			ViewState[VSKEY_PAGESIZE] = PAGESIZE_DEFAULT;
+			this.DisplayPages = DISPLAYPAGES_DEFAULT;
 		}
 
 		#region Accessors
@@ -92,34 +88,6 @@ namespace Subtext.Web.Admin.WebUI
 		{
 			get { return _displayMode; }
 			set { _displayMode = value; }
-		}
-		
-		/// <summary>
-		/// Personally, I think every pager should just use a 
-		/// zero-based index, but since the code we inherited doesn't, 
-		/// we'll have to deal with this for now till we convert 
-		/// all paging logic to 0-base.
-		/// </summary>
-		public bool UseZeroBasedIndex
-		{
-			get
-			{
-				return _useZeroBasedIndex;
-			}
-			set
-			{
-				_useZeroBasedIndex = value;
-			}
-		}
-
-		protected int FirstPageIndex
-		{
-			get
-			{
-				if (this.UseZeroBasedIndex)
-					return 0;
-				return 1;
-			}
 		}
 
 		public string CssClass
@@ -151,10 +119,10 @@ namespace Subtext.Web.Admin.WebUI
 			}
 			set 
 			{ 
-				if (value >= FirstPageIndex)
+				if (value >= FIRST_PAGE_INDEX)
 					ViewState[VSKEY_PAGEINDEX] = value; 
 				else
-					ViewState[VSKEY_PAGEINDEX] = FirstPageIndex;
+					ViewState[VSKEY_PAGEINDEX] = FIRST_PAGE_INDEX;
 			}
 		}
 
@@ -301,11 +269,9 @@ namespace Subtext.Web.Admin.WebUI
 
 		protected string RenderLink(int linkIndex, string display, bool isCurrent)
 		{
-			if (_useZeroBasedIndex)
-				linkIndex--;
-
 			string url = String.Format(_urlFormat, linkIndex);
-			return String.Format(isCurrent ? _linkFormatActive : _linkFormat, url, display);
+			return String.Format(isCurrent ? _linkFormatActive : _linkFormat,
+				url, display);
 		}
 
 		protected virtual void WriteConditional(HtmlTextWriter writer, string value, bool condition)
@@ -317,7 +283,7 @@ namespace Subtext.Web.Admin.WebUI
 		protected override void Render(HtmlTextWriter writer)
 		{	
 			// there's only 1 page, a pager is useless so render nothing
-			if (MaxPages == 0 || FirstPageIndex == MaxPages) return;
+			if (MaxPages == 0 || FIRST_PAGE_INDEX == MaxPages) return;
 
 			if (_cssClass.Length > 0)
 				writer.AddAttribute("class", _cssClass);
@@ -365,16 +331,16 @@ namespace Subtext.Web.Admin.WebUI
 			while (counter > 0)
 			{	
 				idx = PageIndex - counter;
-				if (idx >= FirstPageIndex)
+				if (idx >= FIRST_PAGE_INDEX)
 					break;				
 				counter--;
 			}
 
 			// if we specified including 'First' link back to page 1, write it plus an 
 			// optional spacer
-			if (idx > FirstPageIndex && _useFirstLast) 
+			if (idx > FIRST_PAGE_INDEX && _useFirstLast) 
 			{
-				writer.Write(RenderLink(FirstPageIndex, _firstText));
+				writer.Write(RenderLink(FIRST_PAGE_INDEX, _firstText));
 				WriteConditional(writer, Spacer, _useSpacer);
 			}
 
@@ -382,7 +348,7 @@ namespace Subtext.Web.Admin.WebUI
 			// as long as we're in the allowable bounds
 			for (int i = idx; i < idx + DisplayPages; i++)
 			{
-				if (i >= FirstPageIndex && i <= MaxPages)
+				if (i >= FIRST_PAGE_INDEX && i <= MaxPages)
 				{
 					writer.Write(RenderLink(i, i == PageIndex));					
 					WriteConditional(writer, Spacer, _useSpacer);
@@ -412,6 +378,11 @@ namespace Subtext.Web.Admin.WebUI
 
 	public class PagerDesigner : System.Web.UI.Design.ControlDesigner
 	{
+		public override string GetDesignTimeHtml()
+		{			
+			return base.GetDesignTimeHtml();
+		}
+
 		public override void Initialize(System.ComponentModel.IComponent component)
 		{
 			if (component is Pager)
