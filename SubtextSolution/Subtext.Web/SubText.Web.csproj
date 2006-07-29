@@ -848,7 +848,6 @@
     <Content Include="HostAdmin\UserControls\BlogsEditor.ascx">
       <SubType>UserControl</SubType>
     </Content>
-    <Content Include="Images\100x30_Logo.gif" />
     <Content Include="Images\admin.gif" />
     <Content Include="Images\administration_icon.gif" />
     <Content Include="Images\atom.gif" />
@@ -857,6 +856,7 @@
     <Content Include="Images\contact.gif" />
     <Content Include="Images\default_gravatar.png" />
     <Content Include="Images\edit.gif" />
+    <Content Include="Images\email.gif" />
     <Content Include="Images\emotions\emotions.gif" />
     <Content Include="Images\emotions\readme.txt" />
     <Content Include="Images\emotions\smiley-cool.gif" />
@@ -882,12 +882,15 @@
     <Content Include="Images\loading.gif" />
     <Content Include="Images\ms_help.gif" />
     <Content Include="Images\overlay.png" />
+    <Content Include="Images\permalink.gif" />
     <Content Include="Images\PoweredByAsp.Net.gif" />
     <Content Include="Images\PoweredBySubtext85x33.png" />
     <Content Include="Images\printer.png" />
     <Content Include="Images\rss20icon.gif" />
     <Content Include="Images\shadow.gif" />
     <Content Include="Images\shadowAlpha.png" />
+    <Content Include="Images\SubtextLogo.png" />
+    <Content Include="Images\SubtextLogo_small.png" />
     <Content Include="Images\xml.gif" />
     <Content Include="Install\BlogNotConfiguredError.aspx" />
     <Content Include="Install\Default.aspx">

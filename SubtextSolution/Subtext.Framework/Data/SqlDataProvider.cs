@@ -301,7 +301,7 @@ namespace Subtext.Framework.Data
 		public override IDataReader GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize)
 		{
 			// default setup is for unfiltered pageable results
-			bool useCategoryID = categoryID > -1;
+			bool useCategoryID = categoryID > 0;
 
 			string sql = useCategoryID ? "subtext_GetPageableEntriesByCategoryID" : "subtext_GetPageableEntries";
 
