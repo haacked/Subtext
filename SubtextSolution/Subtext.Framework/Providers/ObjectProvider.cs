@@ -344,9 +344,9 @@ namespace Subtext.Framework.Providers
 		public abstract KeyWord GetKeyWord(int KeyWordID);
         public abstract ICollection<KeyWord> GetKeyWords();
         public abstract IPagedCollection<KeyWord> GetPagedKeyWords(int pageIndex, int pageSize, bool sortDescending);
-		public abstract bool UpdateKeyWord(KeyWord kw);
-		public abstract int InsertKeyWord(KeyWord kw);
-		public abstract bool DeleteKeyWord(int KeyWordID);
+		public abstract bool UpdateKeyWord(KeyWord keyWord);
+		public abstract int InsertKeyWord(KeyWord keyWord);
+		public abstract bool DeleteKeyWord(int id);
 
 		#endregion
 

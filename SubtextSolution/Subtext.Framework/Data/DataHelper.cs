@@ -581,7 +581,7 @@ namespace Subtext.Framework.Data
 		public static KeyWord LoadKeyWord(IDataReader reader)
 		{
 			KeyWord kw = new KeyWord();
-			kw.KeyWordID = ReadInt32(reader, "KeyWordID");
+			kw.Id = ReadInt32(reader, "KeyWordID");
 			kw.BlogId = ReadInt32(reader, "BlogId");
 			kw.OpenInNewWindow = (bool)reader["OpenInNewWindow"];
 			kw.ReplaceFirstTimeOnly = (bool)reader["ReplaceFirstTimeOnly"];

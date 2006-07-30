@@ -9,6 +9,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Util;
 using UnitTests.Subtext;
 using UnitTests.Subtext.Framework.Data;
 
@@ -71,6 +72,20 @@ namespace UnitTests.Subtext.Framework.Data
 		{
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", this.hostName, "blog"));
 			IPagedCollectionTester tester = new LogEntryCollectionTester();
+			AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
+		}
+
+		[RowTest]
+		[Row(11, 10, 2, 1)]
+		[Row(11, 5, 3, 1)]
+		[Row(12, 5, 3, 2)]
+		[Row(10, 5, 2, 5)]
+		[Row(10, 20, 1, 10)]
+		[RollBack]
+		public void GetPagedKeywordsHandlesPagingProperly(int total, int pageSize, int expectedPageCount, int itemsCountOnLastPage)
+		{
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", this.hostName, "blog"));
+			IPagedCollectionTester tester = new KeyWordCollectionTester();
 			AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
 		}
 
@@ -185,7 +200,7 @@ namespace UnitTests.Subtext.Framework.Data
 			Entry comment = UnitTestHelper.CreateEntryInstanceForSyndication("Phil", "Title" + index, "Who rocks the party that rocks the party? " + index);
 			comment.PostType = PostType.Comment;
 			comment.AlternativeTitleUrl = "blah";
-			Entries.InsertComment(comment);
+			Entries.CreateComment(comment);
 		}
 
 		public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
@@ -263,6 +278,33 @@ namespace UnitTests.Subtext.Framework.Data
 		public int GetCount(IPagedCollection collection)
 		{
 			return ((IPagedCollection<Link>)collection).Count;
+		}
+	}
+
+	
+	internal class KeyWordCollectionTester : IPagedCollectionTester
+	{
+		public KeyWordCollectionTester()
+		{
+		}
+
+		public void Create(int index)
+		{
+			KeyWord keyword = new KeyWord();
+			keyword.BlogId = Config.CurrentBlog.Id;
+			keyword.Text = "The Keyword" + index;
+			keyword.Title = "Blah";
+			KeyWords.CreateKeyWord(keyword);
+		}
+
+		public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
+		{
+			return KeyWords.GetPagedKeyWords(pageIndex, pageSize, true);
+		}
+
+		public int GetCount(IPagedCollection collection)
+		{
+			return ((IPagedCollection<KeyWord>)collection).Count;
 		}
 	}
 }

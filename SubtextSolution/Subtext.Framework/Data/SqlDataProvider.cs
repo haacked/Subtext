@@ -1060,7 +1060,7 @@ namespace Subtext.Framework.Data
 		{
 			SqlParameter[] p =
 			{
-				DataHelper.MakeInParam("@KeyWordID",SqlDbType.Int,4,kw.KeyWordID),
+				DataHelper.MakeInParam("@KeyWordID",SqlDbType.Int,4,kw.Id),
 				DataHelper.MakeInParam("@Word",SqlDbType.NVarChar,100,kw.Word),
 				DataHelper.MakeInParam("@Text",SqlDbType.NVarChar,100,kw.Text),
 				DataHelper.MakeInParam("@ReplaceFirstTimeOnly",SqlDbType.Bit,1,kw.ReplaceFirstTimeOnly),
