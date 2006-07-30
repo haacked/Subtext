@@ -268,7 +268,7 @@ namespace Subtext.Framework.Providers
 
 		#region KeyWord
 		public abstract IDataReader GetKeyWord(int keyWordID);
-		public abstract IDataReader GetPagedKeyWords(int pageIndex, int pageSize,bool sortDescending);
+		public abstract IDataReader GetPagedKeyWords(int pageIndex, int pageSize);
 
 		public abstract bool DeleteKeyWord(int keywordId);
 

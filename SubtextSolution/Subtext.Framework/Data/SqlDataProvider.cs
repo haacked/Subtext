@@ -1082,13 +1082,12 @@ namespace Subtext.Framework.Data
 			return GetReader("subtext_GetBlogKeyWords",p);
 		}
 
-		public override IDataReader GetPagedKeyWords(int pageIndex, int pageSize, bool sortDescending)
+		public override IDataReader GetPagedKeyWords(int pageIndex, int pageSize)
 		{
 			SqlParameter[] p = 
 			{
 				DataHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex),
 				DataHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize),
-				DataHelper.MakeInParam("@SortDesc", SqlDbType.Bit, 1, sortDescending),
 				BlogIdParam
 			};
 			return GetReader("subtext_GetPageableKeyWords",p);

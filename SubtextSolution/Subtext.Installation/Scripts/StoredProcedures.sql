@@ -1597,45 +1597,34 @@ GO
 SET ANSI_NULLS ON 
 GO
 
+/*
+Selects a page of keywords within the admin section.
+Updated this to use a more efficient paging technique:
+http://www.4guysfromrolla.com/webtech/041206-1.shtml
+*/
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableKeyWords]
 (
 	@BlogId int
 	, @PageIndex int
 	, @PageSize int
-	, @SortDesc bit
 )
 AS
+DECLARE @FirstWord nvarchar(100)
+DECLARE @StartRow int
+DECLARE @StartRowIndex int
 
-DECLARE @PageLowerBound int
-DECLARE @PageUpperBound int
+SET @StartRowIndex = @PageIndex * @PageSize + 1
 
-SET @PageLowerBound = @PageSize * @PageIndex - @PageSize
-SET @PageUpperBound = @PageLowerBound + @PageSize + 1
+SET ROWCOUNT @StartRowIndex
+-- Get the first entry id for the current page.
+SELECT	@FirstWord = [Word] FROM [<dbUser,varchar,dbo>].[subtext_KeyWords]
+WHERE	BlogId = @BlogId 
+ORDER BY [Word] ASC
 
-
-CREATE TABLE #TempPagedKeyWordIDs 
-(
-	TempID int IDENTITY (1, 1) NOT NULL
-	, KeywordId int NOT NULL
-)	
-
-IF(@SortDesc = 1)
-BEGIN
-	INSERT INTO #TempPagedKeyWordIDs (KeyWordID)
-	SELECT	KeyWordID
-	FROM [<dbUser,varchar,dbo>].[subtext_KeyWords] 
-	WHERE 	BlogId = @BlogId 
-	ORDER BY Word
-END
-Else
-BEGIN
-	INSERT INTO #TempPagedKeyWordIDs (KeyWordID)
-	SELECT	KeyWordID
-	FROM [<dbUser,varchar,dbo>].[subtext_KeyWords] 
-	WHERE 	BlogId = @BlogId 
-	ORDER BY Word DESC
-END
+-- Now, set the row count to MaximumRows and get
+-- all records >= @first_id
+SET ROWCOUNT @PageSize
 
 SELECT 	words.KeyWordID
 		, words.Word
@@ -1647,17 +1636,13 @@ SELECT 	words.KeyWordID
 		, words.Title
 		, words.BlogId
 FROM 	
-	subtext_KeyWords words
-	INNER JOIN #TempPagedKeyWordIDs tmp ON (words.KeyWordID = tmp.KeyWordID)
+	[<dbUser,varchar,dbo>].[subtext_KeyWords] words
 WHERE 	
 		words.BlogId = @BlogId 
-	AND tmp.TempID > @PageLowerBound
-	AND tmp.TempID < @PageUpperBound
+	AND words.Word >= @FirstWord
 ORDER BY
-	tmp.TempID
+		words.Word ASC
  
-DROP TABLE #TempPagedKeyWordIDs
-
 SELECT 	COUNT([KeywordId]) AS 'TotalRecords'
 FROM [<dbUser,varchar,dbo>].[subtext_KeyWords] 
 WHERE 	BlogId = @BlogId

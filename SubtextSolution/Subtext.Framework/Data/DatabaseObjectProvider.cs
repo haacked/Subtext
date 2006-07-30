@@ -933,9 +933,9 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-        public override IPagedCollection<KeyWord> GetPagedKeyWords(int pageIndex, int pageSize, bool sortDescending)
+        public override IPagedCollection<KeyWord> GetPagedKeyWords(int pageIndex, int pageSize)
 		{
-			IDataReader reader = DbProvider.Instance().GetPagedKeyWords(pageIndex,pageSize,sortDescending);
+			IDataReader reader = DbProvider.Instance().GetPagedKeyWords(pageIndex, pageSize);
 			try
 			{
                 IPagedCollection<KeyWord> pkwc = new PagedCollection<KeyWord>();

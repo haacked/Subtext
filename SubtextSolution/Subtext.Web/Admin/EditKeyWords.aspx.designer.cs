@@ -13,7 +13,7 @@ namespace Subtext.Web.Admin.Pages {
     public partial class EditKeyWords {
         protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
         protected System.Web.UI.WebControls.Repeater rprSelectionList;
-        protected Subtext.Web.Admin.WebUI.Pager ResultsPager;
+        protected Subtext.Web.Controls.PagingControl resultsPager;
         protected System.Web.UI.WebControls.Button btnCreate;
         protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
         protected System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
