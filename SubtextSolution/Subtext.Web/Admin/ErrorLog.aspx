@@ -81,10 +81,12 @@
 				</table>
 			</FooterTemplate>
 		</st:RepeaterWithEmptyDataTemplate>
-		
-		<st:Pager id="LogPager" runat="server" CssClass="Pager" UrlFormat="ErrorLog.aspx?pg={0}"
-			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' PrefixText="<div>Goto page</div>"
-			UseSpacer="False"></st:Pager>
+	
+		<st:PagingControl id="resultsPager" runat="server" 
+			PrefixText="<div>Goto page</div>" 
+			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' 
+			UrlFormat="ErrorLog.aspx?pg={0}" 
+			CssClass="Pager" />
 		<asp:Button id="btnExportToExcel" runat="Server" CssClass="buttonSubmit" Text="Export" title="Export to Excel" style="float:right;"></asp:Button> 
 		<asp:Button id="btnClearLog" runat="server" CssClass="buttonSubmit" Text="Clear" title="Clear the Log" style="float:right;"/>
 		<br class="clear" />

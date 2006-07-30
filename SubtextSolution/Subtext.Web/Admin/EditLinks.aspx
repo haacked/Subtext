@@ -1,5 +1,6 @@
 <%@ Page language="c#" Title="Subtext Admin - Edit Links" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="EditLinks.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.EditLinks" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
+<%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <%@ Register TagPrefix="st" TagName="CategoryLinks" Src="~/Admin/UserControls/CategoryLinkList.ascx" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
@@ -17,7 +18,7 @@
 	<st:MessagePanel id="Messages" runat="server"></st:MessagePanel>
 	<st:AdvancedPanel id="Results" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True"
 		HeaderCssClass="CollapsibleHeader" HeaderText="Links" LinkText="[toggle]" Collapsible="True">
-		<ASP:Repeater id="rprSelectionList" runat="server">
+		<asp:Repeater id="rprSelectionList" runat="server">
 			<HeaderTemplate>
 				<table id="Listing" class="Listing highlightTable" cellSpacing="0" cellPadding="0" border="0" style="<%= CheckHiddenStyle() %>">
 					<tr>
@@ -60,11 +61,13 @@
 			<FooterTemplate>
 				</table>
 			</FooterTemplate>
-		</ASP:Repeater>
-		<st:Pager id="ResultsPager" runat="server" UseSpacer="False" PrefixText="<div>Goto page</div>"
-			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' UrlFormat="EditLinks.aspx?pg={0}"
-			CssClass="Pager"></st:Pager>
-		<BR class="clear">
+		</ASP:Repeater>			
+		<st:PagingControl id="resultsPager" runat="server" 
+			PrefixText="<div>Goto page</div>" 
+			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' 
+			UrlFormat="EditLinks.aspx?pg={0}" 
+			CssClass="Pager" />
+		<br class="clear" />
 	</st:AdvancedPanel>
 	<st:AdvancedPanel id="ImportExport" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True"
 		HeaderCssClass="CollapsibleTitle" HeaderText="Import/Export" Collapsible="True" BodyCssClass="Edit"
@@ -72,11 +75,11 @@
 		<div style="HEIGHT: 0px"><!-- IE bug hides label in following div without this -->
 			<div>
 				<div>
-					<P class="Block"><LABEL class="Block">Local File Location (*.opml)</LABEL></p>
-					<INPUT class="FileUpload" id="OpmlImportFile" type="file" size="62" name="ImageFile" runat="server">
+					<p class="Block"><LABEL class="Block">Local File Location (*.opml)</LABEL></p>
+					<input class="FileUpload" id="OpmlImportFile" type="file" size="62" name="ImageFile" runat="server" />
 					<p>Categories</p>
-					<P>
-						<ASP:DropDownList id="ddlImportExportCategories" runat="server"></ASP:DropDownList></p>
+					<p>
+						<asp:DropDownList id="ddlImportExportCategories" runat="server"></ASP:DropDownList></p>
 				</div>
 				<div style="MARGIN-TOP: 8px">
 					<asp:Button id="lkbImportOpml" runat="server" CssClass="Button" Text="Import" onclick="lkbImportOpml_Click"></asp:Button><A class="Button" href="Export.aspx?command=opml">Export</A>
@@ -97,21 +100,21 @@
 				<label for="Edit_txbTitle" AccessKey="t">Link <u>T</u>itle</label>
 				<asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" ControlToValidate="txbTitle" ForeColor="#990066"
 					ErrorMessage="Your link must have a title"></asp:RequiredFieldValidator></p>
-			<P>
+			<p>
 				<asp:TextBox id="txbTitle" runat="server" CssClass="textinput"></asp:TextBox></p>
 			<p>
 				<label for="Edit_txbUrl" AccessKey="w"><u>W</u>eb Url</label>
 				<asp:RequiredFieldValidator id="Requiredfieldvalidator2" runat="server" ControlToValidate="txbUrl" ForeColor="#990066"
 					ErrorMessage="Your link must have a url"></asp:RequiredFieldValidator></p>
-			<P>
+			<p>
 				<asp:TextBox id="txbUrl" runat="server" CssClass="textinput"></asp:TextBox></p>
 			<p><label for="Edit_txbRss" AccessKey="r"><u>R</u>ss Url</label></p>
-			<P>
+			<p>
 				<asp:TextBox id="txbRss" runat="server" CssClass="textinput"></asp:TextBox></p>
 			<p><label for="Edit_ddlCategories" AccessKey="c"><u>C</u>ategories</label></p>
-			<P>
-				<ASP:DropDownList id="ddlCategories" runat="server"></ASP:DropDownList></p>
-			<P>
+			<p>
+				<asp:DropDownList id="ddlCategories" runat="server"></ASP:DropDownList></p>
+			<p>
 				<asp:CheckBox id="ckbIsActive" runat="server" textalign="Left" Text="Visible"></asp:CheckBox>&nbsp; 
 					<asp:CheckBox id="chkNewWindow" runat="server" textalign="Left" Text="New Window"></asp:CheckBox>
 				</p>

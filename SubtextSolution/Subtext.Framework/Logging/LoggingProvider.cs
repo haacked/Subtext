@@ -14,13 +14,8 @@
 #endregion
 
 using System;
-using System.Collections.Specialized;
-using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
-using Subtext.Framework.Providers;
-using System.Configuration.Provider;
-using System.Web.Configuration;
 
 namespace Subtext.Framework.Logging
 {
@@ -29,7 +24,6 @@ namespace Subtext.Framework.Logging
 	/// </summary>
     public abstract class LoggingProvider : System.Configuration.Provider.ProviderBase
 	{
-
 		/// <summary>
         /// Returns the configured concrete instance of a <see cref="LoggingProvider"/>.
 		/// </summary>
@@ -45,9 +39,8 @@ namespace Subtext.Framework.Logging
 		/// </summary>
 		/// <param name="pageIndex">Index of the page.</param>
 		/// <param name="pageSize">Size of the page.</param>
-		/// <param name="sortDirection">The sort direction.</param>
 		/// <returns></returns>
-        public abstract IPagedCollection<LogEntry> GetPagedLogEntries(int pageIndex, int pageSize, SortDirection sortDirection);
+        public abstract IPagedCollection<LogEntry> GetPagedLogEntries(int pageIndex, int pageSize);
 
 		/// <summary>
 		/// Clears the log.

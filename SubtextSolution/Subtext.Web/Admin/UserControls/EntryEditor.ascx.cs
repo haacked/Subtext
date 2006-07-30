@@ -46,7 +46,7 @@ namespace Subtext.Web.Admin.UserControls
 		protected MessagePanel Messages;
 		protected Repeater rprSelectionList;
 		protected HtmlGenericControl NoMessagesLabel;
-		protected Pager ResultsPager;
+		protected PagingControl resultsPager;
 		protected HyperLink hlEntryLink;
 		protected TextBox txbTitle;
 		protected Button Post;
@@ -146,7 +146,7 @@ namespace Subtext.Web.Admin.UserControls
 		{
 			set
 			{
-				this.ResultsPager.UrlFormat = value;
+				this.resultsPager.UrlFormat = value;
 			}
 		}
 		
@@ -162,13 +162,13 @@ namespace Subtext.Web.Admin.UserControls
 				if (null != Request.QueryString[Keys.QRYSTR_CATEGORYID])
 					_filterCategoryID = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_CATEGORYID]);
 
-				ResultsPager.PageSize = Preferences.ListingItemCount;
-				ResultsPager.PageIndex = this.pageIndex;
+				this.resultsPager.PageSize = Preferences.ListingItemCount;
+				this.resultsPager.PageIndex = this.pageIndex;
 				Results.Collapsible = false;
 
 				if (NullValue.NullInt32 != _filterCategoryID)
 				{
-					ResultsPager.UrlFormat += string.Format(CultureInfo.InvariantCulture, "&{0}={1}", Keys.QRYSTR_CATEGORYID, _filterCategoryID);
+					this.resultsPager.UrlFormat += string.Format(CultureInfo.InvariantCulture, "&{0}={1}", Keys.QRYSTR_CATEGORYID, _filterCategoryID);
 				}
 				
 				BindList();
@@ -219,18 +219,18 @@ namespace Subtext.Web.Admin.UserControls
 		{
 			Edit.Visible = false;
 
-            IPagedCollection<Entry> selectionList = Entries.GetPagedEntries(this.EntryType, _filterCategoryID, this.pageIndex, ResultsPager.PageSize);		
+            IPagedCollection<Entry> selectionList = Entries.GetPagedEntries(this.EntryType, _filterCategoryID, this.pageIndex, this.resultsPager.PageSize);		
 
 			if (selectionList.Count > 0)
 			{				
-				ResultsPager.ItemCount = selectionList.MaxItems;
+				this.resultsPager.ItemCount = selectionList.MaxItems;
 				rprSelectionList.DataSource = selectionList;
 				rprSelectionList.DataBind();
 				NoMessagesLabel.Visible = false;
 			}
 
 			NoMessagesLabel.Visible = selectionList.Count <= 0;
-			ResultsPager.Visible = selectionList.Count > 0;
+			this.resultsPager.Visible = selectionList.Count > 0;
 			
 		}
 

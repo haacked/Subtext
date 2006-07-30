@@ -120,6 +120,7 @@
       <Name>MbUnit.Framework.1.1</Name>
       <HintPath>ExternalDependencies\MbUnit.Framework.1.1.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral" />
     <Reference Include="NGraphviz">
       <Name>NGraphviz</Name>
       <HintPath>ExternalDependencies\NGraphviz.dll</HintPath>
@@ -357,6 +358,7 @@
     <Content Include="ExternalDependencies\ICSharpCode.SharpZipLib.dll" />
     <Content Include="ExternalDependencies\MbUnit.Framework.1.1.dll" />
     <Content Include="ExternalDependencies\MbUnit.Framework.dll" />
+    <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.dll" />
     <Content Include="ExternalDependencies\NGraphviz.dll" />
     <Content Include="ExternalDependencies\NGraphviz.Helpers.dll" />
     <Content Include="ExternalDependencies\NGraphviz.Layout.dll" />

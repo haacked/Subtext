@@ -31,11 +31,10 @@ namespace Subtext.Framework.Logging
 		/// </summary>
 		/// <param name="pageIndex">Index of the page.</param>
 		/// <param name="pageSize">Size of the page.</param>
-		/// <param name="sortDirection">The sort direction.</param>
 		/// <returns></returns>
-        public override IPagedCollection<LogEntry> GetPagedLogEntries(int pageIndex, int pageSize, SortDirection sortDirection)
+        public override IPagedCollection<LogEntry> GetPagedLogEntries(int pageIndex, int pageSize)
 		{
-			IDataReader reader = DbProvider.Instance().GetPagedLogEntries(pageIndex, pageSize, sortDirection);
+			IDataReader reader = DbProvider.Instance().GetPagedLogEntries(pageIndex, pageSize);
             IPagedCollection<LogEntry> entries = new PagedCollection<LogEntry>();
 			while(reader.Read())
 			{

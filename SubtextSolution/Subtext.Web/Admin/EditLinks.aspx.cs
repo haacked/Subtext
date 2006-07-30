@@ -30,25 +30,25 @@ namespace Subtext.Web.Admin.Pages
 	{
 		private const string VSKEY_LINKID = "LinkID";
 
-		private int _filterCategoryID
+		private int filterCategoryID
 		{
 			get
 			{
-				if(ViewState["_filterCategoryID"] == null)
+				if(ViewState["filterCategoryID"] == null)
 				{
 					return NullValue.NullInt32;
 				}
 				else
 				{
-					return (int)ViewState["_filterCategoryID"];
+					return (int)ViewState["filterCategoryID"];
 				}
 			}
 			set
 			{
-				ViewState["_filterCategoryID"] = value;
+				ViewState["filterCategoryID"] = value;
 			}
 		}
-		private int _resultsPageNumber = 1;
+		private int resultsPageNumber = 1;
 		private bool _isListHidden = false;
 
 		protected System.Web.UI.WebControls.CheckBoxList cklCategories;
@@ -80,22 +80,21 @@ namespace Subtext.Web.Admin.Pages
 			if (!IsPostBack)
 			{
 				if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
-					_resultsPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
+					this.resultsPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
 
 				if (null != Request.QueryString[Keys.QRYSTR_CATEGORYID])
-					_filterCategoryID = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_CATEGORYID]);
+					this.filterCategoryID = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_CATEGORYID]);
 
-				ResultsPager.PageSize = Preferences.ListingItemCount;
-				ResultsPager.PageIndex = _resultsPageNumber;
+				this.resultsPager.PageSize = Preferences.ListingItemCount;
+				this.resultsPager.PageIndex = this.resultsPageNumber;
 				Results.Collapsible = false;
 
-				if (NullValue.NullInt32 != _filterCategoryID)
-					ResultsPager.UrlFormat += string.Format(System.Globalization.CultureInfo.InvariantCulture, "&{0}={1}", Keys.QRYSTR_CATEGORYID, 
-						_filterCategoryID);
+				if (NullValue.NullInt32 != this.filterCategoryID)
+					this.resultsPager.UrlFormat += string.Format(System.Globalization.CultureInfo.InvariantCulture, "&{0}={1}", Keys.QRYSTR_CATEGORYID, 
+						this.filterCategoryID);
 				
 				BindList();
-				//BindImportExportCategories();
-			}	
+			}
 		}
 
 		private void BindLocalUI()
@@ -113,12 +112,12 @@ namespace Subtext.Web.Admin.Pages
 		{
 			Edit.Visible = false;
 
-            IPagedCollection<Link> selectionList = Links.GetPagedLinks(_filterCategoryID, _resultsPageNumber,
-				ResultsPager.PageSize,true);
+            IPagedCollection<Link> selectionList = Links.GetPagedLinks(this.filterCategoryID, this.resultsPageNumber,
+				this.resultsPager.PageSize,true);
 			
 			if (selectionList.Count > 0)
 			{
-				ResultsPager.ItemCount = selectionList.MaxItems;
+				this.resultsPager.ItemCount = selectionList.MaxItems;
 				rprSelectionList.DataSource = selectionList;
 				rprSelectionList.DataBind();
 			}

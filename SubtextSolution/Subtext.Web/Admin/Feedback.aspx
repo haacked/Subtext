@@ -1,5 +1,6 @@
 <%@ Page language="c#" Title="Subtext Admin - Feedback" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="Feedback.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.Feedback" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
+<%@ Register TagPrefix="sub" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
 	Actions
@@ -72,7 +73,11 @@
 			</table>
 		</FooterTemplate>
 		</ASP:Repeater>
-		<st:Pager id="ResultsPager" runat="server" UseSpacer="False" PrefixText="<div>Goto page</div>" UseZeroBasedIndex="true" LinkFormatActive='<a href="{0}" class="Current">{1}</a>' UrlFormat="Feedback.aspx?pg={0}" CssClass="Pager" />
+		<sub:PagingControl id="resultsPager" runat="server" 
+			PrefixText="<div>Goto page</div>" 
+			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' 
+			UrlFormat="Feedback.aspx?pg={0}" 
+			CssClass="Pager" />
 		<asp:Button id="btnDelete" runat="server" CssClass="buttonSubmit" style="float:right" Text="Delete" onclick="OnDeleteClick" />
 		<asp:Button id="btnApprove" runat="server" CssClass="buttonSubmit" style="float:right" Text="Approve" onclick="OnApproveClick" />
 		<br class="clear" />

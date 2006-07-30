@@ -75,8 +75,6 @@ namespace Subtext.Web.Admin.Pages
 				this.btnModerateComments.CausesValidation = false;
 				this.btnModerateComments.Click += OnViewCommentsForModerationClick;
 				AdminMasterPage.AddToActions(this.btnModerateComments);
-
-				
 			}
 			
 			if (!IsPostBack)
@@ -86,8 +84,8 @@ namespace Subtext.Web.Admin.Pages
 				if (Request.QueryString[Keys.QRYSTR_PAGEINDEX] != null)
 					this.pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
 
-				ResultsPager.PageSize = Preferences.ListingItemCount;
-				ResultsPager.PageIndex = this.pageIndex;
+				this.resultsPager.PageSize = Preferences.ListingItemCount;
+				this.resultsPager.PageIndex = this.pageIndex;
 				Results.Collapsible = false;
 
 				BindList();
@@ -99,7 +97,7 @@ namespace Subtext.Web.Admin.Pages
 			this.ModerateComments = false;
 			this.Results.HeaderText = "Comments";
 			HtmlHelper.AppendCssClass(this.btnViewActiveComments, "active");
-			this.ResultsPager.UrlFormat = "Feedback.aspx?pg={0}&moderate=false";
+			this.resultsPager.UrlFormat = "Feedback.aspx?pg={0}&moderate=false";
 			BindList();
 		}
 
@@ -108,7 +106,7 @@ namespace Subtext.Web.Admin.Pages
 			this.ModerateComments = true;
 			this.Results.HeaderText = "Comments Pending Approval";
 			HtmlHelper.AppendCssClass(this.btnModerateComments, "active");
-			this.ResultsPager.UrlFormat = "Feedback.aspx?pg={0}&moderate=true";
+			this.resultsPager.UrlFormat = "Feedback.aspx?pg={0}&moderate=true";
 			BindList();
 		}
 
@@ -167,21 +165,21 @@ namespace Subtext.Web.Admin.Pages
 		private void BindList()
 		{
 			PostConfig postConfig = this.ModerateComments ? PostConfig.NeedsModeratorApproval : PostConfig.IsActive;
-			IPagedCollection<Entry> selectionList = Entries.GetPagedFeedback(this.pageIndex, ResultsPager.PageSize, postConfig);
+			IPagedCollection<Entry> selectionList = Entries.GetPagedFeedback(this.pageIndex, this.resultsPager.PageSize, postConfig);
 
 			this.btnApprove.Visible = this.ModerateComments;
 			
 			if (selectionList.Count > 0)
 			{
-				ResultsPager.Visible = true;
-				ResultsPager.ItemCount = selectionList.MaxItems;
+				this.resultsPager.Visible = true;
+				this.resultsPager.ItemCount = selectionList.MaxItems;
 				rprSelectionList.DataSource = selectionList;
 				rprSelectionList.DataBind();
 				this.btnDelete.Visible = true;
 			}
 			else
 			{
-				ResultsPager.Visible = false;
+				this.resultsPager.Visible = false;
 				
 				//No Comments To Show..
 				Literal noComments = new Literal();

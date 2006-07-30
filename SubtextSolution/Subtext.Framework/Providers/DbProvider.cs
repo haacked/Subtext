@@ -325,7 +325,7 @@ namespace Subtext.Framework.Providers
 		/// <returns></returns>
 		public abstract IDataReader GetBlogsByHost(string host);
 		
-		public abstract IDataReader GetPagedLinks(int CategoryID, int pageIndex, int pageSize, bool sortDescending);
+		public abstract IDataReader GetPagedLinks(int categoryId, int pageIndex, int pageSize, bool sortDescending);
 		
 		/// <summary>
 		/// Returns a data reader (<see cref="IDataReader" />) pointing to all the blog entries 
@@ -353,9 +353,8 @@ namespace Subtext.Framework.Providers
 		/// </summary>
 		/// <param name="pageIndex">Index of the page.</param>
 		/// <param name="pageSize">Size of the page.</param>
-		/// <param name="sortDirection">The sort direction.</param>
 		/// <returns></returns>
-		public abstract IDataReader GetPagedLogEntries(int pageIndex, int pageSize, SortDirection sortDirection);
+		public abstract IDataReader GetPagedLogEntries(int pageIndex, int pageSize);
 		public abstract void ClearLog();
 		public abstract IDataReader GetPagedViewStats(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate);
 		public abstract IDataReader GetPagedReferrers(int pageIndex, int pageSize);

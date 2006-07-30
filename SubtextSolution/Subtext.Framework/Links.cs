@@ -27,9 +27,17 @@ namespace Subtext.Framework
 	{
 		#region Paged Links
 
-        public static IPagedCollection<Link> GetPagedLinks(int categoryTypeID, int pageIndex, int pageSize, bool sortDescending)
+		/// <summary>
+		/// Returns a pageable collection of Link instances for the specified category.
+		/// </summary>
+		/// <param name="categoryId"></param>
+		/// <param name="pageIndex"></param>
+		/// <param name="pageSize"></param>
+		/// <param name="sortDescending"></param>
+		/// <returns></returns>
+        public static IPagedCollection<Link> GetPagedLinks(int categoryId, int pageIndex, int pageSize, bool sortDescending)
 		{
-			return ObjectProvider.Instance().GetPagedLinks(categoryTypeID,pageIndex,pageSize,sortDescending);
+			return ObjectProvider.Instance().GetPagedLinks(categoryId, pageIndex, pageSize, sortDescending);
 		}
 
 		#endregion
