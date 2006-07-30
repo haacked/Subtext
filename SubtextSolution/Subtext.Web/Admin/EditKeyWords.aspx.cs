@@ -55,8 +55,8 @@ namespace Subtext.Web.Admin.Pages
 				if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
 					_resultsPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
 
-				ResultsPager.PageSize = Preferences.ListingItemCount;
-				ResultsPager.PageIndex = _resultsPageNumber;
+				this.resultsPager.PageSize = Preferences.ListingItemCount;
+				this.resultsPager.PageIndex = _resultsPageNumber;
 				Results.Collapsible = false;
 
 				BindList();
@@ -79,11 +79,11 @@ namespace Subtext.Web.Admin.Pages
 		{
 			Edit.Visible = false;
 
-            IPagedCollection<KeyWord> selectionList = KeyWords.GetPagedKeyWords(_resultsPageNumber, ResultsPager.PageSize, true);
+            IPagedCollection<KeyWord> selectionList = KeyWords.GetPagedKeyWords(_resultsPageNumber, this.resultsPager.PageSize);
 			
 			if (selectionList.Count > 0)
 			{
-				ResultsPager.ItemCount = selectionList.MaxItems;
+				this.resultsPager.ItemCount = selectionList.MaxItems;
 				rprSelectionList.DataSource = selectionList;
 				rprSelectionList.DataBind();
 			}

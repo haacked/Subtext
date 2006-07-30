@@ -1,5 +1,6 @@
 <%@ Page language="c#" Title="Subtext Admin - Edit Keywords" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master"  Codebehind="EditKeyWords.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.EditKeyWords" %>
 <%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
+<%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
 </asp:Content>
@@ -18,16 +19,11 @@
 			<HeaderTemplate>
 				<table id="Listing" class="Listing" cellSpacing="0" cellPadding="0" border="0" style="<%= CheckHiddenStyle() %>">
 					<tr>
-						<th width="50">
-							Word</th>
-						<th width="50">
-							Text</th>
-						<th>
-							Url</th>
-						<th width="50">
-							&nbsp;</th>
-						<th width="50">
-							&nbsp;</th>
+						<th width="50">Word</th>
+						<th width="150">Text</th>
+						<th>Url</th>
+						<th width="50">&nbsp;</th>
+						<th width="50">&nbsp;</th>
 					</tr>
 			</HeaderTemplate>
 			<ItemTemplate>
@@ -72,9 +68,11 @@
 				</table>
 			</FooterTemplate>
 		</ASP:Repeater>
-		<ANW:Pager id="ResultsPager" runat="server" UseSpacer="False" PrefixText="<div>Goto page</div>"
-			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' UrlFormat="EditKeyWords.aspx?pg={0}"
-			CssClass="Pager"></ANW:Pager>
+		<st:PagingControl id="resultsPager" runat="server" 
+			PrefixText="<div>Goto page</div>" 
+			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' 
+			UrlFormat="EditKeyWords.aspx?pg={0}" 
+			CssClass="Pager" />
 		<br class="clear" />
 	</ANW:AdvancedPanel>
 	<asp:Button id="btnCreate" runat="server" CssClass="buttonSubmit" Text="Create New" OnClick="btnCreate_Click" />

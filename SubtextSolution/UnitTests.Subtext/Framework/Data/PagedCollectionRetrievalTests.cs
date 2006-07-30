@@ -294,12 +294,14 @@ namespace UnitTests.Subtext.Framework.Data
 			keyword.BlogId = Config.CurrentBlog.Id;
 			keyword.Text = "The Keyword" + index;
 			keyword.Title = "Blah";
+			keyword.Word = "The Word " + index;
+			keyword.Url = "http://localhost/";
 			KeyWords.CreateKeyWord(keyword);
 		}
 
 		public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
 		{
-			return KeyWords.GetPagedKeyWords(pageIndex, pageSize, true);
+			return KeyWords.GetPagedKeyWords(pageIndex, pageSize);
 		}
 
 		public int GetCount(IPagedCollection collection)

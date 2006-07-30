@@ -224,9 +224,9 @@ namespace Subtext.Framework.Util
 			return ObjectProvider.Instance().GetKeyWords();
 		}
 
-        public static IPagedCollection<KeyWord> GetPagedKeyWords(int pageIndex, int pageSize, bool sortDescending)
+        public static IPagedCollection<KeyWord> GetPagedKeyWords(int pageIndex, int pageSize)
 		{
-			return ObjectProvider.Instance().GetPagedKeyWords(pageIndex,pageSize,sortDescending);
+			return ObjectProvider.Instance().GetPagedKeyWords(pageIndex, pageSize);
 		}
 
 		public static void UpdateKeyWord(KeyWord kw)
