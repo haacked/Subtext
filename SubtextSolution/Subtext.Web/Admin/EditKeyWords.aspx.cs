@@ -142,12 +142,12 @@ namespace Subtext.Web.Admin.Pages
 				if (KeyWordID > 0)
 				{
 					successMessage = Constants.RES_SUCCESSEDIT;
-					kw.KeyWordID = KeyWordID;
+					kw.Id = KeyWordID;
 					KeyWords.UpdateKeyWord(kw);
 				}
 				else
 				{
-					KeyWordID = KeyWords.InsertKeyWord(kw);
+					KeyWordID = KeyWords.CreateKeyWord(kw);
 				}
 
 				if (KeyWordID > 0)

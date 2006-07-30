@@ -63,7 +63,7 @@ namespace Subtext.Common.Syndication
 
 				entry.ParentId = UrlFormats.GetPostIDFromUrl(Request.Path);
 
-				Entries.InsertComment(entry);
+				Entries.CreateComment(entry);
 			}
 		}
 	

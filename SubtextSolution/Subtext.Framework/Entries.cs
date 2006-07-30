@@ -483,7 +483,7 @@ namespace Subtext.Framework
 		/// to the Admin with the contents of the comment.
 		/// </remarks>
 		/// <param name="comment">Entry.</param>
-		public static int InsertComment(Entry comment)
+		public static int CreateComment(Entry comment)
 		{
 			// what follows relies on context, so guard
 			if (null == HttpContext.Current) return NullValue.NullInt32;

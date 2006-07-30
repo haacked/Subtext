@@ -234,7 +234,7 @@ namespace Subtext.Framework.Util
 			ObjectProvider.Instance().UpdateKeyWord(kw);
 		}
 
-		public static int InsertKeyWord(KeyWord kw)
+		public static int CreateKeyWord(KeyWord kw)
 		{
 			return ObjectProvider.Instance().InsertKeyWord(kw);
 		}

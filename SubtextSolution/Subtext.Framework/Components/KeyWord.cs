@@ -86,13 +86,13 @@ namespace Subtext.Framework.Components
 			set {this._blogID = value;}
 		}
 
-		private int _keyWordID;
 		[XmlAttribute]
-		public int KeyWordID
+		public int Id
 		{
-			get {return this._keyWordID;}
-			set {this._keyWordID = value;}
+			get {return this.id;}
+			set {this.id = value;}
 		}
+		private int id;
 
 		private string _format = null;
 		public string GetFormat

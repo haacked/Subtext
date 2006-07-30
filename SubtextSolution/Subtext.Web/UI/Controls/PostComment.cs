@@ -128,7 +128,7 @@ namespace Subtext.Web.UI.Controls
 						entry.SourceName = HttpHelper.GetUserIpAddress(Context);
 						entry.SourceUrl = currentEntry.Url;
 
-						Entries.InsertComment(entry);
+						Entries.CreateComment(entry);
 
 						if(chkRemember == null || chkRemember.Checked)
 						{

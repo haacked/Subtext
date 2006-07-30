@@ -62,7 +62,7 @@ namespace Subtext.Web.UI.Controls
 					entry.AlternativeTitleUrl = "contact.aspx";
 					entry.Title = "CONTACT: " + tbSubject.Text;
 					entry.SourceName = HttpHelper.GetUserIpAddress(Context);
-					Entries.InsertComment(entry);
+					Entries.CreateComment(entry);
 					
 					lblMessage.Text = "Your message was sent.";
 					tbName.Text = "";

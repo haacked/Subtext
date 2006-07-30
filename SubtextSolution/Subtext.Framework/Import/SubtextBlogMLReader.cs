@@ -200,7 +200,7 @@ namespace Subtext.Framework.Import
 
 	        try
 	        {
-	            Entries.InsertComment(newComment);
+	            Entries.CreateComment(newComment);
 	        }
 	        catch (CommentDuplicateException cDE)
 	        {

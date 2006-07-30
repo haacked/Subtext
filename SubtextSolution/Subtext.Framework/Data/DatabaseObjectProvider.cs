@@ -954,19 +954,19 @@ namespace Subtext.Framework.Data
 			}
 		}
 		
-		public override bool UpdateKeyWord(KeyWord kw)
+		public override bool UpdateKeyWord(KeyWord keyWord)
 		{
-			return DbProvider.Instance().UpdateKeyWord(kw);
+			return DbProvider.Instance().UpdateKeyWord(keyWord);
 		}
 
-		public override int InsertKeyWord(KeyWord kw)
+		public override int InsertKeyWord(KeyWord keyWord)
 		{
-			return DbProvider.Instance().InsertKeyWord(kw);
+			return DbProvider.Instance().InsertKeyWord(keyWord);
 		}
 
-		public override bool DeleteKeyWord(int KeyWordID)
+		public override bool DeleteKeyWord(int id)
 		{
-			return DbProvider.Instance().DeleteKeyWord(KeyWordID);
+			return DbProvider.Instance().DeleteKeyWord(id);
 		}
 
 		#endregion
