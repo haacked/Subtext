@@ -13,7 +13,7 @@ namespace Subtext.Web.Admin.Pages {
     public partial class ErrorLog {
         protected Subtext.Web.Admin.WebUI.AdvancedPanel Log;
         protected Subtext.Web.Controls.RepeaterWithEmptyDataTemplate LogPage;
-        protected Subtext.Web.Admin.WebUI.Pager LogPager;
+        protected Subtext.Web.Controls.PagingControl resultsPager;
         protected System.Web.UI.WebControls.Button btnExportToExcel;
         protected System.Web.UI.WebControls.Button btnClearLog;
     }

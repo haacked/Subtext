@@ -76,10 +76,12 @@
 	</asp:Repeater>
 	
 	<p id="NoMessagesLabel" runat="server" visible="false">No entries found.</p>
-	
-	<ANW:Pager id="ResultsPager" runat="server" CssClass="Pager" UrlFormat="EditPosts.aspx?pg={0}"
-		LinkFormatActive='<a href="{0}" class="Current">{1}</a>' PrefixText="<div>Goto page</div>"
-		UseSpacer="False" UseZeroBasedIndex="true"></ANW:Pager>
+		
+	<st:PagingControl id="resultsPager" runat="server" 
+			PrefixText="<div>Goto page</div>" 
+			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' 
+			UrlFormat="EditPosts.aspx?pg={0}" 
+			CssClass="Pager" />
 	<br class="clear" />
 </ANW:AdvancedPanel>
 

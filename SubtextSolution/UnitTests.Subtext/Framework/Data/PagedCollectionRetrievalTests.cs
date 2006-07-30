@@ -1,10 +1,16 @@
 using System;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using MbUnit.Framework;
+using Microsoft.ApplicationBlocks.Data;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Logging;
 using UnitTests.Subtext;
+using UnitTests.Subtext.Framework.Data;
 
 namespace UnitTests.Subtext.Framework.Data
 {
@@ -12,6 +18,7 @@ namespace UnitTests.Subtext.Framework.Data
 	public class PagedCollectionRetrievalTests
 	{
 		string hostName;
+		
 		/// <summary>
 		/// Creates some entries and makes sure that the proper 
 		/// number of pages and entries per page are created 
@@ -26,17 +33,45 @@ namespace UnitTests.Subtext.Framework.Data
 		[RollBack]
 		public void GetPagedEntriesHandlesPagingProperly(int total, int pageSize, int expectedPageCount, int itemsCountOnLastPage)
 		{
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", this.hostName, "blog"));
 			IPagedCollectionTester[] collectionTesters = {
 			                           	new PagedEntryCollectionTester()
 										, new PagedEntryByCategoryCollectionTester()
 										, new FeedbackCollectionTester()
-										, new LinkCollectionTester()
 			                           };
 
 			foreach (IPagedCollectionTester factory in collectionTesters)
 			{
 				AssertPagedCollection(factory, expectedPageCount, itemsCountOnLastPage, pageSize, total);
 			}
+		}
+
+		[RowTest]
+		[Row(11, 10, 2, 1)]
+		[Row(11, 5, 3, 1)]
+		[Row(12, 5, 3, 2)]
+		[Row(10, 5, 2, 5)]
+		[Row(10, 20, 1, 10)]
+		[RollBack]
+		public void GetPagedLinksHandlesPagingProperly(int total, int pageSize, int expectedPageCount, int itemsCountOnLastPage)
+		{
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", this.hostName, "blog"));
+			IPagedCollectionTester tester = new LinkCollectionTester();
+			AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
+		}
+
+		[RowTest]
+		[Row(11, 10, 2, 1)]
+		[Row(11, 5, 3, 1)]
+		[Row(12, 5, 3, 2)]
+		[Row(10, 5, 2, 5)]
+		[Row(10, 20, 1, 10)]
+		[RollBack]
+		public void GetPagedLogEntriesHandlesPagingProperly(int total, int pageSize, int expectedPageCount, int itemsCountOnLastPage)
+		{
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", this.hostName, "blog"));
+			IPagedCollectionTester tester = new LogEntryCollectionTester();
+			AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
 		}
 
 		private static void AssertPagedCollection(IPagedCollectionTester pagedCollectionTester, int expectedPageCount, int itemsCountOnLastPage, int pageSize, int total)
@@ -76,7 +111,6 @@ namespace UnitTests.Subtext.Framework.Data
 		public void SetUp()
 		{
 			this.hostName = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", this.hostName, "blog"));
 			UnitTestHelper.SetHttpContextWithBlogRequest(this.hostName, "blog");
 			CommentFilter.ClearCommentCache();	
 		}
@@ -165,6 +199,36 @@ namespace UnitTests.Subtext.Framework.Data
 		}	
 	}
 
+	internal class LogEntryCollectionTester : IPagedCollectionTester
+	{
+		public void Create(int index)
+		{
+			SqlParameter[] parameters = {
+			                            	new SqlParameter("@BlogId", Config.CurrentBlog.Id)
+											, new SqlParameter("@Date", DateTime.Now)
+											, new SqlParameter("@Thread", "SomeThread")
+											, new SqlParameter("@Context", "SomeContext")
+											, new SqlParameter("@Level", "unit test")
+											, new SqlParameter("@Logger", "UnitTestLogger")
+											, new SqlParameter("@Message", "This test was brought to you by the letter 'Q'.")
+											, new SqlParameter("@Exception", "")
+											, new SqlParameter("@Url", "http://localhost/")
+			                            };
+			SqlHelper.ExecuteNonQuery(ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString, CommandType.StoredProcedure, "subtext_AddLogEntry", parameters);
+			
+		}
+
+		public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
+		{
+			return LoggingProvider.Instance().GetPagedLogEntries(pageIndex, pageSize);
+		}
+
+		public int GetCount(IPagedCollection collection)
+		{
+			return ((IPagedCollection<LogEntry>)collection).Count;
+		}
+	}
+
 	internal class LinkCollectionTester : IPagedCollectionTester
 	{
 		int categoryId;
@@ -177,24 +241,23 @@ namespace UnitTests.Subtext.Framework.Data
 			category.Title = "Foobar";
 			category.Description = "Unit Test";
 			this.categoryId = Links.CreateLinkCategory(category);
+			
+			//Create a couple links that should be ignored because postId is not null.
+			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Phil", "title", "in great shape");
+			int entryId = Entries.Create(entry);
+			UnitTestHelper.CreateLinkInDb(this.categoryId, "A Forgettable Link", entryId);
+			UnitTestHelper.CreateLinkInDb(this.categoryId, "Another Forgettable Link", entryId);
+			UnitTestHelper.CreateLinkInDb(this.categoryId, "Another Forgettable Link", entryId);
 		}
 
 		public void Create(int index)
 		{
-			Link link = new Link();
-			link.BlogId = Config.CurrentBlog.Id;
-			link.IsActive = true;
-			link.CategoryID = this.categoryId;
-			link.Title = "Blah " + index;
-			link.Url = "http://noneofyourbusiness.com/";
-			Links.CreateLink(link);
+			UnitTestHelper.CreateLinkInDb(this.categoryId, "A Link To Remember Part " + index, null);
 		}
 
 		public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
 		{
-			//TODO: Unfortunately, GetPagedLinks takes in a one-based index.  Wasn't my idea.
-			//I'll refactor it later.
-			return Links.GetPagedLinks(categoryId, pageIndex + 1, pageSize, true);
+			return Links.GetPagedLinks(categoryId, pageIndex, pageSize, true);
 		}
 
 		public int GetCount(IPagedCollection collection)

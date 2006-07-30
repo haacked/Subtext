@@ -265,10 +265,10 @@ namespace Subtext.Framework.Data
 			return command.ExecuteReader(CommandBehavior.CloseConnection);
 		}
 
-		public override IDataReader GetPagedLinks(int CategoryID, int pageIndex, int pageSize, bool sortDescending)
+		public override IDataReader GetPagedLinks(int categoryId, int pageIndex, int pageSize, bool sortDescending)
 		{
-			bool useCategory = CategoryID > -1;
-			string sql = useCategory ? "subtext_GetPageableLinksByCategoryID" : "subtext_GetPageableLinks";
+			bool useCategory = categoryId > -1;
+			string sql = "subtext_GetPageableLinks";
 			
 			SqlConnection conn = new SqlConnection(ConnectionString);
 			SqlCommand command = new SqlCommand(sql,conn);
@@ -276,12 +276,11 @@ namespace Subtext.Framework.Data
 		
 			command.Parameters.Add(DataHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex));
 			command.Parameters.Add(DataHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize));
-			command.Parameters.Add(DataHelper.MakeInParam("@SortDesc", SqlDbType.Bit, 1, sortDescending));
 			command.Parameters.Add(BlogIdParam);
 		
 			if (useCategory)
 			{
-				command.Parameters.Add(DataHelper.MakeInParam("@CategoryID", SqlDbType.Int, 4, DataHelper.CheckNull(CategoryID)));
+				command.Parameters.Add(DataHelper.MakeInParam("@CategoryID", SqlDbType.Int, 4, DataHelper.CheckNull(categoryId)));
 			}
 
 			conn.Open();
@@ -382,15 +381,13 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="pageIndex">Index of the page.</param>
 		/// <param name="pageSize">Size of the page.</param>
-		/// <param name="sortDirection">The sort direction.</param>
 		/// <returns></returns>
-		public override IDataReader GetPagedLogEntries(int pageIndex, int pageSize, SortDirection sortDirection)
+		public override IDataReader GetPagedLogEntries(int pageIndex, int pageSize)
 		{
 			SqlParameter[] p =
 			{
 				DataHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex),
 				DataHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize),
-				DataHelper.MakeInParam("@SortDesc", SqlDbType.Bit, 1, sortDirection == SortDirection.Descending),
 				BlogIdParam
 			};
 			return GetReader("subtext_GetPageableLogEntries", p);

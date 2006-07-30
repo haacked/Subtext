@@ -54,6 +54,11 @@ GO
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertPostCategoryByName]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_InsertPostCategoryByName]
 GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableLinksByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableLinksByCategoryID]
+GO
+
 /* The Rest of the script */
 
 /* Note: DNW_* are the aggregate blog procs */
@@ -215,10 +220,6 @@ GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableLinks]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableLinks]
-GO
-
-if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableLinksByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableLinksByCategoryID]
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableReferrers]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
@@ -1299,7 +1300,7 @@ SET @StartRowIndex = @PageIndex * @PageSize + 1
 
 SET ROWCOUNT @StartRowIndex
 -- Get the first entry id for the current page.
-SELECT	@FirstId = [ID] FROM subtext_Content 
+SELECT	@FirstId = [ID] FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	BlogId = @BlogId 
 	AND PostType = @PostType 
 ORDER BY [ID] DESC
@@ -1383,7 +1384,7 @@ SET @StartRowIndex = @PageIndex * @PageSize + 1
 SET ROWCOUNT @StartRowIndex
 -- Get the first entry id for the current page.
 SELECT	@FirstId = content.[ID] 
-FROM subtext_Content content
+FROM [<dbUser,varchar,dbo>].[subtext_Content] content
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links ON content.[ID] = ISNULL(links.PostID, -1)
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] cats ON (links.CategoryID = cats.CategoryID)
 WHERE	content.BlogId = @BlogId 
@@ -1469,7 +1470,7 @@ SET @StartRowIndex = @PageIndex * @PageSize + 1
 SET ROWCOUNT @StartRowIndex
 -- Get the first entry id for the current page.
 SELECT @FirstId = [ID] 
-FROM subtext_Content 
+FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE 	BlogId = @BlogId 
 	AND (PostType = 3 OR PostType = 4)
 	AND PostConfig & @PostConfig = @PostConfig
@@ -1531,44 +1532,35 @@ GO
 SET ANSI_NULLS ON 
 GO
 
+
+/*
+Selects a page of log posts within the admin section.
+Updated this to use a more efficient paging technique:
+http://www.4guysfromrolla.com/webtech/041206-1.shtml
+*/
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableLogEntries]
 (
 	@BlogId int
 	, @PageIndex int
 	, @PageSize int
-	, @SortDesc bit
 )
 AS
 
-DECLARE @PageLowerBound int
-DECLARE @PageUpperBound int
+DECLARE @FirstId int
+DECLARE @StartRow int
+DECLARE @StartRowIndex int
 
-SET @PageLowerBound = @PageSize * @PageIndex - @PageSize
-SET @PageUpperBound = @PageLowerBound + @PageSize + 1
+SET @StartRowIndex = @PageIndex * @PageSize + 1
 
+SET ROWCOUNT @StartRowIndex
+-- Get the first entry id for the current page.
+SELECT	@FirstId = [ID] FROM [<dbUser,varchar,dbo>].[subtext_Log] 
+WHERE	BlogId = @BlogId OR @BlogId IS NULL
+ORDER BY [ID] DESC
 
-CREATE TABLE #TempPagedEntryIDs 
-(
-	TempID int IDENTITY (1, 1) NOT NULL,
-	EntryID int NOT NULL
-)	
-
-IF NOT (@SortDesc = 1)
-BEGIN
-	INSERT INTO #TempPagedEntryIDs (EntryID)
-	SELECT	[ID] 
-	FROM [<dbUser,varchar,dbo>].[subtext_Log] 
-	WHERE 	(BlogId = @BlogId OR @BlogId IS NULL)
-	ORDER BY [Date]
-END
-ELSE
-BEGIN
-	INSERT INTO #TempPagedEntryIDs (EntryID)
-	SELECT	[ID] 
-	FROM [<dbUser,varchar,dbo>].[subtext_Log]
-	WHERE 	(BlogId = @BlogId OR @BlogId IS NULL)
-	ORDER BY [Date] DESC
-END
+-- Now, set the row count to MaximumRows and get
+-- all records >= @first_id
+SET ROWCOUNT @PageSize
 
 SELECT	[log].[Id]
 		, [log].[BlogId]
@@ -1581,20 +1573,14 @@ SELECT	[log].[Id]
 		, [log].[Exception]
 		, [log].[Url]
 FROM [<dbUser,varchar,dbo>].[subtext_Log] [log]
-    INNER JOIN #TempPagedEntryIDs tmp ON ([log].[ID] = tmp.EntryID)
-WHERE 	(
-			[log].BlogId = @BlogId  
-		OR @BlogId IS NULL
-		)
-	AND tmp.TempID > @PageLowerBound 
-	AND tmp.TempID < @PageUpperBound
-ORDER BY tmp.TempID
+WHERE 	([log].BlogId = @BlogId or @BlogId IS NULL)
+	AND [log].[ID] <= @FirstId
+ORDER BY [log].[ID] DESC
  
-DROP TABLE #TempPagedEntryIDs
-
-SELECT 	COUNT([ID]) AS TotalRecords
+SELECT COUNT([ID]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_Log] 
-WHERE 	(BlogId = @BlogId OR @BlogId IS NULL)
+WHERE 	BlogId = @BlogId 
+	OR 	@BlogId IS NULL
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -1691,49 +1677,36 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-
+/* Returns a page of links for the admin section */
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableLinks]
 (
 	@BlogId int
+	, @CategoryId int = NULL
 	, @PageIndex int
 	, @PageSize int
-	, @SortDesc bit
 )
 AS
 
-DECLARE @PageLowerBound int
-DECLARE @PageUpperBound int
+DECLARE @FirstId int
+DECLARE @StartRow int
+DECLARE @StartRowIndex int
 
-SET @PageLowerBound = @PageSize * @PageIndex - @PageSize
-SET @PageUpperBound = @PageLowerBound + @PageSize + 1
+SET @StartRowIndex = @PageIndex * @PageSize + 1
 
+SET ROWCOUNT @StartRowIndex
+-- Get the first entry id for the current page.
+SELECT @FirstId = LinkID
+FROM [<dbUser,varchar,dbo>].[subtext_Links]
+WHERE 	BlogId = @BlogId 
+	AND (CategoryID = @CategoryID OR @CategoryID IS NULL)
+	AND PostID IS NULL
+ORDER BY [LinkID] DESC
 
-CREATE TABLE #TempPagedLinkIDs 
-(
-	TempID int IDENTITY (1, 1) NOT NULL,
-	LinkID int NOT NULL
-)	
+-- Now, set the row count to MaximumRows and get
+-- all records >= @first_id
+SET ROWCOUNT @PageSize
 
-IF NOT (@SortDesc = 1)
-BEGIN
-	INSERT INTO #TempPagedLinkIDs (LinkID)
-	SELECT	LinkID
-	FROM [<dbUser,varchar,dbo>].[subtext_Links] 
-	WHERE 	BlogId = @BlogId 
-		AND PostID IS NULL
-	ORDER BY Title
-END
-ELSE
-BEGIN
-	INSERT INTO #TempPagedLinkIDs (LinkID)
-	SELECT	LinkID
-	FROM [<dbUser,varchar,dbo>].[subtext_Links]
-	WHERE 	BlogId = @BlogId 
-		AND PostID IS NULL
-	ORDER BY [Title] DESC
-END
-
-SELECT 	links.LinkID 
+SELECT links.LinkID 
 	, links.Title 
 	, links.Url
 	, links.Rss 
@@ -1741,23 +1714,18 @@ SELECT 	links.LinkID
 	, links.NewWindow 
 	, links.CategoryID
 	, PostID = ISNULL(links.PostID, -1)
-FROM 	
-	subtext_Links links
-	INNER JOIN #TempPagedLinkIDs tmp ON (links.LinkID = tmp.LinkID)
-WHERE 	
-		links.BlogId = @BlogId 
-	AND tmp.TempID > @PageLowerBound
-	AND tmp.TempID < @PageUpperBound
-ORDER BY
-	tmp.TempID
- 
-DROP TABLE #TempPagedLinkIDs
-
-SELECT 	COUNT([LinkID]) AS TotalRecords
-FROM [<dbUser,varchar,dbo>].[subtext_Links] 
-WHERE 	BlogId = @BlogId
+FROM [<dbUser,varchar,dbo>].[subtext_Links] links
+WHERE 	links.BlogId = @BlogId 
+	AND links.[LinkId] <= @FirstId
+	AND (CategoryID = @CategoryID OR @CategoryID IS NULL)
 	AND PostID IS NULL
-
+ORDER BY links.[LinkID] DESC
+ 
+SELECT COUNT([LinkID]) AS TotalRecords
+FROM [<dbUser,varchar,dbo>].[subtext_Links] 
+WHERE 	BlogId = @BlogId 
+	AND (CategoryID = @CategoryID OR @CategoryID IS NULL)
+	AND PostID IS NULL
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -1777,7 +1745,7 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableLinksByCategoryID]
 (
 	@BlogId int
-	, @CategoryID int
+	, @CategoryID int = NULL
 	, @PageIndex int
 	, @PageSize int
 	, @SortDesc bit

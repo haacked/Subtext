@@ -364,6 +364,20 @@ namespace UnitTests.Subtext
 			return entry;
 		}
 
+		public static Link CreateLinkInDb(int categoryId, string title, int? entryId)
+		{
+			Link link = new Link();
+			link.BlogId = Config.CurrentBlog.Id;
+			link.IsActive = true;
+			link.CategoryID = categoryId;
+			link.Title = title;
+			link.Url = "http://noneofyourbusiness.com/";
+			if (entryId != null)
+				link.PostID = (int)entryId;
+			link.Id = Links.CreateLink(link);
+			return link;
+		}
+		
 		/// <summary>
 		/// Creates an entry instance with the proper syndication settings.
 		/// </summary>

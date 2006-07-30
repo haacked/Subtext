@@ -14,7 +14,6 @@
 #endregion
 
 using System;
-using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
 using Subtext.Framework.Logging;
 using Subtext.Web.Admin.WebUI;
@@ -42,16 +41,16 @@ namespace Subtext.Web.Admin.Pages
 			if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
 				this.logPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
 
-			LogPager.PageSize = Preferences.ListingItemCount;
-			LogPager.PageIndex = this.logPageNumber;
+			this.resultsPager.PageSize = Preferences.ListingItemCount;
+			this.resultsPager.PageIndex = this.logPageNumber;
 
 			BindList();
 		}
 
 		private void BindList()
 		{
-            IPagedCollection<LogEntry> logEntries = LoggingProvider.Instance().GetPagedLogEntries(LogPager.PageIndex, LogPager.PageSize, Subtext.Framework.Data.SortDirection.Descending);
-			LogPager.ItemCount = logEntries.MaxItems;
+            IPagedCollection<LogEntry> logEntries = LoggingProvider.Instance().GetPagedLogEntries(this.resultsPager.PageIndex, this.resultsPager.PageSize);
+			this.resultsPager.ItemCount = logEntries.MaxItems;
 			LogPage.DataSource = logEntries;
 			LogPage.DataBind();		
 		}
@@ -80,13 +79,13 @@ namespace Subtext.Web.Admin.Pages
 		private void btnClearLog_Click(object sender, EventArgs e)
 		{
 			LoggingProvider.Instance().ClearLog();
-			LogPager.PageIndex = 0; //Back to first page.
+			this.resultsPager.PageIndex = 0; //Back to first page.
 			BindList();
 		}
 
 		private void BindListForExcel()
 		{
-            IPagedCollection<LogEntry> logEntries = LoggingProvider.Instance().GetPagedLogEntries(1, int.MaxValue - 1, Subtext.Framework.Data.SortDirection.Descending);
+            IPagedCollection<LogEntry> logEntries = LoggingProvider.Instance().GetPagedLogEntries(1, int.MaxValue - 1);
 			LogPage.DataSource = logEntries;
 			LogPage.DataBind();
 		}
