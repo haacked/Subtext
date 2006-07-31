@@ -1,5 +1,6 @@
 <%@ Page language="c#" Title="Subtext Admin - Referrers" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="Referrers.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.Referrers" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
+<%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
 </asp:Content>
@@ -72,9 +73,8 @@
 			</table>
 		</FooterTemplate>
 		</ASP:Repeater>
-		<st:Pager id="ResultsPager" runat="server" CssClass="Pager" UrlFormat="Referrers.aspx?pg={0}"
-			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' PrefixText="<div>Goto page</div>"
-			UseSpacer="False"></st:Pager>
+		<st:PagingControl id="resultsPager" runat="server" CssClass="Pager" UrlFormat="Referrers.aspx?pg={0}"
+			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' PrefixText="<div>Goto page</div>" />
 		<br class="clear">
 	</st:AdvancedPanel>
 	<st:AdvancedPanel id="Edit" runat="server" DisplayHeader="True" HeaderCssClass="CollapsibleTitle"

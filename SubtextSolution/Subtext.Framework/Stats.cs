@@ -140,12 +140,12 @@ namespace Subtext.Framework
 
         public static IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize)
 		{
-			return ObjectProvider.Instance().GetPagedReferrers(pageIndex, pageSize);
+			return GetPagedReferrers(pageIndex, pageSize, int.MinValue);
 		}
 
-        public static IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize, int EntryID)
+        public static IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize, int entryId)
 		{
-			return ObjectProvider.Instance().GetPagedReferrers(pageIndex, pageSize, EntryID);
+			return ObjectProvider.Instance().GetPagedReferrers(pageIndex, pageSize, entryId);
 		}
 
 		#endregion

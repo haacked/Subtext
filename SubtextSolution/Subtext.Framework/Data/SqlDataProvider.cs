@@ -23,6 +23,7 @@ using Microsoft.ApplicationBlocks.Data;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 
@@ -86,25 +87,12 @@ namespace Subtext.Framework.Data
 		{
 			if(evc != null)
 			{
-				SqlConnection conn = new SqlConnection(this.ConnectionString);
-				try
-				{	
-					foreach(EntryView ev in evc)
-					{
-						TrackEntry(ev);
-					}
-					return true;
-				
-				}
-				finally
+				foreach(EntryView ev in evc)
 				{
-					if(conn.State == ConnectionState.Open)
-					{
-						conn.Close();
-					}
+					TrackEntry(ev);
 				}
+				return true;
 			}
-			
 			
 			return false;
 		}
@@ -124,7 +112,15 @@ namespace Subtext.Framework.Data
 						DataHelper.MakeInParam("@URL", SqlDbType.NVarChar, 255, ev.ReferralUrl),
 						DataHelper.MakeInParam("@IsWeb", SqlDbType.Bit,1, ev.PageViewType)
 			};
-			return this.NonQueryBool("subtext_TrackEntry", p);
+			try
+			{
+				return this.NonQueryBool("subtext_TrackEntry", p);
+			}
+			catch(Exception e)
+			{
+				Console.WriteLine(e.Message + e.StackTrace);
+			}
+			return false;
 		}
 		
 		#endregion
@@ -315,30 +311,17 @@ namespace Subtext.Framework.Data
 			return GetReader("subtext_GetPageableViewStats",p);
 		}
 
-		public override IDataReader GetPagedReferrers(int pageIndex, int pageSize)
+		public override IDataReader GetPagedReferrers(int pageIndex, int pageSize, int entryId)
 		{
 			SqlParameter[] p =
 			{
 				BlogIdParam,
-				DataHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex),
-				DataHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize)
-			};
-			return GetReader("subtext_GetPageableReferrers",p);
-
-		}
-
-		public override IDataReader GetPagedReferrers(int pageIndex, int pageSize, int EntryID)
-		{
-			SqlParameter[] p =
-			{
-				BlogIdParam,
-				DataHelper.MakeInParam("@EntryID", SqlDbType.Int, 4, DataHelper.CheckNull(EntryID)),
+				DataHelper.MakeInParam("@EntryID", SqlDbType.Int, 4, DataHelper.CheckNull(entryId)),
 				DataHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex),
 				DataHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize)
 			};
 			
-			
-			return GetReader("subtext_GetPageableReferrersByEntryID",p);
+			return GetReader("subtext_GetPageableReferrers", p);
 
 		}
 		

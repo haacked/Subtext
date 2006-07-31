@@ -348,8 +348,7 @@ namespace Subtext.Framework.Providers
 		public abstract IDataReader GetPagedLogEntries(int pageIndex, int pageSize);
 		public abstract void ClearLog();
 		public abstract IDataReader GetPagedViewStats(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate);
-		public abstract IDataReader GetPagedReferrers(int pageIndex, int pageSize);
-		public abstract IDataReader GetPagedReferrers(int pageIndex, int pageSize, int EntryID);
+		public abstract IDataReader GetPagedReferrers(int pageIndex, int pageSize, int entryId);
 
 		#endregion
 

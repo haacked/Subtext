@@ -246,7 +246,6 @@
     <Compile Include="Admin\WebUI\Controls\HeaderLink.cs" />
     <Compile Include="Admin\WebUI\Controls\LinkList.cs" />
     <Compile Include="Admin\WebUI\Controls\MessagePanel.cs" />
-    <Compile Include="Admin\WebUI\Controls\Pager.cs" />
     <Compile Include="Admin\WebUI\Controls\ScriptTag.cs" />
     <Compile Include="Admin\WebUI\StatsPage.cs">
       <SubType>ASPXCodeBehind</SubType>
