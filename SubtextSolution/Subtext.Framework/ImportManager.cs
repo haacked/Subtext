@@ -19,7 +19,6 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
 using Subtext.Framework.UI.Skinning;
-using System.Configuration.Provider;
 using SkinConfig = Subtext.Framework.Configuration.SkinConfig;
 
 namespace Subtext.Framework
@@ -32,7 +31,7 @@ namespace Subtext.Framework
 		/// <summary>
 		/// Gets the import information control for the specified import provider.
 		/// </summary>
-		/// <param name="providerInfo">Provider info.</param>
+		/// <param name="provider">Provider info.</param>
 		/// <returns></returns>
 		public static Control GetImportInformationControl(ImportProvider provider)
 		{
@@ -45,7 +44,7 @@ namespace Subtext.Framework
 		/// empty if there are no errors.
 		/// </summary>
 		/// <param name="populatedControl">Information.</param>
-		/// <param name="providerInfo"></param>
+		/// <param name="provider"></param>
 		/// <returns></returns>
         public static string ValidateImportAnswers(Control populatedControl, ImportProvider provider)
 		{
@@ -60,7 +59,7 @@ namespace Subtext.Framework
 		{
             provider.Import(populatedControl);
 
-            IPagedCollection<BlogInfo> blogs = null;
+            IPagedCollection<BlogInfo> blogs;
 			ObjectProvider objProvider = ObjectProvider.Instance();
 
 			int totalBlogCount = Config.BlogCount;
@@ -76,7 +75,7 @@ namespace Subtext.Framework
 			
 			while (currentPage <= pages)
 			{
-				blogs = objProvider.GetPagedBlogs(currentPage, pageSize, true);
+				blogs = BlogInfo.GetBlogs(currentPage, pageSize, ConfigurationFlag.IsActive);
 
 				foreach(BlogInfo currentBlogInfo in blogs)
 				{

@@ -19,6 +19,7 @@ using System.Data;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using System.Configuration.Provider;
 
@@ -305,25 +306,15 @@ namespace Subtext.Framework.Providers
 		/// </summary>
 		/// <param name="pageIndex">Page index.</param>
 		/// <param name="pageSize">Size of the page.</param>
-		/// <param name="sortDescending">Sort descending.</param>
 		/// <returns></returns>
-		public abstract IDataReader GetPagedBlogs(int pageIndex, int pageSize, bool sortDescending);
-		
+		public abstract IDataReader GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlag flags);
+
 		/// <summary>
 		/// Gets the blog by id.
 		/// </summary>
 		/// <param name="blogId">Blog id.</param>
 		/// <returns></returns>
 		public abstract IDataReader GetBlogById(int blogId);
-		
-		/// <summary>
-		/// Returns an instance of <see cref="IDataReader"/> used to 
-		/// iterate through a result set containing blog_config rows 
-		/// with the specified host.
-		/// </summary>
-		/// <param name="host">Host.</param>
-		/// <returns></returns>
-		public abstract IDataReader GetBlogsByHost(string host);
 		
 		public abstract IDataReader GetPagedLinks(int categoryId, int pageIndex, int pageSize, bool sortDescending);
 		

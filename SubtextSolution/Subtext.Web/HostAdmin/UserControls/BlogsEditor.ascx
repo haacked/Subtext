@@ -1,9 +1,10 @@
-<%@ Register TagPrefix="SP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
+<%@ Control Language="c#" AutoEventWireup="True" Codebehind="BlogsEditor.ascx.cs" Inherits="Subtext.Web.HostAdmin.UserControls.BlogsEditor" TargetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
+<%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
-<%@ Control Language="c#" AutoEventWireup="false" Codebehind="BlogsEditor.ascx.cs" Inherits="Subtext.Web.HostAdmin.UserControls.BlogsEditor" TargetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
+
 <ANW:MessagePanel id="messagePanel" runat="server"></ANW:MessagePanel>
 <ANW:AdvancedPanel id="pnlResults" runat="server">
-	<asp:CheckBox id="chkShowInactive" AutoPostBack="True" Text="Show Inactive Blogs" Runat="server"></asp:CheckBox>
+	<asp:CheckBox id="chkShowInactive" AutoPostBack="True" Text="Show Inactive Blogs" Runat="server" oncheckedchanged="chkShowInactive_CheckedChanged"></asp:CheckBox>
 	<asp:Repeater id="rprBlogsList" Runat="server" OnItemCommand="rprBlogsList_ItemCommand">
 		<HeaderTemplate>
 			<table class="Listing" cellSpacing="0" cellPadding="4" border="0">
@@ -70,14 +71,16 @@
 			</table>
 		</FooterTemplate>
 	</asp:Repeater>
-	<P id="lblNoMessages" runat="server" visible="false">No entries found.</P>
-	<ANW:Pager id="resultsPager" runat="server" CssClass="Pager" UrlFormat="Default.aspx?pg={0}"
-		LinkFormatActive='<a href="{0}" class="Current">{1}</a>' PrefixText="<div>Goto page</div>"
-		UseSpacer="False"></ANW:Pager>
+	<p id="lblNoMessages" runat="server" visible="false">No entries found.</p>
+	<st:PagingControl id="resultsPager" runat="server" 
+			PrefixText="<div>Goto page</div>" 
+			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' 
+			UrlFormat="Default.aspx?pg={0}" 
+			CssClass="Pager" />
 </ANW:AdvancedPanel>
 <ANW:AdvancedPanel id="pnlEdit" runat="server">
-	<SP:HelpToolTip id="blogEditorHelp" runat="server">
-		<IMG id="Img3" src="~/images/ms_help.gif" align="right" runat="server"></SP:HelpToolTip>
+	<st:HelpToolTip id="blogEditorHelp" runat="server">
+		<IMG id="Img3" src="~/images/ms_help.gif" align="right" runat="server"></st:HelpToolTip>
 	<script type="text/javascript">
 			function replace( str, from, to ) 
 			{
@@ -151,8 +154,8 @@
 			}
 	</script>
 	<strong>
-		<SP:HelpToolTip id="Helptooltip1" runat="server" HelpText="Based on what you’ve entered below, this shows what the url to this blog will look like.">
-			Url Preview</SP:HelpToolTip>:
+		<st:HelpToolTip id="Helptooltip1" runat="server" HelpText="Based on what you’ve entered below, this shows what the url to this blog will look like.">
+			Url Preview</st:HelpToolTip>:
 	</strong>
 	<div class="MessagePanel" id="urlPreview">http://
 	</div>
@@ -167,7 +170,7 @@
 		<tr valign="top">
 			<td>
 				<label for="txtHost">
-				<SP:HelpToolTip id="hostDomainHelpTip" runat="server"><strong>Host Domain</strong></SP:HelpToolTip>:</label>
+				<st:HelpToolTip id="hostDomainHelpTip" runat="server"><strong>Host Domain</strong></st:HelpToolTip>:</label>
 			</td>
 			<td>
 				<asp:TextBox id="txtHost" Runat="server" MaxLength="100"></asp:TextBox><INPUT id="virtualDirectory" type="hidden" runat="server">
@@ -175,8 +178,8 @@
 		</tr>
 		<tr valign="top">
 			<td>
-				<SP:HelpToolTip id="applicationHelpTip" runat="server">
-					<strong>Subfolder</strong></SP:HelpToolTip>:
+				<st:HelpToolTip id="applicationHelpTip" runat="server">
+					<strong>Subfolder</strong></st:HelpToolTip>:
 				</td>
 			<td>
 				<asp:TextBox id="txtApplication" Runat="server" MaxLength="50"></asp:TextBox>
@@ -184,15 +187,15 @@
 		</tr>
 		<tr valign="top">
 			<td><label for="txtUsername">
-				<SP:HelpToolTip id="helpUsername" runat="server" HelpText="This will be the user who is the administrator of this blog.">
-				User Name:</SP:HelpToolTip></label>
+				<st:HelpToolTip id="helpUsername" runat="server" HelpText="This will be the user who is the administrator of this blog.">
+				User Name:</st:HelpToolTip></label>
 			</td>
 			<td>
 				<asp:TextBox id="txtUsername" Runat="server" MaxLength="50"></asp:TextBox></td>
 		</tr>
 		<tr id="passwordRow" runat="server" valign="top">
 			<td><label for="txtPassword">
-					<SP:HelpToolTip id="helpPassword" runat="server" HelpText="When editing an existing blog, you can leave this blank if you do not wish to change the password.">Password:</SP:HelpToolTip></label>
+					<st:HelpToolTip id="helpPassword" runat="server" HelpText="When editing an existing blog, you can leave this blank if you do not wish to change the password.">Password:</st:HelpToolTip></label>
 			</td>
 			<td>
 				<asp:TextBox id="txtPassword" Runat="server" MaxLength="50" TextMode="Password"></asp:TextBox>
@@ -206,8 +209,8 @@
 		</tr>
 		<tr valign="top">
 			<td colSpan="2">
-				<asp:Button id="btnCancel" Text="Cancel" Runat="server" CssClass="button"></asp:Button>
-				<asp:Button id="btnSave" Text="Save" Runat="server" CssClass="button"></asp:Button>
+				<asp:Button id="btnCancel" Text="Cancel" Runat="server" CssClass="button" onclick="btnCancel_Click"></asp:Button>
+				<asp:Button id="btnSave" Text="Save" Runat="server" CssClass="button" onclick="btnSave_Click"></asp:Button>
 			</td>
 		</tr>
 	</table>

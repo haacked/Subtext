@@ -71,21 +71,18 @@ namespace Subtext.Web.Install
 			if(pages.Length == 0)
 				return;
 
-			bool isInRightPlace = false;
 			foreach(string page in pages)
 			{
 				if(page != null && page.Length > 0)
 				{
 					if(IsOnPage(page))
 					{		
-						isInRightPlace = true;
 						return;
-
 					}
 				}
 			}
-			if(!isInRightPlace)
-				Response.Redirect(pages[0], true);
+			
+			Response.Redirect(pages[0], true);
 		}
 
 		/// <summary>

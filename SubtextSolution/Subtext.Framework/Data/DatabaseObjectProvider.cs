@@ -70,13 +70,13 @@ namespace Subtext.Framework.Data
 		/// <summary>
 		/// Gets a pageable <see cref="IList"/> of <see cref="BlogInfo"/> instances.
 		/// </summary>
+		/// <param name="host">The host filter. Set to null to return all blogs.</param>
 		/// <param name="pageIndex">Page index.</param>
 		/// <param name="pageSize">Size of the page.</param>
-		/// <param name="sortDescending">Sort descending.</param>
 		/// <returns></returns>
-        public override PagedCollection<BlogInfo> GetPagedBlogs(int pageIndex, int pageSize, bool sortDescending)
+        public override PagedCollection<BlogInfo> GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlag flags)
 		{
-			IDataReader reader = DbProvider.Instance().GetPagedBlogs(pageIndex, pageSize, sortDescending);
+			IDataReader reader = DbProvider.Instance().GetPagedBlogs(host, pageIndex, pageSize, flags);
 			try
 			{
                 PagedCollection<BlogInfo> pec = new PagedCollection<BlogInfo>();
@@ -113,33 +113,6 @@ namespace Subtext.Framework.Data
 				reader.Close();
 			}
 			return null;
-		}
-
-		/// <summary>
-        /// Returns <see cref="IPagedCollection"/> with the blogs that 
-		/// have the specified host.
-		/// </summary>
-		/// <param name="host">Host.</param>
-		/// <returns></returns>
-        public override IPagedCollection<BlogInfo> GetBlogsByHost(string host)
-		{
-			IDataReader reader = DbProvider.Instance().GetBlogsByHost(host);
-			try
-			{
-                IPagedCollection<BlogInfo> pec = new PagedCollection<BlogInfo>();
-				while(reader.Read())
-				{
-					pec.Add(DataHelper.LoadConfigData(reader));
-				}
-				reader.NextResult();
-				pec.MaxItems = DataHelper.GetMaxItems(reader);
-				return pec;
-				
-			}
-			finally
-			{
-				reader.Close();
-			}
 		}
 		#endregion
 

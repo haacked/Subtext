@@ -98,7 +98,7 @@ namespace Subtext.Web.Admin.WebUI
 			{
 				if(_messageIconUrl == null)
 				{
-					_messageIconUrl =  "~/admin/resources/ico_info.gif";
+					_messageIconUrl =  "~/images/icons/ico_info.gif";
 				}
 				return _messageIconUrl;
 			}
@@ -111,7 +111,7 @@ namespace Subtext.Web.Admin.WebUI
 			{
 				if(_errorIconUrl == null)
 				{
-					_errorIconUrl =  "~/admin/resources/ico_critical.gif";
+					_errorIconUrl =  "~/images/icons/ico_critical.gif";
 				}
 				return _errorIconUrl;
 			}
@@ -119,11 +119,6 @@ namespace Subtext.Web.Admin.WebUI
 		}
 
 		#endregion
-
-		protected override void OnInit(EventArgs e)
-		{
-			base.OnInit(e);
-		}
 
 		protected override void Render(HtmlTextWriter writer)
 		{

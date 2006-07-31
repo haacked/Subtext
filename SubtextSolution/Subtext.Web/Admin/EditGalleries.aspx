@@ -16,7 +16,7 @@
 
 <asp:Content ID="galleriesContainer" ContentPlaceHolderID="pageContent" runat="server">
 	<sub:ScrollPositionSaver id="scrollsaver" runat="server" />
-	<ANW:MessagePanel id="Messages" runat="server" ErrorIconUrl="~/admin/resources/ico_critical.gif" ErrorCssClass="ErrorPanel" MessageIconUrl="~/admin/resources/ico_info.gif" MessageCssClass="MessagePanel"></ANW:MessagePanel>
+	<ANW:MessagePanel id="Messages" runat="server" ErrorIconUrl="~/images/icons/ico_critical.gif" ErrorCssClass="ErrorPanel" MessageIconUrl="~/admin/resources/ico_info.gif" MessageCssClass="MessagePanel"></ANW:MessagePanel>
 	<ANW:AdvancedPanel id="Results" runat="server" LinkStyle="Image" LinkImageCollapsed="~/admin/resources/toggle_gray_down.gif" LinkImage="~/admin/resources/toggle_gray_up.gif" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleHeader" HeaderText="Galleries" Collapsible="True">
 	
 		<asp:DataGrid id="dgrSelectionList" runat="server" CssClass="Listing highlightTable" GridLines="None" AutoGenerateColumns="False">

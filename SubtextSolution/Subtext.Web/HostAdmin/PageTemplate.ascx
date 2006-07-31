@@ -1,15 +1,15 @@
 <%@ Control CodeBehind="PageTemplate.ascx.cs" Inherits="Subtext.Web.HostAdmin.PageTemplate" %>
 <%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 	<head>
 		<title><MP:ContentRegion id="MPTitle" runat="server" /></title>
 		<link rel="stylesheet" type="text/css" href="~/HostAdmin/style/Style.css" runat="server" ID="lnkStyleSheet" />
 		<link rel="stylesheet" type="text/css" href="~/Skins/_System/dropshadow.css" runat="server" ID="lnkDropShadow" />
 		<link rel="stylesheet" type="text/css" href="~/Skins/_System/csharp.css" runat="server" ID="lnkCsharp" />
 		<link rel="stylesheet" type="text/css" href="~/Skins/_System/commonstyles.css" runat="server" ID="lknCommon" />
-		<link rel="stylesheet" type="text/css" href="~/Admin/Resources/scripts/helptip.css" runat="server" ID="lnkHelpTipCss" />
-		<MP:ScriptTag language="javascript" src="~/Admin/Resources/scripts/helptip.js" runat="server" ID="scrHelpTipJavascript" />
+		<link rel="stylesheet" type="text/css" href="~/HostAdmin/scripts/helptip.css" runat="server" ID="lnkHelpTipCss" />
+		<MP:ScriptTag language="javascript" src="~/HostAdmin/scripts/helptip.js" runat="server" ID="scrHelpTipJavascript" />
 	</head>
 	<body>
 		<form id="frmMain" method="post" runat="server">

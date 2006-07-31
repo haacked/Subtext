@@ -65,12 +65,8 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
-				/* TASK - version 1.1
-				 * We get a pageSize of 10 here - the number 10 is just a magic #, and 
-				 * could be any number... possibly move down to 1 for next release.
-				 */
-				int notUsed;
-				return BlogInfo.GetActiveBlogs(1, 10, true, out notUsed).Count;
+				IPagedCollection blogs = BlogInfo.GetBlogs(1, 1, ConfigurationFlag.IsActive);
+				return blogs.MaxItems;
 			}
 		}
 
@@ -82,16 +78,8 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
-				/* TASK - version 1.1
-				 * We get a pageSize of 10 here - the number 10 is just a magic #, and 
-				 * could be any number... possibly move down to 1 for next release.
-				 * we only need to get one page of blogInfo objects b/c the SP that the 
-				 * dataProvider calls will return the total number of blogs as a return value. 
-				 * This value is then set as the MaxItems property of our BlogInfoCollection.
-				 */
-				int totalBlogCount;
-				BlogInfo.GetActiveBlogs(1, 10, true, out totalBlogCount);
-				return totalBlogCount;
+				IPagedCollection blogs = BlogInfo.GetBlogs(1, 1, ConfigurationFlag.None);
+				return blogs.MaxItems;
 			}
 		}
 
@@ -210,7 +198,7 @@ namespace Subtext.Framework.Configuration
 			{
 				//Check to see if this blog requires a Subfolder value
 				//This would occur if another blog has the same host already.
-				int activeBlogWithHostCount = BlogInfo.GetActiveBlogsByHost(host).Count;
+				int activeBlogWithHostCount = BlogInfo.GetBlogsByHost(host, 0, 1, ConfigurationFlag.IsActive).Count;
 				if(activeBlogWithHostCount > 0)
 				{
 					throw new BlogRequiresSubfolderException(host, activeBlogWithHostCount);
@@ -260,7 +248,7 @@ namespace Subtext.Framework.Configuration
 			{
 				//Check to see if this blog requires a Subfolder value
 				//This would occur if another blog has the same host already.
-                IPagedCollection<BlogInfo> blogsWithHost = BlogInfo.GetActiveBlogsByHost(info.Host);
+                IPagedCollection<BlogInfo> blogsWithHost = BlogInfo.GetBlogsByHost(info.Host, 0, 1, ConfigurationFlag.IsActive);
 				if(blogsWithHost.Count > 0)
 				{
 					if(blogsWithHost.Count > 1 || !blogsWithHost[0].Equals(info))

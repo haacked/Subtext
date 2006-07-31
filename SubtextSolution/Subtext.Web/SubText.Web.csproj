@@ -305,6 +305,9 @@
       <DependentUpon>BlogsEditor.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="HostAdmin\UserControls\BlogsEditor.ascx.designer.cs">
+      <DependentUpon>BlogsEditor.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Install\BlogNotConfiguredError.aspx.cs">
       <DependentUpon>BlogNotConfiguredError.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -784,9 +787,6 @@
     <Content Include="Admin\Resources\bg_body.gif" />
     <Content Include="Admin\Resources\bg_tabs.gif" />
     <Content Include="Admin\Resources\header_logo.gif" />
-    <Content Include="Admin\Resources\ico_critical.gif" />
-    <Content Include="Admin\Resources\ico_info.gif" />
-    <Content Include="Admin\Resources\ico_warning.gif" />
     <Content Include="Admin\Resources\left.gif" />
     <Content Include="Admin\Resources\left_on.gif" />
     <Content Include="Admin\Resources\poweredbydotnet.gif" />
@@ -838,6 +838,8 @@
     <Content Include="HostAdmin\Import\Step02_GatherInfo.aspx" />
     <Content Include="HostAdmin\PageTemplate.ascx" />
     <Content Include="HostAdmin\Queue.aspx" />
+    <Content Include="HostAdmin\Scripts\helptip.css" />
+    <Content Include="HostAdmin\Scripts\helptip.js" />
     <Content Include="HostAdmin\style\Style.css" />
     <Content Include="HostAdmin\Upgrade\Default.aspx">
       <SubType>Form</SubType>
@@ -878,6 +880,9 @@
     <Content Include="Images\friends.png" />
     <Content Include="Images\home.gif" />
     <Content Include="Images\icn_delete.gif" />
+    <Content Include="Images\icons\ico_critical.gif" />
+    <Content Include="Images\icons\ico_info.gif" />
+    <Content Include="Images\icons\ico_warning.gif" />
     <Content Include="Images\link.gif" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\ms_help.gif" />

@@ -89,6 +89,19 @@ namespace UnitTests.Subtext.Framework.Data
 			AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
 		}
 
+		[RowTest]
+		[Row(11, 10, 2, 1)]
+		[Row(11, 5, 3, 1)]
+		[Row(12, 5, 3, 2)]
+		[Row(10, 5, 2, 5)]
+		[Row(10, 20, 1, 10)]
+		[RollBack]
+		public void GetPagedBlogsHandlesPagingProperly(int total, int pageSize, int expectedPageCount, int itemsCountOnLastPage)
+		{
+			IPagedCollectionTester tester = new BlogCollectionTester();
+			AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
+		}
+
 		private static void AssertPagedCollection(IPagedCollectionTester pagedCollectionTester, int expectedPageCount, int itemsCountOnLastPage, int pageSize, int total)
 		{
 			//Create entries
@@ -307,6 +320,30 @@ namespace UnitTests.Subtext.Framework.Data
 		public int GetCount(IPagedCollection collection)
 		{
 			return ((IPagedCollection<KeyWord>)collection).Count;
+		}
+	}
+
+	internal class BlogCollectionTester : IPagedCollectionTester
+	{
+		string host = UnitTestHelper.GenerateRandomString();
+		
+		public BlogCollectionTester()
+		{
+		}
+
+		public void Create(int index)
+		{
+			Config.CreateBlog("title " + index, "phil", "password", host, "Subfolder" + index);
+		}
+
+		public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
+		{
+			return BlogInfo.GetBlogsByHost(this.host, pageIndex, pageSize, ConfigurationFlag.IsActive);
+		}
+
+		public int GetCount(IPagedCollection collection)
+		{
+			return ((IPagedCollection<BlogInfo>)collection).Count;
 		}
 	}
 }

@@ -47,45 +47,18 @@ namespace Subtext.Framework
 			return StringHelper.LeftBefore(
 			    StringHelper.RightAfter(host, "www.", ComparisonType.CaseInsensitive), ":");
 		}
-
-		/// <summary>
-		/// Returns a <see cref="IPagedCollection{T}"/> containing the <see cref="BlogInfo"/> 
-		/// instances within the specified range.
-		/// </summary>
-		/// <param name="pageIndex">Page index.</param>
-		/// <param name="pageSize">Size of the page.</param>
-		/// <param name="sortDescending">Sort descending.</param>
-		/// <returns></returns>
-        public static IPagedCollection<BlogInfo> GetBlogs(int pageIndex, int pageSize, bool sortDescending)
-		{
-			return ObjectProvider.Instance().GetPagedBlogs(pageIndex, pageSize, sortDescending);
-		}
-
-		/// <summary>
-		/// Returns a <see cref="IPagedCollection"/> containing the <see cref="BlogInfo"/> 
-		/// instances that have the specified hostname.
-		/// </summary>
-		/// <param name="host">host.</param>
-		/// <returns></returns>
-        public static IPagedCollection<BlogInfo> GetBlogsByHost(string host)
-		{
-			return ObjectProvider.Instance().GetBlogsByHost(host);
-		}
-
+		
 		/// <summary>
 		/// Gets the active blog count by host.
 		/// </summary>
 		/// <param name="host">The host.</param>
 		/// <returns></returns>
-        public static IPagedCollection<BlogInfo> GetActiveBlogsByHost(string host)
+        public static IPagedCollection<BlogInfo> GetBlogsByHost(string host, int pageIndex, int pageSize, ConfigurationFlag flags)
 		{
-            IPagedCollection<BlogInfo> blogsWithHost = BlogInfo.GetBlogsByHost(host);
-			for(int i = blogsWithHost.Count - 1; i >= 0; i--)
-			{
-				if(!blogsWithHost[i].IsActive)
-					blogsWithHost.RemoveAt(i);
-			}
-			return blogsWithHost;
+			if (String.IsNullOrEmpty(host))
+				throw new ArgumentNullException("Host must not be null or empty.");
+
+			return ObjectProvider.Instance().GetPagedBlogs(host, pageIndex, pageSize, flags);
 		}
 
 		/// <summary>
@@ -94,36 +67,11 @@ namespace Subtext.Framework
 		/// </summary>
 		/// <param name="pageIndex">Page index.</param>
 		/// <param name="pageSize">Size of the page.</param>
-		/// <param name="sortDescending">Sort descending.</param>
-		/// <param name="totalBlogs">Indicates the total number of blogs</param>
+		/// <param name="flags"></param>
 		/// <returns></returns>
-        public static IPagedCollection<BlogInfo> GetActiveBlogs(int pageIndex, int pageSize, bool sortDescending, out int totalBlogs)
+		public static IPagedCollection<BlogInfo> GetBlogs(int pageIndex, int pageSize, ConfigurationFlag flags)
 		{
-            IPagedCollection<BlogInfo> blogs = ObjectProvider.Instance().GetPagedBlogs(pageIndex, pageSize, sortDescending);
-			// the ObjectProvider puts the returned TotalRecords value in the MaxItems property.
-			totalBlogs = blogs.MaxItems;
-			for (int i = blogs.Count - 1; i > -1; i--)
-			{
-				if (!blogs[i].IsActive)
-				{
-					blogs.RemoveAt(i);
-				}
-			}
-			return blogs;
-		}
-
-		/// <summary>
-		/// Returns a <see cref="IPagedCollection"/> containing ACTIVE the <see cref="BlogInfo"/> 
-		/// instances within the specified range.
-		/// </summary>
-		/// <param name="pageIndex">Page index.</param>
-		/// <param name="pageSize">Size of the page.</param>
-		/// <param name="sortDescending">Sort descending.</param>
-		/// <returns></returns>
-        public static IPagedCollection<BlogInfo> GetActiveBlogs(int pageIndex, int pageSize, bool sortDescending)
-		{
-			int totalCount;
-			return GetActiveBlogs(pageIndex, pageSize, sortDescending, out totalCount);
+            return ObjectProvider.Instance().GetPagedBlogs(null, pageIndex, pageSize, flags);
 		}
 
 		/// <summary>

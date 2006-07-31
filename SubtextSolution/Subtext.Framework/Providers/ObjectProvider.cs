@@ -19,6 +19,7 @@ using Subtext.Extensibility;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
 using System.Configuration.Provider;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Providers
 {
@@ -76,9 +77,8 @@ namespace Subtext.Framework.Providers
 		/// </summary>
 		/// <param name="pageIndex">Page index.</param>
 		/// <param name="pageSize">Size of the page.</param>
-		/// <param name="sortDescending">Sort descending.</param>
 		/// <returns></returns>
-		public abstract PagedCollection<BlogInfo> GetPagedBlogs(int pageIndex, int pageSize, bool sortDescending);
+		public abstract PagedCollection<BlogInfo> GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlag flags);
 		
 		/// <summary>
 		/// Gets the blog by id.
@@ -86,14 +86,6 @@ namespace Subtext.Framework.Providers
 		/// <param name="blogId">Blog id.</param>
 		/// <returns></returns>
 		public abstract BlogInfo GetBlogById(int blogId);
-		
-		/// <summary>
-		/// Returns <see cref="List"/> with the blogs that 
-		/// have the specified host.
-		/// </summary>
-		/// <param name="host">Host.</param>
-		/// <returns></returns>
-        public abstract IPagedCollection<BlogInfo> GetBlogsByHost(string host);
 		#endregion Blogs
 		
 		#region Entries

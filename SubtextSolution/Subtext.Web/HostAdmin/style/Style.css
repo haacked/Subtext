@@ -570,3 +570,10 @@ img
 {
 	color: Navy;
 }
+
+.Pager a.Current
+{
+	border-right: solid 1px #555;
+	border-left: solid 1px #555;
+	font-weight: bold;
+}

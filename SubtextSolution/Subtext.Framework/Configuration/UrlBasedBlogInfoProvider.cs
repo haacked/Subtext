@@ -109,9 +109,7 @@ namespace Subtext.Framework.Configuration
                     info = Subtext.Framework.Configuration.Config.GetBlogInfo(blogRequest.Host, blogRequest.Subfolder, !strict);
 					if(info == null)
 					{
-						int totalBlogs;
-						BlogInfo.GetActiveBlogs(1, 10, true, out totalBlogs);
-						bool anyBlogsExist = totalBlogs > 0;
+						bool anyBlogsExist = Config.BlogCount > 0;
 
                         if (anyBlogsExist && ConfigurationManager.AppSettings["AggregateEnabled"] == "true")
 						{
