@@ -214,6 +214,7 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AssemblySetUpAndCleanUp.cs" />
     <Compile Include="Extensibility\DotNetOpenMailProviderSendTests.cs">
       <SubType>Code</SubType>
     </Compile>
