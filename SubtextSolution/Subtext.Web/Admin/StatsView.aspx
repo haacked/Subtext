@@ -1,5 +1,6 @@
 <%@ Page language="c#" Title="Subtext Admin - Stats View" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="StatsView.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.StatsView" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
+<%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
 </asp:Content>
@@ -53,7 +54,11 @@
 			</table>
 		</FooterTemplate>
 		</ASP:Repeater>
-		<st:Pager id="ResultsPager" runat="server" UseSpacer="False" PrefixText="<div>Goto page</div>" LinkFormatActive='<a href="{0}" class="Current">{1}</a>' UrlFormat="StatsView.aspx?pg={0}" CssClass="Pager" />
-		<br class="clear">	
+		<st:PagingControl id="resultsPager" runat="server" 
+			PrefixText="<div>Goto page</div>" 
+			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' 
+			UrlFormat="StatsView.aspx?pg={0}" 
+			CssClass="Pager" />
+		<br class="clear" />	
 	</st:AdvancedPanel>
 </asp:Content>

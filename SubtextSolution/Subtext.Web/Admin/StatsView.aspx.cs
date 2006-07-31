@@ -14,7 +14,6 @@
 #endregion
 
 using System;
-using System.Web.UI;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Web.Admin.WebUI;
@@ -85,11 +84,11 @@ namespace Subtext.Web.Admin.Pages
 
 		public void BindList()
 		{
-            IPagedCollection<ViewStat> stats = Stats.GetPagedViewStats(_resultsPageNumber, ResultsPager.PageSize, DateTime.Now.AddMonths(-1), DateTime.Now);
+            IPagedCollection<ViewStat> stats = Stats.GetPagedViewStats(_resultsPageNumber, this.resultsPager.PageSize, DateTime.Now.AddMonths(-1), DateTime.Now);
 
 			if (stats.Count > 0)
 			{
-				ResultsPager.ItemCount = stats.MaxItems;
+				this.resultsPager.ItemCount = stats.MaxItems;
 				rprSelectionList.DataSource = stats;
 				rprSelectionList.DataBind();
 			}
