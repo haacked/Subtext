@@ -33,46 +33,20 @@ namespace Subtext.Web.HostAdmin.UserControls
 	///	For the full options, one should visit the individual 
 	///	blog's admin tool.
 	/// </summary>
-	public class BlogsEditor : System.Web.UI.UserControl
+	public partial class BlogsEditor : System.Web.UI.UserControl
 	{
 		const string VSKEY_BLOGID = "VS_BLOGID";
-		int _resultsPageNumber = 1;
+		int pageIndex = 0;
 
 		#region Declared Controls
-		protected System.Web.UI.WebControls.Repeater rprBlogsList;
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel pnlResults;
-		protected Subtext.Web.Admin.WebUI.AdvancedPanel pnlEdit;
-		protected Subtext.Web.Admin.WebUI.MessagePanel messagePanel;
-		protected Subtext.Web.Admin.WebUI.Pager resultsPager;
-		protected System.Web.UI.WebControls.CheckBox chkShowInactive;
-		protected System.Web.UI.WebControls.TextBox txtHost;
-		protected System.Web.UI.WebControls.TextBox txtApplication;
-		protected System.Web.UI.HtmlControls.HtmlGenericControl lblNoMessages;
-		protected System.Web.UI.WebControls.Label lblTitle;
-		protected System.Web.UI.WebControls.Button btnCancel;
-		protected System.Web.UI.WebControls.Button btnSave;
-		protected System.Web.UI.WebControls.TextBox txtTitle;
-		protected System.Web.UI.WebControls.TextBox txtUsername;
-		protected System.Web.UI.WebControls.TextBox txtPassword;
-		protected System.Web.UI.WebControls.TextBox txtPasswordConfirm;
 		protected System.Web.UI.WebControls.RequiredFieldValidator vldHostRequired;
 		protected System.Web.UI.WebControls.RequiredFieldValidator vldApplicationRequired;
-		protected System.Web.UI.HtmlControls.HtmlTableRow passwordRow;
-		protected System.Web.UI.HtmlControls.HtmlTableRow passwordRowConfirm;
 		protected System.Web.UI.HtmlControls.HtmlImage Img1;
 		protected System.Web.UI.HtmlControls.HtmlImage Img2;
-		protected System.Web.UI.HtmlControls.HtmlInputHidden virtualDirectory;
-		protected Subtext.Web.Controls.HelpToolTip hostDomainHelpTip;
-		protected Subtext.Web.Controls.HelpToolTip applicationHelpTip;
-		protected System.Web.UI.HtmlControls.HtmlImage Img3;
-		protected Subtext.Web.Controls.HelpToolTip blogEditorHelp;
-		protected Subtext.Web.Controls.HelpToolTip Helptooltip1;
-		protected Subtext.Web.Controls.HelpToolTip helpUsername;
-		protected Subtext.Web.Controls.HelpToolTip helpPassword;
 		protected System.Web.UI.WebControls.Button btnAddNewBlog = new System.Web.UI.WebControls.Button();
 		#endregion
 
-		private void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			this.btnAddNewBlog.Click += new EventHandler(btnAddNewBlog_Click);
 			ContentRegion sideBar = Page.FindControl("MPSideBar") as ContentRegion;
@@ -87,10 +61,10 @@ namespace Subtext.Web.HostAdmin.UserControls
 			{
 				//Paging...
 				if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
-					_resultsPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
+					this.pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
 
 				resultsPager.PageSize = Preferences.ListingItemCount;
-				resultsPager.PageIndex = _resultsPageNumber;
+				resultsPager.PageIndex = this.pageIndex;
 				pnlResults.Collapsible = false;
 				this.chkShowInactive.Checked = false;
 			}
@@ -104,17 +78,10 @@ namespace Subtext.Web.HostAdmin.UserControls
 
             IPagedCollection<BlogInfo> blogs; 
 			
-			int totalBlogs;
-			if(this.chkShowInactive.Checked)
-			{
-				blogs = BlogInfo.GetBlogs(_resultsPageNumber, resultsPager.PageSize, false);	
-				totalBlogs = blogs.MaxItems;
-			}
-			else
-			{
-				blogs = BlogInfo.GetActiveBlogs(_resultsPageNumber, resultsPager.PageSize, false, out totalBlogs);			
-			}
-
+			ConfigurationFlag configFlags = this.chkShowInactive.Checked ? ConfigurationFlag.None : ConfigurationFlag.IsActive;
+			
+			blogs = BlogInfo.GetBlogs(this.pageIndex, resultsPager.PageSize, configFlags);
+			
 			if (blogs.Count > 0)
 			{
 				this.resultsPager.Visible = true;
@@ -132,7 +99,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 				this.lblNoMessages.Visible = true;	
 			}
 
-			CurrentBlogCount = totalBlogs;
+			CurrentBlogCount = blogs.MaxItems;
 		}
 
 		void BindEdit()
@@ -157,7 +124,6 @@ namespace Subtext.Web.HostAdmin.UserControls
 			{
 				this.lblTitle.Visible = false;
 				this.txtTitle.Visible = true;
-				blog = new BlogInfo();
 			}
 
 			string onChangeScript = string.Format(System.Globalization.CultureInfo.InvariantCulture, "onPreviewChanged('{0}', '{1}', '{2}', false);", this.txtHost.ClientID, this.txtApplication.ClientID, this.virtualDirectory.ClientID);
@@ -284,15 +250,11 @@ namespace Subtext.Web.HostAdmin.UserControls
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.chkShowInactive.CheckedChanged += new System.EventHandler(this.chkShowInactive_CheckedChanged);
-			this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion
 
-		private void chkShowInactive_CheckedChanged(object sender, System.EventArgs e)
+		protected void chkShowInactive_CheckedChanged(object sender, System.EventArgs e)
 		{
 			BindList();
 		}
@@ -327,7 +289,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 			}
 		}
 
-		private void btnSave_Click(object sender, System.EventArgs e)
+		protected void btnSave_Click(object sender, System.EventArgs e)
 		{
 			SaveConfig();
 		}
@@ -494,7 +456,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 			BindList();
 		}
 
-		private void btnCancel_Click(object sender, System.EventArgs e)
+		protected void btnCancel_Click(object sender, System.EventArgs e)
 		{
 			this.messagePanel.ShowMessage("Blog Update Cancelled. Nothing to see here.");
 			BindList();

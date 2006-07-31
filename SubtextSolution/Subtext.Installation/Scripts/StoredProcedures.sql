@@ -7,6 +7,10 @@ Be sure to hit CTRL+SHIFT+M in Query Analyzer if running manually.
 	These are stored procs that used to be in the system but are no longer needed.
 	The statements will only drop the procs if they exist as a form of cleanup.
 */
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetBlogsByHost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetBlogsByHost]
+GO
+
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetConditionalEntriesByDateUpdated]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetConditionalEntriesByDateUpdated]
 GO
@@ -104,10 +108,6 @@ GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableBlogs]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableBlogs]
-GO
-
-if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetBlogsByHost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [<dbUser,varchar,dbo>].[subtext_GetBlogsByHost]
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetBlogById]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
@@ -1276,7 +1276,6 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON 
 GO
-
 
 /*
 Selects a page of blog posts within the admin section.
@@ -3223,36 +3222,27 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableBlogs]
 (
 	@PageIndex int
 	, @PageSize int
-	, @SortDesc bit
+	, @Host nvarchar(100) = NULL
+	, @ConfigurationFlags int
 )
 AS
 
-DECLARE @PageLowerBound int
-DECLARE @PageUpperBound int
+DECLARE @FirstId int
+DECLARE @StartRow int
+DECLARE @StartRowIndex int
 
-SET @PageLowerBound = @PageSize * @PageIndex - @PageSize
-SET @PageUpperBound = @PageLowerBound + @PageSize + 1
+SET @StartRowIndex = @PageIndex * @PageSize + 1
 
-CREATE TABLE #TempPagedBlogIds 
-(
-	TempID int IDENTITY (1, 1) NOT NULL,
-	BlogId int NOT NULL
-)	
+SET ROWCOUNT @StartRowIndex
+-- Get the first entry id for the current page.
+SELECT	@FirstId = [BlogId] FROM [<dbUser,varchar,dbo>].[subtext_Config]
+WHERE @ConfigurationFlags & Flag = @ConfigurationFlags
+	AND (Host = @Host OR @Host IS NULL)
+ORDER BY [BlogId] DESC
 
-IF NOT (@SortDesc = 1)
-BEGIN
-	INSERT INTO #TempPagedBlogIds (BlogId)
-	SELECT	[BlogId] 
-	FROM [<dbUser,varchar,dbo>].[subtext_config]
-	ORDER BY [BlogId]
-END
-ELSE
-BEGIN
-	INSERT INTO #TempPagedBlogIds (BlogId)
-	SELECT	[BlogId] 
-	FROM [<dbUser,varchar,dbo>].[subtext_config]
-	ORDER BY [BlogId] DESC
-END
+-- Now, set the row count to MaximumRows and get
+-- all records >= @first_id
+SET ROWCOUNT @PageSize
 
 SELECT	blog.BlogId 
 		, blog.UserName
@@ -3285,18 +3275,15 @@ SELECT	blog.BlogId
 		, blog.RecentCommentsLength
 		
 FROM [<dbUser,varchar,dbo>].[subtext_config] blog
-    	INNER JOIN #TempPagedBlogIds tmp ON (blog.[BlogId] = tmp.BlogId)
-WHERE 	tmp.TempID > @PageLowerBound 
-	AND tmp.TempID < @PageUpperBound
-ORDER BY tmp.TempID
- 
-DROP TABLE #TempPagedBlogIds
-
+WHERE blog.BlogId <= @FirstId
+	AND @ConfigurationFlags & Flag = @ConfigurationFlags
+	AND (Host = @Host OR @Host IS NULL)
 
 SELECT COUNT([BlogId]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_config]
+WHERE @ConfigurationFlags & Flag = @ConfigurationFlags
+	AND (Host = @Host OR @Host IS NULL)
 GO
-
 
 GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPageableBlogs]  TO [public]
 GO
@@ -3358,56 +3345,6 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON 
 GO
-
-/*
-Returns a single blog within the subtext_config table by id.
-*/
-CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetBlogsByHost]
-(
-	@Host nvarchar(100)
-)
-AS
-
-SELECT	blog.BlogId 
-		, blog.UserName
-		, blog.[Password]
-		, blog.Email
-		, blog.Title
-		, blog.SubTitle
-		, blog.Skin
-		, blog.Application
-		, blog.Host
-		, blog.Author
-		, blog.TimeZone
-		, blog.ItemCount
-		, blog.[Language]
-		, blog.News
-		, blog.SecondaryCss
-		, blog.LastUpdated
-		, blog.PostCount
-		, blog.StoryCount
-		, blog.PingTrackCount
-		, blog.CommentCount
-		, blog.IsAggregated
-		, blog.Flag
-		, blog.SkinCssFile 
-		, blog.BlogGroup
-		, blog.LicenseUrl
-		, blog.DaysTillCommentsClose
-		, blog.CommentDelayInMinutes
-		, blog.NumberOfRecentComments
-		, blog.RecentCommentsLength
-		
-FROM [<dbUser,varchar,dbo>].[subtext_config] blog
-WHERE	blog.Host = @Host
-
-SELECT COUNT([BlogId]) AS TotalRecords
-FROM [<dbUser,varchar,dbo>].[subtext_config]
-GO
-
-GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetBlogsByHost]  TO [public]
-GO
-
 
 SET QUOTED_IDENTIFIER OFF 
 GO

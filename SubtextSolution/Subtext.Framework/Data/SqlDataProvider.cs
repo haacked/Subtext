@@ -207,9 +207,9 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="pageIndex">Page index.</param>
 		/// <param name="pageSize">Size of the page.</param>
-		/// <param name="sortDescending">Sort descending.</param>
+		/// <param name="flags">Flags for type of retrieval.</param>
 		/// <returns></returns>
-		public override IDataReader GetPagedBlogs(int pageIndex, int pageSize, bool sortDescending)
+		public override IDataReader GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlag flags)
 		{
 			string sql = "subtext_GetPageableBlogs";
 
@@ -217,9 +217,10 @@ namespace Subtext.Framework.Data
 			SqlCommand command = new SqlCommand(sql, conn);
 			
 			command.CommandType = CommandType.StoredProcedure;
+			command.Parameters.Add(DataHelper.MakeInParam("@Host", SqlDbType.NVarChar, 100, host));
 			command.Parameters.Add(DataHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex));
 			command.Parameters.Add(DataHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize));
-			command.Parameters.Add(DataHelper.MakeInParam("@SortDesc", SqlDbType.Bit, 1, sortDescending));
+			command.Parameters.Add(DataHelper.MakeInParam("@ConfigurationFlags", SqlDbType.Int, 4, flags));
 
 			conn.Open();
 			return command.ExecuteReader(CommandBehavior.CloseConnection);
@@ -239,27 +240,6 @@ namespace Subtext.Framework.Data
 			
 			command.CommandType = CommandType.StoredProcedure;
 			command.Parameters.Add(DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, DataHelper.CheckNull(blogId)));
-
-			conn.Open();
-			return command.ExecuteReader(CommandBehavior.CloseConnection);
-		}
-
-		/// <summary>
-		/// Returns an instance of <see cref="IDataReader"/> used to 
-		/// iterate through a result set containing blog_config rows 
-		/// with the specified host.
-		/// </summary>
-		/// <param name="host">Host.</param>
-		/// <returns></returns>
-		public override IDataReader GetBlogsByHost(string host)
-		{
-			string sql = "subtext_GetBlogsByHost";
-
-			SqlConnection conn = new SqlConnection(ConnectionString);
-			SqlCommand command = new SqlCommand(sql, conn);
-			
-			command.CommandType = CommandType.StoredProcedure;
-			command.Parameters.Add(DataHelper.MakeInParam("@Host", SqlDbType.NVarChar, 100, host));
 
 			conn.Open();
 			return command.ExecuteReader(CommandBehavior.CloseConnection);
