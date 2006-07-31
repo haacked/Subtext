@@ -14,7 +14,7 @@ namespace Subtext.Web.Admin.Pages {
         protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
         protected Subtext.Web.Admin.WebUI.AdvancedPanel Results;
         protected System.Web.UI.WebControls.Repeater rprSelectionList;
-        protected Subtext.Web.Admin.WebUI.Pager ResultsPager;
+        protected Subtext.Web.Controls.PagingControl resultsPager;
         protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
         protected System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
         protected System.Web.UI.WebControls.TextBox txbTitle;

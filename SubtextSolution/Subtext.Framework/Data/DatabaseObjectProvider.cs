@@ -767,12 +767,6 @@ namespace Subtext.Framework.Data
 			}	
 		}
 
-        public override IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize)
-		{
-			IDataReader reader = DbProvider.Instance().GetPagedReferrers(pageIndex, pageSize);
-            return LoadPagedReferrersCollection(reader);
-        }
-
         public override IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize, int entryId)
 		{
 			IDataReader reader = DbProvider.Instance().GetPagedReferrers(pageIndex, pageSize, entryId);

@@ -7,6 +7,10 @@ Be sure to hit CTRL+SHIFT+M in Query Analyzer if running manually.
 	These are stored procs that used to be in the system but are no longer needed.
 	The statements will only drop the procs if they exist as a form of cleanup.
 */
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableReferrersByEntryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableReferrersByEntryID]
+GO
+
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetBlogsByHost]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetBlogsByHost]
 GO
@@ -224,10 +228,6 @@ GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableReferrers]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableReferrers]
-GO
-
-if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableReferrersByEntryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableReferrersByEntryID]
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPostsByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
@@ -1812,59 +1812,55 @@ GO
 SET ANSI_NULLS ON 
 GO
 
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
 
---SELECT Top 5 * FROM [<dbUser,varchar,dbo>].[subtext_Referrals] ORDER BY LastUpdated DESC
-
-CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableReferrers]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableReferrers] 
 (
-	@BlogId INT
-	, @PageIndex INT
-	, @PageSize INT
+	@BlogId INT,
+	@EntryID int = NULL,
+	@PageIndex INT,
+	@PageSize INT
 )
 AS
 
+DECLARE @FirstId int
+DECLARE @StartRow int
+DECLARE @StartRowIndex int
 
-DECLARE @PageLowerBound int
-DECLARE @PageUpperBound int
+SET @StartRowIndex = @PageIndex * @PageSize + 1
 
-SET @PageLowerBound = @PageSize * @PageIndex - @PageSize
-SET @PageUpperBound = @PageLowerBound + @PageSize + 1
+SET ROWCOUNT @StartRowIndex
+-- Get the first entry id for the current page.
+SELECT	@FirstId = [UrlID] FROM [<dbUser,varchar,dbo>].[subtext_Referrals]
+WHERE	BlogId = @BlogId 
+	AND (EntryID = @EntryID OR @EntryID IS NULL)
+ORDER BY [UrlID] DESC
 
-CREATE TABLE #tempsubtext_Referrals 
-(
-	TempID INT IDENTITY(1, 1) NOT NULL,
-	[EntryID] [int] NOT NULL ,
-	[UrlID] [int] NOT NULL ,
-	[Count] [int] NOT NULL ,
-	[LastUpdated] [datetime] NOT NULL
-) 
+SET ROWCOUNT @PageSize
 
-INSERT INTO #tempsubtext_Referrals (EntryID,UrlID, [Count], LastUpdated)
-  SELECT EntryID, UrlID, [Count], LastUpdated
-  FROM [<dbUser,varchar,dbo>].[subtext_Referrals]
-  WHERE subtext_Referrals.BlogId = @BlogId
-  ORDER BY LastUpdated DESC
-   
-SELECT	u.URL,
-	c.Title,
-	r.EntryID,
-	c.EntryName,
-	LastUpdated,
-	[Count]
-FROM [<dbUser,varchar,dbo>].[subtext_Content] c,
-	#tempsubtext_Referrals r,
-	subtext_URLs u
-WHERE r.EntryID = c.ID AND
-      c.BlogId = @BlogId
-  AND r.UrlID = u.UrlID
-  AND r.TempID > @PageLowerBound
-  AND r.TempID < @PageUpperBound
+SELECT	
+	u.URL
+	, c.Title
+	, c.EntryName
+	, [EntryId] = @EntryID
+	, [Count]
+	, r.LastUpdated
+FROM [<dbUser,varchar,dbo>].[subtext_Referrals] r
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_URLs] u ON u.UrlID = r.UrlID
+	LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_Content] c ON c.ID = r.EntryID
+WHERE 
+	u.UrlID <= @FirstId
+	AND (r.EntryID = @EntryID OR @EntryID IS NULL)
+	AND r.BlogId = @BlogId
+ORDER BY u.[UrlID] DESC
 
-ORDER BY TempID
-
-
-SELECT COUNT(*) AS 'TotalRecords' FROM #tempsubtext_Referrals
-
+SELECT COUNT([UrlID]) AS TotalRecords
+FROM [<dbUser,varchar,dbo>].[subtext_Referrals] 
+WHERE 	BlogId = @BlogId 
+	AND (EntryID = @EntryID OR @EntryID IS NULL)
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -1873,77 +1869,6 @@ SET ANSI_NULLS ON
 GO
 
 GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPageableReferrers]  TO [public]
-GO
-
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-
-CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableReferrersByEntryID] 
-(
-	@BlogId INT,
-	@EntryID int,
-	@PageIndex INT,
-	@PageSize INT
-)
-AS
-
-DECLARE @PageLowerBound int
-DECLARE @PageUpperBound int
-
-SET @PageLowerBound = @PageSize * @PageIndex - @PageSize
-SET @PageUpperBound = @PageLowerBound + @PageSize + 1
-
-CREATE TABLE #tempsubtext_Referrals 
-(
-	TempID INT IDENTITY(1, 1) NOT NULL,
-	[UrlID] [int] NOT NULL ,
-	[Count] [int] NOT NULL ,
-	[LastUpdated] [datetime] NOT NULL
-) 
-
-INSERT INTO #tempsubtext_Referrals 
-(
-	UrlID
-	, [Count]
-	, LastUpdated
-)
-  SELECT UrlID
-	, [Count]
-	, LastUpdated
-  FROM [<dbUser,varchar,dbo>].[subtext_Referrals]
-  WHERE subtext_Referrals.BlogId = @BlogId AND subtext_Referrals.EntryID = @EntryID
-  ORDER BY LastUpdated DESC
-   
-SELECT	u.URL
-	, c.Title
-	, c.EntryName
-	, [EntryId] = @EntryID
-	, [Count]
-	, r.LastUpdated
-	
-FROM [<dbUser,varchar,dbo>].[subtext_Content] c
-	, #tempsubtext_Referrals r
-	, subtext_URLs u
-WHERE c.ID = @EntryID 
-	AND c.BlogId = @BlogId
-	AND r.UrlID = u.UrlID
-	AND r.TempID > @PageLowerBound
-	AND r.TempID < @PageUpperBound
-	ORDER BY TempID
-
-SELECT COUNT(*) AS 'TotalRecords' FROM #tempsubtext_Referrals
-
-
-GO
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPageableReferrersByEntryID]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -2637,7 +2562,7 @@ BEGIN
 	END
 	else
 	BEGIN
-		Insert subtext_Referrals (EntryID, BlogId, UrlID, [Count], LastUpdated)
+		Insert [<dbUser,varchar,dbo>].[subtext_Referrals] (EntryID, BlogId, UrlID, [Count], LastUpdated)
 		       values (@EntryID, @BlogId, @UrlID, 1, getdate())
 	END
 END

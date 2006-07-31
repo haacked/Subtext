@@ -268,7 +268,6 @@ namespace Subtext.Framework.Providers
 		#region Stats
 
         public abstract IPagedCollection<ViewStat> GetPagedViewStats(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate);
-        public abstract IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize);
         public abstract IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize, int entryId);
 
 		public abstract bool TrackEntry(EntryView ev);

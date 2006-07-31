@@ -2,6 +2,7 @@ using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading;
 using MbUnit.Framework;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.Extensibility;
@@ -99,6 +100,21 @@ namespace UnitTests.Subtext.Framework.Data
 		public void GetPagedBlogsHandlesPagingProperly(int total, int pageSize, int expectedPageCount, int itemsCountOnLastPage)
 		{
 			IPagedCollectionTester tester = new BlogCollectionTester();
+			AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
+		}
+
+		[RowTest]
+		[Row(11, 10, 2, 1)]
+		[Row(11, 5, 3, 1)]
+		[Row(12, 5, 3, 2)]
+		[Row(10, 5, 2, 5)]
+		[Row(10, 20, 1, 10)]
+		[RollBack]
+		[Ignore("This test fails when run within a Transaction via the RollBack attribute, but succeeds without it.")]
+		public void GetPagedReferralsHandlesPagingProperly(int total, int pageSize, int expectedPageCount, int itemsCountOnLastPage)
+		{
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", this.hostName, "blog"));
+			IPagedCollectionTester tester = new ReferralsCollectionTester();
 			AssertPagedCollection(tester, expectedPageCount, itemsCountOnLastPage, pageSize, total);
 		}
 
@@ -344,6 +360,38 @@ namespace UnitTests.Subtext.Framework.Data
 		public int GetCount(IPagedCollection collection)
 		{
 			return ((IPagedCollection<BlogInfo>)collection).Count;
+		}
+	}
+
+	internal class ReferralsCollectionTester : IPagedCollectionTester
+	{
+		int entryId;
+		public ReferralsCollectionTester()
+		{
+			Config.Settings.Tracking.QueueStatsCount = 0;
+			entryId = Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Phil", "title", "body"));
+		}
+
+		public void Create(int index)
+		{
+			EntryView view = new EntryView();
+			view.EntryID = entryId;
+			view.BlogId = Config.CurrentBlog.Id;
+			view.PageViewType = PageViewType.WebView;
+			view.ReferralUrl = string.Format("http://localhost:{0}/{1}/", index, UnitTestHelper.GenerateRandomString());
+			Stats.AddQuedStats(view);
+			Stats.ClearQueue(true);
+			Thread.Sleep(100); //There's no way to fully wait for the worker processes.
+		}
+
+		public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
+		{
+			return Stats.GetPagedReferrers(pageIndex, pageSize);
+		}
+
+		public int GetCount(IPagedCollection collection)
+		{
+			return ((IPagedCollection<Referrer>)collection).Count;
 		}
 	}
 }

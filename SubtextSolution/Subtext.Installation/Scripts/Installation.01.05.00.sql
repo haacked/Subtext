@@ -32,7 +32,7 @@ GO
 
 IF (SELECT COLUMN_DEFAULT FROM [information_schema].[columns] 
 		WHERE	table_name = 'subtext_Content'
-		AND		table_schema = 'dbo'
+		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'FeedBackCount') IS NULL
 BEGIN
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content]  ADD CONSTRAINT
@@ -55,7 +55,7 @@ GO
 
 IF (SELECT COLUMN_DEFAULT FROM [information_schema].[columns] 
 		WHERE	table_name = 'subtext_Config'
-		AND		table_schema = 'dbo'
+		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'BlogGroup') IS NULL
 BEGIN
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config]  ADD CONSTRAINT

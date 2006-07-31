@@ -26,7 +26,7 @@ namespace Subtext.Web.Controls
 	/// </summary>
 	[
 	System.ComponentModel.Designer(typeof(PagerDesigner)),
-		ToolboxData("<{0}:Pager runat=\"server\" />")
+		ToolboxData("<{0}:PagingControl runat=\"server\" />")
 	]
 	public class PagingControl : Control
 	{

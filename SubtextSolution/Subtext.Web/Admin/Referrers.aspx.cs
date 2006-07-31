@@ -15,7 +15,6 @@
 
 using System;
 using System.Globalization;
-using System.Web.UI;
 using log4net;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -29,7 +28,7 @@ namespace Subtext.Web.Admin.Pages
 	{
 		private readonly static ILog log = new Subtext.Framework.Logging.Log();
 		
-		private int _resultsPageNumber = 1;
+		private int pageIndex = 0;
 		private bool _isListHidden = false;
 
 		private int _entryID = NullValue.NullInt32;
@@ -49,7 +48,7 @@ namespace Subtext.Web.Admin.Pages
 			{
 				if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
 				{
-					_resultsPageNumber = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
+					this.pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
 				}
 
 				if(null != Request.QueryString["EntryID"])
@@ -57,8 +56,8 @@ namespace Subtext.Web.Admin.Pages
 					_entryID = Convert.ToInt32(Request.QueryString["EntryID"]);
 				}
 
-				ResultsPager.PageSize = Preferences.ListingItemCount;
-				ResultsPager.PageIndex = _resultsPageNumber;
+				this.resultsPager.PageSize = Preferences.ListingItemCount;
+				this.resultsPager.PageIndex = this.pageIndex;
 				Results.Collapsible = false;
 
 				BindList();
@@ -86,18 +85,18 @@ namespace Subtext.Web.Admin.Pages
 
 			if(_entryID == NullValue.NullInt32)
 			{
-				referrers = Stats.GetPagedReferrers(_resultsPageNumber, ResultsPager.PageSize);
+				referrers = Stats.GetPagedReferrers(this.pageIndex, this.resultsPager.PageSize);
 			}
 			else
 			{
-				ResultsPager.UrlFormat += string.Format(System.Globalization.CultureInfo.InvariantCulture, "&{0}={1}", "EntryID", 
+				this.resultsPager.UrlFormat += string.Format(System.Globalization.CultureInfo.InvariantCulture, "&{0}={1}", "EntryID", 
 					_entryID);
-				referrers = Stats.GetPagedReferrers(_resultsPageNumber, ResultsPager.PageSize, _entryID);
+				referrers = Stats.GetPagedReferrers(this.pageIndex, this.resultsPager.PageSize, _entryID);
 			}
 
 			if (referrers != null && referrers.Count > 0)
 			{
-				ResultsPager.ItemCount = referrers.MaxItems;
+				this.resultsPager.ItemCount = referrers.MaxItems;
 				rprSelectionList.DataSource = referrers;
 				rprSelectionList.DataBind();
 			}

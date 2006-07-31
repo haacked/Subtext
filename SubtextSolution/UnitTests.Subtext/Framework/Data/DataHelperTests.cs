@@ -51,7 +51,7 @@ namespace UnitTests.Subtext.Framework.Data
 		}
 
 		#region Teast class that implements IDataReader
-		struct DataReaderRecord
+		internal struct DataReaderRecord
 		{
 			public DataReaderRecord(int month, int day, int year, int count)
 			{
@@ -66,7 +66,7 @@ namespace UnitTests.Subtext.Framework.Data
 			public int Count;
 		}
 
-		class TestDataReader : IDataReader
+		internal class TestDataReader : IDataReader
 		{
 			int _currentIndex = -1;
 			ArrayList _records = new ArrayList();
