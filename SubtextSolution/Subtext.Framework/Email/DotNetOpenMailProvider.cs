@@ -14,7 +14,6 @@
 #endregion
 
 using System;
-using System.Text;
 using DotNetOpenMail;
 using DotNetOpenMail.SmtpAuth;
 using Subtext.Extensibility.Providers;
@@ -28,8 +27,6 @@ namespace Subtext.Framework.Email
 	/// </summary>
 	public class DotNetOpenMailProvider : EmailProvider
 	{
-		//TODO: The DotNetOpenMailProvider assembly needs to AllowPartiallyTrustedCallers.
-		
 		static Log Log = new Log();
 
 		/// <summary>
@@ -47,8 +44,6 @@ namespace Subtext.Framework.Email
 			email.AddToAddress(new EmailAddress(to));
 			email.Subject = subject;
 			email.BodyText = message;
-			email.TextPart = new TextAttachment(message);
-			email.TextPart.CharSet = Encoding.UTF8;
 
 			SmtpServer smtpServer = new SmtpServer(SmtpServer, Port);
 			
