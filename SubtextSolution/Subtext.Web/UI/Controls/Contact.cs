@@ -77,20 +77,20 @@ namespace Subtext.Web.UI.Controls
 				string toEmail = info.Email;
 				string fromEmail = tbEmail.Text;
 				
-				string Subject = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} (via {1})", tbSubject.Text, 
+				string subject = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} (via {1})", tbSubject.Text, 
 				                               info.Title);
 
 				string sendersIpAddress = HttpHelper.GetUserIpAddress(Context);
 
 				// \n by itself has issues with qmail (unix via openSmtp), \r\n should work on unix + wintel
-				string Body = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Mail from {0}:\r\n\r\nSender: {1}\r\nEmail: {2}\r\nIP Address: {3}\r\n=====================================\r\n{4}", 
+				string body = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Mail from {0}:\r\n\r\nSender: {1}\r\nEmail: {2}\r\nIP Address: {3}\r\n=====================================\r\n{4}", 
 				                            info.Title,
 					tbName.Text,
 					tbEmail.Text,
 					sendersIpAddress,
 					tbMessage.Text);				
 
-				if(email.Send(toEmail,fromEmail,Subject,Body))
+				if(email.Send(toEmail, fromEmail, subject, body))
 				{
 					lblMessage.Text = "Your message was sent.";
 					tbName.Text = "";
