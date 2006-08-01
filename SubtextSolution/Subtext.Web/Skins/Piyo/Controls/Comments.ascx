@@ -11,7 +11,7 @@
 						<asp:Literal Runat = "server" ID = "Title" />
 					</h4>
 					<div class="info">Left by <asp:HyperLink Target="_blank" Runat="server" ID="NameLink" /> at <asp:Literal id = "PostDate" Runat = "server" /></div>
-					<div class="gravatar"><asp:Image runat="server" id="GravatarImg" visible="False" PlaceHolderImage="~/images/default_gravatar.png" width="50px" AlternateText="Gravatar" /></div>
+					<div class="gravatar"><asp:Image runat="server" id="GravatarImg" visible="False" width="50px" AlternateText="Gravatar" /></div>
 					<div class="post">
 					<p>
 						<asp:Literal id = "PostText" Runat = "server" />

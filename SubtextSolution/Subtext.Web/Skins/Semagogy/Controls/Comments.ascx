@@ -8,7 +8,7 @@
 		<asp:literal id="NoCommentMessage" runat="server" />
 		<asp:repeater id="CommentList" runat="server" onitemcreated="CommentsCreated" onitemcommand="RemoveComment_ItemCommand">
 			<itemtemplate>
-			<asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" PlaceHolderImage="~/images/shadow.gif" AlternateText="Gravatar" />
+			<asp:Image runat="server" id="GravatarImg" visible="False" CssClass="avatar" AlternateText="Gravatar" />
 				<dl class="Comment">
 					<dt>
 						<asp:literal runat = "server" id = "Title" />

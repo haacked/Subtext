@@ -141,20 +141,26 @@ namespace Subtext.Web.UI.Controls
 					
 					if(gravatarEnabled)
 					{
-						System.Web.UI.WebControls.Image Gravatar = e.Item.FindControl("GravatarImg") as System.Web.UI.WebControls.Image;
-						if(Gravatar != null) 
+						System.Web.UI.WebControls.Image gravatarImage = e.Item.FindControl("GravatarImg") as System.Web.UI.WebControls.Image;
+						if(gravatarImage != null) 
 						{
-							string gravatarUrl = Gravatar.Attributes["PlaceHolderImage"];
-							
+							//This allows per-skin configuration of the default gravatar image.
+							string defaultGravatarImage = gravatarImage.Attributes["PlaceHolderImage"];
+							if (String.IsNullOrEmpty(defaultGravatarImage))
+								defaultGravatarImage = ConfigurationManager.AppSettings["GravatarDefaultImage"];
+
+							//This allows a host-wide setting of the default gravatar image.
+							string gravatarUrl = null;
 							if (!String.IsNullOrEmpty(entry.Email))
-                                gravatarUrl = BuildGravatarUrl(entry.Email, gravatarUrl);
+								gravatarUrl = BuildGravatarUrl(entry.Email, defaultGravatarImage);
 							
 							if(!String.IsNullOrEmpty(gravatarUrl))
 							{
+								gravatarImage.Attributes.Remove("PlaceHolderImage");
 								if(gravatarUrl.Length != 0)
 								{
-									Gravatar.ImageUrl = gravatarUrl;
-									Gravatar.Visible = true;
+									gravatarImage.ImageUrl = gravatarUrl;
+									gravatarImage.Visible = true;
 								}
 							}
 						}
@@ -196,11 +202,14 @@ namespace Subtext.Web.UI.Controls
 			return string.Format(anchortag, id);
 		}
 
-		private string BuildGravatarUrl(string email,string defaultGravatar) 
+		private string BuildGravatarUrl(string email, string defaultGravatar) 
 		{
 			string processedEmail = string.Empty;
 
-            defaultGravatar = CurrentBlog.RootUrl.TrimEnd('/') + ControlHelper.ExpandTildePath(defaultGravatar);
+			if (Request.Url.Port != 80)
+				defaultGravatar = string.Format("{0}://{1}:{2}{3}", Request.Url.Scheme, Request.Url.Host, Request.Url.Port, ControlHelper.ExpandTildePath(defaultGravatar));
+			else
+				defaultGravatar = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host, ControlHelper.ExpandTildePath(defaultGravatar));
 
 			if(gravatarEmailFormat.Equals("plain"))
 			{
