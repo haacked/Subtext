@@ -15,6 +15,8 @@
 
 using System;
 using System.Net.Mail;
+using System.Text;
+using log4net;
 using Subtext.Extensibility.Providers;
 using System.Net;
 
@@ -26,6 +28,16 @@ namespace Subtext.Framework.Email
 	/// </summary>
 	public class SystemMailProvider : EmailProvider
 	{
+		private readonly static ILog log = new Logging.Log();
+
+		/// <summary>
+		/// Sends an email.
+		/// </summary>
+		/// <param name="toStr"></param>
+		/// <param name="fromStr"></param>
+		/// <param name="subject"></param>
+		/// <param name="message"></param>
+		/// <returns></returns>
 		public override bool Send(string toStr, string fromStr, string subject, string message)
 		{
 			try
@@ -34,24 +46,29 @@ namespace Subtext.Framework.Email
                 MailAddress to = new MailAddress(toStr);
 
                 MailMessage em = new MailMessage(from, to);
-
+				em.BodyEncoding = Encoding.UTF8;
 				em.Subject = subject;
 				em.Body = message;
 
                 SmtpClient client = new SmtpClient(this.SmtpServer);
+				client.Port = this.Port;
 
 				if(this.UserName != null && this.Password != null)
 				{
-                    NetworkCredential basicAuthCredential = new NetworkCredential(this.UserName, this.Password);
-                    client.UseDefaultCredentials = false;
-                    client.Credentials = basicAuthCredential;
+					client.UseDefaultCredentials = false;
+					client.Credentials = new NetworkCredential(this.UserName, this.Password);
 				}
                 
 				client.Send(em);
 				return true;
 			}
-			catch
+			catch(SmtpException exc)
 			{
+				//TODO: One reason an email could be rejected is that the email server 
+				//		might reject the send (from) email address.
+				//      We should probably throw an exception instead of returning 
+				//		true or false. But we'll have to define each exception ourselves.
+				log.Error("Could not send email.", exc);
 				return false;
 			}
 		}
