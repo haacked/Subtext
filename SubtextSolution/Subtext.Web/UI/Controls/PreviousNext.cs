@@ -97,8 +97,10 @@ namespace Subtext.Web.UI.Controls
 		private void SetNav(HyperLink navLink, Entry entry)
 		{
 			string format = navLink.Attributes["Format"];
-			if (format == null)
+			if(String.IsNullOrEmpty(format))
 				format = "{0}";
+			else 
+				navLink.Attributes.Remove("Format");
 			
 			navLink.Text = HttpUtility.HtmlEncode(string.Format(format, entry.Title));
 			navLink.NavigateUrl = entry.FullyQualifiedUrl.ToString();
