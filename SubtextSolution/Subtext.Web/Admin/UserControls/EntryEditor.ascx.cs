@@ -38,7 +38,7 @@ namespace Subtext.Web.Admin.UserControls
 		private const string VSKEY_POSTID = "PostID";
 		private const string VSKEY_CATEGORYTYPE = "CategoryType";
 
-		private int _filterCategoryID = NullValue.NullInt32;
+		private int categoryId = NullValue.NullInt32;
 		private int pageIndex = 0;
 		private bool _isListHidden = false;
 		
@@ -153,24 +153,24 @@ namespace Subtext.Web.Admin.UserControls
 		#endregion
 
 		private void Page_Load(object sender, EventArgs e)
-		{	
+		{
+			if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
+				this.pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
+
+			if (null != Request.QueryString[Keys.QRYSTR_CATEGORYID])
+				this.categoryId = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_CATEGORYID]);
+
+			this.resultsPager.PageSize = Preferences.ListingItemCount;
+			this.resultsPager.PageIndex = this.pageIndex;
+			Results.Collapsible = false;
+
+			if (NullValue.NullInt32 != this.categoryId)
+			{
+				this.resultsPager.UrlFormat += string.Format(CultureInfo.InvariantCulture, "&{0}={1}", Keys.QRYSTR_CATEGORYID, this.categoryId);
+			}
+			
 			if (!IsPostBack)
 			{
-				if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
-					this.pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
-
-				if (null != Request.QueryString[Keys.QRYSTR_CATEGORYID])
-					_filterCategoryID = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_CATEGORYID]);
-
-				this.resultsPager.PageSize = Preferences.ListingItemCount;
-				this.resultsPager.PageIndex = this.pageIndex;
-				Results.Collapsible = false;
-
-				if (NullValue.NullInt32 != _filterCategoryID)
-				{
-					this.resultsPager.UrlFormat += string.Format(CultureInfo.InvariantCulture, "&{0}={1}", Keys.QRYSTR_CATEGORYID, _filterCategoryID);
-				}
-				
 				BindList();
 				BindCategoryList();
 				SetEditorMode();
@@ -219,7 +219,16 @@ namespace Subtext.Web.Admin.UserControls
 		{
 			Edit.Visible = false;
 
-            IPagedCollection<Entry> selectionList = Entries.GetPagedEntries(this.EntryType, _filterCategoryID, this.pageIndex, this.resultsPager.PageSize);		
+			if (categoryId != NullValue.NullInt32)
+			{
+				LinkCategory category = Links.GetLinkCategory(categoryId, false);
+				if (category != null)
+				{
+					this.Results.HeaderText = "POSTS (" + category.Title + ")";
+				}
+			}
+			
+            IPagedCollection<Entry> selectionList = Entries.GetPagedEntries(this.EntryType, this.categoryId, this.pageIndex, this.resultsPager.PageSize);		
 
 			if (selectionList.Count > 0)
 			{				
