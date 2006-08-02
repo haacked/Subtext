@@ -423,9 +423,18 @@ namespace Subtext.Framework.Components
 			set
 			{
 				_url = value;
-				if(HttpContext.Current != null)
-					_fullyQualifiedLink = new Uri(Config.CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(this));
-				
+				if (HttpContext.Current != null && !String.IsNullOrEmpty(value))
+				{
+					if (this.PostType == PostType.BlogPost || this.PostType == PostType.Story)
+						_fullyQualifiedLink = new Uri(Config.CurrentBlog.UrlFormats.EntryFullyQualifiedUrl(this));
+					else
+					{
+						string url = _url;
+						if (url.StartsWith("/"))
+							url = url.Remove(0, 1);
+						_fullyQualifiedLink = new Uri(new Uri(Config.CurrentBlog.RootUrl), url);
+					}
+				}
 			}
 		}
 		

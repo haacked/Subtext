@@ -16,7 +16,6 @@
 using System;
 using System.Collections.Generic;
 using System.Web;
-using System.Xml.Serialization;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
@@ -219,7 +218,6 @@ namespace Subtext.Framework
 			set{_email = value;}
 		}
 
-		private string _host;
 		/// <summary>
 		/// Gets or sets the host for the blog.  For 
 		/// example, www.haacked.com might be a host.
@@ -236,7 +234,8 @@ namespace Subtext.Framework
 				_host = NormalizeHostName(value);
 			}
 		}
-
+		private string _host;
+		
 	    /// <summary>
 	    /// The port the blog is listening on.
 	    /// </summary>
@@ -630,7 +629,6 @@ namespace Subtext.Framework
 		/// Gets the root URL for this blog.  For example, "http://example.com/" or "http://example.com/blog/".
 		/// </summary>
 		/// <value></value>
-		[XmlIgnore]
 		public string RootUrl
 		{
 			get
@@ -642,7 +640,7 @@ namespace Subtext.Framework
                     {
                         host += ":" + this.Port;
                     }
-                    _rootUrl = "http://" + host + VirtualUrl;					
+					_rootUrl = "http://" + host + VirtualUrl;
 				}
 				return _rootUrl;
 			}
@@ -650,10 +648,9 @@ namespace Subtext.Framework
 		string _rootUrl = null;
 
 		/// <summary>
-		/// Gets the virtual URL for the site.  For example, "/" or "/Subtext.Web/" or "/Blog/".
+		/// Gets the virtual URL for the site with preceding and trailing slash.  For example, "/" or "/Subtext.Web/" or "/Blog/".
 		/// </summary>
 		/// <value>The virtual URL.</value>
-		[XmlIgnore]
 		public string VirtualUrl
 		{
 			get
@@ -666,8 +663,8 @@ namespace Subtext.Framework
 					{
 						this.virtualUrl += appPath + "/";
 					}
-					
-					if(this.Subfolder.Length > 0)
+
+					if (this.Subfolder != null && this.Subfolder.Length > 0)
 					{
 						this.virtualUrl += this.Subfolder + "/";
 					}
@@ -683,7 +680,6 @@ namespace Subtext.Framework
 		/// HttpContext.Current.Request.ApplicationPath property that always ends with a slash.
 		/// </summary>
 		/// <value>The virtual URL.</value>
-		[XmlIgnore]
 		public string VirtualDirectoryRoot
 		{
 			get
@@ -743,6 +739,31 @@ namespace Subtext.Framework
 				return RootUrl + "Default.aspx";
 			}
 		}
+
+		/// <summary>
+		/// Gets the fully qualified url to the blog engine host.  This is the 
+		/// blog URL without the subfolder, but with the virtual directory 
+		/// path, if any.
+		/// </summary>
+		/// <value></value>
+		public Uri HostFullyQualifiedUrl
+		{
+			get
+			{
+				if (this.hostFullyQualifiedUrl == null)
+				{
+					string host = HttpContext.Current.Request.Url.Scheme + "://" + this._host;
+					if (this.Port != BlogRequest.DefaultPort)
+					{
+						host += ":" + this.Port;
+					}
+					host += VirtualDirectoryRoot;
+					hostFullyQualifiedUrl = new Uri(host);
+				}
+				return hostFullyQualifiedUrl;
+			}
+		}
+		Uri hostFullyQualifiedUrl;
 
 		/// <summary>
 		/// Gets the blog home virtual URL.  For example, "/default.aspx" or "/Blog/Default.aspx".

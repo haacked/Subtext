@@ -39,12 +39,11 @@ namespace UnitTests.Subtext.Framework.Syndication
 		[RollBack]
 		public void RssWriterProducesValidFeed()
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "Subtext.Web");
+			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web");
 
 			BlogInfo blogInfo = new BlogInfo();
 			blogInfo.Host = "localhost";
 			blogInfo.Title = "My Blog Is Better Than Yours";
-			blogInfo.Subfolder = "Subtext.Web";
 			blogInfo.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = true;
 
@@ -52,6 +51,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 
 		    List<Entry> entries = new List<Entry>(CreateSomeEntries());
             entries[0].Categories.AddRange(new string[] { "Category1", "Category2" });
+			entries[0].Email = "nobody@example.com";
             entries[2].Categories.Add("Category 3");
 			RssWriter writer = new RssWriter(entries, NullValue.NullDateTime, false);
 
@@ -76,7 +76,6 @@ namespace UnitTests.Subtext.Framework.Syndication
 											+ @"<link>http://localhost/Subtext.Web/Default.aspx</link>" 
 											+ @"<width>77</width>" 
 											+ @"<height>60</height>" 
-											+ @"<description />"
 										+ @"</image>" 
 										+ @"<item>" 
 			                                + @"<title>Title of 1001.</title>"
@@ -140,11 +139,11 @@ namespace UnitTests.Subtext.Framework.Syndication
 		[RollBack]
 		public void RssWriterHandlesRFC3229DeltaEncoding()
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "Subtext.Web");
+			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web");
 
 			BlogInfo blogInfo = new BlogInfo();
 			blogInfo.Host = "localhost";
-			blogInfo.Subfolder = "Subtext.Web";
+			blogInfo.Subfolder = "";
 			blogInfo.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = true;
 
@@ -153,7 +152,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             List<Entry> entries = new List<Entry>(CreateSomeEntriesDescending());
 			// Tell the write we already received 1002 published 5/25/1976.
 			RssWriter writer = new RssWriter(entries, DateTime.ParseExact("05/25/1976","MM/dd/yyyy",CultureInfo.InvariantCulture), true);
-			
+
 			// We only expect 1003 and 1004
 			string expected = @"<rss version=""2.0"" xmlns:dc=""http://purl.org/dc/elements/1.1/"" xmlns:trackback=""http://madskills.com/public/xml/rss/module/trackback/"" xmlns:wfw=""http://wellformedweb.org/CommentAPI/"" xmlns:slash=""http://purl.org/rss/1.0/modules/slash/"" xmlns:copyright=""http://blogs.law.harvard.edu/tech/rss"" xmlns:image=""http://purl.org/rss/1.0/modules/image/"">"
                                 + "<channel>" 
@@ -169,7 +168,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			                            + "<url>http://localhost/Subtext.Web/RSS2Image.gif</url>" 
 			                            + "<link>http://localhost/Subtext.Web/Default.aspx</link>" 
 			                            + "<width>77</width>" 
-			                            + "<height>60</height><description />" 
+			                            + "<height>60</height>" 
 			                        + "</image>" 
 							        + @"<item>" 
 			                            + @"<title>Title of 1004.</title>" 
@@ -209,11 +208,11 @@ namespace UnitTests.Subtext.Framework.Syndication
 		[RollBack]
 		public void RssWriterSendsWholeFeedWhenRFC3229Disabled()
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "Subtext.Web");
+			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "Subtext.Web");
 
 			BlogInfo blogInfo = new BlogInfo();
 			blogInfo.Host = "localhost";
-			blogInfo.Subfolder = "Subtext.Web";
+			blogInfo.Subfolder = "";
 			blogInfo.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = false;
 
@@ -222,7 +221,7 @@ namespace UnitTests.Subtext.Framework.Syndication
             List<Entry> entries = new List<Entry>(CreateSomeEntriesDescending());		
 			RssWriter writer = new RssWriter(entries, DateTime.ParseExact("06/14/2003", "MM/dd/yyyy", CultureInfo.InvariantCulture), false);
 
-			string expected = @"<rss version=""2.0"" xmlns:dc=""http://purl.org/dc/elements/1.1/"" xmlns:trackback=""http://madskills.com/public/xml/rss/module/trackback/"" xmlns:wfw=""http://wellformedweb.org/CommentAPI/"" xmlns:slash=""http://purl.org/rss/1.0/modules/slash/"" xmlns:copyright=""http://blogs.law.harvard.edu/tech/rss"" xmlns:image=""http://purl.org/rss/1.0/modules/image/""><channel><title /><link>http://localhost/Subtext.Web/Default.aspx</link><description /><language>en-US</language><copyright>Subtext Weblog</copyright><managingEditor>Subtext@example.com</managingEditor><generator>{0}</generator><image><title /><url>http://localhost/Subtext.Web/RSS2Image.gif</url><link>http://localhost/Subtext.Web/Default.aspx</link><width>77</width><height>60</height><description /></image>"
+			string expected = @"<rss version=""2.0"" xmlns:dc=""http://purl.org/dc/elements/1.1/"" xmlns:trackback=""http://madskills.com/public/xml/rss/module/trackback/"" xmlns:wfw=""http://wellformedweb.org/CommentAPI/"" xmlns:slash=""http://purl.org/rss/1.0/modules/slash/"" xmlns:copyright=""http://blogs.law.harvard.edu/tech/rss"" xmlns:image=""http://purl.org/rss/1.0/modules/image/""><channel><title /><link>http://localhost/Subtext.Web/Default.aspx</link><description /><language>en-US</language><copyright>Subtext Weblog</copyright><managingEditor>Subtext@example.com</managingEditor><generator>{0}</generator><image><title /><url>http://localhost/Subtext.Web/RSS2Image.gif</url><link>http://localhost/Subtext.Web/Default.aspx</link><width>77</width><height>60</height></image>"
                             + @"<item><title>Title of 1004.</title><link>http://localhost/Subtext.Web/archive/2003/06/14/1004.aspx</link><description>Body of 1004&lt;img src=""http://localhost/Subtext.Web/aggbug/1004.aspx"" width=""1"" height=""1"" /&gt;</description><dc:creator>Phil Haack</dc:creator><guid>http://localhost/Subtext.Web/archive/2003/06/14/1004.aspx</guid><pubDate>Sat, 14 Jun 2003 00:00:00 GMT</pubDate><comments>http://localhost/Subtext.Web/archive/2003/06/14/1004.aspx#feedback</comments><wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1004.aspx</wfw:commentRss></item>"
                             + @"<item><title>Title of 1003.</title><link>http://localhost/Subtext.Web/archive/1979/09/16/1003.aspx</link><description>Body of 1003&lt;img src=""http://localhost/Subtext.Web/aggbug/1003.aspx"" width=""1"" height=""1"" /&gt;</description><dc:creator>Phil Haack</dc:creator><guid>http://localhost/Subtext.Web/archive/1979/09/16/1003.aspx</guid><pubDate>Sun, 16 Sep 1979 00:00:00 GMT</pubDate><comments>http://localhost/Subtext.Web/archive/1979/09/16/1003.aspx#feedback</comments><wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1003.aspx</wfw:commentRss></item>"
                             + @"<item><title>Title of 1002.</title><link>http://localhost/Subtext.Web/archive/1976/05/25/1002.aspx</link><description>Body of 1002&lt;img src=""http://localhost/Subtext.Web/aggbug/1002.aspx"" width=""1"" height=""1"" /&gt;</description><dc:creator>Phil Haack</dc:creator><guid>http://localhost/Subtext.Web/archive/1976/05/25/1002.aspx</guid><pubDate>Tue, 25 May 1976 00:00:00 GMT</pubDate><comments>http://localhost/Subtext.Web/archive/1976/05/25/1002.aspx#feedback</comments><wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1002.aspx</wfw:commentRss></item>"

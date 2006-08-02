@@ -15,7 +15,7 @@ namespace UnitTests.Subtext.Framework
 	public class BlogInfoTests
 	{
 	    [Test]
-	    public void TestNormalizeHostName()
+	    public void NormalizeHostNameFunctionsProperly()
 	    {
             string host = UnitTestHelper.GenerateRandomString();
 	        
@@ -25,11 +25,11 @@ namespace UnitTests.Subtext.Framework
 	        Assert.AreEqual(host, BlogInfo.NormalizeHostName("www."+host+":2734"), "Need to strip both the prefix and port number");
 	    }
 	    
-	    /// <summary>
+		/// <summary>
 	    /// Makes sure we can setup the fake HttpContext.
 	    /// </summary>
 	    [Test]
-	    public void TestSetHttpContextWithBlogRequest()
+	    public void SetHttpContextWithBlogRequestDoesADecentSimulation()
 	    {
             UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "");
             Assert.AreEqual(HttpContext.Current.Request.Url.Host, "localhost");
@@ -46,6 +46,30 @@ namespace UnitTests.Subtext.Framework
             Assert.AreEqual(HttpContext.Current.Request.ApplicationPath, "/Subtext.Web");
 
 	    }
+
+		/// <summary>
+		/// Test makes sure that the port number is included in fully qualified 
+		/// urls.
+		/// </summary>
+		/// <param name="subfolder"></param>
+		/// <param name="virtualDir"></param>
+		/// <param name="port"></param>
+		/// <param name="expected"></param>
+		[RowTest]
+		[Row("", "", 8080, ":8080/")]
+		[Row("", "", 80, "/")]
+		[Row("", "Subtext.Web", 8080, ":8080/Subtext.Web/")]
+		[Row("blog", "Subtext.Web", 8080, ":8080/Subtext.Web/")]
+		[Row("blog", "", 8080, ":8080/")]
+		[RollBack]
+		public void HostFullyQualifiedUrlPropertySetCorrectly(string subfolder, string virtualDir, int port, string expected)
+		{
+			string host = UnitTestHelper.GenerateRandomString();
+			UnitTestHelper.SetHttpContextWithBlogRequest(host, port, subfolder, virtualDir);
+			Assert.IsTrue(Config.CreateBlog("TestVirtualUrlPropertySetCorrectly", "username", "password", host, subfolder));
+
+			Assert.AreEqual("http://" + host + expected, Config.CurrentBlog.HostFullyQualifiedUrl.ToString(), "Did not set the HostFullyQualifiedUrl correctly.");
+		}
 
 	    /// <summary>
 	    /// Test makes sure that the port number is included in fully qualified 
@@ -140,7 +164,7 @@ namespace UnitTests.Subtext.Framework
 		[Row("Blog", "", "Blog/")]
 		[Row("Blog", "Subtext.Web", "Subtext.Web/Blog/")]
 		[RollBack]
-		public void TestRootUrlPropertySetCorrectly(string subfolder, string virtualDir, string expected)
+		public void RootUrlPropertyReturnsCorrectValue(string subfolder, string virtualDir, string expected)
 		{
 			string host = UnitTestHelper.GenerateRandomString();
 			string expectedUrl = string.Format("http://{0}/{1}", host, expected);
