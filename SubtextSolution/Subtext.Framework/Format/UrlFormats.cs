@@ -117,16 +117,16 @@ namespace Subtext.Framework.Format
 			return GetUrl("archive/{0:yyyy/MM/dd}/{1}.aspx#{2}", entry.DateCreated, entry.HasEntryName ? entry.EntryName : entry.ParentId.ToString(CultureInfo.InvariantCulture), entry.Id);
 		}
 
-		public virtual string CommentApiUrl(int EntryID)
+		public virtual string CommentApiUrl(int entryId)
 		{
-			return GetFullyQualifiedUrl("comments/{0}.aspx",EntryID);
+			return GetFullyQualifiedUrl("comments/{0}.aspx", entryId);
 		}
 
-		public virtual string TrackBackUrl(int EntryID)
+		public virtual string TrackBackUrl(int entryId)
 		{
-			return GetFullyQualifiedUrl("services/trackbacks/{0}.aspx",EntryID);
+			return GetFullyQualifiedUrl("services/trackbacks/{0}.aspx", entryId);
 		}
-
+ 
 		public virtual string AggBugkUrl(int EntryID)
 		{
 			return GetFullyQualifiedUrl("aggbug/{0}.aspx",EntryID);

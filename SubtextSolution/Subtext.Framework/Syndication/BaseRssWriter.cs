@@ -15,6 +15,8 @@
 
 using System;
 using System.Globalization;
+using System.Web;
+using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
@@ -117,7 +119,8 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		protected virtual void WriteChannel()
 		{
-			BuildChannel(info.Title, info.HomeFullyQualifiedUrl, info.Email, info.SubTitle, info.Language, info.Author, Config.CurrentBlog.LicenseUrl, info.Title, info.HomeFullyQualifiedUrl, string.Empty);
+			RssImageElement image = new RssImageElement(new Uri(info.HostFullyQualifiedUrl, "RSS2Image.gif"), info.Title, new Uri(info.HomeFullyQualifiedUrl), 77, 60, null);
+			BuildChannel(info.Title, info.HomeFullyQualifiedUrl, info.Email, info.SubTitle, info.Language, info.Author, Config.CurrentBlog.LicenseUrl, image);
 		}
 		
 		/// <summary>
@@ -132,7 +135,7 @@ namespace Subtext.Framework.Syndication
 		/// <param name="cclicense">The cclicense.</param>
 		protected void BuildChannel(string title, string link, string authorEmail, string description, string lang, string copyright, string cclicense)
 		{
-			BuildChannel(title, link, authorEmail, description, lang, copyright, cclicense, info.Title, info.HomeFullyQualifiedUrl, string.Empty);
+			BuildChannel(title, link, authorEmail, description, lang, copyright, cclicense, null);
 		}
 
 		/// <summary>
@@ -145,15 +148,13 @@ namespace Subtext.Framework.Syndication
 		/// <param name="lang">The lang.</param>
 		/// <param name="copyright">The copyright.</param>
 		/// <param name="cclicense">The cclicense.</param>
-		/// <param name="imageTitle">The "alt" attribute value for the RSS feed's image.</param>
-		/// <param name="imageLink">The url that the image will link to. Ostensibly the url to the blog.</param>
-		/// <param name="imageDescription">The "title" attribute value for the anchor tag used to surround the image and link to this blog.</param>
-		protected void BuildChannel(string title, string link, string authorEmail, string description, string lang, string copyright, string cclicense, string imageTitle, string imageLink, string imageDescription)
+		/// <param name="image">An optional sub-element of channel for rendering an image for the channel.</param>
+		protected void BuildChannel(string title, string link, string authorEmail, string description, string lang, string copyright, string cclicense, RssImageElement image)
 		{
 			//Required Channel Elements
 			this.WriteElementString("title", title);			
 			this.WriteElementString("link", link);
-			this.WriteElementString("description", description);
+			this.WriteElementString("description", HttpUtility.HtmlEncode(description));
 			
 			//Optional Channel Elements
 			this.WriteElementString("language", lang);
@@ -161,7 +162,8 @@ namespace Subtext.Framework.Syndication
 			this.WriteElementString("copyright", copyright);
 
 			//TODO: Provide REAL email authentication.
-			if(authorEmail != null && authorEmail.Length > 0 && authorEmail.IndexOf("@") > 0)
+			//TODO: Allow blog owner to omit this field on a per-blog basis without having to remove email address. Or we might consider a separate field for Syndicated email address.
+			if (authorEmail != null && authorEmail.Length > 0 && authorEmail.IndexOf("@") > 0 && authorEmail.IndexOf(".") > 0)
 			{
 				this.WriteElementString("managingEditor", authorEmail);
 			}
@@ -174,8 +176,8 @@ namespace Subtext.Framework.Syndication
 				this.WriteElementString("creativeCommons:license", cclicense);
 			}
 
-			if(link != null && link.Length > 0)
-				this.AddImageElement(imageTitle, imageLink, imageDescription);
+			if(image != null)
+				image.WriteToXmlWriter(this);
 		}
 
 		/// <summary>
@@ -272,34 +274,32 @@ namespace Subtext.Framework.Syndication
 				)
 			);
 
-		    if(!String.IsNullOrEmpty(entry.Email) && entry.Email.IndexOf('@') > 0 && entry.Email.IndexOf(".") > 0)
-		    {
-		        this.WriteElementString("author", entry.Email);
-		    }
-
-            if (!String.IsNullOrEmpty(entry.Author))
+			if (!String.IsNullOrEmpty(entry.Author))
             {
-                this.WriteElementString("dc:creator", entry.Author);
+				this.WriteElementString("dc:creator", entry.Author);
             }
 		    
 			this.WriteElementString("guid", entry.FullyQualifiedUrl.ToString());
 			this.WriteElementString("pubDate", entry.DateCreated.ToString("r"));			
 
-			if(AllowComments && info.CommentsEnabled && entry.AllowComments && !entry.CommentingClosed)
+			if (entry.PostType == PostType.BlogPost || entry.PostType == PostType.Story)
 			{
-				// Comment API (http://wellformedweb.org/story/9)
-				this.WriteElementString("wfw:comment", urlFormats.CommentApiUrl(entry.Id));
-			}
+				if (AllowComments && info.CommentsEnabled && entry.AllowComments && !entry.CommentingClosed)
+				{
+					// Comment API (http://wellformedweb.org/story/9)
+					this.WriteElementString("wfw:comment", urlFormats.CommentApiUrl(entry.Id));
+				}
+				
+				this.WriteElementString("comments", entry.FullyQualifiedUrl + "#feedback");
 
-			this.WriteElementString("comments", entry.FullyQualifiedUrl + "#feedback");
-			
-			if(entry.FeedBackCount > 0)
-				this.WriteElementString("slash:comments", entry.FeedBackCount.ToString(CultureInfo.InvariantCulture));
-			
-			this.WriteElementString("wfw:commentRss", urlFormats.CommentRssUrl(entry.Id));
-			
-			if(info.TrackbacksEnabled)
-				this.WriteElementString("trackback:ping", urlFormats.TrackBackUrl(entry.Id));
+				if (entry.FeedBackCount > 0)
+					this.WriteElementString("slash:comments", entry.FeedBackCount.ToString(CultureInfo.InvariantCulture));
+				
+				this.WriteElementString("wfw:commentRss", urlFormats.CommentRssUrl(entry.Id));
+
+				if (info.TrackbacksEnabled)
+					this.WriteElementString("trackback:ping", urlFormats.TrackBackUrl(entry.Id));
+			}
 		}
 	}
 }

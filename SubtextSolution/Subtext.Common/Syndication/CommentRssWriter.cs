@@ -55,7 +55,8 @@ namespace Subtext.Common.Syndication
 		/// </summary>
 		protected override void WriteChannel()
 		{
-			this.BuildChannel(CommentEntry.Title, CommentEntry.FullyQualifiedUrl.ToString(), CommentEntry.Email, CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body, info.Language, info.Author, Config.CurrentBlog.LicenseUrl, Config.CurrentBlog.Title, Config.CurrentBlog.HomeFullyQualifiedUrl, string.Empty);
+			RssImageElement image = new RssImageElement(new Uri(info.HostFullyQualifiedUrl, "RSS2Image.gif"), CommentEntry.Title, CommentEntry.FullyQualifiedUrl, 77, 60, null);
+			this.BuildChannel(CommentEntry.Title, CommentEntry.FullyQualifiedUrl.ToString(), CommentEntry.Email, CommentEntry.HasDescription ? CommentEntry.Description : CommentEntry.Body, info.Language, info.Author, Config.CurrentBlog.LicenseUrl, image);
 		}
 	}
 }

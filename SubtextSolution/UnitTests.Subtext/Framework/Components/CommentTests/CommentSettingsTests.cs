@@ -12,6 +12,23 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 	{
 		string hostName;
 
+		[RowTest]
+		[Row("", "Subtext.Web", "http://{0}/Subtext.Web/archive/2006/01/23/Test.aspx#1021")]
+		[Row("", "", "http://{0}/archive/2006/01/23/Test.aspx#1021")]
+		[Row("blog", "Subtext.Web", "http://{0}/Subtext.Web/blog/archive/2006/01/23/Test.aspx#1021")]
+		[RollBack]
+		public void CommentFullyQualifiedUrlSetProperly(string subfolder, string application, string expectedFormat)
+		{
+			this.hostName = UnitTestHelper.GenerateRandomString();
+			UnitTestHelper.SetHttpContextWithBlogRequest(this.hostName, subfolder, application);
+			Config.CreateBlog("", "username", "thePassword", this.hostName, subfolder);
+			
+			Entry comment = new Entry(PostType.Comment);
+			comment.Id = 1021;
+			comment.Url = "/archive/2006/01/23/Test.aspx#1021";
+			Assert.AreEqual(comment.FullyQualifiedUrl, string.Format(expectedFormat, this.hostName));
+		}
+		
 		[Test]
 		[RollBack]
 		public void CommentModerationDisabledCausesNewCommentsToBeActive()

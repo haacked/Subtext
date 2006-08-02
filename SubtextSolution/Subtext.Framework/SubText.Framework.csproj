@@ -404,6 +404,7 @@
     <Compile Include="Syndication\Compression\SyndicationCompressionSettings.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Syndication\RssImageElement.cs" />
     <Compile Include="Text\HtmlHelper.cs">
       <SubType>Code</SubType>
     </Compile>
