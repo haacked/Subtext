@@ -38,6 +38,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization ;
 using System.Xml ;
+using System.IO;
 using System.Web ;
 using System.Text.RegularExpressions;
 using Subtext.Framework;
@@ -91,57 +92,60 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 			XmlDocument oXML = new XmlDocument() ;
 			XmlNode oConnectorNode = CreateBaseXml( oXML, sCommand, sResourceType, sCurrentFolder ) ;
 
-			if(sResourceType.Equals("Image"))
-			{
-				// Execute the required command.
-				switch( sCommand )
-				{
-					case "GetFolders" :
-						this.GetFolders( oConnectorNode, sCurrentFolder ) ;
-						break;
-					case "GetFoldersAndFiles" :
-						this.GetFolders( oConnectorNode, sCurrentFolder ) ;
-						this.GetFiles( oConnectorNode, sResourceType,sCurrentFolder ) ;
-						break;
-					case "CreateFolder" :
-						this.CreateFolder( oConnectorNode, sResourceType, sCurrentFolder ) ;
-						break;
-				}
-			}
-			else if(sResourceType.Equals("Posts"))
-			{
-				// Execute the required command.
-				switch( sCommand )
-				{
-					case "GetFolders" :
-						GetCategories( oConnectorNode, sCurrentFolder) ;
-						break;
-					case "GetFoldersAndFiles" :
-						GetCategories( oConnectorNode, sCurrentFolder ) ;
-						GetPosts( oConnectorNode, sCurrentFolder ) ;
-						break;
-					case "CreateFolder" :
-						this.CreateFolder( oConnectorNode, sResourceType, sCurrentFolder ) ;
-						break;
-				}
-			}
-			else if(sResourceType.Equals("File"))
-			{
-				// Execute the required command.
-				switch( sCommand )
-				{
-					case "GetFolders" :
-						this.GetFolders( oConnectorNode, sCurrentFolder ) ;
-						break;
-					case "GetFoldersAndFiles" :
-						this.GetFolders( oConnectorNode, sCurrentFolder ) ;
-						this.GetFiles( oConnectorNode, sResourceType, sCurrentFolder ) ;
-						break;
-					case "CreateFolder" :
-						this.CreateFolder( oConnectorNode, sResourceType, sCurrentFolder ) ;
-						break;
-				}
-			}
+            if (CreateImageFolder(oConnectorNode))
+            {
+                if (sResourceType.Equals("Image"))
+                {
+                    // Execute the required command.
+                    switch (sCommand)
+                    {
+                        case "GetFolders":
+                            this.GetFolders(oConnectorNode, sCurrentFolder);
+                            break;
+                        case "GetFoldersAndFiles":
+                            this.GetFolders(oConnectorNode, sCurrentFolder);
+                            this.GetFiles(oConnectorNode, sResourceType, sCurrentFolder);
+                            break;
+                        case "CreateFolder":
+                            this.CreateFolder(oConnectorNode, sResourceType, sCurrentFolder);
+                            break;
+                    }
+                }
+                else if (sResourceType.Equals("Posts"))
+                {
+                    // Execute the required command.
+                    switch (sCommand)
+                    {
+                        case "GetFolders":
+                            GetCategories(oConnectorNode, sCurrentFolder);
+                            break;
+                        case "GetFoldersAndFiles":
+                            GetCategories(oConnectorNode, sCurrentFolder);
+                            GetPosts(oConnectorNode, sCurrentFolder);
+                            break;
+                        case "CreateFolder":
+                            this.CreateFolder(oConnectorNode, sResourceType, sCurrentFolder);
+                            break;
+                    }
+                }
+                else if (sResourceType.Equals("File"))
+                {
+                    // Execute the required command.
+                    switch (sCommand)
+                    {
+                        case "GetFolders":
+                            this.GetFolders(oConnectorNode, sCurrentFolder);
+                            break;
+                        case "GetFoldersAndFiles":
+                            this.GetFolders(oConnectorNode, sCurrentFolder);
+                            this.GetFiles(oConnectorNode, sResourceType, sCurrentFolder);
+                            break;
+                        case "CreateFolder":
+                            this.CreateFolder(oConnectorNode, sResourceType, sCurrentFolder);
+                            break;
+                    }
+                }
+            }
 
 			// Output the resulting XML.
 			Response.Write( oXML.OuterXml ) ;
@@ -424,6 +428,26 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 			}
 			return extStr;
 		}
+
+        private bool CreateImageFolder(XmlNode connectorNode)
+        {
+            bool retval;
+            try
+            {
+                string blogImageRootPath = Subtext.Framework.Format.UrlFormats.StripHostFromUrl(Subtext.Framework.Configuration.Config.CurrentBlog.ImagePath);
+                if (!Directory.Exists(HttpContext.Current.Server.MapPath(blogImageRootPath)))
+                    Directory.CreateDirectory(HttpContext.Current.Server.MapPath(blogImageRootPath));
+                retval = true;
+            }
+            catch (Exception)
+            {
+                // Create the "Error" node.
+                XmlNode oErrorNode = XmlUtil.AppendElement(connectorNode, "Error");
+                XmlUtil.SetAttribute(oErrorNode, "number", "103");
+                retval = false;
+            }
+            return retval;
+        }
 
 	}
 }

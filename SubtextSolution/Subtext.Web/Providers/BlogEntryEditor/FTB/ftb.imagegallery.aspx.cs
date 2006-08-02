@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.IO;
 
 namespace Subtext.Web.Admin
 {
@@ -23,6 +24,8 @@ namespace Subtext.Web.Admin
 	public class ftb_imagegallery : System.Web.UI.Page
 	{
 		protected FreeTextBoxControls.ImageGallery imageGallery;
+        protected System.Web.UI.WebControls.PlaceHolder errorMsg;
+        protected System.Web.UI.WebControls.Label folderName;
 
 		/// <summary>
 		/// Method called when the page loads.
@@ -31,6 +34,23 @@ namespace Subtext.Web.Admin
 		/// <param name="e">E.</param>
 		private void Page_Load(object sender, System.EventArgs e)
 		{
+            string blogImageRootPath = Subtext.Framework.Format.UrlFormats.StripHostFromUrl(Subtext.Framework.Configuration.Config.CurrentBlog.ImagePath);
+
+            string phisicalImageRootPath = Server.MapPath(blogImageRootPath);
+            try
+            {
+                if (!Directory.Exists(phisicalImageRootPath))
+                {
+                    Directory.CreateDirectory(phisicalImageRootPath);
+                }
+            }
+            catch (Exception)
+            {
+                imageGallery.Visible = false;
+                errorMsg.Visible = true;
+                folderName.Text = phisicalImageRootPath;
+            }
+
 			//TODO: Fix this up....
 			/*
 			string currentFolder = imageGallery.CurrentImagesFolder;

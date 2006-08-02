@@ -121,7 +121,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 				_fckCtl.SkinPath = _fckCtl.BasePath + "editor/skins/" + _skin + "/";
 
 			// Compute user image gallery url
-			string blogImageRootPath=Subtext.Framework.Format.UrlFormats.StripHostFromUrl(Subtext.Framework.Configuration.Config.CurrentBlog.ImagePath);
+		    string blogImageRootPath=Subtext.Framework.Format.UrlFormats.StripHostFromUrl(Subtext.Framework.Configuration.Config.CurrentBlog.ImagePath);
             string blogSubFolder = Subtext.Framework.Configuration.Config.CurrentBlog.Subfolder;
             string currentImageConnector = _imageConnectorURL;
             string currentLinkConnector = _linkConnectorURL;
@@ -130,9 +130,6 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
                 currentImageConnector = _imageConnectorURL.Replace("~/", "~/" + blogSubFolder + "/");
                 currentLinkConnector = _linkConnectorURL.Replace("~/", "~/" + blogSubFolder + "/");
             }
-
-			if(!Directory.Exists(HttpContext.Current.Server.MapPath(blogImageRootPath)))
-				Directory.CreateDirectory(HttpContext.Current.Server.MapPath(blogImageRootPath));
 
 			_fckCtl.ImageBrowserURL=String.Format(ControlHelper.ExpandTildePath(_imageBrowserURL),ControlHelper.ExpandTildePath(currentImageConnector));
 			_fckCtl.LinkBrowserURL=String.Format(ControlHelper.ExpandTildePath(_linkBrowserURL),ControlHelper.ExpandTildePath(currentLinkConnector));

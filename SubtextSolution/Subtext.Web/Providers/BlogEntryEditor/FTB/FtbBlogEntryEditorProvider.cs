@@ -92,10 +92,6 @@ namespace Subtext.Web.Providers.BlogEntryEditor.FTB
 			string blogImageRootPath=Subtext.Framework.Format.UrlFormats.StripHostFromUrl(Subtext.Framework.Configuration.Config.CurrentBlog.ImagePath);
 
 			string phisicalImageRootPath=HttpContext.Current.Server.MapPath(blogImageRootPath);
-			if(!Directory.Exists(phisicalImageRootPath))
-			{
-				Directory.CreateDirectory(phisicalImageRootPath);
-			}
 
 			_ftbCtl.ImageGalleryPath=blogImageRootPath;
 		}
