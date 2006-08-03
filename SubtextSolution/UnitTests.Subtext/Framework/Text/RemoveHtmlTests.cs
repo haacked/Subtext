@@ -11,13 +11,6 @@ namespace UnitTests.Subtext.Framework.Text
 	[TestFixture]
 	public class RemoveHtmlTests
 	{
-		[Test]
-		[ExpectedException(typeof(ArgumentNullException))]
-		public void RemoveHtmlThrowsArgumentNullException()
-		{
-			HtmlHelper.RemoveHtml(null);
-		}
-
 		/// <summary>
 		/// Passes in each row to the test. Calls <see cref="HtmlHelper.RemoveHtml"/> on 
 		/// the input and compares against the expected value.
@@ -26,6 +19,7 @@ namespace UnitTests.Subtext.Framework.Text
 		/// <param name="expected">Expected return value.</param>
 		[RowTest]
 		[Row("", "")]
+        [Row(null, null)]
 		[Row("<", "<")]
 		[Row("<>", "<>")]
 		[Row("aBc", "aBc")]
