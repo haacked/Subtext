@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.Xml;
+using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Syndication
 {
@@ -31,7 +32,7 @@ namespace Subtext.Framework.Syndication
 		public RssImageElement(Uri url, string title, Uri link, int? width, int? height, string description)
 		{
 			this.url = url;
-			this.title = title;
+			this.title = HtmlHelper.RemoveHtml(title);
 			this.link = link;
 			this.width = width;
 			this.height = height;

@@ -18,6 +18,7 @@ using System.Globalization;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
+using Subtext.Framework.Text;
 using Subtext.Framework.Tracking;
 
 namespace Subtext.Framework.Syndication
@@ -120,47 +121,47 @@ namespace Subtext.Framework.Syndication
 
 		protected void BuildChannel(string title, string link, string description)
 		{
-			this.WriteElementString("title",title);	
+            this.WriteElementString("title", HtmlHelper.RemoveHtml(title));
 
-			//(Duncanma 11/13/2005, changing link rel and href for 1.0 feed)
-			this.WriteStartElement("link");
-			//(Duncanma 12/28/2005, changing again... Atom vs atom was causing feed validation errors
-				this.WriteAttributeString("rel","self");
-				this.WriteAttributeString("type","application/xml");
-				string currentURL = link + "Atom.aspx";
-				if (System.Web.HttpContext.Current.Request != null)
-					currentURL = System.Web.HttpContext.Current.Request.Url.ToString();
-				this.WriteAttributeString("href",currentURL);
+            //(Duncanma 11/13/2005, changing link rel and href for 1.0 feed)
+            this.WriteStartElement("link");
+            //(Duncanma 12/28/2005, changing again... Atom vs atom was causing feed validation errors
+            this.WriteAttributeString("rel", "self");
+            this.WriteAttributeString("type", "application/xml");
+            string currentURL = link + "Atom.aspx";
+            if (System.Web.HttpContext.Current.Request != null)
+                currentURL = System.Web.HttpContext.Current.Request.Url.ToString();
+            this.WriteAttributeString("href", currentURL);
 
-//				this.WriteAttributeString("rel","self");
-//				this.WriteAttributeString("type","application/xml");
-//				this.WriteAttributeString("href",info.RootUrl + "atom.aspx");
-			this.WriteEndElement();
+            // this.WriteAttributeString("rel","self");
+            // this.WriteAttributeString("type","application/xml");
+            // this.WriteAttributeString("href",info.RootUrl + "atom.aspx");
+            this.WriteEndElement();
 
-			//(Duncanma 11/13/2005, changing tagline to subtitle for 1.0 feed)
-			this.WriteStartElement("subtitle");
-				this.WriteAttributeString("type","html");
-				this.WriteString(description);
-			this.WriteEndElement();
+            //(Duncanma 11/13/2005, changing tagline to subtitle for 1.0 feed)
+            this.WriteStartElement("subtitle");
+            this.WriteAttributeString("type", "html");
+            this.WriteString(HtmlHelper.RemoveHtml(description));
+            this.WriteEndElement();
 
-			this.WriteElementString("id",link);
+            this.WriteElementString("id", link);
 
-			this.WriteStartElement("author");
-				this.WriteElementString("name", info.Author);
-				//(Duncanma 11/13/2005, changing url to uri for 1.0 feed)
-				this.WriteElementString("uri", info.HomeFullyQualifiedUrl);
-			this.WriteEndElement();
-			
-			//(Duncanma 11/13/05) updated generator to reflect project name change to Subtext
-			this.WriteStartElement("generator");
-				//(Duncanma 11/13/2005, changing url to uri for 1.0 feed)
-				this.WriteAttributeString("uri","http://subtextproject.com");
-				this.WriteAttributeString("version", VersionInfo.VersionDisplayText);
-				this.WriteString("Subtext");
-			this.WriteEndElement();
+            this.WriteStartElement("author");
+            this.WriteElementString("name", info.Author);
+            //(Duncanma 11/13/2005, changing url to uri for 1.0 feed)
+            this.WriteElementString("uri", info.HomeFullyQualifiedUrl);
+            this.WriteEndElement();
 
-			//(Duncanma 11/13/2005, changing modified to updated for 1.0 feed)
-			this.WriteElementString("updated",W3UTCZ(info.LastUpdated));
+            //(Duncanma 11/13/05) updated generator to reflect project name change to Subtext
+            this.WriteStartElement("generator");
+            //(Duncanma 11/13/2005, changing url to uri for 1.0 feed)
+            this.WriteAttributeString("uri", "http://subtextproject.com");
+            this.WriteAttributeString("version", VersionInfo.VersionDisplayText);
+            this.WriteString("Subtext");
+            this.WriteEndElement();
+
+            //(Duncanma 11/13/2005, changing modified to updated for 1.0 feed)
+            this.WriteElementString("updated", W3UTCZ(info.LastUpdated));
 		}
 
 		private void WriteEntries()
