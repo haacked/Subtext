@@ -432,9 +432,10 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
         private bool CreateImageFolder(XmlNode connectorNode)
         {
             bool retval;
+            string blogImageRootPath=null;
             try
             {
-                string blogImageRootPath = Subtext.Framework.Format.UrlFormats.StripHostFromUrl(Subtext.Framework.Configuration.Config.CurrentBlog.ImagePath);
+                blogImageRootPath = Subtext.Framework.Format.UrlFormats.StripHostFromUrl(Subtext.Framework.Configuration.Config.CurrentBlog.ImagePath);
                 if (!Directory.Exists(HttpContext.Current.Server.MapPath(blogImageRootPath)))
                     Directory.CreateDirectory(HttpContext.Current.Server.MapPath(blogImageRootPath));
                 retval = true;
@@ -443,7 +444,8 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
             {
                 // Create the "Error" node.
                 XmlNode oErrorNode = XmlUtil.AppendElement(connectorNode, "Error");
-                XmlUtil.SetAttribute(oErrorNode, "number", "103");
+                XmlUtil.SetAttribute(oErrorNode, "number", "1");
+                XmlUtil.SetAttribute(oErrorNode, "text", "Cannot create folder: " + HttpContext.Current.Server.MapPath(blogImageRootPath) + ".\r\nWrite access to this folder is required to initialize the image storage");
                 retval = false;
             }
             return retval;
