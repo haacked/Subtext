@@ -92,8 +92,12 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static string RemoveHtml(string text)
 		{
-			HtmlTagRegex regex = new HtmlTagRegex();
-			return regex.Replace(text, string.Empty);
+			if (!String.IsNullOrEmpty(text))
+			{
+			    HtmlTagRegex regex = new HtmlTagRegex();
+                return regex.Replace(text, string.Empty);
+			}
+            return text;
 		}
 
 		/// <summary>
