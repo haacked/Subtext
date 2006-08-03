@@ -53,10 +53,10 @@ namespace Subtext.Framework
 		public static void FilterComment(Entry entry)
 		{
 			if(!SourceFrequencyIsValid(entry))
-				throw new Subtext.Framework.Exceptions.CommentFrequencyException();
+				throw new CommentFrequencyException();
 
 			if(!Config.CurrentBlog.DuplicateCommentsEnabled && IsDuplicateComment(entry))
-				throw new Subtext.Framework.Exceptions.CommentDuplicateException();
+				throw new CommentDuplicateException();
 
 			if(ContainsSpam(entry))
 				throw new CommentSpamException("Sorry, spam is not allowed.");

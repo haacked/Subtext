@@ -15,11 +15,11 @@
 
 using System;
 using System.Globalization;
-using System.Web;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
+using Subtext.Framework.Text;
 using Subtext.Framework.Tracking;
 
 namespace Subtext.Framework.Syndication
@@ -152,9 +152,9 @@ namespace Subtext.Framework.Syndication
 		protected void BuildChannel(string title, string link, string authorEmail, string description, string lang, string copyright, string cclicense, RssImageElement image)
 		{
 			//Required Channel Elements
-			this.WriteElementString("title", title);			
+			this.WriteElementString("title", HtmlHelper.RemoveHtml(title));			
 			this.WriteElementString("link", link);
-			this.WriteElementString("description", HttpUtility.HtmlEncode(description));
+			this.WriteElementString("description", HtmlHelper.RemoveHtml(description));
 			
 			//Optional Channel Elements
 			this.WriteElementString("language", lang);
