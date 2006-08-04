@@ -60,7 +60,7 @@ namespace Subtext.Framework.Tracking
 			{
 				Notifier notify = new Notifier();
 
-				notify.FullyQualifiedUrl = Config.CurrentBlog.RootUrl;
+				notify.FullyQualifiedUrl = Config.CurrentBlog.RootUrl.ToString();
 				notify.BlogName = Config.CurrentBlog.Title;
 
 				notify.Title = entry.Title;

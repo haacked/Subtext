@@ -629,23 +629,22 @@ namespace Subtext.Framework
 		/// Gets the root URL for this blog.  For example, "http://example.com/" or "http://example.com/blog/".
 		/// </summary>
 		/// <value></value>
-		public string RootUrl
+		public Uri RootUrl
 		{
 			get
 			{
-				if(_rootUrl == null)
+				if(this.rootUrl == null)
 				{
-                    string host = this._host;
-                    if (this.Port != BlogRequest.DefaultPort)
-                    {
-                        host += ":" + this.Port;
-                    }
-					_rootUrl = "http://" + host + VirtualUrl;
+					this.rootUrl = HostFullyQualifiedUrl;
+					if (this.Subfolder != null && this.Subfolder.Length > 0)
+					{
+						this.rootUrl = new Uri(this.rootUrl, this.Subfolder + "/");
+					}
 				}
-				return _rootUrl;
+				return this.rootUrl;
 			}
 		}
-		string _rootUrl = null;
+		Uri rootUrl = null;
 
 		/// <summary>
 		/// Gets the virtual URL for the site with preceding and trailing slash.  For example, "/" or "/Subtext.Web/" or "/Blog/".
@@ -732,11 +731,11 @@ namespace Subtext.Framework
 		/// to the end.
 		/// </summary>
 		/// <value></value>
-		public string HomeFullyQualifiedUrl
+		public Uri HomeFullyQualifiedUrl
 		{
 			get
 			{
-				return RootUrl + "Default.aspx";
+				return new Uri(RootUrl, "Default.aspx");
 			}
 		}
 

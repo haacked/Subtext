@@ -115,7 +115,7 @@ namespace Subtext.Framework.Syndication
 
 		protected virtual void WriteChannel()
 		{
-			BuildChannel(info.Title, info.HomeFullyQualifiedUrl, info.SubTitle);
+			BuildChannel(info.Title, info.HomeFullyQualifiedUrl.ToString(), info.SubTitle);
 			
 		}
 
@@ -149,7 +149,7 @@ namespace Subtext.Framework.Syndication
             this.WriteStartElement("author");
             this.WriteElementString("name", info.Author);
             //(Duncanma 11/13/2005, changing url to uri for 1.0 feed)
-            this.WriteElementString("uri", info.HomeFullyQualifiedUrl);
+            this.WriteElementString("uri", info.HomeFullyQualifiedUrl.ToString());
             this.WriteEndElement();
 
             //(Duncanma 11/13/05) updated generator to reflect project name change to Subtext

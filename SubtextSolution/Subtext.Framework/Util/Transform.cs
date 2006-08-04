@@ -59,7 +59,7 @@ namespace Subtext.Framework.Util
 				return stringToTransform;
 
 			int iLoop = 0;	
-			string host = Config.CurrentBlog.RootUrl;
+			string host = Config.CurrentBlog.RootUrl.ToString();
 			while (iLoop < userDefinedTransforms.Count) 
 			{		
 				// Special work for anchors

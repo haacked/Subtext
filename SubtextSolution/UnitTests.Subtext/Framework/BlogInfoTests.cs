@@ -172,7 +172,7 @@ namespace UnitTests.Subtext.Framework
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, subfolder, virtualDir);
 			Assert.IsTrue(Config.CreateBlog("TestRootUrlPropertySetCorrectly", "username", "password", host, subfolder));
 
-			Assert.AreEqual(expectedUrl, Config.CurrentBlog.RootUrl, "Did not set the Virtual Dir correctly.");
+			Assert.AreEqual(expectedUrl, Config.CurrentBlog.RootUrl.ToString(), "Did not set the Virtual Dir correctly.");
 		}
 
 		[RowTest]
@@ -189,7 +189,7 @@ namespace UnitTests.Subtext.Framework
 			Assert.IsTrue(Config.CreateBlog("TestBlogHomeUrlPropertySetCorrectly", "username", "password", host, subfolder));
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, subfolder, virtualDir);
 
-			Assert.AreEqual(expectedUrl, Config.CurrentBlog.HomeFullyQualifiedUrl, "Did not set the BlogHomeUrl correctly.");
+			Assert.AreEqual(expectedUrl, Config.CurrentBlog.HomeFullyQualifiedUrl.ToString(), "Did not set the BlogHomeUrl correctly.");
 		}
 
 		[RowTest]

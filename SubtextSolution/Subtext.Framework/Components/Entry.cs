@@ -432,7 +432,7 @@ namespace Subtext.Framework.Components
 						string url = _url;
 						if (url.StartsWith("/"))
 							url = url.Remove(0, 1);
-						_fullyQualifiedLink = new Uri(new Uri(Config.CurrentBlog.RootUrl), url);
+						_fullyQualifiedLink = new Uri(Config.CurrentBlog.RootUrl, url);
 					}
 				}
 			}
