@@ -76,8 +76,7 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
         public override PagedCollection<BlogInfo> GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlag flags)
 		{
-			IDataReader reader = DbProvider.Instance().GetPagedBlogs(host, pageIndex, pageSize, flags);
-			try
+			using(IDataReader reader = DbProvider.Instance().GetPagedBlogs(host, pageIndex, pageSize, flags))
 			{
                 PagedCollection<BlogInfo> pec = new PagedCollection<BlogInfo>();
 				while(reader.Read())
@@ -87,11 +86,6 @@ namespace Subtext.Framework.Data
 				reader.NextResult();
 				pec.MaxItems = DataHelper.GetMaxItems(reader);
 				return pec;
-				
-			}
-			finally
-			{
-				reader.Close();
 			}
 		}
 

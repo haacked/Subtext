@@ -44,6 +44,11 @@ namespace Subtext.Web.HttpModules
 		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		public void CheckInstallationStatus(object sender, EventArgs e)
 		{
+			//Bypass for static files.
+			string absPath = HttpContext.Current.Request.Url.AbsolutePath;
+			if (absPath.EndsWith(".css") || absPath.EndsWith(".jpg") || absPath.EndsWith(".html") || absPath.EndsWith(".gif"))
+				return;
+			
 			// Want to redirect to install if installation is required, 
 			// or if we're missing a HostInfo record.
 			if((InstallationManager.IsInstallationActionRequired(VersionInfo.FrameworkVersion) || InstallationManager.HostInfoRecordNeeded))
