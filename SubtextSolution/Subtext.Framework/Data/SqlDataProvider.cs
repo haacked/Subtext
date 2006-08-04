@@ -23,7 +23,6 @@ using Microsoft.ApplicationBlocks.Data;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 
@@ -210,16 +209,32 @@ namespace Subtext.Framework.Data
 			string sql = "subtext_GetPageableBlogs";
 
 			SqlConnection conn = new SqlConnection(ConnectionString);
-			SqlCommand command = new SqlCommand(sql, conn);
 			
+			SqlCommand command = new SqlCommand(sql, conn);
+
 			command.CommandType = CommandType.StoredProcedure;
 			command.Parameters.Add(DataHelper.MakeInParam("@Host", SqlDbType.NVarChar, 100, host));
 			command.Parameters.Add(DataHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex));
 			command.Parameters.Add(DataHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize));
 			command.Parameters.Add(DataHelper.MakeInParam("@ConfigurationFlags", SqlDbType.Int, 4, flags));
 
-			conn.Open();
-			return command.ExecuteReader(CommandBehavior.CloseConnection);
+			try
+			{
+				conn.Open();
+				return command.ExecuteReader(CommandBehavior.CloseConnection);
+			}
+			catch (SqlException)
+			{
+				conn.Open();
+				//If we were upgrading, we need to call the old version of the stored proc.
+				pageIndex++;
+				command.Parameters.Clear();
+				command.Parameters.Add(DataHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex));
+				command.Parameters.Add(DataHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize));
+				command.Parameters.Add(DataHelper.MakeInParam("@SortDesc", SqlDbType.Bit, 1, 0));
+				return command.ExecuteReader(CommandBehavior.CloseConnection);
+			}
+			
 		}
 
 		/// <summary>
