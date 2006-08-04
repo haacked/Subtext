@@ -21,6 +21,7 @@ namespace Subtext.Framework.Exceptions
 	/// Exception thrown when a blog does not exist.  This is 
 	/// indicative of not having created a blog_config record.
 	/// </summary>
+	[Serializable]
 	public class BlogDoesNotExistException : Exception 
 	{
 		/// <summary>

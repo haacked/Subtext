@@ -20,6 +20,7 @@ namespace Subtext.Framework.Exceptions
 	/// <summary>
 	/// Base exception class for blog configuration errors.
 	/// </summary>
+    [Serializable]
 	public abstract class BaseBlogConfigurationException : Exception
 	{	
 		/// <summary>

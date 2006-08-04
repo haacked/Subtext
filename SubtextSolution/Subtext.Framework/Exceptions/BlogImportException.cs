@@ -23,6 +23,7 @@ namespace Subtext.Framework.Exceptions
 	/// subText blog. NOTE: this exception may need refactored/renamed 
 	/// so it can be used for both import & export failures.
 	/// </summary>
+	[Serializable]
 	public class BlogImportException : Exception 
 	{
 		string _importMessage;
