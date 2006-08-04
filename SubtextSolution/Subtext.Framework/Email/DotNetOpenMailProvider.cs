@@ -57,12 +57,18 @@ namespace Subtext.Framework.Email
 			{
 				return email.Send(smtpServer);
 			}
-			catch(Exception e)
+		    //Mail Exception is thrown when there are network or connection errors
+			catch(MailException mailEx)
 			{
-				//TODO: Find out which exceptions can be thrown and only catch those...
-				string msg = String.Format("Error sending email to {0} from {1}", to, from);
-				Log.Error(msg, e);
+                string msg = String.Format("Connection or network error sending email from {0} to {1}", from, to);
+				Log.Error(msg, mailEx);
 			}
+		    //SmtpException is thrown for all SMTP exceptions
+		    catch (SmtpException smtpEx)
+		    {
+                string msg = String.Format("Error sending email from {0} to {1}", from, to);
+		        Log.Error(msg, smtpEx);
+		    }
 			return false;
 		}
 	}
