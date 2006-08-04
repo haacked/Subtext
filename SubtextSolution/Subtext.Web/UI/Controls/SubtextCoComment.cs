@@ -26,7 +26,7 @@ namespace Subtext.Web.UI.Controls
 		{
 			this.BlogTitle = Config.CurrentBlog.Title;
 			this.BlogTool = "Subtext";
-			this.BlogUrl = Config.CurrentBlog.RootUrl;
+			this.BlogUrl = Config.CurrentBlog.RootUrl.ToString();
 			
 			this.CommentAuthorFieldName = GetControlUniqueId("tbName");
 			this.CommentButtonId = GetControlUniqueId("btnSubmit");

@@ -111,7 +111,7 @@ namespace Subtext.Framework.Text
 			try
 			{
 				SgmlReader reader = new SgmlReader();
-				reader.SetBaseUri(Config.CurrentBlog.RootUrl);
+				reader.SetBaseUri(Config.CurrentBlog.RootUrl.ToString());
 				reader.DocType = "html";
 				reader.WhitespaceHandling = WhitespaceHandling.All;
 				reader.InputStream = new StringReader("<html>" + entry.Body + "</html>");

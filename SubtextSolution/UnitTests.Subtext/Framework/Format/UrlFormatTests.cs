@@ -118,7 +118,7 @@ namespace UnitTests.Subtext.Framework.Format
 			entry.DateCreated = DateTime.Parse("2006/01/23");
 			entry.EntryName = "test";
 
-			UrlFormats formats = new UrlFormats("http://localhost/");
+			UrlFormats formats = new UrlFormats(new Uri("http://localhost/"));
 			string url = formats.EntryUrl(entry);
 			Assert.AreEqual("/Subtext.Web/MyBlog/archive/2006/01/23/test.aspx", url, "Expected a normally formatted url.");
 

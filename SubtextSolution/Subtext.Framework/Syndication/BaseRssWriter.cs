@@ -119,8 +119,8 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		protected virtual void WriteChannel()
 		{
-			RssImageElement image = new RssImageElement(new Uri(info.HostFullyQualifiedUrl, "RSS2Image.gif"), info.Title, new Uri(info.HomeFullyQualifiedUrl), 77, 60, null);
-			BuildChannel(info.Title, info.HomeFullyQualifiedUrl, info.Email, info.SubTitle, info.Language, info.Author, Config.CurrentBlog.LicenseUrl, image);
+			RssImageElement image = new RssImageElement(new Uri(info.HostFullyQualifiedUrl, "RSS2Image.gif"), info.Title, info.HomeFullyQualifiedUrl, 77, 60, null);
+			BuildChannel(info.Title, info.HomeFullyQualifiedUrl.ToString(), info.Email, info.SubTitle, info.Language, info.Author, Config.CurrentBlog.LicenseUrl, image);
 		}
 		
 		/// <summary>
