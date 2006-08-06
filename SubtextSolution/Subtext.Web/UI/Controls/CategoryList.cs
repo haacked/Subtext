@@ -86,7 +86,7 @@ namespace Subtext.Web.UI.Controls
 					Link.NavigateUrl = link.Url;
 					if(Link.Attributes["title"] == null || Link.Attributes["title"].Length == 0)
 					{
-						Link.Attributes["title"] = "Category Link";
+						Link.Attributes["title"] = "";
 					}
 					Link.Text = link.Title;
 
