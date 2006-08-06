@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -99,10 +98,25 @@ namespace Subtext.Web.UI.Controls
 			string format = navLink.Attributes["Format"];
 			if(String.IsNullOrEmpty(format))
 				format = "{0}";
-			else 
-				navLink.Attributes.Remove("Format");
 			
-			navLink.Text = HttpUtility.HtmlEncode(string.Format(format, entry.Title));
+			navLink.Attributes.Remove("Format");
+
+			string entryTitle = entry.Title;
+			string sizeLimitText = navLink.Attributes["TextSizeLimit"];
+			if (!String.IsNullOrEmpty(sizeLimitText))
+			{
+				int sizeLimit;
+				if(int.TryParse(sizeLimitText, out sizeLimit))
+				{
+					if (sizeLimit > 0 && sizeLimit < sizeLimitText.Length)
+					{
+						entryTitle = entryTitle.Substring(0, sizeLimit) + "...";
+					}
+				}
+			}
+			navLink.Attributes.Remove("TextSizeLimit");
+			
+			navLink.Text = HttpUtility.HtmlEncode(string.Format(format, HttpUtility.HtmlEncode(entryTitle)));
 			navLink.NavigateUrl = entry.FullyQualifiedUrl.ToString();
 		}
 	}
