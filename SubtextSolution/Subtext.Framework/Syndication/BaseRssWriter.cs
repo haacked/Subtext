@@ -119,8 +119,17 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		protected virtual void WriteChannel()
 		{
-			RssImageElement image = new RssImageElement(new Uri(info.HostFullyQualifiedUrl, "RSS2Image.gif"), info.Title, info.HomeFullyQualifiedUrl, 77, 60, null);
+			RssImageElement image = new RssImageElement(GetRssImage(), info.Title, info.HomeFullyQualifiedUrl, 77, 60, null);
 			BuildChannel(info.Title, info.HomeFullyQualifiedUrl.ToString(), info.Email, info.SubTitle, info.Language, info.Author, Config.CurrentBlog.LicenseUrl, image);
+		}
+		
+		/// <summary>
+		/// Returns the image that will be displayed in an RSS aggregator that supports RSS images. 
+		/// </summary>
+		/// <returns></returns>
+		public virtual Uri GetRssImage()
+		{
+			return new Uri(info.HostFullyQualifiedUrl, "images/RSS2Image.gif");
 		}
 		
 		/// <summary>
@@ -178,35 +187,6 @@ namespace Subtext.Framework.Syndication
 
 			if(image != null)
 				image.WriteToXmlWriter(this);
-		}
-
-		/// <summary>
-		/// Adds the image element to the rss feed.  This image is often displayed by 
-		/// RSS aggregators with the feed contents.
-		/// </summary>
-		/// <param name="title"></param>
-		/// <param name="link"></param>
-		/// <param name="description"></param>
-		protected void AddImageElement(string title, string link,
-			string description)
-		{
-			// Image Example
-			// <image>
-			//		<title>Joel On Software</title>
-			//		<url>http://www.joelonsoftware.com/RssJoelOnSoftware.jpg</url>
-			//		<link>http://www.joelonsoftware.com</link>
-			//		<width>144</width>
-			//		<height>25</height>
-			//		<description>Painless Software Management</description>
-			//	</image>
-			this.WriteStartElement("image");
-			this.WriteElementString("title",title);
-			this.WriteElementString("url", info.RootUrl + "RSS2Image.gif");
-			this.WriteElementString("link", link);
-			this.WriteElementString("width", "77");
-			this.WriteElementString("height", "60");
-			this.WriteElementString("description", description); //Used in the alt tag.
-			this.WriteEndElement();
 		}
 
 		protected void EndChannel()

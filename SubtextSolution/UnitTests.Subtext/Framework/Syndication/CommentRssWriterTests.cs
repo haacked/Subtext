@@ -59,7 +59,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 										+ indent(2) + @"<generator>{0}</generator>" + Environment.NewLine
 										+ indent(2) + @"<image>" + Environment.NewLine
 											+ indent(3) + @"<title>title of the post</title>" + Environment.NewLine
-											+ indent(3) + @"<url>http://localhost/RSS2Image.gif</url>" + Environment.NewLine
+											+ indent(3) + @"<url>http://localhost/images/RSS2Image.gif</url>" + Environment.NewLine
 											+ indent(3) + @"<link>http://localhost/blog/archive/2006/04/01/titleofthepost.aspx</link>" + Environment.NewLine
 											+ indent(3) + @"<width>77</width>" + Environment.NewLine
 											+ indent(3) + @"<height>60</height>" + Environment.NewLine
@@ -130,7 +130,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 										+ indent(2) + @"<generator>{0}</generator>" + Environment.NewLine
 										+ indent(2) + @"<image>" + Environment.NewLine
 											+ indent(3) + @"<title>title of the post</title>" + Environment.NewLine
-											+ indent(3) + @"<url>http://localhost/Subtext.Web/RSS2Image.gif</url>" + Environment.NewLine
+											+ indent(3) + @"<url>http://localhost/Subtext.Web/images/RSS2Image.gif</url>" + Environment.NewLine
 											+ indent(3) + @"<link>http://localhost/Subtext.Web/archive/2006/04/01/titleofthepost.aspx</link>" + Environment.NewLine
 											+ indent(3) + @"<width>77</width>" + Environment.NewLine
 											+ indent(3) + @"<height>60</height>" + Environment.NewLine
