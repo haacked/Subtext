@@ -99,7 +99,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BlogML, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
-    <Reference Include="CookComputing.XmlRpc, Version=0.9.2.1, Culture=neutral, PublicKeyToken=a7d6e17aa302004d" />
+    <Reference Include="CookComputing.XmlRpcV2, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="FredCK.FCKeditorV2">
       <Name>FredCK.FCKeditorV2</Name>
       <HintPath>ExternalDependencies\FredCK.FCKeditorV2.dll</HintPath>
@@ -355,6 +355,7 @@
     </Compile>
     <Content Include="ExternalDependencies\BlogML.dll" />
     <Content Include="ExternalDependencies\CookComputing.XmlRpc.dll" />
+    <Content Include="ExternalDependencies\CookComputing.XmlRpcV2.dll" />
     <Content Include="ExternalDependencies\FredCK.FCKeditorV2.dll" />
     <Content Include="ExternalDependencies\freetextbox.dll" />
     <Content Include="ExternalDependencies\ICSharpCode.SharpZipLib.dll" />

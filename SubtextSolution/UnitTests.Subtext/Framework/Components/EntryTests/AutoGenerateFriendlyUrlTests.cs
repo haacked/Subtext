@@ -144,6 +144,30 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			char wordSeparator = wordSeparatorString[0];
 			Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title, wordSeparator), "THe auto generated entry name is not what we expected.");
 		}
+		
+		/// <summary>
+		/// Make sure that we do not override a supplied EntryName by auto-generating a url. 
+		/// Entryname should take precedence.
+		/// </summary>
+		[Test]
+		[RollBack]
+		public void FriendlyUrlDoesNotOverrideEntryName()
+		{
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+
+			Config.CurrentBlog.AutoFriendlyUrlEnabled = true;
+			Entry entry = new Entry(PostType.BlogPost);
+			entry.EntryName = "IWantThisUrl";
+			entry.DateCreated = DateTime.Now;
+			entry.SourceUrl = "http://localhost/ThisUrl/";
+			entry.Title = "Some Title";
+			entry.Body = "Some Body";
+			int id = Entries.Create(entry);
+
+			Entry savedEntry = Entries.GetEntry(id, PostConfig.None, false);
+			Assert.AreEqual("IWantThisUrl", savedEntry.EntryName, "The EntryName should match the EntryName, not the auto-generated.");
+			Assert.AreEqual(savedEntry.Url, savedEntry.TitleUrl, "The title url should link to the entry.");
+		}
 
 		/// <summary>
 		/// Make sure that generated friendly urls are unique.
