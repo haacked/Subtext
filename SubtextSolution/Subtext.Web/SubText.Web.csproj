@@ -217,6 +217,9 @@
       <DependentUpon>EntryEditor.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Admin\UserControls\EntryEditor.ascx.designer.cs">
+      <DependentUpon>EntryEditor.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\WebUI\AdminPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
