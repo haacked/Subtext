@@ -150,7 +150,7 @@ namespace Subtext.Web.UI.Controls
 
 						if(Config.CurrentBlog.ModerationEnabled)
 						{
-							Response.Redirect(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?Moderation=true#message", Request.Path));
+							Response.Redirect(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?Moderation=true&#message", Request.Path));
 						}
 					}
 					Response.Redirect(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?Pending=true", Request.Path));
