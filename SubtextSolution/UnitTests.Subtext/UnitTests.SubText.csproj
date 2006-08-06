@@ -284,6 +284,7 @@
     <Compile Include="Framework\Syndication\RssWriterTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Syndication\SyndicationTestBase.cs" />
     <Compile Include="Framework\Text\ConvertToAllowedHtmlTests.cs">
       <SubType>Code</SubType>
     </Compile>
