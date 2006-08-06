@@ -61,6 +61,8 @@ namespace Subtext.Framework.Syndication
 			writer = sw;
 			info = Config.CurrentBlog;
 			this.useDeltaEncoding = useDeltaEncoding;
+			this.Formatting = System.Xml.Formatting.Indented;
+			this.Indentation = 4;
 		}
 
 		/// <summary>

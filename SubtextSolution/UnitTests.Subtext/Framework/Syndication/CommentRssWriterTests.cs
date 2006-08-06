@@ -15,7 +15,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 	/// Unit tests of the <see cref="CommentRssWriter"/> class.
 	/// </summary>
 	[TestFixture]
-	public class CommentRssWriterTests
+	public class CommentRssWriterTests : SyndicationTestBase
 	{
 		/// <summary>
 		/// Tests that a valid feed is produced even if a post has no comments.
@@ -42,29 +42,29 @@ namespace UnitTests.Subtext.Framework.Syndication
 			CommentRssWriter writer = new CommentRssWriter(new List<Entry>(), entry);
 			
 			Assert.IsTrue(entry.HasEntryName, "This entry should have an entry name.");
-			
+
 			string expected = @"<rss version=""2.0"" " 
 									+ @"xmlns:dc=""http://purl.org/dc/elements/1.1/"" " 
 									+ @"xmlns:trackback=""http://madskills.com/public/xml/rss/module/trackback/"" " 
 									+ @"xmlns:wfw=""http://wellformedweb.org/CommentAPI/"" " 
 									+ @"xmlns:slash=""http://purl.org/rss/1.0/modules/slash/"" " 
 									+ @"xmlns:copyright=""http://blogs.law.harvard.edu/tech/rss"" " 
-									+ @"xmlns:image=""http://purl.org/rss/1.0/modules/image/"">" 
-								+ @"<channel>" 
-										+ @"<title>title of the post</title>" 
-										+ @"<link>http://localhost/blog/archive/2006/04/01/titleofthepost.aspx</link>" 
-										+ @"<description>Body of the post.</description>" 
-										+ @"<language>en-US</language>" 
-										+ @"<copyright>Subtext Weblog</copyright>" 
-										+ @"<generator>{0}</generator>" 
-										+ @"<image>" 
-											+ @"<title>title of the post</title>" 
-											+ @"<url>http://localhost/RSS2Image.gif</url>"
-											+ @"<link>http://localhost/blog/archive/2006/04/01/titleofthepost.aspx</link>" 
-											+ @"<width>77</width>" 
-											+ @"<height>60</height>" 
-										+ @"</image>" 
-								+ @"</channel>" 
+									+ @"xmlns:image=""http://purl.org/rss/1.0/modules/image/"">" + Environment.NewLine
+								+ indent() + @"<channel>" + Environment.NewLine
+										+ indent(2) + @"<title>title of the post</title>" + Environment.NewLine
+										+ indent(2) + @"<link>http://localhost/blog/archive/2006/04/01/titleofthepost.aspx</link>" + Environment.NewLine
+										+ indent(2) + @"<description>Body of the post.</description>" + Environment.NewLine
+										+ indent(2) + @"<language>en-US</language>" + Environment.NewLine
+										+ indent(2) + @"<copyright>Subtext Weblog</copyright>" + Environment.NewLine
+										+ indent(2) + @"<generator>{0}</generator>" + Environment.NewLine
+										+ indent(2) + @"<image>" + Environment.NewLine
+											+ indent(3) + @"<title>title of the post</title>" + Environment.NewLine
+											+ indent(3) + @"<url>http://localhost/RSS2Image.gif</url>" + Environment.NewLine
+											+ indent(3) + @"<link>http://localhost/blog/archive/2006/04/01/titleofthepost.aspx</link>" + Environment.NewLine
+											+ indent(3) + @"<width>77</width>" + Environment.NewLine
+											+ indent(3) + @"<height>60</height>" + Environment.NewLine
+										+ indent(2) + @"</image>" + Environment.NewLine
+								+ indent(1) + @"</channel>" + Environment.NewLine
 			                  + @"</rss>";
 
 			expected = string.Format(expected, VersionInfo.VersionDisplayText);
@@ -120,30 +120,30 @@ namespace UnitTests.Subtext.Framework.Syndication
 									+ @"xmlns:wfw=""http://wellformedweb.org/CommentAPI/"" "
 									+ @"xmlns:slash=""http://purl.org/rss/1.0/modules/slash/"" "
 									+ @"xmlns:copyright=""http://blogs.law.harvard.edu/tech/rss"" "
-									+ @"xmlns:image=""http://purl.org/rss/1.0/modules/image/"">"
-								+ @"<channel>"
-										+ @"<title>title of the post</title>"
-										+ @"<link>http://localhost/Subtext.Web/archive/2006/04/01/titleofthepost.aspx</link>"
-										+ @"<description>Body of the post.</description>"
-										+ @"<language>en-US</language>"
-										+ @"<copyright>Subtext Weblog</copyright>"
-										+ @"<generator>{0}</generator>"
-										+ @"<image>"
-											+ @"<title>title of the post</title>"
-											+ @"<url>http://localhost/Subtext.Web/RSS2Image.gif</url>"
-											+ @"<link>http://localhost/Subtext.Web/archive/2006/04/01/titleofthepost.aspx</link>"
-											+ @"<width>77</width>"
-											+ @"<height>60</height>"
-										+ @"</image>"
-										+ @"<item>"
-											+ @"<title>re: titleofthepost</title>"
-											+ @"<link>http://localhost/Subtext.Web/archive/2006/04/01/titleofthepost.aspx#1002</link>"
-											+ @"<description>&lt;strong&gt;I rule!&lt;/strong&gt;</description>"
-											+ @"<dc:creator>Jane Schmane</dc:creator>"
-											+ @"<guid>http://localhost/Subtext.Web/archive/2006/04/01/titleofthepost.aspx#1002</guid>"
-											+ @"<pubDate>Sat, 01 Apr 2006 00:00:00 GMT</pubDate>"
-										+ @"</item>" 
-								+ @"</channel>"
+									+ @"xmlns:image=""http://purl.org/rss/1.0/modules/image/"">" + Environment.NewLine
+								+ indent() + @"<channel>" + Environment.NewLine
+										+ indent(2) + @"<title>title of the post</title>" + Environment.NewLine
+										+ indent(2) + @"<link>http://localhost/Subtext.Web/archive/2006/04/01/titleofthepost.aspx</link>" + Environment.NewLine
+										+ indent(2) + @"<description>Body of the post.</description>" + Environment.NewLine
+										+ indent(2) + @"<language>en-US</language>" + Environment.NewLine
+										+ indent(2) + @"<copyright>Subtext Weblog</copyright>" + Environment.NewLine
+										+ indent(2) + @"<generator>{0}</generator>" + Environment.NewLine
+										+ indent(2) + @"<image>" + Environment.NewLine
+											+ indent(3) + @"<title>title of the post</title>" + Environment.NewLine
+											+ indent(3) + @"<url>http://localhost/Subtext.Web/RSS2Image.gif</url>" + Environment.NewLine
+											+ indent(3) + @"<link>http://localhost/Subtext.Web/archive/2006/04/01/titleofthepost.aspx</link>" + Environment.NewLine
+											+ indent(3) + @"<width>77</width>" + Environment.NewLine
+											+ indent(3) + @"<height>60</height>" + Environment.NewLine
+										+ indent(2) + @"</image>" + Environment.NewLine
+										+ indent(2) + @"<item>" + Environment.NewLine
+											+ indent(3) + @"<title>re: titleofthepost</title>" + Environment.NewLine
+											+ indent(3) + @"<link>http://localhost/Subtext.Web/archive/2006/04/01/titleofthepost.aspx#1002</link>" + Environment.NewLine
+											+ indent(3) + @"<description>&lt;strong&gt;I rule!&lt;/strong&gt;</description>" + Environment.NewLine
+											+ indent(3) + @"<dc:creator>Jane Schmane</dc:creator>" + Environment.NewLine
+											+ indent(3) + @"<guid>http://localhost/Subtext.Web/archive/2006/04/01/titleofthepost.aspx#1002</guid>" + Environment.NewLine
+											+ indent(3) + @"<pubDate>Sat, 01 Apr 2006 00:00:00 GMT</pubDate>" + Environment.NewLine
+										+ indent(2) + @"</item>" + Environment.NewLine
+								+ indent() + @"</channel>" + Environment.NewLine
 							  + @"</rss>";
 
 			expected = string.Format(expected, VersionInfo.VersionDisplayText);
