@@ -108,7 +108,7 @@ namespace Subtext.Web.UI.Controls
 				int sizeLimit;
 				if(int.TryParse(sizeLimitText, out sizeLimit))
 				{
-					if (sizeLimit > 0 && sizeLimit < sizeLimitText.Length)
+					if (sizeLimit > 0 && sizeLimit < entryTitle.Length)
 					{
 						entryTitle = entryTitle.Substring(0, sizeLimit) + "...";
 					}
