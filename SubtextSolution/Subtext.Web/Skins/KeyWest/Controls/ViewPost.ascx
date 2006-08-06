@@ -1,7 +1,7 @@
 <%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.ViewPost" %>
 <%@ Register TagPrefix="uc1" TagName="PreviousNext" Src="PreviousNext.ascx" %>
 <div class="entry">
-<uc1:PreviousNext id="PreviousNext1" runat="server" />
+<uc1:PreviousNext id="PreviousNext" runat="server" />
 	<h4><asp:HyperLink Runat="server" ID="editLink" /><asp:HyperLink Runat="server" ID="TitleUrl" /></h4>
 	<div class="post"><asp:Literal id="Body" runat="server" /></div>
 	<p>
