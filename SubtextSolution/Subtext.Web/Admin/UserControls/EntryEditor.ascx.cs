@@ -18,7 +18,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -33,7 +32,7 @@ using StringHelper = Subtext.Framework.Text.StringHelper;
 
 namespace Subtext.Web.Admin.UserControls
 {
-	public class EntryEditor : UserControl
+	public partial class EntryEditor : UserControl
 	{
 		private const string VSKEY_POSTID = "PostID";
 		private const string VSKEY_CATEGORYTYPE = "CategoryType";
@@ -43,39 +42,11 @@ namespace Subtext.Web.Admin.UserControls
 		private bool _isListHidden = false;
 		
 		#region Declared Controls
-		protected MessagePanel Messages;
-		protected Repeater rprSelectionList;
-		protected HtmlGenericControl NoMessagesLabel;
-		protected PagingControl resultsPager;
-		protected HyperLink hlEntryLink;
-		protected TextBox txbTitle;
 		protected Button Post;
-		protected TextBox txbExcerpt;
-		protected TextBox txbTitleUrl;
 		protected TextBox Textbox1;
 		protected TextBox Textbox2;
-		protected CheckBox ckbPublished;
-		protected CheckBox chkComments;
-		protected CheckBox chkCommentsClosed;
-		protected CheckBox chkDisplayHomePage;
-		protected CheckBox chkMainSyndication;
-		protected CheckBox chkSyndicateDescriptionOnly;
-		protected CheckBox chkIsAggregated;
 
-		protected CheckBoxList cklCategories;
-		protected AdvancedPanel Results;
-		protected AdvancedPanel Advanced;
-		protected TextBox txbSourceName;
-		protected TextBox txbSourceUrl;
-		protected Button lkbPost;
-		protected Button lkUpdateCategories;
-		protected Button lkbCancel;
-		protected AdvancedPanel Edit;
-		protected RequiredFieldValidator valtbBodyRequired;
-		protected RequiredFieldValidator valTitleRequired;
 		protected Button lkbNewPost;	
-		protected TextBox txbEntryName;
-		protected RichTextEditor richTextEditor;
 		#endregion
 
 		#region Accessors
@@ -152,7 +123,7 @@ namespace Subtext.Web.Admin.UserControls
 		
 		#endregion
 
-		private void Page_Load(object sender, EventArgs e)
+		protected void Page_Load(object sender, EventArgs e)
 		{
 			if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
 				this.pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);

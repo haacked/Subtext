@@ -231,7 +231,7 @@ namespace Subtext.Web.Controls
 		/// </summary>
 		/// <value></value>
 		[
-			Description("Collapse link image URL"), Bindable(true),
+		Description("Collapse link image URL"), Bindable(true),
 		Editor("System.Web.UI.Design.ImageUrlEditor, System.Design", typeof(System.Drawing.Design.UITypeEditor))
 		]
 		public string LinkImage
@@ -242,7 +242,6 @@ namespace Subtext.Web.Controls
 			}
 			set { _linkImage = value; }
 		}
-		
 
 		[
 		DescriptionAttribute("Collapse link image URL"), Bindable(true),
@@ -387,20 +386,24 @@ namespace Subtext.Web.Controls
 				case CollapseLinkStyle.Text:
 					createdLink.Text = _linkText;
 					break;
+				
 				case CollapseLinkStyle.Image:
 					_image = CreateCollapseImage();
 					createdLink.Controls.Add(_image);
 					break;
+				
 				case CollapseLinkStyle.ImageAfterText:
 					createdLink.Controls.Add(new LiteralControl(_linkText));
 					_image = CreateCollapseImage();
 					createdLink.Controls.Add(_image);
 					break;
+				
 				case CollapseLinkStyle.ImageBeforeText:	
 					_image = CreateCollapseImage();
 					createdLink.Controls.Add(_image);
 					createdLink.Controls.Add(new LiteralControl(_linkText));
 					break;
+				
 				default:
 					createdLink.Text = _linkText;
 					break;
