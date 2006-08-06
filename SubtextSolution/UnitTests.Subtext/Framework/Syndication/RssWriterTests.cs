@@ -32,6 +32,29 @@ namespace UnitTests.Subtext.Framework.Syndication
 	[TestFixture]
 	public class RssWriterTests : SyndicationTestBase
 	{
+		[RowTest]
+		[Row("Subtext.Web", "", "http://localhost/Subtext.Web/images/RSS2Image.gif")]
+		[Row("Subtext.Web", "blog", "http://localhost/Subtext.Web/images/RSS2Image.gif")]
+		[Row("", "", "http://localhost/images/RSS2Image.gif")]
+		[Row("", "blog", "http://localhost/images/RSS2Image.gif")]
+		[RollBack]
+		public void RssImageUrlConcatenatedProperly(string application, string subfolder, string expected)
+		{
+			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", subfolder, application);
+			BlogInfo blogInfo = new BlogInfo();
+			blogInfo.Host = "localhost";
+			blogInfo.Subfolder = subfolder;
+			blogInfo.Title = "My Blog Is Better Than Yours";
+			blogInfo.Email = "Subtext@example.com";
+			blogInfo.RFC3229DeltaEncodingEnabled = true;
+
+			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
+			
+			RssWriter writer = new RssWriter(new List<Entry>(), DateTime.Now, false);
+			Uri rssImageUrl = writer.GetRssImage();
+			Assert.AreEqual(expected, rssImageUrl.ToString(), "not the expected url.");			
+		}
+		
 		/// <summary>
 		/// Tests writing a simple RSS feed.
 		/// </summary>
@@ -72,7 +95,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 										+ indent(2) + @"<generator>{0}</generator>" + Environment.NewLine
 										+ indent(2) + @"<image>" + Environment.NewLine
 											+ indent(3) + @"<title>My Blog Is Better Than Yours</title>" + Environment.NewLine
-											+ indent(3) + @"<url>http://localhost/Subtext.Web/RSS2Image.gif</url>" + Environment.NewLine
+											+ indent(3) + @"<url>http://localhost/Subtext.Web/images/RSS2Image.gif</url>" + Environment.NewLine
 											+ indent(3) + @"<link>http://localhost/Subtext.Web/Default.aspx</link>" + Environment.NewLine
 											+ indent(3) + @"<width>77</width>" + Environment.NewLine
 											+ indent(3) + @"<height>60</height>" + Environment.NewLine
@@ -165,7 +188,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 									+ indent(2) + "<generator>{0}</generator>" + Environment.NewLine
 									+ indent(2) + "<image>" + Environment.NewLine
 										+ indent(3) + "<title />" + Environment.NewLine
-										+ indent(3) + "<url>http://localhost/Subtext.Web/RSS2Image.gif</url>" + Environment.NewLine
+										+ indent(3) + "<url>http://localhost/Subtext.Web/images/RSS2Image.gif</url>" + Environment.NewLine
 										+ indent(3) + "<link>http://localhost/Subtext.Web/Default.aspx</link>" + Environment.NewLine
 										+ indent(3) + "<width>77</width>" + Environment.NewLine
 										+ indent(3) + "<height>60</height>" + Environment.NewLine
@@ -232,7 +255,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 									+ indent(2) + "<generator>{0}</generator>" + Environment.NewLine
 									+ indent(2) + "<image>" + Environment.NewLine
 										+ indent(3) + "<title />" + Environment.NewLine
-										+ indent(3) + "<url>http://localhost/Subtext.Web/RSS2Image.gif</url>" + Environment.NewLine
+										+ indent(3) + "<url>http://localhost/Subtext.Web/images/RSS2Image.gif</url>" + Environment.NewLine
 										+ indent(3) + "<link>http://localhost/Subtext.Web/Default.aspx</link>" + Environment.NewLine
 										+ indent(3) + "<width>77</width>" + Environment.NewLine
 										+ indent(3) + "<height>60</height>" + Environment.NewLine
