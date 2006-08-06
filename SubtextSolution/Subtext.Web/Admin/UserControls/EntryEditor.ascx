@@ -111,17 +111,21 @@
 	</div>
 	
 	<ANW:AdvancedPanel id="Advanced" runat="server" Collapsible="True" LinkText="[toggle]" HeaderCssClass="CollapsibleTitle" DisplayHeader="True" LinkBeforeHeader="True" LinkStyle="Image" HeaderText="Advanced Options" BodyCssClass="Edit" Collapsed="true" HeaderTextCssClass="CollapsibleTitle">
-		<p class="ValueLabel">
-			<asp:CheckBox id="ckbPublished" runat="server" Text = "Published" textalign="Left" />
-			<asp:CheckBox id="chkComments" runat="server" Text = "Show Comments" textalign="Left" />
-			<asp:CheckBox id="chkCommentsClosed" runat="server" Text = "Comments Closed" textalign="Left" />
-			<asp:CheckBox id="chkDisplayHomePage" runat="server" Text = "Display on HomePage" textalign="Left" />
-
-			<asp:CheckBox id="chkMainSyndication" runat="server" Text = "Syndicate on Main Feed" textalign="Left" />
-			<asp:CheckBox id="chkSyndicateDescriptionOnly" runat="server" Text = "Syndicate Description Only" textalign="Left" />
-			<asp:CheckBox id="chkIsAggregated" runat="server" Text = "Include in Aggregated Site" textalign="Left" />
-		</p>
-		<p>
+		<!-- todo, make this more css based than table driven -->
+		<table cellpadding="4">
+			<tr>
+				<td width="200"><asp:CheckBox id="ckbPublished" runat="server" Text="Published" textalign="Right" />&nbsp;</td>
+				<td width="200"><asp:CheckBox id="chkComments" runat="server" Text="Show Comments" textalign="Right" />&nbsp;</td>	
+				<td width="200"><asp:CheckBox id="chkCommentsClosed" runat="server" Text="Comments Closed" textalign="Right" />&nbsp;</td>
+				<td width="200"><asp:CheckBox id="chkDisplayHomePage" runat="server" Text="Display on HomePage" textalign="Right" />&nbsp;</td>
+			</tr>
+			<tr>
+				<td><asp:CheckBox id="chkMainSyndication" runat="server" Text = "Syndicate on Main Feed" textalign="Right" />&nbsp;</td>
+				<td><asp:CheckBox id="chkSyndicateDescriptionOnly" runat="server" Text = "Syndicate Description Only" textalign="Right" />&nbsp;</td>
+				<td><asp:CheckBox id="chkIsAggregated" runat="server" Text = "Include in Aggregated Site" textalign="Right" />&nbsp;</td>
+			</tr>
+		</table>
+		<p style="margin-top: 10px;">
 			<label for="Editor_Edit_txbEntryName" accesskey="n">Entry <u>N</u>ame (page name)</label> <asp:RegularExpressionValidator ID="vRegexEntryName" ControlToValidate = "txbEntryName" ValidationExpression = "^[a-zA-Z][\w-]{1,149}$" Text = "Invalid EntryName Format. Must match the follwing pattern: ^[a-zA-Z][\w-]{1,149}$" runat="server"/>
 		</p>
 		<p>
