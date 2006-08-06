@@ -254,8 +254,8 @@ namespace Subtext.Framework
 
 			if(Config.CurrentBlog.AutoFriendlyUrlEnabled
 				&& (entry.PostType == PostType.BlogPost || entry.PostType == PostType.Story)
-				&& entry.Title != null
-				&& entry.Title.Length > 0)
+				&& String.IsNullOrEmpty(entry.EntryName)
+				&& !String.IsNullOrEmpty(entry.Title))
 			{
 				entry.EntryName = AutoGenerateFriendlyUrl(entry.Title);
 			}
