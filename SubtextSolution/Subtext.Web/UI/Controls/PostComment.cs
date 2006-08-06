@@ -55,6 +55,11 @@ namespace Subtext.Web.UI.Controls
 					Response.Redirect("~/SystemMessages/FileNotFound.aspx", true);
 					return;
 				}
+				
+				if(Request.QueryString["Moderation"] == "true")
+				{
+					Message.Text = "Comments on this blog are moderated.  There may be a delay before your comment appears.";
+				}
 
 				ResetCommentFields(entry);
 
@@ -145,10 +150,10 @@ namespace Subtext.Web.UI.Controls
 
 						if(Config.CurrentBlog.ModerationEnabled)
 						{
-							Message.Text = "Comments on this blog are moderated.  There may be a delay before your comment appears.";
+							Response.Redirect(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?Moderation=true#message", Request.Path));
 						}
 					}
-					//Response.Redirect(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?Pending=true", Request.Path));
+					Response.Redirect(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?Pending=true", Request.Path));
 				}
 				catch(BaseCommentException exception)
 				{
