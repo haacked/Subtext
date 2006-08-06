@@ -891,6 +891,7 @@
     <Content Include="Images\PoweredBySubtext85x33.png" />
     <Content Include="Images\printer.png" />
     <Content Include="Images\rss20icon.gif" />
+    <Content Include="Images\Rss2Image.gif" />
     <Content Include="Images\shadow.gif" />
     <Content Include="Images\shadowAlpha.png" />
     <Content Include="Images\SubtextLogo.png" />
