@@ -80,7 +80,6 @@ namespace Subtext.Web.Controls
 		/// </summary>
 		public CollapsiblePanel() : base()
 		{
-			
 		}
 
 		#region Accessors		
@@ -122,7 +121,7 @@ namespace Subtext.Web.Controls
 		/// </value>
 		public bool Collapsed
 		{
-			get { return (bool)ViewState[VSKEY_COLLAPSED]; }
+			get { return (bool)(ViewState[VSKEY_COLLAPSED] ?? false); }
 			set { ViewState[VSKEY_COLLAPSED] = value; }
 		}		
 
@@ -196,7 +195,10 @@ namespace Subtext.Web.Controls
 		/// </value>
 		public bool Collapsible
 		{
-			get { return (bool)ViewState[VSKEY_COLLAPSIBLE]; }
+			get
+			{
+				return (bool)(ViewState[VSKEY_COLLAPSIBLE] ?? false);
+			}
 			set 
 			{ 
 				if (value) _displayHeader = true;
@@ -262,13 +264,9 @@ namespace Subtext.Web.Controls
 			set { _linkText = value; }
 		}
 
-		#endregion
-
+		#endregion		
 		protected override void OnInit(EventArgs e)
 		{
-			ViewState[VSKEY_COLLAPSED] = false;
-			ViewState[VSKEY_COLLAPSIBLE] = false;
-			
 			RegisterClientScript();
 			RebuildControls();
 			base.OnInit(e);
