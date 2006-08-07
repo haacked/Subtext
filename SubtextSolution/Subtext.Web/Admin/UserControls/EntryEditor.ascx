@@ -85,7 +85,7 @@
 	<br class="clear" />
 </ANW:AdvancedPanel>
 
-<ANW:AdvancedPanel id="Edit" runat="server" LinkImageCollapsed="~/admin/resources/toggle_gray_down.gif" LinkImage="~/admin/resources/toggle_gray_up.gif" LinkStyle="Image" DisplayHeader="True" HeaderCssClass="CollapsibleTitle" Collapsible="False" HeaderText="Edit Post">
+<ANW:AdvancedPanel id="Edit" runat="server" LinkStyle="Image" DisplayHeader="True" HeaderCssClass="CollapsibleTitle" Collapsible="False" HeaderText="Edit Post">
 	<div class="Edit">
 		<!-- DEBUG -->
 		<p class="Label"><asp:HyperLink id="hlEntryLink" Target="_blank" Runat="server"></asp:HyperLink></p>
