@@ -39,7 +39,7 @@ and later adapted for the SubText blogging platform by Simone Chiaretta www.piyo
 						<uc1:MyLinks id="links" runat="server" />
 						<uc1:SingleColumn id="column" runat="server" />
 						<div id="subtext">
-							<p><asp:hyperlink imageurl="~/images/PoweredBySubtext85x33.png" alt="Powered By SubText" navigateurl="http://sourceforge.net/projects/subtext/" runat="server" id="Hyperlink2" name="Hyperlink1" title="Click here to visit the homepage of the SubText project"/></p>
+							<p><asp:hyperlink imageurl="~/images/PoweredBySubtext85x33.png" navigateurl="http://sourceforge.net/projects/subtext/" runat="server" id="Hyperlink2" ToolTip="Click here to visit the homepage of the SubText project"/></p>
 						</div>
 					</div>
 				</div>
