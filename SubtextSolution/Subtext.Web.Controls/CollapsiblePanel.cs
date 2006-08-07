@@ -123,7 +123,20 @@ namespace Subtext.Web.Controls
 		{
 			get { return (bool)(ViewState[VSKEY_COLLAPSED] ?? false); }
 			set { ViewState[VSKEY_COLLAPSED] = value; }
-		}		
+		}
+
+public bool WillSucceed
+{
+	get
+	{
+		return (bool)(ViewState["WillSucceed"] ?? false);
+	}
+	set
+	{
+		ViewState["WillSucceed"] = value;
+	}
+}
+		
 
 		public override ControlCollection Controls
 		{

@@ -23,7 +23,7 @@
 				</p>
 				<p>
 					Powered By:<br />
-					<asp:HyperLink NavigateUrl="http://subtextproject.com/" ImageUrl="~/images/PoweredBySubtext85x33.png"
+					<asp:HyperLink NavigateUrl="http://subtextproject.com/" ImageUrl="~/images/PoweredBySubtext85x33.png" ToolTip="Powered By Subtext"
 						Runat="server" BorderWidth="0" id="HyperLink1" />
 				</p>
 				<h2>Syndication</h2>
