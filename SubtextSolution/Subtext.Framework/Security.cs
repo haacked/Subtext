@@ -95,7 +95,7 @@ namespace Subtext.Framework
 		/// <param name="persist">Should this ticket be persisted</param>
 		private static void SetAuthenticationTicket(string username, bool persist, params string[] roles)
 		{
-			FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, username, DateTime.Now, DateTime.Now.AddMinutes(60), persist, string.Join("|", roles));
+			FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, username, DateTime.Now, DateTime.Now.AddDays(60), persist, string.Join("|", roles));
 			string encryptedTicket = FormsAuthentication.Encrypt(ticket);
 			// Create a cookie and add the encrypted ticket to the
 			// cookie as data.

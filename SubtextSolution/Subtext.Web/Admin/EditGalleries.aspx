@@ -17,7 +17,7 @@
 <asp:Content ID="galleriesContainer" ContentPlaceHolderID="pageContent" runat="server">
 	<sub:ScrollPositionSaver id="scrollsaver" runat="server" />
 	<ANW:MessagePanel id="Messages" runat="server" ErrorIconUrl="~/images/icons/ico_critical.gif" ErrorCssClass="ErrorPanel" MessageIconUrl="~/admin/resources/ico_info.gif" MessageCssClass="MessagePanel"></ANW:MessagePanel>
-	<ANW:AdvancedPanel id="Results" runat="server" LinkStyle="Image" LinkImageCollapsed="~/admin/resources/toggle_gray_down.gif" LinkImage="~/admin/resources/toggle_gray_up.gif" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleHeader" HeaderText="Galleries" Collapsible="True">
+	<ANW:AdvancedPanel id="Results" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleHeader" HeaderText="Galleries" Collapsible="True">
 	
 		<asp:DataGrid id="dgrSelectionList" runat="server" CssClass="Listing highlightTable" GridLines="None" AutoGenerateColumns="False">
 			<AlternatingItemStyle CssClass="Alt"></AlternatingItemStyle>
@@ -72,7 +72,7 @@
 		
 		<!-- add/upload a new file -->
 		<ASP:Panel id="ImagesDiv" runat="server">
-			<ANW:AdvancedPanel id="AddImages" runat="server" LinkStyle="Image" LinkImageCollapsed="~/admin/resources/toggle_gray_down.gif" LinkImage="~/admin/resources/toggle_gray_up.gif" LinkBeforeHeader="True" DisplayHeader="true" HeaderCssClass="CollapsibleTitle" HeaderText="Add New Image (Single file or ZIP archive)" Collapsible="True" BodyCssClass="Edit">		
+			<ANW:AdvancedPanel id="AddImages" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="true" HeaderCssClass="CollapsibleTitle" HeaderText="Add New Image (Single file or ZIP archive)" Collapsible="True" BodyCssClass="Edit">		
 				<label class="Block">Local File Location</label> 
 				<input class="FileUpload" id="ImageFile" type="file" size="82" name="ImageFile" runat="server" /> 
 				<br class="clear" />
