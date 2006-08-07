@@ -187,3 +187,7 @@ ul.horizontal li
 	display: inline;
 }
 
+.postTitle, .postTitleDate
+{
+	clear: both;
+}
