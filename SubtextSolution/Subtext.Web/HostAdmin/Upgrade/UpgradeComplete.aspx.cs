@@ -20,15 +20,14 @@ namespace Subtext.Web.HostAdmin.Upgrade
 	/// <summary>
 	/// Summary description for InstallationComplete.
 	/// </summary>
-	public class UpgradeComplete : System.Web.UI.Page
+	public partial class UpgradeComplete : System.Web.UI.Page
 	{
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSideBar;
 		protected Subtext.Web.Controls.MasterPage MPContainer;
-		protected System.Web.UI.HtmlControls.HtmlAnchor lnkHostAdmin;
 		protected System.Web.UI.HtmlControls.HtmlAnchor importWizardAnchor;
 		
-		private void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
 		}
 
@@ -48,7 +47,6 @@ namespace Subtext.Web.HostAdmin.Upgrade
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion

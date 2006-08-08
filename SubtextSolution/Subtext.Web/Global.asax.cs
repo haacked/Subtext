@@ -75,10 +75,10 @@ namespace Subtext
 		protected void Application_Start(Object sender, EventArgs e)
 		{
             log4net.Config.XmlConfigurator.Configure();
+#if DEBUG
 			log4net.Repository.Hierarchy.Hierarchy h = LogManager.GetRepository() as log4net.Repository.Hierarchy.Hierarchy;
-			//get the ADO appender
-			h.ConfigurationChanged += new log4net.Repository.LoggerRepositoryConfigurationChangedEventHandler(log4Net_ConfigurationChanged);
 			EnsureLog4NetConnectionString(h);
+#endif
 		    log.Info("Application_Start - This is not a malfunction.");
 		}
 
@@ -89,8 +89,15 @@ namespace Subtext
 				AdoNetAppender adoAppender = appender as AdoNetAppender;
 				if(adoAppender != null)
 				{
-					adoAppender.ConnectionString = Config.Settings.ConnectionString.ToString();
 					adoAppender.ActivateOptions();
+					//Normalize appender connection string.
+					if (!String.IsNullOrEmpty(adoAppender.ConnectionString) && !adoAppender.ConnectionString.EndsWith(";"))
+						adoAppender.ConnectionString += ";";
+					
+					if(adoAppender.ConnectionString != Config.Settings.ConnectionString.ToString())
+					{
+						throw new InvalidOperationException("Log4Net is not picking up our connection string.");
+					}					
 				}
 			}
 		}
@@ -282,11 +289,6 @@ namespace Subtext
 		{    
 		}
 		#endregion
-
-		private void log4Net_ConfigurationChanged(object sender, EventArgs e)
-		{
-			EnsureLog4NetConnectionString((Hierarchy)sender);
-		}
 	}
 }
 

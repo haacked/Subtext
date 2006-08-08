@@ -20,15 +20,14 @@ namespace Subtext.Web.HostAdmin
 	/// <summary>
 	/// Summary description for ImportComplete.
 	/// </summary>
-	public class ImportComplete : System.Web.UI.Page
+	public partial class ImportComplete : System.Web.UI.Page
 	{
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
 		protected Subtext.Web.Controls.MasterPage MPContainer;
 		protected Subtext.Web.Controls.ContentRegion MPSectionTitle;
-		protected System.Web.UI.HtmlControls.HtmlAnchor lnkHostAdmin;
 	
-		private void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			// Put user code to initialize the page here
 		}
@@ -49,7 +48,6 @@ namespace Subtext.Web.HostAdmin
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion

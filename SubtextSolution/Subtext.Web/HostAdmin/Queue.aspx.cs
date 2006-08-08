@@ -19,18 +19,14 @@ using System.Globalization;
 namespace Subtext.Web.HostAdmin
 {
 	/// <summary>
-	/// Summary description for Queue.
+	/// Shows some diagnostic information.
 	/// </summary>
-	public class Queue : System.Web.UI.Page
-	{
-		protected System.Web.UI.WebControls.Literal Literal1;
-		protected System.Web.UI.WebControls.Literal Literal2;
-	
-		private void Page_Load(object sender, System.EventArgs e)
+	public partial class Queue : System.Web.UI.Page
+	{	
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
-			Literal1.Text = Subtext.Framework.Threading.ManagedThreadPool.ActiveThreads.ToString(CultureInfo.InvariantCulture);
-            Literal2.Text = Subtext.Framework.Threading.ManagedThreadPool.WaitingCallbacks.ToString(CultureInfo.InvariantCulture);
-			
+			this.ltlActiveThreads.Text = Subtext.Framework.Threading.ManagedThreadPool.ActiveThreads.ToString(CultureInfo.InvariantCulture);
+            this.ltlWaitingCallbacks.Text = Subtext.Framework.Threading.ManagedThreadPool.WaitingCallbacks.ToString(CultureInfo.InvariantCulture);
 		}
 
 		#region Web Form Designer generated code
@@ -49,7 +45,6 @@ namespace Subtext.Web.HostAdmin
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion

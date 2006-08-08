@@ -26,20 +26,15 @@ namespace Subtext.Web.HostAdmin
 	/// <summary>
 	/// Page used to gather information for the specified import provider.
 	/// </summary>
-	public class Step02_GatherInfo : System.Web.UI.Page
+	public partial class Step02_GatherInfo : System.Web.UI.Page
 	{
-		protected System.Web.UI.WebControls.PlaceHolder plcImportInformation;
-		protected System.Web.UI.WebControls.Button btnNext;
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.MasterPage MPContainer;
-		protected System.Web.UI.WebControls.Literal ltlErrorMessage;
-		protected System.Web.UI.WebControls.Button btnBeginImport;
-		protected System.Web.UI.HtmlControls.HtmlGenericControl paraBeginImportText;
 		ImportProvider _providerInfo = null;
 		protected Subtext.Web.Controls.ContentRegion MPSectionTitle;
 		Control importInformationControl = null;
 
-		private void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			paraBeginImportText.Visible = false;
 			btnNext.Visible = true;
@@ -79,7 +74,7 @@ namespace Subtext.Web.HostAdmin
 			}
 		}
 
-		private void btnNext_Click(object sender, EventArgs e)
+		protected void btnNext_Click(object sender, EventArgs e)
 		{
 			string errors = ImportManager.ValidateImportAnswers(importInformationControl, _providerInfo);
 			if(errors == null || errors.Length == 0)
@@ -94,7 +89,7 @@ namespace Subtext.Web.HostAdmin
 			}
 		}
 
-		private void btnBeginImport_Click(object sender, EventArgs e)
+		protected void btnBeginImport_Click(object sender, EventArgs e)
 		{
 			string errors = ImportManager.ValidateImportAnswers(importInformationControl, _providerInfo);
 			if(errors != null && errors.Length > 0)
@@ -146,9 +141,6 @@ namespace Subtext.Web.HostAdmin
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
-			this.btnBeginImport.Click += new System.EventHandler(this.btnBeginImport_Click);
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion

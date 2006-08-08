@@ -26,14 +26,14 @@ namespace Subtext.Web.HostAdmin.Upgrade
 	/// This page will ONLY be displayed if there are no 
 	/// blog configurations within the database.
 	/// </remarks>
-	public class Default : System.Web.UI.Page
+	public partial class Default : System.Web.UI.Page
 	{
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSideBar;
 		protected Subtext.Web.Controls.MasterPage MPContainer;
 		protected System.Web.UI.WebControls.Button btnUpgrade;
 	
-		private void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			if(InstallationManager.GetCurrentInstallationState(VersionInfo.FrameworkVersion) == InstallationState.Complete)
 			{
@@ -58,7 +58,6 @@ namespace Subtext.Web.HostAdmin.Upgrade
 		private void InitializeComponent()
 		{    
 			this.btnUpgrade.Click += new System.EventHandler(this.btnUpgrade_Click);
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion

@@ -85,7 +85,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindListForExcel()
 		{
-            IPagedCollection<LogEntry> logEntries = LoggingProvider.Instance().GetPagedLogEntries(1, int.MaxValue - 1);
+            IPagedCollection<LogEntry> logEntries = LoggingProvider.Instance().GetPagedLogEntries(0, int.MaxValue - 1);
 			LogPage.DataSource = logEntries;
 			LogPage.DataBind();
 		}

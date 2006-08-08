@@ -354,7 +354,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Content Include="ExternalDependencies\BlogML.dll" />
-    <Content Include="ExternalDependencies\CookComputing.XmlRpc.dll" />
     <Content Include="ExternalDependencies\CookComputing.XmlRpcV2.dll" />
     <Content Include="ExternalDependencies\FredCK.FCKeditorV2.dll" />
     <Content Include="ExternalDependencies\freetextbox.dll" />
