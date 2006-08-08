@@ -1,8 +1,8 @@
-<%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
-<%@ Page language="c#" Codebehind="ImportComplete.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.HostAdmin.ImportComplete" %>
-<MP:MasterPage id="MPContainer" TemplateFile="~/HostAdmin/PageTemplate.ascx" runat="server">
-	<MP:ContentRegion id="MPTitle" runat="server">Subtext - Import Complete!</MP:ContentRegion>
-	<MP:ContentRegion id="MPSectionTitle" runat="server">Import Complete!</MP:ContentRegion>
+<%@ Page Title="Subtext - Host Admin - Import Complete!" MasterPageFile="~/HostAdmin/HostAdminTemplate.Master" language="c#" Codebehind="ImportComplete.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.HostAdmin.ImportComplete" %>
+
+<asp:Content id="sectionTitle" ContentPlaceHolderID="MPSectionTitle" runat="server">Subtext - Host Admin - Import Complete!</asp:Content>
+<asp:Content id="sidebar" ContentPlaceHolderID="MPSideBar" runat="server"></asp:Content>
+<asp:Content id="mainContent" ContentPlaceHolderID="MPContent" runat="server">
 	<h2>Good News! The import is complete.</h2>
 	<p>
 		<strong><a id="lnkHostAdmin" href="~/HostAdmin/" runat="server">Click here</a></strong> to visit 
@@ -20,4 +20,4 @@
 		For more information, see the <a href="http://subtextproject.com/Docs/Configuration/" title="Configuration Guide" rel="external">configuration guide</a> 
 		in the <a href="http://subtextproject.com/" title="Subtext Project Website" rel="external">Subtext Project site</a>.
 	</p>
-</MP:MasterPage>
+</asp:Content>

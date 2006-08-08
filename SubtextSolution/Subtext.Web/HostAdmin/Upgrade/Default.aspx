@@ -1,9 +1,9 @@
-<%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
-<%@ Page language="c#" Codebehind="Default.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.HostAdmin.Upgrade.Default" %>
-<MP:MasterPage id="MPContainer" runat="server">
-	<MP:ContentRegion id="MPTitle" runat="server">Subtext Upgrade 
-Wizard: Welcome</MP:ContentRegion>
-	<MP:ContentRegion id="MPSideBar" runat="server"></MP:ContentRegion>
+<%@ Page language="c#" Title="Subtext - Host Admin - Installed Blogs" MasterPageFile="~/HostAdmin/HostAdminTemplate.Master" Codebehind="Default.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.HostAdmin.Upgrade.Default" %>
+<%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
+
+<asp:Content id="sectionTitle" ContentPlaceHolderID="MPSectionTitle" runat="server">Subtext Upgrade Wizard: Welcome</asp:Content>
+<asp:Content id="sidebar" ContentPlaceHolderID="MPSideBar" runat="server"></asp:Content>
+<asp:Content id="mainContent" ContentPlaceHolderID="MPContent" runat="server">
 	<p>Welcome to the Subtext Upgrade Wizard.</p>
 	<p>
 		The database schema needs to be updated. 
@@ -21,5 +21,5 @@ Wizard: Welcome</MP:ContentRegion>
 		</p>
 	</div>
 	<p>
-	<p><asp:Button id="btnUpgrade" runat="server" text="Upgrade"></asp:Button></p>
-</MP:MasterPage>
+	<p><asp:Button id="Button1" runat="server" text="Upgrade"></asp:Button></p>
+</asp:Content>

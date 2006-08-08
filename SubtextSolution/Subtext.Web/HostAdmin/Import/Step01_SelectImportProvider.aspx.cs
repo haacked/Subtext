@@ -21,16 +21,13 @@ namespace Subtext.Web.HostAdmin
 	/// <summary>
 	/// Summary description for Step01_SelectImportProvider.
 	/// </summary>
-	public class Step01_SelectImportProvider : System.Web.UI.Page
+	public partial class Step01_SelectImportProvider : System.Web.UI.Page
 	{
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
-		protected System.Web.UI.WebControls.Button btnNext;
-		protected System.Web.UI.WebControls.RadioButtonList rdlImportProviders;
-		protected System.Web.UI.WebControls.RequiredFieldValidator vldImportProviders;
 		protected Subtext.Web.Controls.ContentRegion MPSectionTitle;
 		protected Subtext.Web.Controls.MasterPage MPContainer;
 	
-		private void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			if(!IsPostBack)
 			{
@@ -40,13 +37,13 @@ namespace Subtext.Web.HostAdmin
 
 		void BindData()
 		{
-			this.rdlImportProviders.DataSource = ImportProvider.Providers.Values;
+			this.rdlImportProviders.DataSource = ImportProvider.Providers;
 			this.rdlImportProviders.DataTextField = "Description";
 			this.rdlImportProviders.DataValueField = "Name";
 			this.rdlImportProviders.DataBind();
 		}
 		
-		private void btnNext_Click(object sender, EventArgs e)
+		protected void btnNext_Click(object sender, EventArgs e)
 		{
 			if(Page.IsValid)
 			{
@@ -70,8 +67,6 @@ namespace Subtext.Web.HostAdmin
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion

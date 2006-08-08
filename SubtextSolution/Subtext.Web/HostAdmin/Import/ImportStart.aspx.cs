@@ -20,16 +20,15 @@ namespace Subtext.Web.HostAdmin
 	/// <summary>
 	/// First page in the .TEXT Import wizard.
 	/// </summary>
-	public class ImportStart : System.Web.UI.Page
+	public partial class ImportStart : System.Web.UI.Page
 	{
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
 		protected Subtext.Web.Controls.MasterPage MPContainer;
 		protected System.Web.UI.WebControls.Button btnRestartWizard;
 		protected Subtext.Web.Controls.ContentRegion MPSideBar;
-		protected System.Web.UI.WebControls.Button btnNext;
 		
-		private void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
 		}
 
@@ -50,13 +49,11 @@ namespace Subtext.Web.HostAdmin
 		private void InitializeComponent()
 		{    
 			this.btnRestartWizard.Click += new System.EventHandler(this.btnRestartWizard_Click);
-			this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion
 
-		private void btnNext_Click(object sender, EventArgs e)
+		protected void btnNext_Click(object sender, EventArgs e)
 		{
 			Response.Redirect("Step02_GatherInfo.aspx?Provider=DotText095ImportProvider");
 		}

@@ -1,8 +1,8 @@
-<%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
-<%@ Page language="c#" Codebehind="Step02_GatherInfo.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.HostAdmin.Step02_GatherInfo" %>
-<MP:MasterPage id="MPContainer" runat="server" TemplateFile="~/HostAdmin/PageTemplate.ascx">
-	<MP:ContentRegion id="MPTitle" runat="server">Subtext Import - Step 2 - Gather Information</MP:ContentRegion>
-	<MP:ContentRegion id="MPSectionTitle" runat="server">Gathering Information</MP:ContentRegion>
+<%@ Page Title="Subtext Import - Step 2 - Gather Information" MasterPageFile="~/HostAdmin/HostAdminTemplate.Master" language="c#" Codebehind="Step02_GatherInfo.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.HostAdmin.Step02_GatherInfo" %>
+
+<asp:Content id="sectionTitle" ContentPlaceHolderID="MPSectionTitle" runat="server">Gathering Information</asp:Content>
+<asp:Content id="sidebar" ContentPlaceHolderID="MPSideBar" runat="server"></asp:Content>
+<asp:Content id="mainContent" ContentPlaceHolderID="MPContent" runat="server">
 	<p class="error">
 		<asp:Literal id="ltlErrorMessage" EnableViewState="False" Runat="server"></asp:Literal>
 	</p>
@@ -23,7 +23,7 @@
 		<asp:PlaceHolder id="plcImportInformation" runat="Server"></asp:PlaceHolder>
 	</p>
 	<p>
-		<asp:Button id="btnNext" runat="server" text="Next - Begin Import"></asp:Button>
+		<asp:Button id="btnNext" runat="server" text="Next - Begin Import" onclick="btnNext_Click"></asp:Button>
 	</p>
 	<p id="paraBeginImportText" runat="server">
 		Thanks for supplying the required information. 
@@ -34,5 +34,6 @@
 			blog data. Once you hit the button below, there is no turning back.
 		</span>
 		<br />
-		<asp:Button id="btnBeginImport" runat="server" text="Begin the Import!"></asp:Button></P>
-</MP:MasterPage>
+		<asp:Button id="btnBeginImport" runat="server" text="Begin the Import!" onclick="btnBeginImport_Click"></asp:Button>
+	</p>
+</asp:Content>

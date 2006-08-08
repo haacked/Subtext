@@ -1,11 +1,12 @@
 <%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
-<%@ Page language="c#" Codebehind="UpgradeComplete.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.HostAdmin.Upgrade.UpgradeComplete" %>
-<MP:MasterPage id="MPContainer" runat="server">
-	<MP:ContentRegion id="MPTitle" runat="server">Subtext Upgrade: Upgrade Complete</MP:ContentRegion>
-	<MP:ContentRegion id="MPSideBar" runat="server"></MP:ContentRegion>
+<%@ Page Title="Subtext Upgrade: Upgrade Complete!" MasterPageFile="~/HostAdmin/HostAdminTemplate.Master" language="c#" Codebehind="UpgradeComplete.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.HostAdmin.Upgrade.UpgradeComplete" %>
+
+<asp:Content id="sectionTitle" ContentPlaceHolderID="MPSectionTitle" runat="server">Subtext Upgrade: Upgrade Complete!</asp:Content>
+<asp:Content id="sidebar" ContentPlaceHolderID="MPSideBar" runat="server"></asp:Content>
+<asp:Content id="mainContent" ContentPlaceHolderID="MPContent" runat="server">
 	<p>Congratulations. The Subtext upgrade is complete.</p>
 	<p>
 		Click <a id="lnkHostAdmin" href="~/HostAdmin/" runat="server">here</a> to visit 
 		the Host Admin tool.
 	</p>
-</MP:MasterPage>
+</asp:Content>

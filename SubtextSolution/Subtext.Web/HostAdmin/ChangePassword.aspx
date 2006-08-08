@@ -1,8 +1,9 @@
-<%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
-<%@ Page language="c#" Codebehind="ChangePassword.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.HostAdmin.ChangePassword" %>
-<MP:MasterPage id="MPContainer" TemplateFile="~/HostAdmin/PageTemplate.ascx" runat="server">
-	<MP:ContentRegion id="MPTitle" runat="server">Subtext - Change Host Admin Password</MP:ContentRegion>
-	<MP:ContentRegion id="MPSectionTitle" runat="server">Change Host Admin Password</MP:ContentRegion>
+<%@ Page language="c#" Title="Subtext - Host Admin - Change Password" MasterPageFile="~/HostAdmin/HostAdminTemplate.Master"  Codebehind="ChangePassword.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.HostAdmin.ChangePassword" %>
+<%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
+
+<asp:Content id="sectionTitle" ContentPlaceHolderID="MPSectionTitle" runat="server">Subtext - Host Admin - Change HostAdmin Password</asp:Content>
+<asp:Content id="sidebar" ContentPlaceHolderID="MPSideBar" runat="server"></asp:Content>
+<asp:Content id="passwordChangeForm" ContentPlaceHolderID="MPContent" runat="server">
 	<p>Use this page to change the HostAdmin password..</p>
 	
 	<div class="form">
@@ -45,8 +46,7 @@
 			<asp:TextBox id="txtConfirmPassword" TextMode="Password" runat="server" />
 		</p>
 		<p class="clear">
-			<asp:Button id="btnSave" runat="server" Text="Save"></asp:Button>
+			<asp:Button id="btnSave" runat="server" Text="Save" onclick="btnSave_Click"></asp:Button>
 		</p>
 	</div>
-
-</MP:MasterPage>
+</asp:Content>

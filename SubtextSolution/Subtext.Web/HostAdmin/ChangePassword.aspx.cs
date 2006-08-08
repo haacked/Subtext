@@ -22,27 +22,16 @@ namespace Subtext.Web.HostAdmin
 	/// <summary>
 	/// Allows the user to change the host admin password.
 	/// </summary>
-	public class ChangePassword : System.Web.UI.Page
+	public partial class ChangePassword : System.Web.UI.Page
 	{
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSectionTitle;
-		protected System.Web.UI.WebControls.TextBox txtCurrentPassword;
-		protected System.Web.UI.WebControls.TextBox txtNewPassword;
-		protected System.Web.UI.WebControls.TextBox txtConfirmPassword;
-		protected System.Web.UI.WebControls.Button btnSave;
 		protected System.Web.UI.HtmlControls.HtmlAnchor lnkHostAdmin;
-		protected System.Web.UI.WebControls.ValidationSummary validationSummary;
-		protected System.Web.UI.WebControls.RequiredFieldValidator vldCurrentPassword;
-		protected System.Web.UI.WebControls.RequiredFieldValidator vldNewPassword;
-		protected System.Web.UI.WebControls.RequiredFieldValidator vldConfirmPassword;
-		protected System.Web.UI.WebControls.CompareValidator vldComparePasswords;
 		protected System.Web.UI.WebControls.CustomValidator CustomValidator1;
 		protected Subtext.Web.Controls.MasterPage MPContainer;
-		protected System.Web.UI.WebControls.CustomValidator vldCurrent;
-		protected System.Web.UI.WebControls.Label lblSuccess;
 	
-		private void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			lblSuccess.Visible = false;
 		}
@@ -63,13 +52,11 @@ namespace Subtext.Web.HostAdmin
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-			this.Load += new System.EventHandler(this.Page_Load);
 			vldCurrent.ServerValidate += new System.Web.UI.WebControls.ServerValidateEventHandler(vldCurrent_ServerValidate);
 		}
 		#endregion
 
-		private void btnSave_Click(object sender, System.EventArgs e)
+		protected void btnSave_Click(object sender, System.EventArgs e)
 		{
 			if(Page.IsValid)
 			{
