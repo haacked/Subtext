@@ -31,8 +31,15 @@ namespace Subtext
 {
 	public class Global : System.Web.HttpApplication
 	{
-		private readonly static ILog log = new Subtext.Framework.Logging.Log();
-
+		//This redundant call is to kickstart log4net.
+		private readonly static ILog log = LogManager.GetLogger(typeof(Global));
+		
+		static Global()
+		{
+			//Wrap the logger with our own.
+			log = new Subtext.Framework.Logging.Log(log);
+		}
+		
 		/// <summary>
 		/// <para>
 		/// This is used to vary partial caching of ASCX controls and ASPX pages on a per blog basis.  
