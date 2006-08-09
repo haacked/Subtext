@@ -74,16 +74,20 @@ namespace Subtext
 		/// <param name="e"></param>
 		protected void Application_Start(Object sender, EventArgs e)
 		{
-            log4net.Config.XmlConfigurator.Configure();
+			//This line will trigger the configuration.
+			log.Info("Application_Start - This is not a malfunction.");
 #if DEBUG
 			log4net.Repository.Hierarchy.Hierarchy h = LogManager.GetRepository() as log4net.Repository.Hierarchy.Hierarchy;
 			EnsureLog4NetConnectionString(h);
 #endif
-		    log.Info("Application_Start - This is not a malfunction.");
 		}
 
+#if DEBUG
 		private static void EnsureLog4NetConnectionString(Hierarchy h)
 		{
+			if (h.Root.Appenders.Count == 0)
+				throw new InvalidOperationException("No appenders configured!");
+
 			foreach(IAppender appender in h.Root.Appenders)
 			{
 				AdoNetAppender adoAppender = appender as AdoNetAppender;
@@ -101,6 +105,7 @@ namespace Subtext
 				}
 			}
 		}
+#endif
 
 		/// <summary>
 		/// Method called when a session starts.
