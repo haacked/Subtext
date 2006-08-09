@@ -30,21 +30,11 @@ namespace Subtext.Web.UI
 		/// <returns></returns>
 		public static string Skin()
 		{
-			return Skin(HttpContext.Current);
-		}
-
-		/// <summary>
-		/// Returns the current skin for the specified context.
-		/// </summary>
-		/// <param name="context">Context.</param>
-		/// <returns></returns>
-		public static string Skin(HttpContext context)
-		{
-			if(Config.CurrentBlog.Skin.TemplateFolder == null)
-			{
-				Config.CurrentBlog.Skin = SkinConfig.GetDefaultSkin();
-			}
-			return Config.CurrentBlog.Skin.TemplateFolder;
+            if (Config.CurrentBlog.Skin.TemplateFolder == null)
+            {
+                Config.CurrentBlog.Skin = SkinConfig.GetDefaultSkin();
+            }
+            return Config.CurrentBlog.Skin.TemplateFolder;
 		}
 
 		private static readonly string BlogPageTitle = "BlogPageTitle";
