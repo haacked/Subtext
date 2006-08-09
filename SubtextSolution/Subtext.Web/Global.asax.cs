@@ -31,15 +31,15 @@ namespace Subtext
 {
 	public class Global : System.Web.HttpApplication
 	{
-//This call is to kickstart log4net.
-//log4net Configuration Attribute is in AssemblyInfo
-private readonly static ILog log = LogManager.GetLogger(typeof(Global));
+		//This call is to kickstart log4net.
+		//log4net Configuration Attribute is in AssemblyInfo
+		private readonly static ILog log = LogManager.GetLogger(typeof(Global));
 
-static Global()
-{
-	//Wrap the logger with our own.
-	log = new Subtext.Framework.Logging.Log(log);
-}
+		static Global()
+		{
+			//Wrap the logger with our own.
+			log = new Subtext.Framework.Logging.Log(log);
+		}
 		
 		/// <summary>
 		/// <para>
