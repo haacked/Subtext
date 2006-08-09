@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -229,7 +230,7 @@ namespace Subtext.Web.Admin.Pages
             if (lastDot > -1)
             {
                 string ext = fileName.Substring(lastDot + 1);
-                if (ext.ToLower().Equals("zip"))
+                if ( String.Compare(ext, "zip", true, CultureInfo.InvariantCulture) == 0 )
                 {
                     // Handle as an archive
                     PersistImageArchive();
