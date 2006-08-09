@@ -11,7 +11,9 @@ var xfnRelationships = ['friend', 'acquaintance', 'contact', 'met'
 function highlightXFNLinks() 
 {
     if (!document.getElementsByTagName) return;
+    
     var anchors = document.getElementsByTagName("a");
+    
     for (var i = 0; i < anchors.length; i++) 
     {
         var anchor = anchors[i];
@@ -20,10 +22,12 @@ function highlightXFNLinks()
 			//Let's look at all the various potential relationships.
 			var relationships = '';
 			var rel = anchor.getAttribute("rel");
+			
 			for(var j = 0; j < xfnRelationships.length; j++)
 			{
-				if(rel.indexOf(xfnRelationships[j]) >= 0)
-				{					
+				var regex = new RegExp('\\b' + xfnRelationships[j] + '\\b', "i");
+				if(rel.match(regex))
+				{
 					if(relationships.length == 0)
 					{
 						relationships = "<h3>XFN Relationships</h3><ul>";
