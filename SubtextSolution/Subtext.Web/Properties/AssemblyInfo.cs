@@ -29,5 +29,5 @@ using System.Security.Permissions;
 
 [assembly: ComVisible(false)]	
 [assembly: CLSCompliant(false)]
-//Log4Net configuration attribute is specified in Subtext.Framework.
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "Log4Net.config", Watch = true)]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, Execution = true)]

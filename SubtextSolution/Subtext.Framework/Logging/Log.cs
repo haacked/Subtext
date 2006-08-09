@@ -125,6 +125,15 @@ namespace Subtext.Framework.Logging
 			_log = CreateInnerLogger(type);
 		}
 
+		/// <summary>
+		/// Instantiates a log which wraps the specified inner logger.
+		/// </summary>
+		/// <param name="innerLogger"><see cref="T:System.Type"/> of the class to create a log for</param>
+		public Log(ILog innerLogger)
+		{
+			_log = innerLogger;
+		}
+
 		private ILog CreateInnerLogger(Type type)
 		{
 			ILog log = LogManager.GetLogger(type);
