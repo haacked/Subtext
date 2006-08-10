@@ -1539,7 +1539,7 @@ http://www.4guysfromrolla.com/webtech/041206-1.shtml
 */
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableLogEntries]
 (
-	@BlogId int
+	@BlogId int = NULL
 	, @PageIndex int
 	, @PageSize int
 )

@@ -12,6 +12,37 @@ namespace UnitTests.Subtext.Framework.XmlRpc
     [TestFixture]
     public class MetaBlogApiTests
     {
+		[Test]
+		[RollBack]
+		public void NewPostWithCategoryCreatesEntryWithCategory()
+		{
+			string hostname = UnitTestHelper.GenerateRandomString();
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, ""));
+			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
+			Config.CurrentBlog.AllowServiceAccess = true;
+
+			LinkCategory category = new LinkCategory();
+			category.IsActive = true;
+			category.Description = "Test category";
+			category.Title = "CategoryA";
+			Links.CreateLinkCategory(category);
+			
+			MetaWeblog api = new MetaWeblog();
+			Post post = new Post();
+			post.categories = new string[] {"CategoryA"};
+			post.description = "A unit test";
+			post.title = "A unit testing title";
+			post.dateCreated = DateTime.Now;
+
+			string result = api.newPost(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture), "username", "password", post, true);
+			int entryId = int.Parse(result);
+
+			Entry entry = Entries.GetEntry(entryId, PostConfig.None, true);
+			Assert.IsNotNull(entry, "Guess the entry did not get created properly.");
+			Assert.AreEqual(1, entry.Categories.Count, "We expected one category. We didn't get what we expected.");
+			Assert.AreEqual("CategoryA", entry.Categories[0], "The wrong category was created.");
+		}
+    	
     	[Test]
     	[RollBack]
     	public void NewPostAcceptsNullCategories()

@@ -93,7 +93,9 @@ namespace Subtext.Framework.XmlRpc
 				entry.SourceUrl = string.Empty;
 				entry.Description = string.Empty;
 
-                entry.Categories.AddRange(post.categories);
+                if(post.categories != null)
+					entry.Categories.AddRange(post.categories);
+				
 				entry.PostType = PostType.BlogPost;
 				entry.IsXHMTL = false;
 				entry.IsActive = publish;
@@ -220,6 +222,7 @@ namespace Subtext.Framework.XmlRpc
 
 			if(post.categories != null)
 				entry.Categories.AddRange(post.categories);
+			
 			entry.PostType = PostType.BlogPost;
 			
 			entry.IsActive = publish;

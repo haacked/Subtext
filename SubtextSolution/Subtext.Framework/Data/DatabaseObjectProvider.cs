@@ -360,7 +360,7 @@ namespace Subtext.Framework.Data
             {
                 if (reader.Read())
                 {
-                    return DataHelper.LoadEntry(reader);
+                    return DataHelper.LoadEntryWithCategories(reader);
                 }
                 return null;
             }
@@ -379,7 +379,7 @@ namespace Subtext.Framework.Data
             {
                 if (reader.Read())
                 {
-                    return DataHelper.LoadEntry(reader);
+                    return DataHelper.LoadEntryWithCategories(reader);
                 }
                 return null;
             }
@@ -402,9 +402,9 @@ namespace Subtext.Framework.Data
 		/// the specified category ids.
 		/// </summary>
 		/// <param name="entry">Entry.</param>
-		/// <param name="CategoryIDs">Category I ds.</param>
+		/// <param name="categoryIds">Category I ds.</param>
 		/// <returns></returns>
-		public override int Create(Entry entry, int[] CategoryIDs)
+		public override int Create(Entry entry, int[] categoryIds)
 		{
 			if(entry.PostType == PostType.PingTrack)
 			{
@@ -418,9 +418,9 @@ namespace Subtext.Framework.Data
 
 		    entry.Id = DbProvider.Instance().InsertEntry(entry);	
 	
-			if(CategoryIDs != null)
+			if(categoryIds != null)
 			{
-				DbProvider.Instance().SetEntryCategoryList(entry.Id,CategoryIDs);
+				DbProvider.Instance().SetEntryCategoryList(entry.Id, categoryIds);
 			}
 
 			if(entry.Id > -1 && Config.Settings.Tracking.UseTrackingServices)
@@ -486,9 +486,9 @@ namespace Subtext.Framework.Data
 
 		#region SetCategoriesList
 
-		public override bool SetEntryCategoryList(int EntryID, int[] Categories)
+		public override bool SetEntryCategoryList(int entryId, int[] categoryIds)
 		{
-			return DbProvider.Instance().SetEntryCategoryList(EntryID,Categories);
+			return DbProvider.Instance().SetEntryCategoryList(entryId, categoryIds);
 		}
 
 		#endregion
@@ -669,9 +669,9 @@ namespace Subtext.Framework.Data
 
 		#region LinkCategory
 
-		public override LinkCategory GetLinkCategory(int CategoryID, bool IsActive)
+		public override LinkCategory GetLinkCategory(int categoryId, bool activeOnly)
 		{
-			IDataReader reader = DbProvider.Instance().GetLinkCategory(CategoryID,IsActive);
+			IDataReader reader = DbProvider.Instance().GetLinkCategory(categoryId, activeOnly);
 			
 			try
 			{
@@ -685,15 +685,18 @@ namespace Subtext.Framework.Data
 			}
 		}
 
-		public override LinkCategory GetLinkCategory(string categoryName,bool IsActive)
+		public override LinkCategory GetLinkCategory(string categoryName, bool activeOnly)
 		{
-			IDataReader reader = DbProvider.Instance().GetLinkCategory(categoryName,IsActive);
+			IDataReader reader = DbProvider.Instance().GetLinkCategory(categoryName, activeOnly);
 			
 			try
 			{
-				reader.Read();
-				LinkCategory lc = DataHelper.LoadLinkCategory(reader);
-				return lc;
+				if (reader.Read())
+				{
+					LinkCategory lc = DataHelper.LoadLinkCategory(reader);
+					return lc;
+				}
+				return null;
 			}
 			finally
 			{

@@ -211,7 +211,7 @@ namespace Subtext.Framework.Providers
 
 		#region Entry Category List
 
-		public abstract bool SetEntryCategoryList(int EntryID, int[] Categories);
+		public abstract bool SetEntryCategoryList(int entryId, int[] categoryIds);
 
 		#endregion
 
@@ -247,8 +247,8 @@ namespace Subtext.Framework.Providers
 
 		#region LinkCategory
 
-		public abstract LinkCategory GetLinkCategory(int CategoryID, bool IsActive);
-		public abstract LinkCategory GetLinkCategory(string categoryName, bool IsActive);
+		public abstract LinkCategory GetLinkCategory(int categoryId, bool activeOnly);
+		public abstract LinkCategory GetLinkCategory(string categoryName, bool activeOnly);
 
 		#endregion
 

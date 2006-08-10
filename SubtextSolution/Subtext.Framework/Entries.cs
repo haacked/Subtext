@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.Globalization;
@@ -242,9 +243,9 @@ namespace Subtext.Framework
 		/// Creates the specified entry and returns its ID.
 		/// </summary>
 		/// <param name="entry">Entry.</param>
-		/// <param name="categoryIDs">The ids of the categories this entry belongs to.</param>
+		/// <param name="categoryIds">The ids of the categories this entry belongs to.</param>
 		/// <returns></returns>
-		public static int Create(Entry entry, params int[] categoryIDs)
+		public static int Create(Entry entry, params int[] categoryIds)
 		{
 			// check if we're admin, if not filter the comment. We do this to help when Importing 
 			// a blog using the BlogML import process. A better solution may be developing a way to 
@@ -273,9 +274,33 @@ namespace Subtext.Framework
 			else
 				entry.DateSyndicated = NullValue.NullDateTime;
 			
-			int id = ObjectProvider.Instance().Create(entry, categoryIDs);
+			if(entry.Categories.Count > 0 && (categoryIds == null || categoryIds.Length == 0))
+			{
+				categoryIds = GetCategoryIdsFromCategoryTitles(entry);
+			}
+			
+			int id = ObjectProvider.Instance().Create(entry, categoryIds);
 			NotificationServices.Run(entry);
 			return id;
+		}
+
+		private static int[] GetCategoryIdsFromCategoryTitles(Entry entry)
+		{
+			int[] categoryIds;
+			Collection<int> catIds = new Collection<int>();
+			//Ok, we have categories specified in the entry, but not the IDs.
+			//We need to do something.
+			foreach(string category in entry.Categories)
+			{
+				LinkCategory cat = Links.GetLinkCategory(category, true);
+				if(cat != null)
+				{
+					catIds.Add(cat.Id);
+				}
+			}
+			categoryIds = new int[catIds.Count];
+			catIds.CopyTo(categoryIds, 0);
+			return categoryIds;
 		}
 
 		/// <summary>

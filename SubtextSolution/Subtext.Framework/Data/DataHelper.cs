@@ -281,16 +281,33 @@ namespace Subtext.Framework.Data
 			return LoadEntry(reader, true);
 		}
 
+		/// <summary>
+		/// Only use this when loading a SINGLE entry from a reader.
+		/// </summary>
+		/// <param name="reader"></param>
+		/// <returns></returns>
+		internal static Entry LoadEntryWithCategories(IDataReader reader)
+		{
+			Entry entry = LoadEntry(reader);
+			if(reader.NextResult())
+			{
+				while(reader.Read())
+				{
+					string categoryTitle = ReadString(reader, "Title");
+					if(!entry.Categories.Contains(categoryTitle))
+					{
+						entry.Categories.Add(categoryTitle);
+					}
+				}
+			}
+			return entry;
+		}
+
 		internal static Entry LoadEntry(IDataReader reader, bool buildLinks)
 		{
 			Entry entry = new Entry((PostType)ReadInt32(reader, "PostType"));
 			LoadEntry(reader, entry, buildLinks);
 			return entry;
-		}
-
-		public static void LoadEntry(IDataReader reader, Entry entry)
-		{
-			LoadEntry(reader, entry, true);
 		}
 
 		private static void LoadEntry(IDataReader reader, Entry entry, bool buildLinks)
