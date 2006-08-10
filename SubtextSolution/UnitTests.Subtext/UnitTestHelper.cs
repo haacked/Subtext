@@ -16,8 +16,10 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Security.Principal;
 using System.Text;
 using System.Web;
+using System.Web.Security;
 using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
@@ -496,6 +498,33 @@ namespace UnitTests.Subtext
 			}
 		}
 
+	    /// <summary>
+	    /// This method will read the FormsAuthentication cookie from HttpContext 
+	    /// and then set the HttpContext User with the roles determined by the cookie.
+	    /// 
+	    /// TODO: This code is heavily based on the AuthenticationModule code... would 
+	    /// be nice if we could figure out a way to share that same code, rather than 
+	    /// having duplicate code.
+	    /// </summary>
+        public static void AuthenticateFormsAuthenticationCookie()
+        {
+            string cookieName = FormsAuthentication.FormsCookieName;
+            HttpCookie authCookie = HttpContext.Current.Request.Cookies[cookieName];
+
+            FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
+
+            // When the ticket was created, the UserData property was assigned a
+            // pipe delimited string of role names.
+            string[] roles = authTicket.UserData.Split(new char[] { '|' });
+            // Create an Identity object
+            FormsIdentity id = new FormsIdentity(authTicket);
+
+            // This principal will flow throughout the request.
+            GenericPrincipal principal = new GenericPrincipal(id, roles);
+            // Attach the new principal object to the current HttpContext object
+            HttpContext.Current.User = principal;
+        }
+	    
 		/// <summary>
 		/// Returns a deflated version of the response sent by the web server. If the 
 		/// web server did not send a compressed stream then the original stream is returned. 
