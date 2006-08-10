@@ -83,8 +83,38 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Entries.Create(entry);
 			Entries.Create(entry);
 		}
+	    
+	    /// <summary>
+	    /// Make sure that comments and Track/Pingbacks generated 
+	    /// by the blog owner (logged in Administrator) don't get 
+	    /// filtered.
+	    /// </summary>
+	    [Test]
+	    [RollBack]
+	    public void CommentsFromAdminNotFiltered()
+	    {
+            Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+            BlogInfo blog = Config.CurrentBlog;
+            blog.CommentDelayInMinutes = 0;
+	        
+	        /*
+             * Need to add the authentication ticket to the context (cookie), and then 
+             * read that ticket to set the HttpContext.Current.User's Principle.
+             */
+	        Security.Authenticate("username", "password", true);
+	        UnitTestHelper.AuthenticateFormsAuthenticationCookie();
+	        Assert.IsTrue(Security.IsAdmin, "Not able to login to the current blog.");
 
-		/// <summary>
+            Entry entry = new Entry(PostType.PingTrack);
+            entry.DateCreated = DateTime.Now;
+            entry.SourceUrl = "http://localhost/ThisUrl/";
+            entry.Title = "Some Title";
+            entry.Body = "Some Body";
+            Entries.Create(entry);
+            Entries.Create(entry);
+	    }
+
+	    /// <summary>
 		/// Sets the up test fixture.  This is called once for 
 		/// this test fixture before all the tests run.
 		/// </summary>

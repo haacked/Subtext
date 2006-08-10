@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Web;
 using log4net;
@@ -24,6 +25,7 @@ using Subtext.Extensibility;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Tracking;
@@ -37,7 +39,7 @@ namespace Subtext.Framework
 	/// </summary>
 	public static class Entries
 	{
-		private readonly static ILog log = new Logging.Log();		
+		private readonly static ILog log = new Log();		
 	
 		#region Paged Posts
 
@@ -230,7 +232,7 @@ namespace Subtext.Framework
 			comment.NeedsModeratorApproval = false;
 			comment.IsActive = true;
 
-			Entries.Update(comment);
+			Update(comment);
 		}
 
 		#endregion
@@ -248,9 +250,10 @@ namespace Subtext.Framework
 			// a blog using the BlogML import process. A better solution may be developing a way to 
 			// determine if we're currently in the BlogML import process and use that here.
 			if(!Security.IsAdmin
-				&& entry.PostType == PostType.Comment 
-				|| entry.PostType == PostType.PingTrack)
-				CommentFilter.FilterComment(entry);
+				&& (entry.PostType == PostType.Comment || entry.PostType == PostType.PingTrack))
+			{
+			    CommentFilter.FilterComment(entry);
+			}
 
 			if(Config.CurrentBlog.AutoFriendlyUrlEnabled
 				&& (entry.PostType == PostType.BlogPost || entry.PostType == PostType.Story)
@@ -527,8 +530,8 @@ namespace Subtext.Framework
 
 			string To = Config.CurrentBlog.Email;
 			string From = im.AdminEmail;
-			string Subject = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Comment: {0} (via {1})", comment.Title, blogTitle);
-			string Body = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Comments from {0}:\r\n\r\nSender: {1}\r\nUrl: {2}\r\nIP Address: {3}\r\n=====================================\r\n\r\n{4}\r\n\r\n{5}\r\n\r\nSource: {6}#{7}", 
+			string Subject = string.Format(CultureInfo.InvariantCulture, "Comment: {0} (via {1})", comment.Title, blogTitle);
+			string Body = string.Format(CultureInfo.InvariantCulture, "Comments from {0}:\r\n\r\nSender: {1}\r\nUrl: {2}\r\nIP Address: {3}\r\n=====================================\r\n\r\n{4}\r\n\r\n{5}\r\n\r\nSource: {6}#{7}", 
 			                            blogTitle,
 			                            comment.Author,
 			                            comment.AlternativeTitleUrl,
