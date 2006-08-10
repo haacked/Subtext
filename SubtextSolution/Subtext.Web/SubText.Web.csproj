@@ -940,6 +940,7 @@
     <Content Include="Images\Rss2Image.gif" />
     <Content Include="Images\shadow.gif" />
     <Content Include="Images\shadowAlpha.png" />
+    <Content Include="Images\sublogo-80x80.png" />
     <Content Include="Images\SubtextLogo.png" />
     <Content Include="Images\SubtextLogo_small.png" />
     <Content Include="Images\xml.gif" />
