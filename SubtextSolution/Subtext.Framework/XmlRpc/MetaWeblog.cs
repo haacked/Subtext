@@ -204,6 +204,9 @@ namespace Subtext.Framework.XmlRpc
 			entry.SourceName = string.Empty;
 			entry.SourceUrl = string.Empty;
 			entry.Description = string.Empty;
+			
+			//TODO: Figure out why this is here.
+			//		Probably means the poster forgot to set the date.
 			if(post.dateCreated.Year >= 2003)
 			{
 				entry.DateCreated = post.dateCreated;
@@ -215,7 +218,8 @@ namespace Subtext.Framework.XmlRpc
 				entry.DateUpdated = entry.DateCreated;
 			}
 
-		    entry.Categories.AddRange(post.categories);
+			if(post.categories != null)
+				entry.Categories.AddRange(post.categories);
 			entry.PostType = PostType.BlogPost;
 			
 			entry.IsActive = publish;

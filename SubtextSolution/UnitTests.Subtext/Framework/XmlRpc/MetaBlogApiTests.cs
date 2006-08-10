@@ -12,6 +12,26 @@ namespace UnitTests.Subtext.Framework.XmlRpc
     [TestFixture]
     public class MetaBlogApiTests
     {
+    	[Test]
+    	[RollBack]
+    	public void NewPostAcceptsNullCategories()
+    	{
+			string hostname = UnitTestHelper.GenerateRandomString();
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, ""));
+			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
+			Config.CurrentBlog.AllowServiceAccess = true;
+
+			MetaWeblog api = new MetaWeblog();
+			Post post = new Post();
+    		post.categories = null;
+			post.description = "A unit test";
+			post.title = "A unit testing title";
+    		post.dateCreated = DateTime.Now;
+    		
+    		string result = api.newPost(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture), "username", "password", post, true);
+			int.Parse(result);
+    	}
+    	
         [Test]
         [RollBack]
         public void GetRecentPostsReturnsRecentPosts()
