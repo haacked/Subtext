@@ -31,6 +31,7 @@
  ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 using System;
+using Subtext.Framework.Logging;
 using CookComputing.XmlRpc;
 
 namespace Subtext.Framework.Tracking
@@ -41,9 +42,10 @@ namespace Subtext.Framework.Tracking
 	[XmlRpcUrl("http://rpc.weblogs.com/RPC2")] 
 	public class WeblogsNotificatinProxy : XmlRpcClientProtocol
 	{
-		public WeblogsNotificatinProxy()
+		static Log Log = new Log();
+		
+		public WeblogsNotificatinProxy() : base()
 		{
-
 		}
 
 		private string errormessage = "No Error";
@@ -79,6 +81,7 @@ namespace Subtext.Framework.Tracking
 			}
 			catch(Exception ex)
 			{
+				Log.Warn("Error while Ping: " + ex.Message);
 				errormessage = "Error: " + ex.Message;
 			}
 			return result;
@@ -88,7 +91,8 @@ namespace Subtext.Framework.Tracking
 		[XmlRpcMethod("weblogUpdates.ping")]
 		public XmlRpcStruct Notifiy(string name, string url)
 		{
-			return (XmlRpcStruct) Invoke("Notifiy",new object[] {name,url});
+			//TODO: IS this really supposed to be misspelled?
+			return (XmlRpcStruct) Invoke("Notifiy", new object[] {name,url});
 		}
 	}
 }

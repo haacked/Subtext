@@ -38,7 +38,10 @@ namespace Subtext.Framework.Data
 		{
 			get
 			{
-				return DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, DataHelper.CheckNull(Config.CurrentBlog.Id));
+				int blogId = Config.CurrentBlog.Id;
+				if (InstallationManager.IsInHostAdminDirectory)
+					blogId = NullValue.NullInt32;
+				return DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, DataHelper.CheckNull(blogId));
 			}
 		}
 
@@ -439,7 +442,7 @@ namespace Subtext.Framework.Data
         {
             SqlParameter[] p =
 			{
-				DataHelper.MakeInParam("@ID", SqlDbType.Int,4,postID),
+				DataHelper.MakeInParam("@ID", SqlDbType.Int, 4, postID),
 				DataHelper.MakeInParam("@IsActive", SqlDbType.Bit, 1, activeOnly),
 				DataHelper.MakeInParam("@IncludeCategories", SqlDbType.Bit, 1, includeCategories),
 				BlogIdParam

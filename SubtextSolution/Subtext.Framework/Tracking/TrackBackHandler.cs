@@ -67,6 +67,11 @@ namespace Subtext.Framework.Tracking
 		/// <param name="context">An <see cref="T:System.Web.HttpContext"/> object that provides references to the intrinsic server objects (for example, <see langword="Request"/>, <see langword="Response"/>, <see langword="Session"/>, and <see langword="Server"/>)<see langword=""/> used to service HTTP requests.</param>
 		public void ProcessRequest(HttpContext context)
 		{
+			HandleTrackback(context);
+		}
+
+		private void HandleTrackback(HttpContext context)
+		{
 			context.Response.ContentType = "text/xml";
 
 			int postId = 0 ;
@@ -80,12 +85,12 @@ namespace Subtext.Framework.Tracking
 				SendTrackbackResponse(context, 1, "EntryID is invalid or missing") ;
 			}
 
-            Entry entry = Entries.GetEntry(postId, PostConfig.IsActive, false);
-		    if(entry == null)
-		    {
-                SendTrackbackResponse(context, 1, "EntryID is invalid or missing");
-		        return;
-		    }
+			Entry entry = Entries.GetEntry(postId, PostConfig.IsActive, false);
+			if(entry == null)
+			{
+				SendTrackbackResponse(context, 1, "EntryID is invalid or missing");
+				return;
+			}
 
 			if(context.Request.HttpMethod == "POST")
 			{
