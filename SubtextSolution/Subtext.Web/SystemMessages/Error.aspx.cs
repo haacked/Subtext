@@ -22,19 +22,13 @@ using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Pages
 {
-	public class Error : Page
+	public partial class Error : Page
 	{
 		private readonly static ILog log = new Subtext.Framework.Logging.Log();
 
-		protected System.Web.UI.WebControls.Label ErrorMessageLabel;
 		protected System.Web.UI.WebControls.Label ErrorTitle;
-		protected Subtext.Web.Controls.ContentRegion MPTitleBar;
-		protected Subtext.Web.Controls.ContentRegion MPTitle;
-		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
-		protected Subtext.Web.Controls.MasterPage MPContainer;
-		protected System.Web.UI.WebControls.HyperLink HomeLink;
 	
-		private void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			if (!IsPostBack)
 			{				
@@ -93,7 +87,6 @@ namespace Subtext.Web.Pages
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion

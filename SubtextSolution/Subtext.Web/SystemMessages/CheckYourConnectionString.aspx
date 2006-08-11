@@ -1,9 +1,7 @@
-<%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
-<%@ Page language="c#" Codebehind="CheckYourConnectionString.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.CheckYourConnectionString" %>
-<MP:MasterPage id="MPContainer" TemplateFile="~/SystemMessages/PageTemplate.ascx" runat="server">
-	<MP:ContentRegion id="MPTitleBar" runat="server">Your Blog Cannot Connect To The Database</MP:ContentRegion>
-	<MP:ContentRegion id="MPTitle" runat="server">Your Blog Cannot Connect To The Database</MP:ContentRegion>
-	<MP:ContentRegion id="MPSubTitle" runat="server">But I Can Help You</MP:ContentRegion>
+<%@ Page language="c#" Title="Subtext - Your Blog Cannot Connect To The Database" MasterPageFile="~/SystemMessages/SystemMessageTemplate.Master" Codebehind="CheckYourConnectionString.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.CheckYourConnectionString" %>
+<asp:Content id="titleBar" ContentPlaceHolderID="MPTitle" runat="server">Your Blog Cannot Connect To The Database</asp:Content>
+<asp:Content id="subtitle" ContentPlaceHolderID="MPSubTitle" runat="server">But I Can Help You</asp:Content>
+<asp:Content id="mainContent" ContentPlaceHolderID="Content" runat="server">
 	<p>
 		Welcome! It looks like the Subtext Blogging Engine code has been installed, but has not been 
 		properly configured just yet. It appears that I&#8217;m having trouble connecting to 
@@ -11,7 +9,7 @@
 	</p>
 	<p>
 		Please check the connection string in your web.config file.  It&#8217;s in the 
-		<code>AppSettings</code> section with the key &#8220;ConnectionString&#8221;.
+		<code>ConnectionStrings</code> section with the key &#8220;subtextData&#8221;.
 	</p>
 	<p>
 		Also check to make sure that you have correctly set up the SQL Server user 
@@ -26,14 +24,14 @@
 		</p>
 		<p>
 			If you are seeing this message as a remote user, then we have a serious problem. 
-			Please be kind and report the issue to the <a href="mailto:subtext-devs@lists.sourceforge.net?subject=Houston,+We+Have+a+Problem!">subtext team</a>.
+			Please be kind and report the issue to the <a href="mailto:subtext-devs@lists.sourceforge.net?subject=Houston,+We+Have+a+Problem!" title="Email The Subtext Team">subtext team</a>.
 		</p>
-		<H2>Original Error Information</H2>
-		<p><B>Message:</B><br />
+		<h2>Original Error Information</h2>
+		<p><strong>Message:</strong><br />
 			<asp:Label id="lblErrorMessage" runat="server">Label</asp:Label></p>
 		<p>
-		<p><B>Stack Trace:</B><br />
+		<p><strong>Stack Trace:</strong><br />
 			<asp:Label id="lblStackTrace" runat="server">Label</asp:Label>
 		</p>
 	</asp:PlaceHolder>
-</MP:MasterPage>
+</asp:Content>

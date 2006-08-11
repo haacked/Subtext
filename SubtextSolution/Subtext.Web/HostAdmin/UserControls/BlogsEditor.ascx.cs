@@ -105,7 +105,6 @@ namespace Subtext.Web.HostAdmin.UserControls
 			if(!CreatingBlog)
 			{
 				this.lblTitle.Visible = true;
-				this.txtTitle.Visible = false;
 				blog = BlogInfo.GetBlogById(BlogId);
 				this.lblTitle.Text = blog.Title;
 				this.txtApplication.Text = blog.Subfolder;
@@ -115,8 +114,8 @@ namespace Subtext.Web.HostAdmin.UserControls
 			else //Creating a blog
 			{
 				this.lblTitle.Visible = false;
-				this.txtTitle.Visible = true;
 			}
+			this.txtTitle.Visible = true;
 
 			string onChangeScript = string.Format(System.Globalization.CultureInfo.InvariantCulture, "onPreviewChanged('{0}', '{1}', '{2}', false);", this.txtHost.ClientID, this.txtApplication.ClientID, this.virtualDirectory.ClientID);
 			string onBlurScript = string.Format(System.Globalization.CultureInfo.InvariantCulture, "onPreviewChanged('{0}', '{1}', '{2}', true);", this.txtHost.ClientID, this.txtApplication.ClientID, this.virtualDirectory.ClientID);
@@ -331,7 +330,8 @@ namespace Subtext.Web.HostAdmin.UserControls
 			
 			if(blog == null)
 				throw new ArgumentNullException("Blog Being Edited", "Ok, somehow the blog you were editing is now null.  This is very odd.");
-			
+
+			blog.Title = this.txtTitle.Text;
 			blog.Host = this.txtHost.Text;
 			blog.Subfolder = this.txtApplication.Text;
 			blog.UserName = this.txtUsername.Text;

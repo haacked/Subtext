@@ -23,17 +23,9 @@ namespace Subtext.Web
 	/// to the blog via "localhost".  In otherwords, on a local 
 	/// installation.
 	/// </summary>
-	public class CheckYourConnectionString : System.Web.UI.Page
+	public partial class CheckYourConnectionString : System.Web.UI.Page
 	{
-		protected System.Web.UI.WebControls.Label lblErrorMessage;
-		protected Subtext.Web.Controls.ContentRegion MPTitleBar;
-		protected Subtext.Web.Controls.ContentRegion MPTitle;
-		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
-		protected Subtext.Web.Controls.MasterPage MPContainer;
-		protected System.Web.UI.WebControls.Label lblStackTrace;
-		protected System.Web.UI.WebControls.PlaceHolder plcDiagnosticInfo;
-	
-		private void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			// Remote users do not get the extra information.
 			if(Security.UserIsConnectingLocally)
@@ -75,7 +67,6 @@ namespace Subtext.Web
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion

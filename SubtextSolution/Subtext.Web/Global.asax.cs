@@ -68,8 +68,9 @@ namespace Subtext
 			return base.GetVaryByCustomString(context, custom);
 		}
 
-		private const string ERROR_PAGE_LOCATION = "~/SystemMessages/error.aspx";
-		private const string BAD_CONNECTION_STRING_PAGE = "~/SystemMessages/CheckYourConnectionString.aspx";
+		private const string ErrorPageLocation = "~/SystemMessages/error.aspx";
+		private const string BadConnectionStringPage = "~/SystemMessages/CheckYourConnectionString.aspx";
+		private const string DatabaseLoginFailedPage = "~/SystemMessages/DatabaseLoginFailed.aspx";
 
 		public Global()
 		{
@@ -191,7 +192,7 @@ namespace Subtext
 			{
 				if(exception.InnerException == null)
 				{
-					Server.Transfer(ERROR_PAGE_LOCATION, false);
+					Server.Transfer(ErrorPageLocation, false);
 					return;
 				}
 				exception = exception.InnerException;
@@ -199,21 +200,28 @@ namespace Subtext
 
 			//Sql Exception and request is for "localhost"
 			SqlException sqlExc = exception as SqlException;
-			if(sqlExc != null &&
-				(
-				sqlExc.Number == (int)SqlErrorMessage.LoginFailsCannotOpenDatabase
-				|| sqlExc.Number == (int)SqlErrorMessage.SqlServerDoesNotExistOrAccessDenied
-				|| sqlExc.Number == (int)SqlErrorMessage.LoginFailed
-				|| sqlExc.Number == (int)SqlErrorMessage.LoginFailedInvalidUserOfTrustedConnection
-				|| sqlExc.Number == (int)SqlErrorMessage.LoginFailedNotAssociatedWithTrustedConnection
-				|| sqlExc.Number == (int)SqlErrorMessage.LoginFailedUserNameInvalid
-				|| (sqlExc.Number == (int)SqlErrorMessage.CouldNotFindStoredProcedure && sqlExc.Message.IndexOf("'blog_GetConfig'") > 0)
-				)
-				)
+			if (sqlExc != null)
 			{
-				// Probably a bad connection string.
-				Server.Transfer(BAD_CONNECTION_STRING_PAGE);
-				return;
+				if (sqlExc.Number == (int)SqlErrorMessage.SqlServerDoesNotExistOrAccessDenied
+				    || (sqlExc.Number == (int)SqlErrorMessage.CouldNotFindStoredProcedure && sqlExc.Message.IndexOf("'blog_GetConfig'") > 0)
+					)
+				{
+					// Probably a bad connection string.
+					Server.Transfer(BadConnectionStringPage);
+					return;
+				}
+
+				if (sqlExc.Number == (int)SqlErrorMessage.LoginFailsCannotOpenDatabase
+					|| sqlExc.Number == (int)SqlErrorMessage.LoginFailed
+					|| sqlExc.Number == (int)SqlErrorMessage.LoginFailedInvalidUserOfTrustedConnection
+					|| sqlExc.Number == (int)SqlErrorMessage.LoginFailedNotAssociatedWithTrustedConnection
+					|| sqlExc.Number == (int)SqlErrorMessage.LoginFailedUserNameInvalid
+					)
+				{
+					// Probably a bad connection string.
+					Server.Transfer(DatabaseLoginFailedPage);
+					return;
+				}
 			}
 
 			if(!InstallationManager.IsInInstallDirectory)
@@ -243,7 +251,7 @@ namespace Subtext
 			if(exception is InvalidOperationException && exception.Message.IndexOf("ConnectionString") >= 0)
 			{
 				// Probably a missing connection string.
-				Server.Transfer(BAD_CONNECTION_STRING_PAGE);
+				Server.Transfer(BadConnectionStringPage);
 				return;
 			}
 
@@ -255,7 +263,7 @@ namespace Subtext
 				)
 			{
 				// Probably a malformed connection string.
-				Server.Transfer(BAD_CONNECTION_STRING_PAGE);
+				Server.Transfer(BadConnectionStringPage);
 				return;
 			}
 
@@ -271,7 +279,7 @@ namespace Subtext
 			// extra safe. If customErrors are off, we'll just let ASP.NET default happen.
 			if (Context != null && Context.IsCustomErrorEnabled)
 			{
-				Server.Transfer(ERROR_PAGE_LOCATION, false);
+				Server.Transfer(ErrorPageLocation, false);
 			}
 			else
 			{

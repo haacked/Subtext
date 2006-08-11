@@ -1,9 +1,8 @@
-<%@ Page language="c#" Codebehind="BlogNotActive.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.BlogNotActive" %>
-<%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
-<MP:MasterPage id="MPContainer" TemplateFile="~/SystemMessages/PageTemplate.ascx" runat="server">
-	<MP:ContentRegion id="MPTitleBar" runat="server">This Blog is Inactive</MP:ContentRegion>
-	<MP:ContentRegion id="MPTitle" runat="server">This Blog is Inactive</MP:ContentRegion>
-	<MP:ContentRegion id="MPSubTitle" runat="server">What you can do.</MP:ContentRegion>
+<%@ Page language="c#" Title="Subtext - This Blog Is Inactive" MasterPageFile="~/SystemMessages/SystemMessageTemplate.Master" Codebehind="BlogNotActive.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.BlogNotActive" %>
+
+<asp:Content id="titleBar" ContentPlaceHolderID="MPTitle" runat="server">This Blog is Inactive</asp:Content>
+<asp:Content id="subtitle" ContentPlaceHolderID="MPSubTitle" runat="server">What you can do.</asp:Content>
+<asp:Content id="mainContent" ContentPlaceHolderID="Content" runat="server">
 	<asp:PlaceHolder id="plcInactiveBlogMessage" runat="server" Visible="false">
 		<p>
 			For whatever reason, this blog is no longer active.  It can be reactivated by 
@@ -17,4 +16,4 @@
 			This <a id="lnkBlog" runat="server">blog seems</a> to be leading an active and healthy life.
 		</p>
 	</asp:PlaceHolder>
-</MP:MasterPage>
+</asp:Content>

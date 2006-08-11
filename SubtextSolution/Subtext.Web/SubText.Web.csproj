@@ -411,21 +411,50 @@
       <DependentUpon>BlogNotActive.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="SystemMessages\BlogNotActive.aspx.designer.cs">
+      <DependentUpon>BlogNotActive.aspx</DependentUpon>
+    </Compile>
     <Compile Include="SystemMessages\CheckYourConnectionString.aspx.cs">
       <DependentUpon>CheckYourConnectionString.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SystemMessages\CheckYourConnectionString.aspx.designer.cs">
+      <DependentUpon>CheckYourConnectionString.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SystemMessages\DatabaseLoginFailed.aspx.cs">
+      <DependentUpon>DatabaseLoginFailed.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SystemMessages\DatabaseLoginFailed.aspx.designer.cs">
+      <DependentUpon>DatabaseLoginFailed.aspx</DependentUpon>
     </Compile>
     <Compile Include="SystemMessages\Error.aspx.cs">
       <DependentUpon>Error.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="SystemMessages\Error.aspx.designer.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+    </Compile>
     <Compile Include="SystemMessages\FileNotFound.aspx.cs">
       <DependentUpon>FileNotFound.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="SystemMessages\FileNotFound.aspx.designer.cs">
+      <DependentUpon>FileNotFound.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SystemMessages\SystemMessageTemplate.Master.cs">
+      <DependentUpon>SystemMessageTemplate.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SystemMessages\SystemMessageTemplate.Master.designer.cs">
+      <DependentUpon>SystemMessageTemplate.Master</DependentUpon>
+    </Compile>
     <Compile Include="SystemMessages\UpgradeInProgress.aspx.cs">
       <DependentUpon>UpgradeInProgress.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SystemMessages\UpgradeInProgress.aspx.designer.cs">
+      <DependentUpon>UpgradeInProgress.aspx</DependentUpon>
     </Compile>
     <Compile Include="UI\Controls\ArchiveCategory.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -1644,6 +1673,9 @@
     <Content Include="SystemMessages\CheckYourConnectionString.aspx">
       <SubType>Form</SubType>
     </Content>
+    <Content Include="SystemMessages\DatabaseLoginFailed.aspx">
+      <SubType>Form</SubType>
+    </Content>
     <Content Include="SystemMessages\Error.aspx" />
     <Content Include="SystemMessages\FileNotFound.aspx">
       <SubType>Form</SubType>
@@ -1662,6 +1694,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Content Include="SystemMessages\SystemMessageTemplate.Master" />
     <None Include="Web References\com.community_credit.www\affiliateservices.disco" />
     <None Include="Web References\com.community_credit.www\affiliateservices.wsdl" />
     <None Include="Web References\com.community_credit.www\Reference.map">

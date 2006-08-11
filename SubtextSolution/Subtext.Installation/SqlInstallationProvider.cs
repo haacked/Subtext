@@ -22,6 +22,7 @@ using System.Text.RegularExpressions;
 using System.Web.UI;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.Extensibility.Providers;
+using Subtext.Framework.Data;
 using Subtext.Web.Controls;
 
 namespace Subtext.Installation
@@ -229,9 +230,10 @@ namespace Subtext.Installation
 					reader.Close();
 				}
 			}
-			catch(SqlException) 
+			catch(SqlException exception) 
 			{
-				return null;
+				if (exception.Number != (int)SqlErrorMessage.CouldNotFindStoredProcedure)
+					throw;
 			}
 			return null;
 		}
