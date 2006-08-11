@@ -24,12 +24,8 @@ namespace Subtext.Web.SystemMessages
 	/// <summary>
 	/// Displays a file not found message to the user.
 	/// </summary>
-	public class FileNotFound : System.Web.UI.Page
+	public partial class FileNotFound : System.Web.UI.Page
 	{
-		protected Subtext.Web.Controls.ContentRegion MPTitleBar;
-		protected Subtext.Web.Controls.ContentRegion MPTitle;
-		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
-		protected Subtext.Web.Controls.MasterPage MPContainer;
 	
 		protected override void OnLoad(EventArgs e)
 		{

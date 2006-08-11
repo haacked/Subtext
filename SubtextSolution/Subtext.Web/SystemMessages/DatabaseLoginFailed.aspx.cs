@@ -14,40 +14,41 @@
 #endregion
 
 using System;
-using Subtext.Extensibility.Providers;
 using Subtext.Framework;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Exceptions;
 
 namespace Subtext.Web
 {
 	/// <summary>
-	/// Displays the blog not active message.
+	/// This page presents useful information to users connecting 
+	/// to the blog via "localhost".  In otherwords, on a local 
+	/// installation.
 	/// </summary>
-	public partial class UpgradeInProgress : System.Web.UI.Page
+	public partial class DatabaseLoginFailed : System.Web.UI.Page
 	{
-
+	
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
-			try
+			// Remote users do not get the extra information.
+			if(Security.UserIsConnectingLocally)
 			{
-				InstallationState state = InstallationManager.GetCurrentInstallationState(VersionInfo.FrameworkVersion);
-				if(state == InstallationState.NeedsUpgrade || state == InstallationState.NeedsRepair)
+				plcDiagnosticInfo.Visible = true;
+
+				Exception exception = Server.GetLastError();
+				Exception baseException = null;
+				if(exception != null)
 				{
-					plcUpgradeInProgressMessage.Visible = true;
-					plcNothingToSeeHere.Visible = false;
+					baseException = exception.GetBaseException();
+				}
+
+				if(baseException != null)
+				{
+					lblErrorMessage.Text = baseException.Message;
+					lblStackTrace.Text = baseException.StackTrace;
 				}
 				else
 				{
-					plcUpgradeInProgressMessage.Visible = true;
-					plcNothingToSeeHere.Visible = false;
-					lnkBlog.HRef = Config.CurrentBlog.HomeVirtualUrl;
+					lblErrorMessage.Text = "Nothing to report. There was no error.";
 				}
-			}
-			catch(BlogDoesNotExistException)
-			{
-				plcUpgradeInProgressMessage.Visible = true;
-				plcNothingToSeeHere.Visible = false;
 			}
 		}
 

@@ -1,67 +1,48 @@
 body 
 { 
-	padding-right: 32px; 
-	padding-left: 32px; 
-	font-SIZE: 13px; 
+	padding: 32px; 
+	font-size: 13px; 
 	background: #eee; 
-	padding-bottom: 32px; 
-	margin-left: auto; 
+	margin: 0 auto 0 auto; 
 	width: 80%; 
 	color: #000; 
-	margin-right: auto; 
-	padding-top: 32px; 
 	font-family: verdana, arial, sans-serif 
 }
 
 #main
 {
 	width: 600px;
-	border-right: #bbb 1px solid; 
-	padding-right: 32px; 
-	border-top: #bbb 1px solid; 
-	padding-left: 32px; 
+	border: #bbb 1px solid; 
+	padding: 32px; 
 	background: #fff; 
-	padding-bottom: 32px; 
-	border-left: #bbb 1px solid; 
-	padding-top: 32px; 
-	border-bottom: #bbb 1px solid 
 }
 
 h1
 { 
-	padding-right: 0px; 
-	padding-left: 0px; 
-	font-WEIGHT: bold; 
-	font-SIZE: 150%; 
-	padding-bottom: 36px; 
+	padding: 0 0 36px 0;
+	font-weight: bold; 
+	font-size: 150%; 
 	margin: 0px; 
 	color: #000999; 
-	padding-top: 0px; 
 	font-family: "trebuchet ms", ""lucida grande"", verdana, arial, sans-serif 
 }
 			
 H2 
 { 
-	padding-right: 0px; 
-	padding-left: 0px; 
-	font-WEIGHT: bold; 
-	font-SIZE: 105%; 
-	padding-bottom: 0px; 
-	margin: 0px 0px 8px; 
+	padding: 0px; 
+	font-weight: bold; 
+	font-size: 105%; 
+	margin: 0 0 8px 0; 
 	text-transform: uppercase; 
 	color: #999; 
-	padding-top: 0px; 
 	border-bottom: #ddd 1px solid; 
 	font-family: "trebuchet ms", ""lucida grande"", verdana, arial, sans-serif 
 }
 
 p 
 { 
-	padding-right: 0px; 
-	padding-left: 0px; 
-	padding-bottom: 6px; 
+	padding: 6px 0 6px 0; 
 	margin: 0px; 
-	padding-top: 6px 
 }
 
 a:link 
@@ -103,4 +84,9 @@ a:hover
 .error
 {
 	color: Red;
+}
+
+#headerLogoImg
+{
+	float: right;
 }

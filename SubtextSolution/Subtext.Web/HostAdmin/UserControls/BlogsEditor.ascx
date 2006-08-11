@@ -7,7 +7,7 @@
 	<asp:CheckBox id="chkShowInactive" AutoPostBack="True" Text="Show Inactive Blogs" Runat="server" oncheckedchanged="chkShowInactive_CheckedChanged"></asp:CheckBox>
 	<asp:Repeater id="rprBlogsList" Runat="server" OnItemCommand="rprBlogsList_ItemCommand">
 		<HeaderTemplate>
-			<table class="Listing" cellSpacing="0" cellPadding="4" border="0">
+			<table class="Listing" cellspacing="0" cellpadding="4" border="0">
 				<tr>
 					<th>Title</th>
 					<th>Host</th>
@@ -80,7 +80,8 @@
 </ANW:AdvancedPanel>
 <ANW:AdvancedPanel id="pnlEdit" runat="server">
 	<st:HelpToolTip id="blogEditorHelp" runat="server">
-		<IMG id="Img3" src="~/images/ms_help.gif" align="right" runat="server"></st:HelpToolTip>
+		<img id="Img3" src="~/images/ms_help.gif" align="right" runat="server" />
+	</st:HelpToolTip>
 	<script type="text/javascript">
 			function replace( str, from, to ) 
 			{
@@ -173,7 +174,7 @@
 				<st:HelpToolTip id="hostDomainHelpTip" runat="server"><strong>Host Domain</strong></st:HelpToolTip>:</label>
 			</td>
 			<td>
-				<asp:TextBox id="txtHost" Runat="server" MaxLength="100"></asp:TextBox><INPUT id="virtualDirectory" type="hidden" runat="server">
+				<asp:TextBox id="txtHost" Runat="server" MaxLength="100"></asp:TextBox><input id="virtualDirectory" type="hidden" runat="server" />
 			</td>
 		</tr>
 		<tr valign="top">
@@ -208,7 +209,7 @@
 			</td>
 		</tr>
 		<tr valign="top">
-			<td colSpan="2">
+			<td colspan="2">
 				<asp:Button id="btnCancel" Text="Cancel" Runat="server" CssClass="button" onclick="btnCancel_Click"></asp:Button>
 				<asp:Button id="btnSave" Text="Save" Runat="server" CssClass="button" onclick="btnSave_Click"></asp:Button>
 			</td>

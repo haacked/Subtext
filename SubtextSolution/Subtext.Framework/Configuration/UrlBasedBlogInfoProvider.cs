@@ -93,6 +93,12 @@ namespace Subtext.Framework.Configuration
 			// First check the context for an existing BlogConfig. This saves us the trouble
 			// of having to figure out which blog we are at.
 			BlogInfo info = (BlogInfo)HttpContext.Current.Items[cacheKey];
+			
+#if DEBUG
+			if(info != null)
+				log.DebugFormat("Info found in the HttpContext.Current.Items cache with cachekey {0}", cacheKey);
+#endif
+			
 			if(info == null)
 			{
 				BlogRequest blogRequest = (BlogRequest)HttpContext.Current.Items["Subtext__CurrentRequest"];
@@ -106,9 +112,13 @@ namespace Subtext.Framework.Configuration
 				{
 					//Not found in the cache
 					bool strict = true; //strict implies 
-                    info = Subtext.Framework.Configuration.Config.GetBlogInfo(blogRequest.Host, blogRequest.Subfolder, !strict);
+					
+					log.DebugFormat("Attempting to get blog info. Host: {0}, Subfolder: {1}", blogRequest.Host, blogRequest.Subfolder);
+					
+                    info = Config.GetBlogInfo(blogRequest.Host, blogRequest.Subfolder, !strict);
 					if(info == null)
 					{
+						log.InfoFormat("No active blog found for Host: {0}, Subfolder: {1}", blogRequest.Host, blogRequest.Subfolder);
 						bool anyBlogsExist = Config.BlogCount > 0;
 
                         if (anyBlogsExist && ConfigurationManager.AppSettings["AggregateEnabled"] == "true")
