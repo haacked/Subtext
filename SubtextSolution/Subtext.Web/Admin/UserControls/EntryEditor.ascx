@@ -104,8 +104,8 @@
 		<p><asp:CheckBoxList id="cklCategories" runat="server" RepeatColumns="5" RepeatDirection="Horizontal"></asp:CheckBoxList></p>
 		<div>
 			<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Post"  />
-			<asp:Button id="lkUpdateCategories" runat="server" CssClass="buttonSubmit" Text="Categories" />
-			<asp:Button id="lkbCancel" runat="server" CssClass="buttonSubmit" CausesValidation="False" Text="Cancel" />
+			<asp:Button id="lkUpdateCategories" runat="server" CssClass="buttonSubmit" CausesValidation="false" Text="Categories" />
+			<asp:Button id="lkbCancel" runat="server" CssClass="buttonSubmit" CausesValidation="false" Text="Cancel" />
 			&nbsp;
 		</div>
 	</div>
@@ -126,7 +126,7 @@
 			</tr>
 		</table>
 		<p style="margin-top: 10px;">
-			<label for="Editor_Edit_txbEntryName" accesskey="n">Entry <u>N</u>ame (page name)</label> <asp:RegularExpressionValidator ID="vRegexEntryName" ControlToValidate = "txbEntryName" ValidationExpression = "^[a-zA-Z][\w-]{1,149}$" Text = "Invalid EntryName Format. Must match the follwing pattern: ^[a-zA-Z][\w-]{1,149}$" runat="server"/>
+			<label for="Editor_Edit_txbEntryName" accesskey="n">Entry <u>N</u>ame (page name)</label> <asp:RegularExpressionValidator ID="vRegexEntryName" ControlToValidate="txbEntryName" ValidationExpression="^([a-zA-Z]*([a-zA-Z-_]+\.)*[a-zA-Z-_]+)$" Text = "Invalid EntryName Format. Must only contain characters allowable in an URL." runat="server"/>
 		</p>
 		<p>
 			<asp:TextBox id="txbEntryName" runat="server" CssClass="textinput" MaxLength="150"></asp:TextBox>

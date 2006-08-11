@@ -245,7 +245,7 @@ namespace Subtext.Framework
 		/// <param name="entry">Entry.</param>
 		/// <param name="categoryIds">The ids of the categories this entry belongs to.</param>
 		/// <returns></returns>
-		public static int Create(Entry entry, params int[] categoryIds)
+		public static int Create(Entry entry, params int[] categoryIds) //TODO: We should remove the categoryIds parameter.
 		{
 			// check if we're admin, if not filter the comment. We do this to help when Importing 
 			// a blog using the BlogML import process. A better solution may be developing a way to 
