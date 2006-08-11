@@ -44,6 +44,25 @@ namespace Subtext.Web.UI.Controls
 
 			//TODO: Make this configurable.
 			tbComment.MaxLength = 4000;
+			tbComment.ValidationGroup = "SubtextComment";
+
+			if (this.tbTitle != null)
+				this.tbTitle.ValidationGroup = "SubtextComment";
+
+			if (this.tbName != null)
+				this.tbName.ValidationGroup = "SubtextComment";
+
+			if (this.tbUrl != null)
+				this.tbUrl.ValidationGroup = "SubtextComment";
+			
+			if(this.tbEmail != null)
+				this.tbEmail.ValidationGroup = "SubtextComment";
+
+			if (this.btnCompliantSubmit != null)
+				this.btnCompliantSubmit.ValidationGroup = "SubtextComment";
+
+			if (this.btnSubmit != null)
+				this.btnSubmit.ValidationGroup = "SubtextComment";
 		
 			if(!IsPostBack)
 			{
