@@ -10,11 +10,11 @@
 		
 		<st:RepeaterWithEmptyDataTemplate id="LogPage" runat="server">
 			<HeaderTemplate>
-				<table id="Listing" class="Listing highlightTable" cellSpacing="0" cellPadding="0" border="0">
+				<table id="Listing" class="log highlightTable" cellSpacing="0" cellPadding="0" border="0">
 				<tr>
 					<th>Date</th>
-					<th>Logger</th>
 					<th>Level</th>
+					<th class="logger">Logger</th>
 					<th>Message</th>
 					<th>Exception</th>
 					<th>Url</th>
@@ -22,15 +22,15 @@
 			</HeaderTemplate>
 			<ItemTemplate>
 				<tr>
-					<td>
+					<td class="date">
 						<%# DataBinder.Eval(Container.DataItem, "Date") %>
-					</td>
-					<td>
-						<%# DataBinder.Eval(Container.DataItem, "Logger") %>
 					</td>
 					<td>
 						<%# DataBinder.Eval(Container.DataItem, "Level") %>
 					</td>				
+					<td>
+						<%# FormatLogger(DataBinder.Eval(Container.DataItem, "Logger"))%>
+					</td>
 					<td>
 						<%# DataBinder.Eval(Container.DataItem, "Message") %>
 					</td>				
@@ -44,15 +44,15 @@
 			</ItemTemplate>
 			<AlternatingItemTemplate>
 				<tr class="Alt">
-					<td>
+					<td class="date">
 						<%# DataBinder.Eval(Container.DataItem, "Date") %>
 					</td>
 					<td>
-						<%# DataBinder.Eval(Container.DataItem, "Logger") %>
+						<%# DataBinder.Eval(Container.DataItem, "Level") %>
 					</td>
 					<td>
-						<%# DataBinder.Eval(Container.DataItem, "Level") %>
-					</td>				
+						<%# FormatLogger(DataBinder.Eval(Container.DataItem, "Logger"))%>
+					</td>
 					<td>
 						<%# DataBinder.Eval(Container.DataItem, "Message") %>
 					</td>				
