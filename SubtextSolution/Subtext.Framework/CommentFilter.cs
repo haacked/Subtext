@@ -14,7 +14,7 @@
 #endregion
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Caching;
@@ -147,15 +147,15 @@ namespace Subtext.Framework
 			// this entry will be a duplicate of a recent entry.
 			// This checks in memory before going to the database (or other persistent store).
 			Cache cache = HttpContext.Current.Cache;
-			Queue recentComments = cache[FILTER_CACHE_KEY + ".RECENT_COMMENTS"] as Queue;
+			Queue<string> recentComments = cache[FILTER_CACHE_KEY + ".RECENT_COMMENTS"] as Queue<string>;
 			if(recentComments != null)
 			{
-				if(QueueContainsChecksumHash(recentComments, entry))
+				if (recentComments.Contains(entry.ContentChecksumHash))
 					return true;
 			}
 			else
 			{
-				recentComments = new Queue(RECENT_ENTRY_CAPACITY);	
+				recentComments = new Queue<string>(RECENT_ENTRY_CAPACITY);	
 				cache[FILTER_CACHE_KEY + ".RECENT_COMMENTS"] = recentComments;
 			}
 
@@ -178,18 +178,6 @@ namespace Subtext.Framework
 		public static void ClearCommentCache()
 		{
 			HttpContext.Current.Cache.Remove(FILTER_CACHE_KEY + ".RECENT_COMMENTS");
-		}
-
-		private static bool QueueContainsChecksumHash(Queue recentComments, Entry entry)
-		{
-			foreach(string contentChecksumHash in recentComments)
-			{
-				if(entry.ContentChecksumHash == contentChecksumHash)
-				{
-					return true;
-				}
-			}
-			return false;
 		}
 	}
 }
