@@ -32,6 +32,11 @@ namespace Subtext.Web.UI.Controls
 
 		private void Page_Load(object sender, EventArgs e)
 		{
+			if(txtSearch != null)
+				txtSearch.ValidationGroup = "SubtextSearch";
+			
+			if(btnSearch != null)
+				btnSearch.ValidationGroup = "SubtextSearch";
 		}
 
 		#region Web Form Designer generated code
