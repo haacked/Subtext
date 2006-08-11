@@ -22,11 +22,6 @@ namespace Subtext.Web.HostAdmin.Upgrade
 	/// </summary>
 	public partial class UpgradeComplete : System.Web.UI.Page
 	{
-		protected Subtext.Web.Controls.ContentRegion MPTitle;
-		protected Subtext.Web.Controls.ContentRegion MPSideBar;
-		protected Subtext.Web.Controls.MasterPage MPContainer;
-		protected System.Web.UI.HtmlControls.HtmlAnchor importWizardAnchor;
-		
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
 		}

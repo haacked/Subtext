@@ -21,12 +21,7 @@ namespace Subtext.Web.HostAdmin
 	/// Summary description for ImportComplete.
 	/// </summary>
 	public partial class ImportComplete : System.Web.UI.Page
-	{
-		protected Subtext.Web.Controls.ContentRegion MPTitle;
-		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
-		protected Subtext.Web.Controls.MasterPage MPContainer;
-		protected Subtext.Web.Controls.ContentRegion MPSectionTitle;
-	
+	{	
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			// Put user code to initialize the page here

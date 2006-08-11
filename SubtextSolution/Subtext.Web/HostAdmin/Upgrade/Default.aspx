@@ -21,5 +21,5 @@
 		</p>
 	</div>
 	<p>
-	<p><asp:Button id="Button1" runat="server" text="Upgrade"></asp:Button></p>
+	<p><asp:Button id="btnUpgrade" runat="server" text="Upgrade"></asp:Button></p>
 </asp:Content>

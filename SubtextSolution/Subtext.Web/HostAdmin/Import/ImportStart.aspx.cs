@@ -22,12 +22,6 @@ namespace Subtext.Web.HostAdmin
 	/// </summary>
 	public partial class ImportStart : System.Web.UI.Page
 	{
-		protected Subtext.Web.Controls.ContentRegion MPTitle;
-		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
-		protected Subtext.Web.Controls.MasterPage MPContainer;
-		protected System.Web.UI.WebControls.Button btnRestartWizard;
-		protected Subtext.Web.Controls.ContentRegion MPSideBar;
-		
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
 		}

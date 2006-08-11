@@ -23,10 +23,6 @@ namespace Subtext.Web.HostAdmin
 	/// </summary>
 	public partial class Step01_SelectImportProvider : System.Web.UI.Page
 	{
-		protected Subtext.Web.Controls.ContentRegion MPTitle;
-		protected Subtext.Web.Controls.ContentRegion MPSectionTitle;
-		protected Subtext.Web.Controls.MasterPage MPContainer;
-	
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			if(!IsPostBack)

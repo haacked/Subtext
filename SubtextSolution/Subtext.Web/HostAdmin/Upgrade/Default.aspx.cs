@@ -28,11 +28,6 @@ namespace Subtext.Web.HostAdmin.Upgrade
 	/// </remarks>
 	public partial class Default : System.Web.UI.Page
 	{
-		protected Subtext.Web.Controls.ContentRegion MPTitle;
-		protected Subtext.Web.Controls.ContentRegion MPSideBar;
-		protected Subtext.Web.Controls.MasterPage MPContainer;
-		protected System.Web.UI.WebControls.Button btnUpgrade;
-	
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			if(InstallationManager.GetCurrentInstallationState(VersionInfo.FrameworkVersion) == InstallationState.Complete)

@@ -2,7 +2,7 @@
 
 <asp:Content id="sectionTitle" ContentPlaceHolderID="MPSectionTitle" runat="server">Subtext - Host Admin - Import Wizard</asp:Content>
 <asp:Content id="sidebar" ContentPlaceHolderID="MPSideBar" runat="server">
-	<asp:Button id="Button1" runat="server" text="Restart Import"></asp:Button>
+	<asp:Button id="btnRestartWizard" runat="server" text="Restart Import"></asp:Button>
 </asp:Content>
 <asp:Content id="mainContent" ContentPlaceHolderID="MPContent" runat="server">
 	<p>
