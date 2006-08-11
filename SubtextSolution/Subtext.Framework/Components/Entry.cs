@@ -148,7 +148,13 @@ namespace Subtext.Framework.Components
 		public string EntryName
 		{
 			get{return _entryName;}
-			set{_entryName = value;}
+			set
+			{
+				//TODO: Validate the value and throw an exception if it 
+				//		doesn't validate.  Here is the regex to use.
+				//		^[a-z]*([a-z-_]+\.)*[a-z-_]+$
+				_entryName = value;
+			}
 		}
 
 		public bool HasEntryName
