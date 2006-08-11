@@ -19,7 +19,6 @@ using System.Web.UI;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Scripting.Exceptions;
-using System.Configuration.Provider;
 
 namespace Subtext.Web.HostAdmin
 {
@@ -28,10 +27,7 @@ namespace Subtext.Web.HostAdmin
 	/// </summary>
 	public partial class Step02_GatherInfo : System.Web.UI.Page
 	{
-		protected Subtext.Web.Controls.ContentRegion MPTitle;
-		protected Subtext.Web.Controls.MasterPage MPContainer;
 		ImportProvider _providerInfo = null;
-		protected Subtext.Web.Controls.ContentRegion MPSectionTitle;
 		Control importInformationControl = null;
 
 		protected void Page_Load(object sender, System.EventArgs e)

@@ -23,7 +23,6 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
 using Subtext.Web.Admin;
-using Subtext.Web.Controls;
 
 namespace Subtext.Web.HostAdmin.UserControls
 {
@@ -39,24 +38,17 @@ namespace Subtext.Web.HostAdmin.UserControls
 		int pageIndex = 0;
 
 		#region Declared Controls
-		protected System.Web.UI.WebControls.RequiredFieldValidator vldHostRequired;
-		protected System.Web.UI.WebControls.RequiredFieldValidator vldApplicationRequired;
-		protected System.Web.UI.HtmlControls.HtmlImage Img1;
-		protected System.Web.UI.HtmlControls.HtmlImage Img2;
 		protected System.Web.UI.WebControls.Button btnAddNewBlog = new System.Web.UI.WebControls.Button();
 		#endregion
 
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
-			this.btnAddNewBlog.Click += new EventHandler(btnAddNewBlog_Click);
-			ContentRegion sideBar = Page.FindControl("MPSideBar") as ContentRegion;
-			if(sideBar != null)
-			{
-				btnAddNewBlog.CssClass = "button";
-				btnAddNewBlog.Text = "New Blog";
-				sideBar.Controls.Add(btnAddNewBlog);
-			}
-
+			this.btnAddNewBlog.Click += new EventHandler(btnAddNewBlog_Click);			
+			
+			btnAddNewBlog.CssClass = "button";
+			btnAddNewBlog.Text = "New Blog";
+			((HostAdminTemplate)this.Page.Master).AddSidebarControl(btnAddNewBlog);
+		
 			if(!IsPostBack)
 			{
 				//Paging...

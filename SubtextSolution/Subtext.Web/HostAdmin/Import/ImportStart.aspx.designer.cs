@@ -11,7 +11,7 @@
 namespace Subtext.Web.HostAdmin {
     
     public partial class ImportStart {
-        protected System.Web.UI.WebControls.Button Button1;
+		protected System.Web.UI.WebControls.Button btnRestartWizard;
         protected System.Web.UI.WebControls.Button btnNext;
     }
 }

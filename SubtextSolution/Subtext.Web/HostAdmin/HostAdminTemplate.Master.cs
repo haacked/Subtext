@@ -1,9 +1,13 @@
 using System;
+using System.Web.UI;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.HostAdmin
 {
+	/// <summary>
+	/// Master page template for the host admin.
+	/// </summary>
 	public partial class HostAdminTemplate : System.Web.UI.MasterPage
 	{
 		protected void Page_Load(object sender, EventArgs e)
@@ -19,6 +23,18 @@ namespace Subtext.Web.HostAdmin
 			if (this.mnuImportStart != null)
 			{
 				this.mnuImportStart.Visible = (Config.ActiveBlogCount <= 0);
+			}
+		}
+		
+		/// <summary>
+		/// Adds a control to the sidebar.
+		/// </summary>
+		/// <param name="control"></param>
+		public void AddSidebarControl(Control control)
+		{
+			if(this.MPSidebar != null)
+			{
+				MPSidebar.Controls.Add(control);
 			}
 		}
 	}

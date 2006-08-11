@@ -11,6 +11,6 @@
 namespace Subtext.Web.HostAdmin.Upgrade {
     
     public partial class Default {
-        protected System.Web.UI.WebControls.Button Button1;
+		protected System.Web.UI.WebControls.Button btnUpgrade;
     }
 }
