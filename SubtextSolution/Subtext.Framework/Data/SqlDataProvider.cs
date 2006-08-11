@@ -38,9 +38,12 @@ namespace Subtext.Framework.Data
 		{
 			get
 			{
-				int blogId = Config.CurrentBlog.Id;
+				int blogId;
 				if (InstallationManager.IsInHostAdminDirectory)
 					blogId = NullValue.NullInt32;
+				else
+					blogId = Config.CurrentBlog.Id;
+
 				return DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, DataHelper.CheckNull(blogId));
 			}
 		}
