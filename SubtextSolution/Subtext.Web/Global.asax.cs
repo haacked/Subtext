@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -102,11 +103,11 @@ namespace Subtext
 				if(adoAppender != null)
 				{
 					adoAppender.ActivateOptions();
-					//Normalize appender connection string.
+					//Normalize appender connection string, since Log4Net seems to truncate that last semicolon.
 					if (!String.IsNullOrEmpty(adoAppender.ConnectionString) && !adoAppender.ConnectionString.EndsWith(";"))
 						adoAppender.ConnectionString += ";";
 					
-					if(adoAppender.ConnectionString != Config.Settings.ConnectionString.ToString())
+					if(adoAppender.ConnectionString != ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString)
 					{
 						throw new InvalidOperationException("Log4Net is not picking up our connection string.");
 					}					
