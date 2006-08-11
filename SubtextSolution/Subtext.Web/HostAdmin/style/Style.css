@@ -577,3 +577,31 @@ img
 	border-left: solid 1px #555;
 	font-weight: bold;
 }
+
+table.log
+{
+	position: relative;
+	left: -200px;
+	width: 780px;
+}
+
+table.log th.logger
+{
+	width: 200px;
+}
+
+table.log tr
+{
+	vertical-align: top;
+}
+
+table.log td
+{
+	font-size: smaller;
+	padding: 5px;
+}
+
+table.log td.date
+{
+	font-size: smaller;
+}

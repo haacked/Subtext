@@ -94,5 +94,11 @@ namespace Subtext.Web.HostAdmin.Pages
 			BindListForExcel();
 			ControlHelper.ExportToExcel(this.LogPage, "SubtextErrorLog.xls");
 		}
+		
+		protected string FormatLogger(object logger)
+		{
+			string loggerText = (string)logger;
+			return loggerText.Replace("Subtext.Framework.", string.Empty).Replace("Subtext.Common.", string.Empty).Replace("Subtext.", string.Empty);
+		}
 	}
 }
