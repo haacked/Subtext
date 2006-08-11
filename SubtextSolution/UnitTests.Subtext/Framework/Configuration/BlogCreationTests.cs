@@ -257,6 +257,21 @@ namespace UnitTests.Subtext.Framework.Configuration
 			}
 		}
 
+		/// <summary>
+		/// Makes sure that every invalid character is checked 
+		/// within the subfolder name.
+		/// </summary>
+		[Test]
+		[RollBack]
+		public void ReservedSubtextWordsAreNotValidForSubfolders()
+		{
+			string[] badSubfolders = { "Admin", "bin", "ExternalDependencies", "HostAdmin", "Images", "Install", "Modules", "Services", "Skins", "UI", "Category", "Archive", "Archives", "Comments", "Articles", "Posts", "Story", "Stories", "Gallery", "Providers", "aggbug" };
+			foreach (string subfolderCandidate in badSubfolders)
+			{
+				Assert.IsFalse(Config.IsValidSubfolderName(subfolderCandidate), subfolderCandidate + " is not a valid app name.");
+			}
+		}
+
 		#region Invalid Subfolder Name Tests... There's a bunch...
 		/// <summary>
 		/// Tests that creating a blog with a reserved keyword (bin) is not allowed.
