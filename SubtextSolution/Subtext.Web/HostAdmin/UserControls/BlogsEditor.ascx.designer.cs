@@ -21,7 +21,6 @@ namespace Subtext.Web.HostAdmin.UserControls {
         protected Subtext.Web.Controls.HelpToolTip blogEditorHelp;
         protected System.Web.UI.HtmlControls.HtmlImage Img3;
         protected Subtext.Web.Controls.HelpToolTip Helptooltip1;
-        protected System.Web.UI.WebControls.Label lblTitle;
         protected System.Web.UI.WebControls.TextBox txtTitle;
         protected Subtext.Web.Controls.HelpToolTip hostDomainHelpTip;
         protected System.Web.UI.WebControls.TextBox txtHost;

@@ -104,16 +104,11 @@ namespace Subtext.Web.HostAdmin.UserControls
 			BlogInfo blog;
 			if(!CreatingBlog)
 			{
-				this.lblTitle.Visible = true;
 				blog = BlogInfo.GetBlogById(BlogId);
-				this.lblTitle.Text = blog.Title;
 				this.txtApplication.Text = blog.Subfolder;
 				this.txtHost.Text = blog.Host;
 				this.txtUsername.Text = blog.UserName;
-			}
-			else //Creating a blog
-			{
-				this.lblTitle.Visible = false;
+				this.txtTitle.Text = blog.Title;	
 			}
 			this.txtTitle.Visible = true;
 
@@ -254,7 +249,6 @@ namespace Subtext.Web.HostAdmin.UserControls
 		{
 			this.BlogId = NullValue.NullInt32;
 			this.txtTitle.Text = string.Empty;
-			this.lblTitle.Text = string.Empty;
 			this.txtApplication.Text = string.Empty;
 			this.txtHost.Text = string.Empty;
 			this.txtUsername.Text = string.Empty;
