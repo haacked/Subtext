@@ -14,7 +14,6 @@
 #endregion
 
 using System;
-using System.IO;
 using log4net;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Import;
@@ -56,7 +55,8 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		private void InitializeComponent()
 		{
-
+			this.btnSave.Click += btnSave_Click;
+			this.btnLoad.Click += btnLoad_Click;
 		}
 		#endregion
 

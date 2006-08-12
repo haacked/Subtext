@@ -92,6 +92,7 @@ namespace Subtext.Framework.Threading
 		/// <returns></returns>
 		public static TimedLock Lock(object o, TimeSpan timeout)
 		{
+			Thread.BeginCriticalRegion();
 			TimedLock tl = new TimedLock(o);
 			if(!Monitor.TryEnter(o, timeout))
 			{
@@ -142,6 +143,7 @@ namespace Subtext.Framework.Threading
 			// finalizer.
 			GC.SuppressFinalize(leakDetector);
 #endif
+			Thread.EndCriticalRegion();
 		}
 
 #if DEBUG
@@ -226,7 +228,7 @@ namespace Subtext.Framework.Threading
 			if(timeout < 0)
 				throw new InvalidOperationException("We'd all like to be able to go back in time, but this is not allowed. Please choose a positive wait time.");
 			
-			ManualResetEvent waitHandle = null;
+			ManualResetEvent waitHandle;
 			lock(_failedLockTargets)
 			{
 				waitHandle = _failedLockTargets[_lockTarget] as ManualResetEvent;
