@@ -24,6 +24,7 @@ using log4net;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Text;
@@ -122,28 +123,15 @@ namespace Subtext.Framework.Import
 		// Writes StartBlog and Author.
 		private void WriteFromBlogConfig()
 		{
-			using(SqlDataReader reader = GetBlogConfig())
-			{
-				if (reader.HasRows)
-				{
-					reader.Read();
+			BlogInfo blog = BlogInfo.GetBlogById(this.blogId);
+
+			if (blog == null)
+				throw new BlogDoesNotExistException(this.blogId);
+			
+			this.host = blog.Host;
 					
-					// get host from config
-					this.host = reader["Host"] as string;
-
-					WriteStartBlog(reader["Title"] as string, 
-								   reader["SubTitle"] as string,
-					               this.host, 
-								   DateTime.Now);
-
-					WriteAuthor(reader["Author"] as string, reader["Email"] as string);
-
-				}
-				else
-				{
-					throw(new Exception("Unable to get config for supplied Blog ID."));
-				}
-			}
+			WriteStartBlog(blog.Title, blog.SubTitle, this.host, DateTime.Now);
+			WriteAuthor(blog.Author, blog.Email);
 		}
 
 		// Write Categories
@@ -440,26 +428,6 @@ namespace Subtext.Framework.Import
 		#endregion
 
 		#region subText Data Access Methods
-
-		private SqlDataReader GetBlogConfig()
-		{
-			SqlDataReader reader;
-			SqlCommand cmd;
-
-			try
-			{
-				cmd = new SqlCommand(string.Format("SELECT Title, SubTitle, Host, Author, Email FROM subtext_config WHERE BlogId = {0}", this.blogId) );
-				cmd.CommandType = CommandType.Text;
-				
-	            reader = ExecuteReader(cmd);
-			}
-			catch (Exception ex)
-			{
-				throw(new Exception("Unable to get Blog Config.", ex));
-			}
-
-			return reader;
-		}
 
 		private SqlDataReader GetCategories()
 		{

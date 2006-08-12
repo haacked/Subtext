@@ -2,19 +2,34 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Text;
 using System.Xml;
 using MbUnit.Framework;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Exceptions;
 using Subtext.Framework.Import;
 
 namespace UnitTests.Subtext.Framework.Import
 {
+	/// <summary>
+	/// Unit tests of the BlogImportExport functionality.
+	/// </summary>
     [TestFixture]
     public class BlogMlImportTests
     {
+		string connectionString = ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString;
+		
+		[Test]
+		[ExpectedException(typeof(BlogDoesNotExistException))]
+    	public void WritingInvalidBlogIdThrowsException()
+    	{
+			SubtextBlogMLWriter writer = new SubtextBlogMLWriter(this.connectionString, int.MaxValue, false);
+			writer.Write(XmlWriter.Create(new StringBuilder()));
+    	}
+    	
         [Test]
         [RollBack]
         public void ReadBlogCreatesEntriesAndAttachments()

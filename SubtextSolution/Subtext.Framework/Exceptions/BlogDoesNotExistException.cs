@@ -24,6 +24,8 @@ namespace Subtext.Framework.Exceptions
 	[Serializable]
 	public class BlogDoesNotExistException : Exception 
 	{
+		int id = NullValue.NullInt32;
+		
 		/// <summary>
 		/// Creates a new <see cref="BlogDoesNotExistException"/> instance.
 		/// </summary>
@@ -35,6 +37,12 @@ namespace Subtext.Framework.Exceptions
 			_anyBlogsExist = anyBlogsExist;
 			_host = host;
 			subfolder = app;
+		}
+		
+		public BlogDoesNotExistException(int id) : base()
+		{
+			_anyBlogsExist = false;
+			this.id = id;
 		}
 
 		/// <summary>
@@ -77,7 +85,14 @@ namespace Subtext.Framework.Exceptions
 		{
 			get
 			{
-				return string.Format(System.Globalization.CultureInfo.InvariantCulture, "A blog matching the location you requested was not found. Host = [{0}], Subfolder = [{1}]", Host, Subfolder);
+				if (id == NullValue.NullInt32)
+				{
+					return string.Format(System.Globalization.CultureInfo.InvariantCulture, "A blog matching the location you requested was not found. Host = [{0}], Subfolder = [{1}]", Host, Subfolder);
+				}
+				else
+				{
+					return string.Format(System.Globalization.CultureInfo.InvariantCulture, "There is no blog with the id {0}", this.id);
+				}
 			}
 		}
 

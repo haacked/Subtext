@@ -13,7 +13,7 @@ namespace UnitTests.Subtext.Framework
 	/// </summary>
 	[TestFixture]
 	public class BlogInfoTests
-	{
+	{	
 	    [Test]
 	    public void NormalizeHostNameFunctionsProperly()
 	    {
