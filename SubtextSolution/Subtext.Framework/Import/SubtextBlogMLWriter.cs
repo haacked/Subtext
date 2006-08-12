@@ -21,6 +21,8 @@ using System.IO;
 using System.Web;
 using BlogML;
 using log4net;
+using Subtext.Extensibility;
+using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Logging;
@@ -107,10 +109,6 @@ namespace Subtext.Framework.Import
 
 				WriteEndElement(); // End Blog Element
 				
-			}
-			catch (Exception ex)
-			{
-				throw(new Exception("Unable output to BlogML. Please Refere to exception for details.", ex));
 			}
 			finally
 			{
@@ -203,13 +201,12 @@ namespace Subtext.Framework.Import
 
 		private void WritePosts()
 		{
-			DataSet dsPosts;
-			dsPosts = GetPosts();
+			IPagedCollection<Entry> entries = Entries.GetPagedEntries(PostType.BlogPost, -1, 0, int.MaxValue);
 			WriteStartPosts();
 
-			foreach(DataRow post in dsPosts.Tables[0].Rows)
+			foreach(Entry entry in entries)
 			{
-				WritePost(post);
+				WritePost(entry);
 				Writer.Flush();
 			}
 
@@ -217,15 +214,15 @@ namespace Subtext.Framework.Import
 			Writer.Flush();
 		}
 
-		private void WritePost(DataRow post)
+		private void WritePost(Entry post)
 		{
 			int currentPostId;
 			string newPostID;
-			string postContent = post["Text"] as string;
+			string postContent = post.Body;
 			
 			try
 			{
-				currentPostId = int.Parse(post["ID"].ToString());
+				currentPostId = post.Id;
 
                 if (this.isUseGuids)
                 {
@@ -236,13 +233,7 @@ namespace Subtext.Framework.Import
                 	newPostID = currentPostId.ToString(); 
                 }
 
-				WriteStartPost(newPostID, 
-							   post["Title"] as string,
-							   DateTime.Parse(post["DateAdded"].ToString()).ToUniversalTime(),
-							   DateTime.Parse(post["DateUpdated"].ToString()).ToUniversalTime(),
-							   true,
-							   postContent, 
-							   GetPostUrl(newPostID));
+				WriteStartPost(newPostID, post.Title, post.DateCreated.ToUniversalTime(), post.DateUpdated.ToUniversalTime(), true, postContent, GetPostUrl(newPostID));
 				Writer.Flush();
 
 				WritePostAttachments(postContent);
@@ -491,32 +482,6 @@ namespace Subtext.Framework.Import
 			}
 			
 			return reader;
-		}
-
-		private DataSet GetPosts()
-		{
-			DataSet ds;
-			SqlCommand cmd;
-			// not stored procedure that retreives all posts.
-			// use sql statement.
-			string sql = "SELECT * FROM subtext_Content " +
-						 "WHERE BlogId = " + this.blogId + " AND " +
-						 "PostType = 1 AND " +
-						 "subtext_Content.PostConfig & 1 <> Case 1 When 1 then 0 Else -1 End";
-
-			try
-			{
-				cmd = new SqlCommand(sql);
-				cmd.CommandType = CommandType.Text;
-
-				ds = ExecuteDataSet(cmd);
-			}
-			catch (Exception ex)
-			{
-				throw(new Exception("Unable to get Posts.", ex));
-			}
-
-			return ds;
 		}
 
 		private DataSet GetPostComments(int postID)

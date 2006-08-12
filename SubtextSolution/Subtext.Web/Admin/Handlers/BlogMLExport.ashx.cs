@@ -44,16 +44,9 @@ namespace Subtext.Web.Admin.Handlers
 		{
 			context.Response.AddHeader("content-disposition", "attachment; filename=BlogMLExport.xml");
 			
-			string embedValue = context.Request.QueryString["embed"];
-			bool embedAttachments = false;
-			try
-			{
-				embedAttachments = embedValue != null && embedValue.Length > 0 && bool.Parse(embedValue);
-			}
-			catch(System.FormatException)
-			{
-				//Ignore.
-			}
+			string embedValue = context.Request.QueryString["embed"] ?? "false";
+			bool embedAttachments;
+			bool.TryParse(embedValue, out embedAttachments);
 			context.Response.Clear();
 			WriteBlogML(context.Response.OutputStream, embedAttachments);
 			context.Response.End();

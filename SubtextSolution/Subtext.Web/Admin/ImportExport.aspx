@@ -1,4 +1,4 @@
-<%@ Page language="c#" Title="Subtext Admin - Import Export" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="ImportExport.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Admin.Pages.ImportExportPage" %>
+<%@ Page language="c#" Title="Subtext Admin - Import Export" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="ImportExport.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.ImportExportPage" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
 </asp:Content>
@@ -24,8 +24,9 @@
 			<p>
 				<asp:CheckBox id="chkEmbedAttach" runat="server" Text="Embed Attachments?" Checked="True"></asp:CheckBox><br />
 				<br />
-				<asp:Button id="btnSave" runat="server" Text="Save" CssClass="buttonSubmit" onclick="btnSave_Click"></asp:Button>&nbsp;&nbsp;
-				<asp:HyperLink id="hypBlogMLFile" runat="server" Visible="False">Download BlogML File</asp:HyperLink></P>
+				<asp:Button id="btnSave" runat="server" Text="Save" CssClass="buttonSubmit" CausesValidation="false"></asp:Button>&nbsp;&nbsp;
+				<asp:HyperLink id="hypBlogMLFile" runat="server" Visible="False">Download BlogML File</asp:HyperLink>
+			</p>
 			<hr />
 			<!-- BlogML Reader -->
 			<h4>Import from BlogML.</h4>
@@ -36,10 +37,10 @@
 						ErrorMessage="You must select a valid BlogML file to import."></asp:RequiredFieldValidator></label>
 			</p>
 			<p>
-				<input id="importBlogMLFile" type="file" name="filImportBlogML" runat="server">
+				<input id="importBlogMLFile" type="file" name="filImportBlogML" runat="server" ValidationGroup="importGroup" />
 				<br />
 				<br />
-				<asp:Button id="btnLoad" runat="server" Text="Load!" CssClass="buttonSubmit" onclick="btnLoad_Click"></asp:Button>
+				<asp:Button id="btnLoad" runat="server" Text="Load!" CssClass="buttonSubmit" ValidationGroup="importGroup"></asp:Button>
 			</p>
 		</fieldset>
 	</st:AdvancedPanel>
