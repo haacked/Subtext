@@ -164,7 +164,6 @@
 		<tr valign="top">
 			<td><label for="lblTitle">Title:</label></td>
 			<td>
-				<asp:label id="lblTitle" Runat="server"></asp:label>
 				<asp:TextBox id="txtTitle" Runat="server" MaxLength="100"></asp:TextBox>
 			</td>
 		</tr>

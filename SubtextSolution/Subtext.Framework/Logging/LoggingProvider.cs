@@ -15,7 +15,6 @@
 
 using System;
 using Subtext.Framework.Components;
-using Subtext.Framework.Data;
 
 namespace Subtext.Framework.Logging
 {
