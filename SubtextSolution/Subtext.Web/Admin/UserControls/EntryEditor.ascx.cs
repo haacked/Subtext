@@ -41,14 +41,6 @@ namespace Subtext.Web.Admin.UserControls
 		private int pageIndex = 0;
 		private bool _isListHidden = false;
 		
-		#region Declared Controls
-		protected Button Post;
-		protected TextBox Textbox1;
-		protected TextBox Textbox2;
-
-		protected Button lkbNewPost;	
-		#endregion
-
 		#region Accessors
 		/// <summary>
 		/// Gets or sets the type of the entry.
@@ -237,7 +229,7 @@ namespace Subtext.Web.Admin.UserControls
 		{
 			SetConfirmation();
 			
-			Entry currentPost = Entries.GetEntry(PostID, PostConfig.IsActive, false);
+			Entry currentPost = Entries.GetEntry(PostID, PostConfig.None, false);
 			if(currentPost == null)
 			{
 				Response.Redirect("EditPosts.aspx");
@@ -584,9 +576,7 @@ namespace Subtext.Web.Admin.UserControls
 			this.lkbPost.Click += new EventHandler(this.lkbPost_Click);
 			this.lkUpdateCategories.Click += new EventHandler(lkUpdateCategories_Click);
 			this.lkbCancel.Click += new EventHandler(this.lkbCancel_Click);
-			//this.richTextEditor.Error+=new Subtext.Web.Controls.RichTextEditor.ErrorHandler(richTextEditor_Error);
 			this.Load += new EventHandler(this.Page_Load);
-
 		}
 		#endregion
 
