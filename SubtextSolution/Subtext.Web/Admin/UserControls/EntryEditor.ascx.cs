@@ -479,50 +479,46 @@ namespace Subtext.Web.Admin.UserControls
 
 		private void UpdateCategories()
 		{ 
-			if(Page.IsValid)
+			string successMessage;
+
+			try
 			{
-				string successMessage;
-
-				try
+				if (PostID > 0)
 				{
-					if (PostID > 0)
-					{
-						successMessage = Constants.RES_SUCCESSCATEGORYUPDATE;
-						ArrayList al = new ArrayList();
+					successMessage = Constants.RES_SUCCESSCATEGORYUPDATE;
+					ArrayList al = new ArrayList();
 
-						foreach(ListItem item in cklCategories.Items)
+					foreach(ListItem item in cklCategories.Items)
+					{
+						if(item.Selected)
 						{
-							if(item.Selected)
-							{
-								al.Add(int.Parse(item.Value));
-							}
-						}					
+							al.Add(int.Parse(item.Value));
+						}
+					}					
 
-						int[] Categories = (int[])al.ToArray(typeof(int));
-						Entries.SetEntryCategoryList(PostID,Categories);
+					int[] Categories = (int[])al.ToArray(typeof(int));
+					Entries.SetEntryCategoryList(PostID,Categories);
 
-						BindList();
-						this.Messages.ShowMessage(successMessage);
-						this.ResetPostEdit(false);
-					}
-					else
-					{
-						this.Messages.ShowError(Constants.RES_FAILURECATEGORYUPDATE
-							+ " There was a baseline problem updating the post categories.");  
-					}
+					BindList();
+					this.Messages.ShowMessage(successMessage);
+					this.ResetPostEdit(false);
 				}
-				catch(Exception ex)
+				else
 				{
-					this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION,
-						Constants.RES_FAILUREEDIT, ex.Message));
-				}
-				finally
-				{
-					Results.Collapsible = false;
+					this.Messages.ShowError(Constants.RES_FAILURECATEGORYUPDATE
+						+ " There was a baseline problem updating the post categories.");  
 				}
 			}
+			catch(Exception ex)
+			{
+				this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION,
+					Constants.RES_FAILUREEDIT, ex.Message));
+			}
+			finally
+			{
+				Results.Collapsible = false;
+			}		
 		}
-
 	
 		private void SetEditorMode()
 		{
