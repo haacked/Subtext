@@ -14,9 +14,10 @@
 #endregion
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.IO;
 using System.Web;
 using BlogML;
@@ -42,7 +43,7 @@ namespace Subtext.Framework.Import
 		private int blogId;
 		private bool isUseGuids;
 		private string host;
-		private Hashtable categories;
+		private Dictionary<int, string> categoryIdMap;
 		private readonly static ILog log = new Log();
 		
 		// Used by Sql Data Handlers //////////////////////////
@@ -84,7 +85,7 @@ namespace Subtext.Framework.Import
 			this.blogId = blogId;
 			this.connectionString = connectionString;
 			this.isUseGuids = isUseGuids;
-			this.categories = new Hashtable();
+			this.categoryIdMap = new Dictionary<int, string>();
 		}
 
 		#endregion
@@ -137,48 +138,44 @@ namespace Subtext.Framework.Import
 		// Write Categories
 		private void WriteCategories()
 		{
-			string categoryID = string.Empty;		
+			string blogMlCategoryId = string.Empty;		
 
             try
 			{
 				WriteStartCategories();
 
-				using(SqlDataReader reader = GetCategories())
+				ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.None, ActiveFilter.ActiveOnly);
+
+				foreach (LinkCategory category in categories)
 				{
-					if (reader.HasRows)
+					if (!this.categoryIdMap.ContainsKey(category.Id))
 					{
-						while(reader.Read())
+						if (this.isUseGuids)
 						{
-							if (!this.categories.ContainsKey(reader["CategoryID"].ToString()))
-							{
-								if (this.isUseGuids)
-								{
-									categoryID = Guid.NewGuid().ToString();
-								}
-								else
-								{
-									categoryID = reader["CategoryID"].ToString();
-								}
-								
-								// tracks categories
-								// if we are using guids then we need to track categories
-								// when adding them to posts elements.
-								this.categories.Add(reader["CategoryID"].ToString(), categoryID);
-							}
-							
-							WriteCategory(categoryID,
-										  reader["Title"] as string,
-										  DateTime.Now,
-										  DateTime.Now,
-										  true,
-										  reader["Description"] as string,
-										  null);
-
-							Writer.Flush();
+							blogMlCategoryId = Guid.NewGuid().ToString();
 						}
-					}
-				}
+						else
+						{
+							blogMlCategoryId = category.Id.ToString(CultureInfo.InvariantCulture);
+						}
 
+						// tracks categories
+						// if we are using guids then we need to track categories
+						// when adding them to posts elements.
+						this.categoryIdMap.Add(category.Id, blogMlCategoryId);
+					}
+
+					WriteCategory(blogMlCategoryId,
+					              category.Title,
+					              DateTime.Now,
+					              DateTime.Now,
+					              true,
+					              category.Description,
+					              null);
+
+					Writer.Flush();
+				}
+				
 				WriteEndElement(); //End Categories Element
 			}
 			catch (Exception ex)
@@ -330,7 +327,6 @@ namespace Subtext.Framework.Import
 		private void WritePostCategories(int postID)
 		{
 			DataSet dsCategories;
-
 			
 			dsCategories = GetPostCategories(postID);
 			
@@ -340,8 +336,12 @@ namespace Subtext.Framework.Import
 
 				foreach(DataRow postCategoryId in dsCategories.Tables[0].Rows)
 				{
-					WriteCategoryReference(this.categories[postCategoryId["CategoryID"].ToString()].ToString());
-					Writer.Flush();
+					/*if (postCategoryId["CategoryID"] != null && typeof(DBNull) != postCategoryId["CategoryID"].GetType())
+					{*/
+						int postCatId = (int)postCategoryId["CategoryID"];
+						WriteCategoryReference(this.categoryIdMap[postCatId].ToString());
+						Writer.Flush();
+					/*}*/
 				}
 
 				WriteEndElement();
@@ -428,29 +428,6 @@ namespace Subtext.Framework.Import
 		#endregion
 
 		#region subText Data Access Methods
-
-		private SqlDataReader GetCategories()
-		{
-			SqlDataReader reader;
-			SqlCommand cmd;
-
-			try
-			{		
-				cmd = new SqlCommand("subtext_GetAllCategories");
-				cmd.CommandType = CommandType.StoredProcedure;
-				cmd.Parameters.Add("@BlogId", SqlDbType.Int).Value = this.blogId;
-				cmd.Parameters.Add("@IsActive", SqlDbType.Bit).Value = 1;
-				cmd.Parameters.Add("@CategoryType", SqlDbType.Int).Value = 1;
-
-				reader = ExecuteReader(cmd);
-			}
-			catch (Exception ex)
-			{
-				throw(new Exception("Unable to get categories", ex));
-			}
-			
-			return reader;
-		}
 
 		private DataSet GetPostComments(int postID)
 		{
@@ -575,25 +552,6 @@ namespace Subtext.Framework.Import
 			{
 				this.connection.Close() ;
 			}
-		}
-
-		/// <summary>
-		/// this method is called internally in order to retrieve some data from the database. 
-		/// </summary>
-		/// <param name="cmd"></param>
-		/// <returns></returns>
-		private SqlDataReader ExecuteReader(SqlCommand cmd) 
-		{
-			SqlDataReader reader;
-		
-			if (!this.isConnectionReady)
-			{
-				this.InitConnection();
-			}
-			cmd.Connection = this.connection;
-			this.connection.Open();
-			reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-			return reader;
 		}
 
 		/// <summary>
