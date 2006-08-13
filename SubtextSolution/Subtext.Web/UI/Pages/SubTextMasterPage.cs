@@ -37,11 +37,12 @@ namespace Subtext.Web.UI.Pages
 		private static readonly StyleSheetElementCollectionRenderer styleRenderer = new StyleSheetElementCollectionRenderer();
 		protected System.Web.UI.WebControls.Literal pageTitle;
 		protected System.Web.UI.WebControls.Literal docTypeDeclaration;
-		protected System.Web.UI.HtmlControls.HtmlGenericControl MainStyle;
-		protected System.Web.UI.HtmlControls.HtmlGenericControl SecondaryCss;
-		protected System.Web.UI.HtmlControls.HtmlGenericControl CustomCss;
-		protected System.Web.UI.HtmlControls.HtmlGenericControl RSSLink;
-		protected System.Web.UI.HtmlControls.HtmlGenericControl AtomLink;
+		protected System.Web.UI.HtmlControls.HtmlLink MainStyle;
+		protected System.Web.UI.HtmlControls.HtmlLink SecondaryCss;
+		protected System.Web.UI.HtmlControls.HtmlLink CustomCss;
+		protected System.Web.UI.HtmlControls.HtmlLink RSSLink;
+		protected System.Web.UI.HtmlControls.HtmlLink Rsd;
+		protected System.Web.UI.HtmlControls.HtmlLink AtomLink;
 		protected System.Web.UI.WebControls.PlaceHolder CenterBodyControl;
 		protected System.Web.UI.WebControls.Literal authorMetaTag;
 		protected System.Web.UI.WebControls.Literal scripts;
@@ -92,6 +93,11 @@ namespace Subtext.Web.UI.Pages
 			{
 				//MAC IE does not like the empy CSS file..plus its a waste :)
 				CustomCss.Visible = false;
+			}
+			
+			if(Rsd != null)
+			{
+				Rsd.Attributes.Add("href", CurrentBlog.RootUrl + "rsd.xml.ashx");
 			}
 			
 			if(RSSLink != null)
