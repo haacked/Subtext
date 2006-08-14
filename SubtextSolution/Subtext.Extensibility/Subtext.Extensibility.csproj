@@ -163,7 +163,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Providers\BlogEntryEditorProvider.cs" />
-    <Compile Include="Providers\BlogMlProvider.cs" />
     <Compile Include="Providers\EmailProvider.cs">
       <SubType>Code</SubType>
     </Compile>
