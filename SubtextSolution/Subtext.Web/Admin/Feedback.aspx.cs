@@ -139,6 +139,20 @@ namespace Subtext.Web.Admin.Pages
 		}
 
 		/// <summary>
+		/// Gets the title.
+		/// </summary>
+		/// <param name="dataItem">The data item.</param>
+		/// <returns></returns>
+		protected string GetTitle(object dataItem)
+		{
+			Entry entry = (Entry)dataItem;
+			if (!String.IsNullOrEmpty(entry.SourceUrl))
+				return string.Format(@"<a href=""{0}"" title=""{0}"">{1}</a>", entry.SourceUrl, entry.Title);
+
+			return entry.Title;
+		}
+
+		/// <summary>
 		/// Returns the author during data binding. If the author specified 
 		/// an email address, includes that.
 		/// </summary>
@@ -154,10 +168,9 @@ namespace Subtext.Web.Admin.Pages
 				authorInfo += string.Format(@"<a href=""mailto:{0}"" title=""{0}""><img src=""{1}"" alt=""{0}"" border=""0"" class=""email"" /></a>", entry.Email, ControlHelper.ExpandTildePath("~/images/email.gif"));
 			}
 
-
-			if (!String.IsNullOrEmpty(entry.SourceUrl))
+			if (!String.IsNullOrEmpty(entry.TitleUrl))
 			{
-				authorInfo += string.Format(@"<a href=""{0}"" title=""{0}""><img src=""{1}"" alt=""{0}"" border=""0"" /></a>", entry.SourceUrl, ControlHelper.ExpandTildePath("~/images/permalink.gif"));
+				authorInfo += string.Format(@"<a href=""{0}"" title=""{0}""><img src=""{1}"" alt=""{0}"" border=""0"" /></a>", entry.TitleUrl, ControlHelper.ExpandTildePath("~/images/permalink.gif"));
 			}
 
 			return authorInfo;

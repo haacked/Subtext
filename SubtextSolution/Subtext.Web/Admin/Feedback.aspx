@@ -28,7 +28,7 @@
 			<ItemTemplate>
 				<tr>
 					<td>
-						<b><%# DataBinder.Eval(Container.DataItem, "Title") %></b>						
+						<b><%# GetTitle(Container.DataItem) %></b>						
 					</td>
 					<td>
 						<strong><%# GetAuthor(Container.DataItem) %></strong> <%# GetAuthorInfo(Container.DataItem) %>
