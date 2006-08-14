@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Web;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;

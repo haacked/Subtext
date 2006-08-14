@@ -23,6 +23,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using log4net;
 using Subtext.Extensibility;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;

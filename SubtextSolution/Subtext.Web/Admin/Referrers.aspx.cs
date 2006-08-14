@@ -16,6 +16,7 @@
 using System;
 using System.Globalization;
 using log4net;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Text;

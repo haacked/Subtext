@@ -29,20 +29,68 @@ namespace UnitTests.Subtext.Framework.Import
 			SubtextBlogMLWriter writer = new SubtextBlogMLWriter(this.connectionString, int.MaxValue, false);
 			writer.Write(XmlWriter.Create(new StringBuilder()));
     	}
+		
+		public class BlogMlTester : BlogML.BlogMLWriterBase
+		{
+			protected override void InternalWriteBlog()
+			{
+				WriteStartBlog("Title", "Subtitle", "RootUrl");
+				WriteAuthor("Me", "test@example.com");
+				WriteEndElement();
+			}
+		}
+
+		[Test, Ignore("This test exposes a bug with BlogML!")]
+		public void TestBlogML()
+		{
+			BlogMlTester writer = new BlogMlTester();
+			StringBuilder builder = new StringBuilder();
+			
+			//Going to write xml to a string.
+			XmlWriter xml = XmlWriter.Create(builder);
+			writer.Write(xml);
+			Console.WriteLine(builder.ToString());
+		}
+		
+		[Test]
+		[RollBack]
+		public void WritingBlogMLWithEntriesContainingNoCategoriesWorks()
+		{
+			CreateBlogAndSetupContext();
+			
+			//Add a few entries.
+			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "blah blah", "full bodied goodness");
+			Entries.Create(entry);
+
+			SubtextBlogMLWriter writer = new SubtextBlogMLWriter(this.connectionString, Config.CurrentBlog.Id, false);
+			writer.EmbedAttachments = false;
+			
+			//Note, once the next version of BlogML is released, we can cleanup some of this.
+			StringBuilder builder = new StringBuilder();
+			StringWriter textWriter = new StringWriter(builder);
+			XmlTextWriter xml = new XmlTextWriter(textWriter);
+			XmlWriterSettings settings = new XmlWriterSettings();
+			settings.Indent = true;
+			settings.IndentChars = "  ";
+			XmlWriter xmlWriter = XmlWriter.Create(xml);
+			writer.Write(xmlWriter);
+
+			XmlDocument doc = new XmlDocument();
+			doc.LoadXml(builder.ToString());
+			XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
+			nsmgr.AddNamespace("bml", "http://www.blogml.com/2006/01/BlogML");
+
+			XmlNodeList postNodes = doc.SelectNodes("//bml:post", nsmgr);
+			Assert.AreEqual(1, postNodes.Count);
+		}
     	
         [Test]
         [RollBack]
         public void ReadBlogCreatesEntriesAndAttachments()
         {
             //Create blog.
-            string hostName = UnitTestHelper.GenerateRandomString();
-            Assert.IsTrue(Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", hostName, ""), "Could not create the blog for this test");
-            UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
-            Assert.IsNotNull(Config.CurrentBlog, "Current Blog is null.");
-
-            Config.CurrentBlog.ImageDirectory = Path.Combine(Environment.CurrentDirectory, "images");
-            Config.CurrentBlog.ImagePath = "/image/";
-
+			CreateBlogAndSetupContext();
+        	
             //Test BlogML reader.
             SubtextBlogMLReader reader = new SubtextBlogMLReader();
             Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SimpleBlogMl.xml");
@@ -61,10 +109,7 @@ namespace UnitTests.Subtext.Framework.Import
         public void RoundTripBlogMlTest()
         {
             //Create blog.
-            string hostName = UnitTestHelper.GenerateRandomString();
-            Assert.IsTrue(Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", hostName, ""), "Could not create the blog for this test");
-            UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
-            Assert.IsNotNull(Config.CurrentBlog, "Current Blog is null.");
+			CreateBlogAndSetupContext();
 
             Config.CurrentBlog.ImageDirectory = Path.Combine(Environment.CurrentDirectory, "images");
             Config.CurrentBlog.ImagePath = "/image/";
@@ -85,8 +130,8 @@ namespace UnitTests.Subtext.Framework.Import
                 reader = new SubtextBlogMLReader();
                 
                 //Create yet another new blog.
-                Assert.IsTrue(Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", hostName + "1", ""), "Could not create the blog for this test");
-                UnitTestHelper.SetHttpContextWithBlogRequest(hostName + "1", "");
+                Assert.IsTrue(Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", Config.CurrentBlog.Host + "1", ""), "Could not create the blog for this test");
+                UnitTestHelper.SetHttpContextWithBlogRequest(Config.CurrentBlog.Host + "1", "");
                 reader.ReadBlog(memoryStream, BlogMlReaderOption.None);
             }
 
@@ -121,5 +166,16 @@ namespace UnitTests.Subtext.Framework.Import
                 }
             }
         }
+		
+		private void CreateBlogAndSetupContext()
+		{
+			string hostName = UnitTestHelper.GenerateRandomString();
+            Assert.IsTrue(Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", hostName, ""), "Could not create the blog for this test");
+            UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
+            Assert.IsNotNull(Config.CurrentBlog, "Current Blog is null.");
+
+            Config.CurrentBlog.ImageDirectory = Path.Combine(Environment.CurrentDirectory, "images");
+            Config.CurrentBlog.ImagePath = "/image/";
+		}
     }
 }

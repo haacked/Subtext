@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;

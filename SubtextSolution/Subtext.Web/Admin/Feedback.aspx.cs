@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;

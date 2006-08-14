@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Subtext.Framework.Components
+namespace Subtext.Extensibility.Interfaces
 {
     /// <summary>
     /// Base interface for paged collections.

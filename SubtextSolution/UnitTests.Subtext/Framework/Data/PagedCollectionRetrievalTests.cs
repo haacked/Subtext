@@ -6,6 +6,7 @@ using System.Threading;
 using MbUnit.Framework;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.Extensibility;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;

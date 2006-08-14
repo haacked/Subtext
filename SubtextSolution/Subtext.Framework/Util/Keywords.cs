@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
