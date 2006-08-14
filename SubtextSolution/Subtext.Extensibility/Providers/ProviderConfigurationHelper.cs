@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Specialized;
 using System.Configuration.Provider;
 using System.Configuration;
 using System.Web.Configuration;
@@ -51,7 +52,7 @@ namespace Subtext.Extensibility.Providers
         /// <param name="settingKey">Setting Name.</param>
         /// <param name="configValue">Config value.</param>
         /// <returns></returns>
-        public static string GetConnectionStringSettingValue(string settingKey, System.Collections.Specialized.NameValueCollection configValue)
+        public static string GetConnectionStringSettingValue(string settingKey, NameValueCollection configValue)
         {
             if (settingKey == null)
                 throw new ArgumentNullException("settingKey", "The setting key is null. The provider may not be configured correctly.");
