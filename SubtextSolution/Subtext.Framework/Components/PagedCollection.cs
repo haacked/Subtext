@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Subtext.Extensibility.Interfaces;
 
 namespace Subtext.Framework.Components
 {

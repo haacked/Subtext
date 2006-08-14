@@ -15,6 +15,7 @@
 
 using System;
 using System.Data;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
 using Subtext.Framework.Providers;

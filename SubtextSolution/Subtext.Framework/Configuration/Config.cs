@@ -15,6 +15,7 @@
 
 using System;
 using System.Configuration;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
@@ -65,7 +66,7 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
-				IPagedCollection blogs = BlogInfo.GetBlogs(1, 1, ConfigurationFlag.IsActive);
+				IPagedCollection<BlogInfo> blogs = BlogInfo.GetBlogs(1, 1, ConfigurationFlag.IsActive);
 				return blogs.MaxItems;
 			}
 		}

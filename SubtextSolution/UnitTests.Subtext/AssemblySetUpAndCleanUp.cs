@@ -11,6 +11,7 @@ namespace UnitTests.Subtext
 		[SetUp]
 		public static void SetUp()
 		{
+			/*
 			using (	SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString))
 			{
 				connection.Open();
@@ -19,7 +20,7 @@ namespace UnitTests.Subtext
 					ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction);
 					transaction.Commit();
 				}
-			}
+			}*/
 		}
 		
 		[TearDown]

@@ -41,6 +41,7 @@ using System.Xml ;
 using System.IO;
 using System.Web ;
 using System.Text.RegularExpressions;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;

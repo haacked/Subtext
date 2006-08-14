@@ -23,6 +23,7 @@ using System.Web;
 using BlogML;
 using log4net;
 using Subtext.Extensibility;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
@@ -66,21 +67,12 @@ namespace Subtext.Framework.Import
 									int blogId, 
 									bool isUseGuids)
 		{
-			#region Parameter Checking
-			
 			if (connectionString == null)
-			{
 				throw(new ArgumentNullException("connectionString", 
-												  "Unable to create new DOTTextBlogMLWriter. Connection String cannot be null."));
-			}
-
+												  "Unable to create new SubtextBlogMLWriter. Connection String cannot be null."));
 			if (connectionString.Length == 0)
-			{
-				throw(new ArgumentException("Unable to create new DOTTextBlogMLWriter. Connection String cannot be empty.", 
+				throw(new ArgumentException("Unable to create new SubtextBlogMLWriter. Connection String cannot be empty.", 
 											  "connectionString"));
-			}
-
-			#endregion
 
 			this.blogId = blogId;
 			this.connectionString = connectionString;

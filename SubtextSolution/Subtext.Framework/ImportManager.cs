@@ -14,6 +14,7 @@
 #endregion
 
 using System.Web.UI;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;

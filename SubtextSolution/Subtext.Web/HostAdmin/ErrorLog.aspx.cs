@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Logging;
 using Subtext.Web.Admin;

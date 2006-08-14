@@ -197,7 +197,6 @@
     <Compile Include="Components\ImageCollection.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Components\IPagedCollection.cs" />
     <Compile Include="Components\KeyWord.cs">
       <SubType>Code</SubType>
     </Compile>
