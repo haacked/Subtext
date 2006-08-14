@@ -45,30 +45,13 @@ namespace Subtext.Extensibility.Providers
 			return providers;
 		}
     	
-        /// <summary>
-        /// Determines whether the specified setting value (an attribute value 
-        /// in the "add" element of a provider section in web.config) is actually 
-        /// the name of an AppSetting variable.
-        /// </summary>
-        /// <param name="settingValue">Setting value.</param>
-        /// <returns>
-        /// 	<c>true</c> if the setting value is a pointer to app settings; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool IsPointerToAppSettings(string settingValue)
-        {
-            if (settingValue == null)
-                return false;
-
-            return settingValue.StartsWith("${") && settingValue.EndsWith("}");
-        }
-
-        /// <summary>
+		/// <summary>
         /// Gets the setting value for the specfied setting name and configValue dictionary.
         /// </summary>
         /// <param name="settingKey">Setting Name.</param>
         /// <param name="configValue">Config value.</param>
         /// <returns></returns>
-        public static string GetSettingValue(string settingKey, System.Collections.Specialized.NameValueCollection configValue)
+        public static string GetConnectionStringSettingValue(string settingKey, System.Collections.Specialized.NameValueCollection configValue)
         {
             if (settingKey == null)
                 throw new ArgumentNullException("settingKey", "The setting key is null. The provider may not be configured correctly.");
@@ -86,21 +69,7 @@ namespace Subtext.Extensibility.Providers
 
                 return setting.ConnectionString;
             }
-
-            const int StartDelimiterLength = 2;
-            const int EndDelimiterLength = 1;
-            if (IsPointerToAppSettings(settingValue))
-            {
-                string appKeyName = settingValue.Substring(StartDelimiterLength, settingValue.Length - (StartDelimiterLength + EndDelimiterLength));
-                settingValue = System.Configuration.ConfigurationManager.AppSettings[appKeyName];
-            }
-
-            if (ConfigurationManager.ConnectionStrings[settingValue] != null)
-            {
-                settingValue = ConfigurationManager.ConnectionStrings[settingValue].ConnectionString;
-            }
-
-            return settingValue;
+			return null;
         }
 	
     }

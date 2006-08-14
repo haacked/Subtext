@@ -62,7 +62,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="configValue">Config value.</param>
 		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
 		{
-            _connectionString = ProviderConfigurationHelper.GetSettingValue("connectionStringName", configValue);
+            _connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", configValue);
             base.Initialize(name, configValue);
 		}
 
