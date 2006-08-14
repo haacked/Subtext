@@ -15,6 +15,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Configuration;
 using System.Configuration.Provider;
 
 namespace Subtext.Extensibility.Providers
@@ -49,9 +51,9 @@ namespace Subtext.Extensibility.Providers
 		/// </summary>
 		/// <param name="name">Friendly Name of the provider.</param>
 		/// <param name="configValue">Config value.</param>
-		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
+		public override void Initialize(string name, NameValueCollection configValue)
 		{
-			this.connectionString = ProviderConfigurationHelper.GetSettingValue("connectionStringName", configValue);
+			this.connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", configValue);
 			base.Initialize(name, configValue);
 		}
 
