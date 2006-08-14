@@ -14,9 +14,11 @@
 #endregion
 
 using System;
+using System.Collections.Specialized;
 using System.Configuration;
 using System.Configuration.Provider;
 using MbUnit.Framework;
+using Subtext.Extensibility.Providers;
 
 namespace UnitTests.Subtext.Framework.Providers
 {
@@ -31,5 +33,16 @@ namespace UnitTests.Subtext.Framework.Providers
 	    {
             Assert.AreEqual("Server=localhost;Database=SubtextData;Trusted_Connection=True", ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString);
 	    }
+	    
+		/// <summary>
+		/// Makes sure that we can recognize false setting pointers.
+		/// </summary>
+		[Test]
+		public void GetConnectionStringSettingValueFindsConnectionString()
+		{
+			NameValueCollection configValue = new NameValueCollection();
+			configValue.Add("connectionStringName", "subtextData");
+            Assert.AreEqual("Server=localhost;Database=SubtextData;Trusted_Connection=True", ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", configValue));
+		}
 	}
 }
