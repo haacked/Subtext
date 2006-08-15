@@ -28,7 +28,7 @@ namespace Subtext.Web.Admin.Pages
 	{
 		private const string VSKEY_KEYWORDID = "LinkID";
 
-		private int _resultsPageNumber = 1;
+		private int _resultsPageNumber = 0;
 		private bool _isListHidden = false;
 	
 		#region Accessors
