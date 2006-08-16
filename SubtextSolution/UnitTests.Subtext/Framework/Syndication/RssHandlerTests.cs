@@ -6,7 +6,7 @@ using System.Threading;
 using System.Web;
 using System.Xml;
 using MbUnit.Framework;
-using Subtext.Common.Syndication;
+using Subtext.Framework.Syndication;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;

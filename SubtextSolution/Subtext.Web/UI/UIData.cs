@@ -14,7 +14,7 @@
 #endregion
 
 using System;
-using Subtext.Common.Data;
+using Subtext.Framework.Data;
 using Subtext.Framework.Components;
 using Subtext.Framework.Format;
 

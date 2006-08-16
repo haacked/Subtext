@@ -16,13 +16,14 @@
 using System;
 using Subtext.Framework;
 using Subtext.Framework.Syndication;
+using DTCF = Subtext.Framework.Configuration;
 
-namespace Subtext.Common.Syndication
+namespace Subtext.Framework.Syndication
 {
 	/// <summary>
-	/// Class used to handle requests for an RSS feed.
+	/// Summary description for RssHandler.
 	/// </summary>
-	public class RssHandler : Subtext.Framework.Syndication.BaseSyndicationHandler
+	public class AtomHandler : Subtext.Framework.Syndication.BaseSyndicationHandler
 	{
 		BaseSyndicationWriter writer;
 
@@ -33,17 +34,8 @@ namespace Subtext.Common.Syndication
 		/// <returns></returns>
 		protected override string CacheKey(DateTime dateLastViewedFeedItemPublished)
 		{
-			const string key = "RSS;IndividualMainFeed;BlogId:{0};LastViewed:{1}";
+			const string key = "ATOM;IndividualMainFeed;BlogId:{0};LastViewed:{1}";
 			return string.Format(key, CurrentBlog.Id, dateLastViewedFeedItemPublished);
-		}
-
-		/// <summary>
-		/// Caches the specified RSS feed.
-		/// </summary>
-		/// <param name="feed">Feed.</param>
-		protected override void Cache(CachedFeed feed)
-		{
-			Context.Cache.Insert(CacheKey(this.SyndicationWriter.DateLastViewedFeedItemPublished), feed, null, DateTime.Now.AddSeconds((double)CacheDuration.Medium), TimeSpan.Zero);
 		}
 
 		/// <summary>
@@ -56,10 +48,16 @@ namespace Subtext.Common.Syndication
 			{
 				if(writer == null)
 				{
-					writer = new RssWriter(Entries.GetMainSyndicationEntries(CurrentBlog.ItemCount), this.PublishDateOfLastFeedItemReceived, this.UseDeltaEncoding);
+					writer = new AtomWriter(Entries.GetMainSyndicationEntries(CurrentBlog.ItemCount), this.PublishDateOfLastFeedItemReceived, this.UseDeltaEncoding);
 				}
 				return writer;
 			}
 		}
+
+		protected override void Cache(CachedFeed feed)
+		{
+			Context.Cache.Insert(CacheKey(this.SyndicationWriter.DateLastViewedFeedItemPublished), feed,null, DateTime.Now.AddSeconds((double)CacheDuration.Medium), TimeSpan.Zero);
+		}
 	}
 }
+

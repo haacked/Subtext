@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 
-namespace Subtext.Common.Syndication
+namespace Subtext.Framework.Syndication
 {
 	/// <summary>
 	/// Summary description for CategoryWriter.

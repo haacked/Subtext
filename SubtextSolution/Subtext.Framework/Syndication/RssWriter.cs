@@ -14,23 +14,26 @@
 #endregion
 
 using System;
-using System.Web;
-using System.Web.Compilation;
-using System.Web.UI;
+using System.Collections.Generic;
+using Subtext.Framework.Components;
 
-namespace Subtext.Common.UrlManager 
+namespace Subtext.Framework.Syndication
 {
 	/// <summary>
-	/// System.Web.UI.PageHandlerFactory is internal. We need the option to load our own 
-	/// classes with this for the virtual mapping.  With the virtual mapping default 
-	/// documents will not be loaded. if no page is found, we will use attempt to load 
-	/// default.aspx in the current directory
+	/// Generates RSS
 	/// </summary>
-	public static class PageHandlerFactory 
+	public class RssWriter : Subtext.Framework.Syndication.BaseRssWriter
 	{
-		public static IHttpHandler GetHandler(HttpContext context, string requestType, string url, string path)
+		/// <summary>
+		/// Creates a new <see cref="RssWriter"/> instance.
+		/// </summary>
+		/// <param name="entries">Entries.</param>
+		/// <param name="dateLastViewedFeedItemPublished"></param>
+		/// <param name="useDeltaEncoding"></param>
+		public RssWriter(IList<Entry> entries, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(dateLastViewedFeedItemPublished, useDeltaEncoding)
 		{
-            return BuildManager.CreateInstanceFromVirtualPath(url, typeof(Page)) as IHttpHandler;
+			this.Entries = entries;
+			this.UseAggBugs = true;
 		}
 	}
 }

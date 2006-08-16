@@ -21,7 +21,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Syndication;
 
-namespace Subtext.Common.Syndication
+namespace Subtext.Framework.Syndication
 {
 	/// <summary>
 	/// Writes a CommentRSS feed to the underlying stream.  Inherits from 

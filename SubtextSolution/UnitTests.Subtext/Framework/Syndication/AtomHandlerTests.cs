@@ -4,7 +4,7 @@ using System.Text;
 using System.Web;
 using System.Xml;
 using MbUnit.Framework;
-using Subtext.Common.Syndication;
+using Subtext.Framework.Syndication;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;

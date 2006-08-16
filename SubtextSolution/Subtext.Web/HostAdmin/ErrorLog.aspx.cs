@@ -99,7 +99,7 @@ namespace Subtext.Web.HostAdmin.Pages
 		protected string FormatLogger(object logger)
 		{
 			string loggerText = (string)logger;
-			return loggerText.Replace("Subtext.Framework.", string.Empty).Replace("Subtext.Common.", string.Empty).Replace("Subtext.", string.Empty);
+			return loggerText.Replace("Subtext.Framework.", string.Empty).Replace("Subtext.Framework.", string.Empty).Replace("Subtext.", string.Empty);
 		}
 	}
 }

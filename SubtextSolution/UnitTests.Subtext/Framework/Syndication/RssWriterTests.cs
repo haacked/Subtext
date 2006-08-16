@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Web;
 using MbUnit.Framework;
-using Subtext.Common.Syndication;
+using Subtext.Framework.Syndication;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;

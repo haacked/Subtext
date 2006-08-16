@@ -19,7 +19,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Syndication;
 using DTCF = Subtext.Framework.Configuration;
 
-namespace Subtext.Common.Syndication
+namespace Subtext.Framework.Syndication
 {
 	/// <summary>
 	/// </summary>

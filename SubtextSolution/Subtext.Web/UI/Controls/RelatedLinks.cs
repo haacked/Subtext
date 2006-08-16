@@ -7,7 +7,7 @@ namespace Subtext.Web.UI.Controls
 	using System.Data;
 	using System.Data.SqlClient;
 	using System.Web.UI.WebControls;
-	using Subtext.Common.Data;
+	using Subtext.Framework.Data;
 	using Subtext.Framework;
 	using Subtext.Framework.Components;
 	using Subtext.Framework.Data;

@@ -18,7 +18,7 @@ using System.Configuration;
 using System.Web;
 using System.Xml.Serialization;
 
-namespace Subtext.Common.UrlManager
+namespace Subtext.Framework.UrlManager
 {
 	/// <summary>
 	/// Configuration class for the HandlerConfiguration section of 
@@ -35,7 +35,7 @@ namespace Subtext.Common.UrlManager
 		{
 			if(controls != null)
 			{
-				context.Items.Add("Subtext.Common.UrlManager.ControlContext", controls);
+				context.Items.Add("Subtext.Framework.UrlManager.ControlContext", controls);
 			}
 		}
 
@@ -45,7 +45,7 @@ namespace Subtext.Common.UrlManager
 		/// <param name="context">Context.</param>
 		public static string[] GetControls(HttpContext context)
 		{
-			return (string[])context.Items["Subtext.Common.UrlManager.ControlContext"];
+			return (string[])context.Items["Subtext.Framework.UrlManager.ControlContext"];
 		}
 
 		private HttpHandler[] _httpHandlers;
