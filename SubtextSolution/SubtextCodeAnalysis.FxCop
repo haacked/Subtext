@@ -25,7 +25,7 @@
    <Directory>$(ProjectDir)/UnitTests.Subtext/bin/Debug/</Directory>
   </AssemblyReferenceDirectories>
   <Target Name="$(ProjectDir)/Subtext.Web/bin/Subtext.Providers.RichTextEditor.FCKeditor.dll" Analyze="True" AnalyzeAllChildren="True" />
-  <Target Name="$(ProjectDir)/Subtext.Web/bin/Subtext.Common.dll" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="$(ProjectDir)/Subtext.Web/bin/Subtext.BlogMl.dll" Analyze="True" AnalyzeAllChildren="True" />
   <Target Name="$(ProjectDir)/Subtext.Web/bin/Subtext.Extensibility.dll" Analyze="True" AnalyzeAllChildren="True" />
   <Target Name="$(ProjectDir)/Subtext.Web/bin/Subtext.Framework.dll" Analyze="True" AnalyzeAllChildren="True" />
   <Target Name="$(ProjectDir)/Subtext.Web/bin/Subtext.Installation.dll" Analyze="True" AnalyzeAllChildren="True" />
@@ -64,18 +64,8 @@
      </Message>
     </Messages>
    </Namespace>
-   <Namespace Name="Subtext.Common.Data">
+   <Namespace Name="Subtext.BlogMl.Data">
     <Messages>
-     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Status="Excluded" Created="2006-05-10 06:03:00Z">
-      <Issue>
-       <Item>Subtext.Common.Data</Item>
-      </Issue>
-      <Notes>
-       <User Name="Phil">
-        <Note Id="0" />
-       </User>
-      </Notes>
-     </Message>
     </Messages>
    </Namespace>
    <Namespace Name="Subtext.Extensibility">
