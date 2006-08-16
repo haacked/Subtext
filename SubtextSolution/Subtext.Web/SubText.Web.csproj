@@ -147,9 +147,6 @@
     <Compile Include="Admin\Feedback.aspx.designer.cs">
       <DependentUpon>Feedback.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Admin\Handlers\BlogMLExport.ashx.cs">
-      <DependentUpon>BlogMLExport.ashx</DependentUpon>
-    </Compile>
     <Compile Include="Admin\ImportExport.aspx.cs">
       <DependentUpon>ImportExport.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -606,7 +603,6 @@
     <Content Include="login.aspx" />
     <Content Include="logout.aspx" />
     <Content Include="MainFeed.aspx" />
-    <Content Include="Admin\Handlers\BlogMLExport.ashx" />
     <Content Include="Admin\Navigation.config" />
     <Content Include="Admin\Skins.config" />
     <Content Include="Admin\Web.config" />

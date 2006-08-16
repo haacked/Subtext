@@ -42,7 +42,6 @@ namespace Subtext.BlogMl
 		{
 			context.Response.AddHeader("content-disposition", "attachment; filename=BlogMLExport.xml");
 
-			
 			context.Response.Clear();
 			WriteBlogML(context.Response.OutputStream);
 			context.Response.End();
@@ -57,11 +56,7 @@ namespace Subtext.BlogMl
 
 			BlogMlWriter writer = BlogMlWriter.Create(provider);
 
-			XmlWriterSettings settings = new XmlWriterSettings();
-			settings.Indent = true;
-			settings.IndentChars = "  ";
-			settings.Encoding = Encoding.UTF8;
-			using(XmlWriter xmlWriter = XmlWriter.Create(outStream, settings))
+			using(XmlTextWriter xmlWriter = new XmlTextWriter(outStream, Encoding.UTF8))
 			{
 				writer.Write(xmlWriter);
 				xmlWriter.Flush();
