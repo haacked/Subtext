@@ -276,7 +276,7 @@ namespace Subtext.Framework.Data
 			return entry;
 		}
 
-		internal static Entry LoadEntry(IDataReader reader)
+		public static Entry LoadEntry(IDataReader reader)
 		{
 			return LoadEntry(reader, true);
 		}
@@ -286,7 +286,7 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="reader"></param>
 		/// <returns></returns>
-		internal static Entry LoadEntryWithCategories(IDataReader reader)
+		public static Entry LoadEntryWithCategories(IDataReader reader)
 		{
 			Entry entry = LoadEntry(reader);
 			if(reader.NextResult())

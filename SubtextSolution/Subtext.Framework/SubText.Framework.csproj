@@ -176,6 +176,7 @@
     <Compile Include="Components\BlogUser.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Components\CollectionBook.cs" />
     <Compile Include="Components\CategoryType.cs">
       <SubType>Code</SubType>
     </Compile>

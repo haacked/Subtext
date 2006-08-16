@@ -5,6 +5,8 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using MbUnit.Framework;
+using Subtext.BlogMl;
+using Subtext.BlogMl.Interfaces;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -51,39 +53,7 @@ namespace UnitTests.Subtext.Framework.Import
 			writer.Write(xml);
 			Console.WriteLine(builder.ToString());
 		}
-		
-		[Test]
-		[RollBack]
-		public void WritingBlogMLWithEntriesContainingNoCategoriesWorks()
-		{
-			CreateBlogAndSetupContext();
-			
-			//Add a few entries.
-			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "blah blah", "full bodied goodness");
-			Entries.Create(entry);
-
-			SubtextBlogMLWriter writer = new SubtextBlogMLWriter(this.connectionString, Config.CurrentBlog.Id, false);
-			writer.EmbedAttachments = false;
-			
-			//Note, once the next version of BlogML is released, we can cleanup some of this.
-			StringBuilder builder = new StringBuilder();
-			StringWriter textWriter = new StringWriter(builder);
-			XmlTextWriter xml = new XmlTextWriter(textWriter);
-			XmlWriterSettings settings = new XmlWriterSettings();
-			settings.Indent = true;
-			settings.IndentChars = "  ";
-			XmlWriter xmlWriter = XmlWriter.Create(xml);
-			writer.Write(xmlWriter);
-
-			XmlDocument doc = new XmlDocument();
-			doc.LoadXml(builder.ToString());
-			XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
-			nsmgr.AddNamespace("bml", "http://www.blogml.com/2006/01/BlogML");
-
-			XmlNodeList postNodes = doc.SelectNodes("//bml:post", nsmgr);
-			Assert.AreEqual(1, postNodes.Count);
-		}
-    	
+		   	
         [Test]
         [RollBack]
         public void ReadBlogCreatesEntriesAndAttachments()
@@ -105,7 +75,7 @@ namespace UnitTests.Subtext.Framework.Import
 
         [Test]
         [RollBack]
-        [Ignore("Need to look at this...")]
+        [Ignore("BlogMl makes web requests. We need to deal with that later.")]
         public void RoundTripBlogMlTest()
         {
             //Create blog.
@@ -121,10 +91,12 @@ namespace UnitTests.Subtext.Framework.Import
 
             IList<Entry> entries = Entries.GetRecentPosts(20, PostType.BlogPost, PostConfig.None, true);
 
-            SubtextBlogMLWriter writer = new SubtextBlogMLWriter(ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString, Config.CurrentBlog.Id, false);
-            writer.EmbedAttachments = true;
+			IBlogMlProvider provider = BlogMlProvider.Instance();
+			BlogMlWriter writer = BlogMlWriter.Create(provider);
+			writer.EmbedAttachments = true;
             MemoryStream memoryStream = new MemoryStream();
-            using (XmlWriter xmlWriter = XmlWriter.Create(memoryStream))
+			
+        	using (XmlTextWriter xmlWriter = new XmlTextWriter(memoryStream, Encoding.UTF8))
             {
                 writer.Write(xmlWriter);
                 reader = new SubtextBlogMLReader();
@@ -137,9 +109,8 @@ namespace UnitTests.Subtext.Framework.Import
 
             IList<Entry> newEntries = Entries.GetRecentPosts(20, PostType.BlogPost, PostConfig.None, true);
             Assert.AreEqual(newEntries.Count, entries.Count, "Round trip failed to create the same number of entries.");
-            
         }
-        
+
         [SetUp]
         public void Setup()
         {
