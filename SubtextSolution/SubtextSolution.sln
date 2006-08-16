@@ -86,19 +86,19 @@ Global
 		{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
-		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
+		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
 		{062D373E-FAC0-4451-BF57-8A2352AAC1BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
-		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
+		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
 		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}.Release|Any CPU.Build.0 = Release|Any CPU
 		{830310DB-5D6A-453C-908A-058776D9C993}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{830310DB-5D6A-453C-908A-058776D9C993}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{830310DB-5D6A-453C-908A-058776D9C993}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
-		{830310DB-5D6A-453C-908A-058776D9C993}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{830310DB-5D6A-453C-908A-058776D9C993}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
+		{830310DB-5D6A-453C-908A-058776D9C993}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
 		{830310DB-5D6A-453C-908A-058776D9C993}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{830310DB-5D6A-453C-908A-058776D9C993}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

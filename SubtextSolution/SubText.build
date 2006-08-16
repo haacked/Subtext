@@ -179,7 +179,7 @@
 		
 		<ndoc>
 			<assemblies basedir="${publish.dir.latest}\bin">
-				<include name="Subtext.Common.dll" />
+				<include name="Subtext.BlogMl.dll" />
 				<include name="Subtext.Framework.dll" />
 				<include name="Subtext.Web.dll" />
 				<include name="Subtext.Extensibility.dll" />

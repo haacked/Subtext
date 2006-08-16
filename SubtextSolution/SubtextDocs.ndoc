@@ -1,6 +1,6 @@
 <project SchemaVersion="1.3">
     <assemblies>
-        <assembly location=".\Subtext.Common\bin\Debug\Subtext.Common.dll" documentation=".\Subtext.Common\bin\Debug\Subtext.Common.xml" />
+        <assembly location=".\Subtext.BlogMl\bin\Debug\Subtext.BlogMl.dll" documentation=".\Subtext.BlogMl\bin\Debug\Subtext.BlogMl.xml" />
         <assembly location=".\Subtext.Framework\bin\Debug\Subtext.Framework.dll" documentation=".\Subtext.Framework\bin\Debug\Subtext.Framework.xml" />
         <assembly location=".\Subtext.Web\bin\Subtext.Web.dll" documentation=".\Subtext.Web\bin\Subtext.Web.xml" />
         <assembly location=".\Subtext.Extensibility\bin\Debug\Subtext.Extensibility.dll" documentation=".\Subtext.Extensibility\bin\Debug\Subtext.Extensibility.xml" />
