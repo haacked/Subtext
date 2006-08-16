@@ -1,0 +1,92 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{830310DB-5D6A-453C-908A-058776D9C993}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Subtext.BlogMl</RootNamespace>
+    <AssemblyName>Subtext.BlogMl</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BlogML, Version=1.0.2229.38505, Culture=neutral" />
+    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral" />
+    <Reference Include="SgmlReaderDll, Version=1.7.2383.20436, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BlogMlBlog.cs" />
+    <Compile Include="BlogMlCategory.cs" />
+    <Compile Include="BlogMlComment.cs" />
+    <Compile Include="BlogMlContext.cs" />
+    <Compile Include="BlogMlEntry.cs" />
+    <Compile Include="BlogMlHttpHandler.cs" />
+    <Compile Include="BlogMlPost.cs" />
+    <Compile Include="BlogMlProvider.cs" />
+    <Compile Include="BlogMlTrackback.cs" />
+    <Compile Include="BlogMlWriter.cs" />
+    <Compile Include="Conversion\IdConversionStrategy.cs" />
+    <Compile Include="Conversion\NullConversionStrategy.cs" />
+    <Compile Include="Conversion\GuidConversionStrategy.cs" />
+    <Compile Include="Conversion\IntConversionStrategy.cs" />
+    <Compile Include="Conversion\SubtextConversionStrategy.cs" />
+    <Compile Include="Implementations\ObjectHydrator.cs" />
+    <Compile Include="Implementations\SubtextBlogMlProvider.cs" />
+    <Compile Include="Interfaces\IBlogMlAttachment.cs" />
+    <Compile Include="Interfaces\IBlogMlBlog.cs" />
+    <Compile Include="Interfaces\IBlogMlCategory.cs" />
+    <Compile Include="Interfaces\IBlogMlComment.cs" />
+    <Compile Include="Interfaces\IBlogMlContext.cs" />
+    <Compile Include="Interfaces\IBlogMlEntry.cs" />
+    <Compile Include="Interfaces\IBlogMlPost.cs" />
+    <Compile Include="Interfaces\IBlogMlProvider.cs" />
+    <Compile Include="Interfaces\IBlogMlTrackback.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Subtext.Extensibility\Subtext.Extensibility.csproj">
+      <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>
+      <Name>Subtext.Extensibility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Subtext.Framework\Subtext.Framework.csproj">
+      <Project>{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}</Project>
+      <Name>Subtext.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ExternalDependencies\BlogML.dll" />
+    <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.dll" />
+    <Content Include="ExternalDependencies\SgmlReaderDll.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

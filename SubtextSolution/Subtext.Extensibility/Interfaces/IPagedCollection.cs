@@ -8,6 +8,9 @@ namespace Subtext.Extensibility.Interfaces
     /// </summary>
     public interface IPagedCollection
     {
+    	/// <summary>
+    	/// The Total number of items being paged through.
+    	/// </summary>
         int MaxItems
         {
             get;

@@ -15,6 +15,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Web;
 using log4net;
 using log4net.Core;
@@ -112,6 +113,7 @@ namespace Subtext.Framework.Logging
 		/// Default constructor. Uses <see cref="T:System.Diagnostics.StackFrame"/> to discover the class it is being called from 
 		/// and automatically establishes log name as the <see cref="P:System.Type.FullName"/> of the class type.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.NoInlining)]
 		public Log() : this(GetCallerType())
 		{
 		}
@@ -140,6 +142,7 @@ namespace Subtext.Framework.Logging
 			return log != null ? log : __nullLog;
 		}
 
+		[MethodImpl(MethodImplOptions.NoInlining)]
 		private static Type GetCallerType()
 		{
 			return new StackFrame(2, false).GetMethod().DeclaringType;

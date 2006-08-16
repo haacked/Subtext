@@ -206,6 +206,10 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableEntries]
 GO
 
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetEntriesForBlogMl]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetEntriesForBlogMl]
+GO
+
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPageableEntriesByCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetPageableEntriesByCategoryID]
 GO
@@ -4019,4 +4023,148 @@ SET ANSI_NULLS ON
 GO
 
 GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetTop10byBlogId]  TO [public]
+GO
+
+/*
+Selects a page of blog posts for export to blogml. These are 
+sorted ascending by id to map to the database.
+*/
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetEntriesForBlogMl]
+(
+	@BlogId int
+	, @PageIndex int
+	, @PageSize int
+)
+AS
+
+DECLARE @FirstId int
+DECLARE @StartRow int
+DECLARE @StartRowIndex int
+
+SET @StartRowIndex = @PageIndex * @PageSize + 1
+
+SET ROWCOUNT @StartRowIndex
+-- Get the first entry id for the current page.
+SELECT	@FirstId = [ID] FROM [<dbUser,varchar,dbo>].[subtext_Content]
+WHERE	BlogId = @BlogId 
+	AND (PostType = 1 OR PostType = 2) -- PostType 1 = BlogPost, 2 = Story
+ORDER BY [ID] ASC
+
+-- Now, set the row count to MaximumRows and get
+-- all records >= @first_id
+SET ROWCOUNT @PageSize
+
+CREATE Table #IDs  
+(  
+	 TempId int IDENTITY (0, 1) NOT NULL,  
+	 Id int not NULL  
+)
+
+-- Store the IDs for this page in a temp table.
+INSERT #IDs (Id)  
+SELECT [Id]   
+FROM [<dbUser,varchar,dbo>].[subtext_Content]
+WHERE	(PostType = 1 OR PostType = 2)
+	AND BlogId = @BlogId
+	AND [ID] >= @FirstId
+ORDER BY Id ASC
+
+SET ROWCOUNT 0
+
+SELECT	content.BlogId 
+		, idTable.[ID] 
+		, content.Title 
+		, content.DateAdded 
+		, content.[Text] 
+		, content.[Description]
+		, content.SourceUrl 
+		, content.PostType 
+		, content.Author 
+		, content.Email 
+		, content.SourceName 
+		, content.DateUpdated 
+		, content.TitleUrl 
+		, FeedBackCount = ISNULL(content.FeedBackCount, 0)
+		, content.ParentID
+		, content.PostConfig
+		, content.EntryName
+		, content.ContentChecksumHash
+		, content.DateSyndicated
+		
+FROM [<dbUser,varchar,dbo>].[subtext_Content] content
+	INNER JOIN #IDs idTable ON idTable.Id = content.[ID]
+ORDER BY idTable.[ID] ASC
+ 
+SELECT COUNT([ID]) AS TotalRecords
+FROM [<dbUser,varchar,dbo>].[subtext_Content] 
+WHERE 	BlogId = @BlogId 
+	AND PostType = 1 OR PostType = 2
+
+-- Select associated categories
+SELECT	p.[Id]
+		, c.CategoryID
+	FROM [<dbUser,varchar,dbo>].[subtext_Links] l
+		INNER JOIN #IDs p ON l.[PostID] = p.[ID]  
+		INNER JOIN [<dbUser,varchar,dbo>].[subtext_LinkCategories] c ON l.CategoryID = c.CategoryID
+	ORDER BY p.[ID] ASC
+
+-- Select associated comments
+SELECT	content.BlogId 
+		, idTable.[ID] 
+		, content.Title 
+		, content.DateAdded 
+		, content.[Text] 
+		, content.[Description]
+		, content.SourceUrl 
+		, content.PostType 
+		, content.Author 
+		, content.Email 
+		, content.SourceName 
+		, content.DateUpdated 
+		, content.TitleUrl 
+		, FeedBackCount = ISNULL(content.FeedBackCount, 0)
+		, content.ParentID
+		, content.PostConfig
+		, content.EntryName
+		, content.ContentChecksumHash
+		, content.DateSyndicated
+		
+FROM [<dbUser,varchar,dbo>].[subtext_Content] content
+	INNER JOIN #IDs idTable ON idTable.Id = content.[ParentID]
+	WHERE content.PostType = 3 -- Comment
+ORDER BY idTable.[ID] ASC
+
+-- Select associated track/ping backs.
+SELECT	content.BlogId 
+		, idTable.[ID] 
+		, content.Title 
+		, content.DateAdded 
+		, content.[Text] 
+		, content.[Description]
+		, content.SourceUrl 
+		, content.PostType 
+		, content.Author 
+		, content.Email 
+		, content.SourceName 
+		, content.DateUpdated 
+		, content.TitleUrl 
+		, FeedBackCount = ISNULL(content.FeedBackCount, 0)
+		, content.ParentID
+		, content.PostConfig
+		, content.EntryName
+		, content.ContentChecksumHash
+		, content.DateSyndicated
+		
+FROM [<dbUser,varchar,dbo>].[subtext_Content] content
+	INNER JOIN #IDs idTable ON idTable.Id = content.[ParentID]
+	WHERE content.PostType = 4 -- Pingback
+ORDER BY idTable.[ID] ASC
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetEntriesForBlogMl] TO [public]
 GO
