@@ -26,7 +26,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
 
-namespace Subtext.Common.Data
+namespace Subtext.Framework.Data
 {
 	/// <summary>
 	/// Encapsulates obtaining content from the cache.

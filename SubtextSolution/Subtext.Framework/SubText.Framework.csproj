@@ -241,6 +241,7 @@
     <Compile Include="ContentCache.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Data\Cacher.cs" />
     <Compile Include="Data\DatabaseObjectProvider.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -253,6 +254,7 @@
     <Compile Include="Data\SqlErrorMessage.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Data\Transformer.cs" />
     <Compile Include="DateTimeHelper.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -377,6 +379,8 @@
     <Compile Include="Stats.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Syndication\AtomHandler.cs" />
+    <Compile Include="Syndication\AtomWriter.cs" />
     <Compile Include="Syndication\BaseAtomWriter.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -392,6 +396,9 @@
     <Compile Include="Syndication\CachedFeed.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Syndication\CategoryWriter.cs" />
+    <Compile Include="Syndication\CommentHandler.cs" />
+    <Compile Include="Syndication\CommentRssWriter.cs" />
     <Compile Include="Syndication\Compression\SyndicationCompressionFilter.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -404,7 +411,12 @@
     <Compile Include="Syndication\Compression\SyndicationCompressionSettings.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Syndication\EntryCollectionHandler.cs" />
+    <Compile Include="Syndication\RssCategoryHandler.cs" />
+    <Compile Include="Syndication\RssCommentHandler.cs" />
+    <Compile Include="Syndication\RssHandler.cs" />
     <Compile Include="Syndication\RssImageElement.cs" />
+    <Compile Include="Syndication\RssWriter.cs" />
     <Compile Include="Text\HtmlHelper.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -464,6 +476,10 @@
     <Compile Include="UI\Skinning\Style.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="UrlManager\HandlerConfiguration.cs" />
+    <Compile Include="UrlManager\HttpHandler.cs" />
+    <Compile Include="UrlManager\PageHandlerFactory.cs" />
+    <Compile Include="UrlManager\UrlReWriteHandlerFactory.cs" />
     <Compile Include="Util\BlogTime.cs">
       <SubType>Code</SubType>
     </Compile>

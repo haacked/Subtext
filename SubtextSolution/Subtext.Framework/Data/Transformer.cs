@@ -20,7 +20,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Format;
 
-namespace Subtext.Common.Data
+namespace Subtext.Framework.Data
 {
 	/// <summary>
 	/// Common Subtext object transformations

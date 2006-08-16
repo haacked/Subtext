@@ -15,37 +15,41 @@
 
 using System;
 using System.Collections.Generic;
-using Subtext.Common.Data;
+using Subtext.Framework.Data;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Syndication;
-using Subtext.Framework.Util;
 
-namespace Subtext.Common.Syndication
+namespace Subtext.Framework.Syndication
 {
 	/// <summary>
 	/// RssCommentHandler is a proposed extention to the CommentApi. This is still beta/etc.
 	/// The Main Rss feed now contains an element for each entry, which will generate a rss feed 
 	/// containing the comments for each post.
 	/// </summary>
-	public class RssCategoryHandler : EntryCollectionHandler
+	public class RssCommentHandler : EntryCollectionHandler
 	{
-		protected LinkCategory Category;
-        IList<Entry> posts;
+		protected Entry ParentEntry;
+        protected IList<Entry> Comments;
+        IList<Entry> comments;
 
+		/// <summary>
+		/// Gets the feed entries.
+		/// </summary>
+		/// <returns></returns>
         protected override IList<Entry> GetFeedEntries()
 		{
-			if(Category == null)
+			if(ParentEntry == null)
 			{
-				Category = Cacher.SingleCategory(CacheDuration.Short);
+				ParentEntry = Cacher.GetEntryFromRequest(CacheDuration.Short);
 			}
 
-			if(Category != null && posts == null)
+			if(ParentEntry != null && Comments == null)
 			{
-				posts = Cacher.GetEntriesByCategory(10, CacheDuration.Short, Category.Id);
+				Comments = Cacher.GetComments(ParentEntry, CacheDuration.Short);
 			}
 
-			return posts;
+			return Comments;
 		}
 
 
@@ -55,29 +59,49 @@ namespace Subtext.Common.Syndication
 		/// <returns></returns>
 		protected override CachedFeed BuildFeed()
 		{
-			CachedFeed feed =null;
+			CachedFeed feed;
 
-			posts = GetFeedEntries();
+			comments = GetFeedEntries();
+			if(comments == null)
+				comments = new List<Entry>();
 
-			if(posts != null && posts.Count > 0)
+		
+			feed = new CachedFeed();
+			CommentRssWriter crw = new CommentRssWriter(comments,ParentEntry);
+			if(comments.Count > 0)
 			{
-				feed = new CachedFeed();
-				CategoryWriter cw = new CategoryWriter(posts, Category,WebPathStripper.RemoveRssSlash(Context.Request.Url.ToString()));
-				feed.LastModified = this.ConvertLastUpdatedDate(posts[0].DateCreated);
-				feed.Xml = cw.Xml;
+				feed.LastModified = this.ConvertLastUpdatedDate(comments[comments.Count-1].DateCreated);
 			}
+			else
+			{
+				feed.LastModified = this.ParentEntry.DateCreated;
+			}
+			feed.Xml = crw.Xml;
 			return feed;
+		}
+
+		protected override bool IsLocalCacheOK()
+		{
+			string dt = LastModifiedHeader;
+			if(dt != null)
+			{
+				comments = GetFeedEntries();
+
+				if(comments != null && comments.Count > 0)
+				{
+					return DateTime.Compare(DateTime.Parse(dt), this.ConvertLastUpdatedDate(comments[comments.Count-1].DateCreated)) == 0;
+				}
+			}
+			return false;			
 		}
 
 		protected override BaseSyndicationWriter SyndicationWriter
 		{
 			get
 			{
-				return new CategoryWriter(posts, Category,WebPathStripper.RemoveRssSlash(Context.Request.Url.ToString()));
+				return new CommentRssWriter(comments, ParentEntry);
 			}
 		}
-
-
 	}
 }
 

@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using Subtext.Framework;
-using Subtext.Common.Data;
+using Subtext.Framework.Data;
 using Subtext.Framework.Components;
 
 #region Disclaimer/Info

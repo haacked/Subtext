@@ -22,7 +22,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Format;
 using Subtext.Framework.Text;
 
-namespace Subtext.Common.Syndication
+namespace Subtext.Framework.Syndication
 {
 	// To Do: Should we validate the supplied XML? 
 	// Not much that can be done if it is not correct.

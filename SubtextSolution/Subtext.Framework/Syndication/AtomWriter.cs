@@ -17,20 +17,19 @@ using System;
 using System.Collections.Generic;
 using Subtext.Framework.Components;
 
-namespace Subtext.Common.Syndication
+namespace Subtext.Framework.Syndication
 {
 	/// <summary>
 	/// Generates RSS
 	/// </summary>
-	public class RssWriter : Subtext.Framework.Syndication.BaseRssWriter
+	public class AtomWriter : Subtext.Framework.Syndication.BaseAtomWriter
 	{
 		/// <summary>
-		/// Creates a new <see cref="RssWriter"/> instance.
+		/// Creates a new <see cref="AtomWriter"/> instance.
 		/// </summary>
 		/// <param name="entries">Entries.</param>
-		/// <param name="dateLastViewedFeedItemPublished"></param>
-		/// <param name="useDeltaEncoding"></param>
-		public RssWriter(IList<Entry> entries, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(dateLastViewedFeedItemPublished, useDeltaEncoding)
+		/// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
+        public AtomWriter(IList<Entry> entries, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(dateLastViewedFeedItemPublished, useDeltaEncoding)
 		{
 			this.Entries = entries;
 			this.UseAggBugs = true;

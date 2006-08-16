@@ -61,7 +61,7 @@ namespace Subtext.Web.UI.Pages
 
 			string skinFolder = Config.CurrentBlog.Skin.TemplateFolder;
 
-			string[] controls = Subtext.Common.UrlManager.HandlerConfiguration.GetControls(Context);
+			string[] controls = Subtext.Framework.UrlManager.HandlerConfiguration.GetControls(Context);
             if (controls != null)
             {
                 foreach (string control in controls)

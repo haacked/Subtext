@@ -19,7 +19,7 @@ using System.Web;
 using System.Xml.Serialization;
 using Subtext.Framework.Threading;
 
-namespace Subtext.Common.UrlManager
+namespace Subtext.Framework.UrlManager
 {
 
 	public enum HandlerType

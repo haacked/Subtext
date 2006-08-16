@@ -2198,9 +2198,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Subtext.Common\Subtext.Common.csproj">
-      <Project>{7594F3CF-85F9-4500-AFBD-5D370D9D57B4}</Project>
-      <Name>Subtext.Common</Name>
+    <ProjectReference Include="..\Subtext.BlogMl\Subtext.BlogMl.csproj">
+      <Project>{830310DB-5D6A-453C-908A-058776D9C993}</Project>
+      <Name>Subtext.BlogMl</Name>
     </ProjectReference>
     <ProjectReference Include="..\Subtext.Extensibility\Subtext.Extensibility.csproj">
       <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>

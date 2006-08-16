@@ -16,7 +16,7 @@
 using System;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Subtext.Common.Data;
+using Subtext.Framework.Data;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Format;

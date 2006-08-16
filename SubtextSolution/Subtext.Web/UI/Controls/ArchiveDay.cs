@@ -1,6 +1,6 @@
 using System;
 using System.Globalization;
-using Subtext.Common.Data;
+using Subtext.Framework.Data;
 using Subtext.Framework;
 using Subtext.Framework.Util;
 

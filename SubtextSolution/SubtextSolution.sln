@@ -2,8 +2,6 @@ Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Framework", "Subtext.Framework\Subtext.Framework.csproj", "{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Common", "Subtext.Common\Subtext.Common.csproj", "{7594F3CF-85F9-4500-AFBD-5D370D9D57B4}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.Subtext", "UnitTests.Subtext\UnitTests.Subtext.csproj", "{16036AF0-ED24-4605-8919-90B40510BD68}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Web", "Subtext.Web\Subtext.Web.csproj", "{8C11B428-9C4A-46C3-B7F0-48215276BFA5}"
@@ -51,12 +49,6 @@ Global
 		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
 		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7594F3CF-85F9-4500-AFBD-5D370D9D57B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7594F3CF-85F9-4500-AFBD-5D370D9D57B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7594F3CF-85F9-4500-AFBD-5D370D9D57B4}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
-		{7594F3CF-85F9-4500-AFBD-5D370D9D57B4}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
-		{7594F3CF-85F9-4500-AFBD-5D370D9D57B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7594F3CF-85F9-4500-AFBD-5D370D9D57B4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{16036AF0-ED24-4605-8919-90B40510BD68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{16036AF0-ED24-4605-8919-90B40510BD68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16036AF0-ED24-4605-8919-90B40510BD68}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU

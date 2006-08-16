@@ -14,25 +14,23 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using Subtext.Framework.Components;
+using System.Web;
+using System.Web.Compilation;
+using System.Web.UI;
 
-namespace Subtext.Common.Syndication
+namespace Subtext.Framework.UrlManager 
 {
 	/// <summary>
-	/// Generates RSS
+	/// System.Web.UI.PageHandlerFactory is internal. We need the option to load our own 
+	/// classes with this for the virtual mapping.  With the virtual mapping default 
+	/// documents will not be loaded. if no page is found, we will use attempt to load 
+	/// default.aspx in the current directory
 	/// </summary>
-	public class AtomWriter : Subtext.Framework.Syndication.BaseAtomWriter
+	public static class PageHandlerFactory 
 	{
-		/// <summary>
-		/// Creates a new <see cref="AtomWriter"/> instance.
-		/// </summary>
-		/// <param name="entries">Entries.</param>
-		/// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
-        public AtomWriter(IList<Entry> entries, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(dateLastViewedFeedItemPublished, useDeltaEncoding)
+		public static IHttpHandler GetHandler(HttpContext context, string requestType, string url, string path)
 		{
-			this.Entries = entries;
-			this.UseAggBugs = true;
+            return BuildManager.CreateInstanceFromVirtualPath(url, typeof(Page)) as IHttpHandler;
 		}
 	}
 }

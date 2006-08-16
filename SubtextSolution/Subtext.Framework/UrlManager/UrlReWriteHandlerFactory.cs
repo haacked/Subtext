@@ -21,7 +21,7 @@ using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
 
-namespace Subtext.Common.UrlManager
+namespace Subtext.Framework.UrlManager
 {
 	/// <summary>
 	/// Class responisble for figuring out which Subtext page to load. 
