@@ -99,7 +99,7 @@
 		documentation XML files.
 	-->
 	<target name="compile-debug" depends="clean, version">
-		<property name="configuration" value="documentation"/>
+		<property name="configuration" value="debug"/>
 		<call target="compile" />
 	</target>
 
