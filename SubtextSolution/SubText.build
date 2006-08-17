@@ -58,7 +58,7 @@
 	</target>
 
 	
-	<target name="compile">
+	<target name="compile" depends="get-publishing-properties">
 		<exec program="${msbuild}">
 			<arg value="SubtextSolution.sln"/>
 			<arg value="/t:Build"/>
@@ -66,7 +66,7 @@
 		</exec>
 	</target>
 
-	<target name="clean" depends="get-publishing-properties">
+	<target name="clean">
 		<call target="clean-vs" />
 	</target>
 
@@ -148,23 +148,6 @@
 		</attrib>
 	</target>
 
-
-	<target name="dist.archive" depends="dist.publish.latest">
-		<mkdir dir="${publish.dir.archive}" />
-		<zip zipfile="${publish.dir.archive}\${build.date}.zip">
-			<fileset basedir="${publish.dir.latest}">
-				<include name="**/*" />
-				<exclude name="**/*.pdb" />
-			</fileset>
-		</zip>
-		<mkdir dir="${publish.source.dir.archive}" />
-		<zip zipfile="${publish.source.dir.archive}\${build.date}.zip">
-			<fileset basedir="${publish.source.dir.latest}">
-				<include name="**/*" />
-			</fileset>
-		</zip>
-	</target>
-
 	<target name="dist.publish.ndoc" depends="compile-docs">
 		<mkdir dir="${publish.workingdir.ndoc}" />
 
@@ -182,7 +165,6 @@
 		Generates the NDoc documentation.
 	-->
 	<target name="document" depends="dist.publish.ndoc">
-		<property name="configuration" value="documentation"/>
 		<property name="ndoc.file.name" value="CodeDocumentation" />
 
 		<echo message="Building xml comment files in ${publish.dir.latest}" />
