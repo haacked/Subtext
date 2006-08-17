@@ -47,7 +47,7 @@
 			
 		<property name="log.dir" value="${CCNetWorkingDirectory}\logs" />
 
-		<property name="publish.dir.ndoc" value="${CCNetArtifactDirectory}\builds\ndoc" />
+
 		<property name="publish.dir.latest" value="${CCNetArtifactDirectory}\builds\latest" />
 		<property name="publish.dir.archive" value="${CCNetArtifactDirectory}\builds\archive" />
 		
@@ -105,7 +105,7 @@
 
 	
 	<target name="compile-release" depends="clean, version">
-		<property name="configuration" value="release"/>
+		<property name="configuration" value="Release"/>
 		<call target="compile" />
 	</target>
 
