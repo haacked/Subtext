@@ -125,7 +125,11 @@
 		Compiles Subtext and runs the MbUnit tests and NCover reports.
 	-->
 	<target name="testAndCover" depends="get-publishing-properties,compile-debug">
-		<exec program="${NCover.exe}" workingdir="UnitTests.Subtext\bin\${configuration}" commandline="&quot;${MbUnit.exe}&quot; /rnf:unittest /rt:xml /rf:${log.dir} UnitTests.Subtext.dll //x ${log.dir}\ncover-temp.xml" failonerror="true"/>
+		<exec program="${NCover.exe}" 
+			workingdir="UnitTests.Subtext\bin\${configuration}" 
+			commandline="&quot;${MbUnit.exe}&quot; /rnf:unittest /rt:xml /rf:${log.dir} UnitTests.Subtext.dll //x ${log.dir}\ncover-temp.xml" 
+			failonerror="true"/>
+
 		<call target="util.ncoverexplorer.nant" />	
 	</target>
 	
