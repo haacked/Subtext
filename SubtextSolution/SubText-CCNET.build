@@ -196,21 +196,6 @@
 		</attrib>
 	</target>
 
-	
-	<target name="dist.publish.ndoc" depends="testAndCover">
-		<mkdir dir="${publish.dir.ndoc}" />
-
-		<echo message="deploying binaries to ndoc folder" />
-
-		<copy todir="${publish.dir.ndoc}" includeemptydirs="false">
-			<fileset basedir="Subtext.Web">
-				<include name="bin/*.xml" />
-				<include name="bin/*.dll" />
-			</fileset>
-		</copy>
-	</target>
-
-
 	<target name="dist.archive" depends="dist.publish.latest">
 		<mkdir dir="${publish.dir.archive}" />
 		<zip zipfile="${publish.dir.archive}\${fileLabel}.zip">
@@ -222,39 +207,4 @@
 		<delete dir="${publish.dir.latest}" failonerror="false" />
 	</target>
 
-	<!--
-		Generates the NDoc documentation.
-	-->
-	<target name="document" depends="dist.publish.ndoc">
-		<property name="configuration" value="documentation"/>
-		<property name="ndoc.file.name" value="CodeDocumentation" />
-
-		<echo message="Building xml comment files in ${publish.dir.latest}" />	
-		
-		<ndoc>
-			<assemblies basedir="${publish.dir.ndoc}">
-				<include name="Subtext.BlogMl.dll" />
-				<include name="Subtext.Framework.dll" />
-				<include name="Subtext.Web.dll" />
-				<include name="Subtext.Extensibility.dll" />
-				<include name="Subtext.Installation.dll" />
-				<include name="Subtext.Web.Controls.dll" />
-			</assemblies>
-			<documenters>
-				<documenter name="MSDN">
-					<property name="OutputDirectory" value="${ndoc.output.dir}" />
-					<property name="HtmlHelpName" value="${ndoc.file.name}" />
-					<property name="HtmlHelpCompilerFilename" value="hhc.exe" />
-					<property name="Title" value="Subtext Code Documentation" />
-					<property name="CopyrightText" value="Copyright 2005-2006 Phil Haack" />
-					<property name="CopyrightHref" value="" />
-					<property name="UseNamespaceDocSummaries" value="True" />
-				</documenter>
-			</documenters>
-		</ndoc>
-		
-		<copy file="${ndoc.output.dir}\${ndoc.file.name}.chm" todir="${docs.root.dir}" />
-		<delete dir="${ndoc.output.dir}" />
-		<delete dir="${publish.dir.ndoc}" />
-	</target>
 </project>
