@@ -36,6 +36,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Providers.BlogEntry
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.BlogMl", "Subtext.BlogMl\Subtext.BlogMl.csproj", "{830310DB-5D6A-453C-908A-058776D9C993}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CCNET", "CCNET", "{DD225739-6817-4A4F-9386-765ABA27C754}"
+	ProjectSection(SolutionItems) = preProject
+		..\Utilities\CCNET_Config\ccnet.config = ..\Utilities\CCNET_Config\ccnet.config
+		..\Utilities\CCNET_Config\dashboard.config = ..\Utilities\CCNET_Config\dashboard.config
+		SubText-CCNET.build = SubText-CCNET.build
+		..\Utilities\CCNET_Config\Update-CCNET.build = ..\Utilities\CCNET_Config\Update-CCNET.build
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

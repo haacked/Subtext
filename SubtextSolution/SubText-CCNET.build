@@ -1,8 +1,7 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <project xmlns="http://nant.sf.net/schemas/nant.xsd" name="SubText">
 	
 	<property name="nant.settings.currentframework" value="net-2.0"/>
-
 	
 	<target name="get-publishing-properties">
 	
@@ -61,25 +60,20 @@
 		
 		<property name="docs.root.dir" value="${CCNetWorkingDirectory}\Docs" />
 		<property name="ndoc.output.dir" value="${docs.root.dir}\NDoc" />
-	
 	</target>
 
-
-
-
+	<!-- //TODO: Consider checking in this file after update the version -->
 	<target name="version" depends="get-publishing-properties">
 		<asminfo output="VersionInfo.Designer.cs" language="CSharp">
-    <imports>
-        <import namespace="System" />
-        <import namespace="System.Reflection" />
-    </imports>
+			<imports>
+				<import namespace="System" />
+				<import namespace="System.Reflection" />
+			</imports>
 			<attributes>
 				<attribute type="AssemblyVersionAttribute" value="${CCNetLabel}" />
 			</attributes>
 		</asminfo>
 	</target>
-
-
 
 	<target name="clean" depends="get-publishing-properties">
 		<delete dir="${log.dir}" failonerror="false" />
@@ -106,12 +100,16 @@
 		<property name="configuration" value="debug"/>
 		<call target="compile" />
 	</target>
-	
-	<target name="compile-release" depends="clean, version">
-		<property name="configuration" value="Release"/>
+
+	<target name="compile-doc" depends="clean, version">
+		<property name="configuration" value="documentation"/>
 		<call target="compile" />
 	</target>
-
+	
+	<target name="compile-release" depends="clean, version">
+		<property name="configuration" value="release"/>
+		<call target="compile" />
+	</target>
 
 	<target name="compile">
 		<exec program="${msbuild.exe}">
@@ -124,11 +122,8 @@
 	</target>
 
 	<target name="testAndCover" depends="get-publishing-properties,compile-debug">
-		
 		<exec program="${NCover.exe}" workingdir="UnitTests.Subtext\bin\${configuration}" commandline="&quot;${MbUnit.exe}&quot; /rnf:unittest /rt:xml /rf:${log.dir} UnitTests.Subtext.dll //x ${log.dir}\ncover-temp.xml" failonerror="true"/>
-		
-		<call target="util.ncoverexplorer.nant" />
-		
+		<call target="util.ncoverexplorer.nant" />	
 	</target>
 
 	<target name="reporting" depends="compile-debug">
@@ -160,11 +155,10 @@
 		<mkdir dir="${log.dir}" />
 		<exec program="${vil.exe}" commandline='/a="${vil.assemblies}" /outxml="${log.dir}\results-vil.xml" /m classes,enumerations,structs,types,LOC,events,impInterfaces,dead,WMC,DIT,CBO,RFC,NOC,CC,constructors,methods,imps,fields,properties' failonerror="false"/>
 	</target>
-	
+
 	<target name="release" depends="dist.archive">
 		<echo message="CI Run for build number ${CCNetLabel} successfully completed" />
-	</target>
-	
+	</target>	
 
 	<target name="dist.publish.latest" depends="compile-release">
 
@@ -232,7 +226,7 @@
 		
 		<call target="dist.publish.latest" />	
 		
-		<echo message="Building xml comment files in ${publish.dir.latest}" />
+		<echo message="Building xml comment files in ${publish.dir.latest}" />	
 		
 		<ndoc>
 			<assemblies basedir="${publish.dir.latest}\bin">
