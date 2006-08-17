@@ -66,6 +66,25 @@
 		</exec>
 	</target>
 
+	<target name="clean" depends="get-publishing-properties">
+		<call target="clean-vs" />
+	</target>
+
+
+	<target name="clean-vs">
+		<foreach item="Folder" property="foldername">
+			<in>
+				<items basedir=".">
+					<include name="*\bin" />
+					<include name="*\obj" />
+				</items>
+			</in>
+			<do>
+				<delete dir="${foldername}" />
+			</do>
+		</foreach>
+		<mkdir dir="Subtext.Web\bin" />
+	</target>
 	
 	<target name="dist.publish.latest" depends="compile-release,get-publishing-properties">
 		<delete dir="${publish.dir.latest}" failonerror="false" />
