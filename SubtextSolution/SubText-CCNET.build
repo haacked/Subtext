@@ -255,6 +255,6 @@
 		
 		<copy file="${ndoc.output.dir}\${ndoc.file.name}.chm" todir="${docs.root.dir}" />
 		<delete dir="${ndoc.output.dir}" />
-		<delete dir="${publish.dir.ndoc}"
+		<delete dir="${publish.dir.ndoc}" />
 	</target>
 </project>
