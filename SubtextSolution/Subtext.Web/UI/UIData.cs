@@ -53,5 +53,16 @@ namespace Subtext.Web.UI
 		{
 			return Transformer.BuildMonthLinks(UIText.Archives, formats);
 		}
+
+    /// <summary>
+    /// Builds a <see cref="LinkCategory"/> using the specified url formats. 
+    /// A LinkCategory is a common item to databind to a web control.
+    /// </summary>
+    /// <param name="formats">Determines how the links are formatted.</param>
+    /// <returns></returns>
+    public static LinkCategory ArchiveCategory(UrlFormats formats)
+    {
+        return Transformer.BuildCategoriesArchiveLinks(UIText.PostCollection, formats);
+    }
 	}
 }
