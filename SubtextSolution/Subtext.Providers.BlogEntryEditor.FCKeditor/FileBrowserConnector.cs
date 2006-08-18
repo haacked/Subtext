@@ -338,13 +338,13 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
             IPagedCollection<Entry> posts;
 			if(currentFolder.Equals("/"))
 			{
-				posts= Entries.GetPagedEntries(PostType.BlogPost, -1,1, 1000);
+				posts= Entries.GetPagedEntries(PostType.BlogPost, -1,0, 1000);
 			}
 			else
 			{
 				string categoryName=currentFolder.Substring(1,currentFolder.Length-2);
 				LinkCategory cat = Links.GetLinkCategory(categoryName,false);
-				posts= Entries.GetPagedEntries(PostType.BlogPost, cat.Id, 1, 1000);
+				posts= Entries.GetPagedEntries(PostType.BlogPost, cat.Id,0,1000);
 			}
 
 			// Create the "Files" node.
@@ -355,7 +355,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 				if(entry.IsActive) 
 				{
 					XmlNode oFileNode = XmlUtil.AppendElement( oFilesNode, "File" ) ;
-                    XmlUtil.SetAttribute(oFileNode, "name", string.Format("{0}|{1}", entry.Title, entry.Url));
+                    XmlUtil.SetAttribute(oFileNode, "name", string.Format("{0}|{1}", entry.Title, entry.FullyQualifiedUrl));
                     XmlUtil.SetAttribute(oFileNode, "size", entry.DateUpdated.ToShortDateString());
 				}
 			}
