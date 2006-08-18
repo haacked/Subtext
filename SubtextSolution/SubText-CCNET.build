@@ -27,9 +27,7 @@
 
 		<property name="MbUnit.exe" value="${CCNetWorkingDirectory}\Tools\MbUnit\MbUnit.Cons.exe"/>
 
-		<if test="${not property::exists('NCover.exe')}"> 
-			<fail message="NCover.exe property not set, so cannot test" />
-		</if>
+		<property name="NCover.exe" value="${CCNetWorkingDirectory}\Tools\NCover\NCover.Console.exe" />
 		
 		<if test="${not property::exists('fxcop.exe')}"> 
 			<fail message="fxcop.exe property not set, so cannot test" />
