@@ -99,5 +99,33 @@ namespace Subtext.Framework.Data
 			}
 			return lc;
 		}
+
+        /// <summary>
+        /// Will convert ArchiveCountCollection method from Archives.GetPostsByCategoryArchive()
+        /// into a <see cref="LinkCategory"/>. LinkCategory is a common item to databind to a web control.
+        /// </summary>
+        /// <param name="title">title for the Category</param>
+        /// <param name="formats">Determines how the Urls are formated</param>
+        /// <returns>A LinkCategory object with a Link (via LinkCollection) for each month in ArchiveCountCollection</returns>
+        public static LinkCategory BuildCategoriesArchiveLinks(string title, UrlFormats formats)
+        {
+            ICollection<ArchiveCount> acc = Archives.GetPostsByCategoryArchive();
+
+            LinkCategory lc = new LinkCategory();
+            lc.Title = title;
+            lc.Links = new List<Link>();
+            foreach (ArchiveCount ac in acc)
+            {
+                Link link = new Link();
+                link.NewWindow = false;
+                link.Title = ac.Title + " (" + ac.Count.ToString(CultureInfo.InvariantCulture) + ")";
+                link.Url = formats.PostCategoryUrl(ac.Title, ac.Id);
+                link.NewWindow = false;
+                link.IsActive = true;
+
+                lc.Links.Add(link);
+            }
+            return lc;
+        }
 	}
 }

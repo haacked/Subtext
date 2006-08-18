@@ -4192,8 +4192,13 @@ CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoriesArchive]
 AS
 
 
-select subtext_LinkCategories.CategoryID, subtext_LinkCategories.Title, count(*) as numPosts
-
+select subtext_LinkCategories.CategoryID as [Id],
+	subtext_LinkCategories.Title, 
+	count(*) as  [Count],
+	1 AS [Month],
+	1 AS [Year],
+	1 AS [Day]
+	
 from subtext_LinkCategories inner join subtext_Links on subtext_LinkCategories.CategoryID=subtext_Links.CategoryID
 where			subtext_LinkCategories.Active= 1 
 	AND		(subtext_LinkCategories.BlogId = @BlogId OR @BlogId IS NULL)

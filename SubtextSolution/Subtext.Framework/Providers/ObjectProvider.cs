@@ -355,6 +355,7 @@ namespace Subtext.Framework.Providers
 		#region Archives
         public abstract ICollection<ArchiveCount> GetPostsByYearArchive();
         public abstract ICollection<ArchiveCount> GetPostsByMonthArchive();
+        public abstract ICollection<ArchiveCount> GetPostsByCategoryArchive();
 		#endregion
 		#endregion
 	}

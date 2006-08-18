@@ -997,6 +997,12 @@ namespace Subtext.Framework.Data
 			return GetReader("subtext_GetPostsByYearArchive", p);
 		}
 
+        public override IDataReader GetPostsByCategoryArchive()
+        {
+            SqlParameter[] p = { BlogIdParam };
+            return GetReader("subtext_GetPostsByCategoriesArchive", p);
+        }
+
 		#endregion
 
 		#region KeyWords

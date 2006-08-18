@@ -22,7 +22,7 @@ namespace Subtext.Framework
 {
 	/// <summary>
 	/// Static class used to get collections of archived posts 
-	/// (by month and year) from the data provider.
+	/// (by month and year and category) from the data provider.
 	/// </summary>
 	public static class Archives
 	{
@@ -43,5 +43,14 @@ namespace Subtext.Framework
 		{
 			return ObjectProvider.Instance().GetPostsByYearArchive();
 		}
+
+        /// <summary>
+        /// Gets archived posts by category.
+        /// </summary>
+        /// <returns></returns>
+        public static ICollection<ArchiveCount> GetPostsByCategoryArchive()
+        {
+            return ObjectProvider.Instance().GetPostsByCategoryArchive();
+        }
 	}
 }
