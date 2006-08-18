@@ -25,9 +25,9 @@
 			<fail message="CCNetLabel property not set, so can't create distribution files" />
 		</if>
 
-		<property name="MbUnit.exe" value="${CCNetWorkingDirectory}\Tools\MbUnit\MbUnit.Cons.exe"/>
+		<property name="MbUnit.exe" value="${CCNetWorkingDirectory}\BuildTools\MbUnit\MbUnit.Cons.exe"/>
 
-		<property name="NCover.exe" value="${CCNetWorkingDirectory}\Tools\NCover\NCover.Console.exe" />
+		<property name="NCover.exe" value="${CCNetWorkingDirectory}\BuildTools\NCover\NCover.Console.exe" />
 		
 		<if test="${not property::exists('fxcop.exe')}"> 
 			<fail message="fxcop.exe property not set, so cannot test" />
