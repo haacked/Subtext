@@ -57,13 +57,23 @@ namespace Subtext.Web.UI.Controls
 			if (archiveMonth != null)
 				lcc.Add(archiveMonth);
 
+            /*   
+             * Uncomment this to test the Category Archive with post count
+             * and comment to following block of code 
+             */ 
+
+            //LinkCategory archiveCategories = UIData.ArchiveCategory(CurrentBlog.UrlFormats);
+            //if (archiveCategories != null)
+            //    lcc.Add(archiveCategories);
+            
+
 			LinkCategory postCollection = UIData.Links(CategoryType.PostCollection, CurrentBlog.UrlFormats);
 			if (postCollection != null)
-				lcc.Add(UIData.Links(CategoryType.PostCollection, CurrentBlog.UrlFormats));
+                lcc.Add(postCollection);
 
 			LinkCategory imageCollection = UIData.Links(CategoryType.ImageCollection, CurrentBlog.UrlFormats);
 			if (imageCollection != null)
-				lcc.Add(UIData.Links(CategoryType.ImageCollection, CurrentBlog.UrlFormats));
+                lcc.Add(imageCollection);
 			
 			lcc.AddRange(Links.GetActiveCategories());
 			return lcc;
