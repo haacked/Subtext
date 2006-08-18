@@ -10,7 +10,6 @@ namespace Subtext.Web.UI.Controls
 	using Subtext.Framework.Data;
 	using Subtext.Framework;
 	using Subtext.Framework.Components;
-	using Subtext.Framework.Data;
 	using Subtext.Framework.Providers;
 	/// <summary>
 	/// Summary description for RelatedLinks.
