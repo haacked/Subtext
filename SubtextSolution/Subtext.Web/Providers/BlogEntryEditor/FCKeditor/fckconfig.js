@@ -32,10 +32,12 @@ FCKConfig.Debug = false ;
 FCKConfig.AllowQueryStringDebug = false ;
 
 FCKConfig.SkinPath = FCKConfig.BasePath + 'skins/default/' ;
+FCKConfig.PreloadImages = [ FCKConfig.SkinPath + 'images/toolbar.start.gif', FCKConfig.SkinPath + 'images/toolbar.buttonarrow.gif' ] ;
 
 FCKConfig.PluginsPath = FCKConfig.BasePath + 'plugins/' ;
 
 // FCKConfig.Plugins.Add( 'placeholder', 'de,en,fr,it,pl' ) ;
+FCKConfig.AutoGrowMax = 400 ;
 
 FCKConfig.ProtectedSource.Add( /<script[\s\S]*?\/script>/gi ) ;	// <SCRIPT> tags.
 FCKConfig.ProtectedSource.Add( /<%[\s\S]*?%>/g ) ;	// ASP style server side code <%...%>
@@ -45,9 +47,6 @@ FCKConfig.ProtectedSource.Add( /(<asp:[^\>]+>[\s|\S]*?<\/asp:[^\>]+>)|(<asp:[^\>
 FCKConfig.AutoDetectLanguage	= true ;
 FCKConfig.DefaultLanguage		= 'en' ;
 FCKConfig.ContentLangDirection	= 'ltr' ;
-
-FCKConfig.EnableXHTML		= true ;	// Unsupported: Do not change.
-FCKConfig.EnableSourceXHTML	= true ;	// Unsupported: Do not change.
 
 FCKConfig.ProcessHTMLEntities	= true ;
 FCKConfig.IncludeLatinEntities	= true ;
@@ -67,13 +66,15 @@ FCKConfig.AutoDetectPasteFromWord = true ;	// IE only.
 FCKConfig.ForceSimpleAmpersand	= false ;
 FCKConfig.TabSpaces		= 0 ;
 FCKConfig.ShowBorders	= true ;
+FCKConfig.SourcePopup	= false ;
 FCKConfig.UseBROnCarriageReturn	= false ;	// IE only.
 FCKConfig.ToolbarStartExpanded	= true ;
 FCKConfig.ToolbarCanCollapse	= true ;
-FCKConfig.IEForceVScroll = false ;
 FCKConfig.IgnoreEmptyParagraphValue = true ;
 FCKConfig.PreserveSessionOnFileBrowser = false ;
 FCKConfig.FloatingPanelsZIndex = 10000 ;
+
+FCKConfig.ToolbarLocation = 'In' ;
 
 FCKConfig.ToolbarSets["Default"] = [
 	['Source','DocProps','-','Save','NewPage','Preview','-','Templates'],
@@ -95,7 +96,7 @@ FCKConfig.ToolbarSets["Basic"] = [
 	['Bold','Italic','-','OrderedList','UnorderedList','-','Link','Unlink','-','About']
 ] ;
 
-FCKConfig.ContextMenu = ['Generic','Link','Anchor','Image','Flash','Select','Textarea','Checkbox','Radio','TextField','HiddenField','ImageButton','Button','BulletedList','NumberedList','TableCell','Table','Form'] ;
+FCKConfig.ContextMenu = ['Generic','Link','Anchor','Image','Flash','Select','Textarea','Checkbox','Radio','TextField','HiddenField','ImageButton','Button','BulletedList','NumberedList','Table','Form'] ;
 
 FCKConfig.FontColors = '000000,993300,333300,003300,003366,000080,333399,333333,800000,FF6600,808000,808080,008080,0000FF,666699,808080,FF0000,FF9900,99CC00,339966,33CCCC,3366FF,800080,999999,FF00FF,FFCC00,FFFF00,00FF00,00FFFF,00CCFF,993366,C0C0C0,FF99CC,FFCC99,FFFF99,CCFFCC,CCFFFF,99CCFF,CC99FF,FFFFFF' ;
 
@@ -107,12 +108,12 @@ FCKConfig.StylesXmlPath		= FCKConfig.EditorPath + 'fckstyles.xml' ;
 FCKConfig.TemplatesXmlPath	= FCKConfig.EditorPath + 'fcktemplates.xml' ;
 
 FCKConfig.SpellChecker			= 'ieSpell' ;	// 'ieSpell' | 'SpellerPages'
-FCKConfig.IeSpellDownloadUrl	= 'http://www.iespell.com/rel/ieSpellSetup211325.exe' ;
+FCKConfig.IeSpellDownloadUrl	= 'http://iespell.huhbw.com/ieSpellSetup220647.exe' ;
 
 FCKConfig.MaxUndoLevels = 15 ;
 
-FCKConfig.DisableImageHandles = false ;
-FCKConfig.DisableTableHandles = false ;
+FCKConfig.DisableObjectResizing = false ;
+FCKConfig.DisableFFTableHandles = true ;
 
 FCKConfig.LinkDlgHideTarget		= false ;
 FCKConfig.LinkDlgHideAdvanced	= false ;
