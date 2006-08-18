@@ -382,6 +382,10 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetTop10byBlogId]
 GO
 
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPostsByCategoriesArchive]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].subtext_GetPostsByCategoriesArchive
+GO
+
 SET QUOTED_IDENTIFIER OFF 
 GO
 SET ANSI_NULLS OFF 
@@ -4167,4 +4171,42 @@ SET ANSI_NULLS ON
 GO
 
 GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetEntriesForBlogMl] TO [public]
+GO
+
+
+
+
+/*
+	subtext_GetPostsByCategoriesArchive - (called from CategoryCloud.ascx) - SCH
+	retrieves all active categories with realative post number
+*/
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoriesArchive]  
+(
+	@BlogId int = NULL
+)
+AS
+
+
+select subtext_LinkCategories.CategoryID, subtext_LinkCategories.Title, count(*) as numPosts
+
+from subtext_LinkCategories inner join subtext_Links on subtext_LinkCategories.CategoryID=subtext_Links.CategoryID
+where			subtext_LinkCategories.Active= 1 
+	AND		(subtext_LinkCategories.BlogId = @BlogId OR @BlogId IS NULL)
+	AND		subtext_LinkCategories.CategoryType = 1 -- post category
+
+group by subtext_LinkCategories.CategoryID, subtext_LinkCategories.Title
+order by subtext_LinkCategories.Title
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoriesArchive]  TO [public]
 GO
