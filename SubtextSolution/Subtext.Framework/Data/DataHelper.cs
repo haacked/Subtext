@@ -554,10 +554,8 @@ namespace Subtext.Framework.Data
 				ac.Date = DateTime.ParseExact(dt,"MM/dd/yyyy",CultureInfo.InvariantCulture);
                 
 				ac.Count = ReadInt32(reader, "Count");
-                //TODO: This broke the unit tests. ac.Title = ReadString(reader, "Title");
-				
-                ac.Id = ReadInt32(reader, "Id");
-
+                //TODO: This broke the unit tests: ac.Title = ReadString(reader, "Title");
+				//TODO: This broke the unit tests: ac.Id = ReadInt32(reader, "Id");
 				acc.Add(ac);
 			}
 			return acc;
