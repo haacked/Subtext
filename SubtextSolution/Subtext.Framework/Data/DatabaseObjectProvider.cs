@@ -1027,6 +1027,20 @@ namespace Subtext.Framework.Data
 			}
 		}
 
+        public override ICollection<ArchiveCount> GetPostsByCategoryArchive()
+        {
+            IDataReader reader = DbProvider.Instance().GetPostsByCategoryArchive();
+            try
+            {
+                ICollection<ArchiveCount> acc = DataHelper.LoadArchiveCount(reader);
+                return acc;
+            }
+            finally
+            {
+                reader.Close();
+            }
+        }
+
 		#endregion
 
 	}

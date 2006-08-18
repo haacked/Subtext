@@ -552,8 +552,12 @@ namespace Subtext.Framework.Data
 				dt = string.Format(CultureInfo.InvariantCulture, dateformat, ReadInt32(reader, "Month"),ReadInt32(reader, "Day"),ReadInt32(reader, "Year"));
 				// FIX: BUG SF1423271 Archives Links
 				ac.Date = DateTime.ParseExact(dt,"MM/dd/yyyy",CultureInfo.InvariantCulture);
-
+                
 				ac.Count = ReadInt32(reader, "Count");
+
+                ac.Title = ReadString(reader, "Title");
+                ac.Id = ReadInt32(reader, "Id");
+
 				acc.Add(ac);
 			}
 			return acc;

@@ -356,6 +356,7 @@ namespace Subtext.Framework.Providers
 
 		public abstract IDataReader GetPostsByMonthArchive();
 		public abstract IDataReader GetPostsByYearArchive();
+        public abstract IDataReader GetPostsByCategoryArchive();
 
 		#endregion
 		#endregion
