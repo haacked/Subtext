@@ -38,10 +38,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.BlogMl", "Subtext.B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CCNET", "CCNET", "{DD225739-6817-4A4F-9386-765ABA27C754}"
 	ProjectSection(SolutionItems) = preProject
-		..\Utilities\CCNET_Config\ccnet.config = ..\Utilities\CCNET_Config\ccnet.config
-		..\Utilities\CCNET_Config\dashboard.config = ..\Utilities\CCNET_Config\dashboard.config
+		..\BuildTools\CCNET_Config\ccnet.config = ..\BuildTools\CCNET_Config\ccnet.config
 		SubText-CCNET.build = SubText-CCNET.build
-		..\Utilities\CCNET_Config\Update-CCNET.build = ..\Utilities\CCNET_Config\Update-CCNET.build
+		..\BuildTools\CCNET_Config\Update-CCNET.build = ..\BuildTools\CCNET_Config\Update-CCNET.build
 	EndProjectSection
 EndProject
 Global
@@ -64,8 +63,8 @@ Global
 		{16036AF0-ED24-4605-8919-90B40510BD68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C11B428-9C4A-46C3-B7F0-48215276BFA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8C11B428-9C4A-46C3-B7F0-48215276BFA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8C11B428-9C4A-46C3-B7F0-48215276BFA5}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
-		{8C11B428-9C4A-46C3-B7F0-48215276BFA5}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
+		{8C11B428-9C4A-46C3-B7F0-48215276BFA5}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C11B428-9C4A-46C3-B7F0-48215276BFA5}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{8C11B428-9C4A-46C3-B7F0-48215276BFA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C11B428-9C4A-46C3-B7F0-48215276BFA5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{13018F20-F796-4FFE-9290-83D0E661C0A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
