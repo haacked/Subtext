@@ -1,6 +1,6 @@
 ﻿/*
  * FCKeditor - The text editor for internet
- * Copyright (C) 2003-2005 Frederico Caldeira Knabben
+ * Copyright (C) 2003-2006 Frederico Caldeira Knabben
  * 
  * Licensed under the terms of the GNU Lesser General Public License:
  * 		http://www.opensource.org/licenses/lgpl-license.php
@@ -41,6 +41,9 @@ var FCKeditor = function( instanceName, width, height, toolbarSet, value )
 	// Events
 	this.OnError		= null ;	// function( source, errorNumber, errorDescription )
 }
+
+FCKeditor.prototype.Version			= '2.3.1' ;
+FCKeditor.prototype.VersionBuild	= '1062' ;
 
 FCKeditor.prototype.Create = function()
 {
@@ -128,7 +131,7 @@ FCKeditor.prototype._GetIFrameHtml = function()
 	var sLink = this.BasePath + 'editor/' + sFile + '?InstanceName=' + this.InstanceName ;
 	if (this.ToolbarSet) sLink += '&Toolbar=' + this.ToolbarSet ;
 
-	return '<iframe id="' + this.InstanceName + '___Frame" src="' + sLink + '" width="' + this.Width + '" height="' + this.Height + '" frameborder="no" scrolling="no"></iframe>' ;
+	return '<iframe id="' + this.InstanceName + '___Frame" src="' + sLink + '" width="' + this.Width + '" height="' + this.Height + '" frameborder="0" scrolling="no"></iframe>' ;
 }
 
 FCKeditor.prototype._IsCompatibleBrowser = function()
@@ -141,19 +144,15 @@ FCKeditor.prototype._IsCompatibleBrowser = function()
 		var sBrowserVersion = navigator.appVersion.match(/MSIE (.\..)/)[1] ;
 		return ( sBrowserVersion >= 5.5 ) ;
 	}
-	
-	// Gecko
-	if ( navigator.product == "Gecko" && navigator.productSub >= 20030210 )
+
+	// Gecko (Opera 9 tries to behave like Gecko at this point).
+	if ( navigator.product == "Gecko" && navigator.productSub >= 20030210 && !( typeof(opera) == 'object' && opera.postError ) )
 		return true ;
-	
+
 	// Opera
-	if ( this.EnableOpera )
-	{
-		var aMatch = sAgent.match( /^opera\/(\d+\.\d+)/ ) ;
-		if ( aMatch && aMatch[1] >= 9.0 )
+	if ( this.EnableOpera && navigator.appName == 'Opera' && parseInt( navigator.appVersion ) >= 9 )
 			return true ;
-	}
-	
+
 	// Safari
 	if ( this.EnableSafari && sAgent.indexOf( 'safari' ) != -1 )
 		return ( sAgent.match( /safari\/(\d+)/ )[1] >= 312 ) ;	// Build must be at least 312 (1.3)
