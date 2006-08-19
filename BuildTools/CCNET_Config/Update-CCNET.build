@@ -4,17 +4,18 @@
 	<property name="nant.settings.currentframework" value="net-1.1"/>
 
 	<target name="get-publishing-properties">
-	
-		<ifnot test="${property::exists('ccnet.config')}"> 
-			<fail message="ccnet.config property not set, so can't copy files" />
-		</ifnot>	
 
-		<ifnot test="${property::exists('dashboard.config')}"> 
-			<fail message="dashboard.config property not set, so can't copy files" />
-		</ifnot>
+		<if test="${not property::exists('ccnet.root')}">
+			<fail message="CruiseControl.NET root directory not specified." />
+		</if>
+
+		<property name="dashboard.root" value="${ccnet.root}\webdashboard"/>
+		<property name="ccnet.config" value="${ccnet.root}\server\ccnet.config" />
+		<property name="dashboard.config" value="${dashboard.root}\dashboard.config" />
 	</target>
 
 	<target name="copyfiles">
+		<copy file="image.ashx" tofile="${dashboard.root}\image.ashx" />
 		<copy file="dashboard.config" tofile="${dashboard.config}" />
 		<copy file="ccnet.config" tofile="${ccnet.config}" />
 	</target>
