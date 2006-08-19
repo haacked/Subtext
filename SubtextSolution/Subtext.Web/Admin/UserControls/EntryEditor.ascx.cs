@@ -394,7 +394,7 @@ namespace Subtext.Web.Admin.UserControls
 					}
 					else
 					{
-						entry = Entries.GetEntry(PostID, PostConfig.IsActive, false);
+						entry = Entries.GetEntry(PostID, PostConfig.None, false);
 						if(entry.PostType != EntryType)
 						{
 							this.EntryType = entry.PostType;
