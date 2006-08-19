@@ -25,6 +25,18 @@
 			<fail message="CCNetLabel property not set, so can't create distribution files" />
 		</if>
 
+		<if test="${not property::exists('fxcop.exe')}">
+			<fail message="fxcop.exe property not set, so cannot test" />
+		</if>
+
+		<if test="${not property::exists('ncoverexplorer.exe')}">
+			<fail message="ncoverexplorer.exe property not set, so cannot test" />
+		</if>
+
+		<if test="${not property::exists('msbuild.exe')}">
+			<fail message="msbuild.exe property not set, so cannot test" />
+		</if>
+
 		<property name="solution.dir" value="${CCNetWorkingDirectory}\SubtextSolution" />
 		<property name="MbUnit.exe" value="${CCNetWorkingDirectory}\BuildTools\MbUnit\MbUnit.Cons.exe" />
 		<property name="NCover.exe" value="${CCNetWorkingDirectory}\BuildTools\NCover\NCover.Console.exe" />
@@ -32,19 +44,7 @@
 		<property name="NDepend.config" value="${solution.dir}\NDependProject.xml" />
 		<property name="subtext.web.bin" value="${solution.dir}\Subtext.Web\bin" />
 		<property name="codemetrics.output.dir" value="${CCNetWorkingDirectory}\NDependTemp" />
-		
-		<if test="${not property::exists('fxcop.exe')}"> 
-			<fail message="fxcop.exe property not set, so cannot test" />
-		</if>
-		
-		<if test="${not property::exists('ncoverexplorer.exe')}"> 
-			<fail message="ncoverexplorer.exe property not set, so cannot test" />
-		</if>
-	
-		<if test="${not property::exists('msbuild.exe')}"> 
-			<fail message="msbuild.exe property not set, so cannot test" />
-		</if>
-			
+
 		<property name="log.dir" value="${CCNetWorkingDirectory}\logs" />
 
 		<property name="publish.dir.latest" value="${CCNetArtifactDirectory}\builds\latest" />
@@ -130,29 +130,27 @@
 			failonerror="true"/>
 
 		<call target="util.ncoverexplorer.nant" />
-		<call target="code.metrics" />
+		<!-- Add this later:		<call target="code.metrics" /> -->
 	</target>
 
 
 	<target name="code.metrics">
-		<!-- Creates an NDependTemp working directory -->
-		<mkdir dir="${codemetrics.output.dir}" unless="${directory::exists(codemetrics.output.dir)}" />
+		<!-- Uses the pre-existing logs folder -->
 
 		<!--	Put NDepend config xml into a working output directory, 
 				since NDepend will output to the same directory as directory 
 				used for input.									-->
-		<copy todir="${codemetrics.output.dir}" failonerror="false">
+		<copy todir="${log.dir}" failonerror="false">
 			<fileset basedir="${solution.dir}">
 				<include name="NDependProject.xml" />
 			</fileset>
 		</copy>
 
 		<!-- Set the path to our temporary file -->
-		<property name="ndepend.input" value="${codemetrics.output.dir}\NDependProject.xml" />
+		<property name="ndepend.input" value="${log.dir}\NDependProject.xml" />
 
 		<!-- Change the value of the target bin directory to point to the output of the build
          (copied binaries to output.dir in a previous task). -->
-		<echo message="Writing to ${subtext.web.bin}" />
 		<xmlpoke file="${ndepend.input}" xpath="/NDepend/Dirs/Dir" value="${subtext.web.bin}" />
 
 		<!-- Run NDepend Executable -->
