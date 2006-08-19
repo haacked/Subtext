@@ -130,7 +130,7 @@
 			failonerror="true"/>
 
 		<call target="util.ncoverexplorer.nant" />
-		<!-- Add this later:		<call target="code.metrics" /> -->
+		<call target="code.metrics" />
 	</target>
 
 
