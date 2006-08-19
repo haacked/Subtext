@@ -154,7 +154,7 @@
 		<xmlpoke file="${ndepend.input}" xpath="/NDepend/Dirs/Dir" value="${subtext.web.bin}" />
 		
 		<!-- Change the value of the directory for the NDepend output. -->
-		<xmlpoke file="${ndepend.input}" xpath="/OutputDir" value="${log.dir}" />
+		<xmlpoke file="${ndepend.input}" xpath="/NDepend/OutputDir" value="${log.dir}" />
 
 		<!-- Run NDepend Executable -->
 		<exec program="${NDepend.exe}" workingdir="${log.dir}" commandline='"${ndepend.input}"' failonerror="false" timeout="5000" />
