@@ -153,7 +153,7 @@
 		<!-- Change the value of the target bin directory to point to the output of the build
          (copied binaries to output.dir in a previous task). -->
 		<echo message="Writing to ${subtext.web.bin}" />
-		<xmlpoke file="${ndepend.input}" xpath="/NDepend/Dirs/Dir" value="${build.binary.output}" />
+		<xmlpoke file="${ndepend.input}" xpath="/NDepend/Dirs/Dir" value="${subtext.web.bin}" />
 
 		<!-- Run NDepend Executable -->
 		<exec program="${NDepend.exe}" commandline='"${ndepend.input}"' failonerror="false"/>
