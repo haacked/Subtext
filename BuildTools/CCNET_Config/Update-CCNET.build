@@ -20,9 +20,9 @@
 		<copy file="dashboard.config" tofile="${dashboard.config}" />
 		<copy file="ccnet.config" tofile="${ccnet.config}" />
 
-		<copy todir="${dashboard.xsl.dir}" failonerror="false">
+		<copy todir="${dashboard.xsl.dir}" failonerror="false" verbose="true">
 			<fileset basedir=".">
-				<include name="*\xsl\*.xsl" />
+				<include name="xsl\*.*" />
 			</fileset>
 		</copy>
 	</target>
