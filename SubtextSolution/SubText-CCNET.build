@@ -25,9 +25,13 @@
 			<fail message="CCNetLabel property not set, so can't create distribution files" />
 		</if>
 
-		<property name="MbUnit.exe" value="${CCNetWorkingDirectory}\BuildTools\MbUnit\MbUnit.Cons.exe"/>
-
+		<property name="solution.dir" value="${CCNetWorkingDirectory}\SubtextSolution" />
+		<property name="MbUnit.exe" value="${CCNetWorkingDirectory}\BuildTools\MbUnit\MbUnit.Cons.exe" />
 		<property name="NCover.exe" value="${CCNetWorkingDirectory}\BuildTools\NCover\NCover.Console.exe" />
+		<property name="NDepend.exe" value="${CCNetWorkingDirectory}\BuildTools\NDepend\NDepend.Console.exe" />
+		<property name="NDepend.config" value="${solution.dir}\NDependProject.xml" />
+		<property name="build.binary.output" value="${solution.dir}\UnitTests.Subtext\bin\debug" />
+		<property name="codemetrics.output.dir" value="${CCNetWorkingDirectory}\NDependTemp" />
 		
 		<if test="${not property::exists('fxcop.exe')}"> 
 			<fail message="fxcop.exe property not set, so cannot test" />
@@ -125,7 +129,32 @@
 			commandline="&quot;${MbUnit.exe}&quot; /rnf:unittest /rt:xml /rf:${log.dir} UnitTests.Subtext.dll //x ${log.dir}\ncover-temp.xml" 
 			failonerror="true"/>
 
-		<call target="util.ncoverexplorer.nant" />	
+		<call target="util.ncoverexplorer.nant" />
+		<call target="code.metrics" />
+	</target>
+
+
+	<target name="code.metrics">
+		<mkdir dir="${codemetrics.output.dir}" unless="${directory::exists(codemetrics.output.dir)}" />
+
+		<!-- NDepend metrics -->
+		<!--	Put NDepend config xml into a working output directory, 
+				since NDepend will output to the same directory as directory 
+				used for input.									-->
+		<copy todir="${codemetrics.output.dir}" failonerror="false">
+			<fileset basedir="${solution.dir}">
+				<include name="NDependProject.xml" />
+			</fileset>
+		</copy>
+
+		<property name="ndepend.input" value="${codemetrics.output.dir}\NDependProject.xml" />
+
+		<!-- Change the value of the target bin directory to point to the output of the build
+         (copied binaries to output.dir in a previous task). -->
+		<xmlpoke file="${ndepend.input}" xpath="/NDepend/Dirs/Dir" value="${build.binary.output}" />
+
+		<!-- Run NDepend Executable -->
+		<exec program="${NDepend.exe}" commandline='"${ndepend.input}"' failonerror="false"/>
 	</target>
 	
 	
