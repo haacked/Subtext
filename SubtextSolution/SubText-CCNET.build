@@ -130,7 +130,7 @@
 			failonerror="true"/>
 
 		<call target="util.ncoverexplorer.nant" />
-		<!--<call target="code.metrics" />-->
+		<call target="code.metrics" />
 	</target>
 
 
@@ -152,9 +152,12 @@
 		<!-- Change the value of the target bin directory to point to the output of the build
          (copied binaries to output.dir in a previous task). -->
 		<xmlpoke file="${ndepend.input}" xpath="/NDepend/Dirs/Dir" value="${subtext.web.bin}" />
+		
+		<!-- Change the value of the directory for the NDepend output. -->
+		<xmlpoke file="${ndepend.input}" xpath="/OutputDir" value="${log.dir}" />
 
 		<!-- Run NDepend Executable -->
-		<exec program="${NDepend.exe}" commandline='"${ndepend.input}"' failonerror="false"/>
+		<exec program="${NDepend.exe}" workingdir="${log.dir}" commandline='"${ndepend.input}"' failonerror="false" timeout="5000" />
 	</target>
 	
 	
