@@ -30,7 +30,7 @@
 		<property name="NCover.exe" value="${CCNetWorkingDirectory}\BuildTools\NCover\NCover.Console.exe" />
 		<property name="NDepend.exe" value="${CCNetWorkingDirectory}\BuildTools\NDepend\NDepend.Console.exe" />
 		<property name="NDepend.config" value="${solution.dir}\NDependProject.xml" />
-		<property name="build.binary.output" value="${solution.dir}\UnitTests.Subtext\bin\debug" />
+		<property name="subtext.web.bin" value="${solution.dir}\Subtext.Web\bin" />
 		<property name="codemetrics.output.dir" value="${CCNetWorkingDirectory}\NDependTemp" />
 		
 		<if test="${not property::exists('fxcop.exe')}"> 
@@ -135,9 +135,9 @@
 
 
 	<target name="code.metrics">
+		<!-- Creates an NDependTemp working directory -->
 		<mkdir dir="${codemetrics.output.dir}" unless="${directory::exists(codemetrics.output.dir)}" />
 
-		<!-- NDepend metrics -->
 		<!--	Put NDepend config xml into a working output directory, 
 				since NDepend will output to the same directory as directory 
 				used for input.									-->
@@ -147,10 +147,12 @@
 			</fileset>
 		</copy>
 
+		<!-- Set the path to our temporary file -->
 		<property name="ndepend.input" value="${codemetrics.output.dir}\NDependProject.xml" />
 
 		<!-- Change the value of the target bin directory to point to the output of the build
          (copied binaries to output.dir in a previous task). -->
+		<echo message="Writing to ${subtext.web.bin}" />
 		<xmlpoke file="${ndepend.input}" xpath="/NDepend/Dirs/Dir" value="${build.binary.output}" />
 
 		<!-- Run NDepend Executable -->
