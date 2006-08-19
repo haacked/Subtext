@@ -10,6 +10,7 @@
 
 		<property name="dashboard.root" value="${ccnet.root}\webdashboard"/>
 		<property name="ccnet.config" value="${ccnet.root}\server\ccnet.config" />
+		<property name="server.xsl.dir" value="${ccnet.root}\server\xsl" />
 		<property name="dashboard.xsl.dir" value="${dashboard.root}\xsl" />
 		<property name="dashboard.config" value="${dashboard.root}\dashboard.config" />
 		
@@ -21,6 +22,13 @@
 		<copy file="ccnet.config" tofile="${ccnet.config}" />
 
 		<copy todir="${dashboard.xsl.dir}" failonerror="false" verbose="true">
+			<fileset basedir="xsl">
+				<include name="*.xsl" />
+			</fileset>
+		</copy>
+
+		<!-- need to figure out if this is necessary -->
+		<copy todir="${server.xsl.dir}" failonerror="false" verbose="true">
 			<fileset basedir="xsl">
 				<include name="*.xsl" />
 			</fileset>
