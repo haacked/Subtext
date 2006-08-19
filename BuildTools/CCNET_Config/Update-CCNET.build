@@ -22,7 +22,7 @@
 
 		<copy todir="${dashboard.xsl.dir}" failonerror="false">
 			<fileset basedir=".">
-				<include name="xsl\*" />
+				<include name="*\xsl\*.xsl" />
 			</fileset>
 		</copy>
 	</target>
