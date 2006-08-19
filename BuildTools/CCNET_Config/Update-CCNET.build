@@ -21,8 +21,8 @@
 		<copy file="ccnet.config" tofile="${ccnet.config}" />
 
 		<copy todir="${dashboard.xsl.dir}" failonerror="false" verbose="true">
-			<fileset basedir=".">
-				<include name="xsl\*.*" />
+			<fileset basedir="xsl">
+				<include name="*.xsl" />
 			</fileset>
 		</copy>
 	</target>
