@@ -244,9 +244,8 @@ namespace Subtext.Framework
 		/// Creates the specified entry and returns its ID.
 		/// </summary>
 		/// <param name="entry">Entry.</param>
-		/// <param name="categoryIds">The ids of the categories this entry belongs to.</param>
 		/// <returns></returns>
-		public static int Create(Entry entry, params int[] categoryIds) //TODO: We should remove the categoryIds parameter.
+		public static int Create(Entry entry)
 		{
 			// check if we're admin, if not filter the comment. We do this to help when Importing 
 			// a blog using the BlogML import process. A better solution may be developing a way to 
@@ -274,8 +273,9 @@ namespace Subtext.Framework
 				entry.DateSyndicated = DateTime.Now;
 			else
 				entry.DateSyndicated = NullValue.NullDateTime;
-			
-			if(entry.Categories.Count > 0 && (categoryIds == null || categoryIds.Length == 0))
+
+			int[] categoryIds = {};
+			if(entry.Categories.Count > 0)
 			{
 				categoryIds = GetCategoryIdsFromCategoryTitles(entry);
 			}
