@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using System.Web;
 using System.Xml;
 using MbUnit.Framework;
 using Subtext.Framework;
@@ -22,9 +23,13 @@ namespace UnitTests.Subtext.Framework.Web
 			RsdHandler handler = new RsdHandler();
 
 			BlogInfo blog = new BlogInfo();
+			blog.Id = 8675309;
 			blog.Subfolder = subfolder;
 			blog.Host = host;
 			UnitTestHelper.SetHttpContextWithBlogRequest(host, subfolder, application);
+
+			HttpContext.Current.Cache["BlogInfo-" + subfolder] = blog;
+			
 			handler.WriteRsd(writer, blog);
 			
 			//Now lets assert some things.
@@ -45,6 +50,8 @@ namespace UnitTests.Subtext.Framework.Web
 			XmlNode node = xml.SelectSingleNode("/rsd:rsd/rsd:service/rsd:apis/rsd:api[@name='MetaWeblog']", nsmgr);
 			Assert.IsNotNull(node, "Could not find the metaweblog node.");
 			Assert.AreEqual(expected, node.Attributes["apiLink"].Value, "Api link is wrong");
+
+			Assert.AreEqual("8675309", node.Attributes["blogID"].Value, "Blog Id is not set.");
 		}
 	}
 }
