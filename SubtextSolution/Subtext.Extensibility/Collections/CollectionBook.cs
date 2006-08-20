@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Subtext.Extensibility.Interfaces;
 
-namespace Subtext.Framework.Components
+namespace Subtext.Extensibility.Collections
 {
 	public class CollectionBook<T> : ICollectionBook<T>
 	{
