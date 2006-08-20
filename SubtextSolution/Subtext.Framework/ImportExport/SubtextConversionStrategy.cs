@@ -1,8 +1,12 @@
 using System;
+using Subtext.BlogML.Conversion;
 using Subtext.Framework.Components;
 
-namespace Subtext.BlogML.Conversion
+namespace Subtext.ImportExport.Conversion
 {
+	/// <summary>
+	/// Used to convert IDs when exporting to blogml.
+	/// </summary>
 	public class SubtextConversionStrategy : IntConversionStrategy
 	{
 		/// <summary>

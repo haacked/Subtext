@@ -133,6 +133,10 @@
       <Name>Velocit.RegularExpressions</Name>
       <HintPath>ExternalDependencies\Velocit.RegularExpressions.dll</HintPath>
     </Reference>
+    <ProjectReference Include="..\Subtext.BlogMl\Subtext.BlogML.csproj">
+      <Project>{830310DB-5D6A-453C-908A-058776D9C993}</Project>
+      <Name>Subtext.BlogML</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Subtext.Extensibility\Subtext.Extensibility.csproj">
       <Name>Subtext.Extensibility</Name>
       <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>
@@ -326,6 +330,9 @@
     <Compile Include="Images.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ImportExport\ObjectHydrator.cs" />
+    <Compile Include="ImportExport\SubtextBlogMlProvider.cs" />
+    <Compile Include="ImportExport\SubtextConversionStrategy.cs" />
     <Compile Include="ImportManager.cs">
       <SubType>Code</SubType>
     </Compile>

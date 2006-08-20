@@ -4,16 +4,16 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
 using System.Xml;
-using BlogML;
-using BlogML.Xml;
 using MbUnit.Framework;
+using BlogML.Xml;
 using Rhino.Mocks;
 using Subtext.BlogML;
 using Subtext.BlogML.Conversion;
-using Subtext.BlogML.Implementations;
 using Subtext.BlogML.Interfaces;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
+using Subtext.ImportExport;
+using Subtext.ImportExport.Conversion;
 
 namespace UnitTests.Subtext.BlogML
 {

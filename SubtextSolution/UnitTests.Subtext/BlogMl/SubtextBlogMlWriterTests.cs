@@ -4,11 +4,12 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using MbUnit.Framework;
+using BlogML.Xml;
 using Subtext.BlogML;
-using Subtext.BlogML.Implementations;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.ImportExport;
 
 namespace UnitTests.Subtext.BlogML
 {

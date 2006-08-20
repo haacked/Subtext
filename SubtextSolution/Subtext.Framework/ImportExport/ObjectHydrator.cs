@@ -5,7 +5,7 @@ using BlogML.Xml;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
 
-namespace Subtext.BlogML.Implementations
+namespace Subtext.ImportExport
 {
 	/// <summary>
 	/// Class used to hydrade blogml objects from a data reader.

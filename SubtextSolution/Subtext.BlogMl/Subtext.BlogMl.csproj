@@ -71,9 +71,6 @@
     <Compile Include="Conversion\NullConversionStrategy.cs" />
     <Compile Include="Conversion\GuidConversionStrategy.cs" />
     <Compile Include="Conversion\IntConversionStrategy.cs" />
-    <Compile Include="Conversion\SubtextConversionStrategy.cs" />
-    <Compile Include="Implementations\ObjectHydrator.cs" />
-    <Compile Include="Implementations\SubtextBlogMlProvider.cs" />
     <Compile Include="Interfaces\IBlogMlContext.cs" />
     <Compile Include="Interfaces\IBlogMlProvider.cs">
       <SubType>Code</SubType>
@@ -85,10 +82,6 @@
     <ProjectReference Include="..\Subtext.Extensibility\Subtext.Extensibility.csproj">
       <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>
       <Name>Subtext.Extensibility</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Subtext.Framework\Subtext.Framework.csproj">
-      <Project>{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}</Project>
-      <Name>Subtext.Framework</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
