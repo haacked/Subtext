@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using MbUnit.Framework;
 using Rhino.Mocks;
-using BlogML.Xml;
 using Subtext.BlogML;
 using Subtext.BlogML.Conversion;
 using Subtext.BlogML.Interfaces;
