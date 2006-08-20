@@ -17,7 +17,6 @@
 	</target>
 
 	<target name="copyfiles" depends="get-publishing-properties">
-		<copy file="image.ashx" tofile="${dashboard.root}\image.ashx" failonerror="false" />
 		<copy file="dashboard.config" tofile="${dashboard.config}" />
 		<copy file="ccnet.config" tofile="${ccnet.config}" />
 
