@@ -5,10 +5,12 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using BlogML;
+using BlogML.Xml;
 using MbUnit.Framework;
 using Rhino.Mocks;
 using Subtext.BlogMl;
 using Subtext.BlogMl.Conversion;
+using Subtext.BlogMl.Implementations;
 using Subtext.BlogMl.Interfaces;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
@@ -30,7 +32,7 @@ namespace UnitTests.Subtext.BlogMl
 		public void CreateRequiresContext()
 		{
 			MockRepository mocks = new MockRepository();
-			IBlogMlProvider provider = (IBlogMlProvider)mocks.DynamicMock(typeof(IBlogMlProvider));
+			IBlogMLProvider provider = (IBlogMLProvider)mocks.DynamicMock(typeof(IBlogMLProvider));
 			mocks.ReplayAll();
 			BlogMlWriter.Create(provider);
 			mocks.VerifyAll();
@@ -42,7 +44,7 @@ namespace UnitTests.Subtext.BlogMl
 			BlogMlContext context = new BlogMlContext("8675309", false);
 			
 			MockRepository mocks = new MockRepository();
-			IBlogMlProvider provider = (IBlogMlProvider)mocks.CreateMock(typeof(IBlogMlProvider));
+			IBlogMLProvider provider = (IBlogMLProvider)mocks.CreateMock(typeof(IBlogMLProvider));
 			Expect.Call(provider.GetBlogMlContext()).Return(context);
 			Expect.Call(provider.IdConversion).Return(IdConversionStrategy.Empty);
 			mocks.ReplayAll();
@@ -68,29 +70,29 @@ namespace UnitTests.Subtext.BlogMl
 
 			#region Create a full instance of a blog in an object hierarchy
 			DateTime dateCreated = DateTime.Now;
-			BlogMlBlog blog = new BlogMlBlog("the title", ContentTypes.Base64, "the subtitle", ContentTypes.Html, "http://blog.example.com/", "phil", "test@example.com", dateCreated);
+			BlogMLBlog blog = ObjectHydrator.CreateBlogInstance("the title", "the subtitle", "http://blog.example.com/", "phil", "test@example.com", dateCreated);
 			BlogMlContext context = new BlogMlContext(blogId, false);
-			ICollection<IBlogMlCategory> categories = new Collection<IBlogMlCategory>();
-			categories.Add(new BlogMlCategory(catOneId, "category1", ContentTypes.Html, "Category 1 is the first", true, null, dateCreated, dateCreated));
-			categories.Add(new BlogMlCategory(catTwoId, "category2", ContentTypes.Html, "Category 2 is the second", true, null, dateCreated, dateCreated));
+			ICollection<BlogMLCategory> categories = new Collection<BlogMLCategory>();
+			categories.Add(ObjectHydrator.CreateCategoryInstance(catOneId, "category1", "Category 1 is the first", true, null, dateCreated, dateCreated));
+			categories.Add(ObjectHydrator.CreateCategoryInstance(catTwoId, "category2", "Category 2 is the second", true, null, dateCreated, dateCreated));
 
-			IPagedCollection<IBlogMlPost> firstPage = new PagedCollection<IBlogMlPost>();
-			firstPage.Add(new BlogMlPost(postOneId, "post title 1", ContentTypes.Xhtml, "http://blog.example.com/post100/", true, "Nothing important 1", dateCreated, dateCreated));
-			firstPage[0].CategoryIds.Add(catOneId);
-			firstPage[0].CategoryIds.Add(catTwoId);
-			firstPage[0].Comments.Add(new BlogMlComment(commentOneId, "re: post", ContentTypes.Xhtml, "http://blog.example.com/post100/#91", "You rock!", ContentTypes.Xhtml, "test@example.com", "haacked", true, dateCreated, dateCreated));
-			firstPage[0].Trackbacks.Add(new BlogMlTrackback(trackBackOneId, "re: title", ContentTypes.Text, "http://another.example.com/", true, dateCreated, dateCreated));
-			firstPage.Add(new BlogMlPost(postTwoId, "post title 2", ContentTypes.Xhtml, "http://blog.example.com/post200/", true, "Nothing important 2", dateCreated, dateCreated));
+			IPagedCollection<BlogMLPost> firstPage = new PagedCollection<BlogMLPost>();
+			firstPage.Add(ObjectHydrator.CreatePostInstance(postOneId, "post title 1", "http://blog.example.com/post100/", true, "Nothing important 1", dateCreated, dateCreated));
+			firstPage[0].Categories.Add(catOneId);
+			firstPage[0].Categories.Add(catTwoId);
+			firstPage[0].Comments.Add(ObjectHydrator.CreateCommentInstance(commentOneId, "re: post", "http://blog.example.com/post100/#91", "You rock!", "test@example.com", "haacked", true, dateCreated, dateCreated));
+			firstPage[0].Trackbacks.Add(ObjectHydrator.CreateTrackBackInstance(trackBackOneId, "re: title", "http://another.example.com/", true, dateCreated, dateCreated));
+			firstPage.Add(ObjectHydrator.CreatePostInstance(postTwoId, "post title 2", "http://blog.example.com/post200/", true, "Nothing important 2", dateCreated, dateCreated));
 			firstPage.MaxItems = 3;
 
-			IPagedCollection<IBlogMlPost> secondPage = new PagedCollection<IBlogMlPost>();
-			secondPage.Add(new BlogMlPost(postThreeId, "post title 3", ContentTypes.Xhtml, "http://blog.example.com/post300/", true, "Nothing important 3", dateCreated, dateCreated));
+			IPagedCollection<BlogMLPost> secondPage = new PagedCollection<BlogMLPost>();
+			secondPage.Add(ObjectHydrator.CreatePostInstance(postThreeId, "post title 3", "http://blog.example.com/post300/", true, "Nothing important 3", dateCreated, dateCreated));
 			secondPage.MaxItems = 3;
 			#endregion
 
 			//Now setup expectations.
 			MockRepository mocks = new MockRepository();
-			IBlogMlProvider provider = (IBlogMlProvider)mocks.CreateMock(typeof(IBlogMlProvider));
+			IBlogMLProvider provider = (IBlogMLProvider)mocks.CreateMock(typeof(IBlogMLProvider));
 			Expect.Call(provider.GetBlogMlContext()).Return(context);
 			Expect.Call(provider.IdConversion).Return(IdConversionStrategy.Empty);
 			Expect.Call(provider.GetBlog(blogId)).Return(blog);
@@ -168,29 +170,29 @@ namespace UnitTests.Subtext.BlogMl
 
 			#region Create a full instance of a blog in an object hierarchy
 			DateTime dateCreated = DateTime.Now;
-			BlogMlBlog blog = new BlogMlBlog("the title", ContentTypes.Base64, "the subtitle", ContentTypes.Html, "http://blog.example.com/", "phil", "test@example.com", dateCreated);
+			BlogMLBlog blog = ObjectHydrator.CreateBlogInstance("the title", "the subtitle", "http://blog.example.com/", "phil", "test@example.com", dateCreated);
 			BlogMlContext context = new BlogMlContext(blogId, false);
-			ICollection<IBlogMlCategory> categories = new Collection<IBlogMlCategory>();
-			categories.Add(new BlogMlCategory(catOneId, "category1", ContentTypes.Html, "Category 1 is the first", true, null, dateCreated, dateCreated));
-			categories.Add(new BlogMlCategory(catTwoId, "category2", ContentTypes.Html, "Category 2 is the second", true, null, dateCreated, dateCreated));
+			ICollection<BlogMLCategory> categories = new Collection<BlogMLCategory>();
+			categories.Add(ObjectHydrator.CreateCategoryInstance(catOneId, "category1", "Category 1 is the first", true, null, dateCreated, dateCreated));
+			categories.Add(ObjectHydrator.CreateCategoryInstance(catTwoId, "category2", "Category 2 is the second", true, null, dateCreated, dateCreated));
 
-			IPagedCollection<IBlogMlPost> firstPage = new PagedCollection<IBlogMlPost>();
-			firstPage.Add(new BlogMlPost(firstPostId, "post title 1", ContentTypes.Xhtml, "http://blog.example.com/post100/", true, "Nothing important 1", dateCreated, dateCreated));
-			firstPage[0].CategoryIds.Add(catOneId);
-			firstPage[0].CategoryIds.Add(catTwoId);
-			firstPage[0].Comments.Add(new BlogMlComment(commentOneId, "re: post", ContentTypes.Xhtml, "http://blog.example.com/post100/#91", "You rock!", ContentTypes.Xhtml, "test@example.com", "haacked", true, dateCreated, dateCreated));
-			firstPage[0].Trackbacks.Add(new BlogMlTrackback(trackBackOneId, "re: title", ContentTypes.Text, "http://another.example.com/", true, dateCreated, dateCreated));
-			firstPage.Add(new BlogMlPost(secondPostId, "post title 2", ContentTypes.Xhtml, "http://blog.example.com/post200/", true, "Nothing important 2", dateCreated, dateCreated));
+			IPagedCollection<BlogMLPost> firstPage = new PagedCollection<BlogMLPost>();
+			firstPage.Add(ObjectHydrator.CreatePostInstance(firstPostId, "post title 1", "http://blog.example.com/post100/", true, "Nothing important 1", dateCreated, dateCreated));
+			firstPage[0].Categories.Add(catOneId);
+			firstPage[0].Categories.Add(catTwoId);
+			firstPage[0].Comments.Add(ObjectHydrator.CreateCommentInstance(commentOneId, "re: post", "http://blog.example.com/post100/#91", "You rock!", "test@example.com", "haacked", true, dateCreated, dateCreated));
+			firstPage[0].Trackbacks.Add(ObjectHydrator.CreateTrackBackInstance(trackBackOneId, "re: title", "http://another.example.com/", true, dateCreated, dateCreated));
+			firstPage.Add(ObjectHydrator.CreatePostInstance(secondPostId, "post title 2", "http://blog.example.com/post200/", true, "Nothing important 2", dateCreated, dateCreated));
 			firstPage.MaxItems = 3;
 
-			IPagedCollection<IBlogMlPost> secondPage = new PagedCollection<IBlogMlPost>();
-			secondPage.Add(new BlogMlPost(thirdPostId, "post title 3", ContentTypes.Xhtml, "http://blog.example.com/post300/", true, "Nothing important 3", dateCreated, dateCreated));
+			IPagedCollection<BlogMLPost> secondPage = new PagedCollection<BlogMLPost>();
+			secondPage.Add(ObjectHydrator.CreatePostInstance(thirdPostId, "post title 3", "http://blog.example.com/post300/", true, "Nothing important 3", dateCreated, dateCreated));
 			secondPage.MaxItems = 3;
 			#endregion
 
 			//Now setup expectations.
 			MockRepository mocks = new MockRepository();
-			IBlogMlProvider provider = (IBlogMlProvider)mocks.CreateMock(typeof(IBlogMlProvider));
+			IBlogMLProvider provider = (IBlogMLProvider)mocks.CreateMock(typeof(IBlogMLProvider));
 			Expect.Call(provider.GetBlogMlContext()).Return(context);
 			Expect.Call(provider.IdConversion).Return(conversion);
 			Expect.Call(provider.GetBlog(blogId)).Return(blog);

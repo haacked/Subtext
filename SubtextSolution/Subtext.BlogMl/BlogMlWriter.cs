@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
+using BlogML;
+using BlogML.Xml;
 using Subtext.BlogMl.Conversion;
 using Subtext.Extensibility.Interfaces;
 using Subtext.BlogMl.Interfaces;
@@ -12,21 +13,21 @@ namespace Subtext.BlogMl
 {
 	public class BlogMlWriter : BlogML.BlogMLWriterBase
 	{
-		IBlogMlProvider provider;
+		IBlogMLProvider provider;
 		IdConversionStrategy conversionStrategy;
 		string blogId;
-		IBlogMlBlog blog;
+		BlogMLBlog blog;
 
 		/// <summary>
 		/// Creates an instance of the BlogMl Writer.
 		/// </summary>
 		/// <param name="provider">The provider.</param>
-		public static BlogMlWriter Create(IBlogMlProvider provider)
+		public static BlogMlWriter Create(IBlogMLProvider provider)
 		{
 			if (provider == null)
 				throw new ArgumentNullException("provider", "provider cannot be null");
 
-			IBlogMlContext context = provider.GetBlogMlContext();
+			IBlogMLContext context = provider.GetBlogMlContext();
 			if (context == null)
 				throw new InvalidOperationException("The BlogMl provider did not set the context.");
 
@@ -36,7 +37,7 @@ namespace Subtext.BlogMl
 		/// <summary>
 		/// Constructs an instance of the BlogMlWriter for the specified blogId.
 		/// </summary>
-		private BlogMlWriter(IBlogMlProvider provider, IBlogMlContext context)
+		private BlogMlWriter(IBlogMLProvider provider, IBlogMLContext context)
 		{			
 			this.provider = provider;
 			this.blogId = context.BlogId;
@@ -54,10 +55,10 @@ namespace Subtext.BlogMl
 			blog = this.provider.GetBlog(this.blogId);
 			WriteBlogStart();
 
-			ICollection<IBlogMlCategory> categories = provider.GetAllCategories(this.blogId);
+			ICollection<BlogMLCategory> categories = provider.GetAllCategories(this.blogId);
 			WriteCategories(categories);
 
-			CollectionBook<IBlogMlPost> allPosts = new CollectionBook<IBlogMlPost>
+			CollectionBook<BlogMLPost> allPosts = new CollectionBook<BlogMLPost>
 				(
 					delegate(int pageIndex, int pageSize)
 					{
@@ -70,11 +71,11 @@ namespace Subtext.BlogMl
 			Writer.Flush();
 		}
 
-		private void WritePosts(CollectionBook<IBlogMlPost> allPosts)
+		private void WritePosts(CollectionBook<BlogMLPost> allPosts)
 		{
 			WriteStartPosts();
 			
-			foreach(IPagedCollection<IBlogMlPost> pageOfPosts in allPosts)
+			foreach(IPagedCollection<BlogMLPost> pageOfPosts in allPosts)
 				WritePostsPage(pageOfPosts);
 
 			WriteEndElement(); // </posts>
@@ -85,38 +86,38 @@ namespace Subtext.BlogMl
 		/// </summary>
 		private void WriteBlogStart()
 		{
-			WriteStartBlog(blog.Title, blog.TitleContentType, blog.Subtitle, blog.SubTitleContentType, blog.RootUrl, blog.DateCreated);
-			WriteAuthor(blog.Author, blog.Email);
+			WriteStartBlog(blog.Title, ContentTypes.Text, blog.SubTitle, ContentTypes.Text, blog.RootUrl, blog.DateCreated);
+			WriteAuthor(blog.Author.Name, blog.Author.Email);
 		}
 
-		protected void WritePostsPage(IPagedCollection<IBlogMlPost> posts)
+		protected void WritePostsPage(IPagedCollection<BlogMLPost> posts)
 		{
-			foreach (IBlogMlPost post in posts)
+			foreach (BlogMLPost post in posts)
 			{
 				WritePost(post);
 			}
 			Writer.Flush(); //Flushes this page of posts.
 		}
 		
-		private void WritePost(IBlogMlPost post)
+		private void WritePost(BlogMLPost post)
 		{
-			string postId = this.conversionStrategy.GetConvertedId(IdScopes.Posts, post.Id);
-			WriteStartPost(postId, post.Title, post.DateCreated, post.DateModified, post.Approved, post.Content, post.Url);
+			string postId = this.conversionStrategy.GetConvertedId(IdScopes.Posts, post.ID);
+			WriteStartPost(postId, post.Title, post.DateCreated, post.DateModified, post.Approved, post.Content.Text, post.PostUrl);
 
 			WritePostAttachments(post);
 			WritePostComments(post.Comments);
-			WritePostCategories(post.CategoryIds);
+			WritePostCategories(post.Categories);
 			WritePostTrackbacks(post.Trackbacks);
 
 			WriteEndElement();	// </post>
 		}
 		
-		protected void WritePostCategories(StringCollection categoryIds)
+		protected void WritePostCategories(BlogMLPost.CategoryReferenceCollection categoryRefs)
 		{
 			WriteStartCategories();
-			foreach (string categoryId in categoryIds)
+			foreach (BlogMLCategoryReference categoryRef in categoryRefs)
 			{
-				WritePostCategory(categoryId);
+				WritePostCategory(categoryRef.Ref);
 			}
 			WriteEndElement();
 		}
@@ -127,50 +128,50 @@ namespace Subtext.BlogMl
 			WriteCategoryReference(categoryRef);
 		}
 
-		private void WritePostComments(ICollection<IBlogMlComment> comments)
+		private void WritePostComments(BlogMLPost.CommentCollection comments)
 		{
 			WriteStartComments();
-			foreach (IBlogMlComment comment in comments)
+			foreach (BlogMLComment comment in comments)
 			{
 				WritePostComment(comment);
 			}
 			WriteEndElement();
 		}
 
-		private void WritePostComment(IBlogMlComment comment)
+		private void WritePostComment(BlogMLComment comment)
 		{
-			string commentId = this.conversionStrategy.GetConvertedId(IdScopes.Comments, comment.Id);
-			WriteComment(commentId, comment.Title, comment.TitleContentType, comment.DateCreated, comment.DateModified, comment.Approved, comment.UserName, comment.Email, comment.Url, comment.Content, comment.CommentContentType);
+			string commentId = this.conversionStrategy.GetConvertedId(IdScopes.Comments, comment.ID);
+			WriteComment(commentId, comment.Title, ContentTypes.Text, comment.DateCreated, comment.DateModified, comment.Approved, comment.UserName, comment.UserEMail, comment.UserUrl, comment.Content.Text, ContentTypes.Text);
 		}
 		
-		private void WriteCategories(ICollection<IBlogMlCategory> categories)
+		private void WriteCategories(ICollection<BlogMLCategory> categories)
 		{
 			WriteStartCategories();
-			foreach(IBlogMlCategory category in categories)
+			foreach(BlogMLCategory category in categories)
 			{
-				string categoryId = this.conversionStrategy.GetConvertedId(IdScopes.Categories, category.Id);
-				string parentId = this.conversionStrategy.GetConvertedId(IdScopes.CategoryParents, category.ParentId);
-				WriteCategory(categoryId, category.Title, category.TitleContentType, category.DateCreated, category.DateModified, category.Approved, category.Description, parentId);
+				string categoryId = this.conversionStrategy.GetConvertedId(IdScopes.Categories, category.ID);
+				string parentId = this.conversionStrategy.GetConvertedId(IdScopes.CategoryParents, category.ParentRef);
+				WriteCategory(categoryId, category.Title, ContentTypes.Text, category.DateCreated, category.DateModified, category.Approved, category.Description, parentId);
 			}
 			WriteEndElement();
 		}
 		
-		private void WritePostTrackbacks(ICollection<IBlogMlTrackback> trackbacks)
+		private void WritePostTrackbacks(BlogMLPost.TrackbackCollection trackbacks)
 		{
 			WriteStartTrackbacks();
 			
-			foreach(IBlogMlTrackback trackback in trackbacks)
+			foreach(BlogMLTrackback trackback in trackbacks)
 			{
-				string trackBackId = this.conversionStrategy.GetConvertedId(IdScopes.TrackBacks, trackback.Id);
-				WriteTrackback(trackBackId, trackback.Title, trackback.TitleContentType, trackback.DateCreated, trackback.DateModified, trackback.Approved, trackback.Url);
+				string trackBackId = this.conversionStrategy.GetConvertedId(IdScopes.TrackBacks, trackback.ID);
+				WriteTrackback(trackBackId, trackback.Title, ContentTypes.Text, trackback.DateCreated, trackback.DateModified, trackback.Approved, trackback.Url);
 			}
 			
 			WriteEndElement();
 		}
 
-		private void WritePostAttachments(IBlogMlPost post)
+		private void WritePostAttachments(BlogMLPost post)
 		{
-			string content = post.Content;
+			string content = post.Content.Text;
 			
 			string[] imagesURLs = SgmlUtil.GetAttributeValues(content, "img", "src");
 			string appFullRootUrl = this.blog.RootUrl.ToLower(CultureInfo.InvariantCulture);

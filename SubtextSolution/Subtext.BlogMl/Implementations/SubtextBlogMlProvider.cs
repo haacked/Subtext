@@ -5,7 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Web;
-using BlogML;
+using BlogML.Xml;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.BlogMl.Conversion;
 using Subtext.BlogMl.Interfaces;
@@ -17,7 +17,7 @@ using Subtext.Framework.Data;
 
 namespace Subtext.BlogMl.Implementations
 {
-	public class SubtextBlogMlProvider : BlogMlProvider
+	public class SubtextBlogMlProvider : BlogMLProvider
 	{
 		SubtextConversionStrategy conversion = new SubtextConversionStrategy();
 		/// <summary>
@@ -28,9 +28,9 @@ namespace Subtext.BlogMl.Implementations
 		/// <param name="pageIndex"></param>
 		/// <param name="pageSize"></param>
 		/// <returns></returns>
-		public override IPagedCollection<IBlogMlPost> GetBlogPosts(string blogId, int pageIndex, int pageSize)
+		public override IPagedCollection<BlogMLPost> GetBlogPosts(string blogId, int pageIndex, int pageSize)
 		{
-			IPagedCollection<IBlogMlPost> posts = new PagedCollection<IBlogMlPost>();
+			IPagedCollection<BlogMLPost> posts = new PagedCollection<BlogMLPost>();
 			using (IDataReader reader = GetPostsAndArticlesReader(blogId, pageIndex, pageSize))
 			{
 				while (reader.Read())
@@ -54,19 +54,19 @@ namespace Subtext.BlogMl.Implementations
 			return posts;
 		}
 
-		private static void PopulateCategories(IPagedCollection<IBlogMlPost> posts, IDataReader reader)
+		private static void PopulateCategories(IPagedCollection<BlogMLPost> posts, IDataReader reader)
 		{
-			PostChildrenPopulator populator = delegate(IBlogMlPost post)
+			PostChildrenPopulator populator = delegate(BlogMLPost post)
 			{
-				post.CategoryIds.Add(DataHelper.ReadInt32(reader, "CategoryId").ToString(CultureInfo.InvariantCulture));
+				post.Categories.Add(DataHelper.ReadInt32(reader, "CategoryId").ToString(CultureInfo.InvariantCulture));
 			};
 
 			ReadAndPopulatePostChildren(posts, reader, "Id", populator);
 		}
 
-		private static void PopulateComments(IPagedCollection<IBlogMlPost> posts, IDataReader reader)
+		private static void PopulateComments(IPagedCollection<BlogMLPost> posts, IDataReader reader)
 		{
-			PostChildrenPopulator populator = delegate(IBlogMlPost post)
+			PostChildrenPopulator populator = delegate(BlogMLPost post)
 			{
 				post.Comments.Add(ObjectHydrator.LoadCommentFromDataReader(reader));
 			};
@@ -74,9 +74,9 @@ namespace Subtext.BlogMl.Implementations
 			ReadAndPopulatePostChildren(posts, reader, "ParentID", populator);
 		}
 
-		private static void PopulateTrackbacks(IPagedCollection<IBlogMlPost> posts, IDataReader reader)
+		private static void PopulateTrackbacks(IPagedCollection<BlogMLPost> posts, IDataReader reader)
 		{
-			PostChildrenPopulator populator = delegate(IBlogMlPost post)
+			PostChildrenPopulator populator = delegate(BlogMLPost post)
 			{
 				post.Trackbacks.Add(ObjectHydrator.LoadTrackbackFromDataReader(reader));
 			};
@@ -84,12 +84,12 @@ namespace Subtext.BlogMl.Implementations
 			ReadAndPopulatePostChildren(posts, reader, "ParentID", populator);
 		}
 
-		private static void ReadAndPopulatePostChildren(IPagedCollection<IBlogMlPost> posts, IDataReader reader, string foreignKey, PostChildrenPopulator populatePostChildren)
+		private static void ReadAndPopulatePostChildren(IPagedCollection<BlogMLPost> posts, IDataReader reader, string foreignKey, PostChildrenPopulator populatePostChildren)
 		{
 			for (int i = 0; i < posts.Count; i++)
 			{
-				IBlogMlPost post = posts[i];
-				int postId = int.Parse(post.Id);
+				BlogMLPost post = posts[i];
+				int postId = int.Parse(post.ID);
 				// We are going to make use of the fact that everything is ordered by Post Id ASC
 				// to optimize this...
 				while (reader.Read())
@@ -102,7 +102,7 @@ namespace Subtext.BlogMl.Implementations
 						{
 							i++;
 							post = posts[i];
-							postId = int.Parse(post.Id);
+							postId = int.Parse(post.ID);
 						}
 					}
 
@@ -115,7 +115,7 @@ namespace Subtext.BlogMl.Implementations
 			}
 		}
 		
-		private delegate void PostChildrenPopulator(IBlogMlPost post);
+		private delegate void PostChildrenPopulator(BlogMLPost post);
 
 		private IDataReader GetReader(string sql, SqlParameter[] p)
 		{
@@ -142,13 +142,19 @@ namespace Subtext.BlogMl.Implementations
 		/// </summary>
 		/// <param name="blogId"></param>
 		/// <returns></returns>
-		public override IBlogMlBlog GetBlog(string blogId)
+		public override BlogMLBlog GetBlog(string blogId)
 		{
 			int blogIdentifier;
 			if (int.TryParse(blogId, out blogIdentifier))
 			{
 				BlogInfo blog = BlogInfo.GetBlogById(blogIdentifier);
-				IBlogMlBlog blogMlBlog = new BlogMlBlog(blog.Title, ContentTypes.Xhtml, blog.SubTitle, ContentTypes.Xhtml, blog.RootUrl.ToString(), blog.Author, blog.Email, DateTime.Now);
+				BlogMLBlog blogMlBlog = new BlogMLBlog();
+				blogMlBlog.Title = blog.Title;
+				blogMlBlog.SubTitle = blog.SubTitle;
+				blogMlBlog.RootUrl = blog.RootUrl.ToString();
+				blogMlBlog.Author.Name = blog.Author;
+				blogMlBlog.Author.Email = blog.Email;
+				blogMlBlog.DateCreated = DateTime.Now;
 				return blogMlBlog;
 			}
 			return null;
@@ -159,21 +165,22 @@ namespace Subtext.BlogMl.Implementations
 		/// </summary>
 		/// <param name="blogId"></param>
 		/// <returns></returns>
-		public override ICollection<IBlogMlCategory> GetAllCategories(string blogId)
+		public override ICollection<BlogMLCategory> GetAllCategories(string blogId)
 		{
 			ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.None, ActiveFilter.None);
-			Collection<IBlogMlCategory> blogCategories = new Collection<IBlogMlCategory>();
+			Collection<BlogMLCategory> blogCategories = new Collection<BlogMLCategory>();
 			
 			foreach(LinkCategory category in categories)
 			{
-				IBlogMlCategory blogCategory = new BlogMlCategory(category.Id.ToString(CultureInfo.InvariantCulture)
-					, category.Title
-					, ContentTypes.Xhtml
-					, category.Description
-					, category.IsActive
-					, category.CategoryType.ToString()
-					, DateTime.Now
-					, DateTime.Now);
+				BlogMLCategory blogCategory = new BlogMLCategory();
+				blogCategory.ID = category.Id.ToString(CultureInfo.InvariantCulture);
+				blogCategory.Title = category.Title;
+				blogCategory.Description = category.Description;
+				blogCategory.Approved = category.IsActive;
+				blogCategory.ParentRef = category.CategoryType.ToString();
+				blogCategory.DateCreated = DateTime.Now;
+				blogCategory.DateModified = DateTime.Now;
+				
 				blogCategories.Add(blogCategory);
 			}
 			return blogCategories;
@@ -183,7 +190,7 @@ namespace Subtext.BlogMl.Implementations
 		/// Returns the context under which blogml import or export is running under.
 		/// </summary>
 		/// <returns></returns>
-		public override IBlogMlContext GetBlogMlContext()
+		public override IBlogMLContext GetBlogMlContext()
 		{
 			bool embedValue = false;
 			if(HttpContext.Current != null && HttpContext.Current.Request != null)

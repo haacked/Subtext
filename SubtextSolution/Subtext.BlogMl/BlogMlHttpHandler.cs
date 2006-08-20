@@ -49,7 +49,7 @@ namespace Subtext.BlogMl
 
 		private void WriteBlogML(Stream outStream)
 		{
-			IBlogMlProvider provider = BlogMlProvider.Instance();
+			IBlogMLProvider provider = BlogMLProvider.Instance();
 			
 			if(provider.GetBlogMlContext() == null)
 				throw new InvalidOperationException("The BlogMl provider did not set the context.");

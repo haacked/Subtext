@@ -52,7 +52,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BlogML, Version=1.0.2229.38505, Culture=neutral" />
+    <Reference Include="BlogML, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral" />
     <Reference Include="SgmlReaderDll, Version=1.7.2383.20436, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
@@ -62,15 +62,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BlogMlBlog.cs" />
-    <Compile Include="BlogMlCategory.cs" />
-    <Compile Include="BlogMlComment.cs" />
     <Compile Include="BlogMlContext.cs" />
-    <Compile Include="BlogMlEntry.cs" />
     <Compile Include="BlogMlHttpHandler.cs" />
-    <Compile Include="BlogMlPost.cs" />
     <Compile Include="BlogMlProvider.cs" />
-    <Compile Include="BlogMlTrackback.cs" />
     <Compile Include="BlogMlWriter.cs" />
     <Compile Include="Conversion\IdConversionStrategy.cs" />
     <Compile Include="Conversion\NullConversionStrategy.cs" />
@@ -79,15 +73,10 @@
     <Compile Include="Conversion\SubtextConversionStrategy.cs" />
     <Compile Include="Implementations\ObjectHydrator.cs" />
     <Compile Include="Implementations\SubtextBlogMlProvider.cs" />
-    <Compile Include="Interfaces\IBlogMlAttachment.cs" />
-    <Compile Include="Interfaces\IBlogMlBlog.cs" />
-    <Compile Include="Interfaces\IBlogMlCategory.cs" />
-    <Compile Include="Interfaces\IBlogMlComment.cs" />
     <Compile Include="Interfaces\IBlogMlContext.cs" />
-    <Compile Include="Interfaces\IBlogMlEntry.cs" />
-    <Compile Include="Interfaces\IBlogMlPost.cs" />
-    <Compile Include="Interfaces\IBlogMlProvider.cs" />
-    <Compile Include="Interfaces\IBlogMlTrackback.cs" />
+    <Compile Include="Interfaces\IBlogMlProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
