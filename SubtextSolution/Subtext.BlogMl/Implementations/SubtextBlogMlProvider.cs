@@ -9,16 +9,20 @@ using BlogML.Xml;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.BlogML.Conversion;
 using Subtext.BlogML.Interfaces;
+using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
+using Subtext.Framework.Format;
+using Subtext.Framework.Text;
 
 namespace Subtext.BlogML.Implementations
 {
 	public class SubtextBlogMLProvider : BlogMLProvider
-	{
+	{	
+		bool duplicateCommentsEnabled;
 		SubtextConversionStrategy conversion = new SubtextConversionStrategy();
 		/// <summary>
 		/// Returns a page of fully hydrated blog posts. The blog posts allow the 
@@ -211,6 +215,177 @@ namespace Subtext.BlogML.Implementations
 			{
 				return conversion;
 			}
+		}
+
+		/// <summary>
+		/// Method called before an import begins. Allows the provider to 
+		/// initialize any state in the current blog.
+		/// </summary>
+		public override void PreImport()
+		{
+			duplicateCommentsEnabled = Config.CurrentBlog.DuplicateCommentsEnabled;
+			if (!duplicateCommentsEnabled)
+			{
+				// Allow duplicate comments temporarily.
+				Config.CurrentBlog.DuplicateCommentsEnabled = true;
+				Config.UpdateConfigData(Config.CurrentBlog);
+			}
+		}
+		
+		/// <summary>
+		/// Method called when an import is complete.
+		public override void ImportComplete()
+		{
+			if (Config.CurrentBlog.DuplicateCommentsEnabled != duplicateCommentsEnabled)
+			{
+				Config.CurrentBlog.DuplicateCommentsEnabled = duplicateCommentsEnabled;
+				Config.UpdateConfigData(Config.CurrentBlog);
+			}
+		}
+
+		/// <summary>
+		/// Creates categories from the blog ml.
+		/// </summary>
+		/// <param name="blog"></param>
+		public override void CreateCategories(BlogMLBlog blog)
+		{
+			foreach (BlogMLCategory blogMLCategory in blog.Categories)
+			{
+				LinkCategory category = new LinkCategory();
+				category.BlogId = Config.CurrentBlog.Id;
+				category.Title = blogMLCategory.Title;
+				category.Description = blogMLCategory.Description;
+				category.IsActive = blogMLCategory.Approved;
+
+				string categoryParentId = IdConversion.GetConvertedId(IdScopes.CategoryParents, blogMLCategory.ParentRef);
+				try
+				{
+					category.CategoryType = (CategoryType)Enum.Parse(typeof(CategoryType), categoryParentId);
+				}
+				catch(Exception)
+				{
+					//Assume it's a post collection.
+					category.CategoryType = CategoryType.PostCollection;
+				}
+
+				Links.CreateLinkCategory(category);
+				
+				//We're going to use the title to reference category.
+				IdConversion.MapConvertedIdToImportedId(IdScopes.Categories, blogMLCategory.ID, category.Title);
+			}
+		}
+
+		/// <summary>
+		/// The physical path to the attachment directory.
+		/// </summary>
+		/// <remarks>
+		/// The attachment is passed in to give the blog engine 
+		/// the opportunity to use attachment specific directories 
+		/// (ex. based on mime type) should it choose.
+		/// </remarks>
+		public override string GetAttachmentDirectoryPath(BlogMLAttachment attachment)
+		{
+			return Config.CurrentBlog.ImageDirectory;
+		}
+
+		/// <summary>
+		/// The url to the attachment directory
+		/// </summary>
+		/// <remarks>
+		/// The attachment is passed in to give the blog engine 
+		/// the opportunity to use attachment specific directories 
+		/// (ex. based on mime type) should it choose.
+		/// </remarks>
+		public override string GetAttachmentDirectoryUrl(BlogMLAttachment attachment)
+		{
+			return Config.CurrentBlog.ImagePath;
+		}
+
+		/// <summary>
+		/// Creates a blog post and returns the id.
+		/// </summary>
+		/// <param name="post"></param>
+		/// <param name="content"></param>
+		/// <returns></returns>
+		public override string CreateBlogPost(BlogMLPost post, string content)
+		{
+			Entry newEntry = new Entry(PostType.BlogPost);
+			newEntry.BlogId = Config.CurrentBlog.Id;
+			newEntry.Title = post.Title;
+			newEntry.DateCreated = post.DateCreated;
+			newEntry.DateUpdated = post.DateModified;
+			newEntry.DateSyndicated = post.DateModified;  // is this really the best thing to do?
+			newEntry.Body = content;
+			newEntry.IsActive = post.Approved;
+			newEntry.DisplayOnHomePage = post.Approved;
+			newEntry.IncludeInMainSyndication = post.Approved;
+			newEntry.IsAggregated = post.Approved;
+			newEntry.AllowComments = true;
+			
+			foreach(BlogMLCategoryReference categoryRef in post.Categories)
+			{
+				string categoryTitle = IdConversion.GetConvertedId(IdScopes.Categories, categoryRef.Ref);
+				newEntry.Categories.Add(categoryTitle);
+			}
+			
+			return Entries.Create(newEntry).ToString(CultureInfo.InvariantCulture);
+		}
+
+		/// <summary>
+		/// Creates a comment in the system.
+		/// </summary>
+		/// <param name="bmlComment"></param>
+		public override void CreatePostComment(BlogMLComment bmlComment, string newPostId)
+		{
+			Entry newComment = new Entry(PostType.Comment);
+			newComment.BlogId = Config.CurrentBlog.Id;
+			newComment.ParentId = int.Parse(newPostId);
+			newComment.Title = bmlComment.Title ?? string.Empty;
+			newComment.DateCreated = bmlComment.DateCreated;
+			newComment.DateUpdated = bmlComment.DateModified;
+			newComment.DateSyndicated = bmlComment.DateCreated;
+			newComment.Body = StringHelper.ReturnCheckForNull(bmlComment.Content.UncodedText);
+			newComment.IsActive = bmlComment.Approved;
+			newComment.Author = StringHelper.ReturnCheckForNull(bmlComment.UserName);
+			newComment.AlternativeTitleUrl = StringHelper.ReturnCheckForNull(bmlComment.UserUrl);
+			newComment.Email = bmlComment.UserEMail;
+			newComment.Url = bmlComment.UserUrl;
+
+			Entries.CreateComment(newComment);
+		}
+
+		/// <summary>
+		/// Creates a trackback for the post.
+		/// </summary>
+		/// <param name="trackback"></param>
+		public override void CreatePostTrackback(BlogMLTrackback trackback, string newPostId)
+		{
+			Entry newPingTrack = new Entry(PostType.PingTrack);
+			newPingTrack.BlogId = Config.CurrentBlog.Id;
+			newPingTrack.ParentId = int.Parse(newPostId);
+			newPingTrack.Title = trackback.Title;
+			newPingTrack.AlternativeTitleUrl = trackback.Url;
+			newPingTrack.IsActive = trackback.Approved;
+			newPingTrack.DateCreated = trackback.DateCreated;
+			newPingTrack.DateUpdated = trackback.DateModified;
+			newPingTrack.DateSyndicated = trackback.DateCreated;
+			// we use an actual name here, but BlogML doesn't support this, so let's try  
+			// to parse the url's host out of the url.
+			newPingTrack.Author = UrlFormats.GetHostFromExternalUrl(trackback.Url);
+			// so the duplicate Comment Filter doesn't break when computing the checksum
+			newPingTrack.Body = string.Empty;
+
+			Entries.Create(newPingTrack);
+		}
+		
+		/// <summary>
+		/// Lets the provider decide how to log errors.
+		/// </summary>
+		/// <param name="message"></param>
+		/// <param name="e"></param>
+		public override void LogError(string message, Exception e)
+		{
+			//TODO:
 		}
 	}
 }

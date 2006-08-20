@@ -10,7 +10,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 
-namespace UnitTests.Subtext.BlogMl
+namespace UnitTests.Subtext.BlogML
 {
 	/// <summary>
 	/// Unit tests of the BlogImportExport functionality.
@@ -34,7 +34,7 @@ namespace UnitTests.Subtext.BlogMl
 			SubtextBlogMLProvider provider = new SubtextBlogMLProvider();
 			provider.ConnectionString = connectionString;
 			
-			BlogMlWriter writer = BlogMlWriter.Create(provider);
+			BlogMLWriter writer = BlogMLWriter.Create(provider);
 			writer.EmbedAttachments = false;
 
 			//Note, once the next version of BlogML is released, we can cleanup some of this.
@@ -86,7 +86,7 @@ namespace UnitTests.Subtext.BlogMl
 			// Not using BlogMlProvider.Instance() because we need to reset the state.
 			SubtextBlogMLProvider provider = new SubtextBlogMLProvider();
 			provider.ConnectionString = connectionString;
-			BlogMlWriter writer = BlogMlWriter.Create(provider);
+			BlogMLWriter writer = BlogMLWriter.Create(provider);
 			writer.EmbedAttachments = false;
 
 			//Note, once the next version of BlogML is released, we can cleanup some of this.

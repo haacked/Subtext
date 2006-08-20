@@ -15,8 +15,8 @@
 
 using System;
 using log4net;
+using Subtext.BlogML;
 using Subtext.Framework.Exceptions;
-using Subtext.Framework.Import;
 using Subtext.Framework.Logging;
 
 namespace Subtext.Web.Admin.Pages
@@ -73,12 +73,12 @@ namespace Subtext.Web.Admin.Pages
 
 		private void LoadBlogML()
 		{
-			SubtextBlogMLReader bmlReader = new SubtextBlogMLReader();
+			BlogMLReader bmlReader = BlogMLReader.Create(BlogMLProvider.Instance());
 			bool errOccured = false;
 			
 			try
 			{
-                bmlReader.ReadBlog(this.importBlogMLFile.PostedFile.InputStream, BlogMlReaderOption.None);
+                bmlReader.ReadBlog(this.importBlogMLFile.PostedFile.InputStream);
 			}
 			catch(BlogImportException bie)
 			{

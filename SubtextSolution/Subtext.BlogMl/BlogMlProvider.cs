@@ -154,5 +154,67 @@ namespace Subtext.BlogML
 		/// IdConversionStrategy.Empty
 		/// </summary>
 		public abstract IdConversionStrategy IdConversion { get;}
+
+		/// <summary>
+		/// Method called before an import begins. Allows the provider to 
+		/// initialize any state in the current blog.
+		/// </summary>
+		public abstract void PreImport();
+
+		/// <summary>
+		/// Method called when an import is complete.
+		public abstract void ImportComplete();
+
+		/// <summary>
+		/// Creates categories from the blog ml.
+		/// </summary>
+		/// <param name="blog"></param>
+		public abstract void CreateCategories(BlogMLBlog blog);
+
+		/// <summary>
+		/// The physical path to the attachment directory.
+		/// </summary>
+		/// <remarks>
+		/// The attachment is passed in to give the blog engine 
+		/// the opportunity to use attachment specific directories 
+		/// (ex. based on mime type) should it choose.
+		/// </remarks>
+		public abstract string GetAttachmentDirectoryPath(BlogMLAttachment attachment);
+		
+		/// <summary>
+		/// The url to the attachment directory
+		/// </summary>
+		/// <remarks>
+		/// The attachment is passed in to give the blog engine 
+		/// the opportunity to use attachment specific directories 
+		/// (ex. based on mime type) should it choose.
+		/// </remarks>
+		public abstract string GetAttachmentDirectoryUrl(BlogMLAttachment attachment);
+
+		/// <summary>
+		/// Creates a blog post and returns the id.
+		/// </summary>
+		/// <param name="post"></param>
+		/// <returns></returns>
+		public abstract string CreateBlogPost(BlogMLPost post, string content);
+
+		/// <summary>
+		/// Creates a comment in the system.
+		/// </summary>
+		/// <param name="bmlComment"></param>
+		public abstract void CreatePostComment(BlogMLComment bmlComment, string newPostId);
+
+		/// <summary>
+		/// Creates a trackback for the post.
+		/// </summary>
+		/// <param name="trackback"></param>
+		public abstract void CreatePostTrackback(BlogMLTrackback trackback, string newPostId);
+		
+		/// <summary>
+		/// Lets the provider decide how to log errors.
+		/// </summary>
+		/// <param name="message"></param>
+		/// <param name="e"></param>
+		public abstract void LogError(string message, Exception e);
 	}
 }
