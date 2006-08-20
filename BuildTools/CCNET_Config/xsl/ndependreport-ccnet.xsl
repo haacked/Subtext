@@ -1,7 +1,9 @@
 <?xml version="1.0" ?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/TR/xhtml1/strict">
 	<xsl:output method="html" />
-
+	<xsl:variable name="project" select="//buildproject/text()"/>
+	<xsl:variable name="label" select="//buildlabel/text()" />
+	
 	<xsl:template match="/">
 	
 		<style type="text/css">
@@ -87,7 +89,11 @@
 			<div class="subtitle">Assemblies Abstracness vs. Instability</div>
 		</A>
 		<p></p>
-		<IMG SRC="AbstracnessVSInstability.png" />
+		<img>
+			<xsl:attribute name="src">
+				image.ashx?project=<xsl:copy-of select="$project" />&amp;label=<xsl:copy-of select="$label" />&amp;name=AbstracnessVSInstability.png
+			</xsl:attribute>
+		</img>
 		<p></p>
 		<p></p>
 		<A NAME="ASMDEP">
@@ -103,7 +109,11 @@
 		<p></p>
 		<div class="info">Blue : Assemblies of your application.</div>
 		<div class="info">Yellow : Framework assemblies referenced by assemblies of your application.</div>
-		<IMG SRC="ComponentDependenciesDiagram.png" />
+		<img>
+			<xsl:attribute name="src">
+				image.ashx?project=<xsl:copy-of select="$project" />&amp;label=<xsl:copy-of select="$label" />&amp;name=ComponentDependenciesDiagram.png
+			</xsl:attribute>
+		</img>
 		<p></p>
 		<p></p>
 		<A NAME="ASMBUILDORDER">
