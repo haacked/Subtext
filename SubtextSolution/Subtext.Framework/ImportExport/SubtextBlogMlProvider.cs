@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Web;
 using BlogML.Xml;
 using Microsoft.ApplicationBlocks.Data;
+using Subtext.BlogML;
 using Subtext.BlogML.Conversion;
 using Subtext.BlogML.Interfaces;
 using Subtext.Extensibility;
@@ -17,8 +18,9 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Format;
 using Subtext.Framework.Text;
+using Subtext.ImportExport.Conversion;
 
-namespace Subtext.BlogML.Implementations
+namespace Subtext.ImportExport
 {
 	public class SubtextBlogMLProvider : BlogMLProvider
 	{	

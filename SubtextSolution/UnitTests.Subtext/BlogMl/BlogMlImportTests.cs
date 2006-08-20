@@ -1,20 +1,17 @@
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Text;
 using System.Xml;
 using MbUnit.Framework;
-//using Subtext.BlogML;
 using Subtext.BlogML;
-using Subtext.BlogML.Implementations;
 using Subtext.BlogML.Interfaces;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Exceptions;
 using BlogML;
+using Subtext.ImportExport;
 
 namespace UnitTests.Subtext.Framework.Import
 {
