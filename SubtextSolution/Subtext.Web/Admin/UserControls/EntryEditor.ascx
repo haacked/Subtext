@@ -88,7 +88,7 @@
 <ANW:AdvancedPanel id="Edit" runat="server" LinkStyle="Image" DisplayHeader="True" HeaderCssClass="CollapsibleTitle" Collapsible="False" HeaderText="Edit Post">
 	<div class="Edit">
 		<!-- DEBUG -->
-		<p class="Label"><asp:HyperLink id="hlEntryLink" Target="_blank" Runat="server"></asp:HyperLink></p>
+		<p class="Label"><asp:HyperLink id="hlEntryLink" Runat="server"></asp:HyperLink></p>
 		<p>
 			<label for="Editor_Edit_txbTitle" accesskey="t">Post <u>T</u>itle</label>&nbsp;<asp:RequiredFieldValidator id="valTitleRequired" runat="server" ControlToValidate="txbTitle" ForeColor="#990066" ErrorMessage="Your post must have a title"></asp:RequiredFieldValidator>
 		</p>

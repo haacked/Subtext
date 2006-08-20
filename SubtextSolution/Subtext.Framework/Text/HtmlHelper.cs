@@ -180,22 +180,12 @@ namespace Subtext.Framework.Text
 			MatchCollection matches = Regex.Matches(text, pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
 			foreach (Match m in matches) 
 			{
-				text = text.Replace(m.ToString(), "<a rel=\"nofollow\" target=\"_new\" href=\"" + m.ToString() + "\">" + m.ToString() + "</a>");
+				text = text.Replace(m.ToString(), "<a rel=\"nofollow external\" href=\"" + m.ToString() + "\">" + m.ToString() + "</a>");
 			}
 			return text;			
 		}
 
-		/// <summary>
-		/// The only HTML we will allow is hyperlinks. 
-		/// We will however, check for line breaks and replace them with <br />
-		/// </summary>
-		/// <param name="stringToTransform"></param>
-		/// <returns></returns>
-		public static string SafeFormatWithUrl(string stringToTransform)
-		{
-			return EnableUrls(SafeFormat(stringToTransform));
-		}
-
+		
 		/// <summary>
 		/// The only HTML we will allow is hyperlinks. 
 		/// We will however, check for line breaks and replace 
