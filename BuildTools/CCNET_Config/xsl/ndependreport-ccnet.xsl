@@ -91,7 +91,7 @@
 		<p></p>
 		<img>
 			<xsl:attribute name="src">
-				/builds/buildlogs/<xsl:copy-of select="$project" />/<xsl:copy-of select="$label" />/AbstracnessVSInstability.png
+				/builds/<xsl:copy-of select="$project" />/buildlogs/<xsl:copy-of select="$label" />/AbstracnessVSInstability.png
 			</xsl:attribute>
 		</img>
 		<p></p>
@@ -111,7 +111,7 @@
 		<div class="info">Yellow : Framework assemblies referenced by assemblies of your application.</div>
 		<img>
 			<xsl:attribute name="src">
-				/builds/buildlogs/<xsl:copy-of select="$project" />/<xsl:copy-of select="$label" />/ComponentDependenciesDiagram.png
+				/builds/<xsl:copy-of select="$project" />/buildlogs/<xsl:copy-of select="$label" />/ComponentDependenciesDiagram.png
 			</xsl:attribute>
 		</img>
 		<p></p>
