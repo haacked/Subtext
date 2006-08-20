@@ -11,8 +11,7 @@ namespace Subtext.BlogML
 	public class BlogMLHttpHandler : BaseHttpHandler
 	{
 		/// <summary>
-		/// Handles the request.  This is where you put your
-		/// business logic.
+		/// Http handler used to export BlogML.
 		/// </summary>
 		/// <remarks>
 		/// <p>This method should result in a call to one 

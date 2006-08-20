@@ -19,24 +19,12 @@
 //
 // http://ndoc.sourceforge.net/reference/NDoc.Core.Reflection.BaseReflectionDocumenterConfig.UseNamespaceDocSummaries.html
 
-//#if debug
-namespace Subtext.Framework
-{
-	/// <summary>
-	/// Contains the primary framework classes used by 
-	/// the Subtext blogging engine.
-	/// </summary>
-	internal sealed class NamespaceDoc
-	{
-		private NamespaceDoc()
-		{
-		}
-	}
-}
-
+#if DOCUMENTATION
 namespace Subtext.Extensibility
 {
 	/// <summary>
+	/// Contains base interface and abstract classes used to extend 
+	/// Subtext.
 	/// </summary>
 	internal sealed class NamespaceDoc
 	{
@@ -49,6 +37,7 @@ namespace Subtext.Extensibility
 namespace Subtext.Extensibility.Providers
 {
 	/// <summary>
+	/// Contains the base provider definitions for Subtext.
 	/// </summary>
 	internal sealed class NamespaceDoc
 	{
@@ -57,4 +46,4 @@ namespace Subtext.Extensibility.Providers
 		}
 	}
 }
-//#endif
+#endif

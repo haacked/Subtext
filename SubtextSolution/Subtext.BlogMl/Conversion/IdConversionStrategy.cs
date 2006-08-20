@@ -32,29 +32,6 @@ namespace Subtext.BlogML.Conversion
 		}
 		
 		/// <summary>
-		/// This method is used when importing. It provides a means to 
-		/// tell the conversion that we now have an internal id to map 
-		/// to the blogml id.
-		/// </summary>
-		/// <remarks>
-		/// When importing a category, you might receive an id from blogml like "abcd-efg".  
-		/// When you create a Category record in your system, you might have an ID of "3134".  
-		/// Call this method to tell the conversion that from now on, "abcd-efg" is mapped 
-		/// to "3134".
-		/// </remarks>
-		/// <param name="scope"></param>
-		/// <param name="originalId"></param>
-		/// <param name="newId"></param>
-		/// <returns></returns>
-		public string MapConvertedIdToImportedId(string scope, string originalId, string newId)
-		{
-			ScopedId scopedId = new ScopedId(scope, originalId);
-			if(!idMap.ContainsKey(scopedId))
-				idMap[scopedId] = newId;
-			return newId;
-		}
-		
-		/// <summary>
 		/// Generates a new id for the specified scope.  The originalId may be ignored if 
 		/// not needed as a "seed" value.
 		/// </summary>

@@ -169,7 +169,7 @@ namespace Subtext.BlogML
 		/// Creates categories from the blog ml.
 		/// </summary>
 		/// <param name="blog"></param>
-		public abstract void CreateCategories(BlogMLBlog blog);
+		public abstract IDictionary<string, string> CreateCategories(BlogMLBlog blog);
 
 		/// <summary>
 		/// The physical path to the attachment directory.
@@ -195,8 +195,10 @@ namespace Subtext.BlogML
 		/// Creates a blog post and returns the id.
 		/// </summary>
 		/// <param name="post"></param>
+		/// <param name="content">The rewritten content of the post.</param>
+		/// <param name="categoryIdMap">A dictionary used to map the blogml category id to the internal category id.</param>
 		/// <returns></returns>
-		public abstract string CreateBlogPost(BlogMLPost post, string content);
+		public abstract string CreateBlogPost(BlogMLPost post, string content, IDictionary<string, string> categoryIdMap);
 
 		/// <summary>
 		/// Creates a comment in the system.
