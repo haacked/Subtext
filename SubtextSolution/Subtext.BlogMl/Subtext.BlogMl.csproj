@@ -65,6 +65,7 @@
     <Compile Include="BlogMlContext.cs" />
     <Compile Include="BlogMlHttpHandler.cs" />
     <Compile Include="BlogMlProvider.cs" />
+    <Compile Include="BlogMLReader.cs" />
     <Compile Include="BlogMlWriter.cs" />
     <Compile Include="Conversion\IdConversionStrategy.cs" />
     <Compile Include="Conversion\NullConversionStrategy.cs" />

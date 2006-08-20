@@ -1,4 +1,5 @@
 using System;
+using Subtext.Framework.Components;
 
 namespace Subtext.BlogML.Conversion
 {
@@ -19,6 +20,26 @@ namespace Subtext.BlogML.Conversion
 			if (scope == IdScopes.Comments || scope == IdScopes.TrackBacks)
 				scope = IdScopes.Posts;
 
+			if(scope == IdScopes.CategoryParents)
+			{
+				//Out.
+				int categoryTypeId;
+				if(int.TryParse(originalId, out categoryTypeId))
+					return Enum.GetName(typeof(CategoryType), categoryTypeId);
+
+				try
+				{
+					// Run a test to see if it is a category type and 
+					// needs no conversion.
+					Enum.Parse(typeof(CategoryType), originalId);
+					return originalId;
+				}
+				catch(Exception)
+				{
+				}
+				
+			}
+			
 			return base.Generate(scope, originalId);
 		}
 	}

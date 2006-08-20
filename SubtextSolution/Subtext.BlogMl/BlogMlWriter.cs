@@ -11,7 +11,7 @@ using Subtext.Framework.Components;
 
 namespace Subtext.BlogML
 {
-	public class BlogMlWriter : BlogMLWriterBase
+	public class BlogMLWriter : BlogMLWriterBase
 	{
 		IBlogMLProvider provider;
 		IdConversionStrategy conversionStrategy;
@@ -22,7 +22,7 @@ namespace Subtext.BlogML
 		/// Creates an instance of the BlogMl Writer.
 		/// </summary>
 		/// <param name="provider">The provider.</param>
-		public static BlogMlWriter Create(IBlogMLProvider provider)
+		public static BlogMLWriter Create(IBlogMLProvider provider)
 		{
 			if (provider == null)
 				throw new ArgumentNullException("provider", "provider cannot be null");
@@ -31,13 +31,13 @@ namespace Subtext.BlogML
 			if (context == null)
 				throw new InvalidOperationException("The BlogMl provider did not set the context.");
 
-			return new BlogMlWriter(provider, context);
+			return new BlogMLWriter(provider, context);
 		}
 		
 		/// <summary>
 		/// Constructs an instance of the BlogMlWriter for the specified blogId.
 		/// </summary>
-		private BlogMlWriter(IBlogMLProvider provider, IBlogMLContext context)
+		private BlogMLWriter(IBlogMLProvider provider, IBlogMLContext context)
 		{			
 			this.provider = provider;
 			this.blogId = context.BlogId;

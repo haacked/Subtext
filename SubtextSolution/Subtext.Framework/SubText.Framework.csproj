@@ -330,12 +330,6 @@
     <Compile Include="ImportManager.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Import\SubtextBlogMLReader.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Import\SubtextBlogMLWriter.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="InstallationManager.cs">
       <SubType>Code</SubType>
     </Compile>

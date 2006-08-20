@@ -5,14 +5,16 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using MbUnit.Framework;
+//using Subtext.BlogML;
 using Subtext.BlogML;
+using Subtext.BlogML.Implementations;
 using Subtext.BlogML.Interfaces;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
-using Subtext.Framework.Import;
+using BlogML;
 
 namespace UnitTests.Subtext.Framework.Import
 {
@@ -20,19 +22,9 @@ namespace UnitTests.Subtext.Framework.Import
 	/// Unit tests of the BlogImportExport functionality.
 	/// </summary>
     [TestFixture]
-    public class BlogMlImportTests
-    {
-		string connectionString = ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString;
-		
-		[Test]
-		[ExpectedException(typeof(BlogDoesNotExistException))]
-    	public void WritingInvalidBlogIdThrowsException()
-    	{
-			SubtextBlogMLWriter writer = new SubtextBlogMLWriter(this.connectionString, int.MaxValue, false);
-			writer.Write(XmlWriter.Create(new StringBuilder()));
-    	}
-		
-		public class BlogMlTester : BlogML.BlogMLWriterBase
+    public class BlogMLImportTests
+    {		
+		public class BlogMLTester : BlogMLWriterBase
 		{
 			protected override void InternalWriteBlog()
 			{
@@ -45,7 +37,7 @@ namespace UnitTests.Subtext.Framework.Import
 		[Test, Ignore("This test exposes a bug with BlogML!")]
 		public void TestBlogML()
 		{
-			BlogMlTester writer = new BlogMlTester();
+			BlogMLTester writer = new BlogMLTester();
 			StringBuilder builder = new StringBuilder();
 			
 			//Going to write xml to a string.
@@ -62,9 +54,9 @@ namespace UnitTests.Subtext.Framework.Import
 			CreateBlogAndSetupContext();
         	
             //Test BlogML reader.
-            SubtextBlogMLReader reader = new SubtextBlogMLReader();
+            BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider());
             Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SimpleBlogMl.xml");
-            reader.ReadBlog(stream, BlogMlReaderOption.None);
+            reader.ReadBlog(stream);
 
             IList<Entry> entries = Entries.GetRecentPosts(20, PostType.BlogPost, PostConfig.None, true);
             Assert.AreEqual(18, entries.Count, "Did not get the expected number of entries.");
@@ -85,26 +77,26 @@ namespace UnitTests.Subtext.Framework.Import
             Config.CurrentBlog.ImagePath = "/image/";
 
             //Test BlogML reader.
-            SubtextBlogMLReader reader = new SubtextBlogMLReader();
+			BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider());
             Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SimpleBlogMl.xml");
-            reader.ReadBlog(stream, BlogMlReaderOption.None);
+            reader.ReadBlog(stream);
 
             IList<Entry> entries = Entries.GetRecentPosts(20, PostType.BlogPost, PostConfig.None, true);
 
 			IBlogMLProvider provider = BlogMLProvider.Instance();
-			BlogMlWriter writer = BlogMlWriter.Create(provider);
+			BlogMLWriter writer = BlogMLWriter.Create(provider);
 			writer.EmbedAttachments = true;
             MemoryStream memoryStream = new MemoryStream();
 			
         	using (XmlTextWriter xmlWriter = new XmlTextWriter(memoryStream, Encoding.UTF8))
             {
                 writer.Write(xmlWriter);
-                reader = new SubtextBlogMLReader();
+				reader = BlogMLReader.Create(new SubtextBlogMLProvider());
                 
                 //Create yet another new blog.
                 Assert.IsTrue(Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", Config.CurrentBlog.Host + "1", ""), "Could not create the blog for this test");
                 UnitTestHelper.SetHttpContextWithBlogRequest(Config.CurrentBlog.Host + "1", "");
-                reader.ReadBlog(memoryStream, BlogMlReaderOption.None);
+                reader.ReadBlog(memoryStream);
             }
 
             IList<Entry> newEntries = Entries.GetRecentPosts(20, PostType.BlogPost, PostConfig.None, true);

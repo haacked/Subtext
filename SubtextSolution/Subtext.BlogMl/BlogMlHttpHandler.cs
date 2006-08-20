@@ -54,7 +54,7 @@ namespace Subtext.BlogML
 			if(provider.GetBlogMlContext() == null)
 				throw new InvalidOperationException("The BlogMl provider did not set the context.");
 
-			BlogMlWriter writer = BlogMlWriter.Create(provider);
+			BlogMLWriter writer = BlogMLWriter.Create(provider);
 
 			using(XmlTextWriter xmlWriter = new XmlTextWriter(outStream, Encoding.UTF8))
 			{

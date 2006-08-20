@@ -15,7 +15,7 @@ using Subtext.BlogML.Interfaces;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 
-namespace UnitTests.Subtext.BlogMl
+namespace UnitTests.Subtext.BlogML
 {
 	[TestFixture]
 	public class BlogMlWriterTests
@@ -24,7 +24,7 @@ namespace UnitTests.Subtext.BlogMl
 		[ExpectedArgumentNullException]
 		public void CreateRequiresProvider()
 		{
-			BlogMlWriter.Create(null);
+			BlogMLWriter.Create(null);
 		}
 
 		[Test]
@@ -34,7 +34,7 @@ namespace UnitTests.Subtext.BlogMl
 			MockRepository mocks = new MockRepository();
 			IBlogMLProvider provider = (IBlogMLProvider)mocks.DynamicMock(typeof(IBlogMLProvider));
 			mocks.ReplayAll();
-			BlogMlWriter.Create(provider);
+			BlogMLWriter.Create(provider);
 			mocks.VerifyAll();
 		}
 		
@@ -48,7 +48,7 @@ namespace UnitTests.Subtext.BlogMl
 			Expect.Call(provider.GetBlogMlContext()).Return(context);
 			Expect.Call(provider.IdConversion).Return(IdConversionStrategy.Empty);
 			mocks.ReplayAll();
-			BlogMlWriter writer = BlogMlWriter.Create(provider);
+			BlogMLWriter writer = BlogMLWriter.Create(provider);
 			Assert.IsNotNull(writer);
 			mocks.VerifyAll();
 		}
@@ -107,7 +107,7 @@ namespace UnitTests.Subtext.BlogMl
 			StringWriter stringWriter = new StringWriter(builder);
 			XmlTextWriter xmlWriter = new XmlTextWriter(stringWriter);
 
-			BlogMlWriter writer = BlogMlWriter.Create(provider);
+			BlogMLWriter writer = BlogMLWriter.Create(provider);
 			writer.Write(xmlWriter);
 
 			mocks.VerifyAll();
@@ -207,7 +207,7 @@ namespace UnitTests.Subtext.BlogMl
 			StringWriter stringWriter = new StringWriter(builder);
 			XmlTextWriter xmlWriter = new XmlTextWriter(stringWriter);
 
-			BlogMlWriter writer = BlogMlWriter.Create(provider);
+			BlogMLWriter writer = BlogMLWriter.Create(provider);
 			writer.Write(xmlWriter);
 
 			mocks.VerifyAll();
