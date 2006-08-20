@@ -6,7 +6,7 @@ namespace Subtext.BlogMl
 	/// <summary>
 	/// Base implementation of the BlogMl context.
 	/// </summary>
-	public class BlogMlContext : IBlogMlContext
+	public class BlogMlContext : IBlogMLContext
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BlogMlContext"/> class.

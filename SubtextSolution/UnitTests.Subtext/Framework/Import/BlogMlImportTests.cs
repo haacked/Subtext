@@ -91,7 +91,7 @@ namespace UnitTests.Subtext.Framework.Import
 
             IList<Entry> entries = Entries.GetRecentPosts(20, PostType.BlogPost, PostConfig.None, true);
 
-			IBlogMlProvider provider = BlogMlProvider.Instance();
+			IBlogMLProvider provider = BlogMLProvider.Instance();
 			BlogMlWriter writer = BlogMlWriter.Create(provider);
 			writer.EmbedAttachments = true;
             MemoryStream memoryStream = new MemoryStream();

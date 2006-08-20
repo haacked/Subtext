@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Configuration.Provider;
+using BlogML.Xml;
 using Subtext.BlogMl.Conversion;
 using Subtext.BlogMl.Interfaces;
 using Subtext.Extensibility.Interfaces;
@@ -27,16 +28,16 @@ namespace Subtext.BlogMl
 	/// <summary>
 	/// Provider for accessing data to implement BlogMl.
 	/// </summary>
-	public abstract class BlogMlProvider : ProviderBase, IBlogMlProvider
+	public abstract class BlogMLProvider : ProviderBase, IBlogMLProvider
 	{
-		private static BlogMlProvider provider;
-		private static GenericProviderCollection<BlogMlProvider> providers = ProviderConfigurationHelper.LoadProviderCollection<BlogMlProvider>("BlogMlProvider", out provider);
+		private static BlogMLProvider provider;
+		private static GenericProviderCollection<BlogMLProvider> providers = ProviderConfigurationHelper.LoadProviderCollection<BlogMLProvider>("BlogMlProvider", out provider);
 
 		/// <summary>
 		/// Returns the default instance of this provider.
 		/// </summary>
 		/// <returns></returns>
-		public static IBlogMlProvider Instance()
+		public static IBlogMLProvider Instance()
 		{
 			return provider;
 		}
@@ -44,7 +45,7 @@ namespace Subtext.BlogMl
 		/// <summary>
 		/// Returns all the configured Email Providers.
 		/// </summary>
-		public static GenericProviderCollection<BlogMlProvider> Providers
+		public static GenericProviderCollection<BlogMLProvider> Providers
 		{
 			get
 			{
@@ -123,28 +124,28 @@ namespace Subtext.BlogMl
 		/// <param name="pageIndex"></param>
 		/// <param name="pageSize"></param>
 		/// <returns></returns>
-		public abstract IPagedCollection<IBlogMlPost> GetBlogPosts(string blogId, int pageIndex, int pageSize);
+		public abstract IPagedCollection<BlogMLPost> GetBlogPosts(string blogId, int pageIndex, int pageSize);
 
 		/// <summary>
 		/// Returns the information about the specified blog
 		/// </summary>
 		/// <param name="blogId"></param>
 		/// <returns></returns>
-		public abstract IBlogMlBlog GetBlog(string blogId);
+		public abstract BlogMLBlog GetBlog(string blogId);
 
 		/// <summary>
 		/// Returns every blog category in the blog.
 		/// </summary>
 		/// <param name="blogId"></param>
 		/// <returns></returns>
-		public abstract ICollection<IBlogMlCategory> GetAllCategories(string blogId);
+		public abstract ICollection<BlogMLCategory> GetAllCategories(string blogId);
 
 		/// <summary>
 		/// Returns the blog id from whichever context the provider 
 		/// happens to be running in.
 		/// </summary>
 		/// <returns></returns>
-		public abstract IBlogMlContext GetBlogMlContext();
+		public abstract IBlogMLContext GetBlogMlContext();
 
 		/// <summary>
 		/// Returns a strategy object responsible for handling Id conversions 

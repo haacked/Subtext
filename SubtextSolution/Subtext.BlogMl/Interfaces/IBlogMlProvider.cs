@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using BlogML.Xml;
 using Subtext.BlogMl.Conversion;
 using Subtext.Extensibility.Interfaces;
 
 namespace Subtext.BlogMl.Interfaces
 {
-	public interface IBlogMlProvider
+	public interface IBlogMLProvider
 	{
 		/// <summary>
 		/// Gets or sets the connection string.
@@ -27,28 +28,28 @@ namespace Subtext.BlogMl.Interfaces
 		/// <param name="pageIndex"></param>
 		/// <param name="pageSize"></param>
 		/// <returns></returns>
-		IPagedCollection<IBlogMlPost> GetBlogPosts(string blogId, int pageIndex, int pageSize);
+		IPagedCollection<BlogMLPost> GetBlogPosts(string blogId, int pageIndex, int pageSize);
 
 		/// <summary>
 		/// Returns the information about the specified blog
 		/// </summary>
 		/// <param name="blogId"></param>
 		/// <returns></returns>
-		IBlogMlBlog GetBlog(string blogId);
+		BlogMLBlog GetBlog(string blogId);
 
 		/// <summary>
 		/// Returns every blog category in the blog.
 		/// </summary>
 		/// <param name="blogId"></param>
 		/// <returns></returns>
-		ICollection<IBlogMlCategory> GetAllCategories(string blogId);
+		ICollection<BlogMLCategory> GetAllCategories(string blogId);
 
 		/// <summary>
 		/// Returns the blog id from whichever context the provider 
 		/// happens to be running in.
 		/// </summary>
 		/// <returns></returns>
-		IBlogMlContext GetBlogMlContext();
+		IBlogMLContext GetBlogMlContext();
 
 		/// <summary>
 		/// Returns a strategy object responsible for handling Id conversions 

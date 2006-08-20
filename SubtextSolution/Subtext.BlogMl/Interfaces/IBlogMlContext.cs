@@ -6,7 +6,7 @@ namespace Subtext.BlogMl.Interfaces
 	/// Represents the context of the request for 
 	/// BlogMl.
 	/// </summary>
-	public interface IBlogMlContext
+	public interface IBlogMLContext
 	{
 		/// <summary>
 		/// The id of the blog for which to import/export the blogml.
