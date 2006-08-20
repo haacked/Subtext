@@ -47,6 +47,8 @@ namespace Subtext.Framework.Web.Handlers
 			if(Config.CurrentBlog == null)
 				return;
 
+			context.Response.Charset = "utf-8";
+			
 			XmlWriterSettings settings = new XmlWriterSettings();
 			settings.Indent = true;
 			settings.IndentChars = "  ";
@@ -64,6 +66,7 @@ namespace Subtext.Framework.Web.Handlers
 		{
 			writer.WriteStartDocument();
 			writer.WriteStartElement("rsd", "http://archipelago.phrasewise.com/rsd");
+			writer.WriteAttributeString("version", "1.0");
 			writer.WriteStartElement("service");
 			writer.WriteElementString("engineName", "Subtext");
 			writer.WriteElementString("engineLink", "http://subtextproject.com/");
@@ -121,7 +124,7 @@ namespace Subtext.Framework.Web.Handlers
 		{
 			get
 			{
-				return "application/rsd+xml";
+				return "text/xml";
 			}
 		}
 	}
