@@ -6,14 +6,14 @@ using Subtext.Web.Controls;
 namespace Subtext.Web.UI.Controls
 {
 	/// <summary>
-	/// Summary description for CoCommentScript.
+	/// Implements CoComment for Subtext.
 	/// </summary>
 	public class SubtextCoComment : CoComment
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SubtextCoComment"/> class.
 		/// </summary>
-		public SubtextCoComment()
+		public SubtextCoComment() : base()
 		{
 		}
 

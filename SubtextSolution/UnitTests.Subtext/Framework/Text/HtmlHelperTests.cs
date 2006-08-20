@@ -36,12 +36,12 @@ namespace UnitTests.Subtext.Framework.Text
 		public void EnableUrlsFormatsUrlsWithAnchorTags()
 		{
 			string html = "this is text with http://haacked.com/ one url.";
-			string expected = "this is text with <a rel=\"nofollow\" target=\"_new\" href=\"http://haacked.com/\">http://haacked.com/</a> one url.";
+			string expected = "this is text with <a rel=\"nofollow external\" href=\"http://haacked.com/\">http://haacked.com/</a> one url.";
 
 			Assert.AreEqual(expected, HtmlHelper.EnableUrls(html));
 
 			html = "this is text with http://haacked.com/ two http://localhost/someplace/some.page.aspx urls.";
-			expected = "this is text with <a rel=\"nofollow\" target=\"_new\" href=\"http://haacked.com/\">http://haacked.com/</a> two <a rel=\"nofollow\" target=\"_new\" href=\"http://localhost/someplace/some.page.aspx\">http://localhost/someplace/some.page.aspx</a> urls.";
+			expected = "this is text with <a rel=\"nofollow external\" href=\"http://haacked.com/\">http://haacked.com/</a> two <a rel=\"nofollow\" target=\"_new\" href=\"http://localhost/someplace/some.page.aspx\">http://localhost/someplace/some.page.aspx</a> urls.";
 
 			Assert.AreEqual(expected, HtmlHelper.EnableUrls(html));
 		}
