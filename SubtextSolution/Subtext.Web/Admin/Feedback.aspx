@@ -28,7 +28,7 @@
 			<ItemTemplate>
 				<tr>
 					<td>
-						<b><%# GetTitle(Container.DataItem) %></b>						
+						<b><%# GetTitle(Container.DataItem) %></b>
 					</td>
 					<td>
 						<strong><%# GetAuthor(Container.DataItem) %></strong> <%# GetAuthorInfo(Container.DataItem) %>
@@ -50,13 +50,13 @@
 			<AlternatingItemTemplate>
 				<tr class="Alt">
 					<td>
-						<b><%# DataBinder.Eval(Container.DataItem, "Title") %></b>
+						<b><%# GetTitle(Container.DataItem) %></b>
 					</td>
 					<td>
 						<strong><%# GetAuthor(Container.DataItem) %></strong> <%# GetAuthorInfo(Container.DataItem) %>
 					</td>
 					<td nowrap="nowrap">
-						<%# DataBinder.Eval(Container.DataItem, "DateCreated") %>
+						<%# DataBinder.Eval(Container.DataItem, "DateCreated", "{0:M/d/yy h:mmt}") %>
 					</td>
 					<td>
 						<asp:CheckBox id="chkDeleteAlt" Runat="Server"></asp:CheckBox>
