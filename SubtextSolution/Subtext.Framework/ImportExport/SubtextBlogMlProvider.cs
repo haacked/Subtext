@@ -173,7 +173,7 @@ namespace Subtext.ImportExport
 		/// <returns></returns>
 		public override ICollection<BlogMLCategory> GetAllCategories(string blogId)
 		{
-			ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.None, ActiveFilter.None);
+			ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
 			Collection<BlogMLCategory> blogCategories = new Collection<BlogMLCategory>();
 			
 			foreach(LinkCategory category in categories)
@@ -183,7 +183,6 @@ namespace Subtext.ImportExport
 				blogCategory.Title = category.Title;
 				blogCategory.Description = category.Description;
 				blogCategory.Approved = category.IsActive;
-				blogCategory.ParentRef = category.CategoryType.ToString();
 				blogCategory.DateCreated = DateTime.Now;
 				blogCategory.DateModified = DateTime.Now;
 				
