@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Text;
 using System.Web;
 using System.Xml;
@@ -79,7 +80,7 @@ namespace Subtext.Framework.Web.Handlers
 			writer.WriteAttributeString("name", "MetaWeblog");
 			writer.WriteAttributeString("preferred", "true");
 			writer.WriteAttributeString("apiLink", blog.RootUrl + "services/metablogapi.aspx");
-			writer.WriteAttributeString("blogID", string.Empty);
+			writer.WriteAttributeString("blogID", Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture));
 			writer.WriteEndElement(); // </api>
 			
 			writer.WriteEndElement(); // </apis>
