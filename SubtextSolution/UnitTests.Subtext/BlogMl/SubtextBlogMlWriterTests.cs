@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Xml;
+using BlogML.Xml;
 using MbUnit.Framework;
 using Subtext.BlogML;
 using Subtext.Extensibility;
@@ -33,11 +35,27 @@ namespace UnitTests.Subtext.BlogML
 			CreateBlogAndSetupContext();
 
 			// Shortcut to creating a blog post with a category.
-			BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider());
+			SubtextBlogMLProvider provider = new SubtextBlogMLProvider();
+			provider.ConnectionString = ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString;
+			BlogMLReader reader = BlogMLReader.Create(provider);
 			Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SinglePostWithCategory.xml");
 			reader.ReadBlog(stream);
 
-			BlogMLWriter writer = BlogMLWriter.Create(new SubtextBlogMLProvider());
+			// Make sure we created a post with a category.
+			ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.ActiveOnly);
+			Assert.AreEqual(2, categories.Count, "Expected two total categories to be created");
+			IList<Entry> entries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
+			Assert.AreEqual(1, entries.Count, "Expected a single entry.");
+			Assert.AreEqual("Category002", entries[0].Categories[0], "Expected the catgory to be 'Category002'");
+			
+			// Now export.
+			provider = new SubtextBlogMLProvider();
+			provider.ConnectionString = ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString;
+			
+			ICollection<BlogMLCategory> blogMLCategories = provider.GetAllCategories(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture));
+			Assert.AreEqual(2, blogMLCategories.Count, "Expected to find two categories via the provider.");
+			
+			BlogMLWriter writer = BlogMLWriter.Create(provider);
 			writer.EmbedAttachments = false;
             MemoryStream memoryStream = new MemoryStream();
 
@@ -45,10 +63,18 @@ namespace UnitTests.Subtext.BlogML
 			{
 				writer.Write(xmlWriter);
 
-				// Now read it back in to a new blog.
-				Assert.IsTrue(Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", Config.CurrentBlog.Host + "1", ""), "Could not create the blog for this test");
+				// Create a new blog.
+				Assert.IsTrue(Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", Config.CurrentBlog.Host + "2", ""), "Could not create the blog for this test");
 				UnitTestHelper.SetHttpContextWithBlogRequest(Config.CurrentBlog.Host + "2", "");
 				Assert.IsTrue(Config.CurrentBlog.Host.EndsWith("2"), "Looks like we've cached our old blog.");
+
+				// Now read it back in to a new blog.
+				memoryStream.Position = 0;
+
+				//Let's take a look at the export.
+				StreamReader streamReader = new StreamReader(memoryStream);
+				Console.WriteLine(streamReader.ReadToEnd());
+
 				memoryStream.Position = 0;
 				reader.ReadBlog(memoryStream);
 			}
