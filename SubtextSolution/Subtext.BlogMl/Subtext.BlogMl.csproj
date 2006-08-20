@@ -28,7 +28,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;DOCUMENTATION</DefineConstants>
     <DocumentationFile>bin\debug\Subtext.BlogMl.xml</DocumentationFile>
     <DebugSymbols>false</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
@@ -78,6 +78,7 @@
     <Compile Include="Interfaces\IBlogMlProvider.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="NamespaceDocumentation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,8 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using BlogML;
 using BlogML.Xml;
-using Subtext.BlogML.Conversion;
 using Subtext.BlogML.Interfaces;
 
 namespace Subtext.BlogML
@@ -44,7 +44,7 @@ namespace Subtext.BlogML
 
             this.provider.PreImport();
 	    	
-	    	this.provider.CreateCategories(blog);
+	    	IDictionary<string, string> categoryIdMap = this.provider.CreateCategories(blog);
 
             foreach (BlogMLPost bmlPost in blog.Posts)
             {
@@ -55,9 +55,8 @@ namespace Subtext.BlogML
                     //Updates the post content with new attachment urls.
                     postContent = CreateFilesFromAttachments(bmlPost, postContent);
                 }
-            	
-                string newEntryID = provider.CreateBlogPost(bmlPost, postContent);
-				this.provider.IdConversion.MapConvertedIdToImportedId(IdScopes.Posts, bmlPost.ID, newEntryID);
+
+				string newEntryID = provider.CreateBlogPost(bmlPost, postContent, categoryIdMap);
 				
                 if (bmlPost.Comments.Count > 0)
                 {

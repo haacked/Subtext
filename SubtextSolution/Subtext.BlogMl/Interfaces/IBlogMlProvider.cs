@@ -70,10 +70,12 @@ namespace Subtext.BlogML.Interfaces
 		void ImportComplete();
 
 		/// <summary>
-		/// Creates categories from the blog ml.
+		/// Creates categories in the new blog based on the blog ml.
+		/// Returns a dictionary to map the old category ids to the 
+		/// new ones.
 		/// </summary>
 		/// <param name="blog"></param>
-		void CreateCategories(BlogMLBlog blog);
+		IDictionary<string, string> CreateCategories(BlogMLBlog blog);
 
 		/// <summary>
 		/// The physical path to the attachment directory.
@@ -101,8 +103,9 @@ namespace Subtext.BlogML.Interfaces
 		/// </summary>
 		/// <param name="post"></param>
 		/// <param name="content">The rewritten content of the post.</param>
+		/// <param name="categoryIdMap">A dictionary used to map the blogml category id to the internal category id.</param>
 		/// <returns></returns>
-		string CreateBlogPost(BlogMLPost post, string content);
+		string CreateBlogPost(BlogMLPost post, string content, IDictionary<string, string> categoryIdMap);
 
 		/// <summary>
 		/// Creates a comment for the specified post.

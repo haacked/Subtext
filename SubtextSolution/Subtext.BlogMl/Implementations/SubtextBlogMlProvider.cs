@@ -246,9 +246,13 @@ namespace Subtext.BlogML.Implementations
 		/// <summary>
 		/// Creates categories from the blog ml.
 		/// </summary>
+		/// <remarks>
+		/// At this time, we only support PostCollection link categories.
+		/// </remarks>
 		/// <param name="blog"></param>
-		public override void CreateCategories(BlogMLBlog blog)
+		public override IDictionary<string, string> CreateCategories(BlogMLBlog blog)
 		{
+			IDictionary<string, string> idMap = new Dictionary<string, string>();
 			foreach (BlogMLCategory blogMLCategory in blog.Categories)
 			{
 				LinkCategory category = new LinkCategory();
@@ -256,23 +260,11 @@ namespace Subtext.BlogML.Implementations
 				category.Title = blogMLCategory.Title;
 				category.Description = blogMLCategory.Description;
 				category.IsActive = blogMLCategory.Approved;
-
-				string categoryParentId = IdConversion.GetConvertedId(IdScopes.CategoryParents, blogMLCategory.ParentRef);
-				try
-				{
-					category.CategoryType = (CategoryType)Enum.Parse(typeof(CategoryType), categoryParentId);
-				}
-				catch(Exception)
-				{
-					//Assume it's a post collection.
-					category.CategoryType = CategoryType.PostCollection;
-				}
-
+				category.CategoryType = CategoryType.PostCollection;
 				Links.CreateLinkCategory(category);
-				
-				//We're going to use the title to reference category.
-				IdConversion.MapConvertedIdToImportedId(IdScopes.Categories, blogMLCategory.ID, category.Title);
+				idMap.Add(blogMLCategory.ID, category.Title);
 			}
+			return idMap;
 		}
 
 		/// <summary>
@@ -306,8 +298,9 @@ namespace Subtext.BlogML.Implementations
 		/// </summary>
 		/// <param name="post"></param>
 		/// <param name="content"></param>
+		/// <param name="categoryIdMap">A dictionary used to map the blogml category id to the internal category id.</param>
 		/// <returns></returns>
-		public override string CreateBlogPost(BlogMLPost post, string content)
+		public override string CreateBlogPost(BlogMLPost post, string content, IDictionary<string, string> categoryIdMap)
 		{
 			Entry newEntry = new Entry(PostType.BlogPost);
 			newEntry.BlogId = Config.CurrentBlog.Id;
@@ -324,7 +317,7 @@ namespace Subtext.BlogML.Implementations
 			
 			foreach(BlogMLCategoryReference categoryRef in post.Categories)
 			{
-				string categoryTitle = IdConversion.GetConvertedId(IdScopes.Categories, categoryRef.Ref);
+				string categoryTitle = categoryIdMap[categoryRef.Ref];
 				newEntry.Categories.Add(categoryTitle);
 			}
 			

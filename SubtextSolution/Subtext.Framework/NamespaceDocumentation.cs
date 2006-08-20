@@ -19,7 +19,7 @@
 //
 // http://ndoc.sourceforge.net/reference/NDoc.Core.Reflection.BaseReflectionDocumenterConfig.UseNamespaceDocSummaries.html
 
-//#if debug
+#if DOCUMENTATION
 namespace Subtext
 {
 	/// <summary>
@@ -91,4 +91,4 @@ namespace Subtext.Framework.Components
 		}
 	}
 }
-//#endif
+#endif
