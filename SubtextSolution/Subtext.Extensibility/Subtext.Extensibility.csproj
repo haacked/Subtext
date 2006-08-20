@@ -122,6 +122,7 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Collections\CollectionBook.cs" />
     <Compile Include="Interfaces\ICollectionBook.cs" />
     <Compile Include="Interfaces\IPagedCollection.cs" />
     <Compile Include="NamespaceDocumentation.cs">

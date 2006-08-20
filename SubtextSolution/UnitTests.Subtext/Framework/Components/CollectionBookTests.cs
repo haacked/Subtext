@@ -1,6 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
 using MbUnit.Framework;
+using Subtext.Extensibility.Collections;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 

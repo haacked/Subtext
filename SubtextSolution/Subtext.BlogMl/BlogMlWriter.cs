@@ -5,9 +5,9 @@ using System.IO;
 using BlogML;
 using BlogML.Xml;
 using Subtext.BlogML.Conversion;
+using Subtext.Extensibility.Collections;
 using Subtext.Extensibility.Interfaces;
 using Subtext.BlogML.Interfaces;
-using Subtext.Framework.Components;
 
 namespace Subtext.BlogML
 {
@@ -58,7 +58,7 @@ namespace Subtext.BlogML
 			ICollection<BlogMLCategory> categories = provider.GetAllCategories(this.blogId);
 			WriteCategories(categories);
 
-			CollectionBook<BlogMLPost> allPosts = new CollectionBook<BlogMLPost>
+			ICollectionBook<BlogMLPost> allPosts = new CollectionBook<BlogMLPost>
 				(
 					delegate(int pageIndex, int pageSize)
 					{
@@ -71,7 +71,7 @@ namespace Subtext.BlogML
 			Writer.Flush();
 		}
 
-		private void WritePosts(CollectionBook<BlogMLPost> allPosts)
+		private void WritePosts(ICollectionBook<BlogMLPost> allPosts)
 		{
 			WriteStartPosts();
 			
