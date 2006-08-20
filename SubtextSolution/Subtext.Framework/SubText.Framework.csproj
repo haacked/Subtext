@@ -494,7 +494,6 @@
     <Compile Include="VersionInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Web\Handlers\BaseHttpHandler.cs" />
     <Compile Include="Web\Handlers\RsdHandler.cs" />
     <Compile Include="Web\HttpHelper.cs">
       <SubType>Code</SubType>

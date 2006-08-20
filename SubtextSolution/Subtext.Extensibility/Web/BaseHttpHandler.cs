@@ -2,7 +2,7 @@ using System;
 using System.Net;
 using System.Web;
 
-namespace Subtext.Framework.Web.Handlers
+namespace Subtext.Extensibility.Web
 {
 	/// <summary>
 	/// An abstract base Http Handler for all your
