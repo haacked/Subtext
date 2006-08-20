@@ -126,7 +126,7 @@
 			</tr>
 		</table>
 		<p style="margin-top: 10px;">
-			<label for="Editor_Edit_txbEntryName" accesskey="n">Entry <u>N</u>ame (page name)</label> <asp:RegularExpressionValidator ID="vRegexEntryName" ControlToValidate="txbEntryName" ValidationExpression="^([a-zA-Z]*([a-zA-Z-_]+\.)*[a-zA-Z-_]+)$" Text = "Invalid EntryName Format. Must only contain characters allowable in an URL." runat="server"/>
+			<label for="Editor_Edit_txbEntryName" accesskey="n">Entry <u>N</u>ame (page name)</label> <asp:RegularExpressionValidator ID="vRegexEntryName" ControlToValidate="txbEntryName" ValidationExpression="^([a-zA-Z0-9-]*([a-zA-Z0-9-_]+\.)*[a-zA-Z0-9-_]+)$" Text = "Invalid EntryName Format. Must only contain characters allowable in an URL." runat="server"/>
 		</p>
 		<p>
 			<asp:TextBox id="txbEntryName" runat="server" CssClass="textinput" MaxLength="150"></asp:TextBox>
