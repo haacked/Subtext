@@ -254,7 +254,7 @@
 
 	<target name="OnSuccess">
 		<echo file="${log.dir}\buildinfo.xml" append="false" failonerror="false">
-			<![CDATA[<buildproject>${ccnet.project}</buildproject><buildlabel>${ccnet.label}</buildlabel>]]>
+			<![CDATA[<buildproject>${CCNetProject}</buildproject><buildlabel>${CCNetLabel}</buildlabel>]]>
 		</echo>
 	</target>
 </project>
