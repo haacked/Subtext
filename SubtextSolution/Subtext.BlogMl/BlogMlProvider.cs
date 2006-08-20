@@ -18,12 +18,12 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Configuration.Provider;
 using BlogML.Xml;
-using Subtext.BlogMl.Conversion;
-using Subtext.BlogMl.Interfaces;
+using Subtext.BlogML.Conversion;
+using Subtext.BlogML.Interfaces;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Extensibility.Providers;
 
-namespace Subtext.BlogMl
+namespace Subtext.BlogML
 {
 	/// <summary>
 	/// Provider for accessing data to implement BlogMl.
@@ -31,7 +31,7 @@ namespace Subtext.BlogMl
 	public abstract class BlogMLProvider : ProviderBase, IBlogMLProvider
 	{
 		private static BlogMLProvider provider;
-		private static GenericProviderCollection<BlogMLProvider> providers = ProviderConfigurationHelper.LoadProviderCollection<BlogMLProvider>("BlogMlProvider", out provider);
+		private static GenericProviderCollection<BlogMLProvider> providers = ProviderConfigurationHelper.LoadProviderCollection<BlogMLProvider>("BlogMLProvider", out provider);
 
 		/// <summary>
 		/// Returns the default instance of this provider.

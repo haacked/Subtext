@@ -3,12 +3,12 @@ using System.IO;
 using System.Text;
 using System.Web;
 using System.Xml;
-using Subtext.BlogMl.Interfaces;
+using Subtext.BlogML.Interfaces;
 using Subtext.Framework.Web.Handlers;
 
-namespace Subtext.BlogMl
+namespace Subtext.BlogML
 {
-	public class BlogMlHttpHandler : BaseHttpHandler
+	public class BlogMLHttpHandler : BaseHttpHandler
 	{
 		/// <summary>
 		/// Handles the request.  This is where you put your

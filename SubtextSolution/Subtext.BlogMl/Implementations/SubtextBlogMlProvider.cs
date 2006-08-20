@@ -7,17 +7,17 @@ using System.Globalization;
 using System.Web;
 using BlogML.Xml;
 using Microsoft.ApplicationBlocks.Data;
-using Subtext.BlogMl.Conversion;
-using Subtext.BlogMl.Interfaces;
+using Subtext.BlogML.Conversion;
+using Subtext.BlogML.Interfaces;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 
-namespace Subtext.BlogMl.Implementations
+namespace Subtext.BlogML.Implementations
 {
-	public class SubtextBlogMlProvider : BlogMLProvider
+	public class SubtextBlogMLProvider : BlogMLProvider
 	{
 		SubtextConversionStrategy conversion = new SubtextConversionStrategy();
 		/// <summary>
@@ -196,7 +196,7 @@ namespace Subtext.BlogMl.Implementations
 			if(HttpContext.Current != null && HttpContext.Current.Request != null)
 				embedValue = String.Equals(HttpContext.Current.Request.QueryString["embed"], "true", StringComparison.InvariantCultureIgnoreCase);
 
-			return new BlogMlContext(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture), embedValue);
+			return new BlogMLContext(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture), embedValue);
 		}
 
 		/// <summary>

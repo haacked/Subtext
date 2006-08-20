@@ -4,14 +4,14 @@ using System.Globalization;
 using System.IO;
 using BlogML;
 using BlogML.Xml;
-using Subtext.BlogMl.Conversion;
+using Subtext.BlogML.Conversion;
 using Subtext.Extensibility.Interfaces;
-using Subtext.BlogMl.Interfaces;
+using Subtext.BlogML.Interfaces;
 using Subtext.Framework.Components;
 
-namespace Subtext.BlogMl
+namespace Subtext.BlogML
 {
-	public class BlogMlWriter : BlogML.BlogMLWriterBase
+	public class BlogMlWriter : BlogMLWriterBase
 	{
 		IBlogMLProvider provider;
 		IdConversionStrategy conversionStrategy;

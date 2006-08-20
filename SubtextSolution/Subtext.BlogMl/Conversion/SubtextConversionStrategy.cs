@@ -1,6 +1,6 @@
 using System;
 
-namespace Subtext.BlogMl.Conversion
+namespace Subtext.BlogML.Conversion
 {
 	public class SubtextConversionStrategy : IntConversionStrategy
 	{
