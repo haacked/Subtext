@@ -209,7 +209,8 @@ namespace UnitTests.Subtext.Framework.Data
 		public void Create(int index)
 		{
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Phil", "Title" + index, "Who rocks the party that rocks the party?");
-			Entries.Create(entry, this.categoryId);
+			entry.Categories.Add("Foobar");
+			Entries.Create(entry);
 		}
 
 		public IPagedCollection GetPagedItems(int pageIndex, int pageSize)

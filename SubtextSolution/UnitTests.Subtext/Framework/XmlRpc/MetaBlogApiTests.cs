@@ -78,22 +78,25 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 
             string category1Name = UnitTestHelper.GenerateRandomString();
             string category2Name = UnitTestHelper.GenerateRandomString();
-            int categoryId = UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, category1Name);
-            int categoryId2 = UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, category2Name);
+            UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, category1Name);
+            UnitTestHelper.CreateCategory(Config.CurrentBlog.Id, category2Name);
             
             Entry entry = new Entry(PostType.BlogPost);
             entry.Title = "Title 1";
             entry.Body = "Blah";
             entry.IsActive = true;
             entry.DateCreated = entry.DateSyndicated = entry.DateUpdated = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-            Entries.Create(entry, categoryId);
+			entry.Categories.Add(category1Name);
+        	Entries.Create(entry);
 
             entry = new Entry(PostType.BlogPost);
             entry.Title = "Title 2";
             entry.Body = "Blah1";
             entry.IsActive = true;
             entry.DateCreated = entry.DateSyndicated = entry.DateUpdated = DateTime.ParseExact("1976/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-            Entries.Create(entry, categoryId, categoryId2);
+			entry.Categories.Add(category1Name);
+			entry.Categories.Add(category2Name);
+            Entries.Create(entry);
 
             entry = new Entry(PostType.BlogPost);
             entry.Title = "Title 3";
@@ -107,7 +110,8 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.Body = "Blah3";
             entry.IsActive = true;
             entry.DateCreated = entry.DateSyndicated = entry.DateUpdated = DateTime.ParseExact("2006/01/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-            Entries.Create(entry, categoryId2);
+			entry.Categories.Add(category2Name);
+        	Entries.Create(entry);
 
             posts = api.getRecentPosts(Config.CurrentBlog.Id.ToString(), "username", "password", 10);
             Assert.AreEqual(4, posts.Length, "Expected 4 posts");
