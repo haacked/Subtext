@@ -10,7 +10,6 @@ using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using BlogML;
 using Subtext.ImportExport;
 
 namespace UnitTests.Subtext.Framework.Import
@@ -21,28 +20,6 @@ namespace UnitTests.Subtext.Framework.Import
     [TestFixture]
     public class BlogMLImportTests
     {		
-		public class BlogMLTester : BlogMLWriterBase
-		{
-			protected override void InternalWriteBlog()
-			{
-				WriteStartBlog("Title", "Subtitle", "RootUrl");
-				WriteAuthor("Me", "test@example.com");
-				WriteEndElement();
-			}
-		}
-
-		[Test, Ignore("This test exposes a bug with BlogML!")]
-		public void TestBlogML()
-		{
-			BlogMLTester writer = new BlogMLTester();
-			StringBuilder builder = new StringBuilder();
-			
-			//Going to write xml to a string.
-			XmlWriter xml = XmlWriter.Create(builder);
-			writer.Write(xml);
-			Console.WriteLine(builder.ToString());
-		}
-		   	
         [Test]
         [RollBack]
         public void ReadBlogCreatesEntriesAndAttachments()
@@ -62,41 +39,95 @@ namespace UnitTests.Subtext.Framework.Import
             Assert.AreEqual(3, attachments.Length, "There should be two file attachments created.");
         }
 
-        [Test]
-        [RollBack]
-        [Ignore("BlogMl makes web requests. We need to deal with that later.")]
-        public void RoundTripBlogMlTest()
-        {
-            //Create blog.
+		[Test]
+		[RollBack]
+		public void CanReadAndCreateCategories()
+		{
 			CreateBlogAndSetupContext();
 
-            Config.CurrentBlog.ImageDirectory = Path.Combine(Environment.CurrentDirectory, "images");
-            Config.CurrentBlog.ImagePath = "/image/";
+			BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider());
+			Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.TwoCategories.xml");
+			reader.ReadBlog(stream);
 
-            //Test BlogML reader.
+			ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+			Assert.AreEqual(2, categories.Count, "Expected two categories to be created");
+		}
+
+		[Test]
+		[RollBack]
+		public void CanPostAndReferenceCategoryAppropriately()
+		{
+			CreateBlogAndSetupContext();
+
+			BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider());
+			Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SinglePostWithCategory.xml");
+			reader.ReadBlog(stream);
+
+			ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+			Assert.AreEqual(2, categories.Count, "Expected two total categories to be created");
+
+			IList<Entry> entries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
+			Assert.AreEqual(1, entries.Count, "Expected a single entry.");
+			Assert.AreEqual("Category002", entries[0].Categories[0], "Expected the catgory to be 'Category002'");
+		}
+
+		/// <summary>
+		/// When importing some blogml. If the post references a category that 
+		/// doesn't exist, then we just don't add that category.
+		/// </summary>
+		[Test]
+		[RollBack]
+		public void ImportOfPostWithBadCategoryRefHandlesGracefully()
+		{
+			CreateBlogAndSetupContext();
+
+			BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider());
+			Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SinglePostWithBadCategoryRef.xml");
+			reader.ReadBlog(stream);
+
+			ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+			Assert.AreEqual(2, categories.Count, "Expected two total categories to be created");
+
+			IList<Entry> entries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
+			Assert.AreEqual(1, entries.Count, "Expected a single entry.");
+			Assert.AreEqual(0, entries[0].Categories.Count, "Expected this post not to have any categories.");
+		}
+
+        [Test]
+        [RollBack]
+        public void RoundTripBlogMlTest()
+        {
+			CreateBlogAndSetupContext();
+
+            // Import /Resources/BlogMl/SimpleBlogMl.xml into the current blog
 			BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider());
             Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SimpleBlogMl.xml");
             reader.ReadBlog(stream);
 
-            IList<Entry> entries = Entries.GetRecentPosts(20, PostType.BlogPost, PostConfig.None, true);
+        	// Confirm the entries
+            IList<Entry> entries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
+        	Assert.AreEqual(18, entries.Count);
 
+        	// Export this blog.
 			IBlogMLProvider provider = BlogMLProvider.Instance();
 			BlogMLWriter writer = BlogMLWriter.Create(provider);
-			writer.EmbedAttachments = true;
+			writer.EmbedAttachments = false;
             MemoryStream memoryStream = new MemoryStream();
 			
         	using (XmlTextWriter xmlWriter = new XmlTextWriter(memoryStream, Encoding.UTF8))
-            {
-                writer.Write(xmlWriter);
+        	{
+        		writer.Write(xmlWriter);
 				reader = BlogMLReader.Create(new SubtextBlogMLProvider());
                 
-                //Create yet another new blog.
+                // Now read it back in.
                 Assert.IsTrue(Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", Config.CurrentBlog.Host + "1", ""), "Could not create the blog for this test");
                 UnitTestHelper.SetHttpContextWithBlogRequest(Config.CurrentBlog.Host + "1", "");
-                reader.ReadBlog(memoryStream);
+        		Assert.IsTrue(Config.CurrentBlog.Host.EndsWith("1"), "Looks like we've cached our old blog.");
+				memoryStream.Position = 0;
+            	reader.ReadBlog(memoryStream);
             }
 
-            IList<Entry> newEntries = Entries.GetRecentPosts(20, PostType.BlogPost, PostConfig.None, true);
+            IList<Entry> newEntries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
             Assert.AreEqual(newEntries.Count, entries.Count, "Round trip failed to create the same number of entries.");
         }
 

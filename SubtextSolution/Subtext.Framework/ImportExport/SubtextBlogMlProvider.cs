@@ -319,8 +319,9 @@ namespace Subtext.ImportExport
 			
 			foreach(BlogMLCategoryReference categoryRef in post.Categories)
 			{
-				string categoryTitle = categoryIdMap[categoryRef.Ref];
-				newEntry.Categories.Add(categoryTitle);
+				string categoryTitle;
+				if(categoryIdMap.TryGetValue(categoryRef.Ref, out categoryTitle))
+					newEntry.Categories.Add(categoryTitle);
 			}
 			
 			return Entries.Create(newEntry).ToString(CultureInfo.InvariantCulture);

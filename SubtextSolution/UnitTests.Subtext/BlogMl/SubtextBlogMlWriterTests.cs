@@ -1,11 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Text;
 using System.Xml;
 using MbUnit.Framework;
-using BlogML.Xml;
 using Subtext.BlogML;
+using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
@@ -20,6 +21,43 @@ namespace UnitTests.Subtext.BlogML
 	public class SubtextBlogMlWriterTests
 	{
 		string connectionString = ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString;
+		
+		/// <summary>
+		/// Make sure that when we export a post with a category, that we retain 
+		/// the mapping between the post and category.
+		/// </summary>
+		[Test]
+		[RollBack]
+		public void CanWritePostWithCategoryAndImportTheOutput()
+		{
+			CreateBlogAndSetupContext();
+
+			// Shortcut to creating a blog post with a category.
+			BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider());
+			Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SinglePostWithCategory.xml");
+			reader.ReadBlog(stream);
+
+			BlogMLWriter writer = BlogMLWriter.Create(new SubtextBlogMLProvider());
+			writer.EmbedAttachments = false;
+            MemoryStream memoryStream = new MemoryStream();
+
+			using (XmlTextWriter xmlWriter = new XmlTextWriter(memoryStream, Encoding.UTF8))
+			{
+				writer.Write(xmlWriter);
+
+				// Now read it back in to a new blog.
+				Assert.IsTrue(Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", Config.CurrentBlog.Host + "1", ""), "Could not create the blog for this test");
+				UnitTestHelper.SetHttpContextWithBlogRequest(Config.CurrentBlog.Host + "2", "");
+				Assert.IsTrue(Config.CurrentBlog.Host.EndsWith("2"), "Looks like we've cached our old blog.");
+				memoryStream.Position = 0;
+				reader.ReadBlog(memoryStream);
+			}
+
+			IList<Entry> newEntries = Entries.GetRecentPosts(100, PostType.BlogPost, PostConfig.None, true);
+			Assert.AreEqual(1, newEntries.Count, "Round trip failed to create the same number of entries.");
+			Assert.AreEqual(1, newEntries[0].Categories.Count, "Expected one category for this entry.");
+			Assert.AreEqual("Category002", newEntries[0].Categories[0], "Expected the catgory to be 'Category002'");
+		}
 		
 		[Test]
 		[RollBack]
