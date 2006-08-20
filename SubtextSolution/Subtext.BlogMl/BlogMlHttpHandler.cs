@@ -4,7 +4,7 @@ using System.Text;
 using System.Web;
 using System.Xml;
 using Subtext.BlogML.Interfaces;
-using Subtext.Framework.Web.Handlers;
+using Subtext.Extensibility.Web;
 
 namespace Subtext.BlogML
 {

@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Text;
 using System.Web;
 using System.Xml;
+using Subtext.Extensibility.Web;
 using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Web.Handlers
