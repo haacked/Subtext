@@ -29,11 +29,16 @@ namespace UnitTests.Subtext.Framework.Web
 			
 			//Now lets assert some things.
 			XmlDocument xml = new XmlDocument();
+			Console.WriteLine(builder.ToString());
 			xml.LoadXml(builder.ToString());
 
 			XmlNamespaceManager nsmgr = new XmlNamespaceManager(xml.NameTable);
 			nsmgr.AddNamespace("rsd", "http://archipelago.phrasewise.com/rsd");
 
+			XmlNode rootRsdNode = xml.SelectSingleNode("/rsd:rsd", nsmgr);
+			Assert.IsNotNull(rootRsdNode, "Could not find the root RSD node.");
+			Assert.AreEqual("1.0", rootRsdNode.Attributes["version"].InnerText, "Expected the version attribute to be '1.0'");
+			
 			XmlNode engineNameNode = xml.SelectSingleNode("/rsd:rsd/rsd:service/rsd:engineName", nsmgr);
 			Assert.IsNotNull(engineNameNode, "Could not find the engineName node.");
 			Assert.AreEqual(engineNameNode.InnerText, "Subtext");
