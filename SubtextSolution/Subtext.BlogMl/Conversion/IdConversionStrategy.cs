@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Subtext.BlogMl.Conversion
+namespace Subtext.BlogML.Conversion
 {
 	public abstract class IdConversionStrategy
 	{

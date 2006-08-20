@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using BlogML.Xml;
-using Subtext.BlogMl.Conversion;
+using Subtext.BlogML.Conversion;
 using Subtext.Extensibility.Interfaces;
 
-namespace Subtext.BlogMl.Interfaces
+namespace Subtext.BlogML.Interfaces
 {
 	public interface IBlogMLProvider
 	{

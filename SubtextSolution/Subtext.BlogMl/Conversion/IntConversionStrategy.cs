@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace Subtext.BlogMl.Conversion
+namespace Subtext.BlogML.Conversion
 {
 	public class IntConversionStrategy : IdConversionStrategy
 	{

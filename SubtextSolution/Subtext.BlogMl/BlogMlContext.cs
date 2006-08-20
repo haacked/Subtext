@@ -1,18 +1,18 @@
 using System;
-using Subtext.BlogMl.Interfaces;
+using Subtext.BlogML.Interfaces;
 
-namespace Subtext.BlogMl
+namespace Subtext.BlogML
 {
 	/// <summary>
 	/// Base implementation of the BlogMl context.
 	/// </summary>
-	public class BlogMlContext : IBlogMLContext
+	public class BlogMLContext : IBlogMLContext
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="BlogMlContext"/> class.
+		/// Initializes a new instance of the <see cref="BlogMLContext"/> class.
 		/// </summary>
 		/// <param name="blogId">The blog id.</param>
-		public BlogMlContext(string blogId, bool embedAttachments)
+		public BlogMLContext(string blogId, bool embedAttachments)
 		{
 			this.blogId = blogId;
 			this.embedAttachments = embedAttachments;

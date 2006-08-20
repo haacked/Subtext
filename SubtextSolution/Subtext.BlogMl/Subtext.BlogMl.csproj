@@ -7,8 +7,8 @@
     <ProjectGuid>{830310DB-5D6A-453C-908A-058776D9C993}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Subtext.BlogMl</RootNamespace>
-    <AssemblyName>Subtext.BlogMl</AssemblyName>
+    <RootNamespace>Subtext.BlogML</RootNamespace>
+    <AssemblyName>Subtext.BlogML</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

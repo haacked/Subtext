@@ -8,10 +8,10 @@ using BlogML;
 using BlogML.Xml;
 using MbUnit.Framework;
 using Rhino.Mocks;
-using Subtext.BlogMl;
-using Subtext.BlogMl.Conversion;
-using Subtext.BlogMl.Implementations;
-using Subtext.BlogMl.Interfaces;
+using Subtext.BlogML;
+using Subtext.BlogML.Conversion;
+using Subtext.BlogML.Implementations;
+using Subtext.BlogML.Interfaces;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 
@@ -41,7 +41,7 @@ namespace UnitTests.Subtext.BlogMl
 		[Test]
 		public void CreateWithProperContextReturnsWriter()
 		{
-			BlogMlContext context = new BlogMlContext("8675309", false);
+			BlogMLContext context = new BlogMLContext("8675309", false);
 			
 			MockRepository mocks = new MockRepository();
 			IBlogMLProvider provider = (IBlogMLProvider)mocks.CreateMock(typeof(IBlogMLProvider));
@@ -71,7 +71,7 @@ namespace UnitTests.Subtext.BlogMl
 			#region Create a full instance of a blog in an object hierarchy
 			DateTime dateCreated = DateTime.Now;
 			BlogMLBlog blog = ObjectHydrator.CreateBlogInstance("the title", "the subtitle", "http://blog.example.com/", "phil", "test@example.com", dateCreated);
-			BlogMlContext context = new BlogMlContext(blogId, false);
+			BlogMLContext context = new BlogMLContext(blogId, false);
 			ICollection<BlogMLCategory> categories = new Collection<BlogMLCategory>();
 			categories.Add(ObjectHydrator.CreateCategoryInstance(catOneId, "category1", "Category 1 is the first", true, null, dateCreated, dateCreated));
 			categories.Add(ObjectHydrator.CreateCategoryInstance(catTwoId, "category2", "Category 2 is the second", true, null, dateCreated, dateCreated));
@@ -171,7 +171,7 @@ namespace UnitTests.Subtext.BlogMl
 			#region Create a full instance of a blog in an object hierarchy
 			DateTime dateCreated = DateTime.Now;
 			BlogMLBlog blog = ObjectHydrator.CreateBlogInstance("the title", "the subtitle", "http://blog.example.com/", "phil", "test@example.com", dateCreated);
-			BlogMlContext context = new BlogMlContext(blogId, false);
+			BlogMLContext context = new BlogMLContext(blogId, false);
 			ICollection<BlogMLCategory> categories = new Collection<BlogMLCategory>();
 			categories.Add(ObjectHydrator.CreateCategoryInstance(catOneId, "category1", "Category 1 is the first", true, null, dateCreated, dateCreated));
 			categories.Add(ObjectHydrator.CreateCategoryInstance(catTwoId, "category2", "Category 2 is the second", true, null, dateCreated, dateCreated));

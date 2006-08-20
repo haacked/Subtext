@@ -34,7 +34,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Providers.BlogEntryEditor.FCKeditor", "Subtext.Providers.BlogEntryEditor.FCKeditor\Subtext.Providers.BlogEntryEditor.FCKeditor.csproj", "{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.BlogMl", "Subtext.BlogMl\Subtext.BlogMl.csproj", "{830310DB-5D6A-453C-908A-058776D9C993}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.BlogML", "Subtext.BlogMl\Subtext.BlogML.csproj", "{830310DB-5D6A-453C-908A-058776D9C993}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CCNET", "CCNET", "{DD225739-6817-4A4F-9386-765ABA27C754}"
 	ProjectSection(SolutionItems) = preProject

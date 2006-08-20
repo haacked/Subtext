@@ -1,6 +1,6 @@
 using System;
 
-namespace Subtext.BlogMl.Interfaces
+namespace Subtext.BlogML.Interfaces
 {
 	/// <summary>
 	/// Represents the context of the request for 

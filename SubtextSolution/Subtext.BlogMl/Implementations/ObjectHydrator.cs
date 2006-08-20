@@ -1,12 +1,11 @@
 using System;
 using System.Data;
 using System.Globalization;
-using BlogML;
 using BlogML.Xml;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
 
-namespace Subtext.BlogMl.Implementations
+namespace Subtext.BlogML.Implementations
 {
 	/// <summary>
 	/// Class used to hydrade blogml objects from a data reader.

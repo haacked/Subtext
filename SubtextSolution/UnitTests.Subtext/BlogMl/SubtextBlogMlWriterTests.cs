@@ -4,8 +4,8 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using MbUnit.Framework;
-using Subtext.BlogMl;
-using Subtext.BlogMl.Implementations;
+using Subtext.BlogML;
+using Subtext.BlogML.Implementations;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
@@ -31,7 +31,7 @@ namespace UnitTests.Subtext.BlogMl
 			Entries.Create(entry);
 
 			// Not using BlogMlProvider.Instance() because we need to reset the state.
-			SubtextBlogMlProvider provider = new SubtextBlogMlProvider();
+			SubtextBlogMLProvider provider = new SubtextBlogMLProvider();
 			provider.ConnectionString = connectionString;
 			
 			BlogMlWriter writer = BlogMlWriter.Create(provider);
@@ -84,7 +84,7 @@ namespace UnitTests.Subtext.BlogMl
 
 			//setup provider
 			// Not using BlogMlProvider.Instance() because we need to reset the state.
-			SubtextBlogMlProvider provider = new SubtextBlogMlProvider();
+			SubtextBlogMLProvider provider = new SubtextBlogMLProvider();
 			provider.ConnectionString = connectionString;
 			BlogMlWriter writer = BlogMlWriter.Create(provider);
 			writer.EmbedAttachments = false;

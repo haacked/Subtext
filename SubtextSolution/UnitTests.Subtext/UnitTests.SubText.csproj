@@ -170,9 +170,9 @@
       <Name>TestFu</Name>
       <HintPath>ExternalDependencies\TestFu.dll</HintPath>
     </Reference>
-    <ProjectReference Include="..\Subtext.BlogMl\Subtext.BlogMl.csproj">
+    <ProjectReference Include="..\Subtext.BlogMl\Subtext.BlogML.csproj">
       <Project>{830310DB-5D6A-453C-908A-058776D9C993}</Project>
-      <Name>Subtext.BlogMl</Name>
+      <Name>Subtext.BlogML</Name>
     </ProjectReference>
     <ProjectReference Include="..\Subtext.Extensibility\Subtext.Extensibility.csproj">
       <Name>Subtext.Extensibility</Name>
