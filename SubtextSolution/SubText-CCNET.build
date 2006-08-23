@@ -208,6 +208,7 @@
 
 	
 	<target name="dist.publish.latest" depends="compile-release">
+		<delete dir="${publish.dir.latest}" failonerror="false" />
 		<mkdir dir="${publish.dir.latest}" />
 		
 		<echo message="deploying binaries to latest" />
@@ -249,7 +250,6 @@
 				<exclude name="**/*.pdb" />
 			</fileset>
 		</zip>
-		<delete dir="${publish.dir.latest}" failonerror="false" />
 	</target>
 
 	<target name="OnSuccess">
