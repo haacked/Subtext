@@ -84,6 +84,18 @@ namespace Subtext.Framework.XmlRpc
     public string categoryId;
     public string categoryName;
   }
+    
+  public struct mediaObject
+  {
+      public string name;
+      public string type;
+      public Byte[] bits;
+  }
+    
+  public struct mediaObjectInfo
+  {
+      public string url;
+  }
 
   public interface IMetaWeblog
   {
@@ -131,6 +143,11 @@ namespace Subtext.Framework.XmlRpc
       string password,
       Post post,
       bool publish);
+
+      [XmlRpcMethod("metaWeblog.newMediaObject",
+        Description = "Uploads an image, movie, song, or other media "
+        + "using the metaWeblog API. Returns the metaObject struct.")]
+      mediaObjectInfo newMediaObject(string blogid, string username, string password, mediaObject mediaobject);
 
 	  #region BloggerAPI Members
 

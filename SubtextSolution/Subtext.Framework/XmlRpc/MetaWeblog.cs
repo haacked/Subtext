@@ -17,6 +17,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using CookComputing.XmlRpc;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
@@ -247,8 +248,35 @@ namespace Subtext.Framework.XmlRpc
 			}
 			return postID.ToString(CultureInfo.InvariantCulture);
 		}
+	    public mediaObjectInfo newMediaObject(string blogid, string username, string password, mediaObject mediaobject)
+	    {
+            Framework.BlogInfo info = Config.CurrentBlog;
+            ValidateUser(username, password, info.AllowServiceAccess);
 
-		#region w.bloggar workarounds/nominal MT support - HACKS
+	        try
+	        {
+	            //We don't validate the file because newMediaObject allows file to be overwritten
+	            //We don't validate the file because newMediaObject allows file to be overwritten
+	            //But we do check the directory and create if necessary
+	            //The media object's name can have extra folders appended so we check for this here too.
+                Images.CheckDirectory(Config.CurrentBlog.ImageDirectory + mediaobject.name.Substring(0, mediaobject.name.LastIndexOf("/") + 1 ).Replace("/", "\\"));
+                FileStream fStream = new FileStream(Config.CurrentBlog.ImageDirectory + mediaobject.name, FileMode.Create);
+                BinaryWriter bw = new BinaryWriter(fStream);
+                bw.Write(mediaobject.bits);	            
+	        }
+	        //Any IO exceptions, we throw a new XmlRpcFault Exception
+	        catch ( System.IO.IOException)
+	        {
+                throw new XmlRpcFaultException(0, "Error saving file.");
+	        }
+
+	        //If all works, we return a mediaobjectinfo struct back holding the URL.
+            mediaObjectInfo media;
+            media.url = Config.CurrentBlog.ImagePath + mediaobject.name;
+	        return media;
+	    }
+
+	    #region w.bloggar workarounds/nominal MT support - HACKS
 		
 		// w.bloggar is not correctly implementing metaWeblogAPI on its getRecentPost call, it wants 
 		// an instance of blogger.getRecentPosts at various time. 
@@ -428,7 +456,6 @@ namespace Subtext.Framework.XmlRpc
 			return new MtTextFilter[] {new MtTextFilter("test", "test"), };
 		}
 		#endregion
-
 	}
 }
 
