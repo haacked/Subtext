@@ -17,6 +17,19 @@ body
 	background: #fff; 
 }
 
+#logo
+{
+	width: 261px;
+	height: 85px;
+	background: url(../../../images/SubtextLogo.png) no-repeat;
+}
+
+* html #logo
+{
+	background: none;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../../../images/SubtextLogo.png", sizingMethod="crop");
+}
+
 h1
 { 
 	padding: 0 0 36px 0;

@@ -100,6 +100,7 @@ namespace Subtext.Framework
 			// Create a cookie and add the encrypted ticket to the
 			// cookie as data.
 			HttpCookie authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+			authCookie.Expires = DateTime.Now.AddDays(60);
 			HttpContext.Current.Response.Cookies.Add(authCookie);
 		}
 

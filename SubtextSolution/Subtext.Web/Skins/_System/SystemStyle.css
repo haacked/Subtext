@@ -26,6 +26,19 @@ div#Heading
 	font-family: "trebuchet ms" , "" lucida grande "" , verdana, arial, sans-serif;
 }
 
+#logo
+{
+	width: 261px;
+	height: 85px;
+	background: url(../../../images/SubtextLogo.png) no-repeat;
+}
+
+* html #logo
+{
+	background: none;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../../../images/SubtextLogo.png", sizingMethod="crop");
+}
+
 h2
 {
 	padding: 0px;
