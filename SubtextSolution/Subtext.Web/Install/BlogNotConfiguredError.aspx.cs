@@ -29,16 +29,15 @@ namespace Subtext.Web
 	/// This page will ONLY be displayed if there are no 
 	/// blog configurations within the database.
 	/// </remarks>
-	public class BlogNotConfiguredError : System.Web.UI.Page
+	public partial class BlogNotConfiguredError : System.Web.UI.Page
 	{
 		bool _anyBlogsExist = false;
 		protected System.Web.UI.WebControls.ValidationSummary vldSummary;
-		protected System.Web.UI.WebControls.Literal ltlMessage;
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
 		protected Subtext.Web.Controls.MasterPage MPContainer;
 		
-		private void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			//We need to make sure that the form is ONLY displayed 
 			//when an actual error has happened AND the user is a 
@@ -111,7 +110,6 @@ namespace Subtext.Web
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.Load += new System.EventHandler(this.Page_Load);
 		}
 		#endregion
 	}

@@ -1,8 +1,7 @@
-<%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
-<%@ Page language="c#" Codebehind="Step01_InstallData.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Install.Step01_InstallData" %>
-<MP:MasterPage id="MPContainer" TemplateFile="~/Install/PageTemplate.ascx" runat="server">
-	<MP:ContentRegion id="MPTitle" runat="server">Subtext Installation: Step 2 - Data Installation</MP:ContentRegion>
-	<MP:ContentRegion id="MPSubTitle" runat="server">Step 2 - Data Installation</MP:ContentRegion>
+<%@ Page language="c#" Title="Subtext Installation: Step 2 - Data Installation" MasterPageFile="~/Install/InstallTemplate.Master" Codebehind="Step01_InstallData.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Install.Step01_InstallData" %>
+
+<asp:Content id="subTitleContent" ContentPlaceHolderID="MPSubTitle" runat="server">Step 2 - Data Installation</asp:Content>
+<asp:Content ID="mainContent" ContentPlaceHolderID="Content" runat="server">
 	<ol>
 		<li>Gather Installation Information</li>
 		<li><strong>Install the database</strong></li>
@@ -29,4 +28,4 @@
 			<asp:Button id="btnInstall" runat="server" Text="Install Now!"></asp:Button>
 		</p>
 	</div>
-</MP:MasterPage>
+</asp:Content>

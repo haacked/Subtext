@@ -1,8 +1,7 @@
-<%@ Page language="c#" Codebehind="Step03_CreateBlog.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Install.Step03_CreateBlog" %>
-<%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
-<MP:MasterPage id="MPContainer" TemplateFile="~/Install/PageTemplate.ascx" runat="server">
-	<MP:Contentregion id="MPTitle" runat="server">Subtext Installation: Step 4 - Create Blog</MP:Contentregion>
-	<MP:Contentregion id="MPSubTitle" runat="server">Step 4 - Create Blog</MP:Contentregion>
+<%@ Page language="c#" Title="Subtext Installation: Step 4 - Create Blog" MasterPageFile="~/Install/InstallTemplate.Master" Codebehind="Step03_CreateBlog.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Install.Step03_CreateBlog" %>
+
+<asp:Content id="subTitleContent" ContentPlaceHolderID="MPSubTitle" runat="server">Step 4 - Create Blog</asp:Content>
+<asp:Content ID="mainContent" ContentPlaceHolderID="Content" runat="server">
 	<ol>
 		<li>Gather Installation Information</li>
 		<li>Install the database</li>
@@ -45,12 +44,12 @@
 			</tr>
 			<tr>
 				<td>
-					<asp:Button id="btnQuickCreate" runat="server" Text="Quick Create"></asp:Button>&nbsp;&nbsp;
+					<asp:Button id="btnQuickCreate" runat="server" Text="Quick Create" onclick="btnQuickCreate_Click"></asp:Button>&nbsp;&nbsp;
 				</td>
 				<td>
-					<asp:Button id="btnImportBlog" runat="server" Text="Import .TEXT"></asp:Button>
+					<asp:Button id="btnImportBlog" runat="server" Text="Import .TEXT" onclick="btnImportBlog_Click"></asp:Button>
 				</td>
 			</tr>
 		</table>
 	</p>
-</MP:MasterPage>
+</asp:Content>

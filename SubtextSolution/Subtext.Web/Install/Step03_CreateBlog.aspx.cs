@@ -30,18 +30,16 @@ namespace Subtext.Web.Install
 	/// This page will ONLY be displayed if there are no 
 	/// blog configurations within the database.
 	/// </remarks>
-	public class Step03_CreateBlog : InstallationBase
+	public partial class Step03_CreateBlog : InstallationBase
 	{
 		static ILog log = new Log();
-		protected System.Web.UI.WebControls.Button btnQuickCreate;
 		protected System.Web.UI.WebControls.Literal ltlMessage;
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
-		protected System.Web.UI.WebControls.Button btnImportBlog;
 		protected Subtext.Web.Controls.MasterPage MPContainer;
 		protected Subtext.Web.Controls.ContentRegion Content;
 	
-		private void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			bool _anyBlogsExist = true;
 			try
@@ -75,14 +73,11 @@ namespace Subtext.Web.Install
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.btnQuickCreate.Click += new System.EventHandler(this.btnQuickCreate_Click);
-			this.btnImportBlog.Click += new System.EventHandler(this.btnImportBlog_Click);
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion
 
-		private void btnQuickCreate_Click(object sender, System.EventArgs e)
+		protected void btnQuickCreate_Click(object sender, System.EventArgs e)
 		{
 			// Create the blog_config record using default values 
 			// and the specified user info
@@ -108,7 +103,7 @@ namespace Subtext.Web.Install
 			}
 		}
 
-		private void btnImportBlog_Click(object sender, System.EventArgs e)
+		protected void btnImportBlog_Click(object sender, System.EventArgs e)
 		{
 			// We need to get over to the Import pages... 
 			// So we automatically authenticate here.

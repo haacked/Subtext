@@ -22,23 +22,15 @@ namespace Subtext.Web.Install
 	/// <summary>
 	/// Summary description for InstallationComplete.
 	/// </summary>
-	public class InstallationComplete : InstallationBase
+	public partial class InstallationComplete : InstallationBase
 	{
 		#region Declared Controls
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
-		protected System.Web.UI.HtmlControls.HtmlAnchor lnkHostAdmin;
-		protected System.Web.UI.HtmlControls.HtmlAnchor lnkBlog;
-		protected System.Web.UI.HtmlControls.HtmlAnchor lnkBlogAdmin;
-		protected System.Web.UI.HtmlControls.HtmlAnchor lnkBlogMl;
-		protected System.Web.UI.HtmlControls.HtmlAnchor importWizardAnchor;
-		protected System.Web.UI.HtmlControls.HtmlGenericControl paraBlogLink;
-		protected System.Web.UI.HtmlControls.HtmlGenericControl paraBlogAdminLink;
-		protected System.Web.UI.HtmlControls.HtmlGenericControl paraBlogmlImport;
 		protected Subtext.Web.Controls.MasterPage MPContainer;
 		#endregion
 	
-		private void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			InstallationManager.ResetInstallationStatusCache();
 			if(paraBlogLink != null) paraBlogLink.Visible = false;
@@ -84,7 +76,6 @@ namespace Subtext.Web.Install
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion

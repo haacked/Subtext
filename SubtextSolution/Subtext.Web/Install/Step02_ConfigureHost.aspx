@@ -1,8 +1,7 @@
-<%@ Page language="c#" Codebehind="Step02_ConfigureHost.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Install.Step02_ConfigureHost" %>
-<%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
-<MP:MasterPage id="MPContainer" TemplateFile="~/Install/PageTemplate.ascx" runat="server">
-	<MP:ContentRegion id="MPTitle" runat="server">Subtext Installation: Step 3 - Host Configuration</MP:ContentRegion>
-	<MP:ContentRegion id="MPSubTitle" runat="server">Step 3 - Host Configuration</MP:ContentRegion>
+<%@ Page language="c#" Title="Subtext Installation: Step 3 - Host Configuration" MasterPageFile="~/Install/InstallTemplate.Master" Codebehind="Step02_ConfigureHost.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Install.Step02_ConfigureHost" %>
+
+<asp:Content id="subTitleContent" ContentPlaceHolderID="MPSubTitle" runat="server">Step 3 - Host Configuration</asp:Content>
+<asp:Content ID="mainContent" ContentPlaceHolderID="Content" runat="server">
 	<ol>
 		<li>Gather Installation Information</li>
 		<li>Install the database</li>
@@ -55,10 +54,10 @@
 				</tr>
 				<tr>
 					<td align="right" colSpan="3">
-						<asp:Button id="btnSave" Runat="server" Text="Save"></asp:Button>
+						<asp:Button id="btnSave" Runat="server" Text="Save" onclick="btnSave_Click"></asp:Button>
 					</td>
 				</tr>
 			</table>
 		</p>
 	</div>
-</MP:MasterPage>
+</asp:Content>

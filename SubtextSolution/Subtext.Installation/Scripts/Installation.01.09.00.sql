@@ -6,7 +6,7 @@ to have the value 0.  However that value should be reserved for
 "None" as we need that.
 */
 UPDATE [<dbUser,varchar,dbo>].[subtext_LinkCategories] SET CategoryType = 5 WHERE CategoryType = 0
-
+GO
 /*
 This was a unique constraint missing on the subtext_URLs table that 
 should be there.  We could not use the information_schema views because 
@@ -29,7 +29,7 @@ BEGIN
 		) ON [PRIMARY]
 END
 DROP TABLE #Indexes
-
+GO
 
 /*
 This was a unique constraint missing on the subtext_Referrals table that 
@@ -55,7 +55,7 @@ BEGIN
 		) ON [PRIMARY]
 END
 DROP TABLE #Indexes
-
+GO
 /* Missing a foreign key from subtext_Referrals.EntryId to subtext_Content.EntryID */
 /*
 First we need to cleanup bad referrals.
@@ -78,3 +78,4 @@ BEGIN
     Id
   )
 END
+GO
