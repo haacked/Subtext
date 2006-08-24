@@ -29,10 +29,9 @@ namespace Subtext.Web.Install
 	/// This page will ONLY be displayed if there are no 
 	/// blog configurations within the database.
 	/// </remarks>
-	public class Step01_InstallData : InstallationBase
+	public partial class Step01_InstallData : InstallationBase
 	{
 		InstallationState _state = InstallationState.None;
-		protected System.Web.UI.WebControls.Literal installationStateMessage;
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
 		protected Subtext.Web.Controls.ContentRegion Content;
@@ -40,10 +39,8 @@ namespace Subtext.Web.Install
 		protected System.Web.UI.WebControls.RadioButton radUpgrade;
 		protected System.Web.UI.WebControls.RadioButton radInstallFresh;
 		protected Subtext.Web.Controls.MasterPage MPContainer;
-		protected System.Web.UI.WebControls.CheckBox chkFullInstallation;
-		protected System.Web.UI.WebControls.Button btnInstall;
 	
-		private void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			_state = InstallationManager.GetCurrentInstallationState(VersionInfo.FrameworkVersion);
 			switch(_state)
@@ -91,7 +88,6 @@ namespace Subtext.Web.Install
 		private void InitializeComponent()
 		{    
 			this.btnInstall.Click += new EventHandler(btnInstall_Click);
-			this.Load += new System.EventHandler(this.Page_Load);
 
 		}
 		#endregion

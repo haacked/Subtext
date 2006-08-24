@@ -25,6 +25,27 @@ body
 	background: #fff; 
 }
 
+#main
+{
+	width: 600px;
+	border: #bbb 1px solid; 
+	padding: 32px; 
+	background: #fff; 
+}
+
+#logo
+{
+	width: 261px;
+	height: 85px;
+	background: url(../../../images/SubtextLogo.png) no-repeat;
+}
+
+* html #logo
+{
+	background: none;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../../../images/SubtextLogo.png", sizingMethod="crop");
+}
+
 h1
 { 
 	padding-right: 0px; 
@@ -38,7 +59,7 @@ h1
 	font-family: "trebuchet ms", ""lucida grande"", verdana, arial, sans-serif 
 }
 			
-H2 
+h2
 { 
 	padding-right: 0px; 
 	padding-left: 0px; 

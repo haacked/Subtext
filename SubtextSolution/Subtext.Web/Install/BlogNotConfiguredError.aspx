@@ -1,7 +1,7 @@
-<%@ Page language="c#" Codebehind="BlogNotConfiguredError.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.BlogNotConfiguredError" EnableViewState="false" %>
+<%@ Page language="c#" Title="Subtext - Your Blog Has Not Been Configured Yet" MasterPageFile="~/Install/InstallTemplate.Master" Codebehind="BlogNotConfiguredError.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.BlogNotConfiguredError" EnableViewState="false" %>
 <%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
-<MP:MasterPage id="MPContainer" TemplateFile="~/Install/PageTemplate.ascx" runat="server">
-	<MP:ContentRegion id="MPTitle" runat="server">Subtext - Your Blog Has Not Been Configured Yet</MP:ContentRegion>
-	<MP:ContentRegion id="MPSubTitle" runat="server">But I Can Help You</MP:ContentRegion>
+
+<asp:Content id="subTitleContent" ContentPlaceHolderID="MPSubTitle" runat="server">Your Blog Has Not Been Configured, But I Can Help You</asp:Content>
+<asp:Content ID="mainContent" ContentPlaceHolderID="Content" runat="server">
 	<asp:Literal id="ltlMessage" Runat="server"></asp:Literal>
-</MP:MasterPage>
+</asp:Content>

@@ -1,8 +1,7 @@
-<%@ Register TagPrefix="MP" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
-<%@ Page language="c#" Codebehind="Default.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Install.Default" %>
-<MP:MasterPage id="MPContainer" TemplateFile="~/Install/PageTemplate.ascx" runat="server">
-	<MP:ContentRegion id="MPTitle" runat="server">Subtext Installation: Welcome</MP:ContentRegion>
-	<MP:ContentRegion id="MPSubTitle" runat="server">Welcome</MP:ContentRegion>
+<%@ Page language="c#" Title="Subtext Installation: Welcome" MasterPageFile="~/Install/InstallTemplate.Master" Codebehind="Default.aspx.cs" AutoEventWireup="True" Inherits="Subtext.Web.Install.Default" %>
+
+<asp:Content id="subTitleContent" ContentPlaceHolderID="MPSubTitle" runat="server">Welcome</asp:Content>
+<asp:Content ID="mainContent" ContentPlaceHolderID="Content" runat="server">
 	<p>Welcome to the Subtext Installation Wizard.</p>
 	<p>Here are the following steps you will take...</p>
 	<ol>
@@ -32,5 +31,4 @@
 		Microsoft SQL Server 2000 and above. Future versions of Subtext may add support 
 		for other databases and file system storage.
 	</p>
-</MP:MasterPage>
-
+</asp:Content>

@@ -27,16 +27,14 @@ namespace Subtext.Web.Install
 	/// This page will ONLY be displayed if there are no 
 	/// blog configurations within the database.
 	/// </remarks>
-	public class Default : System.Web.UI.Page
+	public partial class Default : System.Web.UI.Page
 	{
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSubTitle;
 		protected System.Web.UI.WebControls.HyperLink lnkNextStep;
-		protected System.Web.UI.WebControls.Literal litDatabaseName;
 		protected Subtext.Web.Controls.MasterPage MPContainer;
-		protected System.Web.UI.WebControls.Button btnNext;
 	
-		private void Page_Load(object sender, System.EventArgs e)
+		protected void Page_Load(object sender, System.EventArgs e)
 		{
 			if(InstallationManager.GetCurrentInstallationState(VersionInfo.FrameworkVersion) == InstallationState.Complete)
 			{
@@ -62,7 +60,6 @@ namespace Subtext.Web.Install
 		/// </summary>
 		private void InitializeComponent()
 		{    
-			this.Load += new System.EventHandler(this.Page_Load);
 			btnNext.Click += new EventHandler(btnNext_Click);
 
 		}

@@ -349,9 +349,15 @@
       <DependentUpon>BlogNotConfiguredError.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Install\BlogNotConfiguredError.aspx.designer.cs">
+      <DependentUpon>BlogNotConfiguredError.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Install\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Install\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Install\InstallationBase.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -360,17 +366,36 @@
       <DependentUpon>InstallationComplete.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Install\InstallationComplete.aspx.designer.cs">
+      <DependentUpon>InstallationComplete.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Install\InstallTemplate.Master.cs">
+      <DependentUpon>InstallTemplate.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Install\InstallTemplate.Master.designer.cs">
+      <DependentUpon>InstallTemplate.Master</DependentUpon>
+    </Compile>
     <Compile Include="Install\Step01_InstallData.aspx.cs">
       <DependentUpon>Step01_InstallData.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Install\Step01_InstallData.aspx.designer.cs">
+      <DependentUpon>Step01_InstallData.aspx</DependentUpon>
     </Compile>
     <Compile Include="Install\Step02_ConfigureHost.aspx.cs">
       <DependentUpon>Step02_ConfigureHost.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Install\Step02_ConfigureHost.aspx.designer.cs">
+      <DependentUpon>Step02_ConfigureHost.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Install\Step03_CreateBlog.aspx.cs">
       <DependentUpon>Step03_CreateBlog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Install\Step03_CreateBlog.aspx.designer.cs">
+      <DependentUpon>Step03_CreateBlog.aspx</DependentUpon>
     </Compile>
     <Compile Include="login.aspx.cs">
       <DependentUpon>login.aspx</DependentUpon>
@@ -975,9 +1000,6 @@
     </Content>
     <Content Include="Install\InstallationComplete.aspx">
       <SubType>Form</SubType>
-    </Content>
-    <Content Include="Install\PageTemplate.ascx">
-      <SubType>UserControl</SubType>
     </Content>
     <Content Include="Install\Step01_InstallData.aspx" />
     <Content Include="Install\Step02_ConfigureHost.aspx" />
@@ -1761,6 +1783,7 @@
     <Content Include="Skins\RedBook\Controls\DayCollection.ascx" />
     <Content Include="HostAdmin\HostAdminTemplate.Master" />
     <Content Include="Log4Net.config" />
+    <Content Include="Install\InstallTemplate.Master" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.cfm" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.php" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.pl" />
