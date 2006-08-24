@@ -10,7 +10,7 @@
 	<body>
 		<form id="frmMain" method="post" runat="server">
 			<div id="main">
-				<img src="~/images/SubtextLogo.png" runat="server" id="headerLogoImg" align="right" vspace="4" />
+				<div id="logo"></div>
 				<h1><MP:ContentRegion id="MPTitle" runat="server" /></h1>
 				<h2><MP:ContentRegion id="MPSubTitle" runat="server" /></h2>
 				<MP:ContentRegion id="Content" runat="server" />		

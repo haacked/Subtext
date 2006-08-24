@@ -191,7 +191,7 @@ namespace Subtext.Web.UI.Controls
 					if(editLink.Text.Length == 0 && editLink.ImageUrl.Length == 0)
 					{
 						//We'll slap on our little pencil icon.
-						editLink.ImageUrl = "~/Images/edit.gif";
+						editLink.ImageUrl = Config.CurrentBlog.VirtualDirectoryRoot + "Images/edit.gif";
 						ControlHelper.SetTitleIfNone(editLink, "Click to edit this entry.");
 						editLink.NavigateUrl = UrlFormats.GetEditLink(entry);
 					}
