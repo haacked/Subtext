@@ -199,9 +199,8 @@
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
     <ProjectReference Include="..\Subtext.UnitTesting.Servers\Subtext.UnitTesting.Servers.csproj">
-      <Name>Subtext.UnitTesting.Servers</Name>
       <Project>{062D373E-FAC0-4451-BF57-8A2352AAC1BB}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+      <Name>Subtext.UnitTesting.Servers</Name>
     </ProjectReference>
     <ProjectReference Include="..\Subtext.Web\Subtext.Web.csproj">
       <Name>Subtext.Web</Name>
@@ -272,6 +271,7 @@
     <Compile Include="Framework\SecurityHandling\SecurityTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Skinning\SkinTests.cs" />
     <Compile Include="Framework\Syndication\AtomHandlerTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -380,6 +380,8 @@
     <EmbeddedResource Include="Resources\BlogMl\TwoCategories.xml" />
     <EmbeddedResource Include="Resources\BlogMl\SimpleBlogMl.xml" />
     <None Include="App.config" />
+    <EmbeddedResource Include="Resources\Skins\Skins.User.config" />
+    <EmbeddedResource Include="Resources\Skins\Skins.config" />
     <EmbeddedResource Include="Resources\Scripting\TestTemplateSqlScript.txt" />
     <EmbeddedResource Include="Resources\Scripting\TestTemplateSqlScriptExpectedChanges.txt" />
     <EmbeddedResource Include="Resources\Scripting\TestTemplateSqlScriptExpectedDefault.txt" />

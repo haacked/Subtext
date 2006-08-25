@@ -213,10 +213,9 @@ font-size:11px;
 margin:0;
 width: 360px;
 height:100%;
-/*overflow:scroll;
-overflow-x:scroll !important;
-overflow-x:auto;*/
-overflow:-moz-scrollbars-horizontal;overflow-x:scroll; overflow-y:hide;
+overflow:-moz-scrollbars-horizontal;
+overflow-x:scroll; 
+overflow-y:hide;
 border-left: 5px solid #cccccc;
 padding:5px;
 padding-left: 10px;
