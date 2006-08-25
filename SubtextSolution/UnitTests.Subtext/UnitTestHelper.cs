@@ -39,7 +39,8 @@ namespace UnitTests.Subtext
 	public static class UnitTestHelper
 	{
         /// <summary>
-		/// Unpacks an embedded resource into the specified directory.
+		/// Unpacks an embedded resource into the specified directory. The resource name should 
+		/// be everything after 'UnitTests.Subtext.Resources.'.
 		/// </summary>
 		/// <remarks>Omit the UnitTests.Subtext.Resources. part of the 
 		/// resource name.</remarks>
@@ -59,7 +60,8 @@ namespace UnitTests.Subtext
 		}
 
 		/// <summary>
-		/// Unpacks an embedded resource as a string.
+		/// Unpacks an embedded resource as a string. The resource name should 
+		/// be everything after 'UnitTests.Subtext.Resources.'.
 		/// </summary>
 		/// <remarks>Omit the UnitTests.Subtext.Resources. part of the 
 		/// resource name.</remarks>
@@ -75,7 +77,8 @@ namespace UnitTests.Subtext
 		}
 
 		/// <summary>
-		/// Unpacks an embedded binary resource into the specified directory.
+		/// Unpacks an embedded binary resource into the specified directory. The resource name should 
+		/// be everything after 'UnitTests.Subtext.Resources.'.
 		/// </summary>
 		/// <remarks>Omit the UnitTests.Subtext.Resources. part of the 
 		/// resource name.</remarks>
@@ -95,7 +98,8 @@ namespace UnitTests.Subtext
 		}
 
 		/// <summary>
-		/// Unpacks an embedded resource into a Stream.
+		/// Unpacks an embedded resource into a Stream.  The resource name should 
+		/// be everything after 'UnitTests.Subtext.Resources.'.
 		/// </summary>
 		/// <remarks>Omit the UnitTests.Subtext.Resources. part of the 
 		/// resource name.</remarks>

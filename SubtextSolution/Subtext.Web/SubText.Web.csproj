@@ -1807,6 +1807,7 @@
     <Content Include="Skins\RedBook\Controls\ViewPicture.ascx" />
     <Content Include="Skins\RedBook\Controls\ViewPost.ascx" />
     <Content Include="Skins\RedBook\Green.css" />
+    <Content Include="Skins\RedBook\IEHacks.css" />
     <Content Include="Skins\RedBook\Images\Blue\back.jpg" />
     <Content Include="Skins\RedBook\Images\Blue\backback.jpg" />
     <Content Include="Skins\RedBook\Images\Blue\rondo.jpg" />
@@ -1980,9 +1981,6 @@
     <Content Include="SystemMessages\Error.aspx" />
     <Content Include="SystemMessages\FileNotFound.aspx">
       <SubType>Form</SubType>
-    </Content>
-    <Content Include="SystemMessages\PageTemplate.ascx">
-      <SubType>UserControl</SubType>
     </Content>
     <Content Include="SystemMessages\Style\SystemMessageStyle.css" />
     <Content Include="SystemMessages\UpgradeInProgress.aspx">

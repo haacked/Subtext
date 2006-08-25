@@ -33,8 +33,8 @@ namespace Subtext.Web.UI.Pages
 	public class SubtextMasterPage : System.Web.UI.Page
 	{
 		#region Declared Controls in DTP.aspx
-		private static readonly ScriptElementCollectionRenderer scriptRenderer = new ScriptElementCollectionRenderer();
-		private static readonly StyleSheetElementCollectionRenderer styleRenderer = new StyleSheetElementCollectionRenderer();
+		private static readonly ScriptElementCollectionRenderer scriptRenderer = new ScriptElementCollectionRenderer(SkinTemplates.Instance());
+		private static readonly StyleSheetElementCollectionRenderer styleRenderer = new StyleSheetElementCollectionRenderer(SkinTemplates.Instance());
 		protected System.Web.UI.WebControls.Literal pageTitle;
 		protected System.Web.UI.WebControls.Literal docTypeDeclaration;
 		protected System.Web.UI.HtmlControls.HtmlLink MainStyle;
@@ -175,6 +175,13 @@ namespace Subtext.Web.UI.Pages
 		/// </summary>
 		public class ScriptElementCollectionRenderer
 		{
+			SkinTemplates templates;
+			
+			public ScriptElementCollectionRenderer(SkinTemplates templates)
+			{
+				this.templates = templates;
+			}
+			
 			private static string RenderScriptAttribute(string attributeName, string attributeValue)
 			{
                 return attributeValue != null ? " " + attributeName + "=\"" + attributeValue + "\"" : String.Empty;
@@ -214,11 +221,10 @@ namespace Subtext.Web.UI.Pages
 			{
 				string result = String.Empty;
 
-				SkinTemplates skinTemplates = SkinTemplates.Instance();
-				SkinTemplate skinTemplate = skinTemplates.GetTemplate(skinKey);
+				SkinTemplate skinTemplate = this.templates.GetTemplate(skinKey);
 				if (skinTemplate != null && skinTemplate.Scripts != null)
 				{
-					string skinPath = GetSkinPath(skinKey);
+					string skinPath = GetSkinPath(skinTemplate.TemplateFolder);
 					foreach(Script script in skinTemplate.Scripts)
 					{
 						result += RenderScriptElement(skinPath, script);
@@ -235,6 +241,13 @@ namespace Subtext.Web.UI.Pages
 		/// </summary>
 		public class StyleSheetElementCollectionRenderer
 		{
+			SkinTemplates templates;
+			
+			public StyleSheetElementCollectionRenderer(SkinTemplates templates)
+			{
+				this.templates = templates;
+			}
+			
 			private static string RenderStyleAttribute(string attributeName, string attributeValue)
 			{
 				return attributeValue != null ? " " + attributeName + "=\"" + attributeValue + "\"" : String.Empty;
@@ -284,10 +297,10 @@ namespace Subtext.Web.UI.Pages
 				}
 			}
 
-			private string CreateStylePath(string skinName)
+			private string CreateStylePath(string skinTemplateFolder)
 			{
 				string applicationPath = HttpContext.Current.Request.ApplicationPath;
-				string path = (applicationPath == "/" ? String.Empty : applicationPath) + "/Skins/" + skinName + "/";
+				string path = (applicationPath == "/" ? String.Empty : applicationPath) + "/Skins/" + skinTemplateFolder + "/";
 				return path;
 			}
 
@@ -295,12 +308,11 @@ namespace Subtext.Web.UI.Pages
 			{
 				string result = String.Empty;
 
-				SkinTemplates skinTemplates = SkinTemplates.Instance();
-				SkinTemplate skinTemplate = skinTemplates.GetTemplate(skinName);
+				SkinTemplate skinTemplate = this.templates.GetTemplate(skinName);
 				
 				if (skinTemplate != null && skinTemplate.Styles != null)
 				{
-					string skinPath = CreateStylePath(skinName);
+					string skinPath = CreateStylePath(skinTemplate.TemplateFolder);
 					foreach(Style style in skinTemplate.Styles)
 					{
 						result += RenderStyleElement(skinPath, style);

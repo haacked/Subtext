@@ -24,34 +24,50 @@ using Subtext.Framework.Util;
 namespace Subtext.Framework.UI.Skinning
 {
 	/// <summary>
-	/// Summary description for SkinTemplates.
+	/// Represents skin templates configured within the Skins.config file.
 	/// </summary>
 	[Serializable]
 	public class SkinTemplates
 	{
+		/// <summary>
+		/// Instantiates an instance of <see cref="SkinTemplates" /> from the Admin/Skins.config file 
+		/// as well as the Admin/Skins.User.config file.
+		/// </summary>
+		/// <returns></returns>
 		public static SkinTemplates Instance()
 		{
 			SkinTemplates skinTemplates = (SkinTemplates)HttpContext.Current.Cache["SkinTemplates"];
 			if(skinTemplates == null)
 			{
-				VirtualPathProvider vpathProvider = HostingEnvironment.VirtualPathProvider;
-				skinTemplates = GetSkinTemplates(vpathProvider, "~/Admin/Skins.config");
-
-				if (vpathProvider.FileExists("~/Admin/Skins.User.config"))
+				skinTemplates = Instance(HostingEnvironment.VirtualPathProvider);
+				
+				if (skinTemplates != null)
 				{
-					SkinTemplates userSpecificTemplates = GetSkinTemplates(vpathProvider, "~/Admin/Skins.User.config");
-					if (userSpecificTemplates != null)
-					{
-						foreach(SkinTemplate template in userSpecificTemplates.Templates)
-						{
-							skinTemplates.Templates.Add(template);
-						}
-					}
+					HttpContext.Current.Cache.Insert("SkinTemplates", skinTemplates, HostingEnvironment.VirtualPathProvider.GetCacheDependency("~/Admin/Skins.config", null, DateTime.Now.ToUniversalTime()));
 				}
+			}
+			return skinTemplates;
+		}
 
-				if(skinTemplates != null)
+		/// <summary>
+		/// Instantiates an instance of <see cref="SkinTemplates" /> from the Admin/Skins.config file 
+		/// as well as the Admin/Skins.User.config file using the specified <see cref="VirtualPathProvider" />
+		/// </summary>
+		/// <param name="vpathProvider"></param>
+		/// <returns></returns>
+		public static SkinTemplates Instance(VirtualPathProvider vpathProvider)
+		{
+			SkinTemplates skinTemplates = GetSkinTemplates(vpathProvider, "~/Admin/Skins.config");
+
+			if (vpathProvider.FileExists("~/Admin/Skins.User.config"))
+			{
+				SkinTemplates userSpecificTemplates = GetSkinTemplates(vpathProvider, "~/Admin/Skins.User.config");
+				if (userSpecificTemplates != null)
 				{
-					HttpContext.Current.Cache.Insert("SkinTemplates", skinTemplates, vpathProvider.GetCacheDependency("~/Admin/Skins.config", null, DateTime.Now.ToUniversalTime()));
+					foreach (SkinTemplate template in userSpecificTemplates.Templates)
+					{
+						skinTemplates.Templates.Add(template);
+					}
 				}
 			}
 			return skinTemplates;
