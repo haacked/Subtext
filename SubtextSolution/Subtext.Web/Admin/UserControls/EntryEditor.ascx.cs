@@ -132,7 +132,7 @@ namespace Subtext.Web.Admin.UserControls
 			{
 				string catIdQueryString = string.Format(CultureInfo.InvariantCulture, "&{0}={1}", Keys.QRYSTR_CATEGORYID, this.categoryId);
 				if(!this.resultsPager.UrlFormat.EndsWith(catIdQueryString))
-					this.resultsPager.UrlFormat += string.Format(CultureInfo.InvariantCulture, "&{0}={1}", Keys.QRYSTR_CATEGORYID, this.categoryId);
+					this.resultsPager.UrlFormat += catIdQueryString;
 			}
 			
 			if (!IsPostBack)
