@@ -18,7 +18,6 @@ using System.Data.SqlClient;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Providers;
-using Subtext.Framework.Threading;
 
 namespace Subtext.Framework
 {
@@ -28,7 +27,6 @@ namespace Subtext.Framework
 	/// </summary>
 	public sealed class HostInfo
 	{
-		static object _synchBlock = new object();
 		static HostInfo _instance = LoadHost(true);
 		
 	    private HostInfo()
@@ -44,20 +42,6 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				if(_instance == null)
-				{
-					using(TimedLock.Lock(_synchBlock))
-					{
-						if(_instance == null)
-						{
-							_instance = LoadHost(false);
-							if(_instance == null)
-							{
-								throw new HostNotConfiguredException();
-							}
-						}
-					}
-				}
 				return _instance;
 			}
 		}
