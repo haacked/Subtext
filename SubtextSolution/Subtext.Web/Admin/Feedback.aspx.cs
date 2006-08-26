@@ -168,9 +168,9 @@ namespace Subtext.Web.Admin.Pages
 				authorInfo += string.Format(@"<a href=""mailto:{0}"" title=""{0}""><img src=""{1}"" alt=""{0}"" border=""0"" class=""email"" /></a>", entry.Email, ControlHelper.ExpandTildePath("~/images/email.gif"));
 			}
 
-			if (!String.IsNullOrEmpty(entry.TitleUrl))
+			if (!String.IsNullOrEmpty(entry.AlternativeTitleUrl))
 			{
-				authorInfo += string.Format(@"<a href=""{0}"" title=""{0}""><img src=""{1}"" alt=""{0}"" border=""0"" /></a>", entry.TitleUrl, ControlHelper.ExpandTildePath("~/images/permalink.gif"));
+				authorInfo += string.Format(@"<a href=""{0}"" title=""{0}""><img src=""{1}"" alt=""{0}"" border=""0"" /></a>", entry.AlternativeTitleUrl, ControlHelper.ExpandTildePath("~/images/permalink.gif"));
 			}
 
 			return authorInfo;
