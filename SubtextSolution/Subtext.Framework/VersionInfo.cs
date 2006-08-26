@@ -42,7 +42,7 @@ namespace Subtext.Framework
 	/// </summary>
 	public static class VersionInfo 
 	{
-		static Version _version = null;
+		static Version _version;
 		static Uri _homePageUrl = new Uri("http://SubtextProject.com/");
 
 		/// <summary>

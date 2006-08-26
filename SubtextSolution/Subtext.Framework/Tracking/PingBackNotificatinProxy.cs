@@ -61,18 +61,10 @@ namespace Subtext.Framework.Tracking
 			if(pingbackURL != null)
 			{
 				this.Url = pingbackURL;
-				try
-				{
-					Notifiy(sourceURI.ToString(), targetURI.ToString());
-					return true;
-				}
-				catch(Exception ex)
-				{
-					errormessage = "Error: " + ex.Message;
-				}
+				Notify(sourceURI.ToString(), targetURI.ToString());
+				return true;
 			}
 			return false;
-
 		}
 
 		private string GetPingBackURL(string pageText, Uri postUrl)
@@ -94,7 +86,7 @@ namespace Subtext.Framework.Tracking
 		}
 
 		[XmlRpcMethod("pingback.ping")]
-		public void Notifiy(string sourceURI , string targetURI )
+		public void Notify(string sourceURI , string targetURI )
 		{
 			Invoke("Notifiy", new object[] {sourceURI,targetURI});
 		}

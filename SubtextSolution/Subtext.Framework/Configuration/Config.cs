@@ -29,7 +29,7 @@ namespace Subtext.Framework.Configuration
 	/// </summary>
 	public static class Config
 	{
-	    static UrlBasedBlogInfoProvider _configProvider = null;
+	    static UrlBasedBlogInfoProvider _configProvider;
 
 		/// <summary>
 		/// Returns an instance of <see cref="BlogConfigurationSettings"/> which 

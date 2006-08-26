@@ -123,7 +123,7 @@ namespace Subtext.Framework.Configuration
 			}
 		}
 
-		ConnectionString _connectionString = null;
+		ConnectionString _connectionString;
 
 		/// <summary>
 		/// Returns a <see cref="NameValueCollection"/> containing the allowed 

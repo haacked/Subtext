@@ -31,7 +31,7 @@ namespace Subtext.Framework.Format
 	/// </summary>
 	public class UrlFormats
 	{
-        protected string fullyQualifiedUrl = null;
+        protected string fullyQualifiedUrl;
 
         public UrlFormats(Uri fullyQualifiedUrl)
 		{

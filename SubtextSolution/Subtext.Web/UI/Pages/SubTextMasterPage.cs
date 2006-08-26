@@ -17,10 +17,14 @@ using System;
 using System.Text;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.UI.Skinning;
+using Subtext.Framework.UrlManager;
 using Subtext.Web.Controls;
+using Style=Subtext.Framework.UI.Skinning.Style;
 
 namespace Subtext.Web.UI.Pages
 {
@@ -30,25 +34,25 @@ namespace Subtext.Web.UI.Pages
 	/// a PlaceHolder in which the PageTemplate.ascx control within 
 	/// each skin is loaded.
 	/// </summary>
-	public class SubtextMasterPage : System.Web.UI.Page
+	public class SubtextMasterPage : Page
 	{
 		#region Declared Controls in DTP.aspx
 		private static readonly ScriptElementCollectionRenderer scriptRenderer = new ScriptElementCollectionRenderer(SkinTemplates.Instance());
 		private static readonly StyleSheetElementCollectionRenderer styleRenderer = new StyleSheetElementCollectionRenderer(SkinTemplates.Instance());
-		protected System.Web.UI.WebControls.Literal pageTitle;
-		protected System.Web.UI.WebControls.Literal docTypeDeclaration;
-		protected System.Web.UI.HtmlControls.HtmlLink MainStyle;
-		protected System.Web.UI.HtmlControls.HtmlLink SecondaryCss;
-		protected System.Web.UI.HtmlControls.HtmlLink CustomCss;
-		protected System.Web.UI.HtmlControls.HtmlLink RSSLink;
-		protected System.Web.UI.HtmlControls.HtmlLink Rsd;
-		protected System.Web.UI.HtmlControls.HtmlLink AtomLink;
-		protected System.Web.UI.WebControls.PlaceHolder CenterBodyControl;
-		protected System.Web.UI.WebControls.Literal authorMetaTag;
-		protected System.Web.UI.WebControls.Literal scripts;
-		protected System.Web.UI.WebControls.Literal styles;
-		protected System.Web.UI.WebControls.Literal virtualRoot;
-		protected System.Web.UI.WebControls.Literal virtualBlogRoot;
+		protected Literal pageTitle;
+		protected Literal docTypeDeclaration;
+		protected HtmlLink MainStyle;
+		protected HtmlLink SecondaryCss;
+		protected HtmlLink CustomCss;
+		protected HtmlLink RSSLink;
+		protected HtmlLink Rsd;
+		protected HtmlLink AtomLink;
+		protected PlaceHolder CenterBodyControl;
+		protected Literal authorMetaTag;
+		protected Literal scripts;
+		protected Literal styles;
+		protected Literal virtualRoot;
+		protected Literal virtualBlogRoot;
 		#endregion
 		
 		protected BlogInfo CurrentBlog;
@@ -61,7 +65,7 @@ namespace Subtext.Web.UI.Pages
 
 			string skinFolder = Config.CurrentBlog.Skin.TemplateFolder;
 
-			string[] controls = Subtext.Framework.UrlManager.HandlerConfiguration.GetControls(Context);
+			string[] controls = HandlerConfiguration.GetControls(Context);
             if (controls != null)
             {
                 foreach (string control in controls)
@@ -219,7 +223,7 @@ namespace Subtext.Web.UI.Pages
 
 			public string RenderScriptElementCollection(string skinKey)
 			{
-				string result = String.Empty;
+				StringBuilder result = new StringBuilder();
 
 				SkinTemplate skinTemplate = this.templates.GetTemplate(skinKey);
 				if (skinTemplate != null && skinTemplate.Scripts != null)
@@ -227,10 +231,10 @@ namespace Subtext.Web.UI.Pages
 					string skinPath = GetSkinPath(skinTemplate.TemplateFolder);
 					foreach(Script script in skinTemplate.Scripts)
 					{
-						result += RenderScriptElement(skinPath, script);
+						result.Append(RenderScriptElement(skinPath, script));
 					}
 				}
-				return result;
+				return result.ToString();
 			}
 		}
 
@@ -306,7 +310,7 @@ namespace Subtext.Web.UI.Pages
 
 			public string RenderStyleElementCollection(string skinName)
 			{
-				string result = String.Empty;
+				StringBuilder result = new StringBuilder();
 
 				SkinTemplate skinTemplate = this.templates.GetTemplate(skinName);
 				
@@ -315,10 +319,10 @@ namespace Subtext.Web.UI.Pages
 					string skinPath = CreateStylePath(skinTemplate.TemplateFolder);
 					foreach(Style style in skinTemplate.Styles)
 					{
-						result += RenderStyleElement(skinPath, style);
+						result.Append(RenderStyleElement(skinPath, style));
 					}
 				}
-				return result;
+				return result.ToString();
 			}
 		}
 

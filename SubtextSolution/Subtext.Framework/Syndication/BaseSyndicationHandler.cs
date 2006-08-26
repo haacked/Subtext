@@ -31,7 +31,7 @@ namespace Subtext.Framework.Syndication
 	{
 		const int HTTP_IM_USED = 226;
 
-		protected BlogInfo CurrentBlog = null;
+		protected BlogInfo CurrentBlog ;
 		protected HttpContext Context = null;
 		protected CachedFeed Feed = null;
 

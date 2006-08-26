@@ -16,9 +16,12 @@
 using System;
 using System.Collections;
 using System.ComponentModel;
+using System.IO;
 using System.Web.UI;
 using System.Web.UI.Design;
+using System.Web.UI.HtmlControls;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Logging;
 
 namespace Subtext.Web.UI.WebControls
 {
@@ -34,10 +37,10 @@ namespace Subtext.Web.UI.WebControls
 	[ToolboxData("<{0}:MasterPage runat=server></{0}:MasterPage>"),
 		ToolboxItem(typeof(WebControlToolboxItem)),
 		Designer(typeof(ContainerControlDesigner))]
-	public class MasterPage : System.Web.UI.HtmlControls.HtmlContainerControl
+	public class MasterPage : HtmlContainerControl
 	{
-		Subtext.Framework.Logging.Log Log = new Subtext.Framework.Logging.Log();
-		private string templateFile = null;
+		Log Log = new Log();
+		private string templateFile;
 		private Control template = null;
 
 		private ArrayList contents = new ArrayList();
@@ -87,7 +90,7 @@ namespace Subtext.Web.UI.WebControls
 			{
 				this.template = this.Page.LoadControl(this.TemplateFile);
 			}
-			catch(System.IO.FileNotFoundException e)
+			catch(FileNotFoundException e)
 			{
 				Log.Warn("The configured skin '" + Config.CurrentBlog.Skin.TemplateFolder + "' does not exist.  Reverting to a default skin.", e);
 				Config.CurrentBlog.Skin = SkinConfig.GetDefaultSkin();
@@ -134,8 +137,8 @@ namespace Subtext.Web.UI.WebControls
 		}
 
 		//removes this controls ability to render its own start tag
-		protected override void RenderBeginTag(System.Web.UI.HtmlTextWriter writer) {}
+		protected override void RenderBeginTag(HtmlTextWriter writer) {}
 		//removes this controls ability to render its own end tag
-		protected override void RenderEndTag(System.Web.UI.HtmlTextWriter writer) {}
+		protected override void RenderEndTag(HtmlTextWriter writer) {}
 	}
 }

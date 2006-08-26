@@ -123,12 +123,13 @@ namespace Subtext.Installation
 		public override bool IsInstallationException(Exception exception)
 		{
 			Regex tableRegex = new Regex("Invalid object name '.*?'", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            bool isSqlException = exception is SqlException;
 
-			if(exception is System.Data.SqlClient.SqlException && tableRegex.IsMatch(exception.Message))
+			if(isSqlException && tableRegex.IsMatch(exception.Message))
 				return true;
 
 			Regex spRegex = new Regex("'Could not find stored procedure '.*?'", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-			if(exception is System.Data.SqlClient.SqlException && spRegex.IsMatch(exception.Message))
+			if(isSqlException && spRegex.IsMatch(exception.Message))
 				return true;
 
 			return false;
@@ -308,7 +309,7 @@ namespace Subtext.Installation
 		/// </summary>
 		/// <param name="maxVersionInclusive">The max version inclusive.</param>
 		/// <returns></returns>
-		public string[] ListInstallationScripts(System.Version minVersionExclusive, System.Version maxVersionInclusive)
+		public string[] ListInstallationScripts(Version minVersionExclusive, Version maxVersionInclusive)
 		{
 			Assembly assembly = Assembly.GetExecutingAssembly();
 			string[] resourceNames = assembly.GetManifestResourceNames();

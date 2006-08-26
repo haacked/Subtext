@@ -20,7 +20,7 @@ namespace Subtext.Framework.Syndication.Compression
 {
 	public class SyndicationCompressionFilter
 	{
-		private string _encoding = null;
+		private string _encoding;
 		private Stream _stream;
 
 		/*-- Constructors --*/
