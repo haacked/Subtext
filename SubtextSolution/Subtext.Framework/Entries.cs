@@ -570,7 +570,11 @@ namespace Subtext.Framework
 								+ "====================================================" + Environment.NewLine + Environment.NewLine
 								+ "{5}" + Environment.NewLine + Environment.NewLine
 								+ "Source: {6}#{7}";
-			                    
+
+			string sourceUrl = Config.CurrentBlog.RootUrl.ToString();
+			if (!String.IsNullOrEmpty(sourceUrl) && sourceUrl.EndsWith("/"))
+				sourceUrl = sourceUrl.Substring(0, sourceUrl.Length - 1);
+			sourceUrl += comment.SourceUrl;
 			
 			string Body = string.Format(CultureInfo.InvariantCulture, bodyFormat, 
 			                            blogTitle,
@@ -579,8 +583,8 @@ namespace Subtext.Framework
 			                            comment.AlternativeTitleUrl,
 			                            comment.SourceName,
 			                            // we're sending plain text email by default, but body includes <br />s for crlf
-			                            comment.Body.Replace("<br />", Environment.NewLine), 
-			                            Config.CurrentBlog.RootUrl + comment.SourceUrl,
+			                            comment.Body.Replace("<br />", Environment.NewLine),
+										sourceUrl,
 			                            entryId);			
 				
 			im.Send(To, From, Subject, Body);
