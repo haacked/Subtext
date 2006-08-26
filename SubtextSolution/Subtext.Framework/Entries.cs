@@ -554,18 +554,33 @@ namespace Subtext.Framework
 			// create and format an email to the site admin with comment details
 			EmailProvider im = EmailProvider.Instance();
 
+			string fromEmail = comment.Email;
+			if(String.IsNullOrEmpty(fromEmail))
+				fromEmail = im.AdminEmail;
+
 			string To = Config.CurrentBlog.Email;
-			string From = im.AdminEmail;
+			string From = fromEmail;
 			string Subject = string.Format(CultureInfo.InvariantCulture, "Comment: {0} (via {1})", comment.Title, blogTitle);
-			string Body = string.Format(CultureInfo.InvariantCulture, "Comments from {0}:\r\n\r\nSender: {1}\r\nUrl: {2}\r\nIP Address: {3}\r\n=====================================\r\n\r\n{4}\r\n\r\n{5}\r\n\r\nSource: {6}#{7}", 
+
+			string bodyFormat = "Comment from {0}" + Environment.NewLine 
+			                    + "----------------------------------------------------" + Environment.NewLine
+			                    + "From:\t{1} <{2}>" + Environment.NewLine
+			                    + "Url:\t{3}" + Environment.NewLine
+			                    + "IP:\t{4}" + Environment.NewLine
+								+ "====================================================" + Environment.NewLine + Environment.NewLine
+								+ "{5}" + Environment.NewLine + Environment.NewLine
+								+ "Source: {6}#{7}";
+			                    
+			
+			string Body = string.Format(CultureInfo.InvariantCulture, bodyFormat, 
 			                            blogTitle,
 			                            comment.Author,
+										comment.Email,
 			                            comment.AlternativeTitleUrl,
 			                            comment.SourceName,
-			                            comment.Title,					
 			                            // we're sending plain text email by default, but body includes <br />s for crlf
 			                            comment.Body.Replace("<br />", Environment.NewLine), 
-			                            comment.SourceUrl,
+			                            Config.CurrentBlog.RootUrl + comment.SourceUrl,
 			                            entryId);			
 				
 			im.Send(To, From, Subject, Body);
