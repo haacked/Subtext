@@ -32,7 +32,7 @@ namespace Subtext.Web.UI.Controls
 		protected System.Web.UI.WebControls.DataList ThumbNails;
 		protected System.Web.UI.WebControls.Literal Description;
 
-		private string _baseImagePath = null;
+		private string _baseImagePath;
 
 		protected string BaseImagePath
 		{

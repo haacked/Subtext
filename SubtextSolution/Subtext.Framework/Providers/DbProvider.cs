@@ -32,7 +32,7 @@ namespace Subtext.Framework.Providers
 	/// </summary>
     public abstract class DbProvider : ProviderBase
 	{
-		private static DbProvider provider = null;
+		private static DbProvider provider;
 		private static GenericProviderCollection<DbProvider> providers = ProviderConfigurationHelper.LoadProviderCollection<DbProvider>("Database", out provider);
 
 		/// <summary>

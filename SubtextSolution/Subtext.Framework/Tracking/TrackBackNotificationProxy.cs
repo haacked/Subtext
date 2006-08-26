@@ -67,13 +67,13 @@ namespace Subtext.Framework.Tracking
 				Uri trackBackUrl = HtmlHelper.ParseUri(trackBackItem);
 				if(trackBackUrl != null)
 				{
-					SendPing(trackBackUrl, parameters);
+					return SendPing(trackBackUrl, parameters);
 				}				
 			}
 			return true;
 		}
 
-		private void SendPing(Uri trackBackItem, string parameters)
+		private bool SendPing(Uri trackBackItem, string parameters)
 		{
 			HttpWebRequest request = HttpHelper.CreateRequest(trackBackItem);
 			request.Method = "POST";
@@ -85,6 +85,10 @@ namespace Subtext.Framework.Tracking
 			{
 				myWriter.Write(parameters);
 			}
+
+			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+			
+			return (response.StatusCode == HttpStatusCode.OK);
 		}
 
 		private string GetTrackBackText(string pageText, Uri url, Uri postUrl)

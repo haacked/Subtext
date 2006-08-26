@@ -34,7 +34,7 @@ namespace Subtext.Web.Admin
             
 		private const int _defaultCapacity = 16;
 
-		private OpmlItem[] _array = null;
+		private OpmlItem[] _array;
 		private int _count = 0;
 
 		[NonSerialized]

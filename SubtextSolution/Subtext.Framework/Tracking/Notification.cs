@@ -143,26 +143,27 @@ namespace Subtext.Framework.Tracking
 		/// <param name="state">The state.</param>
 		public void Notify(object state)
 		{
-			Notify();
+			try
+			{
+				Notify();
+			}
+			catch(Exception e)
+			{
+				Log.Warn("Had a problem with notification.", e);
+			}
 		}
 
-		public void Notify()
+		void Notify()
 		{
 			Configuration.Tracking track = Config.Settings.Tracking;
 			
 			//First, ping weblogs.com
-			try
+			if(track.PingWeblogs)
 			{
-				if(track.PingWeblogs)
+				using (WeblogsNotificatinProxy weblogs = new WeblogsNotificatinProxy())
 				{
-					WeblogsNotificatinProxy weblogs = new WeblogsNotificatinProxy();
-					weblogs.Ping(BlogName,FullyQualifiedUrl);
-					weblogs.Dispose();
+					weblogs.Ping(BlogName, FullyQualifiedUrl);
 				}
-			}
-			catch(Exception exp)
-			{
-				Log.Warn("Error while trying to ping weblogs.com - " + exp.Message, exp);
 			}
 
 			//Get the links from the last post
@@ -172,36 +173,29 @@ namespace Subtext.Framework.Tracking
 			if(links != null && links.Count > 0)
 			{
 				//Create our notification Components
-				PingBackNotificatinProxy pbnp = new PingBackNotificatinProxy();
-				TrackBackNotificationProxy tbnp = new TrackBackNotificationProxy();
-
-				//for each link, try to pingback and/or trackback
-				foreach(string link in links)
+				using (PingBackNotificatinProxy pbnp = new PingBackNotificatinProxy())
 				{
-					//get the page text
-					Uri url = HtmlHelper.ParseUri(link);
-					if(url == null)
-						continue;
-							
-					string pageText = HttpHelper.GetPageText(url);
-					if(pageText != null)
+					TrackBackNotificationProxy tbnp = new TrackBackNotificationProxy();
+
+					//for each link, try to pingback and/or trackback
+					foreach (string link in links)
 					{
-						bool success = false;
-						try
+						//get the page text
+						Uri url = HtmlHelper.ParseUri(link);
+						if (url == null)
+							continue;
+
+						string pageText = HttpHelper.GetPageText(url);
+						if (pageText != null)
 						{
-							if(track.EnableTrackBacks)
+							if (track.EnableTrackBacks)
 							{
-								success = tbnp.TrackBackPing(pageText, url, Title, PostUrl, BlogName, Description);
+								if(!tbnp.TrackBackPing(pageText, url, Title, PostUrl, BlogName, Description) && track.EnablePingBacks)
+								{
+									Log.DebugFormat("Trackback failed to '{0}'. Let's try a PingBack.", url);
+									pbnp.Ping(pageText, PostUrl, url);
+								}
 							}
-			
-							if(!success && track.EnablePingBacks)
-							{
-								pbnp.Ping(pageText, PostUrl, url);						
-							}
-						}
-						catch(Exception exp)
-						{
-							Log.Warn("Error while trying to send trackback - " + exp.Message, exp);
 						}
 					}
 				}

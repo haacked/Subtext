@@ -34,7 +34,7 @@ namespace Subtext.Web.UI.Controls
 		protected System.Web.UI.WebControls.HyperLink ReturnUrl;
 		protected System.Web.UI.WebControls.HyperLink OriginalImage;
 
-		private string _baseImagePath = null;
+		private string _baseImagePath;
 
 		protected override void OnLoad(EventArgs e)
 		{

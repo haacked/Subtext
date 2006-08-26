@@ -23,7 +23,7 @@ namespace Subtext.Extensibility.Providers
 	/// </summary>
     public abstract class EmailProvider : System.Configuration.Provider.ProviderBase
 	{
-        private static EmailProvider provider = null;
+        private static EmailProvider provider;
 		private static GenericProviderCollection<EmailProvider> providers = ProviderConfigurationHelper.LoadProviderCollection<EmailProvider>("Email", out provider);
 		const int DefaultSmtpPort = 25;
 

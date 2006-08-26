@@ -54,7 +54,7 @@ namespace Subtext.Web
 			Style.Text = string.Format(style,apppath,"Style.css") + "\n" + string.Format(style,apppath,"blue.css");
 		}
 
-		private string appPath = null;
+		private string appPath;
 		const string fullUrl = "http://{0}{1}{2}/";
 		protected string GetFullUrl(string host, string app)
 		{

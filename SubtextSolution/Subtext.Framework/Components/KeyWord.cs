@@ -94,7 +94,7 @@ namespace Subtext.Framework.Components
 		}
 		private int id;
 
-		private string _format = null;
+		private string _format;
 		public string GetFormat
 		{
 			get

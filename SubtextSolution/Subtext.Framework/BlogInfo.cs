@@ -34,7 +34,7 @@ namespace Subtext.Framework
 	public class BlogInfo
 	{
 		const int DefaultRecentCommentsLength = 50;
-		private UrlFormats _urlFormats = null;
+		private UrlFormats _urlFormats;
 
 		/// <summary>
 		/// Removes the preceding "www." on a host name.
