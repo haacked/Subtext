@@ -42,6 +42,7 @@ namespace Subtext.Web.Admin.Pages
 			this.chkEnableCommentModeration.Checked = info.ModerationEnabled;
 			this.chkEnableTrackbacks.Checked = info.TrackbacksEnabled;
 			this.chkCoCommentEnabled.Checked = info.CoCommentsEnabled;
+			this.chkAllowDuplicates.Checked = info.DuplicateCommentsEnabled;
 			
 			if(info.DaysTillCommentsClose > -1 && info.DaysTillCommentsClose < int.MaxValue)
                 this.txtDaysTillCommentsClosed.Text = info.DaysTillCommentsClose.ToString(CultureInfo.InvariantCulture);
@@ -111,8 +112,10 @@ namespace Subtext.Web.Admin.Pages
 			
 				info.CommentsEnabled = this.chkEnableComments.Checked;
 				info.ModerationEnabled = this.chkEnableCommentModeration.Checked;
-				info.TrackbacksEnabled = this.chkEnableTrackbacks.Checked;
 				info.CoCommentsEnabled = this.chkCoCommentEnabled.Checked;
+				info.TrackbacksEnabled = this.chkEnableTrackbacks.Checked;
+				info.DuplicateCommentsEnabled = this.chkAllowDuplicates.Checked;
+				
 				if(this.txtCommentDelayIntervalMinutes.Text.Length == 0)
 				{
 					info.CommentDelayInMinutes = 0;
