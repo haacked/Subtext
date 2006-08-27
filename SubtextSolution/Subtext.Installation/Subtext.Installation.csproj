@@ -161,7 +161,7 @@
     <Content Include="ExternalDependencies\log4net.xml" />
     <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.dll" />
     <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.xml" />
-    <Content Include="Scripts\Installation.01.09.00.sql" />
+    <EmbeddedResource Include="Scripts\Installation.01.09.00.sql" />
     <Content Include="Scripts\Migration_Notes.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
