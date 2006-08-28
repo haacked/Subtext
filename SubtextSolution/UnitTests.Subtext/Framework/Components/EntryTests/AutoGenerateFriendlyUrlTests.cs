@@ -52,16 +52,20 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		/// </summary>
 		
 		[RowTest]
-		[Row("Single", "Single")]
-		[Row("Single ", "Single")]
-		[Row("Two words", "Two_words")]
-		[Row("Holymolythisisalongwordthatnormallywouldn'tbeused.", "Holymolythisisalongwordthatnormallywouldntbeused")]
-		[Row("This is a very long title that will be truncated.", "This_is_a_very_long")]
+		[Row("Single", '_', "Single")]
+		[Row("Single ", '.', "Single")]
+		[Row("Two words", '_', "Two_words")]
+		[Row("Two words", '-', "Two-words")]
+		[Row("Two words", '.', "Two.words")]
+		[Row("Holymolythisisalongwordthatnormallywouldn'tbeused.", '_', "Holymolythisisalongwordthatnormallywouldntbeused")]
+		[Row("This is a very long.", '_', "This_is_a_very_long")]
+		[Row("This is a very long.", '-', "This-is-a-very-long")]
+		[Row("This is a very long.", '.', "This.is.a.very.long")]
 		[RollBack]
-		public void FriendlyUrlLimitedDelimited(string title, string expected)
+		public void FriendlyUrlLimitedDelimited(string title, char wordSeparator, string expected)
 		{
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
-			Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title), "The auto generated entry name is not what we expected.");
+			Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title, wordSeparator), "The auto generated entry name is not what we expected.");
 		}
 
 		/// <summary>
@@ -131,17 +135,16 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		}
 
 		[RowTest]
-		[Row("_", "One_Two")]
-		[Row(" ", "OneTwo")]
-		[Row("X", "OneXTwo")]
-		[Row("$", "OneTwo")]
+		[Row('_', "One_Two")]
+		[Row(char.MinValue, "OneTwo")]
+		[Row('.', "One.Two")]
+		[Row('-', "One-Two")]
 		[RollBack]
-		public void FriendlyUrlHandlesBadSeparators(string wordSeparatorString, string expected)
+		public void FriendlyUrlHandlesBadSeparators(char wordSeparator, string expected)
 		{
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
 
 			string title = "One Two";
-			char wordSeparator = wordSeparatorString[0];
 			Assert.AreEqual(expected, Entries.AutoGenerateFriendlyUrl(title, wordSeparator), "THe auto generated entry name is not what we expected.");
 		}
 		

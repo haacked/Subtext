@@ -377,9 +377,9 @@ namespace Subtext.Framework
 		{
 			if(title == null)
 				throw new ArgumentNullException("title", "Cannot generate friendly url from null title.");
-
-			string entryName = StripSpaces(title, wordSeparator);
-			entryName = RemoveNonWordCharacters(entryName);
+			
+			string entryName = RemoveNonWordCharacters(title);
+			entryName = ReplaceSpacesWithSeparator(entryName, wordSeparator);
 			entryName = HttpUtility.UrlEncode(entryName);
 			entryName = RemoveTrailingPeriods(entryName);
 			entryName = entryName.Trim(new char[] {wordSeparator});
@@ -412,7 +412,7 @@ namespace Subtext.Framework
 			return newEntryName;
 		}
 
-		static string StripSpaces(string text, char wordSeparator)
+		static string ReplaceSpacesWithSeparator(string text, char wordSeparator)
 		{
 			if(wordSeparator == char.MinValue)
 			{
@@ -427,7 +427,7 @@ namespace Subtext.Framework
 
 		static string RemoveNonWordCharacters(string text)
 		{
-			Regex regex = new Regex(@"[\w\d\.]+", RegexOptions.Compiled);
+			Regex regex = new Regex(@"[\w\d\. ]+", RegexOptions.Compiled);
 			MatchCollection matches = regex.Matches(text);
 			string cleansedText = string.Empty;
 
