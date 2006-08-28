@@ -64,51 +64,41 @@ namespace Subtext.Web
 			{
 				appPath += "/";
 			}
-			try
+			StringWriter sw = new StringWriter();
+				
+			XmlTextWriter writer = new XmlTextWriter(sw);
+			writer.Formatting = Formatting.Indented;
+			writer.WriteStartDocument();
+
+			//OPML ROOT
+			writer.WriteStartElement("opml");
+
+			//Body
+			writer.WriteStartElement("body");
+
+			int count = dt.Rows.Count;
+			string baseUrl = "http://{0}" + appPath + "{1}";
+			for(int i = 0; i< count; i++)
 			{
-				StringWriter sw = new StringWriter();
-					
-				XmlTextWriter writer = new XmlTextWriter(sw);
-				writer.Formatting = Formatting.Indented;
-				writer.WriteStartDocument();
+				DataRow dr = dt.Rows[i];
+				writer.WriteStartElement("outline");
 
-				//OPML ROOT
-				writer.WriteStartElement("opml");
+				string title = (string)dr["Title"];
+				string htmlUrl = string.Format(baseUrl, dr["Host"], dr["Application"]);
+				string xmlUrl= htmlUrl + "/rss.aspx";
 
-				//Body
-				writer.WriteStartElement("body");
+				writer.WriteAttributeString("title",title);
+				writer.WriteAttributeString("htmlUrl",htmlUrl);
+				writer.WriteAttributeString("xmlUrl",xmlUrl);
 
-				int count = dt.Rows.Count;
-				string baseUrl = "http://{0}" + appPath + "{1}";
-				for(int i = 0; i< count; i++)
-				{
-					DataRow dr = dt.Rows[i];
-					writer.WriteStartElement("outline");
-
-					string title = (string)dr["Title"];
-					string htmlUrl = string.Format(baseUrl, dr["Host"], dr["Application"]);
-					string xmlUrl= htmlUrl + "/rss.aspx";
-
-					writer.WriteAttributeString("title",title);
-					writer.WriteAttributeString("htmlUrl",htmlUrl);
-					writer.WriteAttributeString("xmlUrl",xmlUrl);
-
-					writer.WriteEndElement();									
-				}
-				writer.WriteEndElement();
-				writer.WriteEndElement();
-				writer.Flush();
-				writer.Close();
-				sw.Close();
-				return sw.ToString();
-
+				writer.WriteEndElement();									
 			}
-			catch(Exception e)
-			{
-				throw;
-			}
-
-
+			writer.WriteEndElement();
+			writer.WriteEndElement();
+			writer.Flush();
+			writer.Close();
+			sw.Close();
+			return sw.ToString();
 		}
 
 		#region Web Form Designer generated code
