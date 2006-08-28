@@ -1,17 +1,16 @@
 using System;
+using System.Collections;
+using System.Data;
+using System.Data.SqlClient;
+using System.Web.UI.WebControls;
+using Subtext.Framework;
+using Subtext.Framework.Components;
+using Subtext.Framework.Data;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Web.UI.Controls
 {
-	using System.Collections;
-	using System.Configuration;
-	using System.Data;
-	using System.Data.SqlClient;
-	using System.Web.UI.WebControls;
-	using Subtext.Framework.Data;
-	using Subtext.Framework;
-	using Subtext.Framework.Components;
-	using Subtext.Framework.Providers;
-	/// <summary>
+    /// <summary>
 	/// Summary description for RelatedLinks.
 	/// </summary>
 	public class RelatedLinks : BaseControl
@@ -25,18 +24,12 @@ namespace Subtext.Web.UI.Controls
 
 			ArrayList myRelLinks = new ArrayList();
 			int BlogId;
-			string applikasyon;
 
 			//fix for the blogs where only one installed
 			if (CurrentBlog.Id >= 1)
 				BlogId = CurrentBlog.Id;
 			else
 				BlogId = 0;
-
-			if (CurrentBlog.Subfolder != String.Empty)
-				applikasyon = CurrentBlog.Subfolder;
-			else
-				applikasyon = String.Empty;
 
 			Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short);
 

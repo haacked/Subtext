@@ -288,7 +288,7 @@ namespace Subtext.Framework.Format
 			//we can pass in a string builder.
 			String app = Config.CurrentBlog.Subfolder;
 			
-			string url = (app.Equals(String.Empty)) ? "~" : "~/" + app;
+			string url = (String.IsNullOrEmpty(app)) ? "~" : "~/" + app;
 			if(entry.PostType == PostType.BlogPost)
 				url += "/Admin/EditPosts.aspx?PostID=" + entry.Id;
 			else if(entry.PostType == PostType.Story)

@@ -44,7 +44,7 @@ namespace Subtext.Scripting
 			ScriptCollection scripts = new ScriptCollection(fullScriptText);
 			foreach(string scriptText in scriptTexts)
 			{
-				if(scriptText.Trim() != string.Empty)
+				if (!String.IsNullOrEmpty(scriptText.Trim()))
 				{
 					scripts.Add(new Script(scriptText));
 				}

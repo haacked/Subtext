@@ -321,7 +321,7 @@ namespace Subtext.Framework
 				return AutoGenerateFriendlyUrl(title, char.MinValue);
 			}
 
-			string wordSeparator = friendlyUrlSettings["separatingCharacter"];;
+			string wordSeparator = friendlyUrlSettings["separatingCharacter"];
 			int wordCount;
 
 			if (friendlyUrlSettings["limitWordCount"] == null)
@@ -526,7 +526,7 @@ namespace Subtext.Framework
 			comment.NeedsModeratorApproval = !comment.IsActive;
 			comment.DateCreated = comment.DateUpdated = BlogTime.CurrentBloggerTime;
 			
-			if (null == comment.SourceName || String.Empty == comment.SourceName)
+			if (String.IsNullOrEmpty(comment.SourceName))
 				comment.SourceName = "N/A";
 
 			// insert comment into backend, save the returned entryid for permalink anchor below
@@ -560,7 +560,7 @@ namespace Subtext.Framework
 
 			string To = Config.CurrentBlog.Email;
 			string From = fromEmail;
-			string Subject = string.Format(CultureInfo.InvariantCulture, "Comment: {0} (via {1})", comment.Title, blogTitle);
+			string Subject = String.Format(CultureInfo.InvariantCulture, "Comment: {0} (via {1})", comment.Title, blogTitle);
 
 			string bodyFormat = "Comment from {0}" + Environment.NewLine 
 			                    + "----------------------------------------------------" + Environment.NewLine

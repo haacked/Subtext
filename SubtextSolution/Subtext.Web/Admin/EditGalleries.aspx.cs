@@ -263,7 +263,7 @@ namespace Subtext.Web.Admin.Pages
                     string fileName = Path.GetFileName(theEntry.Name);
 
                     // TODO: Filter for image types?
-                    if (fileName != String.Empty)
+                    if (!String.IsNullOrEmpty(fileName))
                     {
                         image = new Subtext.Framework.Components.Image();
                         image.CategoryID = CategoryID;

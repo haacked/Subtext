@@ -14,14 +14,17 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.ComponentModel;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using System.Runtime.InteropServices;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using SQLDMO;
 using Subtext.Scripting;
-using System.Collections;
-using System.Data;
-using System.Data.SqlClient;
 
 namespace Subtext.Web.Controls
 {
@@ -46,18 +49,18 @@ namespace Subtext.Web.Controls
 		const string RefreshDatabaseControlId = "lnkBtnConnectionStringBuilderRefreshDatabase";
 		const string ConnectionResultControlId = "lblConnectionStringBuilderConnectionResult";
 
-		protected System.Web.UI.WebControls.DropDownList machineName=new DropDownList();
-		protected System.Web.UI.WebControls.TextBox otherMachineName=new TextBox();
-		protected System.Web.UI.WebControls.RadioButtonList authMode=new RadioButtonList();
-		protected System.Web.UI.WebControls.TextBox username=new TextBox();
-		protected System.Web.UI.WebControls.DropDownList databaseName= new DropDownList();
-		protected System.Web.UI.WebControls.Button testConnection=new Button();
-		protected System.Web.UI.WebControls.TextBox password=new TextBox();
-		protected System.Web.UI.WebControls.Label connResult=new Label();
-		protected System.Web.UI.WebControls.LinkButton refreshDatabase=new LinkButton();
+		protected DropDownList machineName=new DropDownList();
+		protected TextBox otherMachineName=new TextBox();
+		protected RadioButtonList authMode=new RadioButtonList();
+		protected TextBox username=new TextBox();
+		protected DropDownList databaseName= new DropDownList();
+		protected Button testConnection=new Button();
+		protected TextBox password=new TextBox();
+		protected Label connResult=new Label();
+		protected LinkButton refreshDatabase=new LinkButton();
 
 
-		private ConnectionString _connStr=Subtext.Scripting.ConnectionString.Empty;
+		private ConnectionString _connStr=Scripting.ConnectionString.Empty;
 
 
 		override protected void OnInit(EventArgs e)
@@ -68,9 +71,9 @@ namespace Subtext.Web.Controls
 
 		private void InitializeComponent()
 		{
-			authMode.SelectedIndexChanged += new System.EventHandler(this.authMode_SelectedIndexChanged);
-			testConnection.Click += new System.EventHandler(this.testConnection_Click);
-			refreshDatabase.Click += new System.EventHandler(this.refreshDatabase_Click);
+			authMode.SelectedIndexChanged += new EventHandler(this.authMode_SelectedIndexChanged);
+			testConnection.Click += new EventHandler(this.testConnection_Click);
+			refreshDatabase.Click += new EventHandler(this.refreshDatabase_Click);
 		}
 
 		/// <summary>
@@ -112,7 +115,7 @@ namespace Subtext.Web.Controls
 			row.VAlign = "top";
 			HtmlTableCell questionCell = new HtmlTableCell();
 
-			if(CheckSQLDMO()) 
+			if (CheckSQLDMO()) 
 			{
 				//Build advanced control
 				HtmlTable connBuilderTable=BuildAdvancedBuilder();
@@ -128,7 +131,7 @@ namespace Subtext.Web.Controls
 			row.Cells.Add(questionCell);
 
 			//Checkbox to use connection string in web.config
-			if(AllowWebConfigOverride)
+			if (AllowWebConfigOverride)
 			{
 				CheckBox checkbox = new CheckBox();
 				checkbox.ID = CheckboxControlId;
@@ -148,7 +151,7 @@ namespace Subtext.Web.Controls
 			table.Rows.Add(row);
 			this.Controls.Add(table);
 
-			if(CheckSQLDMO()) 
+			if (CheckSQLDMO()) 
 			{
 				LoadData();
 			}
@@ -160,9 +163,9 @@ namespace Subtext.Web.Controls
 		{
 			try 
 			{
-				new SQLDMO.ApplicationClass();			
+				new ApplicationClass();			
 			}
-			catch(System.Runtime.InteropServices.COMException) 
+			catch(COMException) 
 			{
 				return false;
 			}
@@ -322,16 +325,16 @@ namespace Subtext.Web.Controls
 		private void PopulateServerNameCmb() 
 		{
 			ArrayList serverNames = new ArrayList();
-			SQLDMO.Application dmo = new SQLDMO.ApplicationClass();
+			Application dmo = new ApplicationClass();
 			try
 			{
-				SQLDMO.NameList instances = dmo.ListAvailableSQLServers();
+				NameList instances = dmo.ListAvailableSQLServers();
 				foreach(string instance in instances) 
 				{
 					serverNames.Add(instance);
 				}
 			}
-			catch(System.InvalidCastException)
+			catch(InvalidCastException)
 			{
 				serverNames.Add("localhost");
 			}
@@ -345,24 +348,24 @@ namespace Subtext.Web.Controls
 		private void PopulateDatabaseNamesCmb()
 		{
 			ArrayList dbNames = new ArrayList();
-			SQLDMO.SQLServer sqlInstance = new SQLDMO.SQLServerClass();
+			SQLServer sqlInstance = new SQLServerClass();
 			try
 			{
-				if(_connStr.TrustedConnection) 
+				if (_connStr.TrustedConnection) 
 				{
 					sqlInstance.LoginSecure=true;
 					sqlInstance.Connect(_connStr.Server,null,null);
 				}
 				else
 					sqlInstance.Connect(_connStr.Server,_connStr.UserId,_connStr.Password);
-				foreach(SQLDMO.Database db in sqlInstance.Databases) 
+				foreach(Database db in sqlInstance.Databases) 
 				{
 					dbNames.Add(db.Name);
 				}
 				databaseName.DataSource=dbNames;
 				databaseName.DataBind();
 
-				if(databaseName.Items.FindByValue(_connStr.Database)!=null) 
+				if (databaseName.Items.FindByValue(_connStr.Database)!=null) 
 					databaseName.SelectedValue=_connStr.Database;
 			}
 			catch(Exception) 
@@ -381,13 +384,13 @@ namespace Subtext.Web.Controls
 		private void SetConnectionString()
 		{
 			_connStr.TrustedConnection = authMode.SelectedValue.Equals("win");
-			if(otherMachineName.Text.Trim().Equals(""))
+			if (String.IsNullOrEmpty(otherMachineName.Text.Trim()))
 				_connStr.Server = machineName.SelectedValue;
 			else
 				_connStr.Server = otherMachineName.Text;
 			_connStr.Database = databaseName.SelectedValue;
 			
-			if(!_connStr.TrustedConnection)
+			if (!_connStr.TrustedConnection)
 			{
 				_connStr.UserId = username.Text;
 				_connStr.Password = password.Text;
@@ -399,36 +402,36 @@ namespace Subtext.Web.Controls
 			}			
 		}
 
-		private void authMode_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void authMode_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if(authMode.SelectedValue.Equals("win")) 
+			if (authMode.SelectedValue.Equals("win")) 
 			{
 				username.Enabled=false;
 				password.Enabled=false;
 				SetConnectionString();
 				PopulateDatabaseNamesCmb();
 			}
-			else if(authMode.SelectedValue.Equals("sql")) 
+			else if (authMode.SelectedValue.Equals("sql")) 
 			{
 				username.Enabled=true;
 				password.Enabled=true;
 				username.Text=_connStr.UserId;
 				password.Text=_connStr.Password;
-				if(!username.Text.Trim().Equals(String.Empty))
+				if (!String.IsNullOrEmpty(username.Text.Trim()))
 				{
 					PopulateDatabaseNamesCmb();
 				}
 			}
 		}
 
-		private void refreshDatabase_Click(object sender, System.EventArgs e)
+		private void refreshDatabase_Click(object sender, EventArgs e)
 		{
 			SetConnectionString();
 			connResult.Text="";
 			PopulateDatabaseNamesCmb();
 		}
 
-		private void testConnection_Click(object sender, System.EventArgs e)
+		private void testConnection_Click(object sender, EventArgs e)
 		{
 			try
 			{
@@ -436,7 +439,7 @@ namespace Subtext.Web.Controls
 				using(SqlConnection conn = new SqlConnection(ConnectionString))
 				{
 					conn.Open();
-					if(conn.State == ConnectionState.Open)
+					if (conn.State == ConnectionState.Open)
 					{
 						connResult.Text="Connection Succeded";
 						return;
@@ -465,7 +468,7 @@ namespace Subtext.Web.Controls
 		{
 			get
 			{
-				if(ViewState["AllowWebConfigOverride"] != null)
+				if (ViewState["AllowWebConfigOverride"] != null)
 					return (bool)ViewState["AllowWebConfigOverride"];
 				return false;
 			}
@@ -487,9 +490,9 @@ namespace Subtext.Web.Controls
 		{
 			get
 			{
-				if(UseWebConfigCheckBox != null && UseWebConfigCheckBox.Checked)
-                    return System.Configuration.ConfigurationManager.AppSettings["ConnectionString"];
-				if(CheckSQLDMO()) 
+				if (UseWebConfigCheckBox != null && UseWebConfigCheckBox.Checked)
+                    return ConfigurationManager.AppSettings["ConnectionString"];
+				if (CheckSQLDMO()) 
 				{
 					SetConnectionString();
 					return _connStr.ToString();
@@ -499,8 +502,8 @@ namespace Subtext.Web.Controls
 			}
 			set
 			{
-				_connStr = Subtext.Scripting.ConnectionString.Parse(value);
-				if(ConnectionStringTextBox != null)
+				_connStr = Scripting.ConnectionString.Parse(value);
+				if (ConnectionStringTextBox != null)
 					ConnectionStringTextBox.Text = value;
 			}
 		}
@@ -517,7 +520,7 @@ namespace Subtext.Web.Controls
 		{
 			get
 			{
-				if(ViewState["Title"] != null)
+				if (ViewState["Title"] != null)
 					return ViewState["Title"] as string;
 				return string.Empty;
 			}
@@ -539,7 +542,7 @@ namespace Subtext.Web.Controls
 		{
 			get
 			{
-				if(ViewState["Description"] != null)
+				if (ViewState["Description"] != null)
 					return ViewState["Description"] as string;
 				return string.Empty;
 			}
@@ -593,17 +596,17 @@ namespace Subtext.Web.Controls
 		{
 			Page.Trace.Write("onLoad");
 			connResult.Text="";
-			if(!Page.IsPostBack) 
+			if (!Page.IsPostBack) 
 			{
 				PopulateServerNameCmb();
-				if(_connStr!=null) 
+				if (_connStr!=null) 
 				{
-					if(machineName.Items.FindByValue(_connStr.Server)!=null)
+					if (machineName.Items.FindByValue(_connStr.Server)!=null)
 						machineName.SelectedValue=_connStr.Server;
 					else
 						otherMachineName.Text=_connStr.Server;
 
-					if(_connStr.TrustedConnection)
+					if (_connStr.TrustedConnection)
 					{
 						authMode.SelectedValue="win";
 						username.Enabled=false;
