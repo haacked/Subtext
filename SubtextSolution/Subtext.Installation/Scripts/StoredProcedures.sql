@@ -1853,7 +1853,7 @@ SELECT
 	u.URL
 	, c.Title
 	, c.EntryName
-	, [EntryId] = @EntryID
+	, r.[EntryId]
 	, [Count]
 	, r.LastUpdated
 FROM [<dbUser,varchar,dbo>].[subtext_Referrals] r
