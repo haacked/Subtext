@@ -137,21 +137,20 @@ namespace Subtext.Web.Admin
 			if (nav.HasAttributes)
 			{
 				string title = nav.GetAttribute("title", "");
-				if (String.Empty == title)
+				if (String.IsNullOrEmpty(title))
 					title = nav.GetAttribute("text", "");
-
-				string description = nav.GetAttribute("description", "");
-
+			    
 				string htmlUrl = nav.GetAttribute("htmlurl", "");
-				if (String.Empty == htmlUrl)
-					htmlUrl = nav.GetAttribute("htmlUrl", "");
+				if (String.IsNullOrEmpty(htmlUrl))
+				    htmlUrl = nav.GetAttribute("htmlUrl", "");
 
 				string xmlUrl = nav.GetAttribute("xmlurl", "");
-				if (String.Empty == xmlUrl)
+				if (String.IsNullOrEmpty(xmlUrl))
 					xmlUrl = nav.GetAttribute("xmlUrl", "");
 
 				OpmlItem currentItem = null;
-				if (String.Empty != title && String.Empty != htmlUrl)
+                string description = nav.GetAttribute("description", "");
+				if (!String.IsNullOrEmpty(title) && !String.IsNullOrEmpty(htmlUrl))
 					currentItem = new OpmlItem(title, description, xmlUrl, htmlUrl);
 
 				if (null != currentItem)

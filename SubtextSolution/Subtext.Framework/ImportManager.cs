@@ -61,8 +61,7 @@ namespace Subtext.Framework
             provider.Import(populatedControl);
 
             IPagedCollection<BlogInfo> blogs;
-			ObjectProvider objProvider = ObjectProvider.Instance();
-
+			
 			int totalBlogCount = Config.BlogCount;
 			const int pageSize = 100;
 			int pages = totalBlogCount/pageSize;

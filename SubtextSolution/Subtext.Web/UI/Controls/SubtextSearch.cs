@@ -65,7 +65,7 @@ namespace Subtext.Web.UI.Controls
 
 		public void btnSearch_Click(object sender, EventArgs e)
 		{
-			if(string.Empty != txtSearch.Text)
+			if (!String.IsNullOrEmpty(txtSearch.Text))
 			{
 				//fix for the blogs where only one installed
 				int blogId = 0;

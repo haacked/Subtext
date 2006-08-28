@@ -151,7 +151,7 @@ namespace Subtext.Web
 			}
 			catch(Exception e)
 			{
-				throw e;
+				throw;
 			}
 		}
 

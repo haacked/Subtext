@@ -68,7 +68,7 @@ namespace Subtext.Framework
 		static bool ContainsSpam(Entry entry)
 		{
             string spamWordsText = System.Configuration.ConfigurationManager.AppSettings["SpamWords"];
-			if(spamWordsText != null && spamWordsText.Length > 0)
+			if(!string.IsNullOrEmpty(spamWordsText))
 			{
 				string[] spamWords = spamWordsText.Split(' ');
 				foreach(string spamWord in spamWords)
@@ -78,8 +78,8 @@ namespace Subtext.Framework
 					//spam puts casino in title.
 					
 					if(regex.IsMatch(entry.Title) 
-						|| (entry.Author != null && regex.IsMatch(entry.Author))
-						|| (entry.TitleUrl != null && regex.IsMatch(entry.TitleUrl)))
+						|| (!string.IsNullOrEmpty(entry.Author) && regex.IsMatch(entry.Author))
+						|| (!string.IsNullOrEmpty(entry.TitleUrl) && regex.IsMatch(entry.TitleUrl)))
 					{
 						AddToBlackList(entry);
 						return true;

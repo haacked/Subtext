@@ -121,8 +121,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 				_fckCtl.SkinPath = _fckCtl.BasePath + "editor/skins/" + _skin + "/";
 
 			// Compute user image gallery url
-		    string blogImageRootPath=Subtext.Framework.Format.UrlFormats.StripHostFromUrl(Subtext.Framework.Configuration.Config.CurrentBlog.ImagePath);
-            string blogSubFolder = Subtext.Framework.Configuration.Config.CurrentBlog.Subfolder;
+		    string blogSubFolder = Subtext.Framework.Configuration.Config.CurrentBlog.Subfolder;
             string currentImageConnector = _imageConnectorURL;
             string currentLinkConnector = _linkConnectorURL;
             if (blogSubFolder.Length > 0)

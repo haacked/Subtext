@@ -33,8 +33,6 @@ namespace Subtext.Web.UI.Controls
 			else
 				BlogId = 0;
 
-			string application = CurrentBlog.Subfolder;
-
 			SqlParameter[] p =
 				{
 					DataHelper.MakeInParam("@BlogID", SqlDbType.Int, 4, BlogId)
