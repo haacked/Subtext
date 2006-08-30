@@ -49,6 +49,8 @@
 					<asp:ListItem Text="Eastern Time (GMT -5)" Value="-5" />
 					<asp:ListItem Text="Atlantic Time (GMT -4)" Value="-4" />
 					<asp:ListItem Text="Brasilia Time (GMT -3)" Value="-3" />
+					<asp:ListItem Text="(GMT -2)" Value="-2" />
+					<asp:ListItem Text="(GMT -1)" Value="-1" />
 					<asp:ListItem Text="Greenwich Mean Time (GMT +0)" Value="0" />
 					<asp:ListItem Text="Central Europe Time (GMT +1)" Value="1" />
 					<asp:ListItem Text="Eastern Europe Time (GMT +2)" Value="2" />
