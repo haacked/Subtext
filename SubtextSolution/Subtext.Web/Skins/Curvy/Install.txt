@@ -1,0 +1,29 @@
+1- Copy the entire folder under <subtext root>/Skins directory
+2- Edit Admin/skins.config as below:
+
+		<SkinTemplate Name="curvy"  TemplateFolder="curvy">
+			<Scripts>
+				<Script Src="~/scripts/niftycube.js" />
+				<Script Src="niftyLayout.js" />
+				<Script Src="~/scripts/lightbox.js" />
+				<Script Src="~/scripts/XFNHighlighter.js" />
+				<Script Src="~/scripts/LiveCommentPreview.js" />
+				<Script Src="~/Admin/Resources/Scripts/helptip.js" />
+			</Scripts>
+			<Styles>
+				<Style href="~/scripts/niftyCorners.css" />
+				<Style href="~/scripts/XFNHighlighter.css" />
+				<Style href="~/scripts/lightbox.css" />
+				<Style href="print.css" media="print" />
+				<Style href="~/skins/_System/csharp.css" />
+				<Style href="~/Admin/Resources/Scripts/helptip.css" />
+			</Styles>
+		</SkinTemplate>
+
+3- Select skin named "curvy" from your admin panel
+4- Enjoy
+
+Designed by Gurkan Yeniceri www.analystdeveloper.com
+
+Used Nifty Corners Cube - rounded corners with CSS and Javascript
+Copyright 2006 Alessandro Fulciniti (a.fulciniti@html.it)
