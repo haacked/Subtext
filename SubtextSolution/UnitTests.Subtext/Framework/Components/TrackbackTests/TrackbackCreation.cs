@@ -30,7 +30,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
 			int parentId = Entries.Create(entry);
 			
-			Trackback trackback = new Trackback(parentId, "title", new Uri("http://titleUrl"), "phil", "body");
+			Trackback trackback = new Trackback(parentId, "title", new Uri("http://url"), "phil", "body");
 			int id = FeedbackItem.Create(trackback);
 
 			FeedbackItem loadedTrackback = FeedbackItem.Get(id);
@@ -56,7 +56,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
             IList<FeedbackItem> entries = Entries.GetFeedBack(parentEntry);
 			Assert.AreEqual(0, entries.Count, "Did not expect any feedback yet.");
 			
-			Trackback trackback = new Trackback(parentId, "title", new Uri("http://titleUrl"), "phil", "body");
+			Trackback trackback = new Trackback(parentId, "title", new Uri("http://url"), "phil", "body");
 			Config.CurrentBlog.DuplicateCommentsEnabled = true;
 			int trackbackId = FeedbackItem.Create(trackback);
 			

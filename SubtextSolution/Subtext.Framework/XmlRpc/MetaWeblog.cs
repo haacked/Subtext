@@ -95,7 +95,6 @@ namespace Subtext.Framework.XmlRpc
 					entry.Categories.AddRange(post.categories);
 				
 				entry.PostType = PostType.BlogPost;
-				entry.IsXHMTL = false;
 				entry.IsActive = publish;
 		
 				entry.DateModified = BlogTime.CurrentBloggerTime;
@@ -111,7 +110,7 @@ namespace Subtext.Framework.XmlRpc
 			
 			Entry entry = Entries.GetEntry(Int32.Parse(postid), PostConfig.None, true);
 			Post post = new Post();
-			post.link = entry.TitleUrl;
+			post.link = entry.Url;
 			post.description = entry.Body;
 			post.dateCreated = entry.DateCreated;
 			post.postid = entry.Id;
@@ -137,7 +136,7 @@ namespace Subtext.Framework.XmlRpc
 				Post post = new Post();
 				post.dateCreated = entry.DateCreated;
 				post.description = entry.Body;
-				post.link = entry.TitleUrl;
+				post.link = entry.Url;
 				post.permalink = entry.FullyQualifiedUrl.ToString();
 				post.title = entry.Title;
 				post.postid = entry.Id.ToString(CultureInfo.InvariantCulture);

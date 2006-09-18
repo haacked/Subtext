@@ -894,7 +894,6 @@ SELECT BlogId
 	, Author
 	, Email
 	, DateUpdated
-	, TitleUrl
 	, FeedbackCount = ISNULL(FeedbackCount, 0)
 	, PostConfig
 	, EntryName 
@@ -1041,7 +1040,6 @@ SELECT	BlogId
 	, Author
 	, Email
 	, DateUpdated
-	, TitleUrl
 	, FeedbackCount = ISNULL(FeedbackCount, 0)
 	, PostConfig
 	, EntryName 
@@ -1382,7 +1380,6 @@ SELECT	content.BlogId
 		, content.Author 
 		, content.Email 
 		, content.DateUpdated 
-		, content.TitleUrl 
 		, FeedbackCount = ISNULL(content.FeedbackCount, 0)
 		, content.PostConfig
 		, content.EntryName
@@ -1465,7 +1462,6 @@ SELECT	content.BlogId
 		, content.Author 
 		, content.Email 
 		, content.DateUpdated 
-		, content.TitleUrl 
 		, FeedbackCount = ISNULL(content.FeedbackCount, 0)
 		, content.PostConfig
 		, content.EntryName
@@ -1957,7 +1953,6 @@ SELECT	content.BlogId
 	, content.Author
 	, content.Email
 	, content.DateUpdated
-	, content.TitleUrl
 	, FeedbackCount = ISNULL(content.FeedbackCount, 0)
 	, content.PostConfig
 	, content.EntryName 
@@ -2001,7 +1996,6 @@ SELECT	BlogId
 		, Author
 		, Email
 		, DateUpdated
-		, TitleUrl
 		, FeedbackCount = ISNULL(FeedbackCount, 0)
 		, PostConfig
 		, EntryName 
@@ -2048,7 +2042,6 @@ SELECT	BlogId
 	, Author
 	, Email
 	, DateUpdated
-	, TitleUrl
 	, FeedbackCount = ISNULL(FeedbackCount, 0)
 	, PostConfig
 	, EntryName 
@@ -2144,7 +2137,6 @@ SELECT	BlogId
 	, Author
 	, Email
 	, DateUpdated
-	, TitleUrl
 	, FeedbackCount = ISNULL(FeedbackCount, 0)
 	, PostConfig
 	, EntryName 
@@ -2192,7 +2184,6 @@ SELECT	BlogId
 	, Author
 	, Email
 	, DateUpdated
-	, TitleUrl
 	, FeedbackCount = ISNULL(FeedbackCount, 0)
 	, PostConfig
 	, EntryName 
@@ -2944,7 +2935,6 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateEntry]
 (
 	@ID int
 	, @Title nvarchar(255)
-	, @TitleUrl nvarchar(255) = NULL
 	, @Text ntext = NULL
 	, @PostType int
 	, @Author nvarchar(50) = NULL
@@ -2975,7 +2965,6 @@ SET @Description = NULL
 UPDATE [<dbUser,varchar,dbo>].[subtext_Content] 
 SET 
 	Title = @Title 
-	, TitleUrl = @TitleUrl 
 	, [Text] = @Text 
 	, PostType = @PostType
 	, Author = @Author 
@@ -3446,7 +3435,6 @@ GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertEntry]
 (
 	@Title nvarchar(255)
-	, @TitleUrl nvarchar(255) = NULL
 	, @Text ntext = NULL
 	, @PostType int
 	, @Author nvarchar(50) = NULL
@@ -3478,7 +3466,6 @@ SET @Description = NULL
 INSERT INTO subtext_Content 
 (
 	Title
-	, TitleUrl
 	, [Text]
 	, PostType
 	, Author
@@ -3495,7 +3482,6 @@ INSERT INTO subtext_Content
 VALUES 
 (
 	@Title
-	, @TitleUrl
 	, @Text
 	, @PostType
 	, @Author
@@ -3922,7 +3908,6 @@ Select [ID]
 	, Title
 	, DateAdded
 	, EntryName
-	, TitleUrl
 	, PostType
 From [<dbUser,varchar,dbo>].[subtext_Content]
 Where (PostType = 1 OR PostType = 2)
@@ -3970,7 +3955,6 @@ SELECT * FROM
 		, Title
 		, DateAdded
 		, PostType
-		, TitleUrl
 		, PostConfig
 		, EntryName 
 		, DateSyndicated
@@ -3991,7 +3975,6 @@ SELECT * FROM
 		, Title
 		, DateAdded
 		, PostType
-		, TitleUrl
 		, PostConfig
 		, EntryName 
 		, DateSyndicated
@@ -4129,7 +4112,6 @@ SELECT	content.BlogId
 		, content.Author 
 		, content.Email 
 		, content.DateUpdated 
-		, content.TitleUrl 
 		, FeedbackCount = ISNULL(content.FeedbackCount, 0)
 		, content.PostConfig
 		, content.EntryName

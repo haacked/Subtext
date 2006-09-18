@@ -72,7 +72,7 @@ namespace Subtext.Web.UI.Controls
 				//Sent entry properties
 				TitleUrl.Text = entry.Title;
 				ControlHelper.SetTitleIfNone(TitleUrl, "Title of this entry.");
-				TitleUrl.NavigateUrl = entry.TitleUrl;
+				TitleUrl.NavigateUrl = entry.Url;
 				Body.Text = entry.Body;
 				if(PostDescription != null)
 				{

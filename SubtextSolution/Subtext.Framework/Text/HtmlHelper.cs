@@ -108,43 +108,34 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static bool ConvertHtmlToXHtml(Entry entry)
 		{
+			SgmlReader reader = new SgmlReader();
+			reader.SetBaseUri(Config.CurrentBlog.RootUrl.ToString());
+			reader.DocType = "html";
+			reader.WhitespaceHandling = WhitespaceHandling.All;
+			reader.InputStream = new StringReader("<html>" + entry.Body + "</html>");
+			reader.CaseFolding = CaseFolding.ToLower;
+			StringWriter writer = new StringWriter();
+			XmlTextWriter xmlWriter = null;
 			try
 			{
-				SgmlReader reader = new SgmlReader();
-				reader.SetBaseUri(Config.CurrentBlog.RootUrl.ToString());
-				reader.DocType = "html";
-				reader.WhitespaceHandling = WhitespaceHandling.All;
-				reader.InputStream = new StringReader("<html>" + entry.Body + "</html>");
-				reader.CaseFolding = CaseFolding.ToLower;
-				StringWriter writer = new StringWriter();
-				XmlTextWriter xmlWriter = null;
-				try
+				xmlWriter = new XmlTextWriter(writer);
+			
+				while (reader.Read()) 
 				{
-					xmlWriter = new XmlTextWriter(writer);
-				
-					while (reader.Read()) 
-					{
-						xmlWriter.WriteNode(reader, true);
-					}
+					xmlWriter.WriteNode(reader, true);
 				}
-				finally
-				{
-					if(xmlWriter != null)
-					{
-						xmlWriter.Close(); 
-					}
-				}
-
-				string xml = writer.ToString();
-				entry.Body = xml.Substring("<html>".Length, xml.Length - "<html></html>".Length);
-				entry.IsXHMTL = true;
-				return true;
 			}
-			catch(XmlException)
+			finally
 			{
-				entry.IsXHMTL = false;
-				throw;
+				if(xmlWriter != null)
+				{
+					xmlWriter.Close(); 
+				}
 			}
+
+			string xml = writer.ToString();
+			entry.Body = xml.Substring("<html>".Length, xml.Length - "<html></html>".Length);
+			return true;
 		}
 
 		/// <summary>
