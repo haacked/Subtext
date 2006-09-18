@@ -114,6 +114,7 @@ IF EXISTS
 	DROP COLUMN [ContentChecksumHash]
 GO
 
+/* Drop the ParentID column */
 IF EXISTS 
 	(
 		SELECT	* FROM [information_schema].[columns] 
@@ -121,11 +122,24 @@ IF EXISTS
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'ParentId'
 	)
-	/* Add an URL column so we can see which URL caused the problem */
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content] 
 	DROP COLUMN [ParentId]
 GO
 
+/* Drop the TitleUrl column */
+IF EXISTS 
+	(
+		SELECT	* FROM [information_schema].[columns] 
+		WHERE	table_name = 'subtext_Content' 
+		AND		table_schema = '<dbUser,varchar,dbo>'
+		AND		column_name = 'TitleUrl'
+	)
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content] 
+	DROP COLUMN [TitleUrl]
+GO
+
+
+/* DROP the SourceUrl column */
 IF EXISTS 
 	(
 		SELECT	* FROM [information_schema].[columns] 
@@ -133,11 +147,11 @@ IF EXISTS
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'SourceUrl'
 	)
-	/* Add an URL column so we can see which URL caused the problem */
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content] 
 	DROP COLUMN [SourceUrl]
 GO
 
+/* DROP the SourceName column */
 IF EXISTS 
 	(
 		SELECT	* FROM [information_schema].[columns] 
@@ -145,7 +159,6 @@ IF EXISTS
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'SourceName'
 	)
-	/* Add an URL column so we can see which URL caused the problem */
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content] 
 	DROP COLUMN [SourceName]
 GO

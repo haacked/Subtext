@@ -88,24 +88,6 @@ namespace Subtext.Framework.Components
 		}
 
 		/// <summary>
-		/// Gets a value indicating whether this entry 
-		/// has an actual Title URL that's different from 
-		/// the Link (meaning the user overrode the title 
-		/// url).
-		/// </summary>
-		/// <value>
-		/// 	<c>true</c> if [has title URL]; otherwise, <c>false</c>.
-		/// </value>
-		public bool HasAlternativeTitleUrl
-		{
-			get
-			{
-				return !String.IsNullOrEmpty(this.AlternativeTitleUrl);
-			}
-		}
-
-		private PostType _postType = PostType.None;
-		/// <summary>
 		/// Gets or sets the type of the post.
 		/// </summary>
 		/// <value>The type of the post.</value>
@@ -120,15 +102,25 @@ namespace Subtext.Framework.Components
 				_postType = value;
 			}
 		}
+		private PostType _postType = PostType.None;
 
-		private string _description;
+		/// <summary>
+		/// Gets or sets the description or excerpt for this blog post. 
+		/// Some blogs like to sydicate description only.
+		/// </summary>
+		/// <value>The description.</value>
 		public string Description
 		{
 			get{return _description;}
 			set{_description = value;}
 		}
+		private string _description;
 
-		private string _entryName;
+		/// <summary>
+		/// Gets or sets the name of the entry.  This is used 
+		/// to create a friendly URL for this entry.
+		/// </summary>
+		/// <value>The name of the entry.</value>
 		public string EntryName
 		{
 			get{return _entryName;}
@@ -140,7 +132,14 @@ namespace Subtext.Framework.Components
 				_entryName = value;
 			}
 		}
+		private string _entryName;
 
+		/// <summary>
+		/// Gets a value indicating whether this instance has entry name.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if this instance has entry name; otherwise, <c>false</c>.
+		/// </value>
 		public bool HasEntryName
 		{
 			get
@@ -149,43 +148,17 @@ namespace Subtext.Framework.Components
 			}
 		}
 
-		private string _title;
+		/// <summary>
+		/// Gets or sets the title of this post.
+		/// </summary>
+		/// <value>The title.</value>
 		public string Title
 		{
 			get{return _title;}
 			set{_title = value;}
 		}
-
-		private string _alternativeTitleUrl;
-		/// <summary>
-		/// Gets or sets an alternative URL for the Title of this 
-		/// post to link to.
-		/// </summary>
-		/// <value></value>
-		public string AlternativeTitleUrl
-		{
-			get
-			{
-				return this._alternativeTitleUrl;
-			}
-			set
-			{
-				this._alternativeTitleUrl = value;
-			}
-		}
-		
-		/// <summary>
-		/// Returns the url the title should link to.
-		/// </summary>
-		public string TitleUrl
-		{
-			get
-			{
-				return _alternativeTitleUrl ?? _url;
-			}
-		}
-		
-		private string _body;
+		private string _title;
+	
 		/// <summary>
 		/// Gets or sets the body of the Entry.  This is the 
 		/// main content of the entry.
@@ -202,8 +175,8 @@ namespace Subtext.Framework.Components
 				_body = value;
 			}
 		}
+		private string _body;
 
-		private string _author;
 		/// <summary>
 		/// Gets or sets the author name of the entry.  
 		/// For comments, this is the name given by the commenter. 
@@ -214,15 +187,19 @@ namespace Subtext.Framework.Components
 			get{return _author;}
 			set{_author = value;}
 		}
+		private string _author;
 
-		private string _email;
+		/// <summary>
+		/// Gets or sets the email of the author.
+		/// </summary>
+		/// <value>The email.</value>
 		public string Email
 		{
 			get{return _email;}
 			set{_email = value;}
 		}
+		private string _email;
 
-		private DateTime _datecreated = NullValue.NullDateTime;
 		/// <summary>
 		/// Gets or sets the date this item was created.
 		/// </summary>
@@ -235,8 +212,8 @@ namespace Subtext.Framework.Components
 			}
 			set{_datecreated = value;}
 		}
-
-		private DateTime _dateupated = NullValue.NullDateTime;
+		private DateTime _datecreated = NullValue.NullDateTime;
+		
 		/// <summary>
 		/// Gets or sets the date this entry was last updated.
 		/// </summary>
@@ -249,6 +226,7 @@ namespace Subtext.Framework.Components
 			}
 			set{_dateupated = value;}
 		}
+		private DateTime _dateupated = NullValue.NullDateTime;
 
 		/// <summary>
 		/// Gets or sets the date the item was published.
@@ -269,30 +247,42 @@ namespace Subtext.Framework.Components
 
 		DateTime _dateSyndicated = NullValue.NullDateTime;
 
+		/// <summary>
+		/// Gets or sets a value indicating whether this entry is active.
+		/// </summary>
+		/// <value><c>true</c> if this instance is active; otherwise, <c>false</c>.</value>
 		public bool IsActive
 		{
 			get{return EntryPropertyCheck(PostConfig.IsActive);}
 			set{PostConfigSetter(PostConfig.IsActive,value);}
 		}
 
-		public bool IsXHMTL
-		{
-			get{return EntryPropertyCheck(PostConfig.IsXHTML);}
-			set{PostConfigSetter(PostConfig.IsXHTML,value);}
-		}
-
+		/// <summary>
+		/// Gets or sets a value indicating whether this entry allows comments.
+		/// </summary>
+		/// <value><c>true</c> if [allows comments]; otherwise, <c>false</c>.</value>
 		public bool AllowComments
 		{
 			get{return EntryPropertyCheck(PostConfig.AllowComments);}
 			set{PostConfigSetter(PostConfig.AllowComments,value);}
 		}
 
+		/// <summary>
+		/// Gets or sets a value indicating whether this entry is displayed on the home page.
+		/// </summary>
+		/// <value><c>true</c> if [display on home page]; otherwise, <c>false</c>.</value>
 		public bool DisplayOnHomePage
 		{
 			get{return EntryPropertyCheck(PostConfig.DisplayOnHomePage);}
 			set{PostConfigSetter(PostConfig.DisplayOnHomePage,value);}
 		}
 
+		/// <summary>
+		/// Gets or sets a value indicating whether the description only should be syndicated.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if [syndicate description only]; otherwise, <c>false</c>.
+		/// </value>
 		public bool SyndicateDescriptionOnly
 		{
 			get{return EntryPropertyCheck(PostConfig.SyndicateDescriptionOnly);}

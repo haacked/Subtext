@@ -173,7 +173,7 @@ namespace Subtext.Web.UI.Controls
 			{
 				title.Text = entry.Title;
 				ControlHelper.SetTitleIfNone(title, "Click To View Entry.");
-				title.NavigateUrl = entry.TitleUrl;
+				title.NavigateUrl = entry.Url;
 			}
 		}
 

@@ -2,7 +2,7 @@
 <%@ Import Namespace = "Subtext.Framework" %>
 <p class="date">
 	<span>		  
-	<asp:HyperLink Runat="server" Title = "Day Archive" BorderWidth="0" ID="ImageLink" ><asp:Literal ID = "DateTitle" Runat = "server" /></asp:HyperLink>
+	<asp:HyperLink Runat="server" Title="Day Archive" BorderWidth="0" ID="ImageLink" ><asp:Literal ID = "DateTitle" Runat = "server" /></asp:HyperLink>
 	</span>
 </p>
 

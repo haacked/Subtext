@@ -583,7 +583,6 @@ namespace Subtext.Framework.Data
 			SqlParameter[] p =
 			{
 				DataHelper.MakeInParam("@Title",  SqlDbType.NVarChar, 255, entry.Title), 
-				DataHelper.MakeInParam("@TitleUrl",  SqlDbType.NVarChar, 255, StringHelper.ReturnNullForEmpty(entry.AlternativeTitleUrl)), 
 				DataHelper.MakeInParam("@Text", SqlDbType.NText, 0, entry.Body), 
 				DataHelper.MakeInParam("@PostType", SqlDbType.Int, 4, entry.PostType), 
 				DataHelper.MakeInParam("@Author", SqlDbType.NVarChar, 50, DataHelper.CheckNull(entry.Author)), 
@@ -652,7 +651,6 @@ namespace Subtext.Framework.Data
 			{
 				DataHelper.MakeInParam("@ID", SqlDbType.Int, 4, entry.Id), 
 				DataHelper.MakeInParam("@Title",  SqlDbType.NVarChar, 255, entry.Title), 
-				DataHelper.MakeInParam("@TitleUrl",  SqlDbType.NVarChar, 255, StringHelper.ReturnNullForEmpty(entry.AlternativeTitleUrl)),
 				DataHelper.MakeInParam("@Text", SqlDbType.NText, 0, entry.Body), 
 				DataHelper.MakeInParam("@PostType", SqlDbType.Int, 4, entry.PostType), 
 				DataHelper.MakeInParam("@Author", SqlDbType.NVarChar, 50, DataHelper.CheckNull(entry.Author)), 

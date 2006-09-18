@@ -551,7 +551,7 @@ namespace Subtext.Framework.Data
 				return false;
 			}
 
-			if(Text.HtmlHelper.HasIllegalContent(e.TitleUrl))
+			if(Text.HtmlHelper.HasIllegalContent(e.Url))
 			{
 				return false;
 			}

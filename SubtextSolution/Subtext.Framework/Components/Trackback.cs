@@ -13,10 +13,10 @@ namespace Subtext.Framework.Components
 		/// </summary>
 		/// <param name="entryId">The parent id.</param>
 		/// <param name="title">The title.</param>
-		/// <param name="titleUrl">The title URL.</param>
+		/// <param name="sourceUrl">The source URL.</param>
 		/// <param name="author">The author.</param>
 		/// <param name="body">The body.</param>
-		public Trackback(int entryId, string title, Uri titleUrl, string author, string body) : this(entryId, title, titleUrl, author, body, DateTime.Now)
+		public Trackback(int entryId, string title, Uri sourceUrl, string author, string body) : this(entryId, title, sourceUrl, author, body, DateTime.Now)
 		{
 		}
 		

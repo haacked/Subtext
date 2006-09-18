@@ -218,11 +218,6 @@ namespace Subtext.Framework.Data
 
 			entry.Id = ReadInt32(reader, "ID");
 
-			if(reader["TitleUrl"] != DBNull.Value)
-			{
-				entry.AlternativeTitleUrl = ReadString(reader, "TitleUrl");
-			}
-
 			if(reader["Description"] != DBNull.Value)
 			{
 				entry.Description = ReadString(reader, "Description");
@@ -335,7 +330,6 @@ namespace Subtext.Framework.Data
 			entry.DateModified = ReadDate(reader, "DateUpdated");
 			
 			entry.Id = ReadInt32(reader, "ID");
-			entry.AlternativeTitleUrl = ReadString(reader, "TitleUrl");
 			entry.Description = ReadString(reader, "Description");
 			entry.EntryName = ReadString(reader, "EntryName");
 	
