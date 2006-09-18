@@ -20,6 +20,7 @@ using System.Collections.Specialized;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Net;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
@@ -212,7 +213,7 @@ namespace Subtext.Framework.Data
 			
 			if(reader["DateUpdated"] != DBNull.Value)
 			{
-				entry.DateUpdated = (DateTime)reader["DateUpdated"];
+				entry.DateModified = (DateTime)reader["DateUpdated"];
 			}
 
 			entry.Id = ReadInt32(reader, "ID");
@@ -220,15 +221,6 @@ namespace Subtext.Framework.Data
 			if(reader["TitleUrl"] != DBNull.Value)
 			{
 				entry.AlternativeTitleUrl = ReadString(reader, "TitleUrl");
-			}
-			
-			if(reader["SourceName"] != DBNull.Value)
-			{
-				entry.SourceName = ReadString(reader, "SourceName");
-			}
-			if(reader["SourceUrl"] != DBNull.Value)
-			{
-				entry.SourceUrl = ReadString(reader, "SourceUrl");
 			}
 
 			if(reader["Description"] != DBNull.Value)
@@ -261,11 +253,6 @@ namespace Subtext.Framework.Data
 				entry.PostConfig = (PostConfig)(ReadInt32(reader, "PostConfig"));
 			}
 
-			if(reader["ParentID"] != DBNull.Value)
-			{
-				entry.ParentId = ReadInt32(reader, "ParentID");
-			}
-			
 			if(reader["DateSyndicated"] != DBNull.Value)
 			{
 				entry.DateSyndicated = (DateTime)reader["DateSyndicated"];
@@ -303,6 +290,36 @@ namespace Subtext.Framework.Data
 			return entry;
 		}
 
+		internal static FeedbackItem LoadFeedbackItem(IDataReader reader)
+		{
+			FeedbackItem feedbackItem = new FeedbackItem((FeedbackType)ReadInt32(reader, "FeedbackType"));
+			LoadFeedbackItem(reader, feedbackItem);
+			return feedbackItem;
+		}
+
+		private static void LoadFeedbackItem(IDataReader reader, FeedbackItem feedbackItem)
+		{
+			feedbackItem.Id = ReadInt32(reader, "Id");
+			feedbackItem.Title = ReadString(reader, "Title");
+			feedbackItem.Body = ReadString(reader, "Body");
+			feedbackItem.EntryId = ReadInt32(reader, "EntryId");
+			feedbackItem.Author = ReadString(reader, "Author");
+			feedbackItem.Email = ReadString(reader, "Email");
+			feedbackItem.SourceUrl = ReadUri(reader, "Url");
+			feedbackItem.FeedbackType = (FeedbackType)ReadInt32(reader, "FeedbackType");
+			feedbackItem.Status = (FeedbackStatusFlag)ReadInt32(reader, "StatusFlag");
+			feedbackItem.CreatedViaCommentAPI = ReadBoolean(reader, "CommentAPI");
+			feedbackItem.Referrer = ReadString(reader, "Referrer");
+			feedbackItem.IpAddress = ReadIpAddress(reader, "IpAddress");
+			feedbackItem.UserAgent = ReadString(reader, "UserAgent");
+			feedbackItem.ChecksumHash = ReadString(reader, "FeedbackChecksumHash");
+			
+			feedbackItem.DateCreated = ReadDate(reader, "DateCreated");
+			feedbackItem.DateModified = ReadDate(reader, "DateModified");
+			feedbackItem.ParentEntryName = ReadString(reader, "ParentEntryName");
+			feedbackItem.ParentDateCreated = ReadDate(reader, "ParentEntryCreateDate");
+		}
+
 		internal static Entry LoadEntry(IDataReader reader, bool buildLinks)
 		{
 			Entry entry = new Entry((PostType)ReadInt32(reader, "PostType"));
@@ -315,23 +332,17 @@ namespace Subtext.Framework.Data
 			entry.Author = ReadString(reader, "Author");
 			entry.Email = ReadString(reader, "Email");
 			entry.DateCreated = ReadDate(reader, "DateAdded");
-			entry.DateUpdated = ReadDate(reader, "DateUpdated");
+			entry.DateModified = ReadDate(reader, "DateUpdated");
 			
 			entry.Id = ReadInt32(reader, "ID");
 			entry.AlternativeTitleUrl = ReadString(reader, "TitleUrl");
-			entry.SourceName = ReadString(reader, "SourceName");
-
-			entry.SourceUrl = ReadString(reader, "SourceUrl");
 			entry.Description = ReadString(reader, "Description");
 			entry.EntryName = ReadString(reader, "EntryName");
 	
 			entry.FeedBackCount = ReadInt32(reader, "FeedBackCount", 0);
 			entry.Body = ReadString(reader, "Text");
 			entry.Title = ReadString(reader, "Title");
-			entry.PostConfig = (PostConfig)(ReadInt32(reader, "PostConfig", (int)PostConfig.None));
-			
-			entry.ContentChecksumHash = ReadString(reader, "ContentChecksumHash");
-			entry.ParentId = ReadInt32(reader, "ParentID");
+			entry.PostConfig = (PostConfig)(ReadInt32(reader, "PostConfig", (int)PostConfig.None));			
 			entry.DateSyndicated = DataHelper.ReadDate(reader, "DateSyndicated");
 	
 			if(buildLinks)
@@ -350,11 +361,6 @@ namespace Subtext.Framework.Data
 
 				case PostType.Story:
 					entry.Url = Config.CurrentBlog.UrlFormats.ArticleUrl(entry);
-					break;
-
-				case PostType.Comment:
-				case PostType.PingTrack:
-					entry.Url = Config.CurrentBlog.UrlFormats.CommentUrl(entry);
 					break;
 			}
 		}
@@ -721,6 +727,28 @@ namespace Subtext.Framework.Data
 		}
 
 		/// <summary>
+		/// Reads a boolean from the data reader. If the value is null, 
+		/// returns false.
+		/// </summary>
+		/// <param name="reader">The reader.</param>
+		/// <param name="columnName">Name of the column.</param>
+		/// <returns></returns>
+		public static bool ReadBoolean(IDataReader reader, string columnName)
+		{
+			try
+			{
+				if (reader[columnName] != DBNull.Value)
+					return (bool)reader[columnName];
+				else
+					return false;
+			}
+			catch (IndexOutOfRangeException)
+			{
+				return false;
+			}
+		}
+
+		/// <summary>
 		/// Reads the int from the data reader.
 		/// </summary>
 		/// <param name="reader">The reader.</param>
@@ -759,6 +787,31 @@ namespace Subtext.Framework.Data
 			catch(IndexOutOfRangeException)
 			{
 				return null;
+			}
+		}
+
+		/// <summary>
+		/// Reads the string.
+		/// </summary>
+		/// <param name="reader">The reader.</param>
+		/// <param name="columnName">Name of the coumn.</param>
+		/// <returns></returns>
+		public static IPAddress ReadIpAddress(IDataReader reader, string columnName)
+		{
+			try
+			{
+				if (reader[columnName] != DBNull.Value)
+					return IPAddress.Parse((string)reader[columnName]);
+				else
+					return IPAddress.None;
+			}
+			catch(System.FormatException)
+			{
+				return IPAddress.None;
+			}
+			catch (IndexOutOfRangeException)
+			{
+				return IPAddress.None;
 			}
 		}
 
@@ -827,14 +880,14 @@ namespace Subtext.Framework.Data
         /// <summary>
         /// Make input param.
         /// </summary>
-        /// <param name="ParamName">Name of param.</param>
-        /// <param name="DbType">Param type.</param>
-        /// <param name="Size">Param size.</param>
-        /// <param name="Value">Param value.</param>
+        /// <param name="name">Name of param.</param>
+        /// <param name="sqlType">Param type.</param>
+        /// <param name="size">Param size.</param>
+        /// <param name="value">Param value.</param>
         /// <returns>New parameter.</returns>
-        public static SqlParameter MakeInParam(string ParamName, SqlDbType DbType, int Size, object Value)
+        public static SqlParameter MakeInParam(string name, SqlDbType sqlType, int size, object value)
         {
-            return MakeParam(ParamName, DbType, Size, ParameterDirection.Input, Value);
+        	return MakeParam(name, sqlType, size, ParameterDirection.Input, value);
         }
 
         /// <summary>
@@ -892,12 +945,12 @@ namespace Subtext.Framework.Data
 	    /// </summary>
 	    /// <param name="obj">The obj.</param>
 	    /// <returns></returns>
-	    public static string CheckNull(object obj)
+	    public static string CheckNull(string obj)
 	    {
 	        if(obj == null)
 	            return string.Empty;
 							 
-	        return (string) obj;
+	        return obj;
 	    }
 
 	    /// <summary>

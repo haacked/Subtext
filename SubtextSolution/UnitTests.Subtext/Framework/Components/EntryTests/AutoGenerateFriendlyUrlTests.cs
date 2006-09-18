@@ -162,7 +162,6 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Entry entry = new Entry(PostType.BlogPost);
 			entry.EntryName = "IWantThisUrl";
 			entry.DateCreated = DateTime.Now;
-			entry.SourceUrl = "http://localhost/ThisUrl/";
 			entry.Title = "Some Title";
 			entry.Body = "Some Body";
 			int id = Entries.Create(entry);
@@ -184,7 +183,6 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Config.CurrentBlog.AutoFriendlyUrlEnabled = true;
 			Entry entry = new Entry(PostType.BlogPost);
 			entry.DateCreated = DateTime.Now;
-			entry.SourceUrl = "http://localhost/ThisUrl/";
 			entry.Title = "Some Title";
 			entry.Body = "Some Body";
 			int id = Entries.Create(entry);
@@ -195,7 +193,6 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
 			Entry duplicate = new Entry(PostType.BlogPost);
 			duplicate.DateCreated = DateTime.Now;
-			duplicate.SourceUrl = "http://localhost/ThisUrl/";
 			duplicate.Title = "Some Title";
 			duplicate.Body = "Some Body";
 			int dupeId = Entries.Create(duplicate);
@@ -206,7 +203,6 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
 			Entry yetAnotherDuplicate = new Entry(PostType.BlogPost);
 			yetAnotherDuplicate.DateCreated = DateTime.Now;
-			yetAnotherDuplicate.SourceUrl = "http://localhost/ThisUrl/";
 			yetAnotherDuplicate.Title = "Some Title";
 			yetAnotherDuplicate.Body = "Some Body";
 			dupeId = Entries.Create(yetAnotherDuplicate);
@@ -216,7 +212,6 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
 			yetAnotherDuplicate = new Entry(PostType.BlogPost);
 			yetAnotherDuplicate.DateCreated = DateTime.Now;
-			yetAnotherDuplicate.SourceUrl = "http://localhost/ThisUrl/";
 			yetAnotherDuplicate.Title = "Some Title";
 			yetAnotherDuplicate.Body = "Some Body";
 			dupeId = Entries.Create(yetAnotherDuplicate);
@@ -226,7 +221,6 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
 			yetAnotherDuplicate = new Entry(PostType.BlogPost);
 			yetAnotherDuplicate.DateCreated = DateTime.Now;
-			yetAnotherDuplicate.SourceUrl = "http://localhost/ThisUrl/";
 			yetAnotherDuplicate.Title = "Some Title";
 			yetAnotherDuplicate.Body = "Some Body";
 			dupeId = Entries.Create(yetAnotherDuplicate);
@@ -236,7 +230,6 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 
 			yetAnotherDuplicate = new Entry(PostType.BlogPost);
 			yetAnotherDuplicate.DateCreated = DateTime.Now;
-			yetAnotherDuplicate.SourceUrl = "http://localhost/ThisUrl/";
 			yetAnotherDuplicate.Title = "Some Title";
 			yetAnotherDuplicate.Body = "Some Body";
 			dupeId = Entries.Create(yetAnotherDuplicate);

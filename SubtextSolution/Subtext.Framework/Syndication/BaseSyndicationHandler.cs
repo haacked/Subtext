@@ -27,7 +27,7 @@ namespace Subtext.Framework.Syndication
 	/// Abstract base class used to respond to requests for 
 	/// syndicated feeds such as RSS and ATOM.
 	/// </summary>
-	public abstract class BaseSyndicationHandler : System.Web.IHttpHandler
+	public abstract class BaseSyndicationHandler<T> : System.Web.IHttpHandler
 	{
 		const int HTTP_IM_USED = 226;
 
@@ -45,7 +45,7 @@ namespace Subtext.Framework.Syndication
 		{
 			get
 			{
-				return Context.Request.Headers["If-Modified-Since"] as string;
+				return Context.Request.Headers["If-Modified-Since"];
 			}
 		}
 
@@ -59,7 +59,7 @@ namespace Subtext.Framework.Syndication
 		{
 			get
 			{
-				return Context.Request.Headers["If-None-Match"] as string;	
+				return Context.Request.Headers["If-None-Match"];	
 			}
 		}
 
@@ -198,13 +198,13 @@ namespace Subtext.Framework.Syndication
 		/// Gets the syndication writer.
 		/// </summary>
 		/// <returns></returns>
-		protected abstract BaseSyndicationWriter SyndicationWriter{ get; }
+		protected abstract BaseSyndicationWriter<T> SyndicationWriter{ get; }
 
 		protected virtual CachedFeed BuildFeed()
 		{
 			CachedFeed feed = new CachedFeed();
 			feed.LastModified = this.ConvertLastUpdatedDate(CurrentBlog.LastUpdated);
-			BaseSyndicationWriter writer = SyndicationWriter;
+			BaseSyndicationWriter<T> writer = SyndicationWriter;
 			feed.Xml = writer.Xml;
 			feed.ClientHasAllFeedItems = writer.ClientHasAllFeedItems;
 			feed.Etag = writer.DateLastViewedFeedItemPublished.ToString(CultureInfo.InvariantCulture);

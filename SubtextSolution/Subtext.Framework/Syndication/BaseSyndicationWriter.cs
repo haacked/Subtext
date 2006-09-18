@@ -17,15 +17,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
-using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Syndication
 {
     /// <summary>
-    /// Summary description for BaseSyndicationWriter.
+    /// Base class for writing RSS and ATOM feeds.
     /// </summary>
-    public abstract class BaseSyndicationWriter : XmlTextWriter
+    public abstract class BaseSyndicationWriter<T> : XmlTextWriter
     {
         private StringWriter writer  = null;
         protected BlogInfo info;
@@ -150,14 +149,26 @@ namespace Subtext.Framework.Syndication
             set {this._allowComments = value;}
         }
 
-        private IList<Entry> _entries;
-        public IList<Entry> Entries
+		/// <summary>
+		/// Gets or sets the entries to be rendered in the feed.
+		/// </summary>
+		/// <value>The entries.</value>
+        public IList<T> Items
         {
-            get {return this._entries;}
-            set {this._entries = value;}
+            get {return this.items;}
+            set {this.items = value;}
         }
+		private IList<T> items;
 
+		/// <summary>
+		/// Builds the feed.
+		/// </summary>
         protected abstract void Build();
+		
+    	/// <summary>
+		/// Builds the feed with delta-encoding possible.
+		/// </summary>
+		/// <param name="dateLastViewedFeedItemPublished">The date last viewed feed item published.</param>
 		protected abstract void Build(DateTime dateLastViewedFeedItemPublished);
     }
 }

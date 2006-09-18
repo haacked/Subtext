@@ -48,14 +48,47 @@ namespace Subtext.Framework.Format
 			return GetUrl("category/{0}.aspx",categoryID);
 		}
 
+		/// <summary>
+		/// Returns a relative URL to the entry.
+		/// </summary>
+		/// <param name="entry">The entry.</param>
+		/// <returns></returns>
 		public virtual string EntryUrl(Entry entry)
 		{
-			return GetUrl("archive/{0:yyyy/MM/dd}/{1}.aspx", entry.DateCreated, entry.HasEntryName ? entry.EntryName : entry.Id.ToString(CultureInfo.InvariantCulture));
+			return EntryUrl(entry.Id, entry.EntryName, entry.DateCreated);
+		}
+		
+		private string EntryUrl(int entryId, string entryName, DateTime entryDate)
+		{
+			string entryPart;
+			if(!String.IsNullOrEmpty(entryName))
+			{
+				entryPart = entryName;
+			}
+			else
+			{
+				entryPart = entryId.ToString(CultureInfo.InvariantCulture);
+			}
+			return GetUrl("archive/{0:yyyy/MM/dd}/{1}.aspx", entryDate, entryPart);
 		}
 
 		public virtual string EntryFullyQualifiedUrl(Entry entry)
 		{
-			return EntryFullyQualifiedUrl(entry.DateCreated, entry.HasEntryName ? entry.EntryName : entry.Id.ToString(CultureInfo.InvariantCulture));
+			return EntryFullyQualifiedUrl(entry.DateCreated, entry.EntryName, entry.Id);
+		}
+		
+		public virtual string EntryFullyQualifiedUrl(DateTime entryDate, string entryName, int entryId)
+		{
+			string entryPart;
+			if(String.IsNullOrEmpty(entryName))
+			{
+				entryPart = entryId.ToString(CultureInfo.InvariantCulture);
+			}
+			else
+			{
+				entryPart = entryName;
+			}
+			return EntryFullyQualifiedUrl(entryDate, entryPart);
 		}
 
 		public virtual string EntryFullyQualifiedUrl(DateTime dateCreated, string entryID)
@@ -103,14 +136,31 @@ namespace Subtext.Framework.Format
 			return GetFullyQualifiedUrl("comments/commentRss/{0}.aspx", entryId);
 		}
 
-		public virtual string CommentUrl(Entry parentEntry, Entry childEntry)
+		/// <summary>
+		/// Returns the URL to the specified feedback item.
+		/// </summary>
+		/// <param name="parentId">The id of the parent entry.</param>
+		/// <param name="parentEntryName">If exists.</param>
+		/// <param name="feedback">The feedback.</param>
+		/// <param name="feedback">The feedback item.</param>
+		/// <returns></returns>
+		public virtual string FeedbackUrl(int parentId, string parentEntryName, DateTime parentCreateDate, FeedbackItem feedback)
 		{
-			return string.Format(CultureInfo.InvariantCulture, "{0}#{1}", parentEntry.Url, childEntry.Id);
+			string entryUrl = EntryUrl(parentId, parentEntryName, parentCreateDate);
+			return string.Format(CultureInfo.InvariantCulture, "{0}#{1}", entryUrl, feedback.Id);
 		}
 
-		public virtual string CommentUrl(Entry entry)
+		/// <summary>
+		/// Returns the fully URL to the specified feedback item.
+		/// </summary>
+		/// <param name="parentId">The id of the parent entry.</param>
+		/// <param name="parentEntryName">If exists.</param>
+		/// <param name="feedback">The feedback.</param>
+		/// <returns></returns>
+		public virtual Uri FeedbackFullyQualifiedUrl(int parentId, string parentEntryName, DateTime parentCreateDate, FeedbackItem feedback)
 		{
-			return GetUrl("archive/{0:yyyy/MM/dd}/{1}.aspx#{2}", entry.DateCreated, entry.HasEntryName ? entry.EntryName : entry.ParentId.ToString(CultureInfo.InvariantCulture), entry.Id);
+			string entryUrl = EntryFullyQualifiedUrl(parentCreateDate, parentEntryName, parentId);
+			return new Uri(string.Format(CultureInfo.InvariantCulture, "{0}#{1}", entryUrl, feedback.Id));
 		}
 
 		public virtual string CommentApiUrl(int entryId)

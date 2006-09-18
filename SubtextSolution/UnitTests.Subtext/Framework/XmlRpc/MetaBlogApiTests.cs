@@ -85,7 +85,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.Title = "Title 1";
             entry.Body = "Blah";
             entry.IsActive = true;
-            entry.DateCreated = entry.DateSyndicated = entry.DateUpdated = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			entry.Categories.Add(category1Name);
         	Entries.Create(entry);
 
@@ -93,7 +93,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.Title = "Title 2";
             entry.Body = "Blah1";
             entry.IsActive = true;
-            entry.DateCreated = entry.DateSyndicated = entry.DateUpdated = DateTime.ParseExact("1976/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1976/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			entry.Categories.Add(category1Name);
 			entry.Categories.Add(category2Name);
             Entries.Create(entry);
@@ -102,14 +102,14 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.Title = "Title 3";
             entry.Body = "Blah2";
             entry.IsActive = true;
-            entry.DateCreated = entry.DateSyndicated = entry.DateUpdated = DateTime.ParseExact("1979/09/16", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1979/09/16", "yyyy/MM/dd", CultureInfo.InvariantCulture);
             Entries.Create(entry);
 
             entry = new Entry(PostType.BlogPost);
             entry.Title = "Title 4";
             entry.Body = "Blah3";
             entry.IsActive = true;
-            entry.DateCreated = entry.DateSyndicated = entry.DateUpdated = DateTime.ParseExact("2006/01/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/01/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			entry.Categories.Add(category2Name);
         	Entries.Create(entry);
 

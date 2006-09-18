@@ -77,7 +77,7 @@ namespace Subtext.ImportExport
 				post.Comments.Add(ObjectHydrator.LoadCommentFromDataReader(reader));
 			};
 			
-			ReadAndPopulatePostChildren(posts, reader, "ParentID", populator);
+			ReadAndPopulatePostChildren(posts, reader, "EntryId", populator);
 		}
 
 		private static void PopulateTrackbacks(IPagedCollection<BlogMLPost> posts, IDataReader reader)
@@ -87,7 +87,7 @@ namespace Subtext.ImportExport
 				post.Trackbacks.Add(ObjectHydrator.LoadTrackbackFromDataReader(reader));
 			};
 
-			ReadAndPopulatePostChildren(posts, reader, "ParentID", populator);
+			ReadAndPopulatePostChildren(posts, reader, "EntryId", populator);
 		}
 
 		private static void ReadAndPopulatePostChildren(IPagedCollection<BlogMLPost> posts, IDataReader reader, string foreignKey, PostChildrenPopulator populatePostChildren)
@@ -307,7 +307,7 @@ namespace Subtext.ImportExport
 			newEntry.BlogId = Config.CurrentBlog.Id;
 			newEntry.Title = post.Title;
 			newEntry.DateCreated = post.DateCreated;
-			newEntry.DateUpdated = post.DateModified;
+			newEntry.DateModified = post.DateModified;
 			newEntry.DateSyndicated = post.DateModified;  // is this really the best thing to do?
 			newEntry.Body = content;
 			newEntry.IsActive = post.Approved;
@@ -332,21 +332,19 @@ namespace Subtext.ImportExport
 		/// <param name="bmlComment"></param>
 		public override void CreatePostComment(BlogMLComment bmlComment, string newPostId)
 		{
-			Entry newComment = new Entry(PostType.Comment);
+			FeedbackItem newComment = new FeedbackItem(FeedbackType.Comment);
 			newComment.BlogId = Config.CurrentBlog.Id;
-			newComment.ParentId = int.Parse(newPostId);
+			newComment.EntryId = int.Parse(newPostId);
 			newComment.Title = bmlComment.Title ?? string.Empty;
 			newComment.DateCreated = bmlComment.DateCreated;
-			newComment.DateUpdated = bmlComment.DateModified;
-			newComment.DateSyndicated = bmlComment.DateCreated;
+			newComment.DateModified = bmlComment.DateModified;
 			newComment.Body = StringHelper.ReturnCheckForNull(bmlComment.Content.UncodedText);
-			newComment.IsActive = bmlComment.Approved;
+			newComment.Approved = bmlComment.Approved;
 			newComment.Author = StringHelper.ReturnCheckForNull(bmlComment.UserName);
-			newComment.AlternativeTitleUrl = StringHelper.ReturnCheckForNull(bmlComment.UserUrl);
 			newComment.Email = bmlComment.UserEMail;
-			newComment.Url = bmlComment.UserUrl;
+			newComment.SourceUrl = new Uri(bmlComment.UserUrl);
 
-			Entries.CreateComment(newComment);
+			FeedbackItem.Create(newComment);
 		}
 
 		/// <summary>
@@ -355,22 +353,21 @@ namespace Subtext.ImportExport
 		/// <param name="trackback"></param>
 		public override void CreatePostTrackback(BlogMLTrackback trackback, string newPostId)
 		{
-			Entry newPingTrack = new Entry(PostType.PingTrack);
+			FeedbackItem newPingTrack = new FeedbackItem(FeedbackType.PingTrack);
 			newPingTrack.BlogId = Config.CurrentBlog.Id;
-			newPingTrack.ParentId = int.Parse(newPostId);
+			newPingTrack.EntryId = int.Parse(newPostId);
 			newPingTrack.Title = trackback.Title;
-			newPingTrack.AlternativeTitleUrl = trackback.Url;
-			newPingTrack.IsActive = trackback.Approved;
+			newPingTrack.SourceUrl = new Uri(trackback.Url);
+			newPingTrack.Approved = trackback.Approved;
 			newPingTrack.DateCreated = trackback.DateCreated;
-			newPingTrack.DateUpdated = trackback.DateModified;
-			newPingTrack.DateSyndicated = trackback.DateCreated;
+			newPingTrack.DateModified = trackback.DateModified;
 			// we use an actual name here, but BlogML doesn't support this, so let's try  
 			// to parse the url's host out of the url.
 			newPingTrack.Author = UrlFormats.GetHostFromExternalUrl(trackback.Url);
 			// so the duplicate Comment Filter doesn't break when computing the checksum
 			newPingTrack.Body = string.Empty;
 
-			Entries.Create(newPingTrack);
+			FeedbackItem.Create(newPingTrack);
 		}
 		
 		/// <summary>

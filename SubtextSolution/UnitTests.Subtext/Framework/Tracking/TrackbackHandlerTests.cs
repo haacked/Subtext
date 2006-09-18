@@ -35,7 +35,7 @@ namespace UnitTests.Subtext.Framework.Tracking
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
-			entry.DateCreated = entry.DateSyndicated = entry.DateUpdated = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			int id = Entries.Create(entry);
 			
 			StringBuilder sb = new StringBuilder();
@@ -62,7 +62,7 @@ namespace UnitTests.Subtext.Framework.Tracking
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
-			entry.DateCreated = entry.DateSyndicated = entry.DateUpdated = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			Entries.Create(entry);
 			
 			StringBuilder sb = new StringBuilder();
@@ -90,7 +90,7 @@ namespace UnitTests.Subtext.Framework.Tracking
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
-			entry.DateCreated = entry.DateSyndicated = entry.DateUpdated = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			Entries.Create(entry);
 			
 			StringBuilder sb = new StringBuilder();
@@ -118,16 +118,16 @@ namespace UnitTests.Subtext.Framework.Tracking
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
-			entry.DateCreated = entry.DateSyndicated = entry.DateUpdated = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			int id = Entries.Create(entry);
-            IList<Entry> feedback = Entries.GetFeedBack(entry);
+            IList<FeedbackItem> feedback = Entries.GetFeedBack(entry);
 			Assert.AreEqual(0, feedback.Count, "Something is wrong if a freshly created entry has feedback.");
 			
 			string responseText = GetTrackBackHandlerResponseText(blogName, excerpt, hostname, string.Empty, id, title, url);
 			
 			Assert.IsTrue(responseText.IndexOf("no url parameter found, please try harder!") > 0, "Did not receive the correct error message.");
 
-            IList<Entry> trackbacks = Entries.GetFeedBack(entry);
+			IList<FeedbackItem> trackbacks = Entries.GetFeedBack(entry);
 			Assert.AreEqual(0, trackbacks.Count, "We did not expect to see a trackback created.");
 		}
 
@@ -173,20 +173,20 @@ namespace UnitTests.Subtext.Framework.Tracking
 			Assert.IsTrue(Config.CreateBlog("Some Title", "username", "password", hostname, "blog"));
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
-			entry.DateCreated = entry.DateSyndicated = entry.DateUpdated = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			int id = Entries.Create(entry);
-            IList<Entry> feedback = Entries.GetFeedBack(entry);
+			IList<FeedbackItem> feedback = Entries.GetFeedBack(entry);
 			Assert.AreEqual(0, feedback.Count, "Something is wrong if a freshly created entry has feedback.");
 			
 			string responseText = GetTrackBackHandlerResponseText(blogName, excerpt, hostname, "blog", id, title, url);
 
             Assert.AreEqual(string.Empty, responseText, "Did not expect any error response.");
 
-            IList<Entry> trackbacks = Entries.GetFeedBack(entry);
+			IList<FeedbackItem> trackbacks = Entries.GetFeedBack(entry);
 			Assert.AreEqual(1, trackbacks.Count, "We expect to see the one feedback we just created.");
-		    
-		    Entry trackback = null;
-		    foreach(Entry tb in trackbacks)
+
+			FeedbackItem trackback = null;
+			foreach (FeedbackItem tb in trackbacks)
 		    {
 		        trackback = tb;
 		        break;

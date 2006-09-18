@@ -14,14 +14,10 @@
 #endregion
 
 using System;
-using System.Configuration;
 using System.Data.SqlClient;
 using System.Globalization;
-using System.Text.RegularExpressions;
 using System.Web;
 using log4net;
-using log4net.Appender;
-using log4net.Repository.Hierarchy;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;

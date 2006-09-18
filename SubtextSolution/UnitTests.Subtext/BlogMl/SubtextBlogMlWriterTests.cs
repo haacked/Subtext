@@ -140,12 +140,15 @@ namespace UnitTests.Subtext.BlogML
 			Entries.Create(entry);
 
 			//Add a comment.
-			Entry comment = UnitTestHelper.CreateCommentInstance(entry.Id, "joe", "re: blah", UnitTestHelper.GenerateRandomString(), DateTime.Now);
-			Entries.CreateComment(comment);
+			FeedbackItem comment = UnitTestHelper.CreateCommentInstance(entry.Id, "joe", "re: blah", UnitTestHelper.GenerateRandomString(), DateTime.Now);
+			comment.FeedbackType = FeedbackType.Comment;
+			FeedbackItem.Create(comment);
+			FeedbackItem.Approve(comment);
 
 			//Add a trackback.
-			Trackback trackback = new Trackback(entry.Id, "blah", "http://example.com/", "you", "your post is great" + UnitTestHelper.GenerateRandomString());
-			Entries.Create(trackback);
+			Trackback trackback = new Trackback(entry.Id, "blah", new Uri("http://example.com/"), "you", "your post is great" + UnitTestHelper.GenerateRandomString());
+			FeedbackItem.Create(trackback);
+			FeedbackItem.Approve(trackback);
 
 			//setup provider
 			// Not using BlogMlProvider.Instance() because we need to reset the state.
@@ -178,7 +181,7 @@ namespace UnitTests.Subtext.BlogML
 
 			XmlNode firstPostCommentNode = doc.SelectSingleNode("bml:blog/bml:posts/bml:post[@id='1']/bml:comments/bml:comment", nsmgr);
 			Assert.IsNotNull(firstPostCommentNode, "Expected a comment for the first post");
-
+			
 			XmlNode firstPostTrackbackNode = doc.SelectSingleNode("bml:blog/bml:posts/bml:post[@id='1']/bml:trackbacks/bml:trackback", nsmgr);
 			Assert.IsNotNull(firstPostTrackbackNode, "Expected a trackback for the first post");
 		}

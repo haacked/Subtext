@@ -20,7 +20,6 @@ using Subtext.Framework.Data;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Text;
 using Subtext.Web.Controls;
 using System.Configuration;
 
@@ -85,54 +84,56 @@ namespace Subtext.Web.UI.Controls
 			Response.Redirect(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?Pending=true", Request.Path));
 		}
 
+		// Customizes the display row for each comment.
 		protected void CommentsCreated(object sender,  RepeaterItemEventArgs e)
 		{
 			if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
 			{
-				Entry entry = (Entry)e.Item.DataItem;
-				if(entry != null)
+				FeedbackItem feedbackItem = (FeedbackItem)e.Item.DataItem;
+				if(feedbackItem != null)
 				{
 					Literal title = (Literal)(e.Item.FindControl("Title"));
 					if(title != null)
 					{
 						// we should probably change skin format to dynamically wire up to 
 						// skin located title and permalinks at some point
-						title.Text = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{2}&nbsp;{0}{1}", Anchor(entry.Id), 
-							entry.Title, Link(entry.Title, entry.Url));
+						title.Text = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{2}&nbsp;{0}{1}", Anchor(feedbackItem.Id), 
+							feedbackItem.Title, Link(feedbackItem.Title, feedbackItem.SourceUrl));
 					}
 
+					//Shows the name of the commenter with a link if provided.
 					HyperLink namelink = (HyperLink)e.Item.FindControl("NameLink");
 					if(namelink != null)
 					{
-						if(entry.HasAlternativeTitleUrl)
+						if(feedbackItem.SourceUrl != null)
 						{
-							namelink.NavigateUrl = HtmlHelper.CheckForUrl(entry.TitleUrl);
+							namelink.NavigateUrl = feedbackItem.SourceUrl.ToString();
 						}
-						if(entry.PostType == PostType.Comment)
+						if (feedbackItem.FeedbackType == FeedbackType.Comment)
 						{
-							namelink.Text = entry.Author;
+							namelink.Text = feedbackItem.Author;
 						}
-						else if(entry.PostType == PostType.PingTrack)
+						else if (feedbackItem.FeedbackType == FeedbackType.PingTrack)
 						{
-							namelink.Text =  entry.Author != null ? entry.Author : "Pingback/TrackBack";
+							namelink.Text =  feedbackItem.Author != null ? feedbackItem.Author : "Pingback/TrackBack";
 							namelink.Attributes.Add("title", "PingBack/TrackBack");
 						}
-						ControlHelper.SetTitleIfNone(namelink, entry.SourceUrl);
+						ControlHelper.SetTitleIfNone(namelink, feedbackItem.SourceUrl.ToString());
 					}
 
 					Literal PostDate = (Literal)(e.Item.FindControl("PostDate"));
 					if(PostDate != null)
 					{
-						PostDate.Text = entry.DateCreated.ToShortDateString() + " " + entry.DateCreated.ToShortTimeString();
+						PostDate.Text = feedbackItem.DateCreated.ToShortDateString() + " " + feedbackItem.DateCreated.ToShortTimeString();
 					}
 
 					Literal Post = e.Item.FindControl("PostText") as Literal;
 					if(Post != null)
 					{
-						if(entry.Body.Length > 0)
+						if(feedbackItem.Body.Length > 0)
 						{
-							Post.Text = entry.Body;
-							if(entry.Body.Length == 0 && entry.PostType == PostType.PingTrack)
+							Post.Text = feedbackItem.Body;
+							if (feedbackItem.Body.Length == 0 && feedbackItem.FeedbackType == FeedbackType.PingTrack)
 							{
 								Post.Text = "Pingback / Trackback";
 							}
@@ -151,8 +152,8 @@ namespace Subtext.Web.UI.Controls
 
 							//This allows a host-wide setting of the default gravatar image.
 							string gravatarUrl = null;
-							if (!String.IsNullOrEmpty(entry.Email))
-								gravatarUrl = BuildGravatarUrl(entry.Email, defaultGravatarImage);
+							if (!String.IsNullOrEmpty(feedbackItem.Email))
+								gravatarUrl = BuildGravatarUrl(feedbackItem.Email, defaultGravatarImage);
 							
 							if(!String.IsNullOrEmpty(gravatarUrl))
 							{
@@ -172,11 +173,11 @@ namespace Subtext.Web.UI.Controls
 						if(editlink != null)
 						{
 							//editlink.CommandName = "Remove";
-							editlink.Text = "Remove Comment " + entry.Id.ToString(CultureInfo.InvariantCulture);
-							editlink.CommandName = entry.Id.ToString(CultureInfo.InvariantCulture);
-							editlink.Attributes.Add("onclick","return confirm(\"Are you sure you want to delete comment " + entry.Id.ToString(CultureInfo.InvariantCulture) + "?\");");
+							editlink.Text = "Remove Comment " + feedbackItem.Id.ToString(CultureInfo.InvariantCulture);
+							editlink.CommandName = feedbackItem.Id.ToString(CultureInfo.InvariantCulture);
+							editlink.Attributes.Add("onclick","return confirm(\"Are you sure you want to delete comment " + feedbackItem.Id.ToString(CultureInfo.InvariantCulture) + "?\");");
 							editlink.Visible = true;
-							editlink.CommandArgument = entry.Id.ToString(CultureInfo.InvariantCulture);
+							editlink.CommandArgument = feedbackItem.Id.ToString(CultureInfo.InvariantCulture);
 
 							ControlHelper.SetTitleIfNone(editlink, "Click to remove this entry.");
 						}
@@ -190,9 +191,9 @@ namespace Subtext.Web.UI.Controls
 		}
 
 		const string linktag = "<a title=\"permalink: {0}\" href=\"{1}\">#</a>";
-		private string Link(string title, string link)
+		private string Link(string title, Uri link)
 		{
-			return string.Format(linktag,title,link);
+			return string.Format(linktag, title, link.ToString());
 		}
 
 		// GC: xhmtl format wreaking havoc in non-xhtml pages in non-IE, changed to non nullable format
@@ -233,7 +234,7 @@ namespace Subtext.Web.UI.Controls
 					{
 						Cacher.ClearCommentCache(entry.Id);
 					}
-					CommentList.DataSource = Cacher.GetComments(entry, CacheDuration.Short);
+					CommentList.DataSource = Cacher.GetFeedback(entry, CacheDuration.Short);
 					CommentList.DataBind();
 
 					if(CommentList.Items.Count == 0)

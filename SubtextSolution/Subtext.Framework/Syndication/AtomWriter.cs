@@ -31,7 +31,7 @@ namespace Subtext.Framework.Syndication
 		/// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
         public AtomWriter(IList<Entry> entries, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(dateLastViewedFeedItemPublished, useDeltaEncoding)
 		{
-			this.Entries = entries;
+			this.Items = entries;
 			this.UseAggBugs = true;
 		}
 	}

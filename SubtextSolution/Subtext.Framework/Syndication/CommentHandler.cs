@@ -17,7 +17,6 @@ using System;
 using System.Web;
 using System.Xml;
 using Subtext.Extensibility;
-using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Format;
 using Subtext.Framework.Text;
@@ -28,7 +27,7 @@ namespace Subtext.Framework.Syndication
 	// Not much that can be done if it is not correct.
 
 	/// <summary>
-	/// Implementation of http://wellformedweb.org/story/9
+	/// CommentAPI Implementation (http://wellformedweb.org/story/9)
 	/// Accepts a posted XML document via HttpPost.
 	/// </summary>
 	public class CommentHandler : IHttpHandler
@@ -40,6 +39,10 @@ namespace Subtext.Framework.Syndication
 		{
 		}
 
+		/// <summary>
+		/// Enables processing of HTTP Web requests by a custom HttpHandler that implements the <see cref="T:System.Web.IHttpHandler"></see> interface.
+		/// </summary>
+		/// <param name="context">An <see cref="T:System.Web.HttpContext"></see> object that provides references to the intrinsic server objects (for example, Request, Response, Session, and Server) used to service HTTP requests.</param>
 		public void ProcessRequest(HttpContext context)
 		{
 			HttpRequest Request = context.Request;
@@ -47,23 +50,21 @@ namespace Subtext.Framework.Syndication
 			{
 				XmlDocument doc = new XmlDocument();
 				doc.Load(Request.InputStream);
-				Entry entry = new Entry(PostType.Comment);
 
+				FeedbackItem comment = new FeedbackItem(FeedbackType.Comment);
+				comment.CreatedViaCommentAPI = true;
 				string name = doc.SelectSingleNode("//item/author").InnerText;
 				if(name.IndexOf("<") != -1)
 				{
-					name = name.Substring(0,name.IndexOf("<"));
+					name = name.Substring(0, name.IndexOf("<"));
 				}
-                entry.Author = name.Trim();
+                comment.Author = name.Trim();
+				comment.Body = doc.SelectSingleNode("//item/description").InnerText;
+				comment.Title = doc.SelectSingleNode("//item/title").InnerText;
+				comment.SourceUrl = HtmlHelper.CheckForUrl(doc.SelectSingleNode("//item/link").InnerText);
+				comment.EntryId = UrlFormats.GetPostIDFromUrl(Request.Path);
 
-				entry.Body = doc.SelectSingleNode("//item/description").InnerText;
-			
-				entry.Title = doc.SelectSingleNode("//item/title").InnerText;
-				entry.AlternativeTitleUrl = HtmlHelper.CheckForUrl(doc.SelectSingleNode("//item/link").InnerText);
-
-				entry.ParentId = UrlFormats.GetPostIDFromUrl(Request.Path);
-
-				Entries.CreateComment(entry);
+				FeedbackItem.Create(comment);
 			}
 		}
 	

@@ -19,10 +19,12 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using log4net;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 
@@ -34,6 +36,8 @@ namespace Subtext.Framework.Data
 	/// </summary>
 	public class SqlDataProvider : DbProvider
 	{
+		private readonly static ILog log = new Log();
+		
 		private SqlParameter BlogIdParam
 		{
 			get
@@ -155,17 +159,20 @@ namespace Subtext.Framework.Data
 			return GetReader("subtext_GetSingleImage",p);
 		}
 
-		public override int InsertImage(Image _image)
+		public override int InsertImage(Image image)
 		{
+			if (image == null)
+				throw new ArgumentNullException("image", "Cannot insert a null image.");
+			
 			SqlParameter outParam = DataHelper.MakeOutParam("@ImageID", SqlDbType.Int, 4);
 			SqlParameter[] p = 
 			{
-				DataHelper.MakeInParam("@Title",SqlDbType.NVarChar,250,_image.Title),
-				DataHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,DataHelper.CheckNull(_image.CategoryID)),
-				DataHelper.MakeInParam("@Width",SqlDbType.Int,4,_image.Width),
-				DataHelper.MakeInParam("@Height",SqlDbType.Int,4,_image.Height),
-				DataHelper.MakeInParam("@File",SqlDbType.NVarChar,50,_image.File),
-				DataHelper.MakeInParam("@Active",SqlDbType.Bit,1,_image.IsActive),
+				DataHelper.MakeInParam("@Title",SqlDbType.NVarChar,250,image.Title),
+				DataHelper.MakeInParam("@CategoryID",SqlDbType.Int,4,DataHelper.CheckNull(image.CategoryID)),
+				DataHelper.MakeInParam("@Width",SqlDbType.Int,4,image.Width),
+				DataHelper.MakeInParam("@Height",SqlDbType.Int,4,image.Height),
+				DataHelper.MakeInParam("@File",SqlDbType.NVarChar,50,image.File),
+				DataHelper.MakeInParam("@Active",SqlDbType.Bit,1,image.IsActive),
 				BlogIdParam,
 				outParam
 			};
@@ -345,15 +352,29 @@ namespace Subtext.Framework.Data
 			return GetReader("subtext_GetPageableReferrers", p);
 
 		}
-		
-		//Did not really experiment why, but sqlhelper does not seem to like the output parameter after the reader
-		public override IDataReader GetPagedFeedback(int pageIndex, int pageSize, PostConfig postConfig)
+
+		/// <summary>
+		/// Gets the paged feedback.
+		/// </summary>
+		/// <param name="pageIndex">Index of the page.</param>
+		/// <param name="pageSize">Size of the page.</param>
+		/// <param name="status">The status.</param>
+		/// <param name="excludeStatusMask">A flag for the statuses to exclude.</param>
+		/// <param name="type">Feedback Type (comment, comment api, etc..) for the feedback to return.</param>
+		/// <returns></returns>
+		public override IDataReader GetPagedFeedback(int pageIndex, int pageSize, FeedbackStatusFlag status, FeedbackStatusFlag excludeStatusMask, FeedbackType type)
 		{
+			object feedbackType = type;
+			if(type == FeedbackType.None)
+				feedbackType = null;
+
 			SqlParameter[] p =
 			{
 				DataHelper.MakeInParam("@PageIndex", SqlDbType.Int, 4, pageIndex),
 				DataHelper.MakeInParam("@PageSize", SqlDbType.Int, 4, pageSize),
-				DataHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, postConfig),
+				DataHelper.MakeInParam("@StatusFlag", SqlDbType.Int, 4, status),
+				DataHelper.MakeInParam("@FeedbackType", SqlDbType.Int, 4, feedbackType),
+				DataHelper.MakeInParam("@ExcludeFeedbackStatusMask", SqlDbType.Int, 4, excludeStatusMask),
 				BlogIdParam
 			};
 			return GetReader("subtext_GetPageableFeedback", p);
@@ -463,7 +484,7 @@ namespace Subtext.Framework.Data
 		{
 			SqlParameter[] p =
 			{
-				DataHelper.MakeInParam("@ContentChecksumHash", SqlDbType.VarChar, 32, checksumHash),
+				DataHelper.MakeInParam("@FeedbackChecksumHash", SqlDbType.VarChar, 32, checksumHash),
 				BlogIdParam
 			};
 			return GetReader("subtext_GetCommentByChecksumHash", p);
@@ -547,7 +568,6 @@ namespace Subtext.Framework.Data
 
         /// <summary>
 		/// Adds a new entry to the blog.  Whether the entry be a blog post, article,
-		/// a comment, trackback, etc...
 		/// </summary>
 		/// <remarks>
         /// The method <see cref="SetEntryCategoryList" /> is used to save the entry's categories.
@@ -556,23 +576,22 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override int InsertEntry(Entry entry)
 		{
+			if (entry == null)
+				throw new ArgumentNullException("link", "Cannot insert a null entry.");
+        	
 			SqlParameter outIdParam = DataHelper.MakeOutParam("@ID", SqlDbType.Int, 4);
 			SqlParameter[] p =
 			{
 				DataHelper.MakeInParam("@Title",  SqlDbType.NVarChar, 255, entry.Title), 
 				DataHelper.MakeInParam("@TitleUrl",  SqlDbType.NVarChar, 255, StringHelper.ReturnNullForEmpty(entry.AlternativeTitleUrl)), 
 				DataHelper.MakeInParam("@Text", SqlDbType.NText, 0, entry.Body), 
-				DataHelper.MakeInParam("@SourceUrl", SqlDbType.NVarChar, 200, DataHelper.CheckNull(entry.SourceUrl)), 
 				DataHelper.MakeInParam("@PostType", SqlDbType.Int, 4, entry.PostType), 
 				DataHelper.MakeInParam("@Author", SqlDbType.NVarChar, 50, DataHelper.CheckNull(entry.Author)), 
 				DataHelper.MakeInParam("@Email", SqlDbType.NVarChar, 50, DataHelper.CheckNull(entry.Email)), 
 				DataHelper.MakeInParam("@Description", SqlDbType.NVarChar, 500, DataHelper.CheckNull(entry.Description)), 
-				DataHelper.MakeInParam("@SourceName", SqlDbType.NVarChar, 200, DataHelper.CheckNull(entry.SourceName)), 
 				DataHelper.MakeInParam("@DateAdded", SqlDbType.DateTime, 8, entry.DateCreated), 
 				DataHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, entry.PostConfig), 
-				DataHelper.MakeInParam("@ParentID", SqlDbType.Int, 4, DataHelper.CheckNull(entry.ParentId)), 
 				DataHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, StringHelper.ReturnNullForEmpty(entry.EntryName)), 
-				DataHelper.MakeInParam("@ContentChecksumHash", SqlDbType.VarChar, 32, DataHelper.CheckNull(entry.ContentChecksumHash)), 
 				DataHelper.MakeInParam("@DateSyndicated", SqlDbType.DateTime, 8, DataHelper.CheckNull(entry.DateSyndicated)), 
 				BlogIdParam,
 				outIdParam
@@ -582,6 +601,43 @@ namespace Subtext.Framework.Data
 			return (int)outIdParam.Value;
 		}
 
+		/// <summary>
+		/// Updates an existing feedback.
+		/// </summary>
+		/// <param name="feedbackItem"></param>
+		/// <returns></returns>
+		public override bool UpdateFeedback(FeedbackItem feedbackItem)
+		{
+			string ipAddress = null;
+			if (feedbackItem.IpAddress != null)
+				ipAddress = feedbackItem.IpAddress.ToString();
+
+			string sourceUrl = null;
+			if (feedbackItem.SourceUrl != null)
+				sourceUrl = feedbackItem.SourceUrl.ToString();
+				
+			SqlParameter[] p =
+			{
+				DataHelper.MakeInParam("@Id",  SqlDbType.Int, 4, feedbackItem.Id), 
+				DataHelper.MakeInParam("@Title", SqlDbType.NVarChar, 256, feedbackItem.Title), 
+				DataHelper.MakeInParam("@Body", SqlDbType.NText, 16, DataHelper.CheckNull(feedbackItem.Body)), 
+				DataHelper.MakeInParam("@EntryId", SqlDbType.Int, 4, DataHelper.CheckNull(feedbackItem.EntryId)),
+				DataHelper.MakeInParam("@Author", SqlDbType.NVarChar, 128, DataHelper.CheckNull(feedbackItem.Author)), 
+				DataHelper.MakeInParam("@Email", SqlDbType.VarChar, 128, DataHelper.CheckNull(feedbackItem.Email)), 
+				DataHelper.MakeInParam("@Url", SqlDbType.VarChar, 256, sourceUrl), 
+				DataHelper.MakeInParam("@FeedbackType", SqlDbType.Int, 4, (int)feedbackItem.FeedbackType),
+				DataHelper.MakeInParam("@StatusFlag", SqlDbType.Int, 4, (int)feedbackItem.Status),
+				DataHelper.MakeInParam("@CommentAPI", SqlDbType.Bit, 1, feedbackItem.CreatedViaCommentAPI),
+				DataHelper.MakeInParam("@Referrer", SqlDbType.NVarChar, 256, feedbackItem.Referrer), 
+				DataHelper.MakeInParam("@IpAddress", SqlDbType.VarChar, 16, ipAddress),
+				DataHelper.MakeInParam("@UserAgent", SqlDbType.NVarChar, 128, feedbackItem.UserAgent), 
+				DataHelper.MakeInParam("@FeedbackChecksumHash", SqlDbType.VarChar, 32, feedbackItem.ChecksumHash), 
+				DataHelper.MakeInParam("@DateModified", SqlDbType.DateTime, 8, DateTime.Now.ToUniversalTime()),
+				BlogIdParam
+			};
+			return NonQueryBool("subtext_UpdateFeedback", p);
+		}
+		
         /// <summary>
 		/// Updates the specified entry in the database.
 		/// </summary>
@@ -598,57 +654,60 @@ namespace Subtext.Framework.Data
 				DataHelper.MakeInParam("@Title",  SqlDbType.NVarChar, 255, entry.Title), 
 				DataHelper.MakeInParam("@TitleUrl",  SqlDbType.NVarChar, 255, StringHelper.ReturnNullForEmpty(entry.AlternativeTitleUrl)),
 				DataHelper.MakeInParam("@Text", SqlDbType.NText, 0, entry.Body), 
-				DataHelper.MakeInParam("@SourceUrl", SqlDbType.NVarChar, 200, DataHelper.CheckNull(entry.SourceUrl)), 
 				DataHelper.MakeInParam("@PostType", SqlDbType.Int, 4, entry.PostType), 
 				DataHelper.MakeInParam("@Author", SqlDbType.NVarChar, 50, DataHelper.CheckNull(entry.Author)), 
 				DataHelper.MakeInParam("@Email", SqlDbType.NVarChar, 50, DataHelper.CheckNull(entry.Email)), 
 				DataHelper.MakeInParam("@Description", SqlDbType.NVarChar, 500, DataHelper.CheckNull(entry.Description)), 
-				DataHelper.MakeInParam("@SourceName", SqlDbType.NVarChar, 200, DataHelper.CheckNull(entry.SourceName)), 
-				DataHelper.MakeInParam("@DateUpdated", SqlDbType.DateTime, 4, entry.DateUpdated), 
+				DataHelper.MakeInParam("@DateUpdated", SqlDbType.DateTime, 4, entry.DateModified), 
 				DataHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, entry.PostConfig), 
-				DataHelper.MakeInParam("@ParentID", SqlDbType.Int, 4, DataHelper.CheckNull(entry.ParentId)), 
 				DataHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, DataHelper.CheckNull(entry.EntryName)), 
-				DataHelper.MakeInParam("@ContentChecksumHash", SqlDbType.VarChar, 32, DataHelper.CheckNull(entry.ContentChecksumHash)), 
 				DataHelper.MakeInParam("@DateSyndicated", SqlDbType.DateTime, 8, DataHelper.CheckNull(entry.DateSyndicated)), 
 				BlogIdParam
 			};
 			return NonQueryBool("subtext_UpdateEntry", p);
 		}
 
-		//Not that efficent, but maybe we should just iterage over feedback items?
-		public override int InsertPingTrackEntry(Entry entry)
+		/// <summary>
+		/// Adds comment or a ping/trackback for an entry in the database.
+		/// </summary>
+		/// <param name="feedbackItem"></param>
+		/// <returns></returns>
+		public override int InsertFeedback(FeedbackItem feedbackItem)
 		{
-			if(entry.PostType == PostType.PingTrack)
-			{
-				SqlParameter outParam = DataHelper.MakeOutParam("@ID", SqlDbType.Int, 4);
-				SqlParameter[] p =
-				{
-					DataHelper.MakeInParam("@Title",  SqlDbType.NVarChar, 255, entry.Title), 
-					DataHelper.MakeInParam("@TitleUrl",  SqlDbType.NVarChar, 255, DataHelper.CheckNull(entry.AlternativeTitleUrl)), 
-					DataHelper.MakeInParam("@Text", SqlDbType.NText, 0, entry.Body), 
-					DataHelper.MakeInParam("@SourceUrl", SqlDbType.NVarChar, 200, DataHelper.CheckNull(entry.SourceUrl)), 
-					DataHelper.MakeInParam("@PostType", SqlDbType.Int, 4, entry.PostType), 
-					DataHelper.MakeInParam("@Author", SqlDbType.NVarChar, 50, DataHelper.CheckNull(entry.Author)), 
-					DataHelper.MakeInParam("@Email", SqlDbType.NVarChar, 50, DataHelper.CheckNull(entry.Email)), 
-					DataHelper.MakeInParam("@Description", SqlDbType.NVarChar, 500, DataHelper.CheckNull(entry.Description)), 
-					DataHelper.MakeInParam("@SourceName", SqlDbType.NVarChar, 200, DataHelper.CheckNull(entry.SourceName)), 
-					DataHelper.MakeInParam("@DateAdded", SqlDbType.DateTime, 8, entry.DateCreated), 
-					DataHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, entry.PostConfig), 
-					DataHelper.MakeInParam("@ContentChecksumHash", SqlDbType.VarChar, 32, entry.ContentChecksumHash), 
-					DataHelper.MakeInParam("@ParentID", SqlDbType.Int, 4, DataHelper.CheckNull(entry.ParentId)), 
-					DataHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, DataHelper.CheckNull(entry.EntryName)), 
-					BlogIdParam, 
-					outParam
-				};
+			if (feedbackItem == null)
+				throw new ArgumentNullException("feedbackItem", "Cannot insert a null feedback item.");
 
-					NonQueryInt("subtext_InsertPingTrackEntry",p);
-					return (int)outParam.Value;
-			}
-			else
-			{
-				throw new ArgumentException("PingTracks is the only valid PostType for InsertPingTrackEntry","entry.PostType");
-			}
+			string ipAddress = null;
+			if (feedbackItem.IpAddress != null)
+				ipAddress = feedbackItem.IpAddress.ToString();
 
+			string sourceUrl = null;
+			if (feedbackItem.SourceUrl != null)
+				sourceUrl = feedbackItem.SourceUrl.ToString();
+			
+			SqlParameter outParam = DataHelper.MakeOutParam("@Id", SqlDbType.Int, 4);
+			SqlParameter[] p =
+			{
+				DataHelper.MakeInParam("@Title", SqlDbType.NVarChar, 256, feedbackItem.Title), 
+				DataHelper.MakeInParam("@Body", SqlDbType.NText, 16, DataHelper.CheckNull(feedbackItem.Body)), 
+				DataHelper.MakeInParam("@EntryId", SqlDbType.Int, 4, DataHelper.CheckNull(feedbackItem.EntryId)),
+				DataHelper.MakeInParam("@Author", SqlDbType.NVarChar, 128, DataHelper.CheckNull(feedbackItem.Author)), 
+				DataHelper.MakeInParam("@Email", SqlDbType.VarChar, 128, DataHelper.CheckNull(feedbackItem.Email)), 
+				DataHelper.MakeInParam("@Url", SqlDbType.VarChar, 256, sourceUrl), 
+				DataHelper.MakeInParam("@FeedbackType", SqlDbType.Int, 4, (int)feedbackItem.FeedbackType),
+				DataHelper.MakeInParam("@StatusFlag", SqlDbType.Int, 4, (int)feedbackItem.Status),
+				DataHelper.MakeInParam("@CommentAPI", SqlDbType.Bit, 1, feedbackItem.CreatedViaCommentAPI),
+				DataHelper.MakeInParam("@Referrer", SqlDbType.NVarChar, 256, feedbackItem.Referrer), 
+				DataHelper.MakeInParam("@IpAddress", SqlDbType.VarChar, 16, ipAddress),
+				DataHelper.MakeInParam("@UserAgent", SqlDbType.NVarChar, 128, feedbackItem.UserAgent), 
+				DataHelper.MakeInParam("@FeedbackChecksumHash", SqlDbType.VarChar, 32, feedbackItem.ChecksumHash), 
+				DataHelper.MakeInParam("@DateCreated", SqlDbType.DateTime, 8, DateTime.Now.ToUniversalTime()),
+				BlogIdParam,
+				outParam
+			};
+
+			NonQueryInt("subtext_InsertFeedback", p);
+			return (int)outParam.Value;
 		}
 
 
@@ -689,6 +748,9 @@ namespace Subtext.Framework.Data
 
 		public override int InsertLink(Link link)
 		{
+			if (link == null)
+				throw new ArgumentNullException("link", "Cannot insert a null link.");
+			
 			SqlParameter outParam = DataHelper.MakeOutParam("@LinkID",SqlDbType.Int,4);
 			SqlParameter[] p = 
 			{
@@ -813,16 +875,19 @@ namespace Subtext.Framework.Data
 		}
 
 		//maps to blog_LinkCategory
-		public override int InsertCategory(LinkCategory lc)
+		public override int InsertCategory(LinkCategory category)
 		{
+			if (category == null)
+				throw new ArgumentNullException("category", "Cannot insert a null category.");
+			
 			SqlParameter outParam = DataHelper.MakeOutParam("@CategoryID",SqlDbType.Int,4);
 			SqlParameter[] p =
 			{
 
-				DataHelper.MakeInParam("@Title",SqlDbType.NVarChar,150,lc.Title),
-				DataHelper.MakeInParam("@Active",SqlDbType.Bit,1,lc.IsActive),
-				DataHelper.MakeInParam("@CategoryType",SqlDbType.TinyInt,1,lc.CategoryType),
-				DataHelper.MakeInParam("@Description",SqlDbType.NVarChar,1000,DataHelper.CheckNull(lc.Description)),
+				DataHelper.MakeInParam("@Title",SqlDbType.NVarChar,150,category.Title),
+				DataHelper.MakeInParam("@Active",SqlDbType.Bit,1,category.IsActive),
+				DataHelper.MakeInParam("@CategoryType",SqlDbType.TinyInt,1,category.CategoryType),
+				DataHelper.MakeInParam("@Description",SqlDbType.NVarChar,1000,DataHelper.CheckNull(category.Description)),
 				BlogIdParam,
 				outParam
 			};
@@ -834,16 +899,29 @@ namespace Subtext.Framework.Data
 
 		#region FeedBack
 
-		//we could pass ParentID with the rest of the sprocs
-		//one interface for entry data?
-		public override IDataReader GetFeedBack(int postId)
+		/// <summary>
+		/// Gets the feed back item by id.
+		/// </summary>
+		/// <param name="id">The id.</param>
+		/// <returns></returns>
+		public override IDataReader GetFeedBackItem(int id)
 		{
 			SqlParameter[] p =
 			{
-				DataHelper.MakeInParam("@ParentID", SqlDbType.Int, 4, DataHelper.CheckNull(postId)),
-				BlogIdParam
+				DataHelper.MakeInParam("@Id", SqlDbType.Int, 4, id),
 			};
-			return GetReader("subtext_GetFeedBack" ,p);
+			return GetReader("subtext_GetFeedBack", p);
+		}
+
+		//we could pass ParentID with the rest of the sprocs
+		//one interface for entry data?
+		public override IDataReader GetFeedBackItems(int postId)
+		{
+			SqlParameter[] p =
+			{
+				DataHelper.MakeInParam("@EntryId", SqlDbType.Int, 4, DataHelper.CheckNull(postId))
+			};
+			return GetReader("subtext_GetFeedbackCollection", p);
 		}
 
 		#endregion
@@ -1027,18 +1105,21 @@ namespace Subtext.Framework.Data
 			return NonQueryBool("subtext_DeleteKeyWord",p);
 		}
 
-        public override int InsertKeyWord(KeyWord kw)
+        public override int InsertKeyWord(KeyWord keyword)
 		{
+			if (keyword == null)
+				throw new ArgumentNullException("keyword", "Cannot insert a null keyword.");
+        	
 			SqlParameter outParam = DataHelper.MakeOutParam("@KeyWordID",SqlDbType.Int,4);
 			SqlParameter[] p =
 			{
-				DataHelper.MakeInParam("@Word",SqlDbType.NVarChar,100,kw.Word),
-				DataHelper.MakeInParam("@Text",SqlDbType.NVarChar,100,kw.Text),
-				DataHelper.MakeInParam("@ReplaceFirstTimeOnly",SqlDbType.Bit,1,kw.ReplaceFirstTimeOnly),
-				DataHelper.MakeInParam("@OpenInNewWindow",SqlDbType.Bit,1,kw.OpenInNewWindow),
-				DataHelper.MakeInParam("@CaseSensitive",SqlDbType.Bit,1,kw.CaseSensitive),
-				DataHelper.MakeInParam("@Url",SqlDbType.NVarChar,255,kw.Url),
-				DataHelper.MakeInParam("@Title",SqlDbType.NVarChar,100,kw.Title),
+				DataHelper.MakeInParam("@Word",SqlDbType.NVarChar,100,keyword.Word),
+				DataHelper.MakeInParam("@Text",SqlDbType.NVarChar,100,keyword.Text),
+				DataHelper.MakeInParam("@ReplaceFirstTimeOnly",SqlDbType.Bit,1,keyword.ReplaceFirstTimeOnly),
+				DataHelper.MakeInParam("@OpenInNewWindow",SqlDbType.Bit,1,keyword.OpenInNewWindow),
+				DataHelper.MakeInParam("@CaseSensitive",SqlDbType.Bit,1,keyword.CaseSensitive),
+				DataHelper.MakeInParam("@Url",SqlDbType.NVarChar,255,keyword.Url),
+				DataHelper.MakeInParam("@Title",SqlDbType.NVarChar,100,keyword.Title),
 				BlogIdParam,
 				outParam
 			};
@@ -1069,7 +1150,7 @@ namespace Subtext.Framework.Data
 			{
 				BlogIdParam
 			};
-			return GetReader("subtext_GetBlogKeyWords",p);
+			return GetReader("subtext_GetBlogKeyWords", p);
 		}
 
 		public override IDataReader GetPagedKeyWords(int pageIndex, int pageSize)
@@ -1090,21 +1171,25 @@ namespace Subtext.Framework.Data
 
 		private IDataReader GetReader(string sql)
 		{
+			LogSql(sql, null); 
 			return SqlHelper.ExecuteReader(ConnectionString, CommandType.StoredProcedure, sql);
 		}
 
 		private IDataReader GetReader(string sql, SqlParameter[] p)
 		{
+			LogSql(sql, p); 
 			return SqlHelper.ExecuteReader(ConnectionString, CommandType.StoredProcedure, sql, p);
 		}
 
 		private int NonQueryInt(string sql, SqlParameter[] p)
 		{
+			LogSql(sql, p);
 			return SqlHelper.ExecuteNonQuery(ConnectionString, CommandType.StoredProcedure, sql, p);
 		}
 
 		private bool NonQueryBool(string sql, SqlParameter[] p)
 		{
+			LogSql(sql, p);
 			return NonQueryInt(sql, p) > 0;
 		}
 
@@ -1139,6 +1224,24 @@ namespace Subtext.Framework.Data
 		#endregion Host Data
 
 		#endregion
+		
+		void LogSql(string sql, SqlParameter[] parameters)
+		{
+#if DEBUG
+			string query = sql;
+			if (parameters != null)
+			{
+				foreach (SqlParameter parameter in parameters)
+				{
+					query += " " + parameter.ParameterName + "=" + parameter.Value + ",";
+				}
+				if (query.EndsWith(","))
+					query = StringHelper.Left(query, query.Length - 1);
+			}
+
+			log.Debug("SQL: " + query);
+#endif
+		}
 	}
 }
 

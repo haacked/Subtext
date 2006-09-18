@@ -109,9 +109,11 @@ namespace Subtext.Framework.Providers
 		/// </summary>
 		/// <param name="pageIndex">Index of the page.</param>
 		/// <param name="pageSize">Size of the page.</param>
-		/// <param name="postConfig">Configuration options</param>
+		/// <param name="status">A flag for the status types to return.</param>
+		/// <param name="excludeStatusMask">A flag for the statuses to exclude.</param>
+		/// <param name="type">The type of feedback to return.</param>
 		/// <returns></returns>
-		public abstract IPagedCollection<Entry> GetPagedFeedback(int pageIndex, int pageSize, PostConfig postConfig);
+		public abstract IPagedCollection<FeedbackItem> GetPagedFeedback(int pageIndex, int pageSize, FeedbackStatusFlag status, FeedbackStatusFlag excludeStatusMask, FeedbackType type);
 		
 		#endregion
 
@@ -151,7 +153,21 @@ namespace Subtext.Framework.Providers
         /// <param name="includeCategories">Whether or not to include categories</param>
 		/// <returns></returns>
 		public abstract IList<Entry> GetConditionalEntries(int itemCount, PostType postType, PostConfig postConfig, bool includeCategories);
-		public abstract IList<Entry> GetFeedBack(Entry ParentEntry);
+		
+		/// <summary>
+		/// Gets the <see cref="FeedbackItem" /> items for the specified entry.
+		/// </summary>
+		/// <param name="parentEntry">The parent entry.</param>
+		/// <returns></returns>
+		public abstract IList<FeedbackItem> GetFeedbackForEntry(Entry parentEntry);
+
+		/// <summary>
+		/// Gets the feedback by the specified id.
+		/// </summary>
+		/// <param name="id">The id.</param>
+		/// <returns></returns>
+		public abstract FeedbackItem GetFeedback(int id);
+		
 		public abstract IList<Entry> GetPostCollectionByMonth(int month, int year);
 		public abstract IList<Entry> GetPostsByDayRange(DateTime start, DateTime stop, PostType postType, bool activeOnly);
 		public abstract IList<Entry> GetEntriesByCategory(int ItemCount,int catID,bool ActiveOnly);
@@ -195,6 +211,13 @@ namespace Subtext.Framework.Providers
 		#endregion
 
 		/// <summary>
+		/// Creates a feedback record and returs the id of the newly created item.
+		/// </summary>
+		/// <param name="feedbackItem"></param>
+		/// <returns></returns>
+		public abstract int Create(FeedbackItem feedbackItem);
+		
+		/// <summary>
 		/// Creates the specified entry attaching the specified categories.
 		/// </summary>
 		/// <param name="entry">Entry.</param>
@@ -209,6 +232,13 @@ namespace Subtext.Framework.Providers
         /// <param name="categoryIds">Category Ids.</param>
         /// <returns></returns>
 		public abstract bool Update(Entry entry, int[] categoryIds);
+
+		/// <summary>
+		/// Saves changes to the specified feedback.
+		/// </summary>
+		/// <param name="feedbackItem">The feedback item.</param>
+		/// <returns></returns>
+		public abstract bool Update(FeedbackItem feedbackItem);
 
 		#region Entry Category List
 

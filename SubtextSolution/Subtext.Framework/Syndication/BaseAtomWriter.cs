@@ -26,7 +26,7 @@ namespace Subtext.Framework.Syndication
 	/// <summary>
 	/// Generates an Atom feed.
 	/// </summary>
-	public class BaseAtomWriter : BaseSyndicationWriter
+	public class BaseAtomWriter : BaseSyndicationWriter<Entry>
 	{
 
 		#region TimeHelpers
@@ -172,7 +172,7 @@ namespace Subtext.Framework.Syndication
 			this.clientHasAllFeedItems = true;
 			this.latestPublishDate = this.DateLastViewedFeedItemPublished;
 
-			foreach(Entry entry in this.Entries)
+			foreach(Entry entry in this.Items)
 			{
 				// We'll show every entry if RFC3229 is not enabled.
 				//TODO: This is wrong.  What if a post is not published 
@@ -210,7 +210,7 @@ namespace Subtext.Framework.Syndication
 			    //published and modified to updated for 1.0 feed)
 				//this.WriteElementString("created",W3UTCZ(entry.DateCreated));
 				this.WriteElementString("published", W3UTC(entry.DateCreated.AddHours((-1) * info.TimeZone), timezone));
-				this.WriteElementString("updated", W3UTCZ(entry.DateUpdated));
+				this.WriteElementString("updated", W3UTCZ(entry.DateModified));
 
 				if(entry.HasDescription)
 				{
@@ -252,7 +252,6 @@ namespace Subtext.Framework.Syndication
 				//core 
 			}
 		}
-
 	}
 }
 

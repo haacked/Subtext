@@ -33,6 +33,5 @@ namespace Subtext.Extensibility
 		SyndicateDescriptionOnly = 32,
 		IsAggregated = 64,
 		CommentsClosed = 128,
-		NeedsModeratorApproval = 256,
 	}
 }

@@ -356,7 +356,7 @@ namespace UnitTests.Subtext
 			}
 			entry.BlogId = Config.CurrentBlog.Id;
 			entry.DateCreated = dateCreated;
-			entry.DateUpdated = entry.DateCreated;
+			entry.DateModified = entry.DateCreated;
 			entry.DateSyndicated = entry.DateCreated;
 			entry.Title = title;
 			entry.Author = author;
@@ -393,19 +393,18 @@ namespace UnitTests.Subtext
 		/// <param name="body">The body.</param>
 		/// <param name="dateCreated">The date created.</param>
 		/// <returns></returns>
-		public static Entry CreateCommentInstance(int parentEntryId, string author, string title, string body, DateTime dateCreated)
+		public static FeedbackItem CreateCommentInstance(int parentEntryId, string author, string title, string body, DateTime dateCreated)
 		{
-			Entry entry = new Entry(PostType.Comment);
-			entry.AlternativeTitleUrl = "http://subtextproject.com/blah/";
+			FeedbackItem entry = new FeedbackItem(FeedbackType.Comment);
+			entry.SourceUrl = new Uri("http://subtextproject.com/blah/");
 			entry.BlogId = Config.CurrentBlog.Id;
-			entry.ParentId = parentEntryId;
+			entry.EntryId = parentEntryId;
 			entry.DateCreated = dateCreated;
-			entry.DateUpdated = entry.DateCreated;
-			entry.DateSyndicated = entry.DateCreated;
+			entry.DateModified = entry.DateCreated;
 			entry.Title = title;
 			entry.Author = author;
 			entry.Body = body;
-			entry.IsActive = true;
+			entry.Approved = true;
 
 			return entry;
 		}

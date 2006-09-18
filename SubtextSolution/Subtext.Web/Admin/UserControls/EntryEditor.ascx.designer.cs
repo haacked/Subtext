@@ -37,8 +37,5 @@ namespace Subtext.Web.Admin.UserControls {
         protected System.Web.UI.WebControls.RegularExpressionValidator vRegexEntryName;
         protected System.Web.UI.WebControls.TextBox txbEntryName;
         protected System.Web.UI.WebControls.TextBox txbExcerpt;
-        protected System.Web.UI.WebControls.TextBox txbTitleUrl;
-        protected System.Web.UI.WebControls.TextBox txbSourceName;
-        protected System.Web.UI.WebControls.TextBox txbSourceUrl;
     }
 }

@@ -263,13 +263,7 @@ namespace Subtext.Web.Admin.UserControls
 			// Advanced Options
 			this.txbEntryName.Text = currentPost.EntryName;
 			this.txbExcerpt.Text = currentPost.Description;
-			if(currentPost.HasAlternativeTitleUrl)
-			{
-				this.txbTitleUrl.Text = currentPost.AlternativeTitleUrl;
-			}
-			this.txbSourceUrl.Text = currentPost.SourceUrl;
-			this.txbSourceName.Text = currentPost.SourceName;
-	
+			
 			SetEditorText(currentPost.Body);
 
 			ckbPublished.Checked = currentPost.IsActive;
@@ -341,8 +335,6 @@ namespace Subtext.Web.Admin.UserControls
 			hlEntryLink.Visible = false;
 			txbTitle.Text = String.Empty;
 			txbExcerpt.Text = String.Empty;
-			txbSourceUrl.Text = String.Empty;
-			txbSourceName.Text = String.Empty;
 			txbEntryName.Text = string.Empty;
 
 			ckbPublished.Checked = Preferences.AlwaysCreateIsActive;
@@ -410,13 +402,6 @@ namespace Subtext.Web.Admin.UserControls
 					entry.BlogId = Config.CurrentBlog.Id;
 
 					// Advanced options
-					/* Need to do some special checks for txb*.Text == "", b/c they get posted 
-					 * by the page as String.Empty if there is nothing in them, but this 
-					 * causes issues when getting entries out of the dataStore. For example, 
-					 * when getting an "" for txbTitleUrl, we don't correctly write the url to
-					 * the post. So we need to be sure to get NULL for these values. This also works
-					 * to reset these fields in the dataStore for an "updated" post.
-					 */
 					entry.IsActive = ckbPublished.Checked;
 					entry.AllowComments = chkComments.Checked;
 					entry.CommentingClosed = chkCommentsClosed.Checked;
@@ -426,14 +411,11 @@ namespace Subtext.Web.Admin.UserControls
 					entry.IsAggregated = chkIsAggregated.Checked;
 					entry.EntryName = StringHelper.ReturnNullForEmpty(txbEntryName.Text);
 					entry.Description = StringHelper.ReturnNullForEmpty(txbExcerpt.Text);
-					entry.AlternativeTitleUrl = StringHelper.ReturnNullForEmpty(txbTitleUrl.Text);
-					entry.SourceUrl = StringHelper.ReturnNullForEmpty(txbSourceUrl.Text);
-					entry.SourceName = StringHelper.ReturnNullForEmpty(txbSourceName.Text);
 
 					if (PostID != NullValue.NullInt32)
 					{
 						successMessage = Constants.RES_SUCCESSEDIT;
-						entry.DateUpdated = BlogTime.CurrentBloggerTime;
+						entry.DateModified = BlogTime.CurrentBloggerTime;
 						entry.Id = PostID;
 						
 						//TODO: Add here code to be called before updating a post

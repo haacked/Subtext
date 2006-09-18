@@ -28,7 +28,7 @@ namespace Subtext.Framework.Syndication
 	/// The Main Rss feed now contains an element for each entry, which will generate a rss feed 
 	/// containing the comments for each post.
 	/// </summary>
-	public class RssCategoryHandler : EntryCollectionHandler
+	public class RssCategoryHandler : EntryCollectionHandler<Entry>
 	{
 		protected LinkCategory Category;
         IList<Entry> posts;
@@ -69,7 +69,7 @@ namespace Subtext.Framework.Syndication
 			return feed;
 		}
 
-		protected override BaseSyndicationWriter SyndicationWriter
+		protected override BaseSyndicationWriter<Entry> SyndicationWriter
 		{
 			get
 			{
@@ -78,6 +78,15 @@ namespace Subtext.Framework.Syndication
 		}
 
 
+		/// <summary>
+		/// Gets the item created date.
+		/// </summary>
+		/// <param name="item">The item.</param>
+		/// <returns></returns>
+		protected override DateTime GetItemCreatedDate(Entry item)
+		{
+			return item.DateCreated;
+		}
 	}
 }
 

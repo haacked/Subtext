@@ -141,18 +141,17 @@ namespace Subtext.Web.UI.Controls
 					Entry currentEntry =  Cacher.GetEntryFromRequest(CacheDuration.Short);	
 					if(IsCommentAllowed(currentEntry))
 					{
-						Entry entry = new Entry(PostType.Comment);
-						entry.Author = tbName.Text;
+						FeedbackItem feedbackItem = new FeedbackItem(FeedbackType.Comment);
+						feedbackItem.Author = tbName.Text;
 						if(this.tbEmail != null)
-							entry.Email = tbEmail.Text;
-						entry.AlternativeTitleUrl =  HtmlHelper.CheckForUrl(tbUrl.Text);
-						entry.Body = tbComment.Text;
-						entry.Title = tbTitle.Text;
-						entry.ParentId = currentEntry.Id;
-						entry.SourceName = HttpHelper.GetUserIpAddress(Context);
-						entry.SourceUrl = currentEntry.Url;
+							feedbackItem.Email = tbEmail.Text;
+						feedbackItem.SourceUrl =  HtmlHelper.CheckForUrl(tbUrl.Text);
+						feedbackItem.Body = tbComment.Text;
+						feedbackItem.Title = tbTitle.Text;
+						feedbackItem.EntryId = currentEntry.Id;
+						feedbackItem.IpAddress = HttpHelper.GetUserIpAddress(Context);
 
-						Entries.CreateComment(entry);
+						FeedbackItem.Create(feedbackItem);
 
 						if(chkRemember == null || chkRemember.Checked)
 						{

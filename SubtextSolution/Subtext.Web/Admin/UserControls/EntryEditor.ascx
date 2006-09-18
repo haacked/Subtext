@@ -136,22 +136,6 @@
 		<p>
 			<asp:TextBox id="txbExcerpt" runat="server" CssClass="textarea" rows="5" textmode="MultiLine" MaxLength="500"></asp:TextBox>
 		</p>
-		<p>
-			<label for="Editor_Edit_txbTitleUrl" accesskey="u">Title <u>U</u>rl</label>
-		</p>
-		<p>
-			<asp:TextBox id="txbTitleUrl" runat="server" CssClass="textinput" MaxLength="250"></asp:TextBox>
-		</p>
-		<p>
-			<label for="Editor_Edit_txbSourceName" accesskey="s"><u>S</u>ource Name</label>
-		</p>
-		<p>
-			<asp:TextBox id="txbSourceName" runat="server" CssClass="textinput"></asp:TextBox>
-		</p>
-		<p>
-			<label for="Editor_Edit_txbSourceUrl" accesskey="o">S<u>o</u>urce Url</label>
-		</p>
-		<p><asp:TextBox id="txbSourceUrl" runat="server" CssClass="textinput"></asp:TextBox></p>
 	</ANW:AdvancedPanel>
 	
 </ANW:AdvancedPanel>

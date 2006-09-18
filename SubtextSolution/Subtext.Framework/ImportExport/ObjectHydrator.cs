@@ -27,7 +27,7 @@ namespace Subtext.ImportExport
 			post.Approved = entry.IsActive;
 			post.Content.Text = entry.Body;
 			post.DateCreated = entry.DateCreated;
-			post.DateModified = entry.DateUpdated;
+			post.DateModified = entry.DateModified;
 			return post;
 		}
 
@@ -38,17 +38,17 @@ namespace Subtext.ImportExport
 		/// <returns></returns>
 		public static BlogMLComment LoadCommentFromDataReader(IDataReader reader)
 		{
-			Entry entry = DataHelper.LoadEntry(reader);
+			FeedbackItem feedbackItem = DataHelper.LoadFeedbackItem(reader);
 			BlogMLComment comment = new BlogMLComment();
-			comment.ID = entry.Id.ToString(CultureInfo.InvariantCulture);
-			comment.Title = entry.Title;
-			comment.Approved = entry.IsActive;
-			comment.Content.Text = entry.Body;
-			comment.DateCreated = entry.DateCreated;
-			comment.DateModified = entry.DateUpdated;
-			comment.UserUrl = entry.FullyQualifiedUrl.ToString();
-			comment.UserEMail = entry.Email;
-			comment.UserName = entry.Author;
+			comment.ID = feedbackItem.Id.ToString(CultureInfo.InvariantCulture);
+			comment.Title = feedbackItem.Title;
+			comment.Approved = feedbackItem.Approved;
+			comment.Content.Text = feedbackItem.Body;
+			comment.DateCreated = feedbackItem.DateCreated;
+			comment.DateModified = feedbackItem.DateModified;
+			comment.UserUrl = feedbackItem.SourceUrl.ToString();
+			comment.UserEMail = feedbackItem.Email;
+			comment.UserName = feedbackItem.Author;
 			return comment;
 		}
 
@@ -59,15 +59,15 @@ namespace Subtext.ImportExport
 		/// <returns></returns>
 		public static BlogMLTrackback LoadTrackbackFromDataReader(IDataReader reader)
 		{
-			Entry entry = DataHelper.LoadEntry(reader);
-			BlogMLTrackback comment = new BlogMLTrackback();
-			comment.ID = entry.Id.ToString(CultureInfo.InvariantCulture);
-			comment.Title = entry.Title;
-			comment.Approved = entry.IsActive;
-			comment.DateCreated = entry.DateCreated;
-			comment.DateModified = entry.DateUpdated;
-			comment.Url = entry.FullyQualifiedUrl.ToString();
-			return comment;
+			FeedbackItem trackback = DataHelper.LoadFeedbackItem(reader);
+			BlogMLTrackback blogMLTrackback = new BlogMLTrackback();
+			blogMLTrackback.ID = trackback.Id.ToString(CultureInfo.InvariantCulture);
+			blogMLTrackback.Title = trackback.Title;
+			blogMLTrackback.Approved = trackback.Approved;
+			blogMLTrackback.DateCreated = trackback.DateCreated;
+			blogMLTrackback.DateModified = trackback.DateModified;
+			blogMLTrackback.Url = trackback.SourceUrl.ToString();
+			return blogMLTrackback;
 		}
 		
 		public static BlogMLCategory CreateCategoryInstance(string id, string title, string description, bool approved, string parentId, DateTime dateCreated, DateTime dateModified)

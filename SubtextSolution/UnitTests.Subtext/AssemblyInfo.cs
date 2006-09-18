@@ -19,7 +19,7 @@ using MbUnit.Framework;
 
 // Used to provide assembly level setup and teardown.
 [assembly: AssemblyCleanup(typeof(UnitTests.Subtext.AssemblySetUpAndCleanUp))]
-
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "Log4Net.config", Watch = true)]
 //
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information

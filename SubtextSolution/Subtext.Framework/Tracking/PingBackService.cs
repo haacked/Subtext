@@ -71,8 +71,8 @@ namespace Subtext.Framework.Tracking
 				throw new XmlRpcFaultException(17, "Not a valid link.") ;		
   			
 			//PTR = Pingback - TrackBack - Referral
-			Trackback trackback = new Trackback(postId, HtmlHelper.SafeFormat(pageTitle), HtmlHelper.SafeFormat(sourceURI), string.Empty, HtmlHelper.SafeFormat(pageTitle));
-			Entries.Create(trackback);
+			Trackback trackback = new Trackback(postId, HtmlHelper.SafeFormat(pageTitle), new Uri(sourceURI), string.Empty, HtmlHelper.SafeFormat(pageTitle));
+			FeedbackItem.Create(trackback);
   		
 			return "thanks for the pingback on " + sourceURI ;
 		}

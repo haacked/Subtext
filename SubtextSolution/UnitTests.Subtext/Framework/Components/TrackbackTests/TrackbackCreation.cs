@@ -21,7 +21,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 		/// </summary>
 		[Test]
 		[RollBack]
-		public void CreateTrackbackSetsPostConfigCorrectly()
+		public void CreateTrackbackSetsFeedbackTypeCorrectly()
 		{
 			string hostname = UnitTestHelper.GenerateRandomString();
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
@@ -30,16 +30,13 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
 			int parentId = Entries.Create(entry);
 			
-			Trackback trackback = new Trackback(parentId, "title", "titleUrl", "phil", "body");
-			int id = Entries.Create(trackback);
-			
-			Entry loadedTrackback = Entries.GetEntry(id, PostConfig.IsActive, false);
-			Assert.IsNotNull(loadedTrackback, "Was not able to load trackback from storage.");
-			Assert.IsTrue(loadedTrackback.IsActive, "This item is active");
-			Assert.IsTrue(loadedTrackback.PostConfig > 0, "PostConfig was 0");
+			Trackback trackback = new Trackback(parentId, "title", new Uri("http://titleUrl"), "phil", "body");
+			int id = FeedbackItem.Create(trackback);
 
-            Entry activeTrackback = Entries.GetEntry(id, PostConfig.IsActive, false);
-			Assert.IsNotNull(activeTrackback, "The trackback was not active.");
+			FeedbackItem loadedTrackback = FeedbackItem.Get(id);
+			Assert.IsNotNull(loadedTrackback, "Was not able to load trackback from storage.");
+			Assert.IsTrue(loadedTrackback.Approved, "This item is active");
+			Assert.AreEqual(FeedbackType.PingTrack, loadedTrackback.FeedbackType, "Feedback should be a PingTrack");
 		}
 		
 		/// <summary>
@@ -56,12 +53,12 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 			Entry parentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("philsath aeuoa asoeuhtoensth", "sntoehu title aoeuao eu", "snaot hu aensaoehtu body");
 			int parentId = Entries.Create(parentEntry);
 
-            IList<Entry> entries = Entries.GetFeedBack(parentEntry);
+            IList<FeedbackItem> entries = Entries.GetFeedBack(parentEntry);
 			Assert.AreEqual(0, entries.Count, "Did not expect any feedback yet.");
 			
-			Trackback trackback = new Trackback(parentId, "title", "titleUrl", "phil", "body");
+			Trackback trackback = new Trackback(parentId, "title", new Uri("http://titleUrl"), "phil", "body");
 			Config.CurrentBlog.DuplicateCommentsEnabled = true;
-			int trackbackId = Entries.Create(trackback);
+			int trackbackId = FeedbackItem.Create(trackback);
 			
 			entries = Entries.GetFeedBack(parentEntry);
 			Assert.AreEqual(1, entries.Count, "Expected a trackback.");

@@ -122,7 +122,19 @@ namespace Subtext.Framework.Providers
 		public abstract IDataReader GetConditionalEntries(int itemCount, PostType postType, PostConfig postConfiguration, bool includeCategories);
 		public abstract IDataReader GetEntriesByDateRange(DateTime start, DateTime stop, PostType postType, bool activeOnly);
 
-		public abstract IDataReader GetFeedBack(int postId);
+		/// <summary>
+		/// Gets the feed back item by id.
+		/// </summary>
+		/// <param name="id">The id.</param>
+		/// <returns></returns>
+		public abstract IDataReader GetFeedBackItem(int id);
+		
+		/// <summary>
+		/// Gets the feed back items belonging to the specified post.
+		/// </summary>
+		/// <param name="postId">The post id.</param>
+		/// <returns></returns>
+		public abstract IDataReader GetFeedBackItems(int postId);
         public abstract IDataReader GetEntryDayReader(DateTime dt);
 
 		//Should Power both List<EntryDay> and EntryCollection
@@ -178,13 +190,20 @@ namespace Subtext.Framework.Providers
 	    /// <param name="entry"></param>
 	    /// <returns></returns>
 	    public abstract bool UpdateEntry(Entry entry);
+
+		/// <summary>
+		/// Updates an existing feedback.
+		/// </summary>
+		/// <param name="feedbackItem"></param>
+		/// <returns></returns>
+		public abstract bool UpdateFeedback(FeedbackItem feedbackItem);
 		
 	    /// <summary>
-	    /// Adds a ping/trackback of an entry in the database.
+	    /// Adds comment or a ping/trackback for an entry in the database.
 	    /// </summary>
-	    /// <param name="entry"></param>
+	    /// <param name="feedbackItem"></param>
 	    /// <returns></returns>
-	    public abstract int InsertPingTrackEntry(Entry entry); //Create and add check for PostType. 
+		public abstract int InsertFeedback(FeedbackItem feedbackItem);
 		#endregion
 
 		#region Links
@@ -219,7 +238,7 @@ namespace Subtext.Framework.Providers
 
 		public abstract bool UpdateCategory(LinkCategory lc);
 
-		public abstract int InsertCategory(LinkCategory lc);
+		public abstract int InsertCategory(LinkCategory category);
 
 		#endregion
 
@@ -273,7 +292,7 @@ namespace Subtext.Framework.Providers
 
 		public abstract bool DeleteKeyWord(int keywordId);
 
-		public abstract int InsertKeyWord(KeyWord kw);
+		public abstract int InsertKeyWord(KeyWord keyword);
 
 		public abstract bool UpdateKeyWord(KeyWord kw);
 
@@ -335,9 +354,11 @@ namespace Subtext.Framework.Providers
 		/// </summary>
 		/// <param name="pageIndex"></param>
 		/// <param name="pageSize"></param>
-		/// <param name="postConfig"></param>
+		/// <param name="excludeStatusMask">A flag for the statuses to exclude.</param>
+		/// <param name="status">Status flag for the feedback to return.</param>
+		/// <param name="type">Feedback Type (comment, comment api, etc..) for the feedback to return.</param>
 		/// <returns></returns>
-		public abstract IDataReader GetPagedFeedback(int pageIndex, int pageSize, PostConfig postConfig);
+		public abstract IDataReader GetPagedFeedback(int pageIndex, int pageSize, FeedbackStatusFlag status, FeedbackStatusFlag excludeStatusMask, FeedbackType type);
 		
 		/// <summary>
 		/// Gets the specified page of log entries.
