@@ -112,6 +112,7 @@
       <Name>ICSharpCode.SharpZipLib</Name>
       <HintPath>ExternalDependencies\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL" />
     <Reference Include="MbUnit.Framework">
       <Name>MbUnit.Framework</Name>
       <HintPath>ExternalDependencies\MbUnit.Framework.dll</HintPath>
@@ -228,6 +229,7 @@
     </Compile>
     <Compile Include="Framework\Components\CollectionBookTests.cs" />
     <Compile Include="Framework\Components\CommentTests\CommentSettingsTests.cs" />
+    <Compile Include="Framework\Components\CommentTests\FeedbackTests.cs" />
     <Compile Include="Framework\Components\EntryTests\AutoGenerateFriendlyUrlTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -258,6 +260,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Framework\Data\PagedCollectionRetrievalTests.cs" />
+    <Compile Include="Framework\Data\SqlDataProviderTests.cs" />
     <Compile Include="Framework\Format\UrlFormatTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -363,6 +366,8 @@
     <Content Include="ExternalDependencies\FredCK.FCKeditorV2.dll" />
     <Content Include="ExternalDependencies\freetextbox.dll" />
     <Content Include="ExternalDependencies\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="ExternalDependencies\log4net.dll" />
+    <Content Include="ExternalDependencies\log4net.xml" />
     <Content Include="ExternalDependencies\MbUnit.Framework.1.1.dll" />
     <Content Include="ExternalDependencies\MbUnit.Framework.dll" />
     <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.dll" />

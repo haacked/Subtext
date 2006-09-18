@@ -226,7 +226,7 @@ namespace Subtext.Web.Admin.Pages
 			{
 				Trackback entry = new Trackback(EntryID, txbTitle.Text, HtmlHelper.CheckForUrl(txbUrl.Text), string.Empty, txbBody.Text.Trim().Length > 0 ? txbBody.Text.Trim() : txbTitle.Text, BlogTime.CurrentBloggerTime);
 
-				if( Entries.Create(entry) > 0)
+				if(FeedbackItem.Create(entry) > 0)
 				{
 					this.Messages.ShowMessage(Constants.RES_SUCCESSNEW);
 					this.Edit.Visible = false;

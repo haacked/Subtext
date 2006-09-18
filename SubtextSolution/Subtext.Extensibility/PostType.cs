@@ -27,8 +27,17 @@ namespace Subtext.Extensibility
 		None = 0,
 		BlogPost = 1,
 		Story = 2,
-		Comment = 3,
-		PingTrack = 4,
+	}
+	
+	/// <summary>
+	/// Enumates the various types of comments within the subtext content table.
+	/// </summary>
+	public enum FeedbackType
+	{
+		None = 0,
+		Comment = 1,
+		PingTrack = 2,
+		ContactPage = 3, //Only applies if "ContactToFeedback" is set to true.
 	}
 }
 

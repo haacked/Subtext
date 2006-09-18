@@ -15,6 +15,7 @@
 
 using System;
 using Subtext.Framework;
+using Subtext.Framework.Components;
 using Subtext.Framework.Syndication;
 
 namespace Subtext.Framework.Syndication
@@ -22,9 +23,9 @@ namespace Subtext.Framework.Syndication
 	/// <summary>
 	/// Class used to handle requests for an RSS feed.
 	/// </summary>
-	public class RssHandler : Subtext.Framework.Syndication.BaseSyndicationHandler
+	public class RssHandler : Subtext.Framework.Syndication.BaseSyndicationHandler<Entry>
 	{
-		BaseSyndicationWriter writer;
+		BaseSyndicationWriter<Entry> writer;
 
 		/// <summary>
 		/// Returns the key used to cache this feed.
@@ -50,7 +51,7 @@ namespace Subtext.Framework.Syndication
 		/// Gets the syndication writer.
 		/// </summary>
 		/// <returns></returns>
-		protected override BaseSyndicationWriter SyndicationWriter
+		protected override BaseSyndicationWriter<Entry> SyndicationWriter
 		{
 			get
 			{

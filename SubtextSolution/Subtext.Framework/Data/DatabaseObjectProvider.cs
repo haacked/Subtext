@@ -20,7 +20,6 @@ using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Format;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
@@ -150,15 +149,17 @@ namespace Subtext.Framework.Data
 		/// </summary>
 		/// <param name="pageIndex">Index of the page.</param>
 		/// <param name="pageSize">Size of the page.</param>
-		/// <param name="postConfig"></param>
+		/// <param name="status">A flag for the status types to return.</param>
+		/// <param name="excludeStatusMask">A flag for the statuses to exclude.</param>
+		/// <param name="type">The type of feedback to return.</param>
 		/// <returns></returns>
-        public override IPagedCollection<Entry> GetPagedFeedback(int pageIndex, int pageSize, PostConfig postConfig)
+        public override IPagedCollection<FeedbackItem> GetPagedFeedback(int pageIndex, int pageSize, FeedbackStatusFlag status, FeedbackStatusFlag excludeStatusMask, FeedbackType type)
 		{
-			IDataReader reader = DbProvider.Instance().GetPagedFeedback(pageIndex, pageSize, postConfig);
-            IPagedCollection<Entry> pec = new PagedCollection<Entry>();
+			IDataReader reader = DbProvider.Instance().GetPagedFeedback(pageIndex, pageSize, status, excludeStatusMask, type);
+			IPagedCollection<FeedbackItem> pec = new PagedCollection<FeedbackItem>();
 			while(reader.Read())
 			{
-				pec.Add(DataHelper.LoadEntry(reader));
+				pec.Add(DataHelper.LoadFeedbackItem(reader));
 			}
 			reader.NextResult();
 			pec.MaxItems = DataHelper.GetMaxItems(reader);
@@ -271,21 +272,23 @@ namespace Subtext.Framework.Data
             }
 		}
 
-		public override IList<Entry> GetFeedBack(Entry parentEntry)
+		/// <summary>
+		/// Returns all the active entries for the specified post.
+		/// </summary>
+		/// <param name="parentEntry"></param>
+		/// <returns></returns>
+		public override IList<FeedbackItem> GetFeedbackForEntry(Entry parentEntry)
 		{
-			IDataReader reader = DbProvider.Instance().GetFeedBack(parentEntry.Id);
-			UrlFormats formats = Config.CurrentBlog.UrlFormats;
-			const bool buildLinks = true;
+			IDataReader reader = DbProvider.Instance().GetFeedBackItems(parentEntry.Id);
 			try
 			{
-				List<Entry> ec = new List<Entry>();
-				Entry entry;
+				List<FeedbackItem> ec = new List<FeedbackItem>();
+				FeedbackItem feedbackItem;
 				while(reader.Read())
 				{
 					//Don't build links.
-					entry = DataHelper.LoadEntry(reader, !buildLinks);
-					entry.Url = formats.CommentUrl(parentEntry, entry);
-					ec.Add(entry);
+					feedbackItem = DataHelper.LoadFeedbackItem(reader);
+					ec.Add(feedbackItem);
 				}
 				return ec;
 			}
@@ -293,6 +296,23 @@ namespace Subtext.Framework.Data
 			{
 				reader.Close();
 			}
+		}
+
+		/// <summary>
+		/// Returns the feedback by id.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public override FeedbackItem GetFeedback(int id)
+		{
+			using(IDataReader reader = DbProvider.Instance().GetFeedBackItem(id))
+			{
+				if(reader.Read())
+				{
+					return DataHelper.LoadFeedbackItem(reader);
+				}
+			}
+			return null;
 		}
 
         public override IList<Entry> GetPostCollectionByMonth(int month, int year)
@@ -396,8 +416,12 @@ namespace Subtext.Framework.Data
 
 		#endregion
 
-		#region Create Entry
+		public override int Create(FeedbackItem feedbackItem)
+		{
+			return DbProvider.Instance().InsertFeedback(feedbackItem);
+		}
 
+		#region Create Entry
 		/// <summary>
 		/// Creates the specified entry in the back end data store attaching 
 		/// the specified category ids.
@@ -407,11 +431,6 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override int Create(Entry entry, int[] categoryIds)
 		{
-			if(entry.PostType == PostType.PingTrack)
-			{
-				return DbProvider.Instance().InsertPingTrackEntry(entry);
-			}
-
 			if(!FormatEntry(entry,true))
 			{
 				throw new BlogFailedPostException("Failed post exception");
@@ -440,7 +459,17 @@ namespace Subtext.Framework.Data
 		#endregion
 
 		#region Update
-        
+
+		/// <summary>
+		/// Saves changes to the specified feedback.
+		/// </summary>
+		/// <param name="feedbackItem">The feedback item.</param>
+		/// <returns></returns>
+		public override bool Update(FeedbackItem feedbackItem)
+		{
+			return DbProvider.Instance().UpdateFeedback(feedbackItem);
+		}
+		
 	    /// <summary>
         /// Saves changes to the specified entry attaching the specified categories.
         /// </summary>
@@ -477,7 +506,7 @@ namespace Subtext.Framework.Data
 
 				if(entry.Id > -1)
 				{
-					Config.CurrentBlog.LastUpdated = entry.DateUpdated;
+					Config.CurrentBlog.LastUpdated = entry.DateModified;
 				}
 			}
 			return true;

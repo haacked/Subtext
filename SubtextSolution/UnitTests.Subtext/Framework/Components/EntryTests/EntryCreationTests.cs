@@ -59,28 +59,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			string expectedFullyQualifiedLink = "http://" + hostname + expectedLink;
 
             Entry savedEntry = Entries.GetEntry(id, PostConfig.None, false);
-			Assert.AreEqual(savedEntry.Url, expectedLink, "The link was not what we expected.");
-			Assert.AreEqual(savedEntry.FullyQualifiedUrl, expectedFullyQualifiedLink, "The link was not what we expected.");
-		}
-		
-		/// <summary>
-		/// Makes sure that the content checksum hash is being created correctly.
-		/// </summary>
-		[Test]
-		[RollBack]
-		public void EntryCreateHasContentHash()
-		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
-
-			Entry entry = new Entry(PostType.PingTrack);
-			entry.DateCreated = DateTime.Now;
-			entry.SourceUrl = "http://" + UnitTestHelper.GenerateRandomString() + "/ThisUrl/";
-			entry.Title = "Some Title";
-			entry.Body = "Some Body";
-			int id = Entries.Create(entry);
-
-            Entry savedEntry = Entries.GetEntry(id, PostConfig.None, false);
-			Assert.IsTrue(savedEntry.ContentChecksumHash.Length > 0, "The Content Checksum should be larger than 0.");
+			Assert.AreEqual(expectedLink, savedEntry.Url, "The link was not what we expected.");
+			Assert.AreEqual(expectedFullyQualifiedLink, savedEntry.FullyQualifiedUrl.ToString(), "The link was not what we expected.");
 		}
 		
 		[Test]
@@ -92,7 +72,6 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Entry entry = new Entry(PostType.BlogPost);
 			
 			entry.DateCreated = DateTime.Now;
-			entry.SourceUrl = "http://" + UnitTestHelper.GenerateRandomString() + "/ThisUrl/";
 			entry.Title = "Some Title";
 			entry.Body = "Some Body";
 			

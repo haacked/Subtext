@@ -125,7 +125,6 @@ namespace UnitTests.Subtext.Framework.Format
 			Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("tr");
 			url = formats.EntryUrl(entry);
 			Assert.AreEqual("/Subtext.Web/MyBlog/archive/2006/01/23/test.aspx", url, "Expected a normally formatted url.");
-			Assert.AreEqual("/Subtext.Web/MyBlog/archive/2006/01/23/test.aspx#123", formats.CommentUrl(entry), "Expected a normally formatted url.");
 			Assert.AreEqual("/Subtext.Web/MyBlog/archive/2006/01.aspx", formats.MonthUrl(entry.DateCreated), "Expected a normally formatted url.");
 		}
 

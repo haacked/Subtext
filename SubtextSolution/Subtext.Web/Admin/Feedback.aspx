@@ -38,7 +38,7 @@
 					</td>
 					<td>
 						<asp:CheckBox id="chkDelete" Runat="Server"></asp:CheckBox>
-						<input type="hidden" id="EntryID" name="EntryID" value='<%# DataBinder.Eval(Container.DataItem, "Id") %>' runat="server" />
+						<input type="hidden" id="FeedbackId" name="FeedbackId" value='<%# DataBinder.Eval(Container.DataItem, "Id") %>' runat="server" />
 					</td>
 				</tr>
 				<tr class="body">
@@ -60,7 +60,7 @@
 					</td>
 					<td>
 						<asp:CheckBox id="chkDeleteAlt" Runat="Server"></asp:CheckBox>
-						<input type="hidden" id="EntryIDAlt" name="EntryIDAlt" value='<%# DataBinder.Eval(Container.DataItem, "Id") %>' runat="server" />
+						<input type="hidden" id="FeedbackIdAlt" name="FeedbackIdAlt" value='<%# DataBinder.Eval(Container.DataItem, "Id") %>' runat="server" />
 					</td>
 				</tr>
 				<tr class="body Alt">

@@ -103,16 +103,15 @@ namespace Subtext.Framework.Web
 		/// </summary>
 		/// <param name="context">The context.</param>
 		/// <returns></returns>
-		public static string GetUserIpAddress(HttpContext context)
+		public static IPAddress GetUserIpAddress(HttpContext context)
 		{
-			string result = String.Empty;
-			if (context == null) return result;
+			if (context == null) return IPAddress.None;
 
-			result = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-			if (null == result || result.Length == 0)
+			string result = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+			if (String.IsNullOrEmpty(result))
 				result = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
 
-			return result;
+			return IPAddress.Parse(result);
 		}
 		
 		/// <summary>

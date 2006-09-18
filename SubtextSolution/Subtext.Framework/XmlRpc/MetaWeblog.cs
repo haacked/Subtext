@@ -89,9 +89,6 @@ namespace Subtext.Framework.XmlRpc
 				entry.Email = info.Email;
 				entry.Body = post.description;
 				entry.Title = post.title;
-				//entry.TitleUrl = post.link;
-				entry.SourceName = string.Empty;
-				entry.SourceUrl = string.Empty;
 				entry.Description = string.Empty;
 
                 if(post.categories != null)
@@ -101,7 +98,7 @@ namespace Subtext.Framework.XmlRpc
 				entry.IsXHMTL = false;
 				entry.IsActive = publish;
 		
-				entry.DateUpdated = BlogTime.CurrentBloggerTime;
+				entry.DateModified = BlogTime.CurrentBloggerTime;
 				return Entries.Update(entry);
 			}
 			return false;
@@ -203,9 +200,6 @@ namespace Subtext.Framework.XmlRpc
 			entry.Email = info.Email;
 			entry.Body = post.description;
 			entry.Title = post.title;
-			//entry.TitleUrl = post.link;
-			entry.SourceName = string.Empty;
-			entry.SourceUrl = string.Empty;
 			entry.Description = string.Empty;
 			
 			//TODO: Figure out why this is here.
@@ -213,12 +207,12 @@ namespace Subtext.Framework.XmlRpc
 			if(post.dateCreated.Year >= 2003)
 			{
 				entry.DateCreated = post.dateCreated;
-				entry.DateUpdated = post.dateCreated;
+				entry.DateModified = post.dateCreated;
 			}
 			else
 			{
 				entry.DateCreated = BlogTime.CurrentBloggerTime;
-				entry.DateUpdated = entry.DateCreated;
+				entry.DateModified = entry.DateCreated;
 			}
 
 			if(post.categories != null)

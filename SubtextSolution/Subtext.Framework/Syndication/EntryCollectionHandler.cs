@@ -15,7 +15,6 @@
 
 using System;
 using System.Collections.Generic;
-using Subtext.Framework.Components;
 using Subtext.Framework.Syndication;
 using DTCF = Subtext.Framework.Configuration;
 
@@ -23,16 +22,9 @@ namespace Subtext.Framework.Syndication
 {
 	/// <summary>
 	/// </summary>
-	public abstract class EntryCollectionHandler : Subtext.Framework.Syndication.BaseSyndicationHandler
+	public abstract class EntryCollectionHandler<T> : BaseSyndicationHandler<T>
 	{
-		/// <summary>
-		/// Creates a new <see cref="EntryCollectionHandler"/> instance.
-		/// </summary>
-	    protected EntryCollectionHandler()
-		{
-		}
-
-        protected abstract IList<Entry> GetFeedEntries();
+		protected abstract IList<T> GetFeedEntries();
 
 		protected override bool IsLocalCacheOK()
 		{
@@ -40,19 +32,19 @@ namespace Subtext.Framework.Syndication
 		
 			if(dt != null)
 			{
-                IList<Entry> ec = GetFeedEntries();
+                IList<T> ec = GetFeedEntries();
 
 				if(ec != null && ec.Count > 0)
 				{
 				    //Get the first entry.
-				    Entry entry = null;
+				    T entry = default(T);
 				    //TODO: Probably change GetFeedEntries to return IList<Entry>
-				    foreach(Entry en in ec)
+				    foreach(T en in ec)
 				    {
 				        entry = en;
 				        break;
 				    }
-					return DateTime.Compare(DateTime.Parse(dt),this.ConvertLastUpdatedDate(entry.DateCreated)) == 0;
+					return DateTime.Compare(DateTime.Parse(dt), this.ConvertLastUpdatedDate(GetItemCreatedDate(entry))) == 0;
 				}
 			}
 			return false;			
@@ -81,7 +73,12 @@ namespace Subtext.Framework.Syndication
 			return false;
 		}
 
-	
+		/// <summary>
+		/// Gets the item created date.
+		/// </summary>
+		/// <param name="item">The item.</param>
+		/// <returns></returns>
+		protected abstract DateTime GetItemCreatedDate(T item);
 
 
 

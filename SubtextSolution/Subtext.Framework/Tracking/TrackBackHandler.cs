@@ -144,8 +144,8 @@ namespace Subtext.Framework.Tracking
 				return;
 			}
 
-			Trackback trackback = new Trackback(entryId, title, url.ToString(), blog_name, excerpt);
-			Entries.Create(trackback);
+			Trackback trackback = new Trackback(entryId, title, url, blog_name, excerpt);
+			FeedbackItem.Create(trackback);
 		}
 		
 		/// <summary>

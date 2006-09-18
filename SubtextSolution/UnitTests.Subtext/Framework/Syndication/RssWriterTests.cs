@@ -342,7 +342,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 				entry.EntryName = entryName;
 			}
 			entry.DateCreated = dateCreated;
-			entry.DateUpdated = entry.DateCreated;
+			entry.DateModified = entry.DateCreated;
 			entry.Title = title;
 			entry.Author = "Phil Haack";
 			entry.Body = body;

@@ -112,18 +112,18 @@ namespace Subtext.Web.Admin.Pages
 		}
 
 		/// <summary>
-		/// Gets the body of the entry represented by the dataItem.
+		/// Gets the body of the feedback represented by the dataItem.
 		/// </summary>
 		/// <param name="dataItem"></param>
 		/// <returns></returns>
 		protected string GetBody(object dataItem)
 		{
-			Entry entry = (Entry)dataItem;
-			if(entry.PostType == PostType.Comment)
+			FeedbackItem feedbackItem = (FeedbackItem)dataItem;
+			if(feedbackItem.FeedbackType != FeedbackType.PingTrack)
 			{
-				return entry.Body;
+				return feedbackItem.Body;
 			}
-			return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}<br /><a target=\"_blank\" title=\"view: {1}\"  href=\"{2}\">Pingback/TrackBack</a>", entry.Body, entry.Title, entry.TitleUrl);
+			return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}<br /><a target=\"_blank\" title=\"view: {1}\"  href=\"{2}\">Pingback/TrackBack</a>", feedbackItem.Body, feedbackItem.Title, feedbackItem.SourceUrl);
 		}
 
 		/// <summary>
@@ -134,8 +134,8 @@ namespace Subtext.Web.Admin.Pages
 		/// <returns></returns>
 		protected string GetAuthor(object dataItem)
 		{
-			Entry entry = (Entry)dataItem;
-			return string.Format(@"<span title=""{0}"">{1}</span>", entry.SourceName, entry.Author);
+			FeedbackItem feedbackItem = (FeedbackItem)dataItem;
+			return string.Format(@"<span title=""{0}"">{1}</span>", feedbackItem.IpAddress, feedbackItem.Author);
 		}
 
 		/// <summary>
@@ -145,11 +145,11 @@ namespace Subtext.Web.Admin.Pages
 		/// <returns></returns>
 		protected string GetTitle(object dataItem)
 		{
-			Entry entry = (Entry)dataItem;
-			if (!String.IsNullOrEmpty(entry.SourceUrl))
-				return string.Format(@"<a href=""{0}"" title=""{0}"">{1}</a>", entry.SourceUrl, entry.Title);
+			FeedbackItem feedbackItem = (FeedbackItem)dataItem;
+			if (feedbackItem.SourceUrl != null)
+				return string.Format(@"<a href=""{0}"" title=""{0}"">{1}</a>", feedbackItem.SourceUrl, feedbackItem.Title);
 
-			return entry.Title;
+			return feedbackItem.Title;
 		}
 
 		/// <summary>
@@ -160,17 +160,17 @@ namespace Subtext.Web.Admin.Pages
 		/// <returns></returns>
 		protected string GetAuthorInfo(object dataItem)
 		{
-			Entry entry = (Entry)dataItem;
+			FeedbackItem feedback = (FeedbackItem)dataItem;
 			string authorInfo = string.Empty;
 
-			if (entry.Email != null && entry.Email.Length > 0 && entry.Email.IndexOf("@") > 0)
+			if (feedback.Email != null && feedback.Email.Length > 0 && feedback.Email.IndexOf("@") > 0)
 			{
-				authorInfo += string.Format(@"<a href=""mailto:{0}"" title=""{0}""><img src=""{1}"" alt=""{0}"" border=""0"" class=""email"" /></a>", entry.Email, ControlHelper.ExpandTildePath("~/images/email.gif"));
+				authorInfo += string.Format(@"<a href=""mailto:{0}"" title=""{0}""><img src=""{1}"" alt=""{0}"" border=""0"" class=""email"" /></a>", feedback.Email, ControlHelper.ExpandTildePath("~/images/email.gif"));
 			}
 
-			if (!String.IsNullOrEmpty(entry.AlternativeTitleUrl))
+			if (feedback.SourceUrl == null)
 			{
-				authorInfo += string.Format(@"<a href=""{0}"" title=""{0}""><img src=""{1}"" alt=""{0}"" border=""0"" /></a>", entry.AlternativeTitleUrl, ControlHelper.ExpandTildePath("~/images/permalink.gif"));
+				authorInfo += string.Format(@"<a href=""{0}"" title=""{0}""><img src=""{1}"" alt=""{0}"" border=""0"" /></a>", feedback.SourceUrl, ControlHelper.ExpandTildePath("~/images/permalink.gif"));
 			}
 
 			return authorInfo;
@@ -178,8 +178,8 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindList()
 		{
-			PostConfig postConfig = this.ModerateComments ? PostConfig.NeedsModeratorApproval : PostConfig.IsActive;
-			IPagedCollection<Entry> selectionList = Entries.GetPagedFeedback(this.pageIndex, this.resultsPager.PageSize, postConfig);
+			FeedbackStatusFlag statusFlag = this.ModerateComments ? FeedbackStatusFlag.NeedsModeration : FeedbackStatusFlag.None;
+			IPagedCollection<FeedbackItem> selectionList = FeedbackItem.GetPagedFeedback(this.pageIndex, this.resultsPager.PageSize, statusFlag, FeedbackType.None);
 
 			this.btnApprove.Visible = this.ModerateComments;
 			
@@ -250,7 +250,7 @@ namespace Subtext.Web.Admin.Pages
 		/// <param name="e"></param>
 		protected void OnApproveClick(object sender, System.EventArgs e)
 		{
-			IList<int> itemsToDelete = GetCheckedEntryIds();
+			IList<int> itemsToDelete = GetCheckedFeedbackIds();
 
 			if (itemsToDelete.Count == 0)
 			{
@@ -258,10 +258,10 @@ namespace Subtext.Web.Admin.Pages
 				return;
 			}
 
-			foreach(int entryId in itemsToDelete)
+			foreach(int feedbackId in itemsToDelete)
 			{
-				Entry comment = Entries.GetEntry(entryId, PostConfig.None, false);
-				Entries.Approve(comment);
+				FeedbackItem comment = FeedbackItem.Get(feedbackId);
+				FeedbackItem.Approve(comment);
 			}
 			
 			BindList();
@@ -275,7 +275,7 @@ namespace Subtext.Web.Admin.Pages
 		/// <param name="e"></param>
 		protected void OnDeleteClick(object sender, System.EventArgs e)
 		{
-			IList<int> itemsToDelete = GetCheckedEntryIds();
+			IList<int> itemsToDelete = GetCheckedFeedbackIds();
 
 			if(itemsToDelete.Count == 0)
 			{
@@ -286,9 +286,9 @@ namespace Subtext.Web.Admin.Pages
 			ConfirmDeleteComment(itemsToDelete);
 		}
 
-		private IList<int> GetCheckedEntryIds()
+		private IList<int> GetCheckedFeedbackIds()
 		{
-			IList<int> entryIds = new List<int>();
+			IList<int> feedbackIds = new List<int>();
 			foreach(RepeaterItem item in this.rprSelectionList.Items)
 			{
 				// Get the checkbox from the item or the alternating item.
@@ -300,19 +300,19 @@ namespace Subtext.Web.Admin.Pages
 
 				if(deleteCheck != null && deleteCheck.Checked)
 				{
-					// Get the EntryId from the item or the alternating item.
-					HtmlInputHidden entryId = item.FindControl("EntryID") as HtmlInputHidden;
-					if(entryId == null)
+					// Get the FeedbackId from the item or the alternating item.
+					HtmlInputHidden feedbackId = item.FindControl("FeedbackId") as HtmlInputHidden;
+					if(feedbackId == null)
 					{
-						entryId = item.FindControl("EntryIDAlt") as HtmlInputHidden;
+						feedbackId = item.FindControl("FeedbackIdAlt") as HtmlInputHidden;
 					}
 					
 					//Now add the item to the list of items to delete.
-					if(entryId != null && entryId.Value != null && entryId.Value.Length > 0)
+					if(feedbackId != null && feedbackId.Value != null && feedbackId.Value.Length > 0)
 					{
 						try
 						{
-							entryIds.Add(int.Parse(entryId.Value));
+							feedbackIds.Add(int.Parse(feedbackId.Value));
 						}
 						catch(System.FormatException)
 						{
@@ -321,7 +321,7 @@ namespace Subtext.Web.Admin.Pages
 					}
 				}
 			}
-			return entryIds;
+			return feedbackIds;
 		}
 	}
 }

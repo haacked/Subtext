@@ -55,14 +55,14 @@ namespace Subtext.Web.UI.Controls
 			{
 				if(SendContactMessageToFeedback)
 				{
-					Entry entry = new Entry(PostType.Comment);
-					entry.Author = tbName.Text;
-					entry.Email = tbEmail.Text;
-					entry.Body = tbMessage.Text;
-					entry.AlternativeTitleUrl = "contact.aspx";
-					entry.Title = "CONTACT: " + tbSubject.Text;
-					entry.SourceName = HttpHelper.GetUserIpAddress(Context);
-					Entries.CreateComment(entry);
+					FeedbackItem contactMessage = new FeedbackItem(FeedbackType.None);
+					
+					contactMessage.Author = tbName.Text;
+					contactMessage.Email = tbEmail.Text;
+					contactMessage.Body = tbMessage.Text;
+					contactMessage.Title = "CONTACT: " + tbSubject.Text;
+					contactMessage.IpAddress = HttpHelper.GetUserIpAddress(Context);
+					FeedbackItem.Create(contactMessage);
 					
 					lblMessage.Text = "Your message was sent.";
 					tbName.Text = "";
@@ -80,7 +80,7 @@ namespace Subtext.Web.UI.Controls
 				string subject = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} (via {1})", tbSubject.Text, 
 				                               info.Title);
 
-				string sendersIpAddress = HttpHelper.GetUserIpAddress(Context);
+				string sendersIpAddress = HttpHelper.GetUserIpAddress(Context).ToString();
 
 				// \n by itself has issues with qmail (unix via openSmtp), \r\n should work on unix + wintel
 				string body = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Mail from {0}:\r\n\r\nSender: {1}\r\nEmail: {2}\r\nIP Address: {3}\r\n=====================================\r\n{4}", 

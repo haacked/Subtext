@@ -49,23 +49,23 @@ namespace Subtext.Framework
 		/// of the comment.
 		/// </p>
 		/// </remarks>
-		/// <param name="entry">Entry.</param>
-		public static void FilterComment(Entry entry)
+		/// <param name="feedbackItem">Entry.</param>
+		public static void FilterComment(FeedbackItem feedbackItem)
 		{
-			if(!SourceFrequencyIsValid(entry))
+			if (!SourceFrequencyIsValid(feedbackItem))
 				throw new CommentFrequencyException();
 
-			if(!Config.CurrentBlog.DuplicateCommentsEnabled && IsDuplicateComment(entry))
+			if (!Config.CurrentBlog.DuplicateCommentsEnabled && IsDuplicateComment(feedbackItem))
 				throw new CommentDuplicateException();
 
-			if(ContainsSpam(entry))
+			if (ContainsSpam(feedbackItem))
 				throw new CommentSpamException("Sorry, spam is not allowed.");
 
-			if(IsInBlackList(entry))
+			if (IsInBlackList(feedbackItem))
 				throw new CommentBlackListException("Sorry, you've been temporarily blacklisted for spamming.");
 		}
 
-		static bool ContainsSpam(Entry entry)
+		static bool ContainsSpam(FeedbackItem feedbackItem)
 		{
             string spamWordsText = System.Configuration.ConfigurationManager.AppSettings["SpamWords"];
 			if(!string.IsNullOrEmpty(spamWordsText))
@@ -77,11 +77,11 @@ namespace Subtext.Framework
 					//We're not going to filter the body yet since most of the 
 					//spam puts casino in title.
 					
-					if(regex.IsMatch(entry.Title) 
-						|| (!string.IsNullOrEmpty(entry.Author) && regex.IsMatch(entry.Author))
-						|| (!string.IsNullOrEmpty(entry.TitleUrl) && regex.IsMatch(entry.TitleUrl)))
+					if(regex.IsMatch(feedbackItem.Title) 
+						|| (!string.IsNullOrEmpty(feedbackItem.Author) && regex.IsMatch(feedbackItem.Author))
+						|| (feedbackItem.SourceUrl != null && regex.IsMatch(feedbackItem.SourceUrl.ToString())))
 					{
-						AddToBlackList(entry);
+						AddToBlackList(feedbackItem);
 						return true;
 					}					
 				}
@@ -92,14 +92,14 @@ namespace Subtext.Framework
 		/// <summary>
 		/// Determines whether [is in black list] [the specified entry].
 		/// </summary>
-		/// <param name="entry">The entry.</param>
+		/// <param name="feedbackItem">The entry.</param>
 		/// <returns>
 		/// 	<c>true</c> if [is in black list] [the specified entry]; otherwise, <c>false</c>.
 		/// </returns>
-		public static bool IsInBlackList(Entry entry)
+		public static bool IsInBlackList(FeedbackItem feedbackItem)
 		{
 			Cache cache = HttpContext.Current.Cache;
-			if(cache.Get(BLACKLIST_CACHE_KEY + entry.SourceName) != null)
+			if(cache.Get(BLACKLIST_CACHE_KEY + feedbackItem.IpAddress) != null)
 				return true;
 			return false;
 		}
@@ -108,23 +108,23 @@ namespace Subtext.Framework
 		/// Adds the source IP of this entry to black list.  The 
 		/// black list is temporary for now.
 		/// </summary>
-		/// <param name="entry">The entry.</param>
+		/// <param name="feedbackItem">The entry.</param>
 		/// <returns></returns>
-		public static void AddToBlackList(Entry entry)
+		public static void AddToBlackList(FeedbackItem feedbackItem)
 		{
 			Cache cache = HttpContext.Current.Cache;
-			cache.Insert(BLACKLIST_CACHE_KEY + entry.SourceName, string.Empty, null, DateTime.Now.AddMinutes(BLACKLIST_TIMEOUT), TimeSpan.Zero);
+			cache.Insert(BLACKLIST_CACHE_KEY + feedbackItem.IpAddress, string.Empty, null, DateTime.Now.AddMinutes(BLACKLIST_TIMEOUT), TimeSpan.Zero);
 		}
 
 		// Returns true if the source of the entry is not 
 		// posting too many.
-		static bool SourceFrequencyIsValid(Entry entry)
+		static bool SourceFrequencyIsValid(FeedbackItem feedbackItem)
 		{
 			if(Config.CurrentBlog.CommentDelayInMinutes <= 0)
 				return true;
 
 			Cache cache = HttpContext.Current.Cache;
-			object lastComment = cache.Get(FILTER_CACHE_KEY + entry.SourceName);
+			object lastComment = cache.Get(FILTER_CACHE_KEY + feedbackItem.IpAddress);
 			
 			if(lastComment != null)
 			{
@@ -133,12 +133,12 @@ namespace Subtext.Framework
 			}
 
 			//Add to cache.
-            cache.Insert(FILTER_CACHE_KEY + entry.SourceName, string.Empty, null, DateTime.Now.AddMinutes(Config.CurrentBlog.CommentDelayInMinutes), TimeSpan.Zero);
+            cache.Insert(FILTER_CACHE_KEY + feedbackItem.IpAddress, string.Empty, null, DateTime.Now.AddMinutes(Config.CurrentBlog.CommentDelayInMinutes), TimeSpan.Zero);
 			return true;
 		}
 
 		// Returns true if this entry is a duplicate.
-		static bool IsDuplicateComment(Entry entry)
+		static bool IsDuplicateComment(FeedbackItem feedbackItem)
 		{
 			const int RECENT_ENTRY_CAPACITY = 10;
 
@@ -150,7 +150,7 @@ namespace Subtext.Framework
 			Queue<string> recentComments = cache[FILTER_CACHE_KEY + ".RECENT_COMMENTS"] as Queue<string>;
 			if(recentComments != null)
 			{
-				if (recentComments.Contains(entry.ContentChecksumHash))
+				if (recentComments.Contains(feedbackItem.ChecksumHash))
 					return true;
 			}
 			else
@@ -160,7 +160,7 @@ namespace Subtext.Framework
 			}
 
 			// Check the database
-			Entry duplicate = Entries.GetCommentByChecksumHash(entry.ContentChecksumHash);
+			Entry duplicate = Entries.GetCommentByChecksumHash(feedbackItem.ChecksumHash);
 			if(duplicate != null)
 				return true;
 
@@ -168,7 +168,7 @@ namespace Subtext.Framework
             if(recentComments.Count == RECENT_ENTRY_CAPACITY)
 				recentComments.Dequeue();
 
-			recentComments.Enqueue(entry.ContentChecksumHash);
+			recentComments.Enqueue(feedbackItem.ChecksumHash);
 			return false;
 		}
 

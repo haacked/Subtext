@@ -14,9 +14,9 @@
 #endregion
 
 using System;
+using System.Collections.Specialized;
 using System.Globalization;
-using Subtext.Extensibility;
-using Subtext.Framework.Components;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Text;
@@ -27,7 +27,7 @@ namespace Subtext.Framework.Syndication
 	/// <summary>
 	/// Abstract base class used to write RSS feeds.
 	/// </summary>
-	public abstract class BaseRssWriter : BaseSyndicationWriter
+	public abstract class BaseRssWriter<T> : BaseSyndicationWriter<T> where T : IIdentifiable
 	{
 		private bool isBuilt = false;
 
@@ -200,9 +200,9 @@ namespace Subtext.Framework.Syndication
 			this.clientHasAllFeedItems = true;
 			this.latestPublishDate = this.DateLastViewedFeedItemPublished;
 			
-			foreach(Entry entry in this.Entries)
+			foreach(T entry in this.Items)
 			{
-				if(this.useDeltaEncoding && entry.DateSyndicated <= DateLastViewedFeedItemPublished)
+				if (this.useDeltaEncoding && GetSyndicationDate(entry) <= DateLastViewedFeedItemPublished)
 				{
 					// Since Entries are ordered by DatePublished descending, as soon 
 					// as we encounter one that is smaller than or equal to 
@@ -217,9 +217,9 @@ namespace Subtext.Framework.Syndication
 				this.WriteStartElement("item");
 				EntryXml(entry, settings, info.UrlFormats);
 				this.WriteEndElement();
-				if(entry.DateSyndicated > latestPublishDate)
+				if(GetSyndicationDate(entry) > latestPublishDate)
 				{
-					latestPublishDate = entry.DateSyndicated;
+					latestPublishDate = GetSyndicationDate(entry);
 				}
 
 				this.clientHasAllFeedItems = false;
@@ -229,57 +229,142 @@ namespace Subtext.Framework.Syndication
 		/// <summary>
 		/// Writes the XML for a single entry.
 		/// </summary>
-		/// <param name="entry">Entry.</param>
+		/// <param name="item">Entry.</param>
 		/// <param name="settings">Settings.</param>
 		/// <param name="urlFormats">Uformat.</param>
-		protected virtual void EntryXml(Entry entry, BlogConfigurationSettings settings, UrlFormats urlFormats)
+		protected virtual void EntryXml(T item, BlogConfigurationSettings settings, UrlFormats urlFormats)
 		{
 			//core
-			this.WriteElementString("title", entry.Title);
-		    
-	        foreach (string category in entry.Categories)
-            {
-                this.WriteElementString("category", category);
-            }
-		    
-			this.WriteElementString("link", entry.FullyQualifiedUrl.ToString());
+			this.WriteElementString("title", GetTitleFromItem(item));
+
+			StringCollection categories = GetCategoriesFromItem(item);
+			if (categories != null)
+			{
+				foreach (string category in categories)
+				{
+					this.WriteElementString("category", category);
+				}
+			}
+
+			string fullUrl = GetLinkFromItem(item);
+
+			this.WriteElementString("link", fullUrl);
 			this.WriteElementString
 			(
 				"description", //Tag
 				string.Format
 				(
 					"{0}{1}", //tag def
-					entry.SyndicateDescriptionOnly ? entry.Description : entry.Body,  //use desc or full post
-					(UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(urlFormats.AggBugkUrl(entry.Id)) : null //use aggbugs
+					GetBodyFromItem(item), (UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(urlFormats.AggBugkUrl(item.Id)) : null //use aggbugs
 				)
 			);
 
-			if (!String.IsNullOrEmpty(entry.Author))
+			string author = GetAuthorFromItem(item);
+			if (!String.IsNullOrEmpty(author))
             {
-				this.WriteElementString("dc:creator", entry.Author);
+				this.WriteElementString("dc:creator", author);
             }
-		    
-			this.WriteElementString("guid", entry.FullyQualifiedUrl.ToString());
-			this.WriteElementString("pubDate", entry.DateCreated.ToString("r"));			
 
-			if (entry.PostType == PostType.BlogPost || entry.PostType == PostType.Story)
+			this.WriteElementString("guid", fullUrl);
+			this.WriteElementString("pubDate", GetPublishedDate(item).ToString("r"));
+
+			if (ItemCouldContainComments(item))
 			{
-				if (AllowComments && info.CommentsEnabled && entry.AllowComments && !entry.CommentingClosed)
+				if (AllowComments && info.CommentsEnabled && ItemAllowsComments(item) && !CommentsClosedOnItem(item))
 				{
 					// Comment API (http://wellformedweb.org/story/9)
-					this.WriteElementString("wfw:comment", urlFormats.CommentApiUrl(entry.Id));
+					this.WriteElementString("wfw:comment", urlFormats.CommentApiUrl(item.Id));
 				}
-				
-				this.WriteElementString("comments", entry.FullyQualifiedUrl + "#feedback");
 
-				if (entry.FeedBackCount > 0)
-					this.WriteElementString("slash:comments", entry.FeedBackCount.ToString(CultureInfo.InvariantCulture));
+				this.WriteElementString("comments", fullUrl + "#feedback");
+
+				if (GetFeedbackCount(item) > 0)
+					this.WriteElementString("slash:comments", GetFeedbackCount(item).ToString(CultureInfo.InvariantCulture));
 				
-				this.WriteElementString("wfw:commentRss", urlFormats.CommentRssUrl(entry.Id));
+				this.WriteElementString("wfw:commentRss", urlFormats.CommentRssUrl(item.Id));
 
 				if (info.TrackbacksEnabled)
-					this.WriteElementString("trackback:ping", urlFormats.TrackBackUrl(entry.Id));
+					this.WriteElementString("trackback:ping", urlFormats.TrackBackUrl(item.Id));
 			}
 		}
+
+		/// <summary>
+		/// Gets the categories from entry.
+		/// </summary>
+		/// <param name="item">The entry.</param>
+		/// <returns></returns>
+		protected abstract StringCollection GetCategoriesFromItem(T item);
+
+		/// <summary>
+		/// Gets the title from item.
+		/// </summary>
+		/// <param name="item">The item.</param>
+		/// <returns></returns>
+		protected abstract string GetTitleFromItem(T item);
+
+		/// <summary>
+		/// Gets the link from item.
+		/// </summary>
+		/// <param name="item">The item.</param>
+		/// <returns></returns>
+		protected abstract string GetLinkFromItem(T item);
+
+		/// <summary>
+		/// Gets the body from item.
+		/// </summary>
+		/// <param name="item">The item.</param>
+		/// <returns></returns>
+		protected abstract string GetBodyFromItem(T item);
+
+		/// <summary>
+		/// Gets the author from item.
+		/// </summary>
+		/// <param name="item">The item.</param>
+		/// <returns></returns>
+		protected abstract string GetAuthorFromItem(T item);
+
+		/// <summary>
+		/// Gets the publish date from item.
+		/// </summary>
+		/// <param name="item">The item.</param>
+		/// <returns></returns>
+		protected abstract DateTime GetPublishedDate(T item);
+
+		/// <summary>
+		/// Returns true if the Item could contain comments.
+		/// </summary>
+		/// <param name="item">The item.</param>
+		/// <returns></returns>
+		protected abstract bool ItemCouldContainComments(T item);
+
+		/// <summary>
+		/// Returns true if the item allows comments, otherwise false.
+		/// </summary>
+		/// <param name="item">The item.</param>
+		/// <returns></returns>
+		protected abstract bool ItemAllowsComments(T item);
+
+		/// <summary>
+		/// Returns true if comments are closed, otherwise false.
+		/// </summary>
+		/// <param name="item">The item.</param>
+		/// <returns></returns>
+		protected abstract bool CommentsClosedOnItem(T item);
+
+		/// <summary>
+		/// Gets the feedback count for the item.
+		/// </summary>
+		/// <param name="item">The item.</param>
+		/// <returns></returns>
+		protected abstract int GetFeedbackCount(T item);
+
+		/// <summary>
+		/// Obtains the syndication date for the specified entry, since 
+		/// we don't necessarily know if the type has that field, we 
+		/// can delegate this to the inheriting class.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <returns></returns>
+		protected abstract DateTime GetSyndicationDate(T item);
 	}
 }

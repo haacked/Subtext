@@ -276,11 +276,17 @@ namespace Subtext.Framework.Data
 		
 		private static readonly string ParentCommentEntryKey = "ParentEntry:Comments:EntryID{0}:BlogId{1}";
 
-        public static IList<Entry> GetComments(Entry parentEntry, CacheDuration cacheDuration)
+		/// <summary>
+		/// Returns all the feedback for the specified entry. Checks the cache first.
+		/// </summary>
+		/// <param name="parentEntry"></param>
+		/// <param name="cacheDuration"></param>
+		/// <returns></returns>
+        public static IList<FeedbackItem> GetFeedback(Entry parentEntry, CacheDuration cacheDuration)
 		{
 			string key = string.Format(ParentCommentEntryKey, parentEntry.Id, Config.CurrentBlog.Id);
 			ContentCache cache = ContentCache.Instantiate();
-            IList<Entry> comments = (IList<Entry>)cache[key];
+            IList<FeedbackItem> comments = (IList<FeedbackItem>)cache[key];
 			if(comments == null)
 			{
 				comments = Entries.GetFeedBack(parentEntry);

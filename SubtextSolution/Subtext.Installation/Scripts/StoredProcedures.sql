@@ -146,6 +146,10 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,
 drop procedure [<dbUser,varchar,dbo>].[subtext_DeletePost]
 GO
 
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_DeleteFeedback]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_DeleteFeedback]
+GO
+
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetActiveCategoriesWithLinkCollection]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetActiveCategoriesWithLinkCollection]
 GO
@@ -178,8 +182,12 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetEntriesByDayRange]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetFeedBack]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [<dbUser,varchar,dbo>].[subtext_GetFeedBack]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetFeedbackCollection]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetFeedbackCollection]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetFeedback]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetFeedback]
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetImageCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
@@ -302,8 +310,12 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,
 drop procedure [<dbUser,varchar,dbo>].[subtext_InsertLinkCategoryList]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertPingTrackEntry]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [<dbUser,varchar,dbo>].[subtext_InsertPingTrackEntry]
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertFeedback]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_InsertFeedback]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_UpdateFeedback]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_UpdateFeedback]
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertReferral]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
@@ -597,46 +609,55 @@ GO
 SET ANSI_NULLS ON 
 GO
 
+/*
+Fully deletes a Feedback item from the db.
+*/
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_DeleteFeedback]
+(
+	@Id int
+)
+AS
+
+DECLARE @EntryId int
+
+SELECT @EntryId = EntryId FROM [<dbUser,varchar,dbo>].[subtext_Feedback] WHERE [Id] = @Id
+
+UPDATE [<dbUser,varchar,dbo>].[subtext_Content] 
+SET FeedbackCount = FeedbackCount - 1
+WHERE ID = @EntryId
+
+DELETE [<dbUser,varchar,dbo>].[subtext_Feedback] WHERE [Id] = @Id
+GO
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_DeleteFeedback] TO [public]
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
 
 /*
 Deletes a record FROM [<dbUser,varchar,dbo>].[subtext_content], whether it be a post, a comment, etc..
 */
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_DeletePost]
 (
-	@ID int,
-	@BlogId int
+	@ID int
 )
 AS
 
-DECLARE @ParentID int, @PostType int
-
-SELECT @ParentID = ParentID, @PostType = PostType FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE [ID] = @ID
-
--- PostType 3 = Comment
--- PostType 4 = PingBack
-
-IF(@PostType = 3 or @PostType = 4)
-BEGIN
-	UPDATE [<dbUser,varchar,dbo>].[subtext_Content]
-	SET FeedBackCount = FeedBackCount - 1
-	WHERE [ID] = @ParentID
-END
-ELSE
-BEGIN
-	DELETE FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE ParentID = @ID
-	-- This is a refactoring in progress 
-	-- to remove meaning from PostId = -1
-	DECLARE @PostID int
-	SET @PostID = @ID
-	IF @ID = -1
-		SET @PostID = NULL
-	DELETE FROM [<dbUser,varchar,dbo>].[subtext_Links] WHERE PostID = @PostID
-	DELETE FROM [<dbUser,varchar,dbo>].[subtext_EntryViewCount] WHERE EntryID = @ID
-	DELETE FROM [<dbUser,varchar,dbo>].[subtext_Referrals] WHERE EntryID = @ID
-END
-
-DELETE FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE [ID] = @ID AND [BlogId] = @BlogId
-
+DELETE FROM [<dbUser,varchar,dbo>].[subtext_Links] WHERE PostID = @ID
+DELETE FROM [<dbUser,varchar,dbo>].[subtext_EntryViewCount] WHERE EntryID = @ID
+DELETE FROM [<dbUser,varchar,dbo>].[subtext_Referrals] WHERE EntryID = @ID
+DELETE FROM [<dbUser,varchar,dbo>].[subtext_Feedback] WHERE EntryId = @ID
+DELETE FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE [ID] = @ID
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -747,9 +768,9 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetBlogKeyWords]
 AS
 
 SELECT 
-	KeyWordID, Word,[Text],ReplaceFirstTimeOnly,OpenInNewWindow, CaseSensitive,Url,Title,BlogId
+	KeyWordID, Word, Rel, [Text], ReplaceFirstTimeOnly, OpenInNewWindow, CaseSensitive, Url, Title, BlogId
 FROM
-	subtext_keywords
+	[<dbUser,varchar,dbo>].[subtext_keywords]
 WHERE 
 	BlogId = @BlogId
 
@@ -869,18 +890,14 @@ SELECT BlogId
 	, DateAdded
 	, [Text]
 	, [Description]
-	, SourceUrl
 	, PostType
 	, Author
 	, Email
-	, SourceName
 	, DateUpdated
 	, TitleUrl
-	, FeedBackCount = ISNULL(FeedBackCount, 0)
-	, ParentID
+	, FeedbackCount = ISNULL(FeedbackCount, 0)
 	, PostConfig
 	, EntryName 
-	, ContentChecksumHash
 	, DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 	INNER JOIN #IDs ON #IDs.[Id] = [<dbUser,varchar,dbo>].[subtext_Content].[Id]
@@ -1020,18 +1037,14 @@ SELECT	BlogId
 	, DateAdded
 	, [Text]
 	, [Description]
-	, SourceUrl
 	, PostType
 	, Author
 	, Email
-	, SourceName
 	, DateUpdated
 	, TitleUrl
-	, FeedBackCount = ISNULL(FeedBackCount, 0)
-	, ParentID
+	, FeedbackCount = ISNULL(FeedbackCount, 0)
 	, PostConfig
 	, EntryName 
-	, ContentChecksumHash
 	, DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE 
@@ -1059,38 +1072,37 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetFeedBack]
+/* Gets all the ACTIVE Feedback (comments, pingbacks/trackbacks) for the entry */
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetFeedbackCollection]
 (
-	@ParentID int
-	, @BlogId int
+	@EntryId int
 )
 AS
-
-SELECT	BlogId
-		, [ID]
-		, Title
-		, DateAdded
-		, [Text]
-		, [Description]
-		, SourceUrl
-		, PostType
-		, Author
-		, Email
-		, SourceName
-		, DateUpdated
-		, TitleUrl
-		, ParentID
-		, FeedBackCount = ISNULL(FeedBackCount, 0)
-		, PostConfig
-		, EntryName
-		, ParentID 
-		, ContentChecksumHash
-		, DateSyndicated
-FROM [<dbUser,varchar,dbo>].[subtext_Content]
-WHERE BlogId = @BlogId 
-	AND PostConfig & 1 = 1
-	AND ParentID = @ParentID
-ORDER BY [ID]
+	SELECT f.Id 
+		, f.Title
+		, f.Body
+		, f.BlogId
+		, f.EntryId
+		, f.Author
+		, f.Email
+		, f.Url
+		, f.FeedbackType
+		, f.StatusFlag
+		, f.CommentAPI
+		, f.Referrer
+		, f.IpAddress
+		, f.UserAgent
+		, f.FeedbackChecksumHash
+		, f.DateCreated
+		, f.DateModified
+		, ParentEntryCreateDate = c.DateAdded
+		, ParentEntryName = c.EntryName
+FROM [<dbUser,varchar,dbo>].[subtext_Feedback] f
+	LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_Content] c 
+		ON c.Id = f.EntryId
+WHERE f.EntryId = @EntryId
+	AND f.StatusFlag & 1 = 1
+ORDER BY f.[Id]
 
 
 GO
@@ -1099,7 +1111,51 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetFeedBack]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetFeedbackCollection]  TO [public]
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/* Returns a single Feedback by id */
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetFeedback]
+(
+	@Id int
+)
+AS
+	SELECT f.Id 
+		, f.Title
+		, f.Body
+		, f.BlogId
+		, f.EntryId
+		, f.Author
+		, f.Email
+		, f.Url
+		, f.FeedbackType
+		, f.StatusFlag
+		, f.CommentAPI
+		, f.Referrer
+		, f.IpAddress
+		, f.UserAgent
+		, f.FeedbackChecksumHash
+		, f.DateCreated
+		, f.DateModified
+		, ParentEntryCreateDate = c.DateAdded
+		, ParentEntryName = c.EntryName
+FROM [<dbUser,varchar,dbo>].[subtext_Feedback] f
+	LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_Content] c 
+		ON c.Id = f.EntryId
+WHERE f.Id = @Id
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetFeedback] TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -1322,18 +1378,14 @@ SELECT	content.BlogId
 		, content.DateAdded 
 		, content.[Text] 
 		, content.[Description]
-		, content.SourceUrl 
 		, content.PostType 
 		, content.Author 
 		, content.Email 
-		, content.SourceName 
 		, content.DateUpdated 
 		, content.TitleUrl 
-		, FeedBackCount = ISNULL(content.FeedBackCount, 0)
-		, content.ParentID
+		, FeedbackCount = ISNULL(content.FeedbackCount, 0)
 		, content.PostConfig
 		, content.EntryName
-		, content.ContentChecksumHash
 		, content.DateSyndicated
 		, vc.WebCount
 		, vc.AggCount
@@ -1409,18 +1461,14 @@ SELECT	content.BlogId
 		, content.DateAdded 
 		, content.[Text] 
 		, content.[Description]
-		, content.SourceUrl 
 		, content.PostType 
 		, content.Author 
 		, content.Email 
-		, content.SourceName 
 		, content.DateUpdated 
 		, content.TitleUrl 
-		, FeedBackCount = ISNULL(content.FeedBackCount, 0)
-		, content.ParentID
+		, FeedbackCount = ISNULL(content.FeedbackCount, 0)
 		, content.PostConfig
 		, content.EntryName
-		, content.ContentChecksumHash
 		, content.DateSyndicated
 		, vc.WebCount
 		, vc.AggCount
@@ -1459,14 +1507,22 @@ GO
 SET ANSI_NULLS ON 
 GO
 
+/*
+For the admin section. Gets a page of Feedback for the specified blog.
+*/
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetPageableFeedback]
 (
 	@BlogId int
 	, @PageIndex int
 	, @PageSize int
-	, @PostConfig int
+	, @StatusFlag int
+	, @ExcludeFeedbackStatusMask int = NULL
+	, @FeedbackType int = NULL -- Null for all feedback.
 )
 AS
+
+IF @ExcludeFeedbackStatusMask IS NULL
+	SET @ExcludeFeedbackStatusMask = ~0
 
 DECLARE @FirstId int
 DECLARE @StartRow int
@@ -1476,55 +1532,53 @@ SET @StartRowIndex = @PageIndex * @PageSize + 1
 
 SET ROWCOUNT @StartRowIndex
 -- Get the first entry id for the current page.
-SELECT @FirstId = [ID] 
-FROM [<dbUser,varchar,dbo>].[subtext_Content]
-WHERE 	BlogId = @BlogId 
-	AND (PostType = 3 OR PostType = 4)
-	AND PostConfig & @PostConfig = @PostConfig
-ORDER BY [ID] DESC
+SELECT @FirstId = f.[Id] 
+FROM [<dbUser,varchar,dbo>].[subtext_Feedback] f
+WHERE 	f.BlogId = @BlogId 
+	AND (f.StatusFlag & @StatusFlag = @StatusFlag)
+	AND (f.StatusFlag & @ExcludeFeedbackStatusMask = 0) -- Make sure the status doesn't have any of the excluded statuses set
+	AND (f.FeedbackType = @FeedbackType OR @FeedbackType IS NULL)
+ORDER BY f.[ID] DESC
 
 -- Now, set the row count to MaximumRows and get
 -- all records >= @first_id
 SET ROWCOUNT @PageSize
 
-SELECT	content.BlogId 
-		, content.[ID] 
-		, content.Title 
-		, content.DateAdded 
-		, content.[Text] 
-		, content.[Description]
-		, content.SourceUrl 
-		, content.PostType 
-		, content.Author 
-		, content.Email 
-		, content.SourceName 
-		, content.DateUpdated 
-		, content.TitleUrl 
-		, FeedBackCount = ISNULL(content.FeedBackCount, 0)
-		, content.ParentID
-		, content.PostConfig
-		, content.EntryName
-		, content.ContentChecksumHash
-		, content.DateSyndicated
-		, vc.WebCount
-		, vc.AggCount
-		, vc.WebLastUpdated
-		, vc.AggLastUpdated
-		
-FROM [<dbUser,varchar,dbo>].[subtext_Content] content
-	Left JOIN  subtext_EntryViewCount vc ON (content.[ID] = vc.EntryID AND vc.BlogId = @BlogId)
-WHERE 	content.BlogId = @BlogId 
-	AND content.[ID] <= @FirstId
-	AND (PostType = 3 OR PostType = 4)
-	AND PostConfig & @PostConfig = @PostConfig
-ORDER BY content.[ID] DESC
+SELECT  f.Id
+		, f.Title
+		, f.Body
+		, f.BlogId
+		, f.EntryId
+		, f.Author
+		, f.Email
+		, f.Url
+		, f.FeedbackType
+		, f.StatusFlag
+		, f.CommentAPI
+		, f.Referrer
+		, f.IpAddress
+		, f.UserAgent
+		, f.FeedbackChecksumHash
+		, f.DateCreated
+		, f.DateModified
+		, ParentEntryCreateDate = c.DateAdded
+		, ParentEntryName = c.EntryName
+FROM [<dbUser,varchar,dbo>].[subtext_Feedback] f
+	LEFT OUTER JOIN [<dbUser,varchar,dbo>].[subtext_Content] c 
+		ON c.Id = f.EntryId
+WHERE 	f.BlogId = @BlogId 
+	AND f.[Id] <= @FirstId
+	AND f.StatusFlag & @StatusFlag = @StatusFlag
+	AND (f.StatusFlag & @ExcludeFeedbackStatusMask = 0) -- Make sure the status doesn't have any of the excluded statuses set
+	AND (f.FeedbackType = @FeedbackType OR @FeedbackType IS NULL)
+ORDER BY f.[Id] DESC
  
-SELECT COUNT([ID]) AS TotalRecords
-FROM [<dbUser,varchar,dbo>].[subtext_Content] 
-WHERE 	BlogId = @BlogId 
-	AND (PostType = 3 OR PostType = 4)
-	AND PostConfig & @PostConfig = @PostConfig
-
+SELECT COUNT(f.[Id]) AS TotalRecords
+FROM [<dbUser,varchar,dbo>].[subtext_Feedback] f
+WHERE 	f.BlogId = @BlogId 
+	AND f.StatusFlag & @StatusFlag = @StatusFlag
+	AND (f.StatusFlag & @ExcludeFeedbackStatusMask = 0) -- Make sure the status doesn't have any of the excluded statuses set
+	AND (f.FeedbackType = @FeedbackType OR @FeedbackType IS NULL)
 GO
 SET QUOTED_IDENTIFIER OFF 
 GO
@@ -1899,18 +1953,14 @@ SELECT	content.BlogId
 	, content.DateAdded
 	, content.[Text]
 	, content.[Description]
-	, content.SourceUrl
 	, content.PostType
 	, content.Author
 	, content.Email
-	, content.SourceName
 	, content.DateUpdated
 	, content.TitleUrl
-	, FeedBackCount = ISNULL(content.FeedBackCount, 0)
-	, content.ParentID
+	, FeedbackCount = ISNULL(content.FeedbackCount, 0)
 	, content.PostConfig
 	, content.EntryName 
-	, content.ContentChecksumHash
 	, content.DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content WITH (NOLOCK)
 	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] links WITH (NOLOCK) ON content.ID = ISNULL(links.PostID, -1)
@@ -1947,18 +1997,14 @@ SELECT	BlogId
 		, DateAdded
 		, [Text]
 		, [Description]
-		, SourceUrl
 		, PostType
 		, Author
 		, Email
-		, SourceName
 		, DateUpdated
 		, TitleUrl
-		, FeedBackCount = ISNULL(FeedBackCount, 0)
-		, ParentID
+		, FeedbackCount = ISNULL(FeedbackCount, 0)
 		, PostConfig
 		, EntryName 
-		, ContentChecksumHash
 		, DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE 
@@ -1998,18 +2044,14 @@ SELECT	BlogId
 	, DateAdded
 	, [Text]
 	, [Description]
-	, SourceUrl
 	, PostType
 	, Author
 	, Email
-	, SourceName
 	, DateUpdated
 	, TitleUrl
-	, FeedBackCount = ISNULL(FeedBackCount, 0)
-	, ParentID
+	, FeedbackCount = ISNULL(FeedbackCount, 0)
 	, PostConfig
 	, EntryName 
-	, ContentChecksumHash
 	, DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE	PostType=1 
@@ -2098,18 +2140,14 @@ SELECT	BlogId
 	, DateAdded
 	, [Text]
 	, [Description]
-	, SourceUrl
 	, PostType
 	, Author
 	, Email
-	, SourceName
 	, DateUpdated
 	, TitleUrl
-	, FeedBackCount = ISNULL(FeedBackCount, 0)
-	, ParentID
+	, FeedbackCount = ISNULL(FeedbackCount, 0)
 	, PostConfig
 	, EntryName 
-	, ContentChecksumHash
 	, DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE Year(DateAdded) = Year(@Date) 
@@ -2150,18 +2188,14 @@ SELECT	BlogId
 	, DateAdded
 	, [Text]
 	, [Description]
-	, SourceUrl
 	, PostType
 	, Author
 	, Email
-	, SourceName
 	, DateUpdated
 	, TitleUrl
-	, FeedBackCount = ISNULL(FeedBackCount, 0)
-	, ParentID
+	, FeedbackCount = ISNULL(FeedbackCount, 0)
 	, PostConfig
 	, EntryName 
-	, ContentChecksumHash
 	, DateSyndicated
 FROM [<dbUser,varchar,dbo>].[subtext_Content]
 WHERE ID = COALESCE(@ID, ID)
@@ -2912,17 +2946,13 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateEntry]
 	, @Title nvarchar(255)
 	, @TitleUrl nvarchar(255) = NULL
 	, @Text ntext = NULL
-	, @SourceUrl nvarchar(200) = NULL
 	, @PostType int
 	, @Author nvarchar(50) = NULL
 	, @Email nvarchar(50) = NULL
 	, @Description nvarchar(500) = NULL
-	, @SourceName nvarchar(200) = NULL
 	, @DateUpdated datetime = NULL
 	, @PostConfig int
-	, @ParentID int = NULL
 	, @EntryName nvarchar(150) = NULL
-	, @ContentChecksumHash varchar(32)
 	, @DateSyndicated DateTime = NULL
 	, @BlogId int
 )
@@ -2947,17 +2977,13 @@ SET
 	Title = @Title 
 	, TitleUrl = @TitleUrl 
 	, [Text] = @Text 
-	, SourceUrl = @SourceUrl 
 	, PostType = @PostType
 	, Author = @Author 
 	, Email = @Email 
 	, [Description] = @Description
 	, DateUpdated = @DateUpdated
 	, PostConfig = @PostConfig
-	, ParentID = @ParentID
-	, SourceName = @SourceName
 	, EntryName = @EntryName
-	, ContentChecksumHash = @ContentChecksumHash
 	, DateSyndicated = @DateSyndicated
 WHERE 	
 		[ID] = @ID 
@@ -3282,84 +3308,74 @@ GO
 SET QUOTED_IDENTIFIER OFF 
 GO
 SET ANSI_NULLS ON 
+SET ANSI_WARNINGS OFF
 GO
---//TODO: We can probably merge the following two procedures.
-CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertPingTrackEntry]
+
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertFeedback]
 (
-	@Title nvarchar(255)
-	, @TitleUrl nvarchar(255) = NULL
-	, @Text ntext = NULL
-	, @SourceUrl nvarchar(200) = NULL
-	, @PostType int
-	, @Author nvarchar(50) = NULL
-	, @Email nvarchar(50) = NULL
-	, @SourceName nvarchar(200) = NULL
-	, @Description nvarchar(500) = NULL
+	@Title nvarchar(256)
+	, @Body ntext = NULL
 	, @BlogId int
-	, @DateAdded datetime
-	, @ParentID int = NULL
-	, @PostConfig int
-	, @EntryName nvarchar(150) = NULL
-	, @ContentChecksumHash varchar(32)
-	, @ID int output
+	, @EntryId int = NULL
+	, @Author nvarchar(128) = NULL
+	, @Email varchar(128) = NULL
+	, @Url varchar(256) = NULL
+	, @FeedbackType int
+	, @StatusFlag int
+	, @CommentAPI bit
+	, @Referrer varchar(256) = NULL
+	, @IpAddress varchar(16) = NULL
+	, @UserAgent nvarchar(128) = NULL
+	, @FeedbackChecksumHash varchar(32)
+	, @DateCreated datetime
+	, @Id int output	
 )
 AS
-
--- Do not insert EntryNames. No needed for comments AND tracks. 
--- To messy anyway
-
-SET @ID = -1
-
-IF NOT EXISTS(SELECT [ID] FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE TitleUrl = @TitleUrl AND ParentID = @ParentID)
-BEGIN
-
-IF(LTRIM(RTRIM(@Description)) = '')
-SET @Description = NULL
-
-INSERT INTO subtext_Content 
+INSERT INTO [<dbUser,varchar,dbo>].[subtext_Feedback]
 ( 
-	PostConfig
-	, Title
-	, TitleUrl
-	, [Text]
-	, SourceUrl
-	, PostType
+	Title
+	, Body
+	, BlogId
+	, EntryId
 	, Author
 	, Email
-	, DateAdded
-	, DateUpdated
-	, SourceName
-	, [Description]
-	, ContentChecksumHash
-	, ParentID
-	, BlogId
+	, Url
+	, FeedbackType
+	, StatusFlag
+	, CommentAPI
+	, Referrer
+	, IpAddress
+	, UserAgent
+	, FeedbackChecksumHash
+	, DateCreated
+	, DateModified
 )
 VALUES 
 (
-	@PostConfig
-	, @Title
-	, @TitleUrl
-	, @Text
-	, @SourceUrl
-	, @PostType
+	@Title
+	, @Body
+	, @BlogId
+	, @EntryId
 	, @Author
 	, @Email
-	, @DateAdded
-	, @DateAdded
-	, @SourceName
-	, @Description
-	, @ContentChecksumHash
-	, @ParentID
-	, @BlogId
+	, @Url
+	, @FeedbackType
+	, @StatusFlag
+	, @CommentAPI
+	, @Referrer
+	, @IpAddress
+	, @UserAgent
+	, @FeedbackChecksumHash
+	, @DateCreated
+	, @DateCreated
 )
 
-SELECT @ID = SCOPE_IDENTITY()
+SELECT @Id = SCOPE_IDENTITY()
 
+IF NOT @EntryId IS NULL
 UPDATE [<dbUser,varchar,dbo>].[subtext_Content]
-SET FeedBackCount = FeedBackCount + 1 
-WHERE [ID] = @ParentID
-
-END
+SET FeedbackCount = FeedbackCount + 1 
+WHERE [ID] = @EntryId
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -3367,7 +3383,59 @@ GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_InsertPingTrackEntry]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_InsertFeedback]  TO [public]
+GO
+
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateFeedback]
+(
+	@ID int output	
+	, @Title nvarchar(256)
+	, @Body ntext = NULL
+	, @BlogId int
+	, @EntryId int = NULL
+	, @Author nvarchar(128) = NULL
+	, @Email varchar(128) = NULL
+	, @Url varchar(256) = NULL
+	, @FeedbackType int
+	, @StatusFlag int
+	, @CommentAPI bit
+	, @Referrer varchar(256) = NULL
+	, @IpAddress varchar(16) = NULL
+	, @UserAgent nvarchar(128) = NULL
+	, @FeedbackChecksumHash varchar(32)
+	, @DateModified datetime
+)
+AS
+
+UPDATE [<dbUser,varchar,dbo>].[subtext_Feedback]
+SET	Title = @Title
+	, Body = @Body
+	, EntryId = @EntryId
+	, Author = @Author
+	, Email = @Email
+	, Url = @Url
+	, FeedbackType = @FeedbackType
+	, StatusFlag = @StatusFlag
+	, CommentAPI = @CommentAPI
+	, Referrer = @Referrer
+	, IpAddress = @IpAddress
+	, UserAgent = @UserAgent
+	, FeedbackChecksumHash = @FeedbackChecksumHash
+	, DateModified = @DateModified
+WHERE Id = @Id
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_UpdateFeedback]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -3380,18 +3448,14 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertEntry]
 	@Title nvarchar(255)
 	, @TitleUrl nvarchar(255) = NULL
 	, @Text ntext = NULL
-	, @SourceUrl nvarchar(200) = NULL
 	, @PostType int
 	, @Author nvarchar(50) = NULL
 	, @Email nvarchar(50) = NULL
-	, @SourceName nvarchar(200) = NULL
 	, @Description nvarchar(500) = NULL
 	, @BlogId int
 	, @DateAdded datetime
-	, @ParentID int = NULL
 	, @PostConfig int
 	, @EntryName nvarchar(150) = NULL
-	, @ContentChecksumHash varchar(32)
 	, @DateSyndicated DateTime = NULL
 	, @ID int output
 )
@@ -3416,20 +3480,16 @@ INSERT INTO subtext_Content
 	Title
 	, TitleUrl
 	, [Text]
-	, SourceUrl
 	, PostType
 	, Author
 	, Email
 	, DateAdded
 	, DateUpdated
-	, SourceName
 	, [Description]
 	, PostConfig
-	, ParentID
-	, FeedBackCount
+	, FeedbackCount
 	, BlogId
 	, EntryName 
-	, ContentChecksumHash
 	, DateSyndicated
 )
 VALUES 
@@ -3437,35 +3497,22 @@ VALUES
 	@Title
 	, @TitleUrl
 	, @Text
-	, @SourceUrl
 	, @PostType
 	, @Author
 	, @Email
 	, @DateAdded
 	, @DateAdded
-	, @SourceName
 	, @Description
 	, @PostConfig
-	, @ParentID
-	, 0
+	, 0 -- Feedback Count
 	, @BlogId
 	, @EntryName
-	, @ContentChecksumHash
 	, @DateSyndicated
 )
 SELECT @ID = SCOPE_IDENTITY()
--- PostType
---	1 = BlogPost
---	2 = Story
-if(@PostType = 1 or @PostType = 2)
-BEGIN
-	EXEC [<dbUser,varchar,dbo>].[subtext_UpdateConfigUpdateTime] @BlogId, @DateAdded
-END
-ELSE IF(@PostType = 3) -- Comment
-BEGIN
-	UPDATE [<dbUser,varchar,dbo>].[subtext_Content]
-	Set FeedBackCount = ISNULL(FeedBackCount, 0) + 1 WHERE [ID] = @ParentID
-END
+
+EXEC [<dbUser,varchar,dbo>].[subtext_UpdateConfigUpdateTime] @BlogId, @DateAdded
+
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -3484,38 +3531,37 @@ GO
 
 /*
 Retrieves a comment (or pingback) that has the specified 
-ContentChecksumHash.
+FeedbackChecksumHash.
 */
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetCommentByChecksumHash]
 (
-	@ContentChecksumHash VARCHAR(32)
-	,@BlogId int
+	@FeedbackChecksumHash varchar(32)
+	, @BlogId int
 )
 AS
-SELECT TOP 1 BlogId
-	, [ID]
-	, Title
-	, DateAdded
-	, [Text]
-	, [Description]
-	, SourceUrl
-	, PostType
-	, Author
-	, Email
-	, SourceName
-	, DateUpdated
-	, TitleUrl
-	, FeedBackCount
-	, ParentID
-	, PostConfig
-	, EntryName 
-	, ContentChecksumHash
-	, DateSyndicated
-FROM [<dbUser,varchar,dbo>].[subtext_Content]
+SELECT TOP 1 f.Title
+		, f.Body
+		, f.BlogId
+		, f.EntryId
+		, f.Author
+		, f.Email
+		, f.Url
+		, f.FeedbackType
+		, f.StatusFlag
+		, f.CommentAPI
+		, f.Referrer
+		, f.IpAddress
+		, f.UserAgent
+		, f.FeedbackChecksumHash
+		, f.DateCreated
+		, f.DateModified
+		, ParentEntryCreateDate = c.DateAdded
+		, ParentEntryName = c.EntryName
+FROM [<dbUser,varchar,dbo>].[subtext_Feedback] f
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Content] c ON f.EntryId = c.ID
 WHERE 
-	ContentChecksumHash = @ContentChecksumHash 
-	AND BlogId = @BlogId
-	AND (PostType = 3 OR PostType = 4) -- Comment or PingBack
+	f.FeedbackChecksumHash = @FeedbackChecksumHash
+	AND f.BlogId = @BlogId
 GO
 SET QUOTED_IDENTIFIER OFF 
 GO
@@ -3615,12 +3661,10 @@ SELECT Top 35 Host
 	, content.[ID]
 	, content.Title
 	, content.DateAdded
-	, content.SourceUrl
 	, content.PostType
 	, content.Author
 	, content.Email
-	, content.FeedBackCount
-	, content.SourceName
+	, content.FeedbackCount
 	, content.EntryName
 	, [IsXHTML] = Convert(bit,CASE WHEN content.PostConfig & 2 = 2 THEN 1 else 0 END) 
 	, [BlogTitle] = content.Title
@@ -4081,18 +4125,14 @@ SELECT	content.BlogId
 		, content.DateAdded 
 		, content.[Text] 
 		, content.[Description]
-		, content.SourceUrl 
 		, content.PostType 
 		, content.Author 
 		, content.Email 
-		, content.SourceName 
 		, content.DateUpdated 
 		, content.TitleUrl 
-		, FeedBackCount = ISNULL(content.FeedBackCount, 0)
-		, content.ParentID
+		, FeedbackCount = ISNULL(content.FeedbackCount, 0)
 		, content.PostConfig
 		, content.EntryName
-		, content.ContentChecksumHash
 		, content.DateSyndicated
 		
 FROM [<dbUser,varchar,dbo>].[subtext_Content] content
@@ -4113,55 +4153,50 @@ SELECT	p.[Id]
 	ORDER BY p.[ID] ASC
 
 -- Select associated comments
-SELECT	content.BlogId 
-		, idTable.[ID] 
-		, content.Title 
-		, content.DateAdded 
-		, content.[Text] 
-		, content.[Description]
-		, content.SourceUrl 
-		, content.PostType 
-		, content.Author 
-		, content.Email 
-		, content.SourceName 
-		, content.DateUpdated 
-		, content.TitleUrl 
-		, FeedBackCount = ISNULL(content.FeedBackCount, 0)
-		, content.ParentID
-		, content.PostConfig
-		, content.EntryName
-		, content.ContentChecksumHash
-		, content.DateSyndicated
-		
-FROM [<dbUser,varchar,dbo>].[subtext_Content] content
-	INNER JOIN #IDs idTable ON idTable.Id = content.[ParentID]
-	WHERE content.PostType = 3 -- Comment
+SELECT	f.[Id]
+		, Title
+		, Body
+		, BlogId
+		, EntryId
+		, Author
+		, Email
+		, Url
+		, FeedbackType
+		, StatusFlag
+		, CommentAPI
+		, Referrer
+		, IpAddress
+		, UserAgent
+		, FeedbackChecksumHash
+		, DateCreated
+		, DateModified
+FROM [<dbUser,varchar,dbo>].[subtext_Feedback] f
+	INNER JOIN #IDs idTable ON idTable.Id = f.[EntryId]
+	WHERE f.FeedbackType = 1 -- Comment
 ORDER BY idTable.[ID] ASC
 
 -- Select associated track/ping backs.
-SELECT	content.BlogId 
-		, idTable.[ID] 
-		, content.Title 
-		, content.DateAdded 
-		, content.[Text] 
-		, content.[Description]
-		, content.SourceUrl 
-		, content.PostType 
-		, content.Author 
-		, content.Email 
-		, content.SourceName 
-		, content.DateUpdated 
-		, content.TitleUrl 
-		, FeedBackCount = ISNULL(content.FeedBackCount, 0)
-		, content.ParentID
-		, content.PostConfig
-		, content.EntryName
-		, content.ContentChecksumHash
-		, content.DateSyndicated
-		
-FROM [<dbUser,varchar,dbo>].[subtext_Content] content
-	INNER JOIN #IDs idTable ON idTable.Id = content.[ParentID]
-	WHERE content.PostType = 4 -- Pingback
+SELECT	f.[Id]
+		, Title
+		, Body
+		, BlogId
+		, EntryId
+		, Author
+		, Email
+		, Url
+		, FeedbackType
+		, StatusFlag
+		, CommentAPI
+		, Referrer
+		, IpAddress
+		, UserAgent
+		, FeedbackChecksumHash
+		, DateCreated
+		, DateModified
+FROM [<dbUser,varchar,dbo>].[subtext_Feedback] f
+	INNER JOIN #IDs idTable ON idTable.Id = f.[EntryId]
+	WHERE f.FeedbackType = 2 -- Trackback/Pingback
+
 ORDER BY idTable.[ID] ASC
 
 GO

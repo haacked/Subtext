@@ -27,17 +27,17 @@ namespace Subtext.Framework.Syndication
 	/// The Main Rss feed now contains an element for each entry, which will generate a rss feed 
 	/// containing the comments for each post.
 	/// </summary>
-	public class RssCommentHandler : EntryCollectionHandler
+	public class RssCommentHandler : EntryCollectionHandler<FeedbackItem>
 	{
 		protected Entry ParentEntry;
-        protected IList<Entry> Comments;
-        IList<Entry> comments;
+        protected IList<FeedbackItem> Comments;
+        IList<FeedbackItem> comments;
 
 		/// <summary>
 		/// Gets the feed entries.
 		/// </summary>
 		/// <returns></returns>
-        protected override IList<Entry> GetFeedEntries()
+        protected override IList<FeedbackItem> GetFeedEntries()
 		{
 			if(ParentEntry == null)
 			{
@@ -46,7 +46,7 @@ namespace Subtext.Framework.Syndication
 
 			if(ParentEntry != null && Comments == null)
 			{
-				Comments = Cacher.GetComments(ParentEntry, CacheDuration.Short);
+				Comments = Cacher.GetFeedback(ParentEntry, CacheDuration.Short);
 			}
 
 			return Comments;
@@ -63,7 +63,7 @@ namespace Subtext.Framework.Syndication
 
 			comments = GetFeedEntries();
 			if(comments == null)
-				comments = new List<Entry>();
+				comments = new List<FeedbackItem>();
 
 		
 			feed = new CachedFeed();
@@ -95,12 +95,22 @@ namespace Subtext.Framework.Syndication
 			return false;			
 		}
 
-		protected override BaseSyndicationWriter SyndicationWriter
+		protected override BaseSyndicationWriter<FeedbackItem> SyndicationWriter
 		{
 			get
 			{
 				return new CommentRssWriter(comments, ParentEntry);
 			}
+		}
+
+		/// <summary>
+		/// Gets the item created date.
+		/// </summary>
+		/// <param name="item">The item.</param>
+		/// <returns></returns>
+		protected override DateTime GetItemCreatedDate(FeedbackItem item)
+		{
+			return item.DateCreated;
 		}
 	}
 }

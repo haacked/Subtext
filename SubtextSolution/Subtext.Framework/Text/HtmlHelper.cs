@@ -220,15 +220,22 @@ namespace Subtext.Framework.Text
 		/// </summary>
 		/// <param name="text">Text.</param>
 		/// <returns></returns>
-		public static string CheckForUrl(string text)
+		public static Uri CheckForUrl(string text)
 		{
-			if (text == null 
-				|| text.Trim().Length == 0 
-				|| text.Trim().ToLower(CultureInfo.InvariantCulture).StartsWith("http://"))
+			if(text == null)
+				return null;
+
+			text = text.Trim();
+			
+			if (String.IsNullOrEmpty(text))
+				return null;
+			
+			if (!text.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase))
 			{
-				return text;
+				text = "http://" + text;
 			}
-			return "http://" + text;
+			
+			return new Uri(text);
 		}
 
 		/// <summary>

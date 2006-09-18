@@ -37,9 +37,9 @@ namespace UnitTests.Subtext.Framework.Syndication
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("haacked", "title of the post", "Body of the post.");
 			entry.EntryName = "titleofthepost";
-			entry.DateCreated = entry.DateSyndicated = entry.DateUpdated = DateTime.ParseExact("2006/04/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/04/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			entry.Url = "/archive/2006/04/01/titleofthepost.aspx";
-			CommentRssWriter writer = new CommentRssWriter(new List<Entry>(), entry);
+			CommentRssWriter writer = new CommentRssWriter(new List<FeedbackItem>(), entry);
 			
 			Assert.IsTrue(entry.HasEntryName, "This entry should have an entry name.");
 
@@ -93,21 +93,22 @@ namespace UnitTests.Subtext.Framework.Syndication
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("haacked", "title of the post", "Body of the post.");
 			entry.EntryName = "titleofthepost";
-			entry.DateCreated = entry.DateSyndicated = entry.DateUpdated = DateTime.ParseExact("2006/04/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/04/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			entry.Url = "/archive/2006/04/01/titleofthepost.aspx";
 			entry.Id = 1001;
-			
-			Entry comment = new Entry(PostType.Comment);
+
+			FeedbackItem comment = new FeedbackItem(FeedbackType.Comment);
 			comment.Id = 1002;
-			comment.DateCreated = comment.DateSyndicated = comment.DateUpdated = DateTime.ParseExact("2006/04/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+			comment.DateCreated = comment.DateModified = DateTime.ParseExact("2006/04/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			comment.Title = "re: titleofthepost";
-			comment.Url = Config.CurrentBlog.UrlFormats.CommentUrl(entry, comment);
+			comment.ParentEntryName = entry.EntryName;
+			comment.ParentDateCreated = entry.DateCreated;
 			comment.Body = "<strong>I rule!</strong>";
 			comment.Author = "Jane Schmane";
 			comment.Email = "jane@example.com";
-			comment.ParentId = entry.Id;
+			comment.EntryId = entry.Id;
 
-			List <Entry> comments = new List<Entry>();
+			List <FeedbackItem> comments = new List<FeedbackItem>();
 			comments.Add(comment);
 			
 			CommentRssWriter writer = new CommentRssWriter(comments, entry);
@@ -158,14 +159,14 @@ namespace UnitTests.Subtext.Framework.Syndication
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void CommentRssWriterRequiresNonNullEntryCollection()
 		{
-			new CommentRssWriter(null, new Entry(PostType.Comment));
+			new CommentRssWriter(null, new Entry(PostType.BlogPost));
 		}
 		
 		[Test]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void CommentRssWriterRequiresNonNullEntry()
 		{
-			new CommentRssWriter(new List<Entry>(), null);
+			new CommentRssWriter(new List<FeedbackItem>(), null);
 		}
 		#endregion
 		

@@ -356,7 +356,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 				{
 					XmlNode oFileNode = XmlUtil.AppendElement( oFilesNode, "File" ) ;
                     XmlUtil.SetAttribute(oFileNode, "name", string.Format("{0}|{1}", entry.Title, entry.FullyQualifiedUrl));
-                    XmlUtil.SetAttribute(oFileNode, "size", entry.DateUpdated.ToShortDateString());
+                    XmlUtil.SetAttribute(oFileNode, "size", entry.DateModified.ToShortDateString());
 				}
 			}
 		}

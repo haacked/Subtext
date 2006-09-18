@@ -46,21 +46,21 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			BlogInfo blog = Config.CurrentBlog;
 			blog.CommentDelayInMinutes = 1;
 
-			Entry entry = new Entry(PostType.PingTrack);
-			entry.DateCreated = DateTime.Now;
-			entry.SourceUrl = "http://localhost/ThisUrl/";
-			entry.Title = "Some Title";
-			entry.Body = "Some Body Some Body";
-			Entries.Create(entry);
+			FeedbackItem trackback = new FeedbackItem(FeedbackType.PingTrack);
+			trackback.DateCreated = DateTime.Now;
+			trackback.SourceUrl = new Uri("http://localhost/ThisUrl/");
+			trackback.Title = "Some Title";
+			trackback.Body = "Some Body Some Body";
+			FeedbackItem.Create(trackback);
 			
 			Thread.Sleep(100);
-			
-			entry = new Entry(PostType.Comment);
-			entry.DateCreated = DateTime.Now;
-			entry.SourceUrl = "http://localhost/ThisUrl/";
-			entry.Title = "Some Title";
-			entry.Body = "Some Body Else";
-			Entries.Create(entry);
+
+			FeedbackItem comment = new FeedbackItem(FeedbackType.Comment);
+			comment.DateCreated = DateTime.Now;
+			comment.SourceUrl = new Uri("http://localhost/ThisUrl/");
+			comment.Title = "Some Title";
+			comment.Body = "Some Body Else";
+			FeedbackItem.Create(comment);
 		}
 
 		/// <summary>
@@ -75,13 +75,13 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			BlogInfo blog = Config.CurrentBlog;
 			blog.CommentDelayInMinutes = 0;
 
-			Entry entry = new Entry(PostType.PingTrack);
-			entry.DateCreated = DateTime.Now;
-			entry.SourceUrl = "http://localhost/ThisUrl/";
-			entry.Title = "Some Title";
-			entry.Body = "Some Body";
-			Entries.Create(entry);
-			Entries.Create(entry);
+			FeedbackItem feedbackItem = new FeedbackItem(FeedbackType.Comment);
+			feedbackItem.DateCreated = DateTime.Now;
+			feedbackItem.SourceUrl = new Uri("http://localhost/ThisUrl/");
+			feedbackItem.Title = "Some Title";
+			feedbackItem.Body = "Some Body";
+			FeedbackItem.Create(feedbackItem);
+			FeedbackItem.Create(feedbackItem);
 		}
 	    
 	    /// <summary>
@@ -105,13 +105,13 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 	        UnitTestHelper.AuthenticateFormsAuthenticationCookie();
 	        Assert.IsTrue(Security.IsAdmin, "Not able to login to the current blog.");
 
-            Entry entry = new Entry(PostType.PingTrack);
-            entry.DateCreated = DateTime.Now;
-            entry.SourceUrl = "http://localhost/ThisUrl/";
-            entry.Title = "Some Title";
-            entry.Body = "Some Body";
-            Entries.Create(entry);
-            Entries.Create(entry);
+            FeedbackItem trackback = new FeedbackItem(FeedbackType.PingTrack);
+            trackback.DateCreated = DateTime.Now;
+            trackback.SourceUrl = new Uri("http://localhost/ThisUrl/");
+            trackback.Title = "Some Title";
+            trackback.Body = "Some Body";
+            FeedbackItem.Create(trackback);
+			FeedbackItem.Create(trackback);
 	    }
 
 	    /// <summary>

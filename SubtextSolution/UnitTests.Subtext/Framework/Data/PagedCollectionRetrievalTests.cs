@@ -228,20 +228,23 @@ namespace UnitTests.Subtext.Framework.Data
 	{
 		public void Create(int index)
 		{
-			Entry comment = UnitTestHelper.CreateEntryInstanceForSyndication("Phil", "Title" + index, "Who rocks the party that rocks the party? " + index);
-			comment.PostType = PostType.Comment;
-			comment.AlternativeTitleUrl = "blah";
-			Entries.CreateComment(comment);
+			FeedbackItem feedbackItem = new FeedbackItem(FeedbackType.Comment);
+			feedbackItem.Author = "Phil";
+			feedbackItem.Title = "Title" + index;
+			feedbackItem.Body = "Who rocks the party that rocks the party? " + index;
+
+			feedbackItem.SourceUrl = new Uri("http://blah/");
+			FeedbackItem.Create(feedbackItem);
 		}
 
 		public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
 		{
-			return Entries.GetPagedFeedback(pageIndex, pageSize, PostConfig.IsActive);
+			return FeedbackItem.GetPagedFeedback(pageIndex, pageSize, FeedbackStatusFlag.Approved, FeedbackType.None);
 		}
 
 		public int GetCount(IPagedCollection collection)
 		{
-			return ((IPagedCollection<Entry>)collection).Count;
+			return ((IPagedCollection<FeedbackItem>)collection).Count;
 		}	
 	}
 

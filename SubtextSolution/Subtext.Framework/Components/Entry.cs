@@ -17,6 +17,7 @@ using System;
 using System.Collections.Specialized;
 using System.Web;
 using Subtext.Extensibility;
+using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Components
@@ -25,7 +26,7 @@ namespace Subtext.Framework.Components
 	/// Summary description for Entry.
 	/// </summary>
 	[Serializable]
-	public class Entry
+	public class Entry : IIdentifiable
 	{
 		/// <summary>
 		/// Creates a new <see cref="Entry"/> instance.
@@ -58,23 +59,6 @@ namespace Subtext.Framework.Components
 			set{_entryid = value;}
 		}
 
-		private int _parentId = NullValue.NullInt32;		
-		/// <summary>
-		/// Gets or sets the parent ID.
-		/// </summary>
-		/// <value>The parent ID.</value>
-		public int ParentId
-		{
-			get
-			{
-				return this._parentId;
-			}
-			set
-			{
-				this._parentId = value;
-			}
-		}
-
 		/// <summary>
 		/// Gets a value indicating whether this instance is updated.
 		/// </summary>
@@ -85,7 +69,7 @@ namespace Subtext.Framework.Components
 		{
 			get
 			{
-				return DateCreated != DateUpdated;
+				return DateCreated != this.DateModified;
 			}
 		}
 
@@ -216,34 +200,7 @@ namespace Subtext.Framework.Components
 			set
 			{
 				_body = value;
-				this._contentChecksumHash = string.Empty;
 			}
-		}
-
-		private string _sourceurl;
-		/// <summary>
-		/// Gets or sets the source URL.  For comments, this is the URL 
-		/// to the comment form used if any. For trackbacks, this is the 
-		/// url of the site making the trackback.
-		/// the 
-		/// </summary>
-		/// <value>The source URL.</value>
-		public string SourceUrl
-		{
-			get{return _sourceurl;}
-			set{_sourceurl= value;}
-		}
-
-		private string _sourcename;
-		/// <summary>
-		/// Gets or sets the name of the source.  For comments this is the 
-		/// IP address of the commenter.
-		/// </summary>
-		/// <value>The name of the source.</value>
-		public string SourceName
-		{
-			get{return _sourcename;}
-			set{_sourcename= value;}
 		}
 
 		private string _author;
@@ -284,7 +241,7 @@ namespace Subtext.Framework.Components
 		/// Gets or sets the date this entry was last updated.
 		/// </summary>
 		/// <value></value>
-		public DateTime DateUpdated
+		public DateTime DateModified
 		{
 			get
 			{
@@ -374,15 +331,6 @@ namespace Subtext.Framework.Components
 		}
 
 		/// <summary>
-		/// Whether or not this entry needs moderator approval.
-		/// </summary>
-		public bool NeedsModeratorApproval
-		{
-			get { return EntryPropertyCheck(PostConfig.NeedsModeratorApproval); }
-			set { PostConfigSetter(PostConfig.NeedsModeratorApproval, value); }
-		}
-
-		/// <summary>
 		/// True if comments have been closed. Otherwise false.  Comments are closed 
 		/// either explicitly or after by global age setting which overrides explicit settings
 		/// </summary>
@@ -457,26 +405,6 @@ namespace Subtext.Framework.Components
 		}
 		Uri _fullyQualifiedLink;
 		
-		/// <summary>
-		/// This is a checksum of the entry text combined with 
-		/// a hash of the text like so "####.HASH". 
-		/// </summary>
-		/// <value></value>
-		public string ContentChecksumHash
-		{
-			get
-			{
-				if(_contentChecksumHash.Length == 0)
-				{
-					_contentChecksumHash = CalculateChecksum(this.Body) + "." + Security.HashPassword(this.Body);
-				}
-				return _contentChecksumHash;
-			}
-			set { _contentChecksumHash = value; }
-		}
-
-		string _contentChecksumHash = string.Empty;
-
 		private int _feedBackCount = 0;
 		public int FeedBackCount
 		{
