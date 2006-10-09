@@ -171,6 +171,10 @@
       <Name>TestFu</Name>
       <HintPath>ExternalDependencies\TestFu.dll</HintPath>
     </Reference>
+    <ProjectReference Include="..\Subtext.Akismet\Subtext.Akismet.csproj">
+      <Project>{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}</Project>
+      <Name>Subtext.Akismet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Subtext.BlogMl\Subtext.BlogML.csproj">
       <Project>{830310DB-5D6A-453C-908A-058776D9C993}</Project>
       <Name>Subtext.BlogML</Name>
@@ -203,6 +207,10 @@
       <Project>{062D373E-FAC0-4451-BF57-8A2352AAC1BB}</Project>
       <Name>Subtext.UnitTesting.Servers</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Subtext.Web.Controls\Subtext.Web.Controls.csproj">
+      <Project>{2278427B-8BAD-4CE9-B15A-FD1131753D64}</Project>
+      <Name>Subtext.Web.Controls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Subtext.Web\Subtext.Web.csproj">
       <Name>Subtext.Web</Name>
       <Project>{8C11B428-9C4A-46C3-B7F0-48215276BFA5}</Project>
@@ -210,6 +218,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Akismet\AkismetApiTests.cs" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -230,6 +239,7 @@
     <Compile Include="Framework\Components\CollectionBookTests.cs" />
     <Compile Include="Framework\Components\CommentTests\CommentSettingsTests.cs" />
     <Compile Include="Framework\Components\CommentTests\FeedbackTests.cs" />
+    <Compile Include="Framework\Components\CommentTests\SpamServiceTests.cs" />
     <Compile Include="Framework\Components\EntryTests\AutoGenerateFriendlyUrlTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -306,18 +316,18 @@
     <Compile Include="Framework\Tracking\TrackbackHandlerTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Util\BlogTimeTests.cs" />
     <Compile Include="Framework\Util\KeywordsTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Util\SerializationHelperTests.cs" />
+    <Compile Include="Framework\Util\TimeZonesTest.cs" />
     <Compile Include="Framework\Web\HttpHelperTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Framework\Web\RsdHandlerTests.cs" />
     <Compile Include="Framework\XmlRpc\MetaBlogApiTests.cs" />
     <Compile Include="Installation\InstallationManagerTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Installation\ScriptHelperTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Installation\SqlInstallationProviderTests.cs">
@@ -330,6 +340,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Scripting\ExceptionTests.cs" />
+    <Compile Include="Scripting\ScriptHelperTests.cs" />
     <Compile Include="Scripting\TemplateParameterParseTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -339,6 +350,8 @@
     <Compile Include="StubDataReader.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SubtextWeb\Controls\CaptchaTests.cs" />
+    <Compile Include="SubtextWeb\Controls\InvisibleCaptchaTests.cs" />
     <Compile Include="SubtextWeb\Providers\RichTextEditor\FCKeditorProviderTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -354,6 +367,7 @@
     <Compile Include="UnitTestConfigProvider.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="UnitTestEmailProvider.cs" />
     <Compile Include="UnitTestHelper.cs">
       <SubType>Code</SubType>
     </Compile>

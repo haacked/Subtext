@@ -128,6 +128,15 @@ namespace Subtext.Framework.Providers
 		/// <param name="id">The id.</param>
 		/// <returns></returns>
 		public abstract IDataReader GetFeedBackItem(int id);
+
+		/// <summary>
+		/// Gets the feedback counts for the various top level statuses.
+		/// </summary>
+		/// <param name="approved">The approved.</param>
+		/// <param name="needsModeration">The needs moderation.</param>
+		/// <param name="flaggedAsSpam">The flagged as spam.</param>
+		/// <param name="deleted">The deleted.</param>
+		public abstract void GetFeedbackCounts(out int approved, out int needsModeration, out int flaggedAsSpam, out int deleted);
 		
 		/// <summary>
 		/// Gets the feed back items belonging to the specified post.
@@ -176,6 +185,12 @@ namespace Subtext.Framework.Providers
 	    /// <param name="id"></param>
 	    /// <returns></returns>
 		public abstract bool DeleteEntry(int id);
+		
+		/// <summary>
+		/// Completely deletes a feedback item from the database.
+		/// </summary>
+		/// <param name="id"></param>
+		public abstract void DestroyFeedback(int id);
 	    
 	    /// <summary>
 	    /// Adds a new entry in the database.

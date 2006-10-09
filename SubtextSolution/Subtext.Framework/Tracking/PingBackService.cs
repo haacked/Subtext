@@ -33,6 +33,7 @@
  ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 using System;
+using System.Web;
 using CookComputing.XmlRpc;
 using Subtext.Framework.Components;
 using Subtext.Framework.Format;
@@ -73,6 +74,8 @@ namespace Subtext.Framework.Tracking
 			//PTR = Pingback - TrackBack - Referral
 			Trackback trackback = new Trackback(postId, HtmlHelper.SafeFormat(pageTitle), new Uri(sourceURI), string.Empty, HtmlHelper.SafeFormat(pageTitle));
 			FeedbackItem.Create(trackback);
+			CommentFilter filter = new CommentFilter(HttpContext.Current.Cache);
+			filter.DetermineFeedbackApproval(trackback);
   		
 			return "thanks for the pingback on " + sourceURI ;
 		}

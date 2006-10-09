@@ -46,7 +46,7 @@ namespace Subtext.Framework.Syndication
 
 			if(ParentEntry != null && Comments == null)
 			{
-				Comments = Cacher.GetFeedback(ParentEntry, CacheDuration.Short);
+				Comments = Cacher.GetFeedback(ParentEntry, CacheDuration.Short, true);
 			}
 
 			return Comments;

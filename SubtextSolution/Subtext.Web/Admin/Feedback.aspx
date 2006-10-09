@@ -3,7 +3,7 @@
 <%@ Register TagPrefix="sub" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
-	Actions
+	Folders
 </asp:Content>
 
 <asp:Content ID="categoryListTitle" ContentPlaceHolderID="categoryListHeading" runat="server">
@@ -78,8 +78,10 @@
 			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' 
 			UrlFormat="Feedback.aspx?pg={0}" 
 			CssClass="Pager" />
-		<asp:Button id="btnDelete" runat="server" CssClass="buttonSubmit" style="float:right" Text="Delete" onclick="OnDeleteClick" />
-		<asp:Button id="btnApprove" runat="server" CssClass="buttonSubmit" style="float:right" Text="Approve" onclick="OnApproveClick" />
+		<asp:Button id="btnDelete" runat="server" CssClass="buttonSubmit" style="float:right" Text="Delete" onclick="OnDeleteClick" ToolTip="Move To Trash" />
+		<asp:Button id="btnDestroy" runat="server" CssClass="buttonSubmit" style="float:right" Text="Destroy" onclick="OnDestroyClick" Visible="false" OnClientClick="return confirm('This will delete these comments permanently. Continue?');" ToolTip="Delete Forever" />
+		<asp:Button id="btnConfirmSpam" runat="server" CssClass="buttonSubmit" style="float:right" Text="Spam" onclick="OnConfirmSpam" ToolTip="Confirm Spam Moves Item To Trash" />
+		<asp:Button id="btnApprove" runat="server" CssClass="buttonSubmit" style="float:right" Text="Approve" onclick="OnApproveClick" ToolTip="Approve" />
 		<br class="clear" />
 	</st:AdvancedPanel>
 </asp:Content>

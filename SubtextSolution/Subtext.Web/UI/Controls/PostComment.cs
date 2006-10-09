@@ -17,14 +17,16 @@ using System;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Subtext.Framework.Data;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
+using Subtext.Web.Controls;
+using Subtext.Web.Controls.Captcha;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -32,7 +34,7 @@ namespace Subtext.Web.UI.Controls
 	///		Summary description for Comments.
 	/// </summary>
 	public partial class PostComment : BaseControl
-	{	
+	{
 		/// <summary>
 		/// Handles the OnLoad event.  Attempts to prepopulate comment 
 		/// fields based on the user's cookie.
@@ -44,25 +46,7 @@ namespace Subtext.Web.UI.Controls
 
 			//TODO: Make this configurable.
 			tbComment.MaxLength = 4000;
-			tbComment.ValidationGroup = "SubtextComment";
-
-			if (this.tbTitle != null)
-				this.tbTitle.ValidationGroup = "SubtextComment";
-
-			if (this.tbName != null)
-				this.tbName.ValidationGroup = "SubtextComment";
-
-			if (this.tbUrl != null)
-				this.tbUrl.ValidationGroup = "SubtextComment";
-			
-			if(this.tbEmail != null)
-				this.tbEmail.ValidationGroup = "SubtextComment";
-
-			if (this.btnCompliantSubmit != null)
-				this.btnCompliantSubmit.ValidationGroup = "SubtextComment";
-
-			if (this.btnSubmit != null)
-				this.btnSubmit.ValidationGroup = "SubtextComment";
+			SetValidationGroup();
 		
 			if(!IsPostBack)
 			{
@@ -75,11 +59,6 @@ namespace Subtext.Web.UI.Controls
 					return;
 				}
 				
-				if(Request.QueryString["Moderation"] == "true")
-				{
-					Message.Text = "Comments on this blog are moderated.  There may be a delay before your comment appears.";
-				}
-
 				ResetCommentFields(entry);
 
 				if(Config.CurrentBlog.CoCommentsEnabled)
@@ -102,6 +81,56 @@ namespace Subtext.Web.UI.Controls
 				}
 			}
 		}
+		
+		void SetValidationGroup()
+		{
+			foreach(Control control in this.Controls)
+			{
+				BaseValidator validator = control as BaseValidator;
+				if(validator != null)
+				{
+					validator.ValidationGroup = "SubtextComment";
+					continue;
+				}
+
+				Button btn = control as Button;
+				if (btn != null)
+				{
+					btn.ValidationGroup = "SubtextComment";
+					continue;
+				}
+
+				TextBox textbox = control as TextBox;
+				if (textbox != null)
+				{
+					textbox.ValidationGroup = "SubtextComment";
+					continue;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Called when an approved comment is added.
+		/// </summary>
+		protected virtual void OnCommentApproved(FeedbackItem feedback)
+		{
+			if (feedback.Approved)
+			{
+				EventHandler<EventArgs> theEvent = this.CommentApproved;
+				if (theEvent != null)
+					theEvent(this, EventArgs.Empty);
+			}
+		}
+
+		private void RemoveCommentControls()
+		{
+			for (int i = this.Controls.Count - 1; i >= 0; i--)
+			{
+				this.Controls.RemoveAt(i);
+			}
+		}
+
+		public event EventHandler<EventArgs> CommentApproved;
 
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
@@ -118,21 +147,58 @@ namespace Subtext.Web.UI.Controls
 		/// </summary>
 		private void InitializeComponent()
 		{
+			int btnIndex = 0;
+			
 			if(this.btnSubmit != null)
 			{
 				this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
+				btnIndex = Controls.IndexOf(btnSubmit);
 			}
 
 			if(this.btnCompliantSubmit != null)
 			{
 				this.btnCompliantSubmit.Click += new EventHandler(this.btnSubmit_Click);
+				btnIndex = Controls.IndexOf(btnCompliantSubmit);
 			}
-			//this.Load += new System.EventHandler(this.Page_Load);
 
+			//Captcha should not be given to admin.
+			if (!Security.IsAdmin)
+			{
+				if (Config.CurrentBlog.CaptchaEnabled)
+				{
+					captcha = new CaptchaControl();
+					captcha.ID = "captcha";
+					Control preExisting = ControlHelper.FindControlRecursively(this, "captcha");
+					if (preExisting == null) // && !Config.CurrentBlog.FeedbackSpamServiceEnabled) Experimental code for improved UI. Will put back in later. - Phil Haack 10/09/2006
+					{
+						Controls.AddAt(btnIndex, captcha);
+					}
+					
+					/*
+					* Experimental code for improved UI. Will put back in later.
+					*		- Phil Haack Removed 10/09/2006
+					if(Config.CurrentBlog.FeedbackSpamServiceEnabled)
+					{
+						// Set up this button just in case we need to show it.
+						if (btnConfirm == null)
+							btnConfirm = new Button();
+						btnConfirm.ID = "btnConfirm";
+						btnConfirm.Text = "Confirm";
+						btnConfirm.Visible = true;
+						Controls.AddAt(btnIndex, btnConfirm);
+						btnConfirm.Click += new EventHandler(btnConfirm_Click);
+					}*/
+				}
+
+				invisibleCaptchaValidator = new InvisibleCaptcha();
+				invisibleCaptchaValidator.ErrorMessage = "Please enter the answer to the supplied question.";
+
+				Controls.AddAt(btnIndex, invisibleCaptchaValidator);
+			}
 		}
 		#endregion
 
-		private void btnSubmit_Click(object sender, System.EventArgs e)
+		private void btnSubmit_Click(object sender, EventArgs e)
 		{
 			if(Page.IsValid)
 			{
@@ -141,43 +207,144 @@ namespace Subtext.Web.UI.Controls
 					Entry currentEntry =  Cacher.GetEntryFromRequest(CacheDuration.Short);	
 					if(IsCommentAllowed(currentEntry))
 					{
-						FeedbackItem feedbackItem = new FeedbackItem(FeedbackType.Comment);
-						feedbackItem.Author = tbName.Text;
-						if(this.tbEmail != null)
-							feedbackItem.Email = tbEmail.Text;
-						feedbackItem.SourceUrl =  HtmlHelper.CheckForUrl(tbUrl.Text);
-						feedbackItem.Body = tbComment.Text;
-						feedbackItem.Title = tbTitle.Text;
-						feedbackItem.EntryId = currentEntry.Id;
-						feedbackItem.IpAddress = HttpHelper.GetUserIpAddress(Context);
-
+						FeedbackItem feedbackItem = CreateFeedbackInstanceFromFormInput(currentEntry);
 						FeedbackItem.Create(feedbackItem);
+						
+						CommentFilter filter = new CommentFilter(HttpContext.Current.Cache);
+						filter.DetermineFeedbackApproval(feedbackItem);
 
 						if(chkRemember == null || chkRemember.Checked)
 						{
-							HttpCookie user = new HttpCookie("CommentUser");
-							user.Values["Name"] = tbName.Text;
-							user.Values["Url"] = tbUrl.Text;
-							if(this.tbEmail!=null)
-								user.Values["Email"] = tbEmail.Text;
-							user.Expires = DateTime.Now.AddDays(30);
-							Response.Cookies.Add(user);
+							SetRememberedUserCookie();
 						}
 
-						ResetCommentFields(currentEntry);
-
-						if(Config.CurrentBlog.ModerationEnabled)
+						DisplayResultMessage(feedbackItem);
+						
+						/*
+						* Experimental code for improved UI. Will put back in later.
+						*		- Phil Haack Removed 10/09/2006
+						if (feedbackItem.FlaggedAsSpam && !feedbackItem.NeedsModeratorApproval && Config.CurrentBlog.CaptchaEnabled && Config.CurrentBlog.FeedbackSpamServiceEnabled)
 						{
-							Response.Redirect(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?Moderation=true&#message", Request.Path));
+							SetupBackupCaptcha(feedbackItem.Id);
 						}
+						else
+						{
+							DisplayResultMessage(feedbackItem);
+						}
+						 */
 					}
-					Response.Redirect(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?Pending=true", Request.Path));
 				}
 				catch(BaseCommentException exception)
 				{
 					Message.Text = exception.Message;
 				}
 			}
+		}
+
+		/*
+		 * Experimental code for improved UI. Will put back in later.
+		 *		- Phil Haack Removed 10/09/2006
+
+		private void SetupBackupCaptcha(int feedbackId)
+		{
+			RemoveCommentControls();
+			if (this.Message == null)
+				this.Message = new Label();
+
+			this.Page.ClientScript.RegisterHiddenField(ClientID + "_feedbackId", feedbackId.ToString(CultureInfo.InvariantCulture));
+					
+			this.Message.Text = "Your comment was flagged as spam and will be held for moderation unless you prove you are a human.";						
+			Controls.Add(this.Message);
+			Controls.Add(this.captcha);
+			Controls.Add(this.btnConfirm);
+			btnConfirm.Visible = true;
+		}
+
+		void btnConfirm_Click(object sender, EventArgs e)
+		{
+			if(captcha.IsValid)
+			{
+				FeedbackItem item = FeedbackItem.Get(GetFeedbackIdFromSecondarySpamFilter());
+				if (item != null)
+				{
+					FeedbackItem.Approve(item);
+				}
+							
+				RemoveCommentControls();
+				if (Message == null)
+					Message = new Label();
+				Controls.Add(Message);
+				Message.Text = "Thank you!";
+			}
+			else
+			{
+				SetupBackupCaptcha(GetFeedbackIdFromSecondarySpamFilter());
+			}
+		}
+		
+		
+		int GetFeedbackIdFromSecondarySpamFilter()
+		{
+			string idText = Page.Request.Form[ClientID + "_feedbackId"] ?? string.Empty;
+			if(idText.Length == 0)
+			{
+				int id;
+				if(int.TryParse(idText, out id))
+					return id;
+			}
+			return 0;
+		}
+		*/
+
+		private void SetRememberedUserCookie()
+		{
+			HttpCookie user = new HttpCookie("CommentUser");
+			user.Values["Name"] = this.tbName.Text;
+			user.Values["Url"] = this.tbUrl.Text;
+			if(this.tbEmail!=null)
+				user.Values["Email"] = this.tbEmail.Text;
+			user.Expires = DateTime.Now.AddDays(30);
+			Response.Cookies.Add(user);
+		}
+
+		private void DisplayResultMessage(FeedbackItem feedbackItem)
+		{
+			RemoveCommentControls();
+			Message = new Label();
+			
+			if (feedbackItem.Approved)
+			{
+				Message.Text = "Thanks for your comment!";
+				Message.CssClass = "success";
+				this.Controls.Add(Message);	//This needs to be here for ajax calls.
+				OnCommentApproved(feedbackItem);
+				return;
+			}
+			else if(feedbackItem.NeedsModeratorApproval)
+			{
+				Message.Text = "Thank you for your comment.  It will be displayed soon.";
+				Message.CssClass = "error moderation";
+			}
+			else
+			{
+				this.Message.Text = "Sorry, but your comment was flagged as spam and will be moderated.";
+				this.Message.CssClass = "error";
+			}
+			this.Controls.Add(Message);
+		}
+
+		private FeedbackItem CreateFeedbackInstanceFromFormInput(Entry currentEntry)
+		{
+			FeedbackItem feedbackItem = new FeedbackItem(FeedbackType.Comment);
+			feedbackItem.Author = this.tbName.Text;
+			if(this.tbEmail != null)
+				feedbackItem.Email = this.tbEmail.Text;
+			feedbackItem.SourceUrl =  HtmlHelper.CheckForUrl(this.tbUrl.Text);
+			feedbackItem.Body = this.tbComment.Text;
+			feedbackItem.Title = this.tbTitle.Text;
+			feedbackItem.EntryId = currentEntry.Id;
+			feedbackItem.IpAddress = HttpHelper.GetUserIpAddress(Context);
+			return feedbackItem;
 		}
 
 		private void ResetCommentFields(Entry entry)

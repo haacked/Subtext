@@ -218,28 +218,11 @@ function ToolTipCompatibleBrowser(){
 
 document.onmousemove = DDRIVE_positiontip;
 
-//
-// addLoadEvent()
-// Adds event to window.onload without overwriting currently assigned onload functions.
-// Function found at Simon Willison's weblog - http://simon.incutio.com/
-//
-function addLoadEvent(func)
-{	
-	var oldonload = window.onload;
-	if (typeof window.onload != 'function'){
-    	window.onload = func;
-	} else {
-		window.onload = function(){
-		oldonload();
-		func();
-		}
-	}
-}
-
 function initAmazonLinks()
 {
 	DDRIVE_tipobj = createToolTipDiv();
 	RewriteAmazonLinksWithTooltips();
 }
 
+// addLoadEvent is defined in Subtext.Web/Scripts/common.js
 addLoadEvent(initAmazonLinks);

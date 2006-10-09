@@ -133,6 +133,10 @@
       <Name>Velocit.RegularExpressions</Name>
       <HintPath>ExternalDependencies\Velocit.RegularExpressions.dll</HintPath>
     </Reference>
+    <ProjectReference Include="..\Subtext.Akismet\Subtext.Akismet.csproj">
+      <Project>{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}</Project>
+      <Name>Subtext.Akismet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Subtext.BlogMl\Subtext.BlogML.csproj">
       <Project>{830310DB-5D6A-453C-908A-058776D9C993}</Project>
       <Name>Subtext.BlogML</Name>
@@ -145,11 +149,6 @@
     <ProjectReference Include="..\Subtext.Scripting\Subtext.Scripting.csproj">
       <Name>Subtext.Scripting</Name>
       <Project>{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
-    <ProjectReference Include="..\Subtext.Web.Controls\Subtext.Web.Controls.csproj">
-      <Name>Subtext.Web.Controls</Name>
-      <Project>{2278427B-8BAD-4CE9-B15A-FD1131753D64}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
   </ItemGroup>
@@ -377,6 +376,8 @@
     <Compile Include="Security.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Services\AkismetSpamService.cs" />
+    <Compile Include="Services\IFeedbackSpamService.cs" />
     <Compile Include="Stats.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -490,6 +491,7 @@
     <Compile Include="Util\SerializationHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Util\TimeZones.cs" />
     <Compile Include="Util\Transform.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -535,7 +537,7 @@
     <Content Include="ExternalDependencies\Velocit.RegularExpressions.dll" />
     <Content Include="license.txt" />
     <Content Include="Logging\LoggingConfigurationExample.xml" />
-    <EmbeddedResource Include="Resources\InstallationVersions.xml" />
+    <EmbeddedResource Include="Util\WindowsTimeZoneCollection.xml" />
     <EmbeddedResource Include="Tracking\PingBackNotificatinProxy.resx">
       <DependentUpon>PingBackNotificatinProxy.cs</DependentUpon>
     </EmbeddedResource>

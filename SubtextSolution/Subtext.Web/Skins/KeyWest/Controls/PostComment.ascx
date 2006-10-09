@@ -4,31 +4,37 @@
 	<table id="commentform">
 		<tr>
 			<td align="right">Title:</td>
-			<td><asp:TextBox id="tbTitle" runat="server" CssClass="fixed" Columns="45"></asp:TextBox>
-				<asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" Display="Dynamic" ControlToValidate="tbTitle"
-					ErrorMessage="Please enter a title"></asp:RequiredFieldValidator></td>
+			<td>
+				<asp:TextBox id="tbTitle" runat="server" CssClass="fixed" Columns="45" />
+				<asp:RequiredFieldValidator id="vldTitleRequired" runat="server" Display="Dynamic" ControlToValidate="tbTitle" ErrorMessage="Please enter a title"></asp:RequiredFieldValidator>
+			</td>
 		</tr>
 		<tr>
 			<td align="right">Name:</td>
-			<td><asp:TextBox id="tbName" runat="server" CssClass="fixed" Columns="45"></asp:TextBox>
+			<td><asp:TextBox id="tbName" runat="server" CssClass="fixed" Columns="45" />
 				<asp:RequiredFieldValidator id="RequiredFieldValidator2" runat="server" ErrorMessage="Please enter your name"
 					ControlToValidate="tbName" Display="Dynamic" /></td>
 		</tr>
 		<tr>
 			<td align="right">Email:</td>
-			<td><asp:TextBox id="tbEmail" runat="server" CssClass="fixed" Columns="45"></asp:TextBox></td>
+			<td>
+				<asp:TextBox id="tbEmail" runat="server" CssClass="fixed" Columns="45" />
+				<asp:RegularExpressionValidator ID="vldEmail" runat="server" ControlToValidate="tbEmail" ValidationExpression="^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$" Display="dynamic" ErrorMessage="Email is not required, but it must be valid if specified." EnableClientScript="true" />
+			</td>
 		</tr>
 		<tr>
 			<td align="right">Website:</td>
 			<td>
 				<div class="input"><asp:TextBox id="tbUrl" runat="server" CssClass="fixed" Columns="45"></asp:TextBox>
-					<asp:RequiredFieldValidator id="Requiredfieldvalidator4" runat="server" ErrorMessage="Please enter a comment"
-						ControlToValidate="tbComment"></asp:RequiredFieldValidator></div>
+					<asp:RegularExpressionValidator ID="vldUrl" runat="server" ControlToValidate="tbUrl" ValidationExpression="^(https?://)?([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?$" Display="dynamic" ErrorMessage="Url is not required, but it must be valid if specified." EnableClientScript="true" />
+				</div>
 			</td>
 		</tr>
 		<tr>
 			<td align="right" valign="bottom">
-				<div class="label"><label for="PostComment_ascx_tbComment">Comment:</LABEL>
+				<div class="label">
+					<label for="PostComment_ascx_tbComment">Comment:</label>
+					<asp:RequiredFieldValidator id="vldCommentBody" runat="server" ErrorMessage="Please enter a comment" ControlToValidate="tbComment" EnableClientScript="true" />
 				</div>
 			</td>
 			<td>

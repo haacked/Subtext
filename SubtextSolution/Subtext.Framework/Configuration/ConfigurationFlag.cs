@@ -57,5 +57,7 @@ namespace Subtext.Framework.Configuration
 		CoCommentEnabled = 1024,
 		/// <summary>The blog allows for comment moderation.</summary>
 		CommentModerationEnabled=2048,
+		/// <summary>CAPTCHA is enabled on comment forms.</summary>
+		CaptchaEnabled=4096,
 	};
 }

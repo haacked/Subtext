@@ -16,6 +16,8 @@ namespace Subtext.Web.Admin.Pages {
         protected System.Web.UI.WebControls.Repeater rprSelectionList;
         protected Subtext.Web.Controls.PagingControl resultsPager;
         protected System.Web.UI.WebControls.Button btnDelete;
+        protected System.Web.UI.WebControls.Button btnDestroy;
+        protected System.Web.UI.WebControls.Button btnConfirmSpam;
         protected System.Web.UI.WebControls.Button btnApprove;
     }
 }

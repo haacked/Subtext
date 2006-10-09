@@ -111,7 +111,7 @@ namespace Subtext.Framework.Util
 					// Read through each set of lines in the text file
 					//
 					string line = sr.ReadLine(); 
-					string replaceLine = "";
+					string replaceLine;
 
 					while (line != null) 
 					{

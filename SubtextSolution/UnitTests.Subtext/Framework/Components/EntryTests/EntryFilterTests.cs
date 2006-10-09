@@ -15,6 +15,7 @@
 
 using System;
 using System.Threading;
+using System.Web;
 using MbUnit.Framework;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -52,6 +53,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			trackback.Title = "Some Title";
 			trackback.Body = "Some Body Some Body";
 			FeedbackItem.Create(trackback);
+			CommentFilter filter = new CommentFilter(HttpContext.Current.Cache);
+			filter.DetermineFeedbackApproval(trackback);
 			
 			Thread.Sleep(100);
 
@@ -61,6 +64,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			comment.Title = "Some Title";
 			comment.Body = "Some Body Else";
 			FeedbackItem.Create(comment);
+			filter.DetermineFeedbackApproval(trackback);
 		}
 
 		/// <summary>
@@ -81,7 +85,11 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			feedbackItem.Title = "Some Title";
 			feedbackItem.Body = "Some Body";
 			FeedbackItem.Create(feedbackItem);
+			CommentFilter filter = new CommentFilter(HttpContext.Current.Cache);
+			filter.DetermineFeedbackApproval(feedbackItem);
+			
 			FeedbackItem.Create(feedbackItem);
+			filter.DetermineFeedbackApproval(feedbackItem);
 		}
 	    
 	    /// <summary>
@@ -93,7 +101,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 	    [RollBack]
 	    public void CommentsFromAdminNotFiltered()
 	    {
-            Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+            Assert.IsTrue(Config.CreateBlog("", "username", "some-password", _hostName, string.Empty));
             BlogInfo blog = Config.CurrentBlog;
             blog.CommentDelayInMinutes = 0;
 	        
@@ -101,7 +109,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
              * Need to add the authentication ticket to the context (cookie), and then 
              * read that ticket to set the HttpContext.Current.User's Principle.
              */
-	        Security.Authenticate("username", "password", true);
+	        Security.Authenticate("username", "some-password", true);
 	        UnitTestHelper.AuthenticateFormsAuthenticationCookie();
 	        Assert.IsTrue(Security.IsAdmin, "Not able to login to the current blog.");
 
@@ -111,7 +119,10 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             trackback.Title = "Some Title";
             trackback.Body = "Some Body";
             FeedbackItem.Create(trackback);
+			CommentFilter filter = new CommentFilter(HttpContext.Current.Cache);
+			filter.DetermineFeedbackApproval(trackback);
 			FeedbackItem.Create(trackback);
+			filter.DetermineFeedbackApproval(trackback);
 	    }
 
 	    /// <summary>
@@ -130,6 +141,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		{
 			_hostName = UnitTestHelper.GenerateRandomString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, string.Empty);
+			new CommentFilter(HttpContext.Current.Cache).ClearCommentCache();
 		}
 
 		[TearDown]

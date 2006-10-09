@@ -18,39 +18,16 @@ function externalLinks()
 			if(anchor.getAttribute("rel").indexOf("external") >= 0)
 			{
 				anchor.target = "_blank";
+				addClass(anchor, 'newWindowStyle');
+				
 				if(anchor.title.length > 0)
 					anchor.title = anchor.title + ' (new window)';
 				else
 					anchor.title = '(new window)';
-				if(anchor.className.length > 0)
-					anchor.className += ' newWindowStyle';
-				else
-					anchor.className = 'newWindowStyle';
 			}
         }
     }
 }
 
-//
-// addLoadEvent()
-// Adds event to window.onload without overwriting currently assigned onload functions.
-// Function found at Simon Willison's weblog - http://simon.incutio.com/
-//
-function addLoadEvent(func)
-{	
-	var oldonload = window.onload;
-	if (typeof window.onload != 'function')
-	{
-    	window.onload = func;
-	} 
-	else 
-	{
-		window.onload = function()
-		{
-			oldonload();
-			func();
-		}
-	}
-}
-
+// addLoadEvent is defined in Subtext.Web/Scripts/common.js
 addLoadEvent(externalLinks);

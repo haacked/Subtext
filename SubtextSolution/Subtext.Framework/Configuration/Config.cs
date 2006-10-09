@@ -171,7 +171,7 @@ namespace Subtext.Framework.Configuration
 			host = BlogInfo.NormalizeHostName(host);
 
 			//Check for duplicate
-			BlogInfo potentialDuplicate = Subtext.Framework.Configuration.Config.GetBlogInfo(host, subfolder, true);
+			BlogInfo potentialDuplicate = GetBlogInfo(host, subfolder, true);
 			if(potentialDuplicate != null)
 			{
 				//we found a duplicate!
@@ -183,7 +183,7 @@ namespace Subtext.Framework.Configuration
 			if (subfolder != null && subfolder.Length > 0)
             {
                 //Check to see if we're going to end up hiding another blog.
-                BlogInfo potentialHidden = Subtext.Framework.Configuration.Config.GetBlogInfo(host, string.Empty, true);
+                BlogInfo potentialHidden = GetBlogInfo(host, string.Empty, true);
                 if (potentialHidden != null)
                 {
                     //We found a blog that would be hidden by this one.
@@ -212,7 +212,7 @@ namespace Subtext.Framework.Configuration
 				}
 			}
 
-			if(!passwordAlreadyHashed && Config.Settings.UseHashedPasswords)
+			if(!passwordAlreadyHashed && Settings.UseHashedPasswords)
 				password = Security.HashPassword(password);
 
             return (ObjectProvider.Instance().CreateBlog(title, userName, password, host, subfolder));
@@ -227,7 +227,7 @@ namespace Subtext.Framework.Configuration
 		public static bool UpdateConfigData(BlogInfo info)
 		{
 			//Check for duplicate
-			BlogInfo potentialDuplicate = Subtext.Framework.Configuration.Config.GetBlogInfo(info.Host, info.Subfolder);
+			BlogInfo potentialDuplicate = GetBlogInfo(info.Host, info.Subfolder);
 			if(potentialDuplicate != null && !potentialDuplicate.Equals(info))
 			{
 				//we found a duplicate!
@@ -235,7 +235,7 @@ namespace Subtext.Framework.Configuration
 			}
 
 			//Check to see if we're going to end up hiding another blog.
-			BlogInfo potentialHidden = Subtext.Framework.Configuration.Config.GetBlogInfo(info.Host, string.Empty);
+			BlogInfo potentialHidden = GetBlogInfo(info.Host, string.Empty);
 			if(potentialHidden != null && !potentialHidden.Equals(info) && potentialHidden.IsActive)
 			{
 				//We found a blog that would be hidden by this one.
@@ -265,8 +265,8 @@ namespace Subtext.Framework.Configuration
 				}
 			}
 			
-			info.IsPasswordHashed = Config.Settings.UseHashedPasswords;
-			info.AllowServiceAccess = Config.Settings.AllowServiceAccess;
+			info.IsPasswordHashed = Settings.UseHashedPasswords;
+			info.AllowServiceAccess = Settings.AllowServiceAccess;
 
 			return ObjectProvider.Instance().UpdateBlog(info);
 		}
@@ -300,7 +300,7 @@ namespace Subtext.Framework.Configuration
 
 			foreach(string invalidSubFolder in _invalidSubfolders)
 			{
-				if(StringHelper.AreEqualIgnoringCase(invalidSubFolder, subfolder))
+				if (String.Equals(invalidSubFolder, subfolder, StringComparison.InvariantCultureIgnoreCase))
 					return false;
 			}
 			return true;

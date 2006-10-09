@@ -19,7 +19,6 @@ using System.Text;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Components;
 using Subtext.Framework.Providers;
-using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Util
 {
@@ -112,7 +111,7 @@ namespace Subtext.Framework.Util
 									matchTarget = source.Substring(i + tagstack.Length, oldValue.Length);
 									
 									//TODO: Do we want a case insensitive comparison in all cases?
-									if(StringHelper.AreEqual(matchTarget, oldValue, ComparisonType.CaseInsensitive))
+									if(String.Equals(matchTarget, oldValue, StringComparison.InvariantCultureIgnoreCase))
 									//if (matchTarget == oldValue)
 									{
 										int index= tagstack.Length - i;
@@ -296,12 +295,12 @@ namespace Subtext.Framework.Util
 
 		public bool Holds(string value)
 		{
-			return Holds(value, ComparisonType.CaseInsensitive);
+			return Holds(value, StringComparison.InvariantCultureIgnoreCase);
 		}
 
-		public bool Holds(string value, ComparisonType comparisonType)
+		public bool Holds(string value, StringComparison comparisonType)
 		{
-			return StringHelper.AreEqual(value, this.ToString(), comparisonType);
+			return String.Equals(value, this.ToString(), comparisonType);
 		}
 
 		public override string ToString()

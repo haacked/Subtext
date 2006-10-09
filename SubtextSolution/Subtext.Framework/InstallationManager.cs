@@ -19,7 +19,6 @@ using System.Web.UI;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
-using Subtext.Framework.Text;
 
 namespace Subtext.Framework
 {
@@ -128,7 +127,7 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				return StringHelper.IndexOf(HttpContext.Current.Request.Path, "/Install/", ComparisonType.CaseInsensitive) >= 0;
+				return HttpContext.Current.Request.Path.IndexOf("/Install/", StringComparison.InvariantCultureIgnoreCase) >= 0;
 			}
 		}
 
@@ -142,7 +141,7 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				return StringHelper.EndsWith(HttpContext.Current.Request.FilePath, "Login.aspx", ComparisonType.CaseInsensitive);
+				return HttpContext.Current.Request.FilePath.EndsWith("Login.aspx", StringComparison.InvariantCultureIgnoreCase);
 			}
 		}
 

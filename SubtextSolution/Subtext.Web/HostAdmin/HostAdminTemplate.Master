@@ -20,7 +20,7 @@
 				<span id="hostAdminNameText">
 					<asp:Literal ID="hostAdminName" Runat="server" Text="" />
 				</span> 
-				<span id="logoutLinkText">[<a href="~/Logout.aspx" id="logoutLink" runat="server">Logout</a>]</span></div>
+				<span id="logoutLinkText">[<a href="~/Logout.aspx?user=HostAdmin" id="logoutLink" runat="server">Logout</a>]</span></div>
 			<h1><asp:ContentPlaceHolder id="MPSectionTitle" runat="server">Subtext Host Admin</asp:ContentPlaceholder></h1>
 		</div>
 		<ul id="menu">

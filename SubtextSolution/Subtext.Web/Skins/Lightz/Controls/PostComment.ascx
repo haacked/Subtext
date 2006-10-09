@@ -5,21 +5,25 @@
 	<div id="postcomment">
 		<div>
 			Title<br />
-			<asp:TextBox id="tbTitle" runat="server" Size = "40" Width="400px" CssClass="text"></asp:TextBox>
-			<asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" ErrorMessage="Please enter a title" ControlToValidate="tbTitle"></asp:RequiredFieldValidator>
+			<asp:TextBox id="tbTitle" runat="server" Size = "40" Width="400px" CssClass="text" />
+			<asp:RequiredFieldValidator id="vldTitleRequired" runat="server" ErrorMessage="Please enter a title" ControlToValidate="tbTitle"></asp:RequiredFieldValidator>
 		</div>
 		<div>
 			Name<br />
-			<asp:TextBox id="tbName" runat="server" Size = "40" Width="400px" CssClass="text"></asp:TextBox>
-			<asp:RequiredFieldValidator id="RequiredFieldValidator2" runat="server" ErrorMessage="Please enter your name" ControlToValidate="tbName"></asp:RequiredFieldValidator>
+			<asp:TextBox id="tbName" runat="server" Size = "40" Width="400px" CssClass="text" />
+			<asp:RequiredFieldValidator id="vldNameRequired" runat="server" ErrorMessage="Please enter your name" ControlToValidate="tbName"></asp:RequiredFieldValidator>
 		</div>
 		<div>
 			Email<br />
-			<asp:TextBox id="tbEmail" runat="server" Size = "40" Width="400px" CssClass="text"></asp:TextBox><br /><br />
+			<asp:TextBox id="tbEmail" runat="server" Size = "40" Width="400px" CssClass="text" />
+			<asp:RegularExpressionValidator ID="vldEmail" runat="server" ControlToValidate="tbEmail" ValidationExpression="^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$" Display="dynamic" ErrorMessage="Email is not required, but it must be valid if specified." EnableClientScript="true" />
+			<br /><br />
 		</div>
 		<div>
 			Url<br />
-			<asp:TextBox id="tbUrl" runat="server" Size = "40" Width="400px" CssClass="text"></asp:TextBox><br /><br />
+			<asp:TextBox id="tbUrl" runat="server" Size = "40" Width="400px" CssClass="text"></asp:TextBox>
+			<asp:RegularExpressionValidator ID="vldUrl" runat="server" ControlToValidate="tbUrl" ValidationExpression="^(https?://)?([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?$" Display="dynamic" ErrorMessage="Url is not required, but it must be valid if specified." EnableClientScript="true" />
+			<br /><br />
 		</div>
 		<div>
 			Comments<br />

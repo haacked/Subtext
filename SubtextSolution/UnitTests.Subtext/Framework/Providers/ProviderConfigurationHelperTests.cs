@@ -31,7 +31,7 @@ namespace UnitTests.Subtext.Framework.Providers
 	    [Test]
 	    public void CanFindConnectionString()
 	    {
-            Assert.AreEqual("Server=localhost;Database=SubtextData;Trusted_Connection=True", ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString);
+            Assert.AreEqual("Server=localhost;Database=SubtextData_1.9;Trusted_Connection=True", ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString);
 	    }
 	    
 		/// <summary>
@@ -41,8 +41,8 @@ namespace UnitTests.Subtext.Framework.Providers
 		public void GetConnectionStringSettingValueFindsConnectionString()
 		{
 			NameValueCollection configValue = new NameValueCollection();
-			configValue.Add("connectionStringName", "subtextData");
-            Assert.AreEqual("Server=localhost;Database=SubtextData;Trusted_Connection=True", ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", configValue));
+			configValue.Add("connectionStringName", "subtextData");	
+            Assert.AreEqual("Server=localhost;Database=SubtextData_1.9;Trusted_Connection=True", ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", configValue));
 		}
 	}
 }

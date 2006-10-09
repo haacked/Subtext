@@ -15,7 +15,6 @@
 
 using System;
 using System.Collections.Specialized;
-using System.Globalization;
 using System.Text.RegularExpressions;
 
 // adapted from namespace Haack.Text
@@ -26,29 +25,6 @@ namespace Subtext.Framework.Text
 	/// </summary>
 	public static class StringHelper
 	{
-		/// <summary>
-		/// Compares the strings and returns true if they are equal.
-		/// </summary>
-		/// <param name="source">Source.</param>
-		/// <param name="compared">Compared.</param>
-		/// <param name="comparisonType"></param>
-		/// <returns></returns>
-		public static bool AreEqual(string source, string compared, ComparisonType comparisonType)
-		{
-			return string.Compare(source, compared, (comparisonType == ComparisonType.CaseInsensitive), CultureInfo.InvariantCulture) == 0;
-		}
-
-		/// <summary>
-		/// Compares the strings and returns true if they are equal, ignoring case.
-		/// </summary>
-		/// <param name="source">Source.</param>
-		/// <param name="compared">Compared.</param>
-		/// <returns></returns>
-		public static bool AreEqualIgnoringCase(string source, string compared)
-		{
-			return AreEqual(source, compared, ComparisonType.CaseInsensitive);
-		}
-
 		/// <summary>
 		/// Parses a camel cased or pascal cased string and returns an array 
 		/// of the words within the string.
@@ -190,7 +166,7 @@ namespace Subtext.Framework.Text
 		/// <exception cref="ArgumentNullException">Thrown if str or searchstring is null.</exception>
 		public static string RightAfter(string original, string search)
 		{
-			return RightAfter(original, search, ComparisonType.CaseSensitive);
+			return RightAfter(original, search, StringComparison.InvariantCulture);
 		}
 
 		/// <summary>
@@ -204,7 +180,7 @@ namespace Subtext.Framework.Text
 		/// <param name="comparisonType">Determines whether or not to use case sensitive search.</param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentNullException">Thrown if str or searchstring is null.</exception>
-		public static string RightAfter(string original, string search, ComparisonType comparisonType)
+		public static string RightAfter(string original, string search, StringComparison comparisonType)
 		{
 			if(original == null)
 				throw new ArgumentNullException("original", "The original string may not be null.");
@@ -215,12 +191,7 @@ namespace Subtext.Framework.Text
 			if(search.Length > original.Length || search.Length == 0)
 				return original;
 
-			int searchIndex;
-
-			if(comparisonType == ComparisonType.CaseSensitive)
-				searchIndex = original.IndexOf(search, 0);
-			else
-				searchIndex = original.ToUpper(CultureInfo.InvariantCulture).IndexOf(search.ToUpper(CultureInfo.InvariantCulture), 0);
+			int searchIndex = original.IndexOf(search, 0, comparisonType);
 			
 			if(searchIndex < 0)
 				return original;
@@ -240,7 +211,7 @@ namespace Subtext.Framework.Text
 		/// <exception cref="ArgumentNullException">Thrown if str or searchstring is null.</exception>
 		public static string LeftBefore(string str, string search)
 		{
-			return LeftBefore(str, search, ComparisonType.CaseSensitive);
+			return LeftBefore(str, search, StringComparison.InvariantCulture);
 		}
 
 		/// <summary>
@@ -254,7 +225,7 @@ namespace Subtext.Framework.Text
 		/// <param name="comparisonType">Determines whether or not to use case sensitive search.</param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentNullException">Thrown if str or searchstring is null.</exception>
-		public static string LeftBefore(string original, string search, ComparisonType comparisonType)
+		public static string LeftBefore(string original, string search, StringComparison comparisonType)
 		{
 			if(original == null)
 				throw new ArgumentNullException("original", "The original string may not be null.");
@@ -266,86 +237,12 @@ namespace Subtext.Framework.Text
 			if(search.Length > original.Length || search.Length == 0)
 				return original;
 
-			int searchIndex;
-			if(comparisonType == ComparisonType.CaseSensitive)
-				searchIndex = original.IndexOf(search, 0);
-			else
-				searchIndex = original.ToUpper(CultureInfo.InvariantCulture).IndexOf(search.ToUpper(CultureInfo.InvariantCulture), 0);
-
+			int searchIndex = original.IndexOf(search, 0, comparisonType);
+			
 			if(searchIndex < 0)
 				return original;
 
 			return Left(original, searchIndex);
-		}
-
-		/// <summary>
-		/// Returns true if the specified string to be searched starts with 
-		/// the specified prefix in a culturally invariant manner.
-		/// </summary>
-		/// <param name="searched">The string to check its start.</param>
-		/// <param name="prefix">The string to search for at the beginning of the searched string.</param>
-		/// <param name="comparisonType">Whether or not to ignore case.</param>
-		/// <exception cref="ArgumentNullException">Thrown if the search string or prefix is null.</exception>
-		/// <returns></returns>
-		public static bool StartsWith(string searched, string prefix, ComparisonType comparisonType)
-		{
-			if(searched == null)
-				throw new ArgumentNullException("searched", "The searched string may not be null.");
-
-			// If we're not ignoring the case, use the built in function. 
-			// That's what it's there for.
-			if(comparisonType == ComparisonType.CaseSensitive)
-				return searched.StartsWith(prefix);
-
-			if(prefix == null)
-				throw new ArgumentNullException("prefix", "The prefix string may not be null.");
-
-			if(prefix.Length > searched.Length)
-				return false;
-
-			string prefixSizedString = Left(searched, prefix.Length);
-			return AreEqual(prefixSizedString, prefix, ComparisonType.CaseInsensitive);
-		}
-
-		/// <summary>
-		/// Returns true if the specified string to be searched ends with 
-		/// the specified prefix in a culturally invariant manner.
-		/// </summary>
-		/// <param name="searched">The string to check its end.</param>
-		/// <param name="suffix">The string to search for at the end of the searched string.</param>
-		/// <param name="comparisonType">Ignore case.</param>
-		/// <returns></returns>
-		public static bool EndsWith(string searched, string suffix, ComparisonType comparisonType)
-		{
-			if(searched == null)
-				throw new ArgumentNullException("searched", "The searched string may not be null.");
-
-			if(comparisonType == ComparisonType.CaseSensitive)
-				return searched.EndsWith(suffix);
-
-			if(suffix == null)
-				throw new ArgumentNullException("suffix", "The prefix string may not be null.");
-
-			if(suffix.Length > searched.Length)
-				return false;
-
-			string suffixSizedString = Right(searched, suffix.Length);
-			return AreEqual(suffixSizedString, suffix, ComparisonType.CaseInsensitive);
-		}
-
-		/// <summary>
-		/// Returns the index of the first string within the second.
-		/// </summary>
-		/// <param name="container">Container.</param>
-		/// <param name="contained">Contained.</param>
-		/// <param name="comparison">Comparison type.</param>
-		/// <returns></returns>
-		public static int IndexOf(string container, string contained, ComparisonType comparison)
-		{
-			if(comparison == ComparisonType.CaseSensitive)
-				return container.IndexOf(contained);
-			else
-				return container.ToUpper(CultureInfo.InvariantCulture).IndexOf(contained.ToUpper(CultureInfo.InvariantCulture));
 		}
 
 		/// <summary>
@@ -356,9 +253,9 @@ namespace Subtext.Framework.Text
 		/// <param name="contained">Contained.</param>
 		/// <param name="comparison">Case sensitivity.</param>
 		/// <returns></returns>
-		public static bool Contains(string container, string contained, ComparisonType comparison)
+		public static bool Contains(string container, string contained, StringComparison comparison)
 		{
-			return IndexOf(container, contained, comparison) >= 0;
+			return container.IndexOf(contained, comparison) >= 0;
 		}
 		/// <summary>
 		/// Returns the EmptyString ("") if the passed in string is either the EmptyString
@@ -393,11 +290,5 @@ namespace Subtext.Framework.Text
 		{
 			return Regex.IsMatch(text,"^\\d+$");
 		}
-	}
-	
-	public enum ComparisonType
-	{
-		CaseSensitive,
-		CaseInsensitive,
 	}
 }

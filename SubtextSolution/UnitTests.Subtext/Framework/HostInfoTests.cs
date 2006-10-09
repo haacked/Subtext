@@ -43,9 +43,16 @@ namespace UnitTests.Subtext.Framework
 		
 		void EnsureHost()
 		{
-			HostInfo host = HostInfo.LoadHost(true);
-			if(host == null)
-				HostInfo.CreateHost("test", "test");
+			try
+			{
+				HostInfo host = HostInfo.LoadHost(true);
+				if (host == null)
+					HostInfo.CreateHost("test", "test");
+			}
+			catch(InvalidOperationException)
+			{
+				//Ignore.
+			}
 		}
 	}
 }

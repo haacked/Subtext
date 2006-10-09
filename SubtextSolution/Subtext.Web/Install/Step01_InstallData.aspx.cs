@@ -101,55 +101,37 @@ namespace Subtext.Web.Install
 				return;
 			}
 
+			try
+				{
 			switch(_state)
 			{
-				case InstallationState.NeedsInstallation:
-					try
-					{
+				
+					case InstallationState.NeedsInstallation:
 						InstallationProvider.Instance().Install(VersionInfo.FrameworkVersion);
-					}
-					catch(SqlScriptExecutionException ex)
-					{
-						if(IsPermissionDeniedException(ex))
-						{
-							installationStateMessage.Text = "<p class=\"error\">The database user specified in web.config does not have enough "
-								+ "permission to perform the installation.  Please give the user database owner (dbo) rights and try again. " 
-								+ "You may remove them later.</p>";
-							return;
-						}
-						
-						installationStateMessage.Text = "<p>Uh oh. Something went wrong with the installation.</p><p>" + ex.Message + "</p><p>" + ex.GetType().FullName + "</p>";
-#if DEBUG
-						installationStateMessage.Text += "<p>" + ex.StackTrace + "</p>";
-#endif
-						return;
-					}
-					break;
-				case InstallationState.NeedsUpgrade:
-					try
-					{
+						break;
+
+					case InstallationState.NeedsUpgrade:
 						InstallationProvider.Instance().Upgrade();
-					}
-					catch(SqlScriptExecutionException ex)
-					{
-						if(IsPermissionDeniedException(ex))
-						{
-							installationStateMessage.Text = "<p class=\"error\">The database user specified in web.config does not have enough "
-								+ "permission to perform the installation.  Please give the user database owner (dbo) rights and try again. " 
-								+ "You may remove them later.</p>";
-							return;
-						}
-						installationStateMessage.Text = "<p>Uh oh. Something went wrong with the installation.</p><p>" + ex.Message + "</p><p>" + ex.GetType().FullName + "</p>";
-#if DEBUG
-						installationStateMessage.Text += "<p>" + ex.StackTrace + "</p>";
-#endif
-					}
+						break;
 
-					break;
+					default:
+						installationStateMessage.Text = "Hmmm, your installation is in an unknown state. ";
+						break;
+				}
+			}
+			catch (SqlScriptExecutionException ex)
+			{
+				if (IsPermissionDeniedException(ex))
+				{
+					installationStateMessage.Text = "<p class=\"error\">The database user specified in web.config does not have enough "
+						+ "permission to perform the installation.  Please give the user database owner (dbo) rights and try again. "
+						+ "You may remove them later.</p>";
+					return;
+				}
 
-				default:
-					installationStateMessage.Text = "Hmmm, your installation is in an unknown state. ";
-					break;
+				installationStateMessage.Text = "<p>Uh oh. Something went wrong with the installation.</p><p>" + ex.Message + "</p><p>" + ex.GetType().FullName + "</p>";
+				installationStateMessage.Text += "<p>" + ex.StackTrace + "</p>";
+				return;
 			}
 
 			Response.Redirect(NextStepUrl);

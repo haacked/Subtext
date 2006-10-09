@@ -17,6 +17,7 @@ using System;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
+using System.Web;
 using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
@@ -99,6 +100,46 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 			Config.CurrentBlog.Password = bitConvertedPassword;
 			
 			Assert.IsTrue(Security.IsValidPassword(password));
+		}
+		
+		[Test]
+		[RollBack]
+		public void CanSetAuthenticationCookie()
+		{
+			Config.CreateBlog("", "the-username", "thePassword", _hostName, "MyBlog");
+			Security.SetAuthenticationTicket("the-username", false, "Admins");
+			HttpCookie cookie = Security.SelectAuthenticationCookie();
+			Assert.IsNotNull(cookie, "Could not get authentication cookie.");
+		}
+
+		[Test]
+		[RollBack]
+		public void CanAuthenticateAdmin()
+		{
+			Config.CreateBlog("", "the-username", "thePassword", _hostName, "MyBlog");
+			Assert.IsTrue(Security.Authenticate("the-username", "thePassword", true), "We should be able to login.");
+			HttpCookie cookie = Security.SelectAuthenticationCookie();
+			Assert.IsNotNull(cookie, "Could not get authentication cookie.");
+		}
+		
+		[Test]
+		public void CanGenerateSymmetricEncryptionKey()
+		{
+			byte[] key = Security.GenerateSymmetricKey();
+			Assert.IsTrue(key.Length > 0, "Expected a non-zero key.");
+		}
+		
+		[Test]
+		public void CanSymmetcricallyEncryptAndDecryptText()
+		{
+			string clearText = "Hello world!";
+			byte[] key = Security.GenerateSymmetricKey();
+			byte[] iv = Security.GenerateInitializationVector();
+
+			string encrypted = Security.EncryptString(clearText, Encoding.UTF8, key, iv);
+			Assert.IsTrue(encrypted != clearText, "Encrypted text should not equal the clear text.");
+			string unencrypted = Security.DecryptString(encrypted, Encoding.UTF8, key, iv);
+			Assert.AreEqual(clearText, unencrypted, "Round trip encrypt/decrypt failed to produce original string.");
 		}
 
 		/// <summary>

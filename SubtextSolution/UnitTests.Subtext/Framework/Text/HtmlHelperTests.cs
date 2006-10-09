@@ -15,6 +15,7 @@
 
 using System;
 using System.Web;
+using System.Web.UI.WebControls;
 using MbUnit.Framework;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -29,6 +30,76 @@ namespace UnitTests.Subtext.Framework.Text
 	[TestFixture]
 	public class HtmlHelperTests
 	{
+		[Test]
+		[ExpectedArgumentNullException]
+		public void AppendNullClassThrowsArgumentNullException()
+		{
+			HtmlHelper.AppendCssClass(new TextBox(), null);
+		}
+
+		[Test]
+		[ExpectedArgumentNullException]
+		public void AppendClassToNullControlThrowsArgumentNullException()
+		{
+			HtmlHelper.AppendCssClass(null, "blah");
+		}
+
+		[Test]
+		[ExpectedArgumentNullException]
+		public void RemoveNullClassThrowsArgumentNullException()
+		{
+			HtmlHelper.RemoveCssClass(new TextBox(), null);
+		}
+
+		[Test]
+		[ExpectedArgumentNullException]
+		public void RemoveClassFromNullControlThrowsArgumentNullException()
+		{
+			HtmlHelper.RemoveCssClass(null, "blah");
+		}
+		
+		[Test]
+		public void RemoveClassFromControlWithNoClasHasNoEffect()
+		{
+			TextBox textbox = new TextBox();
+			HtmlHelper.RemoveCssClass(textbox, "blah");
+			Assert.AreEqual(string.Empty, textbox.CssClass);
+		}
+		
+		[Test]
+		public void CanAppendCssClassToControl()
+		{
+			TextBox textbox = new TextBox();
+			HtmlHelper.AppendCssClass(textbox, "testclass");
+			Assert.AreEqual("testclass", textbox.CssClass);
+
+			HtmlHelper.AppendCssClass(textbox, "testclass");
+			Assert.AreEqual("testclass", textbox.CssClass);
+
+			HtmlHelper.AppendCssClass(textbox, "blah");
+			Assert.AreEqual("testclass blah", textbox.CssClass);
+
+			HtmlHelper.AppendCssClass(textbox, "BLAH");
+			Assert.AreEqual("testclass blah BLAH", textbox.CssClass);
+		}
+
+		[Test]
+		public void CanRemoveCssClassToControl()
+		{
+			TextBox textbox = new TextBox();
+			HtmlHelper.AppendCssClass(textbox, "testclass");
+			HtmlHelper.AppendCssClass(textbox, "blah");
+			HtmlHelper.AppendCssClass(textbox, "BLAH");
+			Assert.AreEqual("testclass blah BLAH", textbox.CssClass);
+
+			HtmlHelper.RemoveCssClass(textbox, "blah");
+			Assert.AreEqual("testclass BLAH", textbox.CssClass);
+
+			HtmlHelper.RemoveCssClass(textbox, "BLAH");
+			HtmlHelper.RemoveCssClass(textbox, "testclass");
+			Assert.AreEqual(string.Empty, textbox.CssClass);
+		}
+		
 		/// <summary>
 		/// Tests that EnableUrls formats urls with anchor tags.
 		/// </summary>

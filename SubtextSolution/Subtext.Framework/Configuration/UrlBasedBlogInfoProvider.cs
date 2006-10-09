@@ -22,6 +22,7 @@ using System.Web.Caching;
 using log4net;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Services;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web.HttpModules;
 
@@ -188,7 +189,10 @@ namespace Subtext.Framework.Configuration
 					HttpContext.Current.Items.Add(cacheKey, info);
 				}
 			}
-		    
+
+			//TODO: Use dependency injection or a provider. This'll do for now.
+			if (info.FeedbackSpamServiceEnabled && info.FeedbackSpamService == null)
+				info.FeedbackSpamService = new AkismetSpamService(info.FeedbackSpamServiceKey, info);
 			return info;
 		}
 
@@ -218,7 +222,7 @@ namespace Subtext.Framework.Configuration
 				host  += ":" + Request.Url.Port.ToString(CultureInfo.InvariantCulture);
 			}
 
-			if(StringHelper.StartsWith(host, "www.", ComparisonType.CaseInsensitive))
+			if (host.StartsWith("www.", StringComparison.InvariantCultureIgnoreCase))
 			{
 				host = host.Substring(4);
 			}

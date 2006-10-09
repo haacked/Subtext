@@ -38,6 +38,14 @@ namespace Subtext.Web.Admin.WebUI
 		}
 
 		/// <summary>
+		/// Clears the actions.
+		/// </summary>
+		public void ClearActions()
+		{
+			LinksActions.Items.Clear();
+		}
+
+		/// <summary>
 		/// The breadcrumb control that shows the user where 
 		/// in the admin he or she is.
 		/// </summary>

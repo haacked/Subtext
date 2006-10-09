@@ -16,8 +16,6 @@
 using System;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
-using Subtext.Extensibility;
-using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
@@ -79,18 +77,18 @@ namespace Subtext.Web.UI.Controls
 		{
 			if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
 			{
-				Entry entry = (Entry)e.Item.DataItem;
+				FeedbackItem comment = (FeedbackItem)e.Item.DataItem;
 				
 				HyperLink title = (HyperLink)e.Item.FindControl("Link");
 				if(title != null)
 				{
 					int commentLength = CurrentBlog.RecentCommentsLength;
-					if (entry.Body.Length > commentLength) 
+					if (comment.Body.Length > commentLength) 
 					{
 						string truncatedText = string.Empty;
 						if (commentLength > 0)
 						{
-							truncatedText = HtmlHelper.RemoveHtml(entry.Body);
+							truncatedText = HtmlHelper.RemoveHtml(comment.Body);
 							if (truncatedText.Length > commentLength)
 							{
 								truncatedText = truncatedText.Substring(0, commentLength);
@@ -98,19 +96,19 @@ namespace Subtext.Web.UI.Controls
 						}
 
 						title.Text = truncatedText + "...";
-						title.NavigateUrl = entry.Url;
+						title.NavigateUrl = comment.DisplayUrl.ToString();
 					} 
 					else
 					{
-						title.Text = HtmlHelper.RemoveHtml(entry.Body);
-						title.NavigateUrl = entry.Url;
+						title.Text = HtmlHelper.RemoveHtml(comment.Body);
+						title.NavigateUrl = comment.DisplayUrl.ToString();
 					}
 					ControlHelper.SetTitleIfNone(title, "Reader Comment.");
 				}
 				Literal author = (Literal)e.Item.FindControl("Author");
 				if(author != null)
 				{
-					author.Text = "by " + entry.Author;                    
+					author.Text = "by " + comment.Author;                    
 				}
 			}
 		}

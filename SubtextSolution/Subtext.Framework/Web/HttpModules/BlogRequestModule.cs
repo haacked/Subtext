@@ -70,7 +70,7 @@ namespace Subtext.Web.HttpModules
 					host  += ":" + HttpContext.Current.Request.Url.Port.ToString(CultureInfo.InvariantCulture);
 				}
 
-				if(StringHelper.StartsWith(host, "www.", ComparisonType.CaseInsensitive))
+				if (host.StartsWith("www.", StringComparison.InvariantCultureIgnoreCase))
 				{
 					host = host.Substring(4);
 				}

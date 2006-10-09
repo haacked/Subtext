@@ -14,7 +14,11 @@
 #endregion
 
 using System;
+using System.ComponentModel;
+using System.Globalization;
+using System.Web.UI;
 using System.Web.UI.HtmlControls;
+using Subtext.Web.Controls.Designers;
 
 namespace Subtext.Web.Controls
 {
@@ -23,23 +27,40 @@ namespace Subtext.Web.Controls
 	/// necessary scripts and CSS (against the general practice). Instead, 
 	/// it relies on the user having declared helptooltip.js and helptooltip.css.
 	/// </summary>
+	[Designer(typeof(HelpToolTipDesigner))]
 	public class HelpToolTip : HtmlContainerControl
 	{
 		/// <summary>
-		/// <p>Renders this tool tip.  The format looks like: 
+		/// Initializes a new instance of the <see cref="HelpToolTip"/> class.
+		/// </summary>
+		public HelpToolTip() : base()
+		{
+		}
+		
+		/// <summary>
+		/// Renders this tool tip.  The format looks like: 
 		/// &lt;a class="helplink" onclick="showHelpTip(event, 'help text'); 
 		/// return false;" href="?"&gt;Label Text&lt;a&gt;
-		/// </p>
+		/// 
 		/// //TODO: Look into embedding helplink.js and helplink.css
 		/// </summary>
 		/// <param name="writer">Writer.</param>
-		protected override void Render(System.Web.UI.HtmlTextWriter writer)
+		protected override void Render(HtmlTextWriter writer)
 		{
 			string format = @"<a class=""helpLink"" onclick=""showHelpTip(event, '{0}'); return false;"" href=""?"">";
-			string helpText = HelpText.Replace("'", "\'");
-
-			writer.Write(string.Format(System.Globalization.CultureInfo.InvariantCulture, format, helpText));
-			this.RenderChildren(writer);
+			string helpText = HelpText.Replace("'", "\\'");
+			writer.Write(string.Format(CultureInfo.InvariantCulture, format, helpText));
+			RenderChildren(writer);
+			if(ImageUrl.Length > 0)
+			{
+				string imageUrl = ControlHelper.ExpandTildePath(ImageUrl);
+				writer.Write(String.Format("<img src=\"{0}\" ", imageUrl));
+				if(ImageWidth > 0)
+					writer.Write(string.Format("width=\"{0}\" ", ImageWidth));
+				if (ImageHeight > 0)
+					writer.Write(string.Format("height=\"{0}\" ", ImageHeight));
+				writer.Write("/>");
+			}
 			writer.Write("</a>");
 		}
 
@@ -50,22 +71,50 @@ namespace Subtext.Web.Controls
 		/// <value></value>
 		public string HelpText
 		{
-			get
-			{
-				if(IsAttributeDefined("helptext"))
-					return Attributes["helptext"];
-				else
-					return string.Empty;
-			}
-			set
-			{
-				Attributes["helptext"] = value;
-			}
+			get { return Attributes["helptext"] ?? string.Empty; }
+			set { Attributes["helptext"] = value; }
 		}
 
-		bool IsAttributeDefined(string name)
+		/// <summary>
+		/// Gets or sets the image URL.
+		/// </summary>
+		/// <value>The image URL.</value>
+		public string ImageUrl
 		{
-			return ControlHelper.IsAttributeDefined(this, name);
+			get { return Attributes["ImageUrl"] ?? string.Empty; }
+			set { Attributes["ImageUrl"] = value; }
+		}
+
+		/// <summary>
+		/// Gets or sets the image URL.
+		/// </summary>
+		/// <value>The image URL.</value>
+		public int ImageHeight
+		{
+			get
+			{
+				int result;
+				if (!int.TryParse(Attributes["ImageHeight"], out result))
+					return int.MinValue;
+				return result;
+			}
+			set { Attributes["ImageHeight"] = value.ToString(CultureInfo.InvariantCulture); }
+		}
+
+		/// <summary>
+		/// Gets or sets the image URL.
+		/// </summary>
+		/// <value>The image URL.</value>
+		public int ImageWidth
+		{
+			get
+			{
+				int result;
+				if (!int.TryParse(Attributes["ImageWidth"], out result))
+					return int.MinValue;
+				return result;
+			}
+			set { Attributes["ImageWidth"] = value.ToString(CultureInfo.InvariantCulture); }
 		}
 	}
 }

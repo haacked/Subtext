@@ -20,6 +20,7 @@ using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Services;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web.HttpModules;
 
@@ -44,7 +45,7 @@ namespace Subtext.Framework
 		public static string NormalizeHostName(string host)
 		{
 			return StringHelper.LeftBefore(
-			    StringHelper.RightAfter(host, "www.", ComparisonType.CaseInsensitive), ":");
+			    StringHelper.RightAfter(host, "www.", StringComparison.InvariantCultureIgnoreCase), ":");
 		}
 		
 		/// <summary>
@@ -154,7 +155,8 @@ namespace Subtext.Framework
 
 		private int _timeZone = 0;
 		/// <summary>
-		/// Gets or sets the time zone.  0 = GMT. -8 = PST.
+		/// Gets or sets the time zone for the blogger.  
+		/// 0 = GMT. -8 = PST.
 		/// </summary>
 		/// <value></value>
 		public int TimeZone
@@ -173,6 +175,35 @@ namespace Subtext.Framework
 		{
 			get{return _itemCount;}
 			set{_itemCount = value;}
+		}
+
+		private int _categoryListPostCount = 10;
+		/// <summary>
+		/// Gets or sets the count of posts displayed on the category pages. 
+		/// </summary>
+		/// <value></value>
+		public int CategoryListPostCount
+		{
+			get{return _categoryListPostCount;}
+			set
+			{
+				if (value < 0)
+				{
+					value = 0;//needed when upgrading from versions that did not have this column ("CategoryListPostCount") in the subtext_Config table.
+				}
+				_categoryListPostCount = value;
+			}
+		}
+		
+		private int _storyCount;
+		/// <summary>
+		/// Gets or sets the story count.
+		/// </summary>
+		/// <value></value>
+		public int StoryCount
+		{
+		    get {return this._storyCount;}
+		    set {this._storyCount = value;}
 		}
 
 		private string _language = "en-US";
@@ -484,6 +515,16 @@ namespace Subtext.Framework
 			set { FlagSetter(ConfigurationFlag.CommentModerationEnabled, value); }
 		}
 
+		/// <summary>
+		/// Gets or sets a value indicating whether captcha is enabled.
+		/// </summary>
+		/// <value><c>true</c> if captcha is enabled; otherwise, <c>false</c>.</value>
+		public bool CaptchaEnabled
+		{
+			get { return FlagPropertyCheck(ConfigurationFlag.CaptchaEnabled); }
+			set { FlagSetter(ConfigurationFlag.CaptchaEnabled, value); }
+		}
+		
 		private string subfolder;
 		/// <summary>
 		/// Gets or sets the subfolder the blog lives in.
@@ -624,6 +665,49 @@ namespace Subtext.Framework
 		}
 
 		string _licenseUrl;
+
+		/// <summary>
+		/// Gets or sets the Comment Service API key. This is for a comment spam filtering 
+		/// service such as http://akismet.com/
+		/// </summary>
+		/// <value>The akismet API key.</value>
+		public string FeedbackSpamServiceKey
+		{
+			get { return this.feedbackSpamServiceKey ?? String.Empty; }
+			set { this.feedbackSpamServiceKey = (value ?? string.Empty); }
+		}
+
+		string feedbackSpamServiceKey;
+
+		/// <summary>
+		/// Gets a value indicating whether [akismet enabled].
+		/// </summary>
+		/// <value><c>true</c> if [akismet enabled]; otherwise, <c>false</c>.</value>
+		public bool FeedbackSpamServiceEnabled
+		{
+			get
+			{
+				return !String.IsNullOrEmpty(feedbackSpamServiceKey);
+			}
+		}
+
+		/// <summary>
+		/// Gets the comment spam service.
+		/// </summary>
+		/// <value>The comment spam service.</value>
+		public IFeedbackSpamService FeedbackSpamService
+		{
+			get
+			{
+				return this.feedbackService;
+			}
+			set
+			{
+				this.feedbackService = value;
+			}
+		}
+
+		IFeedbackSpamService feedbackService;
 
 		/// <summary>
 		/// Gets the root URL for this blog.  For example, "http://example.com/" or "http://example.com/blog/".
@@ -821,17 +905,6 @@ namespace Subtext.Framework
 		{
 			get {return this._commentCount;}
 			set {this._commentCount = value;}
-		}
-
-		private int _storyCount;
-		/// <summary>
-		/// Gets or sets the story count.
-		/// </summary>
-		/// <value></value>
-		public int StoryCount
-		{
-			get {return this._storyCount;}
-			set {this._storyCount = value;}
 		}
 
 		private int _pingTrackCount;

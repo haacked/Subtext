@@ -96,6 +96,19 @@ namespace Subtext.Framework.Configuration
 		}
 		private int feedItemCount = 15;
 
+
+		/// <summary>
+		/// Gets or sets the number of posts to display 
+		/// on the category list pages.
+		/// </summary>
+		/// <value></value>
+		public int CategoryListPostCount
+		{
+			get{return this.categoryListPostCount;}
+			set{this.categoryListPostCount = value;}
+		}
+		private int categoryListPostCount = 10;
+
 		/// <summary>
 		/// Gets or sets the server time zone.
 		/// </summary>

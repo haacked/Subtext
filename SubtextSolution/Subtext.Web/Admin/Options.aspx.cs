@@ -43,6 +43,7 @@ namespace Subtext.Web.Admin.Pages
 			HyperLink lnkPreferences = Utilities.CreateHyperLink("Preferences", "Preferences.aspx");
 
 			// Add the buttons to the PageContainer.
+			AdminMasterPage.ClearActions();
             AdminMasterPage.AddToActions(lnkConfigure);
             AdminMasterPage.AddToActions(lnkSyndication);
             AdminMasterPage.AddToActions(lnkComments);

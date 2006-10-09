@@ -34,27 +34,68 @@ namespace Subtext.Framework.Text
 	/// </summary>
 	public static class HtmlHelper
 	{
+		/// <summary>
+		/// Appends a CSS class to a control.
+		/// </summary>
+		/// <param name="control">The control.</param>
+		/// <param name="newClass">The new class.</param>
 		public static void AppendCssClass(WebControl control, string newClass)
 		{
+			if (control == null)
+				throw new ArgumentNullException("Cannot add a css class to a null control");
+
+			if (newClass == null)
+				throw new ArgumentNullException("Cannot add a null css class to a control");
+			
 			string existingClasses = control.CssClass;
 			if (String.IsNullOrEmpty(existingClasses))
 			{
 				control.CssClass = newClass;
 				return;
 			}
-			else
+			
+			string[] classes = existingClasses.Split(' ');
+			foreach (string attributeValue in classes)
 			{
-				string[] classes = control.CssClass.Split(' ');
-				foreach (string attributeValue in classes)
+				if (String.Equals(attributeValue, newClass, StringComparison.Ordinal))
 				{
-					if (String.Equals(attributeValue, newClass, StringComparison.Ordinal))
-					{
-						//value's already in there.
-						return;
-					}
+					//value's already in there.
+					return;
 				}
-				control.CssClass += " " + newClass;
 			}
+			control.CssClass += " " + newClass;
+		}
+
+		/// <summary>
+		/// Removes a CSS class to a control.
+		/// </summary>
+		/// <param name="control">The control.</param>
+		/// <param name="classToRemove">The new class.</param>
+		public static void RemoveCssClass(WebControl control, string classToRemove)
+		{
+			if (control == null)
+				throw new ArgumentNullException("Cannot remove a css class from a null control");
+
+			if (classToRemove == null)
+				throw new ArgumentNullException("Cannot remove a null css class from a control");
+			
+			string existingClasses = control.CssClass;
+			if (String.IsNullOrEmpty(existingClasses))
+				return; //nothing to remove
+
+			string[] classes = existingClasses.Split(new string[] { " ", "\t", "\r\n", "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+			string newClasses = string.Empty;
+			foreach (string cssClass in classes)
+			{
+				if (!String.Equals(cssClass, classToRemove, StringComparison.Ordinal))
+				{
+					newClasses += cssClass + " ";
+				}
+			}
+			
+			if(newClasses.EndsWith(" "))
+				newClasses = newClasses.Substring(0, newClasses.Length - 1);
+			control.CssClass = newClasses;		
 		}
 		
 		/// <summary>
@@ -358,7 +399,7 @@ namespace Subtext.Framework.Text
 				{
 					foreach (string allowedAttr in allowedAttrs)
 					{
-						if(StringHelper.AreEqualIgnoringCase(allowedAttr.Trim(), attributeName))
+						if(String.Equals(allowedAttr.Trim(), attributeName, StringComparison.InvariantCultureIgnoreCase))
 						{
 							// found an allowed attribute, so get the attribute value
 							string attrValue = attributes[attributeName];

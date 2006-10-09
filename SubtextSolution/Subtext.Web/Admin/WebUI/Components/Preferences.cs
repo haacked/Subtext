@@ -15,7 +15,6 @@
 
 using System;
 using System.Web;
-using Subtext.Framework.Text;
 
 namespace Subtext.Web.Admin
 {
@@ -55,7 +54,7 @@ namespace Subtext.Web.Admin
 				HttpCookie cookie = HttpContext.Current.Request.Cookies[COOKIES_EXPAND_ADVANCED];
 				if (null != cookie)
 				{
-					return StringHelper.AreEqualIgnoringCase(cookie.Value, "true") ? true : false;
+					return String.Equals(cookie.Value, "true", StringComparison.InvariantCultureIgnoreCase) ? true : false;
 				}
 				else
 					return Constants.ALWAYS_EXPAND_DEFAULT;
@@ -73,7 +72,7 @@ namespace Subtext.Web.Admin
 				HttpCookie cookie = HttpContext.Current.Request.Cookies[COOKIES_CREATE_ISACTIVE];
 				if (null != cookie)
 				{
-					return StringHelper.AreEqualIgnoringCase(cookie.Value, "true") ? true : false;
+					return String.Equals(cookie.Value, "true", StringComparison.InvariantCultureIgnoreCase) ? true : false;
 				}
 				else
 					return Constants.CREATE_ISACTIVE_DEFAULT;

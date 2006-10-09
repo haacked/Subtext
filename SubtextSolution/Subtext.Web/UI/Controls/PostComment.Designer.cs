@@ -1,4 +1,5 @@
 using System;
+using Subtext.Web.Controls.Captcha;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -10,9 +11,12 @@ namespace Subtext.Web.UI.Controls
 		protected System.Web.UI.WebControls.TextBox tbComment;
 		protected System.Web.UI.WebControls.TextBox tbEmail;
 		protected System.Web.UI.WebControls.Button btnSubmit;
+		protected System.Web.UI.WebControls.Button btnConfirm;
 		protected Subtext.Web.Controls.CompliantButton btnCompliantSubmit;
 		protected System.Web.UI.WebControls.Label Message;
 		protected System.Web.UI.WebControls.CheckBox chkRemember;
+		protected InvisibleCaptcha invisibleCaptchaValidator;
+		protected CaptchaControl captcha;
 		protected SubtextCoComment coComment;
 	}
 }

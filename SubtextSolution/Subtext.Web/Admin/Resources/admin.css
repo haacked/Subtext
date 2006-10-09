@@ -675,7 +675,7 @@ table.highlightTable tr.highlight td
 
 table.highlightTable tr.highlightAlt td
 {
-	background: #fafae9;
+	background: #f6f6d5;
 }
 
 .gridHeader
@@ -829,4 +829,23 @@ div.errorPage strong
 a.active
 {
 	text-decoration: underline;
+}
+
+div.LeftNavContent ul li a.active
+{
+	font-weight: bold;
+	font-size: larger;
+	text-decoration: none;
+}
+
+fieldset
+{
+	margin: 4px 0 8px 0;
+}
+
+div.options, fieldset.options
+{
+	width: 350px; 
+	float: left;
+	margin-right: 20px;
 }
