@@ -21,6 +21,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.UI.Skinning;
+using Subtext.Framework.Util;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -75,9 +76,11 @@ namespace Subtext.Web.Admin.Pages
 			}
 			
 			int count = Config.Settings.ItemCount;
-			for (int i = 1; i <=count; i++)
+			int increment = 1;
+			for (int i = 1; i <= count; i = i + increment)//starting with 25, the list items increment by 5. Example: 1,2,3,...24,25,30,35,...,45,50.
 			{
 				ddlItemCount.Items.Add(new ListItem(i.ToString(CultureInfo.InvariantCulture), i.ToString(CultureInfo.InvariantCulture)));
+				if (i == 25) { increment = 5; }
 			}
 
 			if (info.ItemCount <= count)
@@ -85,6 +88,28 @@ namespace Subtext.Web.Admin.Pages
 				ddlItemCount.Items.FindByValue(info.ItemCount.ToString(CultureInfo.InvariantCulture)).Selected = true;
 			}
 
+			//int 0 = "All" items
+			int categoryListPostCount = Config.Settings.CategoryListPostCount;
+			int maxDropDownItems = categoryListPostCount;
+			if (maxDropDownItems <= 0)
+			{
+				maxDropDownItems = 50;//since 0 represents "All", this provides some other options in the ddl.
+			}			
+			ddlCategoryListPostCount.Items.Add(new ListItem("All".ToString(CultureInfo.InvariantCulture), 0.ToString(CultureInfo.InvariantCulture)));
+			increment = 1;
+			for (int j = 1; j <= maxDropDownItems; j = j + increment)//starting with 25, the list items increment by 5. Example: 1,2,3,...24,25,30,35,...,45,50.
+			{
+				ddlCategoryListPostCount.Items.Add(new ListItem(j.ToString(CultureInfo.InvariantCulture), j.ToString(CultureInfo.InvariantCulture)));
+				if (j == 25) { increment = 5; }
+			}
+
+			if (info.CategoryListPostCount <= maxDropDownItems)
+			{
+				ddlCategoryListPostCount.Items.FindByValue(info.CategoryListPostCount.ToString(CultureInfo.InvariantCulture)).Selected = true;
+			}
+
+			UpdateTime();
+			base.BindLocalUI();
 		}
 
 		private void BindPost()
@@ -104,6 +129,7 @@ namespace Subtext.Web.Admin.Pages
 				info.Id = Config.CurrentBlog.Id;
 
 				info.ItemCount = Int32.Parse(ddlItemCount.SelectedItem.Value);
+				info.CategoryListPostCount = Int32.Parse(ddlCategoryListPostCount.SelectedItem.Value);				
 				info.Language = ddlLangLocale.SelectedItem.Value;
 				
 				info.AllowServiceAccess = ckbAllowServiceAccess.Checked;
@@ -144,13 +170,37 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		private void InitializeComponent()
 		{    
-
+			this.ddlTimezone.SelectedIndexChanged += new EventHandler(ddlTimezone_SelectedIndexChanged);
+			this.btnPost.Click += new EventHandler(btnPost_Click);
 		}
 		#endregion
 
-		protected void lkbPost_Click(object sender, System.EventArgs e)
+		protected void btnPost_Click(object sender, System.EventArgs e)
 		{
 			BindPost();
+		}
+
+		protected void ddlTimezone_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			UpdateTime();
+		}
+		
+		void UpdateTime()
+		{
+			lblServerTimeZone.Text = string.Format("{0} ({1})", TimeZone.CurrentTimeZone.StandardName, TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now));
+			lblServerTime.Text = DateTime.Now.ToString("yyyy/MM/dd hh:mm tt");
+			TimeZone.CurrentTimeZone.ToUniversalTime(DateTime.Now).ToLocalTime();
+			//lblCurrentTime.Text = BlogTime.ConvertToBloggerTime(DateTime.Now, SelectedTimeZone).ToString("yyyy/MM/dd hh:mm tt");
+			lblCurrentTime.Text = (DateTime.UtcNow.AddHours(SelectedTimeZone)).ToString("yyyy/MM/dd hh:mm tt");
+		}
+
+		int SelectedTimeZone
+		{
+			get
+			{
+				string timeZoneText = ddlTimezone.SelectedValue;
+				return int.Parse(timeZoneText);
+			}
 		}
 	}
 }

@@ -26,7 +26,7 @@ using Subtext.Framework.Logging;
 
 namespace Subtext 
 {
-	public class Global : System.Web.HttpApplication
+	public class Global : HttpApplication
 	{
 		//This call is to kickstart log4net.
 		//log4net Configuration Attribute is in AssemblyInfo
@@ -35,7 +35,7 @@ namespace Subtext
 		static Global()
 		{
 			//Wrap the logger with our own.
-			log = new Subtext.Framework.Logging.Log(log);
+			log = new Log(log);
 		}
 		
 		/// <summary>
@@ -295,7 +295,7 @@ namespace Subtext
 
 		protected void Application_End(Object sender, EventArgs e)
 		{
-			Subtext.Framework.Stats.ClearQueue(true);
+			Stats.ClearQueue(true);
 		}
 			
 		#region Web Form Designer generated code

@@ -19,7 +19,7 @@ using MbUnit.Framework;
 using Subtext.Installation;
 using Subtext.Scripting;
 
-namespace UnitTests.Subtext.Installation
+namespace UnitTests.Subtext.Scripting
 {
 	/// <summary>
 	/// Summary description for ScriptHelperTests.
@@ -27,6 +27,21 @@ namespace UnitTests.Subtext.Installation
 	[TestFixture]
 	public class ScriptHelperTests
 	{
+		[RowTest]
+		[Row(1, "/* Comment */SELECT * FROM subtext_Content\r\nGO", "SELECT * FROM subtext_Content")]
+		[Row(1, "/* Comment */  SELECT * FROM subtext_Content\r\nGO", "SELECT * FROM subtext_Content")]
+		[Row(1, "/*\r\n Comment\r\n */\r\n  SELECT * FROM subtext_Content\r\nGO", "SELECT * FROM subtext_Content")]
+		[Row(0, "-- EVERYTHING GETS STRIPPED TILL END OF LINE", "")]
+		[Row(1, "-- EVERYTHING GETS STRIPPED TILL END OF LINE\r\nSELECT * FROM MyFoot\r\nGO", "SELECT * FROM MyFoot")]
+		[Row(1, "SELECT * FROM -- MY FOOT EVERYTHING GETS STRIPPED TILL END OF LINE\r\nMy Foot", "SELECT * FROM My Foot")]
+		public void StripsComments(int expectedScriptCount, string scriptText, string expected)
+		{
+			ScriptCollection scripts = Script.ParseScripts(scriptText);
+			Assert.AreEqual(expectedScriptCount, scripts.Count, "This should parse to " + expectedScriptCount + " script.");
+			if (expectedScriptCount > 0)
+				Assert.AreEqual(expected, scripts[0].ScriptText, "Expected the multi-line comment to be stripped.");
+		}
+		
 		/// <summary>
 		/// Makes sure that ParseScript parses correctly.
 		/// </summary>

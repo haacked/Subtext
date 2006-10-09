@@ -112,7 +112,7 @@ namespace Subtext.Web.Install
 
 		static bool IsOnPage(string page)
 		{
-			return StringHelper.IndexOf(HttpContext.Current.Request.Path, page, ComparisonType.CaseInsensitive) >= 0;
+			return HttpContext.Current.Request.Path.IndexOf(page, StringComparison.InvariantCultureIgnoreCase) >= 0;
 		}
 	}
 }

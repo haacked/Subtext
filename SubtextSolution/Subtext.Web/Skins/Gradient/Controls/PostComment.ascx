@@ -8,7 +8,7 @@
 				<asp:TextBox id="tbTitle" runat="server" size="40" width="300px" CssClass="Textbox"></asp:TextBox></td>
 			<td>
 				<asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" ErrorMessage="Please enter a title"
-					ControlToValidate="tbTitle"></asp:RequiredFieldValidator></td>
+					ControlToValidate="tbTitle" /></td>
 			<td rowspan="6" valign="top">
 				<div>
 					<!-- If you had ads, put them here -->
@@ -19,20 +19,34 @@
 		<tr>
 			<td>Name</td>
 			<td>
-				<asp:TextBox id="tbName" runat="server" size="40" width="300px" CssClass="Textbox"></asp:TextBox></td>
+				<asp:TextBox id="tbName" runat="server" size="40" width="300px" CssClass="Textbox"></asp:TextBox>
+			</td>
 			<td>
 				<asp:RequiredFieldValidator id="RequiredFieldValidator2" runat="server" ErrorMessage="Please enter your name"
-					ControlToValidate="tbName"></asp:RequiredFieldValidator></td>
+					ControlToValidate="tbName"></asp:RequiredFieldValidator>
+			</td>
+		</tr>
+		<tr>
+			<td>Email (never displayed)</td>
+			<td>
+				<asp:TextBox id="tbEmail" runat="server" size="40" width="300px" CssClass="Textbox" />
+			</td>
+			<td>
+				<asp:RegularExpressionValidator ID="vldEmail" runat="server" ControlToValidate="tbEmail" ValidationExpression="^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$" Display="dynamic" ErrorMessage="Email is not required, but it must be valid if specified." EnableClientScript="true" />
+			</td>
 		</tr>
 		<tr>
 			<td>Url</td>
 			<td>
-				<asp:TextBox id="tbUrl" runat="server" size="40" width="300px" CssClass="Textbox"></asp:TextBox></td>
-			<td></td>
+				<asp:TextBox id="tbUrl" runat="server" size="40" width="300px" CssClass="Textbox"></asp:TextBox>
+			</td>
+			<td>
+				<asp:RegularExpressionValidator ID="vldUrl" runat="server" ControlToValidate="tbUrl" ValidationExpression="^(https?://)?([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?$" Display="dynamic" ErrorMessage="Url is not required, but it must be valid if specified." EnableClientScript="true" />
+			</td>
 		</tr>
 		<tr>
 			<td colspan="3">Comment&nbsp;
-				<asp:RequiredFieldValidator id="RequiredFieldValidator3" runat="server" ErrorMessage="Please enter a comment"
+				<asp:RequiredFieldValidator id="vldCommentBody" runat="server" ErrorMessage="Please enter a comment"
 					ControlToValidate="tbComment"></asp:RequiredFieldValidator><br />
 				<asp:TextBox id="tbComment" runat="server" Rows="10" Columns="40" width="100%" Height="193px"
 					TextMode="MultiLine"></asp:TextBox>

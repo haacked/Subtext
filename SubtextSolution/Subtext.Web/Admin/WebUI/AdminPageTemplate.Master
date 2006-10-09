@@ -8,10 +8,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head runat="server">
     <title>Subtext - Admin</title>
+    <st1:ScriptTag id="commonJs" src="~/Scripts/common.js" runat="server" />
+    <st1:ScriptTag id="tableEffectsJS" src="~/Scripts/tableEffects.js" runat="server" />
     <st1:ScriptTag id="NiceForms" src="~/admin/resources/Scripts/niceForms.js" runat="server" />
 	<st1:ScriptTag id="HelptipJs" src="~/admin/resources/Scripts/helptip.js" runat="server" />
 	<st1:ScriptTag id="AdminJs" src="~/admin/resources/Scripts/admin.js" runat="server" />
-	<st1:ScriptTag id="tableEffectsJS" src="~/admin/resources/Scripts/tableEffects.js" runat="server" />
 	<link id="commonLayoutCss" type="text/css" rel="stylesheet" runat="Server" href="~/Skins/_System/commonlayout.css" />
 	<link id="commonStyleCss" type="text/css" rel="stylesheet" runat="Server" href="~/Skins/_System/commonstyle.css" />
 	<st:HeaderLink id="HelptipCss" rel="stylesheet" href="resources/scripts/helptip.css" linkType="text/css" runat="server" />
@@ -30,6 +31,8 @@
 						Logged in as <strong>
 							<asp:Literal Runat="server" ID="LoggedInUser" Text="<%# Config.CurrentBlog.Author %>" /></strong> (<asp:LinkButton id="LogoutLink" runat="server">logout</asp:LinkButton>) 
 						| <a href="http://www.subtextproject.com/" title="Subtext Project Site">Subtext Project Site</a>
+						<br />
+						
 					</div>
 					<div id="BlogTitle">
 						<asp:HyperLink id="BlogTitleLink" runat="server" ToolTip="Blog Home Page" NavigateUrl="<%# Config.CurrentBlog.HomeVirtualUrl %>" Text="<%# Config.CurrentBlog.Title %>" />
@@ -54,10 +57,11 @@
 								<a href="Statistics.aspx" id="TabStats" title="Stats">Stats</a>
 							</li>
 							<li id="OptionsTab">
-								<a href="Options.aspx" id="TabOptions" title="Options">Options</a></li>
+								<a href="Options.aspx" id="TabOptions" title="Options">Options</a>
 							</li>
 							<li id="ImportExportTab">
-								<a href="ImportExport.aspx" id="TabImportExport" title="Import/Export">Import/Export</a></li>
+								<a href="ImportExport.aspx" id="TabImportExport" title="Import/Export">Import/Export</a>
+							</li>
 						</ul>
 					</div>
 					<div id="SubNav">
@@ -91,10 +95,10 @@
 						Running <strong><%= Subtext.Framework.VersionInfo.VersionDisplayText %></strong>
 					</div>
 					<div>
-						<a href="http://www.asp.net"><img id="PoweredBy" src='<%= Utilities.ResourcePath + "resources/poweredbydotnet.gif" %>' height="33" width="99"></a>
-						Subtext Copyright &copy; <a href="http://haacked.com/">Phil Haack</a>, 2005-2006. All rights 
+						<a href="http://www.asp.net"><img id="PoweredBy" src='<%= Utilities.ResourcePath + "resources/poweredbydotnet.gif" %>' height="33" width="99" alt="Powerd By Subtext" /></a>
+						Subtext Copyright &copy; <a href="http://haacked.com/" title="Founder of Subtext">Phil Haack</a>, 2005-2006. All rights 
 						reserved.<br />
-						.TEXT Copyright &copy; <a href="http://scottwater.com/blog">Scott Watermasysk</a>, 2003. 
+						.TEXT Copyright &copy; <a href="http://scottwater.com/blog" title="Creator of .TEXT">Scott Watermasysk</a>, 2003. 
 						All rights reserved.
 					</div>
 				</td>

@@ -134,7 +134,7 @@ namespace Subtext.Framework.UrlManager
 		    //Need to strip the blog subfolder part of url.
 		    if(Config.CurrentBlog != null && Config.CurrentBlog.Subfolder != null && Config.CurrentBlog.Subfolder.Length > 0)
 		    {
-                url = StringHelper.RightAfter(url, "/" + Config.CurrentBlog.Subfolder, ComparisonType.CaseInsensitive);
+                url = StringHelper.RightAfter(url, "/" + Config.CurrentBlog.Subfolder, StringComparison.InvariantCultureIgnoreCase);
                 if (context.Request.ApplicationPath.Length > 0 && context.Request.ApplicationPath != "/")
 		        {
 		            //A bit ugly, but easily fixed later.

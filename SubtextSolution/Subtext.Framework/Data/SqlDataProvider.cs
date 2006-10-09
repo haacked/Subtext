@@ -527,6 +527,11 @@ namespace Subtext.Framework.Data
 
 		#region Update Blog Data
 
+		/// <summary>
+		/// Deletes the entry from the database.
+		/// </summary>
+		/// <param name="PostID">The post ID.</param>
+		/// <returns></returns>
 		public override bool DeleteEntry(int PostID)
 		{
 			SqlParameter[] p =
@@ -536,7 +541,21 @@ namespace Subtext.Framework.Data
 			};
 			return NonQueryBool("subtext_DeletePost",p);
 		}
-
+		
+		/// <summary>
+		/// Deletes the entry from the database.
+		/// </summary>
+		/// <param name="id">The post ID.</param>
+		/// <returns></returns>
+		public override void DestroyFeedback(int id)
+		{
+			SqlParameter[] p =
+			{
+				DataHelper.MakeInParam("@Id", SqlDbType.Int, 4, id),
+			};
+			NonQueryBool("subtext_DeleteFeedback", p);
+		}
+		
 	    /// <summary>
 	    /// Saves the categories for the specified post.
 	    /// </summary>
@@ -607,10 +626,6 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override bool UpdateFeedback(FeedbackItem feedbackItem)
 		{
-			string ipAddress = null;
-			if (feedbackItem.IpAddress != null)
-				ipAddress = feedbackItem.IpAddress.ToString();
-
 			string sourceUrl = null;
 			if (feedbackItem.SourceUrl != null)
 				sourceUrl = feedbackItem.SourceUrl.ToString();
@@ -619,20 +634,13 @@ namespace Subtext.Framework.Data
 			{
 				DataHelper.MakeInParam("@Id",  SqlDbType.Int, 4, feedbackItem.Id), 
 				DataHelper.MakeInParam("@Title", SqlDbType.NVarChar, 256, feedbackItem.Title), 
-				DataHelper.MakeInParam("@Body", SqlDbType.NText, 16, DataHelper.CheckNull(feedbackItem.Body)), 
-				DataHelper.MakeInParam("@EntryId", SqlDbType.Int, 4, DataHelper.CheckNull(feedbackItem.EntryId)),
+				DataHelper.MakeInParam("@Body", DataHelper.CheckNull(feedbackItem.Body)), 
 				DataHelper.MakeInParam("@Author", SqlDbType.NVarChar, 128, DataHelper.CheckNull(feedbackItem.Author)), 
 				DataHelper.MakeInParam("@Email", SqlDbType.VarChar, 128, DataHelper.CheckNull(feedbackItem.Email)), 
 				DataHelper.MakeInParam("@Url", SqlDbType.VarChar, 256, sourceUrl), 
-				DataHelper.MakeInParam("@FeedbackType", SqlDbType.Int, 4, (int)feedbackItem.FeedbackType),
 				DataHelper.MakeInParam("@StatusFlag", SqlDbType.Int, 4, (int)feedbackItem.Status),
-				DataHelper.MakeInParam("@CommentAPI", SqlDbType.Bit, 1, feedbackItem.CreatedViaCommentAPI),
-				DataHelper.MakeInParam("@Referrer", SqlDbType.NVarChar, 256, feedbackItem.Referrer), 
-				DataHelper.MakeInParam("@IpAddress", SqlDbType.VarChar, 16, ipAddress),
-				DataHelper.MakeInParam("@UserAgent", SqlDbType.NVarChar, 128, feedbackItem.UserAgent), 
 				DataHelper.MakeInParam("@FeedbackChecksumHash", SqlDbType.VarChar, 32, feedbackItem.ChecksumHash), 
 				DataHelper.MakeInParam("@DateModified", SqlDbType.DateTime, 8, DateTime.Now.ToUniversalTime()),
-				BlogIdParam
 			};
 			return NonQueryBool("subtext_UpdateFeedback", p);
 		}
@@ -687,7 +695,7 @@ namespace Subtext.Framework.Data
 			SqlParameter[] p =
 			{
 				DataHelper.MakeInParam("@Title", SqlDbType.NVarChar, 256, feedbackItem.Title), 
-				DataHelper.MakeInParam("@Body", SqlDbType.NText, 16, DataHelper.CheckNull(feedbackItem.Body)), 
+				DataHelper.MakeInParam("@Body", DataHelper.CheckNull(feedbackItem.Body)), 
 				DataHelper.MakeInParam("@EntryId", SqlDbType.Int, 4, DataHelper.CheckNull(feedbackItem.EntryId)),
 				DataHelper.MakeInParam("@Author", SqlDbType.NVarChar, 128, DataHelper.CheckNull(feedbackItem.Author)), 
 				DataHelper.MakeInParam("@Email", SqlDbType.VarChar, 128, DataHelper.CheckNull(feedbackItem.Email)), 
@@ -911,6 +919,31 @@ namespace Subtext.Framework.Data
 			return GetReader("subtext_GetFeedBack", p);
 		}
 
+		/// <summary>
+		/// Gets the feedback counts for the various top level statuses.
+		/// </summary>
+		/// <param name="approved">The approved.</param>
+		/// <param name="needsModeration">The needs moderation.</param>
+		/// <param name="flaggedAsSpam">The flagged as spam.</param>
+		/// <param name="deleted">The deleted.</param>
+		public override void GetFeedbackCounts(out int approved, out int needsModeration, out int flaggedAsSpam, out int deleted)
+		{
+			SqlParameter[] p =
+			{
+				BlogIdParam,
+				DataHelper.MakeOutParam("@ApprovedCount", SqlDbType.Int, 4),
+				DataHelper.MakeOutParam("@NeedsModerationCount", SqlDbType.Int, 4),
+				DataHelper.MakeOutParam("@FlaggedSpam", SqlDbType.Int, 4),
+				DataHelper.MakeOutParam("@Deleted", SqlDbType.Int, 4)
+			};
+			NonQueryBool("subtext_GetFeedbackCountsByStatus", p);
+
+			approved = (int)p[1].Value;
+			needsModeration = (int)p[2].Value;
+			flaggedAsSpam = (int)p[3].Value;
+			deleted = (int)p[4].Value;
+		}
+
 		//we could pass ParentID with the rest of the sprocs
 		//one interface for entry data?
 		public override IDataReader GetFeedBackItems(int postId)
@@ -1043,6 +1076,7 @@ namespace Subtext.Framework.Data
 					,DataHelper.MakeInParam("@Language", SqlDbType.NVarChar, 10, info.Language) 
 					,DataHelper.MakeInParam("@News", SqlDbType.NText, 0, DataHelper.CheckNull(info.News)) 
 					,DataHelper.MakeInParam("@ItemCount", SqlDbType.Int,  4, info.ItemCount) 
+					,DataHelper.MakeInParam("@CategoryListPostCount", SqlDbType.Int,  4, info.CategoryListPostCount) 
 					,DataHelper.MakeInParam("@Flag", SqlDbType.Int,  4, (int)info.Flag) 
 					,DataHelper.MakeInParam("@LastUpdated", SqlDbType.DateTime,  8, info.LastUpdated) 
 					,DataHelper.MakeInParam("@SecondaryCss", SqlDbType.Text, 0, DataHelper.CheckNull(info.Skin.CustomCssText)) 
@@ -1052,6 +1086,7 @@ namespace Subtext.Framework.Data
 					,DataHelper.MakeInParam("@CommentDelayInMinutes", SqlDbType.Int, 4, commentDelayInMinutes)
 					,DataHelper.MakeInParam("@NumberOfRecentComments", SqlDbType.Int, 4, numberOfRecentComments)
 					,DataHelper.MakeInParam("@RecentCommentsLength", SqlDbType.Int, 4, recentCommentsLength)
+					,DataHelper.MakeInParam("@AkismetAPIKey", SqlDbType.VarChar, 16, DataHelper.ReturnNullIfEmpty(info.FeedbackSpamServiceKey))
 				};
 
 			return NonQueryBool("subtext_UpdateConfig", p);

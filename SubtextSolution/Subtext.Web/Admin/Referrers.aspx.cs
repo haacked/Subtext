@@ -15,6 +15,7 @@
 
 using System;
 using System.Globalization;
+using System.Web;
 using log4net;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
@@ -228,6 +229,8 @@ namespace Subtext.Web.Admin.Pages
 
 				if(FeedbackItem.Create(entry) > 0)
 				{
+					CommentFilter filter = new CommentFilter(HttpContext.Current.Cache);
+					filter.DetermineFeedbackApproval(entry);
 					this.Messages.ShowMessage(Constants.RES_SUCCESSNEW);
 					this.Edit.Visible = false;
 				}

@@ -19,11 +19,14 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using MagicAjax.UI.Controls;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Text;
 using Subtext.Framework.UI.Skinning;
 using Subtext.Framework.UrlManager;
 using Subtext.Web.Controls;
+using Subtext.Web.UI.Controls;
 using Style=Subtext.Framework.UI.Skinning.Style;
 
 namespace Subtext.Web.UI.Pages
@@ -35,7 +38,7 @@ namespace Subtext.Web.UI.Pages
 	/// each skin is loaded.
 	/// </summary>
 	public class SubtextMasterPage : Page
-	{
+	{	
 		#region Declared Controls in DTP.aspx
 		private static readonly ScriptElementCollectionRenderer scriptRenderer = new ScriptElementCollectionRenderer(SkinTemplates.Instance());
 		private static readonly StyleSheetElementCollectionRenderer styleRenderer = new StyleSheetElementCollectionRenderer(SkinTemplates.Instance());
@@ -56,11 +59,14 @@ namespace Subtext.Web.UI.Pages
 		#endregion
 		
 		protected BlogInfo CurrentBlog;
+		protected Comments commentsControl;
+		protected PostComment postCommentControl;
 		protected const string TemplateLocation = "~/Skins/{0}/{1}";
 		protected const string ControlLocation = "~/Skins/{0}/Controls/{1}";
 
 		private void InitializeBlogPage()
 		{
+			MaintainScrollPositionOnPostBack = true;
 			CurrentBlog = Config.CurrentBlog;
 
 			string skinFolder = Config.CurrentBlog.Skin.TemplateFolder;
@@ -68,11 +74,32 @@ namespace Subtext.Web.UI.Pages
 			string[] controls = HandlerConfiguration.GetControls(Context);
             if (controls != null)
             {
-                foreach (string control in controls)
+				AjaxPanel apnlCommentsWrapper = new AjaxPanel();
+            	apnlCommentsWrapper.Visible = true;
+            	apnlCommentsWrapper.ID = "apnlCommentsWrapper";
+                
+                foreach (string controlId in controls)
                 {
-                    Control c = LoadControl(string.Format(ControlLocation, skinFolder, control));
-                    c.ID = control.Replace(".", "_");
-                    CenterBodyControl.Controls.Add(c);
+                    Control control = LoadControl(string.Format(ControlLocation, skinFolder, controlId));
+                    control.ID = controlId.Replace(".", "_");
+                    
+                    if (controlId.Equals("Comments.ascx"))
+                    {
+                    	control.Visible = true;
+						commentsControl = control as Comments;
+                        apnlCommentsWrapper.Controls.Add(control);
+                    }
+                    else if (controlId.Equals("PostComment.ascx"))
+                    {
+                    	postCommentControl = (PostComment)control;
+						postCommentControl.CommentApproved += new EventHandler<EventArgs>(postCommentControl_CommentPosted);
+                        apnlCommentsWrapper.Controls.Add(control);
+                        CenterBodyControl.Controls.Add(apnlCommentsWrapper);
+                    }
+                    else
+                    {
+                        CenterBodyControl.Controls.Add(control);
+                    }
                 }
             }
 
@@ -117,13 +144,18 @@ namespace Subtext.Web.UI.Pages
 			// if specified, add script elements
 			if (scripts != null)
 			{
-				scripts.Text = scriptRenderer.RenderScriptElementCollection(skinFolder);
+				scripts.Text = scriptRenderer.RenderScriptElementCollection(Config.CurrentBlog.Skin.SkinKey);
 			}
 
 			if(styles != null)
 			{
 				styles.Text = styleRenderer.RenderStyleElementCollection(Config.CurrentBlog.Skin.SkinKey);
 			}
+		}
+
+		void postCommentControl_CommentPosted(object sender, EventArgs e)
+		{
+			commentsControl.BindFeedback(false); //don't get it from cache.
 		}
 
 
@@ -138,7 +170,7 @@ namespace Subtext.Web.UI.Pages
 			Response.ContentType = "text/html"; //TODO: allow for per/blog config.
 
 			//Is this for extra security?
-			this.EnableViewState = false;
+			EnableViewState = false;
 			pageTitle.Text = Globals.CurrentTitle(Context);
 			if(Config.CurrentBlog.Author != null && Config.CurrentBlog.Author.Length > 0)
 				authorMetaTag.Text = String.Format("<meta name=\"author\" content=\"{0}\" />", Config.CurrentBlog.Author );
@@ -215,17 +247,27 @@ namespace Subtext.Web.UI.Pages
 				}
 			}
 
-			private static string GetSkinPath(string skinName)
+			/// <summary>
+			/// Gets the skin path.
+			/// </summary>
+			/// <param name="skinTemplateFolder">Name of the skin.</param>
+			/// <returns></returns>
+			private static string GetSkinPath(string skinTemplateFolder)
 			{
 				string applicationPath = HttpContext.Current.Request.ApplicationPath;
-				return (applicationPath == "/" ? String.Empty : applicationPath) + "/Skins/" + skinName + "/";
+				return (applicationPath == "/" ? String.Empty : applicationPath) + "/Skins/" + skinTemplateFolder + "/";
 			}
 
+			/// <summary>
+			/// Renders the script element collection for thes kin key.
+			/// </summary>
+			/// <param name="skinKey">The skin key.</param>
+			/// <returns></returns>
 			public string RenderScriptElementCollection(string skinKey)
 			{
 				StringBuilder result = new StringBuilder();
 
-				SkinTemplate skinTemplate = this.templates.GetTemplate(skinKey);
+				SkinTemplate skinTemplate = templates.GetTemplate(skinKey);
 				if (skinTemplate != null && skinTemplate.Scripts != null)
 				{
 					string skinPath = GetSkinPath(skinTemplate.TemplateFolder);
@@ -312,7 +354,7 @@ namespace Subtext.Web.UI.Pages
 			{
 				StringBuilder result = new StringBuilder();
 
-				SkinTemplate skinTemplate = this.templates.GetTemplate(skinName);
+				SkinTemplate skinTemplate = templates.GetTemplate(skinName);
 				
 				if (skinTemplate != null && skinTemplate.Styles != null)
 				{
@@ -351,3 +393,4 @@ namespace Subtext.Web.UI.Pages
 		}
 	}
 }
+

@@ -505,6 +505,7 @@ namespace Subtext.Framework.Data
 			info.UserName = ReadString(reader, "UserName");
 			info.TimeZone = ReadInt32(reader, "TimeZone");
 			info.ItemCount = ReadInt32(reader, "ItemCount");
+			info.CategoryListPostCount = ReadInt32(reader, "CategoryListPostCount");
 			info.Language = ReadString(reader, "Language");
 			
 
@@ -527,12 +528,12 @@ namespace Subtext.Framework.Data
 			info.Skin.SkinStyleSheet = ReadString(reader, "SkinCssFile");
 			info.Skin.CustomCssText = ReadString(reader, "SecondaryCss");
 			info.LicenseUrl = ReadString(reader, "LicenseUrl");
-
+			
 			info.DaysTillCommentsClose = ReadInt32(reader, "DaysTillCommentsClose", int.MaxValue);
 			info.CommentDelayInMinutes = ReadInt32(reader, "CommentDelayInMinutes");
 			info.NumberOfRecentComments = ReadInt32(reader, "NumberOfRecentComments");
-			info.RecentCommentsLength = ReadInt32(reader, "RecentCommentsLength");		
-
+			info.RecentCommentsLength = ReadInt32(reader, "RecentCommentsLength");
+			info.FeedbackSpamServiceKey = ReadString(reader, "AkismetAPIKey");
 			return info;
 		}
 
@@ -946,6 +947,19 @@ namespace Subtext.Framework.Data
 							 
 	        return obj;
 	    }
+
+		/// <summary>
+		/// Returns null if the value is an empty string.
+		/// </summary>
+		/// <param name="obj">The obj.</param>
+		/// <returns></returns>
+		public static string ReturnNullIfEmpty(string obj)
+		{
+			if (String.IsNullOrEmpty(obj))
+				return null;
+
+			return obj;
+		}
 
 	    /// <summary>
 	    /// Returns a true null if the object is DBNull.

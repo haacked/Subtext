@@ -111,6 +111,10 @@ namespace UnitTests.Subtext.Framework.Skinning
 			
 			string script = @"<script type=""text/javascript"" src=""/Skins/RedBook/blah.js""></script>";
 			Assert.IsTrue(scriptElements.IndexOf(script) > -1, "Rendered the script improperly.");
+
+			scriptElements = renderer.RenderScriptElementCollection("Nature-Leafy.css");
+			script = @"<script type=""text/javascript"" src=""/scripts/XFNHighlighter.js""></script>";
+			Assert.IsTrue(scriptElements.IndexOf(script) > -1, "Rendered the script improperly. We got: " + scriptElements);
 		}
 		
 		private VirtualPathProvider GetTemplatesPathProviderMock(MockRepository mocks)

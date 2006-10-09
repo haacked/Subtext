@@ -511,7 +511,7 @@ namespace UnitTests.Subtext
 	    /// </summary>
         public static void AuthenticateFormsAuthenticationCookie()
         {
-            string cookieName = FormsAuthentication.FormsCookieName;
+			string cookieName = Security.GetFullCookieName();
             HttpCookie authCookie = HttpContext.Current.Request.Cookies[cookieName];
 
             FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);

@@ -167,6 +167,15 @@ namespace Subtext.Framework.Providers
 		/// <param name="id">The id.</param>
 		/// <returns></returns>
 		public abstract FeedbackItem GetFeedback(int id);
+
+		/// <summary>
+		/// Gets the feedback counts for the various top level statuses.
+		/// </summary>
+		/// <param name="approved">The approved.</param>
+		/// <param name="needsModeration">The needs moderation.</param>
+		/// <param name="flaggedAsSpam">The flagged as spam.</param>
+		/// <param name="deleted">The deleted.</param>
+		public abstract void GetFeedbackCounts(out int approved, out int needsModeration, out int flaggedAsSpam, out int deleted);
 		
 		public abstract IList<Entry> GetPostCollectionByMonth(int month, int year);
 		public abstract IList<Entry> GetPostsByDayRange(DateTime start, DateTime stop, PostType postType, bool activeOnly);
@@ -205,9 +214,20 @@ namespace Subtext.Framework.Providers
 		#endregion
 
 		#region Delete
-	
-		public abstract bool Delete(int PostID);
 
+		/// <summary>
+		/// Deletes the specified entry.
+		/// </summary>
+		/// <param name="entryId">The entry id.</param>
+		/// <returns></returns>
+		public abstract bool Delete(int entryId);
+
+		/// <summary>
+		/// Completely deletes the specified feedback as 
+		/// opposed to moving it to the trash.
+		/// </summary>
+		/// <param name="id">The id.</param>
+		public abstract void DestroyFeedback(int id);
 		#endregion
 
 		/// <summary>

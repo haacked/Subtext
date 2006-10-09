@@ -3,6 +3,18 @@ WARNING: This SCRIPT USES SQL TEMPLATE PARAMETERS.
 Be sure to hit CTRL+SHIFT+M in Query Analyzer if running manually.
 */
 
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[<dbUser,varchar,dbo>].[FK_subtext_Feedback_subtext_Config]') AND type = 'F')
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_FeedBack] DROP CONSTRAINT [FK_subtext_Feedback_subtext_Config]
+GO
+
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[<dbUser,varchar,dbo>].[FK_subtext_Feedback_subtext_Content]') AND type = 'F')
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_FeedBack] DROP CONSTRAINT [FK_subtext_Feedback_subtext_Content]
+GO
+
+IF  EXISTS (SELECT * FROM dbo.sysobjects WHERE id = OBJECT_ID(N'[<dbUser,varchar,dbo>].[subtext_FeedBack]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+DROP TABLE [<dbUser,varchar,dbo>].[subtext_FeedBack]
+GO
+
 if exists (select * from dbo.sysobjects where id = object_id(N'[PK_subtext_Log]') and OBJECTPROPERTY(id, N'IsForeignKey') = 1)
 ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Log] DROP CONSTRAINT PK_subtext_Log
 GO
@@ -70,7 +82,6 @@ GO
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_Content_Trigger]') and OBJECTPROPERTY(id, N'IsTrigger') = 1)
 drop trigger [<dbUser,varchar,dbo>].[subtext_Content_Trigger]
 GO
-
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_Config]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
 drop table [<dbUser,varchar,dbo>].[subtext_Config]

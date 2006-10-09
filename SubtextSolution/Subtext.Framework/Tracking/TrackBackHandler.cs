@@ -146,6 +146,8 @@ namespace Subtext.Framework.Tracking
 
 			Trackback trackback = new Trackback(entryId, title, url, blog_name, excerpt);
 			FeedbackItem.Create(trackback);
+			CommentFilter filter = new CommentFilter(HttpContext.Current.Cache);
+			filter.DetermineFeedbackApproval(trackback);
 		}
 		
 		/// <summary>

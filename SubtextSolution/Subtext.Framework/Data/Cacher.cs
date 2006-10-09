@@ -282,15 +282,21 @@ namespace Subtext.Framework.Data
 		/// <param name="parentEntry"></param>
 		/// <param name="cacheDuration"></param>
 		/// <returns></returns>
-        public static IList<FeedbackItem> GetFeedback(Entry parentEntry, CacheDuration cacheDuration)
+        public static IList<FeedbackItem> GetFeedback(Entry parentEntry, CacheDuration cacheDuration, bool fromCache)
 		{
-			string key = string.Format(ParentCommentEntryKey, parentEntry.Id, Config.CurrentBlog.Id);
-			ContentCache cache = ContentCache.Instantiate();
-            IList<FeedbackItem> comments = (IList<FeedbackItem>)cache[key];
+			IList<FeedbackItem> comments = null;
+			ContentCache cache = null;
+			string key = null;
+			if (fromCache)
+			{
+				key = string.Format(ParentCommentEntryKey, parentEntry.Id, Config.CurrentBlog.Id);
+				cache = ContentCache.Instantiate();
+				comments = (IList<FeedbackItem>)cache[key];
+			}
 			if(comments == null)
 			{
 				comments = Entries.GetFeedBack(parentEntry);
-				if(comments != null)
+				if(comments != null && fromCache)
 				{
 					cache.Insert(key, comments, cacheDuration);
 				}

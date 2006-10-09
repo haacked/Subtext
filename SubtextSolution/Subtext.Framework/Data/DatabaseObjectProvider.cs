@@ -315,6 +315,18 @@ namespace Subtext.Framework.Data
 			return null;
 		}
 
+		/// <summary>
+		/// Gets the feedback counts for the various top level statuses.
+		/// </summary>
+		/// <param name="approved">The approved.</param>
+		/// <param name="needsModeration">The needs moderation.</param>
+		/// <param name="flaggedAsSpam">The flagged as spam.</param>
+		/// <param name="deleted">The deleted.</param>
+		public override void GetFeedbackCounts(out int approved, out int needsModeration, out int flaggedAsSpam, out int deleted)
+		{
+			DbProvider.Instance().GetFeedbackCounts(out approved, out needsModeration, out flaggedAsSpam, out deleted);
+		}
+
         public override IList<Entry> GetPostCollectionByMonth(int month, int year)
 		{
             using(IDataReader reader = DbProvider.Instance().GetPostCollectionByMonth(month, year))
@@ -409,13 +421,26 @@ namespace Subtext.Framework.Data
 
 		#region Delete
 
-		public override bool Delete(int PostID)
+		/// <summary>
+		/// Deletes the specified entry.
+		/// </summary>
+		/// <param name="entryId">The entry id.</param>
+		/// <returns></returns>
+		public override bool Delete(int entryId)
 		{
-			return DbProvider.Instance().DeleteEntry(PostID);
+			return DbProvider.Instance().DeleteEntry(entryId);
 		}
 
 		#endregion
-
+		/// <summary>
+		/// Completely deletes the feedback from the system.
+		/// </summary>
+		/// <param name="id">The id.</param>
+		public override void DestroyFeedback(int id)
+		{
+			DbProvider.Instance().DestroyFeedback(id);
+		}
+		
 		public override int Create(FeedbackItem feedbackItem)
 		{
 			return DbProvider.Instance().InsertFeedback(feedbackItem);
@@ -1071,6 +1096,5 @@ namespace Subtext.Framework.Data
         }
 
 		#endregion
-
 	}
 }

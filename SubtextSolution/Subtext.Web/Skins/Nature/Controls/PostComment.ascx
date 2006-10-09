@@ -22,20 +22,24 @@
 		<label for="PostComment_ascx_tbEmail"><span class="accessKey">E</span>mail: <em>Not Displayed</em></label>
 	</div>
 	<div class="input">
-		<asp:TextBox id="tbEmail" runat="server" size="40" AccessKey="E"></asp:TextBox><br/>
+		<asp:TextBox id="tbEmail" runat="server" size="40" AccessKey="E" /><br/>
+		<asp:RegularExpressionValidator ID="vldEmail" runat="server" ControlToValidate="tbEmail" ValidationExpression="^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$" Display="dynamic" ErrorMessage="Email is not required, but it must be valid if specified." EnableClientScript="true" />
 	</div>
 
 	<div class="label"><label for="PostComment_ascx_tbUrl"><span class="accessKey">W</span>ebsite:</label></div>
 	<div class="input">
-		<asp:TextBox id="tbUrl" runat="server" size="40" AccessKey="W"></asp:TextBox>
+		<asp:TextBox id="tbUrl" runat="server" size="40" AccessKey="W" />
+		<asp:RegularExpressionValidator ID="vldUrl" runat="server" ControlToValidate="tbUrl" ValidationExpression="^(https?://)?([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?$" Display="dynamic" ErrorMessage="Url is not required, but it must be valid if specified." EnableClientScript="true" />
 	</div>
 
 	<div class="label"><label for="PostComment_ascx_tbComment"><span class="accessKey">C</span>omment:</label></div>
 	<div class="input">
 		<asp:TextBox id="tbComment" runat="server" Rows="10" Columns="40" AccessKey="C"
-			TextMode="MultiLine" Width="400px" class="livepreview"></asp:TextBox><br/>
-			<asp:RequiredFieldValidator id="Requiredfieldvalidator4" runat="server" ErrorMessage="Please enter a comment"
-			ControlToValidate="tbComment"></asp:RequiredFieldValidator></div>
+			TextMode="MultiLine" Width="400px" class="livepreview" />
+			<br/>
+			<asp:RequiredFieldValidator id="vldCommentBodyRequired" runat="server" ErrorMessage="Please enter a comment"
+			ControlToValidate="tbComment" />
+	</div>
 
 	<div class="input">
 		<sub:CompliantButton id="btnCompliantSubmit" runat="server" Text="Leave Your Mark" /> 

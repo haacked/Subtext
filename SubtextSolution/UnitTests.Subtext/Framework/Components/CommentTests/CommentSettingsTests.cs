@@ -25,6 +25,8 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			FeedbackItem comment = UnitTestHelper.CreateCommentInstance(entryId, "joe schmoe", "blah blah.", "I have nothing to say.", DateTime.Now);
 			Assert.IsFalse(Security.IsAdmin, "Comment moderation would not affect admins");
 			int commentId = FeedbackItem.Create(comment);
+			CommentFilter filter = new CommentFilter(null);
+			filter.DetermineFeedbackApproval(comment);
 			FeedbackItem commentFromDb = FeedbackItem.Get(commentId);
 			Assert.IsTrue(commentFromDb.Approved, "Because comment moderation is turned off, we expect that a new comment should be active.");
 			Assert.IsFalse(commentFromDb.NeedsModeratorApproval, "Because comment moderation is turned off, we expect that a new comment should not need moderator approval.");
@@ -44,9 +46,11 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			//create comment.
 			FeedbackItem comment = UnitTestHelper.CreateCommentInstance(entryId, "joe schmoe", "blah xsatho setnuh blah.", "I have nothing interesting to say at all.", DateTime.Now);
 			int commentId = FeedbackItem.Create(comment);
+			CommentFilter filter = new CommentFilter(null);
+			filter.DetermineFeedbackApproval(comment);
 			FeedbackItem commentFromDb = FeedbackItem.Get(commentId);
-			Assert.IsFalse(commentFromDb.Approved, "Because comment moderation is turned on, we expect that a new comment should be inactive.");
-			Assert.IsTrue(commentFromDb.NeedsModeratorApproval, "Because comment moderation is turned off, we expect that a new comment should need moderator approval.");
+			Assert.IsFalse(commentFromDb.Approved, "Because comment moderation is turned on, we expect that a new comment should note be approved.");
+			Assert.IsTrue(commentFromDb.NeedsModeratorApproval, "Because comment moderation is turned on, we expect that a new comment should need moderator approval.");
 			
 			//Let's approve it.
 			FeedbackItem.Approve(commentFromDb);

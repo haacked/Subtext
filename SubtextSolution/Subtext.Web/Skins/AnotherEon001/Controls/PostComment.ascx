@@ -21,14 +21,20 @@
 		<tr>
 			<td>Email</td>
 			<td>
-				<asp:TextBox id="tbEmail" runat="server" Size="40" Width="300px" CssClass="Textbox"></asp:TextBox></td>
-			<td></td>
+				<asp:TextBox id="tbEmail" runat="server" Size="40" Width="300px" CssClass="Textbox"></asp:TextBox>
+			</td>
+			<td>
+				<asp:RegularExpressionValidator ID="vldEmail" runat="server" ControlToValidate="tbEmail" ValidationExpression="^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$" Display="dynamic" ErrorMessage="Email is not required, but it must be valid if specified." EnableClientScript="true" />
+			</td>
 		</tr>		
 		<tr>
 			<td>Url</td>
 			<td>
-				<asp:TextBox id="tbUrl" runat="server" Size="40" Width="300px" CssClass="Textbox"></asp:TextBox></td>
-			<td></td>
+				<asp:TextBox id="tbUrl" runat="server" Size="40" Width="300px" CssClass="Textbox"></asp:TextBox>
+			</td>
+			<td>
+				<asp:RegularExpressionValidator ID="vldUrl" runat="server" ControlToValidate="tbUrl" ValidationExpression="^(https?://)?([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?$" Display="dynamic" ErrorMessage="Url is not required, but it must be valid if specified." EnableClientScript="true" />
+			</td>
 		</tr>
 		<tr>
 			<td colSpan="3">Comment&nbsp;

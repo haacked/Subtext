@@ -19,6 +19,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
+using Subtext.Framework.Text;
 
 namespace Subtext.Web.Controls
 {

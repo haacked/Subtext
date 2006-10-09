@@ -24,7 +24,9 @@
 					<uc1:SingleColumn id="SingleColumn" runat="server" />
 					<div class="leftbox">
 						<h2>Hosted by</h2>
-						<p style="PADDING-TOP:8px;TEXT-ALIGN:center"><a href="http://www.subtextproject.com/" title="Subtext Project Homepage"><img src="~/Images/PoweredBySubtext85x33.png" alt="Subtext Blog" runat="server" /></a></p>
+						<p class="subtextlogo">
+							<a href="http://www.subtextproject.com/" title="Subtext Project Homepage"><img src="~/Images/PoweredBySubtext85x33.png" alt="Subtext Blog" runat="server" /></a>
+						</p>
 					</div>
 				</div>
 				<div class="clear"><span></span>&nbsp;</div>	

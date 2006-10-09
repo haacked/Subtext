@@ -16,6 +16,7 @@
 using System;
 using System.Globalization;
 using System.Threading;
+using System.Web.Caching;
 using MbUnit.Framework;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -108,7 +109,6 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		{
 			_hostName = UnitTestHelper.GenerateRandomString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, string.Empty);
-			CommentFilter.ClearCommentCache();
 		}
 
 		[TearDown]

@@ -37,18 +37,18 @@ namespace UnitTests.Subtext.Framework.Text
 		}
 		
 		[RowTest]
-		[Row("BLAH Tast", "a", 6, ComparisonType.CaseSensitive)]
-		[Row("BLAH Tast", "a", 2, ComparisonType.CaseInsensitive)]
-		public void IndexOfHandlesCaseSensitivity(string source, string search, int expectedIndex, ComparisonType comparison)
+		[Row("BLAH Tast", "a", 6, StringComparison.Ordinal)]
+		[Row("BLAH Tast", "a", 2, StringComparison.InvariantCultureIgnoreCase)]
+		public void IndexOfHandlesCaseSensitivity(string source, string search, int expectedIndex, StringComparison comparison)
 		{
-			Assert.AreEqual(expectedIndex, StringHelper.IndexOf(source, search, comparison), "Did not find the string '{0}' at the index {1}", search, expectedIndex);
+			Assert.AreEqual(expectedIndex, source.IndexOf(search, comparison), "Did not find the string '{0}' at the index {1}", search, expectedIndex);
 		}
 		
 		[RowTest]
-		[Row("Blah/Default.aspx", "Default.aspx", "Blah/", ComparisonType.CaseSensitive)]
-		[Row("Blah/Default.aspx", "default.aspx", "Blah/", ComparisonType.CaseInsensitive)]
-		[Row("Blah/Default.aspx", "default.aspx", "Blah/Default.aspx", ComparisonType.CaseSensitive)]
-		public void LeftBeforeOfHandlesCaseSensitivity(string source, string search, string expected, ComparisonType comparison)
+		[Row("Blah/Default.aspx", "Default.aspx", "Blah/", StringComparison.Ordinal)]
+		[Row("Blah/Default.aspx", "default.aspx", "Blah/", StringComparison.InvariantCultureIgnoreCase)]
+		[Row("Blah/Default.aspx", "default.aspx", "Blah/Default.aspx", StringComparison.Ordinal)]
+		public void LeftBeforeOfHandlesCaseSensitivity(string source, string search, string expected, StringComparison comparison)
 		{
 			Assert.AreEqual(expected, StringHelper.LeftBefore(source, search, comparison), "Truncating did not return the correct result.");
 		}

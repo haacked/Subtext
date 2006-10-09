@@ -169,7 +169,7 @@ namespace UnitTests.Subtext.Scripting
 			Stream stream = UnitTestHelper.UnpackEmbeddedResource("Scripting.TestTemplateSqlScript.txt");
 			SqlScriptRunner scriptRunner = new SqlScriptRunner(stream, Encoding.UTF8);
 			Assert.AreEqual(5, scriptRunner.TemplateParameters.Count, "Not the expected number of template parameters. Make sure it merges correctly.");
-
+			
 			string expectedDefault = UnitTestHelper.UnpackEmbeddedResource("Scripting.TestTemplateSqlScriptExpectedDefault.txt", Encoding.UTF8);
 			Assert.AreEqual(expectedDefault, scriptRunner.ScriptCollection.ExpandedScriptText);
 		}
@@ -197,7 +197,6 @@ namespace UnitTests.Subtext.Scripting
 			result = result.Replace("" + ((char)13), ""); //Ugly hack!  I know. I'll Explain later.
 
 			UnitTestHelper.AssertStringsEqualCharacterByCharacter(expected, result);
-			//Assert.AreEqual(expected, result, "Did not expand the template params properly.");
 		}
 	}
 }

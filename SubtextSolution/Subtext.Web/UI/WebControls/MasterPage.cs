@@ -16,7 +16,7 @@
 using System;
 using System.Collections;
 using System.ComponentModel;
-using System.IO;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.Design;
 using System.Web.UI.HtmlControls;
@@ -90,7 +90,7 @@ namespace Subtext.Web.UI.WebControls
 			{
 				this.template = this.Page.LoadControl(this.TemplateFile);
 			}
-			catch(FileNotFoundException e)
+			catch(HttpException e)
 			{
 				Log.Warn("The configured skin '" + Config.CurrentBlog.Skin.TemplateFolder + "' does not exist.  Reverting to a default skin.", e);
 				Config.CurrentBlog.Skin = SkinConfig.GetDefaultSkin();

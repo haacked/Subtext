@@ -322,12 +322,12 @@ namespace Subtext.Framework.Logging
 			log4net.ThreadContext.Properties["BlogId"] = blogId;
 		}
 
-		public void SetUrlContext()
+		void SetUrlContext()
 		{
 			if(HttpContext.Current != null)
 			{
 				Uri url = HttpContext.Current.Request.Url;
-				if(url != null)
+				if (url != null && log4net.ThreadContext.Properties != null)
 				{
 					log4net.ThreadContext.Properties["Url"] = url.ToString();
 				}

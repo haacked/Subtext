@@ -16,6 +16,7 @@
 using System;
 using System.Globalization;
 using System.Web.UI.HtmlControls;
+using Subtext.Framework.Text;
 
 namespace Subtext.Web.Controls
 {
@@ -139,7 +140,7 @@ namespace Subtext.Web.Controls
 		{
 			get
 			{
-				return StringHelper.LeftBefore(Context.Request.Path, "Default.aspx", false);
+				return StringHelper.LeftBefore(Context.Request.Path, "Default.aspx", StringComparison.InvariantCultureIgnoreCase);
 			}
 		}
 
@@ -192,7 +193,7 @@ namespace Subtext.Web.Controls
 				bool referenceLongEnough = Href.Length > ParentPath.Length;
 				
 				// Make sure the reference is part of the request path now.
-				bool referenceInRequestPath = StringHelper.IndexOf(CurrentRequestPath, Href, false) > -1;
+				bool referenceInRequestPath = CurrentRequestPath.IndexOf(Href, StringComparison.InvariantCultureIgnoreCase) > -1;
 
 				return referenceLongEnough && referenceInRequestPath;
 			}

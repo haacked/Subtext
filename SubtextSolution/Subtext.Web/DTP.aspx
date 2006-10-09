@@ -2,6 +2,7 @@
 <%@ Register TagPrefix="DT" Namespace="Subtext.Web.UI.WebControls" Assembly="Subtext.Web" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 <%@ Import Namespace="Subtext.Framework.Configuration" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 	<head runat="server">
@@ -15,7 +16,10 @@
 		<link id="SecondaryCss" type="text/css" rel="stylesheet" runat="Server" />
 		<link id="CustomCss" type="text/css" rel="stylesheet" runat="Server" />
 		<link id="Rsd" rel="EditURI" type="application/rsd+xml" title="RSD" runat="server" />
-		<st:ScriptTag id="blogInfoScript" runat="server" src="~/scripts/BlogInfo.js" />
+		<link id="AtomLink" title="RSS" type="application/rss+xml" rel="alternate" runat="Server" />
+		<st:ScriptTag id="commonJs" src="~/Scripts/common.js" runat="server" />
+		<st:ScriptTag id="tableEffectsJs" src="~/Scripts/tableEffects.js" runat="server" />
+		<st:ScriptTag id="blogInfoScript" runat="server" src="~/Scripts/BlogInfo.js" />
 		<script type="text/javascript">
 			<%= AllowedHtmlJavascriptDeclaration %>
 			var subtextBlogInfo = new blogInfo('<%= Config.CurrentBlog.VirtualDirectoryRoot %>', '<%= Config.CurrentBlog.VirtualUrl %>" />');

@@ -186,6 +186,10 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetFeedbackCollection]
 GO
 
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetFeedbackCountsByStatus]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetFeedbackCountsByStatus]
+GO
+
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetFeedback]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetFeedback]
 GO
@@ -610,6 +614,44 @@ SET ANSI_NULLS ON
 GO
 
 /*
+Returns a count of feedback for the various statuses.
+*/
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetFeedbackCountsByStatus]
+(
+	@BlogId int,
+	@ApprovedCount int out,
+	@NeedsModerationCount int out,
+	@FlaggedSpam int out,
+	@Deleted int out	
+)
+AS
+
+SELECT @ApprovedCount = COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_Feedback] WHERE BlogId = @BlogId AND StatusFlag & 1 = 1
+SELECT @NeedsModerationCount = COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_Feedback] WHERE BlogId = @BlogId AND StatusFlag & 2 = 2 AND StatusFlag & 8 != 8 AND StatusFlag & 1 != 1
+SELECT @FlaggedSpam = COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_Feedback] WHERE BlogId = @BlogId AND StatusFlag & 4 = 4 AND StatusFlag & 8 != 8 AND StatusFlag & 1 != 1
+SELECT @Deleted = COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_Feedback] WHERE BlogId = @BlogId AND StatusFlag & 8 = 8 AND StatusFlag & 1 != 1
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetFeedbackCountsByStatus] TO [public]
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS ON 
+GO
+
+/*
 Fully deletes a Feedback item from the db.
 */
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_DeleteFeedback]
@@ -688,7 +730,7 @@ FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories]
 WHERE	
 			subtext_LinkCategories.Active= 1 
 	AND		(subtext_LinkCategories.BlogId = @BlogId OR @BlogId IS NULL)
-	AND		subtext_LinkCategories.CategoryType = 0
+	AND		subtext_LinkCategories.CategoryType = 5
 ORDER BY 
 	subtext_LinkCategories.Title;
 
@@ -707,7 +749,7 @@ WHERE
 	AND categories.Active = 1
 	AND (categories.BlogId = @BlogId OR @BlogId IS NULL)
 	AND links.BlogId = @BlogId 
-	AND categories.CategoryType = 0
+	AND categories.CategoryType = 5
 ORDER BY 
 	links.Title;
 
@@ -756,32 +798,6 @@ GO
 GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetAllCategories]  TO [public]
 GO
 
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetBlogKeyWords]
-(
-	@BlogId int
-)
-AS
-
-SELECT 
-	KeyWordID, Word, Rel, [Text], ReplaceFirstTimeOnly, OpenInNewWindow, CaseSensitive, Url, Title, BlogId
-FROM
-	[<dbUser,varchar,dbo>].[subtext_keywords]
-WHERE 
-	BlogId = @BlogId
-
-GO
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
-
-GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetBlogKeyWords]  TO [public]
-GO
 
 SET QUOTED_IDENTIFIER ON 
 GO
@@ -955,6 +971,7 @@ BEGIN
 		, Author
 		, TimeZone
 		, ItemCount
+		, CategoryListPostCount
 		, [Language]
 		, News
 		, SecondaryCss
@@ -970,6 +987,7 @@ BEGIN
 		, CommentDelayInMinutes
 		, NumberOfRecentComments
 		, RecentCommentsLength
+		, AkismetAPIKey
 	FROM [<dbUser,varchar,dbo>].[subtext_Config]
 END
 ELSE
@@ -987,6 +1005,7 @@ BEGIN
 		, Author
 		, TimeZone
 		, ItemCount
+		, CategoryListPostCount
 		, [Language]
 		, News
 		, SecondaryCss
@@ -1002,6 +1021,7 @@ BEGIN
 		, CommentDelayInMinutes
 		, NumberOfRecentComments
 		, RecentCommentsLength
+		, AkismetAPIKey
 	FROM [<dbUser,varchar,dbo>].[subtext_Config]
 	WHERE	Host = @Host
 		AND Application = @Application
@@ -2852,6 +2872,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateConfig]
 	, @Language nvarchar(10)
 	, @TimeZone int = NULL
 	, @ItemCount int
+	, @CategoryListPostCount int
 	, @News nText = NULL
 	, @LastUpdated datetime = NULL
 	, @SecondaryCss nText = NULL
@@ -2863,6 +2884,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateConfig]
 	, @CommentDelayInMinutes int = NULL
 	, @NumberOfRecentComments int = NULL
 	, @RecentCommentsLength int = NULL
+	, @AkismetAPIKey varchar(16) = NULL
 )
 AS
 UPDATE [<dbUser,varchar,dbo>].[subtext_Config]
@@ -2879,6 +2901,7 @@ Set
 	, [Language] = @Language
 	, TimeZone   = @TimeZone
 	, ItemCount = @ItemCount
+	, CategoryListPostCount = @CategoryListPostCount
 	, News      = @News
 	, LastUpdated = @LastUpdated
 	, Flag = @Flag
@@ -2889,6 +2912,7 @@ Set
 	, CommentDelayInMinutes = @CommentDelayInMinutes
 	, NumberOfRecentComments = @NumberOfRecentComments
 	, RecentCommentsLength = @RecentCommentsLength
+	, AkismetAPIKey = @AkismetAPIKey
 WHERE BlogId = @BlogId
 
 GO
@@ -3186,7 +3210,7 @@ SET ROWCOUNT @StartRowIndex
 SELECT	@FirstId = [BlogId] FROM [<dbUser,varchar,dbo>].[subtext_Config]
 WHERE @ConfigurationFlags & Flag = @ConfigurationFlags
 	AND (Host = @Host OR @Host IS NULL)
-ORDER BY [BlogId] DESC
+ORDER BY [BlogId] ASC
 
 -- Now, set the row count to MaximumRows and get
 -- all records >= @first_id
@@ -3221,11 +3245,13 @@ SELECT	blog.BlogId
 		, blog.CommentDelayInMinutes
 		, blog.NumberOfRecentComments
 		, blog.RecentCommentsLength
+		, blog.AkismetAPIKey
 		
 FROM [<dbUser,varchar,dbo>].[subtext_config] blog
-WHERE blog.BlogId <= @FirstId
+WHERE blog.BlogId >= @FirstId
 	AND @ConfigurationFlags & Flag = @ConfigurationFlags
 	AND (Host = @Host OR @Host IS NULL)
+ORDER BY blog.BlogId ASC
 
 SELECT COUNT([BlogId]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_config]
@@ -3280,7 +3306,7 @@ SELECT	blog.BlogId
 		, blog.CommentDelayInMinutes
 		, blog.NumberOfRecentComments
 		, blog.RecentCommentsLength
-		
+		, blog.AkismetAPIKey
 FROM [<dbUser,varchar,dbo>].[subtext_config] blog
 WHERE	blog.BlogId = @BlogId
 GO
@@ -3361,11 +3387,16 @@ VALUES
 
 SELECT @Id = SCOPE_IDENTITY()
 
-IF NOT @EntryId IS NULL
-UPDATE [<dbUser,varchar,dbo>].[subtext_Content]
-SET FeedbackCount = FeedbackCount + 1 
-WHERE [ID] = @EntryId
-
+-- Update the entry comment count.
+UPDATE [dbo].[subtext_Content] 
+SET [dbo].[subtext_Content].FeedbackCount = 
+	(
+		SELECT COUNT(1) 
+		FROM  [dbo].[subtext_Feedback] f WITH (NOLOCK)
+		WHERE f.EntryId = @EntryId 
+			AND f.StatusFlag & 1 = 1
+	)
+WHERE Id = @EntryId
 GO
 SET QUOTED_IDENTIFIER OFF 
 GO
@@ -3382,41 +3413,43 @@ SET ANSI_NULLS ON
 GO
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateFeedback]
 (
-	@ID int output	
+	@ID int
 	, @Title nvarchar(256)
 	, @Body ntext = NULL
-	, @BlogId int
-	, @EntryId int = NULL
 	, @Author nvarchar(128) = NULL
 	, @Email varchar(128) = NULL
 	, @Url varchar(256) = NULL
-	, @FeedbackType int
 	, @StatusFlag int
-	, @CommentAPI bit
-	, @Referrer varchar(256) = NULL
-	, @IpAddress varchar(16) = NULL
-	, @UserAgent nvarchar(128) = NULL
 	, @FeedbackChecksumHash varchar(32)
 	, @DateModified datetime
 )
 AS
 
+DECLARE @EntryId int
+SELECT @EntryId = EntryId FROM [<dbUser,varchar,dbo>].[subtext_Feedback] WHERE Id = @Id
+
 UPDATE [<dbUser,varchar,dbo>].[subtext_Feedback]
 SET	Title = @Title
 	, Body = @Body
-	, EntryId = @EntryId
 	, Author = @Author
 	, Email = @Email
 	, Url = @Url
-	, FeedbackType = @FeedbackType
 	, StatusFlag = @StatusFlag
-	, CommentAPI = @CommentAPI
-	, Referrer = @Referrer
-	, IpAddress = @IpAddress
-	, UserAgent = @UserAgent
 	, FeedbackChecksumHash = @FeedbackChecksumHash
 	, DateModified = @DateModified
 WHERE Id = @Id
+
+-- Update the entry comment count.
+UPDATE [<dbUser,varchar,dbo>].[subtext_Content] 
+SET [<dbUser,varchar,dbo>].[subtext_Content].FeedbackCount = 
+	(
+		SELECT COUNT(1) 
+		FROM  [<dbUser,varchar,dbo>].[subtext_Feedback] f  WITH (NOLOCK)
+		WHERE f.EntryId = @EntryId 
+			AND f.StatusFlag & 1 = 1
+	)
+WHERE Id = @EntryId
+
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -4208,21 +4241,21 @@ CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoriesArchive]
 )
 AS
 
-
-select subtext_LinkCategories.CategoryID as [Id],
-	subtext_LinkCategories.Title, 
-	count(*) as  [Count],
-	1 AS [Month],
-	1 AS [Year],
-	1 AS [Day]
+SELECT	[Id] = c.CategoryID
+		, c.Title 
+		, [Count] = COUNT(1)
+		, [Month] = 1
+		, [Year] = 1
+		, [Day] = 1
 	
-from subtext_LinkCategories inner join subtext_Links on subtext_LinkCategories.CategoryID=subtext_Links.CategoryID
-where			subtext_LinkCategories.Active= 1 
-	AND		(subtext_LinkCategories.BlogId = @BlogId OR @BlogId IS NULL)
-	AND		subtext_LinkCategories.CategoryType = 1 -- post category
+FROM [<dbUser,varchar,dbo>].[subtext_LinkCategories] c 
+	INNER JOIN [<dbUser,varchar,dbo>].[subtext_Links] l on c.CategoryID = l.CategoryID
+WHERE	c.Active= 1 
+	AND	(c.BlogId = @BlogId OR @BlogId IS NULL)
+	AND	c.CategoryType = 1 -- post category
 
-group by subtext_LinkCategories.CategoryID, subtext_LinkCategories.Title
-order by subtext_LinkCategories.Title
+GROUP BY c.CategoryID, c.Title
+ORDER BY c.Title
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -4231,4 +4264,40 @@ SET ANSI_NULLS ON
 GO
 
 GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetPostsByCategoriesArchive]  TO [public]
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetBlogKeyWords]
+(
+	@BlogId int
+)
+AS
+
+SELECT 
+	KeyWordID
+	, Word
+	, Rel
+	, [Text]
+	, ReplaceFirstTimeOnly
+	, OpenInNewWindow
+	, CaseSensitive
+	, Url
+	, Title
+	, BlogId
+FROM
+	[<dbUser,varchar,dbo>].[subtext_keywords]
+WHERE 
+	BlogId = @BlogId
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetBlogKeyWords]  TO [public]
 GO

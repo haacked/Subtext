@@ -15,8 +15,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.Caching;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
@@ -29,11 +27,19 @@ namespace Subtext.Framework
 	/// with a plugin once the plugin architecture is complete, but the 
 	/// logic will probably get ported.
 	/// </summary>
-	public static class CommentFilter
+	public class CommentFilter
 	{
 		private const string FILTER_CACHE_KEY = "COMMENT FILTER:";
-		private const string BLACKLIST_CACHE_KEY = "BLACKLIST:";
-		private const int BLACKLIST_TIMEOUT = 60; //minutes.
+
+		Cache cache;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CommentFilter"/> class.
+		/// </summary>
+		public CommentFilter(Cache cache)
+		{
+			this.cache = cache;
+		}
 
 		/// <summary>
 		/// Filters the comment. Throws an exception should the comment not be allowed. 
@@ -50,80 +56,52 @@ namespace Subtext.Framework
 		/// </p>
 		/// </remarks>
 		/// <param name="feedbackItem">Entry.</param>
-		public static void FilterComment(FeedbackItem feedbackItem)
+		public void DetermineFeedbackApproval(FeedbackItem feedbackItem)
 		{
-			if (!SourceFrequencyIsValid(feedbackItem))
-				throw new CommentFrequencyException();
-
-			if (!Config.CurrentBlog.DuplicateCommentsEnabled && IsDuplicateComment(feedbackItem))
-				throw new CommentDuplicateException();
-
-			if (ContainsSpam(feedbackItem))
-				throw new CommentSpamException("Sorry, spam is not allowed.");
-
-			if (IsInBlackList(feedbackItem))
-				throw new CommentBlackListException("Sorry, you've been temporarily blacklisted for spamming.");
-		}
-
-		static bool ContainsSpam(FeedbackItem feedbackItem)
-		{
-            string spamWordsText = System.Configuration.ConfigurationManager.AppSettings["SpamWords"];
-			if(!string.IsNullOrEmpty(spamWordsText))
+			if (!Security.IsAdmin)
 			{
-				string[] spamWords = spamWordsText.Split(' ');
-				foreach(string spamWord in spamWords)
+				if (!SourceFrequencyIsValid(feedbackItem))
+					throw new CommentFrequencyException();
+
+				if (!Config.CurrentBlog.DuplicateCommentsEnabled && IsDuplicateComment(feedbackItem))
+					throw new CommentDuplicateException();
+
+				if (!Config.CurrentBlog.ModerationEnabled)
 				{
-					Regex regex = new Regex(@"(^|[^a-zA-Z])" + spamWord + @"([^a-zA-Z]|$)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-					//We're not going to filter the body yet since most of the 
-					//spam puts casino in title.
-					
-					if(regex.IsMatch(feedbackItem.Title) 
-						|| (!string.IsNullOrEmpty(feedbackItem.Author) && regex.IsMatch(feedbackItem.Author))
-						|| (feedbackItem.SourceUrl != null && regex.IsMatch(feedbackItem.SourceUrl.ToString())))
+					//Akismet Check...
+					if (Config.CurrentBlog.FeedbackSpamServiceEnabled)
 					{
-						AddToBlackList(feedbackItem);
-						return true;
-					}					
+						if (Config.CurrentBlog.FeedbackSpamService.IsSpam(feedbackItem))
+						{
+							//TODO: Could put this in a method "FlagSpam".
+							feedbackItem.FlaggedAsSpam = true;
+							feedbackItem.Approved = false;
+							FeedbackItem.Update(feedbackItem);
+							return;
+						}
+					}
+					feedbackItem.Approved = true;
+				}
+				else //Moderated!
+				{
+					feedbackItem.NeedsModeratorApproval = true;
+					feedbackItem.Approved = false;
 				}
 			}
-			return false;
-		}
-
-		/// <summary>
-		/// Determines whether [is in black list] [the specified entry].
-		/// </summary>
-		/// <param name="feedbackItem">The entry.</param>
-		/// <returns>
-		/// 	<c>true</c> if [is in black list] [the specified entry]; otherwise, <c>false</c>.
-		/// </returns>
-		public static bool IsInBlackList(FeedbackItem feedbackItem)
-		{
-			Cache cache = HttpContext.Current.Cache;
-			if(cache.Get(BLACKLIST_CACHE_KEY + feedbackItem.IpAddress) != null)
-				return true;
-			return false;
-		}
-
-		/// <summary>
-		/// Adds the source IP of this entry to black list.  The 
-		/// black list is temporary for now.
-		/// </summary>
-		/// <param name="feedbackItem">The entry.</param>
-		/// <returns></returns>
-		public static void AddToBlackList(FeedbackItem feedbackItem)
-		{
-			Cache cache = HttpContext.Current.Cache;
-			cache.Insert(BLACKLIST_CACHE_KEY + feedbackItem.IpAddress, string.Empty, null, DateTime.Now.AddMinutes(BLACKLIST_TIMEOUT), TimeSpan.Zero);
+			else
+			{
+				feedbackItem.Approved = true;
+			}
+			FeedbackItem.Update(feedbackItem);
 		}
 
 		// Returns true if the source of the entry is not 
 		// posting too many.
-		static bool SourceFrequencyIsValid(FeedbackItem feedbackItem)
+		bool SourceFrequencyIsValid(FeedbackItem feedbackItem)
 		{
 			if(Config.CurrentBlog.CommentDelayInMinutes <= 0)
 				return true;
 
-			Cache cache = HttpContext.Current.Cache;
 			object lastComment = cache.Get(FILTER_CACHE_KEY + feedbackItem.IpAddress);
 			
 			if(lastComment != null)
@@ -133,21 +111,23 @@ namespace Subtext.Framework
 			}
 
 			//Add to cache.
-            cache.Insert(FILTER_CACHE_KEY + feedbackItem.IpAddress, string.Empty, null, DateTime.Now.AddMinutes(Config.CurrentBlog.CommentDelayInMinutes), TimeSpan.Zero);
+            this.cache.Insert(FILTER_CACHE_KEY + feedbackItem.IpAddress, string.Empty, null, DateTime.Now.AddMinutes(Config.CurrentBlog.CommentDelayInMinutes), TimeSpan.Zero);
 			return true;
 		}
 
 		// Returns true if this entry is a duplicate.
-		static bool IsDuplicateComment(FeedbackItem feedbackItem)
+		bool IsDuplicateComment(FeedbackItem feedbackItem)
 		{
 			const int RECENT_ENTRY_CAPACITY = 10;
 
+			if(cache == null)
+				return false;
+			
 			// Check the cache for the last 10 comments
 			// Chances are, if a spam attack is occurring, then 
 			// this entry will be a duplicate of a recent entry.
 			// This checks in memory before going to the database (or other persistent store).
-			Cache cache = HttpContext.Current.Cache;
-			Queue<string> recentComments = cache[FILTER_CACHE_KEY + ".RECENT_COMMENTS"] as Queue<string>;
+			Queue<string> recentComments = this.cache.Get(FILTER_CACHE_KEY + ".RECENT_COMMENTS") as Queue<string>;
 			if(recentComments != null)
 			{
 				if (recentComments.Contains(feedbackItem.ChecksumHash))
@@ -156,7 +136,7 @@ namespace Subtext.Framework
 			else
 			{
 				recentComments = new Queue<string>(RECENT_ENTRY_CAPACITY);	
-				cache[FILTER_CACHE_KEY + ".RECENT_COMMENTS"] = recentComments;
+				this.cache[FILTER_CACHE_KEY + ".RECENT_COMMENTS"] = recentComments;
 			}
 
 			// Check the database
@@ -175,9 +155,9 @@ namespace Subtext.Framework
 		/// <summary>
 		/// Clears the comment cache.
 		/// </summary>
-		public static void ClearCommentCache()
+		public void ClearCommentCache()
 		{
-			HttpContext.Current.Cache.Remove(FILTER_CACHE_KEY + ".RECENT_COMMENTS");
+			this.cache.Remove(FILTER_CACHE_KEY + ".RECENT_COMMENTS");
 		}
 	}
 }

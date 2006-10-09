@@ -1,10 +1,12 @@
 using System;
+using System.Web;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Exceptions;
 using Subtext.Framework.Web;
 
 #region Disclaimer/Info
@@ -63,8 +65,17 @@ namespace Subtext.Web.UI.Controls
 					contactMessage.Title = "CONTACT: " + tbSubject.Text;
 					contactMessage.IpAddress = HttpHelper.GetUserIpAddress(Context);
 					FeedbackItem.Create(contactMessage);
-					
-					lblMessage.Text = "Your message was sent.";
+					CommentFilter filter = new CommentFilter(HttpContext.Current.Cache);
+					try
+					{
+						filter.DetermineFeedbackApproval(contactMessage);
+						lblMessage.Text = "Your message was sent.";
+					}
+					catch(BaseCommentException exc)
+					{
+						lblMessage.Text = exc.Message;
+					}
+
 					tbName.Text = "";
 					tbEmail.Text = "";
 					tbSubject.Text = "";

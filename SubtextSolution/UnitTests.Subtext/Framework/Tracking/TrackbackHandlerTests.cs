@@ -60,6 +60,8 @@ namespace UnitTests.Subtext.Framework.Tracking
 			string hostname = UnitTestHelper.GenerateRandomString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, string.Empty);
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
+			Config.CurrentBlog.DuplicateCommentsEnabled = true;
+			Config.CurrentBlog.DuplicateCommentsEnabled = true;
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
 			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
@@ -88,6 +90,7 @@ namespace UnitTests.Subtext.Framework.Tracking
 			string hostname = UnitTestHelper.GenerateRandomString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, string.Empty);
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
+			Config.CurrentBlog.DuplicateCommentsEnabled = true;
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
 			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
@@ -116,6 +119,7 @@ namespace UnitTests.Subtext.Framework.Tracking
 			string hostname = UnitTestHelper.GenerateRandomString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, string.Empty);
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
+			Config.CurrentBlog.DuplicateCommentsEnabled = true;
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
 			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
@@ -135,7 +139,11 @@ namespace UnitTests.Subtext.Framework.Tracking
 		{	
 			StringBuilder sb = new StringBuilder();
 			TextWriter output = new StringWriter(sb);
+			BlogInfo blog = Config.CurrentBlog;
+			//the next line resets the httpcontext.
 			SimulatedHttpRequest request = UnitTestHelper.SetHttpContextWithBlogRequest(hostname, subfolder, string.Empty, "/trackback/services/" + id + ".aspx", output, "POST");
+			HttpContext.Current.Items["BlogInfo-"] = blog;
+			
 			return GetTrackBackHandlerResponseText(blogName, excerpt, request, sb, title, url);
 		}
 
@@ -171,6 +179,8 @@ namespace UnitTests.Subtext.Framework.Tracking
 			string hostname = UnitTestHelper.GenerateRandomString();
 			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "blog", string.Empty);
 			Assert.IsTrue(Config.CreateBlog("Some Title", "username", "password", hostname, "blog"));
+			Config.CurrentBlog.DuplicateCommentsEnabled = true;
+			
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
 			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);

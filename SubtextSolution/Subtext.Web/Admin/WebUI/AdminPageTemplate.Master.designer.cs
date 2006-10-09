@@ -11,10 +11,11 @@
 namespace Subtext.Web.Admin.WebUI {
     
     public partial class AdminPageTemplate {
+        protected Subtext.Web.Controls.ScriptTag commonJs;
+        protected Subtext.Web.Controls.ScriptTag tableEffectsJS;
         protected Subtext.Web.Controls.ScriptTag NiceForms;
         protected Subtext.Web.Controls.ScriptTag HelptipJs;
         protected Subtext.Web.Controls.ScriptTag AdminJs;
-        protected Subtext.Web.Controls.ScriptTag tableEffectsJS;
         protected System.Web.UI.HtmlControls.HtmlLink commonLayoutCss;
         protected System.Web.UI.HtmlControls.HtmlLink commonStyleCss;
         protected Subtext.Web.Admin.WebUI.HeaderLink HelptipCss;

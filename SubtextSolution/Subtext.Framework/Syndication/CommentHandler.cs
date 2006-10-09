@@ -65,6 +65,8 @@ namespace Subtext.Framework.Syndication
 				comment.EntryId = UrlFormats.GetPostIDFromUrl(Request.Path);
 
 				FeedbackItem.Create(comment);
+				CommentFilter filter = new CommentFilter(HttpContext.Current.Cache);
+				filter.DetermineFeedbackApproval(comment);
 			}
 		}
 	

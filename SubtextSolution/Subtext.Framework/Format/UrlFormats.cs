@@ -40,12 +40,12 @@ namespace Subtext.Framework.Format
 		
 		public virtual string PostCategoryUrl(string categoryName, int categoryID)
 		{
-			return GetUrl("category/{0}.aspx", categoryID);
+			return GetUrl("category/{0}.aspx", HttpUtility.UrlPathEncode(categoryName));
 		}
 		
 		public virtual string ArticleCategoryUrl(string categoryName, int categoryID)
 		{
-			return GetUrl("category/{0}.aspx",categoryID);
+			return GetUrl("category/{0}.aspx", categoryID);
 		}
 
 		/// <summary>
@@ -369,7 +369,7 @@ namespace Subtext.Framework.Format
 
 			installPath += "/" + StripSurroundingSlashes(rootFolderName) + "/";		// ex...  "Subtext.Web/MyBlog/Install/" or "/MyBlog/Install/" or "/Install/"
 
-			return StringHelper.IndexOf(HttpContext.Current.Request.Path, installPath, ComparisonType.CaseInsensitive) >= 0;
+			return HttpContext.Current.Request.Path.IndexOf(installPath, StringComparison.InvariantCultureIgnoreCase) >= 0;
 		}
 
 		/// <summary>
@@ -391,7 +391,7 @@ namespace Subtext.Framework.Format
 			else
 				appPath = "/" + appPath + "/" + folderName + "/";
 				
-			return StringHelper.IndexOf(HttpContext.Current.Request.Path, appPath, ComparisonType.CaseInsensitive) >= 0;
+			return HttpContext.Current.Request.Path.IndexOf(appPath, StringComparison.InvariantCultureIgnoreCase) >= 0;
 		}
 
 		/// <summary>

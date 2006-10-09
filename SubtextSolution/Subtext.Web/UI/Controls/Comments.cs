@@ -14,14 +14,18 @@
 #endregion
 
 using System;
+using System.Configuration;
 using System.Globalization;
+using System.Web.Security;
 using System.Web.UI.WebControls;
-using Subtext.Framework.Data;
+using log4net;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Data;
+using Subtext.Framework.Logging;
 using Subtext.Web.Controls;
-using System.Configuration;
+using Image = System.Web.UI.WebControls.Image;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -30,8 +34,10 @@ namespace Subtext.Web.UI.Controls
 	/// </summary>
 	public class Comments : BaseControl
 	{
-		protected System.Web.UI.WebControls.Repeater CommentList;
-		protected System.Web.UI.WebControls.Literal NoCommentMessage;
+		static ILog log = new Log();
+		
+		protected Repeater CommentList;
+		protected Literal NoCommentMessage;
 
 		private bool gravatarEnabled;
 		private string gravatarUrlFormatString;
@@ -58,22 +64,27 @@ namespace Subtext.Web.UI.Controls
 
 			if(CurrentBlog.CommentsEnabled)
 			{
-				Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short);	
-
-				if(entry != null && entry.AllowComments)
-				{
-					BindComments(entry);
-				}
-				else
-				{
-					this.Visible = false;
-				}
+				BindFeedback(true);
 			}
 			else
 			{
-				this.Visible = false;
+				Visible = false;
 			}
 			
+		}
+
+		internal void BindFeedback(bool fromCache)
+		{
+			Entry entry = Cacher.GetEntryFromRequest(CacheDuration.Short);	
+
+			if(entry != null && entry.AllowComments)
+			{
+				BindFeedback(entry, fromCache);
+			}
+			else
+			{
+				Visible = false;
+			}
 		}
 
 
@@ -81,7 +92,7 @@ namespace Subtext.Web.UI.Controls
 		{
 			int feedbackItem = Int32.Parse(e.CommandName);
 			Entries.Delete(feedbackItem);
-			Response.Redirect(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}?Pending=true", Request.Path));
+			Response.Redirect(string.Format(CultureInfo.InvariantCulture, "{0}?Pending=true", Request.Path));
 		}
 
 		// Customizes the display row for each comment.
@@ -97,7 +108,7 @@ namespace Subtext.Web.UI.Controls
 					{
 						// we should probably change skin format to dynamically wire up to 
 						// skin located title and permalinks at some point
-						title.Text = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{2}&nbsp;{0}{1}", Anchor(feedbackItem.Id), 
+						title.Text = string.Format(CultureInfo.InvariantCulture, "{2}&nbsp;{0}{1}", Anchor(feedbackItem.Id), 
 							feedbackItem.Title, Link(feedbackItem.Title, feedbackItem.SourceUrl));
 					}
 
@@ -108,17 +119,20 @@ namespace Subtext.Web.UI.Controls
 						if(feedbackItem.SourceUrl != null)
 						{
 							namelink.NavigateUrl = feedbackItem.SourceUrl.ToString();
-						}
+							ControlHelper.SetTitleIfNone(namelink, feedbackItem.SourceUrl.ToString());
+						}				
+						
 						if (feedbackItem.FeedbackType == FeedbackType.Comment)
 						{
 							namelink.Text = feedbackItem.Author;
+							ControlHelper.SetTitleIfNone(namelink, feedbackItem.Author);
 						}
 						else if (feedbackItem.FeedbackType == FeedbackType.PingTrack)
 						{
 							namelink.Text =  feedbackItem.Author != null ? feedbackItem.Author : "Pingback/TrackBack";
 							namelink.Attributes.Add("title", "PingBack/TrackBack");
 						}
-						ControlHelper.SetTitleIfNone(namelink, feedbackItem.SourceUrl.ToString());
+						
 					}
 
 					Literal PostDate = (Literal)(e.Item.FindControl("PostDate"));
@@ -142,7 +156,7 @@ namespace Subtext.Web.UI.Controls
 					
 					if(gravatarEnabled)
 					{
-						System.Web.UI.WebControls.Image gravatarImage = e.Item.FindControl("GravatarImg") as System.Web.UI.WebControls.Image;
+						Image gravatarImage = e.Item.FindControl("GravatarImg") as Image;
 						if(gravatarImage != null) 
 						{
 							//This allows per-skin configuration of the default gravatar image.
@@ -193,6 +207,9 @@ namespace Subtext.Web.UI.Controls
 		const string linktag = "<a title=\"permalink: {0}\" href=\"{1}\">#</a>";
 		private string Link(string title, Uri link)
 		{
+			if (link == null)
+				return string.Empty;
+			
 			return string.Format(linktag, title, link.ToString());
 		}
 
@@ -218,7 +235,7 @@ namespace Subtext.Web.UI.Controls
 			}
 			else if(gravatarEmailFormat.Equals("MD5")) 
 			{
-				processedEmail=System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(email, "md5");
+				processedEmail=FormsAuthentication.HashPasswordForStoringInConfigFile(email, "md5");
 			}
 			if(processedEmail.Length != 0)
                 return String.Format(gravatarUrlFormatString, processedEmail, defaultGravatar);
@@ -226,35 +243,31 @@ namespace Subtext.Web.UI.Controls
 				return string.Empty;
 		}
 
-		void BindComments(Entry entry)
+		internal void BindFeedback(Entry entry, bool fromCache)
 		{
-				try
-				{
-					if(Request.QueryString["Pending"] != null)
-					{
-						Cacher.ClearCommentCache(entry.Id);
-					}
-					CommentList.DataSource = Cacher.GetFeedback(entry, CacheDuration.Short);
-					CommentList.DataBind();
+			try
+			{
+				CommentList.DataSource = Cacher.GetFeedback(entry, CacheDuration.Short, fromCache);
+				CommentList.DataBind();
 
-					if(CommentList.Items.Count == 0)
-					{
-						if (entry.CommentingClosed)
-						{
-							this.Controls.Clear();
-						}
-						else
-						{
-							CommentList.Visible = false;
-							this.NoCommentMessage.Text = "No comments posted yet.";
-						}
-					}
-
-				}
-				catch
+				if(CommentList.Items.Count == 0)
 				{
-					this.Visible = false;
+					if (entry.CommentingClosed)
+					{
+						Controls.Clear();
+					}
+					else
+					{
+						CommentList.Visible = false;
+						NoCommentMessage.Text = "No comments posted yet.";
+					}
 				}
+			}
+			catch(Exception e)
+			{
+				log.Error(e.Message, e);
+				Visible = false;
+			}
 		}
 	}
 }

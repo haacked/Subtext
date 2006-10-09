@@ -44,16 +44,27 @@ namespace Subtext.Scripting
 			ScriptCollection scripts = new ScriptCollection(fullScriptText);
 			foreach(string scriptText in scriptTexts)
 			{
-				if (!String.IsNullOrEmpty(scriptText.Trim()))
+				string cleanScriptText = StripComments(scriptText);
+				if (cleanScriptText != null && cleanScriptText.Trim().Length > 0)
 				{
-					scripts.Add(new Script(scriptText));
+					scripts.Add(new Script(cleanScriptText.Trim()));
 				}
 
 			}
 			return scripts;
 		}
-
+		
 		string _scriptText;
+		
+		static string StripComments(string scriptText)
+		{
+			Regex regex = new Regex(@"/\*.*?\*/", RegexOptions.Singleline | RegexOptions.Compiled);
+			string cleanText = regex.Replace(scriptText, string.Empty);
+
+			regex = new Regex(@"--.*?(\r?\n|$)", RegexOptions.Compiled);
+			return regex.Replace(cleanText, string.Empty);
+		}
+		
 		/// <summary>
 		/// Creates a new <see cref="TemplateParameter"/> instance.
 		/// </summary>

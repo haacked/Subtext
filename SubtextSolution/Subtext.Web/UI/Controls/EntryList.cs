@@ -270,7 +270,7 @@ namespace Subtext.Web.UI.Controls
                     }
                 }
 
-                HyperLink entryListReadMoreUrl = this.FindControl("EntryListReadMoreUrl") as HyperLink;
+                HyperLink entryListReadMoreUrl = this.FindControl("EntryCollectionReadMoreLink") as HyperLink;
 
                 if(entryListReadMoreUrl != null)
                 {
