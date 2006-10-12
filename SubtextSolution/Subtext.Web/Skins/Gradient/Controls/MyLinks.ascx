@@ -7,5 +7,5 @@
 </ul>
 
 <!-- Not Visible -->
-<asp:HyperLink Runat="server" NavigateUrl="~/Rss.aspx" ID="XMLLink" Visible="False" title="RSS Feed"></asp:HyperLink>
-<asp:HyperLink Runat="server" NavigateUrl="~/Rss.aspx" Text="Syndication" ID="Syndication" title="Syndication" Visible="False" />
+<asp:HyperLink Runat="server" ID="XMLLink" Visible="False" title="RSS Feed"></asp:HyperLink>
+<asp:HyperLink Runat="server" Text="Syndication" ID="Syndication" title="Syndication" Visible="False" />

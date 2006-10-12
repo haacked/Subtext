@@ -46,7 +46,7 @@ namespace Subtext.Web.HttpModules
 		{
 			//Bypass for static files.
 			string absPath = HttpContext.Current.Request.Url.AbsolutePath;
-			if (absPath.EndsWith(".css") || absPath.EndsWith(".jpg") || absPath.EndsWith(".html") || absPath.EndsWith(".gif"))
+			if (!absPath.EndsWith(".aspx"))
 				return;
 			
 			// Want to redirect to install if installation is required, 

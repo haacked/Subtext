@@ -22,7 +22,6 @@ using System.Web.UI.WebControls;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Format
 {
@@ -36,6 +35,46 @@ namespace Subtext.Framework.Format
         public UrlFormats(Uri fullyQualifiedUrl)
 		{
 			this.fullyQualifiedUrl = fullyQualifiedUrl.ToString();
+		}
+
+		/// <summary>
+		/// Gets the feed burner URL.
+		/// </summary>
+		/// <value>The feed burner URL.</value>
+		public Uri FeedBurnerUrl
+		{
+			get
+			{
+				return new Uri(new Uri("http://feeds.feedburner.com/"), Config.CurrentBlog.FeedBurnerName);
+			}
+		}
+
+		/// <summary>
+		/// Gets the RSS URL.
+		/// </summary>
+		/// <value>The RSS URL.</value>
+		public Uri RssUrl
+		{
+			get
+			{
+				if (Config.CurrentBlog.FeedBurnerEnabled)
+					return FeedBurnerUrl;
+				return new Uri(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Rss.aspx", Config.CurrentBlog.RootUrl));
+			}
+		}
+
+		/// <summary>
+		/// Gets the RSS URL.
+		/// </summary>
+		/// <value>The RSS URL.</value>
+		public Uri AtomUrl
+		{
+			get
+			{
+				if (Config.CurrentBlog.FeedBurnerEnabled)
+					return FeedBurnerUrl;
+				return new Uri(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Atom.aspx", Config.CurrentBlog.RootUrl));
+			}
 		}
 		
 		public virtual string PostCategoryUrl(string categoryName, int categoryID)

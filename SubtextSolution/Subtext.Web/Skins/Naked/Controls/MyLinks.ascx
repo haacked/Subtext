@@ -13,7 +13,7 @@
 			<li>
 				<asp:hyperlink cssclass="Contact" runat="server" navigateurl="~/Contact.aspx" text="Contact" id="ContactLink" /></li>
 			<li>
-				<asp:hyperlink cssclass="Syndication" runat="server" navigateurl="~/Rss.aspx" text="Syndication"
+				<asp:hyperlink cssclass="Syndication" runat="server" text="Syndication"
 					id="Syndication" />
 			</li>
 			<li>
@@ -21,6 +21,6 @@
 			</li>
 		</ul>
 	</div>
-	<asp:hyperlink runat="server" navigateurl="~/Rss.aspx" Visible="False" id="XMLLink" />
+	<asp:hyperlink runat="server" Visible="False" id="XMLLink" />
 	
 </div>

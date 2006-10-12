@@ -274,6 +274,7 @@ namespace Subtext.Installation
 				{
 					_version = this.GetType().Assembly.GetName().Version;
 				}
+
 				return _version;
 			}
 		}

@@ -111,7 +111,6 @@ DELETE FROM [<dbUser,varchar,dbo>].[subtext_Referrals]
 	WHERE EXISTS (SELECT * FROM [<dbUser,varchar,dbo>].[subtext_Content] sC 
 		WHERE (sc.PostType = 3 OR sC.PostType = 4) AND [<dbUser,varchar,dbo>].[subtext_Referrals].EntryID = sc.ID)
 
-
 IF EXISTS 
 	(
 		SELECT	* FROM [information_schema].[columns] 
@@ -120,6 +119,15 @@ IF EXISTS
 		AND		column_name = 'ParentId'
 	)
 	BEGIN
+	/* clean up parent id */
+	UPDATE [<dbUser,varchar,dbo>].[subtext_Content] SET ParentID = NULL 
+	WHERE (PostType = 3 OR PostType = 4)
+		AND NOT ParentID IS NULL 
+		AND ParentID NOT IN 
+		(
+			SELECT ID FROM [<dbUser,varchar,dbo>].[subtext_Content] WHERE PostType != 3 AND PostType != 4
+		)
+	
 	/* Transfer comments over to subtext_Feedback */
 		INSERT [<dbUser,varchar,dbo>].[subtext_Feedback]
 		SELECT Title
@@ -133,7 +141,7 @@ IF EXISTS
 			, StatusFlag = 1
 			, CommentAPI = 0
 			, Referrer = NULL
-			, IpAddress = SourceName
+			, IpAddress = LEFT(SourceName, 15)
 			, UserAgent = NULL
 			, FeedbackChecksumHash = ISNULL(ContentChecksumHash, '')
 			, DateCreated = DateAdded
@@ -214,4 +222,16 @@ IF NOT EXISTS
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_KeyWords] WITH NOCHECK
 	ADD [Rel] [nvarchar](64) NULL
 
+GO
+
+/* ADD the FeedBurnerName column to the subtext_Config table */
+IF NOT EXISTS 
+	(
+		SELECT	* FROM [information_schema].[columns] 
+		WHERE	table_name = 'subtext_Config' 
+		AND		table_schema = '<dbUser,varchar,dbo>'
+		AND		column_name = 'FeedBurnerName'
+	)
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config] WITH NOCHECK
+	ADD [FeedBurnerName] [nvarchar](64) NULL
 GO

@@ -28,6 +28,7 @@ using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
+using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Components
 {
@@ -96,7 +97,7 @@ namespace Subtext.Framework.Components
 			if (HttpContext.Current != null && HttpContext.Current.Request != null)
 			{
 				feedbackItem.UserAgent = HttpContext.Current.Request.UserAgent;
-				feedbackItem.IpAddress = IPAddress.Parse(HttpContext.Current.Request.UserHostAddress);
+				feedbackItem.IpAddress = HttpHelper.GetUserIpAddress(HttpContext.Current);
 			}
 			
 			feedbackItem.Approved = false;

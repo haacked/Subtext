@@ -133,12 +133,12 @@ namespace Subtext.Web.UI.Pages
 			
 			if(RSSLink != null)
 			{
-				RSSLink.Attributes.Add("href", CurrentBlog.RootUrl + "rss.aspx");
+				RSSLink.Attributes.Add("href", CurrentBlog.UrlFormats.RssUrl.ToString());
 			}
 			
 			if(AtomLink != null)
 			{
-				AtomLink.Attributes.Add("href", CurrentBlog.RootUrl + "atom.aspx");
+				AtomLink.Attributes.Add("href", CurrentBlog.UrlFormats.RssUrl.ToString());
 			}
 
 			// if specified, add script elements

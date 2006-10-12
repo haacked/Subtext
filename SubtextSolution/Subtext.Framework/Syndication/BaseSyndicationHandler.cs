@@ -30,6 +30,7 @@ namespace Subtext.Framework.Syndication
 	public abstract class BaseSyndicationHandler<T> : System.Web.IHttpHandler
 	{
 		const int HTTP_IM_USED = 226;
+		const int HTTP_MOVED_PERMANENTLY = 301;
 
 		protected BlogInfo CurrentBlog ;
 		protected HttpContext Context = null;
@@ -161,6 +162,9 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		protected virtual void ProcessFeed()
 		{
+			if(RedirectToFeedBurnerIfNecessary())
+				return;
+			
 			// Checks Last Modified Header.
 			if(IsLocalCacheOK())
 			{
@@ -352,5 +356,33 @@ namespace Subtext.Framework.Syndication
 					AcceptIMHeader.IndexOf("gzip") >= 0;
 			}
 		}
+		
+		// Adapted from DasBlog
+		private bool RedirectToFeedBurnerIfNecessary()
+		{
+			//If we are using FeedBurner, only allow them to get our feed...
+			if (!String.IsNullOrEmpty(Config.CurrentBlog.FeedBurnerName))
+			{
+				HttpContext current = HttpContext.Current;
+				string userAgent = current.Request.UserAgent;
+				if (!String.IsNullOrEmpty(userAgent))
+				{
+					// If they aren't FeedBurner and they aren't asking for a category or comment rss, redirect them!
+					if (!userAgent.StartsWith("FeedBurner") && IsMainfeed)
+					{
+						current.Response.StatusCode = HTTP_MOVED_PERMANENTLY;
+						current.Response.Status = HTTP_MOVED_PERMANENTLY + " Moved Permanently";
+						current.Response.RedirectLocation = new Uri(new Uri("http://feeds.feedburner.com/"), Config.CurrentBlog.FeedBurnerName).ToString();
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
+		/// <summary>
+		/// Returns true if the feed is the main feed.  False for category feeds and comment feeds.
+		/// </summary>
+		protected abstract bool IsMainfeed { get;}
 	}
 }

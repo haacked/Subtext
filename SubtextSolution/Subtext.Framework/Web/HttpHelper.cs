@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Web;
+using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Web
 {
@@ -109,9 +110,25 @@ namespace Subtext.Framework.Web
 
 			string result = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
 			if (String.IsNullOrEmpty(result))
-				result = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+			{
+				result = HttpContext.Current.Request.UserHostAddress;
+			}
+			else
+			{
+				// Requests behind a proxy might contain multiple IP 
+				// addresses in the forwarding header.
+				if (result.IndexOf(',') > 0)
+				{
+					result = StringHelper.LeftBefore(result, ",");
+				}
+			}
 
-			return IPAddress.Parse(result);
+			IPAddress ipAddress;
+			if(IPAddress.TryParse(result, out ipAddress))
+			{
+				return ipAddress;
+			}
+			return IPAddress.None;
 		}
 		
 		/// <summary>

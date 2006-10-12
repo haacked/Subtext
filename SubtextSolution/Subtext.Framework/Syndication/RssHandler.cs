@@ -62,5 +62,13 @@ namespace Subtext.Framework.Syndication
 				return writer;
 			}
 		}
+
+		/// <summary>
+		/// Returns true if the feed is the main feed.  False for category feeds and comment feeds.
+		/// </summary>
+		protected override bool IsMainfeed
+		{
+			get { return true; }
+		}
 	}
 }

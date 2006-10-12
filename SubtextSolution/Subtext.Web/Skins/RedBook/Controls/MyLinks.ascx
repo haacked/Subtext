@@ -8,5 +8,5 @@
 </ul>
 
 <!-- Not Visible -->
-<asp:HyperLink Runat="server" NavigateUrl="~/Rss.aspx" ID="XMLLink" Visible="False"></asp:HyperLink>
-<asp:HyperLink Runat="server" NavigateUrl="~/Rss.aspx" Text="Syndication" ID="Syndication" Visible="False" />
+<asp:HyperLink Runat="server" ID="XMLLink" Visible="False"></asp:HyperLink>
+<asp:HyperLink Runat="server" Text="Syndication" ID="Syndication" Visible="False" />

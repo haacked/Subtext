@@ -100,7 +100,7 @@ namespace Subtext.Framework
 				return _urlFormats;
 			}
 		}
-
+		
 		private string _imageDirectory;
 		/// <summary>
 		/// Gets or sets the physical path to the image directory.
@@ -709,6 +709,40 @@ namespace Subtext.Framework
 
 		IFeedbackSpamService feedbackService;
 
+		/// <summary>
+		/// Gets a value indicating whether [feed burner enabled].
+		/// </summary>
+		/// <value><c>true</c> if [feed burner enabled]; otherwise, <c>false</c>.</value>
+		public bool FeedBurnerEnabled
+		{
+			get
+			{
+				return !String.IsNullOrEmpty(this.feedBurnerName);
+			}
+		}
+		
+		/// <summary>
+		/// Gets or sets the name of the feedburner account. 
+		/// This is the portion of the feedburner URL after:
+		/// http://feeds.feedburner.com/
+		/// </summary>
+		/// <value>The name of the feed burner.</value>
+		public string FeedBurnerName
+		{
+			get { return this.feedBurnerName; }
+			set
+			{
+				if(!String.IsNullOrEmpty(value))
+				{
+					if (value.Contains("/") || value.Contains("\\"))
+						throw new InvalidOperationException("Cannot specify a feedburner name with invalid characters.");
+				}
+				this.feedBurnerName = value;
+			}
+		}
+
+		string feedBurnerName;
+		
 		/// <summary>
 		/// Gets the root URL for this blog.  For example, "http://example.com/" or "http://example.com/blog/".
 		/// </summary>
