@@ -162,7 +162,7 @@
     <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.dll" />
     <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.xml" />
     <EmbeddedResource Include="Scripts\Installation.01.09.00.sql" />
-    <EmbeddedResource Include="Scripts\Installation.01.09.01.sql" />
+    <EmbeddedResource Include="Scripts\Installation.01.09.02.sql" />
     <Content Include="Scripts\Migration_Notes.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

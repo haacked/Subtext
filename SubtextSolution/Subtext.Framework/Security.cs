@@ -26,6 +26,7 @@ using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Text;
+using Subtext.Framework.Web;
 
 namespace Subtext.Framework
 {
@@ -184,7 +185,12 @@ namespace Subtext.Framework
 		    {
 		    	try 
 		    	{
-					name.Append(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture));
+		    		//Need to clean this up. Either this should return null, or throw an exception,
+		    		//but not both.
+					if (Config.CurrentBlog != null)
+						name.Append(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture));
+		    		else
+						name.Append("null");
 		    	}
 		    	catch(BlogDoesNotExistException)
 		    	{
@@ -534,8 +540,8 @@ namespace Subtext.Framework
 			get
 			{
 				return String.Equals(HttpContext.Current.Request.Url.Host, "localhost", StringComparison.InvariantCultureIgnoreCase)
-					&& HttpContext.Current.Request.UserHostAddress == HttpContext.Current.Request.ServerVariables["LOCAL_ADDR"]
-					&& HttpContext.Current.Request.UserHostAddress == "127.0.0.1";
+					&& HttpHelper.GetUserIpAddress(HttpContext.Current).ToString() == HttpContext.Current.Request.ServerVariables["LOCAL_ADDR"]
+					&& HttpHelper.GetUserIpAddress(HttpContext.Current).ToString() == "127.0.0.1";
 			}
 		}
 

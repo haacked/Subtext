@@ -40,7 +40,14 @@ namespace Subtext.Web.UI.WebControls
 		/// <param name="e">An <see cref="T:System.EventArgs"/> object that contains the event data.</param>
 		protected override void OnPreRender(EventArgs e)
 		{
-			NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Rss.aspx", Config.CurrentBlog.RootUrl);
+			if(Config.CurrentBlog.FeedBurnerEnabled)
+			{
+				NavigateUrl = Config.CurrentBlog.UrlFormats.FeedBurnerUrl.ToString();
+			}
+			else 
+			{
+				NavigateUrl = Config.CurrentBlog.UrlFormats.RssUrl.ToString();
+			}
 			base.OnPreRender (e);
 		}
 	}

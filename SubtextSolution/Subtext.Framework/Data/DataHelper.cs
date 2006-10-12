@@ -534,6 +534,7 @@ namespace Subtext.Framework.Data
 			info.NumberOfRecentComments = ReadInt32(reader, "NumberOfRecentComments");
 			info.RecentCommentsLength = ReadInt32(reader, "RecentCommentsLength");
 			info.FeedbackSpamServiceKey = ReadString(reader, "AkismetAPIKey");
+			info.FeedBurnerName = ReadString(reader, "FeedBurnerName");
 			return info;
 		}
 

@@ -22,6 +22,9 @@ namespace Subtext.Web.Admin.Pages {
         protected System.Web.UI.WebControls.CheckBox chkUseDeltaEncoding;
         protected Subtext.Web.Controls.HelpToolTip Helptooltip4;
         protected System.Web.UI.HtmlControls.HtmlImage Img2;
+        protected System.Web.UI.WebControls.TextBox txtFeedBurnerName;
+        protected Subtext.Web.Controls.HelpToolTip hlpFeedburner;
+        protected System.Web.UI.HtmlControls.HtmlImage Img4;
         protected System.Web.UI.WebControls.TextBox txtLicenseUrl;
         protected Subtext.Web.Controls.HelpToolTip HelpToolTip3;
         protected System.Web.UI.HtmlControls.HtmlImage Img3;

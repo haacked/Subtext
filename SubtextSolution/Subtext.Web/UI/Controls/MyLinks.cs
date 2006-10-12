@@ -83,19 +83,19 @@ namespace Subtext.Web.UI.Controls
 
 				if (Syndication != null)
 				{
-					Syndication.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Rss.aspx", CurrentBlog.VirtualUrl);
+					Syndication.NavigateUrl = CurrentBlog.UrlFormats.RssUrl.ToString();
 					ControlHelper.SetTitleIfNone(Syndication, "Subscribe to this feed.");
 				}
 
 				if (XMLLink != null)
 				{
-					XMLLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Rss.aspx", CurrentBlog.VirtualUrl);
+					XMLLink.NavigateUrl = CurrentBlog.UrlFormats.RssUrl.ToString();
 					ControlHelper.SetTitleIfNone(XMLLink, "Subscribe to this feed.");
 				}
 
 				if (AtomLink != null)
 				{
-					AtomLink.NavigateUrl = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Atom.aspx", CurrentBlog.VirtualUrl);
+					AtomLink.NavigateUrl = CurrentBlog.UrlFormats.AtomUrl.ToString();
 					ControlHelper.SetTitleIfNone(AtomLink, "Subscribe to this feed.");
 				}
 

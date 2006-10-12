@@ -26,7 +26,7 @@ namespace Subtext.Framework.Syndication
 {
 	/// <summary>
 	/// Writes a CommentRSS feed to the underlying stream.  Inherits from 
-	/// <see cref="BaseRssWriter"/> which ultimately inherits from <see cref="XmlTextWriter"/>.
+	/// BaseRssWriter which ultimately inherits from <see cref="XmlTextWriter"/>.
 	/// </summary>
 	public class CommentRssWriter : BaseRssWriter<FeedbackItem>
 	{

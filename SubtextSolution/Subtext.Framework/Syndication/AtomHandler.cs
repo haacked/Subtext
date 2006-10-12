@@ -55,6 +55,14 @@ namespace Subtext.Framework.Syndication
 			}
 		}
 
+		/// <summary>
+		/// Returns true if the feed is the main feed.  False for category feeds and comment feeds.
+		/// </summary>
+		protected override bool IsMainfeed
+		{
+			get { return true; }
+		}
+
 		protected override void Cache(CachedFeed feed)
 		{
 			Context.Cache.Insert(CacheKey(this.SyndicationWriter.DateLastViewedFeedItemPublished), feed,null, DateTime.Now.AddSeconds((double)CacheDuration.Medium), TimeSpan.Zero);

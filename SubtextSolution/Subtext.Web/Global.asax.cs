@@ -220,7 +220,7 @@ namespace Subtext
 				}
 			}
 
-			if(!InstallationManager.IsInInstallDirectory)
+			if (!InstallationManager.IsInInstallDirectory && !InstallationManager.IsInUpgradeDirectory)
 			{
 				// User could be logging into the HostAdmin.
 				if(exception.GetType() == typeof(BlogDoesNotExistException))

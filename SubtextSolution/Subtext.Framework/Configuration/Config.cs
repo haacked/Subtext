@@ -19,7 +19,6 @@ using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
 using Subtext.Framework.Providers;
-using Subtext.Framework.Text;
 
 namespace Subtext.Framework.Configuration
 {
@@ -56,7 +55,7 @@ namespace Subtext.Framework.Configuration
 				return ConfigurationProvider.GetBlogInfo();
 			}
 		}
-
+		
 		/// <summary>
 		/// Gets the count of active blogs.
 		/// </summary>

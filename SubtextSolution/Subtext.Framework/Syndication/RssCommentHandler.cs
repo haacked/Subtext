@@ -104,6 +104,14 @@ namespace Subtext.Framework.Syndication
 		}
 
 		/// <summary>
+		/// Returns true if the feed is the main feed.  False for category feeds and comment feeds.
+		/// </summary>
+		protected override bool IsMainfeed
+		{
+			get { return false; }
+		}
+
+		/// <summary>
 		/// Gets the item created date.
 		/// </summary>
 		/// <param name="item">The item.</param>

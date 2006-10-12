@@ -988,6 +988,7 @@ BEGIN
 		, NumberOfRecentComments
 		, RecentCommentsLength
 		, AkismetAPIKey
+		, FeedBurnerName
 	FROM [<dbUser,varchar,dbo>].[subtext_Config]
 END
 ELSE
@@ -1022,6 +1023,7 @@ BEGIN
 		, NumberOfRecentComments
 		, RecentCommentsLength
 		, AkismetAPIKey
+		, FeedBurnerName
 	FROM [<dbUser,varchar,dbo>].[subtext_Config]
 	WHERE	Host = @Host
 		AND Application = @Application
@@ -2885,6 +2887,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateConfig]
 	, @NumberOfRecentComments int = NULL
 	, @RecentCommentsLength int = NULL
 	, @AkismetAPIKey varchar(16) = NULL
+	, @FeedBurnerName nvarchar(64) = NULL
 )
 AS
 UPDATE [<dbUser,varchar,dbo>].[subtext_Config]
@@ -2913,6 +2916,7 @@ Set
 	, NumberOfRecentComments = @NumberOfRecentComments
 	, RecentCommentsLength = @RecentCommentsLength
 	, AkismetAPIKey = @AkismetAPIKey
+	, FeedBurnerName = @FeedBurnerName
 WHERE BlogId = @BlogId
 
 GO
@@ -3246,6 +3250,7 @@ SELECT	blog.BlogId
 		, blog.NumberOfRecentComments
 		, blog.RecentCommentsLength
 		, blog.AkismetAPIKey
+		, blog.FeedBurnerName
 		
 FROM [<dbUser,varchar,dbo>].[subtext_config] blog
 WHERE blog.BlogId >= @FirstId
@@ -3307,6 +3312,7 @@ SELECT	blog.BlogId
 		, blog.NumberOfRecentComments
 		, blog.RecentCommentsLength
 		, blog.AkismetAPIKey
+		, blog.FeedBurnerName
 FROM [<dbUser,varchar,dbo>].[subtext_config] blog
 WHERE	blog.BlogId = @BlogId
 GO

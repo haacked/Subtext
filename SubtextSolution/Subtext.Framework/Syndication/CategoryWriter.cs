@@ -64,10 +64,5 @@ namespace Subtext.Framework.Syndication
 				this.BuildChannel(Category.Title,  Url,  info.Email,  Category.HasDescription ? Category.Description : Category.Title, info.Language, info.Author, Subtext.Framework.Configuration.Config.CurrentBlog.LicenseUrl);
 			}
 		}
-
-
-		
-
-
 	}
 }

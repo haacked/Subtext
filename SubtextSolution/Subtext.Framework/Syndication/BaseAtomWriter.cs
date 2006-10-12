@@ -26,7 +26,7 @@ namespace Subtext.Framework.Syndication
 	/// <summary>
 	/// Generates an Atom feed.
 	/// </summary>
-	public class BaseAtomWriter : BaseSyndicationWriter<Entry>
+	public abstract class BaseAtomWriter : BaseSyndicationWriter<Entry>
 	{
 
 		#region TimeHelpers
