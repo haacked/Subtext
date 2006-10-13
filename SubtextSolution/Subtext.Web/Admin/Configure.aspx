@@ -304,6 +304,56 @@
 				<label class="Block" accesskey="p" for="Edit_ddlCategoryListPostCount">Number of <u>P</u>osts in Category Lists</label>
 				<asp:DropDownList id="ddlCategoryListPostCount" runat="server"></asp:DropDownList>
 			</p>
+			<p>
+				<label class="Block" accessKey="a" for="Edit_txbNews">Static News/<u>A</u>nnouncement</label>
+				<asp:TextBox id="txbNews" runat="server" CssClass="textarea" TextMode="MultiLine"></asp:TextBox>
+			</p>
+			<p>
+				<label accessKey="w" for="Edit_ckbAllowServiceAccess">Allow <u>W</u>eb Service Access</label>
+				<asp:CheckBox id="ckbAllowServiceAccess" runat="server"></asp:CheckBox>
+			</p>
+			
+            <!--Mail to Weblog UI-->
+            <hr />
+            <p>
+                <label class="Block" accessKey="m" for="Edit_ckbPop3MailToWeblog">Enable <U>M</U>ailToWeblog 
+                <asp:CheckBox id="ckbPop3MailToWeblog" runat="server"></asp:CheckBox></label>
+            </p>
+            <p>
+                <label class="Block" accessKey="p" for="Edit_txbPop3Server"><U>P</U>op3 Server</label>
+				<asp:TextBox id="txbPop3Server" runat="server" CssClass="textinput" Width="200px">pop3.yourdomain.com</asp:TextBox>
+			</p>
+            <p>
+                <label class="Block" accessKey="r" for="Edit_txbPop3User">Pop3 Use<U>r</U> Name</label>
+				<asp:TextBox id="txbPop3User" runat="server" CssClass="textinput" Width="100px"></asp:TextBox>
+				<label class="Block" accessKey="y" for="Edit_txbPop3Password">Pop3 Password<U>Y</U></label>
+				<asp:TextBox id="txbPop3Password" runat="server" CssClass="textinput" TextMode="Password" Width="100px"></asp:TextBox>
+			</p>
+            <p>
+                <label class="Block" accessKey="f" for="Edit_txbPop3Subject">Pop3 Subject Pre<U>f</U>ix</label>
+				<asp:TextBox id="txbPop3Subject" runat="server" CssClass="textinput" Width="100px">BLOGIT</asp:TextBox>
+			</p>
+            <p>
+                <label class="Block" accessKey="g" for="Edit_txbPop3StartTag">Pop3 Start Ta<U>g</U></label>
+				<asp:TextBox id="txbPop3StartTag" runat="server" CssClass="textinput" Width="100px">startTag</asp:TextBox>&nbsp;
+				<label class="Block" accessKey="x" for="Edit_txbPop3EndTag">Pop3 End Tag<U>X</U></label>
+				<asp:TextBox id="txbPop3EndTag" runat="server" CssClass="textinput" Width="100px">endTag</asp:TextBox></p>
+            <p>
+                <label class="Block" accessKey="3" for="Edit_ckbPop3InlineAttachedPict">Pop<U>3</U> Inline Attached Pictures</label>
+                <asp:CheckBox id="ckbPop3InlineAttachedPict" runat="server"></asp:CheckBox>
+            </p>
+            <p>
+                <label class="Block" accessKey="h" for="Edit_txbPop3ThumbHeight">Pop3 Inline Attached Pictures Thumb <U>H</U>eight</label>
+	            <asp:TextBox id="txbPop3ThumbHeight" runat="server" CssClass="textinput" Width="50px">100</asp:TextBox>
+	        </p>
+            <p>
+                <label class="Block" accessKey="o" for="Edit_ckbPop3DeleteProcessedEmail">Delete Pr<U>o</U>cessed E-Mails</label>
+                <asp:CheckBox id="ckbPop3DeleteProcessedEmail" runat="server"></asp:CheckBox>
+            </p>
+            <hr />
+			<!--End of Mail to Weblog UI-->
+			<div>
+				<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Save" onclick="lkbPost_Click"></asp:Button>
 		</fieldset>
 		<div class="clear">
 			<div class="options">

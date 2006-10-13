@@ -3,7 +3,19 @@
 
 <asp:Repeater ID="CatList" Runat="server" OnItemCreated="CategoryCreated">
 	<ItemTemplate>
-		<div class="title"><asp:literal runat="server" id="Title" /></div>
+		<div class="title"><asp:literal runat="server" id="Title" />
+		<a id="titleContent" 
+			onclick="ToggleVisible('links',
+									'LinkImage',
+									'~/admin/resources/toggle_gray_up.gif',
+									'/admin/resources/toggle_gray_down.gif'); return false;"
+		href="#">
+			
+		<img id="LinkImage" 
+			src="~/admin/resources/toggle_gray_down.gif" 
+			style="border-width:0px;" />
+		
+		</div>
 		<div class="links">
 			<asp:repeater id="LinkList" runat="server" onitemcreated="LinkCreated">
 				<headertemplate>

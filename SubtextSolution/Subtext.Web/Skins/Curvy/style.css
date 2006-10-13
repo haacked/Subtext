@@ -61,7 +61,7 @@ div#footer
 	background:#CCCC66;
 	color: black;
 	clear:both;
-	font:9px;
+	font:0.1em;
 	margin-top:5px;
 	margin-bottom: 5px;
 	padding-left:10px;
@@ -155,7 +155,7 @@ div#content
 {
 	/* container for the searchbox */
 	padding-left: 3px;
-	vertical-align; middle;
+	vertical-align: middle;
 }
 #searchbox .searchinput
 {
