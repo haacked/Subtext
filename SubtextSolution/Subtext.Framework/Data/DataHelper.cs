@@ -535,6 +535,21 @@ namespace Subtext.Framework.Data
 			info.RecentCommentsLength = ReadInt32(reader, "RecentCommentsLength");
 			info.FeedbackSpamServiceKey = ReadString(reader, "AkismetAPIKey");
 			info.FeedBurnerName = ReadString(reader, "FeedBurnerName");
+            //CHANGE: MailToWeblog addition
+            //Gurkan Yeniceri
+            #region MailToWeblog settings
+            info.pop3DeleteOnlyProcessed = ReadBoolean(reader, "pop3DeleteOnlyProcessed");
+            info.pop3EndTag = ReadString(reader, "pop3EndTag");
+            info.pop3HeightForThumbs = ReadInt32(reader, "pop3HeightForThumbs");
+            info.pop3InlineAttachedPictures = ReadBoolean(reader, "pop3InlineAttachedPictures");
+            info.pop3MTBEnable = ReadBoolean(reader, "pop3MTBEnable");
+            info.pop3Pass = ReadString(reader, "pop3Pass");
+            info.pop3Server = ReadString(reader, "pop3Server");
+            info.pop3StartTag = ReadString(reader, "pop3StartTag");
+            info.pop3SubjectPrefix = ReadString(reader, "pop3SubjectPrefix");
+            info.pop3User = ReadString(reader,"pop3User");
+            #endregion MailToWeblog setting
+
 			return info;
 		}
 

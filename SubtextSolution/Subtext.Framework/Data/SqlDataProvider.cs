@@ -1060,6 +1060,7 @@ namespace Subtext.Framework.Data
 				recentCommentsLength = info.RecentCommentsLength;
 			}
 
+		    /*GY: POP3 parameters added for Mail to Weblog feature*/
 			SqlParameter[] p = 
 				{
 					DataHelper.MakeInParam("@BlogId", SqlDbType.Int,  4, DataHelper.CheckNull(info.Id))
@@ -1088,6 +1089,16 @@ namespace Subtext.Framework.Data
 					,DataHelper.MakeInParam("@RecentCommentsLength", SqlDbType.Int, 4, recentCommentsLength)
 					,DataHelper.MakeInParam("@AkismetAPIKey", SqlDbType.VarChar, 16, DataHelper.ReturnNullIfEmpty(info.FeedbackSpamServiceKey))
 					,DataHelper.MakeInParam("@FeedBurnerName", SqlDbType.NVarChar, 64, DataHelper.ReturnNullIfEmpty(info.FeedBurnerName))
+					,DataHelper.MakeInParam("@pop3User", SqlDbType.NVarChar, 50, info.pop3User)
+					,DataHelper.MakeInParam("@pop3Pass", SqlDbType.NVarChar, 20, info.pop3Pass)
+					,DataHelper.MakeInParam("@pop3Server", SqlDbType.NVarChar, 50, info.pop3Server)
+					,DataHelper.MakeInParam("@pop3StartTag", SqlDbType.NVarChar, 10, info.pop3StartTag)
+					,DataHelper.MakeInParam("@pop3EndTag", SqlDbType.NVarChar, 10, info.pop3EndTag)
+					,DataHelper.MakeInParam("@pop3SubjectPrefix", SqlDbType.NVarChar, 10, info.pop3SubjectPrefix)
+					,DataHelper.MakeInParam("@pop3MTBEnable", SqlDbType.Bit, 1, info.pop3MTBEnable)
+					,DataHelper.MakeInParam("@pop3DeleteOnlyProcessed", SqlDbType.Bit, 1, info.pop3DeleteOnlyProcessed)
+					,DataHelper.MakeInParam("@pop3InlineAttachedPictures", SqlDbType.Bit, 1, info.pop3InlineAttachedPictures)
+					,DataHelper.MakeInParam("@pop3HeightForThumbs", SqlDbType.Int, 4, info.pop3HeightForThumbs)
 				};
 
 			return NonQueryBool("subtext_UpdateConfig", p);

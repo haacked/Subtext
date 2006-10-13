@@ -14,8 +14,10 @@
 #endregion
 
 using System;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Threading;
 using System.Web;
 using log4net;
 using Subtext.Framework;
@@ -23,11 +25,17 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Services;
 
 namespace Subtext 
 {
 	public class Global : HttpApplication
 	{
+        //CHANGE: Mail To Weblog - Gurkan Yeniceri
+        private MailToWeblog mailToWeblog = null;
+        private Thread mailToWeblogThread = null;
+        //End of changes - Gurkan Yeniceri
+	    
 		//This call is to kickstart log4net.
 		//log4net Configuration Attribute is in AssemblyInfo
 		private readonly static ILog log = LogManager.GetLogger(typeof(Global));
@@ -86,6 +94,16 @@ namespace Subtext
 			log4net.Repository.Hierarchy.Hierarchy h = LogManager.GetRepository() as log4net.Repository.Hierarchy.Hierarchy;
 			EnsureLog4NetConnectionString(h);
 #endif
+            string IsMTWEnabled = ConfigurationManager.AppSettings.Get("EnableMailToWeblog");
+            if (IsMTWEnabled.ToUpper() == "TRUE")
+            {
+                mailToWeblog = new MailToWeblog();
+
+                mailToWeblogThread = new Thread(new ThreadStart(mailToWeblog.Run));
+                mailToWeblogThread.Name = "MailToWeblog";
+                mailToWeblogThread.IsBackground = true;
+                mailToWeblogThread.Start();
+            }
 		}
 
 #if DEBUG

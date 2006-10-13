@@ -108,6 +108,10 @@
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.84.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL" />
+    <Reference Include="Mail, Version=2.5.2352.26470, Culture=neutral, PublicKeyToken=6dc438ab78a525b3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ExternalDependencies\Mail.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.2379.25601, Culture=neutral" />
     <Reference Include="SgmlReaderDll, Version=1.7.2383.20436, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System">
@@ -378,6 +382,7 @@
     </Compile>
     <Compile Include="Services\AkismetSpamService.cs" />
     <Compile Include="Services\IFeedbackSpamService.cs" />
+    <Compile Include="Services\MailToWeblog.cs" />
     <Compile Include="Stats.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -538,6 +543,10 @@
     <Content Include="license.txt" />
     <Content Include="Logging\LoggingConfigurationExample.xml" />
     <EmbeddedResource Include="Util\WindowsTimeZoneCollection.xml" />
+    <None Include="Services\MailLicense.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <EmbeddedResource Include="Resources\InstallationVersions.xml" />
     <EmbeddedResource Include="Tracking\PingBackNotificatinProxy.resx">
       <DependentUpon>PingBackNotificatinProxy.cs</DependentUpon>
     </EmbeddedResource>
