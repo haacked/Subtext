@@ -546,13 +546,15 @@
     <None Include="Services\MailLicense.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <EmbeddedResource Include="Resources\InstallationVersions.xml" />
     <EmbeddedResource Include="Tracking\PingBackNotificatinProxy.resx">
       <DependentUpon>PingBackNotificatinProxy.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Tracking\WeblogsNotificatinProxy.resx">
       <DependentUpon>WeblogsNotificatinProxy.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

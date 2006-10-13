@@ -32,7 +32,6 @@ namespace Subtext.Web.Admin.Pages {
         protected Subtext.Web.Controls.HelpToolTip HelpToolTip1;
         protected System.Web.UI.WebControls.TextBox txbSecondaryCss;
         protected System.Web.UI.WebControls.TextBox txbNews;
-        protected System.Web.UI.WebControls.CheckBox ckbAllowServiceAccess;
         protected System.Web.UI.WebControls.CheckBox ckbPop3MailToWeblog;
         protected System.Web.UI.WebControls.TextBox txbPop3Server;
         protected System.Web.UI.WebControls.TextBox txbPop3User;
