@@ -304,17 +304,10 @@
 				<label class="Block" accesskey="p" for="Edit_ddlCategoryListPostCount">Number of <u>P</u>osts in Category Lists</label>
 				<asp:DropDownList id="ddlCategoryListPostCount" runat="server"></asp:DropDownList>
 			</p>
-			<p>
-				<label class="Block" accessKey="a" for="Edit_txbNews">Static News/<u>A</u>nnouncement</label>
-				<asp:TextBox id="txbNews" runat="server" CssClass="textarea" TextMode="MultiLine"></asp:TextBox>
-			</p>
-			<p>
-				<label accessKey="w" for="Edit_ckbAllowServiceAccess">Allow <u>W</u>eb Service Access</label>
-				<asp:CheckBox id="ckbAllowServiceAccess" runat="server"></asp:CheckBox>
-			</p>
-			
-            <!--Mail to Weblog UI-->
-            <hr />
+		</fieldset>
+		<fieldset class="options">
+		    <legend>Mail To Weblog Settings</legend>
+		<!--Mail to Weblog UI-->
             <p>
                 <label class="Block" accessKey="m" for="Edit_ckbPop3MailToWeblog">Enable <U>M</U>ailToWeblog 
                 <asp:CheckBox id="ckbPop3MailToWeblog" runat="server"></asp:CheckBox></label>
@@ -350,10 +343,7 @@
                 <label class="Block" accessKey="o" for="Edit_ckbPop3DeleteProcessedEmail">Delete Pr<U>o</U>cessed E-Mails</label>
                 <asp:CheckBox id="ckbPop3DeleteProcessedEmail" runat="server"></asp:CheckBox>
             </p>
-            <hr />
 			<!--End of Mail to Weblog UI-->
-			<div>
-				<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Save" onclick="lkbPost_Click"></asp:Button>
 		</fieldset>
 		<div class="clear">
 			<div class="options">
