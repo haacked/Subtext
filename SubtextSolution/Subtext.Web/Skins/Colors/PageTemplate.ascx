@@ -16,6 +16,7 @@
 				<uc1:MyLinks id="MyLinks1" runat="server"></uc1:MyLinks>
 				<uc1:News id="News1" runat="server"></uc1:News>
 				<uc1:ArchiveLinks id="ArchiveLinks1" runat="server"></uc1:ArchiveLinks>
+				<uc1:CategoryDisplay id="CategoryDisplay" runat="server"></uc1:CategoryDisplay>
 			</DT:contentregion>
 		</div>
 		<div id="blogPosts">

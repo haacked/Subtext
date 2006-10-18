@@ -23,7 +23,6 @@ using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
@@ -425,6 +424,20 @@ namespace Subtext.Framework.Components
 			set { _author = value; }
 		}
 		private string _author;
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this feedback was left by an author of the blog.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if this feedback was left by a blog author; otherwise, <c>false</c>.
+		/// </value>
+		public bool IsBlogAuthor
+		{
+			get { return this.isBlogAuthor; }
+			set { this.isBlogAuthor = value; }
+		}
+
+		bool isBlogAuthor;
 
 		public string Email
 		{

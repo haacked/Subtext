@@ -19,15 +19,12 @@ using Subtext.Framework.Components;
 
 namespace Subtext.Web.UI.Controls
 {
-	using System;
-
-
-	/// <summary>
+    /// <summary>
 	///		Summary description for CategoryDisplayByColumn.
 	/// </summary>
 	public class ArchiveLinks : CachedColumnControl
 	{
-		protected Subtext.Web.UI.Controls.CategoryList Categories;
+		protected CategoryList Categories;
 
 		protected override void OnLoad(EventArgs e)
 		{
@@ -38,11 +35,29 @@ namespace Subtext.Web.UI.Controls
 		protected ICollection<LinkCategory> GetArchiveCategories()
 		{
             List<LinkCategory> lcc = new List<LinkCategory>();
-
-			lcc.Add(UIData.Links(CategoryType.PostCollection,CurrentBlog.UrlFormats));
-			lcc.Add(UIData.Links(CategoryType.StoryCollection,CurrentBlog.UrlFormats));
-			lcc.Add(UIData.ArchiveMonth(CurrentBlog.UrlFormats));
-			lcc.Add(UIData.Links(CategoryType.ImageCollection,CurrentBlog.UrlFormats));
+		    LinkCategory lc;
+		    
+            // we want to make sure that the LinkCategory is NOT null before we add it to the collection.
+            lc = UIData.Links(CategoryType.PostCollection, CurrentBlog.UrlFormats);
+		    if (lc != null)
+		    {
+		        lcc.Add(lc);
+		    }
+            lc = UIData.Links(CategoryType.StoryCollection, CurrentBlog.UrlFormats);
+		    if (lc != null)
+		    {
+		        lcc.Add(lc);
+		    }
+			lc = UIData.ArchiveMonth(CurrentBlog.UrlFormats);
+            if (lc != null)
+            {
+                lcc.Add(lc);
+            }
+			lc = UIData.Links(CategoryType.ImageCollection,CurrentBlog.UrlFormats);
+            if (lc != null)
+            {
+                lcc.Add(lc);
+            }
 			return lcc;
 		}
 

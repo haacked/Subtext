@@ -2,6 +2,7 @@ using System;
 using System.Web;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework;
+using Subtext.Framework.Web;
 
 namespace Subtext.Web.HttpModules
 {
@@ -45,8 +46,7 @@ namespace Subtext.Web.HttpModules
 		public void CheckInstallationStatus(object sender, EventArgs e)
 		{
 			//Bypass for static files.
-			string absPath = HttpContext.Current.Request.Url.AbsolutePath;
-			if (!absPath.EndsWith(".aspx"))
+			if (HttpHelper.IsStaticFileRequest())
 				return;
 			
 			// Want to redirect to install if installation is required, 

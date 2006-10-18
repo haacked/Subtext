@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
 
@@ -20,15 +21,12 @@ using Subtext.Framework.Components;
 
 namespace Subtext.Web.UI.Controls
 {
-	using System;
-
-
-	/// <summary>
+    /// <summary>
 	///		Summary description for CategoryDisplayByColumn.
 	/// </summary>
 	public  class CategoryList : BaseControl
 	{
-		protected System.Web.UI.WebControls.Repeater CatList;
+		protected Repeater CatList;
 
         private ICollection<LinkCategory> lcc;
         public ICollection<LinkCategory> LinkCategories
@@ -48,10 +46,9 @@ namespace Subtext.Web.UI.Controls
 			}
 			else
 			{
-				this.Controls.Clear();
-				this.Visible = false;
+				Controls.Clear();
+				Visible = false;
 			}
-
 		}
 
 		protected void CategoryCreated(object sender, RepeaterItemEventArgs e)
@@ -107,7 +104,7 @@ namespace Subtext.Web.UI.Controls
 							RssLink.Visible = true;
 							if(RssLink.ToolTip == null || RssLink.ToolTip.Length == 0)
 							{
-								RssLink.ToolTip = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Subscribe to {0}", link.Title);
+								RssLink.ToolTip = string.Format(CultureInfo.InvariantCulture, "Subscribe to {0}", link.Title);
 							}
 						}
 					}

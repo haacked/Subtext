@@ -4,6 +4,8 @@
 <%@ Register TagName="Footer" TagPrefix="origami" Src="Controls/Footer.ascx" %>
 <%@ Register TagPrefix="origami" TagName="SingleColumn" Src="Controls/SingleColumn.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="News" Src="Controls/News.ascx" %>
+<%@ Register TagPrefix="uc1" TagName="MyLinks" Src="Controls/MyLinks.ascx" %>
+<%@ Import Namespace="Subtext.Framework.Configuration" %>
 <script type="text/javascript">setUserStyles();</script>
   <!--[if IE]>
   <link href="skins/origami/Styles/core-IE.css?" media="screen" rel="Stylesheet" type="text/css" />
@@ -27,7 +29,7 @@
                         <div class="sidebar-node">
 							<uc1:News ID="news" runat="server" />
 							<ul>
-                                <li><a href="~/contact.aspx" runat="server">Contact</a> </li>
+                                <li><uc1:MyLinks ID="myLinks1" runat="Server" /></li>
                             </ul>
                         </div>
                         <origami:SingleColumn id="column" runat="server" />

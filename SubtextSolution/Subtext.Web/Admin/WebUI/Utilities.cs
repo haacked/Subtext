@@ -21,7 +21,6 @@ using System.Text;
 using System.Web;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
-using Subtext.Framework.Text;
 using Subtext.Framework.Web;
 
 namespace Subtext.Web.Admin

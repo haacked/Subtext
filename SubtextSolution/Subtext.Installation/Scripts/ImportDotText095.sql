@@ -33,7 +33,7 @@ INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subt
 	, Title
 	, SubTitle
 	, Skin
-	, Application
+	, [Application]
 	, Host
 	, Author
 	, TimeZone
@@ -63,7 +63,7 @@ INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subt
 		, Title
 		, SubTitle
 		, Skin
-		, Application
+		, [Application]
 		, Host
 		, Author
 		, TimeZone
@@ -97,19 +97,15 @@ GO
 -- subtext_Content
 SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Content] ON
 INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Content] 
-( [ID], Title, DateAdded, SourceUrl, PostType, Author, Email, SourceName, BlogId, [Description],
-	DateUpdated, TitleUrl, Text, ParentID, FeedBackCount, PostConfig, EntryName, 
-	ContentChecksumHash, DateSyndicated )
+( [ID], Title, DateAdded, PostType, Author, Email, BlogId, [Description],
+	DateUpdated, [Text], FeedBackCount, PostConfig, EntryName, 
+	DateSyndicated )
 	SELECT 
-		[ID], Title, DateAdded, SourceUrl, PostType, Author, Email, SourceName, BlogId, [Description],
-		DateUpdated, TitleUrl, Text, ParentID, ISNULL(FeedBackCount, 0), PostConfig, EntryName, null, DateUpdated 
+		[ID], Title, DateAdded, PostType, Author, Email, BlogId, [Description],
+		DateUpdated, [Text], ISNULL(FeedBackCount, 0), PostConfig, EntryName, DateUpdated 
 	FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_Content]
-	WHERE (PostType <> 3 AND PostType <> 4) -- don't insert comments or track/ping backs, they go in the subtext_Feedback table
+	WHERE (PostType <> 3 AND PostType <> 4) -- don't insert comments or track/ping backs, they belong in the subtext_Feedback table
 SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Content] OFF
-GO
-
-UPDATE [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Content]
-SET ParentID = NULL WHERE ParentID = -1
 GO
 
 UPDATE [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Content] 
@@ -124,19 +120,22 @@ GO
 -- subtext_Feedback
 SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Feedback] ON 
 INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Feedback]
-SELECT [ID]
+    ([Id],[Title],[Body],[BlogId],[EntryId],[Author], [IsBlogAuthor], [Email], [Url], [FeedbackType], [StatusFlag],
+        [CommentAPI], [Referrer], [IpAddress], [UserAgent], [FeedbackChecksumHash], [DateCreated], [DateModified])
+SELECT [Id] = [ID]
     , Title
 	, Body = [Text]
 	, BlogId = BlogID
 	, EntryId = ParentID
 	, Author
+	, 0
 	, Email
 	, Url = TitleUrl
 	, FeedbackType = CASE PostConfig WHEN 3 THEN 1 ELSE 2 END
 	, StatusFlag = 1
 	, CommentAPI = 0
 	, Referrer = NULL
-	, IpAddress = SourceName
+	, IpAddress = SUBSTRING(SourceName,0,16)
 	, UserAgent = NULL
 	, FeedbackChecksumHash = ''
 	, DateCreated = DateAdded
@@ -145,6 +144,10 @@ FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog
 WHERE (PostType = 3 OR PostType = 4) -- Comment or PingBack
 	
 SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Feedback] OFF
+GO
+
+UPDATE [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Feedback]
+SET EntryId = NULL WHERE EntryId = -1
 GO
 
 -- subtext_EntryViewCount
@@ -266,13 +269,14 @@ INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subt
         EntryID, BlogId, UrlID, [Count], LastUpdated
     FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_Referrals] 
         WHERE UrlID IN (SELECT UrlID FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_URLs])
+        AND EntryId IN (SELECT [ID] FROM [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Content])
 GO
 
 -- Now we need to do a little "cleanup" to remove any references to comments/trackback from 
 -- the subtext_Referrals table.
 DELETE FROM [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Referrals]  
 	WHERE EXISTS (SELECT * FROM [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Content] sC 
-		WHERE (sc.PostType = 3 OR sC.PostType = 4) AND [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Referrals].EntryID = sc.ID)
+		WHERE (sc.PostType = 3 OR sC.PostType = 4) AND [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_Referrals].EntryID = sc.[ID])
 GO
 
 

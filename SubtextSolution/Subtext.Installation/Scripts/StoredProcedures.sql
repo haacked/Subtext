@@ -318,6 +318,10 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,
 drop procedure [<dbUser,varchar,dbo>].[subtext_InsertFeedback]
 GO
 
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_UpdateFeedbackCount]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_UpdateFeedbackCount]
+GO
+
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_UpdateFeedback]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_UpdateFeedback]
 GO
@@ -402,6 +406,10 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,
 drop procedure [<dbUser,varchar,dbo>].subtext_GetPostsByCategoriesArchive
 GO
 
+if exists (select ROUTINE_NAME from INFORMATION_SCHEMA.ROUTINES where ROUTINE_TYPE = 'PROCEDURE' and OBJECTPROPERTY(OBJECT_ID(ROUTINE_NAME), 'IsMsShipped') = 0 and ROUTINE_SCHEMA = '<dbUser,varchar,dbo>' AND ROUTINE_NAME = 'subtext_ClearBlogContent')
+drop procedure [<dbUser,varchar,dbo>].[subtext_ClearBlogContent]
+GO
+
 SET QUOTED_IDENTIFIER OFF 
 GO
 SET ANSI_NULLS OFF 
@@ -458,7 +466,60 @@ SET QUOTED_IDENTIFIER OFF
 GO
 SET ANSI_NULLS ON 
 GO
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateFeedbackCount]
+(
+	@BlogId int
+	,@EntryId int
+)
+AS
+	-- Update the entry comment count.
+	UPDATE [<dbUser,varchar,dbo>].[subtext_Content] 
+	SET [<dbUser,varchar,dbo>].[subtext_Content].FeedbackCount = 
+		(
+			SELECT COUNT(1) 
+			FROM  [<dbUser,varchar,dbo>].[subtext_Feedback] f  WITH (NOLOCK)
+			WHERE f.EntryId = @EntryId 
+				AND f.StatusFlag & 1 = 1
+		)
+	WHERE Id = @EntryId
 
+	-- Update the blog comment count.
+	UPDATE [dbo].[subtext_Config] 
+	SET CommentCount = 
+		(
+			SELECT COUNT(1) 
+			FROM  [dbo].[subtext_Feedback] f WITH (NOLOCK)
+			WHERE f.BlogId = @BlogId
+				AND f.StatusFlag & 1 = 1
+				AND f.FeedbackType = 1
+		)
+	WHERE BlogId = @BlogId
+	
+	-- Update the blog trackback count.
+	UPDATE [dbo].[subtext_Config] 
+	SET PingTrackCount = 
+		(
+			SELECT COUNT(1) 
+			FROM  [dbo].[subtext_Feedback] f WITH (NOLOCK)
+			WHERE f.BlogId = @BlogId
+				AND f.StatusFlag & 1 = 1
+				AND f.FeedbackType = 2
+		)
+	WHERE BlogId = @BlogId
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_UpdateFeedbackCount] TO [public]
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
 
 CREATE PROC [<dbUser,varchar,dbo>].[subtext_DeleteCategory]
 (
@@ -661,14 +722,13 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_DeleteFeedback]
 AS
 
 DECLARE @EntryId int
+DECLARE @BlogId int
 
-SELECT @EntryId = EntryId FROM [<dbUser,varchar,dbo>].[subtext_Feedback] WHERE [Id] = @Id
-
-UPDATE [<dbUser,varchar,dbo>].[subtext_Content] 
-SET FeedbackCount = FeedbackCount - 1
-WHERE ID = @EntryId
+SELECT @EntryId = EntryId, @BlogId = BlogId FROM [<dbUser,varchar,dbo>].[subtext_Feedback] WHERE [Id] = @Id
 
 DELETE [<dbUser,varchar,dbo>].[subtext_Feedback] WHERE [Id] = @Id
+
+exec [<dbUser,varchar,dbo>].[subtext_UpdateFeedbackCount] @BlogId, @EntryId
 GO
 
 GO
@@ -1126,6 +1186,7 @@ AS
 		, f.BlogId
 		, f.EntryId
 		, f.Author
+		, f.IsBlogAuthor
 		, f.Email
 		, f.Url
 		, f.FeedbackType
@@ -1173,6 +1234,7 @@ AS
 		, f.BlogId
 		, f.EntryId
 		, f.Author
+		, f.IsBlogAuthor
 		, f.Email
 		, f.Url
 		, f.FeedbackType
@@ -1590,6 +1652,7 @@ SELECT  f.Id
 		, f.BlogId
 		, f.EntryId
 		, f.Author
+		, f.IsBlogAuthor
 		, f.Email
 		, f.Url
 		, f.FeedbackType
@@ -2910,14 +2973,15 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateConfig]
 	, @RecentCommentsLength int = NULL
 	, @AkismetAPIKey varchar(16) = NULL
 	, @FeedBurnerName nvarchar(64) = NULL
-	, @pop3Pass nvarchar (20)
-	, @pop3Server nvarchar (50)
-	, @pop3StartTag nvarchar (10)
-	, @pop3EndTag nvarchar (10)
-	, @pop3SubjectPrefix nvarchar (10)
-	, @pop3MTBEnable bit
-	, @pop3DeleteOnlyProcessed bit
-	, @pop3InlineAttachedPictures bit
+	, @pop3User varchar(32) = NULL
+	, @pop3Pass varchar(32) = NULL
+	, @pop3Server varchar(56) = NULL
+	, @pop3StartTag varchar(10) = NULL
+	, @pop3EndTag varchar(10) = NULL
+	, @pop3SubjectPrefix nvarchar(10) = NULL
+	, @pop3MTBEnable bit = NULL
+	, @pop3DeleteOnlyProcessed bit = NULL
+	, @pop3InlineAttachedPictures bit = NULL
 	, @pop3HeightForThumbs int = NULL
 )
 AS
@@ -3402,6 +3466,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertFeedback]
 	, @BlogId int
 	, @EntryId int = NULL
 	, @Author nvarchar(128) = NULL
+	, @IsBlogAuthor bit = 0
 	, @Email varchar(128) = NULL
 	, @Url varchar(256) = NULL
 	, @FeedbackType int
@@ -3422,6 +3487,7 @@ INSERT INTO [<dbUser,varchar,dbo>].[subtext_Feedback]
 	, BlogId
 	, EntryId
 	, Author
+	, IsBlogAuthor
 	, Email
 	, Url
 	, FeedbackType
@@ -3441,6 +3507,7 @@ VALUES
 	, @BlogId
 	, @EntryId
 	, @Author
+	, @IsBlogAuthor
 	, @Email
 	, @Url
 	, @FeedbackType
@@ -3456,16 +3523,9 @@ VALUES
 
 SELECT @Id = SCOPE_IDENTITY()
 
--- Update the entry comment count.
-UPDATE [dbo].[subtext_Content] 
-SET [dbo].[subtext_Content].FeedbackCount = 
-	(
-		SELECT COUNT(1) 
-		FROM  [dbo].[subtext_Feedback] f WITH (NOLOCK)
-		WHERE f.EntryId = @EntryId 
-			AND f.StatusFlag & 1 = 1
-	)
-WHERE Id = @EntryId
+exec [<dbUser,varchar,dbo>].[subtext_UpdateFeedbackCount] @BlogId, @EntryId
+
+
 GO
 SET QUOTED_IDENTIFIER OFF 
 GO
@@ -3495,7 +3555,8 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateFeedback]
 AS
 
 DECLARE @EntryId int
-SELECT @EntryId = EntryId FROM [<dbUser,varchar,dbo>].[subtext_Feedback] WHERE Id = @Id
+DECLARE @BlogId int
+SELECT @EntryId = EntryId, @BlogId = BlogId FROM [<dbUser,varchar,dbo>].[subtext_Feedback] WHERE Id = @Id
 
 UPDATE [<dbUser,varchar,dbo>].[subtext_Feedback]
 SET	Title = @Title
@@ -3508,17 +3569,7 @@ SET	Title = @Title
 	, DateModified = @DateModified
 WHERE Id = @Id
 
--- Update the entry comment count.
-UPDATE [<dbUser,varchar,dbo>].[subtext_Content] 
-SET [<dbUser,varchar,dbo>].[subtext_Content].FeedbackCount = 
-	(
-		SELECT COUNT(1) 
-		FROM  [<dbUser,varchar,dbo>].[subtext_Feedback] f  WITH (NOLOCK)
-		WHERE f.EntryId = @EntryId 
-			AND f.StatusFlag & 1 = 1
-	)
-WHERE Id = @EntryId
-
+exec [<dbUser,varchar,dbo>].[subtext_UpdateFeedbackCount] @BlogId, @EntryId
 
 GO
 SET QUOTED_IDENTIFIER OFF 
@@ -3632,6 +3683,7 @@ SELECT TOP 1 f.Title
 		, f.BlogId
 		, f.EntryId
 		, f.Author
+		, f.IsBlogAuthor
 		, f.Email
 		, f.Url
 		, f.FeedbackType
@@ -4243,6 +4295,7 @@ SELECT	f.[Id]
 		, BlogId
 		, EntryId
 		, Author
+		, IsBlogAuthor
 		, Email
 		, Url
 		, FeedbackType
@@ -4266,6 +4319,7 @@ SELECT	f.[Id]
 		, BlogId
 		, EntryId
 		, Author
+		, IsBlogAuthor
 		, Email
 		, Url
 		, FeedbackType
@@ -4369,4 +4423,35 @@ SET ANSI_NULLS ON
 GO
 
 GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetBlogKeyWords]  TO [public]
+GO
+
+
+/*	ClearBlogContent - used to delete all content (Entries, Comments, Track/Ping-backs, Statistices, etc...)
+	for a given blog (sans the Image Galleries). Used from the Admin -> Import/Export Page.
+*/
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_ClearBlogContent]
+	@BlogId int
+AS
+DELETE FROM [<dbUser,varchar,dbo>].subtext_Referrals WHERE BlogId = @BlogId
+DELETE FROM [<dbUser,varchar,dbo>].subtext_Log WHERE BlogId = @BlogId
+DELETE FROM [<dbUser,varchar,dbo>].subtext_Links WHERE BlogId = @BlogId
+--DELETE FROM [<dbUser,varchar,dbo>].subtext_Images WHERE BlogId = @BlogId  -- Don't want to wipe out the images this way b/c that would leave them on the disk.
+DELETE FROM [<dbUser,varchar,dbo>].subtext_LinkCategories WHERE BlogId = @BlogId AND CategoryType <> 3 -- We're not doing Image Galleries.
+DELETE FROM [<dbUser,varchar,dbo>].subtext_KeyWords WHERE BlogId = @BlogId
+DELETE FROM [<dbUser,varchar,dbo>].subtext_EntryViewCount WHERE BlogId = @BlogId
+DELETE FROM [<dbUser,varchar,dbo>].subtext_FeedBack WHERE BlogId = @BlogId
+DELETE FROM [<dbUser,varchar,dbo>].subtext_Content WHERE BlogId = @BlogId
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_ClearBlogContent]  TO [public]
 GO

@@ -218,10 +218,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Akismet\AkismetApiTests.cs" />
-    <Compile Include="AssemblyInfo.cs">
-      <SubType>Code</SubType>
+    <Compile Include="..\SolutionInfo.cs">
+      <Link>SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="..\VersionInfo.Designer.cs">
+      <Link>VersionInfo.Designer.cs</Link>
+    </Compile>
+    <Compile Include="Akismet\AkismetApiTests.cs" />
     <Compile Include="AssemblySetUpAndCleanUp.cs" />
     <Compile Include="BlogMl\BlogMlImportTests.cs" />
     <Compile Include="BlogMl\BlogMLReaderTests.cs" />

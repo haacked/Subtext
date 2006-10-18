@@ -8,6 +8,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Web;
+using Subtext.Web.Controls.Captcha;
 
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,6 +39,8 @@ namespace Subtext.Web.UI.Controls
 		protected RequiredFieldValidator RequiredFieldValidator2;
 		protected TextBox tbEmail;
 		protected TextBox tbName;
+		protected InvisibleCaptcha invisibleCaptchaValidator;
+		protected CaptchaControl captcha;
 
 		/// <summary>
 		/// Initializes the control.  Sets up the send button's 
@@ -47,6 +50,14 @@ namespace Subtext.Web.UI.Controls
 		override protected void OnInit(EventArgs e)
 		{
 			this.btnSend.Click += new EventHandler(this.btnSend_Click);
+
+			//Captcha should not be given to admin.
+			if (!Security.IsAdmin)
+			{
+				int btnIndex = Controls.IndexOf(this.btnSend);
+				AddCaptchaIfNecessary(ref captcha, ref invisibleCaptchaValidator, btnIndex);
+			}
+			
 			base.OnInit(e);
 		}
 		

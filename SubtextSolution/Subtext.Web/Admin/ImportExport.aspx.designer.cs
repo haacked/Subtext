@@ -19,5 +19,9 @@ namespace Subtext.Web.Admin.Pages {
         protected System.Web.UI.WebControls.RequiredFieldValidator blogMLFileRequired;
         protected System.Web.UI.HtmlControls.HtmlInputFile importBlogMLFile;
         protected System.Web.UI.WebControls.Button btnLoad;
+        protected System.Web.UI.WebControls.Panel uppnlClearContent;
+        protected Subtext.Web.Admin.WebUI.MessagePanel msgpnlClearContent;
+        protected System.Web.UI.WebControls.CheckBox chkClearContent;
+        protected System.Web.UI.WebControls.Button btnClearContent;
     }
 }

@@ -30,6 +30,7 @@ namespace Subtext.Web.Pages
 	
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
+			Response.Clear();
 			if (!IsPostBack)
 			{				
 				try

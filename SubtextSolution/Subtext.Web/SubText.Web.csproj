@@ -936,7 +936,7 @@
     <Content Include="HostAdmin\Queue.aspx" />
     <Content Include="HostAdmin\Scripts\helptip.css" />
     <Content Include="HostAdmin\Scripts\helptip.js" />
-    <Content Include="HostAdmin\style\Style.css" />
+    <Content Include="HostAdmin\styles\Style.css" />
     <Content Include="HostAdmin\Upgrade\Default.aspx">
       <SubType>Form</SubType>
     </Content>

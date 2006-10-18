@@ -13,9 +13,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-using System;
 using System.Reflection;
-
 [assembly: AssemblyCompany("Subtext")]
 [assembly: AssemblyProduct("Subtext Blog Engine")]
 [assembly: AssemblyCopyright("Copyright (c) 2005 - 2006 Subtext Project Team - BSD License")]
