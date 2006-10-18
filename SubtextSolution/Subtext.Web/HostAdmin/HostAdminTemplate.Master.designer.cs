@@ -12,7 +12,6 @@ namespace Subtext.Web.HostAdmin {
     
     public partial class HostAdminTemplate {
         protected System.Web.UI.HtmlControls.HtmlLink lnkStyleSheet;
-        protected System.Web.UI.HtmlControls.HtmlLink lnkDropShadow;
         protected System.Web.UI.HtmlControls.HtmlLink lnkCsharp;
         protected System.Web.UI.HtmlControls.HtmlLink lknCommon;
         protected System.Web.UI.HtmlControls.HtmlLink lnkHelpTipCss;

@@ -18,6 +18,7 @@ using log4net;
 using Subtext.BlogML;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Providers;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -32,7 +33,7 @@ namespace Subtext.Web.Admin.Pages
 	
 	    public ImportExportPage() : base()
 	    {
-            this.TabSectionId = "ImportExport";
+            TabSectionId = "ImportExport";
 	    }
 	    
 		protected void Page_Load(object sender, EventArgs e)
@@ -62,10 +63,10 @@ namespace Subtext.Web.Admin.Pages
 
 		protected void btnSave_Click(object sender, EventArgs e)
 		{
-			Response.Redirect("Handlers/BlogMLExport.ashx?embed=" + this.chkEmbedAttach.Checked);
+			Response.Redirect("Handlers/BlogMLExport.ashx?embed=" + chkEmbedAttach.Checked);
 		}
 
-		protected void btnLoad_Click(object sender, System.EventArgs e)
+		protected void btnLoad_Click(object sender, EventArgs e)
 		{
 			if(Page.IsValid)
 				LoadBlogML();
@@ -78,7 +79,7 @@ namespace Subtext.Web.Admin.Pages
 			
 			try
 			{
-                bmlReader.ReadBlog(this.importBlogMLFile.PostedFile.InputStream);
+                bmlReader.ReadBlog(importBlogMLFile.PostedFile.InputStream);
 			}
 			catch(BlogImportException bie)
 			{
@@ -87,12 +88,34 @@ namespace Subtext.Web.Admin.Pages
 			}
 		    finally
 			{
-			    this.importBlogMLFile.PostedFile.InputStream.Close();
+			    importBlogMLFile.PostedFile.InputStream.Close();
 			}
 
 			if(!errOccured)
 				Messages.ShowMessage("The BlogML file was successfully imported!");
 		}
+
+        protected void btnClearContent_Click(object sender, EventArgs e)
+        {
+            if (chkClearContent.Checked)
+            {
+                chkClearContent.Checked = false;
+                chkClearContent.Visible = false;
+                btnClearContent.Visible = false;
+                
+                if (DbProvider.Instance().ClearBlogContent())
+                {
+                    msgpnlClearContent.ShowMessage("Success! The content has been obliterated!");
+                }
+                else
+                {
+                    msgpnlClearContent.ShowMessage("There was nothing to be cleared, or the attempt to clear failed.");
+                }
+            }
+            else
+                msgpnlClearContent.ShowError(@"You need to check the ""Clear Content"" checkbox to continue.");
+        }
 	}
 }
+
 

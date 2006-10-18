@@ -15,13 +15,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Configuration.Provider;
 using System.Data;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
-using System.Configuration.Provider;
 
 namespace Subtext.Framework.Providers
 {
@@ -60,7 +61,7 @@ namespace Subtext.Framework.Providers
 		/// </summary>
 		/// <param name="name">Friendly Name of the provider.</param>
 		/// <param name="configValue">Config value.</param>
-		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
+		public override void Initialize(string name, NameValueCollection configValue)
 		{
             _connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", configValue);
             base.Initialize(name, configValue);
@@ -74,8 +75,8 @@ namespace Subtext.Framework.Providers
 		public string ConnectionString
 		{
 			//TODO: Make this protected.
-			get {return this._connectionString;}
-			set {this._connectionString = value;}
+			get {return _connectionString;}
+			set {_connectionString = value;}
 		}
 
 		#region DbProvider specific methods
@@ -385,6 +386,16 @@ namespace Subtext.Framework.Providers
 		public abstract void ClearLog();
 		public abstract IDataReader GetPagedViewStats(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate);
 		public abstract IDataReader GetPagedReferrers(int pageIndex, int pageSize, int entryId);
+	    
+	    /// <summary>
+	    /// Clears all content (Entries, Comments, Track/Ping-backs, Statistices, etc...) 
+	    /// for a the current blog (sans the Image Galleries).
+	    /// </summary>
+	    /// <returns>
+	    ///     TRUE - At least one unit of content was cleared.
+	    ///     FALSE - No content was cleared.
+	    /// </returns>
+        public abstract bool ClearBlogContent();
 
 		#endregion
 

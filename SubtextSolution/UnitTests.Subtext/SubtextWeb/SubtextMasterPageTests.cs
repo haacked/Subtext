@@ -35,6 +35,7 @@ namespace UnitTests.Subtext.SubtextWeb
 		[Row("~/style/test.css", "Subtext.Web", "/Anything/", @"/Subtext.Web/style/test.css")]
 		[Row("~/style/test.css", "", "/Anything/", "/style/test.css")]
 		[Row("/style/test.css", "Subtext.Web", "/Anything/", "/style/test.css")]
+		[Row("http://haacked.com/style/test.css", "Subtext.Web", "/Anything/", "http://haacked.com/style/test.css")]
 		public void GetStylesheetHrefPathRendersAppropriatePath(string src, string virtualDir, string skinPath, string expected)
 		{
 			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "Anything", virtualDir);

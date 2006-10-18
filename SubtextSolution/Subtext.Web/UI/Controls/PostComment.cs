@@ -25,8 +25,6 @@ using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
-using Subtext.Web.Controls;
-using Subtext.Web.Controls.Captcha;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -147,55 +145,29 @@ namespace Subtext.Web.UI.Controls
 		/// </summary>
 		private void InitializeComponent()
 		{
-			int btnIndex = 0;
-			
 			if(this.btnSubmit != null)
 			{
 				this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
-				btnIndex = Controls.IndexOf(btnSubmit);
 			}
 
 			if(this.btnCompliantSubmit != null)
 			{
 				this.btnCompliantSubmit.Click += new EventHandler(this.btnSubmit_Click);
-				btnIndex = Controls.IndexOf(btnCompliantSubmit);
 			}
 
 			//Captcha should not be given to admin.
 			if (!Security.IsAdmin)
 			{
-				if (Config.CurrentBlog.CaptchaEnabled)
-				{
-					captcha = new CaptchaControl();
-					captcha.ID = "captcha";
-					Control preExisting = ControlHelper.FindControlRecursively(this, "captcha");
-					if (preExisting == null) // && !Config.CurrentBlog.FeedbackSpamServiceEnabled) Experimental code for improved UI. Will put back in later. - Phil Haack 10/09/2006
-					{
-						Controls.AddAt(btnIndex, captcha);
-					}
-					
-					/*
-					* Experimental code for improved UI. Will put back in later.
-					*		- Phil Haack Removed 10/09/2006
-					if(Config.CurrentBlog.FeedbackSpamServiceEnabled)
-					{
-						// Set up this button just in case we need to show it.
-						if (btnConfirm == null)
-							btnConfirm = new Button();
-						btnConfirm.ID = "btnConfirm";
-						btnConfirm.Text = "Confirm";
-						btnConfirm.Visible = true;
-						Controls.AddAt(btnIndex, btnConfirm);
-						btnConfirm.Click += new EventHandler(btnConfirm_Click);
-					}*/
-				}
+				int btnIndex = 0;
+				btnIndex = Controls.IndexOf(this.btnSubmit);
+				if (btnIndex < 0)
+					btnIndex = Controls.IndexOf(this.btnCompliantSubmit);
 
-				invisibleCaptchaValidator = new InvisibleCaptcha();
-				invisibleCaptchaValidator.ErrorMessage = "Please enter the answer to the supplied question.";
-
-				Controls.AddAt(btnIndex, invisibleCaptchaValidator);
+				AddCaptchaIfNecessary(ref captcha, ref invisibleCaptchaValidator, btnIndex);
 			}
 		}
+
+		
 		#endregion
 
 		private void btnSubmit_Click(object sender, EventArgs e)
@@ -344,6 +316,7 @@ namespace Subtext.Web.UI.Controls
 			feedbackItem.Title = this.tbTitle.Text;
 			feedbackItem.EntryId = currentEntry.Id;
 			feedbackItem.IpAddress = HttpHelper.GetUserIpAddress(Context);
+			feedbackItem.IsBlogAuthor = Security.IsAdmin;
 			return feedbackItem;
 		}
 

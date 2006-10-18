@@ -327,13 +327,19 @@ namespace Subtext.Web.UI.Pages
 			    return element;
 			}
 
+			/// <summary>
+			/// Gets the stylesheet href path.
+			/// </summary>
+			/// <param name="skinPath">The skin path.</param>
+			/// <param name="style">The style.</param>
+			/// <returns></returns>
 			public static string GetStylesheetHrefPath(string skinPath, Style style)
 			{
 				if(style.Href.StartsWith("~"))
 				{
 					return ControlHelper.ExpandTildePath(style.Href);
 				}
-				else if(style.Href.StartsWith("/"))
+				else if(style.Href.StartsWith("/") || style.Href.StartsWith("http://") || style.Href.StartsWith("https://"))
 				{
 					return style.Href;
 				}

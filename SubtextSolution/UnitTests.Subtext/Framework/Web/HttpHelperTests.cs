@@ -29,5 +29,24 @@ namespace UnitTests.Subtext.Framework.Web
 
 			Assert.AreEqual(expectedDate, HttpHelper.GetIfModifiedSinceDateUTC());
 		}
+		
+		[RowTest]
+		[Row("test.css", true)]
+		[Row("test.js", true)]
+		[Row("test.png", true)]
+		[Row("test.gif", true)]
+		[Row("test.jpg", true)]
+		[Row("test.html", true)]
+		[Row("test.xml", true)]
+		[Row("test.htm", true)]
+		[Row("test.txt", true)]
+		[Row("test.aspx", false)]
+		[Row("test.asmx", false)]
+		[Row("test.ashx", false)]
+		public void CanDeterimineIsStaticFileRequest(string filename, bool expected)
+		{
+			UnitTestHelper.SetHttpContextWithBlogRequest("localhost", "", "", filename);
+			Assert.AreEqual(expected, HttpHelper.IsStaticFileRequest());
+		}
 	}
 }

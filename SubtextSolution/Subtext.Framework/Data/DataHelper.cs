@@ -299,6 +299,7 @@ namespace Subtext.Framework.Data
 			feedbackItem.Body = ReadString(reader, "Body");
 			feedbackItem.EntryId = ReadInt32(reader, "EntryId");
 			feedbackItem.Author = ReadString(reader, "Author");
+			feedbackItem.IsBlogAuthor = ReadBoolean(reader, "IsBlogAuthor");
 			feedbackItem.Email = ReadString(reader, "Email");
 			feedbackItem.SourceUrl = ReadUri(reader, "Url");
 			feedbackItem.FeedbackType = (FeedbackType)ReadInt32(reader, "FeedbackType");

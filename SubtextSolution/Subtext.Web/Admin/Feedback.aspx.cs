@@ -196,8 +196,10 @@ namespace Subtext.Web.Admin.Pages
 		protected string GetTitle(object dataItem)
 		{
 			FeedbackItem feedbackItem = (FeedbackItem)dataItem;
-			if (feedbackItem.SourceUrl != null)
-				return string.Format(@"<a href=""{0}"" title=""{0}"">{1}</a>", feedbackItem.SourceUrl, feedbackItem.Title);
+			if (feedbackItem.DisplayUrl != null)
+			{
+				return string.Format(@"<a href=""{0}"" title=""{0}"">{1}</a>", feedbackItem.DisplayUrl, feedbackItem.Title);
+			}
 
 			return feedbackItem.Title;
 		}
@@ -218,7 +220,7 @@ namespace Subtext.Web.Admin.Pages
 				authorInfo += string.Format(@"<a href=""mailto:{0}"" title=""{0}""><img src=""{1}"" alt=""{0}"" border=""0"" class=""email"" /></a>", feedback.Email, ControlHelper.ExpandTildePath("~/images/email.gif"));
 			}
 
-			if (feedback.SourceUrl == null)
+			if (feedback.SourceUrl != null)
 			{
 				authorInfo += string.Format(@"<a href=""{0}"" title=""{0}""><img src=""{1}"" alt=""{0}"" border=""0"" /></a>", feedback.SourceUrl, ControlHelper.ExpandTildePath("~/images/permalink.gif"));
 			}

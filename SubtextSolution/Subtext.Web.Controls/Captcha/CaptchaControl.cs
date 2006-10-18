@@ -44,6 +44,13 @@ namespace Subtext.Web.Controls.Captcha
             return false;
         }
 
+		/// <summary>
+		/// When overridden in a derived class, this method contains the code to determine 
+		/// whether the value in the input control is valid.
+		/// </summary>
+		/// <returns>
+		/// true if the value in the input control is valid; otherwise, false.
+		/// </returns>
     	protected override bool EvaluateIsValid()
     	{
 			bool isValid = base.EvaluateIsValid();

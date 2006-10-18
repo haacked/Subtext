@@ -76,6 +76,9 @@ namespace Subtext
 		private const string BadConnectionStringPage = "~/SystemMessages/CheckYourConnectionString.aspx";
 		private const string DatabaseLoginFailedPage = "~/SystemMessages/DatabaseLoginFailed.aspx";
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Global"/> class.
+		/// </summary>
 		public Global()
 		{
 			InitializeComponent();
@@ -153,6 +156,11 @@ namespace Subtext
 			Log.SetBlogIdContext(NullValue.NullInt32);
 		}
 
+		/// <summary>
+		/// Handles the EndRequest event of the Application control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		protected void Application_EndRequest(Object sender, EventArgs e)
 		{
 			#region Debug Information
@@ -199,6 +207,11 @@ namespace Subtext
 			//Handled by Subtext.Web.HttpModules.AuthenticationModule in Subtext.Framework.
 		}
 
+		/// <summary>
+		/// Handles the Error event of the Application control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		protected void Application_Error(Object sender, EventArgs e)
 		{
 			Exception exception = Server.GetLastError();
@@ -301,6 +314,11 @@ namespace Subtext
 			}
 		}
 
+		/// <summary>
+		/// Handles the End event of the Session control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		protected void Session_End(Object sender, EventArgs e)
 		{
 
@@ -311,6 +329,11 @@ namespace Subtext
 		private static string message = "{0}{1}<br />Subtext Version: {2}<br />Machine Name: {3}<br />.NET Version: {4}<br />{5}<br />{6}{7}";
 #endif
 
+		/// <summary>
+		/// Handles the End event of the Application control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
 		protected void Application_End(Object sender, EventArgs e)
 		{
 			Stats.ClearQueue(true);
@@ -327,5 +350,3 @@ namespace Subtext
 		#endregion
 	}
 }
-
-

@@ -149,6 +149,7 @@
     </Compile>
     <Compile Include="Captcha\CaptchaControl.cs" />
     <Compile Include="Captcha\CaptchaBase.cs" />
+    <Compile Include="Captcha\CaptchaExpiredException.cs" />
     <Compile Include="Captcha\CaptchaImage.cs" />
     <Compile Include="Captcha\CaptchaImageHandler.cs" />
     <Compile Include="Captcha\InvisibleCaptcha.cs" />

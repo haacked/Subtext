@@ -1,5 +1,6 @@
-<%@ Page language="c#" Title="Subtext Admin - Import Export" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="ImportExport.aspx.cs" AutoEventWireup="false" Inherits="Subtext.Web.Admin.Pages.ImportExportPage" %>
+<%@ Page language="c#" Title="Subtext Admin - Import Export" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" Codebehind="ImportExport.aspx.cs" AutoEventWireup="false" MaintainScrollPositionOnPostback="true" Inherits="Subtext.Web.Admin.Pages.ImportExportPage" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
+
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
 </asp:Content>
 
@@ -22,8 +23,9 @@
 				file.
 			</p>
 			<p>
-				<asp:CheckBox id="chkEmbedAttach" runat="server" Text="Embed Attachments?" Checked="True"></asp:CheckBox><br />
-				<br />
+				<asp:CheckBox id="chkEmbedAttach" runat="server" Text="Embed Attachments?" Checked="True"></asp:CheckBox>
+			</p>
+			<p>
 				<asp:Button id="btnSave" runat="server" Text="Save" CssClass="buttonSubmit" CausesValidation="false"></asp:Button>&nbsp;&nbsp;
 				<asp:HyperLink id="hypBlogMLFile" runat="server" Visible="False">Download BlogML File</asp:HyperLink>
 			</p>
@@ -38,10 +40,25 @@
 			</p>
 			<p>
 				<input id="importBlogMLFile" type="file" name="filImportBlogML" runat="server" ValidationGroup="importGroup" />
-				<br />
-				<br />
+			</p>
+			<p>
 				<asp:Button id="btnLoad" runat="server" Text="Load!" CssClass="buttonSubmit" ValidationGroup="importGroup"></asp:Button>
 			</p>
+			<hr />
+			<h4>Clear Blog Content.</h4>
+			<p>
+				This will remove all content (Entries, Comments, Track/Ping-backs, Statistices, etc...) from this blog.<br />
+				After doing this, all content will be lost <strong>forever!</strong>
+			</p>
+			<asp:Panel id="uppnlClearContent" runat="server">
+			    <st:MessagePanel id="msgpnlClearContent" runat="server"></st:MessagePanel>
+				<p>
+					<asp:CheckBox id="chkClearContent" runat="server" Text="Clear Content." Checked="false" />
+				</p>
+				<p>
+					<asp:Button id="btnClearContent" runat="server" Text="Clear It!" CssClass="buttonSubmit" CausesValidation="false" OnClick="btnClearContent_Click"/>
+				</p>
+			</asp:Panel>
 		</fieldset>
 	</st:AdvancedPanel>
 </asp:Content>

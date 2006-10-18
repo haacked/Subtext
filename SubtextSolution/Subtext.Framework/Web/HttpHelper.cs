@@ -142,5 +142,29 @@ namespace Subtext.Framework.Web
 			string newUri = (uriOne + uriTwo);
 			return newUri.Replace("//", "/");
 		}
+
+		/// <summary>
+		/// Determines whether the request is for a static file.
+		/// </summary>
+		/// <returns>
+		/// 	<c>true</c> if [is static file request]; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool IsStaticFileRequest()
+		{
+			if(HttpContext.Current == null)
+				return true;
+
+			string filePath = HttpContext.Current.Request.Url.AbsolutePath;
+
+			return filePath.EndsWith(".css", StringComparison.InvariantCultureIgnoreCase)
+					|| filePath.EndsWith(".jpg", StringComparison.InvariantCultureIgnoreCase)
+					|| filePath.EndsWith(".js", StringComparison.InvariantCultureIgnoreCase)
+					|| filePath.EndsWith(".gif", StringComparison.InvariantCultureIgnoreCase)
+					|| filePath.EndsWith(".png", StringComparison.InvariantCultureIgnoreCase)
+					|| filePath.EndsWith(".xml", StringComparison.InvariantCultureIgnoreCase)
+					|| filePath.EndsWith(".txt", StringComparison.InvariantCultureIgnoreCase)
+					|| filePath.EndsWith(".html", StringComparison.InvariantCultureIgnoreCase)
+					|| filePath.EndsWith(".htm", StringComparison.InvariantCultureIgnoreCase);
+		}
 	}
 }

@@ -59,7 +59,7 @@ namespace Subtext.Framework.Format
 			{
 				if (Config.CurrentBlog.FeedBurnerEnabled)
 					return FeedBurnerUrl;
-				return new Uri(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Rss.aspx", Config.CurrentBlog.RootUrl));
+				return new Uri(string.Format(CultureInfo.InvariantCulture, "{0}Rss.aspx", Config.CurrentBlog.RootUrl));
 			}
 		}
 
@@ -73,13 +73,13 @@ namespace Subtext.Framework.Format
 			{
 				if (Config.CurrentBlog.FeedBurnerEnabled)
 					return FeedBurnerUrl;
-				return new Uri(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Atom.aspx", Config.CurrentBlog.RootUrl));
+				return new Uri(string.Format(CultureInfo.InvariantCulture, "{0}Atom.aspx", Config.CurrentBlog.RootUrl));
 			}
 		}
 		
 		public virtual string PostCategoryUrl(string categoryName, int categoryID)
 		{
-			return GetUrl("category/{0}.aspx", HttpUtility.UrlPathEncode(categoryName));
+			return GetUrl("category/{0}.aspx", categoryID);
 		}
 		
 		public virtual string ArticleCategoryUrl(string categoryName, int categoryID)
@@ -236,7 +236,7 @@ namespace Subtext.Framework.Format
 		/// <returns></returns>
 		protected virtual string GetFullyQualifiedUrl(string formatString, params object[] items)
 		{
-			return this.fullyQualifiedUrl + string.Format(CultureInfo.InvariantCulture, formatString, items);
+			return fullyQualifiedUrl + string.Format(CultureInfo.InvariantCulture, formatString, items);
 		}
 
 		/// <summary>
@@ -246,7 +246,7 @@ namespace Subtext.Framework.Format
 		/// <returns></returns>
 		public static DateTime DateFromUrl(string url)
 		{
-			string date = UrlFormats.GetRequestedFileName(url);
+			string date = GetRequestedFileName(url);
 			CultureInfo en = new CultureInfo("en-US");
 			switch(date.Length)
 			{
@@ -421,7 +421,7 @@ namespace Subtext.Framework.Format
 		public static bool IsInSpecialDirectory(string folderName)
 		{
 			// Either "" or "Subtext.Web" for ex...
-			String appPath = UrlFormats.StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
+			String appPath = StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
 			if(appPath == null)
 				appPath = string.Empty;
 

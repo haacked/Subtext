@@ -5,10 +5,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 	<head runat="server">
 		<title>Subtext - HostAdmin</title>
-		<link rel="stylesheet" type="text/css" href="~/HostAdmin/style/Style.css" runat="server" ID="lnkStyleSheet" />
-		<link rel="stylesheet" type="text/css" href="~/Skins/_System/dropshadow.css" runat="server" ID="lnkDropShadow" />
+		<link rel="stylesheet" type="text/css" href="~/HostAdmin/styles/Style.css" runat="server" ID="lnkStyleSheet" />
 		<link rel="stylesheet" type="text/css" href="~/Skins/_System/csharp.css" runat="server" ID="lnkCsharp" />
-		<link rel="stylesheet" type="text/css" href="~/Skins/_System/commonstyles.css" runat="server" ID="lknCommon" />
+		<link rel="stylesheet" type="text/css" href="~/Skins/_System/commonstyle.css" runat="server" ID="lknCommon" />
 		<link rel="stylesheet" type="text/css" href="~/HostAdmin/scripts/helptip.css" runat="server" ID="lnkHelpTipCss" />
 		<st:ScriptTag language="javascript" src="~/HostAdmin/scripts/helptip.js" runat="server" ID="scrHelpTipJavascript" />
 	</head>
@@ -21,7 +20,7 @@
 					<asp:Literal ID="hostAdminName" Runat="server" Text="" />
 				</span> 
 				<span id="logoutLinkText">[<a href="~/Logout.aspx?user=HostAdmin" id="logoutLink" runat="server">Logout</a>]</span></div>
-			<h1><asp:ContentPlaceHolder id="MPSectionTitle" runat="server">Subtext Host Admin</asp:ContentPlaceholder></h1>
+			<h1><asp:ContentPlaceHolder id="MPSectionTitle" runat="server">Subtext Host Admin</asp:ContentPlaceHolder></h1>
 		</div>
 		<ul id="menu">
 			<st:MenuItem ID="mnuDefault" href="~/HostAdmin/Default.aspx" title="Manage the blogs installed on this server"

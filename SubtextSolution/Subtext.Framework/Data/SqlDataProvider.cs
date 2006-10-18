@@ -123,7 +123,7 @@ namespace Subtext.Framework.Data
 			};
 			try
 			{
-				return this.NonQueryBool("subtext_TrackEntry", p);
+				return NonQueryBool("subtext_TrackEntry", p);
 			}
 			catch(Exception e)
 			{
@@ -407,9 +407,14 @@ namespace Subtext.Framework.Data
 			{
 				BlogIdParam
 			};
-			this.NonQueryInt("subtext_LogClear", p);
+			NonQueryInt("subtext_LogClear", p);
 		}
 
+        public override bool ClearBlogContent()
+        {
+            SqlParameter[] p = {BlogIdParam};
+            return NonQueryBool("subtext_ClearBlogContent", p);
+        }
 
 		#endregion	
 
@@ -698,6 +703,7 @@ namespace Subtext.Framework.Data
 				DataHelper.MakeInParam("@Body", DataHelper.CheckNull(feedbackItem.Body)), 
 				DataHelper.MakeInParam("@EntryId", SqlDbType.Int, 4, DataHelper.CheckNull(feedbackItem.EntryId)),
 				DataHelper.MakeInParam("@Author", SqlDbType.NVarChar, 128, DataHelper.CheckNull(feedbackItem.Author)), 
+				DataHelper.MakeInParam("@IsBlogAuthor", SqlDbType.Bit, 1, feedbackItem.IsBlogAuthor),
 				DataHelper.MakeInParam("@Email", SqlDbType.VarChar, 128, DataHelper.CheckNull(feedbackItem.Email)), 
 				DataHelper.MakeInParam("@Url", SqlDbType.VarChar, 256, sourceUrl), 
 				DataHelper.MakeInParam("@FeedbackType", SqlDbType.Int, 4, (int)feedbackItem.FeedbackType),
@@ -1089,9 +1095,9 @@ namespace Subtext.Framework.Data
 					,DataHelper.MakeInParam("@RecentCommentsLength", SqlDbType.Int, 4, recentCommentsLength)
 					,DataHelper.MakeInParam("@AkismetAPIKey", SqlDbType.VarChar, 16, DataHelper.ReturnNullIfEmpty(info.FeedbackSpamServiceKey))
 					,DataHelper.MakeInParam("@FeedBurnerName", SqlDbType.NVarChar, 64, DataHelper.ReturnNullIfEmpty(info.FeedBurnerName))
-					,DataHelper.MakeInParam("@pop3User", SqlDbType.NVarChar, 50, info.pop3User)
-					,DataHelper.MakeInParam("@pop3Pass", SqlDbType.NVarChar, 20, info.pop3Pass)
-					,DataHelper.MakeInParam("@pop3Server", SqlDbType.NVarChar, 50, info.pop3Server)
+					,DataHelper.MakeInParam("@pop3User", SqlDbType.VarChar, 32, info.pop3User)
+					,DataHelper.MakeInParam("@pop3Pass", SqlDbType.VarChar, 32, info.pop3Pass)
+					,DataHelper.MakeInParam("@pop3Server", SqlDbType.VarChar, 56, info.pop3Server)
 					,DataHelper.MakeInParam("@pop3StartTag", SqlDbType.NVarChar, 10, info.pop3StartTag)
 					,DataHelper.MakeInParam("@pop3EndTag", SqlDbType.NVarChar, 10, info.pop3EndTag)
 					,DataHelper.MakeInParam("@pop3SubjectPrefix", SqlDbType.NVarChar, 10, info.pop3SubjectPrefix)
@@ -1289,4 +1295,5 @@ namespace Subtext.Framework.Data
 		}
 	}
 }
+
 

@@ -5,6 +5,7 @@ using System.Web.Security;
 using log4net;
 using Subtext.Framework;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Web;
 
 namespace Subtext.Web.HttpModules
 {
@@ -23,6 +24,9 @@ namespace Subtext.Web.HttpModules
 
         void OnAuthenticateRequest(object sender, EventArgs e)
         {
+        	if(HttpHelper.IsStaticFileRequest())
+        		return;
+        	
 			HttpCookie authCookie = Security.SelectAuthenticationCookie();
 
             if (null == authCookie)

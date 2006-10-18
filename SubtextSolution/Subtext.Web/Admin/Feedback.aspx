@@ -28,7 +28,7 @@
 			<ItemTemplate>
 				<tr>
 					<td>
-						<b><%# GetTitle(Container.DataItem) %></b>
+						<strong><%# GetTitle(Container.DataItem) %></strong>
 					</td>
 					<td>
 						<strong><%# GetAuthor(Container.DataItem) %></strong> <%# GetAuthorInfo(Container.DataItem) %>
@@ -50,7 +50,7 @@
 			<AlternatingItemTemplate>
 				<tr class="Alt">
 					<td>
-						<b><%# GetTitle(Container.DataItem) %></b>
+						<strong><%# GetTitle(Container.DataItem) %></strong>
 					</td>
 					<td>
 						<strong><%# GetAuthor(Container.DataItem) %></strong> <%# GetAuthorInfo(Container.DataItem) %>

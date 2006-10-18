@@ -24,6 +24,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Text;
 using Subtext.Web.Controls;
 using Image = System.Web.UI.WebControls.Image;
 
@@ -132,7 +133,9 @@ namespace Subtext.Web.UI.Controls
 							namelink.Text =  feedbackItem.Author != null ? feedbackItem.Author : "Pingback/TrackBack";
 							namelink.Attributes.Add("title", "PingBack/TrackBack");
 						}
-						
+					
+						if(feedbackItem.IsBlogAuthor)
+							HtmlHelper.AppendCssClass(namelink, "author");
 					}
 
 					Literal PostDate = (Literal)(e.Item.FindControl("PostDate"));

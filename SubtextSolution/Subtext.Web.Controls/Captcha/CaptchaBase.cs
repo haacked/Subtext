@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web.UI.WebControls;
+using Subtext.Web.Controls.Captcha;
 
 namespace Subtext.Web.Controls
 {
@@ -44,12 +45,22 @@ namespace Subtext.Web.Controls
 		/// Decrypts the base64 encrypted string and returns the cleartext.
 		/// </summary>
 		/// <param name="encryptedEncodedText">The clear text.</param>
+		/// <exception type="System.Security.Cryptography.CryptographicException">Thrown the string to be decrypted 
+		/// was encrypted using a different encryptor (for example, if we recompile and 
+		/// receive an old string).</exception>
 		/// <returns></returns>
 		public static string DecryptString(string encryptedEncodedText)
 		{
-			byte[] encryptedBytes = Convert.FromBase64String(encryptedEncodedText);
-			byte[] decryptedBytes = encryptionAlgorithm.CreateDecryptor().TransformFinalBlock(encryptedBytes, 0, encryptedBytes.Length);
-			return Encoding.UTF8.GetString(decryptedBytes);
+			try
+			{
+				byte[] encryptedBytes = Convert.FromBase64String(encryptedEncodedText);
+				byte[] decryptedBytes = encryptionAlgorithm.CreateDecryptor().TransformFinalBlock(encryptedBytes, 0, encryptedBytes.Length);
+				return Encoding.UTF8.GetString(decryptedBytes);
+			}
+			catch (CryptographicException e)
+			{
+				throw new CaptchaExpiredException("Captcha image expired due to recompile.", e);
+			}
 		}
 
 		/// <summary>Checks the properties of the control for valid values.</summary>
@@ -96,35 +107,45 @@ namespace Subtext.Web.Controls
 		///
 		protected override bool EvaluateIsValid()
 		{
-			string answer = GetClientSpecifiedAnswer();
-
-			AnswerAndDate answerAndDate = GetEncryptedAnswerFromForm();
-
-			if (answerAndDate.Expired)
+			try
 			{
-				this.ErrorMessage = "Sorry, but this form has expired. Please submit again.";
+				return ValidateCaptcha();
+			}
+			catch(CaptchaExpiredException)
+			{
+				this.ErrorMessage = "Sorry, but this form has expired. Please try again.";
 				return false;
 			}
-			
-			if(!answerAndDate.Valid)
-				return false;
+		}
 
+		private bool ValidateCaptcha()
+		{
+			string answer = GetClientSpecifiedAnswer();
+			AnswerAndDate answerAndDate = GetEncryptedAnswerFromForm();	
+			
 			string expectedAnswer = answerAndDate.Answer;
 			bool isValid = !String.IsNullOrEmpty(answer) && answer == expectedAnswer;
 			return isValid;
 		}
-		
+
 		// Gets the answer from the client, whether entered by 
 		// javascript or by the user.
 		protected virtual string GetClientSpecifiedAnswer()
 		{
 			return Page.Request.Form[this.AnswerFormFieldName];
 		}
-		
+
+		/// <summary>
+		/// Gets the encrypted answer from form.
+		/// </summary>
+		/// <returns></returns>
+		/// <exception type="CaptchaExpiredException">Thrown when the user takes too long to submit a captcha answer.</exception>
 		protected virtual AnswerAndDate GetEncryptedAnswerFromForm()
 		{
 			string formValue = Page.Request.Form[this.HiddenEncryptedAnswerFieldName];
-			AnswerAndDate answerAndDate = new AnswerAndDate(formValue, CaptchaTimeout);
+			AnswerAndDate answerAndDate = AnswerAndDate.ParseAnswerAndDate(formValue, CaptchaTimeout);
+			if (answerAndDate.Expired)
+				throw new CaptchaExpiredException("User waited too long to submit captcha");
 			return answerAndDate;
 		}
 
@@ -160,34 +181,33 @@ namespace Subtext.Web.Controls
 	/// client.
 	/// </summary>
 	public struct AnswerAndDate
-	{
-		bool isValid;
-		
+	{	
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AnswerAndDate"/> class.
 		/// </summary>
 		/// <param name="encryptedAnswer">The encrypted answer.</param>
-		public AnswerAndDate(string encryptedAnswer, int timeoutInSeconds)
+		public static AnswerAndDate ParseAnswerAndDate(string encryptedAnswer, int timeoutInSeconds)
 		{
-			this.expired = false;
-			this.isValid = false;
-			this.answer = string.Empty;
-			this.date = DateTime.MinValue;
+			AnswerAndDate answerAndDate;
+			answerAndDate.expired = false;
+			answerAndDate.answer = string.Empty;
+			answerAndDate.date = DateTime.MinValue;
 			
 			if(String.IsNullOrEmpty(encryptedAnswer))
-				return;
+				return answerAndDate;
 
 			string decryptedAnswer = CaptchaBase.DecryptString(encryptedAnswer);
 			string[] answerParts = decryptedAnswer.Split('|');
 			if (answerParts.Length < 2)
-				return;
+				return answerAndDate;
 
-			this.answer = answerParts[0];
-			this.date = DateTime.ParseExact(answerParts[1], "yyyy/MM/dd HH:mm", CultureInfo.InvariantCulture);
+			answerAndDate.answer = answerParts[0];
+			answerAndDate.date = DateTime.ParseExact(answerParts[1], "yyyy/MM/dd HH:mm", CultureInfo.InvariantCulture);
 
-			isValid = timeoutInSeconds == 0 || (DateTime.Now - this.date).TotalSeconds < timeoutInSeconds;
-			if(!isValid)
-				this.expired = true;
+			if (timeoutInSeconds != 0 && (DateTime.Now - answerAndDate.date).TotalSeconds >= timeoutInSeconds)
+				throw new CaptchaExpiredException("User took too long to submit captcha.");
+
+			return answerAndDate;
 		}
 
 		/// <summary>
@@ -212,16 +232,6 @@ namespace Subtext.Web.Controls
 
 		DateTime date;
 			
-		/// <summary>
-		/// Whether or not the answer and date is valid.
-		/// </summary>
-		public bool Valid
-		{
-			get
-			{
-				return isValid;
-			}
-		}
 
 		/// <summary>
 		/// Gets a value indicating whether this <see cref="AnswerAndDate"/> is expired.
