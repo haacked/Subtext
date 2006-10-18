@@ -543,7 +543,7 @@
     <Content Include="license.txt" />
     <Content Include="Logging\LoggingConfigurationExample.xml" />
     <EmbeddedResource Include="Util\WindowsTimeZoneCollection.xml" />
-    <None Include="Services\MailLicense.xml">
+    <None Include="MailLicense.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="Tracking\PingBackNotificatinProxy.resx">
