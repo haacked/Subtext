@@ -127,7 +127,7 @@ SELECT [Id] = [ID]
 	, Body = [Text]
 	, BlogId = BlogID
 	, EntryId = ParentID
-	, Author
+	, Author = LEFT(Author, 32)
 	, 0
 	, Email
 	, Url = TitleUrl

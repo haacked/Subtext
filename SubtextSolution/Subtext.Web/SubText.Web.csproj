@@ -1650,6 +1650,7 @@
     <Content Include="Skins\origami\Controls\Footer.ascx" />
     <Content Include="Skins\origami\Controls\Header.ascx" />
     <Content Include="Skins\origami\Controls\HomePage.ascx" />
+    <Content Include="Skins\origami\Controls\MyLinks.ascx" />
     <Content Include="Skins\origami\Controls\News.ascx" />
     <Content Include="Skins\origami\Controls\PostComment.ascx" />
     <Content Include="Skins\origami\Controls\PreviousNext.ascx" />

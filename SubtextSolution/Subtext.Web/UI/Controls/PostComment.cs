@@ -43,6 +43,10 @@ namespace Subtext.Web.UI.Controls
 			base.OnLoad (e);
 
 			//TODO: Make this configurable.
+			tbTitle.MaxLength = 128;
+			tbEmail.MaxLength = 128;
+			tbName.MaxLength = 32;
+			tbUrl.MaxLength = 256;
 			tbComment.MaxLength = 4000;
 			SetValidationGroup();
 		
@@ -174,6 +178,7 @@ namespace Subtext.Web.UI.Controls
 		{
 			if(Page.IsValid)
 			{
+				LastDitchValidation();
 				try
 				{
 					Entry currentEntry =  Cacher.GetEntryFromRequest(CacheDuration.Short);	
@@ -211,6 +216,19 @@ namespace Subtext.Web.UI.Controls
 					Message.Text = exception.Message;
 				}
 			}
+		}
+		
+		private void LastDitchValidation()
+		{
+			//The validation controls and otherwise should catch everything.
+			//This is here to be extra safe.
+			//Anything triggering these exceptions is probably malicious.
+			if (this.tbComment.Text.Length > 4000
+				|| this.tbTitle.Text.Length > 128
+				|| this.tbEmail.Text.Length > 128
+				|| this.tbName.Text.Length > 32
+				|| this.tbUrl.Text.Length > 256)
+				throw new InvalidOperationException("Sorry, but we cannot accept this comment.");
 		}
 
 		/*
@@ -289,6 +307,7 @@ namespace Subtext.Web.UI.Controls
 				Message.Text = "Thanks for your comment!";
 				Message.CssClass = "success";
 				this.Controls.Add(Message);	//This needs to be here for ajax calls.
+				Cacher.ClearCommentCache(feedbackItem.EntryId);
 				OnCommentApproved(feedbackItem);
 				return;
 			}

@@ -87,13 +87,18 @@ namespace Subtext.Web.UI.Controls
 				Visible = false;
 			}
 		}
-
-
+		
 		protected void RemoveComment_ItemCommand(Object Sender, RepeaterCommandEventArgs e) 
 		{
-			int feedbackItem = Int32.Parse(e.CommandName);
-			Entries.Delete(feedbackItem);
-			Response.Redirect(string.Format(CultureInfo.InvariantCulture, "{0}?Pending=true", Request.Path));
+			int feedbackId = Int32.Parse(e.CommandName);
+			FeedbackItem feedback = FeedbackItem.Get(feedbackId);
+			if (feedback != null)
+			{
+				FeedbackItem.Delete(feedback);
+				Cacher.ClearCommentCache(feedback.EntryId);
+				BindFeedback(false);
+			}
+			//Response.Redirect(string.Format(CultureInfo.InvariantCulture, "{0}?Pending=true", Request.Path));
 		}
 
 		// Customizes the display row for each comment.

@@ -26,6 +26,12 @@
 			</fileset>
 		</copy>
 
+		<copy todir="${dashboard.xsl.dir}\templates" failonerror="false" verbose="true">
+			<fileset basedir="templates">
+				<include name="*.vm" />
+			</fileset>
+		</copy>
+
 		<!-- need to figure out if this is necessary -->
 		<copy todir="${server.xsl.dir}" failonerror="false" verbose="true">
 			<fileset basedir="xsl">

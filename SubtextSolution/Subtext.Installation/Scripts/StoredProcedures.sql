@@ -3465,7 +3465,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertFeedback]
 	, @Body ntext = NULL
 	, @BlogId int
 	, @EntryId int = NULL
-	, @Author nvarchar(128) = NULL
+	, @Author nvarchar(64) = NULL
 	, @IsBlogAuthor bit = 0
 	, @Email varchar(128) = NULL
 	, @Url varchar(256) = NULL
@@ -3545,7 +3545,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdateFeedback]
 	@ID int
 	, @Title nvarchar(256)
 	, @Body ntext = NULL
-	, @Author nvarchar(128) = NULL
+	, @Author nvarchar(64) = NULL
 	, @Email varchar(128) = NULL
 	, @Url varchar(256) = NULL
 	, @StatusFlag int
