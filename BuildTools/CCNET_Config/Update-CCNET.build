@@ -26,7 +26,7 @@
 			</fileset>
 		</copy>
 
-		<copy todir="${dashboard.xsl.dir}\templates" failonerror="false" verbose="true">
+		<copy todir="${dashboard.root}\templates" failonerror="false" verbose="true">
 			<fileset basedir="templates">
 				<include name="*.vm" />
 			</fileset>
