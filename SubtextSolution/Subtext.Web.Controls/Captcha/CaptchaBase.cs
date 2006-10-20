@@ -4,6 +4,8 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web.UI.WebControls;
+using log4net;
+using Subtext.Framework.Logging;
 using Subtext.Web.Controls.Captcha;
 
 namespace Subtext.Web.Controls
@@ -12,6 +14,7 @@ namespace Subtext.Web.Controls
 	/// </summary>
 	public abstract class CaptchaBase : BaseValidator
 	{
+		private readonly static ILog log = new Log();
 		static SymmetricAlgorithm encryptionAlgorithm = InitializeEncryptionAlgorithm();
 		
 		/// <summary>
@@ -57,9 +60,13 @@ namespace Subtext.Web.Controls
 				byte[] decryptedBytes = encryptionAlgorithm.CreateDecryptor().TransformFinalBlock(encryptedBytes, 0, encryptedBytes.Length);
 				return Encoding.UTF8.GetString(decryptedBytes);
 			}
+			catch (System.FormatException fe)
+			{
+				throw new CaptchaExpiredException("Encrypted encoded text '" + encryptedEncodedText + "' was not valid.", fe);
+			}
 			catch (CryptographicException e)
 			{
-				throw new CaptchaExpiredException("Captcha image expired due to recompile.", e);
+				throw new CaptchaExpiredException("Captcha image expired, probably due to recompile making the key out of synch.", e);
 			}
 		}
 
@@ -111,8 +118,10 @@ namespace Subtext.Web.Controls
 			{
 				return ValidateCaptcha();
 			}
-			catch(CaptchaExpiredException)
+			catch(CaptchaExpiredException e)
 			{
+				if(e.InnerException != null)
+					log.Warn("CaptchaExpired xEception thrown. Logging internal exception", e.InnerException);
 				this.ErrorMessage = "Sorry, but this form has expired. Please try again.";
 				return false;
 			}

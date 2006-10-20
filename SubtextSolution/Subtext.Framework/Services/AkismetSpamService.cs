@@ -21,13 +21,22 @@ namespace Subtext.Framework.Services
 		public AkismetSpamService(string apiKey, BlogInfo blog)
 		{
 			this.akismet = new AkismetClient(apiKey, blog.RootUrl);
+		}
+
+		/// <summary>
+		/// Verifies the api key.
+		/// </summary>
+		/// <returns></returns>
+		public bool VerifyApiKey()
+		{
 			try
 			{
-				this.akismet.VerifyApiKey();
+				return this.akismet.VerifyApiKey();
 			}
-			catch(WebException e)
+			catch (WebException e)
 			{
 				log.Error("Error occured while verifying Akismet.", e);
+				return false;
 			}
 		}
 		

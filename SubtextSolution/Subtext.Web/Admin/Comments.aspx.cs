@@ -17,6 +17,7 @@ using System;
 using System.Globalization;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Services;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -100,7 +101,6 @@ namespace Subtext.Web.Admin.Pages
 			try
 			{
 				UpdateConfiguration();
-				this.Messages.ShowMessage(RES_SUCCESS);
 			}
 			catch(Exception ex)
 			{
@@ -159,6 +159,7 @@ namespace Subtext.Web.Admin.Pages
 
 				info.FeedbackSpamServiceKey = this.txtAkismetAPIKey.Text;
 				Config.UpdateConfigData(info);
+				this.Messages.ShowMessage(RES_SUCCESS);
 			}
 		}
 
@@ -166,34 +167,37 @@ namespace Subtext.Web.Admin.Pages
 		{
 			get
 			{
-				string delay = this.txtCommentDelayIntervalMinutes.Text;
-				if(delay.Length > 0)
+				if (this.txtCommentDelayIntervalMinutes.Text.Length > 0)
+					ValidateIntegerRange("Comment Delay", this.txtCommentDelayIntervalMinutes.Text, 0, 3600, @"""{0}"" should larger than {1}. You can't go back in time.", @"""{0}"" of {1} would block an IP for a really long time. Let's be reasonable.");
+				
+				if(this.txtDaysTillCommentsClosed.Text.Length > 0)
+					ValidateInteger("Days Till Comments Close", this.txtDaysTillCommentsClosed.Text, 0, int.MaxValue);
+
+				if (this.txtNumberOfRecentComments.Text.Length > 0)
+					ValidateInteger("Number Of Recent Comments", this.txtNumberOfRecentComments.Text, 0, int.MaxValue);
+
+				if (this.txtRecentCommentsLength.Text.Length > 0)
+					ValidateInteger("Recent Comments Length", this.txtRecentCommentsLength.Text, 0, int.MaxValue);
+				
+				if(!String.IsNullOrEmpty(this.txtAkismetAPIKey.Text))
 				{
+					AkismetSpamService akismet = new AkismetSpamService(this.txtAkismetAPIKey.Text, Config.CurrentBlog);
 					try
 					{
-						int delayInMinutes = int.Parse(delay);
-						if(delayInMinutes < 0)
+						if (!akismet.VerifyApiKey())
 						{
-							this.Messages.ShowError("You can&#8217;t go back in time, the comment delay should not be a negative number.");
+							this.Messages.ShowError("Sorry, could not verify that Akismet API key.");
+							return false;
 						}
 					}
-					catch(FormatException)
+					catch(System.Security.SecurityException e)
 					{
-						this.Messages.ShowError("Whoa there, the comment delay should be a valid integer.");
+						this.Messages.ShowError(string.Format("Akismet requires <code>{0}</code> in order to make web requests. Please ask your hosting provider to <a href=\"http://weblogs.asp.net/hosterposter/archive/2006/03/22/440886.aspx\" title=\"Enabling WebPermission in Medium Trust\">enable this permission</a>.", e.PermissionType));
 						return false;
 					}
 				}
-				if(txtDaysTillCommentsClosed.Text.Length > 0)
-					ValidateInteger("Days Till Comments Close", txtDaysTillCommentsClosed.Text, 0, int.MaxValue);
+				
 				return true;
-
-/*				if(txtNumberOfRecentComments.Text.Length > 0)
-					ValidateInteger("Number of Recent Comments to Display", txtNumberOfRecentComments.Text, 0, int.MaxValue);
-				return true;
-
-				if(txtRecentCommentsLength.Text.Length > 0)
-					ValidateInteger("Length of Recent Comments to Display (Number of characters)", txtRecentCommentsLength.Text, 0, int.MaxValue);
-				return true;*/
 			}
 		}
 
@@ -226,22 +230,27 @@ namespace Subtext.Web.Admin.Pages
 
 		int ValidateInteger(string fieldName, string value, int minAllowedValue, int maxAllowedValue)
 		{
+			return ValidateIntegerRange(fieldName, value, minAllowedValue, maxAllowedValue, @"""{0}"" should be larger than or equal to {1}", @"""{0}"" should be less than or equal to {1}");
+		}
+
+		int ValidateIntegerRange(string fieldName, string value, int minAllowedValue, int maxAllowedValue, string tooSmallFormatMessage, string tooBigFormatMessage)
+		{
 			try
 			{
 				int theNumber = int.Parse(value);
-				if(theNumber < minAllowedValue)
+				if (theNumber < minAllowedValue)
 				{
-					throw new ArgumentException("\"" + fieldName + "\" should be larger than or equal to " + minAllowedValue, fieldName);
+					throw new ArgumentException(string.Format(tooSmallFormatMessage, fieldName, minAllowedValue), fieldName);
 				}
-				if(theNumber > maxAllowedValue)
+				if (theNumber > maxAllowedValue)
 				{
-					throw new ArgumentException("\"" + fieldName + "\" should be less than or equal to " + maxAllowedValue, fieldName);
+					throw new ArgumentException(string.Format(tooBigFormatMessage, fieldName, maxAllowedValue), fieldName);
 				}
 				return theNumber;
 			}
-			catch(FormatException)
+			catch (FormatException)
 			{
-				throw new ArgumentException("Please enter a valid positive number for the field \"" + fieldName + "\"", fieldName);
+				throw new ArgumentException(string.Format("Please enter a valid positive number for the field \"{0}\"", fieldName), fieldName);
 			}
 		}
 	}

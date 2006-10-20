@@ -96,6 +96,7 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL" />
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -208,6 +209,10 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\InvisibleCaptcha.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ExternalDependencies\log4net.dll" />
+    <Content Include="ExternalDependencies\log4net.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

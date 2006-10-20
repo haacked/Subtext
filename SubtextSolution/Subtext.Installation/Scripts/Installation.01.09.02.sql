@@ -58,7 +58,7 @@ IF NOT EXISTS
 			[Body] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 			[BlogId] [int] NOT NULL,
 			[EntryId] [int] NULL,
-			[Author] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+			[Author] [nvarchar](64) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 			[IsBlogAuthor] [bit],
 			[Email] [varchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 			[Url] [varchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -135,7 +135,7 @@ IF EXISTS
 			, Body = [Text]
 			, BlogId
 			, EntryId = ParentID
-			, Author
+			, Author = LEFT(Author, 32)
 			, 0
 			, Email
 			, Url = TitleUrl

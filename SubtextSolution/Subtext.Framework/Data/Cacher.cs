@@ -267,6 +267,10 @@ namespace Subtext.Framework.Data
 
 		#region Comments/FeedBack
 
+		/// <summary>
+		/// Clears the comment cache.
+		/// </summary>
+		/// <param name="entryID">The entry ID.</param>
 		public static void ClearCommentCache(int entryID)
 		{
 			string key = string.Format(ParentCommentEntryKey, entryID, Config.CurrentBlog.Id);

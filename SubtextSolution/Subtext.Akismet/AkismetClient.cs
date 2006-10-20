@@ -137,11 +137,11 @@ namespace Subtext.Akismet
 		Uri blogUrl;
 
 		/// <summary>
-		/// Verifies the API key.  You really only need to 
+		/// Verifies the API key.  You really only need to
 		/// call this once, perhaps at startup.
 		/// </summary>
-		/// <exception type="Sytsem.Web.WebException">If it cannot make a request of Akismet.</exception>
 		/// <returns></returns>
+		/// <exception type="Sytsem.Web.WebException">If it cannot make a request of Akismet.</exception>
 		public bool VerifyApiKey()
 		{
 			string parameters = "key=" + HttpUtility.UrlEncode(this.ApiKey) + "&blog=" + HttpUtility.UrlEncode(this.BlogUrl.ToString());

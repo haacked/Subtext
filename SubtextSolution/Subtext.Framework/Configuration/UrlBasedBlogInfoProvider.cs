@@ -192,7 +192,9 @@ namespace Subtext.Framework.Configuration
 				}
 			}
 
-			
+			//TODO: Use dependency injection or a provider. This'll do for now.
+			if (info.FeedbackSpamServiceEnabled && info.FeedbackSpamService == null)
+				info.FeedbackSpamService = new AkismetSpamService(info.FeedbackSpamServiceKey, info);
 			return info;
 		}
 
