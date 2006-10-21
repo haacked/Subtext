@@ -29,13 +29,13 @@ namespace Subtext.Extensibility.Plugins
 		IPluginIdentifier Id {get;}
 
 		/// <summary>
-		/// All targets for which this implementation is intended
-		/// </summary>
-		ITargetIdentifierCollection Targets {get;}
-
-		/// <summary>
 		/// Information about plugin implementation
 		/// </summary>
 		IImplementationInfo Info {get;}
+		
+		/// <summary>
+		/// Initialize the plugin
+		/// </summary>
+		//void Init(STApplication sta);
 	}
 }
