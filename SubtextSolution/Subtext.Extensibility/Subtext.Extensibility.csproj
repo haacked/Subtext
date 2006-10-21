@@ -132,9 +132,6 @@
     <Compile Include="Plugins\IImplementationInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Plugins\IModuleIdentifier.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Plugins\IPlugin.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -148,15 +145,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Plugins\IPluginIdentifierCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Plugins\ITarget.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Plugins\ITargetIdentifier.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Plugins\ITargetIdentifierCollection.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PostConfig.cs">
