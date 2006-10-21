@@ -1006,6 +1006,7 @@
     <Content Include="Install\Step02_ConfigureHost.aspx" />
     <Content Include="Install\Step03_CreateBlog.aspx" />
     <Content Include="Install\Style\InstallationStyle.css" />
+    <Content Include="Modules\placeholder.txt" />
     <Content Include="Providers\BlogEntryEditor\FCKeditor\customConfiguration\subtextconfig.js" />
     <Content Include="Providers\BlogEntryEditor\FCKeditor\editor\css\behaviors\disablehandles.htc" />
     <Content Include="Providers\BlogEntryEditor\FCKeditor\editor\css\behaviors\hiddenfield.gif" />
