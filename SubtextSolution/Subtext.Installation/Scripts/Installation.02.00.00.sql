@@ -29,3 +29,40 @@ IF NOT EXISTS
 		,[pop3HeightForThumbs] [int] NULL 
 
 GO
+
+
+
+
+/* Add tables to manage plugin configuration */
+
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_PluginConfiguration]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [<dbUser,varchar,dbo>].[subtext_PluginConfiguration]
+GO
+
+CREATE TABLE [<dbUser,varchar,dbo>].[subtext_PluginConfiguration] (
+	[id] [int] NOT NULL ,
+	[PluginId] [int] NOT NULL ,
+	[BlogId] [int] NOT NULL ,
+	[Key] [nvarchar] (256) COLLATE Latin1_General_CI_AS NOT NULL ,
+	[Value] [ntext] COLLATE Latin1_General_CI_AS NOT NULL 
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_PluginEntryData]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [<dbUser,varchar,dbo>].[subtext_PluginEntryData]
+GO
+
+CREATE TABLE [<dbUser,varchar,dbo>].[subtext_PluginEntryData] (
+	[id] [int] NOT NULL ,
+	[PluginId] [int] NOT NULL ,
+	[BlogId] [int] NOT NULL ,
+	[EntryId] [int] NOT NULL ,
+	[Key] [nvarchar] (256) COLLATE Latin1_General_CI_AS NOT NULL ,
+	[Value] [ntext] COLLATE Latin1_General_CI_AS NOT NULL 
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+EXEC sp_tableoption  N'[<dbUser,varchar,dbo>].[subtext_PluginConfiguration]', 'text in row', '2048'
+EXEC sp_tableoption  N'[<dbUser,varchar,dbo>].[subtext_PluginEntryData]', 'text in row', '2048'
