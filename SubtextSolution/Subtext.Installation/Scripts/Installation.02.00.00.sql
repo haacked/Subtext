@@ -41,7 +41,7 @@ drop table [<dbUser,varchar,dbo>].[subtext_PluginConfiguration]
 GO
 
 CREATE TABLE [<dbUser,varchar,dbo>].[subtext_PluginConfiguration] (
-	[id] [int] NOT NULL ,
+	[id] [int] IDENTITY (1, 1) NOT NULL ,
 	[PluginId] [int] NOT NULL ,
 	[BlogId] [int] NOT NULL ,
 	[Key] [nvarchar] (256) COLLATE Latin1_General_CI_AS NOT NULL ,
@@ -55,7 +55,7 @@ drop table [<dbUser,varchar,dbo>].[subtext_PluginEntryData]
 GO
 
 CREATE TABLE [<dbUser,varchar,dbo>].[subtext_PluginEntryData] (
-	[id] [int] NOT NULL ,
+	[id] [int] IDENTITY (1, 1) NOT NULL ,
 	[PluginId] [int] NOT NULL ,
 	[BlogId] [int] NOT NULL ,
 	[EntryId] [int] NOT NULL ,
@@ -63,6 +63,22 @@ CREATE TABLE [<dbUser,varchar,dbo>].[subtext_PluginEntryData] (
 	[Value] [ntext] COLLATE Latin1_General_CI_AS NOT NULL 
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
+
+
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_PluginConfiguration] WITH NOCHECK ADD 
+	CONSTRAINT [PK_subtext_PluginConfiguration] PRIMARY KEY  CLUSTERED 
+	(
+		[id]
+	)  ON [PRIMARY] 
+GO
+
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_PluginEntryData] WITH NOCHECK ADD 
+	CONSTRAINT [PK_subtext_PluginEntryData] PRIMARY KEY  CLUSTERED 
+	(
+		[id]
+	)  ON [PRIMARY] 
+GO
+
 
 EXEC sp_tableoption  N'[<dbUser,varchar,dbo>].[subtext_PluginConfiguration]', 'text in row', '2048'
 EXEC sp_tableoption  N'[<dbUser,varchar,dbo>].[subtext_PluginEntryData]', 'text in row', '2048'
