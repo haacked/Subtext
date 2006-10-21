@@ -410,6 +410,22 @@ if exists (select ROUTINE_NAME from INFORMATION_SCHEMA.ROUTINES where ROUTINE_TY
 drop procedure [<dbUser,varchar,dbo>].[subtext_ClearBlogContent]
 GO
 
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertPluginConfiguration]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_InsertPluginConfiguration]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertPluginEntryData]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_InsertPluginEntryData]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_UpdatePluginConfiguration]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_UpdatePluginConfiguration]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_UpdatePluginEntryData]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_UpdatePluginEntryData]
+GO
+
 SET QUOTED_IDENTIFIER OFF 
 GO
 SET ANSI_NULLS OFF 
@@ -4454,4 +4470,135 @@ SET ANSI_NULLS ON
 GO
 
 GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_ClearBlogContent]  TO [public]
+GO
+
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS OFF 
+GO
+
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertPluginConfiguration]
+(
+	@PluginID int,
+	@BlogID int,
+	@Key nvarchar(256),
+	@Value ntext,
+	@ID int output
+)
+AS
+
+INSERT INTO [<dbUser,varchar,dbo>].[subtext_PluginConfiguration]
+(
+	PluginID,
+	BlogID,
+	[Key],
+	[Value]
+)
+VALUES
+(
+	@PluginID,
+	@BlogID,
+	@Key,
+	@Value
+)
+
+SELECT @ID = SCOPE_IDENTITY()
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS OFF 
+GO
+
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertPluginEntryData]
+(
+	@PluginID int,
+	@BlogID int,
+	@EntryID int,
+	@Key nvarchar(256),
+	@Value ntext,
+	@ID int output
+)
+AS
+
+INSERT INTO [<dbUser,varchar,dbo>].[subtext_PluginEntryData]
+(
+	PluginID,
+	BlogID,
+	EntryID,
+	[Key],
+	[Value]
+)
+VALUES
+(
+	@PluginID,
+	@BlogID,
+	@EntryID,
+	@Key,
+	@Value
+)
+
+SELECT @ID = SCOPE_IDENTITY()
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS OFF 
+GO
+
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdatePluginConfiguration]
+(
+	@PluginID int,
+	@BlogID int,
+	@Key nvarchar(256),
+	@Value ntext,
+	@ID int
+)
+AS
+
+UPDATE [<dbUser,varchar,dbo>].[subtext_PluginConfiguration]
+SET
+	[Value]=@Value
+
+WHERE id=@ID AND PluginID=@PluginID AND BlogID=@BlogID AND [Key]=@Key
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS OFF 
+GO
+
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdatePluginEntryData]
+(
+	@PluginID int,
+	@BlogID int,
+	@EntryID int,
+	@Key nvarchar(256),
+	@Value ntext,
+	@ID int
+)
+AS
+
+UPDATE [<dbUser,varchar,dbo>].[subtext_PluginEntryData]
+SET
+	[Value]=@Value
+
+WHERE id=@ID AND PluginID=@PluginID AND BlogID=@BlogID AND [Key]=@Key AND EntryID=@EntryID
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
 GO
