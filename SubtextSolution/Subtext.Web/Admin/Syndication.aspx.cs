@@ -28,8 +28,9 @@ namespace Subtext.Web.Admin.Pages
 		private const string RES_SUCCESS = "Your syndication settings were successfully updated.";
 		private const string RES_FAILURE = "Syndication settings update failed.";
 
-		protected new void Page_Load(object sender, EventArgs e)
+		protected override void Page_Load(object sender, EventArgs e)
 		{
+			base.Page_Load(sender, e);
 			if (!IsPostBack)
 			{
 				PopulateForm();
