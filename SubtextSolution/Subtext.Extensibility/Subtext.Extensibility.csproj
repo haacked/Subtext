@@ -135,18 +135,12 @@
     <Compile Include="Plugins\IPlugin.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Plugins\IPluginContext.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Plugins\IPluginFactory.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Plugins\IPluginIdentifier.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Plugins\IPluginIdentifierCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Plugins\PluginSectionHandler.cs" />
+    <Compile Include="Plugins\PluginSettings.cs" />
+    <Compile Include="Plugins\PluginSettingsCollection.cs" />
     <Compile Include="PostConfig.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -169,6 +163,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Providers\SearchProvider.cs" />
+    <Compile Include="Plugins\STApplication.cs" />
     <Compile Include="Web\BaseHttpHandler.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
