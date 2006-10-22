@@ -169,6 +169,13 @@
     <Compile Include="Admin\Password.aspx.designer.cs">
       <DependentUpon>Password.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\PluginList.aspx.cs">
+      <DependentUpon>PluginList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\PluginList.aspx.designer.cs">
+      <DependentUpon>PluginList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\Preferences.aspx.cs">
       <DependentUpon>Preferences.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -875,6 +882,7 @@
     <Content Include="Admin\license.txt" />
     <Content Include="Admin\Options.aspx" />
     <Content Include="Admin\Password.aspx" />
+    <Content Include="Admin\PluginList.aspx" />
     <Content Include="Admin\Preferences.aspx" />
     <Content Include="Admin\Referrers.aspx" />
     <Content Include="Admin\Resources\admin.css" />
