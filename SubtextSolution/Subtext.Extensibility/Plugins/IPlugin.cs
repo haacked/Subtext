@@ -23,7 +23,7 @@ namespace Subtext.Extensibility.Plugins
 	public interface IPlugin
 	{
 		/// <summary>
-		/// Identifier of the plugin. This value has to be unique. For instance, full type name may be used.
+		/// Identifier of the plugin. This value has to be unique, so this interface provides a Guid.
 		/// </summary>
 		IPluginIdentifier Id {get;}
 
