@@ -38,9 +38,13 @@
 						<asp:Label ID="pluginDescription" runat="server"></asp:Label>
 					</td>
 					<td>
-						<asp:LinkButton id="lnkView" CssClass="buttonSubmit" CommandName="View" Text="View Details" runat="server" /></td>
+						<asp:LinkButton id="lnkView" CssClass="buttonSubmit" CommandName="View" Text="View Details" runat="server" />
+						<asp:LinkButton id="lnkPluginSettings" CssClass="buttonSubmit" CommandName="Settings" Text="Settings" runat="server" Visible="false" />
+				    </td>
 					<td>
-						<asp:LinkButton id="lnkToggle" CssClass="buttonSubmit" CommandName="Toggle" Text="Enable" runat="server" /></td>
+						<asp:LinkButton id="lnkEnable" CssClass="buttonSubmit" CommandName="Enable" Text="Enable" runat="server" />
+						<asp:LinkButton id="lnkDisable" CssClass="buttonSubmit" CommandName="Disable" Text="Disable" runat="server" Visible="false" />
+					</td>
 				</tr>
 			</ItemTemplate>
 			<AlternatingItemTemplate>
