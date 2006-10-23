@@ -384,7 +384,7 @@ hr
 	margin-left: 20px;
 	margin-right: -20px;
 	padding:0px;
-	background-image:url(Images/footer.jpg);
+	/*background-image:url(Images/footer.jpg);*/
 	background-repeat: repeat-x;
 	background-position:bottom;
 	width: 640px;

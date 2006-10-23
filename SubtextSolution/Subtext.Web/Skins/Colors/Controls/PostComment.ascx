@@ -18,10 +18,10 @@
 	<tr>
 		<td>Email (never displayed)</td>
 		<td>
-			<asp:TextBox id="txtEmail" runat="server" Size="40" Width="300px" />
+			<asp:TextBox id="tbEmail" runat="server" Size="40" Width="300px" />
 		</td>
 		<td>
-			<asp:RegularExpressionValidator ID="vldEmail" runat="server" ControlToValidate="txtEmail" ValidationExpression="^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$" Display="dynamic" ErrorMessage="Email is not required, but it must be valid if specified." EnableClientScript="true" />
+			<asp:RegularExpressionValidator ID="vldEmail" runat="server" ControlToValidate="tbEmail" ValidationExpression="^([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})$" Display="dynamic" ErrorMessage="Email is not required, but it must be valid if specified." EnableClientScript="true" />
 		</td>
 	</tr>
 	<tr>

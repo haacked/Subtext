@@ -177,7 +177,8 @@ namespace Subtext
 					catch
 					{}
 
-					context.Response.Write(string.Format(message, @"<!-- ", lb, v, machineName, framework, userInfo, lb, "//-->"));
+					if(!MagicAjax.MagicAjaxContext.Current.IsAjaxCall)
+						context.Response.Write(string.Format(message, @"<!-- ", lb, v, machineName, framework, userInfo, lb, "//-->"));
 				}
 			#endif
 			#endregion

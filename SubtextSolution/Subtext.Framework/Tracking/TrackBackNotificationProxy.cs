@@ -31,6 +31,7 @@
  ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 using System;
+using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -80,6 +81,23 @@ namespace Subtext.Framework.Tracking
 			request.ContentLength = parameters.Length;
 			request.ContentType = "application/x-www-form-urlencoded";
 			request.KeepAlive = false;
+
+			if (!String.IsNullOrEmpty(ConfigurationManager.AppSettings["ProxyHost"]))
+			{
+				IWebProxy proxy;
+				string proxyHost = ConfigurationManager.AppSettings["ProxyHost"];
+
+				int proxyPort;
+				if (int.TryParse(ConfigurationManager.AppSettings["ProxyPort"], out proxyPort))
+				{
+					proxy = new WebProxy(proxyHost, proxyPort);
+				}
+				else
+				{
+					proxy = new WebProxy(proxyHost);
+				}
+				request.Proxy = proxy;
+			}
 
 			using(StreamWriter myWriter = new StreamWriter(request.GetRequestStream()))
 			{
