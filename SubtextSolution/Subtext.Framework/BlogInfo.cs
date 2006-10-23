@@ -715,6 +715,10 @@ namespace Subtext.Framework
 		{
 			get
 			{
+				if (this.feedbackService == null && FeedbackSpamServiceEnabled)
+				{
+					this.feedbackService = new AkismetSpamService(this.feedbackSpamServiceKey, this);
+				}
 				return this.feedbackService;
 			}
 			set

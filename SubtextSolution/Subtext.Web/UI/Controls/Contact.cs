@@ -57,7 +57,10 @@ namespace Subtext.Web.UI.Controls
 				int btnIndex = Controls.IndexOf(this.btnSend);
 				AddCaptchaIfNecessary(ref captcha, ref invisibleCaptchaValidator, btnIndex);
 			}
-			
+			else
+			{
+				RemoveCaptcha();
+			}
 			base.OnInit(e);
 		}
 		

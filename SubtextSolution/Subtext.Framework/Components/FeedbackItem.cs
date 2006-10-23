@@ -26,7 +26,6 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
-using Subtext.Framework.Util;
 using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Components
@@ -89,37 +88,32 @@ namespace Subtext.Framework.Components
 		/// <summary>
 		/// Creates a feedback item in the database.
 		/// </summary>
-		/// <param name="feedbackItem">The feedback.</param>
+		/// <param name="feedback">The feedback.</param>
 		/// <returns></returns>
-		public static int Create(FeedbackItem feedbackItem)
+		public static int Create(FeedbackItem feedback)
 		{
 			if (HttpContext.Current != null && HttpContext.Current.Request != null)
 			{
-				feedbackItem.UserAgent = HttpContext.Current.Request.UserAgent;
-				feedbackItem.IpAddress = HttpHelper.GetUserIpAddress(HttpContext.Current);
+				feedback.UserAgent = HttpContext.Current.Request.UserAgent;
+				feedback.IpAddress = HttpHelper.GetUserIpAddress(HttpContext.Current);
 			}
 			
-			feedbackItem.Approved = false;
-			feedbackItem.Author = HtmlHelper.SafeFormat(feedbackItem.Author);
-			feedbackItem.Body = HtmlHelper.ConvertToAllowedHtml(feedbackItem.Body);
-			feedbackItem.Title = HtmlHelper.SafeFormat(feedbackItem.Title);
-			feedbackItem.DateCreated = feedbackItem.DateModified = Config.CurrentBlog.TimeZone.Now;
-			feedbackItem.Id = ObjectProvider.Instance().Create(feedbackItem);
+			feedback.Approved = false;
+			feedback.Author = HtmlHelper.SafeFormat(feedback.Author);
+			feedback.Body = HtmlHelper.ConvertToAllowedHtml(feedback.Body);
+			feedback.Title = HtmlHelper.SafeFormat(feedback.Title);
+			feedback.DateCreated = feedback.DateModified = Config.CurrentBlog.TimeZone.Now;
+			feedback.Id = ObjectProvider.Instance().Create(feedback);
 
 			// if it's not the administrator commenting and it's not a trackback.
-			if (!Security.IsAdmin && !String.IsNullOrEmpty(Config.CurrentBlog.Email) && feedbackItem.FeedbackType != Extensibility.FeedbackType.PingTrack)
+			if (!Security.IsAdmin && !String.IsNullOrEmpty(Config.CurrentBlog.Email) && feedback.FeedbackType != Extensibility.FeedbackType.PingTrack)
 			{
-				try
-				{
-					EmailCommentToAdmin(feedbackItem);
-				}
-				catch (Exception e)
-				{
-					log.Error("Exception occurred while emailing the comment", e);
-				}
+				//In order to make this async, we need to pass the HttpContext.Current 
+				//several layers deep. Instead, we should create our own context.
+				EmailCommentToAdmin(feedback, Config.CurrentBlog);
 			}
 			
-			return feedbackItem.Id;
+			return feedback.Id;
 		}
 
 		/// <summary>
@@ -146,9 +140,9 @@ namespace Subtext.Framework.Components
 			return ObjectProvider.Instance().Update(feedbackItem);
 		}
 
-		private static void EmailCommentToAdmin(FeedbackItem comment)
+		private static void EmailCommentToAdmin(FeedbackItem comment, BlogInfo currentBlog)
 		{
-			string blogTitle = Config.CurrentBlog.Title;
+			string blogTitle = currentBlog.Title;
 
 			// create and format an email to the site admin with comment details
 			EmailProvider im = EmailProvider.Instance();
@@ -157,7 +151,7 @@ namespace Subtext.Framework.Components
 			if (String.IsNullOrEmpty(fromEmail))
 				fromEmail = null;
 
-			string To = Config.CurrentBlog.Email;
+			string To = currentBlog.Email;
 			string From = fromEmail ?? im.AdminEmail;
 			string Subject = String.Format(CultureInfo.InvariantCulture, "Comment: {0} (via {1})", comment.Title, blogTitle);
 			string commenterUrl = "none given";
@@ -173,7 +167,7 @@ namespace Subtext.Framework.Components
 								+ "{5}" + Environment.NewLine + Environment.NewLine
 								+ "Source: {6}";
 
-			string Body = string.Format(CultureInfo.InvariantCulture, bodyFormat,
+			string body = string.Format(CultureInfo.InvariantCulture, bodyFormat,
 										blogTitle,
 										comment.Author,
 										fromEmail ?? "no email given",
@@ -181,9 +175,16 @@ namespace Subtext.Framework.Components
 										comment.IpAddress,
 				// we're sending plain text email by default, but body includes <br />s for crlf
 										comment.Body.Replace("<br />", Environment.NewLine).Replace("&lt;br /&gt;", Environment.NewLine),
-										comment.DisplayUrl);
+										currentBlog.UrlFormats.FeedbackFullyQualifiedUrl(comment.EntryId, comment.parentEntryName, comment.ParentDateCreated, comment));
 
-			im.Send(To, From, Subject, Body);
+			try
+			{
+				im.Send(To, From, Subject, body);
+			}
+			catch(Exception e)
+			{
+				log.Warn("Could not email comment to admin", e);
+			}
 		}		
 		
 		/// <summary>

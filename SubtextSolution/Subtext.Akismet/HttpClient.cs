@@ -26,9 +26,26 @@ namespace Subtext.Akismet
 		/// <returns></returns>
 		public virtual string PostRequest(Uri url, string userAgent, int timeout, string formParameters)
 		{
+			return PostRequest(url, userAgent, timeout, formParameters, null);
+		}
+
+		/// <summary>
+		/// Posts the request.
+		/// </summary>
+		/// <param name="url">The URL.</param>
+		/// <param name="userAgent">The user agent.</param>
+		/// <param name="timeout">The timeout.</param>
+		/// <param name="formParameters">The form parameters.</param>
+		/// <param name="proxy">The proxy.</param>
+		/// <returns></returns>
+		public virtual string PostRequest(Uri url, string userAgent, int timeout, string formParameters, IWebProxy proxy)
+		{
 			System.Net.ServicePointManager.Expect100Continue = false;
 			HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
 
+			if (proxy != null)
+				request.Proxy = proxy;
+			
 			if (null != request)
 			{			
 				request.UserAgent = userAgent;

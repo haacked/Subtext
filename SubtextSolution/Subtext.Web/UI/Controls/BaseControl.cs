@@ -56,13 +56,6 @@ namespace Subtext.Web.UI.Controls
 			base.OnInit (e);
 		}
 
-
-//		protected override void OnLoad(EventArgs e)
-//		{
-//			_config = Config.CurrentBlog;
-//			base.OnLoad(e);
-//		}
-
 		private string skinFilePath;
 		public string SkinFilePath
 		{
@@ -83,7 +76,13 @@ namespace Subtext.Web.UI.Controls
 				}
 			}
 		}
-		
+
+		/// <summary>
+		/// Adds the captcha if necessary.
+		/// </summary>
+		/// <param name="captcha">The captcha.</param>
+		/// <param name="invisibleCaptchaValidator">The invisible captcha validator.</param>
+		/// <param name="btnIndex">Index of the BTN.</param>
 		protected void AddCaptchaIfNecessary(ref CaptchaControl captcha, ref InvisibleCaptcha invisibleCaptchaValidator, int btnIndex)
 		{				
 			if (Config.CurrentBlog.CaptchaEnabled)
@@ -95,27 +94,28 @@ namespace Subtext.Web.UI.Controls
 				{
 					Controls.AddAt(btnIndex, captcha);
 				}
-				
-				/*
-				* Experimental code for improved UI. Will put back in later.
-				*		- Phil Haack Removed 10/09/2006
-				if(Config.CurrentBlog.FeedbackSpamServiceEnabled)
-				{
-					// Set up this button just in case we need to show it.
-					if (btnConfirm == null)
-						btnConfirm = new Button();
-					btnConfirm.ID = "btnConfirm";
-					btnConfirm.Text = "Confirm";
-					btnConfirm.Visible = true;
-					Controls.AddAt(btnIndex, btnConfirm);
-					btnConfirm.Click += new EventHandler(btnConfirm_Click);
-				}*/
+			}
+			else
+			{
+				RemoveCaptcha();
 			}
 
 			invisibleCaptchaValidator = new InvisibleCaptcha();
 			invisibleCaptchaValidator.ErrorMessage = "Please enter the answer to the supplied question.";
 
 			Controls.AddAt(btnIndex, invisibleCaptchaValidator);
+		}
+
+		/// <summary>
+		/// Removes the captcha if necessary.
+		/// </summary>
+		protected void RemoveCaptcha()
+		{
+			Control preExisting = ControlHelper.FindControlRecursively(this, "captcha");
+			if (preExisting != null)
+			{
+				Controls.Remove(preExisting);
+			}
 		}
 	}
 }

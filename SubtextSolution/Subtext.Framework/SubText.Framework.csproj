@@ -430,6 +430,7 @@
     <Compile Include="Text\StringHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Threading\AsyncHelper.cs" />
     <Compile Include="Threading\ManagedThreadPool.cs" />
     <Compile Include="Threading\Semaphore.cs" />
     <Compile Include="Threading\TimedLock.cs">

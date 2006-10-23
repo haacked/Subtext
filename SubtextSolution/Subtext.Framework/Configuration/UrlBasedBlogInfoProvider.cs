@@ -22,7 +22,6 @@ using System.Web.Caching;
 using log4net;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
-using Subtext.Framework.Services;
 using Subtext.Framework.Web.HttpModules;
 
 namespace Subtext.Framework.Configuration
@@ -170,9 +169,6 @@ namespace Subtext.Framework.Configuration
 						log.Warn("Could not map the image directory.", nullException);
 					}
 
-					//TODO: Use dependency injection or a provider. This'll do for now.
-					if (info.FeedbackSpamServiceEnabled && info.FeedbackSpamService == null)
-						info.FeedbackSpamService = new AkismetSpamService(info.FeedbackSpamServiceKey, info);
 					CacheConfig(HttpContext.Current.Cache, info, mCacheKey);
 					HttpContext.Current.Items.Add(cacheKey, info);
 
@@ -193,8 +189,7 @@ namespace Subtext.Framework.Configuration
 			}
 
 			//TODO: Use dependency injection or a provider. This'll do for now.
-			if (info.FeedbackSpamServiceEnabled && info.FeedbackSpamService == null)
-				info.FeedbackSpamService = new AkismetSpamService(info.FeedbackSpamServiceKey, info);
+			
 			return info;
 		}
 

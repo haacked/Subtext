@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.Net;
 using System.Web;
 
 namespace Subtext.Akismet
@@ -135,6 +136,24 @@ namespace Subtext.Akismet
 		}
 
 		Uri blogUrl;
+
+		/// <summary>
+		/// Gets or sets the proxy to use.
+		/// </summary>
+		/// <value>The proxy.</value>
+		public IWebProxy Proxy
+		{
+			get
+			{
+				return this.proxy;
+			}
+			set
+			{
+				this.proxy = value;
+			}
+		}
+
+		IWebProxy proxy;
 
 		/// <summary>
 		/// Verifies the API key.  You really only need to
