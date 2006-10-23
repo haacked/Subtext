@@ -30,6 +30,8 @@ namespace Subtext.Extensibility.Plugins
 		private static readonly object sync = new object();
 		private Dictionary<string, IPlugin> _plugins = new Dictionary<string, IPlugin>();
 
+		//private static readonly Log __log = new Log();
+
 		public Dictionary<string, IPlugin> Plugins
 		{
 			get { return _plugins; }
@@ -77,11 +79,13 @@ namespace Subtext.Extensibility.Plugins
 
 						if (String.IsNullOrEmpty(setting.Type))
 						{
+							//__log.Warn("Cannot load plugin defined at line " + setting.ElementInformation.LineNumber + ":\r\nMissing Type");
 							continue;
 						}
 
 						if (String.IsNullOrEmpty(setting.Name))
 						{
+							//__log.Warn("Cannot load plugin defined at line " + setting.ElementInformation.LineNumber + ":\r\nMissing Name");
 							continue;
 						}
 
@@ -89,17 +93,24 @@ namespace Subtext.Extensibility.Plugins
 
 						if (type == null)
 						{
+							//__log.Warn("Cannot load plugin defined at line " + setting.ElementInformation.LineNumber + ":\r\nType " + setting.Type + " not found in any of the assembly available inside the \\bin folder");
 							continue;
 						}
 						IPlugin plugin = Activator.CreateInstance(type) as IPlugin;
 
 						if (plugin == null)
 						{
+							//__log.Warn("Cannot load plugin defined at line " + setting.ElementInformation.LineNumber + ":\r\nType " + setting.Type + " doesn't implements IPlugin interface");
 							continue;
 						}
 
 						plugin.Init(app);
 						app._plugins.Add(setting.Name, plugin);
+						
+						#if DEBUG
+						//__log.Debug("Loaded plugin with name " + setting.Name + " from type " + setting.Type);
+						#endif
+						
 					}
 				}
 			}
