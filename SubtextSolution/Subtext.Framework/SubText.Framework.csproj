@@ -487,9 +487,6 @@
     <Compile Include="UrlManager\HttpHandler.cs" />
     <Compile Include="UrlManager\PageHandlerFactory.cs" />
     <Compile Include="UrlManager\UrlReWriteHandlerFactory.cs" />
-    <Compile Include="Util\BlogTime.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Util\Keywords.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -23,7 +23,6 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
 using Subtext.Web.Controls;
-using StringHelper=Subtext.Framework.Text.StringHelper;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -119,6 +118,7 @@ namespace Subtext.Web.Admin.Pages
 			this.btnDestroy.Visible = false;
 			this.btnDelete.Visible = true;
 			this.btnConfirmSpam.Visible = true;
+			this.btnEmpty.Visible = false;
 			BindList();
 		}
 
@@ -129,9 +129,11 @@ namespace Subtext.Web.Admin.Pages
 			HtmlHelper.AppendCssClass(this.btnViewModerateComments, "active");
 			this.resultsPager.UrlFormat = "Feedback.aspx?pg={0}&status=" + (int)FeedbackStatusFilter;
 			this.btnApprove.Visible = true;
+			this.btnApprove.Text = "Approve";
 			this.btnConfirmSpam.Visible = true;
 			this.btnDestroy.Visible = false;
 			this.btnDelete.Visible = true;
+			this.btnEmpty.Visible = false;
 			BindList();
 		}
 		
@@ -142,9 +144,13 @@ namespace Subtext.Web.Admin.Pages
 			this.Results.HeaderText = "Comments Flagged As SPAM";
 			this.resultsPager.UrlFormat = "Feedback.aspx?pg={0}&status=" + (int)FeedbackStatusFilter;
 			this.btnApprove.Visible = true;
+			this.btnApprove.Text = "Approve";
 			this.btnDelete.Visible = true;
+			this.btnDelete.ToolTip = "Trashes checked spam";
 			this.btnDestroy.Visible = false;
 			this.btnConfirmSpam.Visible = false;
+			this.btnEmpty.Visible = true;
+			this.btnEmpty.ToolTip = "Destroy all spam, not just checked";
 			BindList();
 		}
 		
@@ -155,9 +161,12 @@ namespace Subtext.Web.Admin.Pages
 			this.Results.HeaderText = "Comments In The Trash Bin";
 			this.resultsPager.UrlFormat = "Feedback.aspx?pg={0}&status=" + (int)FeedbackStatusFilter;
 			this.btnApprove.Visible = true;
+			this.btnApprove.Text = "Undelete";
 			this.btnConfirmSpam.Visible = false;
 			this.btnDelete.Visible = false;
 			this.btnDestroy.Visible = true;
+			this.btnEmpty.Visible = true;
+			this.btnEmpty.ToolTip = "Destroy all trash, not just checked";
 			BindList();
 		}
 
@@ -297,6 +306,7 @@ namespace Subtext.Web.Admin.Pages
 				this.btnApprove.Visible = false;
 				this.btnDestroy.Visible = false;
 				this.btnConfirmSpam.Visible = false;
+				this.btnEmpty.Visible = false;
 			}
 			BindCounts();
 		}
@@ -358,6 +368,12 @@ namespace Subtext.Web.Admin.Pages
 		}
 		#endregion
 
+		protected void OnEmptyClick(object sender, System.EventArgs e)
+		{
+			FeedbackItem.Destroy(FeedbackStatusFilter);
+			BindList();
+		}
+		
 		/// <summary>
 		/// Event handler for the approve button click event. 
 		/// Approves the checked comments.

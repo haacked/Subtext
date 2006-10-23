@@ -79,9 +79,6 @@ namespace Subtext.Framework.Syndication
 		/// <param name="item">The item.</param>
 		/// <returns></returns>
 		protected abstract DateTime GetItemCreatedDate(T item);
-
-
-
 	}
 }
 

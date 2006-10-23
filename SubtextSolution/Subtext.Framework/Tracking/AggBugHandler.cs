@@ -104,7 +104,7 @@ namespace Subtext.Framework.Tracking
 			}
 
 			//convert to datetime and add 12 hours. We don't want to count quick reclicks.
-			return dt.AddHours(12) >= DateTime.Now.ToUniversalTime();
+			return dt.AddHours(12) >= DateTime.UtcNow;
 		}
 
 		/// <summary>

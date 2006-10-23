@@ -228,6 +228,12 @@ namespace Subtext.Framework.Providers
 		/// </summary>
 		/// <param name="id">The id.</param>
 		public abstract void DestroyFeedback(int id);
+
+		/// <summary>
+		/// Destroys the feedback with the given status.
+		/// </summary>
+		/// <param name="status">The status.</param>
+		public abstract void DestroyFeedback(FeedbackStatusFlag status);
 		#endregion
 
 		/// <summary>

@@ -28,25 +28,10 @@ namespace Subtext.Framework.Syndication
 	/// </summary>
 	public abstract class BaseAtomWriter : BaseSyndicationWriter<Entry>
 	{
-
 		#region TimeHelpers
-		//Maybe move to globals/util?
-		private string TimeZone(int tz)
+		private string W3UTC(DateTime dt, TimeZone tz)
 		{
-			if(tz < 0)
-			{
-				return tz.ToString("00") + ":00";
-			}
-			else
-			{
-				return "+" + tz.ToString("00") + ":00";
-			}
-
-		}
-
-		private string W3UTC(DateTime dt, string tz)
-		{
-			return dt.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture) + tz;
+			return dt.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture) + tz.GetUtcOffset(dt);
 		}
 
 		private string W3UTCZ(DateTime dt)
@@ -168,7 +153,6 @@ namespace Subtext.Framework.Syndication
 		{
 			BlogConfigurationSettings settings = Config.Settings;
 
-			string timezone = TimeZone(info.TimeZone);
 			this.clientHasAllFeedItems = true;
 			this.latestPublishDate = this.DateLastViewedFeedItemPublished;
 
@@ -180,7 +164,7 @@ namespace Subtext.Framework.Syndication
 				if(!useDeltaEncoding || entry.DateSyndicated > this.DateLastViewedFeedItemPublished)
 				{
 					this.WriteStartElement("entry");
-					EntryXml(entry, settings, info.UrlFormats, timezone);
+					EntryXml(entry, settings, info.UrlFormats, info.TimeZone);
 					this.WriteEndElement();
 					this.clientHasAllFeedItems = false;
 					
@@ -193,7 +177,7 @@ namespace Subtext.Framework.Syndication
 			}
 		}
 
-		protected virtual void EntryXml(Entry entry, BlogConfigurationSettings settings, UrlFormats urlFormats, string timezone)
+		protected virtual void EntryXml(Entry entry, BlogConfigurationSettings settings, UrlFormats urlFormats, TimeZone timezone)
 		{
 				this.WriteElementString("title",entry.Title);
 						
@@ -209,7 +193,7 @@ namespace Subtext.Framework.Syndication
 				//(Duncanma 11/13/2005, hiding created, change issued to
 			    //published and modified to updated for 1.0 feed)
 				//this.WriteElementString("created",W3UTCZ(entry.DateCreated));
-				this.WriteElementString("published", W3UTC(entry.DateCreated.AddHours((-1) * info.TimeZone), timezone));
+				this.WriteElementString("published", W3UTC(entry.DateCreated, info.TimeZone));
 				this.WriteElementString("updated", W3UTCZ(entry.DateModified));
 
 				if(entry.HasDescription)

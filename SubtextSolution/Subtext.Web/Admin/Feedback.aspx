@@ -15,7 +15,7 @@
 <asp:Content ID="entryEditor" ContentPlaceHolderID="pageContent" runat="server">
 	<st:MessagePanel id="Messages" runat="server" />
 	<st:AdvancedPanel id="Results" runat="server" Collapsible="False" HeaderText="Comments" HeaderCssClass="CollapsibleHeader" DisplayHeader="true">
-		<ASP:Repeater id="rprSelectionList" runat="server">
+		<asp:Repeater id="rprSelectionList" runat="server">
 			<HeaderTemplate>
 				<table id="feedback" class="Listing" style="<%= CheckHiddenStyle() %>">
 					<tr>
@@ -72,7 +72,7 @@
 			<FooterTemplate>
 			</table>
 		</FooterTemplate>
-		</ASP:Repeater>
+		</asp:Repeater>
 		<sub:PagingControl id="resultsPager" runat="server" 
 			PrefixText="<div>Goto page</div>" 
 			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' 
@@ -82,6 +82,7 @@
 		<asp:Button id="btnDestroy" runat="server" CssClass="buttonSubmit" style="float:right" Text="Destroy" onclick="OnDestroyClick" Visible="false" OnClientClick="return confirm('This will delete these comments permanently. Continue?');" ToolTip="Delete Forever" />
 		<asp:Button id="btnConfirmSpam" runat="server" CssClass="buttonSubmit" style="float:right" Text="Spam" onclick="OnConfirmSpam" ToolTip="Confirm Spam Moves Item To Trash" />
 		<asp:Button id="btnApprove" runat="server" CssClass="buttonSubmit" style="float:right" Text="Approve" onclick="OnApproveClick" ToolTip="Approve" />
+		<asp:Button id="btnEmpty" runat="server" CssClass="buttonSubmit" style="float:right" Text="Empty" OnClick="OnEmptyClick" OnClientClick="return confirm('This will permanently delete every comment of this type. Continue?');" ToolTip="Empty" />
 		<br class="clear" />
 	</st:AdvancedPanel>
 </asp:Content>

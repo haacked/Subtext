@@ -19,7 +19,7 @@ namespace Subtext.Framework
 			DateTime dt = NullValue.NullDateTime;
 			try
 			{
-				return DateTime.Parse(dateTime);
+				return DateTime.Parse(dateTime, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
 			}
 			catch(System.FormatException)
 			{

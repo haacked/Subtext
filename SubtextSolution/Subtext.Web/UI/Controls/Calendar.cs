@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using Subtext.Framework;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Components;
 
@@ -116,7 +117,7 @@ namespace Subtext.Web.UI.Controls
 				}
 			}
 			// If all else fails set the cal to today.
-			return DateTime.Now;
+			return Config.CurrentBlog.TimeZone.Now;
 		}
 
 
@@ -135,7 +136,7 @@ namespace Subtext.Web.UI.Controls
 			}
 			catch (FormatException)
 			{
-				parsedDate = DateTime.Now;
+				parsedDate = Config.CurrentBlog.TimeZone.Now;
 				return false;
 			}
 		}

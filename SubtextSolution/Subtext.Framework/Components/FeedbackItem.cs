@@ -103,7 +103,7 @@ namespace Subtext.Framework.Components
 			feedbackItem.Author = HtmlHelper.SafeFormat(feedbackItem.Author);
 			feedbackItem.Body = HtmlHelper.ConvertToAllowedHtml(feedbackItem.Body);
 			feedbackItem.Title = HtmlHelper.SafeFormat(feedbackItem.Title);
-			feedbackItem.DateCreated = feedbackItem.DateModified = BlogTime.CurrentBloggerTime;
+			feedbackItem.DateCreated = feedbackItem.DateModified = Config.CurrentBlog.TimeZone.Now;
 			feedbackItem.Id = ObjectProvider.Instance().Create(feedbackItem);
 
 			// if it's not the administrator commenting and it's not a trackback.
@@ -141,8 +141,8 @@ namespace Subtext.Framework.Components
 		{
 			if (feedbackItem == null)
 				throw new ArgumentNullException("feedbackItem", "Cannot update a null feedback");
-			
-			feedbackItem.DateModified = DateTime.Now;
+
+			feedbackItem.DateModified = Config.CurrentBlog.TimeZone.Now;
 			return ObjectProvider.Instance().Update(feedbackItem);
 		}
 
@@ -155,12 +155,15 @@ namespace Subtext.Framework.Components
 
 			string fromEmail = comment.Email;
 			if (String.IsNullOrEmpty(fromEmail))
-				fromEmail = im.AdminEmail;
+				fromEmail = null;
 
 			string To = Config.CurrentBlog.Email;
-			string From = fromEmail;
+			string From = fromEmail ?? im.AdminEmail;
 			string Subject = String.Format(CultureInfo.InvariantCulture, "Comment: {0} (via {1})", comment.Title, blogTitle);
-
+			string commenterUrl = "none given";
+			if(comment.SourceUrl != null)
+				commenterUrl = comment.SourceUrl.ToString();
+			
 			string bodyFormat = "Comment from {0}" + Environment.NewLine
 								+ "----------------------------------------------------" + Environment.NewLine
 								+ "From:\t{1} <{2}>" + Environment.NewLine
@@ -168,23 +171,17 @@ namespace Subtext.Framework.Components
 								+ "IP:\t{4}" + Environment.NewLine
 								+ "====================================================" + Environment.NewLine + Environment.NewLine
 								+ "{5}" + Environment.NewLine + Environment.NewLine
-								+ "Source: {6}#{7}";
-
-			string sourceUrl = Config.CurrentBlog.RootUrl.ToString();
-			if (!String.IsNullOrEmpty(sourceUrl) && sourceUrl.EndsWith("/"))
-				sourceUrl = sourceUrl.Substring(0, sourceUrl.Length - 1);
-			sourceUrl += comment.SourceUrl;
+								+ "Source: {6}";
 
 			string Body = string.Format(CultureInfo.InvariantCulture, bodyFormat,
 										blogTitle,
 										comment.Author,
-										comment.Email,
-										comment.SourceUrl,
+										fromEmail ?? "no email given",
+										commenterUrl,
 										comment.IpAddress,
 				// we're sending plain text email by default, but body includes <br />s for crlf
-										comment.Body.Replace("<br />", Environment.NewLine),
-										sourceUrl,
-										comment.EntryId);
+										comment.Body.Replace("<br />", Environment.NewLine).Replace("&lt;br /&gt;", Environment.NewLine),
+										comment.DisplayUrl);
 
 			im.Send(To, From, Subject, Body);
 		}		
@@ -254,7 +251,22 @@ namespace Subtext.Framework.Components
 			if (feedback == null)
 				throw new ArgumentNullException("comment", "Cannot destroy a null comment.");
 
+			if (feedback.Approved)
+				throw new InvalidOperationException("Cannot destroy an approved comment. Please flag it as spam or trash it first.");
+			
 			ObjectProvider.Instance().DestroyFeedback(feedback.Id);
+		}
+
+		/// <summary>
+		/// Destroys all non-active emails that meet the status.
+		/// </summary>
+		/// <param name="feedbackStatus">The feedback.</param>
+		public static void Destroy(FeedbackStatusFlag feedbackStatus)
+		{
+			if ((feedbackStatus & FeedbackStatusFlag.Approved) == FeedbackStatusFlag.Approved)
+				throw new InvalidOperationException("Cannot destroy an active comment.");
+
+			ObjectProvider.Instance().DestroyFeedback(feedbackStatus);
 		}
 
 		/// <summary>
@@ -400,7 +412,7 @@ namespace Subtext.Framework.Components
 			set { _sourceurl = value; }
 		}
 		private Uri _sourceurl;
-
+	
 		/// <summary>
 		/// Returns the URL to view the specific comment 
 		/// within the blog.
@@ -630,17 +642,45 @@ namespace Subtext.Framework.Components
 			return checksum;
 		}
 
+		void LoadParentEntryInfo()
+		{
+			if(EntryId > 0)
+			{
+				Entry entry = Entries.GetEntry(EntryId, PostConfig.None, false);
+				parentEntryName = entry.EntryName;
+				parentDateCreated = entry.DateCreated;
+			}
+		}
+		
+		/// <summary>
+		/// Gets or sets the name of the parent entry.
+		/// </summary>
+		/// <value>The name of the parent entry.</value>
 		public string ParentEntryName
 		{
-			get { return this.parentEntryName; }
+			get
+			{
+				if(this.parentEntryName == null)
+					LoadParentEntryInfo();
+				return this.parentEntryName;
+			}
 			set { this.parentEntryName = value; }
 		}
 
 		string parentEntryName;
 
+		/// <summary>
+		/// Gets or sets the parent entry date created.
+		/// </summary>
+		/// <value>The parent date created.</value>
 		public DateTime ParentDateCreated
 		{
-			get { return this.parentDateCreated; }
+			get
+			{
+				if (this.parentDateCreated == NullValue.NullDateTime)
+					LoadParentEntryInfo();
+				return this.parentDateCreated;
+			}
 			set { this.parentDateCreated = value; }
 		}
 

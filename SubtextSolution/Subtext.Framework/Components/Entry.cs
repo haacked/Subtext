@@ -305,7 +305,7 @@ namespace Subtext.Framework.Components
 			{
 				if(value && NullValue.IsNull(DateSyndicated) && this.IsActive)
 				{
-					DateSyndicated = DateTime.Now;
+					DateSyndicated = Config.CurrentBlog.TimeZone.Now;
 				}
 				PostConfigSetter(PostConfig.IncludeInMainSyndication,value);
 			}
@@ -349,7 +349,7 @@ namespace Subtext.Framework.Components
 				if(Config.CurrentBlog.DaysTillCommentsClose == int.MaxValue)
 					return false;
 
-				return DateTime.Now > this.DateCreated.AddDays(Config.CurrentBlog.DaysTillCommentsClose);
+				return Config.CurrentBlog.TimeZone.Now > this.DateCreated.AddDays(Config.CurrentBlog.DaysTillCommentsClose);
 			}
 		}
 

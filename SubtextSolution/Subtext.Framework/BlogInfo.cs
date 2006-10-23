@@ -22,6 +22,7 @@ using Subtext.Framework.Format;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Services;
 using Subtext.Framework.Text;
+using Subtext.Framework.Util;
 using Subtext.Framework.Web.HttpModules;
 
 namespace Subtext.Framework
@@ -153,17 +154,32 @@ namespace Subtext.Framework
 			set{_blogID = value;}
 		}
 
-		private int _timeZone = 0;
+		/// <summary>
+		/// Gets the time zone.
+		/// </summary>
+		/// <value>The time zone.</value>
+		public WindowsTimeZone TimeZone
+		{
+			get
+			{
+				WindowsTimeZone timezone = WindowsTimeZone.GetById(_timeZoneId);
+				if (timezone == null)
+					return WindowsTimeZone.GetById(System.TimeZone.CurrentTimeZone.StandardName.GetHashCode());
+				return timezone;
+			}
+		}
+
 		/// <summary>
 		/// Gets or sets the time zone for the blogger.  
 		/// 0 = GMT. -8 = PST.
 		/// </summary>
 		/// <value></value>
-		public int TimeZone
+		public int TimeZoneId
 		{
-			get{return _timeZone;}
-			set{_timeZone = value;}
+			get{return this._timeZoneId;}
+			set{this._timeZoneId = value;}
 		}
+		private int _timeZoneId = 0;
 
 		private int _itemCount = 15;
 		/// <summary>

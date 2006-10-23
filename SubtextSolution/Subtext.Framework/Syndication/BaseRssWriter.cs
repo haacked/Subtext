@@ -266,7 +266,7 @@ namespace Subtext.Framework.Syndication
             }
 
 			this.WriteElementString("guid", fullUrl);
-			this.WriteElementString("pubDate", GetPublishedDate(item).ToString("r"));
+			this.WriteElementString("pubDate", GetPublishedDateUtc(item).ToString("r"));
 
 			if (ItemCouldContainComments(item))
 			{
@@ -328,7 +328,7 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		/// <param name="item">The item.</param>
 		/// <returns></returns>
-		protected abstract DateTime GetPublishedDate(T item);
+		protected abstract DateTime GetPublishedDateUtc(T item);
 
 		/// <summary>
 		/// Returns true if the Item could contain comments.

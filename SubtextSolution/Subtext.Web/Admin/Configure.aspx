@@ -57,33 +57,14 @@
 					<st:HelpToolTip id="hlpTimeZone" runat="server" HelpText="Select your timezone, which may differ from the timezone where your blog server is located." ImageUrl="~/images/icons/help-small.png" ImageWidth="16" ImageHeight="16" />
 				</label>
 				<asp:DropDownList id="ddlTimezone" runat="server" OnSelectedIndexChanged="ddlTimezone_SelectedIndexChanged" AutoPostBack="true">
-					<asp:ListItem Text="Hawaii (GMT -10)" Value="-10" />
-					<asp:ListItem Text="Alaska (GMT -9)" Value="-9" />
-					<asp:ListItem Text="Pacific Time (GMT -8)" Value="-8" />
-					<asp:ListItem Text="Mountain Time (GMT -7)" Value="-7" />
-					<asp:ListItem Text="Central Time (GMT -6)" Value="-6" />
-					<asp:ListItem Text="Eastern Time (GMT -5)" Value="-5" />
-					<asp:ListItem Text="Atlantic Time (GMT -4)" Value="-4" />
-					<asp:ListItem Text="Brasilia Time (GMT -3)" Value="-3" />
-					<asp:ListItem Text="(GMT -2)" Value="-2" />
-					<asp:ListItem Text="(GMT -1)" Value="-1" />
-					<asp:ListItem Text="Greenwich Mean Time (GMT +0)" Value="0" />
-					<asp:ListItem Text="Central Europe Time (GMT +1)" Value="1" />
-					<asp:ListItem Text="Eastern Europe Time (GMT +2)" Value="2" />
-					<asp:ListItem Text="Middle Eastern Time (GMT +3)" Value="3" />
-					<asp:ListItem Text="Abu Dhabi Time (GMT +4)" Value="4" />
-					<asp:ListItem Text="Indian Time (GMT +5)" Value="5" />
-					<asp:ListItem Text="Eastern China Time (GMT +8)" Value="8" />
-					<asp:ListItem Text="Japan Time (GMT +9)" Value="9" />
-					<asp:ListItem Text="Australian Time (GMT +10)" Value="10" />
-					<asp:ListItem Text="Pacific Rim Time (GMT +11)" Value="11" />
-					<asp:ListItem Text="New Zealand Time (GMT +12)" Value="12" />
+					
 				</asp:DropDownList>
 			</p>
 			<p>
 				<em>Time at selected timezone is: <strong><asp:Label ID="lblCurrentTime" runat="server" /></strong></em><br />
 				<em>Time at server is: <strong><asp:Label ID="lblServerTime" runat="server" /></strong></em><br />
-				<em>Server timezone is <asp:Label ID="lblServerTimeZone" runat="server" />)</em>
+				<em>Server timezone is <asp:Label ID="lblServerTimeZone" runat="server" />)</em><br />
+				<em><acronym title="Coordinated Universal Time">UTC</acronym> time is <asp:Label ID="lblUtcTime" runat="server" />)</em>
 			</p>
 			</ajax:ajaxpanel>
 			<p>

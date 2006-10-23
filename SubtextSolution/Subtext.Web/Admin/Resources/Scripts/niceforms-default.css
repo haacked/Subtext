@@ -220,20 +220,6 @@ label.Block
 }
 
 /*Button*/
-.buttonSubmit, .buttonSubmitHovered 
-{
-	width:69px;
-	height:26px;
-	color:#FFF;
-	font-weight:bold;
-	padding:2px 5px;
-	background:url(images/button.gif) no-repeat left top;
-	cursor:pointer;
-	border:none;
-}
-.buttonSubmitHovered {
-	background-position:left bottom;
-}
 
 /*Test div - testing if stylesheets are enabled*/
 #stylesheetTest 

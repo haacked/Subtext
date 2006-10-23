@@ -192,6 +192,12 @@ namespace Subtext.Framework.Providers
 		/// </summary>
 		/// <param name="id"></param>
 		public abstract void DestroyFeedback(int id);
+
+		/// <summary>
+		/// Completely deletes all feedback that fit the status.
+		/// </summary>
+		/// <param name="status"></param>
+		public abstract void DestroyFeedback(FeedbackStatusFlag status);
 	    
 	    /// <summary>
 	    /// Adds a new entry in the database.

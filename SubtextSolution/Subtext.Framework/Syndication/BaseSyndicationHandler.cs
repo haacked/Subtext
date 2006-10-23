@@ -19,7 +19,6 @@ using System.Net;
 using System.Web;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Syndication.Compression;
-using Subtext.Framework.Util;
 
 namespace Subtext.Framework.Syndication
 {
@@ -151,9 +150,15 @@ namespace Subtext.Framework.Syndication
 			Context.Response.StatusCode = 304;
 		}
 
+		/// <summary>
+		/// Convert a date to the server time.
+		/// </summary>
+		/// <param name="dt"></param>
+		/// <returns></returns>
 		protected DateTime ConvertLastUpdatedDate(DateTime dt)
 		{
-			return BlogTime.ConvertToServerTime(dt, CurrentBlog.TimeZone);
+			DateTime utc = Config.CurrentBlog.TimeZone.ToUniversalTime(dt);
+			return TimeZone.CurrentTimeZone.ToLocalTime(utc);
 		}
 
 		/// <summary>

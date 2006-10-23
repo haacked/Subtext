@@ -110,6 +110,7 @@ namespace Subtext.Framework.Util
 	/// that implements time zones based in the time zone information
 	/// found in Windows.
 	/// </summary>
+	[Serializable]
 	public class WindowsTimeZone : TimeZone
 	{
 		private string displayName;
@@ -120,7 +121,14 @@ namespace Subtext.Framework.Util
 		private TimeSpan standardBias;
 		private TimeSpan daylightBias;
 		private WindowsTZI winTZI;
-       
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WindowsTimeZone"/> class.
+		/// </summary>
+		public WindowsTimeZone()
+		{
+		}
+		
 		internal WindowsTimeZone(string displayName, string daylightZoneName, string standardZoneName, int zoneIndex, byte[] tzi )
 		{
 			this.winTZI.bias = 0;
@@ -135,7 +143,34 @@ namespace Subtext.Framework.Util
 			this.daylightBias = TimeSpan.FromMinutes( winTZI.daylightBias*-1 );
 		}
 
+		/// <summary>
+		/// Gets the id.
+		/// </summary>
+		/// <value>The id.</value>
+		public int Id
+		{
+			get
+			{
+				return this.StandardName.GetHashCode();
+			}
+		}
 
+		/// <summary>
+		/// Gets the current time in this timezone.
+		/// </summary>
+		/// <value>The now.</value>
+		public DateTime Now
+		{
+			get
+			{
+				return ToLocalTime(DateTime.UtcNow);
+			}
+		}
+		
+		/// <summary>
+		/// A friendly name for the timezone.
+		/// </summary>
+		/// <value>The name of the display.</value>
 		public string DisplayName { get { return displayName; } set { this.displayName = value;}}
 		public string DaylightZoneName { get { return daylightZoneName; } set { this.daylightZoneName = value;}}
 		public string StandardZoneName { get { return standardZoneName; } set { this.standardZoneName = value;}}
@@ -167,6 +202,16 @@ namespace Subtext.Framework.Util
 			return displayName;
 		}
 
+
+		/// <summary>
+		/// Gets a timezone the by id.
+		/// </summary>
+		/// <param name="id">The id.</param>
+		/// <returns></returns>
+		public static WindowsTimeZone GetById(int id)
+		{
+			return WindowsTimeZone.TimeZones.GetById(id);
+		}
 
 		private static object daylightChangesLock = new object();
 		private static Hashtable daylightChanges = new Hashtable();
@@ -338,10 +383,11 @@ namespace Subtext.Framework.Util
 
 		private static WindowsTimeZoneCollection LoadTimeZonesFromXml()
 		{
-			WindowsTimeZoneCollection tzs = new WindowsTimeZoneCollection();
-			XmlSerializer ser = new XmlSerializer(tzs.GetType());
+			WindowsTimeZoneCollection tzs;
+			Type tzcType = typeof(WindowsTimeZoneCollection);
+			XmlSerializer ser = new XmlSerializer(tzcType);
 
-			using (StreamReader rs = new StreamReader(tzs.GetType().Assembly.GetManifestResourceStream(tzs.GetType().Namespace + ".WindowsTimeZoneCollection.xml")))
+			using (StreamReader rs = new StreamReader(tzcType.Assembly.GetManifestResourceStream(tzcType.Namespace + ".WindowsTimeZoneCollection.xml")))
 			{
 				tzs = ser.Deserialize(rs) as WindowsTimeZoneCollection;
 			}
@@ -428,12 +474,13 @@ namespace Subtext.Framework.Util
 	/// <summary>
 	/// A collection of elements of type WindowsTimeZone
 	/// </summary>
-	public class WindowsTimeZoneCollection: System.Collections.CollectionBase
+	[Serializable]
+	public class WindowsTimeZoneCollection : System.Collections.CollectionBase
 	{
 		/// <summary>
 		/// Initializes a new empty instance of the WindowsTimeZoneCollection class.
 		/// </summary>
-		internal WindowsTimeZoneCollection()
+		public WindowsTimeZoneCollection()
 		{
 			// empty
 		}
@@ -491,11 +538,16 @@ namespace Subtext.Framework.Util
 			}
 		}
 
-		public virtual WindowsTimeZone GetByZoneIndex(int zoneIndex)
+		/// <summary>
+		/// Gets the WindowsTimeZone by id.
+		/// </summary>
+		/// <param name="id">The id.</param>
+		/// <returns></returns>
+		public virtual WindowsTimeZone GetById(int id)
 		{
 			foreach( WindowsTimeZone wtz in this )
 			{
-				if ( wtz.ZoneIndex == zoneIndex )
+				if ( wtz.Id == id )
 				{
 					return wtz;
 				}
@@ -540,8 +592,6 @@ namespace Subtext.Framework.Util
 			{
 				this.wrapped.Reset();
 			}
-
-            
 		}
 
 		/// <summary>
