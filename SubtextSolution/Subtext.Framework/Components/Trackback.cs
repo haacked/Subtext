@@ -1,4 +1,5 @@
 using System;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Components
 {
@@ -16,7 +17,7 @@ namespace Subtext.Framework.Components
 		/// <param name="sourceUrl">The source URL.</param>
 		/// <param name="author">The author.</param>
 		/// <param name="body">The body.</param>
-		public Trackback(int entryId, string title, Uri sourceUrl, string author, string body) : this(entryId, title, sourceUrl, author, body, DateTime.Now)
+		public Trackback(int entryId, string title, Uri sourceUrl, string author, string body) : this(entryId, title, sourceUrl, author, body, Config.CurrentBlog.TimeZone.Now)
 		{
 		}
 		

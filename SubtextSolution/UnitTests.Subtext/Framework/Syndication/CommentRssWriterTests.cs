@@ -17,6 +17,8 @@ namespace UnitTests.Subtext.Framework.Syndication
 	[TestFixture]
 	public class CommentRssWriterTests : SyndicationTestBase
 	{
+		const int PacificTimeZoneId = -2037797565;
+		
 		/// <summary>
 		/// Tests that a valid feed is produced even if a post has no comments.
 		/// </summary>
@@ -32,7 +34,8 @@ namespace UnitTests.Subtext.Framework.Syndication
 			blogInfo.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = true;
 			blogInfo.Title = "My Blog Rulz";
-
+			blogInfo.TimeZoneId = PacificTimeZoneId;
+			
 			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("haacked", "title of the post", "Body of the post.");
@@ -88,6 +91,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			blogInfo.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = true;
 			blogInfo.Title = "My Blog Rulz";
+			
 
 			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 

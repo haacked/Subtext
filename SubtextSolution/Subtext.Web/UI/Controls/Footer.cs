@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using Subtext.Framework.Configuration;
 
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,7 +44,7 @@ namespace Subtext.Web.UI.Controls
 		    
 		    if(currentYear != null)
 		    {
-                currentYear.Text = DateTime.Now.Year.ToString(CultureInfo.InvariantCulture);
+				currentYear.Text = Config.CurrentBlog.TimeZone.Now.Year.ToString(CultureInfo.InvariantCulture);
 		    }
 		}
 	}

@@ -1,5 +1,8 @@
 using System;
 using System.Globalization;
+using System.IO;
+using System.Text;
+using System.Xml.Serialization;
 using Subtext.Framework.Util;
 using MbUnit.Framework;
 
@@ -8,6 +11,30 @@ namespace UnitTests.Subtext.Framework.Util
 	[TestFixture]
 	public class TimeZonesTest
 	{
+		const int PacificTimeZoneId = -2037797565;
+		
+		[Test, Ignore("Only run this when we need to regen this file. Better to make this a build step.")]
+		public void WriteTimeZonesToFile()
+		{
+			Type tzcType = typeof(WindowsTimeZoneCollection);
+			XmlSerializer ser = new XmlSerializer(tzcType);
+			using (StreamWriter writer = new StreamWriter("c:\\WindowsTimeZoneCollection.xml", false, Encoding.UTF8)) 
+				ser.Serialize(writer, WindowsTimeZone.TimeZones);
+		}
+		
+		[RowTest]
+		[Row(PacificTimeZoneId, "Pacific Standard Time", "Pacific Standard Time", "Pacific Daylight Time", "(GMT-08:00) Pacific Time (US & Canada); Tijuana", -480)]
+		[Row(0, "", "", "", "", 0, ExpectedException = typeof(NullReferenceException))]
+		public void CanGetById(int id, string standardName, string standardZoneName, string daylightZoneName, string displayName, int bias)
+		{
+			WindowsTimeZone timeZone = WindowsTimeZone.GetById(id);
+			Assert.AreEqual(standardZoneName, timeZone.StandardZoneName);
+			Assert.AreEqual(standardName, timeZone.StandardName);
+			Assert.AreEqual(daylightZoneName, timeZone.DaylightZoneName);
+			Assert.AreEqual(displayName, timeZone.DisplayName);
+			Assert.AreEqual(bias, timeZone.BaseBias.TotalMinutes);
+		}
+		
 		[Test]
 		public void CanEnumerateTimezones()
 		{
@@ -20,8 +47,7 @@ namespace UnitTests.Subtext.Framework.Util
 				Console.WriteLine(timeZone.ZoneIndex + "\t" + timeZone.DisplayName + "\t" + timeZone.GetUtcOffset(DateTime.Now));
 			}
 
-			WindowsTimeZone pst = WindowsTimeZone.TimeZones.GetByZoneIndex(4);
-			
+			WindowsTimeZone pst = WindowsTimeZone.TimeZones.GetById(PacificTimeZoneId);
 			Console.WriteLine();
 			
 			Console.WriteLine("The time at " + pst.DisplayName + " is " + pst.ToLocalTime(DateTime.Now) + " and is daylight savings:" + pst.IsDaylightSavingTime(DateTime.Now));
@@ -44,8 +70,8 @@ namespace UnitTests.Subtext.Framework.Util
 		[Test]
 		public void SimplePstConversionTest()
 		{
-			WindowsTimeZone pst = WindowsTimeZone.TimeZones.GetByZoneIndex(4); //PST
-			Console.WriteLine(pst.ToLocalTime(DateTime.UtcNow));
+			WindowsTimeZone pst = WindowsTimeZone.TimeZones.GetById(PacificTimeZoneId); //PST
+			Console.WriteLine(pst.Now);
 
 			Console.WriteLine(TimeZone.CurrentTimeZone.ToLocalTime(DateTime.UtcNow));
 		}
@@ -67,7 +93,7 @@ namespace UnitTests.Subtext.Framework.Util
 			Assert.AreEqual(DateTimeKind.Utc, utcDate.Kind);
 			Assert.AreEqual("12/30/2006 19:30", utcDate.ToString("MM/dd/yyyy HH:mm", culture), "An assumption about round tripping the UTC date was wrong.");
 
-			WindowsTimeZone pst = WindowsTimeZone.TimeZones.GetByZoneIndex(4); //PST
+			WindowsTimeZone pst = WindowsTimeZone.TimeZones.GetById(PacificTimeZoneId); //PST
 
 			DateTime pstDate = pst.ToLocalTime(utcDate);
 			Assert.AreEqual(DateTimeKind.Local, pstDate.Kind, "Expected to be local now.");
@@ -84,8 +110,8 @@ namespace UnitTests.Subtext.Framework.Util
 			utcDate = utcDate.ToLocalTime().ToUniversalTime();
 			Assert.AreEqual(DateTimeKind.Utc, utcDate.Kind);
 			Assert.AreEqual("10/01/2006 19:30", utcDate.ToString("MM/dd/yyyy HH:mm", culture), "An assumption about round tripping the UTC date was wrong.");
-						
-			WindowsTimeZone pst = WindowsTimeZone.TimeZones.GetByZoneIndex(4); //PST
+
+			WindowsTimeZone pst = WindowsTimeZone.TimeZones.GetById(PacificTimeZoneId); //PST
 
 			DateTime pstDate = pst.ToLocalTime(utcDate);
 			Assert.AreEqual(DateTimeKind.Local, pstDate.Kind, "Expected to be local now.");
@@ -99,8 +125,8 @@ namespace UnitTests.Subtext.Framework.Util
 		{
 			IFormatProvider culture = new CultureInfo("en-US", true);
 			DateTime localDate = DateTime.Parse("10/01/2006 12:30", culture, DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.AssumeLocal);
-			
-			WindowsTimeZone pst = WindowsTimeZone.TimeZones.GetByZoneIndex(4); //PST
+
+			WindowsTimeZone pst = WindowsTimeZone.TimeZones.GetById(PacificTimeZoneId); //PST
 
 			DateTime utcDate = pst.ToUniversalTime(localDate);
 			
@@ -115,7 +141,7 @@ namespace UnitTests.Subtext.Framework.Util
 		[Test]
 		public void ToUniversalTimeReturnsDateTimeKindUtc()
 		{
-			WindowsTimeZone pst = WindowsTimeZone.TimeZones.GetByZoneIndex(4); //PST
+			WindowsTimeZone pst = WindowsTimeZone.TimeZones.GetById(PacificTimeZoneId); //PST
 			DateTime now = DateTime.Now;
 			Assert.AreEqual(DateTimeKind.Local, now.Kind);
 			DateTime utcDate = pst.ToUniversalTime(now);
@@ -125,7 +151,7 @@ namespace UnitTests.Subtext.Framework.Util
 		[Test]
 		public void GetDaylightChangesReturnsProperDaylightSavingsInfo()
 		{
-			WindowsTimeZone pst = WindowsTimeZone.TimeZones.GetByZoneIndex(4); //PST
+			WindowsTimeZone pst = WindowsTimeZone.TimeZones.GetById(PacificTimeZoneId); //PST
 			DaylightTime daylightChanges = pst.GetDaylightChanges(2006);
 			DateTime start = DateTime.Parse("4/2/2006 2:00:00 AM");
 			DateTime end = DateTime.Parse("10/29/2006 2:00:00 AM");
@@ -136,7 +162,7 @@ namespace UnitTests.Subtext.Framework.Util
 		[Test]
 		public void GetZoneByIndexReturnsProperPSTInfo()
 		{
-			WindowsTimeZone pst = WindowsTimeZone.TimeZones.GetByZoneIndex(4); //PST
+			WindowsTimeZone pst = WindowsTimeZone.TimeZones.GetById(PacificTimeZoneId); //PST
 			Assert.AreEqual("Pacific Daylight Time", pst.DaylightName);
 			Assert.AreEqual("Pacific Daylight Time", pst.DaylightZoneName);
 			Assert.AreEqual(new TimeSpan(1, 0, 0), pst.DaylightBias, "Expected a one hour bias");
@@ -150,7 +176,7 @@ namespace UnitTests.Subtext.Framework.Util
 		[Test]
 		public void ToLocalTimeReturnsDateTimeKindLocal()
 		{
-			WindowsTimeZone pst = WindowsTimeZone.TimeZones.GetByZoneIndex(4); //PST
+			WindowsTimeZone pst = WindowsTimeZone.TimeZones.GetById(PacificTimeZoneId); //PST
 			DateTime utcNow = DateTime.UtcNow;
 			Assert.AreEqual(DateTimeKind.Utc, utcNow.Kind);
 			DateTime local = pst.ToLocalTime(utcNow);

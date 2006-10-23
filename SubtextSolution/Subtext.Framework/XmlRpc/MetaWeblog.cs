@@ -97,7 +97,7 @@ namespace Subtext.Framework.XmlRpc
 				entry.PostType = PostType.BlogPost;
 				entry.IsActive = publish;
 		
-				entry.DateModified = BlogTime.CurrentBloggerTime;
+				entry.DateModified = Config.CurrentBlog.TimeZone.Now;
 				return Entries.Update(entry);
 			}
 			return false;
@@ -210,7 +210,7 @@ namespace Subtext.Framework.XmlRpc
 			}
 			else
 			{
-				entry.DateCreated = BlogTime.CurrentBloggerTime;
+				entry.DateCreated = Config.CurrentBlog.TimeZone.Now;
 				entry.DateModified = entry.DateCreated;
 			}
 

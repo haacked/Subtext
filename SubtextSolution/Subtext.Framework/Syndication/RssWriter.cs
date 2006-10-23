@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Framework.Syndication
 {
@@ -104,9 +105,9 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		/// <param name="item">The item.</param>
 		/// <returns></returns>
-		protected override DateTime GetPublishedDate(Entry item)
+		protected override DateTime GetPublishedDateUtc(Entry item)
 		{
-			return item.DateCreated;
+			return Config.CurrentBlog.TimeZone.ToUniversalTime(item.DateCreated);
 		}
 
 		/// <summary>

@@ -160,7 +160,7 @@ namespace Subtext.ImportExport
 				blogMlBlog.RootUrl = blog.RootUrl.ToString();
 				blogMlBlog.Author.Name = blog.Author;
 				blogMlBlog.Author.Email = blog.Email;
-				blogMlBlog.DateCreated = DateTime.Now;
+				blogMlBlog.DateCreated = blog.TimeZone.Now;
 				return blogMlBlog;
 			}
 			return null;

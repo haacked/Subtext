@@ -25,7 +25,6 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
-using Subtext.Framework.Util;
 using Subtext.Web.Admin.Pages;
 using Subtext.Web.Admin.WebUI;
 using Subtext.Web.Controls;
@@ -415,7 +414,7 @@ namespace Subtext.Web.Admin.UserControls
 					if (PostID != NullValue.NullInt32)
 					{
 						successMessage = Constants.RES_SUCCESSEDIT;
-						entry.DateModified = BlogTime.CurrentBloggerTime;
+						entry.DateModified = Config.CurrentBlog.TimeZone.Now;
 						entry.Id = PostID;
 						
 						//TODO: Add here code to be called before updating a post
@@ -437,7 +436,7 @@ namespace Subtext.Web.Admin.UserControls
 					}
 					else
 					{
-						entry.DateCreated = BlogTime.CurrentBloggerTime;
+						entry.DateCreated = Config.CurrentBlog.TimeZone.Now;
 						
 						//TODO: Add here code to be called before creating a post
 						

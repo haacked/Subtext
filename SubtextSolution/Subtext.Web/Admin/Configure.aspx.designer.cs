@@ -26,6 +26,7 @@ namespace Subtext.Web.Admin.Pages {
         protected System.Web.UI.WebControls.Label lblCurrentTime;
         protected System.Web.UI.WebControls.Label lblServerTime;
         protected System.Web.UI.WebControls.Label lblServerTimeZone;
+        protected System.Web.UI.WebControls.Label lblUtcTime;
         protected System.Web.UI.WebControls.DropDownList ddlLangLocale;
         protected System.Web.UI.WebControls.DropDownList ddlItemCount;
         protected System.Web.UI.WebControls.DropDownList ddlCategoryListPostCount;

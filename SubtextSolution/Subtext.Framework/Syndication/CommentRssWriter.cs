@@ -167,9 +167,9 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		/// <param name="item">The item.</param>
 		/// <returns></returns>
-		protected override DateTime GetPublishedDate(FeedbackItem item)
+		protected override DateTime GetPublishedDateUtc(FeedbackItem item)
 		{
-			return item.DateCreated;
+			return Config.CurrentBlog.TimeZone.ToUniversalTime(item.DateCreated);
 		}
 	}
 }

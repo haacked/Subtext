@@ -32,6 +32,8 @@ namespace UnitTests.Subtext.Framework.Syndication
 	[TestFixture]
 	public class RssWriterTests : SyndicationTestBase
 	{
+		const int PacificTimeZoneId = -2037797565;
+		
 		[RowTest]
 		[Row("Subtext.Web", "", "http://localhost/Subtext.Web/images/RSS2Image.gif")]
 		[Row("Subtext.Web", "blog", "http://localhost/Subtext.Web/images/RSS2Image.gif")]
@@ -69,7 +71,8 @@ namespace UnitTests.Subtext.Framework.Syndication
 			blogInfo.Title = "My Blog Is Better Than Yours";
 			blogInfo.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = true;
-
+			blogInfo.TimeZoneId = PacificTimeZoneId;
+			
 			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 
 		    List<Entry> entries = new List<Entry>(CreateSomeEntries());
@@ -108,7 +111,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 											+ indent(3) + @"<description>Body of 1001&lt;img src=""http://localhost/Subtext.Web/aggbug/1001.aspx"" width=""1"" height=""1"" /&gt;</description>" + Environment.NewLine
 											+ indent(3) + @"<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
 											+ indent(3) + @"<guid>http://localhost/Subtext.Web/archive/1975/01/23/1001.aspx</guid>" + Environment.NewLine
-											+ indent(3) + @"<pubDate>Thu, 23 Jan 1975 00:00:00 GMT</pubDate>" + Environment.NewLine
+											+ indent(3) + @"<pubDate>Thu, 23 Jan 1975 08:00:00 GMT</pubDate>" + Environment.NewLine
 											+ indent(3) + @"<comments>http://localhost/Subtext.Web/archive/1975/01/23/1001.aspx#feedback</comments>" + Environment.NewLine
 											+ indent(3) + @"<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1001.aspx</wfw:commentRss>" + Environment.NewLine
 										+ indent(2) + @"</item>" + Environment.NewLine
@@ -118,7 +121,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 											+ indent(3) + @"<description>Body of 1002&lt;img src=""http://localhost/Subtext.Web/aggbug/1002.aspx"" width=""1"" height=""1"" /&gt;</description>" + Environment.NewLine
 											+ indent(3) + @"<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
 											+ indent(3) + @"<guid>http://localhost/Subtext.Web/archive/1976/05/25/1002.aspx</guid>" + Environment.NewLine
-											+ indent(3) + @"<pubDate>Tue, 25 May 1976 00:00:00 GMT</pubDate>" + Environment.NewLine
+											+ indent(3) + @"<pubDate>Tue, 25 May 1976 07:00:00 GMT</pubDate>" + Environment.NewLine
 											+ indent(3) + @"<comments>http://localhost/Subtext.Web/archive/1976/05/25/1002.aspx#feedback</comments>" + Environment.NewLine
 											+ indent(3) + @"<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1002.aspx</wfw:commentRss>" + Environment.NewLine
 										+ indent(2) + @"</item>" + Environment.NewLine
@@ -129,7 +132,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 											+ indent(3) + @"<description>Body of 1003&lt;img src=""http://localhost/Subtext.Web/aggbug/1003.aspx"" width=""1"" height=""1"" /&gt;</description>" + Environment.NewLine
 											+ indent(3) + @"<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
 											+ indent(3) + @"<guid>http://localhost/Subtext.Web/archive/1979/09/16/1003.aspx</guid>" + Environment.NewLine
-											+ indent(3) + @"<pubDate>Sun, 16 Sep 1979 00:00:00 GMT</pubDate>" + Environment.NewLine
+											+ indent(3) + @"<pubDate>Sun, 16 Sep 1979 07:00:00 GMT</pubDate>" + Environment.NewLine
 											+ indent(3) + @"<comments>http://localhost/Subtext.Web/archive/1979/09/16/1003.aspx#feedback</comments>" + Environment.NewLine
 											+ indent(3) + @"<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1003.aspx</wfw:commentRss>" + Environment.NewLine
 										+ indent(2) + @"</item>" + Environment.NewLine
@@ -139,7 +142,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 											+ indent(3) + @"<description>Body of 1004&lt;img src=""http://localhost/Subtext.Web/aggbug/1004.aspx"" width=""1"" height=""1"" /&gt;</description>" + Environment.NewLine
 											+ indent(3) + @"<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
 											+ indent(3) + @"<guid>http://localhost/Subtext.Web/archive/2003/06/14/1004.aspx</guid>" + Environment.NewLine
-											+ indent(3) + @"<pubDate>Sat, 14 Jun 2003 00:00:00 GMT</pubDate>" + Environment.NewLine
+											+ indent(3) + @"<pubDate>Sat, 14 Jun 2003 07:00:00 GMT</pubDate>" + Environment.NewLine
 											+ indent(3) + @"<comments>http://localhost/Subtext.Web/archive/2003/06/14/1004.aspx#feedback</comments>" + Environment.NewLine
 											+ indent(3) + @"<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1004.aspx</wfw:commentRss>" + Environment.NewLine
 										+ indent(2) + @"</item>" + Environment.NewLine
@@ -169,6 +172,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			blogInfo.Subfolder = "";
 			blogInfo.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = true;
+			blogInfo.TimeZoneId = PacificTimeZoneId;
 
 			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 
@@ -199,7 +203,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 										+ indent(3) + @"<description>Body of 1004&lt;img src=""http://localhost/Subtext.Web/aggbug/1004.aspx"" width=""1"" height=""1"" /&gt;</description>" + Environment.NewLine
 										+ indent(3) + @"<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
 										+ indent(3) + @"<guid>http://localhost/Subtext.Web/archive/2003/06/14/1004.aspx</guid>" + Environment.NewLine
-										+ indent(3) + @"<pubDate>Sat, 14 Jun 2003 00:00:00 GMT</pubDate>" + Environment.NewLine
+										+ indent(3) + @"<pubDate>Sat, 14 Jun 2003 07:00:00 GMT</pubDate>" + Environment.NewLine
 										+ indent(3) + @"<comments>http://localhost/Subtext.Web/archive/2003/06/14/1004.aspx#feedback</comments>" + Environment.NewLine
 										+ indent(3) + @"<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1004.aspx</wfw:commentRss>" + Environment.NewLine
 									+ indent(2) + @"</item>" + Environment.NewLine
@@ -209,7 +213,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 										+ indent(3) + @"<description>Body of 1003&lt;img src=""http://localhost/Subtext.Web/aggbug/1003.aspx"" width=""1"" height=""1"" /&gt;</description>" + Environment.NewLine
 										+ indent(3) + @"<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
 										+ indent(3) + @"<guid>http://localhost/Subtext.Web/archive/1979/09/16/1003.aspx</guid>" + Environment.NewLine
-										+ indent(3) + @"<pubDate>Sun, 16 Sep 1979 00:00:00 GMT</pubDate>" + Environment.NewLine
+										+ indent(3) + @"<pubDate>Sun, 16 Sep 1979 07:00:00 GMT</pubDate>" + Environment.NewLine
 										+ indent(3) + @"<comments>http://localhost/Subtext.Web/archive/1979/09/16/1003.aspx#feedback</comments>" + Environment.NewLine
 										+ indent(3) + @"<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1003.aspx</wfw:commentRss>" + Environment.NewLine
 									+ indent(2) + "</item>" + Environment.NewLine
@@ -238,7 +242,8 @@ namespace UnitTests.Subtext.Framework.Syndication
 			blogInfo.Subfolder = "";
 			blogInfo.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = false;
-
+			blogInfo.TimeZoneId = PacificTimeZoneId;
+			
 			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 
             List<Entry> entries = new List<Entry>(CreateSomeEntriesDescending());		
@@ -266,7 +271,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 										+ indent(3) + @"<description>Body of 1004&lt;img src=""http://localhost/Subtext.Web/aggbug/1004.aspx"" width=""1"" height=""1"" /&gt;</description>" + Environment.NewLine
 										+ indent(3) + "<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
 										+ indent(3) + "<guid>http://localhost/Subtext.Web/archive/2003/06/14/1004.aspx</guid>" + Environment.NewLine
-										+ indent(3) + "<pubDate>Sat, 14 Jun 2003 00:00:00 GMT</pubDate>" + Environment.NewLine
+										+ indent(3) + "<pubDate>Sat, 14 Jun 2003 07:00:00 GMT</pubDate>" + Environment.NewLine
 										+ indent(3) + "<comments>http://localhost/Subtext.Web/archive/2003/06/14/1004.aspx#feedback</comments>" + Environment.NewLine
 										+ indent(3) + "<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1004.aspx</wfw:commentRss>" + Environment.NewLine
 									+ indent(2) + "</item>" + Environment.NewLine
@@ -276,7 +281,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 										+ indent(3) + @"<description>Body of 1003&lt;img src=""http://localhost/Subtext.Web/aggbug/1003.aspx"" width=""1"" height=""1"" /&gt;</description>" + Environment.NewLine
 										+ indent(3) + "<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
 										+ indent(3) + "<guid>http://localhost/Subtext.Web/archive/1979/09/16/1003.aspx</guid>" + Environment.NewLine
-										+ indent(3) + "<pubDate>Sun, 16 Sep 1979 00:00:00 GMT</pubDate>" + Environment.NewLine
+										+ indent(3) + "<pubDate>Sun, 16 Sep 1979 07:00:00 GMT</pubDate>" + Environment.NewLine
 										+ indent(3) + "<comments>http://localhost/Subtext.Web/archive/1979/09/16/1003.aspx#feedback</comments>" + Environment.NewLine
 										+ indent(3) + "<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1003.aspx</wfw:commentRss>" + Environment.NewLine
 									+ indent(2) + "</item>" + Environment.NewLine
@@ -286,7 +291,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 										+ indent(3) + @"<description>Body of 1002&lt;img src=""http://localhost/Subtext.Web/aggbug/1002.aspx"" width=""1"" height=""1"" /&gt;</description>" + Environment.NewLine
 										+ indent(3) + "<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
 										+ indent(3) + "<guid>http://localhost/Subtext.Web/archive/1976/05/25/1002.aspx</guid>" + Environment.NewLine
-										+ indent(3) + "<pubDate>Tue, 25 May 1976 00:00:00 GMT</pubDate>" + Environment.NewLine
+										+ indent(3) + "<pubDate>Tue, 25 May 1976 07:00:00 GMT</pubDate>" + Environment.NewLine
 										+ indent(3) + "<comments>http://localhost/Subtext.Web/archive/1976/05/25/1002.aspx#feedback</comments>" + Environment.NewLine
 										+ indent(3) + "<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1002.aspx</wfw:commentRss>" + Environment.NewLine
 									+ indent(2) + "</item>" + Environment.NewLine
@@ -296,7 +301,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 										+ indent(3) + @"<description>Body of 1001&lt;img src=""http://localhost/Subtext.Web/aggbug/1001.aspx"" width=""1"" height=""1"" /&gt;</description>" + Environment.NewLine
 										+ indent(3) + "<dc:creator>Phil Haack</dc:creator>" + Environment.NewLine
 										+ indent(3) + "<guid>http://localhost/Subtext.Web/archive/1975/01/23/1001.aspx</guid>" + Environment.NewLine
-										+ indent(3) + "<pubDate>Thu, 23 Jan 1975 00:00:00 GMT</pubDate>" + Environment.NewLine
+										+ indent(3) + "<pubDate>Thu, 23 Jan 1975 08:00:00 GMT</pubDate>" + Environment.NewLine
 										+ indent(3) + "<comments>http://localhost/Subtext.Web/archive/1975/01/23/1001.aspx#feedback</comments>" + Environment.NewLine
 										+ indent(3) + "<wfw:commentRss>http://localhost/Subtext.Web/comments/commentRss/1001.aspx</wfw:commentRss>" + Environment.NewLine
 									+ indent(2) + "</item>" + Environment.NewLine
@@ -310,10 +315,10 @@ namespace UnitTests.Subtext.Framework.Syndication
 		{
 			return new Entry[]
 			{
-				CreateEntry(1001, "Title of 1001.", "Body of 1001", DateTime.ParseExact("01/23/1975","MM/dd/yyyy",CultureInfo.InvariantCulture))
-				,CreateEntry(1002, "Title of 1002.", "Body of 1002", DateTime.ParseExact("05/25/1976","MM/dd/yyyy",CultureInfo.InvariantCulture))
-				,CreateEntry(1003, "Title of 1003.", "Body of 1003", DateTime.ParseExact("09/16/1979","MM/dd/yyyy",CultureInfo.InvariantCulture))
-				,CreateEntry(1004, "Title of 1004.", "Body of 1004", DateTime.ParseExact("06/14/2003","MM/dd/yyyy",CultureInfo.InvariantCulture))
+				CreateEntry(1001, "Title of 1001.", "Body of 1001", DateTime.ParseExact("01/23/1975", "MM/dd/yyyy", CultureInfo.InvariantCulture))
+				,CreateEntry(1002, "Title of 1002.", "Body of 1002", DateTime.ParseExact("05/25/1976", "MM/dd/yyyy", CultureInfo.InvariantCulture))
+				,CreateEntry(1003, "Title of 1003.", "Body of 1003", DateTime.ParseExact("09/16/1979", "MM/dd/yyyy", CultureInfo.InvariantCulture))
+				,CreateEntry(1004, "Title of 1004.", "Body of 1004", DateTime.ParseExact("06/14/2003", "MM/dd/yyyy", CultureInfo.InvariantCulture))
 			};
 		}
 
@@ -321,10 +326,10 @@ namespace UnitTests.Subtext.Framework.Syndication
 		{
 			return new Entry[]
 			{
-				CreateEntry(1004, "Title of 1004.", "Body of 1004", DateTime.ParseExact("06/14/2003","MM/dd/yyyy",CultureInfo.InvariantCulture))
-				,CreateEntry(1003, "Title of 1003.", "Body of 1003", DateTime.ParseExact("09/16/1979","MM/dd/yyyy",CultureInfo.InvariantCulture))
-				,CreateEntry(1002, "Title of 1002.", "Body of 1002", DateTime.ParseExact("05/25/1976","MM/dd/yyyy",CultureInfo.InvariantCulture))
-				,CreateEntry(1001, "Title of 1001.", "Body of 1001", DateTime.ParseExact("01/23/1975","MM/dd/yyyy",CultureInfo.InvariantCulture))
+				CreateEntry(1004, "Title of 1004.", "Body of 1004", DateTime.ParseExact("06/14/2003", "MM/dd/yyyy", CultureInfo.InvariantCulture))
+				,CreateEntry(1003, "Title of 1003.", "Body of 1003", DateTime.ParseExact("09/16/1979", "MM/dd/yyyy", CultureInfo.InvariantCulture))
+				,CreateEntry(1002, "Title of 1002.", "Body of 1002", DateTime.ParseExact("05/25/1976", "MM/dd/yyyy", CultureInfo.InvariantCulture))
+				,CreateEntry(1001, "Title of 1001.", "Body of 1001", DateTime.ParseExact("01/23/1975", "MM/dd/yyyy", CultureInfo.InvariantCulture))
 				
 			};
 		}

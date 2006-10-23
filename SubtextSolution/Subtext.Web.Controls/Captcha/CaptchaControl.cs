@@ -3,11 +3,11 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Text;
+using System.Globalization;
 using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Subtext.Framework.Util;
 
 namespace Subtext.Web.Controls.Captcha
 {
@@ -256,8 +256,12 @@ namespace Subtext.Web.Controls.Captcha
     }
 	
 	[Serializable]
-	internal struct CaptchaInfo
+	public struct CaptchaInfo
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CaptchaInfo"/> class.
+		/// </summary>
+		/// <param name="text">The text.</param>
 		public CaptchaInfo(string text)
 		{
 			this.Width = 180;
@@ -299,8 +303,7 @@ namespace Subtext.Web.Controls.Captcha
 			if (this.Height == 0)
 				this.Height = 50;
 			
-			string serialized = SerializationHelper.SerializeToBase64String(this);
-			return CaptchaBase.EncryptString(serialized);
+			return CaptchaBase.EncryptString(this.ToString());
 		}
 		
 		/// <summary>
@@ -310,7 +313,16 @@ namespace Subtext.Web.Controls.Captcha
 		public static CaptchaInfo FromEncryptedString(string encrypted)
 		{
 			string decrypted = CaptchaBase.DecryptString(encrypted);
-			return SerializationHelper.DeserializeFromBase64String<CaptchaInfo>(decrypted);
+			string[] values = decrypted.Split('|');
+
+			CaptchaInfo info = new CaptchaInfo();
+			info.Width = int.Parse(values[0]);
+			info.Height = int.Parse(values[1]);
+			info.WarpFactor = (CaptchaImage.FontWarpFactor)Enum.Parse(typeof(CaptchaImage.FontWarpFactor), values[2]);
+			info.FontFamily = values[3];
+			info.Text = values[4];
+			info.DateGenerated = DateTime.ParseExact(values[5], "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
+			return info;
 		}
 
 		/// <summary>
@@ -381,6 +393,23 @@ namespace Subtext.Web.Controls.Captcha
 			}
 		}
 
+		/// <summary>
+		/// Returns the fully qualified type name of this instance.
+		/// </summary>
+		/// <returns>
+		/// A <see cref="T:System.String"></see> containing a fully qualified type name.
+		/// </returns>
+		public override string ToString()
+		{
+			return String.Format("{0}|{1}|{2}|{3}|{4}|{5}"
+			                     , this.Width
+			                     , this.Height
+			                     , this.WarpFactor
+			                     , this.FontFamily
+			                     , this.Text
+			                     , this.DateGenerated.ToString("yyyy/MM/dd HH:mm:ss"));
+		}
+		
 		public DateTime DateGenerated;
 		public int Width;
 		public int Height;

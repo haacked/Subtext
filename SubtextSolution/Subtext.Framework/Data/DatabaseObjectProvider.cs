@@ -440,6 +440,11 @@ namespace Subtext.Framework.Data
 		{
 			DbProvider.Instance().DestroyFeedback(id);
 		}
+
+		public override void DestroyFeedback(FeedbackStatusFlag status)
+		{
+			DbProvider.Instance().DestroyFeedback(status);
+		}
 		
 		public override int Create(FeedbackItem feedbackItem)
 		{

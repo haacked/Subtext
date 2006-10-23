@@ -20,8 +20,8 @@ using log4net;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
-using Subtext.Framework.Util;
 using Subtext.Web.Admin.WebUI;
 
 namespace Subtext.Web.Admin.Pages
@@ -225,7 +225,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			try
 			{
-				Trackback entry = new Trackback(EntryID, txbTitle.Text, HtmlHelper.CheckForUrl(txbUrl.Text), string.Empty, txbBody.Text.Trim().Length > 0 ? txbBody.Text.Trim() : txbTitle.Text, BlogTime.CurrentBloggerTime);
+				Trackback entry = new Trackback(EntryID, txbTitle.Text, HtmlHelper.CheckForUrl(txbUrl.Text), string.Empty, txbBody.Text.Trim().Length > 0 ? txbBody.Text.Trim() : txbTitle.Text, Config.CurrentBlog.TimeZone.Now);
 
 				if(FeedbackItem.Create(entry) > 0)
 				{

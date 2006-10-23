@@ -319,7 +319,6 @@
     <Compile Include="Framework\Tracking\TrackbackHandlerTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Framework\Util\BlogTimeTests.cs" />
     <Compile Include="Framework\Util\KeywordsTests.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -19,5 +19,6 @@ namespace Subtext.Web.Admin.Pages {
         protected System.Web.UI.WebControls.Button btnDestroy;
         protected System.Web.UI.WebControls.Button btnConfirmSpam;
         protected System.Web.UI.WebControls.Button btnApprove;
+        protected System.Web.UI.WebControls.Button btnEmpty;
     }
 }

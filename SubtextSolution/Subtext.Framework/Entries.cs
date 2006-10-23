@@ -223,11 +223,11 @@ namespace Subtext.Framework
 
 			if (NullValue.IsNull(entry.DateCreated))
 			{
-				entry.DateCreated = DateTime.Now;
+				entry.DateCreated = Config.CurrentBlog.TimeZone.Now;
 			}
 
 			if (entry.IsActive && entry.IncludeInMainSyndication)
-				entry.DateSyndicated = DateTime.Now;
+				entry.DateSyndicated = Config.CurrentBlog.TimeZone.Now;
 			else
 				entry.DateSyndicated = NullValue.NullDateTime;
 
@@ -427,7 +427,7 @@ namespace Subtext.Framework
 		{
 			if (NullValue.IsNull(entry.DateSyndicated) && entry.IsActive && entry.IncludeInMainSyndication)
 			{
-				entry.DateSyndicated = DateTime.Now;
+				entry.DateSyndicated = Config.CurrentBlog.TimeZone.Now;
 			}
 
 			if (!entry.IncludeInMainSyndication)
@@ -447,7 +447,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static bool Update(Entry entry, params int[] categoryIDs)
 		{
-			entry.DateModified = DateTime.Now;
+			entry.DateModified = Config.CurrentBlog.TimeZone.Now;
 			return ObjectProvider.Instance().Update(entry, categoryIDs);
 		}
 
