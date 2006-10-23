@@ -86,7 +86,7 @@ namespace Subtext.Web.Admin.Pages
 				lnkView.CommandArgument = lnkEnable.CommandArgument = currentPlugin.Id.Guid.ToString();
 				lnkPluginSettings.CommandArgument = lnkDisable.CommandArgument = currentPlugin.Id.Guid.ToString();
 
-				if (IsCurrentPluginEnabled())
+				if (IsPluginEnabled(currentPlugin))
 				{
 					lnkView.Visible = false;
 					lnkPluginSettings.Visible = true;
@@ -105,9 +105,12 @@ namespace Subtext.Web.Admin.Pages
 			}
 		}
 
-		private bool IsCurrentPluginEnabled()
+		private bool IsPluginEnabled(IPlugin plugin)
 		{
-			return true;
+			if (plugin.Info.Name.IndexOf("2")!=-1)
+				return true;
+			else
+				return false;
 		}
 
 		protected void pluginListRpt_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
@@ -115,7 +118,8 @@ namespace Subtext.Web.Admin.Pages
 			switch (e.CommandName.ToLower(System.Globalization.CultureInfo.InvariantCulture))
 			{
 				case "view":
-					//Load the plugin data and display the info to the user
+					PluginID = e.CommandArgument.ToString();
+					BindViewLink();
 					break;
 				case "settings":
 					//Load the plugin info, and display the custom user control to edit global plugin settings
@@ -123,12 +127,26 @@ namespace Subtext.Web.Admin.Pages
 				case "enable":
 					//Enable the plugin for the current blog
 					break;
-				case "dsable":
+				case "disable":
 					//Disable the plugin for the current blog
 					break;
 				default:
 					break;
 			}
+		}
+
+		private void BindViewLink()
+		{
+			IPlugin currentPlugin = STApplication.Current.GetPluginByGuid(PluginID);
+			if (currentPlugin != null)
+			{
+				Results.Collapsed = true;
+				Results.Collapsible = true;
+				Edit.Visible = false;
+				View.Visible = true;
+			}
+			else
+				Messages.ShowMessage("Unable to find plugin with id" + PluginID);
 		}
 
 		// REFACTOR

@@ -117,6 +117,16 @@ namespace Subtext.Extensibility.Plugins
 			_initialized = true;
 			return app;
 		}
+
+		public IPlugin GetPluginByGuid(string guid)
+		{
+			foreach (IPlugin plugin in _plugins.Values)
+			{
+				if (plugin.Id.Guid.ToString().Equals(guid))
+					return plugin;
+			}
+			return null;
+		}
 	}
 
 
