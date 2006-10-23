@@ -22,6 +22,6 @@ namespace Subtext.Extensibility.Plugins
 	/// </summary>
 	public interface IPluginIdentifier
 	{
-		string Name { get;}
+		Guid Guid { get;}
 	}
 }
