@@ -15,5 +15,6 @@ namespace Subtext.Web.Admin.Pages {
         protected System.Web.UI.WebControls.Repeater pluginListRpt;
         protected Subtext.Web.Controls.PagingControl resultsPager;
         protected Subtext.Web.Admin.WebUI.AdvancedPanel View;
+		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
     }
 }
