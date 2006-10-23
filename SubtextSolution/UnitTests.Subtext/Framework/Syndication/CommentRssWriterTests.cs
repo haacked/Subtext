@@ -91,7 +91,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			blogInfo.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = true;
 			blogInfo.Title = "My Blog Rulz";
-			
+			blogInfo.TimeZoneId = PacificTimeZoneId;
 
 			HttpContext.Current.Items.Add("BlogInfo-", blogInfo);
 
@@ -146,7 +146,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 											+ indent(3) + @"<description>&lt;strong&gt;I rule!&lt;/strong&gt;</description>" + Environment.NewLine
 											+ indent(3) + @"<dc:creator>Jane Schmane</dc:creator>" + Environment.NewLine
 											+ indent(3) + @"<guid>http://localhost/Subtext.Web/archive/2006/04/01/titleofthepost.aspx#1002</guid>" + Environment.NewLine
-											+ indent(3) + @"<pubDate>Sat, 01 Apr 2006 00:00:00 GMT</pubDate>" + Environment.NewLine
+											+ indent(3) + @"<pubDate>Sat, 01 Apr 2006 08:00:00 GMT</pubDate>" + Environment.NewLine
 										+ indent(2) + @"</item>" + Environment.NewLine
 								+ indent() + @"</channel>" + Environment.NewLine
 							  + @"</rss>";
