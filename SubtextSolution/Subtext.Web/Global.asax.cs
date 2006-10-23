@@ -17,7 +17,6 @@ using System;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Globalization;
-using System.Text.RegularExpressions;
 using System.Web;
 using log4net;
 using log4net.Appender;
@@ -153,8 +152,7 @@ namespace Subtext
 			#if DEBUG
 				HttpApplication application = (HttpApplication)sender;
 				HttpContext context = application.Context;
-
-				if(!Regex.IsMatch(context.Request.Path, @"(\.css$|\.js$)|rss|mainfeed|atom|services|opml|ftbwebresource|ashx|providers", RegexOptions.IgnoreCase))
+				if (context.Request.Path.EndsWith(".aspx", StringComparison.InvariantCultureIgnoreCase))
 				{
 					Version v =  Subtext.Framework.VersionInfo.FrameworkVersion; //t.Assembly.GetName().Version;
 					string machineName = System.Environment.MachineName;
@@ -179,7 +177,7 @@ namespace Subtext
 
 					if(!MagicAjax.MagicAjaxContext.Current.IsAjaxCall)
 						context.Response.Write(string.Format(message, @"<!-- ", lb, v, machineName, framework, userInfo, lb, "//-->"));
-				}
+				}	
 			#endif
 			#endregion
 		}

@@ -26,6 +26,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
+using Subtext.Framework.Threading;
 using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Components
@@ -151,9 +152,9 @@ namespace Subtext.Framework.Components
 			if (String.IsNullOrEmpty(fromEmail))
 				fromEmail = null;
 
-			string To = currentBlog.Email;
-			string From = fromEmail ?? im.AdminEmail;
-			string Subject = String.Format(CultureInfo.InvariantCulture, "Comment: {0} (via {1})", comment.Title, blogTitle);
+			string to = currentBlog.Email;
+			string from = fromEmail ?? im.AdminEmail;
+			string subject = String.Format(CultureInfo.InvariantCulture, "Comment: {0} (via {1})", comment.Title, blogTitle);
 			string commenterUrl = "none given";
 			if(comment.SourceUrl != null)
 				commenterUrl = comment.SourceUrl.ToString();
@@ -179,14 +180,17 @@ namespace Subtext.Framework.Components
 
 			try
 			{
-				im.Send(To, From, Subject, body);
+				SendEmailDelegate sendEmail = new SendEmailDelegate(im.Send);
+				AsyncHelper.FireAndForget(sendEmail, to, from, subject, body);
 			}
 			catch(Exception e)
 			{
 				log.Warn("Could not email comment to admin", e);
 			}
-		}		
-		
+		}
+
+		delegate bool SendEmailDelegate(string to, string from, string subject, string body);
+	
 		/// <summary>
 		/// Approves the comment, and removes it from the SPAM folder or from the 
 		/// Trash folder.
