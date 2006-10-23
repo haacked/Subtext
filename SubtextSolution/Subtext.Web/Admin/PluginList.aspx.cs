@@ -73,7 +73,9 @@ namespace Subtext.Web.Admin.Pages
 				Label pluginDescription = (Label)e.Item.FindControl("pluginDescription");
 
 				LinkButton lnkView = (LinkButton)e.Item.FindControl("lnkView");
-				LinkButton lnkToggle = (LinkButton)e.Item.FindControl("lnkToggle");
+				LinkButton lnkEnable = (LinkButton)e.Item.FindControl("lnkEnable");
+				LinkButton lnkPluginSettings = (LinkButton)e.Item.FindControl("lnkPluginSettings");
+				LinkButton lnkDisable = (LinkButton)e.Item.FindControl("lnkDisable");
 
 				IPlugin currentPlugin = (IPlugin)e.Item.DataItem;
 
@@ -81,8 +83,31 @@ namespace Subtext.Web.Admin.Pages
 				pluginName.Text = currentPlugin.Info.Name;
 				pluginDescription.Text = currentPlugin.Info.Description;
 
-				lnkView.CommandArgument = lnkToggle.CommandArgument = currentPlugin.Id.Name;
+				lnkView.CommandArgument = lnkEnable.CommandArgument = currentPlugin.Id.Name;
+				lnkPluginSettings.CommandArgument = lnkDisable.CommandArgument = currentPlugin.Id.Name;
+
+				if (IsCurrentPluginEnabled())
+				{
+					lnkView.Visible = false;
+					lnkPluginSettings.Visible = true;
+
+					lnkEnable.Visible = false;
+					lnkDisable.Visible = true;
+				}
+				else
+				{
+					lnkView.Visible = true;
+					lnkPluginSettings.Visible = false;
+
+					lnkEnable.Visible = true;
+					lnkDisable.Visible = false;
+				}
 			}
+		}
+
+		private bool IsCurrentPluginEnabled()
+		{
+			return true;
 		}
 
 		protected void pluginListRpt_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
@@ -90,13 +115,16 @@ namespace Subtext.Web.Admin.Pages
 			switch (e.CommandName.ToLower(System.Globalization.CultureInfo.InvariantCulture))
 			{
 				case "view":
-					//KeyWordID = Convert.ToInt32(e.CommandArgument);
-					//BindLinkEdit();
+					//Load the plugin data and display the info to the user
 					break;
-				case "toggle":
-					//int id = Convert.ToInt32(e.CommandArgument);
-					//KeyWord kw = KeyWords.GetKeyWord(id);
-					//ConfirmDelete(id, kw.Word);
+				case "settings":
+					//Load the plugin info, and display the custom user control to edit global plugin settings
+					break;
+				case "enable":
+					//Enable the plugin for the current blog
+					break;
+				case "dsable":
+					//Disable the plugin for the current blog
 					break;
 				default:
 					break;
