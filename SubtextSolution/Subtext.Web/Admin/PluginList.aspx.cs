@@ -79,12 +79,12 @@ namespace Subtext.Web.Admin.Pages
 
 				IPlugin currentPlugin = (IPlugin)e.Item.DataItem;
 
-				pluginId.Text = currentPlugin.Id.Name;
+				pluginId.Text = currentPlugin.Id.Guid.ToString();
 				pluginName.Text = currentPlugin.Info.Name;
 				pluginDescription.Text = currentPlugin.Info.Description;
 
-				lnkView.CommandArgument = lnkEnable.CommandArgument = currentPlugin.Id.Name;
-				lnkPluginSettings.CommandArgument = lnkDisable.CommandArgument = currentPlugin.Id.Name;
+				lnkView.CommandArgument = lnkEnable.CommandArgument = currentPlugin.Id.Guid.ToString();
+				lnkPluginSettings.CommandArgument = lnkDisable.CommandArgument = currentPlugin.Id.Guid.ToString();
 
 				if (IsCurrentPluginEnabled())
 				{

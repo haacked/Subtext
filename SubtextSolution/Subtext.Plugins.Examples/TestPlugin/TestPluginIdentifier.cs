@@ -7,9 +7,9 @@ namespace Subtext.Plugins.Examples.TestPlugin
 	{
 		#region IPluginIdentifier Members
 
-		public string Name
+		public Guid Guid
 		{
-			get { return "Subtext.Plugins.Core.TestPlugin.TestPlugin"; }
+			get { return new Guid("{d46657e2-540b-4f5e-ab11-b2b2de3824cb}"); }
 		}
 
 		#endregion
