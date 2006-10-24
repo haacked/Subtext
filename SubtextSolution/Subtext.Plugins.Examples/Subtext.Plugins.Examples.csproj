@@ -55,4 +55,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetDir)$(TargetName).* $(SolutionDir)Subtext.Web\bin</PostBuildEvent>
+  </PropertyGroup>
 </Project>
