@@ -12,6 +12,18 @@ namespace UnitTests.Subtext.Framework.Util
 	public class TimeZonesTest
 	{
 		const int PacificTimeZoneId = -2037797565;
+
+		[Test]
+		public void GenerateUpdateScript()
+		{
+			string sql = string.Empty;
+			string sqlFormat = "UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = {0} WHERE TimeZone = {1}" + Environment.NewLine + "GO" + Environment.NewLine;
+			foreach(WindowsTimeZone timezone in WindowsTimeZone.TimeZones)
+			{
+				sql += String.Format(sqlFormat, timezone.Id, timezone.BaseBias.TotalHours);
+			}
+			Console.Write(sql);
+		}
 		
 		[Test, Ignore("Only run this when we need to regen this file. Better to make this a build step.")]
 		public void WriteTimeZonesToFile()

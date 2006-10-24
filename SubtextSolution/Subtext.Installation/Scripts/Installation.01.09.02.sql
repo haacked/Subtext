@@ -237,3 +237,70 @@ IF NOT EXISTS
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config] WITH NOCHECK
 	ADD [FeedBurnerName] [nvarchar](64) NULL
 GO
+
+/* UPDATE old timezones */
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = -1069290744 WHERE TimeZone = -12
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = 733176969 WHERE TimeZone = -11
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = 1106595067 WHERE TimeZone = -10
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = 997436142 WHERE TimeZone = -9
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = -2037797565 WHERE TimeZone = -8
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = 2123325864 WHERE TimeZone = -7 -- Mountain Time
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = -590151426 WHERE TimeZone = -6 -- Central Time
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = -1188006249 WHERE TimeZone = -5 -- Eastern Time
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = 558059746 WHERE TimeZone = -4 -- Atlantic time.
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = -1602501789 WHERE TimeZone = -3.5
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = 352495817 WHERE TimeZone = -3 -- Brasilia
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = -1639373905 WHERE TimeZone = -2
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = 1455188603 WHERE TimeZone = -1 -- Azores
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = 276583904 WHERE TimeZone = 0 -- GMT
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = 1638717133 WHERE TimeZone = 1 -- Brussels, Copenhagen, Madrid, Paris
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = 489559338 WHERE TimeZone = 2 -- Jerusalem
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = -402707908 WHERE TimeZone = 3 -- Moscow
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = 563311159 WHERE TimeZone = 3.5
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = -2085021355 WHERE TimeZone = 4 -- Abu Dhabi
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = 195872777 WHERE TimeZone = 4.5
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = -1229352363 WHERE TimeZone = 5 -- Islamabad, Karachi, Tashkent
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = 658848125 WHERE TimeZone = 5.5
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = -1249671084 WHERE TimeZone = 5.75
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = -175654566 WHERE TimeZone = 6 -- Almaty, Novosibirsk
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = 1081970031 WHERE TimeZone = 6.5
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = -640089798 WHERE TimeZone = 7 -- Bangkok, Hanoi, Jakarta
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = 1612399360 WHERE TimeZone = 8 -- Taipei
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = -1556155466 WHERE TimeZone = 9 -- Seoul
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = -159819906 WHERE TimeZone = 9.5 -- Adelaide
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = -1972898444 WHERE TimeZone = 10 -- Guam, Port Moresby
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = 619026968 WHERE TimeZone = 11
+GO
+UPDATE [<dbUser,varchar,dbo>].[subtext_Config] SET TimeZone = -695818228 WHERE TimeZone = 12 -- Auckland, Wellington
+GO
+

@@ -849,3 +849,8 @@ div.options, fieldset.options
 	float: left;
 	margin-right: 20px;
 }
+
+div.wide, fieldset.wide
+{
+	width: 420px;
+}

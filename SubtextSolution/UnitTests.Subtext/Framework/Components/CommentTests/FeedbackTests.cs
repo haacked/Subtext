@@ -93,40 +93,62 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("blah", "blah", "blah");
 			Entries.Create(entry);
 
-			for (int i = 0; i < 3; i++)
-			{
-				FeedbackItem comment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
-				Assert.IsTrue(comment.Approved, "should be approved");
-			}
+			CreateApprovedComments(3, entry);
+			CreateFlaggedSpam(2, entry);
+			CreateDeletedComments(3, entry);
 
-			for (int i = 0; i < 2; i++)
-			{
-				FeedbackItem comment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.FlaggedAsSpam);
-				Assert.IsFalse(comment.Approved, "should not be approved");
-			}
-
-			FeedbackItem newComment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.FlaggedAsSpam);
+			FeedbackItem newComment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Approved);
+			FeedbackItem.ConfirmSpam(newComment);
+			newComment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.FlaggedAsSpam);
 			Assert.IsFalse(newComment.Approved, "should not be approved");
 			FeedbackItem.Delete(newComment); //Move it to trash.
-
-			for (int i = 0; i < 3; i++)
-			{
-				FeedbackItem comment = CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, FeedbackStatusFlag.Deleted);
-				Assert.IsFalse(comment.Approved, "should not be approved");
-			}
+			
 
 			FeedbackCounts counts = FeedbackItem.GetFeedbackCounts();
 			Assert.AreEqual(3, counts.ApprovedCount, "Expected three approved still");
-			Assert.AreEqual(2, counts.FlaggedAsSpamCount, "Expected three approved still");
-			Assert.AreEqual(4, counts.DeletedCount, "Expected four in the trash");
+			Assert.AreEqual(2, counts.FlaggedAsSpamCount, "Expected two items flagged as spam.");
+			Assert.AreEqual(5, counts.DeletedCount, "Expected four in the trash");
 			
 			FeedbackItem.Destroy(FeedbackStatusFlag.FlaggedAsSpam);
 			counts = FeedbackItem.GetFeedbackCounts();
 			Assert.AreEqual(3, counts.ApprovedCount, "Expected three approved still");
-			Assert.AreEqual(0, counts.FlaggedAsSpamCount, "Expected three approved still");
-			Assert.AreEqual(4, counts.DeletedCount, "Expected four in the trash");
+			Assert.AreEqual(0, counts.FlaggedAsSpamCount, "Expected the items flagged as spam to be gone.");
+			Assert.AreEqual(5, counts.DeletedCount, "Destroying all flagged items should not touch the trash bin.");
+
+			CreateFlaggedSpam(3, entry);
+			counts = FeedbackItem.GetFeedbackCounts();
+			Assert.AreEqual(3, counts.FlaggedAsSpamCount, "Expected three items flagged as spam.");
+
+			FeedbackItem.Destroy(FeedbackStatusFlag.Deleted);
+			counts = FeedbackItem.GetFeedbackCounts();
+			Assert.AreEqual(3, counts.ApprovedCount, "Expected three approved still");
+			Assert.AreEqual(3, counts.FlaggedAsSpamCount, "Expected three approved still");
+			Assert.AreEqual(0, counts.DeletedCount, "Destroying all deleted items should not touch the flagged items.");
+		}
+
+		private static void CreateComments(int count, Entry entry, FeedbackStatusFlag status)
+		{
+			for (int i = 0; i < count; i++)
+			{
+				CreateAndUpdateFeedbackWithExactStatus(entry, FeedbackType.Comment, status);
+			}
 		}
 		
+		private static void CreateFlaggedSpam(int count, Entry entry)
+		{
+			CreateComments(count, entry, FeedbackStatusFlag.FlaggedAsSpam);
+		}
+
+		private static void CreateApprovedComments(int count, Entry entry)
+		{
+			CreateComments(count, entry, FeedbackStatusFlag.Approved);
+		}
+		
+		private static void CreateDeletedComments(int count, Entry entry)
+		{
+			CreateComments(count, entry, FeedbackStatusFlag.Deleted);
+		}
+
 		[Test]
 		[RollBack]
 		public void DestroyCommentReallyGetsRidOfIt()

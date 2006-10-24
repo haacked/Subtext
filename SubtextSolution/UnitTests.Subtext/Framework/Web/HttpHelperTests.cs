@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Util;
@@ -12,6 +13,19 @@ namespace UnitTests.Subtext.Framework.Web
 	[TestFixture]
 	public class HttpHelperTests
 	{
+		/// <summary>
+		/// Tests that we can create a proxy. This is based on some 
+		/// settings in Web.config, which we populated in App.config 
+		/// for this unit test.
+		/// </summary>
+		[Test]
+		public void CanCreateProxy()
+		{
+			WebRequest request = HttpWebRequest.Create("http://subtextproject.com/");
+			HttpHelper.SetProxy(request);
+			Assert.IsNotNull(request.Proxy, "Proxy should not be null.");
+		}
+		
 		/// <summary>
 		/// Tests that we correctly parse if-modified-since from the request.
 		/// Unfortunately, this unit test is time-zone sensitive.

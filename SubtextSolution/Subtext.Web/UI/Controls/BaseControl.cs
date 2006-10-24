@@ -100,10 +100,13 @@ namespace Subtext.Web.UI.Controls
 				RemoveCaptcha();
 			}
 
-			invisibleCaptchaValidator = new InvisibleCaptcha();
-			invisibleCaptchaValidator.ErrorMessage = "Please enter the answer to the supplied question.";
+			if (Config.Settings.InvisibleCaptchaEnabled)
+			{
+				invisibleCaptchaValidator = new InvisibleCaptcha();
+				invisibleCaptchaValidator.ErrorMessage = "Please enter the answer to the supplied question.";
 
-			Controls.AddAt(btnIndex, invisibleCaptchaValidator);
+				Controls.AddAt(btnIndex, invisibleCaptchaValidator);
+			}
 		}
 
 		/// <summary>
