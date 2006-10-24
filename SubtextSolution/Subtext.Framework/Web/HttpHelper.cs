@@ -1,4 +1,5 @@
 using System;
+using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -56,7 +57,7 @@ namespace Subtext.Framework.Web
 		public static HttpWebRequest CreateRequest(Uri url) 
 		{
 			WebRequest req = WebRequest.Create(url);
-			
+			SetProxy(req);
 			HttpWebRequest wreq = req as HttpWebRequest;
 			if (null != wreq) 
 			{
@@ -75,6 +76,7 @@ namespace Subtext.Framework.Web
 		public static HttpWebResponse GetResponse(Uri url)
 		{
 			HttpWebRequest request = CreateRequest(url);
+			
 			return (HttpWebResponse)request.GetResponse() ;
 		}		
 
@@ -165,6 +167,41 @@ namespace Subtext.Framework.Web
 					|| filePath.EndsWith(".txt", StringComparison.InvariantCultureIgnoreCase)
 					|| filePath.EndsWith(".html", StringComparison.InvariantCultureIgnoreCase)
 					|| filePath.EndsWith(".htm", StringComparison.InvariantCultureIgnoreCase);
+		}
+		
+		/// <summary>
+		/// Sets the proxy on the request if a proxy is configured in Web.config.
+		/// </summary>
+		/// <param name="request"></param>
+		public static void SetProxy(WebRequest request)
+		{
+			IWebProxy proxy = GetProxy();
+			if(proxy != null)
+				request.Proxy = proxy;
+		}
+
+		internal static IWebProxy GetProxy()
+		{
+			if (String.IsNullOrEmpty(ConfigurationManager.AppSettings["ProxyHost"]))
+				return null;
+			
+			IWebProxy proxy;
+			string proxyHost = ConfigurationManager.AppSettings["ProxyHost"];
+
+			int proxyPort;
+			if (int.TryParse(ConfigurationManager.AppSettings["ProxyPort"], out proxyPort))
+			{
+				proxy = new WebProxy(proxyHost, proxyPort);
+			}
+			else
+			{
+				proxy = new WebProxy(proxyHost);
+			}
+			if (!String.IsNullOrEmpty(ConfigurationManager.AppSettings["ProxyUsername"]))
+			{
+				proxy.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["ProxyUsername"], ConfigurationManager.AppSettings["ProxyPassword"]);
+			}
+			return proxy;
 		}
 	}
 }

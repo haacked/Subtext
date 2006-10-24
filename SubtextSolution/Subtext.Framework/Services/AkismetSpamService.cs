@@ -1,10 +1,10 @@
 using System;
-using System.Configuration;
 using System.Globalization;
 using System.Net;
 using Subtext.Akismet;
 using log4net;
 using Subtext.Framework.Components;
+using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Services
 {
@@ -22,20 +22,9 @@ namespace Subtext.Framework.Services
 		public AkismetSpamService(string apiKey, BlogInfo blog)
 		{
 			this.akismet = new AkismetClient(apiKey, blog.RootUrl);
-			if(!String.IsNullOrEmpty(ConfigurationManager.AppSettings["ProxyHost"]))
-			{
-				string proxyHost = ConfigurationManager.AppSettings["ProxyHost"];
-				
-				int proxyPort;
-				if (int.TryParse(ConfigurationManager.AppSettings["ProxyPort"], out proxyPort))
-				{
-					this.akismet.Proxy = new WebProxy(proxyHost, proxyPort);
-				}
-				else
-				{
-					this.akismet.Proxy = new WebProxy(proxyHost);
-				}
-			}
+			IWebProxy proxy = HttpHelper.GetProxy();
+			if(proxy != null)
+				this.akismet.Proxy = proxy;
 		}
 
 		/// <summary>

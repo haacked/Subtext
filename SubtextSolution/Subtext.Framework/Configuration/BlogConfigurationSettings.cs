@@ -118,7 +118,30 @@ namespace Subtext.Framework.Configuration
 			get{return serverTimeZone;}
 			set{serverTimeZone = value;}
 		}
-		private int serverTimeZone = -5;
+		private int serverTimeZone = -2037797565; //PST
+
+		/// <summary>
+		/// Gets a value indicating whether invisible captcha enabled.  This is 
+		/// configured within the "InvisibleCaptchaEnabled" app setting. It is not 
+		/// set per blog, but system-wide. This gives hosters a way to opt-out of 
+		/// this feature in case it ends up being problematci.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if [invisible captcha enabled]; otherwise, <c>false</c>.
+		/// </value>
+		public bool InvisibleCaptchaEnabled
+		{
+			get
+			{
+				if (String.IsNullOrEmpty(ConfigurationManager.AppSettings["InvisibleCaptchaEnabled"]))
+					return true;
+				
+				bool enabled;
+				if (bool.TryParse(ConfigurationManager.AppSettings["InvisibleCaptchaEnabled"], out enabled))
+					return enabled;
+				return true;
+			}
+		}
 
 		/// <summary>
 		/// Gets the connection string for the application.

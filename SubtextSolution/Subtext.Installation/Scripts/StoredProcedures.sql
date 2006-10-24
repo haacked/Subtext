@@ -781,9 +781,9 @@ WHERE [BlogId] = @BlogId
 	AND StatusFlag & @StatusFlag = @StatusFlag
 	AND StatusFlag & 1 != 1 -- Do not delete approved.
 	AND (
-			(StatusFlag = 4 AND StatusFlag & 8 != 8)
-		OR
-			StatusFlag = 8
+			(@StatusFlag = 4 AND StatusFlag & 8 != 8)
+			OR
+			@StatusFlag != 4
 		)	
 
 GO

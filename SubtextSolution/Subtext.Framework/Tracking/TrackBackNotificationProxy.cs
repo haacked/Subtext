@@ -81,23 +81,7 @@ namespace Subtext.Framework.Tracking
 			request.ContentLength = parameters.Length;
 			request.ContentType = "application/x-www-form-urlencoded";
 			request.KeepAlive = false;
-
-			if (!String.IsNullOrEmpty(ConfigurationManager.AppSettings["ProxyHost"]))
-			{
-				IWebProxy proxy;
-				string proxyHost = ConfigurationManager.AppSettings["ProxyHost"];
-
-				int proxyPort;
-				if (int.TryParse(ConfigurationManager.AppSettings["ProxyPort"], out proxyPort))
-				{
-					proxy = new WebProxy(proxyHost, proxyPort);
-				}
-				else
-				{
-					proxy = new WebProxy(proxyHost);
-				}
-				request.Proxy = proxy;
-			}
+			HttpHelper.SetProxy(request);
 
 			using(StreamWriter myWriter = new StreamWriter(request.GetRequestStream()))
 			{
