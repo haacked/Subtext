@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using MbUnit.Framework;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
@@ -333,6 +334,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			feedbackItem.Body = "Some Body<br /> likes me.";
 			feedbackItem.EntryId = entryId;
 			int id = FeedbackItem.Create(feedbackItem);
+			Thread.Sleep(100); //Sending email is asynch.
 
 			string expectedMessageBody = "Comment from You've been haacked" + Environment.NewLine
 			                             + "----------------------------------------------------" + Environment.NewLine
