@@ -144,9 +144,48 @@ namespace Subtext.Web.Admin.Pages
 				Results.Collapsible = true;
 				Edit.Visible = false;
 				View.Visible = true;
+
+				pluginViewName.Text = currentPlugin.Info.Name;
+				pluginViewGuid.Text = currentPlugin.Id.Guid.ToString();
+				pluginViewAuthor.Text = currentPlugin.Info.Author;
+				pluginViewCompany.Text = currentPlugin.Info.Company;
+				pluginViewCopyright.Text = currentPlugin.Info.Copyright;
+				pluginViewHomepage.Text = pluginViewHomepage.NavigateUrl = currentPlugin.Info.HomePageUrl.ToString();
+				pluginViewVersion.Text = currentPlugin.Info.Version.ToString();
+				pluginViewDescription.Text = currentPlugin.Info.Description;
+
+				if (AdminMasterPage != null && AdminMasterPage.BreadCrumb != null)
+				{
+					string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Pluign Details: \"{0}\"", currentPlugin.Info.Name);
+
+					AdminMasterPage.BreadCrumb.AddLastItem(title);
+					AdminMasterPage.Title = title;
+				}
 			}
 			else
 				Messages.ShowMessage("Unable to find plugin with id" + PluginID);
+		}
+
+
+		private void ResetPostView(bool showEdit)
+		{
+			PluginID = String.Empty;
+
+			Results.Collapsible = showEdit;
+			Results.Collapsed = showEdit;
+			View.Visible = showEdit;
+
+
+			pluginViewName.Text = string.Empty;
+			pluginViewGuid.Text = string.Empty;
+			pluginViewAuthor.Text = string.Empty;
+			pluginViewCompany.Text = string.Empty;
+			pluginViewCopyright.Text = string.Empty;
+			pluginViewHomepage.Text = string.Empty;
+			pluginViewHomepage.NavigateUrl = string.Empty;
+			pluginViewVersion.Text = string.Empty;
+			pluginViewDescription.Text = string.Empty;
+
 		}
 
 		// REFACTOR
@@ -156,6 +195,11 @@ namespace Subtext.Web.Admin.Pages
 				return Constants.CSSSTYLE_HIDDEN;
 			else
 				return String.Empty;
+		}
+
+		protected void lkbCancel_Click(object sender, System.EventArgs e)
+		{
+			ResetPostView(false);
 		}
 	}
 }

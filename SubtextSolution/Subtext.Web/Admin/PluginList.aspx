@@ -1,5 +1,5 @@
-<%@ Page Language="C#"  Title="Subtext Admin - Blog Options" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" AutoEventWireup="true" CodeBehind="PluginList.aspx.cs" Inherits="Subtext.Web.Admin.Pages.PluginListPage" %>
-<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
+<%@ Page Language="C#"  Title="Subtext Admin - Plugin List" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" AutoEventWireup="true" CodeBehind="PluginList.aspx.cs" Inherits="Subtext.Web.Admin.Pages.PluginListPage" %>
+<%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
@@ -12,8 +12,8 @@
 </asp:Content>
 
 <asp:Content ID="entryEditor" ContentPlaceHolderID="pageContent" runat="server">
-	<ANW:MessagePanel id="Messages" runat="server"></ANW:MessagePanel>
-	<ANW:AdvancedPanel ID="Results" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True"
+	<st:MessagePanel id="Messages" runat="server"></st:MessagePanel>
+	<st:AdvancedPanel ID="Results" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True"
 		HeaderCssClass="CollapsibleHeader" HeaderText="Available Plugins" LinkText="[toggle]" Collapsible="True">
 		<asp:Repeater runat="server" ID="pluginListRpt" OnItemCommand="pluginListRpt_ItemCommand" OnItemDataBound="pluginListRpt_ItemDataBound">
 			<HeaderTemplate>
@@ -78,21 +78,24 @@
 			UrlFormat="PluginList.aspx?pg={0}" 
 			CssClass="Pager" />
 		<br class="clear" />
-	</ANW:AdvancedPanel>
+	</st:AdvancedPanel>
 
-	<ANW:AdvancedPanel id="View" runat="server" LinkStyle="Image" DisplayHeader="True" HeaderCssClass="CollapsibleTitle"
+	<st:AdvancedPanel id="View" runat="server" LinkStyle="Image" DisplayHeader="True" HeaderCssClass="CollapsibleTitle"
 		HeaderText="Plugin Details" Collapsible="False" Visible="false" BodyCssClass="Edit">
-		<p class="ValueLabel Block">Name: <asp:Label ID="pluginViewName" runat="server"></asp:Label></p>
-		<p class="ValueLabel Block">GUID: <asp:Label ID="pluginViewGuid" runat="server"></asp:Label></p>
-		<p class="ValueLabel Block">Author: <asp:Label ID="pluginViewAuthor" runat="server"></asp:Label></p>
-		<p class="ValueLabel Block">Company: <asp:Label ID="pluginViewCompany" runat="server"></asp:Label></p>
-		<p class="ValueLabel Block">Copyright: <asp:Label ID="pluginViewCopyright" runat="server"></asp:Label></p>
-		<p class="ValueLabel Block">HomePage: <asp:Label ID="pluginViewHomepage" runat="server"></asp:Label></p>
-		<p class="ValueLabel Block">Version: <asp:Label ID="pluginViewVersion" runat="server"></asp:Label></p>
-		<p class="ValueLabel">Description: <br /><asp:Label ID="pluginViewDescription" runat="server"></asp:Label></p>
-	</ANW:AdvancedPanel>
-	
-	<ANW:AdvancedPanel id="Edit" runat="server" LinkStyle="Image" DisplayHeader="True" HeaderCssClass="CollapsibleTitle"
+		<p class="Valuelabel Block"><label>Name:</label> <asp:Label ID="pluginViewName" runat="server"></asp:Label></p>
+		<p class="Valuelabel Block"><label>GUID:</label> <asp:Label ID="pluginViewGuid" runat="server"></asp:Label></p>
+		<p class="Valuelabel Block"><label>Author:</label> <asp:Label ID="pluginViewAuthor" runat="server"></asp:Label></p>
+		<p class="Valuelabel Block"><label>Company:</label> <asp:Label ID="pluginViewCompany" runat="server"></asp:Label></p>
+		<p class="Valuelabel Block"><label>Copyright:</label> <asp:Label ID="pluginViewCopyright" runat="server"></asp:Label></p>
+		<p class="Valuelabel Block"><label>HomePage:</label> <asp:HyperLink ID="pluginViewHomepage" Target="_blank" runat="server"></asp:HyperLink></p>
+		<p class="Valuelabel Block"><label>Version:</label> <asp:Label ID="pluginViewVersion" runat="server"></asp:Label></p>
+		<p class="Valuelabel"><label>Description:</label> <br /><asp:Label ID="pluginViewDescription" runat="server"></asp:Label></p>
+		<div>
+			<asp:Button id="lkbCancel" runat="server" CssClass="buttonSubmit" Text="Cancel" onclick="lkbCancel_Click" />
+		</div>
+	</st:AdvancedPanel>
+
+	<st:AdvancedPanel id="Edit" runat="server" LinkStyle="Image" DisplayHeader="True" HeaderCssClass="CollapsibleTitle"
 		HeaderText="Plugin Settings" Collapsible="False" Visible="false">
-	</ANW:AdvancedPanel>
+	</st:AdvancedPanel>
 </asp:Content>
