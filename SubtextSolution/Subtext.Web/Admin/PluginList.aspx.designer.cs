@@ -12,9 +12,18 @@ namespace Subtext.Web.Admin.Pages {
     
     public partial class PluginListPage {
         protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
+		protected Subtext.Web.Controls.PagingControl resultsPager;
         protected System.Web.UI.WebControls.Repeater pluginListRpt;
-        protected Subtext.Web.Controls.PagingControl resultsPager;
         protected Subtext.Web.Admin.WebUI.AdvancedPanel View;
 		protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
+		protected System.Web.UI.WebControls.Label pluginViewName;
+		protected System.Web.UI.WebControls.Label pluginViewGuid;
+		protected System.Web.UI.WebControls.Label pluginViewAuthor;
+		protected System.Web.UI.WebControls.Label pluginViewCompany;
+		protected System.Web.UI.WebControls.Label pluginViewCopyright;
+		protected System.Web.UI.WebControls.HyperLink pluginViewHomepage;
+		protected System.Web.UI.WebControls.Label pluginViewVersion;
+		protected System.Web.UI.WebControls.Label pluginViewDescription;
+		protected System.Web.UI.WebControls.Button lkbCancel;
     }
 }
