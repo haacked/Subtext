@@ -4615,7 +4615,7 @@ CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPluginBlog]
 
 AS
 
-SELECT PluiginID FROM [<dbUser,varchar,dbo>].[PluginBlog]
+SELECT PluginID FROM [<dbUser,varchar,dbo>].[subtext_PluginBlog]
 WHERE
 BlogID=@BlogId
 GO
