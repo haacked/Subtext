@@ -415,11 +415,23 @@ drop procedure [<dbUser,varchar,dbo>].[subtext_ClearBlogContent]
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertPluginData]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [<dbUser,varchar,dbo>].[subtext_InsertPluginEntryData]
+drop procedure [<dbUser,varchar,dbo>].[subtext_InsertPluginData]
 GO
 
 if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_UpdatePluginData]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [<dbUser,varchar,dbo>].[subtext_UpdatePluginEntryData]
+drop procedure [<dbUser,varchar,dbo>].[subtext_UpdatePluginData]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_DeletePluginBlog]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_DeletePluginBlog]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPluginBlog]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPluginBlog]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_InsertPluginBlog]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_InsertPluginBlog]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -4565,6 +4577,75 @@ SET
 	[Value]=@Value
 
 WHERE id=@ID AND PluginID=@PluginID AND BlogID=@BlogID AND [Key]=@Key AND EntryID=@EntryID
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS OFF 
+GO
+
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_DeletePluginBlog]
+(
+	@PluginID uniqueidentifier,
+	@BlogId int
+)
+as
+
+DELETE FROM [<dbUser,varchar,dbo>].[subtext_PluginBlog]
+WHERE PluginID=@PluginID and BlogID=@BlogId
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS OFF 
+GO
+
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPluginBlog]
+(
+	@BlogId int
+)
+
+AS
+
+SELECT PluiginID FROM [<dbUser,varchar,dbo>].[PluginBlog]
+WHERE
+BlogID=@BlogId
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+SET QUOTED_IDENTIFIER ON 
+GO
+SET ANSI_NULLS OFF 
+GO
+
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_InsertPluginBlog]
+(
+	@PluginID uniqueidentifier,
+	@BlogId int
+)
+as
+
+INSERT INTO [<dbUser,varchar,dbo>].[subtext_PluginBlog]
+(
+	PluginID,
+	BlogID
+)
+VALUES
+(
+	@PluginID,
+	@BlogId
+)
 GO
 SET QUOTED_IDENTIFIER OFF 
 GO
