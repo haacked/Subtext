@@ -412,6 +412,15 @@ namespace Subtext.Framework.Providers
         public abstract IDataReader GetPostsByCategoryArchive();
 
 		#endregion
+
+		#region Plugins
+
+		public abstract IDataReader GetEnabledPlugins();
+		public abstract bool EnablePlugin(Guid pluginId);
+		public abstract bool DisablePlugin(Guid pluginId);
+
+		#endregion
+
 		#endregion
 	}
 }

@@ -1101,5 +1101,38 @@ namespace Subtext.Framework.Data
         }
 
 		#endregion
+
+		#region Plugins
+
+		public override ICollection<Guid> GetEnabledPlugins()
+		{
+			IDataReader reader = DbProvider.Instance().GetEnabledPlugins();
+			try
+			{
+				List<Guid> plc = new List<Guid>();
+				while (reader.Read())
+				{
+					plc.Add(reader.GetGuid(reader.GetOrdinal("PluginId")));
+				}
+				return plc;
+			}
+			finally
+			{
+				reader.Close();
+			}
+		}
+
+		public override bool EnablePlugin(Guid pluginId)
+		{
+			return DbProvider.Instance().EnablePlugin(pluginId);
+		}
+
+		public override bool DisablePlugin(Guid pluginId)
+		{
+			return DbProvider.Instance().DisablePlugin(pluginId);
+		}
+
+		#endregion
+
 	}
 }
