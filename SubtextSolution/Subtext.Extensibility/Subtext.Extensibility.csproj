@@ -129,6 +129,7 @@
     <Compile Include="NamespaceDocumentation.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Plugins\PluginModulesCollection.cs" />
     <Compile Include="Plugins\IImplementationInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -138,6 +139,7 @@
     <Compile Include="Plugins\IPluginIdentifier.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Plugins\PluginModule.cs" />
     <Compile Include="Plugins\PluginSectionHandler.cs" />
     <Compile Include="Plugins\PluginSettings.cs" />
     <Compile Include="Plugins\PluginSettingsCollection.cs" />

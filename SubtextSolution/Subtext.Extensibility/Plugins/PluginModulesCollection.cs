@@ -18,30 +18,37 @@ using System.Configuration;
 
 namespace Subtext.Extensibility.Plugins
 {
-	public class PluginSettings: ConfigurationElement
+	[ConfigurationCollection(typeof(PluginSettings))]
+	public class PluginSettingsCollection: ConfigurationElementCollection
 	{
-		[ConfigurationProperty("name")]
-		public string Name
+		protected override ConfigurationElement CreateNewElement()
 		{
-			get { return (string) base["name"]; }
-			set { base["name"] = value; }
+			return new PluginSettings();
 		}
 
-		[ConfigurationProperty("type")]
-		public string Type
+		protected override object GetElementKey(ConfigurationElement element)
 		{
-			get { return (string)base["type"]; }
-			set { base["type"] = value; }
+			return ((PluginSettings) element).Name;
 		}
 
-		[ConfigurationProperty("modules")]
-		public PluginModulesCollection Modules
+		public void Add(PluginSettings element)
 		{
-			get
-			{
-				return (PluginModulesCollection)base["modules"];
-			}
+			this.BaseAdd(element);
 		}
 
+		public void Remove(string key)
+		{
+			this.BaseRemove(key);
+		}
+
+		public void Clear()
+		{
+			this.BaseClear();
+		}
+
+		public PluginSettings this[int idx]
+		{
+			get { return (PluginSettings)this[idx]; }
+		}
 	}
 }

@@ -30,12 +30,19 @@ namespace Subtext.Extensibility.Plugins
 		private static readonly object sync = new object();
 		private Dictionary<string, IPlugin> _plugins = new Dictionary<string, IPlugin>();
 
+		private PluginSettingsCollection _pluginConfig;
+
+		public PluginSettingsCollection PluginConfig
+		{
+			get { return _pluginConfig; }
+		}
+
+
 		//private static readonly Log __log = new Log();
 
 		public Dictionary<string, IPlugin> Plugins
 		{
 			get { return _plugins; }
-			set { _plugins = value; }
 		}
 
 
@@ -69,12 +76,12 @@ namespace Subtext.Extensibility.Plugins
 
 			if(pluginSection!=null) 
 			{
-				PluginSettingsCollection pluginConfig=pluginSection.PluginList;
+				app._pluginConfig = pluginSection.PluginList;
 
-				if (pluginConfig != null)
+				if (app._pluginConfig != null)
 				{
-					
-					foreach (PluginSettings setting in pluginConfig)
+
+					foreach (PluginSettings setting in app._pluginConfig)
 					{
 
 						if (String.IsNullOrEmpty(setting.Type))
@@ -124,6 +131,20 @@ namespace Subtext.Extensibility.Plugins
 			{
 				if (plugin.Id.Guid.ToString().Equals(guid))
 					return plugin;
+			}
+			return null;
+		}
+
+		public string GetPluginModuleFileName(string pluginName, string moduleName)
+		{
+			foreach (PluginSettings settings in _pluginConfig)
+			{
+				if(settings.Name.Equals(pluginName))
+					foreach (PluginModule module in settings.Modules)
+					{
+						if (module.Key.Equals(moduleName))
+							return module.FileName;
+					}
 			}
 			return null;
 		}
