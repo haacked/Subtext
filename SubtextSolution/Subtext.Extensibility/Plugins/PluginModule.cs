@@ -18,30 +18,20 @@ using System.Configuration;
 
 namespace Subtext.Extensibility.Plugins
 {
-	public class PluginSettings: ConfigurationElement
+	public class PluginModule : ConfigurationElement
 	{
-		[ConfigurationProperty("name")]
-		public string Name
+		[ConfigurationProperty("key")]
+		public string Key
 		{
-			get { return (string) base["name"]; }
-			set { base["name"] = value; }
+			get { return (string)base["key"]; }
+			set { base["key"] = value; }
 		}
 
-		[ConfigurationProperty("type")]
-		public string Type
+		[ConfigurationProperty("filename")]
+		public string FileName
 		{
-			get { return (string)base["type"]; }
-			set { base["type"] = value; }
+			get { return (string)base["filename"]; }
+			set { base["filename"] = value; }
 		}
-
-		[ConfigurationProperty("modules")]
-		public PluginModulesCollection Modules
-		{
-			get
-			{
-				return (PluginModulesCollection)base["modules"];
-			}
-		}
-
 	}
 }

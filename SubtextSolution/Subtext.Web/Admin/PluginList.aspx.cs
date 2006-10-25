@@ -19,6 +19,8 @@ using System.Collections.Generic;
 using Subtext.Extensibility.Plugins;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using System.Web.UI;
+using System.Web;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -155,20 +157,43 @@ namespace Subtext.Web.Admin.Pages
 			IPlugin currentPlugin = STApplication.Current.GetPluginByGuid(PluginID);
 			if (currentPlugin != null)
 			{
-				Results.Collapsed = true;
-				Results.Collapsible = true;
-				Edit.Visible = true;
-				View.Visible = false;
-
-				pluginEditName.Text = currentPlugin.Info.Name;
-
-				if (AdminMasterPage != null && AdminMasterPage.BreadCrumb != null)
+				Control settingModule=null;
+				string moduleFileName=STApplication.Current.GetPluginModuleFileName(currentPlugin.Info.Name, "blogsettings");
+				if (moduleFileName != null)
 				{
-					string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Plugin Settings: \"{0}\"", currentPlugin.Info.Name);
+					try
+					{
+						settingModule = LoadControl("~/Modules/" + currentPlugin.Info.Name + "/" + moduleFileName);
+					}
+					catch (HttpException ex)
+					{
+						Messages.ShowError("Cannot load general blog settings user control for Plugin " + currentPlugin.Info.Name + ":<br>" + ex.Message);
+					}
+					if (settingModule != null)
+					{
+						pluginSetting.Controls.Add(settingModule);
 
-					AdminMasterPage.BreadCrumb.AddLastItem(title);
-					AdminMasterPage.Title = title;
+						Results.Collapsed = true;
+						Results.Collapsible = true;
+						Edit.Visible = true;
+						View.Visible = false;
+
+						pluginEditName.Text = currentPlugin.Info.Name;
+
+						if (AdminMasterPage != null && AdminMasterPage.BreadCrumb != null)
+						{
+							string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Plugin Settings: \"{0}\"", currentPlugin.Info.Name);
+
+							AdminMasterPage.BreadCrumb.AddLastItem(title);
+							AdminMasterPage.Title = title;
+						}
+					}
 				}
+				else
+				{
+					Messages.ShowMessage("Plugin " + currentPlugin.Info.Name + "doesn't have a general blog settings manager.");
+				}
+			
 			}
 			else
 				Messages.ShowMessage("Unable to find plugin with id" + PluginID);
@@ -250,6 +275,7 @@ namespace Subtext.Web.Admin.Pages
 
 
 			pluginEditName.Text = string.Empty;
+			pluginSetting.Controls.Clear();
 		}
 
 		// REFACTOR

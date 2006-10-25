@@ -30,13 +30,27 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test2Plugin\settings.ascx.cs">
+      <DependentUpon>settings.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Test2Plugin\settings.ascx.designer.cs">
+      <DependentUpon>settings.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Test2Plugin\Test2Plugin.cs" />
     <Compile Include="Test2Plugin\Test2PluginIdentifier.cs" />
     <Compile Include="Test2Plugin\Test2PluginImplentationInfo.cs" />
+    <Compile Include="TestPlugin\settings.ascx.cs">
+      <DependentUpon>settings.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TestPlugin\settings.ascx.designer.cs">
+      <DependentUpon>settings.ascx</DependentUpon>
+    </Compile>
     <Compile Include="TestPlugin\TestPlugin.cs" />
     <Compile Include="TestPlugin\TestPluginIdentifier.cs" />
     <Compile Include="TestPlugin\TestPluginImplentationInfo.cs" />
@@ -46,6 +60,12 @@
       <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>
       <Name>Subtext.Extensibility</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Test2Plugin\settings.ascx">
+    </Content>
+    <Content Include="TestPlugin\settings.ascx">
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

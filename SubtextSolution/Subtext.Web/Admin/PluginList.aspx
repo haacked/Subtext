@@ -100,6 +100,7 @@
 		<p class="Valuelabel Block"><label>Name:</label> <asp:Label ID="pluginEditName" runat="server"></asp:Label></p>
 		<fieldset class="clear" title="Plugin Settings">
 			<legend>Plugin Settings</legend>
+			<asp:PlaceHolder ID="pluginSetting" runat="server"></asp:PlaceHolder>
 		</fieldset>
 		<div>
 			<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Post" OnClick="lkbPost_Click" />

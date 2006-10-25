@@ -26,6 +26,7 @@ namespace Subtext.Web.Admin.Pages {
         protected System.Web.UI.WebControls.Button lkbCancel;
         protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
         protected System.Web.UI.WebControls.Label pluginEditName;
+        protected System.Web.UI.WebControls.PlaceHolder pluginSetting;
         protected System.Web.UI.WebControls.Button lkbPost;
         protected System.Web.UI.WebControls.Button lkbEditCancel;
     }
