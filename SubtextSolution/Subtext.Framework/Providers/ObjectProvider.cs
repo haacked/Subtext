@@ -413,6 +413,27 @@ namespace Subtext.Framework.Providers
         public abstract ICollection<ArchiveCount> GetPostsByMonthArchive();
         public abstract ICollection<ArchiveCount> GetPostsByCategoryArchive();
 		#endregion
+
+		#region Plugins
+		/// <summary>
+		/// Returns the Guids of all plugins enabled for the current blog
+		/// </summary>
+		/// <returns>A list of Guids</returns>
+		public abstract ICollection<Guid> GetEnabledPlugins();
+
+		/// <summary>
+		/// Enable a plugin for the current blog
+		/// </summary>
+		/// <param name="pluiginId">The Guid of the plugin to enable</param>
+		public abstract bool EnablePlugin(Guid pluginId);
+
+		/// <summary>
+		/// Disable a plugin for the current blog
+		/// </summary>
+		/// <param name="pluiginId">The Guid of the plugin to disable</param>
+		public abstract bool DisablePlugin(Guid pluginId);
+		#endregion
+
 		#endregion
 	}
 }

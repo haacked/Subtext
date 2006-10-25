@@ -710,5 +710,93 @@ namespace Subtext.Web.Admin
 	}
 	#endregion
 
+	#region TogglePluginCommand
+	[Serializable]
+	public class TogglePluginCommand : ConfirmCommand
+	{
+		private bool _enablePlugin = false;
+		private string _actionVerb = "disable";
+		private string _actionPast = "disabled";
+		private string _actionName = "disabling";
+
+		protected Guid _pluginId;
+		protected string _pluginName;
+
+		protected TogglePluginCommand() 
+		{
+			_promptMessage = "Are you sure you want to {0} Plugin {1}?";
+			_executeSuccessMessage = "Plugin {1} was {0}.";
+			_executeFailureMessage = "Plugin {1} could not be {0}. Details: {2}";
+			_cancelSuccessMessage = "Plugin {1} will not be {0}.";
+			_cancelFailureMessage = "Could not cancel {0} of Plugin {1}. Details: {2}";		
+		}
+
+		public TogglePluginCommand(Guid pluginId, string pluginName, bool enable)
+			: this()
+		{
+			_autoRedirect = false;
+			_pluginId = pluginId;
+			_pluginName = pluginName;
+			_enablePlugin = enable;
+			if (enable)
+			{
+				_actionVerb = "enable";
+				_actionPast = "enabled";
+				_actionName = "enabling";
+			}
+			else
+			{
+				_actionVerb = "disable";
+				_actionPast = "disabled";
+				_actionName = "disabling";
+			}
+		}
+
+		public override string Execute()
+		{
+			try
+			{
+				bool operationExecuted = false;
+				if (_enablePlugin)
+				{
+					operationExecuted=Plugin.EnablePlugin(_pluginId);
+				}
+				else
+				{
+					operationExecuted = Plugin.DisablePlugin(_pluginId);
+				}
+
+				if(operationExecuted)
+					return FormatMessage(ExecuteSuccessMessage, _actionPast, _pluginName);
+				else
+					return FormatMessage(ExecuteFailureMessage, _actionPast, _pluginName, "");
+			}
+			catch (Exception ex)
+			{
+				return FormatMessage(ExecuteFailureMessage, _actionPast, _pluginName, ex.Message);
+			}
+		}
+
+		public override string PromptMessage
+		{
+			get
+			{
+				if (!Utilities.IsNullorEmpty(_promptMessage))
+					return FormatMessage(_promptMessage, _actionVerb, _pluginName);
+				else
+					return base.PromptMessage;
+			}
+			set { _promptMessage = value; }
+		}
+
+
+		public override string Cancel()
+		{
+			_autoRedirect = false;
+			return FormatMessage(CancelSuccessMessage, _actionPast, _pluginName);
+		}
+	}
+	#endregion
+
 }
 

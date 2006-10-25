@@ -218,6 +218,7 @@
     <Compile Include="Components\PageType.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Components\Plugin.cs" />
     <Compile Include="Components\Referrer.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -1308,6 +1308,37 @@ namespace Subtext.Framework.Data
 			log.Debug("SQL: " + query);
 #endif
 		}
+
+		#region Plugins
+		public override IDataReader GetEnabledPlugins()
+		{
+			SqlParameter[] p =
+			{
+				BlogIdParam
+			};
+			return GetReader("subtext_GetPluginBlog", p);
+		}
+
+		public override bool EnablePlugin(Guid pluginId)
+		{
+			SqlParameter[] p =
+			{
+				DataHelper.MakeInParam("@PluginID",SqlDbType.UniqueIdentifier,16,pluginId),
+				BlogIdParam
+			};
+			return NonQueryBool("subtext_InsertPluginBlog", p);
+		}
+
+		public override bool DisablePlugin(Guid pluginId)
+		{
+			SqlParameter[] p =
+			{
+				DataHelper.MakeInParam("@PluginID",SqlDbType.UniqueIdentifier,16,pluginId),
+				BlogIdParam
+			};
+			return NonQueryBool("subtext_DeletePluginBlog", p);
+		}
+		#endregion
 	}
 }
 

@@ -24,6 +24,7 @@ using Subtext.Framework.Services;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
 using Subtext.Framework.Web.HttpModules;
+using Subtext.Framework.Components;
 
 namespace Subtext.Framework
 {
@@ -1107,8 +1108,25 @@ namespace Subtext.Framework
             set { _pop3HeightForThumbs = value; }
         }
         #endregion
-        //End of Mail To Weblog properties
-	    
+		//End of Mail To Weblog properties
+
+		#region Plugin Specific Properties
+
+		private ICollection<Guid> _enabledPluginGuids=null;
+
+		public ICollection<Guid> EnabledPluginGuids
+		{
+			get
+			{
+				if (_enabledPluginGuids==null)
+				{
+					_enabledPluginGuids = Plugin.GetEnabledPlugins();
+				}
+				return _enabledPluginGuids;
+			}
+		}
+
+		#endregion Plugin Specific Properties
 	}
 }
 

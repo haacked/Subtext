@@ -18,15 +18,17 @@ using System.Web.UI.WebControls;
 using System.Collections.Generic;
 using Subtext.Extensibility.Plugins;
 using Subtext.Framework;
+using Subtext.Framework.Configuration;
 
 namespace Subtext.Web.Admin.Pages
 {
 	public partial class PluginListPage : AdminOptionsPage
 	{
-		private const string VSKEY_KEYWORDID = "LinkID";
+		private const string VSKEY_KEYWORDID = "PluginID";
 
 		private int _resultsPageNumber = 0;
 		private bool _isListHidden = false;
+		private BlogInfo info;
 
 		public string PluginID
 		{
@@ -42,6 +44,7 @@ namespace Subtext.Web.Admin.Pages
 
 		protected override void Page_Load(object sender, EventArgs e)
 		{
+			info = Config.CurrentBlog;
 			base.Page_Load(sender, e);
 			if (!IsPostBack)
 			{
@@ -107,18 +110,24 @@ namespace Subtext.Web.Admin.Pages
 
 		private bool IsPluginEnabled(IPlugin plugin)
 		{
-			if (plugin.Info.Name.IndexOf("2")!=-1)
+			if (info.EnabledPluginGuids.Contains(plugin.Id.Guid))
+			{
 				return true;
+			}
 			else
+			{
 				return false;
+			}
 		}
 
 		protected void pluginListRpt_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
 		{
+			Guid pluginId;
 			switch (e.CommandName.ToLower(System.Globalization.CultureInfo.InvariantCulture))
 			{
 				case "view":
-					PluginID = e.CommandArgument.ToString();
+					//Load the plugin info and display them on the page
+					PluginID = (string)e.CommandArgument;
 					BindViewLink();
 					break;
 				case "settings":
@@ -126,13 +135,30 @@ namespace Subtext.Web.Admin.Pages
 					break;
 				case "enable":
 					//Enable the plugin for the current blog
+					pluginId = new Guid((string)e.CommandArgument);
+					ConfirmToggle(pluginId, true);
 					break;
 				case "disable":
 					//Disable the plugin for the current blog
+					pluginId = new Guid((string)e.CommandArgument);
+					ConfirmToggle(pluginId, false);
 					break;
 				default:
 					break;
 			}
+		}
+
+		private void ConfirmToggle(Guid pluginId, bool enable)
+		{
+			IPlugin currentPlugin = STApplication.Current.GetPluginByGuid(pluginId.ToString());
+			if (currentPlugin != null)
+			{
+				this.Command = new TogglePluginCommand(pluginId, currentPlugin.Info.Name, enable);
+				this.Command.RedirectUrl = Request.Url.ToString();
+				Server.Transfer(Constants.URL_CONFIRM);
+			}
+			else
+				Messages.ShowMessage("Unable to find plugin with id" + PluginID);
 		}
 
 		private void BindViewLink()
