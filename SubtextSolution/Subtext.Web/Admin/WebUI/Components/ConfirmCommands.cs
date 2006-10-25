@@ -736,7 +736,7 @@ namespace Subtext.Web.Admin
 		{
 			_autoRedirect = false;
 			_pluginId = pluginId;
-			_pluginName = pluginName;
+			_pluginName = "<b>" + pluginName + "</b>";
 			_enablePlugin = enable;
 			if (enable)
 			{
