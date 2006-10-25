@@ -132,6 +132,8 @@ namespace Subtext.Web.Admin.Pages
 					break;
 				case "settings":
 					//Load the plugin info, and display the custom user control to edit global plugin settings
+					PluginID = (string)e.CommandArgument;
+					BindEditLink();
 					break;
 				case "enable":
 					//Enable the plugin for the current blog
@@ -146,6 +148,30 @@ namespace Subtext.Web.Admin.Pages
 				default:
 					break;
 			}
+		}
+
+		private void BindEditLink()
+		{
+			IPlugin currentPlugin = STApplication.Current.GetPluginByGuid(PluginID);
+			if (currentPlugin != null)
+			{
+				Results.Collapsed = true;
+				Results.Collapsible = true;
+				Edit.Visible = true;
+				View.Visible = false;
+
+				pluginEditName.Text = currentPlugin.Info.Name;
+
+				if (AdminMasterPage != null && AdminMasterPage.BreadCrumb != null)
+				{
+					string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Plugin Settings: \"{0}\"", currentPlugin.Info.Name);
+
+					AdminMasterPage.BreadCrumb.AddLastItem(title);
+					AdminMasterPage.Title = title;
+				}
+			}
+			else
+				Messages.ShowMessage("Unable to find plugin with id" + PluginID);
 		}
 
 		private void ConfirmToggle(Guid pluginId, bool enable)
@@ -182,7 +208,7 @@ namespace Subtext.Web.Admin.Pages
 
 				if (AdminMasterPage != null && AdminMasterPage.BreadCrumb != null)
 				{
-					string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Pluign Details: \"{0}\"", currentPlugin.Info.Name);
+					string title = string.Format(System.Globalization.CultureInfo.InvariantCulture, "Plugin Details: \"{0}\"", currentPlugin.Info.Name);
 
 					AdminMasterPage.BreadCrumb.AddLastItem(title);
 					AdminMasterPage.Title = title;
@@ -214,6 +240,18 @@ namespace Subtext.Web.Admin.Pages
 
 		}
 
+		private void ResetPostEdit(bool showEdit)
+		{
+			PluginID = String.Empty;
+
+			Results.Collapsible = showEdit;
+			Results.Collapsed = showEdit;
+			Edit.Visible = showEdit;
+
+
+			pluginEditName.Text = string.Empty;
+		}
+
 		// REFACTOR
 		public string CheckHiddenStyle()
 		{
@@ -223,9 +261,19 @@ namespace Subtext.Web.Admin.Pages
 				return String.Empty;
 		}
 
+		protected void lkbPost_Click(object sender, System.EventArgs e)
+		{
+			//UpdatePluginSettings();
+		}
+
 		protected void lkbCancel_Click(object sender, System.EventArgs e)
 		{
 			ResetPostView(false);
+		}
+
+		protected void lkbEditCancel_Click(object sender, System.EventArgs e)
+		{
+			ResetPostEdit(false);
 		}
 	}
 }
