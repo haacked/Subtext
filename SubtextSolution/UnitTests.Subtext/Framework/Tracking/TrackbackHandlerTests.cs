@@ -18,6 +18,31 @@ namespace UnitTests.Subtext.Framework.Tracking
 	[TestFixture]
 	public class TrackbackHandlerTests
 	{
+		[Test]
+		[RollBack]
+		public void CanDisableTrackbacks()
+		{
+			string url = "http://haacked.com/";
+			string title = "The Title of the Trackback";
+			string excerpt = "Blah blah blah.";
+			string blogName = "You've been haacked";
+
+			string hostname = UnitTestHelper.GenerateRandomString();
+			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, string.Empty);
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
+			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
+			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+			int id = Entries.Create(entry);
+
+			StringBuilder sb = new StringBuilder();
+			TextWriter output = new StringWriter(sb);
+			SimulatedHttpRequest request = UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, string.Empty, "/trackback/services/" + id + ".aspx", output, "GET");
+			Config.CurrentBlog.TrackbacksEnabled = false;
+			Config.UpdateConfigData(Config.CurrentBlog);
+			string responseText = GetTrackBackHandlerResponseText(blogName, excerpt, request, sb, title, url);
+			Assert.AreEqual(string.Empty, responseText);
+		}
+		
 		/// <summary>
 		/// Sends an RSS Snippet for requests made using the "GET" http verb.
 		/// </summary>

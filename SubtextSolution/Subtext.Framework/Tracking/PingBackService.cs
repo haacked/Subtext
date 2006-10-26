@@ -36,6 +36,7 @@ using System;
 using System.Web;
 using CookComputing.XmlRpc;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Text;
 
@@ -55,28 +56,29 @@ namespace Subtext.Framework.Tracking
 		[XmlRpcMethod("pingback.ping", Description="Pingback server implementation")] 
 		public string pingBack(string sourceURI, string targetURI)
 		{
-			int 	postId;
-			string 	pageTitle;
-  		
+			if (!Config.CurrentBlog.TrackbacksEnabled)
+				return "Pingbacks are not enabled for this site.";
+			
+			int postId;
+			string pageTitle;
+
 			// GetPostIDFromUrl returns the postID
 			postId = UrlFormats.GetPostIDFromUrl(targetURI);
-			
+
 			if (postId == NullValue.NullInt32)
 				throw new XmlRpcFaultException(33, "You did not link to a permalink");
-			
+
 			Uri sourceUrl = HtmlHelper.ParseUri(sourceURI);
 			Uri targetUrl = HtmlHelper.ParseUri(targetURI);
-			
+
 			// does the sourceURI actually contain the permalink ?
-			if(sourceUrl == null || targetUrl == null || !Verifier.SourceContainsTarget(sourceUrl, targetUrl, out pageTitle))
-				throw new XmlRpcFaultException(17, "Not a valid link.") ;		
-  			
+			if (sourceUrl == null || targetUrl == null || !Verifier.SourceContainsTarget(sourceUrl, targetUrl, out pageTitle))
+				throw new XmlRpcFaultException(17, "Not a valid link.");
+
 			//PTR = Pingback - TrackBack - Referral
 			Trackback trackback = new Trackback(postId, HtmlHelper.SafeFormat(pageTitle), new Uri(sourceURI), string.Empty, HtmlHelper.SafeFormat(pageTitle));
-			FeedbackItem.Create(trackback);
-			CommentFilter filter = new CommentFilter(HttpContext.Current.Cache);
-			filter.DetermineFeedbackApproval(trackback);
-  		
+			FeedbackItem.Create(trackback, new CommentFilter(HttpContext.Current.Cache));
+		
 			return "thanks for the pingback on " + sourceURI ;
 		}
 	}

@@ -40,6 +40,24 @@ namespace Subtext.Framework
 		{
 			this.cache = cache;
 		}
+		
+		/// <summary>
+		/// Validates the feedback before it has been persisted.
+		/// </summary>
+		/// <param name="feedback"></param>
+		/// <exception type="CommentFrequencyException">Thrown if too many comments are received from the same source in a short period.</exception>
+		/// <exception type="CommentDuplicateException">Thrown if the blog does not allow duplicate comments and too many are received in a short period of time.</exception>
+		public void FilterBeforePersist(FeedbackItem feedback)
+		{
+			if (!Security.IsAdmin)
+			{
+				if (!SourceFrequencyIsValid(feedback))
+					throw new CommentFrequencyException();
+
+				if (!Config.CurrentBlog.DuplicateCommentsEnabled && IsDuplicateComment(feedback))
+					throw new CommentDuplicateException();
+			}
+		}
 
 		/// <summary>
 		/// Filters the comment. Throws an exception should the comment not be allowed. 
@@ -56,16 +74,10 @@ namespace Subtext.Framework
 		/// </p>
 		/// </remarks>
 		/// <param name="feedbackItem">Entry.</param>
-		public void DetermineFeedbackApproval(FeedbackItem feedbackItem)
+		public void FilterAfterPersist(FeedbackItem feedbackItem)
 		{
 			if (!Security.IsAdmin)
 			{
-				if (!SourceFrequencyIsValid(feedbackItem))
-					throw new CommentFrequencyException();
-
-				if (!Config.CurrentBlog.DuplicateCommentsEnabled && IsDuplicateComment(feedbackItem))
-					throw new CommentDuplicateException();
-
 				if (!Config.CurrentBlog.ModerationEnabled)
 				{
 					//Akismet Check...
@@ -73,26 +85,34 @@ namespace Subtext.Framework
 					{
 						if (Config.CurrentBlog.FeedbackSpamService.IsSpam(feedbackItem))
 						{
-							//TODO: Could put this in a method "FlagSpam".
-							feedbackItem.FlaggedAsSpam = true;
-							feedbackItem.Approved = false;
-							FeedbackItem.Update(feedbackItem);
+							FlagAsSpam(feedbackItem);
 							return;
 						}
 					}
-					feedbackItem.Approved = true;
+					//Note, we need to explicitely set the status flag here.
+					//Just setting Approved = true would not reset any other bits in the flag that may be set.
+					feedbackItem.Status = FeedbackStatusFlag.Approved;
 				}
 				else //Moderated!
 				{
-					feedbackItem.NeedsModeratorApproval = true;
-					feedbackItem.Approved = false;
+					//Note, we need to explicitely set the status flag here.
+					//Just setting NeedsModeration = true would not reset any other bits in the flag that may be set.
+					feedbackItem.Status = FeedbackStatusFlag.NeedsModeration;
 				}
 			}
 			else
 			{
-				feedbackItem.Body += "<!-- Admin comment -->";
-				feedbackItem.Approved = true;
+				//Note, we need to explicitely set the status flag here.
+				//Just setting Approved = true would not reset any other bits in the flag that may be set.
+				feedbackItem.Status = FeedbackStatusFlag.Approved;
 			}
+			FeedbackItem.Update(feedbackItem);
+		}
+
+		private static void FlagAsSpam(FeedbackItem feedbackItem)
+		{
+			feedbackItem.FlaggedAsSpam = true;
+			feedbackItem.Approved = false;
 			FeedbackItem.Update(feedbackItem);
 		}
 

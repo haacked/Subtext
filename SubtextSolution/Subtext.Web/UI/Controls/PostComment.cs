@@ -189,12 +189,8 @@ namespace Subtext.Web.UI.Controls
 					if(IsCommentAllowed(currentEntry))
 					{
 						FeedbackItem feedbackItem = CreateFeedbackInstanceFromFormInput(currentEntry);
-						//Assume allowed.
-						FeedbackItem.Create(feedbackItem);
+						FeedbackItem.Create(feedbackItem, new CommentFilter(HttpContext.Current.Cache));
 						
-						CommentFilter filter = new CommentFilter(HttpContext.Current.Cache);
-						filter.DetermineFeedbackApproval(feedbackItem);
-
 						if(chkRemember == null || chkRemember.Checked)
 						{
 							SetRememberedUserCookie();

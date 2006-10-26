@@ -31,7 +31,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 			int parentId = Entries.Create(entry);
 			
 			Trackback trackback = new Trackback(parentId, "title", new Uri("http://url"), "phil", "body");
-			int id = FeedbackItem.Create(trackback);
+			int id = FeedbackItem.Create(trackback, null);
 
 			FeedbackItem loadedTrackback = FeedbackItem.Get(id);
 			Assert.IsNotNull(loadedTrackback, "Was not able to load trackback from storage.");
@@ -57,7 +57,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 			
 			Trackback trackback = new Trackback(parentId, "title", new Uri("http://url"), "phil", "body");
 			Config.CurrentBlog.DuplicateCommentsEnabled = true;
-			int trackbackId = FeedbackItem.Create(trackback);
+			int trackbackId = FeedbackItem.Create(trackback, null);
 			FeedbackItem.Approve(trackback);
 			
 			entries = Entries.GetFeedBack(parentEntry);

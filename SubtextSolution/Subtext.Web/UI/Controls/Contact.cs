@@ -78,11 +78,10 @@ namespace Subtext.Web.UI.Controls
 					contactMessage.Body = tbMessage.Text;
 					contactMessage.Title = "CONTACT: " + tbSubject.Text;
 					contactMessage.IpAddress = HttpHelper.GetUserIpAddress(Context);
-					FeedbackItem.Create(contactMessage);
-					CommentFilter filter = new CommentFilter(HttpContext.Current.Cache);
+					
 					try
 					{
-						filter.DetermineFeedbackApproval(contactMessage);
+						FeedbackItem.Create(contactMessage, new CommentFilter(HttpContext.Current.Cache));
 						lblMessage.Text = "Your message was sent.";
 					}
 					catch(BaseCommentException exc)

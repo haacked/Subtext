@@ -64,9 +64,7 @@ namespace Subtext.Framework.Syndication
 				comment.SourceUrl = HtmlHelper.CheckForUrl(doc.SelectSingleNode("//item/link").InnerText);
 				comment.EntryId = UrlFormats.GetPostIDFromUrl(Request.Path);
 
-				FeedbackItem.Create(comment);
-				CommentFilter filter = new CommentFilter(HttpContext.Current.Cache);
-				filter.DetermineFeedbackApproval(comment);
+				FeedbackItem.Create(comment, new CommentFilter(HttpContext.Current.Cache));
 			}
 		}
 	

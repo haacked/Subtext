@@ -260,7 +260,7 @@ namespace UnitTests.Subtext.Framework.Data
 			feedbackItem.Body = "Who rocks the party that rocks the party? " + index;
 
 			feedbackItem.SourceUrl = new Uri("http://blah/");
-			FeedbackItem.Create(feedbackItem);
+			FeedbackItem.Create(feedbackItem, null);
 			FeedbackItem.Approve(feedbackItem);
 		}
 

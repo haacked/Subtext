@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
+using System.Web;
 using System.Web.UI.WebControls;
 using log4net;
 using Subtext.Framework.Logging;
@@ -120,8 +121,13 @@ namespace Subtext.Web.Controls
 			}
 			catch(CaptchaExpiredException e)
 			{
-				if(e.InnerException != null)
-					log.Warn("CaptchaExpired xEception thrown. Logging internal exception", e.InnerException);
+				if (e.InnerException != null)
+				{
+					string warning = "CaptchaExpired Exception thrown.";
+					if (HttpContext.Current != null && HttpContext.Current.Request != null)
+						warning += " User Agent: " + HttpContext.Current.Request.UserAgent;
+					log.Warn(warning, e.InnerException);
+				}
 				this.ErrorMessage = "Sorry, but this form has expired. Please try again.";
 				return false;
 			}
