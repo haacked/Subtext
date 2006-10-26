@@ -141,8 +141,11 @@ namespace Subtext.Framework.Services
 	/// </summary>
 	public class MailToWeblog
 	{
-		string binariesPath = HttpContext.Current.Server.MapPath("~/Images/"); //give write access for aspnet user (+Network Services user on win2003 server)
-
+		//string binariesPath = HttpContext.Current.Server.MapPath("~/Images/"); //give write access for aspnet user (+Network Services user on win2003 server)
+        
+        //for test purposes--remove it later
+        string binariesPath = @"C:\Documents and Settings\gyeniceri\My Documents\Visual Studio 2005\Projects\Subtext\SubtextSolution\Subtext.Web\Images";
+        
         Uri binariesBaseUri = new Uri(string.Concat(ConfigurationManager.AppSettings.Get("AggregateUrl"), "/Images"));
 
 		Entry entry = new Entry(PostType.BlogPost);

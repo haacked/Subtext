@@ -76,6 +76,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetDir)$(TargetName).* $(SolutionDir)Subtext.Web\bin</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetName).*" "$(SolutionDir)Subtext.Web\bin"</PostBuildEvent>
   </PropertyGroup>
 </Project>
