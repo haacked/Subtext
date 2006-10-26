@@ -323,7 +323,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			trackback.SourceUrl = new Uri("http://" + UnitTestHelper.GenerateRandomString() + "/ThisUrl/");
 			trackback.Title = "Some Title";
 			trackback.Body = "Some Body";
-			int id = FeedbackItem.Create(trackback);
+			int id = FeedbackItem.Create(trackback, null);
 
 			FeedbackItem savedEntry = FeedbackItem.Get(id);
 			Assert.IsTrue(savedEntry.ChecksumHash.Length > 0, "The Content Checksum should be larger than 0.");
@@ -355,7 +355,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			feedbackItem.Title = "Some Title";
 			feedbackItem.Body = "Some Body<br /> likes me.";
 			feedbackItem.EntryId = entryId;
-			int id = FeedbackItem.Create(feedbackItem);
+			int id = FeedbackItem.Create(feedbackItem, null);
 			Thread.Sleep(100); //Sending email is asynch.
 
 			string expectedMessageBody = "Comment from You've been haacked" + Environment.NewLine
@@ -383,7 +383,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			feedback.Title = UnitTestHelper.GenerateRandomString();
 			feedback.Body = UnitTestHelper.GenerateRandomString();
 			feedback.EntryId = entry.Id;
-			int id = FeedbackItem.Create(feedback);
+			int id = FeedbackItem.Create(feedback, null);
 
 			feedback = FeedbackItem.Get(id);
 			feedback.Status = status;

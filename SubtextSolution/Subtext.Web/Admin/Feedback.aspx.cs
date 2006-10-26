@@ -74,14 +74,6 @@ namespace Subtext.Web.Admin.Pages
 			{
 				this.FeedbackStatusFilter = GetStatusFromQueryString();
 				
-				if (Request.QueryString[Keys.QRYSTR_PAGEINDEX] != null)
-					this.pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
-
-				this.resultsPager.UrlFormat = "Feedback.aspx?pg={0}&status=" + (int)FeedbackStatusFilter;
-				this.resultsPager.PageSize = Preferences.ListingItemCount;
-				this.resultsPager.PageIndex = this.pageIndex;
-				Results.Collapsible = false;
-
 				BindList();
 			}			
 		}
@@ -253,6 +245,14 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindList()
 		{
+			if (Request.QueryString[Keys.QRYSTR_PAGEINDEX] != null)
+				this.pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
+
+			this.resultsPager.UrlFormat = "Feedback.aspx?pg={0}&status=" + (int)FeedbackStatusFilter;
+			this.resultsPager.PageSize = Preferences.ListingItemCount;
+			this.resultsPager.PageIndex = this.pageIndex;
+			Results.Collapsible = false;
+			
 			FeedbackStatusFlag excludeFilter = ~this.FeedbackStatusFilter;
 			//Approved is a special case.  If a feedback has the approved bit set, 
 			//it is approved no matter what other bits are set.

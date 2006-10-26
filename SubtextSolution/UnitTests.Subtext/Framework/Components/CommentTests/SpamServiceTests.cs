@@ -41,11 +41,10 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			mocks.ReplayAll();
 
 			Assert.AreEqual(isAdmin, Security.IsAdmin);
-			FeedbackItem.Create(feedback);
-			CommentFilter filter = new CommentFilter(new Cache());
+
 			try
 			{
-				filter.DetermineFeedbackApproval(feedback);
+				FeedbackItem.Create(feedback, new CommentFilter(new Cache()));
 			}
 			catch(BaseCommentException)
 			{

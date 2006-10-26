@@ -227,10 +227,10 @@ namespace Subtext.Web.Admin.Pages
 			{
 				Trackback entry = new Trackback(EntryID, txbTitle.Text, HtmlHelper.CheckForUrl(txbUrl.Text), string.Empty, txbBody.Text.Trim().Length > 0 ? txbBody.Text.Trim() : txbTitle.Text, Config.CurrentBlog.TimeZone.Now);
 
-				if(FeedbackItem.Create(entry) > 0)
+				if(FeedbackItem.Create(entry, null) > 0)
 				{
 					CommentFilter filter = new CommentFilter(HttpContext.Current.Cache);
-					filter.DetermineFeedbackApproval(entry);
+					filter.FilterAfterPersist(entry);
 					this.Messages.ShowMessage(Constants.RES_SUCCESSNEW);
 					this.Edit.Visible = false;
 				}

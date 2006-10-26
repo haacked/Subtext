@@ -33,7 +33,10 @@
  ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 using System;
+using System.Net;
 using System.Text.RegularExpressions;
+using log4net;
+using Subtext.Framework.Logging;
 using Subtext.Framework.Web;
 
 namespace Subtext.Framework.Tracking
@@ -43,6 +46,8 @@ namespace Subtext.Framework.Tracking
 	/// </summary>
 	public static class Verifier
 	{
+		private readonly static ILog Log = new Log();
+		
 		/// <summary>
 		/// Checks that the contents of the source url contains the target URL.
 		/// </summary>
@@ -52,8 +57,16 @@ namespace Subtext.Framework.Tracking
 		/// <returns></returns>
 		public static bool SourceContainsTarget(Uri sourceUrl, Uri targetUrl, out string pageTitle)
 		{
-			pageTitle = string.Empty ;
-			string page = HttpHelper.GetPageText(sourceUrl);
+			pageTitle = string.Empty;
+			string page = null;
+			try
+			{
+				page = HttpHelper.GetPageText(sourceUrl);
+			}
+			catch(WebException e)
+			{
+				Log.Warn("Could not verify the source of a ping/trackback", e);
+			}
 			if (page == null || targetUrl == null)
 				return false;
 					

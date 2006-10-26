@@ -39,6 +39,7 @@ using System.Xml;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
@@ -67,7 +68,16 @@ namespace Subtext.Framework.Tracking
 		/// <param name="context">An <see cref="T:System.Web.HttpContext"/> object that provides references to the intrinsic server objects (for example, <see langword="Request"/>, <see langword="Response"/>, <see langword="Session"/>, and <see langword="Server"/>)<see langword=""/> used to service HTTP requests.</param>
 		public void ProcessRequest(HttpContext context)
 		{
-			HandleTrackback(context);
+			if(!Config.CurrentBlog.TrackbacksEnabled)
+				return;
+			try
+			{
+				HandleTrackback(context);
+			}
+			catch(BaseCommentException e)
+			{
+				Log.Info("Comment exception occurred.", e);
+			}
 		}
 
 		private void HandleTrackback(HttpContext context)
@@ -145,9 +155,8 @@ namespace Subtext.Framework.Tracking
 			}
 
 			Trackback trackback = new Trackback(entryId, title, url, blog_name, excerpt);
-			FeedbackItem.Create(trackback);
-			CommentFilter filter = new CommentFilter(HttpContext.Current.Cache);
-			filter.DetermineFeedbackApproval(trackback);
+
+			FeedbackItem.Create(trackback, new CommentFilter(HttpContext.Current.Cache));
 		}
 		
 		/// <summary>

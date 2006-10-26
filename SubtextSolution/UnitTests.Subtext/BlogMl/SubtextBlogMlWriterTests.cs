@@ -142,12 +142,12 @@ namespace UnitTests.Subtext.BlogML
 			//Add a comment.
 			FeedbackItem comment = UnitTestHelper.CreateCommentInstance(entry.Id, "joe", "re: blah", UnitTestHelper.GenerateRandomString(), DateTime.Now);
 			comment.FeedbackType = FeedbackType.Comment;
-			FeedbackItem.Create(comment);
+			FeedbackItem.Create(comment, null);
 			FeedbackItem.Approve(comment);
 
 			//Add a trackback.
 			Trackback trackback = new Trackback(entry.Id, "blah", new Uri("http://example.com/"), "you", "your post is great" + UnitTestHelper.GenerateRandomString());
-			FeedbackItem.Create(trackback);
+			FeedbackItem.Create(trackback, null);
 			FeedbackItem.Approve(trackback);
 
 			//setup provider

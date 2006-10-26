@@ -344,7 +344,7 @@ namespace Subtext.ImportExport
 			newComment.Email = bmlComment.UserEMail;
 			newComment.SourceUrl = new Uri(bmlComment.UserUrl);
 
-			FeedbackItem.Create(newComment);
+			FeedbackItem.Create(newComment, null);
 		}
 
 		/// <summary>
@@ -367,7 +367,7 @@ namespace Subtext.ImportExport
 			// so the duplicate Comment Filter doesn't break when computing the checksum
 			newPingTrack.Body = string.Empty;
 
-			FeedbackItem.Create(newPingTrack);
+			FeedbackItem.Create(newPingTrack, null);
 		}
 		
 		/// <summary>

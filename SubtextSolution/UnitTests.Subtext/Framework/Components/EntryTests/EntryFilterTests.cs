@@ -52,9 +52,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			trackback.SourceUrl = new Uri("http://localhost/ThisUrl/");
 			trackback.Title = "Some Title";
 			trackback.Body = "Some Body Some Body";
-			FeedbackItem.Create(trackback);
-			CommentFilter filter = new CommentFilter(HttpContext.Current.Cache);
-			filter.DetermineFeedbackApproval(trackback);
+			FeedbackItem.Create(trackback, new CommentFilter(HttpContext.Current.Cache));
 			
 			Thread.Sleep(100);
 
@@ -63,8 +61,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			comment.SourceUrl = new Uri("http://localhost/ThisUrl/");
 			comment.Title = "Some Title";
 			comment.Body = "Some Body Else";
-			FeedbackItem.Create(comment);
-			filter.DetermineFeedbackApproval(trackback);
+			FeedbackItem.Create(comment, new CommentFilter(HttpContext.Current.Cache));
 		}
 
 		/// <summary>
@@ -84,12 +81,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			feedbackItem.SourceUrl = new Uri("http://localhost/ThisUrl/");
 			feedbackItem.Title = "Some Title";
 			feedbackItem.Body = "Some Body";
-			FeedbackItem.Create(feedbackItem);
-			CommentFilter filter = new CommentFilter(HttpContext.Current.Cache);
-			filter.DetermineFeedbackApproval(feedbackItem);
-			
-			FeedbackItem.Create(feedbackItem);
-			filter.DetermineFeedbackApproval(feedbackItem);
+			FeedbackItem.Create(feedbackItem, new CommentFilter(HttpContext.Current.Cache));
+			FeedbackItem.Create(feedbackItem, new CommentFilter(HttpContext.Current.Cache));
 		}
 	    
 	    /// <summary>
@@ -118,11 +111,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             trackback.SourceUrl = new Uri("http://localhost/ThisUrl/");
             trackback.Title = "Some Title";
             trackback.Body = "Some Body";
-            FeedbackItem.Create(trackback);
-			CommentFilter filter = new CommentFilter(HttpContext.Current.Cache);
-			filter.DetermineFeedbackApproval(trackback);
-			FeedbackItem.Create(trackback);
-			filter.DetermineFeedbackApproval(trackback);
+			FeedbackItem.Create(trackback, new CommentFilter(HttpContext.Current.Cache));
+			FeedbackItem.Create(trackback, new CommentFilter(HttpContext.Current.Cache));
 	    }
 
 	    /// <summary>
