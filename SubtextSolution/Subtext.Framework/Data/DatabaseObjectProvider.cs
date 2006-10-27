@@ -23,6 +23,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
+using System.Collections.Specialized;
 
 namespace Subtext.Framework.Data
 {
@@ -1130,6 +1131,34 @@ namespace Subtext.Framework.Data
 		public override bool DisablePlugin(Guid pluginId)
 		{
 			return DbProvider.Instance().DisablePlugin(pluginId);
+		}
+
+		public override NameValueCollection GetPluginGeneralSettings(Guid pluginId)
+		{
+			IDataReader reader = DbProvider.Instance().GetPluginGeneralSettings(pluginId);
+			try
+			{
+				NameValueCollection dict = new NameValueCollection();
+				while (reader.Read())
+				{
+					dict.Add(DataHelper.LoadPluginSettings(reader));
+				}
+				return dict;
+			}
+			finally
+			{
+				reader.Close();
+			}
+		}
+
+		public override bool InsertPluginGeneralSettings(Guid pluginId, string key, string value)
+		{
+			throw new Exception("The method or operation is not implemented.");
+		}
+
+		public override bool UpdatePluginGeneralSettings(Guid pluginId, string key, string value)
+		{
+			throw new Exception("The method or operation is not implemented.");
 		}
 
 		#endregion

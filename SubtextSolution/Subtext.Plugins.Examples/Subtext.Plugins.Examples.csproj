@@ -37,6 +37,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test2Plugin\settings.ascx.cs">
       <DependentUpon>settings.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Test2Plugin\settings.ascx.designer.cs">
       <DependentUpon>settings.ascx</DependentUpon>

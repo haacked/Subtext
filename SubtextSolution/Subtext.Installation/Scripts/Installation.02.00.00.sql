@@ -92,7 +92,6 @@ IF NOT EXISTS
 	)
 	BEGIN
 		CREATE TABLE [<dbUser,varchar,dbo>].[subtext_PluginData] (
-			[id] [int] IDENTITY (1, 1) NOT NULL ,
 			[PluginId] [uniqueidentifier] NOT NULL ,
 			[BlogId] [int] NOT NULL ,
 			[EntryId] [int] NULL ,
@@ -100,7 +99,10 @@ IF NOT EXISTS
 			[Value] [ntext] COLLATE Latin1_General_CI_AS NOT NULL
 		CONSTRAINT [PK_subtext_PluginEntryData] PRIMARY KEY  CLUSTERED 
 		(
-			[id]
+			[PluginId],
+			[BlogId],
+			[EntryId],
+			[Key]
 		) ON [PRIMARY] 
 		) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 		
@@ -143,5 +145,5 @@ IF NOT EXISTS
 				[ID]
 			)
 	END
-	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_PluginData] CHECK CONSTRAINT [FK_subtext_PluginData_subtext_Content]
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_PluginData] NOCHECK CONSTRAINT [FK_subtext_PluginData_subtext_Content]
 GO
