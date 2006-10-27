@@ -37,8 +37,10 @@ namespace Subtext
 		//log4net Configuration Attribute is in AssemblyInfo
 		private readonly static ILog log = LogManager.GetLogger(typeof(Global));
 
-        MailToWeblog mailtoweblog = new MailToWeblog();
-        Thread MailToWeblogThread;
+        //CHANGE: Mail To Weblog - Gurkan Yeniceri
+        private MailToWeblog mailToWeblog = null;
+        private Thread mailToWeblogThread = null;
+        //End of changes - Gurkan Yeniceri
 
 
 		static Global()
@@ -94,43 +96,45 @@ namespace Subtext
 		{
 			//This line will trigger the configuration.
 			log.Info("Application_Start - This is not a malfunction.");
-#if DEBUG
-			log4net.Repository.Hierarchy.Hierarchy h = LogManager.GetRepository() as log4net.Repository.Hierarchy.Hierarchy;
-			EnsureLog4NetConnectionString(h);
-#endif
+//#if DEBUG
+//            log4net.Repository.Hierarchy.Hierarchy h = LogManager.GetRepository() as log4net.Repository.Hierarchy.Hierarchy;
+//            EnsureLog4NetConnectionString(h);
+//#endif
             if (ConfigurationManager.AppSettings.Get("EnableMailToWeblog") == "true")
             {
-                MailToWeblogThread = new Thread(mailtoweblog.Run);
-                MailToWeblogThread.Name = "MailToWeblog";
-                MailToWeblogThread.Start();
-                log.Info("Mail to Weblog thread started");
+                mailToWeblog = new MailToWeblog();
+
+                mailToWeblogThread = new Thread(new ThreadStart(mailToWeblog.Run));
+                mailToWeblogThread.Name = "MailToWeblog";
+                mailToWeblogThread.IsBackground = true;
+                mailToWeblogThread.Start();
             }
 		}
 
-#if DEBUG
-		private static void EnsureLog4NetConnectionString(Hierarchy h)
-		{
-			if (h.Root.Appenders.Count == 0)
-				throw new InvalidOperationException("No appenders configured!");
+//#if DEBUG
+//        private static void EnsureLog4NetConnectionString(Hierarchy h)
+//        {
+//            if (h.Root.Appenders.Count == 0)
+//                throw new InvalidOperationException("No appenders configured!");
 
-			foreach(IAppender appender in h.Root.Appenders)
-			{
-				AdoNetAppender adoAppender = appender as AdoNetAppender;
-				if(adoAppender != null)
-				{
-					adoAppender.ActivateOptions();
-					//Normalize appender connection string, since Log4Net seems to truncate that last semicolon.
-					if (!String.IsNullOrEmpty(adoAppender.ConnectionString) && !adoAppender.ConnectionString.EndsWith(";"))
-						adoAppender.ConnectionString += ";";
+//            foreach(IAppender appender in h.Root.Appenders)
+//            {
+//                AdoNetAppender adoAppender = appender as AdoNetAppender;
+//                if(adoAppender != null)
+//                {
+//                    adoAppender.ActivateOptions();
+//                    //Normalize appender connection string, since Log4Net seems to truncate that last semicolon.
+//                    if (!String.IsNullOrEmpty(adoAppender.ConnectionString) && !adoAppender.ConnectionString.EndsWith(";"))
+//                        adoAppender.ConnectionString += ";";
 					
-					if(adoAppender.ConnectionString != ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString)
-					{
-						throw new InvalidOperationException("Log4Net is not picking up our connection string.");
-					}					
-				}
-			}
-		}
-#endif
+//                    if(adoAppender.ConnectionString != ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString)
+//                    {
+//                        throw new InvalidOperationException("Log4Net is not picking up our connection string.");
+//                    }					
+//                }
+//            }
+//        }
+//#endif
 
 		/// <summary>
 		/// Method called when a session starts.
