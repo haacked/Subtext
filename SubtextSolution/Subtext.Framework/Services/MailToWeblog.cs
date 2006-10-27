@@ -144,9 +144,12 @@ namespace Subtext.Framework.Services
 		//string binariesPath = HttpContext.Current.Server.MapPath("~/Images/"); //give write access for aspnet user (+Network Services user on win2003 server)
         
         //for test purposes--remove it later
-        string binariesPath = @"C:\Documents and Settings\gyeniceri\My Documents\Visual Studio 2005\Projects\Subtext\SubtextSolution\Subtext.Web\Images";
+        string binariesPath = @"C:\Inetpub\wwwroot\Subtext.Web\Images";
         
-        Uri binariesBaseUri = new Uri(string.Concat(ConfigurationManager.AppSettings.Get("AggregateUrl"), "/Images"));
+        //Uri binariesBaseUri = new Uri(string.Concat(ConfigurationManager.AppSettings.Get("AggregateUrl"), "/Images"));
+        //string baseUri = ConfigurationManager.AppSettings.Get("AggregateUrl") + "/Images";
+        Uri binariesBaseUri = null;
+
 
 		Entry entry = new Entry(PostType.BlogPost);
 	    
@@ -158,6 +161,7 @@ namespace Subtext.Framework.Services
 		/// </summary>
 		public void Run()
 		{
+            binariesBaseUri = new Uri(ConfigurationManager.AppSettings.Get("AggregateUrl") + "/Images");
 			//To go through the Blogs in subtext_config table
 			//TODO: We may have multiple domains and multiple blogs for each domain.
 			//This method won't work if this is the case
