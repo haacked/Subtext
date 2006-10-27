@@ -1338,6 +1338,17 @@ namespace Subtext.Framework.Data
 			};
 			return NonQueryBool("subtext_DeletePluginBlog", p);
 		}
+
+		public override IDataReader GetPluginGeneralSettings(Guid pluginId)
+		{
+			SqlParameter[] p =
+			{
+				DataHelper.MakeInParam("@PluginID",SqlDbType.UniqueIdentifier,16,pluginId),
+				DataHelper.MakeInParam("@EntryID",SqlDbType.Int,4,DBNull.Value),
+				BlogIdParam
+			};
+			return GetReader("subtext_GetPluginData", p);
+		}
 		#endregion
 	}
 }

@@ -418,6 +418,7 @@ namespace Subtext.Framework.Providers
 		public abstract IDataReader GetEnabledPlugins();
 		public abstract bool EnablePlugin(Guid pluginId);
 		public abstract bool DisablePlugin(Guid pluginId);
+		public abstract IDataReader GetPluginGeneralSettings(Guid pluginId);
 
 		#endregion
 

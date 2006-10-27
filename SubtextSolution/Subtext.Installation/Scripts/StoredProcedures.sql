@@ -422,16 +422,20 @@ if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,
 drop procedure [<dbUser,varchar,dbo>].[subtext_UpdatePluginData]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_DeletePluginBlog]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_DeletePluginBlog]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_DeletePluginBlog]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_GetPluginBlog]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPluginBlog]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_GetPluginBlog]
 GO
 
-if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[subtext_InsertPluginBlog]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_InsertPluginBlog]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [<dbUser,varchar,dbo>].[subtext_InsertPluginBlog]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_GetPluginData]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_GetPluginData]
 GO
 
 SET QUOTED_IDENTIFIER OFF 
@@ -4527,8 +4531,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertPluginData]
 	@BlogID int,
 	@EntryID int,
 	@Key nvarchar(256),
-	@Value ntext,
-	@ID int output
+	@Value ntext
 )
 AS
 
@@ -4549,7 +4552,7 @@ VALUES
 	@Value
 )
 
-SELECT @ID = SCOPE_IDENTITY()
+
 GO
 SET QUOTED_IDENTIFIER OFF 
 GO
@@ -4567,8 +4570,7 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UpdatePluginData]
 	@BlogID int,
 	@EntryID int,
 	@Key nvarchar(256),
-	@Value ntext,
-	@ID int
+	@Value ntext
 )
 AS
 
@@ -4576,7 +4578,7 @@ UPDATE [<dbUser,varchar,dbo>].[subtext_PluginData]
 SET
 	[Value]=@Value
 
-WHERE id=@ID AND PluginID=@PluginID AND BlogID=@BlogID AND [Key]=@Key AND EntryID=@EntryID
+WHERE PluginID=@PluginID AND BlogID=@BlogID AND [Key]=@Key AND EntryID=@EntryID
 GO
 SET QUOTED_IDENTIFIER OFF 
 GO
@@ -4646,6 +4648,28 @@ VALUES
 	@PluginID,
 	@BlogId
 )
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
+
+SET ANSI_NULLS OFF
+GO
+SET QUOTED_IDENTIFIER OFF
+GO
+CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPluginData]
+(
+	@PluginID uniqueidentifier,
+	@BlogId int,
+	@EntryId int
+)
+as
+
+SELECT [Key], [Value]
+FROM [<dbUser,varchar,dbo>].[subtext_PluginData]
+WHERE PluginID=@PluginID and BlogId=@BlogId and EntryId=@EntryId
 GO
 SET QUOTED_IDENTIFIER OFF 
 GO

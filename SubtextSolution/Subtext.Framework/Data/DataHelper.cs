@@ -705,6 +705,19 @@ namespace Subtext.Framework.Data
 		}
 		#endregion
 
+		#region Plugins
+
+		public static NameValueCollection LoadPluginSettings(IDataReader reader)
+		{
+			NameValueCollection nvc = new NameValueCollection(1);
+			string key = ReadString(reader, "Key");
+			string value = ReadString(reader, "Value");
+			nvc.Add(key, value);
+			return nvc;
+		}
+
+		#endregion
+
 		/// <summary>
 		/// Reads the int from the data reader.
 		/// </summary>

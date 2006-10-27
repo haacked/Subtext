@@ -21,6 +21,7 @@ using Subtext.Extensibility.Providers;
 using Subtext.Framework.Components;
 using System.Configuration.Provider;
 using Subtext.Framework.Configuration;
+using System.Collections.Specialized;
 
 namespace Subtext.Framework.Providers
 {
@@ -425,13 +426,41 @@ namespace Subtext.Framework.Providers
 		/// Enable a plugin for the current blog
 		/// </summary>
 		/// <param name="pluiginId">The Guid of the plugin to enable</param>
+		/// <returns>True if the operation completed correctly, false otherwise</returns>
 		public abstract bool EnablePlugin(Guid pluginId);
 
 		/// <summary>
 		/// Disable a plugin for the current blog
 		/// </summary>
 		/// <param name="pluiginId">The Guid of the plugin to disable</param>
+		/// <returns>True if the operation completed correctly, false otherwise</returns>
 		public abstract bool DisablePlugin(Guid pluginId);
+
+		/// <summary>
+		/// Returns a list of all the blog level settings defined for a plugin
+		/// </summary>
+		/// <param name="pluginId">The Guid of the plugin</param>
+		/// <returns>A strongly type HashTable ettings</returns>
+		public abstract NameValueCollection GetPluginGeneralSettings(Guid pluginId);
+
+		/// <summary>
+		/// Add a new blog level settings for the plugin
+		/// </summary>
+		/// <param name="pluginId">The Guid of the plugin</param>
+		/// <param name="key">Key identifying the setting</param>
+		/// <param name="value">Value of the setting</param>
+		/// <returns>True if the operation completed correctly, false otherwise</returns>
+		public abstract bool InsertPluginGeneralSettings(Guid pluginId, string key, string value);
+
+		/// <summary>
+		/// Update a blog level settings for the plugin
+		/// </summary>
+		/// <param name="pluginId">The Guid of the plugin</param>
+		/// <param name="key">Key identifying the setting</param>
+		/// <param name="value">New value of the setting</param>
+		/// <returns>True if the operation completed correctly, false otherwise</returns>
+		public abstract bool UpdatePluginGeneralSettings(Guid pluginId, string key, string value);
+
 		#endregion
 
 		#endregion
