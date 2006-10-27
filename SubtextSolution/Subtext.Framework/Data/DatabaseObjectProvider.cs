@@ -1153,12 +1153,12 @@ namespace Subtext.Framework.Data
 
 		public override bool InsertPluginGeneralSettings(Guid pluginId, string key, string value)
 		{
-			throw new Exception("The method or operation is not implemented.");
+			return DbProvider.Instance().InsertPluginGeneralSettings(pluginId, key, value);
 		}
 
 		public override bool UpdatePluginGeneralSettings(Guid pluginId, string key, string value)
 		{
-			throw new Exception("The method or operation is not implemented.");
+			return DbProvider.Instance().UpdatePluginGeneralSettings(pluginId, key, value);
 		}
 
 		#endregion
