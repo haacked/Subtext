@@ -50,14 +50,18 @@ IF NOT EXISTS
 	)
 	BEGIN
 		CREATE TABLE [<dbUser,varchar,dbo>].[subtext_PluginBlog] (
+			[Id] [int] IDENTITY (1, 1) NOT NULL ,
 			[BlogId] [int] NOT NULL ,
-			[PluginId] [uniqueidentifier] NOT NULL 
+			[PluginId] [uniqueidentifier] NOT NULL ,
+			[Enabled] [Bit] NOT NULL
 		CONSTRAINT [PK_subtext_PluginBlog] PRIMARY KEY  CLUSTERED 
 		(
-			[BlogId],
-			[PluginId]
+			[Id]
 		) ON [PRIMARY] 
 		) ON [PRIMARY]
+
+		CREATE  UNIQUE  INDEX [IX_subtext_PluginBlog] ON [<dbUser,varchar,dbo>].[subtext_PluginBlog]([BlogId], [PluginId]) ON [PRIMARY]
+
 	END
 GO
 
@@ -70,6 +74,7 @@ IF NOT EXISTS
 	)
 	BEGIN
 		ALTER TABLE [<dbUser,varchar,dbo>].[subtext_PluginBlog] WITH NOCHECK ADD 
+			CONSTRAINT [DF_subtext_PluginBlog_Enabled] DEFAULT (0) FOR [Enabled],
 			CONSTRAINT [FK_subtext_PluginBlog_subtext_Config] FOREIGN KEY 
 			(
 				[BlogId]
@@ -92,19 +97,19 @@ IF NOT EXISTS
 	)
 	BEGIN
 		CREATE TABLE [<dbUser,varchar,dbo>].[subtext_PluginData] (
-			[PluginId] [uniqueidentifier] NOT NULL ,
-			[BlogId] [int] NOT NULL ,
+			[Id] [int] IDENTITY (1, 1) NOT NULL ,
+			[BlogPluginId] [int] NOT NULL ,
 			[EntryId] [int] NULL ,
 			[Key] [nvarchar] (256) COLLATE Latin1_General_CI_AS NOT NULL ,
 			[Value] [ntext] COLLATE Latin1_General_CI_AS NOT NULL
 		CONSTRAINT [PK_subtext_PluginEntryData] PRIMARY KEY  CLUSTERED 
 		(
-			[PluginId],
-			[BlogId],
-			[EntryId],
-			[Key]
+			[Id]
 		) ON [PRIMARY] 
 		) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+		
+		 CREATE  UNIQUE  INDEX [IX_subtext_PluginEntryData] ON [<dbUser,varchar,dbo>].[subtext_PluginData]([BlogPluginId], [EntryId], [Key]) ON [PRIMARY]
+
 		
 		EXEC sp_tableoption  N'[<dbUser,varchar,dbo>].[subtext_PluginData]', 'text in row', '2048'
 	END
@@ -114,19 +119,19 @@ GO
 IF NOT EXISTS 
 	(
 		SELECT	* FROM [information_schema].[referential_constraints] 
-		WHERE	constraint_name = 'FK_subtext_PluginData_subtext_Config' 
+		WHERE	constraint_name = 'FK_subtext_PluginData_subtext_PluginBlog' 
 		AND		unique_constraint_schema = '<dbUser,varchar,dbo>'
 	)
 	BEGIN
 		ALTER TABLE [<dbUser,varchar,dbo>].[subtext_PluginData] WITH NOCHECK ADD   
-			CONSTRAINT [FK_subtext_PluginData_subtext_Config] FOREIGN KEY 
+			CONSTRAINT [FK_subtext_PluginData_subtext_PluginBlog] FOREIGN KEY 
 			(
-				[BlogId]
-			) REFERENCES [<dbUser,varchar,dbo>].[subtext_Config] (
-				[BlogId]
+				[BlogPluginId]
+			) REFERENCES [<dbUser,varchar,dbo>].[subtext_PluginBlog] (
+				[Id]
 			)
 	END
-	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_PluginData] CHECK CONSTRAINT [FK_subtext_PluginData_subtext_Config]
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_PluginData] CHECK CONSTRAINT [FK_subtext_PluginData_subtext_PluginBlog]
 GO
 
 
@@ -145,5 +150,5 @@ IF NOT EXISTS
 				[ID]
 			)
 	END
-	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_PluginData] NOCHECK CONSTRAINT [FK_subtext_PluginData_subtext_Content]
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_PluginData] CHECK CONSTRAINT [FK_subtext_PluginData_subtext_Content]
 GO

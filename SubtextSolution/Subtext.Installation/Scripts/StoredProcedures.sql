@@ -4535,18 +4535,21 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertPluginData]
 )
 AS
 
+DECLARE @BlogPluginID int
+
+SELECT Id FROM [<dbUser,varchar,dbo>].[subtext_PluginData]
+WHERE PluginID=@PluginID AND BlogID=@BlogID
+
 INSERT INTO [<dbUser,varchar,dbo>].[subtext_PluginData]
 (
-	PluginID,
-	BlogID,
+	BlogPluginID,
 	EntryID,
 	[Key],
 	[Value]
 )
 VALUES
 (
-	@PluginID,
-	@BlogID,
+	@BlogPluginID,
 	@EntryID,
 	@Key,
 	@Value
@@ -4577,8 +4580,8 @@ AS
 UPDATE [<dbUser,varchar,dbo>].[subtext_PluginData]
 SET
 	[Value]=@Value
-
-WHERE PluginID=@PluginID AND BlogID=@BlogID AND [Key]=@Key AND EntryID=@EntryID
+FROM [<dbUser,varchar,dbo>].[subtext_PluginBlog]
+WHERE [<dbUser,varchar,dbo>].[subtext_PluginBlog].PluginID=@PluginID AND [<dbUser,varchar,dbo>].[subtext_PluginBlog].BlogID=@BlogID AND [<dbUser,varchar,dbo>].[subtext_PluginBlog].[Id]=[<dbUser,varchar,dbo>].[subtext_PluginData].BlogPluginID AND [<dbUser,varchar,dbo>].[subtext_PluginBlog].Enabled=1 AND [Key]=@Key AND EntryID=@EntryID
 GO
 SET QUOTED_IDENTIFIER OFF 
 GO
@@ -4597,8 +4600,9 @@ CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_DeletePluginBlog]
 )
 as
 
-DELETE FROM [<dbUser,varchar,dbo>].[subtext_PluginBlog]
-WHERE PluginID=@PluginID and BlogID=@BlogId
+UPDATE  [<dbUser,varchar,dbo>].[subtext_PluginBlog]
+SET Enabled=0
+WHERE PluginID=@PluginID AND BlogId=@BlogId 
 GO
 SET QUOTED_IDENTIFIER OFF 
 GO
@@ -4619,7 +4623,7 @@ AS
 
 SELECT PluginID FROM [<dbUser,varchar,dbo>].[subtext_PluginBlog]
 WHERE
-BlogID=@BlogId
+BlogID=@BlogId AND Enabled=1
 GO
 SET QUOTED_IDENTIFIER OFF 
 GO
@@ -4638,16 +4642,34 @@ CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_InsertPluginBlog]
 )
 as
 
-INSERT INTO [<dbUser,varchar,dbo>].[subtext_PluginBlog]
-(
-	PluginID,
-	BlogID
-)
-VALUES
-(
-	@PluginID,
-	@BlogId
-)
+IF NOT EXISTS 
+	(
+		SELECT * FROM [<dbUser,varchar,dbo>].[subtext_PluginBlog]
+		WHERE PluginID=@PluginID AND BlogId=@BlogId
+	)
+
+	BEGIN
+	
+		INSERT INTO [<dbUser,varchar,dbo>].[subtext_PluginBlog]
+		(
+			PluginID,
+			BlogID,
+			Enabled
+		)
+		VALUES
+		(
+			@PluginID,
+			@BlogId,
+			1
+		)
+	END
+ELSE
+
+	BEGIN
+		UPDATE  [<dbUser,varchar,dbo>].[subtext_PluginBlog]
+		SET Enabled=1
+		WHERE PluginID=@PluginID AND BlogId=@BlogId 
+	END
 GO
 SET QUOTED_IDENTIFIER OFF 
 GO
@@ -4668,8 +4690,8 @@ CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetPluginData]
 as
 
 SELECT [Key], [Value]
-FROM [<dbUser,varchar,dbo>].[subtext_PluginData]
-WHERE PluginID=@PluginID and BlogId=@BlogId and EntryId=@EntryId
+FROM [<dbUser,varchar,dbo>].[subtext_PluginData] INNER JOIN [<dbUser,varchar,dbo>].[subtext_PluginBlog] ON [<dbUser,varchar,dbo>].[subtext_PluginBlog].[Id]=[<dbUser,varchar,dbo>].[subtext_PluginData].BlogPluginID
+WHERE [<dbUser,varchar,dbo>].[subtext_PluginBlog].PluginID=@PluginID and [<dbUser,varchar,dbo>].[subtext_PluginBlog].BlogId=@BlogId and EntryId=@EntryId AND [<dbUser,varchar,dbo>].[subtext_PluginBlog].Enabled=1
 GO
 SET QUOTED_IDENTIFIER OFF 
 GO
