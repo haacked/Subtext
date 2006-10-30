@@ -371,6 +371,9 @@
     <Compile Include="NullValue.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Plugins\STAdminGlobalSettingsBaseControl.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Providers\DbProvider.cs">
       <SubType>Code</SubType>
     </Compile>

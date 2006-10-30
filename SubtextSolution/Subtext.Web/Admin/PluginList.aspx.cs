@@ -157,13 +157,13 @@ namespace Subtext.Web.Admin.Pages
 			IPlugin currentPlugin = STApplication.Current.GetPluginByGuid(PluginID);
 			if (currentPlugin != null)
 			{
-				Control settingModule=null;
+				STAdminGlobalSettingsBaseControl settingModule=null;
 				string moduleFileName=STApplication.Current.GetPluginModuleFileName(currentPlugin.Info.Name, "blogsettings");
 				if (moduleFileName != null)
 				{
 					try
 					{
-						settingModule = LoadControl("~/Modules/" + currentPlugin.Info.Name + "/" + moduleFileName);
+						settingModule = (STAdminGlobalSettingsBaseControl)LoadControl("~/Modules/" + currentPlugin.Info.Name + "/" + moduleFileName);
 					}
 					catch (HttpException ex)
 					{
@@ -171,6 +171,7 @@ namespace Subtext.Web.Admin.Pages
 					}
 					if (settingModule != null)
 					{
+						settingModule.PluginGuid = currentPlugin.Id.Guid;
 						pluginSetting.Controls.Add(settingModule);
 
 						Results.Collapsed = true;

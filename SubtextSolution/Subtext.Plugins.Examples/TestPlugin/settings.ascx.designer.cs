@@ -12,5 +12,8 @@ namespace Subtext.Plugins.Examples.TestPlugin
 {
 	public partial class settings
 	{
+		protected System.Web.UI.WebControls.TextBox txbValue1;
+		protected System.Web.UI.WebControls.CheckBox chkOption;
+		protected System.Web.UI.WebControls.TextBox txbValue2;
 	}
 }
