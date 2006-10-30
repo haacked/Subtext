@@ -4520,47 +4520,7 @@ GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_ClearBlogContent]  TO [public
 GO
 
 
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS OFF 
-GO
 
-CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertPluginData]
-(
-	@PluginID uniqueidentifier,
-	@BlogID int,
-	@EntryID int,
-	@Key nvarchar(256),
-	@Value ntext
-)
-AS
-
-DECLARE @BlogPluginID int
-
-SELECT Id FROM [<dbUser,varchar,dbo>].[subtext_PluginData]
-WHERE PluginID=@PluginID AND BlogID=@BlogID
-
-INSERT INTO [<dbUser,varchar,dbo>].[subtext_PluginData]
-(
-	BlogPluginID,
-	EntryID,
-	[Key],
-	[Value]
-)
-VALUES
-(
-	@BlogPluginID,
-	@EntryID,
-	@Key,
-	@Value
-)
-
-
-GO
-SET QUOTED_IDENTIFIER OFF 
-GO
-SET ANSI_NULLS ON 
-GO
 
 SET QUOTED_IDENTIFIER OFF 
 GO
@@ -4587,6 +4547,50 @@ SET QUOTED_IDENTIFIER OFF
 GO
 SET ANSI_NULLS ON 
 GO
+
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS OFF 
+GO
+
+
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_InsertPluginData]
+(
+	@PluginID uniqueidentifier,
+	@BlogID int,
+	@EntryID int,
+	@Key nvarchar(256),
+	@Value ntext
+)
+AS
+
+DECLARE @BlogPluginID int
+
+SELECT @BlogPluginID=[Id] FROM [<dbUser,varchar,dbo>].[subtext_PluginBlog]
+WHERE PluginID=@PluginID AND BlogID=@BlogID
+
+INSERT INTO [<dbUser,varchar,dbo>].[subtext_PluginData]
+(
+	BlogPluginID,
+	EntryID,
+	[Key],
+	[Value]
+)
+VALUES
+(
+	@BlogPluginID,
+	@EntryID,
+	@Key,
+	@Value
+)
+
+
+GO
+SET QUOTED_IDENTIFIER OFF 
+GO
+SET ANSI_NULLS ON 
+GO
+
 
 SET QUOTED_IDENTIFIER ON 
 GO
