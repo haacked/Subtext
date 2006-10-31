@@ -1,4 +1,4 @@
-<%@ Page Language="C#"  Title="Subtext Admin - Plugin List" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" AutoEventWireup="true" CodeBehind="PluginList.aspx.cs" Inherits="Subtext.Web.Admin.Pages.PluginListPage" %>
+<%@ Page Language="C#"  Title="Subtext Admin - Plugin List" MasterPageFile="~/Admin/WebUI/AdminPageTemplate.Master" AutoEventWireup="true" CodeBehind="PluginList.aspx.cs" Inherits="Subtext.Web.Admin.Pages.PluginListPage" Trace="true" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 

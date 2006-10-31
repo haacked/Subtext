@@ -135,7 +135,7 @@ namespace Subtext.Web.Admin.Pages
 				case "settings":
 					//Load the plugin info, and display the custom user control to edit global plugin settings
 					PluginID = (string)e.CommandArgument;
-					BindEditLink();
+					BindEditLink(true);
 					break;
 				case "enable":
 					//Enable the plugin for the current blog
@@ -152,7 +152,7 @@ namespace Subtext.Web.Admin.Pages
 			}
 		}
 
-		private void BindEditLink()
+		private void BindEditLink(bool loadSetting)
 		{
 			IPlugin currentPlugin = STApplication.Current.GetPluginByGuid(PluginID);
 			if (currentPlugin != null)
@@ -163,7 +163,7 @@ namespace Subtext.Web.Admin.Pages
 				{
 					try
 					{
-						settingModule = (STAdminGlobalSettingsBaseControl)LoadControl("~/Modules/" + currentPlugin.Info.Name + "/" + moduleFileName);
+						settingModule = LoadControl("~/Modules/" + currentPlugin.Info.Name + "/" + moduleFileName) as STAdminGlobalSettingsBaseControl;
 					}
 					catch (HttpException ex)
 					{
@@ -172,7 +172,11 @@ namespace Subtext.Web.Admin.Pages
 					if (settingModule != null)
 					{
 						settingModule.PluginGuid = currentPlugin.Id.Guid;
+						settingModule.ID = "PluginSettingsEditControl";
 						pluginSetting.Controls.Add(settingModule);
+
+						if (loadSetting)
+							settingModule.LoadSettings();
 
 						Results.Collapsed = true;
 						Results.Collapsible = true;
@@ -188,6 +192,10 @@ namespace Subtext.Web.Admin.Pages
 							AdminMasterPage.BreadCrumb.AddLastItem(title);
 							AdminMasterPage.Title = title;
 						}
+					}
+					else
+					{
+						Messages.ShowError("Cannot load general blog settings user control for Plugin " + currentPlugin.Info.Name + ":<br>" + moduleFileName + " doesn't inherit from Subtext.Extensibility.Plugins.STAdminGlobalSettingsBaseControl");
 					}
 				}
 				else
@@ -290,7 +298,15 @@ namespace Subtext.Web.Admin.Pages
 
 		protected void lkbPost_Click(object sender, System.EventArgs e)
 		{
-			//UpdatePluginSettings();
+			BindEditLink(false);
+			UpdatePluginSettings();
+		}
+
+		private void UpdatePluginSettings()
+		{
+			STAdminGlobalSettingsBaseControl settingModule = null;
+			settingModule = pluginSetting.FindControl("PluginSettingsEditControl") as STAdminGlobalSettingsBaseControl;
+			settingModule.UpdateSettings();
 		}
 
 		protected void lkbCancel_Click(object sender, System.EventArgs e)
