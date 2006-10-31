@@ -15,17 +15,27 @@ namespace Subtext.Plugins.Examples.TestPlugin
 {
 	public partial class settings : STAdminGlobalSettingsBaseControl
 	{
-		protected void Page_Load(object sender, EventArgs e)
+
+		public override void LoadSettings()
 		{
-			if(BlogSettings["value1"]!=null)
-				txbValue1.Text = BlogSettings["value1"];
-			if (BlogSettings["check"]!=null)
+			txbValue1.Text = GetSetting("value1");
+			if (!String.IsNullOrEmpty(GetSetting("check")))
 			{
-				bool checkOn = Boolean.Parse(BlogSettings["check"]);
+				bool checkOn = Boolean.Parse(GetSetting("check"));
 				chkOption.Checked = checkOn;
 			}
-			if (BlogSettings["value2"] != null)
-				txbValue2.Text = BlogSettings["value2"];
+			txbValue2.Text = GetSetting("value2");
 		}
+
+		public override void UpdateSettings()
+		{
+			SetSetting("value1",txbValue1.Text);
+			SetSetting("value2", txbValue2.Text);
+			if (chkOption.Checked)
+				SetSetting("check", "true");
+			else
+				SetSetting("check", "false");
+		}
+
 	}
 }
