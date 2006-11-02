@@ -27,10 +27,13 @@ namespace Subtext.Web.Admin.Pages
 	public partial class PluginListPage : AdminOptionsPage
 	{
 		private const string VSKEY_KEYWORDID = "PluginID";
+		private const string VSKEY_PLUGINNAME = "PluginModuleName";
 
 		private int _resultsPageNumber = 0;
 		private bool _isListHidden = false;
 		private BlogInfo info;
+
+		private STAdminGlobalSettingsBaseControl settingModule = null;
 
 		public string PluginID
 		{
@@ -48,6 +51,7 @@ namespace Subtext.Web.Admin.Pages
 		{
 			info = Config.CurrentBlog;
 			base.Page_Load(sender, e);
+			ProcessPluginSettingsModule();
 			if (!IsPostBack)
 			{
 				if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
@@ -58,6 +62,22 @@ namespace Subtext.Web.Admin.Pages
 				Results.Collapsible = false;
 
 				BindList();
+			}
+		}
+
+		private void ProcessPluginSettingsModule()
+		{
+			string completeModuleName = (string)ViewState[VSKEY_PLUGINNAME];
+			if (!String.IsNullOrEmpty(completeModuleName))
+			{
+				IPlugin currentPlugin = STApplication.Current.GetPluginByGuid(PluginID);
+				if (currentPlugin != null)
+				{
+					settingModule = LoadControl(completeModuleName) as STAdminGlobalSettingsBaseControl;
+					settingModule.PluginGuid = currentPlugin.Id.Guid;
+					settingModule.ID = "PluginSettingsEditControl";
+					pluginSetting.Controls.Add(settingModule);
+				}
 			}
 		}
 
@@ -133,6 +153,7 @@ namespace Subtext.Web.Admin.Pages
 					BindViewLink();
 					break;
 				case "settings":
+					ResetPostEdit(false);
 					//Load the plugin info, and display the custom user control to edit global plugin settings
 					PluginID = (string)e.CommandArgument;
 					BindEditLink(true);
@@ -157,23 +178,30 @@ namespace Subtext.Web.Admin.Pages
 			IPlugin currentPlugin = STApplication.Current.GetPluginByGuid(PluginID);
 			if (currentPlugin != null)
 			{
-				STAdminGlobalSettingsBaseControl settingModule=null;
 				string moduleFileName=STApplication.Current.GetPluginModuleFileName(currentPlugin.Info.Name, "blogsettings");
+				string completeModuleName = string.Empty;
 				if (moduleFileName != null)
 				{
+					completeModuleName = "~/Modules/" + currentPlugin.Info.Name + "/" + moduleFileName;
+					//Check to see if a plugin settings control is already in the page
+					//and remove it
+					if (pluginSetting.Controls.Contains(settingModule))
+						pluginSetting.Controls.Remove(settingModule);
 					try
 					{
-						settingModule = LoadControl("~/Modules/" + currentPlugin.Info.Name + "/" + moduleFileName) as STAdminGlobalSettingsBaseControl;
+						settingModule = LoadControl(completeModuleName) as STAdminGlobalSettingsBaseControl;
 					}
 					catch (HttpException ex)
 					{
 						Messages.ShowError("Cannot load general blog settings user control for Plugin " + currentPlugin.Info.Name + ":<br>" + ex.Message);
+						return;
 					}
 					if (settingModule != null)
 					{
 						settingModule.PluginGuid = currentPlugin.Id.Guid;
 						settingModule.ID = "PluginSettingsEditControl";
 						pluginSetting.Controls.Add(settingModule);
+						ViewState[VSKEY_PLUGINNAME] = completeModuleName;
 
 						if (loadSetting)
 							settingModule.LoadSettings();
@@ -298,14 +326,12 @@ namespace Subtext.Web.Admin.Pages
 
 		protected void lkbPost_Click(object sender, System.EventArgs e)
 		{
-			BindEditLink(false);
+			//BindEditLink(false);
 			UpdatePluginSettings();
 		}
 
 		private void UpdatePluginSettings()
 		{
-			STAdminGlobalSettingsBaseControl settingModule = null;
-			settingModule = pluginSetting.FindControl("PluginSettingsEditControl") as STAdminGlobalSettingsBaseControl;
 			settingModule.UpdateSettings();
 		}
 
