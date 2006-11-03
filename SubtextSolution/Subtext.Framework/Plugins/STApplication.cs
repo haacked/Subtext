@@ -250,7 +250,7 @@ namespace Subtext.Extensibility.Plugins
 
 		private bool PluginEnabled(Type type)
 		{
-			
+			return true;
 		}
 
 		#endregion

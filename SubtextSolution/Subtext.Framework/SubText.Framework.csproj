@@ -371,9 +371,18 @@
     <Compile Include="NullValue.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Plugins\IImplementationInfo.cs" />
+    <Compile Include="Plugins\IPlugin.cs" />
+    <Compile Include="Plugins\IPluginIdentifier.cs" />
+    <Compile Include="Plugins\PluginModule.cs" />
+    <Compile Include="Plugins\PluginModulesCollection.cs" />
+    <Compile Include="Plugins\PluginSectionHandler.cs" />
+    <Compile Include="Plugins\PluginSettings.cs" />
+    <Compile Include="Plugins\PluginSettingsCollection.cs" />
     <Compile Include="Plugins\STAdminGlobalSettingsBaseControl.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Plugins\STApplication.cs" />
     <Compile Include="Providers\DbProvider.cs">
       <SubType>Code</SubType>
     </Compile>
