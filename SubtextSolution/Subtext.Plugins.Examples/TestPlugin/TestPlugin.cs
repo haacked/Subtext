@@ -21,7 +21,10 @@ namespace Subtext.Plugins.Examples.TestPlugin
 
 		public void Init(STApplication sta)
 		{
-			int i = 1;
+		}
+
+		void Current_PreEntryUpdate(object sender, EventArgs e)
+		{
 		}
 
 		#endregion
