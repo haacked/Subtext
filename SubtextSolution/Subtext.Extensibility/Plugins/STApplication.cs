@@ -23,11 +23,24 @@ using System.Web.Configuration;
 namespace Subtext.Extensibility.Plugins
 {
 
+	#region Event Delegates
+	public delegate void EntryEventHandler(object sender, EventArgs e);
+	#endregion
+
 	public sealed class STApplication
 	{
-		private static bool _initialized = false;
+
 		private EventHandlerList Events = new EventHandlerList();
 		private static readonly object sync = new object();
+
+		#region Event Keys (static)
+		private static object EventPreEntryUpdate = new object();
+		private static object EventPostEntryUpdate = new object();
+		private static object EventPreRenderEntry = new object();
+		#endregion
+
+
+		private static bool _initialized = false;
 		private Dictionary<string, IPlugin> _plugins = new Dictionary<string, IPlugin>();
 
 		private PluginSettingsCollection _pluginConfig;
@@ -148,6 +161,99 @@ namespace Subtext.Extensibility.Plugins
 			}
 			return null;
 		}
+
+		#region Event definitions
+
+		/// <summary>
+		/// Raised before changes to the Entry are committed to the datastore
+		/// </summary>
+		public event EntryEventHandler PreEntryUpdate
+		{
+			add
+			{
+				Events.AddHandler(EventPreEntryUpdate, value);
+			}
+			remove
+			{
+				Events.RemoveHandler(EventPreEntryUpdate, value);
+			}
+		}
+
+		/// <summary>
+		/// Raised after the changes has been committed to the datastore
+		/// </summary>
+		public event EntryEventHandler PostEntryUpdate
+		{
+			add
+			{
+				Events.AddHandler(EventPostEntryUpdate, value);
+			}
+			remove
+			{
+				Events.RemoveHandler(EventPostEntryUpdate, value);
+			}
+		}
+
+		/// <summary>
+		/// Raised an individual entry is rendered
+		/// </summary>
+		public event EntryEventHandler PreRenderEntry
+		{
+			add
+			{
+				Events.AddHandler(EventPreRenderEntry, value);
+			}
+			remove
+			{
+				Events.RemoveHandler(EventPreRenderEntry, value);
+			}
+		}
+
+		#endregion
+
+		#region Event Execution
+
+		public void OnPreEntryUpdate()
+		{
+			ExecuteEntryEvent(EventPreEntryUpdate);
+		}
+
+		public void OnPostEntryUpdate()
+		{
+			ExecuteEntryEvent(EventPostEntryUpdate);
+		}
+
+		public void OnPreRenderEntry()
+		{
+			ExecuteEntryEvent(EventPreRenderEntry);
+		}
+
+		private void ExecuteEntryEvent(object eventKey)
+		{
+			EntryEventHandler handler = Events[eventKey] as EntryEventHandler;
+			if (handler != null)
+			{
+				Delegate[] delegates = handler.GetInvocationList();
+				foreach (Delegate del in delegates)
+				{
+					if (PluginEnabled(del.Method.DeclaringType))
+					{
+						try
+						{
+							del.DynamicInvoke();
+						}
+						catch {}
+					}
+				}
+			}
+		}
+
+		private bool PluginEnabled(Type type)
+		{
+			
+		}
+
+		#endregion
 	}
 
 
