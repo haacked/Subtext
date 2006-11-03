@@ -29,6 +29,7 @@ using Subtext.Web.Admin.Pages;
 using Subtext.Web.Admin.WebUI;
 using Subtext.Web.Controls;
 using StringHelper = Subtext.Framework.Text.StringHelper;
+using Subtext.Extensibility.Plugins;
 
 namespace Subtext.Web.Admin.UserControls
 {
@@ -417,11 +418,13 @@ namespace Subtext.Web.Admin.UserControls
 						entry.DateModified = Config.CurrentBlog.TimeZone.Now;
 						entry.Id = PostID;
 						
-						//TODO: Add here code to be called before updating a post
+						//Code to be called before updating a post
+						STEvents.OnPreEntryUpdate(entry, new STEventArgs(ObjectState.Update));
 						
 						Entries.Update(entry);
 						
-						//TODO: Add here code to be called after updating a post
+						//Code to be called after updating a post
+						STEvents.OnPostEntryUpdate(entry, new STEventArgs(ObjectState.Update));
 
 						if(ReturnToOriginalPost)
 						{
@@ -438,11 +441,13 @@ namespace Subtext.Web.Admin.UserControls
 					{
 						entry.DateCreated = Config.CurrentBlog.TimeZone.Now;
 						
-						//TODO: Add here code to be called before creating a post
+						//Code to be called before creating a post
+						STEvents.OnPreEntryUpdate(entry, new STEventArgs(ObjectState.Create));
 						
 						PostID = Entries.Create(entry);
 						
-						//TODO: Add here code to be called after creating a post
+						//Code to be called after creating a post
+						STEvents.OnPostEntryUpdate(entry, new STEventArgs(ObjectState.Create));
 						AddCommunityCredits(entry);
 					}
 

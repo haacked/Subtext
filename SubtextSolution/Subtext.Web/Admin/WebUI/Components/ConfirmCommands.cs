@@ -22,6 +22,8 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
+using Subtext.Extensibility.Plugins;
+using Subtext.Extensibility;
 
 namespace Subtext.Web.Admin
 {
@@ -352,7 +354,15 @@ namespace Subtext.Web.Admin
 		{
 			try
 			{
+				Entry entry = Entries.GetEntry(_targetID, PostConfig.None, false);
+				//Code to be called before delete a post
+				STEvents.OnPreEntryUpdate(entry, new STEventArgs(ObjectState.Delete));
+
 				Entries.Delete(_targetID);
+
+				//Code to be called after updating a post
+				STEvents.OnPostEntryUpdate(entry, new STEventArgs(ObjectState.Delete));
+
 				return FormatMessage(ExecuteSuccessMessage, _targetName, _targetID);
 			}
 			catch (Exception ex)
