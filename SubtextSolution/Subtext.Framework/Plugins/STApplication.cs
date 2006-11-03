@@ -19,12 +19,14 @@ using System.ComponentModel;
 using System.Xml;
 using System.Configuration;
 using System.Web.Configuration;
+using Subtext.Framework.Configuration;
+using Subtext.Framework.Components;
 
 namespace Subtext.Extensibility.Plugins
 {
 
 	#region Event Delegates
-	public delegate void EntryEventHandler(object sender, EventArgs e);
+	public delegate void EntryEventHandler(Entry entry, STEventArgs e);
 	#endregion
 
 	public sealed class STApplication
@@ -138,30 +140,6 @@ namespace Subtext.Extensibility.Plugins
 			return app;
 		}
 
-		public IPlugin GetPluginByGuid(string guid)
-		{
-			foreach (IPlugin plugin in _plugins.Values)
-			{
-				if (plugin.Id.Guid.ToString().Equals(guid))
-					return plugin;
-			}
-			return null;
-		}
-
-		public string GetPluginModuleFileName(string pluginName, string moduleName)
-		{
-			foreach (PluginSettings settings in _pluginConfig)
-			{
-				if(settings.Name.Equals(pluginName))
-					foreach (PluginModule module in settings.Modules)
-					{
-						if (module.Key.Equals(moduleName))
-							return module.FileName;
-					}
-			}
-			return null;
-		}
-
 		#region Event definitions
 
 		/// <summary>
@@ -213,22 +191,22 @@ namespace Subtext.Extensibility.Plugins
 
 		#region Event Execution
 
-		public void OnPreEntryUpdate()
+		internal void ExecutePreEntryUpdate(Entry entry, STEventArgs e)
 		{
-			ExecuteEntryEvent(EventPreEntryUpdate);
+			ExecuteEntryEvent(EventPreEntryUpdate, entry, e);
 		}
 
-		public void OnPostEntryUpdate()
+		internal void ExecutePostEntryUpdate(Entry entry, STEventArgs e)
 		{
-			ExecuteEntryEvent(EventPostEntryUpdate);
+			ExecuteEntryEvent(EventPostEntryUpdate, entry, e);
 		}
 
-		public void OnPreRenderEntry()
+		internal void ExecutePreRenderEntry(Entry entry, STEventArgs e)
 		{
-			ExecuteEntryEvent(EventPreRenderEntry);
+			ExecuteEntryEvent(EventPreRenderEntry, entry, e);
 		}
 
-		private void ExecuteEntryEvent(object eventKey)
+		private void ExecuteEntryEvent(object eventKey, Entry entry, EventArgs e)
 		{
 			EntryEventHandler handler = Events[eventKey] as EntryEventHandler;
 			if (handler != null)
@@ -240,18 +218,61 @@ namespace Subtext.Extensibility.Plugins
 					{
 						try
 						{
-							del.DynamicInvoke();
+							del.DynamicInvoke(entry, e);
 						}
 						catch {}
 					}
 				}
 			}
 		}
+		#endregion
+
+
+		#region Helper Functions
+
+		public IPlugin GetPluginByGuid(string guid)
+		{
+			foreach (IPlugin plugin in _plugins.Values)
+			{
+				if (plugin.Id.Guid.ToString().Equals(guid))
+					return plugin;
+			}
+			return null;
+		}
+
+		private IPlugin GetPluginByType(Type type)
+		{
+			foreach (IPlugin plugin in _plugins.Values)
+			{
+				if (plugin.GetType() == type)
+					return plugin;
+			}
+			return null;
+		}
+
+		public string GetPluginModuleFileName(string pluginName, string moduleName)
+		{
+			foreach (PluginSettings settings in _pluginConfig)
+			{
+				if (settings.Name.Equals(pluginName))
+					foreach (PluginModule module in settings.Modules)
+					{
+						if (module.Key.Equals(moduleName))
+							return module.FileName;
+					}
+			}
+			return null;
+		}
 
 		private bool PluginEnabled(Type type)
 		{
-			return true;
+			IPlugin currentPlugin = GetPluginByType(type);
+			if (Config.CurrentBlog.EnabledPluginGuids.Contains(currentPlugin.Id.Guid))
+				return true;
+			else
+				return false;
 		}
+
 
 		#endregion
 	}

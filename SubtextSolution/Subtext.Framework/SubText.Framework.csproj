@@ -383,6 +383,8 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Plugins\STApplication.cs" />
+    <Compile Include="Plugins\STEventArgs.cs" />
+    <Compile Include="Plugins\STEvents.cs" />
     <Compile Include="Providers\DbProvider.cs">
       <SubType>Code</SubType>
     </Compile>
