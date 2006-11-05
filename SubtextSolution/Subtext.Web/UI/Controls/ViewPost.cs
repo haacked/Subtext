@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Configuration;
@@ -67,10 +68,10 @@ namespace Subtext.Web.UI.Controls
 				EntryTracker.Track(Context, entry.Id, CurrentBlog.Id);
 
 				//Set the page title
-				Globals.SetTitle(entry.Title, Context);
+                Globals.SetTitle(HttpUtility.HtmlEncode(entry.Title), Context);
 
 				//Sent entry properties
-				TitleUrl.Text = entry.Title;
+                TitleUrl.Text = HttpUtility.HtmlEncode(entry.Title);
 				ControlHelper.SetTitleIfNone(TitleUrl, "Title of this entry.");
 				TitleUrl.NavigateUrl = entry.Url;
 				Body.Text = entry.Body;
