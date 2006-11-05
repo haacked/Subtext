@@ -15,12 +15,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Web;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Web.Controls;
+
 
 namespace Subtext.Web.UI.Controls
 {
@@ -171,7 +173,7 @@ namespace Subtext.Web.UI.Controls
 			HyperLink title = e.Item.FindControl("TitleUrl") as HyperLink;
 			if(title != null)
 			{
-				title.Text = entry.Title;
+                title.Text = HttpUtility.HtmlEncode(entry.Title);
 				ControlHelper.SetTitleIfNone(title, "Click To View Entry.");
 				title.NavigateUrl = entry.Url;
 			}
