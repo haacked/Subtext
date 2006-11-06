@@ -21,7 +21,7 @@ using System.Web.Configuration;
 
 namespace Subtext.Extensibility.Providers
 {
-    public class ProviderConfigurationHelper
+    public sealed class ProviderConfigurationHelper
     {
 		/// <summary>
 		/// Helper method for populating a provider collection 
