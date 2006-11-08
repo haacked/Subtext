@@ -9,6 +9,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Services;
 using UnitTests.Subtext;
+using Subtext.Framework.Security;
 
 namespace UnitTests.Subtext.Framework.Components.CommentTests
 {
@@ -40,7 +41,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			feedback.Body = UnitTestHelper.GenerateRandomString();
 			mocks.ReplayAll();
 
-			Assert.AreEqual(isAdmin, Security.IsAdmin);
+			Assert.AreEqual(isAdmin, SecurityHelper.IsAdmin);
 
 			try
 			{

@@ -6,6 +6,7 @@ using log4net;
 using Subtext.Framework;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Web;
+using Subtext.Framework.Security;
 
 namespace Subtext.Web.HttpModules
 {
@@ -27,7 +28,7 @@ namespace Subtext.Web.HttpModules
         	if(HttpHelper.IsStaticFileRequest())
         		return;
         	
-			HttpCookie authCookie = Security.SelectAuthenticationCookie();
+			HttpCookie authCookie = SecurityHelper.SelectAuthenticationCookie();
 
             if (null == authCookie)
             {
@@ -43,21 +44,21 @@ namespace Subtext.Web.HttpModules
             catch (Exception ex)
             {
                 log.Error("Could not decrypt the authentication cookie.", ex);
-				HttpContext.Current.Response.Cookies.Add(Security.GetExpiredCookie());			
+				HttpContext.Current.Response.Cookies.Add(SecurityHelper.GetExpiredCookie());			
                 return;
             }
 
             if (null == authTicket)
             {
                 log.Warn("Could not decrypt the authentication cookie. No exception was thrown.");
-                HttpContext.Current.Response.Cookies.Add(Security.GetExpiredCookie());			
+                HttpContext.Current.Response.Cookies.Add(SecurityHelper.GetExpiredCookie());			
                 return;
             }
 
             if (authTicket.Expired)
             {
                 log.Debug("Authentication ticket expired.");
-				HttpContext.Current.Response.Cookies.Add(Security.GetExpiredCookie());
+				HttpContext.Current.Response.Cookies.Add(SecurityHelper.GetExpiredCookie());
                 return;
             }
 

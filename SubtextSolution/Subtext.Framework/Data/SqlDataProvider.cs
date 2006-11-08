@@ -541,10 +541,9 @@ namespace Subtext.Framework.Data
 		{
 			SqlParameter[] p =
 			{
-				DataHelper.MakeInParam("@ID",SqlDbType.Int,4,PostID),
-				BlogIdParam
+				DataHelper.MakeInParam("@ID", SqlDbType.Int, 4, PostID)
 			};
-			return NonQueryBool("subtext_DeletePost",p);
+			return NonQueryBool("subtext_DeletePost", p);
 		}
 		
 		/// <summary>

@@ -26,8 +26,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
-using System.Threading;
-using Subtext.Framework.Services;
+using Subtext.Framework.Security;
 
 namespace Subtext 
 {
@@ -36,12 +35,6 @@ namespace Subtext
 		//This call is to kickstart log4net.
 		//log4net Configuration Attribute is in AssemblyInfo
 		private readonly static ILog log = LogManager.GetLogger(typeof(Global));
-
-        //CHANGE: Mail To Weblog - Gurkan Yeniceri
-        private MailToWeblog mailToWeblog = null;
-        private Thread mailToWeblogThread = null;
-        //End of changes - Gurkan Yeniceri
-
 
 		static Global()
 		{
@@ -67,7 +60,7 @@ namespace Subtext
 		/// </returns>
 		public override string GetVaryByCustomString(HttpContext context, string custom)
 		{
-			if(custom == "Blogger" && !Security.IsAdmin && !Security.IsHostAdmin) // Do not cache admin.
+			if(custom == "Blogger" && !SecurityHelper.IsAdmin && !SecurityHelper.IsHostAdmin) // Do not cache admin.
 			{
 				return Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture);
 			}
@@ -96,45 +89,36 @@ namespace Subtext
 		{
 			//This line will trigger the configuration.
 			log.Info("Application_Start - This is not a malfunction.");
-//#if DEBUG
-//            log4net.Repository.Hierarchy.Hierarchy h = LogManager.GetRepository() as log4net.Repository.Hierarchy.Hierarchy;
-//            EnsureLog4NetConnectionString(h);
-//#endif
-            if (ConfigurationManager.AppSettings.Get("EnableMailToWeblog") == "true")
-            {
-                mailToWeblog = new MailToWeblog();
-
-                mailToWeblogThread = new Thread(new ThreadStart(mailToWeblog.Run));
-                mailToWeblogThread.Name = "MailToWeblog";
-                mailToWeblogThread.IsBackground = true;
-                mailToWeblogThread.Start();
-            }
+#if DEBUG
+			log4net.Repository.Hierarchy.Hierarchy h = LogManager.GetRepository() as log4net.Repository.Hierarchy.Hierarchy;
+			EnsureLog4NetConnectionString(h);
+#endif
 		}
 
-//#if DEBUG
-//        private static void EnsureLog4NetConnectionString(Hierarchy h)
-//        {
-//            if (h.Root.Appenders.Count == 0)
-//                throw new InvalidOperationException("No appenders configured!");
+#if DEBUG
+		private static void EnsureLog4NetConnectionString(Hierarchy h)
+		{
+			if (h.Root.Appenders.Count == 0)
+				throw new InvalidOperationException("No appenders configured!");
 
-//            foreach(IAppender appender in h.Root.Appenders)
-//            {
-//                AdoNetAppender adoAppender = appender as AdoNetAppender;
-//                if(adoAppender != null)
-//                {
-//                    adoAppender.ActivateOptions();
-//                    //Normalize appender connection string, since Log4Net seems to truncate that last semicolon.
-//                    if (!String.IsNullOrEmpty(adoAppender.ConnectionString) && !adoAppender.ConnectionString.EndsWith(";"))
-//                        adoAppender.ConnectionString += ";";
+			foreach(IAppender appender in h.Root.Appenders)
+			{
+				AdoNetAppender adoAppender = appender as AdoNetAppender;
+				if(adoAppender != null)
+				{
+					adoAppender.ActivateOptions();
+					//Normalize appender connection string, since Log4Net seems to truncate that last semicolon.
+					if (!String.IsNullOrEmpty(adoAppender.ConnectionString) && !adoAppender.ConnectionString.EndsWith(";"))
+						adoAppender.ConnectionString += ";";
 					
-//                    if(adoAppender.ConnectionString != ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString)
-//                    {
-//                        throw new InvalidOperationException("Log4Net is not picking up our connection string.");
-//                    }					
-//                }
-//            }
-//        }
-//#endif
+					if(adoAppender.ConnectionString != ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString)
+					{
+						throw new InvalidOperationException("Log4Net is not picking up our connection string.");
+					}					
+				}
+			}
+		}
+#endif
 
 		/// <summary>
 		/// Method called when a session starts.
@@ -181,10 +165,10 @@ namespace Subtext
 						if(context.Request.IsAuthenticated)
 						{
 							userInfo = context.User.Identity.Name;
-							userInfo += "<br />Is Host Admin: " + Subtext.Framework.Security.IsHostAdmin.ToString(CultureInfo.InvariantCulture);
+							userInfo += "<br />Is Host Admin: " + SecurityHelper.IsHostAdmin.ToString(CultureInfo.InvariantCulture);
 							if(!InstallationManager.IsInHostAdminDirectory && !InstallationManager.IsInInstallDirectory && !InstallationManager.IsInSystemMessageDirectory)
 							{
-								userInfo += "<br />Is Admin: " + Subtext.Framework.Security.IsAdmin.ToString(CultureInfo.InvariantCulture);
+								userInfo += "<br />Is Admin: " + SecurityHelper.IsAdmin.ToString(CultureInfo.InvariantCulture);
 								userInfo += "<br />BlogId: " + Subtext.Framework.Configuration.Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture);
 							}	
 						}

@@ -20,6 +20,7 @@ using Subtext.Web.Controls;
 namespace Subtext.Web.UI.Controls
 {
 	using System;
+    using Subtext.Framework.Security;
 
 	/// <summary>
 	///	Code behind class for the MyLinks section.  Hooks up links within 
@@ -67,7 +68,7 @@ namespace Subtext.Web.UI.Controls
 
 				if (Admin != null)
 				{
-					if(Request.IsAuthenticated && Security.IsAdmin)
+					if(Request.IsAuthenticated && SecurityHelper.IsAdmin)
 					{
 						Admin.Text = "Admin";
 						Admin.NavigateUrl = CurrentBlog.AdminHomeVirtualUrl;

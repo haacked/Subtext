@@ -9,6 +9,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Web;
 using Subtext.Web.Controls.Captcha;
+using Subtext.Framework.Security;
 
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,7 +53,7 @@ namespace Subtext.Web.UI.Controls
 			this.btnSend.Click += new EventHandler(this.btnSend_Click);
 
 			//Captcha should not be given to admin.
-			if (!Security.IsAdmin)
+			if (!SecurityHelper.IsAdmin)
 			{
 				int btnIndex = Controls.IndexOf(this.btnSend);
 				AddCaptchaIfNecessary(ref captcha, ref invisibleCaptchaValidator, btnIndex);

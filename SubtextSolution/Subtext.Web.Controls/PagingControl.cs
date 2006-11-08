@@ -294,6 +294,8 @@ namespace Subtext.Web.Controls
 			// there's only 1 page, a pager is useless so render nothing
 			if (this.TotalPageCount == 0 || FirstPageIndex == (this.TotalPageCount - 1)) return;
 		
+            int currentPage = (int)ViewState[ViewStateKeys.PageIndex];
+
 			if (_cssClass.Length > 0)
 				writer.AddAttribute("class", _cssClass);
 
@@ -302,26 +304,46 @@ namespace Subtext.Web.Controls
 			// write prepended label if appropriate and an optional spacer literal
 			WriteConditional(writer, _prefixText, _usePrefixSuffix);
 
-			// if we specified including 'First' link back to pageindex 0, 
-			// write it plus an optional spacer
-			if (this.displayFirstLastPageLinks && this.PageIndex > FirstPageIndex)
-			{
-				writer.Write(RenderLink(FirstPageIndex, _firstText));
-			}
+            // determine the start and end pages
+            int startPage = currentPage - DisplayPageCount / 2 < 0 ? 0 : currentPage - DisplayPageCount / 2;
 
-			// starting at the place where we walked the counter back to, draw N links
-			// as long as we're in the allowable bounds
-			for (int i = FirstPageIndex; i < Math.Min(this.DisplayPageCount, this.TotalPageCount); i++)
-			{
-				writer.Write(RenderLink(i, i == PageIndex));
-			}
+            int endPage = startPage + DisplayPageCount > LastPageIndex ? LastPageIndex + 1 : startPage + DisplayPageCount;
 
-			// if we specified including 'Last' link back to the last page, write it plus 
-			// an optional spacer
-			if (this.displayFirstLastPageLinks && this.PageIndex < LastPageIndex)
-			{
-				writer.Write(RenderLink(this.LastPageIndex, _lastText));
-			}
+            if (endPage - startPage != DisplayPageCount && endPage - startPage > 0)
+            {
+                startPage = endPage - DisplayPageCount;
+            }
+            // if the start page isn't the first, then we display << to allow
+            // paging backwards DisplayCountPage
+            if (startPage != 0)
+            {
+                // if we specified including 'First' link back to pageindex 0, 
+                // write it plus an optional spacer
+                if (this.displayFirstLastPageLinks)
+                {
+                    writer.Write(RenderLink(FirstPageIndex, _firstText));
+                }
+                //we will page back DisplayPageCount unless that number is less than 0
+                //since you can't page less than that.
+                writer.Write(RenderLink(currentPage - DisplayPageCount < 0 ? 0 : currentPage - DisplayPageCount - 1, "<<"));
+            }
+            //Now, loop through start to end and display all the links.
+            for (int i = startPage; i < endPage; i++)
+            {
+                writer.Write(RenderLink(i, i == PageIndex));
+            }
+
+            // if we're already displaying the last page, no need for paging or Last Page link
+            if (endPage-1 != LastPageIndex)
+            {
+                writer.Write(RenderLink(currentPage + DisplayPageCount + 1 < LastPageIndex ? currentPage + DisplayPageCount + 1 : LastPageIndex, ">>"));
+                // if we specified including 'Last' link back to the last page, write it plus 
+			    // an optional spacer
+                if (this.displayFirstLastPageLinks && this.PageIndex < LastPageIndex)
+                {
+                    writer.Write(RenderLink(this.LastPageIndex, _lastText));
+                }
+            }
 
 			WriteConditional(writer, _suffixText, _usePrefixSuffix);
 

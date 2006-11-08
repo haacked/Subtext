@@ -27,6 +27,7 @@ using Subtext.Framework.Logging;
 using Subtext.Framework.Text;
 using Subtext.Web.Controls;
 using Image = System.Web.UI.WebControls.Image;
+using Subtext.Framework.Security;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -189,7 +190,7 @@ namespace Subtext.Web.UI.Controls
 						}
 					}
 
-					if(Request.IsAuthenticated && Security.IsAdmin)
+					if(Request.IsAuthenticated && SecurityHelper.IsAdmin)
 					{
 						LinkButton editlink = (LinkButton)(e.Item.FindControl("EditLink"));
 						if(editlink != null)

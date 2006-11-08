@@ -19,6 +19,7 @@ using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
+using Subtext.Framework.Security;
 
 namespace UnitTests.Subtext.Framework.Configuration
 {
@@ -40,7 +41,7 @@ namespace UnitTests.Subtext.Framework.Configuration
 		public void CreatingBlogHashesPassword()
 		{
 			string password = "MyPassword";
-			string hashedPassword = Security.HashPassword(password);
+			string hashedPassword = SecurityHelper.HashPassword(password);
             
 			Assert.IsTrue(Config.CreateBlog("", "username", password, _hostName, "MyBlog1"));
 			BlogInfo info = Config.GetBlogInfo(_hostName, "MyBlog1");

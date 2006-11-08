@@ -23,6 +23,7 @@ using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Util;
+using Subtext.Framework.Security;
 
 //Need to find a method that has access to context, so we can terminate the request if AllowServiceAccess == false.
 //Users will be able to access the metablogapi page, but will not be able to make a request, but the page should not be visible
@@ -39,7 +40,7 @@ namespace Subtext.Framework.XmlRpc
 			if(!Config.Settings.AllowServiceAccess || !allowServiceAccess)
 				throw new XmlRpcFaultException(0, "Web Service Access is not enabled.");
 
-			bool isValid = Security.IsValidUser(username, password);
+			bool isValid = SecurityHelper.IsValidUser(username, password);
 			if(!isValid)
 				throw new XmlRpcFaultException(0, "Username and password denied.");
 		}

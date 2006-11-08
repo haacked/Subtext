@@ -20,6 +20,7 @@ using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
 using log4net;
+using Subtext.Framework.Security;
 
 namespace Subtext.Web.Pages
 {
@@ -70,7 +71,7 @@ namespace Subtext.Web.Pages
 				{
 					if(info.IsPasswordHashed)
 					{
-						password = Security.ResetPassword();
+						password = SecurityHelper.ResetPassword();
 					}
 					else
 					{
@@ -96,7 +97,7 @@ namespace Subtext.Web.Pages
 			{
 				//Try Host Admin login.
 				if(Config.Settings.UseHashedPasswords)
-					password = Security.ResetHostAdminPassword();		
+					password = SecurityHelper.ResetHostAdminPassword();		
 				else
 					password = HostInfo.Instance.Password;
 
@@ -148,7 +149,7 @@ namespace Subtext.Web.Pages
 			}
 			else
 			{
-				if(Security.Authenticate(tbUserName.Text, tbPassword.Text, chkRemember.Checked))
+				if(SecurityHelper.Authenticate(tbUserName.Text, tbPassword.Text, chkRemember.Checked))
 				{
 					ReturnToUrl(currentBlog.AdminHomeVirtualUrl);
 					return;
@@ -179,7 +180,7 @@ namespace Subtext.Web.Pages
 
 		private bool AuthenticateHostAdmin()
 		{
-			return Security.AuthenticateHostAdmin(tbUserName.Text, tbPassword.Text, chkRemember.Checked);
+			return SecurityHelper.AuthenticateHostAdmin(tbUserName.Text, tbPassword.Text, chkRemember.Checked);
 		}
 	}
 }

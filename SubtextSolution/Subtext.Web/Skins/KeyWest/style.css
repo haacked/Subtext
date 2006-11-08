@@ -16,7 +16,7 @@ a:visited {
 	color: #285090;
 }
 a:hover {
-	color: #A30000;
+	color: #eeeff7;
 }
 #main {
 	margin: 0 auto;
@@ -131,7 +131,6 @@ a:hover {
 #content {
 	
 	width: auto;
-	height: 300px;
 	margin: 0;
 	padding: 16px 22px 0;
 	color: #000000;
@@ -294,7 +293,7 @@ div.entry .info a, div.entry .info a:visited {
 	color: #285090;
 }
 div.entry .info a:hover {
-	color: #A30000;
+	color: #eeeff7;
 }
 div.entry .links {
 	color: #000000;
@@ -303,7 +302,7 @@ div.entry .links a, div.entry .links a:visited {
 	color: #285090;
 }
 div.entry .links a:hover {
-	color: #A30000;
+	color: #eeeff7;
 }
 div.entry .commentslink a {
 	float: left;
@@ -334,10 +333,12 @@ div.entryDate a
 }
 div.entryDate a:hover
 {
-	color:eeeff7;
+	color:#eeeff7;
 }
 
-div.entryDate h3 {
+div.entryDate h3 
+{
+	white-space: nowrap;
 	font-size: 100%;
 	font-variant:small-caps;
 	font-weight: bold;
@@ -447,10 +448,10 @@ img.emoticons {
 	color: #000000;
 }
 .author a:hover {
-	color: #A30000;
+	color: #eeeff7;
 }
 .red {
-	color: #A30000;
+	color: #eeeff7;
 }
 .clear {
 	clear: both;
@@ -479,7 +480,7 @@ img.emoticons {
 }
 #calendar tbody a:hover {
 	color: #FAFCFD;
-	background: #A30000;
+	background: #eeeff7;
 	border-top: 1px solid #E39A9D;
 	border-bottom: 1px solid #E39A9D;
 }
@@ -535,7 +536,7 @@ img.emoticons {
 	font-weight: bold;
 	text-align: center;
 	padding-bottom: .2em;
-	color: #A30000;
+	color: #eeeff7;
 }
 
 #entryCal .next {
@@ -543,7 +544,7 @@ img.emoticons {
 	font-weight: bold;
 	text-align: center;
 	padding-bottom: .2em;
-	color: #A30000;
+	color: #eeeff7;
 }
 
 #entryCal .next a{

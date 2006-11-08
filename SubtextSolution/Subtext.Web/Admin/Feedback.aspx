@@ -22,7 +22,7 @@
 						<th>Title</th>
 						<th>Posted By</th>
 						<th width="100">Date</th>
-						<th width="50"><input type="checkbox" onclick="ToggleCheckAll(this);" /></th>
+						<th width="50"><input id="cbCheckAll" class="inline" type="checkbox" onclick="ToggleCheckAll(this);" title="Check/Uncheck All" /><label for="cbCheckAll" title="Check/Uncheck All">All</label></th>
 					</tr>
 			</HeaderTemplate>
 			<ItemTemplate>

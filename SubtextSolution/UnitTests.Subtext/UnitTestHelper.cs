@@ -30,6 +30,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Web.HttpModules;
+using Subtext.Framework.Security;
 
 namespace UnitTests.Subtext
 {
@@ -511,7 +512,7 @@ namespace UnitTests.Subtext
 	    /// </summary>
         public static void AuthenticateFormsAuthenticationCookie()
         {
-			string cookieName = Security.GetFullCookieName();
+			string cookieName = SecurityHelper.GetFullCookieName();
             HttpCookie authCookie = HttpContext.Current.Request.Cookies[cookieName];
 
             FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);

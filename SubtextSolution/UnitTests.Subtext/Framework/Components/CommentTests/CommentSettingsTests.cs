@@ -3,6 +3,7 @@ using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Security;
 
 namespace UnitTests.Subtext.Framework.Components.CommentTests
 {
@@ -23,7 +24,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			int entryId = Entries.Create(entry);
 			//create comment.
 			FeedbackItem comment = UnitTestHelper.CreateCommentInstance(entryId, "joe schmoe", "blah blah.", "I have nothing to say.", DateTime.Now);
-			Assert.IsFalse(Security.IsAdmin, "Comment moderation would not affect admins");
+			Assert.IsFalse(SecurityHelper.IsAdmin, "Comment moderation would not affect admins");
 			int commentId = FeedbackItem.Create(comment, new CommentFilter(null));
 			FeedbackItem commentFromDb = FeedbackItem.Get(commentId);
 			Assert.IsTrue(commentFromDb.Approved, "Because comment moderation is turned off, we expect that a new comment should be active.");

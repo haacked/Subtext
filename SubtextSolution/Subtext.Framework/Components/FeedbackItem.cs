@@ -28,6 +28,7 @@ using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Threading;
 using Subtext.Framework.Web;
+using Subtext.Framework.Security;
 
 namespace Subtext.Framework.Components
 {
@@ -115,7 +116,7 @@ namespace Subtext.Framework.Components
 				filter.FilterAfterPersist(feedback);
 
 			// if it's not the administrator commenting and it's not a trackback.
-			if (!Security.IsAdmin && !String.IsNullOrEmpty(Config.CurrentBlog.Email) && feedback.FeedbackType != Extensibility.FeedbackType.PingTrack)
+			if (!SecurityHelper.IsAdmin && !String.IsNullOrEmpty(Config.CurrentBlog.Email) && feedback.FeedbackType != Extensibility.FeedbackType.PingTrack)
 			{
 				//In order to make this async, we need to pass the HttpContext.Current 
 				//several layers deep. Instead, we should create our own context.
@@ -600,7 +601,7 @@ namespace Subtext.Framework.Components
 			{
 				if (String.IsNullOrEmpty(this._feedbackChecksumHash))
 				{
-					this._feedbackChecksumHash = CalculateChecksum(this.Body) + "." + Security.HashPassword(this.Body);
+					this._feedbackChecksumHash = CalculateChecksum(this.Body) + "." + SecurityHelper.HashPassword(this.Body);
 				}
 				return this._feedbackChecksumHash;
 			}

@@ -16,6 +16,7 @@
 using System;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Security;
 
 namespace Subtext.Web.Install
 {
@@ -100,7 +101,7 @@ namespace Subtext.Web.Install
 					if(Config.BlogCount == 0)
 					{
 						//Changed the following method to public so all authentication tickets are handled by the same code.
-						Subtext.Framework.Security.SetAuthenticationTicket("HostAdmin", false, "HostAdmin");
+						SecurityHelper.SetAuthenticationTicket("HostAdmin", false, "HostAdmin");
 						Response.Redirect(InstallationBase.NextStepUrl);
 					}
 					else

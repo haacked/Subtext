@@ -19,6 +19,7 @@ using Subtext.Framework;
 namespace Subtext.Web.UI.Controls
 {
 	using System;
+    using Subtext.Framework.Security;
 
 	/// <summary>
 	///		Summary description for Login.
@@ -33,7 +34,7 @@ namespace Subtext.Web.UI.Controls
 
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-			if(Security.IsAdmin)
+			if(SecurityHelper.IsAdmin)
 			{
 				this.Controls.Clear();
 				this.Visible = false;
@@ -64,7 +65,7 @@ namespace Subtext.Web.UI.Controls
 
 		private void btnLogin_Click(object sender, System.EventArgs e)
 		{
-			if(Security.Authenticate(tbUserName.Text,tbPassword.Text,RememberMe.Checked))
+			if(SecurityHelper.Authenticate(tbUserName.Text,tbPassword.Text,RememberMe.Checked))
 			{
 				Response.Redirect(Request.Path);
 			}

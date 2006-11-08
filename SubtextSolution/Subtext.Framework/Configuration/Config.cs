@@ -19,6 +19,7 @@ using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Security;
 
 namespace Subtext.Framework.Configuration
 {
@@ -212,7 +213,7 @@ namespace Subtext.Framework.Configuration
 			}
 
 			if(!passwordAlreadyHashed && Settings.UseHashedPasswords)
-				password = Security.HashPassword(password);
+				password = SecurityHelper.HashPassword(password);
 
             return (ObjectProvider.Instance().CreateBlog(title, userName, password, host, subfolder));
 		}
