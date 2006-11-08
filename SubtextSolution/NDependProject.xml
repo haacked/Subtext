@@ -13,6 +13,7 @@
     <Name Warn="True">Subtext.Framework</Name>
     <Name Warn="True">Subtext.Extensibility</Name>
     <Name Warn="True">Subtext.BlogMl</Name>
+    <Name Warn="True">Subtext.Akismet</Name>
   </Assemblies>
   <FrameworkAssemblies>
     <Name>Velocit.RegularExpressions</Name>
@@ -28,6 +29,7 @@
     <Name>blowery.Web.HttpCompress</Name>
     <Name>BlogML</Name>
     <Name>AngryPets.Web.Frameworks.ReverseDOS</Name>
+    <Name>MagicAjax</Name>
   </FrameworkAssemblies>
   <Report>
     <Section Enabled="True">Application Metrics</Section>
