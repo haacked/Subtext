@@ -105,12 +105,25 @@ namespace Subtext.Framework.Data
 
 		#region EntryDayCollection
 
-		private static bool IsNewDay(DateTime dtCurrent, DateTime dtDay)
+		/// <summary>
+		/// Determines whether the new date is a new day as compared to the current date.
+		/// </summary>
+		/// <param name="currentDate">The current date.</param>
+		/// <param name="newDate">The new date.</param>
+		/// <returns>
+		/// 	<c>true</c> if [is new day] [the specified dt current]; otherwise, <c>false</c>.
+		/// </returns>
+		private static bool IsNewDay(DateTime currentDate, DateTime newDate)
 		{
-			return !(dtCurrent.DayOfYear == dtDay.DayOfYear && dtCurrent.Year == dtDay.Year);
+			return !(currentDate.DayOfYear == newDate.DayOfYear && currentDate.Year == newDate.Year);
 		}
 
-        public static ICollection<EntryDay> LoadEntryDayCollection(IDataReader reader)
+		/// <summary>
+		/// Loads the entry day collection from the data reader.
+		/// </summary>
+		/// <param name="reader">The reader.</param>
+		/// <returns></returns>
+        public static ICollection<EntryDay> LoadEntryDayCollection(IDataReader reader, bool buildLinks)
 		{
 			DateTime dt = new DateTime(1900, 1, 1);
 			List<EntryDay> edc = new List<EntryDay>();
@@ -124,13 +137,10 @@ namespace Subtext.Framework.Data
 					day = new EntryDay(dt);
 					edc.Add(day);
 				}
-				day.Add(DataHelper.LoadEntry(reader));
+				day.Add(DataHelper.LoadEntry(reader, buildLinks));
 			}
 			return edc;
-
 		}
-
-
 		#endregion
 
 		#region EntryCollection
@@ -331,6 +341,7 @@ namespace Subtext.Framework.Data
 			entry.DateModified = ReadDate(reader, "DateUpdated");
 			
 			entry.Id = ReadInt32(reader, "ID");
+			entry.BlogId = ReadInt32(reader, "BlogId");
 			entry.Description = ReadString(reader, "Description");
 			entry.EntryName = ReadString(reader, "EntryName");
 	
@@ -634,24 +645,6 @@ namespace Subtext.Framework.Data
 		}
 
 	    /// <summary>
-	    /// If the string is empty or null, returns a 
-	    /// System.DBNull.Value.
-	    /// </summary>
-	    /// <param name="text"></param>
-	    /// <returns></returns>
-        public static object CheckForNullString(string text)
-        {
-            if (String.IsNullOrEmpty(text))
-            {
-                return System.DBNull.Value;
-            }
-            else
-            {
-                return text;
-            }
-        }
-
-        /// <summary>
         /// If the string is DBNull, returns null. Otherwise returns the string.
         /// </summary>
         /// <param name="obj">The obj.</param>
@@ -992,16 +985,6 @@ namespace Subtext.Framework.Data
 		}
 
 	    /// <summary>
-	    /// Returns a true null if the object is DBNull.
-	    /// </summary>
-	    /// <param name="obj">The obj.</param>
-	    /// <returns></returns>
-	    public static string CheckNull(DBNull obj)
-	    {
-	        return null;
-	    }
-
-	    /// <summary>
 	    /// Checks the value of the specified value type for a null value.  
 	    /// Returns null if the value represents a null value
 	    /// </summary>
@@ -1014,17 +997,7 @@ namespace Subtext.Framework.Data
 	        return dateTime;
 	    }
 
-	    internal static void DebugPrintCommand(SqlCommand command)
-	    {
-	        Console.Write(command.CommandText);
-	        foreach(SqlParameter parameter in command.Parameters)
-	        {
-	            Console.Write(" " + parameter.ParameterName + "=" + parameter.Value + ", ");
-	        }
-	        Console.Write(Environment.NewLine);
-	    }
-
-        #region ExecuteDataTable
+	    #region ExecuteDataTable
 
         /// <summary>
         /// Execute a SqlCommand (that returns a resultset and takes no parameters) against the database specified in 

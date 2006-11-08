@@ -308,7 +308,7 @@ namespace Subtext.Framework.Data
 			IDataReader reader = GetConditionalEntriesData(itemCount, PostType.BlogPost, pc, false);
 			try
 			{
-                ICollection<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader);
+                ICollection<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader, true);
 				return edc;
 			}
 			finally
@@ -322,7 +322,7 @@ namespace Subtext.Framework.Data
 			IDataReader reader = GetPostDataByMonth(month,year);
 			try
 			{
-                ICollection<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader);
+                ICollection<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader, true);
 				return edc;
 			}
 			finally
@@ -336,7 +336,7 @@ namespace Subtext.Framework.Data
 			IDataReader reader = GetEntriesDataByCategory(itemCount, catID, true);
 			try
 			{
-                ICollection<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader);
+                ICollection<EntryDay> edc = DataHelper.LoadEntryDayCollection(reader, true);
 				return edc;
 			}
 			finally
@@ -1903,6 +1903,14 @@ namespace Subtext.Framework.Data
             NonQueryInt("subtext_LogClear", p);
         }
 
+		/// <summary>
+		/// Clears all content (Entries, Comments, Track/Ping-backs, Statistices, etc...)
+		/// for a the current blog (sans the Image Galleries).
+		/// </summary>
+		/// <returns>
+		/// TRUE - At least one unit of content was cleared.
+		/// FALSE - No content was cleared.
+		/// </returns>
         public override bool ClearBlogContent()
         {
             SqlParameter[] p = { BlogIdParam };

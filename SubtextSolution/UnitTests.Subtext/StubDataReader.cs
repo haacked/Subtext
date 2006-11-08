@@ -376,6 +376,8 @@ namespace UnitTests.Subtext
 		
 		public int GetIndexFromFieldName(string name)
 		{
+			if (!this.fieldNames.ContainsKey(name))
+				throw new IndexOutOfRangeException(string.Format("The key '{0}' was not found in this data reader.", name));
 			return this.fieldNames[name];
 		}
 		
