@@ -1,5 +1,10 @@
 using System;
+using System.Collections.Specialized;
 using MbUnit.Framework;
+using Subtext.Extensibility;
+using Subtext.Framework;
+using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 
 namespace UnitTests.Subtext.Framework.Data
@@ -7,6 +12,30 @@ namespace UnitTests.Subtext.Framework.Data
 	[TestFixture]
 	public class DatabaseObjectProviderTests
 	{
+		[Test]
+		[RollBack]
+		public void CanClearBlogContent()
+		{
+			string host = UnitTestHelper.GenerateRandomString();
+			Config.CreateBlog("test title", "test", "testaoeu!123", host, "");
+			UnitTestHelper.SetHttpContextWithBlogRequest(host, "");
+			
+			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("author", "Ttitle", "Some body");
+			int entryId = Entries.Create(entry);
+			entry.BlogId = Config.CurrentBlog.Id;
+			Entry loaded = Entries.GetEntry(entryId, PostConfig.None, false);
+			Assert.IsNotNull(loaded);
+			Assert.AreEqual(Config.CurrentBlog.Id, loaded.BlogId);
+
+			DatabaseObjectProvider provider = new DatabaseObjectProvider();
+			NameValueCollection config = new NameValueCollection();
+			config.Add("connectionStringName", "subtextData");
+			provider.Initialize("data", config);
+			provider.ClearBlogContent();
+			loaded = Entries.GetEntry(entryId, PostConfig.None, false);
+			Assert.IsNull(loaded);
+		}
+		
 		[Test]
 		[ExpectedArgumentNullException]
 		public void CreateFeedbackThrowsArgumentNullException()
