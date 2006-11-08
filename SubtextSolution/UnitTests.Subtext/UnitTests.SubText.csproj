@@ -268,11 +268,11 @@
     <Compile Include="Framework\Data\ContentCacheTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Data\DatabaseObjectProviderTests.cs" />
     <Compile Include="Framework\Data\DataHelperTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Framework\Data\PagedCollectionRetrievalTests.cs" />
-    <Compile Include="Framework\Data\SqlDataProviderTests.cs" />
     <Compile Include="Framework\Format\UrlFormatTests.cs">
       <SubType>Code</SubType>
     </Compile>
