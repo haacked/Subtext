@@ -110,7 +110,7 @@ namespace Subtext.Framework.Components
 			if(filter != null)
 				filter.FilterBeforePersist(feedback);
 			
-			feedback.Id = ObjectProvider.Instance().Create(feedback);
+			feedback.Id = ObjectProvider.Instance().CreateFeedback(feedback);
 			
 			if(filter != null)
 				filter.FilterAfterPersist(feedback);

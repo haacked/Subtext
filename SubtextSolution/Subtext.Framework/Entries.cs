@@ -237,7 +237,7 @@ namespace Subtext.Framework
 				categoryIds = GetCategoryIdsFromCategoryTitles(entry);
 			}
 
-			int id = ObjectProvider.Instance().Create(entry, categoryIds);
+			int id = ObjectProvider.Instance().CreateEntry(entry, categoryIds);
 			log.Debug("Created entry, running notification services.");
 			NotificationServices.Run(entry);
 			return id;

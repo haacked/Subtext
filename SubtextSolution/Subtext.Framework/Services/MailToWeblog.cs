@@ -132,6 +132,7 @@ using Lesnikowski.Mail;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 
 namespace Subtext.Framework.Services
@@ -632,7 +633,7 @@ namespace Subtext.Framework.Services
 									}
 
 									//everything is good, create the entry
-								    entry.Id = DbProvider.Instance().InsertEntry(entry);
+								    entry.Id = DatabaseObjectProvider.Instance().InsertEntry(entry);
 
 								    if (entry.Id > 0)
 									    messageWasProcessed = true;

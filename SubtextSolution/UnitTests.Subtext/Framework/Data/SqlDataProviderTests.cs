@@ -5,29 +5,29 @@ using Subtext.Framework.Data;
 namespace UnitTests.Subtext.Framework.Data
 {
 	[TestFixture]
-	public class SqlDataProviderTests
+	public class DatabaseObjectProviderTests
 	{
 		[Test]
 		[ExpectedArgumentNullException]
-		public void InsertFeedbackThrowsArgumentNullException()
+		public void CreateFeedbackThrowsArgumentNullException()
 		{
-			SqlDataProvider provider = new SqlDataProvider();
-			provider.InsertFeedback(null);
+            DatabaseObjectProvider provider = new DatabaseObjectProvider();
+			provider.CreateFeedback(null);
 		}
 
 		[Test]
 		[ExpectedArgumentNullException]
 		public void InsertCategoryThrowsArgumentNullException()
 		{
-			SqlDataProvider provider = new SqlDataProvider();
-			provider.InsertCategory(null);
+            DatabaseObjectProvider provider = new DatabaseObjectProvider();
+			provider.CreateLinkCategory(null);
 		}
 
 		[Test]
 		[ExpectedArgumentNullException]
 		public void InsertEntryThrowsArgumentNullException()
 		{
-			SqlDataProvider provider = new SqlDataProvider();
+            DatabaseObjectProvider provider = new DatabaseObjectProvider();
 			provider.InsertEntry(null);
 		}
 
@@ -35,7 +35,7 @@ namespace UnitTests.Subtext.Framework.Data
 		[ExpectedArgumentNullException]
 		public void InsertImageThrowsArgumentNullException()
 		{
-			SqlDataProvider provider = new SqlDataProvider();
+            DatabaseObjectProvider provider = new DatabaseObjectProvider();
 			provider.InsertImage(null);
 		}
 
@@ -43,16 +43,16 @@ namespace UnitTests.Subtext.Framework.Data
 		[ExpectedArgumentNullException]
 		public void InsertKeyWordThrowsArgumentNullException()
 		{
-			SqlDataProvider provider = new SqlDataProvider();
+            DatabaseObjectProvider provider = new DatabaseObjectProvider();
 			provider.InsertKeyWord(null);
 		}
 
 		[Test]
 		[ExpectedArgumentNullException]
-		public void InsertLinkThrowsArgumentNullException()
+		public void CreateLinkThrowsArgumentNullException()
 		{
-			SqlDataProvider provider = new SqlDataProvider();
-			provider.InsertLink(null);
+            DatabaseObjectProvider provider = new DatabaseObjectProvider();
+			provider.CreateLink(null);
 		}
 	}
 }

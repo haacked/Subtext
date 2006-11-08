@@ -20,7 +20,7 @@ namespace Subtext.Web.UI.Controls
 		private void Page_Load(object sender, EventArgs e)
 		{
 			string sql = "subtext_GetRelatedLinks";
-			string conn = DbProvider.Instance().ConnectionString;
+            string conn = DatabaseObjectProvider.Instance().ConnectionString;
 
 			ArrayList myRelLinks = new ArrayList();
 			int BlogId;

@@ -20,6 +20,7 @@ using System.Globalization;
 using System.IO;
 using System.Xml;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
 
 namespace Subtext.Web
@@ -44,7 +45,7 @@ namespace Subtext.Web
 
 			}
 
-            DataTable feedData = DbProvider.Instance().GetAggregateRecentPosts(groupId);
+            DataTable feedData = DatabaseObjectProvider.Instance().GetAggregateRecentPosts(groupId);
 			
 		    //TODO: Use our other feed generation code.
 			if(feedData != null && feedData.Rows.Count > 0)
