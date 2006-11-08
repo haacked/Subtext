@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Test2Plugin\settings.ascx">
+      <SubType>ASPXCodeBehind</SubType>
     </Content>
     <Content Include="TestPlugin\settings.ascx">
       <SubType>ASPXCodeBehind</SubType>
