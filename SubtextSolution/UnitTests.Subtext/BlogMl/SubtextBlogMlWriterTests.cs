@@ -56,7 +56,8 @@ namespace UnitTests.Subtext.BlogML
 			Assert.AreEqual(2, blogMLCategories.Count, "Expected to find two categories via the provider.");
 			
 			BlogMLWriter writer = BlogMLWriter.Create(provider);
-			writer.EmbedAttachments = false;
+            // TODO- BlogML 2.0
+//			writer.EmbedAttachments = false;
             MemoryStream memoryStream = new MemoryStream();
 
 			using (XmlTextWriter xmlWriter = new XmlTextWriter(memoryStream, Encoding.UTF8))
@@ -100,7 +101,8 @@ namespace UnitTests.Subtext.BlogML
 			provider.ConnectionString = connectionString;
 			
 			BlogMLWriter writer = BlogMLWriter.Create(provider);
-			writer.EmbedAttachments = false;
+            // TODO- BlogML 2.0
+//			writer.EmbedAttachments = false;
 
 			//Note, once the next version of BlogML is released, we can cleanup some of this.
 			StringBuilder builder = new StringBuilder();
@@ -115,7 +117,7 @@ namespace UnitTests.Subtext.BlogML
 			XmlDocument doc = new XmlDocument();
 			doc.LoadXml(builder.ToString());
 			XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
-			nsmgr.AddNamespace("bml", "http://www.blogml.com/2006/01/BlogML");
+			nsmgr.AddNamespace("bml", "http://www.blogml.com/2006/09/BlogML");
 
 			XmlNodeList postNodes = doc.SelectNodes("//bml:post", nsmgr);
 			Assert.AreEqual(1, postNodes.Count);
@@ -155,7 +157,8 @@ namespace UnitTests.Subtext.BlogML
 			SubtextBlogMLProvider provider = new SubtextBlogMLProvider();
 			provider.ConnectionString = connectionString;
 			BlogMLWriter writer = BlogMLWriter.Create(provider);
-			writer.EmbedAttachments = false;
+            // TODO- BlogML 2.0
+//			writer.EmbedAttachments = false;
 
 			//Note, once the next version of BlogML is released, we can cleanup some of this.
 			StringBuilder builder = new StringBuilder();
@@ -170,7 +173,7 @@ namespace UnitTests.Subtext.BlogML
 			XmlDocument doc = new XmlDocument();
 			doc.LoadXml(builder.ToString());
 			XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
-			nsmgr.AddNamespace("bml", "http://www.blogml.com/2006/01/BlogML");
+			nsmgr.AddNamespace("bml", "http://www.blogml.com/2006/09/BlogML");
 
 			Console.WriteLine(doc.InnerXml);
 			XmlNode postNode = doc.SelectSingleNode("bml:blog/bml:posts/bml:post[@id='1']", nsmgr);

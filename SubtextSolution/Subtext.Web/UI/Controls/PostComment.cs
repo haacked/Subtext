@@ -25,6 +25,7 @@ using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
+using Subtext.Framework.Security;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -160,7 +161,7 @@ namespace Subtext.Web.UI.Controls
 			}
 
 			//Captcha should not be given to admin.
-			if (!Security.IsAdmin)
+			if (!SecurityHelper.IsAdmin)
 			{
 				int btnIndex = 0;
 				btnIndex = Controls.IndexOf(this.btnSubmit);
@@ -268,7 +269,7 @@ namespace Subtext.Web.UI.Controls
 			feedbackItem.Title = this.tbTitle.Text;
 			feedbackItem.EntryId = currentEntry.Id;
 			feedbackItem.IpAddress = HttpHelper.GetUserIpAddress(Context);
-			feedbackItem.IsBlogAuthor = Security.IsAdmin;
+			feedbackItem.IsBlogAuthor = SecurityHelper.IsAdmin;
 			return feedbackItem;
 		}
 

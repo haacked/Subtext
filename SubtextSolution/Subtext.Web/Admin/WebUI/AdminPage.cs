@@ -22,6 +22,7 @@ using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Web.Admin.WebUI;
 using Subtext.Web.Controls;
+using Subtext.Framework.Security;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -43,7 +44,7 @@ namespace Subtext.Web.Admin.Pages
 		
 		protected override void OnLoad(EventArgs e)
 		{
-			if(!Security.IsAdmin)
+			if(!SecurityHelper.IsAdmin)
 			{
 				Response.Redirect(Config.CurrentBlog.VirtualUrl + "Login.aspx?ReturnUrl=" + Request.Path, false);
 			    return;

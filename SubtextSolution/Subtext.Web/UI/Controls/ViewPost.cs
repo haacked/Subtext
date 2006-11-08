@@ -24,6 +24,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Format;
 using Subtext.Framework.Tracking;
 using Subtext.Web.Controls;
+using Subtext.Framework.Security;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -143,7 +144,7 @@ namespace Subtext.Web.UI.Controls
 		{
 			if(editLink != null)
 			{
-				if(Security.IsAdmin)
+				if(SecurityHelper.IsAdmin)
 				{
 					editLink.Visible = true;
 					if(editLink.Text.Length == 0 && editLink.ImageUrl.Length == 0)

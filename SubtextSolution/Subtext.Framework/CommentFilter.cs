@@ -19,6 +19,7 @@ using System.Web.Caching;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
+using Subtext.Framework.Security;
 
 namespace Subtext.Framework
 {
@@ -49,7 +50,7 @@ namespace Subtext.Framework
 		/// <exception type="CommentDuplicateException">Thrown if the blog does not allow duplicate comments and too many are received in a short period of time.</exception>
 		public void FilterBeforePersist(FeedbackItem feedback)
 		{
-			if (!Security.IsAdmin)
+			if (!SecurityHelper.IsAdmin)
 			{
 				if (!SourceFrequencyIsValid(feedback))
 					throw new CommentFrequencyException();
@@ -76,7 +77,7 @@ namespace Subtext.Framework
 		/// <param name="feedbackItem">Entry.</param>
 		public void FilterAfterPersist(FeedbackItem feedbackItem)
 		{
-			if (!Security.IsAdmin)
+			if (!SecurityHelper.IsAdmin)
 			{
 				if (!Config.CurrentBlog.ModerationEnabled)
 				{

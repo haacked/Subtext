@@ -22,6 +22,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Web.Controls;
+using Subtext.Framework.Security;
 
 
 namespace Subtext.Web.UI.Controls
@@ -187,7 +188,7 @@ namespace Subtext.Web.UI.Controls
 			HyperLink editLink = e.Item.FindControl("editLink") as HyperLink;
 			if(editLink != null)
 			{
-				if(Security.IsAdmin)
+				if(SecurityHelper.IsAdmin)
 				{
 					editLink.Visible = true;
 					if(editLink.Text.Length == 0 && editLink.ImageUrl.Length == 0)

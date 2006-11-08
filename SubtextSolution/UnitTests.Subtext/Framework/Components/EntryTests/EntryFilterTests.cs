@@ -22,6 +22,7 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
+using Subtext.Framework.Security;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTests
 {
@@ -102,9 +103,9 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
              * Need to add the authentication ticket to the context (cookie), and then 
              * read that ticket to set the HttpContext.Current.User's Principle.
              */
-	        Security.Authenticate("username", "some-password", true);
+	        SecurityHelper.Authenticate("username", "some-password", true);
 	        UnitTestHelper.AuthenticateFormsAuthenticationCookie();
-	        Assert.IsTrue(Security.IsAdmin, "Not able to login to the current blog.");
+	        Assert.IsTrue(SecurityHelper.IsAdmin, "Not able to login to the current blog.");
 
             FeedbackItem trackback = new FeedbackItem(FeedbackType.PingTrack);
             trackback.DateCreated = DateTime.Now;

@@ -1,7 +1,9 @@
 using System;
 using System.Data;
 using System.Globalization;
+using BlogML;
 using BlogML.Xml;
+using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Data;
 
@@ -28,6 +30,16 @@ namespace Subtext.ImportExport
 			post.Content.Text = entry.Body;
 			post.DateCreated = entry.DateCreated;
 			post.DateModified = entry.DateModified;
+            post.PostType = (entry.PostType == PostType.Story) ? BlogPostTypes.Article : BlogPostTypes.Normal;
+            post.PostName = entry.EntryName;
+            post.Views = (uint) 0; // I think we have this statistic in the db... right?
+
+            post.HasExcerpt = entry.HasDescription;
+            if (entry.HasDescription)
+            {
+                post.Excerpt.Text = entry.Description;
+            }
+		    
 			return post;
 		}
 
@@ -87,12 +99,13 @@ namespace Subtext.ImportExport
 		public static BlogMLBlog CreateBlogInstance(string title, string subtitle, string rootUrl, string author, string email, DateTime dateCreated)
 		{
 			BlogMLBlog blog = new BlogMLBlog();
+            BlogMLAuthor blogAuthor = new BlogMLAuthor();
+            blogAuthor.Title = author;
+            blogAuthor.Email = email;
+            blog.Authors.Add(blogAuthor);
 			blog.Title = title;
 			blog.SubTitle = subtitle;
 			blog.RootUrl = rootUrl;
-			blog.Author = new BlogMLAuthor();
-			blog.Author.Name = author;
-			blog.Author.Email = email;
 			blog.DateCreated = dateCreated;
 			return blog;
 		}

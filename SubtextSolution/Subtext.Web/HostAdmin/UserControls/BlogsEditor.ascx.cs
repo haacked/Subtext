@@ -23,6 +23,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
 using Subtext.Web.Admin;
+using Subtext.Framework.Security;
 
 namespace Subtext.Web.HostAdmin.UserControls
 {
@@ -332,7 +333,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 
 			if(this.txtPassword.Text.Length > 0)
 			{
-				blog.Password = Security.HashPassword(this.txtPassword.Text);
+				blog.Password = SecurityHelper.HashPassword(this.txtPassword.Text);
 			}
 			
 			if(Config.UpdateConfigData(blog))

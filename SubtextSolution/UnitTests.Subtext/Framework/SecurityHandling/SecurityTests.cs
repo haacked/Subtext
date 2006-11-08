@@ -21,6 +21,7 @@ using System.Web;
 using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Security;
 
 namespace UnitTests.Subtext.Framework.SecurityHandling
 {
@@ -41,9 +42,9 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		{
 			Config.Settings.UseHashedPasswords = true;
 			Config.CreateBlog("", "username", "thePassword", _hostName, "MyBlog");
-			string password = Security.HashPassword("newPass");
+			string password = SecurityHelper.HashPassword("newPass");
 
-			Security.UpdatePassword("newPass");
+			SecurityHelper.UpdatePassword("newPass");
 			BlogInfo info = Config.GetBlogInfo(_hostName, "MyBlog");
 			Assert.AreEqual(password, info.Password);
 		}
@@ -58,15 +59,15 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 			Config.CreateBlog("", "username", "thePassword", _hostName, "MyBlog");
 			string password = "myPassword";
 			string hashedPassword = "Bc5M0y93wXmtXNxwW6IJVA==";
-			Assert.AreEqual(hashedPassword, Security.HashPassword(password));
+			Assert.AreEqual(hashedPassword, SecurityHelper.HashPassword(password));
 		
 			Config.CurrentBlog.IsPasswordHashed = true;
 			Config.CurrentBlog.Password = hashedPassword;
-			Assert.IsTrue(Security.IsValidPassword(password));
+			Assert.IsTrue(SecurityHelper.IsValidPassword(password));
 
 			Config.CurrentBlog.IsPasswordHashed = false;
 			Config.CurrentBlog.Password = password;
-			Assert.IsTrue(Security.IsValidPassword(password));
+			Assert.IsTrue(SecurityHelper.IsValidPassword(password));
 		}
 
 		/// <summary>
@@ -78,8 +79,8 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		{
 			string lowercase = "password";
 			string uppercase = "Password";
-			UnitTestHelper.AssertAreNotEqual(Security.HashPassword(lowercase), Security.HashPassword(uppercase), "A lower cased and upper cased password should not be equivalent.");
-			UnitTestHelper.AssertAreNotEqual(Security.HashPassword(lowercase), Security.HashPassword(uppercase.ToUpper(CultureInfo.InvariantCulture)), "A lower cased and a completely upper cased password should not be equivalent.");
+			UnitTestHelper.AssertAreNotEqual(SecurityHelper.HashPassword(lowercase), SecurityHelper.HashPassword(uppercase), "A lower cased and upper cased password should not be equivalent.");
+			UnitTestHelper.AssertAreNotEqual(SecurityHelper.HashPassword(lowercase), SecurityHelper.HashPassword(uppercase.ToUpper(CultureInfo.InvariantCulture)), "A lower cased and a completely upper cased password should not be equivalent.");
 		}
 
 		/// <summary>
@@ -99,7 +100,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 			Config.CurrentBlog.IsPasswordHashed = true;
 			Config.CurrentBlog.Password = bitConvertedPassword;
 			
-			Assert.IsTrue(Security.IsValidPassword(password));
+			Assert.IsTrue(SecurityHelper.IsValidPassword(password));
 		}
 		
 		[Test]
@@ -107,8 +108,8 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		public void CanSetAuthenticationCookie()
 		{
 			Config.CreateBlog("", "the-username", "thePassword", _hostName, "MyBlog");
-			Security.SetAuthenticationTicket("the-username", false, "Admins");
-			HttpCookie cookie = Security.SelectAuthenticationCookie();
+			SecurityHelper.SetAuthenticationTicket("the-username", false, "Admins");
+			HttpCookie cookie = SecurityHelper.SelectAuthenticationCookie();
 			Assert.IsNotNull(cookie, "Could not get authentication cookie.");
 		}
 
@@ -117,15 +118,15 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		public void CanAuthenticateAdmin()
 		{
 			Config.CreateBlog("", "the-username", "thePassword", _hostName, "MyBlog");
-			Assert.IsTrue(Security.Authenticate("the-username", "thePassword", true), "We should be able to login.");
-			HttpCookie cookie = Security.SelectAuthenticationCookie();
+			Assert.IsTrue(SecurityHelper.Authenticate("the-username", "thePassword", true), "We should be able to login.");
+			HttpCookie cookie = SecurityHelper.SelectAuthenticationCookie();
 			Assert.IsNotNull(cookie, "Could not get authentication cookie.");
 		}
 		
 		[Test]
 		public void CanGenerateSymmetricEncryptionKey()
 		{
-			byte[] key = Security.GenerateSymmetricKey();
+			byte[] key = SecurityHelper.GenerateSymmetricKey();
 			Assert.IsTrue(key.Length > 0, "Expected a non-zero key.");
 		}
 		
@@ -133,12 +134,12 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		public void CanSymmetcricallyEncryptAndDecryptText()
 		{
 			string clearText = "Hello world!";
-			byte[] key = Security.GenerateSymmetricKey();
-			byte[] iv = Security.GenerateInitializationVector();
+			byte[] key = SecurityHelper.GenerateSymmetricKey();
+			byte[] iv = SecurityHelper.GenerateInitializationVector();
 
-			string encrypted = Security.EncryptString(clearText, Encoding.UTF8, key, iv);
+			string encrypted = SecurityHelper.EncryptString(clearText, Encoding.UTF8, key, iv);
 			Assert.IsTrue(encrypted != clearText, "Encrypted text should not equal the clear text.");
-			string unencrypted = Security.DecryptString(encrypted, Encoding.UTF8, key, iv);
+			string unencrypted = SecurityHelper.DecryptString(encrypted, Encoding.UTF8, key, iv);
 			Assert.AreEqual(clearText, unencrypted, "Round trip encrypt/decrypt failed to produce original string.");
 		}
 

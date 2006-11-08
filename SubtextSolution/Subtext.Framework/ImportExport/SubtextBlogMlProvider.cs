@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Web;
+using BlogML;
 using BlogML.Xml;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.BlogML;
@@ -154,14 +155,18 @@ namespace Subtext.ImportExport
 			if (int.TryParse(blogId, out blogIdentifier))
 			{
 				BlogInfo blog = BlogInfo.GetBlogById(blogIdentifier);
-				BlogMLBlog blogMlBlog = new BlogMLBlog();
-				blogMlBlog.Title = blog.Title;
-				blogMlBlog.SubTitle = blog.SubTitle;
-				blogMlBlog.RootUrl = blog.RootUrl.ToString();
-				blogMlBlog.Author.Name = blog.Author;
-				blogMlBlog.Author.Email = blog.Email;
-				blogMlBlog.DateCreated = blog.TimeZone.Now;
-				return blogMlBlog;
+				BlogMLBlog bmlBlog = new BlogMLBlog();
+				bmlBlog.Title = blog.Title;
+				bmlBlog.SubTitle = blog.SubTitle;
+				bmlBlog.RootUrl = blog.RootUrl.ToString();
+				bmlBlog.DateCreated = blog.TimeZone.Now;
+
+                BlogMLAuthor bmlAuthor = new BlogMLAuthor();
+                bmlAuthor.Title = blog.Author;
+                bmlAuthor.Approved = true;
+                bmlAuthor.Email = blog.Email;
+			    bmlBlog.Authors.Add(bmlAuthor);
+				return bmlBlog;
 			}
 			return null;
 		}
@@ -303,18 +308,23 @@ namespace Subtext.ImportExport
 		/// <returns></returns>
 		public override string CreateBlogPost(BlogMLPost post, string content, IDictionary<string, string> categoryIdMap)
 		{
-			Entry newEntry = new Entry(PostType.BlogPost);
+            Entry newEntry = new Entry((post.PostType == BlogPostTypes.Article) ? PostType.Story : PostType.BlogPost);
 			newEntry.BlogId = Config.CurrentBlog.Id;
 			newEntry.Title = post.Title;
 			newEntry.DateCreated = post.DateCreated;
 			newEntry.DateModified = post.DateModified;
 			newEntry.DateSyndicated = post.DateModified;  // is this really the best thing to do?
 			newEntry.Body = content;
+		    if (post.HasExcerpt)
+                newEntry.Description = post.Excerpt.Text;
 			newEntry.IsActive = post.Approved;
 			newEntry.DisplayOnHomePage = post.Approved;
 			newEntry.IncludeInMainSyndication = post.Approved;
 			newEntry.IsAggregated = post.Approved;
 			newEntry.AllowComments = true;
+
+            if (!string.IsNullOrEmpty(post.PostName))
+                newEntry.EntryName = Entries.AutoGenerateFriendlyUrl(post.PostName);
 			
 			foreach(BlogMLCategoryReference categoryRef in post.Categories)
 			{

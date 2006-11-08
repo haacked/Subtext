@@ -139,7 +139,7 @@ IF EXISTS
 			, 0
 			, Email
 			, Url = TitleUrl
-			, FeedbackType = CASE PostConfig WHEN 3 THEN 1 ELSE 2 END
+			, FeedbackType = CASE PostType WHEN 3 THEN 1 ELSE 2 END
 			, StatusFlag = 1
 			, CommentAPI = 0
 			, Referrer = NULL

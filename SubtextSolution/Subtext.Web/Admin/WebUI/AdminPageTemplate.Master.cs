@@ -3,6 +3,7 @@ using System.Web;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Security;
 
 namespace Subtext.Web.Admin.WebUI
 {
@@ -78,7 +79,7 @@ namespace Subtext.Web.Admin.WebUI
 
 		void OnLogoutClick(object sender, EventArgs e)
 		{
-			Security.LogOut();
+			SecurityHelper.LogOut();
 			HttpContext.Current.Response.Redirect(Config.CurrentBlog.HomeVirtualUrl);
 		}
 	}

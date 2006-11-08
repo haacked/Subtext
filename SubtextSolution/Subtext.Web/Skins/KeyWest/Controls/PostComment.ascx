@@ -117,7 +117,7 @@ function IEWrap(txtarea, lft, rgt, doc) {
 }
 // doc is the document object that all of this is on.
 function wrapSelection(txtarea, lft, rgt, doc) {
-	txtarea = document.getElementById('PostComment.ascx_tbComment');
+	txtarea = document.getElementById('PostComment_ascx_tbComment');
     if(!doc)
 	    doc = document;
 

@@ -16,6 +16,7 @@
 using System;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Security;
 
 namespace Subtext.Web.HostAdmin
 {
@@ -63,7 +64,7 @@ namespace Subtext.Web.HostAdmin
 		{
 			string password = txtCurrentPassword.Text;
 			if(Config.Settings.UseHashedPasswords)
-				password = Security.HashPassword(password, HostInfo.Instance.Salt);
+				password = SecurityHelper.HashPassword(password, HostInfo.Instance.Salt);
 
 			args.IsValid = password == HostInfo.Instance.Password;
 		}

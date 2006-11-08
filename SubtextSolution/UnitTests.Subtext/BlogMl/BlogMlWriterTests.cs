@@ -116,7 +116,7 @@ namespace UnitTests.Subtext.BlogML
 			XmlDocument doc = new XmlDocument();
 			doc.LoadXml(builder.ToString());
 			XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
-			nsmgr.AddNamespace("bml", "http://www.blogml.com/2006/01/BlogML");
+			nsmgr.AddNamespace("bml", "http://www.blogml.com/2006/09/BlogML");
 
 			XmlNode blogNode = doc.SelectSingleNode("bml:blog", nsmgr);
 			Assert.AreEqual("http://blog.example.com/", blogNode.Attributes["root-url"].InnerText, "The root url doesn't match.");
@@ -216,7 +216,7 @@ namespace UnitTests.Subtext.BlogML
 			XmlDocument doc = new XmlDocument();
 			doc.LoadXml(builder.ToString());
 			XmlNamespaceManager nsmgr = new XmlNamespaceManager(doc.NameTable);
-			nsmgr.AddNamespace("bml", "http://www.blogml.com/2006/01/BlogML");
+			nsmgr.AddNamespace("bml", "http://www.blogml.com/2006/09/BlogML");
 
 			XmlNode firstPostNode = doc.SelectSingleNode("bml:blog/bml:posts/bml:post[@id='" + firstPostConvertedId + "']", nsmgr);
 			Assert.IsNotNull(firstPostNode, "Could not find post node with expected converted id" + firstPostConvertedId);

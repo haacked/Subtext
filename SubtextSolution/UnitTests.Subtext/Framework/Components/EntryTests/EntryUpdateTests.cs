@@ -15,6 +15,25 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 	public class EntryUpdateTests
 	{
 		string _hostName;
+		
+		[Test]
+		[RollBack]
+		public void CanDeleteEntry()
+		{
+			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+
+			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking");
+			Entries.Create(entry);
+
+			Entry savedEntry = Entries.GetEntry(entry.Id, PostConfig.None, false);
+			Assert.IsNotNull(savedEntry);
+
+			Entries.Delete(entry.Id);
+
+			savedEntry = Entries.GetEntry(entry.Id, PostConfig.None, false);
+			Assert.IsNull(savedEntry, "Entry should now be null.");
+		}
+		
 		/// <summary>
 		/// Tests that setting the date syndicated to null removes the item from syndication.
 		/// </summary>

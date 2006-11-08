@@ -18,6 +18,7 @@ using System.Data.SqlClient;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Security;
 
 namespace Subtext.Framework
 {
@@ -133,10 +134,10 @@ namespace Subtext.Framework
 
 		public static void SetHostPassword(HostInfo host, string newPassword)
 		{
-			host.Salt = Security.CreateRandomSalt();
+			host.Salt = SecurityHelper.CreateRandomSalt();
 			if(Config.Settings.UseHashedPasswords)
 			{
-				string hashedPassword = Security.HashPassword(newPassword, host.Salt);
+				string hashedPassword = SecurityHelper.HashPassword(newPassword, host.Salt);
 				host.Password = hashedPassword;
 			}
 			else

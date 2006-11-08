@@ -96,10 +96,7 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BlogML">
-      <Name>BlogML</Name>
-      <HintPath>ExternalDependencies\BlogML.dll</HintPath>
-    </Reference>
+    <Reference Include="BlogML, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="blowery.Web.HttpCompress, Version=6.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="CookComputing.XmlRpcV2, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="DotNetOpenMail">
@@ -392,7 +389,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Providers\EntrySearchProvider.cs" />
-    <Compile Include="Security.cs">
+    <Compile Include="Security\SecurityHelper.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Services\AkismetSpamService.cs" />

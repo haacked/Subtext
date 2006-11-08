@@ -17,6 +17,7 @@ using System;
 using System.Web;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Security;
 
 namespace Subtext.Web.Pages
 {
@@ -27,7 +28,7 @@ namespace Subtext.Web.Pages
 	{
 		private void Page_Load(object sender, System.EventArgs e)
 		{
-			Security.LogOut();
+			SecurityHelper.LogOut();
 			HttpContext.Current.Response.Redirect(Config.CurrentBlog.HomeVirtualUrl);
 		}
 
