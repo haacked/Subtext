@@ -13,6 +13,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
+using System;
 using System.Globalization;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
@@ -74,7 +75,7 @@ namespace Subtext.Web.Controls
 			}
 			set
 			{
-				if(value.Length == 0)
+				if(String.IsNullOrEmpty(value))
 					value = null;
 
 				Attributes["src"] = value;
@@ -96,7 +97,7 @@ namespace Subtext.Web.Controls
 			}
 			set
 			{
-				if(value.Length == 0)
+				if (String.IsNullOrEmpty(value))
 					value = null;
 
 				Attributes["language"] = value;

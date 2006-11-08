@@ -49,7 +49,7 @@ namespace Subtext.Scripting
 			{
 				foreach(TemplateParameter parameter in this.List)
 				{
-					if(String.Compare(parameter.Name, name, true) == 0)
+					if(String.Compare(parameter.Name, name, StringComparison.InvariantCultureIgnoreCase) == 0)
 					{
 						return parameter;
 					}
@@ -133,14 +133,14 @@ namespace Subtext.Scripting
 		/// Gets a value indicating whether the collection contains the specified 
 		/// <see cref="TemplateParameter">Script</see>.
 		/// </summary>
-		/// <param name="value">The <see cref="TemplateParameter">Script</see> to search for in the collection.</param>
+		/// <param name="item">The <see cref="TemplateParameter">Script</see> to search for in the collection.</param>
 		/// <returns><b>true</b> if the collection contains the specified object; otherwise, <b>false</b>.</returns>
-		public bool Contains(TemplateParameter value) 
+		public bool Contains(TemplateParameter item) 
 		{
-			if(value == null)
-				throw new ArgumentNullException("value", "Cannot test whether or not it contains null.");
+			if(item == null)
+				throw new ArgumentNullException("item", "Cannot test whether or not it contains null.");
 			
-			return Contains(value.Name);
+			return Contains(item.Name);
 		}
 
 	    public void CopyTo(TemplateParameter[] array, int arrayIndex)
@@ -162,21 +162,21 @@ namespace Subtext.Scripting
 		/// Gets the index in the collection of the specified 
 		/// <see cref="TemplateParameter">Script</see>, if it exists in the collection.
 		/// </summary>
-		/// <param name="value">The <see cref="TemplateParameter">Script</see> 
+		/// <param name="item">The <see cref="TemplateParameter">Script</see> 
 		/// to locate in the collection.</param>
 		/// <returns>The index in the collection of the specified object, if found; otherwise, -1.</returns>
-		public int IndexOf(TemplateParameter value) 
+		public int IndexOf(TemplateParameter item) 
 		{
-			return this.List.IndexOf(value);
+			return this.List.IndexOf(item);
 		}
 		
 		/// <summary>
 		/// Removes the specified value.
 		/// </summary>
-		/// <param name="value">Value.</param>
-		public bool Remove(TemplateParameter value) 
+		/// <param name="item">Value.</param>
+		public bool Remove(TemplateParameter item) 
 		{
-			return List.Remove(value);
+			return List.Remove(item);
 		}
 
 		/// <summary>

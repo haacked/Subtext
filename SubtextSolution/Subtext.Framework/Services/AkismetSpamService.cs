@@ -99,7 +99,7 @@ namespace Subtext.Framework.Services
 			if (feedback.SourceUrl != null)
 				comment.AuthorUrl = feedback.SourceUrl;
 			comment.Content = feedback.Body;
-			comment.Referer = feedback.Referrer;
+			comment.Referrer = feedback.Referrer;
 			if (feedback.DisplayUrl != null)
 				comment.Permalink = feedback.DisplayUrl;
 

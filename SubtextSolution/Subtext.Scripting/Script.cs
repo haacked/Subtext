@@ -16,6 +16,7 @@
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.ApplicationBlocks.Data;
@@ -281,7 +282,7 @@ namespace Subtext.Scripting
 				int length = 0;
 				if(this.Text != null)
 					length = this.Text.Length;
-				string result = string.Format(@"<ScriptToken length=""{0}"">{1}", length, Environment.NewLine);
+				string result = string.Format(CultureInfo.InvariantCulture, @"<ScriptToken length=""{0}"">{1}", length, Environment.NewLine);
 				if(this.Next != null)
 					result += Next.ToString();
 				return result;
@@ -325,7 +326,7 @@ namespace Subtext.Scripting
 				string result = "<TemplateParameter";
 				if(this._parameter != null)
 				{
-					result += string.Format(@" name=""{0}"" value=""{1}"" type=""{2}""", _parameter.Name, _parameter.Value, _parameter.DataType);
+					result += string.Format(CultureInfo.InvariantCulture, @" name=""{0}"" value=""{1}"" type=""{2}""", _parameter.Name, _parameter.Value, _parameter.DataType);
 				}
 				result += " />" + Environment.NewLine;
 				if(this.Next != null)

@@ -14,9 +14,9 @@
 #endregion
 
 using System;
-using System.Collections.Specialized;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Web.UI;
@@ -34,15 +34,6 @@ namespace Subtext.Installation.Import
 	/// </summary>
 	public class DotText095ImportProvider : ImportProvider
 	{
-		/// <summary>
-		/// Initializes this import provider.
-		/// </summary>
-		/// <param name="name">Name.</param>
-		/// <param name="configValue">Config value.</param>
-        //public override void Initialize(string name, NameValueCollection configValue)
-        //{
-        //    base.Initialize(name, configValue);
-        //}
 		/// <summary>
 		/// <p>
 		/// This method is called by the import engine in order to ask the 
@@ -129,15 +120,15 @@ namespace Subtext.Installation.Import
 		/// Validates the installation information provided by the user.  
 		/// Returns a string with an explanation of why it is incorrect.
 		/// </summary>
-		/// <param name="populatedControl">control used to provide information.</param>
+		/// <param name="control">control used to provide information.</param>
 		/// <returns></returns>
-		public override string ValidateImportInformation(Control populatedControl)
+		public override string ValidateImportInformation(Control control)
 		{
-			if(populatedControl == null)
-				throw new ArgumentNullException("populatedControl", "Hello, sorry, but we really can't validate a null control.");
+			if(control == null)
+				throw new ArgumentNullException("control", "Hello, sorry, but we really can't validate a null control.");
 
 			string dotTextConnectionString;
-			GetConnectionStringsFromControl(populatedControl, out dotTextConnectionString);
+			GetConnectionStringsFromControl(control, out dotTextConnectionString);
 
 			if(dotTextConnectionString == null || dotTextConnectionString.Length == 0)
 				return "Please specify a valid connection string to the .TEXT 0.95 database.";
@@ -183,20 +174,20 @@ namespace Subtext.Installation.Import
 			dotTextConnectionString = control.ConnectionString;
 		}
 
-		bool DoesTableExist(string tableName, string ownerName, ConnectionString connectionString)
+		static bool DoesTableExist(string tableName, string ownerName, ConnectionString connectionString)
 		{	
 			return DoesTableExist(ownerName+"."+tableName, connectionString);
 		}
 
-		bool DoesTableExist(string tableName, ConnectionString connectionString)
+		static bool DoesTableExist(string tableName, ConnectionString connectionString)
 		{
             return 0 < GetTableCount(tableName, connectionString);
 		}
 
-		int GetTableCount(string tableName, ConnectionString connectionString)
+		static int GetTableCount(string tableName, ConnectionString connectionString)
 		{
             const string TableExistsSql = "SELECT COUNT(1) FROM [INFORMATION_SCHEMA].[TABLES] WHERE [TABLE_TYPE]='BASE TABLE' AND [TABLE_NAME]='{0}'";
-			string blogContentTableSql = String.Format(TableExistsSql, tableName);			
+			string blogContentTableSql = String.Format(CultureInfo.InvariantCulture, TableExistsSql, tableName);			
 			return (int)SqlHelper.ExecuteScalar(connectionString.ToString(), CommandType.Text, blogContentTableSql);
 		}
 	}

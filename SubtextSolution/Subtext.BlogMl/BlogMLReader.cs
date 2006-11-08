@@ -26,7 +26,7 @@ namespace Subtext.BlogML
 			this.provider = provider;
 		}
 
-		BlogMLBlog DeserializeBlogMlStream(Stream stream)
+		private static BlogMLBlog DeserializeBlogMlStream(Stream stream)
 		{
 			return BlogMLSerializer.Deserialize(stream);
 		}
@@ -34,13 +34,13 @@ namespace Subtext.BlogML
 	    /// <summary>
 	    /// Reads in a BlogML Stream and creates the appropriate blog posts, 
 	    /// </summary>
-	    /// <param name="blogMlStream"></param>
-        public void ReadBlog(Stream blogMlStream)
+	    /// <param name="blogMLStream"></param>
+        public void ReadBlog(Stream blogMLStream)
 	    {
-			if (blogMlStream == null)
+			if (blogMLStream == null)
 				throw new ArgumentNullException("blogMlStream", "Cannot read a null stream");
 
-            BlogMLBlog blog = DeserializeBlogMlStream(blogMlStream);
+            BlogMLBlog blog = DeserializeBlogMlStream(blogMLStream);
 
             this.provider.PreImport();
 	    	

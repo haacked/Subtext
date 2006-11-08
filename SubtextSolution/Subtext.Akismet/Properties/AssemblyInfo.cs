@@ -1,10 +1,12 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Security.Permissions;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Subtext.Akismet")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Implements the Akismet Web API for comment filtering.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("VelocIT")]
 [assembly: AssemblyProduct("Subtext.Akismet")]
@@ -16,6 +18,7 @@ using System.Runtime.InteropServices;
 // to COM components.  If you need to access a type in this assembly from 
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
+[assembly: CLSCompliant(true)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("29e15a45-a324-48b1-9d85-343e005b48d4")]
@@ -31,3 +34,4 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: SecurityPermission(SecurityAction.RequestMinimum, Execution = true)]
