@@ -18,7 +18,8 @@ using System;
 namespace Subtext.Extensibility.Plugins
 {
 	/// <summary>
-	/// Provides general information about the module
+	/// Provides general information about the module.
+	/// These info are displayed on the View Deatail page in the backend
 	/// </summary>
 	public interface IImplementationInfo
 	{

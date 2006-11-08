@@ -22,6 +22,9 @@ namespace Subtext.Extensibility.Plugins
 	/// </summary>
 	public interface IPluginIdentifier
 	{
+		/// <summary>
+		/// GUID to univoqueliy indentify a Plugin
+		/// </summary>
 		Guid Guid { get;}
 	}
 }

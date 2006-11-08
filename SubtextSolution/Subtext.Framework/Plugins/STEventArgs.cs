@@ -19,10 +19,16 @@ using System.Text;
 
 namespace Subtext.Extensibility.Plugins
 {
+	/// <summary>
+	/// Base class for SubText specific events
+	/// </summary>
 	public class STEventArgs: EventArgs
 	{
 		private ObjectState _state;
 
+		/// <summary>
+		/// The current state of the Object being processed
+		/// </summary>
 		public ObjectState State
 		{
 			get{ return _state;}
@@ -37,12 +43,30 @@ namespace Subtext.Extensibility.Plugins
 
 	}
 
+	/// <summary>
+	/// All possible states for an object (entry, photo, comment)
+	/// </summary>
 	public enum ObjectState
 	{
+		/// <summary>
+		/// When the Object is being created
+		/// </summary>
 		Create,
+		/// <summary>
+		/// When the Object is being update
+		/// </summary>
 		Update,
+		/// <summary>
+		/// When the Object is being deleted
+		/// </summary>
 		Delete,
+		/// <summary>
+		/// When we don't know :-)
+		/// </summary>
 		None,
+		/// <summary>
+		/// When the object is created just for a runtime processing, but never presisted
+		/// </summary>
 		Runtime
 	}
 }

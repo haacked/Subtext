@@ -18,7 +18,7 @@ using System;
 namespace Subtext.Extensibility.Plugins
 {
 	/// <summary>
-	/// This is the starting point for the plug-in architecture.  
+	/// Interface that must be implemented by all SubText Plugins 
 	/// </summary>
 	public interface IPlugin
 	{
@@ -33,7 +33,9 @@ namespace Subtext.Extensibility.Plugins
 		IImplementationInfo Info {get;}
 		
 		/// <summary>
-		/// Initialize the plugin
+		/// Initialize the plugin.<br />
+		/// This is the only method of the interface since all actions are performed inside Event Handlers<br />
+		/// The implementation of this method should only subscribe to the events raised by the STApplication
 		/// </summary>
 		void Init(STApplication sta);
 	}

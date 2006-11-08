@@ -18,6 +18,12 @@ using System.Configuration;
 
 namespace Subtext.Extensibility.Plugins
 {
+
+	/// <summary>
+	/// Class used to collect the data stored inside the custom configuration section of the web.config<br />
+	/// This defines the custom configuration section that contains the list of available plugins
+	/// </summary>
+
 	public class PluginSectionHandler : ConfigurationSection
 	{
 		[ConfigurationProperty("pluginlist")]

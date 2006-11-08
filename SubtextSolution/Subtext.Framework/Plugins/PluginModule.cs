@@ -18,8 +18,15 @@ using System.Configuration;
 
 namespace Subtext.Extensibility.Plugins
 {
+	/// <summary>
+	/// Class used to collect the data stored inside the custom configuration section of the web.config<br />
+	/// This is about the modules defined for each plugin
+	/// </summary>
 	public class PluginModule : ConfigurationElement
 	{
+		/// <summary>
+		/// Key of the Module
+		/// </summary>
 		[ConfigurationProperty("key")]
 		public string Key
 		{
@@ -27,6 +34,9 @@ namespace Subtext.Extensibility.Plugins
 			set { base["key"] = value; }
 		}
 
+		/// <summary>
+		/// FileName for the module
+		/// </summary>
 		[ConfigurationProperty("filename")]
 		public string FileName
 		{
