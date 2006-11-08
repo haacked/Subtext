@@ -65,6 +65,7 @@ namespace Subtext.Web.Admin.Pages
 			}
 		}
 
+		//Get the plugin being edited so that its webcontrols are populated with the postback data
 		private void ProcessPluginSettingsModule()
 		{
 			string completeModuleName = (string)ViewState[VSKEY_PLUGINNAME];
@@ -326,7 +327,6 @@ namespace Subtext.Web.Admin.Pages
 
 		protected void lkbPost_Click(object sender, System.EventArgs e)
 		{
-			//BindEditLink(false);
 			UpdatePluginSettings();
 		}
 
