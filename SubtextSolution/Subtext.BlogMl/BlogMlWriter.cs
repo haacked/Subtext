@@ -117,9 +117,12 @@ namespace Subtext.BlogML
 		protected void WritePostCategories(BlogMLPost.CategoryReferenceCollection categoryRefs)
 		{
 			WriteStartCategories();
-			foreach (BlogMLCategoryReference categoryRef in categoryRefs)
+			if (categoryRefs != null)
 			{
-				WritePostCategory(categoryRef.Ref);
+				foreach (BlogMLCategoryReference categoryRef in categoryRefs)
+				{
+					WritePostCategory(categoryRef.Ref);
+				}
 			}
 			WriteEndElement();
 		}
@@ -208,7 +211,7 @@ namespace Subtext.BlogML
 
 			extension = extension.TrimStart(new char[] { '.' });
 
-			switch (extension.ToLower())
+			switch (extension.ToLower(CultureInfo.InvariantCulture))
 			{
 				case "png":
 					retVal = "png";

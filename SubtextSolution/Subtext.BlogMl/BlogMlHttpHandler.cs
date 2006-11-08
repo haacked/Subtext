@@ -39,6 +39,9 @@ namespace Subtext.BlogML
 		/// <param name="context">Context.</param>
 		public override void HandleRequest(HttpContext context)
 		{
+			if (context == null)
+				throw new ArgumentNullException("context", "Cannot handle a request given a null HTTP context.");
+			
 			context.Response.AddHeader("content-disposition", "attachment; filename=BlogMLExport.xml");
 
 			context.Response.Clear();
@@ -46,8 +49,11 @@ namespace Subtext.BlogML
 			context.Response.End();
 		}
 
-		private void WriteBlogML(Stream outStream)
+		private static void WriteBlogML(Stream outStream)
 		{
+			if (outStream == null)
+				throw new ArgumentNullException("outStream", "The stream to write to is null.");
+			
 			IBlogMLProvider provider = BlogMLProvider.Instance();
 			
 			if(provider.GetBlogMlContext() == null)

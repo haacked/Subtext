@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Configuration.Provider;
+using System.Globalization;
 using BlogML.Xml;
 using Subtext.BlogML.Conversion;
 using Subtext.BlogML.Interfaces;
@@ -68,28 +69,34 @@ namespace Subtext.BlogML
 		/// </para>
 		/// </remarks>
 		/// <param name="name">The name.</param>
-		/// <param name="configValue">The config value.</param>
-		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
+		/// <param name="config">The config value.</param>
+		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection config)
 		{
-			if (!String.IsNullOrEmpty(configValue["connectionStringName"]))
+			if (name == null)
+				throw new ArgumentNullException("name", "Please specify a provider name.");
+			
+			if (config == null)
+				throw new ArgumentNullException("config", "The NameValueCollection may not be null.");
+			
+			if (!String.IsNullOrEmpty(config["connectionStringName"]))
 			{
-				ConnectionStringSettings connection = ConfigurationManager.ConnectionStrings[configValue["connectionStringName"]];
+				ConnectionStringSettings connection = ConfigurationManager.ConnectionStrings[config["connectionStringName"]];
 				if (connection == null)
-					throw new ProviderException(string.Format("No connection string matches the key '{0}'.", configValue["connectionStringName"]));
+					throw new ProviderException(string.Format(CultureInfo.InvariantCulture, "No connection string matches the key '{0}'.", config["connectionStringName"]));
 				this.connectionString = connection.ConnectionString;
 			}
 
-			if (!String.IsNullOrEmpty(configValue["connectionString"]))
-				this.connectionString = configValue["connectionString"];
+			if (!String.IsNullOrEmpty(config["connectionString"]))
+				this.connectionString = config["connectionString"];
 			
-			if(!String.IsNullOrEmpty(configValue["pageSize"]))
+			if(!String.IsNullOrEmpty(config["pageSize"]))
 			{
 				int postPageSize;
-				if (int.TryParse(configValue["pageSize"], out postPageSize))
+				if (int.TryParse(config["pageSize"], out postPageSize))
 					this.pageSize = postPageSize;
 			}
 
-			base.Initialize(name, configValue);
+			base.Initialize(name, config);
 		}
 
 		/// <summary>

@@ -6,6 +6,7 @@ namespace Subtext.Extensibility.Interfaces
     /// <summary>
     /// Base interface for paged collections.
     /// </summary>
+	[CLSCompliant(true)]
     public interface IPagedCollection
     {
     	/// <summary>
@@ -21,6 +22,7 @@ namespace Subtext.Extensibility.Interfaces
 	/// <summary>
 	/// Base interface for generic paged collections.
 	/// </summary>
+	[CLSCompliant(true)]
 	public interface IPagedCollection<T> : IList<T>, IPagedCollection
 	{}
 }

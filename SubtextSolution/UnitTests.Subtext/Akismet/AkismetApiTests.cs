@@ -280,9 +280,9 @@ namespace UnitTests.Subtext.Akismet
 		{
 			Expect.Call(comment.Author).Return(author).Repeat.Any();
 			Expect.Call(comment.AuthorEmail).Return(email).Repeat.Any();
-			Expect.Call(comment.IpAddress).Return(ip).Repeat.Any();
+			Expect.Call(comment.IPAddress).Return(ip).Repeat.Any();
 			Expect.Call(comment.UserAgent).Return(userAgent).Repeat.Any();
-			Expect.Call(comment.Referer).Return(referer).Repeat.Any();
+			Expect.Call(comment.Referrer).Return(referer).Repeat.Any();
 			Expect.Call(comment.Permalink).Return(permalink).Repeat.Any();
 			Expect.Call(comment.CommentType).Return(commentType).Repeat.Any();
 			Expect.Call(comment.AuthorUrl).Return(authorUrl).Repeat.Any();

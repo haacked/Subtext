@@ -175,11 +175,11 @@ namespace Subtext.Scripting
 			return recordsAffectedTotal;
 		}
 
-		public event ScriptProgressEventHandler ScriptProgress;
+		public event EventHandler<ScriptProgressEventArgs> ScriptProgress;
 
 		void OnProgressEvent(int scriptCount, int rowsAffected, Script script)
 		{
-			ScriptProgressEventHandler progressEvent = this.ScriptProgress;
+			EventHandler<ScriptProgressEventArgs> progressEvent = this.ScriptProgress;
 			if(progressEvent != null)
 				progressEvent(this, new ScriptProgressEventArgs(scriptCount, rowsAffected, script));
 		}
@@ -224,11 +224,6 @@ namespace Subtext.Scripting
 	}
 
 	#region ...ScriptProgressEvent Declarations...
-	/// <summary>
-	/// Event handler delegate for the ScriptProgress event.
-	/// </summary>
-	public delegate void ScriptProgressEventHandler(object sender, ScriptProgressEventArgs e);
-
 	/// <summary>
 	/// Provides information about the progress of a running script.
 	/// </summary>

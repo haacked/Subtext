@@ -51,23 +51,23 @@ namespace UnitTests.Subtext.Installation
 		public void ListInstallationScriptsReturnsCorrectScripts()
 		{
 			SqlInstallationProvider sqlProvider = new SqlInstallationProvider();
-			string[] scripts = sqlProvider.ListInstallationScripts(null, new Version(1, 5, 0, 0));
+			string[] scripts = SqlInstallationProvider.ListInstallationScripts(null, new Version(1, 5, 0, 0));
 			Assert.AreEqual(2, scripts.Length, "We expected to see two scripts.");
 			Assert.AreEqual("Installation.01.00.00.sql", scripts[0], "Expected the initial 1.0 installation file.");
 			Assert.AreEqual("Installation.01.05.00.sql", scripts[1], "Expected the bugfix 1.5 installation file.");
 
-			scripts = sqlProvider.ListInstallationScripts(null, new Version(1, 0, 3, 0));
+			scripts = SqlInstallationProvider.ListInstallationScripts(null, new Version(1, 0, 3, 0));
 			Assert.AreEqual(1, scripts.Length, "We expected to see one script.");
 			Assert.AreEqual("Installation.01.00.00.sql", scripts[0], "Expected the initial 1.0 installation file.");
 
-			scripts = sqlProvider.ListInstallationScripts(null, new Version(0, 0, 3, 0));
+			scripts = SqlInstallationProvider.ListInstallationScripts(null, new Version(0, 0, 3, 0));
 			Assert.AreEqual(0, scripts.Length, "We expected to see no scripts.");
-			
-			scripts = sqlProvider.ListInstallationScripts(new Version(1, 1, 0, 0), new Version(1, 5, 0, 0));
+
+			scripts = SqlInstallationProvider.ListInstallationScripts(new Version(1, 1, 0, 0), new Version(1, 5, 0, 0));
 			Assert.AreEqual(1, scripts.Length, "We expected to see one script.");
 			Assert.AreEqual("Installation.01.05.00.sql", scripts[0], "Expected the bugfix 1.5.0 installation file.");
 
-			scripts = sqlProvider.ListInstallationScripts(new Version(1, 1, 0, 0), new Version(1, 9, 0, 0));
+			scripts = SqlInstallationProvider.ListInstallationScripts(new Version(1, 1, 0, 0), new Version(1, 9, 0, 0));
 			Assert.AreEqual(2, scripts.Length, "We expected to see two script.");
 			Assert.AreEqual("Installation.01.09.00.sql", scripts[1], "Expected the 1.9.0 installation file.");
 		}

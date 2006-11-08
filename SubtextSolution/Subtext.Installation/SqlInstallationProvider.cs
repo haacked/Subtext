@@ -32,18 +32,18 @@ namespace Subtext.Installation
 	/// </summary>
 	public class SqlInstallationProvider : InstallationProvider
 	{
-		Version _version = null;
+		Version _version;
 		string _connectionString = string.Empty;
 		
 		/// <summary>
 		/// Initializes the specified provider.
 		/// </summary>
 		/// <param name="name">Friendly Name of the provider.</param>
-		/// <param name="configValue">Config value.</param>
-		public override void Initialize(string name, NameValueCollection configValue)
+		/// <param name="config">Config value.</param>
+		public override void Initialize(string name, NameValueCollection config)
 		{
-            _connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", configValue);
-            base.Initialize(name, configValue);
+            _connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", config);
+            base.Initialize(name, config);
 		}
 
 
@@ -122,6 +122,9 @@ namespace Subtext.Installation
 		/// </returns>
 		public override bool IsInstallationException(Exception exception)
 		{
+			if (exception == null)
+				throw new ArgumentNullException("exception", "Cannot determine whether a null exception is an installation exception.  This exception should never be thrown.");
+			
 			Regex tableRegex = new Regex("Invalid object name '.*?'", RegexOptions.IgnoreCase | RegexOptions.Compiled);
             bool isSqlException = exception is SqlException;
 
@@ -245,6 +248,9 @@ namespace Subtext.Installation
 		/// <param name="newVersion">New version.</param>
 		public override void UpdateInstallationVersionNumber(Version newVersion, SqlTransaction transaction)
 		{
+			if (newVersion == null)
+				throw new ArgumentNullException("newVersion", "Cannot update the version to a null version.");
+			
 			string sql = "subtext_VersionAdd";
 			SqlParameter[] p =
 			{
@@ -255,7 +261,7 @@ namespace Subtext.Installation
 			SqlHelper.ExecuteNonQuery(transaction, CommandType.StoredProcedure, sql, p);
 		}
 
-		SqlParameter CreateParameter(string name, SqlDbType dbType, int size, object value)
+		static SqlParameter CreateParameter(string name, SqlDbType dbType, int size, object value)
 		{
 			SqlParameter param = new SqlParameter(name, dbType, size);
 			param.Value = value;
@@ -310,7 +316,7 @@ namespace Subtext.Installation
 		/// </summary>
 		/// <param name="maxVersionInclusive">The max version inclusive.</param>
 		/// <returns></returns>
-		public string[] ListInstallationScripts(Version minVersionExclusive, Version maxVersionInclusive)
+		public static string[] ListInstallationScripts(Version minVersionExclusive, Version maxVersionInclusive)
 		{
 			Assembly assembly = Assembly.GetExecutingAssembly();
 			string[] resourceNames = assembly.GetManifestResourceNames();
@@ -367,7 +373,6 @@ namespace Subtext.Installation
 			public string ScriptName
 			{
 				get { return this.scriptName; }
-				set { this.scriptName = value; }
 			}
 
 			string scriptName;
@@ -375,7 +380,6 @@ namespace Subtext.Installation
 			public Version Version
 			{
 				get { return this.version; }
-				set { this.version = value; }
 			}
 
 			Version version;
