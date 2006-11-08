@@ -37,48 +37,51 @@ namespace Subtext.Web.Admin.Pages
 
 		protected override void BindLocalUI()
 		{
-			BlogInfo info = Config.CurrentBlog;
+		    if (!IsPostBack)
+		    {
+		        BlogInfo info = Config.CurrentBlog;
 			
-			this.chkEnableComments.Checked = info.CommentsEnabled;
-			this.chkEnableCommentModeration.Checked = info.ModerationEnabled;
-			this.chkEnableTrackbacks.Checked = info.TrackbacksEnabled;
-			this.chkCoCommentEnabled.Checked = info.CoCommentsEnabled;
-			this.chkAllowDuplicates.Checked = info.DuplicateCommentsEnabled;
-			this.chkEnableCaptcha.Checked = info.CaptchaEnabled;
+		        this.chkEnableComments.Checked = info.CommentsEnabled;
+		        this.chkEnableCommentModeration.Checked = info.ModerationEnabled;
+		        this.chkEnableTrackbacks.Checked = info.TrackbacksEnabled;
+		        this.chkCoCommentEnabled.Checked = info.CoCommentsEnabled;
+		        this.chkAllowDuplicates.Checked = info.DuplicateCommentsEnabled;
+		        this.chkEnableCaptcha.Checked = info.CaptchaEnabled;
 
-			this.txtAkismetAPIKey.Text = info.FeedbackSpamServiceKey;
+		        this.txtAkismetAPIKey.Text = info.FeedbackSpamServiceKey;
 			
-			if(info.DaysTillCommentsClose > -1 && info.DaysTillCommentsClose < int.MaxValue)
-                this.txtDaysTillCommentsClosed.Text = info.DaysTillCommentsClose.ToString(CultureInfo.InvariantCulture);
-			else
-				this.txtDaysTillCommentsClosed.Text = string.Empty;
+		        if(info.DaysTillCommentsClose > -1 && info.DaysTillCommentsClose < int.MaxValue)
+		            this.txtDaysTillCommentsClosed.Text = info.DaysTillCommentsClose.ToString(CultureInfo.InvariantCulture);
+		        else
+		            this.txtDaysTillCommentsClosed.Text = string.Empty;
 			
-			if(info.CommentDelayInMinutes > 0 && info.CommentDelayInMinutes < int.MaxValue)
-			{
-				this.txtCommentDelayIntervalMinutes.Text = info.CommentDelayInMinutes.ToString(CultureInfo.InvariantCulture);
-			}
-			else
-			{
-				this.txtCommentDelayIntervalMinutes.Text = string.Empty;
-			}
+		        if(info.CommentDelayInMinutes > 0 && info.CommentDelayInMinutes < int.MaxValue)
+		        {
+		            this.txtCommentDelayIntervalMinutes.Text = info.CommentDelayInMinutes.ToString(CultureInfo.InvariantCulture);
+		        }
+		        else
+		        {
+		            this.txtCommentDelayIntervalMinutes.Text = string.Empty;
+		        }
 
-			if(info.NumberOfRecentComments > 0 && info.NumberOfRecentComments < int.MaxValue)
-			{
-				this.txtNumberOfRecentComments.Text = info.NumberOfRecentComments.ToString(CultureInfo.InvariantCulture);
-			}
-			else
-			{
-				this.txtNumberOfRecentComments.Text = string.Empty;
-			}
+		        if(info.NumberOfRecentComments > 0 && info.NumberOfRecentComments < int.MaxValue)
+		        {
+		            this.txtNumberOfRecentComments.Text = info.NumberOfRecentComments.ToString(CultureInfo.InvariantCulture);
+		        }
+		        else
+		        {
+		            this.txtNumberOfRecentComments.Text = string.Empty;
+		        }
 
-			if(info.RecentCommentsLength > 0 && info.RecentCommentsLength < int.MaxValue)
-			{
-				this.txtRecentCommentsLength.Text = info.RecentCommentsLength.ToString(CultureInfo.InvariantCulture);
-			}
-			else
-			{
-				this.txtRecentCommentsLength.Text = string.Empty;
-			}
+		        if(info.RecentCommentsLength > 0 && info.RecentCommentsLength < int.MaxValue)
+		        {
+		            this.txtRecentCommentsLength.Text = info.RecentCommentsLength.ToString(CultureInfo.InvariantCulture);
+		        }
+		        else
+		        {
+		            this.txtRecentCommentsLength.Text = string.Empty;
+		        }
+		    }
 			
 			base.BindLocalUI();
 		}
