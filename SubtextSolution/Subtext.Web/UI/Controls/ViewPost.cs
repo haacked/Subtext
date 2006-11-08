@@ -25,6 +25,7 @@ using Subtext.Framework.Format;
 using Subtext.Framework.Tracking;
 using Subtext.Web.Controls;
 using Subtext.Framework.Security;
+using Subtext.Extensibility.Plugins;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -61,6 +62,9 @@ namespace Subtext.Web.UI.Controls
 			//if found
 			if(entry != null)
 			{
+				//Raise event before any processing takes place
+				STEvents.OnPreRenderSingleEntry(entry, new STEventArgs());
+
 				BindCurrentEntryControls(entry, this);
 				
 				DisplayEditLink(entry);

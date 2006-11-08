@@ -58,6 +58,7 @@ namespace Subtext.Extensibility.Plugins
 		private static object EventPreEntryUpdate = new object();
 		private static object EventPostEntryUpdate = new object();
 		private static object EventPreRenderEntry = new object();
+		private static object EventPreRenderSingleEntry = new object();
 		#endregion
 
 
@@ -202,6 +203,21 @@ namespace Subtext.Extensibility.Plugins
 		/// <summary>
 		/// Raised an individual entry is rendered
 		/// </summary>
+		public event EntryEventHandler PreRenderSingleEntry
+		{
+			add
+			{
+				Events.AddHandler(EventPreRenderSingleEntry, value);
+			}
+			remove
+			{
+				Events.RemoveHandler(EventPreRenderSingleEntry, value);
+			}
+		}
+
+		/// <summary>
+		/// Raised when entry is rendered in the homepage
+		/// </summary>
 		public event EntryEventHandler PreRenderEntry
 		{
 			add
@@ -233,6 +249,11 @@ namespace Subtext.Extensibility.Plugins
 			ExecuteEntryEvent(EventPreRenderEntry, entry, e);
 		}
 
+		internal void ExecutePreRenderSingleEntry(Entry entry, STEventArgs e)
+		{
+			ExecuteEntryEvent(EventPreRenderSingleEntry, entry, e);
+		}
+
 		//List through the subscribed event handlers, and decide weather call them or not
 		//based on the current blog enabled plugins
 		private void ExecuteEntryEvent(object eventKey, Entry entry, EventArgs e)
@@ -254,6 +275,7 @@ namespace Subtext.Extensibility.Plugins
 				}
 			}
 		}
+
 		#endregion
 
 

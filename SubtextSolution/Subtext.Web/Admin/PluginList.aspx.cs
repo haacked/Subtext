@@ -229,7 +229,7 @@ namespace Subtext.Web.Admin.Pages
 				}
 				else
 				{
-					Messages.ShowMessage("Plugin " + currentPlugin.Info.Name + "doesn't have a general blog settings manager.");
+					Messages.ShowMessage("Plugin " + currentPlugin.Info.Name + " doesn't have a general blog settings manager.");
 				}
 			
 			}
