@@ -19,9 +19,13 @@ using System.Text;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Plugins;
 using Subtext.Framework.Providers;
+using System.Collections.Specialized;
 
 namespace Subtext.Framework.Components
 {
+	/// <summary>
+	/// Helper class to retrieve plugin informations from the DB
+	/// </summary>
 	public class Plugin
 	{
 		/// <summary>
@@ -51,6 +55,38 @@ namespace Subtext.Framework.Components
 		public static bool DisablePlugin(Guid pluginId)
 		{
 			return ObjectProvider.Instance().DisablePlugin(pluginId);
+		}
+
+		/// <summary>
+		/// Retrieves the blog plugin settings from the storage
+		/// </summary>
+		/// <param name="pluginId">GUID of the plugin</param>
+		/// <returns>A NameValueCollection with all the settings</returns>
+		public static NameValueCollection GetPluginGeneralSettings(Guid pluginId)
+		{
+			return ObjectProvider.Instance().GetPluginGeneralSettings(pluginId);
+		}
+
+		/// <summary>
+		/// Inserts a new value in the blog settings list
+		/// </summary>
+		/// <param name="pluginGuid">GUID of the plugin</param>
+		/// <param name="key">Setting name</param>
+		/// <param name="value">Setting value</param>
+		public static void InsertPluginGeneralSettings(Guid pluginGuid, string key, string value)
+		{
+			ObjectProvider.Instance().InsertPluginGeneralSettings(pluginGuid, key, value);
+		}
+
+		/// <summary>
+		/// Updates a setting in the blog settings list
+		/// </summary>
+		/// <param name="pluginGuid">GUID of the plugin</param>
+		/// <param name="key">Setting name</param>
+		/// <param name="value">Setting value</param>
+		public static void UpdatePluginGeneralSettings(Guid pluginGuid, string key, string value)
+		{
+			ObjectProvider.Instance().UpdatePluginGeneralSettings(pluginGuid, key, value);
 		}
 	}
 }

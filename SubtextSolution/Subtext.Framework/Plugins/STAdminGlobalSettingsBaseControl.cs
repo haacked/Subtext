@@ -19,6 +19,7 @@ using System.Text;
 using System.Web;
 using System.Collections.Specialized;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Components;
 
 namespace Subtext.Extensibility.Plugins
 {
@@ -66,12 +67,12 @@ namespace Subtext.Extensibility.Plugins
 			if (BlogSettings[key] == null)
 			{
 				BlogSettings.Add(key, value);
-				ObjectProvider.Instance().InsertPluginGeneralSettings(_pluginGuid, key, value);
+				Plugin.InsertPluginGeneralSettings(_pluginGuid, key, value);
 			}
 			else
 			{
 				BlogSettings[key] = value;
-				ObjectProvider.Instance().UpdatePluginGeneralSettings(_pluginGuid, key, value);
+				Plugin.UpdatePluginGeneralSettings(_pluginGuid, key, value);
 			}
 		}
 
@@ -84,7 +85,7 @@ namespace Subtext.Extensibility.Plugins
 			}
 			else
 			{
-				return ObjectProvider.Instance().GetPluginGeneralSettings(_pluginGuid);
+				return Plugin.GetPluginGeneralSettings(_pluginGuid);
 			}
 		}
 
