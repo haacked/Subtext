@@ -721,6 +721,9 @@ namespace Subtext.Web.Admin
 	#endregion
 
 	#region TogglePluginCommand
+	/// <summary>
+	/// Defines the actions to be taken when enabling/disabling a plugin for the blog
+	/// </summary>
 	[Serializable]
 	public class TogglePluginCommand : ConfirmCommand
 	{
