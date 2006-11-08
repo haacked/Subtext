@@ -39,6 +39,14 @@ namespace Subtext.Extensibility.Plugins
 		}
 
 		/// <summary>
+		/// Raises all PreRenderSingleEntry Events.
+		/// </summary>
+		public static void OnPreRenderSingleEntry(Entry entry, STEventArgs e)
+		{
+			STApplication.Current.ExecutePreRenderSingleEntry(entry, e);
+		}
+
+		/// <summary>
 		/// Raises all PreRenderEntry Events.
 		/// </summary>
 		public static void OnPreRenderEntry(Entry entry, STEventArgs e)

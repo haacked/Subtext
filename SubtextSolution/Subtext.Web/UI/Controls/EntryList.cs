@@ -23,6 +23,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Web.Controls;
 using Subtext.Framework.Security;
+using Subtext.Extensibility.Plugins;
 
 
 namespace Subtext.Web.UI.Controls
@@ -43,6 +44,9 @@ namespace Subtext.Web.UI.Controls
 				Entry entry = (Entry)e.Item.DataItem;
 				if(entry != null)
 				{
+					//Raise event before any processing takes place
+					STEvents.OnPreRenderEntry(entry, new STEventArgs());
+
 					// Each of these methods make sure to check that the 
 					// control to bind actually exists on the skin.
 					BindTitle(e, entry);
