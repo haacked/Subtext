@@ -418,12 +418,12 @@ namespace Subtext.Web.Admin.UserControls
 						entry.DateModified = Config.CurrentBlog.TimeZone.Now;
 						entry.Id = PostID;
 						
-						//Code to be called before updating a post
+						//Raise event before updating a post
 						STEvents.OnPreEntryUpdate(entry, new STEventArgs(ObjectState.Update));
 						
 						Entries.Update(entry);
-						
-						//Code to be called after updating a post
+
+						//Raise event after updating a post
 						STEvents.OnPostEntryUpdate(entry, new STEventArgs(ObjectState.Update));
 
 						if(ReturnToOriginalPost)
@@ -440,14 +440,16 @@ namespace Subtext.Web.Admin.UserControls
 					else
 					{
 						entry.DateCreated = Config.CurrentBlog.TimeZone.Now;
-						
-						//Code to be called before creating a post
+
+						//Raise event before creating a post
 						STEvents.OnPreEntryUpdate(entry, new STEventArgs(ObjectState.Create));
 						
 						PostID = Entries.Create(entry);
-						
-						//Code to be called after creating a post
+
+						//Raise event after creating a post
 						STEvents.OnPostEntryUpdate(entry, new STEventArgs(ObjectState.Create));
+						
+						//TODO: Refactor CommunityCredits to be a plugin
 						AddCommunityCredits(entry);
 					}
 
@@ -614,6 +616,7 @@ namespace Subtext.Web.Admin.UserControls
 			this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", e.Exception.Message));
 		}
 
+		//TODO: Refactor CommunityCredits to be a plugin
 		private string AddCommunityCredits(Entry entry) 
 		{
 			string result=string.Empty;
