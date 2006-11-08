@@ -26,16 +26,35 @@ namespace Subtext.Extensibility.Plugins
 {
 
 	#region Event Delegates
+	/// <summary>
+	/// Delegate that defines the signature of the Entry Event Handler
+	/// </summary>
+	/// <param name="entry">The entry being edited</param>
+	/// <param name="e">Event Args</param>
 	public delegate void EntryEventHandler(Entry entry, STEventArgs e);
 	#endregion
 
+	/// <summary>
+	/// Singleton class.<br/>
+	/// This class is responsible for all the actions related to plugins:<br/>
+	/// <ul>
+	/// <list type=">">Loading settings from web.config</list>
+	/// <list type=">">Loading and initializing plugins from the settings loaded before</list>
+	/// <list type=">">Defines all the events for the application</list>
+	/// <list type=">">Manages the execution of the plugins, based on their abilitation for the current blog</list>
+	/// </ul>
+	/// Since the class contains a lot of event definitions, it uses the approach used also by the Form class and by HttpApplication class:<br/>
+	/// uses only one EventHandlerList to store all the event subscription instead of one per event as the default behaviour
+	/// </summary>
 	public sealed class STApplication
 	{
 
 		private EventHandlerList Events = new EventHandlerList();
 		private static readonly object sync = new object();
 
+
 		#region Event Keys (static)
+		//Using objects so that no cast is performed when accessing the eventhandler list
 		private static object EventPreEntryUpdate = new object();
 		private static object EventPostEntryUpdate = new object();
 		private static object EventPreRenderEntry = new object();
@@ -47,6 +66,9 @@ namespace Subtext.Extensibility.Plugins
 
 		private PluginSettingsCollection _pluginConfig;
 
+		/// <summary>
+		/// List of all available plugins configurations
+		/// </summary>
 		public PluginSettingsCollection PluginConfig
 		{
 			get { return _pluginConfig; }
@@ -55,19 +77,20 @@ namespace Subtext.Extensibility.Plugins
 
 		//private static readonly Log __log = new Log();
 
+		/// <summary>
+		/// All avalialbe plugins. These plugins are already initialized
+		/// </summary>
 		public Dictionary<string, IPlugin> Plugins
 		{
 			get { return _plugins; }
 		}
 
 
-		private static STApplication _instance = BuildInstance();
+		private static STApplication _instance = LoadPlugins();
 
-		private static STApplication BuildInstance()
-		{
-			return LoadPlugins();
-		}
-
+		/// <summary>
+		/// Returns the current single instance of the class
+		/// </summary>
 		public static STApplication Current
 		{
 			get
@@ -75,7 +98,7 @@ namespace Subtext.Extensibility.Plugins
 				//In case the static initializer has failed
 				//I try to reinitialize it again
 				if(!_initialized)
-					_instance = BuildInstance();
+					_instance = LoadPlugins();
 				return _instance;
 			}
 		}
@@ -84,6 +107,10 @@ namespace Subtext.Extensibility.Plugins
 		{
 		}
 
+		/// <summary>
+		/// Load all plugins from the web.config file, and return a configured instance of the STApplication, with all the plugins already initialized
+		/// </summary>
+		/// <returns>Configured instance of the STApplication</returns>
 		private static STApplication LoadPlugins()
 		{
 			STApplication app = new STApplication();
@@ -206,6 +233,8 @@ namespace Subtext.Extensibility.Plugins
 			ExecuteEntryEvent(EventPreRenderEntry, entry, e);
 		}
 
+		//List through the subscribed event handlers, and decide weather call them or not
+		//based on the current blog enabled plugins
 		private void ExecuteEntryEvent(object eventKey, Entry entry, EventArgs e)
 		{
 			EntryEventHandler handler = Events[eventKey] as EntryEventHandler;
@@ -230,6 +259,11 @@ namespace Subtext.Extensibility.Plugins
 
 		#region Helper Functions
 
+		/// <summary>
+		/// Get the initialized plugin given its guid
+		/// </summary>
+		/// <param name="guid">the GUID in string format</param>
+		/// <returns>The initialized instance of the plugin</returns>
 		public IPlugin GetPluginByGuid(string guid)
 		{
 			foreach (IPlugin plugin in _plugins.Values)
@@ -240,6 +274,11 @@ namespace Subtext.Extensibility.Plugins
 			return null;
 		}
 
+		/// <summary>
+		/// Get the initialized plugin given its type
+		/// </summary>
+		/// <param name="type">the type of the plugin</param>
+		/// <returns>The initialized instance of the plugin</returns>
 		private IPlugin GetPluginByType(Type type)
 		{
 			foreach (IPlugin plugin in _plugins.Values)
@@ -250,6 +289,12 @@ namespace Subtext.Extensibility.Plugins
 			return null;
 		}
 
+		/// <summary>
+		/// Get the file name of a plugin module given the plugin name and the module key
+		/// </summary>
+		/// <param name="pluginName">Plugin name</param>
+		/// <param name="moduleName">Module key</param>
+		/// <returns>Filename of the module</returns>
 		public string GetPluginModuleFileName(string pluginName, string moduleName)
 		{
 			foreach (PluginSettings settings in _pluginConfig)
@@ -264,6 +309,11 @@ namespace Subtext.Extensibility.Plugins
 			return null;
 		}
 
+		/// <summary>
+		/// Checks if the plugin is enabled for the current blog
+		/// </summary>
+		/// <param name="type">Type of the plugin</param>
+		/// <returns><c>true</c> if the plugin is enabled, <c>false</c> otherwise</returns>
 		private bool PluginEnabled(Type type)
 		{
 			IPlugin currentPlugin = GetPluginByType(type);

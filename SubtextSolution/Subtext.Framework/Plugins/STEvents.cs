@@ -18,7 +18,7 @@ using Subtext.Framework.Components;
 namespace Subtext.Extensibility.Plugins
 {
 	/// <summary>
-	/// This class is responsible for executing all events handlers
+	/// Static helper class responsible for executing all events handlers
 	/// </summary>
 	public static class STEvents
 	{

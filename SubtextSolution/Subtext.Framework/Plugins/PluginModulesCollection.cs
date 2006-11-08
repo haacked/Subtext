@@ -18,20 +18,25 @@ using System.Configuration;
 
 namespace Subtext.Extensibility.Plugins
 {
-	[ConfigurationCollection(typeof(PluginSettings))]
-	public class PluginSettingsCollection: ConfigurationElementCollection
+	/// <summary>
+	/// Class used to collect the data stored inside the custom configuration section of the web.config<br />
+	/// This is the custom collection of the modules defined for each plugin
+	/// </summary>
+
+	[ConfigurationCollection(typeof(PluginModule))]
+	public class PluginModulesCollection : ConfigurationElementCollection
 	{
 		protected override ConfigurationElement CreateNewElement()
 		{
-			return new PluginSettings();
+			return new PluginModule();
 		}
 
 		protected override object GetElementKey(ConfigurationElement element)
 		{
-			return ((PluginSettings) element).Name;
+			return ((PluginModule)element).Key;
 		}
 
-		public void Add(PluginSettings element)
+		public void Add(PluginModule element)
 		{
 			this.BaseAdd(element);
 		}
@@ -46,9 +51,9 @@ namespace Subtext.Extensibility.Plugins
 			this.BaseClear();
 		}
 
-		public PluginSettings this[int idx]
+		public PluginModule this[int idx]
 		{
-			get { return (PluginSettings)this[idx]; }
+			get { return (PluginModule)this[idx]; }
 		}
 	}
 }
