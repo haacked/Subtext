@@ -22,7 +22,7 @@ namespace Subtext.Web.UI.Controls
 			base.OnLoad(e);
 
 			string sql = "subtext_GetTop10byBlogId";
-			string conn = DbProvider.Instance().ConnectionString;
+            string conn = DatabaseObjectProvider.Instance().ConnectionString;
 			int BlogId;
 
 			ArrayList myLastItems = new ArrayList();

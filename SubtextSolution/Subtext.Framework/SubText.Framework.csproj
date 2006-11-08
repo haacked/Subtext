@@ -253,9 +253,6 @@
     <Compile Include="Data\DataHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Data\SqlDataProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Data\SqlErrorMessage.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -382,9 +379,6 @@
     <Compile Include="Plugins\STApplication.cs" />
     <Compile Include="Plugins\STEventArgs.cs" />
     <Compile Include="Plugins\STEvents.cs" />
-    <Compile Include="Providers\DbProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Providers\ObjectProvider.cs">
       <SubType>Code</SubType>
     </Compile>
