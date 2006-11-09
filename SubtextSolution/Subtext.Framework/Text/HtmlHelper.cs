@@ -147,7 +147,7 @@ namespace Subtext.Framework.Text
 		/// </summary>
 		/// <param name="entry">Entry.</param>
 		/// <returns></returns>
-		public static bool ConvertHtmlToXHtml(Entry entry)
+		public static void ConvertHtmlToXHtml(Entry entry)
 		{
 			SgmlReader reader = new SgmlReader();
 			reader.SetBaseUri(Config.CurrentBlog.RootUrl.ToString());
@@ -176,7 +176,6 @@ namespace Subtext.Framework.Text
 
 			string xml = writer.ToString();
 			entry.Body = xml.Substring("<html>".Length, xml.Length - "<html></html>".Length);
-			return true;
 		}
 
 		/// <summary>
@@ -185,12 +184,13 @@ namespace Subtext.Framework.Text
 		/// </summary>
 		/// <param name="s">S.</param>
 		/// <returns></returns>
-		public static bool HasIllegalContent(string s)
+		public static void CheckForIllegalContent(string s)
 		{
 			if (s == null || s.Trim().Length == 0)
 			{
-				return false;
+				return;
 			}
+		    
 			if (s.IndexOf("<script")> - 1 
 				|| s.IndexOf("&#60script")> - 1 
 				|| s.IndexOf("&60script")> - 1 
@@ -198,7 +198,6 @@ namespace Subtext.Framework.Text
 			{
 				throw new IllegalPostCharactersException("Illegal Characters Found");
 			}
-			return false;
 		}
 
 		/// <summary>
