@@ -17,7 +17,6 @@ using System;
 using System.Collections.Generic;
 using System.Web;
 using System.Web.UI.WebControls;
-using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
@@ -136,7 +135,6 @@ namespace Subtext.Web.UI.Controls
 			Literal PostDesc = (Literal)e.Item.FindControl("PostDesc");
 			if(PostDesc != null)
 			{
-						
 				if(entry.AllowComments)
 				{
 					PostDesc.Text = string.Format(postdescWithComments, entry.Url, entry.DateCreated.ToString("f"), entry.Url, entry.FeedBackCount);
@@ -156,8 +154,7 @@ namespace Subtext.Web.UI.Controls
 			{
 				if(entry.HasDescription)
 				{
-						
-					PostText.Text = string.Format(System.Globalization.CultureInfo.InvariantCulture, "<p>{0}</p>",entry.Description);
+					PostText.Text = string.Format(System.Globalization.CultureInfo.InvariantCulture, "<p>{0}</p>", entry.Description);
 				}
 			}
 			else
@@ -218,6 +215,16 @@ namespace Subtext.Web.UI.Controls
 		}
 
 		private bool descriptionOnly = true;
+		/// <summary>
+		/// <para>
+		/// If true, then the EntryList will only show the description 
+		/// for an entry, if a description exists.
+		/// </para>
+		/// <para>
+		/// If false, then the description is show. But if the description 
+		/// does not exist, the full text will be shown.
+		/// </para>
+		/// </summary>
 		public bool DescriptionOnly
 		{
 			get{return descriptionOnly;}

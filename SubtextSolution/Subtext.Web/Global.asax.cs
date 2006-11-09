@@ -21,6 +21,7 @@ using System.Web;
 using log4net;
 using log4net.Appender;
 using log4net.Repository.Hierarchy;
+using MagicAjax;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
@@ -176,8 +177,15 @@ namespace Subtext
 					catch
 					{}
 
-					if(!MagicAjax.MagicAjaxContext.Current.IsAjaxCall)
-						context.Response.Write(string.Format(debugMessage, @"<!-- ", lb, v, machineName, framework, userInfo, lb, "//-->"));
+					try
+					{
+						if (!MagicAjax.MagicAjaxContext.Current.IsAjaxCall)
+							context.Response.Write(string.Format(debugMessage, @"<!-- ", lb, v, machineName, framework, userInfo, lb, "//-->"));
+					}
+					catch(MagicAjaxException exc)
+					{
+						log.Error("magic Ajax Exception in DEBUG build.", exc);
+					}
 				}	
 			#endif
 			#endregion
