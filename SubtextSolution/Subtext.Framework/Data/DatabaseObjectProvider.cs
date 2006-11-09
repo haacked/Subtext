@@ -608,8 +608,7 @@ namespace Subtext.Framework.Data
 		{
             SqlParameter[] p =
 			{
-				DataHelper.MakeInParam("@ID",SqlDbType.Int,4,entryId),
-				BlogIdParam
+				DataHelper.MakeInParam("@ID",SqlDbType.Int,4,entryId)
 			};
             return NonQueryBool("subtext_DeletePost", p);
 		}
@@ -687,10 +686,7 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public override int CreateEntry(Entry entry, int[] categoryIds)
 		{
-			if(!FormatEntry(entry,true))
-			{
-				throw new BlogFailedPostException("Failed post exception");
-			}		
+			FormatEntry(entry, true);
 
 		    entry.Id = InsertEntry(entry);	
 	
@@ -784,10 +780,7 @@ namespace Subtext.Framework.Data
         /// <returns></returns>
 	    public override bool Update(Entry entry, params int[] categoryIds)
 		{
-			if(!FormatEntry(entry, false))
-			{
-				throw new BlogFailedPostException("Failed post exception");
-			}
+			FormatEntry(entry, false);
 
 			if(UpdateEntry(entry))
 			{
@@ -878,7 +871,7 @@ namespace Subtext.Framework.Data
         
 		#region Format Helper
 		
-		private bool FormatEntry(Entry e, bool UseKeyWords)
+		private void FormatEntry(Entry e, bool UseKeyWords)
 		{
 			//Do this before we validate the text
 			if(UseKeyWords)
@@ -889,32 +882,12 @@ namespace Subtext.Framework.Data
 			//TODO: Make this a configuration option.
 			e.Body = Transform.EmoticonTransforms(e.Body);
 
-			if(HtmlHelper.HasIllegalContent(e.Body))
-			{
-				return false;
-			}
-
-			if(HtmlHelper.HasIllegalContent(e.Title))
-			{
-				return false;
-			}
-
-			if(HtmlHelper.HasIllegalContent(e.Description))
-			{
-				return false;
-			}
-
-			if(HtmlHelper.HasIllegalContent(e.Url))
-			{
-				return false;
-			}
-
-			if(!HtmlHelper.ConvertHtmlToXHtml(e))
-			{
-				return false;
-			}
-
-			return true;
+			// Exceptions are thrown if illegal content is found
+			HtmlHelper.CheckForIllegalContent(e.Body);
+			HtmlHelper.CheckForIllegalContent(e.Title);
+			HtmlHelper.CheckForIllegalContent(e.Description);
+			HtmlHelper.CheckForIllegalContent(e.Url);
+			HtmlHelper.ConvertHtmlToXHtml(e);
 		}
 
 		#endregion

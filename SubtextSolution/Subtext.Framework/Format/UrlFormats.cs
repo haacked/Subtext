@@ -420,8 +420,15 @@ namespace Subtext.Framework.Format
 		/// </returns>
 		public static bool IsInSpecialDirectory(string folderName)
 		{
-			// Either "" or "Subtext.Web" for ex...
-			String appPath = StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
+            String appPath = String.Empty;
+		    
+			// Check for current Request just in case we are in a unit test
+		    if (HttpContext.Current.Request != null)
+		    {
+                // Either "" or "Subtext.Web" for ex...
+                appPath = StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
+		    }
+			
 			if(appPath == null)
 				appPath = string.Empty;
 
