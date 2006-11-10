@@ -4,6 +4,1469 @@
         <name>NAnt.Contrib.Tasks</name>
     </assembly>
     <members>
+        <member name="T:NAnt.Contrib.Functions.FileSetFunctions">
+            <summary>
+            Provides methods for interrogating Filesets.
+            </summary>
+        </member>
+        <member name="M:NAnt.Contrib.Functions.FileSetFunctions.GetFileCount(System.String)">
+            <summary>
+            Determines the number of files within a <see cref="T:NAnt.Core.Types.FileSet"/>.
+            </summary>
+            <param name="fileset">The id of the FileSet to scan.</param>
+            <returns>The number of files included in the FileSet</returns>
+            <exception cref="T:System.ArgumentException"><paramref name="fileset"/> is not a valid refid to a defined fileset.</exception>
+            <example>
+              <para>
+              Define a fileset and check the number of files in it.
+              </para>
+              <code>
+                <![CDATA[
+            <fileset id="test.fileset">
+                <include name="**/*.cs">
+            </fileset>
+            <echo message="FileSet contains ${fileset::get-file-count('test.fileset')} files." />
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="M:NAnt.Contrib.Functions.FileSetFunctions.HasFiles(System.String)">
+            <summary>
+            Determines whether <see cref="T:NAnt.Core.Types.FileSet"/> contains any files.
+            </summary>
+            <param name="fileset">The id of the fileset to check.</param>
+            <returns><see langword="true"/> if the FileSet contains one or more files, otherwise <see langword="false"/>.</returns>
+            <exception cref="T:System.ArgumentException"><paramref name="fileset"/> is not a valid refid to a defined fileset.</exception>
+            <example>
+              <para>
+              Perform conditional processing on a fileset if it contains files.
+              </para>
+              <code>
+                <![CDATA[
+            <fileset id="test.fileset">
+                <include name="**/*.cs">
+            </fileset>
+            <if test="${fileset::has-files('test.fileset')}">
+                <dostuff... />
+            </if>
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="M:NAnt.Contrib.Functions.FileSetFunctions.ToString(System.String,System.String)">
+            <summary>
+            Returns a delimited string of all the filenames within a <see cref="T:NAnt.Core.Types.FileSet"/> with each filename
+            separated by the specified delimiter string.
+            </summary>
+            <param name="fileset">The id of the fileset to check.</param>
+            <param name="delimiter">String to separate filenames with.</param>
+            <returns>A delimited string of the filenames within the specified FileSet.</returns>
+            <exception cref="T:System.ArgumentException"><paramref name="fileset"/> is not a valid refid to a defined fileset.</exception>
+            <example>
+              <para>
+              Displays a space-pipe-space separated string fo the files within a defined FileSet.
+              </para>
+              <code>
+                <![CDATA[
+            <fileset id="test.fileset">
+                <include name="**/*.cs">
+            </fileset>
+            <echo message="${fileset::to-string('test.fileset', ' | ')}">
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="T:NAnt.Contrib.Functions.ServiceFunctions">
+            <summary>
+            Allow information on a Windows service to be retrieved.
+            </summary>
+        </member>
+        <member name="M:NAnt.Contrib.Functions.ServiceFunctions.IsInstalled(System.String,System.String)">
+            <summary>
+            Returns a value indicating whether the specified service is 
+            installed on a given machine.
+            </summary>
+            <param name="service">The short name that identifies the service to the system.</param>
+            <param name="machineName">The computer on which the service resides.</param>
+            <returns>
+            <see langword="true"/> if the service is installed; otherwise,
+            <see langword="false"/>.
+            </returns>
+            <remarks>
+            For the machineName parameter, you can use "." or a zero-length
+            <see cref="T:System.String"/> to represent the local computer.
+            </remarks>
+            <example>
+              <para>
+              The following example starts the "World Wide Web Publishing"
+              service if it's installed on the local computer.
+              </para>
+              <code>
+                <![CDATA[
+            <if test="${service::is-installed('World Wide Web Publishing', '.')}">
+                <servicecontroller action="Start" service="World Wide Web Publishing" />
+            </if>
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="M:NAnt.Contrib.Functions.ServiceFunctions.IsRunning(System.String,System.String)">
+            <summary>
+            Returns a value indicating whether the specified service is running.
+            </summary>
+            <param name="service">The short name that identifies the service to the system.</param>
+            <param name="machineName">The computer on which the service resides.</param>
+            <returns>
+            <see langword="true"/> if the service is running; otherwise,
+            <see langword="false"/>.
+            </returns>
+            <remarks>
+            For the machineName parameter, you can use "." or a zero-length
+            <see cref="T:System.String"/> to represent the local computer.
+            </remarks>
+        </member>
+        <member name="M:NAnt.Contrib.Functions.ServiceFunctions.IsStopped(System.String,System.String)">
+            <summary>
+            Returns a value indicating whether the specified service is stopped.
+            </summary>
+            <param name="service">The short name that identifies the service to the system.</param>
+            <param name="machineName">The computer on which the service resides.</param>
+            <returns>
+            <see langword="true"/> if the service is stopped; otherwise,
+            <see langword="false"/>.
+            </returns>
+            <remarks>
+            For the machineName parameter, you can use "." or a zero-length
+            <see cref="T:System.String"/> to represent the local computer.
+            </remarks>
+        </member>
+        <member name="M:NAnt.Contrib.Functions.ServiceFunctions.IsPaused(System.String,System.String)">
+            <summary>
+            Returns a value indicating whether the specified service is paused.
+            </summary>
+            <param name="service">The short name that identifies the service to the system.</param>
+            <param name="machineName">The computer on which the service resides.</param>
+            <returns>
+            <see langword="true"/> if the service is paused; otherwise,
+            <see langword="false"/>.
+            </returns>
+            <remarks>
+            For the machineName parameter, you can use "." or a zero-length
+            <see cref="T:System.String"/> to represent the local computer.
+            </remarks>
+        </member>
+        <member name="M:NAnt.Contrib.Functions.ServiceFunctions.GetStatus(System.String,System.String)">
+            <summary>
+            Gets the status of the specified service.
+            </summary>
+            <param name="service">The short name that identifies the service to the system.</param>
+            <param name="machineName">The computer on which the service resides.</param>
+            <returns>
+            One of the <see cref="T:System.ServiceProcess.ServiceControllerStatus"/> values that
+            indicates whether the service is running, stopped, or paused, or
+            whether a start, stop, pause, or continue command is pending.
+            </returns>
+            <remarks>
+              <para>
+              For the machineName parameter, you can use "." or a zero-length
+              <see cref="T:System.String"/> to represent the local computer.
+              </para>
+              <para>
+              The value returned by <see cref="M:NAnt.Contrib.Functions.ServiceFunctions.GetStatus(System.String,System.String)"/> can be compared 
+              to either a corresponding enum field name or the underlying
+              integral value.
+              </para>
+            </remarks>
+            <example>
+              <para>
+              Displays a warning if the <b>Alerter</b> service is stopping
+              on <c>SV-ARD-EAI1</c>.
+              </para>
+              <code>
+                <![CDATA[
+            <if test="${service::get-status('Alerter', 'SV-ARD-EAI1') == 'StopPending'}">
+                <echo level="Warning">The Alerter service is stopping.</echo>
+            </if>
+                ]]>
+              </code>
+            </example>
+            <example>
+              <para>
+              The "deploy-web-application" target is only executed if
+              IIS is running on the local computer.
+              </para>
+              <code>
+                <![CDATA[
+            <target name="deploy" depends="deploy-sql-scripts, deploy-web-application" />
+            
+            <target name="deploy-sql-scripts">
+                ...
+            </target>
+            
+            <target name="deploy-web-application" if="$(service::get-status('World Wide Web Publishing', '.') == 4)}">
+                ...
+            </target>
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="M:NAnt.Contrib.Functions.ServiceFunctions.GetDisplayName(System.String,System.String)">
+            <summary>
+            Gets the friendly name of the specified service.
+            </summary>
+            <param name="service">The short name that identifies the service to the system.</param>
+            <param name="machineName">The computer on which the service resides.</param>
+            <returns>
+            The friendly name of the service, which can be used to identify the service.
+            </returns>
+        </member>
+        <member name="M:NAnt.Contrib.Functions.ServiceFunctions.GetServiceName(System.String,System.String)">
+            <summary>
+            Gets the name that identifies the specified service 
+            </summary>
+            <param name="service">The short name that identifies the service to the system.</param>
+            <param name="machineName">The computer on which the service resides.</param>
+            <returns>
+            The name that identifies the service.
+            </returns>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.BizTalkBase.Database">
+            <summary>
+            The name of the management SQL database.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.BizTalkBase.Server">
+            <summary>
+            The name of the SQL Server where the management database is
+            located.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.BizTalk.Deploy">
+            <summary>
+            Deploys an assembly to a given BizTalk configuration database.
+            </summary>
+            <remarks>
+            Deployment will fail if the assembly is already deployed.
+            </remarks>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.BizTalk.Deploy.ExecuteTask">
+            <summary>
+            Deploys the assembly.
+            </summary>
+            <exception cref="T:NAnt.Core.BuildException">
+              <para>The assembly does not exist.</para>
+              <para>-or-</para>
+              <para>The assembly binding information file does not exist.</para>
+              <para>-or-</para>
+              <para>The assembly could not be deployed.</para>
+            </exception>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Deploy.Assembly">
+            <summary>
+            The path to the BizTalk assembly to deploy.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Deploy.Install">
+            <summary>
+            Determines whether to install the assembly in the Global Assembly
+            Cache. The default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Deploy.BindingFile">
+            <summary>
+            The path to an assembly binding information file to import bindings
+            from.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Deploy.LogFile">
+            <summary>
+            The path to the HTML log file to generate.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.BizTalk.Export">
+            <summary>
+            Exports bindings for a BizTalk assembly to an assembly binding 
+            information file.
+            </summary>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.BizTalk.Export.ExecuteTask">
+            <summary>
+            Exports the bindings.
+            </summary>
+            <exception cref="T:NAnt.Core.BuildException">
+              <para>The assembly does not exist.</para>
+              <para>-or-</para>
+              <para>The bindings could not be exported.</para>
+            </exception>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Export.Assembly">
+            <summary>
+            The path to the BizTalk assembly for which to export bindings.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Export.BindingFile">
+            <summary>
+            The path to an assembly binding information file in which the 
+            bindings will be saved.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Export.LogFile">
+            <summary>
+            The path to the HTML log file to generate.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.BizTalk.Host">
+            <summary>
+            Allows BizTalk (in-process) host instances to be controlled.
+            </summary>
+            <example>
+              <para>
+              Starts the &quot;BizTalkServerApplication&quot; host instance
+              on server &quot;SV-ARD-EAI&quot;.
+              </para>
+              <code>
+                <![CDATA[
+            <btshost action="Start" host="BizTalkServerApplication" server="SV-ARD-EAI" />
+                ]]>
+              </code>
+            </example>
+            <example>
+              <para>
+              Stops all &quot;BizTalkServerApplication&quot; host instances.
+              </para>
+              <code>
+                <![CDATA[
+            <btshost action="Stop" host="BizTalkServerApplication" />
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Host.HostName">
+            <summary>
+            The name of the host on which the perform the action.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Host.Server">
+            <summary>
+            The name of the BizTalk server on which to perform the action.
+            If not specified, the action will be performed on all instances.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Host.Action">
+            <summary>
+            The action that should be performed on the host.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.BizTalk.Host.HostAction">
+            <summary>
+            Defines the actions that can be performed on a host instance.
+            </summary>
+        </member>
+        <member name="F:NAnt.Contrib.Tasks.BizTalk.Host.HostAction.Start">
+            <summary>
+            Starts the host instance.
+            </summary>
+        </member>
+        <member name="F:NAnt.Contrib.Tasks.BizTalk.Host.HostAction.Stop">
+            <summary>
+            Stops the host instance.
+            </summary>
+        </member>
+        <member name="F:NAnt.Contrib.Tasks.BizTalk.Host.HostAction.Restart">
+            <summary>
+            Stops and restarts the host instance.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.BizTalk.Import">
+            <summary>
+            Imports bindings from a given assembly binding information file into
+            the specified BizTalk configuration database.
+            </summary>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.BizTalk.Import.ExecuteTask">
+            <summary>
+            Imports the assembly binding information file.
+            </summary>
+            <exception cref="T:NAnt.Core.BuildException">
+              <para>The assembly binding information file does not exist.</para>
+              <para>-or-</para>
+              <para>The assembly binding information file could not be imported.</para>
+            </exception>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Import.BindingFile">
+            <summary>
+            The path to the assembly binding information file containing the
+            bindings to import.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Import.LogFile">
+            <summary>
+            The path to the HTML log file to generate.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.BizTalk.Orchestration">
+            <summary>
+            Performs a set of actions on a given orchestration.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Orchestration.Server">
+            <summary>
+            The name of the BizTalk server on which to perform the action.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Orchestration.OrchestrationName">
+            <summary>
+            The name of the orchestration to perform an action on.
+            </summary>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.BizTalk.Orchestration.OrchestrationActionBase.Log(NAnt.Core.Level,System.String)">
+            <summary>
+            Logs a message with the given priority.
+            </summary>
+            <param name="messageLevel">The message priority at which the specified message is to be logged.</param>
+            <param name="message">The message to be logged.</param>
+            <remarks>
+            The actual logging is delegated to the project.
+            </remarks>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.BizTalk.Orchestration.OrchestrationActionBase.Log(NAnt.Core.Level,System.String,System.Object[])">
+            <summary>
+            Logs a message with the given priority.
+            </summary>
+            <param name="messageLevel">The message priority at which the specified message is to be logged.</param>
+            <param name="message">The message to log, containing zero or more format items.</param>
+            <param name="args">An <see cref="T:System.Object"/> array containing zero or more objects to format.</param>
+            <remarks>
+            The actual logging is delegated to the project.
+            </remarks>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.BizTalk.Orchestration.StartOrchestrationAction">
+            <summary>
+            Starts the orchestration.
+            </summary>
+            <remarks>
+            If the orchestration is not yet enlisted, then this will be done 
+            first.
+            </remarks>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Orchestration.StartOrchestrationAction.AutoEnableReceiveLocation">
+            <summary>
+            Specifies whether receive locations associated with this 
+            orchestration should be automatically enabled. The default is
+            <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Orchestration.StartOrchestrationAction.AutoResumeOrchestrationInstance">
+            <summary>
+            Specifies whether service instances of this orchestration that 
+            were manually suspended previously should be automatically 
+            resumed. The default is <see langword="true" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Orchestration.StartOrchestrationAction.AutoStartSendPorts">
+            <summary>
+            Specifies whether send ports and send port groups imported by 
+            this orchestration should be automatically started. The default
+            is <see langword="true" />.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.BizTalk.Orchestration.StopOrchestrationAction">
+            <summary>
+            Stops the orchestration.
+            </summary>
+            <remarks>
+            If the status of the orchestration is <see cref="F:NAnt.Contrib.Types.BizTalk.ServiceStatus.Bound"/>,
+            <see cref="F:NAnt.Contrib.Types.BizTalk.ServiceStatus.Unbound"/> or <see cref="F:NAnt.Contrib.Types.BizTalk.ServiceStatus.Stopped"/>,
+            then no further processing is done.
+            </remarks>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.BizTalk.Orchestration.StopOrchestrationAction.Invoke(System.Management.ManagementObject)">
+            <summary>
+            Stops the orchestration.
+            </summary>
+            <param name="orchestration">The orchestration to stop.</param>
+            <remarks>
+            If the status of orchestration is <see cref="F:NAnt.Contrib.Types.BizTalk.ServiceStatus.Bound"/>,
+            <see cref="F:NAnt.Contrib.Types.BizTalk.ServiceStatus.Unbound"/> or <see cref="F:NAnt.Contrib.Types.BizTalk.ServiceStatus.Stopped"/>,
+            then no further processing is done.
+            </remarks>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Orchestration.StopOrchestrationAction.AutoDisableReceiveLocation">
+            <summary>
+            Specifies whether receive locations associated with this 
+            orchestration should be automatically disabled. The default
+            is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Orchestration.StopOrchestrationAction.AutoSuspendOrchestrationInstance">
+            <summary>
+            Specifies whether instances of this orchestration should be
+            automatically suspended. The default is <see langword="true" />.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.BizTalk.Orchestration.EnlistOrchestrationAction">
+            <summary>
+            Enlists the orchestration by creating its activation subscription.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Orchestration.EnlistOrchestrationAction.Host">
+            <summary>
+            Specifies the BizTalk host on which to enlist the orchestration.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.BizTalk.Orchestration.UnenlistOrchestrationAction">
+            <summary>
+            Unenlists the orchestration by removing its activation subscription.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Orchestration.UnenlistOrchestrationAction.AutoTerminateOrchestrationInstance">
+            <summary>
+            Specifies whether instances of this orchestration type should 
+            be automatically terminated. The default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.BizTalk.Reset">
+            <summary>
+            Allows stopping, starting and resetting of BizTalk in-process host 
+            instances on the specified server.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Reset.Server">
+            <summary>
+            The name of the BizTalk server on which to perform the action.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Reset.Action">
+            <summary>
+            Specifies the action(s) to perform on the BizTalk host instances. The
+            default is <see cref="F:NAnt.Contrib.Tasks.BizTalk.Reset.ResetAction.Reset"/>.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.BizTalk.Reset.ResetAction">
+            <summary>
+            Defines the possible actions that can be performed on the BizTalk 
+            in-process host instances.
+            </summary>
+        </member>
+        <member name="F:NAnt.Contrib.Tasks.BizTalk.Reset.ResetAction.Stop">
+            <summary>
+            Stops all in-process host instances.
+            </summary>
+        </member>
+        <member name="F:NAnt.Contrib.Tasks.BizTalk.Reset.ResetAction.Start">
+            <summary>
+            Starts all in-process host instances.
+            </summary>
+        </member>
+        <member name="F:NAnt.Contrib.Tasks.BizTalk.Reset.ResetAction.Reset">
+            <summary>
+            Stops and restarts all in-process host instances.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.BizTalk.SendPort">
+            <summary>
+            Allows BizTalk send ports to be controlled.
+            </summary>
+            <example>
+              <para>
+              Starts the &quot;UmeHttpSendPort&quot; port on server 
+              &quot;SV-ARD-EAI&quot;.
+              </para>
+              <code>
+                <![CDATA[
+            <btssendport action="Start" port="UmeHttpSendPort" server="SV-ARD-EAI" />
+                ]]>
+              </code>
+            </example>
+            <example>
+              <para>
+              Unenlists the &quot;UmeHttpSendPort&quot; on server &quot;SV-ARD-EAI&quot;.
+              </para>
+              <code>
+                <![CDATA[
+            <btssendport action="UnEnlist" port="UmeHttpSendPort" server="SV-ARD-EAI" />
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.SendPort.PortName">
+            <summary>
+            The name of the send port on which the perform the action.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.SendPort.Server">
+            <summary>
+            The name of the BizTalk server on which to perform the action.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.SendPort.Action">
+            <summary>
+            The action that should be performed on the send port.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.BizTalk.SendPort.SendPortAction">
+            <summary>
+            Defines the actions that can be performed on a BizTalk send port.
+            </summary>
+        </member>
+        <member name="F:NAnt.Contrib.Tasks.BizTalk.SendPort.SendPortAction.Start">
+            <summary>
+            Starts the send port.
+            </summary>
+        </member>
+        <member name="F:NAnt.Contrib.Tasks.BizTalk.SendPort.SendPortAction.Stop">
+            <summary>
+            Stops the send port.
+            </summary>
+        </member>
+        <member name="F:NAnt.Contrib.Tasks.BizTalk.SendPort.SendPortAction.Restart">
+            <summary>
+            Stops and restarts the send port.
+            </summary>
+        </member>
+        <member name="F:NAnt.Contrib.Tasks.BizTalk.SendPort.SendPortAction.Enlist">
+            <summary>
+            Enlists the send port.
+            </summary>
+        </member>
+        <member name="F:NAnt.Contrib.Tasks.BizTalk.SendPort.SendPortAction.UnEnlist">
+            <summary>
+            Unenlists the send port.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.BizTalk.Unbind">
+            <summary>
+            Removes all bindings for a given assembly from a BizTalk configuration
+            database.
+            </summary>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.BizTalk.Unbind.ExecuteTask">
+            <summary>
+            Removes bindings for the specified assembly.
+            </summary>
+            <exception cref="T:NAnt.Core.BuildException">
+              <para>The assembly does not exist.</para>
+              <para>-or-</para>
+              <para>The bindings could not be removed.</para>
+            </exception>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Unbind.Assembly">
+            <summary>
+            The path to the BizTalk assembly for which to remove all bindings.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Unbind.Server">
+            <summary>
+            The name of the BizTalk server on which to perform the operation.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Unbind.ReceivePipeline">
+            <summary>
+            The assembly qualified name of the receive pipeline to set when 
+            unbinding a receive pipeline.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Unbind.SendPipeline">
+            <summary>
+            The assembly qualified name of the SEND pipeline to set when 
+            unbinding a send pipeline.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.BizTalk.Undeploy">
+            <summary>
+            Removes a given assembly from a BizTalk configuration database.
+            </summary>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.BizTalk.Undeploy.ExecuteTask">
+            <summary>
+            Removes an assembly from a BizTalk configuration database.
+            </summary>
+            <exception cref="T:NAnt.Core.BuildException">
+              <para>The assembly does not exist.</para>
+              <para>-or-</para>
+              <para>The assembly could not be remove from the BizTalk configuration database.</para>
+            </exception>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Undeploy.Assembly">
+            <summary>
+            The path to the BizTalk assembly to remove.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Undeploy.Uninstall">
+            <summary>
+            Determines whether to remove the assembly from the Global Assembly
+            Cache. The default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.BizTalk.Undeploy.LogFile">
+            <summary>
+            The path to the HTML log file to generate.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.ClearCase.ClearCaseBase">
+            <summary>
+            Base class for all the ClearCase tasks.
+            </summary>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.ClearCase.ClearCaseBase.#ctor">
+            <summary>
+            Base Constructor.
+            </summary>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.ClearCase.ClearCaseBase.ExecuteTask">
+            <summary>
+            Execute the perforce command assembled by subclasses.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseBase.CommandSpecificArguments">
+            <summary>
+            Derived classes should override this to provide command-specific
+            commandline arguments.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseBase.ProgramArguments">
+            <summary>
+            Overrides the base class.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.ClearCase.ClearCaseCatCs">
+            <summary>
+            Displays a ClearCase config spec.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCatCs.ViewTag">
+            <summary>
+            The view tag identifying the ClearCase view that will have its 
+            config spec displayed.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCatCs.CommandSpecificArguments">
+            <summary>
+            This is an override used by the base class to get command specific args.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckIn">
+            <summary>
+            Checks files into a ClearCase VOB.
+            <seealso cref="T:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckOut"/>
+            <seealso cref="T:NAnt.Contrib.Tasks.ClearCase.ClearCaseUnCheckOut"/>
+            </summary>
+            <remarks>
+            <para>
+            This task uses the <c>cleartool checkin</c> command to check in ClearCase elements.
+            </para>
+            </remarks>
+            <example>
+              <para>
+              Performs a ClearCase checkin on the file <c>c:/views/viewdir/afile</c>. 
+              All warning messages are suppressed, and the element is checked in even if identical to the original.
+              Comment text from the file <c>acomment.txt</c> is added to ClearCase as a comment. All warning messages are suppressed. The file is checked in even if it is identical to the original.
+              </para>
+              <code>
+                <![CDATA[
+            <cccheckin viewpath="c:/views/viewdir/afile"
+                    commentfile="acomment.txt"
+                    nowarn="true"
+                    identical="true"/>
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckIn.ViewPath">
+            <summary>
+            Path to the ClearCase view file or directory that the command will
+            operate on.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckIn.Comment">
+            <summary>
+            Specify a comment. Only one of <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckIn.Comment"/> or 
+            <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckIn.CommentFile"/> may be used.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckIn.CommentFile">
+            <summary>
+            Specify a file containing a comment. Only one of <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckIn.Comment"/>
+            or <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckIn.CommentFile"/> may be used.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckIn.NoWarn">
+            <summary>
+            <see langword="true" /> if warning messages should be suppressed.
+            The default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckIn.PreserveTime">
+            <summary>
+            If <see langword="true" />, the modification time will be preserved.
+            Default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckIn.KeepCopy">
+            <summary>
+            <see langword="true" /> to keep a view-private copy of the file with
+            a .keep extension. Default is <see langword="true" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckIn.Identical">
+            <summary>
+            If <see langword="true" />, files may be checked in even if identical
+            to the original.  Default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckIn.CommandSpecificArguments">
+            <summary>
+            This is an override used by the base class to get command specific args.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckOut">
+            <summary>
+            Checks files out of a ClearCase VOB.
+            <seealso cref="T:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckIn"/>
+            <seealso cref="T:NAnt.Contrib.Tasks.ClearCase.ClearCaseUnCheckOut"/>
+            </summary>
+            <remarks>
+            <para>
+            This task uses the <c>cleartool checkout</c> command to check out ClearCase elements.
+            </para>
+            </remarks>
+            <example>
+              <para>
+              Performs a ClearCase checkout on the file <c>c:/views/viewdir/afile</c>. 
+              It is checked out as reserved on branch called <c>abranch</c>. 
+              All warning messages are suppressed. 
+              <c>Some comment text</c> is added to ClearCase as a comment.
+              </para>
+              <code>
+                <![CDATA[
+            <cccheckout viewpath="c:/views/viewdir/afile"
+                    reserved="true"
+                    branch="abranch"
+                    nowarn="true"
+                    comment="Some comment text"/>
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckOut.ViewPath">
+            <summary>
+            Path to the ClearCase view file or directory that the command will
+            operate on.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckOut.Reserved">
+            <summary>
+            <see langword="true" /> to check the element out as reserved.
+            Default is <see langword="true" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckOut.OutFile">
+            <summary>
+            Creates a writable file under a different filename.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckOut.NoData">
+            <summary>
+            If <see langword="true" />, checks out the file but does not create
+            an editable file containing its data. Default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckOut.Branch">
+            <summary>
+            Specify a branch to check out the file to.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckOut.Version">
+            <summary>
+            If <see langword="true" />, checkouts of elements with a version
+            other than main latest will be allowed. Default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckOut.NoWarn">
+            <summary>
+            <see langword="true" /> if warning messages should be suppressed.
+            The default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckOut.Comment">
+            <summary>
+            Specify a comment. Only one of <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckOut.Comment"/> or 
+            <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckOut.CommentFile"/> may be used.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckOut.CommentFile">
+            <summary>
+            Specify a file containing a comment. Only one of <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckOut.Comment"/>
+            or <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckOut.CommentFile"/> may be used.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckOut.PreserveTime">
+            <summary>
+            If <see langword="true" />, the modification time will be preserved.
+            Default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckOut.CommandSpecificArguments">
+            <summary>
+            This is an override used by the base class to get command specific args.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.ClearCase.ClearCaseLock">
+            <summary>
+            Locks ClearCase elements.
+            <seealso cref="T:NAnt.Contrib.Tasks.ClearCase.ClearCaseUnLock"/>
+            </summary>
+            <remarks>
+            <para>
+            This task uses the <c>cleartool lock</c> command to lock ClearCase elements.
+            </para>
+            </remarks>
+            <example>
+              <para>
+              Performs a ClearCase lock on the object <c>stream:Application_Integration@\MyProject_PVOB</c>.
+              </para>
+              <code>
+                <![CDATA[
+            <cclock objsel="stream:Application_Integration@\MyProject_PVOB" />
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseLock.Replace">
+            <summary>
+            If <see langword="true" /> an existing lock can be replaced.
+            Default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseLock.Nusers">
+            <summary>
+            Specifies user(s) who can still modify the object.
+            Only one of <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseLock.Nusers"/> or <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseLock.Obsolete"/> may be
+            used.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseLock.Obsolete">
+            <summary>
+            If <see langword="true"/> the object will be marked obsolete.
+            Only one of <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseLock.Nusers"/> or <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseLock.Obsolete"/> may 
+            be used. Default is <see langword="false"/>.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseLock.Comment">
+            <summary>
+            Specify a comment. Only one of <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseLock.Comment"/> or 
+            <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseLock.CommentFile"/> may be used.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseLock.CommentFile">
+            <summary>
+            Specify a file containing a comment. Only one of <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseLock.Comment"/>
+            or <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseLock.CommentFile"/> may be used.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseLock.Pname">
+            <summary>
+            Specifies the object pathname to be locked.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseLock.ObjSel">
+            <summary>
+            Specifies the object(s) to be locked.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseLock.CommandSpecificArguments">
+            <summary>
+            This is an override used by the base class to get command specific args.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkElem">
+            <summary>
+            Creates elements in a ClearCase VOB.
+            </summary>
+            <remarks>
+            <para>
+            This task uses the <c>cleartool mkelem</c> command to create ClearCase elements.
+            </para>
+            </remarks>
+            <example>
+              <para>
+              Performs a ClearCase mkelem on the file <c>c:/views/viewdir/afile</c> with element type <c>text_file</c>. 
+              It checks in the file after creation and adds <c>Some comment text</c> as a comment.
+              </para>
+              <code>
+                <![CDATA[
+            <ccmkelem viewpath="c:/views/viewdir/afile"
+                    eltype="text_file"
+                    checkin="true"
+                    comment="Some comment text"/>
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkElem.ViewPath">
+            <summary>
+            Path to the ClearCase view file or directory that the command will
+            operate on.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkElem.Comment">
+            <summary>
+            Specify a comment. Only one of <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkElem.Comment"/> or 
+            <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkElem.CommentFile"/> may be used.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkElem.CommentFile">
+            <summary>
+            Specify a file containing a comment. Only one of <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkElem.Comment"/>
+            or <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkElem.CommentFile"/> may be used.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkElem.NoWarn">
+            <summary>
+            If <see langword="true" />, warning will be suppressed.
+            The default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkElem.NoCheckout">
+            <summary>
+            Perform a checkout after element creation.
+            Default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkElem.Checkin">
+            <summary>
+            Checkin element after creation.
+            Default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkElem.PreserveTime">
+            <summary>
+            If <see langword="true" />, the modification time will be preserved.
+            Default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkElem.Master">
+            <summary>
+            Assign mastership of the main branch to the current site.
+            Default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkElem.ElType">
+            <summary>
+            Element type to use during element creation.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkElem.MkPath">
+            <summary>
+            Create elements from the view-private parent directories.
+            Default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkElem.CommandSpecificArguments">
+            <summary>
+            This is an override used by the base class to get command specific args.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLabel">
+            <summary>
+            Applies a ClearCase label.
+            <seealso cref="T:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLbType"/>
+            </summary>
+            <remarks>
+            <para>
+            This task uses the <c>cleartool mklabel</c> command to apply a ClearCase label to specified elements.
+            </para>
+            </remarks>
+            <example>
+              <para>
+              Performs a ClearCase mklabel on the file <c>c:/views/viewdir/afile</c> under 
+              the <c>main</c> branch for <c>version 2</c> (<c>\main\2</c>).  All matching
+              elements will be applied with label <c>VERSION_1</c>.
+              <c>Some comment text</c> is added as a comment.  Subdirectories will be recursed.
+              </para>
+              <code>
+                <![CDATA[
+            <ccmklabel viewpath="c:/views/viewdir/afile"
+                    comment="Some comment text"
+                    recurse="true"
+                    version="\main\2"
+                    typename="VERSION_1"/>
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLabel.Typename">
+            <summary>
+            Name of the label type
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLabel.ViewPath">
+            <summary>
+            Path to the ClearCase view file or directory that the command will
+            operate on.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLabel.Replace">
+            <summary>
+            If <see langword="true" />, allow the replacement of a 
+            label of the same type on the same branch.
+            The default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLabel.Recurse">
+            <summary>
+            If <see langword="true" />, process each subdirectory recursively under the viewpath.
+            Default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLabel.Version">
+            <summary>
+            Identify a specific version to attach the label to.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLabel.Vob">
+            <summary>
+            Path to the ClearCase view file or directory that the command will operate on.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLabel.Comment">
+            <summary>
+            Specify a comment. Only one of <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLabel.Comment"/> or 
+            <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLabel.CommentFile"/> may be used.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLabel.CommentFile">
+            <summary>
+            Specify a file containing a comment. Only one of <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLabel.Comment"/>
+            or <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLabel.CommentFile"/> may be used.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLabel.Follow">
+            <summary>
+            For any VOB symbolic links encountered, labels the corresponding target.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLabel.CommandSpecificArguments">
+            <summary>
+            This is an override used by the base class to get command specific args.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLbType">
+            <summary>
+            Creates a label object in a ClearCase VOB.
+            <seealso cref="T:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLabel"/>
+            </summary>
+            <remarks>
+            <para>
+            This task uses the <c>cleartool mklabeltype</c> command to create a ClearCase label object.
+            </para>
+            </remarks>
+            <example>
+              <para>
+              Performs a ClearCase mklbtype to create a label type named <c>VERSION_1</c>. 
+              It is created as <c>ordinary</c> so it is available only to the current VOB. 
+              The text <c>Development version 1</c> is added as a comment.
+              </para>
+              <code>
+                <![CDATA[
+            <ccmklbtype typename="VERSION_1"
+                    ordinary="true"
+                    comment="Development version 1"/>
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLbType.Typename">
+            <summary>
+            Name of the label type to create.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLbType.Vob">
+            <summary>
+            Name of the VOB.  Must be a valid path to somewhere on a VOB.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLbType.Replace">
+            <summary>
+            If <see langword="true" />, allow an existing label definition to be replaced.
+            The default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLbType.Global">
+            <summary>
+            Creates a label type that is global to the VOB or to VOB's that use this VOB.
+            Either global or ordinary can be specified, not both. 
+            The default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLbType.Ordinary">
+            <summary>
+            Creates a label type that can be used only in the current VOB.
+            Either global or ordinary can be specified, not both. 
+            Although <see langword="false" /> by default, if global is also <see langword="false" /> or not specified ordinary is the default behaviour.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLbType.PBranch">
+            <summary>
+            If <see langword="true" /> the label type is allowed to be used once per branch in a given element's version tree.
+            The default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLbType.Shared">
+            <summary>
+            Sets the way mastership is checked by ClearCase. See ClearCase documentation for details.
+            The default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLbType.Comment">
+            <summary>
+            Specify a comment. Only one of <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLbType.Comment"/> or 
+            <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLbType.CommentFile"/> may be used.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLbType.CommentFile">
+            <summary>
+            Specify a file containing a comment. Only one of <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLbType.Comment"/>
+            or <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLbType.CommentFile"/> may be used.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseMkLbType.CommandSpecificArguments">
+            <summary>
+            This is an override used by the base class to get command specific args.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.ClearCase.ClearCaseRmType">
+            <summary>
+            Removes elements from a ClearCase VOB.
+            </summary>
+            <remarks>
+            <para>
+            This task uses the <c>cleartool rmtype</c> command to remove a ClearCase object.
+            </para>
+            </remarks>
+            <example>
+              <para>
+              Performs a ClearCase rmtype to remove a <see cref="F:NAnt.Contrib.Types.ClearCase.TypeKind.Label"/>
+              type named <c>VERSION_1</c>. 
+              Comment text from the file <c>acomment.txt</c> is added as a comment. 
+              All instances of the type are removed, including the type object itself.
+              </para>
+              <code>
+                <![CDATA[
+            <ccrmtype typekind="Label"
+                    typename="VERSION_1"
+                    commentfile="acomment.txt"
+                    removeall="true" />
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseRmType.TypeKind">
+            <summary>
+            The kind of type to remove.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseRmType.TypeName">
+            <summary>
+            The name of the object to remove.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseRmType.Ignore">
+            <summary>
+            Used with <see cref="F:NAnt.Contrib.Types.ClearCase.TypeKind.Trigger"/> types only. 
+            Forces removal of <see cref="F:NAnt.Contrib.Types.ClearCase.TypeKind.Trigger"/> type even if a 
+            pre-operation trigger would prevent its removal.
+            The default is <see langword="false"/>.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseRmType.RemoveAll">
+            <summary>
+            Removes all instances of a type and the type object itself.
+            The default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseRmType.Comment">
+            <summary>
+            Specify a comment. Only one of <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseRmType.Comment"/> or 
+            <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseRmType.CommentFile"/> may be used.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseRmType.CommentFile">
+            <summary>
+            Specify a file containing a comment. Only one of <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseRmType.Comment"/>
+            or <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseRmType.CommentFile"/> may be used.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseRmType.CommandSpecificArguments">
+            <summary>
+            This is an override used by the base class to get command specific args.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.ClearCase.ClearCaseUnCheckOut">
+            <summary>
+            Uncheckout ClearCase elements.
+            <seealso cref="T:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckIn"/>
+            <seealso cref="T:NAnt.Contrib.Tasks.ClearCase.ClearCaseCheckOut"/>
+            </summary>
+            <remarks>
+            <para>
+            This task uses the <c>cleartool unco</c> command to remove a ClearCase object.
+            </para>
+            </remarks>
+            <example>
+              <para>
+              Does a ClearCase uncheckout on the file <c>c:/views/viewdir/afile</c>. 
+              A copy of the file called <c>c:/views/viewdir/afile.keep</c> is kept.
+              </para>
+              <code>
+                <![CDATA[
+            <ccuncheckout viewpath="c:/views/viewdir/afile"
+                    keepcopy="true"/>
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseUnCheckOut.ViewPath">
+            <summary>
+            Path to the ClearCase view file or directory that the command will
+            operate on.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseUnCheckOut.KeepCopy">
+            <summary>
+            If <see langword="true" />, a view-private copy of the file with a
+            .keep extension will be kept. Default is <see langword="true" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseUnCheckOut.CommandSpecificArguments">
+            <summary>
+            This is an override used by the base class to get command specific args.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.ClearCase.ClearCaseUnLock">
+            <summary>
+            Unlocks ClearCase elements.
+            <seealso cref="T:NAnt.Contrib.Tasks.ClearCase.ClearCaseLock"/>
+            </summary>
+            <remarks>
+            <para>
+            This task uses the <c>cleartool unlock</c> command to unlock a ClearCase object.
+            </para>
+            </remarks>
+            <example>
+              <para>
+              Performs a ClearCase unlock on the object <c>stream:Application_Integration@\MyProject_PVOB</c>.
+              </para>
+              <code>
+                <![CDATA[
+            <ccunlock objsel="stream:Application_Integration@\MyProject_PVOB" />
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseUnLock.Comment">
+            <summary>
+            Specify a comment. Only one of <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseUnLock.Comment"/> or 
+            <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseUnLock.CommentFile"/> may be used.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseUnLock.CommentFile">
+            <summary>
+            Specify a file containing a comment. Only one of <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseUnLock.Comment"/>
+            or <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseUnLock.CommentFile"/> may be used.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseUnLock.Pname">
+            <summary>
+            Specifies the object pathname to be unlocked.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseUnLock.ObjSel">
+            <summary>
+            Specifies the object(s) to be unlocked.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseUnLock.CommandSpecificArguments">
+            <summary>
+            This is an override used by the base class to get command specific args.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.ClearCase.ClearCaseUpdate">
+            <summary>
+            Updates a ClearCase view.
+            </summary>
+            <remarks>
+            <para>
+            This task uses the <c>cleartool update</c> command to update a ClearCase view.
+            </para>
+            </remarks>
+            <example>
+              <para>
+              Performs a ClearCase update on the snapshot view directory <c>c:/views/viewdir</c>. 
+              A graphical dialog will be displayed.  
+              The output will be logged to <c>log.log</c> and it will overwrite any hijacked files. 
+              The modified time will be set to the current time.
+              </para>
+              <code>
+                <![CDATA[
+            <ccupdate viewpath="c:/views/viewdir"
+                    graphical="false"
+                    log="log.log"
+                    overwrite="true"
+                    currenttime="true"
+                    rename="false"/>
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseUpdate.ViewPath">
+            <summary>
+            Path to the ClearCase view file or directory that the command will
+            operate on.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseUpdate.Graphical">
+            <summary>
+            Displays a graphical dialog during the update.
+            The default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseUpdate.LogFile">
+            <summary>
+            Specifies a log file for ClearCase to write to.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseUpdate.Overwrite">
+            <summary>
+            If <see langword="true" />, hijacked files will be overwritten.
+            The default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseUpdate.Rename">
+            <summary>
+            If <see langword="true" />, hijacked files will be renamed with a .keep extension.
+            The default is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseUpdate.CurrentTime">
+            <summary>
+            Specifies that modification time should be written as the current time. 
+            Only one of <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseUpdate.CurrentTime"/> or <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseUpdate.PreserveTime"/>
+            can be specified. The default is <see langword="false"/>.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseUpdate.PreserveTime">
+            <summary>
+            Specifies that modification time should preserved from the VOB time. 
+            Only one of <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseUpdate.CurrentTime"/> or <see cref="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseUpdate.PreserveTime"/>
+            can be specified. The default is <see langword="false"/>.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ClearCase.ClearCaseUpdate.CommandSpecificArguments">
+            <summary>
+            This is an override used by the base class to get command specific args.
+            </summary>
+        </member>
         <member name="T:NAnt.Contrib.Tasks.Grep.GrepTask">
             <summary>
             Searches files for a regular-expression and produces an XML report of 
@@ -4638,6 +6101,132 @@
             </summary>
             <value>The feature containing the typelibrary's file.</value>
         </member>
+        <member name="T:NAnt.Contrib.Tasks.NUnit2Report.NUnit2ReportTask">
+            <summary>
+            A task that generates a summary HTML
+            from a set of NUnit xml report files.
+            </summary>
+            <remarks>
+              <para>
+              This task can generate a combined HTML report out of a set of NUnit
+              result files generated using the XML Result Formatter.
+              </para>
+              <para>
+              All the properties defined in the current project will be passed
+              down to the XSLT file as template parameters, so you can access 
+              properties such as nant.project.name, nant.version, etc.
+              </para>
+            </remarks>
+            <example>
+              <code>
+                <![CDATA[
+            <nunit2report todir="${outputdir}">
+                <fileset>
+                    <includes name="${outputdir}\results.xml" />
+                </fileset>
+            </nunit2report>
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.NUnit2Report.NUnit2ReportTask.InitializeTask(System.Xml.XmlNode)">
+            <summary>
+            Initializes task and ensures the supplied attributes are valid.
+            </summary>
+            <param name="taskNode">Xml node used to define this task instance.</param>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.NUnit2Report.NUnit2ReportTask.ExecuteTask">
+            <summary>
+            This is where the work is done
+            </summary>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.NUnit2Report.NUnit2ReportTask.LoadStyleSheet(System.String)">
+             <summary>
+             Load a stylesheet from the assemblies resource stream.
+             </summary>
+            <param name="xslFileName">File name of the file to extract.</param>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.NUnit2Report.NUnit2ReportTask.LoadStyleSheet(System.IO.FileInfo)">
+             <summary>
+             Load a stylesheet from the file system.
+             </summary>
+            <param name="xslFile">The XSLT file to load.</param>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.NUnit2Report.NUnit2ReportTask.CreateSummaryXmlDoc">
+            <summary>
+            Initializes the XmlDocument instance
+            used to summarize the test results
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.NUnit2Report.NUnit2ReportTask.GetPropertyList">
+            <summary>
+            Builds an XsltArgumentList with all
+            the properties defined in the
+            current project as XSLT parameters.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.NUnit2Report.NUnit2ReportTask.Write(System.IO.StringReader,System.String)">
+            <summary>
+             Run the transform and output to filename
+            </summary>
+            <param name="stream"></param>
+            <param name="fileName"></param>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.NUnit2Report.NUnit2ReportTask.Format">
+            <summary>
+            The format of the generated report. The default is 
+            <see cref="F:NAnt.Contrib.Types.NUnit2Report.ReportFormat.NoFrames"/>.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.NUnit2Report.NUnit2ReportTask.Language">
+            <summary>
+            The output language.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.NUnit2Report.NUnit2ReportTask.OpenDescription">
+            <summary>
+            Open all description method. Default to "false".
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.NUnit2Report.NUnit2ReportTask.ToDir">
+            <summary>
+            The directory where the files resulting from the transformation
+            should be written to. The default is the project's base directory.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.NUnit2Report.NUnit2ReportTask.XmlFileSet">
+            <summary>
+            Set of XML files to use as input
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.NUnit2Report.NUnit2ReportTask.XmlSummaries">
+            <summary>
+            Set of summary XML files to use as input.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.NUnit2Report.NUnit2ReportTask.XslFile">
+            <summary>
+            XSLT file used to generate the report if <see cref="P:NAnt.Contrib.Tasks.NUnit2Report.NUnit2ReportTask.Format"/> is 
+            <see cref="F:NAnt.Contrib.Types.NUnit2Report.ReportFormat.NoFrames"/>.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.NUnit2Report.NUnit2ReportTask.LocalResXmlResolver">
+            <summary>
+            Custom XmlResolver used to load the 
+            XSLT files out of this assembly resources.
+            </summary>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.NUnit2Report.NUnit2ReportTask.LocalResXmlResolver.GetEntity(System.Uri,System.String,System.Type)">
+            <summary>
+            Loads the specified file from our internal resources if its there
+            </summary>
+            <param name="absoluteUri"></param>
+            <param name="role"></param>
+            <param name="objToReturn"></param>
+            <returns></returns>
+        </member>
         <member name="T:NAnt.Contrib.Tasks.PVCS.PVCSAddFilesTask">
             <summary>
             Adds files to a PVCS repository.
@@ -7359,7 +8948,7 @@
                </para>
                <code>
                  <![CDATA[
-             <p4Sync 
+             <p4sync 
                  view="//projects/foo/main/source/..."
                  user="fbloggs"
                  port="km01:1666"
@@ -7759,6 +9348,69 @@
             <see cref="F:FileTimestamp.Current" />.
             </summary>
         </member>
+        <member name="T:NAnt.Contrib.Tasks.SourceSafe.DeleteTask">
+            <summary>
+            Used to delete or Destroy files or projects in Visual Source Safe.
+            </summary>
+            <example>
+              <para>Delete a project from a local sourcesafe database.</para>
+              <code><![CDATA[
+                <vssdelete 
+                  user="myusername" 
+                  password="mypassword" 
+                  dbpath="C:\VSS\srcsafe.ini"
+                  path="$/MyProduct"
+                />
+              ]]></code>
+            </example>
+            <example>
+              <para>Delete a file from the remote sourcesafe database.</para>
+              <code><![CDATA[
+                <vsscheckin 
+                  user="myusername" 
+                  password="mypassword" 
+                  dbpath="\\MyServer\VSS\srcsafe.ini"
+                  path="$/MyProduct/myFile.cs"
+                />
+              ]]></code>
+            </example>
+            <example>
+              <para>Destroy a project from a local sourcesafe database.</para>
+              <code><![CDATA[
+                <vssdelete 
+                  user="myusername" 
+                  password="mypassword" 
+                  dbpath="C:\VSS\srcsafe.ini"
+                  path="$/MyProduct"
+                  Destroy="true"
+                />
+              ]]></code>
+            </example>
+            <example>
+              <para>Destroy a file from the remote sourcesafe database.</para>
+              <code><![CDATA[
+                <vssdelete 
+                  user="myusername" 
+                  password="mypassword" 
+                  dbpath="\\MyServer\VSS\srcsafe.ini"
+                  path="$/MyProduct/myFile.cs"
+                  Destroy="true"
+                />
+              ]]></code>
+            </example>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.SourceSafe.DeleteTask.DeleteItem">
+            <summary>
+            Deletes the item unless <see cref="P:NAnt.Contrib.Tasks.SourceSafe.DeleteTask.Destroy"/> is <see langword="true"/>
+            then the item is destroyed.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.SourceSafe.DeleteTask.Destroy">
+            <summary>
+            Determines whether or not the item is Destroyed. 
+            The default is <see langword="false" />.
+            </summary>
+        </member>
         <member name="T:NAnt.Contrib.Tasks.SourceSafe.DiffTask">
             <summary>
             Used to generate differences in a vss database. It will show all changes to a project
@@ -7880,9 +9532,9 @@
         </member>
         <member name="P:NAnt.Contrib.Tasks.SourceSafe.GetTask.RemoveDeleted">
             <summary>
-            Determines whether files marked "deleted" in the
-            repository will be removed from the local copy.
-            The default is <see langword="false" />.
+            If <see cref="T:System.IO.Path"/> refers to a project, determines whether files
+            marked "deleted" in the repository will be removed from the local
+            copy. The default is <see langword="false"/>.
             </summary>
         </member>
         <member name="P:NAnt.Contrib.Tasks.SourceSafe.GetTask.UseModificationTime">
@@ -9741,7 +11393,7 @@
         </member>
         <member name="M:NAnt.Contrib.Tasks.Svn.AbstractSvnTask.#ctor">
             <summary>
-            Initializes a new instance of the <see cref="T:NAnt.SourceControl.Tasks.AbstractCvsTask"/> 
+            Initializes a new instance of the <see cref="T:NAnt.Contrib.Tasks.Svn.AbstractSvnTask"/> 
             class.
             </summary>
         </member>
@@ -9758,6 +11410,23 @@
             Append the command line options or commen names for the options
             to the generic options collection.  This is then piped to the
             command line as a switch.
+            </summary>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.Svn.AbstractSvnTask.GetSvnExePath">
+            <summary>
+            Gets the full path of the svn executable.
+            </summary>
+            <exception cref="T:NAnt.Core.BuildException">
+            Exception is thrown when Subversion client 
+            executable cannot be found.
+            </exception>
+            <returns>
+            The full path of the svn executable.
+            </returns>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.Svn.AbstractSvnTask.SetPropertiesDefaults">
+            <summary>
+            Set default values for non-requiered parameters.
             </summary>
         </member>
         <member name="P:NAnt.Contrib.Tasks.Svn.AbstractSvnTask.VcsExeName">
@@ -9839,6 +11508,12 @@
             The command to execute.
             </summary>
         </member>
+        <member name="P:NAnt.Contrib.Tasks.Svn.AbstractSvnTask.Quiet">
+            <summary>
+            Specifies whether to print as little information as possible.
+            The default is <see langword="false" />.
+            </summary>
+        </member>
         <member name="P:NAnt.Contrib.Tasks.Svn.AbstractSvnTask.IsRootUsed">
             <summary>
             Determines if the root is used for the command based on 
@@ -9858,7 +11533,7 @@
                 destination="c:/dev/src/gentle.net" 
                 uri="http://www.mertner.com/svn/repos/projects/gentle" 
                 recursive="true"
-                quiet="true"
+                verbose="false"
                 username="anonymoose"
                 password="Canada" 
                 revision="HEAD"
@@ -9881,12 +11556,6 @@
             <value>
             The svn command to execute. The default value is "checkout".
             </value>
-        </member>
-        <member name="P:NAnt.Contrib.Tasks.Svn.SvnCheckoutTask.Quiet">
-            <summary>
-            Determines if the output should be minimized. The default is
-            <see langword="true" />.
-            </summary>
         </member>
         <member name="P:NAnt.Contrib.Tasks.Svn.SvnCheckoutTask.Recursive">
             <summary>
@@ -9971,6 +11640,74 @@
             <value>
             The svn command to execute. The default value is "update".
             </value>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.Web.ApplicationPool">
+            <summary>
+            Allows an IIS application pool to be controlled.
+            </summary>
+            <example>
+              <para>
+              Starts the &quot;StsAdminAppPool&quot; application pool on server
+              &quot;SV-ARD-WEB&quot;.
+              </para>
+              <code>
+                <![CDATA[
+            <iisapppool action="Start" pool="StsAdminPool" server="SV-ARD-WEB" />
+                ]]>
+              </code>
+            </example>
+            <example>
+              <para>
+              Stops and restarts the &quot;DefaultAppPool&quot; application pool
+              on server &quot;SV-ARD-WEB&quot;.
+              </para>
+              <code>
+                <![CDATA[
+            <iisapppool action="Restart" pool="DefaultAppPool" server="SV-ARD-WEB" />
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.Web.ApplicationPool.Server">
+            <summary>
+            The name of the server on which to perform the action. The default
+            is the local computer.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.Web.ApplicationPool.PoolName">
+            <summary>
+            The name of the application pool on which to perform the action.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.Web.ApplicationPool.Action">
+            <summary>
+            The action that should be performed on the application pool.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.Web.ApplicationPool.ApplicationPoolAction">
+            <summary>
+            Defines the actions that can be performed on an application pool.
+            </summary>
+        </member>
+        <member name="F:NAnt.Contrib.Tasks.Web.ApplicationPool.ApplicationPoolAction.Start">
+            <summary>
+            Starts the application pool.
+            </summary>
+        </member>
+        <member name="F:NAnt.Contrib.Tasks.Web.ApplicationPool.ApplicationPoolAction.Stop">
+            <summary>
+            Stops the application pool.
+            </summary>
+        </member>
+        <member name="F:NAnt.Contrib.Tasks.Web.ApplicationPool.ApplicationPoolAction.Restart">
+            <summary>
+            Stops and restarts the application pool.
+            </summary>
+        </member>
+        <member name="F:NAnt.Contrib.Tasks.Web.ApplicationPool.ApplicationPoolAction.Recycle">
+            <summary>
+            Recycles an application pool.
+            </summary>
         </member>
         <member name="T:NAnt.Contrib.Tasks.Web.CreateVirtualDirectory">
             <summary>
@@ -10224,6 +11961,12 @@
             <summary>
             Specifies whether ASP debugging is enabled on the server. The default
             is <see langword="false" />.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.Web.CreateVirtualDirectory.AppPoolId">
+            <summary>
+            Specifies the application pool where the application is routed
+            (IIS 6.0 or higher).
             </summary>
         </member>
         <member name="P:NAnt.Contrib.Tasks.Web.CreateVirtualDirectory.AspAllowSessionState">
@@ -11564,6 +13307,32 @@
             <param name="entrypoint"></param>
             <returns></returns>
         </member>
+        <member name="T:NAnt.Contrib.Tasks.ChangeDirectory">
+            <summary>
+            Changes the current working directory.
+            </summary>
+            <example>
+              <para>
+              Changes the current working directory to the &quot;subdir&quot; 
+              directory, relative to the project base directory.
+              </para>
+              <code>
+                <![CDATA[
+            <cd dir="subdir" />
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.ChangeDirectory.ExecuteTask">
+            <summary>
+            Changes the current directory.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ChangeDirectory.Directory">
+            <summary>
+            The path to which the current working directory should be set.
+            </summary>
+        </member>
         <member name="T:NAnt.Contrib.Tasks.ChecksumTask">
             <summary>
             Calculates checksums for a set of files.
@@ -11626,6 +13395,109 @@
         <member name="P:NAnt.Contrib.Tasks.ChecksumTask.FileSet">
             <summary>
             Set of files to use as input
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.ChooseTask">
+            <summary>
+              <para>
+              Executes an alternate set of tasks depending on conditions that are
+              individually set on each group of tasks.
+              </para>
+            </summary>
+            <remarks>
+              <para>
+              The <see cref="T:NAnt.Contrib.Tasks.ChooseTask"/> selects one among a number of possible
+              alternatives. It consists of a sequence of <c>&lt;when&gt;</c> elements
+              followed by an optional <c>&lt;otherwise&gt;</c> element.
+              </para>
+              <para>
+              Each <c>&lt;when&gt;</c> element has a single attribute, test, which 
+              specifies an expression. The content of the <c>&lt;when&gt;</c> and 
+              <c>&lt;otherwise&gt;</c> elements is a set of nested tasks.
+              </para>
+              <para>
+              The content of the first, and only the first, <c>&lt;when&gt;</c>
+              element whose test is <see langword="true"/> is executed. If no 
+              <c>&lt;when&gt;</c> element is <see langword="true"/>, the 
+              content of the <c>&lt;otherwise&gt;</c> element is executed.
+              If no <c>&lt;when&gt;</c> element is <see langword="true"/>, and no
+              <c>&lt;otherwise&gt;</c> element is present, nothing is done.
+              </para>
+            </remarks>
+            <example>
+              <para>
+              Execute alternate set of tasks depending on the configuration being
+              built.
+              </para>
+              <code>
+                <![CDATA[
+            <choose>
+                <when test="${build.config == 'Debug'}">
+                    <!-- compile app in debug configuration -->
+                    ...
+                </when>
+                <when test="${build.config == 'Release'}">
+                    <!-- compile app in release configuration -->
+                    ...
+                </when>
+                <otherwise>
+                    <fail>Build configuration '${build.config}' is not supported!</fail>
+                </otherwise>
+            </choose>
+                ]]>
+              </code>
+            </example>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.ChooseTask.AddCondition(NAnt.Contrib.Tasks.When)">
+            <summary>
+            One or more alternative sets of tasks to execute.
+            </summary>
+            <param name="when">The set of tasks to add.</param>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.ChooseTask.AddFallback(NAnt.Contrib.Tasks.NestedTaskContainer)">
+            <summary>
+            The set of tasks to execute if none of the <see cref="T:NAnt.Contrib.Tasks.When"/>
+            elements are <see langword="true"/>.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.ChooseTask.IsFallbackDefined">
+            <summary>
+            Gets a value indicating whether a fallback element is defined.
+            </summary>
+            <value>
+            <see langword="true" /> if a fallback element is defined; otherwise,
+            <see langword="false" />.
+            </value>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.When">
+            <summary>
+            Groups a set of tasks to execute when a condition is met.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.NestedTaskContainer">
+            <summary>
+            Executes embedded tasks in the order in which they are defined.
+            </summary>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.NestedTaskContainer.ExecuteChildTasks">
+            <summary>
+            Creates and executes the embedded (child XML nodes) elements.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.NestedTaskContainer.CustomXmlProcessing">
+            <summary>
+            Gets a value indicating whether the element is performing additional
+            processing using the <see cref="T:System.Xml.XmlNode"/> that was use to 
+            initialize the element.
+            </summary>
+            <value>
+            <see langword="true"/>, as a <see cref="T:NAnt.Contrib.Tasks.NestedTaskContainer"/> is
+            responsable for creating tasks from the nested build elements.
+            </value>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.When.Test">
+            <summary>
+            Used to test arbitrary boolean expression.
             </summary>
         </member>
         <member name="T:NAnt.Contrib.Tasks.CodeStatsTask">
@@ -11908,6 +13780,11 @@
             </summary>
             <param name="process">Process.</param>
         </member>
+        <member name="M:NAnt.Contrib.Tasks.FxCopTask.ExecuteTask">
+            <summary>
+            Executes the task.
+            </summary>
+        </member>
         <member name="M:NAnt.Contrib.Tasks.FxCopTask.BuildArguments">
             <summary>
             Builds the arguments to pass to the exe.
@@ -11984,6 +13861,26 @@
             Saves the results of the analysis in the project file.
             </summary>
         </member>
+        <member name="P:NAnt.Contrib.Tasks.FxCopTask.FailOnAnalysisError">
+            <summary>
+            Determines if the task should fail when analysis errors occur
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.FxCopTask.BaseDirectory">
+            <summary>
+            The directory in which the command will be executed.
+            </summary>
+            <value>
+            The directory in which the command will be executed. The default 
+            is the project's base directory.
+            </value>
+            <remarks>
+            <para>
+            It will be evaluated relative to the project's
+            base directory if it is relative.
+            </para>
+            </remarks>
+        </member>
         <member name="P:NAnt.Contrib.Tasks.FxCopTask.ProgramArguments">
             <summary>
             Gets the program arguments.
@@ -11991,12 +13888,14 @@
         </member>
         <member name="T:NAnt.Contrib.Tasks.GacInstallTask">
             <summary>
-            Installs assemblies into the Global Assembly Cache (GAC) by using the <c>gacutil</c> SDK tool.
+            Installs assemblies into the Global Assembly Cache (GAC) by using the 
+            <c>gacutil</c> SDK tool.
             </summary>
             <remarks>
             <para>
-            Assemblies can be installed to the GAC with or without reference counting. The full details of reference counting can be found in
-            the SDK documentation.
+            Assemblies can be installed to the GAC with or without reference counting. 
+            The full details of reference counting can be found in the SDK 
+            documentation.
             </para>
             </remarks>
             <example>
@@ -12033,7 +13932,8 @@
               </para>
               <code>
                 <![CDATA[
-            <gac-install scheme-type="Opaque" scheme-id="MyID" scheme-description="My description">
+            <gac-install>
+                <reference scheme-type="Opaque" scheme-id="MyID" scheme-description="My description" />
                 <assemblies>
                     <include name="Shared.dll" />
                     <include name="MyWeb.dll" />
@@ -12290,16 +14190,20 @@
         </member>
         <member name="T:NAnt.Contrib.Tasks.GacUninstallTask">
             <summary>
-            Uninstalls assemblies from the Global Assembly Cache (GAC) by using the <c>gacutil</c> SDK tool.
+            Uninstalls assemblies from the Global Assembly Cache (GAC) by using the 
+            <c>gacutil</c> SDK tool.
             </summary>
             <remarks>
             <para>
-            Assemblies are specified via an <see cref="T:NAnt.Contrib.Types.AssemblySet"/>. Individual assemblies are specified by their identity information. Only a
-            name is required but, optionally, the assembly version, culture and public key token may be specified.
+            Assemblies are specified via an <see cref="T:NAnt.Contrib.Types.AssemblySet"/>. Individual 
+            assemblies are specified by their identity information. Only a name is 
+            required but, optionally, the assembly version, culture and public key 
+            token may be specified.
             </para>
             <para>
-            Assemblies can be uninstalled from the GAC with or without reference counting. The full details of reference counting can be found in
-            the SDK documentation.
+            Assemblies can be uninstalled from the GAC with or without reference 
+            counting. The full details of reference counting can be found in the 
+            SDK documentation.
             </para>
             </remarks>
             <example>
@@ -12336,7 +14240,8 @@
               </para>
               <code>
                 <![CDATA[
-            <gac-uninstall scheme-type="Opaque" scheme-id="MyID" scheme-description="My description">
+            <gac-uninstall>
+                <reference scheme-type="Opaque" scheme-id="MyID" scheme-description="My description" />
                    <assemblies>
                        <assembly name="Shared" />
                    </assemblies>
@@ -12552,6 +14457,159 @@
             <summary>
             Arguments of program to execute
             </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.IniReadTask">
+            <summary>
+            Reads String values in INI files.
+            </summary>
+              <para>Reads the value for <c>AutoRefresh</c> in the <c>MS Transaction Server</c> section 
+              of the <c>VendorMISMO2.ini</c> ini file.  Stores the value in the "myvar" property.</para>
+              <example>
+               <code>
+                <![CDATA[
+            <iniread property="myvar" filename="VendorMISMO2.ini" section="MS Transaction Server" key="AutoRefresh" default="1"/>
+                ]]>
+              </code>
+              <para>The file contents look like this:</para>
+              <code>
+              [MS Transaction Server]
+              Executable="VendorMISMO2.dll"
+              AutoRefresh=1
+              </code>
+            </example>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.IniReadTask.FileName">
+            <summary>
+            INI File to Write To.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.IniReadTask.Key">
+            <summary>
+            Key to set the value for.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.IniReadTask.Default">
+            <summary>
+            value to set.  
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.IniReadTask.Section">
+            <summary>
+            Section in the INI file.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.IniReadTask.Property">
+            <summary>
+            property where we store the return value.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.IniWriteTask">
+            <summary>
+            Sets String values in INI files.
+            </summary>
+            <example>
+              <para>Set the value for <c>Executable</c> in the <c>VendorMISMO2.ini</c> ini file</para>
+              <code>
+                <![CDATA[
+            <iniwrite filename="VendorMISMO2.ini" section="MS Transaction Server" key="Executable" value="VendorMISMO2.dll"/>
+                ]]>
+              </code>
+              <para>The file contents look like this:</para>
+              <code>
+              [MS Transaction Server]
+              Executable="VendorMISMO2.dll"
+              AutoRefresh=1
+              </code>
+            </example>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.IniWriteTask.FileName">
+            <summary>
+            INI File to Write To.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.IniWriteTask.Key">
+            <summary>
+            Key to set the value for.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.IniWriteTask.Value">
+            <summary>
+            value to set.  
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.IniWriteTask.Section">
+            <summary>
+            Section in the INI file.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Tasks.MsbuildTask">
+            <summary>
+            Builds the specified targets in the project file using <c>MSBuild</c>.
+            </summary>
+            <remarks>
+              <para>    
+              If a project file is not specified, MSBuild searches the current 
+              working directory for a file that has a file extension that ends in
+              "proj" and uses that file.
+              </para>
+            </remarks>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.MsbuildTask.ExecuteTask">
+            <summary>
+            Starts the external process and captures its output.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.MsbuildTask.ProjectFile">
+            <summary>
+            The project to build.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.MsbuildTask.Properties">
+            <summary>
+            Set or override these project-level properties.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.MsbuildTask.Target">
+            <summary>
+            Build these targets in this project. Use a semicolon or a comma
+            comma to separate multiple targets.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.MsbuildTask.NoAutoResponse">
+            <summary>
+            Do not auto-include the MSBuild.rsp file.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.MsbuildTask.Verbosity">
+            <summary>
+            Specifies the amount of information to display in the MSBuild log.
+            </summary>
+        </member>
+        <member name="P:NAnt.Contrib.Tasks.MsbuildTask.ProgramArguments">
+            <summary>
+            Gets the command line arguments for the external program.
+            </summary>
+            <value>
+            The command line arguments for the external program.
+            </value>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.MsbuildTask.VerbosityLevelConverter.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:NAnt.Contrib.Tasks.MsbuildTask.VerbosityLevelConverter"/>
+            class.
+            </summary>
+        </member>
+        <member name="M:NAnt.Contrib.Tasks.MsbuildTask.VerbosityLevelConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)">
+            <summary>
+            Converts the given object to the type of this converter, using the 
+            specified context and culture information.
+            </summary>
+            <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"/> that provides a format context.</param>
+            <param name="culture">A <see cref="T:System.Globalization.CultureInfo"/> object. If a <see langword="null"/> is passed, the current culture is assumed.</param>
+            <param name="value">The <see cref="T:System.Object"/> to convert.</param>
+            <returns>
+            An <see cref="T:System.Object"/> that represents the converted value.
+            </returns>
         </member>
         <member name="T:NAnt.Contrib.Tasks.MgmtClassGenTask">
             <summary>
@@ -13272,6 +15330,12 @@
             This should be an OleDB connection string.
             </summary>
         </member>
+        <member name="P:NAnt.Contrib.Tasks.SqlTask.Encoding">
+            <summary>
+            The encoding of the files containing SQL statements. The default is
+            the system's current ANSI code page.
+            </summary>
+        </member>
         <member name="P:NAnt.Contrib.Tasks.SqlTask.Source">
             <summary>
             File where the sql statements are defined.
@@ -13630,11 +15694,19 @@
             Compiles Microsoft Visual Basic 6 programs.
             </summary>
             <remarks>
-                <para>Uses the VB6.EXE executable included with the Visual Basic 6 environment.</para>
-                <para>The compiler uses the settings and source files specified in the project or group file.</para>
+              <para>
+              Uses the VB6.EXE executable included with the Visual Basic 6
+              environment.
+              </para>
+              <para>
+              The compiler uses the settings and source files specified in the 
+              project or group file.
+              </para>
             </remarks>
             <example>
-              <para>Build the project <c>HelloWorld.vbp</c> in the <c>build</c> directory.</para>
+              <para>
+              Build the project <c>HelloWorld.vbp</c> in the <c>build</c> directory.
+              </para>
               <code>
                 <![CDATA[
             <vb6 project="HelloWorld.vbp" outdir="build" />
@@ -14187,6 +16259,72 @@
             <value>
             The command-line arguments for the external program.
             </value>
+        </member>
+        <member name="T:NAnt.Contrib.Types.BizTalk.ServiceStatus">
+            <summary>
+            Indicates the status of a service.
+            </summary>
+        </member>
+        <member name="F:NAnt.Contrib.Types.BizTalk.ServiceStatus.Unbound">
+            <summary>
+            The service is unbound.
+            </summary>
+        </member>
+        <member name="F:NAnt.Contrib.Types.BizTalk.ServiceStatus.Bound">
+            <summary>
+            The service is bound.
+            </summary>
+        </member>
+        <member name="F:NAnt.Contrib.Types.BizTalk.ServiceStatus.Stopped">
+            <summary>
+            The service is enlisted, but not started.
+            </summary>
+        </member>
+        <member name="F:NAnt.Contrib.Types.BizTalk.ServiceStatus.Started">
+            <summary>
+            The service is started.
+            </summary>
+        </member>
+        <member name="T:NAnt.Contrib.Types.ClearCase.TypeKindConverter">
+            <summary>
+            Specialized <see cref="T:System.ComponentModel.EnumConverter"/> that supports converting
+            a <see cref="T:NAnt.Contrib.Types.ClearCase.TypeKind"/> to a string value that can be used in
+            ClearCase commandline tools.
+            </summary>
+        </member>
+        <member name="M:NAnt.Contrib.Types.ClearCase.TypeKindConverter.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:NAnt.Contrib.Types.ClearCase.TypeKindConverter"/>
+            class.
+            </summary>
+        </member>
+        <member name="M:NAnt.Contrib.Types.ClearCase.TypeKindConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)">
+            <summary>
+            Introduces specialized behavior for converting a <see cref="T:NAnt.Contrib.Types.ClearCase.TypeKind"/>
+            value to a string that can be used in ClearCase commandline tools.
+            </summary>
+            <param name="context">An <see cref="T:System.ComponentModel.ITypeDescriptorContext"/> that provides a format context.</param>
+            <param name="culture">A <see cref="T:System.Globalization.CultureInfo"/> object. If a <see langword="null"/> is passed, the current culture is assumed.</param>
+            <param name="value">The <see cref="T:System.Object"/> to convert.</param>
+            <param name="destinationType">The <see cref="T:System.Type"/> which <paramref name="value"/> should be converted to.</param>
+            <returns>
+            An <see cref="T:System.Object"/> that represents the converted value.
+            </returns>
+        </member>
+        <member name="T:NAnt.Contrib.Types.NUnit2Report.ReportFormat">
+            <summary>
+            Defines the report types supported by <see cref="T:NAnt.Contrib.Tasks.NUnit2Report.NUnit2ReportTask"/>.
+            </summary>
+        </member>
+        <member name="F:NAnt.Contrib.Types.NUnit2Report.ReportFormat.Frames">
+            <summary>
+            Report with separate HTML frames.
+            </summary>
+        </member>
+        <member name="F:NAnt.Contrib.Types.NUnit2Report.ReportFormat.NoFrames">
+            <summary>
+            Frameless report.
+            </summary>
         </member>
         <member name="T:NAnt.Contrib.Types.PVCS.Entity">
             <summary>
@@ -15390,6 +17528,28 @@
             A relative file name for the given absolute file name.
             </returns>
         </member>
+        <member name="M:NAnt.Contrib.Util.IniFile.GetString(System.String,System.String,System.String)">
+            <summary>
+            Returns a string from your INI file
+            </summary>
+            <param name="Section"></param>
+            <param name="Key"></param>
+            <param name="Default"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NAnt.Contrib.Util.IniFile.WriteString(System.String,System.String,System.String)">
+            <summary>
+            ' Writes a string to your INI file
+            </summary>
+            <param name="Section"></param>
+            <param name="Key"></param>
+            <param name="String"></param>
+        </member>
+        <member name="M:NAnt.Contrib.Util.IniFile.Flush">
+            <summary>
+            ' Stores all the cached changes to your INI file
+            </summary>
+        </member>
         <member name="T:NAnt.Contrib.Util.SqlHelper">
             <summary>
             Helper class used to execute Sql Statements.
@@ -15439,11 +17599,12 @@
             </summary>
             <param name="sql">A string containing the original sql statements</param>
         </member>
-        <member name="M:NAnt.Contrib.Util.SqlStatementAdapter.AdaptSqlFile(System.String)">
+        <member name="M:NAnt.Contrib.Util.SqlStatementAdapter.AdaptSqlFile(System.String,System.Text.Encoding)">
             <summary>
             Adapts a set of Sql statements from a string.
             </summary>
             <param name="file">Path of file containing all sql statements</param>
+            <param name="encoding">The encoding of the file containing the SQL statements.</param>
             <returns>The new instance</returns>
         </member>
         <member name="T:NAnt.Contrib.Util.DelimiterStyle">
@@ -15480,13 +17641,14 @@
             </summary>
             <param name="sql">The SQL string to parse.</param>
         </member>
-        <member name="M:NAnt.Contrib.Util.SqlStatementList.ParseSqlFromFile(System.String)">
+        <member name="M:NAnt.Contrib.Util.SqlStatementList.ParseSqlFromFile(System.String,System.Text.Encoding)">
             <summary>
             Parses the contents of the file into the 
             internal list using the specified delimiter
             and delimiter style
             </summary>
             <param name="file">File name</param>
+            <param name="encoding">The encoding of the file containing the SQL statements.</param>
         </member>
         <member name="M:NAnt.Contrib.Util.SqlStatementList.GetEnumerator">
             <summary>
@@ -15598,6 +17760,9 @@
             <remarks/>
         </member>
         <member name="F:NAnt.Contrib.Schemas.Msi.MSIBase.iisproperties">
+            <remarks/>
+        </member>
+        <member name="F:NAnt.Contrib.Schemas.Msi.MSIBase.failonerror">
             <remarks/>
         </member>
         <member name="F:NAnt.Contrib.Schemas.Msi.MSIBase.output">
