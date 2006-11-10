@@ -26,10 +26,6 @@
 			<fail message="CCNetLabel property not set, so can't create distribution files" />
 		</if>
 
-		<if test="${not property::exists('fxcop.exe')}">
-			<fail message="fxcop.exe property not set, so cannot test" />
-		</if>
-
 		<if test="${not property::exists('ncoverexplorer.exe')}">
 			<fail message="ncoverexplorer.exe property not set, so cannot test" />
 		</if>
@@ -39,9 +35,11 @@
 		</if>
 
 		<property name="solution.dir" value="${CCNetWorkingDirectory}\SubtextSolution" />
-		<property name="MbUnit.exe" value="${CCNetWorkingDirectory}\BuildTools\MbUnit\MbUnit.Cons.exe" />
-		<property name="NCover.exe" value="${CCNetWorkingDirectory}\BuildTools\NCover\NCover.Console.exe" />
-		<property name="NDepend.exe" value="${CCNetWorkingDirectory}\BuildTools\NDepend\NDepend.Console.exe" />
+		<property name="buildtools.dir" value="${CCNetWorkingDirectory}\BuildTools\" />
+		<property name="fxcop.exe" value="${buildtools.dir}\FxCop\FxCopCmd.exe" />
+		<property name="MbUnit.exe" value="${buildtools.dir}\MbUnit\MbUnit.Cons.exe" />
+		<property name="NCover.exe" value="${buildtools.dir}\NCover\NCover.Console.exe" />
+		<property name="NDepend.exe" value="${buildtools.dir}\NDepend\NDepend.Console.exe" />
 		<property name="NDepend.config" value="${solution.dir}\NDependProject.xml" />
 		<property name="subtext.web.bin" value="${solution.dir}\Subtext.Web\bin" />
 		<property name="codemetrics.output.dir" value="${CCNetWorkingDirectory}\NDependTemp" />
@@ -177,10 +175,10 @@
 	
 	<target name="reporting" depends="compile-debug">
 		<exec program="${fxcop.exe}" 
-			commandline="/p:SubtextCodeAnalysis.FxCop /o:${log.dir}\ccnet-fxcop.xml" failonerror="false"/>
+			commandline="/p:${buildtools.dir}SubtextCodeAnalysis.FxCop /o:${log.dir}\ccnet-fxcop.xml" 
+			failonerror="false"/>
 	</target>
 
-	
 	<target name="util.ncoverexplorer.nant">
 		<echo message="Starting NCoverExplorer report generation..."/>
 
