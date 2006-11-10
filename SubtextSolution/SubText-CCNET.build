@@ -172,10 +172,10 @@
 
 
 	<target name="reporting" depends="compile-debug">
-		<fxcop projectfile="${buildtools.dir}\FxCop\SubtextCodeAnalysis.FxCop"></fxcop>
-			<arg value="/o${log.dir}\ccnet-fxcop.xml" />
-		</fxcop>
-
+		<fxcop 
+			projectfile="${buildtools.dir}\FxCop\SubtextCodeAnalysis.FxCop"
+			analysisReportFilename="${log.dir}\ccnet-fxcop.xml" />
+		
 		<!--<exec program="${fxcop.exe}" 
 			commandline="/p:${buildtools.dir}\FxCop\SubtextCodeAnalysis.FxCop /o:${log.dir}\ccnet-fxcop.xml" 
 			failonerror="false"/>-->
