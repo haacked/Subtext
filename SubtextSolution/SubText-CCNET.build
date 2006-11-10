@@ -32,7 +32,8 @@
 
 		<property name="solution.dir" value="${CCNetWorkingDirectory}\SubtextSolution" />
 		<property name="buildtools.dir" value="${CCNetWorkingDirectory}\BuildTools" />
-		<property name="fxcop.exe" value="${buildtools.dir}\FxCop\FxCopCmd.exe" />
+		<property name="fxcop.dir" value="${buildtools.dir}\FxCop" />
+		<property name="fxcop.exe" value="${fxcop.dir}\FxCopCmd.exe" />
 		<property name="mbunit.exe" value="${buildtools.dir}\MbUnit\MbUnit.Cons.exe" />
 		<property name="ncoverexplorer.exe" value="${buildtools.dir}\NCover\NCoverExplorer.Console.exe" />
 		<property name="ncover.exe" value="${buildtools.dir}\NCover\NCover.Console.exe" />
@@ -54,6 +55,7 @@
 		<property name="docs.root.dir" value="${CCNetWorkingDirectory}\Docs" />
 		<property name="ndoc.output.dir" value="${docs.root.dir}\NDoc" />
 
+		<setenv name="PATH" path="${fxcop.exe}\;%PATH%" />
 		<loadtasks path="${buildtools.dir}\NAnt\tasks" failonerror="false" />
 	</target>
 
@@ -183,7 +185,7 @@
 		<fxcop 
 			projectFile="${buildtools.dir}\FxCop\SubtextCodeAnalysis.FxCop"
 			analysisReportFilename="${log.dir}\ccnet-fxcop.xml"
-			exename="${fxcop.exe}" />
+		/>
 		
 		<!--<exec program="${fxcop.exe}" 
 			commandline="/p:${buildtools.dir}\FxCop\SubtextCodeAnalysis.FxCop /o:${log.dir}\ccnet-fxcop.xml" 
