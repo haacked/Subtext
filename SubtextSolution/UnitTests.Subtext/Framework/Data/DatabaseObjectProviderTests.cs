@@ -15,21 +15,11 @@ namespace UnitTests.Subtext.Framework.Data
 	[TestFixture]
 	public class DatabaseObjectProviderTests
 	{
-        string hostName;
-	    
-        [SetUp]
-        public void SetUp()
-        {
-            hostName = UnitTestHelper.GenerateRandomString();
-            UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "blog");
-        }
-	    
 		[Test]
 		[RollBack]
 		public void CanClearBlogContent()
 		{
-            Config.CreateBlog("test title", "test", "testaoeu!123", hostName, "");
-            UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
+			UnitTestHelper.SetupBlog();
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("author", "Ttitle", "Some body");
 			int entryId = Entries.Create(entry);
@@ -51,7 +41,7 @@ namespace UnitTests.Subtext.Framework.Data
         [RollBack]
         public void CanClearLog()
         {
-            Assert.IsTrue(Config.CreateBlog("My Blog", "username", "password", hostName, "blog"));
+			UnitTestHelper.SetupBlog();
 
             LoggingProvider provider = DatabaseLoggingProvider.Instance();
 
@@ -102,7 +92,8 @@ namespace UnitTests.Subtext.Framework.Data
 		[RollBack]
 		public void CanInsertAndDeleteImage()
 		{
-			ObjectProvider provider = new DatabaseObjectProvider();
+			UnitTestHelper.SetupBlog();
+			ObjectProvider provider = DatabaseObjectProvider.Instance();
 			
 			// Create the required category
 			LinkCategory category = new LinkCategory();
@@ -135,6 +126,7 @@ namespace UnitTests.Subtext.Framework.Data
 		[RollBack]
 		public void CanInsertAndDeleteKeyword()
 		{
+			UnitTestHelper.SetupBlog();
 			ObjectProvider provider = DatabaseObjectProvider.Instance();
 
 			// Insert a new keyword
