@@ -181,7 +181,7 @@
 
 
 	<target name="reporting" depends="compile-debug">
-		<setenv name="PATH" path="${fxcop.exe}\;%PATH%" verbose="true" />
+		<setenv name="PATH" path="${fxcop.dir}\;%PATH%" verbose="true" />
 		
 		<fxcop 
 			projectFile="${buildtools.dir}\FxCop\SubtextCodeAnalysis.FxCop"
