@@ -24,8 +24,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Subtext.Web\ReleaseNotes.txt = Subtext.Web\ReleaseNotes.txt
 		SolutionInfo.cs = SolutionInfo.cs
 		SourceGuidelines.txt = SourceGuidelines.txt
-		SubText.build = SubText.build
-		SubtextCodeAnalysis.FxCop = SubtextCodeAnalysis.FxCop
 		SubtextDocs.ndoc = SubtextDocs.ndoc
 		VersionInfo.Designer.cs = VersionInfo.Designer.cs
 	EndProjectSection
