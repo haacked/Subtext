@@ -54,8 +54,7 @@
 		
 		<property name="docs.root.dir" value="${CCNetWorkingDirectory}\Docs" />
 		<property name="ndoc.output.dir" value="${docs.root.dir}\NDoc" />
-
-		<setenv name="PATH" path="${fxcop.exe}\;%PATH%" />
+		
 		<loadtasks path="${buildtools.dir}\NAnt\tasks" failonerror="false" />
 	</target>
 
@@ -182,6 +181,8 @@
 
 
 	<target name="reporting" depends="compile-debug">
+		<setenv name="PATH" path="${fxcop.exe}\;%PATH%" verbose="true" />
+		
 		<fxcop 
 			projectFile="${buildtools.dir}\FxCop\SubtextCodeAnalysis.FxCop"
 			analysisReportFilename="${log.dir}\ccnet-fxcop.xml"
