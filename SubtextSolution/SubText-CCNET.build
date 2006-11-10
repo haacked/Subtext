@@ -37,8 +37,9 @@
 		<property name="mbunit.exe" value="${buildtools.dir}\MbUnit\MbUnit.Cons.exe" />
 		<property name="ncoverexplorer.exe" value="${buildtools.dir}\NCover\NCoverExplorer.Console.exe" />
 		<property name="ncover.exe" value="${buildtools.dir}\NCover\NCover.Console.exe" />
-		<property name="ndepend.exe" value="${buildtools.dir}\NDepend\NDepend.Console.exe" />
-		<property name="ndepend.config" value="${solution.dir}\NDependProject.xml" />
+		<property name="ndepend.dir" value="${buildtools.dir}\NDepend" />
+		<property name="ndepend.exe" value="${ndepend.dir}\NDepend.Console.exe" />
+		<property name="ndepend.config" value="${ndepend.dir}\NDependProject.xml" />
 		<property name="subtext.web.bin" value="${solution.dir}\Subtext.Web\bin" />
 		<property name="codemetrics.output.dir" value="${CCNetWorkingDirectory}\NDependTemp" />
 
@@ -148,11 +149,7 @@
 		<!--	Put NDepend config xml into a working output directory, 
 				since NDepend will output to the same directory as directory 
 				used for input.									-->
-		<copy todir="${log.dir}" failonerror="false">
-			<fileset basedir="${buildtools.dir}">
-				<include name="NDependProject.xml" />
-			</fileset>
-		</copy>
+		<copy todir="${log.dir}" file="${ndepend.config}" failonerror="false" verbose="true" />
 
 		<!-- Set the path to our temporary file -->
 		<property name="ndepend.input" value="${log.dir}\NDependProject.xml" />
