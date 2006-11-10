@@ -53,6 +53,8 @@
 		
 		<property name="docs.root.dir" value="${CCNetWorkingDirectory}\Docs" />
 		<property name="ndoc.output.dir" value="${docs.root.dir}\NDoc" />
+
+		<setenv name="PATH" path="${fxcop.exe};%PATH%" />
 	</target>
 
 	
@@ -167,12 +169,16 @@
 			</fileset>
 		</copy>
 	</target>
-	
-	
+
+
 	<target name="reporting" depends="compile-debug">
-		<exec program="${fxcop.exe}" 
+		<fxcop projectfile="${buildtools.dir}\FxCop\SubtextCodeAnalysis.FxCop"></fxcop>
+			<arg value="/o${log.dir}\ccnet-fxcop.xml" />
+		</fxcop>
+
+		<!--<exec program="${fxcop.exe}" 
 			commandline="/p:${buildtools.dir}\FxCop\SubtextCodeAnalysis.FxCop /o:${log.dir}\ccnet-fxcop.xml" 
-			failonerror="false"/>
+			failonerror="false"/>-->
 	</target>
 
 	<target name="util.ncoverexplorer.nant">
