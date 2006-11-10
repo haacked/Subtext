@@ -27,7 +27,7 @@
 		</if>
 
 		<if test="${not property::exists('msbuild.exe')}">
-			<fail message="msbuild.exe property not set, so cannot test" />
+			<property name="msbuild.exe" value="C:\WINDOWS\Microsoft.NET\Framework\v2.0.50727\MSBuild.exe" />
 		</if>
 
 		<property name="solution.dir" value="${CCNetWorkingDirectory}\SubtextSolution" />
