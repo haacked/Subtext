@@ -88,6 +88,7 @@ Assembly build order:
 
 NDepend information and warnings:
    This sections gives you advices about your code:
+ --> It warns you on assemblies versioning issues.
  --> It warns you when an assembly depends on a less stable assembly than itself.
  --> It warns you when the visibility of a type or of a member is not optimal 
      (in the context of the analysed application). 
@@ -113,8 +114,7 @@ I want to go further to have a better control over my code:
 
 
 Understand metrics yielded by NDepend. Documentation is available here:
-http://www.NDepend.com/AsmMetrics.htm
-http://www.NDepend.com/TypeMetrics.htm
+http://www.NDepend.com/Metrics.htm
 
 
 Get a new understanding of your code by playing with the VisualNDepend
@@ -136,7 +136,7 @@ You'll find it useful mainly to create:
 
 
 Integrate the NDepend report in your daily build process. Facilities are provided
-for both MSBuild and NAnt build technologies. Read the ReadMe.txt files
+for MSBuild, NAnt and CruiseControl.NET technologies. Read the ReadMe.txt files
 contained in the '.\MSBuild\' and '.\NAnt\' folders.
 
 
