@@ -225,6 +225,8 @@
       <Link>VersionInfo.Designer.cs</Link>
     </Compile>
     <Compile Include="Akismet\AkismetApiTests.cs" />
+    <Compile Include="Akismet\AkismetCommentTests.cs" />
+    <Compile Include="Akismet\HttpClientTests.cs" />
     <Compile Include="AssemblySetUpAndCleanUp.cs" />
     <Compile Include="BlogMl\BlogMlImportTests.cs" />
     <Compile Include="BlogMl\BlogMLReaderTests.cs" />

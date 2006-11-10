@@ -133,12 +133,7 @@
 			workingDirectory="UnitTests.Subtext\bin\${configuration}"
 			coverageFile="${log.dir}\ncover-temp.xml"
 		/>
-		<!--
-		<exec program="${ncover.exe}" 
-			workingdir="UnitTests.Subtext\bin\${configuration}" 
-			commandline="&quot;${mbunit.exe}&quot; /rnf:unittest /rt:xml /rf:${log.dir} UnitTests.Subtext.dll //x ${log.dir}\ncover-temp.xml" 
-			failonerror="true"/>-->
-
+		
 		<call target="util.ncoverexplorer.nant" />
 		<call target="code.metrics" />
 	</target>
