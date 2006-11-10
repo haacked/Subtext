@@ -20,6 +20,8 @@ using Subtext.Extensibility;
 using Subtext.Extensibility.Plugins;
 using Subtext.Framework.Providers;
 using System.Collections.Specialized;
+using System.Web;
+using System.Web.Caching;
 
 namespace Subtext.Framework.Components
 {
@@ -28,6 +30,8 @@ namespace Subtext.Framework.Components
 	/// </summary>
 	public class Plugin
 	{
+		private const string PLUGINCACHENAMEFORMAT = "{0}_PLUGINLIST"; //{0} is the blog id
+
 		/// <summary>
 		/// Get all enabled plugins for the current blog
 		/// </summary>
@@ -88,5 +92,48 @@ namespace Subtext.Framework.Components
 		{
 			ObjectProvider.Instance().UpdatePluginGeneralSettings(pluginGuid, key, value);
 		}
+
+		/// <summary>
+		/// Get all enabled plugins for the current blog from the ASP.NET Cache
+		/// </summary>
+		/// <returns>A collection with the GUIDs of all enabled plugins</returns>
+		public static ICollection<Guid> GetEnabledPluginsFromCache()
+		{
+			int blogId = Subtext.Framework.Configuration.Config.CurrentBlog.Id;
+			ICollection<Guid> pluginList = null;
+
+			//check to see if cache is not null (we are not running a unit test)
+			if (HttpContext.Current.Cache != null)
+			{
+				//try to get the object from the cache
+				object cachedPluginList = HttpContext.Current.Cache[String.Format(PLUGINCACHENAMEFORMAT,blogId)];
+				pluginList = (ICollection<Guid>)cachedPluginList;
+			}
+			//if the pluginlist is still null (not found inside the cache) go and hit the DB
+			//and then store the findings inside the cache
+			if (pluginList == null)
+			{
+				pluginList = Plugin.GetEnabledPlugins();
+				StorePluginListToCache(blogId, pluginList);
+			}
+
+			return pluginList;
+		}
+
+
+		#region Cache managing helper classes
+
+		private static void StorePluginListToCache(int blogId, ICollection<Guid> pluginList)
+		{
+			HttpContext.Current.Cache.Insert(String.Format(PLUGINCACHENAMEFORMAT, blogId), pluginList, null, Cache.NoAbsoluteExpiration, new TimeSpan(1, 0, 0), CacheItemPriority.NotRemovable, null);
+		}
+
+		private static void RemovePluginListFromCache(int blogId)
+		{
+			HttpContext.Current.Cache.Remove(String.Format(PLUGINCACHENAMEFORMAT, blogId));
+		}
+
+		#endregion Cache managing helper classes
+
 	}
 }
