@@ -120,6 +120,16 @@ namespace UnitTests.Subtext
 			return System.Guid.NewGuid().ToString().Replace("-", "") + ".com";
 		}
 
+		/// <summary>
+		/// Takes all the necessary steps to create a blog and set up the HTTP Context 
+		/// with the blog.
+		/// </summary>
+		public static void SetupBlog()
+		{
+			string host = UnitTestHelper.GenerateRandomString();
+			Assert.IsTrue(Config.CreateBlog("Unit Test Blog", "FakeUser", "FakePassword", host, string.Empty), "Could Not Create Blog");
+			SetHttpContextWithBlogRequest(host, string.Empty, string.Empty);
+		}
 
 		/// <summary>
 		/// Sets the HTTP context with a valid request for the blog specified 
