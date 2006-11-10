@@ -55,7 +55,7 @@
 		<property name="ndoc.output.dir" value="${docs.root.dir}\NDoc" />
 
 		<setenv name="PATH" path="${fxcop.exe};%PATH%" />
-		<loadtasks path="${buildtools.dir}\NAnt\tasks" />
+		<loadtasks path="${buildtools.dir}\NAnt\tasks" failonerror="false" />
 	</target>
 
 	
