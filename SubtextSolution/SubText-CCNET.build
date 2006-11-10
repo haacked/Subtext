@@ -182,7 +182,7 @@
 
 	<target name="reporting" depends="compile-debug">
 		<fxcop 
-			projectfile="${buildtools.dir}\FxCop\SubtextCodeAnalysis.FxCop"
+			projectFile="${buildtools.dir}\FxCop\SubtextCodeAnalysis.FxCop"
 			analysisReportFilename="${log.dir}\ccnet-fxcop.xml" />
 		
 		<!--<exec program="${fxcop.exe}" 
