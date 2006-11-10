@@ -23,35 +23,35 @@ namespace Subtext.Extensibility.Plugins
 	public static class STEvents
 	{
 		/// <summary>
-		/// Raises all PreEntryUpdate Events.
+		/// Raises all EntryUpdating Events.
 		/// </summary>
-		public static void OnPreEntryUpdate(Entry entry, STEventArgs e)
+		public static void OnEntryUpdating(Entry entry, STEventArgs e)
 		{
-			STApplication.Current.ExecutePreEntryUpdate(entry, e);
+			STApplication.Current.ExecuteEntryUpdating(entry, e);
 		}
 
 		/// <summary>
-		/// Raises all PostEntryUpdate Events.
+		/// Raises all EntryUpdated Events.
 		/// </summary>
-		public static void OnPostEntryUpdate(Entry entry, STEventArgs e)
+		public static void OnEntryUpdated(Entry entry, STEventArgs e)
 		{
-			STApplication.Current.ExecutePostEntryUpdate(entry, e);
+			STApplication.Current.ExecuteEntryUpdated(entry, e);
 		}
 
 		/// <summary>
-		/// Raises all PreRenderSingleEntry Events.
+		/// Raises all SingleEntryRendering Events.
 		/// </summary>
-		public static void OnPreRenderSingleEntry(Entry entry, STEventArgs e)
+		public static void OnSingleEntryRendering(Entry entry, STEventArgs e)
 		{
-			STApplication.Current.ExecutePreRenderSingleEntry(entry, e);
+			STApplication.Current.ExecuteSingleEntryRendering(entry, e);
 		}
 
 		/// <summary>
-		/// Raises all PreRenderEntry Events.
+		/// Raises all EntryRendering Events.
 		/// </summary>
-		public static void OnPreRenderEntry(Entry entry, STEventArgs e)
+		public static void OnEntryRendering(Entry entry, STEventArgs e)
 		{
-			STApplication.Current.ExecutePreRenderEntry(entry, e);
+			STApplication.Current.ExecuteEntryRendering(entry, e);
 		}
 	}
 }
