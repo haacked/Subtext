@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Collections.Specialized;
 
 namespace Subtext.Extensibility.Plugins
 {
@@ -33,6 +34,24 @@ namespace Subtext.Extensibility.Plugins
 		{
 			get{ return _state;}
 		}
+
+		public NameValueCollection BlogSettings
+		{
+			get 
+			{
+				return Subtext.Framework.Configuration.Config.CurrentBlog.EnabledPlugins[_callingPluginGuid].Settings;
+			}
+		}
+
+		private Guid _callingPluginGuid;
+
+		internal Guid CallingPluginGuid
+		{
+			get { return _callingPluginGuid; }
+			set { _callingPluginGuid = value; }
+		}
+
+
 
 		public STEventArgs(ObjectState state)
 		{

@@ -85,7 +85,7 @@ namespace Subtext.Extensibility.Plugins
 			}
 			else
 			{
-				return Plugin.GetPluginGeneralSettings(_pluginGuid);
+				return Subtext.Framework.Configuration.Config.CurrentBlog.EnabledPlugins[_pluginGuid].Settings;
 			}
 		}
 

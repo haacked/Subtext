@@ -1112,19 +1112,19 @@ namespace Subtext.Framework
 
 		#region Plugin Specific Properties
 
-		private ICollection<Guid> _enabledPluginGuids=null;
+		private IDictionary<Guid,Plugin> _enabledPlugins = null;
 
-		public ICollection<Guid> EnabledPluginGuids
+		public IDictionary<Guid,Plugin> EnabledPlugins
 		{
 			get
 			{
 				//if the list of plugins has not been retrived for this BlogInfo
 				//I need to retrieve it from the cache (or, if I'm not lucky, from the storage)
-				if (_enabledPluginGuids==null)
+				if (_enabledPlugins == null)
 				{
-					_enabledPluginGuids = Plugin.GetEnabledPluginsFromCache();
+					_enabledPlugins = Plugin.GetEnabledPluginsFromCache();
 				}
-				return _enabledPluginGuids;
+				return _enabledPlugins;
 			}
 		}
 

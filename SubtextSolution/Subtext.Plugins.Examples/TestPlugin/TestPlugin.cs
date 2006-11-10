@@ -37,6 +37,7 @@ namespace Subtext.Plugins.Examples.TestPlugin
 		void sta_EntryRendering(Subtext.Framework.Components.Entry entry, STEventArgs e)
 		{
 			entry.Body += "<br><hr> <b>TestPlugin</b>: Rendered at date: " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
+			entry.Body += e.BlogSettings["value1"];
 		}
 
 		void sta_EntryUpdated(Subtext.Framework.Components.Entry entry, STEventArgs e)

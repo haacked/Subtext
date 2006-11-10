@@ -32,11 +32,74 @@ namespace Subtext.Framework.Components
 	{
 		private const string PLUGINCACHENAMEFORMAT = "{0}_PLUGINLIST"; //{0} is the blog id
 
+
+		private IPlugin _initializedPlugin;
+
+		/// <summary>
+		/// An instance of the plugin, already initialized
+		/// </summary>
+		public IPlugin InitializedPlugin
+		{
+			get { return _initializedPlugin; }
+			set { _initializedPlugin = value; }
+		}
+
+		private NameValueCollection _settings;
+
+		public NameValueCollection Settings
+		{
+			get { return _settings; }
+			set { _settings = value; }
+		}
+
+		internal Plugin(IPlugin plugin, NameValueCollection settings)
+		{
+			_initializedPlugin = plugin;
+			_settings = settings;
+		}
+
+
+		#region Enable/Disable Plugins
+
+		/// <summary>
+		/// Get all enabled plugins for the current blog from the ASP.NET Cache
+		/// </summary>
+		/// <returns>A collection with the GUIDs of all enabled plugins</returns>
+		public static IDictionary<Guid, Plugin> GetEnabledPluginsFromCache()
+		{
+			int blogId = Subtext.Framework.Configuration.Config.CurrentBlog.Id;
+			IDictionary<Guid, Plugin> pluginList = null;
+
+			//check to see if cache is not null (we are not running a unit test)
+			if (HttpContext.Current.Cache != null)
+			{
+				//try to get the object from the cache
+				object cachedPluginList = HttpContext.Current.Cache[String.Format(PLUGINCACHENAMEFORMAT, blogId)];
+				pluginList = (IDictionary<Guid, Plugin>)cachedPluginList;
+			}
+			//if the pluginlist is still null (not found inside the cache) go and hit the DB
+			//and then store the findings inside the cache
+			if (pluginList == null)
+			{
+				ICollection<Guid> pluginGuids = Plugin.GetEnabledPlugins();
+				pluginList = new Dictionary<Guid, Plugin>(pluginGuids.Count);
+				foreach (Guid guid in pluginGuids)
+				{
+					IPlugin currPlugin = STApplication.Current.GetPluginByGuid(guid.ToString());
+					pluginList.Add(guid, new Plugin(currPlugin, Plugin.GetPluginGeneralSettings(guid)));
+				}
+				StorePluginListToCache(pluginList);
+			}
+
+			return pluginList;
+		}
+
+
 		/// <summary>
 		/// Get all enabled plugins for the current blog
 		/// </summary>
 		/// <returns>A collection with the GUIDs of all enabled plugins</returns>
-		public static ICollection<Guid> GetEnabledPlugins()
+		private static ICollection<Guid> GetEnabledPlugins()
 		{
 			return ObjectProvider.Instance().GetEnabledPlugins();
 		}
@@ -45,22 +108,37 @@ namespace Subtext.Framework.Components
 		/// Enables a plugin for the current blog
 		/// </summary>
 		/// <param name="pluginId">GUID of the plugin to enable</param>
-		/// <returns>True if the plugin has been enabled, falso otherwise</returns>
+		/// <returns>True if the plugin has been enabled, false otherwise</returns>
 		public static bool EnablePlugin(Guid pluginId)
 		{
-			return ObjectProvider.Instance().EnablePlugin(pluginId);
+			bool results = ObjectProvider.Instance().EnablePlugin(pluginId);
+
+			//Removes the list of enabled plugins for the current blog from the cache
+			//This way we don't have strange caching issues
+			Plugin.RemovePluginListFromCache();
+
+			return results;
 		}
 
 		/// <summary>
 		/// Disables a plugin for the current blog
 		/// </summary>
 		/// <param name="pluginId">GUID of the plugin to disable</param>
-		/// <returns>True if the plugin has been disable, falso otherwise</returns>
+		/// <returns>True if the plugin has been disable, false otherwise</returns>
 		public static bool DisablePlugin(Guid pluginId)
 		{
-			return ObjectProvider.Instance().DisablePlugin(pluginId);
-		}
+			bool results = ObjectProvider.Instance().DisablePlugin(pluginId);
 
+			//Removes the list of enabled plugins for the current blog from the cache
+			//This way we don't have strange caching issues
+			Plugin.RemovePluginListFromCache();
+
+			return results;
+		}
+		#endregion Enable/Disable Plugins
+
+
+		#region General Blog Plugin Settings
 		/// <summary>
 		/// Retrieves the blog plugin settings from the storage
 		/// </summary>
@@ -80,6 +158,10 @@ namespace Subtext.Framework.Components
 		public static void InsertPluginGeneralSettings(Guid pluginGuid, string key, string value)
 		{
 			ObjectProvider.Instance().InsertPluginGeneralSettings(pluginGuid, key, value);
+
+			//Removes the list of enabled plugins for the current blog from the cache
+			//This way we don't have strange caching issues
+			Plugin.RemovePluginListFromCache();
 		}
 
 		/// <summary>
@@ -91,45 +173,25 @@ namespace Subtext.Framework.Components
 		public static void UpdatePluginGeneralSettings(Guid pluginGuid, string key, string value)
 		{
 			ObjectProvider.Instance().UpdatePluginGeneralSettings(pluginGuid, key, value);
+
+			//Removes the list of enabled plugins for the current blog from the cache
+			//This way we don't have strange caching issues
+			Plugin.RemovePluginListFromCache();
 		}
-
-		/// <summary>
-		/// Get all enabled plugins for the current blog from the ASP.NET Cache
-		/// </summary>
-		/// <returns>A collection with the GUIDs of all enabled plugins</returns>
-		public static ICollection<Guid> GetEnabledPluginsFromCache()
-		{
-			int blogId = Subtext.Framework.Configuration.Config.CurrentBlog.Id;
-			ICollection<Guid> pluginList = null;
-
-			//check to see if cache is not null (we are not running a unit test)
-			if (HttpContext.Current.Cache != null)
-			{
-				//try to get the object from the cache
-				object cachedPluginList = HttpContext.Current.Cache[String.Format(PLUGINCACHENAMEFORMAT,blogId)];
-				pluginList = (ICollection<Guid>)cachedPluginList;
-			}
-			//if the pluginlist is still null (not found inside the cache) go and hit the DB
-			//and then store the findings inside the cache
-			if (pluginList == null)
-			{
-				pluginList = Plugin.GetEnabledPlugins();
-				StorePluginListToCache(blogId, pluginList);
-			}
-
-			return pluginList;
-		}
+		#endregion General Blog Plugin Settings
 
 
 		#region Cache managing helper classes
 
-		private static void StorePluginListToCache(int blogId, ICollection<Guid> pluginList)
+		private static void StorePluginListToCache(IDictionary<Guid, Plugin> pluginList)
 		{
+			int blogId = Subtext.Framework.Configuration.Config.CurrentBlog.Id;
 			HttpContext.Current.Cache.Insert(String.Format(PLUGINCACHENAMEFORMAT, blogId), pluginList, null, Cache.NoAbsoluteExpiration, new TimeSpan(1, 0, 0), CacheItemPriority.NotRemovable, null);
 		}
 
-		private static void RemovePluginListFromCache(int blogId)
+		private static void RemovePluginListFromCache()
 		{
+			int blogId = Subtext.Framework.Configuration.Config.CurrentBlog.Id;
 			HttpContext.Current.Cache.Remove(String.Format(PLUGINCACHENAMEFORMAT, blogId));
 		}
 
