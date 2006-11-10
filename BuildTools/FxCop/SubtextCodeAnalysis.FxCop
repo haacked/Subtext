@@ -122,7 +122,7 @@
    </Namespace>
    <Namespace Name="Subtext.Extensibility">
     <Messages>
-     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Status="Excluded" Created="2006-05-10 06:03:00Z">
+     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2006-05-10 06:03:00Z">
       <Issue>
        <Item>Subtext.Extensibility</Item>
       </Issue>
@@ -282,7 +282,7 @@
    </Namespace>
    <Namespace Name="Subtext.Scripting.Exceptions">
     <Messages>
-     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Status="Excluded" Created="2006-05-10 06:03:00Z">
+     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2006-05-10 06:03:00Z">
       <Issue>
        <Item>Subtext.Scripting.Exceptions</Item>
       </Issue>
@@ -647,7 +647,7 @@
           <Members>
            <Member Name="Empty">
             <Messages>
-             <Message TypeName="DoNotDeclareReadOnlyMutableReferenceTypes" Category="Microsoft.Security" CheckId="CA2104" Status="Excluded" Created="2006-11-08 19:12:12Z">
+             <Message TypeName="DoNotDeclareReadOnlyMutableReferenceTypes" Category="Microsoft.Security" CheckId="CA2104" Created="2006-11-08 19:12:12Z">
               <Issue>
                <Item>IdConversionStrategy.Empty</Item>
                <Item>Subtext.BlogML.Conversion.IdConversionStrategy</Item>
@@ -742,7 +742,7 @@
     <Modules>
      <Module Name="subtext.extensibility.dll">
       <Messages>
-       <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Status="Excluded" Created="2006-05-10 06:03:00Z">
+       <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Created="2006-05-10 06:03:00Z">
         <Issue Name="NoStrongName">
          <Item>Subtext.Extensibility</Item>
         </Issue>
@@ -10706,7 +10706,7 @@
     <Modules>
      <Module Name="subtext.scripting.dll">
       <Messages>
-       <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Status="Excluded" Created="2006-05-10 06:03:00Z">
+       <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Created="2006-05-10 06:03:00Z">
         <Issue Name="NoStrongName">
          <Item>Subtext.Scripting</Item>
         </Issue>
@@ -10782,7 +10782,7 @@
     <Modules>
      <Module Name="subtext.web.controls.dll">
       <Messages>
-       <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Status="Excluded" Created="2006-05-10 06:03:00Z">
+       <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Created="2006-05-10 06:03:00Z">
         <Issue Name="NoStrongName">
          <Item>Subtext.Web.Controls</Item>
         </Issue>
