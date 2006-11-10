@@ -9,7 +9,6 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
-using Subtext.Framework.Security;
 
 namespace UnitTests.Subtext.Framework.Data
 {
@@ -103,7 +102,7 @@ namespace UnitTests.Subtext.Framework.Data
 		[RollBack]
 		public void CanInsertAndDeleteImage()
 		{
-			ObjectProvider provider = DatabaseObjectProvider.Instance();
+			ObjectProvider provider = new DatabaseObjectProvider();
 			
 			// Create the required category
 			LinkCategory category = new LinkCategory();

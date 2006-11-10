@@ -41,6 +41,44 @@ namespace UnitTests.Subtext.Akismet
 			AkismetClient client = new AkismetClient("fake-key", new Uri("http://haacked.com/"), new HttpClient());
 			Assert.AreEqual(new Uri("http://haacked.com/"), client.BlogUrl);
 			Assert.AreEqual("fake-key", client.ApiKey);
+			
+			client = new AkismetClient("fake-key", new Uri("http://haacked.com/"));
+			Assert.AreEqual(new Uri("http://haacked.com/"), client.BlogUrl);
+			Assert.AreEqual("fake-key", client.ApiKey);
+		}
+		
+		[Test]
+		public void CanSetTimeout()
+		{
+			AkismetClient client = new AkismetClient("fake-key", new Uri("http://haacked.com/"), new HttpClient());
+			client.Timeout = 1234;
+			Assert.AreEqual(1234, client.Timeout);
+		}
+
+		[Test]
+		public void CanSetUserAgent()
+		{
+			AkismetClient client = new AkismetClient("fake-key", new Uri("http://haacked.com/"), new HttpClient());
+			client.UserAgent = "some-bot";
+			Assert.AreEqual("some-bot", client.UserAgent);
+		}
+
+		[Test]
+		public void CanSetApiKey()
+		{
+			AkismetClient client = new AkismetClient("fake-key", new Uri("http://haacked.com/"), new HttpClient());
+			Assert.AreEqual("fake-key", client.ApiKey);
+			client.ApiKey = "another-key";
+			Assert.AreEqual("another-key", client.ApiKey);
+		}
+
+		[Test]
+		public void CanSetBlogUrl()
+		{
+			AkismetClient client = new AkismetClient("fake-key", new Uri("http://haacked.com/"), new HttpClient());
+			Assert.AreEqual(new Uri("http://haacked.com/"), client.BlogUrl);
+			client.BlogUrl = new Uri("http://phil.haacked.com/");
+			Assert.AreEqual(new Uri("http://phil.haacked.com/"), client.BlogUrl);
 		}
 
 		[Test]
@@ -274,6 +312,23 @@ namespace UnitTests.Subtext.Akismet
 
 			AkismetClient client = new AkismetClient("myapikey", new Uri("http://haacked.com/"), httpClient);
 			Assert.IsTrue(client.CheckCommentForSpam(comment), "If the request returns 'false' then we should return false!");
+		}
+
+		[Test]
+		[ExpectedException(typeof(InvalidResponseException))]
+		public void VerifyApiKeyThrowsInvalidResponseExceptionForEmptyResponse()
+		{
+			string userAgent = GetExpectedUserAgent();
+			Uri verifyUrl = new Uri("http://rest.akismet.com/1.1/verify-key");
+			string parameters = "key=" + HttpUtility.UrlEncode("fake-key") + "&blog=" + HttpUtility.UrlEncode("http://haacked.com/");
+
+			MockRepository mocks = new MockRepository();
+			HttpClient httpClient = (HttpClient)mocks.CreateMock(typeof(HttpClient));
+			Expect.Call(httpClient.PostRequest(verifyUrl, userAgent, 5000, parameters)).Return("");
+			mocks.ReplayAll();
+
+			AkismetClient client = new AkismetClient("fake-key", new Uri("http://haacked.com/"), httpClient);
+			client.VerifyApiKey();
 		}
 
 		private static void SetupCallsAnComment(IComment comment, string author, string email, IPAddress ip, string userAgent, string referer, Uri permalink, string commentType, Uri authorUrl, string content, NameValueCollection extendedProperties)
