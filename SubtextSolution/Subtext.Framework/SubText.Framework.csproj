@@ -373,12 +373,12 @@
     <Compile Include="Plugins\PluginSectionHandler.cs" />
     <Compile Include="Plugins\PluginSettings.cs" />
     <Compile Include="Plugins\PluginSettingsCollection.cs" />
-    <Compile Include="Plugins\STAdminGlobalSettingsBaseControl.cs">
+    <Compile Include="Plugins\SubtextAdminGlobalSettingsBaseControl.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Plugins\STApplication.cs" />
-    <Compile Include="Plugins\STEventArgs.cs" />
-    <Compile Include="Plugins\STEvents.cs" />
+    <Compile Include="Plugins\SubtextApplication.cs" />
+    <Compile Include="Plugins\SubtextEventArgs.cs" />
+    <Compile Include="Plugins\SubtextEvents.cs" />
     <Compile Include="Providers\ObjectProvider.cs">
       <SubType>Code</SubType>
     </Compile>

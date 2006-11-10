@@ -356,12 +356,12 @@ namespace Subtext.Web.Admin
 			{
 				Entry entry = Entries.GetEntry(_targetID, PostConfig.None, false);
 				//Code to be called before delete a post
-				STEvents.OnEntryUpdating(entry, new STEventArgs(ObjectState.Delete));
+				SubtextEvents.OnEntryUpdating(entry, new SubtextEventArgs(ObjectState.Delete));
 
 				Entries.Delete(_targetID);
 
 				//Code to be called after updating a post
-				STEvents.OnEntryUpdated(entry, new STEventArgs(ObjectState.Delete));
+				SubtextEvents.OnEntryUpdated(entry, new SubtextEventArgs(ObjectState.Delete));
 
 				return FormatMessage(ExecuteSuccessMessage, _targetName, _targetID);
 			}

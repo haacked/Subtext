@@ -85,7 +85,7 @@ namespace Subtext.Framework.Components
 				pluginList = new Dictionary<Guid, Plugin>(pluginGuids.Count);
 				foreach (Guid guid in pluginGuids)
 				{
-					IPlugin currPlugin = STApplication.Current.GetPluginByGuid(guid.ToString());
+					IPlugin currPlugin = SubtextApplication.Current.GetPluginByGuid(guid.ToString());
 					pluginList.Add(guid, new Plugin(currPlugin, Plugin.GetPluginGeneralSettings(guid)));
 				}
 				StorePluginListToCache(pluginList);

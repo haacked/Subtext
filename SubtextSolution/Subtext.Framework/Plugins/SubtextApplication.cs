@@ -31,7 +31,7 @@ namespace Subtext.Extensibility.Plugins
 	/// </summary>
 	/// <param name="entry">The entry being edited</param>
 	/// <param name="e">Event Args</param>
-	public delegate void EntryEventHandler(Entry entry, STEventArgs e);
+	public delegate void EntryEventHandler(Entry entry, SubtextEventArgs e);
 	#endregion
 
 	/// <summary>
@@ -46,7 +46,7 @@ namespace Subtext.Extensibility.Plugins
 	/// Since the class contains a lot of event definitions, it uses the approach used also by the Form class and by HttpApplication class:<br/>
 	/// uses only one EventHandlerList to store all the event subscription instead of one per event as the default behaviour
 	/// </summary>
-	public sealed class STApplication
+	public sealed class SubtextApplication
 	{
 
 		private EventHandlerList Events = new EventHandlerList();
@@ -87,12 +87,12 @@ namespace Subtext.Extensibility.Plugins
 		}
 
 
-		private static STApplication _instance = LoadPlugins();
+		private static SubtextApplication _instance = LoadPlugins();
 
 		/// <summary>
 		/// Returns the current single instance of the class
 		/// </summary>
-		public static STApplication Current
+		public static SubtextApplication Current
 		{
 			get
 			{
@@ -104,7 +104,7 @@ namespace Subtext.Extensibility.Plugins
 			}
 		}
 
-		private STApplication()
+		private SubtextApplication()
 		{
 		}
 
@@ -112,9 +112,9 @@ namespace Subtext.Extensibility.Plugins
 		/// Load all plugins from the web.config file, and return a configured instance of the STApplication, with all the plugins already initialized
 		/// </summary>
 		/// <returns>Configured instance of the STApplication</returns>
-		private static STApplication LoadPlugins()
+		private static SubtextApplication LoadPlugins()
 		{
-			STApplication app = new STApplication();
+			SubtextApplication app = new SubtextApplication();
 			PluginSectionHandler pluginSection = (PluginSectionHandler)WebConfigurationManager.GetSection("STPluginConfiguration");
 
 			if(pluginSection!=null) 
@@ -234,29 +234,29 @@ namespace Subtext.Extensibility.Plugins
 
 		#region Event Execution
 
-		internal void ExecuteEntryUpdating(Entry entry, STEventArgs e)
+		internal void ExecuteEntryUpdating(Entry entry, SubtextEventArgs e)
 		{
 			ExecuteEntryEvent(EventEntryUpdating, entry, e);
 		}
 
-		internal void ExecuteEntryUpdated(Entry entry, STEventArgs e)
+		internal void ExecuteEntryUpdated(Entry entry, SubtextEventArgs e)
 		{
 			ExecuteEntryEvent(EventEntryUpdated, entry, e);
 		}
 
-		internal void ExecuteEntryRendering(Entry entry, STEventArgs e)
+		internal void ExecuteEntryRendering(Entry entry, SubtextEventArgs e)
 		{
 			ExecuteEntryEvent(EventEntryRendering, entry, e);
 		}
 
-		internal void ExecuteSingleEntryRendering(Entry entry, STEventArgs e)
+		internal void ExecuteSingleEntryRendering(Entry entry, SubtextEventArgs e)
 		{
 			ExecuteEntryEvent(EventSingleEntryRendering, entry, e);
 		}
 
 		//List through the subscribed event handlers, and decide weather call them or not
 		//based on the current blog enabled plugins
-		private void ExecuteEntryEvent(object eventKey, Entry entry, STEventArgs e)
+		private void ExecuteEntryEvent(object eventKey, Entry entry, SubtextEventArgs e)
 		{
 			EntryEventHandler handler = Events[eventKey] as EntryEventHandler;
 			if (handler != null)
