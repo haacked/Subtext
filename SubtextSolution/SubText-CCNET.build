@@ -135,7 +135,7 @@
 		/>
 		
 		<call target="util.ncoverexplorer.nant" />
-		<call target="code.metrics" />
+		<!-- <call target="code.metrics" /> -->
 	</target>
 
 	<target name="code.metrics">
