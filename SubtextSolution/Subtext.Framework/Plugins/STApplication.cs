@@ -256,7 +256,7 @@ namespace Subtext.Extensibility.Plugins
 
 		//List through the subscribed event handlers, and decide weather call them or not
 		//based on the current blog enabled plugins
-		private void ExecuteEntryEvent(object eventKey, Entry entry, EventArgs e)
+		private void ExecuteEntryEvent(object eventKey, Entry entry, STEventArgs e)
 		{
 			EntryEventHandler handler = Events[eventKey] as EntryEventHandler;
 			if (handler != null)
@@ -264,10 +264,12 @@ namespace Subtext.Extensibility.Plugins
 				Delegate[] delegates = handler.GetInvocationList();
 				foreach (Delegate del in delegates)
 				{
-					if (PluginEnabled(del.Method.DeclaringType))
+					IPlugin currentPlugin = GetPluginByType(del.Method.DeclaringType);
+					if (PluginEnabled(currentPlugin))
 					{
 						try
 						{
+							e.CallingPluginGuid = currentPlugin.Id.Guid;
 							del.DynamicInvoke(entry, e);
 						}
 						catch {}
@@ -334,15 +336,17 @@ namespace Subtext.Extensibility.Plugins
 		/// <summary>
 		/// Checks if the plugin is enabled for the current blog
 		/// </summary>
-		/// <param name="type">Type of the plugin</param>
+		/// <param name="plugin">The plugin</param>
 		/// <returns><c>true</c> if the plugin is enabled, <c>false</c> otherwise</returns>
-		private bool PluginEnabled(Type type)
+		public bool PluginEnabled(IPlugin plugin)
 		{
-			IPlugin currentPlugin = GetPluginByType(type);
-			if (Config.CurrentBlog.EnabledPluginGuids.Contains(currentPlugin.Id.Guid))
-				return true;
-			else
-				return false;
+			foreach (Plugin blogPlugin in Config.CurrentBlog.EnabledPlugins.Values)
+			{
+				if (blogPlugin.InitializedPlugin == plugin)
+					return true;
+			}
+
+			return false;
 		}
 
 		#endregion
