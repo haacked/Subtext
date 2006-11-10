@@ -20,38 +20,38 @@ namespace Subtext.Extensibility.Plugins
 	/// <summary>
 	/// Static helper class responsible for executing all events handlers
 	/// </summary>
-	public static class STEvents
+	public static class SubtextEvents
 	{
 		/// <summary>
 		/// Raises all EntryUpdating Events.
 		/// </summary>
-		public static void OnEntryUpdating(Entry entry, STEventArgs e)
+		public static void OnEntryUpdating(Entry entry, SubtextEventArgs e)
 		{
-			STApplication.Current.ExecuteEntryUpdating(entry, e);
+			SubtextApplication.Current.ExecuteEntryUpdating(entry, e);
 		}
 
 		/// <summary>
 		/// Raises all EntryUpdated Events.
 		/// </summary>
-		public static void OnEntryUpdated(Entry entry, STEventArgs e)
+		public static void OnEntryUpdated(Entry entry, SubtextEventArgs e)
 		{
-			STApplication.Current.ExecuteEntryUpdated(entry, e);
+			SubtextApplication.Current.ExecuteEntryUpdated(entry, e);
 		}
 
 		/// <summary>
 		/// Raises all SingleEntryRendering Events.
 		/// </summary>
-		public static void OnSingleEntryRendering(Entry entry, STEventArgs e)
+		public static void OnSingleEntryRendering(Entry entry, SubtextEventArgs e)
 		{
-			STApplication.Current.ExecuteSingleEntryRendering(entry, e);
+			SubtextApplication.Current.ExecuteSingleEntryRendering(entry, e);
 		}
 
 		/// <summary>
 		/// Raises all EntryRendering Events.
 		/// </summary>
-		public static void OnEntryRendering(Entry entry, STEventArgs e)
+		public static void OnEntryRendering(Entry entry, SubtextEventArgs e)
 		{
-			STApplication.Current.ExecuteEntryRendering(entry, e);
+			SubtextApplication.Current.ExecuteEntryRendering(entry, e);
 		}
 	}
 }

@@ -23,7 +23,7 @@ namespace Subtext.Extensibility.Plugins
 	/// <summary>
 	/// Base class for SubText specific events
 	/// </summary>
-	public class STEventArgs: EventArgs
+	public class SubtextEventArgs: EventArgs
 	{
 		private ObjectState _state;
 
@@ -53,12 +53,12 @@ namespace Subtext.Extensibility.Plugins
 
 
 
-		public STEventArgs(ObjectState state)
+		public SubtextEventArgs(ObjectState state)
 		{
 			_state = state;
 		}
 
-		public STEventArgs() : this(ObjectState.None) { }
+		public SubtextEventArgs() : this(ObjectState.None) { }
 
 	}
 

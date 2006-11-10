@@ -13,7 +13,7 @@ using Subtext.Extensibility.Plugins;
 
 namespace Subtext.Plugins.Examples.TestPlugin
 {
-	public partial class settings : STAdminGlobalSettingsBaseControl
+	public partial class settings : SubtextAdminGlobalSettingsBaseControl
 	{
 
 		public override void LoadSettings()

@@ -27,7 +27,7 @@ namespace Subtext.Extensibility.Plugins
 	/// Base control which must be inherited by the plugin module that collects the
 	/// general settings for a single blog
 	/// </summary>
-	public abstract class STAdminGlobalSettingsBaseControl : System.Web.UI.UserControl
+	public abstract class SubtextAdminGlobalSettingsBaseControl : System.Web.UI.UserControl
 	{
 		private NameValueCollection _blogSettings = null;
 		

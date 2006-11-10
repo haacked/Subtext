@@ -33,7 +33,7 @@ namespace Subtext.Web.Admin.Pages
 		private bool _isListHidden = false;
 		private BlogInfo info;
 
-		private STAdminGlobalSettingsBaseControl settingModule = null;
+		private SubtextAdminGlobalSettingsBaseControl settingModule = null;
 
 		public string PluginID
 		{
@@ -71,10 +71,10 @@ namespace Subtext.Web.Admin.Pages
 			string completeModuleName = (string)ViewState[VSKEY_PLUGINNAME];
 			if (!String.IsNullOrEmpty(completeModuleName))
 			{
-				IPlugin currentPlugin = STApplication.Current.GetPluginByGuid(PluginID);
+				IPlugin currentPlugin = SubtextApplication.Current.GetPluginByGuid(PluginID);
 				if (currentPlugin != null)
 				{
-					settingModule = LoadControl(completeModuleName) as STAdminGlobalSettingsBaseControl;
+					settingModule = LoadControl(completeModuleName) as SubtextAdminGlobalSettingsBaseControl;
 					settingModule.PluginGuid = currentPlugin.Id.Guid;
 					settingModule.ID = "PluginSettingsEditControl";
 					pluginSetting.Controls.Add(settingModule);
@@ -85,7 +85,7 @@ namespace Subtext.Web.Admin.Pages
 		private void BindList()
 		{
 			View.Visible = false;
-			Dictionary<string, IPlugin>.ValueCollection pluginList = STApplication.Current.Plugins.Values;
+			Dictionary<string, IPlugin>.ValueCollection pluginList = SubtextApplication.Current.Plugins.Values;
 			pluginListRpt.DataSource = pluginList;
 			pluginListRpt.DataBind();
 		}
@@ -133,7 +133,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private bool IsPluginEnabled(IPlugin plugin)
 		{
-			return STApplication.Current.PluginEnabled(plugin);
+			return SubtextApplication.Current.PluginEnabled(plugin);
 		}
 
 		protected void pluginListRpt_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
@@ -169,10 +169,10 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindEditLink(bool loadSetting)
 		{
-			IPlugin currentPlugin = STApplication.Current.GetPluginByGuid(PluginID);
+			IPlugin currentPlugin = SubtextApplication.Current.GetPluginByGuid(PluginID);
 			if (currentPlugin != null)
 			{
-				string moduleFileName=STApplication.Current.GetPluginModuleFileName(currentPlugin.Info.Name, "blogsettings");
+				string moduleFileName=SubtextApplication.Current.GetPluginModuleFileName(currentPlugin.Info.Name, "blogsettings");
 				string completeModuleName = string.Empty;
 				if (moduleFileName != null)
 				{
@@ -183,7 +183,7 @@ namespace Subtext.Web.Admin.Pages
 						pluginSetting.Controls.Remove(settingModule);
 					try
 					{
-						settingModule = LoadControl(completeModuleName) as STAdminGlobalSettingsBaseControl;
+						settingModule = LoadControl(completeModuleName) as SubtextAdminGlobalSettingsBaseControl;
 					}
 					catch (HttpException ex)
 					{
@@ -232,7 +232,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void ConfirmToggle(Guid pluginId, bool enable)
 		{
-			IPlugin currentPlugin = STApplication.Current.GetPluginByGuid(pluginId.ToString());
+			IPlugin currentPlugin = SubtextApplication.Current.GetPluginByGuid(pluginId.ToString());
 			if (currentPlugin != null)
 			{
 				this.Command = new TogglePluginCommand(pluginId, currentPlugin.Info.Name, enable);
@@ -245,7 +245,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindViewLink()
 		{
-			IPlugin currentPlugin = STApplication.Current.GetPluginByGuid(PluginID);
+			IPlugin currentPlugin = SubtextApplication.Current.GetPluginByGuid(PluginID);
 			if (currentPlugin != null)
 			{
 				Results.Collapsed = true;

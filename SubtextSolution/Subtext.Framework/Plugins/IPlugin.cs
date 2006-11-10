@@ -37,6 +37,6 @@ namespace Subtext.Extensibility.Plugins
 		/// This is the only method of the interface since all actions are performed inside Event Handlers<br />
 		/// The implementation of this method should only subscribe to the events raised by the STApplication
 		/// </summary>
-		void Init(STApplication sta);
+		void Init(SubtextApplication sta);
 	}
 }
