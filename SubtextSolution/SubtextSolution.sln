@@ -57,6 +57,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Plugins.Examples", "Subtext.Plugins.Examples\Subtext.Plugins.Examples.csproj", "{E92C1C9B-FB2C-457B-B441-3CAEA3DCFC7A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FxCop", "FxCop", "{9CD3E682-A85C-40BB-AC87-0A512A97E4FF}"
+	ProjectSection(SolutionItems) = preProject
+		..\BuildTools\FxCop\CustomDictionary.xml = ..\BuildTools\FxCop\CustomDictionary.xml
+		..\BuildTools\FxCop\SubtextCodeAnalysis.FxCop = ..\BuildTools\FxCop\SubtextCodeAnalysis.FxCop
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
