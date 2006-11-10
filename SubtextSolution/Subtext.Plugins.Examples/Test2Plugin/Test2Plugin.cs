@@ -21,29 +21,29 @@ namespace Subtext.Plugins.Examples.Test2Plugin
 
 		public void Init(STApplication sta)
 		{
-			sta.PreEntryUpdate += new EntryEventHandler(sta_PreEntryUpdate);
-			sta.PostEntryUpdate += new EntryEventHandler(sta_PostEntryUpdate);
-			sta.PreRenderEntry += new EntryEventHandler(sta_PreRenderEntry);
-			sta.PreRenderSingleEntry += new EntryEventHandler(sta_PreRenderSingleEntry);
+			sta.EntryUpdating += new EntryEventHandler(sta_EntryUpdating);
+			sta.EntryUpdated += new EntryEventHandler(sta_EntryUpdated);
+			sta.EntryRendering += new EntryEventHandler(sta_EntryRendering);
+			sta.SingleEntryRendering += new EntryEventHandler(sta_SingleEntryRendering);
 		}
 
-		void sta_PreRenderSingleEntry(Subtext.Framework.Components.Entry entry, STEventArgs e)
+		void sta_SingleEntryRendering(Subtext.Framework.Components.Entry entry, STEventArgs e)
 		{
 			entry.Body += "<br><hr> <b>Test2Plugin</b>: Rendered at date: " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
 		}
 
-		void sta_PreRenderEntry(Subtext.Framework.Components.Entry entry, STEventArgs e)
+		void sta_EntryRendering(Subtext.Framework.Components.Entry entry, STEventArgs e)
 		{
 			entry.Body += "<br><hr> <b>Test2Plugin</b>: Rendered at date: " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
 		}
 
-		void sta_PostEntryUpdate(Subtext.Framework.Components.Entry entry, STEventArgs e)
+		void sta_EntryUpdated(Subtext.Framework.Components.Entry entry, STEventArgs e)
 		{
 			string url = entry.FullyQualifiedUrl.ToString();
 			return;
 		}
 
-		void sta_PreEntryUpdate(Subtext.Framework.Components.Entry entry, STEventArgs e)
+		void sta_EntryUpdating(Subtext.Framework.Components.Entry entry, STEventArgs e)
 		{
 			switch (e.State)
 			{

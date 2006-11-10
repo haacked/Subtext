@@ -55,10 +55,10 @@ namespace Subtext.Extensibility.Plugins
 
 		#region Event Keys (static)
 		//Using objects so that no cast is performed when accessing the eventhandler list
-		private static object EventPreEntryUpdate = new object();
-		private static object EventPostEntryUpdate = new object();
-		private static object EventPreRenderEntry = new object();
-		private static object EventPreRenderSingleEntry = new object();
+		private static object EventEntryUpdating = new object();
+		private static object EventEntryUpdated = new object();
+		private static object EventEntryRendering = new object();
+		private static object EventSingleEntryRendering = new object();
 		#endregion
 
 
@@ -173,60 +173,60 @@ namespace Subtext.Extensibility.Plugins
 		/// <summary>
 		/// Raised before changes to the Entry are committed to the datastore
 		/// </summary>
-		public event EntryEventHandler PreEntryUpdate
+		public event EntryEventHandler EntryUpdating
 		{
 			add
 			{
-				Events.AddHandler(EventPreEntryUpdate, value);
+				Events.AddHandler(EventEntryUpdating, value);
 			}
 			remove
 			{
-				Events.RemoveHandler(EventPreEntryUpdate, value);
+				Events.RemoveHandler(EventEntryUpdating, value);
 			}
 		}
 
 		/// <summary>
 		/// Raised after the changes has been committed to the datastore
 		/// </summary>
-		public event EntryEventHandler PostEntryUpdate
+		public event EntryEventHandler EntryUpdated
 		{
 			add
 			{
-				Events.AddHandler(EventPostEntryUpdate, value);
+				Events.AddHandler(EventEntryUpdated, value);
 			}
 			remove
 			{
-				Events.RemoveHandler(EventPostEntryUpdate, value);
+				Events.RemoveHandler(EventEntryUpdated, value);
 			}
 		}
 
 		/// <summary>
 		/// Raised an individual entry is rendered
 		/// </summary>
-		public event EntryEventHandler PreRenderSingleEntry
+		public event EntryEventHandler SingleEntryRendering
 		{
 			add
 			{
-				Events.AddHandler(EventPreRenderSingleEntry, value);
+				Events.AddHandler(EventSingleEntryRendering, value);
 			}
 			remove
 			{
-				Events.RemoveHandler(EventPreRenderSingleEntry, value);
+				Events.RemoveHandler(EventSingleEntryRendering, value);
 			}
 		}
 
 		/// <summary>
 		/// Raised when entry is rendered in the homepage
 		/// </summary>
-		public event EntryEventHandler PreRenderEntry
+		public event EntryEventHandler EntryRendering
 		{
 			add
 			{
-				Events.AddHandler(EventPreRenderEntry, value);
+				Events.AddHandler(EventEntryRendering, value);
 			}
 			remove
 			{
-				Events.RemoveHandler(EventPreRenderEntry, value);
+				Events.RemoveHandler(EventEntryRendering, value);
 			}
 		}
 
@@ -234,24 +234,24 @@ namespace Subtext.Extensibility.Plugins
 
 		#region Event Execution
 
-		internal void ExecutePreEntryUpdate(Entry entry, STEventArgs e)
+		internal void ExecuteEntryUpdating(Entry entry, STEventArgs e)
 		{
-			ExecuteEntryEvent(EventPreEntryUpdate, entry, e);
+			ExecuteEntryEvent(EventEntryUpdating, entry, e);
 		}
 
-		internal void ExecutePostEntryUpdate(Entry entry, STEventArgs e)
+		internal void ExecuteEntryUpdated(Entry entry, STEventArgs e)
 		{
-			ExecuteEntryEvent(EventPostEntryUpdate, entry, e);
+			ExecuteEntryEvent(EventEntryUpdated, entry, e);
 		}
 
-		internal void ExecutePreRenderEntry(Entry entry, STEventArgs e)
+		internal void ExecuteEntryRendering(Entry entry, STEventArgs e)
 		{
-			ExecuteEntryEvent(EventPreRenderEntry, entry, e);
+			ExecuteEntryEvent(EventEntryRendering, entry, e);
 		}
 
-		internal void ExecutePreRenderSingleEntry(Entry entry, STEventArgs e)
+		internal void ExecuteSingleEntryRendering(Entry entry, STEventArgs e)
 		{
-			ExecuteEntryEvent(EventPreRenderSingleEntry, entry, e);
+			ExecuteEntryEvent(EventSingleEntryRendering, entry, e);
 		}
 
 		//List through the subscribed event handlers, and decide weather call them or not
@@ -344,7 +344,6 @@ namespace Subtext.Extensibility.Plugins
 			else
 				return false;
 		}
-
 
 		#endregion
 	}

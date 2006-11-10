@@ -419,12 +419,12 @@ namespace Subtext.Web.Admin.UserControls
 						entry.Id = PostID;
 						
 						//Raise event before updating a post
-						STEvents.OnPreEntryUpdate(entry, new STEventArgs(ObjectState.Update));
+						STEvents.OnEntryUpdating(entry, new STEventArgs(ObjectState.Update));
 						
 						Entries.Update(entry);
 
 						//Raise event after updating a post
-						STEvents.OnPostEntryUpdate(entry, new STEventArgs(ObjectState.Update));
+						STEvents.OnEntryUpdated(entry, new STEventArgs(ObjectState.Update));
 
 						if(ReturnToOriginalPost)
 						{
@@ -442,12 +442,12 @@ namespace Subtext.Web.Admin.UserControls
 						entry.DateCreated = Config.CurrentBlog.TimeZone.Now;
 
 						//Raise event before creating a post
-						STEvents.OnPreEntryUpdate(entry, new STEventArgs(ObjectState.Create));
+						STEvents.OnEntryUpdating(entry, new STEventArgs(ObjectState.Create));
 						
 						PostID = Entries.Create(entry);
 
 						//Raise event after creating a post
-						STEvents.OnPostEntryUpdate(entry, new STEventArgs(ObjectState.Create));
+						STEvents.OnEntryUpdated(entry, new STEventArgs(ObjectState.Create));
 						
 						//TODO: Refactor CommunityCredits to be a plugin
 						AddCommunityCredits(entry);
