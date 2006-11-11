@@ -14,13 +14,11 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 	[TestFixture]
 	public class EntryUpdateTests
 	{
-		string _hostName;
-		
 		[Test]
 		[RollBack]
 		public void CanDeleteEntry()
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			UnitTestHelper.SetupBlog();
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking");
 			Entries.Create(entry);
@@ -41,7 +39,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[RollBack]
 		public void SettingDateSyndicatedToNullRemovesItemFromSyndication()
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			UnitTestHelper.SetupBlog();
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking");
 			Entries.Create(entry);
@@ -68,13 +66,6 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Entries.Update(savedEntry);
             savedEntry = Entries.GetEntry(entry.Id, PostConfig.None, false);
 			Assert.IsTrue(savedEntry.DateSyndicated >= date, "The DateSyndicated '{0}' should be updated to be later than '{1}.", savedEntry.DateSyndicated, date);
-		}
-
-		[SetUp]
-		public void SetUp()
-		{
-			_hostName = UnitTestHelper.GenerateRandomString();
-			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, string.Empty);
 		}
 
 		[TearDown]

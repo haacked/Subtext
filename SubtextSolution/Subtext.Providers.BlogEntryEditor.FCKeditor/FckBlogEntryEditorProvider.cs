@@ -14,10 +14,8 @@
 #endregion
 
 using System;
-using System.IO;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility.Providers;
-using System.Web;
 using Subtext.Web.Controls;
 
 namespace Subtext.Providers.BlogEntryEditor.FCKeditor

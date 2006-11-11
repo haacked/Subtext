@@ -14,12 +14,9 @@
 #endregion
 
 using System;
+using System.Collections.Specialized;
 using MbUnit.Framework;
 using System.Web.UI.WebControls;
-using FredCK.FCKeditorV2;
-using Subtext.Framework;
-using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 using Subtext.Providers.BlogEntryEditor.FCKeditor;
 
 namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
@@ -31,88 +28,96 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 	[Author("Simone Chiaretta", "simone@piyosailing.com", "http://blogs.ugidotnet.org/piyo/")]
 	public class FCKeditorProviderTests
 	{
-		string _hostName = System.Guid.NewGuid().ToString().Replace("-", string.Empty) + ".com";
-		FckBlogEntryEditorProvider frtep;
+		FckBlogEntryEditorProvider provider;
 
 		[SetUp]
 		public void SetUp()
 		{
-            frtep = new FckBlogEntryEditorProvider();
-			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog", "Subtext.Web");
+            this.provider = new FckBlogEntryEditorProvider();
+			provider.Initialize("FKProvider", GetNameValueCollection());
+		}
+
+		private NameValueCollection GetNameValueCollection()
+		{
+			NameValueCollection configValues = new NameValueCollection();
+			configValues.Add("WebFormFolder", "~/Providers/BlogEntryEditor/FCKeditor/");
+			configValues.Add("ImageBrowserURL", "/imagebrowser/default.aspx");
+			configValues.Add("LinkBrowserURL", "/LinkBrowser/default.aspx");
+			configValues.Add("ImageConnectorURL", "/ImageConnector/default.aspx");
+			configValues.Add("LinkConnectorURL", "/LinkConnector/default.aspx");
+			configValues.Add("FileAllowedExtensions", ".htm, .txt");
+			configValues.Add("ImageAllowedExtensions", ".gif, .jpg");
+			configValues.Add("ToolbarSet", "SubText");
+			configValues.Add("Skin", "office2003");
+			configValues.Add("RemoveServerNamefromUrls", "false");
+			return configValues;
 		}
 
 		[Test]
 		public void SetControlID() 
 		{
 			string test="MyTestControlID";
-			frtep.ControlId=test;
-			Assert.AreEqual(test,frtep.ControlId);
+			this.provider.ControlId=test;
+			Assert.AreEqual(test,this.provider.ControlId);
 		}
 
 		[Test]
-		[Ignore("Have to setup dummy blog config first")]
 		[RollBack]
 		public void SetText() 
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, "MyBlog"));
+			UnitTestHelper.SetupBlog();
+			
 			string test="Lorem Ipsum";
-			frtep.InitializeControl();
-			frtep.Text=test;
-			Assert.AreEqual(test,frtep.Text);
-			Assert.AreEqual(test,frtep.Xhtml);
+			this.provider.InitializeControl();
+			this.provider.Text=test;
+			Assert.AreEqual(test,this.provider.Text);
+			Assert.AreEqual(test,this.provider.Xhtml);
 		}
 
 		[Test]
-		[Ignore("Have to setup dummy blog config first")]
+		[RollBack]
 		public void SetWidth() 
 		{
+			UnitTestHelper.SetupBlog();
+			
 			Unit test=200;
-			frtep.InitializeControl();
-			frtep.Width=test;
-			Assert.AreEqual(test,frtep.Width);
+			this.provider.InitializeControl();
+			this.provider.Width=test;
+			Assert.AreEqual(test,this.provider.Width);
 		}
 
 		[Test]
-		[Ignore("Have to setup dummy blog config first")]
+		[RollBack]
 		public void SetHeight() 
 		{
+			UnitTestHelper.SetupBlog();
+			
 			Unit test=100;
-			frtep.InitializeControl();
-			frtep.Height=test;
-			Assert.AreEqual(test,frtep.Height);
+			this.provider.InitializeControl();
+			this.provider.Height=test;
+			Assert.AreEqual(test,this.provider.Height);
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void TestInitializationWithNullName() 
 		{
-			frtep.Initialize(null,null);
+			this.provider.Initialize(null, new NameValueCollection());
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void TestInitializationWithNullConfigValue() 
 		{
-			frtep.Initialize("FCKProvider",null);
+			this.provider.Initialize("FCKProvider", null);
 		}
 
 		[Test]
 		[ExpectedException(typeof(InvalidOperationException))]
 		public void TestInitializationWithEmptyWebFolder() 
 		{
-			frtep.Initialize("FCKProvider",new System.Collections.Specialized.NameValueCollection());
+			this.provider.Initialize("FCKProvider", new NameValueCollection());
 		}
-
-		private System.Collections.Specialized.NameValueCollection GetNameValueCollection() 
-		{
-			System.Collections.Specialized.NameValueCollection ret=new System.Collections.Specialized.NameValueCollection(3);
-			ret.Add("WebFormFolder","~/Providers/BlogEntryEditor/FCKeditor/");
-			ret.Add("ToolbarSet","SubText");
-			ret.Add("Skin","office2003");
-			ret.Add("RemoveServerNamefromUrls","false");
-			return ret;
-		}
-
 	}
 
 }

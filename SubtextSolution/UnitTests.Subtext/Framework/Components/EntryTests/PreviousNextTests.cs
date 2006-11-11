@@ -38,9 +38,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[RollBack]
 		public void GetPreviousAndNextEntriesReturnsPreviousWhenNoNextExists()
 		{
-			string hostname = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
+			UnitTestHelper.SetupBlog();
 
 			Entry previousEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateRandomString(), DateTime.Now.AddDays(-1));
 			Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateRandomString(), DateTime.Now);
@@ -60,9 +58,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[RollBack]
 		public void GetPreviousAndNextEntriesReturnsNextWhenNoPreviousExists()
 		{
-			string hostname = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
+			UnitTestHelper.SetupBlog();
 
 			Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateRandomString(), DateTime.Now.AddDays(-1));
 			Entry nextEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateRandomString(), DateTime.Now);
@@ -82,9 +78,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[RollBack]
 		public void GetPreviousAndNextEntriesReturnsBoth()
 		{
-			string hostname = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
+			UnitTestHelper.SetupBlog();
 
 			Entry previousEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateRandomString(), DateTime.Now.AddDays(-2));
 			Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateRandomString(), DateTime.Now.AddDays(-1));
@@ -111,9 +105,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[RollBack]
 		public void GetPreviousAndNextEntriesReturnsCorrectEntries()
 		{
-			string hostname = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
+			UnitTestHelper.SetupBlog();
 
 			Entry firstEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateRandomString(), DateTime.Now.AddDays(-3));
 			Entry previousEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body", UnitTestHelper.GenerateRandomString(), DateTime.Now.AddDays(-2));
@@ -151,9 +143,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[RollBack]
 		public void GetPreviousAndNextBasedOnSyndicationDateNotEntryId()
 		{
-			string hostname = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty);
+			UnitTestHelper.SetupBlog();
 
 			Entry previousEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body");
 			Entry currentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("test", "test", "body");

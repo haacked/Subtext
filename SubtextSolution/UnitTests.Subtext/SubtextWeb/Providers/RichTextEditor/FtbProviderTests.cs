@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections.Specialized;
 using MbUnit.Framework;
 using System.Web.UI.WebControls;
 using FreeTextBoxControls;
@@ -31,100 +32,108 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 	{
 		string _hostName = System.Guid.NewGuid().ToString().Replace("-", string.Empty) + ".com";
 		string _testToolbarLayout = "Bold,Italic,Underline,Strikethrough;Superscript,Subscript,RemoveFormat|FontFacesMenu,FontSizesMenu,FontForeColorsMenu|InsertTable|JustifyLeft,JustifyRight,JustifyCenter,JustifyFull;BulletedList,NumberedList,Indent,Outdent;CreateLink,Unlink,Insert,InsertRule|Cut,Copy,Paste;Undo,Redo|ieSpellCheck,WordClean|InsertImage,InsertImageFromGallery";
-		FtbBlogEntryEditorProvider frtep;
+		FtbBlogEntryEditorProvider provider;
 
 		[SetUp]
 		public void SetUp()
 		{
-            frtep = new FtbBlogEntryEditorProvider();
-			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog", "Subtext.Web");
+            this.provider = new FtbBlogEntryEditorProvider();
+			this.provider.Initialize("FtbProvider", GetNameValueCollection());
+		}
+
+		private System.Collections.Specialized.NameValueCollection GetNameValueCollection()
+		{
+			NameValueCollection configValues = new NameValueCollection(3);
+			configValues.Add("WebFormFolder", "~/Providers/RichTextEditor/FTB/");
+			configValues.Add("toolbarlayout", _testToolbarLayout);
+			configValues.Add("FormatHtmlTagsToXhtml", "true");
+			configValues.Add("RemoveServerNamefromUrls", "false");
+			return configValues;
 		}
 
 		[Test]
 		public void SetControlID() 
 		{
 			string test="MyTestControlID";
-			frtep.ControlId=test;
-			Assert.AreEqual(test,frtep.ControlId);
+			this.provider.ControlId=test;
+			Assert.AreEqual(test,this.provider.ControlId);
 		}
 
 		[Test]
-		[Ignore("Have to setup dummy blog config first")]
 		[RollBack]
 		public void SetText() 
 		{
+			UnitTestHelper.SetupBlog();
+
 			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, "MyBlog"));
 			string test="Lorem Ipsum";
-			frtep.InitializeControl();
-			frtep.Text=test;
-			Assert.AreEqual(test,frtep.Text);
-			Assert.AreEqual(test,frtep.Xhtml);
+			this.provider.InitializeControl();
+			this.provider.Text=test;
+			Assert.AreEqual(test,this.provider.Text);
+			Assert.AreEqual(test,this.provider.Xhtml);
 		}
 
 		[Test]
-		[Ignore("Have to setup dummy blog config first")]
+		[RollBack]
 		public void SetWidth() 
 		{
+			UnitTestHelper.SetupBlog();
+			
 			Unit test=200;
-			frtep.InitializeControl();
-			frtep.Width=test;
-			Assert.AreEqual(test,frtep.Width);
+			this.provider.InitializeControl();
+			this.provider.Width=test;
+			Assert.AreEqual(test,this.provider.Width);
 		}
 
 		[Test]
-		[Ignore("Have to setup dummy blog config first")]
+		[RollBack]
 		public void SetHeight() 
 		{
+			UnitTestHelper.SetupBlog();
+			
 			Unit test=100;
-			frtep.InitializeControl();
-			frtep.Height=test;
-			Assert.AreEqual(test,frtep.Height);
+			this.provider.InitializeControl();
+			this.provider.Height=test;
+			Assert.AreEqual(test,this.provider.Height);
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void TestInitializationWithNullName() 
 		{
-			frtep.Initialize(null,null);
+			this.provider.Initialize(null, new NameValueCollection());
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentNullException))]
 		public void TestInitializationWithNullConfigValue() 
 		{
-			frtep.Initialize("FTBProvider",null);
+			this.provider.Initialize("FTBProvider", null);
 		}
 
 		[Test]
 		[ExpectedException(typeof(InvalidOperationException))]
 		public void TestInitializationWithEmptyWebFolder() 
 		{
-			frtep.Initialize("FTBProvider",new System.Collections.Specialized.NameValueCollection());
+			this.provider.Initialize("FTBProvider", new NameValueCollection());
 		}
 
 		[Test]
-		[Ignore("Have to setup dummy blog config first")]
+		[RollBack]
 		public void TestInitialization() 
 		{
-			System.Collections.Specialized.NameValueCollection coll=GetNameValueCollection();
-			frtep.Initialize("FTBProvider", coll);
-			frtep.InitializeControl();
-			Assert.IsTrue(frtep.RichTextEditorControl.GetType()==typeof(FreeTextBox));
-			FreeTextBox txt = frtep.RichTextEditorControl as FreeTextBox;
-			Assert.AreEqual(frtep.Name,"FTBProvider");
+			UnitTestHelper.SetupBlog();
+			
+			NameValueCollection coll = GetNameValueCollection();
+			this.provider = new FtbBlogEntryEditorProvider();
+			this.provider.Initialize("FTBProvider", coll);
+			this.provider.InitializeControl();
+			Assert.IsTrue(this.provider.RichTextEditorControl.GetType()==typeof(FreeTextBox));
+			FreeTextBox txt = this.provider.RichTextEditorControl as FreeTextBox;
+			Assert.AreEqual(this.provider.Name,"FTBProvider");
 			Assert.AreEqual(txt.ToolbarLayout,_testToolbarLayout);
 			Assert.AreEqual(txt.FormatHtmlTagsToXhtml,true);
 			Assert.AreEqual(txt.RemoveServerNameFromUrls,false);
-		}
-
-		private System.Collections.Specialized.NameValueCollection GetNameValueCollection() 
-		{
-			System.Collections.Specialized.NameValueCollection ret=new System.Collections.Specialized.NameValueCollection(3);
-			ret.Add("WebFormFolder","~/Providers/RichTextEditor/FTB/");
-			ret.Add("toolbarlayout",_testToolbarLayout);
-			ret.Add("FormatHtmlTagsToXhtml","true");
-			ret.Add("RemoveServerNamefromUrls","false");
-			return ret;
 		}
 	}
 }

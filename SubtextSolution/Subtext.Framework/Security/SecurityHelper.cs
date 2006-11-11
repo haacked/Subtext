@@ -360,23 +360,6 @@ namespace Subtext.Framework.Security
 				password = HashPassword(password);
 			}
 			string storedPassword = Config.CurrentBlog.Password;
-			
-			if(storedPassword.IndexOf('-') > 0)
-			{
-				// NOTE: This is necessary because I want to change how 
-				// we store the password.  Mayb changing the password 
-				// storage is dumb.  Let me know. -Phil
-				//	This is an old password created from BitConverter 
-				// string.  Converting to a Base64 hash.
-				string[] hashBytesStrings = storedPassword.Split('-');
-				byte[] hashedBytes = new byte[hashBytesStrings.Length];
-				for(int i = 0; i < hashBytesStrings.Length; i++)
-				{
-					hashedBytes[i] = byte.Parse(hashBytesStrings[i].ToString(CultureInfo.InvariantCulture), NumberStyles.HexNumber);
-					storedPassword = Convert.ToBase64String(hashedBytes);
-				}
-			}
-			
 			bool areEqual = String.Equals(password, storedPassword, StringComparison.InvariantCulture);
 			if (!areEqual)
 			{

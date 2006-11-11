@@ -16,7 +16,6 @@
 using System;
 using System.Globalization;
 using System.Threading;
-using System.Web.Caching;
 using MbUnit.Framework;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -31,9 +30,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 	/// </summary>
 	[TestFixture]
 	public class EntryCreationTests
-	{
-		string _hostName = string.Empty;
-		
+	{		
 		/// <summary>
 		/// Tests that the fully qualified url is correct.
 		/// </summary>
@@ -43,12 +40,9 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[Row("", "Subtext.Web", "/Subtext.Web")]
 		[Row("blog", "Subtext.Web", "/Subtext.Web/blog")]
 		[RollBack]
-		public void CreatedEntryHasCorrectFullyQualifiedLink(string subfolder, string virtualDir, string expectedUrlPrefix)
+		public void CreatedEntryHasCorrectFullyQualifiedLink(string subfolder, string applicationPath, string expectedUrlPrefix)
 		{
-			string hostname = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, subfolder));
-			
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, subfolder, virtualDir);
+			UnitTestHelper.SetupBlog(subfolder, applicationPath);
 
 			Entry entry = new Entry(PostType.BlogPost);
 			entry.DateCreated = DateTime.ParseExact("2005/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
@@ -57,7 +51,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			int id = Entries.Create(entry);
 
 			string expectedLink = string.Format("{0}/archive/2005/01/23/{1}.aspx", expectedUrlPrefix, id);
-			string expectedFullyQualifiedLink = "http://" + hostname + expectedLink;
+			string expectedFullyQualifiedLink = "http://" + Config.CurrentBlog.Host + expectedLink;
 
             Entry savedEntry = Entries.GetEntry(id, PostConfig.None, false);
 			Assert.AreEqual(expectedLink, savedEntry.Url, "The link was not what we expected.");
@@ -68,7 +62,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[RollBack]
 		public void EntryDateSyndicatedIsNullEquivalentUnlessPublished()
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			UnitTestHelper.SetupBlog();
 
 			Entry entry = new Entry(PostType.BlogPost);
 			
@@ -102,13 +96,6 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		{		
 			//Confirm app settings
             UnitTestHelper.AssertAppSettings();
-		}
-
-		[SetUp]
-		public void SetUp()
-		{
-			_hostName = UnitTestHelper.GenerateRandomString();
-			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, string.Empty);
 		}
 
 		[TearDown]

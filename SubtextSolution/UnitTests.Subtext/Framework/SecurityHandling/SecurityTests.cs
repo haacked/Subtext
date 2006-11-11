@@ -15,7 +15,6 @@
 
 using System;
 using System.Globalization;
-using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using MbUnit.Framework;
@@ -31,8 +30,6 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 	[TestFixture]
 	public class SecurityTests
 	{
-		string _hostName;
-
 		/// <summary>
 		/// Makes sure that the UpdatePassword method hashes the password.
 		/// </summary>
@@ -40,12 +37,11 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		[RollBack]
 		public void UpdatePasswordHashesPassword()
 		{
-			Config.Settings.UseHashedPasswords = true;
-			Config.CreateBlog("", "username", "thePassword", _hostName, "MyBlog");
+			UnitTestHelper.SetupBlog();
 			string password = SecurityHelper.HashPassword("newPass");
 
 			SecurityHelper.UpdatePassword("newPass");
-			BlogInfo info = Config.GetBlogInfo(_hostName, "MyBlog");
+			BlogInfo info = Config.GetBlogInfo(Config.CurrentBlog.Host, string.Empty);
 			Assert.AreEqual(password, info.Password);
 		}
 
@@ -56,7 +52,7 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		[RollBack]
 		public void HashPasswordReturnsProperHash()
 		{
-			Config.CreateBlog("", "username", "thePassword", _hostName, "MyBlog");
+			UnitTestHelper.SetupBlogWithUserAndPassword("username", "thePassword", string.Empty);
 			string password = "myPassword";
 			string hashedPassword = "Bc5M0y93wXmtXNxwW6IJVA==";
 			Assert.AreEqual(hashedPassword, SecurityHelper.HashPassword(password));
@@ -83,32 +79,12 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 			UnitTestHelper.AssertAreNotEqual(SecurityHelper.HashPassword(lowercase), SecurityHelper.HashPassword(uppercase.ToUpper(CultureInfo.InvariantCulture)), "A lower cased and a completely upper cased password should not be equivalent.");
 		}
 
-		/// <summary>
-		/// Want to make sure that we still understand the old 
-		/// bitconverter created password.
-		/// </summary>
-		[Test]
-		[RollBack]
-		public void OldBitConverterPasswordUnderstood()
-		{
-			Config.CreateBlog("", "username", "thePassword", _hostName, "MyBlog");
-			string password = "myPassword";
-			Byte[] clearBytes = new UnicodeEncoding().GetBytes(password);
-			Byte[] hashedBytes = new MD5CryptoServiceProvider().ComputeHash(clearBytes);
-			string bitConvertedPassword = BitConverter.ToString(hashedBytes);
-		
-			Config.CurrentBlog.IsPasswordHashed = true;
-			Config.CurrentBlog.Password = bitConvertedPassword;
-			
-			Assert.IsTrue(SecurityHelper.IsValidPassword(password));
-		}
-		
 		[Test]
 		[RollBack]
 		public void CanSetAuthenticationCookie()
 		{
-			Config.CreateBlog("", "the-username", "thePassword", _hostName, "MyBlog");
-			SecurityHelper.SetAuthenticationTicket("the-username", false, "Admins");
+			UnitTestHelper.SetupBlog();
+			SecurityHelper.SetAuthenticationTicket(Config.CurrentBlog.UserName, false, "Admins");
 			HttpCookie cookie = SecurityHelper.SelectAuthenticationCookie();
 			Assert.IsNotNull(cookie, "Could not get authentication cookie.");
 		}
@@ -117,7 +93,8 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		[RollBack]
 		public void CanAuthenticateAdmin()
 		{
-			Config.CreateBlog("", "the-username", "thePassword", _hostName, "MyBlog");
+			UnitTestHelper.SetupBlogWithUserAndPassword("the-username", "thePassword", string.Empty);
+
 			Assert.IsTrue(SecurityHelper.Authenticate("the-username", "thePassword", true), "We should be able to login.");
 			HttpCookie cookie = SecurityHelper.SelectAuthenticationCookie();
 			Assert.IsNotNull(cookie, "Could not get authentication cookie.");
@@ -152,13 +129,6 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		{
 			//Confirm app settings
             UnitTestHelper.AssertAppSettings();
-		}
-		
-		[SetUp]
-		public void SetUp()
-		{
-			_hostName = UnitTestHelper.GenerateRandomString();
-			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog");
 		}
 
 		[TearDown]

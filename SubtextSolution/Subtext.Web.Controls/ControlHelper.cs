@@ -36,8 +36,10 @@ namespace Subtext.Web.Controls
 		/// <param name="path"></param>
 		public static string ExpandTildePath(string path)
 		{
-			string reference = path;
-			if(reference.Substring(0, 2) == "~/")
+			if (String.IsNullOrEmpty(path))
+				throw new ArgumentNullException("path", "Cannot expand a null or empty path");
+
+			if(path.Substring(0, 2) == "~/")
 			{
 				string appPath = HttpContext.Current.Request.ApplicationPath;
 				if(appPath == null)
@@ -46,7 +48,7 @@ namespace Subtext.Web.Controls
 				{
 					appPath = StringHelper.Left(appPath, appPath.Length - 1);
 				}
-				return appPath + reference.Substring(1);
+				return appPath + path.Substring(1);
 			}
 			return path;
 		}

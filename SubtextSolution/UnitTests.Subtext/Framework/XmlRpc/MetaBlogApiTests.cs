@@ -16,9 +16,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 		[RollBack]
 		public void NewPostWithCategoryCreatesEntryWithCategory()
 		{
-			string hostname = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, ""));
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
+			UnitTestHelper.SetupBlogWithUserAndPassword("username", "password");
 			Config.CurrentBlog.AllowServiceAccess = true;
 
 			LinkCategory category = new LinkCategory();
@@ -47,9 +45,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
     	[RollBack]
     	public void NewPostAcceptsNullCategories()
     	{
-			string hostname = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, ""));
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
+			UnitTestHelper.SetupBlogWithUserAndPassword("username", "password");
 			Config.CurrentBlog.AllowServiceAccess = true;
 
 			MetaWeblog api = new MetaWeblog();
@@ -67,9 +63,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
         [RollBack]
         public void GetRecentPostsReturnsRecentPosts()
         {
-            string hostname = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, ""));
-            UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "");
+			UnitTestHelper.SetupBlogWithUserAndPassword("username", "password");
             Config.CurrentBlog.AllowServiceAccess = true;
 
             MetaWeblog api = new MetaWeblog();
