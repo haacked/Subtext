@@ -269,7 +269,7 @@ namespace Subtext.Extensibility.Plugins
 					{
 						try
 						{
-							e.CallingPluginGuid = currentPlugin.Id.Guid;
+							e.CallingPluginGuid = currentPlugin.Id;
 							del.DynamicInvoke(entry, e);
 						}
 						catch {}
@@ -292,7 +292,7 @@ namespace Subtext.Extensibility.Plugins
 		{
 			foreach (IPlugin plugin in _plugins.Values)
 			{
-				if (plugin.Id.Guid.ToString().Equals(guid))
+				if (plugin.Id.ToString().Equals(guid))
 					return plugin;
 			}
 			return null;
