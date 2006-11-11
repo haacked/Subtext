@@ -21,10 +21,10 @@ namespace Subtext.Plugins.Examples.TestPlugin
 
 		public void Init(SubtextApplication application)
 		{
-			application.EntryUpdating += new EntryEventHandler(sta_EntryUpdating);
-			application.EntryUpdated += new EntryEventHandler(sta_EntryUpdated);
-			application.EntryRendering += new EntryEventHandler(sta_EntryRendering);
-			application.SingleEntryRendering += new EntryEventHandler(sta_SingleEntryRendering);
+			application.EntryUpdating += new EventHandler<SubtextEventArgs>(sta_EntryUpdating);
+			application.EntryUpdated += new EventHandler<SubtextEventArgs>(sta_EntryUpdated);
+			application.EntryRendering += new EventHandler<SubtextEventArgs>(sta_EntryRendering);
+			application.SingleEntryRendering += new EventHandler<SubtextEventArgs>(sta_SingleEntryRendering);
 		}
 
 		void sta_SingleEntryRendering(Subtext.Framework.Components.Entry entry, SubtextEventArgs e)

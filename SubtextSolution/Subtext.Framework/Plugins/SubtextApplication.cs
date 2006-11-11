@@ -25,15 +25,6 @@ using Subtext.Framework.Components;
 namespace Subtext.Extensibility.Plugins
 {
 
-	#region Event Delegates
-	/// <summary>
-	/// Delegate that defines the signature of the Entry Event Handler
-	/// </summary>
-	/// <param name="entry">The entry being edited</param>
-	/// <param name="e">Event Args</param>
-	public delegate void EntryEventHandler(Entry entry, SubtextEventArgs e);
-	#endregion
-
 	/// <summary>
 	/// Singleton class.<br/>
 	/// This class is responsible for all the actions related to plugins:<br/>
@@ -154,8 +145,16 @@ namespace Subtext.Extensibility.Plugins
 							continue;
 						}
 
-						plugin.Init(app);
-						app._plugins.Add(setting.Name, plugin);
+						try
+						{
+							plugin.Init(app);
+							app._plugins.Add(setting.Name, plugin);
+						}
+						catch (Exception)
+						{
+							//__log.Error("Error initializing plugin with name " + setting.Name + " from type " + setting.Type + "\r\nThe Init method threw the following exception:\r\n" + ex.Message);
+							continue;
+						}
 						
 						#if DEBUG
 						//__log.Debug("Loaded plugin with name " + setting.Name + " from type " + setting.Type);
@@ -173,7 +172,7 @@ namespace Subtext.Extensibility.Plugins
 		/// <summary>
 		/// Raised before changes to the Entry are committed to the datastore
 		/// </summary>
-		public event EntryEventHandler EntryUpdating
+		public event EventHandler<SubtextEventArgs> EntryUpdating
 		{
 			add
 			{
@@ -188,7 +187,7 @@ namespace Subtext.Extensibility.Plugins
 		/// <summary>
 		/// Raised after the changes has been committed to the datastore
 		/// </summary>
-		public event EntryEventHandler EntryUpdated
+		public event EventHandler<SubtextEventArgs> EntryUpdated
 		{
 			add
 			{
@@ -203,7 +202,7 @@ namespace Subtext.Extensibility.Plugins
 		/// <summary>
 		/// Raised an individual entry is rendered
 		/// </summary>
-		public event EntryEventHandler SingleEntryRendering
+		public event EventHandler<SubtextEventArgs> SingleEntryRendering
 		{
 			add
 			{
@@ -218,7 +217,7 @@ namespace Subtext.Extensibility.Plugins
 		/// <summary>
 		/// Raised when entry is rendered in the homepage
 		/// </summary>
-		public event EntryEventHandler EntryRendering
+		public event EventHandler<SubtextEventArgs> EntryRendering
 		{
 			add
 			{
@@ -258,7 +257,7 @@ namespace Subtext.Extensibility.Plugins
 		//based on the current blog enabled plugins
 		private void ExecuteEntryEvent(object eventKey, Entry entry, SubtextEventArgs e)
 		{
-			EntryEventHandler handler = Events[eventKey] as EntryEventHandler;
+			EventHandler<SubtextEventArgs> handler = Events[eventKey] as EventHandler<SubtextEventArgs>;
 			if (handler != null)
 			{
 				Delegate[] delegates = handler.GetInvocationList();
