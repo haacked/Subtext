@@ -1084,8 +1084,13 @@ namespace Subtext.Framework.Data
 			
 			try
 			{
-				reader.Read();
-				LinkCategory lc = DataHelper.LoadLinkCategory(reader);
+				LinkCategory lc = null;
+				
+				if (reader.Read())
+				{
+					lc = DataHelper.LoadLinkCategory(reader);
+				}
+				
 				return lc;
 			}
 			finally

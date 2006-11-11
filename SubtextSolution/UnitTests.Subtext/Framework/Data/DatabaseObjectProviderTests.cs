@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using MbUnit.Framework;
 using Subtext.Extensibility;
@@ -149,7 +150,107 @@ namespace UnitTests.Subtext.Framework.Data
 			word = provider.GetKeyWord(keywordID);
 			Assert.IsNull(word);
 		}
-		
+
+		[Test]
+		[RollBack]
+		public void CanInsertAndDeleteLink()
+		{
+			UnitTestHelper.SetupBlog();
+			ObjectProvider provider = DatabaseObjectProvider.Instance();
+
+			// Create the required category
+			LinkCategory category = new LinkCategory();
+			category.CategoryType = CategoryType.LinkCollection;
+			category.Title = "Fences";
+			category.Description = "All Kinds of Fences";
+			int categoryID = provider.CreateLinkCategory(category);
+
+			// Insert a new link
+			Link link = new Link();
+			link.CategoryID = categoryID;
+			link.Title = "Chain Link";
+			link.Url = "http://www.somecoolsite.com";
+			int linkID = provider.CreateLink(link);
+
+			// Retrieve the link from the database
+			link = provider.GetLink(linkID);
+			Assert.AreEqual(linkID, link.Id);
+
+			// Delete the link and make sure it's gone
+			provider.DeleteLink(linkID);
+			link = provider.GetLink(linkID);
+			Assert.IsNull(link);
+		}
+
+		[Test]
+		[RollBack]
+		public void CanInsertAndDeleteLinkCategory()
+		{
+			UnitTestHelper.SetupBlog();
+			ObjectProvider provider = DatabaseObjectProvider.Instance();
+
+			// Create a new category
+			LinkCategory category = new LinkCategory();
+			category.CategoryType = CategoryType.LinkCollection;
+			category.Title = "New Category";
+			category.Description = "Brand New Category";
+			int categoryID = provider.CreateLinkCategory(category);
+
+			// Retrieve the category from the database
+			category = provider.GetLinkCategory(categoryID, false);
+			Assert.AreEqual(categoryID, category.Id);
+
+			// Delete the link and make sure it's gone
+			provider.DeleteLinkCategory(categoryID);
+			category = provider.GetLinkCategory(categoryID, false);
+			Assert.IsNull(category);
+		}
+
+		[Test]
+		[RollBack]
+		public void CanGetActiveCategories()
+		{
+			UnitTestHelper.SetupBlog();
+			DeleteAllActiveCategories();
+
+			CreateLinkCategory("New Category 1", "Brand New Category 1");
+			CreateLinkCategory("New Category 2", "Brand New Category 2");
+			CreateLinkCategory("New Category 3", "Brand New Category 3");
+
+			ObjectProvider provider = DatabaseObjectProvider.Instance();
+			ICollection<LinkCategory> activeCategories = provider.GetActiveCategories();
+			Assert.AreEqual(3, activeCategories.Count);
+		}
+
+		private static void CreateLinkCategory(string title, string description)
+		{
+			ObjectProvider provider = DatabaseObjectProvider.Instance();
+			
+			LinkCategory category = new LinkCategory();
+			category.CategoryType = CategoryType.LinkCollection;
+			category.Title = title;
+			category.IsActive = true;
+			category.Description = description;
+			int categoryID = provider.CreateLinkCategory(category);
+		}
+
+		private static void DeleteAllActiveCategories()
+		{
+			ObjectProvider provider = DatabaseObjectProvider.Instance();
+
+			// Clear out any existing categories
+			ICollection<LinkCategory> activeCategories = provider.GetActiveCategories();
+			
+			foreach (LinkCategory category in activeCategories)
+			{
+				provider.DeleteLinkCategory(category.Id);
+			}
+			
+			activeCategories = provider.GetActiveCategories();
+			
+			Assert.AreEqual(0, activeCategories.Count);
+		}
+
 		[Test]
 		[ExpectedArgumentNullException]
 		public void InsertImageThrowsArgumentNullException()
