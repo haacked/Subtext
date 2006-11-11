@@ -10,6 +10,19 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
 	[TestFixture]
 	public class ControlHelperTests
 	{
+		[RowTest]
+		[Row("Subtext.Web", "~/", "/Subtext.Web/")]
+		[Row("", "~/", "/")]
+		[Row("Subtext.Web", "~/Something/", "/Subtext.Web/Something/")]
+		[Row("", "/Something/", "/Something/")]
+		[Row("Subtext.Web", "/Something/", "/Something/")]
+		public void CanExpandTildePath(string applicationPath, string path, string expected)
+		{
+			UnitTestHelper.SetupHttpContextWithRequest(applicationPath);
+			string result = ControlHelper.ExpandTildePath(path);
+			Assert.AreEqual(expected, result, "Did not expand tilde correctly.");
+		}
+		
 		[Test]
 		public void CanDetermineIfAttributeIsDefined()
 		{
@@ -154,6 +167,13 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
 		public void FindControlRecursivelyThrowsNullArgumentExceptionForNullId()
 		{
 			ControlHelper.FindControlRecursively(new Label(), null);
+		}
+
+		[Test]
+		[ExpectedArgumentNullException]
+		public void ExpandTildePathThrowsArgumentNullException()
+		{
+			ControlHelper.ExpandTildePath(null);
 		}
 		#endregion
 	}

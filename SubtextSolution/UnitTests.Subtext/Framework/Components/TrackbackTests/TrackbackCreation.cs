@@ -23,9 +23,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 		[RollBack]
 		public void CreateTrackbackSetsFeedbackTypeCorrectly()
 		{
-			string hostname = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, string.Empty));
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, string.Empty, string.Empty);
+			UnitTestHelper.SetupBlog();
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
 			int parentId = Entries.Create(entry);
@@ -45,9 +43,7 @@ namespace UnitTests.Subtext.Framework.Components.TrackbackTests
 		[RollBack]
 		public void TrackbackShowsUpInFeedbackList()
 		{
-			string hostname = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostname, "blog"));
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostname, "blog", string.Empty);
+			UnitTestHelper.SetupBlog("blog");
 			
 			Entry parentEntry = UnitTestHelper.CreateEntryInstanceForSyndication("philsath aeuoa asoeuhtoensth", "sntoehu title aoeuao eu", "snaot hu aensaoehtu body");
 			int parentId = Entries.Create(parentEntry);

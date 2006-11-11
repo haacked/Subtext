@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Text;
 using System.Web;
 using System.Xml;
@@ -24,13 +23,8 @@ namespace UnitTests.Subtext.Framework.Syndication
 		[RollBack]
 		public void AtomWriterProducesValidFeedFromDatabase()
 		{
-			string hostName = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("Test", "username", "password", hostName, string.Empty));
-
-			StringBuilder sb = new StringBuilder();
-			TextWriter output = new StringWriter(sb);
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "", "", "", output);
-
+			StringBuilder sb = UnitTestHelper.SetupBlog().ResponseStringBuilder;
+			
 			Config.CurrentBlog.Email = "Subtext@example.com";
 			Config.CurrentBlog.RFC3229DeltaEncodingEnabled = false;
 
@@ -56,7 +50,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			Assert.AreEqual("testtitle", itemNodes[0].SelectSingleNode("atom:title", nsmanager).InnerText, "Not what we expected for the title.");
 			string urlFormat = "http://{0}/archive/{1:yyyy/MM/dd}/{2}.aspx";
 
-			string expectedUrl = string.Format(urlFormat, hostName, dateCreated, id);
+			string expectedUrl = string.Format(urlFormat, Config.CurrentBlog.Host, dateCreated, id);
 
 			Assert.AreEqual(expectedUrl, itemNodes[0].SelectSingleNode("atom:id", nsmanager).InnerText, "Not what we expected for the link.");
 			Assert.AreEqual(expectedUrl, itemNodes[0].SelectSingleNode("atom:link/@href", nsmanager).InnerText, "Not what we expected for the link.");

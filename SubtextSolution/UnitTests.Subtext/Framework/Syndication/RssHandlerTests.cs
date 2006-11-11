@@ -27,12 +27,8 @@ namespace UnitTests.Subtext.Framework.Syndication
 		[RollBack]
 		public void RssWriterProducesValidFeedFromDatabase()
 		{
-			string hostName = System.Guid.NewGuid().ToString().Replace("-", "") + ".com";
-			Assert.IsTrue(Config.CreateBlog("Test", "username", "password", hostName, string.Empty));
-
-			StringBuilder sb = new StringBuilder();
-			TextWriter output = new StringWriter(sb);
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "", "", "", output);
+			SimulatedRequestContext context = UnitTestHelper.SetupBlog();
+			string hostName = context.HostName;
 
 			Config.CurrentBlog.Email = "Subtext@example.com";
 			Config.CurrentBlog.RFC3229DeltaEncodingEnabled = false;
@@ -41,7 +37,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Author", "testtitle", "testbody", null, dateCreated);
 			int id = Entries.Create(entry); //persist to db.
 
-			XmlNodeList itemNodes = GetRssHandlerItemNodes(sb);
+			XmlNodeList itemNodes = GetRssHandlerItemNodes(context.ResponseStringBuilder);
 			Assert.AreEqual(1, itemNodes.Count, "expected one item nodes.");
 
 			string urlFormat = "http://{0}/archive/{1:yyyy/MM/dd}/{2}.aspx";
@@ -60,17 +56,13 @@ namespace UnitTests.Subtext.Framework.Syndication
 		[RollBack]
 		public void RssHandlerProducesValidRssFeed()
 		{
-			string hostName = System.Guid.NewGuid().ToString().Replace("-", "") + ".com";
-			StringBuilder sb = new StringBuilder();
-			TextWriter output = new StringWriter(sb);
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "", "", "", output);
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostName, string.Empty));
+			SimulatedRequestContext context = UnitTestHelper.SetupBlog();
 
 			Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking"));
 			Thread.Sleep(50);
 			Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test 2", "Body Rocking Pt 2"));
 
-			XmlNodeList itemNodes = GetRssHandlerItemNodes(sb);
+			XmlNodeList itemNodes = GetRssHandlerItemNodes(context.ResponseStringBuilder);
 			Assert.AreEqual(2, itemNodes.Count, "expected two item nodes.");
 
 			Assert.AreEqual("Title Test 2", itemNodes[0].SelectSingleNode("title").InnerText, "Not what we expected for the second title.");
@@ -88,11 +80,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 		public void RssHandlerHandlesDateSyndicatedProperly()
 		{
 			// Setup
-			string hostName = System.Guid.NewGuid().ToString().Replace("-", "") + ".com";
-			StringBuilder sb = new StringBuilder();
-			TextWriter output = new StringWriter(sb);
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "", "", "", output);
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostName, string.Empty));
+			SimulatedRequestContext context = UnitTestHelper.SetupBlog();
 
 			//Create two entries, but only include one in main syndication.
 			Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking"));
@@ -102,7 +90,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			Entries.Update(entry);
 			Assert.AreEqual(NullValue.NullDateTime, entry.DateSyndicated);
 
-			XmlNodeList itemNodes = GetRssHandlerItemNodes(sb);
+			XmlNodeList itemNodes = GetRssHandlerItemNodes(context.ResponseStringBuilder);
 			Assert.AreEqual(1, itemNodes.Count, "expected one item node.");
 
 			Assert.AreEqual("Title Test", itemNodes[0].SelectSingleNode("title").InnerText, "Not what we expected for the first title.");			
@@ -112,9 +100,9 @@ namespace UnitTests.Subtext.Framework.Syndication
 			entry.IncludeInMainSyndication = true;
 			Entries.Update(entry);
 			
-			sb = new StringBuilder();
-			output = new StringWriter(sb);
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "", "", "", output);
+			StringBuilder sb = new StringBuilder();
+			TextWriter output = new StringWriter(sb);
+			UnitTestHelper.SetHttpContextWithBlogRequest(context.HostName, "", "", "", output);
 			itemNodes = GetRssHandlerItemNodes(sb);
 			Assert.AreEqual(2, itemNodes.Count, "Expected two items in the feed now.");
 		}
@@ -127,18 +115,14 @@ namespace UnitTests.Subtext.Framework.Syndication
 		public void RssHandlerSortsByDateSyndicated()
 		{
 			// Setup
-			string hostName = System.Guid.NewGuid().ToString().Replace("-", "") + ".com";
-			StringBuilder sb = new StringBuilder();
-			TextWriter output = new StringWriter(sb);
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "", "", "", output);
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostName, string.Empty));
+			SimulatedRequestContext context = UnitTestHelper.SetupBlog();
 
 			//Create two entries.
 			int firstId = Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking"));
 			Thread.Sleep(1000);
 			Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test 2", "Body Rocking Pt 2"));
-			
-			XmlNodeList itemNodes = GetRssHandlerItemNodes(sb);
+
+			XmlNodeList itemNodes = GetRssHandlerItemNodes(context.ResponseStringBuilder);
 			
 			//Expect the first item to be the second entry.
 			Assert.AreEqual("Title Test 2", itemNodes[0].SelectSingleNode("title").InnerText, "Not what we expected for the first title.");			
@@ -154,9 +138,9 @@ namespace UnitTests.Subtext.Framework.Syndication
 			firstEntry.IncludeInMainSyndication = true;
 			Entries.Update(firstEntry);
 			
-			sb = new StringBuilder();
-			output = new StringWriter(sb);
-			UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "", "", "", output);
+			StringBuilder sb = new StringBuilder();
+			TextWriter output = new StringWriter(sb);
+			UnitTestHelper.SetHttpContextWithBlogRequest(context.HostName, "", "", "", output);
 			itemNodes = GetRssHandlerItemNodes(sb);
 			
 			//Expect the second item to be the second entry.
@@ -184,14 +168,9 @@ namespace UnitTests.Subtext.Framework.Syndication
 		[RollBack]
 		public void TestCompressedFeedWorks()
 		{
-			string hostName = System.Guid.NewGuid().ToString().Replace("-", "") + ".com";
-			StringBuilder sb = new StringBuilder();
-			TextWriter output = new StringWriter(sb);
-
-			SimulatedHttpRequest workerRequest = UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "", "", "", output);
-			workerRequest.Headers.Add("Accept-Encoding", "gzip");
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", hostName, string.Empty));
+			SimulatedRequestContext context = UnitTestHelper.SetupBlog();		
 			Config.CurrentBlog.UseSyndicationCompression = true;
+			context.SimulatedRequest.Headers.Add("Accept-Encoding", "gzip");
 
 			Entries.Create(UnitTestHelper.CreateEntryInstanceForSyndication("Haacked", "Title Test", "Body Rocking"));
 			Thread.Sleep(50);
@@ -205,8 +184,8 @@ namespace UnitTests.Subtext.Framework.Syndication
 			MethodInfo method = typeof(HttpResponse).GetMethod("FilterOutput", BindingFlags.NonPublic | BindingFlags.Instance);
 			method.Invoke(HttpContext.Current.Response, new object[] {});
 			HttpContext.Current.Response.Flush();
-			
-			MemoryStream stream = new MemoryStream(Encoding.Default.GetBytes(sb.ToString()));
+
+			MemoryStream stream = new MemoryStream(Encoding.Default.GetBytes(context.ResponseStringBuilder.ToString()));
 			Stream deflated = UnitTestHelper.GetDeflatedResponse("gzip", stream);
 			string rssOutput;
 			using(StreamReader reader = new StreamReader(deflated))

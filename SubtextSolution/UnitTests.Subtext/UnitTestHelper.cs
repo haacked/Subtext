@@ -115,7 +115,7 @@ namespace UnitTests.Subtext
 		/// Generates a random hostname.
 		/// </summary>
 		/// <returns></returns>
-		public static string GenerateRandomString()
+		internal static string GenerateRandomString()
 		{
 			return System.Guid.NewGuid().ToString().Replace("-", "") + ".com";
 		}
@@ -124,13 +124,127 @@ namespace UnitTests.Subtext
 		/// Takes all the necessary steps to create a blog and set up the HTTP Context 
 		/// with the blog.
 		/// </summary>
-		public static void SetupBlog()
+		/// <returns>
+		/// Returns a reference to a string builder.
+		/// The stringbuilder will end up containing the Response of any simulated 
+		/// requests.
+		/// </returns>
+		internal static SimulatedRequestContext SetupBlog()
 		{
-			string host = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("Unit Test Blog", "FakeUser", "FakePassword", host, string.Empty), "Could Not Create Blog");
-			SetHttpContextWithBlogRequest(host, string.Empty, string.Empty);
+			return SetupBlog(string.Empty);
 		}
 
+		/// <summary>
+		/// Takes all the necessary steps to create a blog and set up the HTTP Context
+		/// with the blog.
+		/// </summary>
+		/// <returns>
+		/// Returns a reference to a string builder.
+		/// The stringbuilder will end up containing the Response of any simulated 
+		/// requests.
+		/// </returns>
+		/// <param name="subfolder">The 'virtualized' subfolder the blog lives in.</param>
+		internal static SimulatedRequestContext SetupBlog(string subfolder)
+		{
+			return SetupBlog(subfolder, string.Empty);
+		}
+
+		/// <summary>
+		/// Takes all the necessary steps to create a blog and set up the HTTP Context
+		/// with the blog.
+		/// </summary>
+		/// <returns>
+		/// Returns a reference to a string builder.
+		/// The stringbuilder will end up containing the Response of any simulated 
+		/// requests.
+		/// </returns>
+		/// <param name="subfolder">The 'virtualized' subfolder the blog lives in.</param>
+		/// <param name="applicationPath">The name of the IIS virtual directory the blog lives in.</param>
+		internal static SimulatedRequestContext SetupBlog(string subfolder, string applicationPath)
+		{
+			return SetupBlog(subfolder, applicationPath, 80);
+		}
+		
+		/// <summary>
+		/// Takes all the necessary steps to create a blog and set up the HTTP Context
+		/// with the blog.
+		/// </summary>
+		/// <returns>
+		/// Returns a reference to a string builder.
+		/// The stringbuilder will end up containing the Response of any simulated 
+		/// requests.
+		/// </returns>
+		/// <param name="subfolder">The 'virtualized' subfolder the blog lives in.</param>
+		/// <param name="applicationPath">The name of the IIS virtual directory the blog lives in.</param>
+		/// <param name="port">The port for this blog.</param>
+		internal static SimulatedRequestContext SetupBlog(string subfolder, string applicationPath, int port)
+		{
+			return SetupBlog(subfolder, applicationPath, port, string.Empty);
+		}
+
+		/// <summary>
+		/// Takes all the necessary steps to create a blog and set up the HTTP Context
+		/// with the blog.
+		/// </summary>
+		/// <param name="subfolder">The 'virtualized' subfolder the blog lives in.</param>
+		/// <param name="applicationPath">The name of the IIS virtual directory the blog lives in.</param>
+		/// <param name="page">The page to request.</param>
+		/// <returns>
+		/// Returns a reference to a string builder.
+		/// The stringbuilder will end up containing the Response of any simulated
+		/// requests.
+		/// </returns>
+		internal static SimulatedRequestContext SetupBlog(string subfolder, string applicationPath, string page)
+		{
+			return SetupBlog(subfolder, applicationPath, 80, page);
+		}
+
+		/// <summary>
+		/// Takes all the necessary steps to create a blog and set up the HTTP Context
+		/// with the blog.
+		/// </summary>
+		/// <param name="subfolder">The 'virtualized' subfolder the blog lives in.</param>
+		/// <param name="applicationPath">The name of the IIS virtual directory the blog lives in.</param>
+		/// <param name="port">The port for this blog.</param>
+		/// <param name="page">The page to request.</param>
+		/// <returns>
+		/// Returns a reference to a string builder.
+		/// The stringbuilder will end up containing the Response of any simulated
+		/// requests.
+		/// </returns>
+		internal static SimulatedRequestContext SetupBlog(string subfolder, string applicationPath, int port, string page)
+		{
+			string host = UnitTestHelper.GenerateRandomString();
+			Assert.IsTrue(Config.CreateBlog("Unit Test Blog", "FakeUser", "FakePassword", host, subfolder), "Could Not Create Blog");
+
+			StringBuilder sb = new StringBuilder();
+			TextWriter output = new StringWriter(sb);
+			SimulatedHttpRequest request = SetHttpContextWithBlogRequest(host, port, subfolder, applicationPath, page, output, "GET");
+
+			return new SimulatedRequestContext(request, sb, output, host);
+		}
+
+		/// <summary>
+		/// Takes all the necessary steps to create a blog and set up the HTTP Context
+		/// with the blog.  The blog will have an admin with the specified 
+		/// username and password.
+		/// </summary>
+		public static void SetupBlogWithUserAndPassword(string username, string password)
+		{
+			SetupBlogWithUserAndPassword(username, password, string.Empty);
+		}
+		/// <summary>
+		/// Takes all the necessary steps to create a blog and set up the HTTP Context
+		/// with the blog.  The blog will have an admin with the specified 
+		/// username and password.
+		/// </summary>
+		public static void SetupBlogWithUserAndPassword(string username, string password, string subfolder)
+		{
+			string host = UnitTestHelper.GenerateRandomString();
+			Assert.IsTrue(Config.CreateBlog("Unit Test Blog", username, password, host, subfolder), "Could Not Create Blog");
+			SetHttpContextWithBlogRequest(host, subfolder);
+		}
+		
 		/// <summary>
 		/// Sets the HTTP context with a valid request for the blog specified 
 		/// by the host and application.
@@ -140,6 +254,15 @@ namespace UnitTests.Subtext
 		public static SimulatedHttpRequest SetHttpContextWithBlogRequest(string host, string subfolder)
 		{
 			return SetHttpContextWithBlogRequest(host, subfolder, string.Empty);
+		}
+		
+		/// <summary>
+		/// Sets up the HttpContext with a request.
+		/// </summary>
+		/// <param name="applicationPath"></param>
+		internal static void SetupHttpContextWithRequest(string applicationPath)
+		{
+			SetHttpContextWithBlogRequest(UnitTestHelper.GenerateRandomString(), string.Empty, applicationPath);
 		}
 
 		/// <summary>
@@ -525,6 +648,9 @@ namespace UnitTests.Subtext
 			string cookieName = SecurityHelper.GetFullCookieName();
             HttpCookie authCookie = HttpContext.Current.Request.Cookies[cookieName];
 
+	    	if(authCookie == null)
+	    		return;
+	    	
             FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
 
             // When the ticket was created, the UserData property was assigned a

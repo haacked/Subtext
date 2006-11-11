@@ -33,8 +33,6 @@ namespace UnitTests.Subtext.Framework.Format
 	[TestFixture]
 	public class UrlFormatTests
 	{
-		string _hostName;
-
 	    /// <summary>
 		/// Makes sure that UrlFormats.GetBlogAppFromRequest does the right thing.
 		/// </summary>
@@ -135,9 +133,8 @@ namespace UnitTests.Subtext.Framework.Format
 		[RollBack]
 		public void GetEditLinkDistringuishesBetweenPostAndArticle()
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "");
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
-
+			UnitTestHelper.SetupBlog();
+			
 			Entry postEntry = new Entry(PostType.BlogPost);
 			postEntry.Id = 123;
 
@@ -154,7 +151,8 @@ namespace UnitTests.Subtext.Framework.Format
 		[RollBack]
 		public void GetBlogNameReturnsBlogNameForEmptyVirtualDir()
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog", "");
+			UnitTestHelper.SetupBlog("MyBlog");
+			
 			Console.WriteLine("HttpContext.Current.Request.ApplicationPath: " + HttpContext.Current.Request.ApplicationPath);
 			string blogName = UrlFormats.GetBlogSubfolderFromRequest(HttpContext.Current.Request.RawUrl, HttpContext.Current.Request.ApplicationPath);
 			Assert.AreEqual("MyBlog", blogName, "Wasn't able to parse request properly.");
@@ -164,22 +162,11 @@ namespace UnitTests.Subtext.Framework.Format
 		[RollBack]
 		public void GetBlogNameReturnsBlogNameForNonEmptyVirtualDir()
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, "MyBlog2", "Subtext.Web");
+			UnitTestHelper.SetupBlog("MyBlog2", "Subtext.Web");
+
 			Console.WriteLine("HttpContext.Current.Request.ApplicationPath: " + HttpContext.Current.Request.ApplicationPath);
 			string blogName = UrlFormats.GetBlogSubfolderFromRequest(HttpContext.Current.Request.RawUrl, HttpContext.Current.Request.ApplicationPath);
 			Assert.AreEqual("MyBlog2", blogName, "Wasn't able to parse request properly.");
-		}
-
-		[SetUp]
-		public void SetUp()
-		{
-			_hostName = UnitTestHelper.GenerateRandomString();
-			
-		}
-
-		[TearDown]
-		public void TearDown()
-		{
 		}
 	}
 }

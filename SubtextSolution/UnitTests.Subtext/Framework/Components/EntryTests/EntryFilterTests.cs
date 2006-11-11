@@ -44,7 +44,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[ExpectedException(typeof(CommentFrequencyException))]
 		public void CannotCreateMoreThanOneCommentWithinDelay()
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			UnitTestHelper.SetupBlog();
 			BlogInfo blog = Config.CurrentBlog;
 			blog.CommentDelayInMinutes = 1;
 
@@ -73,7 +73,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		[ExpectedException(typeof(CommentDuplicateException))]
 		public void CannotCreateDuplicateComments()
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			UnitTestHelper.SetupBlog();
 			BlogInfo blog = Config.CurrentBlog;
 			blog.CommentDelayInMinutes = 0;
 
@@ -95,8 +95,12 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 	    [RollBack]
 	    public void CommentsFromAdminNotFiltered()
 	    {
-            Assert.IsTrue(Config.CreateBlog("", "username", "some-password", _hostName, string.Empty));
+			UnitTestHelper.SetupBlog();
             BlogInfo blog = Config.CurrentBlog;
+			blog.UserName = "username";
+			blog.Password = SecurityHelper.HashPassword("some-password");
+			Config.UpdateConfigData(blog);
+	    	
             blog.CommentDelayInMinutes = 0;
 	        
 	        /*

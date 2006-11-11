@@ -13,8 +13,6 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 	[TestFixture]
 	public class FeedbackTests
 	{
-		string _hostName = string.Empty;
-
 		[RowTest]
 		[Row(FeedbackStatusFlag.Approved, true, false, false, false)]
 		[Row(FeedbackStatusFlag.ApprovedByModerator, true, false, false, false)]
@@ -26,7 +24,8 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[RollBack]
 		public void CanCreateCommentWithStatus(FeedbackStatusFlag status, bool expectedApproved, bool expectedNeedsModeratorApproval, bool expectedDeleted, bool expectedFlaggedAsSpam)
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			UnitTestHelper.SetupBlog();
+			
 			Config.CurrentBlog.CommentsEnabled = true;
 			Config.CurrentBlog.ModerationEnabled = false;
 
@@ -46,7 +45,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[RollBack]
 		public void ConfirmSpamRemovesApprovedBitAndSetsDeletedBit()
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			UnitTestHelper.SetupBlog();
 			Config.CurrentBlog.CommentsEnabled = true;
 			Config.CurrentBlog.ModerationEnabled = false;
 
@@ -66,7 +65,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[RollBack]
 		public void DeleteCommentSetsDeletedBit()
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			UnitTestHelper.SetupBlog();
 			Config.CurrentBlog.CommentsEnabled = true;
 			Config.CurrentBlog.ModerationEnabled = false;
 
@@ -86,7 +85,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[RollBack]
 		public void DestroyCommentByStatusDestroysOnlyThatStatus()
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			UnitTestHelper.SetupBlog();
 			Config.CurrentBlog.CommentsEnabled = true;
 			Config.CurrentBlog.ModerationEnabled = false;
 
@@ -153,7 +152,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[RollBack]
 		public void DestroyCommentReallyGetsRidOfIt()
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			UnitTestHelper.SetupBlog();
 			Config.CurrentBlog.CommentsEnabled = true;
 			Config.CurrentBlog.ModerationEnabled = false;
 
@@ -175,7 +174,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[ExpectedException(typeof(InvalidOperationException))]
 		public void DestroyCommentCannotDestroyActiveComment()
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			UnitTestHelper.SetupBlog();
 			Config.CurrentBlog.CommentsEnabled = true;
 			Config.CurrentBlog.ModerationEnabled = false;
 
@@ -192,7 +191,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[RollBack]
 		public void ApproveCommentRemovesDeletedAndConfirmedSpamBits()
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			UnitTestHelper.SetupBlog();
 			Config.CurrentBlog.CommentsEnabled = true;
 			Config.CurrentBlog.ModerationEnabled = false;
 
@@ -219,7 +218,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[RollBack]
 		public void CanGetAllApprovedComments()
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			UnitTestHelper.SetupBlog();
 			Config.CurrentBlog.CommentsEnabled = true;
 			Config.CurrentBlog.ModerationEnabled = false;
 
@@ -246,7 +245,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[RollBack]
 		public void OnlyApprovedItemsContributeToEntryFeedbackCount()
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			UnitTestHelper.SetupBlog();
 			Config.CurrentBlog.CommentsEnabled = true;
 			Config.CurrentBlog.ModerationEnabled = false;
 			
@@ -287,7 +286,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[RollBack]
 		public void CanGetItemsFlaggedAsSpam()
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			UnitTestHelper.SetupBlog();
 			Config.CurrentBlog.CommentsEnabled = true;
 			Config.CurrentBlog.ModerationEnabled = false;
 
@@ -316,7 +315,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[RollBack]
 		public void CreateFeedbackHasContentHash()
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			UnitTestHelper.SetupBlog();
 
 			FeedbackItem trackback = new FeedbackItem(FeedbackType.PingTrack);
 			trackback.DateCreated = DateTime.Now;
@@ -339,7 +338,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[RollBack]
 		public void CreateFeedbackSendsCorrectEmail(string commenterEmail, string commenterUrl, string expectedEmail, string expectedUrl)
 		{
-			Assert.IsTrue(Config.CreateBlog("", "username", "password", _hostName, string.Empty));
+			UnitTestHelper.SetupBlog();
 			Config.CurrentBlog.Email = "test@example.com";
 			Config.CurrentBlog.Title = "You've been haacked";
 
@@ -428,13 +427,6 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			FeedbackItem.Destroy(null);
 		}
 		#endregion
-
-		[SetUp]
-		public void SetUp()
-		{
-			_hostName = UnitTestHelper.GenerateRandomString();
-			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, string.Empty);
-		}
 
 		[TearDown]
 		public void TearDown()

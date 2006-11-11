@@ -232,6 +232,7 @@
     <Compile Include="BlogMl\BlogMLReaderTests.cs" />
     <Compile Include="BlogMl\BlogMlWriterTests.cs" />
     <Compile Include="BlogMl\SubtextBlogMlWriterTests.cs" />
+    <Compile Include="SimulatedRequestContext.cs" />
     <Compile Include="Extensibility\DotNetOpenMailProviderSendTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -357,15 +358,7 @@
     <Compile Include="SubtextWeb\Controls\CaptchaTests.cs" />
     <Compile Include="SubtextWeb\Controls\ControlHelperTests.cs" />
     <Compile Include="SubtextWeb\Controls\InvisibleCaptchaTests.cs" />
-    <Compile Include="SubtextWeb\Providers\RichTextEditor\FCKeditorProviderTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SubtextWeb\Providers\RichTextEditor\FtbProviderTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SubtextWeb\Providers\RichTextEditor\PlainTextProviderTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="SubtextWeb\Providers\RichTextEditor\BlogEntryEditorProviderTests.cs" />
     <Compile Include="SubtextWeb\SubtextMasterPageTests.cs">
       <SubType>Code</SubType>
     </Compile>

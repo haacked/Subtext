@@ -10,13 +10,11 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 	[TestFixture]
 	public class CommentSettingsTests
 	{
-		string hostName;
-
 		[Test]
 		[RollBack]
 		public void CommentModerationDisabledCausesNewCommentsToBeActive()
 		{
-			Config.CreateBlog("", "username", "thePassword", this.hostName, "MyBlog1");
+			UnitTestHelper.SetupBlog("MyBlog1");
 			
 			Config.CurrentBlog.CommentsEnabled = true;
 			Config.CurrentBlog.ModerationEnabled = false;
@@ -35,7 +33,8 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[RollBack]
 		public void CommentModerationEnabledCausesNewCommentsToBeInactive()
 		{
-			Config.CreateBlog("", "username", "thePassword", this.hostName, "MyBlog1");
+			UnitTestHelper.SetupBlog("MyBlog1");
+			
 			Config.CurrentBlog.CommentsEnabled = true;
 			Config.CurrentBlog.ModerationEnabled = true;
 			
@@ -62,20 +61,9 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		[ExpectedArgumentNullException]
 		public void ApproveThrowsArgumentNullException()
 		{
-			Config.CreateBlog("", "username", "thePassword", this.hostName, "MyBlog1");
+			UnitTestHelper.SetupBlog("MyBlog1");
+			
 			FeedbackItem.Approve(null);
-		}
-
-		[SetUp]
-		public void SetUp()
-		{
-			this.hostName = UnitTestHelper.GenerateRandomString();
-			UnitTestHelper.SetHttpContextWithBlogRequest(this.hostName, "MyBlog1");
-		}
-
-		[TearDown]
-		public void TearDown()
-		{
 		}
 	}
 }
