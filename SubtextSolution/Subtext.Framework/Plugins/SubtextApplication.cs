@@ -100,9 +100,9 @@ namespace Subtext.Extensibility.Plugins
 		}
 
 		/// <summary>
-		/// Load all plugins from the web.config file, and return a configured instance of the STApplication, with all the plugins already initialized
+		/// Load all plugins from the web.config file, and return a configured instance of the SubtextApplication, with all the plugins already initialized
 		/// </summary>
-		/// <returns>Configured instance of the STApplication</returns>
+		/// <returns>Configured instance of the SubtextApplication</returns>
 		private static SubtextApplication LoadPlugins()
 		{
 			SubtextApplication app = new SubtextApplication();

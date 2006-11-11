@@ -1,5 +1,6 @@
 using System;
 using Subtext.Extensibility.Plugins;
+using Subtext.Framework.Components;
 
 namespace Subtext.Plugins.Examples.TestPlugin
 {
@@ -27,25 +28,29 @@ namespace Subtext.Plugins.Examples.TestPlugin
 			application.SingleEntryRendering += new EventHandler<SubtextEventArgs>(sta_SingleEntryRendering);
 		}
 
-		void sta_SingleEntryRendering(Subtext.Framework.Components.Entry entry, SubtextEventArgs e)
+		void sta_SingleEntryRendering(object sender, SubtextEventArgs e)
 		{
+			Entry entry = (Entry)sender;
 			entry.Body += "<br><hr> <b>TestPlugin</b>: Rendered at date: " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
 		}
 
-		void sta_EntryRendering(Subtext.Framework.Components.Entry entry, SubtextEventArgs e)
+		void sta_EntryRendering(object sender, SubtextEventArgs e)
 		{
+			Entry entry = (Entry)sender;
 			entry.Body += "<br><hr> <b>TestPlugin</b>: Rendered at date: " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
 			entry.Body += e.BlogSettings["value1"];
 		}
 
-		void sta_EntryUpdated(Subtext.Framework.Components.Entry entry, SubtextEventArgs e)
+		void sta_EntryUpdated(object sender, SubtextEventArgs e)
 		{
+			Entry entry = (Entry)sender;
 			Console.WriteLine(entry.FullyQualifiedUrl.ToString());
 			return;
 		}
 
-		void sta_EntryUpdating(Subtext.Framework.Components.Entry entry, SubtextEventArgs e)
+		void sta_EntryUpdating(object sender, SubtextEventArgs e)
 		{
+			Entry entry = (Entry)sender;
 			switch (e.State)
 			{
 				case ObjectState.Create:
