@@ -75,7 +75,7 @@ namespace Subtext.Web.Admin.Pages
 				if (currentPlugin != null)
 				{
 					settingModule = LoadControl(completeModuleName) as SubtextAdminGlobalSettingsBaseControl;
-					settingModule.PluginGuid = currentPlugin.Id.Guid;
+					settingModule.PluginGuid = currentPlugin.Id;
 					settingModule.ID = "PluginSettingsEditControl";
 					pluginSetting.Controls.Add(settingModule);
 				}
@@ -105,12 +105,12 @@ namespace Subtext.Web.Admin.Pages
 
 				IPlugin currentPlugin = (IPlugin)e.Item.DataItem;
 
-				pluginId.Text = currentPlugin.Id.Guid.ToString();
+				pluginId.Text = currentPlugin.Id.ToString();
 				pluginName.Text = currentPlugin.Info.Name;
 				pluginDescription.Text = currentPlugin.Info.Description;
 
-				lnkView.CommandArgument = lnkEnable.CommandArgument = currentPlugin.Id.Guid.ToString();
-				lnkPluginSettings.CommandArgument = lnkDisable.CommandArgument = currentPlugin.Id.Guid.ToString();
+				lnkView.CommandArgument = lnkEnable.CommandArgument = currentPlugin.Id.ToString();
+				lnkPluginSettings.CommandArgument = lnkDisable.CommandArgument = currentPlugin.Id.ToString();
 
 				if (IsPluginEnabled(currentPlugin))
 				{
@@ -192,7 +192,7 @@ namespace Subtext.Web.Admin.Pages
 					}
 					if (settingModule != null)
 					{
-						settingModule.PluginGuid = currentPlugin.Id.Guid;
+						settingModule.PluginGuid = currentPlugin.Id;
 						settingModule.ID = "PluginSettingsEditControl";
 						pluginSetting.Controls.Add(settingModule);
 						ViewState[VSKEY_PLUGINNAME] = completeModuleName;
@@ -254,7 +254,7 @@ namespace Subtext.Web.Admin.Pages
 				View.Visible = true;
 
 				pluginViewName.Text = currentPlugin.Info.Name;
-				pluginViewGuid.Text = currentPlugin.Id.Guid.ToString();
+				pluginViewGuid.Text = currentPlugin.Id.ToString();
 				pluginViewAuthor.Text = currentPlugin.Info.Author;
 				pluginViewCompany.Text = currentPlugin.Info.Company;
 				pluginViewCopyright.Text = currentPlugin.Info.Copyright;

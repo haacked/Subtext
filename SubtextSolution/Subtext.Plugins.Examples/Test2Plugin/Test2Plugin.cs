@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Subtext.Extensibility.Plugins;
 
 namespace Subtext.Plugins.Examples.Test2Plugin
@@ -9,9 +7,11 @@ namespace Subtext.Plugins.Examples.Test2Plugin
 	{
 		#region IPlugin Members
 
-		public IPluginIdentifier Id
+		static readonly Guid guid = new Guid("{3223AC01-DEE1-4351-9198-9700295A6DA1}");
+		
+		public Guid Id
 		{
-			get { return new Test2PluginIdentifier(); }
+			get { return guid; }
 		}
 
 		public IImplementationInfo Info
@@ -19,12 +19,12 @@ namespace Subtext.Plugins.Examples.Test2Plugin
 			get { return new Test2PluginImplentationInfo(); }
 		}
 
-		public void Init(SubtextApplication sta)
+		public void Init(SubtextApplication application)
 		{
-			sta.EntryUpdating += new EntryEventHandler(sta_EntryUpdating);
-			sta.EntryUpdated += new EntryEventHandler(sta_EntryUpdated);
-			sta.EntryRendering += new EntryEventHandler(sta_EntryRendering);
-			sta.SingleEntryRendering += new EntryEventHandler(sta_SingleEntryRendering);
+			application.EntryUpdating += new EntryEventHandler(sta_EntryUpdating);
+			application.EntryUpdated += new EntryEventHandler(sta_EntryUpdated);
+			application.EntryRendering += new EntryEventHandler(sta_EntryRendering);
+			application.SingleEntryRendering += new EntryEventHandler(sta_SingleEntryRendering);
 		}
 
 		void sta_SingleEntryRendering(Subtext.Framework.Components.Entry entry, SubtextEventArgs e)

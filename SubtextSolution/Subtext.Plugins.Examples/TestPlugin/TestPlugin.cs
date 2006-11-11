@@ -1,9 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Subtext.Extensibility.Plugins;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Components;
 
 namespace Subtext.Plugins.Examples.TestPlugin
 {
@@ -11,9 +7,11 @@ namespace Subtext.Plugins.Examples.TestPlugin
 	{
 		#region IPlugin Members
 
-		public IPluginIdentifier Id
+		static readonly Guid guid = new Guid("{DE307000-AFCD-480d-AA37-D85E57EB2D04}");
+		
+		public Guid Id
 		{
-			get { return new TestPluginIdentifier(); }
+			get { return guid; }
 		}
 
 		public IImplementationInfo Info
@@ -21,12 +19,12 @@ namespace Subtext.Plugins.Examples.TestPlugin
 			get { return new TestPluginImplentationInfo(); }
 		}
 
-		public void Init(SubtextApplication sta)
+		public void Init(SubtextApplication application)
 		{
-			sta.EntryUpdating += new EntryEventHandler(sta_EntryUpdating);
-			sta.EntryUpdated += new EntryEventHandler(sta_EntryUpdated);
-			sta.EntryRendering += new EntryEventHandler(sta_EntryRendering);
-			sta.SingleEntryRendering += new EntryEventHandler(sta_SingleEntryRendering);
+			application.EntryUpdating += new EntryEventHandler(sta_EntryUpdating);
+			application.EntryUpdated += new EntryEventHandler(sta_EntryUpdated);
+			application.EntryRendering += new EntryEventHandler(sta_EntryRendering);
+			application.SingleEntryRendering += new EntryEventHandler(sta_SingleEntryRendering);
 		}
 
 		void sta_SingleEntryRendering(Subtext.Framework.Components.Entry entry, SubtextEventArgs e)
@@ -42,7 +40,7 @@ namespace Subtext.Plugins.Examples.TestPlugin
 
 		void sta_EntryUpdated(Subtext.Framework.Components.Entry entry, SubtextEventArgs e)
 		{
-			string url = entry.FullyQualifiedUrl.ToString();
+			Console.WriteLine(entry.FullyQualifiedUrl.ToString());
 			return;
 		}
 
