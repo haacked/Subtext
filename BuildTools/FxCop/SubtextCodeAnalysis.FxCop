@@ -80,7 +80,7 @@
   <Target Name="$(ProjectDir)/../../SubtextSolution/Subtext.Web/bin/Subtext.Extensibility.dll" Analyze="True" AnalyzeAllChildren="True" />
   <Target Name="$(ProjectDir)/../../SubtextSolution/Subtext.Web/bin/Subtext.Framework.dll" Analyze="True" AnalyzeAllChildren="True" />
   <Target Name="$(ProjectDir)/../../SubtextSolution/Subtext.Web/bin/Subtext.Installation.dll" Analyze="True" AnalyzeAllChildren="True" />
-  <Target Name="$(ProjectDir)/../../SubtextSolution/Subtext.Web/bin/Subtext.Providers.BlogEntryEditor.FCKeditor.dll" Analyze="True" AnalyzeAllChildren="False" />
+  <Target Name="$(ProjectDir)/../../SubtextSolution/Subtext.Web/bin/Subtext.Providers.BlogEntryEditor.FCKeditor.dll" Analyze="True" AnalyzeAllChildren="True" />
   <Target Name="$(ProjectDir)/../../SubtextSolution/Subtext.Web/bin/Subtext.Scripting.dll" Analyze="True" AnalyzeAllChildren="True" />
   <Target Name="$(ProjectDir)/../../SubtextSolution/Subtext.Web/bin/Subtext.Web.Controls.dll" Analyze="True" AnalyzeAllChildren="True" />
   <Target Name="$(ProjectDir)/../../SubtextSolution/Subtext.Web/bin/Subtext.Web.dll" Analyze="True" AnalyzeAllChildren="True" />
@@ -1142,16 +1142,6 @@
            </Message>
           </Messages>
          </Type>
-         <Type Name="IPluginIdentifier">
-          <Messages>
-           <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-            <Issue Name="Type">
-             <Item>Plugin</Item>
-             <Item>Subtext.Extensibility.Plugins.IPluginIdentifier</Item>
-            </Issue>
-           </Message>
-          </Messages>
-         </Type>
          <Type Name="PluginModule">
           <Messages>
            <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
@@ -1225,167 +1215,6 @@
             </Issue>
            </Message>
           </Messages>
-         </Type>
-         <Type Name="STAdminGlobalSettingsBaseControl">
-          <Members>
-           <Member Name=".ctor()">
-            <Messages>
-             <Message TypeName="DoNotInitializeUnnecessarily" Category="Microsoft.Performance" CheckId="CA1805" Created="2006-11-08 18:41:28Z">
-              <Issue>
-               <Item>STAdminGlobalSettingsBaseControl.STAdminGlobalSettingsBaseControl()</Item>
-               <Item>_blogSettings</Item>
-               <Item>System.Collections.Specialized.NameValueCollection</Item>
-               <Item>null</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="GetBlogSettings():System.Collections.Specialized.NameValueCollection">
-            <Messages>
-             <Message Id="System.InvalidOperationException.#ctor(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-11-08 18:41:28Z">
-              <Issue>
-               <Item>STAdminGlobalSettingsBaseControl.GetBlogSettings():NameValueCollection</Item>
-               <Item>1</Item>
-               <Item>InvalidOperationException.InvalidOperationException(String)</Item>
-               <Item>BlogSettings cannot be retrieved if no PluginGuid has been specified</Item>
-              </Issue>
-             </Message>
-             <Message Id="Plugin" TypeName="LiteralsShouldBeSpelledCorrectly" Category="Microsoft.Usage" CheckId="CA2204" Created="2006-11-08 18:41:28Z">
-              <Issue>
-               <Item>Plugin</Item>
-               <Item>PluginGuid</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="PluginGuid">
-            <Messages>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>STAdminGlobalSettingsBaseControl.PluginGuid:Guid</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="STApplication">
-          <Messages>
-           <Message TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001" Created="2006-11-08 18:41:28Z" FixCategory="Breaking">
-            <Issue>
-             <Item>Subtext.Extensibility.Plugins.STApplication</Item>
-             <Item>System.ComponentModel.EventHandlerList</Item>
-            </Issue>
-           </Message>
-          </Messages>
-          <Members>
-           <Member Name=".cctor()">
-            <Messages>
-             <Message TypeName="DoNotInitializeUnnecessarily" Category="Microsoft.Performance" CheckId="CA1805" Created="2006-11-08 18:41:28Z">
-              <Issue>
-               <Item>STApplication.STApplication()</Item>
-               <Item>_initialized</Item>
-               <Item>System.Boolean</Item>
-               <Item>false</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="PostEntryUpdate" Kind="Event">
-            <Messages>
-             <Message TypeName="DeclareEventHandlersCorrectly" Category="Microsoft.Design" CheckId="CA1009" Created="2006-11-08 18:41:28Z">
-              <Issue Name="First">
-               <Item>EntryEventHandler</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="PreEntryUpdate" Kind="Event">
-            <Messages>
-             <Message TypeName="DeclareEventHandlersCorrectly" Category="Microsoft.Design" CheckId="CA1009" Created="2006-11-08 18:41:28Z">
-              <Issue Name="First">
-               <Item>EntryEventHandler</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="PreRenderEntry" Kind="Event">
-            <Messages>
-             <Message TypeName="DeclareEventHandlersCorrectly" Category="Microsoft.Design" CheckId="CA1009" Created="2006-11-08 18:41:28Z">
-              <Issue Name="First">
-               <Item>EntryEventHandler</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="ExecuteEntryEvent(System.Object,Subtext.Framework.Components.Entry,System.EventArgs):System.Void">
-            <Messages>
-             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2006-11-08 18:41:28Z">
-              <Issue>
-               <Item>STApplication.ExecuteEntryEvent(Object, Entry, EventArgs):Void</Item>
-               <Item>System.Object</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="GetPluginByGuid(System.String):Subtext.Extensibility.Plugins.IPlugin">
-            <Messages>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>STApplication.GetPluginByGuid(String):IPlugin</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="GetPluginModuleFileName(System.String,System.String):System.String">
-            <Messages>
-             <Message Id="0#plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-              <Issue Name="Parameter">
-               <Item>STApplication.GetPluginModuleFileName(String, String):String</Item>
-               <Item>plugin</Item>
-               <Item>pluginName</Item>
-              </Issue>
-             </Message>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>STApplication.GetPluginModuleFileName(String, String):String</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="PluginConfig">
-            <Messages>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>STApplication.PluginConfig:PluginSettingsCollection</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="Plugins">
-            <Messages>
-             <Message Id="Plugins" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-              <Issue Name="Member">
-               <Item>Plugins</Item>
-               <Item>STApplication.Plugins:Dictionary`2&lt;System.String,Subtext.Extensibility.Plugins.IPlugin&gt;</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="sync">
-            <Messages>
-             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2006-11-08 18:41:28Z">
-              <Issue>
-               <Item>STApplication.sync</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
          </Type>
         </Types>
        </Namespace>
@@ -1565,16 +1394,6 @@
               <Issue Name="Member">
                <Item>Co</Item>
                <Item>BlogInfo.CoCommentsEnabled:Boolean</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="EnabledPluginGuids">
-            <Messages>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>BlogInfo.EnabledPluginGuids:ICollection`1&lt;System.Guid&gt;</Item>
               </Issue>
              </Message>
             </Messages>
@@ -3936,15 +3755,6 @@
                <Item>2</Item>
                <Item>ArgumentNullException.ArgumentNullException(String, String)</Item>
                <Item>Cannot insert a null category.</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="FormatEntry(Subtext.Framework.Components.Entry,System.Boolean):System.Boolean">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-08 18:41:28Z" FixCategory="NonBreaking">
-              <Issue>
-               <Item>DatabaseObjectProvider.FormatEntry(Entry, Boolean):Boolean</Item>
               </Issue>
              </Message>
             </Messages>
@@ -7196,23 +7006,6 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="ConvertHtmlToXHtml(Subtext.Framework.Components.Entry):System.Boolean">
-            <Messages>
-             <Message Id="System.IO.StringWriter.#ctor" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-11-08 18:41:28Z">
-              <Issue>
-               <Item>HtmlHelper.ConvertHtmlToXHtml(Entry):Boolean</Item>
-               <Item>System.IO.StringWriter.#ctor</Item>
-               <Item>System.IO.StringWriter.#ctor(System.IFormatProvider)</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-11-08 18:41:28Z">
-              <Issue>
-               <Item>'entry'</Item>
-               <Item>HtmlHelper.ConvertHtmlToXHtml(Entry):Boolean</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="ConvertToAllowedHtml(System.Collections.Specialized.NameValueCollection,System.String):System.String">
             <Messages>
              <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-11-08 18:41:28Z">
@@ -7269,22 +7062,6 @@
               <Issue>
                <Item>'text'</Item>
                <Item>HtmlHelper.EnableUrls(String):String</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="HasIllegalContent(System.String):System.Boolean">
-            <Messages>
-             <Message Id="0#s" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-              <Issue Name="ParameterOneLetter">
-               <Item>HtmlHelper.HasIllegalContent(String):Boolean</Item>
-               <Item>s</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-11-08 18:41:28Z">
-              <Issue>
-               <Item>'s'</Item>
-               <Item>HtmlHelper.HasIllegalContent(String):Boolean</Item>
               </Issue>
              </Message>
             </Messages>
@@ -22688,9 +22465,6 @@
    </Rule>
    <Rule TypeName="ConsiderPassingBaseTypesAsParameters" Category="Microsoft.Design" CheckId="CA1011">
     <Resolution Name="Default">Consider changing the type of parameter '{0}' in {1} from {2} to its base type {3}. This method appears to only require base class members in its implementation. Suppress this violation if there is a compelling reason to require the more derived type in the method signature.</Resolution>
-   </Rule>
-   <Rule TypeName="DeclareEventHandlersCorrectly" Category="Microsoft.Design" CheckId="CA1009">
-    <Resolution Name="First">Declare the first parameter of '{0}' as an object named 'sender'.</Resolution>
    </Rule>
    <Rule TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214">
     <Resolution Name="Default">'{0}' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: {1}</Resolution>
