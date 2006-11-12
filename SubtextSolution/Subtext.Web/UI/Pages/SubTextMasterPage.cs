@@ -51,7 +51,8 @@ namespace Subtext.Web.UI.Pages
 		protected HtmlLink Rsd;
 		protected HtmlLink AtomLink;
 		protected PlaceHolder CenterBodyControl;
-		protected Literal authorMetaTag;
+		protected Literal versionMetaTag;
+        protected Literal authorMetaTag;
 		protected Literal scripts;
 		protected Literal styles;
 		protected Literal virtualRoot;
@@ -172,9 +173,13 @@ namespace Subtext.Web.UI.Pages
 			//Is this for extra security?
 			EnableViewState = false;
 			pageTitle.Text = Globals.CurrentTitle(Context);
-			if(Config.CurrentBlog.Author != null && Config.CurrentBlog.Author.Length > 0)
-				authorMetaTag.Text = String.Format("<meta name=\"author\" content=\"{0}\" />", Config.CurrentBlog.Author );
-			base.OnPreRender (e);
+            if (Config.CurrentBlog.Author != null && Config.CurrentBlog.Author.Length > 0)
+            {
+                authorMetaTag.Text = String.Format("<meta name=\"author\" content=\"{0}\" />", Config.CurrentBlog.Author);
+            }
+            versionMetaTag.Text = String.Format("<meta name=\"Generator\" content=\"{0}\" />", Subtext.Framework.VersionInfo.VersionDisplayText);
+            base.OnPreRender (e);
+
 		}
 
 		/// <summary>
@@ -399,4 +404,5 @@ namespace Subtext.Web.UI.Pages
 		}
 	}
 }
+
 
