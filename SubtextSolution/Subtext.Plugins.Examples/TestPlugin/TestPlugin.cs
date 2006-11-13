@@ -1,9 +1,16 @@
 using System;
+using Subtext.Extensibility.Attributes;
 using Subtext.Extensibility.Plugins;
 using Subtext.Framework.Components;
 
 namespace Subtext.Plugins.Examples.TestPlugin
 {
+	[Identifier("{DE307000-AFCD-480d-AA37-D85E57EB2D04}")]
+	[Description("TestPlugin",
+		Author = "Simone Chiaretta",
+		HomePageUrl = "http://www.subtextproject.com/",
+		Version = "0.0.2",
+		Description = "Plugin used to test the plugin loading process")]
 	public class TestPlugin: IPlugin
 	{
 		#region IPlugin Members
