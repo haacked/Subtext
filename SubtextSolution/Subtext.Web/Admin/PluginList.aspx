@@ -20,19 +20,23 @@
 				<table id="Listing" class="Listing" cellSpacing="0" cellPadding="0" border="0" style="<%= CheckHiddenStyle() %>">
 					<tr>
 						<th width="50">Name</th>
-						<th width="50">Identifier</th>
+						<th width="50">Version</th>
+						<th width="50">Company</th>
 						<th>Description</th>
 						<th width="100">&nbsp;</th>
 						<th width="50">&nbsp;</th>
 					</tr>
 			</HeaderTemplate>
 			<ItemTemplate>
-				<tr>
+				<tr ID="currentRow" runat="server">
 					<td>
 						<asp:Label ID="pluginName" runat="server"></asp:Label>
 					</td>
 					<td>
-						<asp:Label ID="pluginId" runat="server"></asp:Label>
+						<asp:Label ID="pluginVersion" runat="server"></asp:Label>
+					</td>
+					<td>
+						<asp:Label ID="pluginCompany" runat="server"></asp:Label>
 					</td>
 					<td>
 						<asp:Label ID="pluginDescription" runat="server"></asp:Label>
@@ -48,12 +52,15 @@
 				</tr>
 			</ItemTemplate>
 			<AlternatingItemTemplate>
-				<tr class="Alt">
+				<tr class="Alt" ID="currentRow" runat="server">
 					<td>
 						<asp:Label ID="pluginName" runat="server"></asp:Label>
 					</td>
 					<td>
-						<asp:Label ID="pluginId" runat="server"></asp:Label>
+						<asp:Label ID="pluginVersion" runat="server"></asp:Label>
+					</td>
+					<td>
+						<asp:Label ID="pluginCompany" runat="server"></asp:Label>
 					</td>
 					<td>
 						<asp:Label ID="pluginDescription" runat="server"></asp:Label>
