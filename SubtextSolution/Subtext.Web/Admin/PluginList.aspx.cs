@@ -15,6 +15,7 @@
 
 using System;
 using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
 using System.Collections.Generic;
 using Subtext.Extensibility.Plugins;
 using Subtext.Framework;
@@ -94,9 +95,11 @@ namespace Subtext.Web.Admin.Pages
 		{
 			if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
 			{
-				Label pluginId = (Label)e.Item.FindControl("pluginId");
 				Label pluginName = (Label)e.Item.FindControl("pluginName");
+				Label pluginVersion = (Label)e.Item.FindControl("pluginVersion");
+				Label pluginCompany = (Label)e.Item.FindControl("pluginCompany");
 				Label pluginDescription = (Label)e.Item.FindControl("pluginDescription");
+				HtmlTableRow currentRow = (HtmlTableRow)e.Item.FindControl("currentRow");
 
 				LinkButton lnkView = (LinkButton)e.Item.FindControl("lnkView");
 				LinkButton lnkEnable = (LinkButton)e.Item.FindControl("lnkEnable");
@@ -105,8 +108,10 @@ namespace Subtext.Web.Admin.Pages
 
 				IPlugin currentPlugin = (IPlugin)e.Item.DataItem;
 
-				pluginId.Text = currentPlugin.Id.ToString();
+				currentRow.Attributes.Add("title", "Guid: " + currentPlugin.Id.ToString("B"));
 				pluginName.Text = currentPlugin.Info.Name;
+				pluginVersion.Text = currentPlugin.Info.Version.ToString();
+				pluginCompany.Text = currentPlugin.Info.Company;
 				pluginDescription.Text = currentPlugin.Info.Description;
 
 				lnkView.CommandArgument = lnkEnable.CommandArgument = currentPlugin.Id.ToString();
