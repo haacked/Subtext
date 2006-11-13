@@ -175,9 +175,9 @@ namespace Subtext.Web.UI.Pages
 			pageTitle.Text = Globals.CurrentTitle(Context);
             if (Config.CurrentBlog.Author != null && Config.CurrentBlog.Author.Length > 0)
             {
-                authorMetaTag.Text = String.Format("<meta name=\"author\" content=\"{0}\" />", Config.CurrentBlog.Author);
+				authorMetaTag.Text = String.Format("\r\n<meta name=\"author\" content=\"{0}\" />", Config.CurrentBlog.Author);
             }
-            versionMetaTag.Text = String.Format("<meta name=\"Generator\" content=\"{0}\" />", Subtext.Framework.VersionInfo.VersionDisplayText);
+			versionMetaTag.Text = String.Format("\r\n<meta name=\"Generator\" content=\"{0}\" />\r\n", Subtext.Framework.VersionInfo.VersionDisplayText);
             base.OnPreRender (e);
 
 		}
