@@ -72,7 +72,7 @@ namespace Subtext.Web.Admin.Pages
 			string completeModuleName = (string)ViewState[VSKEY_PLUGINNAME];
 			if (!String.IsNullOrEmpty(completeModuleName))
 			{
-				IPlugin currentPlugin = SubtextApplication.Current.GetPluginByGuid(PluginID);
+				PluginBase currentPlugin = SubtextApplication.Current.GetPluginByGuid(PluginID);
 				if (currentPlugin != null)
 				{
 					settingModule = LoadControl(completeModuleName) as SubtextAdminGlobalSettingsBaseControl;
@@ -86,7 +86,7 @@ namespace Subtext.Web.Admin.Pages
 		private void BindList()
 		{
 			View.Visible = false;
-			Dictionary<string, IPlugin>.ValueCollection pluginList = SubtextApplication.Current.Plugins.Values;
+			Dictionary<Guid, PluginBase>.ValueCollection pluginList = SubtextApplication.Current.Plugins.Values;
 			pluginListRpt.DataSource = pluginList;
 			pluginListRpt.DataBind();
 		}
@@ -106,7 +106,7 @@ namespace Subtext.Web.Admin.Pages
 				LinkButton lnkPluginSettings = (LinkButton)e.Item.FindControl("lnkPluginSettings");
 				LinkButton lnkDisable = (LinkButton)e.Item.FindControl("lnkDisable");
 
-				IPlugin currentPlugin = (IPlugin)e.Item.DataItem;
+				PluginBase currentPlugin = (PluginBase)e.Item.DataItem;
 
 				currentRow.Attributes.Add("title", "Guid: " + currentPlugin.Id.ToString("B"));
 				pluginName.Text = currentPlugin.Info.Name;
@@ -136,7 +136,7 @@ namespace Subtext.Web.Admin.Pages
 			}
 		}
 
-		private bool IsPluginEnabled(IPlugin plugin)
+		private bool IsPluginEnabled(PluginBase plugin)
 		{
 			return SubtextApplication.Current.PluginEnabled(plugin);
 		}
@@ -174,7 +174,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindEditLink(bool loadSetting)
 		{
-			IPlugin currentPlugin = SubtextApplication.Current.GetPluginByGuid(PluginID);
+			PluginBase currentPlugin = SubtextApplication.Current.GetPluginByGuid(PluginID);
 			if (currentPlugin != null)
 			{
 				string moduleFileName=SubtextApplication.Current.GetPluginModuleFileName(currentPlugin.Info.Name, "blogsettings");
@@ -237,7 +237,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void ConfirmToggle(Guid pluginId, bool enable)
 		{
-			IPlugin currentPlugin = SubtextApplication.Current.GetPluginByGuid(pluginId.ToString());
+			PluginBase currentPlugin = SubtextApplication.Current.GetPluginByGuid(pluginId);
 			if (currentPlugin != null)
 			{
 				this.Command = new TogglePluginCommand(pluginId, currentPlugin.Info.Name, enable);
@@ -250,7 +250,7 @@ namespace Subtext.Web.Admin.Pages
 
 		private void BindViewLink()
 		{
-			IPlugin currentPlugin = SubtextApplication.Current.GetPluginByGuid(PluginID);
+			PluginBase currentPlugin = SubtextApplication.Current.GetPluginByGuid(PluginID);
 			if (currentPlugin != null)
 			{
 				Results.Collapsed = true;

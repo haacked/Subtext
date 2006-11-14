@@ -33,12 +33,12 @@ namespace Subtext.Framework.Components
 		private const string PLUGINCACHENAMEFORMAT = "{0}_PLUGINLIST"; //{0} is the blog id
 
 
-		private IPlugin _initializedPlugin;
+		private PluginBase _initializedPlugin;
 
 		/// <summary>
 		/// An instance of the plugin, already initialized
 		/// </summary>
-		public IPlugin InitializedPlugin
+		public PluginBase InitializedPlugin
 		{
 			get { return _initializedPlugin; }
 			set { _initializedPlugin = value; }
@@ -52,7 +52,7 @@ namespace Subtext.Framework.Components
 			set { _settings = value; }
 		}
 
-		internal Plugin(IPlugin plugin, NameValueCollection settings)
+		internal Plugin(PluginBase plugin, NameValueCollection settings)
 		{
 			_initializedPlugin = plugin;
 			_settings = settings;
@@ -85,7 +85,7 @@ namespace Subtext.Framework.Components
 				pluginList = new Dictionary<Guid, Plugin>(pluginGuids.Count);
 				foreach (Guid guid in pluginGuids)
 				{
-					IPlugin currPlugin = SubtextApplication.Current.GetPluginByGuid(guid.ToString());
+					PluginBase currPlugin = SubtextApplication.Current.GetPluginByGuid(guid);
 					pluginList.Add(guid, new Plugin(currPlugin, Plugin.GetPluginGeneralSettings(guid)));
 				}
 				StorePluginListToCache(pluginList);

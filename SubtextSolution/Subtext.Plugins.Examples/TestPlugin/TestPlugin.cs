@@ -8,26 +8,21 @@ namespace Subtext.Plugins.Examples.TestPlugin
 	[Identifier("{DE307000-AFCD-480d-AA37-D85E57EB2D04}")]
 	[Description("TestPlugin",
 		Author = "Simone Chiaretta",
+		Company = "Subtext",
 		HomePageUrl = "http://www.subtextproject.com/",
 		Version = "0.0.2",
 		Description = "Plugin used to test the plugin loading process")]
-	public class TestPlugin: IPlugin
+	public class TestPlugin: PluginBase
 	{
-		#region IPlugin Members
+		#region PluginBase Members
 
-		static readonly Guid guid = new Guid("{DE307000-AFCD-480d-AA37-D85E57EB2D04}");
-		
-		public Guid Id
-		{
-			get { return guid; }
-		}
 
-		public IImplementationInfo Info
-		{
-			get { return new TestPluginImplentationInfo(); }
-		}
+		//public IImplementationInfo Info
+		//{
+		//    get { return new TestPluginImplentationInfo(); }
+		//}
 
-		public void Init(SubtextApplication application)
+		public override void Init(SubtextApplication application)
 		{
 			application.EntryUpdating += new EventHandler<SubtextEventArgs>(sta_EntryUpdating);
 			application.EntryUpdated += new EventHandler<SubtextEventArgs>(sta_EntryUpdated);

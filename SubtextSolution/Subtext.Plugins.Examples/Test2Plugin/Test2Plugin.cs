@@ -1,26 +1,22 @@
 using System;
+using Subtext.Extensibility.Attributes;
 using Subtext.Extensibility.Plugins;
 using Subtext.Framework.Components;
 
 namespace Subtext.Plugins.Examples.Test2Plugin
 {
-	public class Test2Plugin: IPlugin
+	[Identifier("{3223AC01-DEE1-4351-9198-9700295A6DA1}")]
+	[Description("TestPlugin2",
+		Author = "Simone Chiaretta",
+		Company = "Subtext",
+		HomePageUrl = "http://www.subtextproject.com/",
+		Version = "0.0.2",
+		Description = "Second Plugin used to test the plugin loading process")]
+	public class Test2Plugin: PluginBase
 	{
-		#region IPlugin Members
+		#region PluginBase Members
 
-		static readonly Guid guid = new Guid("{3223AC01-DEE1-4351-9198-9700295A6DA1}");
-		
-		public Guid Id
-		{
-			get { return guid; }
-		}
-
-		public IImplementationInfo Info
-		{
-			get { return new Test2PluginImplentationInfo(); }
-		}
-
-		public void Init(SubtextApplication application)
+		public override void Init(SubtextApplication application)
 		{
 			application.EntryUpdating += new EventHandler<SubtextEventArgs>(sta_EntryUpdating);
 			application.EntryUpdated += new EventHandler<SubtextEventArgs>(sta_EntryUpdated);

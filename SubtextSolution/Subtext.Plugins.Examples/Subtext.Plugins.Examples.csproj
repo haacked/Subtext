@@ -43,7 +43,6 @@
       <DependentUpon>settings.ascx</DependentUpon>
     </Compile>
     <Compile Include="Test2Plugin\Test2Plugin.cs" />
-    <Compile Include="Test2Plugin\Test2PluginImplentationInfo.cs" />
     <Compile Include="TestPlugin\settings.ascx.cs">
       <DependentUpon>settings.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -52,7 +51,6 @@
       <DependentUpon>settings.ascx</DependentUpon>
     </Compile>
     <Compile Include="TestPlugin\TestPlugin.cs" />
-    <Compile Include="TestPlugin\TestPluginImplentationInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Subtext.Extensibility\Subtext.Extensibility.csproj">

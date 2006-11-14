@@ -21,6 +21,7 @@ using System.Configuration;
 using System.Web.Configuration;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Components;
+using Subtext.Framework.Logging;
 
 namespace Subtext.Extensibility.Plugins
 {
@@ -54,7 +55,10 @@ namespace Subtext.Extensibility.Plugins
 
 
 		private static bool _initialized = false;
-		private Dictionary<string, IPlugin> _plugins = new Dictionary<string, IPlugin>();
+		private Dictionary<Guid, PluginBase> _plugins = new Dictionary<Guid, PluginBase>();
+
+		private static readonly Log __log = new Log();
+		private static SubtextApplication _instance = LoadPlugins();
 
 		private PluginSettingsCollection _pluginConfig;
 
@@ -66,19 +70,16 @@ namespace Subtext.Extensibility.Plugins
 			get { return _pluginConfig; }
 		}
 
-
-		//private static readonly Log __log = new Log();
-
 		/// <summary>
 		/// All avalialbe plugins. These plugins are already initialized
 		/// </summary>
-		public Dictionary<string, IPlugin> Plugins
+		public Dictionary<Guid, PluginBase> Plugins
 		{
 			get { return _plugins; }
 		}
 
 
-		private static SubtextApplication _instance = LoadPlugins();
+		
 
 		/// <summary>
 		/// Returns the current single instance of the class
@@ -120,13 +121,13 @@ namespace Subtext.Extensibility.Plugins
 
 						if (String.IsNullOrEmpty(setting.Type))
 						{
-							//__log.Warn("Cannot load plugin defined at line " + setting.ElementInformation.LineNumber + ":\r\nMissing Type");
+							__log.Warn("Cannot load plugin defined at line " + setting.ElementInformation.LineNumber + ":\r\nMissing Type");
 							continue;
 						}
 
 						if (String.IsNullOrEmpty(setting.Name))
 						{
-							//__log.Warn("Cannot load plugin defined at line " + setting.ElementInformation.LineNumber + ":\r\nMissing Name");
+							__log.Warn("Cannot load plugin defined at line " + setting.ElementInformation.LineNumber + ":\r\nMissing Name");
 							continue;
 						}
 
@@ -134,30 +135,42 @@ namespace Subtext.Extensibility.Plugins
 
 						if (type == null)
 						{
-							//__log.Warn("Cannot load plugin defined at line " + setting.ElementInformation.LineNumber + ":\r\nType " + setting.Type + " not found in any of the assembly available inside the \\bin folder");
+							__log.Warn("Cannot load plugin defined at line " + setting.ElementInformation.LineNumber + ":\r\nType " + setting.Type + " not found in any of the assembly available inside the \\bin folder");
 							continue;
 						}
-						IPlugin plugin = Activator.CreateInstance(type) as IPlugin;
+						PluginBase plugin = Activator.CreateInstance(type) as PluginBase;
 
 						if (plugin == null)
 						{
-							//__log.Warn("Cannot load plugin defined at line " + setting.ElementInformation.LineNumber + ":\r\nType " + setting.Type + " doesn't implements IPlugin interface");
+							__log.Warn("Cannot load plugin defined at line " + setting.ElementInformation.LineNumber + ":\r\nType " + setting.Type + " doesn't inherits from PluginBase abstract class");
+							continue;
+						}
+
+						if (plugin.Id == Guid.Empty)
+						{
+							__log.Warn("Cannot load plugin with name " + setting.Name + ": doesn't provide a Guid");
+							continue;
+						}
+
+						if (plugin.Info == null)
+						{
+							__log.Warn("Cannot load plugin with name " + setting.Name + ": doesn't provide at least one descriptive metadata");
 							continue;
 						}
 
 						try
 						{
 							plugin.Init(app);
-							app._plugins.Add(setting.Name, plugin);
+							app._plugins.Add(plugin.Id, plugin);
 						}
-						catch (Exception)
+						catch (Exception ex)
 						{
-							//__log.Error("Error initializing plugin with name " + setting.Name + " from type " + setting.Type + "\r\nThe Init method threw the following exception:\r\n" + ex.Message);
+							__log.Error("Error initializing plugin with name " + setting.Name + " from type " + setting.Type + "\r\nThe Init method threw the following exception:\r\n" + ex.Message);
 							continue;
 						}
 						
 						#if DEBUG
-						//__log.Debug("Loaded plugin with name " + setting.Name + " from type " + setting.Type);
+						__log.Debug("Loaded plugin with name " + setting.Name + " from type " + setting.Type);
 						#endif
 						
 					}
@@ -263,7 +276,7 @@ namespace Subtext.Extensibility.Plugins
 				Delegate[] delegates = handler.GetInvocationList();
 				foreach (Delegate del in delegates)
 				{
-					IPlugin currentPlugin = GetPluginByType(del.Method.DeclaringType);
+					PluginBase currentPlugin = GetPluginByType(del.Method.DeclaringType);
 					if (PluginEnabled(currentPlugin))
 					{
 						try
@@ -283,28 +296,37 @@ namespace Subtext.Extensibility.Plugins
 		#region Helper Functions
 
 		/// <summary>
-		/// Get the initialized plugin given its guid
+		/// Get the initialized plugin given its guid in string format
 		/// </summary>
 		/// <param name="guid">the GUID in string format</param>
 		/// <returns>The initialized instance of the plugin</returns>
-		public IPlugin GetPluginByGuid(string guid)
+		public PluginBase GetPluginByGuid(string guid)
 		{
-			foreach (IPlugin plugin in _plugins.Values)
-			{
-				if (plugin.Id.ToString().Equals(guid))
-					return plugin;
-			}
-			return null;
+			return GetPluginByGuid(new Guid(guid));
 		}
+
+		/// <summary>
+		/// Get the initialized plugin given its guid
+		/// </summary>
+		/// <param name="guid">the GUID</param>
+		/// <returns>The initialized instance of the plugin</returns>
+		public PluginBase GetPluginByGuid(Guid guid)
+		{
+			if (_plugins.ContainsKey(guid))
+				return _plugins[guid];
+			else
+				return null;
+		}
+
 
 		/// <summary>
 		/// Get the initialized plugin given its type
 		/// </summary>
 		/// <param name="type">the type of the plugin</param>
 		/// <returns>The initialized instance of the plugin</returns>
-		private IPlugin GetPluginByType(Type type)
+		private PluginBase GetPluginByType(Type type)
 		{
-			foreach (IPlugin plugin in _plugins.Values)
+			foreach (PluginBase plugin in _plugins.Values)
 			{
 				if (plugin.GetType() == type)
 					return plugin;
@@ -337,7 +359,7 @@ namespace Subtext.Extensibility.Plugins
 		/// </summary>
 		/// <param name="plugin">The plugin</param>
 		/// <returns><c>true</c> if the plugin is enabled, <c>false</c> otherwise</returns>
-		public bool PluginEnabled(IPlugin plugin)
+		public bool PluginEnabled(PluginBase plugin)
 		{
 			foreach (Plugin blogPlugin in Config.CurrentBlog.EnabledPlugins.Values)
 			{
