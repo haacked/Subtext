@@ -365,8 +365,7 @@
     <Compile Include="NullValue.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Plugins\IImplementationInfo.cs" />
-    <Compile Include="Plugins\IPlugin.cs" />
+    <Compile Include="Plugins\PluginBase.cs" />
     <Compile Include="Plugins\PluginModule.cs" />
     <Compile Include="Plugins\PluginModulesCollection.cs" />
     <Compile Include="Plugins\PluginSectionHandler.cs" />
