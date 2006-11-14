@@ -311,10 +311,14 @@ namespace Subtext.Framework.Services
 										* to not to include message disclaimer on the blog entry
 										*/
 										// Strip the <body> out of the message (using code from below)
-										if (activeblog.pop3StartTag == string.Empty)
+                                        if (String.IsNullOrEmpty(activeblog.pop3StartTag))
+										{
 											bodyExtractor = new Regex("<body.*?>(?<content>.*)</body>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+										}
 										else
+										{
 											bodyExtractor = new Regex(activeblog.pop3StartTag + "(?<content>.*)" + activeblog.pop3EndTag, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+										}
 
 										Match match = bodyExtractor.Match(messageText);
 										if (match != null && match.Success && match.Groups["content"] != null)
@@ -355,10 +359,14 @@ namespace Subtext.Framework.Services
 													* to not to include message disclaimer on the blog entry
 													* */
 												// Strip the <body> out of the message (using code from below)		
-												if (activeblog.pop3StartTag == string.Empty)
+												if (String.IsNullOrEmpty(activeblog.pop3StartTag))
+												{
 													bodyExtractor = new Regex("<body.*?>(?<content>.*)</body>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+												}
 												else
+												{
 													bodyExtractor = new Regex(activeblog.pop3StartTag + "(?<content>.*)" + activeblog.pop3EndTag, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+												}
 
 												string htmlString = attachment.Body;
 												Match match = bodyExtractor.Match(htmlString);
