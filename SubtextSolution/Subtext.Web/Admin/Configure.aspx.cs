@@ -175,8 +175,10 @@ namespace Subtext.Web.Admin.Pages
                 info.pop3EndTag = txbPop3EndTag.Text;
                 info.pop3DeleteOnlyProcessed = ckbPop3DeleteProcessedEmail.Checked;
                 info.pop3InlineAttachedPictures = ckbPop3InlineAttachedPict.Checked;
-                if (txbPop3ThumbHeight.Text != string.Empty)
+                if (!String.IsNullOrEmpty(txbPop3ThumbHeight.Text))
+                {
                     info.pop3HeightForThumbs = int.Parse(txbPop3ThumbHeight.Text);
+                }
                 //End of Changes
 				
 			    Config.UpdateConfigData(info);

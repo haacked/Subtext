@@ -134,6 +134,15 @@
      </Message>
     </Messages>
    </Namespace>
+   <Namespace Name="Subtext.Extensibility.Attributes">
+    <Messages>
+     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2006-11-14 22:55:11Z">
+      <Issue>
+       <Item>Subtext.Extensibility.Attributes</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
    <Namespace Name="Subtext.Extensibility.Collections">
     <Messages>
      <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2006-11-08 18:22:08Z">
@@ -276,6 +285,16 @@
      <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2006-11-08 18:41:28Z">
       <Issue>
        <Item>Subtext.ImportExport.Conversion</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
+   <Namespace Name="Subtext.Providers.BlogEntryEditor.FCKeditor">
+    <Messages>
+     <Message Id="Keditor" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
+      <Issue Name="Namespace">
+       <Item>Keditor</Item>
+       <Item>Subtext.Providers.BlogEntryEditor.FCKeditor</Item>
       </Issue>
      </Message>
     </Messages>
@@ -790,6 +809,48 @@
          </Type>
         </Types>
        </Namespace>
+       <Namespace Name="Subtext.Extensibility.Attributes">
+        <Types>
+         <Type Name="DescriptionAttribute">
+          <Messages>
+           <Message TypeName="AvoidUnsealedAttributes" Category="Microsoft.Performance" CheckId="CA1813" Created="2006-11-14 22:55:11Z">
+            <Issue>
+             <Item>Subtext.Extensibility.Attributes.DescriptionAttribute</Item>
+            </Issue>
+           </Message>
+          </Messages>
+          <Members>
+           <Member Name="HomePageUrl">
+            <Messages>
+             <Message Id="HomePage" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2006-11-14 22:55:11Z">
+              <Issue Name="ShouldBeDiscreteTerm">
+               <Item>HomePage</Item>
+               <Item>property</Item>
+               <Item>HomePageUrl</Item>
+               <Item>Homepage</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="IdentifierAttribute">
+          <Messages>
+           <Message TypeName="AvoidUnsealedAttributes" Category="Microsoft.Performance" CheckId="CA1813" Created="2006-11-14 22:55:11Z">
+            <Issue>
+             <Item>Subtext.Extensibility.Attributes.IdentifierAttribute</Item>
+            </Issue>
+           </Message>
+           <Message TypeName="DefineAccessorsForAttributeArguments" Category="Microsoft.Design" CheckId="CA1019" Created="2006-11-14 22:55:11Z">
+            <Issue>
+             <Item>guid</Item>
+             <Item>Subtext.Extensibility.Attributes.IdentifierAttribute</Item>
+            </Issue>
+           </Message>
+          </Messages>
+         </Type>
+        </Types>
+       </Namespace>
        <Namespace Name="Subtext.Extensibility.Collections">
         <Types>
          <Type Name="CollectionBook`1">
@@ -1116,11 +1177,70 @@
       <Namespaces>
        <Namespace Name="Subtext.Extensibility.Plugins">
         <Types>
-         <Type Name="IImplementationInfo">
+         <Type Name="PluginBase">
+          <Messages>
+           <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
+            <Issue Name="Type">
+             <Item>Plugin</Item>
+             <Item>Subtext.Extensibility.Plugins.PluginBase</Item>
+            </Issue>
+           </Message>
+          </Messages>
+          <Members>
+           <Member Name="GetGuidFromAttribute(System.Type):System.Guid">
+            <Messages>
+             <Message TypeName="DoNotCastUnnecessarily" Category="Microsoft.Performance" CheckId="CA1800" Created="2006-11-14 22:55:11Z">
+              <Issue Name="Local">
+               <Item>attr</Item>
+               <Item>Subtext.Extensibility.Attributes.IdentifierAttribute</Item>
+               <Item>PluginBase.GetGuidFromAttribute(Type):Guid</Item>
+               <Item>castclass</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-14 22:55:11Z" FixCategory="NonBreaking">
+              <Issue>
+               <Item>PluginBase.GetGuidFromAttribute(Type):Guid</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="GetInfoFromAttribute(System.Type):Subtext.Extensibility.Plugins.PluginBase+PluginImplementationInfo">
+            <Messages>
+             <Message TypeName="DoNotCastUnnecessarily" Category="Microsoft.Performance" CheckId="CA1800" Created="2006-11-14 22:55:11Z">
+              <Issue Name="Local">
+               <Item>attr</Item>
+               <Item>Subtext.Extensibility.Attributes.DescriptionAttribute</Item>
+               <Item>PluginBase.GetInfoFromAttribute(Type):PluginImplementationInfo</Item>
+               <Item>castclass</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-14 22:55:11Z" FixCategory="NonBreaking">
+              <Issue>
+               <Item>PluginBase.GetInfoFromAttribute(Type):PluginImplementationInfo</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="PluginBase+PluginImplementationInfo">
+          <Messages>
+           <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
+            <Issue Name="Type">
+             <Item>Plugin</Item>
+             <Item>Subtext.Extensibility.Plugins.PluginBase+PluginImplementationInfo</Item>
+            </Issue>
+           </Message>
+           <Message TypeName="NestedTypesShouldNotBeVisible" Category="Microsoft.Design" CheckId="CA1034" Created="2006-11-14 22:55:11Z">
+            <Issue>
+             <Item>Subtext.Extensibility.Plugins.PluginBase+PluginImplementationInfo</Item>
+            </Issue>
+           </Message>
+          </Messages>
           <Members>
            <Member Name="HomePageUrl">
             <Messages>
-             <Message Id="HomePage" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2006-11-08 18:41:28Z">
+             <Message Id="HomePage" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2006-11-14 22:55:11Z">
               <Issue Name="ShouldBeDiscreteTerm">
                <Item>HomePage</Item>
                <Item>property</Item>
@@ -1131,16 +1251,6 @@
             </Messages>
            </Member>
           </Members>
-         </Type>
-         <Type Name="IPlugin">
-          <Messages>
-           <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-            <Issue Name="Type">
-             <Item>Plugin</Item>
-             <Item>Subtext.Extensibility.Plugins.IPlugin</Item>
-            </Issue>
-           </Message>
-          </Messages>
          </Type>
          <Type Name="PluginModule">
           <Messages>
@@ -1215,6 +1325,181 @@
             </Issue>
            </Message>
           </Messages>
+         </Type>
+         <Type Name="SubtextAdminGlobalSettingsBaseControl">
+          <Members>
+           <Member Name=".ctor()">
+            <Messages>
+             <Message TypeName="DoNotInitializeUnnecessarily" Category="Microsoft.Performance" CheckId="CA1805" Created="2006-11-14 22:55:11Z">
+              <Issue>
+               <Item>SubtextAdminGlobalSettingsBaseControl.SubtextAdminGlobalSettingsBaseControl()</Item>
+               <Item>_blogSettings</Item>
+               <Item>System.Collections.Specialized.NameValueCollection</Item>
+               <Item>null</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="PluginGuid">
+            <Messages>
+             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
+              <Issue Name="Member">
+               <Item>Plugin</Item>
+               <Item>SubtextAdminGlobalSettingsBaseControl.PluginGuid:Guid</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="SubtextApplication">
+          <Messages>
+           <Message TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001" Created="2006-11-14 22:55:11Z" FixCategory="Breaking">
+            <Issue>
+             <Item>Subtext.Extensibility.Plugins.SubtextApplication</Item>
+             <Item>System.ComponentModel.EventHandlerList</Item>
+            </Issue>
+           </Message>
+          </Messages>
+          <Members>
+           <Member Name=".cctor()">
+            <Messages>
+             <Message TypeName="DoNotInitializeUnnecessarily" Category="Microsoft.Performance" CheckId="CA1805" Created="2006-11-14 22:55:11Z">
+              <Issue>
+               <Item>SubtextApplication.SubtextApplication()</Item>
+               <Item>_initialized</Item>
+               <Item>System.Boolean</Item>
+               <Item>false</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="ExecuteEntryEvent(System.Object,Subtext.Framework.Components.Entry,Subtext.Extensibility.Plugins.SubtextEventArgs):System.Void">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2006-11-14 22:55:11Z">
+              <Issue>
+               <Item>SubtextApplication.ExecuteEntryEvent(Object, Entry, SubtextEventArgs):Void</Item>
+               <Item>System.Object</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="GetPluginByGuid(System.Guid):Subtext.Extensibility.Plugins.PluginBase">
+            <Messages>
+             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
+              <Issue Name="Member">
+               <Item>Plugin</Item>
+               <Item>SubtextApplication.GetPluginByGuid(Guid):PluginBase</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="GetPluginByGuid(System.String):Subtext.Extensibility.Plugins.PluginBase">
+            <Messages>
+             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
+              <Issue Name="Member">
+               <Item>Plugin</Item>
+               <Item>SubtextApplication.GetPluginByGuid(String):PluginBase</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="GetPluginModuleFileName(System.String,System.String):System.String">
+            <Messages>
+             <Message Id="0#plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
+              <Issue Name="Parameter">
+               <Item>SubtextApplication.GetPluginModuleFileName(String, String):String</Item>
+               <Item>plugin</Item>
+               <Item>pluginName</Item>
+              </Issue>
+             </Message>
+             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
+              <Issue Name="Member">
+               <Item>Plugin</Item>
+               <Item>SubtextApplication.GetPluginModuleFileName(String, String):String</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="LoadPlugins():Subtext.Extensibility.Plugins.SubtextApplication">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2006-11-14 22:55:11Z">
+              <Issue>
+               <Item>SubtextApplication.LoadPlugins():SubtextApplication</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="PluginConfig">
+            <Messages>
+             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
+              <Issue Name="Member">
+               <Item>Plugin</Item>
+               <Item>SubtextApplication.PluginConfig:PluginSettingsCollection</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="PluginEnabled(Subtext.Extensibility.Plugins.PluginBase):System.Boolean">
+            <Messages>
+             <Message Id="0#plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
+              <Issue Name="Parameter">
+               <Item>SubtextApplication.PluginEnabled(PluginBase):Boolean</Item>
+               <Item>plugin</Item>
+               <Item>plugin</Item>
+              </Issue>
+             </Message>
+             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
+              <Issue Name="Member">
+               <Item>Plugin</Item>
+               <Item>SubtextApplication.PluginEnabled(PluginBase):Boolean</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-14 22:55:11Z" FixCategory="Breaking">
+              <Issue>
+               <Item>SubtextApplication.PluginEnabled(PluginBase):Boolean</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Plugins">
+            <Messages>
+             <Message Id="Plugins" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
+              <Issue Name="Member">
+               <Item>Plugins</Item>
+               <Item>SubtextApplication.Plugins:Dictionary`2&lt;System.Guid,Subtext.Extensibility.Plugins.PluginBase&gt;</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="sync">
+            <Messages>
+             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2006-11-14 22:55:11Z">
+              <Issue>
+               <Item>SubtextApplication.sync</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="SubtextEventArgs">
+          <Members>
+           <Member Name="CallingPluginGuid">
+            <Accessors>
+             <Accessor Name="get_CallingPluginGuid():System.Guid">
+              <Messages>
+               <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Created="2006-11-14 22:55:11Z">
+                <Issue>
+                 <Item>SubtextEventArgs.get_CallingPluginGuid():Guid</Item>
+                </Issue>
+               </Message>
+              </Messages>
+             </Accessor>
+            </Accessors>
+           </Member>
+          </Members>
          </Type>
         </Types>
        </Namespace>
@@ -1340,8 +1625,8 @@
              <Message TypeName="DoNotInitializeUnnecessarily" Category="Microsoft.Performance" CheckId="CA1805" Created="2006-11-08 18:41:28Z">
               <Issue>
                <Item>BlogInfo.BlogInfo()</Item>
-               <Item>_enabledPluginGuids</Item>
-               <Item>System.Collections.Generic.ICollection`1&lt;System.Guid&gt;</Item>
+               <Item>_enabledPlugins</Item>
+               <Item>System.Collections.Generic.IDictionary`2&lt;System.Guid,Subtext.Framework.Components.Plugin&gt;</Item>
                <Item>null</Item>
               </Issue>
               <Issue>
@@ -1394,6 +1679,16 @@
               <Issue Name="Member">
                <Item>Co</Item>
                <Item>BlogInfo.CoCommentsEnabled:Boolean</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="EnabledPlugins">
+            <Messages>
+             <Message Id="Plugins" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
+              <Issue Name="Member">
+               <Item>Plugins</Item>
+               <Item>BlogInfo.EnabledPlugins:IDictionary`2&lt;System.Guid,Subtext.Framework.Components.Plugin&gt;</Item>
               </Issue>
              </Message>
             </Messages>
@@ -1844,11 +2139,6 @@
            </Member>
            <Member Name="AutoGenerateFriendlyUrl(System.String,System.Char):System.String">
             <Messages>
-             <Message TypeName="DoNotConcatenateStringsInsideLoops" Category="Microsoft.Performance" CheckId="CA1818" Created="2006-11-08 18:41:28Z">
-              <Issue>
-               <Item>Entries.AutoGenerateFriendlyUrl(String, Char):String</Item>
-              </Issue>
-             </Message>
              <Message Id="System.ArgumentNullException.#ctor(System.String,System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-11-08 18:41:28Z">
               <Issue>
                <Item>Entries.AutoGenerateFriendlyUrl(String, Char):String</Item>
@@ -3160,11 +3450,6 @@
              <Item>Subtext.Framework.Components.Plugin</Item>
             </Issue>
            </Message>
-           <Message TypeName="StaticHolderTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1053" Created="2006-11-08 18:41:28Z">
-            <Issue>
-             <Item>Plugin</Item>
-            </Issue>
-           </Message>
           </Messages>
           <Members>
            <Member Name="DisablePlugin(System.Guid):System.Boolean">
@@ -3201,17 +3486,116 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="GetEnabledPlugins():System.Collections.Generic.ICollection`1&lt;System.Guid&gt;">
+           <Member Name="GetEnabledPluginsFromCache():System.Collections.Generic.IDictionary`2&lt;System.Guid,Subtext.Framework.Components.Plugin&gt;">
             <Messages>
-             <Message Id="Plugins" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
+             <Message Id="Plugins" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
               <Issue Name="Member">
                <Item>Plugins</Item>
-               <Item>Plugin.GetEnabledPlugins():ICollection`1&lt;System.Guid&gt;</Item>
+               <Item>Plugin.GetEnabledPluginsFromCache():IDictionary`2&lt;System.Guid,Subtext.Framework.Components.Plugin&gt;</Item>
               </Issue>
              </Message>
-             <Message TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024" Created="2006-11-08 18:41:28Z">
+             <Message Id="System.String.Format(System.String,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-11-14 22:55:11Z">
+              <Issue>
+               <Item>Plugin.GetEnabledPluginsFromCache():IDictionary`2&lt;System.Guid,Subtext.Framework.Components.Plugin&gt;</Item>
+               <Item>System.String.Format(System.String,System.Object)</Item>
+               <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024" Created="2006-11-14 22:55:11Z">
               <Issue Certainty="50">
-               <Item>GetEnabledPlugins</Item>
+               <Item>GetEnabledPluginsFromCache</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="GetPluginGeneralSettings(System.Guid):System.Collections.Specialized.NameValueCollection">
+            <Messages>
+             <Message Id="0#plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
+              <Issue Name="Parameter">
+               <Item>Plugin.GetPluginGeneralSettings(Guid):NameValueCollection</Item>
+               <Item>plugin</Item>
+               <Item>pluginId</Item>
+              </Issue>
+             </Message>
+             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
+              <Issue Name="Member">
+               <Item>Plugin</Item>
+               <Item>Plugin.GetPluginGeneralSettings(Guid):NameValueCollection</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="InitializedPlugin">
+            <Messages>
+             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
+              <Issue Name="Member">
+               <Item>Plugin</Item>
+               <Item>Plugin.InitializedPlugin:PluginBase</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="InsertPluginGeneralSettings(System.Guid,System.String,System.String):System.Void">
+            <Messages>
+             <Message Id="0#plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
+              <Issue Name="Parameter">
+               <Item>Plugin.InsertPluginGeneralSettings(Guid, String, String):Void</Item>
+               <Item>plugin</Item>
+               <Item>pluginGuid</Item>
+              </Issue>
+             </Message>
+             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
+              <Issue Name="Member">
+               <Item>Plugin</Item>
+               <Item>Plugin.InsertPluginGeneralSettings(Guid, String, String):Void</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="RemovePluginListFromCache():System.Void">
+            <Messages>
+             <Message Id="System.String.Format(System.String,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-11-14 22:55:11Z">
+              <Issue>
+               <Item>Plugin.RemovePluginListFromCache():Void</Item>
+               <Item>System.String.Format(System.String,System.Object)</Item>
+               <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="Settings">
+            <Messages>
+             <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Created="2006-11-14 22:55:11Z">
+              <Issue>
+               <Item>Settings</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="StorePluginListToCache(System.Collections.Generic.IDictionary`2&lt;System.Guid,Subtext.Framework.Components.Plugin&gt;):System.Void">
+            <Messages>
+             <Message Id="System.String.Format(System.String,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-11-14 22:55:11Z">
+              <Issue>
+               <Item>Plugin.StorePluginListToCache(IDictionary`2&lt;System.Guid,Subtext.Framework.Components.Plugin&gt;):Void</Item>
+               <Item>System.String.Format(System.String,System.Object)</Item>
+               <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="UpdatePluginGeneralSettings(System.Guid,System.String,System.String):System.Void">
+            <Messages>
+             <Message Id="0#plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
+              <Issue Name="Parameter">
+               <Item>Plugin.UpdatePluginGeneralSettings(Guid, String, String):Void</Item>
+               <Item>plugin</Item>
+               <Item>pluginGuid</Item>
+              </Issue>
+             </Message>
+             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
+              <Issue Name="Member">
+               <Item>Plugin</Item>
+               <Item>Plugin.UpdatePluginGeneralSettings(Guid, String, String):Void</Item>
               </Issue>
              </Message>
             </Messages>
@@ -3755,6 +4139,15 @@
                <Item>2</Item>
                <Item>ArgumentNullException.ArgumentNullException(String, String)</Item>
                <Item>Cannot insert a null category.</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="FormatEntry(Subtext.Framework.Components.Entry,System.Boolean):System.Void">
+            <Messages>
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-14 22:55:11Z" FixCategory="NonBreaking">
+              <Issue>
+               <Item>DatabaseObjectProvider.FormatEntry(Entry, Boolean):Void</Item>
               </Issue>
              </Message>
             </Messages>
@@ -6133,17 +6526,6 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="IsValidPassword(System.String):System.Boolean">
-            <Messages>
-             <Message Id="System.Byte.Parse(System.String,System.Globalization.NumberStyles)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-11-08 18:41:28Z">
-              <Issue>
-               <Item>SecurityHelper.IsValidPassword(String):Boolean</Item>
-               <Item>System.Byte.Parse(System.String,System.Globalization.NumberStyles)</Item>
-               <Item>System.Byte.Parse(System.String,System.Globalization.NumberStyles,System.IFormatProvider)</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="IsValidUser(System.String,System.String):System.Boolean">
             <Messages>
              <Message Id="username" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2006-11-08 18:41:28Z">
@@ -6163,17 +6545,6 @@
                <Item>LogOut</Item>
                <Item>LogOut</Item>
                <Item>LogOff</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="SelectAuthenticationCookie():System.Web.HttpCookie">
-            <Messages>
-             <Message TypeName="TestForEmptyStringsUsingStringLength" Category="Microsoft.Performance" CheckId="CA1820" Created="2006-11-08 18:41:28Z">
-              <Issue Name="IsNullOrEmpty">
-               <Item>op_Equality</Item>
-               <Item>""</Item>
-               <Item>SecurityHelper.SelectAuthenticationCookie():HttpCookie</Item>
               </Issue>
              </Message>
             </Messages>
@@ -6342,18 +6713,6 @@
                <Item>MailToWeblog.Run():Void</Item>
                <Item>System.String.Format(System.String,System.Object,System.Object,System.Object)</Item>
                <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="TestForEmptyStringsUsingStringLength" Category="Microsoft.Performance" CheckId="CA1820" Created="2006-11-08 18:41:28Z">
-              <Issue Name="IsNullOrEmpty">
-               <Item>op_Equality</Item>
-               <Item>String.Empty</Item>
-               <Item>MailToWeblog.Run():Void</Item>
-              </Issue>
-              <Issue Name="IsNullOrEmpty">
-               <Item>op_Equality</Item>
-               <Item>String.Empty</Item>
-               <Item>MailToWeblog.Run():Void</Item>
               </Issue>
              </Message>
             </Messages>
@@ -7002,6 +7361,39 @@
                <Item>System.ArgumentNullException</Item>
                <Item>ArgumentNullException.ArgumentNullException(String)</Item>
                <Item>Cannot add a null css class to a control</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="CheckForIllegalContent(System.String):System.Void">
+            <Messages>
+             <Message Id="0#s" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
+              <Issue Name="ParameterOneLetter">
+               <Item>HtmlHelper.CheckForIllegalContent(String):Void</Item>
+               <Item>s</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-11-14 22:55:11Z">
+              <Issue>
+               <Item>'s'</Item>
+               <Item>HtmlHelper.CheckForIllegalContent(String):Void</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="ConvertHtmlToXHtml(Subtext.Framework.Components.Entry):System.Void">
+            <Messages>
+             <Message Id="System.IO.StringWriter.#ctor" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-11-14 22:55:11Z">
+              <Issue>
+               <Item>HtmlHelper.ConvertHtmlToXHtml(Entry):Void</Item>
+               <Item>System.IO.StringWriter.#ctor</Item>
+               <Item>System.IO.StringWriter.#ctor(System.IFormatProvider)</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-11-14 22:55:11Z">
+              <Issue>
+               <Item>'entry'</Item>
+               <Item>HtmlHelper.ConvertHtmlToXHtml(Entry):Void</Item>
               </Issue>
              </Message>
             </Messages>
@@ -10479,6 +10871,161 @@
      </Module>
     </Modules>
    </Target>
+   <Target Name="$(ProjectDir)/../../SubtextSolution/Subtext.Web/bin/Subtext.Providers.BlogEntryEditor.FCKeditor.dll">
+    <Modules>
+     <Module Name="subtext.providers.blogentryeditor.fckeditor.dll">
+      <Messages>
+       <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Created="2006-11-14 22:55:11Z">
+        <Issue Name="NoStrongName">
+         <Item>Subtext.Providers.BlogEntryEditor.FCKeditor</Item>
+        </Issue>
+       </Message>
+      </Messages>
+      <Namespaces>
+       <Namespace Name="Subtext.Providers.BlogEntryEditor.FCKeditor">
+        <Types>
+         <Type Name="FckBlogEntryEditorProvider">
+          <Messages>
+           <Message Id="Fck" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
+            <Issue Name="Type">
+             <Item>Fck</Item>
+             <Item>Subtext.Providers.BlogEntryEditor.FCKeditor.FckBlogEntryEditorProvider</Item>
+            </Issue>
+           </Message>
+           <Message TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001" Created="2006-11-14 22:55:11Z" FixCategory="Breaking">
+            <Issue>
+             <Item>Subtext.Providers.BlogEntryEditor.FCKeditor.FckBlogEntryEditorProvider</Item>
+             <Item>FredCK.FCKeditorV2.FCKeditor</Item>
+            </Issue>
+           </Message>
+          </Messages>
+          <Members>
+           <Member Name="Initialize(System.String,System.Collections.Specialized.NameValueCollection):System.Void">
+            <Messages>
+             <Message Id="1#" TypeName="ParameterNamesShouldMatchBaseDeclaration" Category="Microsoft.Naming" CheckId="CA1725" Created="2006-11-14 22:55:11Z">
+              <Issue>
+               <Item>configValue</Item>
+               <Item>FckBlogEntryEditorProvider.Initialize(String, NameValueCollection):Void</Item>
+               <Item>config</Item>
+               <Item>ProviderBase.Initialize(String, NameValueCollection):Void</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="InitializeControl():System.Void">
+            <Messages>
+             <Message Id="System.String.Format(System.String,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-11-14 22:55:11Z">
+              <Issue>
+               <Item>FckBlogEntryEditorProvider.InitializeControl():Void</Item>
+               <Item>System.String.Format(System.String,System.Object)</Item>
+               <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
+              </Issue>
+              <Issue>
+               <Item>FckBlogEntryEditorProvider.InitializeControl():Void</Item>
+               <Item>System.String.Format(System.String,System.Object)</Item>
+               <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="FileBrowserConnector">
+          <Members>
+           <Member Name="CreateFolder(System.Xml.XmlNode,System.String,System.String):System.Void">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2006-11-14 22:55:11Z">
+              <Issue>
+               <Item>FileBrowserConnector.CreateFolder(XmlNode, String, String):Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="CreateImageFolder(System.Xml.XmlNode):System.Boolean">
+            <Messages>
+             <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2006-11-14 22:55:11Z">
+              <Issue>
+               <Item>FileBrowserConnector.CreateImageFolder(XmlNode):Boolean</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-14 22:55:11Z" FixCategory="NonBreaking">
+              <Issue>
+               <Item>FileBrowserConnector.CreateImageFolder(XmlNode):Boolean</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="GetPosts(System.Xml.XmlNode,System.String):System.Void">
+            <Messages>
+             <Message Id="System.String.Format(System.String,System.Object,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-11-14 22:55:11Z">
+              <Issue>
+               <Item>FileBrowserConnector.GetPosts(XmlNode, String):Void</Item>
+               <Item>System.String.Format(System.String,System.Object,System.Object)</Item>
+               <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+      </Namespaces>
+      <Resources>
+       <Resource Name="Subtext.Providers.BlogEntryEditor.FCKeditor.resources.ErrorMessages.resources">
+        <Messages>
+         <Message Id="Keditor" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Created="2006-11-14 22:55:11Z">
+          <Issue>
+           <Item>Keditor</Item>
+           <Item>FileAllowedExtensionsNeeded</Item>
+           <Item>FileAllowedExtensions must be specified for the FCKeditor provider to work.</Item>
+           <Item>Subtext.Providers.BlogEntryEditor.FCKeditor.resources.ErrorMessages.resources</Item>
+          </Issue>
+          <Issue>
+           <Item>Keditor</Item>
+           <Item>ImageAllowedExtensionsNeeded</Item>
+           <Item>ImageAllowedExtensions must be specified for the FCKeditor provider to work.</Item>
+           <Item>Subtext.Providers.BlogEntryEditor.FCKeditor.resources.ErrorMessages.resources</Item>
+          </Issue>
+          <Issue>
+           <Item>Keditor</Item>
+           <Item>ImageBrowserURLNeeded</Item>
+           <Item>ImageBrowserURLNeeded must be specified for the FCKeditor provider to work.</Item>
+           <Item>Subtext.Providers.BlogEntryEditor.FCKeditor.resources.ErrorMessages.resources</Item>
+          </Issue>
+          <Issue>
+           <Item>Keditor</Item>
+           <Item>ImageConnectorURLNeeded</Item>
+           <Item>ImageConnectorURL must be specified for the FCKeditor provider to work.</Item>
+           <Item>Subtext.Providers.BlogEntryEditor.FCKeditor.resources.ErrorMessages.resources</Item>
+          </Issue>
+          <Issue>
+           <Item>Keditor</Item>
+           <Item>LinkBrowserURLNeeded</Item>
+           <Item>LinkBrowserURL must be specified for the FCKeditor provider to work.</Item>
+           <Item>Subtext.Providers.BlogEntryEditor.FCKeditor.resources.ErrorMessages.resources</Item>
+          </Issue>
+          <Issue>
+           <Item>Keditor</Item>
+           <Item>LinkConnectorURLNeeded</Item>
+           <Item>LinkConnectorURL must be specified for the FCKeditor provider to work.</Item>
+           <Item>Subtext.Providers.BlogEntryEditor.FCKeditor.resources.ErrorMessages.resources</Item>
+          </Issue>
+          <Issue>
+           <Item>Keditor</Item>
+           <Item>WebFormFolderNeeded</Item>
+           <Item>WebFormFolder must be specified for the FCKeditor provider to work.</Item>
+           <Item>Subtext.Providers.BlogEntryEditor.FCKeditor.resources.ErrorMessages.resources</Item>
+          </Issue>
+         </Message>
+        </Messages>
+       </Resource>
+      </Resources>
+     </Module>
+    </Modules>
+   </Target>
    <Target Name="$(ProjectDir)/../../SubtextSolution/Subtext.Web/bin/Subtext.Scripting.dll">
     <Modules>
      <Module Name="subtext.scripting.dll">
@@ -10950,6 +11497,18 @@
                <Item>System.ArgumentNullException</Item>
                <Item>ArgumentNullException.ArgumentNullException(String)</Item>
                <Item>Cannot apply an action to a null control root.</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="ExpandTildePath(System.String):System.String">
+            <Messages>
+             <Message Id="System.ArgumentNullException.#ctor(System.String,System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-11-14 22:55:11Z">
+              <Issue>
+               <Item>ControlHelper.ExpandTildePath(String):String</Item>
+               <Item>2</Item>
+               <Item>ArgumentNullException.ArgumentNullException(String, String)</Item>
+               <Item>Cannot expand a null or empty path</Item>
               </Issue>
              </Message>
             </Messages>
@@ -14650,13 +15209,6 @@
                <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
               </Issue>
              </Message>
-             <Message TypeName="TestForEmptyStringsUsingStringLength" Category="Microsoft.Performance" CheckId="CA1820" Created="2006-11-08 19:25:19Z">
-              <Issue Name="IsNullOrEmpty">
-               <Item>op_Inequality</Item>
-               <Item>String.Empty</Item>
-               <Item>Configure.BindPost():Void</Item>
-              </Issue>
-             </Message>
             </Messages>
            </Member>
            <Member Name="btnPost">
@@ -17314,7 +17866,7 @@
               <Issue>
                <Item>PluginListPage.PluginListPage()</Item>
                <Item>settingModule</Item>
-               <Item>Subtext.Extensibility.Plugins.STAdminGlobalSettingsBaseControl</Item>
+               <Item>Subtext.Extensibility.Plugins.SubtextAdminGlobalSettingsBaseControl</Item>
                <Item>null</Item>
               </Issue>
              </Message>
@@ -17350,6 +17902,24 @@
               <Issue>
                <Item>Plugins</Item>
                <Item>Cannot load general blog settings user control for Plugin ____:&lt;br&gt;____ doesn't inherit from Subtext.Extensibility.Plugins.STAdminGlobalSettingsBaseControl</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="info">
+            <Messages>
+             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2006-11-14 22:55:11Z">
+              <Issue>
+               <Item>PluginListPage.info</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="IsPluginEnabled(Subtext.Extensibility.Plugins.PluginBase):System.Boolean">
+            <Messages>
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-14 22:55:11Z" FixCategory="NonBreaking">
+              <Issue>
+               <Item>PluginListPage.IsPluginEnabled(PluginBase):Boolean</Item>
               </Issue>
              </Message>
             </Messages>
@@ -22212,6 +22782,11 @@
                <Item>System.String.Format(System.String,System.Object)</Item>
                <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
               </Issue>
+              <Issue>
+               <Item>SubtextMasterPage.OnPreRender(EventArgs):Void</Item>
+               <Item>System.String.Format(System.String,System.Object)</Item>
+               <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
+              </Issue>
              </Message>
             </Messages>
            </Member>
@@ -22450,6 +23025,9 @@
    <Rule TypeName="AvoidUnnecessaryStringCreation" Category="Microsoft.Performance" CheckId="CA1807">
     <Resolution Name="UseStringCompareLocal">{0} calls {1} after converting '{2}', a local, to upper or lowercase. If possible, eliminate the string creation and call the overload of String.Compare that performs a case-insensitive comparison.</Resolution>
    </Rule>
+   <Rule TypeName="AvoidUnsealedAttributes" Category="Microsoft.Performance" CheckId="CA1813">
+    <Resolution Name="Default">Seal '{0}', if possible.</Resolution>
+   </Rule>
    <Rule TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823">
     <Resolution Name="Default">It appears that field '{0}' is never used or is only ever assigned to. Use this field or remove it.</Resolution>
    </Rule>
@@ -22465,6 +23043,9 @@
    </Rule>
    <Rule TypeName="ConsiderPassingBaseTypesAsParameters" Category="Microsoft.Design" CheckId="CA1011">
     <Resolution Name="Default">Consider changing the type of parameter '{0}' in {1} from {2} to its base type {3}. This method appears to only require base class members in its implementation. Suppress this violation if there is a compelling reason to require the more derived type in the method signature.</Resolution>
+   </Rule>
+   <Rule TypeName="DefineAccessorsForAttributeArguments" Category="Microsoft.Design" CheckId="CA1019">
+    <Resolution Name="Default">Add a read-only property accessor for positional argument '{0}' of Attribute '{1}'.</Resolution>
    </Rule>
    <Rule TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214">
     <Resolution Name="Default">'{0}' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: {1}</Resolution>
@@ -22654,9 +23235,6 @@
    </Rule>
    <Rule TypeName="StringUriOverloadsCallSystemUriOverloads" Category="Microsoft.Design" CheckId="CA1057">
     <Resolution Name="Default">Refactor {0} so that it builds a System.Uri object from '{1}', and then calls {2}.</Resolution>
-   </Rule>
-   <Rule TypeName="TestForEmptyStringsUsingStringLength" Category="Microsoft.Performance" CheckId="CA1820">
-    <Resolution Name="IsNullOrEmpty">Replace the call to String.{0}({1}) in '{2}' with a call to String.IsNullOrEmpty.</Resolution>
    </Rule>
    <Rule TypeName="TypeNamesShouldNotMatchNamespaces" Category="Microsoft.Naming" CheckId="CA1724">
     <Resolution Name="Default">The type name '{0}' conflicts in whole or in part with the namespace name '{1}'. Change either name to eliminate the conflict.</Resolution>

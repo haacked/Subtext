@@ -125,7 +125,7 @@ namespace Subtext.Framework.Security
 					{
 						log.Debug("cookie value was null");
 					}
-					else if (c.Value == "")
+					else if (String.IsNullOrEmpty(c.Value) )
 					{
 						log.Debug("cookie value was empty string");
 					}
