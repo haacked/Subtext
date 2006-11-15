@@ -152,16 +152,6 @@
      </Message>
     </Messages>
    </Namespace>
-   <Namespace Name="Subtext.Extensibility.Plugins">
-    <Messages>
-     <Message Id="Plugins" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-      <Issue Name="Namespace">
-       <Item>Plugins</Item>
-       <Item>Subtext.Extensibility.Plugins</Item>
-      </Issue>
-     </Message>
-    </Messages>
-   </Namespace>
    <Namespace Name="Subtext.Extensibility.Web">
     <Messages>
      <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2006-11-08 18:22:08Z">
@@ -1166,14 +1156,6 @@
        <Namespace Name="Subtext.Extensibility.Plugins">
         <Types>
          <Type Name="PluginBase">
-          <Messages>
-           <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
-            <Issue Name="Type">
-             <Item>Plugin</Item>
-             <Item>Subtext.Extensibility.Plugins.PluginBase</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="GetGuidFromAttribute(System.Type):System.Guid">
             <Messages>
@@ -1213,12 +1195,6 @@
          </Type>
          <Type Name="PluginBase+PluginImplementationInfo">
           <Messages>
-           <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
-            <Issue Name="Type">
-             <Item>Plugin</Item>
-             <Item>Subtext.Extensibility.Plugins.PluginBase+PluginImplementationInfo</Item>
-            </Issue>
-           </Message>
            <Message TypeName="NestedTypesShouldNotBeVisible" Category="Microsoft.Design" CheckId="CA1034" Created="2006-11-14 22:55:11Z">
             <Issue>
              <Item>Subtext.Extensibility.Plugins.PluginBase+PluginImplementationInfo</Item>
@@ -1240,16 +1216,6 @@
            </Member>
           </Members>
          </Type>
-         <Type Name="PluginModule">
-          <Messages>
-           <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-            <Issue Name="Type">
-             <Item>Plugin</Item>
-             <Item>Subtext.Extensibility.Plugins.PluginModule</Item>
-            </Issue>
-           </Message>
-          </Messages>
-         </Type>
          <Type Name="PluginModulesCollection">
           <Messages>
            <Message TypeName="CollectionsShouldImplementGenericInterface" Category="Microsoft.Design" CheckId="CA1010" Created="2006-11-08 18:41:28Z">
@@ -1258,45 +1224,24 @@
              <Item>ICollection</Item>
             </Issue>
            </Message>
-           <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-            <Issue Name="Type">
-             <Item>Plugin</Item>
-             <Item>Subtext.Extensibility.Plugins.PluginModulesCollection</Item>
-            </Issue>
-           </Message>
-          </Messages>
-         </Type>
-         <Type Name="PluginSectionHandler">
-          <Messages>
-           <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-            <Issue Name="Type">
-             <Item>Plugin</Item>
-             <Item>Subtext.Extensibility.Plugins.PluginSectionHandler</Item>
-            </Issue>
-           </Message>
           </Messages>
           <Members>
-           <Member Name="PluginList">
-            <Messages>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>PluginSectionHandler.PluginList:PluginSettingsCollection</Item>
-              </Issue>
-             </Message>
-            </Messages>
+           <Member Name="Item[System.Int32]">
+            <Accessors>
+             <Accessor Name="get_Item(System.Int32):Subtext.Extensibility.Plugins.PluginModule">
+              <Messages>
+               <Message Id="0#idx" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 20:22:08Z">
+                <Issue Name="Parameter">
+                 <Item>PluginModulesCollection.get_Item(Int32):PluginModule</Item>
+                 <Item>idx</Item>
+                 <Item>idx</Item>
+                </Issue>
+               </Message>
+              </Messages>
+             </Accessor>
+            </Accessors>
            </Member>
           </Members>
-         </Type>
-         <Type Name="PluginSettings">
-          <Messages>
-           <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-            <Issue Name="Type">
-             <Item>Plugin</Item>
-             <Item>Subtext.Extensibility.Plugins.PluginSettings</Item>
-            </Issue>
-           </Message>
-          </Messages>
          </Type>
          <Type Name="PluginSettingsCollection">
           <Messages>
@@ -1306,25 +1251,22 @@
              <Item>ICollection</Item>
             </Issue>
            </Message>
-           <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-            <Issue Name="Type">
-             <Item>Plugin</Item>
-             <Item>Subtext.Extensibility.Plugins.PluginSettingsCollection</Item>
-            </Issue>
-           </Message>
           </Messages>
-         </Type>
-         <Type Name="SubtextAdminGlobalSettingsBaseControl">
           <Members>
-           <Member Name="PluginGuid">
-            <Messages>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>SubtextAdminGlobalSettingsBaseControl.PluginGuid:Guid</Item>
-              </Issue>
-             </Message>
-            </Messages>
+           <Member Name="Item[System.Int32]">
+            <Accessors>
+             <Accessor Name="get_Item(System.Int32):Subtext.Extensibility.Plugins.PluginSettings">
+              <Messages>
+               <Message Id="0#idx" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 20:22:08Z">
+                <Issue Name="Parameter">
+                 <Item>PluginSettingsCollection.get_Item(Int32):PluginSettings</Item>
+                 <Item>idx</Item>
+                 <Item>idx</Item>
+                </Issue>
+               </Message>
+              </Messages>
+             </Accessor>
+            </Accessors>
            </Member>
           </Members>
          </Type>
@@ -1348,43 +1290,6 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="GetPluginByGuid(System.Guid):Subtext.Extensibility.Plugins.PluginBase">
-            <Messages>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>SubtextApplication.GetPluginByGuid(Guid):PluginBase</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="GetPluginByGuid(System.String):Subtext.Extensibility.Plugins.PluginBase">
-            <Messages>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>SubtextApplication.GetPluginByGuid(String):PluginBase</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="GetPluginModuleFileName(System.String,System.String):System.String">
-            <Messages>
-             <Message Id="0#plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
-              <Issue Name="Parameter">
-               <Item>SubtextApplication.GetPluginModuleFileName(String, String):String</Item>
-               <Item>plugin</Item>
-               <Item>pluginName</Item>
-              </Issue>
-             </Message>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>SubtextApplication.GetPluginModuleFileName(String, String):String</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="LoadPlugins():Subtext.Extensibility.Plugins.SubtextApplication">
             <Messages>
              <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2006-11-14 22:55:11Z">
@@ -1395,31 +1300,8 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="PluginConfig">
-            <Messages>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>SubtextApplication.PluginConfig:PluginSettingsCollection</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="PluginEnabled(Subtext.Extensibility.Plugins.PluginBase):System.Boolean">
             <Messages>
-             <Message Id="0#plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
-              <Issue Name="Parameter">
-               <Item>SubtextApplication.PluginEnabled(PluginBase):Boolean</Item>
-               <Item>plugin</Item>
-               <Item>plugin</Item>
-              </Issue>
-             </Message>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>SubtextApplication.PluginEnabled(PluginBase):Boolean</Item>
-              </Issue>
-             </Message>
              <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-14 22:55:11Z" FixCategory="Breaking">
               <Issue>
                <Item>SubtextApplication.PluginEnabled(PluginBase):Boolean</Item>
@@ -1433,22 +1315,6 @@
               <Issue>
                <Item>System.Collections.Generic.List`1&lt;System.String&gt;</Item>
                <Item>SubtextApplication.PluginLoadingErrors:List`1&lt;System.String&gt;</Item>
-              </Issue>
-             </Message>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 17:19:20Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>SubtextApplication.PluginLoadingErrors:List`1&lt;System.String&gt;</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="Plugins">
-            <Messages>
-             <Message Id="Plugins" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
-              <Issue Name="Member">
-               <Item>Plugins</Item>
-               <Item>SubtextApplication.Plugins:Dictionary`2&lt;System.Guid,Subtext.Extensibility.Plugins.PluginBase&gt;</Item>
               </Issue>
              </Message>
             </Messages>
@@ -1647,16 +1513,6 @@
               <Issue Name="Member">
                <Item>Co</Item>
                <Item>BlogInfo.CoCommentsEnabled:Boolean</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="EnabledPlugins">
-            <Messages>
-             <Message Id="Plugins" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
-              <Issue Name="Member">
-               <Item>Plugins</Item>
-               <Item>BlogInfo.EnabledPlugins:IDictionary`2&lt;System.Guid,Subtext.Framework.Components.Plugin&gt;</Item>
               </Issue>
              </Message>
             </Messages>
@@ -2107,11 +1963,6 @@
            </Member>
            <Member Name="AutoGenerateFriendlyUrl(System.String,System.Char):System.String">
             <Messages>
-             <Message TypeName="DoNotConcatenateStringsInsideLoops" Category="Microsoft.Performance" CheckId="CA1818" Created="2006-11-15 17:19:20Z">
-              <Issue>
-               <Item>Entries.AutoGenerateFriendlyUrl(String, Char):String</Item>
-              </Issue>
-             </Message>
              <Message Id="System.ArgumentNullException.#ctor(System.String,System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-11-08 18:41:28Z">
               <Issue>
                <Item>Entries.AutoGenerateFriendlyUrl(String, Char):String</Item>
@@ -3399,57 +3250,9 @@
           </Members>
          </Type>
          <Type Name="Plugin">
-          <Messages>
-           <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-            <Issue Name="Type">
-             <Item>Plugin</Item>
-             <Item>Subtext.Framework.Components.Plugin</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
-           <Member Name="DisablePlugin(System.Guid):System.Boolean">
-            <Messages>
-             <Message Id="0#plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-              <Issue Name="Parameter">
-               <Item>Plugin.DisablePlugin(Guid):Boolean</Item>
-               <Item>plugin</Item>
-               <Item>pluginId</Item>
-              </Issue>
-             </Message>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>Plugin.DisablePlugin(Guid):Boolean</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="EnablePlugin(System.Guid):System.Boolean">
-            <Messages>
-             <Message Id="0#plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-              <Issue Name="Parameter">
-               <Item>Plugin.EnablePlugin(Guid):Boolean</Item>
-               <Item>plugin</Item>
-               <Item>pluginId</Item>
-              </Issue>
-             </Message>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>Plugin.EnablePlugin(Guid):Boolean</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="GetEnabledPluginsFromCache():System.Collections.Generic.IDictionary`2&lt;System.Guid,Subtext.Framework.Components.Plugin&gt;">
             <Messages>
-             <Message Id="Plugins" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
-              <Issue Name="Member">
-               <Item>Plugins</Item>
-               <Item>Plugin.GetEnabledPluginsFromCache():IDictionary`2&lt;System.Guid,Subtext.Framework.Components.Plugin&gt;</Item>
-              </Issue>
-             </Message>
              <Message Id="System.String.Format(System.String,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-11-14 22:55:11Z">
               <Issue>
                <Item>Plugin.GetEnabledPluginsFromCache():IDictionary`2&lt;System.Guid,Subtext.Framework.Components.Plugin&gt;</Item>
@@ -3460,50 +3263,6 @@
              <Message TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024" Created="2006-11-14 22:55:11Z">
               <Issue Certainty="50">
                <Item>GetEnabledPluginsFromCache</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="GetPluginGeneralSettings(System.Guid):System.Collections.Specialized.NameValueCollection">
-            <Messages>
-             <Message Id="0#plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
-              <Issue Name="Parameter">
-               <Item>Plugin.GetPluginGeneralSettings(Guid):NameValueCollection</Item>
-               <Item>plugin</Item>
-               <Item>pluginId</Item>
-              </Issue>
-             </Message>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>Plugin.GetPluginGeneralSettings(Guid):NameValueCollection</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="InitializedPlugin">
-            <Messages>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>Plugin.InitializedPlugin:PluginBase</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="InsertPluginGeneralSettings(System.Guid,System.String,System.String):System.Void">
-            <Messages>
-             <Message Id="0#plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
-              <Issue Name="Parameter">
-               <Item>Plugin.InsertPluginGeneralSettings(Guid, String, String):Void</Item>
-               <Item>plugin</Item>
-               <Item>pluginGuid</Item>
-              </Issue>
-             </Message>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>Plugin.InsertPluginGeneralSettings(Guid, String, String):Void</Item>
               </Issue>
              </Message>
             </Messages>
@@ -3535,23 +3294,6 @@
                <Item>Plugin.StorePluginListToCache(IDictionary`2&lt;System.Guid,Subtext.Framework.Components.Plugin&gt;):Void</Item>
                <Item>System.String.Format(System.String,System.Object)</Item>
                <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="UpdatePluginGeneralSettings(System.Guid,System.String,System.String):System.Void">
-            <Messages>
-             <Message Id="0#plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
-              <Issue Name="Parameter">
-               <Item>Plugin.UpdatePluginGeneralSettings(Guid, String, String):Void</Item>
-               <Item>plugin</Item>
-               <Item>pluginGuid</Item>
-              </Issue>
-             </Message>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-14 22:55:11Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>Plugin.UpdatePluginGeneralSettings(Guid, String, String):Void</Item>
               </Issue>
              </Message>
             </Messages>
@@ -4474,16 +4216,6 @@
               <Issue>
                <Item>'reader'</Item>
                <Item>DataHelper.LoadLinkCategory(IDataReader):LinkCategory</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="LoadPluginSettings(System.Data.IDataReader):System.Collections.Specialized.NameValueCollection">
-            <Messages>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>DataHelper.LoadPluginSettings(IDataReader):NameValueCollection</Item>
               </Issue>
              </Message>
             </Messages>
@@ -5918,40 +5650,6 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="DisablePlugin(System.Guid):System.Boolean">
-            <Messages>
-             <Message Id="0#plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-              <Issue Name="Parameter">
-               <Item>ObjectProvider.DisablePlugin(Guid):Boolean</Item>
-               <Item>plugin</Item>
-               <Item>pluginId</Item>
-              </Issue>
-             </Message>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>ObjectProvider.DisablePlugin(Guid):Boolean</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="EnablePlugin(System.Guid):System.Boolean">
-            <Messages>
-             <Message Id="0#plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-              <Issue Name="Parameter">
-               <Item>ObjectProvider.EnablePlugin(Guid):Boolean</Item>
-               <Item>plugin</Item>
-               <Item>pluginId</Item>
-              </Issue>
-             </Message>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>ObjectProvider.EnablePlugin(Guid):Boolean</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="GetActiveCategories():System.Collections.Generic.ICollection`1&lt;Subtext.Framework.Components.LinkCategory&gt;">
             <Messages>
              <Message TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024" Created="2006-11-08 18:41:28Z">
@@ -5999,12 +5697,6 @@
            </Member>
            <Member Name="GetEnabledPlugins():System.Collections.Generic.ICollection`1&lt;System.Guid&gt;">
             <Messages>
-             <Message Id="Plugins" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-              <Issue Name="Member">
-               <Item>Plugins</Item>
-               <Item>ObjectProvider.GetEnabledPlugins():ICollection`1&lt;System.Guid&gt;</Item>
-              </Issue>
-             </Message>
              <Message TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024" Created="2006-11-08 18:41:28Z">
               <Issue Certainty="50">
                <Item>GetEnabledPlugins</Item>
@@ -6221,23 +5913,6 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="GetPluginGeneralSettings(System.Guid):System.Collections.Specialized.NameValueCollection">
-            <Messages>
-             <Message Id="0#plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-              <Issue Name="Parameter">
-               <Item>ObjectProvider.GetPluginGeneralSettings(Guid):NameValueCollection</Item>
-               <Item>plugin</Item>
-               <Item>pluginId</Item>
-              </Issue>
-             </Message>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>ObjectProvider.GetPluginGeneralSettings(Guid):NameValueCollection</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="GetPostsByCategoryArchive():System.Collections.Generic.ICollection`1&lt;Subtext.Framework.Components.ArchiveCount&gt;">
             <Messages>
              <Message TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024" Created="2006-11-08 18:41:28Z">
@@ -6313,23 +5988,6 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="InsertPluginGeneralSettings(System.Guid,System.String,System.String):System.Boolean">
-            <Messages>
-             <Message Id="0#plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-              <Issue Name="Parameter">
-               <Item>ObjectProvider.InsertPluginGeneralSettings(Guid, String, String):Boolean</Item>
-               <Item>plugin</Item>
-               <Item>pluginId</Item>
-              </Issue>
-             </Message>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>ObjectProvider.InsertPluginGeneralSettings(Guid, String, String):Boolean</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="UpdateImage(Subtext.Framework.Components.Image):System.Boolean">
             <Messages>
              <Message Id="0#" TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Created="2006-11-08 18:41:28Z">
@@ -6355,23 +6013,6 @@
                <Item>parameter</Item>
                <Item>keyWord</Item>
                <Item>keyword</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="UpdatePluginGeneralSettings(System.Guid,System.String,System.String):System.Boolean">
-            <Messages>
-             <Message Id="0#plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-              <Issue Name="Parameter">
-               <Item>ObjectProvider.UpdatePluginGeneralSettings(Guid, String, String):Boolean</Item>
-               <Item>plugin</Item>
-               <Item>pluginId</Item>
-              </Issue>
-             </Message>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-08 18:41:28Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>ObjectProvider.UpdatePluginGeneralSettings(Guid, String, String):Boolean</Item>
               </Issue>
              </Message>
             </Messages>
@@ -10471,14 +10112,6 @@
            <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
           </Issue>
          </Message>
-         <Message Id="Bogota" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Created="2006-11-08 18:41:28Z">
-          <Issue>
-           <Item>Bogota</Item>
-           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DisplayName/#text</Item>
-           <Item>(GMT-05:00) Bogota, Lima, Quito</Item>
-           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
-          </Issue>
-         </Message>
          <Message Id="Brasilia" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Created="2006-11-08 18:41:28Z">
           <Issue>
            <Item>Brasilia</Item>
@@ -10498,6 +10131,14 @@
            <Item>Cen</Item>
            <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/StandardZoneName/#text</Item>
            <Item>Cen. Australia Standard Time</Item>
+           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
+          </Issue>
+         </Message>
+         <Message Id="Chongqing" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Created="2006-11-15 20:22:08Z">
+          <Issue>
+           <Item>Chongqing</Item>
+           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DisplayName/#text</Item>
+           <Item>(GMT+08:00) Beijing, Chongqing, Hong Kong, Urumqi</Item>
            <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
           </Issue>
          </Message>
@@ -10521,11 +10162,27 @@
            <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
           </Issue>
          </Message>
+         <Message Id="Irkutsk" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Created="2006-11-15 20:22:08Z">
+          <Issue>
+           <Item>Irkutsk</Item>
+           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DisplayName/#text</Item>
+           <Item>(GMT+08:00) Irkutsk, Ulaan Bataar</Item>
+           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
+          </Issue>
+         </Message>
          <Message Id="Jayawardenepura" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Created="2006-11-08 18:41:28Z">
           <Issue>
            <Item>Jayawardenepura</Item>
            <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DisplayName/#text</Item>
            <Item>(GMT+06:00) Sri Jayawardenepura</Item>
+           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
+          </Issue>
+         </Message>
+         <Message Id="Kamchatka" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Created="2006-11-15 20:22:08Z">
+          <Issue>
+           <Item>Kamchatka</Item>
+           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DisplayName/#text</Item>
+           <Item>(GMT+12:00) Fiji, Kamchatka, Marshall Is.</Item>
            <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
           </Issue>
          </Message>
@@ -10550,6 +10207,14 @@
            <Item>Magadan</Item>
            <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DisplayName/#text</Item>
            <Item>(GMT+11:00) Magadan, Solomon Is., New Caledonia</Item>
+           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
+          </Issue>
+         </Message>
+         <Message Id="Mazatlan" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Created="2006-11-15 20:22:08Z">
+          <Issue>
+           <Item>Mazatlan</Item>
+           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DisplayName/#text</Item>
+           <Item>(GMT-07:00) Chihuahua, La Paz, Mazatlan</Item>
            <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
           </Issue>
          </Message>
@@ -10585,39 +10250,39 @@
            <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
           </Issue>
          </Message>
-         <Message Id="Osaka" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Created="2006-11-08 18:41:28Z">
-          <Issue>
-           <Item>Osaka</Item>
-           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DisplayName/#text</Item>
-           <Item>(GMT+09:00) Osaka, Sapporo, Tokyo</Item>
-           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
-          </Issue>
-         </Message>
-         <Message Id="Tokyo" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Created="2006-11-08 18:41:28Z">
-          <Issue>
-           <Item>Tokyo</Item>
-           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DaylightZoneName/#text</Item>
-           <Item>Tokyo Daylight Time</Item>
-           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
-          </Issue>
-          <Issue>
-           <Item>Tokyo</Item>
-           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DisplayName/#text</Item>
-           <Item>(GMT+09:00) Osaka, Sapporo, Tokyo</Item>
-           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
-          </Issue>
-          <Issue>
-           <Item>Tokyo</Item>
-           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/StandardZoneName/#text</Item>
-           <Item>Tokyo Standard Time</Item>
-           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
-          </Issue>
-         </Message>
          <Message Id="Ulaan" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Created="2006-11-08 18:41:28Z">
           <Issue>
            <Item>Ulaan</Item>
            <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DisplayName/#text</Item>
            <Item>(GMT+08:00) Irkutsk, Ulaan Bataar</Item>
+           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
+          </Issue>
+         </Message>
+         <Message Id="Urumqi" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Created="2006-11-15 20:22:08Z">
+          <Issue>
+           <Item>Urumqi</Item>
+           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DisplayName/#text</Item>
+           <Item>(GMT+08:00) Beijing, Chongqing, Hong Kong, Urumqi</Item>
+           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
+          </Issue>
+         </Message>
+         <Message Id="Yakutsk" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Created="2006-11-15 20:22:08Z">
+          <Issue>
+           <Item>Yakutsk</Item>
+           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DaylightZoneName/#text</Item>
+           <Item>Yakutsk Daylight Time</Item>
+           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
+          </Issue>
+          <Issue>
+           <Item>Yakutsk</Item>
+           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DisplayName/#text</Item>
+           <Item>(GMT+09:00) Yakutsk</Item>
+           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
+          </Issue>
+          <Issue>
+           <Item>Yakutsk</Item>
+           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/StandardZoneName/#text</Item>
+           <Item>Yakutsk Standard Time</Item>
            <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
           </Issue>
          </Message>
@@ -11455,16 +11120,6 @@
           </Members>
          </Type>
          <Type Name="HelpToolTip">
-          <Messages>
-           <Message Id="ToolTip" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2006-11-08 18:22:08Z">
-            <Issue Name="ShouldBeDiscreteTerm">
-             <Item>ToolTip</Item>
-             <Item>class</Item>
-             <Item>HelpToolTip</Item>
-             <Item>Tooltip</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="ImageUrl">
             <Messages>
@@ -12025,18 +11680,6 @@
             </Accessors>
            </Member>
           </Members>
-         </Type>
-         <Type Name="HelpToolTipDesigner">
-          <Messages>
-           <Message Id="ToolTip" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2006-11-08 18:22:08Z">
-            <Issue Name="ShouldBeDiscreteTerm">
-             <Item>ToolTip</Item>
-             <Item>class</Item>
-             <Item>HelpToolTipDesigner</Item>
-             <Item>Tooltip</Item>
-            </Issue>
-           </Message>
-          </Messages>
          </Type>
         </Types>
        </Namespace>
@@ -14395,33 +14038,7 @@
           </Members>
          </Type>
          <Type Name="TogglePluginCommand">
-          <Messages>
-           <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 18:43:35Z">
-            <Issue Name="Type">
-             <Item>Plugin</Item>
-             <Item>Subtext.Web.Admin.TogglePluginCommand</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
-           <Member Name=".ctor(System.Guid,System.String,System.Boolean)">
-            <Messages>
-             <Message Id="0#plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 18:43:35Z">
-              <Issue Name="Parameter">
-               <Item>TogglePluginCommand.TogglePluginCommand(Guid, String, Boolean)</Item>
-               <Item>plugin</Item>
-               <Item>pluginId</Item>
-              </Issue>
-             </Message>
-             <Message Id="1#plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 18:43:35Z">
-              <Issue Name="Parameter">
-               <Item>TogglePluginCommand.TogglePluginCommand(Guid, String, Boolean)</Item>
-               <Item>plugin</Item>
-               <Item>pluginName</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="_actionName">
             <Messages>
              <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2006-11-15 18:43:35Z">
@@ -14533,12 +14150,6 @@
                <Item>1</Item>
                <Item>Utilities.CreateHyperLink(String, String):HyperLink</Item>
                <Item>Syndication</Item>
-              </Issue>
-             </Message>
-             <Message Id="Plugin" TypeName="LiteralsShouldBeSpelledCorrectly" Category="Microsoft.Usage" CheckId="CA2204" Created="2006-11-15 18:43:35Z">
-              <Issue>
-               <Item>Plugin</Item>
-               <Item>Plugin List</Item>
               </Issue>
              </Message>
             </Messages>
@@ -17383,14 +16994,6 @@
           </Members>
          </Type>
          <Type Name="PluginListPage">
-          <Messages>
-           <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 18:43:35Z">
-            <Issue Name="Type">
-             <Item>Plugin</Item>
-             <Item>Subtext.Web.Admin.Pages.PluginListPage</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="BindEditLink(System.Boolean):System.Void">
             <Messages>
@@ -17405,22 +17008,6 @@
                <Item>PluginListPage.BindEditLink(Boolean):Void</Item>
                <Item>1</Item>
                <Item>MessagePanel.ShowError(String):Void</Item>
-               <Item>Cannot load general blog settings user control for Plugin ____:&lt;br&gt;____ doesn't inherit from Subtext.Extensibility.Plugins.STAdminGlobalSettingsBaseControl</Item>
-              </Issue>
-             </Message>
-             <Message Id="Plugin" TypeName="LiteralsShouldBeSpelledCorrectly" Category="Microsoft.Usage" CheckId="CA2204" Created="2006-11-15 18:43:35Z">
-              <Issue>
-               <Item>Plugin</Item>
-               <Item>Cannot load general blog settings user control for Plugin ____:&lt;br&gt;__</Item>
-              </Issue>
-              <Issue>
-               <Item>Plugin</Item>
-               <Item>Cannot load general blog settings user control for Plugin ____:&lt;br&gt;____ doesn't inherit from Subtext.Extensibility.Plugins.STAdminGlobalSettingsBaseControl</Item>
-              </Issue>
-             </Message>
-             <Message Id="Plugins" TypeName="LiteralsShouldBeSpelledCorrectly" Category="Microsoft.Usage" CheckId="CA2204" Created="2006-11-15 18:43:35Z">
-              <Issue>
-               <Item>Plugins</Item>
                <Item>Cannot load general blog settings user control for Plugin ____:&lt;br&gt;____ doesn't inherit from Subtext.Extensibility.Plugins.STAdminGlobalSettingsBaseControl</Item>
               </Issue>
              </Message>
@@ -17530,37 +17117,11 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="pluginEditName">
-            <Messages>
-             <Message Id="plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 18:43:35Z">
-              <Issue Name="Member">
-               <Item>plugin</Item>
-               <Item>PluginListPage.pluginEditName</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="PluginID">
             <Messages>
-             <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 18:43:35Z">
-              <Issue Name="Member">
-               <Item>Plugin</Item>
-               <Item>PluginListPage.PluginID:String</Item>
-              </Issue>
-             </Message>
              <Message Id="Member" TypeName="ShortAcronymsShouldBeUppercase" Category="Microsoft.Naming" CheckId="CA1706" Created="2006-11-15 18:43:35Z">
               <Issue Name="MemberId">
                <Item>PluginListPage.PluginID:String</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="pluginListRpt">
-            <Messages>
-             <Message Id="plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 18:43:35Z">
-              <Issue Name="Member">
-               <Item>plugin</Item>
-               <Item>PluginListPage.pluginListRpt</Item>
               </Issue>
              </Message>
             </Messages>
@@ -17602,12 +17163,6 @@
                <Item>pluginListRpt_ItemCommand</Item>
               </Issue>
              </Message>
-             <Message Id="plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 18:43:35Z">
-              <Issue Name="Member">
-               <Item>plugin</Item>
-               <Item>PluginListPage.pluginListRpt_ItemCommand(Object, RepeaterCommandEventArgs):Void</Item>
-              </Issue>
-             </Message>
              <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-11-15 18:43:35Z">
               <Issue>
                <Item>'e'</Item>
@@ -17623,106 +17178,10 @@
                <Item>pluginListRpt_ItemDataBound</Item>
               </Issue>
              </Message>
-             <Message Id="plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 18:43:35Z">
-              <Issue Name="Member">
-               <Item>plugin</Item>
-               <Item>PluginListPage.pluginListRpt_ItemDataBound(Object, RepeaterItemEventArgs):Void</Item>
-              </Issue>
-             </Message>
              <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-11-15 18:43:35Z">
               <Issue>
                <Item>'e'</Item>
                <Item>PluginListPage.pluginListRpt_ItemDataBound(Object, RepeaterItemEventArgs):Void</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="pluginSetting">
-            <Messages>
-             <Message Id="plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 18:43:35Z">
-              <Issue Name="Member">
-               <Item>plugin</Item>
-               <Item>PluginListPage.pluginSetting</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="pluginViewAuthor">
-            <Messages>
-             <Message Id="plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 18:43:35Z">
-              <Issue Name="Member">
-               <Item>plugin</Item>
-               <Item>PluginListPage.pluginViewAuthor</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="pluginViewCompany">
-            <Messages>
-             <Message Id="plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 18:43:35Z">
-              <Issue Name="Member">
-               <Item>plugin</Item>
-               <Item>PluginListPage.pluginViewCompany</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="pluginViewCopyright">
-            <Messages>
-             <Message Id="plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 18:43:35Z">
-              <Issue Name="Member">
-               <Item>plugin</Item>
-               <Item>PluginListPage.pluginViewCopyright</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="pluginViewDescription">
-            <Messages>
-             <Message Id="plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 18:43:35Z">
-              <Issue Name="Member">
-               <Item>plugin</Item>
-               <Item>PluginListPage.pluginViewDescription</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="pluginViewGuid">
-            <Messages>
-             <Message Id="plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 18:43:35Z">
-              <Issue Name="Member">
-               <Item>plugin</Item>
-               <Item>PluginListPage.pluginViewGuid</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="pluginViewHomepage">
-            <Messages>
-             <Message Id="plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 18:43:35Z">
-              <Issue Name="Member">
-               <Item>plugin</Item>
-               <Item>PluginListPage.pluginViewHomepage</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="pluginViewName">
-            <Messages>
-             <Message Id="plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 18:43:35Z">
-              <Issue Name="Member">
-               <Item>plugin</Item>
-               <Item>PluginListPage.pluginViewName</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="pluginViewVersion">
-            <Messages>
-             <Message Id="plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 18:43:35Z">
-              <Issue Name="Member">
-               <Item>plugin</Item>
-               <Item>PluginListPage.pluginViewVersion</Item>
               </Issue>
              </Message>
             </Messages>
@@ -18000,6 +17459,16 @@
               <Issue Name="Member">
                <Item>chk</Item>
                <Item>Syndication.chkUseSyndicationCompression</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="helpImg">
+            <Messages>
+             <Message Id="Img" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 20:22:08Z">
+              <Issue Name="Member">
+               <Item>Img</Item>
+               <Item>Syndication.helpImg</Item>
               </Issue>
              </Message>
             </Messages>
@@ -19189,14 +18658,6 @@
           </Members>
          </Type>
          <Type Name="PluginList">
-          <Messages>
-           <Message Id="Plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 18:43:35Z">
-            <Issue Name="Type">
-             <Item>Plugin</Item>
-             <Item>Subtext.Web.HostAdmin.PluginList</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="loadingErrorsPnl">
             <Messages>
@@ -19208,27 +18669,11 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="pluginList">
-            <Messages>
-             <Message Id="plugin" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 18:43:35Z">
-              <Issue Name="Member">
-               <Item>plugin</Item>
-               <Item>PluginList.pluginList</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="pluginsPnl">
             <Messages>
              <Message Id="Pnl" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 18:43:35Z">
               <Issue Name="Member">
                <Item>Pnl</Item>
-               <Item>PluginList.pluginsPnl</Item>
-              </Issue>
-             </Message>
-             <Message Id="plugins" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 18:43:35Z">
-              <Issue Name="Member">
-               <Item>plugins</Item>
                <Item>PluginList.pluginsPnl</Item>
               </Issue>
              </Message>
