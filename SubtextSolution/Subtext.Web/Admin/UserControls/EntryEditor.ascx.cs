@@ -40,8 +40,7 @@ namespace Subtext.Web.Admin.UserControls
 
 		private int categoryId = NullValue.NullInt32;
 		private int pageIndex;
-		private bool _isListHidden;
-		
+				
 		#region Accessors
 		/// <summary>
 		/// Gets or sets the type of the entry.
@@ -87,14 +86,8 @@ namespace Subtext.Web.Admin.UserControls
 				ViewState[VSKEY_CATEGORYTYPE] = value; 
 			}
 		}
-
-		public bool IsListHidden
-		{
-			get { return _isListHidden; }
-			set { _isListHidden = value; }
-		}
-
-		public string ResultsTitle 
+        
+        public string ResultsTitle 
 		{
 			get
 			{

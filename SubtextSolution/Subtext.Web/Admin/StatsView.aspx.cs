@@ -26,16 +26,7 @@ namespace Subtext.Web.Admin.Pages
 	/// </summary>
 	public partial class StatsView : StatsPage
 	{
-		private bool _isListHidden;
 		private int _resultsPageNumber = 1;
-
-		public string CheckHiddenStyle()
-		{
-			if (_isListHidden)
-				return Constants.CSSSTYLE_HIDDEN;
-			else
-				return String.Empty;
-		}
 
 		public string GetPageTitle(object dataItem)
 		{

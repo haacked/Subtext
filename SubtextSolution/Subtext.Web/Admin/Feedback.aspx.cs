@@ -33,7 +33,6 @@ namespace Subtext.Web.Admin.Pages
 	public partial class Feedback : AdminPage
 	{
 		private int pageIndex;
-		private bool _isListHidden;
 		LinkButton btnViewApprovedComments;
 		LinkButton btnViewModerateComments;
 		LinkButton btnViewSpam;
@@ -338,14 +337,6 @@ namespace Subtext.Web.Admin.Pages
 					break;
 			}
  			 base.OnPreRender(e);
-		}
-
-		public string CheckHiddenStyle()
-		{
-			if (_isListHidden)
-				return Constants.CSSSTYLE_HIDDEN;
-			else
-				return String.Empty;
 		}
 
 		#region Web Form Designer generated code
