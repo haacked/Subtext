@@ -682,9 +682,9 @@ namespace Subtext.Framework.Services
                     continue;
                 }
 
-                catch (Exception e)
+                catch
                 {
-                    throw e;
+                    throw;
                 }
                 //TODO:Logging can be done here
                 #endregion Main Mail check loop

@@ -6602,9 +6602,6 @@
               <Issue>
                <Item>MailToWeblog.Run():Void</Item>
               </Issue>
-              <Issue>
-               <Item>MailToWeblog.Run():Void</Item>
-              </Issue>
              </Message>
              <Message Id="System.String.ToUpper" TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304" Created="2006-11-08 18:41:28Z">
               <Issue>
