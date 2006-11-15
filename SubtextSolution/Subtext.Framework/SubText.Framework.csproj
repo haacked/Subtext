@@ -105,10 +105,6 @@
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.84.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=227c66cf5503649a, processorArchitecture=MSIL" />
-    <Reference Include="LumiSoft.Net, Version=1.1.1495.26190, Culture=neutral">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>ExternalDependencies\LumiSoft.Net.dll</HintPath>
-    </Reference>
     <Reference Include="Mail, Version=2.5.2501.34150, Culture=neutral, PublicKeyToken=6dc438ab78a525b3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\Downloads\Mail\Redistributables\Mail.dll</HintPath>
