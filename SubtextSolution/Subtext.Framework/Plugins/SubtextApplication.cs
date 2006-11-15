@@ -56,6 +56,7 @@ namespace Subtext.Extensibility.Plugins
 
 		private static bool _initialized = false;
 		private Dictionary<Guid, PluginBase> _plugins = new Dictionary<Guid, PluginBase>();
+		private List<string> _pluginLoadingErrors = new List<string>();
 
 		private static readonly Log __log = new Log();
 		private static SubtextApplication _instance = LoadPlugins();
@@ -78,8 +79,13 @@ namespace Subtext.Extensibility.Plugins
 			get { return _plugins; }
 		}
 
-
-		
+		/// <summary>
+		/// 
+		/// </summary>
+		public List<string> PluginLoadingErrors
+		{
+			get { return _pluginLoadingErrors; }
+		}
 
 		/// <summary>
 		/// Returns the current single instance of the class
@@ -121,13 +127,13 @@ namespace Subtext.Extensibility.Plugins
 
 						if (String.IsNullOrEmpty(setting.Type))
 						{
-							__log.Warn("Cannot load plugin defined at line " + setting.ElementInformation.LineNumber + ":\r\nMissing Type");
+							notifyPluginLoadingProblem("Cannot load plugin defined at line " + setting.ElementInformation.LineNumber + ":<br>\r\nMissing Type", false, app._pluginLoadingErrors);
 							continue;
 						}
 
 						if (String.IsNullOrEmpty(setting.Name))
 						{
-							__log.Warn("Cannot load plugin defined at line " + setting.ElementInformation.LineNumber + ":\r\nMissing Name");
+							notifyPluginLoadingProblem("Cannot load plugin defined at line " + setting.ElementInformation.LineNumber + ":<br>\r\nMissing Name", false, app._pluginLoadingErrors);
 							continue;
 						}
 
@@ -135,37 +141,46 @@ namespace Subtext.Extensibility.Plugins
 
 						if (type == null)
 						{
-							__log.Warn("Cannot load plugin defined at line " + setting.ElementInformation.LineNumber + ":\r\nType " + setting.Type + " not found in any of the assembly available inside the \\bin folder");
+							notifyPluginLoadingProblem("Cannot load plugin defined at line " + setting.ElementInformation.LineNumber + ":<br>\r\nType \"" + setting.Type + "\" not found in any of the assembly available inside the \\bin folder", false, app._pluginLoadingErrors);
 							continue;
 						}
 						PluginBase plugin = Activator.CreateInstance(type) as PluginBase;
 
 						if (plugin == null)
 						{
-							__log.Warn("Cannot load plugin defined at line " + setting.ElementInformation.LineNumber + ":\r\nType " + setting.Type + " doesn't inherits from PluginBase abstract class");
+							notifyPluginLoadingProblem("Cannot load plugin defined at line " + setting.ElementInformation.LineNumber + ":<br>\r\nType \"" + setting.Type + "\" doesn't inherits from PluginBase abstract class", false, app._pluginLoadingErrors);
 							continue;
 						}
 
 						if (plugin.Id == Guid.Empty)
 						{
-							__log.Warn("Cannot load plugin with name " + setting.Name + ": doesn't provide a Guid");
+							notifyPluginLoadingProblem("Cannot load plugin with name " + setting.Name + ": doesn't provide a Guid", false, app._pluginLoadingErrors);
 							continue;
 						}
 
 						if (plugin.Info == null)
 						{
-							__log.Warn("Cannot load plugin with name " + setting.Name + ": doesn't provide at least one descriptive metadata");
+							notifyPluginLoadingProblem("Cannot load plugin with name " + setting.Name + ": doesn't provide at least one descriptive metadata", false, app._pluginLoadingErrors);
 							continue;
 						}
 
 						try
 						{
-							plugin.Init(app);
-							app._plugins.Add(plugin.Id, plugin);
+
+							if (app._plugins.ContainsKey(plugin.Id))
+							{
+								notifyPluginLoadingProblem("Cannot load plugin with name " + setting.Name + ": a plugin with the same Guid has already been added to the system", false, app._pluginLoadingErrors);
+								continue;
+							}
+							else
+							{
+								plugin.Init(app);
+								app._plugins.Add(plugin.Id, plugin);
+							}
 						}
 						catch (Exception ex)
 						{
-							__log.Error("Error initializing plugin with name " + setting.Name + " from type " + setting.Type + "\r\nThe Init method threw the following exception:\r\n" + ex.Message);
+							notifyPluginLoadingProblem("Error initializing plugin with name " + setting.Name + " from type " + setting.Type + "<br>\r\nThe Init method threw the following exception:\r\n" + ex.Message, true, app._pluginLoadingErrors);
 							continue;
 						}
 						
@@ -178,6 +193,17 @@ namespace Subtext.Extensibility.Plugins
 			}
 			_initialized = true;
 			return app;
+		}
+
+		private static void notifyPluginLoadingProblem(string message, bool isError, ICollection<string> errorList)
+		{
+			if (isError)
+				__log.Error(message);
+			else
+				__log.Warn(message);
+
+			errorList.Add(message);
+
 		}
 
 		#region Event definitions

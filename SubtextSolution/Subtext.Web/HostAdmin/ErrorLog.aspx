@@ -10,7 +10,7 @@
 		
 		<st:RepeaterWithEmptyDataTemplate id="LogPage" runat="server">
 			<HeaderTemplate>
-				<table id="Listing" class="log highlightTable" cellSpacing="0" cellPadding="0" border="0">
+				<table id="Listing" class="log highlightTable" cellspacing="0" cellpadding="0" border="0">
 				<tr>
 					<th>Date</th>
 					<th>Level</th>

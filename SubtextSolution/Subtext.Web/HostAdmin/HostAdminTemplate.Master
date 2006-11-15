@@ -31,6 +31,8 @@
 				runat="server">Change Password</st:MenuItem>
 			<st:MenuItem ID="mnuErrorLog" href="~/HostAdmin/ErrorLog.aspx" title="Error Log."
 				runat="server">Error Log</st:MenuItem>
+			<st:MenuItem ID="mnuPluginList" href="~/HostAdmin/PluginList.aspx" title="Plugin List."
+				runat="server">Plugin List</st:MenuItem>
 		</ul> <!-- /#menu -->
 		<div id="sidebar">
 			<asp:ContentPlaceHolder ID="MPSidebar" runat="server">
