@@ -208,7 +208,7 @@ namespace Subtext.Framework.Services
                             //if (pop3.HasTimeStamp == true)
                             //    pop3.APOPLogin();
                             //else
-                                pop3.Login();
+                            pop3.Login();
 
                             pop3.GetAccountStat();
 
@@ -261,11 +261,11 @@ namespace Subtext.Framework.Services
                                     entry.IncludeInMainSyndication = true;
                                     entry.IsActive = true;
                                     entry.DateSyndicated = message.Date;
-                                        //activeblog.TimeZone.Now;
+                                    //activeblog.TimeZone.Now;
 
                                     //TODO: Change this to DateTime.Now if it doesn't work properly
                                     //entry.DateCreated = DateTime.Parse(message.date); //may not be best date
-                                        entry.DateCreated = message.Date;
+                                    entry.DateCreated = message.Date;
 
                                     //UNNECESSARY PROPERTIES, maybe we will need them later
                                     //entry.SourceUrl = string.Empty;
@@ -293,375 +293,370 @@ namespace Subtext.Framework.Services
                                     //                                        categories += splitted[i].Trim()+";";
                                     //                                    }
                                     //entry.Categories = categories.TrimEnd(';');
-										}
+                                }
 
-                                    //entry.DateCreated = RFC2822Date.Parse(message.date);
+                                //entry.DateCreated = RFC2822Date.Parse(message.date);
 
-                                    #region Plain Text
 
-                                    if (message.Mail.Mime.ContentType.ToString() == "text/plain")
+                                if (message.Mail.Mime.ContentType.ToString() == "text/plain")
+                                {
+                                    entry.Body += message.Mail.Mime.Body;
+                                }
+
+                                // Luke Latimer 16-FEB-2004 (luke@jurasource.co.uk)
+                                // HTML only emails were not appearing
+                                //else if (message.Mail.Mime.ContentType.TypeName.StartsWith("text/html"))
+                                else if (message.Mail.Mime.ContentType.ToString() == "text/html")
+                                {
+                                    string messageText = "";
+
+
+                                    // Note the email may still be encoded
+                                    //messageText = QuotedCoding.DecodeOne(message.charset, "Q", message.body);										
+                                    messageText = message.Mail.Mime.Body;
+
+                                    /*
+                                    * CHANGE: I have changed the e-mail content sripping
+                                    * to not to include message disclaimer on the blog entry
+                                    */
+                                    // Strip the <body> out of the message (using code from below)
+                                    if (activeblog.pop3StartTag == string.Empty)
+                                        bodyExtractor = new Regex("<body.*?>(?<content>.*)</body>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                                    else
+                                        bodyExtractor = new Regex(activeblog.pop3StartTag + "(?<content>.*)" + activeblog.pop3EndTag, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+                                    Match match = bodyExtractor.Match(messageText);
+                                    if (match != null && match.Success && match.Groups["content"] != null)
                                     {
-                                        entry.Body += message.Mail.Mime.Body;
+                                        entry.Body += match.Groups["content"].Value;
                                     }
-                                    #endregion
-
-                                    #region Just HTML
-                                    // Luke Latimer 16-FEB-2004 (luke@jurasource.co.uk)
-                                    // HTML only emails were not appearing
-                                    //else if (message.Mail.Mime.ContentType.TypeName.StartsWith("text/html"))
-                                    else if (message.Mail.Mime.ContentType.ToString() == "text/html")
+                                    else
                                     {
-                                        string messageText = "";
-												}
-
-                                        // Note the email may still be encoded
-                                        //messageText = QuotedCoding.DecodeOne(message.charset, "Q", message.body);										
-                                        messageText = message.Mail.Mime.Body;
-
-                                        /*
-                                        * CHANGE: I have changed the e-mail content sripping
-                                        * to not to include message disclaimer on the blog entry
-                                        */
-                                        // Strip the <body> out of the message (using code from below)
-                                        if (activeblog.pop3StartTag == string.Empty)
-                                            bodyExtractor = new Regex("<body.*?>(?<content>.*)</body>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-                                        else
-                                            bodyExtractor = new Regex(activeblog.pop3StartTag + "(?<content>.*)" + activeblog.pop3EndTag, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-
-                                        Match match = bodyExtractor.Match(messageText);
-                                        if (match != null && match.Success && match.Groups["content"] != null)
-                                        {
-                                            entry.Body += match.Groups["content"].Value;
-                                        }
-                                        else
-                                        {
-                                            entry.Body += messageText;
-                                        }
-
+                                        entry.Body += messageText;
                                     }
-                                    #endregion
 
-                                    // HTML/Text with attachments ?
-                                    else if (message.Mail.Mime.ContentType.TypeName == ("multipart"))
+                                }
+                                // HTML/Text with attachments ?
+                                else if (message.Mail.Mime.ContentType.TypeName == ("multipart"))
+                                {
+                                    Hashtable embeddedFiles = new Hashtable();
+                                    ArrayList attachedFiles = new ArrayList();
+
+                                    foreach (MimeData attachment in message.Attachments)
                                     {
-                                        Hashtable embeddedFiles = new Hashtable();
-                                        ArrayList attachedFiles = new ArrayList();
-
-                                        foreach (MimeData attachment in message.Attachments)
+                                        // just plain text?
+                                        if (attachment.ContentType.ToString() == ("text/plain"))
                                         {
-                                            // just plain text?
-                                            if (attachment.ContentType.ToString() == ("text/plain"))
+                                            entry.Body += attachment.Body;
+                                        }
+
+                                        // Luke Latimer 16-FEB-2004 (luke@jurasource.co.uk)
+                                        // Allow for html-only attachments
+                                        else if (attachment.ContentType.ToString() == ("text/html"))
+                                        {
+                                            /*
+                                            * CHANGE: I have changed the e-mail content sripping
+                                            * to not to include message disclaimer on the blog entry
+                                            */
+                                            // Strip the <body> out of the message (using code from below)		
+                                            if (activeblog.pop3StartTag == string.Empty)
+                                                bodyExtractor = new Regex("<body.*?>(?<content>.*)</body>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                                            else
+                                                bodyExtractor = new Regex(activeblog.pop3StartTag + "(?<content>.*)" + activeblog.pop3EndTag, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+                                            string htmlString = attachment.Body;
+                                            Match match = bodyExtractor.Match(htmlString);
+
+                                            // NOTE: We will BLOW AWAY any previous content in this case.
+                                            // This is because most mail clients like Outlook include
+                                            // plain, then HTML. We will grab plain, then blow it away if 
+                                            // HTML is included later.
+                                            if (match != null && match.Success && match.Groups["content"] != null)
                                             {
-                                                entry.Body += attachment.Body;
+                                                entry.Body = match.Groups["content"].Value;
                                             }
-
-                                            // Luke Latimer 16-FEB-2004 (luke@jurasource.co.uk)
-                                            // Allow for html-only attachments
-                                            else if (attachment.ContentType.ToString() == ("text/html"))
+                                            else
                                             {
-                                                /*
-                                                * CHANGE: I have changed the e-mail content sripping
-                                                * to not to include message disclaimer on the blog entry
-                                                */
-                                                // Strip the <body> out of the message (using code from below)		
-                                                if (activeblog.pop3StartTag == string.Empty)
-                                                    bodyExtractor = new Regex("<body.*?>(?<content>.*)</body>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-                                                else
-                                                    bodyExtractor = new Regex(activeblog.pop3StartTag + "(?<content>.*)" + activeblog.pop3EndTag, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-
-                                                string htmlString = attachment.Body;
-                                                Match match = bodyExtractor.Match(htmlString);
-
-                                                // NOTE: We will BLOW AWAY any previous content in this case.
-                                                // This is because most mail clients like Outlook include
-                                                // plain, then HTML. We will grab plain, then blow it away if 
-                                                // HTML is included later.
-                                                if (match != null && match.Success && match.Groups["content"] != null)
-                                                {
-                                                    entry.Body = match.Groups["content"].Value;
-                                                }
-                                                else
-                                                {
-                                                    entry.Body = htmlString;
-                                                }
-                                            }
-
-                                            // or alternative text ?
-                                            #region Unused at the moment
-
-                                            else if (attachment.ContentType.ToString() == ("multipart/alternative"))
-                                            {
-                                                bool contentSet = false;
-                                                string textContent = null;
-                                                foreach (MimeData inner_attachment in message.Attachments)
-                                                {
-                                                    // we prefer HTML
-                                                    if (inner_attachment.ContentType.ToString() == ("text/plain"))
-                                                    {
-                                                        textContent = StringOperations.GetString(inner_attachment.Data);
-                                                    }
-                                                    else if (inner_attachment.ContentType.ToString() == ("text/html"))
-                                                    {
-                                                        /*
-                                                            * CHANGE: I have changed the e-mail content sripping
-                                                            * to not to include message disclaimer on the blog entry
-                                                            */
-                                                        if (activeblog.pop3StartTag == string.Empty)
-                                                            bodyExtractor = new Regex("<body.*?>(?<content>.*)</body>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-                                                        else
-                                                            bodyExtractor = new Regex(activeblog.pop3StartTag + "(?<content>.*)" + activeblog.pop3EndTag, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-
-                                                        string htmlString = StringOperations.GetString(inner_attachment.Data);
-                                                        Match match = bodyExtractor.Match(htmlString);
-                                                        if (match != null && match.Success && match.Groups["content"] != null)
-                                                        {
-                                                            entry.Body += match.Groups["content"].Value;
-                                                        }
-                                                        else
-                                                        {
-                                                            entry.Body += htmlString;
-                                                        }
-                                                        contentSet = true;
-                                                    }
-                                                }
-                                                if (!contentSet)
-                                                {
-                                                    entry.Body += textContent;
-                                                }
-                                            }
-
-
-                                                 //or text with embeddedFiles (in a mixed message only)
-                                            else if ((message.Mail.Mime.ContentType.ToString() == ("multipart/mixed") || message.Mail.Mime.ContentType.ToString() == ("multipart/alternative"))
-                                           && attachment.ContentType.ToString() == ("multipart/related"))
-                                            {
-                                                foreach (MimeData inner_attachment in message.Attachments)
-                                                {
-                                                    // just plain text?
-                                                    if (inner_attachment.ContentType.ToString() == ("text/plain"))
-                                                    {
-                                                        entry.Body += StringOperations.GetString(inner_attachment.Data);
-                                                    }
-
-                                                    else if (inner_attachment.ContentType.ToString() == ("text/html"))
-                                                    {
-                                                        /*
-                                                            * CHANGE: I have changed the e-mail content sripping
-                                                            * to not to include message disclaimer on the blog entry
-                                                            */
-                                                        if (activeblog.pop3StartTag == string.Empty)
-                                                            bodyExtractor = new Regex("<body.*?>(?<content>.*)</body>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-                                                        else
-                                                            bodyExtractor = new Regex(activeblog.pop3StartTag + "(?<content>.*)" + activeblog.pop3EndTag, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-
-                                                        string htmlString = StringOperations.GetString(inner_attachment.Data);
-                                                        Match match = bodyExtractor.Match(htmlString);
-                                                        if (match != null && match.Success && match.Groups["content"] != null)
-                                                        {
-                                                            entry.Body += match.Groups["content"].Value;
-                                                        }
-                                                        else
-                                                        {
-                                                            entry.Body += htmlString;
-                                                        }
-                                                    }
-
-                                                        // or alternative text ?
-                                                    else if (inner_attachment.ContentType.ToString() == ("multipart/alternative"))
-                                                    {
-                                                        bool contentSet = false;
-                                                        string textContent = null;
-                                                        foreach (MimeData inner_inner_attachment in inner_attachment.Attachments)
-                                                        {
-                                                            // we prefer HTML
-                                                            if (inner_inner_attachment.ContentType.StartsWith("text/plain"))
-                                                            {
-                                                                textContent = StringOperations.GetString(inner_inner_attachment.Data);
-                                                            }
-                                                            else if (inner_inner_attachment.ContentType.StartsWith("text/html"))
-                                                            {
-                                                                /*
-                                                                    * CHANGE: I have changed the e-mail content sripping
-                                                                    * to not to include message disclaimer on the blog entry
-                                                                    */
-                                                                if (activeblog.pop3StartTag == string.Empty)
-                                                                    bodyExtractor = new Regex("<body.*?>(?<content>.*)</body>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-                                                                else
-                                                                    bodyExtractor = new Regex(activeblog.pop3StartTag + "(?<content>.*)" + activeblog.pop3EndTag, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-
-                                                                string htmlString = StringOperations.GetString(inner_inner_attachment.Data);
-                                                                Match match = bodyExtractor.Match(htmlString);
-                                                                if (match != null && match.Success && match.Groups["content"] != null)
-                                                                {
-                                                                    entry.Body += match.Groups["content"].Value;
-                                                                }
-                                                                else
-                                                                {
-                                                                    entry.Body += htmlString;
-                                                                }
-                                                                contentSet = true;
-                                                            }
-                                                        }
-                                                        if (!contentSet)
-                                                        {
-                                                            entry.Body += textContent;
-                                                        }
-                                                    }
-                                                        // any other inner_attachment
-                                                    else if (inner_attachment.Data != null &&
-                                                        inner_attachment.FileName != null &&
-                                                        inner_attachment.FileName.Length > 0)
-                                                    {
-                                                        if (inner_attachment.ContentID.Length > 0)
-                                                        {
-                                                            embeddedFiles.Add(inner_attachment.ContentID, StoreAttachment(inner_attachment));
-                                                        }
-                                                        else
-                                                        {
-                                                            attachedFiles.Add(StoreAttachment(inner_attachment));
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            #endregion Unused at the moment
-                                            // any other attachment
-                                            else if (attachment.Data != null &&
-                                                attachment.FileName != null &&
-                                                attachment.FileName.Length > 0)
-                                            {
-                                                if (attachment.ContentId.Length > 0 && message.Mail.Mime.ContentType.TypeName.StartsWith("multipart/related"))
-                                                {
-                                                    embeddedFiles.Add(attachment.ContentId, StoreAttachment(attachment));
-                                                }
-                                                else
-                                                {
-                                                    attachedFiles.Add(StoreAttachment(attachment));
-                                                }
-
+                                                entry.Body = htmlString;
                                             }
                                         }
 
-                                        // check for orphaned embeddings
-                                        string[] embeddedKeys = new string[embeddedFiles.Keys.Count];
-                                        embeddedFiles.Keys.CopyTo(embeddedKeys, 0);
-                                        foreach (string key in embeddedKeys)
+                                        // or alternative text ?
+                                        #region Unused at the moment
+
+                                        else if (attachment.ContentType.ToString() == ("multipart/alternative"))
                                         {
-                                            if (entry.Body.IndexOf("cid:" + key.Trim('<', '>')) == -1)
+                                            bool contentSet = false;
+                                            string textContent = null;
+                                            foreach (MimeData inner_attachment in message.Attachments)
                                             {
-                                                object file = embeddedFiles[key];
-                                                embeddedFiles.Remove(key);
-                                                attachedFiles.Add(file);
+                                                // we prefer HTML
+                                                if (inner_attachment.ContentType.ToString() == ("text/plain"))
+                                                {
+                                                    //textContent = StringOperations.GetString(inner_attachment.Data);
+                                                }
+                                                else if (inner_attachment.ContentType.ToString() == ("text/html"))
+                                                {
+                                                    /*
+                                                        * CHANGE: I have changed the e-mail content sripping
+                                                        * to not to include message disclaimer on the blog entry
+                                                        */
+                                                    if (activeblog.pop3StartTag == string.Empty)
+                                                        bodyExtractor = new Regex("<body.*?>(?<content>.*)</body>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                                                    else
+                                                        bodyExtractor = new Regex(activeblog.pop3StartTag + "(?<content>.*)" + activeblog.pop3EndTag, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+                                                    //string htmlString = StringOperations.GetString(inner_attachment.Data);
+                                                    //Match match = bodyExtractor.Match(htmlString);
+                                                    //if (match != null && match.Success && match.Groups["content"] != null)
+                                                    //{
+                                                    //    entry.Body += match.Groups["content"].Value;
+                                                    //}
+                                                    //else
+                                                    //{
+                                                    //    entry.Body += htmlString;
+                                                    //}
+                                                    contentSet = true;
+                                                }
+                                            }
+                                            if (!contentSet)
+                                            {
+                                                entry.Body += textContent;
                                             }
                                         }
 
-                                        // now fix up the URIs
 
-                                        if (activeblog.pop3InlineAttachedPictures)
+                                             //or text with embeddedFiles (in a mixed message only)
+                                        else if ((message.Mail.Mime.ContentType.ToString() == ("multipart/mixed") || message.Mail.Mime.ContentType.ToString() == ("multipart/alternative"))
+                                       && attachment.ContentType.ToString() == ("multipart/related"))
                                         {
-                                            foreach (string fileName in attachedFiles)
+                                            foreach (MimeData inner_attachment in message.Attachments)
                                             {
-                                                string fileNameU = fileName.ToUpper();
-                                                if (fileNameU.EndsWith(".JPG") || fileNameU.EndsWith(".JPEG") ||
-                                                    fileNameU.EndsWith(".GIF") || fileNameU.EndsWith(".PNG") ||
-                                                    fileNameU.EndsWith(".BMP"))
+                                                // just plain text?
+                                                if (inner_attachment.ContentType.ToString() == ("text/plain"))
                                                 {
-                                                    bool scalingSucceeded = false;
+                                                    //entry.Body += StringOperations.GetString(inner_attachment.Data);
+                                                }
 
-                                                    if (activeblog.pop3HeightForThumbs > 0)
+                                                else if (inner_attachment.ContentType.ToString() == ("text/html"))
+                                                {
+                                                    /*
+                                                        * CHANGE: I have changed the e-mail content sripping
+                                                        * to not to include message disclaimer on the blog entry
+                                                        */
+                                                    if (activeblog.pop3StartTag == string.Empty)
+                                                        bodyExtractor = new Regex("<body.*?>(?<content>.*)</body>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                                                    else
+                                                        bodyExtractor = new Regex(activeblog.pop3StartTag + "(?<content>.*)" + activeblog.pop3EndTag, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+                                                    //string htmlString = StringOperations.GetString(inner_attachment.Data);
+                                                    //Match match = bodyExtractor.Match(htmlString);
+                                                    //if (match != null && match.Success && match.Groups["content"] != null)
+                                                    //{
+                                                    //    entry.Body += match.Groups["content"].Value;
+                                                    //}
+                                                    //else
+                                                    //{
+                                                    //    entry.Body += htmlString;
+                                                    //}
+                                                }
+
+                                                    // or alternative text ?
+                                                else if (inner_attachment.ContentType.ToString() == ("multipart/alternative"))
+                                                {
+                                                    bool contentSet = false;
+                                                    string textContent = null;
+                                                    //foreach (MimeData inner_inner_attachment in inner_attachment.Attachments)
+                                                    //{
+                                                    //    // we prefer HTML
+                                                    //    if (inner_inner_attachment.ContentType.StartsWith("text/plain"))
+                                                    //    {
+                                                    //        textContent = StringOperations.GetString(inner_inner_attachment.Data);
+                                                    //    }
+                                                    //    else if (inner_inner_attachment.ContentType.StartsWith("text/html"))
+                                                    //    {
+                                                    //        /*
+                                                    //            * CHANGE: I have changed the e-mail content sripping
+                                                    //            * to not to include message disclaimer on the blog entry
+                                                    //            */
+                                                    //        if (activeblog.pop3StartTag == string.Empty)
+                                                    //            bodyExtractor = new Regex("<body.*?>(?<content>.*)</body>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                                                    //        else
+                                                    //            bodyExtractor = new Regex(activeblog.pop3StartTag + "(?<content>.*)" + activeblog.pop3EndTag, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+                                                    //        string htmlString = StringOperations.GetString(inner_inner_attachment.Data);
+                                                    //        Match match = bodyExtractor.Match(htmlString);
+                                                    //        if (match != null && match.Success && match.Groups["content"] != null)
+                                                    //        {
+                                                    //            entry.Body += match.Groups["content"].Value;
+                                                    //        }
+                                                    //        else
+                                                    //        {
+                                                    //            entry.Body += htmlString;
+                                                    //        }
+                                                    //        contentSet = true;
+                                                    //    }
+                                                    //}
+                                                    if (!contentSet)
                                                     {
-                                                        try
-                                                        {
-                                                            string absoluteFileName = Path.Combine(binariesPath, fileName);
-                                                            string thumbBaseFileName = Path.GetFileNameWithoutExtension(fileName) + "-thumb.subtext.JPG";
-                                                            string thumbFileName = Path.Combine(binariesPath, thumbBaseFileName);
-                                                            Bitmap sourceBmp = new Bitmap(absoluteFileName);
-                                                            if (sourceBmp.Height > activeblog.pop3HeightForThumbs)
-                                                            {
-                                                                Bitmap targetBmp = new Bitmap(sourceBmp, new Size(
-                                                                    Convert.ToInt32(Math.Round((sourceBmp.Width * (((double)activeblog.pop3HeightForThumbs) / ((double)sourceBmp.Height))), 0)),
-                                                                    activeblog.pop3HeightForThumbs));
-
-                                                                ImageCodecInfo codecInfo = GetEncoderInfo("image/jpeg");
-                                                                Encoder encoder = Encoder.Quality;
-                                                                EncoderParameters encoderParams = new EncoderParameters(1);
-                                                                long compression = 75;
-                                                                EncoderParameter encoderParam = new EncoderParameter(encoder, compression);
-                                                                encoderParams.Param[0] = encoderParam;
-                                                                targetBmp.Save(thumbFileName, codecInfo, encoderParams);
-
-                                                                string absoluteUri = new Uri(binariesBaseUri, fileName).AbsoluteUri;
-                                                                string absoluteThumbUri = new Uri(binariesBaseUri, thumbBaseFileName).AbsoluteUri;
-                                                                entry.Body += String.Format("<div class=\"inlinedMailPictureBox\"><a href=\"{0}\"><img border=\"0\" class=\"inlinedMailPicture\" src=\"{2}\"></a><br><a class=\"inlinedMailPictureLink\" href=\"{0}\">{1}</a></div>", absoluteUri, fileName, absoluteThumbUri);
-                                                                scalingSucceeded = true;
-
-                                                            }
-                                                        }
-                                                        catch
-                                                        {
-                                                        }
+                                                        entry.Body += textContent;
                                                     }
-                                                    if (!scalingSucceeded)
+                                                }
+                                                // any other inner_attachment
+                                                else if (inner_attachment.Data != null &&
+                                                    inner_attachment.FileName != null &&
+                                                    inner_attachment.FileName.Length > 0)
+                                                {
+                                                    if (inner_attachment.ContentId.Length > 0)
                                                     {
-                                                        string absoluteUri = new Uri(binariesBaseUri, fileName).AbsoluteUri;
-                                                        entry.Body += String.Format("<div class=\"inlinedMailPictureBox\"><img class=\"inlinedMailPicture\" src=\"{0}\"><br><a class=\"inlinedMailPictureLink\" href=\"{0}\">{1}</a></div>", absoluteUri, fileName);
+                                                        embeddedFiles.Add(inner_attachment.ContentId, StoreAttachment(inner_attachment));
+                                                    }
+                                                    else
+                                                    {
+                                                        attachedFiles.Add(StoreAttachment(inner_attachment));
                                                     }
                                                 }
                                             }
                                         }
-
-                                        if (attachedFiles.Count > 0)
+                                        #endregion Unused at the moment
+                                        // any other attachment
+                                        else if (attachment.Data != null &&
+                                            attachment.FileName != null &&
+                                            attachment.FileName.Length > 0)
                                         {
-                                            entry.Body += "<p>";
-                                        }
+                                            if (attachment.ContentId.Length > 0 && message.Mail.Mime.ContentType.TypeName.StartsWith("multipart/related"))
+                                            {
+                                                embeddedFiles.Add(attachment.ContentId, StoreAttachment(attachment));
+                                            }
+                                            else
+                                            {
+                                                attachedFiles.Add(StoreAttachment(attachment));
+                                            }
 
+                                        }
+                                    }
+
+                                    // check for orphaned embeddings
+                                    string[] embeddedKeys = new string[embeddedFiles.Keys.Count];
+                                    embeddedFiles.Keys.CopyTo(embeddedKeys, 0);
+                                    foreach (string key in embeddedKeys)
+                                    {
+                                        if (entry.Body.IndexOf("cid:" + key.Trim('<', '>')) == -1)
+                                        {
+                                            object file = embeddedFiles[key];
+                                            embeddedFiles.Remove(key);
+                                            attachedFiles.Add(file);
+                                        }
+                                    }
+
+                                    // now fix up the URIs
+
+                                    if (activeblog.pop3InlineAttachedPictures)
+                                    {
                                         foreach (string fileName in attachedFiles)
                                         {
                                             string fileNameU = fileName.ToUpper();
-                                            if (!activeblog.pop3InlineAttachedPictures ||
-                                                (!fileNameU.EndsWith(".JPG") && !fileNameU.EndsWith(".JPEG") &&
-                                                    !fileNameU.EndsWith(".GIF") && !fileNameU.EndsWith(".PNG") &&
-                                                    !fileNameU.EndsWith(".BMP")))
+                                            if (fileNameU.EndsWith(".JPG") || fileNameU.EndsWith(".JPEG") ||
+                                                fileNameU.EndsWith(".GIF") || fileNameU.EndsWith(".PNG") ||
+                                                fileNameU.EndsWith(".BMP"))
                                             {
-                                                string absoluteUri = new Uri(binariesBaseUri, fileName).AbsoluteUri;
-                                                entry.Body += String.Format("Download: <a href=\"{0}\">{1}</a><br>", absoluteUri, fileName);
+                                                bool scalingSucceeded = false;
+
+                                                if (activeblog.pop3HeightForThumbs > 0)
+                                                {
+                                                    try
+                                                    {
+                                                        string absoluteFileName = Path.Combine(binariesPath, fileName);
+                                                        string thumbBaseFileName = Path.GetFileNameWithoutExtension(fileName) + "-thumb.subtext.JPG";
+                                                        string thumbFileName = Path.Combine(binariesPath, thumbBaseFileName);
+                                                        Bitmap sourceBmp = new Bitmap(absoluteFileName);
+                                                        if (sourceBmp.Height > activeblog.pop3HeightForThumbs)
+                                                        {
+                                                            Bitmap targetBmp = new Bitmap(sourceBmp, new Size(
+                                                                Convert.ToInt32(Math.Round((sourceBmp.Width * (((double)activeblog.pop3HeightForThumbs) / ((double)sourceBmp.Height))), 0)),
+                                                                activeblog.pop3HeightForThumbs));
+
+                                                            ImageCodecInfo codecInfo = GetEncoderInfo("image/jpeg");
+                                                            Encoder encoder = Encoder.Quality;
+                                                            EncoderParameters encoderParams = new EncoderParameters(1);
+                                                            long compression = 75;
+                                                            EncoderParameter encoderParam = new EncoderParameter(encoder, compression);
+                                                            encoderParams.Param[0] = encoderParam;
+                                                            targetBmp.Save(thumbFileName, codecInfo, encoderParams);
+
+                                                            string absoluteUri = new Uri(binariesBaseUri, fileName).AbsoluteUri;
+                                                            string absoluteThumbUri = new Uri(binariesBaseUri, thumbBaseFileName).AbsoluteUri;
+                                                            entry.Body += String.Format("<div class=\"inlinedMailPictureBox\"><a href=\"{0}\"><img border=\"0\" class=\"inlinedMailPicture\" src=\"{2}\"></a><br><a class=\"inlinedMailPictureLink\" href=\"{0}\">{1}</a></div>", absoluteUri, fileName, absoluteThumbUri);
+                                                            scalingSucceeded = true;
+
+                                                        }
+                                                    }
+                                                    catch
+                                                    {
+                                                    }
+                                                }
+                                                if (!scalingSucceeded)
+                                                {
+                                                    string absoluteUri = new Uri(binariesBaseUri, fileName).AbsoluteUri;
+                                                    entry.Body += String.Format("<div class=\"inlinedMailPictureBox\"><img class=\"inlinedMailPicture\" src=\"{0}\"><br><a class=\"inlinedMailPictureLink\" href=\"{0}\">{1}</a></div>", absoluteUri, fileName);
+                                                }
                                             }
-                                        }
-                                        if (attachedFiles.Count > 0)
-                                        {
-                                            entry.Body += "</p>";
-                                        }
-
-                                        foreach (string key in embeddedFiles.Keys)
-                                        {
-                                            //This was working a minute ago, but broken for some unknown reason
-                                            //the "images" directory is missing at the end of the img src link. It is there actually?????? Puzzled
-                                            //entry.Body = entry.Body.Replace("cid:"+key.Trim('<','>'), new Uri( binariesBaseUri, (string)embeddedFiles[key] ).AbsoluteUri );
-
-                                            entry.Body = entry.Body.Replace("cid:" + key.Trim('<', '>'), binariesBaseUri.AbsoluteUri + "/" + embeddedFiles[key]);
-
                                         }
                                     }
 
-									//everything is good, create the entry
-                                    if (entry.Body != "")
-								        entry.Id = DatabaseObjectProvider.Instance().InsertEntryNoCurrentBlog(entry);
+                                    if (attachedFiles.Count > 0)
+                                    {
+                                        entry.Body += "<p>";
+                                    }
 
-                                    //Raise event before creating a post
-                                    //SubtextEvents.OnEntryUpdating(entry, new SubtextEventArgs(ObjectState.Create));
+                                    foreach (string fileName in attachedFiles)
+                                    {
+                                        string fileNameU = fileName.ToUpper();
+                                        if (!activeblog.pop3InlineAttachedPictures ||
+                                            (!fileNameU.EndsWith(".JPG") && !fileNameU.EndsWith(".JPEG") &&
+                                                !fileNameU.EndsWith(".GIF") && !fileNameU.EndsWith(".PNG") &&
+                                                !fileNameU.EndsWith(".BMP")))
+                                        {
+                                            string absoluteUri = new Uri(binariesBaseUri, fileName).AbsoluteUri;
+                                            entry.Body += String.Format("Download: <a href=\"{0}\">{1}</a><br>", absoluteUri, fileName);
+                                        }
+                                    }
+                                    if (attachedFiles.Count > 0)
+                                    {
+                                        entry.Body += "</p>";
+                                    }
 
-                                    //int PostId = Entries.Create(entry);
+                                    foreach (string key in embeddedFiles.Keys)
+                                    {
+                                        //This was working a minute ago, but broken for some unknown reason
+                                        //the "images" directory is missing at the end of the img src link. It is there actually?????? Puzzled
+                                        //entry.Body = entry.Body.Replace("cid:"+key.Trim('<','>'), new Uri( binariesBaseUri, (string)embeddedFiles[key] ).AbsoluteUri );
 
-                                    //Raise event after creating a post
-                                    //SubtextEvents.OnEntryUpdated(entry, new SubtextEventArgs(ObjectState.Create));
+                                        entry.Body = entry.Body.Replace("cid:" + key.Trim('<', '>'), binariesBaseUri.AbsoluteUri + "/" + embeddedFiles[key]);
 
-                                    //TODO: Refactor CommunityCredits to be a plugin
-                                    //AddCommunityCredits(entry);
-
-                                    if (entry.Id > 0)
-                                        messageWasProcessed = true;
-                                    else
-                                        messageWasProcessed = false;
+                                    }
                                 }
+
+                                //everything is good, create the entry
+                                if (entry.Body != "")
+                                    entry.Id = DatabaseObjectProvider.Instance().InsertEntryNoCurrentBlog(entry);
+
+                                //Raise event before creating a post
+                                //SubtextEvents.OnEntryUpdating(entry, new SubtextEventArgs(ObjectState.Create));
+
+                                //int PostId = Entries.Create(entry);
+
+                                //Raise event after creating a post
+                                //SubtextEvents.OnEntryUpdated(entry, new SubtextEventArgs(ObjectState.Create));
+
+                                //TODO: Refactor CommunityCredits to be a plugin
+                                //AddCommunityCredits(entry);
+
+                                if (entry.Id > 0)
+                                    messageWasProcessed = true;
+                                else
+                                    messageWasProcessed = false;
+
                                 // luke@jurasource.co.uk (01-MAR-04)
                                 if (activeblog.pop3DeleteOnlyProcessed || messageWasProcessed)
                                 {
@@ -686,12 +681,12 @@ namespace Subtext.Framework.Services
                     //continue with the next blog
                     continue;
                 }
+
                 catch (Exception e)
                 {
                     throw e;
                 }
                 //TODO:Logging can be done here
-
                 #endregion Main Mail check loop
             }
             //if all the blogs and e-mails are processed thread may sleep here
