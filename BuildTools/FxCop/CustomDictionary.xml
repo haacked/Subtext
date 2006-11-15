@@ -9,6 +9,8 @@
 			<Word>Akismet</Word>
 			<Word>Captcha</Word>
 			<Word>Permalink</Word>
+			<Word>Plugin</Word>
+			<Word>Plugins</Word>
 		</Recognized>
 		<Deprecated>
 			<!-- Be sure to pascal-case deprecated terms and preferred alternates     -->
