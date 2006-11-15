@@ -19,6 +19,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.Diagnostics;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using log4net;
@@ -387,16 +388,16 @@ namespace Subtext.Framework
 		{
 			Regex regex = new Regex(@"[\w\d\. ]+", RegexOptions.Compiled);
 			MatchCollection matches = regex.Matches(text);
-			string cleansedText = string.Empty;
 
+			StringBuilder cleansedText = new StringBuilder();
 			foreach (Match match in matches)
 			{
 				if (match.Value.Length > 0)
 				{
-					cleansedText += match.Value;
+					cleansedText.Append(match.Value);
 				}
 			}
-			return cleansedText;
+			return cleansedText.ToString();
 		}
 
 		static string RemoveDoublePeriods(string text)

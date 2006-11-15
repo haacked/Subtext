@@ -73,28 +73,36 @@ namespace Subtext.Framework.Text
 		/// <param name="classToRemove">The new class.</param>
 		public static void RemoveCssClass(WebControl control, string classToRemove)
 		{
-			if (control == null)
-				throw new ArgumentNullException("Cannot remove a css class from a null control");
+            if (control == null)
+            {
+                throw new ArgumentNullException("Cannot remove a css class from a null control");
+            }
 
-			if (classToRemove == null)
-				throw new ArgumentNullException("Cannot remove a null css class from a control");
+            if (classToRemove == null)
+            {
+                throw new ArgumentNullException("Cannot remove a null css class from a control");
+            }
 			
 			string existingClasses = control.CssClass;
-			if (String.IsNullOrEmpty(existingClasses))
-				return; //nothing to remove
+            if (String.IsNullOrEmpty(existingClasses))
+            {
+                return; //nothing to remove
+            }
 
 			string[] classes = existingClasses.Split(new string[] { " ", "\t", "\r\n", "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
-			string newClasses = string.Empty;
+            string newClasses = String.Empty;
 			foreach (string cssClass in classes)
 			{
 				if (!String.Equals(cssClass, classToRemove, StringComparison.Ordinal))
 				{
-					newClasses += cssClass + " ";
+                    newClasses += cssClass + " ";
 				}
 			}
-			
-			if(newClasses.EndsWith(" "))
-				newClasses = newClasses.Substring(0, newClasses.Length - 1);
+
+            if (newClasses.EndsWith(" "))
+            {
+                newClasses = newClasses.Substring(0, newClasses.Length - 1);
+            }
 			control.CssClass = newClasses;		
 		}
 		
