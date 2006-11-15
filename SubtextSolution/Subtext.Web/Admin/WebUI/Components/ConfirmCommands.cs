@@ -730,7 +730,6 @@ namespace Subtext.Web.Admin
 		private bool _enablePlugin;
 		private string _actionVerb = "disable";
 		private string _actionPast = "disabled";
-		private string _actionName = "disabling";
 
 		protected Guid _pluginId;
 		protected string _pluginName;
@@ -755,13 +754,11 @@ namespace Subtext.Web.Admin
 			{
 				_actionVerb = "enable";
 				_actionPast = "enabled";
-				_actionName = "enabling";
 			}
 			else
 			{
 				_actionVerb = "disable";
 				_actionPast = "disabled";
-				_actionName = "disabling";
 			}
 		}
 
