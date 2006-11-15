@@ -31,7 +31,6 @@ namespace Subtext.Web.Admin.Pages
 		private const string VSKEY_PLUGINNAME = "PluginModuleName";
 
 		private int _resultsPageNumber;
-		private bool _isListHidden;
 		private BlogInfo info;
 
 		private SubtextAdminGlobalSettingsBaseControl settingModule;
@@ -312,15 +311,6 @@ namespace Subtext.Web.Admin.Pages
 
 			pluginEditName.Text = string.Empty;
 			pluginSetting.Controls.Clear();
-		}
-
-		// REFACTOR
-		public string CheckHiddenStyle()
-		{
-			if (_isListHidden)
-				return Constants.CSSSTYLE_HIDDEN;
-			else
-				return String.Empty;
 		}
 
 		protected void lkbPost_Click(object sender, System.EventArgs e)

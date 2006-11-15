@@ -50,8 +50,6 @@ namespace Subtext.Web.Admin.Pages
 			}
 		}
 		private int resultsPageNumber;
-		private bool _isListHidden;
-
 		protected System.Web.UI.WebControls.CheckBoxList cklCategories;
 	
 		#region Accessors
@@ -267,15 +265,6 @@ namespace Subtext.Web.Admin.Pages
 
 				BindList();
 			}
-		}
-
-		// REFACTOR
-		public string CheckHiddenStyle()
-		{
-			if (_isListHidden)
-				return Constants.CSSSTYLE_HIDDEN;
-			else
-				return String.Empty;
 		}
 
 		#region Web Form Designer generated code

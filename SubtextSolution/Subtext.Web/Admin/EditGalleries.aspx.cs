@@ -29,7 +29,6 @@ namespace Subtext.Web.Admin.Pages
 {
 	public partial class EditGalleries : AdminPage
 	{
-		protected bool _isListHidden;
 		// jsbright added to support prompting for new file name
 
 		#region Accessors
@@ -415,15 +414,6 @@ namespace Subtext.Web.Admin.Pages
 
 			// re-bind the gallery; note we'll skip this step if a correctable error occurs.
 			BindGallery();
-		}
-
-		// REFACTOR: can the flag go in AdminPage along with this meth?
-		public string CheckHiddenStyle()
-		{
-			if (_isListHidden)
-				return Constants.CSSSTYLE_HIDDEN;
-			else
-        		return String.Empty;
 		}
 
 		private void ConfirmDeleteGallery(int categoryID, string categoryTitle)

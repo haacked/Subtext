@@ -29,8 +29,6 @@ namespace Subtext.Web.Admin.Pages
 		private const string VSKEY_KEYWORDID = "LinkID";
 
 		private int _resultsPageNumber;
-		private bool _isListHidden;
-	
 		#region Accessors
 
 		public int KeyWordID
@@ -195,15 +193,6 @@ namespace Subtext.Web.Admin.Pages
 			this.Command = new DeleteKeyWordCommand(kwID, kwWord);
 			this.Command.RedirectUrl = Request.Url.ToString();
 			Server.Transfer(Constants.URL_CONFIRM);
-		}
-
-		// REFACTOR
-		public string CheckHiddenStyle()
-		{
-			if (_isListHidden)
-				return Constants.CSSSTYLE_HIDDEN;
-			else
-				return String.Empty;
 		}
 
 		#region Web Form Designer generated code
