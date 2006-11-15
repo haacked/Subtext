@@ -16,12 +16,6 @@ namespace Subtext.Plugins.Examples.TestPlugin
 	{
 		#region PluginBase Members
 
-
-		//public IImplementationInfo Info
-		//{
-		//    get { return new TestPluginImplentationInfo(); }
-		//}
-
 		public override void Init(SubtextApplication application)
 		{
 			application.EntryUpdating += new EventHandler<SubtextEventArgs>(sta_EntryUpdating);

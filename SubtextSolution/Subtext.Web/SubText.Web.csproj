@@ -325,6 +325,13 @@
     <Compile Include="HostAdmin\Import\Step02_GatherInfo.aspx.designer.cs">
       <DependentUpon>Step02_GatherInfo.aspx</DependentUpon>
     </Compile>
+    <Compile Include="HostAdmin\PluginList.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <DependentUpon>PluginList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="HostAdmin\PluginList.aspx.designer.cs">
+      <DependentUpon>PluginList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="HostAdmin\Queue.aspx.cs">
       <DependentUpon>Queue.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -941,6 +948,7 @@
     <Content Include="HostAdmin\Import\ImportStart.aspx" />
     <Content Include="HostAdmin\Import\Step01_SelectImportProvider.aspx" />
     <Content Include="HostAdmin\Import\Step02_GatherInfo.aspx" />
+    <Content Include="HostAdmin\PluginList.aspx" />
     <Content Include="HostAdmin\Queue.aspx" />
     <Content Include="HostAdmin\Scripts\helptip.css" />
     <Content Include="HostAdmin\Scripts\helptip.js" />
