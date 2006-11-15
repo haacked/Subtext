@@ -281,7 +281,15 @@ namespace Subtext.Framework.Providers
         /// <param name="entry"></param>
         /// <returns></returns>
         public abstract int InsertEntry(Entry entry);
-	    
+
+        /// <summary>
+        /// Adds a new entry in the database.
+        /// Must be called with an entry object where entry.BlogID is not equal to null
+        /// </summary>
+        /// <param name="entry"></param>
+        /// <returns>int entryId </returns>
+        public abstract int InsertEntryNoCurrentBlog(Entry entry);
+
         /// <summary>
         /// Saves changes to the specified entry attaching the specified categories.
         /// </summary>
@@ -530,5 +538,7 @@ namespace Subtext.Framework.Providers
         #endregion
 
         #endregion
+
+
     }
 }

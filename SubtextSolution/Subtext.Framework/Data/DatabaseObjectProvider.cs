@@ -742,6 +742,42 @@ namespace Subtext.Framework.Data
             return (int)outIdParam.Value;
         }
 
+        /// <summary>
+        /// Adds a new entry to the blog.  Whether the entry be a blog post, article
+        /// </summary>
+        /// <remarks>
+        /// This new method is required if the entry is created by Mail to Weblog feature.
+        /// If there are multiple blogs and the request was to the root of the installation like http://yourdomain/blogs
+        /// BlogIdParam will be equal to null becasue it does not exist in the Config.CurrentBlog.
+        /// </remarks>
+        /// <param name="entry">Entry.</param>
+        /// <returns></returns>
+        public override int InsertEntryNoCurrentBlog(Entry entry)
+        {
+            if (entry == null)
+                throw new ArgumentNullException("link", "Cannot insert a null entry.");
+
+            SqlParameter outIdParam = DataHelper.MakeOutParam("@ID", SqlDbType.Int, 4);
+            SqlParameter[] p =
+			{
+				DataHelper.MakeInParam("@Title",  SqlDbType.NVarChar, 255, entry.Title), 
+				DataHelper.MakeInParam("@Text", SqlDbType.NText, 0, entry.Body), 
+				DataHelper.MakeInParam("@PostType", SqlDbType.Int, 4, entry.PostType), 
+				DataHelper.MakeInParam("@Author", SqlDbType.NVarChar, 50, DataHelper.CheckNull(entry.Author)), 
+				DataHelper.MakeInParam("@Email", SqlDbType.NVarChar, 50, DataHelper.CheckNull(entry.Email)), 
+				DataHelper.MakeInParam("@Description", SqlDbType.NVarChar, 500, DataHelper.CheckNull(entry.Description)), 
+				DataHelper.MakeInParam("@DateAdded", SqlDbType.DateTime, 8, entry.DateCreated), 
+				DataHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, entry.PostConfig), 
+				DataHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, StringHelper.ReturnNullForEmpty(entry.EntryName)), 
+				DataHelper.MakeInParam("@DateSyndicated", SqlDbType.DateTime, 8, DataHelper.CheckNull(entry.DateSyndicated)), 
+				DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, DataHelper.CheckNull(entry.BlogId)),
+				outIdParam
+			};
+
+            NonQueryInt("subtext_InsertEntry", p);
+            return (int)outIdParam.Value;
+        }
+
 		#endregion
 
 		#region Update

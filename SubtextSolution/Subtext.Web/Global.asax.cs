@@ -28,6 +28,8 @@ using Subtext.Framework.Data;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Security;
+using Subtext.Framework.Services;
+using System.Threading;
 
 namespace Subtext 
 {
@@ -36,6 +38,11 @@ namespace Subtext
 		//This call is to kickstart log4net.
 		//log4net Configuration Attribute is in AssemblyInfo
 		private readonly static ILog log = LogManager.GetLogger(typeof(Global));
+
+        //CHANGE: Mail To Weblog - Gurkan Yeniceri
+        private MailToWeblog mailToWeblog = null;
+        private Thread mailToWeblogThread = null;
+        //End of changes - Gurkan Yeniceri
 
 		static Global()
 		{
@@ -94,6 +101,16 @@ namespace Subtext
 			log4net.Repository.Hierarchy.Hierarchy h = LogManager.GetRepository() as log4net.Repository.Hierarchy.Hierarchy;
 			EnsureLog4NetConnectionString(h);
 #endif
+            if (ConfigurationManager.AppSettings.Get("EnableMailToWeblog") == "true")
+            {
+                mailToWeblog = new MailToWeblog();
+
+                mailToWeblogThread = new Thread(new ThreadStart(mailToWeblog.Run));
+                mailToWeblogThread.Name = "MailToWeblog";
+                mailToWeblogThread.IsBackground = true;
+                mailToWeblogThread.Start();
+                log.Info("Mail to Weblog is started");
+            }
 		}
 
 #if DEBUG
