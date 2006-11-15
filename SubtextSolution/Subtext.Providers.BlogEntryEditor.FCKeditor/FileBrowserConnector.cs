@@ -430,7 +430,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 			return extStr;
 		}
 
-        private bool CreateImageFolder(XmlNode connectorNode)
+        private static bool CreateImageFolder(XmlNode connectorNode)
         {
             bool retval;
             string blogImageRootPath=null;
