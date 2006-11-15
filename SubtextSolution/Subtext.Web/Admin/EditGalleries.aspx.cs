@@ -423,7 +423,7 @@ namespace Subtext.Web.Admin.Pages
 			if (_isListHidden)
 				return Constants.CSSSTYLE_HIDDEN;
 			else
-				return String.Empty;
+        		return String.Empty;
 		}
 
 		private void ConfirmDeleteGallery(int categoryID, string categoryTitle)

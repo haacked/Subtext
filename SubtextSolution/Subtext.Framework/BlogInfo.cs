@@ -1112,7 +1112,7 @@ namespace Subtext.Framework
 
 		#region Plugin Specific Properties
 
-		private IDictionary<Guid,Plugin> _enabledPlugins = null;
+		private IDictionary<Guid,Plugin> _enabledPlugins;
 
 		public IDictionary<Guid,Plugin> EnabledPlugins
 		{

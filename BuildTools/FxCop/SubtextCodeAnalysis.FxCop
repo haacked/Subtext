@@ -1605,12 +1605,6 @@
              <Message TypeName="DoNotInitializeUnnecessarily" Category="Microsoft.Performance" CheckId="CA1805" Created="2006-11-08 18:41:28Z">
               <Issue>
                <Item>BlogInfo.BlogInfo()</Item>
-               <Item>_enabledPlugins</Item>
-               <Item>System.Collections.Generic.IDictionary`2&lt;System.Guid,Subtext.Framework.Components.Plugin&gt;</Item>
-               <Item>null</Item>
-              </Issue>
-              <Issue>
-               <Item>BlogInfo.BlogInfo()</Item>
                <Item>rootUrl</Item>
                <Item>System.Uri</Item>
                <Item>null</Item>
@@ -2113,6 +2107,11 @@
            </Member>
            <Member Name="AutoGenerateFriendlyUrl(System.String,System.Char):System.String">
             <Messages>
+             <Message TypeName="DoNotConcatenateStringsInsideLoops" Category="Microsoft.Performance" CheckId="CA1818" Created="2006-11-15 17:19:20Z">
+              <Issue>
+               <Item>Entries.AutoGenerateFriendlyUrl(String, Char):String</Item>
+              </Issue>
+             </Message>
              <Message Id="System.ArgumentNullException.#ctor(System.String,System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-11-08 18:41:28Z">
               <Issue>
                <Item>Entries.AutoGenerateFriendlyUrl(String, Char):String</Item>
@@ -6658,11 +6657,6 @@
                <Item>MailToWeblog.Run():Void</Item>
               </Issue>
               <Issue Name="IsNullOrEmpty">
-               <Item>op_Equality</Item>
-               <Item>String.Empty</Item>
-               <Item>MailToWeblog.Run():Void</Item>
-              </Issue>
-              <Issue Name="IsNullOrEmpty">
                <Item>op_Inequality</Item>
                <Item>""</Item>
                <Item>MailToWeblog.Run():Void</Item>
@@ -10777,11 +10771,6 @@
               <Issue>
                <Item>FileBrowserConnector.CreateImageFolder(XmlNode):Boolean</Item>
                <Item>System.Exception</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-15 17:45:03Z" FixCategory="NonBreaking">
-              <Issue>
-               <Item>FileBrowserConnector.CreateImageFolder(XmlNode):Boolean</Item>
               </Issue>
              </Message>
             </Messages>
