@@ -54,7 +54,7 @@ namespace Subtext.Extensibility.Plugins
 		#endregion
 
 
-		private static bool _initialized = false;
+		private static bool _initialized;
 		private Dictionary<Guid, PluginBase> _plugins = new Dictionary<Guid, PluginBase>();
 		private List<string> _pluginLoadingErrors = new List<string>();
 

@@ -180,7 +180,7 @@ namespace Subtext.Framework.Configuration
 			}
 		}
 
-		private NameValueCollection allowedHtmlTags = null;
+		private NameValueCollection allowedHtmlTags;
 	}
 }
 

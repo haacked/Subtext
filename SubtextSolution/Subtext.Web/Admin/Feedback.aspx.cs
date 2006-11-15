@@ -32,8 +32,8 @@ namespace Subtext.Web.Admin.Pages
 	/// </summary>
 	public partial class Feedback : AdminPage
 	{
-		private int pageIndex = 0;
-		private bool _isListHidden = false;
+		private int pageIndex;
+		private bool _isListHidden;
 		LinkButton btnViewApprovedComments;
 		LinkButton btnViewModerateComments;
 		LinkButton btnViewSpam;

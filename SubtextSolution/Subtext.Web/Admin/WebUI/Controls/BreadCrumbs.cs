@@ -35,7 +35,7 @@ namespace Subtext.Web.Admin.WebUI
 		protected Control container;
 		protected PageLocation _lastItem;
 		protected string _lastItemText;
-		protected bool _lastItemOverride = false;
+		protected bool _lastItemOverride;
 
 		protected string _pageID = String.Empty;		
 		protected bool _isPanel = true;
@@ -43,7 +43,7 @@ namespace Subtext.Web.Admin.WebUI
 		protected bool _includeSelf = true;
 		protected bool _lastItemStatic;
 		
-		protected bool _usePrefixText = false;
+		protected bool _usePrefixText;
 		protected string _prefixText = PREFIXTEXT_DEFAULT;
 		protected bool _useSpacers = true;
 		protected string _spacer = SPACER_DEFAULT;

@@ -173,8 +173,8 @@ namespace Subtext.Framework.Threading
 	public class LockTimeoutException : Exception
 	{
 #if DEBUG
-		object _lockTarget = null;
-		StackTrace _blockingStackTrace = null;
+		object _lockTarget;
+		StackTrace _blockingStackTrace;
 		static readonly Hashtable _failedLockTargets = new Hashtable();
 
 		/// <summary>

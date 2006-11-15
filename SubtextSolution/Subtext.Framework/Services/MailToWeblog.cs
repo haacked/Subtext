@@ -152,7 +152,7 @@ namespace Subtext.Framework.Services
 
         //Uri binariesBaseUri = new Uri(string.Concat(ConfigurationManager.AppSettings.Get("AggregateUrl"), "/Images"));
         //string baseUri = ConfigurationManager.AppSettings.Get("AggregateUrl") + "/Images";
-        Uri binariesBaseUri = null;
+        Uri binariesBaseUri;
 
 
         Entry entry = new Entry(PostType.BlogPost);

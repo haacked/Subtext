@@ -39,8 +39,8 @@ namespace Subtext.Web.Admin.UserControls
 		private const string VSKEY_CATEGORYTYPE = "CategoryType";
 
 		private int categoryId = NullValue.NullInt32;
-		private int pageIndex = 0;
-		private bool _isListHidden = false;
+		private int pageIndex;
+		private bool _isListHidden;
 		
 		#region Accessors
 		/// <summary>

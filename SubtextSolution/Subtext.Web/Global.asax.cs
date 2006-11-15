@@ -40,8 +40,8 @@ namespace Subtext
 		private readonly static ILog log = LogManager.GetLogger(typeof(Global));
 
         //CHANGE: Mail To Weblog - Gurkan Yeniceri
-        private MailToWeblog mailToWeblog = null;
-        private Thread mailToWeblogThread = null;
+        private MailToWeblog mailToWeblog ;
+        private Thread mailToWeblogThread;
         //End of changes - Gurkan Yeniceri
 
 		static Global()

@@ -30,8 +30,8 @@ namespace Subtext.Web.Admin.Pages
 	{
 		private readonly static ILog log = new Subtext.Framework.Logging.Log();
 		
-		private int pageIndex = 0;
-		private bool _isListHidden = false;
+		private int pageIndex;
+		private bool _isListHidden;
 
 		private int _entryID = NullValue.NullInt32;
 

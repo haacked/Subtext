@@ -40,7 +40,7 @@ namespace Subtext.Framework.Syndication
 		}
 		#endregion
 
-		private bool isBuilt = false;
+		private bool isBuilt;
 
 		/// <summary>
 		/// Bases the syndication writer.

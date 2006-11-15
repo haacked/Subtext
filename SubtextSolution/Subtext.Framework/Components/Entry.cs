@@ -395,7 +395,7 @@ namespace Subtext.Framework.Components
 		}
 		Uri _fullyQualifiedLink;
 		
-		private int _feedBackCount = 0;
+		private int _feedBackCount;
 		public int FeedBackCount
 		{
 			get{return _feedBackCount;}

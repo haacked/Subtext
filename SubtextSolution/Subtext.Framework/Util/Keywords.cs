@@ -252,7 +252,7 @@ namespace Subtext.Framework.Util
 	internal class CharQueue
 	{
 		private char[] _list;
-		private int _charCount = 0;
+        private int _charCount = 0;
 
 		protected CharQueue() {}
 		public CharQueue(int length)
@@ -310,14 +310,16 @@ namespace Subtext.Framework.Util
 
 		public string ToString(int length)
 		{
-			if (length != _list.Length)
-			{	
-				char[] results = new char[length];
-				_list.CopyTo(results,0);
-				return new string(results);
-			}
-			else
-				return this.ToString();
+            if (length != _list.Length)
+            {
+                char[] results = new char[length];
+                _list.CopyTo(results, 0);
+                return new string(results);
+            }
+            else
+            {
+                return this.ToString();
+            }
 		}
 	
 

@@ -41,7 +41,6 @@ namespace Subtext.Framework.Exceptions
 		
 		public BlogDoesNotExistException(int id) : base()
 		{
-			_anyBlogsExist = false;
 			this.id = id;
 		}
 

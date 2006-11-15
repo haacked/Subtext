@@ -49,8 +49,8 @@ namespace Subtext.Web.Admin.Pages
 				ViewState["filterCategoryID"] = value;
 			}
 		}
-		private int resultsPageNumber = 0;
-		private bool _isListHidden = false;
+		private int resultsPageNumber;
+		private bool _isListHidden;
 
 		protected System.Web.UI.WebControls.CheckBoxList cklCategories;
 	

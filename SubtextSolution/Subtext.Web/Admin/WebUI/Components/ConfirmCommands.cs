@@ -47,7 +47,7 @@ namespace Subtext.Web.Admin
 		protected string _cancelSuccessMessage; 
 		protected string _cancelFailureMessage;
 
-		protected bool _autoRedirect = false;
+		protected bool _autoRedirect;
 		protected string _redirectUrl;
 
 		#region Accessors
@@ -727,7 +727,7 @@ namespace Subtext.Web.Admin
 	[Serializable]
 	public class TogglePluginCommand : ConfirmCommand
 	{
-		private bool _enablePlugin = false;
+		private bool _enablePlugin;
 		private string _actionVerb = "disable";
 		private string _actionPast = "disabled";
 		private string _actionName = "disabling";

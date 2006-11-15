@@ -30,11 +30,11 @@ namespace Subtext.Web.Admin.Pages
 		private const string VSKEY_KEYWORDID = "PluginID";
 		private const string VSKEY_PLUGINNAME = "PluginModuleName";
 
-		private int _resultsPageNumber = 0;
-		private bool _isListHidden = false;
+		private int _resultsPageNumber;
+		private bool _isListHidden;
 		private BlogInfo info;
 
-		private SubtextAdminGlobalSettingsBaseControl settingModule = null;
+		private SubtextAdminGlobalSettingsBaseControl settingModule;
 
 		public string PluginID
 		{
