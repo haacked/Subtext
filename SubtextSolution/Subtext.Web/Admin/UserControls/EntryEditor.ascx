@@ -9,7 +9,7 @@
 <ANW:AdvancedPanel id="Results" runat="server" LinkStyle="Image" LinkBeforeHeader="True" DisplayHeader="True" HeaderCssClass="CollapsibleHeader" LinkText="[toggle]" Collapsible="True">
 	<asp:Repeater id="rprSelectionList" runat="server">
 		<HeaderTemplate>
-			<table id="Listing" class="Listing highlightTable" cellspacing="0" cellpadding="0" border="0" style="<%= CheckHiddenStyle() %>">
+			<table id="Listing" class="Listing highlightTable" cellspacing="0" cellpadding="0" border="0">
 				<tr>
 					<th>Description</th>
 					<th width="50">Active</th>

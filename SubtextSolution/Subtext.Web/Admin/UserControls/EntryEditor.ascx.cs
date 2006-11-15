@@ -534,15 +534,6 @@ namespace Subtext.Web.Admin.UserControls
 			(Page as AdminPage).Command.RedirectUrl = Request.Url.ToString();
 			Server.Transfer(Constants.URL_CONFIRM);
 		}
-
-		public string CheckHiddenStyle()
-		{
-			if (_isListHidden)
-				return Constants.CSSSTYLE_HIDDEN;
-			else
-				return String.Empty;
-		}
-
 		#region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
 		{

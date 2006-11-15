@@ -31,8 +31,6 @@ namespace Subtext.Web.Admin.Pages
 		private readonly static ILog log = new Subtext.Framework.Logging.Log();
 		
 		private int pageIndex;
-		private bool _isListHidden;
-
 		private int _entryID = NullValue.NullInt32;
 
 		#region Declared Controls
@@ -115,16 +113,8 @@ namespace Subtext.Web.Admin.Pages
                 AdminMasterPage.Title = bctitle;
 			}
 		}
-
-		public string CheckHiddenStyle()
-		{
-			if (_isListHidden)
-				return Constants.CSSSTYLE_HIDDEN;
-			else
-				return String.Empty;
-		}
-
-		public string GetTitle(object dataContainer)
+        
+        public string GetTitle(object dataContainer)
 		{
 			
 			if (dataContainer is Referrer)
