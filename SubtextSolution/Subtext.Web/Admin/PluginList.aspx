@@ -17,7 +17,7 @@
 		HeaderCssClass="CollapsibleHeader" HeaderText="Available Plugins" LinkText="[toggle]" Collapsible="True">
 		<asp:Repeater runat="server" ID="pluginListRpt" OnItemCommand="pluginListRpt_ItemCommand" OnItemDataBound="pluginListRpt_ItemDataBound">
 			<HeaderTemplate>
-				<table id="Listing" class="Listing" cellSpacing="0" cellPadding="0" border="0" style="<%= CheckHiddenStyle() %>">
+				<table id="Listing" class="Listing" cellSpacing="0" cellPadding="0" border="0">
 					<tr>
 						<th width="50">Name</th>
 						<th width="50">Version</th>

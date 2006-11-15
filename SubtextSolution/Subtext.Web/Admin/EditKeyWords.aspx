@@ -17,7 +17,7 @@
 		HeaderCssClass="CollapsibleHeader" HeaderText="KeyWords" LinkText="[toggle]" Collapsible="True">
 		<ASP:Repeater id="rprSelectionList" runat="server" OnItemCommand="rprSelectionList_ItemCommand">
 			<HeaderTemplate>
-				<table id="Listing" class="Listing" cellSpacing="0" cellPadding="0" border="0" style="<%= CheckHiddenStyle() %>">
+				<table id="Listing" class="Listing" cellSpacing="0" cellPadding="0" border="0">
 					<tr>
 						<th width="50">Word</th>
 						<th width="150">Text</th>

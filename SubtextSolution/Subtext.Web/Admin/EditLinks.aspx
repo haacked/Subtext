@@ -20,7 +20,7 @@
 		HeaderCssClass="CollapsibleHeader" HeaderText="Links" LinkText="[toggle]" Collapsible="True">
 		<asp:Repeater id="rprSelectionList" runat="server">
 			<HeaderTemplate>
-				<table id="Listing" class="Listing highlightTable" cellSpacing="0" cellPadding="0" border="0" style="<%= CheckHiddenStyle() %>">
+				<table id="Listing" class="Listing highlightTable" cellSpacing="0" cellPadding="0" border="0">
 					<tr>
 						<th>Description</th>
 						<th width="50">Url</th>
