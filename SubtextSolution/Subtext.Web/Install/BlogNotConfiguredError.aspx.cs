@@ -31,7 +31,7 @@ namespace Subtext.Web
 	/// </remarks>
 	public partial class BlogNotConfiguredError : System.Web.UI.Page
 	{
-		bool _anyBlogsExist = false;
+		bool _anyBlogsExist;
 		protected System.Web.UI.WebControls.ValidationSummary vldSummary;
 		protected Subtext.Web.Controls.ContentRegion MPTitle;
 		protected Subtext.Web.Controls.ContentRegion MPSubTitle;

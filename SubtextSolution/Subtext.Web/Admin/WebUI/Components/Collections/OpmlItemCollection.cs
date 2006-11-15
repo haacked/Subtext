@@ -35,10 +35,10 @@ namespace Subtext.Web.Admin
 		private const int _defaultCapacity = 16;
 
 		private OpmlItem[] _array;
-		private int _count = 0;
+		private int _count;
 
 		[NonSerialized]
-		private int _version = 0;
+		private int _version;
         
 		#endregion
 		#region Private Constructors

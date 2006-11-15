@@ -23,7 +23,7 @@ namespace Subtext.Extensibility.Providers
 {
 	public abstract class SearchProvider : ProviderBase
 	{
-		private static SearchProvider provider = null;
+		private static SearchProvider provider;
 		private static GenericProviderCollection<SearchProvider> providers = ProviderConfigurationHelper.LoadProviderCollection<SearchProvider>("Search", out provider);
 
 		/// <summary>

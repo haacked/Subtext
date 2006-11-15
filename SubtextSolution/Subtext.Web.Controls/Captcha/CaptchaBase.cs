@@ -188,7 +188,7 @@ namespace Subtext.Web.Controls
 				this.timeoutInSeconds = value;
 			}
 		}
-		private int timeoutInSeconds = 0;
+		private int timeoutInSeconds;
 	}
 	
 	/// <summary>

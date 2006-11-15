@@ -29,7 +29,7 @@ namespace Subtext.Extensibility.Plugins
 	/// </summary>
 	public abstract class SubtextAdminGlobalSettingsBaseControl : System.Web.UI.UserControl
 	{
-		private NameValueCollection _blogSettings = null;
+		private NameValueCollection _blogSettings;
 		
 		//Helper properties used to cache the settings during the lifetime of the module
 		private NameValueCollection BlogSettings

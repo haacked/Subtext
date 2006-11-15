@@ -180,7 +180,7 @@ namespace Subtext.Framework
 			get{return this._timeZoneId;}
 			set{this._timeZoneId = value;}
 		}
-		private int _timeZoneId = 0;
+		private int _timeZoneId;
 
 		private int _itemCount = 15;
 		/// <summary>

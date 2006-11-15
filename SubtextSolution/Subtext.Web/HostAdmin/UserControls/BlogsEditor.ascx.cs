@@ -36,7 +36,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 	public partial class BlogsEditor : System.Web.UI.UserControl
 	{
 		const string VSKEY_BLOGID = "VS_BLOGID";
-		int pageIndex = 0;
+		int pageIndex;
 
 		#region Declared Controls
 		protected System.Web.UI.WebControls.Button btnAddNewBlog = new System.Web.UI.WebControls.Button();

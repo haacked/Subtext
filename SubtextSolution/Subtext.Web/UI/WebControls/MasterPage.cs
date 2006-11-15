@@ -41,7 +41,7 @@ namespace Subtext.Web.UI.WebControls
 	{
 		Log Log = new Log();
 		private string templateFile;
-		private Control template = null;
+		private Control template;
 
 		private ArrayList contents = new ArrayList();
 		private const string skinPath = "~/Skins/{0}/PageTemplate.ascx";
