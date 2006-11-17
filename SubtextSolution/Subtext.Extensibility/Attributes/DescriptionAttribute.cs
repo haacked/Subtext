@@ -18,7 +18,7 @@ using System;
 namespace Subtext.Extensibility.Attributes
 {
 	[System.AttributeUsage(System.AttributeTargets.Class)]
-	public class DescriptionAttribute: Attribute
+	public sealed class DescriptionAttribute: Attribute
 	{
 		public DescriptionAttribute(string name)
 		{

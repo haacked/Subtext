@@ -20,23 +20,23 @@ namespace Subtext.Extensibility.Plugins
 {
 	/// <summary>
 	/// Class used to collect the data stored inside the custom configuration section of the web.config<br />
-	/// This is the custom collection of the modules defined for each plugin
+	/// This is the custom collection of the default settings defined for each plugin
 	/// </summary>
 
-	[ConfigurationCollection(typeof(PluginModule))]
-	public class PluginModulesCollection : ConfigurationElementCollection
+	[ConfigurationCollection(typeof(PluginDefaultSetting))]
+	public class PluginDefaultSettingsCollection : ConfigurationElementCollection
 	{
 		protected override ConfigurationElement CreateNewElement()
 		{
-			return new PluginModule();
+			return new PluginDefaultSetting();
 		}
 
 		protected override object GetElementKey(ConfigurationElement element)
 		{
-			return ((PluginModule)element).Key;
+			return ((PluginDefaultSetting)element).Key;
 		}
 
-		public void Add(PluginModule element)
+		public void Add(PluginDefaultSetting element)
 		{
 			this.BaseAdd(element);
 		}
@@ -51,9 +51,9 @@ namespace Subtext.Extensibility.Plugins
 			this.BaseClear();
 		}
 
-		public PluginModule this[int index]
+		public PluginDefaultSetting this[int index]
 		{
-			get { return (PluginModule)this[index]; }
+			get { return (PluginDefaultSetting)this[index]; }
 		}
 	}
 }

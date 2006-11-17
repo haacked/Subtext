@@ -64,6 +64,18 @@ namespace Subtext.Extensibility.Plugins
 			}
 		}
 
+		private PluginDefaultSettingsCollection _defaultSettings;
+
+		/// <summary>
+		/// Sitewide settings for the plugin
+		/// </summary>
+		public PluginDefaultSettingsCollection DefaultSettings
+		{
+			get { return _defaultSettings; }
+			internal set { _defaultSettings = value; }
+		}
+
+
 		#region Attribute Accessor Helpers
 		private PluginImplementationInfo GetInfoFromAttribute(Type type)
 		{
@@ -80,7 +92,7 @@ namespace Subtext.Extensibility.Plugins
 					info._company = descAttr.Company;
 					info._copyright = descAttr.Copyright;
 					info._description = descAttr.Description;
-					info._homePageUrl = new Uri(descAttr.HomePageUrl);
+					info._homepageUrl = new Uri(descAttr.HomePageUrl);
 					info._version = new Version(descAttr.Version);
 					return info;
 				}
@@ -135,10 +147,10 @@ namespace Subtext.Extensibility.Plugins
 				get { return _description; }
 			}
 
-			internal Uri _homePageUrl;
-			public Uri HomePageUrl
+			internal Uri _homepageUrl;
+			public Uri HomepageUrl
 			{
-				get { return _homePageUrl; }
+				get { return _homepageUrl; }
 			}
 
 			internal Version _version;

@@ -56,5 +56,16 @@ namespace Subtext.Extensibility.Plugins
 			}
 		}
 
+		/// <summary>
+		/// List of the default settings defined for the plugin
+		/// </summary>
+		[ConfigurationProperty("defaultSettings")]
+		public PluginDefaultSettingsCollection DefaultSettings
+		{
+			get
+			{
+				return (PluginDefaultSettingsCollection)base["defaultSettings"];
+			}
+		}
 	}
 }

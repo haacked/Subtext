@@ -51,9 +51,9 @@ namespace Subtext.Extensibility.Plugins
 			this.BaseClear();
 		}
 
-		public PluginSettings this[int idx]
+		public PluginSettings this[int index]
 		{
-			get { return (PluginSettings)this[idx]; }
+			get { return (PluginSettings)this[index]; }
 		}
 	}
 }

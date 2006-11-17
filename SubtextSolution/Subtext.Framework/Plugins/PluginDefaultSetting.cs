@@ -20,40 +20,28 @@ namespace Subtext.Extensibility.Plugins
 {
 	/// <summary>
 	/// Class used to collect the data stored inside the custom configuration section of the web.config<br />
-	/// This is the custom collection of the modules defined for each plugin
+	/// This is about the default sitewide settings defined for each plugin
 	/// </summary>
-
-	[ConfigurationCollection(typeof(PluginModule))]
-	public class PluginModulesCollection : ConfigurationElementCollection
+	public class PluginDefaultSetting : ConfigurationElement
 	{
-		protected override ConfigurationElement CreateNewElement()
+		/// <summary>
+		/// Key of the setting
+		/// </summary>
+		[ConfigurationProperty("key")]
+		public string Key
 		{
-			return new PluginModule();
+			get { return (string)base["key"]; }
+			set { base["key"] = value; }
 		}
 
-		protected override object GetElementKey(ConfigurationElement element)
+		/// <summary>
+		/// value for the setting
+		/// </summary>
+		[ConfigurationProperty("value")]
+		public string Value
 		{
-			return ((PluginModule)element).Key;
-		}
-
-		public void Add(PluginModule element)
-		{
-			this.BaseAdd(element);
-		}
-
-		public void Remove(string key)
-		{
-			this.BaseRemove(key);
-		}
-
-		public void Clear()
-		{
-			this.BaseClear();
-		}
-
-		public PluginModule this[int index]
-		{
-			get { return (PluginModule)this[index]; }
+			get { return (string)base["value"]; }
+			set { base["value"] = value; }
 		}
 	}
 }
