@@ -262,7 +262,7 @@ namespace Subtext.Web.Admin.Pages
 				pluginViewAuthor.Text = currentPlugin.Info.Author;
 				pluginViewCompany.Text = currentPlugin.Info.Company;
 				pluginViewCopyright.Text = currentPlugin.Info.Copyright;
-				pluginViewHomepage.Text = pluginViewHomepage.NavigateUrl = currentPlugin.Info.HomePageUrl.ToString();
+				pluginViewHomepage.Text = pluginViewHomepage.NavigateUrl = currentPlugin.Info.HomepageUrl.ToString();
 				pluginViewVersion.Text = currentPlugin.Info.Version.ToString();
 				pluginViewDescription.Text = currentPlugin.Info.Description;
 

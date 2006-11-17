@@ -175,6 +175,7 @@ namespace Subtext.Extensibility.Plugins
 							else
 							{
 								plugin.Init(app);
+								plugin.DefaultSettings = setting.DefaultSettings;
 								app._plugins.Add(plugin.Id, plugin);
 							}
 						}

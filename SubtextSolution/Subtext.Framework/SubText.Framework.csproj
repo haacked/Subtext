@@ -366,6 +366,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Plugins\PluginBase.cs" />
+    <Compile Include="Plugins\PluginDefaultSetting.cs" />
+    <Compile Include="Plugins\PluginDefaultSettingsCollection.cs" />
     <Compile Include="Plugins\PluginModule.cs" />
     <Compile Include="Plugins\PluginModulesCollection.cs" />
     <Compile Include="Plugins\PluginSectionHandler.cs" />

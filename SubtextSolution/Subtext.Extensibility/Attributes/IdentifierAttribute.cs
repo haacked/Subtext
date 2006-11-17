@@ -19,7 +19,7 @@ using System;
 namespace Subtext.Extensibility.Attributes
 {
 	[System.AttributeUsage(System.AttributeTargets.Class)]
-	public class IdentifierAttribute: System.Attribute
+	public sealed class IdentifierAttribute : System.Attribute
 	{
 		private Guid _guid;
 
