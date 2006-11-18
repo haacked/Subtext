@@ -165,8 +165,8 @@ namespace UnitTests.Subtext.Framework.Util
 		{
 			WindowsTimeZone pst = WindowsTimeZone.TimeZones.GetById(PacificTimeZoneId); //PST
 			DaylightTime daylightChanges = pst.GetDaylightChanges(2006);
-			DateTime start = DateTime.Parse("4/2/2006 2:00:00 AM");
-			DateTime end = DateTime.Parse("10/29/2006 2:00:00 AM");
+            DateTime start = DateTime.ParseExact("4/2/2006 2:00:00 AM", "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+            DateTime end = DateTime.ParseExact("10/29/2006 2:00:00 AM", "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
 			Assert.AreEqual(start, daylightChanges.Start);
 			Assert.AreEqual(end, daylightChanges.End);
 		}
