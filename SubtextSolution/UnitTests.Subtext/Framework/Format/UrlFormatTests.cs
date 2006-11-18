@@ -113,7 +113,7 @@ namespace UnitTests.Subtext.Framework.Format
 		{
 			Entry entry = new Entry(PostType.BlogPost);
 			entry.Id = 123;
-			entry.DateCreated = DateTime.Parse("2006/01/23");
+            entry.DateCreated = DateTime.ParseExact("2006/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			entry.EntryName = "test";
 
 			UrlFormats formats = new UrlFormats(new Uri("http://localhost/"));

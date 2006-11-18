@@ -37,7 +37,7 @@ namespace UnitTests.Subtext.Framework.Data
 		[Test]
 		public void CanLoadEntryDayCollectionFromReader()
 		{
-			DateTime dateAdded = DateTime.Parse("1/23/2006 4:00 PM");
+            DateTime dateAdded = DateTime.ParseExact("1/23/2006 4:00 PM", "M/d/yyyy h:mm tt", CultureInfo.InvariantCulture);
 
 			StubResultSet resultSet = new StubResultSet("DateAdded", "PostType");
 			resultSet.AddRow(dateAdded, PostType.BlogPost);
