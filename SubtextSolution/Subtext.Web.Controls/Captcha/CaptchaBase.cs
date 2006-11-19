@@ -17,13 +17,6 @@ namespace Subtext.Web.Controls
 	{
 		private readonly static ILog log = new Log();
 		static SymmetricAlgorithm encryptionAlgorithm = InitializeEncryptionAlgorithm();
-		
-		/// <summary>
-		/// Initializes a new instance of the <see cref="InvisibleCaptcha"/> class.
-		/// </summary>
-		public CaptchaBase() : base()
-		{
-		}
 
 		static SymmetricAlgorithm InitializeEncryptionAlgorithm()
 		{

@@ -802,13 +802,6 @@
        <Namespace Name="Subtext.Extensibility.Attributes">
         <Types>
          <Type Name="DescriptionAttribute">
-          <Messages>
-           <Message TypeName="AvoidUnsealedAttributes" Category="Microsoft.Performance" CheckId="CA1813" Created="2006-11-14 22:55:11Z">
-            <Issue>
-             <Item>Subtext.Extensibility.Attributes.DescriptionAttribute</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="HomePageUrl">
             <Messages>
@@ -826,11 +819,6 @@
          </Type>
          <Type Name="IdentifierAttribute">
           <Messages>
-           <Message TypeName="AvoidUnsealedAttributes" Category="Microsoft.Performance" CheckId="CA1813" Created="2006-11-14 22:55:11Z">
-            <Issue>
-             <Item>Subtext.Extensibility.Attributes.IdentifierAttribute</Item>
-            </Issue>
-           </Message>
            <Message TypeName="DefineAccessorsForAttributeArguments" Category="Microsoft.Design" CheckId="CA1019" Created="2006-11-14 22:55:11Z">
             <Issue>
              <Item>guid</Item>
@@ -1061,13 +1049,6 @@
        <Namespace Name="Subtext.Extensibility.Web">
         <Types>
          <Type Name="BaseHttpHandler">
-          <Messages>
-           <Message TypeName="AbstractTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1012" Created="2006-11-08 18:22:08Z">
-            <Issue>
-             <Item>BaseHttpHandler</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="ProcessRequest(System.Web.HttpContext):System.Void">
             <Messages>
@@ -1201,20 +1182,16 @@
             </Issue>
            </Message>
           </Messages>
-          <Members>
-           <Member Name="HomePageUrl">
-            <Messages>
-             <Message Id="HomePage" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2006-11-14 22:55:11Z">
-              <Issue Name="ShouldBeDiscreteTerm">
-               <Item>HomePage</Item>
-               <Item>property</Item>
-               <Item>HomePageUrl</Item>
-               <Item>Homepage</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
+         </Type>
+         <Type Name="PluginDefaultSettingsCollection">
+          <Messages>
+           <Message TypeName="CollectionsShouldImplementGenericInterface" Category="Microsoft.Design" CheckId="CA1010" Created="2006-11-19 15:14:44Z">
+            <Issue>
+             <Item>PluginDefaultSettingsCollection</Item>
+             <Item>ICollection</Item>
+            </Issue>
+           </Message>
+          </Messages>
          </Type>
          <Type Name="PluginModulesCollection">
           <Messages>
@@ -1225,23 +1202,6 @@
             </Issue>
            </Message>
           </Messages>
-          <Members>
-           <Member Name="Item[System.Int32]">
-            <Accessors>
-             <Accessor Name="get_Item(System.Int32):Subtext.Extensibility.Plugins.PluginModule">
-              <Messages>
-               <Message Id="0#idx" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 20:22:08Z">
-                <Issue Name="Parameter">
-                 <Item>PluginModulesCollection.get_Item(Int32):PluginModule</Item>
-                 <Item>idx</Item>
-                 <Item>idx</Item>
-                </Issue>
-               </Message>
-              </Messages>
-             </Accessor>
-            </Accessors>
-           </Member>
-          </Members>
          </Type>
          <Type Name="PluginSettingsCollection">
           <Messages>
@@ -1252,23 +1212,6 @@
             </Issue>
            </Message>
           </Messages>
-          <Members>
-           <Member Name="Item[System.Int32]">
-            <Accessors>
-             <Accessor Name="get_Item(System.Int32):Subtext.Extensibility.Plugins.PluginSettings">
-              <Messages>
-               <Message Id="0#idx" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 20:22:08Z">
-                <Issue Name="Parameter">
-                 <Item>PluginSettingsCollection.get_Item(Int32):PluginSettings</Item>
-                 <Item>idx</Item>
-                 <Item>idx</Item>
-                </Issue>
-               </Message>
-              </Messages>
-             </Accessor>
-            </Accessors>
-           </Member>
-          </Members>
          </Type>
          <Type Name="SubtextApplication">
           <Messages>
@@ -10112,6 +10055,14 @@
            <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
           </Issue>
          </Message>
+         <Message Id="Bogota" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Created="2006-11-19 15:14:44Z">
+          <Issue>
+           <Item>Bogota</Item>
+           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DisplayName/#text</Item>
+           <Item>(GMT-05:00) Bogota, Lima, Quito</Item>
+           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
+          </Issue>
+         </Message>
          <Message Id="Brasilia" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Created="2006-11-08 18:41:28Z">
           <Issue>
            <Item>Brasilia</Item>
@@ -10131,14 +10082,6 @@
            <Item>Cen</Item>
            <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/StandardZoneName/#text</Item>
            <Item>Cen. Australia Standard Time</Item>
-           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
-          </Issue>
-         </Message>
-         <Message Id="Chongqing" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Created="2006-11-15 20:22:08Z">
-          <Issue>
-           <Item>Chongqing</Item>
-           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DisplayName/#text</Item>
-           <Item>(GMT+08:00) Beijing, Chongqing, Hong Kong, Urumqi</Item>
            <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
           </Issue>
          </Message>
@@ -10162,27 +10105,11 @@
            <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
           </Issue>
          </Message>
-         <Message Id="Irkutsk" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Created="2006-11-15 20:22:08Z">
-          <Issue>
-           <Item>Irkutsk</Item>
-           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DisplayName/#text</Item>
-           <Item>(GMT+08:00) Irkutsk, Ulaan Bataar</Item>
-           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
-          </Issue>
-         </Message>
          <Message Id="Jayawardenepura" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Created="2006-11-08 18:41:28Z">
           <Issue>
            <Item>Jayawardenepura</Item>
            <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DisplayName/#text</Item>
            <Item>(GMT+06:00) Sri Jayawardenepura</Item>
-           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
-          </Issue>
-         </Message>
-         <Message Id="Kamchatka" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Created="2006-11-15 20:22:08Z">
-          <Issue>
-           <Item>Kamchatka</Item>
-           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DisplayName/#text</Item>
-           <Item>(GMT+12:00) Fiji, Kamchatka, Marshall Is.</Item>
            <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
           </Issue>
          </Message>
@@ -10207,14 +10134,6 @@
            <Item>Magadan</Item>
            <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DisplayName/#text</Item>
            <Item>(GMT+11:00) Magadan, Solomon Is., New Caledonia</Item>
-           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
-          </Issue>
-         </Message>
-         <Message Id="Mazatlan" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Created="2006-11-15 20:22:08Z">
-          <Issue>
-           <Item>Mazatlan</Item>
-           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DisplayName/#text</Item>
-           <Item>(GMT-07:00) Chihuahua, La Paz, Mazatlan</Item>
            <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
           </Issue>
          </Message>
@@ -10250,39 +10169,39 @@
            <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
           </Issue>
          </Message>
+         <Message Id="Osaka" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Created="2006-11-19 15:14:44Z">
+          <Issue>
+           <Item>Osaka</Item>
+           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DisplayName/#text</Item>
+           <Item>(GMT+09:00) Osaka, Sapporo, Tokyo</Item>
+           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
+          </Issue>
+         </Message>
+         <Message Id="Tokyo" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Created="2006-11-19 15:14:44Z">
+          <Issue>
+           <Item>Tokyo</Item>
+           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DaylightZoneName/#text</Item>
+           <Item>Tokyo Daylight Time</Item>
+           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
+          </Issue>
+          <Issue>
+           <Item>Tokyo</Item>
+           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DisplayName/#text</Item>
+           <Item>(GMT+09:00) Osaka, Sapporo, Tokyo</Item>
+           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
+          </Issue>
+          <Issue>
+           <Item>Tokyo</Item>
+           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/StandardZoneName/#text</Item>
+           <Item>Tokyo Standard Time</Item>
+           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
+          </Issue>
+         </Message>
          <Message Id="Ulaan" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Created="2006-11-08 18:41:28Z">
           <Issue>
            <Item>Ulaan</Item>
            <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DisplayName/#text</Item>
            <Item>(GMT+08:00) Irkutsk, Ulaan Bataar</Item>
-           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
-          </Issue>
-         </Message>
-         <Message Id="Urumqi" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Created="2006-11-15 20:22:08Z">
-          <Issue>
-           <Item>Urumqi</Item>
-           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DisplayName/#text</Item>
-           <Item>(GMT+08:00) Beijing, Chongqing, Hong Kong, Urumqi</Item>
-           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
-          </Issue>
-         </Message>
-         <Message Id="Yakutsk" TypeName="ResourceStringsShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1703" Created="2006-11-15 20:22:08Z">
-          <Issue>
-           <Item>Yakutsk</Item>
-           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DaylightZoneName/#text</Item>
-           <Item>Yakutsk Daylight Time</Item>
-           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
-          </Issue>
-          <Issue>
-           <Item>Yakutsk</Item>
-           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/DisplayName/#text</Item>
-           <Item>(GMT+09:00) Yakutsk</Item>
-           <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
-          </Issue>
-          <Issue>
-           <Item>Yakutsk</Item>
-           <Item>/#document/ArrayOfWindowsTimeZone/WindowsTimeZone/StandardZoneName/#text</Item>
-           <Item>Yakutsk Standard Time</Item>
            <Item>Subtext.Framework.Util.WindowsTimeZoneCollection.xml</Item>
           </Issue>
          </Message>
@@ -10630,13 +10549,6 @@
           </Members>
          </Type>
          <Type Name="CaptchaBase">
-          <Messages>
-           <Message TypeName="AbstractTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1012" Created="2006-11-08 18:22:08Z">
-            <Issue>
-             <Item>CaptchaBase</Item>
-            </Issue>
-           </Message>
-          </Messages>
           <Members>
            <Member Name="DecryptString(System.String):System.String">
             <Messages>
@@ -11120,6 +11032,16 @@
           </Members>
          </Type>
          <Type Name="HelpToolTip">
+          <Messages>
+           <Message Id="ToolTip" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2006-11-19 15:14:44Z">
+            <Issue Name="ShouldBeDiscreteTerm">
+             <Item>ToolTip</Item>
+             <Item>class</Item>
+             <Item>HelpToolTip</Item>
+             <Item>Tooltip</Item>
+            </Issue>
+           </Message>
+          </Messages>
           <Members>
            <Member Name="ImageUrl">
             <Messages>
@@ -11586,13 +11508,6 @@
            </Member>
            <Member Name="ToString():System.String">
             <Messages>
-             <Message Id="System.DateTime.ToString(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-11-08 18:22:08Z">
-              <Issue>
-               <Item>CaptchaInfo.ToString():String</Item>
-               <Item>System.DateTime.ToString(System.String)</Item>
-               <Item>System.DateTime.ToString(System.String,System.IFormatProvider)</Item>
-              </Issue>
-             </Message>
              <Message Id="System.String.Format(System.String,System.Object[])" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-11-08 18:22:08Z">
               <Issue>
                <Item>CaptchaInfo.ToString():String</Item>
@@ -11680,6 +11595,18 @@
             </Accessors>
            </Member>
           </Members>
+         </Type>
+         <Type Name="HelpToolTipDesigner">
+          <Messages>
+           <Message Id="ToolTip" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2006-11-19 15:14:44Z">
+            <Issue Name="ShouldBeDiscreteTerm">
+             <Item>ToolTip</Item>
+             <Item>class</Item>
+             <Item>HelpToolTipDesigner</Item>
+             <Item>Tooltip</Item>
+            </Issue>
+           </Message>
+          </Messages>
          </Type>
         </Types>
        </Namespace>
@@ -14039,15 +13966,6 @@
          </Type>
          <Type Name="TogglePluginCommand">
           <Members>
-           <Member Name="_actionName">
-            <Messages>
-             <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Created="2006-11-15 18:43:35Z">
-              <Issue>
-               <Item>TogglePluginCommand._actionName</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="_pluginId">
             <Messages>
              <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2006-11-15 18:43:35Z">
@@ -17459,16 +17377,6 @@
               <Issue Name="Member">
                <Item>chk</Item>
                <Item>Syndication.chkUseSyndicationCompression</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="helpImg">
-            <Messages>
-             <Message Id="Img" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-15 20:22:08Z">
-              <Issue Name="Member">
-               <Item>Img</Item>
-               <Item>Syndication.helpImg</Item>
               </Issue>
              </Message>
             </Messages>
@@ -21903,9 +21811,6 @@
    </User>
   </Notes>
   <Rules>
-   <Rule TypeName="AbstractTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1012">
-    <Resolution Name="Default">Change the accessibility of all public constructors in '{0}' to protected.</Resolution>
-   </Rule>
    <Rule TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210">
     <Resolution Name="NoStrongName">Sign '{0}' with a strong name key.</Resolution>
    </Rule>
@@ -21929,9 +21834,6 @@
    </Rule>
    <Rule TypeName="AvoidUnnecessaryStringCreation" Category="Microsoft.Performance" CheckId="CA1807">
     <Resolution Name="UseStringCompareLocal">{0} calls {1} after converting '{2}', a local, to upper or lowercase. If possible, eliminate the string creation and call the overload of String.Compare that performs a case-insensitive comparison.</Resolution>
-   </Rule>
-   <Rule TypeName="AvoidUnsealedAttributes" Category="Microsoft.Performance" CheckId="CA1813">
-    <Resolution Name="Default">Seal '{0}', if possible.</Resolution>
    </Rule>
    <Rule TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823">
     <Resolution Name="Default">It appears that field '{0}' is never used or is only ever assigned to. Use this field or remove it.</Resolution>
