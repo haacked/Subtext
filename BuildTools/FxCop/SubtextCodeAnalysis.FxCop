@@ -903,11 +903,6 @@
                <Item>s</Item>
               </Issue>
              </Message>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-08 18:22:08Z" FixCategory="Breaking">
-              <Issue>
-               <Item>BlogEntryEditorProvider.ParseUnit(String):Unit</Item>
-              </Issue>
-             </Message>
              <Message Id="System.Web.UI.WebControls.Unit.Parse(System.String)" TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304" Created="2006-11-08 18:22:08Z">
               <Issue>
                <Item>BlogEntryEditorProvider.ParseUnit(String):Unit</Item>
@@ -1906,11 +1901,6 @@
            </Member>
            <Member Name="AutoGenerateFriendlyUrl(System.String,System.Char):System.String">
             <Messages>
-             <Message TypeName="DoNotConcatenateStringsInsideLoops" Category="Microsoft.Performance" CheckId="CA1818" Created="2006-11-19 15:24:51Z">
-              <Issue>
-               <Item>Entries.AutoGenerateFriendlyUrl(String, Char):String</Item>
-              </Issue>
-             </Message>
              <Message Id="System.ArgumentNullException.#ctor(System.String,System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-11-08 18:41:28Z">
               <Issue>
                <Item>Entries.AutoGenerateFriendlyUrl(String, Char):String</Item>
@@ -15028,11 +15018,6 @@
                <Item>EditGalleries.EvalImageNavigateUrl(Object):String</Item>
               </Issue>
              </Message>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-19 15:24:51Z" FixCategory="Breaking">
-              <Issue>
-               <Item>EditGalleries.EvalImageNavigateUrl(Object):String</Item>
-              </Issue>
-             </Message>
              <Message TypeName="UriReturnValuesShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1055" Created="2006-11-19 15:24:51Z">
               <Issue>
                <Item>EditGalleries.EvalImageNavigateUrl(Object):String</Item>
@@ -15045,11 +15030,6 @@
              <Message Id="Eval" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
               <Issue Name="Member">
                <Item>Eval</Item>
-               <Item>EditGalleries.EvalImageTitle(Object):String</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-19 15:24:51Z" FixCategory="Breaking">
-              <Issue>
                <Item>EditGalleries.EvalImageTitle(Object):String</Item>
               </Issue>
              </Message>
@@ -15331,11 +15311,6 @@
              <Message Id="Eval" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
               <Issue Name="Member">
                <Item>Eval</Item>
-               <Item>EditImage.EvalImageNavigateUrl(Object):String</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-19 15:24:51Z" FixCategory="Breaking">
-              <Issue>
                <Item>EditImage.EvalImageNavigateUrl(Object):String</Item>
               </Issue>
              </Message>
@@ -16396,11 +16371,6 @@
            </Member>
            <Member Name="GetAuthor(System.Object):System.String">
             <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-19 15:24:51Z" FixCategory="Breaking">
-              <Issue>
-               <Item>Feedback.GetAuthor(Object):String</Item>
-              </Issue>
-             </Message>
              <Message Id="System.String.Format(System.String,System.Object,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-11-19 15:24:51Z">
               <Issue>
                <Item>Feedback.GetAuthor(Object):String</Item>
@@ -16412,11 +16382,6 @@
            </Member>
            <Member Name="GetAuthorInfo(System.Object):System.String">
             <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-19 15:24:51Z" FixCategory="Breaking">
-              <Issue>
-               <Item>Feedback.GetAuthorInfo(Object):String</Item>
-              </Issue>
-             </Message>
              <Message Id="System.String.Format(System.String,System.Object,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-11-19 15:24:51Z">
               <Issue>
                <Item>Feedback.GetAuthorInfo(Object):String</Item>
@@ -16431,22 +16396,8 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="GetBody(System.Object):System.String">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-19 15:24:51Z" FixCategory="Breaking">
-              <Issue>
-               <Item>Feedback.GetBody(Object):String</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="GetTitle(System.Object):System.String">
             <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-19 15:24:51Z" FixCategory="Breaking">
-              <Issue>
-               <Item>Feedback.GetTitle(Object):String</Item>
-              </Issue>
-             </Message>
              <Message Id="System.String.Format(System.String,System.Object,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-11-19 15:24:51Z">
               <Issue>
                <Item>Feedback.GetTitle(Object):String</Item>
@@ -16555,15 +16506,6 @@
               <Issue Name="Member">
                <Item>rpr</Item>
                <Item>Feedback.rprSelectionList</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="SetCount(System.Web.UI.WebControls.LinkButton,System.Int32):System.Void">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-19 15:24:51Z" FixCategory="NonBreaking">
-              <Issue>
-               <Item>Feedback.SetCount(LinkButton, Int32):Void</Item>
               </Issue>
              </Message>
             </Messages>
@@ -17027,11 +16969,6 @@
                <Item>castclass</Item>
               </Issue>
              </Message>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-19 15:24:51Z" FixCategory="Breaking">
-              <Issue>
-               <Item>Referrers.GetReferrer(Object):String</Item>
-              </Issue>
-             </Message>
             </Messages>
            </Member>
            <Member Name="GetTitle(System.Object):System.String">
@@ -17042,11 +16979,6 @@
                <Item>Subtext.Framework.Components.Referrer</Item>
                <Item>Referrers.GetTitle(Object):String</Item>
                <Item>castclass</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-19 15:24:51Z" FixCategory="Breaking">
-              <Issue>
-               <Item>Referrers.GetTitle(Object):String</Item>
               </Issue>
              </Message>
             </Messages>
@@ -17220,15 +17152,6 @@
          </Type>
          <Type Name="StatsView">
           <Members>
-           <Member Name="GetPageTitle(System.Object):System.String">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-19 15:24:51Z" FixCategory="Breaking">
-              <Issue>
-               <Item>StatsView.GetPageTitle(Object):String</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="InitializeComponent():System.Void">
             <Messages>
              <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-19 15:24:51Z" FixCategory="NonBreaking">
@@ -17905,15 +17828,6 @@
              <Message TypeName="UriPropertiesShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1056" Created="2006-11-19 15:24:51Z">
               <Issue>
                <Item>FullyQualifiedBaseUrl</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="GetSampleAncestors():Subtext.Web.Admin.PageLocation[]">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-19 15:24:51Z" FixCategory="Breaking">
-              <Issue>
-               <Item>BreadCrumbs.GetSampleAncestors():PageLocation[]</Item>
               </Issue>
              </Message>
             </Messages>
@@ -18696,15 +18610,6 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="FormatLogger(System.Object):System.String">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-19 15:24:51Z" FixCategory="Breaking">
-              <Issue>
-               <Item>ErrorLog.FormatLogger(Object):String</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="LoadPage():System.Void">
             <Messages>
              <Message Id="System.Convert.ToInt32(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-11-19 15:24:51Z">
@@ -18883,15 +18788,6 @@
              <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-19 15:24:51Z" FixCategory="NonBreaking">
               <Issue>
                <Item>BlogsEditor.InitializeComponent():Void</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="IsTextBoxEmpty(System.Web.UI.WebControls.TextBox):System.Boolean">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-19 15:24:51Z" FixCategory="NonBreaking">
-              <Issue>
-               <Item>BlogsEditor.IsTextBoxEmpty(TextBox):Boolean</Item>
               </Issue>
              </Message>
             </Messages>
@@ -19381,15 +19277,6 @@
               <Issue Name="Member">
                <Item>chk</Item>
                <Item>Step01_InstallData.chkStoredProcs</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="IsPermissionDeniedException(Subtext.Scripting.Exceptions.SqlScriptExecutionException):System.Boolean">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-19 15:24:51Z" FixCategory="NonBreaking">
-              <Issue>
-               <Item>Step01_InstallData.IsPermissionDeniedException(SqlScriptExecutionException):Boolean</Item>
               </Issue>
              </Message>
             </Messages>
@@ -20324,15 +20211,6 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="TryParseDateTime(System.String,System.DateTime&amp;):System.Boolean">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-19 15:24:51Z" FixCategory="NonBreaking">
-              <Issue>
-               <Item>Calendar.TryParseDateTime(String, DateTime&amp;):Boolean</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
           </Members>
          </Type>
          <Type Name="CategoryList">
@@ -20353,11 +20231,6 @@
           <Members>
            <Member Name="Anchor(System.Int32):System.String">
             <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-19 15:24:51Z" FixCategory="NonBreaking">
-              <Issue>
-               <Item>Comments.Anchor(Int32):String</Item>
-              </Issue>
-             </Message>
              <Message Id="System.String.Format(System.String,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-11-19 15:24:51Z">
               <Issue>
                <Item>Comments.Anchor(Int32):String</Item>
@@ -20442,11 +20315,6 @@
            </Member>
            <Member Name="Link(System.String,System.Uri):System.String">
             <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-19 15:24:51Z" FixCategory="NonBreaking">
-              <Issue>
-               <Item>Comments.Link(String, Uri):String</Item>
-              </Issue>
-             </Message>
              <Message Id="System.String.Format(System.String,System.Object,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-11-19 15:24:51Z">
               <Issue>
                <Item>Comments.Link(String, Uri):String</Item>
@@ -20813,6 +20681,28 @@
              </Message>
             </Messages>
            </Member>
+           <Member Name="ShowTruncatedBody(Subtext.Framework.Components.Entry,System.Int32):System.String">
+            <Messages>
+             <Message TypeName="DoNotConcatenateStringsInsideLoops" Category="Microsoft.Performance" CheckId="CA1818" Created="2006-11-19 21:00:31Z">
+              <Issue>
+               <Item>EntryList.ShowTruncatedBody(Entry, Int32):String</Item>
+              </Issue>
+             </Message>
+             <Message Id="1#definedwordlimit" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 21:00:31Z">
+              <Issue Name="Parameter">
+               <Item>EntryList.ShowTruncatedBody(Entry, Int32):String</Item>
+               <Item>definedwordlimit</Item>
+               <Item>definedwordlimit</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-11-19 21:00:31Z">
+              <Issue>
+               <Item>'entry'</Item>
+               <Item>EntryList.ShowTruncatedBody(Entry, Int32):String</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
           </Members>
          </Type>
          <Type Name="GalleryThumbNailViewer">
@@ -21168,11 +21058,6 @@
            </Member>
            <Member Name="SetNav(System.Web.UI.WebControls.HyperLink,Subtext.Framework.Components.Entry):System.Void">
             <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-19 15:24:51Z" FixCategory="NonBreaking">
-              <Issue>
-               <Item>PreviousNext.SetNav(HyperLink, Entry):Void</Item>
-              </Issue>
-             </Message>
              <Message Id="System.String.Format(System.String,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-11-19 15:24:51Z">
               <Issue>
                <Item>PreviousNext.SetNav(HyperLink, Entry):Void</Item>
