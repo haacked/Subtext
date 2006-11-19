@@ -27,11 +27,6 @@ namespace Subtext.Extensibility.Web
 	public abstract class BaseHttpHandler : IHttpHandler
 	{
 		/// <summary>
-		/// Creates a new <see cref="BaseHttpHandler"/> instance.
-		/// </summary>
-		public BaseHttpHandler() { }
-
-		/// <summary>
 		/// Processs the incoming HTTP request.
 		/// </summary>
 		/// <param name="context">Context.</param>
