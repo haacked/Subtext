@@ -441,9 +441,6 @@ namespace Subtext.Web.Admin.UserControls
 
 						//Raise event after creating a post
 						SubtextEvents.OnEntryUpdated(entry, new SubtextEventArgs(ObjectState.Create));
-						
-						//TODO: Refactor CommunityCredits to be a plugin
-						AddCommunityCredits(entry);
 					}
 
 					UpdateCategories();
@@ -598,50 +595,6 @@ namespace Subtext.Web.Admin.UserControls
 		protected void richTextEditor_Error(object sender, RichTextEditorErrorEventArgs e)
 		{
 			this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", e.Exception.Message));
-		}
-
-		//TODO: Refactor CommunityCredits to be a plugin
-		private string AddCommunityCredits(Entry entry) 
-		{
-			string result=string.Empty;
-
-			bool commCreditsEnabled;
-			try
-			{
-                commCreditsEnabled = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["CommCreditEnabled"]);
-			}
-			catch(Exception) 
-			{
-				commCreditsEnabled = false;
-			}
-
-			if(commCreditsEnabled.Equals("true")) 
-			{
-				com.community_credit.www.AffiliateServices wsCommunityCredit = new com.community_credit.www.AffiliateServices();
-				string url=entry.FullyQualifiedUrl.ToString();
-				string category=String.Empty;
-				if(entry.PostType==PostType.BlogPost)
-					category="Blog";
-				else if (entry.PostType==PostType.Story)
-					category="Article";
-				string description = "Blogged about: " + entry.Title;
-				BlogInfo info = Config.CurrentBlog;
-				string firstName=string.Empty;
-				string lastName=info.Author;
-				string email=info.Email;
-                string affiliateCode = System.Configuration.ConfigurationManager.AppSettings["CommCreditAffiliateCode"];
-                string affiliateKey = System.Configuration.ConfigurationManager.AppSettings["CommCreditAffiliateKey"];
-				
-				try 
-				{
-					result=wsCommunityCredit.AddCommunityCredit(email,firstName,lastName,description,url,category,affiliateCode,affiliateKey);
-				}
-				catch(Exception ex) 
-				{
-					this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "Error during Community Credits submission (your post has been saved)", ex.Message));
-				}	
-			}
-			return result;
 		}
 	}
 }

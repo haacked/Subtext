@@ -55,5 +55,18 @@ namespace Subtext.Extensibility.Plugins
 		{
 			get { return (PluginDefaultSetting)this[index]; }
 		}
+
+		public new string this[string key]
+		{
+			get
+			{
+				foreach (PluginDefaultSetting conf in this)
+				{
+					if (conf.Key.Equals(key))
+						return conf.Value;
+				}
+				return null;
+			}
+		}
 	}
 }
