@@ -384,7 +384,7 @@ namespace Subtext.Web.UI.Pages
 		/// This will be used by other scripts.
 		/// </summary>
 		/// <value>The allowed HTML javascript declaration.</value>
-		protected string AllowedHtmlJavascriptDeclaration
+		protected static string AllowedHtmlJavascriptDeclaration
 		{
 			get
 			{

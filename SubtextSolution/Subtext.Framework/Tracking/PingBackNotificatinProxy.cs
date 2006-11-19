@@ -67,7 +67,7 @@ namespace Subtext.Framework.Tracking
 			return false;
 		}
 
-		private string GetPingBackURL(string pageText, Uri postUrl)
+		private static string GetPingBackURL(string pageText, Uri postUrl)
 		{
 			if(!Regex.IsMatch(pageText, postUrl.ToString(), RegexOptions.IgnoreCase | RegexOptions.Singleline))
 			{

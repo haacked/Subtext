@@ -110,7 +110,7 @@ namespace Subtext.Web
 
 		}
 
-		protected string FormatDate(string date)
+		protected static string FormatDate(string date)
 		{
 			DateTime dt = DateTime.Parse(date);
 			return dt.ToString("MMddyyyy", CultureInfo.InvariantCulture);

@@ -154,7 +154,7 @@ namespace Subtext.Web.Admin
 		/// </summary>
 		/// <param name="integers">Integers.</param>
 		/// <returns></returns>
-		protected string GetDisplayTextFromIntArray(IList<int> integers)
+		protected static string GetDisplayTextFromIntArray(IList<int> integers)
 		{
 			if (integers == null || integers.Count == 0)
 				return string.Empty;

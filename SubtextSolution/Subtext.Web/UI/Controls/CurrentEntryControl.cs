@@ -70,7 +70,7 @@ namespace Subtext.Web.UI.Controls
 		/// </summary>
 		/// <param name="s">The s.</param>
 		/// <returns></returns>
-		protected string UrlEncode(string s)
+		static protected string UrlEncode(string s)
 		{
 			return HttpUtility.UrlEncode(s);
 		}
@@ -80,7 +80,7 @@ namespace Subtext.Web.UI.Controls
 		/// </summary>
 		/// <param name="s">The s.</param>
 		/// <returns></returns>
-		protected string UrlEncode(Uri s)
+		static protected string UrlEncode(Uri s)
 		{
 			return HttpUtility.UrlEncode(s.ToString());
 		}
@@ -90,9 +90,9 @@ namespace Subtext.Web.UI.Controls
 		/// </summary>
 		/// <param name="s">The s.</param>
 		/// <returns></returns>
-		protected string UrlEncode(object s)
+		static protected string UrlEncode(object s)
 		{
-			return HttpUtility.UrlEncode(s.ToString());
+			return UrlEncode(s.ToString());
 		}
 	}
 }

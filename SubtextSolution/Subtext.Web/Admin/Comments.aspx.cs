@@ -231,12 +231,12 @@ namespace Subtext.Web.Admin.Pages
 			SaveSettings();
 		}
 
-		int ValidateInteger(string fieldName, string value, int minAllowedValue, int maxAllowedValue)
+		static int ValidateInteger(string fieldName, string value, int minAllowedValue, int maxAllowedValue)
 		{
 			return ValidateIntegerRange(fieldName, value, minAllowedValue, maxAllowedValue, @"""{0}"" should be larger than or equal to {1}", @"""{0}"" should be less than or equal to {1}");
 		}
 
-		int ValidateIntegerRange(string fieldName, string value, int minAllowedValue, int maxAllowedValue, string tooSmallFormatMessage, string tooBigFormatMessage)
+		static int ValidateIntegerRange(string fieldName, string value, int minAllowedValue, int maxAllowedValue, string tooSmallFormatMessage, string tooBigFormatMessage)
 		{
 			try
 			{

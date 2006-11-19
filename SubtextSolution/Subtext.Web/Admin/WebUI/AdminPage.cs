@@ -93,7 +93,7 @@ namespace Subtext.Web.Admin.Pages
 			}
 		}
 	    
-	    private void AddCssClass(WebControl control, string cssClass)
+	    private static  void AddCssClass(WebControl control, string cssClass)
 	    {
 			if (control.CssClass != null && control.CssClass.Length > 0 && !String.Equals(cssClass, control.CssClass, StringComparison.InvariantCultureIgnoreCase))
             {
