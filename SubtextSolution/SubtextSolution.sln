@@ -74,6 +74,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NDepend", "NDepend", "{2643
 		..\BuildTools\NDepend\NDependProject.xml = ..\BuildTools\NDepend\NDependProject.xml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Plugins.Core", "Subtext.Plugins.Core\Subtext.Plugins.Core.csproj", "{840C33F0-FBD2-49B7-9AC4-504E7EE917AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -265,6 +267,21 @@ Global
 		{E92C1C9B-FB2C-457B-B441-3CAEA3DCFC7A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E92C1C9B-FB2C-457B-B441-3CAEA3DCFC7A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E92C1C9B-FB2C-457B-B441-3CAEA3DCFC7A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{840C33F0-FBD2-49B7-9AC4-504E7EE917AA}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{840C33F0-FBD2-49B7-9AC4-504E7EE917AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{840C33F0-FBD2-49B7-9AC4-504E7EE917AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{840C33F0-FBD2-49B7-9AC4-504E7EE917AA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{840C33F0-FBD2-49B7-9AC4-504E7EE917AA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{840C33F0-FBD2-49B7-9AC4-504E7EE917AA}.Documentation|.NET.ActiveCfg = Debug|Any CPU
+		{840C33F0-FBD2-49B7-9AC4-504E7EE917AA}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{840C33F0-FBD2-49B7-9AC4-504E7EE917AA}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{840C33F0-FBD2-49B7-9AC4-504E7EE917AA}.Documentation|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{840C33F0-FBD2-49B7-9AC4-504E7EE917AA}.Documentation|Mixed Platforms.Build.0 = Debug|Any CPU
+		{840C33F0-FBD2-49B7-9AC4-504E7EE917AA}.Release|.NET.ActiveCfg = Release|Any CPU
+		{840C33F0-FBD2-49B7-9AC4-504E7EE917AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{840C33F0-FBD2-49B7-9AC4-504E7EE917AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{840C33F0-FBD2-49B7-9AC4-504E7EE917AA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{840C33F0-FBD2-49B7-9AC4-504E7EE917AA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

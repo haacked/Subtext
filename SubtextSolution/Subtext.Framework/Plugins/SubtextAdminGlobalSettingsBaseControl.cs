@@ -106,6 +106,14 @@ namespace Subtext.Extensibility.Plugins
 			}
 		}
 
+		public PluginBase CurrentPlugin
+		{
+			get
+			{
+				return SubtextApplication.Current.GetPluginByGuid(_pluginGuid);
+			}
+		}
+
 		/// <summary>
 		/// This method must be implemented by the page settings page.<br/>
 		/// It should be responsible for binding the Plugin Blog settings to the custom UI
