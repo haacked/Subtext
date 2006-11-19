@@ -31,8 +31,8 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
 		[Test]
 		public void CanRoundTripCaptchaInfo()
 		{
-			DateTime date = DateTime.ParseExact(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
-			
+			DateTime date = DateTime.ParseExact(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
+
 			CaptchaInfo info = new CaptchaInfo("My Test");
 			info.WarpFactor = CaptchaImage.FontWarpFactor.High;
 			info.DateGenerated = date;

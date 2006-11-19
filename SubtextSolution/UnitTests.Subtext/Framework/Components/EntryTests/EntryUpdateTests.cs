@@ -62,10 +62,14 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			DateTime date = DateTime.Now;
 			Thread.Sleep(1000);
 			savedEntry.IncludeInMainSyndication = true;
-			Assert.IsTrue(savedEntry.DateSyndicated >= date, "The DateSyndicated '{0}' should be updated to be later than '{1}.", savedEntry.DateSyndicated, date);
+
+			//Convert to UTC before comparing
+			DateTime utcSyndicatedDate = Config.CurrentBlog.TimeZone.ToUniversalTime(savedEntry.DateSyndicated);
+			Assert.IsTrue(utcSyndicatedDate >= date.ToUniversalTime(), "The DateSyndicated '{0}' should be updated to be later than '{1}.", savedEntry.DateSyndicated, date);
 			Entries.Update(savedEntry);
             savedEntry = Entries.GetEntry(entry.Id, PostConfig.None, false);
-			Assert.IsTrue(savedEntry.DateSyndicated >= date, "The DateSyndicated '{0}' should be updated to be later than '{1}.", savedEntry.DateSyndicated, date);
+			utcSyndicatedDate = Config.CurrentBlog.TimeZone.ToUniversalTime(savedEntry.DateSyndicated);
+			Assert.IsTrue(utcSyndicatedDate >= date.ToUniversalTime(), "The DateSyndicated '{0}' should be updated to be later than '{1}.", savedEntry.DateSyndicated, date);
 		}
 
 		[TearDown]
