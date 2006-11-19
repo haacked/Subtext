@@ -79,11 +79,18 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Thread.Sleep(1000);
 			savedEntry.IncludeInMainSyndication = true;
 			Entries.Update(savedEntry);
-					
-			Assert.IsTrue(savedEntry.DateSyndicated > savedEntry.DateCreated, string.Format("DateSyndicated '{0}' should larger than date created '{1}'.", savedEntry.DateSyndicated, savedEntry.DateCreated));
+
+			//Convert to UTC before comparing
+			DateTime utcSyndicatedDate = Config.CurrentBlog.TimeZone.ToUniversalTime(savedEntry.DateSyndicated);
+
+			Assert.IsTrue(utcSyndicatedDate > entry.DateCreated.ToUniversalTime(), string.Format("DateSyndicated '{0}' should larger than date created '{1}'.", savedEntry.DateSyndicated, savedEntry.DateCreated));
 
             savedEntry = Entries.GetEntry(id, PostConfig.None, false);
-			Assert.IsTrue(savedEntry.DateSyndicated > savedEntry.DateCreated, string.Format("After reloading from DB, DateSyndicated '{0}' should larger than date created '{1}'.", savedEntry.DateSyndicated, savedEntry.DateCreated));
+
+			//Convert to UTC before comparing
+			utcSyndicatedDate = Config.CurrentBlog.TimeZone.ToUniversalTime(savedEntry.DateSyndicated);
+
+			Assert.IsTrue(utcSyndicatedDate > entry.DateCreated.ToUniversalTime(), string.Format("After reloading from DB, DateSyndicated '{0}' should larger than date created '{1}'.", savedEntry.DateSyndicated, savedEntry.DateCreated));
 		}
 
 

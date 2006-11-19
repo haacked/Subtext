@@ -407,7 +407,7 @@ namespace Subtext.Web.Controls.Captcha
 			                     , this.WarpFactor
 			                     , this.FontFamily
 			                     , this.Text
-			                     , this.DateGenerated.ToString("yyyy/MM/dd HH:mm:ss"));
+								 , this.DateGenerated.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture));
 		}
 		
 		public DateTime DateGenerated;
