@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Web;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Components;
@@ -149,14 +150,14 @@ namespace Subtext.Web.UI.Controls
 
         public static string ShowTruncatedBody(Entry entry,int definedwordlimit)
         {
-            string returnstring="<p>";
+            StringBuilder returnstring = new StringBuilder("<p>");
             if (entry.Body == null)
             {
-                returnstring += "";
+                returnstring.Append("");
             }
             else if (entry.Body.Length == 0)
             {
-                returnstring += entry.Body;
+                returnstring.Append(entry.Body);
             }
             else
             {
@@ -167,7 +168,7 @@ namespace Subtext.Web.UI.Controls
                 string[] words = entry.Body.Split(new Char[] { ' ' });
                 if (words.GetUpperBound(0) <= 0) //Body has one or fewer words
                 {
-                    returnstring += entry.Body;
+                    returnstring.Append(entry.Body);
                     // NO need for appended ... because
                     //the entire post length is only one word
                 }
@@ -186,18 +187,19 @@ namespace Subtext.Web.UI.Controls
                     }
                     for (int i = 0; i < wordlimit; i++)
                     {
-                        returnstring += words[i] + " ";
+                        returnstring.Append(words[i] + " ");
                     }
-                    returnstring = returnstring.Trim();  //truncate trailing space
+                    //truncate trailing space
+                    returnstring.Remove(returnstring.Length -1, 1);
                     if (actualnumberofwords > definedwordlimit) // add ... if there is more to the body
                     {
-                        returnstring += "...";
+                        returnstring.Append("...");
                     }
 
                 }
             }
-            returnstring += "</p>";
-            return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}", returnstring);
+            returnstring.Append("</p>");
+            return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}", returnstring.ToString());
         }   
 
 		private void BindPostText(RepeaterItemEventArgs e, Entry entry)

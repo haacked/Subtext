@@ -41,11 +41,15 @@ namespace Subtext.Framework.Text
 		/// <param name="newClass">The new class.</param>
 		public static void AppendCssClass(WebControl control, string newClass)
 		{
-			if (control == null)
-				throw new ArgumentNullException("Cannot add a css class to a null control");
+            if (control == null)
+            {
+                throw new ArgumentNullException("Cannot add a css class to a null control");
+            }
 
-			if (newClass == null)
-				throw new ArgumentNullException("Cannot add a null css class to a control");
+            if (newClass == null)
+            {
+                throw new ArgumentNullException("Cannot add a null css class to a control");
+            }
 			
 			string existingClasses = control.CssClass;
 			if (String.IsNullOrEmpty(existingClasses))
