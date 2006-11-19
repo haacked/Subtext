@@ -22,15 +22,5 @@ namespace Subtext.Web.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://www.community-credit.com/services/affiliateservices.asmx")]
-        public string Subtext_Web_com_community_credit_www_AffiliateServices {
-            get {
-                return ((string)(this["Subtext_Web_com_community_credit_www_AffiliateServices"]));
-            }
-        }
     }
 }

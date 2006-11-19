@@ -623,11 +623,6 @@
     <Compile Include="UI\WebControls\ContentRegion.cs" />
     <Compile Include="UI\WebControls\MasterPage.cs" />
     <Compile Include="UI\WebControls\RssHyperLink.cs" />
-    <Compile Include="Web References\com.community_credit.www\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.map</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="blue.css" />
@@ -2069,12 +2064,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <Content Include="SystemMessages\SystemMessageTemplate.Master" />
-    <None Include="Web References\com.community_credit.www\affiliateservices.disco" />
-    <None Include="Web References\com.community_credit.www\affiliateservices.wsdl" />
-    <None Include="Web References\com.community_credit.www\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Subtext.BlogMl\Subtext.BlogML.csproj">
@@ -2108,19 +2097,6 @@
   </ItemGroup>
   <ItemGroup>
     <WebReferences Include="Web References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WebReferenceUrl Include="http://www.community-credit.com/services/affiliateservices.asmx%3fop=AddCommunityCredit">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\com.community_credit.www\</RelPath>
-      <UpdateFromURL>http://www.community-credit.com/services/affiliateservices.asmx%3fop=AddCommunityCredit</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>Subtext_Web_com_community_credit_www_AffiliateServices</CachedSettingsPropName>
-    </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Skins\AnotherEon001\images\" />
