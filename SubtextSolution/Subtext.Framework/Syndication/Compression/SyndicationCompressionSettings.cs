@@ -36,8 +36,8 @@ namespace Subtext.Framework.Syndication.Compression
 				return;
 			}
 
-			_type = (Algorithms)this.RetrieveEnumFromAttribute(node.Attributes["type"], typeof(Algorithms));
-			_level = (CompressionLevels)this.RetrieveEnumFromAttribute(node.Attributes["level"], typeof(CompressionLevels));
+			_type = (Algorithms)RetrieveEnumFromAttribute(node.Attributes["type"], typeof(Algorithms));
+			_level = (CompressionLevels)RetrieveEnumFromAttribute(node.Attributes["level"], typeof(CompressionLevels));
 		}
 		#endregion
 
@@ -74,7 +74,7 @@ namespace Subtext.Framework.Syndication.Compression
 		/*-- Methods --*/
 
 		#region -- RetrieveEnumFromAttribute(XmlAttribute, Type) Method --
-		protected Enum RetrieveEnumFromAttribute(XmlAttribute attribute, System.Type type)
+		protected static Enum RetrieveEnumFromAttribute(XmlAttribute attribute, System.Type type)
 		{
 			return (Enum)Enum.Parse(type, attribute.Value, true);
 		}

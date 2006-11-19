@@ -405,12 +405,16 @@ namespace Subtext.Web.HostAdmin.UserControls
 			return true;
 		}
 
-		protected string ToggleActiveString(bool active)
+		protected static string ToggleActiveString(bool active)
 		{
-			if(active)
-				return "Deactivate";
-			else
-				return "Activate";
+            if (active)
+            {
+                return "Deactivate";
+            }
+            else
+            {
+                return "Activate";
+            }
 		}
 
 		void ToggleActive()

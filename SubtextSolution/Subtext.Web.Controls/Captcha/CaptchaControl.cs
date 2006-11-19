@@ -279,14 +279,14 @@ namespace Subtext.Web.Controls.Captcha
 		/// Returns a random font family name.
 		/// </summary>
 		/// <returns></returns>
-		private string RandomFontFamily()
+		private static string RandomFontFamily()
 		{
-			InstalledFontCollection collection1 = new InstalledFontCollection();
-			FontFamily[] familyArray1 = collection1.Families;
+			InstalledFontCollection fontCollection = new InstalledFontCollection();
+            FontFamily[] families = fontCollection.Families;
 			string fontFamily = "bogus";
 			while (goodFontList.IndexOf(fontFamily) == -1)
 			{
-				fontFamily = familyArray1[random.Next(0, collection1.Families.Length)].Name.ToLower();
+                fontFamily = families[random.Next(0, fontCollection.Families.Length)].Name.ToLower();
 			}
 			return fontFamily;
 		}

@@ -74,7 +74,7 @@ namespace Subtext.Framework.Tracking
 			return true;
 		}
 
-		private bool SendPing(Uri trackBackItem, string parameters)
+		private static bool SendPing(Uri trackBackItem, string parameters)
 		{
 			HttpWebRequest request = HttpHelper.CreateRequest(trackBackItem);
 			request.Method = "POST";
@@ -93,7 +93,7 @@ namespace Subtext.Framework.Tracking
 			return (response.StatusCode == HttpStatusCode.OK);
 		}
 
-		private string GetTrackBackText(string pageText, Uri url, Uri postUrl)
+		private static string GetTrackBackText(string pageText, Uri url, Uri postUrl)
 		{
 			if(!Regex.IsMatch(pageText, postUrl.ToString(), RegexOptions.IgnoreCase|RegexOptions.Singleline))
 			{

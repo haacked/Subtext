@@ -60,7 +60,7 @@ namespace Subtext.Extensibility.Providers
 			base.Initialize(name, configValue);
 		}
 		
-		protected Unit ParseUnit(string s)
+		protected static Unit ParseUnit(string s)
 		{
 			try
 			{

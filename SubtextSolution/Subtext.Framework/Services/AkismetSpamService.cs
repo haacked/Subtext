@@ -91,17 +91,21 @@ namespace Subtext.Framework.Services
 			this.akismet.SubmitSpam(comment);
 		}
 		
-		private Comment ConvertToAkismetItem(FeedbackItem feedback)
+		private static Comment ConvertToAkismetItem(FeedbackItem feedback)
 		{
 			Comment comment = new Comment(feedback.IpAddress, feedback.UserAgent);
 			comment.Author = feedback.Author;
 			comment.AuthorEmail = feedback.Email;
 			if (feedback.SourceUrl != null)
+			{
 				comment.AuthorUrl = feedback.SourceUrl;
+			}
 			comment.Content = feedback.Body;
 			comment.Referrer = feedback.Referrer;
 			if (feedback.DisplayUrl != null)
+			{
 				comment.Permalink = feedback.DisplayUrl;
+			}
 
 			comment.CommentType = feedback.FeedbackType.ToString().ToLower(CultureInfo.InvariantCulture);
 			return comment;
