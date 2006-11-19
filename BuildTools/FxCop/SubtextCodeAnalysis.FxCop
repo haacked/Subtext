@@ -20683,11 +20683,6 @@
            </Member>
            <Member Name="ShowTruncatedBody(Subtext.Framework.Components.Entry,System.Int32):System.String">
             <Messages>
-             <Message TypeName="DoNotConcatenateStringsInsideLoops" Category="Microsoft.Performance" CheckId="CA1818" Created="2006-11-19 21:00:31Z">
-              <Issue>
-               <Item>EntryList.ShowTruncatedBody(Entry, Int32):String</Item>
-              </Issue>
-             </Message>
              <Message Id="1#definedwordlimit" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 21:00:31Z">
               <Issue Name="Parameter">
                <Item>EntryList.ShowTruncatedBody(Entry, Int32):String</Item>
