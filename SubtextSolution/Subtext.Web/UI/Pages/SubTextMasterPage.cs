@@ -306,30 +306,31 @@ namespace Subtext.Web.UI.Pages
 
 			private static string RenderStyleElement(string skinPath, Style style)
 			{
-                string element = string.Empty;
+                StringBuilder element = new StringBuilder();
 			    
                 if (!String.IsNullOrEmpty(style.Conditional))
                 {
-                    element = string.Format("<!--[{0}]>{1}", style.Conditional, Environment.NewLine);
+                    element.Append(string.Format("<!--[{0}]>{1}", style.Conditional, Environment.NewLine));
                 }
-			    
-                element += "<link";
-                    if (style.Media != null && style.Media.Length > 0)
-                        element += RenderStyleAttribute("media", style.Media);
 
-				element +=
-					RenderStyleAttribute("type", "text/css") + 
+                element.Append("<link");
+                if (style.Media != null && style.Media.Length > 0)
+                {
+                    element.Append(RenderStyleAttribute("media", style.Media));
+                }
+
+                element.Append(RenderStyleAttribute("type", "text/css") + 
 					RenderStyleAttribute("rel", "stylesheet") + 
 					RenderStyleAttribute("title", style.Title) + 
 					RenderStyleAttribute("href", GetStylesheetHrefPath(skinPath, style)) + //TODO: Look at this line again.
-					"></link>" + Environment.NewLine;
+					"></link>" + Environment.NewLine);
 
                 if (!String.IsNullOrEmpty(style.Conditional))
                 {
-                    element += "<![endif]-->" + Environment.NewLine;
+                    element.Append("<![endif]-->" + Environment.NewLine);
                 }
 			    
-			    return element;
+			    return element.ToString();
 			}
 
 			/// <summary>
