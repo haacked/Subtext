@@ -158,7 +158,7 @@ namespace Subtext.Web.Admin.Pages
 				return String.Empty;
 		}
 
-		protected string EvalImageNavigateUrl(object potentialImage)
+		protected static string EvalImageNavigateUrl(object potentialImage)
 		{
 			Subtext.Framework.Components.Image image = potentialImage as Subtext.Framework.Components.Image;
 			if (image != null)
@@ -166,10 +166,12 @@ namespace Subtext.Web.Admin.Pages
 				return Subtext.Framework.Configuration.Config.CurrentBlog.UrlFormats.ImageUrl(null, image.ImageID);
 			}
 			else
+			{
 				return String.Empty;
+			}
 		}
 
-		protected string EvalImageTitle(object potentialImage)
+		protected static string EvalImageTitle(object potentialImage)
 		{
 			const int TARGET_HEIGHT = 138;
 			const int MAX_IMAGE_HEIGHT = 120;
@@ -183,14 +185,18 @@ namespace Subtext.Web.Admin.Pages
 				// we have to back into an estimated thumbnail height right now with aspect * max
 				double aspectRatio = (double)image.Height / image.Width;
 				if (aspectRatio > 1 || aspectRatio <= 0)
+				{
 					aspectRatio = 1;
+				}
 				int allowedChars = (int)((TARGET_HEIGHT - MAX_IMAGE_HEIGHT * aspectRatio) 
 					/ LINE_HEIGHT_PIXELS * CHAR_PER_LINE);
 
 				return Utilities.Truncate(image.Title, allowedChars);
 			}
 			else
+			{
 				return String.Empty;
+			}
 		}
 
 		// REFACTOR: duplicate from category editor; generalize a la EntryEditor

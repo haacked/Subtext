@@ -214,17 +214,18 @@ namespace Subtext.Web.UI.Controls
 		}
 
 		const string linktag = "<a title=\"permalink: {0}\" href=\"{1}\">#</a>";
-		private string Link(string title, Uri link)
+		private static string Link(string title, Uri link)
 		{
 			if (link == null)
+			{
 				return string.Empty;
-			
+			}			
 			return string.Format(linktag, title, link.ToString());
 		}
 
 		// GC: xhmtl format wreaking havoc in non-xhtml pages in non-IE, changed to non nullable format
 		const string anchortag = "<a name=\"{0}\"></a>";
-		private string Anchor(int id)
+		private static string Anchor(int id)
 		{
 			return string.Format(anchortag, id);
 		}
@@ -233,10 +234,14 @@ namespace Subtext.Web.UI.Controls
 		{
 			string processedEmail = string.Empty;
 
-			if (Request.Url.Port != 80)
-				defaultGravatar = string.Format("{0}://{1}:{2}{3}", Request.Url.Scheme, Request.Url.Host, Request.Url.Port, ControlHelper.ExpandTildePath(defaultGravatar));
-			else
-				defaultGravatar = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host, ControlHelper.ExpandTildePath(defaultGravatar));
+            if (Request.Url.Port != 80)
+            {
+                defaultGravatar = string.Format("{0}://{1}:{2}{3}", Request.Url.Scheme, Request.Url.Host, Request.Url.Port, ControlHelper.ExpandTildePath(defaultGravatar));
+            }
+            else
+            {
+                defaultGravatar = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host, ControlHelper.ExpandTildePath(defaultGravatar));
+            }
 
 			if(gravatarEmailFormat.Equals("plain"))
 			{
@@ -246,10 +251,14 @@ namespace Subtext.Web.UI.Controls
 			{
 				processedEmail=FormsAuthentication.HashPasswordForStoringInConfigFile(email, "md5");
 			}
-			if(processedEmail.Length != 0)
+            if (processedEmail.Length != 0)
+            {
                 return String.Format(gravatarUrlFormatString, processedEmail, defaultGravatar);
-			else
-				return string.Empty;
+            }
+            else
+            {
+                return string.Empty;
+            }
 		}
 
 		internal void BindFeedback(Entry entry, bool fromCache)
