@@ -23,6 +23,7 @@ using Subtext.Framework.Format;
 using Subtext.Web.Controls;
 using Subtext.Framework.Security;
 using Subtext.Extensibility.Plugins;
+using Subtext.Framework.Text;
 
 
 namespace Subtext.Web.UI.Controls
@@ -146,16 +147,74 @@ namespace Subtext.Web.UI.Controls
 			}
 		}
 
+        public static string ShowTruncatedBody(Entry entry,int definedwordlimit)
+        {
+            string returnstring="<p>";
+            if (entry.Body == null)
+            {
+                returnstring += "";
+            }
+            else if (entry.Body.Length == 0)
+            {
+                returnstring += entry.Body;
+            }
+            else
+            {
+                //We're counting words so HTML will get in the way
+                //unless somebody has a better idea....
+                entry.Body = HtmlHelper.RemoveHtml(entry.Body);
+
+                string[] words = entry.Body.Split(new Char[] { ' ' });
+                if (words.GetUpperBound(0) <= 0) //Body has one or fewer words
+                {
+                    returnstring += entry.Body;
+                    // NO need for appended ... because
+                    //the entire post length is only one word
+                }
+                else
+                {
+                    int wordlimit;
+                    int actualnumberofwords = words.GetUpperBound(0) + 1;
+                    //First 100 words or however many there actually are, whichever is less
+                    if (actualnumberofwords < definedwordlimit)
+                    {
+                        wordlimit = actualnumberofwords;
+                    }
+                    else
+                    {
+                        wordlimit = definedwordlimit; //TODO: Make this configurable
+                    }
+                    for (int i = 0; i < wordlimit; i++)
+                    {
+                        returnstring += words[i] + " ";
+                    }
+                    returnstring = returnstring.Trim();  //truncate trailing space
+                    if (actualnumberofwords > definedwordlimit) // add ... if there is more to the body
+                    {
+                        returnstring += "...";
+                    }
+
+                }
+            }
+            returnstring += "</p>";
+            return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}", returnstring);
+        }   
+
 		private void BindPostText(RepeaterItemEventArgs e, Entry entry)
 		{
 			Literal PostText = (Literal)e.Item.FindControl("PostText");
 	
-			if(DescriptionOnly)
+			if(DescriptionOnly) // like on the monthly archive page
 			{
-				if(entry.HasDescription)
-				{
-					PostText.Text = string.Format(System.Globalization.CultureInfo.InvariantCulture, "<p>{0}</p>", entry.Description);
-				}
+                if (entry.HasDescription)
+                {
+                    PostText.Text = string.Format(System.Globalization.CultureInfo.InvariantCulture, "<p>{0}</p>", entry.Description);
+                }
+                //DF:  Description=Excerpt, if none, show first 100 words of post
+                else
+                {
+                    PostText.Text = ShowTruncatedBody(entry,100);
+                }
 			}
 			else
 			{
@@ -219,6 +278,8 @@ namespace Subtext.Web.UI.Controls
 		/// <para>
 		/// If true, then the EntryList will only show the description 
 		/// for an entry, if a description exists.
+        /// If a description does NOT exist, then show the first 100 words of the post 
+        /// followed by ...  TODO: make the number of words configurable.
 		/// </para>
 		/// <para>
 		/// If false, then the description is show. But if the description 
@@ -309,4 +370,5 @@ namespace Subtext.Web.UI.Controls
 		}
 	}
 }
+
 
