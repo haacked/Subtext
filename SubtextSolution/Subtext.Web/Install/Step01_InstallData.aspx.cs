@@ -137,7 +137,7 @@ namespace Subtext.Web.Install
 			Response.Redirect(NextStepUrl);
 		}
 
-		private bool IsPermissionDeniedException(SqlScriptExecutionException exception)
+		private static bool IsPermissionDeniedException(SqlScriptExecutionException exception)
 		{
 			SqlException sqlexc = exception.InnerException as SqlException;
 			return sqlexc != null 

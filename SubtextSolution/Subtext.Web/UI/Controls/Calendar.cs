@@ -127,7 +127,7 @@ namespace Subtext.Web.UI.Controls
 		/// <param name="dateString">The string to parse.</param>
 		/// <param name="parsedDate">The date if the string was parsed succesfully.</param>
 		/// <returns>True if the string was parsed succesfully.</returns>
-		private bool TryParseDateTime(string dateString, out DateTime parsedDate)
+		private static bool TryParseDateTime(string dateString, out DateTime parsedDate)
 		{ 
 			try
 			{

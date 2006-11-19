@@ -28,7 +28,7 @@ namespace Subtext.Web.Admin.Pages
 	{
 		private int _resultsPageNumber = 1;
 
-		public string GetPageTitle(object dataItem)
+		public static string GetPageTitle(object dataItem)
 		{
 			ViewStat stat = (ViewStat) dataItem;
 			string pageTitle = "Unknown";

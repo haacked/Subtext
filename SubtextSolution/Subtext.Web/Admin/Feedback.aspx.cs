@@ -166,7 +166,7 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		/// <param name="dataItem"></param>
 		/// <returns></returns>
-		protected string GetBody(object dataItem)
+		protected static string GetBody(object dataItem)
 		{
 			FeedbackItem feedbackItem = (FeedbackItem)dataItem;
 			if(feedbackItem.FeedbackType != FeedbackType.PingTrack)
@@ -182,7 +182,7 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		/// <param name="dataItem"></param>
 		/// <returns></returns>
-		protected string GetAuthor(object dataItem)
+		protected static string GetAuthor(object dataItem)
 		{
 			FeedbackItem feedbackItem = (FeedbackItem)dataItem;
 			return string.Format(@"<span title=""{0}"">{1}</span>", feedbackItem.IpAddress, feedbackItem.Author);
@@ -193,7 +193,7 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		/// <param name="dataItem">The data item.</param>
 		/// <returns></returns>
-		protected string GetTitle(object dataItem)
+		protected static string GetTitle(object dataItem)
 		{
 			FeedbackItem feedbackItem = (FeedbackItem)dataItem;
 			if (feedbackItem.DisplayUrl != null)
@@ -210,7 +210,7 @@ namespace Subtext.Web.Admin.Pages
 		/// </summary>
 		/// <param name="dataItem"></param>
 		/// <returns></returns>
-		protected string GetAuthorInfo(object dataItem)
+		protected static string GetAuthorInfo(object dataItem)
 		{
 			FeedbackItem feedback = (FeedbackItem)dataItem;
 			string authorInfo = string.Empty;
@@ -237,7 +237,7 @@ namespace Subtext.Web.Admin.Pages
 			SetCount(btnViewTrash, counts.DeletedCount);
 		}
 		
-		void SetCount(LinkButton button, int count)
+		static void SetCount(LinkButton button, int count)
 		{
 			button.Text = StringHelper.LeftBefore(button.Text, "(") + "(" + count + ")";
 		}

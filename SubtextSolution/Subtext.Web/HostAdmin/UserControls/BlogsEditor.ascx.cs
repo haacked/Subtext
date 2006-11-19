@@ -380,7 +380,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 			}
 		}
 		
-		bool IsTextBoxEmpty(TextBox textbox)
+		static bool IsTextBoxEmpty(TextBox textbox)
 		{
 			return textbox.Text.Length == 0;
 		}

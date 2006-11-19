@@ -93,11 +93,13 @@ namespace Subtext.Web.UI.Controls
 		}
 
 
-		private void SetNav(HyperLink navLink, Entry entry)
+		private static void SetNav(HyperLink navLink, Entry entry)
 		{
 			string format = navLink.Attributes["Format"];
 			if(String.IsNullOrEmpty(format))
+			{
 				format = "{0}";
+			}
 			
 			navLink.Attributes.Remove("Format");
 

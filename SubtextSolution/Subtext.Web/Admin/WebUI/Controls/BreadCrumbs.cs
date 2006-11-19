@@ -234,7 +234,7 @@ namespace Subtext.Web.Admin.WebUI
 				return control;
 		}
 
-		protected PageLocation[] GetSampleAncestors()
+		protected static PageLocation[] GetSampleAncestors()
 		{
 			PageLocation[] results = new PageLocation[3];
 			results[0] = new PageLocation("", "Level 3", "#");

@@ -114,7 +114,7 @@ namespace Subtext.Web.Admin.Pages
 			}
 		}
         
-        public string GetTitle(object dataContainer)
+        public static string GetTitle(object dataContainer)
 		{
 			
 			if (dataContainer is Referrer)
@@ -146,14 +146,12 @@ namespace Subtext.Web.Admin.Pages
 
 		}
 
-		public string GetReferrer(object dataContainer)
+		public static string GetReferrer(object dataContainer)
 		{
 
 			if (dataContainer is Referrer)
 			{
 				Referrer referrer = (Referrer) dataContainer;
-
-
 				return "<a href=\"" + referrer.ReferrerURL + "\" target=\"_new\">" + referrer.ReferrerURL.Substring(0,referrer.ReferrerURL.Length > 50 ? 50 : referrer.ReferrerURL.Length) + "</a>";
 			}
 			else
