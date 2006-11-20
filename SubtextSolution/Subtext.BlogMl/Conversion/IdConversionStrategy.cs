@@ -62,5 +62,6 @@ namespace Subtext.BlogML.Conversion
 		public const string CategoryParents = "categoryparents";
 		public const string Comments = "comments";
 		public const string TrackBacks = "trackbacks";
+        public const string Authors = "authors";
 	}
 }

@@ -68,13 +68,14 @@ namespace Subtext.Web.Admin.Pages
 			this.btnViewModerateComments.Enabled = Config.CurrentBlog.ModerationEnabled;
 			this.btnViewSpam = AddFolderLink("Flagged Spam", "btnViewSpam", "Comments Flagged As Spam By Filters", OnViewSpamClick);
 			this.btnViewTrash = AddFolderLink("Trash", "btnViewTrash", "Comments In The Trash Bin (Confirmed Spam or Deleted Items)", OnViewTrashClick);
-
+			
 			if (!IsPostBack)
 			{
 				this.FeedbackStatusFilter = GetStatusFromQueryString();
-				
+				//this.cbShowOnlyComments.Checked = Preferences.FeedbackShowOnlyComments;
+				this.rbFeedbackFilter.SelectedValue = Preferences.GetFeedbackItemFilter(FeedbackStatusFilter);
 				BindList();
-			}			
+			}
 		}
 		
 		FeedbackStatusFlag GetStatusFromQueryString()
@@ -102,6 +103,7 @@ namespace Subtext.Web.Admin.Pages
 		void OnViewApprovedCommentsClick(object sender, EventArgs e)
 		{
 			this.FeedbackStatusFilter = FeedbackStatusFlag.Approved;
+			this.rbFeedbackFilter.SelectedValue = Preferences.GetFeedbackItemFilter(FeedbackStatusFilter);
 			this.Results.HeaderText = "Comments";
 			HtmlHelper.AppendCssClass(this.btnViewApprovedComments, "active");
 			this.resultsPager.UrlFormat = "Feedback.aspx?pg={0}&status=" + (int)FeedbackStatusFilter;
@@ -116,6 +118,7 @@ namespace Subtext.Web.Admin.Pages
 		void OnViewCommentsForModerationClick(object sender, EventArgs e)
 		{
 			this.FeedbackStatusFilter = FeedbackStatusFlag.NeedsModeration;
+			this.rbFeedbackFilter.SelectedValue = Preferences.GetFeedbackItemFilter(FeedbackStatusFilter);
 			this.Results.HeaderText = "Comments Pending Moderator Approval";
 			HtmlHelper.AppendCssClass(this.btnViewModerateComments, "active");
 			this.resultsPager.UrlFormat = "Feedback.aspx?pg={0}&status=" + (int)FeedbackStatusFilter;
@@ -131,6 +134,7 @@ namespace Subtext.Web.Admin.Pages
 		void OnViewSpamClick(object sender, EventArgs e)
 		{
 			this.FeedbackStatusFilter = FeedbackStatusFlag.FlaggedAsSpam;
+			this.rbFeedbackFilter.SelectedValue = Preferences.GetFeedbackItemFilter(FeedbackStatusFilter);
 			HtmlHelper.AppendCssClass(this.btnViewSpam, "active");
 			this.Results.HeaderText = "Comments Flagged As SPAM";
 			this.resultsPager.UrlFormat = "Feedback.aspx?pg={0}&status=" + (int)FeedbackStatusFilter;
@@ -148,6 +152,7 @@ namespace Subtext.Web.Admin.Pages
 		void OnViewTrashClick(object sender, EventArgs e)
 		{
 			this.FeedbackStatusFilter = FeedbackStatusFlag.Deleted;
+			this.rbFeedbackFilter.SelectedValue = Preferences.GetFeedbackItemFilter(FeedbackStatusFilter);
 			HtmlHelper.AppendCssClass(this.btnViewTrash, "active");
 			this.Results.HeaderText = "Comments In The Trash Bin";
 			this.resultsPager.UrlFormat = "Feedback.aspx?pg={0}&status=" + (int)FeedbackStatusFilter;
@@ -158,6 +163,22 @@ namespace Subtext.Web.Admin.Pages
 			this.btnDestroy.Visible = true;
 			this.btnEmpty.Visible = true;
 			this.btnEmpty.ToolTip = "Destroy all trash, not just checked";
+			BindList();
+		}
+
+		//I implemented version 2 before I let you guys see version 1.
+		//Therefore, I kept the version 1 code in case you wished to use it instead.
+		//Version 1 was "show only comments". Version 2 is a filter that can show all, show only comments, or show only pingtracks.
+		[Obsolete("Use rbFeedbackFilter", false)]
+		protected void cbShowOnlyComments_CheckedChanged(object sender, EventArgs e)
+		{
+			Preferences.FeedbackShowOnlyComments = this.cbShowOnlyComments.Checked;
+			BindList();
+		}
+		
+		protected void rbFeedbackFilter_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			Preferences.SetFeedbackItemFilter(this.rbFeedbackFilter.SelectedValue, FeedbackStatusFilter);
 			BindList();
 		}
 
@@ -262,8 +283,15 @@ namespace Subtext.Web.Admin.Pages
 			//bit set, it is in the trash no matter what other bits are set.
 			if (this.FeedbackStatusFilter == FeedbackStatusFlag.Deleted)
 				excludeFilter = FeedbackStatusFlag.Approved;
-			IPagedCollection<FeedbackItem> selectionList = FeedbackItem.GetPagedFeedback(this.pageIndex, this.resultsPager.PageSize, this.FeedbackStatusFilter, excludeFilter, FeedbackType.None);
-			
+
+			//13-nov-06 mountain_sf
+			//For version 1: checkbox to show only comments (obsolete)
+			//IPagedCollection<FeedbackItem> selectionList = FeedbackItem.GetPagedFeedback(this.pageIndex, this.resultsPager.PageSize, this.FeedbackStatusFilter, excludeFilter, cbShowOnlyComments.Checked?FeedbackType.Comment:FeedbackType.None);
+			//
+			//For version 2: a filter that can show all, show only comments, or show only pingtracks.
+			IPagedCollection<FeedbackItem> selectionList = FeedbackItem.GetPagedFeedback(this.pageIndex, this.resultsPager.PageSize, this.FeedbackStatusFilter, excludeFilter, Preferences.ParseFeedbackItemFilter(this.rbFeedbackFilter.SelectedValue));
+			//
+
 			if (selectionList.Count > 0)
 			{
 				this.resultsPager.Visible = true;

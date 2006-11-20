@@ -2,6 +2,7 @@
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
 <%@ Register TagPrefix="sub" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
 
+	
 <asp:Content ID="actions" ContentPlaceHolderID="actionsHeading" runat="server">
 	Folders
 </asp:Content>
@@ -13,13 +14,22 @@
 </asp:Content>
 
 <asp:Content ID="entryEditor" ContentPlaceHolderID="pageContent" runat="server">
+
 	<st:MessagePanel id="Messages" runat="server" />
-	<st:AdvancedPanel id="Results" runat="server" Collapsible="False" HeaderText="Comments" HeaderCssClass="CollapsibleHeader" DisplayHeader="true">
+	
+	<span class="FeedbackTypeControl">
+	    <asp:CheckBox ID="cbShowOnlyComments" visible="false" runat="server" Text="Show Only Comments" ToolTip="Hide feedback that is not of type 'Comment'" AutoPostBack="true" OnCheckedChanged="cbShowOnlyComments_CheckedChanged"/>
+        <asp:RadioButtonList ID="rbFeedbackFilter" runat="server" AutoPostBack="True" RepeatDirection="Horizontal" OnSelectedIndexChanged="rbFeedbackFilter_SelectedIndexChanged">
+            <asp:ListItem Selected="True" Value="None">Show All</asp:ListItem>
+            <asp:ListItem Value="Comment">Show Only Comments</asp:ListItem>
+            <asp:ListItem Value="PingTrack">Show Only PingTrack</asp:ListItem>
+        </asp:RadioButtonList></span>
+        <st:AdvancedPanel id="Results" runat="server" Collapsible="False" HeaderText="Comments" HeaderCssClass="CollapsibleHeader" DisplayHeader="true">
 		<asp:Repeater id="rprSelectionList" runat="server">
 			<HeaderTemplate>
 				<table id="feedback" class="Listing">
 					<tr>
-						<th>Title</th>
+						<th>Title</th>						
 						<th>Posted By</th>
 						<th width="100">Date</th>
 						<th width="50"><input id="cbCheckAll" class="inline" type="checkbox" onclick="ToggleCheckAll(this);" title="Check/Uncheck All" /><label for="cbCheckAll" title="Check/Uncheck All">All</label></th>

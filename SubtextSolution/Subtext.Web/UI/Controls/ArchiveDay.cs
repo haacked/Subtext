@@ -43,11 +43,12 @@ namespace Subtext.Web.UI.Controls
 				catch(System.FormatException)
 				{
 					//Somebody probably is messing with the url.
-					Response.StatusCode = 404;
+                    //404 is set in filenotfound - DF
 					Response.Redirect("~/SystemMessages/FileNotFound.aspx");
 				}
 			}
 		}
 	}
 }
+
 

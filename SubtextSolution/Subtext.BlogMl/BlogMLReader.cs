@@ -121,7 +121,7 @@ namespace Subtext.BlogML
 				bmlAttachment.Url,
 				attachmentUrl);
 
-			if (bmlAttachment.Embedded)
+			if (bmlAttachment.Embedded && !File.Exists(attachmentPath))
 			{	
 				using (FileStream fStream = new FileStream(attachmentPath, FileMode.CreateNew))
 				{

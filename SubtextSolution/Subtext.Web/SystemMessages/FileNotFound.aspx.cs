@@ -31,7 +31,13 @@ namespace Subtext.Web.SystemMessages
 		{
 			//TODO: Refactor this into a method and unit test it.
 			//Multiple blog handling.
-			string queryString;
+            
+            //Since we were redirected here, 
+            // we want to make sure we send back a 404 and not a 200   -DF
+            Response.StatusCode = 404;
+            Response.Status = "404 Not Found";
+            
+            string queryString;
 			if(Request.QueryString.Count == 0)
 			{
 				return;

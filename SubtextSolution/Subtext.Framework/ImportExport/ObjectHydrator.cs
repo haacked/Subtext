@@ -22,25 +22,29 @@ namespace Subtext.ImportExport
 		public static BlogMLPost LoadPostFromDataReader(IDataReader reader)
 		{
 			Entry entry = DataHelper.LoadEntry(reader);
-			BlogMLPost post = new BlogMLPost();
-			post.ID = entry.Id.ToString(CultureInfo.InvariantCulture);
-			post.Title = entry.Title;
-			post.PostUrl = entry.FullyQualifiedUrl.ToString();
-			post.Approved = entry.IsActive;
-			post.Content.Text = entry.Body;
-			post.DateCreated = entry.DateCreated;
-			post.DateModified = entry.DateModified;
-            post.PostType = (entry.PostType == PostType.Story) ? BlogPostTypes.Article : BlogPostTypes.Normal;
-            post.PostName = entry.EntryName;
-            post.Views = (uint) 0; // I think we have this statistic in the db... right?
-
-            post.HasExcerpt = entry.HasDescription;
-            if (entry.HasDescription)
+			BlogMLPost bmlPost = new BlogMLPost();
+			bmlPost.ID = entry.Id.ToString(CultureInfo.InvariantCulture);
+			bmlPost.Title = entry.Title;
+			bmlPost.PostUrl = entry.FullyQualifiedUrl.ToString();
+			bmlPost.Approved = entry.IsActive;
+			bmlPost.Content.Text = entry.Body;
+			bmlPost.DateCreated = entry.DateCreated;
+			bmlPost.DateModified = entry.DateModified;
+            bmlPost.PostType = (entry.PostType == PostType.Story) ? BlogPostTypes.Article : BlogPostTypes.Normal;
+            bmlPost.Views = (uint) 0; // I think we have this statistic in the db... right?
+		    
+            if (entry.HasEntryName)
             {
-                post.Excerpt.Text = entry.Description;
+                bmlPost.PostName = entry.EntryName;
             }
 		    
-			return post;
+            bmlPost.HasExcerpt = entry.HasDescription;
+            if (entry.HasDescription)
+            {
+                bmlPost.Excerpt.Text = entry.Description;
+            }
+		    
+			return bmlPost;
 		}
 
 		/// <summary>
@@ -58,9 +62,11 @@ namespace Subtext.ImportExport
 			comment.Content.Text = feedbackItem.Body;
 			comment.DateCreated = feedbackItem.DateCreated;
 			comment.DateModified = feedbackItem.DateModified;
-			comment.UserUrl = feedbackItem.SourceUrl.ToString();
 			comment.UserEMail = feedbackItem.Email;
 			comment.UserName = feedbackItem.Author;
+            if (feedbackItem.SourceUrl != null)
+		        comment.UserUrl = feedbackItem.SourceUrl.ToString();
+		    
 			return comment;
 		}
 
