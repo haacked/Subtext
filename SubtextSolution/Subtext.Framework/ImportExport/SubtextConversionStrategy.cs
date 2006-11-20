@@ -19,7 +19,7 @@ namespace Subtext.ImportExport.Conversion
 		/// <returns></returns>
 		protected override string Generate(string scope, string originalId)
 		{
-			//In Subtext (prior to version 2.0), the comments and posts are 
+			//In Subtext (prior to version 1.9), the comments and posts are 
 			//in the same database table, thus they share the same scope.
 			if (scope == IdScopes.Comments || scope == IdScopes.TrackBacks)
 				scope = IdScopes.Posts;

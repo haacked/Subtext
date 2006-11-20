@@ -16,7 +16,7 @@ namespace Subtext.BlogML
 		IBlogMLProvider provider;
 		IdConversionStrategy conversionStrategy;
 		string blogId;
-		BlogMLBlog blog;
+		BlogMLBlog bmlBlog;
 
 		/// <summary>
 		/// Creates an instance of the BlogMl Writer.
@@ -52,7 +52,7 @@ namespace Subtext.BlogML
 		/// </summary>
 		protected override void InternalWriteBlog()
 		{
-			blog = this.provider.GetBlog(this.blogId);
+			bmlBlog = this.provider.GetBlog(this.blogId);
 			WriteBlogStart();
 
 			ICollection<BlogMLCategory> categories = provider.GetAllCategories(this.blogId);
@@ -86,30 +86,40 @@ namespace Subtext.BlogML
 		/// </summary>
 		private void WriteBlogStart()
 		{
-			WriteStartBlog(blog.Title, ContentTypes.Text, blog.SubTitle, ContentTypes.Text, blog.RootUrl, blog.DateCreated);
-            WriteAuthor(blog.Authors[0].ID, blog.Authors[0].Title, blog.Authors[0].Email, blog.DateCreated, DateTime.MinValue, true);
+			WriteStartBlog(bmlBlog.Title, ContentTypes.Text, bmlBlog.SubTitle, ContentTypes.Text, bmlBlog.RootUrl, bmlBlog.DateCreated);
+
+		    foreach (BlogMLAuthor bmlAuthor in bmlBlog.Authors)
+		    {
+                WriteAuthor(
+                    conversionStrategy.GetConvertedId(IdScopes.Authors, bmlAuthor.ID), 
+                    bmlAuthor.Title, 
+                    bmlAuthor.Email, 
+                    bmlAuthor.DateCreated, 
+                    bmlAuthor.DateModified, 
+                    bmlAuthor.Approved);
+		    }
 		}
 
 
 		protected void WritePostsPage(IPagedCollection<BlogMLPost> posts)
 		{
-			foreach (BlogMLPost post in posts)
+			foreach (BlogMLPost bmlPost in posts)
 			{
-				WritePost(post);
+				WritePost(bmlPost);
 			}
 			Writer.Flush(); //Flushes this page of posts.
 		}
 		
-		private void WritePost(BlogMLPost post)
+		private void WritePost(BlogMLPost bmlPost)
 		{
-			string postId = this.conversionStrategy.GetConvertedId(IdScopes.Posts, post.ID);
-		    WriteStartPost(postId, post.Title, post.DateCreated, post.DateModified, post.Approved, post.Content.Text,
-		                   post.PostUrl, post.Views, post.PostType, post.PostName);
+			string postId = this.conversionStrategy.GetConvertedId(IdScopes.Posts, bmlPost.ID);
+		    WriteStartPost(postId, bmlPost.Title, bmlPost.DateCreated, bmlPost.DateModified, bmlPost.Approved, bmlPost.Content.Text,
+		                   bmlPost.PostUrl, bmlPost.Views, bmlPost.PostType, bmlPost.PostName);
 
-			WritePostAttachments(post);
-			WritePostComments(post.Comments);
-			WritePostCategories(post.Categories);
-			WritePostTrackbacks(post.Trackbacks);
+			WritePostAttachments(bmlPost);
+			WritePostComments(bmlPost.Comments);
+			WritePostCategories(bmlPost.Categories);
+			WritePostTrackbacks(bmlPost.Trackbacks);
 
 			WriteEndElement();	// </post>
 		}
@@ -136,27 +146,27 @@ namespace Subtext.BlogML
 		private void WritePostComments(BlogMLPost.CommentCollection comments)
 		{
 			WriteStartComments();
-			foreach (BlogMLComment comment in comments)
+			foreach (BlogMLComment bmlComment in comments)
 			{
-				WritePostComment(comment);
+				WritePostComment(bmlComment);
 			}
 			WriteEndElement();
 		}
 
-		private void WritePostComment(BlogMLComment comment)
+		private void WritePostComment(BlogMLComment bmlComment)
 		{
-			string commentId = this.conversionStrategy.GetConvertedId(IdScopes.Comments, comment.ID);
-			WriteComment(commentId, comment.Title, ContentTypes.Text, comment.DateCreated, comment.DateModified, comment.Approved, comment.UserName, comment.UserEMail, comment.UserUrl, comment.Content.Text, ContentTypes.Text);
+			string commentId = this.conversionStrategy.GetConvertedId(IdScopes.Comments, bmlComment.ID);
+			WriteComment(commentId, bmlComment.Title, ContentTypes.Text, bmlComment.DateCreated, bmlComment.DateModified, bmlComment.Approved, bmlComment.UserName, bmlComment.UserEMail, bmlComment.UserUrl, bmlComment.Content.Text, ContentTypes.Text);
 		}
 		
-		private void WriteCategories(ICollection<BlogMLCategory> categories)
+		private void WriteCategories(ICollection<BlogMLCategory> bmlCategories)
 		{
 			WriteStartCategories();
-			foreach(BlogMLCategory category in categories)
+			foreach(BlogMLCategory bmlCategory in bmlCategories)
 			{
-				string categoryId = this.conversionStrategy.GetConvertedId(IdScopes.Categories, category.ID);
-				string parentId = this.conversionStrategy.GetConvertedId(IdScopes.CategoryParents, category.ParentRef);
-				WriteCategory(categoryId, category.Title, ContentTypes.Text, category.DateCreated, category.DateModified, category.Approved, category.Description, parentId);
+				string categoryId = this.conversionStrategy.GetConvertedId(IdScopes.Categories, bmlCategory.ID);
+				string parentId = this.conversionStrategy.GetConvertedId(IdScopes.CategoryParents, bmlCategory.ParentRef);
+				WriteCategory(categoryId, bmlCategory.Title, ContentTypes.Text, bmlCategory.DateCreated, bmlCategory.DateModified, bmlCategory.Approved, bmlCategory.Description, parentId);
 			}
 			WriteEndElement();
 		}
@@ -165,21 +175,21 @@ namespace Subtext.BlogML
 		{
 			WriteStartTrackbacks();
 			
-			foreach(BlogMLTrackback trackback in trackbacks)
+			foreach(BlogMLTrackback bmlTrackback in trackbacks)
 			{
-				string trackBackId = this.conversionStrategy.GetConvertedId(IdScopes.TrackBacks, trackback.ID);
-				WriteTrackback(trackBackId, trackback.Title, ContentTypes.Text, trackback.DateCreated, trackback.DateModified, trackback.Approved, trackback.Url);
+				string trackBackId = this.conversionStrategy.GetConvertedId(IdScopes.TrackBacks, bmlTrackback.ID);
+				WriteTrackback(trackBackId, bmlTrackback.Title, ContentTypes.Text, bmlTrackback.DateCreated, bmlTrackback.DateModified, bmlTrackback.Approved, bmlTrackback.Url);
 			}
 			
 			WriteEndElement();
 		}
 
-		private void WritePostAttachments(BlogMLPost post)
+		private void WritePostAttachments(BlogMLPost bmlPost)
 		{
-			string content = post.Content.Text;
+			string content = bmlPost.Content.Text;
 		    
 			string[] imagesURLs = SgmlUtil.GetAttributeValues(content, "img", "src");
-			string appFullRootUrl = this.blog.RootUrl.ToLower(CultureInfo.InvariantCulture);
+			string appFullRootUrl = this.bmlBlog.RootUrl.ToLower(CultureInfo.InvariantCulture);
 
 			if (imagesURLs.Length > 0)
 			{

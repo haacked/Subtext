@@ -73,7 +73,6 @@ namespace Subtext.Web.UI.Handlers
 				}
 				catch(System.FormatException)
 				{
-					context.Response.StatusCode = 404;
 					context.Response.Redirect("~/SystemMessages/FileNotFound.aspx");
 				}
 			}
@@ -99,8 +98,15 @@ namespace Subtext.Web.UI.Handlers
 
 			if(redirectUrl != null)
 			{
-				context.Response.StatusCode = 301;
-				context.Response.Redirect(redirectUrl, true);
+				//context.Response.StatusCode = 301;
+				//context.Response.Redirect(redirectUrl, true);
+                
+                //DF: I believe the above code sets 301 and then does a 302
+                //Pretty sure this is what we want:  
+
+                context.Response.Status = "301 Moved Permanently";
+                context.Response.AddHeader("Location", redirectUrl);
+                context.Response.End();
 			}
 			else
 			{

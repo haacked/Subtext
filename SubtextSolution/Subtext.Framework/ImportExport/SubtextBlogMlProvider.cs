@@ -37,65 +37,65 @@ namespace Subtext.ImportExport
 		/// <returns></returns>
 		public override IPagedCollection<BlogMLPost> GetBlogPosts(string blogId, int pageIndex, int pageSize)
 		{
-			IPagedCollection<BlogMLPost> posts = new PagedCollection<BlogMLPost>();
+			IPagedCollection<BlogMLPost> bmlPosts = new PagedCollection<BlogMLPost>();
 			using (IDataReader reader = GetPostsAndArticlesReader(blogId, pageIndex, pageSize))
 			{
 				while (reader.Read())
 				{
-					posts.Add(ObjectHydrator.LoadPostFromDataReader(reader));
+					bmlPosts.Add(ObjectHydrator.LoadPostFromDataReader(reader));
 				}
 
 				if (reader.NextResult() && reader.Read())
-					posts.MaxItems = DataHelper.ReadInt32(reader, "TotalRecords");
+					bmlPosts.MaxItems = DataHelper.ReadInt32(reader, "TotalRecords");
 					
-				if (posts.Count > 0 && reader.NextResult())
-					PopulateCategories(posts, reader);
+				if (bmlPosts.Count > 0 && reader.NextResult())
+					PopulateCategories(bmlPosts, reader);
 				
-				if (posts.Count > 0 && reader.NextResult())
-					PopulateComments(posts, reader);
+				if (bmlPosts.Count > 0 && reader.NextResult())
+					PopulateComments(bmlPosts, reader);
 				
-				if (posts.Count > 0 && reader.NextResult())
-					PopulateTrackbacks(posts, reader);
+				if (bmlPosts.Count > 0 && reader.NextResult())
+					PopulateTrackbacks(bmlPosts, reader);
 				
 			}
-			return posts;
+			return bmlPosts;
 		}
 
 		private static void PopulateCategories(IPagedCollection<BlogMLPost> posts, IDataReader reader)
 		{
-			PostChildrenPopulator populator = delegate(BlogMLPost post)
+			PostChildrenPopulator populator = delegate(BlogMLPost bmlPost)
 			{
-				post.Categories.Add(DataHelper.ReadInt32(reader, "CategoryId").ToString(CultureInfo.InvariantCulture));
+				bmlPost.Categories.Add(DataHelper.ReadInt32(reader, "CategoryId").ToString(CultureInfo.InvariantCulture));
 			};
 
 			ReadAndPopulatePostChildren(posts, reader, "Id", populator);
 		}
 
-		private static void PopulateComments(IPagedCollection<BlogMLPost> posts, IDataReader reader)
+		private static void PopulateComments(IPagedCollection<BlogMLPost> bmlPosts, IDataReader reader)
 		{
-			PostChildrenPopulator populator = delegate(BlogMLPost post)
+			PostChildrenPopulator populator = delegate(BlogMLPost bmlPost)
 			{
-				post.Comments.Add(ObjectHydrator.LoadCommentFromDataReader(reader));
+				bmlPost.Comments.Add(ObjectHydrator.LoadCommentFromDataReader(reader));
 			};
 			
-			ReadAndPopulatePostChildren(posts, reader, "EntryId", populator);
+			ReadAndPopulatePostChildren(bmlPosts, reader, "EntryId", populator);
 		}
 
-		private static void PopulateTrackbacks(IPagedCollection<BlogMLPost> posts, IDataReader reader)
+		private static void PopulateTrackbacks(IPagedCollection<BlogMLPost> bmlPosts, IDataReader reader)
 		{
-			PostChildrenPopulator populator = delegate(BlogMLPost post)
+			PostChildrenPopulator populator = delegate(BlogMLPost bmlPost)
 			{
-				post.Trackbacks.Add(ObjectHydrator.LoadTrackbackFromDataReader(reader));
+				bmlPost.Trackbacks.Add(ObjectHydrator.LoadTrackbackFromDataReader(reader));
 			};
 
-			ReadAndPopulatePostChildren(posts, reader, "EntryId", populator);
+			ReadAndPopulatePostChildren(bmlPosts, reader, "EntryId", populator);
 		}
 
-		private static void ReadAndPopulatePostChildren(IPagedCollection<BlogMLPost> posts, IDataReader reader, string foreignKey, PostChildrenPopulator populatePostChildren)
+		private static void ReadAndPopulatePostChildren(IPagedCollection<BlogMLPost> bmlPosts, IDataReader reader, string foreignKey, PostChildrenPopulator populatePostChildren)
 		{
-			for (int i = 0; i < posts.Count; i++)
+			for (int i = 0; i < bmlPosts.Count; i++)
 			{
-				BlogMLPost post = posts[i];
+				BlogMLPost post = bmlPosts[i];
 				int postId = int.Parse(post.ID);
 				// We are going to make use of the fact that everything is ordered by Post Id ASC
 				// to optimize this...
@@ -105,10 +105,10 @@ namespace Subtext.ImportExport
 
 					if (postId < postIdForeignKey)
 					{
-						while (postId < postIdForeignKey && i < posts.Count)
+						while (postId < postIdForeignKey && i < bmlPosts.Count)
 						{
 							i++;
-							post = posts[i];
+							post = bmlPosts[i];
 							postId = int.Parse(post.ID);
 						}
 					}
@@ -161,10 +161,14 @@ namespace Subtext.ImportExport
 				bmlBlog.RootUrl = blog.RootUrl.ToString();
 				bmlBlog.DateCreated = blog.TimeZone.Now;
 
+			    // TODO: in Subtext 2.0 we need to account for multiple authors.
                 BlogMLAuthor bmlAuthor = new BlogMLAuthor();
+                bmlAuthor.ID = blog.Id.ToString();
                 bmlAuthor.Title = blog.Author;
                 bmlAuthor.Approved = true;
                 bmlAuthor.Email = blog.Email;
+                bmlAuthor.DateCreated = blog.LastUpdated;
+                bmlAuthor.DateModified = blog.LastUpdated;
 			    bmlBlog.Authors.Add(bmlAuthor);
 				return bmlBlog;
 			}
@@ -179,21 +183,22 @@ namespace Subtext.ImportExport
 		public override ICollection<BlogMLCategory> GetAllCategories(string blogId)
 		{
 			ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
-			Collection<BlogMLCategory> blogCategories = new Collection<BlogMLCategory>();
+			ICollection<BlogMLCategory> bmlCategories = new Collection<BlogMLCategory>();
 			
 			foreach(LinkCategory category in categories)
 			{
-				BlogMLCategory blogCategory = new BlogMLCategory();
-				blogCategory.ID = category.Id.ToString(CultureInfo.InvariantCulture);
-				blogCategory.Title = category.Title;
-				blogCategory.Description = category.Description;
-				blogCategory.Approved = category.IsActive;
-				blogCategory.DateCreated = DateTime.Now;
-				blogCategory.DateModified = DateTime.Now;
+				BlogMLCategory bmlCategory = new BlogMLCategory();
+                bmlCategory.ID = category.Id.ToString();
+				bmlCategory.Title = category.Title;
+				bmlCategory.Approved = category.IsActive;
+				bmlCategory.DateCreated = DateTime.Now;
+				bmlCategory.DateModified = DateTime.Now;
+			    if (category.HasDescription)
+                    bmlCategory.Description = category.Description;
 				
-				blogCategories.Add(blogCategory);
+				bmlCategories.Add(bmlCategory);
 			}
-			return blogCategories;
+			return bmlCategories;
 		}
 
 		/// <summary>
@@ -259,16 +264,16 @@ namespace Subtext.ImportExport
 		public override IDictionary<string, string> CreateCategories(BlogMLBlog blog)
 		{
 			IDictionary<string, string> idMap = new Dictionary<string, string>();
-			foreach (BlogMLCategory blogMLCategory in blog.Categories)
+			foreach (BlogMLCategory bmlCategory in blog.Categories)
 			{
 				LinkCategory category = new LinkCategory();
 				category.BlogId = Config.CurrentBlog.Id;
-				category.Title = blogMLCategory.Title;
-				category.Description = blogMLCategory.Description;
-				category.IsActive = blogMLCategory.Approved;
+				category.Title = bmlCategory.Title;
+				category.Description = bmlCategory.Description;
+				category.IsActive = bmlCategory.Approved;
 				category.CategoryType = CategoryType.PostCollection;
 				Links.CreateLinkCategory(category);
-				idMap.Add(blogMLCategory.ID, category.Title);
+				idMap.Add(bmlCategory.ID, category.Title);
 			}
 			return idMap;
 		}
@@ -352,7 +357,11 @@ namespace Subtext.ImportExport
 			newComment.Approved = bmlComment.Approved;
 			newComment.Author = StringHelper.ReturnCheckForNull(bmlComment.UserName);
 			newComment.Email = bmlComment.UserEMail;
-			newComment.SourceUrl = new Uri(bmlComment.UserUrl);
+		    
+		    if (!string.IsNullOrEmpty(bmlComment.UserUrl))
+		    {
+		        newComment.SourceUrl = new Uri(bmlComment.UserUrl);
+		    }
 
 			FeedbackItem.Create(newComment, null);
 		}

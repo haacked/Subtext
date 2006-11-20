@@ -70,7 +70,7 @@ function switchLayout() {
 }
 
 function reloadPreviewDiv() {
-	var previewString = document.getElementById("PostComment.ascx_tbComment").value;
+	var previewString = document.getElementById("PostComment_ascx_tbComment").value;
 	if (previewString.length > 0)
 	{
 		previewString = htmlUnencode(previewString);

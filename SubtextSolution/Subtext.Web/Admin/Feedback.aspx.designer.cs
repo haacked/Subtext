@@ -12,6 +12,8 @@ namespace Subtext.Web.Admin.Pages {
     
     public partial class Feedback {
         protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
+        protected System.Web.UI.WebControls.CheckBox cbShowOnlyComments;
+        protected System.Web.UI.WebControls.RadioButtonList rbFeedbackFilter;
         protected Subtext.Web.Admin.WebUI.AdvancedPanel Results;
         protected System.Web.UI.WebControls.Repeater rprSelectionList;
         protected Subtext.Web.Controls.PagingControl resultsPager;

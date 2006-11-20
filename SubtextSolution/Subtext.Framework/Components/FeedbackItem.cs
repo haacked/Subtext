@@ -105,7 +105,19 @@ namespace Subtext.Framework.Components
 			feedback.Author = HtmlHelper.SafeFormat(feedback.Author);
 			feedback.Body = HtmlHelper.ConvertToAllowedHtml(feedback.Body);
 			feedback.Title = HtmlHelper.SafeFormat(feedback.Title);
-			feedback.DateCreated = feedback.DateModified = Config.CurrentBlog.TimeZone.Now;
+		    
+		    // If we are creating this feedback item as part of an import, we want to 
+		    // be sure to use the item's datetime, and not set it to the current time.
+            if (NullValue.NullDateTime.Equals(feedback.DateCreated))
+            {
+                feedback.DateCreated = Config.CurrentBlog.TimeZone.Now;
+                feedback.DateModified = feedback.DateCreated;
+            }
+            else if (NullValue.NullDateTime.Equals(feedback.DateModified))
+            {
+                feedback.DateModified = feedback.DateCreated;
+            }
+
 			
 			if(filter != null)
 				filter.FilterBeforePersist(feedback);

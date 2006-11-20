@@ -111,8 +111,6 @@ namespace UnitTests.Subtext.Framework.Import
         	// Export this blog.
 			IBlogMLProvider provider = BlogMLProvider.Instance();
 			BlogMLWriter writer = BlogMLWriter.Create(provider);
-            // TODO- BlogML 2.0
-//			writer.EmbedAttachments = false;
             MemoryStream memoryStream = new MemoryStream();
 			
         	using (XmlTextWriter xmlWriter = new XmlTextWriter(memoryStream, Encoding.UTF8))

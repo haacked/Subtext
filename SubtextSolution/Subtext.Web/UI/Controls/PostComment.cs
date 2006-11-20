@@ -57,7 +57,6 @@ namespace Subtext.Web.UI.Controls
 				if(entry == null)
 				{
 					//Somebody probably is messing with the url.
-					Response.StatusCode = 404;
 					Response.Redirect("~/SystemMessages/FileNotFound.aspx", true);
 					return;
 				}
@@ -341,4 +340,5 @@ namespace Subtext.Web.UI.Controls
 		}
 	}
 }
+
 
