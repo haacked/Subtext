@@ -77,6 +77,26 @@ GO
 
 /* The Rest of the script */
 
+-- Views
+DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_MembershipUsers]
+GO
+DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_Profiles]
+GO
+DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_Roles]
+GO
+DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_UsersInRoles]
+GO
+DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_WebPartState_Paths]
+GO
+DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_WebPartState_Shared]
+GO
+DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_WebPartState_User]
+GO
+DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_Applications]
+GO
+DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_Users]
+
+
 -- Membership Provider Stored Procs
 IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_RegisterSchemaVersion' AND routine_schema = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_RegisterSchemaVersion]
