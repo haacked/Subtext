@@ -44,22 +44,29 @@ namespace Subtext.Framework.Security
         {
             get
             {
-                int BlogId;
-                try
+                if (_applicationName == null)
                 {
-                    BlogId = Subtext.Framework.Configuration.Config.CurrentBlog.Id;
-                }
-                catch (NullReferenceException)
-                {
-                    BlogId = -1;
-                }
-                if (BlogId <= 0)
-                {
-                    return "/";
+                    int BlogId;
+                    try
+                    {
+                        BlogId = Subtext.Framework.Configuration.Config.CurrentBlog.Id;
+                    }
+                    catch (NullReferenceException)
+                    {
+                        BlogId = -1;
+                    }
+                    if (BlogId <= 0)
+                    {
+                        return "/";
+                    }
+                    else
+                    {
+                        return "Blog_" + BlogId.ToString();
+                    }
                 }
                 else
                 {
-                    return "Blog_" + BlogId.ToString();
+                    return _applicationName;
                 }
             }
             set

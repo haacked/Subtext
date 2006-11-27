@@ -53,22 +53,29 @@ namespace Subtext.Framework.Security
         {
             get
             {
-                int BlogId;
-                try
+                if (_applicationName == null)
                 {
-                    BlogId = Subtext.Framework.Configuration.Config.CurrentBlog.Id;
-                }
-                catch (NullReferenceException)
-                {
-                    BlogId = -1;
-                }
-                if (BlogId <= 0)
-                {
-                    return "/";
+                    int BlogId;
+                    try
+                    {
+                        BlogId = Subtext.Framework.Configuration.Config.CurrentBlog.Id;
+                    }
+                    catch (NullReferenceException)
+                    {
+                        BlogId = -1;
+                    }
+                    if (BlogId <= 0)
+                    {
+                        return "/";
+                    }
+                    else
+                    {
+                        return "blog_" + BlogId.ToString();
+                    }
                 }
                 else
                 {
-                    return "blog_" + BlogId.ToString();
+                    return _applicationName;
                 }
             }
             set
@@ -395,7 +402,7 @@ namespace Subtext.Framework.Security
 
         public override int PasswordAttemptWindow
         {
-            get { throw new Exception("The method or operation is not implemented."); }
+            get { return Convert.ToInt32(_config["PasswordAttemptWindow"]); }
         }
 
         public override MembershipPasswordFormat PasswordFormat
