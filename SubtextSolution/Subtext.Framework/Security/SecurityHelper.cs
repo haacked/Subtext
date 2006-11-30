@@ -46,7 +46,6 @@ namespace Subtext.Framework.Security
 		/// <param name="password">Supplied Password</param>
 		/// <param name="persist">If valid, should we persist the login</param>
 		/// <returns>bool indicating successful login</returns>
-        [Obsolete("No longer required with new Membership system", false)]
 		public static bool Authenticate(string username, string password, bool persist)
 		{
 			if (!IsValidUser(username, password))
@@ -66,7 +65,6 @@ namespace Subtext.Framework.Security
 		/// <param name="password">The password.</param>
 		/// <param name="persist">if set to <c>true</c> [persist].</param>
 		/// <returns></returns>
-        [Obsolete("No longer required with new Membership system", false)]
 		public static bool AuthenticateHostAdmin(string username, string password, bool persist)
 		{
             //TODO: No need to have this functionality
@@ -97,8 +95,7 @@ namespace Subtext.Framework.Security
 		/// Used to remove a cookie from the client.
 		/// </summary>
 		/// <returns>a correctly named cookie with Expires date set 30 years ago</returns>
-        [Obsolete("No longer required with new Membership system", false)]
-        public static HttpCookie GetExpiredCookie()
+		public static HttpCookie GetExpiredCookie()
 		{
 			HttpCookie expiredCookie = new HttpCookie(GetFullCookieName());
 			expiredCookie.Expires = DateTime.Now.AddYears(-30);
@@ -109,8 +106,7 @@ namespace Subtext.Framework.Security
 		/// Obtains the correct cookie for the current blog
 		/// </summary>
 		/// <returns>null if correct cookie was not found</returns>
-        [Obsolete("No longer required with new Membership system", false)]
-        public static HttpCookie SelectAuthenticationCookie()
+		public static HttpCookie SelectAuthenticationCookie()
 		{
 			HttpCookie authCookie = null;
             HttpCookie c;
@@ -163,8 +159,7 @@ namespace Subtext.Framework.Security
 		/// name for all cookies in multiblog setups as the old code did).
 		/// </summary>
 		/// <returns></returns>
-        [Obsolete("No longer required with new Membership system", false)]
-        public static string GetFullCookieName()
+		public static string GetFullCookieName()
 		{
 			return GetFullCookieName(false);
 		}
@@ -174,8 +169,7 @@ namespace Subtext.Framework.Security
 		/// </summary>
 		/// <param name="forceHostAdmin">true if the name shall be forced to comply with the HostAdmin cookie</param>
 		/// <returns></returns>
-        [Obsolete("No longer required with new Membership system", false)]
-        private static string GetFullCookieName(bool forceHostAdmin)
+		private static string GetFullCookieName(bool forceHostAdmin)
 		{
 			StringBuilder name = new StringBuilder(FormsAuthentication.FormsCookieName);
 			name.Append(".");
@@ -226,8 +220,7 @@ namespace Subtext.Framework.Security
 		/// </summary>
 		/// <param name="username">Username for the ticket</param>
 		/// <param name="persist">Should this ticket be persisted</param>
-        [Obsolete("No longer required with new Membership system", false)]
-        public static void SetAuthenticationTicket(string username, bool persist, params string[] roles)
+		public static void SetAuthenticationTicket(string username, bool persist, params string[] roles)
 		{
 			//Getting a cookie this way and using a temp auth ticket 
 			//allows us to access the timeout value from web.config in partial trust.
@@ -261,7 +254,6 @@ namespace Subtext.Framework.Security
 		/// <summary>
 		/// Logs the user off the system.
 		/// </summary>
-        [Obsolete("No longer required with new Membership system", false)]
 		public static void LogOut()
 		{
 			HttpCookie authCookie = new HttpCookie(GetFullCookieName());
@@ -415,16 +407,16 @@ namespace Subtext.Framework.Security
 
 		public static void UpdateHostAdminPassword(string password)
 		{
-            //HostInfo hostInfo = HostInfo.Instance;
-            //if(Config.Settings.UseHashedPasswords)
-            //{
-            //    hostInfo.Password = HashPassword(password, HostInfo.Instance.Salt);
-            //}
-            //else
-            //{
-            //    hostInfo.Password = password;
-            //}
-            //HostInfo.UpdateHost(hostInfo);
+			HostInfo hostInfo = HostInfo.Instance;
+			if(Config.Settings.UseHashedPasswords)
+			{
+				hostInfo.Password = HashPassword(password, HostInfo.Instance.Salt);
+			}
+			else
+			{
+				hostInfo.Password = password;
+			}
+			HostInfo.UpdateHost(hostInfo);
 		}
 
 		public static string ResetHostAdminPassword()
@@ -454,7 +446,7 @@ namespace Subtext.Framework.Security
 		{
 			get
 			{
-                return IsInRole("Administrators");
+                return IsInRole("Admins");
 			}
 		}
 
