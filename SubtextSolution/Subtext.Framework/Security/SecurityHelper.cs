@@ -68,27 +68,25 @@ namespace Subtext.Framework.Security
 		public static bool AuthenticateHostAdmin(string username, string password, bool persist)
 		{
             //TODO: No need to have this functionality
-            //if (!String.Equals(username, HostInfo.Instance.HostUserName, StringComparison.InvariantCultureIgnoreCase))
-            //{
-            //    return false;
-            //}
-			
-            //if(Config.Settings.UseHashedPasswords)
-            //{
-            //    password = HashPassword(password, HostInfo.Instance.Salt);
-            //}
+			if (!String.Equals(username, HostInfo.Instance.HostUserName, StringComparison.InvariantCultureIgnoreCase))
+			{
+				return false;
+			}
 
-            //if (!String.Equals(HostInfo.Instance.Password, password, StringComparison.InvariantCultureIgnoreCase))
-            //{
-            //    return false;
-            //}
-			
-            //log.Debug("SetAuthenticationTicket-HostAdmins for " + username);
-            //SetAuthenticationTicket(username, persist, "HostAdmins");
-			
-            //return true;
+			if (Config.Settings.UseHashedPasswords)
+			{
+				password = HashPassword(password, HostInfo.Instance.Salt);
+			}
 
-            return false;
+			if (!String.Equals(HostInfo.Instance.Password, password, StringComparison.InvariantCultureIgnoreCase))
+			{
+				return false;
+			}
+
+			log.Debug("SetAuthenticationTicket-HostAdmins for " + username);
+			SetAuthenticationTicket(username, persist, "HostAdmins");
+
+			return true;
 		}
 
 		/// <summary>
