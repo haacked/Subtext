@@ -94,24 +94,41 @@ GO
 /* The Rest of the script */
 
 -- Views
+IF EXISTS (SELECT * FROM [information_schema].[views] WHERE table_name = 'vw_subtext_MembershipUsers' AND table_schema = '<dbUser,varchar,dbo>')
 DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_MembershipUsers]
 GO
+
+IF EXISTS (SELECT * FROM [information_schema].[views] WHERE table_name = 'vw_subtext_Profiles' AND table_schema = '<dbUser,varchar,dbo>')
 DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_Profiles]
 GO
+
+IF EXISTS (SELECT * FROM [information_schema].[views] WHERE table_name = 'vw_subtext_Roles' AND table_schema = '<dbUser,varchar,dbo>')
 DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_Roles]
 GO
+
+IF EXISTS (SELECT * FROM [information_schema].[views] WHERE table_name = 'vw_subtext_UsersInRoles' AND table_schema = '<dbUser,varchar,dbo>')
 DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_UsersInRoles]
 GO
+
+IF EXISTS (SELECT * FROM [information_schema].[views] WHERE table_name = 'vw_subtext_WebPartState_Paths' AND table_schema = '<dbUser,varchar,dbo>')
 DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_WebPartState_Paths]
 GO
+
+IF EXISTS (SELECT * FROM [information_schema].[views] WHERE table_name = 'vw_subtext_WebPartState_Shared' AND table_schema = '<dbUser,varchar,dbo>')
 DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_WebPartState_Shared]
 GO
+
+IF EXISTS (SELECT * FROM [information_schema].[views] WHERE table_name = 'vw_subtext_WebPartState_User' AND table_schema = '<dbUser,varchar,dbo>')
 DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_WebPartState_User]
 GO
+
+IF EXISTS (SELECT * FROM [information_schema].[views] WHERE table_name = 'vw_subtext_Applications' AND table_schema = '<dbUser,varchar,dbo>')
 DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_Applications]
 GO
-DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_Users]
 
+IF EXISTS (SELECT * FROM [information_schema].[views] WHERE table_name = 'vw_subtext_Users' AND table_schema = '<dbUser,varchar,dbo>')
+DROP VIEW [<dbUser,varchar,dbo>].[vw_subtext_Users]
+GO
 
 -- Membership Provider Stored Procs
 IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_RegisterSchemaVersion' AND routine_schema = '<dbUser,varchar,dbo>')
