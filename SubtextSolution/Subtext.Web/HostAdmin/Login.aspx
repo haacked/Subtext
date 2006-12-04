@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<form method="post" runat="server" ID="frmLogin">
-			<asp:Login ID="loginControl" runat="server">
+			<asp:Login ID="loginControl" runat="server" DestinationPageUrl="~/HostAdmin/">
 				<LayoutTemplate>
 					<div id="Main">
 						<div id="logo"></div>
