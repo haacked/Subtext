@@ -46,7 +46,12 @@ namespace Subtext.Framework
 				return _instance;
 			}
 		}
-		
+
+		/// <summary>
+		/// Changes the password for the Host Owner.
+		/// </summary>
+		/// <param name="oldPassword">The old password.</param>
+		/// <param name="newPassword">The new password.</param>
 		public void SetPassword(string oldPassword, string newPassword)
 		{
 			Membership.Provider.ChangePassword(Owner.UserName, oldPassword, newPassword);

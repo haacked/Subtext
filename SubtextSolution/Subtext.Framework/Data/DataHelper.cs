@@ -21,7 +21,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Net;
-using System.Web.Security;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
@@ -501,15 +500,13 @@ namespace Subtext.Framework.Data
 
 		#region Config
 
-		public static BlogInfo LoadConfigData(IDataReader reader)
+		public static BlogInfo LoadBlog(IDataReader reader)
 		{
 			BlogInfo info = new BlogInfo();
-
-			Guid ownerId = ReadGuid(reader, "OwnerId");
-			info.Owner = Membership.GetUser(ownerId);
-			
 			info.Id = DataHelper.ReadInt32(reader, "BlogId");
 
+			info.ownerId = ReadGuid(reader, "OwnerId");
+			info.ApplicationName = ReadString(reader, "ApplicationName");
 			info.SubTitle = ReadString(reader, "SubTitle");
 			info.Title = ReadString(reader, "Title");
 			info.TimeZoneId = ReadInt32(reader, "TimeZone");

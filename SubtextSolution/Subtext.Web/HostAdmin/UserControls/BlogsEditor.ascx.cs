@@ -16,7 +16,6 @@
 using System;
 using System.Globalization;
 using System.Web;
-using System.Web.Security;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
@@ -24,7 +23,6 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
 using Subtext.Web.Admin;
-using Subtext.Framework.Security;
 
 namespace Subtext.Web.HostAdmin.UserControls
 {
@@ -330,11 +328,11 @@ namespace Subtext.Web.HostAdmin.UserControls
 			blog.Title = this.txtTitle.Text;
 			blog.Host = this.txtHost.Text;
 			blog.Subfolder = this.txtApplication.Text;
-			//blog.Owner.UserName = this.txtUsername.Text;
 
 			if(this.txtPassword.Text.Length > 0)
 			{
-				//TODO: Membership.Provider.ChangePassword(blog.Owner.UserName, this.txtPassword.Text);
+				throw new NotImplementedException("Password change Needs to be implemented.");
+				//TODO: Membership.Provider.ChangePassword(Page.User.Identity.Name, this.txtApplication. this.txtPassword.Text);
 			}
 			
 			if(Config.UpdateConfigData(blog))

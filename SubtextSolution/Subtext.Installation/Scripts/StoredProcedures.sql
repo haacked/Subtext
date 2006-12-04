@@ -19,6 +19,10 @@ IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 's
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_UpdateHost]
 GO
 
+IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetConfig' AND routine_schema = '<dbUser,varchar,dbo>')
+DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetConfig] -- RENAMED subtext_GetConfig to subtext_GetBlog. So we're making sure to drop the old one.
+GO
+
 IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetHost' AND routine_schema = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetHost]
 GO
@@ -401,8 +405,8 @@ IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 's
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetConditionalEntries]
 GO
 
-IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetConfig' AND routine_schema = '<dbUser,varchar,dbo>')
-DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetConfig]
+IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetBlog' AND routine_schema = '<dbUser,varchar,dbo>')
+DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_GetBlog]
 GO
 
 IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_GetEntriesByDayRange' AND routine_schema = '<dbUser,varchar,dbo>')
@@ -1362,54 +1366,19 @@ Returns the blog that matches the given host/application combination.
 
 @Strict -- If 0, then we return the one and only blog if there's one and only blog.
 */
-CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetConfig]
+CREATE PROC [<dbUser,varchar,dbo>].[subtext_GetBlog]
 (
 	@Host nvarchar(100)
 	, @Subfolder nvarchar(50)
 	, @Strict bit = 1 
 )
 AS
+
+DECLARE @BlogId INT
+
 SELECT
-	BlogId
-	, ApplicationId
-	, OwnerId
-	, Title
-	, SubTitle
-	, Skin
-	, Subfolder
-	, Host
-	, TimeZone
-	, ItemCount
-	, CategoryListPostCount
-	, [Language]
-	, News
-	, SecondaryCss
-	, LastUpdated
-	, PostCount
-	, StoryCount
-	, PingTrackCount
-	, CommentCount
-	, Flag
-	, SkinCssFile 
-	, LicenseUrl
-	, DaysTillCommentsClose
-	, CommentDelayInMinutes
-	, NumberOfRecentComments
-	, RecentCommentsLength
-	, AkismetAPIKey
-	, FeedBurnerName
-	, pop3User
-	, pop3Pass
-	, pop3Server
-	, pop3StartTag
-	, pop3EndTag
-	, pop3SubjectPrefix
-	, pop3MTBEnable
-	, pop3DeleteOnlyProcessed
-	, pop3InlineAttachedPictures
-	, pop3HeightForThumbs
-	
-FROM [<dbUser,varchar,dbo>].[subtext_Config] cf
+	@BlogID = BlogId
+FROM [<dbUser,varchar,dbo>].[subtext_Config]
 WHERE
 	(
 			Host = @Host
@@ -1421,13 +1390,15 @@ WHERE
 		AND (1 = (SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_config]))
 	)
 
+EXEC [<dbUser,varchar,dbo>].[subtext_GetBlogById] @BlogId
+
 GO
 SET QUOTED_IDENTIFIER OFF 
 GO
 SET ANSI_NULLS ON 
 GO
 
-GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetConfig]  TO [public]
+GRANT  EXECUTE  ON [<dbUser,varchar,dbo>].[subtext_GetBlog]  TO [public]
 GO
 
 SET QUOTED_IDENTIFIER ON 
@@ -3501,16 +3472,14 @@ ORDER BY [BlogId] ASC
 SET ROWCOUNT @PageSize
 
 SELECT
-		subtext_Config.BlogId
-		, subtext_Users.UserName as Author
-		, subtext_Membership.Email
-		, subtext_Membership.Password as [Password]
+		BlogId
+		, OwnerId
+		, ApplicationId
 		, Title
 		, SubTitle
 		, Skin
 		, Subfolder
 		, Host
-		, subtext_Users.UserName
 		, TimeZone
 		, ItemCount
 		, CategoryListPostCount
@@ -3542,13 +3511,12 @@ SELECT
 		, pop3InlineAttachedPictures
 		, pop3HeightForThumbs
 		
-	FROM [<dbUser,varchar,dbo>].[subtext_Config], [<dbUser,varchar,dbo>].[subtext_users], [<dbUser,varchar,dbo>].[subtext_Membership]
-	where subtext_Config.OwnerId = subtext_Users.UserId
-	and subtext_Config.OwnerId = subtext_Membership.UserId
-	And subtext_Config.BlogId >= @FirstId
+	FROM [<dbUser,varchar,dbo>].[subtext_Config]
+	WHERE 
+		BlogId >= @FirstId
 	AND @ConfigurationFlags & Flag = @ConfigurationFlags
 	AND (Host = @Host OR @Host IS NULL)
-ORDER BY subtext_Config.BlogId ASC
+ORDER BY BlogId ASC
 
 SELECT COUNT([BlogId]) AS TotalRecords
 FROM [<dbUser,varchar,dbo>].[subtext_config]

@@ -146,7 +146,7 @@ namespace Subtext.Framework.Data
                 PagedCollection<BlogInfo> pec = new PagedCollection<BlogInfo>();
 				while(reader.Read())
 				{
-					pec.Add(DataHelper.LoadConfigData(reader));
+					pec.Add(DataHelper.LoadBlog(reader));
 				}
 				reader.NextResult();
 				pec.MaxItems = DataHelper.GetMaxItems(reader);
@@ -175,7 +175,7 @@ namespace Subtext.Framework.Data
 			{
 				if(reader.Read())
 				{
-					BlogInfo info = DataHelper.LoadConfigData(reader);
+					BlogInfo info = DataHelper.LoadBlog(reader);
 					reader.Close();
 					return info;
 				}
@@ -1358,7 +1358,7 @@ namespace Subtext.Framework.Data
 			using (IDataReader reader = GetReader("subtext_UTILITY_AddBlog", title, username, formattedPassword, passwordSalt, DataHelper.CheckNull(email), host, subfolder, DateTime.UtcNow))
 			{
 				if(reader.Read())
-					return DataHelper.LoadConfigData(reader);
+					return DataHelper.LoadBlog(reader);
 				return null;
 			}
 		}
@@ -1459,13 +1459,13 @@ namespace Subtext.Framework.Data
 				,DataHelper.MakeInParam("@Strict", SqlDbType.Bit, 1, strict)
 			};
 
-            IDataReader reader = GetReader("subtext_GetConfig", p);
+            IDataReader reader = GetReader("subtext_GetBlog", p);
 			try
 			{
 				BlogInfo info = null;
 				while(reader.Read())
 				{
-					info = DataHelper.LoadConfigData(reader);
+					info = DataHelper.LoadBlog(reader);
 					break;
 				}
 				return info;

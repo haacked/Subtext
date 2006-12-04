@@ -79,7 +79,7 @@ For the MailToWebLog feature to function properly, here are the changes and thin
 **STORED PROCEDURE(S) CHANGED**
 1-subtext_GetBlogById
 2-subtext_GetBlogsByHost
-3-subtext_GetConfig
+3-subtext_GetBlog
 4-subtext_GetPageableBlogs
 5-subtext_UpdateConfig
 
