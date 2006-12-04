@@ -151,7 +151,7 @@ namespace Subtext.Framework.Security
 			catch (SqlException sqlExc)
 			{
 				if (sqlExc.Number == (int)SqlErrorMessage.CouldNotFindStoredProcedure
-					&& sqlExc.Message.IndexOf("'subtext_GetConfig'") > 0)
+					&& sqlExc.Message.IndexOf("'subtext_GetBlog'") > 0)
 				{
 					// must not have the db installed.
 					log.Debug("The database must not be installed.");

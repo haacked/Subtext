@@ -280,9 +280,7 @@ namespace Subtext.Framework.Configuration
 				{
 					throw new InvalidSubfolderNameException(subfolderName);
 				}
-			}
-			
-			info.IsPasswordHashed = Settings.UseHashedPasswords;
+			}		
 			info.AllowServiceAccess = Settings.AllowServiceAccess;
 
 			return ObjectProvider.Instance().UpdateBlog(info);

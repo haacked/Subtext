@@ -117,13 +117,26 @@ namespace Subtext.Framework
 
 		private string _imagePath;
 
+		/// <summary>
+		/// Gets or sets the owner of the blog.
+		/// </summary>
+		/// <value>The owner.</value>
 		public MembershipUser Owner
 		{
-			get { return this.owner; }
+			get
+			{
+				if(this.owner == null && this.ownerId != Guid.Empty)
+				{
+					this.owner = Membership.GetUser(this.ownerId);
+				}
+				return this.owner;
+			}
 			set { this.owner = value; }
 		}
 
-		MembershipUser owner = new MembershipUser("SubtextMembershipProvider", "", "", "", "", "", false, false, DateTime.Now, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue);
+		MembershipUser owner;
+
+		internal Guid ownerId;
 		
 		/// <summary>
 		/// Gets or sets the path (url) to the image directory.
@@ -309,20 +322,6 @@ namespace Subtext.Framework
 		{
 			get{return FlagPropertyCheck(ConfigurationFlag.EnableServiceAccess);}
 			set{FlagSetter(ConfigurationFlag.EnableServiceAccess,value);}
-		}
-
-		/// <summary>
-		/// Gets or sets a value indicating whether passwords are 
-		/// stored in the database as cleartext or hashed.  If true, 
-		/// passwords are hashed before storage.
-		/// </summary>
-		/// <value>
-		/// 	<c>true</c> if passwords are hashed; otherwise, <c>false</c>.
-		/// </value>
-		public bool IsPasswordHashed
-		{
-			get{return FlagPropertyCheck(ConfigurationFlag.IsPasswordHashed);}
-			set{FlagSetter(ConfigurationFlag.IsPasswordHashed,value);}
 		}
 
 		/// <summary>
@@ -562,13 +561,20 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
-		/// Gets or sets the name of the application.
+		/// Gets or sets the name of the Membership application this 
+		/// blog is mapped to.
 		/// </summary>
 		/// <value>The name of the application.</value>
 		public string ApplicationName
 		{
-			get { return this.Host + "/" + this.Subfolder; }
+			get
+			{
+				return this.applicationName ?? this.Host + "/" + this.Subfolder;
+			}
+			set { this.applicationName = value; }
 		}
+
+		string applicationName;
 
 		private string _title;
 		/// <summary>

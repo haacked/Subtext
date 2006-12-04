@@ -58,11 +58,30 @@ namespace Subtext.Framework.Security
         }
 		string applicationName;
 
+		/// <summary>
+		/// Processes a request to update the password for a membership user.
+		/// </summary>
+		/// <param name="username">The user to update the password for.</param>
+		/// <param name="oldPassword">The current password for the specified user.</param>
+		/// <param name="newPassword">The new password for the specified user.</param>
+		/// <returns>
+		/// true if the password was updated successfully; otherwise, false.
+		/// </returns>
         public override bool ChangePassword(string username, string oldPassword, string newPassword)
         {
 			throw new NotImplementedException("The method or operation is not implemented.");
         }
 
+		/// <summary>
+		/// Processes a request to update the password question and answer for a membership user.
+		/// </summary>
+		/// <param name="username">The user to change the password question and answer for.</param>
+		/// <param name="password">The password for the specified user.</param>
+		/// <param name="newPasswordQuestion">The new password question for the specified user.</param>
+		/// <param name="newPasswordAnswer">The new password answer for the specified user.</param>
+		/// <returns>
+		/// true if the password question and answer are updated successfully; otherwise, false.
+		/// </returns>
         public override bool ChangePasswordQuestionAndAnswer(string username, string password, string newPasswordQuestion, string newPasswordAnswer)
         {
 			throw new NotImplementedException("The method or operation is not implemented.");

@@ -64,13 +64,6 @@ namespace Subtext.Framework.Configuration
 			set{_allowserviceaccess = value;}
 		}
 
-		private bool _useHashedPasswords;
-		public bool UseHashedPasswords
-		{
-			get {return this._useHashedPasswords;}
-			set {this._useHashedPasswords = value;}
-		}
-
 		private bool _allowImages;
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to allow images.

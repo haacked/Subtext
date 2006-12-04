@@ -31,6 +31,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			BlogInfo blogInfo = new BlogInfo();
 			blogInfo.Host = "localhost";
 			blogInfo.Subfolder = "blog";
+			blogInfo.Owner = UnitTestHelper.CreateUserInstanceForTest();
 			blogInfo.Owner.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = true;
 			blogInfo.Title = "My Blog Rulz";
@@ -89,6 +90,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 
 			BlogInfo blogInfo = new BlogInfo();
 			blogInfo.Host = "localhost";
+			blogInfo.Owner = UnitTestHelper.CreateUserInstanceForTest();
 			blogInfo.Owner.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = true;
 			blogInfo.Title = "My Blog Rulz";

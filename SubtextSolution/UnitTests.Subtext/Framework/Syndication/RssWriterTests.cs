@@ -47,6 +47,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			blogInfo.Host = "localhost";
 			blogInfo.Subfolder = subfolder;
 			blogInfo.Title = "My Blog Is Better Than Yours";
+			blogInfo.Owner = UnitTestHelper.CreateUserInstanceForTest();
 			blogInfo.Owner.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = true;
 
@@ -69,6 +70,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			BlogInfo blogInfo = new BlogInfo();
 			blogInfo.Host = "localhost";
 			blogInfo.Title = "My Blog Is Better Than Yours";
+			blogInfo.Owner = UnitTestHelper.CreateUserInstanceForTest();
 			blogInfo.Owner.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = true;
 			blogInfo.TimeZoneId = PacificTimeZoneId;
@@ -170,6 +172,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			BlogInfo blogInfo = new BlogInfo();
 			blogInfo.Host = "localhost";
 			blogInfo.Subfolder = "";
+			blogInfo.Owner = UnitTestHelper.CreateUserInstanceForTest();
 			blogInfo.Owner.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = true;
 			blogInfo.TimeZoneId = PacificTimeZoneId;
@@ -240,6 +243,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			BlogInfo blogInfo = new BlogInfo();
 			blogInfo.Host = "localhost";
 			blogInfo.Subfolder = "";
+			blogInfo.Owner = UnitTestHelper.CreateUserInstanceForTest();
 			blogInfo.Owner.Email = "Subtext@example.com";
 			blogInfo.RFC3229DeltaEncodingEnabled = false;
 			blogInfo.TimeZoneId = PacificTimeZoneId;
