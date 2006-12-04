@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Web.Security;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -48,8 +49,8 @@ namespace Subtext.Web.Admin.Pages
 		        txbTitle.Text = info.Title;
 		        txbSubtitle.Text = info.SubTitle;
 		        txbAuthor.Text = info.Author;
-		        txbAuthorEmail.Text = info.Email;
-		        txbUser.Text = info.UserName;
+		        txbAuthorEmail.Text = info.Owner.Email;
+		        txbUser.Text = info.Owner.UserName;
 		        txbNews.Text = info.News;
 		        ckbAllowServiceAccess.Checked = info.AllowServiceAccess;
 		        ddlTimezone.DataSource = WindowsTimeZone.TimeZones;
@@ -141,9 +142,8 @@ namespace Subtext.Web.Admin.Pages
 				BlogInfo info = Config.CurrentBlog;
 				info.Title = txbTitle.Text;
 				info.SubTitle = txbSubtitle.Text;
-				info.Author = txbAuthor.Text;
-				info.Email = txbAuthorEmail.Text;
-				info.UserName = txbUser.Text;
+				info.Owner.Email = txbAuthorEmail.Text;
+				//info.Owner.UserName = txbUser.Text;
 
 				info.TimeZoneId = Int32.Parse(ddlTimezone.SelectedItem.Value);
 				info.Subfolder = Config.CurrentBlog.Subfolder;

@@ -68,9 +68,9 @@ namespace Subtext.Web.UI.Controls
 			Label author = e.Item.FindControl("author") as Label;
 			if(author != null)
 			{
-				if(entry.Author != null && entry.Author.Length > 0)
+				if(entry.Author != null)
 				{
-					author.Text = entry.Author;
+					author.Text = entry.Author.UserName;
 				}
 			}
 		}

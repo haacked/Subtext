@@ -1,29 +1,19 @@
 using System;
 using System.Data;
-using System.Configuration;
 using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
 using System.Collections.Specialized;
 using System.Data.SqlClient;
-using System.Security.Cryptography;
-using System.Text;
+using Microsoft.ApplicationBlocks.Data;
 
 namespace Subtext.Framework.Security
 {
     class SubtextRoleProvider : System.Web.Security.RoleProvider
     {
-        private string _applicationName;
-        private string _connectionString;
-        private NameValueCollection _config;
+        private string applicationName;
+        private string connectionString;
 
         public override void Initialize(string name, NameValueCollection config)
         {
-
-            _config = config;
             if (string.IsNullOrEmpty(name))
                 name = "SubtextMembershipProvider";
             base.Initialize(name, config);
@@ -32,39 +22,30 @@ namespace Subtext.Framework.Security
             if (string.IsNullOrEmpty(csn))
                 throw new HttpException("Missing attribute 'connectionStringName'");
 
-            _connectionString = System.Configuration.ConfigurationManager.ConnectionStrings[csn].ConnectionString;
+            this.connectionString = System.Configuration.ConfigurationManager.ConnectionStrings[csn].ConnectionString;
 
-            if (string.IsNullOrEmpty(_connectionString))
+            if (string.IsNullOrEmpty(this.connectionString))
                 throw new Exception("The connection string " + csn + "was not found");
 
             config.Remove("connectionStringName");
         }
 
+		/// <summary>
+		/// Gets or sets the name of the application to store 
+		/// and retrieve role information for.
+		/// </summary>
+		/// <value></value>
+		/// <returns>The name of the application to store and 
+		/// retrieve role information for.</returns>
         public override string ApplicationName
         {
             get
             {
-                int BlogId;
-                try
-                {
-                    BlogId = Subtext.Framework.Configuration.Config.CurrentBlog.Id;
-                }
-                catch (NullReferenceException)
-                {
-                    BlogId = -1;
-                }
-                if (BlogId <= 0)
-                {
-                    return "/";
-                }
-                else
-                {
-                    return "Blog_" + BlogId.ToString();
-                }
+				return this.applicationName ?? "/";
             }
             set
             {
-                _applicationName = value;
+                this.applicationName = value;
             }
         }
 
@@ -84,7 +65,7 @@ namespace Subtext.Framework.Security
             }
             cdRoleNames = cdRoleNames.Remove(cdRoleNames.Length - 1);
 
-            SqlConnection conn = new SqlConnection(_connectionString);
+            SqlConnection conn = new SqlConnection(this.connectionString);
             SqlCommand cmd = new SqlCommand("subtext_UsersInRoles_AddUsersToRoles", conn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@ApplicationName", ApplicationName);
@@ -102,7 +83,7 @@ namespace Subtext.Framework.Security
         public override void CreateRole(string roleName)
         {
 
-            SqlConnection conn = new SqlConnection(_connectionString);
+            SqlConnection conn = new SqlConnection(this.connectionString);
             SqlCommand cmd = new SqlCommand("subtext_Roles_CreateRole", conn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@ApplicationName", ApplicationName);
@@ -132,7 +113,7 @@ namespace Subtext.Framework.Security
 
         public override string[] GetAllRoles()
         {
-            SqlConnection conn = new SqlConnection(_connectionString);
+            SqlConnection conn = new SqlConnection(this.connectionString);
             SqlCommand cmd = new SqlCommand("subtext_Roles_GetAllRoles", conn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@ApplicationName", ApplicationName);
@@ -152,33 +133,34 @@ namespace Subtext.Framework.Security
 
         }
 
+		/// <summary>
+		/// Gets a list of the roles that a specified user is in for the 
+		/// configured applicationName.
+		/// </summary>
+		/// <param name="username">The user to return a list of roles for.</param>
+		/// <returns>
+		/// A string array containing the names of all the roles that the specified user is in for the configured applicationName.
+		/// </returns>
         public override string[] GetRolesForUser(string username)
         {
-            SqlConnection conn = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand("subtext_UsersInRoles_GetRolesForUser", conn);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ApplicationName", ApplicationName);
-            cmd.Parameters.AddWithValue("@UserName", username);
-            using (conn)
-            {
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                StringCollection userRoles = new StringCollection();
-                while (reader.Read())
-                {
-                    userRoles.Add(reader.GetString(0));
-                }
-                string[] returnUserRoles = new string[userRoles.Count];
-                userRoles.CopyTo(returnUserRoles, 0);
+			StringCollection userRoles = new StringCollection();
 
-                return returnUserRoles;
-            }
-
+			using (IDataReader reader = SqlHelper.ExecuteReader(this.connectionString, "subtext_UsersInRoles_GetRolesForUser", ApplicationName, username))
+			{
+				while (reader.Read())
+				{
+					userRoles.Add(reader.GetString(0));
+				}
+			}
+			
+			string[] returnUserRoles = new string[userRoles.Count];
+			userRoles.CopyTo(returnUserRoles, 0);
+			return returnUserRoles;
         }
 
         public override string[] GetUsersInRole(string roleName)
         {
-            SqlConnection conn = new SqlConnection(_connectionString);
+            SqlConnection conn = new SqlConnection(this.connectionString);
             SqlCommand cmd = new SqlCommand("subtext_UsersInRoles_GetUsersInRoles", conn);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@ApplicationName", ApplicationName);
@@ -199,18 +181,28 @@ namespace Subtext.Framework.Security
             }
         }
 
+		/// <summary>
+		/// Gets a value indicating whether the specified user is 
+		/// in the specified role for the configured applicationName.
+		/// </summary>
+		/// <param name="username">The user name to search for.</param>
+		/// <param name="roleName">The role to search in.</param>
+		/// <returns>
+		/// true if the specified user is in the specified role for the 
+		/// configured applicationName; otherwise, false.
+		/// </returns>
         public override bool IsUserInRole(string username, string roleName)
         {
-            SqlConnection conn = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand("subtext_UsersInRoles_IsUserInRole", conn);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ApplicationName", ApplicationName);
-            cmd.Parameters.AddWithValue("@UserName", username);
-            cmd.Parameters.AddWithValue("@RoleName", roleName);
-            using (conn)
-            {
-                return ((int)cmd.ExecuteScalar() == 1);
-            }
+			SqlParameter returnValue = new SqlParameter("@return_value", SqlDbType.Int, 4);
+			returnValue.Direction = ParameterDirection.ReturnValue;
+			SqlHelper.ExecuteNonQuery(this.connectionString
+			                          , CommandType.StoredProcedure
+			                          , "subtext_UsersInRoles_IsUserInRole"
+			                          , new SqlParameter("ApplicationName", ApplicationName)
+			                          , new SqlParameter("@UserName", username)
+			                          , new SqlParameter("@RoleName", roleName)
+			                          , returnValue);
+			return 1 == (int)returnValue.Value;
         }
 
         public override void RemoveUsersFromRoles(string[] usernames, string[] roleNames)
@@ -218,35 +210,26 @@ namespace Subtext.Framework.Security
             throw new Exception("The method or operation is not implemented.");
         }
 
+		/// <summary>
+		/// Gets a value indicating whether the specified role name 
+		/// already exists in the role data source for the configured applicationName.
+		/// </summary>
+		/// <param name="roleName">The name of the role to search for in the data source.</param>
+		/// <returns>
+		/// true if the role name already exists in the data source for the configured applicationName; otherwise, false.
+		/// </returns>
         public override bool RoleExists(string roleName)
         {
-            SqlConnection conn = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand("subtext_Roles_RoleExists", conn);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ApplicationName", ApplicationName);
-            cmd.Parameters.AddWithValue("@RoleName", roleName);
-            cmd.Parameters.Add("@return_value", SqlDbType.Int);
-            cmd.Parameters["@return_value"].Direction = ParameterDirection.ReturnValue;
+			SqlParameter returnValue = new SqlParameter("@return_value", SqlDbType.Int, 4);
+			returnValue.Direction = ParameterDirection.ReturnValue;
+			SqlHelper.ExecuteNonQuery(this.connectionString
+									  , CommandType.StoredProcedure
+									  , "subtext_Roles_RoleExists"
+									  , new SqlParameter("ApplicationName", ApplicationName)
+									  , new SqlParameter("@RoleName", roleName)
+									  , returnValue);
 
-            using (conn)
-            {
-               conn.Open();
-               cmd.ExecuteNonQuery();
-               return (int)cmd.Parameters["@return_value"].Value == 1 ? true : false; 
-
-            }
-        }
-
-        public bool CreateStandardRoles()
-        {
-            string[] rolenames = new string[] {"Adminstrators",
-                "PowerUsers", "Authors", "VerifiedCommenters",
-                "Anonymous" };
-            foreach (string role in rolenames)
-            {
-                CreateRole(role);
-            }
-            return true;
-        }
+			return 1 == (int)returnValue.Value;
+		}
     }
 }

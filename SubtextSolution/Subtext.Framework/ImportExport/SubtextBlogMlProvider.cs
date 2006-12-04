@@ -166,7 +166,7 @@ namespace Subtext.ImportExport
                 bmlAuthor.ID = blog.Id.ToString();
                 bmlAuthor.Title = blog.Author;
                 bmlAuthor.Approved = true;
-                bmlAuthor.Email = blog.Email;
+                bmlAuthor.Email = blog.Owner.Email;
                 bmlAuthor.DateCreated = blog.LastUpdated;
                 bmlAuthor.DateModified = blog.LastUpdated;
 			    bmlBlog.Authors.Add(bmlAuthor);

@@ -20,6 +20,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Web.Security;
 using log4net;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.Extensibility;
@@ -62,7 +63,7 @@ namespace Subtext.Framework.Data
 		/// <returns>A <see cref="HostInfo"/> instance.</returns>
 		public override HostInfo LoadHostInfo(HostInfo hostInfo)
 		{
-			using(IDataReader reader = GetReader("[dbo].[subtext_GetHost]"))
+			using(IDataReader reader = GetReader("subtext_GetHost"))
 			{
 				if(reader.Read())
 				{
@@ -76,20 +77,25 @@ namespace Subtext.Framework.Data
 		}
 
 		/// <summary>
-		/// Updates the <see cref="HostInfo"/> instance.  If the host record is not in the 
+		/// Updates the <see cref="HostInfo"/> instance.  If the host record is not in the
 		/// database, one is created. There should only be one host record.
 		/// </summary>
-		/// <param name="host">The host information.</param>
-		public override bool UpdateHost(HostInfo host)
+		/// <param name="username">The username of the host admin.</param>
+		/// <param name="password">The password of the host admin.</param>
+		/// <param name="passwordSalt">The password salt.</param>
+		/// <param name="email">The email.</param>
+		/// <returns></returns>
+		public override HostInfo CreateHost(HostInfo host, string username, string password, string passwordSalt, string email)
 		{
-            SqlParameter[] p = 
-			{
-				DataHelper.MakeInParam("@HostUserName", SqlDbType.NVarChar,  64, host.HostUserName)
-				, DataHelper.MakeInParam("@Password", SqlDbType.NVarChar,  32, host.Password)
-				, DataHelper.MakeInParam("@Salt", SqlDbType.NVarChar,  32, host.Salt)
-			};
-
-            return NonQueryBool("subtext_UpdateHost", p);
+		   using(IDataReader reader = GetReader("subtext_CreateHost", username, password, passwordSalt, email, DateTime.UtcNow))
+		   {
+			   if (reader.Read())
+			   {
+				   DataHelper.LoadHost(reader, host);
+					return host;
+			   }
+		   }
+		   return null;
 		}
 
 		#endregion Host
@@ -722,13 +728,17 @@ namespace Subtext.Framework.Data
                 throw new ArgumentNullException("link", "Cannot insert a null entry.");
 
             SqlParameter outIdParam = DataHelper.MakeOutParam("@ID", SqlDbType.Int, 4);
+
+        	MembershipUser author = Membership.GetUser();
+			Guid authorId = (Guid)(author ?? Config.CurrentBlog.Owner).ProviderUserKey;
+        	
             SqlParameter[] p =
 			{
 				DataHelper.MakeInParam("@Title",  SqlDbType.NVarChar, 255, entry.Title), 
+				//TODO: Maybe the author should be set as a property of Entry.
+				DataHelper.MakeInParam("@AuthorId", SqlDbType.UniqueIdentifier, 16, authorId),
 				DataHelper.MakeInParam("@Text", SqlDbType.NText, 0, entry.Body), 
 				DataHelper.MakeInParam("@PostType", SqlDbType.Int, 4, entry.PostType), 
-				DataHelper.MakeInParam("@Author", SqlDbType.NVarChar, 50, DataHelper.CheckNull(entry.Author)), 
-				DataHelper.MakeInParam("@Email", SqlDbType.NVarChar, 50, DataHelper.CheckNull(entry.Email)), 
 				DataHelper.MakeInParam("@Description", SqlDbType.NVarChar, 500, DataHelper.CheckNull(entry.Description)), 
 				DataHelper.MakeInParam("@DateAdded", SqlDbType.DateTime, 8, entry.DateCreated), 
 				DataHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, entry.PostConfig), 
@@ -741,43 +751,6 @@ namespace Subtext.Framework.Data
             NonQueryInt("subtext_InsertEntry", p);
             return (int)outIdParam.Value;
         }
-
-        /// <summary>
-        /// Adds a new entry to the blog.  Whether the entry be a blog post, article
-        /// </summary>
-        /// <remarks>
-        /// This new method is required if the entry is created by Mail to Weblog feature.
-        /// If there are multiple blogs and the request was to the root of the installation like http://yourdomain/blogs
-        /// BlogIdParam will be equal to null becasue it does not exist in the Config.CurrentBlog.
-        /// </remarks>
-        /// <param name="entry">Entry.</param>
-        /// <returns></returns>
-        public override int InsertEntryNoCurrentBlog(Entry entry)
-        {
-            if (entry == null)
-                throw new ArgumentNullException("link", "Cannot insert a null entry.");
-
-            SqlParameter outIdParam = DataHelper.MakeOutParam("@ID", SqlDbType.Int, 4);
-            SqlParameter[] p =
-			{
-				DataHelper.MakeInParam("@Title",  SqlDbType.NVarChar, 255, entry.Title), 
-				DataHelper.MakeInParam("@Text", SqlDbType.NText, 0, entry.Body), 
-				DataHelper.MakeInParam("@PostType", SqlDbType.Int, 4, entry.PostType), 
-				DataHelper.MakeInParam("@Author", SqlDbType.NVarChar, 50, DataHelper.CheckNull(entry.Author)), 
-				DataHelper.MakeInParam("@Email", SqlDbType.NVarChar, 50, DataHelper.CheckNull(entry.Email)), 
-				DataHelper.MakeInParam("@Description", SqlDbType.NVarChar, 500, DataHelper.CheckNull(entry.Description)), 
-				DataHelper.MakeInParam("@DateAdded", SqlDbType.DateTime, 8, entry.DateCreated), 
-				DataHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, entry.PostConfig), 
-				DataHelper.MakeInParam("@EntryName", SqlDbType.NVarChar, 150, StringHelper.ReturnNullForEmpty(entry.EntryName)), 
-				DataHelper.MakeInParam("@DateSyndicated", SqlDbType.DateTime, 8, DataHelper.CheckNull(entry.DateSyndicated)), 
-				DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, DataHelper.CheckNull(entry.BlogId)),
-				outIdParam
-			};
-
-            NonQueryInt("subtext_InsertEntry", p);
-            return (int)outIdParam.Value;
-        }
-
 		#endregion
 
 		#region Update
@@ -857,14 +830,16 @@ namespace Subtext.Framework.Data
         /// <returns></returns>
         private bool UpdateEntry(Entry entry)
         {
+			MembershipUser author = Membership.GetUser();
+			Guid authorId = (Guid)(author ?? Config.CurrentBlog.Owner).ProviderUserKey;
+        	
             SqlParameter[] p =
 			{
 				DataHelper.MakeInParam("@ID", SqlDbType.Int, 4, entry.Id), 
 				DataHelper.MakeInParam("@Title",  SqlDbType.NVarChar, 255, entry.Title), 
 				DataHelper.MakeInParam("@Text", SqlDbType.NText, 0, entry.Body), 
 				DataHelper.MakeInParam("@PostType", SqlDbType.Int, 4, entry.PostType), 
-				DataHelper.MakeInParam("@Author", SqlDbType.NVarChar, 50, DataHelper.CheckNull(entry.Author)), 
-				DataHelper.MakeInParam("@Email", SqlDbType.NVarChar, 50, DataHelper.CheckNull(entry.Email)), 
+				DataHelper.MakeInParam("@AuthorId", SqlDbType.UniqueIdentifier, 16, authorId), 
 				DataHelper.MakeInParam("@Description", SqlDbType.NVarChar, 500, DataHelper.CheckNull(entry.Description)), 
 				DataHelper.MakeInParam("@DateUpdated", SqlDbType.DateTime, 4, entry.DateModified), 
 				DataHelper.MakeInParam("@PostConfig", SqlDbType.Int, 4, entry.PostConfig), 
@@ -1366,32 +1341,33 @@ namespace Subtext.Framework.Data
 		#region  Configuration
 
 		/// <summary>
-		/// Adds the initial blog configuration.  This is a convenience method for 
-		/// allowing a user with a freshly installed blog to immediately gain access 
+		/// Adds the initial blog configuration.  This is a convenience method for
+		/// allowing a user with a freshly installed blog to immediately gain access
 		/// to the admin section to edit the blog.
 		/// </summary>
-		/// <param name="title"></param>
-		/// <param name="host"></param>
-		/// <param name="subfolder"></param>
-		/// <param name="userName">Name of the user.</param>
-		/// <param name="password">Password.</param>
+		/// <param name="title">The title.</param>
+		/// <param name="username">The username of the blog owner.</param>
+		/// <param name="formattedPassword">The password for the blog owner as it should be stored in the db.</param>
+		/// <param name="passwordSalt">The password salt.</param>
+		/// <param name="email">The email.</param>
+		/// <param name="host">The host.</param>
+		/// <param name="subfolder">The subfolder.</param>
 		/// <returns></returns>
-		public override bool CreateBlog(string title, string userName, string password, string host, string subfolder)
+		public override BlogInfo CreateBlog(string title, string username, string formattedPassword, string passwordSalt, string email, string host, string subfolder)
 		{
-            SqlParameter[] parameters = 
+			using (IDataReader reader = GetReader("subtext_UTILITY_AddBlog", title, username, formattedPassword, passwordSalt, DataHelper.CheckNull(email), host, subfolder, DateTime.UtcNow))
 			{
-				DataHelper.MakeInParam("@Title", SqlDbType.NVarChar, 100, title)
-				, DataHelper.MakeInParam("@UserName", SqlDbType.NVarChar, 50, userName)
-				, DataHelper.MakeInParam("@Password", SqlDbType.NVarChar, 50, password)
-				, DataHelper.MakeInParam("@Email", SqlDbType.NVarChar, 50, string.Empty)
-				, DataHelper.MakeInParam("@Host", SqlDbType.NVarChar, 50, host)
-				, DataHelper.MakeInParam("@Application", SqlDbType.NVarChar, 50, subfolder)
-				, DataHelper.MakeInParam("@IsHashed", SqlDbType.Bit, 1, Config.Settings.UseHashedPasswords)
-				
-			};
-            return NonQueryBool("subtext_UTILITY_AddBlog", parameters);
+				if(reader.Read())
+					return DataHelper.LoadConfigData(reader);
+				return null;
+			}
 		}
-		
+
+		/// <summary>
+		/// Updates the specified blog configuration.
+		/// </summary>
+		/// <param name="info">Config.</param>
+		/// <returns></returns>
 		public override bool UpdateBlog(BlogInfo info)
 		{
             object daysTillCommentsClose = null;
@@ -1418,18 +1394,16 @@ namespace Subtext.Framework.Data
                 recentCommentsLength = info.RecentCommentsLength;
             }
 
-            /*GY: POP3 parameters added for Mail to Weblog feature*/
-            SqlParameter[] p = 
+			object ownerId = info.Owner == null ? null : info.Owner.ProviderUserKey;
+			
+			SqlParameter[] p = 
 				{
 					DataHelper.MakeInParam("@BlogId", SqlDbType.Int,  4, DataHelper.CheckNull(info.Id))
-					,DataHelper.MakeInParam("@UserName", SqlDbType.NVarChar, 50, info.UserName) 
-					,DataHelper.MakeInParam("@Password", SqlDbType.NVarChar, 50, info.Password) 
-					,DataHelper.MakeInParam("@Author", SqlDbType.NVarChar, 100, info.Author) 
-					,DataHelper.MakeInParam("@Email", SqlDbType.NVarChar, 50, info.Email) 
+					,DataHelper.MakeInParam("@OwnerId", ownerId) 
 					,DataHelper.MakeInParam("@Title", SqlDbType.NVarChar, 100, info.Title) 
 					,DataHelper.MakeInParam("@SubTitle", SqlDbType.NVarChar, 250, info.SubTitle) 
 					,DataHelper.MakeInParam("@Skin", SqlDbType.NVarChar, 50, info.Skin.TemplateFolder) 
-					,DataHelper.MakeInParam("@Application", SqlDbType.NVarChar, 50, info.CleanSubfolder) 
+					,DataHelper.MakeInParam("@Subfolder", SqlDbType.NVarChar, 50, info.CleanSubfolder) 
 					,DataHelper.MakeInParam("@Host", SqlDbType.NVarChar, 100, info.Host) 
 					,DataHelper.MakeInParam("@TimeZone", SqlDbType.Int, 4, info.TimeZoneId) 
 					,DataHelper.MakeInParam("@Language", SqlDbType.NVarChar, 10, info.Language) 
@@ -1481,7 +1455,7 @@ namespace Subtext.Framework.Data
             SqlParameter[] p = 
 			{
 				DataHelper.MakeInParam("@Host", SqlDbType.NVarChar, 100, hostname)
-				,DataHelper.MakeInParam("@Application", SqlDbType.NVarChar, 50, subfolder)
+				,DataHelper.MakeInParam("@Subfolder", SqlDbType.NVarChar, 50, subfolder)
 				,DataHelper.MakeInParam("@Strict", SqlDbType.Bit, 1, strict)
 			};
 
@@ -2021,37 +1995,64 @@ namespace Subtext.Framework.Data
             return SqlHelper.ExecuteReader(ConnectionString, CommandType.StoredProcedure, sql);
         }
 
-        private IDataReader GetReader(string sql, SqlParameter[] p)
+        private IDataReader GetReader(string sql, SqlParameter[] parameters)
         {
-            LogSql(sql, p);
-            return SqlHelper.ExecuteReader(ConnectionString, CommandType.StoredProcedure, sql, p);
+            LogSql(sql, parameters);
+            return SqlHelper.ExecuteReader(ConnectionString, CommandType.StoredProcedure, sql, parameters);
+        }
+		
+		private IDataReader GetReader(string sql, params object[] parameterValues)
+		{
+			LogSql(sql, parameterValues);
+			return SqlHelper.ExecuteReader(ConnectionString, sql, parameterValues);
+		}
+
+        private int NonQueryInt(string sql, SqlParameter[] parameters)
+        {
+            LogSql(sql, parameters);
+            return SqlHelper.ExecuteNonQuery(ConnectionString, CommandType.StoredProcedure, sql, parameters);
         }
 
-        private int NonQueryInt(string sql, SqlParameter[] p)
+        private bool NonQueryBool(string sql, SqlParameter[] parameters)
         {
-            LogSql(sql, p);
-            return SqlHelper.ExecuteNonQuery(ConnectionString, CommandType.StoredProcedure, sql, p);
+            LogSql(sql, parameters);
+            return NonQueryInt(sql, parameters) > 0;
         }
 
-        private bool NonQueryBool(string sql, SqlParameter[] p)
-        {
-            LogSql(sql, p);
-            return NonQueryInt(sql, p) > 0;
-        }
+		void LogSql(string sql, object[] parameterValues)
+		{
+#if DEBUG
+			if (parameterValues == null)
+			{
+				log.Debug("SQL: " + sql);
+				return;
+			}
+			
+			string query = sql + StringHelper.Join<object>(", ", parameterValues, delegate(object item)
+			{
+				if(item != null)
+					return item.ToString();
+				return "{NULL}";
+			});
 
+			log.Debug("SQL: " + query);
+
+#endif
+		}
+		
         void LogSql(string sql, SqlParameter[] parameters)
         {
 #if DEBUG
-            string query = sql;
-            if (parameters != null)
-            {
-                foreach (SqlParameter parameter in parameters)
-                {
-                    query += " " + parameter.ParameterName + "=" + parameter.Value + ",";
-                }
-                if (query.EndsWith(","))
-                    query = StringHelper.Left(query, query.Length - 1);
-            }
+        	if(parameters == null)
+        	{
+				log.Debug("SQL: " + sql);
+        		return;
+        	}
+        		
+			string query = sql + StringHelper.Join<SqlParameter>(", ", parameters, delegate(SqlParameter item)
+			{
+				return item.ParameterName + "=" + item.Value;
+			}); 
 
             log.Debug("SQL: " + query);
 #endif

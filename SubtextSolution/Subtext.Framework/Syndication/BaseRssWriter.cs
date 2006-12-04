@@ -120,7 +120,7 @@ namespace Subtext.Framework.Syndication
 		protected virtual void WriteChannel()
 		{
 			RssImageElement image = new RssImageElement(GetRssImage(), info.Title, info.HomeFullyQualifiedUrl, 77, 60, null);
-			BuildChannel(info.Title, info.HomeFullyQualifiedUrl.ToString(), info.Email, info.SubTitle, info.Language, info.Author, Config.CurrentBlog.LicenseUrl, image);
+			BuildChannel(info.Title, info.HomeFullyQualifiedUrl.ToString(), info.Owner.Email, info.SubTitle, info.Language, info.Author, Config.CurrentBlog.LicenseUrl, image);
 		}
 		
 		/// <summary>

@@ -8,7 +8,7 @@ IF NOT EXISTS
 (
     SELECT * FROM [information_schema].[columns] 
     WHERE   table_name = 'subtext_Config' 
-    AND table_schema = 'dbo'
+    AND table_schema = '<dbUser,varchar,dbo>'
     AND column_name = 'AkismetAPIKey'
 )
 BEGIN
@@ -21,7 +21,7 @@ IF NOT EXISTS
 (
     SELECT * FROM [information_schema].[columns] 
     WHERE   table_name = 'subtext_Config' 
-    AND table_schema = 'dbo'
+    AND		table_schema = '<dbUser,varchar,dbo>'
     AND column_name = 'CategoryListPostCount'
 )
 BEGIN

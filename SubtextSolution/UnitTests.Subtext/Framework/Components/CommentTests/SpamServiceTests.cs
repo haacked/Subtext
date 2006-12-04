@@ -1,4 +1,6 @@
 using System;
+using System.Security.Principal;
+using System.Threading;
 using System.Web.Caching;
 using MbUnit.Framework;
 using Rhino.Mocks;
@@ -15,7 +17,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 {
 	[TestFixture]
 	public class SpamServiceTests
-	{		
+	{
 		/// <summary>
 		/// Make sure when we create feedback, that it calls the comment service 
 		/// if enabled.
@@ -27,6 +29,8 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		public void FeedbackCreateCallsCommentService(bool isSpam, bool isAdmin)
 		{
 			UnitTestHelper.SetupBlog();
+			//Need to set our user to a non-admin
+			Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("NotAnAdmin"), new string[] { "Anonymous" });
 			
 			MockRepository mocks = new MockRepository();
 			IFeedbackSpamService service = (IFeedbackSpamService)mocks.CreateMock(typeof(IFeedbackSpamService));

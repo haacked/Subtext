@@ -99,7 +99,7 @@ namespace Subtext.Web.UI.Controls
 
 				EmailProvider email = EmailProvider.Instance();
 				BlogInfo info = Config.CurrentBlog;
-				string toEmail = info.Email;
+				string toEmail = info.Owner.Email;
 				string fromEmail = tbEmail.Text;
 				
 				string subject = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} (via {1})", tbSubject.Text, 

@@ -18,12 +18,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Web.Security;
 using CookComputing.XmlRpc;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
-using Subtext.Framework.Util;
-using Subtext.Framework.Security;
 
 //Need to find a method that has access to context, so we can terminate the request if AllowServiceAccess == false.
 //Users will be able to access the metablogapi page, but will not be able to make a request, but the page should not be visible
@@ -40,7 +39,7 @@ namespace Subtext.Framework.XmlRpc
 			if(!Config.Settings.AllowServiceAccess || !allowServiceAccess)
 				throw new XmlRpcFaultException(0, "Web Service Access is not enabled.");
 
-			bool isValid = SecurityHelper.IsValidUser(username, password);
+			bool isValid = Membership.ValidateUser(username, password);
 			if(!isValid)
 				throw new XmlRpcFaultException(0, "Username and password denied.");
 		}
@@ -86,8 +85,9 @@ namespace Subtext.Framework.XmlRpc
 			Entry entry = Entries.GetEntry(Int32.Parse(postid), PostConfig.None, true);
 			if(entry != null)
 			{
-				entry.Author = info.Author;
-				entry.Email = info.Email;
+				MembershipUser author = Membership.GetUser(username);
+
+				entry.Author = author;
 				entry.Body = post.description;
 				entry.Title = post.title;
 				entry.Description = string.Empty;
@@ -194,10 +194,11 @@ namespace Subtext.Framework.XmlRpc
 		{
 			Framework.BlogInfo info = Config.CurrentBlog;
 			ValidateUser(username,password,info.AllowServiceAccess);
+
+			MembershipUser author = Membership.GetUser(username);
 			
 			Entry entry = new Entry(PostType.BlogPost);
-			entry.Author = info.Author;
-			entry.Email = info.Email;
+			entry.Author = author;
 			entry.Body = post.description;
 			entry.Title = post.title;
 			entry.Description = string.Empty;

@@ -1,3 +1,161 @@
+/*
+SCRIPT: Installation.02.00.00
+
+NOTE:	This script is the last of three scripts used to upgrade 
+		Subtext from 1.9 to 2.0.
+
+ACTION: This script removes columns that are no longer needed.
+
+*/
+/* Remove unneeded columns from subtext_Config */
+IF EXISTS (SELECT * FROM [information_schema].[columns] 
+		WHERE	table_name = 'subtext_Config' 
+		AND		table_schema = '<dbUser,varchar,dbo>'
+		AND		column_name = 'UserName')
+BEGIN
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config]
+	DROP COLUMN UserName
+END
+GO
+
+/* Remove the subtext_Config HostApplication constraint. Not sure why this was added. 
+	Could not use the information_schema because indexes aren't put in there. :(
+*/
+IF  EXISTS (SELECT * FROM dbo.sysindexes WHERE id = OBJECT_ID(N'[<dbUser,varchar,dbo>].[subtext_Config]') AND name = N'IX_subtext_Config_HostApplication')
+DROP INDEX [<dbUser,varchar,dbo>].[subtext_Config].[IX_subtext_Config_HostApplication]
+GO
+
+
+/* Remove the subtext_Config constraint */
+IF EXISTS(
+	SELECT * 
+	FROM [information_schema].[constraint_column_usage]
+	WHERE constraint_name = 'IX_subtext_Config'
+	AND constraint_schema = '<dbUser,varchar,dbo>'
+	)
+BEGIN
+	PRINT 'remove constraint on Host + Application'
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config] 
+	DROP CONSTRAINT IX_subtext_Config
+END
+GO
+
+/* Remove the Application Folder. Earlier, we created a 
+	Subfolder column to hold this info.
+*/
+IF EXISTS (SELECT * FROM [information_schema].[columns] 
+		WHERE	table_name = 'subtext_Config' 
+		AND		table_schema = '<dbUser,varchar,dbo>'
+		AND		column_name = 'Application')
+AND EXISTS (SELECT * FROM [information_schema].[columns] 
+		WHERE	table_name = 'subtext_Config' 
+		AND		table_schema = '<dbUser,varchar,dbo>'
+		AND		column_name = 'Subfolder')
+BEGIN
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config]
+	DROP COLUMN Application
+END
+GO
+
+/* Add unique constraint on Host + Subfolder */
+IF NOT EXISTS(
+	SELECT * 
+	FROM [information_schema].[constraint_column_usage]
+	WHERE constraint_name = 'IX_subtext_Config__Host_Subfolder'
+	AND constraint_schema = '<dbUser,varchar,dbo>'
+	)
+BEGIN
+	PRINT 'add constraint on Host + Subfolder'
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config] ADD  CONSTRAINT [IX_subtext_Config] UNIQUE NONCLUSTERED 
+	(
+		[Subfolder] ASC,
+		[Host] ASC
+	) ON [PRIMARY]
+END
+GO
+
+IF EXISTS (SELECT * FROM [information_schema].[columns] 
+		WHERE	table_name = 'subtext_Config' 
+		AND		table_schema = '<dbUser,varchar,dbo>'
+		AND		column_name = 'Password')
+BEGIN
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config]
+	DROP COLUMN Password
+END
+GO
+
+IF EXISTS (SELECT * FROM [information_schema].[columns] 
+		WHERE	table_name = 'subtext_Config' 
+		AND		table_schema = '<dbUser,varchar,dbo>'
+		AND		column_name = 'Email')
+BEGIN
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config]
+	DROP COLUMN Email
+END
+GO
+
+IF EXISTS (SELECT * FROM [information_schema].[columns] 
+		WHERE	table_name = 'subtext_Config'
+		AND		table_schema = '<dbUser,varchar,dbo>'
+		AND		column_name = 'Author')
+BEGIN
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config]
+	DROP COLUMN Author
+END
+GO
+
+IF EXISTS (SELECT * FROM [information_schema].[columns] 
+		WHERE	table_name = 'subtext_Content' 
+		AND		table_schema = '<dbUser,varchar,dbo>'
+		AND		column_name = 'Author')
+BEGIN
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content]
+	DROP COLUMN Author
+END
+GO
+
+IF EXISTS (SELECT	* FROM [information_schema].[columns] 
+		WHERE	table_name = 'subtext_Content' 
+		AND		table_schema = '<dbUser,varchar,dbo>'
+		AND		column_name = 'Email')
+BEGIN
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content]
+	DROP COLUMN Email
+END
+GO
+
+
+/* Drop unnecessary columns from subtext_Host */
+IF EXISTS (SELECT * FROM [information_schema].[columns] 
+		WHERE	table_name = 'subtext_Host' 
+		AND		table_schema = '<dbUser,varchar,dbo>'
+		AND		column_name = 'HostUserName')
+BEGIN
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Host]
+	DROP COLUMN HostUserName
+END
+GO
+
+IF EXISTS (SELECT * FROM [information_schema].[columns] 
+		WHERE	table_name = 'subtext_Host' 
+		AND		table_schema = '<dbUser,varchar,dbo>'
+		AND		column_name = 'Password')
+BEGIN
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Host]
+	DROP COLUMN Password
+END
+GO
+
+IF EXISTS (SELECT * FROM [information_schema].[columns] 
+		WHERE	table_name = 'subtext_Host' 
+		AND		table_schema = '<dbUser,varchar,dbo>'
+		AND		column_name = 'Salt')
+BEGIN
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Host]
+	DROP COLUMN Salt
+END
+GO
+
 /*Add the Mail to weblog parameters to subtext_config - GY*/
 IF NOT EXISTS 
 	(
@@ -5,16 +163,9 @@ IF NOT EXISTS
 		WHERE	table_name = 'subtext_Config' 
 		AND		table_schema = '<dbUser,varchar,dbo>'
 		AND		column_name = 'pop3User' 
-		AND		column_name = 'pop3Pass'
-		AND		column_name = 'pop3Server'
-		AND		column_name = 'pop3StartTag'
-		AND		column_name = 'pop3EndTag'
-		AND		column_name = 'pop3SubjectPrefix'
-		AND		column_name = 'pop3MTBEnable'
-		AND		column_name = 'pop3DeleteOnlyProcessed'
-		AND		column_name = 'pop3InlineAttachedPictures'
-		AND		column_name = 'pop3HeightForThumbs'
 	)
+	
+	--Probably should add these one at a time.
 	
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config] WITH NOCHECK
 	ADD [pop3User] [varchar](32) NULL
@@ -27,7 +178,6 @@ IF NOT EXISTS
 		,[pop3DeleteOnlyProcessed] [bit] NULL
 		,[pop3InlineAttachedPictures] [bit] NULL
 		,[pop3HeightForThumbs] [int] NULL 
-
 GO
 
 

@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Specialized;
 using System.Web;
+using System.Web.Security;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Configuration;
@@ -182,23 +183,24 @@ namespace Subtext.Framework.Components
 		/// For comments, this is the name given by the commenter. 
 		/// </summary>
 		/// <value>The author.</value>
-		public string Author
+		public MembershipUser Author
 		{
-			get{return _author;}
-			set{_author = value;}
+			get
+			{
+				if(this.author == null)
+				{
+					if(authorId != Guid.Empty)
+					{
+						this.author = Membership.GetUser(authorId);
+					}
+				}
+				return this.author;
+			}
+			set{this.author = value;}
 		}
-		private string _author;
+		private MembershipUser author;
 
-		/// <summary>
-		/// Gets or sets the email of the author.
-		/// </summary>
-		/// <value>The email.</value>
-		public string Email
-		{
-			get{return _email;}
-			set{_email = value;}
-		}
-		private string _email;
+		internal Guid authorId = Guid.Empty;
 
 		/// <summary>
 		/// Gets or sets the date this item was created.

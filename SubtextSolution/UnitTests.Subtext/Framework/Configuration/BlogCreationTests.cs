@@ -19,7 +19,6 @@ using MbUnit.Framework;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
-using Subtext.Framework.Security;
 
 namespace UnitTests.Subtext.Framework.Configuration
 {
@@ -31,47 +30,6 @@ namespace UnitTests.Subtext.Framework.Configuration
 	public class BlogCreationTests
 	{
         /// <summary>
-		/// Ensures that creating a blog will hash the password 
-		/// if UseHashedPassword is set in web.config (as it should be).
-		/// </summary>
-		[Test]
-		[RollBack]
-		public void CreatingBlogHashesPassword()
-		{
-			string password = "MyPassword";
-			string hashedPassword = SecurityHelper.HashPassword(password);
-            
-        	UnitTestHelper.SetupBlogWithUserAndPassword("username", password, "MyBlog1");
-			
-        	BlogInfo info = Config.GetBlogInfo(Config.CurrentBlog.Host.ToUpper(CultureInfo.InvariantCulture), "MyBlog1");
-			Assert.IsNotNull(info, "We tried to get blog at " + Config.CurrentBlog.Host + "/MyBlog1 but it was null");
-
-			Config.Settings.UseHashedPasswords = true;
-			Assert.IsTrue(Config.Settings.UseHashedPasswords, "This test is voided because we're not hashing passwords");
-			Assert.AreEqual(hashedPassword, info.Password, "The password wasn't hashed.");
-		}
-
-		/// <summary>~
-		/// Ran into a problem where saving changes to a blog would rehash the password. 
-		/// We need a separate method for changing passwords.
-		/// </summary>
-		[Test]
-		[RollBack]
-		public void ModifyingBlogShouldNotChangePassword()
-		{
-			Config.Settings.UseHashedPasswords = true;
-			UnitTestHelper.SetupBlogWithUserAndPassword("username", "thePassword", "MyBlog1");
-			
-			BlogInfo info = Config.GetBlogInfo(Config.CurrentBlog.Host.ToUpper(CultureInfo.InvariantCulture), "MyBlog1");
-			string password = info.Password;
-			info.LicenseUrl = "http://subtextproject.com/";
-			Config.UpdateConfigData(info);
-
-			info = Config.GetBlogInfo(Config.CurrentBlog.Host.ToUpper(CultureInfo.InvariantCulture), "MyBlog1");
-			Assert.AreEqual(password, info.Password);
-		}
-
-		/// <summary>
 		/// If a blog already exists with a domain name and subfolder, one 
 		/// cannot create a blog with the same domain name and no subfolder.
 		/// </summary>
@@ -93,12 +51,12 @@ namespace UnitTests.Subtext.Framework.Configuration
 		public void AddingDistinctBlogsIsFine()
 		{
 			string host = UnitTestHelper.GenerateRandomString();
-			Config.CreateBlog("title", "username", "password", UnitTestHelper.GenerateRandomString(), string.Empty);
-			Config.CreateBlog("title", "username", "password", "www2." + UnitTestHelper.GenerateRandomString(), string.Empty);
-			Config.CreateBlog("title", "username", "password", UnitTestHelper.GenerateRandomString(), string.Empty);
-			Config.CreateBlog("title", "username", "password", host, "Blog1");
-			Config.CreateBlog("title", "username", "password", host, "Blog2");
-			Config.CreateBlog("title", "username", "password", host, "Blog3");
+			Config.CreateBlog("title", "username", "password1", UnitTestHelper.GenerateRandomString(), string.Empty);
+			Config.CreateBlog("title", "username", "password1", "www0." + UnitTestHelper.GenerateRandomString(), string.Empty);
+			Config.CreateBlog("title", "username", "password1", UnitTestHelper.GenerateRandomString(), string.Empty);
+			Config.CreateBlog("title", "username", "password1", host, "Blog1");
+			Config.CreateBlog("title", "username", "password1", host, "Blog2");
+			Config.CreateBlog("title", "username", "password1", host, "Blog3");
 		}
 
 		/// <summary>

@@ -43,7 +43,7 @@ namespace Subtext.Plugins.Core.CommunityCredits
 				BlogInfo info = Config.CurrentBlog;
 				string firstName = string.Empty;
 				string lastName = info.Author;
-				string email = info.Email;
+				string email = info.Owner.Email;
 				string affiliateCode = getEffectiveAffiliateCode(e.BlogSettings["AffiliateCode"]);
 				string affiliateKey = getEffectiveAffiliateKey(e.BlogSettings["AffiliateKey"]);
 

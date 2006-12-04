@@ -30,7 +30,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 			SimulatedRequestContext context = UnitTestHelper.SetupBlog();
 			string hostName = context.HostName;
 
-			Config.CurrentBlog.Email = "Subtext@example.com";
+			Config.CurrentBlog.Owner.Email = "Subtext@example.com";
 			Config.CurrentBlog.RFC3229DeltaEncodingEnabled = false;
 
 			DateTime dateCreated = DateTime.Now;

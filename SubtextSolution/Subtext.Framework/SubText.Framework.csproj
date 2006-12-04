@@ -383,9 +383,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Providers\EntrySearchProvider.cs" />
-    <Compile Include="Security\SecurityHelper.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Security\MembershipApplicationScope.cs" />
+    <Compile Include="Security\SecurityHelper.cs" />
+    <Compile Include="Security\SubtextMembershipProvider.cs" />
+    <Compile Include="Security\SubtextRoleProvider.cs" />
     <Compile Include="Services\AkismetSpamService.cs" />
     <Compile Include="Services\IFeedbackSpamService.cs" />
     <Compile Include="Services\MailToWeblog.cs" />

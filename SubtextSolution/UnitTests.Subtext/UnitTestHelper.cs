@@ -18,6 +18,7 @@ using System.IO;
 using System.Reflection;
 using System.Security.Principal;
 using System.Text;
+using System.Threading;
 using System.Web;
 using System.Web.Security;
 using ICSharpCode.SharpZipLib.GZip;
@@ -39,6 +40,9 @@ namespace UnitTests.Subtext
 	/// </summary>
 	public static class UnitTestHelper
 	{
+		internal const string MembershipTestUsername = "FakeUser";
+		internal const string MembershipTestPassword = "FakePassword1";
+		
         /// <summary>
 		/// Unpacks an embedded resource into the specified directory. The resource name should 
 		/// be everything after 'UnitTests.Subtext.Resources.'.
@@ -133,6 +137,11 @@ namespace UnitTests.Subtext
 		{
 			return SetupBlog(string.Empty);
 		}
+		
+		internal static MembershipUser CreateUserInstanceForTest()
+		{
+			return new MembershipUser("SubtextMembershipProvider", "Phil Haack", Guid.Empty, "test@example.com", "comment", "comment", true, false, DateTime.Now, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue);
+		}
 
 		/// <summary>
 		/// Takes all the necessary steps to create a blog and set up the HTTP Context
@@ -215,15 +224,20 @@ namespace UnitTests.Subtext
 		internal static SimulatedRequestContext SetupBlog(string subfolder, string applicationPath, int port, string page)
 		{
 			string host = UnitTestHelper.GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("Unit Test Blog", "FakeUser", "FakePassword", host, subfolder), "Could Not Create Blog");
+			Assert.IsTrue(Config.CreateBlog("Unit Test Blog", MembershipTestUsername, MembershipTestPassword, host, subfolder), "Could Not Create Blog");
 
 			StringBuilder sb = new StringBuilder();
 			TextWriter output = new StringWriter(sb);
 			SimulatedHttpRequest request = SetHttpContextWithBlogRequest(host, port, subfolder, applicationPath, page, output, "GET");
 
+			Config.CurrentBlog.ImageDirectory = Path.Combine(Environment.CurrentDirectory, "images");
+			Config.CurrentBlog.ImagePath = "/image/";
+
+			Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(MembershipTestUsername), new string[] { "Administrators" });
+			
 			return new SimulatedRequestContext(request, sb, output, host);
 		}
-
+		
 		/// <summary>
 		/// Takes all the necessary steps to create a blog and set up the HTTP Context
 		/// with the blog.  The blog will have an admin with the specified 
@@ -242,6 +256,7 @@ namespace UnitTests.Subtext
 		{
 			string host = UnitTestHelper.GenerateRandomString();
 			Assert.IsTrue(Config.CreateBlog("Unit Test Blog", username, password, host, subfolder), "Could Not Create Blog");
+			Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(username), new string[] { "Administrators" });
 			SetHttpContextWithBlogRequest(host, subfolder);
 		}
 		
@@ -335,7 +350,7 @@ namespace UnitTests.Subtext
 			HttpContext.Current.Cache.Remove("BlogInfo-");
 			HttpContext.Current.Cache.Remove("BlogInfo-" + subfolder);
 			
-			HttpContext.Current.Items["Subtext__CurrentRequest"] = new BlogRequest(host, subfolder);
+			HttpContext.Current.Items["Subtext__CurrentRequest"] = new BlogRequest(host, subfolder);			
 
 			#region Console Debug INfo
 			
@@ -493,7 +508,7 @@ namespace UnitTests.Subtext
 			entry.DateModified = entry.DateCreated;
 			entry.DateSyndicated = entry.DateCreated;
 			entry.Title = title;
-			entry.Author = author;
+			entry.Author = CreateUserInstanceForTest();
 			entry.Body = body;
 			entry.DisplayOnHomePage = true;
 			entry.IsAggregated = true;

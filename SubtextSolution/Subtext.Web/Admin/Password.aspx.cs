@@ -14,9 +14,8 @@
 #endregion
 
 using System;
+using System.Web.Security;
 using System.Web.UI.WebControls;
-using Subtext.Framework;
-using Subtext.Framework.Security;
 
 namespace Subtext.Web.Admin.Pages
 {
@@ -53,12 +52,12 @@ namespace Subtext.Web.Admin.Pages
 			const string failureMessage = "Your password can not be updated";
 			if(Page.IsValid)
 			{
-				if(SecurityHelper.IsValidPassword(tbCurrent.Text))
+				MembershipUser currentUser = Membership.GetUser();
+				if (Membership.ValidateUser(currentUser.UserName, tbCurrent.Text))
 				{
 					if(tbPassword.Text == tbPasswordConfirm.Text)
 					{
-						SecurityHelper.UpdatePassword(tbPassword.Text);
-
+						currentUser.ChangePassword(tbCurrent.Text, tbPassword.Text);
 						Messages.ShowMessage("Your password has been updated");
 					}
 					else

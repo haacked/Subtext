@@ -14,8 +14,10 @@
 #endregion
 
 using System;
+using System.Security.Principal;
 using System.Threading;
 using System.Web;
+using System.Web.Security;
 using MbUnit.Framework;
 using Subtext.Extensibility;
 using Subtext.Framework;
@@ -45,6 +47,9 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		public void CannotCreateMoreThanOneCommentWithinDelay()
 		{
 			UnitTestHelper.SetupBlog();
+			//Need to set our user to a non-admin
+			Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("NotAnAdmin"), new string[] { "Anonymous" });
+			
 			BlogInfo blog = Config.CurrentBlog;
 			blog.CommentDelayInMinutes = 1;
 
@@ -74,6 +79,10 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		public void CannotCreateDuplicateComments()
 		{
 			UnitTestHelper.SetupBlog();
+			
+			//Need to set our user to a non-admin
+			Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("NotAnAdmin"), new string[] { "Anonymous" });
+			
 			BlogInfo blog = Config.CurrentBlog;
 			blog.CommentDelayInMinutes = 0;
 
@@ -97,17 +106,14 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 	    {
 			UnitTestHelper.SetupBlog();
             BlogInfo blog = Config.CurrentBlog;
-			blog.UserName = "username";
-			blog.Password = SecurityHelper.HashPassword("some-password");
 			Config.UpdateConfigData(blog);
-	    	
+
             blog.CommentDelayInMinutes = 0;
-	        
 	        /*
              * Need to add the authentication ticket to the context (cookie), and then 
              * read that ticket to set the HttpContext.Current.User's Principle.
              */
-	        SecurityHelper.Authenticate("username", "some-password", true);
+			Membership.ValidateUser(UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestPassword);
 	        UnitTestHelper.AuthenticateFormsAuthenticationCookie();
 	        Assert.IsTrue(SecurityHelper.IsAdmin, "Not able to login to the current blog.");
 

@@ -15,6 +15,7 @@
 
 using System;
 using System.Configuration;
+using System.Web.Security;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
@@ -53,7 +54,12 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
-				return ConfigurationProvider.GetBlogInfo();
+				BlogInfo currentBlog = ConfigurationProvider.GetBlogInfo();
+				if (currentBlog == null)
+					Roles.ApplicationName = Membership.ApplicationName = "/";
+				else
+					Roles.ApplicationName = Membership.ApplicationName = currentBlog.ApplicationName;
+				return currentBlog;
 			}
 		}
 		
@@ -212,10 +218,21 @@ namespace Subtext.Framework.Configuration
 				}
 			}
 
-			if(!passwordAlreadyHashed && Settings.UseHashedPasswords)
-				password = SecurityHelper.HashPassword(password);
-
-            return (ObjectProvider.Instance().CreateBlog(title, userName, password, host, subfolder));
+			//Create the blog.
+			string passwordSalt = SecurityHelper.CreateRandomSalt();
+			if (Membership.Provider.PasswordFormat == MembershipPasswordFormat.Hashed)
+				password = SecurityHelper.HashPassword(password, passwordSalt);
+			
+			//Add blog user to Administrators.
+			BlogInfo blog = ObjectProvider.Instance().CreateBlog(title, userName, password, passwordSalt, null, host, subfolder);
+			using (IDisposable appScope = MembershipApplicationScope.SetApplicationName(blog.ApplicationName))
+			{
+				if(!Roles.RoleExists("Administrators"))
+					Roles.CreateRole("Administrators");
+				Roles.AddUserToRole(blog.Owner.UserName, "Administrators");
+				appScope.Dispose();
+			}
+			return true;
 		}
 
 		/// <summary>

@@ -21,6 +21,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Net;
+using System.Web.Security;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
@@ -211,14 +212,11 @@ namespace Subtext.Framework.Data
 				entry.AggLastUpdated = (DateTime)reader["AggLastUpdated"];	
 			}
 
-			if(reader["Author"] != DBNull.Value)
+			if(reader["AuthorId"] != DBNull.Value)
 			{
-				entry.Author = ReadString(reader, "Author");
+				entry.authorId = ReadGuid(reader, "AuthorId");
 			}
-			if(reader["Email"] != DBNull.Value)
-			{
-				entry.Email = ReadString(reader, "Email");
-			}
+			
 			entry.DateCreated = (DateTime)reader["DateAdded"];
 			
 			if(reader["DateUpdated"] != DBNull.Value)
@@ -335,8 +333,7 @@ namespace Subtext.Framework.Data
 
 		private static void LoadEntry(IDataReader reader, Entry entry, bool buildLinks)
 		{
-			entry.Author = ReadString(reader, "Author");
-			entry.Email = ReadString(reader, "Email");
+			entry.authorId = ReadGuid(reader, "AuthorId");
 			entry.DateCreated = ReadDate(reader, "DateAdded");
 			entry.DateModified = ReadDate(reader, "DateUpdated");
 			
@@ -507,14 +504,14 @@ namespace Subtext.Framework.Data
 		public static BlogInfo LoadConfigData(IDataReader reader)
 		{
 			BlogInfo info = new BlogInfo();
-			info.Author = ReadString(reader, "Author");
+
+			Guid ownerId = ReadGuid(reader, "OwnerId");
+			info.Owner = Membership.GetUser(ownerId);
+			
 			info.Id = DataHelper.ReadInt32(reader, "BlogId");
-			info.Email = ReadString(reader, "Email");
-			info.Password = ReadString(reader, "Password");
 
 			info.SubTitle = ReadString(reader, "SubTitle");
 			info.Title = ReadString(reader, "Title");
-			info.UserName = ReadString(reader, "UserName");
 			info.TimeZoneId = ReadInt32(reader, "TimeZone");
 			info.ItemCount = ReadInt32(reader, "ItemCount");
 			info.CategoryListPostCount = ReadInt32(reader, "CategoryListPostCount");
@@ -531,7 +528,7 @@ namespace Subtext.Framework.Data
 			info.Host = ReadString(reader, "Host");
 			// The Subfolder property is stored in the Application column. 
 			// This is a result of the legacy schema.
-			info.Subfolder = ReadString(reader, "Application");
+			info.Subfolder = ReadString(reader, "Subfolder");
 
 			info.Flag = (ConfigurationFlag)(ReadInt32(reader, "Flag"));
 
@@ -668,10 +665,9 @@ namespace Subtext.Framework.Data
 		/// <returns></returns>
 		public static void LoadHost(IDataReader reader, HostInfo info)
 		{
-			info.HostUserName = ReadString(reader, "HostUserName");
-			info.Password = ReadString(reader, "Password");
-			info.Salt = ReadString(reader, "Salt");
-			info.DateCreated = (DateTime)reader["DateCreated"];
+			info.ownerId = ReadGuid(reader, "OwnerId");
+			info.ApplicationId = ReadGuid(reader, "ApplicationId");
+			info.DateCreated = ReadDate(reader, "DateCreated");
 		}
 		#endregion
 
@@ -763,6 +759,28 @@ namespace Subtext.Framework.Data
 			catch (IndexOutOfRangeException)
 			{
 				return false;
+			}
+		}
+
+		/// <summary>
+		/// Reads a guid from the data reader. If the value is null, 
+		/// returns false.
+		/// </summary>
+		/// <param name="reader">The reader.</param>
+		/// <param name="columnName">Name of the column.</param>
+		/// <returns></returns>
+		public static Guid ReadGuid(IDataReader reader, string columnName)
+		{
+			try
+			{
+				if (reader[columnName] != DBNull.Value)
+					return (Guid)reader[columnName];
+				else
+					return Guid.Empty;
+			}
+			catch (IndexOutOfRangeException)
+			{
+				return Guid.Empty;
 			}
 		}
 
@@ -996,6 +1014,19 @@ namespace Subtext.Framework.Data
 	            return null;
 	        return dateTime;
 	    }
+
+		/// <summary>
+		/// Checks the value of the specified value type for a null value.  
+		/// Returns null if the value represents a null value
+		/// </summary>
+		/// <param name="guid">Date time.</param>
+		/// <returns></returns>
+		public static object CheckNull(Guid guid)
+		{
+			if (NullValue.IsNull(guid))
+				return null;
+			return guid;
+		}
 
 	    #region ExecuteDataTable
 

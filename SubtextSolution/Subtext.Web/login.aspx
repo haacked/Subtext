@@ -8,29 +8,31 @@
 	</head>
 	<body>
 		<form method="post" runat="server" ID="frmLogin">
-			<div id="Main">
-				<div id="logo"></div>
-				<div id="Heading">Please Sign In Below</div>
-				<label for="tbUserName">
-					Username <asp:RequiredFieldValidator ForeColor="#990044" ControlToValidate="tbUserName" Text="Please enter username"
-						Runat="server" id="RequiredFieldValidator1" />
-				</label>
-					<asp:TextBox id="tbUserName" runat="server" CssClass="Textbox" />
-				<label for="tbPassword">
-					Password
-				</label>
-				<asp:TextBox id="tbPassword" TextMode="Password" runat="server" CssClass="Textbox" />
-				<asp:Button id="btnLogin" runat="server" Text="Login" CssClass="Button LoginButton" onclick="btnLogin_Click" />
-				<p class="remember">
-					<asp:CheckBox id="chkRemember" runat="server" CssClass="LoginFloat" Text="Remember me?" />
-				</p>
-				<br class="clear" />
-				<asp:Label id="Message" runat="server" CssClass="ErrorMessage"></asp:Label>
-				<p class="Small">
-					Forget your password?
-					<asp:LinkButton id="lbSendPassword" runat="server" visible="true" CssClass="emailPassword" onclick="lbSendPassword_Click">Email me my password.</asp:LinkButton>
-				</p>
-			</div>
+			<asp:Login ID="loginControl" runat="server" DestinationPageUrl="~/HostAdmin/">
+				<LayoutTemplate>
+					<div id="Main">
+						<div id="logo"></div>
+						<div id="Heading">Please Log In Below</div>
+						
+						<asp:Label ID="UserNameLabel" runat="server" AssociatedControlID="UserName">User Name:</asp:Label>
+						<asp:TextBox ID="UserName" runat="server" CssClass="Textbox" />
+						<asp:RequiredFieldValidator ID="UserNameRequired" runat="server" ControlToValidate="UserName"
+							ErrorMessage="User Name is required." ToolTip="User Name is required." ValidationGroup="Login1">*</asp:RequiredFieldValidator>
+											
+						<asp:Label ID="PasswordLabel" runat="server" AssociatedControlID="Password">Password:</asp:Label>
+											
+						<asp:TextBox ID="Password" runat="server" TextMode="Password" CssClass="Textbox" />
+						<asp:RequiredFieldValidator ID="PasswordRequired" runat="server" ControlToValidate="Password"
+							ErrorMessage="Password is required." ToolTip="Password is required." ValidationGroup="Login1">*</asp:RequiredFieldValidator>
+						
+						<asp:CheckBox ID="RememberMe" runat="server" CssClass="LoginFloat" Text="Remember me next time." />
+											
+						<asp:Literal ID="FailureText" runat="server" EnableViewState="False"></asp:Literal>
+					
+						<asp:Button ID="LoginButton" runat="server" CommandName="Login" Text="Log In" ValidationGroup="Login1" />
+					</div>
+				</LayoutTemplate>
+			</asp:Login>
 		</form>
 	</body>
 </html>

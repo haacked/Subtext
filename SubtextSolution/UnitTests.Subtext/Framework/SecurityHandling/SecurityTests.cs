@@ -18,7 +18,6 @@ using System.Globalization;
 using System.Text;
 using System.Web;
 using MbUnit.Framework;
-using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Security;
 
@@ -30,42 +29,6 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 	[TestFixture]
 	public class SecurityTests
 	{
-		/// <summary>
-		/// Makes sure that the UpdatePassword method hashes the password.
-		/// </summary>
-		[Test]
-		[RollBack]
-		public void UpdatePasswordHashesPassword()
-		{
-			UnitTestHelper.SetupBlog();
-			string password = SecurityHelper.HashPassword("newPass");
-
-			SecurityHelper.UpdatePassword("newPass");
-			BlogInfo info = Config.GetBlogInfo(Config.CurrentBlog.Host, string.Empty);
-			Assert.AreEqual(password, info.Password);
-		}
-
-		/// <summary>
-		/// Basically a regression test of the HashPasswordMethod.
-		/// </summary>
-		[Test]
-		[RollBack]
-		public void HashPasswordReturnsProperHash()
-		{
-			UnitTestHelper.SetupBlogWithUserAndPassword("username", "thePassword", string.Empty);
-			string password = "myPassword";
-			string hashedPassword = "Bc5M0y93wXmtXNxwW6IJVA==";
-			Assert.AreEqual(hashedPassword, SecurityHelper.HashPassword(password));
-		
-			Config.CurrentBlog.IsPasswordHashed = true;
-			Config.CurrentBlog.Password = hashedPassword;
-			Assert.IsTrue(SecurityHelper.IsValidPassword(password));
-
-			Config.CurrentBlog.IsPasswordHashed = false;
-			Config.CurrentBlog.Password = password;
-			Assert.IsTrue(SecurityHelper.IsValidPassword(password));
-		}
-
 		/// <summary>
 		/// Ensures HashesPassword is case sensitive.
 		/// </summary>
@@ -80,33 +43,12 @@ namespace UnitTests.Subtext.Framework.SecurityHandling
 		}
 
 		[Test]
-		[RollBack]
-		public void CanSetAuthenticationCookie()
-		{
-			UnitTestHelper.SetupBlog();
-			SecurityHelper.SetAuthenticationTicket(Config.CurrentBlog.UserName, false, "Admins");
-			HttpCookie cookie = SecurityHelper.SelectAuthenticationCookie();
-			Assert.IsNotNull(cookie, "Could not get authentication cookie.");
-		}
-
-		[Test]
-		[RollBack]
-		public void CanAuthenticateAdmin()
-		{
-			UnitTestHelper.SetupBlogWithUserAndPassword("the-username", "thePassword", string.Empty);
-
-			Assert.IsTrue(SecurityHelper.Authenticate("the-username", "thePassword", true), "We should be able to login.");
-			HttpCookie cookie = SecurityHelper.SelectAuthenticationCookie();
-			Assert.IsNotNull(cookie, "Could not get authentication cookie.");
-		}
-		
-		[Test]
 		public void CanGenerateSymmetricEncryptionKey()
 		{
 			byte[] key = SecurityHelper.GenerateSymmetricKey();
 			Assert.IsTrue(key.Length > 0, "Expected a non-zero key.");
 		}
-		
+
 		[Test]
 		public void CanSymmetcricallyEncryptAndDecryptText()
 		{
