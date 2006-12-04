@@ -23,7 +23,7 @@ namespace Subtext.Web.Admin.WebUI {
         protected Subtext.Web.Admin.WebUI.HeaderLink NiceFormsStyle;
         protected System.Web.UI.HtmlControls.HtmlGenericControl AdminSection;
         protected System.Web.UI.HtmlControls.HtmlForm frmMain;
-        protected System.Web.UI.WebControls.Literal LoggedInUser;
+        protected System.Web.UI.WebControls.LoginName loginName;
         protected System.Web.UI.WebControls.LinkButton LogoutLink;
         protected System.Web.UI.WebControls.HyperLink BlogTitleLink;
         protected System.Web.UI.WebControls.ContentPlaceHolder actionsHeading;
