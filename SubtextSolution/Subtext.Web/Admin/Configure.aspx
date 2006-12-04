@@ -29,7 +29,7 @@
 			</p>
 			<p>
 				<label class="Block" accesskey="u" for="Edit_txbUser"><u>U</u>sername</label>
-				<asp:TextBox id="txbUser" runat="server" CssClass="textinput"></asp:TextBox>
+				<asp:TextBox id="txbUser" runat="server" CssClass="textinput" Enabled="false" />
 			</p>
 			<p>
 				<label class="Block" accesskey="n" for="Edit_txbAuthor">Owner's Display <u>N</u>ame</label>

@@ -16,6 +16,7 @@
 using System;
 using System.Globalization;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework;
@@ -108,7 +109,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 				blog = BlogInfo.GetBlogById(BlogId);
 				this.txtApplication.Text = blog.Subfolder;
 				this.txtHost.Text = blog.Host;
-				this.txtUsername.Text = blog.UserName;
+				this.txtUsername.Text = blog.Owner.UserName;
 				this.txtTitle.Text = blog.Title;	
 			}
 			this.txtTitle.Visible = true;
@@ -329,11 +330,11 @@ namespace Subtext.Web.HostAdmin.UserControls
 			blog.Title = this.txtTitle.Text;
 			blog.Host = this.txtHost.Text;
 			blog.Subfolder = this.txtApplication.Text;
-			blog.UserName = this.txtUsername.Text;
+			//blog.Owner.UserName = this.txtUsername.Text;
 
 			if(this.txtPassword.Text.Length > 0)
 			{
-				blog.Password = SecurityHelper.HashPassword(this.txtPassword.Text);
+				//TODO: Membership.Provider.ChangePassword(blog.Owner.UserName, this.txtPassword.Text);
 			}
 			
 			if(Config.UpdateConfigData(blog))

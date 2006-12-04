@@ -25,7 +25,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 		{
 			StringBuilder sb = UnitTestHelper.SetupBlog().ResponseStringBuilder;
 			
-			Config.CurrentBlog.Email = "Subtext@example.com";
+			Config.CurrentBlog.Owner.Email = "Subtext@example.com";
 			Config.CurrentBlog.RFC3229DeltaEncodingEnabled = false;
 
 			DateTime dateCreated = DateTime.Now;

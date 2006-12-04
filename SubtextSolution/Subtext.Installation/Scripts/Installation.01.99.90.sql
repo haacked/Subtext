@@ -1,4 +1,16 @@
 /*
+SCRIPT: Installation.01.99.90
+
+NOTE:	This script does not correspond to a released version of Subtext.
+		It is the first of three scripts used to upgrade Subtext from 1.9 to 2.0
+
+ACTION: This script creates the Subtext Membership Provider tables and 
+		related schema changes. It adds the ApplicationId column to 
+		subtext_Config and subtext_Host.
+			
+		A later script will remove outdated columns.
+*/
+/*
 Search and Replace Regexes:
 
 Table creation:
@@ -10,10 +22,113 @@ Foreign Keys:
 	REPLACE:IF NOT EXISTS\n(\n\tSELECT * FROM [information_schema].[referential_constraints]\n\tWHERE constraint_name = '\1'\n\tAND unique_constraint_schema = '<dbUser,varchar,dbo>'\n)
 */
 
-SET ANSI_NULLS ON
+/* Add an ApplicationId to the subtext_Config table so we can 
+	map a blog to its application */
+IF NOT EXISTS 
+	(
+		SELECT	* FROM [information_schema].[columns] 
+		WHERE	table_name = 'subtext_Config' 
+		AND table_schema = '<dbUser,varchar,dbo>'
+		AND	column_name = 'ApplicationId'
+	)
+	/* Add an OwnerId column to subtext_Config */
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config] ADD
+	[ApplicationId] UNIQUEIDENTIFIER NOT NULL 
+	CONSTRAINT DF_subtext_Config_ApplicationId DEFAULT NEWID()
 GO
-SET QUOTED_IDENTIFIER ON
+
+/* Add a Subfolder column to the subtext_Config table. We'll move the data in 
+	the misnamed 'Application' column here.
+*/
+IF NOT EXISTS 
+	(
+		SELECT	* FROM [information_schema].[columns] 
+		WHERE	table_name = 'subtext_Config' 
+		AND table_schema = '<dbUser,varchar,dbo>'
+		AND	column_name = 'Subfolder'
+	)
+	/* Add an OwnerId column to subtext_Config */
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config] ADD
+	[Subfolder] nvarchar(50) NOT NULL 
+	CONSTRAINT DF_subtext_Config_Subfolder DEFAULT ''
 GO
+
+IF EXISTS (SELECT * FROM [information_schema].[columns] 
+		WHERE	table_name = 'subtext_Config' 
+		AND		table_schema = '<dbUser,varchar,dbo>'
+		AND		column_name = 'Application')
+AND EXISTS (SELECT * FROM [information_schema].[columns] 
+		WHERE	table_name = 'subtext_Config' 
+		AND		table_schema = '<dbUser,varchar,dbo>'
+		AND		column_name = 'Subfolder')
+BEGIN
+	UPDATE [<dbUser,varchar,dbo>].[subtext_Config] 
+	SET Subfolder = Application
+END
+GO
+
+/* Add an ApplicationId to the subtext_Host table so we can 
+	map the Subtext host installation to its application */
+IF NOT EXISTS 
+	(
+		SELECT	* FROM [information_schema].[columns] 
+		WHERE	table_name = 'subtext_Host' 
+		AND table_schema = '<dbUser,varchar,dbo>'
+		AND	column_name = 'ApplicationId'
+	)
+	/* Add an OwnerId column to subtext_Config */
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Host] ADD
+	[ApplicationId] UNIQUEIDENTIFIER NOT NULL
+	CONSTRAINT DF_subtext_Host_ApplicationId DEFAULT NEWID()
+GO
+
+
+/* add the AuthorId field to Content table */
+IF NOT EXISTS 
+	(
+		SELECT	column_name 
+		FROM [information_schema].[columns] 
+		WHERE	table_name = 'subtext_Content' 
+		AND table_schema = '<dbUser,varchar,dbo>'
+		AND column_name = 'AuthorId'
+	)
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Content] ADD
+	[AuthorId]  uniqueidentifier NOT NULL 
+	CONSTRAINT DF_subtext_Content_AuthorId DEFAULT CONVERT(uniqueIdentifier , '00000000-0000-0000-0000-000000000000')
+GO
+
+/*	Adds OwnerId to the subtext_Host table. This is the overall owner 
+	of the subtext installation. The default HostAdmin. */
+IF NOT EXISTS 
+	(
+		SELECT	* FROM [information_schema].[columns] 
+		WHERE	table_name = 'subtext_Host' 
+		AND table_schema = '<dbUser,varchar,dbo>'
+		AND	column_name = 'OwnerId'
+	)
+	/* Add an OwnerId column to subtext_Config */
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Host] ADD
+	[OwnerId] UNIQUEIDENTIFIER NOT NULL 
+	CONSTRAINT DF_subtext_Host_OwnerId DEFAULT CONVERT(uniqueIdentifier , '00000000-0000-0000-0000-000000000000')
+GO
+
+
+/* Modifies the Config Table to have OwnerId which correlates to
+   the UserId of the main Administrator (to be created next) */
+IF NOT EXISTS 
+	(
+		SELECT	* FROM [information_schema].[columns] 
+		WHERE	table_name = 'subtext_Config' 
+		AND table_schema = '<dbUser,varchar,dbo>'
+		AND	column_name = 'OwnerId'
+	)
+	/* Add an OwnerId column to subtext_Config */
+	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config] ADD
+	[OwnerId] UNIQUEIDENTIFIER NOT NULL 
+	CONSTRAINT DF_subtext_Config_OwnerId DEFAULT CONVERT(uniqueIdentifier , '00000000-0000-0000-0000-000000000000')
+GO
+
+/* THE FOLLOWING SCRIPTS ADD ALL THE MEMBERSHIP TABLES */
 
 IF NOT EXISTS
 (
@@ -22,7 +137,7 @@ IF NOT EXISTS
 	AND table_schema = '<dbUser,varchar,dbo>'
 )
 BEGIN
-CREATE TABLE [dbo].[subtext_SchemaVersions](
+CREATE TABLE [<dbUser,varchar,dbo>].[subtext_SchemaVersions](
 	[Feature] [nvarchar](128) NOT NULL,
 	[CompatibleSchemaVersion] [nvarchar](128) NOT NULL,
 	[IsCurrentVersion] [bit] NOT NULL,
@@ -47,7 +162,7 @@ IF NOT EXISTS
 	AND table_schema = '<dbUser,varchar,dbo>'
 )
 BEGIN
-CREATE TABLE [dbo].[subtext_WebEvent_Events](
+CREATE TABLE [<dbUser,varchar,dbo>].[subtext_WebEvent_Events](
 	[EventId] [char](32) NOT NULL,
 	[EventTimeUtc] [datetime] NOT NULL,
 	[EventTime] [datetime] NOT NULL,
@@ -82,7 +197,7 @@ IF NOT EXISTS
 	AND table_schema = '<dbUser,varchar,dbo>'
 )
 BEGIN
-CREATE TABLE [dbo].[subtext_Applications](
+CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Applications](
 	[ApplicationName] [nvarchar](256) NOT NULL,
 	[LoweredApplicationName] [nvarchar](256) NOT NULL,
 	[ApplicationId] [uniqueidentifier] NOT NULL DEFAULT (newid()),
@@ -114,7 +229,7 @@ IF NOT EXISTS
 	AND table_schema = '<dbUser,varchar,dbo>'
 )
 BEGIN
-CREATE TABLE [dbo].[subtext_UsersInRoles](
+CREATE TABLE [<dbUser,varchar,dbo>].[subtext_UsersInRoles](
 	[UserId] [uniqueidentifier] NOT NULL,
 	[RoleId] [uniqueidentifier] NOT NULL,
 PRIMARY KEY CLUSTERED 
@@ -137,7 +252,7 @@ IF NOT EXISTS
 	AND table_schema = '<dbUser,varchar,dbo>'
 )
 BEGIN
-CREATE TABLE [dbo].[subtext_PersonalizationAllUsers](
+CREATE TABLE [<dbUser,varchar,dbo>].[subtext_PersonalizationAllUsers](
 	[PathId] [uniqueidentifier] NOT NULL,
 	[PageSettings] [image] NOT NULL,
 	[LastUpdatedDate] [datetime] NOT NULL,
@@ -160,7 +275,7 @@ IF NOT EXISTS
 	AND table_schema = '<dbUser,varchar,dbo>'
 )
 BEGIN
-CREATE TABLE [dbo].[subtext_PersonalizationPerUser](
+CREATE TABLE [<dbUser,varchar,dbo>].[subtext_PersonalizationPerUser](
 	[Id] [uniqueidentifier] NOT NULL DEFAULT (newid()),
 	[PathId] [uniqueidentifier] NULL,
 	[UserId] [uniqueidentifier] NULL,
@@ -185,7 +300,7 @@ IF NOT EXISTS
 	AND table_schema = '<dbUser,varchar,dbo>'
 )
 BEGIN
-CREATE TABLE [dbo].[subtext_Users](
+CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Users](
 	[ApplicationId] [uniqueidentifier] NOT NULL,
 	[UserId] [uniqueidentifier] NOT NULL DEFAULT (newid()),
 	[UserName] [nvarchar](256) NOT NULL,
@@ -212,7 +327,7 @@ IF NOT EXISTS
 	AND table_schema = '<dbUser,varchar,dbo>'
 )
 BEGIN
-CREATE TABLE [dbo].[subtext_Roles](
+CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Roles](
 	[ApplicationId] [uniqueidentifier] NOT NULL,
 	[RoleId] [uniqueidentifier] NOT NULL DEFAULT (newid()),
 	[RoleName] [nvarchar](256) NOT NULL,
@@ -237,7 +352,7 @@ IF NOT EXISTS
 	AND table_schema = '<dbUser,varchar,dbo>'
 )
 BEGIN
-CREATE TABLE [dbo].[subtext_Paths](
+CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Paths](
 	[ApplicationId] [uniqueidentifier] NOT NULL,
 	[PathId] [uniqueidentifier] NOT NULL DEFAULT (newid()),
 	[Path] [nvarchar](256) NOT NULL,
@@ -261,7 +376,7 @@ IF NOT EXISTS
 	AND table_schema = '<dbUser,varchar,dbo>'
 )
 BEGIN
-CREATE TABLE [dbo].[subtext_Membership](
+CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Membership](
 	[ApplicationId] [uniqueidentifier] NOT NULL,
 	[UserId] [uniqueidentifier] NOT NULL,
 	[Password] [nvarchar](128) NOT NULL,
@@ -302,7 +417,7 @@ IF NOT EXISTS
 	AND table_schema = '<dbUser,varchar,dbo>'
 )
 BEGIN
-CREATE TABLE [dbo].[subtext_Profile](
+CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Profile](
 	[UserId] [uniqueidentifier] NOT NULL,
 	[PropertyNames] [ntext] NOT NULL,
 	[PropertyValuesString] [ntext] NOT NULL,
@@ -322,8 +437,8 @@ IF NOT EXISTS
 	WHERE constraint_name = 'FK__subtext_U__RoleI__31EC6D26'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
-ALTER TABLE [dbo].[subtext_UsersInRoles]  WITH CHECK ADD FOREIGN KEY([RoleId])
-REFERENCES [dbo].[subtext_Roles] ([RoleId])
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_UsersInRoles]  WITH CHECK ADD FOREIGN KEY([RoleId])
+REFERENCES [<dbUser,varchar,dbo>].[subtext_Roles] ([RoleId])
 GO
 
 IF NOT EXISTS
@@ -332,8 +447,8 @@ IF NOT EXISTS
 	WHERE constraint_name = 'FK__subtext_U__UserI__30F848ED'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
-ALTER TABLE [dbo].[subtext_UsersInRoles]  WITH CHECK ADD FOREIGN KEY([UserId])
-REFERENCES [dbo].[subtext_Users] ([UserId])
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_UsersInRoles]  WITH CHECK ADD FOREIGN KEY([UserId])
+REFERENCES [<dbUser,varchar,dbo>].[subtext_Users] ([UserId])
 GO
 
 IF NOT EXISTS
@@ -342,8 +457,8 @@ IF NOT EXISTS
 	WHERE constraint_name = 'FK__subtext_P__PathI__45F365D3'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
-ALTER TABLE [dbo].[subtext_PersonalizationAllUsers]  WITH CHECK ADD FOREIGN KEY([PathId])
-REFERENCES [dbo].[subtext_Paths] ([PathId])
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_PersonalizationAllUsers]  WITH CHECK ADD FOREIGN KEY([PathId])
+REFERENCES [<dbUser,varchar,dbo>].[subtext_Paths] ([PathId])
 GO
 
 IF NOT EXISTS
@@ -352,8 +467,8 @@ IF NOT EXISTS
 	WHERE constraint_name = 'FK__subtext_P__PathI__49C3F6B7'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
-ALTER TABLE [dbo].[subtext_PersonalizationPerUser]  WITH CHECK ADD FOREIGN KEY([PathId])
-REFERENCES [dbo].[subtext_Paths] ([PathId])
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_PersonalizationPerUser]  WITH CHECK ADD FOREIGN KEY([PathId])
+REFERENCES [<dbUser,varchar,dbo>].[subtext_Paths] ([PathId])
 GO
 
 IF NOT EXISTS
@@ -362,8 +477,8 @@ IF NOT EXISTS
 	WHERE constraint_name = 'FK__subtext_P__UserI__4AB81AF0'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
-ALTER TABLE [dbo].[subtext_PersonalizationPerUser]  WITH CHECK ADD FOREIGN KEY([UserId])
-REFERENCES [dbo].[subtext_Users] ([UserId])
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_PersonalizationPerUser]  WITH CHECK ADD FOREIGN KEY([UserId])
+REFERENCES [<dbUser,varchar,dbo>].[subtext_Users] ([UserId])
 GO
 
 IF NOT EXISTS
@@ -372,8 +487,8 @@ IF NOT EXISTS
 	WHERE constraint_name = 'FK__subtext_U__Appli__7E6CC920'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
-ALTER TABLE [dbo].[subtext_Users]  WITH CHECK ADD FOREIGN KEY([ApplicationId])
-REFERENCES [dbo].[subtext_Applications] ([ApplicationId])
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Users]  WITH CHECK ADD FOREIGN KEY([ApplicationId])
+REFERENCES [<dbUser,varchar,dbo>].[subtext_Applications] ([ApplicationId])
 GO
 
 IF NOT EXISTS
@@ -382,8 +497,8 @@ IF NOT EXISTS
 	WHERE constraint_name = 'FK__subtext_R__Appli__2D27B809'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
-ALTER TABLE [dbo].[subtext_Roles]  WITH CHECK ADD FOREIGN KEY([ApplicationId])
-REFERENCES [dbo].[subtext_Applications] ([ApplicationId])
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Roles]  WITH CHECK ADD FOREIGN KEY([ApplicationId])
+REFERENCES [<dbUser,varchar,dbo>].[subtext_Applications] ([ApplicationId])
 GO
 
 IF NOT EXISTS
@@ -392,8 +507,8 @@ IF NOT EXISTS
 	WHERE constraint_name = 'FK__subtext_P__Appli__403A8C7D'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
-ALTER TABLE [dbo].[subtext_Paths]  WITH CHECK ADD FOREIGN KEY([ApplicationId])
-REFERENCES [dbo].[subtext_Applications] ([ApplicationId])
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Paths]  WITH CHECK ADD FOREIGN KEY([ApplicationId])
+REFERENCES [<dbUser,varchar,dbo>].[subtext_Applications] ([ApplicationId])
 GO
 
 IF NOT EXISTS
@@ -402,8 +517,8 @@ IF NOT EXISTS
 	WHERE constraint_name = 'FK__subtext_M__Appli__0EA330E9'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
-ALTER TABLE [dbo].[subtext_Membership]  WITH CHECK ADD FOREIGN KEY([ApplicationId])
-REFERENCES [dbo].[subtext_Applications] ([ApplicationId])
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Membership]  WITH CHECK ADD FOREIGN KEY([ApplicationId])
+REFERENCES [<dbUser,varchar,dbo>].[subtext_Applications] ([ApplicationId])
 GO
 
 IF NOT EXISTS
@@ -412,8 +527,8 @@ IF NOT EXISTS
 	WHERE constraint_name = 'FK__subtext_M__UserI__0F975522'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
-ALTER TABLE [dbo].[subtext_Membership]  WITH CHECK ADD FOREIGN KEY([UserId])
-REFERENCES [dbo].[subtext_Users] ([UserId])
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Membership]  WITH CHECK ADD FOREIGN KEY([UserId])
+REFERENCES [<dbUser,varchar,dbo>].[subtext_Users] ([UserId])
 GO
 
 IF NOT EXISTS
@@ -422,5 +537,5 @@ IF NOT EXISTS
 	WHERE constraint_name = 'FK__subtext_P__UserI__239E4DCF'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
-ALTER TABLE [dbo].[subtext_Profile]  WITH CHECK ADD FOREIGN KEY([UserId])
-REFERENCES [dbo].[subtext_Users] ([UserId])
+ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Profile]  WITH CHECK ADD FOREIGN KEY([UserId])
+REFERENCES [<dbUser,varchar,dbo>].[subtext_Users] ([UserId])

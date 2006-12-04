@@ -131,10 +131,8 @@ using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
-using Subtext.Framework.Providers;
 using Lesnikowski.Client;
 using Lesnikowski.Mail;
-using Subtext.Extensibility.Plugins;
 
 namespace Subtext.Framework.Services
 {
@@ -253,7 +251,7 @@ namespace Subtext.Framework.Services
                                     entry.BlogId = activeblog.Id;
                                     entry.DisplayOnHomePage = true;
                                     entry.Body = "";
-                                    entry.Author = activeblog.Author;
+                                    entry.Author = activeblog.Owner;
                                     entry.AllowComments = true;
                                     entry.SyndicateDescriptionOnly = false;
                                     entry.IsAggregated = true;
@@ -308,7 +306,7 @@ namespace Subtext.Framework.Services
                                 //else if (message.Mail.Mime.ContentType.TypeName.StartsWith("text/html"))
                                 else if (message.Mail.Mime.ContentType.ToString() == "text/html")
                                 {
-                                    string messageText = "";
+                                    string messageText;
 
 
                                     // Note the email may still be encoded
@@ -647,7 +645,7 @@ namespace Subtext.Framework.Services
 
                                 //everything is good, create the entry
                                 if (entry.Body != "")
-                                    entry.Id = DatabaseObjectProvider.Instance().InsertEntryNoCurrentBlog(entry);
+                                    entry.Id = DatabaseObjectProvider.Instance().InsertEntry(entry); //If blogid is null, we should not create an entry.
 
                                 //Raise event before creating a post
                                 //SubtextEvents.OnEntryUpdating(entry, new SubtextEventArgs(ObjectState.Create));

@@ -33,7 +33,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 
 			DateTime dateCreated = DateTime.Now;
 			
-			Config.CurrentBlog.Email = "Subtext@example.com";
+			Config.CurrentBlog.Owner.Email = "Subtext@example.com";
 			Config.CurrentBlog.RFC3229DeltaEncodingEnabled = false;
 			
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("Author", "Best post EVER", "testbody", null, dateCreated);

@@ -14,7 +14,9 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Text;
 using System.Text.RegularExpressions;
 
 // adapted from namespace Haack.Text
@@ -289,6 +291,37 @@ namespace Subtext.Framework.Text
 		public static bool IsNumeric(string text)
 		{
 			return Regex.IsMatch(text,"^\\d+$");
+		}
+
+		/// <summary>
+		/// Creates a delimited string using the specified delimiter. 
+		/// The Coverter is applied to each item in the enumerable items collection.
+		/// </summary>
+		/// <param name="delimiter">The delimiter.</param>
+		/// <param name="items">The items.</param>
+		/// <param name="converter">The converter.</param>
+		/// <returns></returns>
+		public static string Join<T>(string delimiter, IEnumerable<T> items, Converter<T, string> converter)
+		{
+			if (delimiter == null)
+				throw new ArgumentNullException("delimiter", "Cannot join using a null delimiter.");
+
+			if (items == null)
+				throw new ArgumentNullException("items", "Cannot join a null collection");
+
+			if (converter == null)
+				throw new ArgumentNullException("converter", "Cannot join using a null converter");
+			
+			StringBuilder builder = new StringBuilder();
+			foreach (T item in items)
+			{
+				builder.Append(converter(item));
+				builder.Append(delimiter);
+			}
+			if (builder.Length > 0)
+				builder.Length = builder.Length - delimiter.Length;
+
+			return builder.ToString();
 		}
 	}
 }

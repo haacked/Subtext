@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Web;
+using System.Web.Security;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
@@ -115,6 +116,15 @@ namespace Subtext.Framework
 		}
 
 		private string _imagePath;
+
+		public MembershipUser Owner
+		{
+			get { return this.owner; }
+			set { this.owner = value; }
+		}
+
+		MembershipUser owner = new MembershipUser("SubtextMembershipProvider", "", "", "", "", "", false, false, DateTime.Now, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue, DateTime.MinValue);
+		
 		/// <summary>
 		/// Gets or sets the path (url) to the image directory.
 		/// </summary>
@@ -254,17 +264,6 @@ namespace Subtext.Framework
 		}
 
 		string _languageCode;
-
-		private string _email;
-		/// <summary>
-		/// Gets or sets the email of the blog owner.
-		/// </summary>
-		/// <value></value>
-		public string Email
-		{
-			get{return _email;}
-			set{_email = value;}
-		}
 
 		/// <summary>
 		/// Gets or sets the host for the blog.  For 
@@ -562,42 +561,13 @@ namespace Subtext.Framework
 			}
 		}
 
-		private string _password;
 		/// <summary>
-		/// Gets or sets the password.
+		/// Gets or sets the name of the application.
 		/// </summary>
-		/// <value></value>
-		public string Password
+		/// <value>The name of the application.</value>
+		public string ApplicationName
 		{
-			get
-			{
-				if(_password == null)
-				{
-					//TODO: Throw a specific exception.
-					throw new Exception("Invalid Password Setting");
-				}
-				return _password;
-			}
-			set{_password = value;}
-		}
-
-		private string _username;
-		/// <summary>
-		/// Gets or sets the user name for the owner of the blog.
-		/// </summary>
-		/// <value></value>
-		public string UserName
-		{
-			get
-			{
-				if(_username == null)
-				{
-					//TODO: Throw a specific exception.
-					throw new Exception("Invalid UserName Setting");
-				}
-				return _username;
-			}
-			set{_username = value;}
+			get { return this.Host + "/" + this.Subfolder; }
 		}
 
 		private string _title;

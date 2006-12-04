@@ -14,9 +14,8 @@
 #endregion
 
 using System;
+using System.Web.Security;
 using Subtext.Framework;
-using Subtext.Framework.Configuration;
-using Subtext.Framework.Security;
 
 namespace Subtext.Web.HostAdmin
 {
@@ -54,19 +53,14 @@ namespace Subtext.Web.HostAdmin
 		{
 			if(Page.IsValid)
 			{
-				HostInfo.SetHostPassword(HostInfo.Instance, txtNewPassword.Text);
-				HostInfo.UpdateHost(HostInfo.Instance);
+				HostInfo.ChangePassword(HostInfo.Instance, txtCurrentPassword.Text, txtNewPassword.Text);
 				lblSuccess.Visible = true;
 			}
 		}
 
 		private void vldCurrent_ServerValidate(object source, System.Web.UI.WebControls.ServerValidateEventArgs args)
 		{
-			string password = txtCurrentPassword.Text;
-			if(Config.Settings.UseHashedPasswords)
-				password = SecurityHelper.HashPassword(password, HostInfo.Instance.Salt);
-
-			args.IsValid = password == HostInfo.Instance.Password;
+			args.IsValid = Membership.ValidateUser(HostInfo.Instance.Owner.UserName, txtCurrentPassword.Text);
 		}
 	}
 }

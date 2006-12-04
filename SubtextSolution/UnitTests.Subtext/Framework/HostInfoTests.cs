@@ -22,37 +22,5 @@ namespace UnitTests.Subtext.Framework
 			
 			Assert.IsNotNull(HostInfo.Instance, "Host should not be null.");
 		}
-
-		[Test]
-		[RollBack]
-		public void CanUpdateHost()
-		{
-			EnsureHost();
-			HostInfo host = HostInfo.Instance;
-			Assert.IsNotNull(host, "Host should not be null.");
-
-			host.HostUserName = "test2";
-			host.Password = "password2";
-			host.Salt = "salt2";
-
-			HostInfo.UpdateHost(host);
-
-			host = HostInfo.LoadHost(false);
-			Assert.AreEqual("test2", host.HostUserName, "Username wasn't changed.");			
-		}
-		
-		void EnsureHost()
-		{
-			try
-			{
-				HostInfo host = HostInfo.LoadHost(true);
-				if (host == null)
-					HostInfo.CreateHost("test", "test");
-			}
-			catch(InvalidOperationException)
-			{
-				//Ignore.
-			}
-		}
 	}
 }

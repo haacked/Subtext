@@ -390,8 +390,7 @@ namespace Subtext.Web.Admin.UserControls
 					
 					entry.Title = txbTitle.Text;
 					entry.Body = HtmlHelper.StripRTB(richTextEditor.Xhtml, Request.Url.Host);
-					entry.Author = Config.CurrentBlog.Author;
-					entry.Email = Config.CurrentBlog.Email;
+                    entry.Author = System.Web.Security.Membership.GetUser();
 					entry.BlogId = Config.CurrentBlog.Id;
 
 					// Advanced options

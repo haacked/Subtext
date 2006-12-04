@@ -200,7 +200,7 @@ namespace Subtext.Framework.Configuration
 			aggregateBlog.Skin = SkinConfig.GetDefaultSkin();
             aggregateBlog.Host = ConfigurationManager.AppSettings["AggregateHost"];
 			aggregateBlog.Subfolder = "";
-			aggregateBlog.UserName = HostInfo.Instance.HostUserName;
+			//TODO: aggregateBlog.UserName = HostInfo.Instance.HostUserName;
 			
 			return aggregateBlog;
 		}

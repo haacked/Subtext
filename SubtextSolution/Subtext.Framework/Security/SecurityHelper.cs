@@ -17,7 +17,9 @@ using System;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Security.Cryptography;
+using System.Security.Principal;
 using System.Text;
+using System.Threading;
 using System.Web;
 using System.Web.Security;
 using log4net;
@@ -38,58 +40,6 @@ namespace Subtext.Framework.Security
 		private readonly static ILog log = new Log();
 
 		/// <summary>
-		/// Check to see if the supplied credentials are valid for the current blog. If so, 
-		/// Set the user's FormsAuthentication Ticket This method will handle passwords for 
-		/// both hashed and non-hashed configurations
-		/// </summary>
-		/// <param name="username">Supplied UserName</param>
-		/// <param name="password">Supplied Password</param>
-		/// <param name="persist">If valid, should we persist the login</param>
-		/// <returns>bool indicating successful login</returns>
-		public static bool Authenticate(string username, string password, bool persist)
-		{
-			if (!IsValidUser(username, password))
-			{
-				return false;
-			}
-
-			log.Debug("SetAuthenticationTicket-Admins for " + username);
-			SetAuthenticationTicket(username, persist, "Admins");
-			return true;
-		}
-
-		/// <summary>
-		/// Authenticates the host admin.
-		/// </summary>
-		/// <param name="username">The username.</param>
-		/// <param name="password">The password.</param>
-		/// <param name="persist">if set to <c>true</c> [persist].</param>
-		/// <returns></returns>
-		public static bool AuthenticateHostAdmin(string username, string password, bool persist)
-		{
-            //TODO: No need to have this functionality
-			if (!String.Equals(username, HostInfo.Instance.HostUserName, StringComparison.InvariantCultureIgnoreCase))
-			{
-				return false;
-			}
-
-			if (Config.Settings.UseHashedPasswords)
-			{
-				password = HashPassword(password, HostInfo.Instance.Salt);
-			}
-
-			if (!String.Equals(HostInfo.Instance.Password, password, StringComparison.InvariantCultureIgnoreCase))
-			{
-				return false;
-			}
-
-			log.Debug("SetAuthenticationTicket-HostAdmins for " + username);
-			SetAuthenticationTicket(username, persist, "HostAdmins");
-
-			return true;
-		}
-
-		/// <summary>
 		/// Used to remove a cookie from the client.
 		/// </summary>
 		/// <returns>a correctly named cookie with Expires date set 30 years ago</returns>
@@ -107,13 +57,13 @@ namespace Subtext.Framework.Security
 		public static HttpCookie SelectAuthenticationCookie()
 		{
 			HttpCookie authCookie = null;
-            HttpCookie c;
-		    int count = HttpContext.Current.Request.Cookies.Count;
-		    
+			HttpCookie c;
+			int count = HttpContext.Current.Request.Cookies.Count;
+
 			log.Debug("cookie count = " + count);
-		    for (int i = 0; i < count; i++)
+			for (int i = 0; i < count; i++)
 			{
-                c = HttpContext.Current.Request.Cookies[i];
+				c = HttpContext.Current.Request.Cookies[i];
 				#region Logging
 				if (log.IsDebugEnabled)
 				{
@@ -126,7 +76,7 @@ namespace Subtext.Framework.Security
 					{
 						log.Debug("cookie value was null");
 					}
-					else if (String.IsNullOrEmpty(c.Value) )
+					else if (String.IsNullOrEmpty(c.Value))
 					{
 						log.Debug("cookie value was empty string");
 					}
@@ -171,48 +121,48 @@ namespace Subtext.Framework.Security
 		{
 			StringBuilder name = new StringBuilder(FormsAuthentication.FormsCookieName);
 			name.Append(".");
-			
+
 			//See if we need to authenticate the HostAdmin
 			string path = HttpContext.Current.Request.Path;
 			string returnUrl = HttpContext.Current.Request.QueryString.ToString(); //["ReturnURL"];
 			if (forceHostAdmin
-				|| StringHelper.Contains(path + returnUrl, "HostAdmin", 
-			    StringComparison.InvariantCultureIgnoreCase))
+				|| StringHelper.Contains(path + returnUrl, "HostAdmin",
+				StringComparison.InvariantCultureIgnoreCase))
 			{
-			    name.Append("HA.");
+				name.Append("HA.");
 			}
 
-		    try
-		    {
-		    	try 
-		    	{
-		    		//Need to clean this up. Either this should return null, or throw an exception,
-		    		//but not both.
+			try
+			{
+				try
+				{
+					//Need to clean this up. Either this should return null, or throw an exception,
+					//but not both.
 					if (Config.CurrentBlog != null)
 						name.Append(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture));
-		    		else
+					else
 						name.Append("null");
-		    	}
-		    	catch(BlogDoesNotExistException)
-		    	{
+				}
+				catch (BlogDoesNotExistException)
+				{
 					name.Append("null");
-		    	}
-		    }
-            catch (SqlException sqlExc)
-		    {
-                if (sqlExc.Number == (int)SqlErrorMessage.CouldNotFindStoredProcedure 
-                    && sqlExc.Message.IndexOf("'subtext_GetConfig'") > 0)
-                {
-                    // must not have the db installed.
-                    log.Debug("The database must not be installed.");
-                }
-                else throw;
-		    }
+				}
+			}
+			catch (SqlException sqlExc)
+			{
+				if (sqlExc.Number == (int)SqlErrorMessage.CouldNotFindStoredProcedure
+					&& sqlExc.Message.IndexOf("'subtext_GetConfig'") > 0)
+				{
+					// must not have the db installed.
+					log.Debug("The database must not be installed.");
+				}
+				else throw;
+			}
 			log.Debug("GetFullCookieName selected cookie named " + name.ToString());
-			return name.ToString();           
+			return name.ToString();
 		}
 
-		
+
 		/// <summary>
 		/// Used by methods in this class plus Install.Step02_ConfigureHost
 		/// </summary>
@@ -244,11 +194,11 @@ namespace Subtext.Framework.Security
 				log.Debug("the code must call a redirect after this");
 				log.DebugFormat("cookie '{3}' added to response for '{0}'; expires {1} and contains roles: {2}",
 					username, authCookie.Expires, authTicket.UserData, authCookie.Name);
-			} 
+			}
 			#endregion
 		}
 
-				
+
 		/// <summary>
 		/// Logs the user off the system.
 		/// </summary>
@@ -263,13 +213,13 @@ namespace Subtext.Framework.Security
 				string username = HttpContext.Current.User.Identity.Name;
 				log.Debug("Logging out " + username);
 				log.Debug("the code MUST call a redirect after this");
-			} 
+			}
 			#endregion
 			FormsAuthentication.SignOut();
 		}
 
 		//From Forums Source Code
-		
+
 		/// <summary>
 		/// Get MD5 hashed/encrypted representation of the password and 
 		/// returns a Base64 encoded string of the hash.
@@ -280,11 +230,11 @@ namespace Subtext.Framework.Security
 		/// </remarks>
 		/// <param name="password">Supplied Password</param>
 		/// <returns>Encrypted (Hashed) value</returns>
-		public static string HashPassword(string password) 
+		public static string HashPassword(string password)
 		{
 			Byte[] clearBytes = new UnicodeEncoding().GetBytes(password);
 			Byte[] hashedBytes = new MD5CryptoServiceProvider().ComputeHash(clearBytes);
-			
+
 			return Convert.ToBase64String(hashedBytes);
 		}
 
@@ -328,100 +278,12 @@ namespace Subtext.Framework.Security
 		}
 
 		/// <summary>
-		/// Validates if the supplied credentials match the current blog
+		/// Updates the host admin password.
 		/// </summary>
-		/// <param name="username">Supplied Username</param>
-		/// <param name="password">Supplied Password</param>
-		/// <returns>bool value indicating if the user is valid.</returns>
-		public static bool IsValidUser(string username, string password)
+		/// <param name="answer">The answer.</param>
+		public static void ResetHostAdminPassword(string answer)
 		{
-			if (String.Equals(username, Config.CurrentBlog.UserName, StringComparison.InvariantCultureIgnoreCase))
-			{
-				return IsValidPassword(password);
-			}
-			else
-			{
-				log.DebugFormat("The supplied username '{0}' does not equal the configured username of '{1}'.", username, Config.CurrentBlog.UserName);
-			}
-			return false;
-		}
-
-		/// <summary>
-		/// Check to see if the supplied password matches the password 
-		/// for the current blog. This method will check the 
-		/// BlogConfigurationSettings to see if the password should be 
-		/// Encrypted/Hashed
-		/// </summary>
-		/// <param name="password">Supplied Password</param>
-		/// <returns>bool value indicating if the supplied password matches the current blog's password</returns>
-		public static bool IsValidPassword(string password)
-		{
-			if(Config.CurrentBlog.IsPasswordHashed)
-			{
-				password = HashPassword(password);
-			}
-			string storedPassword = Config.CurrentBlog.Password;
-			bool areEqual = String.Equals(password, storedPassword, StringComparison.InvariantCulture);
-			if (!areEqual)
-			{
-				log.Debug("The supplied password is incorrect.");
-			}
-			return areEqual;
-		}
-
-		/// <summary>
-		/// When we Encrypt/Hash the password, we can not un-Encrypt/Hash the password. If user's need to retrieve this value, all we can
-		/// do is reset the passowrd to a new value and send it.
-		/// </summary>
-		/// <returns>A New Password</returns>
-		public static string ResetPassword()
-		{
-			string password = RandomPassword();
-			
-			UpdatePassword(password);
-
-			return password;
-		}
-
-		/// <summary>
-		/// Updates the current users password to the supplied value. 
-		/// Handles hashing (or not hashing of the password)
-		/// </summary>
-		/// <param name="password">Supplied Password</param>
-		public static void UpdatePassword(string password)
-		{
-			BlogInfo info = Config.CurrentBlog;
-			if(Config.CurrentBlog.IsPasswordHashed)
-			{
-				info.Password = HashPassword(password);
-			}
-			else
-			{
-				info.Password = password;
-			}
-			//Save new password.
-			Config.UpdateConfigData(info);
-		}
-
-		public static void UpdateHostAdminPassword(string password)
-		{
-			HostInfo hostInfo = HostInfo.Instance;
-			if(Config.Settings.UseHashedPasswords)
-			{
-				hostInfo.Password = HashPassword(password, HostInfo.Instance.Salt);
-			}
-			else
-			{
-				hostInfo.Password = password;
-			}
-			HostInfo.UpdateHost(hostInfo);
-		}
-
-		public static string ResetHostAdminPassword()
-		{
-			string password = RandomPassword();
-			UpdateHostAdminPassword(password);
-			return password;
+			Membership.Provider.ResetPassword(HostInfo.Instance.Owner.UserName, answer);
 		}
 
 		/// <summary>
@@ -430,7 +292,7 @@ namespace Subtext.Framework.Security
 		/// <returns></returns>
 		public static string RandomPassword()
 		{
-			return Guid.NewGuid().ToString().Substring(0,8);
+			return Guid.NewGuid().ToString().Substring(0, 8);
 		}
 
 		/// <summary>
@@ -444,7 +306,7 @@ namespace Subtext.Framework.Security
 		{
 			get
 			{
-                return IsInRole("Admins");
+				return IsInRole("Administrators");
 			}
 		}
 
@@ -472,13 +334,13 @@ namespace Subtext.Framework.Security
 		{
 			get
 			{
-				if(HttpContext.Current.Request.IsAuthenticated)
+				if (HttpContext.Current.Request.IsAuthenticated)
 				{
 					try
 					{
 						return HttpContext.Current.User.Identity.Name;
 					}
-					catch{}
+					catch { }
 				}
 				return null;
 			}
@@ -493,15 +355,16 @@ namespace Subtext.Framework.Security
 		/// <returns></returns>
 		public static bool IsInRole(string role)
 		{
-			if (HttpContext.Current.User == null)
+			IPrincipal currentPrincipal = HttpContext.Current.User ?? Thread.CurrentPrincipal;
+			if (currentPrincipal == null)
 			{
-				log.Debug("HttpContext.Current.User == null");
-                return false;
+				log.Debug("The Current User is (checked both HttpContext and Thread.CurrentPrincipal) null");
+				return false;
 			}
-			bool isInRole = HttpContext.Current.User.IsInRole(role);
+			bool isInRole = currentPrincipal.IsInRole(role);
 			if (!isInRole)
 			{
-				log.Debug(HttpContext.Current.User.Identity.Name + " is not in role " + role);
+				log.Debug(currentPrincipal.Identity.Name + " is not in role " + role);
 			}
 			return isInRole;
 		}
@@ -577,31 +440,30 @@ namespace Subtext.Framework.Security
 			return encoding.GetString(decrypted);
 		}
 
-        public static string GetApplicationId()
-        {
+		/// <summary>
+		/// Gets the application id for the current blog.
+		/// </summary>
+		/// <returns></returns>
+		public static string GetApplicationId()
+		{
 
-            int BlogId;
-            try
-            {
-                BlogId = Subtext.Framework.Configuration.Config.CurrentBlog.Id;
-            }
-            catch (NullReferenceException)
-            {
-                BlogId = -1;
-            }
-            if (BlogId <= 0)
-            {
-                return "/";
-            }
-            else
-            {
-                return "Blog_" + BlogId.ToString();
-            }
-        }
-
-        internal static Guid GetUserId()
-        {
-            return (Guid)Membership.GetUser(System.Threading.Thread.CurrentPrincipal.Identity.Name).ProviderUserKey;
-        }
-    }
+			int BlogId;
+			try
+			{
+				BlogId = Subtext.Framework.Configuration.Config.CurrentBlog.Id;
+			}
+			catch (NullReferenceException)
+			{
+				BlogId = -1;
+			}
+			if (BlogId <= 0)
+			{
+				return "/";
+			}
+			else
+			{
+				return "Blog_" + BlogId.ToString();
+			}
+		}
+	}
 }

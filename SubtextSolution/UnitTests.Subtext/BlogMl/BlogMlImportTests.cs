@@ -25,7 +25,7 @@ namespace UnitTests.Subtext.Framework.Import
         public void ReadBlogCreatesEntriesAndAttachments()
         {
             //Create blog.
-			CreateBlogAndSetupContext();
+			UnitTestHelper.SetupBlog();
         	
             //Test BlogML reader.
             BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider());
@@ -43,7 +43,7 @@ namespace UnitTests.Subtext.Framework.Import
 		[RollBack]
 		public void CanReadAndCreateCategories()
 		{
-			CreateBlogAndSetupContext();
+			UnitTestHelper.SetupBlog();
 
 			BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider());
 			Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.TwoCategories.xml");
@@ -57,7 +57,7 @@ namespace UnitTests.Subtext.Framework.Import
 		[RollBack]
 		public void CanPostAndReferenceCategoryAppropriately()
 		{
-			CreateBlogAndSetupContext();
+			UnitTestHelper.SetupBlog();
 
 			BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider());
 			Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SinglePostWithCategory.xml");
@@ -79,7 +79,7 @@ namespace UnitTests.Subtext.Framework.Import
 		[RollBack]
 		public void ImportOfPostWithBadCategoryRefHandlesGracefully()
 		{
-			CreateBlogAndSetupContext();
+			UnitTestHelper.SetupBlog();
 
 			BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider());
 			Stream stream = UnitTestHelper.UnpackEmbeddedResource("BlogMl.SinglePostWithBadCategoryRef.xml");
@@ -97,7 +97,7 @@ namespace UnitTests.Subtext.Framework.Import
         [RollBack]
         public void RoundTripBlogMlTest()
         {
-			CreateBlogAndSetupContext();
+			UnitTestHelper.SetupBlog();
 
             // Import /Resources/BlogMl/SimpleBlogMl.xml into the current blog
 			BlogMLReader reader = BlogMLReader.Create(new SubtextBlogMLProvider());
@@ -156,16 +156,5 @@ namespace UnitTests.Subtext.Framework.Import
                 }
             }
         }
-		
-		private void CreateBlogAndSetupContext()
-		{
-			string hostName = UnitTestHelper.GenerateRandomString();
-            Assert.IsTrue(Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", hostName, ""), "Could not create the blog for this test");
-            UnitTestHelper.SetHttpContextWithBlogRequest(hostName, "");
-            Assert.IsNotNull(Config.CurrentBlog, "Current Blog is null.");
-
-            Config.CurrentBlog.ImageDirectory = Path.Combine(Environment.CurrentDirectory, "images");
-            Config.CurrentBlog.ImagePath = "/image/";
-		}
     }
 }

@@ -325,6 +325,13 @@
     <Compile Include="HostAdmin\Import\Step02_GatherInfo.aspx.designer.cs">
       <DependentUpon>Step02_GatherInfo.aspx</DependentUpon>
     </Compile>
+    <Compile Include="HostAdmin\Login.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="HostAdmin\Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
     <Compile Include="HostAdmin\PluginList.aspx.cs">
       <SubType>ASPXCodeBehind</SubType>
       <DependentUpon>PluginList.aspx</DependentUpon>
@@ -560,9 +567,6 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="UI\Controls\LinkPage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="UI\Controls\Login.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="UI\Controls\MonthList.cs">
@@ -943,6 +947,7 @@
     <Content Include="HostAdmin\Import\ImportStart.aspx" />
     <Content Include="HostAdmin\Import\Step01_SelectImportProvider.aspx" />
     <Content Include="HostAdmin\Import\Step02_GatherInfo.aspx" />
+    <Content Include="HostAdmin\Login.aspx" />
     <Content Include="HostAdmin\PluginList.aspx" />
     <Content Include="HostAdmin\Queue.aspx" />
     <Content Include="HostAdmin\Scripts\helptip.css" />
@@ -1326,7 +1331,6 @@
     <Content Include="Skins\AnotherEon001\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\Header.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\HomePage.ascx" />
-    <Content Include="Skins\AnotherEon001\Controls\Login.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\MonthListings.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\MyLinks.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\News.ascx" />
@@ -1360,7 +1364,6 @@
     <Content Include="Skins\Colors\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\Colors\Controls\Header.ascx" />
     <Content Include="Skins\Colors\Controls\HomePage.ascx" />
-    <Content Include="Skins\Colors\Controls\Login.ascx" />
     <Content Include="Skins\Colors\Controls\MonthListings.ascx" />
     <Content Include="Skins\Colors\Controls\MyLinks.ascx" />
     <Content Include="Skins\Colors\Controls\News.ascx" />
@@ -1395,7 +1398,6 @@
     <Content Include="Skins\Curvy\Controls\Header.ascx" />
     <Content Include="Skins\Curvy\Controls\HomePage.ascx" />
     <Content Include="Skins\Curvy\Controls\LinkPage.ascx" />
-    <Content Include="Skins\Curvy\Controls\Login.ascx" />
     <Content Include="Skins\Curvy\Controls\MonthListings.ascx" />
     <Content Include="Skins\Curvy\Controls\MyLinks.ascx" />
     <Content Include="Skins\Curvy\Controls\News.ascx" />
@@ -1448,7 +1450,6 @@
     <Content Include="Skins\Gradient\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\Gradient\Controls\Header.ascx" />
     <Content Include="Skins\Gradient\Controls\HomePage.ascx" />
-    <Content Include="Skins\Gradient\Controls\Login.ascx" />
     <Content Include="Skins\Gradient\Controls\MonthListings.ascx" />
     <Content Include="Skins\Gradient\Controls\MyLinks.ascx" />
     <Content Include="Skins\Gradient\Controls\News.ascx" />
@@ -1488,7 +1489,6 @@
     <Content Include="Skins\KeyWest\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\KeyWest\Controls\Header.ascx" />
     <Content Include="Skins\KeyWest\Controls\HomePage.ascx" />
-    <Content Include="Skins\KeyWest\Controls\Login.ascx" />
     <Content Include="Skins\KeyWest\Controls\MonthListings.ascx" />
     <Content Include="Skins\KeyWest\Controls\MyLinks.ascx" />
     <Content Include="Skins\KeyWest\Controls\News.ascx" />
@@ -1550,7 +1550,6 @@
     <Content Include="Skins\Lightz\Controls\Header.ascx" />
     <Content Include="Skins\Lightz\Controls\HomePage.ascx" />
     <Content Include="Skins\Lightz\Controls\LinkPage.ascx" />
-    <Content Include="Skins\Lightz\Controls\Login.ascx" />
     <Content Include="Skins\Lightz\Controls\MonthListings.ascx" />
     <Content Include="Skins\Lightz\Controls\MyLinks.ascx" />
     <Content Include="Skins\Lightz\Controls\News.ascx" />
@@ -1588,7 +1587,6 @@
     <Content Include="Skins\Naked\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\Naked\Controls\Header.ascx" />
     <Content Include="Skins\Naked\Controls\HomePage.ascx" />
-    <Content Include="Skins\Naked\Controls\Login.ascx" />
     <Content Include="Skins\Naked\Controls\MonthListings.ascx" />
     <Content Include="Skins\Naked\Controls\MyLinks.ascx" />
     <Content Include="Skins\Naked\Controls\News.ascx" />
@@ -1619,7 +1617,6 @@
     <Content Include="Skins\Nature\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\Nature\Controls\Header.ascx" />
     <Content Include="Skins\Nature\Controls\HomePage.ascx" />
-    <Content Include="Skins\Nature\Controls\Login.ascx" />
     <Content Include="Skins\Nature\Controls\MonthListings.ascx" />
     <Content Include="Skins\Nature\Controls\MyLinks.ascx" />
     <Content Include="Skins\Nature\Controls\News.ascx" />
@@ -1796,7 +1793,6 @@
     <Content Include="Skins\Piyo\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\Piyo\Controls\Header.ascx" />
     <Content Include="Skins\Piyo\Controls\HomePage.ascx" />
-    <Content Include="Skins\Piyo\Controls\Login.ascx" />
     <Content Include="Skins\Piyo\Controls\MonthListings.ascx" />
     <Content Include="Skins\Piyo\Controls\MyLinks.ascx" />
     <Content Include="Skins\Piyo\Controls\News.ascx" />
@@ -1864,7 +1860,6 @@
     <Content Include="Skins\RedBook\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\RedBook\Controls\Header.ascx" />
     <Content Include="Skins\RedBook\Controls\HomePage.ascx" />
-    <Content Include="Skins\RedBook\Controls\Login.ascx" />
     <Content Include="Skins\RedBook\Controls\MonthListings.ascx" />
     <Content Include="Skins\RedBook\Controls\MyLinks.ascx" />
     <Content Include="Skins\RedBook\Controls\News.ascx" />
@@ -1924,7 +1919,6 @@
     <Content Include="Skins\Semagogy\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\Semagogy\Controls\Header.ascx" />
     <Content Include="Skins\Semagogy\Controls\HomePage.ascx" />
-    <Content Include="Skins\Semagogy\Controls\Login.ascx" />
     <Content Include="Skins\Semagogy\Controls\MonthListings.ascx" />
     <Content Include="Skins\Semagogy\Controls\MyLinks.ascx" />
     <Content Include="Skins\Semagogy\Controls\News.ascx" />
@@ -1972,7 +1966,6 @@
     <Content Include="Skins\Submarine\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\Submarine\Controls\Header.ascx" />
     <Content Include="Skins\Submarine\Controls\HomePage.ascx" />
-    <Content Include="Skins\Submarine\Controls\Login.ascx" />
     <Content Include="Skins\Submarine\Controls\MonthListings.ascx" />
     <Content Include="Skins\Submarine\Controls\MyLinks.ascx" />
     <Content Include="Skins\Submarine\Controls\mylinksAdmin.ascx" />
@@ -2014,7 +2007,6 @@
     <Content Include="Skins\WPSkin\Controls\GalleryThumbNailViewer.ascx" />
     <Content Include="Skins\WPSkin\Controls\Header.ascx" />
     <Content Include="Skins\WPSkin\Controls\HomePage.ascx" />
-    <Content Include="Skins\WPSkin\Controls\Login.ascx" />
     <Content Include="Skins\WPSkin\Controls\MonthListings.ascx" />
     <Content Include="Skins\WPSkin\Controls\MyLinks.ascx" />
     <Content Include="Skins\WPSkin\Controls\News.ascx" />

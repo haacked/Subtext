@@ -72,5 +72,17 @@ namespace Subtext.Framework
 		{
 			return dateTime == NullDateTime;
 		}
+
+		/// <summary>
+		/// Determines whether the specified date time is null.
+		/// </summary>
+		/// <param name="dateTime">The date time.</param>
+		/// <returns>
+		/// 	<c>true</c> if the specified date time is null; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool IsNull(Guid dateTime)
+		{
+			return dateTime == Guid.Empty;
+		}
 	}
 }

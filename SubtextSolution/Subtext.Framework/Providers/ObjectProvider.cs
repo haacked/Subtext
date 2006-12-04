@@ -88,11 +88,14 @@ namespace Subtext.Framework.Providers
 		public abstract HostInfo LoadHostInfo(HostInfo info);
 
 		/// <summary>
-		/// Updates the <see cref="HostInfo"/> instance.  If the host record is not in the 
-		/// database, one is created. There should only be one host record.
+		/// Creates an initial Host instance.
 		/// </summary>
-		/// <param name="hostInfo">The host information.</param>
-		public abstract bool UpdateHost(HostInfo hostInfo);
+		/// <param name="username">The username of the host admin.</param>
+		/// <param name="password">The password of the host admin.</param>
+		/// <param name="passwordSalt">The password salt.</param>
+		/// <param name="email">The email.</param>
+		/// <returns></returns>
+		public abstract HostInfo CreateHost(HostInfo host, string username, string password, string passwordSalt, string email);
 		
 		#endregion Host
 
@@ -283,14 +286,6 @@ namespace Subtext.Framework.Providers
         public abstract int InsertEntry(Entry entry);
 
         /// <summary>
-        /// Adds a new entry in the database.
-        /// Must be called with an entry object where entry.BlogID is not equal to null
-        /// </summary>
-        /// <param name="entry"></param>
-        /// <returns>int entryId </returns>
-        public abstract int InsertEntryNoCurrentBlog(Entry entry);
-
-        /// <summary>
         /// Saves changes to the specified entry attaching the specified categories.
         /// </summary>
         /// <param name="entry">Entry.</param>
@@ -378,13 +373,15 @@ namespace Subtext.Framework.Providers
 		/// allowing a user with a freshly installed blog to immediately gain access 
 		/// to the admin section to edit the blog.
 		/// </summary>
-		/// <param name="title"></param>
-		/// <param name="userName">Name of the user.</param>
-		/// <param name="password">Password.</param>
-		/// <param name="host"></param>
-		/// <param name="subfolder"></param>
+		/// <param name="title">The title.</param>
+		/// <param name="username">The username of the blog owner.</param>
+		/// <param name="formattedPassword">The password for the blog owner.</param>
+		/// <param name="passwordSalt">The password salt.</param>
+		/// <param name="email">The email.</param>
+		/// <param name="host">The host.</param>
+		/// <param name="subfolder">The subfolder.</param>
 		/// <returns></returns>
-		public abstract bool CreateBlog(string title, string userName, string password, string host, string subfolder);
+		public abstract BlogInfo CreateBlog(string title, string username, string formattedPassword, string passwordSalt, string email, string host, string subfolder);
 
 		/// <summary>
 		/// Updates the specified blog configuration.
