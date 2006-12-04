@@ -317,6 +317,10 @@ IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'i
 DROP FUNCTION [<dbUser,varchar,dbo>].[iter_charlist_to_table]
 GO
 
+IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_CreateHost' AND routine_schema = '<dbUser,varchar,dbo>')
+DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_CreateHost]
+GO
+
 IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_VersionAdd' AND routine_schema = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_VersionAdd]
 GO
