@@ -28,7 +28,7 @@ namespace Subtext.Web.Pages
 		///<param name="e">An <see cref="T:System.EventArgs"></see> that contains the event data.</param>
 		protected override void OnInit(EventArgs e)
 		{
-			if(Request.QueryString["ReturnUrl"].IndexOf("HostAdmin") >= 0)
+			if (Request.QueryString != null && Request.QueryString["ReturnUrl"] != null && Request.QueryString["ReturnUrl"].IndexOf("HostAdmin") >= 0)
 			{
 				Response.Redirect("~/HostAdmin/Login.aspx");
 			}

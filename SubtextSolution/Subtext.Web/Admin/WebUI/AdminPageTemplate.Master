@@ -28,8 +28,7 @@
 				</td>
 				<td id="header">
 					<div id="SiteNav">
-						Logged in as <strong>
-							<asp:Literal Runat="server" ID="LoggedInUser" Text="<%# Config.CurrentBlog.Author %>" /></strong> (<asp:LinkButton id="LogoutLink" runat="server">logout</asp:LinkButton>) 
+						Logged in as <strong><asp:LoginName ID="loginName" runat="server" /></strong> (<asp:LinkButton id="LogoutLink" runat="server">logout</asp:LinkButton>) 
 						| <a href="http://www.subtextproject.com/" title="Subtext Project Site">Subtext Project Site</a>
 						<br />
 						
