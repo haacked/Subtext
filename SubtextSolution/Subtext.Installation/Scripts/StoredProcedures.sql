@@ -5244,7 +5244,7 @@ BEGIN
     END
 
     IF( @ErrorCode = 0 )
-        SELECT @Password, @PasswordFormat
+        SELECT Password = @Password, PasswordFormat = @PasswordFormat
 
     RETURN @ErrorCode
 
@@ -5268,22 +5268,18 @@ GO
 CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_GetNumberOfUsersOnline]
     @ApplicationName            nvarchar(256),
     @MinutesSinceLastInActive   int,
-    @CurrentTimeUtc             datetime
+    @CurrentTimeUtc             datetime,
+    @OnlineUserCount			int output
 AS
 BEGIN
     DECLARE @DateActive datetime
-    SELECT  @DateActive = DATEADD(minute,  -(@MinutesSinceLastInActive), @CurrentTimeUtc)
+    SELECT  @DateActive = DATEADD(minute, -(@MinutesSinceLastInActive), @CurrentTimeUtc)
 
-    DECLARE @NumOnline int
-    SELECT  @NumOnline = COUNT(*)
-    FROM    [<dbUser,varchar,dbo>].subtext_Users u(NOLOCK),
-            [<dbUser,varchar,dbo>].subtext_Applications a(NOLOCK),
-            [<dbUser,varchar,dbo>].subtext_Membership m(NOLOCK)
-    WHERE   u.ApplicationId = a.ApplicationId                  AND
-            LastActivityDate > @DateActive                     AND
-            a.LoweredApplicationName = LOWER(@ApplicationName) AND
-            u.UserId = m.UserId
-    RETURN(@NumOnline)
+    SELECT  @OnlineUserCount = COUNT(*)
+    FROM    [<dbUser,varchar,dbo>].[subtext_Users] u (NOLOCK)
+		INNER JOIN [<dbUser,varchar,dbo>].[subtext_Applications] a (NOLOCK) ON a.ApplicationId = u.ApplicationId
+    WHERE   u.LastActivityDate > @DateActive
+		AND a.LoweredApplicationName = LOWER(@ApplicationName)
 END
 
 GO
@@ -5301,20 +5297,22 @@ CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_SetPassword]
 AS
 BEGIN
     DECLARE @UserId uniqueidentifier
-    SELECT  @UserId = NULL
     SELECT  @UserId = u.UserId
-    FROM    [<dbUser,varchar,dbo>].subtext_Users u, [<dbUser,varchar,dbo>].subtext_Applications a, [<dbUser,varchar,dbo>].subtext_Membership m
+    FROM    [<dbUser,varchar,dbo>].subtext_Users u
+		INNER JOIN [<dbUser,varchar,dbo>].subtext_Applications a ON u.ApplicationId = a.ApplicationId
+		INNER JOIN [<dbUser,varchar,dbo>].subtext_Membership m ON u.UserId = m.UserId
     WHERE   LoweredUserName = LOWER(@UserName) AND
-            u.ApplicationId = a.ApplicationId  AND
-            LOWER(@ApplicationName) = a.LoweredApplicationName AND
-            u.UserId = m.UserId
+            LOWER(@ApplicationName) = a.LoweredApplicationName
+            
 
     IF (@UserId IS NULL)
         RETURN(1)
 
     UPDATE [<dbUser,varchar,dbo>].subtext_Membership
-    SET Password = @NewPassword, PasswordFormat = @PasswordFormat, PasswordSalt = @PasswordSalt,
-        LastPasswordChangedDate = @CurrentTimeUtc
+    SET Password = @NewPassword
+		, PasswordFormat = @PasswordFormat
+		, PasswordSalt = @PasswordSalt
+		, LastPasswordChangedDate = @CurrentTimeUtc
     WHERE @UserId = UserId
     RETURN(0)
 END
@@ -5599,18 +5597,18 @@ GO
 CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_ChangePasswordQuestionAndAnswer]
     @ApplicationName       nvarchar(256),
     @UserName              nvarchar(256),
-    @NewPasswordQuestion   nvarchar(256),
-    @NewPasswordAnswer     nvarchar(128)
+    @NewPasswordQuestion   nvarchar(256) = NULL,
+    @NewPasswordAnswer     nvarchar(128) = NULL
 AS
 BEGIN
     DECLARE @UserId uniqueidentifier
-    SELECT  @UserId = NULL
     SELECT  @UserId = u.UserId
-    FROM    [<dbUser,varchar,dbo>].subtext_Membership m, [<dbUser,varchar,dbo>].subtext_Users u, [<dbUser,varchar,dbo>].subtext_Applications a
-    WHERE   LoweredUserName = LOWER(@UserName) AND
-            u.ApplicationId = a.ApplicationId  AND
-            LOWER(@ApplicationName) = a.LoweredApplicationName AND
-            u.UserId = m.UserId
+    FROM    [<dbUser,varchar,dbo>].subtext_Users u
+		INNER JOIN [<dbUser,varchar,dbo>].subtext_Applications a ON u.ApplicationId = a.ApplicationId
+		INNER JOIN [<dbUser,varchar,dbo>].subtext_Membership m ON m.UserId = u.UserId
+    WHERE   LoweredUserName = LOWER(@UserName) 
+		AND LOWER(@ApplicationName) = a.LoweredApplicationName
+    
     IF (@UserId IS NULL)
     BEGIN
         RETURN(1)
@@ -5618,7 +5616,7 @@ BEGIN
 
     UPDATE [<dbUser,varchar,dbo>].subtext_Membership
     SET    PasswordQuestion = @NewPasswordQuestion, PasswordAnswer = @NewPasswordAnswer
-    WHERE  UserId=@UserId
+    WHERE  UserId = @UserId
     RETURN(0)
 END
 
@@ -6414,52 +6412,55 @@ CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_FindUsersByName]
     @ApplicationName       nvarchar(256),
     @UserNameToMatch       nvarchar(256),
     @PageIndex             int,
-    @PageSize              int
+    @PageSize              int,
+    @TotalCount			   int output
 AS
 BEGIN
     DECLARE @ApplicationId uniqueidentifier
-    SELECT  @ApplicationId = NULL
-    SELECT  @ApplicationId = ApplicationId FROM [<dbUser,varchar,dbo>].subtext_Applications WHERE LOWER(@ApplicationName) = LoweredApplicationName
+    SELECT  @ApplicationId = ApplicationId 
+    FROM [<dbUser,varchar,dbo>].subtext_Applications 
+    WHERE LOWER(@ApplicationName) = LoweredApplicationName
+    
     IF (@ApplicationId IS NULL)
         RETURN 0
 
-    -- Set the page bounds
-    DECLARE @PageLowerBound int
-    DECLARE @PageUpperBound int
-    DECLARE @TotalRecords   int
-    SET @PageLowerBound = @PageSize * @PageIndex
-    SET @PageUpperBound = @PageSize - 1 + @PageLowerBound
+	DECLARE @FirstUserName nvarchar(256)
+	DECLARE @StartRow int
+	DECLARE @StartRowIndex int
 
-    -- Create a temp table TO store the select results
-    CREATE TABLE #PageIndexForUsers
-    (
-        IndexId int IDENTITY (0, 1) NOT NULL,
-        UserId uniqueidentifier
-    )
+	SET @StartRowIndex = @PageIndex * @PageSize + 1
 
-    -- Insert into our temp table
-    INSERT INTO #PageIndexForUsers (UserId)
-        SELECT u.UserId
-        FROM   [<dbUser,varchar,dbo>].subtext_Users u, [<dbUser,varchar,dbo>].subtext_Membership m
-        WHERE  u.ApplicationId = @ApplicationId AND m.UserId = u.UserId AND u.LoweredUserName LIKE LOWER(@UserNameToMatch)
-        ORDER BY u.UserName
+	SET ROWCOUNT @StartRowIndex
+	SELECT	@FirstUserName = UserName
+		FROM [<dbUser,varchar,dbo>].[subtext_Users]
+		WHERE UserName LIKE '%' + @UserNameToMatch + '%'
+		AND ApplicationId = @ApplicationId
+	ORDER BY UserName ASC
 
+	SET ROWCOUNT @PageSize
 
-    SELECT  u.UserName, m.Email, m.PasswordQuestion, m.Comment, m.IsApproved,
-            m.CreateDate,
-            m.LastLoginDate,
-            u.LastActivityDate,
-            m.LastPasswordChangedDate,
-            u.UserId, m.IsLockedOut,
-            m.LastLockoutDate
-    FROM   [<dbUser,varchar,dbo>].subtext_Membership m, [<dbUser,varchar,dbo>].subtext_Users u, #PageIndexForUsers p
-    WHERE  u.UserId = p.UserId AND u.UserId = m.UserId AND
-           p.IndexId >= @PageLowerBound AND p.IndexId <= @PageUpperBound
-    ORDER BY u.UserName
+	SELECT  u.UserName
+		, m.Email
+		, m.PasswordQuestion
+		, m.Comment
+		, m.IsApproved
+        , m.CreateDate
+        , m.LastLoginDate
+        , u.LastActivityDate
+        , m.LastPasswordChangedDate
+        , u.UserId
+        , m.IsLockedOut
+        , m.LastLockoutDate
+    FROM   [<dbUser,varchar,dbo>].subtext_Membership m
+		INNER JOIN [<dbUser,varchar,dbo>].subtext_Users u ON m.UserId = u.UserId
+    WHERE  u.UserName >= @FirstUserName
+		AND u.UserName LIKE '%' + @UserNameToMatch + '%'
+		AND u.ApplicationId = @ApplicationId
+    ORDER BY u.UserName ASC
 
-    SELECT  @TotalRecords = COUNT(*)
-    FROM    #PageIndexForUsers
-    RETURN @TotalRecords
+	SELECT @TotalCount = COUNT(UserName)
+	FROM [<dbUser,varchar,dbo>].[subtext_Users]
+	WHERE UserName LIKE '%' + @UserNameToMatch + '%'
 END
 
 GO
@@ -6471,58 +6472,58 @@ CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_FindUsersByEmail]
     @ApplicationName       nvarchar(256),
     @EmailToMatch          nvarchar(256),
     @PageIndex             int,
-    @PageSize              int
+    @PageSize              int,
+    @TotalCount			   int output
 AS
 BEGIN
     DECLARE @ApplicationId uniqueidentifier
-    SELECT  @ApplicationId = NULL
-    SELECT  @ApplicationId = ApplicationId FROM [<dbUser,varchar,dbo>].subtext_Applications WHERE LOWER(@ApplicationName) = LoweredApplicationName
+    SELECT  @ApplicationId = ApplicationId 
+		FROM [<dbUser,varchar,dbo>].subtext_Applications 
+		WHERE LOWER(@ApplicationName) = LoweredApplicationName
+
     IF (@ApplicationId IS NULL)
         RETURN 0
 
-    -- Set the page bounds
-    DECLARE @PageLowerBound int
-    DECLARE @PageUpperBound int
-    DECLARE @TotalRecords   int
-    SET @PageLowerBound = @PageSize * @PageIndex
-    SET @PageUpperBound = @PageSize - 1 + @PageLowerBound
+	DECLARE @FirstUserName nvarchar(256)
+	DECLARE @StartRow int
+	DECLARE @StartRowIndex int
 
-    -- Create a temp table TO store the select results
-    CREATE TABLE #PageIndexForUsers
-    (
-        IndexId int IDENTITY (0, 1) NOT NULL,
-        UserId uniqueidentifier
-    )
+	SET @StartRowIndex = @PageIndex * @PageSize + 1
 
-    -- Insert into our temp table
-    IF( @EmailToMatch IS NULL )
-        INSERT INTO #PageIndexForUsers (UserId)
-            SELECT u.UserId
-            FROM   [<dbUser,varchar,dbo>].subtext_Users u, [<dbUser,varchar,dbo>].subtext_Membership m
-            WHERE  u.ApplicationId = @ApplicationId AND m.UserId = u.UserId AND m.Email IS NULL
-            ORDER BY m.LoweredEmail
-    ELSE
-        INSERT INTO #PageIndexForUsers (UserId)
-            SELECT u.UserId
-            FROM   [<dbUser,varchar,dbo>].subtext_Users u, [<dbUser,varchar,dbo>].subtext_Membership m
-            WHERE  u.ApplicationId = @ApplicationId AND m.UserId = u.UserId AND m.LoweredEmail LIKE LOWER(@EmailToMatch)
-            ORDER BY m.LoweredEmail
+	SET ROWCOUNT @StartRowIndex
+	SELECT	@FirstUserName = u.UserName
+	FROM [<dbUser,varchar,dbo>].[subtext_Users] u 
+		INNER JOIN [<dbUser,varchar,dbo>].[subtext_Membership] m ON m.UserId = u.UserId
+	WHERE m.Email LIKE '%' + @EmailToMatch + '%'
+		AND u.ApplicationId = @ApplicationId
+	ORDER BY u.UserName ASC
 
-    SELECT  u.UserName, m.Email, m.PasswordQuestion, m.Comment, m.IsApproved,
-            m.CreateDate,
-            m.LastLoginDate,
-            u.LastActivityDate,
-            m.LastPasswordChangedDate,
-            u.UserId, m.IsLockedOut,
-            m.LastLockoutDate
-    FROM   [<dbUser,varchar,dbo>].subtext_Membership m, [<dbUser,varchar,dbo>].subtext_Users u, #PageIndexForUsers p
-    WHERE  u.UserId = p.UserId AND u.UserId = m.UserId AND
-           p.IndexId >= @PageLowerBound AND p.IndexId <= @PageUpperBound
-    ORDER BY m.LoweredEmail
+	SET ROWCOUNT @PageSize
 
-    SELECT  @TotalRecords = COUNT(*)
-    FROM    #PageIndexForUsers
-    RETURN @TotalRecords
+	SELECT  u.UserName
+		, m.Email
+		, m.PasswordQuestion
+		, m.Comment
+		, m.IsApproved
+        , m.CreateDate
+        , m.LastLoginDate
+        , u.LastActivityDate
+        , m.LastPasswordChangedDate
+        , u.UserId
+        , m.IsLockedOut
+        , m.LastLockoutDate
+    FROM   [<dbUser,varchar,dbo>].subtext_Membership m
+		INNER JOIN [<dbUser,varchar,dbo>].subtext_Users u ON m.UserId = u.UserId
+    WHERE   u.UserName >= @FirstUserName
+		AND m.Email LIKE '%' + @EmailToMatch + '%'
+		AND u.ApplicationId = @ApplicationId
+    ORDER BY u.UserName ASC
+
+	SELECT @TotalCount = COUNT(u.UserName)
+	FROM [<dbUser,varchar,dbo>].[subtext_Users] u 
+		INNER JOIN [<dbUser,varchar,dbo>].[subtext_Membership] m ON m.UserId = u.UserId
+	WHERE m.Email LIKE '%' + @EmailToMatch + '%'
+		AND u.ApplicationId = @ApplicationId
 END
 
 GO
@@ -6533,51 +6534,54 @@ GO
 CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_GetAllUsers]
     @ApplicationName       nvarchar(256),
     @PageIndex             int,
-    @PageSize              int
+    @PageSize              int,
+    @TotalCount			   int output
 AS
 BEGIN
-    DECLARE @ApplicationId uniqueidentifier
-    SELECT  @ApplicationId = NULL
-    SELECT  @ApplicationId = ApplicationId FROM [<dbUser,varchar,dbo>].subtext_Applications WHERE LOWER(@ApplicationName) = LoweredApplicationName
+	DECLARE @ApplicationId uniqueidentifier
+    SELECT  @ApplicationId = ApplicationId 
+		FROM [<dbUser,varchar,dbo>].subtext_Applications 
+		WHERE LOWER(@ApplicationName) = LoweredApplicationName
+
     IF (@ApplicationId IS NULL)
         RETURN 0
 
+	DECLARE @FirstUserName nvarchar(256)
+	DECLARE @StartRow int
+	DECLARE @StartRowIndex int
 
-    -- Set the page bounds
-    DECLARE @PageLowerBound int
-    DECLARE @PageUpperBound int
-    DECLARE @TotalRecords   int
-    SET @PageLowerBound = @PageSize * @PageIndex
-    SET @PageUpperBound = @PageSize - 1 + @PageLowerBound
+	SET @StartRowIndex = @PageIndex * @PageSize + 1
 
-    -- Create a temp table TO store the select results
-    CREATE TABLE #PageIndexForUsers
-    (
-        IndexId int IDENTITY (0, 1) NOT NULL,
-        UserId uniqueidentifier
-    )
+	SET ROWCOUNT @StartRowIndex
+	SELECT	@FirstUserName = UserName
+	FROM [<dbUser,varchar,dbo>].[subtext_Users]
+	WHERE ApplicationId = @ApplicationId
+	ORDER BY UserName ASC
 
-    -- Insert into our temp table
-    INSERT INTO #PageIndexForUsers (UserId)
-    SELECT u.UserId
-    FROM   [<dbUser,varchar,dbo>].subtext_Membership m, [<dbUser,varchar,dbo>].subtext_Users u
-    WHERE  u.ApplicationId = @ApplicationId AND u.UserId = m.UserId
-    ORDER BY u.UserName
+	SET ROWCOUNT @PageSize
 
-    SELECT @TotalRecords = @@ROWCOUNT
+	SELECT  u.UserName
+		, m.Email
+		, m.PasswordQuestion
+		, m.Comment
+		, m.IsApproved
+        , m.CreateDate
+        , m.LastLoginDate
+        , u.LastActivityDate
+        , m.LastPasswordChangedDate
+        , u.UserId
+        , m.IsLockedOut
+        , m.LastLockoutDate
+    FROM   [<dbUser,varchar,dbo>].subtext_Membership m
+		INNER JOIN [<dbUser,varchar,dbo>].subtext_Users u ON m.UserId = u.UserId
+    WHERE   u.UserName >= @FirstUserName
+		AND u.ApplicationId = @ApplicationId
+    ORDER BY u.UserName ASC
 
-    SELECT u.UserName, m.Email, m.PasswordQuestion, m.Comment, m.IsApproved,
-            m.CreateDate,
-            m.LastLoginDate,
-            u.LastActivityDate,
-            m.LastPasswordChangedDate,
-            u.UserId, m.IsLockedOut,
-            m.LastLockoutDate
-    FROM   [<dbUser,varchar,dbo>].subtext_Membership m, [<dbUser,varchar,dbo>].subtext_Users u, #PageIndexForUsers p
-    WHERE  u.UserId = p.UserId AND u.UserId = m.UserId AND
-           p.IndexId >= @PageLowerBound AND p.IndexId <= @PageUpperBound
-    ORDER BY u.UserName
-    RETURN @TotalRecords
+	SELECT @TotalCount = COUNT(UserName)
+	FROM [<dbUser,varchar,dbo>].[subtext_Users]
+	WHERE ApplicationId = @ApplicationId
+
 END
 
 GO
@@ -6592,8 +6596,7 @@ CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_Users_DeleteUser]
     @NumTablesDeletedFrom int OUTPUT
 AS
 BEGIN
-    DECLARE @UserId               uniqueidentifier
-    SELECT  @UserId               = NULL
+    DECLARE @UserId uniqueidentifier
     SELECT  @NumTablesDeletedFrom = 0
 
     DECLARE @TranStarted   bit
@@ -6605,7 +6608,7 @@ BEGIN
 	    SET @TranStarted = 1
     END
     ELSE
-	SET @TranStarted = 0
+		SET @TranStarted = 0
 
     DECLARE @ErrorCode   int
     DECLARE @RowCount    int
@@ -6614,9 +6617,9 @@ BEGIN
     SET @RowCount  = 0
 
     SELECT  @UserId = u.UserId
-    FROM    [<dbUser,varchar,dbo>].subtext_Users u, [<dbUser,varchar,dbo>].subtext_Applications a
+    FROM    [<dbUser,varchar,dbo>].subtext_Users u
+		INNER JOIN [<dbUser,varchar,dbo>].subtext_Applications a ON a.ApplicationId = u.ApplicationId
     WHERE   u.LoweredUserName       = LOWER(@UserName)
-        AND u.ApplicationId         = a.ApplicationId
         AND LOWER(@ApplicationName) = a.LoweredApplicationName
 
     IF (@UserId IS NULL)
@@ -6625,10 +6628,9 @@ BEGIN
     END
 
     -- Delete from Membership table if (@TablesToDeleteFrom & 1) is set
-    IF ((@TablesToDeleteFrom & 1) <> 0 AND
-        (EXISTS (SELECT name FROM sysobjects WHERE (name = N'vw_subtext_MembershipUsers') AND (type = 'V'))))
+    IF ((@TablesToDeleteFrom & 1) <> 0)
     BEGIN
-        DELETE FROM [<dbUser,varchar,dbo>].subtext_Membership WHERE @UserId = UserId
+        DELETE FROM [<dbUser,varchar,dbo>].[subtext_Membership] WHERE UserId = @UserId
 
         SELECT @ErrorCode = @@ERROR,
                @RowCount = @@ROWCOUNT
@@ -6641,10 +6643,9 @@ BEGIN
     END
 
     -- Delete from subtext_UsersInRoles table if (@TablesToDeleteFrom & 2) is set
-    IF ((@TablesToDeleteFrom & 2) <> 0  AND
-        (EXISTS (SELECT name FROM sysobjects WHERE (name = N'vw_subtext_UsersInRoles') AND (type = 'V'))) )
+    IF ((@TablesToDeleteFrom & 2) <> 0)
     BEGIN
-        DELETE FROM [<dbUser,varchar,dbo>].subtext_UsersInRoles WHERE @UserId = UserId
+        DELETE FROM [<dbUser,varchar,dbo>].subtext_UsersInRoles WHERE UserId = @UserId
 
         SELECT @ErrorCode = @@ERROR,
                 @RowCount = @@ROWCOUNT
@@ -6657,10 +6658,9 @@ BEGIN
     END
 
     -- Delete from subtext_Profile table if (@TablesToDeleteFrom & 4) is set
-    IF ((@TablesToDeleteFrom & 4) <> 0  AND
-        (EXISTS (SELECT name FROM sysobjects WHERE (name = N'vw_subtext_Profiles') AND (type = 'V'))) )
+    IF ((@TablesToDeleteFrom & 4) <> 0)
     BEGIN
-        DELETE FROM [<dbUser,varchar,dbo>].subtext_Profile WHERE @UserId = UserId
+        DELETE FROM [<dbUser,varchar,dbo>].subtext_Profile WHERE UserId = @UserId
 
         SELECT @ErrorCode = @@ERROR,
                 @RowCount = @@ROWCOUNT
@@ -6673,10 +6673,9 @@ BEGIN
     END
 
     -- Delete from subtext_PersonalizationPerUser table if (@TablesToDeleteFrom & 8) is set
-    IF ((@TablesToDeleteFrom & 8) <> 0  AND
-        (EXISTS (SELECT name FROM sysobjects WHERE (name = N'vw_subtext_WebPartState_User') AND (type = 'V'))) )
+    IF ((@TablesToDeleteFrom & 8) <> 0)
     BEGIN
-        DELETE FROM [<dbUser,varchar,dbo>].subtext_PersonalizationPerUser WHERE @UserId = UserId
+        DELETE FROM [<dbUser,varchar,dbo>].subtext_PersonalizationPerUser WHERE UserId = @UserId
 
         SELECT @ErrorCode = @@ERROR,
                 @RowCount = @@ROWCOUNT
@@ -6693,9 +6692,9 @@ BEGIN
         (@TablesToDeleteFrom & 2) <> 0 AND
         (@TablesToDeleteFrom & 4) <> 0 AND
         (@TablesToDeleteFrom & 8) <> 0 AND
-        (EXISTS (SELECT UserId FROM [<dbUser,varchar,dbo>].subtext_Users WHERE @UserId = UserId)))
+        (EXISTS (SELECT UserId FROM [<dbUser,varchar,dbo>].subtext_Users WHERE UserId = @UserId)))
     BEGIN
-        DELETE FROM [<dbUser,varchar,dbo>].subtext_Users WHERE @UserId = UserId
+        DELETE FROM [<dbUser,varchar,dbo>].subtext_Users WHERE UserId = @UserId
 
         SELECT @ErrorCode = @@ERROR,
                 @RowCount = @@ROWCOUNT
@@ -7116,11 +7115,11 @@ GO
 CREATE PROCEDURE [<dbUser,varchar,dbo>].[subtext_Membership_CreateUser]
     @ApplicationName                        nvarchar(256),
     @UserName                               nvarchar(256),
-    @Password                               nvarchar(128),
-    @PasswordSalt                           nvarchar(128),
-    @Email                                  nvarchar(256),
-    @PasswordQuestion                       nvarchar(256),
-    @PasswordAnswer                         nvarchar(128),
+    @Password                               nvarchar(128) = NULL,
+    @PasswordSalt                           nvarchar(128) = NULL,
+    @Email                                  nvarchar(256) = NULL,
+    @PasswordQuestion                       nvarchar(256) = NULL,
+    @PasswordAnswer                         nvarchar(128) = NULL,
     @IsApproved                             bit,
     @CurrentTimeUtc                         datetime,
     @CreateDate                             datetime = NULL,

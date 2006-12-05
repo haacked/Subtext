@@ -935,6 +935,18 @@ namespace Subtext.Framework.Data
             return MakeParam(ParamName, DbType, Size, ParameterDirection.Output, null);
         }
 
+
+		/// <summary>
+		/// Creates a SqlParameter to store the return value of a stored proc.
+		/// </summary>
+		/// <returns></returns>
+		public static SqlParameter MakeReturnValueParam()
+		{
+			SqlParameter returnValue = new SqlParameter("@RETURN_VALUE", SqlDbType.Int);
+			returnValue.Direction = ParameterDirection.ReturnValue;
+			return returnValue;
+		}
+
         /// <summary>
         /// Make stored procedure param.
         /// </summary>
