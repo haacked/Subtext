@@ -367,7 +367,7 @@ namespace Subtext.Framework.Security
 				conn.Open();
 				SqlParameter totalCountParam = DataHelper.MakeOutParam("@TotalCount", SqlDbType.Int, 4);
 
-				using (SqlCommand command = new SqlCommand("subtext_Membership_FindUsersByName", conn))
+				using (SqlCommand command = new SqlCommand("subtext_Membership_GetAllUsers", conn))
 				{
 					command.CommandType = CommandType.StoredProcedure;
 					command.Parameters.Add(new SqlParameter("@ApplicationName", ApplicationName));
@@ -510,7 +510,7 @@ namespace Subtext.Framework.Security
 				using (SqlCommand cmd = new SqlCommand("subtext_Membership_GetUserByEmail", conn))
 				{
 					cmd.CommandType = CommandType.StoredProcedure;
-					cmd.Parameters.AddWithValue("@ApplicationName", "/");
+					cmd.Parameters.AddWithValue("@ApplicationName", ApplicationName);
 					cmd.Parameters.AddWithValue("@email", email);
 
 					conn.Open();

@@ -227,12 +227,25 @@ namespace Subtext.Framework.Configuration
 			BlogInfo blog = ObjectProvider.Instance().CreateBlog(title, userName, password, passwordSalt, null, host, subfolder);
 			using (IDisposable appScope = MembershipApplicationScope.SetApplicationName(blog.ApplicationName))
 			{
-				if(!Roles.RoleExists("Administrators"))
-					Roles.CreateRole("Administrators");
+				CreateBlogRoles();
+
 				Roles.AddUserToRole(blog.Owner.UserName, "Administrators");
+				
 				appScope.Dispose();
 			}
 			return true;
+		}
+
+		private static void CreateBlogRoles()
+		{
+			string[] defaultRoles =
+				{"Administrators", "PowerUsers", "Authors", "Commenters", "Anonymous"};
+
+			foreach (string role in defaultRoles)
+			{
+				if (!Roles.RoleExists(role))
+					Roles.CreateRole(role);
+			}
 		}
 
 		/// <summary>
