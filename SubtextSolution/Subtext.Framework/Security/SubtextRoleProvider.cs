@@ -4,6 +4,7 @@ using System.Web;
 using System.Collections.Specialized;
 using System.Data.SqlClient;
 using Microsoft.ApplicationBlocks.Data;
+using Subtext.Framework.Data;
 
 namespace Subtext.Framework.Security
 {
@@ -193,8 +194,8 @@ namespace Subtext.Framework.Security
 		/// </returns>
         public override bool IsUserInRole(string username, string roleName)
         {
-			SqlParameter returnValue = new SqlParameter("@return_value", SqlDbType.Int, 4);
-			returnValue.Direction = ParameterDirection.ReturnValue;
+			SqlParameter returnValue = DataHelper.MakeReturnValueParam();
+			
 			SqlHelper.ExecuteNonQuery(this.connectionString
 			                          , CommandType.StoredProcedure
 			                          , "subtext_UsersInRoles_IsUserInRole"
@@ -220,8 +221,8 @@ namespace Subtext.Framework.Security
 		/// </returns>
         public override bool RoleExists(string roleName)
         {
-			SqlParameter returnValue = new SqlParameter("@return_value", SqlDbType.Int, 4);
-			returnValue.Direction = ParameterDirection.ReturnValue;
+			SqlParameter returnValue = DataHelper.MakeReturnValueParam();
+			
 			SqlHelper.ExecuteNonQuery(this.connectionString
 									  , CommandType.StoredProcedure
 									  , "subtext_Roles_RoleExists"

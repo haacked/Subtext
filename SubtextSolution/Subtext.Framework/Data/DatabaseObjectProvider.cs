@@ -633,6 +633,10 @@ namespace Subtext.Framework.Data
             NonQueryBool("subtext_DeleteFeedback", p);
 		}
 
+		/// <summary>
+		/// Destroys the feedback with the given status.
+		/// </summary>
+		/// <param name="status">The status.</param>
 		public override void DestroyFeedback(FeedbackStatusFlag status)
 		{
             SqlParameter[] p =
@@ -642,7 +646,12 @@ namespace Subtext.Framework.Data
 			};
             NonQueryBool("subtext_DeleteFeedbackByStatus", p);
 		}
-		
+
+		/// <summary>
+		/// Creates a feedback record and returs the id of the newly created item.
+		/// </summary>
+		/// <param name="feedbackItem"></param>
+		/// <returns></returns>
 		public override int CreateFeedback(FeedbackItem feedbackItem)
 		{
             if (feedbackItem == null)
