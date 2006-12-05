@@ -16,9 +16,7 @@
 using System;
 using System.Globalization;
 using System.Text;
-using System.Web;
 using MbUnit.Framework;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Security;
 
 namespace UnitTests.Subtext.Framework.SecurityHandling
