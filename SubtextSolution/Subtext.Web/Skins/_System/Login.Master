@@ -18,10 +18,11 @@
 			<LayoutTemplate>
 					<fieldset>
 						<legend>
-						<asp:ContentPlaceHolder ID="instructionsPlaceHolder" runat="server">
-							Blog Login
-						</asp:ContentPlaceHolder>
+							<asp:ContentPlaceHolder ID="instructionsPlaceHolder" runat="server">
+								Blog Login
+							</asp:ContentPlaceHolder>
 						</legend>
+						<span class="error"><asp:Literal ID="FailureText" runat="server" EnableViewState="False" /></span>
 						<asp:Label ID="UserNameLabel" runat="server" AssociatedControlID="UserName">Username</asp:Label>
 						<asp:TextBox ID="UserName" runat="server" CssClass="textbox" TabIndex="1" />
 						<asp:RequiredFieldValidator ID="UserNameRequired" runat="server" ControlToValidate="UserName"
@@ -33,7 +34,6 @@
 							ErrorMessage="Password is required." ToolTip="Password is required." ValidationGroup="Login">*</asp:RequiredFieldValidator>
 						
 						<asp:CheckBox ID="RememberMe" runat="server" Text="Remember me" TabIndex="3" CssClass="rememberMe" />			
-						<asp:Literal ID="FailureText" runat="server" EnableViewState="False"></asp:Literal>
 						<asp:Button ID="LoginButton" runat="server" CommandName="Login" Text="Login" ValidationGroup="Login" TabIndex="4" CssClass="button" />
 						<p class="forgotPassword"><a href="ForgotPassword.aspx" title="Click to reset your password" tabindex="4">Forgot Your Password?</a></p>
 					</fieldset>

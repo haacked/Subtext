@@ -252,6 +252,7 @@ namespace Subtext
 			if (sqlExc != null)
 			{
 				if (sqlExc.Number == (int)SqlErrorMessage.SqlServerDoesNotExistOrAccessDenied
+					|| sqlExc.Number == (int)SqlErrorMessage.ErrorConnectingToDatabase
 				    || (sqlExc.Number == (int)SqlErrorMessage.CouldNotFindStoredProcedure && sqlExc.Message.IndexOf("'blog_GetConfig'") > 0)
 					)
 				{
