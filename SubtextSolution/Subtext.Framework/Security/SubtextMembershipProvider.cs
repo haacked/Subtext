@@ -124,7 +124,6 @@ namespace Subtext.Framework.Security
         public override MembershipUser CreateUser(string username, string password, string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status)
         {
             ValidatePasswordEventArgs args = new ValidatePasswordEventArgs(username, password, true);
-
             OnValidatingPassword(args);
 
             if (args.Cancel)
@@ -133,75 +132,68 @@ namespace Subtext.Framework.Security
                 return null;
             }
 
-            if (RequiresUniqueEmail && GetUserNameByEmail(email) != "")
+            if (RequiresUniqueEmail && !String.IsNullOrEmpty(GetUserNameByEmail(email)))
             {
                 status = MembershipCreateStatus.DuplicateEmail;
                 return null;
             }
 
-            MembershipUser u = GetUser(username, false);
-
-            if (u == null)
+			if (GetUser(username, false) != null)
             {
-                if (providerUserKey == null)
-                {
-                    providerUserKey = Guid.NewGuid();
-                }
-                else
-                {
-                    if (!(providerUserKey is Guid))
-                    {
-                        status = MembershipCreateStatus.InvalidProviderUserKey;
-                        return null;
-                    }
-                }
-                
-            	string salt = SecurityHelper.CreateRandomSalt();
-				if(PasswordFormat == MembershipPasswordFormat.Hashed)
-            		password = SecurityHelper.HashPassword(password, salt);
-            	
-				using (SqlConnection conn = new SqlConnection(this.connectionString))
-				{
-					using (SqlCommand cmd = new SqlCommand("subtext_Membership_CreateUser", conn))
-					{
-						cmd.CommandType = CommandType.StoredProcedure;
-						cmd.Parameters.AddWithValue("@ApplicationName", ApplicationName);
-						cmd.Parameters.AddWithValue("@UserName", username);
-						cmd.Parameters.AddWithValue("@Password", password);
-						cmd.Parameters.AddWithValue("@PasswordSalt", salt);
-						cmd.Parameters.AddWithValue("@Email", email);
-						cmd.Parameters.AddWithValue("@PasswordQuestion", "");
-						cmd.Parameters.AddWithValue("@PasswordAnswer", "");
-						cmd.Parameters.AddWithValue("@IsApproved", true);
-						cmd.Parameters.AddWithValue("@CurrentTimeUtc", DateTime.Now.ToShortTimeString());
-						cmd.Parameters.AddWithValue("@CreateDate", DateTime.Now.ToShortDateString());
-						cmd.Parameters.AddWithValue("@UniqueEmail", 0);
-						cmd.Parameters.AddWithValue("@PasswordFormat", 0);
-						cmd.Parameters.Add("@UserId", SqlDbType.UniqueIdentifier);
-						cmd.Parameters["@UserId"].Value = providerUserKey;
-						cmd.Parameters["@UserId"].Direction = ParameterDirection.Output;
-
-						conn.Open();
-						if (cmd.ExecuteNonQuery() >= 1)
-						{
-							status = MembershipCreateStatus.Success;
-							return GetUser(username, true);
-						}
-						else
-						{
-							status = MembershipCreateStatus.ProviderError;
-							return null;
-						}
-					}
-				}
-
-            }
-            else
-            {
-                status = MembershipCreateStatus.DuplicateUserName;
+            	status = MembershipCreateStatus.DuplicateUserName;
                 return null;
             }
 
+            if (providerUserKey == null)
+            {
+                providerUserKey = Guid.NewGuid();
+            }
+            else
+            {
+                if (!(providerUserKey is Guid))
+                {
+                    status = MembershipCreateStatus.InvalidProviderUserKey;
+                    return null;
+                }
+            }
+            
+        	string salt = SecurityHelper.CreateRandomSalt();
+			if(PasswordFormat == MembershipPasswordFormat.Hashed)
+        		password = SecurityHelper.HashPassword(password, salt);
+        	
+			using (SqlConnection conn = new SqlConnection(this.connectionString))
+			{
+				using (SqlCommand cmd = new SqlCommand("subtext_Membership_CreateUser", conn))
+				{
+					cmd.CommandType = CommandType.StoredProcedure;
+					cmd.Parameters.AddWithValue("@ApplicationName", ApplicationName);
+					cmd.Parameters.AddWithValue("@UserName", username);
+					cmd.Parameters.AddWithValue("@Password", password);
+					cmd.Parameters.AddWithValue("@PasswordSalt", salt);
+					cmd.Parameters.AddWithValue("@Email", email);
+					cmd.Parameters.AddWithValue("@PasswordQuestion", passwordQuestion);
+					cmd.Parameters.AddWithValue("@PasswordAnswer", passwordAnswer);
+					cmd.Parameters.AddWithValue("@IsApproved", true);
+					cmd.Parameters.AddWithValue("@CurrentTimeUtc", DateTime.UtcNow);
+					cmd.Parameters.AddWithValue("@CreateDate", DateTime.Now);
+					cmd.Parameters.AddWithValue("@UniqueEmail", RequiresUniqueEmail);
+					cmd.Parameters.AddWithValue("@PasswordFormat", PasswordFormat);
+					cmd.Parameters.Add(DataHelper.MakeOutParam("@UserId", SqlDbType.UniqueIdentifier, 4));
+					cmd.Parameters["@UserId"].Value = providerUserKey;
+
+					conn.Open();
+					if (cmd.ExecuteNonQuery() >= 1)
+					{
+						status = MembershipCreateStatus.Success;
+						return GetUser(username, true);
+					}
+					else
+					{
+						status = MembershipCreateStatus.ProviderError;
+						return null;
+					}
+				}
+			}
         }
 
 		/// <summary>
@@ -504,18 +496,7 @@ namespace Subtext.Framework.Security
 		/// </returns>
         public override string GetUserNameByEmail(string email)
         {
-			using (SqlConnection conn = new SqlConnection(this.connectionString))
-			{
-				using (SqlCommand cmd = new SqlCommand("subtext_Membership_GetUserByEmail", conn))
-				{
-					cmd.CommandType = CommandType.StoredProcedure;
-					cmd.Parameters.AddWithValue("@ApplicationName", ApplicationName);
-					cmd.Parameters.AddWithValue("@email", email ?? string.Empty);
-
-					conn.Open();
-					return (string)cmd.ExecuteScalar();
-				}
-			}
+			return (string)SqlHelper.ExecuteScalar(this.connectionString, "subtext_Membership_GetUserByEmail", ApplicationName, email ?? string.Empty);
         }
 
 		/// <summary>

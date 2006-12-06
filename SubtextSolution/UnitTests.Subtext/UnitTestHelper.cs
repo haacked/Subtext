@@ -40,8 +40,8 @@ namespace UnitTests.Subtext
 	/// </summary>
 	public static class UnitTestHelper
 	{
-		internal const string MembershipTestUsername = "FakeUser";
-		internal const string MembershipTestPassword = "FakePassword1";
+		internal static readonly string MembershipTestUsername = GenerateRandomString();
+		internal static readonly string MembershipTestPassword = GenerateRandomString();
 		
         /// <summary>
 		/// Unpacks an embedded resource into the specified directory. The resource name should 

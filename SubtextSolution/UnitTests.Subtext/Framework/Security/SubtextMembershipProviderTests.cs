@@ -62,8 +62,8 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		{
 			UnitTestHelper.SetupBlog();
 			string name = UnitTestHelper.GenerateRandomString();
-			Membership.CreateUser(name, "whatever-password");
-			Membership.CreateUser(name + "blah", "secret-password");
+			Membership.CreateUser(name, "whatever-password",  UnitTestHelper.GenerateRandomString() + "@example.com");
+			Membership.CreateUser(name + "blah", "secret-password",  UnitTestHelper.GenerateRandomString() + "@example.com");
 
 			MembershipUserCollection foundUsers = Membership.FindUsersByName(name);
 			Assert.AreEqual(2, foundUsers.Count, "Expected to find two users");
@@ -89,8 +89,8 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		{
 			UnitTestHelper.SetupBlog();
 			string name = UnitTestHelper.GenerateRandomString();
-			Membership.CreateUser(name, "whatever-password");
-			Membership.CreateUser(name + "blah", "secret-password");
+			Membership.CreateUser(name, "whatever-password", UnitTestHelper.GenerateRandomString() + "@example.com");
+			Membership.CreateUser(name + "blah", "secret-password", UnitTestHelper.GenerateRandomString() + "@example.com");
 
 			MembershipUserCollection allUsers = Membership.GetAllUsers();
 			Assert.AreEqual(3, allUsers.Count, "Expected to find three users");
