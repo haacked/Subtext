@@ -24,6 +24,11 @@ namespace Subtext.Framework.Data
 	public enum SqlErrorMessage
 	{
 		/// <summary>
+		/// Specified SQL 2005 server not found:
+		/// </summary>
+		ErrorConnectingToDatabase = 2,
+		
+		/// <summary>
 		/// Specified SQL server not found:
 		/// </summary>
 		SpecifiedSqlServerNotFound = 6,
