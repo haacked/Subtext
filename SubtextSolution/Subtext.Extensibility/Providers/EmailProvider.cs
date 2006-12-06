@@ -15,6 +15,8 @@
 
 using System;
 using System.Collections.Specialized;
+using System.Configuration;
+using System.Net.Configuration;
 
 namespace Subtext.Extensibility.Providers
 {
@@ -27,12 +29,12 @@ namespace Subtext.Extensibility.Providers
 		private static GenericProviderCollection<EmailProvider> providers = ProviderConfigurationHelper.LoadProviderCollection<EmailProvider>("Email", out provider);
 		const int DefaultSmtpPort = 25;
 
-		string _name;
-		string _smtpServer = "localhost";
-		int _port = DefaultSmtpPort;
-		string _password;
-		string _userName;
-		string _adminEmail;
+		string name;
+		string smtpServer = "localhost";
+		int port = DefaultSmtpPort;
+		string password;
+		string userName;
+		string adminEmail;
 
 		/// <summary>
 		/// Initializes the specified provider.
@@ -41,21 +43,18 @@ namespace Subtext.Extensibility.Providers
 		/// <param name="configValue">Config value.</param>
 		public override void Initialize(string name, NameValueCollection configValue)
 		{
-			_name = name;
-			_adminEmail = configValue["adminEmail"];
-			_smtpServer = configValue["smtpServer"];
-			_password = configValue["password"];
-			_userName = configValue["username"];
-			if (configValue["port"] != null)
+			this.name = name;
+
+			SmtpSection smtpSettings = (SmtpSection)ConfigurationManager.GetSection("system.net/mailSettings/smtp");
+			
+			this.adminEmail = configValue["adminEmail"] ?? smtpSettings.From;
+			this.smtpServer = configValue["smtpServer"] ?? smtpSettings.Network.Host;
+			this.password = configValue["password"] ?? smtpSettings.Network.Password;
+			this.userName = configValue["username"] ?? smtpSettings.Network.UserName;
+
+			if(!int.TryParse(configValue["port"] ?? "25", out this.port))
 			{
-				try
-				{
-					_port = int.Parse(configValue["port"]);
-				}
-				catch (System.FormatException)
-				{
-					//Do nothing.
-				}
+				this.port = smtpSettings.Network.Port;
 			}
 		}
 
@@ -89,11 +88,11 @@ namespace Subtext.Extensibility.Providers
 		{
 			get
 			{
-				return _adminEmail;
+				return this.adminEmail;
 			}
 			set
 			{
-				_adminEmail = value;
+				this.adminEmail = value;
 			}
 		}
 
@@ -106,13 +105,13 @@ namespace Subtext.Extensibility.Providers
 		{
 			get
 			{
-				if (_smtpServer == null || _smtpServer.Length == 0)
-					_smtpServer = "localhost";
-				return _smtpServer;
+				if (this.smtpServer == null || this.smtpServer.Length == 0)
+					this.smtpServer = "localhost";
+				return this.smtpServer;
 			}
 			set
 			{
-				_smtpServer = value;
+				this.smtpServer = value;
 			}
 		}
 
@@ -123,8 +122,8 @@ namespace Subtext.Extensibility.Providers
 		/// <value>The port.</value>
 		public int Port
 		{
-			get { return this._port; }
-			set { this._port = value; }
+			get { return this.port; }
+			set { this.port = value; }
 		}
 
 
@@ -137,11 +136,11 @@ namespace Subtext.Extensibility.Providers
 		{
 			get
 			{
-				return _password;
+				return this.password;
 			}
 			set
 			{
-				_password = value;
+				this.password = value;
 			}
 		}
 
@@ -153,11 +152,11 @@ namespace Subtext.Extensibility.Providers
 		{
 			get
 			{
-				return _userName;
+				return this.userName;
 			}
 			set
 			{
-				_userName = value;
+				this.userName = value;
 			}
 		}
 
@@ -170,7 +169,7 @@ namespace Subtext.Extensibility.Providers
 		{
 			get
 			{
-				return _name;
+				return this.name;
 			}
 		}
 		

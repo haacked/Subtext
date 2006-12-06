@@ -10,10 +10,10 @@
 
 namespace Subtext.Web {
     
-    public partial class Login {
-        public new Subtext.Web.Skins._System.Login Master {
+    public partial class ForgotPassword {
+        public new Subtext.Web.Skins._System.ForgotPassword Master {
             get {
-                return ((Subtext.Web.Skins._System.Login)(base.Master));
+                return ((Subtext.Web.Skins._System.ForgotPassword)(base.Master));
             }
         }
     }

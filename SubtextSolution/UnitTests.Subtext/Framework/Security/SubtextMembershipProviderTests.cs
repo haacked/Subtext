@@ -18,6 +18,25 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 			MembershipUser owner = Membership.GetUser(Config.CurrentBlog.Owner.ProviderUserKey);
 			Assert.AreEqual("blah@example.com", owner.Email);
 		}
+		
+		[Test]
+		public void RequiresQuestionAndAnswerIsTrue()
+		{
+			Assert.IsTrue(Membership.Provider.RequiresQuestionAndAnswer, "Expected RequiresQuestionAndAnswer to be true.");
+		}
+		
+		[Test]
+		public void EnablePasswordResetIsTrue()
+		{
+			Assert.IsTrue(Membership.Provider.EnablePasswordReset, "Expect enablePasswordReset to be true");
+		}
+		
+		[Test]
+		public void EnablePasswordRetrievalIsFalse()
+		{
+			Assert.IsFalse(Membership.Provider.EnablePasswordRetrieval, "Expect enablePasswordRetrieval to be false");
+		}
+		
 
 		[Test]
 		[RollBack]
@@ -25,12 +44,11 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		{
 			UnitTestHelper.SetupBlog();
 			string email = UnitTestHelper.GenerateRandomString() + "@example.com";
-			Membership.CreateUser("anothertestuser0", "whatever-password", email);
 			Membership.CreateUser("anothertestuser1", "another-password", email);
 			Membership.UpdateUser(Config.CurrentBlog.Owner);
 
 			MembershipUserCollection foundUsers = Membership.FindUsersByEmail(email);
-			Assert.AreEqual(2, foundUsers.Count, "Expected to find two users");
+			Assert.AreEqual(1, foundUsers.Count, "Expected to find two users");
 			
 			foreach(MembershipUser user in foundUsers)
 			{
@@ -55,7 +73,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 				Assert.IsTrue(user.UserName.IndexOf(name) >= 0, "Hey, we found the wrong user!");
 			}
 		}
-
+		
 		[Test]
 		[RollBack]
 		public void CanGetUserNameByEmail()
@@ -109,6 +127,17 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 			Assert.IsTrue(Membership.Provider.ValidateUser(UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestPassword));
 			Membership.Provider.ChangePassword(UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestPassword, "NewPassword");
 			Assert.IsTrue(Membership.Provider.ValidateUser(UnitTestHelper.MembershipTestUsername, "NewPassword"), "Could not validate user with new password.");
+		}
+
+		[Test]
+		[RollBack]
+		public void CanResetPassword()
+		{
+			UnitTestHelper.SetupBlog();
+			Assert.IsTrue(Membership.Provider.ValidateUser(UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestPassword));
+			string newPassword = Membership.Provider.ResetPassword(UnitTestHelper.MembershipTestUsername, "subtext");
+			Assert.IsNotNull(newPassword, "New password is null, indicating a problem occurred while resetting the password.");
+			Assert.IsTrue(Membership.Provider.ValidateUser(UnitTestHelper.MembershipTestUsername, newPassword), "Could not validate user with new password '" + newPassword + "'.");
 		}
 		
 

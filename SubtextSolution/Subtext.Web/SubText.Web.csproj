@@ -273,6 +273,13 @@
     <Compile Include="default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ForgotPassword.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <DependentUpon>ForgotPassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ForgotPassword.aspx.designer.cs">
+      <DependentUpon>ForgotPassword.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -289,6 +296,13 @@
     </Compile>
     <Compile Include="HostAdmin\ErrorLog.aspx.designer.cs">
       <DependentUpon>ErrorLog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="HostAdmin\ForgotPassword.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+      <DependentUpon>ForgotPassword.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="HostAdmin\ForgotPassword.aspx.designer.cs">
+      <DependentUpon>ForgotPassword.aspx</DependentUpon>
     </Compile>
     <Compile Include="HostAdmin\HostAdminTemplate.Master.cs">
       <DependentUpon>HostAdminTemplate.Master</DependentUpon>
@@ -419,12 +433,12 @@
     <Compile Include="Install\Step03_CreateBlog.aspx.designer.cs">
       <DependentUpon>Step03_CreateBlog.aspx</DependentUpon>
     </Compile>
-    <Compile Include="login.aspx.cs">
-      <DependentUpon>login.aspx</DependentUpon>
+    <Compile Include="Login.aspx.cs">
       <SubType>ASPXCodeBehind</SubType>
+      <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
-    <Compile Include="login.aspx.designer.cs">
-      <DependentUpon>login.aspx</DependentUpon>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="logout.aspx.cs">
       <DependentUpon>logout.aspx</DependentUpon>
@@ -451,6 +465,20 @@
     </Compile>
     <Compile Include="Providers\BlogEntryEditor\FTB\FtbBlogEntryEditorProvider.cs" />
     <Compile Include="Providers\BlogEntryEditor\PlainText\PlainTextBlogEntryEditorProvider.cs" />
+    <Compile Include="Skins\_System\ForgotPassword.Master.cs">
+      <DependentUpon>ForgotPassword.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Skins\_System\ForgotPassword.Master.designer.cs">
+      <DependentUpon>ForgotPassword.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Skins\_System\Login.Master.cs">
+      <DependentUpon>Login.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Skins\_System\Login.Master.designer.cs">
+      <DependentUpon>Login.Master</DependentUpon>
+    </Compile>
     <Compile Include="SystemMessages\BlogNotActive.aspx.cs">
       <DependentUpon>BlogNotActive.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -639,7 +667,6 @@
     <Content Include="ExternalDependencies\freetextbox.dll" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="login.aspx" />
     <Content Include="logout.aspx" />
     <Content Include="MainFeed.aspx" />
     <Content Include="Admin\Navigation.config" />
@@ -814,10 +841,6 @@
       <DependentUpon>Step03_CreateBlog.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="login.aspx.resx">
-      <DependentUpon>login.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="logout.aspx.resx">
       <DependentUpon>logout.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -936,9 +959,11 @@
     <Content Include="ExternalDependencies\log4net.dll" />
     <Content Include="ExternalDependencies\log4net.xml" />
     <Content Include="ExternalDependencies\MagicAjax.dll" />
+    <Content Include="ForgotPassword.aspx" />
     <Content Include="HostAdmin\ChangePassword.aspx" />
     <Content Include="HostAdmin\Default.aspx" />
     <Content Include="HostAdmin\ErrorLog.aspx" />
+    <Content Include="HostAdmin\ForgotPassword.aspx" />
     <Content Include="HostAdmin\images\bottom.gif" />
     <Content Include="HostAdmin\images\shadow.gif" />
     <Content Include="HostAdmin\images\shadowAlpha.png" />
@@ -1022,6 +1047,7 @@
     <Content Include="Install\Step02_ConfigureHost.aspx" />
     <Content Include="Install\Step03_CreateBlog.aspx" />
     <Content Include="Install\Style\InstallationStyle.css" />
+    <Content Include="Login.aspx" />
     <Content Include="Modules\placeholder.txt" />
     <Content Include="Providers\BlogEntryEditor\FCKeditor\customConfiguration\subtextconfig.js" />
     <Content Include="Providers\BlogEntryEditor\FCKeditor\editor\css\behaviors\disablehandles.htc" />
@@ -2030,6 +2056,9 @@
     <Content Include="Skins\_System\commonlayout.css" />
     <Content Include="Skins\_System\commonstyle.css" />
     <Content Include="Skins\_System\csharp.css" />
+    <Content Include="Skins\_System\forgotpassword.css" />
+    <Content Include="Skins\_System\forms.css" />
+    <Content Include="Skins\_System\login.css" />
     <Content Include="Skins\_System\SystemStyle.css" />
     <Content Include="SystemMessages\BlogNotActive.aspx">
       <SubType>Form</SubType>
@@ -2055,6 +2084,8 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Content Include="Skins\_System\ForgotPassword.Master" />
+    <Content Include="Skins\_System\Login.Master" />
     <Content Include="SystemMessages\SystemMessageTemplate.Master" />
   </ItemGroup>
   <ItemGroup>

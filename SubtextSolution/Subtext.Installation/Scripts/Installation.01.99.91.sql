@@ -290,3 +290,8 @@ BEGIN
 	)
 END
 GO
+
+/* Need to set the password questions and answers */
+UPDATE [<dbUser,varchar,dbo>].[subtext_Membership] 
+	SET PasswordQuestion = 'No Question Specified. Please type the word "subtext"', PasswordAnswer='subtext'
+	WHERE PasswordQuestion IS NULL OR PasswordQuestion = ''

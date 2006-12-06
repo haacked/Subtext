@@ -369,19 +369,21 @@ namespace Subtext.Framework.Providers
 		#region  Configuration
 
 		/// <summary>
-		/// Adds the initial blog configuration.  This is a convenience method for 
-		/// allowing a user with a freshly installed blog to immediately gain access 
+		/// Adds the initial blog configuration.  This is a convenience method for
+		/// allowing a user with a freshly installed blog to immediately gain access
 		/// to the admin section to edit the blog.
 		/// </summary>
 		/// <param name="title">The title.</param>
 		/// <param name="username">The username of the blog owner.</param>
 		/// <param name="formattedPassword">The password for the blog owner.</param>
 		/// <param name="passwordSalt">The password salt.</param>
+		/// <param name="passwordQuestion">The password reset question.</param>
+		/// <param name="passwordAnswer">The password reset answer.</param>
 		/// <param name="email">The email.</param>
 		/// <param name="host">The host.</param>
 		/// <param name="subfolder">The subfolder.</param>
 		/// <returns></returns>
-		public abstract BlogInfo CreateBlog(string title, string username, string formattedPassword, string passwordSalt, string email, string host, string subfolder);
+		public abstract BlogInfo CreateBlog(string title, string username, string formattedPassword, string passwordSalt, string passwordQuestion, string passwordAnswer, string email, string host, string subfolder);
 
 		/// <summary>
 		/// Updates the specified blog configuration.

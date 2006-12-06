@@ -4826,7 +4826,7 @@ BEGIN
     END
     ELSE
     BEGIN
-        SELECT TOP 1 m.Email, m.PasswordQuestion, m.Comment, m.IsApproved,
+        SELECT TOP 1 u.UserName, m.Email, m.PasswordQuestion, m.Comment, m.IsApproved,
                 m.CreateDate, m.LastLoginDate, u.LastActivityDate, m.LastPasswordChangedDate,
                 u.UserId, m.IsLockedOut,m.LastLockoutDate
         FROM    [<dbUser,varchar,dbo>].subtext_Applications a, [<dbUser,varchar,dbo>].subtext_Users u, [<dbUser,varchar,dbo>].subtext_Membership m
@@ -5359,11 +5359,12 @@ BEGIN
     	SET @TranStarted = 0
 
     SELECT  @UserId = u.UserId
-    FROM    [<dbUser,varchar,dbo>].subtext_Users u, [<dbUser,varchar,dbo>].subtext_Applications a, [<dbUser,varchar,dbo>].subtext_Membership m
-    WHERE   LoweredUserName = LOWER(@UserName) AND
-            u.ApplicationId = a.ApplicationId  AND
-            LOWER(@ApplicationName) = a.LoweredApplicationName AND
-            u.UserId = m.UserId
+    FROM    [<dbUser,varchar,dbo>].subtext_Users u
+		INNER JOIN [<dbUser,varchar,dbo>].subtext_Applications a ON a.ApplicationId = u.ApplicationId
+		INNER JOIN [<dbUser,varchar,dbo>].subtext_Membership m ON m.UserId = u.UserId
+    WHERE   LoweredUserName = LOWER(@UserName)
+		AND LOWER(@ApplicationName) = a.LoweredApplicationName
+        
 
     IF ( @UserId IS NULL )
     BEGIN
@@ -5391,8 +5392,13 @@ BEGIN
            LastPasswordChangedDate = @CurrentTimeUtc,
            PasswordFormat = @PasswordFormat,
            PasswordSalt = @PasswordSalt
-    WHERE  @UserId = UserId AND
-           ( ( @PasswordAnswer IS NULL ) OR ( LOWER( PasswordAnswer ) = LOWER( @PasswordAnswer ) ) )
+    WHERE  UserId = @UserId
+		AND
+		( 
+			( @PasswordAnswer IS NULL ) 
+			OR 
+			( LOWER(PasswordAnswer) = LOWER(@PasswordAnswer) ) 
+		)
 
     IF ( @@ROWCOUNT = 0 )
         BEGIN
@@ -8333,6 +8339,8 @@ CREATE PROC [<dbUser,varchar,dbo>].[subtext_UTILITY_AddBlog]
 	@UserName nvarchar(256),
 	@Password nvarchar(128),
 	@PasswordSalt nvarchar(128),
+	@PasswordQuestion nvarchar(256),
+	@PasswordAnswer nvarchar(128),
 	@Email nvarchar(256) = NULL,
 	@Host nvarchar(50),
 	@Subfolder nvarchar(50),
@@ -8361,8 +8369,8 @@ BEGIN
 		, @Password
 		, @PasswordSalt
 		, @Email
-		, NULL	-- PasswordQuestion
-		, NULL	-- PasswordAnswer
+		, @PasswordQuestion	-- PasswordQuestion
+		, @PasswordAnswer	-- PasswordAnswer
 		, 1		-- IsApproved
 		, @CurrentTimeUtc
 		, @CreateDate

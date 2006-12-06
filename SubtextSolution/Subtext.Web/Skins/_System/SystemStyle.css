@@ -1,29 +1,29 @@
 body
 {
-	padding: 32px;
-	margin: 100px auto 0 auto;
+	margin: 0;
+	background-color: #fff;
 	font-size: small;
-	background: #eee;
-	width: 320px;
-	color: #000;
 	font-family: verdana, arial, sans-serif;
+	background-color: #eeeeee;
 }
 
-div#Main
+div.main
 {
-	border: #bbb 1px solid;
-	padding: 32px;
+	position: relative;
+	width: 380px;
+	border: solid 1px #ccc;
+	padding: 18px 32px;
 	background: #fff;
+	margin: 50px auto;
 }
 
-div#Heading
+h1
 {
 	padding: 0 0 18px 0;
 	font-weight: bold;
 	font-size: 150%;
 	margin: 0px;
-	color: #009;
-	font-family: "trebuchet ms" , "" lucida grande "" , verdana, arial, sans-serif;
+	color: #164ab0;
 }
 
 #logo
@@ -70,26 +70,6 @@ a:hover
 	text-decoration: underline;
 }
 
-label
-{
-	display: block;
-	font-weight: bold;
-	font-size: 9px;
-	margin: 6px 0px 2px;
-	text-transform: uppercase;
-	color: #999;
-}
-
-input.Textbox
-{
-	padding-right: 2px;
-	padding-left: 2px;
-	padding-bottom: 2px;
-	width: 260px;
-	padding-top: 2px;
-	font-family: verdana, arial, sans-serif;
-}
-
 a.Button
 {
 	border: solid 1px #999;
@@ -99,36 +79,6 @@ a.Button
 	background: #000999;
 	float: left;
 	color: #fff;
-}
-
-.LoginButton
-{
-	border: solid 1px #999;
-	padding: 3px 12px 3px 12px;
-	margin-top: 8px;
-	border-top: #999 1px solid;
-	display: block;
-	font-weight: bold;
-	background: #000999;
-	float: left;
-	color: #fff;
-}
-
-.LoginButton:hover
-{
-	color: yellow;
-}
-span.ErrorMessage
-{
-	display: block;
-	font-weight: bold;
-	color: #904;
-}
-
-p.Small
-{
-	margin-top: 12px;
-	font-size: 85%;
 }
 
 .remember
@@ -141,22 +91,8 @@ p.Small
 	clear: both;
 }
 
-.emailPassword
+span.error
 {
-	margin-top: 2px;
-	display: block;
-}
-
-.LoginFloat Label
-{
-	margin: 0;
-	color: #000;
-	width: 80px;
-	display: inline;
-	vertical-align: text-top;
-}
-
-.LoginFloat
-{
-	padding-left: 10px;
+	color: #c00;
+	font-weight: bold;
 }

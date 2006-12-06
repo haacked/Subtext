@@ -240,8 +240,7 @@ namespace Subtext.Framework.Security
         {
             get
             {
-
-                return Convert.ToBoolean(_config["EnablePasswordReset"]);
+                return Convert.ToBoolean(_config["enablePasswordReset"]);
             }
         }
 
@@ -254,8 +253,7 @@ namespace Subtext.Framework.Security
         {
             get
             {
-
-                return Convert.ToBoolean(_config["EnablePasswordRetrieval"]);
+                return Convert.ToBoolean(_config["enablePasswordRetrieval"]);
             }
         }
 
@@ -450,7 +448,8 @@ namespace Subtext.Framework.Security
         	{
 				if(!reader.Read())
 					return null;
-				return LoadUserFromReader(reader);
+				MembershipUser user = LoadUserFromReader(reader);
+        		return user;
         	}
         }
     	
@@ -511,7 +510,7 @@ namespace Subtext.Framework.Security
 				{
 					cmd.CommandType = CommandType.StoredProcedure;
 					cmd.Parameters.AddWithValue("@ApplicationName", ApplicationName);
-					cmd.Parameters.AddWithValue("@email", email);
+					cmd.Parameters.AddWithValue("@email", email ?? string.Empty);
 
 					conn.Open();
 					return (string)cmd.ExecuteScalar();
@@ -530,7 +529,7 @@ namespace Subtext.Framework.Security
         {
             get
             {
-                return Convert.ToInt32(_config["MaxInvalidPasswordAttempts"]);
+                return Convert.ToInt32(_config["maxInvalidPasswordAttempts"]);
             }
         }
 
@@ -544,16 +543,20 @@ namespace Subtext.Framework.Security
         {
             get
             {
-
-                return Convert.ToInt32(_config["MinRequiredNonAlphanumericCharacters"]);
+                return Convert.ToInt32(_config["minRequiredNonAlphanumericCharacters"]);
             }
         }
 
+		/// <summary>
+		/// Gets the minimum length required for a password.
+		/// </summary>
+		/// <value></value>
+		/// <returns>The minimum length required for a password. </returns>
         public override int MinRequiredPasswordLength
         {
             get
             {
-                return Convert.ToInt32(_config["MinRequiredPasswordLength"]);
+                return Convert.ToInt32(_config["minRequiredPasswordLength"]);
             }
         }
 
@@ -570,7 +573,7 @@ namespace Subtext.Framework.Security
         {
 			get
 			{
-				return Convert.ToInt32(_config["PasswordAttemptWindow"]);
+				return Convert.ToInt32(_config["passwordAttemptWindow"]);
 			}
         }
 
@@ -583,8 +586,7 @@ namespace Subtext.Framework.Security
 		/// indicating the format for storing passwords in the data store.</returns>
         public override MembershipPasswordFormat PasswordFormat
         {
-            //Subtext currently only uses SHA1 Hashing
-            get { return MembershipPasswordFormat.Hashed; }
+			get { return (MembershipPasswordFormat)Enum.Parse(typeof(MembershipPasswordFormat), _config["passwordFormat"]); }
         }
 
 		/// <summary>
@@ -594,8 +596,7 @@ namespace Subtext.Framework.Security
 		/// <returns>A regular expression used to evaluate a password.</returns>
         public override string PasswordStrengthRegularExpression
         {
-            //not implemented in first attempt - RA
-            get { throw new NotImplementedException("The method or operation is not implemented."); }
+			get { return _config["passwordStrengthRegularExpression"];  }
         }
 
 		/// <summary>
@@ -609,7 +610,7 @@ namespace Subtext.Framework.Security
         {
             get
             {
-                return Convert.ToBoolean(_config["RequiresQuestionAndAnswer"]);
+                return Convert.ToBoolean(_config["requiresQuestionAndAnswer"]);
             }
         }
 
@@ -624,7 +625,7 @@ namespace Subtext.Framework.Security
         {
             get
             {
-                return Convert.ToBoolean(_config["RequiresUniqueEmail"]);
+                return Convert.ToBoolean(_config["requiresUniqueEmail"]);
             }
         }
 
@@ -636,7 +637,42 @@ namespace Subtext.Framework.Security
 		/// <returns>The new password for the specified user.</returns>
         public override string ResetPassword(string username, string answer)
         {
-			throw new NotImplementedException("The method or operation is not implemented.");
+			if (username == null)
+				throw new ArgumentNullException("username", "Username cannot be null");
+
+			if (answer == null)
+				throw new ArgumentNullException("answer", "Must provide some answer");
+
+			MembershipUser user = GetUser(username, true);
+			if (user == null)
+				throw new InvalidOperationException("Cannot reset the password for a null user.");
+			
+			string passwordSalt = SecurityHelper.CreateRandomSalt();
+			string newClearPassword = SecurityHelper.RandomPassword();
+
+			string newPassword = newClearPassword;
+			if(PasswordFormat == MembershipPasswordFormat.Hashed)
+				newPassword = SecurityHelper.HashPassword(newClearPassword, passwordSalt);
+			
+			//TODO: How do we report more information properly?
+			int errorCode = SqlHelper.ExecuteNonQuery(this.connectionString
+			                                          , "subtext_Membership_ResetPassword"
+			                                          , ApplicationName
+			                                          , username
+			                                          , newPassword
+			                                          , MaxInvalidPasswordAttempts
+			                                          , PasswordAttemptWindow
+			                                          , passwordSalt
+			                                          , DateTime.UtcNow
+			                                          , PasswordFormat
+			                                          , answer);
+			
+			//TODO: ErrorCode doesn't seem to be returned reporting correctly.
+			Console.WriteLine(errorCode);
+			if(!ValidateUser(username, newClearPassword)) //confirm we changed the password.
+				return null;
+			
+			return newClearPassword;
         }
 
 		/// <summary>

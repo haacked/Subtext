@@ -1358,13 +1358,15 @@ namespace Subtext.Framework.Data
 		/// <param name="username">The username of the blog owner.</param>
 		/// <param name="formattedPassword">The password for the blog owner as it should be stored in the db.</param>
 		/// <param name="passwordSalt">The password salt.</param>
+		/// <param name="passwordQuestion">The password reset question.</param>
+		/// <param name="passwordAnswer">The password reset answer.</param>
 		/// <param name="email">The email.</param>
 		/// <param name="host">The host.</param>
 		/// <param name="subfolder">The subfolder.</param>
 		/// <returns></returns>
-		public override BlogInfo CreateBlog(string title, string username, string formattedPassword, string passwordSalt, string email, string host, string subfolder)
+		public override BlogInfo CreateBlog(string title, string username, string formattedPassword, string passwordSalt, string passwordQuestion, string passwordAnswer, string email, string host, string subfolder)
 		{
-			using (IDataReader reader = GetReader("subtext_UTILITY_AddBlog", title, username, formattedPassword, passwordSalt, DataHelper.CheckNull(email), host, subfolder, DateTime.UtcNow))
+			using (IDataReader reader = GetReader("subtext_UTILITY_AddBlog", title, username, formattedPassword, passwordSalt, passwordQuestion, passwordAnswer, DataHelper.CheckNull(email), host, subfolder, DateTime.UtcNow))
 			{
 				if(reader.Read())
 					return DataHelper.LoadBlog(reader);

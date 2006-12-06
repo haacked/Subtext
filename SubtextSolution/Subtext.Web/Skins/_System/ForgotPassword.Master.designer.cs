@@ -8,13 +8,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web {
-    
-    public partial class Login {
-        public new Subtext.Web.Skins._System.Login Master {
-            get {
-                return ((Subtext.Web.Skins._System.Login)(base.Master));
-            }
-        }
-    }
+namespace Subtext.Web.Skins._System
+{
+	public partial class ForgotPassword
+	{
+		protected System.Web.UI.HtmlControls.HtmlForm form1;
+		protected System.Web.UI.WebControls.ContentPlaceHolder MainContent;
+		protected System.Web.UI.WebControls.PasswordRecovery passwordRecovery;
+	}
 }
