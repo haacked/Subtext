@@ -17,7 +17,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 		public void CommentModerationDisabledCausesNewCommentsToBeActive()
 		{
 			UnitTestHelper.SetupBlog("MyBlog1");
-			
+
 			//Need to set our user to a non-admin
 			Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity("NotAnAdmin"), new string[] {"Anonymous"});
 			

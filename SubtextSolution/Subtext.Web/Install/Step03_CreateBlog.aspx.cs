@@ -85,7 +85,7 @@ namespace Subtext.Web.Install
 			const bool passwordAlreadyHashed = true;
 
 			//TODO: Use the user supplied password.
-			if(Config.CreateBlog("TEMPORARY BLOG NAME", HostInfo.Instance.HostUserName, Guid.NewGuid().ToString(), Request.Url.Host, string.Empty, passwordAlreadyHashed))
+			if(Config.CreateBlog("TEMPORARY BLOG NAME", HostInfo.Instance.HostUserName, Guid.NewGuid().ToString(), Request.Url.Host, string.Empty, "", "", passwordAlreadyHashed))
 			{
 				//We probably should have creating the blog authenticate the user 
 				//automatically so this redirect doesn't require a login.

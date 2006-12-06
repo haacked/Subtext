@@ -8,13 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Subtext.Web {
+namespace Subtext.Web.Skins._System {
     
     public partial class Login {
-        public new Subtext.Web.Skins._System.Login Master {
-            get {
-                return ((Subtext.Web.Skins._System.Login)(base.Master));
-            }
-        }
+        protected System.Web.UI.HtmlControls.HtmlForm form1;
+        protected System.Web.UI.WebControls.ContentPlaceHolder headerPlaceholder;
+        protected System.Web.UI.WebControls.Login loginControl;
     }
 }

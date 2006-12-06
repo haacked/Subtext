@@ -11,8 +11,10 @@
 namespace Subtext.Web.HostAdmin {
     
     public partial class Login {
-        protected Subtext.Web.Controls.StyleTag SystemStyle;
-        protected System.Web.UI.HtmlControls.HtmlForm frmLogin;
-        protected System.Web.UI.WebControls.Login loginControl;
+        public new Subtext.Web.Skins._System.Login Master {
+            get {
+                return ((Subtext.Web.Skins._System.Login)(base.Master));
+            }
+        }
     }
 }

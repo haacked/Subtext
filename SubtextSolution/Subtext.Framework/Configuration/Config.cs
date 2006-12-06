@@ -155,22 +155,29 @@ namespace Subtext.Framework.Configuration
 		/// <returns></returns>
 		public static bool CreateBlog(string title, string userName, string password, string host, string subfolder)
 		{
-			return CreateBlog(title, userName, password, host, subfolder, false);
+			string passwordQuestion = "No Question Specified. Please type the word \"subtext\"";
+			string passwordAnswer = "subtext";
+			return CreateBlog(title, userName, password, passwordQuestion, passwordAnswer, host, subfolder, false);
 		}
 
 		/// <summary>
-		/// Creates an initial blog.  This is a convenience method for 
-		/// allowing a user with a freshly installed blog to immediately gain access 
+		/// Creates an initial blog.  This is a convenience method for
+		/// allowing a user with a freshly installed blog to immediately gain access
 		/// to the admin section to edit the blog.
 		/// </summary>
+		/// <param name="title">The title.</param>
 		/// <param name="userName">Name of the user.</param>
 		/// <param name="password">Password.</param>
-		/// <param name="subfolder"></param>
-		/// <param name="host"></param>
+		/// <param name="passwordQuestion">The password retrieval question.</param>
+		/// <param name="passwordAnswer">The password retrieval answer.</param>
+		/// <param name="host">The host.</param>
+		/// <param name="subfolder">The subfolder.</param>
 		/// <param name="passwordAlreadyHashed">If true, the password has already been hashed.</param>
 		/// <returns></returns>
-		public static bool CreateBlog(string title, string userName, string password, string host, string subfolder, bool passwordAlreadyHashed)
+		public static bool CreateBlog(string title, string userName, string password, string passwordQuestion, string passwordAnswer, string host, string subfolder, bool passwordAlreadyHashed)
 		{
+			//TODO: add password question and naswer to params.
+			
 			if(subfolder != null && subfolder.StartsWith("."))
 				throw new InvalidSubfolderNameException(subfolder);
 
@@ -224,7 +231,7 @@ namespace Subtext.Framework.Configuration
 				password = SecurityHelper.HashPassword(password, passwordSalt);
 			
 			//Add blog user to Administrators.
-			BlogInfo blog = ObjectProvider.Instance().CreateBlog(title, userName, password, passwordSalt, null, host, subfolder);
+			BlogInfo blog = ObjectProvider.Instance().CreateBlog(title, userName, password, passwordSalt, passwordQuestion, passwordAnswer, null, host, subfolder);
 			using (IDisposable appScope = MembershipApplicationScope.SetApplicationName(blog.ApplicationName))
 			{
 				CreateBlogRoles();
