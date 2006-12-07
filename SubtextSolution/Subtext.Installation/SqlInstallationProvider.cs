@@ -22,13 +22,12 @@ using System.Text.RegularExpressions;
 using System.Web.UI;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.Extensibility.Providers;
-using Subtext.Framework.Data;
 using Subtext.Web.Controls;
 
 namespace Subtext.Installation
 {
 	/// <summary>
-	/// Summary description for SqlInstallationProvider.
+	/// Sql Server based provide for installing Subtext.
 	/// </summary>
 	public class SqlInstallationProvider : InstallationProvider
 	{
@@ -236,7 +235,8 @@ namespace Subtext.Installation
 			}
 			catch(SqlException exception) 
 			{
-				if (exception.Number != (int)SqlErrorMessage.CouldNotFindStoredProcedure)
+				const int CouldNotFindStoredProcedure = 2812;
+				if (exception.Number != CouldNotFindStoredProcedure)
 					throw;
 			}
 			return null;

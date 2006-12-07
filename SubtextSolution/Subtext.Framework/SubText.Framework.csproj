@@ -147,6 +147,10 @@
       <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
+    <ProjectReference Include="..\Subtext.Installation\Subtext.Installation.csproj">
+      <Project>{745B39B7-DE46-4070-8733-C53308721C58}</Project>
+      <Name>Subtext.Installation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Subtext.Scripting\Subtext.Scripting.csproj">
       <Name>Subtext.Scripting</Name>
       <Project>{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}</Project>

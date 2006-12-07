@@ -3,10 +3,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web;
 using System.Web.UI.WebControls;
-using log4net;
-using Subtext.Framework.Logging;
 using Subtext.Web.Controls.Captcha;
 
 namespace Subtext.Web.Controls
@@ -15,7 +12,6 @@ namespace Subtext.Web.Controls
 	/// </summary>
 	public abstract class CaptchaBase : BaseValidator
 	{
-		private readonly static ILog log = new Log();
 		static SymmetricAlgorithm encryptionAlgorithm = InitializeEncryptionAlgorithm();
 
 		static SymmetricAlgorithm InitializeEncryptionAlgorithm()
@@ -112,15 +108,8 @@ namespace Subtext.Web.Controls
 			{
 				return ValidateCaptcha();
 			}
-			catch(CaptchaExpiredException e)
+			catch(CaptchaExpiredException)
 			{
-				if (e.InnerException != null)
-				{
-					string warning = "CaptchaExpired Exception thrown.";
-					if (HttpContext.Current != null && HttpContext.Current.Request != null)
-						warning += " User Agent: " + HttpContext.Current.Request.UserAgent;
-					log.Warn(warning, e.InnerException);
-				}
 				this.ErrorMessage = "Sorry, but this form has expired. Please try again.";
 				return false;
 			}

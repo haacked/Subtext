@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
@@ -23,7 +24,6 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.Extensibility.Providers;
-using Subtext.Framework.Configuration;
 using Subtext.Scripting;
 using Subtext.Web.Controls;
 
@@ -76,7 +76,7 @@ namespace Subtext.Installation.Import
 			string dotTextConnectionString;
 			GetConnectionStringsFromControl(populatedControl, out dotTextConnectionString);
 
-			using(SqlConnection connection = new SqlConnection(Config.Settings.ConnectionString.ToString()))
+			using(SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString))
 			{
 				connection.Open();
 				using(SqlTransaction transaction = connection.BeginTransaction())
@@ -84,7 +84,7 @@ namespace Subtext.Installation.Import
 					try
 					{
 						//Set up script parameters...
-						ConnectionString subtextConnection = Config.Settings.ConnectionString;
+						ConnectionString subtextConnection = ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString;
 						ConnectionString dotTextConnection = ConnectionString.Parse(dotTextConnectionString);
 
 						Stream stream = ScriptHelper.UnpackEmbeddedScript("ImportDotText095.sql");
@@ -146,7 +146,7 @@ namespace Subtext.Installation.Import
 					return errorMessage;
 				}
 
-				if(!DoesTableExist("subtext_config", Config.Settings.ConnectionString))
+				if (!DoesTableExist("subtext_config", ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString))
 				{
 					string errorMessage = "I&#8217;m sorry, but it does not appear that " 
 						+ "there is a Subtext database corresponding to the connection string within web.config. " 

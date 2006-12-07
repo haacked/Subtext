@@ -1,15 +1,11 @@
 body 
 { 
-	padding-right: 32px; 
-	padding-left: 32px; 
-	font-SIZE: 13px; 
+	padding: 32px; 
+	font-size: small; 
 	background: #eee; 
-	padding-bottom: 32px; 
-	margin-left: auto; 
+	margin: 0 auto; 
 	width: 80%; 
 	color: #000; 
-	margin-right: auto; 
-	padding-top: 32px; 
 	font-family: verdana, arial, sans-serif 
 }
 

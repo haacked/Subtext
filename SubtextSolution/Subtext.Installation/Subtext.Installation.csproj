@@ -113,14 +113,8 @@
       <Name>System.XML</Name>
     </Reference>
     <ProjectReference Include="..\Subtext.Extensibility\Subtext.Extensibility.csproj">
-      <Name>Subtext.Extensibility</Name>
       <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
-    <ProjectReference Include="..\Subtext.Framework\Subtext.Framework.csproj">
-      <Name>Subtext.Framework</Name>
-      <Project>{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+      <Name>Subtext.Extensibility</Name>
     </ProjectReference>
     <ProjectReference Include="..\Subtext.Scripting\Subtext.Scripting.csproj">
       <Name>Subtext.Scripting</Name>
@@ -128,9 +122,8 @@
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
     <ProjectReference Include="..\Subtext.Web.Controls\Subtext.Web.Controls.csproj">
-      <Name>Subtext.Web.Controls</Name>
       <Project>{2278427B-8BAD-4CE9-B15A-FD1131753D64}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+      <Name>Subtext.Web.Controls</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +141,7 @@
     <Compile Include="Import\DotText095ImportProvider.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="InstallationProvider.cs" />
     <Compile Include="ScriptHelper.cs">
       <SubType>Code</SubType>
     </Compile>
