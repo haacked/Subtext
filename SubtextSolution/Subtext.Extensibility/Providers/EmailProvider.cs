@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Specialized;
 using System.Configuration;
+using Subtext.Extensibility.Properties;
 using System.Net.Configuration;
 
 namespace Subtext.Extensibility.Providers
@@ -29,7 +30,7 @@ namespace Subtext.Extensibility.Providers
 		private static GenericProviderCollection<EmailProvider> providers = ProviderConfigurationHelper.LoadProviderCollection<EmailProvider>("Email", out provider);
 		const int DefaultSmtpPort = 25;
 
-		string name;
+		string providerName;
 		string smtpServer = "localhost";
 		int port = DefaultSmtpPort;
 		string password;
@@ -40,19 +41,28 @@ namespace Subtext.Extensibility.Providers
 		/// Initializes the specified provider.
 		/// </summary>
 		/// <param name="name">Friendly Name of the provider.</param>
-		/// <param name="configValue">Config value.</param>
-		public override void Initialize(string name, NameValueCollection configValue)
+		/// <param name="config">Config value.</param>
+		public override void Initialize(string name, NameValueCollection config)
 		{
-			this.name = name;
+            if (name == null)
+            {
+                throw new ArgumentNullException("name", Resources.ArgumentNull_String);
+            }
+
+            if (config == null)
+            {
+                throw new ArgumentNullException("configV", Resources.ArgumentNull_Collection);
+            }
+			this.providerName = name;
 
 			SmtpSection smtpSettings = (SmtpSection)ConfigurationManager.GetSection("system.net/mailSettings/smtp");
 			
-			this.adminEmail = configValue["adminEmail"] ?? smtpSettings.From;
-			this.smtpServer = configValue["smtpServer"] ?? smtpSettings.Network.Host;
-			this.password = configValue["password"] ?? smtpSettings.Network.Password;
-			this.userName = configValue["username"] ?? smtpSettings.Network.UserName;
+			this.adminEmail = config["adminEmail"] ?? smtpSettings.From;
+			this.smtpServer = config["smtpServer"] ?? smtpSettings.Network.Host;
+			this.password = config["password"] ?? smtpSettings.Network.Password;
+			this.userName = config["username"] ?? smtpSettings.Network.UserName;
 
-			if(!int.TryParse(configValue["port"] ?? "25", out this.port))
+			if (String.IsNullOrEmpty(config["port"]) || !int.TryParse(config["port"], out this.port))
 			{
 				this.port = smtpSettings.Network.Port;
 			}
@@ -169,7 +179,7 @@ namespace Subtext.Extensibility.Providers
 		{
 			get
 			{
-				return this.name;
+				return this.providerName;
 			}
 		}
 		

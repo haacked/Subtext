@@ -51,10 +51,10 @@ namespace Subtext.Extensibility.Providers
 		/// </summary>
 		/// <param name="name">Friendly Name of the provider.</param>
 		/// <param name="configValue">Config value.</param>
-		public override void Initialize(string name, NameValueCollection configValue)
+		public override void Initialize(string name, NameValueCollection config)
 		{
-			this.connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", configValue);
-			base.Initialize(name, configValue);
+			this.connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", config);
+			base.Initialize(name, config);
 		}
 
 		/// <summary>
@@ -80,7 +80,10 @@ namespace Subtext.Extensibility.Providers
 	
 	public struct SearchResult
 	{
-		public SearchResult(string title, Uri url)
+        string title;
+        Uri url;
+        
+        public SearchResult(string title, Uri url)
 		{
 			this.title = title;
 			this.url = url;
@@ -91,13 +94,38 @@ namespace Subtext.Extensibility.Providers
 			get { return this.title; }
 		}
 
-		string title;
-
 		public Uri Url
 		{
 			get { return this.url; }
 		}
 
-		Uri url;
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+
+            if (obj.GetType() != typeof(SearchResult))
+                return false;
+
+            SearchResult s = (SearchResult)obj;
+            return ((this.title == s.title) && (this.url == s.url));
+        }
+
+        public override int GetHashCode()
+        {
+            return (this.title.GetHashCode() ^ this.url.GetHashCode());
+        }
+
+        public static bool operator ==(SearchResult s1, SearchResult s2)
+        {
+            return ((s1.title == s2.title) && (s1.url == s2.url));
+        }
+
+        public static bool operator !=(SearchResult s1, SearchResult s2)
+        {
+            return !(s1 == s2);
+        }
 	}
 }

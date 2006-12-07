@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using System.Web;
+using Subtext.Extensibility.Properties;
 
 namespace Subtext.Extensibility.Web
 {
@@ -32,6 +33,11 @@ namespace Subtext.Extensibility.Web
 		/// <param name="context">Context.</param>
 		public void ProcessRequest(HttpContext context)
 		{
+            if (context == null)
+            {
+                throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
+            }
+
 			SetResponseCachePolicy(context.Response.Cache);
 
 			if (!ValidateParameters(context))
@@ -134,7 +140,12 @@ namespace Subtext.Extensibility.Web
 		public virtual void SetResponseCachePolicy
 			(HttpCachePolicy cache)
 		{
-			cache.SetCacheability(HttpCacheability.NoCache);
+            if (cache == null)
+            {
+                throw new ArgumentNullException("cache", Resources.ArgumentNull_Generic);
+            }
+            
+            cache.SetCacheability(HttpCacheability.NoCache);
 			cache.SetNoStore();
 			cache.SetExpires(DateTime.MinValue);
 		}
@@ -146,7 +157,12 @@ namespace Subtext.Extensibility.Web
 		/// <param name="context">Context.</param>
 		protected void RespondFileNotFound(HttpContext context)
 		{
-			context.Response.StatusCode
+            if (context == null)
+            {
+                throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
+            }
+            
+            context.Response.StatusCode
 				= (int)HttpStatusCode.NotFound;
 			context.Response.End();
 		}
@@ -158,6 +174,11 @@ namespace Subtext.Extensibility.Web
 		/// <param name="context">Context.</param>
 		protected void RespondInternalError(HttpContext context)
 		{
+            if (context == null)
+            {
+                throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
+            }
+
 			// It's really too bad that StatusCode property
 			// is not of type HttpStatusCode.
 			context.Response.StatusCode =
@@ -173,7 +194,12 @@ namespace Subtext.Extensibility.Web
 		/// <param name="context">Context.</param>
 		protected void RespondForbidden(HttpContext context)
 		{
-			context.Response.StatusCode
+            if (context == null)
+            {
+                throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
+            }
+            
+            context.Response.StatusCode
 				= (int)HttpStatusCode.Forbidden;
 			context.Response.End();
 		}
