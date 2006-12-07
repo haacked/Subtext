@@ -16,7 +16,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Web.Security;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
@@ -107,7 +106,7 @@ namespace Subtext.Web.Admin.Pages
 		        txbPop3EndTag.Text = info.pop3EndTag;
 		        ckbPop3DeleteProcessedEmail.Checked = info.pop3DeleteOnlyProcessed;
 		        ckbPop3InlineAttachedPict.Checked = info.pop3InlineAttachedPictures;
-		        txbPop3ThumbHeight.Text = info.pop3HeightForThumbs.ToString();
+				txbPop3ThumbHeight.Text = info.pop3HeightForThumbs == NullValue.NullInt32 ? string.Empty : info.pop3HeightForThumbs.ToString(CultureInfo.InvariantCulture);
 		        //End of changes
 
 		        //int 0 = "All" items

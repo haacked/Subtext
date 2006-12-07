@@ -135,6 +135,7 @@ namespace Subtext.Web.Admin.Pages
 //			ImportExport.Visible = false;
 			Edit.Visible = true;
 
+			lblLinkId.Visible = true;
 			lblEntryID.Text = currentLink.Id.ToString(CultureInfo.InvariantCulture);
 			txbTitle.Text = currentLink.Title;
 			txbUrl.Text = currentLink.Url;
@@ -229,6 +230,7 @@ namespace Subtext.Web.Admin.Pages
 			//ImportExport.Visible = !showEdit;
 			Edit.Visible = showEdit;
 
+			lblLinkId.Visible = false;
 			lblEntryID.Text = String.Empty;
 			txbTitle.Text = String.Empty;
 			txbUrl.Text = String.Empty;

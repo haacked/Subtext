@@ -16,7 +16,7 @@ namespace Subtext.Web.Admin.UserControls {
         protected System.Web.UI.WebControls.Repeater rprSelectionList;
         protected System.Web.UI.HtmlControls.HtmlGenericControl NoMessagesLabel;
         protected Subtext.Web.Controls.PagingControl resultsPager;
-        protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
+        protected System.Web.UI.WebControls.PlaceHolder Edit;
         protected System.Web.UI.WebControls.HyperLink hlEntryLink;
         protected System.Web.UI.WebControls.RequiredFieldValidator valTitleRequired;
         protected System.Web.UI.WebControls.TextBox txbTitle;

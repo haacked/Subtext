@@ -89,7 +89,8 @@ namespace Subtext.Framework.Security
 				newPassword = SecurityHelper.HashPassword(newPassword);
 			}
 
-			return 0 == SqlHelper.ExecuteNonQuery(this.connectionString, "subtext_Membership_SetPassword", applicationName, username, newPassword, passwordSalt, DateTime.UtcNow, Membership.Provider.PasswordFormat);
+			int recordsAffected = SqlHelper.ExecuteNonQuery(this.connectionString, "subtext_Membership_SetPassword", applicationName, username, newPassword, passwordSalt, DateTime.UtcNow, Membership.Provider.PasswordFormat);
+			return recordsAffected > 0;
         }
 
 		/// <summary>
@@ -182,7 +183,7 @@ namespace Subtext.Framework.Security
 					cmd.Parameters["@UserId"].Value = providerUserKey;
 
 					conn.Open();
-					if (cmd.ExecuteNonQuery() >= 1)
+					if (cmd.ExecuteNonQuery() >= 1) //Records affected.
 					{
 						status = MembershipCreateStatus.Success;
 						return GetUser(username, true);
@@ -635,8 +636,7 @@ namespace Subtext.Framework.Security
 			if(PasswordFormat == MembershipPasswordFormat.Hashed)
 				newPassword = SecurityHelper.HashPassword(newClearPassword, passwordSalt);
 			
-			//TODO: How do we report more information properly?
-			int errorCode = SqlHelper.ExecuteNonQuery(this.connectionString
+			int recordsAffected = SqlHelper.ExecuteNonQuery(this.connectionString
 			                                          , "subtext_Membership_ResetPassword"
 			                                          , ApplicationName
 			                                          , username
@@ -648,9 +648,8 @@ namespace Subtext.Framework.Security
 			                                          , PasswordFormat
 			                                          , answer);
 			
-			//TODO: ErrorCode doesn't seem to be returned reporting correctly.
-			Console.WriteLine(errorCode);
-			if(!ValidateUser(username, newClearPassword)) //confirm we changed the password.
+			//TODO: How do we report more information properly?
+			if (recordsAffected == 0)
 				return null;
 			
 			return newClearPassword;

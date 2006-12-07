@@ -273,15 +273,6 @@ div.Action
 	background: #EEEEEE;
 }
 
-div#Main div.Edit  
-{
-	color: #333333;
-	border-bottom: 1px solid #AAAAAA;
-	margin-bottom: 8px;
-	padding: 4px 12px;
-	background: #F5F5F5;
-}
-
 div.Dialog {
 	margin-left: auto;
 	margin-right: auto;
@@ -744,7 +735,12 @@ body.ImportExport a#TabImportExport  {
   color:#333;
   padding-bottom:5px;
   }
-  
+
+.error
+{
+	color: #c00;
+}
+
 div.errorPage
 {
 	padding: 4px; 
@@ -864,4 +860,14 @@ div.options, fieldset.options
 div.wide, fieldset.wide
 {
 	width: 420px;
+}
+
+#editPost .textbox
+{
+	width: 697px;
+}
+
+fieldset select.timezonelist
+{
+	font-size: .8em;	
 }

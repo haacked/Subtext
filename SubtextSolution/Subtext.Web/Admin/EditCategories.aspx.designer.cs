@@ -14,7 +14,7 @@ namespace Subtext.Web.Admin.Pages {
         protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
         protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
         protected System.Web.UI.WebControls.DataGrid dgrItems;
-        protected Subtext.Web.Admin.WebUI.AdvancedPanel Add;
+        protected System.Web.UI.WebControls.PlaceHolder Add;
         protected System.Web.UI.WebControls.RequiredFieldValidator valtxbNewTitleRequired;
         protected System.Web.UI.WebControls.TextBox txbNewTitle;
         protected System.Web.UI.WebControls.CheckBox ckbNewIsActive;

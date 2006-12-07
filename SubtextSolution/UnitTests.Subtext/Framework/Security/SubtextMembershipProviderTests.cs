@@ -125,7 +125,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		{
 			UnitTestHelper.SetupBlog();
 			Assert.IsTrue(Membership.Provider.ValidateUser(UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestPassword));
-			Membership.Provider.ChangePassword(UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestPassword, "NewPassword");
+			Assert.IsTrue(Membership.Provider.ChangePassword(UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestPassword, "NewPassword"));
 			Assert.IsTrue(Membership.Provider.ValidateUser(UnitTestHelper.MembershipTestUsername, "NewPassword"), "Could not validate user with new password.");
 		}
 
