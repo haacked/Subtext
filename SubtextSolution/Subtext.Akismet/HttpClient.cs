@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Text;
+using Subtext.Akismet.Properties;
 
 namespace Subtext.Akismet
 {
@@ -42,7 +43,7 @@ namespace Subtext.Akismet
 		public virtual string PostRequest(Uri url, string userAgent, int timeout, string formParameters, IWebProxy proxy)
 		{
 			if (formParameters == null)
-				throw new ArgumentNullException("formParameters", "Cannot post a null form.");
+				throw new ArgumentNullException("formParameters", Resources.ArgumentNull_String);
 			
 			System.Net.ServicePointManager.Expect100Continue = false;
 			HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
@@ -67,7 +68,7 @@ namespace Subtext.Akismet
 
 			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 			if (response.StatusCode < HttpStatusCode.OK && response.StatusCode >= HttpStatusCode.Ambiguous)
-				throw new InvalidResponseException(string.Format(CultureInfo.InvariantCulture, "The service was not able to handle our request. Http Status '{0}'.", response.StatusCode), response.StatusCode);
+				throw new InvalidResponseException(string.Format(CultureInfo.InvariantCulture, Resources.InvalidResponse_Generic, response.StatusCode), response.StatusCode);
 
 			string responseText;
 			using(StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.ASCII)) //They only return "true" or "false"
