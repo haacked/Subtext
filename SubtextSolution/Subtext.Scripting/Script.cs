@@ -21,6 +21,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.Scripting.Exceptions;
+using Subtext.Scripting.Properties;
 
 namespace Subtext.Scripting
 {
@@ -106,7 +107,7 @@ namespace Subtext.Scripting
 		public int Execute(SqlTransaction transaction)
 		{
             if (transaction == null)
-                throw new ArgumentNullException("transaction", "Transaction was null.");
+                throw new ArgumentNullException("transaction", Resources.ArgumentNull_Generic);
 
 			int returnValue = 0;
 			try
@@ -116,7 +117,7 @@ namespace Subtext.Scripting
 			}
 			catch(SqlException e)
 			{
-				throw new SqlScriptExecutionException("Error in executing the script: " + this.ScriptText, this, returnValue, e);
+				throw new SqlScriptExecutionException(Resources.SqlScriptExecutionError, this, returnValue, e);
 			}
 		}
 
@@ -166,7 +167,7 @@ namespace Subtext.Scripting
 			StringBuilder builder = new StringBuilder();
 			if(_scriptTokens == null && TemplateParameters == null)
 			{
-				throw new InvalidOperationException("The Template parameters are null. This is impossible.");
+				throw new InvalidOperationException(Resources.InvalidOperation_NullTemplateParameters);
 			}
 			_scriptTokens.AggregateText(builder);
 			return builder.ToString();
@@ -182,7 +183,7 @@ namespace Subtext.Scripting
 		{
 			if(_scriptTokens != null)
 				return this._scriptTokens.ToString();
-			return "Script has no tokens.";
+			return Resources.NoTokensFound;
 		}
 
 		/// <summary>

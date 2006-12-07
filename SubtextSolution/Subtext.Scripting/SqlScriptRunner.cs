@@ -20,6 +20,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using Subtext.Scripting.Exceptions;
+using Subtext.Scripting.Properties;
 
 namespace Subtext.Scripting
 {
@@ -159,7 +160,7 @@ namespace Subtext.Scripting
 						}
 						else
 						{
-							throw new SqlScriptExecutionException("An error occurred while executing the script.", script, returnValue);
+							throw new SqlScriptExecutionException(Resources.SqlScriptExecutionError, script, returnValue);
 						}
 					}
 					else 

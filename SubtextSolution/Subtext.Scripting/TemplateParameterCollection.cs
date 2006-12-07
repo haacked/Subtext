@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Subtext.Scripting.Properties;
 
 namespace Subtext.Scripting
 {
@@ -78,7 +79,7 @@ namespace Subtext.Scripting
 		public TemplateParameter Add(Match match)
 		{
 			if(match == null)
-				throw new ArgumentNullException("match", "Cannot create a template parameter from a null match.");
+				throw new ArgumentNullException("match", Resources.ArgumentNull_Generic);
 			
 			if(this[match.Groups["name"].Value] != null)
 				return this[match.Groups["name"].Value];
@@ -97,7 +98,7 @@ namespace Subtext.Scripting
 		public TemplateParameter Add(TemplateParameter value) 
 		{
 			if(value == null)
-				throw new ArgumentNullException("value", "Cannot add a null template parameter.");
+				throw new ArgumentNullException("value", Resources.ArgumentNull_Generic);
 			
 			if(Contains(value))
 				return this[value.Name];
@@ -138,7 +139,7 @@ namespace Subtext.Scripting
 		public bool Contains(TemplateParameter item) 
 		{
 			if(item == null)
-				throw new ArgumentNullException("item", "Cannot test whether or not it contains null.");
+				throw new ArgumentNullException("item", Resources.ArgumentNull_Generic);
 			
 			return Contains(item.Name);
 		}
