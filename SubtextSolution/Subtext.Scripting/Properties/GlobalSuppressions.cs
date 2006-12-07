@@ -1,0 +1,31 @@
+// ---------------------------------------------------------------------------
+// GlobalSuppressions.cs
+//
+// Provides assembly level (global) CodeAnalysis suppressions for FxCop.
+//
+// While static code analysis with FxCop is excellent for catching many common
+// and not so common code errors, there are some things that it flags that
+// do not always apply to the project at hand. For those cases, FxCop allows
+// you to exclude the message (and optionally give a justification reason for
+// excluding it). However, those exclusions are stored only in the FxCop
+// project file. In the 2.0 version of the .NET framework, Microsoft introduced
+// SuppressMessageAttribute, which is used primarily by the version of FxCop
+// that is built in to Visual Studio. As this built-in functionality is not
+// included in all versions of Visual Studio, we have opted to continue
+// using the standalone version of FxCop. 
+//
+// In order for this version to recognize SupressMessageAttribute, the
+// CODE_ANALYSIS symbol must be defined.
+//
+// ---------------------------------------------------------------------------
+using System.Diagnostics.CodeAnalysis;
+
+[assembly: SuppressMessage("Microsoft.Design", "CA2210:AssembliesShouldHaveValidStrongNames", Scope ="assembly", Justification = "Assemblies are not currently being signed.")]
+
+// FxCop says that namespaces should generally have more than five types.
+// Unfortunately, not all of these namespaces currently have more than five
+// types but we still want the namespace so we can expand the library in the
+// future without moving types around. 
+#region CA1020:AvoidNamespacesWithFewTypes
+[assembly: SuppressMessage("Microsoft.Design", "CA1020:AvoidNamespacesWithFewTypes", Scope = "namespace", Target = "Subtext.Scripting.Exceptions", Justification = "Ignoring this warning...we want this namespace, but don't have enough classes to go in it right now to satisfy the rule.")]
+#endregion
