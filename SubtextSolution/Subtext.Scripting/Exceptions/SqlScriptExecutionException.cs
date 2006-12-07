@@ -16,6 +16,7 @@
 using System;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
+using Subtext.Scripting.Properties;
 
 namespace Subtext.Scripting.Exceptions
 {
@@ -125,9 +126,11 @@ namespace Subtext.Scripting.Exceptions
 			get
 			{
 				string message = base.Message;
-				if (this.Script != null)
-					message += Environment.NewLine + "ScriptName: " + _script.ToString();
-				message+= "Return Value: " + ReturnValue;
+                if (this.Script != null)
+                {
+                    message += Environment.NewLine + Resources.SqlScriptExecution_ScriptName + _script.ToString();
+                }
+				message += Resources.SqlScriptExecution_ReturnValue + ReturnValue;
 				return message;
 			}
 		}

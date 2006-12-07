@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using Subtext.Scripting.Properties;
 
 namespace Subtext.Scripting
 {
@@ -45,7 +46,7 @@ namespace Subtext.Scripting
 		public void AddRange(IEnumerable<Script> value) 
 		{
 			if(value == null)
-				throw new ArgumentNullException("value", "Cannot add a range from null.");
+				throw new ArgumentNullException("value", Resources.ArgumentNull_Generic);
 			
 			foreach(Script script in value)
 			{
