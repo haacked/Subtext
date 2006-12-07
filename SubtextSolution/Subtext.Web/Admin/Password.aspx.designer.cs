@@ -11,14 +11,6 @@
 namespace Subtext.Web.Admin.Pages {
     
     public partial class Password {
-        protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
-        protected System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
-        protected System.Web.UI.WebControls.TextBox tbCurrent;
-        protected System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator5;
-        protected System.Web.UI.WebControls.CompareValidator CompareValidator1;
-        protected System.Web.UI.WebControls.TextBox tbPassword;
-        protected System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator6;
-        protected System.Web.UI.WebControls.TextBox tbPasswordConfirm;
-        protected System.Web.UI.WebControls.Button btnSave;
+        protected System.Web.UI.WebControls.ChangePassword passwordChanger;
     }
 }

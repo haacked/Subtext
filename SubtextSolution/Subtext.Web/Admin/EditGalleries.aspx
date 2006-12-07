@@ -32,10 +32,13 @@
 						</ItemTemplate>
 
 						<EditItemTemplate>
-							Title<br />
-							<asp:TextBox CssClass="textinput" id="txbTitle" runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Title") %>'></asp:TextBox>
-							<br />Description<br />
-							<asp:TextBox CssClass="textarea" rows="5" textmode="MultiLine" id="txbDescription" runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Description") %>'></asp:TextBox>
+							<fieldset>
+								<legend>Edit Gallery</legend>
+								<label for="txbTitle">Title</label>
+								<asp:TextBox CssClass="textbox" id="txbTitle" runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Title") %>' />
+								<label for="txbDescription">Description</label>
+								<asp:TextBox rows="5" textmode="MultiLine" id="txbDescription" runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Description") %>' />
+							</fieldset>
 						</EditItemTemplate>
 					</asp:TemplateColumn>
 
@@ -56,17 +59,21 @@
 			</asp:DataGrid>
 		
 			<!-- add new item panel -->
-			<ANW:AdvancedPanel id="Add" runat="server" DisplayHeader="true" HeaderCssClass="CollapsibleTitle" HeaderText="Add New Gallery" Collapsible="False" BodyCssClass="Edit">
-				<label class="Block">Title</label> 
-					<asp:TextBox id="txbNewTitle" runat="server" CssClass="textinput"></asp:TextBox>&nbsp; 
-					Visible <asp:CheckBox id="ckbNewIsActive" runat="server" Checked="true"></asp:CheckBox>
-					<br />
-				<label class="Block">Description (1000 characters including HTML)</label><br />
-				<asp:TextBox id="txbNewDescription" MaxLength="1000"  runat="server" CssClass="textarea" rows="5" textmode="MultiLine"></asp:TextBox>
-				<div style="MARGIN-TOP: 8px">
-					<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Add" onclick="lkbPost_Click"></asp:Button><br />&nbsp; 
-				</div>
-			</ANW:AdvancedPanel>
+			<asp:PlaceHolder id="Add" runat="server">
+				<fieldset>
+					<legend>Add New Gallery</legend>
+					<label for="txbNewTitle">Title</label> 
+					<asp:TextBox id="txbNewTitle" runat="server" CssClass="textbox" />&nbsp;
+					<asp:CheckBox id="ckbNewIsActive" runat="server" Checked="true" Text="Visible" CssClass="checkbox" />
+					
+					<label for="txbNewDescription">Description (1000 characters including HTML)</label>
+					<asp:TextBox id="txbNewDescription" MaxLength="1000" runat="server" textmode="MultiLine" />
+					
+					<div class="buttons">
+						<asp:Button id="lkbPost" runat="server" CssClass="button" Text="Add" onclick="lkbPost_Click" />
+					</div>
+				</fieldset>
+			</asp:PlaceHolder>
 		
 		</ANW:AdvancedPanel>
 		

@@ -11,11 +11,11 @@
 namespace Subtext.Web.Admin.Pages {
     
     public partial class EditPreferences {
-        protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
         protected System.Web.UI.WebControls.DropDownList ddlPublished;
         protected System.Web.UI.WebControls.DropDownList ddlExpandAdvanced;
-        protected Subtext.Web.Controls.HelpToolTip Helptooltip4;
         protected System.Web.UI.WebControls.CheckBox chkAutoGenerate;
+        protected Subtext.Web.Controls.HelpToolTip Helptooltip4;
+        protected System.Web.UI.HtmlControls.HtmlImage Img2;
         protected System.Web.UI.WebControls.Button lkbUpdate;
     }
 }

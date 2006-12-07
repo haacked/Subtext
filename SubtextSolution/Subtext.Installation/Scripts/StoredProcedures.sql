@@ -5314,6 +5314,7 @@ BEGIN
 		, PasswordSalt = @PasswordSalt
 		, LastPasswordChangedDate = @CurrentTimeUtc
     WHERE @UserId = UserId
+    
     RETURN(0)
 END
 

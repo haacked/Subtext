@@ -75,39 +75,41 @@
 			CssClass="Pager" />
 		<br class="clear" />
 	</ANW:AdvancedPanel>
-	<asp:Button id="btnCreate" runat="server" CssClass="buttonSubmit" Text="Create New" OnClick="btnCreate_Click" />
-	<ANW:AdvancedPanel id="Edit" runat="server" LinkStyle="Image" DisplayHeader="True" HeaderCssClass="CollapsibleTitle"
-		HeaderText="Edit KeyWord" Collapsible="False">
-		<div class="Edit"><!-- DEBUG -->
-			<p class="Label">Word
-				<asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" ControlToValidate="txbWord" ForeColor="#990066"
-					ErrorMessage="You must enter a word (Text to replace)"></asp:RequiredFieldValidator></p>
-			<p>
-				<asp:TextBox id="txbWord" runat="server" max="100" columns="255" width="98%"></asp:TextBox></p>
-			<p class="Label">Text
-				<asp:RequiredFieldValidator id="Requiredfieldvalidator2" runat="server" ControlToValidate="txbText" ForeColor="#990066"
-					ErrorMessage="You must enter the Text to be displayed"></asp:RequiredFieldValidator></p>
-			<p>
-				<asp:TextBox id="txbText" runat="server" columns="255" width="98%"></asp:TextBox></p>
-			<p class="Label">Url
-				<asp:RequiredFieldValidator id="Requiredfieldvalidator3" runat="server" ControlToValidate="txbUrl" ForeColor="#990066"
-					ErrorMessage="You must enter a Url"></asp:RequiredFieldValidator></p>
-			<p>
-				<asp:TextBox id="txbUrl" runat="server" columns="255" width="98%"></asp:TextBox></p>
-			<p class="Label">Title
-			</p>
-			<p>
-				<asp:TextBox id="txbTitle" runat="server" columns="255" width="98%"></asp:TextBox></p>
-			<p class="ValueLabel">New Window
-				<asp:CheckBox id="chkNewWindow" runat="server" textalign="Left"></asp:CheckBox>&nbsp; 
-				Replace First Occurrence Only
-				<asp:CheckBox id="chkFirstOnly" runat="server" textalign="Left"></asp:CheckBox>&nbsp; 
-				Is CaseSensitive
-				<asp:CheckBox id="chkCaseSensitive" runat="server" textalign="Left"></asp:CheckBox></p>
+	
+	<asp:Button id="btnCreate" runat="server" CssClass="button" Text="Create New" OnClick="btnCreate_Click" />
+	
+	<asp:PlaceHolder id="Edit" runat="server">
+		<fieldset>
+			<legend>Edit Keyword</legend>
+			
+			<label for="txbWord">Word</label>
+			<asp:TextBox id="txbWord" runat="server" MaxLength="100" CssClass="textbox" />
+			<asp:RequiredFieldValidator id="RequiredFieldValidator1" runat="server" ControlToValidate="txbWord" CssClass="error"
+					ErrorMessage=" * You must enter a word (Text to replace)" />
+						
+			<label for="txbText">Text</label>
+			<asp:TextBox id="txbText" runat="server" CssClass="textbox" MaxLength="100" />
+			<asp:RequiredFieldValidator id="Requiredfieldvalidator2" runat="server" ControlToValidate="txbText" CssClass="error"
+					ErrorMessage=" * You must enter the Text to be displayed" />
+			
+			<label for="txbUrl">Url</label>
+			<asp:TextBox id="txbUrl" runat="server" MaxLength="255" CssClass="textbox" />
+			<asp:RequiredFieldValidator id="Requiredfieldvalidator3" runat="server" ControlToValidate="txbUrl" CssClass="error"
+					ErrorMessage=" * You must enter a Url" />
+			
+			<label for="txbTitle">Title</label>
+			<asp:TextBox id="txbTitle" runat="server" MaxLength="100" CssClass="textbox" />
+			
 			<div>
-				<asp:Button id="lkbPost" runat="server" CssClass="buttonSubmit" Text="Post" OnClick="lkbPost_Click"></asp:Button>
-				<asp:Button id="lkbCancel" runat="server" CssClass="buttonSubmit" Text="Cancel" CausesValidation="false" OnClick="lkbCancel_Click" />&nbsp;
+				<asp:CheckBox id="chkNewWindow" runat="server" Text="New Window" CssClass="checkbox" />
+				<asp:CheckBox id="chkFirstOnly" runat="server" Text="Replace First Occurrence Only" CssClass="checkbox" />
+				<asp:CheckBox id="chkCaseSensitive" runat="server" Text="Is CaseSensitive" CssClass="checkbox" />
 			</div>
-		</div>
-	</ANW:AdvancedPanel>
+			
+			<div class="buttons">
+				<asp:Button id="lkbPost" runat="server" CssClass="button" Text="Post" OnClick="lkbPost_Click" />
+				<asp:Button id="lkbCancel" runat="server" CssClass="button" Text="Cancel" CausesValidation="false" OnClick="lkbCancel_Click" />
+			</div>
+		</fieldset>
+	</asp:PlaceHolder>
 </asp:Content>

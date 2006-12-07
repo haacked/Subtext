@@ -541,8 +541,6 @@
     <Content Include="ExternalDependencies\ICSharpCode.SharpZipLib.dll" />
     <Content Include="ExternalDependencies\log4net.dll" />
     <Content Include="ExternalDependencies\log4net.xml" />
-    <Content Include="ExternalDependencies\LumiSoft.Net.dll" />
-    <Content Include="ExternalDependencies\LumiSoft.Net.xml" />
     <Content Include="ExternalDependencies\Mail.dll" />
     <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.dll" />
     <Content Include="ExternalDependencies\Microsoft.ApplicationBlocks.Data.xml" />

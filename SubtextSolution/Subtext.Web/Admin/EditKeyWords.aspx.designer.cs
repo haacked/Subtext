@@ -15,13 +15,13 @@ namespace Subtext.Web.Admin.Pages {
         protected System.Web.UI.WebControls.Repeater rprSelectionList;
         protected Subtext.Web.Controls.PagingControl resultsPager;
         protected System.Web.UI.WebControls.Button btnCreate;
-        protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
-        protected System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
+        protected System.Web.UI.WebControls.PlaceHolder Edit;
         protected System.Web.UI.WebControls.TextBox txbWord;
-        protected System.Web.UI.WebControls.RequiredFieldValidator Requiredfieldvalidator2;
+        protected System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
         protected System.Web.UI.WebControls.TextBox txbText;
-        protected System.Web.UI.WebControls.RequiredFieldValidator Requiredfieldvalidator3;
+        protected System.Web.UI.WebControls.RequiredFieldValidator Requiredfieldvalidator2;
         protected System.Web.UI.WebControls.TextBox txbUrl;
+        protected System.Web.UI.WebControls.RequiredFieldValidator Requiredfieldvalidator3;
         protected System.Web.UI.WebControls.TextBox txbTitle;
         protected System.Web.UI.WebControls.CheckBox chkNewWindow;
         protected System.Web.UI.WebControls.CheckBox chkFirstOnly;

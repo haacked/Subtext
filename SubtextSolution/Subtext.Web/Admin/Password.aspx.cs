@@ -14,67 +14,14 @@
 #endregion
 
 using System;
-using System.Web.Security;
-using System.Web.UI.WebControls;
 
 namespace Subtext.Web.Admin.Pages
 {
 	/// <summary>
-	/// Summary description for Password.
+	/// Password change page.
 	/// </summary>
 	public partial class Password : AdminOptionsPage
 	{
-		protected Label Message;
-		protected ValidationSummary ValidationSummary1;
-	
-		#region Web Form Designer generated code
-		override protected void OnInit(EventArgs e)
-		{
-			//
-			// CODEGEN: This call is required by the ASP.NET Web Form Designer.
-			//
-			InitializeComponent();
-			base.OnInit(e);
-		}
-		
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{    
-
-		}
-		#endregion
-
-		protected void btnSave_Click(object sender, EventArgs e)
-		{
-			const string failureMessage = "Your password can not be updated";
-			if(Page.IsValid)
-			{
-				MembershipUser currentUser = Membership.GetUser();
-				if (Membership.ValidateUser(currentUser.UserName, tbCurrent.Text))
-				{
-					if(tbPassword.Text == tbPasswordConfirm.Text)
-					{
-						currentUser.ChangePassword(tbCurrent.Text, tbPassword.Text);
-						Messages.ShowMessage("Your password has been updated");
-					}
-					else
-					{
-						Messages.ShowError(failureMessage);
-					}
-				}
-				else
-				{
-					Messages.ShowError(failureMessage);
-				}
-			}
-			else
-			{
-				Messages.ShowError(failureMessage);
-			}
-		}
 	}
 }
 

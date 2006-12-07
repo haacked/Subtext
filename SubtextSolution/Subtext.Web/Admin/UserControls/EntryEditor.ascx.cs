@@ -232,7 +232,7 @@ namespace Subtext.Web.Admin.UserControls
 				return;
 			}
 		
-			Results.Collapsed = true;
+			Results.Visible = false;
 			Edit.Visible = true;
 			this.lkUpdateCategories.Visible = true;
 			txbTitle.Text = currentPost.Title;
