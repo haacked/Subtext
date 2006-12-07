@@ -19,7 +19,6 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using Subtext.Framework.Text;
 
 namespace Subtext.Web.Controls
 {
@@ -46,7 +45,7 @@ namespace Subtext.Web.Controls
 					appPath = string.Empty;
 				if(appPath.EndsWith("/"))
 				{
-					appPath = StringHelper.Left(appPath, appPath.Length - 1);
+					appPath = appPath.Substring(0, appPath.Length - 1);
 				}
 				return appPath + path.Substring(1);
 			}

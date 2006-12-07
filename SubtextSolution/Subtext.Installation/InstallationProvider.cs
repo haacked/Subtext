@@ -14,17 +14,19 @@
 #endregion
 
 using System;
+using System.Configuration.Provider;
 using System.Data.SqlClient;
 using System.Web.UI;
+using Subtext.Extensibility.Providers;
 
-namespace Subtext.Extensibility.Providers
+namespace Subtext.Installation
 {
 	/// <summary>
 	/// Provider for classes that implement installation procedures. 
 	/// This allows new data providers to implement their own installation 
 	/// code.
 	/// </summary>
-    public abstract class InstallationProvider : System.Configuration.Provider.ProviderBase
+    public abstract class InstallationProvider : ProviderBase
 	{
 		private static InstallationProvider provider;
 		private static GenericProviderCollection<InstallationProvider> providers = ProviderConfigurationHelper.LoadProviderCollection<InstallationProvider>("Installation", out provider);

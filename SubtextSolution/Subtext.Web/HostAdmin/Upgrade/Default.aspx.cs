@@ -14,8 +14,8 @@
 #endregion
 
 using System;
-using Subtext.Extensibility.Providers;
 using Subtext.Framework;
+using Subtext.Installation;
 
 namespace Subtext.Web.HostAdmin.Upgrade
 {

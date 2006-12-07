@@ -15,8 +15,8 @@
 
 using System;
 using System.Globalization;
+using System.IO;
 using System.Web.UI.HtmlControls;
-using Subtext.Framework.Text;
 
 namespace Subtext.Web.Controls
 {
@@ -140,7 +140,7 @@ namespace Subtext.Web.Controls
 		{
 			get
 			{
-				return StringHelper.LeftBefore(Context.Request.Path, "Default.aspx", StringComparison.InvariantCultureIgnoreCase);
+				return Path.GetDirectoryName(Context.Request.Path);
 			}
 		}
 

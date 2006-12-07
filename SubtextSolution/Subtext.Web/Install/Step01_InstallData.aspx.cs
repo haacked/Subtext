@@ -15,9 +15,9 @@
 
 using System;
 using System.Data.SqlClient;
-using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Data;
+using Subtext.Installation;
 using Subtext.Scripting.Exceptions;
 
 namespace Subtext.Web.Install

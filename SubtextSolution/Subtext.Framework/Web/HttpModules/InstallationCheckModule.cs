@@ -1,8 +1,8 @@
 using System;
 using System.Web;
-using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Web;
+using Subtext.Installation;
 
 namespace Subtext.Web.HttpModules
 {

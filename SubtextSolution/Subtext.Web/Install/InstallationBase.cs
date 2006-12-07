@@ -15,9 +15,9 @@
 
 using System;
 using System.Web;
-using Subtext.Extensibility.Providers;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Installation;
 
 namespace Subtext.Web.Install
 {
