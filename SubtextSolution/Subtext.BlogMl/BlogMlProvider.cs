@@ -23,6 +23,7 @@ using Subtext.BlogML.Conversion;
 using Subtext.BlogML.Interfaces;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Extensibility.Providers;
+using Subtext.BlogML.Properties;
 
 namespace Subtext.BlogML
 {
@@ -73,16 +74,16 @@ namespace Subtext.BlogML
 		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection config)
 		{
 			if (name == null)
-				throw new ArgumentNullException("name", "Please specify a provider name.");
+				throw new ArgumentNullException("name", Resources.ArgumentNull_String);
 			
 			if (config == null)
-				throw new ArgumentNullException("config", "The NameValueCollection may not be null.");
+				throw new ArgumentNullException("config", Resources.ArgumentNull_Collection);
 			
 			if (!String.IsNullOrEmpty(config["connectionStringName"]))
 			{
 				ConnectionStringSettings connection = ConfigurationManager.ConnectionStrings[config["connectionStringName"]];
 				if (connection == null)
-					throw new ProviderException(string.Format(CultureInfo.InvariantCulture, "No connection string matches the key '{0}'.", config["connectionStringName"]));
+					throw new ProviderException(string.Format(CultureInfo.InvariantCulture, Resources.Configuration_KeyNotFound, config["connectionStringName"]));
 				this.connectionString = connection.ConnectionString;
 			}
 
@@ -152,7 +153,7 @@ namespace Subtext.BlogML
 		/// happens to be running in.
 		/// </summary>
 		/// <returns></returns>
-		public abstract IBlogMLContext GetBlogMlContext();
+		public abstract IBlogMLContext GetBlogMLContext();
 
 		/// <summary>
 		/// Returns a strategy object responsible for handling Id conversions 
@@ -210,8 +211,8 @@ namespace Subtext.BlogML
 		/// <summary>
 		/// Creates a comment in the system.
 		/// </summary>
-		/// <param name="bmlComment"></param>
-		public abstract void CreatePostComment(BlogMLComment bmlComment, string newPostId);
+		/// <param name="comment"></param>
+		public abstract void CreatePostComment(BlogMLComment comment, string newPostId);
 
 		/// <summary>
 		/// Creates a trackback for the post.
@@ -223,7 +224,7 @@ namespace Subtext.BlogML
 		/// Lets the provider decide how to log errors.
 		/// </summary>
 		/// <param name="message"></param>
-		/// <param name="e"></param>
-		public abstract void LogError(string message, Exception e);
+        /// <param name="exception"></param>
+        public abstract void LogError(string message, Exception exception);
 	}
 }

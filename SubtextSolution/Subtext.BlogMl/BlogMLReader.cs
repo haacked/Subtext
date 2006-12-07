@@ -4,6 +4,7 @@ using System.IO;
 using BlogML;
 using BlogML.Xml;
 using Subtext.BlogML.Interfaces;
+using Subtext.BlogML.Properties;
 
 namespace Subtext.BlogML
 {
@@ -14,7 +15,7 @@ namespace Subtext.BlogML
 		public static BlogMLReader Create(IBlogMLProvider provider)
 		{
 			if (provider == null)
-				throw new ArgumentNullException("provider", "provider cannot be null");
+				throw new ArgumentNullException("provider", Resources.ArgumentNull_Provider);
 
 			return new BlogMLReader(provider);
 		}
@@ -38,7 +39,7 @@ namespace Subtext.BlogML
         public void ReadBlog(Stream blogMLStream)
 	    {
 			if (blogMLStream == null)
-				throw new ArgumentNullException("blogMlStream", "Cannot read a null stream");
+				throw new ArgumentNullException("blogMlStream", Resources.ArgumentNull_Stream);
 
             BlogMLBlog blog = DeserializeBlogMlStream(blogMLStream);
 

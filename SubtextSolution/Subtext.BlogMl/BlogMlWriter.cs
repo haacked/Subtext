@@ -8,6 +8,7 @@ using Subtext.BlogML.Conversion;
 using Subtext.Extensibility.Collections;
 using Subtext.Extensibility.Interfaces;
 using Subtext.BlogML.Interfaces;
+using Subtext.BlogML.Properties;
 
 namespace Subtext.BlogML
 {
@@ -25,11 +26,11 @@ namespace Subtext.BlogML
 		public static BlogMLWriter Create(IBlogMLProvider provider)
 		{
 			if (provider == null)
-				throw new ArgumentNullException("provider", "provider cannot be null");
+				throw new ArgumentNullException("provider", Resources.ArgumentNull_Provider);
 
-			IBlogMLContext context = provider.GetBlogMlContext();
+			IBlogMLContext context = provider.GetBlogMLContext();
 			if (context == null)
-				throw new InvalidOperationException("The BlogMl provider did not set the context.");
+				throw new InvalidOperationException(Resources.InvalidOperation_BlogMLNullContext);
 
 			return new BlogMLWriter(provider, context);
 		}
@@ -200,7 +201,7 @@ namespace Subtext.BlogML
 					// now we need to determine if the URL is local
 					if (SgmlUtil.IsRootUrlOf(appFullRootUrl, loweredImageURL))
 					{
-					    WriteAttachment(imageURL, 0, GetMimeType(imageURL), imageURL, provider.GetBlogMlContext().EmbedAttachments, null);
+					    WriteAttachment(imageURL, 0, GetMimeType(imageURL), imageURL, provider.GetBlogMLContext().EmbedAttachments, null);
 						Writer.Flush();
 					}
 				}
@@ -211,7 +212,7 @@ namespace Subtext.BlogML
 
 		private static string GetMimeType(string fullUrl)
 		{
-			string extension = Path.GetExtension(fullUrl);
+			string extension = Path.GetExtension(fullUrl).ToLowerInvariant();
 			string retVal;
 
 			if (extension == null || extension.Length == 0)
@@ -219,9 +220,7 @@ namespace Subtext.BlogML
 				return string.Empty;
 			}
 
-			extension = extension.TrimStart(new char[] { '.' });
-
-			switch (extension.ToLower(CultureInfo.InvariantCulture))
+            switch (extension.TrimStart(new char[] { '.' }))
 			{
 				case "png":
 					retVal = "png";

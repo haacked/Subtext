@@ -205,7 +205,7 @@ namespace Subtext.ImportExport
 		/// Returns the context under which blogml import or export is running under.
 		/// </summary>
 		/// <returns></returns>
-		public override IBlogMLContext GetBlogMlContext()
+		public override IBlogMLContext GetBlogMLContext()
 		{
 			bool embedValue = false;
 			if(HttpContext.Current != null && HttpContext.Current.Request != null)
