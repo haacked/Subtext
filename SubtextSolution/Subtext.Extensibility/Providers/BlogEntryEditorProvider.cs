@@ -17,6 +17,9 @@ using System;
 using System.Web.UI;
 using System.Configuration.Provider;
 using System.Web.UI.WebControls;
+using System.Globalization;
+using Subtext.Extensibility.Properties;
+using System.Collections.Specialized;
 
 namespace Subtext.Extensibility.Providers
 {
@@ -49,22 +52,32 @@ namespace Subtext.Extensibility.Providers
 			}
 		}
 		
-		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
+		public override void Initialize(string name, NameValueCollection config)
 		{
-			if (configValue["Width"] != null)
-				this.Width = ParseUnit(configValue["Width"]);
+            if (name == null)
+            {
+                throw new ArgumentNullException("name", Resources.ArgumentNull_String);
+            }
 
-			if (configValue["Height"] != null)
-				this.Height = ParseUnit(configValue["Height"]);
+            if (config == null)
+            {
+                throw new ArgumentNullException("config", Resources.ArgumentNull_Collection);
+            }
 
-			base.Initialize(name, configValue);
+			if (config["Width"] != null)
+				this.Width = ParseUnit(config["Width"]);
+
+			if (config["Height"] != null)
+				this.Height = ParseUnit(config["Height"]);
+
+			base.Initialize(name, config);
 		}
 		
 		protected static Unit ParseUnit(string s)
 		{
 			try
 			{
-				return Unit.Parse(s);
+				return Unit.Parse(s, CultureInfo.InvariantCulture);
 			}
 			catch(Exception)
 			{
