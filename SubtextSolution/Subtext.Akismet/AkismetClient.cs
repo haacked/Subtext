@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using System.Net;
 using System.Web;
+using Subtext.Akismet.Properties;
 
 namespace Subtext.Akismet
 {
@@ -39,13 +40,13 @@ namespace Subtext.Akismet
 		public AkismetClient(string apiKey, Uri blogUrl, HttpClient httpClient)
 		{
 			if(apiKey == null)
-				throw new ArgumentNullException("apiKey", "The akismet Api Key must be specified");
+				throw new ArgumentNullException("apiKey", Resources.ArgumentNull_String);
 
 			if (blogUrl == null)
-				throw new ArgumentNullException("blogUrl", "The blog's url must be specified");
+				throw new ArgumentNullException("blogUrl", Resources.ArgumentNull_Uri);
 			
 			if (httpClient == null)
-				throw new ArgumentNullException("httpClient", "Must supply an http client");
+				throw new ArgumentNullException("httpClient", Resources.ArgumentNull_Generic);
 			
 			this.apiKey = apiKey;
 			this.blogUrl = blogUrl;
