@@ -46,6 +46,7 @@ using Subtext.Framework;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using FredCK.FCKeditorV2;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 {
@@ -204,6 +205,8 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 			}
 		}
 
+
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "The error number is used to create an error node in the XML document, so we need to catch a general exception as well.")]
 		private void CreateFolder( XmlNode connectorNode, string resourceType, string currentFolder )
 		{
 			string sErrorNumber = "0" ;
@@ -355,7 +358,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 				if(entry.IsActive) 
 				{
 					XmlNode oFileNode = XmlUtil.AppendElement( oFilesNode, "File" ) ;
-                    XmlUtil.SetAttribute(oFileNode, "name", string.Format("{0}|{1}", entry.Title, entry.FullyQualifiedUrl));
+                    XmlUtil.SetAttribute(oFileNode, "name", string.Format(CultureInfo.InvariantCulture, "{0}|{1}", entry.Title, entry.FullyQualifiedUrl));
                     XmlUtil.SetAttribute(oFileNode, "size", entry.DateModified.ToShortDateString());
 				}
 			}
@@ -430,6 +433,8 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 			return extStr;
 		}
 
+
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "The error number is used to create an error node in the XML document, so we need to catch a general exception as well.")]
         private static bool CreateImageFolder(XmlNode connectorNode)
         {
             bool retval;

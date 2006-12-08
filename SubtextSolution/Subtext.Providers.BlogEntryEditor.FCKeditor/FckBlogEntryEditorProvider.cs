@@ -17,6 +17,9 @@ using System;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility.Providers;
 using Subtext.Web.Controls;
+using System.Collections.Specialized;
+using Subtext.Providers.BlogEntryEditor.FCKeditor.Properties;
+using System.Globalization;
 
 namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 {
@@ -36,8 +39,6 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 		static string _fileAllowedExtensions=string.Empty;
 		static string _imageAllowedExtensions=string.Empty;
 
-        private static System.Resources.ResourceManager rm = new System.Resources.ResourceManager("Subtext.Providers.BlogEntryEditor.FCKeditor.resources.ErrorMessages", System.Reflection.Assembly.GetExecutingAssembly());
-
 		public override System.Web.UI.Control RichTextEditorControl
 		{
 			get
@@ -46,58 +47,58 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 			}
 		}
 
-		public override void Initialize(string name, System.Collections.Specialized.NameValueCollection configValue)
+		public override void Initialize(string name, NameValueCollection config)
 		{
 			if(name == null)
-				throw new ArgumentNullException("name", rm.GetString("nameNeeded"));
+				throw new ArgumentNullException("name", Resources.nameNeeded);
 			
-			if(configValue == null)
-				throw new ArgumentNullException("configValue", rm.GetString("configNeeded"));
+			if(config == null)
+				throw new ArgumentNullException("configValue", Resources.configNeeded);
 
-			if(configValue["WebFormFolder"]!=null)
-				_webFormFolder=configValue["WebFormFolder"];
+			if(config["WebFormFolder"]!=null)
+				_webFormFolder=config["WebFormFolder"];
 			else
-				throw new InvalidOperationException(rm.GetString("WebFormFolderNeeded"));
+				throw new InvalidOperationException(Resources.WebFormFolderNeeded);
 
-			if(configValue["ImageBrowserURL"]!=null)
-				_imageBrowserURL=configValue["ImageBrowserURL"];
+			if(config["ImageBrowserURL"]!=null)
+				_imageBrowserURL=config["ImageBrowserURL"];
 			else
-				throw new InvalidOperationException(rm.GetString("ImageBrowserURLNeeded"));
+				throw new InvalidOperationException(Resources.ImageBrowserURLNeeded);
 
-			if(configValue["LinkBrowserURL"]!=null)
-				_linkBrowserURL=configValue["LinkBrowserURL"];
+			if(config["LinkBrowserURL"]!=null)
+				_linkBrowserURL=config["LinkBrowserURL"];
 			else
-				throw new InvalidOperationException(rm.GetString("LinkBrowserURLNeeded"));
+				throw new InvalidOperationException(Resources.LinkBrowserURLNeeded);
 
-			if(configValue["ImageConnectorURL"]!=null)
-				_imageConnectorURL=configValue["ImageConnectorURL"];
+			if(config["ImageConnectorURL"]!=null)
+				_imageConnectorURL=config["ImageConnectorURL"];
 			else
-				throw new InvalidOperationException(rm.GetString("ImageConnectorURLNeeded"));
+				throw new InvalidOperationException(Resources.ImageConnectorURLNeeded);
 
-			if(configValue["LinkConnectorURL"]!=null)
-				_linkConnectorURL=configValue["LinkConnectorURL"];
+			if(config["LinkConnectorURL"]!=null)
+				_linkConnectorURL=config["LinkConnectorURL"];
 			else
-				throw new InvalidOperationException(rm.GetString("LinkConnectorURLNeeded"));
+				throw new InvalidOperationException(Resources.LinkConnectorURLNeeded);
 
 
-			if(configValue["FileAllowedExtensions"]!=null)
-				_fileAllowedExtensions=configValue["FileAllowedExtensions"];
+			if(config["FileAllowedExtensions"]!=null)
+				_fileAllowedExtensions=config["FileAllowedExtensions"];
 			else
-				throw new InvalidOperationException(rm.GetString("FileAllowedExtensionsNeeded"));
+				throw new InvalidOperationException(Resources.FileAllowedExtensionsNeeded);
 
 
-			if(configValue["ImageAllowedExtensions"]!=null)
-				_imageAllowedExtensions=configValue["ImageAllowedExtensions"];
+			if(config["ImageAllowedExtensions"]!=null)
+				_imageAllowedExtensions=config["ImageAllowedExtensions"];
 			else
-				throw new InvalidOperationException(rm.GetString("ImageAllowedExtensionsNeeded"));
+				throw new InvalidOperationException(Resources.ImageAllowedExtensionsNeeded);
 
-			if(configValue["ToolbarSet"]!=null)
-				_toolbarSet=configValue["ToolbarSet"];
+			if(config["ToolbarSet"]!=null)
+				_toolbarSet=config["ToolbarSet"];
 
-			if(configValue["Skin"]!=null)
-				_skin=configValue["Skin"];
+			if(config["Skin"]!=null)
+				_skin=config["Skin"];
 			
-			base.Initialize(name, configValue);
+			base.Initialize(name, config);
 		}
 
 		public override void InitializeControl()
@@ -128,8 +129,8 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
                 currentLinkConnector = _linkConnectorURL.Replace("~/", "~/" + blogSubFolder + "/");
             }
 
-			_fckCtl.ImageBrowserURL=String.Format(ControlHelper.ExpandTildePath(_imageBrowserURL),ControlHelper.ExpandTildePath(currentImageConnector));
-			_fckCtl.LinkBrowserURL=String.Format(ControlHelper.ExpandTildePath(_linkBrowserURL),ControlHelper.ExpandTildePath(currentLinkConnector));
+            _fckCtl.ImageBrowserURL = String.Format(CultureInfo.InvariantCulture, ControlHelper.ExpandTildePath(_imageBrowserURL), ControlHelper.ExpandTildePath(currentImageConnector));
+            _fckCtl.LinkBrowserURL = String.Format(CultureInfo.InvariantCulture, ControlHelper.ExpandTildePath(_linkBrowserURL), ControlHelper.ExpandTildePath(currentLinkConnector));
 		}
 
 		public override string Text
