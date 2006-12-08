@@ -113,7 +113,7 @@ namespace Subtext.Framework.UrlManager
 			}
 		}
 
-		private IHttpHandler ProcessHandlerTypePage(HttpHandler item, HttpContext context)
+		private static IHttpHandler ProcessHandlerTypePage(HttpHandler item, HttpContext context)
 		{
 			string pagepath = item.PageLocation;
 			if(pagepath == null)
@@ -123,13 +123,15 @@ namespace Subtext.Framework.UrlManager
 			HandlerConfiguration.SetControls(context, item.BlogControls);
 			string url = context.Request.ApplicationPath;
 			if (!url.EndsWith("/"))
+			{
 				url += "/";
+			}
 			url += pagepath;
 			
             return BuildManager.CreateInstanceFromVirtualPath(url, typeof(Page)) as IHttpHandler;
         }
 
-		private IHttpHandler ProcessHandlerTypeDirectory(HttpContext context, string url)
+		private static IHttpHandler ProcessHandlerTypeDirectory(HttpContext context, string url)
 		{
 		    //Need to strip the blog subfolder part of url.
 		    if(Config.CurrentBlog != null && Config.CurrentBlog.Subfolder != null && Config.CurrentBlog.Subfolder.Length > 0)

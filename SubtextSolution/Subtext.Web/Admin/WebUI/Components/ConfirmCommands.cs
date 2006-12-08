@@ -626,11 +626,13 @@ namespace Subtext.Web.Admin
 			}
 		}
 
-		private void DeleteFile(string path, string filename)
+		private static void DeleteFile(string path, string filename)
 		{
 			string localPath = Path.Combine(path, filename);
 			if (File.Exists(localPath))
+			{
 				File.Delete(localPath);
+			}
 		}
 	}
 	#endregion

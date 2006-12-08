@@ -57,7 +57,7 @@ namespace Subtext.Framework.Configuration
 		/// <param name="host">Host.</param>
 		/// <param name="useWWW">Use WWW.</param>
 		/// <returns></returns>
-		protected string GetFormattedHost(string host, bool useWWW)
+		static protected string GetFormattedHost(string host, bool useWWW)
 		{
 			if(useWWW)
 			{
@@ -213,7 +213,7 @@ namespace Subtext.Framework.Configuration
 		/// </summary>
 		/// <param name="Request">Request.</param>
 		/// <returns></returns>
-		protected string GetCurrentHost(HttpRequest Request)
+		static protected string GetCurrentHost(HttpRequest Request)
 		{
 			string host = Request.Url.Host;
 			if(!Request.Url.IsDefaultPort)

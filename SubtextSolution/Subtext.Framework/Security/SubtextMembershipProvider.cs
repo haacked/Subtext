@@ -446,7 +446,7 @@ namespace Subtext.Framework.Security
         	}
         }
     	
-    	private MembershipUser LoadUserFromReader(IDataReader reader)
+    	private static MembershipUser LoadUserFromReader(IDataReader reader)
     	{
 			return new MembershipUser(
 				Membership.Provider.Name

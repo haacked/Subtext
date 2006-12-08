@@ -34,14 +34,18 @@ namespace Subtext.Framework.XmlRpc
 	/// </summary>
 	public class MetaWeblog : XmlRpcService, Subtext.Framework.XmlRpc.IMetaWeblog
 	{
-		private void ValidateUser(string username, string password, bool allowServiceAccess)
+		private static void ValidateUser(string username, string password, bool allowServiceAccess)
 		{
 			if(!Config.Settings.AllowServiceAccess || !allowServiceAccess)
+			{
 				throw new XmlRpcFaultException(0, "Web Service Access is not enabled.");
+			}
 
 			bool isValid = Membership.ValidateUser(username, password);
 			if(!isValid)
+			{
 				throw new XmlRpcFaultException(0, "Username and password denied.");
+			}
 		}
 
 		#region BlogApi Members

@@ -47,7 +47,7 @@ namespace Subtext.Framework
 		}
 
 		//Returns a language aware cache key.
-		private string GetCacheKey(string key)
+		private static string GetCacheKey(string key)
 		{
 			return key + ":" + Thread.CurrentThread.CurrentCulture.LCID.ToString(CultureInfo.InvariantCulture);
 		}

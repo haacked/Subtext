@@ -707,7 +707,7 @@ namespace Subtext.Framework.Services
         /// <param name="buf2">Second buffer</param>
         /// <param name="len">Length</param>
         /// <returns>true or false indicator about the equality of the buffers</returns>
-        private bool CompareBuffers(byte[] buf1, byte[] buf2, int len)
+        private static bool CompareBuffers(byte[] buf1, byte[] buf2, int len)
         {
             if (buf1.Length >= len && buf2.Length >= len)
             {
@@ -795,7 +795,7 @@ namespace Subtext.Framework.Services
         /// </summary>
         /// <param name="mimeType"></param>
         /// <returns></returns>
-        private ImageCodecInfo GetEncoderInfo(string mimeType)
+        private static ImageCodecInfo GetEncoderInfo(string mimeType)
         {
             ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
             foreach (ImageCodecInfo codec in codecs)
