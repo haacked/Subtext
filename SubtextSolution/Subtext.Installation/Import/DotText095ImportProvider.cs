@@ -26,6 +26,7 @@ using Microsoft.ApplicationBlocks.Data;
 using Subtext.Extensibility.Providers;
 using Subtext.Scripting;
 using Subtext.Web.Controls;
+using Subtext.Installation.Properties;
 
 namespace Subtext.Installation.Import
 {
@@ -53,9 +54,8 @@ namespace Subtext.Installation.Import
 			builder.AllowWebConfigOverride = false;
 			if(builder.ID == null || builder.ID.Length == 0)
 				builder.ID = "ctlConnectionStringBuilder";
-			builder.Title = ".TEXT Connection String";
-			builder.Description = "A SQL Server Connection String that can connect to and " 
-				+ "read from your .TEXT database.";
+            builder.Title = Resources.Import_dotTextConnectionStringTitle;
+            builder.Description = Resources.Import_dotTextConnectionStringDescription;
 			
 			Panel panel = new Panel();
 			panel.Controls.Add(builder);
@@ -125,44 +125,34 @@ namespace Subtext.Installation.Import
 		public override string ValidateImportInformation(Control control)
 		{
 			if(control == null)
-				throw new ArgumentNullException("control", "Hello, sorry, but we really can't validate a null control.");
+                throw new ArgumentNullException("control", Resources.ArgumentNull_Generic);
 
 			string dotTextConnectionString;
 			GetConnectionStringsFromControl(control, out dotTextConnectionString);
 
 			if(dotTextConnectionString == null || dotTextConnectionString.Length == 0)
-				return "Please specify a valid connection string to the .TEXT 0.95 database.";
+                return Resources.ImportError_InvalidConnectionString;
 
 			try
 			{
 			    ConnectionString connStr = ConnectionString.Parse(dotTextConnectionString);
                 if (!DoesTableExist("blog_config", connStr))
 				{
-					string errorMessage = "I&#8217;m sorry, but it does not appear that " 
-						+ "there is a .TEXT database corresponding to the connection string provided. " 
-						+ "Please double check that the &#8220;blog_config&#8221; table exists.  If it does, " 
-						+ "double check that it was created using the [dbo] account OR by the same user " 
-						+ "specified in the .TEXT connection string below.";
-					return errorMessage;
+                    return Resources.ImportError_dotTextDatabaseNotFound;
 				}
 
 				if (!DoesTableExist("subtext_config", ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString))
 				{
-					string errorMessage = "I&#8217;m sorry, but it does not appear that " 
-						+ "there is a Subtext database corresponding to the connection string within web.config. " 
-						+ "Please double check that the &#8220;subtext_config&#8221; table exists.  If it does, " 
-						+ "double check that it was created using the [dbo] account OR by the same user " 
-						+ "specified in the subText connection string.";
-					return errorMessage;
+                    return Resources.ImportError_SubtextDatabaseNotFound;
 				}
 			}
 			catch(SqlException exception)
 			{
-				return "There was an error while trying to connect to the database.  The error is &#8220;" + exception.Message + "&#8221;";
+                return String.Format(CultureInfo.CurrentUICulture, Resources.ImportError_SqlException, exception.Message);
 			}
 			catch(ArgumentException)
 			{
-				return "The format for the connection string is incorrect. Please double check it and try again.";
+                return Resources.ImportError_InvalidConnectionStringFormat;
 			}
 
 			return string.Empty;
