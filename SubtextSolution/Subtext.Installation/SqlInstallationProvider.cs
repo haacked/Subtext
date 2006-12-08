@@ -23,6 +23,7 @@ using System.Web.UI;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.Extensibility.Providers;
 using Subtext.Web.Controls;
+using Subtext.Installation.Properties;
 
 namespace Subtext.Installation
 {
@@ -63,8 +64,8 @@ namespace Subtext.Installation
 		{
 			ConnectionStringBuilder builder = new ConnectionStringBuilder();
 			builder.AllowWebConfigOverride = true;
-			builder.Description = "A SQL Connection String with the rights to create SQL Database objects such as Stored Procedures, Table, and Views.";
-			builder.Title = "Connection String";
+			builder.Description = Resources.InstallationProvider_ConnectionStringDescription;
+			builder.Title = Resources.InstallationProvider_ConnectionStringTitle;
 		
 			return builder;
 		}
@@ -122,7 +123,7 @@ namespace Subtext.Installation
 		public override bool IsInstallationException(Exception exception)
 		{
 			if (exception == null)
-				throw new ArgumentNullException("exception", "Cannot determine whether a null exception is an installation exception.  This exception should never be thrown.");
+                throw new ArgumentNullException("exception", Resources.ArgumentNull_ExceptionCritical);
 			
 			Regex tableRegex = new Regex("Invalid object name '.*?'", RegexOptions.IgnoreCase | RegexOptions.Compiled);
             bool isSqlException = exception is SqlException;
@@ -249,7 +250,7 @@ namespace Subtext.Installation
 		public override void UpdateInstallationVersionNumber(Version newVersion, SqlTransaction transaction)
 		{
 			if (newVersion == null)
-				throw new ArgumentNullException("newVersion", "Cannot update the version to a null version.");
+                throw new ArgumentNullException("newVersion", Resources.ArgumentNull_Generic);
 			
 			string sql = "subtext_VersionAdd";
 			SqlParameter[] p =
