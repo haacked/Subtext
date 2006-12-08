@@ -355,7 +355,7 @@ namespace Subtext.Web.UI.Pages
 				}
 			}
 
-			private string CreateStylePath(string skinTemplateFolder)
+			private static string CreateStylePath(string skinTemplateFolder)
 			{
 				string applicationPath = HttpContext.Current.Request.ApplicationPath;
 				string path = (applicationPath == "/" ? String.Empty : applicationPath) + "/Skins/" + skinTemplateFolder + "/";

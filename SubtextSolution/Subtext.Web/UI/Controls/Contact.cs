@@ -130,7 +130,7 @@ namespace Subtext.Web.UI.Controls
 			}
 		}
 
-		bool SendContactMessageToFeedback
+		static bool SendContactMessageToFeedback
 		{
 			get
 			{

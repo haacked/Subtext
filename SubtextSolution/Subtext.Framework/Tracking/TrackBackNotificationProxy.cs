@@ -53,7 +53,7 @@ namespace Subtext.Framework.Tracking
 		{
 		}
 
-		public bool TrackBackPing(string pageText, Uri url, string title, Uri link, string blogname, string description)
+		public static bool TrackBackPing(string pageText, Uri url, string title, Uri link, string blogname, string description)
 		{
 			string trackBackItem = GetTrackBackText(pageText, url, link);
 			if(trackBackItem != null)

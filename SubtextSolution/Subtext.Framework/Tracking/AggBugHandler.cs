@@ -94,7 +94,7 @@ namespace Subtext.Framework.Tracking
 			Log.Debug("Leaving AggBug Request...");			
 		}
 
-		private bool CachedVersionIsOkay()
+		private static bool CachedVersionIsOkay()
 		{
 			//Get header value
 			DateTime dt = HttpHelper.GetIfModifiedSinceDateUTC();

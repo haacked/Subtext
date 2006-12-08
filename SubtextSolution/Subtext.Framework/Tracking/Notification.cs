@@ -175,8 +175,6 @@ namespace Subtext.Framework.Tracking
 				//Create our notification Components
 				using (PingBackNotificatinProxy pbnp = new PingBackNotificatinProxy())
 				{
-					TrackBackNotificationProxy tbnp = new TrackBackNotificationProxy();
-
 					//for each link, try to pingback and/or trackback
 					foreach (string link in links)
 					{
@@ -190,7 +188,7 @@ namespace Subtext.Framework.Tracking
 						{
 							if (track.EnableTrackBacks)
 							{
-								if(!tbnp.TrackBackPing(pageText, url, Title, PostUrl, BlogName, Description) && track.EnablePingBacks)
+                                if (!TrackBackNotificationProxy.TrackBackPing(pageText, url, Title, PostUrl, BlogName, Description) && track.EnablePingBacks)
 								{
 									Log.DebugFormat("Trackback failed to '{0}'. Let's try a PingBack.", url);
 									pbnp.Ping(pageText, PostUrl, url);

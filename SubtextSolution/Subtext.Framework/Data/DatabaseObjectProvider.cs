@@ -891,7 +891,7 @@ namespace Subtext.Framework.Data
         
 		#region Format Helper
 		
-		private void FormatEntry(Entry e, bool UseKeyWords)
+		private static void FormatEntry(Entry e, bool UseKeyWords)
 		{
 			//Do this before we validate the text
 			if(UseKeyWords)
@@ -1291,7 +1291,7 @@ namespace Subtext.Framework.Data
             return LoadPagedReferrersCollection(reader);
 		}
 	    
-	    private IPagedCollection<Referrer> LoadPagedReferrersCollection(IDataReader reader)
+	    private static IPagedCollection<Referrer> LoadPagedReferrersCollection(IDataReader reader)
 	    {
             try
             {

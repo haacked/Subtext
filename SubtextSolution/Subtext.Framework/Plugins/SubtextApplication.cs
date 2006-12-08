@@ -391,7 +391,9 @@ namespace Subtext.Extensibility.Plugins
 			foreach (Plugin blogPlugin in Config.CurrentBlog.EnabledPlugins.Values)
 			{
 				if (blogPlugin.InitializedPlugin == plugin)
+				{
 					return true;
+				}
 			}
 
 			return false;

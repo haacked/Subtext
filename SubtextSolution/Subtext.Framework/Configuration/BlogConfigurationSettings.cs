@@ -122,16 +122,20 @@ namespace Subtext.Framework.Configuration
 		/// <value>
 		/// 	<c>true</c> if [invisible captcha enabled]; otherwise, <c>false</c>.
 		/// </value>
-		public bool InvisibleCaptchaEnabled
+		public static bool InvisibleCaptchaEnabled
 		{
 			get
 			{
 				if (String.IsNullOrEmpty(ConfigurationManager.AppSettings["InvisibleCaptchaEnabled"]))
+				{
 					return true;
+				}
 				
 				bool enabled;
 				if (bool.TryParse(ConfigurationManager.AppSettings["InvisibleCaptchaEnabled"], out enabled))
+				{
 					return enabled;
+				}
 				return true;
 			}
 		}
