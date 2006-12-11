@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Specialized;
 using MbUnit.Framework;
-using Subtext.Framework.Email;
+using Subtext.Framework.Providers;
 using Subtext.UnitTesting.Servers;
 
 namespace UnitTests.Subtext.Extensibility

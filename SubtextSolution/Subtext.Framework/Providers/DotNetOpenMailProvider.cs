@@ -19,7 +19,7 @@ using DotNetOpenMail.SmtpAuth;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Logging;
 
-namespace Subtext.Framework.Email
+namespace Subtext.Framework.Providers
 {
 	/// <summary>
 	/// Implements the <see cref="EmailProvider"/> using an open source library, 

@@ -16,41 +16,17 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Configuration;
 using System.Configuration.Provider;
 
 namespace Subtext.Extensibility.Providers
 {
 	public abstract class SearchProvider : ProviderBase
 	{
-		private static SearchProvider provider;
-		private static GenericProviderCollection<SearchProvider> providers = ProviderConfigurationHelper.LoadProviderCollection<SearchProvider>("Search", out provider);
-
-		/// <summary>
-		/// Returns the currently configured SearchProvider.
-		/// </summary>
-		/// <returns></returns>
-		public static SearchProvider Instance()
-		{
-			return provider;
-		}
-
-		/// <summary>
-		/// Returns all the configured SearchProviders.
-		/// </summary>
-		public static GenericProviderCollection<SearchProvider> Providers
-		{
-			get
-			{
-				return providers;
-			}
-		}
-
 		/// <summary>
 		/// Initializes this provider, setting the connection string.
 		/// </summary>
 		/// <param name="name">Friendly Name of the provider.</param>
-		/// <param name="configValue">Config value.</param>
+		/// <param name="config">Config value.</param>
 		public override void Initialize(string name, NameValueCollection config)
 		{
 			this.connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", config);

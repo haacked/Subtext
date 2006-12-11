@@ -16,7 +16,6 @@
 using System;
 using System.Configuration.Provider;
 using System.Data.SqlClient;
-using Subtext.Extensibility.Providers;
 
 namespace Subtext.Installation
 {
@@ -27,30 +26,7 @@ namespace Subtext.Installation
 	/// </summary>
     public abstract class InstallerProvider : ProviderBase
 	{
-		private static InstallerProvider provider;
-		private static GenericProviderCollection<InstallerProvider> providers = ProviderConfigurationHelper.LoadProviderCollection<InstallerProvider>("Installation", out provider);
-
-		/// <summary>
-		/// Returns the currently configured InstallationProvider.
-		/// </summary>
-		/// <returns></returns>
-        public static InstallerProvider Instance()
-        {
-            return provider;
-        }
-
-		/// <summary>
-		/// Returns all the configured InstallationProvider.
-		/// </summary>
-		public static GenericProviderCollection<InstallerProvider> Providers
-		{
-			get
-			{
-				return providers;
-			}
-		}
-
-        #region InstallationProvider methods
+		#region InstallationProvider methods
         /// <summary>
         /// Gets the installation status.
         /// </summary>
