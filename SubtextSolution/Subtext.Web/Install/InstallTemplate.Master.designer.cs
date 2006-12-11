@@ -11,10 +11,11 @@
 namespace Subtext.Web.Install {
     
     public partial class InstallTemplate {
+        protected System.Web.UI.HtmlControls.HtmlLink helpTipCss;
+        protected System.Web.UI.HtmlControls.HtmlLink formsStyle;
         protected System.Web.UI.HtmlControls.HtmlLink installStyle;
         protected System.Web.UI.HtmlControls.HtmlLink installFavicon;
         protected System.Web.UI.HtmlControls.HtmlForm frmMain;
-        protected System.Web.UI.WebControls.ContentPlaceHolder MPSubTitle;
         protected System.Web.UI.WebControls.ContentPlaceHolder Content;
     }
 }

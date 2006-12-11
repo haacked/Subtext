@@ -120,9 +120,8 @@
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
     <ProjectReference Include="..\Subtext.Scripting\Subtext.Scripting.csproj">
-      <Name>Subtext.Scripting</Name>
       <Project>{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+      <Name>Subtext.Scripting</Name>
     </ProjectReference>
     <COMReference Include="SQLDMO">
       <Guid>{10010001-E260-11CF-AE68-00AA004A34D5}</Guid>

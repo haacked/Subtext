@@ -144,7 +144,7 @@ namespace Subtext.Framework
 		/// Creates the host in the persistent store.
 		/// </summary>
 		/// <returns></returns>
-		public static bool CreateHost(string hostUserName, string hostPassword)
+		public static bool CreateHost(string hostUserName, string hostPassword, string email)
 		{
 			if(!InstallationManager.HostInfoRecordNeeded)
 				throw new InvalidOperationException("Cannot create a Host record.  One already exists.");
@@ -156,7 +156,7 @@ namespace Subtext.Framework
 			if (Membership.Provider.PasswordFormat == MembershipPasswordFormat.Hashed)
 				hostPassword = SecurityHelper.HashPassword(hostPassword, passwordSalt);
 			
-			ObjectProvider.Instance().CreateHost(host, hostUserName, hostPassword, passwordSalt, null);
+			host = ObjectProvider.Instance().CreateHost(host, hostUserName, hostPassword, passwordSalt, email);
 			
 			using(IDisposable scope = MembershipApplicationScope.SetApplicationName("/"))
 			{

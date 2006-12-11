@@ -18,7 +18,7 @@ namespace UnitTests.Subtext.Framework
 			
 			Assert.IsNull(HostInfo.Instance, "HostInfo should be Null");
 			
-			HostInfo.CreateHost("test", "test");
+			HostInfo.CreateHost("test", "test", UnitTestHelper.GenerateRandomString() + "@example.com");
 			
 			Assert.IsNotNull(HostInfo.Instance, "Host should not be null.");
 		}
