@@ -44,7 +44,7 @@ namespace Subtext.Installation
 		/// <returns></returns>
 		public static InstallationState GetInstallationStatus(Version currentAssemblyVersion)
 		{
-			return Installer.GetInstallationStatus(currentAssemblyVersion);
+			return Installer.Provider.GetInstallationStatus(currentAssemblyVersion);
 		}
 
 		/// <summary>
@@ -53,7 +53,7 @@ namespace Subtext.Installation
 		/// <returns></returns>
 		public static void Upgrade()
 		{
-			Installer.Upgrade();
+			Installer.Provider.Upgrade();
 		}
 
 		/// <summary>
@@ -62,7 +62,7 @@ namespace Subtext.Installation
 		/// <param name="assemblyVersion">The current assembly version being installed.</param>
 		public static void Install(Version assemblyVersion)
 		{
-			Installer.Install(assemblyVersion);
+			Installer.Provider.Install(assemblyVersion);
 		}
 
 		/// <summary>
@@ -75,7 +75,7 @@ namespace Subtext.Installation
 		/// </returns>
 		public static bool IsInstallationException(Exception exception)
 		{
-			return Installer.IsInstallationException(exception);
+			return Installer.Provider.IsInstallationException(exception);
 		}
 	}
 }
