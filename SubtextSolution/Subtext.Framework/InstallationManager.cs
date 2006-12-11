@@ -15,7 +15,6 @@
 
 using System;
 using System.Web;
-using System.Web.UI;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
 using Subtext.Installation;
@@ -40,8 +39,8 @@ namespace Subtext.Framework
 			{
 				return (bool)HttpContext.Current.Application["NeedsInstallation"];
 			}
-			
-			InstallationState currentState = InstallationProvider.Instance().GetInstallationStatus(assemblyVersion);
+					
+			InstallationState currentState = InstallerProvider.Instance().GetInstallationStatus(assemblyVersion);
 			bool needsUpgrade = currentState  == InstallationState.NeedsInstallation 
 				|| currentState  == InstallationState.NeedsUpgrade
 				|| currentState  == InstallationState.NeedsRepair;
@@ -100,10 +99,10 @@ namespace Subtext.Framework
 			if(unhandledException is HostNotConfiguredException)
 				return true;
 
-			if(InstallationProvider.Instance().IsInstallationException(unhandledException))
+			if(InstallerProvider.Instance().IsInstallationException(unhandledException))
 				return true;
 
-			InstallationState status = InstallationProvider.Instance().GetInstallationStatus(assemblyVersion);
+			InstallationState status = InstallerProvider.Instance().GetInstallationStatus(assemblyVersion);
 			switch(status)
 			{
 				case InstallationState.NeedsInstallation:
@@ -194,37 +193,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static InstallationState GetCurrentInstallationState(Version assemblyVersion)
 		{
-			return InstallationProvider.Instance().GetInstallationStatus(assemblyVersion);
-		}
-
-		/// <summary>
-		/// Gets the installation information control.
-		/// </summary>
-		/// <returns></returns>
-		public static Control GetInstallationInformationControl()
-		{
-			return InstallationProvider.Instance().GatherInstallationInformation();	
-		}
-
-		/// <summary>
-		/// Validates the installation information provided by the user.  
-		/// Returns a string with error information.  The string is 
-		/// empty if there are no errors.
-		/// </summary>
-		/// <param name="populatedControl">Information.</param>
-		/// <returns></returns>
-		public static string ValidateInstallationAnswers(Control populatedControl)
-		{
-			return InstallationProvider.Instance().ValidateInstallationInformation(populatedControl);
-		}
-
-		/// <summary>
-		/// Sets the installation question answers.
-		/// </summary>
-		/// <param name="control">Control containing the user's answers.</param>
-		public static void SetInstallationQuestionAnswers(Control control)
-		{
-			InstallationProvider.Instance().ProvideInstallationInformation(control);
+			return InstallerProvider.Instance().GetInstallationStatus(assemblyVersion);
 		}
 	}
 }

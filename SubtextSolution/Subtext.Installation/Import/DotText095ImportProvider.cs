@@ -24,9 +24,9 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.Extensibility.Providers;
+using Subtext.Installation.Properties;
 using Subtext.Scripting;
 using Subtext.Web.Controls;
-using Subtext.Installation.Properties;
 
 namespace Subtext.Installation.Import
 {

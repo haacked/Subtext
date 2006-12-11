@@ -184,7 +184,7 @@ namespace Subtext.Web.Install
 		{
 			try
 			{
-				InstallationProvider.Instance().Install(VersionInfo.FrameworkVersion);
+				InstallerProvider.Instance().Install(VersionInfo.FrameworkVersion);
 				if (!HostInfo.CreateHost(AdminUserName, AdminPassword, AdminEmail))
 				{
 					installationStateMessage.Text = "I'm sorry, but we had a problem creating your initial "
