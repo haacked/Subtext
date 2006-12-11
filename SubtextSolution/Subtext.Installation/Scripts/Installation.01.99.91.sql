@@ -10,16 +10,17 @@ ACTION: This script creates the Subtext Membership data based on data from
 
 
 /* Create the Host Application */
-IF(0 = (SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_Applications] WHERE ApplicationName = '/')
-	AND 0 != (SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_Host])
-)
+IF(0 = (SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_Applications] WHERE ApplicationName = '/'))
 BEGIN
 	PRINT 'Creating Host Application'
+	
+	DECLARE @ApplicationID uniqueidentifier
+	SET @ApplicationID = NEWID()
 	
 	INSERT [<dbUser,varchar,dbo>].[subtext_Applications]
 	SELECT Application_Name = '/'
 		, LoweredApplicationName = '/'
-		, (SELECT TOP 1 ApplicationId FROM [<dbUser,varchar,dbo>].[subtext_Host])
+		, @ApplicationID
 		, 'Host Admin Application'
 END
 GO
@@ -28,31 +29,36 @@ GO
 IF(0 = (SELECT COUNT(1) 
 		FROM [<dbUser,varchar,dbo>].[subtext_Roles] 
 		WHERE LoweredRoleName = 'hostadmins' 
-			AND ApplicationId = (SELECT TOP 1 ApplicationId FROM [<dbUser,varchar,dbo>].[subtext_Host])
+			AND ApplicationId = (SELECT TOP 1 ApplicationId FROM [<dbUser,varchar,dbo>].[subtext_Applications])
 		)
 	)
 BEGIN
 	PRINT 'Creating HostAdmins Role'
 	
 	INSERT [<dbUser,varchar,dbo>].[subtext_Roles]
-		SELECT (SELECT TOP 1 ApplicationId FROM [<dbUser,varchar,dbo>].[subtext_Host]), newId(), 'HostAdmins', 'hostadmins', 'Administrators of the installation of Subtext'
+		SELECT (SELECT TOP 1 ApplicationId FROM [<dbUser,varchar,dbo>].[subtext_Applications]), newId(), 'HostAdmins', 'hostadmins', 'Administrators of the installation of Subtext'
 END
 GO
 
-/* Create the initial HostAdmin User */
+/* Create the initial HostAdmin User if Upgrading */
 IF(0 = (SELECT COUNT(1) 
 		FROM [<dbUser,varchar,dbo>].[subtext_Users] 
-		WHERE ApplicationId = (SELECT TOP 1 ApplicationId FROM [<dbUser,varchar,dbo>].[subtext_Host])
+		WHERE ApplicationId = (SELECT TOP 1 ApplicationId FROM [<dbUser,varchar,dbo>].[subtext_Applications])
+		)
+	AND 
+		0 != (
+			SELECT COUNT(1) 
+			FROM [<dbUser,varchar,dbo>].[subtext_Host] 
 		)
 	)
 BEGIN
 	PRINT 'Creating HostAdmin User'
-	
+
 	DECLARE @UserId UNIQUEIDENTIFIER
 	SET @UserId = NEWID()
 
 	INSERT [<dbUser,varchar,dbo>].[subtext_Users]
-		SELECT ApplicationId = (SELECT TOP 1 ApplicationId FROM [<dbUser,varchar,dbo>].[subtext_Host])
+		SELECT ApplicationId = (SELECT TOP 1 ApplicationId FROM [<dbUser,varchar,dbo>].[subtext_Applications])
 			, UserId = @UserId
 			, UserName = HostUserName
 			, LoweredUserName = LOWER(HostUserName)
@@ -64,7 +70,7 @@ BEGIN
 	PRINT 'Creating HostAdmin Membership'
 	
 	INSERT [<dbUser,varchar,dbo>].[subtext_Membership]
-		SELECT ApplicationId = (SELECT TOP 1 ApplicationId FROM [<dbUser,varchar,dbo>].[subtext_Host])
+		SELECT ApplicationId = (SELECT TOP 1 ApplicationId FROM [<dbUser,varchar,dbo>].[subtext_Applications])
 			, UserId = @UserId
 			, Password
 			, PasswordFormat = 1

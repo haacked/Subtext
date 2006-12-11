@@ -19,6 +19,9 @@
     <DefineConstants>TRACE;DEBUG;DOCUMENTATION</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRules>
+    </CodeAnalysisRules>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -395,43 +398,12 @@
     <Compile Include="Install\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Install\InstallationBase.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Install\InstallationComplete.aspx.cs">
-      <DependentUpon>InstallationComplete.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Install\InstallationComplete.aspx.designer.cs">
-      <DependentUpon>InstallationComplete.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Install\InstallTemplate.Master.cs">
       <DependentUpon>InstallTemplate.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Install\InstallTemplate.Master.designer.cs">
       <DependentUpon>InstallTemplate.Master</DependentUpon>
-    </Compile>
-    <Compile Include="Install\Step01_InstallData.aspx.cs">
-      <DependentUpon>Step01_InstallData.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Install\Step01_InstallData.aspx.designer.cs">
-      <DependentUpon>Step01_InstallData.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Install\Step02_ConfigureHost.aspx.cs">
-      <DependentUpon>Step02_ConfigureHost.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Install\Step02_ConfigureHost.aspx.designer.cs">
-      <DependentUpon>Step02_ConfigureHost.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Install\Step03_CreateBlog.aspx.cs">
-      <DependentUpon>Step03_CreateBlog.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Install\Step03_CreateBlog.aspx.designer.cs">
-      <DependentUpon>Step03_CreateBlog.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <SubType>ASPXCodeBehind</SubType>
@@ -825,22 +797,6 @@
       <DependentUpon>Default.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Install\InstallationComplete.aspx.resx">
-      <DependentUpon>InstallationComplete.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Install\Step01_InstallData.aspx.resx">
-      <DependentUpon>Step01_InstallData.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Install\Step02_ConfigureHost.aspx.resx">
-      <DependentUpon>Step02_ConfigureHost.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Install\Step03_CreateBlog.aspx.resx">
-      <DependentUpon>Step03_CreateBlog.aspx.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="logout.aspx.resx">
       <DependentUpon>logout.aspx.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -1040,12 +996,6 @@
     <Content Include="Install\Default.aspx">
       <SubType>Form</SubType>
     </Content>
-    <Content Include="Install\InstallationComplete.aspx">
-      <SubType>Form</SubType>
-    </Content>
-    <Content Include="Install\Step01_InstallData.aspx" />
-    <Content Include="Install\Step02_ConfigureHost.aspx" />
-    <Content Include="Install\Step03_CreateBlog.aspx" />
     <Content Include="Install\Style\InstallationStyle.css" />
     <Content Include="Login.aspx" />
     <Content Include="Modules\placeholder.txt" />

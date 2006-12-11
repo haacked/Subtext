@@ -8452,7 +8452,7 @@ BEGIN
 	/* Create the Membership Application for this blog */
 	DECLARE @ApplicationId UNIQUEIDENTIFIER
 	
-	SELECT @ApplicationId FROM [<dbUser,varchar,dbo>].[subtext_Applications] WHERE ApplicationName = '/'
+	SELECT @ApplicationId = ApplicationId FROM [<dbUser,varchar,dbo>].[subtext_Applications] WHERE ApplicationName = '/'
 	IF(@ApplicationID IS NULL)
 	BEGIN
 		EXEC subtext_Applications_CreateApplication '/', @ApplicationId OUTPUT
@@ -8491,9 +8491,6 @@ BEGIN
 		, @UserId
 		, @CreateDate
 	)
-	
-	DECLARE @HostId int
-	SELECT @HostId = SCOPE_IDENTITY()
 	
 	EXEC subtext_GetHost
 END

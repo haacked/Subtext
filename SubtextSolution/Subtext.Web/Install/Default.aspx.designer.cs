@@ -11,7 +11,23 @@
 namespace Subtext.Web.Install {
     
     public partial class Default {
-        protected System.Web.UI.WebControls.Literal litDatabaseName;
-        protected System.Web.UI.WebControls.Button btnNext;
+        protected System.Web.UI.WebControls.Wizard installationWizard;
+        protected System.Web.UI.WebControls.WizardStep WizardStep1;
+        protected System.Web.UI.WebControls.RadioButton chkSingle;
+        protected System.Web.UI.WebControls.RadioButton chkMultiple;
+        protected System.Web.UI.WebControls.TemplatedWizardStep WizardStep2;
+		protected System.Web.UI.WebControls.TemplatedWizardStep WizardStep3;
+        protected System.Web.UI.WebControls.TextBox txtAdminUserName;
+        protected System.Web.UI.WebControls.TextBox txtAdminEmail;
+        protected System.Web.UI.WebControls.TextBox txtAdminPassword;
+        protected System.Web.UI.WebControls.TextBox txtAdminComparePassword;
+		protected System.Web.UI.WebControls.TextBox txtHostAdminEmail;
+		protected System.Web.UI.WebControls.TextBox txtHostAdminUserName;
+		protected System.Web.UI.WebControls.TextBox txtHostAdminPassword;
+        protected System.Web.UI.WebControls.WizardStep WizardStep4;
+        protected System.Web.UI.WebControls.Literal ltlUsername;
+        protected System.Web.UI.WebControls.Literal ltlEmail;
+        protected System.Web.UI.WebControls.Literal Literal1;
+		protected System.Web.UI.WebControls.Label installationStateMessage;
     }
 }

@@ -151,17 +151,11 @@ namespace Subtext.Scripting
 					 * number of rows affected by the command. For all other types of statements, 
 					 * the return value is -1. If a rollback occurs, the return value is also -1. 
 					 */
-					if(script.ScriptText.IndexOf("TRIGGER")==-1 && script.ScriptText.IndexOf("PROC")==-1)
+					if(script.ScriptText.IndexOf("TRIGGER", StringComparison.InvariantCultureIgnoreCase) == -1 && script.ScriptText.IndexOf("PROC", StringComparison.InvariantCultureIgnoreCase) == -1)
 					{
-						if(returnValue > -1)
-						{
+						if(returnValue >= 0)
 							recordsAffectedTotal += returnValue;
-							OnProgressEvent(++scriptsExecutedCount, returnValue, script);
-						}
-						else
-						{
-							throw new SqlScriptExecutionException(Resources.SqlScriptExecutionError, script, returnValue);
-						}
+						OnProgressEvent(++scriptsExecutedCount, returnValue, script);
 					}
 					else 
 					{

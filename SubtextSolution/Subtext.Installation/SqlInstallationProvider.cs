@@ -33,7 +33,7 @@ namespace Subtext.Installation
 	public class SqlInstallationProvider : InstallationProvider
 	{
 		Version _version;
-		string _connectionString = string.Empty;
+		string connectionString = string.Empty;
 		
 		/// <summary>
 		/// Initializes the specified provider.
@@ -42,7 +42,7 @@ namespace Subtext.Installation
 		/// <param name="config">Config value.</param>
 		public override void Initialize(string name, NameValueCollection config)
 		{
-            _connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", config);
+            this.connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", config);
             base.Initialize(name, config);
 		}
 
@@ -144,7 +144,7 @@ namespace Subtext.Installation
 		/// <returns></returns>
 		public override void Upgrade()
 		{
-			using(SqlConnection connection = new SqlConnection(_connectionString))
+			using(SqlConnection connection = new SqlConnection(this.connectionString))
 			{
 				connection.Open();
 				using(SqlTransaction transaction = connection.BeginTransaction())
@@ -185,7 +185,7 @@ namespace Subtext.Installation
 		/// <returns></returns>
 		public override void Install(Version assemblyVersion)
 		{
-			using(SqlConnection connection = new SqlConnection(_connectionString))
+			using(SqlConnection connection = new SqlConnection(this.connectionString))
 			{
 				connection.Open();
 				using(SqlTransaction transaction = connection.BeginTransaction())
@@ -223,7 +223,7 @@ namespace Subtext.Installation
 		
 			try 
 			{
-				using(IDataReader reader = SqlHelper.ExecuteReader(_connectionString, CommandType.StoredProcedure, sql))
+				using(IDataReader reader = SqlHelper.ExecuteReader(this.connectionString, CommandType.StoredProcedure, sql))
 				{
 					if(reader.Read())
 					{
