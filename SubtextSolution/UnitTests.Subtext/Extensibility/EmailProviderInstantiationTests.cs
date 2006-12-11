@@ -2,7 +2,7 @@ using System;
 using System.Collections.Specialized;
 using MbUnit.Framework;
 using Subtext.Extensibility.Providers;
-using Subtext.Framework.Email;
+using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Extensibility
 {

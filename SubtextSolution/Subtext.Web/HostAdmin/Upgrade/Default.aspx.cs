@@ -59,7 +59,7 @@ namespace Subtext.Web.HostAdmin.Upgrade
 
 		private void btnUpgrade_Click(object sender, EventArgs e)
 		{
-			InstallerProvider.Instance().Upgrade();
+			Installer.Upgrade();
 			Response.Redirect("UpgradeComplete.aspx");
 		}
 	}

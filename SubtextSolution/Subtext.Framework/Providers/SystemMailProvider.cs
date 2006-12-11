@@ -20,7 +20,7 @@ using log4net;
 using Subtext.Extensibility.Providers;
 using System.Net;
 
-namespace Subtext.Framework.Email
+namespace Subtext.Framework.Providers
 {
 	/// <summary>
 	/// Default implementation of the <see cref="EmailProvider"/>.  This uses 

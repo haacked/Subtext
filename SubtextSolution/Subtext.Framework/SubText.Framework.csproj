@@ -264,12 +264,6 @@
     <Compile Include="DateTimeHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Email\DotNetOpenMailProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Email\SystemMailProvider.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Entries.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -366,6 +360,7 @@
     <Compile Include="NamespaceDocumentation.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Net\Email.cs" />
     <Compile Include="NullValue.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -383,10 +378,13 @@
     <Compile Include="Plugins\SubtextApplication.cs" />
     <Compile Include="Plugins\SubtextEventArgs.cs" />
     <Compile Include="Plugins\SubtextEvents.cs" />
+    <Compile Include="Providers\DotNetOpenMailProvider.cs" />
     <Compile Include="Providers\ObjectProvider.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Providers\EntrySearchProvider.cs" />
+    <Compile Include="Providers\SystemMailProvider.cs" />
+    <Compile Include="Search\SearchEngine.cs" />
     <Compile Include="Security\MembershipApplicationScope.cs" />
     <Compile Include="Security\SecurityHelper.cs" />
     <Compile Include="Security\SubtextMembershipProvider.cs" />
@@ -564,7 +562,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
+    <Folder Include="Email\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

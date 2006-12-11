@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility.Providers;
+using Subtext.Framework.Search;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -71,7 +72,7 @@ namespace Subtext.Web.UI.Controls
 				int blogId = 0;
 				if (CurrentBlog.Id > 0)
 					blogId = CurrentBlog.Id;
-				IList<SearchResult> searchResults = SearchProvider.Instance().Search(blogId, txtSearch.Text);
+				IList<SearchResult> searchResults = SearchEngine.Search(blogId, txtSearch.Text);
 
 				SearchResults.DataSource = searchResults;
 				SearchResults.DataBind();

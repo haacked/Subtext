@@ -26,24 +26,6 @@ namespace UnitTests.Subtext.Installation
 	public class SqlInstallerProviderTests
 	{
 		/// <summary>
-		/// Make sure that the process in which we gather installation information 
-		/// properly gathers the information.
-		/// </summary>
-		[Test]
-		[RollBack]
-		public void InstallationInformationGatheringProcessGathersCorrectInfo()
-		{
-			InstallerProvider provider = InstallerProvider.Instance();
-			Assert.IsNotNull(provider, "The provider instance should not be null.");
-			SqlInstallerProvider sqlProvider = provider as SqlInstallerProvider;
-			Assert.IsNotNull(sqlProvider, "The sql provider instance should not be null.");
-			Assert.AreEqual("SqlInstallerProvider", provider.Name);
-
-		
-			//Ok, no way to really check this just yet.
-		}
-
-		/// <summary>
 		/// Tests that we can properly list the installation scripts.
 		/// </summary>
 		[Test]

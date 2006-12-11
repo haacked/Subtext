@@ -40,7 +40,7 @@ namespace Subtext.Framework
 				return (bool)HttpContext.Current.Application["NeedsInstallation"];
 			}
 					
-			InstallationState currentState = InstallerProvider.Instance().GetInstallationStatus(assemblyVersion);
+			InstallationState currentState = Installer.GetInstallationStatus(assemblyVersion);
 			bool needsUpgrade = currentState  == InstallationState.NeedsInstallation 
 				|| currentState  == InstallationState.NeedsUpgrade
 				|| currentState  == InstallationState.NeedsRepair;
@@ -99,10 +99,10 @@ namespace Subtext.Framework
 			if(unhandledException is HostNotConfiguredException)
 				return true;
 
-			if(InstallerProvider.Instance().IsInstallationException(unhandledException))
+			if(Installer.IsInstallationException(unhandledException))
 				return true;
 
-			InstallationState status = InstallerProvider.Instance().GetInstallationStatus(assemblyVersion);
+			InstallationState status = Installer.GetInstallationStatus(assemblyVersion);
 			switch(status)
 			{
 				case InstallationState.NeedsInstallation:
@@ -193,7 +193,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static InstallationState GetCurrentInstallationState(Version assemblyVersion)
 		{
-			return InstallerProvider.Instance().GetInstallationStatus(assemblyVersion);
+			return Installer.GetInstallationStatus(assemblyVersion);
 		}
 	}
 }
