@@ -17,6 +17,7 @@ using System;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Security;
 using System.Web;
 using log4net;
 using log4net.Appender;
@@ -37,7 +38,7 @@ namespace Subtext
 	{
 		//This call is to kickstart log4net.
 		//log4net Configuration Attribute is in AssemblyInfo
-		private readonly static ILog log = LogManager.GetLogger(typeof(Global));
+		private readonly static ILog Log = LogManager.GetLogger(typeof(Global));
 
         //CHANGE: Mail To Weblog - Gurkan Yeniceri
         private MailToWeblog mailToWeblog ;
@@ -47,7 +48,7 @@ namespace Subtext
 		static Global()
 		{
 			//Wrap the logger with our own.
-			log = new Log(log);
+			Log = new Log(Log);
 		}
 		
 		/// <summary>
@@ -96,7 +97,7 @@ namespace Subtext
 		protected void Application_Start(Object sender, EventArgs e)
 		{
 			//This line will trigger the configuration.
-			log.Info("Application_Start - This is not a malfunction.");
+			Log.Info("Application_Start - This is not a malfunction.");
 #if DEBUG
 			log4net.Repository.Hierarchy.Hierarchy h = LogManager.GetRepository() as log4net.Repository.Hierarchy.Hierarchy;
 			EnsureLog4NetConnectionString(h);
@@ -109,7 +110,7 @@ namespace Subtext
                 mailToWeblogThread.Name = "MailToWeblog";
                 mailToWeblogThread.IsBackground = true;
                 mailToWeblogThread.Start();
-                log.Info("Mail to Weblog is started");
+                Log.Info("Mail to Weblog is started");
             }
 		}
 
@@ -157,7 +158,7 @@ namespace Subtext
 		{		
 			//KLUDGE: This is required due to a bug in Log4Net 1.2.9.
 			// This should be fixed in the next release.
-			Log.SetBlogIdContext(NullValue.NullInt32);
+			Framework.Logging.Log.SetBlogIdContext(NullValue.NullInt32);
 		}
 
 		/// <summary>
@@ -191,8 +192,10 @@ namespace Subtext
 							}	
 						}
 					}
-					catch
-					{}
+					catch(Exception appe)
+					{
+						Log.Error("DEBUG: Error in Application_EndRequest occurred.", appe);
+					}
 
 					try
 					{
@@ -201,7 +204,7 @@ namespace Subtext
 					}
 					catch(MagicAjaxException exc)
 					{
-						log.Error("magic Ajax Exception in DEBUG build.", exc);
+						Log.Error("magic Ajax Exception in DEBUG build.", exc);
 					}
 				}	
 #endif
@@ -244,7 +247,7 @@ namespace Subtext
 				{
 					message += "-- User Agent: " + HttpContext.Current.Request.UserAgent;
 				}
-				log.Info(message, commentException);
+				Log.Info(message, commentException);
 			}
 			
 			//Sql Exception and request is for "localhost"
@@ -256,8 +259,15 @@ namespace Subtext
 				    || (sqlExc.Number == (int)SqlErrorMessage.CouldNotFindStoredProcedure && sqlExc.Message.IndexOf("'blog_GetConfig'") > 0)
 					)
 				{
-					// Probably a bad connection string.
-					Server.Transfer(BadConnectionStringPage);
+					try
+					{
+						// Probably a bad connection string.
+						Server.Transfer(BadConnectionStringPage);
+					}
+					catch(SecurityException se)
+					{
+						Log.Error("Security exception while transferring to new page", se);
+					}
 					return;
 				}
 
@@ -269,7 +279,14 @@ namespace Subtext
 					)
 				{
 					// Probably a bad connection string.
-					Server.Transfer(DatabaseLoginFailedPage);
+					try
+					{
+						Server.Transfer(DatabaseLoginFailedPage);
+					}
+					catch (SecurityException se)
+					{
+						Log.Error("Security exception while transferring to new page", se);
+					}
 					return;
 				}
 			}
@@ -333,7 +350,7 @@ namespace Subtext
 			}
 			else
 			{
-				log.Error("Unhandled Exception trapped in Global.asax", exception);
+				Log.Error("Unhandled Exception trapped in Global.asax", exception);
 			}
 		}
 

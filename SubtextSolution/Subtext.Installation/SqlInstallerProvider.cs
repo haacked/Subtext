@@ -198,6 +198,7 @@ namespace Subtext.Installation
 		/// Updates the value of the current installed version within the subtext_Version table.
 		/// </summary>
 		/// <param name="newVersion">New version.</param>
+		/// <param name="transaction">Transaction to use when updating</param>
 		public override void UpdateInstallationVersionNumber(Version newVersion, SqlTransaction transaction)
 		{
 			if (newVersion == null)
@@ -263,9 +264,10 @@ namespace Subtext.Installation
 		}
 
 		/// <summary>
-		/// Returns a collection of installation script names with a version 
+		/// Returns a collection of installation script names with a version
 		/// less than or equal to the max version.
 		/// </summary>
+		/// <param name="minVersionExclusive">The min version exclusive.</param>
 		/// <param name="maxVersionInclusive">The max version inclusive.</param>
 		/// <returns></returns>
 		public static string[] ListInstallationScripts(Version minVersionExclusive, Version maxVersionInclusive)
