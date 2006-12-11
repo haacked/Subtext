@@ -19,10 +19,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Web.UI;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.Extensibility.Providers;
-using Subtext.Web.Controls;
 using Subtext.Installation.Properties;
 
 namespace Subtext.Installation
@@ -30,7 +28,7 @@ namespace Subtext.Installation
 	/// <summary>
 	/// Sql Server based provide for installing Subtext.
 	/// </summary>
-	public class SqlInstallationProvider : InstallationProvider
+	public class SqlInstallerProvider : InstallerProvider
 	{
 		Version _version;
 		string connectionString = string.Empty;
@@ -44,53 +42,6 @@ namespace Subtext.Installation
 		{
             this.connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", config);
             base.Initialize(name, config);
-		}
-
-
-		/// <summary>
-		/// <p>
-		/// This method is called by the installation engine in order to ask the 
-		/// provider what pieces of information it needs from the user in order 
-		/// to proceed with the installation.
-		/// </p>
-		/// <p>
-		/// This method returns the <see cref="Control"/> used to gather 
-		/// the required installation information.  This will be returned 
-		/// back to the provider after the user provides the information.
-		/// </p>
-		/// </summary>
-		/// <returns></returns>
-		public override Control GatherInstallationInformation()
-		{
-			ConnectionStringBuilder builder = new ConnectionStringBuilder();
-			builder.AllowWebConfigOverride = true;
-			builder.Description = Resources.InstallationProvider_ConnectionStringDescription;
-			builder.Title = Resources.InstallationProvider_ConnectionStringTitle;
-		
-			return builder;
-		}
-
-		/// <summary>
-		/// Provides the installation information as provided by the user. 
-		/// The control passed in should be the same as that provided in 
-		/// <see cref="GatherInstallationInformation"/>, but with user values 
-		/// supplied within it.
-		/// </summary>
-		/// <param name="populatedControl">Populated control.</param>
-		public override void ProvideInstallationInformation(Control populatedControl)
-		{
-		}
-
-		/// <summary>
-		/// Validates the installation information provided by the user.  
-		/// Returns a NameValueCollection of any fields that are incorrect 
-		/// with an explanation of why it is incorrect.
-		/// </summary>
-		/// <param name="control">Information.</param>
-		/// <returns></returns>
-		public override string ValidateInstallationInformation(Control control)
-		{
-			return string.Empty;
 		}
 
 		/// <summary>
@@ -339,15 +290,6 @@ namespace Subtext.Installation
 			Array.Sort(scripts);
 
 			return scripts;
-		}
-
-		/// <summary>
-		/// Attempts to repair this instance. Returns true if it was successful.
-		/// </summary>
-		/// <returns></returns>
-		public override bool Repair()
-		{
-			throw new NotImplementedException();
 		}
 
 		internal class InstallationScriptInfo

@@ -16,7 +16,6 @@
 using System;
 using System.Configuration.Provider;
 using System.Data.SqlClient;
-using System.Web.UI;
 using Subtext.Extensibility.Providers;
 
 namespace Subtext.Installation
@@ -26,16 +25,16 @@ namespace Subtext.Installation
 	/// This allows new data providers to implement their own installation 
 	/// code.
 	/// </summary>
-    public abstract class InstallationProvider : ProviderBase
+    public abstract class InstallerProvider : ProviderBase
 	{
-		private static InstallationProvider provider;
-		private static GenericProviderCollection<InstallationProvider> providers = ProviderConfigurationHelper.LoadProviderCollection<InstallationProvider>("Installation", out provider);
+		private static InstallerProvider provider;
+		private static GenericProviderCollection<InstallerProvider> providers = ProviderConfigurationHelper.LoadProviderCollection<InstallerProvider>("Installation", out provider);
 
 		/// <summary>
 		/// Returns the currently configured InstallationProvider.
 		/// </summary>
 		/// <returns></returns>
-        public static InstallationProvider Instance()
+        public static InstallerProvider Instance()
         {
             return provider;
         }
@@ -43,7 +42,7 @@ namespace Subtext.Installation
 		/// <summary>
 		/// Returns all the configured InstallationProvider.
 		/// </summary>
-		public static GenericProviderCollection<InstallationProvider> Providers
+		public static GenericProviderCollection<InstallerProvider> Providers
 		{
 			get
 			{
@@ -52,39 +51,6 @@ namespace Subtext.Installation
 		}
 
         #region InstallationProvider methods
-        /// <summary>
-        /// <p>
-        /// This method is called by the installation engine in order to ask the 
-        /// provider what pieces of information it needs from the user in order 
-        /// to proceed with the installation.
-        /// </p>
-        /// <p>
-        /// This method returns a <see cref="Control"/> used to gather 
-        /// the required installation information.  This will be returned 
-        /// back to the provider after the user provides the information.
-        /// </p>
-        /// </summary>
-        /// <returns></returns>
-        public abstract Control GatherInstallationInformation();
-
-        /// <summary>
-        /// Provides the installation information as provided by the user 
-        /// back into the provider. 
-        /// The control passed in should be the same as that provided in 
-        /// <see cref="GatherInstallationInformation"/>, but with user values 
-        /// supplied within it.
-        /// </summary>
-        /// <param name="populatedControl">Populated control.</param>
-        public abstract void ProvideInstallationInformation(Control populatedControl);
-
-        /// <summary>
-        /// Validates the installation information provided by the user.  
-        /// Returns a string with an explanation of why it is incorrect.
-        /// </summary>
-        /// <param name="control">control used to provide information.</param>
-        /// <returns></returns>
-        public abstract string ValidateInstallationInformation(Control control);
-
         /// <summary>
         /// Gets the installation status.
         /// </summary>
@@ -103,12 +69,6 @@ namespace Subtext.Installation
         /// </summary>
         /// <param name="assemblyVersion">The current assembly version being installed.</param>
         public abstract void Install(Version assemblyVersion);
-
-        /// <summary>
-        /// Attempts to repair this instance. Returns true if it was successful.
-        /// </summary>
-        /// <returns></returns>
-        public abstract bool Repair();
 
         /// <summary>
         /// Determines whether the specified exception is due to 
