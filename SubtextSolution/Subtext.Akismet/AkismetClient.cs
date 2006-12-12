@@ -165,7 +165,7 @@ namespace Subtext.Akismet
 		public bool VerifyApiKey()
 		{
 			string parameters = "key=" + HttpUtility.UrlEncode(this.ApiKey) + "&blog=" + HttpUtility.UrlEncode(this.BlogUrl.ToString());
-			string result = this.httpClient.PostRequest(verifyUrl, this.UserAgent, this.Timeout, parameters);
+			string result = this.httpClient.PostRequest(verifyUrl, this.UserAgent, this.Timeout, parameters, this.proxy);
 
 			if (String.IsNullOrEmpty(result))
 				throw new InvalidResponseException("Akismet returned an empty response");
@@ -217,7 +217,7 @@ namespace Subtext.Akismet
 		{
 			//Not too many concatenations.  Might not need a string builder.
 			string parameters = "blog=" + HttpUtility.UrlEncode(this.blogUrl.ToString())
-								+ "&user_ip=" + comment.IPAddress.ToString()
+								+ "&user_ip=" + comment.IPAddress
 								+ "&user_agent=" + HttpUtility.UrlEncode(comment.UserAgent);
 
 			if (!String.IsNullOrEmpty(comment.Referrer))
@@ -249,7 +249,11 @@ namespace Subtext.Akismet
 				}
 			}
 
-			return this.httpClient.PostRequest(url, this.UserAgent, this.Timeout, parameters).ToLower(CultureInfo.InvariantCulture);
+			string response = this.httpClient.PostRequest(url, this.UserAgent, this.Timeout, parameters, this.proxy);
+			if (response == null)
+				return string.Empty;
+
+			return response.ToLower(CultureInfo.InvariantCulture);
 		}
 	}
 }

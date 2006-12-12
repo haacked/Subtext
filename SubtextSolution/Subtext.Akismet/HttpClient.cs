@@ -48,22 +48,22 @@ namespace Subtext.Akismet
 			System.Net.ServicePointManager.Expect100Continue = false;
 			HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
 
+			if (request == null)
+				throw new ArgumentException(Resources.HttpRequestNull, "url");
+
 			if (proxy != null)
 				request.Proxy = proxy;
 			
-			if (null != request)
-			{			
-				request.UserAgent = userAgent;
-				request.Timeout = timeout;
-				request.Method = "POST";
-				request.ContentLength = formParameters.Length;
-				request.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
-				request.KeepAlive = true;
+			request.UserAgent = userAgent;
+			request.Timeout = timeout;
+			request.Method = "POST";
+			request.ContentLength = formParameters.Length;
+			request.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
+			request.KeepAlive = true;
 
-				using (StreamWriter myWriter = new StreamWriter(request.GetRequestStream()))
-				{
-					myWriter.Write(formParameters);
-				}
+			using (StreamWriter myWriter = new StreamWriter(request.GetRequestStream()))
+			{
+				myWriter.Write(formParameters);
 			}
 
 			HttpWebResponse response = (HttpWebResponse)request.GetResponse();

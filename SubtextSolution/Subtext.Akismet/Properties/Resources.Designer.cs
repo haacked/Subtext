@@ -61,164 +61,11 @@ namespace Subtext.Akismet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Array cannot be null..
-        /// </summary>
-        internal static string ArgumentNull_Array {
-            get {
-                return ResourceManager.GetString("ArgumentNull_Array", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to At least one element in the specified array was null..
-        /// </summary>
-        internal static string ArgumentNull_ArrayElement {
-            get {
-                return ResourceManager.GetString("ArgumentNull_ArrayElement", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Found a null value within an array..
-        /// </summary>
-        internal static string ArgumentNull_ArrayValue {
-            get {
-                return ResourceManager.GetString("ArgumentNull_ArrayValue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Assembly cannot be null..
-        /// </summary>
-        internal static string ArgumentNull_Assembly {
-            get {
-                return ResourceManager.GetString("ArgumentNull_Assembly", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to AssemblyName cannot be null..
-        /// </summary>
-        internal static string ArgumentNull_AssemblyName {
-            get {
-                return ResourceManager.GetString("ArgumentNull_AssemblyName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to AssemblyName.Name cannot be null or an empty string..
-        /// </summary>
-        internal static string ArgumentNull_AssemblyNameName {
-            get {
-                return ResourceManager.GetString("ArgumentNull_AssemblyNameName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Buffer cannot be null..
-        /// </summary>
-        internal static string ArgumentNull_Buffer {
-            get {
-                return ResourceManager.GetString("ArgumentNull_Buffer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Collection cannot be null..
-        /// </summary>
-        internal static string ArgumentNull_Collection {
-            get {
-                return ResourceManager.GetString("ArgumentNull_Collection", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Dictionary cannot be null..
-        /// </summary>
-        internal static string ArgumentNull_Dictionary {
-            get {
-                return ResourceManager.GetString("ArgumentNull_Dictionary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to File name cannot be null..
-        /// </summary>
-        internal static string ArgumentNull_FileName {
-            get {
-                return ResourceManager.GetString("ArgumentNull_FileName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Value cannot be null..
         /// </summary>
         internal static string ArgumentNull_Generic {
             get {
                 return ResourceManager.GetString("ArgumentNull_Generic", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Object Graph cannot be null..
-        /// </summary>
-        internal static string ArgumentNull_Graph {
-            get {
-                return ResourceManager.GetString("ArgumentNull_Graph", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to GUID cannot be null..
-        /// </summary>
-        internal static string ArgumentNull_GUID {
-            get {
-                return ResourceManager.GetString("ArgumentNull_GUID", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Key cannot be null..
-        /// </summary>
-        internal static string ArgumentNull_Key {
-            get {
-                return ResourceManager.GetString("ArgumentNull_Key", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Member at position {0} was null..
-        /// </summary>
-        internal static string ArgumentNull_NullMember {
-            get {
-                return ResourceManager.GetString("ArgumentNull_NullMember", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Object cannot be null..
-        /// </summary>
-        internal static string ArgumentNull_Obj {
-            get {
-                return ResourceManager.GetString("ArgumentNull_Obj", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Path cannot be null..
-        /// </summary>
-        internal static string ArgumentNull_Path {
-            get {
-                return ResourceManager.GetString("ArgumentNull_Path", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Stream cannot be null..
-        /// </summary>
-        internal static string ArgumentNull_Stream {
-            get {
-                return ResourceManager.GetString("ArgumentNull_Stream", resourceCulture);
             }
         }
         
@@ -232,15 +79,6 @@ namespace Subtext.Akismet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type cannot be null..
-        /// </summary>
-        internal static string ArgumentNull_Type {
-            get {
-                return ResourceManager.GetString("ArgumentNull_Type", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to URI cannot be null..
         /// </summary>
         internal static string ArgumentNull_Uri {
@@ -250,11 +88,11 @@ namespace Subtext.Akismet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Parameter &apos;{0}&apos; cannot be null..
+        ///   Looks up a localized string similar to Could not create an HttpRequest from the specified URL. The HttpRequest is null..
         /// </summary>
-        internal static string ArgumentNull_WithParamName {
+        internal static string HttpRequestNull {
             get {
-                return ResourceManager.GetString("ArgumentNull_WithParamName", resourceCulture);
+                return ResourceManager.GetString("HttpRequestNull", resourceCulture);
             }
         }
         
