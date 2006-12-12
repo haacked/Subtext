@@ -16,6 +16,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Principal;
 using System.Text;
 using System.Threading;
@@ -679,7 +680,28 @@ namespace UnitTests.Subtext
             // Attach the new principal object to the current HttpContext object
             HttpContext.Current.User = principal;
         }
-	    
+
+		/// <summary>
+		/// Useful for unit testing that classes implement serialization.  This simply takes in a class, 
+		/// serializes it into a byte array, deserializes the byte array, and returns the result. 
+		/// The unit test should check that all the properties are set correctly.
+		/// </summary>
+		/// <param name="serializableObject">The serializable object.</param>
+		/// <returns></returns>
+		public static T SerializeRoundTrip<T>(T serializableObject)
+		{
+			MemoryStream stream = new MemoryStream();
+			BinaryFormatter formatter = new BinaryFormatter();
+			formatter.Serialize(stream, serializableObject);
+			byte[] serialized = stream.ToArray();
+			
+			stream = new MemoryStream(serialized);
+			stream.Position = 0;
+			formatter = new BinaryFormatter();
+			object o = formatter.Deserialize(stream);
+			return (T)o;
+		}
+
 		/// <summary>
 		/// Returns a deflated version of the response sent by the web server. If the 
 		/// web server did not send a compressed stream then the original stream is returned. 
