@@ -47,7 +47,7 @@ namespace Subtext.Extensibility.Web
 			}
 
 			if (RequiresAuthentication
-				&& !context.User.Identity.IsAuthenticated)
+				&& (context.User == null || context.User.Identity == null || !context.User.Identity.IsAuthenticated))
 			{
 				RespondForbidden(context);
 				return;

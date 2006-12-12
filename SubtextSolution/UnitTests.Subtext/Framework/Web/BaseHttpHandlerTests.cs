@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Web;
 using MbUnit.Framework;
 using Subtext.Extensibility.Web;
@@ -8,6 +9,32 @@ namespace UnitTests.Subtext.Framework.Web
 	[TestFixture]
 	public class BaseHttpHandlerTests
 	{
+		[Test]
+		public void BaseHttpHandlerIsReusable()
+		{
+			TestHttpHandler handler = new TestHttpHandler(false, false);
+			Assert.IsTrue(handler.IsReusable);
+		}
+
+		[Test]
+		public void ProcessRequestRespondsWithInternalErrorIfParametersInvalid()
+		{
+			TestHttpHandler handler = new TestHttpHandler(false, false);
+			UnitTestHelper.SetupHttpContextWithRequest("/");
+			handler.ProcessRequest(HttpContext.Current);
+			Assert.AreEqual((int)HttpStatusCode.InternalServerError, HttpContext.Current.Response.StatusCode);
+		}
+
+		[Test]
+		public void ProcessRequestRespondsWithForbiddenIfRequiresAuthenticationButUserNotAuthenticated()
+		{
+			TestHttpHandler handler = new TestHttpHandler(true, true);
+			UnitTestHelper.SetupHttpContextWithRequest("/");
+			handler.ProcessRequest(HttpContext.Current);
+			Assert.AreEqual((int)HttpStatusCode.Forbidden, HttpContext.Current.Response.StatusCode);
+		}
+
+
 		#region Exception Tests
 		[Test]
 		[ExpectedArgumentNullException]
