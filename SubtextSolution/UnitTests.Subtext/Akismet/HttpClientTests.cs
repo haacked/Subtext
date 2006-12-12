@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Net;
+using System.Threading;
 using MbUnit.Framework;
 using Subtext.Akismet;
 using Subtext.UnitTesting.Servers;
@@ -37,7 +38,7 @@ namespace UnitTests.Subtext.Akismet
 			{
 				Uri url = webServer.Start();
 				webServer.ExtractResource("UnitTests.Subtext.Resources.Web.HttpClientTest.aspx", "HttpClientTest.aspx");
-
+				Thread.Sleep(100); //Perhaps give the webserver time to start?
 				HttpClient client = new HttpClient();
 				Uri httpClientPage = new Uri(url, "HttpClientTest.aspx");
 				Debug.WriteLine(string.Format("Making a request for {0} at {1}", httpClientPage, DateTime.Now));
