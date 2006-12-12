@@ -155,15 +155,14 @@ namespace Subtext.Extensibility.Web
 		/// that the file was not found.
 		/// </summary>
 		/// <param name="context">Context.</param>
-		protected void RespondFileNotFound(HttpContext context)
+		protected static void RespondFileNotFound(HttpContext context)
 		{
             if (context == null)
             {
                 throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
             }
             
-            context.Response.StatusCode
-				= (int)HttpStatusCode.NotFound;
+            context.Response.StatusCode = (int)HttpStatusCode.NotFound;
 			context.Response.End();
 		}
 
@@ -172,7 +171,7 @@ namespace Subtext.Extensibility.Web
 		/// that an error occurred in processing the request.
 		/// </summary>
 		/// <param name="context">Context.</param>
-		protected void RespondInternalError(HttpContext context)
+		protected static void RespondInternalError(HttpContext context)
 		{
             if (context == null)
             {
@@ -181,8 +180,7 @@ namespace Subtext.Extensibility.Web
 
 			// It's really too bad that StatusCode property
 			// is not of type HttpStatusCode.
-			context.Response.StatusCode =
-				(int)HttpStatusCode.InternalServerError;
+			context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 			context.Response.End();
 		}
 
@@ -192,15 +190,14 @@ namespace Subtext.Extensibility.Web
 		/// that the user does not have access to.
 		/// </summary>
 		/// <param name="context">Context.</param>
-		protected void RespondForbidden(HttpContext context)
+		protected static void RespondForbidden(HttpContext context)
 		{
             if (context == null)
             {
                 throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
             }
             
-            context.Response.StatusCode
-				= (int)HttpStatusCode.Forbidden;
+            context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
 			context.Response.End();
 		}
 	}

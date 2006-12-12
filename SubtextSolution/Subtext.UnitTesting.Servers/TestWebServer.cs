@@ -178,6 +178,7 @@ namespace Subtext.UnitTesting.Servers
 						outfile.Write(infile.ReadToEnd());
 					}
 				}
+				Debug.WriteLine(string.Format("Extracted resource to {0}", filePath));
 			}
 			return filePath;
 		}

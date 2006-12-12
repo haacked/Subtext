@@ -32,9 +32,10 @@ namespace Subtext.Framework.Syndication
 		private bool isBuilt = false;
 
 		/// <summary>
-		/// Creates a new <see cref="BaseRssWriter"/> instance.
+		/// Creates a new instance of BaseRssWriter&gt;T&lt;.
 		/// </summary>
 		/// <param name="dateLastViewedFeedItemPublished">Last viewed feed item.</param>
+		/// <param name="useDeltaEncoding">if set to <c>true</c> [use delta encoding].</param>
 		protected BaseRssWriter(DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(dateLastViewedFeedItemPublished, useDeltaEncoding)
 		{
 		}
