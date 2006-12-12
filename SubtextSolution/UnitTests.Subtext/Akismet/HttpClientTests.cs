@@ -1,7 +1,5 @@
 using System;
 using System.Diagnostics;
-using System.Net;
-using System.Threading;
 using MbUnit.Framework;
 using Subtext.Akismet;
 using Subtext.UnitTesting.Servers;
@@ -38,20 +36,12 @@ namespace UnitTests.Subtext.Akismet
 			{
 				Uri url = webServer.Start();
 				webServer.ExtractResource("UnitTests.Subtext.Resources.Web.HttpClientTest.aspx", "HttpClientTest.aspx");
-				Thread.Sleep(100); //Perhaps give the webserver time to start?
 				HttpClient client = new HttpClient();
 				Uri httpClientPage = new Uri(url, "HttpClientTest.aspx");
 				Debug.WriteLine(string.Format("Making a request for {0} at {1}", httpClientPage, DateTime.Now));
-				try
-				{
-					string response = client.PostRequest(httpClientPage, "user-agent", 20000, "test=true");
-					Console.WriteLine(response);
-				}
-				catch(WebException e)
-				{
-					Debug.WriteLine(string.Format("Request timed out at {0}", DateTime.Now));
-					Assert.Fail("Web exception " + e.Message + Environment.NewLine + e.StackTrace);
-				}
+				
+				string response = client.PostRequest(httpClientPage, "user-agent", 20000, "test=true");
+				Assert.AreEqual("test=true&Done", response);
 			}
 		}
 	}

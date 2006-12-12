@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.ObjectModel;
 using MbUnit.Framework;
 using Subtext.Extensibility.Collections;
@@ -10,6 +11,27 @@ namespace UnitTests.Subtext.Framework.Components
 	[TestFixture]
 	public class CollectionBookTests
 	{
+		[Test]
+		[ExpectedException(typeof(InvalidOperationException))]
+		public void GetEnumeratorThrowInvalidOperationExceptionWhenPageSizeIsZero()
+		{
+			Collection<IPagedCollection<string>> pages = new Collection<IPagedCollection<string>>();
+
+			CollectionBook<string> book = new CollectionBook<string>(
+				delegate(int pageIndex, int pageSize)
+				{
+					return pages[pageIndex];
+				}, -1);
+
+			//This is so we test the explicit interface definition.
+			IEnumerable enumerable = book;
+
+			foreach (IPagedCollection<string> page in enumerable)
+			{
+				Console.WriteLine(page);
+			}
+		}
+
 		[Test]
 		public void CanIteratePagedCollectionsInABook()
 		{

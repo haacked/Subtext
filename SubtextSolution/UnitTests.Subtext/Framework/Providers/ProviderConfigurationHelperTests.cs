@@ -44,5 +44,47 @@ namespace UnitTests.Subtext.Framework.Providers
 			configValue.Add("connectionStringName", "subtextData");	
             Assert.AreEqual("Server=localhost;Database=SubtextData;Trusted_Connection=True", ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", configValue));
 		}
+
+		[Test]
+		[ExpectedException(typeof(ProviderException))]
+		public void LoadProviderCollectionThrowsProviderExceptionWhenDefaultProviderIsNull()
+		{
+			FakeProvider provider;
+			ProviderConfigurationHelper.LoadProviderCollection("FakeProvider", out provider);
+		}
+
+		[Test]
+		[ExpectedArgumentNullException]
+		public void GetConnectionStringSettingByValueThrowsArgumentNullExceptionForNullSettingKey()
+		{
+			ProviderConfigurationHelper.GetConnectionStringSettingValue(null, new NameValueCollection());
+		}
+
+		[Test]
+		[ExpectedArgumentNullException]
+		public void GetConnectionStringSettingByValueThrowsArgumentNullExceptionForNullConfigValues()
+		{
+			ProviderConfigurationHelper.GetConnectionStringSettingValue("Test", null);
+		}
+
+		[Test]
+		[ExpectedArgumentException]
+		public void GetConnectionStringSettingByValueThrowsArgumentExceptionForNonExistentConnectionString()
+		{
+			NameValueCollection config = new NameValueCollection();
+			config.Add("connectionStringName", "nonexistentConnectionString");
+			ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", config);
+		}
+
+		[Test]
+		public void GetConnectionStringSettingByValueReturnsNullIfSettingKeyIsNotConnectionStringName()
+		{
+			NameValueCollection config = new NameValueCollection();
+			config.Add("blah", "nonexistentConnectionString");
+			Assert.IsNull(ProviderConfigurationHelper.GetConnectionStringSettingValue("blah", config));
+		}
 	}
+
+	public class FakeProvider : ProviderBase
+	{ }
 }
