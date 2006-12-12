@@ -36,7 +36,7 @@ namespace Subtext.Akismet
 		/// </summary>
 		/// <param name="url">The URL.</param>
 		/// <param name="userAgent">The user agent.</param>
-		/// <param name="timeout">The timeout.</param>
+		/// <param name="timeout">The timeout in milliseconds.</param>
 		/// <param name="formParameters">The form parameters.</param>
 		/// <param name="proxy">The proxy.</param>
 		/// <returns></returns>

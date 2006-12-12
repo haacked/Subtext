@@ -121,6 +121,10 @@
     <Reference Include="System.XML">
       <Name>System.XML</Name>
     </Reference>
+    <Reference Include="WebDev.WebHost, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ExternalDependencies\WebDev.WebHost.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs">
@@ -138,6 +142,7 @@
     <Compile Include="TestSmtpServer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TestWebServer.cs" />
     <Content Include="ExternalDependencies\DotNetOpenMail.dll" />
     <Content Include="ExternalDependencies\ICSharpCode.SharpZipLib.dll" />
     <Content Include="ExternalDependencies\LumiSoft.Net.dll" />
@@ -152,6 +157,9 @@
     <Content Include="ExternalDependencies\QuickGraph.dll" />
     <Content Include="ExternalDependencies\Refly.dll" />
     <Content Include="ExternalDependencies\TestFu.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Component Include="ExternalDependencies\WebDev.WebHost.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
