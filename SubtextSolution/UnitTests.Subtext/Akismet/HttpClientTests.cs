@@ -38,7 +38,7 @@ namespace UnitTests.Subtext.Akismet
 
 				HttpClient client = new HttpClient();
 				Uri httpClientPage = new Uri(url, "HttpClientTest.aspx");
-				string response = client.PostRequest(httpClientPage, "user-agent", 10000, "test=true");
+				string response = client.PostRequest(httpClientPage, "user-agent", 20000, "test=true");
 				Console.WriteLine(response);
 			}
 		}
