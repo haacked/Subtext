@@ -3,12 +3,29 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using System.Text;
 using Microsoft.VisualStudio.WebHost;
 
 namespace Subtext.UnitTesting.Servers
 {
+	/// <summary>
+	/// <para>A Web Server useful for unit tests.  Uses the same code used by the 
+	/// built in WebServer (formerly known as Cassini) in VisualStudio.NET 2005. 
+	/// Specifically, this needs a reference to WebServer.WebHost.dll located in 
+	/// the GAC.
+	/// </para>
+	/// </summary>
+	/// <remarks>
+	/// <para>If you unseal this class, make sure to make Dispose(bool disposing) a protected 
+	/// virtual method instead of private.
+	/// </para>
+	/// <para>
+	/// For more information, check out: http://haacked.com/archive/2006/12/12/Using_WebServer.WebDev_For_Unit_Tests.aspx
+	/// </para>
+	/// </remarks>
 	public sealed class TestWebServer : IDisposable
 	{
+		private bool started = false;
 		private Server webServer;
 		private int webServerPort;
 		private string webServerVDir;
@@ -17,10 +34,19 @@ namespace Subtext.UnitTesting.Servers
 		private string webBinDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin");
 		private string webServerUrl; //built in Start
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TestWebServer"/> class on port 8085.
+		/// </summary>
 		public TestWebServer() : this(8085, "/")
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TestWebServer"/> class 
+		/// using the specified port and virtual dir.
+		/// </summary>
+		/// <param name="port">The port.</param>
+		/// <param name="virtualDir">The virtual dir.</param>
 		public TestWebServer(int port, string virtualDir)
 		{
 			this.webServerPort = port;
@@ -32,10 +58,9 @@ namespace Subtext.UnitTesting.Servers
 		/// </summary>
 		public Uri Start()
 		{
-			//NOTE: Cassini is going to load itself AGAIN into another AppDomain,
-			// and will be getting it's Assembliesfrom the BIN, including another copy of itself!
-			// Therefore we need to do this step FIRST because I've removed Cassini from the GAC
-			//Copy our assemblies down into the web server's BIN folder
+			//NOTE: WebServer.WebHost is going to load itself AGAIN into another AppDomain,
+			// and will be getting it's Assemblies from the BIN, including another copy of itself!
+			// Therefore we need to do this step FIRST because I've removed WebServer.WebHost from the GAC
 			if (!Directory.Exists(webRoot))
 				Directory.CreateDirectory(webRoot);
 
@@ -44,11 +69,12 @@ namespace Subtext.UnitTesting.Servers
 
 			CopyAssembliesToWebServerBinDirectory();
 
-			//Start the internal Web Server
+			//Start the internal Web Server pointing to our test webroot
 			webServer = new Server(webServerPort, webServerVDir, this.webRoot);
 			webServerUrl = String.Format("http://localhost:{0}{1}", webServerPort, webServerVDir);
 			
 			webServer.Start();
+			started = true;
 			Debug.WriteLine(String.Format("Web Server started on port {0} with VDir {1} in physical directory {2}", webServerPort, webServerVDir, this.webRoot));
 			return new Uri(webServerUrl);
 		}
@@ -67,11 +93,12 @@ namespace Subtext.UnitTesting.Servers
 		}
 
 		/// <summary>
-		/// Makes a request to the web server.
+		/// Makes a  simple GET request to the web server and returns 
+		/// the result as a string.
 		/// </summary>
 		/// <param name="page">The page.</param>
 		/// <returns></returns>
-		public string GetPage(string page)
+		public string RequestPage(string page)
 		{
 			WebClient client = new WebClient();
 			string url = new Uri(new Uri(this.webServerUrl), page).ToString();
@@ -83,6 +110,49 @@ namespace Subtext.UnitTesting.Servers
 		}
 
 		/// <summary>
+		/// Makes a  simple POST request to the web server and returns
+		/// the result as a string.
+		/// </summary>
+		/// <param name="page">The page.</param>
+		/// <param name="formParameters">
+		/// The form paramater to post. Should be in the format "Name=Value&Name2=Value2&...&NameN=ValueN" 
+		/// For extra credit, build a version of this method that uses a NameValue collection. I use a 
+		/// string because it's possible you may want to post flat text.
+		/// </param>
+		/// <returns></returns>
+		public string RequestPage(string page, string formParameters)
+		{
+			HttpWebRequest request = WebRequest.Create(new Uri(new Uri(this.webServerUrl), page)) as HttpWebRequest;
+
+			if (request == null)
+				return null; //can't imagine this happening.
+
+			request.UserAgent = "Sutext UnitTest Webserver";
+			request.Timeout = 10000; //10 secs is reasonable, no?
+			request.Method = "POST";
+			request.ContentLength = formParameters.Length;
+			request.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
+			request.KeepAlive = true;
+
+			using (StreamWriter myWriter = new StreamWriter(request.GetRequestStream()))
+			{
+				myWriter.Write(formParameters);
+			}
+
+			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+			if (response.StatusCode < HttpStatusCode.OK && response.StatusCode >= HttpStatusCode.Ambiguous)
+				return "Http Status" + response.StatusCode;
+
+			string responseText;
+			using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8))
+			{
+				responseText = reader.ReadToEnd();
+			}
+
+			return responseText;
+		}
+
+		/// <summary>
 		/// Extracts a resources such as an html file or aspx page to the webroot directory
 		/// and returns the filepath.
 		/// </summary>
@@ -91,6 +161,11 @@ namespace Subtext.UnitTesting.Servers
 		/// <returns></returns>
 		public string ExtractResource(string resourceName, string destinationFileName)
 		{
+			if (!started)
+				throw new InvalidOperationException("Please start the webserver before extracting resources.");
+
+			//NOTE: if you decide to drop this class into your unit test project, 
+			//call Assembly.GetExecutingAssembly() instead.
 			Assembly a = Assembly.GetCallingAssembly();
 			string filePath;
 			using (Stream stream = a.GetManifestResourceStream(resourceName))
@@ -141,12 +216,14 @@ namespace Subtext.UnitTesting.Servers
 			}
 		}
 
+		// Cleans up the directories we created.
 		private void ReleaseManagedResources()
 		{
 			if(this.webServer != null)
 			{
 				this.webServer.Stop();
 				this.webServer = null;
+				this.started = false;
 			}
 
 			if (Directory.Exists(this.webRoot))
