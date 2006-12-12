@@ -21,7 +21,7 @@ namespace Subtext.Web.Admin.UserControls {
         protected System.Web.UI.WebControls.RequiredFieldValidator valTitleRequired;
         protected System.Web.UI.WebControls.TextBox txbTitle;
         protected System.Web.UI.WebControls.RequiredFieldValidator valtbBodyRequired;
-        protected Subtext.Web.Controls.RichTextEditor richTextEditor;
+        protected Subtext.Web.UI.WebControls.RichTextEditor richTextEditor;
         protected System.Web.UI.WebControls.CheckBoxList cklCategories;
         protected System.Web.UI.WebControls.Button lkbPost;
         protected System.Web.UI.WebControls.Button lkUpdateCategories;

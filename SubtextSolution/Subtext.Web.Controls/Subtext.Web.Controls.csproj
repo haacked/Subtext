@@ -114,15 +114,6 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <ProjectReference Include="..\Subtext.Extensibility\Subtext.Extensibility.csproj">
-      <Name>Subtext.Extensibility</Name>
-      <Project>{13018F20-F796-4FFE-9290-83D0E661C0A1}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
-    <ProjectReference Include="..\Subtext.Scripting\Subtext.Scripting.csproj">
-      <Project>{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}</Project>
-      <Name>Subtext.Scripting</Name>
-    </ProjectReference>
     <COMReference Include="SQLDMO">
       <Guid>{10010001-E260-11CF-AE68-00AA004A34D5}</Guid>
       <VersionMajor>8</VersionMajor>
@@ -183,9 +174,6 @@
     <Compile Include="RepeaterWithEmptyDataTemplate.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="RichTextEditor.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ScriptHelper.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -208,6 +196,12 @@
   <ItemGroup>
     <Content Include="ExternalDependencies\log4net.dll" />
     <Content Include="ExternalDependencies\log4net.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Subtext.Scripting\Subtext.Scripting.csproj">
+      <Project>{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}</Project>
+      <Name>Subtext.Scripting</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

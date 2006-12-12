@@ -478,6 +478,7 @@
     <Compile Include="Tracking\WeblogsNotificatinProxy.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\BlogEntryEditor.cs" />
     <Compile Include="UI\Skinning\CacheKey.cs">
       <SubType>Code</SubType>
     </Compile>

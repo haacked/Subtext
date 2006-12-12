@@ -34,6 +34,13 @@ namespace UnitTests.Subtext.Framework.Web
 			Assert.AreEqual((int)HttpStatusCode.Forbidden, HttpContext.Current.Response.StatusCode);
 		}
 
+		[Test]
+		public void CanRespondWithFileNotFound()
+		{
+			UnitTestHelper.SetupHttpContextWithRequest("/");
+			TestHttpHandler.Respond404(HttpContext.Current);
+			Assert.AreEqual((int)HttpStatusCode.NotFound, HttpContext.Current.Response.StatusCode);
+		}
 
 		#region Exception Tests
 		[Test]
