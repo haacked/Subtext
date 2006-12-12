@@ -27,7 +27,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
 using Subtext.Web.Admin.Pages;
 using Subtext.Web.Admin.WebUI;
-using Subtext.Web.Controls;
+using Subtext.Web.UI.WebControls;
 using StringHelper = Subtext.Framework.Text.StringHelper;
 using Subtext.Extensibility.Plugins;
 
@@ -459,13 +459,11 @@ namespace Subtext.Web.Admin.UserControls
 
 		private void UpdateCategories()
 		{ 
-			string successMessage;
-
 			try
 			{
 				if (PostID > 0)
 				{
-					successMessage = Constants.RES_SUCCESSCATEGORYUPDATE;
+					string successMessage = Constants.RES_SUCCESSCATEGORYUPDATE;
 					ArrayList al = new ArrayList();
 
 					foreach(ListItem item in cklCategories.Items)
@@ -519,8 +517,12 @@ namespace Subtext.Web.Admin.UserControls
 
 		private void ConfirmDelete(int postID)
 		{
-			(Page as AdminPage).Command = new DeletePostCommand(postID);
-			(Page as AdminPage).Command.RedirectUrl = Request.Url.ToString();
+			AdminPage page = Page as AdminPage;
+			if (page == null)
+				throw new InvalidOperationException("Somehow the page is not an AdminPage.");
+			
+			page.Command = new DeletePostCommand(postID);
+			page.Command.RedirectUrl = Request.Url.ToString();
 			Server.Transfer(Constants.URL_CONFIRM);
 		}
 		#region Web Form Designer generated code

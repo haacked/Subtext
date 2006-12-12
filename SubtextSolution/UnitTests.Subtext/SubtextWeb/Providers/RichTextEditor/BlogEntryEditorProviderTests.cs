@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Specialized;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 using MbUnit.Framework;
 using Subtext.Extensibility.Providers;
+using Subtext.Framework.UI;
 using Subtext.Providers.BlogEntryEditor.FCKeditor;
 using Subtext.Web.Providers.BlogEntryEditor.FTB;
 using Subtext.Web.Providers.BlogEntryEditor.PlainText;
@@ -134,8 +136,82 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 				return provider;
 			}
 		}
+	}
 
-		
-		
+	[TestFixture]
+	public class OtherBlogEntryProviderTests
+	{
+		[Test]
+		[ExpectedArgumentNullException]
+		public void InitializeThrowsArgumentNullExceptionIfNameNull()
+		{
+			FakeTextBlogEntryEditorProvider provider = new FakeTextBlogEntryEditorProvider();
+			provider.Initialize(null, new NameValueCollection());
+		}
+
+		[Test]
+		[ExpectedArgumentNullException]
+		public void InitializeThrowsArgumentNullExceptionIfCollectionNull()
+		{
+			FakeTextBlogEntryEditorProvider provider = new FakeTextBlogEntryEditorProvider();
+			provider.Initialize("Name", null);
+		}
+
+		[Test]
+		public void CanGetProviderAndProviders()
+		{
+			Assert.IsNotNull(BlogEntryEditor.Provider);
+			Assert.AreEqual(3, BlogEntryEditor.Providers.Count);
+		}
+
+		[Test]
+		public void CanParseUnit()
+		{
+			Assert.AreEqual(Unit.Empty, FakeTextBlogEntryEditorProvider.ParseTheUnit(""));
+			Assert.AreEqual(new Unit(1), FakeTextBlogEntryEditorProvider.ParseTheUnit("1"));
+		}
+	}
+
+	internal class FakeTextBlogEntryEditorProvider : BlogEntryEditorProvider
+	{
+		private string text;
+
+		public static Unit ParseTheUnit(string s)
+		{
+			return ParseUnit(s);
+		}
+
+		/// <summary>
+		/// The content of the area
+		/// </summary>
+		public override string Text
+		{
+			get { return this.text; }
+			set { this.text = value; }
+		}
+
+		/// <summary>
+		/// The content of the area, but XHTML converted
+		/// </summary>
+		public override string Xhtml
+		{
+			get { return null; }
+		}
+
+		/// <summary>
+		/// Return the RichTextEditorControl to be displayed inside the page
+		/// </summary>
+		public override Control RichTextEditorControl
+		{
+			get { return null; }
+		}
+
+		/// <summary>
+		/// Initializes the Control to be displayed
+		/// </summary>
+		public override void InitializeControl()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
