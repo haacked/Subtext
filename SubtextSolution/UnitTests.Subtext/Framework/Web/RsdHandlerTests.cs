@@ -33,7 +33,7 @@ namespace UnitTests.Subtext.Framework.Web
 			
 			//Now lets assert some things.
 			XmlDocument xml = new XmlDocument();
-			Console.WriteLine(builder.ToString());
+			Console.WriteLine(builder);
 			xml.LoadXml(builder.ToString());
 
 			XmlNamespaceManager nsmgr = new XmlNamespaceManager(xml.NameTable);

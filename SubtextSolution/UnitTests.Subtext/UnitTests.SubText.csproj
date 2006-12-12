@@ -235,6 +235,7 @@
     <Compile Include="Framework\Security\SecurityTests.cs" />
     <Compile Include="Framework\Security\SubtextMembershipProviderTests.cs" />
     <Compile Include="Framework\Security\SubtextRoleProviderTests.cs" />
+    <Compile Include="Framework\Web\BaseHttpHandlerTests.cs" />
     <Compile Include="SimulatedRequestContext.cs" />
     <Compile Include="Extensibility\DotNetOpenMailProviderSendTests.cs">
       <SubType>Code</SubType>
