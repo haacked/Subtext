@@ -29,30 +29,6 @@ namespace UnitTests.Subtext.Akismet
 		}
 
 		[Test]
-		public void CanRequestHtmlFile()
-		{
-			using (TestWebServer webServer = new TestWebServer())
-			{
-				webServer.Start();
-				webServer.ExtractResource("UnitTests.Subtext.Resources.Web.test.htm", "test.htm");
-				string response = webServer.GetPage("test.htm");
-				Assert.AreEqual("test", response);
-			}
-		}
-
-		[Test]
-		public void CanRequestAspxFile()
-		{
-			using (TestWebServer webServer = new TestWebServer())
-			{
-				webServer.Start();
-				webServer.ExtractResource("UnitTests.Subtext.Resources.Web.HttpClientTest.aspx", "HttpClientTest.aspx");
-				string response = webServer.GetPage("HttpClientTest.aspx");
-				Assert.AreEqual("Done", response);
-			}
-		}
-
-		[Test]
 		public void CanPostRequest()
 		{
 			using (TestWebServer webServer = new TestWebServer())
@@ -62,9 +38,11 @@ namespace UnitTests.Subtext.Akismet
 
 				HttpClient client = new HttpClient();
 				Uri httpClientPage = new Uri(url, "HttpClientTest.aspx");
-				string response = client.PostRequest(httpClientPage, "user-agent", 5000, "test=true");
+				string response = client.PostRequest(httpClientPage, "user-agent", 10000, "test=true");
 				Console.WriteLine(response);
 			}
 		}
 	}
+
+	
 }

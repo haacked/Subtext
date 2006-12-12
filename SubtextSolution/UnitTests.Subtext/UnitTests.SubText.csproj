@@ -393,7 +393,6 @@
     <Content Include="ExternalDependencies\Rhino.Mocks.dll" />
     <Content Include="ExternalDependencies\Rhino.Mocks.xml" />
     <Content Include="ExternalDependencies\TestFu.dll" />
-    <EmbeddedResource Include="Resources\Web\test.htm" />
     <EmbeddedResource Include="Resources\Web\HttpClientTest.aspx">
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\BlogMl\SinglePostWithBadCategoryRef.xml" />
