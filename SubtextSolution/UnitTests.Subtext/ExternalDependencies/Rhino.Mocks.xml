@@ -29,6 +29,20 @@
             Or operator for constraints
             </summary>
         </member>
+        <member name="M:Rhino.Mocks.Constraints.AbstractConstraint.op_False(Rhino.Mocks.Constraints.AbstractConstraint)">
+            <summary>
+            Allow overriding of || or &amp;&amp;
+            </summary>
+            <param name="c"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Rhino.Mocks.Constraints.AbstractConstraint.op_True(Rhino.Mocks.Constraints.AbstractConstraint)">
+            <summary>
+            Allow overriding of || or &amp;&amp;
+            </summary>
+            <param name="c"></param>
+            <returns></returns>
+        </member>
         <member name="P:Rhino.Mocks.Constraints.AbstractConstraint.Message">
             <summary>
             Gets the message for this constraint
@@ -130,6 +144,28 @@
             <summary>
             Gets the message for this constraint.
             </summary>
+        </member>
+        <member name="T:Rhino.Mocks.Constraints.PredicateConstraint`1">
+            <summary>
+            Evaluate a parameter using constraints
+            </summary>
+        </member>
+        <member name="M:Rhino.Mocks.Constraints.PredicateConstraint`1.#ctor(System.Predicate{`0})">
+            <summary>
+            Create new instance 
+            </summary>
+            <param name="predicate"></param>
+        </member>
+        <member name="M:Rhino.Mocks.Constraints.PredicateConstraint`1.Eval(System.Object)">
+            <summary>
+            determains if the object pass the constraints
+            </summary>
+        </member>
+        <member name="P:Rhino.Mocks.Constraints.PredicateConstraint`1.Message">
+            <summary>
+            Gets the message for this constraint
+            </summary>
+            <value></value>
         </member>
         <member name="T:Rhino.Mocks.Constraints.CollectionEqual">
             <summary>
@@ -494,6 +530,12 @@
             A constraint that accept only value of the specified type
             </summary>
         </member>
+        <member name="M:Rhino.Mocks.Is.Matching``1(System.Predicate{``0})">
+            <summary>
+            Evaluate a parameter using a predicate
+            </summary>
+            <param name="predicate">The predicate to use</param>
+        </member>
         <member name="T:Rhino.Mocks.List">
             <summary>
             Central location for constraints about lists and collections
@@ -744,6 +786,11 @@
             It is possible not to pass all the parameters. This method can be called only once.
             </summary>
         </member>
+        <member name="P:Rhino.Mocks.Interfaces.IExpectation.Message">
+            <summary>
+            Documentation Message
+            </summary>
+        </member>
         <member name="F:Rhino.Mocks.Expectations.AbstractExpectation.actualCalls">
             <summary>
             Number of actuall calls made that passed this expectation
@@ -791,6 +838,11 @@
             The arguments that matched this expectation.
             </summary>
         </member>
+        <member name="F:Rhino.Mocks.Expectations.AbstractExpectation.message">
+            <summary>
+            Documentation message
+            </summary>
+        </member>
         <member name="M:Rhino.Mocks.Expectations.AbstractExpectation.GetHashCode">
             <summary>
             Get the hash code
@@ -835,7 +887,7 @@
             Determines if this object equal to obj
             </summary>
         </member>
-        <member name="M:Rhino.Mocks.Expectations.AbstractExpectation.CreateErrorMessage(System.Reflection.MethodInfo,System.Object[])">
+        <member name="M:Rhino.Mocks.Expectations.AbstractExpectation.CreateErrorMessage(System.String)">
             <summary>
             The error message for these arguments
             </summary>
@@ -908,6 +960,11 @@
             A staisfied instance means that there are no more requirements from
             this method. A method with non void return value must register either
             a return value or an exception to throw or an action to execute.
+            </summary>
+        </member>
+        <member name="P:Rhino.Mocks.Expectations.AbstractExpectation.Message">
+            <summary>
+            Documentation message
             </summary>
         </member>
         <member name="P:Rhino.Mocks.Expectations.AbstractExpectation.ErrorMessage">
@@ -1256,6 +1313,12 @@
             This is done using zero based indexing, and _ignoring_ any non out/ref parameter.
             </summary>
         </member>
+        <member name="M:Rhino.Mocks.Interfaces.IMethodOptions.Message(System.String)">
+            <summary>
+            Documentation message for the expectation
+            </summary>
+            <param name="documentationMessage">Message</param>
+        </member>
         <member name="P:Rhino.Mocks.Interfaces.IMethodOptions.Repeat">
             <summary>
             Better syntax to define repeats. 
@@ -1396,6 +1459,12 @@
             <summary>
             This method must not appear in the replay state.
             </summary>
+        </member>
+        <member name="M:Rhino.Mocks.Impl.MethodOptions.Message(System.String)">
+            <summary>
+            Documentation message for the expectation
+            </summary>
+            <param name="documentationMessage">Message</param>
         </member>
         <member name="M:Rhino.Mocks.Impl.MethodOptions.Any">
             <summary>
@@ -1641,6 +1710,13 @@
             Gets a mock state that match the original mock state of the object.
             </summary>
         </member>
+        <member name="M:Rhino.Mocks.Interfaces.IMockState.SetExceptionToThrowOnVerify(System.Exception)">
+            <summary>
+            Set the exception to throw when Verify is called.
+            This is used to report exception that may have happened but where caught in the code.
+            This way, they are reported anyway when Verify() is called.
+            </summary>
+        </member>
         <member name="P:Rhino.Mocks.Interfaces.IMockState.VerifyState">
             <summary>
             Gets the matching verify state for this state
@@ -1649,6 +1725,13 @@
         <member name="P:Rhino.Mocks.Interfaces.IMockState.LastMethodOptions">
             <summary>
             Get the options for the last method call
+            </summary>
+        </member>
+        <member name="M:Rhino.Mocks.Impl.RecordMockState.SetExceptionToThrowOnVerify(System.Exception)">
+            <summary>
+            Set the exception to throw when Verify is called.
+            This is used to report exception that may have happened but where caught in the code.
+            This way, they are reported anyway when Verify() is called.
             </summary>
         </member>
         <member name="M:Rhino.Mocks.Impl.RecordMockState.#ctor(Rhino.Mocks.Interfaces.IMockedObject,Rhino.Mocks.MockRepository)">
@@ -1826,6 +1909,13 @@
             <param name="method">The method that was called</param>
             <param name="args">The arguments this method was called with</param>
         </member>
+        <member name="M:Rhino.Mocks.Impl.ReplayMockState.SetExceptionToThrowOnVerify(System.Exception)">
+            <summary>
+            Set the exception to throw when Verify is called.
+            This is used to report exception that may have happened but where caught in the code.
+            This way, they are reported anyway when Verify() is called.
+            </summary>
+        </member>
         <member name="M:Rhino.Mocks.Impl.ReplayMockState.Verify">
             <summary>
             Verify that this mock expectations have passed.
@@ -1975,6 +2065,13 @@
             Gets a mock state that match the original mock state of the object.
             </summary>
         </member>
+        <member name="M:Rhino.Mocks.Impl.VerifiedMockState.SetExceptionToThrowOnVerify(System.Exception)">
+            <summary>
+            Set the exception to throw when Verify is called.
+            This is used to report exception that may have happened but where caught in the code.
+            This way, they are reported anyway when Verify() is called.
+            </summary>
+        </member>
         <member name="P:Rhino.Mocks.Impl.VerifiedMockState.VerifyState">
             <summary>
             Gets the matching verify state for this state
@@ -2121,6 +2218,23 @@
             The parent recorder of this one, may be null.
             </summary>
         </member>
+        <member name="F:Rhino.Mocks.MethodRecorders.MethodRecorderBase.replayersToIgnoreForThisCall">
+            <summary>
+            This contains a list of all the replayers that should be ignored
+            for a spesific method call. A replayer gets into this list by calling 
+            ClearReplayerToCall() on its parent. This list is Clear()ed on each new invocation.
+            </summary>
+        </member>
+        <member name="F:Rhino.Mocks.MethodRecorders.MethodRecorderBase.repeatableMethods">
+            <summary>
+            All the repeatable methods calls.
+            </summary>
+        </member>
+        <member name="F:Rhino.Mocks.MethodRecorders.MethodRecorderBase.recursionDepth">
+            <summary>
+            Counts the recursion depth of the current expectation search stack
+            </summary>
+        </member>
         <member name="M:Rhino.Mocks.MethodRecorders.MethodRecorderBase.#ctor">
             <summary>
             Creates a new <see cref="T:Rhino.Mocks.MethodRecorders.MethodRecorderBase"/> instance.
@@ -2254,6 +2368,11 @@
         <member name="M:Rhino.Mocks.MethodRecorders.MethodRecorderBase.DoAddRecorder(Rhino.Mocks.Interfaces.IMethodRecorder)">
             <summary>
             Handle the real execution of this method for the derived class
+            </summary>
+        </member>
+        <member name="M:Rhino.Mocks.MethodRecorders.MethodRecorderBase.ShouldConsiderThisReplayer(Rhino.Mocks.Interfaces.IMethodRecorder)">
+            <summary>
+            Should this replayer be considered valid for this call?
             </summary>
         </member>
         <member name="M:Rhino.Mocks.MethodRecorders.MethodRecorderBase.GetRepeatableExpectation(System.Object,System.Reflection.MethodInfo,System.Object[])">
@@ -2646,6 +2765,12 @@
             This is done using zero based indexing, and _ignoring_ any non out/ref parameter.
             </summary>
         </member>
+        <member name="M:Rhino.Mocks.LastCall.Message(System.String)">
+            <summary>
+            Documentation message for the expectation
+            </summary>
+            <param name="documentationMessage">Message</param>
+        </member>
         <member name="P:Rhino.Mocks.LastCall.Repeat">
             <summary>
             Better syntax to define repeats. 
@@ -2683,6 +2808,11 @@
             <summary>
             For mock delegates, maps the proxy instance from intercepted invocations
             back to the delegate that was originally returned to client code, if any.
+            </summary>
+        </member>
+        <member name="F:Rhino.Mocks.MockRepository.proxies">
+            <summary>
+            All the proxies in the mock repositories
             </summary>
         </member>
         <member name="M:Rhino.Mocks.MockRepository.#ctor">
@@ -2803,6 +2933,31 @@
             <param name="invocationProxy">The mock object proxy from the intercepted invocation</param>
             <returns>The mock object</returns>
         </member>
+        <member name="M:Rhino.Mocks.MockRepository.CreateMockObject(System.Type,Rhino.Mocks.MockRepository.CreateMockState,System.Type[],System.Object[])">
+            <summary>
+            This is provided to allow advance extention functionality, where Rhino Mocks standard
+            functionality is not enough.
+            </summary>
+            <param name="type">The type to mock</param>
+            <param name="factory">Delegate that create the first state of the mocked object (usualy the record state).</param>
+            <param name="extras">Additional types to be implemented, this can be only interfaces </param>
+            <param name="argumentsForConstructor">optional arguments for the constructor</param>
+            <returns></returns>
+        </member>
+        <member name="M:Rhino.Mocks.MockRepository.GetMockedObject(System.Object)">
+            <summary>
+             Method: GetMockedObject
+             Get an IProxy from a mocked object instance, or throws if the 
+             object is not a mock object.
+            </summary>
+        </member>
+        <member name="M:Rhino.Mocks.MockRepository.GetMockedObjectOrNull(System.Object)">
+            <summary>
+            Method: GetMockedObjectOrNull
+            Get an IProxy from a mocked object instance, or null if the
+            object is not a mock object.
+            </summary>
+        </member>
         <member name="M:Rhino.Mocks.MockRepository.PopRecorder">
             <summary>
             Pops the recorder.
@@ -2814,6 +2969,12 @@
             </summary>
             <param name="newRecorder">New recorder.</param>
         </member>
+        <member name="M:Rhino.Mocks.MockRepository.BackToRecordAll">
+            <summary>
+            All the mock objects in this repository will be moved
+            to record state.
+            </summary>
+        </member>
         <member name="M:Rhino.Mocks.MockRepository.ReplayAll">
             <summary>
             Replay all the mocks from this repository
@@ -2822,6 +2983,11 @@
         <member name="M:Rhino.Mocks.MockRepository.VerifyAll">
             <summary>
             Verify all the mocks from this repository
+            </summary>
+        </member>
+        <member name="M:Rhino.Mocks.MockRepository.SetExceptionToBeThrownOnVerify(System.Object,Rhino.Mocks.Exceptions.ExpectationViolationException)">
+            <summary>
+            Set the exception to be thrown when verified is called.
             </summary>
         </member>
         <member name="M:Rhino.Mocks.MockRepository.CreateMock``1(System.Object[])">
@@ -2893,6 +3059,13 @@
         <member name="P:Rhino.Mocks.MockRepository.LastMockedObject">
             <summary>
             Gets the last proxy which had a method call.
+            </summary>
+        </member>
+        <member name="T:Rhino.Mocks.MockRepository.CreateMockState">
+            <summary>
+             Delegate: CreateMockState
+             This is used internally to cleanly handle the creation of different 
+             RecordMockStates.
             </summary>
         </member>
         <member name="T:Rhino.Mocks.RhinoMocks">

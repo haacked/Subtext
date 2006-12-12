@@ -117,7 +117,7 @@ namespace UnitTests.Subtext.Framework.Skinning
 			Assert.IsTrue(scriptElements.IndexOf(script) > -1, "Rendered the script improperly. We got: " + scriptElements);
 		}
 		
-		private VirtualPathProvider GetTemplatesPathProviderMock(MockRepository mocks)
+		private static VirtualPathProvider GetTemplatesPathProviderMock(MockRepository mocks)
 		{
 			VirtualPathProvider pathProvider = (VirtualPathProvider)mocks.CreateMock(typeof(VirtualPathProvider));
 			VirtualFile vfile = (VirtualFile)mocks.CreateMock(typeof(VirtualFile), "~/Admin/Skins.config");
