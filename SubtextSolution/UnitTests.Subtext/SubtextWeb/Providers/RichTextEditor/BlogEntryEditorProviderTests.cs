@@ -158,6 +158,18 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		}
 
 		[Test]
+		public void InitializeCanSetWidthAndHeight()
+		{
+			FakeTextBlogEntryEditorProvider provider = new FakeTextBlogEntryEditorProvider();
+			NameValueCollection config = new NameValueCollection();
+			config.Add("Width", "109");
+			config.Add("Height", "231");
+			provider.Initialize("Name", config);
+			Assert.AreEqual(new Unit(109), provider.Width);
+			Assert.AreEqual(new Unit(231), provider.Height);
+		}
+
+		[Test]
 		public void CanGetProviderAndProviders()
 		{
 			Assert.IsNotNull(BlogEntryEditor.Provider);
@@ -167,6 +179,8 @@ namespace UnitTests.Subtext.SubtextWeb.Providers.RichTextEditor
 		[Test]
 		public void CanParseUnit()
 		{
+			Assert.AreEqual(Unit.Empty, FakeTextBlogEntryEditorProvider.ParseTheUnit(null));
+			Assert.AreEqual(Unit.Empty, FakeTextBlogEntryEditorProvider.ParseTheUnit("as234s23h4s!#$#"));
 			Assert.AreEqual(Unit.Empty, FakeTextBlogEntryEditorProvider.ParseTheUnit(""));
 			Assert.AreEqual(new Unit(1), FakeTextBlogEntryEditorProvider.ParseTheUnit("1"));
 		}

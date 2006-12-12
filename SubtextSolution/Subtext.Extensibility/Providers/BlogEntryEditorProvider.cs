@@ -32,15 +32,11 @@ namespace Subtext.Extensibility.Providers
 		public override void Initialize(string name, NameValueCollection config)
 		{
             if (name == null)
-            {
-                throw new ArgumentNullException("name", Resources.ArgumentNull_String);
-            }
+				throw new ArgumentNullException("name", Resources.ArgumentNull_String);
 
-            if (config == null)
-            {
-                throw new ArgumentNullException("config", Resources.ArgumentNull_Collection);
-            }
-
+			if (config == null)
+				throw new ArgumentNullException("config", Resources.ArgumentNull_Collection);
+            
 			if (config["Width"] != null)
 				this.Width = ParseUnit(config["Width"]);
 

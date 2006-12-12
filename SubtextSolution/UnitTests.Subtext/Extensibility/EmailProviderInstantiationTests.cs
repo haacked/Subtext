@@ -42,6 +42,13 @@ namespace UnitTests.Subtext.Extensibility
 		}
 
 		[Test]
+		public void CanSetPassword(EmailProvider provider)
+		{
+			provider.Password = "Super-Secret";
+			Assert.AreEqual("Super-Secret", provider.Password);
+		}
+
+		[Test]
 		public void CanInstantiateAndInitializeEmailProvider(EmailProvider provider)
 		{
 			Assert.IsNotNull(provider, "Well the provider should not be null.");
