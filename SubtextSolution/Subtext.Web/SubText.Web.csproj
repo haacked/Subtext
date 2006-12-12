@@ -596,7 +596,6 @@
     <Compile Include="UI\Controls\RelatedLinks.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="UI\Controls\RichTextEditor.cs" />
     <Compile Include="UI\Controls\SingleColumn.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -627,6 +626,7 @@
     <Compile Include="UI\WebControls\AtomHyperLink.cs" />
     <Compile Include="UI\WebControls\ContentRegion.cs" />
     <Compile Include="UI\WebControls\MasterPage.cs" />
+    <Compile Include="UI\WebControls\RichTextEditor.cs" />
     <Compile Include="UI\WebControls\RssHyperLink.cs" />
   </ItemGroup>
   <ItemGroup>
