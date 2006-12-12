@@ -63,7 +63,7 @@ namespace Subtext.Framework.Syndication
 			{
 				feed = new CachedFeed();
 				CategoryWriter cw = new CategoryWriter(posts, Category,WebPathStripper.RemoveRssSlash(Context.Request.Url.ToString()));
-				feed.LastModified = this.ConvertLastUpdatedDate(posts[0].DateCreated);
+				feed.LastModified = ConvertLastUpdatedDate(posts[0].DateCreated);
 				feed.Xml = cw.Xml;
 			}
 			return feed;

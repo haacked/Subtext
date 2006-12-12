@@ -70,7 +70,7 @@ namespace Subtext.Framework.Syndication
 			CommentRssWriter crw = new CommentRssWriter(comments,ParentEntry);
 			if(comments.Count > 0)
 			{
-				feed.LastModified = this.ConvertLastUpdatedDate(comments[comments.Count-1].DateCreated);
+				feed.LastModified = ConvertLastUpdatedDate(comments[comments.Count-1].DateCreated);
 			}
 			else
 			{
@@ -89,7 +89,7 @@ namespace Subtext.Framework.Syndication
 
 				if(comments != null && comments.Count > 0)
 				{
-					return DateTime.Compare(DateTime.Parse(dt), this.ConvertLastUpdatedDate(comments[comments.Count-1].DateCreated)) == 0;
+					return DateTime.Compare(DateTime.Parse(dt), ConvertLastUpdatedDate(comments[comments.Count-1].DateCreated)) == 0;
 				}
 			}
 			return false;			

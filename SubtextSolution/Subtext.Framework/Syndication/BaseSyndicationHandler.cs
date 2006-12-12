@@ -17,7 +17,10 @@ using System;
 using System.Globalization;
 using System.Net;
 using System.Web;
+using log4net;
+using Subtext.Extensibility.Web;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Logging;
 using Subtext.Framework.Syndication.Compression;
 
 namespace Subtext.Framework.Syndication
@@ -26,8 +29,9 @@ namespace Subtext.Framework.Syndication
 	/// Abstract base class used to respond to requests for 
 	/// syndicated feeds such as RSS and ATOM.
 	/// </summary>
-	public abstract class BaseSyndicationHandler<T> : System.Web.IHttpHandler
+	public abstract class BaseSyndicationHandler<T> : BaseHttpHandler
 	{
+		private ILog Log = new Log();
 		const int HTTP_IM_USED = 226;
 		const int HTTP_MOVED_PERMANENTLY = 301;
 
@@ -80,9 +84,9 @@ namespace Subtext.Framework.Syndication
 					{
 						return DateTime.Parse(IfNonMatchHeader);
 					}
-					catch(System.FormatException)
+					catch(System.FormatException e)
 					{
-						//Swallow it.
+						Log.Info("Format Exception occured Grabbing PublishDateOfLastFeedItemReceived", e);
 					}
 				}
 				return NullValue.NullDateTime;
@@ -123,7 +127,10 @@ namespace Subtext.Framework.Syndication
 					//We need to allow some margin of error.
 					return Math.Abs(ts.TotalMilliseconds) <= 500;
 				}
-				catch{}
+				catch(Exception e)
+				{
+					Log.Info("Exception while checking the local cache.", e);
+				}
 			}
 			return false;
 		}
@@ -155,7 +162,7 @@ namespace Subtext.Framework.Syndication
 		/// </summary>
 		/// <param name="dt"></param>
 		/// <returns></returns>
-		protected DateTime ConvertLastUpdatedDate(DateTime dt)
+		protected static DateTime ConvertLastUpdatedDate(DateTime dt)
 		{
 			DateTime utc = Config.CurrentBlog.TimeZone.ToUniversalTime(dt);
 			return TimeZone.CurrentTimeZone.ToLocalTime(utc);
@@ -212,7 +219,7 @@ namespace Subtext.Framework.Syndication
 		protected virtual CachedFeed BuildFeed()
 		{
 			CachedFeed feed = new CachedFeed();
-			feed.LastModified = this.ConvertLastUpdatedDate(CurrentBlog.LastUpdated);
+			feed.LastModified = ConvertLastUpdatedDate(CurrentBlog.LastUpdated);
 			BaseSyndicationWriter<T> writer = SyndicationWriter;
 			feed.Xml = writer.Xml;
 			feed.ClientHasAllFeedItems = writer.ClientHasAllFeedItems;
@@ -273,26 +280,12 @@ namespace Subtext.Framework.Syndication
 		/// Processs the request and sends the feed to the response.
 		/// </summary>
 		/// <param name="context">Context.</param>
-		public void ProcessRequest(HttpContext context)
+		public override void HandleRequest(HttpContext context)
 		{
 			CurrentBlog = Config.CurrentBlog;
 			Context = context;
 
 			ProcessFeed();
-		}
-
-		/// <summary>
-		/// Gets a value indicating whether this handler is reusable.
-		/// </summary>
-		/// <value>
-		/// 	<c>true</c> if it is reusable; otherwise, <c>false</c>.
-		/// </value>
-		public bool IsReusable
-		{
-			get
-			{
-				return false;
-			}
 		}
 
 		/// <summary>
@@ -389,5 +382,42 @@ namespace Subtext.Framework.Syndication
 		/// Returns true if the feed is the main feed.  False for category feeds and comment feeds.
 		/// </summary>
 		protected abstract bool IsMainfeed { get;}
+
+		/// <summary>
+		/// Gets the content MIME type.
+		/// </summary>
+		/// <value></value>
+		public override string ContentMimeType
+		{
+			get { return "text/xml"; }
+		}
+
+		/// <summary>
+		/// Gets a value indicating whether this handler
+		/// requires users to be authenticated.
+		/// </summary>
+		/// <value>
+		/// 	<c>true</c> if authentication is required
+		/// otherwise, <c>false</c>.
+		/// </value>
+		public override bool RequiresAuthentication
+		{
+			get { return false;}
+		}
+
+		/// <summary>
+		/// Validates the parameters.  Inheriting classes must
+		/// implement this and return true if the parameters are
+		/// valid, otherwise false.
+		/// </summary>
+		/// <param name="context">Context.</param>
+		/// <returns>
+		/// 	<c>true</c> if the parameters are valid,
+		/// otherwise <c>false</c>
+		/// </returns>
+		public override bool ValidateParameters(HttpContext context)
+		{
+			return true;
+		}
 	}
 }

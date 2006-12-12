@@ -44,7 +44,7 @@ namespace Subtext.Framework.Syndication
 				        entry = en;
 				        break;
 				    }
-					return DateTime.Compare(DateTime.Parse(dt), this.ConvertLastUpdatedDate(GetItemCreatedDate(entry))) == 0;
+					return DateTime.Compare(DateTime.Parse(dt), ConvertLastUpdatedDate(GetItemCreatedDate(entry))) == 0;
 				}
 			}
 			return false;			
