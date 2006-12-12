@@ -17,8 +17,9 @@ using System;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Extensibility.Providers;
+using Subtext.Framework.UI;
 
-namespace Subtext.Web.Controls
+namespace Subtext.Web.UI.WebControls
 {
 	/// <summary>
 	/// Summary description for RichTextEditorCtl.
@@ -94,7 +95,7 @@ namespace Subtext.Web.Controls
 		{
 			try 
 			{
-				provider=BlogEntryEditorProvider.Instance();
+				provider=BlogEntryEditor.Provider;
 				provider.ControlId=this.ID;
 				provider.InitializeControl();
 				
