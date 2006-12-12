@@ -1,7 +1,7 @@
 using System;
-using System.Net;
 using MbUnit.Framework;
 using Subtext.Akismet;
+using Subtext.UnitTesting.Servers;
 
 namespace UnitTests.Subtext.Akismet
 {
@@ -29,16 +29,41 @@ namespace UnitTests.Subtext.Akismet
 		}
 
 		[Test]
+		public void CanRequestHtmlFile()
+		{
+			using (TestWebServer webServer = new TestWebServer())
+			{
+				webServer.Start();
+				webServer.ExtractResource("UnitTests.Subtext.Resources.Web.test.htm", "test.htm");
+				string response = webServer.GetPage("test.htm");
+				Assert.AreEqual("test", response);
+			}
+		}
+
+		[Test]
+		public void CanRequestAspxFile()
+		{
+			using (TestWebServer webServer = new TestWebServer())
+			{
+				webServer.Start();
+				webServer.ExtractResource("UnitTests.Subtext.Resources.Web.HttpClientTest.aspx", "HttpClientTest.aspx");
+				string response = webServer.GetPage("HttpClientTest.aspx");
+				Assert.AreEqual("Done", response);
+			}
+		}
+
+		[Test]
 		public void CanPostRequest()
 		{
-			//TODO: In order to finish this test, we need to start a lightweight local web server.
-			HttpClient client = new HttpClient();
-			try
+			using (TestWebServer webServer = new TestWebServer())
 			{
-				client.PostRequest(new Uri("http://subtextproject.com/"), "user-agent", 10, "test=true");
-			}
-			catch(WebException)
-			{
+				Uri url = webServer.Start();
+				webServer.ExtractResource("UnitTests.Subtext.Resources.Web.HttpClientTest.aspx", "HttpClientTest.aspx");
+
+				HttpClient client = new HttpClient();
+				Uri httpClientPage = new Uri(url, "HttpClientTest.aspx");
+				string response = client.PostRequest(httpClientPage, "user-agent", 5000, "test=true");
+				Console.WriteLine(response);
 			}
 		}
 	}
