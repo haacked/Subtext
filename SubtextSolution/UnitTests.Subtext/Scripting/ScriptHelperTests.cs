@@ -106,7 +106,30 @@ namespace UnitTests.Subtext.Scripting
 			Assert.AreEqual(expectedThirdScriptBeginning, scripts[2].ScriptText.Substring(0, expectedThirdScriptBeginning.Length), "Script not parsed correctly");
 		}
 
-		
+		[Test]
+		public void CanAddRangeToScriptCollection()
+		{
+			ScriptCollection scripts = Script.ParseScripts("Select * from MyTable");
+			ScriptCollection scriptsToAdd = Script.ParseScripts(string.Format("Select * from SomeTable{0}GO{1}SELECT TOP 1 FROM Pork", Environment.NewLine, Environment.NewLine));
+			scripts.AddRange(scriptsToAdd);
+			Assert.AreEqual(3, scripts.Count);
+		}
+
+		[Test]
+		[ExpectedArgumentNullException]
+		public void AddRangeToScriptCollectionThrowsArgumentNullException()
+		{
+			ScriptCollection scripts = Script.ParseScripts("Select * from MyTable");
+			scripts.AddRange(null);
+		}
+
+		[Test]
+		public void CanGetFullScriptText()
+		{
+			ScriptCollection scripts = Script.ParseScripts("Select * from MyTable");
+			Assert.AreEqual("Select * from MyTable", scripts.FullScriptText);
+		}
+
 		/// <summary>
 		/// Unpacks the installation script and makes sure it returns a script.
 		/// </summary>
