@@ -60,10 +60,10 @@ namespace Subtext.Web.Controls.Captcha
 
         private Bitmap GenerateImagePrivate()
         {
-            Font font;
             Bitmap bitmap = new Bitmap(this.width, this.height, PixelFormat.Format32bppArgb);
 			using (Graphics graphics = Graphics.FromImage(bitmap))
 			{
+				Font font;
 				graphics.SmoothingMode = SmoothingMode.AntiAlias;
 				RectangleF rectF = new RectangleF(0f, 0f, this.width, this.height);
 				Rectangle rect = new Rectangle(0, 0, this.width, this.height);

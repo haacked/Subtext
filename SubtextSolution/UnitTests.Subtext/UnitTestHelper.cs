@@ -276,9 +276,9 @@ namespace UnitTests.Subtext
 		/// Sets up the HttpContext with a request.
 		/// </summary>
 		/// <param name="applicationPath"></param>
-		internal static void SetupHttpContextWithRequest(string applicationPath)
+		internal static SimulatedHttpRequest SetupHttpContextWithRequest(string applicationPath)
 		{
-			SetHttpContextWithBlogRequest(UnitTestHelper.GenerateRandomString(), string.Empty, applicationPath);
+			return SetHttpContextWithBlogRequest(UnitTestHelper.GenerateRandomString(), string.Empty, applicationPath);
 		}
 
 		/// <summary>
@@ -802,6 +802,7 @@ namespace UnitTests.Subtext
 		/// </summary>
 		/// <param name="first">The first.</param>
 		/// <param name="compare">The compare.</param>
+		/// <param name="message">The message.</param>
 		public static void AssertAreNotEqual(int first, int compare, string message)
 		{
 			Assert.IsTrue(first != compare, message + "{0} is equal to {1}", first, compare);
@@ -822,6 +823,7 @@ namespace UnitTests.Subtext
 		/// </summary>
 		/// <param name="first">The first.</param>
 		/// <param name="compare">The compare.</param>
+		/// <param name="message">The message.</param>
 		public static void AssertAreNotEqual(string first, string compare, string message)
 		{
 			Assert.IsTrue(first != compare, message + "{0} is equal to {1}", first, compare);

@@ -26,6 +26,10 @@ namespace UnitTests.Subtext.Scripting
 	public class ConnectionStringParseTests
 	{
 		[RowTest]
+		[Row("Initial Catalog=pubs;User Id=sa;Password=asdasd;", null, "pubs", "sa", "asdasd")]
+		[Row("Data Source=TEST;User Id=sa;Password=asdasd;", "TEST", null, "sa", "asdasd")]
+		[Row("Data Source=TEST;Initial Catalog=pubs;Password=asdasd;", "TEST", "pubs", null, "asdasd")]
+		[Row("Data Source=TEST;Initial Catalog=pubs;User Id=sa;", "TEST", "pubs", "sa", null)]
 		[Row("Data Source=TEST;Initial Catalog=pubs;User Id=sa;Password=asdasd;", "TEST", "pubs", "sa", "asdasd")]
 		[Row("Data Source=;Initial Catalog=;User Id=;Password=;", "", "", "", "")]
 		[Row("Data Source = TEST;Initial Catalog = pubs;User Id = sa;Password = asdasd", "TEST", "pubs", "sa", "asdasd")]
@@ -46,6 +50,27 @@ namespace UnitTests.Subtext.Scripting
 			Assert.AreEqual(dataSource, connectionInfo2.Server, "Did not parse the server string correctly.");
 			Assert.AreEqual(userId, connectionInfo2.UserId, "Did not parse the user id correctly.");
 			Assert.AreEqual(password, connectionInfo2.Password, "Did not parse the password correctly.");
+		}
+
+		[Test]
+		public void CanSetPropertiesTest()
+		{
+			ConnectionString conn = ConnectionString.Parse("Data Source=TEST;Initial Catalog=pubs;User Id=sa;Password=asdasd;");
+			conn.Database = "MyDatabase";
+			Assert.AreEqual("MyDatabase", conn.Database);
+
+			conn.UserId = "MyUser";
+			Assert.AreEqual("MyUser", conn.UserId);
+
+			conn.Password = "MyPassword";
+			Assert.AreEqual("MyPassword", conn.Password);
+
+			conn.TrustedConnection = true;
+			Assert.AreEqual(true, conn.TrustedConnection);
+
+			Assert.AreEqual("Data Source=TEST;Initial Catalog=MyDatabase;Trusted_Connection=true", conn.ToString());
+			conn.TrustedConnection = false;
+			Assert.AreEqual("Data Source=TEST;Initial Catalog=MyDatabase;User ID=MyUser;Password=MyPassword;", conn.ToString());
 		}
 	}
 }

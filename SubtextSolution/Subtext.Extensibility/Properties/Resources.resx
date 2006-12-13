@@ -117,74 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ArgumentNull_Array" xml:space="preserve">
-    <value>Array cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_ArrayElement" xml:space="preserve">
-    <value>At least one element in the specified array was null.</value>
-  </data>
-  <data name="ArgumentNull_ArrayValue" xml:space="preserve">
-    <value>Found a null value within an array.</value>
-  </data>
-  <data name="ArgumentNull_Assembly" xml:space="preserve">
-    <value>Assembly cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_AssemblyName" xml:space="preserve">
-    <value>AssemblyName cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_AssemblyNameName" xml:space="preserve">
-    <value>AssemblyName.Name cannot be null or an empty string.</value>
-  </data>
-  <data name="ArgumentNull_Buffer" xml:space="preserve">
-    <value>Buffer cannot be null.</value>
-  </data>
   <data name="ArgumentNull_Collection" xml:space="preserve">
     <value>Collection cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_Dictionary" xml:space="preserve">
-    <value>Dictionary cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_FileName" xml:space="preserve">
-    <value>File name cannot be null.</value>
   </data>
   <data name="ArgumentNull_Generic" xml:space="preserve">
     <value>Value cannot be null.</value>
   </data>
-  <data name="ArgumentNull_Graph" xml:space="preserve">
-    <value>Object Graph cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_GUID" xml:space="preserve">
-    <value>GUID cannot be null.</value>
-  </data>
   <data name="ArgumentNull_Key" xml:space="preserve">
     <value>Key cannot be null.</value>
   </data>
-  <data name="ArgumentNull_NullMember" xml:space="preserve">
-    <value>Member at position {0} was null.</value>
-  </data>
-  <data name="ArgumentNull_Obj" xml:space="preserve">
-    <value>Object cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_Path" xml:space="preserve">
-    <value>Path cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_Provider" xml:space="preserve">
-    <value>Provider cannot be null</value>
-  </data>
-  <data name="ArgumentNull_Stream" xml:space="preserve">
-    <value>Stream cannot be null.</value>
-  </data>
   <data name="ArgumentNull_String" xml:space="preserve">
     <value>String reference not set to an instance of a String.</value>
-  </data>
-  <data name="ArgumentNull_Type" xml:space="preserve">
-    <value>Type cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_Uri" xml:space="preserve">
-    <value>URI cannot be null.</value>
-  </data>
-  <data name="ArgumentNull_WithParamName" xml:space="preserve">
-    <value>Parameter '{0}' cannot be null.</value>
   </data>
   <data name="Configuration_KeyNotFound" xml:space="preserve">
     <value>No connection string matches the key '{0}'.</value>

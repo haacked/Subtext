@@ -1,6 +1,8 @@
 using System;
 using System.Diagnostics;
+using System.Net;
 using MbUnit.Framework;
+using Rhino.Mocks;
 using Subtext.Akismet;
 using Subtext.UnitTesting.Servers;
 
@@ -41,6 +43,27 @@ namespace UnitTests.Subtext.Akismet
 				Debug.WriteLine(string.Format("Making a request for {0} at {1}", httpClientPage, DateTime.Now));
 				
 				string response = client.PostRequest(httpClientPage, "user-agent", 20000, "test=true");
+				Assert.AreEqual("test=true&Done", response);
+			}
+		}
+
+		[Test]
+		public void CanPostRequestWithProxy()
+		{
+			MockRepository mocks = new MockRepository();
+			IWebProxy webProxy = mocks.CreateMock<IWebProxy>();
+			Expect.Call(webProxy.IsBypassed(new Uri("http://localhost"))).Return(true);
+			mocks.ReplayAll();
+
+			using (TestWebServer webServer = new TestWebServer())
+			{
+				Uri url = webServer.Start();
+				webServer.ExtractResource("UnitTests.Subtext.Resources.Web.HttpClientTest.aspx", "HttpClientTest.aspx");
+				HttpClient client = new HttpClient();
+				Uri httpClientPage = new Uri(url, "HttpClientTest.aspx");
+				Debug.WriteLine(string.Format("Making a request for {0} at {1}", httpClientPage, DateTime.Now));
+
+				string response = client.PostRequest(httpClientPage, "user-agent", 20000, "test=true", webProxy);
 				Assert.AreEqual("test=true&Done", response);
 			}
 		}

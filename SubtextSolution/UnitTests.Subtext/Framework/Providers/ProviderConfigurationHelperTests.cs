@@ -83,6 +83,14 @@ namespace UnitTests.Subtext.Framework.Providers
 			config.Add("blah", "nonexistentConnectionString");
 			Assert.IsNull(ProviderConfigurationHelper.GetConnectionStringSettingValue("blah", config));
 		}
+
+		[Test]
+		public void CanSetDefaultProvider()
+		{
+			ProviderSectionHandler handler = new ProviderSectionHandler();
+			handler.DefaultProvider = "Test";
+			Assert.AreEqual("Test", handler.DefaultProvider);
+		}
 	}
 
 	public class FakeProvider : ProviderBase
