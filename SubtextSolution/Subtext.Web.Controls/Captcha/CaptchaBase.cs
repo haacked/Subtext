@@ -44,6 +44,9 @@ namespace Subtext.Web.Controls
 		/// <returns></returns>
 		public static string DecryptString(string encryptedEncodedText)
 		{
+			if (encryptedEncodedText == null)
+				throw new ArgumentNullException("encryptedEncodedText", "Cannot decrypt a null string.");
+
 			try
 			{
 				byte[] encryptedBytes = Convert.FromBase64String(encryptedEncodedText);
@@ -178,11 +181,13 @@ namespace Subtext.Web.Controls
 	/// client.
 	/// </summary>
 	public struct AnswerAndDate
-	{	
+	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AnswerAndDate"/> class.
 		/// </summary>
 		/// <param name="encryptedAnswer">The encrypted answer.</param>
+		/// <param name="timeoutInSeconds">The timeout in seconds.</param>
+		/// <returns></returns>
 		public static AnswerAndDate ParseAnswerAndDate(string encryptedAnswer, int timeoutInSeconds)
 		{
 			AnswerAndDate answerAndDate;

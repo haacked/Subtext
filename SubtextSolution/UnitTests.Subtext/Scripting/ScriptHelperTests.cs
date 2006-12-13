@@ -42,6 +42,22 @@ namespace UnitTests.Subtext.Scripting
 				Assert.AreEqual(expected, scripts[0].ScriptText, "Expected the multi-line comment to be stripped.");
 		}
 		
+		[Test]
+		public void ScriptToStringIncludesParameters()
+		{
+			ScriptCollection scripts = Script.ParseScripts("SELECT TOP <name, int, 0> * FROM Somewhere");
+			Assert.AreEqual(1, scripts.Count, "Did not parse the script.");
+			Assert.AreEqual(1, scripts.TemplateParameters.Count, "did not merge or parse the template params.");
+			
+			string expected = @"<ScriptToken length=""0"">" + Environment.NewLine 
+				+ @"<ScriptToken length=""11"">" + Environment.NewLine 
+				+ @"<TemplateParameter name=""name"" value=""0"" type=""int"" />" + Environment.NewLine
+				+ @"<ScriptToken length=""17"">" + Environment.NewLine;
+
+
+			Assert.AreEqual(expected, scripts[0].ToString());
+		}
+
 		/// <summary>
 		/// Makes sure that ParseScript parses correctly.
 		/// </summary>
@@ -90,6 +106,7 @@ namespace UnitTests.Subtext.Scripting
 			Assert.AreEqual(expectedThirdScriptBeginning, scripts[2].ScriptText.Substring(0, expectedThirdScriptBeginning.Length), "Script not parsed correctly");
 		}
 
+		
 		/// <summary>
 		/// Unpacks the installation script and makes sure it returns a script.
 		/// </summary>

@@ -15,7 +15,7 @@ namespace Subtext.Web.Controls.Captcha
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CaptchaExpiredException"/> class.
 		/// </summary>
-		public CaptchaExpiredException() : base()
+		public CaptchaExpiredException()
 		{
 		}
 

@@ -10,6 +10,36 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
 	[TestFixture]
 	public class ControlHelperTests
 	{
+		[Test]
+		public void CanApplyRecursively()
+		{
+			Panel root = new Panel();
+			root.ID = "root";
+
+			Panel child1 = new Panel();
+			child1.ID = "child1";
+
+			Panel child2 = new Panel();
+			child2.ID = "child2";
+
+			TextBox textBox = new TextBox();
+			textBox.ID = "txtBox";
+			child2.Controls.Add(textBox);
+
+			root.Controls.Add(child1);
+			root.Controls.Add(child2);
+			
+			ControlHelper.ApplyRecursively(delegate(Control control) { 
+			{
+				TextBox txtBox = control as TextBox;
+				if (txtBox != null)
+					txtBox.Text = "Surprise!";
+			}
+			}, root);
+
+			Assert.AreEqual("Surprise!", textBox.Text, "Expected the control action to be applied recursively.");
+		}
+
 		[RowTest]
 		[Row("Subtext.Web", "~/", "/Subtext.Web/")]
 		[Row("", "~/", "/")]
@@ -60,6 +90,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
 			child.Controls.Add(label);
 
 			Assert.AreSame(label, ControlHelper.FindControlRecursively(parent, "searchedForId"));
+			Assert.IsNull(ControlHelper.FindControlRecursively(parent, "couldNotFindThisId"));
 		}
 		
 		[Test]
@@ -69,7 +100,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
 			form.ID = "myForm";
 
 			Assert.AreEqual("myForm", ControlHelper.GetPageFormClientId(form));
-		}
+		}	
 		
 		[Test]
 		public void GetPageFormClientIdCanFindChildForm()
@@ -81,8 +112,21 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
 			parent.Controls.Add(form);
 			
 			Assert.AreEqual("myForm", ControlHelper.GetPageFormClientId(parent));
+			Assert.IsNull(ControlHelper.GetPageFormClientId(new Panel()));
 		}
-		
+
+		[Test]
+		public void CanSetTitleIfNone()
+		{
+			LinkButton button = new LinkButton();
+			ControlHelper.SetTitleIfNone(button, "CoolTitle");
+			Assert.AreEqual("CoolTitle", button.Attributes["title"]);
+
+			HyperLink link = new HyperLink();
+			ControlHelper.SetTitleIfNone(link, "AnotherCoolTitle");
+			Assert.AreEqual("AnotherCoolTitle", link.Attributes["title"]);
+		}
+
 		#region Argument Validation Tests
 		[Test]
 		[ExpectedArgumentNullException]
@@ -130,6 +174,18 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
 			ControlHelper.ExportToExcel(new Label(), null);
 		}
 
+		[Test, Ignore("To Be Continued")]
+		public void CanExportToExcel()
+		{
+			Label label = new Label();
+			label.Page = new Page();
+			label.Text = "Ha ha";
+
+			UnitTestHelper.SetupHttpContextWithRequest("/");
+
+			ControlHelper.ExportToExcel(label, "MyFile.xls");
+		}
+
 		[Test]
 		[ExpectedArgumentNullException]
 		public void ExportToExcelThrowsArgumentNullExceptionForNullControl()
@@ -151,7 +207,7 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
 			ControlHelper.ApplyRecursively(new ControlAction(TestControlAction), null);
 		}
 		
-		void TestControlAction(Control control)
+		static void TestControlAction(Control control)
 		{
 		}
 

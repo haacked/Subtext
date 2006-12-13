@@ -92,6 +92,7 @@ namespace Subtext.Web.Controls
 		/// Applies the specified control action recursively.
 		/// </summary>
 		/// <param name="controlAction">The control action.</param>
+		/// <param name="root">The root.</param>
 		public static void ApplyRecursively(ControlAction controlAction, Control root)
 		{
 			if (controlAction == null)
@@ -149,10 +150,9 @@ namespace Subtext.Web.Controls
 			if (control is HtmlForm)
 				return control.ClientID;
 			
-			string id;
 			foreach (Control child in control.Controls)
 			{                        
-				id = GetPageFormClientId(child);
+				string id = GetPageFormClientId(child);
 			    if(id != null)
 			    {
 			        return id;

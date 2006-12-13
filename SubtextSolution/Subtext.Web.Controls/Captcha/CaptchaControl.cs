@@ -111,7 +111,7 @@ namespace Subtext.Web.Controls.Captcha
 			string src = ControlHelper.ExpandTildePath("~/CaptchaImage.ashx");
         	
             writer.Write("<img src=\"" + src);
-            if (!this.IsDesignMode)
+            if (!IsDesignMode)
             {
 				writer.Write("?spec=" + HttpUtility.UrlEncodeUnicode(captcha.ToEncryptedString()));
             }
@@ -135,7 +135,7 @@ namespace Subtext.Web.Controls.Captcha
 			
 			writer.Write("<input name=\"" + this.AnswerFormFieldName + "\" type=\"text\" size=\"");
             writer.Write(this.captcha.TextLength.ToString());
-            writer.Write("\" maxlength=\"" + this.captcha.TextLength.ToString() + "\"");
+            writer.Write("\" maxlength=\"" + this.captcha.TextLength + "\"");
             if (this.AccessKey.Length > 0)
             {
                 writer.Write(" accesskey=\"" + this.AccessKey + "\"");
@@ -146,7 +146,7 @@ namespace Subtext.Web.Controls.Captcha
             }
             if (this.TabIndex > 0)
             {
-                writer.Write(" tabindex=\"" + this.TabIndex.ToString() + "\"");
+                writer.Write(" tabindex=\"" + this.TabIndex + "\"");
             }
 			if (Page.IsPostBack && this.IsValid)
 				writer.Write(" value=\"" + HttpUtility.HtmlEncode(Page.Request.Form[AnswerFormFieldName]) + "\" />");
@@ -219,7 +219,7 @@ namespace Subtext.Web.Controls.Captcha
             }
         }        
 
-        private bool IsDesignMode
+        private static bool IsDesignMode
         {
             get
             {
@@ -339,6 +339,7 @@ namespace Subtext.Web.Controls.Captcha
 			set
 			{
 				this.validRandomTextChars = value;
+				this.text = this.GenerateRandomText();
 			}
 		}
 
