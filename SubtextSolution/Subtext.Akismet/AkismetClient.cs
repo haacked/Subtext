@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 using System.Net;
-using System.Web;
+using System.Web;	
 using Subtext.Akismet.Properties;
 
 namespace Subtext.Akismet
@@ -11,7 +11,7 @@ namespace Subtext.Akismet
 	/// <see href="http://akismet.com/">Akismet</see> service.
 	/// </summary>
 	[Serializable]
-	public class AkismetClient
+	public class AkismetClient : Subtext.Akismet.IAkismetClient
 	{
 		[NonSerialized]
 		private HttpClient httpClient;

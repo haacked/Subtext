@@ -65,6 +65,7 @@
     <Compile Include="AkismetClient.cs" />
     <Compile Include="Comment.cs" />
     <Compile Include="HttpClient.cs" />
+    <Compile Include="IAkismetClient.cs" />
     <Compile Include="IComment.cs" />
     <Compile Include="InvalidResponseException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

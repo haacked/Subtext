@@ -47,9 +47,8 @@ namespace Subtext.Installation
 		/// <summary>
 		/// Gets the installation status based on the current assembly Version.
 		/// </summary>
-		/// <param name="currentAssemblyVersion">The version of the assembly that represents this installation.</param>
 		/// <returns></returns>
-		public override InstallationState GetInstallationStatus(Version currentAssemblyVersion)
+		public override InstallationState GetInstallationStatus()
 		{
 			Version installationVersion = GetCurrentInstallationVersion();
 			if (installationVersion == null)

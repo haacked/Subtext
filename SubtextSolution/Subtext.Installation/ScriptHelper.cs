@@ -42,34 +42,6 @@ namespace Subtext.Installation
 		}
 
 		/// <summary>
-		/// Executes the script.
-		/// </summary>
-		/// <remarks>
-		/// Use script.Execute(transaction) to do the work. We will also pull the
-		/// status of our script exection from here.
-		/// </remarks>
-		/// <param name="scripts">The collection of scripts to execute.</param>
-		/// <param name="transaction">The current transaction.</param>
-		public static void ExecuteScript(ScriptCollection scripts, SqlTransaction transaction)
-		{
-			SqlScriptRunner scriptRunner = new SqlScriptRunner(scripts);
-			scriptRunner.Execute(transaction);
-		}
-
-		/// <summary>
-		/// Unpacks an embedded script into a string.
-		/// </summary>
-		/// <param name="scriptName">The file name of the script to run.</param>
-		public static string UnpackEmbeddedScriptAsString(string scriptName)
-		{
-			Stream stream = UnpackEmbeddedScript(scriptName);
-			using(StreamReader reader = new StreamReader(stream))
-			{
-				return reader.ReadToEnd();
-			}
-		}
-
-		/// <summary>
 		/// Unpacks an embedded script into a Stream.
 		/// </summary>
 		/// <param name="scriptName">Name of the script.</param>

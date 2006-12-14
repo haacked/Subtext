@@ -30,7 +30,7 @@ namespace Subtext.Web.HostAdmin.Upgrade
 	{
 		protected void Page_Load(object sender, System.EventArgs e)
 		{
-			if(InstallationManager.GetCurrentInstallationState(VersionInfo.FrameworkVersion) == InstallationState.Complete)
+			if(InstallationManager.GetCurrentInstallationState() == InstallationState.Complete)
 			{
 				Response.Redirect("UpgradeComplete.aspx");
 			}

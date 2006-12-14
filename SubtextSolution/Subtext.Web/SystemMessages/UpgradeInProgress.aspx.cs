@@ -31,7 +31,7 @@ namespace Subtext.Web
 		{
 			try
 			{
-				InstallationState state = InstallationManager.GetCurrentInstallationState(VersionInfo.FrameworkVersion);
+				InstallationState state = InstallationManager.GetCurrentInstallationState();
 				if(state == InstallationState.NeedsUpgrade || state == InstallationState.NeedsRepair)
 				{
 					plcUpgradeInProgressMessage.Visible = true;

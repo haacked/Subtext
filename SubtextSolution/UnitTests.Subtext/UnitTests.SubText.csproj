@@ -193,6 +193,7 @@
     </Compile>
     <Compile Include="Akismet\AkismetApiTests.cs" />
     <Compile Include="Akismet\AkismetCommentTests.cs" />
+    <Compile Include="Akismet\AkismetSpamServiceTests.cs" />
     <Compile Include="Akismet\HttpClientTests.cs" />
     <Compile Include="AssemblySetUpAndCleanUp.cs" />
     <Compile Include="BlogMl\BlogMlImportTests.cs" />
@@ -204,6 +205,7 @@
     <Compile Include="Framework\Security\SubtextMembershipProviderTests.cs" />
     <Compile Include="Framework\Security\SubtextRoleProviderTests.cs" />
     <Compile Include="Framework\Web\BaseHttpHandlerTests.cs" />
+    <Compile Include="Installation\InstallerTests.cs" />
     <Compile Include="Scripting\ConnectionStringTests.cs" />
     <Compile Include="Scripting\SqlScriptRunnerTests.cs" />
     <Compile Include="Scripting\TemplateParameterCollectionTests.cs" />
