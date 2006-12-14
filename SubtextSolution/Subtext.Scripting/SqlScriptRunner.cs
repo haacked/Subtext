@@ -19,8 +19,6 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using Subtext.Scripting.Exceptions;
-using Subtext.Scripting.Properties;
 
 namespace Subtext.Scripting
 {
@@ -232,19 +230,13 @@ namespace Subtext.Scripting
 		/// Initializes a new instance of the <see cref="ScriptProgressEventArgs"/> class.
 		/// </summary>
 		/// <param name="scriptsExecutedCount">The scripts processed.</param>
+		/// <param name="rowsAffected">The rows affected.</param>
+		/// <param name="script">The script.</param>
 		public ScriptProgressEventArgs(int scriptsExecutedCount, int rowsAffected, Script script)
 		{
 			_scriptsExecutedCount = scriptsExecutedCount;
 			_rowsAffected = rowsAffected;
 			_script = script;
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ScriptProgressEventArgs"/> class.
-		/// </summary>
-		/// <param name="scriptsExecutedCount">The scripts executed count.</param>
-		public ScriptProgressEventArgs(int scriptsExecutedCount, Script script) : this(scriptsExecutedCount, 0, script)
-		{
 		}
 
 		/// <summary>

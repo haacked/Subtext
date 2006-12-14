@@ -14,7 +14,9 @@
 #endregion
 
 using System;
+using System.Globalization;
 using System.IO;
+using System.Threading;
 using MbUnit.Framework;
 using Subtext.Installation;
 using Subtext.Scripting;
@@ -107,6 +109,13 @@ namespace UnitTests.Subtext.Scripting
 		}
 
 		[Test]
+		public void ScriptWithEmptyTextStaysEmptyText()
+		{
+			Script script = new Script(string.Empty);
+			Assert.AreEqual(string.Empty, script.ScriptText);
+		}
+
+		[Test]
 		public void CanAddRangeToScriptCollection()
 		{
 			ScriptCollection scripts = Script.ParseScripts("Select * from MyTable");
@@ -121,6 +130,31 @@ namespace UnitTests.Subtext.Scripting
 		{
 			ScriptCollection scripts = Script.ParseScripts("Select * from MyTable");
 			scripts.AddRange(null);
+		}
+
+		[Test]
+		[ExpectedException(typeof(InvalidOperationException))]
+		public void SetScriptTextThrowsInvalidOperationException()
+		{
+			Script script = new Script(null);
+			Console.WriteLine(script.ScriptText);
+		}
+
+		[Test]
+		public void ToStringReturnsNoTokensFoundMessage()
+		{
+			Script script = new Script(null);
+			//make sure en-us
+			Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+			Assert.AreEqual("Script has no tokens.", script.ToString());
+		}
+
+		[Test]
+		[ExpectedException(typeof(InvalidOperationException))]
+		public void ExecuteThrowsArgumentNullException()
+		{
+			Script script = new Script(null);
+			script.Execute(null);
 		}
 
 		[Test]

@@ -25,7 +25,7 @@ namespace UnitTests.Subtext.Scripting
 	/// Tests parsing template parameters in a script.
 	/// </summary>
 	[TestFixture]
-	public class TemplateParameterParseTests
+	public class TemplateParameterTests
 	{
 	    [Test]
 	    public void TemplateParameterCollectionDoesNotStoreDuplicateParameters()
@@ -197,6 +197,24 @@ namespace UnitTests.Subtext.Scripting
 			result = result.Replace("" + ((char)13), ""); //Ugly hack!  I know. I'll Explain later.
 
 			UnitTestHelper.AssertStringsEqualCharacterByCharacter(expected, result);
+		}
+
+		[Test]
+		public void CanRaiseParameterChangeEvent()
+		{
+			bool eventRaised = false;
+			TemplateParameter parameter = new TemplateParameter("testparam", "varchar", "subtext");
+
+			parameter.ValueChanged += delegate(object sender, ParameterValueChangedEventArgs e)
+			{
+				Assert.AreEqual("subtext2.0", e.NewValue);
+				Assert.AreEqual("subtext", e.OldValue);
+				Assert.AreEqual("testparam", e.ParameterName);
+				eventRaised = true;
+			};
+			parameter.Value = "subtext2.0";
+
+			Assert.IsTrue(eventRaised, "Changing the value did not raise the expected event.");
 		}
 	}
 }
