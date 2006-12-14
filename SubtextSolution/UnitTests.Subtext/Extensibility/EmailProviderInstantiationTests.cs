@@ -2,6 +2,7 @@ using System;
 using System.Collections.Specialized;
 using MbUnit.Framework;
 using Subtext.Extensibility.Providers;
+using Subtext.Framework.Net;
 using Subtext.Framework.Providers;
 
 namespace UnitTests.Subtext.Extensibility
@@ -109,7 +110,19 @@ namespace UnitTests.Subtext.Extensibility
 		[Test]
 		public void CanGetProviders()
 		{
-			Assert.AreEqual(3, EmailProvider.Providers.Count);
+			Assert.AreEqual(3, Email.Providers.Count);
+		}
+
+		[Test]
+		public void CanGetProvider()
+		{
+			Assert.AreEqual(typeof(UnitTestEmailProvider), Email.Provider.GetType());
+		}
+
+		[Test]
+		public void SendDelegatesToProvider()
+		{
+			Assert.IsTrue(Email.Send("to", "from", "subject", "message"));
 		}
 	}
 }
