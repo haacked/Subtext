@@ -195,10 +195,10 @@
   <data name="SqlScriptExecution_ReturnValue" xml:space="preserve">
     <value>Return Value: </value>
   </data>
-  <data name="InvalidOperation_NullTemplateParameters" xml:space="preserve">
-    <value>The Template parameters are null. This is impossible.</value>
-  </data>
   <data name="NoTokensFound" xml:space="preserve">
     <value>Script has no tokens.</value>
+  </data>
+  <data name="InvalidOperation_NullScriptText" xml:space="preserve">
+    <value>This operation cannot be completed because the script text is null.</value>
   </data>
 </root>

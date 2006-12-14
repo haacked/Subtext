@@ -204,6 +204,10 @@
     <Compile Include="Framework\Security\SubtextMembershipProviderTests.cs" />
     <Compile Include="Framework\Security\SubtextRoleProviderTests.cs" />
     <Compile Include="Framework\Web\BaseHttpHandlerTests.cs" />
+    <Compile Include="Scripting\ConnectionStringTests.cs" />
+    <Compile Include="Scripting\SqlScriptRunnerTests.cs" />
+    <Compile Include="Scripting\TemplateParameterCollectionTests.cs" />
+    <Compile Include="Scripting\TemplateParameterTests.cs" />
     <Compile Include="SimulatedRequestContext.cs" />
     <Compile Include="Extensibility\DotNetOpenMailProviderSendTests.cs">
       <SubType>Code</SubType>
@@ -310,14 +314,8 @@
     <Compile Include="ReflectionHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Scripting\ConnectionStringParseTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Scripting\ExceptionTests.cs" />
     <Compile Include="Scripting\ScriptHelperTests.cs" />
-    <Compile Include="Scripting\TemplateParameterParseTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="SimulatedHttpRequest.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -362,6 +360,7 @@
     <Content Include="ExternalDependencies\Rhino.Mocks.dll" />
     <Content Include="ExternalDependencies\Rhino.Mocks.xml" />
     <Content Include="ExternalDependencies\TestFu.dll" />
+    <EmbeddedResource Include="Resources\Scripting\SqlRunnerTestScript.txt" />
     <EmbeddedResource Include="Resources\Web\HttpClientTest.aspx">
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\BlogMl\SinglePostWithBadCategoryRef.xml" />

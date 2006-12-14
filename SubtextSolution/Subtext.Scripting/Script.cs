@@ -131,45 +131,60 @@ namespace Subtext.Scripting
 			{
 				if(_parameters == null)
 				{
-					_parameters = new TemplateParameterCollection();
-
-					if(this._scriptText.Length == 0)
-						return _parameters;
-
-					Regex regex = new Regex(@"<\s*(?<name>[^()\[\]>,]*)\s*,\s*(?<type>[^>,]*)\s*,\s*(?<default>[^>,]*)\s*>", RegexOptions.Compiled);
-					MatchCollection matches = regex.Matches(this._scriptText);
-			
-					_scriptTokens = new ScriptToken();
-			
-					int lastIndex = 0;
-					foreach(Match match in matches)
-					{
-						if(match.Index > 0)
-						{
-							string textBeforeMatch = this._scriptText.Substring(lastIndex, match.Index - lastIndex);
-							_scriptTokens.Append(textBeforeMatch);
-						}
-
-						lastIndex = match.Index + match.Length;
-						TemplateParameter parameter = _parameters.Add(match);
-						_scriptTokens.Append(parameter);
-					}
-					string textAfterLastMatch = this._scriptText.Substring(lastIndex);
-					if(textAfterLastMatch.Length > 0)
-						_scriptTokens.Append(textAfterLastMatch);
+					PopulateParametersAndTokens();
 				}
 				return _parameters;
 			}
 		}
 
+		private ScriptToken ScriptTokens
+		{
+			get
+			{
+				if(_scriptTokens == null)
+				{
+					PopulateParametersAndTokens();
+				}
+				return _scriptTokens;
+			}
+		}
+
+		private void PopulateParametersAndTokens()
+		{
+			_parameters = new TemplateParameterCollection();
+			_scriptTokens = new ScriptToken();
+
+			if(_scriptText == null)
+				throw new InvalidOperationException(Resources.InvalidOperation_NullScriptText);
+
+			if (_scriptText.Length == 0)
+				return;
+
+			Regex regex = new Regex(@"<\s*(?<name>[^()\[\]>,]*)\s*,\s*(?<type>[^>,]*)\s*,\s*(?<default>[^>,]*)\s*>", RegexOptions.Compiled);
+			MatchCollection matches = regex.Matches(this._scriptText);
+
+			int lastIndex = 0;
+			foreach (Match match in matches)
+			{
+				if (match.Index > 0)
+				{
+					string textBeforeMatch = this._scriptText.Substring(lastIndex, match.Index - lastIndex);
+					_scriptTokens.Append(textBeforeMatch);
+				}
+
+				lastIndex = match.Index + match.Length;
+				TemplateParameter parameter = _parameters.Add(match);
+				_scriptTokens.Append(parameter);
+			}
+			string textAfterLastMatch = this._scriptText.Substring(lastIndex);
+			if (textAfterLastMatch.Length > 0)
+				_scriptTokens.Append(textAfterLastMatch);
+		}
+
 		string ApplyTemplateReplacements()
 		{
 			StringBuilder builder = new StringBuilder();
-			if(_scriptTokens == null && TemplateParameters == null)
-			{
-				throw new InvalidOperationException(Resources.InvalidOperation_NullTemplateParameters);
-			}
-			_scriptTokens.AggregateText(builder);
+			ScriptTokens.AggregateText(builder);
 			return builder.ToString();
 		}
 

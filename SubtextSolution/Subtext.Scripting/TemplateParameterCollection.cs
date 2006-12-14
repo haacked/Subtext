@@ -68,6 +68,9 @@ namespace Subtext.Scripting
 		/// </returns>
 		public bool Contains(string name)
 		{
+			if (name == null)
+				throw new ArgumentNullException("name", Resources.ArgumentNull_Generic);
+
 			return this[name] != null;
 		}
 

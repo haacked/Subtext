@@ -50,6 +50,12 @@ namespace Subtext.Scripting
 		/// <returns></returns>
 		public static ConnectionString Parse(string connectionString)
 		{
+			if (connectionString == null)
+				throw new ArgumentNullException("connectionString", "Cannot parse a null connection string");
+
+			if (connectionString.Length == 0)
+				return ConnectionString.Empty;
+
 			return new ConnectionString(connectionString);
 		}
 

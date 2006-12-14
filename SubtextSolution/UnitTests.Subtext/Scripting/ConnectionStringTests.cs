@@ -23,7 +23,7 @@ namespace UnitTests.Subtext.Scripting
 	/// Summary description for ConnectionStringParseTests.
 	/// </summary>
 	[TestFixture]
-	public class ConnectionStringParseTests
+	public class ConnectionStringTests
 	{
 		[RowTest]
 		[Row("Initial Catalog=pubs;User Id=sa;Password=asdasd;", null, "pubs", "sa", "asdasd")]
@@ -65,12 +65,34 @@ namespace UnitTests.Subtext.Scripting
 			conn.Password = "MyPassword";
 			Assert.AreEqual("MyPassword", conn.Password);
 
+			conn.Server = "MyServer";
+			Assert.AreEqual("MyServer", conn.Server);
+
 			conn.TrustedConnection = true;
 			Assert.AreEqual(true, conn.TrustedConnection);
 
-			Assert.AreEqual("Data Source=TEST;Initial Catalog=MyDatabase;Trusted_Connection=true", conn.ToString());
+			Assert.AreEqual("Data Source=MyServer;Initial Catalog=MyDatabase;Trusted_Connection=true", conn.ToString());
 			conn.TrustedConnection = false;
-			Assert.AreEqual("Data Source=TEST;Initial Catalog=MyDatabase;User ID=MyUser;Password=MyPassword;", conn.ToString());
+			Assert.AreEqual("Data Source=MyServer;Initial Catalog=MyDatabase;User ID=MyUser;Password=MyPassword;", conn.ToString());
+		}
+
+		[Test]
+		public void EmptyConnectionStringIsWhatWeExpect()
+		{
+			Assert.AreEqual("Server=;Database=;User ID=;Password=;", ConnectionString.Empty);
+		}
+
+		[Test]
+		public void ParseEmptyStringReturnsEmptyConnectionString()
+		{
+			Assert.AreEqual(ConnectionString.Empty, ConnectionString.Parse(string.Empty));
+		}
+
+		[Test]
+		[ExpectedArgumentNullException]
+		public void ParseThrowsArgumentNullException()
+		{
+			ConnectionString.Parse(null);
 		}
 	}
 }
