@@ -227,11 +227,26 @@ namespace Subtext.UnitTesting.Servers
 				this.started = false;
 			}
 
-			if (Directory.Exists(this.webBinDir))
-				Directory.Delete(this.webBinDir, true);
+			try
+			{
+				if(Directory.Exists(this.webBinDir))
+					Directory.Delete(this.webBinDir, true);
+			}
+			catch (UnauthorizedAccessException)
+			{
+				Debug.Print("UnauthorizedAccessException occurred while deleting '{0}'", this.webBinDir);
+			}
 
-			if (Directory.Exists(this.webRoot))
-				Directory.Delete(this.webRoot, true);
+			try
+			{
+				if(Directory.Exists(this.webRoot))
+					Directory.Delete(this.webRoot, true);
+			}
+			catch (UnauthorizedAccessException)
+			{
+				Debug.Print("UnauthorizedAccessException occurred while deleting '{0}'", this.webRoot);
+			}
 		}
 	}
 }
+ 
