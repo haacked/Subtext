@@ -36,7 +36,7 @@ namespace Subtext.Scripting.Exceptions
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SqlScriptExecutionException"/> class.
 		/// </summary>
-		public SqlScriptExecutionException() : base()
+		public SqlScriptExecutionException()
 		{
 		}
 
@@ -62,6 +62,7 @@ namespace Subtext.Scripting.Exceptions
 		/// </summary>
 		/// <param name="message">The message.</param>
 		/// <param name="script">The script.</param>
+		/// <param name="returnValue">The return value.</param>
 		public SqlScriptExecutionException(string message, Script script, int returnValue) : base(message)
 		{
 			_script = script;
@@ -73,6 +74,7 @@ namespace Subtext.Scripting.Exceptions
 		/// </summary>
 		/// <param name="message">The message.</param>
 		/// <param name="script">The script.</param>
+		/// <param name="returnValue">The return value.</param>
 		/// <param name="innerException">The inner exception.</param>
 		public SqlScriptExecutionException(string message, Script script, int returnValue, Exception innerException) : base(message, innerException)
 		{
@@ -84,7 +86,8 @@ namespace Subtext.Scripting.Exceptions
 		// if this class is not sealed, this constructor should be protected.
 		private SqlScriptExecutionException(SerializationInfo info, StreamingContext context) : base(info, context)
 		{
-			_script = info.GetValue("Script", typeof (string)) as Script;
+			_script = info.GetValue("Script", typeof(Script)) as Script;
+			_returnValue = (int)(info.GetValue("ReturnValue", typeof(int)) ?? 0);
 		}
 
 		/// <summary>
@@ -97,6 +100,7 @@ namespace Subtext.Scripting.Exceptions
 		void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
 		{
 			info.AddValue("Script", _script);
+			info.AddValue("ReturnValue", _returnValue);
 			GetObjectData(info, context);
 		}
 
@@ -128,7 +132,7 @@ namespace Subtext.Scripting.Exceptions
 				string message = base.Message;
                 if (this.Script != null)
                 {
-                    message += Environment.NewLine + Resources.SqlScriptExecution_ScriptName + _script.ToString();
+                    message += Environment.NewLine + Resources.SqlScriptExecution_ScriptName + _script;
                 }
 				message += Resources.SqlScriptExecution_ReturnValue + ReturnValue;
 				return message;

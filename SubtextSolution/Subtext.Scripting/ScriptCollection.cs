@@ -24,6 +24,7 @@ namespace Subtext.Scripting
 	/// <summary>
 	/// A collection of <see cref="Script"/>s.
 	/// </summary>
+	[Serializable]
 	public class ScriptCollection : Collection<Script>, ITemplateScript
 	{
 		string _fullScriptText; //Original unexpanded script.

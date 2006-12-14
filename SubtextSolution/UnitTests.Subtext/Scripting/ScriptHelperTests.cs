@@ -150,7 +150,7 @@ namespace UnitTests.Subtext.Scripting
 		}
 
 		[Test]
-		[ExpectedException(typeof(InvalidOperationException))]
+		[ExpectedArgumentNullException]
 		public void ExecuteThrowsArgumentNullException()
 		{
 			Script script = new Script(null);

@@ -153,17 +153,10 @@ namespace Subtext.Scripting
 					{
 						if(returnValue >= 0)
 							recordsAffectedTotal += returnValue;
-						OnProgressEvent(++scriptsExecutedCount, returnValue, script);
-					}
-					else 
-					{
-						OnProgressEvent(++scriptsExecutedCount, returnValue, script);
-					}
+					}					
 				}
-				else
-				{
-					OnProgressEvent(++scriptsExecutedCount, returnValue, script);
-				}
+				
+				OnProgressEvent(++scriptsExecutedCount, returnValue, script);
 			}
 			return recordsAffectedTotal;
 		}

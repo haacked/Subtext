@@ -28,6 +28,7 @@ namespace Subtext.Scripting
 	/// <summary>
 	/// Represents a single executable script within the full SQL script.
 	/// </summary>
+	[Serializable]
 	public class Script : IScript, ITemplateScript
 	{
 		ScriptToken _scriptTokens;
@@ -206,6 +207,7 @@ namespace Subtext.Scripting
 		/// of a script making it trivial to replace template parameters with their 
 		/// values.
 		/// </summary>
+		[Serializable]
 		class ScriptToken
 		{
 			/// <summary>
