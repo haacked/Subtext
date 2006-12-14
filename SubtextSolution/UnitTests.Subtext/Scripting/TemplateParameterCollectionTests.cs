@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using MbUnit.Framework;
 using Subtext.Scripting;
@@ -9,10 +10,23 @@ namespace UnitTests.Subtext.Scripting
 	public class TemplateParameterCollectionTests
 	{
 		[Test]
+		public void CanCopyToArray()
+		{
+			TemplateParameterCollection parameters = new TemplateParameterCollection();
+			parameters.Add(new TemplateParameter("test0", "int", "0"));
+			parameters.Add(new TemplateParameter("test1", "int", "1"));
+			TemplateParameter[] paramArray = new TemplateParameter[2];
+			parameters.CopyTo(paramArray, 0);
+
+			Assert.AreEqual(paramArray[0], parameters[0]);
+			Assert.AreEqual(paramArray[1], parameters[1]);
+		}
+
+		[Test]
 		public void CanClear()
 		{
 			TemplateParameterCollection parameters = new TemplateParameterCollection();
-			parameters.Add(new TemplateParameter("test", "int", "0"));
+			((ICollection<TemplateParameter>)parameters).Add(new TemplateParameter("test", "int", "0"));
 			Assert.AreEqual(1, parameters.Count);
 			parameters.Clear();
 			Assert.AreEqual(0, parameters.Count);

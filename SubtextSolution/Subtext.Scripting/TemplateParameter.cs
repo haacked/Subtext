@@ -20,6 +20,7 @@ namespace Subtext.Scripting
 	/// <summary>
 	/// Summary description for TemplateParameter.
 	/// </summary>
+	[Serializable]
 	public class TemplateParameter
 	{
 		string _name;

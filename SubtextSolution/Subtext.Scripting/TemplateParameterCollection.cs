@@ -9,6 +9,7 @@ namespace Subtext.Scripting
 	/// <summary>
 	/// A collection of <see cref="TemplateParameter"/> instances.
 	/// </summary>
+	[Serializable]
 	public class TemplateParameterCollection : IEnumerable<TemplateParameter>, ICollection<TemplateParameter>
 	{
 	    List<TemplateParameter> list = new List<TemplateParameter>();
@@ -69,7 +70,7 @@ namespace Subtext.Scripting
 		public bool Contains(string name)
 		{
 			if (name == null)
-				throw new ArgumentNullException("name", Resources.ArgumentNull_Generic);
+				throw new ArgumentNullException("name", String.Format(Resources.ArgumentNull_WithParamName, "name"));
 
 			return this[name] != null;
 		}
