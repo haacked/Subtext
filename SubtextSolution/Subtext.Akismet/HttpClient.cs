@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -48,8 +49,7 @@ namespace Subtext.Akismet
 			System.Net.ServicePointManager.Expect100Continue = false;
 			HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
 
-			if (request == null)
-				throw new ArgumentException(Resources.HttpRequestNull, "url");
+			Debug.Assert(request != null, "HttpWebRequest should not be null", string.Format("Calling WebRequest.Create(url) produced a null HttpWebRequest instance for the URL '{0}'", url));
 
 			if (proxy != null)
 				request.Proxy = proxy;

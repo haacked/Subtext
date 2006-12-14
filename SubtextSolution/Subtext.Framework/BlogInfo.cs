@@ -268,8 +268,12 @@ namespace Subtext.Framework
 		/// <value></value>
 		public string Language
 		{
-			get{return _language;}
-			set{_language = value;}
+			get{return String.IsNullOrEmpty(_language) ? "en-US" : _language;}
+			set
+			{
+				_language = value;
+				_languageCode = null;
+			}
 		}
 
 		/// <summary>
@@ -280,12 +284,9 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				if(_languageCode == null || _languageCode.Length == 0)
+				if(String.IsNullOrEmpty(_languageCode))
 				{
-					//Just being paranoid in making this check.
-					if(_language == null)
-						_language = "en-US";
-					_languageCode = StringHelper.LeftBefore(_language, "-");
+					_languageCode = StringHelper.LeftBefore(Language, "-");
 				}
 				return _languageCode;
 			}
@@ -990,7 +991,7 @@ namespace Subtext.Framework
 		/// </summary>
 		/// <param name="cf">Cf.</param>
 		/// <returns></returns>
-		protected bool FlagPropertyCheck(ConfigurationFlag cf)
+		bool FlagPropertyCheck(ConfigurationFlag cf)
 		{
 			return (this.Flag & cf) == cf;
 		}
