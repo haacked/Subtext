@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Globalization;
-using System.Reflection;
 using System.Threading;
 using System.Web;
 using System.Web.Caching;
@@ -19,13 +18,48 @@ namespace UnitTests.Subtext.Framework.Data
 	public class ContentCacheTests
 	{
 		[Test]
+		public void CanInsertIntoCache()
+		{
+			UnitTestHelper.SetupHttpContextWithRequest("/");
+			ContentCache cache = ContentCache.Instantiate();
+			Assert.IsNull(cache.Get("NotThere"));
+			cache.Insert("IsThereNow", new object());
+			Assert.IsNotNull(cache.Get("IsThereNow"));
+		}
+
+		[Test]
+		public void CanInsertIntoCacheWithCacheDependency()
+		{
+			UnitTestHelper.SetupHttpContextWithRequest("/");
+			ContentCache cache = ContentCache.Instantiate();
+			Assert.IsNull(cache.Get("NotThere"));
+			MockRepository mocks = new MockRepository();
+			CacheDependency cacheDependency = mocks.CreateMock<CacheDependency>();
+			mocks.ReplayAll();
+			cache.Insert("IsThereWithDependency", new object(), cacheDependency);
+			Assert.IsNotNull(cache.Get("IsThereWithDependency"));
+			mocks.VerifyAll();
+		}
+
+		[Test]
+		public void CanRemoveFromCache()
+		{
+			UnitTestHelper.SetupHttpContextWithRequest("/");
+			ContentCache cache = ContentCache.Instantiate();
+			cache["IsThereForRemove"] = new object();
+			Assert.IsNotNull(cache.Get("IsThereForRemove"));
+			cache.Remove("IsThereForRemove");
+			Assert.IsNull(cache.Get("IsThereForRemove"));
+		}
+
+		[Test]
 		public void CanGetItemFromCache()
 		{
 			UnitTestHelper.SetupHttpContextWithRequest("/");
 			ContentCache cache = ContentCache.Instantiate();
 			Assert.IsNull(cache.Get("NotThere"));
-			cache["IsThere"] = new object();
-			Assert.IsNotNull(cache.Get("IsThere"));
+			cache["IsThereGetIt"] = new object();
+			Assert.IsNotNull(cache.Get("IsThereGetIt"));
 		}
 
 		/// <summary>
@@ -121,7 +155,7 @@ namespace UnitTests.Subtext.Framework.Data
 
 			MockRepository mocks = new MockRepository();
 			CacheDependency cacheDependency = mocks.CreateMock<CacheDependency>();
-
+			mocks.ReplayAll();
 			cache.Insert("test", null, cacheDependency);
 		}
 	}
