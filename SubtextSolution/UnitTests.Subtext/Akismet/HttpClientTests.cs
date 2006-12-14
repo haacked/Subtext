@@ -52,6 +52,4 @@ namespace UnitTests.Subtext.Akismet
 			}
 		}
 	}
-
-	
 }

@@ -129,7 +129,4 @@
   <data name="ArgumentNull_Uri" xml:space="preserve">
     <value>URI cannot be null.</value>
   </data>
-  <data name="HttpRequestNull" xml:space="preserve">
-    <value>Could not create an HttpRequest from the specified URL. The HttpRequest is null.</value>
-  </data>
 </root>

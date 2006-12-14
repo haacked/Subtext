@@ -26,7 +26,7 @@ namespace Subtext.Framework
 		public const int NullInt32 = Int32.MinValue;
 
 		/// <summary>Represents a null double.</summary>
-		public const double NullDouble = double.MinValue;
+		public const double NullDouble = double.NaN;
 
 		/// <summary>Represents a null DateTime</summary>
 		public static DateTime NullDateTime
@@ -58,7 +58,7 @@ namespace Subtext.Framework
 		/// </returns>
 		public static bool IsNull(double number)
 		{
-			return number == NullDouble;
+			return double.IsNaN(number);
 		}
 
 		/// <summary>

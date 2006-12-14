@@ -31,7 +31,7 @@ namespace Subtext.UnitTesting.Servers
 		private string webServerVDir;
 		private string sourceBinDir = AppDomain.CurrentDomain.BaseDirectory;
 		private string webRoot = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "WebRoot");
-		private string webBinDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin");
+		private string webBinDir = Path.Combine(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "WebRoot"), "bin");
 		private string webServerUrl; //built in Start
 
 		/// <summary>
@@ -226,6 +226,9 @@ namespace Subtext.UnitTesting.Servers
 				this.webServer = null;
 				this.started = false;
 			}
+
+			if (Directory.Exists(this.webBinDir))
+				Directory.Delete(this.webBinDir, true);
 
 			if (Directory.Exists(this.webRoot))
 				Directory.Delete(this.webRoot, true);

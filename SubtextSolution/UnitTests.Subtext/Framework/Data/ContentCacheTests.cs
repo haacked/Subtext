@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Globalization;
+using System.Reflection;
 using System.Threading;
 using System.Web;
+using System.Web.Caching;
 using MbUnit.Framework;
 using Subtext.Framework;
 
@@ -15,6 +17,16 @@ namespace UnitTests.Subtext.Framework.Data
 	[TestFixture]
 	public class ContentCacheTests
 	{
+		[Test]
+		public void CanGetItemFromCache()
+		{
+			UnitTestHelper.SetupHttpContextWithRequest("/");
+			ContentCache cache = ContentCache.Instantiate();
+			Assert.IsNull(cache.Get("NotThere"));
+			cache["IsThere"] = new object();
+			Assert.IsNotNull(cache.Get("IsThere"));
+		}
+
 		/// <summary>
 		/// Makes sure that the <see cref="ContentCache"/> <see cref="ContentCache.Instantiate"/> 
 		/// method uses the per-request cache if provided.
@@ -22,7 +34,7 @@ namespace UnitTests.Subtext.Framework.Data
 		[Test]
 		public void InstantiationOfContentCacheUsesRequestCaching()
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest(UnitTestHelper.GenerateRandomString(), "");
+			UnitTestHelper.SetupHttpContextWithRequest("/");
 			Assert.IsNotNull(HttpContext.Current, "We did not set up the http context correctly.");
 			Assert.AreEqual(1, HttpContext.Current.Items.Count, "Did not expect the request cache to have any items.");
 			
@@ -42,7 +54,7 @@ namespace UnitTests.Subtext.Framework.Data
 		[Test]
 		public void ContentCacheCachesByLanguage()
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest(UnitTestHelper.GenerateRandomString(), "");
+			UnitTestHelper.SetupHttpContextWithRequest("/");
 
 			//Start with en-US
 			Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
@@ -76,10 +88,10 @@ namespace UnitTests.Subtext.Framework.Data
 		/// Make sure passing in a null value for caching throws an exception.
 		/// </summary>
 		[Test]
-		[ExpectedException(typeof(ArgumentNullException))]
-		public void CannotInsertNullTest()
+		[ExpectedArgumentNullException]
+		public void InsertThrowsArgumentNullExceptionForNullValue()
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest(UnitTestHelper.GenerateRandomString(), "");
+			UnitTestHelper.SetupHttpContextWithRequest("/");
 			ContentCache cache = ContentCache.Instantiate();
 			cache.Insert("test", null);
 		}
@@ -88,12 +100,28 @@ namespace UnitTests.Subtext.Framework.Data
 		/// Make sure passing in a null value for caching throws an exception.
 		/// </summary>
 		[Test]
-		[ExpectedException(typeof(ArgumentNullException))]
-		public void CannotInsertNullWithCacheDurationTest()
+		[ExpectedArgumentNullException]
+		public void InsertThrowsArgumentNullExceptionForNullValueWithCacheDurationOverload()
 		{
-			UnitTestHelper.SetHttpContextWithBlogRequest(UnitTestHelper.GenerateRandomString(), "");
+			UnitTestHelper.SetupHttpContextWithRequest("/");
 			ContentCache cache = ContentCache.Instantiate();
 			cache.Insert("test", null, CacheDuration.Short);
+		}
+
+		/// <summary>
+		/// Make sure passing in a null value for caching throws an exception.
+		/// </summary>
+		[Test]
+		[ExpectedArgumentNullException]
+		public void InsertThrowsArgumentNullExceptionForNullValueWithCacheDependencyOverload()
+		{
+			UnitTestHelper.SetupHttpContextWithRequest("/");
+			ContentCache cache = ContentCache.Instantiate();
+
+			string path = Assembly.GetExecutingAssembly().CodeBase;
+
+			CacheDependency dep = new CacheDependency(path, DateTime.Now);
+			cache.Insert("test", null, dep);
 		}
 	}
 }

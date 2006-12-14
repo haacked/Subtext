@@ -88,15 +88,6 @@ namespace Subtext.Akismet.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Could not create an HttpRequest from the specified URL. The HttpRequest is null..
-        /// </summary>
-        internal static string HttpRequestNull {
-            get {
-                return ResourceManager.GetString("HttpRequestNull", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The service was not able to handle our request. Http Status &apos;{0}&apos;..
         /// </summary>
         internal static string InvalidResponse_Generic {
