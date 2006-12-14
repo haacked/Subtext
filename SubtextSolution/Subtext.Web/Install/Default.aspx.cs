@@ -58,7 +58,7 @@ namespace Subtext.Web.Install
 			if (this.txtAdminPassword == null)
 				this.txtAdminPassword = ControlHelper.FindControlRecursively(this, "txtAdminPassword") as TextBox;
 
-			InstallationState status = InstallationManager.GetCurrentInstallationState(VersionInfo.FrameworkVersion);
+			InstallationState status = InstallationManager.GetCurrentInstallationState();
 			switch (status)
 			{
 				case InstallationState.NeedsInstallation:

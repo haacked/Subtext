@@ -12,18 +12,26 @@ namespace Subtext.Framework.Services
 	public class AkismetSpamService : IFeedbackSpamService
 	{
 		private readonly static ILog log = new Subtext.Framework.Logging.Log();
-		AkismetClient akismet;
+		IAkismetClient akismet;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AkismetSpamService"/> class.
 		/// </summary>
 		/// <param name="apiKey">The API key.</param>
 		/// <param name="blog">The blog.</param>
-		public AkismetSpamService(string apiKey, BlogInfo blog)
+		public AkismetSpamService(string apiKey, IBlogInfo blog) : this(new AkismetClient(apiKey, blog.RootUrl))
 		{
-			this.akismet = new AkismetClient(apiKey, blog.RootUrl);
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AkismetSpamService"/> class.
+		/// </summary>
+		/// <param name="akismetClient">The akismet client.</param>
+		public AkismetSpamService(IAkismetClient akismetClient)
+		{
+			this.akismet = akismetClient;
 			IWebProxy proxy = HttpHelper.GetProxy();
-			if(proxy != null)
+			if (proxy != null)
 				this.akismet.Proxy = proxy;
 		}
 

@@ -30,12 +30,24 @@ using Subtext.Framework.Components;
 namespace Subtext.Framework
 {
 	/// <summary>
+	/// Represents a blog in the system.
+	/// </summary>
+	public interface IBlogInfo
+	{
+		/// <summary>
+		/// Gets the root URL for this blog.  For example, "http://example.com/" or "http://example.com/blog/".
+		/// </summary>
+		/// <value></value>
+		Uri RootUrl { get; }
+	}
+
+	/// <summary>
 	/// Represents an instance of a blog.  This was formerly known as the BlogConfig class. 
 	/// We are attempting to distinguish this from settings stored in web.config. This class 
 	/// is persisted via a <see cref="ObjectProvider"/>.
 	/// </summary>
 	[Serializable]
-	public class BlogInfo
+	public class BlogInfo : IBlogInfo
 	{
 		const int DefaultRecentCommentsLength = 50;
 		private UrlFormats _urlFormats;
@@ -50,11 +62,14 @@ namespace Subtext.Framework
 			return StringHelper.LeftBefore(
 			    StringHelper.RightAfter(host, "www.", StringComparison.InvariantCultureIgnoreCase), ":");
 		}
-		
+
 		/// <summary>
 		/// Gets the active blog count by host.
 		/// </summary>
 		/// <param name="host">The host.</param>
+		/// <param name="pageIndex">Index of the page.</param>
+		/// <param name="pageSize">Size of the page.</param>
+		/// <param name="flags">The flags.</param>
 		/// <returns></returns>
         public static IPagedCollection<BlogInfo> GetBlogsByHost(string host, int pageIndex, int pageSize, ConfigurationFlag flags)
 		{

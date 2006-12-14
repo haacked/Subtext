@@ -30,9 +30,8 @@ namespace Subtext.Installation
         /// <summary>
         /// Gets the installation status.
         /// </summary>
-        /// <param name="currentAssemblyVersion">The version of the assembly that represents this installation.</param>
         /// <returns></returns>
-        public abstract InstallationState GetInstallationStatus(Version currentAssemblyVersion);
+        public abstract InstallationState GetInstallationStatus();
 
         /// <summary>
         /// Upgrades this instance. Returns true if it was successful.
@@ -62,11 +61,11 @@ namespace Subtext.Installation
         /// <returns></returns>
         public abstract Version GetCurrentInstallationVersion();
 
-        /// <summary>
-        /// Updates the current installed version.
-        /// </summary>
-        /// <param name="newVersion">The new version that is now current.</param>
-        /// <returns></returns>
+		/// <summary>
+		/// Updates the current installed version.
+		/// </summary>
+		/// <param name="newVersion">The new version that is now current.</param>
+		/// <param name="transaction">The transaction.</param>
         public abstract void UpdateInstallationVersionNumber(Version newVersion, SqlTransaction transaction); 
         #endregion
 	}

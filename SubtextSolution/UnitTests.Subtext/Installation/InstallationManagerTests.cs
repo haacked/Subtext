@@ -72,13 +72,13 @@ namespace UnitTests.Subtext.Installation
 			AssertNotInInstallDirectory("", "");
 		}
 
-		void AssertIsInInstallDirectory(string virtualDirectory, string subfolder)
+		static void AssertIsInInstallDirectory(string virtualDirectory, string subfolder)
 		{
 			UnitTestHelper.SetupBlog(subfolder, virtualDirectory, "Install/Default.aspx");
 			Assert.IsTrue(InstallationManager.IsInInstallDirectory, "This request should be within the installation directory.");	
 		}
 
-		void AssertNotInInstallDirectory(string virtualDirectory, string subfolder)
+		static void AssertNotInInstallDirectory(string virtualDirectory, string subfolder)
 		{
 			UnitTestHelper.SetupBlog(subfolder, virtualDirectory, "Admin/Default.aspx");
 			Assert.IsFalse(InstallationManager.IsInInstallDirectory, "This request is indeed within the installation directory.");	

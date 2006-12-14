@@ -12,7 +12,7 @@ namespace Subtext.Installation
 	public static class Installer
 	{
 		private static InstallerProvider provider;
-		private static GenericProviderCollection<InstallerProvider> providers = ProviderConfigurationHelper.LoadProviderCollection<InstallerProvider>("Installation", out provider);
+		private static GenericProviderCollection<InstallerProvider> providers = ProviderConfigurationHelper.LoadProviderCollection("Installation", out provider);
 
 		/// <summary>
 		/// Returns the currently configured InstallationProvider.
@@ -40,11 +40,10 @@ namespace Subtext.Installation
 		/// <summary>
 		/// Gets the current installation status.
 		/// </summary>
-		/// <param name="currentAssemblyVersion">The version of the assembly that represents this installation.</param>
 		/// <returns></returns>
-		public static InstallationState GetInstallationStatus(Version currentAssemblyVersion)
+		public static InstallationState GetInstallationStatus()
 		{
-			return Installer.Provider.GetInstallationStatus(currentAssemblyVersion);
+			return Installer.Provider.GetInstallationStatus();
 		}
 
 		/// <summary>

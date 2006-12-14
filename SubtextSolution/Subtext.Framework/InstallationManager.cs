@@ -40,7 +40,7 @@ namespace Subtext.Framework
 				return (bool)HttpContext.Current.Application["NeedsInstallation"];
 			}
 					
-			InstallationState currentState = Installer.GetInstallationStatus(assemblyVersion);
+			InstallationState currentState = Installer.GetInstallationStatus();
 			bool needsUpgrade = currentState  == InstallationState.NeedsInstallation 
 				|| currentState  == InstallationState.NeedsUpgrade
 				|| currentState  == InstallationState.NeedsRepair;
@@ -102,7 +102,7 @@ namespace Subtext.Framework
 			if(Installer.IsInstallationException(unhandledException))
 				return true;
 
-			InstallationState status = Installer.GetInstallationStatus(assemblyVersion);
+			InstallationState status = Installer.GetInstallationStatus();
 			switch(status)
 			{
 				case InstallationState.NeedsInstallation:
@@ -175,11 +175,10 @@ namespace Subtext.Framework
 		/// <summary>
 		/// Gets the installation status.
 		/// </summary>
-		/// <param name="assemblyVersion">Gets the version of the currently installed assembly.</param>
 		/// <returns></returns>
-		public static InstallationState GetCurrentInstallationState(Version assemblyVersion)
+		public static InstallationState GetCurrentInstallationState()
 		{
-			return Installer.GetInstallationStatus(assemblyVersion);
+			return Installer.GetInstallationStatus();
 		}
 	}
 }

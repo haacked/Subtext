@@ -61,7 +61,7 @@ namespace Subtext.Web.HttpModules
 			// or if we're missing a HostInfo record.
 			if((InstallationManager.IsInstallationActionRequired(VersionInfo.FrameworkVersion) || InstallationManager.HostInfoRecordNeeded))
 			{
-				InstallationState state = InstallationManager.GetCurrentInstallationState(VersionInfo.FrameworkVersion);
+				InstallationState state = InstallationManager.GetCurrentInstallationState();
 				if(state == InstallationState.NeedsInstallation && !InstallationManager.IsInHostAdminDirectory && !InstallationManager.IsInInstallDirectory)
 				{
 					HttpContext.Current.Response.Redirect("~/Install/", true);
