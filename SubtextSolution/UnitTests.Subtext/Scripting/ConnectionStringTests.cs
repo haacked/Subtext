@@ -79,7 +79,7 @@ namespace UnitTests.Subtext.Scripting
 		[Test]
 		public void EmptyConnectionStringIsWhatWeExpect()
 		{
-			Assert.AreEqual("Server=;Database=;User ID=;Password=;", ConnectionString.Empty);
+			Assert.AreEqual("Server=;Database=;User ID=;Password=;", ConnectionString.Empty.ToString());
 		}
 
 		[Test]
