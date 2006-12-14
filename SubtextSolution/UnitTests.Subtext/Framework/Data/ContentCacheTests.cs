@@ -6,6 +6,7 @@ using System.Threading;
 using System.Web;
 using System.Web.Caching;
 using MbUnit.Framework;
+using Rhino.Mocks;
 using Subtext.Framework;
 
 namespace UnitTests.Subtext.Framework.Data
@@ -118,10 +119,10 @@ namespace UnitTests.Subtext.Framework.Data
 			UnitTestHelper.SetupHttpContextWithRequest("/");
 			ContentCache cache = ContentCache.Instantiate();
 
-			string path = Assembly.GetExecutingAssembly().CodeBase;
+			MockRepository mocks = new MockRepository();
+			CacheDependency cacheDependency = mocks.CreateMock<CacheDependency>();
 
-			CacheDependency dep = new CacheDependency(path, DateTime.Now);
-			cache.Insert("test", null, dep);
+			cache.Insert("test", null, cacheDependency);
 		}
 	}
 }
