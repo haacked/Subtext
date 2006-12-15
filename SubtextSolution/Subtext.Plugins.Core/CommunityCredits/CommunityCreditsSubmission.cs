@@ -51,7 +51,8 @@ namespace Subtext.Plugins.Core.CommunityCredits
 				{
 					result=wsCommunityCredit.AddCommunityCredit(email, firstName, lastName, description, url, category, affiliateCode, affiliateKey);
 				}
-				catch (Exception ex)
+				catch (Exception)
+				//catch (Exception ex)
 				{
 					//this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "Error during Community Credits submission (your post has been saved)", ex.Message));
 				}	
