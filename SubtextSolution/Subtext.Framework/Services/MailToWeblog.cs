@@ -407,7 +407,7 @@ namespace Subtext.Framework.Services
                                                         * CHANGE: I have changed the e-mail content sripping
                                                         * to not to include message disclaimer on the blog entry
                                                         */
-                                                    if (activeblog.pop3StartTag == string.Empty)
+                                                    if (activeblog.pop3StartTag.Length == 0)
                                                         bodyExtractor = new Regex("<body.*?>(?<content>.*)</body>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
                                                     else
                                                         bodyExtractor = new Regex(activeblog.pop3StartTag + "(?<content>.*)" + activeblog.pop3EndTag, RegexOptions.IgnoreCase | RegexOptions.Singleline);

@@ -60,7 +60,7 @@ namespace Subtext.Web.HttpModules
 		/// found.
 		/// </summary>
 		/// <returns></returns>
-		protected string Host
+		protected static string Host
 		{
 			get
 			{

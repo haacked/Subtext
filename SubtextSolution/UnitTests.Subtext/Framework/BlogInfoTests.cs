@@ -88,7 +88,7 @@ namespace UnitTests.Subtext.Framework
 		public void DefaultPortIs80()
 		{
 			Assert.IsNull(HttpContext.Current);
-			Assert.AreEqual(80, new BlogInfo().Port);
+			Assert.AreEqual(80, BlogInfo.Port);
 		}
 
 		[Test]
@@ -331,7 +331,7 @@ namespace UnitTests.Subtext.Framework
 		{
 			UnitTestHelper.SetupBlog(subfolder, virtualDir);
 
-			Assert.AreEqual(expected, Config.CurrentBlog.VirtualDirectoryRoot, "Did not set the VirtualDirectoryRoot correctly.");
+			Assert.AreEqual(expected, BlogInfo.VirtualDirectoryRoot, "Did not set the VirtualDirectoryRoot correctly.");
 		}
 
 		[Test]

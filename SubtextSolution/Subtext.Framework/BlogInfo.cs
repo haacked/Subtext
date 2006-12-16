@@ -315,7 +315,7 @@ namespace Subtext.Framework
 	    /// <summary>
 	    /// The port the blog is listening on.
 	    /// </summary>
-	    public int Port
+	    public static int Port
 	    {
 	        get
 	        {
@@ -810,7 +810,7 @@ namespace Subtext.Framework
 		/// HttpContext.Current.Request.ApplicationPath property that always ends with a slash.
 		/// </summary>
 		/// <value>The virtual URL.</value>
-		public string VirtualDirectoryRoot
+		public static string VirtualDirectoryRoot
 		{
 			get
 			{
@@ -883,9 +883,9 @@ namespace Subtext.Framework
 				if (this.hostFullyQualifiedUrl == null)
 				{
 					string host = HttpContext.Current.Request.Url.Scheme + "://" + this._host;
-					if (this.Port != BlogRequest.DefaultPort)
+					if (BlogInfo.Port != BlogRequest.DefaultPort)
 					{
-						host += ":" + this.Port;
+                        host += ":" + BlogInfo.Port;
 					}
 					host += VirtualDirectoryRoot;
 					hostFullyQualifiedUrl = new Uri(host);

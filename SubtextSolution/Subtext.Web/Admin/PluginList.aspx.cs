@@ -135,9 +135,9 @@ namespace Subtext.Web.Admin.Pages
 			}
 		}
 
-		private bool IsPluginEnabled(PluginBase plugin)
+		private static bool IsPluginEnabled(PluginBase plugin)
 		{
-			return SubtextApplication.Current.PluginEnabled(plugin);
+			return SubtextApplication.PluginEnabled(plugin);
 		}
 
 		protected void pluginListRpt_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)

@@ -386,7 +386,7 @@ namespace Subtext.Extensibility.Plugins
 		/// </summary>
 		/// <param name="plugin">The plugin</param>
 		/// <returns><c>true</c> if the plugin is enabled, <c>false</c> otherwise</returns>
-		public bool PluginEnabled(PluginBase plugin)
+		public static bool PluginEnabled(PluginBase plugin)
 		{
 			foreach (Plugin blogPlugin in Config.CurrentBlog.EnabledPlugins.Values)
 			{

@@ -125,7 +125,7 @@ namespace Subtext.Framework.Components
 			feedback.Id = ObjectProvider.Instance().CreateFeedback(feedback);
 			
 			if(filter != null)
-				filter.FilterAfterPersist(feedback);
+                CommentFilter.FilterAfterPersist(feedback);
 
 			// if it's not the administrator commenting and it's not a trackback.
 			if (!SecurityHelper.IsAdmin && !String.IsNullOrEmpty(Config.CurrentBlog.Owner.Email) && feedback.FeedbackType != Extensibility.FeedbackType.PingTrack)
