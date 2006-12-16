@@ -111,15 +111,6 @@
      </Message>
     </Messages>
    </Namespace>
-   <Namespace Name="Subtext.Framework.Email">
-    <Messages>
-     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2006-11-08 18:41:28Z">
-      <Issue>
-       <Item>Subtext.Framework.Email</Item>
-      </Issue>
-     </Message>
-    </Messages>
-   </Namespace>
    <Namespace Name="Subtext.Framework.Format">
     <Messages>
      <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2006-11-08 18:41:28Z">
@@ -129,11 +120,29 @@
      </Message>
     </Messages>
    </Namespace>
+   <Namespace Name="Subtext.Framework.Net">
+    <Messages>
+     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2006-12-16 21:41:03Z">
+      <Issue>
+       <Item>Subtext.Framework.Net</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
    <Namespace Name="Subtext.Framework.Providers">
     <Messages>
      <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2006-11-08 18:41:28Z">
       <Issue>
        <Item>Subtext.Framework.Providers</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
+   <Namespace Name="Subtext.Framework.Search">
+    <Messages>
+     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2006-12-16 21:41:03Z">
+      <Issue>
+       <Item>Subtext.Framework.Search</Item>
       </Issue>
      </Message>
     </Messages>
@@ -170,6 +179,15 @@
      <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2006-11-08 18:41:28Z">
       <Issue>
        <Item>Subtext.Framework.Text</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
+   <Namespace Name="Subtext.Framework.UI">
+    <Messages>
+     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2006-12-16 21:41:03Z">
+      <Issue>
+       <Item>Subtext.Framework.UI</Item>
       </Issue>
      </Message>
     </Messages>
@@ -283,6 +301,15 @@
      </Message>
     </Messages>
    </Namespace>
+   <Namespace Name="Subtext.Web.Install">
+    <Messages>
+     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2006-12-16 21:41:03Z">
+      <Issue>
+       <Item>Subtext.Web.Install</Item>
+      </Issue>
+     </Message>
+    </Messages>
+   </Namespace>
    <Namespace Name="Subtext.Web.Pages">
     <Messages>
      <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2006-11-19 15:24:51Z">
@@ -373,17 +400,35 @@
      </Message>
     </Messages>
    </Namespace>
-   <Namespace Name="Subtext.Web.UI.WebControls">
-    <Messages>
-     <Message TypeName="AvoidNamespacesWithFewTypes" Category="Microsoft.Design" CheckId="CA1020" Created="2006-11-19 15:24:51Z">
-      <Issue>
-       <Item>Subtext.Web.UI.WebControls</Item>
-      </Issue>
-     </Message>
-    </Messages>
-   </Namespace>
   </Namespaces>
   <Targets>
+   <Target Name="$(ProjectDir)/../../SubtextSolution/Subtext.Web/bin/Subtext.Akismet.dll">
+    <Modules>
+     <Module Name="subtext.akismet.dll">
+      <Namespaces>
+       <Namespace Name="Subtext.Akismet">
+        <Types>
+         <Type Name="HttpClient">
+          <Members>
+           <Member Name="PostRequest(System.Uri,System.String,System.Int32,System.String,System.Net.IWebProxy):System.String">
+            <Messages>
+             <Message Id="System.String.Format(System.String,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-12-16 21:41:03Z">
+              <Issue>
+               <Item>HttpClient.PostRequest(Uri, String, Int32, String, IWebProxy):String</Item>
+               <Item>System.String.Format(System.String,System.Object)</Item>
+               <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+        </Types>
+       </Namespace>
+      </Namespaces>
+     </Module>
+    </Modules>
+   </Target>
    <Target Name="$(ProjectDir)/../../SubtextSolution/Subtext.Web/bin/Subtext.BlogML.dll">
     <Modules>
      <Module Name="subtext.blogml.dll">
@@ -618,41 +663,6 @@
          </Type>
         </Types>
        </Namespace>
-       <Namespace Name="Subtext.Extensibility.Web">
-        <Types>
-         <Type Name="BaseHttpHandler">
-          <Members>
-           <Member Name="RespondFileNotFound(System.Web.HttpContext):System.Void">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-08 18:22:08Z" FixCategory="Breaking">
-              <Issue>
-               <Item>BaseHttpHandler.RespondFileNotFound(HttpContext):Void</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="RespondForbidden(System.Web.HttpContext):System.Void">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-08 18:22:08Z" FixCategory="Breaking">
-              <Issue>
-               <Item>BaseHttpHandler.RespondForbidden(HttpContext):Void</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="RespondInternalError(System.Web.HttpContext):System.Void">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-08 18:22:08Z" FixCategory="Breaking">
-              <Issue>
-               <Item>BaseHttpHandler.RespondInternalError(HttpContext):Void</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-        </Types>
-       </Namespace>
       </Namespaces>
      </Module>
     </Modules>
@@ -682,11 +692,6 @@
                <Item>castclass</Item>
               </Issue>
              </Message>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-14 22:55:11Z" FixCategory="NonBreaking">
-              <Issue>
-               <Item>PluginBase.GetGuidFromAttribute(Type):Guid</Item>
-              </Issue>
-             </Message>
             </Messages>
            </Member>
            <Member Name="GetInfoFromAttribute(System.Type):Subtext.Extensibility.Plugins.PluginBase+PluginImplementationInfo">
@@ -697,11 +702,6 @@
                <Item>Subtext.Extensibility.Attributes.DescriptionAttribute</Item>
                <Item>PluginBase.GetInfoFromAttribute(Type):PluginImplementationInfo</Item>
                <Item>castclass</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-14 22:55:11Z" FixCategory="NonBreaking">
-              <Issue>
-               <Item>PluginBase.GetInfoFromAttribute(Type):PluginImplementationInfo</Item>
               </Issue>
              </Message>
             </Messages>
@@ -773,15 +773,6 @@
               <Issue>
                <Item>SubtextApplication.LoadPlugins():SubtextApplication</Item>
                <Item>System.Exception</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="PluginEnabled(Subtext.Extensibility.Plugins.PluginBase):System.Boolean">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-14 22:55:11Z" FixCategory="Breaking">
-              <Issue>
-               <Item>SubtextApplication.PluginEnabled(PluginBase):Boolean</Item>
               </Issue>
              </Message>
             </Messages>
@@ -1174,15 +1165,6 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="Port">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-08 18:41:28Z" FixCategory="Breaking">
-              <Issue>
-               <Item>BlogInfo.Port:Int32</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="RootUrl">
             <Accessors>
              <Accessor Name="get_RootUrl():System.Uri">
@@ -1216,15 +1198,6 @@
               <Issue Name="Member">
                <Item>Trackbacks</Item>
                <Item>BlogInfo.TrackbacksEnabled:Boolean</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="VirtualDirectoryRoot">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-08 18:41:28Z" FixCategory="Breaking">
-              <Issue>
-               <Item>BlogInfo.VirtualDirectoryRoot:String</Item>
               </Issue>
              </Message>
             </Messages>
@@ -1285,11 +1258,6 @@
           <Members>
            <Member Name="FilterAfterPersist(Subtext.Framework.Components.FeedbackItem):System.Void">
             <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-08 18:41:28Z" FixCategory="Breaking">
-              <Issue>
-               <Item>CommentFilter.FilterAfterPersist(FeedbackItem):Void</Item>
-              </Issue>
-             </Message>
              <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-11-08 18:41:28Z">
               <Issue>
                <Item>'feedbackItem'</Item>
@@ -1403,11 +1371,6 @@
            </Member>
            <Member Name="AutoGenerateFriendlyUrl(System.String,System.Char):System.String">
             <Messages>
-             <Message TypeName="DoNotConcatenateStringsInsideLoops" Category="Microsoft.Performance" CheckId="CA1818" Created="2006-12-08 16:04:55Z">
-              <Issue>
-               <Item>Entries.AutoGenerateFriendlyUrl(String, Char):String</Item>
-              </Issue>
-             </Message>
              <Message Id="System.ArgumentNullException.#ctor(System.String,System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-11-08 18:41:28Z">
               <Issue>
                <Item>Entries.AutoGenerateFriendlyUrl(String, Char):String</Item>
@@ -1616,17 +1579,17 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="CreateHost(System.String,System.String):System.Boolean">
+           <Member Name="CreateHost(System.String,System.String,System.String):System.Boolean">
             <Messages>
-             <Message TypeName="DoNotDisposeObjectsMultipleTimes" Category="Microsoft.Usage" CheckId="CA2202" Created="2006-12-08 16:04:55Z">
+             <Message TypeName="DoNotDisposeObjectsMultipleTimes" Category="Microsoft.Usage" CheckId="CA2202" Created="2006-12-16 21:41:03Z">
               <Issue>
-               <Item>HostInfo.CreateHost(String, String):Boolean</Item>
+               <Item>HostInfo.CreateHost(String, String, String):Boolean</Item>
                <Item>'scope'</Item>
               </Issue>
              </Message>
-             <Message Id="System.InvalidOperationException.#ctor(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-11-08 18:41:28Z">
+             <Message Id="System.InvalidOperationException.#ctor(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-12-16 21:41:03Z">
               <Issue>
-               <Item>HostInfo.CreateHost(String, String):Boolean</Item>
+               <Item>HostInfo.CreateHost(String, String, String):Boolean</Item>
                <Item>1</Item>
                <Item>InvalidOperationException.InvalidOperationException(String)</Item>
                <Item>Cannot create a Host record.  One already exists.</Item>
@@ -1917,11 +1880,31 @@
          </Type>
          <Type Name="InstallationManager">
           <Members>
-           <Member Name="GetInstallationInformationControl():System.Web.UI.Control">
+           <Member Name="GetCurrentInstallationState():Subtext.Installation.InstallationState">
             <Messages>
-             <Message TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024" Created="2006-11-08 18:41:28Z">
+             <Message TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024" Created="2006-12-16 21:41:03Z">
               <Issue Certainty="50">
-               <Item>GetInstallationInformationControl</Item>
+               <Item>GetCurrentInstallationState</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="InstallationActionRequired(System.Exception,System.Version):System.Boolean">
+            <Messages>
+             <Message Id="assemblyVersion" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2006-12-16 21:41:03Z" FixCategory="Breaking">
+              <Issue>
+               <Item>assemblyVersion</Item>
+               <Item>InstallationManager.InstallationActionRequired(Exception, Version):Boolean</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="IsInstallationActionRequired(System.Version):System.Boolean">
+            <Messages>
+             <Message Id="assemblyVersion" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Created="2006-12-16 21:41:03Z" FixCategory="Breaking">
+              <Issue>
+               <Item>assemblyVersion</Item>
+               <Item>InstallationManager.IsInstallationActionRequired(Version):Boolean</Item>
               </Issue>
              </Message>
             </Messages>
@@ -2936,15 +2919,6 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="GetAggregateBlog():Subtext.Framework.BlogInfo">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-08 18:41:28Z" FixCategory="NonBreaking">
-              <Issue>
-               <Item>UrlBasedBlogInfoProvider.GetAggregateBlog():BlogInfo</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="GetBlogInfo():Subtext.Framework.BlogInfo">
             <Messages>
              <Message TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024" Created="2006-11-08 18:41:28Z">
@@ -3226,15 +3200,6 @@
          </Type>
          <Type Name="DatabaseObjectProvider">
           <Members>
-           <Member Name="BlogIdParam">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-08 18:41:28Z" FixCategory="NonBreaking">
-              <Issue>
-               <Item>DatabaseObjectProvider.BlogIdParam:SqlParameter</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="CreateFeedback(Subtext.Framework.Components.FeedbackItem):System.Int32">
             <Messages>
              <Message Id="System.ArgumentNullException.#ctor(System.String,System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-11-08 18:41:28Z">
@@ -3367,24 +3332,6 @@
                <Item>DatabaseObjectProvider.LoadHostInfo(HostInfo):HostInfo</Item>
                <Item>info</Item>
                <Item>ObjectProvider.LoadHostInfo(HostInfo):HostInfo</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="LogSql(System.String,System.Data.SqlClient.SqlParameter[]):System.Void">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-08 18:41:28Z" FixCategory="NonBreaking">
-              <Issue>
-               <Item>DatabaseObjectProvider.LogSql(String, SqlParameter[]):Void</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="LogSql(System.String,System.Object[]):System.Void">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-12-08 16:04:55Z" FixCategory="NonBreaking">
-              <Issue>
-               <Item>DatabaseObjectProvider.LogSql(String, Object[]):Void</Item>
               </Issue>
              </Message>
             </Messages>
@@ -3997,54 +3944,6 @@
          </Type>
         </Types>
        </Namespace>
-       <Namespace Name="Subtext.Framework.Email">
-        <Types>
-         <Type Name="DotNetOpenMailProvider">
-          <Members>
-           <Member Name="Send(System.String,System.String,System.String,System.String):System.Boolean">
-            <Messages>
-             <Message Id="System.String.Format(System.String,System.Object,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-11-08 18:41:28Z">
-              <Issue>
-               <Item>DotNetOpenMailProvider.Send(String, String, String, String):Boolean</Item>
-               <Item>System.String.Format(System.String,System.Object,System.Object)</Item>
-               <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
-              </Issue>
-              <Issue>
-               <Item>DotNetOpenMailProvider.Send(String, String, String, String):Boolean</Item>
-               <Item>System.String.Format(System.String,System.Object,System.Object)</Item>
-               <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="SystemMailProvider">
-          <Members>
-           <Member Name="Send(System.String,System.String,System.String,System.String):System.Boolean">
-            <Messages>
-             <Message Id="0#" TypeName="ParameterNamesShouldMatchBaseDeclaration" Category="Microsoft.Naming" CheckId="CA1725" Created="2006-11-08 18:41:28Z">
-              <Issue>
-               <Item>toStr</Item>
-               <Item>SystemMailProvider.Send(String, String, String, String):Boolean</Item>
-               <Item>to</Item>
-               <Item>EmailProvider.Send(String, String, String, String):Boolean</Item>
-              </Issue>
-             </Message>
-             <Message Id="1#" TypeName="ParameterNamesShouldMatchBaseDeclaration" Category="Microsoft.Naming" CheckId="CA1725" Created="2006-11-08 18:41:28Z">
-              <Issue>
-               <Item>fromStr</Item>
-               <Item>SystemMailProvider.Send(String, String, String, String):Boolean</Item>
-               <Item>from</Item>
-               <Item>EmailProvider.Send(String, String, String, String):Boolean</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-        </Types>
-       </Namespace>
        <Namespace Name="Subtext.Framework.Exceptions">
         <Types>
          <Type Name="BlogApplicationDirectoryCreateException">
@@ -4489,6 +4388,15 @@
              </Message>
             </Messages>
            </Member>
+           <Member Name="AtomUrl">
+            <Messages>
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-12-16 22:18:53Z" FixCategory="Breaking">
+              <Issue>
+               <Item>UrlFormats.AtomUrl:Uri</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
            <Member Name="CommentApiUrl(System.Int32):System.String">
             <Messages>
              <Message TypeName="UriReturnValuesShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1055" Created="2006-11-08 18:41:28Z">
@@ -4627,13 +4535,6 @@
             </Messages>
            </Member>
            <Member Name="FeedBurnerUrl">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-08 18:41:28Z" FixCategory="Breaking">
-              <Issue>
-               <Item>UrlFormats.FeedBurnerUrl:Uri</Item>
-              </Issue>
-             </Message>
-            </Messages>
             <Accessors>
              <Accessor Name="get_FeedBurnerUrl():System.Uri">
               <Messages>
@@ -4907,6 +4808,11 @@
                <Item>UrlFormats.RssUrl:Uri</Item>
               </Issue>
              </Message>
+             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-12-16 22:18:53Z" FixCategory="Breaking">
+              <Issue>
+               <Item>UrlFormats.RssUrl:Uri</Item>
+              </Issue>
+             </Message>
             </Messages>
            </Member>
            <Member Name="StripHostFromUrl(System.String):System.String">
@@ -4996,32 +4902,30 @@
            </Member>
           </Members>
          </Type>
-         <Type Name="Log">
+        </Types>
+       </Namespace>
+       <Namespace Name="Subtext.Framework.Providers">
+        <Types>
+         <Type Name="DotNetOpenMailProvider">
           <Members>
-           <Member Name="CreateInnerLogger(System.Type):log4net.ILog">
+           <Member Name="Send(System.String,System.String,System.String,System.String):System.Boolean">
             <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-08 18:41:28Z" FixCategory="NonBreaking">
+             <Message Id="System.String.Format(System.String,System.Object,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-12-16 21:41:03Z">
               <Issue>
-               <Item>Log.CreateInnerLogger(Type):ILog</Item>
+               <Item>DotNetOpenMailProvider.Send(String, String, String, String):Boolean</Item>
+               <Item>System.String.Format(System.String,System.Object,System.Object)</Item>
+               <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
               </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="SetUrlContext():System.Void">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-08 18:41:28Z" FixCategory="NonBreaking">
               <Issue>
-               <Item>Log.SetUrlContext():Void</Item>
+               <Item>DotNetOpenMailProvider.Send(String, String, String, String):Boolean</Item>
+               <Item>System.String.Format(System.String,System.Object,System.Object)</Item>
+               <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
           </Members>
          </Type>
-        </Types>
-       </Namespace>
-       <Namespace Name="Subtext.Framework.Providers">
-        <Types>
          <Type Name="ObjectProvider">
           <Members>
            <Member Name="CreateBlog(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String):Subtext.Framework.BlogInfo">
@@ -5456,6 +5360,30 @@
                <Item>parameter</Item>
                <Item>keyWord</Item>
                <Item>keyword</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="SystemMailProvider">
+          <Members>
+           <Member Name="Send(System.String,System.String,System.String,System.String):System.Boolean">
+            <Messages>
+             <Message Id="0#" TypeName="ParameterNamesShouldMatchBaseDeclaration" Category="Microsoft.Naming" CheckId="CA1725" Created="2006-12-16 21:41:03Z">
+              <Issue>
+               <Item>toStr</Item>
+               <Item>SystemMailProvider.Send(String, String, String, String):Boolean</Item>
+               <Item>to</Item>
+               <Item>EmailProvider.Send(String, String, String, String):Boolean</Item>
+              </Issue>
+             </Message>
+             <Message Id="1#" TypeName="ParameterNamesShouldMatchBaseDeclaration" Category="Microsoft.Naming" CheckId="CA1725" Created="2006-12-16 21:41:03Z">
+              <Issue>
+               <Item>fromStr</Item>
+               <Item>SystemMailProvider.Send(String, String, String, String):Boolean</Item>
+               <Item>from</Item>
+               <Item>EmailProvider.Send(String, String, String, String):Boolean</Item>
               </Issue>
              </Message>
             </Messages>
@@ -5900,12 +5828,22 @@
         <Types>
          <Type Name="AkismetSpamService">
           <Members>
-           <Member Name=".ctor(System.String,Subtext.Framework.BlogInfo)">
+           <Member Name=".ctor(Subtext.Akismet.IAkismetClient)">
             <Messages>
-             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-11-08 18:41:28Z">
+             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-12-16 21:41:03Z">
+              <Issue>
+               <Item>'akismetClient'</Item>
+               <Item>AkismetSpamService.AkismetSpamService(IAkismetClient)</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name=".ctor(System.String,Subtext.Framework.IBlogInfo)">
+            <Messages>
+             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-12-16 21:41:03Z">
               <Issue>
                <Item>'blog'</Item>
-               <Item>AkismetSpamService.AkismetSpamService(String, BlogInfo)</Item>
+               <Item>AkismetSpamService.AkismetSpamService(String, IBlogInfo)</Item>
               </Issue>
              </Message>
             </Messages>
@@ -6005,11 +5943,6 @@
               </Issue>
              </Message>
              <Message TypeName="TestForEmptyStringsUsingStringLength" Category="Microsoft.Performance" CheckId="CA1820" Created="2006-11-15 17:19:20Z">
-              <Issue Name="IsNullOrEmpty">
-               <Item>op_Equality</Item>
-               <Item>String.Empty</Item>
-               <Item>MailToWeblog.Run():Void</Item>
-              </Issue>
               <Issue Name="IsNullOrEmpty">
                <Item>op_Equality</Item>
                <Item>String.Empty</Item>
@@ -6186,6 +6119,16 @@
              </Message>
             </Messages>
            </Member>
+           <Member Name="ConvertLastUpdatedDate(System.DateTime):System.DateTime">
+            <Messages>
+             <Message TypeName="DoNotDeclareStaticMembersOnGenericTypes" Category="Microsoft.Design" CheckId="CA1000" Created="2006-12-16 21:41:03Z">
+              <Issue>
+               <Item>BaseSyndicationHandler`1.ConvertLastUpdatedDate(DateTime):DateTime</Item>
+               <Item>Subtext.Framework.Syndication.BaseSyndicationHandler`1</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
            <Member Name="CurrentBlog">
             <Messages>
              <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2006-11-08 18:41:28Z">
@@ -6218,7 +6161,7 @@
              <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2006-11-08 18:41:28Z">
               <Issue>
                <Item>BaseSyndicationHandler`1.IsLocalCacheOK():Boolean</Item>
-               <Item>System.Object</Item>
+               <Item>System.Exception</Item>
               </Issue>
              </Message>
              <Message Id="Member" TypeName="ShortAcronymsShouldBeUppercase" Category="Microsoft.Naming" CheckId="CA1706" Created="2006-11-08 18:41:28Z">
@@ -6374,12 +6317,12 @@
          </Type>
          <Type Name="CommentHandler">
           <Members>
-           <Member Name="ProcessRequest(System.Web.HttpContext):System.Void">
+           <Member Name="HandleRequest(System.Web.HttpContext):System.Void">
             <Messages>
-             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-11-08 18:41:28Z">
+             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-12-16 21:41:03Z">
               <Issue>
                <Item>'context'</Item>
-               <Item>CommentHandler.ProcessRequest(HttpContext):Void</Item>
+               <Item>CommentHandler.HandleRequest(HttpContext):Void</Item>
               </Issue>
              </Message>
             </Messages>
@@ -6662,10 +6605,6 @@
               </Issue>
               <Issue>
                <Item>'allowedHtmlTags'</Item>
-               <Item>HtmlHelper.ConvertToAllowedHtml(NameValueCollection, String):String</Item>
-              </Issue>
-              <Issue>
-               <Item>'text'</Item>
                <Item>HtmlHelper.ConvertToAllowedHtml(NameValueCollection, String):String</Item>
               </Issue>
               <Issue>
@@ -7496,6 +7435,20 @@
             </Messages>
            </Member>
           </Members>
+         </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="Subtext.Framework.UI">
+        <Types>
+         <Type Name="BlogEntryEditor">
+          <Messages>
+           <Message TypeName="TypeNamesShouldNotMatchNamespaces" Category="Microsoft.Naming" CheckId="CA1724" Created="2006-12-16 21:41:03Z">
+            <Issue>
+             <Item>BlogEntryEditor</Item>
+             <Item>Subtext.Providers.BlogEntryEditor.FCKeditor.Properties</Item>
+            </Issue>
+           </Message>
+          </Messages>
          </Type>
         </Types>
        </Namespace>
@@ -9742,15 +9695,6 @@
          </Type>
          <Type Name="BlogRequestModule">
           <Members>
-           <Member Name="Host">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-08 18:41:28Z" FixCategory="Breaking">
-              <Issue>
-               <Item>BlogRequestModule.Host:String</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="Init(System.Web.HttpApplication):System.Void">
             <Messages>
              <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-11-08 18:41:28Z">
@@ -9970,13 +9914,35 @@
       <Namespaces>
        <Namespace Name="Subtext.Installation">
         <Types>
-         <Type Name="InstallationProvider">
+         <Type Name="Installer">
+          <Members>
+           <Member Name="GetInstallationStatus():Subtext.Installation.InstallationState">
+            <Messages>
+             <Message TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024" Created="2006-12-16 21:41:03Z">
+              <Issue Certainty="50">
+               <Item>GetInstallationStatus</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="InstallerProvider">
           <Members>
            <Member Name="GetCurrentInstallationVersion():System.Version">
             <Messages>
-             <Message TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024" Created="2006-12-08 16:04:55Z">
+             <Message TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024" Created="2006-12-16 21:41:03Z">
               <Issue Certainty="50">
                <Item>GetCurrentInstallationVersion</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="GetInstallationStatus():Subtext.Installation.InstallationState">
+            <Messages>
+             <Message TypeName="UsePropertiesWhereAppropriate" Category="Microsoft.Design" CheckId="CA1024" Created="2006-12-16 21:41:03Z">
+              <Issue Certainty="50">
+               <Item>GetInstallationStatus</Item>
               </Issue>
              </Message>
             </Messages>
@@ -10004,6 +9970,49 @@
             </Issue>
            </Message>
           </Messages>
+         </Type>
+        </Types>
+       </Namespace>
+      </Namespaces>
+     </Module>
+    </Modules>
+   </Target>
+   <Target Name="$(ProjectDir)/../../SubtextSolution/Subtext.Web/bin/Subtext.Scripting.dll">
+    <Modules>
+     <Module Name="subtext.scripting.dll">
+      <Namespaces>
+       <Namespace Name="Subtext.Scripting">
+        <Types>
+         <Type Name="ConnectionString">
+          <Members>
+           <Member Name="Parse(System.String):Subtext.Scripting.ConnectionString">
+            <Messages>
+             <Message Id="System.ArgumentNullException.#ctor(System.String,System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-12-16 21:41:03Z">
+              <Issue>
+               <Item>ConnectionString.Parse(String):ConnectionString</Item>
+               <Item>2</Item>
+               <Item>ArgumentNullException.ArgumentNullException(String, String)</Item>
+               <Item>Cannot parse a null connection string</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
+         <Type Name="TemplateParameterCollection">
+          <Members>
+           <Member Name="Contains(System.String):System.Boolean">
+            <Messages>
+             <Message Id="System.String.Format(System.String,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-12-16 21:41:03Z">
+              <Issue>
+               <Item>TemplateParameterCollection.Contains(String):Boolean</Item>
+               <Item>System.String.Format(System.String,System.Object)</Item>
+               <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
          </Type>
         </Types>
        </Namespace>
@@ -10071,6 +10080,14 @@
                <Item>1</Item>
                <Item>CaptchaExpiredException.CaptchaExpiredException(String, Exception)</Item>
                <Item>Encrypted encoded text '____' was not valid.</Item>
+              </Issue>
+             </Message>
+             <Message Id="System.ArgumentNullException.#ctor(System.String,System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-12-16 21:41:03Z">
+              <Issue>
+               <Item>CaptchaBase.DecryptString(String):String</Item>
+               <Item>2</Item>
+               <Item>ArgumentNullException.ArgumentNullException(String, String)</Item>
+               <Item>Cannot decrypt a null string.</Item>
               </Issue>
              </Message>
             </Messages>
@@ -10240,11 +10257,6 @@
               <Issue Name="ObjectCreation">
                <Item>ConnectionStringBuilder.CheckSQLDMO():Boolean</Item>
                <Item>SQLDMO.ApplicationClass</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-05-10 06:03:00Z" FixCategory="NonBreaking">
-              <Issue>
-               <Item>ConnectionStringBuilder.CheckSQLDMO():Boolean</Item>
               </Issue>
              </Message>
             </Messages>
@@ -10744,15 +10756,6 @@
            </Member>
           </Members>
          </Type>
-         <Type Name="RichTextEditor+ErrorEventHandler">
-          <Messages>
-           <Message TypeName="UseGenericEventHandlerInstances" Category="Microsoft.Design" CheckId="CA1003" Created="2006-11-08 18:22:08Z">
-            <Issue>
-             <Item>Subtext.Web.Controls.RichTextEditor+ErrorEventHandler</Item>
-            </Issue>
-           </Message>
-          </Messages>
-         </Type>
          <Type Name="ScriptTag">
           <Members>
            <Member Name="Src">
@@ -10773,15 +10776,6 @@
         <Types>
          <Type Name="CaptchaControl">
           <Members>
-           <Member Name="IsDesignMode">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-08 18:22:08Z" FixCategory="NonBreaking">
-              <Issue>
-               <Item>CaptchaControl.IsDesignMode:Boolean</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="LoadPostData(System.String,System.Collections.Specialized.NameValueCollection):System.Boolean">
             <Messages>
              <Message Id="0#" TypeName="ParameterNamesShouldMatchBaseDeclaration" Category="Microsoft.Naming" CheckId="CA1725" Created="2006-11-08 18:22:08Z">
@@ -10804,19 +10798,7 @@
            </Member>
            <Member Name="Render(System.Web.UI.HtmlTextWriter):System.Void">
             <Messages>
-             <Message Id="System.Int16.ToString" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-11-08 18:22:08Z">
-              <Issue>
-               <Item>CaptchaControl.Render(HtmlTextWriter):Void</Item>
-               <Item>System.Int16.ToString</Item>
-               <Item>System.Int16.ToString(System.IFormatProvider)</Item>
-              </Issue>
-             </Message>
              <Message Id="System.Int32.ToString" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-11-08 18:22:08Z">
-              <Issue>
-               <Item>CaptchaControl.Render(HtmlTextWriter):Void</Item>
-               <Item>System.Int32.ToString</Item>
-               <Item>System.Int32.ToString(System.IFormatProvider)</Item>
-              </Issue>
               <Issue>
                <Item>CaptchaControl.Render(HtmlTextWriter):Void</Item>
                <Item>System.Int32.ToString</Item>
@@ -11172,7 +11154,7 @@
              <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Created="2006-11-19 15:24:51Z">
               <Issue>
                <Item>Global.Application_EndRequest(Object, EventArgs):Void</Item>
-               <Item>System.Object</Item>
+               <Item>System.Exception</Item>
               </Issue>
              </Message>
              <Message TypeName="ReviewVisibleEventHandlers" Category="Microsoft.Security" CheckId="CA2109" Created="2006-11-19 15:24:51Z">
@@ -16332,15 +16314,6 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="IsPluginEnabled(Subtext.Extensibility.Plugins.PluginBase):System.Boolean">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-19 15:24:51Z" FixCategory="NonBreaking">
-              <Issue>
-               <Item>PluginListPage.IsPluginEnabled(PluginBase):Boolean</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
            <Member Name="lkbCancel">
             <Messages>
              <Message Id="lkb" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
@@ -16943,6 +16916,18 @@
              </Message>
             </Messages>
            </Member>
+           <Member Name="ConfirmDelete(System.Int32):System.Void">
+            <Messages>
+             <Message Id="System.InvalidOperationException.#ctor(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-12-16 21:41:03Z">
+              <Issue>
+               <Item>EntryEditor.ConfirmDelete(Int32):Void</Item>
+               <Item>1</Item>
+               <Item>InvalidOperationException.InvalidOperationException(String)</Item>
+               <Item>Somehow the page is not an AdminPage.</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
            <Member Name="lkbCancel">
             <Messages>
              <Message Id="lkb" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
@@ -17009,21 +16994,21 @@
              </Message>
             </Messages>
            </Member>
-           <Member Name="richTextEditor_Error(System.Object,Subtext.Web.Controls.RichTextEditorErrorEventArgs):System.Void">
+           <Member Name="richTextEditor_Error(System.Object,Subtext.Web.UI.WebControls.RichTextEditorErrorEventArgs):System.Void">
             <Messages>
-             <Message Id="Member" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2006-11-19 15:24:51Z">
+             <Message Id="Member" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2006-12-16 21:41:03Z">
               <Issue Name="Member">
                <Item>richTextEditor_Error</Item>
               </Issue>
              </Message>
-             <Message Id="System.String.Format(System.String,System.Object,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-11-19 15:24:51Z">
+             <Message Id="System.String.Format(System.String,System.Object,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-12-16 21:41:03Z">
               <Issue>
                <Item>EntryEditor.richTextEditor_Error(Object, RichTextEditorErrorEventArgs):Void</Item>
                <Item>System.String.Format(System.String,System.Object,System.Object)</Item>
                <Item>System.String.Format(System.IFormatProvider,System.String,System.Object[])</Item>
               </Issue>
              </Message>
-             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-11-19 15:24:51Z">
+             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-12-16 21:41:03Z">
               <Issue>
                <Item>'e'</Item>
                <Item>EntryEditor.richTextEditor_Error(Object, RichTextEditorErrorEventArgs):Void</Item>
@@ -18619,122 +18604,106 @@
         <Types>
          <Type Name="Default">
           <Members>
-           <Member Name="btnNext">
+           <Member Name="chkMultiple">
             <Messages>
-             <Message Id="btn" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
+             <Message Id="chk" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-12-16 21:41:03Z">
               <Issue Name="Member">
-               <Item>btn</Item>
-               <Item>Default.btnNext</Item>
+               <Item>chk</Item>
+               <Item>Default.chkMultiple</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
-           <Member Name="lnkNextStep">
+           <Member Name="chkSingle">
             <Messages>
-             <Message Id="lnk" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
+             <Message Id="chk" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-12-16 21:41:03Z">
               <Issue Name="Member">
-               <Item>lnk</Item>
-               <Item>Default.lnkNextStep</Item>
+               <Item>chk</Item>
+               <Item>Default.chkSingle</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
-           <Member Name="MPSubTitle">
+           <Member Name="ltlEmail">
             <Messages>
-             <Message Id="SubTitle" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2006-11-19 15:24:51Z">
-              <Issue Name="ShouldBeDiscreteTerm">
-               <Item>SubTitle</Item>
+             <Message Id="ltl" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-12-16 21:41:03Z">
+              <Issue Name="Member">
+               <Item>ltl</Item>
+               <Item>Default.ltlEmail</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="ltlUsername">
+            <Messages>
+             <Message Id="Username" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2006-12-16 21:41:03Z">
+              <Issue Name="ShouldBeCompoundWord">
+               <Item>Username</Item>
                <Item>field</Item>
-               <Item>MPSubTitle</Item>
-               <Item>Subtitle</Item>
+               <Item>ltlUsername</Item>
+               <Item>UserName</Item>
+              </Issue>
+             </Message>
+             <Message Id="ltl" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-12-16 21:41:03Z">
+              <Issue Name="Member">
+               <Item>ltl</Item>
+               <Item>Default.ltlUsername</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
-          </Members>
-         </Type>
-         <Type Name="InstallationBase">
-          <Members>
-           <Member Name="NextStepUrl">
+           <Member Name="OnNextButtonClick(System.Object,System.Web.UI.WebControls.WizardNavigationEventArgs):System.Void">
             <Messages>
-             <Message TypeName="UriPropertiesShouldNotBeStrings" Category="Microsoft.Design" CheckId="CA1056" Created="2006-11-19 15:24:51Z">
+             <Message TypeName="ValidateArgumentsOfPublicMethods" Category="Microsoft.Design" CheckId="CA1062" Created="2006-12-16 21:41:03Z">
               <Issue>
-               <Item>NextStepUrl</Item>
+               <Item>'args'</Item>
+               <Item>Default.OnNextButtonClick(Object, WizardNavigationEventArgs):Void</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
-          </Members>
-         </Type>
-         <Type Name="InstallationComplete">
-          <Members>
-           <Member Name="InitializeComponent():System.Void">
+           <Member Name="StartInstall(System.Web.UI.WebControls.WizardNavigationEventArgs):System.Void">
             <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-19 15:24:51Z" FixCategory="NonBreaking">
+             <Message Id="System.Web.UI.ITextControl.set_Text(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-12-16 21:41:03Z">
               <Issue>
-               <Item>InstallationComplete.InitializeComponent():Void</Item>
+               <Item>Default.StartInstall(WizardNavigationEventArgs):Void</Item>
+               <Item>1</Item>
+               <Item>ITextControl.set_Text(String):Void</Item>
+               <Item>&lt;p class="error"&gt;The database user specified in web.config does not have enough permission to perform the installation.  Please give the user database owner (dbo) rights and try again. You may remove them later.&lt;/p&gt;</Item>
+              </Issue>
+              <Issue>
+               <Item>Default.StartInstall(WizardNavigationEventArgs):Void</Item>
+               <Item>1</Item>
+               <Item>ITextControl.set_Text(String):Void</Item>
+               <Item>&lt;p&gt;Uh oh. Something went wrong with the installation.&lt;/p&gt;&lt;p&gt;____&lt;/p&gt;&lt;p&gt;____&lt;/p&gt;</Item>
+              </Issue>
+              <Issue>
+               <Item>Default.StartInstall(WizardNavigationEventArgs):Void</Item>
+               <Item>1</Item>
+               <Item>ITextControl.set_Text(String):Void</Item>
+               <Item>I'm sorry, but we had a problem creating your blog. Please &lt;a href="http://sourceforge.net/tracker/?group_id=137896&amp;atid=739979"&gt;report this issue&lt;/a&gt; to the Subtext team.</Item>
+              </Issue>
+              <Issue>
+               <Item>Default.StartInstall(WizardNavigationEventArgs):Void</Item>
+               <Item>1</Item>
+               <Item>ITextControl.set_Text(String):Void</Item>
+               <Item>I'm sorry, but we had a problem creating your initial configuration. Please &lt;a href="http://sourceforge.net/tracker/?group_id=137896&amp;atid=739979"&gt;report this issue&lt;/a&gt; to the Subtext team.</Item>
               </Issue>
              </Message>
-            </Messages>
-           </Member>
-           <Member Name="lnkBlog">
-            <Messages>
-             <Message Id="lnk" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>lnk</Item>
-               <Item>InstallationComplete.lnkBlog</Item>
+             <Message Id="dbo" TypeName="LiteralsShouldBeSpelledCorrectly" Category="Microsoft.Usage" CheckId="CA2204" Created="2006-12-16 21:41:03Z">
+              <Issue>
+               <Item>dbo</Item>
+               <Item>&lt;p class="error"&gt;The database user specified in web.config does not have enough permission to perform the installation.  Please give the user database owner (dbo) rights and try again. You may remove them later.&lt;/p&gt;</Item>
               </Issue>
              </Message>
-            </Messages>
-           </Member>
-           <Member Name="lnkBlogAdmin">
-            <Messages>
-             <Message Id="lnk" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>lnk</Item>
-               <Item>InstallationComplete.lnkBlogAdmin</Item>
+             <Message Id="sourceforge" TypeName="LiteralsShouldBeSpelledCorrectly" Category="Microsoft.Usage" CheckId="CA2204" Created="2006-12-16 21:41:03Z">
+              <Issue>
+               <Item>sourceforge</Item>
+               <Item>I'm sorry, but we had a problem creating your blog. Please &lt;a href="http://sourceforge.net/tracker/?group_id=137896&amp;atid=739979"&gt;report this issue&lt;/a&gt; to the Subtext team.</Item>
               </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="lnkBlogMl">
-            <Messages>
-             <Message Id="lnk" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>lnk</Item>
-               <Item>InstallationComplete.lnkBlogMl</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="lnkHostAdmin">
-            <Messages>
-             <Message Id="lnk" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>lnk</Item>
-               <Item>InstallationComplete.lnkHostAdmin</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="MPSubTitle">
-            <Messages>
-             <Message Id="SubTitle" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2006-11-19 15:24:51Z">
-              <Issue Name="ShouldBeDiscreteTerm">
-               <Item>SubTitle</Item>
-               <Item>field</Item>
-               <Item>MPSubTitle</Item>
-               <Item>Subtitle</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="paraBlogmlImport">
-            <Messages>
-             <Message Id="Blogml" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>Blogml</Item>
-               <Item>InstallationComplete.paraBlogmlImport</Item>
+              <Issue>
+               <Item>sourceforge</Item>
+               <Item>I'm sorry, but we had a problem creating your initial configuration. Please &lt;a href="http://sourceforge.net/tracker/?group_id=137896&amp;atid=739979"&gt;report this issue&lt;/a&gt; to the Subtext team.</Item>
               </Issue>
              </Message>
             </Messages>
@@ -18759,450 +18728,6 @@
               <Issue Name="Member">
                <Item>Favicon</Item>
                <Item>InstallTemplate.installFavicon</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="MPSubTitle">
-            <Messages>
-             <Message Id="SubTitle" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2006-11-19 15:24:51Z">
-              <Issue Name="ShouldBeDiscreteTerm">
-               <Item>SubTitle</Item>
-               <Item>field</Item>
-               <Item>MPSubTitle</Item>
-               <Item>Subtitle</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="Step01_InstallData">
-          <Messages>
-           <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Created="2006-11-19 15:24:51Z">
-            <Issue Name="Type">
-             <Item>Step01_InstallData</Item>
-            </Issue>
-           </Message>
-          </Messages>
-          <Members>
-           <Member Name="btnInstall">
-            <Messages>
-             <Message Id="btn" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>btn</Item>
-               <Item>Step01_InstallData.btnInstall</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="btnInstall_Click(System.Object,System.EventArgs):System.Void">
-            <Messages>
-             <Message Id="System.Web.UI.ITextControl.set_Text(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-11-19 15:24:51Z">
-              <Issue>
-               <Item>Step01_InstallData.btnInstall_Click(Object, EventArgs):Void</Item>
-               <Item>1</Item>
-               <Item>ITextControl.set_Text(String):Void</Item>
-               <Item>&lt;p class="error"&gt;The database user specified in web.config does not have enough permission to perform the installation.  Please give the user database owner (dbo) rights and try again. You may remove them later.&lt;/p&gt;</Item>
-              </Issue>
-              <Issue>
-               <Item>Step01_InstallData.btnInstall_Click(Object, EventArgs):Void</Item>
-               <Item>1</Item>
-               <Item>ITextControl.set_Text(String):Void</Item>
-               <Item>&lt;p&gt;Uh oh. Something went wrong with the installation.&lt;/p&gt;&lt;p&gt;____&lt;/p&gt;&lt;p&gt;____&lt;/p&gt;</Item>
-              </Issue>
-              <Issue>
-               <Item>Step01_InstallData.btnInstall_Click(Object, EventArgs):Void</Item>
-               <Item>1</Item>
-               <Item>ITextControl.set_Text(String):Void</Item>
-               <Item>Hmmm, your installation is in an unknown state. </Item>
-              </Issue>
-             </Message>
-             <Message Id="dbo" TypeName="LiteralsShouldBeSpelledCorrectly" Category="Microsoft.Usage" CheckId="CA2204" Created="2006-11-19 15:24:51Z">
-              <Issue>
-               <Item>dbo</Item>
-               <Item>&lt;p class="error"&gt;The database user specified in web.config does not have enough permission to perform the installation.  Please give the user database owner (dbo) rights and try again. You may remove them later.&lt;/p&gt;</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="chkFullInstallation">
-            <Messages>
-             <Message Id="chk" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>chk</Item>
-               <Item>Step01_InstallData.chkFullInstallation</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="chkStoredProcs">
-            <Messages>
-             <Message Id="Procs" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>Procs</Item>
-               <Item>Step01_InstallData.chkStoredProcs</Item>
-              </Issue>
-             </Message>
-             <Message Id="chk" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>chk</Item>
-               <Item>Step01_InstallData.chkStoredProcs</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="MPSubTitle">
-            <Messages>
-             <Message Id="SubTitle" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2006-11-19 15:24:51Z">
-              <Issue Name="ShouldBeDiscreteTerm">
-               <Item>SubTitle</Item>
-               <Item>field</Item>
-               <Item>MPSubTitle</Item>
-               <Item>Subtitle</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="Page_Load(System.Object,System.EventArgs):System.Void">
-            <Messages>
-             <Message Id="System.Web.UI.ITextControl.set_Text(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-11-19 15:24:51Z">
-              <Issue>
-               <Item>Step01_InstallData.Page_Load(Object, EventArgs):Void</Item>
-               <Item>1</Item>
-               <Item>ITextControl.set_Text(String):Void</Item>
-               <Item>As far as I can tell, it appears that you are performing an upgrade from .TEXT 0.95 to Subtext 1.0.  If you wish to perform a clean install, check the &amp;#8220;Full Install&amp;#8221; checkbox.</Item>
-              </Issue>
-              <Issue>
-               <Item>Step01_InstallData.Page_Load(Object, EventArgs):Void</Item>
-               <Item>1</Item>
-               <Item>ITextControl.set_Text(String):Void</Item>
-               <Item>Hmmm, It seems to me that your installation is complete. If you&amp;#8217;d like to overwrite the current installation check the &amp;#8220;Full Install&amp;#8221; checkbox.</Item>
-              </Issue>
-              <Issue>
-               <Item>Step01_InstallData.Page_Load(Object, EventArgs):Void</Item>
-               <Item>1</Item>
-               <Item>ITextControl.set_Text(String):Void</Item>
-               <Item>Hmmm, your installation is in an unknown state. If you&amp;#8217;d like to overwrite the current installation check the &amp;#8220;Full Install&amp;#8221; checkbox.</Item>
-              </Issue>
-              <Issue>
-               <Item>Step01_InstallData.Page_Load(Object, EventArgs):Void</Item>
-               <Item>1</Item>
-               <Item>ITextControl.set_Text(String):Void</Item>
-               <Item>It appears that you are in need of a full installation of the Subtext Database and Stored Procedures.</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="radInstallFresh">
-            <Messages>
-             <Message Id="rad" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>rad</Item>
-               <Item>Step01_InstallData.radInstallFresh</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="radUpgrade">
-            <Messages>
-             <Message Id="rad" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>rad</Item>
-               <Item>Step01_InstallData.radUpgrade</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="Step02_ConfigureHost">
-          <Messages>
-           <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Created="2006-11-19 15:24:51Z">
-            <Issue Name="Type">
-             <Item>Step02_ConfigureHost</Item>
-            </Issue>
-           </Message>
-          </Messages>
-          <Members>
-           <Member Name="btnSave">
-            <Messages>
-             <Message Id="btn" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>btn</Item>
-               <Item>Step02_ConfigureHost.btnSave</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="btnSave_Click(System.Object,System.EventArgs):System.Void">
-            <Messages>
-             <Message Id="System.Exception.#ctor(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-11-19 15:24:51Z">
-              <Issue>
-               <Item>Step02_ConfigureHost.btnSave_Click(Object, EventArgs):Void</Item>
-               <Item>1</Item>
-               <Item>Exception.Exception(String)</Item>
-               <Item>I'm sorry, but we had a problem creating your initial configuration. Please &lt;a href="http://sourceforge.net/tracker/?group_id=137896&amp;atid=739979"&gt;report this issue&lt;/a&gt; to the Subtext team.</Item>
-              </Issue>
-             </Message>
-             <Message TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201" Created="2006-11-19 15:24:51Z">
-              <Issue Name="TooGeneric">
-               <Item>Step02_ConfigureHost.btnSave_Click(Object, EventArgs):Void</Item>
-               <Item>System.Exception</Item>
-              </Issue>
-             </Message>
-             <Message Id="Member" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>btnSave_Click</Item>
-              </Issue>
-             </Message>
-             <Message Id="btn" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>btn</Item>
-               <Item>Step02_ConfigureHost.btnSave_Click(Object, EventArgs):Void</Item>
-              </Issue>
-             </Message>
-             <Message Id="sourceforge" TypeName="LiteralsShouldBeSpelledCorrectly" Category="Microsoft.Usage" CheckId="CA2204" Created="2006-11-19 15:24:51Z">
-              <Issue>
-               <Item>sourceforge</Item>
-               <Item>I'm sorry, but we had a problem creating your initial configuration. Please &lt;a href="http://sourceforge.net/tracker/?group_id=137896&amp;atid=739979"&gt;report this issue&lt;/a&gt; to the Subtext team.</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="InitializeComponent():System.Void">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-19 15:24:51Z" FixCategory="NonBreaking">
-              <Issue>
-               <Item>Step02_ConfigureHost.InitializeComponent():Void</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="ltlMessage">
-            <Messages>
-             <Message Id="ltl" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>ltl</Item>
-               <Item>Step02_ConfigureHost.ltlMessage</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="MPSubTitle">
-            <Messages>
-             <Message Id="SubTitle" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2006-11-19 15:24:51Z">
-              <Issue Name="ShouldBeDiscreteTerm">
-               <Item>SubTitle</Item>
-               <Item>field</Item>
-               <Item>MPSubTitle</Item>
-               <Item>Subtitle</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="Page_Load(System.Object,System.EventArgs):System.Void">
-            <Messages>
-             <Message Id="System.Web.UI.ITextControl.set_Text(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-11-19 15:24:51Z">
-              <Issue>
-               <Item>Step02_ConfigureHost.Page_Load(Object, EventArgs):Void</Item>
-               <Item>1</Item>
-               <Item>ITextControl.set_Text(String):Void</Item>
-               <Item>&lt;p&gt;At this point, you may &lt;strong&gt;remove the database owner rights&lt;/strong&gt; from the database user account used to connect to the database.&lt;/p&gt;&lt;p&gt;In this step, you will set up a Host Administrative account. This account has permission to create and manage blogs. &lt;/p&gt;&lt;p&gt;To get you started quickly, just specify a username and password for the special Host Administrator account. &lt;/p&gt;</Item>
-              </Issue>
-              <Issue>
-               <Item>Step02_ConfigureHost.Page_Load(Object, EventArgs):Void</Item>
-               <Item>1</Item>
-               <Item>ITextControl.set_Text(String):Void</Item>
-               <Item>&lt;p&gt;Welcome!  It appears that you have existing blogs, but no Host Admin account set up. We can remedy that situation quickly.&lt;/p&gt;&lt;p&gt;Just specify a username and password for the special Host Administrator account. This account can create blogs in this system. &lt;/p&gt;</Item>
-              </Issue>
-             </Message>
-             <Message Id="blogs" TypeName="LiteralsShouldBeSpelledCorrectly" Category="Microsoft.Usage" CheckId="CA2204" Created="2006-11-19 15:24:51Z">
-              <Issue>
-               <Item>blogs</Item>
-               <Item>&lt;p&gt;At this point, you may &lt;strong&gt;remove the database owner rights&lt;/strong&gt; from the database user account used to connect to the database.&lt;/p&gt;&lt;p&gt;In this step, you will set up a Host Administrative account. This account has permission to create and manage blogs. &lt;/p&gt;&lt;p&gt;To get you started quickly, just specify a username and password for the special Host Administrator account. &lt;/p&gt;</Item>
-              </Issue>
-              <Issue>
-               <Item>blogs</Item>
-               <Item>&lt;p&gt;Welcome!  It appears that you have existing blogs, but no Host Admin account set up. We can remedy that situation quickly.&lt;/p&gt;&lt;p&gt;Just specify a username and password for the special Host Administrator account. This account can create blogs in this system. &lt;/p&gt;</Item>
-              </Issue>
-              <Issue>
-               <Item>blogs</Item>
-               <Item>&lt;p&gt;Welcome!  It appears that you have existing blogs, but no Host Admin account set up. We can remedy that situation quickly.&lt;/p&gt;&lt;p&gt;Just specify a username and password for the special Host Administrator account. This account can create blogs in this system. &lt;/p&gt;</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="tblConfigForm">
-            <Messages>
-             <Message Id="tbl" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>tbl</Item>
-               <Item>Step02_ConfigureHost.tblConfigForm</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="vldComparePasswords">
-            <Messages>
-             <Message Id="vld" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>vld</Item>
-               <Item>Step02_ConfigureHost.vldComparePasswords</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="vldConfirmPasswordRequired">
-            <Messages>
-             <Message Id="vld" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>vld</Item>
-               <Item>Step02_ConfigureHost.vldConfirmPasswordRequired</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="vldPasswordRequired">
-            <Messages>
-             <Message Id="vld" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>vld</Item>
-               <Item>Step02_ConfigureHost.vldPasswordRequired</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="vldSummary">
-            <Messages>
-             <Message Id="vld" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>vld</Item>
-               <Item>Step02_ConfigureHost.vldSummary</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="vldUsernameRequired">
-            <Messages>
-             <Message Id="Username" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2006-11-19 15:24:51Z">
-              <Issue Name="ShouldBeCompoundWord">
-               <Item>Username</Item>
-               <Item>field</Item>
-               <Item>vldUsernameRequired</Item>
-               <Item>UserName</Item>
-              </Issue>
-             </Message>
-             <Message Id="vld" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>vld</Item>
-               <Item>Step02_ConfigureHost.vldUsernameRequired</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-         <Type Name="Step03_CreateBlog">
-          <Messages>
-           <Message TypeName="IdentifiersShouldNotContainUnderscores" Category="Microsoft.Naming" CheckId="CA1707" Created="2006-11-19 15:24:51Z">
-            <Issue Name="Type">
-             <Item>Step03_CreateBlog</Item>
-            </Issue>
-           </Message>
-          </Messages>
-          <Members>
-           <Member Name="btnImportBlog">
-            <Messages>
-             <Message Id="btn" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>btn</Item>
-               <Item>Step03_CreateBlog.btnImportBlog</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="btnImportBlog_Click(System.Object,System.EventArgs):System.Void">
-            <Messages>
-             <Message Id="Member" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>btnImportBlog_Click</Item>
-              </Issue>
-             </Message>
-             <Message Id="btn" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>btn</Item>
-               <Item>Step03_CreateBlog.btnImportBlog_Click(Object, EventArgs):Void</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="btnQuickCreate">
-            <Messages>
-             <Message Id="btn" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>btn</Item>
-               <Item>Step03_CreateBlog.btnQuickCreate</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="btnQuickCreate_Click(System.Object,System.EventArgs):System.Void">
-            <Messages>
-             <Message Id="System.InvalidOperationException.#ctor(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2006-11-19 15:24:51Z">
-              <Issue>
-               <Item>Step03_CreateBlog.btnQuickCreate_Click(Object, EventArgs):Void</Item>
-               <Item>1</Item>
-               <Item>InvalidOperationException.InvalidOperationException(String)</Item>
-               <Item>I'm sorry, but we had a problem creating your initial configuration. Please &lt;a href="http://sourceforge.net/tracker/?group_id=137896&amp;atid=739979"&gt;report this issue&lt;/a&gt; to the Subtext team.</Item>
-              </Issue>
-             </Message>
-             <Message Id="Member" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>btnQuickCreate_Click</Item>
-              </Issue>
-             </Message>
-             <Message Id="btn" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>btn</Item>
-               <Item>Step03_CreateBlog.btnQuickCreate_Click(Object, EventArgs):Void</Item>
-              </Issue>
-             </Message>
-             <Message Id="sourceforge" TypeName="LiteralsShouldBeSpelledCorrectly" Category="Microsoft.Usage" CheckId="CA2204" Created="2006-11-19 15:24:51Z">
-              <Issue>
-               <Item>sourceforge</Item>
-               <Item>I'm sorry, but we had a problem creating your initial configuration. Please &lt;a href="http://sourceforge.net/tracker/?group_id=137896&amp;atid=739979"&gt;report this issue&lt;/a&gt; to the Subtext team.</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="InitializeComponent():System.Void">
-            <Messages>
-             <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Created="2006-11-19 15:24:51Z" FixCategory="NonBreaking">
-              <Issue>
-               <Item>Step03_CreateBlog.InitializeComponent():Void</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="ltlMessage">
-            <Messages>
-             <Message Id="ltl" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Created="2006-11-19 15:24:51Z">
-              <Issue Name="Member">
-               <Item>ltl</Item>
-               <Item>Step03_CreateBlog.ltlMessage</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-           <Member Name="MPSubTitle">
-            <Messages>
-             <Message Id="SubTitle" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2006-11-19 15:24:51Z">
-              <Issue Name="ShouldBeDiscreteTerm">
-               <Item>SubTitle</Item>
-               <Item>field</Item>
-               <Item>MPSubTitle</Item>
-               <Item>Subtitle</Item>
               </Issue>
              </Message>
             </Messages>
@@ -20882,6 +20407,15 @@
            </Member>
           </Members>
          </Type>
+         <Type Name="RichTextEditor+ErrorEventHandler">
+          <Messages>
+           <Message TypeName="UseGenericEventHandlerInstances" Category="Microsoft.Design" CheckId="CA1003" Created="2006-12-16 21:41:03Z">
+            <Issue>
+             <Item>Subtext.Web.UI.WebControls.RichTextEditor+ErrorEventHandler</Item>
+            </Issue>
+           </Message>
+          </Messages>
+         </Type>
          <Type Name="RssHyperLink">
           <Messages>
            <Message Id="HyperLink" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Created="2006-11-19 15:24:51Z">
@@ -20972,6 +20506,9 @@
    </Rule>
    <Rule TypeName="DoNotDeclareReadOnlyMutableReferenceTypes" Category="Microsoft.Security" CheckId="CA2104">
     <Resolution Name="Default">Remove the readonly declaration from '{0}' or change the field to one that is an immutable reference type. If the reference type '{1}' is, in fact, immutable, exclude this message.</Resolution>
+   </Rule>
+   <Rule TypeName="DoNotDeclareStaticMembersOnGenericTypes" Category="Microsoft.Design" CheckId="CA1000">
+    <Resolution Name="Default">Remove {0} from '{1}' or make it an instance member.</Resolution>
    </Rule>
    <Rule TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051">
     <Resolution Name="Default">Make '{0}' private or internal (Friend in VB, public private in C++) and provide a public or protected property to access it.</Resolution>
