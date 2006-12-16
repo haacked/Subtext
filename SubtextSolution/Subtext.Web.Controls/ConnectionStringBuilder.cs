@@ -160,7 +160,7 @@ namespace Subtext.Web.Controls
 			base.CreateChildControls();
 		}
 
-		private bool CheckSQLDMO() 
+		private static bool CheckSQLDMO() 
 		{
 			try 
 			{

@@ -217,8 +217,7 @@ namespace Subtext.Web.Admin.Pages
 
 				if(FeedbackItem.Create(entry, null) > 0)
 				{
-					CommentFilter filter = new CommentFilter(HttpContext.Current.Cache);
-					filter.FilterAfterPersist(entry);
+                    CommentFilter.FilterAfterPersist(entry);
 					this.Messages.ShowMessage(Constants.RES_SUCCESSNEW);
 					this.Edit.Visible = false;
 				}

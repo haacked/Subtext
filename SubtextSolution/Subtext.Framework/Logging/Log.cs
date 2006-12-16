@@ -136,7 +136,7 @@ namespace Subtext.Framework.Logging
 			_log = innerLogger;
 		}
 
-		private ILog CreateInnerLogger(Type type)
+		private static ILog CreateInnerLogger(Type type)
 		{
 			ILog log = LogManager.GetLogger(type);
 			return log != null ? log : __nullLog;
@@ -322,7 +322,7 @@ namespace Subtext.Framework.Logging
 			log4net.ThreadContext.Properties["BlogId"] = blogId;
 		}
 
-		void SetUrlContext()
+        static void SetUrlContext()
 		{
 			if(HttpContext.Current != null)
 			{

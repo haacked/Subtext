@@ -42,7 +42,7 @@ namespace Subtext.Framework.Data
 	{
         private readonly static ILog log = new Log();
 
-        private SqlParameter BlogIdParam
+        private static SqlParameter BlogIdParam
         {
             get
             {
@@ -2030,7 +2030,7 @@ namespace Subtext.Framework.Data
             return NonQueryInt(sql, parameters) > 0;
         }
 
-		void LogSql(string sql, object[] parameterValues)
+		static void LogSql(string sql, object[] parameterValues)
 		{
 #if DEBUG
 			if (parameterValues == null)
@@ -2050,8 +2050,8 @@ namespace Subtext.Framework.Data
 
 #endif
 		}
-		
-        void LogSql(string sql, SqlParameter[] parameters)
+
+        static void LogSql(string sql, SqlParameter[] parameters)
         {
 #if DEBUG
         	if(parameters == null)

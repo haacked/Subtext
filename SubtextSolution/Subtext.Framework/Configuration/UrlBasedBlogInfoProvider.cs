@@ -195,7 +195,7 @@ namespace Subtext.Framework.Configuration
 			return info;
 		}
 
-		private BlogInfo GetAggregateBlog()
+		private static BlogInfo GetAggregateBlog()
 		{
 			BlogInfo aggregateBlog = new BlogInfo();
             aggregateBlog.Title = ConfigurationManager.AppSettings["AggregateTitle"];

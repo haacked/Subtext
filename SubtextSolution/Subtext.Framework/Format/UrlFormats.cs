@@ -41,7 +41,7 @@ namespace Subtext.Framework.Format
 		/// Gets the feed burner URL.
 		/// </summary>
 		/// <value>The feed burner URL.</value>
-		public Uri FeedBurnerUrl
+		public static Uri FeedBurnerUrl
 		{
 			get
 			{

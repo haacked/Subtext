@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Web;
 using System.Web.UI.WebControls;
+using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
@@ -256,7 +257,7 @@ namespace Subtext.Web.UI.Controls
 					if(editLink.Text.Length == 0 && editLink.ImageUrl.Length == 0)
 					{
 						//We'll slap on our little pencil icon.
-						editLink.ImageUrl = Config.CurrentBlog.VirtualDirectoryRoot + "Images/edit.gif";
+						editLink.ImageUrl = BlogInfo.VirtualDirectoryRoot + "Images/edit.gif";
 						ControlHelper.SetTitleIfNone(editLink, "Click to edit this entry.");
 						editLink.NavigateUrl = UrlFormats.GetEditLink(entry);
 					}

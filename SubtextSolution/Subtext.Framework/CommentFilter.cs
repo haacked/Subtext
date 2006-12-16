@@ -75,7 +75,7 @@ namespace Subtext.Framework
 		/// </p>
 		/// </remarks>
 		/// <param name="feedbackItem">Entry.</param>
-		public void FilterAfterPersist(FeedbackItem feedbackItem)
+		public static void FilterAfterPersist(FeedbackItem feedbackItem)
 		{
 			if (!SecurityHelper.IsAdmin)
 			{

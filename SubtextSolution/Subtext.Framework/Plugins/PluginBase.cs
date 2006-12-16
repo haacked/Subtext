@@ -77,7 +77,7 @@ namespace Subtext.Extensibility.Plugins
 
 
 		#region Attribute Accessor Helpers
-		private PluginImplementationInfo GetInfoFromAttribute(Type type)
+		private static PluginImplementationInfo GetInfoFromAttribute(Type type)
 		{
 			Attribute[] attrs = System.Attribute.GetCustomAttributes(type);
 			foreach (Attribute attr in attrs)
@@ -100,7 +100,7 @@ namespace Subtext.Extensibility.Plugins
 			return null;
 		}
 
-		private Guid GetGuidFromAttribute(Type type)
+		private static Guid GetGuidFromAttribute(Type type)
 		{
 			Attribute[] attrs = System.Attribute.GetCustomAttributes(type);
 			foreach (Attribute attr in attrs)

@@ -15,7 +15,9 @@
 
 using System;
 using System.Web.UI.WebControls;
+using Subtext.Framework;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Format;
 
 namespace Subtext.Web.UI.WebControls
 {
@@ -42,7 +44,8 @@ namespace Subtext.Web.UI.WebControls
 		{
 			if(Config.CurrentBlog.FeedBurnerEnabled)
 			{
-				NavigateUrl = Config.CurrentBlog.UrlFormats.FeedBurnerUrl.ToString();
+				NavigateUrl = UrlFormats.FeedBurnerUrl.ToString();
+                
 			}
 			else 
 			{
