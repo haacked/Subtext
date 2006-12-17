@@ -23,10 +23,11 @@ namespace Subtext.Framework.Tracking
 	/// </summary>
 	public static class TrackingUrls
 	{
-		private static readonly string ai = "<img src=\"{0}\" width=\"1\" height=\"1\" />";
+		private const string ImagePattern = "<img src=\"{0}\" width=\"1\" height=\"1\" />";
+
 		public static string AggBugImage(string url)
 		{
-            return String.Format(CultureInfo.InvariantCulture, ai, url);
+            return String.Format(CultureInfo.InvariantCulture, TrackingUrls.ImagePattern, url);
 		}
 
 	}

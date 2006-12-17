@@ -313,7 +313,7 @@ namespace Subtext.Framework.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SartIndex cannot be less than zero..
+        ///   Looks up a localized string similar to StartIndex cannot be less than zero..
         /// </summary>
         internal static string ArgumentOutOfRange_StartIndex {
             get {
@@ -480,6 +480,28 @@ namespace Subtext.Framework.Properties {
         internal static string TotalRecords {
             get {
                 return ResourceManager.GetString("TotalRecords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!--
+        ///   &lt;rdf:RDF 
+        ///      xmlns:rdf=&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;
+        ///      xmlns:dc=&quot;http://purl.org/dc/elements/1.1/&quot;
+        ///      xmlns:trackback=&quot;http://madskills.com/public/xml/rss/module/trackback/&quot;&gt;
+        ///
+        ///      &lt;rdf:Description
+        ///         rdf:about=&quot;{0}&quot;
+        ///         dc:identifier=&quot;{1}&quot;
+        ///         dc:title=&quot;{2}&quot;
+        ///         trackback:ping=&quot;{3}services/trackbacks/{4}.aspx&quot; 
+        ///      /&gt;
+        ///   &lt;/rdf:RDF&gt;
+        ///--&gt;.
+        /// </summary>
+        internal static string TrackbackTag {
+            get {
+                return ResourceManager.GetString("TrackbackTag", resourceCulture);
             }
         }
     }

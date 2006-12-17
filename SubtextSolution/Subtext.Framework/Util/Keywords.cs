@@ -44,11 +44,11 @@ namespace Subtext.Framework.Util
 		/// </summary>
 		/// <param name="source">Text to search</param>
 		/// <param name="oldValue">Pattern to search for</param>
-		/// <param name="formatString">Replaced Pattern</param>
+		/// <param name="format">Replaced Pattern</param>
 		/// <returns></returns>
-		public static string ReplaceFormat(string source, string oldValue, string formatString)
+		public static string ReplaceFormat(string source, string oldValue, string format)
 		{
-			return Scan(source, oldValue, formatString, true, false);
+			return Scan(source, oldValue, format, true, false);
 		}
 
 		/// <summary>
@@ -57,12 +57,12 @@ namespace Subtext.Framework.Util
 		/// </summary>
 		/// <param name="source">Text to search</param>
 		/// <param name="oldValue">Pattern to search for</param>
-		/// <param name="formatString">Replaced Pattern</param>
+		/// <param name="format">Replaced Pattern</param>
 		/// <param name="onlyFirstMatch">Match First Only</param>
 		/// <returns></returns>
-		public static string ReplaceFormat(string source, string oldValue, string formatString, bool onlyFirstMatch)
+		public static string ReplaceFormat(string source, string oldValue, string format, bool onlyFirstMatch)
 		{
-			return Scan(source, oldValue, formatString, true, onlyFirstMatch);
+			return Scan(source, oldValue, format, true, onlyFirstMatch);
 		}
 
 		private static string Scan(string source, string oldValue, string newValue, bool isFormat, bool onlyFirstMatch)

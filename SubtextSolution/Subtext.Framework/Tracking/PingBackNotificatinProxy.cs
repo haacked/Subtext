@@ -35,6 +35,7 @@
 using System;
 using System.Text.RegularExpressions;
 using CookComputing.XmlRpc;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Tracking
 {
@@ -55,17 +56,27 @@ namespace Subtext.Framework.Tracking
 			get{return errormessage;}
 		}
 
-		public bool Ping(string pageText, Uri sourceURI, Uri targetURI)
-		{
-			string pingbackURL = GetPingBackURL(pageText, sourceURI);
-			if(pingbackURL != null)
-			{
-				this.Url = pingbackURL;
-				Notify(sourceURI.ToString(), targetURI.ToString());
-				return true;
-			}
-			return false;
-		}
+        public bool Ping(string pageText, Uri sourceURI, Uri targetURI)
+        {
+            if (sourceURI == null)
+            {
+                throw new ArgumentNullException("sourceURI", Resources.ArgumentNull_Uri);
+            }
+
+            if (targetURI == null)
+            {
+                throw new ArgumentNullException("targetURI", Resources.ArgumentNull_Uri);
+            }
+
+            string pingbackURL = GetPingBackURL(pageText, sourceURI);
+            if (pingbackURL != null)
+            {
+                this.Url = pingbackURL;
+                Notify(sourceURI.ToString(), targetURI.ToString());
+                return true;
+            }
+            return false;
+        }
 
 		private static string GetPingBackURL(string pageText, Uri postUrl)
 		{

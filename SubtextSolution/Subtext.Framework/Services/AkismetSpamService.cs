@@ -5,6 +5,7 @@ using Subtext.Akismet;
 using log4net;
 using Subtext.Framework.Components;
 using Subtext.Framework.Web;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Services
 {
@@ -19,9 +20,10 @@ namespace Subtext.Framework.Services
 		/// </summary>
 		/// <param name="apiKey">The API key.</param>
 		/// <param name="blog">The blog.</param>
-		public AkismetSpamService(string apiKey, IBlogInfo blog) : this(new AkismetClient(apiKey, blog.RootUrl))
-		{
-		}
+        public AkismetSpamService(string apiKey, IBlogInfo blog)
+            : this(new AkismetClient(apiKey, blog.RootUrl))
+        {
+        }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AkismetSpamService"/> class.
@@ -29,10 +31,18 @@ namespace Subtext.Framework.Services
 		/// <param name="akismetClient">The akismet client.</param>
 		public AkismetSpamService(IAkismetClient akismetClient)
 		{
+            if (akismetClient == null)
+            {
+                throw new ArgumentNullException("akismetClient", Resources.ArgumentNull_Generic);
+            }
+
 			this.akismet = akismetClient;
+
 			IWebProxy proxy = HttpHelper.GetProxy();
-			if (proxy != null)
-				this.akismet.Proxy = proxy;
+            if (proxy != null)
+            {
+                this.akismet.Proxy = proxy;
+            }
 		}
 
 		/// <summary>

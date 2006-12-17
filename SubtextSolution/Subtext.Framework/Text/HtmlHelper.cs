@@ -126,6 +126,11 @@ namespace Subtext.Framework.Text
 		/// <param name="value"></param>
 		public static void AppendAttributeValue(WebControl control, string name, string value)
 		{
+            if (control == null)
+            {
+                throw new ArgumentNullException("control", Resources.ArgumentNull_Generic);
+            }
+
 			string existingValue = control.Attributes[name];
 			if(String.IsNullOrEmpty(existingValue))
 			{
@@ -170,6 +175,11 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static void ConvertHtmlToXHtml(Entry entry)
 		{
+            if (entry == null)
+            {
+                throw new ArgumentNullException("entry", Resources.ArgumentNull_Obj);
+            }
+
 			SgmlReader reader = new SgmlReader();
 			reader.SetBaseUri(Config.CurrentBlog.RootUrl.ToString());
 			reader.DocType = "html";
@@ -207,7 +217,12 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static void CheckForIllegalContent(string s)
 		{
-			if (s == null || s.Trim().Length == 0)
+            if (s == null)
+            {
+                return;
+            }
+
+            if (s.Trim().Length == 0)
 			{
 				return;
 			}
@@ -228,6 +243,11 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static string EnableUrls(string text)
 		{
+            if (text == null)
+            {
+                throw new ArgumentNullException("text", Resources.ArgumentNull_String);
+            }
+
 			string pattern = @"(http|ftp|https):\/\/[\w]+(.[\w]+)([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])";
 			MatchCollection matches = Regex.Matches(text, pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
 			foreach (Match m in matches) 
@@ -245,16 +265,16 @@ namespace Subtext.Framework.Text
 		/// </summary>
 		/// <param name="stringToTransform"></param>
 		/// <returns></returns>
-		public static string SafeFormat(string stringToTransform) 
+		public static string SafeFormat(string input) 
 		{
-            if (stringToTransform == null)
+            if (input == null)
             {
-                throw new ArgumentNullException("stringToTransform", Resources.ArgumentNull_String);
+                throw new ArgumentNullException("input", Resources.ArgumentNull_String);
             }
 
-			stringToTransform = HttpContext.Current.Server.HtmlEncode(stringToTransform);
+			input = HttpContext.Current.Server.HtmlEncode(input);
 			string brTag = "<br />";
-			return stringToTransform.Replace(Environment.NewLine, brTag);
+			return input.Replace(Environment.NewLine, brTag);
 		}
 
 		/// <summary>

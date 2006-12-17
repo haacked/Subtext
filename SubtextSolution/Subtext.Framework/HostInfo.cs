@@ -147,26 +147,32 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static bool CreateHost(string hostUserName, string hostPassword, string email)
 		{
-			if(!InstallationManager.HostInfoRecordNeeded)
-				throw new InvalidOperationException(Resources.InvalidOperation_HostRecordExists);
-
+            if (!InstallationManager.HostInfoRecordNeeded)
+            {
+                throw new InvalidOperationException(Resources.InvalidOperation_HostRecordExists);
+            }
 			HostInfo host = new HostInfo();
 			
 			string passwordSalt = SecurityHelper.CreateRandomSalt();
-			
-			if (Membership.Provider.PasswordFormat == MembershipPasswordFormat.Hashed)
-				hostPassword = SecurityHelper.HashPassword(hostPassword, passwordSalt);
-			
+
+            if (Membership.Provider.PasswordFormat == MembershipPasswordFormat.Hashed)
+            {
+                hostPassword = SecurityHelper.HashPassword(hostPassword, passwordSalt);
+            }
 			host = ObjectProvider.Instance().CreateHost(host, hostUserName, hostPassword, passwordSalt, email);
-			
-			using(IDisposable scope = MembershipApplicationScope.SetApplicationName("/"))
-			{
-				if(!Roles.RoleExists("HostAdmins"))
-					Roles.CreateRole("HostAdmins");
-				
-				Roles.AddUserToRole(host.Owner.UserName, "HostAdmins");
-				scope.Dispose(); //Just to make sure it stays alive.
-			}
+
+            using (IDisposable scope = MembershipApplicationScope.SetApplicationName("/"))
+            {
+                if (!Roles.RoleExists("HostAdmins"))
+                {
+                    Roles.CreateRole("HostAdmins");
+                }
+                Roles.AddUserToRole(host.Owner.UserName, "HostAdmins");
+                
+                // Not sure this is needed...when the using block exits it will automatically
+                // call scope.Dispose().
+                //scope.Dispose(); //Just to make sure it stays alive.
+            }
 			
 			return true;
 		}

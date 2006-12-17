@@ -114,7 +114,7 @@ namespace Subtext.Framework.Text
 		/// <summary>
 		/// Returns a string containing a specified number of characters from the left side of a string.
 		/// </summary>
-		/// <param name="str">Required. String expression from which the leftmost characters are returned.</param>
+        /// <param name="original">Required. String expression from which the leftmost characters are returned.</param>
 		/// <param name="length">Required. Integer greater than 0. Numeric expression 
 		/// indicating how many characters to return. If 0, a zero-length string ("") 
 		/// is returned. If greater than or equal to the number of characters in Str, 
@@ -122,13 +122,25 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		/// <exception cref="ArgumentOutOfRangeException">Thrown if length is less than 0</exception>
 		/// <exception cref="ArgumentNullException">Thrown if str is null.</exception>
-		public static string Left(string str, int length)
-		{
-			if(length >= str.Length)
-				return str;
+        public static string Left(string original, int length)
+        {
+            if (original == null)
+            {
+                throw new ArgumentNullException("original", Resources.ArgumentNull_String);
+            }
 
-			return str.Substring(0, length);
-		}
+            if (original.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "original");
+            }
+
+            if (length >= original.Length)
+            {
+                return original;
+            }
+
+            return original.Substring(0, length);
+        }
 
 		/// <summary>
 		/// Returns a string containing a specified number of characters from the right side of a string.
@@ -232,20 +244,28 @@ namespace Subtext.Framework.Text
 		/// <exception cref="ArgumentNullException">Thrown if str or searchstring is null.</exception>
 		public static string LeftBefore(string original, string search, StringComparison comparisonType)
 		{
-			if(original == null)
-				throw new ArgumentNullException("original", Resources.ArgumentNull_String);
+            if (original == null)
+            {
+                throw new ArgumentNullException("original", Resources.ArgumentNull_String);
+            }
 
-			if(search == null)
-				throw new ArgumentNullException("search", Resources.ArgumentNull_String);
+            if (search == null)
+            {
+                throw new ArgumentNullException("search", Resources.ArgumentNull_String);
+            }
 
 			//Shortcut.
-			if(search.Length > original.Length || search.Length == 0)
-				return original;
+            if (search.Length > original.Length || search.Length == 0)
+            {
+                return original;
+            }
 
 			int searchIndex = original.IndexOf(search, 0, comparisonType);
-			
-			if(searchIndex < 0)
-				return original;
+
+            if (searchIndex < 0)
+            {
+                return original;
+            }
 
 			return Left(original, searchIndex);
 		}
@@ -260,7 +280,17 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static bool Contains(string container, string contained, StringComparison comparison)
 		{
-			return container.IndexOf(contained, comparison) >= 0;
+            if (container == null)
+            {
+                throw new ArgumentNullException("container", Resources.ArgumentNull_String);
+            }
+
+            if (contained == null)
+            {
+                throw new ArgumentNullException("contained", Resources.ArgumentNull_String);
+            }
+
+            return container.IndexOf(contained, comparison) >= 0;
 		}
 		/// <summary>
 		/// Returns the EmptyString ("") if the passed in string is either the EmptyString
