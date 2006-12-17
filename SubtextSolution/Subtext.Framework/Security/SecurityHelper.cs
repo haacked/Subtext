@@ -29,6 +29,7 @@ using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Text;
 using Subtext.Framework.Web;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Security
 {
@@ -462,7 +463,7 @@ namespace Subtext.Framework.Security
 			}
 			else
 			{
-				return "Blog_" + BlogId.ToString();
+				return String.Format(CultureInfo.InvariantCulture, "Blog_{0}", BlogId);
 			}
 		}
 	}

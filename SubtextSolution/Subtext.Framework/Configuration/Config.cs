@@ -320,7 +320,7 @@ namespace Subtext.Framework.Configuration
 		public static bool IsValidSubfolderName(string subfolder)
 		{
 			if(subfolder == null)
-				throw new ArgumentNullException("Subfolder cannot be null.");
+				throw new ArgumentNullException("subfolder", "Subfolder cannot be null.");
 
 			if(subfolder.StartsWith(".") || subfolder.EndsWith("."))
 				return false;

@@ -20,6 +20,7 @@ using System.Web.UI;
 using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Text;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.UrlManager
 {
@@ -56,6 +57,41 @@ namespace Subtext.Framework.UrlManager
 		/// </returns>
 		public virtual IHttpHandler GetHandler(HttpContext context, string requestType, string url, string path)
 		{
+            if (context == null)
+            {
+                throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
+            }
+
+            if (requestType == null)
+            {
+                throw new ArgumentNullException("requestType", Resources.ArgumentNull_String);
+            }
+
+            if (url == null)
+            {
+                throw new ArgumentNullException("url", Resources.ArgumentNull_String);
+            }
+
+            if (path == null)
+            {
+                throw new ArgumentNullException("path", Resources.ArgumentNull_String);
+            }
+
+            if (requestType.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "requestType");
+            }
+
+            if (url.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "url");
+            }
+
+            if (path.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "path");
+            }
+
 			if (IsRequestForAggregateBlog && !InstallationManager.IsOnLoginPage) //This line calls the db.
 			{
 				string handlerUrl = context.Request.ApplicationPath;
@@ -95,7 +131,7 @@ namespace Subtext.Framework.UrlManager
 								return ProcessHandlerTypeDirectory(context, url);
 
 							default:
-								throw new Exception("Invalid HandlerType: Unknown");
+								throw new Exception(Resources.ApplicationException_UnknownHandlerType);
 						}
 					}
 				}

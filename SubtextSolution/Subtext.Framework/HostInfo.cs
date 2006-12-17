@@ -19,6 +19,7 @@ using System.Web.Security;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Security;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework
 {
@@ -147,7 +148,7 @@ namespace Subtext.Framework
 		public static bool CreateHost(string hostUserName, string hostPassword, string email)
 		{
 			if(!InstallationManager.HostInfoRecordNeeded)
-				throw new InvalidOperationException("Cannot create a Host record.  One already exists.");
+				throw new InvalidOperationException(Resources.InvalidOperation_HostRecordExists);
 
 			HostInfo host = new HostInfo();
 			
@@ -178,7 +179,32 @@ namespace Subtext.Framework
 		/// <param name="newPassword">The new password.</param>
 		public static void ChangePassword(HostInfo host, string oldPassword, string newPassword)
 		{
-			//Make sure we can grab the host admin.
+            if (host == null)
+            {
+                throw new ArgumentNullException("host", Resources.ArgumentNull_Generic);
+            }
+
+            if (oldPassword == null)
+            {
+                throw new ArgumentNullException("oldPassword", Resources.ArgumentNull_String);
+            }
+
+            if (newPassword == null)
+            {
+                throw new ArgumentNullException("newPassword", Resources.ArgumentNull_String);
+            }
+
+            if (oldPassword.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "oldPassword");
+            }
+
+            if (newPassword.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "newPassword");
+            }
+
+            //Make sure we can grab the host admin.
 			using (MembershipApplicationScope.SetApplicationName("/"))
 			{
 				Membership.Provider.ChangePassword(host.Owner.UserName, oldPassword, newPassword);

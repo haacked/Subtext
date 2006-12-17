@@ -133,6 +133,8 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Lesnikowski.Client;
 using Lesnikowski.Mail;
+using System.Globalization;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Services
 {
@@ -561,7 +563,7 @@ namespace Subtext.Framework.Services
                                     {
                                         foreach (string fileName in attachedFiles)
                                         {
-                                            string fileNameU = fileName.ToUpper();
+                                            string fileNameU = fileName.ToUpperInvariant();
                                             if (fileNameU.EndsWith(".JPG") || fileNameU.EndsWith(".JPEG") ||
                                                 fileNameU.EndsWith(".GIF") || fileNameU.EndsWith(".PNG") ||
                                                 fileNameU.EndsWith(".BMP"))
@@ -592,7 +594,7 @@ namespace Subtext.Framework.Services
 
                                                             string absoluteUri = new Uri(binariesBaseUri, fileName).AbsoluteUri;
                                                             string absoluteThumbUri = new Uri(binariesBaseUri, thumbBaseFileName).AbsoluteUri;
-                                                            entry.Body += String.Format("<div class=\"inlinedMailPictureBox\"><a href=\"{0}\"><img border=\"0\" class=\"inlinedMailPicture\" src=\"{2}\"></a><br><a class=\"inlinedMailPictureLink\" href=\"{0}\">{1}</a></div>", absoluteUri, fileName, absoluteThumbUri);
+                                                            entry.Body += String.Format(CultureInfo.InvariantCulture, "<div class=\"inlinedMailPictureBox\"><a href=\"{0}\"><img border=\"0\" class=\"inlinedMailPicture\" src=\"{2}\"></a><br><a class=\"inlinedMailPictureLink\" href=\"{0}\">{1}</a></div>", absoluteUri, fileName, absoluteThumbUri);
                                                             scalingSucceeded = true;
 
                                                         }
@@ -604,7 +606,7 @@ namespace Subtext.Framework.Services
                                                 if (!scalingSucceeded)
                                                 {
                                                     string absoluteUri = new Uri(binariesBaseUri, fileName).AbsoluteUri;
-                                                    entry.Body += String.Format("<div class=\"inlinedMailPictureBox\"><img class=\"inlinedMailPicture\" src=\"{0}\"><br><a class=\"inlinedMailPictureLink\" href=\"{0}\">{1}</a></div>", absoluteUri, fileName);
+                                                    entry.Body += String.Format(CultureInfo.InvariantCulture, "<div class=\"inlinedMailPictureBox\"><img class=\"inlinedMailPicture\" src=\"{0}\"><br><a class=\"inlinedMailPictureLink\" href=\"{0}\">{1}</a></div>", absoluteUri, fileName);
                                                 }
                                             }
                                         }
@@ -617,7 +619,7 @@ namespace Subtext.Framework.Services
 
                                     foreach (string fileName in attachedFiles)
                                     {
-                                        string fileNameU = fileName.ToUpper();
+                                        string fileNameU = fileName.ToUpperInvariant();
                                         if (!activeblog.pop3InlineAttachedPictures ||
                                             (!fileNameU.EndsWith(".JPG") && !fileNameU.EndsWith(".JPEG") &&
                                                 !fileNameU.EndsWith(".GIF") && !fileNameU.EndsWith(".PNG") &&
@@ -697,7 +699,7 @@ namespace Subtext.Framework.Services
             }
             //if all the blogs and e-mails are processed thread may sleep here
             //Sleep time comes from web.config
-            Thread.Sleep(TimeSpan.FromSeconds(int.Parse(ConfigurationManager.AppSettings.Get("MTWThreadSleep"))));
+            Thread.Sleep(TimeSpan.FromSeconds(Int32.Parse(ConfigurationManager.AppSettings.Get("MTWThreadSleep"), NumberFormatInfo.InvariantInfo)));
         }
 
         /// <summary>
@@ -729,6 +731,11 @@ namespace Subtext.Framework.Services
         /// <returns></returns>
         public string StoreAttachment(MimeData attachment)
         {
+            if (attachment == null)
+            {
+                throw new ArgumentNullException(Resources.ArgumentNull_Generic);
+            }
+
             bool alreadyUploaded = false;
             string baseFileName = attachment.FileName;
             string targetFileName = Path.Combine(binariesPath, baseFileName);
@@ -765,7 +772,7 @@ namespace Subtext.Framework.Services
                 {
                     string ext = Path.GetExtension(baseFileName);
                     string file = Path.GetFileNameWithoutExtension(baseFileName);
-                    string newFileName = file + (numSuffix++).ToString();
+                    string newFileName = file + (numSuffix++).ToString(NumberFormatInfo.InvariantInfo);
                     baseFileName = newFileName + ext;
                     targetFileName = Path.Combine(binariesPath, baseFileName);
                 }

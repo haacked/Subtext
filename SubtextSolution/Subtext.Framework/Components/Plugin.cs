@@ -22,6 +22,7 @@ using Subtext.Framework.Providers;
 using System.Collections.Specialized;
 using System.Web;
 using System.Web.Caching;
+using System.Globalization;
 
 namespace Subtext.Framework.Components
 {
@@ -74,7 +75,7 @@ namespace Subtext.Framework.Components
 			if (HttpContext.Current.Cache != null)
 			{
 				//try to get the object from the cache
-				object cachedPluginList = HttpContext.Current.Cache[String.Format(PLUGINCACHENAMEFORMAT, blogId)];
+				object cachedPluginList = HttpContext.Current.Cache[String.Format(CultureInfo.InvariantCulture, PLUGINCACHENAMEFORMAT, blogId)];
 				pluginList = (IDictionary<Guid, Plugin>)cachedPluginList;
 			}
 			//if the pluginlist is still null (not found inside the cache) go and hit the DB
@@ -186,13 +187,13 @@ namespace Subtext.Framework.Components
 		private static void StorePluginListToCache(IDictionary<Guid, Plugin> pluginList)
 		{
 			int blogId = Subtext.Framework.Configuration.Config.CurrentBlog.Id;
-			HttpContext.Current.Cache.Insert(String.Format(PLUGINCACHENAMEFORMAT, blogId), pluginList, null, Cache.NoAbsoluteExpiration, new TimeSpan(1, 0, 0), CacheItemPriority.NotRemovable, null);
+			HttpContext.Current.Cache.Insert(String.Format(CultureInfo.InvariantCulture, PLUGINCACHENAMEFORMAT, blogId), pluginList, null, Cache.NoAbsoluteExpiration, new TimeSpan(1, 0, 0), CacheItemPriority.NotRemovable, null);
 		}
 
 		private static void RemovePluginListFromCache()
 		{
 			int blogId = Subtext.Framework.Configuration.Config.CurrentBlog.Id;
-			HttpContext.Current.Cache.Remove(String.Format(PLUGINCACHENAMEFORMAT, blogId));
+			HttpContext.Current.Cache.Remove(String.Format(CultureInfo.InvariantCulture, PLUGINCACHENAMEFORMAT, blogId));
 		}
 
 		#endregion Cache managing helper classes

@@ -26,6 +26,7 @@ using Subtext.Framework.Threading;
 using Subtext.Framework.Tracking;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Web;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework
 {
@@ -180,6 +181,11 @@ namespace Subtext.Framework
 		/// <param name="entry">Entry.</param>
 		public static void Notify(Entry entry)
 		{
+            if (entry == null)
+            {
+                throw new ArgumentNullException("entry", Resources.ArgumentNull_Generic);
+            }
+
 			StringCollection links = HtmlHelper.GetLinks(entry.Body);
 
 			if(links != null && links.Count > 0)

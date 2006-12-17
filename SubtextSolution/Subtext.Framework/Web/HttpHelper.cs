@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Web;
 using Subtext.Framework.Text;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Web
 {
@@ -175,6 +176,11 @@ namespace Subtext.Framework.Web
 		/// <param name="request"></param>
 		public static void SetProxy(WebRequest request)
 		{
+            if (request == null)
+            {
+                throw new ArgumentNullException(Resources.ArgumentNull_Generic);
+            }
+
 			IWebProxy proxy = GetProxy();
 			if(proxy != null)
 				request.Proxy = proxy;

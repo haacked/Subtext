@@ -255,6 +255,7 @@ namespace Subtext.Framework.Syndication
 				"description", //Tag
 				string.Format
 				(
+                    CultureInfo.CurrentUICulture,
 					"{0}{1}", //tag def
 					GetBodyFromItem(item), (UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(urlFormats.AggBugkUrl(item.Id)) : null //use aggbugs
 				)

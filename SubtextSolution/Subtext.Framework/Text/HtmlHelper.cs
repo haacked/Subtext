@@ -26,6 +26,7 @@ using Sgml;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Velocit.RegularExpressions;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Text
 {
@@ -43,14 +44,14 @@ namespace Subtext.Framework.Text
 		{
             if (control == null)
             {
-                throw new ArgumentNullException("Cannot add a css class to a null control");
+                throw new ArgumentNullException("control", Resources.ArgumentNull_Generic);
             }
 
             if (newClass == null)
             {
-                throw new ArgumentNullException("Cannot add a null css class to a control");
+                throw new ArgumentNullException("newClass", Resources.ArgumentNull_String);
             }
-			
+		
 			string existingClasses = control.CssClass;
 			if (String.IsNullOrEmpty(existingClasses))
 			{
@@ -79,12 +80,17 @@ namespace Subtext.Framework.Text
 		{
             if (control == null)
             {
-                throw new ArgumentNullException("Cannot remove a css class from a null control");
+                throw new ArgumentNullException("control", Resources.ArgumentNull_Generic);
             }
 
             if (classToRemove == null)
             {
-                throw new ArgumentNullException("Cannot remove a null css class from a control");
+                throw new ArgumentNullException("classToRemove", Resources.ArgumentNull_String);
+            }
+
+            if (classToRemove.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "classToRemove");
             }
 			
 			string existingClasses = control.CssClass;
@@ -95,14 +101,17 @@ namespace Subtext.Framework.Text
 
 			string[] classes = existingClasses.Split(new string[] { " ", "\t", "\r\n", "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
             string newClasses = String.Empty;
+            StringBuilder builder = new StringBuilder();
+
 			foreach (string cssClass in classes)
 			{
 				if (!String.Equals(cssClass, classToRemove, StringComparison.Ordinal))
 				{
-                    newClasses += cssClass + " ";
+                    builder.AppendFormat("{0} ", cssClass);
 				}
 			}
 
+            newClasses = builder.ToString();
             if (newClasses.EndsWith(" "))
             {
                 newClasses = newClasses.Substring(0, newClasses.Length - 1);
@@ -167,7 +176,7 @@ namespace Subtext.Framework.Text
 			reader.WhitespaceHandling = WhitespaceHandling.All;
 			reader.InputStream = new StringReader("<html>" + entry.Body + "</html>");
 			reader.CaseFolding = CaseFolding.ToLower;
-			StringWriter writer = new StringWriter();
+			StringWriter writer = new StringWriter(CultureInfo.InvariantCulture);
 			XmlTextWriter xmlWriter = null;
 			try
 			{
@@ -238,8 +247,10 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static string SafeFormat(string stringToTransform) 
 		{
-			if (stringToTransform == null)
-				throw new ArgumentNullException("stringToTransform", "Cannot transform a null string.");
+            if (stringToTransform == null)
+            {
+                throw new ArgumentNullException("stringToTransform", Resources.ArgumentNull_String);
+            }
 
 			stringToTransform = HttpContext.Current.Server.HtmlEncode(stringToTransform);
 			string brTag = "<br />";
@@ -288,8 +299,15 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static string ConvertToAllowedHtml(string text)
 		{
-			if(text == null)
-				throw new ArgumentNullException("text", "Cannot convert null to allowed html.");
+            if (text == null)
+            {
+                throw new ArgumentNullException("text", Resources.ArgumentNull_String);
+            }
+
+            if (text.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "text");
+            }
 
 			NameValueCollection allowedHtmlTags = Config.Settings.AllowedHtmlTags;
 			
@@ -311,6 +329,11 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static string ConvertToAllowedHtml(NameValueCollection allowedHtmlTags, string text)
 		{
+            if (text == null)
+            {
+                throw new ArgumentNullException("text", Resources.ArgumentNull_String);
+            }
+
 			if (allowedHtmlTags == null || allowedHtmlTags.Count == 0)
 			{
 				//This indicates that the AllowableCommentHtml configuration is either missing or

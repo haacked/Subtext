@@ -85,20 +85,25 @@ namespace Subtext.Framework.Tracking
 			context.Response.ContentType = "text/xml";
 
 			int postId = 0 ;
-			try 
-			{
-				postId = WebPathStripper.GetEntryIDFromUrl(context.Request.Path);
-			}
-			catch(ArgumentException e)
-			{
-				Log.Info("Could not extract entry id from incoming URL." + e.Message, e);
-				SendTrackbackResponse(context, 1, "EntryID is invalid or missing") ;
-			}
+            try
+            {
+                postId = WebPathStripper.GetEntryIDFromUrl(context.Request.Path);
+            }
+            catch (ArgumentException e)
+            {
+                Log.Info("Could not extract entry id from incoming URL." + e.Message, e);
+                SendTrackbackResponse(context, TrackbackResponseCode.Error, "EntryID is invalid or missing");
+            }
+            catch (FormatException e)
+            {
+                Log.Info("Could not extract entry id from incoming URL." + e.Message, e);
+                SendTrackbackResponse(context, TrackbackResponseCode.Error, "EntryID is invalid or missing");
+            }
 
 			Entry entry = Entries.GetEntry(postId, PostConfig.IsActive, false);
 			if(entry == null)
 			{
-				SendTrackbackResponse(context, 1, "EntryID is invalid or missing");
+                SendTrackbackResponse(context, TrackbackResponseCode.Error, "EntryID is invalid or missing");
 				return;
 			}
 
@@ -144,13 +149,13 @@ namespace Subtext.Framework.Tracking
 			Uri url = HtmlHelper.ParseUri(urlText);
 			if(url == null)
 			{
-				SendTrackbackResponse(context, 1, "no url parameter found, please try harder!");
+                SendTrackbackResponse(context, TrackbackResponseCode.Error, "no url parameter found, please try harder!");
 				return;
 			}
 
 			if (entry == null || !IsSourceVerification(url, entry.FullyQualifiedUrl))
 			{
-				SendTrackbackResponse(context, 2, "Sorry couldn't find a relevant link in " + url );
+                SendTrackbackResponse(context, TrackbackResponseCode.Error, "Sorry couldn't find a relevant link in " + url);
 				return;
 			}
 
@@ -170,14 +175,14 @@ namespace Subtext.Framework.Tracking
 			get { return true; }
 		}
 
-		private static void SendTrackbackResponse(HttpContext context, int errorNumber, string errorMessage)
+        private static void SendTrackbackResponse(HttpContext context, TrackbackResponseCode errorNumber, string errorMessage)
 		{
 			XmlDocument d = new XmlDocument();
 			XmlElement root = d.CreateElement("response");
 			d.AppendChild(root) ;
 			XmlElement er = d.CreateElement("error");
 			root.AppendChild(er) ;
-			er.AppendChild(d.CreateTextNode(errorNumber.ToString(CultureInfo.InvariantCulture)));
+			er.AppendChild(d.CreateTextNode(errorNumber.ToString()));
 			if (errorMessage.Length > 0)
 			{
 				XmlElement msg = d.CreateElement("message");

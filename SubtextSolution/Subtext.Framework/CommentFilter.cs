@@ -20,6 +20,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Security;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework
 {
@@ -77,6 +78,11 @@ namespace Subtext.Framework
 		/// <param name="feedbackItem">Entry.</param>
 		public static void FilterAfterPersist(FeedbackItem feedbackItem)
 		{
+            if (feedbackItem == null)
+            {
+                throw new ArgumentNullException("feedbackItem", Resources.ArgumentNull_Generic);
+            }
+            
 			if (!SecurityHelper.IsAdmin)
 			{
 				if (!Config.CurrentBlog.ModerationEnabled)

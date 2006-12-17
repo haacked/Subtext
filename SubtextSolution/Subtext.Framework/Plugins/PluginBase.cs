@@ -79,12 +79,12 @@ namespace Subtext.Extensibility.Plugins
 		#region Attribute Accessor Helpers
 		private static PluginImplementationInfo GetInfoFromAttribute(Type type)
 		{
-			Attribute[] attrs = System.Attribute.GetCustomAttributes(type);
+			Attribute[] attrs = System.Attribute.GetCustomAttributes(type, typeof(DescriptionAttribute));
 			foreach (Attribute attr in attrs)
 			{
-				if (attr is DescriptionAttribute)
+                DescriptionAttribute descAttr = attr as DescriptionAttribute;
+                if (descAttr != null)
 				{
-					DescriptionAttribute descAttr = (DescriptionAttribute)attr;
 					PluginImplementationInfo info = new PluginImplementationInfo();
 
 					info._name = descAttr.Name;
@@ -102,12 +102,12 @@ namespace Subtext.Extensibility.Plugins
 
 		private static Guid GetGuidFromAttribute(Type type)
 		{
-			Attribute[] attrs = System.Attribute.GetCustomAttributes(type);
+			Attribute[] attrs = System.Attribute.GetCustomAttributes(type, typeof(IdentifierAttribute));
 			foreach (Attribute attr in attrs)
 			{
-				if (attr is IdentifierAttribute)
+                IdentifierAttribute idAttr = attr as IdentifierAttribute;
+                if (idAttr != null)
 				{
-					IdentifierAttribute idAttr = (IdentifierAttribute)attr;
 					return idAttr.Guid;
 				}
 			}

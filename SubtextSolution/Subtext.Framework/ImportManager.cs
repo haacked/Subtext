@@ -13,6 +13,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
+using System;
 using System.Web.UI;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Extensibility.Providers;
@@ -21,6 +22,7 @@ using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
 using Subtext.Framework.UI.Skinning;
 using SkinConfig = Subtext.Framework.Configuration.SkinConfig;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework
 {
@@ -36,6 +38,11 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static Control GetImportInformationControl(ImportProvider provider)
 		{
+            if (provider == null)
+            {
+                throw new ArgumentNullException("provider", Resources.ArgumentNull_Generic);
+            }
+
             return provider.GatherImportInformation();
 		}
 
@@ -49,6 +56,16 @@ namespace Subtext.Framework
 		/// <returns></returns>
         public static string ValidateImportAnswers(Control populatedControl, ImportProvider provider)
 		{
+            if (populatedControl == null)
+            {
+                throw new ArgumentNullException("populatedControl", Resources.ArgumentNull_Generic);
+            }
+
+            if (provider == null)
+            {
+                throw new ArgumentNullException("provider", Resources.ArgumentNull_Generic);
+            }
+
             return provider.ValidateImportInformation(populatedControl);
 		}
 

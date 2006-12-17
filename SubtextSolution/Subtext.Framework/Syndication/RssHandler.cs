@@ -17,6 +17,7 @@ using System;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Syndication;
+using System.Globalization;
 
 namespace Subtext.Framework.Syndication
 {
@@ -35,7 +36,7 @@ namespace Subtext.Framework.Syndication
 		protected override string CacheKey(DateTime dateLastViewedFeedItemPublished)
 		{
 			const string key = "RSS;IndividualMainFeed;BlogId:{0};LastViewed:{1}";
-			return string.Format(key, CurrentBlog.Id, dateLastViewedFeedItemPublished);
+			return string.Format(CultureInfo.InvariantCulture, key, CurrentBlog.Id, dateLastViewedFeedItemPublished);
 		}
 
 		/// <summary>

@@ -18,6 +18,7 @@ using DotNetOpenMail;
 using DotNetOpenMail.SmtpAuth;
 using Subtext.Extensibility.Providers;
 using Subtext.Framework.Logging;
+using System.Globalization;
 
 namespace Subtext.Framework.Providers
 {
@@ -60,13 +61,13 @@ namespace Subtext.Framework.Providers
 		    //Mail Exception is thrown when there are network or connection errors
 			catch(MailException mailEx)
 			{
-                string msg = String.Format("Connection or network error sending email from {0} to {1}", from, to);
+                string msg = String.Format(CultureInfo.CurrentUICulture, "Connection or network error sending email from {0} to {1}", from, to);
 				Log.Error(msg, mailEx);
 			}
 		    //SmtpException is thrown for all SMTP exceptions
 		    catch (SmtpException smtpEx)
 		    {
-                string msg = String.Format("Error sending email from {0} to {1}", from, to);
+                string msg = String.Format(CultureInfo.CurrentUICulture, "Error sending email from {0} to {1}", from, to);
 		        Log.Error(msg, smtpEx);
 		    }
 			return false;

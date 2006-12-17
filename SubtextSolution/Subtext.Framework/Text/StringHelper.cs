@@ -18,6 +18,8 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Globalization;
+using Subtext.Framework.Properties;
 
 // adapted from namespace Haack.Text
 namespace Subtext.Framework.Text
@@ -91,7 +93,7 @@ namespace Subtext.Framework.Text
 		public static string PascalCase(string text)
 		{
 			if(text == null)
-				throw new ArgumentNullException("text", "Cannot PascalCase null text.");
+				throw new ArgumentNullException("text", Resources.ArgumentNull_String);
 			
 			if(text.Length == 0)
 				return text;
@@ -102,7 +104,7 @@ namespace Subtext.Framework.Text
 				if(words[i].Length > 0)
 				{
 					string word = words[i];
-					char firstChar = char.ToUpper(word[0]);
+					char firstChar = char.ToUpper(word[0], CultureInfo.CurrentUICulture);
 					words[i] = firstChar + word.Substring(1);
 				}
 			}
@@ -142,10 +144,10 @@ namespace Subtext.Framework.Text
 		public static string Right(string original, int length)
 		{
 			if(original == null)
-				throw new ArgumentNullException("original", "Right cannot be evaluated on a null string.");
+				throw new ArgumentNullException("original", Resources.ArgumentNull_String);
 
 			if(length < 0)
-				throw new ArgumentOutOfRangeException("length", length, "Length must not be negative.");
+				throw new ArgumentOutOfRangeException("length", length, Resources.ArgumnetOutOfRange_Length);
 			
 			if(original.Length == 0 || length == 0)
 				return String.Empty;
@@ -185,9 +187,10 @@ namespace Subtext.Framework.Text
 		public static string RightAfter(string original, string search, StringComparison comparisonType)
 		{
 			if(original == null)
-				throw new ArgumentNullException("original", "The original string may not be null.");
+				throw new ArgumentNullException("original", Resources.ArgumentNull_String);
+
 			if(search == null)
-				throw new ArgumentNullException("search", "The searchString string may not be null.");
+				throw new ArgumentNullException("search", Resources.ArgumentNull_String);
 
 			//Shortcut.
 			if(search.Length > original.Length || search.Length == 0)
@@ -230,10 +233,10 @@ namespace Subtext.Framework.Text
 		public static string LeftBefore(string original, string search, StringComparison comparisonType)
 		{
 			if(original == null)
-				throw new ArgumentNullException("original", "The original string may not be null.");
+				throw new ArgumentNullException("original", Resources.ArgumentNull_String);
 
 			if(search == null)
-				throw new ArgumentNullException("search", "Search string may not be null.");
+				throw new ArgumentNullException("search", Resources.ArgumentNull_String);
 
 			//Shortcut.
 			if(search.Length > original.Length || search.Length == 0)
@@ -304,13 +307,13 @@ namespace Subtext.Framework.Text
 		public static string Join<T>(string delimiter, IEnumerable<T> items, Converter<T, string> converter)
 		{
 			if (delimiter == null)
-				throw new ArgumentNullException("delimiter", "Cannot join using a null delimiter.");
+				throw new ArgumentNullException("delimiter", Resources.ArgumentNull_String);
 
 			if (items == null)
-				throw new ArgumentNullException("items", "Cannot join a null collection");
+				throw new ArgumentNullException("items", Resources.ArgumentNull_Collection);
 
 			if (converter == null)
-				throw new ArgumentNullException("converter", "Cannot join using a null converter");
+				throw new ArgumentNullException("converter", Resources.ArgumentNull_Obj);
 			
 			StringBuilder builder = new StringBuilder();
 			foreach (T item in items)

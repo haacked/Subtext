@@ -26,6 +26,7 @@ using Subtext.Framework.Text;
 using Subtext.Framework.Util;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.Framework.Components;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework
 {
@@ -748,7 +749,7 @@ namespace Subtext.Framework
 				if(!String.IsNullOrEmpty(value))
 				{
 					if (value.Contains("/") || value.Contains("\\"))
-						throw new InvalidOperationException("Cannot specify a feedburner name with invalid characters.");
+						throw new InvalidOperationException(Resources.Format_InvalidFeedburnerName);
 				}
 				this.feedBurnerName = value;
 			}
@@ -775,7 +776,7 @@ namespace Subtext.Framework
 				return this.rootUrl;
 			}
 		}
-		Uri rootUrl = null;
+		Uri rootUrl;
 
 		/// <summary>
 		/// Gets the virtual URL for the site with preceding and trailing slash.  For example, "/" or "/Subtext.Web/" or "/Blog/".
@@ -1003,8 +1004,11 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public override bool Equals(object obj)
 		{
-			if(obj == null || GetType() != obj.GetType())
+			if(obj == null)
 				return false;
+
+            if (GetType() != obj.GetType())
+                return false;
 
 			return ((BlogInfo)obj).Id == this.Id;
 		}

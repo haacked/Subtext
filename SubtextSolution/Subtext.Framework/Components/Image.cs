@@ -68,24 +68,28 @@ namespace Subtext.Framework.Components
 		}
 
 		private string _localfile;
-		public  virtual string LocalFilePath
-		{
-			get
-			{
-				if(_localfile == null)
-				{
-					throw new Exception("Image.LocalFilePath has not been set yet.");
-				}
-				return _localfile;
-			}
-			set
-			{
-				if(value == null)
-				{
-					_localfile = null;
-				}
-					_localfile= value.Replace("/","\\");}
-		}
+        public virtual string LocalFilePath
+        {
+            get
+            {
+                if (_localfile == null)
+                {
+                    throw new Exception("Image.LocalFilePath has not been set yet.");
+                }
+                return _localfile;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    _localfile = null;
+                }
+                else
+                {
+                    _localfile = value.Replace("/", "\\");
+                }
+            }
+        }
 
 		private string _title;
 		public  virtual string Title

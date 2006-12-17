@@ -1123,6 +1123,7 @@ namespace Subtext.Framework.Data
             //create the DataAdapter & DataTable
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
+            dt.Locale = CultureInfo.InvariantCulture;
 
             //fill the DataTable using default values for DataTable names, etc.
             da.Fill(dt);
@@ -1174,6 +1175,7 @@ namespace Subtext.Framework.Data
             //create the DataAdapter & DataTable
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
+            dt.Locale = CultureInfo.InvariantCulture;
 
             //fill the DataTable using default values for DataTable names, etc.
             da.Fill(dt);

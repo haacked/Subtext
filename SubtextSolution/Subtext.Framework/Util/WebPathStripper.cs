@@ -17,6 +17,7 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
+using Subtext.Framework.Properties;
 
 //This might need to somehow be provider based. Or even Globalized. Not all dates will be US :)
 
@@ -91,17 +92,17 @@ namespace Subtext.Framework.Util
 		/// <returns></returns>
 		public static int GetEntryIDFromUrl(string url)
 		{
-			if(url == null)
-				throw new ArgumentNullException("uri", "Cannot get entry id from a null url.");
-			
-			try
-			{
-				return Int32.Parse(Path.GetFileNameWithoutExtension(url));
-			}
-			catch(System.FormatException e)
-			{
-				throw new ArgumentException("The specified URL does not contain an entry id.", "url", e);
-			}
+            if (url == null)
+            {
+                throw new ArgumentNullException("url", Resources.ArgumentNull_String);
+            }
+
+            if (url.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "url");
+            }
+
+            return Int32.Parse(Path.GetFileNameWithoutExtension(url));
 		}
 	}
 }

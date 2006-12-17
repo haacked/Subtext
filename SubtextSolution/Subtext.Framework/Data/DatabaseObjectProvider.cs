@@ -31,6 +31,7 @@ using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Util;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Data
 {
@@ -655,7 +656,7 @@ namespace Subtext.Framework.Data
 		public override int CreateFeedback(FeedbackItem feedbackItem)
 		{
             if (feedbackItem == null)
-                throw new ArgumentNullException("feedbackItem", "Cannot insert a null feedback item.");
+                throw new ArgumentNullException("feedbackItem", Resources.ArgumentNull_Generic);
 
             string ipAddress = null;
             if (feedbackItem.IpAddress != null)
@@ -734,7 +735,7 @@ namespace Subtext.Framework.Data
         public override int InsertEntry(Entry entry)
         {
             if (entry == null)
-                throw new ArgumentNullException("link", "Cannot insert a null entry.");
+                throw new ArgumentNullException("link", Resources.ArgumentNull_Generic);
 
             SqlParameter outIdParam = DataHelper.MakeOutParam("@ID", SqlDbType.Int, 4);
 
@@ -865,7 +866,12 @@ namespace Subtext.Framework.Data
 
 		public override bool SetEntryCategoryList(int entryId, int[] categoryIds)
 		{
-            if (categoryIds == null || categoryIds.Length == 0)
+            if (categoryIds == null)
+            {
+                return false;
+            }
+
+            if (categoryIds.Length == 0)
             {
                 return false;
             }
@@ -1168,7 +1174,7 @@ namespace Subtext.Framework.Data
 		public override int CreateLink(Link link)
 		{
             if (link == null)
-                throw new ArgumentNullException("link", "Cannot insert a null link.");
+                throw new ArgumentNullException("link", Resources.ArgumentNull_Generic);
 
             SqlParameter outParam = DataHelper.MakeOutParam("@LinkID", SqlDbType.Int, 4);
             SqlParameter[] p = 
@@ -1189,6 +1195,11 @@ namespace Subtext.Framework.Data
 
 		public override bool UpdateLinkCategory(LinkCategory category)
 		{
+            if (category == null)
+            {
+                throw new ArgumentNullException("category", Resources.ArgumentNull_Generic);
+            }
+
             SqlParameter[] p =
 			{
 
@@ -1205,7 +1216,7 @@ namespace Subtext.Framework.Data
 		public override int CreateLinkCategory(LinkCategory category)
 		{
             if (category == null)
-                throw new ArgumentNullException("category", "Cannot insert a null category.");
+                throw new ArgumentNullException("category", Resources.ArgumentNull_Generic);
 
             SqlParameter outParam = DataHelper.MakeOutParam("@CategoryID", SqlDbType.Int, 4);
             SqlParameter[] p =
@@ -1586,7 +1597,7 @@ namespace Subtext.Framework.Data
 		public override int InsertKeyWord(KeyWord keyWord)
 		{
             if (keyWord == null)
-                throw new ArgumentNullException("keyword", "Cannot insert a null keyword.");
+                throw new ArgumentNullException("keyword", Resources.ArgumentNull_Generic);
 
             SqlParameter outParam = DataHelper.MakeOutParam("@KeyWordID", SqlDbType.Int, 4);
             SqlParameter[] p =
@@ -1678,7 +1689,7 @@ namespace Subtext.Framework.Data
 		public override int InsertImage(Image image)
 		{
             if (image == null)
-                throw new ArgumentNullException("image", "Cannot insert a null image.");
+                throw new ArgumentNullException("image", Resources.ArgumentNull_Generic);
 
             SqlParameter outParam = DataHelper.MakeOutParam("@ImageID", SqlDbType.Int, 4);
             SqlParameter[] p = 

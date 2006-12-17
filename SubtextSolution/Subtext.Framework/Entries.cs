@@ -31,6 +31,8 @@ using Subtext.Framework.Logging;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Text;
 using Subtext.Framework.Tracking;
+using System.Globalization;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework
 {
@@ -213,7 +215,12 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static int Create(Entry entry)
 		{
-			Debug.Assert(entry.PostType != PostType.None, "Posttype should never be null.");
+            if (entry == null)
+            {
+                throw new ArgumentNullException("entry", Resources.ArgumentNull_Generic);
+            }
+
+            Debug.Assert(entry.PostType != PostType.None, "Posttype should never be null.");
 
 			if (Config.CurrentBlog.AutoFriendlyUrlEnabled
 				&& String.IsNullOrEmpty(entry.EntryName)
@@ -271,7 +278,10 @@ namespace Subtext.Framework
 		public static string AutoGenerateFriendlyUrl(string title)
 		{
 			if (title == null)
-				throw new ArgumentNullException("title", "Cannot generate friendly url from null title.");
+				throw new ArgumentNullException("title", Resources.ArgumentNull_String);
+
+            if (title.Length == 0)
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "title");
 
 			NameValueCollection friendlyUrlSettings = (NameValueCollection)ConfigurationManager.GetSection("FriendlyUrlSettings");
 			if (friendlyUrlSettings == null)
@@ -289,7 +299,7 @@ namespace Subtext.Framework
 			}
 			else
 			{
-				wordCount = int.Parse(friendlyUrlSettings["limitWordCount"]);
+				wordCount = Int32.Parse(friendlyUrlSettings["limitWordCount"], NumberFormatInfo.InvariantInfo);
 			}
 
 			// break down to number of words. If 0 (or less) don't mess with the title
@@ -334,8 +344,11 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static string AutoGenerateFriendlyUrl(string title, char wordSeparator)
 		{
-			if (title == null)
-				throw new ArgumentNullException("title", "Cannot generate friendly url from null title.");
+            if (title == null)
+                throw new ArgumentNullException("title", Resources.ArgumentNull_String);
+
+            if (title.Length == 0)
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "title");
 
 			string entryName = RemoveNonWordCharacters(title);
 			entryName = ReplaceSpacesWithSeparator(entryName, wordSeparator);
@@ -426,6 +439,11 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static bool Update(Entry entry)
 		{
+            if (entry == null)
+            {
+                throw new ArgumentNullException("entry", Resources.ArgumentNull_Generic);
+            }
+
 			if (NullValue.IsNull(entry.DateSyndicated) && entry.IsActive && entry.IncludeInMainSyndication)
 			{
 				entry.DateSyndicated = Config.CurrentBlog.TimeZone.Now;
@@ -448,7 +466,12 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static bool Update(Entry entry, params int[] categoryIDs)
 		{
-			entry.DateModified = Config.CurrentBlog.TimeZone.Now;
+            if (entry == null)
+            {
+                throw new ArgumentNullException("entry", Resources.ArgumentNull_Generic);
+            }
+
+            entry.DateModified = Config.CurrentBlog.TimeZone.Now;
 			return ObjectProvider.Instance().Update(entry, categoryIDs);
 		}
 

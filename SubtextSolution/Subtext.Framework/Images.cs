@@ -25,6 +25,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Providers;
 using Image = Subtext.Framework.Components.Image;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework
 {
@@ -116,7 +117,21 @@ namespace Subtext.Framework
 
 		public static bool SaveImage(byte[] Buffer, string FileName)
 		{
-			
+            if (Buffer == null)
+            {
+                throw new ArgumentNullException("Buffer", Resources.ArgumentNull_Array);
+            }
+
+            if (FileName == null)
+            {
+                throw new ArgumentNullException("FileName", Resources.ArgumentNull_Generic);
+            }
+
+            if (FileName.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "FileName");
+            }
+
 			if (ValidateFile(FileName))
 			{
 				CheckDirectory(FileName);
@@ -134,6 +149,11 @@ namespace Subtext.Framework
 		/// <param name="image">Original image to process.</param>
 		public static void MakeAlbumImages(Subtext.Framework.Components.Image image)
 		{
+            if (image == null)
+            {
+                throw new ArgumentNullException("image", Resources.ArgumentNull_Generic);
+            }
+
             System.Drawing.Image originalImage = System.Drawing.Image.FromFile(image.OriginalFilePath);
 
             // Need to load the original image to manipulate. But indexed GIFs can cause issues.
@@ -194,6 +214,13 @@ namespace Subtext.Framework
 
 		public static string GetFileName(string filepath)
 		{
+            if (filepath == null)
+                throw new ArgumentNullException("filepath", Resources.ArgumentNull_String);
+
+            if (filepath.Length == 0)
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "filepath");
+
+
 			if(filepath.IndexOf("\\") == -1)
 			{
 				return StripUrlCharsFromFileName(filepath);
@@ -218,7 +245,17 @@ namespace Subtext.Framework
 
 		public static void CheckDirectory(string filepath)
 		{
-			string dir = filepath.Substring(0,filepath.LastIndexOf("\\"));
+            if (filepath == null)
+            {
+                throw new ArgumentNullException("filepath", Resources.ArgumentNull_String);
+            }
+
+            if (filepath.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "filepath");
+            }
+
+            string dir = filepath.Substring(0, filepath.LastIndexOf("\\"));
 			if(!Directory.Exists(dir))
 			{
 				Directory.CreateDirectory(dir);
@@ -239,7 +276,12 @@ namespace Subtext.Framework
 
 		public static int InsertImage(Image image, byte[] Buffer)
 		{
-			if(SaveImage(Buffer,image.OriginalFilePath))
+            if (image == null)
+            {
+                throw new ArgumentNullException("image", Resources.ArgumentNull_Generic);
+            }
+
+            if (SaveImage(Buffer, image.OriginalFilePath))
 			{
 				MakeAlbumImages(image);
 				return ObjectProvider.Instance().InsertImage(image);
@@ -255,6 +297,11 @@ namespace Subtext.Framework
 		// added
 		public static void Update(Image image, byte[] Buffer)
 		{
+            if (image == null)
+            {
+                throw new ArgumentNullException("image", Resources.ArgumentNull_Generic);
+            }
+
 			if(SaveImage(Buffer, image.OriginalFilePath))
 			{
 				MakeAlbumImages(image);
@@ -264,11 +311,26 @@ namespace Subtext.Framework
 
 		public static void DeleteImage(Image _image)
 		{
-			ObjectProvider.Instance().DeleteImage(_image.ImageID);
+            if (_image == null)
+            {
+                throw new ArgumentNullException("_image", Resources.ArgumentNull_Generic);
+            }
+
+            ObjectProvider.Instance().DeleteImage(_image.ImageID);
 		}
 
 		public static void TryDeleteFile(string file)
 		{
+            if (file == null)
+            {
+                throw new ArgumentNullException("file", Resources.ArgumentNull_String);
+            }
+
+            if (file.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "file");
+            }
+
 			if(File.Exists(file))
 			{
 				File.Delete(file);
