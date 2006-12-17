@@ -7,6 +7,7 @@ using Subtext.Framework.Logging;
 using Subtext.Framework.Threading;
 using Subtext.Framework.Web;
 using Subtext.Installation;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Web.HttpModules
 {
@@ -34,6 +35,11 @@ namespace Subtext.Web.HttpModules
 		/// and events common to all application objects within an ASP.NET application</param>
 		public void Init(System.Web.HttpApplication context)
 		{
+            if (context == null)
+            {
+                throw new ArgumentNullException(Resources.ArgumentNull_Generic);
+            }
+
 			context.BeginRequest += CheckInstallationStatus;
 		}
 

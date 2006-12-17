@@ -20,6 +20,7 @@ using System.Web.Security;
 using Subtext.Extensibility;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Components
 {
@@ -439,7 +440,7 @@ namespace Subtext.Framework.Components
 		public static int CalculateChecksum(string text)
 		{
 			if(text == null)
-				throw new ArgumentNullException("text", "Cannot calculate checksum for null string.");
+				throw new ArgumentNullException("text", Resources.ArgumentNull_String);
 			int checksum = 0;
 			foreach(char c in text)
 			{

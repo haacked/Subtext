@@ -22,6 +22,8 @@ using System.Web.Caching;
 using log4net;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Configuration;
+using System.Globalization;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Util
 {
@@ -63,7 +65,7 @@ namespace Subtext.Framework.Util
 			while (iLoop < userDefinedTransforms.Count) 
 			{		
 				// Special work for anchors
-				stringToTransform = Regex.Replace(stringToTransform, userDefinedTransforms[iLoop].ToString(), string.Format(userDefinedTransforms[iLoop+1].ToString(),host), RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
+				stringToTransform = Regex.Replace(stringToTransform, userDefinedTransforms[iLoop].ToString(), String.Format(CultureInfo.InvariantCulture, userDefinedTransforms[iLoop+1].ToString(),host), RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
 
 				iLoop += 2;
 			}
@@ -74,7 +76,15 @@ namespace Subtext.Framework.Util
 		private static ArrayList LoadTransformFile(string filename) 
 		{
             if (filename == null)
-                throw new ArgumentNullException("filename", "The transform filename is null.");
+            {
+                throw new ArgumentNullException("filename", Resources.ArgumentNull_String);
+            }
+
+            if (filename.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "filename");
+            }
+
 			string cacheKey = "transformTable-" + filename;
 			ArrayList tranforms;
 			string filenameOfTransformFile;

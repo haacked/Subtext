@@ -17,6 +17,7 @@ using System;
 using System.Configuration;
 using System.Xml;
 using blowery.Web.HttpCompress;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Syndication.Compression
 {
@@ -74,10 +75,20 @@ namespace Subtext.Framework.Syndication.Compression
 		/*-- Methods --*/
 
 		#region -- RetrieveEnumFromAttribute(XmlAttribute, Type) Method --
-		protected static Enum RetrieveEnumFromAttribute(XmlAttribute attribute, System.Type type)
-		{
-			return (Enum)Enum.Parse(type, attribute.Value, true);
-		}
+        protected static Enum RetrieveEnumFromAttribute(XmlAttribute attribute, System.Type type)
+        {
+            if (attribute == null)
+            {
+                throw new ArgumentNullException("attribute", Resources.ArgumentNull_Generic);
+            }
+
+            if (type == null)
+            {
+                throw new ArgumentNullException("type", Resources.ArgumentNull_Type);
+            }
+
+            return (Enum)Enum.Parse(type, attribute.Value, true);
+        }
 		#endregion
 
 		/*-- Static Methods --*/

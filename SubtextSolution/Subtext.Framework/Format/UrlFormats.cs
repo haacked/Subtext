@@ -22,6 +22,7 @@ using System.Web.UI.WebControls;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Format
 {
@@ -113,6 +114,11 @@ namespace Subtext.Framework.Format
 
 		public virtual string EntryFullyQualifiedUrl(Entry entry)
 		{
+            if (entry == null)
+            {
+                throw new ArgumentNullException("entry", Resources.ArgumentNull_Generic);
+            }
+
 			return EntryFullyQualifiedUrl(entry.DateCreated, entry.EntryName, entry.Id);
 		}
 		
@@ -255,7 +261,7 @@ namespace Subtext.Framework.Format
 				case 6:
 					return DateTime.ParseExact(date,"MMyyyy", en);
 				default:
-					throw new Exception("Invalid Date Format");
+					throw new Exception(Resources.Format_BadDateTime);
 			}
 		}
 
@@ -278,12 +284,12 @@ namespace Subtext.Framework.Format
 		{
 			try
 			{
-				return Int32.Parse(GetRequestedFileName(uri));
+				return Int32.Parse(GetRequestedFileName(uri), NumberFormatInfo.InvariantInfo);
 			}
 			catch (FormatException)
 			{
-				throw new ArgumentException("Invalid Post ID.");
-			}			
+				throw new ArgumentException(Resources.Format_InvalidPostId);
+			}
 		}
 
 		/// <summary>
@@ -308,11 +314,25 @@ namespace Subtext.Framework.Format
 		/// <returns></returns>
 		public static string GetBlogSubfolderFromRequest(string rawUrl, string applicationPath)
 		{
-			if(rawUrl == null)
-				throw new ArgumentNullException("path", "The path cannot be null.");
+            if (rawUrl == null)
+            {
+                throw new ArgumentNullException("rawUrl", Resources.ArgumentNull_String);
+            }
 
-			if(applicationPath == null)
-				throw new ArgumentNullException("app", "The app should not be null.");
+            if (applicationPath == null)
+            {
+                throw new ArgumentNullException("applicationPath", Resources.ArgumentNull_Path);
+            }
+
+            if (rawUrl.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "rawUrl");
+            }
+
+            if (applicationPath.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "applicationPath");
+            }
 
 			// The {0} represents a potential virtual directory
 			string urlPatternFormat = "{0}/(?<app>.*?)/";
@@ -372,6 +392,11 @@ namespace Subtext.Framework.Format
 		/// <returns></returns>
 		public static string GetEditLink(Entry entry)
 		{
+            if (entry == null)
+            {
+                throw new ArgumentNullException("entry", Resources.ArgumentNull_Generic);
+            }
+
 			//This is too small a concatenation to create a  
 			//the overhead of a StringBuilder. If perf is really a hit here, 
 			//we can pass in a string builder.
@@ -445,18 +470,28 @@ namespace Subtext.Framework.Format
 		/// </summary>
 		/// <param name="target">The target.</param>
 		/// <returns></returns>
-		public static string StripSurroundingSlashes(string target)
-		{
-			if(target == null)
-				throw new ArgumentNullException("target", "The target to strip slashes from is null.");
+        public static string StripSurroundingSlashes(string target)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target", Resources.ArgumentNull_String);
+            }
 
-			if(target.EndsWith("/"))
-				target = target.Remove(target.Length - 1, 1);
-			if(target.StartsWith("/"))
-				target = target.Remove(0, 1);
+            if (target.Length != 0)
+            {
+                if (target.EndsWith("/"))
+                {
+                    target = target.Remove(target.Length - 1, 1);
+                }
 
-			return target;
-		}
+                if (target.StartsWith("/"))
+                {
+                    target = target.Remove(0, 1);
+                }
+            }
+
+            return target;
+        }
 
 		/// <summary>
 		/// Get the fully qualified url for an image for a given url to the image. 
@@ -484,7 +519,7 @@ namespace Subtext.Framework.Format
 				// it's not a full url, so it must by some type of local url 		
 				// so add the siteRoot in front of it.
 				imageUrl = StripSurroundingSlashes(imageUrl);
-				imageUrl = string.Format("http://{0}/{1}", Config.CurrentBlog.Host, imageUrl) ;
+				imageUrl = string.Format(CultureInfo.InvariantCulture, "http://{0}/{1}", Config.CurrentBlog.Host, imageUrl) ;
 			}
 			return imageUrl ;
 		}
@@ -496,7 +531,7 @@ namespace Subtext.Framework.Format
 		/// <returns></returns>
 		public static string StripHostFromUrl(string url)
 		{
-			string fullHost = string.Format("{0}://{1}", HttpContext.Current.Request.Url.Scheme, Config.CurrentBlog.Host);
+			string fullHost = string.Format(CultureInfo.InvariantCulture, "{0}://{1}", HttpContext.Current.Request.Url.Scheme, Config.CurrentBlog.Host);
 			
 			if(url.StartsWith(fullHost))
 			{

@@ -6,6 +6,7 @@ using log4net;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Web;
 using Subtext.Framework.Security;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Web.HttpModules
 {
@@ -19,13 +20,18 @@ namespace Subtext.Web.HttpModules
         
         public void Init(HttpApplication context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException(Resources.ArgumentNull_Generic);
+            }
+
             context.AuthenticateRequest += OnAuthenticateRequest;
 			context.PostAuthenticateRequest += OnPostAuthenticateRequest;
         }
 
 		void OnPostAuthenticateRequest(object sender, EventArgs e)
 		{
-			throw new Exception("The method or operation is not implemented.");
+			throw new Exception(Resources.NotImplementedException_Generic);
 		}
 
         void OnAuthenticateRequest(object sender, EventArgs e)

@@ -5,6 +5,9 @@ using System.Collections.Specialized;
 using System.Data.SqlClient;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.Framework.Data;
+using System.Text;
+using Subtext.Framework.Properties;
+using System.Globalization;
 
 namespace Subtext.Framework.Security
 {
@@ -15,18 +18,23 @@ namespace Subtext.Framework.Security
 
         public override void Initialize(string name, NameValueCollection config)
         {
-            if (string.IsNullOrEmpty(name))
+            if (String.IsNullOrEmpty(name))
+            {
                 name = "SubtextMembershipProvider";
+            }
+
             base.Initialize(name, config);
 
             string csn = config["connectionStringName"];
             if (string.IsNullOrEmpty(csn))
-                throw new HttpException("Missing attribute 'connectionStringName'");
+            {
+                throw new HttpException(String.Format(CultureInfo.CurrentUICulture, Resources.HttpException_MissingAttribute, "connectionStringName"));
+            }
 
             this.connectionString = System.Configuration.ConfigurationManager.ConnectionStrings[csn].ConnectionString;
 
             if (string.IsNullOrEmpty(this.connectionString))
-                throw new Exception("The connection string " + csn + "was not found");
+                throw new Exception(String.Format(CultureInfo.CurrentUICulture, Resources.Configuration_KeyNotFound, csn));
 
             config.Remove("connectionStringName");
         }
@@ -53,18 +61,22 @@ namespace Subtext.Framework.Security
         public override void AddUsersToRoles(string[] usernames, string[] roleNames)
         {
             string cdUserNames = "";
+            string cdRoleNames = "";
+
+            StringBuilder builder = new StringBuilder();
             foreach (string s in usernames)
             {
-                cdUserNames += s + ",";
+                builder.AppendFormat("{0},", s);
             }
-            cdUserNames = cdUserNames.Remove(cdUserNames.Length - 1);
+            cdUserNames = builder.ToString().Remove(builder.Length - 1);
 
-            string cdRoleNames = "";
+            builder = new StringBuilder();
+
             foreach (string s in roleNames)
             {
-                cdRoleNames += s + ",";
+                builder.AppendFormat("{0},", s);
             }
-            cdRoleNames = cdRoleNames.Remove(cdRoleNames.Length - 1);
+            cdRoleNames = builder.ToString().Remove(builder.Length - 1);
 
             SqlConnection conn = new SqlConnection(this.connectionString);
             SqlCommand cmd = new SqlCommand("subtext_UsersInRoles_AddUsersToRoles", conn);
@@ -94,7 +106,7 @@ namespace Subtext.Framework.Security
                 conn.Open();
                 if (cmd.ExecuteNonQuery() != 1)
                 {
-                    throw new Exception("Role exists");
+                    throw new Exception(Resources.SecurityException_RoleExists);
                 }
             }
 
@@ -103,13 +115,13 @@ namespace Subtext.Framework.Security
         public override bool DeleteRole(string roleName, bool throwOnPopulatedRole)
         {
             //no need to delete roles at this moment from within Subtext (v2) - RA
-            throw new Exception("The method or operation is not implemented.");
+            throw new Exception(Resources.NotImplementedException_Generic);
         }
         
         public override string[] FindUsersInRole(string roleName, string usernameToMatch)
         {
             //I've yet to figure out what the @!^&) this actually is for.
-            throw new Exception("The method or operation is not implemented.");
+            throw new Exception(Resources.NotImplementedException_Generic);
         }
 
         public override string[] GetAllRoles()
@@ -208,7 +220,7 @@ namespace Subtext.Framework.Security
 
         public override void RemoveUsersFromRoles(string[] usernames, string[] roleNames)
         {
-            throw new Exception("The method or operation is not implemented.");
+            throw new Exception(Resources.NotImplementedException_Generic);
         }
 
 		/// <summary>

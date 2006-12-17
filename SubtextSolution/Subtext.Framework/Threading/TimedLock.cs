@@ -18,6 +18,7 @@ using System.Collections;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Threading;
+using Subtext.Framework.Properties;
 
 // Adapted from - namespace Haack.Threading
 namespace Subtext.Framework.Threading
@@ -207,7 +208,7 @@ namespace Subtext.Framework.Threading
 		/// </summary>
 		/// <remarks>Use this exception.</remarks>
 		/// <param name="lockTarget">Object we tried to lock.</param>
-		public LockTimeoutException(object lockTarget) : base("Timeout waiting for lock")
+		public LockTimeoutException(object lockTarget) : base(Resources.TimeoutWaitingForLock)
 		{
 			lock(_failedLockTargets)
 			{
@@ -226,7 +227,7 @@ namespace Subtext.Framework.Threading
 		public StackTrace GetBlockingStackTrace(int timeout)
 		{
 			if(timeout < 0)
-				throw new InvalidOperationException("We'd all like to be able to go back in time, but this is not allowed. Please choose a positive wait time.");
+				throw new InvalidOperationException(Resources.InvalidOperation_WaitTimeLessThanZero);
 			
 			ManualResetEvent waitHandle;
 			lock(_failedLockTargets)
@@ -249,7 +250,7 @@ namespace Subtext.Framework.Threading
 		/// <summary>
 		/// Creates a new <see cref="LockTimeoutException"/> instance.
 		/// </summary>
-		public LockTimeoutException() : base("Timeout waiting for lock")
+		public LockTimeoutException() : base(Resources.TimeoutWaitingForLock)
 		{
 		}
 

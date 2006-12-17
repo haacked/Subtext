@@ -23,6 +23,7 @@ using CookComputing.XmlRpc;
 using Subtext.Extensibility;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Properties;
 
 //Need to find a method that has access to context, so we can terminate the request if AllowServiceAccess == false.
 //Users will be able to access the metablogapi page, but will not be able to make a request, but the page should not be visible
@@ -70,7 +71,7 @@ namespace Subtext.Framework.XmlRpc
 			
 			try
 			{
-				Entries.Delete(Int32.Parse(postid));
+				Entries.Delete(Int32.Parse(postid, NumberFormatInfo.InvariantInfo));
 				return true;
 			}
 			catch
@@ -86,7 +87,7 @@ namespace Subtext.Framework.XmlRpc
 			Framework.BlogInfo info = Config.CurrentBlog;
 			ValidateUser(username,password,info.AllowServiceAccess);
 			
-			Entry entry = Entries.GetEntry(Int32.Parse(postid), PostConfig.None, true);
+			Entry entry = Entries.GetEntry(Int32.Parse(postid, NumberFormatInfo.InvariantInfo), PostConfig.None, true);
 			if(entry != null)
 			{
 				MembershipUser author = Membership.GetUser(username);
@@ -113,7 +114,7 @@ namespace Subtext.Framework.XmlRpc
 			Framework.BlogInfo info = Config.CurrentBlog;
 			ValidateUser(username,password,info.AllowServiceAccess);
 			
-			Entry entry = Entries.GetEntry(Int32.Parse(postid), PostConfig.None, true);
+			Entry entry = Entries.GetEntry(Int32.Parse(postid, NumberFormatInfo.InvariantInfo), PostConfig.None, true);
 			Post post = new Post();
 			post.link = entry.Url;
 			post.description = entry.Body;
@@ -382,18 +383,53 @@ namespace Subtext.Framework.XmlRpc
 		public bool SetPostCategories(string postid, string username, string password,
 			MtCategory[] categories)
 		{
-			ValidateUser(username,password,Config.CurrentBlog.AllowServiceAccess);
+            if (postid == null)
+            {
+                throw new ArgumentNullException("postid", Resources.ArgumentNull_String);
+            }
+
+            if (username == null)
+            {
+                throw new ArgumentNullException("username", Resources.ArgumentNull_String);
+            }
+
+            if (password == null)
+            {
+                throw new ArgumentNullException("password", Resources.ArgumentNull_String);
+            }
+
+            if (postid.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "postid");
+            }
+
+            if (username.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "username");
+            }
+
+            if (password.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "password");
+            }
+
+            if (categories == null)
+            {
+                throw new ArgumentNullException("categories", Resources.ArgumentNull_Array);
+            }
+
+            ValidateUser(username, password, Config.CurrentBlog.AllowServiceAccess);
 						
 			if (categories != null && categories.Length > 0)
 			{
-				int postID = Int32.Parse(postid);
+				int postID = Int32.Parse(postid, NumberFormatInfo.InvariantInfo);
 
 				ArrayList al = new ArrayList();
 
 														
 				for (int i = 0; i < categories.Length; i++)
 				{
-						al.Add(Int32.Parse(categories[i].categoryId));
+						al.Add(Int32.Parse(categories[i].categoryId, NumberFormatInfo.InvariantInfo));
 				}
 
 				if(al.Count > 0)
@@ -411,7 +447,7 @@ namespace Subtext.Framework.XmlRpc
 		{
 			ValidateUser(username, password, Config.CurrentBlog.AllowServiceAccess);
 
-			int postID = Int32.Parse(postid);
+			int postID = Int32.Parse(postid, NumberFormatInfo.InvariantInfo);
 			ICollection<Link> postCategories = Links.GetLinkCollectionByPostID(postID);
 			MtCategory[] categories = new MtCategory[postCategories.Count];
 			if (postCategories.Count > 0)

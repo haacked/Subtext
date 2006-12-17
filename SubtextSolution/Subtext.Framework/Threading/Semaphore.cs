@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Threading
 {
@@ -23,7 +24,7 @@ namespace Subtext.Framework.Threading
         /// <exception cref="ArgumentException">Throws if the count argument is less than 1.</exception>
         public Semaphore(int count)
         {
-            if (count < 0) throw new ArgumentException("Semaphore must have a count of at least 0.", "count");
+            if (count < 0) throw new ArgumentException(Resources.Argument_SemaphoreCountLessThanZero, "count");
             _count = count;
         }
         #endregion

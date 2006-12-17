@@ -214,7 +214,9 @@ namespace Subtext.Framework.Syndication
 				this.WriteString
 				(
 					string.Format
-					("{0}{1}", //tag def
+					(
+                        CultureInfo.CurrentUICulture,
+                        "{0}{1}", //tag def
 						entry.SyndicateDescriptionOnly ? entry.Description : entry.Body,  //use desc or full post
 						(UseAggBugs && settings.Tracking.EnableAggBugs) ? TrackingUrls.AggBugImage(urlFormats.AggBugkUrl(entry.Id)) : null //use aggbugs
 					)

@@ -29,6 +29,7 @@ using Subtext.Framework.Text;
 using Subtext.Framework.Threading;
 using Subtext.Framework.Web;
 using Subtext.Framework.Security;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Components
 {
@@ -93,21 +94,26 @@ namespace Subtext.Framework.Components
 		/// <param name="feedback">The feedback.</param>
 		/// <param name="filter">Spam filter.</param>
 		/// <returns></returns>
-		public static int Create(FeedbackItem feedback, CommentFilter filter)
-		{
-			if (HttpContext.Current != null && HttpContext.Current.Request != null)
-			{
-				feedback.UserAgent = HttpContext.Current.Request.UserAgent;
-				feedback.IpAddress = HttpHelper.GetUserIpAddress(HttpContext.Current);
-			}
-			
-			feedback.FlaggedAsSpam = true; //We're going to start with this assumption.
-			feedback.Author = HtmlHelper.SafeFormat(feedback.Author);
-			feedback.Body = HtmlHelper.ConvertToAllowedHtml(feedback.Body);
-			feedback.Title = HtmlHelper.SafeFormat(feedback.Title);
-		    
-		    // If we are creating this feedback item as part of an import, we want to 
-		    // be sure to use the item's datetime, and not set it to the current time.
+        public static int Create(FeedbackItem feedback, CommentFilter filter)
+        {
+            if (feedback == null)
+            {
+                throw new ArgumentNullException("feedback", Resources.ArgumentNull_Generic);
+            }
+
+            if (HttpContext.Current != null && HttpContext.Current.Request != null)
+            {
+                feedback.UserAgent = HttpContext.Current.Request.UserAgent;
+                feedback.IpAddress = HttpHelper.GetUserIpAddress(HttpContext.Current);
+            }
+
+            feedback.FlaggedAsSpam = true; //We're going to start with this assumption.
+            feedback.Author = HtmlHelper.SafeFormat(feedback.Author);
+            feedback.Body = HtmlHelper.ConvertToAllowedHtml(feedback.Body);
+            feedback.Title = HtmlHelper.SafeFormat(feedback.Title);
+
+            // If we are creating this feedback item as part of an import, we want to 
+            // be sure to use the item's datetime, and not set it to the current time.
             if (NullValue.NullDateTime.Equals(feedback.DateCreated))
             {
                 feedback.DateCreated = Config.CurrentBlog.TimeZone.Now;
@@ -117,26 +123,25 @@ namespace Subtext.Framework.Components
             {
                 feedback.DateModified = feedback.DateCreated;
             }
+            
+            if (filter != null)
+                filter.FilterBeforePersist(feedback);
 
-			
-			if(filter != null)
-				filter.FilterBeforePersist(feedback);
-			
-			feedback.Id = ObjectProvider.Instance().CreateFeedback(feedback);
-			
-			if(filter != null)
+            feedback.Id = ObjectProvider.Instance().CreateFeedback(feedback);
+
+            if (filter != null)
                 CommentFilter.FilterAfterPersist(feedback);
 
-			// if it's not the administrator commenting and it's not a trackback.
-			if (!SecurityHelper.IsAdmin && !String.IsNullOrEmpty(Config.CurrentBlog.Owner.Email) && feedback.FeedbackType != Extensibility.FeedbackType.PingTrack)
-			{
-				//In order to make this async, we need to pass the HttpContext.Current 
-				//several layers deep. Instead, we should create our own context.
-				EmailCommentToAdmin(feedback, Config.CurrentBlog);
-			}
-			
-			return feedback.Id;
-		}
+            // if it's not the administrator commenting and it's not a trackback.
+            if (!SecurityHelper.IsAdmin && !String.IsNullOrEmpty(Config.CurrentBlog.Owner.Email) && feedback.FeedbackType != Extensibility.FeedbackType.PingTrack)
+            {
+                //In order to make this async, we need to pass the HttpContext.Current 
+                //several layers deep. Instead, we should create our own context.
+                EmailCommentToAdmin(feedback, Config.CurrentBlog);
+            }
+
+            return feedback.Id;
+        }
 
 		/// <summary>
 		/// Returns the itemCount most recent active comments.
@@ -156,7 +161,7 @@ namespace Subtext.Framework.Components
 		public static bool Update(FeedbackItem feedbackItem)
 		{
 			if (feedbackItem == null)
-				throw new ArgumentNullException("feedbackItem", "Cannot update a null feedback");
+				throw new ArgumentNullException("feedbackItem", Resources.ArgumentNull_Generic);
 
 			feedbackItem.DateModified = Config.CurrentBlog.TimeZone.Now;
 			return ObjectProvider.Instance().Update(feedbackItem);
@@ -221,7 +226,7 @@ namespace Subtext.Framework.Components
 		public static void Approve(FeedbackItem feedback)
 		{
 			if (feedback == null)
-				throw new ArgumentNullException("comment", "Cannot approve a null comment.");
+				throw new ArgumentNullException("feedback", Resources.ArgumentNull_Generic);
 
 			feedback.SetStatus(FeedbackStatusFlag.Approved, true);
 			feedback.SetStatus(FeedbackStatusFlag.Deleted, false);
@@ -240,7 +245,7 @@ namespace Subtext.Framework.Components
 		public static void ConfirmSpam(FeedbackItem feedback)
 		{
 			if (feedback == null)
-				throw new ArgumentNullException("comment", "Cannot approve a null comment.");
+				throw new ArgumentNullException("feedback", Resources.ArgumentNull_Generic);
 
 			feedback.SetStatus(FeedbackStatusFlag.Approved, false);
 			feedback.SetStatus(FeedbackStatusFlag.ConfirmedSpam, true);
@@ -260,7 +265,7 @@ namespace Subtext.Framework.Components
 		public static void Delete(FeedbackItem feedback)
 		{
 			if (feedback == null)
-				throw new ArgumentNullException("comment", "Cannot delete a null comment.");
+				throw new ArgumentNullException("feedback", Resources.ArgumentNull_Generic);
 
 			feedback.SetStatus(FeedbackStatusFlag.Approved, false);
 			feedback.SetStatus(FeedbackStatusFlag.Deleted, true);
@@ -275,10 +280,10 @@ namespace Subtext.Framework.Components
 		public static void Destroy(FeedbackItem feedback)
 		{
 			if (feedback == null)
-				throw new ArgumentNullException("comment", "Cannot destroy a null comment.");
+				throw new ArgumentNullException("feedback", Resources.ArgumentNull_Generic);
 
 			if (feedback.Approved)
-				throw new InvalidOperationException("Cannot destroy an approved comment. Please flag it as spam or trash it first.");
+				throw new InvalidOperationException(Resources.InvalidOperation_DestroyApprovedComment);
 			
 			ObjectProvider.Instance().DestroyFeedback(feedback.Id);
 		}
@@ -290,7 +295,7 @@ namespace Subtext.Framework.Components
 		public static void Destroy(FeedbackStatusFlag feedbackStatus)
 		{
 			if ((feedbackStatus & FeedbackStatusFlag.Approved) == FeedbackStatusFlag.Approved)
-				throw new InvalidOperationException("Cannot destroy an active comment.");
+				throw new InvalidOperationException(Resources.InvalidOperation_DestroyActiveComment);
 
 			ObjectProvider.Instance().DestroyFeedback(feedbackStatus);
 		}
@@ -659,7 +664,7 @@ namespace Subtext.Framework.Components
 		public static int CalculateChecksum(string text)
 		{
 			if (text == null)
-				throw new ArgumentNullException("text", "Cannot calculate checksum for null string.");
+				throw new ArgumentNullException("text", Resources.ArgumentNull_String);
 			int checksum = 0;
 			foreach (char c in text)
 			{

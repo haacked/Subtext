@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Threading;
 using System.Web;
 using System.Web.Caching;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework
 {
@@ -76,7 +77,7 @@ namespace Subtext.Framework
 		public void Insert(string key, object value)
 		{
 			if(value == null)
-				throw new ArgumentNullException("value", "Cannot cache a null object.");
+				throw new ArgumentNullException("value", Resources.ArgumentNull_Generic);
 			this.cache.Insert(GetCacheKey(key), value);
 		}
 
@@ -95,7 +96,7 @@ namespace Subtext.Framework
 		public void Insert(string key, object value, CacheDuration cacheDuration)
 		{
 			if(value == null)
-				throw new ArgumentNullException("value", "Cannot cache a null object.");
+				throw new ArgumentNullException("value", Resources.ArgumentNull_Generic);
 			
 			this.cache.Insert(GetCacheKey(key), value, null, DateTime.Now.AddSeconds((int)cacheDuration), TimeSpan.Zero, CacheItemPriority.Normal, null);
 		}
@@ -115,7 +116,7 @@ namespace Subtext.Framework
 		public void Insert(string key, object value, CacheDependency cacheDependency)
 		{
 			if(value == null)
-				throw new ArgumentNullException("value", "Cannot cache a null object.");
+				throw new ArgumentNullException("value", Resources.ArgumentNull_Generic);
 			
 			this.cache.Insert(GetCacheKey(key), value, cacheDependency);
 		}

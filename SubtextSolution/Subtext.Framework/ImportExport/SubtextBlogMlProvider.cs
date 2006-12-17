@@ -20,6 +20,7 @@ using Subtext.Framework.Data;
 using Subtext.Framework.Format;
 using Subtext.Framework.Text;
 using Subtext.ImportExport.Conversion;
+using Subtext.Framework.Properties;
 
 namespace Subtext.ImportExport
 {
@@ -96,7 +97,7 @@ namespace Subtext.ImportExport
 			for (int i = 0; i < bmlPosts.Count; i++)
 			{
 				BlogMLPost post = bmlPosts[i];
-				int postId = int.Parse(post.ID);
+				int postId = Int32.Parse(post.ID, NumberFormatInfo.InvariantInfo);
 				// We are going to make use of the fact that everything is ordered by Post Id ASC
 				// to optimize this...
 				while (reader.Read())
@@ -109,7 +110,7 @@ namespace Subtext.ImportExport
 						{
 							i++;
 							post = bmlPosts[i];
-							postId = int.Parse(post.ID);
+                            postId = Int32.Parse(post.ID, NumberFormatInfo.InvariantInfo);
 						}
 					}
 
@@ -132,9 +133,11 @@ namespace Subtext.ImportExport
 		private IDataReader GetPostsAndArticlesReader(string blogId, int pageIndex, int pageSize)
 		{
 			int blogIdValue;
-			if (!int.TryParse(blogId, out blogIdValue))
-				throw new ArgumentException(string.Format("Invalid blog id '{0}' specified", blogId), "blogId");
-			
+            if (!Int32.TryParse(blogId, out blogIdValue))
+            {
+                throw new ArgumentException(String.Format(CultureInfo.CurrentUICulture, Resources.Format_InvalidBlogId, blogId), "blogId");
+            }
+
 			SqlParameter[] p =
 			{
 				DataHelper.MakeInParam("@BlogId", SqlDbType.Int, 4, blogIdValue),
@@ -163,7 +166,7 @@ namespace Subtext.ImportExport
 
 			    // TODO: in Subtext 2.0 we need to account for multiple authors.
                 BlogMLAuthor bmlAuthor = new BlogMLAuthor();
-                bmlAuthor.ID = blog.Id.ToString();
+                bmlAuthor.ID = blog.Id.ToString(CultureInfo.InvariantCulture);
                 bmlAuthor.Title = blog.Author;
                 bmlAuthor.Approved = true;
                 bmlAuthor.Email = blog.Owner.Email;
@@ -188,7 +191,7 @@ namespace Subtext.ImportExport
 			foreach(LinkCategory category in categories)
 			{
 				BlogMLCategory bmlCategory = new BlogMLCategory();
-                bmlCategory.ID = category.Id.ToString();
+                bmlCategory.ID = category.Id.ToString(CultureInfo.InvariantCulture);
 				bmlCategory.Title = category.Title;
 				bmlCategory.Approved = category.IsActive;
 				bmlCategory.DateCreated = DateTime.Now;
@@ -345,22 +348,37 @@ namespace Subtext.ImportExport
 		/// Creates a comment in the system.
 		/// </summary>
 		/// <param name="bmlComment"></param>
-		public override void CreatePostComment(BlogMLComment bmlComment, string newPostId)
+		public override void CreatePostComment(BlogMLComment comment, string newPostId)
 		{
-			FeedbackItem newComment = new FeedbackItem(FeedbackType.Comment);
+            if (comment == null)
+            {
+                throw new ArgumentNullException("comment", Resources.ArgumentNull_Generic);
+            }
+
+            if (newPostId == null)
+            {
+                throw new ArgumentNullException("newPostId", Resources.ArgumentNull_String);
+            }
+
+            if (newPostId.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "newPostId");
+            }
+
+            FeedbackItem newComment = new FeedbackItem(FeedbackType.Comment);
 			newComment.BlogId = Config.CurrentBlog.Id;
-			newComment.EntryId = int.Parse(newPostId);
-			newComment.Title = bmlComment.Title ?? string.Empty;
-			newComment.DateCreated = bmlComment.DateCreated;
-			newComment.DateModified = bmlComment.DateModified;
-			newComment.Body = StringHelper.ReturnCheckForNull(bmlComment.Content.UncodedText);
-			newComment.Approved = bmlComment.Approved;
-			newComment.Author = StringHelper.ReturnCheckForNull(bmlComment.UserName);
-			newComment.Email = bmlComment.UserEMail;
+            newComment.EntryId = Int32.Parse(newPostId, NumberFormatInfo.InvariantInfo);
+			newComment.Title = comment.Title ?? string.Empty;
+			newComment.DateCreated = comment.DateCreated;
+			newComment.DateModified = comment.DateModified;
+			newComment.Body = StringHelper.ReturnCheckForNull(comment.Content.UncodedText);
+			newComment.Approved = comment.Approved;
+			newComment.Author = StringHelper.ReturnCheckForNull(comment.UserName);
+			newComment.Email = comment.UserEMail;
 		    
-		    if (!string.IsNullOrEmpty(bmlComment.UserUrl))
+		    if (!string.IsNullOrEmpty(comment.UserUrl))
 		    {
-		        newComment.SourceUrl = new Uri(bmlComment.UserUrl);
+		        newComment.SourceUrl = new Uri(comment.UserUrl);
 		    }
 
 			FeedbackItem.Create(newComment, null);
@@ -372,9 +390,24 @@ namespace Subtext.ImportExport
 		/// <param name="trackback"></param>
 		public override void CreatePostTrackback(BlogMLTrackback trackback, string newPostId)
 		{
+            if (trackback == null)
+            {
+                throw new ArgumentNullException("trackback", Resources.ArgumentNull_Generic);
+            }
+
+            if (newPostId == null)
+            {
+                throw new ArgumentNullException("newPostId", Resources.ArgumentNull_String);
+            }
+
+            if (newPostId.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "newPostId");
+            }
+
 			FeedbackItem newPingTrack = new FeedbackItem(FeedbackType.PingTrack);
 			newPingTrack.BlogId = Config.CurrentBlog.Id;
-			newPingTrack.EntryId = int.Parse(newPostId);
+            newPingTrack.EntryId = Int32.Parse(newPostId, NumberFormatInfo.InvariantInfo);
 			newPingTrack.Title = trackback.Title;
 			newPingTrack.SourceUrl = new Uri(trackback.Url);
 			newPingTrack.Approved = trackback.Approved;

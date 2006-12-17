@@ -21,6 +21,7 @@ using Subtext.Extensibility.Web;
 using Subtext.Framework.Components;
 using Subtext.Framework.Format;
 using Subtext.Framework.Text;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Syndication
 {
@@ -47,6 +48,11 @@ namespace Subtext.Framework.Syndication
 		/// <param name="context">Context.</param>
 		public override void HandleRequest(HttpContext context)
 		{
+            if (context == null)
+            {
+                throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
+            }
+
 			HttpRequest Request = context.Request;
 			if (Request.RequestType == "POST" && Request.ContentType == "text/xml")
 			{

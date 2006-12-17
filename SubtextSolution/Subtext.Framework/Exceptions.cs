@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework
 {
@@ -44,7 +45,7 @@ namespace Subtext.Framework
 
 	public class ExtendedPropertiesOverFlowException : Exception 
 	{
-		public ExtendedPropertiesOverFlowException() : base("ExtendedProperties bytes overflow. The ExtendedProperties is limited to 7800 bytes")
+		public ExtendedPropertiesOverFlowException() : base(Resources.ExtendedPropertiesOverflow_Generic)
 		{
 			
 		}

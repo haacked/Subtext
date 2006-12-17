@@ -239,7 +239,7 @@ namespace Subtext.Framework.Util
 						current = start = new DateTime( year, winTZI.daylightDate.month, 1, winTZI.daylightDate.hour,winTZI.daylightDate.minute,winTZI.daylightDate.second );
 						while ( current.Month == winTZI.daylightDate.month )
 						{
-							if ( Convert.ToUInt16(current.DayOfWeek) == winTZI.daylightDate.dayOfWeek )
+							if ( Convert.ToUInt16(current.DayOfWeek, NumberFormatInfo.InvariantInfo) == winTZI.daylightDate.dayOfWeek )
 							{
 								start = current;
 								--dayCount;
@@ -257,7 +257,7 @@ namespace Subtext.Framework.Util
 						current = end = new DateTime( year, winTZI.standardDate.month, 1, winTZI.standardDate.hour,winTZI.standardDate.minute,winTZI.standardDate.second );
 						while ( current.Month == winTZI.standardDate.month )
 						{
-							if ( Convert.ToUInt16(current.DayOfWeek) == winTZI.standardDate.dayOfWeek )
+							if ( Convert.ToUInt16(current.DayOfWeek, NumberFormatInfo.InvariantInfo) == winTZI.standardDate.dayOfWeek )
 							{
 								end = current;
 								--dayCount;

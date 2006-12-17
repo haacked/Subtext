@@ -34,7 +34,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
@@ -378,6 +378,12 @@
     <Compile Include="Plugins\SubtextApplication.cs" />
     <Compile Include="Plugins\SubtextEventArgs.cs" />
     <Compile Include="Plugins\SubtextEvents.cs" />
+    <Compile Include="Properties\GlobalSuppressions.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Providers\DotNetOpenMailProvider.cs" />
     <Compile Include="Providers\ObjectProvider.cs">
       <SubType>Code</SubType>
@@ -466,6 +472,7 @@
     <Compile Include="Tracking\TrackBackNotificationProxy.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Tracking\TrackbackResponseCode.cs" />
     <Compile Include="Tracking\TrackHelpers.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -551,6 +558,11 @@
     <Content Include="ExternalDependencies\Velocit.RegularExpressions.dll" />
     <Content Include="license.txt" />
     <Content Include="Logging\LoggingConfigurationExample.xml" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Util\WindowsTimeZoneCollection.xml" />
     <None Include="MailLicense.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -561,6 +573,9 @@
     <EmbeddedResource Include="Tracking\WeblogsNotificatinProxy.resx">
       <DependentUpon>WeblogsNotificatinProxy.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

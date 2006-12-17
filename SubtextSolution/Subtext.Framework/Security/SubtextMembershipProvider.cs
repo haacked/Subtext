@@ -6,6 +6,8 @@ using System.Collections.Specialized;
 using System.Data.SqlClient;
 using Microsoft.ApplicationBlocks.Data;
 using Subtext.Framework.Data;
+using System.Globalization;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Security
 {
@@ -105,7 +107,7 @@ namespace Subtext.Framework.Security
 		/// </returns>
         public override bool ChangePasswordQuestionAndAnswer(string username, string password, string newPasswordQuestion, string newPasswordAnswer)
         {
-			throw new NotImplementedException("The method or operation is not implemented.");
+			throw new NotImplementedException(Resources.NotImplementedException_Generic);
         }
 
 		/// <summary>
@@ -233,7 +235,7 @@ namespace Subtext.Framework.Security
         {
             get
             {
-                return Convert.ToBoolean(_config["enablePasswordReset"]);
+                return Convert.ToBoolean(_config["enablePasswordReset"], CultureInfo.InvariantCulture);
             }
         }
 
@@ -246,7 +248,7 @@ namespace Subtext.Framework.Security
         {
             get
             {
-                return Convert.ToBoolean(_config["enablePasswordRetrieval"]);
+                return Convert.ToBoolean(_config["enablePasswordRetrieval"], CultureInfo.InvariantCulture);
             }
         }
 
@@ -263,8 +265,15 @@ namespace Subtext.Framework.Security
 		/// </returns>
         public override MembershipUserCollection FindUsersByEmail(string emailToMatch, int pageIndex, int pageSize, out int totalRecords)
         {
-			if (String.IsNullOrEmpty(emailToMatch))
-				throw new ArgumentNullException("emailToMatch", "Must specify an email to match.");
+            if (emailToMatch == null)
+            {
+                throw new ArgumentNullException("emailToMatch", Resources.ArgumentNull_String);
+            }
+
+            if (emailToMatch.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "emailToMatch");
+            }
 
 			MembershipUserCollection foundUsers = new MembershipUserCollection();
 
@@ -309,8 +318,15 @@ namespace Subtext.Framework.Security
 		/// </returns>
         public override MembershipUserCollection FindUsersByName(string usernameToMatch, int pageIndex, int pageSize, out int totalRecords)
         {
-			if (String.IsNullOrEmpty(usernameToMatch))
-				throw new ArgumentNullException("usernameToMatch", "Must specify a username to match.");
+            if (usernameToMatch == null)
+            {
+                throw new ArgumentNullException("usernameToMatch", Resources.ArgumentNull_String);
+            }
+
+            if (usernameToMatch.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "usernameToMatch");
+            }
 
 			MembershipUserCollection foundUsers = new MembershipUserCollection();
 			using (SqlConnection conn = new SqlConnection(this.connectionString))
@@ -419,7 +435,7 @@ namespace Subtext.Framework.Security
 		/// </returns>
         public override string GetPassword(string username, string answer)
         {
-            throw new NotImplementedException("The method or operation is not implemented.");
+            throw new NotImplementedException(Resources.NotImplementedException_Generic);
         }
 
 		/// <summary>
@@ -511,7 +527,7 @@ namespace Subtext.Framework.Security
         {
             get
             {
-                return Convert.ToInt32(_config["maxInvalidPasswordAttempts"]);
+                return Convert.ToInt32(_config["maxInvalidPasswordAttempts"], NumberFormatInfo.InvariantInfo);
             }
         }
 
@@ -525,7 +541,7 @@ namespace Subtext.Framework.Security
         {
             get
             {
-                return Convert.ToInt32(_config["minRequiredNonAlphanumericCharacters"]);
+                return Convert.ToInt32(_config["minRequiredNonAlphanumericCharacters"], NumberFormatInfo.InvariantInfo);
             }
         }
 
@@ -538,7 +554,7 @@ namespace Subtext.Framework.Security
         {
             get
             {
-                return Convert.ToInt32(_config["minRequiredPasswordLength"]);
+                return Convert.ToInt32(_config["minRequiredPasswordLength"], NumberFormatInfo.InvariantInfo);
             }
         }
 
@@ -555,7 +571,7 @@ namespace Subtext.Framework.Security
         {
 			get
 			{
-				return Convert.ToInt32(_config["passwordAttemptWindow"]);
+				return Convert.ToInt32(_config["passwordAttemptWindow"], NumberFormatInfo.InvariantInfo);
 			}
         }
 
@@ -592,7 +608,7 @@ namespace Subtext.Framework.Security
         {
             get
             {
-                return Convert.ToBoolean(_config["requiresQuestionAndAnswer"]);
+                return Convert.ToBoolean(_config["requiresQuestionAndAnswer"], CultureInfo.InvariantCulture);
             }
         }
 
@@ -607,7 +623,7 @@ namespace Subtext.Framework.Security
         {
             get
             {
-                return Convert.ToBoolean(_config["requiresUniqueEmail"]);
+                return Convert.ToBoolean(_config["requiresUniqueEmail"], CultureInfo.InvariantCulture);
             }
         }
 
@@ -619,11 +635,25 @@ namespace Subtext.Framework.Security
 		/// <returns>The new password for the specified user.</returns>
         public override string ResetPassword(string username, string answer)
         {
-			if (username == null)
-				throw new ArgumentNullException("username", "Username cannot be null");
+            if (username == null)
+            {
+                throw new ArgumentNullException("username", Resources.ArgumentNull_String);
+            }
 
-			if (answer == null)
-				throw new ArgumentNullException("answer", "Must provide some answer");
+            if (answer == null)
+            {
+                throw new ArgumentNullException("answer", Resources.ArgumentNull_String);
+            }
+
+            if (username.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "username");
+            }
+
+            if (answer.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "answer");
+            }
 
 			MembershipUser user = GetUser(username, true);
 			if (user == null)
@@ -664,7 +694,7 @@ namespace Subtext.Framework.Security
 		/// </returns>
         public override bool UnlockUser(string userName)
         {
-			throw new NotImplementedException("The method or operation is not implemented.");
+			throw new NotImplementedException(Resources.NotImplementedException_Generic);
         }
 
 		/// <summary>
