@@ -36,9 +36,17 @@ namespace Subtext.Framework.Security
 		/// <exception cref="T:System.ArgumentException">The name of the provider has a length of zero.</exception>
         public override void Initialize(string name, NameValueCollection config)
         {
+            if (config == null)
+            {
+                throw new ArgumentNullException("config", Resources.ArgumentNull_Collection);
+            }
+
             _config = config;
-            if (string.IsNullOrEmpty(name))
+            if (String.IsNullOrEmpty(name))
+            {
                 name = "SubtextMembershipProvider";
+            }
+
             base.Initialize(name, config);
 
             string connectionStringName = config["connectionStringName"];
@@ -703,6 +711,11 @@ namespace Subtext.Framework.Security
 		/// <param name="user">A <see cref="T:System.Web.Security.MembershipUser"></see> object that represents the user to update and the updated information for the user.</param>
         public override void UpdateUser(MembershipUser user)
         {
+            if (user == null)
+            {
+                throw new ArgumentNullException("user", Resources.ArgumentNull_Obj);
+            }
+
 			SqlHelper.ExecuteNonQuery(this.connectionString, "subtext_Membership_UpdateUser"
 			                          , ApplicationName
 			                          , user.UserName

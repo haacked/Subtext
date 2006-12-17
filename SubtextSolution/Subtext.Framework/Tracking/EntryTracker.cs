@@ -20,6 +20,7 @@ using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
 using Subtext.Framework.Logging;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Tracking
 {
@@ -66,26 +67,31 @@ namespace Subtext.Framework.Tracking
 		/// <param name="EntryID">The entry ID.</param>
 		/// <param name="BlogId">The blog ID.</param>
 		/// <returns></returns>
-		public static bool Track(HttpContext context, int EntryID, int BlogId)
-		{
-			if(WebTrack)
-			{
-				if(FilterUserAgent(context.Request.UserAgent))
-				{
-					if(context.Request.HttpMethod != "POST")
-					{
-						string refUrl = GetReferral(context.Request);
-						EntryView ev = new EntryView();
-						ev.EntryID = EntryID;
-						ev.BlogId = BlogId;
-						ev.ReferralUrl = refUrl;
-						ev.PageViewType = PageViewType.WebView;
-						return Track(ev);
-					}
-				}
-			}
-			return false;
-		}
+        public static bool Track(HttpContext context, int EntryID, int BlogId)
+        {
+            if (context == null)
+            {
+                throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
+            }
+
+            if (WebTrack)
+            {
+                if (FilterUserAgent(context.Request.UserAgent))
+                {
+                    if (context.Request.HttpMethod != "POST")
+                    {
+                        string refUrl = GetReferral(context.Request);
+                        EntryView ev = new EntryView();
+                        ev.EntryID = EntryID;
+                        ev.BlogId = BlogId;
+                        ev.ReferralUrl = refUrl;
+                        ev.PageViewType = PageViewType.WebView;
+                        return Track(ev);
+                    }
+                }
+            }
+            return false;
+        }
 
 		//TODO: Unit test this method. Also clean it up and make it more self-descriptive.
 		private static string GetReferral(HttpRequest Request)

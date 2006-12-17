@@ -9,6 +9,7 @@ using System.Xml.Serialization;
 using Microsoft.Win32;
 using System.Collections;
 using System.Globalization;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Util
 {
@@ -564,7 +565,12 @@ namespace Subtext.Framework.Util
 
 			public Enumerator(WindowsTimeZoneCollection collection)
 			{
-				this.wrapped = ((System.Collections.CollectionBase)collection).GetEnumerator();
+                if (collection == null)
+                {
+                    throw new ArgumentNullException("collection", Resources.ArgumentNull_Collection);
+                }
+
+				this.wrapped = ((CollectionBase)collection).GetEnumerator();
 			}
 
 			public WindowsTimeZone Current

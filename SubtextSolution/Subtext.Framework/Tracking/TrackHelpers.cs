@@ -34,6 +34,7 @@ using System;
 using System.Globalization;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Tracking
 {
@@ -54,20 +55,12 @@ namespace Subtext.Framework.Tracking
 		//Body of text to insert into a post with Trackback
 		public static string TrackBackTag(Entry entry)
 		{
-			string nl = System.Environment.NewLine;
-			string tag =	nl + "<!--" + nl + 
-							"<rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"" + nl +
-							"xmlns:dc=\"http://purl.org/dc/elements/1.1/\"" + "\n" + 
-							"xmlns:trackback=\"http://madskills.com/public/xml/rss/module/trackback/\">" + nl + 
-							"<rdf:Description" + nl + 
-							"rdf:about=\"{0}\"" + nl + 
-							"dc:identifier=\"{1}\"" + nl + 
-							"dc:title=\"{2}\"" + nl + 
-							"trackback:ping=\"{3}services/trackbacks/{4}.aspx\" />" + nl + 
-							"</rdf:RDF>" + nl + 
-							"-->" + nl;
-			return String.Format(CultureInfo.InvariantCulture, tag, entry.FullyQualifiedUrl, entry.FullyQualifiedUrl, entry.Title, Config.CurrentBlog.RootUrl, entry.Id.ToString(CultureInfo.InvariantCulture));
+            if (entry == null)
+            {
+                throw new ArgumentNullException("entry", Resources.ArgumentNull_Generic);
+            }
 
+			return String.Format(CultureInfo.InvariantCulture, Resources.TrackbackTag, entry.FullyQualifiedUrl, entry.FullyQualifiedUrl, entry.Title, Config.CurrentBlog.RootUrl, entry.Id.ToString(CultureInfo.InvariantCulture));
 		}
 	}
 }

@@ -40,8 +40,18 @@ namespace Subtext.Framework.Util
 
 		public static DateTime GetDateFromRequest(string uri, string archiveText)
 		{
-			uri = uri.ToLower(System.Globalization.CultureInfo.InvariantCulture);
-			uri = CleanStartDateString(uri,archiveText);
+            if (uri == null)
+            {
+                throw new ArgumentNullException("uri", Resources.ArgumentNull_String);
+            }
+
+            if (uri.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "uri");
+            }
+
+            uri = uri.ToLowerInvariant();
+            uri = CleanStartDateString(uri, archiveText);
 			uri = CleanEndDateString(uri);
 			return DateTime.ParseExact(uri,dateFormats,new CultureInfo("en-US"),DateTimeStyles.None);
 		}
@@ -63,13 +73,26 @@ namespace Subtext.Framework.Util
 		/// </summary>
 		/// <param name="url"></param>
 		/// <returns></returns>
-		public static string GetCategryFromRss(string url)
-		{
-			url = url.ToLower(System.Globalization.CultureInfo.InvariantCulture);
-			int start = url.IndexOf("/category/");
-			int stop = url.IndexOf("/rss");
-			return url.Substring(start+10,stop-(start+10)).Replace(".aspx",string.Empty);			
-		}
+        public static string GetCategryFromRss(string url)
+        {
+            if (url == null)
+            {
+                throw new ArgumentNullException("url", Resources.ArgumentNull_String);
+            }
+
+            if (url.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "url");
+            }
+
+            url = url.ToLowerInvariant();
+            int start = url.IndexOf("/category/");
+            int stop = url.IndexOf("/rss");
+
+            // We are taking a substring starting from the ending position of "/category/",
+            // so we need to add 10 (the length of the string) to the starting position.
+            return url.Substring(start + 10, stop - (start + 10)).Replace(".aspx", string.Empty);
+        }
 
 		/// <summary>
 		/// Removes the trailing RSS slash if there.
@@ -78,8 +101,21 @@ namespace Subtext.Framework.Util
 		/// <returns></returns>
 		public static string RemoveRssSlash(string url)
 		{
-			if (url.EndsWith("/"))
-				url = url.Substring(0,url.Length - 1);
+            if (url == null)
+            {
+                throw new ArgumentNullException("url", Resources.ArgumentNull_String);
+            }
+
+            if (url.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "url");
+            }
+
+            if (url.EndsWith("/"))
+            {
+                url = url.Substring(0, url.Length - 1);
+            }
+
 			return Regex.Replace(url, "/rss$", string.Empty);
 		}
 

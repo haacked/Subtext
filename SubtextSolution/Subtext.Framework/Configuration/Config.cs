@@ -21,6 +21,7 @@ using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Security;
+using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Configuration
 {
@@ -30,7 +31,18 @@ namespace Subtext.Framework.Configuration
 	/// </summary>
 	public static class Config
 	{
-	    static UrlBasedBlogInfoProvider _configProvider;
+        private static 
+            string[] InvalidSubfolders = { 
+            "Admin", "bin", "ExternalDependencies", "HostAdmin", 
+            "Images", "Install", "Modules", "Services", "Skins", 
+            "UI", "Category", "Archive", "Archives", "Comments", 
+            "Articles", "Posts", "Story", "Stories", "Gallery",
+            "Providers", "aggbug" 
+        };
+
+        private const string InvalidChars = @"{}[]/\ @!#$%:^&*()?+|""='<>;,";
+
+        private static UrlBasedBlogInfoProvider _configProvider;
 
 		/// <summary>
 		/// Returns an instance of <see cref="BlogConfigurationSettings"/> which 
@@ -306,8 +318,6 @@ namespace Subtext.Framework.Configuration
 			return ObjectProvider.Instance().UpdateBlog(info);
 		}
 
-		//TODO: Is this the right place to put this list?
-		private static string[] _invalidSubfolders = {"Admin", "bin", "ExternalDependencies", "HostAdmin", "Images", "Install", "Modules", "Services", "Skins", "UI", "Category", "Archive", "Archives", "Comments", "Articles", "Posts", "Story", "Stories", "Gallery", "Providers", "aggbug"};
 
 		/// <summary>
 		/// Returns true if the specified subfolder name has a 
@@ -319,21 +329,23 @@ namespace Subtext.Framework.Configuration
 		/// <returns></returns>
 		public static bool IsValidSubfolderName(string subfolder)
 		{
-			if(subfolder == null)
-				throw new ArgumentNullException("subfolder", "Subfolder cannot be null.");
+            if (subfolder == null)
+            {
+                throw new ArgumentNullException("subfolder", Resources.ArgumentNull_String);
+            }
 
-			if(subfolder.StartsWith(".") || subfolder.EndsWith("."))
-				return false;
+            if (subfolder.StartsWith(".") || subfolder.EndsWith("."))
+            {
+                return false;
+            }
 
-			string invalidChars = @"{}[]/\ @!#$%:^&*()?+|""='<>;,";
-
-			foreach(char c in invalidChars)
+			foreach(char c in Config.InvalidChars)
 			{
 				if(subfolder.IndexOf(c) > -1)
 					return false;
 			}
 
-			foreach(string invalidSubFolder in _invalidSubfolders)
+			foreach(string invalidSubFolder in Config.InvalidSubfolders)
 			{
 				if (String.Equals(invalidSubFolder, subfolder, StringComparison.InvariantCultureIgnoreCase))
 					return false;

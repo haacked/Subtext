@@ -35,6 +35,11 @@ namespace Subtext.Framework.Format
 
         public UrlFormats(Uri fullyQualifiedUrl)
 		{
+            if (fullyQualifiedUrl == null)
+            {
+                throw new ArgumentNullException("fullyQualifiedUrl", Resources.ArgumentNull_Uri);
+            }
+
 			this.fullyQualifiedUrl = fullyQualifiedUrl.ToString();
 		}
 
@@ -95,6 +100,11 @@ namespace Subtext.Framework.Format
 		/// <returns></returns>
 		public virtual string EntryUrl(Entry entry)
 		{
+            if (entry == null)
+            {
+                throw new ArgumentNullException("entry", Resources.ArgumentNull_Generic);
+            }
+
 			return EntryUrl(entry.Id, entry.EntryName, entry.DateCreated);
 		}
 		
@@ -163,6 +173,11 @@ namespace Subtext.Framework.Format
 
 		public virtual string ArticleUrl(Entry entry)
 		{
+            if (entry == null)
+            {
+                throw new ArgumentNullException("entry", Resources.ArgumentNull_Generic);
+            }
+
 			if(entry.HasEntryName)
 			{
 				return GetUrl("articles/{0}.aspx",entry.EntryName);
@@ -191,6 +206,11 @@ namespace Subtext.Framework.Format
 		/// <returns></returns>
 		public virtual string FeedbackUrl(int parentId, string parentEntryName, DateTime parentCreateDate, FeedbackItem feedback)
 		{
+            if (feedback == null)
+            {
+                throw new ArgumentNullException("feedback", Resources.ArgumentNull_Generic);
+            }
+
 			string entryUrl = EntryUrl(parentId, parentEntryName, parentCreateDate);
 			return string.Format(CultureInfo.InvariantCulture, "{0}#{1}", entryUrl, feedback.Id);
 		}
@@ -204,6 +224,11 @@ namespace Subtext.Framework.Format
 		/// <returns></returns>
 		public virtual Uri FeedbackFullyQualifiedUrl(int parentId, string parentEntryName, DateTime parentCreateDate, FeedbackItem feedback)
 		{
+            if (feedback == null)
+            {
+                throw new ArgumentNullException("feedback", Resources.ArgumentNull_Generic);
+            }
+
 			string entryUrl = EntryFullyQualifiedUrl(parentCreateDate, parentEntryName, parentId);
 			return new Uri(string.Format(CultureInfo.InvariantCulture, "{0}#{1}", entryUrl, feedback.Id));
 		}
@@ -226,23 +251,43 @@ namespace Subtext.Framework.Format
 		/// <summary>
 		/// Returns a fully qualified Url using the specified format string.
 		/// </summary>
-		/// <param name="formatString">The pattern.</param>
+		/// <param name="format">The pattern.</param>
 		/// <param name="items">The items.</param>
 		/// <returns></returns>
-		protected virtual string GetUrl(string formatString, params object[] items)
+		protected virtual string GetUrl(string format, params object[] items)
 		{
-			return Config.CurrentBlog.VirtualUrl + string.Format(CultureInfo.InvariantCulture, formatString, items);
+            if (format == null)
+            {
+                throw new ArgumentNullException("format", Resources.ArgumentNull_String);
+            }
+
+            if (format.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "format");
+            }
+
+			return Config.CurrentBlog.VirtualUrl + String.Format(CultureInfo.InvariantCulture, format, items);
 		}
 
 		/// <summary>
 		/// Returns a fully qualified Url using the specified format string.
 		/// </summary>
-		/// <param name="formatString">The pattern.</param>
+        /// <param name="format">The pattern.</param>
 		/// <param name="items">The items.</param>
 		/// <returns></returns>
-		protected virtual string GetFullyQualifiedUrl(string formatString, params object[] items)
+        protected virtual string GetFullyQualifiedUrl(string format, params object[] items)
 		{
-			return fullyQualifiedUrl + string.Format(CultureInfo.InvariantCulture, formatString, items);
+            if (format == null)
+            {
+                throw new ArgumentNullException("format", Resources.ArgumentNull_String);
+            }
+
+            if (format.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "format");
+            }
+
+            return fullyQualifiedUrl + String.Format(CultureInfo.InvariantCulture, format, items);
 		}
 
 		/// <summary>
@@ -501,6 +546,16 @@ namespace Subtext.Framework.Format
 		/// <returns>fully qualified url to the image</returns>
 		public static string GetImageFullUrl(string imageUrl) 
 		{
+            if (imageUrl == null)
+            {
+                throw new ArgumentNullException("imageUrl", Resources.ArgumentNull_String);
+            }
+
+            if (imageUrl.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "imageUrl");
+            }
+
 			/// Examples of some fully qualified URLs: 
 			/// http://somehost.com/Subtext.Web/images/somehost_com/Subtext_Web/blog/8/pic.jpg
 			/// http://thathost.net/Subtext.Web/images/thathost_net/Subtext_Web/4/picture.jpg
@@ -531,6 +586,16 @@ namespace Subtext.Framework.Format
 		/// <returns></returns>
 		public static string StripHostFromUrl(string url)
 		{
+            if (url == null)
+            {
+                throw new ArgumentNullException("url", Resources.ArgumentNull_String);
+            }
+
+            if (url.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "url");
+            }
+
 			string fullHost = string.Format(CultureInfo.InvariantCulture, "{0}://{1}", HttpContext.Current.Request.Url.Scheme, Config.CurrentBlog.Host);
 			
 			if(url.StartsWith(fullHost))
@@ -555,7 +620,17 @@ namespace Subtext.Framework.Format
 		/// <returns></returns>
 		public static string GetHostFromExternalUrl(string url)
 		{
-			string hostDelim = "://";
+            if (url == null)
+            {
+                throw new ArgumentNullException("url", Resources.ArgumentNull_String);
+            }
+
+            if (url.Length == 0)
+            {
+                throw new ArgumentException(Resources.Argument_StringZeroLength, "url");
+            }
+
+            string hostDelim = "://";
 			
 			int hostStart = url.IndexOf(hostDelim);
 			hostStart = (hostStart < 0) ? 0 : hostStart + 3;

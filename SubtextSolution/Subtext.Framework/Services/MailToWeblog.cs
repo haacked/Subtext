@@ -452,11 +452,14 @@ namespace Subtext.Framework.Services
                                                         * CHANGE: I have changed the e-mail content sripping
                                                         * to not to include message disclaimer on the blog entry
                                                         */
-                                                    if (activeblog.pop3StartTag == string.Empty)
+                                                    if (String.IsNullOrEmpty(activeblog.pop3StartTag))
+                                                    {
                                                         bodyExtractor = new Regex("<body.*?>(?<content>.*)</body>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                                                    }
                                                     else
+                                                    {
                                                         bodyExtractor = new Regex(activeblog.pop3StartTag + "(?<content>.*)" + activeblog.pop3EndTag, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-
+                                                    }
                                                     //string htmlString = StringOperations.GetString(inner_attachment.Data);
                                                     //Match match = bodyExtractor.Match(htmlString);
                                                     //if (match != null && match.Success && match.Groups["content"] != null)
@@ -626,7 +629,7 @@ namespace Subtext.Framework.Services
                                                 !fileNameU.EndsWith(".BMP")))
                                         {
                                             string absoluteUri = new Uri(binariesBaseUri, fileName).AbsoluteUri;
-                                            entry.Body += String.Format("Download: <a href=\"{0}\">{1}</a><br>", absoluteUri, fileName);
+                                            entry.Body += String.Format(CultureInfo.CurrentUICulture, "Download: <a href=\"{0}\">{1}</a><br>", absoluteUri, fileName);
                                         }
                                     }
                                     if (attachedFiles.Count > 0)
@@ -671,10 +674,6 @@ namespace Subtext.Framework.Services
                                     pop3.DeleteMessage(j);
                                 }
                             }
-                        }
-                        catch (Exception e)
-                        {
-                            throw e;
                         }
                         finally
                         {
