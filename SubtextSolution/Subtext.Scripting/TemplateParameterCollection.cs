@@ -49,13 +49,13 @@ namespace Subtext.Scripting
 		{
 			get
 			{
-				foreach(TemplateParameter parameter in this.List)
-				{
-					if(String.Compare(parameter.Name, name, StringComparison.InvariantCultureIgnoreCase) == 0)
-					{
-						return parameter;
-					}
-				}
+                foreach (TemplateParameter parameter in this.List)
+                {
+                    if (String.Compare(parameter.Name, name, StringComparison.InvariantCultureIgnoreCase) == 0)
+                    {
+                        return parameter;
+                    }
+                }
 				return null;
 			}
 		}
@@ -69,8 +69,10 @@ namespace Subtext.Scripting
 		/// </returns>
 		public bool Contains(string name)
 		{
-			if (name == null)
-				throw new ArgumentNullException("name", String.Format(Resources.ArgumentNull_WithParamName, "name"));
+            if (name == null)
+            {
+                throw new ArgumentNullException("name", Resources.ArgumentNull_String);
+            }
 
 			return this[name] != null;
 		}
@@ -82,11 +84,15 @@ namespace Subtext.Scripting
 		/// <returns></returns>
 		public TemplateParameter Add(Match match)
 		{
-			if(match == null)
-				throw new ArgumentNullException("match", Resources.ArgumentNull_Generic);
-			
-			if(this[match.Groups["name"].Value] != null)
-				return this[match.Groups["name"].Value];
+            if (match == null)
+            {
+                throw new ArgumentNullException("match", Resources.ArgumentNull_Generic);
+            }
+
+            if (this[match.Groups["name"].Value] != null)
+            {
+                return this[match.Groups["name"].Value];
+            }
 
 			TemplateParameter parameter = new TemplateParameter(match.Groups["name"].Value, match.Groups["type"].Value, match.Groups["default"].Value);
 			this.Add(parameter);
@@ -101,11 +107,16 @@ namespace Subtext.Scripting
 		/// <returns></returns>
 		public TemplateParameter Add(TemplateParameter value) 
 		{
-			if(value == null)
-				throw new ArgumentNullException("value", Resources.ArgumentNull_Generic);
-			
-			if(Contains(value))
-				return this[value.Name];
+            if (value == null)
+            {
+                throw new ArgumentNullException("value", Resources.ArgumentNull_Generic);
+            }
+
+            if (Contains(value))
+            {
+                return this[value.Name];
+            }
+
 			List.Add(value);
             value.ValueChanged += value_ValueChanged;
 			return value;
@@ -142,9 +153,11 @@ namespace Subtext.Scripting
 		/// <returns><b>true</b> if the collection contains the specified object; otherwise, <b>false</b>.</returns>
 		public bool Contains(TemplateParameter item) 
 		{
-			if(item == null)
-				throw new ArgumentNullException("item", Resources.ArgumentNull_Generic);
-			
+            if (item == null)
+            {
+                throw new ArgumentNullException("item", Resources.ArgumentNull_Generic);
+            }
+
 			return Contains(item.Name);
 		}
 
