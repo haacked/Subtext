@@ -70,6 +70,15 @@ namespace Subtext.Scripting.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to String reference not set to an instance of a String..
+        /// </summary>
+        internal static string ArgumentNull_String {
+            get {
+                return ResourceManager.GetString("ArgumentNull_String", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Parameter &apos;{0}&apos; cannot be null..
         /// </summary>
         internal static string ArgumentNull_WithParamName {
