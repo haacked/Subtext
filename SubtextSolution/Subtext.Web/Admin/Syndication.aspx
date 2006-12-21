@@ -18,7 +18,7 @@
 			<legend>Syndication</legend>
 			<div>
 				<asp:CheckBox id="chkEnableSyndication" runat="server" Text="Enable Syndication" CssClass="checkbox" />
-				<st:HelpToolTip id="HelpToolTip1" runat="server" HelpText="If checked, This will turn on or off your RSS (or ATOM) feed.  If you don\'t know what RSS is, please read the following <a href=\'http://slate.msn.com/id/2096660/\'>introduction</a>.">
+				<st:HelpToolTip id="HelpToolTip1" runat="server" HelpText="If checked, This will turn on or off your RSS (or ATOM) feed.  If you don't know what RSS is, please read the following <a href='http://slate.msn.com/id/2096660/'>introduction</a>.">
 					<img id="helpImg" src="~/Admin/Resources/Scripts/Images/ms_information_small.gif" runat="Server" />
 				</st:HelpToolTip>
 			</div>
@@ -35,13 +35,13 @@
 			
 			<label accessKey="f" for="Edit_txtFeedBurnerName"><u>F</u>eedBurner Name</label>
 			<asp:TextBox id="txtFeedBurnerName" runat="server" CssClass="textbox" />
-			<st:HelpToolTip id="hlpFeedburner" runat="server" HelpText="If specified, will redirect your main feed to use <a href='http://feedburner.com/' title='feedburner'>Feedburner</a>.  The URL of your feed will become: http://feeds.feedburner.com/FEED-BURNER-NAME">
+			<st:HelpToolTip id="hlpFeedburner" runat="server" HelpText="If specified, will redirect your main feed to use <a href='http://feedburner.com/' title='feedburner'>Feedburner</a>.  The URL of your feed will become: http://feeds.feedburner.com/FEED-BURNER-NAME. ">
 				<img id="Img4" src="~/Admin/Resources/Scripts/Images/ms_information_small.gif" runat="Server" />
 			</st:HelpToolTip>
 		
 			<label accessKey="l" for="Edit_txtLicenseUrl"><u>L</u>icense </label>
 			<asp:TextBox id="txtLicenseUrl" runat="server" CssClass="textbox" />
-			<st:HelpToolTip id="HelpToolTip3" runat="server" HelpText="If specifed, indicates that your RSS feed is available under a license using the creativeCommons:license element. This can be used to display any license. For more information, read the <a href=\'http://backend.userland.com/creativeCommonsRssModule\'>spec here</a>.">
+			<st:HelpToolTip id="HelpToolTip3" runat="server" HelpText="If specifed, indicates that your RSS feed is available under a license using the creativeCommons:license element. This can be used to display any license. For more information, read the <a href='http://backend.userland.com/creativeCommonsRssModule'>spec here</a>.">
 				<img id="Img3" src="~/Admin/Resources/Scripts/Images/ms_information_small.gif" runat="Server" />
 			</st:HelpToolTip>
 			
