@@ -29,7 +29,7 @@
 	
 		<div>
 			<asp:CheckBox id="chkAutoGenerate" runat="server" CssClass="checkbox" Text="Auto-Generate Friendly URL" />
-			<st:HelpToolTip id="Helptooltip4" runat="server" HelpText="If checked, blog posts and articles will have friendly Urls auto-generated based on the title. For example, the title \'My Blog Post\' will become \'MyBlogPost.aspx\'.">
+			<st:HelpToolTip id="Helptooltip4" runat="server" HelpText="If checked, blog posts and articles will have friendly Urls auto-generated based on the title. For example, the title 'My Blog Post' will become 'MyBlogPost.aspx'.">
 				<img id="Img2" src="~/Admin/Resources/Scripts/Images/ms_information_small.gif" runat="Server" />
 			</st:HelpToolTip> 
 		</div>
