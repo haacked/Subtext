@@ -167,16 +167,22 @@ namespace UnitTests.Subtext.Framework.Configuration
 		/// </remarks>
 		[Test]
 		[RollBack]
+		[ExpectedException(typeof(BlogHiddenException))]
 		public void UpdatingBlogCannotHideAnotherBlog()
 		{
-			string host = UnitTestHelper.GenerateRandomString();
+			string host1 = UnitTestHelper.GenerateRandomString();
+            string host2 = UnitTestHelper.GenerateRandomString();
+            string subfolder = UnitTestHelper.GenerateRandomString();
 
-			Config.CreateBlog("title", "username", "password", host, string.Empty);
-			BlogInfo info = Config.GetBlogInfo(host, string.Empty);
-
-			info.Host = host;
-			info.Subfolder = "MyBlog";
-			Config.UpdateConfigData(info);
+		    // add the first blog
+		    Config.CreateBlog("title", "username", "password", host1, string.Empty);
+		    
+		    // now add a 2nd blog, with different Host name, then get the 2nd blog and change the hostname.
+            Config.CreateBlog("title2", "username", "password", host2, subfolder);
+			BlogInfo blog2Info = Config.GetBlogInfo(host2, subfolder);
+            blog2Info.Host = host1;
+		    
+			Config.UpdateConfigData(blog2Info);
 		}
 
 		/// <summary>
@@ -214,55 +220,6 @@ namespace UnitTests.Subtext.Framework.Configuration
 			BlogInfo info = Config.GetBlogInfo(host.ToUpper(CultureInfo.InvariantCulture), string.Empty);
 			info.Author = "Phil";
 			Assert.IsTrue(Config.UpdateConfigData(info), "Updating blog config should return true.");
-		}
-
-		/// <summary>
-		/// Makes sure that every invalid character is checked 
-		/// within the subfolder name.
-		/// </summary>
-		[Test]
-		[RollBack]
-		public void EnsureInvalidCharactersMayNotBeUsedInSubfolderName()
-		{
-			string[] badNames = {".name", "a{b", "a}b", "a[e", "a]e", "a/e",@"a\e", "a@e", "a!e", "a#e", "a$e", "a'e", "a%", ":e", "a^", "ae&", "*ae", "a(e", "a)e", "a?e", "+a", "e|", "a\"", "e=", "a'", "e<", "a>e", "a;", ",e", "a e"};
-			foreach(string badName in badNames)
-			{
-				Assert.IsFalse(Config.IsValidSubfolderName(badName), badName + " is not a valid app name.");
-			}
-		}
-
-		/// <summary>
-		/// Makes sure that every invalid character is checked 
-		/// within the subfolder name.
-		/// </summary>
-		[RowTest]
-		[Row("Admin")]
-		[Row("bin")]
-		[Row("Admin")] 
-		[Row("bin")] 
-		[Row("ExternalDependencies")] 
-		[Row("HostAdmin")] 
-		[Row("Images")] 
-		[Row("Install")] 
-		[Row("Modules")] 
-		[Row("Services")] 
-		[Row("Skins")] 
-		[Row("UI")] 
-		[Row("Category")] 
-		[Row("Archive")] 
-		[Row("Archives")] 
-		[Row("Comments")] 
-		[Row("Articles")] 
-		[Row("Posts")] 
-		[Row("Story")] 
-		[Row("Stories")] 
-		[Row("Gallery")] 
-		[Row("Providers")] 
-		[Row("aggbug")]
-		[RollBack]
-		public void ReservedSubtextWordsAreNotValidForSubfolders(string badSubfolderName)
-		{
-			Assert.IsFalse(Config.IsValidSubfolderName(badSubfolderName), badSubfolderName + " is not a valid subfolder name.");
 		}
 
 		#region Invalid Subfolder Name Tests... There's a bunch...
