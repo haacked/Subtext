@@ -3,12 +3,13 @@
 #endregion
 
 using System;
+using System.Collections;
+using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Security.Permissions;
 using System.Xml.Serialization;
 using Microsoft.Win32;
-using System.Collections;
-using System.Globalization;
 using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Util
@@ -211,7 +212,7 @@ namespace Subtext.Framework.Util
 		/// <returns></returns>
 		public static WindowsTimeZone GetById(int id)
 		{
-			return WindowsTimeZone.TimeZones.GetById(id);
+			return TimeZones.GetById(id);
 		}
 
 		private static object daylightChangesLock = new object();
@@ -369,7 +370,7 @@ namespace Subtext.Framework.Util
 			}
 			catch (Exception ex) //If we can't get into the Registry for any reason, try the fallback...
 			{
-				System.Diagnostics.Trace.WriteLine("Error: LoadTimeZonesFromRegistry " + ex.ToString());
+				Trace.WriteLine("Error: LoadTimeZonesFromRegistry " + ex.ToString());
 				timeZones = LoadTimeZonesFromXml();
 			}
 		}
@@ -476,7 +477,7 @@ namespace Subtext.Framework.Util
 	/// A collection of elements of type WindowsTimeZone
 	/// </summary>
 	[Serializable]
-	public class WindowsTimeZoneCollection : System.Collections.CollectionBase
+	public class WindowsTimeZoneCollection : CollectionBase
 	{
 		/// <summary>
 		/// Initializes a new empty instance of the WindowsTimeZoneCollection class.
@@ -559,9 +560,9 @@ namespace Subtext.Framework.Util
 		/// <summary>
 		/// Type-specific enumeration class, used by WindowsTimeZoneCollection.GetEnumerator.
 		/// </summary>
-		public class Enumerator: System.Collections.IEnumerator
+		public class Enumerator: IEnumerator
 		{
-			private System.Collections.IEnumerator wrapped;
+			private IEnumerator wrapped;
 
 			public Enumerator(WindowsTimeZoneCollection collection)
 			{
@@ -581,7 +582,7 @@ namespace Subtext.Framework.Util
 				}
 			}
 
-			object System.Collections.IEnumerator.Current
+			object IEnumerator.Current
 			{
 				get
 				{
@@ -606,9 +607,9 @@ namespace Subtext.Framework.Util
 		/// <returns>
 		/// An object that implements System.Collections.IEnumerator.
 		/// </returns>        
-		public new virtual WindowsTimeZoneCollection.Enumerator GetEnumerator()
+		public new virtual Enumerator GetEnumerator()
 		{
-			return new WindowsTimeZoneCollection.Enumerator(this);
+			return new Enumerator(this);
 		}
 
 		public void SortByTimeZoneBias()

@@ -13,7 +13,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 
-using System;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.Configuration.Provider;
@@ -31,7 +30,7 @@ namespace UnitTests.Subtext.Framework.Providers
 	    [Test]
 	    public void CanFindConnectionString()
 	    {
-            Assert.AreEqual("Server=localhost;Database=SubtextData;Trusted_Connection=True", ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString);
+            Assert.AreEqual("Server=localhost;Database=SubtextData;Trusted_Connection=True;", ConfigurationManager.ConnectionStrings["subtextData"].ConnectionString);
 	    }
 	    
 		/// <summary>
@@ -42,7 +41,7 @@ namespace UnitTests.Subtext.Framework.Providers
 		{
 			NameValueCollection configValue = new NameValueCollection();
 			configValue.Add("connectionStringName", "subtextData");	
-            Assert.AreEqual("Server=localhost;Database=SubtextData;Trusted_Connection=True", ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", configValue));
+            Assert.AreEqual("Server=localhost;Database=SubtextData;Trusted_Connection=True;", ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", configValue));
 		}
 
 		[Test]

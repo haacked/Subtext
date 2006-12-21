@@ -309,10 +309,6 @@ namespace Subtext.Web.Controls
 
             int endPage = startPage + DisplayPageCount > LastPageIndex ? LastPageIndex + 1 : startPage + DisplayPageCount;
 
-            if (endPage - startPage != DisplayPageCount && endPage - startPage > 0)
-            {
-                startPage = endPage - DisplayPageCount;
-            }
             // if the start page isn't the first, then we display << to allow
             // paging backwards DisplayCountPage
             if (startPage != 0)
@@ -325,7 +321,7 @@ namespace Subtext.Web.Controls
                 }
                 //we will page back DisplayPageCount unless that number is less than 0
                 //since you can't page less than that.
-                writer.Write(RenderLink(currentPage - DisplayPageCount < 0 ? 0 : currentPage - DisplayPageCount - 1, "<<"));
+                writer.Write(RenderLink(currentPage - DisplayPageCount <= 0 ? 0 : currentPage - DisplayPageCount - 1, "<<"));
             }
             //Now, loop through start to end and display all the links.
             for (int i = startPage; i < endPage; i++)

@@ -18,6 +18,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Security;
+using System.Threading;
 using System.Web;
 using log4net;
 using log4net.Appender;
@@ -30,7 +31,6 @@ using Subtext.Framework.Exceptions;
 using Subtext.Framework.Logging;
 using Subtext.Framework.Security;
 using Subtext.Framework.Services;
-using System.Threading;
 
 namespace Subtext 
 {
@@ -99,7 +99,7 @@ namespace Subtext
 			//This line will trigger the configuration.
 			Log.Info("Application_Start - This is not a malfunction.");
 #if DEBUG
-			log4net.Repository.Hierarchy.Hierarchy h = LogManager.GetRepository() as log4net.Repository.Hierarchy.Hierarchy;
+			Hierarchy h = LogManager.GetRepository() as Hierarchy;
 			EnsureLog4NetConnectionString(h);
 #endif
             if (ConfigurationManager.AppSettings.Get("EnableMailToWeblog") == "true")
@@ -174,9 +174,9 @@ namespace Subtext
 				HttpContext context = application.Context;
 				if (context.Request.Path.EndsWith(".aspx", StringComparison.InvariantCultureIgnoreCase))
 				{
-					Version v =  Subtext.Framework.VersionInfo.FrameworkVersion; //t.Assembly.GetName().Version;
-					string machineName = System.Environment.MachineName;
-					Version framework = System.Environment.Version;
+					Version v =  VersionInfo.FrameworkVersion; //t.Assembly.GetName().Version;
+					string machineName = Environment.MachineName;
+					Version framework = Environment.Version;
 
 					string userInfo = "No User";
 					try
@@ -188,7 +188,7 @@ namespace Subtext
 							if(!InstallationManager.IsInHostAdminDirectory && !InstallationManager.IsInInstallDirectory && !InstallationManager.IsInSystemMessageDirectory)
 							{
 								userInfo += "<br />Is Admin: " + SecurityHelper.IsAdmin.ToString(CultureInfo.InvariantCulture);
-								userInfo += "<br />BlogId: " + Subtext.Framework.Configuration.Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture);
+								userInfo += "<br />BlogId: " + Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture);
 							}	
 						}
 					}
@@ -199,7 +199,7 @@ namespace Subtext
 
 					try
 					{
-						if (!MagicAjax.MagicAjaxContext.Current.IsAjaxCall)
+						if (!MagicAjaxContext.Current.IsAjaxCall)
 							context.Response.Write(string.Format(debugMessage, @"<!-- ", lb, v, machineName, framework, userInfo, lb, "//-->"));
 					}
 					catch(MagicAjaxException exc)

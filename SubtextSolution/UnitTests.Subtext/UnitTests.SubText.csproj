@@ -244,6 +244,7 @@
     <Compile Include="Framework\Configuration\BlogCreationTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Configuration\ConfigTests.cs" />
     <Compile Include="Framework\Data\CacherTests.cs">
       <SubType>Code</SubType>
     </Compile>

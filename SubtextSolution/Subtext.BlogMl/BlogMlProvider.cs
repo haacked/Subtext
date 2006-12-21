@@ -219,8 +219,14 @@ namespace Subtext.BlogML
 		/// </summary>
 		/// <param name="trackback"></param>
 		public abstract void CreatePostTrackback(BlogMLTrackback trackback, string newPostId);
-		
-		/// <summary>
+
+        /// <summary>
+        /// Sets the extended properties for the blog.
+        /// </summary>
+        /// <param name="extendedProperties"></param>
+        public abstract void SetBlogMlExtendedProperties(BlogMLBlog.ExtendedPropertiesCollection extendedProperties);
+
+	    /// <summary>
 		/// Lets the provider decide how to log errors.
 		/// </summary>
 		/// <param name="message"></param>

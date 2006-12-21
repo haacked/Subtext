@@ -213,7 +213,7 @@ namespace Subtext.Web.Admin.Pages
 		}
 		#endregion
 
-		protected void btnPost_Click(object sender, System.EventArgs e)
+		protected void btnPost_Click(object sender, EventArgs e)
 		{
 			BindPost();
 		}

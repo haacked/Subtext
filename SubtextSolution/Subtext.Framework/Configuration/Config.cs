@@ -19,9 +19,9 @@ using System.Web.Security;
 using Subtext.Extensibility.Interfaces;
 using Subtext.Framework.Exceptions;
 using Subtext.Framework.Format;
+using Subtext.Framework.Properties;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Security;
-using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Configuration
 {
@@ -276,7 +276,7 @@ namespace Subtext.Framework.Configuration
 		public static bool UpdateConfigData(BlogInfo info)
 		{
 			//Check for duplicate
-			BlogInfo potentialDuplicate = GetBlogInfo(info.Host, info.Subfolder);
+			BlogInfo potentialDuplicate = GetBlogInfo(info.Host, info.Subfolder, true);
 			if(potentialDuplicate != null && !potentialDuplicate.Equals(info))
 			{
 				//we found a duplicate!
@@ -284,7 +284,7 @@ namespace Subtext.Framework.Configuration
 			}
 
 			//Check to see if we're going to end up hiding another blog.
-			BlogInfo potentialHidden = GetBlogInfo(info.Host, string.Empty);
+			BlogInfo potentialHidden = GetBlogInfo(info.Host, string.Empty, true);
 			if(potentialHidden != null && !potentialHidden.Equals(info) && potentialHidden.IsActive)
 			{
 				//We found a blog that would be hidden by this one.
@@ -339,13 +339,13 @@ namespace Subtext.Framework.Configuration
                 return false;
             }
 
-			foreach(char c in Config.InvalidChars)
+			foreach(char c in InvalidChars)
 			{
 				if(subfolder.IndexOf(c) > -1)
 					return false;
 			}
 
-			foreach(string invalidSubFolder in Config.InvalidSubfolders)
+			foreach(string invalidSubFolder in InvalidSubfolders)
 			{
 				if (String.Equals(invalidSubFolder, subfolder, StringComparison.InvariantCultureIgnoreCase))
 					return false;
