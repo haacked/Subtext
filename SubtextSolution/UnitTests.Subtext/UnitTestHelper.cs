@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Configuration;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -24,6 +25,7 @@ using System.Web;
 using System.Web.Security;
 using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Zip;
+using ICSharpCode.SharpZipLib.Zip.Compression;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using MbUnit.Framework;
 using Subtext.Extensibility;
@@ -31,8 +33,8 @@ using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
-using Subtext.Framework.Web.HttpModules;
 using Subtext.Framework.Security;
+using Subtext.Framework.Web.HttpModules;
 
 namespace UnitTests.Subtext
 {
@@ -122,7 +124,7 @@ namespace UnitTests.Subtext
 		/// <returns></returns>
 		internal static string GenerateRandomString()
 		{
-			return System.Guid.NewGuid().ToString().Replace("-", "") + ".com";
+			return Guid.NewGuid().ToString().Replace("-", "") + ".com";
 		}
 
 		/// <summary>
@@ -224,7 +226,7 @@ namespace UnitTests.Subtext
 		/// </returns>
 		internal static SimulatedRequestContext SetupBlog(string subfolder, string applicationPath, int port, string page)
 		{
-			string host = UnitTestHelper.GenerateRandomString();
+			string host = GenerateRandomString();
 			Assert.IsTrue(Config.CreateBlog("Unit Test Blog", MembershipTestUsername, MembershipTestPassword, host, subfolder), "Could Not Create Blog");
 
 			StringBuilder sb = new StringBuilder();
@@ -255,7 +257,7 @@ namespace UnitTests.Subtext
 		/// </summary>
 		public static void SetupBlogWithUserAndPassword(string username, string password, string subfolder)
 		{
-			string host = UnitTestHelper.GenerateRandomString();
+			string host = GenerateRandomString();
 			Assert.IsTrue(Config.CreateBlog("Unit Test Blog", username, password, host, subfolder), "Could Not Create Blog");
 			Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(username), new string[] { "Administrators" });
 			SetHttpContextWithBlogRequest(host, subfolder);
@@ -278,7 +280,7 @@ namespace UnitTests.Subtext
 		/// <param name="applicationPath"></param>
 		internal static SimulatedHttpRequest SetupHttpContextWithRequest(string applicationPath)
 		{
-			return SetHttpContextWithBlogRequest(UnitTestHelper.GenerateRandomString(), string.Empty, applicationPath);
+			return SetHttpContextWithBlogRequest(GenerateRandomString(), string.Empty, applicationPath);
 		}
 
 		/// <summary>
@@ -754,12 +756,12 @@ namespace UnitTests.Subtext
 							}
 						}
 					} 
-					catch (ICSharpCode.SharpZipLib.GZip.GZipException) 
+					catch (GZipException) 
 					{
 						if (tryAgainDeflate && (encoding=="deflate")) 
 						{
 							input.Seek(0, SeekOrigin.Begin);	// reset position
-							compressed = new InflaterInputStream(input, new ICSharpCode.SharpZipLib.Zip.Compression.Inflater(true));
+							compressed = new InflaterInputStream(input, new Inflater(true));
 							tryAgainDeflate = false;
 							goto retry_decompress;
 						} 
@@ -794,7 +796,7 @@ namespace UnitTests.Subtext
 	    /// </summary>
 	    public static void AssertAppSettings()
 	    {
-            Assert.AreEqual("UnitTestValue", System.Configuration.ConfigurationManager.AppSettings["UnitTestKey"], "Cannot read app settings");
+            Assert.AreEqual("UnitTestValue", ConfigurationManager.AppSettings["UnitTestKey"], "Cannot read app settings");
 	    }
 
 		/// <summary>

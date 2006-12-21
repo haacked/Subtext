@@ -26,7 +26,9 @@ namespace UnitTests.Subtext.Framework.Configuration
     public class ConfigTests
     {
         string hostName;
-        
+
+        #region GetBlogInfo tests
+
         /// <summary>
         /// If we have two or more blogs in the system we want to be sure that 
         /// we can find a blog if it has a unique HostName in the system, despite 
@@ -90,7 +92,71 @@ namespace UnitTests.Subtext.Framework.Configuration
             BlogInfo info = Config.GetBlogInfo(hostName, string.Empty);
             Assert.IsNull(info, "Hmm... Looks like found a blog using too generic of search criteria.");
         }
+
+        #endregion
+
+        #region IsValidSubfolderName tests
+
+        /// <summary>
+        /// Makes sure that every invalid character is checked 
+        /// within the subfolder name.
+        /// </summary>
+        [Test]
+        public void EnsureInvalidCharactersMayNotBeUsedInSubfolderName()
+        {
+            string[] badNames = { ".name", "a{b", "a}b", "a[e", "a]e", "a/e", @"a\e", "a@e", "a!e", "a#e", "a$e", "a'e", "a%", ":e", "a^", "ae&", "*ae", "a(e", "a)e", "a?e", "+a", "e|", "a\"", "e=", "a'", "e<", "a>e", "a;", ",e", "a e" };
+            foreach (string badName in badNames)
+            {
+                Assert.IsFalse(Config.IsValidSubfolderName(badName), badName + " is not a valid app name.");
+            }
+        }
+
+        /// <summary>
+        /// Makes sure that every invalid character is checked 
+        /// within the subfolder name.
+        /// </summary>
+        [RowTest]
+        [Row("Admin")]
+        [Row("bin")]
+        [Row("Admin")]
+        [Row("bin")]
+        [Row("ExternalDependencies")]
+        [Row("HostAdmin")]
+        [Row("Images")]
+        [Row("Install")]
+        [Row("Modules")]
+        [Row("Services")]
+        [Row("Skins")]
+        [Row("UI")]
+        [Row("Category")]
+        [Row("Archive")]
+        [Row("Archives")]
+        [Row("Comments")]
+        [Row("Articles")]
+        [Row("Posts")]
+        [Row("Story")]
+        [Row("Stories")]
+        [Row("Gallery")]
+        [Row("Providers")]
+        [Row("aggbug")]
+        [Row(".")]
+        [Row(".start")]
+        [Row("end.")]
+        [Row("sub:folder")]
+        public void ReservedSubtextWordsAreNotValidForSubfolders(string badSubfolderName)
+        {
+            Assert.IsFalse(Config.IsValidSubfolderName(badSubfolderName), badSubfolderName + " is not a valid subfolder name.");
+        }
         
+        [Test]
+        [ExpectedArgumentNullException]
+        public void NullSubfolderThrowsArgumentNullException()
+        {
+            Config.IsValidSubfolderName(null);
+        }
+
+        #endregion
+
         /// <summary>
         /// Sets the up test fixture.  This is called once for 
         /// this test fixture before all the tests run.
