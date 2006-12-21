@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -51,7 +52,9 @@ namespace Subtext.Framework.Format
 		{
 			get
 			{
-				return new Uri(new Uri("http://feeds.feedburner.com/"), Config.CurrentBlog.FeedBurnerName);
+				string feedburnerUrl = ConfigurationManager.AppSettings["FeedBurnerUrl"];
+				feedburnerUrl = String.IsNullOrEmpty(feedburnerUrl) ? "http://feeds.feedburner.com/" : feedburnerUrl;
+				return new Uri(new Uri(feedburnerUrl), Config.CurrentBlog.FeedBurnerName);
 			}
 		}
 

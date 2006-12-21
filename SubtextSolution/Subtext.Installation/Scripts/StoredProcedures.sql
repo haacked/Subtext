@@ -1,3 +1,4 @@
+
 /*
 WARNING: This SCRIPT USES SQL TEMPLATE PARAMETERS.
 Be sure to hit CTRL+SHIFT+M in Query Analyzer if running manually.
@@ -1381,11 +1382,22 @@ SELECT
 FROM [<dbUser,varchar,dbo>].[subtext_Config]
 WHERE
 	(
+		-- try to find an exact match.
 			Host = @Host
 		AND Subfolder = @Subfolder
 	)
 	OR
 	(
+		-- we couldn't find an exact match, so next see if there is only one blog in the system 
+		-- with the given Host name, and return it.
+			(@Strict = 0) 
+		AND (1 = (SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_config] WHERE Host = @Host))
+		AND Host = @Host
+	)
+	OR
+	(
+		-- we couldn't find an exact match, nor a match for the HostName, so next see is 
+		-- only ONE blog in the system, and we haven't found a more exact match, return the blog.
 			(@Strict = 0) 
 		AND (1 = (SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_config]))
 	)
@@ -1568,7 +1580,7 @@ FROM [<dbUser,varchar,dbo>].[subtext_Images]
 WHERE CategoryID = @CategoryID 
 	AND BlogId = @BlogId 
 	AND Active <> CASE @IsActive WHEN 1 THEN 0 Else -1 END
-ORDER BY Title
+ORDER BY Title, ImageID
 
 
 GO
@@ -3733,6 +3745,7 @@ VALUES
 SELECT @ID = SCOPE_IDENTITY()
 
 EXEC [<dbUser,varchar,dbo>].[subtext_UpdateConfigUpdateTime] @BlogId, @DateAdded
+EXEC [<dbUser,varchar,dbo>].[subtext_UpdateFeedbackCount] @BlogId, @ID
 
 
 GO
@@ -4350,8 +4363,13 @@ SELECT	f.[Id]
 FROM [<dbUser,varchar,dbo>].[subtext_Feedback] f
 	INNER JOIN #IDs idTable ON idTable.Id = f.[EntryId]
 	WHERE f.FeedbackType = 2 -- Trackback/Pingback
-
 ORDER BY idTable.[ID] ASC
+
+-- Get the Post's author(s)
+SELECT	p.[Id]
+		, @BlogId AS AuthorId-- Hardcoding the AuthorId since right now we only have one.
+	FROM #IDs p
+	ORDER BY p.[ID] ASC
 
 GO
 SET QUOTED_IDENTIFIER OFF 

@@ -119,6 +119,12 @@ namespace Subtext.BlogML.Interfaces
 		/// </summary>
 		/// <param name="trackback"></param>
 		void CreatePostTrackback(BlogMLTrackback trackback, string newPostId);
+
+	    /// <summary>
+	    /// Sets the extended properties for the blog.
+	    /// </summary>
+	    /// <param name="extendedProperties"></param>
+        void SetBlogMlExtendedProperties(BlogMLBlog.ExtendedPropertiesCollection extendedProperties);
 		
 		/// <summary>
 		/// Lets the provider decide how to log errors.

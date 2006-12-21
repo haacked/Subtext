@@ -10,39 +10,310 @@
 
 namespace Subtext.Web.Admin.Pages {
     
+    
+    /// <summary>
+    /// Configure class.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated class.
+    /// </remarks>
     public partial class Configure {
-        protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
-        protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
-        protected System.Web.UI.WebControls.TextBox txbTitle;
-        protected System.Web.UI.WebControls.TextBox txbSubtitle;
-        protected System.Web.UI.WebControls.TextBox txbUser;
-        protected System.Web.UI.WebControls.TextBox txbAuthor;
-        protected System.Web.UI.WebControls.TextBox txbAuthorEmail;
-        protected System.Web.UI.WebControls.DropDownList ddlSkin;
-        protected System.Web.UI.WebControls.CheckBox ckbAllowServiceAccess;
-        protected MagicAjax.UI.Controls.AjaxPanel ajaxTimezone;
-        protected Subtext.Web.Controls.HelpToolTip hlpTimeZone;
-        protected System.Web.UI.WebControls.DropDownList ddlTimezone;
-        protected System.Web.UI.WebControls.Label lblCurrentTime;
-        protected System.Web.UI.WebControls.Label lblServerTime;
-        protected System.Web.UI.WebControls.Label lblServerTimeZone;
-        protected System.Web.UI.WebControls.Label lblUtcTime;
-        protected System.Web.UI.WebControls.DropDownList ddlLangLocale;
-        protected System.Web.UI.WebControls.DropDownList ddlItemCount;
-        protected System.Web.UI.WebControls.DropDownList ddlCategoryListPostCount;
-        protected System.Web.UI.WebControls.CheckBox ckbPop3MailToWeblog;
-        protected System.Web.UI.WebControls.TextBox txbPop3Server;
-        protected System.Web.UI.WebControls.TextBox txbPop3User;
-        protected System.Web.UI.WebControls.TextBox txbPop3Password;
-        protected System.Web.UI.WebControls.TextBox txbPop3Subject;
-        protected System.Web.UI.WebControls.TextBox txbPop3StartTag;
-        protected System.Web.UI.WebControls.TextBox txbPop3EndTag;
-        protected System.Web.UI.WebControls.CheckBox ckbPop3InlineAttachedPict;
-        protected System.Web.UI.WebControls.TextBox txbPop3ThumbHeight;
-        protected System.Web.UI.WebControls.CheckBox ckbPop3DeleteProcessedEmail;
-        protected Subtext.Web.Controls.HelpToolTip HelpToolTip1;
-        protected System.Web.UI.WebControls.TextBox txbSecondaryCss;
-        protected System.Web.UI.WebControls.TextBox txbNews;
-        protected System.Web.UI.WebControls.Button btnPost;
+        
+        /// <summary>
+        /// Messages control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Admin.WebUI.MessagePanel Messages;
+        
+        /// <summary>
+        /// Edit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
+        
+        /// <summary>
+        /// txbTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txbTitle;
+        
+        /// <summary>
+        /// txbSubtitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txbSubtitle;
+        
+        /// <summary>
+        /// txbUser control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txbUser;
+        
+        /// <summary>
+        /// txbAuthor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txbAuthor;
+        
+        /// <summary>
+        /// txbAuthorEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txbAuthorEmail;
+        
+        /// <summary>
+        /// ddlSkin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlSkin;
+        
+        /// <summary>
+        /// ckbAllowServiceAccess control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox ckbAllowServiceAccess;
+        
+        /// <summary>
+        /// ajaxTimezone control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::MagicAjax.UI.Controls.AjaxPanel ajaxTimezone;
+        
+        /// <summary>
+        /// hlpTimeZone control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Controls.HelpToolTip hlpTimeZone;
+        
+        /// <summary>
+        /// ddlTimezone control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlTimezone;
+        
+        /// <summary>
+        /// lblCurrentTime control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCurrentTime;
+        
+        /// <summary>
+        /// lblServerTime control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblServerTime;
+        
+        /// <summary>
+        /// lblServerTimeZone control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblServerTimeZone;
+        
+        /// <summary>
+        /// lblUtcTime control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblUtcTime;
+        
+        /// <summary>
+        /// ddlLangLocale control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlLangLocale;
+        
+        /// <summary>
+        /// ddlItemCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlItemCount;
+        
+        /// <summary>
+        /// ddlCategoryListPostCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlCategoryListPostCount;
+        
+        /// <summary>
+        /// ckbPop3MailToWeblog control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox ckbPop3MailToWeblog;
+        
+        /// <summary>
+        /// txbPop3Server control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txbPop3Server;
+        
+        /// <summary>
+        /// txbPop3User control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txbPop3User;
+        
+        /// <summary>
+        /// txbPop3Password control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txbPop3Password;
+        
+        /// <summary>
+        /// txbPop3Subject control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txbPop3Subject;
+        
+        /// <summary>
+        /// txbPop3StartTag control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txbPop3StartTag;
+        
+        /// <summary>
+        /// txbPop3EndTag control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txbPop3EndTag;
+        
+        /// <summary>
+        /// ckbPop3InlineAttachedPict control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox ckbPop3InlineAttachedPict;
+        
+        /// <summary>
+        /// txbPop3ThumbHeight control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txbPop3ThumbHeight;
+        
+        /// <summary>
+        /// ckbPop3DeleteProcessedEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox ckbPop3DeleteProcessedEmail;
+        
+        /// <summary>
+        /// HelpToolTip1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Controls.HelpToolTip HelpToolTip1;
+        
+        /// <summary>
+        /// txbSecondaryCss control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txbSecondaryCss;
+        
+        /// <summary>
+        /// txbNews control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txbNews;
+        
+        /// <summary>
+        /// btnPost control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnPost;
     }
 }

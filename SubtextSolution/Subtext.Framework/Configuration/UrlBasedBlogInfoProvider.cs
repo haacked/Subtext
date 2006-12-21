@@ -33,7 +33,7 @@ namespace Subtext.Framework.Configuration
 	/// </summary>
 	public class UrlBasedBlogInfoProvider
 	{
-		private readonly static ILog log = new Subtext.Framework.Logging.Log();
+		private readonly static ILog log = new Log();
 
 		static UrlBasedBlogInfoProvider _singletonInstance = new UrlBasedBlogInfoProvider();
 		
@@ -140,7 +140,7 @@ namespace Subtext.Framework.Configuration
 						throw new BlogInactiveException();
 					}
 			
-					BlogConfigurationSettings settings = Subtext.Framework.Configuration.Config.Settings;
+					BlogConfigurationSettings settings = Config.Settings;
 
 					// look here for issues with gallery images not showing up.
 					string webApp = HttpContext.Current.Request.ApplicationPath;
@@ -158,10 +158,10 @@ namespace Subtext.Framework.Configuration
 					if(subfolder.Length > 1)
 						subfolder = "/" + subfolder;
 					
-					string virtualPath = string.Format(System.Globalization.CultureInfo.InvariantCulture, "images/{0}{1}", Regex.Replace(blogRequest.Host + webApp, @"\:|\.","_"), subfolder);
+					string virtualPath = string.Format(CultureInfo.InvariantCulture, "images/{0}{1}", Regex.Replace(blogRequest.Host + webApp, @"\:|\.","_"), subfolder);
 
 					// now put together the host + / + virtual path (url) to images
-					info.ImagePath = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}/{1}", formattedHost, virtualPath);
+					info.ImagePath = string.Format(CultureInfo.InvariantCulture, "{0}/{1}", formattedHost, virtualPath);
 					try
 					{
 						info.ImageDirectory = HttpContext.Current.Request.MapPath("~/" + virtualPath);

@@ -22,7 +22,7 @@
 			<HeaderTemplate>
 				<table id="Listing" class="Listing highlightTable" cellSpacing="0" cellPadding="0" border="0">
 					<tr>
-						<th>Description</th>
+						<th>Link Title</th>
 						<th width="50">Url</th>
 						<th width="50">&nbsp;</th>
 						<th width="50">&nbsp;</th>

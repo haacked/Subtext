@@ -64,6 +64,7 @@ namespace Subtext.BlogML
 
 			using(XmlTextWriter xmlWriter = new XmlTextWriter(outStream, Encoding.UTF8))
 			{
+                xmlWriter.Formatting = Formatting.Indented;
 				writer.Write(xmlWriter);
 				xmlWriter.Flush();
 			}

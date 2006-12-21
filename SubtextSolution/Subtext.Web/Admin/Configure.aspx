@@ -16,8 +16,7 @@
 <asp:Content ID="configurationOptions" ContentPlaceHolderID="pageContent" runat="server">
 	<st:MessagePanel id="Messages" runat="server"></st:MessagePanel>
 	<st:AdvancedPanel id="Edit" runat="server" Collapsible="False" HeaderText="Configure" HeaderCssClass="CollapsibleHeader" BodyCssClass="Edit" DisplayHeader="true">
-		<fieldset class="options">
-			<legend>Main Settings</legend>
+		<asp:Panel runat="server" GroupingText="Main Settings" CssClass="options" >
 			
 				<label accesskey="t" for="Edit_txbTitle"><u>T</u>itle</label>
 				<asp:TextBox id="txbTitle" runat="server" CssClass="textbox"></asp:TextBox>
@@ -36,14 +35,13 @@
 			
 				<label accesskey="s" for="Edit_ddlSkin">Display <u>S</u>kin</label>
 				<asp:DropDownList id="ddlSkin" runat="server"></asp:DropDownList>
-			
-				<label accesskey="w" for="Edit_ckbAllowServiceAccess">Allow <u>W</u>eb Service Access</label>
-				<asp:CheckBox id="ckbAllowServiceAccess" runat="server"></asp:CheckBox>
+				
+				<div>
+				    <asp:CheckBox id="ckbAllowServiceAccess" runat="server" CssClass="checkbox" AccessKey="w" Text="Allow <u>W</u>eb Service Access" />
+				</div>
 		
-		</fieldset>
-		
-		<fieldset class="options wide">
-			<legend>Location Settings</legend>
+		</asp:Panel>
+		<asp:Panel runat="server" GroupingText="Location Settings" CssClass="options wide">
 			<ajax:ajaxpanel ID="ajaxTimezone" runat="server">
 			
 				<label accesskey="z" for="Edit_ddlTimezone">
@@ -266,9 +264,8 @@
 				<asp:ListItem Text="Vietnamese - Vietnam" Value="vi-VN" />
 			</asp:DropDownList>
 
-		</fieldset>
-		<fieldset class="options">
-			<legend>Count Settings</legend>
+		</asp:Panel>
+		<asp:Panel runat="server" GroupingText="Count Settings" CssClass="options">
 			
 			<label accesskey="d" for="Edit_ddlItemCount"><u>D</u>efault Number of Feed/Homepage Items</label>
 			<asp:DropDownList id="ddlItemCount" runat="server" />
@@ -276,10 +273,9 @@
 			<label accesskey="p" for="Edit_ddlCategoryListPostCount">Number of <u>P</u>osts in Category Lists</label>
 			<asp:DropDownList id="ddlCategoryListPostCount" runat="server" />
 		
-		</fieldset>
+		</asp:Panel>
 		
-		<fieldset class="options">
-		    <legend>Mail To Weblog Settings</legend>
+		<asp:Panel runat="server" GroupingText="Mail To Weblog Settings" CssClass="options">
 		<!--Mail to Weblog UI-->
             
 			<div>
@@ -316,7 +312,7 @@
             </div>
         
 			<!--End of Mail to Weblog UI-->
-		</fieldset>
+		</asp:Panel>
 		<div class="clear">
 			<div class="options">
 				<label accesskey="c" for="Edit_txbSecondaryCss">
