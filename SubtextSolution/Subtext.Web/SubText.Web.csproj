@@ -1355,6 +1355,8 @@
     <Content Include="Skins\Colors\Images\shadowAlpha.png" />
     <Content Include="Skins\Colors\PageTemplate.ascx" />
     <Content Include="Skins\Colors\print.css" />
+    <Content Include="Skins\Colors\ScarletAndGrey-search.css" />
+    <Content Include="Skins\Colors\ScarletAndGrey.css" />
     <Content Include="Skins\Colors\search.css" />
     <Content Include="Skins\Colors\Style.css" />
     <Content Include="Skins\Curvy\Controls\ArchiveCategory.ascx" />

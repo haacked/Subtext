@@ -1,0 +1,353 @@
+/*
+Original Design by Adam Particka (webmaster@principleofdesign.com)
+Found on the Open Source Web Design site: http://www.oswd.org/design/preview/id/1570
+
+Design converted to CSS by the Subtext team.
+
+Copied and modified by Dave Donaldson (www.arcware.net).
+*/
+
+body 
+{
+	font-size: small;
+	cursor: default;
+	color: #444;
+}
+
+/*---------- {color scheme} ----------------*/
+/* scarlet */
+a, div.contentbox h2
+{
+    color: #ac2c2b;
+}
+
+/* maroon */
+div.previousNext a
+{
+    color: #8b0000;
+}
+
+/* crimson */
+a:hover, a.printlink:hover
+{
+    color: #dc143c;
+}
+
+div.previousNext a:hover
+{
+}
+
+/* dark grey */
+#title h2
+{
+	color: #aaa;
+}
+
+div.contentbox h2
+{
+	background-color: #f9f9f9;
+}
+
+#header, #sidebar, div.footer
+{
+	border-color: #ddd;
+}
+
+#search input.searchterm
+{
+	color: #444;
+}
+
+/* dark grey */
+#sidebar div.contentbox h2, #content div.contentbox h2
+{
+	border-color: #aaa;
+}
+
+div.contentbox
+{
+	border-color: #777;
+}
+
+/* ---------- {typography} -------------*/
+body
+{
+    font-family: Arial, Verdana, Tahoma;
+    font-size: small;
+}
+
+h1
+{
+	font-size: 1.2em;
+}
+
+h2
+{
+	font-size: 1.0em;
+}
+
+h3
+{
+	font-size: .9em;
+	margin: 0;
+	padding: 0;
+}
+
+#title h1 a
+{
+	font-size: 1.6em;
+	font-weight: normal;
+	text-transform: lowercase;
+}
+
+#title h2
+{
+	font-size: 1.4em;
+	font-weight: normal;
+	text-transform: lowercase;
+}
+
+#sidebar div.contentbox li a
+{
+	font-size: .9em;
+	line-height: .8em;
+}
+
+.postinfo
+{
+    margin-top: 10px;
+	font-size: .8em;
+}
+
+.postinfo a
+{
+	font-size: 1em;
+}
+
+.comment
+{
+	width: 400px;
+	margin: 2px 0 7px 0;
+}
+
+.comment a
+{
+	font-size: .9em;
+}
+
+.commentInfo
+{
+	margin-left: 5px;
+	padding: 4px;
+}
+
+div.commentbody
+{
+	background-color: #fafafa;
+	padding: 8px;
+}
+
+/* Overrides default posttitle */
+.posttitle
+{
+	font-size: 1.2em;
+	font-weight: bold;
+	text-transform: lowercase;
+}
+
+/* Overrides default singleposttitle */
+.singleposttitle
+{
+	font-size: 1.2em;
+	font-weight: bold;
+	text-transform: lowercase;
+}
+
+/* Overrides default itemdesc */
+.itemdesc
+{
+    margin-top: 10px;
+    font-size: .9em;
+}
+
+/* Overrides default printIcon */
+.printIcon
+{
+    font-size: .9em;
+}
+
+/*----------- {links} ------------------*/
+
+a 
+{
+	text-decoration: none;
+	font-size: small;
+}
+
+a:hover, a.printlink:hover 
+{
+	text-decoration: underline;
+}
+
+a.printlink:link, a.printlink:visited  
+{
+
+	text-decoration: none; 
+	background-color: #fff;
+	font-weight: normal;
+}
+
+/* -------------- {layout} -----------------*/
+#main
+{
+	width: 800px;
+	margin: 5px auto 0 auto;
+}
+
+#header
+{
+	float: left;
+	width: 100%;
+	height: 70px;
+	border-bottom: solid 1px;
+}
+
+#title, #title h1, #title h2
+{
+	margin: 0;
+	padding: 0;
+}
+
+#title
+{
+	float: left;
+	width: 420px;
+	margin-left: 5px;
+}
+
+#content
+{
+	clear: both;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+#sidebar
+{
+	width: 163px;
+	float: left;
+	margin: 0 0 0 10px;
+	padding: 0;
+	border-right: solid 1px;
+}
+
+#blogPosts
+{
+	width: 580px;
+	float: left;
+	padding-left: 17px;
+}
+
+#stats
+{
+    text-align: right;
+	margin-right: 15px;
+	margin-top: 5px;
+	font-size: .9em;
+	font-weight: bold;
+	color: #ac2c2b;
+}
+
+div.footer
+{
+	clear: both;
+	border-top: solid 1px;
+	text-align: center;
+}
+
+/* ------------ {sidebar} -------------- */
+
+#sidebar ul
+{
+	margin: 5px 0 0 0;
+	padding: 0;
+}
+
+#sidebar ul li
+{
+	list-style-type: none;
+	line-height: 1.7em;
+}
+
+#sidebar #nav
+{
+	margin-bottom: 20px;
+}
+
+/* ------------ {contentbox} --------------- */
+#sidebar div.contentbox
+{
+	width: 150px;
+}
+
+div.contentbox
+{
+	border: solid 1px;
+	margin-bottom: 20px;
+}
+
+div.contentbox h2
+{
+	border-bottom: solid 1px;
+	margin: 0;
+	padding: 2px 0 2px 0;
+	font-size: 1.0em;
+	text-transform: lowercase;
+	font-weight: normal;
+	text-align: center;
+}
+
+#blogPosts div.contentbox
+{
+	width: 569px;
+	margin: 0;
+	position: relative;
+	bottom:6px;
+	right: 6px;
+}
+
+#blogPosts div.contentbox h2
+{
+	text-align: left;
+	padding-left: 5px;
+}
+
+div.content
+{
+	margin: 7px 5px 7px 7px;
+}
+
+/*---------------- {misc - special effects} --------------*/
+
+.debug
+{
+	display: none;
+}
+
+div.previousNext
+{
+	width: 100%;
+	text-align: center;
+	font-size: .9em;
+	padding: 4px;
+}
+
+span.commentInfo
+{
+	clear: none;
+}
+
+.comment h3
+{
+	clear: both;
+}
