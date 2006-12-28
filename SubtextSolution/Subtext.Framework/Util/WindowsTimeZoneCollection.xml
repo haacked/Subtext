@@ -104,6 +104,37 @@
       <daylightBias>-60</daylightBias>
       <standardDate>
         <year>0</year>
+        <month>11</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>1</day>
+        <hour>2</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </standardDate>
+      <daylightDate>
+        <year>0</year>
+        <month>3</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>2</day>
+        <hour>2</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </daylightDate>
+    </WinTZI>
+  </WindowsTimeZone>
+  <WindowsTimeZone>
+    <DisplayName>(GMT-08:00) Tijuana, Baja California</DisplayName>
+    <DaylightZoneName>Pacific Daylight Time (Mexico)</DaylightZoneName>
+    <StandardZoneName>Pacific Standard Time (Mexico)</StandardZoneName>
+    <ZoneIndex>-2147483579</ZoneIndex>
+    <WinTZI>
+      <bias>480</bias>
+      <standardBias>0</standardBias>
+      <daylightBias>-60</daylightBias>
+      <standardDate>
+        <year>0</year>
         <month>10</month>
         <dayOfWeek>0</dayOfWeek>
         <day>5</day>
@@ -125,12 +156,43 @@
     </WinTZI>
   </WindowsTimeZone>
   <WindowsTimeZone>
-    <DisplayName>(GMT-08:00) Pacific Time (US &amp; Canada); Tijuana</DisplayName>
+    <DisplayName>(GMT-08:00) Pacific Time (US &amp; Canada)</DisplayName>
     <DaylightZoneName>Pacific Daylight Time</DaylightZoneName>
     <StandardZoneName>Pacific Standard Time</StandardZoneName>
     <ZoneIndex>4</ZoneIndex>
     <WinTZI>
       <bias>480</bias>
+      <standardBias>0</standardBias>
+      <daylightBias>-60</daylightBias>
+      <standardDate>
+        <year>0</year>
+        <month>11</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>1</day>
+        <hour>2</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </standardDate>
+      <daylightDate>
+        <year>0</year>
+        <month>3</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>2</day>
+        <hour>2</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </daylightDate>
+    </WinTZI>
+  </WindowsTimeZone>
+  <WindowsTimeZone>
+    <DisplayName>(GMT-07:00) Chihuahua, La Paz, Mazatlan - Old</DisplayName>
+    <DaylightZoneName>Mexico Daylight Time 2</DaylightZoneName>
+    <StandardZoneName>Mexico Standard Time 2</StandardZoneName>
+    <ZoneIndex>13</ZoneIndex>
+    <WinTZI>
+      <bias>420</bias>
       <standardBias>0</standardBias>
       <daylightBias>-60</daylightBias>
       <standardDate>
@@ -187,6 +249,37 @@
     </WinTZI>
   </WindowsTimeZone>
   <WindowsTimeZone>
+    <DisplayName>(GMT-07:00) Chihuahua, La Paz, Mazatlan - New</DisplayName>
+    <DaylightZoneName>Mountain Daylight Time (Mexico)</DaylightZoneName>
+    <StandardZoneName>Mountain Standard Time (Mexico)</StandardZoneName>
+    <ZoneIndex>-2147483580</ZoneIndex>
+    <WinTZI>
+      <bias>420</bias>
+      <standardBias>0</standardBias>
+      <daylightBias>-60</daylightBias>
+      <standardDate>
+        <year>0</year>
+        <month>10</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>5</day>
+        <hour>2</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </standardDate>
+      <daylightDate>
+        <year>0</year>
+        <month>4</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>1</day>
+        <hour>2</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </daylightDate>
+    </WinTZI>
+  </WindowsTimeZone>
+  <WindowsTimeZone>
     <DisplayName>(GMT-07:00) Mountain Time (US &amp; Canada)</DisplayName>
     <DaylightZoneName>Mountain Daylight Time</DaylightZoneName>
     <StandardZoneName>Mountain Standard Time</StandardZoneName>
@@ -197,9 +290,9 @@
       <daylightBias>-60</daylightBias>
       <standardDate>
         <year>0</year>
-        <month>10</month>
+        <month>11</month>
         <dayOfWeek>0</dayOfWeek>
-        <day>5</day>
+        <day>1</day>
         <hour>2</hour>
         <minute>0</minute>
         <second>0</second>
@@ -207,9 +300,9 @@
       </standardDate>
       <daylightDate>
         <year>0</year>
-        <month>4</month>
+        <month>3</month>
         <dayOfWeek>0</dayOfWeek>
-        <day>1</day>
+        <day>2</day>
         <hour>2</hour>
         <minute>0</minute>
         <second>0</second>
@@ -218,41 +311,10 @@
     </WinTZI>
   </WindowsTimeZone>
   <WindowsTimeZone>
-    <DisplayName>(GMT-07:00) Chihuahua, La Paz, Mazatlan</DisplayName>
-    <DaylightZoneName>Mexico Daylight Time 2</DaylightZoneName>
-    <StandardZoneName>Mexico Standard Time 2</StandardZoneName>
-    <ZoneIndex>13</ZoneIndex>
-    <WinTZI>
-      <bias>420</bias>
-      <standardBias>0</standardBias>
-      <daylightBias>-60</daylightBias>
-      <standardDate>
-        <year>0</year>
-        <month>10</month>
-        <dayOfWeek>0</dayOfWeek>
-        <day>5</day>
-        <hour>2</hour>
-        <minute>0</minute>
-        <second>0</second>
-        <milliseconds>0</milliseconds>
-      </standardDate>
-      <daylightDate>
-        <year>0</year>
-        <month>4</month>
-        <dayOfWeek>0</dayOfWeek>
-        <day>1</day>
-        <hour>2</hour>
-        <minute>0</minute>
-        <second>0</second>
-        <milliseconds>0</milliseconds>
-      </daylightDate>
-    </WinTZI>
-  </WindowsTimeZone>
-  <WindowsTimeZone>
-    <DisplayName>(GMT-06:00) Central Time (US &amp; Canada)</DisplayName>
-    <DaylightZoneName>Central Daylight Time</DaylightZoneName>
-    <StandardZoneName>Central Standard Time</StandardZoneName>
-    <ZoneIndex>20</ZoneIndex>
+    <DisplayName>(GMT-06:00) Guadalajara, Mexico City, Monterrey - New</DisplayName>
+    <DaylightZoneName>Central Daylight Time (Mexico)</DaylightZoneName>
+    <StandardZoneName>Central Standard Time (Mexico)</StandardZoneName>
+    <ZoneIndex>-2147483581</ZoneIndex>
     <WinTZI>
       <bias>360</bias>
       <standardBias>0</standardBias>
@@ -311,19 +373,19 @@
     </WinTZI>
   </WindowsTimeZone>
   <WindowsTimeZone>
-    <DisplayName>(GMT-06:00) Guadalajara, Mexico City, Monterrey</DisplayName>
-    <DaylightZoneName>Mexico Daylight Time</DaylightZoneName>
-    <StandardZoneName>Mexico Standard Time</StandardZoneName>
-    <ZoneIndex>30</ZoneIndex>
+    <DisplayName>(GMT-06:00) Central Time (US &amp; Canada)</DisplayName>
+    <DaylightZoneName>Central Daylight Time</DaylightZoneName>
+    <StandardZoneName>Central Standard Time</StandardZoneName>
+    <ZoneIndex>20</ZoneIndex>
     <WinTZI>
       <bias>360</bias>
       <standardBias>0</standardBias>
       <daylightBias>-60</daylightBias>
       <standardDate>
         <year>0</year>
-        <month>10</month>
+        <month>11</month>
         <dayOfWeek>0</dayOfWeek>
-        <day>5</day>
+        <day>1</day>
         <hour>2</hour>
         <minute>0</minute>
         <second>0</second>
@@ -331,9 +393,9 @@
       </standardDate>
       <daylightDate>
         <year>0</year>
-        <month>4</month>
+        <month>3</month>
         <dayOfWeek>0</dayOfWeek>
-        <day>1</day>
+        <day>2</day>
         <hour>2</hour>
         <minute>0</minute>
         <second>0</second>
@@ -373,7 +435,69 @@
     </WinTZI>
   </WindowsTimeZone>
   <WindowsTimeZone>
-    <DisplayName>(GMT-05:00) Bogota, Lima, Quito</DisplayName>
+    <DisplayName>(GMT-06:00) Guadalajara, Mexico City, Monterrey - Old</DisplayName>
+    <DaylightZoneName>Mexico Daylight Time</DaylightZoneName>
+    <StandardZoneName>Mexico Standard Time</StandardZoneName>
+    <ZoneIndex>30</ZoneIndex>
+    <WinTZI>
+      <bias>360</bias>
+      <standardBias>0</standardBias>
+      <daylightBias>-60</daylightBias>
+      <standardDate>
+        <year>0</year>
+        <month>10</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>5</day>
+        <hour>2</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </standardDate>
+      <daylightDate>
+        <year>0</year>
+        <month>4</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>1</day>
+        <hour>2</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </daylightDate>
+    </WinTZI>
+  </WindowsTimeZone>
+  <WindowsTimeZone>
+    <DisplayName>(GMT-05:00) Eastern Time (US &amp; Canada)</DisplayName>
+    <DaylightZoneName>Eastern Daylight Time</DaylightZoneName>
+    <StandardZoneName>Eastern Standard Time</StandardZoneName>
+    <ZoneIndex>35</ZoneIndex>
+    <WinTZI>
+      <bias>300</bias>
+      <standardBias>0</standardBias>
+      <daylightBias>-60</daylightBias>
+      <standardDate>
+        <year>0</year>
+        <month>11</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>1</day>
+        <hour>2</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </standardDate>
+      <daylightDate>
+        <year>0</year>
+        <month>3</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>2</day>
+        <hour>2</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </daylightDate>
+    </WinTZI>
+  </WindowsTimeZone>
+  <WindowsTimeZone>
+    <DisplayName>(GMT-05:00) Bogota, Lima, Quito, Rio Branco</DisplayName>
     <DaylightZoneName>SA Pacific Daylight Time</DaylightZoneName>
     <StandardZoneName>SA Pacific Standard Time</StandardZoneName>
     <ZoneIndex>45</ZoneIndex>
@@ -397,37 +521,6 @@
         <dayOfWeek>0</dayOfWeek>
         <day>0</day>
         <hour>0</hour>
-        <minute>0</minute>
-        <second>0</second>
-        <milliseconds>0</milliseconds>
-      </daylightDate>
-    </WinTZI>
-  </WindowsTimeZone>
-  <WindowsTimeZone>
-    <DisplayName>(GMT-05:00) Eastern Time (US &amp; Canada)</DisplayName>
-    <DaylightZoneName>Eastern Daylight Time</DaylightZoneName>
-    <StandardZoneName>Eastern Standard Time</StandardZoneName>
-    <ZoneIndex>35</ZoneIndex>
-    <WinTZI>
-      <bias>300</bias>
-      <standardBias>0</standardBias>
-      <daylightBias>-60</daylightBias>
-      <standardDate>
-        <year>0</year>
-        <month>10</month>
-        <dayOfWeek>0</dayOfWeek>
-        <day>5</day>
-        <hour>2</hour>
-        <minute>0</minute>
-        <second>0</second>
-        <milliseconds>0</milliseconds>
-      </standardDate>
-      <daylightDate>
-        <year>0</year>
-        <month>4</month>
-        <dayOfWeek>0</dayOfWeek>
-        <day>1</day>
-        <hour>2</hour>
         <minute>0</minute>
         <second>0</second>
         <milliseconds>0</milliseconds>
@@ -479,17 +572,48 @@
         <month>3</month>
         <dayOfWeek>6</dayOfWeek>
         <day>2</day>
-        <hour>0</hour>
-        <minute>0</minute>
-        <second>0</second>
-        <milliseconds>0</milliseconds>
+        <hour>23</hour>
+        <minute>59</minute>
+        <second>59</second>
+        <milliseconds>999</milliseconds>
       </standardDate>
       <daylightDate>
         <year>0</year>
         <month>10</month>
         <dayOfWeek>6</dayOfWeek>
         <day>2</day>
-        <hour>0</hour>
+        <hour>23</hour>
+        <minute>59</minute>
+        <second>59</second>
+        <milliseconds>999</milliseconds>
+      </daylightDate>
+    </WinTZI>
+  </WindowsTimeZone>
+  <WindowsTimeZone>
+    <DisplayName>(GMT-04:00) Manaus</DisplayName>
+    <DaylightZoneName>Central Brazilian Daylight Time</DaylightZoneName>
+    <StandardZoneName>Central Brazilian Standard Time</StandardZoneName>
+    <ZoneIndex>-2147483576</ZoneIndex>
+    <WinTZI>
+      <bias>240</bias>
+      <standardBias>0</standardBias>
+      <daylightBias>-60</daylightBias>
+      <standardDate>
+        <year>0</year>
+        <month>2</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>5</day>
+        <hour>2</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </standardDate>
+      <daylightDate>
+        <year>0</year>
+        <month>11</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>1</day>
+        <hour>2</hour>
         <minute>0</minute>
         <second>0</second>
         <milliseconds>0</milliseconds>
@@ -538,9 +662,9 @@
       <daylightBias>-60</daylightBias>
       <standardDate>
         <year>0</year>
-        <month>10</month>
+        <month>11</month>
         <dayOfWeek>0</dayOfWeek>
-        <day>5</day>
+        <day>1</day>
         <hour>2</hour>
         <minute>0</minute>
         <second>0</second>
@@ -548,9 +672,9 @@
       </standardDate>
       <daylightDate>
         <year>0</year>
-        <month>4</month>
+        <month>3</month>
         <dayOfWeek>0</dayOfWeek>
-        <day>1</day>
+        <day>2</day>
         <hour>2</hour>
         <minute>0</minute>
         <second>0</second>
@@ -602,6 +726,37 @@
         <year>0</year>
         <month>2</month>
         <dayOfWeek>0</dayOfWeek>
+        <day>5</day>
+        <hour>2</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </standardDate>
+      <daylightDate>
+        <year>0</year>
+        <month>11</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>1</day>
+        <hour>2</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </daylightDate>
+    </WinTZI>
+  </WindowsTimeZone>
+  <WindowsTimeZone>
+    <DisplayName>(GMT-03:00) Montevideo</DisplayName>
+    <DaylightZoneName>Montevideo Daylight Time</DaylightZoneName>
+    <StandardZoneName>Montevideo Standard Time</StandardZoneName>
+    <ZoneIndex>-2147483575</ZoneIndex>
+    <WinTZI>
+      <bias>180</bias>
+      <standardBias>0</standardBias>
+      <daylightBias>-60</daylightBias>
+      <standardDate>
+        <year>0</year>
+        <month>3</month>
+        <dayOfWeek>0</dayOfWeek>
         <day>2</day>
         <hour>2</hour>
         <minute>0</minute>
@@ -612,7 +767,7 @@
         <year>0</year>
         <month>10</month>
         <dayOfWeek>0</dayOfWeek>
-        <day>3</day>
+        <day>1</day>
         <hour>2</hour>
         <minute>0</minute>
         <second>0</second>
@@ -807,7 +962,7 @@
     </WinTZI>
   </WindowsTimeZone>
   <WindowsTimeZone>
-    <DisplayName>(GMT) Casablanca, Monrovia</DisplayName>
+    <DisplayName>(GMT) Casablanca, Monrovia, Reykjavik</DisplayName>
     <DaylightZoneName>Greenwich Daylight Time</DaylightZoneName>
     <StandardZoneName>Greenwich Standard Time</StandardZoneName>
     <ZoneIndex>90</ZoneIndex>
@@ -993,29 +1148,60 @@
     </WinTZI>
   </WindowsTimeZone>
   <WindowsTimeZone>
-    <DisplayName>(GMT+02:00) Jerusalem</DisplayName>
-    <DaylightZoneName>Jerusalem Daylight Time</DaylightZoneName>
-    <StandardZoneName>Jerusalem Standard Time</StandardZoneName>
-    <ZoneIndex>135</ZoneIndex>
+    <DisplayName>(GMT+02:00) Cairo</DisplayName>
+    <DaylightZoneName>Egypt Daylight Time</DaylightZoneName>
+    <StandardZoneName>Egypt Standard Time</StandardZoneName>
+    <ZoneIndex>120</ZoneIndex>
     <WinTZI>
       <bias>-120</bias>
       <standardBias>0</standardBias>
       <daylightBias>-60</daylightBias>
       <standardDate>
         <year>0</year>
-        <month>0</month>
-        <dayOfWeek>0</dayOfWeek>
-        <day>0</day>
-        <hour>0</hour>
+        <month>9</month>
+        <dayOfWeek>4</dayOfWeek>
+        <day>5</day>
+        <hour>23</hour>
+        <minute>59</minute>
+        <second>59</second>
+        <milliseconds>0</milliseconds>
+      </standardDate>
+      <daylightDate>
+        <year>0</year>
+        <month>4</month>
+        <dayOfWeek>4</dayOfWeek>
+        <day>5</day>
+        <hour>23</hour>
+        <minute>59</minute>
+        <second>59</second>
+        <milliseconds>0</milliseconds>
+      </daylightDate>
+    </WinTZI>
+  </WindowsTimeZone>
+  <WindowsTimeZone>
+    <DisplayName>(GMT+02:00) Amman</DisplayName>
+    <DaylightZoneName>Jordan Daylight Time</DaylightZoneName>
+    <StandardZoneName>Jordan Standard Time</StandardZoneName>
+    <ZoneIndex>-2147483582</ZoneIndex>
+    <WinTZI>
+      <bias>-120</bias>
+      <standardBias>0</standardBias>
+      <daylightBias>-60</daylightBias>
+      <standardDate>
+        <year>0</year>
+        <month>9</month>
+        <dayOfWeek>5</dayOfWeek>
+        <day>5</day>
+        <hour>1</hour>
         <minute>0</minute>
         <second>0</second>
         <milliseconds>0</milliseconds>
       </standardDate>
       <daylightDate>
         <year>0</year>
-        <month>0</month>
-        <dayOfWeek>0</dayOfWeek>
-        <day>0</day>
+        <month>3</month>
+        <dayOfWeek>4</dayOfWeek>
+        <day>5</day>
         <hour>0</hour>
         <minute>0</minute>
         <second>0</second>
@@ -1024,29 +1210,91 @@
     </WinTZI>
   </WindowsTimeZone>
   <WindowsTimeZone>
-    <DisplayName>(GMT+02:00) Harare, Pretoria</DisplayName>
-    <DaylightZoneName>South Africa Daylight Time</DaylightZoneName>
-    <StandardZoneName>South Africa Standard Time</StandardZoneName>
-    <ZoneIndex>140</ZoneIndex>
+    <DisplayName>(GMT+02:00) Minsk</DisplayName>
+    <DaylightZoneName>E. Europe Daylight Time</DaylightZoneName>
+    <StandardZoneName>E. Europe Standard Time</StandardZoneName>
+    <ZoneIndex>115</ZoneIndex>
     <WinTZI>
       <bias>-120</bias>
       <standardBias>0</standardBias>
       <daylightBias>-60</daylightBias>
       <standardDate>
         <year>0</year>
-        <month>0</month>
+        <month>10</month>
         <dayOfWeek>0</dayOfWeek>
-        <day>0</day>
-        <hour>0</hour>
+        <day>5</day>
+        <hour>3</hour>
         <minute>0</minute>
         <second>0</second>
         <milliseconds>0</milliseconds>
       </standardDate>
       <daylightDate>
         <year>0</year>
-        <month>0</month>
+        <month>3</month>
         <dayOfWeek>0</dayOfWeek>
-        <day>0</day>
+        <day>5</day>
+        <hour>2</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </daylightDate>
+    </WinTZI>
+  </WindowsTimeZone>
+  <WindowsTimeZone>
+    <DisplayName>(GMT+02:00) Windhoek</DisplayName>
+    <DaylightZoneName>Namibia Daylight Time</DaylightZoneName>
+    <StandardZoneName>Namibia Standard Time</StandardZoneName>
+    <ZoneIndex>-2147483578</ZoneIndex>
+    <WinTZI>
+      <bias>-120</bias>
+      <standardBias>0</standardBias>
+      <daylightBias>60</daylightBias>
+      <standardDate>
+        <year>0</year>
+        <month>4</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>1</day>
+        <hour>2</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </standardDate>
+      <daylightDate>
+        <year>0</year>
+        <month>9</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>1</day>
+        <hour>2</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </daylightDate>
+    </WinTZI>
+  </WindowsTimeZone>
+  <WindowsTimeZone>
+    <DisplayName>(GMT+02:00) Beirut</DisplayName>
+    <DaylightZoneName>Middle East Daylight Time</DaylightZoneName>
+    <StandardZoneName>Middle East Standard Time</StandardZoneName>
+    <ZoneIndex>-2147483583</ZoneIndex>
+    <WinTZI>
+      <bias>-120</bias>
+      <standardBias>0</standardBias>
+      <daylightBias>-60</daylightBias>
+      <standardDate>
+        <year>0</year>
+        <month>10</month>
+        <dayOfWeek>6</dayOfWeek>
+        <day>5</day>
+        <hour>23</hour>
+        <minute>59</minute>
+        <second>59</second>
+        <milliseconds>999</milliseconds>
+      </standardDate>
+      <daylightDate>
+        <year>0</year>
+        <month>3</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>5</day>
         <hour>0</hour>
         <minute>0</minute>
         <second>0</second>
@@ -1086,29 +1334,29 @@
     </WinTZI>
   </WindowsTimeZone>
   <WindowsTimeZone>
-    <DisplayName>(GMT+02:00) Bucharest</DisplayName>
-    <DaylightZoneName>E. Europe Daylight Time</DaylightZoneName>
-    <StandardZoneName>E. Europe Standard Time</StandardZoneName>
-    <ZoneIndex>115</ZoneIndex>
+    <DisplayName>(GMT+02:00) Harare, Pretoria</DisplayName>
+    <DaylightZoneName>South Africa Daylight Time</DaylightZoneName>
+    <StandardZoneName>South Africa Standard Time</StandardZoneName>
+    <ZoneIndex>140</ZoneIndex>
     <WinTZI>
       <bias>-120</bias>
       <standardBias>0</standardBias>
       <daylightBias>-60</daylightBias>
       <standardDate>
         <year>0</year>
-        <month>10</month>
+        <month>0</month>
         <dayOfWeek>0</dayOfWeek>
-        <day>5</day>
-        <hour>1</hour>
+        <day>0</day>
+        <hour>0</hour>
         <minute>0</minute>
         <second>0</second>
         <milliseconds>0</milliseconds>
       </standardDate>
       <daylightDate>
         <year>0</year>
-        <month>3</month>
+        <month>0</month>
         <dayOfWeek>0</dayOfWeek>
-        <day>5</day>
+        <day>0</day>
         <hour>0</hour>
         <minute>0</minute>
         <second>0</second>
@@ -1117,7 +1365,7 @@
     </WinTZI>
   </WindowsTimeZone>
   <WindowsTimeZone>
-    <DisplayName>(GMT+02:00) Athens, Beirut, Istanbul, Minsk</DisplayName>
+    <DisplayName>(GMT+02:00) Athens, Bucharest, Istanbul</DisplayName>
     <DaylightZoneName>GTB Daylight Time</DaylightZoneName>
     <StandardZoneName>GTB Standard Time</StandardZoneName>
     <ZoneIndex>130</ZoneIndex>
@@ -1130,7 +1378,7 @@
         <month>10</month>
         <dayOfWeek>0</dayOfWeek>
         <day>5</day>
-        <hour>3</hour>
+        <hour>4</hour>
         <minute>0</minute>
         <second>0</second>
         <milliseconds>0</milliseconds>
@@ -1140,7 +1388,7 @@
         <month>3</month>
         <dayOfWeek>0</dayOfWeek>
         <day>5</day>
-        <hour>2</hour>
+        <hour>3</hour>
         <minute>0</minute>
         <second>0</second>
         <milliseconds>0</milliseconds>
@@ -1148,10 +1396,10 @@
     </WinTZI>
   </WindowsTimeZone>
   <WindowsTimeZone>
-    <DisplayName>(GMT+02:00) Cairo</DisplayName>
-    <DaylightZoneName>Egypt Daylight Time</DaylightZoneName>
-    <StandardZoneName>Egypt Standard Time</StandardZoneName>
-    <ZoneIndex>120</ZoneIndex>
+    <DisplayName>(GMT+02:00) Jerusalem</DisplayName>
+    <DaylightZoneName>Jerusalem Daylight Time</DaylightZoneName>
+    <StandardZoneName>Jerusalem Standard Time</StandardZoneName>
+    <ZoneIndex>135</ZoneIndex>
     <WinTZI>
       <bias>-120</bias>
       <standardBias>0</standardBias>
@@ -1159,40 +1407,9 @@
       <standardDate>
         <year>0</year>
         <month>9</month>
-        <dayOfWeek>3</dayOfWeek>
-        <day>5</day>
-        <hour>2</hour>
-        <minute>0</minute>
-        <second>0</second>
-        <milliseconds>0</milliseconds>
-      </standardDate>
-      <daylightDate>
-        <year>0</year>
-        <month>5</month>
-        <dayOfWeek>5</dayOfWeek>
-        <day>1</day>
-        <hour>2</hour>
-        <minute>0</minute>
-        <second>0</second>
-        <milliseconds>0</milliseconds>
-      </daylightDate>
-    </WinTZI>
-  </WindowsTimeZone>
-  <WindowsTimeZone>
-    <DisplayName>(GMT+03:00) Moscow, St. Petersburg, Volgograd</DisplayName>
-    <DaylightZoneName>Russian Daylight Time</DaylightZoneName>
-    <StandardZoneName>Russian Standard Time</StandardZoneName>
-    <ZoneIndex>145</ZoneIndex>
-    <WinTZI>
-      <bias>-180</bias>
-      <standardBias>0</standardBias>
-      <daylightBias>-60</daylightBias>
-      <standardDate>
-        <year>0</year>
-        <month>10</month>
         <dayOfWeek>0</dayOfWeek>
-        <day>5</day>
-        <hour>3</hour>
+        <day>3</day>
+        <hour>2</hour>
         <minute>0</minute>
         <second>0</second>
         <milliseconds>0</milliseconds>
@@ -1200,40 +1417,9 @@
       <daylightDate>
         <year>0</year>
         <month>3</month>
-        <dayOfWeek>0</dayOfWeek>
+        <dayOfWeek>5</dayOfWeek>
         <day>5</day>
         <hour>2</hour>
-        <minute>0</minute>
-        <second>0</second>
-        <milliseconds>0</milliseconds>
-      </daylightDate>
-    </WinTZI>
-  </WindowsTimeZone>
-  <WindowsTimeZone>
-    <DisplayName>(GMT+03:00) Kuwait, Riyadh</DisplayName>
-    <DaylightZoneName>Arab Daylight Time</DaylightZoneName>
-    <StandardZoneName>Arab Standard Time</StandardZoneName>
-    <ZoneIndex>150</ZoneIndex>
-    <WinTZI>
-      <bias>-180</bias>
-      <standardBias>0</standardBias>
-      <daylightBias>-60</daylightBias>
-      <standardDate>
-        <year>0</year>
-        <month>0</month>
-        <dayOfWeek>0</dayOfWeek>
-        <day>0</day>
-        <hour>0</hour>
-        <minute>0</minute>
-        <second>0</second>
-        <milliseconds>0</milliseconds>
-      </standardDate>
-      <daylightDate>
-        <year>0</year>
-        <month>0</month>
-        <dayOfWeek>0</dayOfWeek>
-        <day>0</day>
-        <hour>0</hour>
         <minute>0</minute>
         <second>0</second>
         <milliseconds>0</milliseconds>
@@ -1272,6 +1458,68 @@
     </WinTZI>
   </WindowsTimeZone>
   <WindowsTimeZone>
+    <DisplayName>(GMT+03:00) Kuwait, Riyadh</DisplayName>
+    <DaylightZoneName>Arab Daylight Time</DaylightZoneName>
+    <StandardZoneName>Arab Standard Time</StandardZoneName>
+    <ZoneIndex>150</ZoneIndex>
+    <WinTZI>
+      <bias>-180</bias>
+      <standardBias>0</standardBias>
+      <daylightBias>-60</daylightBias>
+      <standardDate>
+        <year>0</year>
+        <month>0</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>0</day>
+        <hour>0</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </standardDate>
+      <daylightDate>
+        <year>0</year>
+        <month>0</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>0</day>
+        <hour>0</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </daylightDate>
+    </WinTZI>
+  </WindowsTimeZone>
+  <WindowsTimeZone>
+    <DisplayName>(GMT+03:00) Tbilisi</DisplayName>
+    <DaylightZoneName>Georgian Daylight Time</DaylightZoneName>
+    <StandardZoneName>Georgian Standard Time</StandardZoneName>
+    <ZoneIndex>-2147483577</ZoneIndex>
+    <WinTZI>
+      <bias>-180</bias>
+      <standardBias>0</standardBias>
+      <daylightBias>-60</daylightBias>
+      <standardDate>
+        <year>0</year>
+        <month>0</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>0</day>
+        <hour>0</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </standardDate>
+      <daylightDate>
+        <year>0</year>
+        <month>0</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>0</day>
+        <hour>0</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </daylightDate>
+    </WinTZI>
+  </WindowsTimeZone>
+  <WindowsTimeZone>
     <DisplayName>(GMT+03:00) Nairobi</DisplayName>
     <DaylightZoneName>E. Africa Daylight Time</DaylightZoneName>
     <StandardZoneName>E. Africa Standard Time</StandardZoneName>
@@ -1296,6 +1544,37 @@
         <dayOfWeek>0</dayOfWeek>
         <day>0</day>
         <hour>0</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </daylightDate>
+    </WinTZI>
+  </WindowsTimeZone>
+  <WindowsTimeZone>
+    <DisplayName>(GMT+03:00) Moscow, St. Petersburg, Volgograd</DisplayName>
+    <DaylightZoneName>Russian Daylight Time</DaylightZoneName>
+    <StandardZoneName>Russian Standard Time</StandardZoneName>
+    <ZoneIndex>145</ZoneIndex>
+    <WinTZI>
+      <bias>-180</bias>
+      <standardBias>0</standardBias>
+      <daylightBias>-60</daylightBias>
+      <standardDate>
+        <year>0</year>
+        <month>10</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>5</day>
+        <hour>3</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </standardDate>
+      <daylightDate>
+        <year>0</year>
+        <month>3</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>5</day>
+        <hour>2</hour>
         <minute>0</minute>
         <second>0</second>
         <milliseconds>0</milliseconds>
@@ -1334,6 +1613,37 @@
     </WinTZI>
   </WindowsTimeZone>
   <WindowsTimeZone>
+    <DisplayName>(GMT+04:00) Baku</DisplayName>
+    <DaylightZoneName>Azerbaijan Daylight Time</DaylightZoneName>
+    <StandardZoneName>Azerbaijan Standard Time</StandardZoneName>
+    <ZoneIndex>-2147483584</ZoneIndex>
+    <WinTZI>
+      <bias>-240</bias>
+      <standardBias>0</standardBias>
+      <daylightBias>-60</daylightBias>
+      <standardDate>
+        <year>0</year>
+        <month>10</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>5</day>
+        <hour>5</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </standardDate>
+      <daylightDate>
+        <year>0</year>
+        <month>3</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>5</day>
+        <hour>4</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </daylightDate>
+    </WinTZI>
+  </WindowsTimeZone>
+  <WindowsTimeZone>
     <DisplayName>(GMT+04:00) Abu Dhabi, Muscat</DisplayName>
     <DaylightZoneName>Arabian Daylight Time</DaylightZoneName>
     <StandardZoneName>Arabian Standard Time</StandardZoneName>
@@ -1365,7 +1675,7 @@
     </WinTZI>
   </WindowsTimeZone>
   <WindowsTimeZone>
-    <DisplayName>(GMT+04:00) Baku, Tbilisi, Yerevan</DisplayName>
+    <DisplayName>(GMT+04:00) Yerevan</DisplayName>
     <DaylightZoneName>Caucasus Daylight Time</DaylightZoneName>
     <StandardZoneName>Caucasus Standard Time</StandardZoneName>
     <ZoneIndex>170</ZoneIndex>
@@ -1427,6 +1737,37 @@
     </WinTZI>
   </WindowsTimeZone>
   <WindowsTimeZone>
+    <DisplayName>(GMT+05:00) Islamabad, Karachi, Tashkent</DisplayName>
+    <DaylightZoneName>West Asia Daylight Time</DaylightZoneName>
+    <StandardZoneName>West Asia Standard Time</StandardZoneName>
+    <ZoneIndex>185</ZoneIndex>
+    <WinTZI>
+      <bias>-300</bias>
+      <standardBias>0</standardBias>
+      <daylightBias>-60</daylightBias>
+      <standardDate>
+        <year>0</year>
+        <month>0</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>0</day>
+        <hour>0</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </standardDate>
+      <daylightDate>
+        <year>0</year>
+        <month>0</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>0</day>
+        <hour>0</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </daylightDate>
+    </WinTZI>
+  </WindowsTimeZone>
+  <WindowsTimeZone>
     <DisplayName>(GMT+05:00) Ekaterinburg</DisplayName>
     <DaylightZoneName>Ekaterinburg Daylight Time</DaylightZoneName>
     <StandardZoneName>Ekaterinburg Standard Time</StandardZoneName>
@@ -1458,12 +1799,12 @@
     </WinTZI>
   </WindowsTimeZone>
   <WindowsTimeZone>
-    <DisplayName>(GMT+05:00) Islamabad, Karachi, Tashkent</DisplayName>
-    <DaylightZoneName>West Asia Daylight Time</DaylightZoneName>
-    <StandardZoneName>West Asia Standard Time</StandardZoneName>
-    <ZoneIndex>185</ZoneIndex>
+    <DisplayName>(GMT+05:30) Sri Jayawardenepura</DisplayName>
+    <DaylightZoneName>Sri Lanka Daylight Time</DaylightZoneName>
+    <StandardZoneName>Sri Lanka Standard Time</StandardZoneName>
+    <ZoneIndex>200</ZoneIndex>
     <WinTZI>
-      <bias>-300</bias>
+      <bias>-330</bias>
       <standardBias>0</standardBias>
       <daylightBias>-60</daylightBias>
       <standardDate>
@@ -1582,37 +1923,6 @@
     </WinTZI>
   </WindowsTimeZone>
   <WindowsTimeZone>
-    <DisplayName>(GMT+06:00) Sri Jayawardenepura</DisplayName>
-    <DaylightZoneName>Sri Lanka Daylight Time</DaylightZoneName>
-    <StandardZoneName>Sri Lanka Standard Time</StandardZoneName>
-    <ZoneIndex>200</ZoneIndex>
-    <WinTZI>
-      <bias>-360</bias>
-      <standardBias>0</standardBias>
-      <daylightBias>-60</daylightBias>
-      <standardDate>
-        <year>0</year>
-        <month>0</month>
-        <dayOfWeek>0</dayOfWeek>
-        <day>0</day>
-        <hour>0</hour>
-        <minute>0</minute>
-        <second>0</second>
-        <milliseconds>0</milliseconds>
-      </standardDate>
-      <daylightDate>
-        <year>0</year>
-        <month>0</month>
-        <dayOfWeek>0</dayOfWeek>
-        <day>0</day>
-        <hour>0</hour>
-        <minute>0</minute>
-        <second>0</second>
-        <milliseconds>0</milliseconds>
-      </daylightDate>
-    </WinTZI>
-  </WindowsTimeZone>
-  <WindowsTimeZone>
     <DisplayName>(GMT+06:00) Astana, Dhaka</DisplayName>
     <DaylightZoneName>Central Asia Daylight Time</DaylightZoneName>
     <StandardZoneName>Central Asia Standard Time</StandardZoneName>
@@ -1644,7 +1954,7 @@
     </WinTZI>
   </WindowsTimeZone>
   <WindowsTimeZone>
-    <DisplayName>(GMT+06:30) Rangoon</DisplayName>
+    <DisplayName>(GMT+06:30) Yangon (Rangoon)</DisplayName>
     <DaylightZoneName>Myanmar Daylight Time</DaylightZoneName>
     <StandardZoneName>Myanmar Standard Time</StandardZoneName>
     <ZoneIndex>203</ZoneIndex>
@@ -1892,30 +2202,30 @@
     </WinTZI>
   </WindowsTimeZone>
   <WindowsTimeZone>
-    <DisplayName>(GMT+09:00) Seoul</DisplayName>
-    <DaylightZoneName>Korea Daylight Time</DaylightZoneName>
-    <StandardZoneName>Korea Standard Time</StandardZoneName>
-    <ZoneIndex>230</ZoneIndex>
+    <DisplayName>(GMT+09:00) Yakutsk</DisplayName>
+    <DaylightZoneName>Yakutsk Daylight Time</DaylightZoneName>
+    <StandardZoneName>Yakutsk Standard Time</StandardZoneName>
+    <ZoneIndex>240</ZoneIndex>
     <WinTZI>
       <bias>-540</bias>
       <standardBias>0</standardBias>
       <daylightBias>-60</daylightBias>
       <standardDate>
         <year>0</year>
-        <month>0</month>
+        <month>10</month>
         <dayOfWeek>0</dayOfWeek>
-        <day>0</day>
-        <hour>0</hour>
+        <day>5</day>
+        <hour>3</hour>
         <minute>0</minute>
         <second>0</second>
         <milliseconds>0</milliseconds>
       </standardDate>
       <daylightDate>
         <year>0</year>
-        <month>0</month>
+        <month>3</month>
         <dayOfWeek>0</dayOfWeek>
-        <day>0</day>
-        <hour>0</hour>
+        <day>5</day>
+        <hour>2</hour>
         <minute>0</minute>
         <second>0</second>
         <milliseconds>0</milliseconds>
@@ -1954,30 +2264,30 @@
     </WinTZI>
   </WindowsTimeZone>
   <WindowsTimeZone>
-    <DisplayName>(GMT+09:00) Yakutsk</DisplayName>
-    <DaylightZoneName>Yakutsk Daylight Time</DaylightZoneName>
-    <StandardZoneName>Yakutsk Standard Time</StandardZoneName>
-    <ZoneIndex>240</ZoneIndex>
+    <DisplayName>(GMT+09:00) Seoul</DisplayName>
+    <DaylightZoneName>Korea Daylight Time</DaylightZoneName>
+    <StandardZoneName>Korea Standard Time</StandardZoneName>
+    <ZoneIndex>230</ZoneIndex>
     <WinTZI>
       <bias>-540</bias>
       <standardBias>0</standardBias>
       <daylightBias>-60</daylightBias>
       <standardDate>
         <year>0</year>
-        <month>10</month>
+        <month>0</month>
         <dayOfWeek>0</dayOfWeek>
-        <day>5</day>
-        <hour>3</hour>
+        <day>0</day>
+        <hour>0</hour>
         <minute>0</minute>
         <second>0</second>
         <milliseconds>0</milliseconds>
       </standardDate>
       <daylightDate>
         <year>0</year>
-        <month>3</month>
+        <month>0</month>
         <dayOfWeek>0</dayOfWeek>
-        <day>5</day>
-        <hour>2</hour>
+        <day>0</day>
+        <hour>0</hour>
         <minute>0</minute>
         <second>0</second>
         <milliseconds>0</milliseconds>
@@ -2047,30 +2357,30 @@
     </WinTZI>
   </WindowsTimeZone>
   <WindowsTimeZone>
-    <DisplayName>(GMT+10:00) Hobart</DisplayName>
-    <DaylightZoneName>Tasmania Daylight Time</DaylightZoneName>
-    <StandardZoneName>Tasmania Standard Time</StandardZoneName>
-    <ZoneIndex>265</ZoneIndex>
+    <DisplayName>(GMT+10:00) Brisbane</DisplayName>
+    <DaylightZoneName>E. Australia Daylight Time</DaylightZoneName>
+    <StandardZoneName>E. Australia Standard Time</StandardZoneName>
+    <ZoneIndex>260</ZoneIndex>
     <WinTZI>
       <bias>-600</bias>
       <standardBias>0</standardBias>
       <daylightBias>-60</daylightBias>
       <standardDate>
         <year>0</year>
-        <month>3</month>
+        <month>0</month>
         <dayOfWeek>0</dayOfWeek>
-        <day>5</day>
-        <hour>3</hour>
+        <day>0</day>
+        <hour>0</hour>
         <minute>0</minute>
         <second>0</second>
         <milliseconds>0</milliseconds>
       </standardDate>
       <daylightDate>
         <year>0</year>
-        <month>10</month>
+        <month>0</month>
         <dayOfWeek>0</dayOfWeek>
-        <day>1</day>
-        <hour>2</hour>
+        <day>0</day>
+        <hour>0</hour>
         <minute>0</minute>
         <second>0</second>
         <milliseconds>0</milliseconds>
@@ -2109,30 +2419,61 @@
     </WinTZI>
   </WindowsTimeZone>
   <WindowsTimeZone>
-    <DisplayName>(GMT+10:00) Brisbane</DisplayName>
-    <DaylightZoneName>E. Australia Daylight Time</DaylightZoneName>
-    <StandardZoneName>E. Australia Standard Time</StandardZoneName>
-    <ZoneIndex>260</ZoneIndex>
+    <DisplayName>(GMT+10:00) Vladivostok</DisplayName>
+    <DaylightZoneName>Vladivostok Daylight Time</DaylightZoneName>
+    <StandardZoneName>Vladivostok Standard Time</StandardZoneName>
+    <ZoneIndex>270</ZoneIndex>
     <WinTZI>
       <bias>-600</bias>
       <standardBias>0</standardBias>
       <daylightBias>-60</daylightBias>
       <standardDate>
         <year>0</year>
-        <month>0</month>
+        <month>10</month>
         <dayOfWeek>0</dayOfWeek>
-        <day>0</day>
-        <hour>0</hour>
+        <day>5</day>
+        <hour>3</hour>
         <minute>0</minute>
         <second>0</second>
         <milliseconds>0</milliseconds>
       </standardDate>
       <daylightDate>
         <year>0</year>
-        <month>0</month>
+        <month>3</month>
         <dayOfWeek>0</dayOfWeek>
-        <day>0</day>
-        <hour>0</hour>
+        <day>5</day>
+        <hour>2</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </daylightDate>
+    </WinTZI>
+  </WindowsTimeZone>
+  <WindowsTimeZone>
+    <DisplayName>(GMT+10:00) Hobart</DisplayName>
+    <DaylightZoneName>Tasmania Daylight Time</DaylightZoneName>
+    <StandardZoneName>Tasmania Standard Time</StandardZoneName>
+    <ZoneIndex>265</ZoneIndex>
+    <WinTZI>
+      <bias>-600</bias>
+      <standardBias>0</standardBias>
+      <daylightBias>-60</daylightBias>
+      <standardDate>
+        <year>0</year>
+        <month>3</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>5</day>
+        <hour>3</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <milliseconds>0</milliseconds>
+      </standardDate>
+      <daylightDate>
+        <year>0</year>
+        <month>10</month>
+        <dayOfWeek>0</dayOfWeek>
+        <day>1</day>
+        <hour>2</hour>
         <minute>0</minute>
         <second>0</second>
         <milliseconds>0</milliseconds>
@@ -2161,37 +2502,6 @@
       <daylightDate>
         <year>0</year>
         <month>10</month>
-        <dayOfWeek>0</dayOfWeek>
-        <day>5</day>
-        <hour>2</hour>
-        <minute>0</minute>
-        <second>0</second>
-        <milliseconds>0</milliseconds>
-      </daylightDate>
-    </WinTZI>
-  </WindowsTimeZone>
-  <WindowsTimeZone>
-    <DisplayName>(GMT+10:00) Vladivostok</DisplayName>
-    <DaylightZoneName>Vladivostok Daylight Time</DaylightZoneName>
-    <StandardZoneName>Vladivostok Standard Time</StandardZoneName>
-    <ZoneIndex>270</ZoneIndex>
-    <WinTZI>
-      <bias>-600</bias>
-      <standardBias>0</standardBias>
-      <daylightBias>-60</daylightBias>
-      <standardDate>
-        <year>0</year>
-        <month>10</month>
-        <dayOfWeek>0</dayOfWeek>
-        <day>5</day>
-        <hour>3</hour>
-        <minute>0</minute>
-        <second>0</second>
-        <milliseconds>0</milliseconds>
-      </standardDate>
-      <daylightDate>
-        <year>0</year>
-        <month>3</month>
         <dayOfWeek>0</dayOfWeek>
         <day>5</day>
         <hour>2</hour>
@@ -2246,7 +2556,7 @@
         <month>3</month>
         <dayOfWeek>0</dayOfWeek>
         <day>3</day>
-        <hour>2</hour>
+        <hour>3</hour>
         <minute>0</minute>
         <second>0</second>
         <milliseconds>0</milliseconds>

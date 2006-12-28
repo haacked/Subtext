@@ -35,7 +35,7 @@ namespace UnitTests.Subtext.Framework.Util
 		}
 		
 		[RowTest]
-		[Row(PacificTimeZoneId, "Pacific Standard Time", "Pacific Standard Time", "Pacific Daylight Time", "(GMT-08:00) Pacific Time (US & Canada); Tijuana", -480)]
+		[Row(PacificTimeZoneId, "Pacific Standard Time", "Pacific Standard Time", "Pacific Daylight Time", "(GMT-08:00) Pacific Time (US & Canada)", -480)]
 		[Row(0, "", "", "", "", 0, ExpectedException = typeof(NullReferenceException))]
 		public void CanGetById(int id, string standardName, string standardZoneName, string daylightZoneName, string displayName, int bias)
 		{
@@ -164,9 +164,9 @@ namespace UnitTests.Subtext.Framework.Util
 		public void GetDaylightChangesReturnsProperDaylightSavingsInfo()
 		{
 			WindowsTimeZone pst = WindowsTimeZone.TimeZones.GetById(PacificTimeZoneId); //PST
-			DaylightTime daylightChanges = pst.GetDaylightChanges(2006);
-            DateTime start = DateTime.ParseExact("4/2/2006 2:00:00 AM", "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
-            DateTime end = DateTime.ParseExact("10/29/2006 2:00:00 AM", "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+			DaylightTime daylightChanges = pst.GetDaylightChanges(2007);
+            DateTime start = DateTime.ParseExact("3/11/2007 2:00:00 AM", "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+            DateTime end = DateTime.ParseExact("11/4/2007 2:00:00 AM", "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
 			Assert.AreEqual(start, daylightChanges.Start);
 			Assert.AreEqual(end, daylightChanges.End);
 		}

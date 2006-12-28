@@ -4,12 +4,9 @@
 
 using System;
 using System.Collections;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Security.Permissions;
 using System.Xml.Serialization;
-using Microsoft.Win32;
 using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Util
@@ -139,7 +136,7 @@ namespace Subtext.Framework.Util
 			this.standardZoneName = standardZoneName.Trim();
 			this.zoneIndex = zoneIndex;
 
-			winTZI.InitializeFromByteArray( tzi, 0 );
+			this.winTZI.InitializeFromByteArray( tzi, 0 );
 			this.baseBias = TimeSpan.FromMinutes( winTZI.bias*-1 );
 			this.standardBias = TimeSpan.FromMinutes( winTZI.standardBias*-1 );
 			this.daylightBias = TimeSpan.FromMinutes( winTZI.daylightBias*-1 );
@@ -359,20 +356,7 @@ namespace Subtext.Framework.Util
 
 		static WindowsTimeZone()
 		{
-			RegistryPermission permission = new RegistryPermission(
-				RegistryPermissionAccess.Read, 
-				"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones");
-
-			try
-			{
-				permission.Demand();
-				timeZones = LoadTimeZonesFromRegistry();
-			}
-			catch (Exception ex) //If we can't get into the Registry for any reason, try the fallback...
-			{
-				Trace.WriteLine("Error: LoadTimeZonesFromRegistry " + ex.ToString());
-				timeZones = LoadTimeZonesFromXml();
-			}
+            timeZones = LoadTimeZonesFromXml();
 		}
 
 		public static WindowsTimeZoneCollection TimeZones
@@ -394,29 +378,6 @@ namespace Subtext.Framework.Util
 				tzs = ser.Deserialize(rs) as WindowsTimeZoneCollection;
 			}
 
-			return tzs;
-		}
-
-		private static WindowsTimeZoneCollection LoadTimeZonesFromRegistry()
-		{
-			WindowsTimeZoneCollection tzs = new WindowsTimeZoneCollection();
-            
-			RegistryKey timeZoneListKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones", false);
-			string[] timeZoneKeyNames = timeZoneListKey.GetSubKeyNames();
-			foreach (string timeZoneKeyName in timeZoneKeyNames)
-			{
-				RegistryKey timeZoneKey = timeZoneListKey.OpenSubKey(timeZoneKeyName);
-				WindowsTimeZone windowsTimeZone = 
-					new WindowsTimeZone(
-					timeZoneKey.GetValue("Display") as string,
-					timeZoneKey.GetValue("Dlt") as string,
-					timeZoneKey.GetValue("Std") as string,
-					(int)timeZoneKey.GetValue("Index" ),
-					timeZoneKey.GetValue("TZI") as byte[] );
-
-				tzs.Add( windowsTimeZone );
-			}
-			tzs.SortByTimeZoneBias();
 			return tzs;
 		}
 

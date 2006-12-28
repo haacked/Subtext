@@ -100,13 +100,13 @@ namespace UnitTests.Subtext.Framework.Syndication
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("haacked", "title of the post", "Body of the post.");
 			entry.EntryName = "titleofthepost";
-			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/04/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
-			entry.Url = "/archive/2006/04/01/titleofthepost.aspx";
+			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/02/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+			entry.Url = "/archive/2006/02/01/titleofthepost.aspx";
 			entry.Id = 1001;
 
 			FeedbackItem comment = new FeedbackItem(FeedbackType.Comment);
 			comment.Id = 1002;
-			comment.DateCreated = comment.DateModified = DateTime.ParseExact("2006/04/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+			comment.DateCreated = comment.DateModified = DateTime.ParseExact("2006/02/01", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			comment.Title = "re: titleofthepost";
 			comment.ParentEntryName = entry.EntryName;
 			comment.ParentDateCreated = entry.DateCreated;
@@ -131,7 +131,7 @@ namespace UnitTests.Subtext.Framework.Syndication
 									+ @"xmlns:image=""http://purl.org/rss/1.0/modules/image/"">" + Environment.NewLine
 								+ indent() + @"<channel>" + Environment.NewLine
 										+ indent(2) + @"<title>title of the post</title>" + Environment.NewLine
-										+ indent(2) + @"<link>http://localhost/Subtext.Web/archive/2006/04/01/titleofthepost.aspx</link>" + Environment.NewLine
+										+ indent(2) + @"<link>http://localhost/Subtext.Web/archive/2006/02/01/titleofthepost.aspx</link>" + Environment.NewLine
 										+ indent(2) + @"<description>Body of the post.</description>" + Environment.NewLine
 										+ indent(2) + @"<language>en-US</language>" + Environment.NewLine
 										+ indent(2) + @"<copyright>Subtext Weblog</copyright>" + Environment.NewLine
@@ -140,17 +140,17 @@ namespace UnitTests.Subtext.Framework.Syndication
 										+ indent(2) + @"<image>" + Environment.NewLine
 											+ indent(3) + @"<title>title of the post</title>" + Environment.NewLine
 											+ indent(3) + @"<url>http://localhost/Subtext.Web/images/RSS2Image.gif</url>" + Environment.NewLine
-											+ indent(3) + @"<link>http://localhost/Subtext.Web/archive/2006/04/01/titleofthepost.aspx</link>" + Environment.NewLine
+											+ indent(3) + @"<link>http://localhost/Subtext.Web/archive/2006/02/01/titleofthepost.aspx</link>" + Environment.NewLine
 											+ indent(3) + @"<width>77</width>" + Environment.NewLine
 											+ indent(3) + @"<height>60</height>" + Environment.NewLine
 										+ indent(2) + @"</image>" + Environment.NewLine
 										+ indent(2) + @"<item>" + Environment.NewLine
 											+ indent(3) + @"<title>re: titleofthepost</title>" + Environment.NewLine
-											+ indent(3) + @"<link>http://localhost/Subtext.Web/archive/2006/04/01/titleofthepost.aspx#1002</link>" + Environment.NewLine
+											+ indent(3) + @"<link>http://localhost/Subtext.Web/archive/2006/02/01/titleofthepost.aspx#1002</link>" + Environment.NewLine
 											+ indent(3) + @"<description>&lt;strong&gt;I rule!&lt;/strong&gt;</description>" + Environment.NewLine
 											+ indent(3) + @"<dc:creator>Jane Schmane</dc:creator>" + Environment.NewLine
-											+ indent(3) + @"<guid>http://localhost/Subtext.Web/archive/2006/04/01/titleofthepost.aspx#1002</guid>" + Environment.NewLine
-											+ indent(3) + @"<pubDate>Sat, 01 Apr 2006 08:00:00 GMT</pubDate>" + Environment.NewLine
+											+ indent(3) + @"<guid>http://localhost/Subtext.Web/archive/2006/02/01/titleofthepost.aspx#1002</guid>" + Environment.NewLine
+											+ indent(3) + @"<pubDate>Wed, 01 Feb 2006 08:00:00 GMT</pubDate>" + Environment.NewLine
 										+ indent(2) + @"</item>" + Environment.NewLine
 								+ indent() + @"</channel>" + Environment.NewLine
 							  + @"</rss>";
