@@ -1,22 +1,58 @@
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Framework", "Subtext.Framework\Subtext.Framework.csproj", "{AFE766FE-5FC7-4B64-AE50-E54E9AFD77F0}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.Subtext", "UnitTests.Subtext\UnitTests.Subtext.csproj", "{16036AF0-ED24-4605-8919-90B40510BD68}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Web", "Subtext.Web\Subtext.Web.csproj", "{8C11B428-9C4A-46C3-B7F0-48215276BFA5}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Extensibility", "Subtext.Extensibility\Subtext.Extensibility.csproj", "{13018F20-F796-4FFE-9290-83D0E661C0A1}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Web.Controls", "Subtext.Web.Controls\Subtext.Web.Controls.csproj", "{2278427B-8BAD-4CE9-B15A-FD1131753D64}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Installation", "Subtext.Installation\Subtext.Installation.csproj", "{745B39B7-DE46-4070-8733-C53308721C58}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Scripting", "Subtext.Scripting\Subtext.Scripting.csproj", "{009EBDBA-A3B4-4F01-8BF4-A8947F7C0F7F}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.UnitTesting.Servers", "Subtext.UnitTesting.Servers\Subtext.UnitTesting.Servers.csproj", "{062D373E-FAC0-4451-BF57-8A2352AAC1BB}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9D145684-0EDA-4147-BF81-3B0BED7DA439}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(SolutionItems) = preProject
 		License.txt = License.txt
 		ReleaseChecklist.txt = ReleaseChecklist.txt
@@ -28,10 +64,22 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Providers.BlogEntryEditor.FCKeditor", "Subtext.Providers.BlogEntryEditor.FCKeditor\Subtext.Providers.BlogEntryEditor.FCKeditor.csproj", "{C219C5FF-D4EC-4838-BACF-E3C2C6E69514}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.BlogML", "Subtext.BlogMl\Subtext.BlogML.csproj", "{830310DB-5D6A-453C-908A-058776D9C993}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{DD225739-6817-4A4F-9386-765ABA27C754}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(SolutionItems) = preProject
 		..\BuildTools\CCNET_Config\ccnet.config = ..\BuildTools\CCNET_Config\ccnet.config
 		..\BuildTools\CCNET_Config\dashboard.config = ..\BuildTools\CCNET_Config\dashboard.config
@@ -41,39 +89,77 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{DD225739
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Akismet", "Subtext.Akismet\Subtext.Akismet.csproj", "{4B791A18-F723-4B4F-84D3-F9CCB4B250AB}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Xsl", "Xsl", "{62296603-AF71-481F-9BE0-9B2E49AE5ABB}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(SolutionItems) = preProject
 		..\BuildTools\CCNET_Config\xsl\ndependreport-ccnet.xsl = ..\BuildTools\CCNET_Config\xsl\ndependreport-ccnet.xsl
 		..\BuildTools\CCNET_Config\xsl\ndependsummary-ccnet.xsl = ..\BuildTools\CCNET_Config\xsl\ndependsummary-ccnet.xsl
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{D5B541A8-7926-4EB8-B73A-028B46DA1378}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(SolutionItems) = preProject
 		..\BuildTools\CCNET_Config\templates\ProjectSideBar.vm = ..\BuildTools\CCNET_Config\templates\ProjectSideBar.vm
 		..\BuildTools\CCNET_Config\templates\SiteTemplate.vm = ..\BuildTools\CCNET_Config\templates\SiteTemplate.vm
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Plugins.Examples", "Subtext.Plugins.Examples\Subtext.Plugins.Examples.csproj", "{E92C1C9B-FB2C-457B-B441-3CAEA3DCFC7A}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FxCop", "FxCop", "{9CD3E682-A85C-40BB-AC87-0A512A97E4FF}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(SolutionItems) = preProject
 		..\BuildTools\FxCop\CustomDictionary.xml = ..\BuildTools\FxCop\CustomDictionary.xml
 		..\BuildTools\FxCop\SubtextCodeAnalysis.FxCop = ..\BuildTools\FxCop\SubtextCodeAnalysis.FxCop
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CCNet", "CCNet", "{9B47FF23-3E7A-4673-98A7-8CF6ADDC5801}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(SolutionItems) = preProject
 		..\BuildTools\CCNET_Config\ccnet.config = ..\BuildTools\CCNET_Config\ccnet.config
 		..\BuildTools\CCNET_Config\dashboard.config = ..\BuildTools\CCNET_Config\dashboard.config
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NDepend", "NDepend", "{26436286-3176-4493-9763-DD2CEE11366A}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 	ProjectSection(SolutionItems) = preProject
 		..\BuildTools\NDepend\NDependProject.xml = ..\BuildTools\NDepend\NDependProject.xml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Plugins.Core", "Subtext.Plugins.Core\Subtext.Plugins.Core.csproj", "{840C33F0-FBD2-49B7-9AC4-504E7EE917AA}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Subtext.Tools", "Subtext.Tools\Subtext.Tools.csproj", "{A4805F5F-53F9-40A3-A01F-1F6C7D4660CA}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -281,6 +367,21 @@ Global
 		{840C33F0-FBD2-49B7-9AC4-504E7EE917AA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{840C33F0-FBD2-49B7-9AC4-504E7EE917AA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{840C33F0-FBD2-49B7-9AC4-504E7EE917AA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A4805F5F-53F9-40A3-A01F-1F6C7D4660CA}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{A4805F5F-53F9-40A3-A01F-1F6C7D4660CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4805F5F-53F9-40A3-A01F-1F6C7D4660CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4805F5F-53F9-40A3-A01F-1F6C7D4660CA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A4805F5F-53F9-40A3-A01F-1F6C7D4660CA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A4805F5F-53F9-40A3-A01F-1F6C7D4660CA}.Documentation|.NET.ActiveCfg = Debug|Any CPU
+		{A4805F5F-53F9-40A3-A01F-1F6C7D4660CA}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4805F5F-53F9-40A3-A01F-1F6C7D4660CA}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{A4805F5F-53F9-40A3-A01F-1F6C7D4660CA}.Documentation|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A4805F5F-53F9-40A3-A01F-1F6C7D4660CA}.Documentation|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A4805F5F-53F9-40A3-A01F-1F6C7D4660CA}.Release|.NET.ActiveCfg = Release|Any CPU
+		{A4805F5F-53F9-40A3-A01F-1F6C7D4660CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4805F5F-53F9-40A3-A01F-1F6C7D4660CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4805F5F-53F9-40A3-A01F-1F6C7D4660CA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A4805F5F-53F9-40A3-A01F-1F6C7D4660CA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
