@@ -81,6 +81,7 @@ namespace Subtext.Framework.Data
 		/// Updates the <see cref="HostInfo"/> instance.  If the host record is not in the
 		/// database, one is created. There should only be one host record.
 		/// </summary>
+		/// <param name="host">The HostInfo object.</param>
 		/// <param name="username">The username of the host admin.</param>
 		/// <param name="password">The password of the host admin.</param>
 		/// <param name="passwordSalt">The password salt.</param>
@@ -108,6 +109,7 @@ namespace Subtext.Framework.Data
 		/// <param name="host">The host filter. Set to null to return all blogs.</param>
 		/// <param name="pageIndex">Page index.</param>
 		/// <param name="pageSize">Size of the page.</param>
+		/// <param name="flags"></param>
 		/// <returns></returns>
         public override PagedCollection<BlogInfo> GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlag flags)
 		{
@@ -359,6 +361,7 @@ namespace Subtext.Framework.Data
 		/// Returns the previous and next entry to the specified entry.
 		/// </summary>
 		/// <param name="entryId"></param>
+		/// <param name="postType"></param>
 		/// <returns></returns>
 		public override IList<Entry> GetPreviousAndNextEntries(int entryId, PostType postType)
 		{

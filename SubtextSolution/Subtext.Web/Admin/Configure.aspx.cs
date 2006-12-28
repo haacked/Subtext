@@ -97,6 +97,7 @@ namespace Subtext.Web.Admin.Pages
 		        }
 
 		        //CHANGE: Mail To Weblog changes - Gurkan Yeniceri
+                pnlMailToWeblogConfigWrapper.Visible = info.pop3MTBEnable;
 		        ckbPop3MailToWeblog.Checked = info.pop3MTBEnable;
 		        txbPop3Server.Text = info.pop3Server;
 		        txbPop3User.Text = info.pop3User;
@@ -210,7 +211,22 @@ namespace Subtext.Web.Admin.Pages
 		{    
 			this.ddlTimezone.SelectedIndexChanged += new EventHandler(ddlTimezone_SelectedIndexChanged);
 			this.btnPost.Click += new EventHandler(btnPost_Click);
+            this.ckbPop3MailToWeblog.CheckedChanged += new EventHandler(ckbPop3MailToWeblog_CheckedChanged);
 		}
+
+        void ckbPop3MailToWeblog_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox mailToWeblogCheck = (CheckBox)sender;
+
+            if (mailToWeblogCheck.Checked)
+            {
+                this.pnlMailToWeblogConfigWrapper.Visible = true;
+            }
+            else
+            {
+                this.pnlMailToWeblogConfigWrapper.Visible = false;
+            }
+        }
 		#endregion
 
 		protected void btnPost_Click(object sender, EventArgs e)

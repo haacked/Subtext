@@ -7,6 +7,8 @@ body
 	padding: 0;
 }
 
+.hide { display: none; }
+
 #logo
 {
 	background: url(../../images/SubtextLogo_small.png);
