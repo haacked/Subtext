@@ -25,7 +25,8 @@
 		<ItemTemplate>
 			<tr>
 				<td>
-					<%# DataBinder.Eval(Container.DataItem, "Title") %>
+				    <asp:HyperLink runat="server" NavigateUrl='<%# DataBinder.Eval(Container.DataItem, "FullyQualifiedUrl") %>' ToolTip="View Entry" >
+				        <%# DataBinder.Eval(Container.DataItem, "Title") %></asp:HyperLink>
 				</td>
 				<td>
 					<%# DataBinder.Eval(Container.DataItem, "IsActive") %>
@@ -37,20 +38,21 @@
 					<%# DataBinder.Eval(Container.DataItem, "AggCount") %>
 				</td>				
 				<td>
-					<a href="Referrers.aspx?EntryID=<%# DataBinder.Eval(Container.DataItem, "Id") %>">View</a>
+					<a href="Referrers.aspx?EntryID=<%# DataBinder.Eval(Container.DataItem, "Id") %>" title="View Referrals">View</a>
 				</td>				
 				<td>
-					<asp:LinkButton id="lnkEdit" CausesValidation = "False" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Edit" runat="server" />
+					<asp:LinkButton id="lnkEdit" CausesValidation="False" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Edit" runat="server" />
 				</td>
 				<td>
-					<asp:LinkButton id="lnkDelete" CausesValidation = "False" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Delete" runat="server" />
+					<asp:LinkButton id="lnkDelete" CausesValidation="False" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Delete" runat="server" />
 				</td>
 			</tr>
 		</ItemTemplate>
 		<AlternatingItemTemplate>
 			<tr class="Alt">
 				<td>
-					<%# DataBinder.Eval(Container.DataItem, "Title") %>
+					<asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl='<%# DataBinder.Eval(Container.DataItem, "FullyQualifiedUrl") %>' ToolTip="View Entry" >
+				        <%# DataBinder.Eval(Container.DataItem, "Title") %></asp:HyperLink>
 				</td>
 				<td>
 					<%# DataBinder.Eval(Container.DataItem, "IsActive") %>
@@ -62,13 +64,13 @@
 					<%# DataBinder.Eval(Container.DataItem, "AggCount") %>
 				</td>					
 				<td>
-					<a href="Referrers.aspx?EntryID=<%# DataBinder.Eval(Container.DataItem, "Id") %>">View</a>
+					<a href="Referrers.aspx?EntryID=<%# DataBinder.Eval(Container.DataItem, "Id") %>" title="View Referrals">View</a>
 				</td>				
 				<td>
-					<asp:LinkButton id="lnkEditAlt" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Edit" runat="server" />
+					<asp:LinkButton id="lnkEditAlt" CausesValidation="False" CommandName="Edit" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Edit" runat="server" />
 				</td>
 				<td>
-					<asp:LinkButton id="lnkDeleteAlt" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Delete" runat="server" />
+					<asp:LinkButton id="lnkDeleteAlt" CausesValidation="False" CommandName="Delete" CommandArgument='<%# DataBinder.Eval(Container.DataItem, "Id") %>' Text="Delete" runat="server" />
 				</td>
 			</tr>
 		</AlternatingItemTemplate>
