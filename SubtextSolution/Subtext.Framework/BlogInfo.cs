@@ -650,12 +650,13 @@ namespace Subtext.Framework
 			set{news = value;}
 		}
 
+        //TODO: we need to figure how what we're going to do with this property b/c right now it's not being set/pulled from the db.
 		private string _author = "Subtext Weblog";
 		/// <summary>
 		/// Gets or sets the author of the blog.
 		/// </summary>
 		/// <value></value>
-		public string Author
+        public string Author
 		{
 			get{return _author;}
 			set{_author = value;}

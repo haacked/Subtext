@@ -191,6 +191,42 @@ namespace Subtext.Web.Admin.Pages {
         protected global::System.Web.UI.WebControls.DropDownList ddlCategoryListPostCount;
         
         /// <summary>
+        /// HelpToolTip1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Controls.HelpToolTip HelpToolTip1;
+        
+        /// <summary>
+        /// txbSecondaryCss control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txbSecondaryCss;
+        
+        /// <summary>
+        /// txbNews control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txbNews;
+        
+        /// <summary>
+        /// Panel1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel Panel1;
+        
+        /// <summary>
         /// ckbPop3MailToWeblog control.
         /// </summary>
         /// <remarks>
@@ -198,6 +234,15 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox ckbPop3MailToWeblog;
+        
+        /// <summary>
+        /// pnlMailToWeblogConfigWrapper control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlMailToWeblogConfigWrapper;
         
         /// <summary>
         /// txbPop3Server control.
@@ -279,33 +324,6 @@ namespace Subtext.Web.Admin.Pages {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox ckbPop3DeleteProcessedEmail;
-        
-        /// <summary>
-        /// HelpToolTip1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Subtext.Web.Controls.HelpToolTip HelpToolTip1;
-        
-        /// <summary>
-        /// txbSecondaryCss control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txbSecondaryCss;
-        
-        /// <summary>
-        /// txbNews control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txbNews;
         
         /// <summary>
         /// btnPost control.

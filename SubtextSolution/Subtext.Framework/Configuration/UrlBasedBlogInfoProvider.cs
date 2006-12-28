@@ -52,7 +52,7 @@ namespace Subtext.Framework.Configuration
 		protected const string cacheKey = "BlogInfo-";
 
 		/// <summary>
-		/// Returns the host formatted correctly with "http://" and "www." 
+		/// Returns the host formatted correctly with "http://" or "https://" and "www." 
 		/// if specified.
 		/// </summary>
 		/// <param name="host">Host.</param>
@@ -62,11 +62,11 @@ namespace Subtext.Framework.Configuration
 		{
 			if(useWWW)
 			{
-				return "http://www." +  host;
+				return HttpContext.Current.Request.Url.Scheme + "://www." +  host;
 			}
 			else
 			{
-				return "http://" +  host;
+                return HttpContext.Current.Request.Url.Scheme + "://" + host;
 			}
 		}
 
@@ -93,7 +93,7 @@ namespace Subtext.Framework.Configuration
 		{
 			// First check the context for an existing BlogConfig. This saves us the trouble
 			// of having to figure out which blog we are at.
-			BlogInfo info = (BlogInfo)HttpContext.Current.Items[cacheKey];
+			BlogInfo info = (BlogInfo) HttpContext.Current.Items[cacheKey];
 			
 #if DEBUG
 			if(info != null)
@@ -112,11 +112,9 @@ namespace Subtext.Framework.Configuration
 				if(info == null)
 				{
 					//Not found in the cache
-					bool strict = true; //strict implies 
-					
 					log.DebugFormat("Attempting to get blog info. Host: {0}, Subfolder: {1}", blogRequest.Host, blogRequest.Subfolder);
 					
-                    info = Config.GetBlogInfo(blogRequest.Host, blogRequest.Subfolder, !strict);
+                    info = Config.GetBlogInfo(blogRequest.Host, blogRequest.Subfolder, false);
 					if(info == null)
 					{
 						log.InfoFormat("No active blog found for Host: {0}, Subfolder: {1}", blogRequest.Host, blogRequest.Subfolder);
@@ -148,7 +146,7 @@ namespace Subtext.Framework.Configuration
 					if(webApp.Length <= 1)
 						webApp="";
 
-					string formattedHost = GetFormattedHost(blogRequest.Host, settings.UseWWW)+webApp;
+					string formattedHost = GetFormattedHost(blogRequest.Host, settings.UseWWW) + webApp;
 
 					string subfolder = blogRequest.Subfolder;
 					if(!subfolder.EndsWith("/"))

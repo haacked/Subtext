@@ -14,7 +14,9 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
@@ -219,6 +221,61 @@ namespace Subtext.Web.Controls
 				link.Attributes["title"] = title;
 			}
 		}
+
+        /// <summary>
+        /// Adds the given className to the control's CssClass attribute 
+        /// w/o overwriting the control's existing CSS Classes.
+        /// </summary>
+        /// <param name="control">The WebControl to add a CSS Class to.</param>
+        /// <param name="className">The CSS Class Name to add.</param>
+        public static void AddClass(WebControl control, string className)
+        {
+            IList classes = GetClasses(control);
+
+            if (!classes.Contains(className))
+            {
+                classes.Add(className);
+                control.CssClass = string.Join(" ", (string[])ArrayList.Adapter(classes).ToArray(typeof(string)));
+            }
+        }
+
+        /// <summary>
+        /// Removes the given className from the control's CssClass attribute 
+        /// w/o removing the control's other existing CSS Classes. If the given 
+        /// className doesn't exist on the control, nothing is done.
+        /// </summary>
+        /// <param name="control">The WebControl to remove a CSS Class from.</param>
+        /// <param name="className">The CSS Class Name to remove.</param>
+        public static void RemoveClass(WebControl control, string className)
+        {
+            IList classes = GetClasses(control);
+
+            if (classes.Contains(className))
+            {
+                classes.Remove(className);
+                control.CssClass = string.Join(" ", (string[])ArrayList.Adapter(classes).ToArray(typeof(string)));
+            }
+        }
+
+        /// <summary>
+        /// Gets an IList of CSS Class Names for the given control.
+        /// </summary>
+        /// <param name="control">The WebControl</param>
+        /// <returns>IList of CSS Class Names (strings)</returns>
+        public static IList GetClasses(WebControl control)
+        {
+            IList classes = new ArrayList();
+
+            if (control.CssClass.Length > 0)
+            {
+                foreach (string className in Regex.Split(control.CssClass, @"\s+"))
+                {
+                    classes.Add(className);
+                }
+            }
+
+            return classes;
+        }
 	}
 
 	public delegate void ControlAction(Control control);
