@@ -256,12 +256,11 @@ namespace Subtext.Framework.XmlRpc
 	        try
 	        {
 	            //We don't validate the file because newMediaObject allows file to be overwritten
-	            //We don't validate the file because newMediaObject allows file to be overwritten
 	            //But we do check the directory and create if necessary
-	            //The media object's name can have extra folders appended so we check for this here too.
+	            //The media object's name can have extra folders appended (WLW especially does this) 
+                //so we check for this here too.
                 Images.CheckDirectory(Config.CurrentBlog.ImageDirectory + mediaobject.name.Substring(0, mediaobject.name.LastIndexOf("/") + 1 ).Replace("/", "\\"));
-                FileStream fStream = new FileStream(Config.CurrentBlog.ImageDirectory + mediaobject.name, FileMode.Create);
-                BinaryWriter bw = new BinaryWriter(fStream);
+                BinaryWriter bw = new BinaryWriter(new FileStream(Config.CurrentBlog.ImageDirectory + mediaobject.name, FileMode.Create));
                 bw.Write(mediaobject.bits);	            
 	        }
 	        //Any IO exceptions, we throw a new XmlRpcFault Exception
