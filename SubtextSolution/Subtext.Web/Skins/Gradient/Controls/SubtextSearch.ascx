@@ -1,17 +1,19 @@
 <%@ Control Language="c#" AutoEventWireup="false" Inherits="Subtext.Web.UI.Controls.SubtextSearch" %>
-<div id="searchBox">
-<asp:TextBox id="txtSearch" runat="server" class="sText"></asp:TextBox>
-<asp:Button id="btnSearch" runat="server" class="sButton" CausesValidation="False"></asp:Button>
-<br />
+<div id="search">
+    <label for="txtSearch">Search:</label>
+    <asp:TextBox id="txtSearch" runat="server" CssClass="searchterm"></asp:TextBox>
+    <asp:Button id="btnSearch" runat="server" CssClass="searchButton" CausesValidation="False"></asp:Button>
 
-<h5>Results</h5>
-<asp:Repeater id="SearchResults" runat="server">
-	<ItemTemplate>
-		<div id="item">
-			<a href="<%# DataBinder.Eval(Container.DataItem, "url") %>"> 
-			<%# DataBinder.Eval(Container.DataItem, "Title") %> 
-			</a>
-		</div>
-	</ItemTemplate>
-</asp:Repeater>
+    <div id="searchResults">
+        <h5>Results</h5>
+        <asp:Repeater id="Repeater1" runat="server">
+	        <ItemTemplate>
+		        <div id="item">
+			        <a href="<%# DataBinder.Eval(Container.DataItem, "url") %>"> 
+			        <%# DataBinder.Eval(Container.DataItem, "Title") %> 
+			        </a>
+		        </div>
+	        </ItemTemplate>
+        </asp:Repeater>
+    </div>
 </div>

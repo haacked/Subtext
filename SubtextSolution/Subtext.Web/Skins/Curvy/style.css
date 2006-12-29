@@ -151,20 +151,20 @@ div#content
 	/* the title of the comment form */
 }
 
-#searchbox
+#search
 {
-	/* container for the searchbox */
+	/* container for the search box */
 	padding-left: 3px;
 	vertical-align: middle;
 }
-#searchbox .searchinput
+#search .searchterm
 {
 	/* the text box that search terms are typed into */
 	color: #030; 
 	border: 1px solid #ccc;
 	height: 19px;
 }
-#searchbox .searchbutton
+#search .searchButton
 {
 	/* the button pressed to initiate the search */
 	color: #030; 

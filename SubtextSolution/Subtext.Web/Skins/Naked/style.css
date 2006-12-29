@@ -83,15 +83,15 @@ body
 {
 	/* the title of the comment form */
 }
-#searchBox
+#search
 {
-	/* container for the searchbox */
+	/* container for the search box */
 }
-#searchBox .searchInput
+#search .searchterm
 {
 	/* the text box that search terms are typed into */
 }
-#searchBox .seachButton
+#search .seachButton
 {
 	/* the button pressed to initiate the search */
 }
