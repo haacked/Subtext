@@ -116,7 +116,7 @@ namespace Subtext.Web.UI.Controls
 						// we should probably change skin format to dynamically wire up to 
 						// skin located title and permalinks at some point
 						title.Text = string.Format(CultureInfo.InvariantCulture, "{2}&nbsp;{0}{1}", Anchor(feedbackItem.Id), 
-							feedbackItem.Title, Link(feedbackItem.Title, feedbackItem.SourceUrl));
+							feedbackItem.Title, Link(feedbackItem.Title, feedbackItem.DisplayUrl));
 					}
 
 					//Shows the name of the commenter with a link if provided.
@@ -204,10 +204,6 @@ namespace Subtext.Web.UI.Controls
 
 							ControlHelper.SetTitleIfNone(editlink, "Click to remove this entry.");
 						}
-						else
-						{
-							editlink.Visible = false;
-						}
 					}
 				}
 			}
@@ -220,7 +216,7 @@ namespace Subtext.Web.UI.Controls
 			{
 				return string.Empty;
 			}			
-			return string.Format(linktag, title, link.ToString());
+			return string.Format(linktag, title, link);
 		}
 
 		// GC: xhmtl format wreaking havoc in non-xhtml pages in non-IE, changed to non nullable format
