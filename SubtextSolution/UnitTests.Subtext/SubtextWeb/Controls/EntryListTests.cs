@@ -1,8 +1,8 @@
-using System;
 using MbUnit.Framework;
-using Subtext.Web.UI.Controls;
-using Subtext.Framework.Components;
 using Subtext.Extensibility;
+using Subtext.Framework.Components;
+using Subtext.Web.UI.Controls;
+
 namespace UnitTests.Subtext.SubtextWeb.Controls
 {
     [TestFixture]
@@ -39,9 +39,6 @@ namespace UnitTests.Subtext.SubtextWeb.Controls
             entry.Body = "This is a test blog post with more than 10 words";
             returned = EntryList.ShowTruncatedBody(entry,6);
             Assert.AreEqual("<p>This is a test blog post...</p>", returned);
-
         }
-
-
     }
 }
