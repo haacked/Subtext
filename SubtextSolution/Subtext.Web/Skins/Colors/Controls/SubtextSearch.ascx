@@ -6,6 +6,9 @@
 		<HeaderTemplate>
 			<div id="searchResults">
 				<h5>Results</h5>
+				<div class="searchClose">
+					<a href="<%# HttpContext.Current.Request.Url %>" title="Close Results">[x]</a>
+				</div>
 				<ul>
 		</HeaderTemplate>
 		<ItemTemplate>
