@@ -5,6 +5,7 @@
 <%@ Register TagPrefix="origami" TagName="SingleColumn" Src="Controls/SingleColumn.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="News" Src="Controls/News.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="MyLinks" Src="Controls/MyLinks.ascx" %>
+<%@ Register TagPrefix="uc1" TagName="SyndicatonLinks" Src="Controls/SyndicationLinks.ascx" %>
 <%@ Import Namespace="Subtext.Framework.Configuration" %>
 <script type="text/javascript">setUserStyles();</script>
   <!--[if IE]>
@@ -35,10 +36,7 @@
                         <origami:SingleColumn id="column" runat="server" />
                         <div class="sidebar-node">
                             <h3 id="syndicate-heading">Syndicate</h3>
-                            <ul id="syndicate-list">
-                                <li class="RSS"><a title="RSS 2.0 feed" href="#" runat="server">RSS Feed</a></li>
-                                <li class="RSS"><a title="Atom feed" href="#" runat="server">Atom Feed</a></li>
-                            </ul>
+                            <uc1:SyndicatonLinks ID="SyndicationLinks1" runat="Server" />
                         </div>
                     </div>
                 </div>

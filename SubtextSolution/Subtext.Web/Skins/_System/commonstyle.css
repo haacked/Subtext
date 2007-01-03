@@ -192,7 +192,8 @@ ul.horizontal li
 	clear: both;
 }
 
-.clear
-{
-	clear: both;
-}
+.clear { clear: both; }
+.left { float:left; }
+.right { float: right; }
+.block { display: block; }
+.inline { display: inline; }
