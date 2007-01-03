@@ -26,7 +26,8 @@
 /* ------------- {typography} ----------------- */
 #searchResults h5
 {
-	font-size: 1em;
+	float: left;
+	font-size: 1.1em;
 	color: #444;
 	margin: 0;
 	padding: 0;
