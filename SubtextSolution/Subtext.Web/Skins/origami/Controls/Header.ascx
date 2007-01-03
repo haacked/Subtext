@@ -15,14 +15,14 @@
                                 <h3>So what are all these buttons for?</h3>
                                 <p>This blog has personalition features for you, the reader. Below is a key of what all the icons mean and which aspects of the layout they change.</p>
                                 <ol class="menu">
-                                    <li><img alt="Set font size to medium (default)" src="~/skins/origami/images/icon_mediumText.png" />Set font size to medium (default) </li>
-                                    <li><img alt="Set font size to large" src="~/skins/origami/images/icon_largeText.png" />Set font size to large </li>
-                                    <li><img alt="Set font size to x-large" src="~/skins/origami/images/icon_xLargeText.png" />Set font size to x-large </li>
-                                    <li><img alt="Set layout to 'Jello' (min-width:770px \ max-width:1200px)" src="~/skins/origami/images/icon_jello.png" />Set layout to "Jello" (min-width:770px \ max-width:1200px) (default) </li>
-                                    <li><img alt="Set layout to 'Fluid' (width: 100%)" src="~/skins/origami/images/icon_fluid.png" />Set layout to "Fluid" (width: 100%) </li>
-                                    <li><img alt="Set layout to 'Fixed' (width: 760px) (default)" src="~/skins/origami/images/icon_fixed.png" />Set layout to "Fixed" (width: 760px) </li>
-                                    <li><img alt="Place navigation on the right of the screen (default)" src="~/skins/origami/images/icon_rightSideBar.png" />Place navigation on the right of the screen (default) </li>
-                                    <li><img alt="Place navigation on the left of the screen" src="~/skins/origami/images/icon_leftSideBar.png" />Place navigation on the left of the screen </li>
+                                    <li><asp:image runat="server" AlternateText="Set font size to medium (default)" ImageUrl="~/skins/origami/images/icon_mediumText.png" />Set font size to medium (default) </li>
+                                    <li><asp:image runat="server" AlternateText="Set font size to large" ImageUrl="~/skins/origami/images/icon_largeText.png" />Set font size to large </li>
+                                    <li><asp:image runat="server" AlternateText="Set font size to x-large" ImageUrl="~/skins/origami/images/icon_xLargeText.png" />Set font size to x-large </li>
+                                    <li><asp:image runat="server" AlternateText="Set layout to 'Jello' (min-width:770px \ max-width:1200px)" ImageUrl="~/skins/origami/images/icon_jello.png" />Set layout to "Jello" (min-width:770px \ max-width:1200px) (default) </li>
+                                    <li><asp:image runat="server" AlternateText="Set layout to 'Fluid' (width: 100%)" ImageUrl="~/skins/origami/images/icon_fluid.png" />Set layout to "Fluid" (width: 100%) </li>
+                                    <li><asp:image runat="server" AlternateText="Set layout to 'Fixed' (width: 760px) (default)" ImageUrl="~/skins/origami/images/icon_fixed.png" />Set layout to "Fixed" (width: 760px) </li>
+                                    <li><asp:image runat="server" AlternateText="Place navigation on the right of the screen (default)" ImageUrl="~/skins/origami/images/icon_rightSideBar.png" />Place navigation on the right of the screen (default) </li>
+                                    <li><asp:image runat="server" AlternateText="Place navigation on the left of the screen" ImageUrl="~/skins/origami/images/icon_leftSideBar.png" />Place navigation on the left of the screen </li>
                                 </ol>
                                 <p id="personalization-instructions-close"><a title="Close Help Instructions" href="#">Close Window</a></p>
                             </div>
