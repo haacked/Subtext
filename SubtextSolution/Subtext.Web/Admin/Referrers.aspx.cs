@@ -146,13 +146,16 @@ namespace Subtext.Web.Admin.Pages
 
 		}
 
-		public static string GetReferrer(object dataContainer)
+		public string GetReferrer(object dataContainer)
 		{
 
 			if (dataContainer is Referrer)
 			{
 				Referrer referrer = (Referrer) dataContainer;
-				return "<a href=\"" + referrer.ReferrerURL + "\" target=\"_new\">" + referrer.ReferrerURL.Substring(0,referrer.ReferrerURL.Length > 50 ? 50 : referrer.ReferrerURL.Length) + "</a>";
+                string encodedReferrerUrl = Server.UrlEncode(referrer.ReferrerURL);
+
+                return "<a href=\"" + encodedReferrerUrl + "\" target=\"_new\">" +
+                    referrer.ReferrerURL.Substring(0, encodedReferrerUrl.Length > 50 ? 50 : encodedReferrerUrl.Length) + "</a>";
 			}
 			else
 			{
