@@ -76,7 +76,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
             entry.Categories.Add("Test");
             Entries.Create(entry);
 
-            api.deletePost(String.Empty, entry.Id.ToString(), "username", "password", true);
+            api.deletePost(String.Empty, entry.Id.ToString(CultureInfo.InvariantCulture), "username", "password", true);
 
             Assert.IsNull(Entries.GetEntry(entry.Id, PostConfig.None,false) != null);
         }
