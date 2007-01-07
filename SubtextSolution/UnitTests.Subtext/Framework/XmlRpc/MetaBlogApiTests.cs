@@ -58,7 +58,29 @@ namespace UnitTests.Subtext.Framework.XmlRpc
     		string result = api.newPost(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture), "username", "password", post, true);
 			int.Parse(result);
     	}
-    	
+
+        [Test]
+        [RollBack]
+        public void DeletePost()
+        {
+            UnitTestHelper.SetupBlogWithUserAndPassword("username", "password");
+            Config.CurrentBlog.AllowServiceAccess = true;
+
+            MetaWeblog api = new MetaWeblog();
+
+            Entry entry = new Entry(PostType.BlogPost);
+            entry.Title = "Title 1";
+            entry.Body = "Blah";
+            entry.IsActive = true;
+            entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("1975/01/23", "yyyy/MM/dd", CultureInfo.InvariantCulture);
+            entry.Categories.Add("Test");
+            Entries.Create(entry);
+
+            api.deletePost(String.Empty, entry.Id.ToString(), "username", "password", true);
+
+            Assert.IsNull(Entries.GetEntry(entry.Id, PostConfig.None,false) != null);
+        }
+
         [Test]
         [RollBack]
         public void GetRecentPostsReturnsRecentPosts()
