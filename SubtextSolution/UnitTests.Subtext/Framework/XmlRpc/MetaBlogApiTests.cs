@@ -78,7 +78,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 
             api.deletePost(String.Empty, entry.Id.ToString(CultureInfo.InvariantCulture), "username", "password", true);
 
-            Assert.IsNull(Entries.GetEntry(entry.Id, PostConfig.None,false) != null);
+            Assert.IsNull(Entries.GetEntry(entry.Id, PostConfig.None,false));
         }
 
         [Test]
