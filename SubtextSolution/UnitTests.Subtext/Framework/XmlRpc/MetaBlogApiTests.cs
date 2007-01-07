@@ -61,7 +61,7 @@ namespace UnitTests.Subtext.Framework.XmlRpc
 
         [Test]
         [RollBack]
-        public void DeletePost()
+        public void DeletePostDeletesPost()
         {
             UnitTestHelper.SetupBlogWithUserAndPassword("username", "password");
             Config.CurrentBlog.AllowServiceAccess = true;
