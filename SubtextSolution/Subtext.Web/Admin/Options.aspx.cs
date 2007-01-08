@@ -25,15 +25,16 @@ namespace Subtext.Web.Admin.Pages
             TabSectionId = "Options";
 	    }
 	    
-		protected virtual void Page_Load(object sender, System.EventArgs e)
+		protected virtual void Page_Load(object sender, EventArgs e)
 		{
-			//if (!IsPostBack)
-			//{
-			BindLocalUI();
-			//}
+            if (!IsPostBack)
+            {
+                BindLocalUI();
+            }
+		    BindActionsListUI();
 		}
 		
-		protected virtual void BindLocalUI()
+		protected virtual void BindActionsListUI()
 		{
 			HyperLink lnkConfigure = Utilities.CreateHyperLink("Configure", "Configure.aspx");
 			HyperLink lnkSyndication = Utilities.CreateHyperLink("Syndication", "Syndication.aspx");
@@ -54,7 +55,11 @@ namespace Subtext.Web.Admin.Pages
 			AdminMasterPage.AddToActions(lnkPluginList);
 		}
 
-		#region Web Form Designer generated code
+        protected virtual void BindLocalUI()
+        {
+        }
+
+	    #region Web Form Designer generated code
 		override protected void OnInit(EventArgs e)
 		{
 			//
@@ -73,7 +78,6 @@ namespace Subtext.Web.Admin.Pages
 
 		}
 		#endregion
-
 	}
 }
 

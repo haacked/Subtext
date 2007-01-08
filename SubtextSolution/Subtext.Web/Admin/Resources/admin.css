@@ -856,12 +856,12 @@ div.options, fieldset.options
 {
 	width: 350px; 
 	float: left;
-	margin-right: 20px;
+	margin-right: 10px;
 }
 
 div.wide, fieldset.wide
 {
-	width: 420px;
+	width: 430px;
 }
 
 #editPost .textbox
