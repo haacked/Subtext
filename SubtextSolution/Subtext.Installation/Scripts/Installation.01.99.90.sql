@@ -49,7 +49,7 @@ IF NOT EXISTS
 	)
 	/* Add an OwnerId column to subtext_Config */
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config] ADD
-	[Subfolder] nvarchar(50) NOT NULL 
+	[Subfolder] nvarchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL 
 	CONSTRAINT DF_subtext_Config_Subfolder DEFAULT ''
 GO
 
@@ -138,8 +138,8 @@ IF NOT EXISTS
 )
 BEGIN
 CREATE TABLE [<dbUser,varchar,dbo>].[subtext_SchemaVersions](
-	[Feature] [nvarchar](128) NOT NULL,
-	[CompatibleSchemaVersion] [nvarchar](128) NOT NULL,
+	[Feature] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[CompatibleSchemaVersion] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[IsCurrentVersion] [bit] NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
@@ -166,18 +166,18 @@ CREATE TABLE [<dbUser,varchar,dbo>].[subtext_WebEvent_Events](
 	[EventId] [char](32) NOT NULL,
 	[EventTimeUtc] [datetime] NOT NULL,
 	[EventTime] [datetime] NOT NULL,
-	[EventType] [nvarchar](256) NOT NULL,
+	[EventType] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[EventSequence] [decimal](19, 0) NOT NULL,
 	[EventOccurrence] [decimal](19, 0) NOT NULL,
 	[EventCode] [int] NOT NULL,
 	[EventDetailCode] [int] NOT NULL,
-	[Message] [nvarchar](1024) NULL,
-	[ApplicationPath] [nvarchar](256) NULL,
-	[ApplicationVirtualPath] [nvarchar](256) NULL,
-	[MachineName] [nvarchar](256) NOT NULL,
-	[RequestUrl] [nvarchar](1024) NULL,
-	[ExceptionType] [nvarchar](256) NULL,
-	[Details] [ntext] NULL,
+	[Message] [nvarchar](1024) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ApplicationPath] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ApplicationVirtualPath] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[MachineName] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[RequestUrl] [nvarchar](1024) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ExceptionType] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Details] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[EventId] ASC
@@ -198,10 +198,10 @@ IF NOT EXISTS
 )
 BEGIN
 CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Applications](
-	[ApplicationName] [nvarchar](256) NOT NULL,
-	[LoweredApplicationName] [nvarchar](256) NOT NULL,
+	[ApplicationName] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[LoweredApplicationName] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[ApplicationId] [uniqueidentifier] NOT NULL DEFAULT (newid()),
-	[Description] [nvarchar](256) NULL,
+	[Description] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 PRIMARY KEY NONCLUSTERED 
 (
 	[ApplicationId] ASC
@@ -303,9 +303,9 @@ BEGIN
 CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Users](
 	[ApplicationId] [uniqueidentifier] NOT NULL,
 	[UserId] [uniqueidentifier] NOT NULL DEFAULT (newid()),
-	[UserName] [nvarchar](256) NOT NULL,
-	[LoweredUserName] [nvarchar](256) NOT NULL,
-	[MobileAlias] [nvarchar](16) NULL DEFAULT (null),
+	[UserName] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[LoweredUserName] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[MobileAlias] [nvarchar](16) COLLATE SQL_Latin1_General_CP1_CI_AS NULL DEFAULT (null),
 	[IsAnonymous] [bit] NOT NULL DEFAULT (0),
 	[LastActivityDate] [datetime] NOT NULL,
 PRIMARY KEY NONCLUSTERED 
@@ -330,9 +330,9 @@ BEGIN
 CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Roles](
 	[ApplicationId] [uniqueidentifier] NOT NULL,
 	[RoleId] [uniqueidentifier] NOT NULL DEFAULT (newid()),
-	[RoleName] [nvarchar](256) NOT NULL,
-	[LoweredRoleName] [nvarchar](256) NOT NULL,
-	[Description] [nvarchar](256) NULL,
+	[RoleName] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[LoweredRoleName] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[Description] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 PRIMARY KEY NONCLUSTERED 
 (
 	[RoleId] ASC
@@ -355,8 +355,8 @@ BEGIN
 CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Paths](
 	[ApplicationId] [uniqueidentifier] NOT NULL,
 	[PathId] [uniqueidentifier] NOT NULL DEFAULT (newid()),
-	[Path] [nvarchar](256) NOT NULL,
-	[LoweredPath] [nvarchar](256) NOT NULL,
+	[Path] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[LoweredPath] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 PRIMARY KEY NONCLUSTERED 
 (
 	[PathId] ASC
@@ -379,14 +379,14 @@ BEGIN
 CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Membership](
 	[ApplicationId] [uniqueidentifier] NOT NULL,
 	[UserId] [uniqueidentifier] NOT NULL,
-	[Password] [nvarchar](128) NOT NULL,
+	[Password] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[PasswordFormat] [int] NOT NULL DEFAULT (0),
-	[PasswordSalt] [nvarchar](128) NOT NULL,
-	[MobilePIN] [nvarchar](16) NULL,
-	[Email] [nvarchar](256) NULL,
-	[LoweredEmail] [nvarchar](256) NULL,
-	[PasswordQuestion] [nvarchar](256) NULL,
-	[PasswordAnswer] [nvarchar](128) NULL,
+	[PasswordSalt] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[MobilePIN] [nvarchar](16) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Email] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[LoweredEmail] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[PasswordQuestion] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[PasswordAnswer] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[IsApproved] [bit] NOT NULL,
 	[IsLockedOut] [bit] NOT NULL,
 	[CreateDate] [datetime] NOT NULL,
@@ -419,8 +419,8 @@ IF NOT EXISTS
 BEGIN
 CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Profile](
 	[UserId] [uniqueidentifier] NOT NULL,
-	[PropertyNames] [ntext] NOT NULL,
-	[PropertyValuesString] [ntext] NOT NULL,
+	[PropertyNames] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[PropertyValuesString] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[PropertyValuesBinary] [image] NOT NULL,
 	[LastUpdatedDate] [datetime] NOT NULL,
 PRIMARY KEY CLUSTERED 
