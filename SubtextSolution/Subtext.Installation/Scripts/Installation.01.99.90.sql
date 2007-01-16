@@ -397,7 +397,7 @@ CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Membership](
 	[FailedPasswordAttemptWindowStart] [datetime] NOT NULL,
 	[FailedPasswordAnswerAttemptCount] [int] NOT NULL,
 	[FailedPasswordAnswerAttemptWindowStart] [datetime] NOT NULL,
-	[Comment] [ntext] NULL,
+	[Comment] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 PRIMARY KEY NONCLUSTERED 
 (
 	[UserId] ASC
