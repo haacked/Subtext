@@ -5965,7 +5965,7 @@ BEGIN
 		SET @TranStarted = 1
 	END
 
-	DECLARE @tbNames	table(Name nvarchar(256) NOT NULL PRIMARY KEY)
+	DECLARE @tbNames	table(Name nvarchar(256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL PRIMARY KEY)
 	DECLARE @tbRoles	table(RoleId uniqueidentifier NOT NULL PRIMARY KEY)
 	DECLARE @tbUsers	table(UserId uniqueidentifier NOT NULL PRIMARY KEY)
 	DECLARE @Num		int
@@ -6085,7 +6085,7 @@ BEGIN
 		SET @TranStarted = 1
 	END
 
-	DECLARE @tbNames  table(Name nvarchar(256) NOT NULL PRIMARY KEY)
+	DECLARE @tbNames  table(Name nvarchar(256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL PRIMARY KEY)
 	DECLARE @tbRoles  table(RoleId uniqueidentifier NOT NULL PRIMARY KEY)
 	DECLARE @tbUsers  table(UserId uniqueidentifier NOT NULL PRIMARY KEY)
 	DECLARE @Num	  int
