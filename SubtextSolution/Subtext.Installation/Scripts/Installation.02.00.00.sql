@@ -250,8 +250,8 @@ IF NOT EXISTS
 			[Id] [int] IDENTITY (1, 1) NOT NULL ,
 			[BlogPluginId] [int] NOT NULL ,
 			[EntryId] [int] NULL ,
-			[Key] [nvarchar] (256) COLLATE Latin1_General_CI_AS NOT NULL ,
-			[Value] [ntext] COLLATE Latin1_General_CI_AS NOT NULL
+			[Key] [nvarchar] (256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+			[Value] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
 		CONSTRAINT [PK_subtext_PluginEntryData] PRIMARY KEY  CLUSTERED 
 		(
 			[Id]
