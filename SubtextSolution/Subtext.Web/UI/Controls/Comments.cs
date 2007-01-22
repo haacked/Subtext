@@ -239,13 +239,15 @@ namespace Subtext.Web.UI.Controls
                 defaultGravatar = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host, ControlHelper.ExpandTildePath(defaultGravatar));
             }
 
+			defaultGravatar = Server.UrlEncode(defaultGravatar);
+
 			if(gravatarEmailFormat.Equals("plain"))
 			{
 				processedEmail = email;
 			}
 			else if(gravatarEmailFormat.Equals("MD5")) 
 			{
-				processedEmail=FormsAuthentication.HashPasswordForStoringInConfigFile(email, "md5");
+				processedEmail = FormsAuthentication.HashPasswordForStoringInConfigFile(email, "md5").ToLower();
 			}
             if (processedEmail.Length != 0)
             {
