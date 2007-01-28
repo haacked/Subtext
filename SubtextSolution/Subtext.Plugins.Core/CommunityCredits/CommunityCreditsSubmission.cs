@@ -28,7 +28,7 @@ namespace Subtext.Plugins.Core.CommunityCredits
 			string result;
 			if (e.State == ObjectState.Create)
 			{
-				Entry entry = (Entry)sender; 
+				Entry entry = e.Entry; 
 
 				com.community_credit.www.AffiliateServices wsCommunityCredit = new com.community_credit.www.AffiliateServices();
 				wsCommunityCredit.Url = DefaultSettings["WebServiceUrl"];
@@ -50,12 +50,15 @@ namespace Subtext.Plugins.Core.CommunityCredits
 				try
 				{
 					result=wsCommunityCredit.AddCommunityCredit(email, firstName, lastName, description, url, category, affiliateCode, affiliateKey);
+					if (!result.Equals("Success"))
+					{
+						((INotifiableControl)sender).ShowError("Error during Community Credits submission (your post has been saved): <br/>\r\nCommunity Server webservice returned the following error code: <br/>\r\n" + result);
+					}
 				}
-				catch (Exception)
-				//catch (Exception ex)
+				catch (Exception ex)
 				{
-					//this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "Error during Community Credits submission (your post has been saved)", ex.Message));
-				}	
+					((INotifiableControl)sender).ShowError("Error during Community Credits submission (your post has been saved): <br/>\r\n" + ex.Message);
+				}
 			}
 		}
 

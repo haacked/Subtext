@@ -273,29 +273,29 @@ namespace Subtext.Extensibility.Plugins
 
 		#region Event Execution
 
-		internal void ExecuteEntryUpdating(Entry entry, SubtextEventArgs e)
+		internal void ExecuteEntryUpdating(object sender, SubtextEventArgs e)
 		{
-			ExecuteEntryEvent(EventEntryUpdating, entry, e);
+			ExecuteEntryEvent(EventEntryUpdating, sender, e);
 		}
 
-		internal void ExecuteEntryUpdated(Entry entry, SubtextEventArgs e)
+		internal void ExecuteEntryUpdated(object sender, SubtextEventArgs e)
 		{
-			ExecuteEntryEvent(EventEntryUpdated, entry, e);
+			ExecuteEntryEvent(EventEntryUpdated, sender, e);
 		}
 
-		internal void ExecuteEntryRendering(Entry entry, SubtextEventArgs e)
+		internal void ExecuteEntryRendering(object sender, SubtextEventArgs e)
 		{
-			ExecuteEntryEvent(EventEntryRendering, entry, e);
+			ExecuteEntryEvent(EventEntryRendering, sender, e);
 		}
 
-		internal void ExecuteSingleEntryRendering(Entry entry, SubtextEventArgs e)
+		internal void ExecuteSingleEntryRendering(object sender, SubtextEventArgs e)
 		{
-			ExecuteEntryEvent(EventSingleEntryRendering, entry, e);
+			ExecuteEntryEvent(EventSingleEntryRendering, sender, e);
 		}
 
 		//List through the subscribed event handlers, and decide weather call them or not
 		//based on the current blog enabled plugins
-		private void ExecuteEntryEvent(object eventKey, Entry entry, SubtextEventArgs e)
+		private void ExecuteEntryEvent(object eventKey, object sender, SubtextEventArgs e)
 		{
 			EventHandler<SubtextEventArgs> handler = Events[eventKey] as EventHandler<SubtextEventArgs>;
 			if (handler != null)
@@ -309,7 +309,7 @@ namespace Subtext.Extensibility.Plugins
 						try
 						{
 							e.CallingPluginGuid = currentPlugin.Id;
-							del.DynamicInvoke(entry, e);
+							del.DynamicInvoke(sender, e);
 						}
 						catch {}
 					}

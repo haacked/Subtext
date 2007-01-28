@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Collections.Specialized;
+using Subtext.Framework.Components;
 
 namespace Subtext.Extensibility.Plugins
 {
@@ -26,21 +27,30 @@ namespace Subtext.Extensibility.Plugins
 	public class SubtextEventArgs: EventArgs
 	{
 		private ObjectState _state;
+		private Entry _entry;
 
 		/// <summary>
 		/// The current state of the Object being processed
 		/// </summary>
 		public ObjectState State
 		{
-			get{ return _state;}
+			get{ return _state; }
 		}
 
+		/// <summary>
+		/// The Entry being manipulated
+		/// </summary>
+		public Entry Entry
+		{
+			get { return _entry; }
+		}
+
+		/// <summary>
+		/// All the plugins settings for the current blog
+		/// </summary>
 		public NameValueCollection BlogSettings
 		{
-			get 
-			{
-				return Subtext.Framework.Configuration.Config.CurrentBlog.EnabledPlugins[_callingPluginGuid].Settings;
-			}
+			get { return Subtext.Framework.Configuration.Config.CurrentBlog.EnabledPlugins[_callingPluginGuid].Settings; }
 		}
 
 		private Guid _callingPluginGuid;
@@ -53,12 +63,13 @@ namespace Subtext.Extensibility.Plugins
 
 
 
-		public SubtextEventArgs(ObjectState state)
+		public SubtextEventArgs(Entry entry, ObjectState state)
 		{
+			_entry = entry;
 			_state = state;
 		}
 
-		public SubtextEventArgs() : this(ObjectState.None) { }
+		public SubtextEventArgs(Entry entry) : this(entry, ObjectState.None) { }
 
 	}
 

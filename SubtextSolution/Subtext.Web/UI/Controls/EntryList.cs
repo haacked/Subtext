@@ -47,7 +47,7 @@ namespace Subtext.Web.UI.Controls
 				if(entry != null)
 				{
 					//Raise event before any processing takes place
-					SubtextEvents.OnEntryRendering(entry, new SubtextEventArgs());
+					SubtextEvents.OnEntryRendering(this, new SubtextEventArgs(entry));
 
 					// Each of these methods make sure to check that the 
 					// control to bind actually exists on the skin.
