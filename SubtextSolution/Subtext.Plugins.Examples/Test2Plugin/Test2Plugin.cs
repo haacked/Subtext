@@ -42,26 +42,26 @@ namespace Subtext.Plugins.Examples.Test2Plugin
 
 		void sta_SingleEntryRendering(object sender, SubtextEventArgs e)
 		{
-			Entry entry = (Entry)sender;
+			Entry entry = e.Entry;
 			entry.Body += "<br><hr> <b>Test2Plugin</b>: Rendered at date: " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
 		}
 
 		void sta_EntryRendering(object sender, SubtextEventArgs e)
 		{
-			Entry entry = (Entry)sender;
+			Entry entry = e.Entry;
 			entry.Body += "<br><hr> <b>Test2Plugin</b>: Rendered at date: " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString();
 		}
 
 		void sta_EntryUpdated(object sender, SubtextEventArgs e)
 		{
-			Entry entry = (Entry)sender;
+			Entry entry = e.Entry;
 			Console.WriteLine(entry.FullyQualifiedUrl.ToString());
 			return;
 		}
 
 		void sta_EntryUpdating(object sender, SubtextEventArgs e)
 		{
-			Entry entry = (Entry)sender;
+			Entry entry = e.Entry;
 			switch (e.State)
 			{
 				case ObjectState.Create:

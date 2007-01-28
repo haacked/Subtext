@@ -10,28 +10,202 @@
 
 namespace Subtext.Web.Admin.WebUI {
     
+    
+    /// <summary>
+    /// AdminPageTemplate class.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated class.
+    /// </remarks>
     public partial class AdminPageTemplate {
-        protected Subtext.Web.Controls.ScriptTag commonJs;
-        protected Subtext.Web.Controls.ScriptTag tableEffectsJS;
-        protected Subtext.Web.Controls.ScriptTag NiceForms;
-        protected Subtext.Web.Controls.ScriptTag HelptipJs;
-        protected Subtext.Web.Controls.ScriptTag AdminJs;
-        protected System.Web.UI.HtmlControls.HtmlLink commonLayoutCss;
-        protected System.Web.UI.HtmlControls.HtmlLink commonStyleCss;
-        protected Subtext.Web.Admin.WebUI.HeaderLink HelptipCss;
-        protected Subtext.Web.Admin.WebUI.HeaderLink adminCss;
-        protected Subtext.Web.Admin.WebUI.HeaderLink NiceFormsStyle;
-        protected System.Web.UI.HtmlControls.HtmlGenericControl AdminSection;
-        protected System.Web.UI.HtmlControls.HtmlForm frmMain;
-        protected System.Web.UI.WebControls.LoginName loginName;
-        protected System.Web.UI.WebControls.LinkButton LogoutLink;
-        protected System.Web.UI.WebControls.HyperLink BlogTitleLink;
-        protected System.Web.UI.WebControls.ContentPlaceHolder actionsHeading;
-        protected System.Web.UI.HtmlControls.HtmlGenericControl galleryTab;
-        protected Subtext.Web.Admin.WebUI.BreadCrumbs breadCrumbs;
-        protected Subtext.Web.Admin.WebUI.LinkList LinksActions;
-        protected System.Web.UI.WebControls.ContentPlaceHolder categoryListHeading;
-        protected System.Web.UI.WebControls.ContentPlaceHolder categoryListLinks;
-        protected System.Web.UI.WebControls.ContentPlaceHolder pageContent;
+        
+        /// <summary>
+        /// commonJs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Controls.ScriptTag commonJs;
+        
+        /// <summary>
+        /// tableEffectsJS control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Controls.ScriptTag tableEffectsJS;
+        
+        /// <summary>
+        /// FormsStyle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Controls.StyleTag FormsStyle;
+        
+        /// <summary>
+        /// HelptipJs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Controls.ScriptTag HelptipJs;
+        
+        /// <summary>
+        /// AdminJs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Controls.ScriptTag AdminJs;
+        
+        /// <summary>
+        /// commonLayoutCss control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlLink commonLayoutCss;
+        
+        /// <summary>
+        /// commonStyleCss control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlLink commonStyleCss;
+        
+        /// <summary>
+        /// HelptipCss control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Admin.WebUI.HeaderLink HelptipCss;
+        
+        /// <summary>
+        /// adminCss control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Admin.WebUI.HeaderLink adminCss;
+        
+        /// <summary>
+        /// AdminSection control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl AdminSection;
+        
+        /// <summary>
+        /// frmMain control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlForm frmMain;
+        
+        /// <summary>
+        /// loginName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LoginName loginName;
+        
+        /// <summary>
+        /// LogoutLink control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton LogoutLink;
+        
+        /// <summary>
+        /// BlogTitleLink control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink BlogTitleLink;
+        
+        /// <summary>
+        /// actionsHeading control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder actionsHeading;
+        
+        /// <summary>
+        /// galleryTab control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl galleryTab;
+        
+        /// <summary>
+        /// breadCrumbs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Admin.WebUI.BreadCrumbs breadCrumbs;
+        
+        /// <summary>
+        /// LinksActions control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Admin.WebUI.LinkList LinksActions;
+        
+        /// <summary>
+        /// categoryListHeading control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder categoryListHeading;
+        
+        /// <summary>
+        /// categoryListLinks control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder categoryListLinks;
+        
+        /// <summary>
+        /// pageContent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder pageContent;
     }
 }

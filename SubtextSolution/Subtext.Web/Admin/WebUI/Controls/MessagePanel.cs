@@ -172,7 +172,7 @@ namespace Subtext.Web.Admin.WebUI
 			if (clearExistingMessages) 
 				this.Message = message;
 			else
-				this.Message += " " + message;
+				this.Message += "\r\n<br/>" + message;
 
 			this.ShowMessagePanel = true;
 			this.Visible = true;
@@ -188,7 +188,7 @@ namespace Subtext.Web.Admin.WebUI
 			if (clearExistingMessages) 
 				this.Error = message;
 			else
-				this.Error += " " + message;
+				this.Error += "\r\n<br/>" + message;
 
 			this.ShowErrorPanel = true;
 			this.Visible = true;
@@ -197,6 +197,12 @@ namespace Subtext.Web.Admin.WebUI
 		public void Clear()
 		{
 			this.Visible = false;
+		}
+
+		public void ResetMessages()
+		{
+			this.Message = string.Empty;
+			this.Error = string.Empty;
 		}
 	}
 }

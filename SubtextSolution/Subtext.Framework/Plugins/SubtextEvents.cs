@@ -25,33 +25,33 @@ namespace Subtext.Extensibility.Plugins
 		/// <summary>
 		/// Raises all EntryUpdating Events.
 		/// </summary>
-		public static void OnEntryUpdating(Entry entry, SubtextEventArgs e)
+		public static void OnEntryUpdating(object sender, SubtextEventArgs e)
 		{
-			SubtextApplication.Current.ExecuteEntryUpdating(entry, e);
+			SubtextApplication.Current.ExecuteEntryUpdating(sender, e);
 		}
 
 		/// <summary>
 		/// Raises all EntryUpdated Events.
 		/// </summary>
-		public static void OnEntryUpdated(Entry entry, SubtextEventArgs e)
+		public static void OnEntryUpdated(object sender, SubtextEventArgs e)
 		{
-			SubtextApplication.Current.ExecuteEntryUpdated(entry, e);
+			SubtextApplication.Current.ExecuteEntryUpdated(sender, e);
 		}
 
 		/// <summary>
 		/// Raises all SingleEntryRendering Events.
 		/// </summary>
-		public static void OnSingleEntryRendering(Entry entry, SubtextEventArgs e)
+		public static void OnSingleEntryRendering(object sender, SubtextEventArgs e)
 		{
-			SubtextApplication.Current.ExecuteSingleEntryRendering(entry, e);
+			SubtextApplication.Current.ExecuteSingleEntryRendering(sender, e);
 		}
 
 		/// <summary>
 		/// Raises all EntryRendering Events.
 		/// </summary>
-		public static void OnEntryRendering(Entry entry, SubtextEventArgs e)
+		public static void OnEntryRendering(object sender, SubtextEventArgs e)
 		{
-			SubtextApplication.Current.ExecuteEntryRendering(entry, e);
+			SubtextApplication.Current.ExecuteEntryRendering(sender, e);
 		}
 	}
 }

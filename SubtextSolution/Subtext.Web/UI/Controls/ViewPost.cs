@@ -63,7 +63,7 @@ namespace Subtext.Web.UI.Controls
 			if(entry != null)
 			{
 				//Raise event before any processing takes place
-				SubtextEvents.OnSingleEntryRendering(entry, new SubtextEventArgs());
+				SubtextEvents.OnSingleEntryRendering(this, new SubtextEventArgs(entry));
 
 				BindCurrentEntryControls(entry, this);
 				

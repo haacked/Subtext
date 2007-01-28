@@ -94,7 +94,7 @@
 					</div>
 					<div>
 						<a href="http://www.asp.net"><img id="PoweredBy" src='<%= Utilities.ResourcePath + "resources/poweredbydotnet.gif" %>' height="33" width="99" alt="Powerd By Subtext" /></a>
-						Subtext Copyright &copy; <a href="http://haacked.com/" title="Founder of Subtext">Phil Haack</a>, 2005-2006. All rights 
+						Subtext Copyright &copy; <a href="http://haacked.com/" title="Founder of Subtext">Phil Haack</a>, 2005-2007. All rights 
 						reserved.<br />
 						.TEXT Copyright &copy; <a href="http://scottwater.com/blog" title="Creator of .TEXT">Scott Watermasysk</a>, 2003. 
 						All rights reserved.

@@ -33,7 +33,7 @@ using Subtext.Extensibility.Plugins;
 
 namespace Subtext.Web.Admin.UserControls
 {
-	public partial class EntryEditor : UserControl
+	public partial class EntryEditor : UserControl, INotifiableControl
 	{
 		private const string VSKEY_POSTID = "PostID";
 		private const string VSKEY_CATEGORYTYPE = "CategoryType";
@@ -411,12 +411,12 @@ namespace Subtext.Web.Admin.UserControls
 						entry.Id = PostID;
 						
 						//Raise event before updating a post
-						SubtextEvents.OnEntryUpdating(entry, new SubtextEventArgs(ObjectState.Update));
+						SubtextEvents.OnEntryUpdating(this, new SubtextEventArgs(entry, ObjectState.Update));
 						
 						Entries.Update(entry);
 
 						//Raise event after updating a post
-						SubtextEvents.OnEntryUpdated(entry, new SubtextEventArgs(ObjectState.Update));
+						SubtextEvents.OnEntryUpdated(this, new SubtextEventArgs(entry, ObjectState.Update));
 
 						if(ReturnToOriginalPost)
 						{
@@ -434,12 +434,12 @@ namespace Subtext.Web.Admin.UserControls
 						entry.DateCreated = Config.CurrentBlog.TimeZone.Now;
 
 						//Raise event before creating a post
-						SubtextEvents.OnEntryUpdating(entry, new SubtextEventArgs(ObjectState.Create));
+						SubtextEvents.OnEntryUpdating(this, new SubtextEventArgs(entry, ObjectState.Create));
 						
 						PostID = Entries.Create(entry);
 
 						//Raise event after creating a post
-						SubtextEvents.OnEntryUpdated(entry, new SubtextEventArgs(ObjectState.Create));
+						SubtextEvents.OnEntryUpdated(this, new SubtextEventArgs(entry, ObjectState.Create));
 					}
 
 					UpdateCategories();
@@ -447,13 +447,13 @@ namespace Subtext.Web.Admin.UserControls
 				catch(Exception ex)
 				{
 					this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, 
-						Constants.RES_FAILUREEDIT, ex.Message));
+						Constants.RES_FAILUREEDIT, ex.Message), false);
 				}
 				finally
 				{
 					Results.Collapsible = false;
 				}
-				this.Messages.ShowMessage(successMessage);
+				this.Messages.ShowMessage(successMessage, false);
 			}
 		}
 
@@ -478,19 +478,19 @@ namespace Subtext.Web.Admin.UserControls
 					Entries.SetEntryCategoryList(PostID,Categories);
 
 					BindList();
-					this.Messages.ShowMessage(successMessage);
+					this.Messages.ShowMessage(successMessage, false);
 					this.ResetPostEdit(false);
 				}
 				else
 				{
 					this.Messages.ShowError(Constants.RES_FAILURECATEGORYUPDATE
-						+ " There was a baseline problem updating the post categories.");  
+						+ " There was a baseline problem updating the post categories.", false);  
 				}
 			}
 			catch(Exception ex)
 			{
 				this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION,
-					Constants.RES_FAILUREEDIT, ex.Message));
+					Constants.RES_FAILUREEDIT, ex.Message), false);
 			}
 			finally
 			{
@@ -585,18 +585,34 @@ namespace Subtext.Web.Admin.UserControls
 
 		private void lkbPost_Click(object sender, EventArgs e)
 		{
+			this.Messages.ResetMessages();
 			UpdatePost();
 		}
 
 		private void lkUpdateCategories_Click(object sender, EventArgs e)
 		{
+			this.Messages.ResetMessages();
 			UpdateCategories();
 		}
 
 		protected void richTextEditor_Error(object sender, RichTextEditorErrorEventArgs e)
 		{
-			this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", e.Exception.Message));
+			this.Messages.ShowError(String.Format(Constants.RES_EXCEPTION, "TODO...", e.Exception.Message), false);
 		}
+
+		#region INotifiableControl Members
+
+		public void ShowError(string message)
+		{
+			this.Messages.ShowError(message, false);
+		}
+
+		public void ShowMessage(string message)
+		{
+			this.Messages.ShowMessage(message, false);
+		}
+
+		#endregion
 	}
 }
 
