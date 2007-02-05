@@ -47,6 +47,8 @@ namespace Subtext.Web.Admin.Pages
 		        this.chkCoCommentEnabled.Checked = info.CoCommentsEnabled;
 		        this.chkAllowDuplicates.Checked = info.DuplicateCommentsEnabled;
 		        this.chkEnableCaptcha.Checked = info.CaptchaEnabled;
+                this.chkEnableCommentEmail.Checked = info.CommentNoficationEnabled;
+                this.chkEnableTrackbackEmails.Checked = info.TrackbackNoficationEnabled;
 
 		        this.txtAkismetAPIKey.Text = info.FeedbackSpamServiceKey;
 			
@@ -123,6 +125,8 @@ namespace Subtext.Web.Admin.Pages
 				info.TrackbacksEnabled = this.chkEnableTrackbacks.Checked;
 				info.DuplicateCommentsEnabled = this.chkAllowDuplicates.Checked;
 				info.CaptchaEnabled = this.chkEnableCaptcha.Checked;
+                info.CommentNoficationEnabled = this.chkEnableCommentEmail.Checked;
+                info.TrackbackNoficationEnabled = this.chkEnableTrackbackEmails.Checked;
 				
 				if(this.txtCommentDelayIntervalMinutes.Text.Length == 0)
 				{

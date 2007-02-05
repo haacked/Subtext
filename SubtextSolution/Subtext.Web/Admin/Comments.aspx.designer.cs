@@ -10,31 +10,274 @@
 
 namespace Subtext.Web.Admin.Pages {
     
+    
+    /// <summary>
+    /// Comments class.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated class.
+    /// </remarks>
     public partial class Comments {
-        protected Subtext.Web.Admin.WebUI.MessagePanel Messages;
-        protected Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
-        protected System.Web.UI.WebControls.CheckBox chkEnableComments;
-        protected Subtext.Web.Controls.HelpToolTip HelpToolTip1;
-        protected System.Web.UI.WebControls.CheckBox chkEnableTrackbacks;
-        protected Subtext.Web.Controls.HelpToolTip Helptooltip5;
-        protected System.Web.UI.WebControls.CheckBox chkCoCommentEnabled;
-        protected Subtext.Web.Controls.HelpToolTip Helptooltip6;
-        protected Subtext.Web.Controls.HelpToolTip hlpAkismet;
-        protected System.Web.UI.WebControls.TextBox txtAkismetAPIKey;
-        protected System.Web.UI.WebControls.CheckBox chkEnableCommentModeration;
-        protected Subtext.Web.Controls.HelpToolTip helpCommentModeration;
-        protected System.Web.UI.WebControls.CheckBox chkEnableCaptcha;
-        protected Subtext.Web.Controls.HelpToolTip helpCaptcha;
-        protected System.Web.UI.WebControls.CheckBox chkAllowDuplicates;
-        protected Subtext.Web.Controls.HelpToolTip Helptooltip4;
-        protected Subtext.Web.Controls.HelpToolTip HelpToolTip2;
-        protected System.Web.UI.WebControls.TextBox txtCommentDelayIntervalMinutes;
-        protected Subtext.Web.Controls.HelpToolTip Helptooltip3;
-        protected System.Web.UI.WebControls.TextBox txtDaysTillCommentsClosed;
-        protected Subtext.Web.Controls.HelpToolTip Helptooltip7;
-        protected System.Web.UI.WebControls.TextBox txtNumberOfRecentComments;
-        protected Subtext.Web.Controls.HelpToolTip Helptooltip8;
-        protected System.Web.UI.WebControls.TextBox txtRecentCommentsLength;
-        protected System.Web.UI.WebControls.Button lkbPost;
+        
+        /// <summary>
+        /// Messages control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Admin.WebUI.MessagePanel Messages;
+        
+        /// <summary>
+        /// Edit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Admin.WebUI.AdvancedPanel Edit;
+        
+        /// <summary>
+        /// chkEnableComments control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkEnableComments;
+        
+        /// <summary>
+        /// HelpToolTip1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Controls.HelpToolTip HelpToolTip1;
+        
+        /// <summary>
+        /// chkEnableTrackbacks control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkEnableTrackbacks;
+        
+        /// <summary>
+        /// Helptooltip5 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Controls.HelpToolTip Helptooltip5;
+        
+        /// <summary>
+        /// chkCoCommentEnabled control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkCoCommentEnabled;
+        
+        /// <summary>
+        /// Helptooltip6 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Controls.HelpToolTip Helptooltip6;
+        
+        /// <summary>
+        /// chkEnableCommentEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkEnableCommentEmail;
+        
+        /// <summary>
+        /// toolTipEnableCommentEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Controls.HelpToolTip toolTipEnableCommentEmail;
+        
+        /// <summary>
+        /// chkEnableTrackbackEmails control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkEnableTrackbackEmails;
+        
+        /// <summary>
+        /// toolTipEnableTrackbackEmails control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Controls.HelpToolTip toolTipEnableTrackbackEmails;
+        
+        /// <summary>
+        /// hlpAkismet control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Controls.HelpToolTip hlpAkismet;
+        
+        /// <summary>
+        /// txtAkismetAPIKey control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAkismetAPIKey;
+        
+        /// <summary>
+        /// chkEnableCommentModeration control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkEnableCommentModeration;
+        
+        /// <summary>
+        /// helpCommentModeration control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Controls.HelpToolTip helpCommentModeration;
+        
+        /// <summary>
+        /// chkEnableCaptcha control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkEnableCaptcha;
+        
+        /// <summary>
+        /// helpCaptcha control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Controls.HelpToolTip helpCaptcha;
+        
+        /// <summary>
+        /// chkAllowDuplicates control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkAllowDuplicates;
+        
+        /// <summary>
+        /// Helptooltip4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Controls.HelpToolTip Helptooltip4;
+        
+        /// <summary>
+        /// HelpToolTip2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Controls.HelpToolTip HelpToolTip2;
+        
+        /// <summary>
+        /// txtCommentDelayIntervalMinutes control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCommentDelayIntervalMinutes;
+        
+        /// <summary>
+        /// Helptooltip3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Controls.HelpToolTip Helptooltip3;
+        
+        /// <summary>
+        /// txtDaysTillCommentsClosed control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtDaysTillCommentsClosed;
+        
+        /// <summary>
+        /// Helptooltip7 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Controls.HelpToolTip Helptooltip7;
+        
+        /// <summary>
+        /// txtNumberOfRecentComments control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtNumberOfRecentComments;
+        
+        /// <summary>
+        /// Helptooltip8 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Controls.HelpToolTip Helptooltip8;
+        
+        /// <summary>
+        /// txtRecentCommentsLength control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtRecentCommentsLength;
+        
+        /// <summary>
+        /// lkbPost control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button lkbPost;
     }
 }

@@ -59,5 +59,9 @@ namespace Subtext.Framework.Configuration
 		CommentModerationEnabled=2048,
 		/// <summary>CAPTCHA is enabled on comment forms.</summary>
 		CaptchaEnabled=4096,
+        /// <summary>Comment notification mails are enabled.</summary>
+        CommentNotificationEnabled=8192,
+        /// <summary>Trackback notification mails are enabled.</summary>
+        TrackbackNotificationEnabled=16384,
 	};
 }

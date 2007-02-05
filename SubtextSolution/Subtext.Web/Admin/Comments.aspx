@@ -35,6 +35,19 @@
 				<st:HelpToolTip id="Helptooltip6" runat="server" HelpText="If checked, enables CoComment support." ImageUrl="~/images/icons/help-small.png" ImageWidth="16" ImageHeight="16" />
 			</div>
 		</fieldset>
+		
+		<fieldset title="Notifications">
+		    <legend>Notification Options</legend>
+		    <div>
+				<asp:CheckBox id="chkEnableCommentEmail" runat="server" CssClass="checkbox" Text="Notify On New Comment" />
+				<st:HelpToolTip id="toolTipEnableCommentEmail" runat="server" HelpText="If checked, sends an email when a new comment is posted." ImageUrl="~/images/icons/help-small.png" ImageWidth="16" ImageHeight="16" />		
+			</div>
+			
+			<div>
+				<asp:CheckBox id="chkEnableTrackbackEmails" runat="server" CssClass="checkbox" Text="Notify On New Trackback" />
+				<st:HelpToolTip id="toolTipEnableTrackbackEmails" runat="server" HelpText="If checked, sends an email when a new trackbacks or pingbacks is posted" ImageUrl="~/images/icons/help-small.png" ImageWidth="16" ImageHeight="16" />
+			</div>
+		</fieldset>
 	    
 	    <fieldset title="spamcontrols">
 			<legend>Spam Controls</legend>

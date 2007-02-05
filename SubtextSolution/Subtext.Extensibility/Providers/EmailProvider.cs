@@ -55,7 +55,7 @@ namespace Subtext.Extensibility.Providers
             }
 			this.providerName = name;
 
-			SmtpSection smtpSettings = (SmtpSection)ConfigurationManager.GetSection("system.net/mailSettings/smtp");
+			SmtpSection smtpSettings = (SmtpSection)ConfigurationManager.GetSection("mailSettings/smtp");
 			
 			this.adminEmail = config["adminEmail"] ?? smtpSettings.From;
 			this.smtpServer = config["smtpServer"] ?? smtpSettings.Network.Host;
@@ -187,12 +187,23 @@ namespace Subtext.Extensibility.Providers
 		/// <summary>
 		/// Sends an email.
 		/// </summary>
-		/// <param name="to"></param>
-		/// <param name="from"></param>
-		/// <param name="subject"></param>
-		/// <param name="message"></param>
-		/// <returns></returns>
+        /// <param name="to">The address to send the email to</param>
+        /// <param name="from">The address to send the email from</param>
+        /// <param name="subject">The subject of the email</param>
+        /// <param name="message">The email contents</param>
+        /// <returns>True if the email has sent, otherwise false</returns>
 		public abstract bool Send(string to, string from, string subject, string message);
+
+        /// <summary>
+        /// Sends an email.
+        /// </summary>
+        /// <param name="to">The address to send the email to</param>
+        /// <param name="from">The address to send the email from</param>
+        /// <param name="replyTo">The email address to use in the ReplyTo header</param>
+        /// <param name="subject">The subject of the email</param>
+        /// <param name="message">The email contents</param>
+        /// <returns>True if the email has sent, otherwise false</returns>
+        public abstract bool Send(string to, string from, string replyTo, string subject, string message);
 		#endregion
 	}
 }
