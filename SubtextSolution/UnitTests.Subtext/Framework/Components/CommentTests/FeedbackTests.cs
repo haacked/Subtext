@@ -345,6 +345,7 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 			Config.CurrentBlog.Owner.Email = "test@example.com";
 			Membership.UpdateUser(Config.CurrentBlog.Owner);
 			Config.CurrentBlog.Title = "You've been haacked";
+            Config.CurrentBlog.CommentNoficationEnabled = true;
 
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("blah", "blah", "blah");
 			int entryId = Entries.Create(entry);
@@ -372,10 +373,12 @@ namespace UnitTests.Subtext.Framework.Components.CommentTests
 
 			UnitTestEmailProvider emailProvider = (UnitTestEmailProvider)EmailProvider.Instance();
 
-			Assert.AreEqual("test@example.com", emailProvider.To, "Email should've been sent to the blog email addr.");
+            Assert.AreEqual(Config.CurrentBlog.Owner.Email, emailProvider.To, "Email should've been sent to the blog email addr.");
 			if (String.IsNullOrEmpty(commenterEmail))
 				expectedEmail = "admin@YOURBLOG.com";
-			Assert.AreEqual(expectedEmail, emailProvider.From, "Email should have been sent from the value in App.config.");
+			Assert.AreEqual("admin@YOURBLOG.com", emailProvider.From, "Email should have been sent from the value in App.config.");
+            if (commenterEmail != "")
+              Assert.AreEqual(expectedEmail, emailProvider.ReplyTo, "Email should have had Reply-To set to the comment from address");
 			Assert.AreEqual("Comment: Some Title (via You've been haacked)", emailProvider.Subject, "Comment subject line wrong.");
 			Assert.AreEqual(expectedMessageBody, emailProvider.Message, "Did not receive the expected message.");
 		}
