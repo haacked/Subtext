@@ -1105,11 +1105,32 @@ namespace Subtext.Framework
             set { _pop3HeightForThumbs = value; }
         }
         #endregion
-		//End of Mail To Weblog properties
+        //End of Mail To Weblog properties
 
-		#region Plugin Specific Properties
+        #region Notification Properties
+		/// <summary>
+		/// Gets or sets a value indicating whether comment notification is enabled.
+		/// </summary>
+		/// <value><c>true</c> if comment notification is enabled; otherwise, <c>false</c>.</value>
+		public bool CommentNoficationEnabled
+		{
+			get { return FlagPropertyCheck(ConfigurationFlag.CommentNotificationEnabled); }
+			set { FlagSetter(ConfigurationFlag.CommentNotificationEnabled, value); }
+		}
+        /// <summary>
+        /// Gets or sets a value indicating whether trackback notification is enabled.
+        /// </summary>
+        /// <value><c>true</c> if comment notification is enabled; otherwise, <c>false</c>.</value>
+        public bool TrackbackNoficationEnabled
+        {
+            get { return FlagPropertyCheck(ConfigurationFlag.TrackbackNotificationEnabled); }
+            set { FlagSetter(ConfigurationFlag.TrackbackNotificationEnabled, value); }
+        }
+        #endregion
 
-		private IDictionary<Guid,Plugin> _enabledPlugins;
+        #region Plugin Specific Properties
+
+        private IDictionary<Guid,Plugin> _enabledPlugins;
 
 		public IDictionary<Guid,Plugin> EnabledPlugins
 		{

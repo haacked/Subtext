@@ -132,14 +132,24 @@ namespace Subtext.Framework.Components
             if (filter != null)
                 CommentFilter.FilterAfterPersist(feedback);
 
-            // if it's not the administrator commenting and it's not a trackback.
-            if (!SecurityHelper.IsAdmin && !String.IsNullOrEmpty(Config.CurrentBlog.Owner.Email) && feedback.FeedbackType != Extensibility.FeedbackType.PingTrack)
+            // if it's not the administrator commenting and it's not a trackback and notification is enabled.
+            if (!SecurityHelper.IsAdmin && !String.IsNullOrEmpty(Config.CurrentBlog.Owner.Email) && 
+                feedback.FeedbackType != Extensibility.FeedbackType.PingTrack && Config.CurrentBlog.CommentNoficationEnabled)
             {
                 //In order to make this async, we need to pass the HttpContext.Current 
                 //several layers deep. Instead, we should create our own context.
                 EmailCommentToAdmin(feedback, Config.CurrentBlog);
             }
 
+            // if it's a trackback and notification is enabled.
+            if (!String.IsNullOrEmpty(Config.CurrentBlog.Owner.Email) &&
+                feedback.FeedbackType == Extensibility.FeedbackType.PingTrack && Config.CurrentBlog.TrackbackNoficationEnabled)
+            {
+                //In order to make this async, we need to pass the HttpContext.Current 
+                //several layers deep. Instead, we should create our own context.
+                EmailCommentToAdmin(feedback, Config.CurrentBlog);
+            }
+            
             return feedback.Id;
         }
 
@@ -179,13 +189,13 @@ namespace Subtext.Framework.Components
 				fromEmail = null;
 
 			string to = currentBlog.Owner.Email;
-			string from = fromEmail ?? im.AdminEmail;
-			string subject = String.Format(CultureInfo.InvariantCulture, "Comment: {0} (via {1})", comment.Title, blogTitle);
+			string from = im.AdminEmail;
+            string subject = String.Format(CultureInfo.InvariantCulture, "{2}: {0} (via {1})", comment.Title, blogTitle, comment.FeedbackType == FeedbackType.Comment ? "Comment" : "Trackback/Pingback");
 			string commenterUrl = "none given";
 			if(comment.SourceUrl != null)
 				commenterUrl = comment.SourceUrl.ToString();
 			
-			string bodyFormat = "Comment from {0}" + Environment.NewLine
+			string bodyFormat = "{7} from {0}" + Environment.NewLine
 								+ "----------------------------------------------------" + Environment.NewLine
 								+ "From:\t{1} <{2}>" + Environment.NewLine
 								+ "Url:\t{3}" + Environment.NewLine
@@ -202,12 +212,13 @@ namespace Subtext.Framework.Components
 										comment.IpAddress,
 				// we're sending plain text email by default, but body includes <br />s for crlf
 										comment.Body.Replace("<br />", Environment.NewLine).Replace("&lt;br /&gt;", Environment.NewLine),
-										currentBlog.UrlFormats.FeedbackFullyQualifiedUrl(comment.EntryId, comment.parentEntryName, comment.ParentDateCreated, comment));
+										currentBlog.UrlFormats.FeedbackFullyQualifiedUrl(comment.EntryId, comment.parentEntryName, comment.ParentDateCreated, comment),
+                                        comment.FeedbackType == FeedbackType.Comment ? "Comment" : "Trackback/Pingback" );
 
 			try
 			{
 				SendEmailDelegate sendEmail = new SendEmailDelegate(im.Send);
-				AsyncHelper.FireAndForget(sendEmail, to, from, subject, body);
+				AsyncHelper.FireAndForget(sendEmail, to, from, fromEmail, subject, body);
 			}
 			catch(Exception e)
 			{
@@ -215,7 +226,7 @@ namespace Subtext.Framework.Components
 			}
 		}
 
-		delegate bool SendEmailDelegate(string to, string from, string subject, string body);
+		delegate bool SendEmailDelegate(string toAddress, string fromAddress, string replyTo, string subject, string body);
 	
 		/// <summary>
 		/// Approves the comment, and removes it from the SPAM folder or from the 
