@@ -33,7 +33,7 @@ IF NOT EXISTS
 	)
 	/* Add an OwnerId column to subtext_Config */
 	ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Config] ADD
-	[ApplicationId] UNIQUEIDENTIFIER NOT NULL 
+	[ApplicationId] UNIQUEIDENTIFIER NULL 
 	CONSTRAINT DF_subtext_Config_ApplicationId DEFAULT NEWID()
 GO
 
@@ -301,13 +301,33 @@ IF NOT EXISTS
 )
 BEGIN
 CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Users](
-	[ApplicationId] [uniqueidentifier] NOT NULL,
 	[UserId] [uniqueidentifier] NOT NULL DEFAULT (newid()),
 	[UserName] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[LoweredUserName] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[MobileAlias] [nvarchar](16) COLLATE SQL_Latin1_General_CP1_CI_AS NULL DEFAULT (null),
 	[IsAnonymous] [bit] NOT NULL DEFAULT (0),
+	/* Columns that used to be in the Membership table */
+	[Password] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[PasswordFormat] [int] NOT NULL DEFAULT (0),
+	[PasswordSalt] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[MobilePIN] [nvarchar](16) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Email] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[LoweredEmail] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[PasswordQuestion] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[PasswordAnswer] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[IsApproved] [bit] NOT NULL,
+	[IsLockedOut] [bit] NOT NULL,
+	[CreateDate] [datetime] NOT NULL,
 	[LastActivityDate] [datetime] NOT NULL,
+	[LastLoginDate] [datetime] NOT NULL,
+	[LastPasswordChangedDate] [datetime] NOT NULL,
+	[LastLockoutDate] [datetime] NOT NULL,
+	[FailedPasswordAttemptCount] [int] NOT NULL,
+	[FailedPasswordAttemptWindowStart] [datetime] NOT NULL,
+	[FailedPasswordAnswerAttemptCount] [int] NOT NULL,
+	[FailedPasswordAnswerAttemptWindowStart] [datetime] NOT NULL,
+	[Comment] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+
 PRIMARY KEY NONCLUSTERED 
 (
 	[UserId] ASC
@@ -362,47 +382,6 @@ PRIMARY KEY NONCLUSTERED
 	[PathId] ASC
 ) ON [PRIMARY]
 ) ON [PRIMARY]
-END
-GO
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-
-IF NOT EXISTS
-(
-	SELECT * FROM [information_schema].[tables]
-	WHERE table_name = 'subtext_Membership'
-	AND table_schema = '<dbUser,varchar,dbo>'
-)
-BEGIN
-CREATE TABLE [<dbUser,varchar,dbo>].[subtext_Membership](
-	[ApplicationId] [uniqueidentifier] NOT NULL,
-	[UserId] [uniqueidentifier] NOT NULL,
-	[Password] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[PasswordFormat] [int] NOT NULL DEFAULT (0),
-	[PasswordSalt] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-	[MobilePIN] [nvarchar](16) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[Email] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[LoweredEmail] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[PasswordQuestion] [nvarchar](256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[PasswordAnswer] [nvarchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[IsApproved] [bit] NOT NULL,
-	[IsLockedOut] [bit] NOT NULL,
-	[CreateDate] [datetime] NOT NULL,
-	[LastLoginDate] [datetime] NOT NULL,
-	[LastPasswordChangedDate] [datetime] NOT NULL,
-	[LastLockoutDate] [datetime] NOT NULL,
-	[FailedPasswordAttemptCount] [int] NOT NULL,
-	[FailedPasswordAttemptWindowStart] [datetime] NOT NULL,
-	[FailedPasswordAnswerAttemptCount] [int] NOT NULL,
-	[FailedPasswordAnswerAttemptWindowStart] [datetime] NOT NULL,
-	[Comment] [ntext] COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-PRIMARY KEY NONCLUSTERED 
-(
-	[UserId] ASC
-) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
 SET ANSI_NULLS ON
@@ -484,16 +463,6 @@ GO
 IF NOT EXISTS
 (
 	SELECT * FROM [information_schema].[referential_constraints]
-	WHERE constraint_name = 'FK__subtext_U__Appli__7E6CC920'
-	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
-)
-ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Users]  WITH CHECK ADD FOREIGN KEY([ApplicationId])
-REFERENCES [<dbUser,varchar,dbo>].[subtext_Applications] ([ApplicationId])
-GO
-
-IF NOT EXISTS
-(
-	SELECT * FROM [information_schema].[referential_constraints]
 	WHERE constraint_name = 'FK__subtext_R__Appli__2D27B809'
 	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
 )
@@ -509,26 +478,6 @@ IF NOT EXISTS
 )
 ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Paths]  WITH CHECK ADD FOREIGN KEY([ApplicationId])
 REFERENCES [<dbUser,varchar,dbo>].[subtext_Applications] ([ApplicationId])
-GO
-
-IF NOT EXISTS
-(
-	SELECT * FROM [information_schema].[referential_constraints]
-	WHERE constraint_name = 'FK__subtext_M__Appli__0EA330E9'
-	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
-)
-ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Membership]  WITH CHECK ADD FOREIGN KEY([ApplicationId])
-REFERENCES [<dbUser,varchar,dbo>].[subtext_Applications] ([ApplicationId])
-GO
-
-IF NOT EXISTS
-(
-	SELECT * FROM [information_schema].[referential_constraints]
-	WHERE constraint_name = 'FK__subtext_M__UserI__0F975522'
-	AND unique_constraint_schema = '<dbUser,varchar,dbo>'
-)
-ALTER TABLE [<dbUser,varchar,dbo>].[subtext_Membership]  WITH CHECK ADD FOREIGN KEY([UserId])
-REFERENCES [<dbUser,varchar,dbo>].[subtext_Users] ([UserId])
 GO
 
 IF NOT EXISTS

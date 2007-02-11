@@ -37,9 +37,9 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[ExpectedException(typeof(BlogRequiresSubfolderException))]
 		public void CreatingBlogWithDuplicateHostNameRequiresSubfolderName()
 		{
-			string host = UnitTestHelper.GenerateRandomString();
-			Config.CreateBlog("", "username", "password", host, "MyBlog1");
-			Config.CreateBlog("", "username", "password", host, string.Empty);
+			string host = UnitTestHelper.MembershipTestUsername;
+            Config.CreateBlog("", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, "MyBlog1");
+            Config.CreateBlog("", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, string.Empty);
 		}
 
 		/// <summary>
@@ -49,13 +49,13 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[RollBack]
 		public void AddingDistinctBlogsIsFine()
 		{
-			string host = UnitTestHelper.GenerateRandomString();
-			Config.CreateBlog("title", "username", "password1", UnitTestHelper.GenerateRandomString(), string.Empty);
-			Config.CreateBlog("title", "username", "password1", "www0." + UnitTestHelper.GenerateRandomString(), string.Empty);
-			Config.CreateBlog("title", "username", "password1", UnitTestHelper.GenerateRandomString(), string.Empty);
-			Config.CreateBlog("title", "username", "password1", host, "Blog1");
-			Config.CreateBlog("title", "username", "password1", host, "Blog2");
-			Config.CreateBlog("title", "username", "password1", host, "Blog3");
+			string host = UnitTestHelper.MembershipTestUsername;
+            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password1", UnitTestHelper.MembershipTestUsername, string.Empty);
+            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password1", "www0." + UnitTestHelper.MembershipTestUsername, string.Empty);
+            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password1", UnitTestHelper.MembershipTestUsername, string.Empty);
+            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password1", host, "Blog1");
+            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password1", host, "Blog2");
+            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password1", host, "Blog3");
 		}
 
 		/// <summary>
@@ -67,9 +67,9 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[ExpectedException(typeof(BlogDuplicationException))]
 		public void CreateBlogCannotCreateOneWithDuplicateHostAndNoSubfolder()
 		{
-			string host = UnitTestHelper.GenerateRandomString();
-			Config.CreateBlog("title", "username", "password", host, string.Empty);
-			Config.CreateBlog("title", "username2", "password2", host, string.Empty);
+			string host = UnitTestHelper.MembershipTestUsername;
+            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, string.Empty);
+            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password2", host, string.Empty);
 		}
 
 		/// <summary>
@@ -81,9 +81,9 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[ExpectedException(typeof(BlogDuplicationException))]
 		public void CreateBlogCannotCreateOneWithDuplicateHostAndSubfolder()
 		{
-			string host = UnitTestHelper.GenerateRandomString();
-			Config.CreateBlog("title", "username", "password", host, "MyBlog");
-			Config.CreateBlog("title", "username2", "password2", host, "MyBlog");
+			string host = UnitTestHelper.MembershipTestUsername;
+            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, "MyBlog");
+            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password2", host, "MyBlog");
 		}
 
 		/// <summary>
@@ -95,11 +95,11 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[ExpectedException(typeof(BlogDuplicationException))]
 		public void UpdateBlogCannotConflictWithDuplicateHostAndSubfolder()
 		{
-			string host = UnitTestHelper.GenerateRandomString();
+			string host = UnitTestHelper.MembershipTestUsername;
 			
-			string secondHost = UnitTestHelper.GenerateRandomString();
-			Config.CreateBlog("title", "username", "password", host, "MyBlog");
-			Config.CreateBlog("title", "username2", "password2", secondHost, "MyBlog");
+			string secondHost = UnitTestHelper.MembershipTestUsername;
+            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, "MyBlog");
+            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password2", secondHost, "MyBlog");
 			BlogInfo info = Config.GetBlogInfo(secondHost, "MyBlog");
 			info.Host = host;
 			
@@ -115,11 +115,11 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[ExpectedException(typeof(BlogDuplicationException))]
 		public void UpdateBlogCannotConflictWithDuplicateHost()
 		{
-			string host = UnitTestHelper.GenerateRandomString();
+			string host = UnitTestHelper.MembershipTestUsername;
 			
-			string anotherHost = UnitTestHelper.GenerateRandomString();
-			Config.CreateBlog("title", "username", "password", host, string.Empty);
-			Config.CreateBlog("title", "username2", "password2", anotherHost, string.Empty);
+			string anotherHost = UnitTestHelper.MembershipTestUsername;
+            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, string.Empty);
+            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password2", anotherHost, string.Empty);
 			BlogInfo info = Config.GetBlogInfo(anotherHost, string.Empty);
 			info.Host = host;
 			
@@ -145,10 +145,10 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[ExpectedException(typeof(BlogHiddenException))]
 		public void CreateBlogCannotHideAnotherBlog()
 		{
-			string host = UnitTestHelper.GenerateRandomString();
-			
-			Config.CreateBlog("title", "username", "password", "www." + host, string.Empty);
-			Config.CreateBlog("title", "username", "password", host, "MyBlog");
+			string host = UnitTestHelper.MembershipTestUsername;
+
+            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", "www." + host, string.Empty);
+            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, "MyBlog");
 		}
 
 		/// <summary>
@@ -170,15 +170,15 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[ExpectedException(typeof(BlogHiddenException))]
 		public void UpdatingBlogCannotHideAnotherBlog()
 		{
-			string host1 = UnitTestHelper.GenerateRandomString();
-            string host2 = UnitTestHelper.GenerateRandomString();
-            string subfolder = UnitTestHelper.GenerateRandomString();
+			string host1 = UnitTestHelper.MembershipTestUsername;
+            string host2 = UnitTestHelper.MembershipTestUsername;
+            string subfolder = UnitTestHelper.MembershipTestUsername;
 
 		    // add the first blog
-		    Config.CreateBlog("title", "username", "password", host1, string.Empty);
+		    Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host1, string.Empty);
 		    
 		    // now add a 2nd blog, with different Host name, then get the 2nd blog and change the hostname.
-            Config.CreateBlog("title2", "username", "password", host2, subfolder);
+            Config.CreateBlog("title2", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host2, subfolder);
 			BlogInfo blog2Info = Config.GetBlogInfo(host2, subfolder);
             blog2Info.Host = host1;
 		    
@@ -194,11 +194,11 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[ExpectedException(typeof(BlogRequiresSubfolderException))]
 		public void UpdatingBlogWithDuplicateHostNameRequiresSubfolderName()
 		{
-			string host = UnitTestHelper.GenerateRandomString();
+			string host = UnitTestHelper.MembershipTestUsername;
 			
-			string anotherHost = UnitTestHelper.GenerateRandomString();
-			Config.CreateBlog("title", "username", "password", host, "MyBlog1");
-			Config.CreateBlog("title", "username", "password", anotherHost, string.Empty);
+			string anotherHost = UnitTestHelper.MembershipTestUsername;
+            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, "MyBlog1");
+            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", anotherHost, string.Empty);
 
 			BlogInfo info = Config.GetBlogInfo(anotherHost, string.Empty);
 			info.Host = host;
@@ -214,9 +214,9 @@ namespace UnitTests.Subtext.Framework.Configuration
 		[RollBack]
 		public void UpdatingBlogIsFine()
 		{
-			string host = UnitTestHelper.GenerateRandomString();
-			
-			Config.CreateBlog("title", "username", "password", host, string.Empty);
+			string host = UnitTestHelper.MembershipTestUsername;
+
+            Config.CreateBlog("title", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, string.Empty);
 			BlogInfo info = Config.GetBlogInfo(host.ToUpper(CultureInfo.InvariantCulture), string.Empty);
 			info.Author = "Phil";
 			Assert.IsTrue(Config.UpdateConfigData(info), "Updating blog config should return true.");

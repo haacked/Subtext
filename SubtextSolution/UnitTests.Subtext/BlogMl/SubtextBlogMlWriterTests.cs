@@ -65,7 +65,7 @@ namespace UnitTests.Subtext.BlogML
 				writer.Write(xmlWriter);
 
 				// Create a new blog.
-				Assert.IsTrue(Config.CreateBlog("BlogML Import Unit Test Blog", "test", "test", Config.CurrentBlog.Host + "2", ""), "Could not create the blog for this test");
+				Assert.IsTrue(Config.CreateBlog("BlogML Import Unit Test Blog", UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, UnitTestHelper.MembershipTestPassword, Config.CurrentBlog.Host + "2", ""), "Could not create the blog for this test");
 				UnitTestHelper.SetHttpContextWithBlogRequest(Config.CurrentBlog.Host + "2", "");
 				Assert.IsTrue(Config.CurrentBlog.Host.EndsWith("2"), "Looks like we've cached our old blog.");
 

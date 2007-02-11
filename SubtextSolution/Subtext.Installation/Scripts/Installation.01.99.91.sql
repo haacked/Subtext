@@ -41,66 +41,72 @@ END
 GO
 
 /* Create the initial HostAdmin User if Upgrading */
-IF(0 = (SELECT COUNT(1) 
-		FROM [<dbUser,varchar,dbo>].[subtext_Users] 
-		WHERE ApplicationId = (SELECT TOP 1 ApplicationId FROM [<dbUser,varchar,dbo>].[subtext_Applications])
-		)
-	AND 
-		0 != (
+IF(0 != (
 			SELECT COUNT(1) 
-			FROM [<dbUser,varchar,dbo>].[subtext_Host] 
+			FROM [<dbUser,varchar,dbo>].[subtext_Host]
 		)
 	)
 BEGIN
-	PRINT 'Creating HostAdmin User'
-
-	DECLARE @UserId UNIQUEIDENTIFIER
-	SET @UserId = NEWID()
-
-	INSERT [<dbUser,varchar,dbo>].[subtext_Users]
-		SELECT ApplicationId = (SELECT TOP 1 ApplicationId FROM [<dbUser,varchar,dbo>].[subtext_Applications])
-			, UserId = @UserId
-			, UserName = HostUserName
-			, LoweredUserName = LOWER(HostUserName)
-			, MobileAlias = LOWER(HostUserName)
-			, 0
-			, getdate()
-		FROM subtext_Host
-		
-	PRINT 'Creating HostAdmin Membership'
+	-- Get Application Id
 	
-	INSERT [<dbUser,varchar,dbo>].[subtext_Membership]
-		SELECT ApplicationId = (SELECT TOP 1 ApplicationId FROM [<dbUser,varchar,dbo>].[subtext_Applications])
-			, UserId = @UserId
-			, Password
-			, PasswordFormat = 1
-			, PasswordSalt = ''
-			, MobilePIN = ''
-			, Email = 'unknown'
-			, LoweredEmail = 'unknown'
-			, PasswordQuestion = ''
-			, PasswordAnswer = ''
-			, IsApproved = 1
-			, IsLockedOut = 0
-			, CreateDate = DateCreated
-			, LastLoginDate = getdate()
-			, LastPasswordChangedDate = getdate()
-			, LastLockoutDate = CONVERT( datetime, '17540101', 112 )  
-			, FailedPasswordAttemptCount = 0
-			, FailedPasswordAttemptWindowStart = CONVERT( datetime, '17540101', 112 )  
-			, FailedPasswordAnswerAttemptCount = 0
-			, FailedPasswordAnswerAttemptWindowStart = CONVERT( datetime, '17540101', 112 )  
-			, Comment = 'Host Admin - Installation Owner'
-		FROM subtext_Host
+	DECLARE @HostAdminApplicationID uniqueidentifier
+	SELECT @HostAdminApplicationID = ApplicationID 
+		FROM [<dbUser,varchar,dbo>].[subtext_Applications]
+		WHERE ApplicationName = '/'
 		
-		PRINT 'Adding Host To HostAdmins Role'
-		INSERT [<dbUser,varchar,dbo>].[subtext_UsersInRoles]
-		SELECT @UserId, RoleId FROM [<dbUser,varchar,dbo>].[subtext_Roles] WHERE RoleName = 'HostAdmins'
-		
-		PRINT 'Setting the Host Owner'
-		
-		UPDATE [<dbUser,varchar,dbo>].[subtext_Host]
-		SET OwnerId = @UserId
+	-- Get Host Admin Role
+	DECLARE @HostAdminRoleId uniqueidentifier
+	SELECT @HostAdminRoleId = RoleID 
+	FROM [<dbUser,varchar,dbo>].[subtext_Roles]
+	WHERE 
+			ApplicationID = @HostAdminApplicationID
+		AND LoweredRoleName = 'hostadmins'
+	
+	-- Check to see if we already have host admin.
+	IF(0 != (SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_UsersInRoles] WHERE RoleId = @HostAdminRoleId))
+	BEGIN
+		PRINT 'Creating HostAdmin User'
+
+		DECLARE @UserId UNIQUEIDENTIFIER
+		SET @UserId = NEWID()
+
+		INSERT [<dbUser,varchar,dbo>].[subtext_Users]
+			SELECT 
+				UserId = @UserId
+				, UserName = HostUserName
+				, LoweredUserName = LOWER(HostUserName)
+				, MobileAlias = LOWER(HostUserName)
+				, 0 --IsAnonymous
+				, Password
+				, PasswordFormat = 1
+				, PasswordSalt = ''
+				, MobilePIN = ''
+				, Email = 'unknown'
+				, LoweredEmail = 'unknown'
+				, PasswordQuestion = ''
+				, PasswordAnswer = ''
+				, IsApproved = 1
+				, IsLockedOut = 0
+				, CreateDate = DateCreated
+				, LastActivityDate = getdate()
+				, LastLoginDate = getdate()
+				, LastPasswordChangedDate = getdate()
+				, LastLockoutDate = CONVERT( datetime, '17540101', 112 )  
+				, FailedPasswordAttemptCount = 0
+				, FailedPasswordAttemptWindowStart = CONVERT( datetime, '17540101', 112 )  
+				, FailedPasswordAnswerAttemptCount = 0
+				, FailedPasswordAnswerAttemptWindowStart = CONVERT( datetime, '17540101', 112 )  
+				, Comment = 'Host Admin - Installation Owner'
+			FROM [<dbUser,varchar,dbo>].[subtext_Host]
+			
+			PRINT 'Adding Host To HostAdmins Role'
+			INSERT [<dbUser,varchar,dbo>].[subtext_UsersInRoles]
+			SELECT @UserId, @HostAdminRoleId
+			
+			PRINT 'Setting the Host Owner'
+			UPDATE [<dbUser,varchar,dbo>].[subtext_Host]
+			SET OwnerId = @UserId
+	END
 END
 GO
 
@@ -163,35 +169,36 @@ GO
 
 /* Now, take the user in the Config table and add them as new Users
 	and add them into the Administrators role */
-IF(0 = (SELECT COUNT(1) FROM [<dbUser,varchar,dbo>].[subtext_Users] WHERE ApplicationId != (SELECT ApplicationId FROM [<dbUser,varchar,dbo>].[subtext_Applications] WHERE ApplicationName = '/')))
+IF(0 = (SELECT COUNT(1) 
+	FROM [<dbUser,varchar,dbo>].[subtext_Users] u
+		INNER JOIN [<dbUser,varchar,dbo>].[subtext_UsersInRoles] ur ON u.UserId = ur.UserId
+		INNER JOIN [<dbUser,varchar,dbo>].[subtext_Roles] r ON r.RoleId = ur.RoleId
+	WHERE
+		r.loweredrolename != 'hostadmins'	
+	)
+)
 BEGIN
-	PRINT 'Creating Blog Users'
+	PRINT 'Creating Blog Admin Users - 1 Per Blog'
 	
 	INSERT [<dbUser,varchar,dbo>].[subtext_Users]
-		SELECT ApplicationId
-			, newID()
+		SELECT 
+			newID()
 			, UserName
 			, LOWER(UserName)
-			, LOWER(UserName)
-			, 0
-			, getdate()
-		FROM [<dbUser,varchar,dbo>].[subtext_Config]
-	
-	PRINT 'Creating Blog Members'
-	INSERT [<dbUser,varchar,dbo>].[subtext_Membership]
-		SELECT cf.ApplicationId
-			, u.UserId
-			, cf.Password
+			, LOWER(UserName) --MobilAlias
+			, 0 -- IsAnonymous
+			, Password
 			, PasswordFormat = 1
 			, PasswordSalt = ''
 			, MobilePIN = ''
-			, cf.Email
-			, LoweredEmail = LOWER(cf.Email)
+			, Email
+			, LoweredEmail = LOWER(Email)
 			, PasswordQuestion = ''
 			, PasswordAnswer = ''
 			, IsApproved = 1
 			, IsLockedOut = 0
-			, CreateDate = cf.LastUpdated
+			, CreateDate = LastUpdated
+			, LastActivityDate = getdate()
 			, LastLoginDate = getdate()
 			, LastPasswordChangedDate = getdate()
 			, LastLockoutDate = CONVERT( datetime, '17540101', 112 )  
@@ -199,17 +206,16 @@ BEGIN
 			, FailedPasswordAttemptWindowStart = CONVERT( datetime, '17540101', 112 )  
 			, FailedPasswordAnswerAttemptCount = 0
 			, FailedPasswordAnswerAttemptWindowStart = CONVERT( datetime, '17540101', 112 )  
-			, Comment = CAST(cf.BlogId AS VARCHAR(64))
-		FROM [<dbUser,varchar,dbo>].[subtext_Users] u
-			INNER JOIN [<dbUser,varchar,dbo>].[subtext_Config] cf ON cf.UserName = u.UserName
-		WHERE u.ApplicationId NOT IN (SELECT ApplicationId FROM subtext_Membership)
-
+			, Comment = CAST(ApplicationID AS VARCHAR(64))
+		FROM [<dbUser,varchar,dbo>].[subtext_Config]
+	
 	PRINT 'Adding Blog Users To Admin Role'
 	INSERT [<dbUser,varchar,dbo>].[subtext_UsersInRoles]
 		SELECT u.UserId
 			, r.RoleId
 		FROM [<dbUser,varchar,dbo>].[subtext_Users] u
-			INNER JOIN [<dbUser,varchar,dbo>].[subtext_Roles] r ON r.ApplicationId = u.ApplicationId
+			INNER JOIN [<dbUser,varchar,dbo>].[subtext_Roles] r 
+				ON CAST(r.ApplicationId as VARCHAR(64)) = CAST(u.Comment as VARCHAR(64))
 		WHERE 
 			u.UserId NOT IN (SELECT UserId FROM [<dbUser,varchar,dbo>].[subtext_UsersInRoles])
 			AND r.RoleName = 'Administrators'
@@ -220,7 +226,7 @@ BEGIN
 		(
 			SELECT u.UserId
 			FROM [<dbUser,varchar,dbo>].[subtext_Applications] a 
-				INNER JOIN [<dbUser,varchar,dbo>].[subtext_Users] u ON a.ApplicationId = u.ApplicationId
+				INNER JOIN [<dbUser,varchar,dbo>].[subtext_Users] u ON CAST(a.ApplicationId as VARCHAR(64)) = CAST(u.Comment as VARCHAR(64))
 			WHERE u.UserName = UserName
 				AND a.ApplicationName != '/'
 		)
@@ -296,8 +302,3 @@ BEGIN
 	)
 END
 GO
-
-/* Need to set the password questions and answers */
-UPDATE [<dbUser,varchar,dbo>].[subtext_Membership] 
-	SET PasswordQuestion = 'No Question Specified. Please type the word "subtext"', PasswordAnswer='subtext'
-	WHERE PasswordQuestion IS NULL OR PasswordQuestion = ''

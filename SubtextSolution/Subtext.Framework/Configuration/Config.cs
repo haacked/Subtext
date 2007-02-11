@@ -154,22 +154,39 @@ namespace Subtext.Framework.Configuration
 			return ObjectProvider.Instance().GetBlogInfo(hostName, subfolder, strict);
 		}
 
-		/// <summary>
+        /// <summary>
+        /// Creates an initial blog.  This is a convenience method for 
+        /// allowing a user with a freshly installed blog to immediately gain access 
+        /// to the admin section to edit the blog.
+        /// </summary>
+        /// <param name="title">Title of the blog</param>
+        /// <param name="username">Username for the blog owner.</param>
+        /// <param name="password">Password.</param>
+        /// <param name="subfolder">subfolder name for the blog. This is accomplished via URL rewriting.</param>
+        /// <param name="host">Hostname for the blog.</param>
+        /// <returns></returns>
+        public static bool CreateBlog(string title, string username, string password, string host, string subfolder)
+        {
+            return CreateBlog(title, username, string.Empty, password, host, subfolder);
+        }
+
+	    /// <summary>
 		/// Creates an initial blog.  This is a convenience method for 
 		/// allowing a user with a freshly installed blog to immediately gain access 
 		/// to the admin section to edit the blog.
 		/// </summary>
 		/// <param name="title">Title of the blog</param>
-		/// <param name="userName">Name of the user.</param>
+		/// <param name="username">Username for the blog owner.</param>
+		/// <param name="email">Email Address of the blog owner.</param>
 		/// <param name="password">Password.</param>
-		/// <param name="subfolder"></param>
-		/// <param name="host"></param>
+		/// <param name="subfolder">subfolder name for the blog. This is accomplished via URL rewriting.</param>
+		/// <param name="host">Hostname for the blog.</param>
 		/// <returns></returns>
-		public static bool CreateBlog(string title, string userName, string password, string host, string subfolder)
+		public static bool CreateBlog(string title, string username, string email, string password, string host, string subfolder)
 		{
 			string passwordQuestion = "No Question Specified. Please type the word \"subtext\"";
 			string passwordAnswer = "subtext";
-			return CreateBlog(title, userName, password, passwordQuestion, passwordAnswer, host, subfolder, false);
+			return CreateBlog(title, username, email, password, passwordQuestion, passwordAnswer, host, subfolder, false);
 		}
 
 		/// <summary>
@@ -178,7 +195,8 @@ namespace Subtext.Framework.Configuration
 		/// to the admin section to edit the blog.
 		/// </summary>
 		/// <param name="title">The title.</param>
-		/// <param name="userName">Name of the user.</param>
+		/// <param name="username">Name of the user.</param>
+        /// <param name="email">Email Address of the blog owner.</param>
 		/// <param name="password">Password.</param>
 		/// <param name="passwordQuestion">The password retrieval question.</param>
 		/// <param name="passwordAnswer">The password retrieval answer.</param>
@@ -186,26 +204,53 @@ namespace Subtext.Framework.Configuration
 		/// <param name="subfolder">The subfolder.</param>
 		/// <param name="passwordAlreadyHashed">If true, the password has already been hashed.</param>
 		/// <returns></returns>
-		public static bool CreateBlog(string title, string userName, string password, string passwordQuestion, string passwordAnswer, string host, string subfolder, bool passwordAlreadyHashed)
+		public static bool CreateBlog(string title, string username, string email, string password, string passwordQuestion, string passwordAnswer, string host, string subfolder, bool passwordAlreadyHashed)
 		{
-			//TODO: add password question and naswer to params.
+			//TODO: add password question and answer to params.
 			
 			if(subfolder != null && subfolder.StartsWith("."))
 				throw new InvalidSubfolderNameException(subfolder);
 
 			host = BlogInfo.NormalizeHostName(host);
+            subfolder = UrlFormats.StripSurroundingSlashes(subfolder);
 
-			//Check for duplicate
-			BlogInfo potentialDuplicate = GetBlogInfo(host, subfolder, true);
-			if(potentialDuplicate != null)
+		    CheckForDuplicateBlog(host, subfolder);
+		    ValidateSubfolderName(host, subfolder);
+			
+			//Create the blog owner.
+		    MembershipCreateStatus status;
+		    MembershipUser owner = Membership.CreateUser(username, password, email, passwordQuestion, passwordAnswer, true, out status);
+
+		    if(status != MembershipCreateStatus.Success)
+                throw new MembershipCreateUserException(status); //TODO: Probably wrap this with a blog create exception.
+            if (owner == null)
+                throw new MembershipCreateUserException("Created user successfully according to membership provider, but user is null.");
+
+            //Add blog user to Administrators.
+			BlogInfo blog = ObjectProvider.Instance().CreateBlog(title, host, subfolder, owner);
+			using (MembershipApplicationScope.SetApplicationName(blog.ApplicationName))
 			{
-				//we found a duplicate!
-				throw new BlogDuplicationException(potentialDuplicate);
-			}
+				CreateBlogRoles();
 
-		    //If the subfolder is null, this next check is redundant as it is 
-		    //equivalent to the check we just made.
-			if (subfolder != null && subfolder.Length > 0)
+				Roles.AddUserToRole(owner.UserName, "Administrators");
+			}
+			return true;
+		}
+
+	    private static void ValidateSubfolderRequired(string host)
+	    {
+//Check to see if this blog requires a Subfolder value
+	        //This would occur if another blog has the same host already.
+	        int activeBlogWithHostCount = BlogInfo.GetBlogsByHost(host, 0, 1, ConfigurationFlag.IsActive).Count;
+	        if(activeBlogWithHostCount > 0)
+	        {
+	            throw new BlogRequiresSubfolderException(host, activeBlogWithHostCount);
+	        }
+	    }
+
+	    private static void ValidateSubfolderName(string host, string subfolder)
+	    {
+            if (!String.IsNullOrEmpty(subfolder))
             {
                 //Check to see if we're going to end up hiding another blog.
                 BlogInfo potentialHidden = GetBlogInfo(host, string.Empty, true);
@@ -214,48 +259,29 @@ namespace Subtext.Framework.Configuration
                     //We found a blog that would be hidden by this one.
                     throw new BlogHiddenException(potentialHidden);
                 }
+
+                if (!IsValidSubfolderName(subfolder))
+                {
+                    throw new InvalidSubfolderNameException(subfolder);
+                }
             }
-			
-			subfolder = UrlFormats.StripSurroundingSlashes(subfolder);
-			Console.WriteLine("Creating a blog with subfolder '" + subfolder + "'");
+            else
+            {
+                ValidateSubfolderRequired(host);
+            }
+	    }
 
-			if(subfolder == null || subfolder.Length == 0)
-			{
-				//Check to see if this blog requires a Subfolder value
-				//This would occur if another blog has the same host already.
-				int activeBlogWithHostCount = BlogInfo.GetBlogsByHost(host, 0, 1, ConfigurationFlag.IsActive).Count;
-				if(activeBlogWithHostCount > 0)
-				{
-					throw new BlogRequiresSubfolderException(host, activeBlogWithHostCount);
-				}
-			}
-			else
-			{
-				if(!IsValidSubfolderName(subfolder))
-				{
-					throw new InvalidSubfolderNameException(subfolder);
-				}
-			}
+	    private static void CheckForDuplicateBlog(string host, string subfolder)
+	    {
+	        BlogInfo potentialDuplicate = GetBlogInfo(host, subfolder, true);
+	        if(potentialDuplicate != null)
+	        {
+	            //we found a duplicate!
+	            throw new BlogDuplicationException(potentialDuplicate);
+	        }
+	    }
 
-			//Create the blog.
-			string passwordSalt = SecurityHelper.CreateRandomSalt();
-			if (Membership.Provider.PasswordFormat == MembershipPasswordFormat.Hashed)
-				password = SecurityHelper.HashPassword(password, passwordSalt);
-			
-			//Add blog user to Administrators.
-			BlogInfo blog = ObjectProvider.Instance().CreateBlog(title, userName, password, passwordSalt, passwordQuestion, passwordAnswer, null, host, subfolder);
-			using (IDisposable appScope = MembershipApplicationScope.SetApplicationName(blog.ApplicationName))
-			{
-				CreateBlogRoles();
-
-				Roles.AddUserToRole(blog.Owner.UserName, "Administrators");
-				
-				appScope.Dispose();
-			}
-			return true;
-		}
-
-		private static void CreateBlogRoles()
+	    private static void CreateBlogRoles()
 		{
 			string[] defaultRoles =
 				{"Administrators", "PowerUsers", "Authors", "Commenters", "Anonymous"};

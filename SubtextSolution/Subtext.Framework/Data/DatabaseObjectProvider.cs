@@ -414,11 +414,11 @@ namespace Subtext.Framework.Data
 			try
 			{
 				List<FeedbackItem> ec = new List<FeedbackItem>();
-				FeedbackItem feedbackItem;
+				
 				while(reader.Read())
 				{
 					//Don't build links.
-					feedbackItem = DataHelper.LoadFeedbackItem(reader);
+					FeedbackItem feedbackItem = DataHelper.LoadFeedbackItem(reader);
 					ec.Add(feedbackItem);
 				}
 				return ec;
@@ -1369,18 +1369,13 @@ namespace Subtext.Framework.Data
 		/// to the admin section to edit the blog.
 		/// </summary>
 		/// <param name="title">The title.</param>
-		/// <param name="username">The username of the blog owner.</param>
-		/// <param name="formattedPassword">The password for the blog owner as it should be stored in the db.</param>
-		/// <param name="passwordSalt">The password salt.</param>
-		/// <param name="passwordQuestion">The password reset question.</param>
-		/// <param name="passwordAnswer">The password reset answer.</param>
-		/// <param name="email">The email.</param>
 		/// <param name="host">The host.</param>
 		/// <param name="subfolder">The subfolder.</param>
+		/// <param name="owner">The blog owner</param>
 		/// <returns></returns>
-		public override BlogInfo CreateBlog(string title, string username, string formattedPassword, string passwordSalt, string passwordQuestion, string passwordAnswer, string email, string host, string subfolder)
+		public override BlogInfo CreateBlog(string title, string host, string subfolder, MembershipUser owner)
 		{
-			using (IDataReader reader = GetReader("subtext_UTILITY_AddBlog", title, username, formattedPassword, passwordSalt, passwordQuestion, passwordAnswer, DataHelper.CheckNull(email), host, subfolder, DateTime.UtcNow))
+			using (IDataReader reader = GetReader("subtext_UTILITY_AddBlog", title, host, subfolder, owner.ProviderUserKey, DateTime.UtcNow))
 			{
 				if(reader.Read())
 					return DataHelper.LoadBlog(reader);
@@ -2016,7 +2011,7 @@ namespace Subtext.Framework.Data
 
         private IDataReader GetReader(string sql)
         {
-            LogSql(sql, null);
+            LogSql(sql, (object[])null);
             return SqlHelper.ExecuteReader(ConnectionString, CommandType.StoredProcedure, sql);
         }
 
@@ -2053,7 +2048,7 @@ namespace Subtext.Framework.Data
 				return;
 			}
 			
-			string query = sql + StringHelper.Join<object>(", ", parameterValues, delegate(object item)
+			string query = sql + StringHelper.Join(", ", parameterValues, delegate(object item)
 			{
 				if(item != null)
 					return item.ToString();
@@ -2074,7 +2069,7 @@ namespace Subtext.Framework.Data
         		return;
         	}
         		
-			string query = sql + StringHelper.Join<SqlParameter>(", ", parameters, delegate(SqlParameter item)
+			string query = sql + StringHelper.Join(", ", parameters, delegate(SqlParameter item)
 			{
 				return item.ParameterName + "=" + item.Value;
 			}); 
