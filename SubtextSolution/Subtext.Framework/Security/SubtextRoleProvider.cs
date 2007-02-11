@@ -60,8 +60,8 @@ namespace Subtext.Framework.Security
 
         public override void AddUsersToRoles(string[] usernames, string[] roleNames)
         {
-            string cdUserNames = "";
-            string cdRoleNames = "";
+            string cdUserNames;
+            string cdRoleNames;
 
             StringBuilder builder = new StringBuilder();
             foreach (string s in usernames)

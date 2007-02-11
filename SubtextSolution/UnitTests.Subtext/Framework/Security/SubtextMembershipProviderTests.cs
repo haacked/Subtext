@@ -50,7 +50,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 			MembershipUserCollection foundUsers = Membership.FindUsersByEmail(email);
 			Assert.AreEqual(1, foundUsers.Count, "Expected to find two users");
 			
-			foreach(MembershipUser user in foundUsers)
+            foreach(MembershipUser user in foundUsers)
 			{
 				Assert.AreEqual(email, user.Email, "Hey, we found the wrong user!");
 			}
@@ -93,7 +93,17 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 			Membership.CreateUser(name + "blah", "secret-password", UnitTestHelper.GenerateRandomString() + "@example.com");
 
 			MembershipUserCollection allUsers = Membership.GetAllUsers();
-			Assert.AreEqual(3, allUsers.Count, "Expected to find three users");
+			Assert.GreaterEqualThan(allUsers.Count, 3, "Expected to find at least three users");
+		    bool foundFirst = false;
+		    bool foundSecond = false;
+            foreach(MembershipUser user in allUsers)
+            {
+                if (user.UserName == name)
+                    foundFirst = true;
+                if (user.UserName == name + "blah")
+                    foundSecond = true;
+            }
+		    Assert.IsTrue(foundFirst && foundSecond, "Did not find both users we created.");
 		}
 		
 		[Test]
@@ -103,7 +113,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 			UnitTestHelper.SetupBlog();
 			Config.CurrentBlog.Owner.LastActivityDate = DateTime.Now;
 			Membership.UpdateUser(Config.CurrentBlog.Owner);
-			Assert.AreEqual(1, Membership.GetNumberOfUsersOnline());
+			Assert.GreaterEqualThan(Membership.GetNumberOfUsersOnline(), 1);
 		}
 
 		[Test, Ignore("Need to get this to work later.")]
@@ -123,21 +133,25 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 		[RollBack]
 		public void CanChangePassword()
 		{
-			UnitTestHelper.SetupBlog();
-			Assert.IsTrue(Membership.Provider.ValidateUser(UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestPassword));
-			Assert.IsTrue(Membership.Provider.ChangePassword(UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestPassword, "NewPassword"));
-			Assert.IsTrue(Membership.Provider.ValidateUser(UnitTestHelper.MembershipTestUsername, "NewPassword"), "Could not validate user with new password.");
+		    string username = UnitTestHelper.MembershipTestUsername;
+            string password = UnitTestHelper.MembershipTestPassword;
+            UnitTestHelper.SetupBlogWithUserAndPassword(username, password);
+            Assert.IsTrue(Membership.Provider.ValidateUser(username, password));
+            Assert.IsTrue(Membership.Provider.ChangePassword(username, UnitTestHelper.MembershipTestPassword, "NewPassword"));
+            Assert.IsTrue(Membership.Provider.ValidateUser(username, "NewPassword"), "Could not validate user with new password.");
 		}
 
 		[Test]
 		[RollBack]
 		public void CanResetPassword()
 		{
-			UnitTestHelper.SetupBlog();
-			Assert.IsTrue(Membership.Provider.ValidateUser(UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestPassword));
-			string newPassword = Membership.Provider.ResetPassword(UnitTestHelper.MembershipTestUsername, "subtext");
+            string username = UnitTestHelper.MembershipTestUsername;
+		    string password = UnitTestHelper.MembershipTestPassword;
+            UnitTestHelper.SetupBlogWithUserAndPassword(username, password);
+            Assert.IsTrue(Membership.Provider.ValidateUser(username, password));
+			string newPassword = Membership.Provider.ResetPassword(username, "subtext");
 			Assert.IsNotNull(newPassword, "New password is null, indicating a problem occurred while resetting the password.");
-			Assert.IsTrue(Membership.Provider.ValidateUser(UnitTestHelper.MembershipTestUsername, newPassword), "Could not validate user with new password '" + newPassword + "'.");
+            Assert.IsTrue(Membership.Provider.ValidateUser(username, newPassword), "Could not validate user with new password '" + newPassword + "'.");
 		}
 		
 

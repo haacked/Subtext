@@ -19,7 +19,7 @@ namespace UnitTests.Subtext.Framework.Data
 {
 	[TestFixture]
 	public class PagedCollectionRetrievalTests
-	{		
+	{
 		/// <summary>
 		/// Creates some entries and makes sure that the proper 
 		/// number of pages and entries per page are created 
@@ -336,10 +336,6 @@ namespace UnitTests.Subtext.Framework.Data
 	
 	internal class KeyWordCollectionTester : IPagedCollectionTester
 	{
-		public KeyWordCollectionTester()
-		{
-		}
-
 		public void Create(int index)
 		{
 			KeyWord keyword = new KeyWord();
@@ -366,13 +362,9 @@ namespace UnitTests.Subtext.Framework.Data
 	{
 		string host = UnitTestHelper.GenerateRandomString();
 		
-		public BlogCollectionTester()
-		{
-		}
-
 		public void Create(int index)
 		{
-			Config.CreateBlog("title " + index, "phil", "password", host, "Subfolder" + index);
+			Config.CreateBlog("title " + index, UnitTestHelper.MembershipTestUsername, UnitTestHelper.MembershipTestEmail, "password", host, "Subfolder" + index);
 		}
 
 		public IPagedCollection GetPagedItems(int pageIndex, int pageSize)

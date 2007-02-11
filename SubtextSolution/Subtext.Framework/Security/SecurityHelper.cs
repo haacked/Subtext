@@ -58,13 +58,12 @@ namespace Subtext.Framework.Security
 		public static HttpCookie SelectAuthenticationCookie()
 		{
 			HttpCookie authCookie = null;
-			HttpCookie c;
 			int count = HttpContext.Current.Request.Cookies.Count;
 
 			log.Debug("cookie count = " + count);
 			for (int i = 0; i < count; i++)
 			{
-				c = HttpContext.Current.Request.Cookies[i];
+				HttpCookie c = HttpContext.Current.Request.Cookies[i];
 				#region Logging
 				if (log.IsDebugEnabled)
 				{
@@ -159,7 +158,7 @@ namespace Subtext.Framework.Security
 				}
 				else throw;
 			}
-			log.Debug("GetFullCookieName selected cookie named " + name.ToString());
+			log.Debug("GetFullCookieName selected cookie named " + name);
 			return name.ToString();
 		}
 
@@ -169,6 +168,7 @@ namespace Subtext.Framework.Security
 		/// </summary>
 		/// <param name="username">Username for the ticket</param>
 		/// <param name="persist">Should this ticket be persisted</param>
+		/// <param name="roles">The roles to add to the authentication ticket.</param>
 		public static void SetAuthenticationTicket(string username, bool persist, params string[] roles)
 		{
 			//Getting a cookie this way and using a temp auth ticket 
@@ -249,6 +249,7 @@ namespace Subtext.Framework.Security
 		/// Passwords are case sensitive now. Before they weren't.
 		/// </remarks>
 		/// <param name="password">Supplied Password</param>
+		/// <param name="salt">Salt for hashing the password</param>
 		/// <returns>Encrypted (Hashed) value</returns>
 		public static string HashPassword(string password, string salt)
 		{
@@ -341,7 +342,10 @@ namespace Subtext.Framework.Security
 					{
 						return HttpContext.Current.User.Identity.Name;
 					}
-					catch { }
+					catch(Exception e)
+					{
+					    log.Error("Unexpected exception while grabbing the user name", e);
+					}
 				}
 				return null;
 			}
@@ -462,7 +466,7 @@ namespace Subtext.Framework.Security
 			int BlogId;
 			try
 			{
-				BlogId = Subtext.Framework.Configuration.Config.CurrentBlog.Id;
+				BlogId = Config.CurrentBlog.Id;
 			}
 			catch (NullReferenceException)
 			{

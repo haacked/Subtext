@@ -53,9 +53,10 @@ namespace UnitTests.Subtext.Akismet
 		}
 
 		[Test]
+        [RollBack]
 		public void IsSpamReturnsTrueForSpam()
 		{
-			UnitTestHelper.SetupHttpContextWithRequest("/");
+		    UnitTestHelper.SetupBlog();
 
 			MockRepository mocks = new MockRepository();
 			IAkismetClient akismetClient = mocks.CreateMock<IAkismetClient>();
@@ -71,9 +72,10 @@ namespace UnitTests.Subtext.Akismet
 		}
 
 		[Test]
+        [RollBack]
 		public void IsSpamReturnsFalseIfAkismetClientDoesSo()
 		{
-			UnitTestHelper.SetupHttpContextWithRequest("/");
+            UnitTestHelper.SetupBlog();
 
 			MockRepository mocks = new MockRepository();
 			IAkismetClient akismetClient = mocks.CreateMock<IAkismetClient>();
@@ -87,9 +89,10 @@ namespace UnitTests.Subtext.Akismet
 		}
 
 		[Test]
+        [RollBack]
 		public void IsSpamReturnsFalseIfAkismetClientThrowsInvalidResponseException()
 		{
-			UnitTestHelper.SetupHttpContextWithRequest("/");
+            UnitTestHelper.SetupBlog();
 
 			MockRepository mocks = new MockRepository();
 			IAkismetClient akismetClient = mocks.CreateMock<IAkismetClient>();
@@ -103,9 +106,10 @@ namespace UnitTests.Subtext.Akismet
 		}
 
 		[Test]
+        [RollBack]
 		public void CanSubmitSpam()
 		{
-			UnitTestHelper.SetupHttpContextWithRequest("/");
+            UnitTestHelper.SetupBlog();
 
 			MockRepository mocks = new MockRepository();
 			IAkismetClient akismetClient = mocks.CreateMock<IAkismetClient>();
@@ -121,9 +125,10 @@ namespace UnitTests.Subtext.Akismet
 		}
 
 		[Test]
+        [RollBack]
 		public void CanSubmitGoodFeedback()
 		{
-			UnitTestHelper.SetupHttpContextWithRequest("/");
+            UnitTestHelper.SetupBlog();
 
 			MockRepository mocks = new MockRepository();
 			IAkismetClient akismetClient = mocks.CreateMock<IAkismetClient>();

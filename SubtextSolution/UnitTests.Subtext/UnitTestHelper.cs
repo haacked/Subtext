@@ -43,7 +43,20 @@ namespace UnitTests.Subtext
 	/// </summary>
 	public static class UnitTestHelper
 	{
-		internal static readonly string MembershipTestUsername = GenerateRandomString();
+		internal static string MembershipTestUsername
+        {
+            get
+            {
+                return GenerateRandomString();
+            }
+        }
+	    internal static string MembershipTestEmail
+	    {
+	        get
+	        {
+                return MembershipTestUsername + "@example.com";
+	        }
+	    }
 		internal static readonly string MembershipTestPassword = GenerateRandomString();
 		
         /// <summary>
@@ -227,7 +240,7 @@ namespace UnitTests.Subtext
 		internal static SimulatedRequestContext SetupBlog(string subfolder, string applicationPath, int port, string page)
 		{
 			string host = GenerateRandomString();
-			Assert.IsTrue(Config.CreateBlog("Unit Test Blog", MembershipTestUsername, MembershipTestPassword, host, subfolder), "Could Not Create Blog");
+            Assert.IsTrue(Config.CreateBlog("Unit Test Blog", MembershipTestUsername, MembershipTestEmail, MembershipTestPassword, host, subfolder), "Could Not Create Blog");
 
 			StringBuilder sb = new StringBuilder();
 			TextWriter output = new StringWriter(sb);

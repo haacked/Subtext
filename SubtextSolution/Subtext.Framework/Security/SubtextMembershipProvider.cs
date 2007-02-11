@@ -20,13 +20,6 @@ namespace Subtext.Framework.Security
         private NameValueCollection _config;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="SubtextMembershipProvider"/> class.
-		/// </summary>
-        public SubtextMembershipProvider() : base()
-        {
-        }
-
-		/// <summary>
 		/// Initializes the provider.
 		/// </summary>
 		/// <param name="name">The friendly name of the provider.</param>
@@ -99,7 +92,7 @@ namespace Subtext.Framework.Security
 				newPassword = SecurityHelper.HashPassword(newPassword);
 			}
 
-			int recordsAffected = SqlHelper.ExecuteNonQuery(this.connectionString, "subtext_Membership_SetPassword", applicationName, username, newPassword, passwordSalt, DateTime.UtcNow, Membership.Provider.PasswordFormat);
+			int recordsAffected = SqlHelper.ExecuteNonQuery(this.connectionString, "subtext_Membership_SetPassword", username, newPassword, passwordSalt, DateTime.UtcNow, Membership.Provider.PasswordFormat);
 			return recordsAffected > 0;
         }
 
@@ -172,39 +165,38 @@ namespace Subtext.Framework.Security
 			if(PasswordFormat == MembershipPasswordFormat.Hashed)
         		password = SecurityHelper.HashPassword(password, salt);
         	
-			using (SqlConnection conn = new SqlConnection(this.connectionString))
-			{
-				using (SqlCommand cmd = new SqlCommand("subtext_Membership_CreateUser", conn))
-				{
-					cmd.CommandType = CommandType.StoredProcedure;
-					cmd.Parameters.AddWithValue("@ApplicationName", ApplicationName);
-					cmd.Parameters.AddWithValue("@UserName", username);
-					cmd.Parameters.AddWithValue("@Password", password);
-					cmd.Parameters.AddWithValue("@PasswordSalt", salt);
-					cmd.Parameters.AddWithValue("@Email", email);
-					cmd.Parameters.AddWithValue("@PasswordQuestion", passwordQuestion);
-					cmd.Parameters.AddWithValue("@PasswordAnswer", passwordAnswer);
-					cmd.Parameters.AddWithValue("@IsApproved", true);
-					cmd.Parameters.AddWithValue("@CurrentTimeUtc", DateTime.UtcNow);
-					cmd.Parameters.AddWithValue("@CreateDate", DateTime.Now);
-					cmd.Parameters.AddWithValue("@UniqueEmail", RequiresUniqueEmail);
-					cmd.Parameters.AddWithValue("@PasswordFormat", PasswordFormat);
-					cmd.Parameters.Add(DataHelper.MakeOutParam("@UserId", SqlDbType.UniqueIdentifier, 4));
-					cmd.Parameters["@UserId"].Value = providerUserKey;
 
-					conn.Open();
-					if (cmd.ExecuteNonQuery() >= 1) //Records affected.
-					{
-						status = MembershipCreateStatus.Success;
-						return GetUser(username, true);
-					}
-					else
-					{
-						status = MembershipCreateStatus.ProviderError;
-						return null;
-					}
+			using (SqlConnection conn = new SqlConnection(this.connectionString))
+			using (SqlCommand cmd = new SqlCommand("subtext_Membership_CreateUser", conn))
+			{
+				cmd.CommandType = CommandType.StoredProcedure;
+				cmd.Parameters.AddWithValue("@UserName", username);
+				cmd.Parameters.AddWithValue("@Password", password);
+				cmd.Parameters.AddWithValue("@PasswordSalt", salt);
+				cmd.Parameters.AddWithValue("@Email", email);
+				cmd.Parameters.AddWithValue("@PasswordQuestion", passwordQuestion);
+				cmd.Parameters.AddWithValue("@PasswordAnswer", passwordAnswer);
+				cmd.Parameters.AddWithValue("@IsApproved", true);
+				cmd.Parameters.AddWithValue("@CurrentTimeUtc", DateTime.UtcNow);
+				cmd.Parameters.AddWithValue("@CreateDate", DateTime.Now);
+				cmd.Parameters.AddWithValue("@UniqueEmail", RequiresUniqueEmail);
+				cmd.Parameters.AddWithValue("@PasswordFormat", PasswordFormat);
+                cmd.Parameters.AddWithValue("@UserId", providerUserKey);
+
+                conn.Open();
+				int recordsAffected = cmd.ExecuteNonQuery();
+                if(recordsAffected >= 1) //Records affected.
+				{
+					status = MembershipCreateStatus.Success;
+					return GetUser(username, true);
+				}
+				else
+				{
+					status = MembershipCreateStatus.ProviderError;
+					return null;
 				}
 			}
+		
         }
 
 		/// <summary>
@@ -222,7 +214,6 @@ namespace Subtext.Framework.Security
 				using (SqlCommand cmd = new SqlCommand("subtext_Users_DeleteUser", conn))
 				{
 					cmd.CommandType = CommandType.StoredProcedure;
-					cmd.Parameters.AddWithValue("@ApplicationName", "\\");
 					cmd.Parameters.AddWithValue("@UserName", username);
 					cmd.Parameters.AddWithValue("@TablesToDeleteFrom", deleteAllRelatedData ? 15 : 1);
 					cmd.Parameters.Add(DataHelper.MakeOutParam("@NumTablesDeletedFrom", SqlDbType.Int, 4));
@@ -293,7 +284,6 @@ namespace Subtext.Framework.Security
 				using (SqlCommand command = new SqlCommand("subtext_Membership_FindUsersByEmail", conn))
 				{
 					command.CommandType = CommandType.StoredProcedure;
-					command.Parameters.Add(new SqlParameter("@ApplicationName", ApplicationName));
 					command.Parameters.Add(new SqlParameter("@EmailToMatch", emailToMatch));
 					command.Parameters.Add(new SqlParameter("@PageIndex", pageIndex));
 					command.Parameters.Add(new SqlParameter("@PageSize", pageSize));
@@ -345,7 +335,6 @@ namespace Subtext.Framework.Security
 				using (SqlCommand command = new SqlCommand("subtext_Membership_FindUsersByName", conn))
 				{
 					command.CommandType = CommandType.StoredProcedure;
-					command.Parameters.Add(new SqlParameter("@ApplicationName", ApplicationName));
 					command.Parameters.Add(new SqlParameter("@UserNameToMatch", usernameToMatch));
 					command.Parameters.Add(new SqlParameter("@PageIndex", pageIndex));
 					command.Parameters.Add(new SqlParameter("@PageSize", pageSize));
@@ -385,7 +374,6 @@ namespace Subtext.Framework.Security
 				using (SqlCommand command = new SqlCommand("subtext_Membership_GetAllUsers", conn))
 				{
 					command.CommandType = CommandType.StoredProcedure;
-					command.Parameters.Add(new SqlParameter("@ApplicationName", ApplicationName));
 					command.Parameters.Add(new SqlParameter("@PageIndex", pageIndex));
 					command.Parameters.Add(new SqlParameter("@PageSize", pageSize));
 					command.Parameters.Add(totalCountParam);
@@ -420,7 +408,6 @@ namespace Subtext.Framework.Security
 				using (SqlCommand cmd = new SqlCommand("subtext_Membership_GetNumberOfUsersOnline", conn))
 				{
 					cmd.CommandType = CommandType.StoredProcedure;
-					cmd.Parameters.AddWithValue("@ApplicationName", ApplicationName);
 					cmd.Parameters.AddWithValue("@MinutesSinceLastInActive", 20);
 					cmd.Parameters.AddWithValue("@CurrentTimeUtc", DateTime.UtcNow.ToLongTimeString());
 					cmd.Parameters.Add(totalCountParam);
@@ -459,7 +446,6 @@ namespace Subtext.Framework.Security
         {
         	using(IDataReader reader = SqlHelper.ExecuteReader(this.connectionString
         	                                                   , "subtext_Membership_GetUserByName"
-        	                                                   , Membership.ApplicationName
         	                                                   , username
         	                                                   , DateTime.UtcNow, userIsOnline))
         	{
@@ -521,7 +507,7 @@ namespace Subtext.Framework.Security
 		/// </returns>
         public override string GetUserNameByEmail(string email)
         {
-			return (string)SqlHelper.ExecuteScalar(this.connectionString, "subtext_Membership_GetUserByEmail", ApplicationName, email ?? string.Empty);
+			return (string)SqlHelper.ExecuteScalar(this.connectionString, "subtext_Membership_GetUserByEmail", email);
         }
 
 		/// <summary>
@@ -676,7 +662,6 @@ namespace Subtext.Framework.Security
 			
 			int recordsAffected = SqlHelper.ExecuteNonQuery(this.connectionString
 			                                          , "subtext_Membership_ResetPassword"
-			                                          , ApplicationName
 			                                          , username
 			                                          , newPassword
 			                                          , MaxInvalidPasswordAttempts
@@ -717,7 +702,6 @@ namespace Subtext.Framework.Security
             }
 
 			SqlHelper.ExecuteNonQuery(this.connectionString, "subtext_Membership_UpdateUser"
-			                          , ApplicationName
 			                          , user.UserName
 			                          , user.Email
 			                          , user.Comment
@@ -747,7 +731,6 @@ namespace Subtext.Framework.Security
 				using (SqlCommand cmd = new SqlCommand("subtext_Membership_GetPasswordWithFormat",  conn))
 				{
 					cmd.CommandType = CommandType.StoredProcedure;
-					cmd.Parameters.AddWithValue("@ApplicationName", ApplicationName);
 					cmd.Parameters.AddWithValue("@UserName", username);
 					cmd.Parameters.AddWithValue("@UpdateLastLoginActivityDate", 0);
 					cmd.Parameters.AddWithValue("@CurrentTimeUtc", DateTime.Now.ToShortTimeString());
