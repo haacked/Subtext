@@ -1,4 +1,5 @@
 using System;
+using System.Configuration.Provider;
 using System.Web.Security;
 using MbUnit.Framework;
 using Subtext.Framework.Configuration;
@@ -50,5 +51,115 @@ namespace UnitTests.Subtext.Framework.SecurityTests
                 Assert.IsNotNull(Array.Find(roles, new Predicate<string>(delegate(string value) { return value == "TestRole2"; })), "Could not find TestRole2");
             }
         }
-	}
+
+        [Test]
+        [RollBack]
+        [ExpectedException(typeof(NotImplementedException))]
+        public void CanDeleteRole()
+        {
+            //DeleteRole has not been implemented yet.
+            using (MembershipApplicationScope.SetApplicationName("/"))
+            {
+                Roles.CreateRole("ATestRole");
+                string[] roles = Roles.GetAllRoles();
+                Assert.IsNotNull(Array.Find(roles, new Predicate<string>(delegate(string value) { return value == "ATestRole"; })), "Could not find the role 'ATestRole'");
+                Roles.DeleteRole("ATestRole");
+                roles = Roles.GetAllRoles();
+                Assert.IsNull(Array.Find(roles, new Predicate<string>(delegate(string value) { return value == "ATestRole"; })), "Could not find TestRole1");
+            }
+        }
+
+        [Test]
+        [RollBack]
+        [ExpectedException(typeof(NotImplementedException))]
+        public void CanFindUsersInRole()
+        {
+            string username = "x" + UnitTestHelper.MembershipTestUsername;
+            //DeleteRole has not been implemented yet.
+            using (MembershipApplicationScope.SetApplicationName("/"))
+            {
+                Roles.CreateRole("ATestRole");
+                string[] roles = Roles.GetAllRoles();
+                Assert.IsNotNull(Array.Find(roles, new Predicate<string>(delegate(string value) { return value == "ATestRole"; })), "Could not find the role 'ATestRole'");
+                Membership.CreateUser(username, UnitTestHelper.MembershipTestPassword, "test");
+                Roles.AddUserToRole(username, "ATestRole");
+                string[] usernames = Roles.FindUsersInRole("ATestRole", "x");
+                Assert.GreaterEqualThan(usernames.Length, 1, "Should have found at least one user.");
+                Assert.AreEqual(username, Array.Find(usernames, new Predicate<string>(delegate(string value) { return value == username; })), "Could not find the user '" + username + "'");
+            }
+        }
+
+        [Test]
+        [RollBack]
+        public void CanGetRolesForUser()
+        {
+            string username = UnitTestHelper.MembershipTestUsername;
+            //DeleteRole has not been implemented yet.
+            using (MembershipApplicationScope.SetApplicationName("/"))
+            {
+                Membership.CreateUser(username, UnitTestHelper.MembershipTestPassword, "test");
+                Roles.CreateRole("ATestRole1");
+                Roles.CreateRole("ATestRole2");
+                Roles.CreateRole("ATestRole3");
+                Roles.AddUserToRole(username, "ATestRole1");
+                Roles.AddUserToRole(username, "ATestRole2");
+                Roles.AddUserToRole(username, "ATestRole3");
+
+                string[] roles = Roles.GetRolesForUser(username);
+                Assert.AreEqual(3, roles.Length, "Expected the user to be in three roles.");
+                Assert.IsNotNull(Array.Find(roles, new Predicate<string>(delegate(string value) { return value == "ATestRole1"; })), "Could not find the role 'ATestRole1'");
+                Assert.IsNotNull(Array.Find(roles, new Predicate<string>(delegate(string value) { return value == "ATestRole2"; })), "Could not find the role 'ATestRole2'");
+                Assert.IsNotNull(Array.Find(roles, new Predicate<string>(delegate(string value) { return value == "ATestRole2"; })), "Could not find the role 'ATestRole3'");
+            }
+        }
+
+        #region Exception Tests
+        [Test]
+        [ExpectedArgumentNullException]
+        [RollBack]
+        public void CreateRoleThrowsArgumentNullException()
+        {
+            using (MembershipApplicationScope.SetApplicationName("/"))
+            {
+                Roles.CreateRole(null);
+            }
+        }
+
+        [Test]
+        [ExpectedException(typeof(ProviderException))]
+        [RollBack]
+        public void CreateRoleThrowsProviderExceptionForExistingRole()
+        {
+            using (MembershipApplicationScope.SetApplicationName("/"))
+            {
+                Roles.CreateRole("DuplicateRole");
+                Roles.CreateRole("DuplicateRole");
+            }
+        }
+
+        [RowTest]
+        [Row("", ExpectedException = typeof(ArgumentException))]
+        [Row("HasA,Comma", ExpectedException = typeof(ArgumentException))]
+        [RollBack]
+        public void CreateRoleThrowsArgumentException(string rolename)
+        {
+            using (MembershipApplicationScope.SetApplicationName("/"))
+            {
+                Roles.CreateRole(rolename);
+            }
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        [RollBack]
+        public void CreateRoleThrowsArgumentExceptionForTooLongRoleName()
+        {
+            string rolename = new string('a', 513);
+            using (MembershipApplicationScope.SetApplicationName("/"))
+            {
+                Roles.CreateRole(rolename);
+            }
+        }
+        #endregion
+    }
 }
