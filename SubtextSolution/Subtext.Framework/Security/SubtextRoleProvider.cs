@@ -1,4 +1,5 @@
 using System;
+using System.Configuration.Provider;
 using System.Data;
 using System.Web;
 using System.Collections.Specialized;
@@ -95,33 +96,35 @@ namespace Subtext.Framework.Security
 
         public override void CreateRole(string roleName)
         {
+            if (roleName == null)
+                throw new ArgumentNullException("roleName", "Role is null.");
+            
+            if(roleName.Length == 0)
+                throw new ArgumentException("Cannot create an empty role name.", "roleName");
+            
+            if (roleName.Contains(","))
+                throw new ArgumentException("Role cannot contain a comma.", "roleName");
+            
+            if (roleName.Length > 512)
+                throw new ArgumentException("Role name is too long.", "roleName");
 
-            SqlConnection conn = new SqlConnection(this.connectionString);
-            SqlCommand cmd = new SqlCommand("subtext_Roles_CreateRole", conn);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ApplicationName", ApplicationName);
-            cmd.Parameters.AddWithValue("@RoleName", roleName);
-            using (conn)
+            int recordsAffected = SqlHelper.ExecuteNonQuery(this.connectionString, "subtext_Roles_CreateRole", ApplicationName, roleName);
+            if (recordsAffected != 1)
             {
-                conn.Open();
-                if (cmd.ExecuteNonQuery() != 1)
-                {
-                    throw new Exception(Resources.SecurityException_RoleExists);
-                }
+                throw new ProviderException(Resources.SecurityException_RoleExists);
             }
-
         }
 
         public override bool DeleteRole(string roleName, bool throwOnPopulatedRole)
         {
             //no need to delete roles at this moment from within Subtext (v2) - RA
-            throw new Exception(Resources.NotImplementedException_Generic);
+            throw new NotImplementedException(Resources.NotImplementedException_Generic);
         }
         
         public override string[] FindUsersInRole(string roleName, string usernameToMatch)
         {
             //I've yet to figure out what the @!^&) this actually is for.
-            throw new Exception(Resources.NotImplementedException_Generic);
+            throw new NotImplementedException(Resources.NotImplementedException_Generic);
         }
 
         public override string[] GetAllRoles()
@@ -220,7 +223,7 @@ namespace Subtext.Framework.Security
 
         public override void RemoveUsersFromRoles(string[] usernames, string[] roleNames)
         {
-            throw new Exception(Resources.NotImplementedException_Generic);
+            throw new NotImplementedException(Resources.NotImplementedException_Generic);
         }
 
 		/// <summary>
