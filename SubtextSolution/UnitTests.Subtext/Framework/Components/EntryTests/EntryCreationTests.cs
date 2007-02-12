@@ -30,7 +30,7 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 	/// </summary>
 	[TestFixture]
 	public class EntryCreationTests
-	{		
+	{
 		/// <summary>
 		/// Tests that the fully qualified url is correct.
 		/// </summary>
@@ -93,6 +93,28 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 			Assert.IsTrue(utcSyndicatedDate > entry.DateCreated.ToUniversalTime(), string.Format("After reloading from DB, DateSyndicated '{0}' should larger than date created '{1}'.", savedEntry.DateSyndicated, savedEntry.DateCreated));
 		}
 
+        [RowTest]
+        [Row(true)]
+        [Row(false)]
+        [RollBack]
+        public void CreateEntryCorrectsNumericEntryName(bool isAutoGenerate)
+        {
+            UnitTestHelper.SetupBlog();
+            BlogInfo info = Config.CurrentBlog;
+            info.AutoFriendlyUrlEnabled = isAutoGenerate;
+            Config.UpdateConfigData(info);
+
+            Entry entry = new Entry(PostType.BlogPost);
+            entry.DateCreated = DateTime.Now;
+            entry.Title = "My Title";
+            entry.Body = "My Post Body";
+            entry.EntryName = "9876";
+
+            Entries.Create(entry);
+            Entry savedEntry = Entries.GetEntry(entry.Id, PostConfig.None, false);
+
+            Assert.AreEqual("n_9876", savedEntry.EntryName, "Expected entryName = 'n_9876'");
+        }
 
 		/// <summary>
 		/// Sets the up test fixture.  This is called once for 

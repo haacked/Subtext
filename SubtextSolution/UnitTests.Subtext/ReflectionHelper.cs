@@ -37,6 +37,7 @@ namespace Subtext.Reflection
 		/// Returns the value of the private member specified.
 		/// </summary>
 		/// <param name="fieldName">Name of the member.</param>
+        /// <param name="source">The object that contains the member.</param>
 		/// <param name="type"></param>
 		public static object GetStaticField(string fieldName, object source, Type type)
 		{
@@ -62,5 +63,31 @@ namespace Subtext.Reflection
 			}
 			return null;
 		}
+
+        public static object RunStaticMethod(Type t, string strMethod, object[] objParams)
+        {
+            BindingFlags eFlags = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
+            return RunMethod(t, strMethod, null, objParams, eFlags);
+        }
+
+        public static object RunInstanceMethod(Type t, string strMethod, object objInstance, object[] aobjParams)
+        {
+            BindingFlags eFlags = BindingFlags.Instance | BindingFlags.Public |
+                                  BindingFlags.NonPublic;
+            return RunMethod(t, strMethod, objInstance, aobjParams, eFlags);
+        }
+
+        private static object RunMethod(Type t, string strMethod, object objInstance, object[] objParams,
+                                        BindingFlags eFlags)
+        {
+            MethodInfo m = t.GetMethod(strMethod, eFlags);
+            if (m == null)
+            {
+                throw new ArgumentException("There is no method '" + strMethod + "' for type '" + t + "'.");
+            }
+
+            object objRet = m.Invoke(objInstance, objParams);
+            return objRet;
+        }
 	}
 }

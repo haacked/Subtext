@@ -14,6 +14,8 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 	[TestFixture]
 	public class EntryUpdateTests
 	{
+        string _hostName;
+
 		[Test]
 		[RollBack]
 		public void CanDeleteEntry()
@@ -70,6 +72,36 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
             savedEntry = Entries.GetEntry(entry.Id, PostConfig.None, false);
 			utcSyndicatedDate = Config.CurrentBlog.TimeZone.ToUniversalTime(savedEntry.DateSyndicated);
 			Assert.IsTrue(utcSyndicatedDate >= date.ToUniversalTime(), "The DateSyndicated '{0}' should be updated to be later than '{1}.", savedEntry.DateSyndicated, date);
+		}
+
+        [Test]
+        [RollBack]
+        public void UpdateEntryCorrectsNumericEntryName()
+        {
+            Config.CreateBlog("", "username", "password", _hostName, string.Empty);
+            BlogInfo info = Config.CurrentBlog;
+            Config.UpdateConfigData(info);
+
+            Entry entry = new Entry(PostType.BlogPost);
+            entry.DateCreated = DateTime.Now;
+            entry.Title = "My Title";
+            entry.Body = "My Post Body";
+
+            Entries.Create(entry);
+            entry = Entries.GetEntry(entry.Id, PostConfig.None, false);
+
+            entry.EntryName = "4321";
+            Entries.Update(entry);
+            Entry updatedEntry = Entries.GetEntry(entry.Id, PostConfig.None, false);
+
+            Assert.AreEqual("n_4321", updatedEntry.EntryName, "Expected entryName = 'n_4321'");
+        }
+
+		[SetUp]
+		public void SetUp()
+		{
+			_hostName = UnitTestHelper.GenerateRandomString();
+			UnitTestHelper.SetHttpContextWithBlogRequest(_hostName, string.Empty);
 		}
 
 		[TearDown]

@@ -175,6 +175,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\Installation.01.09.03.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\Installation.01.09.04.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
