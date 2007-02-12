@@ -91,6 +91,28 @@ namespace UnitTests.Subtext.Framework.SecurityTests
 
         [Test]
         [RollBack]
+        public void CanGetUsersInRole()
+        {
+            string username1 = UnitTestHelper.MembershipTestUsername;
+            string username2 = UnitTestHelper.MembershipTestUsername;
+
+            Membership.CreateUser(username1, UnitTestHelper.MembershipTestPassword, UnitTestHelper.MembershipTestEmail);
+            Membership.CreateUser(username2, UnitTestHelper.MembershipTestPassword, UnitTestHelper.MembershipTestEmail);
+
+            using (MembershipApplicationScope.SetApplicationName("/"))
+            {
+                Roles.CreateRole("AnotherTestRole");
+                Roles.AddUserToRole(username1, "AnotherTestRole");
+                Roles.AddUserToRole(username2, "AnotherTestRole");
+                string[] usernames = Roles.GetUsersInRole("AnotherTestRole");
+                Assert.GreaterEqualThan(usernames.Length, 2, "Should have found at least two users.");
+                Assert.AreEqual(username1, Array.Find(usernames, new Predicate<string>(delegate(string value) { return value == username1; })), "Could not find the user '" + username1 + "'");
+                Assert.AreEqual(username2, Array.Find(usernames, new Predicate<string>(delegate(string value) { return value == username2; })), "Could not find the user '" + username2 + "'");
+            }
+        }
+
+	    [Test]
+        [RollBack]
         public void CanGetRolesForUser()
         {
             string username = UnitTestHelper.MembershipTestUsername;
@@ -121,7 +143,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
         {
             using (MembershipApplicationScope.SetApplicationName("/"))
             {
-                Roles.CreateRole(null);
+                Roles.Provider.CreateRole(null);
             }
         }
 
@@ -132,8 +154,8 @@ namespace UnitTests.Subtext.Framework.SecurityTests
         {
             using (MembershipApplicationScope.SetApplicationName("/"))
             {
-                Roles.CreateRole("DuplicateRole");
-                Roles.CreateRole("DuplicateRole");
+                Roles.Provider.CreateRole("DuplicateRole");
+                Roles.Provider.CreateRole("DuplicateRole");
             }
         }
 
@@ -145,7 +167,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
         {
             using (MembershipApplicationScope.SetApplicationName("/"))
             {
-                Roles.CreateRole(rolename);
+                Roles.Provider.CreateRole(rolename);
             }
         }
 
@@ -157,7 +179,7 @@ namespace UnitTests.Subtext.Framework.SecurityTests
             string rolename = new string('a', 513);
             using (MembershipApplicationScope.SetApplicationName("/"))
             {
-                Roles.CreateRole(rolename);
+                Roles.Provider.CreateRole(rolename);
             }
         }
         #endregion
