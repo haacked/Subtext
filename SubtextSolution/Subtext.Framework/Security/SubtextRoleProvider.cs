@@ -176,25 +176,17 @@ namespace Subtext.Framework.Security
 
         public override string[] GetUsersInRole(string roleName)
         {
-            SqlConnection conn = new SqlConnection(this.connectionString);
-            SqlCommand cmd = new SqlCommand("subtext_UsersInRoles_GetUsersInRoles", conn);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ApplicationName", ApplicationName);
-            cmd.Parameters.AddWithValue("@RoleName", roleName);
-            using (conn)
+            StringCollection usersInRole = new StringCollection();
+            using (IDataReader reader = SqlHelper.ExecuteReader(this.connectionString, "subtext_UsersInRoles_GetUsersInRoles", ApplicationName, roleName))
             {
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                StringCollection usersInRole = new StringCollection();
                 while (reader.Read())
                 {
                     usersInRole.Add(reader.GetString(0));
                 }
-                string[] returnUsersInRole = new string[usersInRole.Count];
-                usersInRole.CopyTo(returnUsersInRole, 0);
-
-                return returnUsersInRole;
             }
+            string[] returnUsersInRole = new string[usersInRole.Count];
+            usersInRole.CopyTo(returnUsersInRole, 0);
+            return returnUsersInRole;
         }
 
 		/// <summary>
