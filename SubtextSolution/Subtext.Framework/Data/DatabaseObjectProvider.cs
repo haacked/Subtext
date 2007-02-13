@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
@@ -111,6 +112,7 @@ namespace Subtext.Framework.Data
 		/// <param name="pageSize">Size of the page.</param>
 		/// <param name="flags"></param>
 		/// <returns></returns>
+        /// <param name="flags"></param>
         public override PagedCollection<BlogInfo> GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlag flags)
 		{
             string sql = "subtext_GetPageableBlogs";
@@ -363,6 +365,7 @@ namespace Subtext.Framework.Data
 		/// <param name="entryId"></param>
 		/// <param name="postType"></param>
 		/// <returns></returns>
+		/// <param name="postType"></param>
 		public override IList<Entry> GetPreviousAndNextEntries(int entryId, PostType postType)
 		{
             SqlParameter[] p =

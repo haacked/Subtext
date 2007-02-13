@@ -18,10 +18,15 @@ using System.Configuration;
 using System.Data;
 using System.Globalization;
 using System.IO;
+using System.Text;
+using System.Web.UI;
 using System.Xml;
+using Subtext.Framework;
 using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 using Subtext.Framework.Providers;
+using Subtext.Framework.Tracking;
+using Subtext.Framework.Util;
 
 namespace Subtext.Web
 {
@@ -29,9 +34,9 @@ namespace Subtext.Web
 	/// This class writes out a consolidated rss feed for every blog in the system. 
 	/// This is used by hosted solutions that contain an aggregate blog.
 	/// </summary>
-	public class RSSPage : System.Web.UI.Page
+	public class RSSPage : Page
 	{
-		private void Page_Load(object sender, System.EventArgs e)
+		private void Page_Load(object sender, EventArgs e)
 		{
 			int groupId = 1;
 
@@ -51,7 +56,7 @@ namespace Subtext.Web
 			if(feedData != null && feedData.Rows.Count > 0)
 			{
 				string rssXml = GetRSS(feedData, Request.ApplicationPath);		
-				Response.ContentEncoding = System.Text.Encoding.UTF8;
+				Response.ContentEncoding = Encoding.UTF8;
 				Response.ContentType = "text/xml";
 				Response.Write(rssXml);
 			}
@@ -81,12 +86,10 @@ namespace Subtext.Web
 			writer.WriteElementString("title", ConfigurationManager.AppSettings["AggregateTitle"]);
 			writer.WriteElementString("link",Context.Request.Url.ToString());
 			writer.WriteElementString("description", ConfigurationManager.AppSettings["AggregateDescription"]);
-			
-			//CHANGE: FrameworkVersion used insted of Version which is not exist.
-			writer.WriteElementString("generator",Subtext.Framework.VersionInfo.FrameworkVersion.ToString());
+			writer.WriteElementString("generator",VersionInfo.VersionDisplayText);
 
 			int count = dt.Rows.Count;
-			int servertz = Config.Settings.ServerTimeZone;
+			int serverTimeZone = Config.Settings.ServerTimeZone;
 			string baseUrl = "http://{0}" + appPath + "{1}/";
 
 			bool useAggBugs = Config.Settings.Tracking.EnableAggBugs;
@@ -102,12 +105,11 @@ namespace Subtext.Web
 				string link = string.Format(CultureInfo.InvariantCulture, baselink + "archive/{0:yyyy/MM/dd}/{1}.aspx", ((DateTime)dr["DateAdded"]), dr["EntryName"]);
 				writer.WriteElementString("link",link);
 
-				DateTime time = (DateTime)dr["DateAdded"];
-				int tz = (int)dr["TimeZone"];
-				int offset = (servertz - tz);
+				DateTime entryTime = (DateTime) dr["DateAdded"];
+				int entryTimeZoneId = (int) dr["TimeZone"];
+                int offset = GetTimeZoneOffset(serverTimeZone, entryTimeZoneId, entryTime);
 				
-				
-				writer.WriteElementString("pubDate",(time.AddHours(offset)).ToUniversalTime().ToString("r"));
+				writer.WriteElementString("pubDate",(entryTime.AddHours(offset)).ToUniversalTime().ToString("r"));
 				//writer.WriteElementString("guid",link);
 				writer.WriteStartElement("guid");
 				writer.WriteAttributeString("isPermaLink","true");
@@ -133,7 +135,7 @@ namespace Subtext.Web
 
 				string desc = (string)dr["Description"];
 
-				string aggText = useAggBugs ? Subtext.Framework.Tracking.TrackingUrls.AggBugImage(string.Format(baselink + "aggbug/{0}.aspx",dr["ID"])) : string.Empty;
+				string aggText = useAggBugs ? TrackingUrls.AggBugImage(string.Format(baselink + "aggbug/{0}.aspx",dr["ID"])) : string.Empty;
 
 				writer.WriteElementString("description", string.Format("{0}{1}", desc, aggText));
 				writer.WriteElementString("dc:creator",(string)dr["Author"]);	
@@ -148,6 +150,23 @@ namespace Subtext.Web
 			sw.Close();
 			return sw.ToString();
 		}
+
+        private static int GetTimeZoneOffset(int serverTimeZone, int currentTimeZoneId, DateTime time)
+        {
+            // determine the time offset based on the data's timezone Id hash.
+            foreach (WindowsTimeZone wtz in WindowsTimeZone.TimeZones)
+            {
+                if (wtz.Id == currentTimeZoneId)
+                {
+                    return (serverTimeZone -
+                              (wtz.IsDaylightSavingTime(time) ? wtz.DaylightBias.Hours : wtz.BaseBias.Hours));
+                }
+            }
+
+            // if we made it this far, we couldn't find the currentTimeZoneId. This can happen if the datastore
+            // has an actual timeZone offset, rather than a TimeZoneId. Just return the serverTZ - currentTimeZoneId.
+            return serverTimeZone - currentTimeZoneId;
+        }
 
 		/// <summary>
 		/// Returns the "Accept-Encoding" value from the HTTP Request header. 

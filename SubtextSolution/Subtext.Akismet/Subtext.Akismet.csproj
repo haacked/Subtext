@@ -62,6 +62,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\VersionInfo.Designer.cs">
+      <Link>Properties\VersionInfo.Designer.cs</Link>
+    </Compile>
     <Compile Include="AkismetClient.cs" />
     <Compile Include="Comment.cs" />
     <Compile Include="HttpClient.cs" />

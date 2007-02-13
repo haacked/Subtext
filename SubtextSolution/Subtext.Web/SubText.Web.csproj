@@ -54,10 +54,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SolutionInfo.cs">
-      <Link>SolutionInfo.cs</Link>
+      <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="..\VersionInfo.Designer.cs">
-      <Link>VersionInfo.Designer.cs</Link>
+      <Link>Properties\VersionInfo.Designer.cs</Link>
     </Compile>
     <Compile Include="Admin\Comments.aspx.cs">
       <DependentUpon>Comments.aspx</DependentUpon>

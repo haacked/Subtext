@@ -29,7 +29,7 @@
 	<div class="label"><label for="PostComment_ascx_tbUrl"><span class="accessKey">W</span>ebsite:</label></div>
 	<div class="input">
 		<asp:TextBox id="tbUrl" runat="server" size="40" AccessKey="W" />
-		<asp:RegularExpressionValidator ID="vldUrl" runat="server" ControlToValidate="tbUrl" ValidationExpression="^(https?://)?([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?$" Display="dynamic" ErrorMessage="Url is not required, but it must be valid if specified." EnableClientScript="true" />
+		<asp:RegularExpressionValidator ID="vldUrl" runat="server" ControlToValidate="tbUrl" ValidationExpression="^(https?://)?([\w-]+\.)+[\w-]+([\w-./?%&=:]*)?$" Display="dynamic" ErrorMessage="Url is not required, but it must be valid if specified." EnableClientScript="true" />
 	</div>
 
 	<div class="label"><label for="PostComment_ascx_tbComment"><span class="accessKey">C</span>omment:</label></div>

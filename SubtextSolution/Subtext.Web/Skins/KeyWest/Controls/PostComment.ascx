@@ -26,7 +26,7 @@
 			<td align="right">Website:</td>
 			<td>
 				<div class="input"><asp:TextBox id="tbUrl" runat="server" CssClass="fixed" Columns="45"></asp:TextBox>
-					<asp:RegularExpressionValidator ID="vldUrl" runat="server" ControlToValidate="tbUrl" ValidationExpression="^(https?://)?([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?$" Display="dynamic" ErrorMessage="Url is not required, but it must be valid if specified." EnableClientScript="true" />
+					<asp:RegularExpressionValidator ID="vldUrl" runat="server" ControlToValidate="tbUrl" ValidationExpression="^(https?://)?([\w-]+\.)+[\w-]+([\w-./?%&=:]*)?$" Display="dynamic" ErrorMessage="Url is not required, but it must be valid if specified." EnableClientScript="true" />
 				</div>
 			</td>
 		</tr>

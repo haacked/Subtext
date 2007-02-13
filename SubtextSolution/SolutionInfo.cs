@@ -16,7 +16,7 @@
 using System.Reflection;
 [assembly: AssemblyCompany("Subtext")]
 [assembly: AssemblyProduct("Subtext Blog Engine")]
-[assembly: AssemblyCopyright("Copyright (c) 2005 - 2006 Subtext Project Team - BSD License")]
+[assembly: AssemblyCopyright("Copyright © VelocIT Inc. 2005-2007 - BSD License")]
 /* [assembly: AssemblyVersion("1.0.4.0")] moved to VersionInfo.cs for automatic generation */
 /* Removed [AssemblyFileVersion] since it defaults to AssemblyVersion */
 /* Human Readable version. */
