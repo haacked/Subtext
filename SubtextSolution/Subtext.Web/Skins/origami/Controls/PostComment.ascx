@@ -25,7 +25,7 @@
 					<label for="PostComment.ascx_tbUrl">
 						Your blog:</label>
 					<asp:TextBox ID="tbUrl" runat="server" CssClass="fixed" />
-					<asp:RegularExpressionValidator ID="vldUrl" runat="server" ControlToValidate="tbUrl" ValidationExpression="^(https?://)?([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?$" Display="dynamic" ErrorMessage="Url is not required, but it must be valid if specified." EnableClientScript="true" />
+					<asp:RegularExpressionValidator ID="vldUrl" runat="server" ControlToValidate="tbUrl" ValidationExpression="^(https?://)?([\w-]+\.)+[\w-]+([\w-./?%&=:]*)?$" Display="dynamic" ErrorMessage="Url is not required, but it must be valid if specified." EnableClientScript="true" />
 				</div>
 				<div id="guest_email" class="clearfix" style="display: none;">
 					<label for="PostComment.ascx_tbEmail">

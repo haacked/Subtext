@@ -34,7 +34,7 @@ INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subt
 	, SubTitle
 	, Skin
 	, [Application]
-	, Host
+	, [Host]
 	, Author
 	, TimeZone
 	, IsActive
@@ -64,7 +64,7 @@ INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subt
 		, SubTitle
 		, Skin
 		, [Application]
-		, Host
+		, [Host]
 		, Author
 		, TimeZone
 		, IsActive
@@ -124,7 +124,7 @@ INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_F
         [CommentAPI], [Referrer], [IpAddress], [UserAgent], [FeedbackChecksumHash], [DateCreated], [DateModified])
 SELECT [Id] = [ID]
     , Title
-	, Body = [Text]
+	, [Body] = [Text]
 	, BlogId = BlogID
 	, EntryId = ParentID
 	, Author = LEFT(Author, 32)
@@ -176,9 +176,9 @@ GO
 -- subtext_KeyWords
 SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_KeyWords] ON
 INSERT INTO [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_KeyWords] 
-( KeyWordID, Word, Text, ReplaceFirstTimeOnly, OpenInNewWindow, Url, Title, BlogId, CaseSensitive )
+( KeyWordID, Word, [Text], ReplaceFirstTimeOnly, OpenInNewWindow, Url, Title, BlogId, CaseSensitive )
     SELECT 
-        KeyWordID, Word, Text, ReplaceFirstTimeOnly, OpenInNewWindow, Url, Title, BlogId, CaseSensitive
+        KeyWordID, Word, [Text], ReplaceFirstTimeOnly, OpenInNewWindow, Url, Title, BlogId, CaseSensitive
     FROM [<dottext_db_name,varchar,DotTextData>].[<dotTextDbUser,varchar,dbo>].[blog_KeyWords]
 SET IDENTITY_INSERT [<subtext_db_name,varchar,SubtextData>].[<dbUser,varchar,dbo>].[subtext_KeyWords] OFF
 GO
