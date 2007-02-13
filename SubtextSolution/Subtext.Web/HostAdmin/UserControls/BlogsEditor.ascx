@@ -1,9 +1,8 @@
 <%@ Control Language="c#" AutoEventWireup="True" Codebehind="BlogsEditor.ascx.cs" Inherits="Subtext.Web.HostAdmin.UserControls.BlogsEditor" TargetSchema="http://schemas.microsoft.com/intellisense/ie5"%>
 <%@ Register TagPrefix="st" Namespace="Subtext.Web.Controls" Assembly="Subtext.Web.Controls" %>
-<%@ Register TagPrefix="ANW" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
-
-<ANW:MessagePanel id="messagePanel" runat="server"></ANW:MessagePanel>
-<ANW:AdvancedPanel id="pnlResults" runat="server">
+<%@ Register TagPrefix="st" Namespace="Subtext.Web.Admin.WebUI" Assembly="Subtext.Web" %>
+<st:MessagePanel id="messagePanel" runat="server"></st:MessagePanel>
+<st:AdvancedPanel id="pnlResults" runat="server">
 	<asp:CheckBox id="chkShowInactive" AutoPostBack="True" Text="Show Inactive Blogs" Runat="server" oncheckedchanged="chkShowInactive_CheckedChanged"></asp:CheckBox>
 	<asp:Repeater id="rprBlogsList" Runat="server" OnItemCommand="rprBlogsList_ItemCommand">
 		<HeaderTemplate>
@@ -77,10 +76,10 @@
 			LinkFormatActive='<a href="{0}" class="Current">{1}</a>' 
 			UrlFormat="Default.aspx?pg={0}" 
 			CssClass="Pager" />
-</ANW:AdvancedPanel>
-<ANW:AdvancedPanel id="pnlEdit" runat="server">
+</st:AdvancedPanel>
+<st:AdvancedPanel id="pnlEdit" runat="server">
 	<st:HelpToolTip id="blogEditorHelp" runat="server">
-		<img id="Img3" src="~/images/ms_help.gif" align="right" runat="server" />
+		<img id="Img3" src="~/images/ms_help.gif" align="right" alt="help" runat="server" />
 	</st:HelpToolTip>
 	<script type="text/javascript">
 			function replace( str, from, to ) 
@@ -170,7 +169,7 @@
 		<tr valign="top">
 			<td>
 				<label for="txtHost">
-				<st:HelpToolTip id="hostDomainHelpTip" runat="server"><strong>Host Domain</strong></st:HelpToolTip>:</label>
+ 			    <st:HelpToolTip id="hostDomainHelpTip" runat="server"><strong>Host Domain</strong></st:HelpToolTip>:</label>
 			</td>
 			<td>
 				<asp:TextBox id="txtHost" Runat="server" MaxLength="100"></asp:TextBox><input id="virtualDirectory" type="hidden" runat="server" />
@@ -214,4 +213,4 @@
 			</td>
 		</tr>
 	</table>
-</ANW:AdvancedPanel>
+</st:AdvancedPanel>

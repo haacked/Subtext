@@ -437,6 +437,12 @@
     </Compile>
     <Compile Include="Providers\BlogEntryEditor\FTB\FtbBlogEntryEditorProvider.cs" />
     <Compile Include="Providers\BlogEntryEditor\PlainText\PlainTextBlogEntryEditorProvider.cs" />
+    <Compile Include="SiteMap\ChangeFrequency.cs" />
+    <Compile Include="SiteMap\SiteMapHttpHandler.ashx.cs">
+      <DependentUpon>SiteMapHttpHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="SiteMap\Url.cs" />
+    <Compile Include="SiteMap\UrlCollection.cs" />
     <Compile Include="Skins\_System\ForgotPassword.Master.cs">
       <DependentUpon>ForgotPassword.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -579,6 +585,9 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="UI\Controls\PageTemplate.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\PostCategoryList.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="UI\Controls\PostComment.cs">
@@ -1328,6 +1337,7 @@
     <Content Include="Skins\AnotherEon001\Controls\MonthListings.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\MyLinks.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\News.ascx" />
+    <Content Include="Skins\AnotherEon001\Controls\PostCategoryList.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\PostComment.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\PreviousNext.ascx" />
     <Content Include="Skins\AnotherEon001\Controls\RelatedLinks.ascx" />
@@ -1586,6 +1596,7 @@
     <Content Include="Skins\Naked\Controls\MonthListings.ascx" />
     <Content Include="Skins\Naked\Controls\MyLinks.ascx" />
     <Content Include="Skins\Naked\Controls\News.ascx" />
+    <Content Include="Skins\Naked\Controls\PostCategoryList.ascx" />
     <Content Include="Skins\Naked\Controls\PostComment.ascx" />
     <Content Include="Skins\Naked\Controls\PreviousNext.ascx" />
     <Content Include="Skins\Naked\Controls\RecentComments.ascx" />
@@ -1851,7 +1862,7 @@
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.php" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\dialog\fck_spellerpages\spellerpages\server-scripts\spellchecker.pl" />
     <None Include="Providers\BlogEntryEditor\FCKeditor\editor\filemanager\browser\default\images\icons\32\Thumbs.db" />
-    <None Include="Skins\Curvy\Images\Thumbs.db" />
+    <Content Include="SiteMap\SiteMapHttpHandler.ashx" />
     <None Include="Skins\RedBook\Controls\EntryList.ascx" />
     <Content Include="Skins\RedBook\Controls\Footer.ascx" />
     <Content Include="Skins\RedBook\Controls\GalleryThumbNailViewer.ascx" />

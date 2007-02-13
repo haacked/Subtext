@@ -31,13 +31,11 @@ namespace Subtext.Framework.Configuration
 	/// </summary>
 	public static class Config
 	{
-        private static 
-            string[] InvalidSubfolders = { 
-            "Admin", "bin", "ExternalDependencies", "HostAdmin", 
-            "Images", "Install", "Modules", "Services", "Skins", 
-            "UI", "Category", "Archive", "Archives", "Comments", 
-            "Articles", "Posts", "Story", "Stories", "Gallery",
-            "Providers", "aggbug" 
+        private static
+            string[] InvalidSubfolders = { "Admin", "aggbug", "Archive", "Archives", "Articles", "bin", 
+                "Category", "Comments", "ExternalDependencies", "Gallery", "HostAdmin", "Images", "Install", 
+                "Modules", "Posts", "Properties", "Providers", "Scripts", "Services", "Sitemap", "Skins", 
+                "Stories", "Story", "SystemMessages", "UI"
         };
 
         private const string InvalidChars = @"{}[]/\ @!#$%:^&*()?+|""='<>;,";
@@ -343,7 +341,6 @@ namespace Subtext.Framework.Configuration
 
 			return ObjectProvider.Instance().UpdateBlog(info);
 		}
-
 
 		/// <summary>
 		/// Returns true if the specified subfolder name has a 

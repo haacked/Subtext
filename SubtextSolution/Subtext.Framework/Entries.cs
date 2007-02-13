@@ -225,11 +225,11 @@ namespace Subtext.Framework
 				&& String.IsNullOrEmpty(entry.EntryName)
 				&& !String.IsNullOrEmpty(entry.Title))
 			{
-				entry.EntryName = AutoGenerateFriendlyUrl(entry.Title);
+				entry.EntryName = AutoGenerateFriendlyUrl(entry.Title, entry.Id);
 			}
             else if (!String.IsNullOrEmpty(entry.EntryName))
             {
-                entry.EntryName = AutoGenerateFriendlyUrl(entry.EntryName);
+				entry.EntryName = AutoGenerateFriendlyUrl(entry.EntryName, entry.Id);
             }
 			
 			if(NullValue.IsNull(entry.DateCreated))
@@ -275,15 +275,29 @@ namespace Subtext.Framework
 
         #endregion
 
-        /// <summary>
+
+		/// <summary>
 		/// Converts a title of a blog post into a friendly, but URL safe string.
+		/// Defaults entryId to 0 as if it was a new entry
 		/// </summary>
 		/// <param name="title">The original title of the blog post.</param>
 		/// <returns></returns>
 		public static string AutoGenerateFriendlyUrl(string title)
 		{
-			if (title == null)
-				throw new ArgumentNullException("title", Resources.ArgumentNull_String);
+			return Entries.AutoGenerateFriendlyUrl(title, 0);
+		}
+
+
+        /// <summary>
+		/// Converts a title of a blog post into a friendly, but URL safe string.
+		/// </summary>
+		/// <param name="title">The original title of the blog post.</param>
+		/// <param name="entryId">The id of the current entry.</param>
+		/// <returns></returns>
+		public static string AutoGenerateFriendlyUrl(string title, int entryId)
+		{
+			if(title == null)
+				throw new ArgumentNullException("title", "Cannot generate friendly url from null title.");
 
             if (title.Length == 0)
                 throw new ArgumentException(Resources.Argument_StringZeroLength, "title");
@@ -292,7 +306,7 @@ namespace Subtext.Framework
 			if (friendlyUrlSettings == null)
 			{
 				//Default to old behavior.
-				return AutoGenerateFriendlyUrl(title, char.MinValue);
+				return AutoGenerateFriendlyUrl(title, char.MinValue, entryId);
 			}
 
 			string wordSeparator = friendlyUrlSettings["separatingCharacter"];
@@ -331,30 +345,41 @@ namespace Subtext.Framework
 			// can cause. Only - _ and . are allowed
 			if ((wordSeparator == "_") || (wordSeparator == ".") || (wordSeparator == "-"))
 			{
-				return AutoGenerateFriendlyUrl(title, wordSeparator[0]);
+				return AutoGenerateFriendlyUrl(title, wordSeparator[0], entryId);
 			}
 			else
 			{
 				//invalid separator or none defined.
-				return AutoGenerateFriendlyUrl(title, char.MinValue);
+				return AutoGenerateFriendlyUrl(title, char.MinValue, entryId);
 			}
 
 		}
 
 		/// <summary>
 		/// Converts a title of a blog post into a friendly, but URL safe string.
+		/// Defaults entryId to 0 as if it was a new entry
 		/// </summary>
 		/// <param name="title">The original title of the blog post.</param>
 		/// <param name="wordSeparator">The string used to separate words in the title.</param>
 		/// <returns></returns>
 		public static string AutoGenerateFriendlyUrl(string title, char wordSeparator)
 		{
-            if (title == null)
-                throw new ArgumentNullException("title", Resources.ArgumentNull_String);
+			return Entries.AutoGenerateFriendlyUrl(title, wordSeparator, 0);
+		}
 
-            if (title.Length == 0)
-                throw new ArgumentException(Resources.Argument_StringZeroLength, "title");
 
+		/// <summary>
+		/// Converts a title of a blog post into a friendly, but URL safe string.
+		/// </summary>
+		/// <param name="title">The original title of the blog post.</param>
+		/// <param name="wordSeparator">The string used to separate words in the title.</param>
+		/// <param name="entryId">The id of the current entry.</param>
+		/// <returns></returns>
+		public static string AutoGenerateFriendlyUrl(string title, char wordSeparator, int entryId)
+		{
+			if(title == null)
+				throw new ArgumentNullException("title", "Cannot generate friendly url from null title.");
+			
 			string entryName = RemoveNonWordCharacters(title);
 			entryName = ReplaceSpacesWithSeparator(entryName, wordSeparator);
 			entryName = HttpUtility.UrlEncode(entryName);
@@ -369,8 +394,12 @@ namespace Subtext.Framework
 
 			string newEntryName = entryName;
 			int tryCount = 0;
-			while (ObjectProvider.Instance().GetEntry(newEntryName, false, false) != null)
+			Entry currentEntry = ObjectProvider.Instance().GetEntry(newEntryName, false, false);
+
+			while (currentEntry != null)
 			{
+				if (currentEntry.Id == entryId) //This means that we are updating the same entry, so should allow same entryname
+					break; 
 				if (tryCount == 1)
 					newEntryName = entryName + "Again";
 				if (tryCount == 2)
@@ -384,6 +413,8 @@ namespace Subtext.Framework
 
 				if (tryCount++ > 5)
 					break; //Allow an exception to get thrown later.
+
+				currentEntry = ObjectProvider.Instance().GetEntry(newEntryName, false, false);
 			}
 
 			return newEntryName;
@@ -404,7 +435,7 @@ namespace Subtext.Framework
 
 		static string RemoveNonWordCharacters(string text)
 		{
-			Regex regex = new Regex(@"[\w\d\. ]+", RegexOptions.Compiled);
+			Regex regex = new Regex(@"[\w\d\.\- ]+", RegexOptions.Compiled);
 			MatchCollection matches = regex.Matches(text);
 
 			StringBuilder cleansedText = new StringBuilder();
@@ -477,7 +508,7 @@ namespace Subtext.Framework
             entry.DateModified = Config.CurrentBlog.TimeZone.Now;
 
             if (!string.IsNullOrEmpty(entry.EntryName))
-                entry.EntryName = AutoGenerateFriendlyUrl(entry.EntryName);
+				entry.EntryName = AutoGenerateFriendlyUrl(entry.EntryName, entry.Id);
 
 			return ObjectProvider.Instance().Update(entry, categoryIDs);
 		}

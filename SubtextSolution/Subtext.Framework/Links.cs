@@ -78,6 +78,28 @@ namespace Subtext.Framework
 			return ObjectProvider.Instance().GetActiveCategories();
 		}
 
+        public static ICollection<LinkCategory> GetLinkCategoriesByPostID(int postId)
+        {
+            List<Link> links = new List<Link>(Links.GetLinkCollectionByPostID(postId));
+            ICollection<LinkCategory> postCategories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
+            LinkCategory[] categories = new LinkCategory[postCategories.Count];
+            postCategories.CopyTo(categories, 0);
+
+            foreach (LinkCategory category in categories)
+            {
+                if (!links.Exists(
+                    delegate(Link link)
+                    {
+                        return (category.Id == link.CategoryID);
+                    }
+                    ))
+                {
+                    postCategories.Remove(category);
+                }
+            }
+            return postCategories;
+        }
+
 		#endregion
 
 		#region LinkCategory
@@ -140,4 +162,6 @@ namespace Subtext.Framework
         InactiveOnly,
     }
 }
+
+
 

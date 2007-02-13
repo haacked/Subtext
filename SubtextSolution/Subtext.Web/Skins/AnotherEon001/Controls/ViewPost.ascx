@@ -1,5 +1,6 @@
 <%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.ViewPost" %>
 <%@ Register TagPrefix="uc1" TagName="PreviousNext" Src="PreviousNext.ascx" %>
+<%@ Register TagPrefix="uc1" TagName="PostCategoryList" Src="PostCategoryList.ascx" %>
 
 <uc1:PreviousNext id="PreviousNext" runat="server" />
 
@@ -9,7 +10,7 @@
 		</h2>
 		<asp:Literal id="Body"  runat="server" />
 		<p class="postfoot">
-			<a href="javascript:window.print();" class="printIcon"><span>Print</span></a> | posted on <asp:Literal id="PostDescription"  runat="server" />
+			<a href="javascript:window.print();" class="printIcon"><span>Print</span></a> | posted on <asp:Literal id="PostDescription"  runat="server" /> | <uc1:PostCategoryList id="Categories" runat="server"></uc1:PostCategoryList>
 		</p>
 	</div>
 	<asp:Literal ID="PingBack" Runat="server" />
