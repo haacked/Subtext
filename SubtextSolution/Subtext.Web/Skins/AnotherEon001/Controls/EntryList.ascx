@@ -1,4 +1,5 @@
 <%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.EntryList" %>
+<%@ Register TagPrefix="uc1" TagName="PostCategoryList" Src="PostCategoryList.ascx" %>
 <%@ Import Namespace = "Subtext.Framework" %>
 <h2><asp:Literal ID = "EntryCollectionTitle" Runat = "server" /></h2>
 <asp:Literal ID = "EntryCollectionDescription" Runat = "server" />
@@ -10,7 +11,7 @@
 				<asp:Literal  runat="server" ID="PostText" />
 				
 				<p class="postfoot">		
-				<asp:Literal ID = "PostDesc" Runat = "server" />
+					<asp:Literal ID = "PostDesc" Runat = "server" /> | <uc1:PostCategoryList id="Categories" runat="server"></uc1:PostCategoryList>
 				</p>
 			</div>
 	</ItemTemplate>

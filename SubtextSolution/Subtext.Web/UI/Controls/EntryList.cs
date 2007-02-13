@@ -63,6 +63,7 @@ namespace Subtext.Web.UI.Controls
 					BindEditLink(entry, e);
 					BindPostText(e, entry);
 					BindPostDescription(e, entry);
+					BindPostCategories(e, entry);
 					BindPermalink(e, entry);
 					BindPostDate(e, entry);
 					BindCommentCount(e, entry);
@@ -154,6 +155,16 @@ namespace Subtext.Web.UI.Controls
 				{
 					PostDesc.Text = string.Format(postdescWithNoComments, entry.Url, entry.DateCreated.ToString("f"));
 				}
+			}
+		}
+
+		private static void BindPostCategories(RepeaterItemEventArgs e, Entry entry)
+		{
+			PostCategoryList postCategories = (PostCategoryList)e.Item.FindControl("Categories");
+			if (postCategories != null)
+			{
+				postCategories.LinkCategories = Links.GetLinkCategoriesByPostID(entry.Id);
+				postCategories.DataBind();
 			}
 		}
 

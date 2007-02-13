@@ -523,6 +523,14 @@ IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 's
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_InsertEntryViewCount]
 GO
 
+if exists (select ROUTINE_NAME from INFORMATION_SCHEMA.ROUTINES where ROUTINE_TYPE = 'PROCEDURE' and OBJECTPROPERTY(OBJECT_ID(ROUTINE_NAME), 'IsMsShipped') = 0 and ROUTINE_SCHEMA = '<dbUser,varchar,dbo>' AND ROUTINE_NAME = 'subtext_UpdateBlogStats')
+drop procedure [<dbUser,varchar,dbo>].[subtext_UpdateBlogStats]
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[<dbUser,varchar,dbo>].[subtext_UpdateFeedback]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [<dbUser,varchar,dbo>].[subtext_UpdateFeedback]
+GO
+
 IF EXISTS (SELECT * FROM [information_schema].[routines] WHERE routine_name = 'subtext_InsertImage' AND routine_schema = '<dbUser,varchar,dbo>')
 DROP PROCEDURE [<dbUser,varchar,dbo>].[subtext_InsertImage]
 GO

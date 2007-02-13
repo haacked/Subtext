@@ -1,4 +1,5 @@
 <%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.Day" %>
+<%@ Register TagPrefix="uc1" TagName="PostCategoryList" Src="PostCategoryList.ascx" %>
 <%@ Import Namespace = "Subtext.Framework" %>
 	<div class="day">
 		<div class="date">
@@ -15,7 +16,7 @@
 					<asp:literal  runat="server" id="PostText" />
 				</div>
 				<div class="info">
-					<asp:literal id = "PostDesc" runat = "server" />
+					<asp:literal id = "PostDesc" runat = "server" /> | <uc1:PostCategoryList id="Categories" runat="server"></uc1:PostCategoryList>
 				</div>
 			</div>
 		</ItemTemplate>

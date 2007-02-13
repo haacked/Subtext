@@ -15,6 +15,7 @@
 
 using System;
 using System.Web;
+using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Subtext.Framework.Configuration;
@@ -40,6 +41,7 @@ namespace Subtext.Web.UI.Controls
 		protected System.Web.UI.WebControls.Label commentCount;
 		protected System.Web.UI.WebControls.Literal Body;
 		protected System.Web.UI.WebControls.Literal PostDescription;
+		protected PostCategoryList Categories;
 		protected System.Web.UI.WebControls.Literal PingBack;
 		protected System.Web.UI.WebControls.Literal TrackBack;
 
@@ -83,6 +85,12 @@ namespace Subtext.Web.UI.Controls
 				if(PostDescription != null)
 				{
 					PostDescription.Text = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} {1}",entry.DateCreated.ToLongDateString(),entry.DateCreated.ToShortTimeString());
+				}
+                Trace.Write("loading categories");
+				if(Categories != null)
+				{
+                    Categories.LinkCategories = Links.GetLinkCategoriesByPostID(entry.Id);
+                    Categories.DataBind();
 				}
 
 				if(date != null)
@@ -165,7 +173,8 @@ namespace Subtext.Web.UI.Controls
 				}
 			}
 		}
-
 	}
 }
+
+
 

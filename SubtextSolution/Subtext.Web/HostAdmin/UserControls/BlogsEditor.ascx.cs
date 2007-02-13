@@ -48,13 +48,13 @@ namespace Subtext.Web.HostAdmin.UserControls
 			btnAddNewBlog.CssClass = "button";
 			btnAddNewBlog.Text = "New Blog";
 			((HostAdminTemplate)this.Page.Master).AddSidebarControl(btnAddNewBlog);
-		
-			if(!IsPostBack)
-			{
-				//Paging...
-				if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
-					this.pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]);
 
+            //Paging...
+            if (null != Request.QueryString[Keys.QRYSTR_PAGEINDEX])
+                this.pageIndex = Convert.ToInt32(Request.QueryString[Keys.QRYSTR_PAGEINDEX]); 
+            
+            if (!IsPostBack)
+			{
 				resultsPager.PageSize = Preferences.ListingItemCount;
 				resultsPager.PageIndex = this.pageIndex;
 				pnlResults.Collapsible = false;
@@ -140,7 +140,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 		{
 			#region Help Tool Tip Text
 			this.blogEditorHelp.HelpText = "<p>Use this page to manage the blogs installed on this server. " 
-				+ "For more information on configuring blogs, see the <a href=\\'http://www.subtextproject.com/Home/Docs/Configuration/tabid/112/Default.aspx\\' target=\\'_blank\\'>configuration docs</a> (opens a new window)."
+				+ "For more information on configuring blogs, see the <a href=\'http://www.subtextproject.com/Home/Docs/Configuration/tabid/112/Default.aspx\' target=\'_blank\'>configuration docs</a> (opens a new window)."
 				+ "</p>";
 
 			this.hostDomainHelpTip.HelpText = "<p><strong>Host Domain</strong> is the domain name for this blog. "
@@ -157,7 +157,7 @@ namespace Subtext.Web.HostAdmin.UserControls
 				+ "name (though that&#8217;s not recommended)."
 				+ "</p><p>Also, if there are multiple blogs with the same Host Domain Name, they must all "
 				+ "have a non-empty Subfolder name defined.  For more detailed coverage " 
-				+ ", please visit <a href=\\'http://www.subtextproject.com/Developer/UrlToBlogMappings/tabid/119/Default.aspx\\' target=\\'_blank\\'>the multiple blog configuration docs</a> (opens a new window)."
+				+ ", please visit <a href=\'http://www.subtextproject.com/Developer/UrlToBlogMappings/tabid/119/Default.aspx\' target=\'_blank\'>the multiple blog configuration docs</a> (opens a new window)."
 				+ "</p>";
 
 			this.applicationHelpTip.HelpText = "<p>"
@@ -172,10 +172,10 @@ namespace Subtext.Web.HostAdmin.UserControls
 				+ "</p>"
 				+ "<p><strong>NOTE:</strong> If you specify a sub-folder, you do not need to set up a virtual directory "
 				+ "corresponding to the subfolder. But not doing so will require that the blog url include the trailing " 
-				+ "&#8220;Default.aspx&#8221; or you will have to <a href=\\'http://www.subtextproject.com/Configuration/ConfiguringACustom404Page/tabid/121/Default.aspx\\' target=\\'_blank\\'>configure a Custom 404 page</a> (opens a new window).</p>" 
+				+ "&#8220;Default.aspx&#8221; or you will have to <a href=\'http://www.subtextproject.com/Configuration/ConfiguringACustom404Page/tabid/121/Default.aspx\' target=\'_blank\'>configure a Custom 404 page</a> (opens a new window).</p>" 
 				+ "<p>In the above example, if you want the URL to be <em>http://[HOSTDOMAIN]/MyBlog/</em> then you "
 				+ "would simply set up a virtual directory (not application) named &#8220;MyBlog&#8221; pointing to the same location as the webroot.</p>" 
-				+ "<p>For more information, please view <a href=\\'http://www.subtextproject.com/Home/Docs/Configuration/tabid/112/Default.aspx\\' target=\\'_blank\\'>the configuration docs</a> (opens a new window).</p>";
+				+ "<p>For more information, please view <a href=\'http://www.subtextproject.com/Home/Docs/Configuration/tabid/112/Default.aspx\' target=\'_blank\'>the configuration docs</a> (opens a new window).</p>";
 			#endregion
 		}
 

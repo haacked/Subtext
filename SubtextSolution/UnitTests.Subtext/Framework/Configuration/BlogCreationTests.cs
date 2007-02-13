@@ -222,6 +222,39 @@ namespace UnitTests.Subtext.Framework.Configuration
 			Assert.IsTrue(Config.UpdateConfigData(info), "Updating blog config should return true.");
 		}
 
+		/// <summary>
+		/// Makes sure that every invalid character is checked 
+		/// within the subfolder name.
+		/// </summary>
+		[Test]
+		[RollBack]
+		public void EnsureInvalidCharactersMayNotBeUsedInSubfolderName()
+		{
+			string[] badNames = {".name", "a{b", "a}b", "a[e", "a]e", "a/e",@"a\e", "a@e", "a!e", "a#e", "a$e", "a'e", "a%", ":e", "a^", "ae&", "*ae", "a(e", "a)e", "a?e", "+a", "e|", "a\"", "e=", "a'", "e<", "a>e", "a;", ",e", "a e"};
+			foreach(string badName in badNames)
+			{
+				Assert.IsFalse(Config.IsValidSubfolderName(badName), badName + " is not a valid app name.");
+			}
+		}
+
+		/// <summary>
+		/// Makes sure that every invalid character is checked 
+		/// within the subfolder name.
+		/// </summary>
+		[Test]
+		[RollBack]
+		public void ReservedSubtextWordsAreNotValidForSubfolders()
+		{
+            string[] badSubfolders = { "Admin", "aggbug", "Archive", "Archives", "Articles", "bin", 
+                "Category", "Comments", "ExternalDependencies", "Gallery", "HostAdmin", "Images", "Install", 
+                "Modules", "Posts", "Properties", "Providers", "Scripts", "Services", "Sitemap", "Skins", 
+                "Stories", "Story", "SystemMessages", "UI" };
+			foreach (string subfolderCandidate in badSubfolders)
+			{
+				Assert.IsFalse(Config.IsValidSubfolderName(subfolderCandidate), subfolderCandidate + " is not a valid app name.");
+			}
+		}
+
 		#region Invalid Subfolder Name Tests... There's a bunch...
 		/// <summary>
 		/// Tests that modifying a blog with a reserved keyword (bin) is not allowed.

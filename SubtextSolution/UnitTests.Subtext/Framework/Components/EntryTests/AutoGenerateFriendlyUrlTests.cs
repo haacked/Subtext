@@ -246,6 +246,66 @@ namespace UnitTests.Subtext.Framework.Components.EntryTests
 		}
 
 		/// <summary>
+		/// Make sure that generated friendly urls are not changed when updating entry.
+		/// </summary>
+		[Test]
+		[RollBack]
+		public void FriendlyUrlIsNotChangedInUpdates() 
+		{
+		    UnitTestHelper.SetupBlog();
+            Config.CurrentBlog.AutoFriendlyUrlEnabled = true;
+
+			Entry entry = new Entry(PostType.BlogPost);
+			entry.DateCreated = DateTime.Now;
+			entry.Title = "Some Title";
+			entry.Body = "Some Body";
+			int id = Entries.Create(entry);
+
+			Entry savedEntry = Entries.GetEntry(id, PostConfig.None, false);
+			Assert.AreEqual("Some_Title", savedEntry.EntryName, "The EntryName should have been auto-friendlied.");
+
+			Entries.Update(savedEntry);
+
+			Entry updatedEntry = Entries.GetEntry(id, PostConfig.None, false);
+			Assert.AreEqual("Some_Title", updatedEntry.EntryName, "The EntryName should not have been re-auto-friendlied.");
+		}
+
+		/// <summary>
+		/// Make sure that generated friendly urls are not changed when updating entry.
+		/// </summary>
+		[Test]
+		[RollBack]
+		public void FriendlyUrlIsUniqueInUpdates()
+		{
+		    UnitTestHelper.SetupBlog();
+			Config.CurrentBlog.AutoFriendlyUrlEnabled = true;
+
+			Entry entry1 = new Entry(PostType.BlogPost);
+			entry1.DateCreated = DateTime.Now;
+			entry1.Title = "Some Title";
+			entry1.Body = "Some Body";
+			int id1 = Entries.Create(entry1);
+
+			Entry savedEntry1 = Entries.GetEntry(id1, PostConfig.None, false);
+			Assert.AreEqual("Some_Title", savedEntry1.EntryName, "The EntryName should have been auto-friendlied.");
+
+			Entry entry2 = new Entry(PostType.BlogPost);
+			entry2.DateCreated = DateTime.Now;
+			entry2.Title = "Some Other Title";
+			entry2.Body = "Some Body";
+			int id2 = Entries.Create(entry2);
+
+			Entry savedEntry2 = Entries.GetEntry(id2, PostConfig.None, false);
+			Assert.AreEqual("Some_Other_Title", savedEntry2.EntryName, "The EntryName should have been auto-friendlied.");
+
+			savedEntry2.EntryName = "Some_Title";
+			Entries.Update(savedEntry2);
+
+			Entry updatedEntry = Entries.GetEntry(id2, PostConfig.None, false);
+			Assert.AreEqual("Some_TitleAgain", updatedEntry.EntryName, "The EntryName should not have been re-auto-friendlied.");
+		}
+
+		/// <summary>
 		/// Sets the up test fixture.  This is called once for 
 		/// this test fixture before all the tests run.
 		/// </summary>

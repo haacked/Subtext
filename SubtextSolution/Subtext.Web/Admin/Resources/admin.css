@@ -873,3 +873,9 @@ fieldset select.timezonelist
 {
 	font-size: .8em;	
 }
+
+.clear { clear: both; }
+.left { float:left; }
+.right { float: right; }
+.block { display: block; }
+.inline { display: inline; }
