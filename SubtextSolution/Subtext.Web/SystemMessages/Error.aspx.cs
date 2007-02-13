@@ -20,14 +20,16 @@ using System.Net.Sockets;
 using System.Text;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 using log4net;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Logging;
 
 namespace Subtext.Web.Pages
 {
 	public partial class Error : Page
 	{
-		private readonly static ILog log = new Subtext.Framework.Logging.Log();
+		private readonly static ILog log = new Log();
 
 		///<summary>
 		///Raises the <see cref="E:System.Web.UI.Control.Init"></see> event to initialize the page.
@@ -37,7 +39,10 @@ namespace Subtext.Web.Pages
 		{
 			Response.Clear();
 			if (!IsPostBack)
-			{				
+			{
+			    Response.StatusCode = 500;
+			    Response.StatusDescription = "500 Internal Server Error";
+
 				try
 				{				
 					if (null != Config.CurrentBlog)

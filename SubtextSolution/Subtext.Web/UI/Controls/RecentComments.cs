@@ -88,7 +88,7 @@ namespace Subtext.Web.UI.Controls
 						string truncatedText = string.Empty;
 						if (commentLength > 0)
 						{
-							truncatedText = HtmlHelper.RemoveHtml(comment.Body);
+							truncatedText = HtmlHelper.RemoveHtmlAndComments(comment.Body);
 							if (truncatedText.Length > commentLength)
 							{
 								truncatedText = truncatedText.Substring(0, commentLength);
@@ -100,7 +100,7 @@ namespace Subtext.Web.UI.Controls
 					} 
 					else
 					{
-						title.Text = HtmlHelper.RemoveHtml(comment.Body);
+						title.Text = HtmlHelper.RemoveHtmlAndComments(comment.Body);
 						title.NavigateUrl = comment.DisplayUrl.ToString();
 					}
 					ControlHelper.SetTitleIfNone(title, "Reader Comment.");

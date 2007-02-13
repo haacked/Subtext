@@ -53,7 +53,7 @@ namespace Subtext.Web.Controls
 				byte[] decryptedBytes = encryptionAlgorithm.CreateDecryptor().TransformFinalBlock(encryptedBytes, 0, encryptedBytes.Length);
 				return Encoding.UTF8.GetString(decryptedBytes);
 			}
-			catch (System.FormatException fe)
+			catch (FormatException fe)
 			{
 				throw new CaptchaExpiredException("Encrypted encoded text '" + encryptedEncodedText + "' was not valid.", fe);
 			}
@@ -124,7 +124,8 @@ namespace Subtext.Web.Controls
 			AnswerAndDate answerAndDate = GetEncryptedAnswerFromForm();	
 			
 			string expectedAnswer = answerAndDate.Answer;
-			bool isValid = !String.IsNullOrEmpty(answer) && answer == expectedAnswer;
+			bool isValid = !String.IsNullOrEmpty(answer) 
+                && String.Equals(answer, expectedAnswer, StringComparison.InvariantCultureIgnoreCase);
 			return isValid;
 		}
 
@@ -186,8 +187,7 @@ namespace Subtext.Web.Controls
 		/// Initializes a new instance of the <see cref="AnswerAndDate"/> class.
 		/// </summary>
 		/// <param name="encryptedAnswer">The encrypted answer.</param>
-		/// <param name="timeoutInSeconds">The timeout in seconds.</param>
-		/// <returns></returns>
+        /// <param name="timeoutInSeconds">Number of seconds before captcha expires.</param>
 		public static AnswerAndDate ParseAnswerAndDate(string encryptedAnswer, int timeoutInSeconds)
 		{
 			AnswerAndDate answerAndDate;

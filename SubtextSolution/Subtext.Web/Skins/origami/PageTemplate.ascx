@@ -30,7 +30,7 @@
                         <div class="sidebar-node">
 							<uc1:News ID="news" runat="server" />
 							<ul>
-                                <li><uc1:MyLinks ID="myLinks1" runat="Server" /></li>
+                                <uc1:MyLinks ID="myLinks1" runat="Server" />
                             </ul>
                         </div>
                         <origami:SingleColumn id="column" runat="server" />

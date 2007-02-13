@@ -1,7 +1,7 @@
 <%@ Control Language="c#" Inherits="Subtext.Web.UI.Controls.Day" %>
 <%@ Import Namespace = "Subtext.Framework" %>
 <h4 class="daytitle">
-	<asp:HyperLink Runat="server" height="15" Width="12" BorderWidth="0" ID="ImageLink"> <asp:Literal ID = "DateTitle" Runat = "server" /></asp:HyperLink>		  
+	<asp:HyperLink Runat="server" height="15" Width="250" BorderWidth="0" ID="ImageLink"> <asp:Literal ID = "DateTitle" Runat = "server" /></asp:HyperLink>		  
 </h4>
 
 <asp:Repeater runat="Server" Runat="server" ID="DayList" OnItemCreated="PostCreated">

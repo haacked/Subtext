@@ -15,18 +15,19 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Web;
 using System.Web.UI.WebControls;
+using Subtext.Extensibility.Plugins;
 using Subtext.Framework;
 using Subtext.Framework.Components;
 using Subtext.Framework.Configuration;
+using Subtext.Framework.Data;
 using Subtext.Framework.Format;
-using Subtext.Web.Controls;
 using Subtext.Framework.Security;
-using Subtext.Extensibility.Plugins;
 using Subtext.Framework.Text;
-
+using Subtext.Web.Controls;
 
 namespace Subtext.Web.UI.Controls
 {
@@ -38,7 +39,14 @@ namespace Subtext.Web.UI.Controls
 		const string linkToComments = "<a href=\"{0}#feedback\" title=\"View and Add Comments\">{1}{2}</a>";
 		const string postdescWithComments = "posted @ <a href=\"{0}\" title = \"Permanent link to this post\">{1}</a> | <a href=\"{2}#feedback\" title = \"comments, pingbacks, trackbacks\">Feedback ({3})</a>";
 		const string postdescWithNoComments = "posted @ <a href=\"{0}\" title = \"Permanent link to this post\">{1}</a>";
-		
+
+        private string category;
+        public string Category
+        {
+            get { return category; }
+            set { category = value; }
+        }
+
 		protected virtual void PostCreated(object sender,  RepeaterItemEventArgs e)
 		{
 			if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
@@ -200,7 +208,7 @@ namespace Subtext.Web.UI.Controls
                 }
             }
             returnstring.Append("</p>");
-            return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}", returnstring.ToString());
+            return string.Format(CultureInfo.InvariantCulture, "{0}", returnstring);
         }   
 
 		private void BindPostText(RepeaterItemEventArgs e, Entry entry)
@@ -211,7 +219,7 @@ namespace Subtext.Web.UI.Controls
 			{
                 if (entry.HasDescription)
                 {
-                    PostText.Text = string.Format(System.Globalization.CultureInfo.InvariantCulture, "<p>{0}</p>", entry.Description);
+                    PostText.Text = string.Format(CultureInfo.InvariantCulture, "<p>{0}</p>", entry.Description);
                 }
                 //DF:  Description=Excerpt, if none, show first 100 words of post
                 else
@@ -326,6 +334,24 @@ namespace Subtext.Web.UI.Controls
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad (e);
+
+            if (EntryListItems == null && !string.IsNullOrEmpty(Category))
+            {
+                // This EntryList is independent of an outside control and needs to
+                //   populate its own EntryListItems.
+                LinkCategory lc;
+                if (StringHelper.IsNumeric(Category))
+                {
+                    int categoryID = Int32.Parse(Category);
+                    lc = Cacher.SingleCategory(CacheDuration.Short, categoryID, false);
+                }
+                else
+                {
+                    lc = Cacher.SingleCategory(CacheDuration.Short, Category, false);
+                }
+                EntryListTitle = lc.Title;
+                EntryListItems = Cacher.GetEntriesByCategory(0, CacheDuration.Short, lc.Id);
+            }
 
 			if(EntryListItems != null)
 			{
