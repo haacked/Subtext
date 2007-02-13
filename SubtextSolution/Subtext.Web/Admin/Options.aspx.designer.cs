@@ -10,7 +10,22 @@
 
 namespace Subtext.Web.Admin.Pages {
     
+    
+    /// <summary>
+    /// AdminOptionsPage class.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated class.
+    /// </remarks>
     public partial class AdminOptionsPage {
-        protected Subtext.Web.Admin.WebUI.AdvancedPanel Results;
+        
+        /// <summary>
+        /// Results control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Subtext.Web.Admin.WebUI.AdvancedPanel Results;
     }
 }

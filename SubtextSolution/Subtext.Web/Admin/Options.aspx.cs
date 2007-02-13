@@ -42,7 +42,6 @@ namespace Subtext.Web.Admin.Pages
 			HyperLink linkKeyWords = Utilities.CreateHyperLink("Key Words", "EditKeyWords.aspx");
 			HyperLink lnkPasswords = Utilities.CreateHyperLink("Password", "Password.aspx");
 			HyperLink lnkPreferences = Utilities.CreateHyperLink("Preferences", "Preferences.aspx");
-			HyperLink lnkPluginList = Utilities.CreateHyperLink("Plugin List", "PluginList.aspx");
 
 			// Add the buttons to the PageContainer.
 			AdminMasterPage.ClearActions();
@@ -52,7 +51,6 @@ namespace Subtext.Web.Admin.Pages
             AdminMasterPage.AddToActions(linkKeyWords);
             AdminMasterPage.AddToActions(lnkPasswords);
             AdminMasterPage.AddToActions(lnkPreferences);
-			AdminMasterPage.AddToActions(lnkPluginList);
 		}
 
         protected virtual void BindLocalUI()
