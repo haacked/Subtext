@@ -158,27 +158,37 @@ namespace Subtext.Framework.Data
 
 		private static readonly string LCKey="LC{0}BlogId{1}";
 
-		public static LinkCategory SingleCategory(CacheDuration cacheDuration, int categoryID)
+        public static LinkCategory SingleCategory(CacheDuration cacheDuration, int categoryId)
+        {
+            return SingleCategory(cacheDuration, categoryId, true);
+        }
+
+        public static LinkCategory SingleCategory(CacheDuration cacheDuration, string categoryName)
+        {
+            return SingleCategory(cacheDuration, categoryName, true);
+        }
+        
+        public static LinkCategory SingleCategory(CacheDuration cacheDuration, int categoryID, bool isActive)
 		{
 			ContentCache cache = ContentCache.Instantiate();
 			string key = String.Format(CultureInfo.InvariantCulture, LCKey, categoryID, Config.CurrentBlog.Id);
 			LinkCategory lc = (LinkCategory)cache[key];
 			if(lc == null)
 			{
-				lc = Links.GetLinkCategory(categoryID,true);
+				lc = Links.GetLinkCategory(categoryID,isActive);
 				cache.Insert(key, lc, cacheDuration);
 			}
 			return lc;
 		}
 
-		public static LinkCategory SingleCategory(CacheDuration cacheDuration, string categoryName)
+		public static LinkCategory SingleCategory(CacheDuration cacheDuration, string categoryName, bool isActive)
 		{
 			ContentCache cache = ContentCache.Instantiate();
 			string key = String.Format(CultureInfo.InvariantCulture, LCKey, categoryName, Config.CurrentBlog.Id);
 			LinkCategory lc = (LinkCategory)cache[key];
 			if(lc == null)
 			{
-				lc = Links.GetLinkCategory(categoryName,true);
+				lc = Links.GetLinkCategory(categoryName,isActive);
 				cache.Insert(key, lc, cacheDuration);
 			}
 			return lc;

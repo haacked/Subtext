@@ -593,6 +593,9 @@
     <Compile Include="UI\Controls\RecentComments.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="UI\Controls\RecentPosts.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="UI\Controls\RelatedLinks.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
@@ -1572,6 +1575,7 @@
     <Content Include="Skins\Naked\Controls\PostComment.ascx" />
     <Content Include="Skins\Naked\Controls\PreviousNext.ascx" />
     <Content Include="Skins\Naked\Controls\RecentComments.ascx" />
+    <Content Include="Skins\Naked\Controls\RecentPosts.ascx" />
     <Content Include="Skins\Naked\Controls\SingleColumn.ascx" />
     <Content Include="Skins\Naked\Controls\SubtextSearch.ascx" />
     <Content Include="Skins\Naked\Controls\ViewPicture.ascx" />

@@ -72,7 +72,9 @@ namespace Subtext.Framework.Syndication
 				comment.SourceUrl = HtmlHelper.CheckForUrl(doc.SelectSingleNode("//item/link").InnerText);
 				comment.EntryId = UrlFormats.GetPostIDFromUrl(Request.Path);
 
-				FeedbackItem.Create(comment, new CommentFilter(HttpContext.Current.Cache));
+				// [ 1644691 ] Closing comments didn't stop the CommentAPI
+				if(!Subtext.Framework.Data.Cacher.GetEntry(comment.EntryId,CacheDuration.Medium).CommentingClosed)
+					FeedbackItem.Create(comment, new CommentFilter(HttpContext.Current.Cache));
 			}
 		}
 
