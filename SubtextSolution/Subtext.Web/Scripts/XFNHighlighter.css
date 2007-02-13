@@ -75,6 +75,24 @@ a.xfnRelationship[rel~="sweetheart"][rel~="met"]
 	background: url(../images/xfn-sweetheart-met.png) no-repeat right;
 }
 
+a.xfnRelationship[rel~="child"]
+{
+	padding-right: 21px;
+	background: url(../images/xfn-child.png) no-repeat right;
+}
+
+a.xfnRelationship[rel~="parent"]
+{
+	padding-right: 21px;
+	background: url(../images/xfn-parent.png) no-repeat right;
+}
+
+a.xfnRelationship[rel~="spouse"]
+{
+	padding-right: 21px;
+	background: url(../images/xfn-spouse.png) no-repeat right;
+}
+
 a.xfnRelationship[rel~="me"]
 {
 	padding-right: 21px;

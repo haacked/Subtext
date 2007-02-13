@@ -977,6 +977,8 @@
     <Content Include="Images\friends.png" />
     <Content Include="Images\home.gif" />
     <Content Include="Images\icn_delete.gif" />
+    <Content Include="Images\icons\help-med.png" />
+    <Content Include="Images\icons\help-small.png" />
     <Content Include="Images\icons\ico_critical.gif" />
     <Content Include="Images\icons\ico_info.gif" />
     <Content Include="Images\icons\ico_warning.gif" />
@@ -995,6 +997,18 @@
     <Content Include="Images\sublogo-80x80.png" />
     <Content Include="Images\SubtextLogo.png" />
     <Content Include="Images\SubtextLogo_small.png" />
+    <Content Include="Images\xfn-child.png" />
+    <Content Include="Images\xfn-colleague-met.png" />
+    <Content Include="Images\xfn-colleague.png" />
+    <Content Include="Images\xfn-friend-met.png" />
+    <Content Include="Images\xfn-friend.png" />
+    <Content Include="Images\xfn-me.png" />
+    <Content Include="Images\xfn-parent.png" />
+    <Content Include="Images\xfn-small.png" />
+    <Content Include="Images\xfn-spouse.png" />
+    <Content Include="Images\xfn-sweetheart-met.png" />
+    <Content Include="Images\xfn-sweetheart.png" />
+    <Content Include="Images\xfn.png" />
     <Content Include="Images\xml.gif" />
     <Content Include="Install\BlogNotConfiguredError.aspx" />
     <Content Include="Install\Default.aspx">

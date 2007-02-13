@@ -31,9 +31,6 @@
 	    <p>
 		    <a href="Preferences.aspx">Preferences</a>: Set common preferences.
 	    </p>
-	    <p>
-		    <a href="PluginList.aspx">Plugin List</a>: Manage Plugin Settings.
-	    </p>
 	    <br class="clear" />
     </st:AdvancedPanel>
 </asp:Content>
