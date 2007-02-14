@@ -1,8 +1,11 @@
 using System;
+using System.Globalization;
 using System.Web.UI.WebControls;
 using Subtext.Framework;
 using Subtext.Framework.Components;
+using Subtext.Framework.Configuration;
 using Subtext.Framework.Format;
+using Image=Subtext.Framework.Components.Image;
 
 #region Disclaimer/Info
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -21,16 +24,14 @@ using Subtext.Framework.Format;
 
 namespace Subtext.Web.UI.Controls
 {
-	using System;
-
-	/// <summary>
+    /// <summary>
 	///		Summary description for GalleryThumbNailViewer.
 	/// </summary>
-	public class GalleryThumbNailViewer : Subtext.Web.UI.Controls.BaseControl
+	public class GalleryThumbNailViewer : BaseControl
 	{
-		protected System.Web.UI.WebControls.Literal GalleryTitle;
-		protected System.Web.UI.WebControls.DataList ThumbNails;
-		protected System.Web.UI.WebControls.Literal Description;
+		protected Literal GalleryTitle;
+		protected DataList ThumbNails;
+		protected Literal Description;
 
 		private string _baseImagePath;
 
@@ -57,7 +58,7 @@ namespace Subtext.Web.UI.Controls
 					GalleryTitle.Text = ic.Category.Title;
 					if(ic.Category.HasDescription)
 					{
-						Description.Text = string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}",ic.Category.Description);
+						Description.Text = string.Format(CultureInfo.InvariantCulture, "{0}",ic.Category.Description);
 					}
 					ThumbNails.DataSource = ic;
 					ThumbNails.DataBind();
@@ -69,17 +70,15 @@ namespace Subtext.Web.UI.Controls
 		{
 			if(e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
 			{
-				Subtext.Framework.Components.Image _image = (Subtext.Framework.Components.Image)e.Item.DataItem;
+				Image _image = (Image)e.Item.DataItem;
 				if(_image != null)
 				{
 					HyperLink ThumbNailImage = (HyperLink)e.Item.FindControl("ThumbNailImage");
 					if(ThumbNailImage != null)
 					{
-						
 						ThumbNailImage.ImageUrl = _baseImagePath + _image.ThumbNailFile;
-						ThumbNailImage.NavigateUrl = Subtext.Framework.Configuration.Config.CurrentBlog.UrlFormats.ImageUrl(null,_image.ImageID);
+						ThumbNailImage.NavigateUrl = Config.CurrentBlog.UrlFormats.ImageUrl(null,_image.ImageID);
 						ThumbNailImage.ToolTip = _image.Title;
-
 					}
 				}
 			}
