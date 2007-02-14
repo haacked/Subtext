@@ -45,7 +45,7 @@ namespace Subtext.Web
 
 		protected string GetEntryUrl(string host, string app, string entryName, DateTime dt)
 		{			
-			return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}archive/{1:yyyy/MM/dd}/{2}.aspx", GetFullUrl(host,app), dt, entryName);
+			return string.Format(CultureInfo.InvariantCulture, "{0}archive/{1:yyyy/MM/dd}/{2}.aspx", GetFullUrl(host,app), dt, entryName);
 		}
 
 		private void SetStyle()
@@ -56,13 +56,13 @@ namespace Subtext.Web
 		}
 
 		private string appPath;
-		const string fullUrl = "http://{0}{1}{2}/";
+		string fullUrl = HttpContext.Current.Request.Url.Scheme + "://{0}{1}{2}/";
 		protected string GetFullUrl(string host, string app)
 		{
 			if(appPath == null)
 			{
 				appPath = HttpContext.Current.Request.ApplicationPath;
-				if(!appPath.ToLower(System.Globalization.CultureInfo.InvariantCulture).EndsWith("/"))
+				if(!appPath.ToLower(CultureInfo.InvariantCulture).EndsWith("/"))
 				{
 					appPath += "/";
 				}
