@@ -37,13 +37,15 @@ namespace Subtext.Installation
 			}
 		}
 
+
+
 		/// <summary>
 		/// Gets the current installation status.
 		/// </summary>
 		/// <returns></returns>
-		public static InstallationState GetInstallationStatus()
+		public static InstallationState InstallationStatus
 		{
-			return Installer.Provider.GetInstallationStatus();
+			get { return Installer.Provider.InstallationStatus; }
 		}
 
 		/// <summary>

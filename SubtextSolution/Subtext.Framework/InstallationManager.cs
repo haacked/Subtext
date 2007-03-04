@@ -39,8 +39,8 @@ namespace Subtext.Framework
 			{
 				return (bool)HttpContext.Current.Application["NeedsInstallation"];
 			}
-					
-			InstallationState currentState = Installer.GetInstallationStatus();
+
+			InstallationState currentState = Installer.InstallationStatus;
 			bool needsUpgrade = currentState  == InstallationState.NeedsInstallation 
 				|| currentState  == InstallationState.NeedsUpgrade
 				|| currentState  == InstallationState.NeedsRepair;
@@ -90,20 +90,27 @@ namespace Subtext.Framework
 		/// </returns>
 		public static bool InstallationActionRequired(Exception unhandledException, Version assemblyVersion)
 		{
-			if(unhandledException is BlogDoesNotExistException)
+			if (unhandledException is BlogDoesNotExistException)
+			{
 				return true;
+			}
 
-			if(unhandledException is HostDataDoesNotExistException)
+			if (unhandledException is HostDataDoesNotExistException)
+			{
 				return true;
+			}
 
-			if(unhandledException is HostNotConfiguredException)
+			if (unhandledException is HostNotConfiguredException)
+			{
 				return true;
+			}
 
-			if(Installer.IsInstallationException(unhandledException))
+			if (Installer.IsInstallationException(unhandledException))
+			{
 				return true;
+			}
 
-			InstallationState status = Installer.GetInstallationStatus();
-			switch(status)
+			switch(Installer.InstallationStatus)
 			{
 				case InstallationState.NeedsInstallation:
 				case InstallationState.NeedsRepair:
@@ -176,9 +183,9 @@ namespace Subtext.Framework
 		/// Gets the installation status.
 		/// </summary>
 		/// <returns></returns>
-		public static InstallationState GetCurrentInstallationState()
+		public static InstallationState CurrentInstallationState
 		{
-			return Installer.GetInstallationStatus();
+			get { return Installer.InstallationStatus; }
 		}
 	}
 }

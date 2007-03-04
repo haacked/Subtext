@@ -23,8 +23,7 @@ namespace UnitTests.Subtext.Installation
 		[Test]
 		public void CanGetInstallationStatus()
 		{
-			InstallationState state = Installer.GetInstallationStatus();
-			Assert.AreEqual(InstallationState.Complete, state);
+			Assert.AreEqual(InstallationState.Complete, Installer.InstallationStatus);
 		}
 	}
 }

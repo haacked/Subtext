@@ -24,50 +24,50 @@ namespace Subtext.Installation
 	/// This allows new data providers to implement their own installation 
 	/// code.
 	/// </summary>
-    public abstract class InstallerProvider : ProviderBase
+	public abstract class InstallerProvider : ProviderBase
 	{
 		#region InstallationProvider methods
-        /// <summary>
-        /// Gets the installation status.
-        /// </summary>
-        /// <returns></returns>
-        public abstract InstallationState GetInstallationStatus();
+		/// <summary>
+		/// Gets the installation status.
+		/// </summary>
+		/// <returns></returns>
+		public abstract InstallationState InstallationStatus { get; }
 
-        /// <summary>
-        /// Upgrades this instance. Returns true if it was successful.
-        /// </summary>
-        /// <returns></returns>
-        public abstract void Upgrade();
+		/// <summary>
+		/// Upgrades this instance. Returns true if it was successful.
+		/// </summary>
+		/// <returns></returns>
+		public abstract void Upgrade();
 
-        /// <summary>
-        /// Installs this instance.
-        /// </summary>
-        /// <param name="assemblyVersion">The current assembly version being installed.</param>
-        public abstract void Install(Version assemblyVersion);
+		/// <summary>
+		/// Installs this instance.
+		/// </summary>
+		/// <param name="assemblyVersion">The current assembly version being installed.</param>
+		public abstract void Install(Version assemblyVersion);
 
-        /// <summary>
-        /// Determines whether the specified exception is due to 
-        /// a problem with the installation.
-        /// </summary>
-        /// <param name="exception">exception.</param>
-        /// <returns>
-        /// 	<c>true</c> if this is an installation exception; otherwise, <c>false</c>.
-        /// </returns>
-        public abstract bool IsInstallationException(Exception exception);
+		/// <summary>
+		/// Determines whether the specified exception is due to 
+		/// a problem with the installation.
+		/// </summary>
+		/// <param name="exception">exception.</param>
+		/// <returns>
+		/// 	<c>true</c> if this is an installation exception; otherwise, <c>false</c>.
+		/// </returns>
+		public abstract bool IsInstallationException(Exception exception);
 
-        /// <summary>
-        /// Gets the <see cref="Version"/> of the current Subtext installation.
-        /// </summary>
-        /// <returns></returns>
-        public abstract Version GetCurrentInstallationVersion();
+		/// <summary>
+		/// Gets the <see cref="Version"/> of the current Subtext installation.
+		/// </summary>
+		/// <returns></returns>
+		public abstract Version CurrentInstallationVersion { get; }
 
 		/// <summary>
 		/// Updates the current installed version.
 		/// </summary>
 		/// <param name="newVersion">The new version that is now current.</param>
 		/// <param name="transaction">The transaction.</param>
-        public abstract void UpdateInstallationVersionNumber(Version newVersion, SqlTransaction transaction); 
-        #endregion
+		public abstract void UpdateInstallationVersionNumber(Version newVersion, SqlTransaction transaction);
+		#endregion
 	}
 
 	/// <summary>
