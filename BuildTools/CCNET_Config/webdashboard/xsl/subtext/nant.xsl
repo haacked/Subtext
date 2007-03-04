@@ -6,6 +6,18 @@
       <xsl:variable name="buildresults" select="/cruisecontrol/build/buildresults" />
       <div class="container">
          <span class="containerTitle">NAnt Build Log</span>
+         <span class="containerSubtitle">
+            <xsl:if test="count($buildresults) > 0">
+               <xsl:choose>
+                  <xsl:when test="$buildresults/failure">
+                     Build Failed (<a href="#failure">click to see error</a>)
+                  </xsl:when>
+                  <xsl:otherwise>
+                     Build Succeeded
+                  </xsl:otherwise>
+               </xsl:choose>
+            </xsl:if>
+         </span>
          <div class="containerContents">
             <xsl:choose>
                <xsl:when test="count($buildresults) > 0">
@@ -21,37 +33,40 @@
    </xsl:template>
    
    <xsl:template match="buildresults">
-      <table class="section" rules="groups" cellpadding="2" cellspacing="0" border="0">
-         <tr>
-            <td><xsl:apply-templates /></td>
-         </tr>
-      </table>
-      <a href="#top">Back to top</a>
+      <div>
+         <xsl:apply-templates />
+         <a href="#top">Back to top</a>
+      </div>
    </xsl:template>
    
    <xsl:template match="target">
-      <p><xsl:value-of select="@name"/>:</p>
-      <xsl:apply-templates />
+      <span class="buildtarget">
+         <p><strong><xsl:value-of select="@name"/></strong>:
+         <ul>
+            <xsl:apply-templates />
+         </ul>
+         </p>
+      </span>
    </xsl:template>
    
    <xsl:template match="task">
-      <xsl:if test="@name = 'echo' and count(child::message) = 0">[<xsl:value-of select="@name"/>]<br /></xsl:if>
+      <xsl:if test="@name = 'echo' and count(child::message) = 0"><em>[<xsl:value-of select="@name"/>]</em><br /></xsl:if>
       <xsl:apply-templates /> 
    </xsl:template>
    
    <xsl:template match="message">
+      <li>
       <span>
-         <xsl:if test="@level='Error'">
-            <xsl:attribute name="class">error</xsl:attribute>
-         </xsl:if>
-         <xsl:if test="@level='Warning'">
-            <xsl:attribute name="class">warning</xsl:attribute>
-         </xsl:if>         
-         <xsl:if test="../@name != ''">
-            [<xsl:value-of select="../@name"/>] 
-         </xsl:if>
-         <pre><xsl:value-of select="text()" /></pre>
+         <xsl:attribute name="class">
+            <xsl:choose>
+               <xsl:when test="@level='Error'">error</xsl:when>
+               <xsl:when test="@level='Warning'">warning</xsl:when>
+            </xsl:choose>
+         </xsl:attribute>
+         <xsl:if test="../@name != ''"><em>[<xsl:value-of select="../@name"/>]</em>&#160;</xsl:if>
+         <xsl:value-of select="text()" />
       </span>
+      </li>
    </xsl:template>
    
    <xsl:template match="failure">
@@ -74,11 +89,11 @@
    <xsl:template match="internalerror">
       <br/>
       <span class="error">Internal Error: <xsl:value-of select="type"/><br/>
-      <xsl:value-of select="message"/><br/>     
-      <xsl:apply-templates select="location" />
-      <pre>
-         <xsl:value-of select="stacktrace" />
-      </pre>
+         <xsl:value-of select="message"/><br/>     
+         <xsl:apply-templates select="location" />
+         <pre>
+            <xsl:value-of select="stacktrace" />
+         </pre>
       </span>     
    </xsl:template>
    

@@ -112,13 +112,13 @@ function refresh()
 
                   <td align="center" nowrap valign="middle">
                      #if ($projectGridRow.BuildStatus == "Failure")
-                        <img src="images/error.png" class="statusimage" alt="$projectGridRow.BuildStatus">
+                        <img src="/ccnet/images/error.png" class="statusimage" alt="$projectGridRow.BuildStatus">
                      #elseif ($projectGridRow.BuildStatus == "Success")
-                        <img src="images/check.png" class="statusimage" alt="$projectGridRow.BuildStatus">
+                        <img src="/ccnet/images/check.png" class="statusimage" alt="$projectGridRow.BuildStatus">
                      #elseif ($projectGridRow.BuildStatus == "Unknown")
-                        <img src="images/unknown.png" class="statusimage" alt="$projectGridRow.BuildStatus">
+                        <img src="/ccnet/images/unknown.png" class="statusimage" alt="$projectGridRow.BuildStatus">
                      #else
-                        <img src="images/warning.png" class="statusimage" alt="$projectGridRow.BuildStatus">
+                        <img src="/ccnet/images/warning.png" class="statusimage" alt="$projectGridRow.BuildStatus">
                      #end
                   </td>
                   <td>&nbsp;</td>
@@ -126,9 +126,9 @@ function refresh()
                   <td>&nbsp;</td>
                   <td align="left">
                      #if ($projectGridRow.Activity == "CheckingModifications")
-                        <img src="images/gear_view.png" class="statusimage" alt="Checking Modifications"> Checking Modifications
+                        <img src="/ccnet/images/gear_view.png" class="statusimage" alt="Checking Modifications"> Checking Modifications
                      #elseif ($projectGridRow.Activity == "Building")
-                        <img src="images/gear_run.png" class="statusimage" alt="$projectGridRow.Activity"> $projectGridRow.Activity
+                        <img src="/ccnet/images/gear_run.png" class="statusimage" alt="$projectGridRow.Activity"> $projectGridRow.Activity
                      #else
                         $projectGridRow.Activity
                      #end
