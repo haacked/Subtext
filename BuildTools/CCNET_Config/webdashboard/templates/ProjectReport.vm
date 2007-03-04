@@ -1,0 +1,32 @@
+<div class="container">
+   <span class="containerTitle">Project Report for $projectName</span>
+   <div class="containerContents">
+      <p>Integrated <a href="http://www.ohloh.net/projects/3167/analyses/latest" target="_new"/>project statistics</a> from ohloh are coming soon.
+      <p>
+         #if ($noLogsAvailable)
+            There are currently no build logs available for this project - make sure your Build Server configuration is correct and that this Project's build is not throwing any exceptions
+         #else
+            #if ($pluginInfo)
+               <h3>Most Recent Build Results</h3>
+               $pluginInfo
+
+               Click <a href="$mostRecentBuildUrl">here</a> for the full build report.
+            #else
+               Click <a href="$mostRecentBuildUrl">here</a> for the most recent build report.
+            #end
+         #end
+      </p>
+
+      #if ($externalLinks.Length > 0)
+         <table class="ExternalLinks">
+            <tr><td colspan="2"><b>External Links</b></td></tr>
+            #foreach ($externalLink in $externalLinks)
+               <tr>
+                  <td>&nbsp;</td>
+                  <td align="Left"><a href="$externalLink.Url" target="_new">$externalLink.Name</a></td>
+               </tr>
+            #end
+         </table>
+      #end  
+   </div>
+</div>

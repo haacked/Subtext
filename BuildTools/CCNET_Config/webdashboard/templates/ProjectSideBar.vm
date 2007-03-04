@@ -1,0 +1,11 @@
+<div class="container">
+   <span class="containerTitle">Links</span>
+   <div class="containerContents">
+      <ul>
+         #foreach ($link in $links)
+            <li><a href="$link.Url" class="$link.LinkClass">$link.Text</a></li>
+         #end
+      </ul>
+   </div>
+</div>
+$recentBuildsTable

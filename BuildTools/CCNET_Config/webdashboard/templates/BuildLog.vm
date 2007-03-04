@@ -1,0 +1,9 @@
+<div class="container">
+   <span class="containerTitle">Build Log</span>
+   <div class="containerContents">
+      <div>
+         <a target="_new" href="$logUrl">View in a new window</a>
+      </div>
+      <pre class="log">$log</pre>
+   </div>
+</div>

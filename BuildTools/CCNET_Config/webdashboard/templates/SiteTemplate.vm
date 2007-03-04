@@ -1,0 +1,32 @@
+<HTML>
+   <HEAD>
+      <title>CruiseControl.NET</title>
+      <link type="text/css" rel="stylesheet" href="$applicationPath/cruisecontrol.css" />
+   </HEAD>
+   <body id="Body">
+   <div id="main">
+      <div id="header">
+         <div id="logo"><a href="/ccnet" title="Home"><h1>Subtext Project</h1></a></div>
+         <div id="ccnetlogo"><a target="new" href="http://ccnet.thoughtworks.com"><h1>CruiseControl.NET</h1></a></div>
+         <div id="ccnetdashboardversion">version: $dashboardversion&nbsp;</div>
+      </div>
+      <div id="subheader">$breadcrumbs</div>
+      <div id="mainContent">
+         <div id="content">
+            $mainContent
+         </div>
+         <div id="sidebar">
+            $sidebar
+         </div>
+      </div>
+      <div id="footer">
+         <div id="footerLinkLinks" width="0"></div>
+      </div>
+      <div id="bottom">
+         <span><a href="http://www.thoughtworks.com/" border="0"><img src="$applicationPath/images/released-by-tw.gif" border="0"/></a></span>
+         <span><img src="$applicationPath/images/shim.gif" border="0" width="36"/></span>
+         <span>Subtext Logo design by <a href="http://turbomilk.com/" title="Powerful and healthy GUI design for the human" rel="external">TurboMilk</a>.</span>
+      </div>    
+   </div>
+   </body>
+</HTML>
