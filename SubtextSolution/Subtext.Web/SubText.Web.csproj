@@ -2106,6 +2106,9 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Skins\AnotherEon001\images\" />
     <Folder Include="Skins\Naked\Images\" />
     <Folder Include="Skins\Naked\Scripts\" />

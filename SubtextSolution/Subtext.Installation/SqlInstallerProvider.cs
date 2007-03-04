@@ -32,7 +32,7 @@ namespace Subtext.Installation
 	{
 		Version _version;
 		string connectionString = string.Empty;
-		
+
 		/// <summary>
 		/// Initializes the specified provider.
 		/// </summary>
@@ -40,26 +40,30 @@ namespace Subtext.Installation
 		/// <param name="config">Config value.</param>
 		public override void Initialize(string name, NameValueCollection config)
 		{
-            this.connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", config);
-            base.Initialize(name, config);
+			this.connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", config);
+			base.Initialize(name, config);
 		}
 
 		/// <summary>
 		/// Gets the installation status based on the current assembly Version.
 		/// </summary>
 		/// <returns></returns>
-		public override InstallationState GetInstallationStatus()
+		public override InstallationState InstallationStatus
 		{
-			Version installationVersion = GetCurrentInstallationVersion();
-			if (installationVersion == null)
-				return InstallationState.NeedsInstallation;
-			
-			if (NeedsUpgrade(installationVersion))
+			get
 			{
-				return InstallationState.NeedsUpgrade;
+
+				Version installationVersion = CurrentInstallationVersion;
+				if (installationVersion == null)
+					return InstallationState.NeedsInstallation;
+
+				if (NeedsUpgrade(installationVersion))
+				{
+					return InstallationState.NeedsUpgrade;
+				}
+
+				return InstallationState.Complete;
 			}
-		
-			return InstallationState.Complete;
 		}
 
 		/// <summary>
@@ -73,16 +77,16 @@ namespace Subtext.Installation
 		public override bool IsInstallationException(Exception exception)
 		{
 			if (exception == null)
-                throw new ArgumentNullException("exception", Resources.ArgumentNull_ExceptionCritical);
-			
-			Regex tableRegex = new Regex("Invalid object name '.*?'", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-            bool isSqlException = exception is SqlException;
+				throw new ArgumentNullException("exception", Resources.ArgumentNull_ExceptionCritical);
 
-			if(isSqlException && tableRegex.IsMatch(exception.Message))
+			Regex tableRegex = new Regex("Invalid object name '.*?'", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+			bool isSqlException = exception is SqlException;
+
+			if (isSqlException && tableRegex.IsMatch(exception.Message))
 				return true;
 
 			Regex spRegex = new Regex("'Could not find stored procedure '.*?'", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-			if(isSqlException && spRegex.IsMatch(exception.Message))
+			if (isSqlException && spRegex.IsMatch(exception.Message))
 				return true;
 
 			return false;
@@ -94,15 +98,15 @@ namespace Subtext.Installation
 		/// <returns></returns>
 		public override void Upgrade()
 		{
-			using(SqlConnection connection = new SqlConnection(this.connectionString))
+			using (SqlConnection connection = new SqlConnection(this.connectionString))
 			{
 				connection.Open();
-				using(SqlTransaction transaction = connection.BeginTransaction())
+				using (SqlTransaction transaction = connection.BeginTransaction())
 				{
 					try
 					{
-						Version installationVersion = this.GetCurrentInstallationVersion();
-						if(installationVersion == null)
+						Version installationVersion = this.CurrentInstallationVersion;
+						if (installationVersion == null)
 						{
 							//This is the base version.  We need to hardcode this 
 							//because Subtext 1.0 didn't write the assembly version 
@@ -110,16 +114,16 @@ namespace Subtext.Installation
 							installationVersion = new Version(1, 0, 0, 0);
 						}
 						string[] scripts = ListInstallationScripts(installationVersion, this.CurrentAssemblyVersion);
-						foreach(string scriptName in scripts)
+						foreach (string scriptName in scripts)
 						{
-							ScriptHelper.ExecuteScript(scriptName, transaction);	
+							ScriptHelper.ExecuteScript(scriptName, transaction);
 						}
 						ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction);
 
 						UpdateInstallationVersionNumber(this.CurrentAssemblyVersion, transaction);
 						transaction.Commit();
 					}
-					catch(Exception)
+					catch (Exception)
 					{
 						transaction.Rollback();
 						throw;
@@ -135,24 +139,24 @@ namespace Subtext.Installation
 		/// <returns></returns>
 		public override void Install(Version assemblyVersion)
 		{
-			using(SqlConnection connection = new SqlConnection(this.connectionString))
+			using (SqlConnection connection = new SqlConnection(this.connectionString))
 			{
 				connection.Open();
-				using(SqlTransaction transaction = connection.BeginTransaction())
+				using (SqlTransaction transaction = connection.BeginTransaction())
 				{
 					try
 					{
-						string[] scripts = ListInstallationScripts(this.GetCurrentInstallationVersion(), this.CurrentAssemblyVersion);
-						foreach(string scriptName in scripts)
+						string[] scripts = ListInstallationScripts(this.CurrentInstallationVersion, this.CurrentAssemblyVersion);
+						foreach (string scriptName in scripts)
 						{
-							ScriptHelper.ExecuteScript(scriptName, transaction);	
+							ScriptHelper.ExecuteScript(scriptName, transaction);
 						}
 
 						ScriptHelper.ExecuteScript("StoredProcedures.sql", transaction);
 						UpdateInstallationVersionNumber(assemblyVersion, transaction);
 						transaction.Commit();
 					}
-					catch(Exception)
+					catch (Exception)
 					{
 						transaction.Rollback();
 						throw;
@@ -167,30 +171,33 @@ namespace Subtext.Installation
 		/// assembly version, we may need to run an upgrade.
 		/// </summary>
 		/// <returns></returns>
-		public override Version GetCurrentInstallationVersion()
+		public override Version CurrentInstallationVersion
 		{
-			string sql = "subtext_VersionGetCurrent";
-		
-			try 
+			get
 			{
-				using(IDataReader reader = SqlHelper.ExecuteReader(this.connectionString, CommandType.StoredProcedure, sql))
+				string sql = "subtext_VersionGetCurrent";
+
+				try
 				{
-					if(reader.Read())
+					using (IDataReader reader = SqlHelper.ExecuteReader(this.connectionString, CommandType.StoredProcedure, sql))
 					{
-						Version version = new Version((int)reader["Major"], (int)reader["Minor"], (int)reader["Build"]);
+						if (reader.Read())
+						{
+							Version version = new Version((int)reader["Major"], (int)reader["Minor"], (int)reader["Build"]);
+							reader.Close();
+							return version;
+						}
 						reader.Close();
-						return version;
 					}
-					reader.Close();
 				}
+				catch (SqlException exception)
+				{
+					const int CouldNotFindStoredProcedure = 2812;
+					if (exception.Number != CouldNotFindStoredProcedure)
+						throw;
+				}
+				return null;
 			}
-			catch(SqlException exception) 
-			{
-				const int CouldNotFindStoredProcedure = 2812;
-				if (exception.Number != CouldNotFindStoredProcedure)
-					throw;
-			}
-			return null;
 		}
 
 		/// <summary>
@@ -201,8 +208,8 @@ namespace Subtext.Installation
 		public override void UpdateInstallationVersionNumber(Version newVersion, SqlTransaction transaction)
 		{
 			if (newVersion == null)
-                throw new ArgumentNullException("newVersion", Resources.ArgumentNull_Generic);
-			
+				throw new ArgumentNullException("newVersion", Resources.ArgumentNull_Generic);
+
 			string sql = "subtext_VersionAdd";
 			SqlParameter[] p =
 			{
@@ -228,7 +235,7 @@ namespace Subtext.Installation
 		{
 			get
 			{
-				if(_version == null)
+				if (_version == null)
 				{
 					_version = this.GetType().Assembly.GetName().Version;
 				}
@@ -246,12 +253,12 @@ namespace Subtext.Installation
 		/// </value>
 		public bool NeedsUpgrade(Version installationVersion)
 		{
-			if(installationVersion >= CurrentAssemblyVersion)
+			if (installationVersion >= CurrentAssemblyVersion)
 			{
 				return false;
 			}
 
-			if(installationVersion == null)
+			if (installationVersion == null)
 			{
 				//This is the base version.  We need to hardcode this 
 				//because Subtext 1.0 didn't write the assembly version 
@@ -274,12 +281,12 @@ namespace Subtext.Installation
 			Assembly assembly = Assembly.GetExecutingAssembly();
 			string[] resourceNames = assembly.GetManifestResourceNames();
 			StringCollection collection = new StringCollection();
-			foreach(string resourceName in resourceNames)
+			foreach (string resourceName in resourceNames)
 			{
 				InstallationScriptInfo scriptInfo = InstallationScriptInfo.Parse(resourceName);
-				if(scriptInfo == null) continue;
-				
-				if((minVersionExclusive == null || scriptInfo.Version > minVersionExclusive)
+				if (scriptInfo == null) continue;
+
+				if ((minVersionExclusive == null || scriptInfo.Version > minVersionExclusive)
 					&& (maxVersionInclusive == null || scriptInfo.Version <= maxVersionInclusive))
 				{
 					collection.Add(scriptInfo.ScriptName);
@@ -305,7 +312,7 @@ namespace Subtext.Installation
 			{
 				Regex regex = new Regex(@"(?<ScriptName>Installation\.(?<version>\d+\.\d+\.\d+)\.sql)$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 				Match match = regex.Match(resourceName);
-				if(!match.Success)
+				if (!match.Success)
 				{
 					return null;
 				}
