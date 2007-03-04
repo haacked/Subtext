@@ -344,6 +344,28 @@ a.img, a img
    white-space: pre;
 }
 
+.buildmessage
+{
+   white-space: wrap;
+   font-family: "Courier New", monospaced;
+}
+
+.buildtarget
+{
+}
+
+.buildtarget ul
+{
+   list-style: none;
+   margin-left: 10px;
+   margin-top: 0px;
+}
+
+.buildtarget ul li
+{
+   list-style: none;
+}
+
 #StatusLabel
 {
    text-align: left;
@@ -513,29 +535,6 @@ a.img, a img
    padding: 10px 3px 0 0px;
 }
 
-/*
-table.summary
-{
-   border: 0px none #FFFFFF;
-   border-collapse: collapse;  
-}
-
-table.summary tr
-{
-   line-height: 1.5em;
-}
-
-table.summary th
-{
-   font-weight: bold;
-   text-align: left;
-   white-space: nowrap;
-}
-
-table.summary td
-{
-}
-*/
 table.section
 {
    width: 98%;
