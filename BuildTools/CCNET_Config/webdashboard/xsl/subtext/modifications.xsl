@@ -53,16 +53,16 @@
             <xsl:if test="position() mod 2=0">
                <xsl:attribute name="class">shaded</xsl:attribute>
             </xsl:if>
-            <td colspan="3"><em><xsl:value-of select="comment"/></em></td>
+
+            <td><xsl:value-of select="date"/></td>
+            <td><xsl:value-of select="@type"/></td>
+            <td><xsl:value-of select="user"/></td>
          </tr>
          <tr>
             <xsl:if test="position() mod 2=0">
                <xsl:attribute name="class">shaded</xsl:attribute>
             </xsl:if>
-
-            <td><xsl:value-of select="date"/></td>
-            <td><xsl:value-of select="@type"/></td>
-            <td><xsl:value-of select="user"/></td>
+            <td colspan="3"><em><xsl:value-of select="comment"/></em></td>
          </tr>
       </tbody>
    </xsl:template>
