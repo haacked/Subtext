@@ -86,9 +86,10 @@ function refresh()
       <table id="StatusGrid" rules="groups" cellspacing="0" cellpadding="0">
          <thead>
             <tr class="ProjectGridHeader">
-               <td align="center" width="60"><a href="$buildStatusSortLink"><b>Build<br>Status</b></a></td>
                <td width="6px"></td>
                <td nowrap><a href="$projectNameSortLink"><b>Project Name</b></a></td>
+               <td width="6px"></td>
+               <td align="center" width="60"><a href="$buildStatusSortLink"><b>Build<br>Status</b></a></td>
                <td width="15"></td>
                <td align="left" width="240"><b>Current Activity</b></td>
                <td width="15"></td>
@@ -101,6 +102,9 @@ function refresh()
          #foreach ($projectGridRow in $projectGrid)
             <tbody>
                <tr>
+                  <td>&nbsp;</td>
+                  <td align="left"><strong><a href="$projectGridRow.Url">$projectGridRow.Name</a></strong></td>
+                  <td>&nbsp;</td>
                   <td align="center" nowrap valign="middle">
                      #if ($projectGridRow.BuildStatus == "Failure")
                         <img src="/ccnet/images/error.png" class="statusimage" alt="$projectGridRow.BuildStatus">
@@ -112,8 +116,6 @@ function refresh()
                         <img src="/ccnet/images/warning.png" class="statusimage" alt="$projectGridRow.BuildStatus">
                      #end
                   </td>
-                  <td>&nbsp;</td>
-                  <td align="left"><strong><a href="$projectGridRow.Url">$projectGridRow.Name</a></strong></td>
                   <td>&nbsp;</td>
                   <td align="left">
                      #if ($projectGridRow.Activity == "CheckingModifications")
@@ -132,19 +134,16 @@ function refresh()
                </tr>
                #if ($projectGridRow.CurrentMessage.Length > 0)
                   <tr class="shaded">
-                     <td>&nbsp;</td>
-                     <td colspan="9">$projectGridRow.CurrentMessage</td>
+                     <td colspan="4">&nbsp;</td>
+                     <td colspan="7">$projectGridRow.CurrentMessage</td>
                   </tr>  
                   <tr class="shaded divider">
-                     #if ($wholeFarm)
-                        <td colspan="12" align="center"><hr></td>
-                     #else
-                        <td colspan="10" align="center"><hr></td>
-                     #end
+                     <td colspan="11" align="center"><hr></td>
                   </tr>  
                #end
                <tr class="shaded">
-                  <td colspan="10" align="center">
+                  <td colspan="4">&nbsp;</td>
+                  <td colspan="7" align="center">
                      <form method="post" onsubmit="return confirm(confirmPrompt(this, '$projectGridRow.Name'))">
                         <input type="hidden" name="forcebuild" value="true" />
                         <input type="hidden" name="forceBuildProject" value="$projectGridRow.Name" />
