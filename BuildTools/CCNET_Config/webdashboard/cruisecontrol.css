@@ -328,7 +328,7 @@ a.img, a img
 .ProjectGridHeader
 {
    height: 25px;
-   vertical-align: bottom;
+   vertical-align: middle;
    padding-bottom: 5px;
    background: #A1A3A5;
    color: #0F3EAD;
