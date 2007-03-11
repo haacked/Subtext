@@ -9,6 +9,21 @@
    <xsl:variable name="nunit2.assert" select="sum($nunit2.result.list/@assert-count)"/>
 
    <!--<xsl:variable name="totalErrorsAndFailures" select="sum($nunit2.failure)"/>-->
+   <xsl:template name="br-replace">
+      <xsl:param name="word"/>
+      <xsl:choose>
+         <xsl:when test="contains($word,'&#xA;')">
+            <xsl:value-of select="substring-before($word,'&#xA;')"/>
+            <br/>
+            <xsl:call-template name="br-replace">
+               <xsl:with-param name="word" select="substring-after($word,'&#xA;')"/>
+            </xsl:call-template>
+         </xsl:when>
+         <xsl:otherwise>
+            <xsl:value-of select="$word"/>
+         </xsl:otherwise>
+      </xsl:choose>
+   </xsl:template>
   
    <xsl:template match="//report-result">
       <div class="buildcontainer">
@@ -61,6 +76,14 @@
             </xsl:call-template>
          </td>
       </tr>
+      <xsl:call-template name="nunit2testdetail">
+         <xsl:with-param name="detailnodes" select="//report-result/assemblies/assembly//namespaces//namespace/fixtures/fixture/runs/run[descendant::exception]"/>
+         <xsl:with-param name="header" select="'Failures'"/>
+      </xsl:call-template>
+      <xsl:call-template name="nunit2testdetail">
+         <xsl:with-param name="detailnodes" select="//report-result/assemblies/assembly//namespaces//namespace/fixtures/fixture/runs/run[descendant::reason]"/>
+         <xsl:with-param name="header" select="'Warnings'"/>
+      </xsl:call-template>
    </xsl:template>
 
    <!-- Draw % Green/Red/Yellow Bar -->
@@ -110,6 +133,28 @@
       </table>
    </xsl:template>
 
+   <xsl:template name="nunit2testdetail">
+      <xsl:param name="detailnodes"/>
+      <xsl:param name="header"/>
+
+      <xsl:if test="count($detailnodes) &gt; 0">
+         <tr>
+            <td colspan="3">&#160;</td>
+         </tr>
+         <tr class="header2">
+            <th colspan="3"><xsl:value-of select="$header"/></th>
+         </tr>
+
+         <xsl:for-each select="$detailnodes">
+               <tr>
+                  <xsl:if test="position() mod 2 = 0">
+                     <xsl:attribute name="class">shaded</xsl:attribute>
+                  </xsl:if>
+                  <td colspan="3"><xsl:value-of select="@name"/></td>
+               </tr>
+         </xsl:for-each>
+      </xsl:if>
+   </xsl:template>
   
    <xsl:template match="coverageReport">
       <div class="buildcontainer">
