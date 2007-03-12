@@ -7,24 +7,7 @@
    <xsl:variable name="nunit2.ignore" select="sum($nunit2.result.list/@ignore-count)"/>
    <xsl:variable name="nunit2.skip" select="sum($nunit2.result.list/@skip-count)"/>
    <xsl:variable name="nunit2.assert" select="sum($nunit2.result.list/@assert-count)"/>
-
-   <!--<xsl:variable name="totalErrorsAndFailures" select="sum($nunit2.failure)"/>-->
-   <xsl:template name="br-replace">
-      <xsl:param name="word"/>
-      <xsl:choose>
-         <xsl:when test="contains($word,'&#xA;')">
-            <xsl:value-of select="substring-before($word,'&#xA;')"/>
-            <br/>
-            <xsl:call-template name="br-replace">
-               <xsl:with-param name="word" select="substring-after($word,'&#xA;')"/>
-            </xsl:call-template>
-         </xsl:when>
-         <xsl:otherwise>
-            <xsl:value-of select="$word"/>
-         </xsl:otherwise>
-      </xsl:choose>
-   </xsl:template>
-  
+ 
    <xsl:template match="//report-result">
       <div class="buildcontainer">
          <span class="containerTitle">Unit Tests:
@@ -37,15 +20,16 @@
             <table class="section" rules="groups" cellpadding="2" cellspacing="0" border="0">
                <xsl:choose>
                   <xsl:when test="$nunit2.testcount = 0">
-                     <tr><td colspan="2">No tests run.</td></tr>
-                     <tr><td colspan="2" class="error">This project doesn't have any tests.</td></tr>
+                     <thead>
+                        <tr><td colspan="2">No tests run.</td></tr>
+                        <tr><td colspan="2" class="error">This project doesn't have any tests.</td></tr>
+                     </thead>
                   </xsl:when>
 
                   <xsl:otherwise>
                      <xsl:call-template name="mbunit.summary"/>
                   </xsl:otherwise>
-               </xsl:choose>
-
+               </xsl:choose>              
             </table>
          </div>
       </div>
@@ -55,35 +39,69 @@
    <xsl:template name="mbunit.summary">
       <xsl:variable name="percentSuccess" select="$nunit2.success div $nunit2.testcount * 100"/>
 
+      <thead>
+         <tr>
+            <th width="375px">
+               <xsl:choose>
+                  <xsl:when test="$nunit2.failure = 0">All tests passed </xsl:when>
+                  <xsl:when test="$nunit2.failure &gt; 0">Some tests passed </xsl:when>
+                  <xsl:when test="$nunit2.success = 0">No tests passed </xsl:when>
+               </xsl:choose>
+               <span>(<xsl:value-of select="$nunit2.testcount" /> / <xsl:value-of select="$nunit2.success" /> / <xsl:value-of select="$nunit2.failure" /> / <xsl:value-of select="$nunit2.skip" /> / <xsl:value-of select="$nunit2.ignore" /> / <xsl:value-of select="$nunit2.assert" />)</span>
+            </th>
+            <th class="percent"><xsl:value-of select="concat(format-number($percentSuccess,'#0.0'), ' %')" /></th>
+            <th>
+               <xsl:call-template name="mbunit.detail.percent">
+                  <xsl:with-param name="total" select="$nunit2.testcount" />
+                  <xsl:with-param name="success" select="$nunit2.success" />
+                  <xsl:with-param name="failure" select="$nunit2.failure" />
+                  <xsl:with-param name="ignore" select="$nunit2.ignore" />
+                  <xsl:with-param name="skip" select="$nunit2.skip" />
+                  <xsl:with-param name="assert" select="$nunit2.assert" />
+                  <xsl:with-param name="scale" select="200" />
+               </xsl:call-template>
+            </th>
+         </tr>
+      </thead>
       <tr>
-         <td width="375px">
-            <xsl:choose>
-               <xsl:when test="$nunit2.failure = 0">All tests passed </xsl:when>
-               <xsl:when test="$nunit2.failure &gt; 0">Some tests passed </xsl:when>
-               <xsl:when test="$nunit2.success = 0">No tests passed </xsl:when>
-            </xsl:choose>
-            <span>(<xsl:value-of select="$nunit2.testcount" /> / <xsl:value-of select="$nunit2.success" /> / <xsl:value-of select="$nunit2.failure" /> / <xsl:value-of select="$nunit2.skip" /> / <xsl:value-of select="$nunit2.ignore" /> / <xsl:value-of select="$nunit2.assert" />)</span>
+         <td colspan="3">&#160;</td>
+      </tr>
+      <tbody>
+         <tr class="header2"><th colspan="3">Test Fixture Summary</th></tr>
+         <xsl:apply-templates select="//fixture">
+            <xsl:sort select="@type"/>
+         </xsl:apply-templates>
+      </tbody>
+   </xsl:template>
+
+   <xsl:template match="fixture">
+      <xsl:variable name="percentSuccess" select="$nunit2.success div $nunit2.testcount * 100"/>
+
+      <tr>
+         <xsl:if test="position() mod 2 = 0">
+            <xsl:attribute name="class">shaded</xsl:attribute>
+         </xsl:if>
+         <xsl:attribute name="id"><xsl:value-of select="@type" />.<xsl:value-of select="@name" /></xsl:attribute>
+         <td style="white-space:normal"><xsl:value-of select="@type" /></td>
+         <td class="percent">
+            <xsl:for-each select="counter">
+               <xsl:value-of select="concat(format-number(@success-count div @run-count * 100,'#0.0'), ' %')" />
+            </xsl:for-each>
          </td>
-         <td class="percent"><xsl:value-of select="concat(format-number($percentSuccess,'#0.0'), ' %')" /></td>
          <td>
-            <xsl:call-template name="mbunit.detail.percent">
-               <xsl:with-param name="total" select="$nunit2.testcount" />
-               <xsl:with-param name="success" select="$nunit2.success" />
-               <xsl:with-param name="failure" select="$nunit2.failure" />
-               <xsl:with-param name="ignore" select="$nunit2.ignore" />
-               <xsl:with-param name="skip" select="$nunit2.skip" />
-               <xsl:with-param name="scale" select="200" />
-            </xsl:call-template>
+            <xsl:for-each select="counter">
+               <xsl:call-template name="mbunit.detail.percent">
+                  <xsl:with-param name="total" select="@run-count" />
+                  <xsl:with-param name="success" select="@success-count" />
+                  <xsl:with-param name="failure" select="@failure-count" />
+                  <xsl:with-param name="ignore" select="@ignore-count" />
+                  <xsl:with-param name="skip" select="@skip-count" />
+                  <xsl:with-param name="assert" select="@assert-count" />
+                  <xsl:with-param name="scale" select="200" />
+               </xsl:call-template>
+            </xsl:for-each>
          </td>
       </tr>
-      <xsl:call-template name="nunit2testdetail">
-         <xsl:with-param name="detailnodes" select="//report-result/assemblies/assembly//namespaces//namespace/fixtures/fixture/runs/run[descendant::exception]"/>
-         <xsl:with-param name="header" select="'Failures'"/>
-      </xsl:call-template>
-      <xsl:call-template name="nunit2testdetail">
-         <xsl:with-param name="detailnodes" select="//report-result/assemblies/assembly//namespaces//namespace/fixtures/fixture/runs/run[descendant::reason]"/>
-         <xsl:with-param name="header" select="'Warnings'"/>
-      </xsl:call-template>
    </xsl:template>
 
    <!-- Draw % Green/Red/Yellow Bar -->
@@ -93,6 +111,7 @@
       <xsl:param name="failure" />
       <xsl:param name="ignore" />
       <xsl:param name="skip" />
+      <xsl:param name="assert" />
       <xsl:param name="scale" />
       
       <xsl:variable name="coverage" select="$success div $total * 100"/>
@@ -100,6 +119,10 @@
       <table cellpadding="0" cellspacing="0">
          <tbody>
             <tr>
+               <xsl:attribute name="title">
+                  <xsl:value-of select="$total" /> / <xsl:value-of select="$success" /> / <xsl:value-of select="$failure" /> / <xsl:value-of select="$skip" /> / <xsl:value-of select="$ignore" /> / <xsl:value-of select="$assert" />
+               </xsl:attribute>
+
                <xsl:if test="not ($success=0)">
                   <td class="graphBarVisited" height="14">
                      <xsl:attribute name="width">
@@ -132,151 +155,4 @@
          </tbody>
       </table>
    </xsl:template>
-
-   <xsl:template name="nunit2testdetail">
-      <xsl:param name="detailnodes"/>
-      <xsl:param name="header"/>
-
-      <xsl:if test="count($detailnodes) &gt; 0">
-         <tr>
-            <td colspan="3">&#160;</td>
-         </tr>
-         <tr class="header2">
-            <th colspan="3"><xsl:value-of select="$header"/></th>
-         </tr>
-
-         <xsl:for-each select="$detailnodes">
-               <tr>
-                  <xsl:if test="position() mod 2 = 0">
-                     <xsl:attribute name="class">shaded</xsl:attribute>
-                  </xsl:if>
-                  <td colspan="3"><xsl:value-of select="@name"/></td>
-               </tr>
-         </xsl:for-each>
-      </xsl:if>
-   </xsl:template>
-  
-   <xsl:template match="coverageReport">
-      <div class="buildcontainer">
-         <span class="containerTitle">Code Coverage: 
-            <xsl:if test="./project/@coverage &lt; ./project/@acceptable"> Failed</xsl:if>
-            <xsl:if test="./project/@coverage &gt;= ./project/@acceptable"> Passed</xsl:if>
-         </span>
-         <div class="containerContents">
-            <table class="section" rules="groups" cellpadding="2" cellspacing="0" border="0">
-               <xsl:call-template name="projectSummary">
-                  <xsl:with-param name="threshold" select="$threshold" />
-               </xsl:call-template>
-
-               <xsl:if test="$reportType = 'Module Summary' or $reportType = 'Module Namespace Summary'">
-                  <xsl:call-template name="moduleSummary">
-                     <xsl:with-param name="threshold" select="$threshold" />
-                  </xsl:call-template>
-               </xsl:if>        
-            </table>
-         </div>
-      </div>
-   </xsl:template>
-
-   <!-- Project Summary -->
-   <xsl:template name="projectSummary">
-      <xsl:param name="threshold" />
-         <tr class="header2">
-            <th width="300px">Project</th>
-            <th width="75px">Unvisited<br/> SeqPts</th>
-            <th colspan="2">Coverage</th>
-         </tr>
-         <xsl:call-template name="coverageDetail">
-            <xsl:with-param name="name" select="./project/@name" />
-            <xsl:with-param name="unvisitedPoints" select="./project/@unvisitedPoints" />
-            <xsl:with-param name="sequencePoints" select="./project/@sequencePoints" />
-            <xsl:with-param name="coverage" select="./project/@coverage" />
-            <xsl:with-param name="threshold" select="$threshold" />
-         </xsl:call-template>
-   </xsl:template>
-      
-   <!-- Modules Summary -->
-   <xsl:template name="moduleSummary">
-      <xsl:param name="threshold" />
-         <tr>
-            <td colspan="3">&#160;</td>
-         </tr>
-         <tr class="header2">
-            <th>Modules</th>
-            <th>Unvisited<br/> SeqPts</th>
-            <th colspan="2">Coverage</th>
-         </tr>          
-         <xsl:for-each select="//coverageReport/modules/module">
-            <xsl:call-template name="coverageDetail">
-               <xsl:with-param name="name" select="./@name" />
-               <xsl:with-param name="unvisitedPoints" select="./@unvisitedPoints" />
-               <xsl:with-param name="sequencePoints" select="./@sequencePoints" />
-               <xsl:with-param name="coverage" select="./@coverage" />
-               <xsl:with-param name="threshold" select="$threshold" />
-               <xsl:with-param name="shaded" select="position() mod 2=0" />
-            </xsl:call-template>
-         </xsl:for-each>
-   </xsl:template>
-
-   <!-- Coverage detail row in main grid displaying a name, statistics and graph bar -->
-   <xsl:template name="coverageDetail">
-      <xsl:param name="name" />
-      <xsl:param name="unvisitedPoints" />
-      <xsl:param name="sequencePoints" />
-      <xsl:param name="coverage" />
-      <xsl:param name="threshold" />
-      <xsl:param name="shaded" />
-      <tr>
-         <xsl:if test="$shaded">
-            <xsl:attribute name="class">shaded</xsl:attribute>
-         </xsl:if>
-
-         <td><xsl:value-of select="$name" /></td>
-         <td><xsl:value-of select="$unvisitedPoints" /></td>
-         <td class="percent"><xsl:value-of select="concat(format-number($coverage,'#0.0'), ' %')" /></td>
-         <td>
-            <xsl:call-template name="detailPercent">
-               <xsl:with-param name="notVisited" select="$unvisitedPoints" />
-               <xsl:with-param name="total" select="$sequencePoints" />
-               <xsl:with-param name="threshold" select="$threshold" />
-               <xsl:with-param name="scale" select="200" />
-            </xsl:call-template>
-         </td>
-      </tr>
-   </xsl:template>
-
-   <!-- Draw % Green/Red/Yellow Bar -->
-   <xsl:template name="detailPercent">
-      <xsl:param name="notVisited" />
-      <xsl:param name="total" />
-      <xsl:param name="threshold" />
-      <xsl:param name="scale" />
-      <xsl:variable name="visited" select="$total - $notVisited" />
-      <xsl:variable name="coverage" select="$visited div $total * 100"/>
-      <table cellpadding="0" cellspacing="0">
-      <tbody>
-         <tr>
-            <xsl:if test="not ($visited=0)">
-               <td class="graphBarVisited" height="14">
-                  <xsl:attribute name="width">
-                     <xsl:value-of select="format-number($coverage div 100 * $scale, '0')" />
-                  </xsl:attribute>&#160;
-               </td>
-            </xsl:if>
-              <xsl:if test="not($notVisited=0)">
-               <td height="14">
-                  <xsl:attribute name="class">
-                     <xsl:if test="$coverage &gt;= $threshold">graphBarSatisfactory</xsl:if>
-                     <xsl:if test="$coverage &lt; $threshold">graphBarNotVisited</xsl:if>
-                  </xsl:attribute>
-                  <xsl:attribute name="width">
-                     <xsl:value-of select="format-number($notVisited div $total * $scale, '0')" />
-                  </xsl:attribute>&#160;
-               </td>
-            </xsl:if>
-         </tr>
-         </tbody>
-      </table>
-   </xsl:template>
-
 </xsl:stylesheet>
