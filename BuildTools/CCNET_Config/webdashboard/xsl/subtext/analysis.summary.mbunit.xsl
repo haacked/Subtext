@@ -67,7 +67,7 @@
          <td colspan="3">&#160;</td>
       </tr>
       <tbody>
-         <tr class="header2"><th colspan="3">Test Fixture Summary</th></tr>
+         <tr class="header2"><th colspan="3">Test Fixtures</th></tr>
          <xsl:apply-templates select="//fixture">
             <xsl:sort select="@type"/>
          </xsl:apply-templates>
