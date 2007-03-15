@@ -1,6 +1,12 @@
 <div class="container">
    <span class="containerTitle">Project Report for $projectName</span>
    <div class="containerContents">
+     <form method="post">
+           <input type="hidden" name="forcebuild" value="true" />
+           <input type="hidden" name="forceBuildProject" value="$projectLink.Text" />
+           <input type="hidden" name="forceBuildServer" value="$serverLink.Text" />
+           <input type="submit" name="_action_ViewFarmReport" value="Force a build"/>
+      </form>
       <p>Integrated <a href="http://www.ohloh.net/projects/3167/analyses/latest" target="_new"/>project statistics</a> from ohloh are coming soon.
       <p>
          #if ($noLogsAvailable)
