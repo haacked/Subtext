@@ -320,6 +320,22 @@ a.img, a img
    color: #000;
 }
 
+
+/*###########################################*/
+/*#  OHLOH CONTAINERS
+/*###########################################*/
+.ohloh
+{
+   width: 98%;
+   margin: 0 0 16px 4px;
+}
+
+.project_languages
+{
+   border: 1px dotted #0F3EAD;
+   width: 75px;
+}
+
 /*###########################################*/
 /*#  CRUISECONTROL.NET CONTAINERS
 /*###########################################*/
