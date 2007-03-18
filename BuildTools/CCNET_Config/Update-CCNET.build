@@ -21,9 +21,9 @@
    <property name="dashboard.folder.images" value="${dashboard.root}\images"  readonly="true"/>
    <property name="dashboard.folder.xsl" value="${dashboard.root}\xsl\subtext"  readonly="true"/>
 
-   <property name="ccnet.config" value="${ccnet.root}\server\ccnet.config"  readonly="true"/>
-   <property name="server.folder.xsl" value="${ccnet.root}\server\xsl"  readonly="true"/>
-
+   <property name="server.root" value="${ccnet.root}\server" readonly="true"/>
+   <property name="server.folder.xsl" value="${server.root}\xsl"  readonly="true"/>
+   
    <!--
    ****************************************************************************************************
    *  copy-dashboard-files
@@ -80,7 +80,7 @@
    -->
    <target name="copy-server-files">
       <echo message="Retrieving server configuration to ${ccnet.root}" />
-      <copy todir="${ccnet.root}" overwrite="true">
+      <copy todir="${server.root}" overwrite="true">
          <fileset basedir="server">
             <include name="ccnet.config" />
          </fileset>
