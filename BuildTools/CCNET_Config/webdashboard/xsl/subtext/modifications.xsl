@@ -10,29 +10,17 @@
          <span class="containerSubtitle">Source Control Revision History</span>
          <div class="containerContents">
             <xsl:if test="count($modification.list) &gt; 0">
-      <xsl:for-each select="/cruisecontrol/modifications/modification[generate-id(.)=generate-id(key('changeset', changeNumber/text())[1])]">
-         <xsl:call-template name="changeset" />
-      </xsl:for-each>
-
-<!--
-               <div class="buildcontainer">
-                  <span class="containerTitle">Modifications: <xsl:value-of select="count($modification.list)"/></span>
-                  <div class="containerContents">
-                     <table class="section" rules="groups" cellpadding="2" cellspacing="0" border="0">
-      <xsl:for-each select="/cruisecontrol/modifications/modification[generate-id(.)=generate-id(key('changeset', changeNumber/text())[1])]">
-         <xsl:call-template name="changeset" />
-      </xsl:for-each>
-                     </table>
-                  </div>
-               </div>
--->
+               <xsl:for-each select="/cruisecontrol/modifications/modification[generate-id(.)=generate-id(key('changeset', changeNumber/text())[1])]">
+                  <xsl:sort select="changeNumber" order="descending" data-type="number"/>
+                  <xsl:call-template name="changeset" />
+               </xsl:for-each>
             </xsl:if>
             <xsl:if test="count($modification.list) = 0">There were no changes made since the last build. </xsl:if>
          </div>
       </div>
    </xsl:template>
 
-   <!-- Modifications template -->
+   <!-- Changeset template -->
    <xsl:template name="changeset">
       <div class="buildcontainer">
          <span class="containerTitle">Changeset # 
@@ -51,9 +39,6 @@
                      <th>Date: <xsl:value-of select="date"/></th>
                   </tr>
                   <tr>
-                     <xsl:if test="position() mod 2=0">
-                        <xsl:attribute name="class">shaded</xsl:attribute>
-                     </xsl:if>
                      <td colspan="2"><em><xsl:value-of select="comment"/></em></td>
                   </tr>
                   <tr class="header2">
@@ -68,6 +53,7 @@
       </div>
    </xsl:template>
 
+   <!-- Modifications template -->
    <xsl:template name="modification">
       <tr>
          <xsl:if test="position() mod 2=0">
