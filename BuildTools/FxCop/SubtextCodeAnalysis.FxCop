@@ -4794,15 +4794,6 @@
            </Member>
           </Members>
          </Type>
-         <Type Name="UTCTimeZone">
-          <Messages>
-           <Message TypeName="LongAcronymsShouldBePascalCased" Category="Microsoft.Naming" CheckId="CA1705" Created="2007-03-21 20:55:36Z">
-            <Issue Name="Type">
-             <Item>UTCTimeZone</Item>
-            </Issue>
-           </Message>
-          </Messages>
-         </Type>
          <Type Name="WebPathStripper">
           <Members>
            <Member Name="GetCategryFromRss(System.String):System.String">
@@ -4869,21 +4860,34 @@
            </Member>
           </Members>
          </Type>
+        </Types>
+       </Namespace>
+       <Namespace Name="Subtext.Framework.Util.TimeZoneUtil">
+        <Types>
+         <Type Name="UTCTimeZone">
+          <Messages>
+           <Message TypeName="LongAcronymsShouldBePascalCased" Category="Microsoft.Naming" CheckId="CA1705" Created="2007-03-21 22:11:00Z">
+            <Issue Name="Type">
+             <Item>UTCTimeZone</Item>
+            </Issue>
+           </Message>
+          </Messages>
+         </Type>
          <Type Name="WindowsSystemTime">
           <Messages>
-           <Message TypeName="OverrideEqualsAndOperatorEqualsOnValueTypes" Category="Microsoft.Performance" CheckId="CA1815" Created="2007-03-21 20:55:36Z">
+           <Message TypeName="OverrideEqualsAndOperatorEqualsOnValueTypes" Category="Microsoft.Performance" CheckId="CA1815" Created="2007-03-21 22:11:00Z">
             <Issue Name="Equals">
-             <Item>Subtext.Framework.Util.WindowsSystemTime</Item>
+             <Item>Subtext.Framework.Util.TimeZoneUtil.WindowsSystemTime</Item>
             </Issue>
             <Issue Name="op_Equality">
-             <Item>Subtext.Framework.Util.WindowsSystemTime</Item>
+             <Item>Subtext.Framework.Util.TimeZoneUtil.WindowsSystemTime</Item>
             </Issue>
            </Message>
           </Messages>
           <Members>
            <Member Name="day">
             <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 20:55:36Z">
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 22:11:00Z">
               <Issue>
                <Item>day</Item>
               </Issue>
@@ -4892,7 +4896,7 @@
            </Member>
            <Member Name="dayOfWeek">
             <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 20:55:36Z">
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 22:11:00Z">
               <Issue>
                <Item>dayOfWeek</Item>
               </Issue>
@@ -4901,7 +4905,7 @@
            </Member>
            <Member Name="hour">
             <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 20:55:36Z">
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 22:11:00Z">
               <Issue>
                <Item>hour</Item>
               </Issue>
@@ -4910,7 +4914,7 @@
            </Member>
            <Member Name="milliseconds">
             <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 20:55:36Z">
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 22:11:00Z">
               <Issue>
                <Item>milliseconds</Item>
               </Issue>
@@ -4919,7 +4923,7 @@
            </Member>
            <Member Name="minute">
             <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 20:55:36Z">
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 22:11:00Z">
               <Issue>
                <Item>minute</Item>
               </Issue>
@@ -4928,7 +4932,7 @@
            </Member>
            <Member Name="month">
             <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 20:55:36Z">
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 22:11:00Z">
               <Issue>
                <Item>month</Item>
               </Issue>
@@ -4937,7 +4941,7 @@
            </Member>
            <Member Name="second">
             <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 20:55:36Z">
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 22:11:00Z">
               <Issue>
                <Item>second</Item>
               </Issue>
@@ -4946,7 +4950,7 @@
            </Member>
            <Member Name="year">
             <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 20:55:36Z">
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 22:11:00Z">
               <Issue>
                <Item>year</Item>
               </Issue>
@@ -4959,16 +4963,16 @@
           <Members>
            <Member Name=".cctor()">
             <Messages>
-             <Message TypeName="InitializeReferenceTypeStaticFieldsInline" Category="Microsoft.Performance" CheckId="CA1810" Created="2007-03-21 20:55:36Z">
+             <Message TypeName="InitializeReferenceTypeStaticFieldsInline" Category="Microsoft.Performance" CheckId="CA1810" Created="2007-03-21 22:11:00Z">
               <Issue>
-               <Item>Subtext.Framework.Util.WindowsTimeZone</Item>
+               <Item>Subtext.Framework.Util.TimeZoneUtil.WindowsTimeZone</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
            <Member Name=".ctor(System.String,System.String,System.String,System.Int32,System.Byte[])">
             <Messages>
-             <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Created="2007-03-21 20:55:36Z">
+             <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Created="2007-03-21 22:11:00Z">
               <Issue>
                <Item>WindowsTimeZone.WindowsTimeZone(String, String, String, Int32, Byte[])</Item>
               </Issue>
@@ -4977,7 +4981,7 @@
            </Member>
            <Member Name="FormatAdjustedUniversalTime(System.DateTime):System.String">
             <Messages>
-             <Message Id="System.DateTime.ToString(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2007-03-21 20:55:36Z">
+             <Message Id="System.DateTime.ToString(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2007-03-21 22:11:00Z">
               <Issue>
                <Item>WindowsTimeZone.FormatAdjustedUniversalTime(DateTime):String</Item>
                <Item>System.DateTime.ToString(System.String)</Item>
@@ -4989,7 +4993,7 @@
                <Item>System.DateTime.ToString(System.String,System.IFormatProvider)</Item>
               </Issue>
              </Message>
-             <Message Id="System.String.Format(System.String,System.Object[])" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2007-03-21 20:55:36Z">
+             <Message Id="System.String.Format(System.String,System.Object[])" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2007-03-21 22:11:00Z">
               <Issue>
                <Item>WindowsTimeZone.FormatAdjustedUniversalTime(DateTime):String</Item>
                <Item>System.String.Format(System.String,System.Object[])</Item>
@@ -5005,18 +5009,18 @@
            </Member>
            <Member Name="winTZI">
             <Messages>
-             <Message TypeName="MarkAllNonSerializableFields" Category="Microsoft.Usage" CheckId="CA2235" Created="2007-03-21 20:55:36Z">
+             <Message TypeName="MarkAllNonSerializableFields" Category="Microsoft.Usage" CheckId="CA2235" Created="2007-03-21 22:11:00Z">
               <Issue>
                <Item>winTZI</Item>
-               <Item>Subtext.Framework.Util.WindowsTimeZone</Item>
-               <Item>Subtext.Framework.Util.WindowsTZI</Item>
+               <Item>Subtext.Framework.Util.TimeZoneUtil.WindowsTimeZone</Item>
+               <Item>Subtext.Framework.Util.TimeZoneUtil.WindowsTZI</Item>
               </Issue>
              </Message>
             </Messages>
            </Member>
            <Member Name="WinTZI">
             <Messages>
-             <Message Id="Member" TypeName="LongAcronymsShouldBePascalCased" Category="Microsoft.Naming" CheckId="CA1705" Created="2007-03-21 20:55:36Z">
+             <Message Id="Member" TypeName="LongAcronymsShouldBePascalCased" Category="Microsoft.Naming" CheckId="CA1705" Created="2007-03-21 22:11:00Z">
               <Issue Name="Member">
                <Item>WindowsTimeZone.WinTZI:WindowsTZI</Item>
               </Issue>
@@ -5027,18 +5031,18 @@
          </Type>
          <Type Name="WindowsTimeZoneCollection">
           <Messages>
-           <Message TypeName="CollectionsShouldImplementGenericInterface" Category="Microsoft.Design" CheckId="CA1010" Created="2007-03-21 20:55:36Z">
+           <Message TypeName="CollectionsShouldImplementGenericInterface" Category="Microsoft.Design" CheckId="CA1010" Created="2007-03-21 22:11:00Z">
             <Issue>
              <Item>WindowsTimeZoneCollection</Item>
              <Item>IList</Item>
             </Issue>
            </Message>
-           <Message TypeName="ICollectionImplementationsHaveStronglyTypedMembers" Category="Microsoft.Design" CheckId="CA1035" Created="2007-03-21 20:55:36Z">
+           <Message TypeName="ICollectionImplementationsHaveStronglyTypedMembers" Category="Microsoft.Design" CheckId="CA1035" Created="2007-03-21 22:11:00Z">
             <Issue>
              <Item>WindowsTimeZoneCollection</Item>
             </Issue>
            </Message>
-           <Message TypeName="ListsAreStronglyTyped" Category="Microsoft.Design" CheckId="CA1039" Created="2007-03-21 20:55:36Z">
+           <Message TypeName="ListsAreStronglyTyped" Category="Microsoft.Design" CheckId="CA1039" Created="2007-03-21 22:11:00Z">
             <Issue>
              <Item>WindowsTimeZoneCollection</Item>
              <Item>Insert</Item>
@@ -5050,26 +5054,66 @@
            </Message>
           </Messages>
          </Type>
+         <Type Name="WindowsTimeZoneCollection+Enumerator">
+          <Members>
+           <Member Name="System.Collections.IEnumerator.MoveNext():System.Boolean">
+            <Messages>
+             <Message Id="System.Exception.#ctor(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2007-03-21 22:11:00Z">
+              <Issue>
+               <Item>Enumerator.System.Collections.IEnumerator.MoveNext():Boolean</Item>
+               <Item>1</Item>
+               <Item>Exception.Exception(String)</Item>
+               <Item>The method or operation is not implemented.</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201" Created="2007-03-21 22:11:00Z">
+              <Issue Name="TooGeneric">
+               <Item>Enumerator.System.Collections.IEnumerator.MoveNext():Boolean</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+           <Member Name="System.Collections.IEnumerator.Reset():System.Void">
+            <Messages>
+             <Message Id="System.Exception.#ctor(System.String)" TypeName="DoNotPassLiteralsAsLocalizedParameters" Category="Microsoft.Globalization" CheckId="CA1303" Created="2007-03-21 22:11:00Z">
+              <Issue>
+               <Item>Enumerator.System.Collections.IEnumerator.Reset():Void</Item>
+               <Item>1</Item>
+               <Item>Exception.Exception(String)</Item>
+               <Item>The method or operation is not implemented.</Item>
+              </Issue>
+             </Message>
+             <Message TypeName="DoNotRaiseReservedExceptionTypes" Category="Microsoft.Usage" CheckId="CA2201" Created="2007-03-21 22:11:00Z">
+              <Issue Name="TooGeneric">
+               <Item>Enumerator.System.Collections.IEnumerator.Reset():Void</Item>
+               <Item>System.Exception</Item>
+              </Issue>
+             </Message>
+            </Messages>
+           </Member>
+          </Members>
+         </Type>
          <Type Name="WindowsTZI">
           <Messages>
-           <Message TypeName="LongAcronymsShouldBePascalCased" Category="Microsoft.Naming" CheckId="CA1705" Created="2007-03-21 20:55:36Z">
+           <Message TypeName="LongAcronymsShouldBePascalCased" Category="Microsoft.Naming" CheckId="CA1705" Created="2007-03-21 22:11:00Z">
             <Issue Name="Type">
              <Item>WindowsTZI</Item>
             </Issue>
            </Message>
-           <Message TypeName="OverrideEqualsAndOperatorEqualsOnValueTypes" Category="Microsoft.Performance" CheckId="CA1815" Created="2007-03-21 20:55:36Z">
+           <Message TypeName="OverrideEqualsAndOperatorEqualsOnValueTypes" Category="Microsoft.Performance" CheckId="CA1815" Created="2007-03-21 22:11:00Z">
             <Issue Name="Equals">
-             <Item>Subtext.Framework.Util.WindowsTZI</Item>
+             <Item>Subtext.Framework.Util.TimeZoneUtil.WindowsTZI</Item>
             </Issue>
             <Issue Name="op_Equality">
-             <Item>Subtext.Framework.Util.WindowsTZI</Item>
+             <Item>Subtext.Framework.Util.TimeZoneUtil.WindowsTZI</Item>
             </Issue>
            </Message>
           </Messages>
           <Members>
            <Member Name="bias">
             <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 20:55:36Z">
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 22:11:00Z">
               <Issue>
                <Item>bias</Item>
               </Issue>
@@ -5078,7 +5122,7 @@
            </Member>
            <Member Name="daylightBias">
             <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 20:55:36Z">
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 22:11:00Z">
               <Issue>
                <Item>daylightBias</Item>
               </Issue>
@@ -5087,7 +5131,7 @@
            </Member>
            <Member Name="daylightDate">
             <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 20:55:36Z">
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 22:11:00Z">
               <Issue>
                <Item>daylightDate</Item>
               </Issue>
@@ -5096,7 +5140,7 @@
            </Member>
            <Member Name="standardBias">
             <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 20:55:36Z">
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 22:11:00Z">
               <Issue>
                <Item>standardBias</Item>
               </Issue>
@@ -5105,7 +5149,7 @@
            </Member>
            <Member Name="standardDate">
             <Messages>
-             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 20:55:36Z">
+             <Message TypeName="DoNotDeclareVisibleInstanceFields" Category="Microsoft.Design" CheckId="CA1051" Created="2007-03-21 22:11:00Z">
               <Issue>
                <Item>standardDate</Item>
               </Issue>
@@ -9337,9 +9381,9 @@
            </Member>
            <Member Name="SelectedTimeZone">
             <Accessors>
-             <Accessor Name="get_SelectedTimeZone():Subtext.Framework.Util.WindowsTimeZone">
+             <Accessor Name="get_SelectedTimeZone():Subtext.Framework.Util.TimeZoneUtil.WindowsTimeZone">
               <Messages>
-               <Message Id="System.Int32.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2006-11-19 15:24:51Z">
+               <Message Id="System.Int32.Parse(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Created="2007-03-21 22:11:00Z">
                 <Issue>
                  <Item>Configure.get_SelectedTimeZone():WindowsTimeZone</Item>
                  <Item>System.Int32.Parse(System.String)</Item>
