@@ -32,8 +32,8 @@ namespace Subtext.Framework.UI.Skinning
 		[XmlAttribute]
 		public string TemplateFolder
 		{
-			get {return this.templateFolder;}
-			set {this.templateFolder = value;}
+			get { return this.templateFolder; }
+			set { this.templateFolder = value; }
 		}
 
 		private string templateFolder;
@@ -51,8 +51,8 @@ namespace Subtext.Framework.UI.Skinning
 		[XmlAttribute]
 		public string StyleSheet
 		{
-			get {return this.styleSheet;}
-			set {this.styleSheet = value;}
+			get { return this.styleSheet; }
+			set { this.styleSheet = value; }
 		}
 
 		private string styleSheet;
@@ -63,7 +63,7 @@ namespace Subtext.Framework.UI.Skinning
 		[XmlIgnore]
 		public bool HasSkinStylesheet
 		{
-			get{return (this.StyleSheet != null && this.StyleSheet.Trim().Length > 0);}
+			get { return (this.StyleSheet != null && this.StyleSheet.Trim().Length > 0); }
 		}
 
 		/// <summary>
@@ -73,12 +73,12 @@ namespace Subtext.Framework.UI.Skinning
 		[XmlAttribute]
 		public string Name
 		{
-			get {return this.name;}
-			set {this.name = value;}
+			get { return this.name; }
+			set { this.name = value; }
 		}
 
 		private string name;
-		
+
 		/// <summary>
 		/// A key representing this particular skin.  A Skin 
 		/// is really a combination of the TemplateFolder and 
@@ -126,7 +126,6 @@ namespace Subtext.Framework.UI.Skinning
 				_styles = value;
 			}
 		}
-		
+
 	}
 }
-

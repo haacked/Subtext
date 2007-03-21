@@ -39,18 +39,18 @@ namespace Subtext.Framework
 		/// Gets archived posts by year.
 		/// </summary>
 		/// <returns></returns>
-        public static ICollection<ArchiveCount> GetPostsByYearArchive()
+		public static ICollection<ArchiveCount> GetPostsByYearArchive()
 		{
 			return ObjectProvider.Instance().GetPostsByYearArchive();
 		}
 
-        /// <summary>
-        /// Gets archived posts by category.
-        /// </summary>
-        /// <returns></returns>
-        public static ICollection<ArchiveCount> GetPostsByCategoryArchive()
-        {
-            return ObjectProvider.Instance().GetPostsByCategoryArchive();
-        }
+		/// <summary>
+		/// Gets archived posts by category.
+		/// </summary>
+		/// <returns></returns>
+		public static ICollection<ArchiveCount> GetPostsByCategoryArchive()
+		{
+			return ObjectProvider.Instance().GetPostsByCategoryArchive();
+		}
 	}
 }

@@ -32,7 +32,8 @@ namespace Subtext.Framework.Syndication
 		/// <param name="entries">Entries.</param>
 		/// <param name="dateLastViewedFeedItemPublished"></param>
 		/// <param name="useDeltaEncoding"></param>
-		public RssWriter(IList<Entry> entries, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding) : base(dateLastViewedFeedItemPublished, useDeltaEncoding)
+		public RssWriter(IList<Entry> entries, DateTime dateLastViewedFeedItemPublished, bool useDeltaEncoding)
+			: base(dateLastViewedFeedItemPublished, useDeltaEncoding)
 		{
 			this.Items = entries;
 			this.UseAggBugs = true;
@@ -151,4 +152,3 @@ namespace Subtext.Framework.Syndication
 		}
 	}
 }
-

@@ -55,10 +55,4 @@ namespace Subtext.Framework.Components
 			set {this._pageViewType = value;}
 		}
 	}
-
-	public enum PageViewType : byte
-	{
-		AggView = 0,
-		WebView = 1
-	}
 }

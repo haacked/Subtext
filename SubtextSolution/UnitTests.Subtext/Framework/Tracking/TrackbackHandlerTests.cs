@@ -28,7 +28,7 @@ namespace UnitTests.Subtext.Framework.Tracking
 			string blogName = "You've been haacked";
 
 			SimulatedRequestContext context = UnitTestHelper.SetupBlog();
-			
+
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
 			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			int id = Entries.Create(entry);
@@ -41,7 +41,7 @@ namespace UnitTests.Subtext.Framework.Tracking
 			string responseText = GetTrackBackHandlerResponseText(blogName, excerpt, request, sb, title, url);
 			Assert.AreEqual(string.Empty, responseText);
 		}
-		
+
 		/// <summary>
 		/// Sends an RSS Snippet for requests made using the "GET" http verb.
 		/// </summary>
@@ -55,16 +55,16 @@ namespace UnitTests.Subtext.Framework.Tracking
 			string blogName = "You've been haacked";
 
 			SimulatedRequestContext context = UnitTestHelper.SetupBlog();
-			
+
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
 			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			int id = Entries.Create(entry);
-			
+
 			SimulatedHttpRequest request = UnitTestHelper.SetHttpContextWithBlogRequest(context.HostName, string.Empty, string.Empty, "/trackback/services/" + id + ".aspx", context.ResponseTextWriter, "GET");
 			string responseText = GetTrackBackHandlerResponseText(blogName, excerpt, request, context.ResponseStringBuilder, title, url);
 			Assert.IsTrue(responseText.IndexOf(entry.Title) > 0, "Did not find the entry title.");
 		}
-		
+
 		/// <summary>
 		/// Sends an error message if the id in the url does not match an existing entry.
 		/// </summary>
@@ -80,19 +80,19 @@ namespace UnitTests.Subtext.Framework.Tracking
 			SimulatedRequestContext context = UnitTestHelper.SetupBlog();
 			Config.CurrentBlog.DuplicateCommentsEnabled = true;
 			Config.CurrentBlog.DuplicateCommentsEnabled = true;
-			
+
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
 			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			Entries.Create(entry);
-			
+
 			StringBuilder sb = new StringBuilder();
 			TextWriter output = new StringWriter(sb);
 			SimulatedHttpRequest request = UnitTestHelper.SetHttpContextWithBlogRequest(context.HostName, string.Empty, string.Empty, "/trackback/services/" + int.MaxValue + ".aspx", output, "POST");
 			string responseText = GetTrackBackHandlerResponseText(blogName, excerpt, request, sb, title, url);
-            Console.WriteLine("ResponseText" + Environment.NewLine + responseText);
-            Assert.IsTrue(responseText.IndexOf("EntryID is invalid or missing") > 0, "Could not find the expected text.");
+			Console.WriteLine("ResponseText" + Environment.NewLine + responseText);
+			Assert.IsTrue(responseText.IndexOf("EntryID is invalid or missing") > 0, "Could not find the expected text.");
 		}
-		
+
 		/// <summary>
 		/// Checks the error message returned when the trackback URL does not have an entry id.
 		/// </summary>
@@ -107,18 +107,18 @@ namespace UnitTests.Subtext.Framework.Tracking
 
 			SimulatedRequestContext context = UnitTestHelper.SetupBlog();
 			Config.CurrentBlog.DuplicateCommentsEnabled = true;
-			
+
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
 			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			Entries.Create(entry);
-			
+
 			StringBuilder sb = new StringBuilder();
 			TextWriter output = new StringWriter(sb);
 			SimulatedHttpRequest request = UnitTestHelper.SetHttpContextWithBlogRequest(context.HostName, string.Empty, string.Empty, "/trackback/services/SomethingNotANumber.aspx", output, "POST");
 			string responseText = GetTrackBackHandlerResponseText(blogName, excerpt, request, sb, title, url);
 			Assert.IsTrue(responseText.IndexOf("EntryID is invalid or missing") > 0, "Did not find the correct error message.");
 		}
-		
+
 		/// <summary>
 		/// Makes sure the HTTP handler used to handle trackbacks sends a 
 		/// response with an error message when a badly formatted trackback is sent.
@@ -134,15 +134,15 @@ namespace UnitTests.Subtext.Framework.Tracking
 
 			SimulatedRequestContext context = UnitTestHelper.SetupBlog();
 			Config.CurrentBlog.DuplicateCommentsEnabled = true;
-			
+
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
 			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			int id = Entries.Create(entry);
-            IList<FeedbackItem> feedback = Entries.GetFeedBack(entry);
+			IList<FeedbackItem> feedback = Entries.GetFeedBack(entry);
 			Assert.AreEqual(0, feedback.Count, "Something is wrong if a freshly created entry has feedback.");
-			
+
 			string responseText = GetTrackBackHandlerResponseText(blogName, excerpt, context.HostName, string.Empty, id, title, url);
-			
+
 			Assert.IsTrue(responseText.IndexOf("no url parameter found, please try harder!") > 0, "Did not receive the correct error message.");
 
 			IList<FeedbackItem> trackbacks = Entries.GetFeedBack(entry);
@@ -150,14 +150,14 @@ namespace UnitTests.Subtext.Framework.Tracking
 		}
 
 		private string GetTrackBackHandlerResponseText(string blogName, string excerpt, string hostname, string subfolder, int id, string title, string url)
-		{	
+		{
 			StringBuilder sb = new StringBuilder();
 			TextWriter output = new StringWriter(sb);
 			BlogInfo blog = Config.CurrentBlog;
 			//the next line resets the httpcontext.
 			SimulatedHttpRequest request = UnitTestHelper.SetHttpContextWithBlogRequest(hostname, subfolder, string.Empty, "/trackback/services/" + id + ".aspx", output, "POST");
 			HttpContext.Current.Items["BlogInfo-"] = blog;
-			
+
 			return GetTrackBackHandlerResponseText(blogName, excerpt, request, sb, title, url);
 		}
 
@@ -167,10 +167,10 @@ namespace UnitTests.Subtext.Framework.Tracking
 			request.Form["title"] = title;
 			request.Form["excerpt"] = excerpt;
 			request.Form["blog_name"] = blogName;
-			
+
 			TrackBackHandler handler = new TrackBackHandler();
 			handler.SourceVerification += handler_SourceVerification;
-			
+
 			HttpContext.Current.Request.ContentType = "application/x-www-form-urlencoded";
 			handler.ProcessRequest(HttpContext.Current);
 			HttpContext.Current.Response.Flush();
@@ -190,31 +190,31 @@ namespace UnitTests.Subtext.Framework.Tracking
 			string excerpt = "Blah blah blah blah blah." + UnitTestHelper.GenerateRandomString();
 			string blogName = "You've been haacked";
 
-			SimulatedRequestContext context = UnitTestHelper.SetupBlog(); 
+			SimulatedRequestContext context = UnitTestHelper.SetupBlog();
 			Config.CurrentBlog.DuplicateCommentsEnabled = true;
-			
-			
+
+
 			Entry entry = UnitTestHelper.CreateEntryInstanceForSyndication("phil", "title", "body");
 			entry.DateCreated = entry.DateSyndicated = entry.DateModified = DateTime.ParseExact("2006/05/25", "yyyy/MM/dd", CultureInfo.InvariantCulture);
 			int id = Entries.Create(entry);
 			IList<FeedbackItem> feedback = Entries.GetFeedBack(entry);
 			Assert.AreEqual(0, feedback.Count, "Something is wrong if a freshly created entry has feedback.");
-			
+
 			string responseText = GetTrackBackHandlerResponseText(blogName, excerpt, context.HostName, "blog", id, title, url);
 
-            Assert.AreEqual(string.Empty, responseText, "Did not expect any error response.");
+			Assert.AreEqual(string.Empty, responseText, "Did not expect any error response.");
 
 			IList<FeedbackItem> trackbacks = Entries.GetFeedBack(entry);
 			Assert.AreEqual(1, trackbacks.Count, "We expect to see the one feedback we just created.");
 
 			FeedbackItem trackback = null;
 			foreach (FeedbackItem tb in trackbacks)
-		    {
-		        trackback = tb;
-		        break;
-		    }
+			{
+				trackback = tb;
+				break;
+			}
 
-            Assert.AreEqual(title, trackback.Title, "Somehow the title of the feedback doesn't match.");
+			Assert.AreEqual(title, trackback.Title, "Somehow the title of the feedback doesn't match.");
 		}
 
 		private void handler_SourceVerification(object sender, SourceVerificationEventArgs e)

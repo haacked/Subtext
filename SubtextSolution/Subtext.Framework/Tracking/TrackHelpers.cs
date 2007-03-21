@@ -14,21 +14,21 @@
 #endregion
 
 #region Notes
- ///////////////////////////////////////////////////////////////////////////////////////////////////
- // The code in this file is freely distributable.
- // 
- // ASPNetWeblog isnot responsible for, shall have no liability for 
- // and disclaims all warranties whatsoever, expressed or implied, related to this code,
- // including without limitation any warranties related to performance, security, stability,
- // or non-infringement of title of the control.
- // 
- // If you have any questions, comments or concerns, please contact
- // Scott Watermasysk, Scott@TripleASP.Net.
- // 
- // For more information on this control, updates, and other tools to integrate blogging 
- // into your existing applications, please visit, http://aspnetweblog.com
- // 
- ///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// The code in this file is freely distributable.
+// 
+// ASPNetWeblog isnot responsible for, shall have no liability for 
+// and disclaims all warranties whatsoever, expressed or implied, related to this code,
+// including without limitation any warranties related to performance, security, stability,
+// or non-infringement of title of the control.
+// 
+// If you have any questions, comments or concerns, please contact
+// Scott Watermasysk, Scott@TripleASP.Net.
+// 
+// For more information on this control, updates, and other tools to integrate blogging 
+// into your existing applications, please visit, http://aspnetweblog.com
+// 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 #endregion
 using System;
 using System.Globalization;
@@ -43,7 +43,7 @@ namespace Subtext.Framework.Tracking
 	/// </summary>
 	public static class TrackHelpers
 	{
-	    //Text to insert into a file with pinkback service location
+		//Text to insert into a file with pinkback service location
 		public static string PingPackTag
 		{
 			get
@@ -55,10 +55,10 @@ namespace Subtext.Framework.Tracking
 		//Body of text to insert into a post with Trackback
 		public static string TrackBackTag(Entry entry)
 		{
-            if (entry == null)
-            {
-                throw new ArgumentNullException("entry", Resources.ArgumentNull_Generic);
-            }
+			if (entry == null)
+			{
+				throw new ArgumentNullException("entry", Resources.ArgumentNull_Generic);
+			}
 
 			return String.Format(CultureInfo.InvariantCulture, Resources.TrackbackTag, entry.FullyQualifiedUrl, entry.FullyQualifiedUrl, entry.Title, Config.CurrentBlog.RootUrl, entry.Id.ToString(CultureInfo.InvariantCulture));
 		}

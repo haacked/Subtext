@@ -27,8 +27,7 @@ namespace Subtext.Framework.Tracking
 
 		public static string AggBugImage(string url)
 		{
-            return String.Format(CultureInfo.InvariantCulture, TrackingUrls.ImagePattern, url);
+			return String.Format(CultureInfo.InvariantCulture, TrackingUrls.ImagePattern, url);
 		}
-
 	}
 }

@@ -42,23 +42,23 @@ namespace Subtext.Framework.Text
 		/// <param name="newClass">The new class.</param>
 		public static void AppendCssClass(WebControl control, string newClass)
 		{
-            if (control == null)
-            {
-                throw new ArgumentNullException("control", Resources.ArgumentNull_Generic);
-            }
+			if (control == null)
+			{
+				throw new ArgumentNullException("control", Resources.ArgumentNull_Generic);
+			}
 
-            if (newClass == null)
-            {
-                throw new ArgumentNullException("newClass", Resources.ArgumentNull_String);
-            }
-		
+			if (newClass == null)
+			{
+				throw new ArgumentNullException("newClass", Resources.ArgumentNull_String);
+			}
+
 			string existingClasses = control.CssClass;
 			if (String.IsNullOrEmpty(existingClasses))
 			{
 				control.CssClass = newClass;
 				return;
 			}
-			
+
 			string[] classes = existingClasses.Split(' ');
 			foreach (string attributeValue in classes)
 			{
@@ -78,47 +78,47 @@ namespace Subtext.Framework.Text
 		/// <param name="classToRemove">The new class.</param>
 		public static void RemoveCssClass(WebControl control, string classToRemove)
 		{
-            if (control == null)
-            {
-                throw new ArgumentNullException("control", Resources.ArgumentNull_Generic);
-            }
+			if (control == null)
+			{
+				throw new ArgumentNullException("control", Resources.ArgumentNull_Generic);
+			}
 
-            if (classToRemove == null)
-            {
-                throw new ArgumentNullException("classToRemove", Resources.ArgumentNull_String);
-            }
+			if (classToRemove == null)
+			{
+				throw new ArgumentNullException("classToRemove", Resources.ArgumentNull_String);
+			}
 
-            if (classToRemove.Length == 0)
-            {
-                throw new ArgumentException(Resources.Argument_StringZeroLength, "classToRemove");
-            }
-			
+			if (classToRemove.Length == 0)
+			{
+				throw new ArgumentException(Resources.Argument_StringZeroLength, "classToRemove");
+			}
+
 			string existingClasses = control.CssClass;
-            if (String.IsNullOrEmpty(existingClasses))
-            {
-                return; //nothing to remove
-            }
+			if (String.IsNullOrEmpty(existingClasses))
+			{
+				return; //nothing to remove
+			}
 
 			string[] classes = existingClasses.Split(new string[] { " ", "\t", "\r\n", "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
-            string newClasses = String.Empty;
-            StringBuilder builder = new StringBuilder();
+			string newClasses = String.Empty;
+			StringBuilder builder = new StringBuilder();
 
 			foreach (string cssClass in classes)
 			{
 				if (!String.Equals(cssClass, classToRemove, StringComparison.Ordinal))
 				{
-                    builder.AppendFormat("{0} ", cssClass);
+					builder.AppendFormat("{0} ", cssClass);
 				}
 			}
 
-            newClasses = builder.ToString();
-            if (newClasses.EndsWith(" "))
-            {
-                newClasses = newClasses.Substring(0, newClasses.Length - 1);
-            }
-			control.CssClass = newClasses;		
+			newClasses = builder.ToString();
+			if (newClasses.EndsWith(" "))
+			{
+				newClasses = newClasses.Substring(0, newClasses.Length - 1);
+			}
+			control.CssClass = newClasses;
 		}
-		
+
 		/// <summary>
 		/// Appends the attribute value to the control appropriately.
 		/// </summary>
@@ -126,13 +126,13 @@ namespace Subtext.Framework.Text
 		/// <param name="value"></param>
 		public static void AppendAttributeValue(WebControl control, string name, string value)
 		{
-            if (control == null)
-            {
-                throw new ArgumentNullException("control", Resources.ArgumentNull_Generic);
-            }
+			if (control == null)
+			{
+				throw new ArgumentNullException("control", Resources.ArgumentNull_Generic);
+			}
 
 			string existingValue = control.Attributes[name];
-			if(String.IsNullOrEmpty(existingValue))
+			if (String.IsNullOrEmpty(existingValue))
 			{
 				control.Attributes[name] = value;
 				return;
@@ -142,7 +142,7 @@ namespace Subtext.Framework.Text
 				string[] attributeValues = control.Attributes[name].Split(' ');
 				foreach (string attributeValue in attributeValues)
 				{
-					if(String.Equals(attributeValue, value, StringComparison.Ordinal))
+					if (String.Equals(attributeValue, value, StringComparison.Ordinal))
 					{
 						//value's already in there.
 						return;
@@ -151,7 +151,7 @@ namespace Subtext.Framework.Text
 				control.Attributes[name] += " " + value;
 			}
 		}
-		
+
 		/// <summary>
 		/// Strips HTML tags from the specified text.
 		/// </summary>
@@ -161,10 +161,10 @@ namespace Subtext.Framework.Text
 		{
 			if (!String.IsNullOrEmpty(text))
 			{
-			    HtmlTagRegex regex = new HtmlTagRegex();
-                return regex.Replace(text, string.Empty);
+				HtmlTagRegex regex = new HtmlTagRegex();
+				return regex.Replace(text, string.Empty);
 			}
-            return text;
+			return text;
 		}
 
 		/// <summary>
@@ -206,10 +206,10 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static void ConvertHtmlToXHtml(Entry entry)
 		{
-            if (entry == null)
-            {
-                throw new ArgumentNullException("entry", Resources.ArgumentNull_Obj);
-            }
+			if (entry == null)
+			{
+				throw new ArgumentNullException("entry", Resources.ArgumentNull_Obj);
+			}
 
 			SgmlReader reader = new SgmlReader();
 			reader.SetBaseUri(Config.CurrentBlog.RootUrl.ToString());
@@ -222,17 +222,17 @@ namespace Subtext.Framework.Text
 			try
 			{
 				xmlWriter = new XmlTextWriter(writer);
-			
-				while (reader.Read()) 
+
+				while (reader.Read())
 				{
 					xmlWriter.WriteNode(reader, true);
 				}
 			}
 			finally
 			{
-				if(xmlWriter != null)
+				if (xmlWriter != null)
 				{
-					xmlWriter.Close(); 
+					xmlWriter.Close();
 				}
 			}
 
@@ -248,20 +248,20 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static void CheckForIllegalContent(string s)
 		{
-            if (s == null)
-            {
-                return;
-            }
-
-            if (s.Trim().Length == 0)
+			if (s == null)
 			{
 				return;
 			}
-		    
-			if (s.IndexOf("<script")> - 1 
-				|| s.IndexOf("&#60script")> - 1 
-				|| s.IndexOf("&60script")> - 1 
-				|| s.IndexOf("%60script")> - 1)
+
+			if (s.Trim().Length == 0)
+			{
+				return;
+			}
+
+			if (s.IndexOf("<script") > -1
+				|| s.IndexOf("&#60script") > -1
+				|| s.IndexOf("&60script") > -1
+				|| s.IndexOf("%60script") > -1)
 			{
 				throw new IllegalPostCharactersException("Illegal Characters Found");
 			}
@@ -274,21 +274,21 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static string EnableUrls(string text)
 		{
-            if (text == null)
-            {
-                throw new ArgumentNullException("text", Resources.ArgumentNull_String);
-            }
+			if (text == null)
+			{
+				throw new ArgumentNullException("text", Resources.ArgumentNull_String);
+			}
 
 			string pattern = @"(http|ftp|https):\/\/[\w]+(.[\w]+)([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])";
 			MatchCollection matches = Regex.Matches(text, pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
-			foreach (Match m in matches) 
+			foreach (Match m in matches)
 			{
 				text = text.Replace(m.ToString(), "<a rel=\"nofollow external\" href=\"" + m.ToString() + "\">" + m.ToString() + "</a>");
 			}
-			return text;			
+			return text;
 		}
 
-		
+
 		/// <summary>
 		/// The only HTML we will allow is hyperlinks. 
 		/// We will however, check for line breaks and replace 
@@ -296,12 +296,12 @@ namespace Subtext.Framework.Text
 		/// </summary>
 		/// <param name="stringToTransform"></param>
 		/// <returns></returns>
-		public static string SafeFormat(string input) 
+		public static string SafeFormat(string input)
 		{
-            if (input == null)
-            {
-                throw new ArgumentNullException("input", Resources.ArgumentNull_String);
-            }
+			if (input == null)
+			{
+				throw new ArgumentNullException("input", Resources.ArgumentNull_String);
+			}
 
 			input = HttpContext.Current.Server.HtmlEncode(input);
 			string brTag = "<br />";
@@ -316,8 +316,8 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static string StripRTB(string text, string host)
 		{
-			string s = Regex.Replace(text, "/localhost/S*Admin/","", RegexOptions.IgnoreCase);
-			return Regex.Replace(s,"<A href=\"/","<A href=\"" + "http://" + host + "/",RegexOptions.IgnoreCase);			
+			string s = Regex.Replace(text, "/localhost/S*Admin/", "", RegexOptions.IgnoreCase);
+			return Regex.Replace(s, "<A href=\"/", "<A href=\"" + "http://" + host + "/", RegexOptions.IgnoreCase);
 		}
 
 		/// <summary>
@@ -327,19 +327,19 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static Uri CheckForUrl(string text)
 		{
-			if(text == null)
+			if (text == null)
 				return null;
 
 			text = text.Trim();
-			
+
 			if (String.IsNullOrEmpty(text))
 				return null;
-			
+
 			if (!text.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase))
 			{
 				text = "http://" + text;
 			}
-			
+
 			return new Uri(text);
 		}
 
@@ -350,25 +350,25 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static string ConvertToAllowedHtml(string text)
 		{
-            if (text == null)
-            {
-                throw new ArgumentNullException("text", Resources.ArgumentNull_String);
-            }
+			if (text == null)
+			{
+				throw new ArgumentNullException("text", Resources.ArgumentNull_String);
+			}
 
-            if (text.Length == 0)
-            {
-                throw new ArgumentException(Resources.Argument_StringZeroLength, "text");
-            }
+			if (text.Length == 0)
+			{
+				throw new ArgumentException(Resources.Argument_StringZeroLength, "text");
+			}
 
 			NameValueCollection allowedHtmlTags = Config.Settings.AllowedHtmlTags;
-			
+
 #if DEBUG
 			//Assert that the NameValueCollection is case insensitive!
-			if(allowedHtmlTags != null && allowedHtmlTags.Get("strong") != null && allowedHtmlTags.Get("STRONG") == null)
+			if (allowedHtmlTags != null && allowedHtmlTags.Get("strong") != null && allowedHtmlTags.Get("STRONG") == null)
 			{
 				throw new InvalidOperationException("Darn it, it's case sensitive!" + allowedHtmlTags.Get("STRONG"));
 			}
-#endif		
+#endif
 			return ConvertToAllowedHtml(allowedHtmlTags, text);
 		}
 
@@ -380,10 +380,10 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static string ConvertToAllowedHtml(NameValueCollection allowedHtmlTags, string text)
 		{
-            if (text == null)
-            {
-                throw new ArgumentNullException("text", Resources.ArgumentNull_String);
-            }
+			if (text == null)
+			{
+				throw new ArgumentNullException("text", Resources.ArgumentNull_String);
+			}
 
 			if (allowedHtmlTags == null || allowedHtmlTags.Count == 0)
 			{
@@ -396,18 +396,18 @@ namespace Subtext.Framework.Text
 				HtmlTagRegex regex = new HtmlTagRegex();
 				MatchCollection matches = regex.Matches(text);
 
-				if(matches.Count == 0)
+				if (matches.Count == 0)
 				{
 					return HtmlSafe(text);
 				}
-			
+
 				StringBuilder sb = new StringBuilder();
 
 				int currentIndex = 0;
 				foreach (Match match in matches)
 				{
 					//Append text before the match.
-					if(currentIndex < match.Index)
+					if (currentIndex < match.Index)
 					{
 						sb.Append(HtmlSafe(text.Substring(currentIndex, match.Index - currentIndex)));
 					}
@@ -415,14 +415,14 @@ namespace Subtext.Framework.Text
 					string tagName = match.Groups["tagname"].Value.ToLower(CultureInfo.InvariantCulture);
 
 					//check each match against the list of allowable tags.
-					if(allowedHtmlTags.Get(tagName) == null)
+					if (allowedHtmlTags.Get(tagName) == null)
 					{
 						sb.Append(HtmlSafe(match.Value));
 					}
 					else
 					{
 						bool isEndTag = match.Groups["endTag"].Value.Length > 0;
-						if(isEndTag)
+						if (isEndTag)
 						{
 							sb.Append("</" + tagName + ">");
 						}
@@ -435,7 +435,7 @@ namespace Subtext.Framework.Text
 					currentIndex = match.Index + match.Length;
 				}
 				//add the remaining text.
-				if(currentIndex < text.Length)
+				if (currentIndex < text.Length)
 				{
 					sb.Append(HtmlSafe(text.Substring(currentIndex)));
 				}
@@ -467,14 +467,14 @@ namespace Subtext.Framework.Text
 		private static string FilterAttributes(string tagName, Match match, NameValueCollection allowedHtml)
 		{
 			string allowedAttributesText = allowedHtml[tagName];
-			
+
 			if (allowedAttributesText != null && allowedAttributesText.Length > 0)
 			{
 				StringBuilder attrSB = new StringBuilder();
 
 				//look to see which tag's attributes we are matching
-				char[] splitter  = {','};
-			
+				char[] splitter = { ',' };
+
 				NameValueCollection attributes = GetAttributeNameValues(match);
 
 				string[] allowedAttrs = allowedHtml[tagName].ToLower(CultureInfo.InvariantCulture).Split(splitter);
@@ -484,7 +484,7 @@ namespace Subtext.Framework.Text
 				{
 					foreach (string allowedAttr in allowedAttrs)
 					{
-						if(String.Equals(allowedAttr.Trim(), attributeName, StringComparison.InvariantCultureIgnoreCase))
+						if (String.Equals(allowedAttr.Trim(), attributeName, StringComparison.InvariantCultureIgnoreCase))
 						{
 							// found an allowed attribute, so get the attribute value
 							string attrValue = attributes[attributeName];
@@ -501,48 +501,48 @@ namespace Subtext.Framework.Text
 
 		private static NameValueCollection GetAttributeNameValues(Match match)
 		{
-			CaptureCollection nameCaptures = match.Groups["attName"].Captures;	
+			CaptureCollection nameCaptures = match.Groups["attName"].Captures;
 			CaptureCollection valueCaptures = match.Groups["attVal"].Captures;
 
 			NameValueCollection attributes = new NameValueCollection();
 
-			if(nameCaptures.Count == valueCaptures.Count)
+			if (nameCaptures.Count == valueCaptures.Count)
 			{
-				for(int i = 0; i < nameCaptures.Count; i++)
+				for (int i = 0; i < nameCaptures.Count; i++)
 				{
 					attributes.Add(nameCaptures[i].Value, valueCaptures[i].Value);
 				}
 				return attributes;
 			}
-			
-			if(valueCaptures.Count == 0)
+
+			if (valueCaptures.Count == 0)
 			{
 				return attributes;
 			}
-			
+
 			//this is a much more complicated issue.  
 			//One of the attribute names doesn't have a value.
 			//so we need to match them up somehow.
 			int valueIndex = 0;
-			for(int i = 0; i < nameCaptures.Count; i++)
+			for (int i = 0; i < nameCaptures.Count; i++)
 			{
 				Capture currentNameCapture = nameCaptures[i];
 				Capture currentValueCapture;
 				string name = currentNameCapture.Value;
-				
-				if(valueIndex == valueCaptures.Count)
+
+				if (valueIndex == valueCaptures.Count)
 				{
 					//No more values to worry about.
 					continue;
 				}
-				
+
 				currentValueCapture = valueCaptures[valueIndex];
 
 				//Peek ahead.
-				if(i < nameCaptures.Count - 1)
+				if (i < nameCaptures.Count - 1)
 				{
-					Capture peekAhead = nameCaptures[i+1];
-					if(peekAhead.Index > currentValueCapture.Index && currentValueCapture.Index > currentNameCapture.Index)
+					Capture peekAhead = nameCaptures[i + 1];
+					if (peekAhead.Index > currentValueCapture.Index && currentValueCapture.Index > currentNameCapture.Index)
 					{
 						attributes.Add(name, currentValueCapture.Value);
 						//We are on the right value.
@@ -553,7 +553,7 @@ namespace Subtext.Framework.Text
 				else
 				{
 					//we're on the last item.
-					if(currentValueCapture.Index > currentNameCapture.Index)
+					if (currentValueCapture.Index > currentNameCapture.Index)
 					{
 						attributes.Add(name, currentValueCapture.Value);
 						//We are on the right value.
@@ -564,37 +564,37 @@ namespace Subtext.Framework.Text
 			}
 			return attributes;
 		}
-		
-		
+
+
 		/// <summary>
 		/// Returns a string collection of URLs within the specified text.
 		/// </summary>
 		/// <param name="text">The text.</param>
 		/// <returns></returns>
 		public static StringCollection GetLinks(string text)
-		{			
+		{
 			StringCollection links = new StringCollection();
 			string sPattern = @"(?:[hH][rR][eE][fF]\s*=)" +
 				@"(?:[\s""']*)(?!#|[Mm]ailto|[lL]ocation.|[jJ]avascript|.*css|.*this\.)" +
 				@"(.*?)(?:[\s>""'])";
 
-			Regex r = new Regex(sPattern,RegexOptions.IgnoreCase);
+			Regex r = new Regex(sPattern, RegexOptions.IgnoreCase);
 			Match m;
 			string link;
-			for (m = r.Match(text); m.Success; m = m.NextMatch()) 
+			for (m = r.Match(text); m.Success; m = m.NextMatch())
 			{
-				if(m.Groups.ToString().Length > 0 )
+				if (m.Groups.ToString().Length > 0)
 				{
-					link = 	m.Groups[1].ToString();	
-					if(!links.Contains(link))
+					link = m.Groups[1].ToString();
+					if (!links.Contains(link))
 					{
 						links.Add(link);
 					}
 				}
 			}
-			return links;	
+			return links;
 		}
-		
+
 		/// <summary>
 		/// Parses the URI.
 		/// </summary>
@@ -602,14 +602,14 @@ namespace Subtext.Framework.Text
 		/// <returns></returns>
 		public static Uri ParseUri(string uri)
 		{
-			if(uri == null)
+			if (uri == null)
 				return null;
 
 			try
 			{
 				return new Uri(uri);
 			}
-			catch(UriFormatException)
+			catch (UriFormatException)
 			{
 				return null;
 			}

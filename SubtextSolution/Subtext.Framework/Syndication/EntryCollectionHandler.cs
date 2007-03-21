@@ -29,25 +29,25 @@ namespace Subtext.Framework.Syndication
 		protected override bool IsLocalCacheOK()
 		{
 			string dt = LastModifiedHeader;
-		
-			if(dt != null)
-			{
-                IList<T> ec = GetFeedEntries();
 
-				if(ec != null && ec.Count > 0)
+			if (dt != null)
+			{
+				IList<T> ec = GetFeedEntries();
+
+				if (ec != null && ec.Count > 0)
 				{
-				    //Get the first entry.
-				    T entry = default(T);
-				    //TODO: Probably change GetFeedEntries to return IList<Entry>
-				    foreach(T en in ec)
-				    {
-				        entry = en;
-				        break;
-				    }
+					//Get the first entry.
+					T entry = default(T);
+					//TODO: Probably change GetFeedEntries to return IList<Entry>
+					foreach (T en in ec)
+					{
+						entry = en;
+						break;
+					}
 					return DateTime.Compare(DateTime.Parse(dt), ConvertLastUpdatedDate(GetItemCreatedDate(entry))) == 0;
 				}
 			}
-			return false;			
+			return false;
 		}
 
 		/// <summary>

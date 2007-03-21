@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml.Serialization;
 using Subtext.Framework.Util;
 using MbUnit.Framework;
+using Subtext.Framework.Util.TimeZoneUtil;
 
 namespace UnitTests.Subtext.Framework.Util
 {

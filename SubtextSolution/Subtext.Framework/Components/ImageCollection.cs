@@ -25,19 +25,20 @@ namespace Subtext.Framework.Components
 	public class ImageCollection : Collection<Image>
 	{
 		private LinkCategory _lc;
-	    /// <summary>
-	    /// The link category for this image.
-	    /// </summary>
+		/// <summary>
+		/// The link category for this image.
+		/// </summary>
 		public LinkCategory Category
 		{
-			get{return _lc;}
-			set{_lc = value;}
+			get { return _lc; }
+			set { _lc = value; }
 		}
 
-	    /// <summary>
-		/// Initializes a new instance of the <see cref="ImageCollection">ImageCollection</see> class.
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ImageCollection">ImageCollection</see> class.k
 		/// </summary>
-		public ImageCollection() : base()
+		public ImageCollection()
+			: base()
 		{
 		}
 	}
