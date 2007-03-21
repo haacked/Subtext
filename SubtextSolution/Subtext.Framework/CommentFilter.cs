@@ -98,20 +98,20 @@ namespace Subtext.Framework
 					}
 					//Note, we need to explicitely set the status flag here.
 					//Just setting Approved = true would not reset any other bits in the flag that may be set.
-					feedbackItem.Status = FeedbackStatusFlag.Approved;
+					feedbackItem.Status = FeedbackStatusFlags.Approved;
 				}
 				else //Moderated!
 				{
 					//Note, we need to explicitely set the status flag here.
 					//Just setting NeedsModeration = true would not reset any other bits in the flag that may be set.
-					feedbackItem.Status = FeedbackStatusFlag.NeedsModeration;
+					feedbackItem.Status = FeedbackStatusFlags.NeedsModeration;
 				}
 			}
 			else
 			{
 				//Note, we need to explicitely set the status flag here.
 				//Just setting Approved = true would not reset any other bits in the flag that may be set.
-				feedbackItem.Status = FeedbackStatusFlag.Approved;
+				feedbackItem.Status = FeedbackStatusFlags.Approved;
 			}
 			FeedbackItem.Update(feedbackItem);
 		}

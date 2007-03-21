@@ -310,7 +310,7 @@ namespace Subtext.Framework.Data
 			feedbackItem.Email = ReadString(reader, "Email");
 			feedbackItem.SourceUrl = ReadUri(reader, "Url");
 			feedbackItem.FeedbackType = (FeedbackType)ReadInt32(reader, "FeedbackType");
-			feedbackItem.Status = (FeedbackStatusFlag)ReadInt32(reader, "StatusFlag");
+			feedbackItem.Status = (FeedbackStatusFlags)ReadInt32(reader, "StatusFlag");
 			feedbackItem.CreatedViaCommentAPI = ReadBoolean(reader, "CommentAPI");
 			feedbackItem.Referrer = ReadString(reader, "Referrer");
 			feedbackItem.IpAddress = ReadIpAddress(reader, "IpAddress");
@@ -527,7 +527,7 @@ namespace Subtext.Framework.Data
 			// This is a result of the legacy schema.
 			info.Subfolder = ReadString(reader, "Subfolder");
 
-			info.Flag = (ConfigurationFlag)(ReadInt32(reader, "Flag"));
+			info.Flag = (ConfigurationFlags)(ReadInt32(reader, "Flag"));
 
 			info.Skin = new SkinConfig();
 			info.Skin.TemplateFolder = ReadString(reader, "Skin");

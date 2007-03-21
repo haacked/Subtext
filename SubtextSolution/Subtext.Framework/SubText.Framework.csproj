@@ -199,6 +199,8 @@
     <Compile Include="Components\EntryView.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Components\FeedbackStatusFlags.cs" />
+    <Compile Include="Components\FeedbackCounts.cs" />
     <Compile Include="Components\FeedbackItem.cs" />
     <Compile Include="Components\Image.cs">
       <SubType>Code</SubType>
@@ -447,11 +449,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Threading\AsyncHelper.cs" />
+    <Compile Include="Threading\LockTimeoutException.cs" />
     <Compile Include="Threading\ManagedThreadPool.cs" />
     <Compile Include="Threading\Semaphore.cs" />
     <Compile Include="Threading\TimedLock.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Threading\UndisposedLockException.cs" />
     <Compile Include="Tracking\AggBugHandler.cs">
       <SubType>Code</SubType>
     </Compile>

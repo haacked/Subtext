@@ -31,7 +31,7 @@ namespace Subtext.Framework.Providers
 	/// Provides a Data Object Source for interacting with Subtext Data.  One example 
 	/// is a DataObjectProvider, which stores Subtext data in a SQL Server database.
 	/// </summary>
-    public abstract class ObjectProvider : ProviderBase
+	public abstract class ObjectProvider : ProviderBase
 	{
 		private static ObjectProvider provider;
 		private static GenericProviderCollection<ObjectProvider> providers = ProviderConfigurationHelper.LoadProviderCollection<ObjectProvider>("ObjectProvider", out provider);
@@ -56,30 +56,30 @@ namespace Subtext.Framework.Providers
 			}
 		}
 
-        /// <summary>
-        /// Initializes this provider, setting the connection string.
-        /// </summary>
-        /// <param name="name">Friendly Name of the provider.</param>
-        /// <param name="configValue">Config value.</param>
-        public override void Initialize(string name, NameValueCollection configValue)
-        {
-            _connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", configValue);
-            base.Initialize(name, configValue);
-        }
+		/// <summary>
+		/// Initializes this provider, setting the connection string.
+		/// </summary>
+		/// <param name="name">Friendly Name of the provider.</param>
+		/// <param name="configValue">Config value.</param>
+		public override void Initialize(string name, NameValueCollection config)
+		{
+			_connectionString = ProviderConfigurationHelper.GetConnectionStringSettingValue("connectionStringName", config);
+			base.Initialize(name, config);
+		}
 
-        private string _connectionString;
-        /// <summary>
-        /// Gets or sets the connection string.
-        /// </summary>
-        /// <value></value>
-        public string ConnectionString
-        {
-            //TODO: Make this protected.
-            get { return _connectionString; }
-            set { _connectionString = value; }
-        }
+		private string _connectionString;
+		/// <summary>
+		/// Gets or sets the connection string.
+		/// </summary>
+		/// <value></value>
+		public string ConnectionString
+		{
+			//TODO: Make this protected.
+			get { return _connectionString; }
+			set { _connectionString = value; }
+		}
 
-        #region ObjectProvider Specific methods
+		#region ObjectProvider Specific methods
 		#region Host
 
 		/// <summary>
@@ -97,7 +97,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="email">The email.</param>
 		/// <returns></returns>
 		public abstract HostInfo CreateHost(HostInfo host, string username, string password, string passwordSalt, string email);
-		
+
 		#endregion Host
 
 		#region Blogs
@@ -107,8 +107,8 @@ namespace Subtext.Framework.Providers
 		/// <param name="pageIndex">Page index.</param>
 		/// <param name="pageSize">Size of the page.</param>
 		/// <returns></returns>
-		public abstract PagedCollection<BlogInfo> GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlag flags);
-		
+		public abstract PagedCollection<BlogInfo> GetPagedBlogs(string host, int pageIndex, int pageSize, ConfigurationFlags flags);
+
 		/// <summary>
 		/// Gets the blog by id.
 		/// </summary>
@@ -116,7 +116,7 @@ namespace Subtext.Framework.Providers
 		/// <returns></returns>
 		public abstract BlogInfo GetBlogById(int blogId);
 		#endregion Blogs
-		
+
 		#region Entries
 
 		#region Paged Posts
@@ -130,7 +130,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="pageIndex">Index of the page.</param>
 		/// <param name="pageSize">Size of the page.</param>
 		/// <returns></returns>
-        public abstract IPagedCollection<Entry> GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize);
+		public abstract IPagedCollection<Entry> GetPagedEntries(PostType postType, int categoryID, int pageIndex, int pageSize);
 
 		/// <summary>
 		/// Gets the paged feedback.
@@ -141,15 +141,15 @@ namespace Subtext.Framework.Providers
 		/// <param name="excludeStatusMask">A flag for the statuses to exclude.</param>
 		/// <param name="type">The type of feedback to return.</param>
 		/// <returns></returns>
-		public abstract IPagedCollection<FeedbackItem> GetPagedFeedback(int pageIndex, int pageSize, FeedbackStatusFlag status, FeedbackStatusFlag excludeStatusMask, FeedbackType type);
-		
+		public abstract IPagedCollection<FeedbackItem> GetPagedFeedback(int pageIndex, int pageSize, FeedbackStatusFlags status, FeedbackStatusFlags excludeStatusMask, FeedbackType type);
+
 		#endregion
 
 		#region EntryDays
 
 		public abstract EntryDay GetEntryDay(DateTime dt);
-        public abstract ICollection<EntryDay> GetPostsByMonth(int month, int year);
-        public abstract ICollection<EntryDay> GetPostsByCategoryID(int itemCount, int catID);
+		public abstract ICollection<EntryDay> GetPostsByMonth(int month, int year);
+		public abstract ICollection<EntryDay> GetPostsByCategoryID(int itemCount, int catID);
 
 		/// <summary>
 		/// Gets entries within the system that meet the 
@@ -158,7 +158,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="itemCount">Item count.</param>
 		/// <param name="pc">Pc.</param>
 		/// <returns></returns>
-        public abstract ICollection<EntryDay> GetBlogPosts(int itemCount, PostConfig pc);
+		public abstract ICollection<EntryDay> GetBlogPosts(int itemCount, PostConfig pc);
 
 		#endregion
 
@@ -170,7 +170,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="postType"></param>
 		/// <returns></returns>
 		public abstract IList<Entry> GetPreviousAndNextEntries(int entryId, PostType postType);
-		
+
 		/// <summary>
 		/// Gets the entries that meet the <see cref="PostType"/> and 
 		/// <see cref="PostConfig"/> flags.
@@ -178,10 +178,10 @@ namespace Subtext.Framework.Providers
 		/// <param name="itemCount">Item count.</param>
 		/// <param name="postType">The type of entry to return.</param>
 		/// <param name="postConfig">Post Configuration options.</param>
-        /// <param name="includeCategories">Whether or not to include categories</param>
+		/// <param name="includeCategories">Whether or not to include categories</param>
 		/// <returns></returns>
 		public abstract IList<Entry> GetConditionalEntries(int itemCount, PostType postType, PostConfig postConfig, bool includeCategories);
-		
+
 		/// <summary>
 		/// Gets the <see cref="FeedbackItem" /> items for the specified entry.
 		/// </summary>
@@ -204,10 +204,10 @@ namespace Subtext.Framework.Providers
 		/// <param name="flaggedAsSpam">The flagged as spam.</param>
 		/// <param name="deleted">The deleted.</param>
 		public abstract void GetFeedbackCounts(out int approved, out int needsModeration, out int flaggedAsSpam, out int deleted);
-		
+
 		public abstract IList<Entry> GetPostCollectionByMonth(int month, int year);
 		public abstract IList<Entry> GetPostsByDayRange(DateTime start, DateTime stop, PostType postType, bool activeOnly);
-		public abstract IList<Entry> GetEntriesByCategory(int ItemCount,int catID,bool ActiveOnly);
+		public abstract IList<Entry> GetEntriesByCategory(int ItemCount, int catID, bool ActiveOnly);
 
 		#endregion
 
@@ -220,24 +220,24 @@ namespace Subtext.Framework.Providers
 		/// <param name="checksumHash">Checksum hash.</param>
 		/// <returns></returns>
 		public abstract Entry GetCommentByChecksumHash(string checksumHash);
-        
-	    /// <summary>
-	    /// Returns an <see cref="Entry" /> with the specified id.
-	    /// </summary>
-	    /// <param name="id">Id of the entry</param>
-        /// <param name="activeOnly">Whether or not to only return the entry if it is active.</param>
-        /// <param name="includeCategories">Whether the entry should have its Categories property populated</param>
-	    /// <returns></returns>
-	    public abstract Entry GetEntry(int id, bool activeOnly, bool includeCategories);
 
-        /// <summary>
-        /// Returns an <see cref="Entry" /> with the specified entry name.
-        /// </summary>
-        /// <param name="entryName">Url friendly entry name.</param>
-        /// <param name="activeOnly">Whether or not to only return the entry if it is active.</param>
-        /// <param name="includeCategories">Whether the entry should have its Categories property populated</param>
-        /// <returns></returns>
-        public abstract Entry GetEntry(string entryName, bool activeOnly, bool includeCategories);
+		/// <summary>
+		/// Returns an <see cref="Entry" /> with the specified id.
+		/// </summary>
+		/// <param name="id">Id of the entry</param>
+		/// <param name="activeOnly">Whether or not to only return the entry if it is active.</param>
+		/// <param name="includeCategories">Whether the entry should have its Categories property populated</param>
+		/// <returns></returns>
+		public abstract Entry GetEntry(int id, bool activeOnly, bool includeCategories);
+
+		/// <summary>
+		/// Returns an <see cref="Entry" /> with the specified entry name.
+		/// </summary>
+		/// <param name="entryName">Url friendly entry name.</param>
+		/// <param name="activeOnly">Whether or not to only return the entry if it is active.</param>
+		/// <param name="includeCategories">Whether the entry should have its Categories property populated</param>
+		/// <returns></returns>
+		public abstract Entry GetEntry(string entryName, bool activeOnly, bool includeCategories);
 
 		#endregion
 
@@ -261,7 +261,7 @@ namespace Subtext.Framework.Providers
 		/// Destroys the feedback with the given status.
 		/// </summary>
 		/// <param name="status">The status.</param>
-		public abstract void DestroyFeedback(FeedbackStatusFlag status);
+		public abstract void DestroyFeedback(FeedbackStatusFlags status);
 		#endregion
 
 		/// <summary>
@@ -270,7 +270,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="feedbackItem"></param>
 		/// <returns></returns>
 		public abstract int CreateFeedback(FeedbackItem feedbackItem);
-		
+
 		/// <summary>
 		/// Creates the specified entry attaching the specified categories.
 		/// </summary>
@@ -279,19 +279,19 @@ namespace Subtext.Framework.Providers
 		/// <returns></returns>
 		public abstract int CreateEntry(Entry entry, int[] categoryIds);
 
-        /// <summary>
-        /// Adds a new entry in the database.
-        /// </summary>
-        /// <param name="entry"></param>
-        /// <returns></returns>
-        public abstract int InsertEntry(Entry entry);
+		/// <summary>
+		/// Adds a new entry in the database.
+		/// </summary>
+		/// <param name="entry"></param>
+		/// <returns></returns>
+		public abstract int InsertEntry(Entry entry);
 
-        /// <summary>
-        /// Saves changes to the specified entry attaching the specified categories.
-        /// </summary>
-        /// <param name="entry">Entry.</param>
-        /// <param name="categoryIds">Category Ids.</param>
-        /// <returns></returns>
+		/// <summary>
+		/// Saves changes to the specified entry attaching the specified categories.
+		/// </summary>
+		/// <param name="entry">Entry.</param>
+		/// <param name="categoryIds">Category Ids.</param>
+		/// <returns></returns>
 		public abstract bool Update(Entry entry, int[] categoryIds);
 
 		/// <summary>
@@ -313,27 +313,27 @@ namespace Subtext.Framework.Providers
 
 		#region Paged Links
 
-        public abstract IPagedCollection<Link> GetPagedLinks(int categoryTypeID, int pageIndex, int pageSize, bool sortDescending);
+		public abstract IPagedCollection<Link> GetPagedLinks(int categoryTypeID, int pageIndex, int pageSize, bool sortDescending);
 
 		#endregion
 
 		#region LinkCollection
 
-        public abstract ICollection<Link> GetLinkCollectionByPostID(int postID);
-        public abstract ICollection<Link> GetLinksByCategoryID(int catID, bool activeOnly);
+		public abstract ICollection<Link> GetLinkCollectionByPostID(int postID);
+		public abstract ICollection<Link> GetLinksByCategoryID(int catID, bool activeOnly);
 
 		#endregion
 
 		#region Single Link
 
 		public abstract Link GetLink(int linkID);
-		
+
 		#endregion
 
 		#region LinkCategoryCollection
 
-        public abstract ICollection<LinkCategory> GetCategories(CategoryType catType, bool activeOnly);
-        public abstract ICollection<LinkCategory> GetActiveCategories();
+		public abstract ICollection<LinkCategory> GetCategories(CategoryType catType, bool activeOnly);
+		public abstract ICollection<LinkCategory> GetActiveCategories();
 
 		#endregion
 
@@ -359,8 +359,8 @@ namespace Subtext.Framework.Providers
 
 		#region Stats
 
-        public abstract IPagedCollection<ViewStat> GetPagedViewStats(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate);
-        public abstract IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize, int entryId);
+		public abstract IPagedCollection<ViewStat> GetPagedViewStats(int pageIndex, int pageSize, DateTime beginDate, DateTime endDate);
+		public abstract IPagedCollection<Referrer> GetPagedReferrers(int pageIndex, int pageSize, int entryId);
 
 		public abstract bool TrackEntry(EntryView view);
 		public abstract bool TrackEntry(IEnumerable<EntryView> views);
@@ -387,7 +387,7 @@ namespace Subtext.Framework.Providers
 		/// <param name="info">Config.</param>
 		/// <returns></returns>
 		public abstract bool UpdateBlog(BlogInfo info);
-		
+
 		/// <summary>
 		/// Returns a <see cref="BlogInfo"/> instance containing 
 		/// the configuration settings for the blog specified by the 
@@ -424,8 +424,8 @@ namespace Subtext.Framework.Providers
 		#region KeyWords
 
 		public abstract KeyWord GetKeyWord(int keyWordID);
-        public abstract ICollection<KeyWord> GetKeyWords();
-        public abstract IPagedCollection<KeyWord> GetPagedKeyWords(int pageIndex, int pageSize);
+		public abstract ICollection<KeyWord> GetKeyWords();
+		public abstract IPagedCollection<KeyWord> GetPagedKeyWords(int pageIndex, int pageSize);
 		public abstract bool UpdateKeyWord(KeyWord keyWord);
 		public abstract int InsertKeyWord(KeyWord keyWord);
 		public abstract bool DeleteKeyWord(int id);
@@ -434,7 +434,7 @@ namespace Subtext.Framework.Providers
 
 		#region Images
 
-        public abstract ImageCollection GetImagesByCategoryID(int catID, bool activeOnly);
+		public abstract ImageCollection GetImagesByCategoryID(int catID, bool activeOnly);
 		public abstract Image GetImage(int imageID, bool activeOnly);
 		public abstract int InsertImage(Image image);
 		public abstract bool UpdateImage(Image _image);
@@ -443,9 +443,9 @@ namespace Subtext.Framework.Providers
 		#endregion
 
 		#region Archives
-        public abstract ICollection<ArchiveCount> GetPostsByYearArchive();
-        public abstract ICollection<ArchiveCount> GetPostsByMonthArchive();
-        public abstract ICollection<ArchiveCount> GetPostsByCategoryArchive();
+		public abstract ICollection<ArchiveCount> GetPostsByYearArchive();
+		public abstract ICollection<ArchiveCount> GetPostsByMonthArchive();
+		public abstract ICollection<ArchiveCount> GetPostsByCategoryArchive();
 		#endregion
 
 		#region Plugins
@@ -458,14 +458,14 @@ namespace Subtext.Framework.Providers
 		/// <summary>
 		/// Enable a plugin for the current blog
 		/// </summary>
-        /// <param name="pluginId">The Guid of the plugin to enable</param>
+		/// <param name="pluginId">The Guid of the plugin to enable</param>
 		/// <returns>True if the operation completed correctly, false otherwise</returns>
 		public abstract bool EnablePlugin(Guid pluginId);
 
 		/// <summary>
 		/// Disable a plugin for the current blog
 		/// </summary>
-        /// <param name="pluginId">The Guid of the plugin to disable</param>
+		/// <param name="pluginId">The Guid of the plugin to disable</param>
 		/// <returns>True if the operation completed correctly, false otherwise</returns>
 		public abstract bool DisablePlugin(Guid pluginId);
 
@@ -496,44 +496,44 @@ namespace Subtext.Framework.Providers
 
 		#endregion
 
-        #region Admin
+		#region Admin
 
-        /// <summary>
-        /// Gets the specified page of log entries.
-        /// </summary>
-        /// <param name="pageIndex">Index of the page.</param>
-        /// <param name="pageSize">Size of the page.</param>
-        /// <returns></returns>
-        public abstract IDataReader GetPagedLogEntries(int pageIndex, int pageSize);
-	    
-        public abstract void ClearLog();
+		/// <summary>
+		/// Gets the specified page of log entries.
+		/// </summary>
+		/// <param name="pageIndex">Index of the page.</param>
+		/// <param name="pageSize">Size of the page.</param>
+		/// <returns></returns>
+		public abstract IDataReader GetPagedLogEntries(int pageIndex, int pageSize);
 
-        /// <summary>
-        /// Clears all content (Entries, Comments, Track/Ping-backs, Statistices, etc...) 
-        /// for a the current blog (sans the Image Galleries).
-        /// </summary>
-        /// <returns>
-        ///     TRUE - At least one unit of content was cleared.
-        ///     FALSE - No content was cleared.
-        /// </returns>
-        public abstract bool ClearBlogContent();
+		public abstract void ClearLog();
 
-        #endregion
+		/// <summary>
+		/// Clears all content (Entries, Comments, Track/Ping-backs, Statistices, etc...) 
+		/// for a the current blog (sans the Image Galleries).
+		/// </summary>
+		/// <returns>
+		///     TRUE - At least one unit of content was cleared.
+		///     FALSE - No content was cleared.
+		/// </returns>
+		public abstract bool ClearBlogContent();
 
-        #region Aggregate Data
-	    
-        /// <summary>
-        /// Returns data displayed on an aggregate blog's home page.
-        /// </summary>
-        /// <returns></returns>
-        public abstract DataSet GetAggregateHomePageData(int groupId);
+		#endregion
 
-        public abstract DataTable GetAggregateRecentPosts(int groupId);
+		#region Aggregate Data
 
-        #endregion
+		/// <summary>
+		/// Returns data displayed on an aggregate blog's home page.
+		/// </summary>
+		/// <returns></returns>
+		public abstract DataSet GetAggregateHomePageData(int groupId);
 
-        #endregion
+		public abstract DataTable GetAggregateRecentPosts(int groupId);
+
+		#endregion
+
+		#endregion
 
 
-    }
+	}
 }

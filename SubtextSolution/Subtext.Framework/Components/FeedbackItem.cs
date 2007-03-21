@@ -69,9 +69,9 @@ namespace Subtext.Framework.Components
 		/// <param name="status">A flag for the status types to return.</param>
 		/// <param name="type">The type of feedback to return.</param>
 		/// <returns></returns>
-		public static IPagedCollection<FeedbackItem> GetPagedFeedback(int pageIndex, int pageSize, FeedbackStatusFlag status, FeedbackType type)
+		public static IPagedCollection<FeedbackItem> GetPagedFeedback(int pageIndex, int pageSize, FeedbackStatusFlags status, FeedbackType type)
 		{
-			return ObjectProvider.Instance().GetPagedFeedback(pageIndex, pageSize, status, FeedbackStatusFlag.None, type);
+			return ObjectProvider.Instance().GetPagedFeedback(pageIndex, pageSize, status, FeedbackStatusFlags.None, type);
 		}
 
 		/// <summary>
@@ -83,7 +83,7 @@ namespace Subtext.Framework.Components
 		/// <param name="excludeStatusMask">A flag for the statuses to exclude.</param>
 		/// <param name="type">The type of feedback to return.</param>
 		/// <returns></returns>
-		public static IPagedCollection<FeedbackItem> GetPagedFeedback(int pageIndex, int pageSize, FeedbackStatusFlag status, FeedbackStatusFlag excludeStatusMask, FeedbackType type)
+		public static IPagedCollection<FeedbackItem> GetPagedFeedback(int pageIndex, int pageSize, FeedbackStatusFlags status, FeedbackStatusFlags excludeStatusMask, FeedbackType type)
 		{
 			return ObjectProvider.Instance().GetPagedFeedback(pageIndex, pageSize, status, excludeStatusMask, type);
 		}
@@ -160,7 +160,7 @@ namespace Subtext.Framework.Components
 		/// <returns></returns>
 		public static IList<FeedbackItem> GetRecentComments(int itemCount)
 		{
-			return ObjectProvider.Instance().GetPagedFeedback(0, itemCount, FeedbackStatusFlag.Approved, FeedbackStatusFlag.None, FeedbackType.Comment);
+			return ObjectProvider.Instance().GetPagedFeedback(0, itemCount, FeedbackStatusFlags.Approved, FeedbackStatusFlags.None, FeedbackType.Comment);
 		}
 
 		/// <summary>
@@ -239,8 +239,8 @@ namespace Subtext.Framework.Components
 			if (feedback == null)
 				throw new ArgumentNullException("feedback", Resources.ArgumentNull_Generic);
 
-			feedback.SetStatus(FeedbackStatusFlag.Approved, true);
-			feedback.SetStatus(FeedbackStatusFlag.Deleted, false);
+			feedback.SetStatus(FeedbackStatusFlags.Approved, true);
+			feedback.SetStatus(FeedbackStatusFlags.Deleted, false);
 			if(Config.CurrentBlog.FeedbackSpamService != null)
 			{
 				Config.CurrentBlog.FeedbackSpamService.SubmitGoodFeedback(feedback);
@@ -258,8 +258,8 @@ namespace Subtext.Framework.Components
 			if (feedback == null)
 				throw new ArgumentNullException("feedback", Resources.ArgumentNull_Generic);
 
-			feedback.SetStatus(FeedbackStatusFlag.Approved, false);
-			feedback.SetStatus(FeedbackStatusFlag.ConfirmedSpam, true);
+			feedback.SetStatus(FeedbackStatusFlags.Approved, false);
+			feedback.SetStatus(FeedbackStatusFlags.ConfirmedSpam, true);
 
 			if (Config.CurrentBlog.FeedbackSpamService != null)
 			{
@@ -278,8 +278,8 @@ namespace Subtext.Framework.Components
 			if (feedback == null)
 				throw new ArgumentNullException("feedback", Resources.ArgumentNull_Generic);
 
-			feedback.SetStatus(FeedbackStatusFlag.Approved, false);
-			feedback.SetStatus(FeedbackStatusFlag.Deleted, true);
+			feedback.SetStatus(FeedbackStatusFlags.Approved, false);
+			feedback.SetStatus(FeedbackStatusFlags.Deleted, true);
 
 			Update(feedback);
 		}
@@ -303,9 +303,9 @@ namespace Subtext.Framework.Components
 		/// Destroys all non-active emails that meet the status.
 		/// </summary>
 		/// <param name="feedbackStatus">The feedback.</param>
-		public static void Destroy(FeedbackStatusFlag feedbackStatus)
+		public static void Destroy(FeedbackStatusFlags feedbackStatus)
 		{
-			if ((feedbackStatus & FeedbackStatusFlag.Approved) == FeedbackStatusFlag.Approved)
+			if ((feedbackStatus & FeedbackStatusFlags.Approved) == FeedbackStatusFlags.Approved)
 				throw new InvalidOperationException(Resources.InvalidOperation_DestroyActiveComment);
 
 			ObjectProvider.Instance().DestroyFeedback(feedbackStatus);
@@ -384,7 +384,7 @@ namespace Subtext.Framework.Components
 		/// Gets or sets the status of this feedback item.
 		/// </summary>
 		/// <value>The type of the post.</value>
-		public FeedbackStatusFlag Status
+		public FeedbackStatusFlags Status
 		{
 			get
 			{
@@ -395,7 +395,7 @@ namespace Subtext.Framework.Components
 				this.statusFlag = value;
 			}
 		}
-		private FeedbackStatusFlag statusFlag = FeedbackStatusFlag.None;
+		private FeedbackStatusFlags statusFlag = FeedbackStatusFlags.None;
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this feedback was created via the CommentAPI.
@@ -560,8 +560,8 @@ namespace Subtext.Framework.Components
 		/// </value>
 		public bool Approved
 		{
-			get { return IsStatusSet(FeedbackStatusFlag.Approved); }
-			set { SetStatus(FeedbackStatusFlag.Approved, value); }
+			get { return IsStatusSet(FeedbackStatusFlags.Approved); }
+			set { SetStatus(FeedbackStatusFlags.Approved, value); }
 		}
 
 		/// <summary>
@@ -572,8 +572,8 @@ namespace Subtext.Framework.Components
 		/// </value>
 		public bool FlaggedAsSpam
 		{
-			get { return IsStatusSet(FeedbackStatusFlag.FlaggedAsSpam); }
-			set { SetStatus(FeedbackStatusFlag.FlaggedAsSpam, value); }
+			get { return IsStatusSet(FeedbackStatusFlags.FlaggedAsSpam); }
+			set { SetStatus(FeedbackStatusFlags.FlaggedAsSpam, value); }
 		}
 
 		/// <summary>
@@ -584,8 +584,8 @@ namespace Subtext.Framework.Components
 		/// </value>
 		public bool ConfirmedSpam
 		{
-			get { return IsStatusSet(FeedbackStatusFlag.ConfirmedSpam); }
-			set { SetStatus(FeedbackStatusFlag.ConfirmedSpam, value); }
+			get { return IsStatusSet(FeedbackStatusFlags.ConfirmedSpam); }
+			set { SetStatus(FeedbackStatusFlags.ConfirmedSpam, value); }
 		}
 
 		/// <summary>
@@ -593,8 +593,8 @@ namespace Subtext.Framework.Components
 		/// </summary>
 		public bool NeedsModeratorApproval
 		{
-			get { return FeedbackStatusFlag.NeedsModeration == statusFlag; }
-			set { SetStatus(FeedbackStatusFlag.NeedsModeration, value); }
+			get { return FeedbackStatusFlags.NeedsModeration == statusFlag; }
+			set { SetStatus(FeedbackStatusFlags.NeedsModeration, value); }
 		}
 
 		/// <summary>
@@ -602,8 +602,8 @@ namespace Subtext.Framework.Components
 		/// </summary>
 		public bool Deleted
 		{
-			get { return IsStatusSet(FeedbackStatusFlag.Deleted); }
-			set { SetStatus(FeedbackStatusFlag.Deleted, value); }
+			get { return IsStatusSet(FeedbackStatusFlags.Deleted); }
+			set { SetStatus(FeedbackStatusFlags.Deleted, value); }
 		}
 
 		/// <summary>
@@ -615,7 +615,7 @@ namespace Subtext.Framework.Components
 		/// <value><c>true</c> if [approved by moderator]; otherwise, <c>false</c>.</value>
 		public bool ApprovedByModerator
 		{
-			get { return IsStatusSet(FeedbackStatusFlag.ApprovedByModerator); }
+			get { return IsStatusSet(FeedbackStatusFlags.ApprovedByModerator); }
 		}
 
 		/// <summary>
@@ -643,7 +643,7 @@ namespace Subtext.Framework.Components
 		/// </summary>
 		/// <param name="status">The status.</param>
 		/// <returns></returns>
-		protected bool IsStatusSet(FeedbackStatusFlag status)
+		protected bool IsStatusSet(FeedbackStatusFlags status)
 		{
 			return (this.Status & status) == status;
 		}
@@ -653,7 +653,7 @@ namespace Subtext.Framework.Components
 		/// </summary>
 		/// <param name="status"></param>
 		/// <param name="setOn"></param>
-		protected void SetStatus(FeedbackStatusFlag status, bool setOn)
+		protected void SetStatus(FeedbackStatusFlags status, bool setOn)
 		{
 			if (setOn)
 			{
@@ -728,29 +728,4 @@ namespace Subtext.Framework.Components
 
 		DateTime parentDateCreated;
 	}
-	
-	public struct FeedbackCounts
-	{
-		public int ApprovedCount;
-		public int NeedsModerationCount;
-		public int FlaggedAsSpamCount;
-		public int DeletedCount;
-	}
-	
-	/// <summary>
-	/// Specifies the current status of a piece of feedback.
-	/// </summary>
-	[Flags]
-	public enum FeedbackStatusFlag
-	{
-		None = 0,
-		Approved = 1,
-		NeedsModeration = 2,
-		ApprovedByModerator = Approved | NeedsModeration,
-		FlaggedAsSpam = 4,
-		FalsePositive = FlaggedAsSpam | Approved,
-		Deleted = 8,
-		ConfirmedSpam = FlaggedAsSpam | Deleted,
-	}
 }
-

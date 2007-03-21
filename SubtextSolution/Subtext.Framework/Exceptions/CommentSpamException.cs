@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Runtime.Serialization;
 
 namespace Subtext.Framework.Exceptions
 {

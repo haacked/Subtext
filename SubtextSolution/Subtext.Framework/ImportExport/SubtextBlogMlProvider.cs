@@ -566,7 +566,7 @@ namespace Subtext.ImportExport
 		/// </summary>
 		/// <param name="message"></param>
 		/// <param name="e"></param>
-		public override void LogError(string message, Exception e)
+		public override void LogError(string message, Exception exception)
 		{
 			//TODO:
 		}

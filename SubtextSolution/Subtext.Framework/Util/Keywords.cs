@@ -24,7 +24,7 @@ namespace Subtext.Framework.Util
 {
 	public static class KeyWords
 	{
-	    #region Readers/Writers
+		#region Readers/Writers
 
 		private enum ScanState : byte { Replace, InTag, InAnchor };
 
@@ -66,7 +66,7 @@ namespace Subtext.Framework.Util
 		}
 
 		private static string Scan(string source, string oldValue, string newValue, bool isFormat, bool onlyFirstMatch)
-		{			
+		{
 			const char tagOpen = '<';
 			const char tagClose = '>';
 			const string anchorOpen = "<a ";
@@ -79,9 +79,9 @@ namespace Subtext.Framework.Util
 			ScanState state = ScanState.Replace;
 			StringBuilder outputBuffer = new StringBuilder(source.Length);
 
-			CharQueue tagstack = 
+			CharQueue tagstack =
 				new CharQueue(anchorOpen.Length >= anchorClose.Length ? anchorOpen.Length : anchorClose.Length);
-			
+
 			for (int i = 0; i < source.Length; i++)
 			{
 				char nextChar = source[i];
@@ -96,34 +96,34 @@ namespace Subtext.Framework.Util
 							break;
 						}
 						else
-						{						
+						{
 							if (tagOpen == nextChar)
 							{
 								state = ScanState.InTag;
 								break;
 							}
 							else
-							{						
+							{
 								string matchTarget;
 								if (source.Length - (i + tagstack.Length + oldValue.Length) > 0)
 								{
 									// peek a head the next target length chunk + 1 boundary char
 									matchTarget = source.Substring(i + tagstack.Length, oldValue.Length);
-									
+
 									//TODO: Do we want a case insensitive comparison in all cases?
-									if(String.Equals(matchTarget, oldValue, StringComparison.InvariantCultureIgnoreCase))
+									if (String.Equals(matchTarget, oldValue, StringComparison.InvariantCultureIgnoreCase))
 									//if (matchTarget == oldValue)
 									{
-										int index= tagstack.Length - i;
-										if(index != 0) //Skip if we are at the start of the block
+										int index = tagstack.Length - i;
+										if (index != 0) //Skip if we are at the start of the block
 										{
-											char prevBeforeMatch = source[(i + tagstack.Length)-1];
-											if(prevBeforeMatch != '>' && prevBeforeMatch != '"' && !Char.IsWhiteSpace(prevBeforeMatch))
+											char prevBeforeMatch = source[(i + tagstack.Length) - 1];
+											if (prevBeforeMatch != '>' && prevBeforeMatch != '"' && !Char.IsWhiteSpace(prevBeforeMatch))
 											{
 												break;
 											}
 										}
-			
+
 										// check for word boundary
 										char nextAfterMatch = source[i + tagstack.Length + oldValue.Length];
 										if (!CharIsWordBoundary(nextAfterMatch))
@@ -136,9 +136,9 @@ namespace Subtext.Framework.Util
 											outputBuffer.Append(newValue);
 
 										// if we're onlyFirstMatch, tack on remainder of source and return
-										if (onlyFirstMatch) 
+										if (onlyFirstMatch)
 										{
-											outputBuffer.AppendFormat(source.Substring(i + oldValue.Length, 
+											outputBuffer.AppendFormat(source.Substring(i + oldValue.Length,
 												source.Length - (i + oldValue.Length + 1)));
 											return outputBuffer.ToString();
 										}
@@ -171,13 +171,13 @@ namespace Subtext.Framework.Util
 				}
 
 				if (!lastIterMatched)
-				{						
-					outputBuffer.Append(nextChar);					
+				{
+					outputBuffer.Append(nextChar);
 				}
 				else
 					lastIterMatched = false;
 			}
-			
+
 			return outputBuffer.ToString().Trim();
 		}
 
@@ -186,17 +186,17 @@ namespace Subtext.Framework.Util
 		// e.g., &nbsp; and other boundary entities
 		private static bool CharIsWordBoundary(char value)
 		{
-			switch (value) 
+			switch (value)
 			{
-				case '_' :
+				case '_':
 					return false;
-					//				case '<' :
-					//					return false;
+				//				case '<' :
+				//					return false;
 				default:
 					return !Char.IsLetterOrDigit(value);
 			}
 		}
-	
+
 
 		#endregion
 
@@ -205,11 +205,11 @@ namespace Subtext.Framework.Util
 		public static void Format(Entry entry)
 		{
 			ICollection<KeyWord> kwc = GetKeyWords();
-			if(kwc != null && kwc.Count > 0)
+			if (kwc != null && kwc.Count > 0)
 			{
-				foreach(KeyWord keyword in kwc)
+				foreach (KeyWord keyword in kwc)
 				{
-                    entry.Body = ReplaceFormat(entry.Body, keyword.Word, keyword.GetFormat, keyword.ReplaceFirstTimeOnly);
+					entry.Body = ReplaceFormat(entry.Body, keyword.Word, keyword.GetFormat, keyword.ReplaceFirstTimeOnly);
 				}
 			}
 		}
@@ -219,12 +219,12 @@ namespace Subtext.Framework.Util
 			return ObjectProvider.Instance().GetKeyWord(KeyWordID);
 		}
 
-        public static ICollection<KeyWord> GetKeyWords()
+		public static ICollection<KeyWord> GetKeyWords()
 		{
 			return ObjectProvider.Instance().GetKeyWords();
 		}
 
-        public static IPagedCollection<KeyWord> GetPagedKeyWords(int pageIndex, int pageSize)
+		public static IPagedCollection<KeyWord> GetPagedKeyWords(int pageIndex, int pageSize)
 		{
 			return ObjectProvider.Instance().GetPagedKeyWords(pageIndex, pageSize);
 		}
@@ -252,9 +252,8 @@ namespace Subtext.Framework.Util
 	internal class CharQueue
 	{
 		private char[] _list;
-        private int _charCount = 0;
 
-		protected CharQueue() {}
+		protected CharQueue() { }
 		public CharQueue(int length)
 		{
 			_list = new char[length];
@@ -274,12 +273,12 @@ namespace Subtext.Framework.Util
 					_list[i] = _list[i + 1];
 				else
 					_list[i] = x;
-			}				
+			}
 		}
 
 		public int Length
 		{
-			get { return _charCount; }
+			get { return _list.Length; }
 		}
 
 		public char Dequeue()
@@ -287,7 +286,7 @@ namespace Subtext.Framework.Util
 			char result = _list[0];
 
 			char[] compacted = new char[_list.Length - 1];
-			_list.CopyTo(compacted, 1);				
+			_list.CopyTo(compacted, 1);
 			_list = compacted;
 
 			return result;
@@ -310,20 +309,20 @@ namespace Subtext.Framework.Util
 
 		public string ToString(int length)
 		{
-            if (length != _list.Length)
-            {
-                char[] results = new char[length];
-                _list.CopyTo(results, 0);
-                return new string(results);
-            }
-            else
-            {
-                return this.ToString();
-            }
+			if (length != _list.Length)
+			{
+				char[] results = new char[length];
+				_list.CopyTo(results, 0);
+				return new string(results);
+			}
+			else
+			{
+				return this.ToString();
+			}
 		}
-	
 
-		#endregion
+
+	#endregion
 
 	}
 }
