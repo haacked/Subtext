@@ -45,24 +45,24 @@ namespace Subtext.ImportExport
 			bmlPost.Content.Text = entry.Body;
 			bmlPost.DateCreated = entry.DateCreated;
 			bmlPost.DateModified = entry.DateModified;
-            bmlPost.PostType = (entry.PostType == PostType.Story) ? BlogPostTypes.Article : BlogPostTypes.Normal;
-            bmlPost.Views = (uint) 0; // I think we have this statistic in the db... right?
-		    
-            if (entry.HasEntryName)
-            {
-                bmlPost.PostName = entry.EntryName;
-            }
-		    
-            bmlPost.HasExcerpt = entry.HasDescription;
-            if (entry.HasDescription)
-            {
-                bmlPost.Excerpt.Text = entry.Description;
-            }
+			bmlPost.PostType = (entry.PostType == PostType.Story) ? BlogPostTypes.Article : BlogPostTypes.Normal;
+			bmlPost.Views = (uint)0; // I think we have this statistic in the db... right?
 
-		    return bmlPost;
+			if (entry.HasEntryName)
+			{
+				bmlPost.PostName = entry.EntryName;
+			}
+
+			bmlPost.HasExcerpt = entry.HasDescription;
+			if (entry.HasDescription)
+			{
+				bmlPost.Excerpt.Text = entry.Description;
+			}
+
+			return bmlPost;
 		}
 
-	    /// <summary>
+		/// <summary>
 		/// Loads the comment from data reader.
 		/// </summary>
 		/// <param name="reader">The reader.</param>
@@ -79,9 +79,9 @@ namespace Subtext.ImportExport
 			comment.DateModified = feedbackItem.DateModified;
 			comment.UserEMail = feedbackItem.Email;
 			comment.UserName = feedbackItem.Author;
-            if (feedbackItem.SourceUrl != null)
-		        comment.UserUrl = feedbackItem.SourceUrl.ToString();
-		    
+			if (feedbackItem.SourceUrl != null)
+				comment.UserUrl = feedbackItem.SourceUrl.ToString();
+
 			return comment;
 		}
 
@@ -99,11 +99,11 @@ namespace Subtext.ImportExport
 			blogMLTrackback.Approved = trackback.Approved;
 			blogMLTrackback.DateCreated = trackback.DateCreated;
 			blogMLTrackback.DateModified = trackback.DateModified;
-		    if (trackback.SourceUrl != null)
-			    blogMLTrackback.Url = trackback.SourceUrl.ToString();
+			if (trackback.SourceUrl != null)
+				blogMLTrackback.Url = trackback.SourceUrl.ToString();
 			return blogMLTrackback;
 		}
-		
+
 		public static BlogMLCategory CreateCategoryInstance(string id, string title, string description, bool approved, string parentId, DateTime dateCreated, DateTime dateModified)
 		{
 			BlogMLCategory category = new BlogMLCategory();
@@ -120,17 +120,17 @@ namespace Subtext.ImportExport
 		public static BlogMLBlog CreateBlogInstance(string title, string subtitle, string rootUrl, string author, string email, DateTime dateCreated)
 		{
 			BlogMLBlog blog = new BlogMLBlog();
-            BlogMLAuthor blogAuthor = new BlogMLAuthor();
-            blogAuthor.Title = author;
-            blogAuthor.Email = email;
-            blog.Authors.Add(blogAuthor);
+			BlogMLAuthor blogAuthor = new BlogMLAuthor();
+			blogAuthor.Title = author;
+			blogAuthor.Email = email;
+			blog.Authors.Add(blogAuthor);
 			blog.Title = title;
 			blog.SubTitle = subtitle;
 			blog.RootUrl = rootUrl;
 			blog.DateCreated = dateCreated;
 			return blog;
 		}
-		
+
 		public static BlogMLPost CreatePostInstance(string id, string title, string url, bool approved, string content, DateTime dateCreated, DateTime dateModified)
 		{
 			BlogMLPost post = new BlogMLPost();

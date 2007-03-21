@@ -175,6 +175,7 @@
     <Compile Include="BlogInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CacheDuration.cs" />
     <Compile Include="CommentFilter.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -221,6 +222,7 @@
     <Compile Include="Components\PageType.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Components\PageViewType.cs" />
     <Compile Include="Components\Plugin.cs" />
     <Compile Include="Components\Referrer.cs">
       <SubType>Code</SubType>
@@ -259,6 +261,7 @@
     <Compile Include="Data\DataHelper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Data\SortDirection.cs" />
     <Compile Include="Data\SqlErrorMessage.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -326,6 +329,7 @@
     <Compile Include="HostInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="IBlogInfo.cs" />
     <Compile Include="Images.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -465,12 +469,14 @@
     <Compile Include="Tracking\Notification.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Tracking\Notifier.cs" />
     <Compile Include="Tracking\PingBackNotificatinProxy.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Tracking\PingBackService.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Tracking\SourceVerificationEventArgs.cs" />
     <Compile Include="Tracking\TrackBackHandler.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -507,22 +513,29 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="UrlManager\HandlerConfiguration.cs" />
+    <Compile Include="UrlManager\HandlerType.cs" />
     <Compile Include="UrlManager\HttpHandler.cs" />
     <Compile Include="UrlManager\PageHandlerFactory.cs" />
     <Compile Include="UrlManager\UrlReWriteHandlerFactory.cs" />
+    <Compile Include="Util\CharQueue.cs" />
     <Compile Include="Util\Keywords.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Util\SerializationHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Util\TimeZones.cs" />
     <Compile Include="Util\Transform.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Util\TimeZone\UTCTimeZone.cs" />
     <Compile Include="Util\WebPathStripper.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Util\TimeZone\WindowsSystemTime.cs" />
+    <Compile Include="Util\TimeZone\WindowsTimeZone.cs" />
+    <Compile Include="Util\TimeZone\WindowsTimeZoneBiasSorter.cs" />
+    <Compile Include="Util\TimeZone\WindowsTimeZoneCollection.cs" />
+    <Compile Include="Util\TimeZone\WindowsTZI.cs" />
     <Compile Include="Util\XmlSerializerSectionHandler.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -568,7 +581,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Util\WindowsTimeZoneCollection.xml" />
+    <EmbeddedResource Include="Util\TimeZone\WindowsTimeZoneCollection.xml" />
     <None Include="MailLicense.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

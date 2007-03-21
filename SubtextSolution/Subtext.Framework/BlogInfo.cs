@@ -27,21 +27,10 @@ using Subtext.Framework.Util;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.Framework.Components;
 using Subtext.Framework.Properties;
+using Subtext.Framework.Util.TimeZoneUtil;
 
 namespace Subtext.Framework
 {
-	/// <summary>
-	/// Represents a blog in the system.
-	/// </summary>
-	public interface IBlogInfo
-	{
-		/// <summary>
-		/// Gets the root URL for this blog.  For example, "http://example.com/" or "http://example.com/blog/".
-		/// </summary>
-		/// <value></value>
-		Uri RootUrl { get; }
-	}
-
 	/// <summary>
 	/// Represents an instance of a blog.  This was formerly known as the BlogConfig class. 
 	/// We are attempting to distinguish this from settings stored in web.config. This class 
@@ -61,7 +50,7 @@ namespace Subtext.Framework
 		public static string NormalizeHostName(string host)
 		{
 			return StringHelper.LeftBefore(
-			    StringHelper.RightAfter(host, "www.", StringComparison.InvariantCultureIgnoreCase), ":");
+				StringHelper.RightAfter(host, "www.", StringComparison.InvariantCultureIgnoreCase), ":");
 		}
 
 		/// <summary>
@@ -72,7 +61,7 @@ namespace Subtext.Framework
 		/// <param name="pageSize">Size of the page.</param>
 		/// <param name="flags">The flags.</param>
 		/// <returns></returns>
-        public static IPagedCollection<BlogInfo> GetBlogsByHost(string host, int pageIndex, int pageSize, ConfigurationFlags flags)
+		public static IPagedCollection<BlogInfo> GetBlogsByHost(string host, int pageIndex, int pageSize, ConfigurationFlags flags)
 		{
 			if (String.IsNullOrEmpty(host))
 				throw new ArgumentNullException("Host must not be null or empty.");
@@ -90,7 +79,7 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public static IPagedCollection<BlogInfo> GetBlogs(int pageIndex, int pageSize, ConfigurationFlags flags)
 		{
-            return ObjectProvider.Instance().GetPagedBlogs(null, pageIndex, pageSize, flags);
+			return ObjectProvider.Instance().GetPagedBlogs(null, pageIndex, pageSize, flags);
 		}
 
 		/// <summary>
@@ -112,14 +101,14 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				if(_urlFormats == null)
+				if (_urlFormats == null)
 				{
 					_urlFormats = new UrlFormats(this.RootUrl);
 				}
 				return _urlFormats;
 			}
 		}
-		
+
 		private string _imageDirectory;
 		/// <summary>
 		/// Gets or sets the physical path to the image directory.
@@ -127,8 +116,8 @@ namespace Subtext.Framework
 		/// <value></value>
 		public string ImageDirectory
 		{
-			get{return _imageDirectory;}
-			set{_imageDirectory = value;}
+			get { return _imageDirectory; }
+			set { _imageDirectory = value; }
 		}
 
 		private string _imagePath;
@@ -141,7 +130,7 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				if(this.owner == null && this.ownerId != Guid.Empty)
+				if (this.owner == null && this.ownerId != Guid.Empty)
 				{
 					this.owner = Membership.GetUser(this.ownerId);
 				}
@@ -153,17 +142,17 @@ namespace Subtext.Framework
 		MembershipUser owner;
 
 		internal Guid ownerId;
-		
+
 		/// <summary>
 		/// Gets or sets the path (url) to the image directory.
 		/// </summary>
 		/// <value></value>
 		public string ImagePath
 		{
-			get{return _imagePath;}
-			set{_imagePath = value;}
+			get { return _imagePath; }
+			set { _imagePath = value; }
 		}
-		
+
 		private DateTime _lastupdated;
 		/// <summary>
 		/// Gets or sets the date that the blog's configuration 
@@ -190,8 +179,8 @@ namespace Subtext.Framework
 		/// <value></value>
 		public int Id
 		{
-			get{return _blogID;}
-			set{_blogID = value;}
+			get { return _blogID; }
+			set { _blogID = value; }
 		}
 
 		/// <summary>
@@ -216,8 +205,8 @@ namespace Subtext.Framework
 		/// <value></value>
 		public int TimeZoneId
 		{
-			get{return this._timeZoneId;}
-			set{this._timeZoneId = value;}
+			get { return this._timeZoneId; }
+			set { this._timeZoneId = value; }
 		}
 		private int _timeZoneId;
 
@@ -229,8 +218,8 @@ namespace Subtext.Framework
 		/// <value></value>
 		public int ItemCount
 		{
-			get{return _itemCount;}
-			set{_itemCount = value;}
+			get { return _itemCount; }
+			set { _itemCount = value; }
 		}
 
 		private int _categoryListPostCount = 10;
@@ -240,7 +229,7 @@ namespace Subtext.Framework
 		/// <value></value>
 		public int CategoryListPostCount
 		{
-			get{return _categoryListPostCount;}
+			get { return _categoryListPostCount; }
 			set
 			{
 				if (value < 0)
@@ -250,7 +239,7 @@ namespace Subtext.Framework
 				_categoryListPostCount = value;
 			}
 		}
-		
+
 		private int _storyCount;
 		/// <summary>
 		/// Gets or sets the story count.
@@ -258,8 +247,8 @@ namespace Subtext.Framework
 		/// <value></value>
 		public int StoryCount
 		{
-		    get {return this._storyCount;}
-		    set {this._storyCount = value;}
+			get { return this._storyCount; }
+			set { this._storyCount = value; }
 		}
 
 		private string _language = "en-US";
@@ -269,7 +258,7 @@ namespace Subtext.Framework
 		/// <value></value>
 		public string Language
 		{
-			get{return String.IsNullOrEmpty(_language) ? "en-US" : _language;}
+			get { return String.IsNullOrEmpty(_language) ? "en-US" : _language; }
 			set
 			{
 				_language = value;
@@ -285,7 +274,7 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				if(String.IsNullOrEmpty(_languageCode))
+				if (String.IsNullOrEmpty(_languageCode))
 				{
 					_languageCode = StringHelper.LeftBefore(Language, "-");
 				}
@@ -303,7 +292,7 @@ namespace Subtext.Framework
 		public string Host
 		{
 			get
-			{   
+			{
 				return _host;
 			}
 			set
@@ -312,21 +301,21 @@ namespace Subtext.Framework
 			}
 		}
 		private string _host;
-		
-	    /// <summary>
-	    /// The port the blog is listening on.
-	    /// </summary>
-	    public static int Port
-	    {
-	        get
-	        {
-	            if(HttpContext.Current != null)
-	            {
-                    return HttpContext.Current.Request.Url.Port;
-	            }
-                return 80;
-	        }
-	    }
+
+		/// <summary>
+		/// The port the blog is listening on.
+		/// </summary>
+		public static int Port
+		{
+			get
+			{
+				if (HttpContext.Current != null)
+				{
+					return HttpContext.Current.Request.Url.Port;
+				}
+				return 80;
+			}
+		}
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this site can 
@@ -337,8 +326,8 @@ namespace Subtext.Framework
 		/// </value>
 		public bool AllowServiceAccess
 		{
-			get{return FlagPropertyCheck(ConfigurationFlags.EnableServiceAccess);}
-			set{FlagSetter(ConfigurationFlags.EnableServiceAccess,value);}
+			get { return FlagPropertyCheck(ConfigurationFlags.EnableServiceAccess); }
+			set { FlagSetter(ConfigurationFlags.EnableServiceAccess, value); }
 		}
 
 		/// <summary>
@@ -350,8 +339,8 @@ namespace Subtext.Framework
 		/// </value>
 		public bool UseSyndicationCompression
 		{
-			get{return FlagPropertyCheck(ConfigurationFlags.CompressSyndicatedFeed);}
-			set{FlagSetter(ConfigurationFlags.CompressSyndicatedFeed, value);}
+			get { return FlagPropertyCheck(ConfigurationFlags.CompressSyndicatedFeed); }
+			set { FlagSetter(ConfigurationFlags.CompressSyndicatedFeed, value); }
 		}
 
 		/// <summary>
@@ -363,8 +352,8 @@ namespace Subtext.Framework
 		/// </value>
 		public bool IsAggregated
 		{
-			get{return FlagPropertyCheck(ConfigurationFlags.IsAggregated);}
-			set{FlagSetter(ConfigurationFlags.IsAggregated,value);}
+			get { return FlagPropertyCheck(ConfigurationFlags.IsAggregated); }
+			set { FlagSetter(ConfigurationFlags.IsAggregated, value); }
 		}
 
 		/// <summary>
@@ -375,8 +364,8 @@ namespace Subtext.Framework
 		/// </value>
 		public bool CommentsEnabled
 		{
-			get{return FlagPropertyCheck(ConfigurationFlags.CommentsEnabled);}
-			set{FlagSetter(ConfigurationFlags.CommentsEnabled,value);}
+			get { return FlagPropertyCheck(ConfigurationFlags.CommentsEnabled); }
+			set { FlagSetter(ConfigurationFlags.CommentsEnabled, value); }
 		}
 
 		/// <summary>
@@ -387,8 +376,8 @@ namespace Subtext.Framework
 		/// </value>
 		public bool CoCommentsEnabled
 		{
-			get{return FlagPropertyCheck(ConfigurationFlags.CoCommentEnabled);}
-			set{FlagSetter(ConfigurationFlags.CoCommentEnabled, value);}
+			get { return FlagPropertyCheck(ConfigurationFlags.CoCommentEnabled); }
+			set { FlagSetter(ConfigurationFlags.CoCommentEnabled, value); }
 		}
 
 		/// <summary>
@@ -400,8 +389,8 @@ namespace Subtext.Framework
 		/// </value>
 		public bool AutoFriendlyUrlEnabled
 		{
-			get{return FlagPropertyCheck(ConfigurationFlags.AutoFriendlyUrlEnabled);}
-			set{FlagSetter(ConfigurationFlags.AutoFriendlyUrlEnabled, value);}
+			get { return FlagPropertyCheck(ConfigurationFlags.AutoFriendlyUrlEnabled); }
+			set { FlagSetter(ConfigurationFlags.AutoFriendlyUrlEnabled, value); }
 		}
 
 		/// <summary>
@@ -412,8 +401,8 @@ namespace Subtext.Framework
 		/// </value>
 		public bool TrackbacksEnabled
 		{
-			get{return FlagPropertyCheck(ConfigurationFlags.TrackbacksEnabled);}
-			set{FlagSetter(ConfigurationFlags.TrackbacksEnabled, value);}
+			get { return FlagPropertyCheck(ConfigurationFlags.TrackbacksEnabled); }
+			set { FlagSetter(ConfigurationFlags.TrackbacksEnabled, value); }
 		}
 
 		/// <summary>
@@ -430,8 +419,8 @@ namespace Subtext.Framework
 		/// </value>
 		public bool DuplicateCommentsEnabled
 		{
-			get{return FlagPropertyCheck(ConfigurationFlags.DuplicateCommentsEnabled);}
-			set{FlagSetter(ConfigurationFlags.DuplicateCommentsEnabled, value);}
+			get { return FlagPropertyCheck(ConfigurationFlags.DuplicateCommentsEnabled); }
+			set { FlagSetter(ConfigurationFlags.DuplicateCommentsEnabled, value); }
 		}
 
 		/// <summary>
@@ -449,8 +438,8 @@ namespace Subtext.Framework
 		/// </value>
 		public bool RFC3229DeltaEncodingEnabled
 		{
-			get{return FlagPropertyCheck(ConfigurationFlags.RFC3229DeltaEncodingEnabled);}
-			set{FlagSetter(ConfigurationFlags.RFC3229DeltaEncodingEnabled, value);}
+			get { return FlagPropertyCheck(ConfigurationFlags.RFC3229DeltaEncodingEnabled); }
+			set { FlagSetter(ConfigurationFlags.RFC3229DeltaEncodingEnabled, value); }
 		}
 
 		/// <summary>
@@ -475,7 +464,7 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				if(_commentDelayInMinutes < 0 || _commentDelayInMinutes == int.MaxValue)
+				if (_commentDelayInMinutes < 0 || _commentDelayInMinutes == int.MaxValue)
 					return 0;
 				else
 					return _commentDelayInMinutes;
@@ -494,7 +483,7 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				if(_numberOfRecentComments < 0 || _numberOfRecentComments == int.MaxValue)
+				if (_numberOfRecentComments < 0 || _numberOfRecentComments == int.MaxValue)
 					return 0;
 				else
 					return _numberOfRecentComments;
@@ -513,7 +502,7 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				if(_recentCommentsLength < 0 || _recentCommentsLength == int.MaxValue)
+				if (_recentCommentsLength < 0 || _recentCommentsLength == int.MaxValue)
 					return DefaultRecentCommentsLength;
 				else
 					return _recentCommentsLength;
@@ -531,8 +520,8 @@ namespace Subtext.Framework
 		/// </value>
 		public bool IsActive
 		{
-			get{return FlagPropertyCheck(ConfigurationFlags.IsActive);}
-			set{FlagSetter(ConfigurationFlags.IsActive, value);}
+			get { return FlagPropertyCheck(ConfigurationFlags.IsActive); }
+			set { FlagSetter(ConfigurationFlags.IsActive, value); }
 		}
 
 		/// <summary>
@@ -556,7 +545,7 @@ namespace Subtext.Framework
 			get { return FlagPropertyCheck(ConfigurationFlags.CaptchaEnabled); }
 			set { FlagSetter(ConfigurationFlags.CaptchaEnabled, value); }
 		}
-		
+
 		private string subfolder;
 		/// <summary>
 		/// Gets or sets the subfolder the blog lives in.
@@ -570,9 +559,9 @@ namespace Subtext.Framework
 			}
 			set
 			{
-				if(value != null)
+				if (value != null)
 					value = UrlFormats.StripSurroundingSlashes(value);
-				
+
 				this.subfolder = value;
 			}
 		}
@@ -600,8 +589,8 @@ namespace Subtext.Framework
 		/// <value></value>
 		public string Title
 		{
-			get{return _title;}
-			set{_title = value;}
+			get { return _title; }
+			set { _title = value; }
 		}
 
 		private string _subtitle;
@@ -611,8 +600,8 @@ namespace Subtext.Framework
 		/// <value></value>
 		public string SubTitle
 		{
-			get{return _subtitle;}
-			set{_subtitle = value;}
+			get { return _subtitle; }
+			set { _subtitle = value; }
 		}
 
 		private SkinConfig _skin;
@@ -623,8 +612,8 @@ namespace Subtext.Framework
 		/// <value></value>
 		public SkinConfig Skin
 		{
-			get{return _skin;}
-			set{_skin = value;}
+			get { return _skin; }
+			set { _skin = value; }
 		}
 
 		/// <summary>
@@ -636,7 +625,7 @@ namespace Subtext.Framework
 		/// </value>
 		public bool HasNews
 		{
-			get{ return News != null && News.Trim().Length > 0;}
+			get { return News != null && News.Trim().Length > 0; }
 		}
 
 		private string news;
@@ -646,20 +635,20 @@ namespace Subtext.Framework
 		/// <value></value>
 		public string News
 		{
-			get{return news;}
-			set{news = value;}
+			get { return news; }
+			set { news = value; }
 		}
 
-        //TODO: we need to figure how what we're going to do with this property b/c right now it's not being set/pulled from the db.
+		//TODO: we need to figure how what we're going to do with this property b/c right now it's not being set/pulled from the db.
 		private string _author = "Subtext Weblog";
 		/// <summary>
 		/// Gets or sets the author of the blog.
 		/// </summary>
 		/// <value></value>
-        public string Author
+		public string Author
 		{
-			get{return _author;}
-			set{_author = value;}
+			get { return _author; }
+			set { _author = value; }
 		}
 
 		/// <summary>
@@ -735,7 +724,7 @@ namespace Subtext.Framework
 				return !String.IsNullOrEmpty(this.feedBurnerName);
 			}
 		}
-		
+
 		/// <summary>
 		/// Gets or sets the name of the feedburner account. 
 		/// This is the portion of the feedburner URL after:
@@ -747,7 +736,7 @@ namespace Subtext.Framework
 			get { return this.feedBurnerName; }
 			set
 			{
-				if(!String.IsNullOrEmpty(value))
+				if (!String.IsNullOrEmpty(value))
 				{
 					if (value.Contains("/") || value.Contains("\\"))
 						throw new InvalidOperationException(Resources.Format_InvalidFeedburnerName);
@@ -757,7 +746,7 @@ namespace Subtext.Framework
 		}
 
 		string feedBurnerName;
-		
+
 		/// <summary>
 		/// Gets the root URL for this blog.  For example, "http://example.com/" or "http://example.com/blog/".
 		/// </summary>
@@ -766,7 +755,7 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				if(this.rootUrl == null)
+				if (this.rootUrl == null)
 				{
 					this.rootUrl = HostFullyQualifiedUrl;
 					if (this.Subfolder != null && this.Subfolder.Length > 0)
@@ -787,11 +776,11 @@ namespace Subtext.Framework
 		{
 			get
 			{
-				if(this.virtualUrl == null)
+				if (this.virtualUrl == null)
 				{
 					this.virtualUrl = "/";
 					string appPath = UrlFormats.StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
-					if(appPath.Length > 0)
+					if (appPath.Length > 0)
 					{
 						this.virtualUrl += appPath + "/";
 					}
@@ -817,16 +806,16 @@ namespace Subtext.Framework
 			get
 			{
 				string virtualDirectory = UrlFormats.StripSurroundingSlashes(HttpContext.Current.Request.ApplicationPath);
-				if(virtualDirectory.Length == 0)
+				if (virtualDirectory.Length == 0)
 				{
 					return "/";
 				}
-				if(!virtualDirectory.EndsWith("/"))
+				if (!virtualDirectory.EndsWith("/"))
 				{
 					virtualDirectory += "/";
 				}
 
-				if(!virtualDirectory.StartsWith("/"))
+				if (!virtualDirectory.StartsWith("/"))
 				{
 					virtualDirectory = "/" + virtualDirectory;
 				}
@@ -845,7 +834,7 @@ namespace Subtext.Framework
 				return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Default.aspx", AdminDirectoryVirtualUrl);
 			}
 		}
-		
+
 		/// <summary>
 		/// Gets virtual URL to the admin section.
 		/// </summary>
@@ -857,7 +846,7 @@ namespace Subtext.Framework
 				return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}Admin/", VirtualUrl);
 			}
 		}
-		
+
 		/// <summary>
 		/// Gets the fully qualified blog home URL.  This is the URL to the blog's home page. 
 		/// Until we integrate with IIS better, we have to append the "Default.aspx" 
@@ -887,7 +876,7 @@ namespace Subtext.Framework
 					string host = HttpContext.Current.Request.Url.Scheme + "://" + this._host;
 					if (BlogInfo.Port != BlogRequest.DefaultPort)
 					{
-                        host += ":" + BlogInfo.Port;
+						host += ":" + BlogInfo.Port;
 					}
 					host += VirtualDirectoryRoot;
 					hostFullyQualifiedUrl = new Uri(host);
@@ -917,8 +906,8 @@ namespace Subtext.Framework
 		/// <value></value>
 		public ConfigurationFlags Flag
 		{
-			get{return _flag;}
-			set{_flag = value;}
+			get { return _flag; }
+			set { _flag = value; }
 		}
 
 		/// <summary>
@@ -927,11 +916,11 @@ namespace Subtext.Framework
 		/// <value></value>
 		public string CleanSubfolder
 		{
-			get {return this.Subfolder.Replace("/", string.Empty).Trim();}
-			
+			get { return this.Subfolder.Replace("/", string.Empty).Trim(); }
+
 		}
 
-		#region Counts 
+		#region Counts
 
 		//TODO: These might need to go somewhere else.
 		private int _postCount;
@@ -941,8 +930,8 @@ namespace Subtext.Framework
 		/// <value></value>
 		public int PostCount
 		{
-			get {return this._postCount;}
-			set {this._postCount = value;}
+			get { return this._postCount; }
+			set { this._postCount = value; }
 		}
 
 		private int _commentCount;
@@ -952,8 +941,8 @@ namespace Subtext.Framework
 		/// <value></value>
 		public int CommentCount
 		{
-			get {return this._commentCount;}
-			set {this._commentCount = value;}
+			get { return this._commentCount; }
+			set { this._commentCount = value; }
 		}
 
 		private int _pingTrackCount;
@@ -963,8 +952,8 @@ namespace Subtext.Framework
 		/// <value></value>
 		public int PingTrackCount
 		{
-			get {return this._pingTrackCount;}
-			set {this._pingTrackCount = value;}
+			get { return this._pingTrackCount; }
+			set { this._pingTrackCount = value; }
 		}
 
 		#endregion
@@ -977,7 +966,7 @@ namespace Subtext.Framework
 		/// <param name="select">Select.</param>
 		protected void FlagSetter(ConfigurationFlags cf, bool select)
 		{
-			if(select)
+			if (select)
 			{
 				this.Flag = Flag | cf;
 			}
@@ -1005,11 +994,11 @@ namespace Subtext.Framework
 		/// <returns></returns>
 		public override bool Equals(object obj)
 		{
-			if(obj == null)
+			if (obj == null)
 				return false;
 
-            if (GetType() != obj.GetType())
-                return false;
+			if (GetType() != obj.GetType())
+				return false;
 
 			return ((BlogInfo)obj).Id == this.Id;
 		}
@@ -1024,90 +1013,90 @@ namespace Subtext.Framework
 			return this.Host.GetHashCode() ^ this.Subfolder.GetHashCode();
 		}
 
-        //CHANGE: Gurkan Yeniceri
-        /*Mail To Weblog properties*/
+		//CHANGE: Gurkan Yeniceri
+		/*Mail To Weblog properties*/
 
-        #region Mail To Weblog properties
-        string _pop3Server;
-        public string pop3Server
-        {
-            get { return _pop3Server; }
-            set { _pop3Server = value; }
-        }
+		#region Mail To Weblog properties
+		string _pop3Server;
+		public string pop3Server
+		{
+			get { return _pop3Server; }
+			set { _pop3Server = value; }
+		}
 
-        string _pop3User;
-        public string pop3User
-        {
-            get { return _pop3User; }
-            set { _pop3User = value; }
-        }
+		string _pop3User;
+		public string pop3User
+		{
+			get { return _pop3User; }
+			set { _pop3User = value; }
+		}
 
-        string _pop3Pass;
-        public string pop3Pass
-        {
-            get { return _pop3Pass; }
-            set { _pop3Pass = value; }
-        }
+		string _pop3Pass;
+		public string pop3Pass
+		{
+			get { return _pop3Pass; }
+			set { _pop3Pass = value; }
+		}
 
-        //		int _pop3Interval;
-        //		public int pop3Interval
-        //		{
-        //			get{return _pop3Interval;}
-        //			set{_pop3Interval = value;}
-        //		}
+		//		int _pop3Interval;
+		//		public int pop3Interval
+		//		{
+		//			get{return _pop3Interval;}
+		//			set{_pop3Interval = value;}
+		//		}
 
-        string _pop3StartTag;
-        public string pop3StartTag
-        {
-            get { return _pop3StartTag; }
-            set { _pop3StartTag = value; }
-        }
+		string _pop3StartTag;
+		public string pop3StartTag
+		{
+			get { return _pop3StartTag; }
+			set { _pop3StartTag = value; }
+		}
 
-        string _pop3EndTag;
-        public string pop3EndTag
-        {
-            get { return _pop3EndTag; }
-            set { _pop3EndTag = value; }
-        }
+		string _pop3EndTag;
+		public string pop3EndTag
+		{
+			get { return _pop3EndTag; }
+			set { _pop3EndTag = value; }
+		}
 
-        string _pop3SubjectPrefix;
-        public string pop3SubjectPrefix
-        {
-            get { return _pop3SubjectPrefix; }
-            set { _pop3SubjectPrefix = value; }
-        }
+		string _pop3SubjectPrefix;
+		public string pop3SubjectPrefix
+		{
+			get { return _pop3SubjectPrefix; }
+			set { _pop3SubjectPrefix = value; }
+		}
 
-        bool _pop3MTBEnable;
-        public bool pop3MTBEnable
-        {
-            get { return _pop3MTBEnable; }
-            set { _pop3MTBEnable = value; }
-        }
+		bool _pop3MTBEnable;
+		public bool pop3MTBEnable
+		{
+			get { return _pop3MTBEnable; }
+			set { _pop3MTBEnable = value; }
+		}
 
-        bool _pop3DeleteOnlyProcessed;
-        public bool pop3DeleteOnlyProcessed
-        {
-            get { return _pop3DeleteOnlyProcessed; }
-            set { _pop3DeleteOnlyProcessed = value; }
-        }
+		bool _pop3DeleteOnlyProcessed;
+		public bool pop3DeleteOnlyProcessed
+		{
+			get { return _pop3DeleteOnlyProcessed; }
+			set { _pop3DeleteOnlyProcessed = value; }
+		}
 
-        bool _pop3InlineAttachedPictures;
-        public bool pop3InlineAttachedPictures
-        {
-            get { return _pop3InlineAttachedPictures; }
-            set { _pop3InlineAttachedPictures = value; }
-        }
+		bool _pop3InlineAttachedPictures;
+		public bool pop3InlineAttachedPictures
+		{
+			get { return _pop3InlineAttachedPictures; }
+			set { _pop3InlineAttachedPictures = value; }
+		}
 
-        int _pop3HeightForThumbs;
-        public int pop3HeightForThumbs
-        {
-            get { return _pop3HeightForThumbs; }
-            set { _pop3HeightForThumbs = value; }
-        }
-        #endregion
-        //End of Mail To Weblog properties
+		int _pop3HeightForThumbs;
+		public int pop3HeightForThumbs
+		{
+			get { return _pop3HeightForThumbs; }
+			set { _pop3HeightForThumbs = value; }
+		}
+		#endregion
+		//End of Mail To Weblog properties
 
-        #region Notification Properties
+		#region Notification Properties
 		/// <summary>
 		/// Gets or sets a value indicating whether comment notification is enabled.
 		/// </summary>
@@ -1117,22 +1106,22 @@ namespace Subtext.Framework
 			get { return FlagPropertyCheck(ConfigurationFlags.CommentNotificationEnabled); }
 			set { FlagSetter(ConfigurationFlags.CommentNotificationEnabled, value); }
 		}
-        /// <summary>
-        /// Gets or sets a value indicating whether trackback notification is enabled.
-        /// </summary>
-        /// <value><c>true</c> if comment notification is enabled; otherwise, <c>false</c>.</value>
-        public bool TrackbackNoficationEnabled
-        {
-            get { return FlagPropertyCheck(ConfigurationFlags.TrackbackNotificationEnabled); }
-            set { FlagSetter(ConfigurationFlags.TrackbackNotificationEnabled, value); }
-        }
-        #endregion
+		/// <summary>
+		/// Gets or sets a value indicating whether trackback notification is enabled.
+		/// </summary>
+		/// <value><c>true</c> if comment notification is enabled; otherwise, <c>false</c>.</value>
+		public bool TrackbackNoficationEnabled
+		{
+			get { return FlagPropertyCheck(ConfigurationFlags.TrackbackNotificationEnabled); }
+			set { FlagSetter(ConfigurationFlags.TrackbackNotificationEnabled, value); }
+		}
+		#endregion
 
-        #region Plugin Specific Properties
+		#region Plugin Specific Properties
 
-        private IDictionary<Guid,Plugin> _enabledPlugins;
+		private IDictionary<Guid, Plugin> _enabledPlugins;
 
-		public IDictionary<Guid,Plugin> EnabledPlugins
+		public IDictionary<Guid, Plugin> EnabledPlugins
 		{
 			get
 			{

@@ -21,7 +21,6 @@ using System.Runtime.Serialization;
 namespace Subtext.Framework.Threading
 {
 	#if DEBUG
-		#region public class UndisposedLockException : Exception, ISerializable
 		/// <summary>
 		/// This exception indicates that a user of the TimedLock struct 
 		/// failed to leave a Monitor.  This could be the result of a 
@@ -60,6 +59,5 @@ namespace Subtext.Framework.Threading
 			{
 			}
 		}
-		#endregion
 	#endif
 }

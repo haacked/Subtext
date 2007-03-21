@@ -42,7 +42,7 @@ using Subtext.Framework.Properties;
 namespace Subtext.ImportExport
 {
 	public class SubtextBlogMLProvider : BlogMLProvider
-	{	
+	{
 		bool duplicateCommentsEnabled;
 		SubtextConversionStrategy conversion = new SubtextConversionStrategy();
 		/// <summary>
@@ -58,92 +58,92 @@ namespace Subtext.ImportExport
 			IPagedCollection<BlogMLPost> bmlPosts = new PagedCollection<BlogMLPost>();
 			using (IDataReader reader = GetPostsAndArticlesReader(blogId, pageIndex, pageSize))
 			{
-                BlogMLPost bmlPost;
-                IBlogMLContext bmlContext = this.GetBlogMLContext();
+				BlogMLPost bmlPost;
+				IBlogMLContext bmlContext = this.GetBlogMLContext();
 				while (reader.Read())
 				{
-                    bmlPost = ObjectHydrator.LoadPostFromDataReader(reader);
-                    bmlPost.Attachments.AddRange(GetPostAttachments(bmlPost, bmlContext));
+					bmlPost = ObjectHydrator.LoadPostFromDataReader(reader);
+					bmlPost.Attachments.AddRange(GetPostAttachments(bmlPost, bmlContext));
 					bmlPosts.Add(bmlPost);
 				}
 
 				if (reader.NextResult() && reader.Read())
 					bmlPosts.MaxItems = DataHelper.ReadInt32(reader, "TotalRecords");
-					
+
 				if (bmlPosts.Count > 0 && reader.NextResult())
 					PopulateCategories(bmlPosts, reader);
-				
+
 				if (bmlPosts.Count > 0 && reader.NextResult())
 					PopulateComments(bmlPosts, reader);
-				
+
 				if (bmlPosts.Count > 0 && reader.NextResult())
 					PopulateTrackbacks(bmlPosts, reader);
-			    
-			    if (bmlPosts.Count > 0 && reader.NextResult())
-			        PopulateAuthors(bmlPosts, reader);
-				
+
+				if (bmlPosts.Count > 0 && reader.NextResult())
+					PopulateAuthors(bmlPosts, reader);
+
 			}
 			return bmlPosts;
 		}
 
-        private static IList GetPostAttachments(BlogMLPost bmlPost, IBlogMLContext bmlContext)
-        {
-            IList attachments = new ArrayList();
-            string[] attachmentUrls = BlogMLWriterBase.SgmlUtil.GetAttributeValues(bmlPost.Content.Text, "img", "src");
+		private static IList GetPostAttachments(BlogMLPost bmlPost, IBlogMLContext bmlContext)
+		{
+			IList attachments = new ArrayList();
+			string[] attachmentUrls = BlogMLWriterBase.SgmlUtil.GetAttributeValues(bmlPost.Content.Text, "img", "src");
 
-            if (attachmentUrls.Length > 0)
-            {
-                bool embed = bmlContext.EmbedAttachments;
-                
-                foreach (string attachmentUrl in attachmentUrls)
-                {
-                    string blogHostUrl = Config.CurrentBlog.HostFullyQualifiedUrl.ToString().ToLower(CultureInfo.InvariantCulture);
-                    
-                    // If the URL for the attachment is local then we'll want to build a new BlogMLAttachment 
-                    // add add it to the list of attchements for this post.
-                    if (BlogMLWriterBase.SgmlUtil.IsRootUrlOf(blogHostUrl, attachmentUrl.ToLower(CultureInfo.InvariantCulture)))
-                    {
-                        BlogMLAttachment attachment = new BlogMLAttachment();
-                        string attachVirtualPath = attachmentUrl.Replace(blogHostUrl, "/");
+			if (attachmentUrls.Length > 0)
+			{
+				bool embed = bmlContext.EmbedAttachments;
 
-                        // If we are embedding attachements then we need to get the data stream 
-                        // for the attachment, else the datastream can be null.
-                        if (embed)
-                        {
-                            string attachPhysicalPath = HttpUtility.UrlDecode(HttpContext.Current.Server.MapPath(attachVirtualPath));
-                            
-                            //using (Stream attachStream = new StreamReader(attachPhysicalPath).BaseStream)
-                            using (FileStream attachStream = File.OpenRead(attachPhysicalPath))
-                            {
-                                using (BinaryReader reader = new BinaryReader(attachStream))
-                                {
-                                    reader.BaseStream.Position = 0;
-                                    byte[] data = reader.ReadBytes((int)attachStream.Length);
-                                    attachment.Data = data;
-                                }
-                            }
-                        }
+				foreach (string attachmentUrl in attachmentUrls)
+				{
+					string blogHostUrl = Config.CurrentBlog.HostFullyQualifiedUrl.ToString().ToLower(CultureInfo.InvariantCulture);
 
-                        attachment.Embedded = embed;
-                        attachment.MimeType = BlogMLWriter.GetMimeType(attachmentUrl);
-                        attachment.Path = attachVirtualPath;
-                        attachment.Url = attachmentUrl;
-                        attachments.Add(attachment);
-                    }
-                }
-            }
-            return attachments;
-        }
+					// If the URL for the attachment is local then we'll want to build a new BlogMLAttachment 
+					// add add it to the list of attchements for this post.
+					if (BlogMLWriterBase.SgmlUtil.IsRootUrlOf(blogHostUrl, attachmentUrl.ToLower(CultureInfo.InvariantCulture)))
+					{
+						BlogMLAttachment attachment = new BlogMLAttachment();
+						string attachVirtualPath = attachmentUrl.Replace(blogHostUrl, "/");
 
-        private static void PopulateAuthors(IPagedCollection<BlogMLPost> posts, IDataReader reader)
-	    {
-            PostChildrenPopulator populator = delegate(BlogMLPost bmlPost)
-            {
-                bmlPost.Authors.Add(DataHelper.ReadInt32(reader, "AuthorId").ToString(CultureInfo.InvariantCulture));
-            };
+						// If we are embedding attachements then we need to get the data stream 
+						// for the attachment, else the datastream can be null.
+						if (embed)
+						{
+							string attachPhysicalPath = HttpUtility.UrlDecode(HttpContext.Current.Server.MapPath(attachVirtualPath));
 
-            ReadAndPopulatePostChildren(posts, reader, "Id", populator);
-	    }
+							//using (Stream attachStream = new StreamReader(attachPhysicalPath).BaseStream)
+							using (FileStream attachStream = File.OpenRead(attachPhysicalPath))
+							{
+								using (BinaryReader reader = new BinaryReader(attachStream))
+								{
+									reader.BaseStream.Position = 0;
+									byte[] data = reader.ReadBytes((int)attachStream.Length);
+									attachment.Data = data;
+								}
+							}
+						}
+
+						attachment.Embedded = embed;
+						attachment.MimeType = BlogMLWriter.GetMimeType(attachmentUrl);
+						attachment.Path = attachVirtualPath;
+						attachment.Url = attachmentUrl;
+						attachments.Add(attachment);
+					}
+				}
+			}
+			return attachments;
+		}
+
+		private static void PopulateAuthors(IPagedCollection<BlogMLPost> posts, IDataReader reader)
+		{
+			PostChildrenPopulator populator = delegate(BlogMLPost bmlPost)
+			{
+				bmlPost.Authors.Add(DataHelper.ReadInt32(reader, "AuthorId").ToString(CultureInfo.InvariantCulture));
+			};
+
+			ReadAndPopulatePostChildren(posts, reader, "Id", populator);
+		}
 
 		private static void PopulateCategories(IPagedCollection<BlogMLPost> posts, IDataReader reader)
 		{
@@ -161,7 +161,7 @@ namespace Subtext.ImportExport
 			{
 				bmlPost.Comments.Add(ObjectHydrator.LoadCommentFromDataReader(reader));
 			};
-			
+
 			ReadAndPopulatePostChildren(bmlPosts, reader, "EntryId", populator);
 		}
 
@@ -193,7 +193,7 @@ namespace Subtext.ImportExport
 						{
 							i++;
 							post = bmlPosts[i];
-                            postId = Int32.Parse(post.ID, NumberFormatInfo.InvariantInfo);
+							postId = Int32.Parse(post.ID, NumberFormatInfo.InvariantInfo);
 						}
 					}
 
@@ -205,21 +205,21 @@ namespace Subtext.ImportExport
 				}
 			}
 		}
-		
+
 		private delegate void PostChildrenPopulator(BlogMLPost post);
 
 		private IDataReader GetReader(string sql, SqlParameter[] p)
 		{
 			return SqlHelper.ExecuteReader(ConnectionString, CommandType.StoredProcedure, sql, p);
 		}
-		
+
 		private IDataReader GetPostsAndArticlesReader(string blogId, int pageIndex, int pageSize)
 		{
 			int blogIdValue;
-            if (!Int32.TryParse(blogId, out blogIdValue))
-            {
-                throw new ArgumentException(String.Format(CultureInfo.CurrentUICulture, Resources.Format_InvalidBlogId, blogId), "blogId");
-            }
+			if (!Int32.TryParse(blogId, out blogIdValue))
+			{
+				throw new ArgumentException(String.Format(CultureInfo.CurrentUICulture, Resources.Format_InvalidBlogId, blogId), "blogId");
+			}
 
 			SqlParameter[] p =
 			{
@@ -247,34 +247,34 @@ namespace Subtext.ImportExport
 				bmlBlog.RootUrl = blog.RootUrl.ToString();
 				bmlBlog.DateCreated = blog.TimeZone.Now;
 
-			    // TODO: in Subtext 2.0 we need to account for multiple authors.
-                BlogMLAuthor bmlAuthor = new BlogMLAuthor();
-                bmlAuthor.ID = blog.Id.ToString(CultureInfo.InvariantCulture);
-                bmlAuthor.Title = blog.Author;
-                bmlAuthor.Approved = true;
-                bmlAuthor.Email = blog.Owner.Email;
-                bmlAuthor.DateCreated = blog.LastUpdated;
-                bmlAuthor.DateModified = blog.LastUpdated;
-			    bmlBlog.Authors.Add(bmlAuthor);
-			    
-			    // Add Extended Properties
-			    Pair<string, string> bmlExtProp = new Pair<string, string>();
-                bmlExtProp.Key = BlogMLBlogExtendedProperties.CommentModeration;
-                bmlExtProp.Value = blog.ModerationEnabled
-                                       ? CommentModerationTypes.Enabled.ToString()
-                                       : CommentModerationTypes.Disabled.ToString();
-			    bmlBlog.ExtendedProperties.Add(bmlExtProp);
+				// TODO: in Subtext 2.0 we need to account for multiple authors.
+				BlogMLAuthor bmlAuthor = new BlogMLAuthor();
+				bmlAuthor.ID = blog.Id.ToString(CultureInfo.InvariantCulture);
+				bmlAuthor.Title = blog.Author;
+				bmlAuthor.Approved = true;
+				bmlAuthor.Email = blog.Owner.Email;
+				bmlAuthor.DateCreated = blog.LastUpdated;
+				bmlAuthor.DateModified = blog.LastUpdated;
+				bmlBlog.Authors.Add(bmlAuthor);
 
-                /* TODO: The blog.TrackbasksEnabled determines if Subtext will ACCEPT and SEND trackbacks.
-                 * Perhaps we should separate the two out?
-                 * For now, we'll assume that if a BlogML blog allows sending, it will also
-                 * allow receiving track/pingbacks.
-                 */
-                bmlExtProp.Key = BlogMLBlogExtendedProperties.EnableSendingTrackbacks;
-                bmlExtProp.Value = blog.TrackbacksEnabled
-                                       ? SendTrackbackTypes.Yes.ToString()
-                                       : SendTrackbackTypes.No.ToString();
-			    
+				// Add Extended Properties
+				Pair<string, string> bmlExtProp = new Pair<string, string>();
+				bmlExtProp.Key = BlogMLBlogExtendedProperties.CommentModeration;
+				bmlExtProp.Value = blog.ModerationEnabled
+									   ? CommentModerationTypes.Enabled.ToString()
+									   : CommentModerationTypes.Disabled.ToString();
+				bmlBlog.ExtendedProperties.Add(bmlExtProp);
+
+				/* TODO: The blog.TrackbasksEnabled determines if Subtext will ACCEPT and SEND trackbacks.
+				 * Perhaps we should separate the two out?
+				 * For now, we'll assume that if a BlogML blog allows sending, it will also
+				 * allow receiving track/pingbacks.
+				 */
+				bmlExtProp.Key = BlogMLBlogExtendedProperties.EnableSendingTrackbacks;
+				bmlExtProp.Value = blog.TrackbacksEnabled
+									   ? SendTrackbackTypes.Yes.ToString()
+									   : SendTrackbackTypes.No.ToString();
+
 				return bmlBlog;
 			}
 			return null;
@@ -289,18 +289,18 @@ namespace Subtext.ImportExport
 		{
 			ICollection<LinkCategory> categories = Links.GetCategories(CategoryType.PostCollection, ActiveFilter.None);
 			ICollection<BlogMLCategory> bmlCategories = new Collection<BlogMLCategory>();
-			
-			foreach(LinkCategory category in categories)
+
+			foreach (LinkCategory category in categories)
 			{
 				BlogMLCategory bmlCategory = new BlogMLCategory();
-                bmlCategory.ID = category.Id.ToString(CultureInfo.InvariantCulture);
+				bmlCategory.ID = category.Id.ToString(CultureInfo.InvariantCulture);
 				bmlCategory.Title = category.Title;
 				bmlCategory.Approved = category.IsActive;
 				bmlCategory.DateCreated = DateTime.Now;
 				bmlCategory.DateModified = DateTime.Now;
-			    if (category.HasDescription)
-                    bmlCategory.Description = category.Description;
-				
+				if (category.HasDescription)
+					bmlCategory.Description = category.Description;
+
 				bmlCategories.Add(bmlCategory);
 			}
 			return bmlCategories;
@@ -313,7 +313,7 @@ namespace Subtext.ImportExport
 		public override IBlogMLContext GetBlogMLContext()
 		{
 			bool embedValue = false;
-			if(HttpContext.Current != null && HttpContext.Current.Request != null)
+			if (HttpContext.Current != null && HttpContext.Current.Request != null)
 				embedValue = String.Equals(HttpContext.Current.Request.QueryString["embed"], "true", StringComparison.InvariantCultureIgnoreCase);
 
 			return new BlogMLContext(Config.CurrentBlog.Id.ToString(CultureInfo.InvariantCulture), embedValue);
@@ -347,7 +347,7 @@ namespace Subtext.ImportExport
 				Config.UpdateConfigData(Config.CurrentBlog);
 			}
 		}
-		
+
 		/// <summary>
 		/// Method called when an import is complete.
 		public override void ImportComplete()
@@ -418,31 +418,31 @@ namespace Subtext.ImportExport
 		/// <returns></returns>
 		public override string CreateBlogPost(BlogMLPost post, string content, IDictionary<string, string> categoryIdMap)
 		{
-            Entry newEntry = new Entry((post.PostType == BlogPostTypes.Article) ? PostType.Story : PostType.BlogPost);
+			Entry newEntry = new Entry((post.PostType == BlogPostTypes.Article) ? PostType.Story : PostType.BlogPost);
 			newEntry.BlogId = Config.CurrentBlog.Id;
 			newEntry.Title = post.Title;
 			newEntry.DateCreated = post.DateCreated;
 			newEntry.DateModified = post.DateModified;
 			newEntry.DateSyndicated = post.DateModified;  // is this really the best thing to do?
 			newEntry.Body = content;
-		    if (post.HasExcerpt)
-                newEntry.Description = post.Excerpt.Text;
+			if (post.HasExcerpt)
+				newEntry.Description = post.Excerpt.Text;
 			newEntry.IsActive = post.Approved;
 			newEntry.DisplayOnHomePage = post.Approved;
 			newEntry.IncludeInMainSyndication = post.Approved;
 			newEntry.IsAggregated = post.Approved;
 			newEntry.AllowComments = true;
 
-            if (!string.IsNullOrEmpty(post.PostName))
-                newEntry.EntryName = Entries.AutoGenerateFriendlyUrl(post.PostName, newEntry.Id);
-			
-			foreach(BlogMLCategoryReference categoryRef in post.Categories)
+			if (!string.IsNullOrEmpty(post.PostName))
+				newEntry.EntryName = Entries.AutoGenerateFriendlyUrl(post.PostName, newEntry.Id);
+
+			foreach (BlogMLCategoryReference categoryRef in post.Categories)
 			{
 				string categoryTitle;
-				if(categoryIdMap.TryGetValue(categoryRef.Ref, out categoryTitle))
+				if (categoryIdMap.TryGetValue(categoryRef.Ref, out categoryTitle))
 					newEntry.Categories.Add(categoryTitle);
 			}
-			
+
 			return Entries.Create(newEntry).ToString(CultureInfo.InvariantCulture);
 		}
 
@@ -452,24 +452,24 @@ namespace Subtext.ImportExport
 		/// <param name="bmlComment"></param>
 		public override void CreatePostComment(BlogMLComment comment, string newPostId)
 		{
-            if (comment == null)
-            {
-                throw new ArgumentNullException("comment", Resources.ArgumentNull_Generic);
-            }
+			if (comment == null)
+			{
+				throw new ArgumentNullException("comment", Resources.ArgumentNull_Generic);
+			}
 
-            if (newPostId == null)
-            {
-                throw new ArgumentNullException("newPostId", Resources.ArgumentNull_String);
-            }
+			if (newPostId == null)
+			{
+				throw new ArgumentNullException("newPostId", Resources.ArgumentNull_String);
+			}
 
-            if (newPostId.Length == 0)
-            {
-                throw new ArgumentException(Resources.Argument_StringZeroLength, "newPostId");
-            }
+			if (newPostId.Length == 0)
+			{
+				throw new ArgumentException(Resources.Argument_StringZeroLength, "newPostId");
+			}
 
-            FeedbackItem newComment = new FeedbackItem(FeedbackType.Comment);
+			FeedbackItem newComment = new FeedbackItem(FeedbackType.Comment);
 			newComment.BlogId = Config.CurrentBlog.Id;
-            newComment.EntryId = Int32.Parse(newPostId, NumberFormatInfo.InvariantInfo);
+			newComment.EntryId = Int32.Parse(newPostId, NumberFormatInfo.InvariantInfo);
 			newComment.Title = comment.Title ?? string.Empty;
 			newComment.DateCreated = comment.DateCreated;
 			newComment.DateModified = comment.DateModified;
@@ -477,11 +477,11 @@ namespace Subtext.ImportExport
 			newComment.Approved = comment.Approved;
 			newComment.Author = StringHelper.ReturnCheckForNull(comment.UserName);
 			newComment.Email = comment.UserEMail;
-		    
-		    if (!string.IsNullOrEmpty(comment.UserUrl))
-		    {
-		        newComment.SourceUrl = new Uri(comment.UserUrl);
-		    }
+
+			if (!string.IsNullOrEmpty(comment.UserUrl))
+			{
+				newComment.SourceUrl = new Uri(comment.UserUrl);
+			}
 
 			FeedbackItem.Create(newComment, null);
 		}
@@ -492,24 +492,24 @@ namespace Subtext.ImportExport
 		/// <param name="trackback"></param>
 		public override void CreatePostTrackback(BlogMLTrackback trackback, string newPostId)
 		{
-            if (trackback == null)
-            {
-                throw new ArgumentNullException("trackback", Resources.ArgumentNull_Generic);
-            }
+			if (trackback == null)
+			{
+				throw new ArgumentNullException("trackback", Resources.ArgumentNull_Generic);
+			}
 
-            if (newPostId == null)
-            {
-                throw new ArgumentNullException("newPostId", Resources.ArgumentNull_String);
-            }
+			if (newPostId == null)
+			{
+				throw new ArgumentNullException("newPostId", Resources.ArgumentNull_String);
+			}
 
-            if (newPostId.Length == 0)
-            {
-                throw new ArgumentException(Resources.Argument_StringZeroLength, "newPostId");
-            }
+			if (newPostId.Length == 0)
+			{
+				throw new ArgumentException(Resources.Argument_StringZeroLength, "newPostId");
+			}
 
 			FeedbackItem newPingTrack = new FeedbackItem(FeedbackType.PingTrack);
 			newPingTrack.BlogId = Config.CurrentBlog.Id;
-            newPingTrack.EntryId = Int32.Parse(newPostId, NumberFormatInfo.InvariantInfo);
+			newPingTrack.EntryId = Int32.Parse(newPostId, NumberFormatInfo.InvariantInfo);
 			newPingTrack.Title = trackback.Title;
 			newPingTrack.SourceUrl = new Uri(trackback.Url);
 			newPingTrack.Approved = trackback.Approved;
@@ -524,44 +524,44 @@ namespace Subtext.ImportExport
 			FeedbackItem.Create(newPingTrack, null);
 		}
 
-	    public override void SetBlogMlExtendedProperties(BlogMLBlog.ExtendedPropertiesCollection extendedProperties)
-	    {
-            if (extendedProperties != null && extendedProperties.Count > 0)
-            {
-                BlogInfo info = Config.CurrentBlog;
-                
-                foreach (Pair<string, string> extProp in extendedProperties)
-                {
-                    if (BlogMLBlogExtendedProperties.CommentModeration.Equals(extProp.Key))
-                    {
-                        bool modEnabled;
-                        
-                        if (bool.TryParse(extProp.Value, out modEnabled))
-                        {
-                            info.ModerationEnabled = modEnabled;
-                        }
-                    }
-                    else if (BlogMLBlogExtendedProperties.EnableSendingTrackbacks.Equals(extProp.Key))
-                    {
-                        bool tracksEnabled;
+		public override void SetBlogMlExtendedProperties(BlogMLBlog.ExtendedPropertiesCollection extendedProperties)
+		{
+			if (extendedProperties != null && extendedProperties.Count > 0)
+			{
+				BlogInfo info = Config.CurrentBlog;
 
-                        if (bool.TryParse(extProp.Value, out tracksEnabled))
-                        {
-                            /* TODO: The blog.TrackbasksEnabled determines if Subtext will ACCEPT and SEND trackbacks.
-                             * Perhaps we should separate the two out?
-                             * For now, we'll assume that if a BlogML blog allows sending, it will also
-                             * allow receiving track/pingbacks.
-                             */
-                            info.TrackbacksEnabled = tracksEnabled;
-                        }
-                    }
-                }
+				foreach (Pair<string, string> extProp in extendedProperties)
+				{
+					if (BlogMLBlogExtendedProperties.CommentModeration.Equals(extProp.Key))
+					{
+						bool modEnabled;
 
-                Config.UpdateConfigData(info);
-            }
-	    }
+						if (bool.TryParse(extProp.Value, out modEnabled))
+						{
+							info.ModerationEnabled = modEnabled;
+						}
+					}
+					else if (BlogMLBlogExtendedProperties.EnableSendingTrackbacks.Equals(extProp.Key))
+					{
+						bool tracksEnabled;
 
-	    /// <summary>
+						if (bool.TryParse(extProp.Value, out tracksEnabled))
+						{
+							/* TODO: The blog.TrackbasksEnabled determines if Subtext will ACCEPT and SEND trackbacks.
+							 * Perhaps we should separate the two out?
+							 * For now, we'll assume that if a BlogML blog allows sending, it will also
+							 * allow receiving track/pingbacks.
+							 */
+							info.TrackbacksEnabled = tracksEnabled;
+						}
+					}
+				}
+
+				Config.UpdateConfigData(info);
+			}
+		}
+
+		/// <summary>
 		/// Lets the provider decide how to log errors.
 		/// </summary>
 		/// <param name="message"></param>

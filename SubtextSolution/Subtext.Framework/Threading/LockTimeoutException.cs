@@ -24,7 +24,6 @@ using Subtext.Framework.Properties;
 
 namespace Subtext.Framework.Threading
 {
-	#region public class LockTimeoutException : Exception
 	/// <summary>
 	/// Thrown when a lock times out.
 	/// </summary>
@@ -157,5 +156,4 @@ namespace Subtext.Framework.Threading
 		}
 
 	}
-	#endregion
 }

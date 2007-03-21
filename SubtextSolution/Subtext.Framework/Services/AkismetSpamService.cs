@@ -20,10 +20,10 @@ namespace Subtext.Framework.Services
 		/// </summary>
 		/// <param name="apiKey">The API key.</param>
 		/// <param name="blog">The blog.</param>
-        public AkismetSpamService(string apiKey, IBlogInfo blog)
-            : this(new AkismetClient(apiKey, blog.RootUrl))
-        {
-        }
+		public AkismetSpamService(string apiKey, IBlogInfo blog)
+			: this(new AkismetClient(apiKey, blog.RootUrl))
+		{
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AkismetSpamService"/> class.
@@ -31,18 +31,18 @@ namespace Subtext.Framework.Services
 		/// <param name="akismetClient">The akismet client.</param>
 		public AkismetSpamService(IAkismetClient akismetClient)
 		{
-            if (akismetClient == null)
-            {
-                throw new ArgumentNullException("akismetClient", Resources.ArgumentNull_Generic);
-            }
+			if (akismetClient == null)
+			{
+				throw new ArgumentNullException("akismetClient", Resources.ArgumentNull_Generic);
+			}
 
 			this.akismet = akismetClient;
 
 			IWebProxy proxy = HttpHelper.GetProxy();
-            if (proxy != null)
-            {
-                this.akismet.Proxy = proxy;
-            }
+			if (proxy != null)
+			{
+				this.akismet.Proxy = proxy;
+			}
 		}
 
 		/// <summary>
@@ -61,7 +61,7 @@ namespace Subtext.Framework.Services
 				return false;
 			}
 		}
-		
+
 		/// <summary>
 		/// Examines the item and determines whether or not it is spam.
 		/// </summary>
@@ -73,14 +73,14 @@ namespace Subtext.Framework.Services
 
 			try
 			{
-				
+
 				if (this.akismet.CheckCommentForSpam(comment))
 				{
 					this.akismet.SubmitSpam(comment);
 					return true;
 				}
 			}
-			catch(InvalidResponseException e)
+			catch (InvalidResponseException e)
 			{
 				log.Error(e.Message, e);
 			}
@@ -108,7 +108,7 @@ namespace Subtext.Framework.Services
 			Comment comment = ConvertToAkismetItem(feedback);
 			this.akismet.SubmitSpam(comment);
 		}
-		
+
 		private static Comment ConvertToAkismetItem(FeedbackItem feedback)
 		{
 			Comment comment = new Comment(feedback.IpAddress, feedback.UserAgent);

@@ -24,7 +24,6 @@ namespace Subtext.Framework.Components
 		StoryCollection = 2,
 		ImageCollection = 3,
 		ArchiveMonthCollection = 4,
-        LinkCollection = 5,
+		LinkCollection = 5,
 	}
 }
-

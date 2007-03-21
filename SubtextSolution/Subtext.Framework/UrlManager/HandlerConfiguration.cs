@@ -34,10 +34,10 @@ namespace Subtext.Framework.UrlManager
 		/// <param name="controls">Controls.</param>
 		public static void SetControls(HttpContext context, string[] controls)
 		{
-            if (context == null)
-            {
-                throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
-            }
+			if (context == null)
+			{
+				throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
+			}
 
 			if (controls != null)
 			{
@@ -49,15 +49,15 @@ namespace Subtext.Framework.UrlManager
 		/// Gets the controls associated to the specified context.
 		/// </summary>
 		/// <param name="context">Context.</param>
-        public static string[] GetControls(HttpContext context)
-        {
-            if (context == null)
-            {
-                throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
-            }
+		public static string[] GetControls(HttpContext context)
+		{
+			if (context == null)
+			{
+				throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
+			}
 
-            return (string[])context.Items["Subtext.Framework.UrlManager.ControlContext"];
-        }
+			return (string[])context.Items["Subtext.Framework.UrlManager.ControlContext"];
+		}
 
 		private HttpHandler[] _httpHandlers;
 		/// <summary>
@@ -67,8 +67,8 @@ namespace Subtext.Framework.UrlManager
 		[XmlArray("HttpHandlers")]
 		public HttpHandler[] HttpHandlers
 		{
-			get {return this._httpHandlers;}
-			set {this._httpHandlers = value;}
+			get { return this._httpHandlers; }
+			set { this._httpHandlers = value; }
 		}
 
 		private string _defaultPageLocation;
@@ -79,8 +79,8 @@ namespace Subtext.Framework.UrlManager
 		[XmlAttribute("defaultPageLocation")]
 		public string DefaultPageLocation
 		{
-			get {return this._defaultPageLocation;}
-			set {this._defaultPageLocation = value;}
+			get { return this._defaultPageLocation; }
+			set { this._defaultPageLocation = value; }
 		}
 
 		private string _fullPageLocation;
@@ -90,8 +90,9 @@ namespace Subtext.Framework.UrlManager
 		/// <value></value>
 		public string FullPageLocation
 		{
-			get {
-				if(this._fullPageLocation == null)
+			get
+			{
+				if (this._fullPageLocation == null)
 				{
 					this._fullPageLocation = HttpContext.Current.Request.MapPath("~/" + DefaultPageLocation);
 				}

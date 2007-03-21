@@ -56,7 +56,7 @@ namespace Subtext.Framework.Syndication
 		{
 			get
 			{
-				if(writer == null)
+				if (writer == null)
 				{
 					writer = new RssWriter(Entries.GetMainSyndicationEntries(CurrentBlog.ItemCount), this.PublishDateOfLastFeedItemReceived, this.UseDeltaEncoding);
 				}

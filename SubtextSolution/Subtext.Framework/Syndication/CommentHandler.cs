@@ -48,10 +48,10 @@ namespace Subtext.Framework.Syndication
 		/// <param name="context">Context.</param>
 		public override void HandleRequest(HttpContext context)
 		{
-            if (context == null)
-            {
-                throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
-            }
+			if (context == null)
+			{
+				throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
+			}
 
 			HttpRequest Request = context.Request;
 			if (Request.RequestType == "POST" && Request.ContentType == "text/xml")
@@ -73,7 +73,7 @@ namespace Subtext.Framework.Syndication
 				comment.EntryId = UrlFormats.GetPostIDFromUrl(Request.Path);
 
 				// [ 1644691 ] Closing comments didn't stop the CommentAPI
-				if(!Subtext.Framework.Data.Cacher.GetEntry(comment.EntryId,CacheDuration.Medium).CommentingClosed)
+				if (!Subtext.Framework.Data.Cacher.GetEntry(comment.EntryId, CacheDuration.Medium).CommentingClosed)
 					FeedbackItem.Create(comment, new CommentFilter(HttpContext.Current.Cache));
 			}
 		}
