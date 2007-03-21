@@ -14,6 +14,7 @@
 #endregion
 
 using System;
+using System.Runtime.Serialization;
 
 namespace Subtext.Framework.Exceptions
 {
@@ -46,5 +47,7 @@ namespace Subtext.Framework.Exceptions
 		protected BaseCommentException(string message, Exception innerException) : base(message, innerException)
 		{
 		}
+
+		protected BaseCommentException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 	}
 }

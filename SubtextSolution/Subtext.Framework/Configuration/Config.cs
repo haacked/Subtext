@@ -81,7 +81,7 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
-				IPagedCollection<BlogInfo> blogs = BlogInfo.GetBlogs(1, 1, ConfigurationFlag.IsActive);
+				IPagedCollection<BlogInfo> blogs = BlogInfo.GetBlogs(1, 1, ConfigurationFlags.IsActive);
 				return blogs.MaxItems;
 			}
 		}
@@ -94,7 +94,7 @@ namespace Subtext.Framework.Configuration
 		{
 			get
 			{
-				IPagedCollection blogs = BlogInfo.GetBlogs(1, 1, ConfigurationFlag.None);
+				IPagedCollection blogs = BlogInfo.GetBlogs(1, 1, ConfigurationFlags.None);
 				return blogs.MaxItems;
 			}
 		}
@@ -239,7 +239,7 @@ namespace Subtext.Framework.Configuration
 	    {
 //Check to see if this blog requires a Subfolder value
 	        //This would occur if another blog has the same host already.
-	        int activeBlogWithHostCount = BlogInfo.GetBlogsByHost(host, 0, 1, ConfigurationFlag.IsActive).Count;
+	        int activeBlogWithHostCount = BlogInfo.GetBlogsByHost(host, 0, 1, ConfigurationFlags.IsActive).Count;
 	        if(activeBlogWithHostCount > 0)
 	        {
 	            throw new BlogRequiresSubfolderException(host, activeBlogWithHostCount);
@@ -321,7 +321,7 @@ namespace Subtext.Framework.Configuration
 			{
 				//Check to see if this blog requires a Subfolder value
 				//This would occur if another blog has the same host already.
-                IPagedCollection<BlogInfo> blogsWithHost = BlogInfo.GetBlogsByHost(info.Host, 0, 1, ConfigurationFlag.IsActive);
+                IPagedCollection<BlogInfo> blogsWithHost = BlogInfo.GetBlogsByHost(info.Host, 0, 1, ConfigurationFlags.IsActive);
 				if(blogsWithHost.Count > 0)
 				{
 					if(blogsWithHost.Count > 1 || !blogsWithHost[0].Equals(info))

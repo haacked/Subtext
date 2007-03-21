@@ -31,10 +31,10 @@ namespace Subtext.Framework.UrlManager
 	/// to match the current request to. It also allows caching of the 
 	/// Regex's and Types.
 	/// </summary>
-	public class UrlReWriteHandlerFactory :  IHttpHandlerFactory
+	public class UrlReWriteHandlerFactory : IHttpHandlerFactory
 	{
-		public UrlReWriteHandlerFactory(){} //Nothing to do in the cnstr
-		
+		public UrlReWriteHandlerFactory() { } //Nothing to do in the cnstr
+
 		protected virtual HttpHandler[] GetHttpHandlers()
 		{
 			return HandlerConfiguration.Instance().HttpHandlers;
@@ -55,42 +55,42 @@ namespace Subtext.Framework.UrlManager
 		/// or by returning another IHttpHandlerFactory.GetHandler(HttpContext context, string requestType, string url, string path) 
 		/// method
 		/// </returns>
-		public virtual IHttpHandler GetHandler(HttpContext context, string requestType, string url, string path)
+		public virtual IHttpHandler GetHandler(HttpContext context, string requestType, string url, string pathTranslated)
 		{
-            if (context == null)
-            {
-                throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
-            }
+			if (context == null)
+			{
+				throw new ArgumentNullException("context", Resources.ArgumentNull_Generic);
+			}
 
-            if (requestType == null)
-            {
-                throw new ArgumentNullException("requestType", Resources.ArgumentNull_String);
-            }
+			if (requestType == null)
+			{
+				throw new ArgumentNullException("requestType", Resources.ArgumentNull_String);
+			}
 
-            if (url == null)
-            {
-                throw new ArgumentNullException("url", Resources.ArgumentNull_String);
-            }
+			if (url == null)
+			{
+				throw new ArgumentNullException("url", Resources.ArgumentNull_String);
+			}
 
-            if (path == null)
-            {
-                throw new ArgumentNullException("path", Resources.ArgumentNull_String);
-            }
+			if (pathTranslated == null)
+			{
+				throw new ArgumentNullException("path", Resources.ArgumentNull_String);
+			}
 
-            if (requestType.Length == 0)
-            {
-                throw new ArgumentException(Resources.Argument_StringZeroLength, "requestType");
-            }
+			if (requestType.Length == 0)
+			{
+				throw new ArgumentException(Resources.Argument_StringZeroLength, "requestType");
+			}
 
-            if (url.Length == 0)
-            {
-                throw new ArgumentException(Resources.Argument_StringZeroLength, "url");
-            }
+			if (url.Length == 0)
+			{
+				throw new ArgumentException(Resources.Argument_StringZeroLength, "url");
+			}
 
-            if (path.Length == 0)
-            {
-                throw new ArgumentException(Resources.Argument_StringZeroLength, "path");
-            }
+			if (pathTranslated.Length == 0)
+			{
+				throw new ArgumentException(Resources.Argument_StringZeroLength, "path");
+			}
 
 			if (IsRequestForAggregateBlog && !InstallationManager.IsOnLoginPage) //This line calls the db.
 			{
@@ -101,32 +101,32 @@ namespace Subtext.Framework.UrlManager
 				handlerUrl += "Default.aspx";
 				return BuildManager.CreateInstanceFromVirtualPath(handlerUrl, typeof(Page)) as IHttpHandler;
 			}
-			
+
 			//Get the Handlers to process. By default, we grab them from the blog.config
 			HttpHandler[] items = GetHttpHandlers();
-			
+
 			//Do we have any?
-			if(items != null)
+			if (items != null)
 			{
-				foreach(HttpHandler handler in items)
+				foreach (HttpHandler handler in items)
 				{
 					//We should use our own cached Regex. This should limit the number of Regex's created
 					//and allows us to take advantage of RegexOptons.Compiled 
-					if(handler.IsMatch(context.Request.Path))
+					if (handler.IsMatch(context.Request.Path))
 					{
-						switch(handler.HandlerType)
+						switch (handler.HandlerType)
 						{
 							case HandlerType.Page:
 								return ProcessHandlerTypePage(handler, context);
-						
+
 							case HandlerType.Direct:
 								HandlerConfiguration.SetControls(context, handler.BlogControls);
 								return (IHttpHandler)handler.Instance();
-						
+
 							case HandlerType.Factory:
 								//Pass a long the request to a custom IHttpHandlerFactory
-								return ((IHttpHandlerFactory)handler.Instance()).GetHandler(context, requestType, url, path);
-						
+								return ((IHttpHandlerFactory)handler.Instance()).GetHandler(context, requestType, url, pathTranslated);
+
 							case HandlerType.Directory:
 								return ProcessHandlerTypeDirectory(context, url);
 
@@ -136,11 +136,11 @@ namespace Subtext.Framework.UrlManager
 					}
 				}
 			}
-			
+
 			//If we do not find the page, just let ASP.NET take over
-			return PageHandlerFactory.GetHandler(context, requestType, url, path);
+			return PageHandlerFactory.GetHandler(context, requestType, url, pathTranslated);
 		}
-		
+
 		private static bool IsRequestForAggregateBlog
 		{
 			get
@@ -152,7 +152,7 @@ namespace Subtext.Framework.UrlManager
 		private static IHttpHandler ProcessHandlerTypePage(HttpHandler item, HttpContext context)
 		{
 			string pagepath = item.PageLocation;
-			if(pagepath == null)
+			if (pagepath == null)
 			{
 				pagepath = HandlerConfiguration.Instance().DefaultPageLocation;
 			}
@@ -163,28 +163,28 @@ namespace Subtext.Framework.UrlManager
 				url += "/";
 			}
 			url += pagepath;
-			
-            return BuildManager.CreateInstanceFromVirtualPath(url, typeof(Page)) as IHttpHandler;
-        }
+
+			return BuildManager.CreateInstanceFromVirtualPath(url, typeof(Page)) as IHttpHandler;
+		}
 
 		private static IHttpHandler ProcessHandlerTypeDirectory(HttpContext context, string url)
 		{
-		    //Need to strip the blog subfolder part of url.
-		    if(Config.CurrentBlog != null && Config.CurrentBlog.Subfolder != null && Config.CurrentBlog.Subfolder.Length > 0)
-		    {
-                url = StringHelper.RightAfter(url, "/" + Config.CurrentBlog.Subfolder, StringComparison.InvariantCultureIgnoreCase);
-                if (context.Request.ApplicationPath.Length > 0 && context.Request.ApplicationPath != "/")
-		        {
-		            //A bit ugly, but easily fixed later.
-                    url = ("/" + context.Request.ApplicationPath + "/" + url).Replace("//", "/");
-		        }
-		        if(url.EndsWith("/"))
-		        {
-                    url += "default.aspx";
-		        }
-		    }
-		    
-            return BuildManager.CreateInstanceFromVirtualPath(url, typeof(Page)) as IHttpHandler;
+			//Need to strip the blog subfolder part of url.
+			if (Config.CurrentBlog != null && Config.CurrentBlog.Subfolder != null && Config.CurrentBlog.Subfolder.Length > 0)
+			{
+				url = StringHelper.RightAfter(url, "/" + Config.CurrentBlog.Subfolder, StringComparison.InvariantCultureIgnoreCase);
+				if (context.Request.ApplicationPath.Length > 0 && context.Request.ApplicationPath != "/")
+				{
+					//A bit ugly, but easily fixed later.
+					url = ("/" + context.Request.ApplicationPath + "/" + url).Replace("//", "/");
+				}
+				if (url.EndsWith("/"))
+				{
+					url += "default.aspx";
+				}
+			}
+
+			return BuildManager.CreateInstanceFromVirtualPath(url, typeof(Page)) as IHttpHandler;
 		}
 
 
@@ -192,7 +192,7 @@ namespace Subtext.Framework.UrlManager
 		/// Releases the handler.
 		/// </summary>
 		/// <param name="handler">Handler.</param>
-		public virtual void ReleaseHandler(IHttpHandler handler) 
+		public virtual void ReleaseHandler(IHttpHandler handler)
 		{
 
 		}

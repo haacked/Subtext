@@ -152,7 +152,7 @@ namespace Subtext.Web.Admin
 		//        }
 		//    }
 		//}
-		internal static string GetFeedbackItemFilter(FeedbackStatusFlag currentView)
+		internal static string GetFeedbackItemFilter(FeedbackStatusFlags currentView)
 		{
 			string cookieName = COOKIES_FEEDBACK_FILTER + currentView.ToString();
 			if (null != HttpContext.Current.Request.Cookies[cookieName])
@@ -161,7 +161,7 @@ namespace Subtext.Web.Admin
 			}
 			return FeedbackType.None.ToString();
 		}
-		internal static void SetFeedbackItemFilter(string value, FeedbackStatusFlag currentView)
+		internal static void SetFeedbackItemFilter(string value, FeedbackStatusFlags currentView)
 		{
 			string cookieName = COOKIES_FEEDBACK_FILTER + currentView.ToString();
 			

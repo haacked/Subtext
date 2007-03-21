@@ -30,67 +30,67 @@ namespace Subtext.Framework.Providers
 	{
 		private readonly static ILog log = new Logging.Log();
 
-        /// <summary>
-        /// Sends an email.
-        /// </summary>
-        /// <param name="toAddress">The address to send the email to</param>
-        /// <param name="fromAddress">The address to send the email from</param>
-        /// <param name="replyTo">The email address to use in the ReplyTo header</param>
-        /// <param name="subject">The subject of the email</param>
-        /// <param name="message">The email contents</param>
-        /// <returns>True if the email has sent, otherwise false</returns>
-		public override bool Send(string toAddress, string fromAddress, string subject, string message)
+		/// <summary>
+		/// Sends an email.
+		/// </summary>
+		/// <param name="toAddress">The address to send the email to</param>
+		/// <param name="fromAddress">The address to send the email from</param>
+		/// <param name="replyTo">The email address to use in the ReplyTo header</param>
+		/// <param name="subject">The subject of the email</param>
+		/// <param name="message">The email contents</param>
+		/// <returns>True if the email has sent, otherwise false</returns>
+		public override bool Send(string to, string from, string subject, string message)
 		{
-            return(Send(toAddress, fromAddress, null, subject, message));
+			return (Send(to, from, null, subject, message));
 		}
 
-        /// <summary>
-        /// Sends an email.
-        /// </summary>
-        /// <param name="toAddress">The address to send the email to</param>
-        /// <param name="fromAddress">The address to send the email from</param>
-        /// <param name="replyTo">The email address to use in the ReplyTo header</param>
-        /// <param name="subject">The subject of the email</param>
-        /// <param name="message">The email contents</param>
-        /// <returns>True if the email has sent, otherwise false</returns>
-        public override bool Send(string toAddress, string fromAddress, string replyToAddress, string subject, string message)
-        {
-            try
-            {
-                MailAddress from = new MailAddress(fromAddress);
-                MailAddress to = new MailAddress(toAddress);
+		/// <summary>
+		/// Sends an email.
+		/// </summary>
+		/// <param name="toAddress">The address to send the email to</param>
+		/// <param name="fromAddress">The address to send the email from</param>
+		/// <param name="replyTo">The email address to use in the ReplyTo header</param>
+		/// <param name="subject">The subject of the email</param>
+		/// <param name="message">The email contents</param>
+		/// <returns>True if the email has sent, otherwise false</returns>
+		public override bool Send(string to, string from, string replyTo, string subject, string message)
+		{
+			try
+			{
+				MailAddress fromAddress = new MailAddress(from);
+				MailAddress toAddress = new MailAddress(to);
 
-                MailMessage em = new MailMessage(from, to);
-                if (null != replyToAddress && string.Empty != replyToAddress)
-                  em.Headers.Add("Reply-To", replyToAddress);
-                
-                em.BodyEncoding = Encoding.UTF8;
-                em.Subject = subject;
-                em.Body = message;
+				MailMessage em = new MailMessage(fromAddress, toAddress);
+				if (null != replyTo && replyTo.Length > 0 )
+					em.Headers.Add("Reply-To", replyTo);
 
-                SmtpClient client = new SmtpClient(this.SmtpServer);
-                client.Port = this.Port;
+				em.BodyEncoding = Encoding.UTF8;
+				em.Subject = subject;
+				em.Body = message;
 
-                if (this.UserName != null && this.Password != null)
-                {
-                    client.UseDefaultCredentials = false;
-                    client.Credentials = new NetworkCredential(this.UserName, this.Password);
-                }
+				SmtpClient client = new SmtpClient(this.SmtpServer);
+				client.Port = this.Port;
 
-                client.Send(em);
-                return true;
-            }
-            catch (SmtpException exc)
-            {
-                //TODO: One reason an email could be rejected is that the email server 
-                //		might reject the send (from) email address.
-                //      We should probably throw an exception instead of returning 
-                //		true or false. But we'll have to define each exception ourselves.
-                log.Error("Could not send email.", exc);
-                return false;
-            }
-        }
- 
+				if (this.UserName != null && this.Password != null)
+				{
+					client.UseDefaultCredentials = false;
+					client.Credentials = new NetworkCredential(this.UserName, this.Password);
+				}
+
+				client.Send(em);
+				return true;
+			}
+			catch (SmtpException exc)
+			{
+				//TODO: One reason an email could be rejected is that the email server 
+				//		might reject the send (from) email address.
+				//      We should probably throw an exception instead of returning 
+				//		true or false. But we'll have to define each exception ourselves.
+				log.Error("Could not send email.", exc);
+				return false;
+			}
+		}
+
 	}
 }
 

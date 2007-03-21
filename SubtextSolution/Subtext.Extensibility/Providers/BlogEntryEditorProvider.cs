@@ -31,12 +31,12 @@ namespace Subtext.Extensibility.Providers
 	{
 		public override void Initialize(string name, NameValueCollection config)
 		{
-            if (name == null)
+			if (name == null)
 				throw new ArgumentNullException("name", Resources.ArgumentNull_String);
 
 			if (config == null)
 				throw new ArgumentNullException("config", Resources.ArgumentNull_Collection);
-            
+
 			if (config["Width"] != null)
 				this.Width = ParseUnit(config["Width"]);
 
@@ -45,23 +45,23 @@ namespace Subtext.Extensibility.Providers
 
 			base.Initialize(name, config);
 		}
-		
+
 		protected static Unit ParseUnit(string s)
 		{
 			try
 			{
 				return Unit.Parse(s, CultureInfo.InvariantCulture);
 			}
-			catch(Exception)
+			catch (Exception)
 			{
 			}
 			return Unit.Empty;
 		}
-		
-       
+
+
 		/// <summary>
-        /// Id of the control
-        /// </summary>
+		/// Id of the control
+		/// </summary>
 		public virtual string ControlId
 		{
 			get
@@ -73,9 +73,9 @@ namespace Subtext.Extensibility.Providers
 				this.controlId = value;
 			}
 		}
-		
+
 		string controlId;
-        
+
 		/// <summary>
 		/// Width of the editor
 		/// </summary>
@@ -92,7 +92,7 @@ namespace Subtext.Extensibility.Providers
 		}
 
 		Unit width = Unit.Empty;
-        
+
 		/// <summary>
 		/// Height of the editor
 		/// </summary>
@@ -119,15 +119,15 @@ namespace Subtext.Extensibility.Providers
 		/// The content of the area, but XHTML converted
 		/// </summary>
 		public abstract String Xhtml { get;}
-		
+
 		/// <summary>
 		/// Return the RichTextEditorControl to be displayed inside the page
 		/// </summary>
 		public abstract Control RichTextEditorControl { get;}
 
-        /// <summary>
-        /// Initializes the Control to be displayed
-        /// </summary>
+		/// <summary>
+		/// Initializes the Control to be displayed
+		/// </summary>
 		public abstract void InitializeControl();
 
 	}

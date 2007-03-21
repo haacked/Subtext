@@ -23,7 +23,7 @@ namespace Subtext.Framework.Configuration
 	/// </list>
 	/// </summary>
 	[Flags()]
-	public enum ConfigurationFlag
+	public enum ConfigurationFlags
 	{
 		/// <summary>Nothing is set</summary>
 		None = 0,

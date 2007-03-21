@@ -257,7 +257,7 @@ namespace UnitTests.Subtext.Framework.Data
 
 		public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
 		{
-			return FeedbackItem.GetPagedFeedback(pageIndex, pageSize, FeedbackStatusFlag.Approved, FeedbackType.None);
+			return FeedbackItem.GetPagedFeedback(pageIndex, pageSize, FeedbackStatusFlags.Approved, FeedbackType.None);
 		}
 
 		public int GetCount(IPagedCollection collection)
@@ -369,7 +369,7 @@ namespace UnitTests.Subtext.Framework.Data
 
 		public IPagedCollection GetPagedItems(int pageIndex, int pageSize)
 		{
-			return BlogInfo.GetBlogsByHost(this.host, pageIndex, pageSize, ConfigurationFlag.IsActive);
+			return BlogInfo.GetBlogsByHost(this.host, pageIndex, pageSize, ConfigurationFlags.IsActive);
 		}
 
 		public int GetCount(IPagedCollection collection)

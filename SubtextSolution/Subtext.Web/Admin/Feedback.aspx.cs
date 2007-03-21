@@ -49,11 +49,11 @@ namespace Subtext.Web.Admin.Pages
 		/// <summary>
 		/// Whether or not to moderate comments.
 		/// </summary>
-		protected FeedbackStatusFlag FeedbackStatusFilter
+		protected FeedbackStatusFlags FeedbackStatusFilter
 		{
 			get
 			{
-				return (FeedbackStatusFlag)(ViewState["FeedbackStatusFilter"] ?? FeedbackStatusFlag.Approved);
+				return (FeedbackStatusFlags)(ViewState["FeedbackStatusFilter"] ?? FeedbackStatusFlags.Approved);
 			}
 			set
 			{
@@ -78,15 +78,15 @@ namespace Subtext.Web.Admin.Pages
 			}
 		}
 		
-		FeedbackStatusFlag GetStatusFromQueryString()
+		FeedbackStatusFlags GetStatusFromQueryString()
 		{
 			string filter = Request.QueryString["status"] ?? "1";
 			int filterId;
 			if(!int.TryParse(filter, out filterId))
 			{
-				return FeedbackStatusFlag.Approved;
+				return FeedbackStatusFlags.Approved;
 			}
-			return (FeedbackStatusFlag)filterId;
+			return (FeedbackStatusFlags)filterId;
 		}
 
 		private LinkButton AddFolderLink(string label, string id, string title, EventHandler handler)
@@ -102,7 +102,7 @@ namespace Subtext.Web.Admin.Pages
 
 		void OnViewApprovedCommentsClick(object sender, EventArgs e)
 		{
-			this.FeedbackStatusFilter = FeedbackStatusFlag.Approved;
+			this.FeedbackStatusFilter = FeedbackStatusFlags.Approved;
 			this.rbFeedbackFilter.SelectedValue = Preferences.GetFeedbackItemFilter(FeedbackStatusFilter);
 			this.Results.HeaderText = "Comments";
 			HtmlHelper.AppendCssClass(this.btnViewApprovedComments, "active");
@@ -117,7 +117,7 @@ namespace Subtext.Web.Admin.Pages
 
 		void OnViewCommentsForModerationClick(object sender, EventArgs e)
 		{
-			this.FeedbackStatusFilter = FeedbackStatusFlag.NeedsModeration;
+			this.FeedbackStatusFilter = FeedbackStatusFlags.NeedsModeration;
 			this.rbFeedbackFilter.SelectedValue = Preferences.GetFeedbackItemFilter(FeedbackStatusFilter);
 			this.Results.HeaderText = "Comments Pending Moderator Approval";
 			HtmlHelper.AppendCssClass(this.btnViewModerateComments, "active");
@@ -133,7 +133,7 @@ namespace Subtext.Web.Admin.Pages
 		
 		void OnViewSpamClick(object sender, EventArgs e)
 		{
-			this.FeedbackStatusFilter = FeedbackStatusFlag.FlaggedAsSpam;
+			this.FeedbackStatusFilter = FeedbackStatusFlags.FlaggedAsSpam;
 			this.rbFeedbackFilter.SelectedValue = Preferences.GetFeedbackItemFilter(FeedbackStatusFilter);
 			HtmlHelper.AppendCssClass(this.btnViewSpam, "active");
 			this.Results.HeaderText = "Comments Flagged As SPAM";
@@ -151,7 +151,7 @@ namespace Subtext.Web.Admin.Pages
 		
 		void OnViewTrashClick(object sender, EventArgs e)
 		{
-			this.FeedbackStatusFilter = FeedbackStatusFlag.Deleted;
+			this.FeedbackStatusFilter = FeedbackStatusFlags.Deleted;
 			this.rbFeedbackFilter.SelectedValue = Preferences.GetFeedbackItemFilter(FeedbackStatusFilter);
 			HtmlHelper.AppendCssClass(this.btnViewTrash, "active");
 			this.Results.HeaderText = "Comments In The Trash Bin";
@@ -273,16 +273,16 @@ namespace Subtext.Web.Admin.Pages
 			this.resultsPager.PageIndex = this.pageIndex;
 			Results.Collapsible = false;
 			
-			FeedbackStatusFlag excludeFilter = ~this.FeedbackStatusFilter;
+			FeedbackStatusFlags excludeFilter = ~this.FeedbackStatusFilter;
 			//Approved is a special case.  If a feedback has the approved bit set, 
 			//it is approved no matter what other bits are set.
-			if (this.FeedbackStatusFilter == FeedbackStatusFlag.Approved)
-				excludeFilter = FeedbackStatusFlag.None;
+			if (this.FeedbackStatusFilter == FeedbackStatusFlags.Approved)
+				excludeFilter = FeedbackStatusFlags.None;
 
 			//Likewise, deleted is a special case.  If a feedback has the deleted 
 			//bit set, it is in the trash no matter what other bits are set.
-			if (this.FeedbackStatusFilter == FeedbackStatusFlag.Deleted)
-				excludeFilter = FeedbackStatusFlag.Approved;
+			if (this.FeedbackStatusFilter == FeedbackStatusFlags.Deleted)
+				excludeFilter = FeedbackStatusFlags.Approved;
 
 			//13-nov-06 mountain_sf
 			//For version 1: checkbox to show only comments (obsolete)
@@ -309,20 +309,20 @@ namespace Subtext.Web.Admin.Pages
 				//TODO: This is a prime example of where the state pattern comes in.
 				switch(this.FeedbackStatusFilter)
 				{
-					case FeedbackStatusFlag.NeedsModeration:
+					case FeedbackStatusFlags.NeedsModeration:
 						noComments.Text = "<em>No Entries Need Moderation.</em>";
 						break;
 						
-					case FeedbackStatusFlag.FlaggedAsSpam:
+					case FeedbackStatusFlags.FlaggedAsSpam:
 						noComments.Text = "<em>No Entries Flagged as SPAM.</em>";
 						break;
 						
-					case FeedbackStatusFlag.Deleted:
+					case FeedbackStatusFlags.Deleted:
 						noComments.Text = "<em>No Entries in the Trash.</em>";
 						break;
 					
 					default:
-						Debug.Assert(this.FeedbackStatusFilter == FeedbackStatusFlag.Approved, "This is an impossible value for FeedbackStatusFilter '" + FeedbackStatusFilter + "'");
+						Debug.Assert(this.FeedbackStatusFilter == FeedbackStatusFlags.Approved, "This is an impossible value for FeedbackStatusFilter '" + FeedbackStatusFilter + "'");
 						noComments.Text = "<em>There are no approved comments to display.</em>";
 						break;
 				}
@@ -347,20 +347,20 @@ namespace Subtext.Web.Admin.Pages
 			
 			switch(this.FeedbackStatusFilter)
 			{
-				case FeedbackStatusFlag.NeedsModeration:
+				case FeedbackStatusFlags.NeedsModeration:
 					HtmlHelper.AppendCssClass(this.btnViewModerateComments, "active");
 					break;
 					
-				case FeedbackStatusFlag.FlaggedAsSpam:
+				case FeedbackStatusFlags.FlaggedAsSpam:
 					HtmlHelper.AppendCssClass(this.btnViewSpam, "active");
 					break;
 					
-				case FeedbackStatusFlag.Deleted:
+				case FeedbackStatusFlags.Deleted:
 					HtmlHelper.AppendCssClass(this.btnViewTrash, "active");
 					break;
 				
 				default:
-					Debug.Assert(this.FeedbackStatusFilter == FeedbackStatusFlag.Approved, "This is an impossible value for FeedbackStatusFilter '" + FeedbackStatusFilter + "'");
+					Debug.Assert(this.FeedbackStatusFilter == FeedbackStatusFlags.Approved, "This is an impossible value for FeedbackStatusFilter '" + FeedbackStatusFilter + "'");
 					HtmlHelper.AppendCssClass(this.btnViewApprovedComments, "active");
 					break;
 			}

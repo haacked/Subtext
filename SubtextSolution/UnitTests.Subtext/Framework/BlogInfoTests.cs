@@ -20,27 +20,27 @@ namespace UnitTests.Subtext.Framework
 		{
 			BlogInfo blog = new BlogInfo();
 			blog.CaptchaEnabled = true;
-			Assert.IsTrue((blog.Flag & ConfigurationFlag.CaptchaEnabled) == ConfigurationFlag.CaptchaEnabled);
+			Assert.IsTrue((blog.Flag & ConfigurationFlags.CaptchaEnabled) == ConfigurationFlags.CaptchaEnabled);
 			blog.CaptchaEnabled = false;
-			Assert.IsTrue((blog.Flag & ConfigurationFlag.CaptchaEnabled) != ConfigurationFlag.CaptchaEnabled);
+			Assert.IsTrue((blog.Flag & ConfigurationFlags.CaptchaEnabled) != ConfigurationFlags.CaptchaEnabled);
 
 			blog.CoCommentsEnabled = true;
 			Assert.IsTrue(blog.CoCommentsEnabled);
-			Assert.IsTrue((blog.Flag & ConfigurationFlag.CoCommentEnabled) == ConfigurationFlag.CoCommentEnabled);
+			Assert.IsTrue((blog.Flag & ConfigurationFlags.CoCommentEnabled) == ConfigurationFlags.CoCommentEnabled);
 			blog.CoCommentsEnabled = false;
-			Assert.IsTrue((blog.Flag & ConfigurationFlag.CoCommentEnabled) != ConfigurationFlag.CoCommentEnabled);
+			Assert.IsTrue((blog.Flag & ConfigurationFlags.CoCommentEnabled) != ConfigurationFlags.CoCommentEnabled);
 
 			blog.IsActive = true;
 			Assert.IsTrue(blog.IsActive);
-			Assert.IsTrue((blog.Flag & ConfigurationFlag.IsActive) == ConfigurationFlag.IsActive);
+			Assert.IsTrue((blog.Flag & ConfigurationFlags.IsActive) == ConfigurationFlags.IsActive);
 			blog.IsActive = false;
-			Assert.IsTrue((blog.Flag & ConfigurationFlag.IsActive) != ConfigurationFlag.IsActive);
+			Assert.IsTrue((blog.Flag & ConfigurationFlags.IsActive) != ConfigurationFlags.IsActive);
 
 			blog.IsAggregated = true;
 			Assert.IsTrue(blog.IsAggregated);
-			Assert.IsTrue((blog.Flag & ConfigurationFlag.IsAggregated) == ConfigurationFlag.IsAggregated);
+			Assert.IsTrue((blog.Flag & ConfigurationFlags.IsAggregated) == ConfigurationFlags.IsAggregated);
 			blog.IsAggregated = false;
-			Assert.IsTrue((blog.Flag & ConfigurationFlag.IsAggregated) != ConfigurationFlag.IsAggregated);
+			Assert.IsTrue((blog.Flag & ConfigurationFlags.IsAggregated) != ConfigurationFlags.IsAggregated);
 
 			blog.CommentCount = 42;
 			Assert.AreEqual(42, blog.CommentCount);
@@ -338,7 +338,7 @@ namespace UnitTests.Subtext.Framework
 		[ExpectedArgumentNullException]
 		public void GetBlogsByHostThrowsArgumentNullException()
 		{
-			BlogInfo.GetBlogsByHost(null, 0, 10, ConfigurationFlag.IsActive);
+			BlogInfo.GetBlogsByHost(null, 0, 10, ConfigurationFlags.IsActive);
 		}
 
 		[Test]

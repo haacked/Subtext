@@ -15,34 +15,48 @@
 
 using System;
 using Subtext.Framework.Properties;
+using System.Runtime.Serialization;
 
 namespace Subtext.Framework
 {
+	[Serializable]
 	public class IllegalPostCharactersException : Exception
 	{
+		public IllegalPostCharactersException() : base() {}
 		public IllegalPostCharactersException(String s) : base(s) {}
 		public IllegalPostCharactersException(String s, Exception inner) : base(s, inner) {}
+		public IllegalPostCharactersException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 	}
 
+	[Serializable]
 	public class BlogSkinException : Exception
 	{
+		public BlogSkinException() : base() {}
 		public BlogSkinException(String s) : base(s) {}
 		public BlogSkinException(String s, Exception inner) : base(s, inner) {}
+		public BlogSkinException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 		
 	}
 
+	[Serializable]
 	public class BlogFailedPostException : Exception 
 	{
+		public BlogFailedPostException() : base() {}
 		public BlogFailedPostException(String s) : base(s) {}
-		public BlogFailedPostException(String s, Exception inner) : base(s, inner) {}		
+		public BlogFailedPostException(String s, Exception inner) : base(s, inner) {}
+		public BlogFailedPostException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 	}
 
+	[Serializable]
 	public class BlogAssemblyConfigException : Exception 
 	{
+		public BlogAssemblyConfigException() : base() {}
 		public BlogAssemblyConfigException(String s) : base(s) {}
-		public BlogAssemblyConfigException(String s, Exception inner) : base(s, inner) {}		
+		public BlogAssemblyConfigException(String s, Exception inner) : base(s, inner) {}
+		public BlogAssemblyConfigException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 	}
 
+	[Serializable]
 	public class ExtendedPropertiesOverFlowException : Exception 
 	{
 		public ExtendedPropertiesOverFlowException() : base(Resources.ExtendedPropertiesOverflow_Generic)
@@ -50,6 +64,7 @@ namespace Subtext.Framework
 			
 		}
 		public ExtendedPropertiesOverFlowException(String s) : base(s) {}
-		public ExtendedPropertiesOverFlowException(String s, Exception inner) : base(s, inner) {}		
+		public ExtendedPropertiesOverFlowException(String s, Exception inner) : base(s, inner) {}
+		public ExtendedPropertiesOverFlowException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 	}
 }

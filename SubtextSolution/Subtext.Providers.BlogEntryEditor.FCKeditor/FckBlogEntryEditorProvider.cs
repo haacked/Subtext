@@ -26,7 +26,7 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 	/// <summary>
 	/// Summary description for FCKeditorRichTextEditorProvider.
 	/// </summary>
-    public class FckBlogEntryEditorProvider : BlogEntryEditorProvider
+	public sealed class FckBlogEntryEditorProvider : BlogEntryEditorProvider, IDisposable
 	{
 		FredCK.FCKeditorV2.FCKeditor _fckCtl = new FredCK.FCKeditorV2.FCKeditor(); //There's a good reason to do this early.
 		string _webFormFolder=string.Empty;
@@ -120,18 +120,18 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 				_fckCtl.SkinPath = _fckCtl.BasePath + "editor/skins/" + _skin + "/";
 
 			// Compute user image gallery url
-		    string blogSubFolder = Subtext.Framework.Configuration.Config.CurrentBlog.Subfolder;
-            string currentImageConnector = _imageConnectorURL;
-            string currentLinkConnector = _linkConnectorURL;
-            if (blogSubFolder.Length > 0)
-            {
-                currentImageConnector = _imageConnectorURL.Replace("~/", "~/" + blogSubFolder + "/");
-                currentLinkConnector = _linkConnectorURL.Replace("~/", "~/" + blogSubFolder + "/");
-            }
+			string blogSubFolder = Subtext.Framework.Configuration.Config.CurrentBlog.Subfolder;
+			string currentImageConnector = _imageConnectorURL;
+			string currentLinkConnector = _linkConnectorURL;
+			if (blogSubFolder.Length > 0)
+			{
+				currentImageConnector = _imageConnectorURL.Replace("~/", "~/" + blogSubFolder + "/");
+				currentLinkConnector = _linkConnectorURL.Replace("~/", "~/" + blogSubFolder + "/");
+			}
 
-            _fckCtl.ImageBrowserURL = String.Format(CultureInfo.InvariantCulture, ControlHelper.ExpandTildePath(_imageBrowserURL), ControlHelper.ExpandTildePath(currentImageConnector));
-            _fckCtl.LinkBrowserURL = String.Format(CultureInfo.InvariantCulture, ControlHelper.ExpandTildePath(_linkBrowserURL), ControlHelper.ExpandTildePath(currentLinkConnector));
-		}
+			_fckCtl.ImageBrowserURL = String.Format(CultureInfo.InvariantCulture, ControlHelper.ExpandTildePath(_imageBrowserURL), ControlHelper.ExpandTildePath(currentImageConnector));
+			_fckCtl.LinkBrowserURL = String.Format(CultureInfo.InvariantCulture, ControlHelper.ExpandTildePath(_linkBrowserURL), ControlHelper.ExpandTildePath(currentLinkConnector));
+			}
 
 		public override string Text
 		{
@@ -167,6 +167,11 @@ namespace Subtext.Providers.BlogEntryEditor.FCKeditor
 			{
 				return _fileAllowedExtensions;
 			}
+		}
+
+		public void Dispose()
+		{
+			_fckCtl.Dispose();
 		}
 
 	}
