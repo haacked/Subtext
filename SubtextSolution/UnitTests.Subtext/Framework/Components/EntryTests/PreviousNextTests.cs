@@ -20,7 +20,6 @@ using MbUnit.Framework;
 using Subtext.Extensibility;
 using Subtext.Framework;
 using Subtext.Framework.Components;
-using Subtext.Framework.Configuration;
 using Subtext.Framework.Data;
 
 namespace UnitTests.Subtext.Framework.Components.EntryTests

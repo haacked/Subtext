@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Collections;
 using System.Globalization;
 using System.IO;
@@ -131,7 +129,6 @@ namespace Subtext.Framework.Util.TimeZoneUtil
 			{
 				lock (daylightChangesLock)
 				{
-					DateTime current;
 					DateTime start = DateTime.MinValue;
 					DateTime end = DateTime.MinValue;
 					TimeSpan delta = TimeSpan.FromTicks(0);
@@ -141,7 +138,7 @@ namespace Subtext.Framework.Util.TimeZoneUtil
 						// day count is a value from 1 to 5, indicating the day 
 						// in the month on which the switch occurs
 						int dayCount = winTZI.daylightDate.day;
-						current = start = new DateTime(year, winTZI.daylightDate.month, 1, winTZI.daylightDate.hour, winTZI.daylightDate.minute, winTZI.daylightDate.second);
+						DateTime current = start = new DateTime(year, winTZI.daylightDate.month, 1, winTZI.daylightDate.hour, winTZI.daylightDate.minute, winTZI.daylightDate.second);
 						while (current.Month == winTZI.daylightDate.month)
 						{
 							if (Convert.ToUInt16(current.DayOfWeek, NumberFormatInfo.InvariantInfo) == winTZI.daylightDate.dayOfWeek)
@@ -279,7 +276,7 @@ namespace Subtext.Framework.Util.TimeZoneUtil
 			Type tzcType = typeof(WindowsTimeZoneCollection);
 			XmlSerializer ser = new XmlSerializer(tzcType);
 
-			using (StreamReader rs = new StreamReader(tzcType.Assembly.GetManifestResourceStream(tzcType.Namespace + ".WindowsTimeZoneCollection.xml")))
+			using (StreamReader rs = new StreamReader(tzcType.Assembly.GetManifestResourceStream("Subtext.Framework.Util.TimeZone.WindowsTimeZoneCollection.xml")))
 			{
 				tzs = ser.Deserialize(rs) as WindowsTimeZoneCollection;
 			}
