@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Collections;
 using Subtext.Framework.Properties;
 
@@ -12,14 +10,6 @@ namespace Subtext.Framework.Util.TimeZoneUtil
 	[Serializable]
 	public class WindowsTimeZoneCollection : CollectionBase
 	{
-		/// <summary>
-		/// Initializes a new empty instance of the WindowsTimeZoneCollection class.
-		/// </summary>
-		public WindowsTimeZoneCollection()
-		{
-			// empty
-		}
-
 		/// <summary>
 		/// Adds an instance of type WindowsTimeZone to the end of this WindowsTimeZoneCollection.
 		/// </summary>

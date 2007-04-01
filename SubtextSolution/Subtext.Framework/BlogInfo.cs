@@ -23,7 +23,6 @@ using Subtext.Framework.Format;
 using Subtext.Framework.Providers;
 using Subtext.Framework.Services;
 using Subtext.Framework.Text;
-using Subtext.Framework.Util;
 using Subtext.Framework.Web.HttpModules;
 using Subtext.Framework.Components;
 using Subtext.Framework.Properties;
@@ -874,9 +873,9 @@ namespace Subtext.Framework
 				if (this.hostFullyQualifiedUrl == null)
 				{
 					string host = HttpContext.Current.Request.Url.Scheme + "://" + this._host;
-					if (BlogInfo.Port != BlogRequest.DefaultPort)
+					if (Port != BlogRequest.DefaultPort)
 					{
-						host += ":" + BlogInfo.Port;
+						host += ":" + Port;
 					}
 					host += VirtualDirectoryRoot;
 					hostFullyQualifiedUrl = new Uri(host);
@@ -901,7 +900,7 @@ namespace Subtext.Framework
 		private ConfigurationFlags _flag = ConfigurationFlags.None;
 		/// <summary>
 		/// Gets or sets the flags pertaining to this blog.  
-		/// This is a bitmask of <see cref="ConfigurationFlag"/>s.
+		/// This is a bitmask of <see cref="ConfigurationFlags"/>.
 		/// </summary>
 		/// <value></value>
 		public ConfigurationFlags Flag
@@ -959,7 +958,7 @@ namespace Subtext.Framework
 		#endregion
 
 		/// <summary>
-		/// Adds or removes a <see cref="ConfigurationFlag"/> to the 
+		/// Adds or removes a <see cref="ConfigurationFlags"/> to the 
 		/// flags set for this blog via bitmask operations.
 		/// </summary>
 		/// <param name="cf">Cf.</param>
@@ -977,7 +976,7 @@ namespace Subtext.Framework
 		}
 
 		/// <summary>
-		/// Checks to see if the specified <see cref="ConfigurationFlag"/> 
+		/// Checks to see if the specified <see cref="ConfigurationFlags"/> 
 		/// matches a flag set for this blog.
 		/// </summary>
 		/// <param name="cf">Cf.</param>
