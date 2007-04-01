@@ -44,11 +44,11 @@ namespace Subtext.Framework.Util
 		/// </summary>
 		/// <param name="source">Text to search</param>
 		/// <param name="oldValue">Pattern to search for</param>
-		/// <param name="format">Replaced Pattern</param>
+		/// <param name="formatString">Replaced Pattern</param>
 		/// <returns></returns>
-		public static string ReplaceFormat(string source, string oldValue, string format)
+		public static string ReplaceFormat(string source, string oldValue, string formatString)
 		{
-			return Scan(source, oldValue, format, true, false);
+			return Scan(source, oldValue, formatString, true, false);
 		}
 
 		/// <summary>
@@ -57,12 +57,12 @@ namespace Subtext.Framework.Util
 		/// </summary>
 		/// <param name="source">Text to search</param>
 		/// <param name="oldValue">Pattern to search for</param>
-		/// <param name="format">Replaced Pattern</param>
+		/// <param name="formatString">Replaced Pattern</param>
 		/// <param name="onlyFirstMatch">Match First Only</param>
 		/// <returns></returns>
-		public static string ReplaceFormat(string source, string oldValue, string format, bool onlyFirstMatch)
+		public static string ReplaceFormat(string source, string oldValue, string formatString, bool onlyFirstMatch)
 		{
-			return Scan(source, oldValue, format, true, onlyFirstMatch);
+			return Scan(source, oldValue, formatString, true, onlyFirstMatch);
 		}
 
 		private static string Scan(string source, string oldValue, string newValue, bool isFormat, bool onlyFirstMatch)
@@ -104,11 +104,10 @@ namespace Subtext.Framework.Util
 							}
 							else
 							{
-								string matchTarget;
 								if (source.Length - (i + tagstack.Length + oldValue.Length) > 0)
 								{
 									// peek a head the next target length chunk + 1 boundary char
-									matchTarget = source.Substring(i + tagstack.Length, oldValue.Length);
+									string matchTarget = source.Substring(i + tagstack.Length, oldValue.Length);
 
 									//TODO: Do we want a case insensitive comparison in all cases?
 									if (String.Equals(matchTarget, oldValue, StringComparison.InvariantCultureIgnoreCase))
@@ -246,4 +245,7 @@ namespace Subtext.Framework.Util
 
 		#endregion
 	}
+
+
+	
 }

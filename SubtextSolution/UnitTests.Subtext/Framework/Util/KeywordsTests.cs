@@ -23,7 +23,7 @@ namespace UnitTests.Subtext.Framework.Util
 			//TODO:??? [Row("This is'nt a test.", "is", "farce", "This is'nt a test.")]
 			//TODO:??? [Row("This is&#8217;nt a test.", "is", "farce", "This is&#8217;nt a test.")]
 			//Note keyword replace are case sensitive.
-			Assert.AreEqual(KeyWords.Replace(source, oldValue, newValue), expected);
+			Assert.AreEqual(expected, KeyWords.Replace(source, oldValue, newValue));
 		}
 	}
 }
