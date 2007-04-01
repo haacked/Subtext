@@ -4,9 +4,11 @@ using System.Text;
 
 namespace Subtext.Framework.Util
 {
+	#region CharQueue
 	internal class CharQueue
 	{
 		private char[] _list;
+		private int _charCount = 0;
 
 		protected CharQueue() { }
 		public CharQueue(int length)
@@ -33,7 +35,7 @@ namespace Subtext.Framework.Util
 
 		public int Length
 		{
-			get { return _list.Length; }
+			get { return _charCount; }
 		}
 
 		public char Dequeue()
@@ -71,9 +73,11 @@ namespace Subtext.Framework.Util
 				return new string(results);
 			}
 			else
-			{
 				return this.ToString();
-			}
 		}
+
+
+	#endregion
+
 	}
 }
